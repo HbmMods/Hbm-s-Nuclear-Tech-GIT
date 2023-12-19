@@ -27,11 +27,11 @@ if(Files.exists(Paths.get("curseforge.properties"))) {
 //OlorinIV Special
 def version_name = version = mod_version
 if(!mod_build_number.isEmpty()) {
-	version_name = mod_version + "_X" + mod_build_number + "_Olorin"
+	version_name = mod_version + "_X" + mod_build_number + "." + mod_build_number_sub
 	version = "${version_name}"
 }
 group = "com.hbm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "HBM-NTM"
+archivesBaseName = "NTMO"
 compileJava.options.encoding = 'UTF-8'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
