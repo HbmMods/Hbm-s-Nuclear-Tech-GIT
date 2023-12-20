@@ -1175,6 +1175,11 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.recycled_nuclear");
 		ignoreMappings.add("hbm:item.recycled_misc");
 		ignoreMappings.add("hbm:item.gun_bf_ammo");
+		ignoreMappings.add("hbm:tile.brick_dungeon");
+		ignoreMappings.add("hbm:tile.brick_dungeon_flat");
+		ignoreMappings.add("hbm:tile.brick_dungeon_tile");
+		ignoreMappings.add("hbm:tile.brick_dungeon_circle");
+		ignoreMappings.add("hbm:tile.bomber");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

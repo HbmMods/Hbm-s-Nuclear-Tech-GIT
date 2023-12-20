@@ -3702,6 +3702,7 @@ tile.brick_light.name=Helle Ziegel
 tile.brick_light_stairs.name=Helle Ziegeltreppe
 tile.brick_obsidian.name=Obsidianziegel
 tile.brick_obsidian_stairs.name=Obsidianziegeltreppe
+tile.brick_red.name=Ziegel (Roter Raum)
 tile.brick_slab.brick_asbestos.name=Asbestziegelstufe
 tile.brick_slab.brick_compound.name=Verbundstufe
 tile.brick_slab.brick_fire.name=Schamottsteinstufe

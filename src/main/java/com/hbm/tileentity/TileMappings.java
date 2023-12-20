@@ -124,7 +124,6 @@ public class TileMappings {
 		put(TileEntityRadioRec.class, "tileentity_radio_receiver");
 		put(TileEntityVent.class, "tileentity_vent");
 		put(TileEntityLandmine.class, "tileentity_landmine");
-		put(TileEntityBomber.class, "tileentity_bomber");
 		put(TileEntityMachineKeyForge.class, "tileentity_key_forge");
 		put(TileEntitySellafield.class, "tileentity_sellafield_core");
 		put(TileEntityNukeN45.class, "tileentity_n45");

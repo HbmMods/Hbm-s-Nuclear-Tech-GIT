@@ -4666,6 +4666,7 @@ tile.brick_light.name=Light Bricks
 tile.brick_light_stairs.name=Light Bricks Stairs
 tile.brick_obsidian.name=Obsidian Bricks
 tile.brick_obsidian_stairs.name=Obsidian Brick Stairs
+tile.brick_red.name=Red Room Brick
 tile.brick_slab.brick_asbestos.name=Asbestos Brick Slab
 tile.brick_slab.brick_compound.name=Compound Mesh Slab
 tile.brick_slab.brick_fire.name=Firebrick Slab

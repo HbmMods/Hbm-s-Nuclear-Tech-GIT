@@ -425,12 +425,8 @@ public class ModBlocks {
 	public static Block brick_jungle_glyph;
 	public static Block brick_jungle_circle;
 
-	public static Block brick_dungeon;
-	public static Block brick_dungeon_flat;
-	public static Block brick_dungeon_tile;
-	public static Block brick_dungeon_circle;
-
 	public static Block brick_forgotten;
+	public static Block brick_red;
 	
 	public static Block deco_computer;
 	
@@ -595,7 +591,6 @@ public class ModBlocks {
 
 	public static Block boxcar;
 	public static Block boat;
-	public static Block bomber;
 
 	public static Block seal_frame;
 	public static Block seal_controller;
@@ -1666,13 +1661,9 @@ public class ModBlocks {
 		brick_jungle_trap = new TrappedBrick(Material.rock).setBlockName("brick_jungle_trap").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(360.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle_trap");
 		brick_jungle_glyph = new BlockGlyph(Material.rock).setBlockName("brick_jungle_glyph").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(360.0F);
 		brick_jungle_circle = new BlockBallsSpawner(Material.rock).setBlockName("brick_jungle_circle").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(360.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle_circle");
-
-		brick_dungeon = new BlockGeneric(Material.rock).setBlockName("brick_dungeon").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_dungeon");
-		brick_dungeon_flat = new BlockGeneric(Material.rock).setBlockName("brick_dungeon_flat").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_dungeon_flat");
-		brick_dungeon_tile = new BlockGeneric(Material.rock).setBlockName("brick_dungeon_tile").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_dungeon_tile");
-		brick_dungeon_circle = new BlockGeneric(Material.rock).setBlockName("brick_dungeon_circle").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":brick_dungeon_circle");
 		
 		brick_forgotten = new BlockGeneric(Material.rock).setBlockName("brick_forgotten").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(1000000).setBlockTextureName(RefStrings.MODID + ":brick_forgotten");
+		brick_red = new BlockRedBrick(Material.rock).setBlockName("brick_red").setResistance(10_000);
 		
 		deco_computer = new BlockDecoModel(Material.iron, DecoComputerEnum.class, true, false).setBlockBoundsTo(.160749F, 0F, 0F, .839251F, .867849F, .622184F).setBlockName("deco_computer").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_computer");
 		filing_cabinet = new BlockDecoContainer(Material.iron, DecoCabinetEnum.class, true, false, TileEntityFileCabinet.class).setBlockBoundsTo(.1875F, 0F, 0F, .8125F, 1F, .75F).setBlockName("filing_cabinet").setCreativeTab(MainRegistry.blockTab).setHardness(10.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -2271,7 +2262,6 @@ public class ModBlocks {
 		
 		boxcar = new DecoBlock(Material.iron).setBlockName("boxcar").setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":boxcar");
 		boat = new DecoBlock(Material.iron).setBlockName("boat").setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":boat");
-		bomber = new DecoBlock(Material.iron).setBlockName("bomber").setStepSound(Block.soundTypeMetal).setHardness(10.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":code");
 
 		machine_well = new MachineOilWell().setBlockName("machine_well").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_well");
 		machine_pumpjack = new MachinePumpjack().setBlockName("machine_pumpjack").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_pumpjack");
@@ -2886,11 +2876,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(brick_jungle_trap, ItemTrapBlock.class, brick_jungle_trap.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_jungle_glyph, ItemGlyphBlock.class, brick_jungle_glyph.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_jungle_circle, brick_jungle_circle.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_dungeon, brick_dungeon.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_dungeon_flat, brick_dungeon_flat.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_dungeon_tile, brick_dungeon_tile.getUnlocalizedName());
-		GameRegistry.registerBlock(brick_dungeon_circle, brick_dungeon_circle.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_forgotten, brick_forgotten.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_red, brick_red.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_computer, ItemBlockBase.class, deco_computer.getUnlocalizedName());
 		GameRegistry.registerBlock(filing_cabinet, ItemBlockBase.class, filing_cabinet.getUnlocalizedName());
 		GameRegistry.registerBlock(tape_recorder, tape_recorder.getUnlocalizedName());
@@ -3112,12 +3099,8 @@ public class ModBlocks {
 		//Junk
 		GameRegistry.registerBlock(boxcar, boxcar.getUnlocalizedName());
 		GameRegistry.registerBlock(boat, boat.getUnlocalizedName());
-		GameRegistry.registerBlock(bomber, bomber.getUnlocalizedName());
 		
 		//Machines
-		//GameRegistry.registerBlock(observer_off, observer_off.getUnlocalizedName());
-		//GameRegistry.registerBlock(observer_on, observer_on.getUnlocalizedName());
-		
 		GameRegistry.registerBlock(machine_autocrafter, ItemBlockBase.class, machine_autocrafter.getUnlocalizedName());
 		
 		GameRegistry.registerBlock(anvil_iron, ItemBlockBase.class, anvil_iron.getUnlocalizedName());

@@ -1,33 +1,9 @@
 ## Added
-* Gylphid pheromones
-  * Used by certain glyphids, killing those allows for the pheromone glands to be harvested
-  * By mixing the pheromone with blood and medicine, it can be modified to extend its positive effects to non-glyphid entities
-* Disperser canisters
-  * Throwable like grenades, will cause a small AoE effect based on the fluid
-  * Effectively a gas grenade, allows phosgene and mustard gas to be used directly
-  * Hot things like hot coolant or steam are especially effective
 
 ## Changed
-* Reworked glyphids
-  * Hives are no longer open, instead they are much flatter with multiple spawners inside
-  * Naturally spawning hives now spawn with some loot inside
-  * Spawners now place glyphids nearby instead of on top, preventing them from suffocating instantly
-  * Glyphids no longer spawn every second, instead they spawn in waves
-  * More config option for spawning behavior
-  * A new config option for rampant mode which makes glyphids more aggressive, scouts expand directly towards players and all glyphids able to dig away obstacles
-  * A dedicated glyphid for digging also exists outside of rampant mode
-  * Glyphid meat can now be processed into resources
-  * Glyphid behemoths now have an acid attack and create a gas effect on death
-  * Larger glyphids can now destroy lanterns
-  * Infested glyphids
-    * 10% of all glyphid hives will be infested
-    * Infested glyphids are roughly equal, but apply a poison effect and nausea when attacking
-    * When killed, they will drop maggots that attack the player
-    * Infested scouts will also create infested hives
-* Glyphid hive blocks no longer drop when broken
-* The industrial generator no longer has an exponential modifier for power generation, which means it no longer produces several times more power than any other generator
-* The igen by default only burns with 50% efficiency, which can be raised back to 100% with water and even to 125% with lubricant, making it slightly better when lubed than the fluid burner
+* Adjusted the model for the mining helmet
+* The ladders on the acidizer and fluid tanks are now climbable
+* Removed those unused blue dungeon bricks
 
 ## Fixed
-* Fixed the info system not being visible with a gun equipped
-* Fixed a potential crash with suit batteries
+* Fixed recipe conflict in the arc welder with the medium and large missile fuel tanks

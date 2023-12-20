@@ -1,7 +1,6 @@
 package com.hbm.explosion.vanillant.standard;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockGlyphidSpawner;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.interfaces.IBlockAllocator;
 import net.minecraft.block.Block;

@@ -3,7 +3,6 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.tileentity.deco.TileEntityBomber;
 import com.hbm.tileentity.deco.TileEntityDecoBlock;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -28,17 +27,11 @@ public class DecoBlock extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		
-		if(this == ModBlocks.bomber)
-			return new TileEntityBomber();
-		
-		if(this == ModBlocks.steel_scaffold || this == ModBlocks.steel_beam)
-			return null;
-		
+		if(this == ModBlocks.steel_scaffold || this == ModBlocks.steel_beam) return null;
 		return new TileEntityDecoBlock();
 	}
 
-    public static int renderIDBeam = RenderingRegistry.getNextAvailableRenderId();
+	public static int renderIDBeam = RenderingRegistry.getNextAvailableRenderId();
 	
 	@Override
 	public int getRenderType(){
@@ -59,158 +52,136 @@ public class DecoBlock extends BlockContainer {
 	}
 	
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
-    {
-		if(this == ModBlocks.bomber)
-			return null;
-        return Item.getItemFromBlock(this);
-    }
+	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
+		return Item.getItemFromBlock(this);
+	}
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
 		
-		if(i == 0)
-		{
+		if(i == 0) {
 			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
 		}
-		if(i == 1)
-		{
+		if(i == 1) {
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
-		if(i == 2)
-		{
+		if(i == 2) {
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		}
-		if(i == 3)
-		{
+		if(i == 3) {
 			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
 		}
 	}
 	
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
-    {
+	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_) {
 		int te = p_149719_1_.getBlockMetadata(p_149719_2_, p_149719_3_, p_149719_4_);
-        float f = 0.0625F;
-        
-        if(this == ModBlocks.steel_wall)
-        {
-			switch(te)
-			{
+		float f = 0.0625F;
+
+		if(this == ModBlocks.steel_wall) {
+			switch(te) {
 			case 4:
-            	this.setBlockBounds(14*f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-            	break;
+				this.setBlockBounds(14 * f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+				break;
 			case 2:
-            	this.setBlockBounds(0.0F, 0.0F, 14*f, 1.0F, 1.0F, 1.0F);
-            	break;
+				this.setBlockBounds(0.0F, 0.0F, 14 * f, 1.0F, 1.0F, 1.0F);
+				break;
 			case 5:
-            	this.setBlockBounds(0.0F, 0.0F, 0.0F, 2*f, 1.0F, 1.0F);
-            	break;
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 2 * f, 1.0F, 1.0F);
+				break;
 			case 3:
-            	this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 2*f);
-            	break;
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 2 * f);
+				break;
 			}
-        }
-        
-        if(this == ModBlocks.steel_corner)
-        {
-            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-        }
-        
-        if(this == ModBlocks.steel_roof)
-        {
-            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1*f, 1.0F);
-        }
-        
-        if(this == ModBlocks.steel_beam)
-        {
-            this.setBlockBounds(7*f, 0.0F, 7*f, 9*f, 1.0F, 9*f);
-        }
-        
-        if(this == ModBlocks.steel_scaffold)
-        {
-            this.setBlockBounds(0.0F, 0.0F, 2*f, 1.0F, 1.0F, 14*f);
-			switch(te)
-			{
+		}
+
+		if(this == ModBlocks.steel_corner) {
+			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		}
+
+		if(this == ModBlocks.steel_roof) {
+			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1 * f, 1.0F);
+		}
+
+		if(this == ModBlocks.steel_beam) {
+			this.setBlockBounds(7 * f, 0.0F, 7 * f, 9 * f, 1.0F, 9 * f);
+		}
+
+		if(this == ModBlocks.steel_scaffold) {
+			this.setBlockBounds(0.0F, 0.0F, 2 * f, 1.0F, 1.0F, 14 * f);
+			switch(te) {
 			case 4:
-	            this.setBlockBounds(2*f, 0.0F, 0.0F, 14*f, 1.0F, 1.0F);
-            	break;
+				this.setBlockBounds(2 * f, 0.0F, 0.0F, 14 * f, 1.0F, 1.0F);
+				break;
 			case 2:
-	            this.setBlockBounds(0.0F, 0.0F, 2*f, 1.0F, 1.0F, 14*f);
-            	break;
+				this.setBlockBounds(0.0F, 0.0F, 2 * f, 1.0F, 1.0F, 14 * f);
+				break;
 			case 5:
-	            this.setBlockBounds(2*f, 0.0F, 0.0F, 14*f, 1.0F, 1.0F);
-            	break;
+				this.setBlockBounds(2 * f, 0.0F, 0.0F, 14 * f, 1.0F, 1.0F);
+				break;
 			case 3:
-	            this.setBlockBounds(0.0F, 0.0F, 2*f, 1.0F, 1.0F, 14*f);
-            	break;
+				this.setBlockBounds(0.0F, 0.0F, 2 * f, 1.0F, 1.0F, 14 * f);
+				break;
 			}
-        }
-        
-        //this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-    }
-	
+		}
+
+		// this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+	}
+
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 
 		int te = world.getBlockMetadata(x, y, z);
-        float f = 0.0625F;
-        
-        if(this == ModBlocks.steel_wall)
-        {
-			switch(te)
-			{
+		float f = 0.0625F;
+
+		if(this == ModBlocks.steel_wall) {
+			switch(te) {
 			case 4:
-            	this.setBlockBounds(14*f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-            	break;
+				this.setBlockBounds(14 * f, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+				break;
 			case 2:
-            	this.setBlockBounds(0.0F, 0.0F, 14*f, 1.0F, 1.0F, 1.0F);
-            	break;
+				this.setBlockBounds(0.0F, 0.0F, 14 * f, 1.0F, 1.0F, 1.0F);
+				break;
 			case 5:
-            	this.setBlockBounds(0.0F, 0.0F, 0.0F, 2*f, 1.0F, 1.0F);
-            	break;
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 2 * f, 1.0F, 1.0F);
+				break;
 			case 3:
-            	this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 2*f);
-            	break;
+				this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 2 * f);
+				break;
 			}
-        }
-        
-        if(this == ModBlocks.steel_corner)
-        {
-            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-        }
-        
-        if(this == ModBlocks.steel_roof)
-        {
-            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1*f, 1.0F);
-        }
-        
-        if(this == ModBlocks.steel_beam)
-        {
-            this.setBlockBounds(7*f, 0.0F, 7*f, 9*f, 1.0F, 9*f);
-        }
-        
-        if(this == ModBlocks.steel_scaffold)
-        {
-            this.setBlockBounds(0.0F, 0.0F, 2*f, 1.0F, 1.0F, 14*f);
-			switch(te)
-			{
+		}
+
+		if(this == ModBlocks.steel_corner) {
+			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		}
+
+		if(this == ModBlocks.steel_roof) {
+			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1 * f, 1.0F);
+		}
+
+		if(this == ModBlocks.steel_beam) {
+			this.setBlockBounds(7 * f, 0.0F, 7 * f, 9 * f, 1.0F, 9 * f);
+		}
+
+		if(this == ModBlocks.steel_scaffold) {
+			this.setBlockBounds(0.0F, 0.0F, 2 * f, 1.0F, 1.0F, 14 * f);
+			switch(te) {
 			case 4:
-	            this.setBlockBounds(2*f, 0.0F, 0.0F, 14*f, 1.0F, 1.0F);
-            	break;
+				this.setBlockBounds(2 * f, 0.0F, 0.0F, 14 * f, 1.0F, 1.0F);
+				break;
 			case 2:
-	            this.setBlockBounds(0.0F, 0.0F, 2*f, 1.0F, 1.0F, 14*f);
-            	break;
+				this.setBlockBounds(0.0F, 0.0F, 2 * f, 1.0F, 1.0F, 14 * f);
+				break;
 			case 5:
-	            this.setBlockBounds(2*f, 0.0F, 0.0F, 14*f, 1.0F, 1.0F);
-            	break;
+				this.setBlockBounds(2 * f, 0.0F, 0.0F, 14 * f, 1.0F, 1.0F);
+				break;
 			case 3:
-	            this.setBlockBounds(0.0F, 0.0F, 2*f, 1.0F, 1.0F, 14*f);
-            	break;
+				this.setBlockBounds(0.0F, 0.0F, 2 * f, 1.0F, 1.0F, 14 * f);
+				break;
 			}
-        }
-        
+		}
+
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
 }
