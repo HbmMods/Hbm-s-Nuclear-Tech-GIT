@@ -204,8 +204,34 @@ public class Fluids {
 	public static FluidType EMILK; //ghostycore
 	public static FluidType CMILK;
 	public static FluidType CREAM;
-
+	public static FluidType ACETYLENE;
+	public static FluidType DICYANOACETYLENE;//DICYANOACETYLENE
 	public static FluidType FULLERENE;
+	public static FluidType MORKITE;
+	public static FluidType MORKINE; //gaseous morkite
+	public static FluidType MSLURRY; //Slurry for minerals
+	
+
+	//morkite would be like a gravelly oil. it would be a goopy liquidized gravel.
+	//point being, if the crystals were melted down and the liquid extracted
+	//you could be able to dissolve it directly with the vacuum refinery, or maybe something else
+	//you would get a slurry, a gaseous version, and maybe some other mysterious product.
+	//the slurry would be churned into various minerals like copper and quartz.
+	//the gaseous version would be distilled to get acetylene, hydrogen, maybe some aromatics.
+	//or fractioned for acetylene and sour gas? im making shit up here oh god...
+	//regardless, you can get some fuels from it, but its more utility wise imo... would be best for welding
+	//or chemical mixing with nitrogens.
+	
+	//bitch its simple
+	//fraction the morkine gas to get ethylene
+	//sourgas never fit anyway
+	
+	//alright well thats the *light* part of morkite done. now for the heavier shit.
+	//im thinking it actually needs to be gas centrifuged maybe to get the other products or something else entirely.
+	//reformation of hydrocarbons, aka that feedstock shit could be used in the "MSLURRY", the oils get extracted while leaving some goopy deposits idfk.
+	//MSLURRY should defintely be dissolved though, acidized and fed through some sort of machine that settles the silica goop to the bottom before finally leaving 
+	//some aqueous gel-like fluid behind.
+	//that aqueous gel would then be the main plaything of this godforsaken chain
 	
 	public static List<FluidType> customFluids = new ArrayList();
 
@@ -411,7 +437,12 @@ public class Fluids {
 		CMILK =					new FluidType("CMILK",				0xCFCFCF, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);//F5DEE4
 		CREAM =					new FluidType("CREAM",				0xCFCFCF, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);//F5DEE4
 		FULLERENE =				new FluidType(167, "FULLERENE",		0xFF7FED, 3, 3, 3, EnumSymbol.NONE).addTraits(LIQUID, new FT_Corrosive(65));
-		
+		ACETYLENE =				new FluidType("ACETYLENE",			0x605346, 3, 3, 3, EnumSymbol.NONE).addTraits(new FT_Flammable(1_005_000), GASEOUS); //pure acetylene
+		MORKITE =				new FluidType("MORKITE",			0x333C42, 3, 3, 3, EnumSymbol.NONE).addTraits(new FT_Flammable(60), LIQUID, VISCOUS); 
+		DICYANOACETYLENE =		new FluidType("DICYANOACETYLENE",	0x675A9F, 1, 2, 1, EnumSymbol.NONE).addTraits(new FT_Flammable(4_000_000), GASEOUS); 
+		MORKINE =				new FluidType("MORKINE",			0x796089, 3, 3, 3, EnumSymbol.NONE).addTraits(new FT_Flammable(200), LIQUID, VISCOUS); 
+		MSLURRY =				new FluidType("MSLURRY",			0x364D47, 0, 0, 2, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS); 
+
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		
@@ -521,6 +552,11 @@ public class Fluids {
 		metaOrder.add(NITAN);
 		metaOrder.add(HYDRAZINE);
 		metaOrder.add(BALEFIRE);
+		metaOrder.add(MORKITE);
+		metaOrder.add(MORKINE);
+		metaOrder.add(MSLURRY);
+		metaOrder.add(ACETYLENE);
+		metaOrder.add(DICYANOACETYLENE);
 		//processing fluids
 		metaOrder.add(SALIENT);
 		metaOrder.add(SEEDSLURRY);
@@ -533,7 +569,7 @@ public class Fluids {
 		metaOrder.add(METHANE);
 		metaOrder.add(METHANOL);
 		metaOrder.add(POLYTHYLENE);
-		metaOrder.add(METHYLENE);
+		metaOrder.add(METHYLENE); //oh yeah this is meant to be that inbetween step for making the cast fluid
 		//airs
 		metaOrder.add(EVEAIR); //iodine, mercury, potassium permenganate
 		metaOrder.add(JOOLGAS);
@@ -608,9 +644,6 @@ public class Fluids {
 		metaOrder.add(EMILK);
 		metaOrder.add(CMILK);
 		metaOrder.add(CREAM);
-
-
-
 
 		//smoke
 		metaOrder.add(SMOKE);
@@ -739,6 +772,9 @@ public class Fluids {
 		registerCalculatedFuel(KEROSENE_REFORM, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * complexityReform, 1.5D, FuelGrade.AERO);
 		registerCalculatedFuel(REFORMGAS, (baseline / 0.06 * flammabilityHigh * demandLow * complexityVacuum * complexityFraction), 1.25D, FuelGrade.GAS);
 		registerCalculatedFuel(NMASSTETRANOL, BALEFIRE.getTrait(FT_Flammable.class).getHeatEnergy() * 1000, 10.5, FuelGrade.HIGH); //0.8
+		registerCalculatedFuel(ACETYLENE, (baseline / 0.14 * flammabilityHigh * demandHigh * complexityRefinery * complexityCracking), 0, null);
+		registerCalculatedFuel(DICYANOACETYLENE, (baseline / 0.15 * flammabilityHigh * demandHigh * complexityRefinery * complexityCracking) + REFORMGAS.getTrait(FT_Flammable.class).getHeatEnergy(), 0, null);
+		registerCalculatedFuel(MORKITE, (baseline / 0.9D * flammabilityLow * demandLow), 0, null);
 
 		//all hail the spreadsheet
 		//the spreadsheet must not be questioned

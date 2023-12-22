@@ -65,6 +65,12 @@ public class CryoRecipes extends SerializableRecipe {
 				new FluidStack(Fluids.XENON, 15),
 				new FluidStack(Fluids.AMMONIA, 5)
 				));
+		recipes.put(Fluids.MORKINE, new Quartet(
+				new FluidStack(Fluids.ACETYLENE, 40), //PURE acetylene
+				new FluidStack(Fluids.AROMATICS, 25),
+				new FluidStack(Fluids.METHYLENE, 14),
+				new FluidStack(Fluids.HYDROGEN, 10)
+				));
 		
 	} // this is such a sexy machine might use your code for atmospheric distillator
 	
