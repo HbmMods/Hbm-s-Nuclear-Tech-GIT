@@ -5,13 +5,16 @@ import org.lwjgl.opengl.GL12;
 
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.items.ModItems;
+import com.hbm.items.armor.ArmorTrenchmaster;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.model.ModelFatman;
 import com.hbm.render.model.ModelLeverAction;
 import com.hbm.util.Tuple.Quartet;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -48,6 +51,8 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 			} else if(stack.getItem() == ModItems.gun_lever_action) {
 				renderShotgun();
 				
+			} else if(stack.getItem() instanceof ArmorTrenchmaster) {
+				renderTrenchmaster(stack);
 			} else {
 				renderStandardItem(item.getW());
 			}
@@ -58,6 +63,57 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 		GL11.glPopMatrix();
 	}
 	
+	private void renderTrenchmaster(ItemStack stack) {
+		GL11.glPushMatrix();
+		GL11.glTranslated(0.5, 1.5, 0.5);
+		GL11.glScaled(0.0625, 0.0625, 0.0625);
+		GL11.glRotated(180, 1, 0, 0);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		if(stack.getItem() == ModItems.trenchmaster_helmet) {
+			bindTexture(ResourceManager.trenchmaster_helmet);
+			GL11.glEnable(GL11.GL_BLEND);
+			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+			ResourceManager.armor_trenchmaster.renderPart("Helmet");
+			GL11.glDisable(GL11.GL_BLEND);
+			float lastX = OpenGlHelper.lastBrightnessX;
+			float lastY = OpenGlHelper.lastBrightnessY;
+			GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			ResourceManager.armor_trenchmaster.renderPart("Light");
+			GL11.glEnable(GL11.GL_LIGHTING);
+			GL11.glPopAttrib();
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastX, lastY);
+		}
+		if(stack.getItem() == ModItems.trenchmaster_plate) {
+			bindTexture(ResourceManager.trenchmaster_chest);
+			ResourceManager.armor_trenchmaster.renderPart("Chest");
+			bindTexture(ResourceManager.trenchmaster_arm);
+			GL11.glPushMatrix();
+			GL11.glRotated(-3, 1, 0, 0);
+			ResourceManager.armor_trenchmaster.renderPart("LeftArm");
+			ResourceManager.armor_trenchmaster.renderPart("RightArm");
+			GL11.glPopMatrix();
+		}
+		if(stack.getItem() == ModItems.trenchmaster_legs) {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.trenchmaster_leg);
+			ResourceManager.armor_trenchmaster.renderPart("LeftLeg");
+			GL11.glPushMatrix();
+			GL11.glRotated(-0.1, 1, 0, 0);
+			ResourceManager.armor_trenchmaster.renderPart("RightLeg");
+			GL11.glPopMatrix();
+		}
+		if(stack.getItem() == ModItems.trenchmaster_boots) {
+			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.trenchmaster_leg);
+			ResourceManager.armor_trenchmaster.renderPart("LeftBoot");
+			GL11.glPushMatrix();
+			GL11.glRotated(-0.1, 1, 0, 0);
+			ResourceManager.armor_trenchmaster.renderPart("RightBoot");
+			GL11.glPopMatrix();
+		}
+		GL11.glPopMatrix();
+	}
+
 	private void renderNuke() {
 		GL11.glScaled(0.5, 0.5, 0.5);
 		GL11.glTranslated(1, 0.5, 1);
