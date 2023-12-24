@@ -63,11 +63,15 @@ public class MachineStrandCaster extends BlockDummyable implements ICrucibleAcce
         x += dir.offsetX * o;
         z += dir.offsetZ * o;
 
-        MultiblockHandlerXR.fillSpace(world, x, y, z, new int[]{1, 0, 1, 0, 1, 0}, this, dir);
+        ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
-        this.makeExtra(world, x - dir.offsetX, y, z);
-        this.makeExtra(world, x, y, z + dir.offsetX * 5);
-        this.makeExtra(world, x- dir.offsetX, y, z + dir.offsetX * 5);
+        //up,down;forward,backward;left,right
+        MultiblockHandlerXR.fillSpace(world, x, y, z, new int[]{2, 0, 1, 0, 1, 0}, this, dir);
+
+        this.makeExtra(world, x + rot.offsetX, y, z + rot.offsetZ);
+        this.makeExtra(world, x - dir.offsetX * 5, y, z - dir.offsetZ * 5);
+        this.makeExtra(world, x + rot.offsetX - dir.offsetX * 5, y, z + rot.offsetZ - dir.offsetZ * 5);
+
     }
 
     @Override
@@ -109,7 +113,6 @@ public class MachineStrandCaster extends BlockDummyable implements ICrucibleAcce
     public Mats.MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, Mats.MaterialStack stack) {
         return null;
     }
-    ///entirety of foundry base code here, because dual inheritance is evil apparently
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
@@ -117,73 +120,82 @@ public class MachineStrandCaster extends BlockDummyable implements ICrucibleAcce
             return true;
         }
 
-        TileEntityFoundryCastingBase cast = (TileEntityFoundryCastingBase) world.getTileEntity(x, y, z);
-
-        //insert mold
-        if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.mold && cast.slots[0] == null) {
-            cast.slots[0] = player.getHeldItem().copy();
-            cast.slots[0].stackSize = 1;
-            player.getHeldItem().stackSize--;
-            world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
-            cast.markDirty();
-            world.markBlockForUpdate(x, y, z);
-            return true;
-
-        }
-
-        if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemTool && player.getHeldItem().getItem().getToolClasses(player.getHeldItem()).contains("shovel")) {
-            if(cast.amount > 0) {
-                ItemStack scrap = ItemScraps.create(new Mats.MaterialStack(cast.type, cast.amount));
-                if(!player.inventory.addItemStackToInventory(scrap)) {
-                    EntityItem item = new EntityItem(world, x + 0.5, y + this.maxY, z + 0.5, scrap);
-                    world.spawnEntityInWorld(item);
-                } else {
-                    player.inventoryContainer.detectAndSendChanges();
-                }
-                cast.amount = 0;
-                cast.type = null;
+        int[] coords = findCore(world, x, y, z);
+        TileEntityMachineStrandCaster cast = (TileEntityMachineStrandCaster) world.getTileEntity(coords[0], coords[1], coords[2]);
+        if(cast != null) {
+            //insert mold
+            if (player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.mold && cast.slots[0] == null) {
+                cast.slots[0] = player.getHeldItem().copy();
+                cast.slots[0].stackSize = 1;
+                player.getHeldItem().stackSize--;
+                world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
                 cast.markDirty();
                 world.markBlockForUpdate(x, y, z);
-            }
-            return true;
-        }
+                return true;
 
+            }
+
+            if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemTool && player.getHeldItem().getItem().getToolClasses(player.getHeldItem()).contains("shovel")) {
+                if (cast.amount > 0) {
+                    ItemStack scrap = ItemScraps.create(new Mats.MaterialStack(cast.type, cast.amount));
+                    if (!player.inventory.addItemStackToInventory(scrap)) {
+                        EntityItem item = new EntityItem(world, x + 0.5, y + this.maxY, z + 0.5, scrap);
+                        world.spawnEntityInWorld(item);
+                    } else {
+                        player.inventoryContainer.detectAndSendChanges();
+                    }
+                    cast.amount = 0;
+                    cast.type = null;
+                    cast.markDirty();
+                    world.markBlockForUpdate(x, y, z);
+                }
+                return true;
+            }
+        }
         return this.standardOpenBehavior(world, x, y, z, player, 0);
     }
 
     @Override
     public void breakBlock(World world, int x, int y, int z, Block b, int i) {
 
-        TileEntityFoundryCastingBase cast = (TileEntityFoundryCastingBase) world.getTileEntity(x, y, z);
-        if(cast.amount > 0) {
-            ItemStack scrap = ItemScraps.create(new Mats.MaterialStack(cast.type, cast.amount));
-            EntityItem item = new EntityItem(world, x + 0.5, y + this.maxY, z + 0.5, scrap);
-            world.spawnEntityInWorld(item);
-            cast.amount = 0; //just for safety
-        }
+        TileEntity te = world.getTileEntity(x, y, z);
+        if(te instanceof TileEntityMachineStrandCaster) {
+            TileEntityMachineStrandCaster cast = (TileEntityMachineStrandCaster) te;
 
-        for(ItemStack stack : cast.slots) {
-            if(stack != null) {
-                EntityItem drop = new EntityItem(world, x + 0.5, y + this.maxY, z + 0.5, stack.copy());
-                world.spawnEntityInWorld(drop);
+            if (cast.amount > 0) {
+                ItemStack scrap = ItemScraps.create(new Mats.MaterialStack(cast.type, cast.amount));
+                EntityItem item = new EntityItem(world, x + 0.5, y + this.maxY, z + 0.5, scrap);
+                world.spawnEntityInWorld(item);
+                cast.amount = 0; //just for safety
             }
         }
-
         super.breakBlock(world, x, y, z, b, i);
     }
 
     public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
-        TileEntityFoundryCastingBase cast = (TileEntityFoundryCastingBase) world.getTileEntity(x, y, z);
+        int[] coords = findCore(world, x, y, z);
+        if(coords == null) return;
+
+        TileEntityMachineStrandCaster cast = (TileEntityMachineStrandCaster) world.getTileEntity(coords[0], coords[1], coords[2]);
+
         List<String> text = new ArrayList();
-
-        if(cast.slots[0] == null) {
-            text.add(EnumChatFormatting.RED + I18nUtil.resolveKey("foundry.noCast"));
-        } else if(cast.slots[0].getItem() == ModItems.mold){
-            ItemMold.Mold mold = ((ItemMold) cast.slots[0].getItem()).getMold(cast.slots[0]);
-            text.add(EnumChatFormatting.BLUE + mold.getTitle());
+        if(cast != null) {
+            if (cast.slots[0] == null) {
+                text.add(EnumChatFormatting.RED + I18nUtil.resolveKey("foundry.noCast"));
+            } else if (cast.slots[0].getItem() == ModItems.mold) {
+                ItemMold.Mold mold = ((ItemMold) cast.slots[0].getItem()).getMold(cast.slots[0]);
+                text.add(EnumChatFormatting.BLUE + mold.getTitle());
+            }
         }
-
         ILookOverlay.printGeneric(event, I18nUtil.resolveKey(this.getUnlocalizedName() + ".name"), 0xFF4000, 0x401000, text);
+    }
+    @Override
+    protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
+        x += dir.offsetX * o;
+        z += dir.offsetZ * o;
+
+        if(!MultiblockHandlerXR.checkSpace(world, x, y , z, getDimensions(), x, y, z, dir)) return false;
+        return MultiblockHandlerXR.checkSpace(world, x, y, z, new int[]{2, 0, 1, 0, 1, 0}, x, y, z, dir);
     }
 }
 

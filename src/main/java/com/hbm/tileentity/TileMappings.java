@@ -297,6 +297,7 @@ public class TileMappings {
 		put(TileEntityFoundryOutlet.class, "tileentity_foundry_outlet");
 		put(TileEntityFoundrySlagtap.class, "tileentity_foundry_slagtap");
 		put(TileEntitySlag.class, "tileentity_foundry_slag");
+		put(TileEntityMachineStrandCaster.class, "tileentity_strand_caster");
 		
 		put(TileEntityMachineAutocrafter.class, "tileentity_autocrafter");
 		put(TileEntityDiFurnaceRTG.class, "tileentity_rtg_difurnace");

@@ -3,14 +3,15 @@ package com.hbm.tileentity.machine;
 import api.hbm.block.ICrucibleAcceptor;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.inventory.container.ContainerAssemfac;
-import com.hbm.inventory.container.ContainerStrandCaster;
+import com.hbm.inventory.container.ContainerMachineStrandCaster;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.gui.GUIAssemfac;
-import com.hbm.inventory.gui.GUIStrandCaster;
+import com.hbm.inventory.gui.GUIMachineStrandCaster;
+import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMold;
+import com.hbm.items.machine.ItemScraps;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
@@ -20,119 +21,168 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 //god thank you bob for this base class
-public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase implements IGUIProvider, ICrucibleAcceptor,ISidedInventory, IFluidStandardTransceiver, INBTPacketReceiver {
+public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase implements IGUIProvider, ICrucibleAcceptor,ISidedInventory, IFluidStandardTransceiver, INBTPacketReceiver, IInventory {
+
     public FluidTank water;
     public FluidTank steam;
-
-    public ItemStack[] slots = new ItemStack[6];
+    @Override
+    public String getName() {
+        return "container.machineStrandCaster";
+    }
+    @Override
+    public String getInventoryName() {
+        return getName();
+    }
 
     public TileEntityMachineStrandCaster() {
-
+        super(7);
         water = new FluidTank(Fluids.WATER, 64_000);
         steam = new FluidTank(Fluids.SPENTSTEAM, 64_000);
     }
-    int cooldown = 10;
+
+
     @Override
     public void updateEntity() {
-        super.updateEntity();
 
-        if(!worldObj.isRemote) {
+        if (!worldObj.isRemote) {
 
-            if(this.amount > this.getCapacity()) {
-                this.amount = this.getCapacity();
+            if (this.lastType != this.type || this.lastAmount != this.amount) {
+                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                this.lastType = this.type;
+                this.lastAmount = this.amount;
             }
 
-            if(this.amount == 0) {
+            if (this.amount >= this.getCapacity()) {
+                if(amount > getCapacity()) {
+                    ItemStack scrap = ItemScraps.create(new Mats.MaterialStack(type, amount));
+                    EntityItem item = new EntityItem(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, scrap);
+                    worldObj.spawnEntityInWorld(item);
+                }
+                    this.amount = this.getCapacity();
+
+            }
+
+            if (this.amount == 0) {
                 this.type = null;
             }
 
-            if(worldObj.getTotalWorldTime() % 20 == 0) {
+            if (worldObj.getTotalWorldTime() % 20 == 0) {
                 this.updateConnections();
             }
 
-            for(DirPos pos : getConPos()) {
-                this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-            }
 
             ItemMold.Mold mold = this.getInstalledMold();
 
-            if(mold != null && this.amount >= this.getCapacity() && slots[1] == null && water.getFill() >= getWaterRequired() ) {
-                cooldown--;
+            if (canProcess()) {
 
-                if(cooldown <= 0) {
-                    this.amount -= mold.getCost();
+                    int itemsCasted = Math.min(amount / mold.getCost(), 9);
 
-                    ItemStack out = mold.getOutput(type);
+                    for (int j = 0; j < itemsCasted; j++) {
+                        this.amount -= mold.getCost();
 
-                    for(int i = 1; i < 7; i++) {
-                        if(slots[i].isItemEqual(out) && slots[i].stackSize + out.stackSize <= out.getMaxStackSize()) {
-                            continue;
-                        }
+                        ItemStack out = mold.getOutput(type);
 
-                        if(slots[i] == null) {
-                            slots[i] = out.copy();
-                        } else {
-                            slots[i].stackSize += out.stackSize;
+                        for (int i = 1; i < 7; i++) {
+                            if (slots[i] == null){
+                                slots[i] = out.copy();
+                                break;
+                            }
+
+                            if (slots[i].isItemEqual(out) && slots[i].stackSize + out.stackSize <= out.getMaxStackSize()) {
+                                slots[i].stackSize += out.stackSize;
+                                break;
+                            }
+
                         }
                     }
+                    markChanged();
+
+                    water.setFill(water.getFill() - getWaterRequired() * itemsCasted);
+                    steam.setFill(steam.getFill() + getWaterRequired() * itemsCasted);
                 }
+            }
 
-                    water.setFill(water.getFill() - getWaterRequired());
-                    steam.setFill(steam.getFill() + getWaterRequired());
+            NBTTagCompound data = new NBTTagCompound();
 
-                    cooldown = 20;
-                }
-                NBTTagCompound data = new NBTTagCompound();
+            water.writeToNBT(data, "w");
+            steam.writeToNBT(data, "s");
 
-                water.writeToNBT(data, "w");
-                steam.writeToNBT(data, "s");
+            this.networkPack(data, 150);
 
-                this.networkPack(data, 150);
+        }
 
-            } else {
-                cooldown = 20;
+    public boolean canProcess() {
+        ItemMold.Mold mold = this.getInstalledMold();
+        if(type != null && mold != null && this.amount >= mold.getCost() * 9 && mold.getOutput(type) != null) {
+            for (int i = 1; i < 7; i++) {
+
+                if (slots[i] == null || slots[i].isItemEqual(mold.getOutput(type)) && slots[i].stackSize +  mold.getOutput(type).stackSize <=  mold.getOutput(type).getMaxStackSize())
+                    return water.getFill() >= getWaterRequired() && steam.getFill() < steam.getMaxFill();;
+
             }
         }
 
-
+        return false;
+    }
     public DirPos[] getConPos() {
 
         ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
         ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
         return new DirPos[] {
-                new DirPos(xCoord - dir.offsetX, yCoord, zCoord, rot),
-                new DirPos(xCoord, yCoord, zCoord + dir.offsetX, rot),
-                new DirPos(xCoord, yCoord, zCoord + dir.offsetX * 5, rot.getOpposite()),
-                new DirPos(xCoord- dir.offsetX, yCoord, zCoord + dir.offsetX * 5, rot.getOpposite()),
+                new DirPos(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
+                new DirPos(xCoord - rot.offsetX, yCoord, zCoord - rot.offsetZ, rot.getOpposite()),
+                new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX * 5, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ * 5, rot),
+                new DirPos(xCoord - rot.offsetX - dir.offsetX * 5, yCoord, zCoord - rot.offsetZ + dir.offsetZ * 5, rot.getOpposite()),
         };
+    }
+    @Override
+    public ItemMold.Mold getInstalledMold() {
+        if(slots[0] == null) return null;
+
+        if(slots[0].getItem() == ModItems.mold) {
+            return ((ItemMold) slots[0].getItem()).getMold(slots[0]);
+        }
+
+        return null;
     }
     @Override
     public int getMoldSize() {
         return getInstalledMold().size;
     }
-
+    @Override
+    public boolean standardCheck(World world, int x, int y, int z, ForgeDirection side, Mats.MaterialStack stack) {
+        if(this.type != null && this.type != stack.material) return false;
+        return this.amount >= this.getCapacity() && getInstalledMold() == null;
+    }
     @Override
     public int getCapacity() {
         ItemMold.Mold mold = this.getInstalledMold();
-        return mold == null ? 0 : mold.getCost() * 10;
+        return mold == null ? 50000 : mold.getCost() * 50;
     }
     private int getWaterRequired() {
-        return getInstalledMold() != null ? 5 * getInstalledMold().getCost() : 10;
+        return getInstalledMold() != null ? 5 * getInstalledMold().getCost() : 50;
     }
+
     private void updateConnections() {
         for(DirPos pos : getConPos()) {
             this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+        }
+        for(DirPos pos : getConPos()) {
+            sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
         }
     }
 
@@ -153,14 +203,15 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
     @Override
     public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        return new ContainerStrandCaster(player.inventory, this);
+        return new ContainerMachineStrandCaster(player.inventory, this);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        return new GUIStrandCaster(player.inventory, this);
+        return new GUIMachineStrandCaster(player.inventory, this);
     }
+
     public void networkPack(NBTTagCompound nbt, int range) {
 
         if(!worldObj.isRemote)
@@ -168,6 +219,20 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
     }
     @Override
     public void networkUnpack(NBTTagCompound nbt) {
+        water.readFromNBT(nbt, "w");
+        steam.readFromNBT(nbt, "s");
+
+    }
+    @Override
+    public void writeToNBT(NBTTagCompound nbt) {
+        super.writeToNBT(nbt);
+        water.writeToNBT(nbt, "w");
+        steam.writeToNBT(nbt, "s");
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt) {
+        super.readFromNBT(nbt);
         water.readFromNBT(nbt, "w");
         steam.readFromNBT(nbt, "s");
     }
@@ -191,5 +256,48 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
     public int[] getAccessibleSlotsFromSide(int meta) {
         return new int[] { 1, 2, 3, 4, 5, 6};
     }
+
+    public void markChanged() {
+        this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
+    }
+    @Override
+    public boolean isUseableByPlayer(EntityPlayer player) {
+        if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
+            return false;
+        } else {
+            return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 128;
+        }
+    }
+
+
+    @Override
+    public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+        return this.isItemValidForSlot(slot, itemStack);
+    }
+
+    @Override
+    public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
+        return !this.isItemValidForSlot(slot, itemStack);
+    }
+    AxisAlignedBB bb = null;
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+
+        if(bb == null) {
+            bb = AxisAlignedBB.getBoundingBox(
+                    xCoord - 1,
+                    yCoord,
+                    zCoord - 1,
+                    xCoord + 2,
+                    yCoord + 3,
+                    zCoord + 7
+            );
+        }
+
+        return bb;
+    }
+
+
 
 }

@@ -3,7 +3,16 @@ package com.hbm.tileentity.machine;
 import com.hbm.inventory.material.NTMMaterial;
 
 public class TileEntityFoundryMold extends TileEntityFoundryCastingBase implements IRenderFoundry {
-	
+
+	public TileEntityFoundryMold() {
+		super(2);
+	}
+
+	@Override
+	public String getName() {
+		return null;
+	}
+
 	@Override
 	public void updateEntity() {
 		super.updateEntity();

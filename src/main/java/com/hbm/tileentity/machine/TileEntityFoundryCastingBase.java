@@ -7,6 +7,7 @@ import com.hbm.items.machine.ItemMold.Mold;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -19,10 +20,14 @@ import net.minecraftforge.common.util.ForgeDirection;
  *
  */
 public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase implements ISidedInventory {
-
-	public ItemStack slots[] = new ItemStack[2];
+	public ItemStack[] slots;
+	public TileEntityFoundryCastingBase(int slotCount) {
+		slots = new ItemStack[slotCount];
+	}
 	public int cooloff = 100;
 
+
+	public abstract String getName();
 
 	@Override
 	public void updateEntity() {
