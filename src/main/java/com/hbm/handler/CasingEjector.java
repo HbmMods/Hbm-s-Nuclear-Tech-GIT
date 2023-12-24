@@ -127,20 +127,17 @@ public class CasingEjector implements Cloneable {
 	}
 
 	private static Vec3 rotateVector(Vec3 vector, float pitch, float yaw, float pitchFactor, float yawFactor) {
-		// Apply randomness to vector
-		vector.xCoord += rand.nextGaussian() * yawFactor;
-		vector.yCoord += rand.nextGaussian() * pitchFactor;
-		vector.zCoord += rand.nextGaussian() * yawFactor;
 
 		final Matrix4f pitchMatrix = new Matrix4f(), yawMatrix = new Matrix4f();
 
 		pitchMatrix.setIdentity();
-		pitchMatrix.rotate(-pitch, new Vector3f(1, 0, 0));
+		pitchMatrix.rotate(pitch, new Vector3f(1, 0, 0));
 
 		yawMatrix.setIdentity();
 		yawMatrix.rotate(-yaw, new Vector3f(0, 1, 0));
-
-		final Vector4f vector4f = new Vector4f((float) vector.xCoord, (float) vector.yCoord, (float) vector.zCoord, 1);
+		
+		// Apply randomness to vector
+		final Vector4f vector4f = new Vector4f((float) (vector.xCoord + rand.nextGaussian() * yawFactor), (float) (vector.yCoord + rand.nextGaussian() * pitchFactor), (float) (vector.zCoord + rand.nextGaussian() * yawFactor), 1);
 
 		Matrix4f.transform(pitchMatrix, vector4f, vector4f);
 		Matrix4f.transform(yawMatrix, vector4f, vector4f);

@@ -1,9 +1,21 @@
 ## Added
+* ???
 
 ## Changed
 * Adjusted the model for the mining helmet
 * The ladders on the acidizer and fluid tanks are now climbable
 * Removed those unused blue dungeon bricks
+* Red phosphorus is no longer pyrophoric, meaning that multi purpose bomb kits no longer instantly explode
+* Adjusted M2's rotations
 
 ## Fixed
 * Fixed recipe conflict in the arc welder with the medium and large missile fuel tanks
+* Fixed doomsday missile not being launchable
+* Fixed rocket artillery turret power connectors not working with cables
+* Fixed arc welder energy consumption check not taking upgrades into account
+* Fixed glyphid gland and 16k item barrels not having a proper container item set, effectively voiding the emtpy container when used in crafting
+* Fixed confusing item quantity display in the exposure chamber's NEI handler
+* Fixed pheromone being tagged as viscous and therefore not being dispersable, making modified pheromone useless
+* Fixed mobs not being able to pathfind through open doors
+* Fixed the benelli ejecting the casings wrong
+* Fixed casing ejection in general being inconsistent, sometimes flying off into the wrong direction

@@ -10,6 +10,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.entity.missile.EntityCarrier;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBaseNT;
+import com.hbm.entity.missile.EntityMissileDoomsday;
 import com.hbm.entity.missile.EntityMissileShuttle;
 import com.hbm.entity.missile.EntityMissileTier0.*;
 import com.hbm.entity.missile.EntityMissileTier1.*;
@@ -87,6 +88,8 @@ public class TileEntityLaunchPad extends TileEntityMachineBase implements IEnerg
 		missiles.put(new ComparableStack(ModItems.missile_nuclear), EntityMissileNuclear.class);
 		missiles.put(new ComparableStack(ModItems.missile_nuclear_cluster), EntityMissileMirv.class);
 		missiles.put(new ComparableStack(ModItems.missile_volcano), EntityMissileVolcano.class);
+		
+		missiles.put(new ComparableStack(ModItems.missile_doomsday), EntityMissileDoomsday.class);
 	}
 
 	public ItemStack toRender;
