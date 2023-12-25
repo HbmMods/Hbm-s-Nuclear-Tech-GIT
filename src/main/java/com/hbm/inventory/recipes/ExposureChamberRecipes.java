@@ -46,8 +46,10 @@ public class ExposureChamberRecipes extends SerializableRecipe {
 			AStack stack = recipe.ingredient.copy();
 			stack.stacksize = 8;
 			array[0] = stack;
+			ItemStack output = recipe.output.copy();
+			output.stackSize = 8;
 			
-			recipes.put(array, recipe.output);
+			recipes.put(array, output);
 		}
 		
 		return recipes;

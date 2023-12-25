@@ -408,19 +408,7 @@ public class ItemRenderLibrary {
 			public void renderCommon() {
 				GL11.glScaled(0.5, 0.5, 0.5);
 				GL11.glTranslatef(0, 0, -3);
-	        	bindTexture(ResourceManager.duchessgambit_tex); ResourceManager.duchessgambit.renderAll();
-			}});
-		
-		renderers.put(Item.getItemFromBlock(ModBlocks.bomber), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, 1, 0);
-				GL11.glScaled(2.25, 2.25, 2.25);
-			}
-			public void renderCommon() {
-				GL11.glRotated(-90, 0, 1, 0);
-				GL11.glScaled(2, 2, 2);
-				GL11.glTranslatef(0, 0, -0.25F);
-				bindTexture(ResourceManager.dornier_0_tex); ResourceManager.dornier.renderAll();
+				bindTexture(ResourceManager.duchessgambit_tex); ResourceManager.duchessgambit.renderAll();
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_gadget), new ItemRenderBase() {
@@ -430,8 +418,8 @@ public class ItemRenderLibrary {
 			}
 			public void renderCommon() {
 				GL11.glTranslated(0.25, 0, 0);
-		        bindTexture(ResourceManager.bomb_gadget_tex);
-		        ResourceManager.bomb_gadget.renderAll();
+				bindTexture(ResourceManager.bomb_gadget_tex);
+				ResourceManager.bomb_gadget.renderAll();
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_boy), new ItemRenderBase() {

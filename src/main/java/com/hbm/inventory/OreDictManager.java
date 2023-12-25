@@ -422,7 +422,7 @@ public class OreDictManager {
 		 * PHOSPHORUS
 		 */
 		P_WHITE	.hot(5)	.ingot(ingot_phosphorus)	.block(block_white_phosphorus);
-		P_RED	.hot(2)	.dust(powder_fire)			.block(block_red_phosphorus);
+		P_RED			.dust(powder_fire)			.block(block_red_phosphorus);
 		
 		/*
 		 * RARE METALS

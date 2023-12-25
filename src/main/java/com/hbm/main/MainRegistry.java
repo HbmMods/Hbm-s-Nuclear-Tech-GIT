@@ -190,6 +190,7 @@ public class MainRegistry {
 	public static Achievement achGoFish;
 	public static Achievement achNo9;
 	public static Achievement achInferno;
+	public static Achievement achRedRoom;
 	public static Achievement bobHidden;
 	public static Achievement horizonsStart;
 	public static Achievement horizonsEnd;
@@ -678,6 +679,7 @@ public class MainRegistry {
 		achSlimeball = new Achievement("achievement.slimeball", "slimeball", -10, 6, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.ACID), null).initIndependentStat().registerStat();
 		achSulfuric = new Achievement("achievement.sulfuric", "sulfuric", -10, 8, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.BALLS), achSlimeball).initIndependentStat().setSpecial().registerStat();
 		achInferno = new Achievement("achievement.inferno", "inferno", -8, 10, ModItems.canister_napalm, null).initIndependentStat().setSpecial().registerStat();
+		achRedRoom = new Achievement("achievement.redRoom", "redRoom", -10, 10, ModItems.key_red, null).initIndependentStat().setSpecial().registerStat();
 		
 		bobHidden = new Achievement("achievement.hidden", "hidden", 15, -4, ModItems.gun_dampfmaschine, null).initIndependentStat().registerStat();
 
@@ -757,6 +759,7 @@ public class MainRegistry {
 				achWitchtaunter,
 				achNo9,
 				achInferno,
+				achRedRoom,
 				achSlimeball,
 				achSulfuric,
 				bossCreeper,
@@ -1175,6 +1178,11 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.recycled_nuclear");
 		ignoreMappings.add("hbm:item.recycled_misc");
 		ignoreMappings.add("hbm:item.gun_bf_ammo");
+		ignoreMappings.add("hbm:tile.brick_dungeon");
+		ignoreMappings.add("hbm:tile.brick_dungeon_flat");
+		ignoreMappings.add("hbm:tile.brick_dungeon_tile");
+		ignoreMappings.add("hbm:tile.brick_dungeon_circle");
+		ignoreMappings.add("hbm:tile.bomber");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

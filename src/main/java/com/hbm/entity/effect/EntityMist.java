@@ -3,7 +3,6 @@ package com.hbm.entity.effect;
 import java.util.List;
 
 import com.hbm.entity.mob.EntityGlyphid;
-import com.hbm.entity.projectile.EntityChemical;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.fluid.FluidType;

@@ -142,7 +142,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 	
 	public boolean canProcess(ArcWelderRecipe recipe) {
 		
-		if(this.power < recipe.consumption) return false;
+		if(this.power < this.consumption) return false;
 		
 		if(recipe.fluid != null) {
 			if(this.tank.getTankType() != recipe.fluid.type) return false;
