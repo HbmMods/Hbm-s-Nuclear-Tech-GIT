@@ -834,12 +834,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderFoundryTank());
 		RenderingRegistry.registerBlockHandler(new RenderFoundryOutlet());
 
-		RenderingRegistry.registerBlockHandler(new RenderNarrowStraightRail());
-		RenderingRegistry.registerBlockHandler(new RenderNarrowCurveRail());
-		RenderingRegistry.registerBlockHandler(new RenderStandardStraightRail());
-		RenderingRegistry.registerBlockHandler(new RenderStandardCurveRail());
-		RenderingRegistry.registerBlockHandler(new RenderStandardRampRail());
-		RenderingRegistry.registerBlockHandler(new RenderStandardBufferRail());
+		RenderingRegistry.registerBlockHandler(new RenderRail());
 		
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_dynamite.getRenderType(), ResourceManager.charge_dynamite));
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_c4.getRenderType(), ResourceManager.charge_c4));

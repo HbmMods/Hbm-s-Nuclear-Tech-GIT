@@ -1,20 +1,28 @@
 package com.hbm.blocks.rail;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
+import com.hbm.main.ResourceManager;
+import com.hbm.render.util.ObjUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RailStandardCurve extends BlockDummyable implements IRailNTM {
+public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRenderRail {
 
 	public RailStandardCurve() {
 		super(Material.iron);
@@ -25,11 +33,9 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 		return null;
 	}
 
-	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
-
 	@Override
 	public int getRenderType() {
-		return renderID;
+		return RailStandardStraight.renderID;
 	}
 
 	@Override
@@ -197,5 +203,29 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM {
 		world.setBlock(x + dX * 4 + rX * 4, y, z + dZ * 4 + rZ * 4, this, rot.ordinal(), 3);
 		
 		BlockDummyable.safeRem = false;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void renderInventory(Tessellator tessellator, Block block, int metadata) {
+		GL11.glScaled(0.2, 0.2, 0.2);
+		GL11.glTranslated(2.5, -0.0625, -1.5);
+		GL11.glRotated(90, 0, 1, 0);
+		tessellator.startDrawingQuads();
+		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_standard_curve, block.getIcon(1, 0), tessellator, 0, false);
+		tessellator.draw();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void renderWorld(Tessellator tessellator, Block block, int meta, IBlockAccess world, int x, int y, int z) {
+		if(meta < 12) return;
+		float rotation = 0;
+		if(meta == 15) rotation = 90F / 180F * (float) Math.PI;
+		if(meta == 12) rotation = 180F / 180F * (float) Math.PI;
+		if(meta == 14) rotation = 270F / 180F * (float) Math.PI;
+		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
+		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_standard_curve, block.getIcon(1, 0), tessellator, rotation, true);
+		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
 	}
 }

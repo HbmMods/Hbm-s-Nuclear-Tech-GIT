@@ -1,21 +1,29 @@
 package com.hbm.blocks.rail;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.lib.Library;
+import com.hbm.main.ResourceManager;
+import com.hbm.render.util.ObjUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RailStandardRamp extends BlockDummyable implements IRailNTM {
+public class RailStandardRamp extends BlockDummyable implements IRailNTM, IRenderRail {
 
 	public RailStandardRamp() {
 		super(Material.iron);
@@ -31,11 +39,9 @@ public class RailStandardRamp extends BlockDummyable implements IRailNTM {
 		return null;
 	}
 
-	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
-
 	@Override
 	public int getRenderType() {
-		return renderID;
+		return RailStandardStraight.renderID;
 	}
 
 	@Override
@@ -134,5 +140,37 @@ public class RailStandardRamp extends BlockDummyable implements IRailNTM {
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, getDimensions(), this, dir);
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {1, -1, 2, 2, 1, 0}, this, dir);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void renderInventory(Tessellator tessellator, Block block, int metadata) {
+		GL11.glTranslated(0, -0.0625, 0);
+		GL11.glRotated(90, 0, 1, 0);
+		GL11.glScaled(0.3, 0.3, 0.3);
+		tessellator.startDrawingQuads();
+		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_standard_ramp, block.getIcon(1, 0), tessellator, 0, false);
+		tessellator.draw();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void renderWorld(Tessellator tessellator, Block block, int meta, IBlockAccess world, int x, int y, int z) {
+		if(meta < 12) return;
+		float rotation = 0;
+		if(meta == 15) rotation = 90F / 180F * (float) Math.PI;
+		if(meta == 12) rotation = 180F / 180F * (float) Math.PI;
+		if(meta == 14) rotation = 270F / 180F * (float) Math.PI;
+		if(meta == 12) tessellator.addTranslation(0.5F, 0F, 0F);
+		if(meta == 13) tessellator.addTranslation(-0.5F, 0F, 0F);
+		if(meta == 14) tessellator.addTranslation(0F, 0F, -0.5F);
+		if(meta == 15) tessellator.addTranslation(0F, 0F, 0.5F);
+		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
+		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_standard_ramp, block.getIcon(1, 0), tessellator, rotation, true);
+		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
+		if(meta == 12) tessellator.addTranslation(-0.5F, 0F, 0F);
+		if(meta == 13) tessellator.addTranslation(0.5F, 0F, 0F);
+		if(meta == 14) tessellator.addTranslation(0F, 0F, 0.5F);
+		if(meta == 15) tessellator.addTranslation(0F, 0F, -0.5F);
 	}
 }

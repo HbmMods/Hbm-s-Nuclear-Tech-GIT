@@ -193,7 +193,6 @@ public class EntityMappings {
 		addEntity(EntityBlockSpider.class, "entity_taintcrawler", 1000);
 		addEntity(EntityRBMKDebris.class, "entity_rbmk_debris", 1000);
 		addEntity(EntityUFO.class, "entity_ntm_ufo", 1000);
-		addEntity(EntityNukeExplosionNT.class, "entity_ntm_explosion_nt", 1000);
 		addEntity(EntityQuasar.class, "entity_digamma_quasar", 250);
 		addEntity(EntitySpear.class, "entity_digamma_spear", 1000);
 		addEntity(EntityMissileVolcano.class, "entity_missile_volcano", 1000);

@@ -1,20 +1,28 @@
 package com.hbm.blocks.rail;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.Library;
+import com.hbm.main.ResourceManager;
+import com.hbm.render.util.ObjUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RailNarrowStraight extends BlockDummyable implements IRailNTM {
+public class RailNarrowStraight extends BlockDummyable implements IRailNTM, IRenderRail {
 
 	public RailNarrowStraight() {
 		super(Material.iron);
@@ -25,11 +33,9 @@ public class RailNarrowStraight extends BlockDummyable implements IRailNTM {
 		return null;
 	}
 
-	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
-
 	@Override
 	public int getRenderType() {
-		return renderID;
+		return RailStandardStraight.renderID;
 	}
 
 	@Override
@@ -111,5 +117,24 @@ public class RailNarrowStraight extends BlockDummyable implements IRailNTM {
 	@Override
 	public TrackGauge getGauge(World world, int x, int y, int z) {
 		return TrackGauge.NARROW;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void renderInventory(Tessellator tessellator, Block block, int metadata) {
+		GL11.glTranslated(0, -0.0625, 0);
+		tessellator.startDrawingQuads();
+		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_narrow_straight, block.getIcon(1, 0), tessellator, 0, false);
+		tessellator.draw();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void renderWorld(Tessellator tessellator, Block block, int meta, IBlockAccess world, int x, int y, int z) {
+		float rotation = 0;
+		if(meta == 2 || meta == 3 || meta == 12 || meta == 13) rotation = 90F / 180F * (float) Math.PI;
+		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
+		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_narrow_straight, block.getIcon(1, 0), tessellator, rotation, true);
+		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
 	}
 }

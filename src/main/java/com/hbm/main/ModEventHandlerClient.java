@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -12,6 +13,10 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
+import com.hbm.blocks.rail.IRailNTM;
+import com.hbm.blocks.rail.IRailNTM.MoveContext;
+import com.hbm.blocks.rail.IRailNTM.RailCheckType;
+import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
@@ -64,6 +69,7 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
@@ -235,7 +241,7 @@ public class ModEventHandlerClient {
 				Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 			}*/
 			
-			/*List<String> text = new ArrayList();
+			List<String> text = new ArrayList();
 			MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
 			
 			for(int i = 0; i < 2; i++) if(pos != null && pos.typeOfHit == pos.typeOfHit.BLOCK) {
@@ -298,7 +304,7 @@ public class ModEventHandlerClient {
 				} while(distanceToCover != 0);
 				
 				ILookOverlay.printGeneric(event, "DEBUG", 0xffff00, 0x4040000, text);
-			}*/
+			}
 		}
 		
 		/// HANLDE ANIMATION BUSES ///
