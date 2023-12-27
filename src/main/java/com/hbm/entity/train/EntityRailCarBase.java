@@ -207,7 +207,6 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 					double z = posZ + rot.zCoord;
 					dummy.setPosition(x, y, z);
 					dummy.setSize(def.width, def.height);
-					dummy.velocityChanged = true;
 					worldObj.spawnEntityInWorld(dummy);
 					this.dummies[i] = dummy;
 				}
@@ -215,16 +214,18 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				this.initDummies = true;
 			}
 			
-			for(int i = 0; i < definitions.length; i++) {
-				DummyConfig def = definitions[i];
-				BoundingBoxDummyEntity dummy = dummies[i];
-				Vec3 rot = Vec3.createVectorHelper(def.offset.xCoord, def.offset.yCoord, def.offset.zCoord);
-				rot.rotateAroundX((float) (this.rotationPitch * Math.PI / 180D));
-				rot.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
-				double x = renderX + rot.xCoord;
-				double y = renderY + rot.yCoord;
-				double z = renderZ + rot.zCoord;
-				dummy.setPosition(x, y, z);
+			if(renderY != 0) {
+				for(int i = 0; i < definitions.length; i++) {
+					DummyConfig def = definitions[i];
+					BoundingBoxDummyEntity dummy = dummies[i];
+					Vec3 rot = Vec3.createVectorHelper(def.offset.xCoord, def.offset.yCoord, def.offset.zCoord);
+					rot.rotateAroundX((float) (this.rotationPitch * Math.PI / 180D));
+					rot.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
+					double x = renderX + rot.xCoord;
+					double y = renderY + rot.yCoord;
+					double z = renderZ + rot.zCoord;
+					dummy.setPosition(x, y, z);
+				}
 			}
 		}
 	}

@@ -35,7 +35,7 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRend
 
 	@Override
 	public int getRenderType() {
-		return RailStandardStraight.renderID;
+		return renderID;
 	}
 
 	@Override

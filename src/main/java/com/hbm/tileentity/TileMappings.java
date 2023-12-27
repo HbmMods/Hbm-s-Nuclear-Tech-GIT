@@ -25,6 +25,7 @@ import com.hbm.blocks.network.BlockCablePaintable.TileEntityCablePaintable;
 import com.hbm.blocks.network.CableDiode.TileEntityDiode;
 import com.hbm.blocks.network.FluidDuctGauge.TileEntityPipeGauge;
 import com.hbm.blocks.network.FluidDuctPaintable.TileEntityPipePaintable;
+import com.hbm.blocks.rail.RailStandardSwitch.TileEntityRailSwitch;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.tileentity.bomb.*;
@@ -407,6 +408,8 @@ public class TileMappings {
 		put(TileEntityDroneDock.class, "tileentity_drone_dock");
 		put(TileEntityDroneProvider.class, "tileentity_drone_provider");
 		put(TileEntityDroneRequester.class, "tileentity_drone_requester");
+		
+		put(TileEntityRailSwitch.class, "tileentity_rail_switch");
 	}
 	
 	private static void put(Class<? extends TileEntity> clazz, String... names) {

@@ -8,7 +8,6 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -33,8 +32,6 @@ public class RailStandardStraight extends BlockDummyable implements IRailNTM, IR
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return null;
 	}
-
-	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 
 	@Override
 	public int getRenderType() {

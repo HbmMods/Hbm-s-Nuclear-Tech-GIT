@@ -41,7 +41,7 @@ public class RailStandardRamp extends BlockDummyable implements IRailNTM, IRende
 
 	@Override
 	public int getRenderType() {
-		return RailStandardStraight.renderID;
+		return renderID;
 	}
 
 	@Override

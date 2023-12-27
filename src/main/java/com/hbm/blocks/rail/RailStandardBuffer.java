@@ -34,7 +34,7 @@ public class RailStandardBuffer extends BlockDummyable implements IRailNTM, IRen
 
 	@Override
 	public int getRenderType() {
-		return RailStandardStraight.renderID;
+		return renderID;
 	}
 
 	@Override
