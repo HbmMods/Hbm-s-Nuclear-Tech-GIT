@@ -28,6 +28,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.CrucibleUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -57,10 +58,10 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public int usage;
 	
 	public int progressFluid;
-	public static final int processFluidTimeBase = 100;
+	public static final int processFluidTimeBase = 80;
 	public int processFluidTime;
 	public int progressOre;
-	public static final int processOreTimeBase = 1000;
+	public static final int processOreTimeBase = 800;
 	public int processOreTime;
 
 	public MaterialStack leftStack;
@@ -133,10 +134,11 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			UpgradeManager.eval(slots, 1, 2);
 			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			int amps = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 
-			processFluidTime = processFluidTimeBase - processFluidTimeBase * speedLevel / 4;
-			processOreTime = processOreTimeBase - processOreTimeBase * speedLevel / 4;
-			usage = usageBase - usageBase * powerLevel / 4;
+			processFluidTime = (processFluidTimeBase - processFluidTimeBase * speedLevel / 4) / (amps + 1);
+			processOreTime = (processOreTimeBase - processOreTimeBase * speedLevel / 4) / (amps + 1);
+			usage = (usageBase - usageBase * powerLevel / 4) * (amps + 1);
 			
 			if(this.canProcessFluid()) {
 				this.progressFluid++;
@@ -496,7 +498,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 	@Override
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
-		return type == UpgradeType.SPEED || type == UpgradeType.POWER;
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
 	}
 
 	@Override
@@ -507,6 +509,9 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		}
 		if(type == UpgradeType.POWER) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 25) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
 		}
 	}
 
