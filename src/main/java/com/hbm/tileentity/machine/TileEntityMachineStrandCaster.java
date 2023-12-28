@@ -4,7 +4,6 @@ import api.hbm.block.ICrucibleAcceptor;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.container.ContainerMachineStrandCaster;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineStrandCaster;
@@ -28,7 +27,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -79,10 +77,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
                 this.type = null;
             }
 
-            if (worldObj.getTotalWorldTime() % 20 == 0) {
-                this.updateConnections();
-            }
-
+            this.updateConnections();
 
             ItemMold.Mold mold = this.getInstalledMold();
 
@@ -137,16 +132,29 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
         return false;
     }
-    public DirPos[] getConPos() {
+    public DirPos[] getFluidConPos() {
 
         ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
         ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
         return new DirPos[] {
-                new DirPos(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
-                new DirPos(xCoord - rot.offsetX, yCoord, zCoord - rot.offsetZ, rot.getOpposite()),
+                new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ, rot),
+                new DirPos(xCoord - rot.offsetX - dir.offsetX, yCoord, zCoord - rot.offsetZ - dir.offsetZ, rot.getOpposite()),
                 new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX * 5, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ * 5, rot),
                 new DirPos(xCoord - rot.offsetX - dir.offsetX * 5, yCoord, zCoord - rot.offsetZ + dir.offsetZ * 5, rot.getOpposite()),
+        };
+    }
+
+    public int[][] getMetalPourPos() {
+
+        ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+        ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+        return new int[][] {
+                new int[]{xCoord + rot.offsetX - dir.offsetX, yCoord + 2, zCoord + rot.offsetZ - dir.offsetZ},
+                new int[]{xCoord - dir.offsetX, yCoord + 2, zCoord - dir.offsetZ},
+                new int[]{xCoord + rot.offsetX, yCoord + 2, zCoord + rot.offsetZ},
+                new int[]{xCoord, yCoord + 2, zCoord},
         };
     }
     @Override
@@ -163,10 +171,24 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
     public int getMoldSize() {
         return getInstalledMold().size;
     }
+
+    @Override
+    public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, Mats.MaterialStack stack) {
+
+        if(side != ForgeDirection.UP) return false;
+        for (int[] pos : getMetalPourPos()) {
+            if (pos[0]== x && pos[1] == y && pos[2] == z){
+                return this.standardCheck(world, x, y, z, side, stack);
+            }
+        }
+        return false;
+
+    }
+
     @Override
     public boolean standardCheck(World world, int x, int y, int z, ForgeDirection side, Mats.MaterialStack stack) {
         if(this.type != null && this.type != stack.material) return false;
-        return this.amount >= this.getCapacity() && getInstalledMold() == null;
+        return !(this.amount >= this.getCapacity() || getInstalledMold() == null);
     }
     @Override
     public int getCapacity() {
@@ -178,10 +200,10 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
     }
 
     private void updateConnections() {
-        for(DirPos pos : getConPos()) {
+        for(DirPos pos : getFluidConPos()) {
             this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
         }
-        for(DirPos pos : getConPos()) {
+        for(DirPos pos : getFluidConPos()) {
             sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
         }
     }

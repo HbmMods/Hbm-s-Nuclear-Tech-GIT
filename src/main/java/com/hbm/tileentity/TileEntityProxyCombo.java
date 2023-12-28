@@ -432,6 +432,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		this.inventory = nbt.getBoolean("inv");
 		this.power = nbt.getBoolean("power");
 		this.fluid = nbt.getBoolean("fluid");
+		this.moltenMetal = nbt.getBoolean("metal");
 		this.heat = nbt.getBoolean("heat");
 	}
 	
@@ -442,6 +443,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		nbt.setBoolean("inv", inventory);
 		nbt.setBoolean("power", power);
 		nbt.setBoolean("fluid", fluid);
+		nbt.setBoolean("metal", moltenMetal);
 		nbt.setBoolean("heat", heat);
 	}
 

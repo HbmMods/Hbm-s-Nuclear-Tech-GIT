@@ -67,11 +67,16 @@ public class MachineStrandCaster extends BlockDummyable implements ICrucibleAcce
 
         //up,down;forward,backward;left,right
         MultiblockHandlerXR.fillSpace(world, x, y, z, new int[]{2, 0, 1, 0, 1, 0}, this, dir);
-
-        this.makeExtra(world, x + rot.offsetX, y, z + rot.offsetZ);
+        //Fluid ports
+        this.makeExtra(world, x + rot.offsetX - dir.offsetX, y, z + rot.offsetZ - dir.offsetZ);
+        this.makeExtra(world, x - dir.offsetX, y, z - dir.offsetZ);
         this.makeExtra(world, x - dir.offsetX * 5, y, z - dir.offsetZ * 5);
         this.makeExtra(world, x + rot.offsetX - dir.offsetX * 5, y, z + rot.offsetZ - dir.offsetZ * 5);
-
+        //Molten slop ports
+        this.makeExtra(world, x + rot.offsetX - dir.offsetX, y + 2, z + rot.offsetZ - dir.offsetZ);
+        this.makeExtra(world, x - dir.offsetX, y + 2, z - dir.offsetZ);
+        this.makeExtra(world, x + rot.offsetX, y + 2, z + rot.offsetZ);
+        this.makeExtra(world, x, y + 2, z);
     }
 
     @Override
