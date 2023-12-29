@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.LinkedHashMap;
 
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.fluid.Fluids;
@@ -15,6 +16,7 @@ import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.I18nUtil;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -28,7 +30,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityRBMKConsole extends TileEntityMachineBase implements IControlReceiver, IGUIProvider {
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityRBMKConsole extends TileEntityMachineBase implements IControlReceiver, IGUIProvider, SimpleComponent {
 	
 	private int targetX;
 	private int targetY;
@@ -508,5 +516,204 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIRBMKConsole(player.inventory, this);
+	}
+	
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "rbmk_console";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getColumnData(Context context, Arguments args) {
+		int x = args.checkInteger(0) - 7;
+		int y = -args.checkInteger(1) + 7;
+
+		int i = (y + 7) * 15 + (x + 7);
+
+		TileEntity te = worldObj.getTileEntity(targetX + x, targetY, targetZ + y);
+		if (te instanceof TileEntityRBMKBase) {
+			TileEntityRBMKBase column = (TileEntityRBMKBase) te;
+
+			NBTTagCompound column_data = columns[i].data;
+			LinkedHashMap<String, Object> data_table = new LinkedHashMap<>();
+			data_table.put("type", column.getConsoleType().name());
+			data_table.put("hullTemp", column_data.getDouble("heat"));
+			data_table.put("realSimWater", column_data.getDouble("water"));
+			data_table.put("realSimSteam", column_data.getDouble("steam"));
+			data_table.put("moderated", column_data.getBoolean("moderated"));
+			data_table.put("level", column_data.getDouble("level"));
+			data_table.put("color", column_data.getShort("color"));
+			data_table.put("enrichment", column_data.getDouble("enrichment"));
+			data_table.put("xenon", column_data.getDouble("xenon"));
+			data_table.put("coreSkinTemp", column_data.getDouble("c_heat"));
+			data_table.put("coreTemp", column_data.getDouble("c_coreHeat"));
+			data_table.put("coreMaxTemp", column_data.getDouble("c_maxHeat"));
+
+			if(te instanceof TileEntityRBMKRod){
+				TileEntityRBMKRod fuelChannel = (TileEntityRBMKRod)te;
+				data_table.put("fluxSlow", fuelChannel.fluxSlow);
+				data_table.put("fluxFast", fuelChannel.fluxFast);
+			}
+
+			if(te instanceof TileEntityRBMKBoiler){
+				TileEntityRBMKBoiler boiler = (TileEntityRBMKBoiler)te;
+				data_table.put("water", boiler.feed.getFill());
+				data_table.put("steam", boiler.steam.getFill());
+			}
+
+			if(te instanceof TileEntityRBMKOutgasser){
+				TileEntityRBMKOutgasser irradiationChannel = (TileEntityRBMKOutgasser)te;
+				data_table.put("fluxProgress", irradiationChannel.progress);
+				data_table.put("requiredFlux", irradiationChannel.duration);
+			}
+
+			if(te instanceof TileEntityRBMKHeater){
+				TileEntityRBMKHeater heaterChannel = (TileEntityRBMKHeater)te;
+				data_table.put("coolant", heaterChannel.feed.getFill());
+				data_table.put("hotcoolant", heaterChannel.steam.getFill());
+			}
+
+			return new Object[] {data_table};
+		}
+		return new Object[] {null};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getRBMKPos(Context context, Arguments args) {
+		if(!(targetX == 0 && targetY== 0 && targetZ==0)){
+			LinkedHashMap<String, Integer> data_table = new LinkedHashMap<>();
+			data_table.put("rbmkCenterX", targetX);
+			data_table.put("rbmkCenterY", targetY);
+			data_table.put("rbmkCenterZ", targetZ);
+
+			return new Object[] {data_table};
+		}
+		return new Object[] {null};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setLevel(Context context, Arguments args) {
+		double new_level = args.checkDouble(0);
+		boolean foundRods = false;
+		for(int i = -7; i <= 7; i++) {
+			for(int j = -7; j <= 7; j++) {
+				TileEntity te = worldObj.getTileEntity(targetX + i, targetY, targetZ + j);
+	
+				if (te instanceof TileEntityRBMKControlManual) {
+					TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
+					rod.startingLevel = rod.level;
+					new_level = Math.min(1, Math.max(0, new_level));
+
+					rod.setTarget(new_level);
+					te.markDirty();
+					foundRods = true;
+				}
+			}
+		}
+		if(foundRods)
+			return new Object[] {};
+		else
+			return new Object[] {"No control rods found"};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setColumnLevel(Context context, Arguments args) {
+		int x = args.checkInteger(0) - 7;
+		int y = -args.checkInteger(1) + 7;
+		double new_level = args.checkDouble(2);
+
+		TileEntity te = worldObj.getTileEntity(targetX + x, targetY, targetZ + y);
+		
+		if (te instanceof TileEntityRBMKControlManual) {
+			TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
+			rod.startingLevel = rod.level;
+			new_level = Math.min(1, Math.max(0, new_level));
+
+			rod.setTarget(new_level);
+			te.markDirty();
+			return new Object[] {};
+		}	
+		return new Object[] {"No control rod found at "+(x+7)+","+(7-y)};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setColorLevel(Context context, Arguments args) {
+		int color = args.checkInteger(0);
+		double new_level = args.checkDouble(1);
+		boolean foundRods = false;
+		if(color >= 0 && color <=4){
+			for(int i = -7; i <= 7; i++) {
+				for(int j = -7; j <= 7; j++) {
+					TileEntity te = worldObj.getTileEntity(targetX + i, targetY, targetZ + j);
+
+					if (te instanceof TileEntityRBMKControlManual) {
+						TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
+						if(rod.color == RBMKColor.values()[color]){
+							rod.startingLevel = rod.level;
+							new_level = Math.min(1, Math.max(0, new_level));
+
+							rod.setTarget(new_level);
+							te.markDirty();
+							foundRods = true;
+						}
+					}	
+				}
+			}
+			if(foundRods)
+				return new Object[] {};
+			else
+				return new Object[] { "No rods for color "+color+" found" };
+		}
+		return new Object[] {"Color "+color+" does not exist"};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setColor(Context context, Arguments args) {
+		int x = args.checkInteger(0) - 7;
+		int y = -args.checkInteger(1) + 7;
+		int new_color = args.checkInteger(2);
+		if(new_color >= 0 && new_color <=4){
+			TileEntity te = worldObj.getTileEntity(targetX + x, targetY, targetZ + y);
+
+			if (te instanceof TileEntityRBMKControlManual) {
+				TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
+				rod.color = RBMKColor.values()[new_color];
+				te.markDirty();
+				return new Object[] {};
+			}
+			return new Object[] {"No control rod found at "+(x+7)+","+(7-y)};
+		}
+		return new Object[] {"Color "+new_color+" does not exist"};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] pressAZ5(Context context, Arguments args) {
+		boolean hasRods = false;
+		for(int i = -7; i <= 7; i++) {
+			for(int j = -7; j <= 7; j++) {
+				TileEntity te = worldObj.getTileEntity(targetX + i, targetY, targetZ + j);
+		
+				if (te instanceof TileEntityRBMKControlManual) {
+					TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
+					rod.startingLevel = rod.level;
+					rod.setTarget(0);
+					te.markDirty();
+					hasRods = true;
+				}	
+			}
+		}
+		if(hasRods){
+			return new Object[] {};
+		} else {
+			return new Object[] {"No control rods found"};
+		}
 	}
 }
