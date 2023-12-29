@@ -88,7 +88,7 @@ public class AtmoVent extends BlockDummyable implements ILookOverlay {
 		TileEntityAtmoVent tower = (TileEntityAtmoVent) te;
 
 		List<String> text = new ArrayList();
-		if(PlanetaryTraitUtil.isDimensionWithTrait(world, Hospitality.OXYNEG)) {
+		if(PlanetaryTraitUtil.isDimensionWithTraitNT(world, Hospitality.OXYNEG)) {
 			text.add(((EnumChatFormatting.RED + "ERROR: ")) + EnumChatFormatting.RESET + I18nUtil.resolveKey("CANNOT COLLECT IN VACUUM"));
 		}
 		else {

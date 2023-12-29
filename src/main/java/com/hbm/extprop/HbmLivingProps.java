@@ -257,7 +257,6 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	}
 	
 	//ATMOSPHERE//
-	/// ASBESTOS ///
 	public static int getOxy(EntityLivingBase entity) {
 		return getData(entity).oxygen;
 	}

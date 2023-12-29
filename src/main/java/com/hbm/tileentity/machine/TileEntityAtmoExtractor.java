@@ -76,11 +76,15 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 			tanks.setTankType(Fluids.CARBONDIOXIDE);
 			this.markDirty();
 			}
-		if(PlanetaryTraitUtil.isDimensionWithTrait(worldObj, Hospitality.OXYNEG)) {
+		if(PlanetaryTraitUtil.isDimensionWithTraitNT(worldObj, Hospitality.BREATHEABLE)) {
+			tanks.setTankType(Fluids.AIR);
+			this.markDirty();
+		}
+		if(PlanetaryTraitUtil.isDimensionWithTraitNT(worldObj, Hospitality.OXYNEG)) {
 			tanks.setTankType(Fluids.NONE);
 			this.markDirty();
-			return;
 		}
+
 		
 		this.sendFluidToAll(tanks, this);
 		fillFluidInit(tanks.getTankType());
