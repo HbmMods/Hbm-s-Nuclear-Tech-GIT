@@ -18,12 +18,12 @@ public class RenderAtmoVent extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glRotatef(180F, 0F, 1F, 0F);
-		
+		//TODO: fix this shit wtf
 		TileEntityAtmoExtractor atmo = (TileEntityAtmoExtractor) tileEntity;
 		switch(tileEntity.getBlockMetadata() - 10) {
 		case 2:
 			GL11.glRotatef(0F, 0F, 1F, 0F);
-			GL11.glTranslatef(0F, 0F, -1F);
+			GL11.glTranslatef(0F, 0F, -1F); 
 			break;
 		case 3:
 			GL11.glRotatef(180F, 0F, 1F, 0F);
@@ -40,15 +40,16 @@ public class RenderAtmoVent extends TileEntitySpecialRenderer {
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.atmo_vent_tex);
-		ResourceManager.atmo_vent.renderPart("cylinder");
-
+		ResourceManager.atmo_vent.renderPart("Body_Cylinder");
+		//ResourceManager.atmo_vent.renderAll();
 		
 		float rot = atmo.prevRot + (atmo.rot - atmo.prevRot) * f;
 		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0, 0);
+		//this somehow fucking works
+		GL11.glTranslated(-0.19, 0, 0.19);
 		GL11.glRotated(rot, 0, -0.5, 0);
-		GL11.glTranslated(0, 0, 0);
-		ResourceManager.atmo_vent.renderPart("Fan1");
+		GL11.glTranslated(0.19, 0, -0.19);
+		ResourceManager.atmo_vent.renderPart("Fan_Cylinder.001");
 		GL11.glPopMatrix();
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glEnable(GL11.GL_CULL_FACE);
