@@ -4009,6 +4009,7 @@ item.sat_base.name=Satellite Base
 item.sat_chip.name=Satellite ID-Chip
 item.sat_coord.name=Satellite Designator
 item.sat_designator.name=Satellite Laser Designator
+item.sat_relay.name=Satellite Radar Relay
 item.sat_foeq.name=PEAF - Mk.I FOEQ Duna Probe with experimental Nuclear Propulsion
 item.sat_gerald.name=Gerald The Construction Android
 item.sat_head_laser.name=Death Ray

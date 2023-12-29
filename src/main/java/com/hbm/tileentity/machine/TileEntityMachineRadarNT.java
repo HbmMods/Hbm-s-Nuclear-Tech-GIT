@@ -14,10 +14,15 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachineRadarNT;
 import com.hbm.inventory.gui.GUIMachineRadarNT;
 import com.hbm.inventory.gui.GUIMachineRadarNTSlots;
+import com.hbm.items.ISatChip;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemCoordinateBase;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.SatelliteSavedData;
+import com.hbm.saveddata.satellites.Satellite;
+import com.hbm.saveddata.satellites.Satellite.Interfaces;
+import com.hbm.saveddata.satellites.SatelliteLaser;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
@@ -412,6 +417,20 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			int id = data.getInteger("link");
 			ItemStack link = slots[id];
 			
+			if(link != null && link.getItem() == ModItems.sat_relay) {
+				World world = player.getEntityWorld();
+				Satellite sat = SatelliteSavedData.getData(world).getSatFromFreq(ISatChip.getFreqS(link));
+				if(sat instanceof SatelliteLaser) {
+					if(data.hasKey("launchPosX")) {
+						int x = data.getInteger("launchPosX");
+						int z = data.getInteger("launchPosZ");
+						worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+						sat.onClick(world, x, z);
+					}
+				}
+				
+				
+			}
 			if(link != null && link.getItem() == ModItems.radar_linker) {
 				BlockPos pos = ItemCoordinateBase.getPosition(link);
 				
