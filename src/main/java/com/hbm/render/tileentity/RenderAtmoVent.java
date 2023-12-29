@@ -49,6 +49,7 @@ public class RenderAtmoVent extends TileEntitySpecialRenderer {
 		GL11.glRotated(rot, 0, -0.5, 0);
 		GL11.glTranslated(0.19, 0, -0.19);
 		ResourceManager.atmo_vent.renderPart("Fan_Cylinder.001");
+
 		GL11.glPopMatrix();
 	}
 }
