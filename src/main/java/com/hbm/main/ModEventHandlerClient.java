@@ -255,6 +255,11 @@ public class ModEventHandlerClient {
 				
 				double distanceToCover = 4D * (i == 0 ? 1 : -1);
 				
+				if(distanceToCover < 0) {
+					distanceToCover *= -1;
+					yaw += 180;
+				}
+				
 				do {
 					
 					it++;

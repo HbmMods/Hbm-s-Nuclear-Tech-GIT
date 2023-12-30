@@ -14,8 +14,6 @@ import com.hbm.blocks.rail.IRailNTM.TrackGauge;
 import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.util.ParticleUtil;
-import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -57,6 +55,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 	public double renderX;
 	public double renderY;
 	public double renderZ;
+	public double cachedSpeed;
 
 	public EntityRailCarBase coupledFront;
 	public EntityRailCarBase coupledBack;
@@ -176,9 +175,20 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				this.renderX = (frontPos.xCoord + backPos.xCoord) / 2D;
 				this.renderY = (frontPos.yCoord + backPos.yCoord) / 2D;
 				this.renderZ = (frontPos.zCoord + backPos.zCoord) / 2D;
+			} else {
+				this.renderX = posX;
+				this.renderY = posY;
+				this.renderZ = posZ;
 			}
 			
 		} else {
+			
+			if(!this.isOnRail) {
+				if(this.coupledFront != null) this.coupledFront.couple(this.coupledFront.getCouplingFrom(this), null);
+				if(this.coupledBack != null) this.coupledBack.couple(this.coupledBack.getCouplingFrom(this), null);
+				this.coupledFront = null;
+				this.coupledBack = null;
+			}
 
 			if(this.coupledFront != null && this.coupledFront.isDead) {
 				this.coupledFront = null;
@@ -189,8 +199,18 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				if(this.ltu != null) this.ltu.dissolveTrain();
 			}
 			
-			if(this.ltu == null && (this.coupledFront == null || this.coupledBack == null)) {
+			if(this.ltu == null && (this.coupledFront == null || this.coupledBack == null) && this.isOnRail) {
 				LogicalTrainUnit.generateTrain(this);
+			}
+			
+			if(!this.isOnRail) {
+				Vec3 motion = Vec3.createVectorHelper(0, 0, this.cachedSpeed);
+				motion.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180D));
+				this.moveEntity(motion.xCoord, motion.yCoord - 0.04, motion.zCoord);
+				this.renderX = posX;
+				this.renderY = posY;
+				this.renderZ = posZ;
+				this.cachedSpeed *= 0.95D;
 			}
 			
 			DummyConfig[] definitions = this.getDummies();
@@ -320,6 +340,8 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			
 			if(Math.abs(speed) < 0.001) speed = 0;
 			
+			for(EntityRailCarBase car : ltu.trains) car.cachedSpeed = speed;
+			
 			if(ltu.trains.length == 1) {
 
 				EntityRailCarBase train = ltu.trains[0];
@@ -388,7 +410,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 	
 	public void derail() {
 		isOnRail = false;
-		this.setDead();
+		//this.setDead();
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -756,10 +778,9 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 		 */
 		/** Determines the "front" wagon based on the movement and moves it, then moves all other wagons towards that */
 		public void moveTrainByApproach(double speed) {
-			boolean forward = speed > 0;
 			EntityRailCarBase previous = null;
-			
 			EntityRailCarBase first = this.trains[0];
+			boolean forward = speed > 0;
 			boolean order = forward ^ first.getCouplingFrom(null) == TrainCoupling.BACK;
 			
 			for(int i = order ? 0 : this.trains.length - 1; order ? i < this.trains.length : i >= 0; i += order ? 1 : -1) {
@@ -768,8 +789,6 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				if(previous == null) {
 					
 					if(first == current) speed *= -1;
-					
-					ParticleUtil.spawnGasFlame(first.worldObj, current.posX, current.posY + 2, current.posZ, 0, 0.1, 0);
 					
 					boolean inReverse = first.getCouplingFrom(null) == current.getCouplingFrom(null);
 					int sigNum = inReverse ? 1 : -1;

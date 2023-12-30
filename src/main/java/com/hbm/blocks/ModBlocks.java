@@ -1175,6 +1175,7 @@ public class ModBlocks {
 	public static Block rail_large_ramp;
 	public static Block rail_large_buffer;
 	public static Block rail_large_switch;
+	public static Block rail_large_switch_flipped;
 	
 	public static Block statue_elb;
 	public static Block statue_elb_g;
@@ -2253,6 +2254,7 @@ public class ModBlocks {
 		rail_large_ramp = new RailStandardRamp().setBlockName("rail_large_ramp").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_straight");
 		rail_large_buffer = new RailStandardBuffer().setBlockName("rail_large_buffer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_buffer");
 		rail_large_switch = new RailStandardSwitch().setBlockName("rail_large_switch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_straight");
+		rail_large_switch_flipped = new RailStandardSwitchFlipped().setBlockName("rail_large_switch_flipped").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_straight");
 
 		crate = new BlockCrate(Material.wood).setBlockName("crate").setStepSound(Block.soundTypeWood).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.consumableTab).setBlockTextureName(RefStrings.MODID + ":crate");
 		crate_weapon = new BlockCrate(Material.wood).setBlockName("crate_weapon").setStepSound(Block.soundTypeWood).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.consumableTab).setBlockTextureName(RefStrings.MODID + ":crate_weapon");
@@ -3554,6 +3556,7 @@ public class ModBlocks {
 		register(rail_large_ramp);
 		register(rail_large_buffer);
 		register(rail_large_switch);
+		register(rail_large_switch_flipped);
 		
 		//Crate
 		GameRegistry.registerBlock(crate, crate.getUnlocalizedName());
