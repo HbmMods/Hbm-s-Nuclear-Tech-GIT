@@ -14,6 +14,7 @@ import com.hbm.blocks.rail.IRailNTM.TrackGauge;
 import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.util.ParticleUtil;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
@@ -356,11 +357,9 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				ltu.moveTrainByApproach(speed);
 			}
 			
-			if(ltu.trains.length != 1) {
-				//ltu.pushForce *= 0.95;
-				ltu.pushForce = 0;
-				ltu.collideTrain(speed);
-			}
+			//ltu.pushForce *= 0.95;
+			ltu.pushForce = 0;
+			ltu.collideTrain(speed);
 		}
 	}
 
@@ -746,24 +745,37 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			return totalSpeed;
 		}
 		
+		/*
+		 * This method has no rhyme or reason behind it. Nothing of this was calculated, instead it was an old system that worked with older constraints,
+		 * which was retrofitted with a slightly newer system and beaten into submission for two consecutive hours until it yielded the results it should.
+		 * Booleans are flipped back and forth based on seemingly random conditions, numbers are inverted and then inverted again and finally smashed into
+		 * the rail system in the hopes that it would make trains work. My apologies extend towards Bob in the future who will inevitably have to rewrite this
+		 * abhorrence because of some constraint change which will cause the entire system to break. Part of me wishes to never touch the train code ever again,
+		 * to abandon the idea and to ban the annoying people on Discord who keep asking about it. Another part wants me to slam my head against this project
+		 * until either it or my skull gives way; and considering I got this far, it appears as if this side is the one that is winning.
+		 */
 		/** Determines the "front" wagon based on the movement and moves it, then moves all other wagons towards that */
 		public void moveTrainByApproach(double speed) {
-			boolean forward = speed < 0;
-			speed = Math.abs(speed);
+			boolean forward = speed > 0;
 			EntityRailCarBase previous = null;
 			
 			EntityRailCarBase first = this.trains[0];
+			boolean order = forward ^ first.getCouplingFrom(null) == TrainCoupling.BACK;
 			
-			for(int i = !forward ? 0 : this.trains.length - 1; !forward ? i < this.trains.length : i >= 0; i += !forward ? 1 : -1) {
+			for(int i = order ? 0 : this.trains.length - 1; order ? i < this.trains.length : i >= 0; i += order ? 1 : -1) {
 				EntityRailCarBase current = this.trains[i];
 				
 				if(previous == null) {
+					
+					if(first == current) speed *= -1;
+					
+					ParticleUtil.spawnGasFlame(first.worldObj, current.posX, current.posY + 2, current.posZ, 0, 0.1, 0);
 					
 					boolean inReverse = first.getCouplingFrom(null) == current.getCouplingFrom(null);
 					int sigNum = inReverse ? 1 : -1;
 					BlockPos anchor = current.getCurrentAnchorPos();
 					
-					/*Vec3 frontPos = current.getRelPosAlongRail(anchor, current.getLengthSpan(), new MoveContext(RailCheckType.FRONT));
+					Vec3 frontPos = current.getRelPosAlongRail(anchor, (speed + current.getLengthSpan()) * -sigNum, new MoveContext(RailCheckType.FRONT, current.getCollisionSpan() - current.getLengthSpan()));
 					
 					if(frontPos == null) {
 						current.derail();
@@ -771,43 +783,16 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 						return;
 					} else {
 						anchor = current.getCurrentAnchorPos(); //reset origin to new position
-						Vec3 corePos = current.getRelPosAlongRail(anchor, speed * sigNum, new MoveContext(RailCheckType.CORE));
+						Vec3 corePos = current.getRelPosAlongRail(anchor, speed * -sigNum, new MoveContext(RailCheckType.CORE, 0));
 						current.setPosition(corePos.xCoord, corePos.yCoord, corePos.zCoord);
-						Vec3 backPos = current.getRelPosAlongRail(anchor, -current.getLengthSpan(), new MoveContext(RailCheckType.BACK));
+						Vec3 backPos = current.getRelPosAlongRail(anchor, (speed - current.getLengthSpan()) * -sigNum, new MoveContext(RailCheckType.BACK, current.getCollisionSpan() - current.getLengthSpan()));
 
 						if(frontPos == null || backPos == null) {
 							current.derail();
 							this.dissolveTrain();
 							return;
 						} else {
-							setRenderPos(current, frontPos, backPos);
-						}
-					}*/
-					
-					Pair<Double, RailCheckType>[] checks;
-					double dist = speed * sigNum;
-					
-					if(forward) {
-						checks = new Pair[] {
-								new Pair(dist + current.getLengthSpan(), RailCheckType.FRONT),
-								new Pair(dist, RailCheckType.CORE),
-								new Pair(dist - current.getLengthSpan(), RailCheckType.BACK)
-						};
-					} else {
-						checks = new Pair[] {
-								new Pair(dist - current.getLengthSpan(), RailCheckType.BACK),
-								new Pair(dist, RailCheckType.CORE),
-								new Pair(dist + current.getLengthSpan(), RailCheckType.FRONT)
-						};
-					}
-					
-					double brake = 0;
-					
-					for(Pair<Double, RailCheckType> check : checks) {
-						MoveContext ctx = new MoveContext(check.getValue(), current.getCollisionSpan() - current.getLengthSpan());
-						current.getRelPosAlongRail(anchor, check.getKey() - (brake * Math.signum(check.getKey())), ctx);
-						if(ctx.collision) {
-							brake += ctx.overshoot;
+							setRenderPos(current, inReverse ? backPos : frontPos, inReverse ? frontPos : backPos);
 						}
 					}
 					
