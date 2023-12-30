@@ -29,7 +29,7 @@ public class SkyProviderMoon extends IRenderHandler {
 	private static final ResourceLocation kerbin = new ResourceLocation("hbm:textures/misc/space/kerbin.png");
 	private static final ResourceLocation planet = new ResourceLocation("hbm:textures/misc/space/planet.png");
 	private static final ResourceLocation flash = new ResourceLocation("hbm:textures/misc/space/flare.png");
-	private static final ResourceLocation flash2 = new ResourceLocation("hbm:textures/misc/space/SunSpikes.png");
+	private static final ResourceLocation flash2 = new ResourceLocation("hbm:textures/misc/space/sunspike.png");
 	private static final ResourceLocation night = new ResourceLocation("hbm:textures/misc/space/night.png");
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/space/star_digamma.png");
 

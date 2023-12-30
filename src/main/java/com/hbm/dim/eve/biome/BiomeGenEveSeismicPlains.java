@@ -12,7 +12,7 @@ import net.minecraftforge.common.BiomeDictionary;
 
 public class BiomeGenEveSeismicPlains extends BiomeGenBase {
 	//TODO: Geysers, Cracks, Vents, and some other shit
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.115F, 0.05F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.270F, 0.3F);
 
     //TODO: avoid doing an extra planets and make each planet unique and cool.
 	public BiomeGenEveSeismicPlains(int id) {
