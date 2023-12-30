@@ -57,7 +57,6 @@ public class ModDamageSource extends DamageSource {
 
 	public static DamageSource oiledup = (new DamageSource("oiledup")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource run = (new DamageSource("run")).setDamageIsAbsolute().setDamageBypassesArmor();
-	public static DamageSource nitan = (new DamageSource("nitan")).setDamageIsAbsolute().setDamageBypassesArmor().setDamageAllowedInCreativeMode();;
 
 
 

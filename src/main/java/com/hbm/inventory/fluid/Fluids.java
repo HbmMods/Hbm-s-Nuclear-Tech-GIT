@@ -125,9 +125,7 @@ public class Fluids {
 	public static FluidType HYDRAZINE;
 	public static FluidType BLOODGAS;
 	public static FluidType HCL;
-	public static FluidType NITRIC_ACID;
 	public static FluidType SOLVENT;			//oranic solvent in fact
-	public static FluidType BLOOD;				//BLOOD ORB! BLOOD ORB! BLOOD ORB!
 	public static FluidType BLOOD_HOT;
 	public static FluidType PHEROMONE;
 	public static FluidType PHEROMONE_M;
