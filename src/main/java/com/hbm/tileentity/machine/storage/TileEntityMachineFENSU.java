@@ -35,7 +35,7 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
 			
 			//////////////////////////////////////////////////////////////////////
-			this.transmitPower();
+			this.transmitPowerFairly();
 			//////////////////////////////////////////////////////////////////////
 			
 			byte comp = this.getComparatorPower();
@@ -142,8 +142,8 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	}
 
 	@Override
-	public long getTransferWeight() {
-		return Math.min(Math.max(this.getMaxPower() - getPower(), 0), maxTransfer);
+	public long getMaxTransfer() {
+		return maxTransfer;
 	}
 	
 	public float getSpeed() {

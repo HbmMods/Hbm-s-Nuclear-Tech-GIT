@@ -31,11 +31,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -283,6 +285,9 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 
 		Block b = worldObj.getBlock(x, y, z);
 
+		if((b == Blocks.water || b == Blocks.flowing_water) && worldObj.getBlockMetadata(x, y, z) == 0)
+			return true;
+
 		if(b == ModBlocks.block_lead || b == ModBlocks.block_desh || b == ModBlocks.reactor_research || b == ModBlocks.machine_reactor_breeding)
 			return true;
 
@@ -463,46 +468,41 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 		return "research_reactor";
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTemp(Context context, Arguments args) { // or getHeat, whatever.
 		return new Object[] {heat};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getLevel(Context context, Arguments args) {
 		return new Object[] {level * 100};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTargetLevel(Context context, Arguments args) {
 		return new Object[] {targetLevel};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFlux(Context context, Arguments args) {
 		return new Object[] {totalFlux};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {heat, level, targetLevel, totalFlux};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setLevel(Context context, Arguments args) {
 		double newLevel = args.checkDouble(0)/100.0;
-		if (newLevel > 1.0) {
-			newLevel = 1.0;
-		} else if (newLevel < 0.0) {
-			newLevel = 0.0;
-		}
-		targetLevel = newLevel;
+		targetLevel = MathHelper.clamp_double(newLevel, 0, 100.0);
 		return new Object[] {};
 	}
 

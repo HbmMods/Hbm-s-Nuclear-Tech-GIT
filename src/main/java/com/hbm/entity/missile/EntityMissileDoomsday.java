@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.hbm.explosion.ExplosionLarge;
 
+import api.hbm.entity.IRadarDetectableNT;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class EntityMissileDoomsday extends EntityMissileBaseAdvanced {
+public class EntityMissileDoomsday extends EntityMissileBaseNT {
 
 	public EntityMissileDoomsday(World p_i1582_1_) {
 		super(p_i1582_1_);
@@ -107,5 +108,15 @@ public class EntityMissileDoomsday extends EntityMissileBaseAdvanced {
 	@Override
 	public RadarTargetType getTargetType() {
 		return RadarTargetType.MISSILE_TIER4;
+	}
+
+	@Override
+	public String getUnlocalizedName() {
+		return "radar.target.doomsday";
+	}
+
+	@Override
+	public int getBlipLevel() {
+		return IRadarDetectableNT.TIER4;
 	}
 }

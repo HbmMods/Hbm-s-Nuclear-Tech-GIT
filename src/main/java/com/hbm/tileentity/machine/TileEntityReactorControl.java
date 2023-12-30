@@ -256,56 +256,35 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 		return "reactor_control";
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] isLinked(Context context, Arguments args) {
 		return new Object[] {isLinked};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getReactor(Context context, Arguments args) {
 		return new Object[] {getDisplayData()};
 	}
 
-	@Callback
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setParams(Context context, Arguments args) { //i hate my life
 		int newFunction = args.checkInteger(0);
-		double newMaxheat = args.checkDouble(1);
-		double newMinheat = args.checkDouble(2);
-		double newMaxlevel = args.checkDouble(3)/100.0;
-		double newMinlevel = args.checkDouble(4)/100.0;
-		if (newFunction > 2) {    //no more out of bounds for you (and yes there's integer values for functions, sue me)
-			newFunction = 0;
-		} else if (newFunction < 0) {
-			newFunction = 0;
-		}
-		if (newMaxheat < 0.0) {
-			newMaxheat = 0.0;
-		}
-		if (newMinheat < 0.0) {
-			newMinheat = 0.0;
-		}
-		if (newMaxlevel < 0.0) {
-			newMaxlevel = 0.0;
-		} else if (newMaxlevel > 1.0) {
-			newMaxlevel = 1.0;
-		}
-		if (newMinlevel < 0.0) {
-			newMinlevel = 0.0;
-		} else if (newMinlevel > 1.0) {
-			newMinlevel = 1.0;
-		}
-		function = RodFunction.values()[newFunction];
-		heatUpper = newMaxheat;
-		heatLower = newMinheat;
-		levelUpper = newMaxlevel;
-		levelLower = newMinlevel;
+		double newMaxHeat = args.checkDouble(1);
+		double newMinHeat = args.checkDouble(2);
+		double newMaxLevel = args.checkDouble(3)/100.0;
+		double newMinLevel = args.checkDouble(4)/100.0;
+		function = RodFunction.values()[MathHelper.clamp_int(newFunction, 0, 2)];
+		heatUpper = MathHelper.clamp_double(newMaxHeat, 0, 9999);
+		heatLower = MathHelper.clamp_double(newMinHeat, 0, 9999);
+		levelUpper = MathHelper.clamp_double(newMaxLevel, 0, 1);
+		levelLower = MathHelper.clamp_double(newMinLevel, 0, 1);
 		return new Object[] {};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getParams(Context context, Arguments args) {
 		return new Object[] {function.ordinal(), heatUpper, heatLower, levelUpper, levelLower};

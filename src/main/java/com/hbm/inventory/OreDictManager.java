@@ -98,6 +98,8 @@ public class OreDictManager {
 
 	public static final String KEY_CIRCUIT_BISMUTH = "circuitVersatile";
 
+	public static final String KEY_GLYPHID_MEAT = "glyphidMeat";
+
 	/*
 	 * MATERIALS
 	 */
@@ -203,6 +205,7 @@ public class OreDictManager {
 	public static final DictFrame PET = new DictFrame("PET");
 	public static final DictFrame PC = new DictFrame("Polycarbonate");
 	public static final DictFrame PVC = new DictFrame("PVC");
+	public static final DictFrame LATEX = new DictFrame("Latex");
 	public static final DictFrame RUBBER = new DictFrame("Rubber");
 	public static final DictFrame MAGTUNG = new DictFrame("MagnetizedTungsten");
 	public static final DictFrame CMB = new DictFrame("CMBSteel");
@@ -302,6 +305,8 @@ public class OreDictManager {
 	/*
 	 * COLLECTIONS
 	 */
+	/** Any form of elastic polymer */
+	public static final DictGroup ANY_RUBBER = new DictGroup("AnyRubber", LATEX, RUBBER);	
 	/** Any post oil polymer like teflon ("polymer") or bakelite */
 	public static final DictGroup ANY_PLASTIC = new DictGroup("AnyPlastic", POLYMER, BAKELITE);		//using the Any prefix means that it's just the secondary prefix, and that shape prefixes are applicable
 	/** Any post vacuum polymer like PET or PVC */
@@ -322,6 +327,7 @@ public class OreDictManager {
 	/** Any special post-RBMK gating material, namely bismuth and arsenic */
 	public static final DictFrame ANY_BISMOID = new DictFrame("AnyBismoid");
 	public static final DictFrame ANY_ASH = new DictFrame("Ash");
+
 	
 	public static void registerOres() {
 
@@ -397,7 +403,7 @@ public class OreDictManager {
 		TCALLOY																.ingot(ingot_tcalloy)												.dust(powder_tcalloy)											.block(block_tcalloy);
 		CDALLOY																.ingot(ingot_cdalloy)																												.block(block_cdalloy);
 		PB			.nugget(nugget_lead)									.ingot(ingot_lead)													.dust(powder_lead)				.plate(plate_lead)				.block(block_lead)			.ore(ore_lead, ore_meteor_lead);
-		BI			.nugget(nugget_bismuth)									.ingot(ingot_bismuth)												.dust(powder_bismuth);
+		BI			.nugget(nugget_bismuth)		.billet(billet_bismuth)		.ingot(ingot_bismuth)												.dust(powder_bismuth);
 		AS			.nugget(nugget_arsenic)									.ingot(ingot_arsenic);
 		CA																	.ingot(ingot_calcium)												.dust(powder_calcium);
 		CD																	.ingot(ingot_cadmium)												.dust(powder_cadmium)											.block(block_cadmium);
@@ -411,6 +417,7 @@ public class OreDictManager {
 		DURA																.ingot(ingot_dura_steel)											.dust(powder_dura_steel)										.block(block_dura_steel);
 		POLYMER																.ingot(ingot_polymer)												.dust(powder_polymer)											.block(block_polymer);
 		BAKELITE															.ingot(ingot_bakelite)												.dust(powder_bakelite)											.block(block_bakelite);
+		LATEX									.gem(ball_resin)			.ingot(ingot_biorubber);
 		RUBBER																.ingot(ingot_rubber)																												.block(block_rubber);
 		//PET																	.ingot(ingot_pet);
 		PC																	.ingot(ingot_pc);
@@ -463,7 +470,7 @@ public class OreDictManager {
 		 * PHOSPHORUS
 		 */
 		P_WHITE	.hot(5)	.ingot(ingot_phosphorus)	.block(block_white_phosphorus);
-		P_RED	.hot(2)	.dust(powder_fire)			.block(block_red_phosphorus);
+		P_RED			.dust(powder_fire)			.block(block_red_phosphorus);
 		
 		/*
 		 * RARE METALS
@@ -548,12 +555,19 @@ public class OreDictManager {
 		 */
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_bismuth);
 		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_arsenic);
-		
+
+		/*
+		 * GLYPHID M E A T
+		 */
+		OreDictionary.registerOre(KEY_GLYPHID_MEAT, new ItemStack(glyphid_meat));
+		OreDictionary.registerOre(KEY_GLYPHID_MEAT, new ItemStack(glyphid_meat_grilled));
+
 		for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.smeltable == SmeltingBehavior.SMELTABLE) {
 				if(mat.shapes.contains(MaterialShapes.CASTPLATE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.CASTPLATE.name() + name, new ItemStack(ModItems.plate_cast, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.WELDEDPLATE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.WELDEDPLATE.name() + name, new ItemStack(ModItems.plate_welded, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.HEAVY_COMPONENT)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.HEAVY_COMPONENT.name() + name, new ItemStack(ModItems.heavy_component, 1, mat.id));
+				if(mat.shapes.contains(MaterialShapes.DENSEWIRE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.DENSEWIRE.name() + name, new ItemStack(ModItems.wire_dense, 1, mat.id));
 			}
 		}
 		
@@ -627,6 +641,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("dyeGray", fromOne(powder_ash, EnumAshType.MISC));
 		OreDictionary.registerOre("dyeBrown", fromOne(powder_ash, EnumAshType.FLY));
 		OreDictionary.registerOre("dyeBlack", fromOne(powder_ash, EnumAshType.SOOT));
+		OreDictionary.registerOre("dyeMagenta", fromOne(powder_ash, EnumAshType.FULLERENE));
 		OreDictionary.registerOre("dye", new ItemStack(powder_ash, 1, OreDictionary.WILDCARD_VALUE));
 
 		OreDictionary.registerOre("blockGlass", glass_boron);
@@ -650,6 +665,7 @@ public class OreDictManager {
 	}
 	
 	public static void registerGroups() {
+		ANY_RUBBER.addPrefix(INGOT, true);
 		ANY_PLASTIC.addPrefix(INGOT, true).addPrefix(DUST, true).addPrefix(BLOCK, true);
 		ANY_HARDPLASTIC.addPrefix(INGOT, true);
 		ANY_RESISTANTALLOY.addPrefix(INGOT, true).addPrefix(DUST, true).addPrefix(PLATECAST, true).addPrefix(PLATEWELDED, true).addPrefix(HEAVY_COMPONENT, true).addPrefix(BLOCK, true);
@@ -702,6 +718,7 @@ public class OreDictManager {
 		public String plateCast() {		return PLATECAST		+ mats[0]; }
 		public String plateWelded() {	return PLATEWELDED		+ mats[0]; }
 		public String heavyComp() {		return HEAVY_COMPONENT	+ mats[0]; }
+		public String wireDense() {		return WIREDENSE		+ mats[0]; }
 		public String billet() {		return BILLET			+ mats[0]; }
 		public String block() {			return BLOCK			+ mats[0]; }
 		public String ore() {			return ORE				+ mats[0]; }
@@ -958,6 +975,7 @@ public class OreDictManager {
 		public String plateCast() {		return PLATECAST		+ groupName; }
 		public String plateWelded() {	return PLATEWELDED		+ groupName; }
 		public String heavyComp() {		return HEAVY_COMPONENT	+ groupName; }
+		public String wireDense() {		return WIREDENSE		+ groupName; }
 		public String billet() {		return BILLET			+ groupName; }
 		public String block() {			return BLOCK			+ groupName; }
 		public String ore() {			return ORE				+ groupName; }

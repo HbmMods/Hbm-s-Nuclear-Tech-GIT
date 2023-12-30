@@ -8,6 +8,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBookLore;
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -137,6 +138,48 @@ public class LootGenerator {
 						loot.addItem(ModItems.ammo_nuke.stackFromEnum(nuke), -0.375 + i * 0.25, 0, -0.375 + j * 0.25);
 					}
 				}
+			}
+		}
+	}
+	
+	public static void lootBones(World world, int x, int y, int z) {
+		
+		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
+		
+		if(loot != null && loot.items.isEmpty()) {
+			
+			int limit = world.rand.nextInt(3) + 3;
+			for(int i = 0; i < limit; i++) {
+				addItemWithDeviation(loot, world.rand, new ItemStack(Items.bone), world.rand.nextDouble() - 0.5, i * 0.03125, world.rand.nextDouble() - 0.5);
+			}
+		}
+	}
+	
+	public static void lootGlyphidHive(World world, int x, int y, int z) {
+		
+		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
+		
+		if(loot != null && loot.items.isEmpty()) {
+			
+			int limit = world.rand.nextInt(3) + 3;
+			for(int i = 0; i < limit; i++) {
+				
+				ItemStack stack = new ItemStack(ModItems.ammo_12gauge, 4);
+				
+				switch(world.rand.nextInt(11)) {
+				case 0: stack = new ItemStack(ModItems.steel_plate); break;
+				case 1: stack = new ItemStack(ModItems.gun_lever_action); break;
+				case 2: stack = new ItemStack(ModItems.grenade_if_generic); break;
+				case 3:
+				case 4: stack = new ItemStack(ModItems.bottle_nuka, 1 + world.rand.nextInt(2)); break;
+				case 5:
+				case 6: stack = new ItemStack(ModItems.ingot_steel, 3 + world.rand.nextInt(10)); break;
+				case 7: stack = new ItemStack(ModItems.steel_pickaxe); break;
+				case 8: stack = new ItemStack(ModItems.gas_mask_m65); break;
+				case 9: stack = new ItemStack(ModItems.ammo_20gauge, 8); break;
+				}
+				
+				addItemWithDeviation(loot, world.rand, stack, world.rand.nextDouble() - 0.5, i * 0.03125, world.rand.nextDouble() - 0.5);
 			}
 		}
 	}

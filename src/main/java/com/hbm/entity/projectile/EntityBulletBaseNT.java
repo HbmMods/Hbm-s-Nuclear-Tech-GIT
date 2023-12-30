@@ -13,6 +13,14 @@ import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
+import com.hbm.explosion.vanillant.standard.BlockProcessorNoDamage;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
@@ -370,8 +378,8 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 					data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
 					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, living.posX, living.posY + living.height - head, living.posZ), new TargetPoint(living.dimension, living.posX, living.posY, living.posZ, 50));
 					worldObj.playSoundEffect(victim.posX, victim.posY, victim.posZ, "mob.zombie.woodbreak", 1.0F, 0.95F + rand.nextFloat() * 0.2F);
-    			}
-    		}
+				}
+			}
 		}
 	}
 	
@@ -414,8 +422,17 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		if(config.jolt > 0 && !worldObj.isRemote)
     		ExplosionLarge.jolt(worldObj, posX, posY, posZ, config.jolt, 150, 0.25);
 		
-		if(config.explosive > 0 && !worldObj.isRemote)
-			worldObj.newExplosion(this, posX, posY, posZ, config.explosive, config.incendiary > 0, config.blockDamage);
+		if(config.explosive > 0 && !worldObj.isRemote) {
+			//worldObj.newExplosion(this.thrower, posX, posY, posZ, config.explosive, config.incendiary > 0, config.blockDamage);
+			ExplosionVNT vnt = new ExplosionVNT(worldObj, posX, posY, posZ, config.explosive, this.thrower);
+			vnt.setBlockAllocator(new BlockAllocatorStandard());
+			if(config.blockDamage)	vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(config.incendiary > 0 ? new BlockMutatorFire() : null));
+			else					vnt.setBlockProcessor(new BlockProcessorNoDamage().withBlockEffect(config.incendiary > 0 ? new BlockMutatorFire() : null));
+			vnt.setEntityProcessor(new EntityProcessorStandard().allowSelfDamage());
+			vnt.setPlayerProcessor(new PlayerProcessorStandard());
+			vnt.setSFX(new ExplosionEffectStandard());
+			vnt.explode();
+		}
 		
 		if(config.shrapnel > 0 && !worldObj.isRemote)
 			ExplosionLarge.spawnShrapnels(worldObj, posX, posY, posZ, config.shrapnel);

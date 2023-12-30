@@ -91,6 +91,11 @@ public class BlockDoorGeneric extends BlockDummyable {
 		//	return;
 		//super.addCollisionBoxesToList(worldIn, x, y, z, entityBox, collidingBoxes, entityIn);
 	}
+
+	@Override //should fix AI pathfinding
+	public boolean getBlocksMovement(IBlockAccess world, int x, int y, int z) { //btw the method name is the exact opposite of that it's doing, check net.minecraft.pathfinding.PathNavigate#512
+		return hasExtra(world.getBlockMetadata(x, y, z)); //if it's open
+	}
 	
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block blockIn){

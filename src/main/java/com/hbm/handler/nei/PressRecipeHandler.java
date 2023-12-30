@@ -110,7 +110,7 @@ public class PressRecipeHandler extends TemplateRecipeHandler {
 			
 			if(in.matchesRecipe(ingredient, true))
 				this.arecipes.add(new SmeltingSet(ItemStamp.stamps.get(recipe.getKey().getValue()), new ComparableStack(ingredient), recipe.getValue()));
-			else if(ingredient.getItem() instanceof ItemStamp && ((ItemStamp)ingredient.getItem()).type == stamp)
+			else if(ingredient.getItem() instanceof ItemStamp && ((ItemStamp)ingredient.getItem()).getStampType(ingredient.getItem(), ingredient.getItemDamage()) == stamp)
 				this.arecipes.add(new SmeltingSet(ingredient, recipe.getKey().getKey(), recipe.getValue()));
 		}
 	}

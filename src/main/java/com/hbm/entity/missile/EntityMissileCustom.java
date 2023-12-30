@@ -21,77 +21,25 @@ import com.hbm.items.weapon.ItemMissile.WarheadType;
 import com.hbm.main.MainRegistry;
 
 import api.hbm.entity.IRadarDetectable;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
+import api.hbm.entity.IRadarDetectableNT;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.common.ForgeChunkManager.Ticket;
-import net.minecraftforge.common.ForgeChunkManager.Type;
 
-public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarDetectable {
+public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLoader, IRadarDetectable {
 
-	int startX;
-	int startZ;
-	int targetX;
-	int targetZ;
-	double velocity;
-	double decelY;
-	double accelXZ;
-	float fuel;
-	float consumption;
-	private Ticket loaderTicket;
-	public int health = 50;
-	MissileStruct template;
+	protected float fuel;
+	protected float consumption;
 
-	public EntityMissileCustom(World p_i1582_1_) {
-		super(p_i1582_1_);
-		this.ignoreFrustumCheck = true;
-		startX = (int) posX;
-		startZ = (int) posZ;
-		targetX = (int) posX;
-		targetZ = (int) posZ;
-	}
-
-	public boolean canBeCollidedWith() {
-		return true;
-	}
-
-	public boolean attackEntityFrom(DamageSource p_70097_1_, float p_70097_2_) {
-		if(this.isEntityInvulnerable()) {
-			return false;
-		} else {
-			if(!this.isDead && !this.worldObj.isRemote) {
-				health -= p_70097_2_;
-
-				if(this.health <= 0) {
-					this.setDead();
-					this.killMissile();
-				}
-			}
-
-			return true;
-		}
-	}
-
-	private void killMissile() {
-		ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
-		ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
+	public EntityMissileCustom(World world) {
+		super(world);
 	}
 
 	public EntityMissileCustom(World world, float x, float y, float z, int a, int b, MissileStruct template) {
 		super(world);
 		this.ignoreFrustumCheck = true;
-		/*
-		 * this.posX = x; this.posY = y; this.posZ = z;
-		 */
 		this.setLocationAndAngles(x, y, z, 0, 0);
 		startX = (int) x;
 		startZ = (int) z;
@@ -99,21 +47,19 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 		targetZ = b;
 		this.motionY = 2;
 
-		this.template = template;
-
-		this.dataWatcher.updateObject(9, Item.getIdFromItem(template.warhead));
-		this.dataWatcher.updateObject(10, Item.getIdFromItem(template.fuselage));
-		if(template.fins != null)
-			this.dataWatcher.updateObject(11, Item.getIdFromItem(template.fins));
-		else
-			this.dataWatcher.updateObject(11, Integer.valueOf(0));
-		this.dataWatcher.updateObject(12, Item.getIdFromItem(template.thruster));
-
 		Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
 		accelXZ = decelY = 1 / vector.lengthVector();
 		decelY *= 2;
+		velocity = 0;
 
-		velocity = 0.0;
+		this.dataWatcher.updateObject(9, Item.getIdFromItem(template.warhead));
+		this.dataWatcher.updateObject(10, Item.getIdFromItem(template.fuselage));
+		this.dataWatcher.updateObject(12, Item.getIdFromItem(template.thruster));
+		if(template.fins != null) {
+			this.dataWatcher.updateObject(11, Item.getIdFromItem(template.fins));
+		} else {
+			this.dataWatcher.updateObject(11, Integer.valueOf(0));
+		}
 
 		ItemMissile fuselage = (ItemMissile) template.fuselage;
 		ItemMissile thruster = (ItemMissile) template.thruster;
@@ -125,43 +71,39 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 	}
 
 	@Override
-	protected void entityInit() {
-		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
-		this.dataWatcher.addObject(8, Integer.valueOf(this.health));
-
-		if(template != null) {
-			this.dataWatcher.addObject(9, Integer.valueOf(Item.getIdFromItem(template.warhead)));
-			this.dataWatcher.addObject(10, Integer.valueOf(Item.getIdFromItem(template.fuselage)));
-
-			if(template.fins != null)
-				this.dataWatcher.addObject(11, Integer.valueOf(Item.getIdFromItem(template.fins)));
-			else
-				this.dataWatcher.addObject(11, Integer.valueOf(0));
-
-			this.dataWatcher.addObject(12, Integer.valueOf(Item.getIdFromItem(template.thruster)));
-		} else {
-			this.dataWatcher.addObject(9, Integer.valueOf(0));
-			this.dataWatcher.addObject(10, Integer.valueOf(0));
-			this.dataWatcher.addObject(11, Integer.valueOf(0));
-			this.dataWatcher.addObject(12, Integer.valueOf(0));
+	protected void killMissile() {
+		ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
+		ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
+	}
+	
+	@Override
+	public void onUpdate() {
+		
+		if(!worldObj.isRemote) {
+			if(this.hasPropulsion()) this.fuel -= this.consumption;
 		}
+		
+		super.onUpdate();
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound nbt) {
-		motionX = nbt.getDouble("moX");
-		motionY = nbt.getDouble("moY");
-		motionZ = nbt.getDouble("moZ");
-		posX = nbt.getDouble("poX");
-		posY = nbt.getDouble("poY");
-		posZ = nbt.getDouble("poZ");
-		decelY = nbt.getDouble("decel");
-		accelXZ = nbt.getDouble("accel");
-		targetX = nbt.getInteger("tX");
-		targetZ = nbt.getInteger("tZ");
-		startX = nbt.getInteger("sX");
-		startZ = nbt.getInteger("sZ");
-		velocity = nbt.getInteger("veloc");
+	public boolean hasPropulsion() {
+		return this.fuel > 0;
+	}
+
+	@Override
+	protected void entityInit() {
+		super.entityInit();
+		this.dataWatcher.addObject(8, Integer.valueOf(this.health));
+		this.dataWatcher.addObject(9, Integer.valueOf(0));
+		this.dataWatcher.addObject(10, Integer.valueOf(0));
+		this.dataWatcher.addObject(11, Integer.valueOf(0));
+		this.dataWatcher.addObject(12, Integer.valueOf(0));
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		super.readEntityFromNBT(nbt);
 		fuel = nbt.getFloat("fuel");
 		consumption = nbt.getFloat("consumption");
 		this.dataWatcher.updateObject(9, nbt.getInteger("warhead"));
@@ -171,20 +113,8 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound nbt) {
-		nbt.setDouble("moX", motionX);
-		nbt.setDouble("moY", motionY);
-		nbt.setDouble("moZ", motionZ);
-		nbt.setDouble("poX", posX);
-		nbt.setDouble("poY", posY);
-		nbt.setDouble("poZ", posZ);
-		nbt.setDouble("decel", decelY);
-		nbt.setDouble("accel", accelXZ);
-		nbt.setInteger("tX", targetX);
-		nbt.setInteger("tZ", targetZ);
-		nbt.setInteger("sX", startX);
-		nbt.setInteger("sZ", startZ);
-		nbt.setDouble("veloc", velocity);
+	public void writeEntityToNBT(NBTTagCompound nbt) {
+		super.writeEntityToNBT(nbt);
 		nbt.setFloat("fuel", fuel);
 		nbt.setFloat("consumption", consumption);
 		nbt.setInteger("warhead", this.dataWatcher.getWatchableObjectInt(9));
@@ -192,121 +122,28 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 		nbt.setInteger("fins", this.dataWatcher.getWatchableObjectInt(11));
 		nbt.setInteger("thruster", this.dataWatcher.getWatchableObjectInt(12));
 	}
+	
+	@Override
+	protected void spawnContrail() {
 
-	protected void rotation() {
-		float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-		this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
+		Vec3 v = Vec3.createVectorHelper(motionX, motionY, motionZ).normalize();
+		String smoke = "";
+		ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(10));
+		FuelType type = (FuelType) part.attributes[0];
 
-		for(this.rotationPitch = (float) (Math.atan2(this.motionY, f2) * 180.0D / Math.PI) - 90; this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
-			;
+		switch(type) {
+		case BALEFIRE: smoke = "exBalefire"; break;
+		case HYDROGEN: smoke = "exHydrogen"; break;
+		case KEROSENE: smoke = "exKerosene"; break;
+		case SOLID: smoke = "exSolid"; break;
+		case XENON: break;
 		}
 
-		while(this.rotationPitch - this.prevRotationPitch >= 180.0F) {
-			this.prevRotationPitch += 360.0F;
-		}
-
-		while(this.rotationYaw - this.prevRotationYaw < -180.0F) {
-			this.prevRotationYaw -= 360.0F;
-		}
-
-		while(this.rotationYaw - this.prevRotationYaw >= 180.0F) {
-			this.prevRotationYaw += 360.0F;
-		}
+		if(!smoke.isEmpty()) for(int i = 0; i < velocity; i++) MainRegistry.proxy.spawnParticle(posX - v.xCoord * i, posY - v.yCoord * i, posZ - v.zCoord * i, smoke, null);
 	}
 
 	@Override
-	public void onUpdate() {
-		this.dataWatcher.updateObject(8, Integer.valueOf(this.health));
-
-		this.setLocationAndAngles(posX + this.motionX * velocity, posY + this.motionY * velocity, posZ + this.motionZ * velocity, 0, 0);
-
-		this.rotation();
-
-		if(fuel > 0 || worldObj.isRemote) {
-
-			fuel -= consumption;
-
-			this.motionY -= decelY * velocity;
-
-			Vec3 vector = Vec3.createVectorHelper(targetX - startX, 0, targetZ - startZ);
-			vector = vector.normalize();
-			vector.xCoord *= accelXZ * velocity;
-			vector.zCoord *= accelXZ * velocity;
-
-			if(motionY > 0) {
-				motionX += vector.xCoord;
-				motionZ += vector.zCoord;
-			}
-
-			if(motionY < 0) {
-				motionX -= vector.xCoord;
-				motionZ -= vector.zCoord;
-			}
-
-			if(velocity < 5)
-				velocity += 0.01;
-		} else {
-
-			motionX *= 0.99;
-			motionZ *= 0.99;
-
-			if(motionY > -1.5)
-				motionY -= 0.05;
-		}
-
-		if(this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.air && this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.water && this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.flowing_water) {
-
-			if(!this.worldObj.isRemote) {
-				onImpact();
-			}
-			this.setDead();
-			return;
-		}
-
-		if(this.worldObj.isRemote) {
-
-			Vec3 v = Vec3.createVectorHelper(motionX, motionY, motionZ);
-			v = v.normalize();
-
-			String smoke = "";
-
-			ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(10));
-			FuelType type = (FuelType) part.attributes[0];
-
-			switch(type) {
-			case BALEFIRE:
-				smoke = "exBalefire";
-				break;
-			case HYDROGEN:
-				smoke = "exHydrogen";
-				break;
-			case KEROSENE:
-				smoke = "exKerosene";
-				break;
-			case SOLID:
-				smoke = "exSolid";
-				break;
-			case XENON:
-				break;
-			case HYDRAZINE:
-				smoke = "exHydrazine";
-			break;
-			}
-
-			for(int i = 0; i < velocity; i++)
-				MainRegistry.proxy.spawnParticle(posX - v.xCoord * i, posY - v.yCoord * i, posZ - v.zCoord * i, smoke, null);
-		}
-
-		loadNeighboringChunks((int) (posX / 16), (int) (posZ / 16));
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean isInRangeToRenderDist(double distance) {
-		return distance < 2500000;
-	}
-
-	public void onImpact() {
+	public void onImpact() { //TODO: demolish this steaming pile of shit
 
 		ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
 
@@ -381,67 +218,54 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 		}
 	}
 
-	public void init(Ticket ticket) {
-		if(!worldObj.isRemote) {
-
-			if(ticket != null) {
-
-				if(loaderTicket == null) {
-
-					loaderTicket = ticket;
-					loaderTicket.bindEntity(this);
-					loaderTicket.getModData();
-				}
-
-				ForgeChunkManager.forceChunk(loaderTicket, new ChunkCoordIntPair(chunkCoordX, chunkCoordZ));
-			}
-		}
-	}
-
-	List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
-
-	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
-		if(!worldObj.isRemote && loaderTicket != null) {
-			for(ChunkCoordIntPair chunk : loadedChunks) {
-				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-			}
-
-			loadedChunks.clear();
-			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ));
-			loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ + 1));
-			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ - 1));
-			loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ - 1));
-			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ + 1));
-			loadedChunks.add(new ChunkCoordIntPair(newChunkX + 1, newChunkZ));
-			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ + 1));
-			loadedChunks.add(new ChunkCoordIntPair(newChunkX - 1, newChunkZ));
-			loadedChunks.add(new ChunkCoordIntPair(newChunkX, newChunkZ - 1));
-
-			for(ChunkCoordIntPair chunk : loadedChunks) {
-				ForgeChunkManager.forceChunk(loaderTicket, chunk);
-			}
-		}
-	}
-
 	@Override
 	public RadarTargetType getTargetType() {
 
 		ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(10));
-
 		PartSize top = part.top;
 		PartSize bottom = part.bottom;
 
-		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_10)
-			return RadarTargetType.MISSILE_10;
-		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_15)
-			return RadarTargetType.MISSILE_10_15;
-		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_15)
-			return RadarTargetType.MISSILE_15;
-		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_20)
-			return RadarTargetType.MISSILE_15_20;
-		if(top == PartSize.SIZE_20 && bottom == PartSize.SIZE_20)
-			return RadarTargetType.MISSILE_20;
+		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_10) return RadarTargetType.MISSILE_10;
+		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_15) return RadarTargetType.MISSILE_10_15;
+		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_15) return RadarTargetType.MISSILE_15;
+		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_20) return RadarTargetType.MISSILE_15_20;
+		if(top == PartSize.SIZE_20 && bottom == PartSize.SIZE_20) return RadarTargetType.MISSILE_20;
 
-		return RadarTargetType.PLAYER;
+		return RadarTargetType.MISSILE_TIER1;
 	}
+
+	@Override
+	public String getUnlocalizedName() {
+
+		ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(10));
+		PartSize top = part.top;
+		PartSize bottom = part.bottom;
+
+		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_10) return "radar.target.custom10";
+		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_15) return "radar.target.custom1015";
+		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_15) return "radar.target.custom15";
+		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_20) return "radar.target.custom1520";
+		if(top == PartSize.SIZE_20 && bottom == PartSize.SIZE_20) return "radar.target.custom20";
+		
+		return "radar.target.custom";
+	}
+
+	@Override
+	public int getBlipLevel() {
+
+		ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(10));
+		PartSize top = part.top;
+		PartSize bottom = part.bottom;
+
+		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_10) return IRadarDetectableNT.TIER10;
+		if(top == PartSize.SIZE_10 && bottom == PartSize.SIZE_15) return IRadarDetectableNT.TIER10_15;
+		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_15) return IRadarDetectableNT.TIER15;
+		if(top == PartSize.SIZE_15 && bottom == PartSize.SIZE_20) return IRadarDetectableNT.TIER15_20;
+		if(top == PartSize.SIZE_20 && bottom == PartSize.SIZE_20) return IRadarDetectableNT.TIER20;
+		
+		return IRadarDetectableNT.TIER1;
+	}
+
+	@Override public List<ItemStack> getDebris() { return new ArrayList(); }
+	@Override public ItemStack getDebrisRareDrop() { return null; }
 }

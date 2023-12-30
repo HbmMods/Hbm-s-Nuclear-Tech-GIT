@@ -1,6 +1,7 @@
 package com.hbm.world.feature;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
@@ -24,6 +25,8 @@ public class BedrockOre {
 	public static List<WeightedRandomGeneric<BedrockOreDefinition>> weightedOres = new ArrayList();
 	public static List<WeightedRandomGeneric<BedrockOreDefinition>> weightedOresNether = new ArrayList();
 	
+	public static HashMap<String, BedrockOreDefinition> replacements = new HashMap();
+	
 	public static void init() {
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(EnumBedrockOre.IRON,					1),													WorldConfig.bedrockIronSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(EnumBedrockOre.COPPER,				1),													WorldConfig.bedrockCopperSpawn);
@@ -37,13 +40,16 @@ public class BedrockOre {
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(EnumBedrockOre.URANIUM,				4,	new FluidStack(Fluids.SULFURIC_ACID, 500)),		WorldConfig.bedrockUraniumSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(EnumBedrockOre.THORIUM,				4,	new FluidStack(Fluids.SULFURIC_ACID, 500)),		WorldConfig.bedrockThoriumSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(EnumBedrockOre.FLUORITE,				1),													WorldConfig.bedrockFluoriteSpawn);
-		registerBedrockOre(weightedOres, new BedrockOreDefinition(new ItemStack(Items.coal, 4),			1,	0x202020),										WorldConfig.bedrockCoalSpawn);
+		registerBedrockOre(weightedOres, new BedrockOreDefinition(new ItemStack(Items.coal, 8),			1,	0x202020),										WorldConfig.bedrockCoalSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(new ItemStack(ModItems.niter, 4),		2,	0x808080,	new FluidStack(Fluids.ACID, 500)),	WorldConfig.bedrockNiterSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(new ItemStack(Items.redstone, 4),		1,	0xd01010),										WorldConfig.bedrockRedstoneSpawn);
 
 		registerBedrockOre(weightedOresNether, new BedrockOreDefinition(new ItemStack(Items.glowstone_dust, 4),		1,	0xF9FF4D),							WorldConfig.bedrockGlowstoneSpawn);
 		registerBedrockOre(weightedOresNether, new BedrockOreDefinition(new ItemStack(ModItems.powder_fire, 4),		1,	0xD7341F),							WorldConfig.bedrockPhosphorusSpawn);
 		registerBedrockOre(weightedOresNether, new BedrockOreDefinition(new ItemStack(Items.quartz, 4),				1,	0xF0EFDD),							WorldConfig.bedrockQuartzSpawn);
+
+		replacements.put(EnumBedrockOre.IRON.oreName, new BedrockOreDefinition(EnumBedrockOre.HEMATITE, 1));
+		replacements.put(EnumBedrockOre.COPPER.oreName, new BedrockOreDefinition(EnumBedrockOre.MALACHITE, 1));
 	}
 	
 	public static void registerBedrockOre(List list, BedrockOreDefinition def, int weight) {
@@ -97,6 +103,7 @@ public class BedrockOre {
 	public static class BedrockOreDefinition {
 		public ItemStack stack;
 		public FluidStack acid;
+		public String id;
 		public int tier;
 		public int color;
 		
@@ -106,6 +113,7 @@ public class BedrockOre {
 		
 		public BedrockOreDefinition(ItemStack stack, int tier, int color, FluidStack acid) {
 			this.stack = stack;
+			this.id = stack.toString();
 			this.tier = tier;
 			this.color = color;
 			this.acid = acid;
@@ -117,6 +125,7 @@ public class BedrockOre {
 		
 		public BedrockOreDefinition(EnumBedrockOre type, int tier, FluidStack acid) {
 			this.stack = DictFrame.fromOne(ModItems.ore_bedrock, type);
+			this.id = "ore" + type.oreName;
 			this.color = type.color;
 			this.tier = tier;
 			this.acid = acid;

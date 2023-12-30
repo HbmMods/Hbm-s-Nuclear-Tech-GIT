@@ -66,7 +66,26 @@ public class MachineOrbus extends BlockDummyable implements IPersistentInfoProvi
 			
 			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			return true;
-		} else {
+		} else if(player.isSneaking()){
+			int[] pos = this.findCore(world, x, y, z);
+
+			if(pos == null)
+				return false;
+			
+			TileEntityMachineOrbus kyleEntity = (TileEntityMachineOrbus) world.getTileEntity(pos[0], pos[1], pos[2]);
+			
+			if(kyleEntity != null) {
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
+				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
+
+				kyleEntity.tank.setTankType(type);
+				kyleEntity.markDirty();
+				player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation(type.getConditionalName())).appendSibling(new ChatComponentText("!")));
+				}
+			} 
+			
+			return true;
+			} else {
 			return true;
 		}
 	}

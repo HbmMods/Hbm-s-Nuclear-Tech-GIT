@@ -74,7 +74,11 @@ public class CommonConfig {
 		prop.comment = comment;
 		return prop.getString();
 	}
-
+    public static int[] createConfigIntList(Configuration config, String category, String name, String comment, int[] def){
+		Property prop = config.get(category, name, def);
+		prop.comment = comment;
+		return prop.getIntList();
+	}
 	public static String[] createConfigStringList(Configuration config, String category, String name, String comment) {
 		Property prop = config.get(category, name, new String[] { "PLACEHOLDER" });
 		prop.comment = comment;

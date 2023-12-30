@@ -185,7 +185,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 	
 	/** Only accepts inputs in a fixed order, saves a ton of performance because there's no permutations to check for */
 	public CustomMachineRecipe getMatchingRecipe() {
-		List<CustomMachineRecipe> recipes = CustomMachineRecipes.recipes.get(this.machineType);
+		List<CustomMachineRecipe> recipes = CustomMachineRecipes.recipes.get(this.config.recipeKey);
 		if(recipes == null || recipes.isEmpty()) return null;
 		
 		outer:
@@ -391,11 +391,11 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 			for(int i = 0; i < outputTanks.length; i++) outputTanks[i].readFromNBT(nbt, "o" + i);
 			
 			this.matcher.readFromNBT(nbt);
-		}
-		
-		int index = nbt.getInteger("cachedIndex");
-		if(index != -1) {
-			this.cachedRecipe = CustomMachineRecipes.recipes.get(this.machineType).get(index);
+			
+			int index = nbt.getInteger("cachedIndex");
+			if(index != -1) {
+				this.cachedRecipe = CustomMachineRecipes.recipes.get(this.config.recipeKey).get(index);
+			}
 		}
 	}
 	
@@ -417,7 +417,7 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 		this.matcher.writeToNBT(nbt);
 		
 		if(this.cachedRecipe != null) {
-			int index = CustomMachineRecipes.recipes.get(this.machineType).indexOf(this.cachedRecipe);
+			int index = CustomMachineRecipes.recipes.get(this.config.recipeKey).indexOf(this.cachedRecipe);
 			nbt.setInteger("cachedIndex", index);
 		} else {
 			nbt.setInteger("cachedIndex", -1);

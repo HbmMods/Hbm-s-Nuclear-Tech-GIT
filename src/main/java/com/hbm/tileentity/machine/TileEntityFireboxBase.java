@@ -151,7 +151,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 		}
 	}
 	
-	public EnumAshType getAshFromFuel(ItemStack stack) {
+	public static EnumAshType getAshFromFuel(ItemStack stack) {
 
 		List<String> names = ItemStackUtil.getOreDictNames(stack);
 		

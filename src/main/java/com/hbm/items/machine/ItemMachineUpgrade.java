@@ -3,8 +3,15 @@ package com.hbm.items.machine;
 import java.util.List;
 
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -31,6 +38,24 @@ public class ItemMachineUpgrade extends Item {
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+		
+		GuiScreen open = Minecraft.getMinecraft().currentScreen;
+		
+		if(open != null && open instanceof GuiContainer) {
+			GuiContainer guiContainer = (GuiContainer) open;
+			Container container = guiContainer.inventorySlots;
+			if(container.inventorySlots.size() > 0) {
+				Slot first = container.getSlot(0);
+				IInventory inv = (IInventory) first.inventory;
+				if(inv instanceof IUpgradeInfoProvider) {
+					IUpgradeInfoProvider provider = (IUpgradeInfoProvider) inv;
+					if(provider.canProvideInfo(this.type, this.tier, bool)) {
+						provider.provideInfo(this.type, this.tier, list, bool);
+						return;
+					}
+				}
+			}
+		}
 		
 		if(this.type == UpgradeType.SPEED) {
 			list.add(EnumChatFormatting.RED + "Mining Drill:");

@@ -1,36 +1,49 @@
 package com.hbm.entity.mob;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.MobConfig;
+import com.hbm.entity.logic.EntityWaypoint;
+import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.main.ResourceManager;
 import com.hbm.world.feature.GlyphidHive;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
-public class EntityGlyphidScout extends EntityGlyphid {
-	
-	public boolean hasHome = false;
-	public double homeX;
-	public double homeY;
-	public double homeZ;
+import java.util.List;
 
+public class EntityGlyphidScout extends EntityGlyphid {
+
+	boolean hasTarget = false;
+	int timer;
+	int scoutingRange = 45;
+	int minDistanceToHive = 8;
+	boolean useLargeHive = false;
+	float largeHiveChance = MobConfig.largeHiveChance;
+	
 	public EntityGlyphidScout(World world) {
 		super(world);
 		this.setSize(1.25F, 0.75F);
 	}
-	
-	@Override
-	public float getDamageThreshold() {
-		return 0.0F;
-	}
 
+	//extreme measures for anti-scout bullying
+	@Override
+	public boolean attackEntityAsMob(Entity victum) {
+		if(super.attackEntityAsMob(victum) && victum instanceof EntityLivingBase){
+			((EntityLivingBase)victum).addPotionEffect(new PotionEffect(Potion.poison.id, 10 * 20, 3));
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public ResourceLocation getSkin() {
 		return ResourceManager.glyphid_scout_tex;
@@ -42,116 +55,261 @@ public class EntityGlyphidScout extends EntityGlyphid {
 	}
 
 	@Override
-	public int getArmorBreakChance(float amount) {
-		return 1;
+	public boolean isArmorBroken(float amount) {
+		return this.rand.nextInt(100) <= Math.min(Math.pow(amount, 2), 100);
 	}
 
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(16D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20D);
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1.5D);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2D);
 	}
-
+	
 	@Override
-	protected boolean canDespawn() {
+	public void onUpdate() {
+		super.onUpdate();
+
+		if((getCurrentTask() != TASK_BUILD_HIVE || getCurrentTask() != TASK_TERRAFORM) && taskWaypoint == null) {
+
+				if(MobConfig.rampantGlyphidGuidance && PollutionHandler.targetCoords != null){
+					if(!hasTarget) {
+					Vec3 dirVec = playerBaseDirFinder(Vec3.createVectorHelper(posX, posY, posZ), getPlayerTargetDirection());
+
+						EntityWaypoint target = new EntityWaypoint(worldObj);
+						target.setLocationAndAngles(dirVec.xCoord, dirVec.yCoord, dirVec.zCoord, 0, 0);
+						target.maxAge = 300;
+						target.radius = 6;
+						worldObj.spawnEntityInWorld(target);
+						hasTarget = true;
+
+						setCurrentTask(TASK_RETREAT_FOR_REINFORCEMENTS, target);
+					}
+
+					if(super.isAtDestination()) {
+						setCurrentTask(TASK_BUILD_HIVE, null) ;
+						hasTarget = false;
+					}
+
+				} else {
+					setCurrentTask(TASK_BUILD_HIVE, null);
+				}
+
+		}
+
+		if(getCurrentTask() == TASK_BUILD_HIVE || getCurrentTask() == TASK_TERRAFORM) {
+
+			if(!worldObj.isRemote && !hasTarget) {
+				//Check for whether a big man johnson is nearby, this makes the scout switch into its terraforming task
+				if(scoutingRange != 60 && hasNuclearGlyphidNearby()){
+					setCurrentTask(TASK_TERRAFORM, null);
+				}
+
+				if(expandHive()) {
+					this.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 180 * 20, 1));
+					hasTarget = true;
+				}
+			}
+
+			if (getCurrentTask() == TASK_TERRAFORM && super.isAtDestination() && canBuildHiveHere()) {
+				communicate(TASK_TERRAFORM, taskWaypoint);
+			}
+
+			if (ticksExisted % 10 == 0 && isAtDestination()) {
+				timer++;
+
+				if (!worldObj.isRemote && canBuildHiveHere()) {
+					if(timer == 1) {
+
+						EntityWaypoint additional = new EntityWaypoint(worldObj);
+						additional.setLocationAndAngles(posX, posY, posZ, 0, 0);
+						additional.setWaypointType(TASK_IDLE);
+
+						// First, go home and get reinforcements
+						EntityWaypoint home = new EntityWaypoint(worldObj);
+						home.setWaypointType(TASK_RETREAT_FOR_REINFORCEMENTS);
+						home.setAdditionalWaypoint(additional);
+						home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
+						home.maxAge = 1200;
+						home.radius = 6;
+
+						worldObj.spawnEntityInWorld(home);
+
+						this.taskWaypoint = home;
+						this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 40 * 20, 10));
+						communicate(TASK_RETREAT_FOR_REINFORCEMENTS, taskWaypoint);
+
+					} else if(timer >= 5) {
+
+						worldObj.newExplosion(this, posX, posY, posZ, 5F, false, false);
+						GlyphidHive.generateSmall(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), rand, this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) != TYPE_NORMAL, false);
+						this.setDead();
+
+					} else {
+						communicate(TASK_FOLLOW, taskWaypoint);
+					}
+				}
+			}
+		}
+	}
+
+	/** Returns true if the position is far enough away from other hives. Also resets the task if unsuccessful. */
+	public boolean canBuildHiveHere() {
+		int length = useLargeHive ? 16 : 8;
+		
+		for(int i = 0; i < 8; i++) {
+			
+			float angle = (float) Math.toRadians(360D / 16 * i);
+			Vec3 rot = Vec3.createVectorHelper(0, 0, length);
+			rot.rotateAroundY(angle);
+			Vec3 pos = Vec3.createVectorHelper(this.posX, this.posY + 1, this.posZ);
+			Vec3 nextPos = Vec3.createVectorHelper(this.posX + rot.xCoord, this.posY + 1, this.posZ + rot.zCoord);
+			MovingObjectPosition mop = this.worldObj.rayTraceBlocks(pos, nextPos);
+
+			if(mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+
+				Block block = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+
+				if(block == ModBlocks.glyphid_base) {
+					setCurrentTask(TASK_IDLE, null);
+					hasTarget = false;
+					return false;
+				}
+
+			}
+		}
 		return true;
 	}
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public boolean isAtDestination() {
+		return this.getCurrentTask() == TASK_BUILD_HIVE && super.isAtDestination();
+	}
+
+	public boolean hasNuclearGlyphidNearby(){
+		int radius = 8;
+
+		AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(
+				this.posX - radius,
+				this.posY - radius,
+				this.posZ - radius,
+				this.posX + radius,
+				this.posY + radius,
+				this.posZ + radius);
+
+		List<Entity> bugs = worldObj.getEntitiesWithinAABBExcludingEntity(this, bb);
 		
-		if(!worldObj.isRemote) {
-			
-			if(!this.hasHome) {
-				this.homeX = posX;
-				this.homeY = posY;
-				this.homeZ = posZ;
-				this.hasHome = true;
+		for (Entity e: bugs){
+			if(e instanceof EntityGlyphidNuclear){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean expandHive() {
+
+		int nestX = rand.nextInt((homeX + scoutingRange) - (homeX - scoutingRange)) + (homeX - scoutingRange);
+		int nestZ = rand.nextInt((homeZ + scoutingRange) - (homeZ - scoutingRange)) + (homeZ - scoutingRange);
+		int nestY = worldObj.getHeightValue(nestX, nestZ);
+		Block b = worldObj.getBlock(nestX, nestY - 1, nestZ);
+
+		boolean distanceCheck = Vec3.createVectorHelper(nestX - homeX, nestY - homeY, nestZ - homeZ).lengthVector() > minDistanceToHive;
+
+		if(distanceCheck && b.getMaterial() != Material.air && b.isNormalCube() && b != ModBlocks.glyphid_base) {
+
+			if(b == ModBlocks.basalt) {
+				useLargeHive = true;
+				largeHiveChance /= 2;
+				this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 3));
 			}
 			
-			if(rand.nextInt(20) == 0) fleeingTick = 2;
+			if(!worldObj.isRemote) {
+				EntityWaypoint nest = new EntityWaypoint(worldObj);
+				nest.setWaypointType(getCurrentTask());
+				nest.radius = 5;
 
-			if(this.ticksExisted > 0 && this.ticksExisted % 1200 == 0 && Vec3.createVectorHelper(posX - homeX, posY - homeY, posZ - homeZ).lengthVector() > 8) {
-				
-				Block b = worldObj.getBlock((int) Math.floor(posX), (int) Math.floor(posY - 1), (int) Math.floor(posZ));
-				
-				int accuracy = 16;
-				for(int i = 0; i < accuracy; i++) {
-					float angle = (float) Math.toRadians(360D / accuracy * i);
-					Vec3 rot = Vec3.createVectorHelper(0, 0, 16);
-					rot.rotateAroundY(angle);
-					Vec3 pos = Vec3.createVectorHelper(this.posX, this.posY + 1, this.posZ);
-					Vec3 nextPos = Vec3.createVectorHelper(this.posX + rot.xCoord, this.posY + 1, this.posZ + rot.zCoord);
-					MovingObjectPosition mop = this.worldObj.rayTraceBlocks(pos, nextPos);
+				if(useLargeHive)
+					nest.setHighPriority();
+
+				nest.setLocationAndAngles(nestX, nestY, nestZ, 0, 0);
+				worldObj.spawnEntityInWorld(nest);
+
+				taskWaypoint = nest;
+
+				// updates the task coordinates
+				setCurrentTask(getCurrentTask(), taskWaypoint);
+				communicate(TASK_BUILD_HIVE, taskWaypoint);
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+
+	@Override
+	public void carryOutTask() {
+		if (!worldObj.isRemote && taskWaypoint == null) {
+			switch(getCurrentTask()){
+				case TASK_INITIATE_RETREAT:
+					this.removePotionEffect(Potion.moveSlowdown.id);
+					this.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 20 * 20, 4));
+
+					//then, come back later
+					EntityWaypoint additional = new EntityWaypoint(worldObj);
+					additional.setLocationAndAngles(posX, posY, posZ, 0, 0);
+					additional.setWaypointType(0);
 					
-					if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
-						
-						Block block = worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
-						
-						if(block == ModBlocks.glyphid_base) {
-							return;
-						}
-					}
-				}
-				
-				if(b.getMaterial() != Material.air && b.isNormalCube() && b != ModBlocks.glyphid_base) {
-					this.setDead();
-					worldObj.newExplosion(this, posX, posY, posZ, 5F, false, false);
-					GlyphidHive.generate(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), rand);
-				}
+					//First, go home and get reinforcements
+					EntityWaypoint home = new EntityWaypoint(worldObj);
+					home.setWaypointType(2);
+					home.setAdditionalWaypoint(additional);
+					home.setHighPriority();
+					home.radius = 6;
+					home.setLocationAndAngles(homeX, homeY, homeZ, 0, 0);
+					worldObj.spawnEntityInWorld(home);
+
+					communicate(4, home);
+					break;
+
+				//terraforming task, only used if a big man johnson is near the scout
+				case TASK_TERRAFORM:
+					scoutingRange = 60;
+					minDistanceToHive = 20;
+					break;
 			}
 		}
+		super.carryOutTask();
+
+	}
+	
+	@Override
+	public boolean useExtendedTargeting() {
+		return false;
 	}
 
-	@Override
-	protected void updateWanderPath() {
-		this.worldObj.theProfiler.startSection("stroll");
-		boolean flag = false;
-		int pathX = -1;
-		int pathY = -1;
-		int pathZ = -1;
-		float maxWeight = -99999.0F;
+	///RAMPANT MODE STUFFS
 
-		for(int l = 0; l < 5; ++l) {
-			int x = MathHelper.floor_double(this.posX + (double) this.rand.nextInt(25) - 12.0D);
-			int y = MathHelper.floor_double(this.posY + (double) this.rand.nextInt(11) - 5.0D);
-			int z = MathHelper.floor_double(this.posZ + (double) this.rand.nextInt(25) - 12.0D);
-			float weight = this.getBlockPathWeight(x, y, z);
-
-			if(weight > maxWeight) {
-				maxWeight = weight;
-				pathX = x;
-				pathY = y;
-				pathZ = z;
-				flag = true;
-			}
+	/** Finds the direction from the bug's location to the target and adds it to their current coord
+	 * Used as a performant way to make scouts expand toward the player's spawn point
+	 * @return An adjusted direction vector, to be added into the bug's current position for it to path in the required direction**/
+	public static Vec3 playerBaseDirFinder(Vec3 currentLocation, Vec3 target){
+		Vec3 dirVec = currentLocation.subtract(target).normalize();
+		return Vec3.createVectorHelper(
+				currentLocation.xCoord + dirVec.xCoord * 10,
+				currentLocation.yCoord + dirVec.yCoord * 10,
+				currentLocation.zCoord + dirVec.zCoord * 10
+		);
+	}
+	
+	protected Vec3 getPlayerTargetDirection() {
+		EntityPlayer player = worldObj.getClosestPlayerToEntity(this, 300);
+		if(player != null) {
+			return Vec3.createVectorHelper(player.posX, player.posY, player.posZ);
 		}
-
-		if(flag) {
-			this.setPathToEntity(this.worldObj.getEntityPathToXYZ(this, pathX, pathY, pathZ, 10.0F, true, false, false, true));
-		}
-
-		this.worldObj.theProfiler.endSection();
-	}
-
-	@Override
-	public void writeEntityToNBT(NBTTagCompound nbt) {
-		super.writeEntityToNBT(nbt);
-		nbt.setBoolean("hasHome", hasHome);
-		nbt.setDouble("homeX", homeX);
-		nbt.setDouble("homeY", homeY);
-		nbt.setDouble("homeZ", homeZ);
-	}
-
-	@Override
-	public void readEntityFromNBT(NBTTagCompound nbt) {
-		super.readEntityFromNBT(nbt);
-		this.hasHome = nbt.getBoolean("hasHome");
-		this.homeX = nbt.getDouble("homeX");
-		this.homeY = nbt.getDouble("homeY");
-		this.homeZ = nbt.getDouble("homeZ");
+		return PollutionHandler.targetCoords;
 	}
 }

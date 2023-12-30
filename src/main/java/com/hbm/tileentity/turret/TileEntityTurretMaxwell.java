@@ -3,13 +3,18 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.gui.GUITurretMaxwell;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
+import com.hbm.tileentity.IUpgradeInfoProvider;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.EntityDamageUtil;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -21,10 +26,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
+public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT implements IUpgradeInfoProvider {
 
 	@Override
 	public String getName() {
@@ -63,6 +69,41 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT {
 		ammoStacks.add(new ItemStack(ModItems.upgrade_screm));
 		
 		return ammoStacks;
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.EFFECT || type == UpgradeType.POWER || type == UpgradeType.AFTERBURN || type == UpgradeType.OVERDRIVE;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.turret_maxwell));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + "Damage +0." + (level * 25) + "/t");
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 3) + "%"));
+		}
+		if(type == UpgradeType.EFFECT) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_RANGE, "+" + (level * 3) + "m"));
+		}
+		if(type == UpgradeType.AFTERBURN) {
+			info.add(EnumChatFormatting.GREEN + "Afterburn +3s");
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 27;
+		if(type == UpgradeType.POWER) return 27;
+		if(type == UpgradeType.EFFECT) return 27;
+		if(type == UpgradeType.AFTERBURN) return 27;
+		if(type == UpgradeType.OVERDRIVE) return 27;
+		return 0;
 	}
 	
 	@Override

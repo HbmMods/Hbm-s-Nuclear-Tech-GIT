@@ -2,6 +2,7 @@ package com.hbm.items.tool;
 
 import com.hbm.entity.item.EntityDeliveryDrone;
 import com.hbm.items.ItemEnumMulti;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +13,7 @@ public class ItemDrone extends ItemEnumMulti {
 
 	public ItemDrone() {
 		super(EnumDroneType.class, true, true);
+		this.setCreativeTab(MainRegistry.machineTab);
 	}
 
 	public static enum EnumDroneType {

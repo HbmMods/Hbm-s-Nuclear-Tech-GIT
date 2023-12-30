@@ -16,6 +16,8 @@ import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.TrackerUtil;
 import com.hbm.world.feature.OilBubble;
 import com.hbm.world.generator.DungeonToolbox;
+import com.hbm.lib.Library;
+import com.hbm.saveddata.TomSaveData;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import net.minecraft.block.Block;
@@ -128,17 +130,18 @@ public class ItemWandD extends Item {
 			tom.posZ = pos.blockZ;
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
-			/*
-			EntityNukeTorex torex = new EntityNukeTorex(world);
+			
+			/*EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
 			torex.setScale(1.5F);
 			torex.setType(2);
 			world.spawnEntityInWorld(torex);
+			TrackerUtil.setTrackingRange(world, torex, 1000);*/
+			
 			/*EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
 			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
 			EntityTrackerEntry entry = (EntityTrackerEntry) map.lookup(torex.getEntityId());
 			entry.blocksDistanceThreshold = 1000;*/
-			//TrackerUtil.setTrackingRange(world, torex, 1000);
 			//world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));
 			
 			//DungeonToolbox.generateBedrockOreWithChance(world, world.rand, pos.blockX, pos.blockZ, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500), 2, 1);

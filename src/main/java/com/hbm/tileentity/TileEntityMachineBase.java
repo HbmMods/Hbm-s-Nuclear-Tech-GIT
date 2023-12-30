@@ -2,10 +2,12 @@ package com.hbm.tileentity;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.packet.AuxGaugePacket;
+import com.hbm.packet.BufPacket;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -14,14 +16,14 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTank;
 
-public abstract class TileEntityMachineBase extends TileEntityLoadedBase implements ISidedInventory, INBTPacketReceiver {
+public abstract class TileEntityMachineBase extends TileEntityLoadedBase implements ISidedInventory, INBTPacketReceiver, IBufPacketReceiver {
 
 	public ItemStack slots[];
 	
 	private String customName;
 	
-	public TileEntityMachineBase(int scount) {
-		slots = new ItemStack[scount];
+	public TileEntityMachineBase(int slotCount) {
+		slots = new ItemStack[slotCount];
 	}
 	
 	/** The "chunks is modified, pls don't forget to save me" effect of markDirty, minus the block updates */
@@ -147,23 +149,23 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	@Override
 	public abstract void updateEntity();
 	
-	@Deprecated
-	public void updateGauge(int val, int id, int range) {
-
-		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, val, id), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+	@Deprecated public void updateGauge(int val, int id, int range) {
+		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, val, id), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+	}
+	@Deprecated public void processGauge(int val, int id) { }
+	
+	@Deprecated public void networkPack(NBTTagCompound nbt, int range) {
+		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+	}
+	@Deprecated public void networkUnpack(NBTTagCompound nbt) { }
+	
+	/** Sends a sync packet that uses ByteBuf for efficient information-cramming */
+	public void networkPackNT(int range) {
+		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
 
-	@Deprecated
-	public void processGauge(int val, int id) { }
-	
-	public void networkPack(NBTTagCompound nbt, int range) {
-
-		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
-	}
-	
-	public void networkUnpack(NBTTagCompound nbt) { }
+	@Override public void serialize(ByteBuf buf) { }
+	@Override public void deserialize(ByteBuf buf) { }
 	
 	@Deprecated
 	public void handleButtonPacket(int value, int meta) { }

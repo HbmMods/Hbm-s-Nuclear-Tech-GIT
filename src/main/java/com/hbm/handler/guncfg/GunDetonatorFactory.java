@@ -60,6 +60,7 @@ public class GunDetonatorFactory {
 		config.config.add(BulletConfigSyncingUtil.G12_DU);
 		config.config.add(BulletConfigSyncingUtil.G12_SLEEK);
 		config.config.add(BulletConfigSyncingUtil.G12_AM);
+		config.config.add(BulletConfigSyncingUtil.G12_PERCUSSION);
 		config.config.add(BulletConfigSyncingUtil.NUKE_NORMAL);
 		config.config.add(BulletConfigSyncingUtil.NUKE_LOW);
 		config.config.add(BulletConfigSyncingUtil.NUKE_SAFE);

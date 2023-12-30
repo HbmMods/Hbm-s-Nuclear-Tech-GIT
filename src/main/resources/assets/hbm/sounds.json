@@ -68,7 +68,20 @@
     "door.sliding_door_shut": {"category": "block", "sounds": [{"name": "block/door/sliding_door_shut", "stream": false}]},
     "door.sliding_door_opened": {"category": "block", "sounds": [{"name": "block/door/sliding_door_opened", "stream": false}]},
     "door.sliding_door_opening": {"category": "block", "sounds": [{"name": "block/door/sliding_door_opening", "stream": false}]},
-    
+
+    "door.garage_move": { "category": "block", "sounds": [{"name": "block/door/garage_move", "stream": false}] },
+    "door.garage_stop": { "category": "block", "sounds": [{"name": "block/door/garage_stop", "stream": false}] },
+    "door.lever": {"category": "block", "sounds": [{"name": "block/door/lever1", "stream": false}]},
+    "door.wgh_start": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": false}]},
+    "door.wgh_stop": {"category": "block", "sounds": [{"name": "block/door/wgh_stop", "stream": false}]},
+    "door.wgh_big_start": {"category": "block", "sounds": [{"name": "block/door/door_wgh_big_start", "stream": false}]},
+    "door.wgh_big_stop": {"category": "block", "sounds": [{"name": "block/door/door_wgh_big_stop", "stream": false}]},
+    "door.qe_sliding_shut": {"category": "block", "sounds": [{"name": "block/door/doorshut_1", "stream": false}]},
+    "door.qe_sliding_opened": {"category": "block", "sounds": [{"name": "block/door/doorslide_opened1", "stream": false}]},
+    "door.qe_sliding_opening": {"category": "block", "sounds": [{"name": "block/door/doorslide_opening1", "stream": false}]},
+    "door.sliding_seal_open": {"category": "block", "sounds": [{"name": "block/door/doormove2", "stream": false}]},
+    "door.sliding_seal_stop": {"category": "block", "sounds": [{"name": "block/door/metal_stop1", "stream": false}]},
+
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},
     "item.geiger1": {"category": "player", "sounds": [{"name": "tool/geiger1", "stream": false}]},

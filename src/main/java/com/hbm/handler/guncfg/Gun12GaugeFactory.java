@@ -39,7 +39,7 @@ public class Gun12GaugeFactory {
 	static {
 		EJECTOR_SPAS = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, 0, 0.5).setAngleRange(0.01F, 0.03F).setDelay(12);
 		EJECTOR_SPAS_ALT = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, 0, 0.5).setAngleRange(0.01F, 0.03F).setDelay(12).setAmount(2);
-		EJECTOR_BENELLI = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.3, 1, 0).setAngleRange(0.01F, 0.03F);
+		EJECTOR_BENELLI = new CasingEjector().setMotion(-0.4, 0.3, 0).setOffset(-0.3, 0, 0.5).setAngleRange(0.01F, 0.03F);
 		EJECTOR_UBOINIK = new CasingEjector().setMotion(-0.4, 0.1, 0).setOffset(-0.35, -0.3, 0.5).setAngleRange(0.01F, 0.03F);
 		EJECTOR_SSG = new CasingEjector().setMotion(0.2, 0, -0.2).setOffset(0.8, 0, 0).setAngleRange(0.05F, 0.02F).setDelay(20).setAmount(2);
 		
@@ -107,7 +107,7 @@ public class Gun12GaugeFactory {
 		config.comment.add("\"Here, I have a more suitable gun for you. You'll need it - Catch!\"");
 		config.comment.add("Alt-fire with Mouse 2 (Right-click) to fire 2 shells at once");
 		
-		config.config = HbmCollection.g12;
+		config.config = HbmCollection.g12hs;
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("SPAS_RECOIL_TRANSLATE", new BusAnimationSequence()

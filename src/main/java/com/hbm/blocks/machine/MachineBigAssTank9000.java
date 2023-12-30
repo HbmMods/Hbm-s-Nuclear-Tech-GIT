@@ -6,8 +6,10 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -19,6 +21,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -87,7 +92,26 @@ public class MachineBigAssTank9000 extends BlockDummyable implements IPersistent
 			
 			FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]); //we can do this because nobody is stopping me from doing this
 			return true;
-		} else {
+		} else if(player.isSneaking()){
+			int[] pos = this.findCore(world, x, y, z);
+
+			if(pos == null)
+				return false;
+			
+			TileEntityMachineBAT9000 trialEntity = (TileEntityMachineBAT9000) world.getTileEntity(pos[0], pos[1], pos[2]);
+			
+			if(trialEntity != null) {
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
+				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
+
+				trialEntity.tank.setTankType(type);
+				trialEntity.markDirty();
+				player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation(type.getConditionalName())).appendSibling(new ChatComponentText("!")));
+				}
+			} 
+			
+			return true;
+			}else {
 			return true;
 		}
 	}

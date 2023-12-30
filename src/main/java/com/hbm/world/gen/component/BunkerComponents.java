@@ -802,9 +802,9 @@ public class BunkerComponents {
 			default:
 				fillWithBlocks(world, box, 6, 1, 1, 6, 3, 1, ModBlocks.deco_pipe_framed_rusted);
 				for(int i = 7; i <= 9; i += 2) {
-					placeBlockAtCurrentPosition(world, ModBlocks.machine_coal_off, decoMetaN, i, 1, 1, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.machine_electric_furnace_off, decoMetaN, i, 1, 1, box);
 					placeBlockAtCurrentPosition(world, ModBlocks.steel_beam, 2, i, 2, 1, box);
-					placeBlockAtCurrentPosition(world, ModBlocks.machine_coal_off, decoMetaN, i, 3, 1, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.machine_electric_furnace_off, decoMetaN, i, 3, 1, box);
 				}
 				placeBlockAtCurrentPosition(world, ModBlocks.deco_red_copper, 0, 8, 1, 1, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 5, 8, 2, 1, box);
@@ -853,18 +853,18 @@ public class BunkerComponents {
 					fillWithBlocks(world, box, i, 3, 2, i, 3, 4, ModBlocks.deco_lead);
 				}
 				placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 5, 8, 1, 4, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.reactor_computer, 0, 8, 2, 4, box);
+				placeBlockAtCurrentPosition(world, Blocks.redstone_lamp, 0, 8, 2, 4, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 5, 8, 3, 4, box);
 				placeLever(world, box, 3, rand.nextBoolean(), 8, 2, 5);
-				placeBlockAtCurrentPosition(world, ModBlocks.reactor_element, 0, 8, 1, 3, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.reactor_control, 0, 8, 2, 3, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.reactor_element, 0, 8, 3, 3, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.pwr_fuel, 0, 8, 1, 3, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.pwr_control, 0, 8, 2, 3, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.pwr_fuel, 0, 8, 3, 3, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.block_copper, 0, 8, 1, 2, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.block_lead, 0, 8, 2, 2, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.block_copper, 0, 8, 3, 2, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.reactor_conductor, 0, 8, 1, 1, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.pwr_channel, 0, 8, 1, 1, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.machine_turbine, 0, 8, 2, 1, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.reactor_conductor, 0, 8, 3, 1, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.pwr_channel, 0, 8, 3, 1, box);
 				fillWithBlocks(world, box, 9, 1, 1, 9, 3, 1, ModBlocks.deco_steel);
 				placeBlockAtCurrentPosition(world, ModBlocks.steel_grate, 7, 10, 1, 1, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(1), 10, 2, 1, box);
