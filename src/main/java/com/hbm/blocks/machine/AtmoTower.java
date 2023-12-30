@@ -37,7 +37,7 @@ public class AtmoTower extends BlockDummyable implements ILookOverlay {
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] { 8, 0, 1, 0, 0, 1 };
+		return new int[] { 6, 0, 1, 0, 0, 1 };
 	}
 
 	@Override
