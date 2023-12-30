@@ -13,7 +13,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityAtmoTower extends TileEntityDeuteriumExtractor {
+public class TileEntityAtmoTower extends TileEntityDeuteriumTower {
 
 	public TileEntityAtmoTower() {
 		super();
