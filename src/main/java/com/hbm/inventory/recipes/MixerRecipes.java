@@ -93,6 +93,9 @@ public class MixerRecipes extends SerializableRecipe {
 
 		register(Fluids.MINSOL, new MixerRecipe(250, 50).setStack1(new FluidStack(Fluids.NITRIC_ACID, 500)).setSolid(new ComparableStack(ModBlocks.ore_mineral)));
 
+		register(Fluids.AMMONIA, new MixerRecipe(800, 50).setStack1(new FluidStack(Fluids.NITROGEN, 600)).setStack2(new FluidStack(Fluids.WATER, 1000)));
+		register(Fluids.HYDRAZINE, new MixerRecipe(800, 50).setStack1(new FluidStack(Fluids.NITRIC_ACID, 2000)).setStack2(new FluidStack(Fluids.AMMONIA, 1000)));
+		register(Fluids.BLOODGAS, new MixerRecipe(550, 50).setStack1(new FluidStack(Fluids.AMMONIA, 350)).setStack2(new FluidStack(Fluids.BLOOD, 800)));
 
 		register(Fluids.CHLOROCALCITE_SOLUTION, new MixerRecipe(500, 50).setStack1(new FluidStack(Fluids.WATER, 250)).setStack2(new FluidStack(Fluids.NITRIC_ACID, 250)).setSolid(new OreDictStack(CHLOROCALCITE.dust())));
 		register(Fluids.CHLOROCALCITE_MIX, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.CHLOROCALCITE_SOLUTION, 500)).setStack2(new FluidStack(Fluids.SULFURIC_ACID, 500)).setSolid(new ComparableStack(ModItems.powder_flux)));

@@ -455,6 +455,7 @@ public class AnvilRecipes {
 						new ComparableStack(ModBlocks.concrete_smooth, 4),
 						new ComparableStack(ModBlocks.heater_heatex),
 						new ComparableStack(ModBlocks.deco_pipe_quad, 10),
+						new OreDictStack(STEEL.plateCast(), 2),
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_atmo_tower))).setTier(2));
 		constructionRecipes.add(new AnvilConstructionRecipe(
@@ -463,6 +464,8 @@ public class AnvilRecipes {
 						new ComparableStack(ModItems.plate_stainless, 4),
 						new ComparableStack(ModBlocks.concrete_smooth, 4),
 						new ComparableStack(ModItems.turbine_titanium, 1),
+						new ComparableStack(ModItems.motor, 4),
+
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_atmo_vent))).setTier(2));
 		
