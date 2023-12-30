@@ -89,6 +89,8 @@ public class ModEventHandlerImpact {
 		            ((EntityPlayer)p).worldObj.playSoundEffect(((EntityPlayer)p).posX, ((EntityPlayer)p).posY, ((EntityPlayer)p).posZ, "hbm:misc.flashe", 10F, 1F);
 		        }
 		    }
+			data.markDirty();	
+
 		}
 			
 			if(data.time > 0) {
