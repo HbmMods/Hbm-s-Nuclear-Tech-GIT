@@ -11,65 +11,65 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerMachineStrandCaster extends Container {
 
-	protected TileEntityMachineStrandCaster caster;
+    protected TileEntityMachineStrandCaster caster;
 
-	public ContainerMachineStrandCaster(InventoryPlayer invPlayer, TileEntityMachineStrandCaster caster) {
-		this.caster = caster;
-		
-		//the wretched mold
-		this.addSlotToContainer(new SlotNonRetarded(this.caster, 0, 57, 62));
-		
-		//output
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 2; j++) {
-				this.addSlotToContainer(new SlotNonRetarded(this.caster, j + i * 2 + 1, 125 + j * 18, 26 + i * 18));
-			}
-		}
+    public ContainerMachineStrandCaster(InventoryPlayer invPlayer, TileEntityMachineStrandCaster caster) {
+        this.caster = caster;
 
-		
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 132 + i * 18));
-			}
-		}
+        //the wretched mold
+        this.addSlotToContainer(new SlotNonRetarded(this.caster, 0, 57, 62));
 
-		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 190));
-		}
-	}
+        //output
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 2; j++) {
+                this.addSlotToContainer(new SlotNonRetarded(this.caster, j + i * 2 + 1, 125 + j * 18, 26 + i * 18));
+            }
+        }
 
-	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		ItemStack stack = null;
-		Slot slot = (Slot) this.inventorySlots.get(index);
 
-		if(slot != null && slot.getHasStack()) {
-			ItemStack originalStack = slot.getStack();
-			stack = originalStack.copy();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 9; j++) {
+                this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 132 + i * 18));
+            }
+        }
 
-			if(index <= 6) {
-				if(!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 7, this.inventorySlots.size(), true)) {
-					return null;
-				}
-				
-				slot.onSlotChange(originalStack, stack);
-				
-			} else if(!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 0, 7, false)) {
-				return null;
-			}
+        for (int i = 0; i < 9; i++) {
+            this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 190));
+        }
+    }
 
-			if(originalStack.stackSize == 0) {
-				slot.putStack(null);
-			} else {
-				slot.onSlotChanged();
-			}
-		}
+    @Override
+    public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+        ItemStack stack = null;
+        Slot slot = (Slot) this.inventorySlots.get(index);
 
-		return stack;
-	}
+        if (slot != null && slot.getHasStack()) {
+            ItemStack originalStack = slot.getStack();
+            stack = originalStack.copy();
 
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-		return caster.isUseableByPlayer(player);
-	}
+            if (index <= 6) {
+                if (!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 7, this.inventorySlots.size(), true)) {
+                    return null;
+                }
+
+                slot.onSlotChange(originalStack, stack);
+
+            } else if (!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 0, 7, false)) {
+                return null;
+            }
+
+            if (originalStack.stackSize == 0) {
+                slot.putStack(null);
+            } else {
+                slot.onSlotChanged();
+            }
+        }
+
+        return stack;
+    }
+
+    @Override
+    public boolean canInteractWith(EntityPlayer player) {
+        return caster.isUseableByPlayer(player);
+    }
 }
