@@ -152,73 +152,7 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 			if(level > 0 && heat > 0 && !(blocksRad(xCoord + 1, yCoord + 1, zCoord) && blocksRad(xCoord - 1, yCoord + 1, zCoord) && blocksRad(xCoord, yCoord + 1, zCoord + 1) && blocksRad(xCoord, yCoord + 1, zCoord - 1))) {
 				float rad = (float) heat / (float) maxHeat * 50F;
 				double range = 25D;
-				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);
-				List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(range, range, range));
-				
-				if(!RadiationConfig.disableNeutron)
-				{
-					for(EntityLivingBase e : entities) {
-					
-					Vec3 vec = Vec3.createVectorHelper(e.posX - (xCoord + 0.5), (e.posY + e.getEyeHeight()) - (yCoord + 0.5), e.posZ - (zCoord + 0.5));
-					double len = vec.lengthVector();
-					vec = vec.normalize();
-					
-					float res = 0;
-					
-					for(int i = 1; i < len; i++) {
-
-						int ix = (int)Math.floor(xCoord + 0.5 + vec.xCoord * i);
-						int iy = (int)Math.floor(yCoord + 0.5 + vec.yCoord * i);
-						int iz = (int)Math.floor(zCoord + 0.5 + vec.zCoord * i);
-						
-						res += worldObj.getBlock(ix, iy, iz).getExplosionResistance(null);
-					}
-					
-					if(res < 1)
-						res = 1;
-					
-					float eRads = rad;
-					eRads /= (float)res;
-					eRads /= (float)(len * len);
-					
-					//ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, eRads);
-					ContaminationUtil.contaminate(e, HazardType.NEUTRON, ContaminationType.CREATIVE, eRads);
-					if(e instanceof EntityPlayer) {
-						//Random rand = target.getRNG();
-						EntityPlayer player = (EntityPlayer) e;
-						for(int i2 = 0; i2 < player.inventory.mainInventory.length; i2++)
-						{
-							ItemStack stack2 = player.inventory.getStackInSlot(i2);
-							
-							//if(rand.nextInt(100) == 0) {
-								//stack2 = player.inventory.armorItemInSlot(rand.nextInt(4));
-							//}
-							
-							//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-							if(stack2 != null) {
-									if(!stack2.hasTagCompound())
-										stack2.stackTagCompound = new NBTTagCompound();
-									float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-									stack2.stackTagCompound.setFloat("ntmNeutron", activation+(eRads/stack2.stackSize));
-									
-								//}
-							}
-						}
-						for(int i2 = 0; i2 < player.inventory.armorInventory.length; i2++)
-						{
-							ItemStack stack2 = player.inventory.armorItemInSlot(i2);
-							
-							//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-							if(stack2 != null) {					
-									if(!stack2.hasTagCompound())
-										stack2.stackTagCompound = new NBTTagCompound();
-									float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-									stack2.stackTagCompound.setFloat("ntmNeutron", activation+(eRads/stack2.stackSize));
-							}
-						}	
-					}
-				}
-				}				
+				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);															
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();
