@@ -3,6 +3,7 @@ package com.hbm.blocks.rail;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
@@ -128,6 +129,7 @@ public class RailStandardSwitch extends BlockRailWaypointSystem implements IRend
 		
 		if(world.isRemote) return true;
 		if(player.isSneaking()) return false;
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.train) return false;
 		
 		int[] pos = this.findCore(world, x, y, z);
 		
