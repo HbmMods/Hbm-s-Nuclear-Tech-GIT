@@ -168,6 +168,10 @@ public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase impleme
 				HeatingStep entry = trait.getFirstStep();
 				tanks[1].setTankType(entry.typeProduced);
 				tanks[1].changeTankSize(tanks[0].getMaxFill() * entry.amountProduced / entry.amountReq);
+				if(entry.amountProduced < entry.amountReq) {
+					tanks[1].changeTankSize(tanks[0].getMaxFill());
+					tanks[0].changeTankSize(tanks[1].getMaxFill() * entry.amountReq / entry.amountProduced);
+				}
 				return;
 			}
 		}
