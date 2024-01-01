@@ -550,7 +550,7 @@ public class Fluids {
 		THORIUM_SALT.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 1.0D).addStep(400, 1, THORIUM_SALT_HOT, 1), new FT_PWRModerator(2.5D));
 		THORIUM_SALT_HOT.addTraits(new FT_Coolable(THORIUM_SALT_DEPLETED, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 
-		COLLOID.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(101, 1, COLLOID_HOT, 1));
+		COLLOID.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(101, 1, COLLOID_HOT, 1));
 		COLLOID_HOT.addTraits(new FT_Coolable(COLLOID, 1, 1, 101).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 
 		if(idMapping.size() != metaOrder.size()) {
