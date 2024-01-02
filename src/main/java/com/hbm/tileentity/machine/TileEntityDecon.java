@@ -33,9 +33,7 @@ public class TileEntityDecon extends TileEntity {
 					e.removePotionEffect(HbmPotion.radiation.id);
 					HbmLivingProps.getCont(e).clear();
 					
-					if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMNeutronDecon) {
-					this.deconNeutron();	
-					}
+
 				}
 			}
 		} else {
@@ -55,64 +53,5 @@ public class TileEntityDecon extends TileEntity {
 		}
 	}
 		
-	public void deconNeutron() {
-
-		List<EntityLivingBase> entities = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, AxisAlignedBB.getBoundingBox(this.xCoord - 0.5, this.yCoord, this.zCoord - 0.5, this.xCoord + 1.5, this.yCoord + 2, this.zCoord + 1.5));
-		if(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMNeutronDecon) {
-		if(entities != null)
-			for(EntityLivingBase e : entities) {
-				if(e instanceof EntityPlayer) {
-					//Random rand = target.getRNG();
-					EntityPlayer player = (EntityPlayer) e;
-					float neut = HbmLivingProps.getNeutronActivation(player);
-					
-					if(neut > 0 && !RadiationConfig.disableNeutron) {
-						ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, neut / 20F);
-						HbmLivingProps.setNeutronActivation(player,neut*0.899916F);//20 minute half life not really
-					}
-					for(int i2 = 0; i2 < player.inventory.mainInventory.length; i2++)
-					{
-						ItemStack stack2 = player.inventory.getStackInSlot(i2);
-						
-						//if(rand.nextInt(100) == 0) {
-							//stack2 = player.inventory.armorItemInSlot(rand.nextInt(4));
-						//}
-						//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-						if(stack2 != null) {
-								if(!stack2.hasTagCompound())
-									stack2.stackTagCompound = new NBTTagCompound();
-								float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-								stack2.stackTagCompound.setFloat("ntmNeutron",activation*0.899916f);
-								if(activation<1e-5)
-								stack2.stackTagCompound.removeTag("ntmNeutron");
-								if (stack2.stackTagCompound.hasNoTags()){ 
-									stack2.setTagCompound((NBTTagCompound)null); 
-								}
-								
-							//}
-						}
-					}
-					for(int i2 = 0; i2 < player.inventory.armorInventory.length; i2++)
-					{
-						ItemStack stack2 = player.inventory.armorItemInSlot(i2);
-						
-						//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-						if(stack2 != null) {					
-								if(!stack2.hasTagCompound())
-									stack2.stackTagCompound = new NBTTagCompound();
-								float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-								stack2.stackTagCompound.setFloat("ntmNeutron",activation*0.899916f);
-								if(activation<1e-5)
-								stack2.stackTagCompound.removeTag("ntmNeutron");
-								if (stack2.stackTagCompound.hasNoTags()){ 
-									stack2.setTagCompound((NBTTagCompound)null); 
-								}
-						}
-					}	
-				}
-			}
-		
-	}
-}
 }
 	
