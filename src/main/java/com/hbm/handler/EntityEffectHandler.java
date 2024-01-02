@@ -184,7 +184,14 @@ public class EntityEffectHandler {
 	
 			float rad = ChunkRadiationManager.proxy.getRadiation(world, ix, iy, iz);
 	
-
+			float neut = HbmLivingProps.getNeutronActivation(entity);
+			
+			if(neut > 0 && !RadiationConfig.disableNeutron) {
+				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.RAD_BYPASS, neut / 20F);
+				HbmLivingProps.setNeutronActivation(entity,neut*0.998816f);//20 minute half life
+			}
+			if(neut<1e-5)
+				HbmLivingProps.setNeutronActivation(entity,0);
 			if(world.provider.isHellWorld && RadiationConfig.hellRad > 0 && rad < RadiationConfig.hellRad)
 				rad = (float) RadiationConfig.hellRad;
 	
