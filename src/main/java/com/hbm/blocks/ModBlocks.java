@@ -1105,8 +1105,9 @@ public class ModBlocks {
 	
 	public static Block machine_waste_drum;
 	public static Block machine_storage_drum;
-	
+
 	public static Block machine_autocrafter;
+	public static Block machine_funnel;
 	
 	public static Block anvil_iron;
 	public static Block anvil_lead;
@@ -2344,6 +2345,7 @@ public class ModBlocks {
 		machine_electrolyser = new MachineElectrolyser().setBlockName("machine_electrolyser").setHardness(10.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
 		
 		machine_autocrafter = new MachineAutocrafter().setBlockName("machine_autocrafter").setHardness(10.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab);
+		machine_funnel = new MachineFunnel().setBlockName("machine_funnel").setHardness(10.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab);
 		
 		anvil_iron = new NTMAnvil(Material.iron, 1).setBlockName("anvil_iron").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_iron");
 		anvil_lead = new NTMAnvil(Material.iron, 1).setBlockName("anvil_lead").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_lead");
@@ -3122,7 +3124,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(boat, boat.getUnlocalizedName());
 		
 		//Machines
-		GameRegistry.registerBlock(machine_autocrafter, ItemBlockBase.class, machine_autocrafter.getUnlocalizedName());
+		register(machine_autocrafter);
+		register(machine_funnel);
 		
 		GameRegistry.registerBlock(anvil_iron, ItemBlockBase.class, anvil_iron.getUnlocalizedName());
 		GameRegistry.registerBlock(anvil_lead, ItemBlockBase.class, anvil_lead.getUnlocalizedName());

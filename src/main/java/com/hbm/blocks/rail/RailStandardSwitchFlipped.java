@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RailStandardSwitchFlipped extends BlockRailWaypointSystem implements IRenderRail {
+public class RailStandardSwitchFlipped extends BlockRailWaypointSystem implements IRenderBlock {
 
 	@SideOnly(Side.CLIENT) private IIcon iconSign;
 

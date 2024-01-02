@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RailStandardCurveWide extends BlockDummyable implements IRailNTM, IRenderRail {
+public class RailStandardCurveWide extends BlockDummyable implements IRailNTM, IRenderBlock {
 
 	public RailStandardCurveWide() {
 		super(Material.iron);

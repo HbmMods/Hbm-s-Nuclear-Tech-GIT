@@ -1472,6 +1472,7 @@ public class ResourceManager {
 	public static final IModelCustom rail_standard_switch = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_standard_switch.obj"));
 	public static final IModelCustom rail_standard_switch_flipped = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_standard_switch_flipped.obj"));
 	public static final IModelCustom capacitor = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/capacitor.obj"));
+	public static final IModelCustom funnel = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/funnel.obj"));
 
 	public static final IModelCustom charge_dynamite = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/charge_dynamite.obj"));
 	public static final IModelCustom charge_c4 = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/charge_c4.obj"));

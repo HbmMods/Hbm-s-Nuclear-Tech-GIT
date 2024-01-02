@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RailNarrowStraight extends BlockDummyable implements IRailNTM, IRenderRail {
+public class RailNarrowStraight extends BlockDummyable implements IRailNTM, IRenderBlock {
 
 	public RailNarrowStraight() {
 		super(Material.iron);

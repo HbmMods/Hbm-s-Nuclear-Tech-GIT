@@ -2,7 +2,7 @@ package com.hbm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.rail.IRenderRail;
+import com.hbm.blocks.rail.IRenderBlock;
 import com.hbm.blocks.rail.RailStandardStraight;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -17,7 +17,7 @@ public class RenderRail implements ISimpleBlockRenderingHandler {
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
 		GL11.glPushMatrix();
 		Tessellator tessellator = Tessellator.instance;
-		IRenderRail rail = (IRenderRail) block;
+		IRenderBlock rail = (IRenderBlock) block;
 		rail.renderInventory(tessellator, block, metadata);
 		GL11.glPopMatrix();
 	}
@@ -28,7 +28,7 @@ public class RenderRail implements ISimpleBlockRenderingHandler {
 		tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
 		tessellator.setColorOpaque_F(1, 1, 1);
 		int meta = world.getBlockMetadata(x, y, z);
-		IRenderRail rail = (IRenderRail) block;
+		IRenderBlock rail = (IRenderBlock) block;
 		rail.renderWorld(tessellator, block, meta, world, x, y, z);
 		return true;
 	}
