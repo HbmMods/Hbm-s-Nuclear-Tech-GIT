@@ -411,17 +411,6 @@ public class ItemRenderLibrary {
 				bindTexture(ResourceManager.duchessgambit_tex); ResourceManager.duchessgambit.renderAll();
 			}});
 		
-		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_gadget), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -3, 0);
-				GL11.glScaled(5, 5, 5);
-			}
-			public void renderCommon() {
-				GL11.glTranslated(0.25, 0, 0);
-				bindTexture(ResourceManager.bomb_gadget_tex);
-				ResourceManager.bomb_gadget.renderAll();
-			}});
-		
 		renderers.put(Item.getItemFromBlock(ModBlocks.nuke_boy), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glScaled(5, 5, 5);

@@ -201,6 +201,7 @@
     "weapon.coilgunShoot": {"category": "player", "sounds": [{"name": "weapon/coilgunShoot", "stream": false}]},
     "weapon.glReload": {"category": "player", "sounds": [{"name": "weapon/glReload", "stream": false}]},
     "weapon.glShoot": {"category": "player", "sounds": [{"name": "weapon/glShoot", "stream": false}]},
+    "weapon.44Shoot": {"category": "player", "sounds": [{"name": "weapon/44Shoot", "stream": false}]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 

@@ -7,7 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 
-public interface IRenderRail {
+public interface IRenderBlock {
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
 

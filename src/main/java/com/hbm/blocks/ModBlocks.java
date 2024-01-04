@@ -1106,8 +1106,9 @@ public class ModBlocks {
 	
 	public static Block machine_waste_drum;
 	public static Block machine_storage_drum;
-	
+
 	public static Block machine_autocrafter;
+	public static Block machine_funnel;
 	
 	public static Block anvil_iron;
 	public static Block anvil_lead;
@@ -1172,7 +1173,9 @@ public class ModBlocks {
 	public static Block rail_narrow_straight;
 	public static Block rail_narrow_curve;
 	public static Block rail_large_straight;
+	public static Block rail_large_straight_short;
 	public static Block rail_large_curve;
+	public static Block rail_large_curve_wide;
 	public static Block rail_large_ramp;
 	public static Block rail_large_buffer;
 	public static Block rail_large_switch;
@@ -2252,7 +2255,9 @@ public class ModBlocks {
 		rail_narrow_straight = new RailNarrowStraight().setBlockName("rail_narrow_straight").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_narrow_neo");
 		rail_narrow_curve = new RailNarrowCurve().setBlockName("rail_narrow_curve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_narrow_neo");
 		rail_large_straight = new RailStandardStraight().setBlockName("rail_large_straight").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_straight");
+		rail_large_straight_short = new RailStandardStraightShort().setBlockName("rail_large_straight_short").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_straight");
 		rail_large_curve = new RailStandardCurve().setBlockName("rail_large_curve").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_straight");
+		rail_large_curve_wide = new RailStandardCurveWide().setBlockName("rail_large_curve_wide").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_straight");
 		rail_large_ramp = new RailStandardRamp().setBlockName("rail_large_ramp").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_straight");
 		rail_large_buffer = new RailStandardBuffer().setBlockName("rail_large_buffer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_buffer");
 		rail_large_switch = new RailStandardSwitch().setBlockName("rail_large_switch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":rail_standard_straight");
@@ -2342,6 +2347,7 @@ public class ModBlocks {
 		machine_electrolyser = new MachineElectrolyser().setBlockName("machine_electrolyser").setHardness(10.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
 		
 		machine_autocrafter = new MachineAutocrafter().setBlockName("machine_autocrafter").setHardness(10.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab);
+		machine_funnel = new MachineFunnel().setBlockName("machine_funnel").setHardness(10.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab);
 		
 		anvil_iron = new NTMAnvil(Material.iron, 1).setBlockName("anvil_iron").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_iron");
 		anvil_lead = new NTMAnvil(Material.iron, 1).setBlockName("anvil_lead").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_lead");
@@ -3120,7 +3126,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(boat, boat.getUnlocalizedName());
 		
 		//Machines
-		GameRegistry.registerBlock(machine_autocrafter, ItemBlockBase.class, machine_autocrafter.getUnlocalizedName());
+		register(machine_autocrafter);
+		register(machine_funnel);
 		
 		GameRegistry.registerBlock(anvil_iron, ItemBlockBase.class, anvil_iron.getUnlocalizedName());
 		GameRegistry.registerBlock(anvil_lead, ItemBlockBase.class, anvil_lead.getUnlocalizedName());
@@ -3555,7 +3562,9 @@ public class ModBlocks {
 		register(rail_narrow_straight);
 		register(rail_narrow_curve);
 		register(rail_large_straight);
+		register(rail_large_straight_short);
 		register(rail_large_curve);
+		register(rail_large_curve_wide);
 		register(rail_large_ramp);
 		register(rail_large_buffer);
 		register(rail_large_switch);

@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.rail.RailStandardSwitch.TileEntityRailSwitch;
+import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
@@ -24,7 +25,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RailStandardSwitchFlipped extends BlockRailWaypointSystem implements IRenderRail {
+public class RailStandardSwitchFlipped extends BlockRailWaypointSystem implements IRenderBlock {
 
 	@SideOnly(Side.CLIENT) private IIcon iconSign;
 
@@ -125,6 +126,7 @@ public class RailStandardSwitchFlipped extends BlockRailWaypointSystem implement
 		
 		if(world.isRemote) return true;
 		if(player.isSneaking()) return false;
+		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.train) return false;
 		
 		int[] pos = this.findCore(world, x, y, z);
 		

@@ -22,9 +22,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRenderBlock {
+public class RailStandardCurveWide extends BlockDummyable implements IRailNTM, IRenderBlock {
 
-	public RailStandardCurve() {
+	public RailStandardCurveWide() {
 		super(Material.iron);
 	}
 
@@ -59,8 +59,8 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRend
 		ForgeDirection dir = ForgeDirection.getOrientation(meta);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
-		double turnRadius = 4D;
-		double axisDist = 4.5D;
+		double turnRadius = 6D;
+		double axisDist = 6.5D;
 
 		Vec3 vec = Vec3.createVectorHelper(trainX, trainY, trainZ);
 		double axisX = cX + 0.5  + dir.offsetX * 0.5 + rot.offsetX * axisDist;
@@ -105,7 +105,7 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRend
 			double angleOvershoot = effAngle - 90D;
 			moveAngle -= angleOvershoot;
 			double lengthOvershoot = angleOvershoot * length90Deg / 90D;
-			info.dist(lengthOvershoot * Math.signum(speed * angularChange)).pos(new BlockPos(cX - dir.offsetX * 4 + rot.offsetX * 5, y, cZ - dir.offsetZ * 4 + rot.offsetZ * 5)).yaw((float) moveAngle);
+			info.dist(lengthOvershoot * Math.signum(speed * angularChange)).pos(new BlockPos(cX - dir.offsetX * 6 + rot.offsetX * 7, y, cZ - dir.offsetZ * 6 + rot.offsetZ * 7)).yaw((float) moveAngle);
 			return Vec3.createVectorHelper(axisX - dir.offsetX * turnRadius, y + 0.1875, axisZ - dir.offsetZ * turnRadius);
 		}
 		
@@ -130,7 +130,7 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRend
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {0, 0, 4, 0, 4, 0};
+		return new int[] {0, 0, 6, 0, 6, 0};
 	}
 
 	@Override
@@ -187,20 +187,28 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRend
 		int dZ = dir.offsetZ;
 		int rX = rot.offsetX;
 		int rZ = rot.offsetZ;
-		
+
 		world.setBlock(x + dX, y, z + dZ, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 2, y, z + dZ * 2, this, dir.ordinal(), 3);
 		world.setBlock(x + rX, y, z + rZ, this, rot.ordinal(), 3);
 		world.setBlock(x + dX + rX, y, z + dZ + rZ, this, rot.ordinal(), 3);
-		world.setBlock(x + dX + rX * 2, y, z + dZ + rZ * 2, this, rot.ordinal(), 3);
-		world.setBlock(x + dX * 2 + rX, y, z + dZ * 2 + rZ, this, dir.ordinal(), 3);
-		world.setBlock(x + dX * 2 + rX * 2, y, z + dZ * 2 + rZ * 2, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 2 + rX, y, z + dZ * 2 + rZ, this, rot.ordinal(), 3);
 		world.setBlock(x + dX * 3 + rX, y, z + dZ * 3 + rZ, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 4 + rX, y, z + dZ * 4 + rZ, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 2 + rX * 2, y, z + dZ * 2 + rZ * 2, this, rot.ordinal(), 3);
 		world.setBlock(x + dX * 3 + rX * 2, y, z + dZ * 3 + rZ * 2, this, dir.ordinal(), 3);
-		world.setBlock(x + dX * 2 + rX * 3, y, z + dZ * 2 + rZ * 3, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 4 + rX * 2, y, z + dZ * 4 + rZ * 2, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 5 + rX * 2, y, z + dZ * 5 + rZ * 2, this, dir.ordinal(), 3);
 		world.setBlock(x + dX * 3 + rX * 3, y, z + dZ * 3 + rZ * 3, this, rot.ordinal(), 3);
 		world.setBlock(x + dX * 4 + rX * 3, y, z + dZ * 4 + rZ * 3, this, dir.ordinal(), 3);
-		world.setBlock(x + dX * 3 + rX * 4, y, z + dZ * 3 + rZ * 4, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 5 + rX * 3, y, z + dZ * 5 + rZ * 3, this, dir.ordinal(), 3);
 		world.setBlock(x + dX * 4 + rX * 4, y, z + dZ * 4 + rZ * 4, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 5 + rX * 4, y, z + dZ * 5 + rZ * 4, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 6 + rX * 4, y, z + dZ * 6 + rZ * 4, this, dir.ordinal(), 3);
+		world.setBlock(x + dX * 5 + rX * 5, y, z + dZ * 5 + rZ * 5, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 5 + rX * 6, y, z + dZ * 5 + rZ * 6, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 6 + rX * 5, y, z + dZ * 6 + rZ * 5, this, rot.ordinal(), 3);
+		world.setBlock(x + dX * 6 + rX * 6, y, z + dZ * 6 + rZ * 6, this, rot.ordinal(), 3);
 		
 		BlockDummyable.safeRem = false;
 	}
@@ -208,11 +216,11 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRend
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void renderInventory(Tessellator tessellator, Block block, int metadata) {
-		GL11.glScaled(0.2, 0.2, 0.2);
-		GL11.glTranslated(2.5, -0.0625, -1.5);
+		GL11.glScaled(0.12, 0.12, 0.12);
+		GL11.glTranslated(2.5, -0.0625, -3);
 		GL11.glRotated(90, 0, 1, 0);
 		tessellator.startDrawingQuads();
-		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_standard_curve, block.getIcon(1, 0), tessellator, 0, false);
+		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_standard_curve_wide, block.getIcon(1, 0), tessellator, 0, false);
 		tessellator.draw();
 	}
 
@@ -225,7 +233,7 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRend
 		if(meta == 12) rotation = 180F / 180F * (float) Math.PI;
 		if(meta == 14) rotation = 270F / 180F * (float) Math.PI;
 		tessellator.addTranslation(x + 0.5F, y, z + 0.5F);
-		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_standard_curve, block.getIcon(1, 0), tessellator, rotation, true);
+		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_standard_curve_wide, block.getIcon(1, 0), tessellator, rotation, true);
 		tessellator.addTranslation(-x - 0.5F, -y, -z - 0.5F);
 	}
 }
