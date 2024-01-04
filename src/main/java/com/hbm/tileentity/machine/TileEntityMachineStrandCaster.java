@@ -318,12 +318,12 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
         if (bb == null) {
             bb = AxisAlignedBB.getBoundingBox(
-                    xCoord - 1,
+                    xCoord - 7,
                     yCoord,
-                    zCoord - 1,
-                    xCoord + 6,
+                    zCoord - 7,
+                    xCoord + 7,
                     yCoord + 3,
-                    zCoord + 6
+                    zCoord + 7
             );
         }
         return bb;

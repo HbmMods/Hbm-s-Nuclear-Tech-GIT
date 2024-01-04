@@ -53,7 +53,6 @@ public class MachineStrandCaster extends BlockDummyable implements ICrucibleAcce
 
     @Override
     public TileEntity createNewTileEntity(World world, int meta) {
-
         if (meta >= 12) return new TileEntityMachineStrandCaster();
         if (meta >= 6) return new TileEntityProxyCombo(true, false, true).moltenMetal();
         return null;
@@ -212,7 +211,8 @@ public class MachineStrandCaster extends BlockDummyable implements ICrucibleAcce
         if (tool != ToolType.SCREWDRIVER)
             return false;
 
-        TileEntityFoundryCastingBase cast = (TileEntityFoundryCastingBase) world.getTileEntity(x, y, z);
+        int[] coords = findCore(world, x, y, z);
+        TileEntityMachineStrandCaster cast = (TileEntityMachineStrandCaster) world.getTileEntity(coords[0], coords[1], coords[2]);
 
         if (cast.slots[0] == null)
             return false;
