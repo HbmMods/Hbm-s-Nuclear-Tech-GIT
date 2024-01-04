@@ -47,14 +47,14 @@ public class Gun44MagnumFactory {
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
-		config.reloadDuration = 10;
+		config.reloadDuration = 50;
 		config.firingDuration = 0;
 		config.ammoCap = 6;
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CLASSIC;
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
-		config.firingSound = "hbm:weapon.revolverShootAlt";
+		config.firingSound = "hbm:weapon.44Shoot";
 		config.reloadSoundEnd = false;
 		
 		config.config.addAll(HbmCollection.m44Normal);

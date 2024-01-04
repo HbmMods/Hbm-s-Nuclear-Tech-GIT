@@ -790,6 +790,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		if(!mainConfig.equipSound.isEmpty() && !player.worldObj.isRemote) {
 			player.worldObj.playSoundAtEntity(player, mainConfig.equipSound, 1, 1);
 		}
+		
+		if(player instanceof EntityPlayerMP) PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.EQUIP.ordinal()), (EntityPlayerMP) player);
 	}
 	
 	protected static void queueCasing(Entity entity, CasingEjector ejector, BulletConfiguration bullet, ItemStack stack) {
