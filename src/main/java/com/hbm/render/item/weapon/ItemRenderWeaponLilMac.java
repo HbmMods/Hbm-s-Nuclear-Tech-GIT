@@ -74,7 +74,7 @@ public class ItemRenderWeaponLilMac implements IItemRenderer {
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glAlphaFunc(GL11.GL_GREATER, 0F);
 			GL11.glTranslated(-10, 2.25, 0);
-			GL11.glTranslated(-recoil[2] * 3, -recoil[2] * 2, 0);
+			GL11.glTranslated(-recoil[2] * 3.5, -recoil[2] * 1.375, 0);
 			
 			if(ItemGunPip.smokeNodes.size() > 1 && equipSpin[0] == 0) {
 
@@ -103,7 +103,9 @@ public class ItemRenderWeaponLilMac implements IItemRenderer {
 					tess.setColorRGBA_F(1F, 1F, 1F, (float) past[3]);
 					tess.addVertex(past[0], past[1], past[2]);
 				}
+				GL11.glDepthMask(false);
 				tess.draw();
+				GL11.glDepthMask(true);
 			}
 			
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -132,6 +134,7 @@ public class ItemRenderWeaponLilMac implements IItemRenderer {
 			double[] cylinderFlip = HbmAnimations.getRelevantTransformation("RELOAD_CYLINDER");
 			GL11.glPushMatrix(); /// DRUM PUSH ///
 			GL11.glRotated(cylinderFlip[0], 1, 0, 0);
+			ResourceManager.lilmac.renderPart("Pivot");
 			GL11.glTranslated(0, 1.75, 0);
 			GL11.glRotated(HbmAnimations.getRelevantTransformation("DRUM")[2] * -60, 1, 0, 0);
 			GL11.glTranslated(0, -1.75, 0);
@@ -191,9 +194,7 @@ public class ItemRenderWeaponLilMac implements IItemRenderer {
 				tess.addVertexWithUV(lengthOffset, -height, -length + offset, 1, 0);
 				tess.addVertexWithUV(lengthOffset, height, -length + offset, 0 ,0);
 				
-				GL11.glDepthMask(true);
 				tess.draw();
-				GL11.glDepthMask(false);
 				GL11.glPopMatrix();
 				GL11.glDisable(GL11.GL_BLEND);
 			}
@@ -223,6 +224,8 @@ public class ItemRenderWeaponLilMac implements IItemRenderer {
 		case INVENTORY:
 
 			GL11.glEnable(GL11.GL_LIGHTING);
+			GL11.glAlphaFunc(GL11.GL_GREATER, 0F);
+			GL11.glEnable(GL11.GL_ALPHA_TEST);
 			
 			double s = 0.8D;
 			GL11.glTranslated(8, 8, 0);

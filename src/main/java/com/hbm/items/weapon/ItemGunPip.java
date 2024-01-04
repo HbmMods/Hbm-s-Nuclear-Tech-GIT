@@ -62,33 +62,34 @@ public class ItemGunPip extends ItemGunBase {
 	@SideOnly(Side.CLIENT)
 	public BusAnimation getAnimation(ItemStack stack, AnimType type) {
 		
-		 if(type == AnimType.EQUIP) {
+		if(type == AnimType.EQUIP) {
 				return new BusAnimation()
 						.addBus("ROTATE", new BusAnimationSequence()
 								.addKeyframe(new BusAnimationKeyframe(-360, 0, 0, 350))
 								);
-		 }
+		}
 		
-		 if(type == AnimType.CYCLE) {
+		if(type == AnimType.CYCLE) {
 			lastShot = System.currentTimeMillis();
+			int s = 1;
 			return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, -3, 50))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50 * s))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, -3, 50 * s))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250 * s))
 						)
 				.addBus("HAMMER", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 50))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 300))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 50 * s))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 300 * s))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200 * s))
 						)
 				.addBus("DRUM", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 50))
+						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 50 * s))
 						);
 		 }
 		
-		 if(type == AnimType.RELOAD) {
-			 int s = 1;
+		if(type == AnimType.RELOAD) {
+			int s = 1;
 				return new BusAnimation()
 						.addBus("RELAOD_TILT", new BusAnimationSequence()
 								.addKeyframe(new BusAnimationKeyframe(-15, 0, 0, 100 * s))
@@ -130,8 +131,8 @@ public class ItemGunPip extends ItemGunBase {
 								.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 950 * s))
 								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 1 * s))
 								);
-		 }
+		}
 		
-		 return null;
+		return null;
 	}
 }
