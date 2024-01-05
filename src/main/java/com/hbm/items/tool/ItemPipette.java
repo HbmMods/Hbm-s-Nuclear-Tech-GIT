@@ -64,7 +64,6 @@ public class ItemPipette extends Item implements IFillableItem {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 
         if(!stack.hasTagCompound()) {
