@@ -24,7 +24,7 @@ public class ItemPipette extends Item implements IFillableItem {
 
     @SideOnly(Side.CLIENT) protected IIcon overlayIcon;
 
-    public int amount = 50;
+    public int amount;
 
     public FluidType type = Fluids.NONE;
 
@@ -40,6 +40,7 @@ public class ItemPipette extends Item implements IFillableItem {
         stack.stackTagCompound = new NBTTagCompound();
 
         this.setFill(stack, type, 0);
+        this.amount = getMaxFill()
     }
 
     public void setFill(ItemStack stack, FluidType type, int fill) {
@@ -95,8 +96,8 @@ public class ItemPipette extends Item implements IFillableItem {
     @Override
     public boolean acceptsFluid(FluidType type, ItemStack stack) {
         if(this == ModItems.pipette_boron || this == ModItems.pipette_laboratory)
-            return (type == this.type || this.getFill(stack, type) == 0);
-        return (type == this.type || this.getFill(stack, type) == 0) && !type.needsLeadContainer();
+            return (type == this.type || this.getFill(stack, type) == 0 && !type.isAntimatter());
+        return (type == this.type || this.getFill(stack, type) == 0) && (!type.isCorrosive() && !type.isAntimatter());
     }
 
     @Override
