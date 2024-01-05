@@ -1,19 +1,23 @@
 package com.hbm.items.tool;
 
 import api.hbm.fluid.IFillableItem;
+
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ModItems;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import com.hbm.items.ModItems;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+
 import java.util.List;
 
 public class ItemPipette extends Item implements IFillableItem {
@@ -24,7 +28,7 @@ public class ItemPipette extends Item implements IFillableItem {
 
     @SideOnly(Side.CLIENT) protected IIcon overlayIcon;
 
-    public int amount;
+    public int amount = this.getMaxFill();
 
     public FluidType type = Fluids.NONE;
 
@@ -40,7 +44,6 @@ public class ItemPipette extends Item implements IFillableItem {
         stack.stackTagCompound = new NBTTagCompound();
 
         this.setFill(stack, type, 0);
-        this.amount = getMaxFill()
     }
 
     public void setFill(ItemStack stack, FluidType type, int fill) {
