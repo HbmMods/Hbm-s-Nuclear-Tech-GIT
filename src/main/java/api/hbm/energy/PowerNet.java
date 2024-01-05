@@ -138,10 +138,17 @@ public class PowerNet implements IPowerNet {
 			cleanup(this.subscribers);
 			lastCleanup = System.currentTimeMillis();
 		}*/
+		
+		List<PowerNet> cache = new ArrayList();
+		if(trackingInstances != null && !trackingInstances.isEmpty()) {
+			cache.addAll(trackingInstances);
+		}
 
 		trackingInstances = new ArrayList();
 		trackingInstances.add(this);
-		return fairTransfer(this.subscribers, power);
+		long result = fairTransfer(this.subscribers, power);
+		trackingInstances.addAll(cache);
+		return result;
 	}
 	
 	public static void cleanup(List<IEnergyConnector> subscribers) {
@@ -215,6 +222,8 @@ public class PowerNet implements IPowerNet {
 				PowerNet net = trackingInstances.get(i);
 				net.totalTransfer = net.totalTransfer.add(BigInteger.valueOf(totalTransfer));
 			}
+			
+			trackingInstances.clear();
 		}
 		
 		return power;

@@ -25,6 +25,7 @@ import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.recipes.*;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
@@ -270,6 +271,9 @@ public class MainRegistry {
 		loadConfig(PreEvent);
 		HbmPotion.init();
 		
+		/* For whichever fucking reason, replacing the bolt items with a bolt autogen broke all autogen items, most likely due to the load order.
+		 * This "fix" just makes sure that the material system is loaded first no matter what. */
+		Mats.MAT_STONE.getUnlocalizedName();
 		Fluids.init();
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
@@ -1183,6 +1187,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.brick_dungeon_tile");
 		ignoreMappings.add("hbm:tile.brick_dungeon_circle");
 		ignoreMappings.add("hbm:tile.bomber");
+		ignoreMappings.add("hbm:item.bolt_tungsten");
+		ignoreMappings.add("hbm:item.bolt_dura_steel");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

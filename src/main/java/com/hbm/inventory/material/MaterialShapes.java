@@ -13,6 +13,7 @@ public class MaterialShapes {
 	public static final MaterialShapes NUGGET = new MaterialShapes(8, "nugget");
 	public static final MaterialShapes DUSTTINY = new MaterialShapes(NUGGET.quantity, "dustTiny");
 	public static final MaterialShapes WIRE = new MaterialShapes(9);
+	public static final MaterialShapes BOLT = new MaterialShapes(9, "bolt");
 	public static final MaterialShapes BILLET = new MaterialShapes(NUGGET.quantity * 6, "billet");
 	public static final MaterialShapes INGOT = new MaterialShapes(NUGGET.quantity * 9, "ingot");
 	public static final MaterialShapes GEM = new MaterialShapes(INGOT.quantity, "gem");

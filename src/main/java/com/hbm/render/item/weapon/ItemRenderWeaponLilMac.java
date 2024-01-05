@@ -216,7 +216,6 @@ public class ItemRenderWeaponLilMac implements IItemRenderer {
 
 			double s1 = 0.075D;
 			GL11.glScaled(s1, s1, s1);
-			GL11.glRotatef(90, 0.0F, 1.0F, 0.0F);
 			GL11.glTranslatef(0F, 1F, 0F);
 			
 			break;
@@ -248,6 +247,7 @@ public class ItemRenderWeaponLilMac implements IItemRenderer {
 			ResourceManager.lilmac.renderPart("Bullets");
 			ResourceManager.lilmac.renderPart("Casings");
 			ResourceManager.lilmac.renderPart("Pivot");
+			ResourceManager.lilmac.renderPart("Hammer");
 			GL11.glShadeModel(GL11.GL_FLAT);
 		}
 		
