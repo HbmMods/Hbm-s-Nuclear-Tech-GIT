@@ -91,10 +91,10 @@ public class ItemPipette extends Item implements IFillableItem {
                 int a;
                 if(this == ModItems.pipette_laboratory) //if the pipette is a laboratory pipette
                     //if the player is sneaking then the capacity should increase, else it should decrease (Math.min and Math.max for negative numbers/going over capacity)
-                    a = player.isSneaking() ? Math.min(this.getCapacity(stack) + 1, 50) : Math.max(this.getCapacity(stack) - 1, 1);
+                    a = !player.isSneaking() ? Math.min(this.getCapacity(stack) + 1, 50) : Math.max(this.getCapacity(stack) - 1, 1);
                 else //if its not a laboratory pipette
                     //if the player is sneaking then the capacity should increase, else it should decrease
-                    a = player.isSneaking() ? Math.min(this.getCapacity(stack) + 50, 1_000) : Math.max(this.getCapacity(stack) - 50, 50);
+                    a = !player.isSneaking() ? Math.min(this.getCapacity(stack) + 50, 1_000) : Math.max(this.getCapacity(stack) - 50, 50);
                 stack.stackTagCompound.setShort("capacity", (short) a); // set the capacity to the new value
                 player.addChatMessage(new ChatComponentText(a + "/" + this.getMaxFill() + "mB")); // send new value in chat for player to see
             } else {
