@@ -696,6 +696,12 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.motor, 2),
 			}, 200);
 
+		makeRecipe(new ComparableStack(ModItems.pipette_laboratory, 1),new AStack[] {
+				new ComparableStack(ModBlocks.glass_boron, 2),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 1),
+				new ComparableStack(ModItems.circuit_aluminium, 2)
+		}, 30);
+
 		makeRecipe(new ComparableStack(ModBlocks.turret_chekhov, 1), new AStack[] {
 				new ComparableStack(ModBlocks.machine_battery, 1),
 				new OreDictStack(STEEL.ingot(), 16),
