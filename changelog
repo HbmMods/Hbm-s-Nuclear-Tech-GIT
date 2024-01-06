@@ -7,6 +7,10 @@
   * Will automatically do single ingredient 2x2 or 3x3 recipes like compressing ingots into blocks at up to 9 operations per tick
   * Input is strictly on the top and output on the bottom
   * The side acts as an output for the ingredients as a way to de-clog the funnel from leftover materials
+* Stealth missile
+  * A missile that is not picked up by radars, turrets or ABMs
+  * Marginally more powerful than a tier 1 HE missile
+  * Somewhat expensive, takes a full minute to make in the assembler
 
 ## Changed
 * Updated russian localization
@@ -23,14 +27,19 @@
   * Now features proper animations for drawing the weapon, firing and reloading, as well as new sounds
   * Comes with a new and improved 3D model as well as a cylinder gap flash when firing
   * Is now part of the red room loot pool
+  * Durability has been drastically increased
 * Powder box recipes now produce 8 boxes from the same amount of ingredients, making cyclotron recipes more affordable
 * Buffed the radiation-powered engine, all valid fuels now produce 10x more energy per tick
 * Removed tungsten and HSS bolts as dedicated items, they are now a single bolt item that uses the autogen system
   * Regular steel is now also a valid bolt material which will replace tungsten in many recipes where tungsten just doesn't make sense
   * Bolts Are now 1/8 of an ingot instead of 1/2 which makes some recipes marginally cheaper, as well as making them equal to GregTech bolts
   * Bolts are oredicted and interchangeable, as well as recycleable in the crucible
+* The N45 naval mine has been obliterated
+* The solar boiler's ray rendering is no longer bound by particle settings, instead it will be disabled when fast graphics are enabaled
+* The solar boiler's internal buffer has been reduced, its steam output is now capped at 10,000mB/t (which should be 20kHE/t or 0.8MHE/s)
 
 ## Fixed
 * Fixed afterburn upgrades not being craftable with bakelite
 * Fixed bismuth block not being properly oredicted
 * Powder detectors that are used in the same network as diodes should now be somewhat less wrong
+* Fixed horrifying gamebreaking issue that would frequently cause crashes, corrupt worlds and bluescreen PCs where the red copper block and the advanced alloy block had inconsistent colors

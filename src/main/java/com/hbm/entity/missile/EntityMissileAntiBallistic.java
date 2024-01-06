@@ -108,7 +108,8 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 		
 		for(Entity e : TileEntityMachineRadarNT.matchingEntities) {
 			if(e.dimension != this.dimension) continue;
-			if(!(e instanceof EntityMissileBaseNT)) continue;
+			if(!(e instanceof EntityMissileBaseNT)) continue; //can only lock onto missiles
+			if(e instanceof EntityMissileStealth) continue; //cannot lack onto missiles with stealth coating
 			
 			Vec3 vec = Vec3.createVectorHelper(e.posX - posX, e.posY - posY, e.posZ - posZ);
 			

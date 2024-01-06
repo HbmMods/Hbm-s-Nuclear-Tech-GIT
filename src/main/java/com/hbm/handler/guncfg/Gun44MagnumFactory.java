@@ -83,7 +83,7 @@ public class Gun44MagnumFactory {
 		
 		GunConfiguration config = getBaseConfig();
 		
-		config.durability = 4000;
+		config.durability = 31_000;
 		
 		config.name = "ifScope";
 		config.manufacturer = EnumGunManufacturer.IF;

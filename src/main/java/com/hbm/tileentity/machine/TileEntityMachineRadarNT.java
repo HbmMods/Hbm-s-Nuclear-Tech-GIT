@@ -21,7 +21,6 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
-import com.hbm.saveddata.satellites.Satellite.Interfaces;
 import com.hbm.saveddata.satellites.SatelliteLaser;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
