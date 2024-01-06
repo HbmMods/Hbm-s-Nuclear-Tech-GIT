@@ -50,8 +50,8 @@ public class ConsumableRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.balefire_and_ham, 1), new Object[] { ModItems.balefire_scrambled, Items.cooked_beef });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.med_ipecac, 1), new Object[] { Items.glass_bottle, Items.nether_wart });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.med_ptsd, 1), new Object[] { ModItems.med_ipecac });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.pancake, 1), new Object[] { REDSTONE.dust(), DIAMOND.dust(), Items.wheat, ModItems.bolt_tungsten, ModItems.wire_copper, STEEL.plate() });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.pancake, 1), new Object[] { REDSTONE.dust(), EMERALD.dust(), Items.wheat, ModItems.bolt_tungsten, ModItems.wire_copper, STEEL.plate() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.pancake, 1), new Object[] { REDSTONE.dust(), DIAMOND.dust(), Items.wheat, STEEL.bolt(), ModItems.wire_copper, STEEL.plate() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.pancake, 1), new Object[] { REDSTONE.dust(), EMERALD.dust(), Items.wheat, STEEL.bolt(), ModItems.wire_copper, STEEL.plate() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.chocolate_milk, 1), new Object[] { KEY_ANYPANE, new ItemStack(Items.dye, 1, 3), Items.milk_bucket, Fluids.NITROGLYCERIN.getDict(1_000) });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.loops), new Object[] { ModItems.flame_pony, Items.wheat, Items.sugar });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.loop_stew), new Object[] { ModItems.loops, ModItems.can_smart, Items.bowl });
@@ -170,8 +170,8 @@ public class ConsumableRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.insert_yharonite, 1), new Object[] { "YIY", "IYI", "YIY", 'Y', ModItems.billet_yharonite, 'I', ModItems.insert_du });
 		
 		//Servos
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.servo_set, 1), new Object[] { "MBM", "PBP", "MBM", 'M', ModItems.motor, 'B', ModItems.bolt_tungsten, 'P', IRON.plate() });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.servo_set_desh, 1), new Object[] { "MBM", "PSP", "MBM", 'M', ModItems.motor_desh, 'B', ModItems.bolt_dura_steel, 'P', ALLOY.plate(), 'S', ModItems.servo_set });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.servo_set, 1), new Object[] { "MBM", "PBP", "MBM", 'M', ModItems.motor, 'B', STEEL.bolt(), 'P', IRON.plate() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.servo_set_desh, 1), new Object[] { "MBM", "PSP", "MBM", 'M', ModItems.motor_desh, 'B', DURA.bolt(), 'P', ALLOY.plate(), 'S', ModItems.servo_set });
 		
 		//Helmet Mods
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.attachment_mask, 1), new Object[] { "DID", "IGI", " F ", 'D', ModItems.ducttape, 'I', ANY_RUBBER.ingot(), 'G', KEY_ANYPANE, 'F', IRON.plate() });

@@ -518,7 +518,7 @@ public class AnvilRecipes {
 				new AnvilOutput(new ItemStack(ModItems.plate_dineutronium, 4))).setTier(7));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
-				new AStack[] {new OreDictStack(TI.plate(), 2), new OreDictStack(STEEL.ingot(), 1), new ComparableStack(ModItems.bolt_tungsten, 2)},
+				new AStack[] {new OreDictStack(TI.plate(), 2), new OreDictStack(STEEL.ingot(), 1), new OreDictStack(STEEL.bolt(), 4)},
 				new AnvilOutput(new ItemStack(ModItems.plate_armor_titanium))).setTier(2));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {new OreDictStack(IRON.plate(), 4), new OreDictStack(BIGMT.plate(), 2), new ComparableStack(ModItems.plate_armor_titanium, 1)},

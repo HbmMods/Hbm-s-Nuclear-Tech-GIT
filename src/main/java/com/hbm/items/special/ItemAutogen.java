@@ -64,7 +64,7 @@ public class ItemAutogen extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
-		
+
 		for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.shapes.contains(this.shape)) {
 				list.add(new ItemStack(item, 1, mat.id));
