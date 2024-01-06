@@ -536,7 +536,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_chemthrower, new ItemRenderWeaponChemthrower());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_m2, new ItemRenderM2());	
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_nopip, new ItemRenderWeaponNovac());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_pip, new ItemRenderWeaponNovac());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_pip, new ItemRenderWeaponLilMac());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_blackjack, new ItemRenderWeaponNovac());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_silver, new ItemRenderWeaponNovac());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_revolver_red, new ItemRenderWeaponNovac());
@@ -834,12 +834,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderFoundryTank());
 		RenderingRegistry.registerBlockHandler(new RenderFoundryOutlet());
 
-		RenderingRegistry.registerBlockHandler(new RenderNarrowStraightRail());
-		RenderingRegistry.registerBlockHandler(new RenderNarrowCurveRail());
-		RenderingRegistry.registerBlockHandler(new RenderStandardStraightRail());
-		RenderingRegistry.registerBlockHandler(new RenderStandardCurveRail());
-		RenderingRegistry.registerBlockHandler(new RenderStandardRampRail());
-		RenderingRegistry.registerBlockHandler(new RenderStandardBufferRail());
+		RenderingRegistry.registerBlockHandler(new RenderRail());
 		
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_dynamite.getRenderType(), ResourceManager.charge_dynamite));
 		RenderingRegistry.registerBlockHandler(new RenderBlockRotated(ModBlocks.charge_c4.getRenderType(), ResourceManager.charge_c4));

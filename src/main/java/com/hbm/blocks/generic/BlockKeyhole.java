@@ -240,5 +240,6 @@ public class BlockKeyhole extends BlockStone {
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.flask_infusion), 5));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModBlocks.boxcar), 5));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.book_of_), 5));
+		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.gun_revolver_pip), 5));
 	}
 }

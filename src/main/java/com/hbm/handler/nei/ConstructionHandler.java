@@ -33,9 +33,9 @@ public class ConstructionHandler extends NEIUniversalHandler {
 		/* WATZ */
 		ItemStack[] watz = new ItemStack[] {
 				new ItemStack(ModBlocks.watz_end, 48),
-				new ItemStack(ModItems.bolt_dura_steel, 64),
-				new ItemStack(ModItems.bolt_dura_steel, 64),
-				new ItemStack(ModItems.bolt_dura_steel, 64),
+				Mats.MAT_DURA.make(ModItems.bolt, 64),
+				Mats.MAT_DURA.make(ModItems.bolt, 64),
+				Mats.MAT_DURA.make(ModItems.bolt, 64),
 				new ItemStack(ModBlocks.watz_element, 36),
 				new ItemStack(ModBlocks.watz_cooler, 26),
 				new ItemStack(ModItems.boltgun)};

@@ -362,7 +362,7 @@ public class OreDictManager {
 		TCALLOY																.ingot(ingot_tcalloy)												.dust(powder_tcalloy)											.block(block_tcalloy);
 		CDALLOY																.ingot(ingot_cdalloy)																												.block(block_cdalloy);
 		PB			.nugget(nugget_lead)									.ingot(ingot_lead)													.dust(powder_lead)				.plate(plate_lead)				.block(block_lead)			.ore(ore_lead, ore_meteor_lead);
-		BI			.nugget(nugget_bismuth)		.billet(billet_bismuth)		.ingot(ingot_bismuth)												.dust(powder_bismuth);
+		BI			.nugget(nugget_bismuth)		.billet(billet_bismuth)		.ingot(ingot_bismuth)												.dust(powder_bismuth)											.block(block_bismuth);
 		AS			.nugget(nugget_arsenic)									.ingot(ingot_arsenic);
 		CA																	.ingot(ingot_calcium)												.dust(powder_calcium);
 		CD																	.ingot(ingot_cadmium)												.dust(powder_cadmium)											.block(block_cadmium);
@@ -516,6 +516,7 @@ public class OreDictManager {
 
 		for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.smeltable == SmeltingBehavior.SMELTABLE) {
+				if(mat.shapes.contains(MaterialShapes.BOLT)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.BOLT.name() + name, new ItemStack(ModItems.bolt, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.CASTPLATE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.CASTPLATE.name() + name, new ItemStack(ModItems.plate_cast, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.WELDEDPLATE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.WELDEDPLATE.name() + name, new ItemStack(ModItems.plate_welded, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.HEAVY_COMPONENT)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.HEAVY_COMPONENT.name() + name, new ItemStack(ModItems.heavy_component, 1, mat.id));
@@ -661,6 +662,7 @@ public class OreDictManager {
 		public String any() {			return ANY				+ mats[0]; }
 		public String nugget() {		return NUGGET			+ mats[0]; }
 		public String tiny() {			return TINY				+ mats[0]; }
+		public String bolt() {			return BOLT				+ mats[0]; }
 		public String ingot() {			return INGOT			+ mats[0]; }
 		public String dustTiny() {		return DUSTTINY			+ mats[0]; }
 		public String dust() {			return DUST				+ mats[0]; }
@@ -914,6 +916,7 @@ public class OreDictManager {
 		public String any() {			return ANY				+ groupName; }
 		public String nugget() {		return NUGGET			+ groupName; }
 		public String tiny() {			return TINY				+ groupName; }
+		public String bolt() {			return BOLT				+ groupName; }
 		public String ingot() {			return INGOT			+ groupName; }
 		public String dustTiny() {		return DUSTTINY			+ groupName; }
 		public String dust() {			return DUST				+ groupName; }

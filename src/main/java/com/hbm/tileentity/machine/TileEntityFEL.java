@@ -13,6 +13,7 @@ import com.hbm.items.machine.ItemFELCrystal;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ContaminationUtil;
@@ -36,6 +37,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -49,6 +51,8 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 	public boolean missingValidSilex = true	;
 	public int distance;
 	public List<EntityLivingBase> entities = new ArrayList();
+	private int audioDuration = 0;
+	private AudioWrapper audio;
 	
 	
 	public TileEntityFEL() {
@@ -179,6 +183,34 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 			data.setBoolean("valid", missingValidSilex);
 			data.setInteger("distance", distance);
 			this.networkPack(data, 250);
+		} else {
+
+			if(isOn) {
+				audioDuration += 2;
+			} else {
+				audioDuration -= 3;
+			}
+
+			audioDuration = MathHelper.clamp_int(audioDuration, 0, 60);
+
+			if(audioDuration > 10) {
+
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+
+				audio.updatePitch((audioDuration - 10) / 100F + 0.5F);
+
+			} else {
+
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
 		}
 	}
 	
@@ -234,7 +266,12 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 		nbt.setBoolean("valid", missingValidSilex);
 		nbt.setInteger("distance", distance);
 	}
-	
+
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.fel", xCoord, yCoord, zCoord, 2.0F, 10F, 2.0F);
+	}
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return INFINITE_EXTENT_AABB;

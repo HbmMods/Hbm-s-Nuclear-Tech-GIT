@@ -14,7 +14,6 @@ import com.hbm.blocks.rail.IRailNTM.TrackGauge;
 import com.hbm.items.ModItems;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -56,6 +55,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 	public double renderX;
 	public double renderY;
 	public double renderZ;
+	public double cachedSpeed;
 
 	public EntityRailCarBase coupledFront;
 	public EntityRailCarBase coupledBack;
@@ -175,9 +175,20 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				this.renderX = (frontPos.xCoord + backPos.xCoord) / 2D;
 				this.renderY = (frontPos.yCoord + backPos.yCoord) / 2D;
 				this.renderZ = (frontPos.zCoord + backPos.zCoord) / 2D;
+			} else {
+				this.renderX = posX;
+				this.renderY = posY;
+				this.renderZ = posZ;
 			}
 			
 		} else {
+			
+			if(!this.isOnRail) {
+				if(this.coupledFront != null) this.coupledFront.couple(this.coupledFront.getCouplingFrom(this), null);
+				if(this.coupledBack != null) this.coupledBack.couple(this.coupledBack.getCouplingFrom(this), null);
+				this.coupledFront = null;
+				this.coupledBack = null;
+			}
 
 			if(this.coupledFront != null && this.coupledFront.isDead) {
 				this.coupledFront = null;
@@ -188,8 +199,18 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				if(this.ltu != null) this.ltu.dissolveTrain();
 			}
 			
-			if(this.ltu == null && (this.coupledFront == null || this.coupledBack == null)) {
+			if(this.ltu == null && (this.coupledFront == null || this.coupledBack == null) && this.isOnRail) {
 				LogicalTrainUnit.generateTrain(this);
+			}
+			
+			if(!this.isOnRail) {
+				Vec3 motion = Vec3.createVectorHelper(0, 0, this.cachedSpeed);
+				motion.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180D));
+				this.moveEntity(motion.xCoord, motion.yCoord - 0.04, motion.zCoord);
+				this.renderX = posX;
+				this.renderY = posY;
+				this.renderZ = posZ;
+				this.cachedSpeed *= 0.95D;
 			}
 			
 			DummyConfig[] definitions = this.getDummies();
@@ -207,7 +228,6 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 					double z = posZ + rot.zCoord;
 					dummy.setPosition(x, y, z);
 					dummy.setSize(def.width, def.height);
-					dummy.velocityChanged = true;
 					worldObj.spawnEntityInWorld(dummy);
 					this.dummies[i] = dummy;
 				}
@@ -215,16 +235,18 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				this.initDummies = true;
 			}
 			
-			for(int i = 0; i < definitions.length; i++) {
-				DummyConfig def = definitions[i];
-				BoundingBoxDummyEntity dummy = dummies[i];
-				Vec3 rot = Vec3.createVectorHelper(def.offset.xCoord, def.offset.yCoord, def.offset.zCoord);
-				rot.rotateAroundX((float) (this.rotationPitch * Math.PI / 180D));
-				rot.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
-				double x = renderX + rot.xCoord;
-				double y = renderY + rot.yCoord;
-				double z = renderZ + rot.zCoord;
-				dummy.setPosition(x, y, z);
+			if(renderY != 0) {
+				for(int i = 0; i < definitions.length; i++) {
+					DummyConfig def = definitions[i];
+					BoundingBoxDummyEntity dummy = dummies[i];
+					Vec3 rot = Vec3.createVectorHelper(def.offset.xCoord, def.offset.yCoord, def.offset.zCoord);
+					rot.rotateAroundX((float) (this.rotationPitch * Math.PI / 180D));
+					rot.rotateAroundY((float) (-this.rotationYaw * Math.PI / 180));
+					double x = renderX + rot.xCoord;
+					double y = renderY + rot.yCoord;
+					double z = renderZ + rot.zCoord;
+					dummy.setPosition(x, y, z);
+				}
 			}
 		}
 	}
@@ -318,6 +340,8 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			
 			if(Math.abs(speed) < 0.001) speed = 0;
 			
+			for(EntityRailCarBase car : ltu.trains) car.cachedSpeed = speed;
+			
 			if(ltu.trains.length == 1) {
 
 				EntityRailCarBase train = ltu.trains[0];
@@ -355,11 +379,9 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				ltu.moveTrainByApproach(speed);
 			}
 			
-			if(ltu.trains.length != 1) {
-				//ltu.pushForce *= 0.95;
-				ltu.pushForce = 0;
-				ltu.collideTrain(speed);
-			}
+			//ltu.pushForce *= 0.95;
+			ltu.pushForce = 0;
+			ltu.collideTrain(speed);
 		}
 	}
 
@@ -388,7 +410,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 	
 	public void derail() {
 		isOnRail = false;
-		this.setDead();
+		//this.setDead();
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -745,24 +767,34 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 			return totalSpeed;
 		}
 		
+		/*
+		 * This method has no rhyme or reason behind it. Nothing of this was calculated, instead it was an old system that worked with older constraints,
+		 * which was retrofitted with a slightly newer system and beaten into submission for two consecutive hours until it yielded the results it should.
+		 * Booleans are flipped back and forth based on seemingly random conditions, numbers are inverted and then inverted again and finally smashed into
+		 * the rail system in the hopes that it would make trains work. My apologies extend towards Bob in the future who will inevitably have to rewrite this
+		 * abhorrence because of some constraint change which will cause the entire system to break. Part of me wishes to never touch the train code ever again,
+		 * to abandon the idea and to ban the annoying people on Discord who keep asking about it. Another part wants me to slam my head against this project
+		 * until either it or my skull gives way; and considering I got this far, it appears as if this side is the one that is winning.
+		 */
 		/** Determines the "front" wagon based on the movement and moves it, then moves all other wagons towards that */
 		public void moveTrainByApproach(double speed) {
-			boolean forward = speed < 0;
-			speed = Math.abs(speed);
 			EntityRailCarBase previous = null;
-			
 			EntityRailCarBase first = this.trains[0];
+			boolean forward = speed > 0;
+			boolean order = forward ^ first.getCouplingFrom(null) == TrainCoupling.BACK;
 			
-			for(int i = !forward ? 0 : this.trains.length - 1; !forward ? i < this.trains.length : i >= 0; i += !forward ? 1 : -1) {
+			for(int i = order ? 0 : this.trains.length - 1; order ? i < this.trains.length : i >= 0; i += order ? 1 : -1) {
 				EntityRailCarBase current = this.trains[i];
 				
 				if(previous == null) {
+					
+					if(first == current) speed *= -1;
 					
 					boolean inReverse = first.getCouplingFrom(null) == current.getCouplingFrom(null);
 					int sigNum = inReverse ? 1 : -1;
 					BlockPos anchor = current.getCurrentAnchorPos();
 					
-					/*Vec3 frontPos = current.getRelPosAlongRail(anchor, current.getLengthSpan(), new MoveContext(RailCheckType.FRONT));
+					Vec3 frontPos = current.getRelPosAlongRail(anchor, (speed + current.getLengthSpan()) * -sigNum, new MoveContext(RailCheckType.FRONT, current.getCollisionSpan() - current.getLengthSpan()));
 					
 					if(frontPos == null) {
 						current.derail();
@@ -770,43 +802,16 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 						return;
 					} else {
 						anchor = current.getCurrentAnchorPos(); //reset origin to new position
-						Vec3 corePos = current.getRelPosAlongRail(anchor, speed * sigNum, new MoveContext(RailCheckType.CORE));
+						Vec3 corePos = current.getRelPosAlongRail(anchor, speed * -sigNum, new MoveContext(RailCheckType.CORE, 0));
 						current.setPosition(corePos.xCoord, corePos.yCoord, corePos.zCoord);
-						Vec3 backPos = current.getRelPosAlongRail(anchor, -current.getLengthSpan(), new MoveContext(RailCheckType.BACK));
+						Vec3 backPos = current.getRelPosAlongRail(anchor, (speed - current.getLengthSpan()) * -sigNum, new MoveContext(RailCheckType.BACK, current.getCollisionSpan() - current.getLengthSpan()));
 
 						if(frontPos == null || backPos == null) {
 							current.derail();
 							this.dissolveTrain();
 							return;
 						} else {
-							setRenderPos(current, frontPos, backPos);
-						}
-					}*/
-					
-					Pair<Double, RailCheckType>[] checks;
-					double dist = speed * sigNum;
-					
-					if(forward) {
-						checks = new Pair[] {
-								new Pair(dist + current.getLengthSpan(), RailCheckType.FRONT),
-								new Pair(dist, RailCheckType.CORE),
-								new Pair(dist - current.getLengthSpan(), RailCheckType.BACK)
-						};
-					} else {
-						checks = new Pair[] {
-								new Pair(dist - current.getLengthSpan(), RailCheckType.BACK),
-								new Pair(dist, RailCheckType.CORE),
-								new Pair(dist + current.getLengthSpan(), RailCheckType.FRONT)
-						};
-					}
-					
-					double brake = 0;
-					
-					for(Pair<Double, RailCheckType> check : checks) {
-						MoveContext ctx = new MoveContext(check.getValue(), current.getCollisionSpan() - current.getLengthSpan());
-						current.getRelPosAlongRail(anchor, check.getKey() - (brake * Math.signum(check.getKey())), ctx);
-						if(ctx.collision) {
-							brake += ctx.overshoot;
+							setRenderPos(current, inReverse ? backPos : frontPos, inReverse ? frontPos : backPos);
 						}
 					}
 					
