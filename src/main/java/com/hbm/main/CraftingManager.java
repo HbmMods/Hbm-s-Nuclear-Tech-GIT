@@ -518,8 +518,12 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModBlocks.rail_large_straight_short, 5), new Object[] { ModBlocks.rail_large_straight });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_large_buffer, 1), new Object[] { " S", "RS", 'R', ModBlocks.rail_large_straight, 'S', STEEL.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_large_curve, 1), new Object[] { "R ", " R", 'R', ModBlocks.rail_large_straight });
-		addRecipeAuto(new ItemStack(ModBlocks.rail_large_curve_wide, 1), new Object[] { "RR", " R", 'R', ModBlocks.rail_large_straight });
+		addRecipeAuto(new ItemStack(ModBlocks.rail_large_curve_7, 1), new Object[] { "RR", " R", 'R', ModBlocks.rail_large_straight });
+		addRecipeAuto(new ItemStack(ModBlocks.rail_large_curve_9, 1), new Object[] { "RR ", "  R", "  R", 'R', ModBlocks.rail_large_straight });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_large_ramp, 1), new Object[] { " R ", "SSS", 'R', ModBlocks.rail_large_straight, 'S', KEY_SLAB });
+		addRecipeAuto(new ItemStack(ModBlocks.rail_large_switch, 1), new Object[] { "R R", " RR", "  R", 'R', ModBlocks.rail_large_straight });
+		addShapelessAuto(new ItemStack(ModBlocks.rail_large_switch), new Object[] { ModBlocks.rail_large_switch_flipped });
+		addShapelessAuto(new ItemStack(ModBlocks.rail_large_switch_flipped), new Object[] { ModBlocks.rail_large_switch });
 
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.bomb_multi), 1), new Object[] { "AAD", "CHF", "AAD", 'A', ModItems.wire_aluminium, 'C', ModItems.circuit_aluminium, 'H', ModItems.hull_small_aluminium, 'F', ModItems.fins_quad_titanium, 'D', KEY_WHITE });
 		addShapelessAuto(new ItemStack(ModItems.powder_ice, 4), new Object[] { Items.snowball, KNO.dust(), REDSTONE.dust() });

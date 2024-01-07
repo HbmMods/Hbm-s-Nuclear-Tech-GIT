@@ -128,7 +128,6 @@ public class TileMappings {
 		put(TileEntityLandmine.class, "tileentity_landmine");
 		put(TileEntityMachineKeyForge.class, "tileentity_key_forge");
 		put(TileEntitySellafield.class, "tileentity_sellafield_core");
-		put(TileEntityNukeN45.class, "tileentity_n45");
 		put(TileEntityBlastDoor.class, "tileentity_blast_door");
 		put(TileEntitySafe.class, "tileentity_safe");
 		put(TileEntityMachineGasCent.class, "tileentity_gas_centrifuge");

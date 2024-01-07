@@ -131,7 +131,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 				data.setInteger("color", 0x0000ff);
 				data.setFloat("scale", 1.5F);
 				data.setString("text", id + " (#" + train.ltuIndex + ")");
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, train.posX, train.posY + 1, train.posZ), new TargetPoint(this.dimension, train.posX, train.posY + 1, train.posZ, 50));
+				//PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, train.posX, train.posY + 1, train.posZ), new TargetPoint(this.dimension, train.posX, train.posY + 1, train.posZ, 50));
 			}
 		}
 		
@@ -891,6 +891,6 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 	@SideOnly(Side.CLIENT)
 	public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
 		List<String> text = new ArrayList();
-		ILookOverlay.printGeneric(event, this.getClass().getSimpleName() + " " + this.hashCode(), 0xffff00, 0x404000, text); //none of this shit is going to work anyway
+		//ILookOverlay.printGeneric(event, this.getClass().getSimpleName() + " " + this.hashCode(), 0xffff00, 0x404000, text);
 	}
 }
