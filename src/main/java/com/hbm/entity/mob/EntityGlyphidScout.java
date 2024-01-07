@@ -81,6 +81,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 						target.setLocationAndAngles(dirVec.xCoord, dirVec.yCoord, dirVec.zCoord, 0, 0);
 						target.maxAge = 300;
 						target.radius = 6;
+						target.setWaypointType(TASK_BUILD_HIVE);
 						worldObj.spawnEntityInWorld(target);
 						hasTarget = true;
 
@@ -291,6 +292,12 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		return false;
 	}
 
+	@Override
+	protected Entity findPlayerToAttack() {
+		if(this.isPotionActive(Potion.blindness)) return null;
+
+		return this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() ? 128D : 8D);
+	}
 	///RAMPANT MODE STUFFS
 
 	/** Finds the direction from the bug's location to the target and adds it to their current coord

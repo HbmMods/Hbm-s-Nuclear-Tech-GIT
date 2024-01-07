@@ -11,6 +11,7 @@ import java.util.UUID;
 import com.hbm.config.MobConfig;
 import com.hbm.config.RadiationConfig;
 
+import com.hbm.entity.mob.EntityGlyphidDigger;
 import com.hbm.entity.mob.EntityGlyphidScout;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -362,8 +363,11 @@ public class PollutionHandler {
 
 						if (soot >= MobConfig.rampantScoutSpawnThresh) {
 							EntityGlyphidScout scout = new EntityGlyphidScout(event.world);
+							EntityGlyphidDigger digger = new EntityGlyphidDigger(event.world);
 							scout.setLocationAndAngles(event.x, event.y, event.z, event.world.rand.nextFloat() * 360.0F, 0.0F);
+							digger.setLocationAndAngles(event.x, event.y, event.z, event.world.rand.nextFloat() * 360.0F, 0.0F);
 							event.world.spawnEntityInWorld(scout);
+							event.world.spawnEntityInWorld(digger);
 						}
 					}
 				}
