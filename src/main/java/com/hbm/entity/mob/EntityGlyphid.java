@@ -176,8 +176,7 @@ public class EntityGlyphid extends EntityMob {
 	protected Entity findPlayerToAttack() {
 		if(this.isPotionActive(Potion.blindness)) return null;
 
-		EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() ? 128D : 16D);
-		return entityplayer;
+		return this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() ? 128D : 16D);
 	}
 
 	@Override

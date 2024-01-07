@@ -12,16 +12,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class EntityRubble extends EntityThrowable {
+public class EntityRubble extends EntityThrowableInterp {
 
-    public EntityRubble(World p_i1773_1_)
+    public EntityRubble(World world)
     {
-        super(p_i1773_1_);
-    }
-
-    public EntityRubble(World p_i1774_1_, EntityLivingBase p_i1774_2_)
-    {
-        super(p_i1774_1_, p_i1774_2_);
+        super(world);
     }
 
     @Override
@@ -30,19 +25,18 @@ public class EntityRubble extends EntityThrowable {
         this.dataWatcher.addObject(17, (int)Integer.valueOf(0));
     }
 
-    public EntityRubble(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_)
-    {
-        super(p_i1775_1_, p_i1775_2_, p_i1775_4_, p_i1775_6_);
+    public EntityRubble(World world, double x, double y, double z) {
+        super(world, x, y, z);
     }
 
     @Override
-	protected void onImpact(MovingObjectPosition p_70184_1_)
+	protected void onImpact(MovingObjectPosition mop)
     {
-        if (p_70184_1_.entityHit != null)
+        if (mop.entityHit != null)
         {
             byte b0 = 15;
 
-            p_70184_1_.entityHit.attackEntityFrom(ModDamageSource.rubble, b0);
+            mop.entityHit.attackEntityFrom(ModDamageSource.rubble, b0);
         }
 
         if(this.ticksExisted > 2) {
@@ -55,7 +49,17 @@ public class EntityRubble extends EntityThrowable {
     			PacketDispatcher.wrapper.sendToAllAround(new ParticleBurstPacket((int)Math.floor(posX), (int)posY, (int)Math.floor(posZ), this.dataWatcher.getWatchableObjectInt(16), this.dataWatcher.getWatchableObjectInt(17)), new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 50));
         }
     }
-    
+
+    @Override
+    public double getGravityVelocity() {
+        return 0.07D;
+    }
+
+    @Override
+    protected float getAirDrag() {
+        return 1F;
+    }
+
     public void setMetaBasedOnBlock(Block b, int i) {
 
     	this.dataWatcher.updateObject(16, Block.getIdFromBlock(b));
