@@ -32,18 +32,20 @@ public class RenderLaunchPadTier1 extends TileEntitySpecialRenderer {
 	
 				//TODO: add a registry for missile rendering to be reused here and for the entity renderer
 				if(toRender.getItem() == ModItems.missile_generic) {
-					GL11.glScalef(1.0F, 1.0F, 1.0F);
 					bindTexture(ResourceManager.missileV2_HE_tex);
 					GL11.glShadeModel(GL11.GL_SMOOTH);
 					ResourceManager.missileV2.renderAll();
 					GL11.glShadeModel(GL11.GL_FLAT);
 				}
 				if(toRender.getItem() == ModItems.missile_decoy) {
-					GL11.glScalef(1.0F, 1.0F, 1.0F);
 					bindTexture(ResourceManager.missileV2_decoy_tex);
 					GL11.glShadeModel(GL11.GL_SMOOTH);
 					ResourceManager.missileV2.renderAll();
 					GL11.glShadeModel(GL11.GL_FLAT);
+				}
+				if(toRender.getItem() == ModItems.missile_stealth) {
+					bindTexture(ResourceManager.missileStealth_tex);
+					ResourceManager.missileStealth.renderAll();
 				}
 				if(toRender.getItem() == ModItems.missile_strong) {
 					GL11.glScalef(1.5F, 1.5F, 1.5F);
