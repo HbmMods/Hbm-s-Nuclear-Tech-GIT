@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -38,11 +39,31 @@ public class BlockAmmoCrate extends Block {
 	public IIcon getIcon(int side, int metadata) {
 		return side == 0 ? this.iconBottom : (side == 1 ? this.iconTop : this.blockIcon);
 	}
+
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_) {
+		if(player.getHeldItem() != null && player.getHeldItem().getItem().equals(ModItems.crowbar)) {
+			if(!world.isRemote) {
+				dropContents(world, x, y, z);
+				world.setBlockToAir(x, y, z);
+				world.playSoundEffect(x, y, z, "hbm:block.crateBreak", 0.5F, 1.0F);
+			}
+			return true;
+		}
+		return false;
+	}
 	
 	Random rand = new Random();
 	
-	@Override
-	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+	public void dropContents(World world, int x, int y, int z) {
+		ArrayList<ItemStack> items = getContents(world, x, y, z);
+
+		for(ItemStack item : items) {
+			this.dropBlockAsItem(world, x, y, z, item);
+		}
+	}
+	
+	public ArrayList<ItemStack> getContents(World world, int x, int y, int z) {
 	
 		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
 			
