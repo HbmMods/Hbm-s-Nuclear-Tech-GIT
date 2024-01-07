@@ -53,3 +53,4 @@
 * Fixed horrifying gamebreaking issue that would frequently cause crashes, corrupt worlds and bluescreen PCs where the red copper block and the advanced alloy block had inconsistent colors
 * Fixed file cabinets not dropping their contents
 * Fixed some sides of the pedestal not rendering
+* Fixed particle accelerator window blocks not dropping when mined
