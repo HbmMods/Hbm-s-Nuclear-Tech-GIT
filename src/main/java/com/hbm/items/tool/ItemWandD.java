@@ -4,8 +4,11 @@ import java.util.List;
 
 import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.world.WorldUtil;
+import com.hbm.world.biome.BiomeGenCrater;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
@@ -40,11 +43,18 @@ public class ItemWandD extends Item {
 			TimeAnalyzer.endCount();
 			TimeAnalyzer.dump();*/
 			
-			TomSaveData data = TomSaveData.forWorld(world);
+			/*TomSaveData data = TomSaveData.forWorld(world);
 			data.impact = true;
 			data.fire = 0F;
 			data.dust = 0F;
-			data.markDirty();
+			data.markDirty();*/
+			
+			/*for(int i = -5; i <= 5; i++) {
+				for(int j = -5; j <= 5; j++) {
+					WorldUtil.setBiome(world, pos.blockX + i, pos.blockZ + j, BiomeGenCrater.craterBiome);
+					WorldUtil.syncBiomeChangeBlock(world, pos.blockX + i, pos.blockZ + j);
+				}
+			}*/
 			
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;

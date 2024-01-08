@@ -6,6 +6,8 @@ import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.FalloutConfigJSON.FalloutEntry;
 import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.saveddata.AuxSavedData;
+import com.hbm.world.WorldUtil;
+import com.hbm.world.biome.BiomeGenCrater;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -58,8 +60,10 @@ public class EntityFalloutRain extends Entity {
 					for(int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) {
 						for(int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
 							stomp(x, z, Math.hypot(x - posX, z - posZ) * 100 / getScale());
+							//WorldUtil.setBiome(worldObj, x, z, BiomeGenCrater.craterBiome);
 						}
 					}
+					//WorldUtil.syncBiomeChange(worldObj, chunkPosX, chunkPosZ);
 					
 				} else if (!outerChunksToProcess.isEmpty()) {
 					long chunkPos = outerChunksToProcess.remove(outerChunksToProcess.size() - 1);
@@ -70,9 +74,11 @@ public class EntityFalloutRain extends Entity {
 							double distance = Math.hypot(x - posX, z - posZ);
 							if(distance <= getScale()) {
 								stomp(x, z, distance * 100 / getScale());
+								//WorldUtil.setBiome(worldObj, x, z, BiomeGenCrater.craterBiome);
 							}
 						}
 					}
+					//WorldUtil.syncBiomeChange(worldObj, chunkPosX, chunkPosZ);
 					
 				} else {
 					setDead();
@@ -160,6 +166,10 @@ public class EntityFalloutRain extends Entity {
 			boolean eval = false;
 			
 			for(FalloutEntry entry : FalloutConfigJSON.entries) {
+				
+				if(b == Blocks.grass) {
+					break;
+				}
 				
 				if(entry.eval(worldObj, x, y, z, b, meta, dist)) {
 					if(entry.isSolid()) {
