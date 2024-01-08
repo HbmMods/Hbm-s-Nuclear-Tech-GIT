@@ -27,7 +27,8 @@
   * Now features proper animations for drawing the weapon, firing and reloading, as well as new sounds
   * Comes with a new and improved 3D model as well as a cylinder gap flash when firing
   * Is now part of the red room loot pool
-  * Durability has been drastically increased
+  * Durability has been drastically increased (31k instead of 4k)
+  * The boxcar now has new impact sounds and spawns fewer particles
 * Powder box recipes now produce 8 boxes from the same amount of ingredients, making cyclotron recipes more affordable
 * Buffed the radiation-powered engine, all valid fuels now produce 10x more energy per tick
 * Removed tungsten and HSS bolts as dedicated items, they are now a single bolt item that uses the autogen system
@@ -35,11 +36,21 @@
   * Bolts Are now 1/8 of an ingot instead of 1/2 which makes some recipes marginally cheaper, as well as making them equal to GregTech bolts
   * Bolts are oredicted and interchangeable, as well as recycleable in the crucible
 * The N45 naval mine has been obliterated
-* The solar boiler's ray rendering is no longer bound by particle settings, instead it will be disabled when fast graphics are enabaled
+* The solar boiler's ray rendering is no longer bound by particle settings, instead it will be disabled when fast graphics are enabled
 * The solar boiler's internal buffer has been reduced, its steam output is now capped at 10,000mB/t (which should be 20kHE/t or 0.8MHE/s)
+* All crates except the jungle dungeon one now drop themselves when mined
+  * Supply and conserve crates do not need a tool because they are made of wood, the ammo crate requires a pickaxe
+  * All of those crates are now opened with the crowbar instead in order to be consistent with each other
+* Standard gauge rails are now craftable and visible in the transportation tab
+  * You can now play around with the new rail types in creative mode, as none of the train cars are currently craftable
+  * Coupling should work, but coupling info is not saved to NBT so links will be lost when leaving the world
+  * Trains might randomly derail on 5m curves, idk why
 
 ## Fixed
 * Fixed afterburn upgrades not being craftable with bakelite
 * Fixed bismuth block not being properly oredicted
 * Powder detectors that are used in the same network as diodes should now be somewhat less wrong
 * Fixed horrifying gamebreaking issue that would frequently cause crashes, corrupt worlds and bluescreen PCs where the red copper block and the advanced alloy block had inconsistent colors
+* Fixed file cabinets not dropping their contents
+* Fixed some sides of the pedestal not rendering
+* Fixed particle accelerator window blocks not dropping when mined
