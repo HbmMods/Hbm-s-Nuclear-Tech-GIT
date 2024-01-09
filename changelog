@@ -3,3 +3,8 @@
   * Mud production rates have been halved, to prevent currently working setups from exploding instantly
   * This is your reminder that you can achieve more power, mud and depletion by building larger watz powerplants, i.e. stacking more watz segments on top of each other. Your tiny poo reactors make me sick.
 * Watz pellets now have a 50% smaller yield, halving the expected time until depletion
+* Adjusted the nuclear flash's intensity, the flash will now deal less and less radiation the longer it goes on
+* The nuclear flash now bypasses radiation resistance, being only affected by blocks and distance
+
+## Fixed
+* Fixed a rare crash caused by radars force-loading chunks conflicting with certain mods' chunk loading changes

@@ -47,6 +47,7 @@ import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.*;
+import com.hbm.world.biome.BiomeGenCraterBase;
 import com.hbm.world.feature.BedrockOre;
 import com.hbm.world.feature.OreCave;
 import com.hbm.world.feature.OreLayer3D;
@@ -294,6 +295,8 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
 		OreDictManager.registerGroups(); //important to run first
 		OreDictManager.registerOres();
+		
+		BiomeGenCraterBase.initDictionary();
 
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");
