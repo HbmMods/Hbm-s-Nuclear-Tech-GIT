@@ -6,6 +6,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
+
 import static net.minecraftforge.common.BiomeDictionary.Type.*;
 
 public class BiomeGenCraterBase extends BiomeGenBase {
@@ -18,6 +19,10 @@ public class BiomeGenCraterBase extends BiomeGenBase {
 		BiomeDictionary.registerBiomeType(craterBiome,		DRY,	DEAD,	WASTELAND);
 		BiomeDictionary.registerBiomeType(craterInnerBiome,	DRY,	DEAD,	WASTELAND);
 		BiomeDictionary.registerBiomeType(craterOuterBiome,	DRY,	DEAD,	WASTELAND);
+	}
+
+	public int getWaterColorMultiplier() {
+		return 0x505020; //0x50d030
 	}
 
 	public BiomeGenCraterBase(int id) {

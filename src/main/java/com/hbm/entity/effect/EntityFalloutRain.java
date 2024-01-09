@@ -115,7 +115,7 @@ public class EntityFalloutRain extends Entity {
 	
 	public static BiomeGenBase getBiomeChange(double dist, int scale) {
 		if(scale >= 150 && dist < 15)	return BiomeGenCraterBase.craterInnerBiome;
-		if(scale >= 100 && dist < 50)	return BiomeGenCraterBase.craterBiome;
+		if(scale >= 100 && dist < 55)	return BiomeGenCraterBase.craterBiome;
 		if(scale >= 25)					return BiomeGenCraterBase.craterOuterBiome;
 		return null;
 	}
@@ -182,10 +182,6 @@ public class EntityFalloutRain extends Entity {
 			boolean eval = false;
 			
 			for(FalloutEntry entry : FalloutConfigJSON.entries) {
-				
-				if(b == Blocks.grass) {
-					break;
-				}
 				
 				if(entry.eval(worldObj, x, y, z, b, meta, dist)) {
 					if(entry.isSolid()) {
