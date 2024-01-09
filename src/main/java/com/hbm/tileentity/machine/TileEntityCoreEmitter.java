@@ -43,7 +43,6 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	public boolean isOn;
 	public FluidTank tank;
 	public long prev;
-	public static long maxJoules = Long.MAX_VALUE / 100_000;
 	
 	public static final int range = 50;
 
@@ -99,8 +98,6 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 					for(int i = 1; i <= range; i++) {
 						
-						if(out > maxJoules) out = maxJoules;
-						
 						beam = i;
 		
 						int x = xCoord + dir.offsetX * i;
@@ -111,13 +108,11 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 						TileEntity te = worldObj.getTileEntity(x, y, z);
 						
 						if(block instanceof ILaserable) {
-							
 							((ILaserable)block).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
 							break;
 						}
 						
 						if(te instanceof ILaserable) {
-							
 							((ILaserable)te).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
 							break;
 						}
@@ -279,53 +274,48 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 		return "dfc_emitter";
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEnergyInfo(Context context, Arguments args) {
 		return new Object[] {getPower(), getMaxPower()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCryogel(Context context, Arguments args) {
 		return new Object[] {tank.getFill()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInput(Context context, Arguments args) {
 		return new Object[] {watts};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {getPower(), getMaxPower(), tank.getFill(), watts, isOn};
 	}
 
-	@Callback(direct = true, limit = 2)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] isActive(Context context, Arguments args) {
 		return new Object[] {isOn};
 	}
 
-	@Callback(direct = true, limit = 2)
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setActive(Context context, Arguments args) {
 		isOn = args.checkBoolean(0);
 		return new Object[] {};
 	}
 
-	@Callback(direct = true, limit = 2)
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setInput(Context context, Arguments args) {
 		int newOutput = args.checkInteger(0);
-		if (newOutput > 100) {
-			newOutput = 100;
-		} else if (newOutput < 0) {
-			newOutput = 0;
-		}
-		watts = newOutput;
+		watts = MathHelper.clamp_int(newOutput, 0, 100);
 		return new Object[] {};
 	}
 

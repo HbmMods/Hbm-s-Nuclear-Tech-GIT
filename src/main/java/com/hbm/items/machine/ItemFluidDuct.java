@@ -1,12 +1,9 @@
 package com.hbm.items.machine;
 
-import java.util.List;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,6 +15,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ItemFluidDuct extends Item {
 
@@ -41,7 +40,7 @@ public class ItemFluidDuct extends Item {
 
 	public String getItemStackDisplayName(ItemStack stack) {
 		String s = ("" + StatCollector.translateToLocal(this.getUnlocalizedName() + ".name")).trim();
-		String s1 = ("" + StatCollector.translateToLocal(Fluids.fromID(stack.getItemDamage()).getUnlocalizedName())).trim();
+		String s1 = ("" + StatCollector.translateToLocal(Fluids.fromID(stack.getItemDamage()).getConditionalName())).trim();
 
 		if(s1 != null) {
 			s = s + " " + s1;
@@ -111,7 +110,7 @@ public class ItemFluidDuct extends Item {
 				++x;
 			}
 
-			if(!world.isAirBlock(x, y, z)) {
+			if(!world.getBlock(x, y, z).isReplaceable(world, x, y, z)) {
 				return false;
 			}
 		}
@@ -125,8 +124,8 @@ public class ItemFluidDuct extends Item {
 			if(world.getTileEntity(x, y, z) instanceof TileEntityPipeBaseNT) {
 				((TileEntityPipeBaseNT) world.getTileEntity(x, y, z)).setType(Fluids.fromID(stack.getItemDamage()));
 			}
-
-			world.playSoundEffect(x, y, z, "hbm:block.pipePlaced", 1.0F, 0.65F + world.rand.nextFloat() * 0.2F);
+			
+			world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, ModBlocks.fluid_duct_neo.stepSound.func_150496_b(), (ModBlocks.fluid_duct_neo.stepSound.getVolume() + 1.0F) / 2.0F, ModBlocks.fluid_duct_neo.stepSound.getPitch() * 0.8F);
 
 			return true;
 		}

@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockStalagmite;
 import com.hbm.inventory.RecipesCommon.MetaBlock;
+import com.hbm.world.generator.DungeonToolbox;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
@@ -13,7 +14,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 
 public class OreCave {
 
@@ -71,7 +72,7 @@ public class OreCave {
 
 	@SuppressWarnings("incomplete-switch")
 	@SubscribeEvent
-	public void onDecorate(PopulateChunkEvent.Pre event) {
+	public void onDecorate(DecorateBiomeEvent.Pre event) {
 		
 		World world = event.world;
 		
@@ -103,7 +104,7 @@ public class OreCave {
 					for(int y = yLevel - range; y <= yLevel + range; y++) {
 						Block genTarget = world.getBlock(x, y, z);
 						
-						if(genTarget.isNormalCube() && (genTarget.getMaterial() == Material.rock || genTarget.getMaterial() == Material.ground)) {
+						if(genTarget.isNormalCube() && (genTarget.getMaterial() == Material.rock || genTarget.getMaterial() == Material.ground) && DungeonToolbox.allowedToReplace(genTarget)) {
 							
 							boolean shouldGen = false;
 							boolean canGenFluid = event.rand.nextBoolean();

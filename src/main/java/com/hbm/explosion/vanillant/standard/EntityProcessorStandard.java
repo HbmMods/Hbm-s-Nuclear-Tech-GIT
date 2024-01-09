@@ -21,6 +21,7 @@ public class EntityProcessorStandard implements IEntityProcessor {
 
 	protected IEntityRangeMutator range;
 	protected ICustomDamageHandler damage;
+	protected boolean allowSelfDamage = false;
 
 	@Override
 	public HashMap<EntityPlayer, Vec3> process(ExplosionVNT explosion, World world, double x, double y, double z, float size) {
@@ -40,7 +41,7 @@ public class EntityProcessorStandard implements IEntityProcessor {
 		double minZ = z - (double) size - 1.0D;
 		double maxZ = z + (double) size + 1.0D;
 		
-		List list = world.getEntitiesWithinAABBExcludingEntity(explosion.exploder, AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ));
+		List list = world.getEntitiesWithinAABBExcludingEntity(allowSelfDamage ? null : explosion.exploder, AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ));
 		
 		ForgeEventFactory.onExplosionDetonate(world, explosion.compat, list, size);
 		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
@@ -99,6 +100,11 @@ public class EntityProcessorStandard implements IEntityProcessor {
 	
 	public EntityProcessorStandard withDamageMod(ICustomDamageHandler damage) {
 		this.damage = damage;
+		return this;
+	}
+	
+	public EntityProcessorStandard allowSelfDamage() {
+		this.allowSelfDamage = true;
 		return this;
 	}
 }

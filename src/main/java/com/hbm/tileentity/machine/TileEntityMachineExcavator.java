@@ -24,9 +24,11 @@ import com.hbm.items.machine.ItemDrillbit.EnumDrillType;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Compat;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -50,11 +52,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineExcavator extends TileEntityMachineBase implements IEnergyUser, IFluidStandardReceiver, IControlReceiver, IGUIProvider {
+public class TileEntityMachineExcavator extends TileEntityMachineBase implements IEnergyUser, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider {
 
 	public static final long maxPower = 1_000_000;
 	public long power;
@@ -838,5 +841,29 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tank};
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_excavator));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level / 2 + 1)) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (100 - 100 / (level + 1)) + "%"));
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		if(type == UpgradeType.POWER) return 3;
+		return 0;
 	}
 }

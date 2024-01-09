@@ -26,7 +26,10 @@ public class ItemEnums {
 	public static enum EnumAshType {
 		WOOD,
 		COAL,
-		MISC
+		MISC,
+		FLY,
+		SOOT,
+		FULLERENE
 	}
 
 	public static enum EnumBriquetteType {
@@ -57,5 +60,9 @@ public class ItemEnums {
 		DIGAMMAKAUAIMOHO,
 		DIGAMMAUPONTOP,
 		DIGAMMAFOROURRIGHT
+	}
+
+	public static enum EnumPages {
+		PAGE1, PAGE2, PAGE3, PAGE4, PAGE5, PAGE6, PAGE7, PAGE8
 	}
 }

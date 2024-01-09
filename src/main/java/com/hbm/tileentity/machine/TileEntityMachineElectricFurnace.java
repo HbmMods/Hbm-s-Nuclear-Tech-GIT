@@ -1,5 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineElectricFurnace;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerElectricFurnace;
@@ -7,7 +10,9 @@ import com.hbm.inventory.gui.GUIMachineElectricFurnace;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.I18nUtil;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyUser;
@@ -20,10 +25,11 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineElectricFurnace extends TileEntityMachineBase implements ISidedInventory, IEnergyUser, IGUIProvider {
+public class TileEntityMachineElectricFurnace extends TileEntityMachineBase implements ISidedInventory, IEnergyUser, IGUIProvider, IUpgradeInfoProvider {
 
 	// HOLY FUCKING SHIT I SPENT 5 DAYS ON THIS SHITFUCK CLASS FILE
 	// thanks Martin, vaer and Bob for the help
@@ -262,5 +268,30 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineElectricFurnace(player.inventory, this);
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_electric_furnace_off));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 30) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (level * 10) + "%"));
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		if(type == UpgradeType.POWER) return 3;
+		return 0;
 	}
 }

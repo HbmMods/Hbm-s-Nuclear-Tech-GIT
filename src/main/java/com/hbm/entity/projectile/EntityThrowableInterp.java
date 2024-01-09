@@ -7,18 +7,18 @@ import net.minecraft.world.World;
 
 public abstract class EntityThrowableInterp extends EntityThrowableNT {
 	
-	private int turnProgress;
-	private double syncPosX;
-	private double syncPosY;
-	private double syncPosZ;
-	private double syncYaw;
-	private double syncPitch;
+	protected int turnProgress;
+	protected double syncPosX;
+	protected double syncPosY;
+	protected double syncPosZ;
+	protected double syncYaw;
+	protected double syncPitch;
 	@SideOnly(Side.CLIENT)
-	private double velocityX;
+	protected double velocityX;
 	@SideOnly(Side.CLIENT)
-	private double velocityY;
+	protected double velocityY;
 	@SideOnly(Side.CLIENT)
-	private double velocityZ;
+	protected double velocityZ;
 
 	public EntityThrowableInterp(World world) {
 		super(world);

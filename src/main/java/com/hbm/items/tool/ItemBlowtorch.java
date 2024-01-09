@@ -1,6 +1,7 @@
 package com.hbm.items.tool;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -9,7 +10,6 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.util.I18nUtil;
 
 import api.hbm.block.IToolable;
 import api.hbm.block.IToolable.ToolType;
@@ -69,7 +69,7 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 			initNBT(stack);
 		}
 		
-		return stack.stackTagCompound.getInteger(type.getUnlocalizedName());
+		return stack.stackTagCompound.getInteger(type.getName());
 	}
 	
 	public int getMaxFill(FluidType type) {
@@ -85,7 +85,7 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 			initNBT(stack);
 		}
 		
-		stack.stackTagCompound.setInteger(type.getUnlocalizedName(), fill);
+		stack.stackTagCompound.setInteger(type.getName(), fill);
 	}
 	
 	public void initNBT(ItemStack stack) {
@@ -199,7 +199,7 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 
 	@SideOnly(Side.CLIENT)
 	private String getFillGauge(ItemStack stack, FluidType type) {
-		return I18nUtil.resolveKey(type.getUnlocalizedName()) + ": " + String.format("%,d", this.getFill(stack, type)) + " / " + String.format("%,d", this.getMaxFill(type));
+		return type.getLocalizedName() + ": " + String.format(Locale.US, "%,d", this.getFill(stack, type)) + " / " + String.format(Locale.US, "%,d", this.getMaxFill(type));
 	}
 
 	@Override public boolean providesFluid(FluidType type, ItemStack stack) { return false; }

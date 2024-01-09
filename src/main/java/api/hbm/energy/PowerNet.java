@@ -138,10 +138,17 @@ public class PowerNet implements IPowerNet {
 			cleanup(this.subscribers);
 			lastCleanup = System.currentTimeMillis();
 		}*/
+		
+		List<PowerNet> cache = new ArrayList();
+		if(trackingInstances != null && !trackingInstances.isEmpty()) {
+			cache.addAll(trackingInstances);
+		}
 
 		trackingInstances = new ArrayList();
 		trackingInstances.add(this);
-		return fairTransfer(this.subscribers, power);
+		long result = fairTransfer(this.subscribers, power);
+		trackingInstances.addAll(cache);
+		return result;
 	}
 	
 	public static void cleanup(List<IEnergyConnector> subscribers) {
@@ -152,6 +159,8 @@ public class PowerNet implements IPowerNet {
 	}
 	
 	public static long fairTransfer(List<IEnergyConnector> subscribers, long power) {
+		
+		if(power <= 0) return 0;
 		
 		if(subscribers.isEmpty())
 			return power;
@@ -196,6 +205,11 @@ public class PowerNet implements IPowerNet {
 				long given = (long) Math.floor(fraction * power);
 				
 				totalGiven += (given - con.transferPower(given));
+				
+				if(con instanceof TileEntity) {
+					TileEntity tile = (TileEntity) con;
+					tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
+				}
 			}
 			
 			power -= totalGiven;
@@ -208,6 +222,8 @@ public class PowerNet implements IPowerNet {
 				PowerNet net = trackingInstances.get(i);
 				net.totalTransfer = net.totalTransfer.add(BigInteger.valueOf(totalTransfer));
 			}
+			
+			trackingInstances.clear();
 		}
 		
 		return power;

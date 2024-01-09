@@ -82,7 +82,7 @@ public class BlockFluidDuctSolid extends BlockContainer implements IBlockMultiPa
 		TileEntityFluidDuctSimple duct = (TileEntityFluidDuctSimple) te;
 		
 		List<String> text = new ArrayList();
-		text.add("&[" + duct.getType().getColor() + "&]" +I18nUtil.resolveKey(duct.getType().getUnlocalizedName()));
+		text.add("&[" + duct.getType().getColor() + "&]" + duct.getType().getLocalizedName());
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 }

@@ -24,7 +24,6 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.ItemFolderPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -101,8 +100,11 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
 				
 				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) != null &&
-						AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)).contains(player.getHeldItem().getItem()))
-					allStacks.add(new ItemStack(ModItems.assembly_template, 1, i));
+						AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)).contains(player.getHeldItem().getItem())) {
+					
+					ComparableStack comp = AssemblerRecipes.recipeList.get(i);
+					allStacks.add(ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template, 1, i), comp));
+				}
 			}
 			
 			isJournal = true;
@@ -143,7 +145,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			if(stack.getItem() == ModItems.fluid_identifier) {
 				FluidType fluid = Fluids.fromID(stack.getItemDamage());
 				
-				if(I18nUtil.resolveKey(fluid.getUnlocalizedName()).toLowerCase(Locale.US).contains(sub)) {
+				if(fluid.getLocalizedName().contains(sub)) {
 					stacks.add(stack);
 				}
 			}

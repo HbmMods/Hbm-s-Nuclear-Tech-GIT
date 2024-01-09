@@ -14,6 +14,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 
+
+@Deprecated // rest in peace sweet little prince
 public class NBTPacket implements IMessage {
 	
 	PacketBuffer buffer;

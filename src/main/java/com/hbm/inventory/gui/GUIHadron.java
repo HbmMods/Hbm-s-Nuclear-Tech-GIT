@@ -40,8 +40,10 @@ public class GUIHadron extends GuiInfoContainer {
 		
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 62, guiTop + 108, 70, 16, hadron.power, hadron.maxPower);
 
-		if(hadron.hopperMode)
+		if(hadron.ioMode == 1)
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 142, guiTop + 89, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("hadron.hopper1"));
+		else if(hadron.ioMode == 2)
+			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 142, guiTop + 89, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("hadron.hopper2"));
 		else
 			this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 142, guiTop + 89, 18, 18, mouseX, mouseY, I18nUtil.resolveKeyArray("hadron.hopper0"));
 		
@@ -54,7 +56,7 @@ public class GUIHadron extends GuiInfoContainer {
 		stats.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("hadron.stats"));
 		stats.add((hadron.stat_success ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + I18n.format("hadron." + this.hadron.stat_state.name().toLowerCase(Locale.US)));
 		if(this.hadron.state.showCoord) stats.add(EnumChatFormatting.RED + I18nUtil.resolveKey("hadron.stats_coord", hadron.stat_x, hadron.stat_y, hadron.stat_z));
-		stats.add(EnumChatFormatting.GRAY + I18nUtil.resolveKey("hadron.stats_momentum", String.format("%,d", hadron.stat_charge)));
+		stats.add(EnumChatFormatting.GRAY + I18nUtil.resolveKey("hadron.stats_momentum", String.format(Locale.US, "%,d", hadron.stat_charge)));
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 41, guiTop + 92, 25, 11, mouseX, mouseY, stats.toArray(new String[0]));
 
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 4, guiTop + 36, 16, 16, guiLeft + 4, guiTop + 36 + 16, new String[] {"Initial particle momentum: 750"});
@@ -105,9 +107,9 @@ public class GUIHadron extends GuiInfoContainer {
 		
 		if(hadron.analysisOnly)
 			drawTexturedModalRect(guiLeft + 142, guiTop + 107, 206, 18, 18, 18);
-		
-		if(hadron.hopperMode)
-			drawTexturedModalRect(guiLeft + 142, guiTop + 89, 206, 36, 18, 18);
+
+		if(hadron.ioMode == hadron.MODE_HOPPER) drawTexturedModalRect(guiLeft + 142, guiTop + 89, 206, 36, 18, 18);
+		if(hadron.ioMode == hadron.MODE_SINGLE) drawTexturedModalRect(guiLeft + 142, guiTop + 89, 224, 36, 18, 18);
 
 		if(hadron.state == EnumHadronState.SUCCESS) {
 			drawTexturedModalRect(guiLeft + 73, guiTop + 29, 176, 0, 30, 30);

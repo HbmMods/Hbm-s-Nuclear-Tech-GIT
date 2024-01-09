@@ -4,6 +4,8 @@ import com.hbm.entity.projectile.EntityAcidBomb;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -24,21 +26,25 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 	protected double lastZ;
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20D);
+
+	}
+	@Override
 	public void onUpdate() {
 		super.onUpdate();
+		Entity e = this.getEntityToAttack();
+		if(!this.worldObj.isRemote && e instanceof EntityLivingBase) {
 
-		if(!this.worldObj.isRemote) {
-
-			Entity e = this.getEntityToAttack();
-			
-			if(this.ticksExisted % 20 == 0 && e != null) {
+			if(this.ticksExisted % 20 == 0) {
 				this.lastTarget = e;
 				this.lastX = e.posX;
 				this.lastY = e.posY;
 				this.lastZ = e.posZ;
 			}
 			
-			if(this.ticksExisted % 20 == 1 && e != null) {
+			if(this.ticksExisted % 60 == 1) {
 				
 				boolean topAttack = rand.nextBoolean();
 
@@ -72,6 +78,7 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 					
 					for(int i = 0; i < getBombCount(); i++) {
 						EntityAcidBomb bomb = new EntityAcidBomb(worldObj, posX, posY + 1, posZ);
+						bomb.setThrower(this);
 						bomb.setThrowableHeading(fireVec.xCoord, fireVec.yCoord, fireVec.zCoord, (float) v0, i * getSpreadMult());
 						bomb.damage = getBombDamage();
 						worldObj.spawnEntityInWorld(bomb);
@@ -88,7 +95,7 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 	}
 	
 	public int getBombCount() {
-		return 10;
+		return 5;
 	}
 	
 	public float getSpreadMult() {

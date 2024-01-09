@@ -6,7 +6,6 @@ import com.hbm.handler.ArmorModHandler;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.render.model.ModelJetPack;
 import com.hbm.util.ArmorUtil;
-import com.hbm.util.I18nUtil;
 
 import api.hbm.fluid.IFillableItem;
 import cpw.mods.fml.relauncher.Side;
@@ -38,7 +37,7 @@ public abstract class JetpackBase extends ItemArmorMod implements IFillableItem 
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add(EnumChatFormatting.LIGHT_PURPLE + I18nUtil.resolveKey(fuel.getUnlocalizedName()) + ": " + this.getFuel(itemstack) + "mB / " + this.maxFuel + "mB");
+		list.add(EnumChatFormatting.LIGHT_PURPLE + fuel.getLocalizedName() + ": " + this.getFuel(itemstack) + "mB / " + this.maxFuel + "mB");
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 		list.add(EnumChatFormatting.GOLD + "Can be worn on its own!");
@@ -52,7 +51,7 @@ public abstract class JetpackBase extends ItemArmorMod implements IFillableItem 
 		if(jetpack == null)
 			return;
 		
-		list.add(EnumChatFormatting.RED + "  " + stack.getDisplayName() + " (" + I18nUtil.resolveKey(fuel.getUnlocalizedName()) + ": " + this.getFuel(jetpack) + "mB / " + this.maxFuel + "mB");
+		list.add(EnumChatFormatting.RED + "  " + stack.getDisplayName() + " (" + fuel.getLocalizedName() + ": " + this.getFuel(jetpack) + "mB / " + this.maxFuel + "mB");
 	}
 	
 	@Override

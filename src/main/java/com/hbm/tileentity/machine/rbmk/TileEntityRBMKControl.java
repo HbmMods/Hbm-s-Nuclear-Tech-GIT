@@ -9,6 +9,7 @@ import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase implements SimpleComponent {
@@ -126,46 +127,41 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 		return "rbmk_control_rod";
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getLevel(Context context, Arguments args) {
 		return new Object[] {getMult() * 100};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTargetLevel(Context context, Arguments args) {
 		return new Object[] {targetLevel * 100};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoordinates(Context context, Arguments args) {
 		return new Object[] {xCoord, yCoord, zCoord};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
 		return new Object[] {heat};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {heat, getMult() * 100, targetLevel * 100, xCoord, yCoord, zCoord};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setLevel(Context context, Arguments args) {
 		double newLevel = args.checkDouble(0)/100.0;
-		if (newLevel > 1.0) {
-			newLevel = 1.0;
-		} else if (newLevel < 0.0) {
-			newLevel = 0.0;
-		}	
-		targetLevel = newLevel;
+		targetLevel = MathHelper.clamp_double(newLevel, 0, 1);
 		return new Object[] {};
 	}
 }

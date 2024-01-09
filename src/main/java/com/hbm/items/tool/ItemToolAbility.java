@@ -208,7 +208,7 @@ public class ItemToolAbility extends ItemTool implements IItemAbility, IDepthRoc
 			}
 
 			list.add("Right click to cycle through abilities!");
-			list.add("Sneak-click to turn abilitty off!");
+			list.add("Sneak-click to turn ability off!");
 		}
 
 		if(!this.hitAbility.isEmpty()) {

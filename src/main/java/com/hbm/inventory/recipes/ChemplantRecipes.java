@@ -121,8 +121,8 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(Fluids.XYLENE, 250),
 						new FluidStack(Fluids.PHOSGENE, 250))
 				.inputItems(
-						new ComparableStack(com.hbm.blocks.ModBlocks.reinforced_glass),
-						new ComparableStack(com.hbm.items.ModItems.bolt_tungsten, 4))
+						new ComparableStack(ModBlocks.reinforced_glass),
+						new OreDictStack(STEEL.bolt(), 4))
 				.outputItems(new ItemStack(com.hbm.blocks.ModBlocks.reinforced_laminate)));
 		recipes.add(new ChemRecipe(94, "PC", 100)
 				.inputFluids(
@@ -401,6 +401,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(101, "CC_CENTRIFUGE", 200)
 				.inputFluids(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 500), new FluidStack(Fluids.SULFURIC_ACID, 8_000))
 				.outputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250), new FluidStack(Fluids.CALCIUM_CHLORIDE, 250)));
+		
 		recipes.add(new ChemRecipe(102, "THORIUM_SALT", 60)
 				.inputFluids(new FluidStack(Fluids.THORIUM_SALT_DEPLETED, 16_000))
 				.inputItems(new OreDictStack(TH232.nugget(), 2))
@@ -408,6 +409,14 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputItems(
 						new ItemStack(ModItems.nugget_u233, 1),
 						new ItemStack(ModItems.nuclear_waste_tiny, 1)));
+
+		recipes.add(new ChemRecipe(103, "MEAT_PROCESSING", 200)
+				.inputItems(new OreDictStack(KEY_GLYPHID_MEAT, 3))
+				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1000))
+				.outputItems(new ItemStack(ModItems.sulfur, 4),
+						new ItemStack(ModItems.niter, 3))
+				.outputFluids(new FluidStack(Fluids.SALIENT, 250)));
+
 	}
 	
 	public static void registerFuelProcessing() {

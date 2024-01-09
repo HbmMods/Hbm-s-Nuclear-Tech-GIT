@@ -1,5 +1,8 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerCentrifuge;
 import com.hbm.inventory.gui.GUIMachineCentrifuge;
@@ -9,7 +12,10 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 
 import api.hbm.energy.IEnergyUser;
 import cpw.mods.fml.relauncher.Side;
@@ -20,10 +26,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class TileEntityMachineCentrifuge extends TileEntityMachineBase implements IEnergyUser, IGUIProvider {
+public class TileEntityMachineCentrifuge extends TileEntityMachineBase implements IEnergyUser, IGUIProvider, IUpgradeInfoProvider {
 	
 	public int progress;
 	public long power;
@@ -306,5 +313,33 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineCentrifuge(player.inventory, this);
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_centrifuge));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 100) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (100 - 100 / (level + 1)) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		if(type == UpgradeType.POWER) return 3;
+		if(type == UpgradeType.OVERDRIVE) return 3;
+		return 0;
 	}
 }

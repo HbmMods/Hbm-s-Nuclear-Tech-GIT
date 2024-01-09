@@ -46,6 +46,8 @@ public class ShredderRecipes extends SerializableRecipe {
 			if(name == null || name.isEmpty())
 				continue;
 			
+			if(name.contains("Any")) continue;
+			
 			List<ItemStack> matches = OreDictionary.getOres(name);
 			
 			//if the name isn't assigned to an ore, also skip
@@ -77,7 +79,11 @@ public class ShredderRecipes extends SerializableRecipe {
 				}
 			}
 			
-			if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
+			if(name.length() > 7 && name.substring(0, 8).equals("dustTiny")) {
+				for(ItemStack stack : matches) {
+					putIfValid(stack, new ItemStack(ModItems.dust_tiny), name);
+				}
+			} else if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
 				for(ItemStack stack : matches) {
 					putIfValid(stack, new ItemStack(ModItems.dust), name);
 				}
@@ -93,10 +99,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		if(name.length() > len && name.substring(0, len).equals(prefix)) {
 			
 			String matName = name.substring(len);
-			
-			//skip over genericized names so we don't accidentally convert item groups
-			if(matName.startsWith("Any"))
-				return;
 			
 			ItemStack dust = getDustByName(matName);
 			
@@ -134,6 +136,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		/* Primary recipes */
 		ShredderRecipes.setRecipe(ModItems.scrap, new ItemStack(ModItems.dust));
 		ShredderRecipes.setRecipe(ModItems.dust, new ItemStack(ModItems.dust));
+		ShredderRecipes.setRecipe(ModItems.dust_tiny, new ItemStack(ModItems.dust_tiny));
 		ShredderRecipes.setRecipe(Blocks.glowstone, new ItemStack(Items.glowstone_dust, 4));
 		ShredderRecipes.setRecipe(new ItemStack(Blocks.quartz_block, 1, 0), new ItemStack(ModItems.powder_quartz, 4));
 		ShredderRecipes.setRecipe(new ItemStack(Blocks.quartz_block, 1, 1), new ItemStack(ModItems.powder_quartz, 4));
@@ -201,6 +204,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(Items.reeds, new ItemStack(Items.sugar, 3));
 		ShredderRecipes.setRecipe(Items.apple, new ItemStack(Items.sugar, 1));
 		ShredderRecipes.setRecipe(Items.carrot, new ItemStack(Items.sugar, 1));
+		ShredderRecipes.setRecipe(ModItems.can_empty, new ItemStack(ModItems.powder_aluminium, 2));
 		
 		List<ItemStack> logs = OreDictionary.getOres("logWood");
 		List<ItemStack> planks = OreDictionary.getOres("plankWood");
@@ -352,17 +356,17 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModItems.debris_graphite, new ItemStack(ModItems.powder_coal, 1));
 		
 		/* GC COMPAT */
-		Item gcMoonBlock = Compat.tryLoadItem(Compat.MOD_GCC, "moonBlock");
-		if(gcMoonBlock != null) {
+		Block gcMoonBlock = Compat.tryLoadBlock(Compat.MOD_GCC, "moonBlock");
+		if(gcMoonBlock != null && gcMoonBlock != Blocks.air) {
 			ShredderRecipes.setRecipe(new ItemStack(gcMoonBlock, 1, 3), new ItemStack(ModBlocks.moon_turf)); //Moon dirt
 			ShredderRecipes.setRecipe(new ItemStack(gcMoonBlock, 1, 5), new ItemStack(ModBlocks.moon_turf)); //Moon topsoil
 		}
 		
 		/* AR COMPAT */
-		Item arMoonTurf = Compat.tryLoadItem(Compat.MOD_AR, "turf");
-		if(arMoonTurf != null) ShredderRecipes.setRecipe(arMoonTurf, new ItemStack(ModBlocks.moon_turf)); //i assume it's moon turf
-		Item arMoonTurfDark = Compat.tryLoadItem(Compat.MOD_AR, "turfDark");
-		if(arMoonTurfDark != null) ShredderRecipes.setRecipe(arMoonTurfDark, new ItemStack(ModBlocks.moon_turf)); //probably moon dirt? would have helped if i had ever played AR for more than 5 seconds
+		Block arMoonTurf = Compat.tryLoadBlock(Compat.MOD_AR, "turf");
+		if(arMoonTurf != null && gcMoonBlock != Blocks.air) ShredderRecipes.setRecipe(arMoonTurf, new ItemStack(ModBlocks.moon_turf)); //i assume it's moon turf
+		Block arMoonTurfDark = Compat.tryLoadBlock(Compat.MOD_AR, "turfDark");
+		if(arMoonTurfDark != null && gcMoonBlock != Blocks.air) ShredderRecipes.setRecipe(arMoonTurfDark, new ItemStack(ModBlocks.moon_turf)); //probably moon dirt? would have helped if i had ever played AR for more than 5 seconds
 	}
 	
 	/**

@@ -13,15 +13,19 @@ public class MaterialShapes {
 	public static final MaterialShapes NUGGET = new MaterialShapes(8, "nugget");
 	public static final MaterialShapes DUSTTINY = new MaterialShapes(NUGGET.quantity, "dustTiny");
 	public static final MaterialShapes WIRE = new MaterialShapes(9);
+	public static final MaterialShapes BOLT = new MaterialShapes(9, "bolt");
 	public static final MaterialShapes BILLET = new MaterialShapes(NUGGET.quantity * 6, "billet");
 	public static final MaterialShapes INGOT = new MaterialShapes(NUGGET.quantity * 9, "ingot");
 	public static final MaterialShapes GEM = new MaterialShapes(INGOT.quantity, "gem");
 	public static final MaterialShapes CRYSTAL = new MaterialShapes(INGOT.quantity, "crystal");
 	public static final MaterialShapes DUST = new MaterialShapes(INGOT.quantity, "dust");
+	public static final MaterialShapes DENSEWIRE = new MaterialShapes(INGOT.quantity, "wireDense");
 	public static final MaterialShapes PLATE = new MaterialShapes(INGOT.quantity, "plate");
 	public static final MaterialShapes CASTPLATE = new MaterialShapes(INGOT.quantity * 3, "plateTriple");
+	public static final MaterialShapes WELDEDPLATE = new MaterialShapes(INGOT.quantity * 6, "plateSextuple");
 	public static final MaterialShapes QUART = new MaterialShapes(162);
 	public static final MaterialShapes BLOCK = new MaterialShapes(INGOT.quantity * 9, "block");
+	public static final MaterialShapes HEAVY_COMPONENT = new MaterialShapes(CASTPLATE.quantity * 256, "componentHeavy");
 	
 	public static void registerCompatShapes() {
 

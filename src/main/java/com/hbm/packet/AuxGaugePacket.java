@@ -5,19 +5,12 @@ import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
-import com.hbm.tileentity.bomb.TileEntityNukeN45;
-import com.hbm.tileentity.deco.TileEntityBomber;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityMachineArcFurnace;
 import com.hbm.tileentity.machine.TileEntityMachineBoiler;
 import com.hbm.tileentity.machine.TileEntityMachineBoilerElectric;
-import com.hbm.tileentity.machine.TileEntityMachineCoal;
-import com.hbm.tileentity.machine.TileEntityMachineDiesel;
-import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
-import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
-import com.hbm.tileentity.machine.TileEntityMachineReactorLarge.ReactorFuelType;
 import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -113,21 +106,6 @@ public class AuxGaugePacket implements IMessage {
 					if(m.id == 1)
 						selenium.powerCap = m.value;
 				}
-				if (te instanceof TileEntityMachineDiesel) {
-					TileEntityMachineDiesel selenium = (TileEntityMachineDiesel)te;
-					
-					selenium.powerCap = m.value;
-				}
-				if (te instanceof TileEntityBomber) {
-					TileEntityBomber bomber = (TileEntityBomber)te;
-					
-					if(m.id == 0)
-						bomber.yaw = m.value;
-					if(m.id == 1)
-						bomber.pitch = m.value;
-					if(m.id == 2)
-						bomber.type = m.value;
-				}
 				if (te instanceof TileEntityMachineBoiler) {
 					TileEntityMachineBoiler boiler = (TileEntityMachineBoiler)te;
 					
@@ -135,18 +113,6 @@ public class AuxGaugePacket implements IMessage {
 						boiler.heat = m.value;
 					if(m.id == 1)
 						boiler.burnTime = m.value;
-				}
-				if (te instanceof TileEntityMachineCoal) {
-					TileEntityMachineCoal coalgen = (TileEntityMachineCoal)te;
-					
-					if(m.id == 0)
-						coalgen.burnTime = m.value;
-				}
-				if (te instanceof TileEntityMachineElectricFurnace) {
-					TileEntityMachineElectricFurnace furn = (TileEntityMachineElectricFurnace)te;
-					
-					if(m.id == 0)
-						furn.progress = m.value;
 				}
 				if (te instanceof TileEntityMachineArcFurnace) {
 					TileEntityMachineArcFurnace furn = (TileEntityMachineArcFurnace)te;
@@ -159,29 +125,6 @@ public class AuxGaugePacket implements IMessage {
 					
 					if(m.id == 0)
 						boiler.heat = m.value;
-				}
-				if (te instanceof TileEntityNukeN45) {
-					TileEntityNukeN45 nuke = (TileEntityNukeN45)te;
-					
-					nuke.primed = m.value == 1;
-				}
-				if (te instanceof TileEntityMachineReactorLarge) {
-					TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)te;
-
-					if(m.id == 0)
-						reactor.rods = m.value;
-					if(m.id == 1)
-						reactor.coreHeat = m.value;
-					if(m.id == 2)
-						reactor.hullHeat = m.value;
-					if(m.id == 3)
-						reactor.size = m.value;
-					if(m.id == 4)
-						reactor.fuel = m.value;
-					if(m.id == 5)
-						reactor.waste = m.value;
-					if(m.id == 6)
-						reactor.type = ReactorFuelType.getEnum(m.value);
 				}
 				if (te instanceof TileEntityCompactLauncher) {
 					TileEntityCompactLauncher launcher = (TileEntityCompactLauncher)te;

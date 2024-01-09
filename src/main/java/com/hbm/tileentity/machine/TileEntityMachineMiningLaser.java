@@ -23,7 +23,10 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.InventoryUtil;
 
 import api.hbm.block.IDrillInteraction;
@@ -47,10 +50,11 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IMiningDrill, IFluidStandardSender, IGUIProvider {
+public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IMiningDrill, IFluidStandardSender, IGUIProvider, IUpgradeInfoProvider {
 	
 	public long power;
 	public int age = 0;
@@ -713,5 +717,41 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMiningLaser(player.inventory, this);
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE || type == UpgradeType.EFFECT || type == UpgradeType.FORTUNE;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_mining_laser));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level + 1)) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (100 * level / 16) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (100 * level / 16) + "%"));
+		}
+		if(type == UpgradeType.EFFECT) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_RANGE, "+" + (2 * level) + "m"));
+		}
+		if(type == UpgradeType.FORTUNE) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_FORTUNE, "+" + level));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 12;
+		if(type == UpgradeType.POWER) return 12;
+		if(type == UpgradeType.EFFECT) return 12;
+		if(type == UpgradeType.FORTUNE) return 3;
+		if(type == UpgradeType.OVERDRIVE) return 9;
+		return 0;
 	}
 }

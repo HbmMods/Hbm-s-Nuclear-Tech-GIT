@@ -8,52 +8,51 @@ import com.hbm.items.weapon.ItemGrenade;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 public class EntityGrenadeIFNull extends EntityGrenadeBouncyBase {
 
-    public EntityGrenadeIFNull(World p_i1773_1_)
-    {
-        super(p_i1773_1_);
-    }
+	public EntityGrenadeIFNull(World world) {
+		super(world);
+	}
 
-    public EntityGrenadeIFNull(World p_i1774_1_, EntityLivingBase p_i1774_2_)
-    {
-        super(p_i1774_1_, p_i1774_2_);
-    }
+	public EntityGrenadeIFNull(World world, EntityLivingBase thrower) {
+		super(world, thrower);
+	}
 
-    public EntityGrenadeIFNull(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_)
-    {
-        super(p_i1775_1_, p_i1775_2_, p_i1775_4_, p_i1775_6_);
-    }
+	public EntityGrenadeIFNull(World world, double x, double y, double z) {
+		super(world, x, y, z);
+	}
 
-    @Override
-    public void explode() {
-    	
-        if (!this.worldObj.isRemote)
-        {
-            this.setDead();
+	@Override
+	public void explode() {
 
-    		for(int a = -3; a <= 3; a++)
-        		for(int b = -3; b <= 3; b++)
-            		for(int c = -3; c <= 3; c++)
-            			worldObj.setBlockToAir((int)posX + a, (int)posY + b, (int)posZ + c);
-    		
-    		List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, AxisAlignedBB.getBoundingBox((int)posX + 0.5 - 3, (int)posY + 0.5 - 3, (int)posZ + 0.5 - 3, (int)posX + 0.5 + 3, (int)posY + 0.5 + 3, (int)posZ + 0.5 + 3));
-    		
-    		for(Object o : list) {
-    			if(o instanceof EntityLivingBase) {
-    				EntityLivingBase e = (EntityLivingBase)o;
-    				
-    				e.setHealth(0);
-    			} else if(o instanceof Entity) {
-    				Entity e = (Entity)o;
-    				
-    				e.setDead();
-    			}
-    		}
-        }
-    }
+		if(!this.worldObj.isRemote) {
+			this.setDead();
+			
+			int range = 5;
+
+			for(int a = -range; a <= range; a++)
+				for(int b = -range; b <= range; b++)
+					for(int c = -range; c <= range; c++)
+						worldObj.setBlockToAir((int) Math.floor(posX + a), (int) Math.floor(posY + b), (int) Math.floor(posZ + c));
+
+			List list = worldObj.getEntitiesWithinAABBExcludingEntity(this,
+					AxisAlignedBB.getBoundingBox((int) posX + 0.5 - 3, (int) posY + 0.5 - 3, (int) posZ + 0.5 - 3, (int) posX + 0.5 + 3, (int) posY + 0.5 + 3, (int) posZ + 0.5 + 3));
+
+			for(Object o : list) {
+				if(o instanceof EntityLivingBase) {
+					EntityLivingBase e = (EntityLivingBase) o;
+					e.setHealth(0);
+					e.onDeath(DamageSource.outOfWorld);
+				} else if(o instanceof Entity) {
+					Entity e = (Entity) o;
+					e.setDead();
+				}
+			}
+		}
+	}
 
 	@Override
 	protected int getMaxTimer() {

@@ -319,6 +319,8 @@ public class BlockModDoor extends Block {
 			return ModItems.door_metal;
 		else if (this == ModBlocks.door_office)
 			return ModItems.door_office;
+		else if (this == ModBlocks.door_red)
+			return ModItems.door_red;
 		else
 			return ModItems.door_bunker;
 	}
@@ -379,6 +381,8 @@ public class BlockModDoor extends Block {
 			return ModItems.door_metal;
 		else if (this == ModBlocks.door_office)
 			return ModItems.door_office;
+		else if (this == ModBlocks.door_red)
+			return ModItems.door_red;
 		else
 			return ModItems.door_bunker;
 	}

@@ -185,7 +185,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 				nextPos = Vec3.createVectorHelper(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 			}
 			
-			if(!this.worldObj.isRemote) {
+			if(!this.worldObj.isRemote && this.doesImpactEntities()) {
 				
 				Entity hitEntity = null;
 				List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX * motionMult(), this.motionY * motionMult(), this.motionZ * motionMult()).expand(1.0D, 1.0D, 1.0D));
@@ -280,6 +280,10 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 			this.motionY -= gravity;
 			this.setPosition(this.posX, this.posY, this.posZ);
 		}
+	}
+	
+	public boolean doesImpactEntities() {
+		return true;
 	}
 	
 	public boolean doesPenetrate() {

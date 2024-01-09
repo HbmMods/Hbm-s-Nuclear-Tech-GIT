@@ -29,8 +29,8 @@ public class FuelHandler implements IFuelHandler {
 		if(fuel.getItem() == ModItems.biomass)								return single * 2;
 		if(fuel.getItem() == ModItems.biomass_compressed)					return single * 4;
 		if(fuel.getItem() == ModItems.powder_coal)							return single * 8;
-		if(fuel.getItem() == ModItems.scrap)								return single / 2;
-		if(fuel.getItem() == ModItems.dust)									return single / 2;
+		if(fuel.getItem() == ModItems.scrap)								return single / 4;
+		if(fuel.getItem() == ModItems.dust)									return single / 8;
 		if(fuel.getItem() == Item.getItemFromBlock(ModBlocks.block_scrap))	return single * 2;
 		if(fuel.getItem() == ModItems.powder_fire)							return 6400;
 		if(fuel.getItem() == ModItems.lignite)								return 1200;
@@ -57,6 +57,8 @@ public class FuelHandler implements IFuelHandler {
 			case 0: return single / 2;
 			case 1: return single;
 			case 2: return single / 2;
+			case 3: return single;
+			case 4: return single / 2;
 			}
 		}
 		

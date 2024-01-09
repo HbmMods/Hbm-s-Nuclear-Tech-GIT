@@ -82,7 +82,7 @@ public class ItemFluidIcon extends Item {
 
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
-		String s = (StatCollector.translateToLocal(Fluids.fromID(stack.getItemDamage()).getUnlocalizedName())).trim();
+		String s = (StatCollector.translateToLocal(Fluids.fromID(stack.getItemDamage()).getConditionalName())).trim();
 
 		if(s != null) {
 			return s;

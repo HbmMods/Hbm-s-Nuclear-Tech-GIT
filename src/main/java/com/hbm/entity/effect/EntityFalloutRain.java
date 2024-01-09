@@ -4,12 +4,14 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.FalloutConfigJSON.FalloutEntry;
+import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.saveddata.AuxSavedData;
+import com.hbm.world.WorldUtil;
+import com.hbm.world.biome.BiomeGenCrater;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
@@ -58,8 +60,10 @@ public class EntityFalloutRain extends Entity {
 					for(int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) {
 						for(int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
 							stomp(x, z, Math.hypot(x - posX, z - posZ) * 100 / getScale());
+							//WorldUtil.setBiome(worldObj, x, z, BiomeGenCrater.craterBiome);
 						}
 					}
+					//WorldUtil.syncBiomeChange(worldObj, chunkPosX, chunkPosZ);
 					
 				} else if (!outerChunksToProcess.isEmpty()) {
 					long chunkPos = outerChunksToProcess.remove(outerChunksToProcess.size() - 1);
@@ -70,9 +74,11 @@ public class EntityFalloutRain extends Entity {
 							double distance = Math.hypot(x - posX, z - posZ);
 							if(distance <= getScale()) {
 								stomp(x, z, distance * 100 / getScale());
+								//WorldUtil.setBiome(worldObj, x, z, BiomeGenCrater.craterBiome);
 							}
 						}
 					}
+					//WorldUtil.syncBiomeChange(worldObj, chunkPosX, chunkPosZ);
 					
 				} else {
 					setDead();
@@ -161,6 +167,10 @@ public class EntityFalloutRain extends Entity {
 			
 			for(FalloutEntry entry : FalloutConfigJSON.entries) {
 				
+				if(b == Blocks.grass) {
+					break;
+				}
+				
 				if(entry.eval(worldObj, x, y, z, b, meta, dist)) {
 					if(entry.isSolid()) {
 						depth++;
@@ -178,8 +188,8 @@ public class EntityFalloutRain extends Entity {
 					for(int i = 0; i <= depth; i++) {
 						hardness = worldObj.getBlock(x, y + i, z).getBlockHardness(worldObj, x, y + i, z);
 						if(hardness <= Blocks.stonebrick.getExplosionResistance(null) && hardness >= 0) {
-							EntityFallingBlock entityfallingblock = new EntityFallingBlock(worldObj, x + 0.5D, y + 0.5D + i, z + 0.5D, worldObj.getBlock(x, y + i, z), worldObj.getBlockMetadata(x, y + i, z));
-							entityfallingblock.field_145813_c = false; //turn off block drops because block dropping was coded by a mule with dementia
+							EntityFallingBlockNT entityfallingblock = new EntityFallingBlockNT(worldObj, x + 0.5D, y + 0.5D + i, z + 0.5D, worldObj.getBlock(x, y + i, z), worldObj.getBlockMetadata(x, y + i, z));
+							entityfallingblock.canDrop = false; //turn off block drops because block dropping was coded by a mule with dementia
 							worldObj.spawnEntityInWorld(entityfallingblock);
 						}
 					}

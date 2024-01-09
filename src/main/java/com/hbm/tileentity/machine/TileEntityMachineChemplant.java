@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -21,7 +22,10 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -38,10 +42,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineChemplant extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor, IFluidStandardTransceiver, IGUIProvider {
+public class TileEntityMachineChemplant extends TileEntityMachineBase implements IEnergyUser, IFluidSource, IFluidAcceptor, IFluidStandardTransceiver, IGUIProvider, IUpgradeInfoProvider {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -124,7 +129,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			this.speed -= speedLevel * 25;
 			this.consumption += speedLevel * 300;
 			this.speed += powerLevel * 5;
-			this.consumption -= powerLevel * 30;
+			this.consumption -= powerLevel * 20;
 			this.speed /= (overLevel + 1);
 			this.consumption *= (overLevel + 1);
 			
@@ -363,6 +368,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 				
 				IInventory inv = (IInventory) te;
 				ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
+				int[] access = sided != null ? sided.getAccessibleSlotsFromSide(dir.ordinal()) : null;
 				
 				for(AStack ingredient : recipe.inputs) {
 					
@@ -371,15 +377,17 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 						
 						boolean found = false;
 						
-						for(int i = 0; i < inv.getSizeInventory(); i++) {
+						for(int i = 0; i < (access != null ? access.length : inv.getSizeInventory()); i++) {
+
+							int slot = access != null ? access[i] : i;
+							ItemStack stack = inv.getStackInSlot(slot);
 							
-							ItemStack stack = inv.getStackInSlot(i);
-							if(ingredient.matchesRecipe(stack, true) && (sided == null || sided.canExtractItem(i, stack, 0))) {
+							if(ingredient.matchesRecipe(stack, true) && (sided == null || sided.canExtractItem(slot, stack, 0))) {
 								
 								for(int j = 13; j <= 16; j++) {
 									
 									if(slots[j] != null && slots[j].stackSize < slots[j].getMaxStackSize() & InventoryUtil.doesStackDataMatch(slots[j], stack)) {
-										inv.decrStackSize(i, 1);
+										inv.decrStackSize(slot, 1);
 										slots[j].stackSize++;
 										continue outer;
 									}
@@ -390,14 +398,14 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 									if(slots[j] == null) {
 										slots[j] = stack.copy();
 										slots[j].stackSize = 1;
-										inv.decrStackSize(i, 1);
+										inv.decrStackSize(slot, 1);
 										continue outer;
 									}
 								}
 							}
 						}
-						
-						if(!found) return;
+
+						if(!found) break outer;
 					}
 				}
 			}
@@ -417,6 +425,8 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 		if(te instanceof IInventory) {
 			
 			IInventory inv = (IInventory) te;
+			ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
+			int[] access = sided != null ? sided.getAccessibleSlotsFromSide(dir.ordinal()) : null;
 			
 			for(int i = 5; i <= 8; i++) {
 				
@@ -424,12 +434,14 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 				
 				if(out != null) {
 					
-					for(int j = 0; j < inv.getSizeInventory(); j++) {
+					for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
+
+						int slot = access != null ? access[j] : j;
 						
-						if(!inv.isItemValidForSlot(j, out))
+						if(!inv.isItemValidForSlot(slot, out))
 							continue;
 							
-						ItemStack target = inv.getStackInSlot(j);
+						ItemStack target = inv.getStackInSlot(slot);
 						
 						if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize()) {
 							this.decrStackSize(i, 1);
@@ -438,15 +450,17 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 						}
 					}
 					
-					for(int j = 0; j < inv.getSizeInventory(); j++) {
+					for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
+
+						int slot = access != null ? access[j] : j;
 						
-						if(!inv.isItemValidForSlot(j, out))
+						if(!inv.isItemValidForSlot(slot, out))
 							continue;
 						
-						if(inv.getStackInSlot(j) == null && inv.isItemValidForSlot(j, out)) {
+						if(inv.getStackInSlot(slot) == null && (sided != null ? sided.canInsertItem(slot, out, dir.ordinal()) : inv.isItemValidForSlot(slot, out))) {
 							ItemStack copy = out.copy();
 							copy.stackSize = 1;
-							inv.setInventorySlotContents(j, copy);
+							inv.setInventorySlotContents(slot, copy);
 							this.decrStackSize(i, 1);
 							return;
 						}
@@ -644,5 +658,34 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineChemplant(player.inventory, this);
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_chemplant));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 300) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 30) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (level * 5) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		if(type == UpgradeType.POWER) return 3;
+		if(type == UpgradeType.OVERDRIVE) return 9;
+		return 0;
 	}
 }

@@ -62,7 +62,7 @@ public class Gun45ACPFactory {
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
 		config.reloadDuration = 10;
 		config.firingDuration = 8;
-		config.ammoCap = 16;
+		config.ammoCap = 21;
 		config.durability = 10000;
 		config.reloadType = 1;
 		config.allowsInfinity = true;
@@ -87,6 +87,17 @@ public class Gun45ACPFactory {
 				.addBus("HAMMER", new BusAnimationSequence()
 						.addKeyframe(new BusAnimationKeyframe(15, 0, 0, 10))
 						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 40))));
+
+		return config;
+	}
+
+	public static GunConfiguration getUACPistolBurstConfig() {
+		GunConfiguration config = getUACPistolConfig();
+		config.rateOfFire = 5;
+		config.roundsPerBurst = 3;
+		config.firingDuration = 2;
+		config.gunMode = GunConfiguration.MODE_NORMAL;
+		config.firingMode = GunConfiguration.FIRE_BURST;
 
 		return config;
 	}

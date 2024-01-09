@@ -12,7 +12,6 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineMixer;
-import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -47,8 +46,8 @@ public class GUIMixer extends GuiInfoContainer {
 			List<String> label = new ArrayList();
 			label.add(EnumChatFormatting.YELLOW + "Current recipe (" + (mixer.recipeIndex + 1) + "/" + recipes.length + "):");
 			MixerRecipe recipe = recipes[mixer.recipeIndex % recipes.length];
-			if(recipe.input1 != null) label.add("-" + I18nUtil.resolveKey(recipe.input1.type.getUnlocalizedName()));
-			if(recipe.input2 != null) label.add("-" + I18nUtil.resolveKey(recipe.input2.type.getUnlocalizedName()));
+			if(recipe.input1 != null) label.add("-" + recipe.input1.type.getLocalizedName());
+			if(recipe.input2 != null) label.add("-" + recipe.input2.type.getLocalizedName());
 			if(recipe.solidInput != null) label.add("-" + recipe.solidInput.extractForCyclingDisplay(20).getDisplayName());
 			label.add(EnumChatFormatting.RED + "Click to change!");
 			this.drawCustomInfoStat(x, y, guiLeft + 62, guiTop + 22, 12, 12, x, y, label);

@@ -41,12 +41,7 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 		String[] templateText = I18nUtil.resolveKeyArray("desc.gui.template");
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 16 + 16, templateText);
 		
-		String[] upgradeText = new String[3];
-		upgradeText[0] = I18nUtil.resolveKey("desc.gui.upgrade");
-		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
-		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.power");
-		
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 141, guiTop + 40, 8, 8, guiLeft + 225, guiTop + 40 + 16 + 8, upgradeText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 141, guiTop + 40, 8, 8, guiLeft + 225, guiTop + 40 + 16 + 8, this.getUpgradeInfo(assembler));
 	}
 
 	@Override

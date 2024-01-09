@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -22,9 +23,14 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -35,7 +41,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbine extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyGenerator, IFluidStandardTransceiver, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityMachineTurbine extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyGenerator, IFluidStandardTransceiver, IGUIProvider, SimpleComponent {
 
 	private ItemStack slots[];
 
@@ -374,6 +381,36 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	@Override
 	public FluidTank[] getAllTanks() {
 		return tanks;
+	}
+
+	@Override
+	public String getComponentName() {
+		return "ntm_turbine";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluid(Context context, Arguments args) {
+		return new Object[] {tanks[0].getFill(), tanks[1].getFill(), tanks[1].getFill(), tanks[1].getMaxFill()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getType(Context context, Arguments args) {
+		return CompatHandler.steamTypeToInt(tanks[1].getTankType());
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setType(Context context, Arguments args) {
+		tanks[0].setTankType(CompatHandler.intToSteamType(args.checkInteger(0)));
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill(), CompatHandler.steamTypeToInt(tanks[0].getTankType())};
 	}
 
 	@Override

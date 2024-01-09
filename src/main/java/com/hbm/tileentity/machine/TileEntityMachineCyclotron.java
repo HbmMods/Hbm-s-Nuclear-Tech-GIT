@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityBlackHole;
@@ -11,6 +11,8 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
+import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerMachineCyclotron;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -22,8 +24,10 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IConditionalInvAccess;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
@@ -39,8 +43,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCyclotron extends TileEntityMachineBase implements IFluidSource, IFluidAcceptor, IEnergyUser, IFluidStandardTransceiver, IGUIProvider {
+public class TileEntityMachineCyclotron extends TileEntityMachineBase implements IFluidSource, IFluidAcceptor, IEnergyUser, IFluidStandardTransceiver, IGUIProvider, IConditionalInvAccess {
 	
 	public long power;
 	public static final long maxPower = 100000000;
@@ -58,8 +63,6 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	
 	public FluidTank coolant;
 	public FluidTank amat;
-	
-	public List<IFluidAcceptor> list = new ArrayList();
 
 	public TileEntityMachineCyclotron() {
 		super(16);
@@ -408,39 +411,11 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		return 0;
 	}
 
-	@Override
-	public void fillFluidInit(FluidType type) {
-
-		fillFluid(xCoord + 3, yCoord, zCoord + 1, getTact(), type);
-		fillFluid(xCoord + 3, yCoord, zCoord - 1, getTact(), type);
-		fillFluid(xCoord - 3, yCoord, zCoord + 1, getTact(), type);
-		fillFluid(xCoord - 3, yCoord, zCoord - 1, getTact(), type);
-
-		fillFluid(xCoord + 1, yCoord, zCoord + 3, getTact(), type);
-		fillFluid(xCoord - 1, yCoord, zCoord + 3, getTact(), type);
-		fillFluid(xCoord + 1, yCoord, zCoord - 3, getTact(), type);
-		fillFluid(xCoord - 1, yCoord, zCoord - 3, getTact(), type);
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-	
-	@Override
-	public boolean getTact() {
-		return age >= 0 && age < 10;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return list;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		list.clear();
-	}
+	@Override public void fillFluidInit(FluidType type) { }
+	@Override public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) { }
+	@Override public boolean getTact() { return false; }
+	@Override public List<IFluidAcceptor> getFluidList(FluidType type) { return null; }
+	@Override public void clearFluidList(FluidType type) { }
 
 	@Override
 	public int getMaxFluidFill(FluidType type) {
@@ -558,5 +533,47 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineCyclotron(player.inventory, this);
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int x, int y, int z, int slot, ItemStack stack) {
+		
+		if(slot < 3) {
+			for(Entry<Pair<ComparableStack, AStack>, Pair<ItemStack, Integer>> entry : CyclotronRecipes.recipes.entrySet()) {
+				if(entry.getKey().getKey().matchesRecipe(stack, true)) return true;
+			}
+		} else if(slot < 6) {
+
+			for(Entry<Pair<ComparableStack, AStack>, Pair<ItemStack, Integer>> entry : CyclotronRecipes.recipes.entrySet()) {
+				if(entry.getKey().getValue().matchesRecipe(stack, true)) return true;
+			}
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean canInsertItem(int x, int y, int z, int slot, ItemStack stack, int side) {
+		return this.isItemValidForSlot(x, y, z, slot, stack);
+	}
+
+	@Override
+	public boolean canExtractItem(int x, int y, int z, int slot, ItemStack stack, int side) {
+		return slot >= 6 && slot <= 8;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int x, int y, int z, int side) {
+		
+		for(int i = 2; i < 6; i++) {
+			ForgeDirection dir = ForgeDirection.getOrientation(i);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+			if(x == xCoord + dir.offsetX * 2 + rot.offsetX && z == zCoord + dir.offsetZ * 2 + rot.offsetZ) return new int[] {0, 3, 6, 7, 8};
+			if(x == xCoord + dir.offsetX * 2 && z == zCoord + dir.offsetZ * 2) return new int[] {1, 4, 6, 7, 8};
+			if(x == xCoord + dir.offsetX * 2 - rot.offsetX && z == zCoord + dir.offsetZ * 2 - rot.offsetZ) return new int[] {2, 5, 6, 7, 8};
+		}
+		
+		return new int[] {6, 7, 8};
 	}
 }

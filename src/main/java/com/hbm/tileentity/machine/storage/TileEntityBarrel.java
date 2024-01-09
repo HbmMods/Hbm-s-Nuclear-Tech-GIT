@@ -73,6 +73,24 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	}
 
 	@Override
+	public long getDemand(FluidType type, int pressure) {
+		
+		if(this.mode == 2 || this.mode == 3 || this.sendingBrake)
+			return 0;
+		
+		if(tank.getPressure() != pressure) return 0;
+		
+		return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
+	}
+
+	@Override
+	public long transferFluid(FluidType type, int pressure, long fluid) {
+		long toTransfer = Math.min(getDemand(type, pressure), fluid);
+		tank.setFill(tank.getFill() + (int) toTransfer);
+		return fluid - toTransfer;
+	}
+
+	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
@@ -92,8 +110,10 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			this.sendingBrake = false;
 			
 			age++;
-			if(age >= 20)
+			if(age >= 20) {
 				age = 0;
+				this.markChanged();
+			}
 			
 			if((mode == 1 || mode == 2) && (age == 9 || age == 19))
 				fillFluidInit(tank.getTankType());
@@ -373,25 +393,25 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		return "ntm_fluid_tank";
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFluidStored(Context context, Arguments args) {
 		return new Object[] {tank.getFill()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getMaxStored(Context context, Arguments args) {
 		return new Object[] {tank.getMaxFill()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTypeStored(Context context, Arguments args) {
 		return new Object[] {tank.getTankType().getName()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};

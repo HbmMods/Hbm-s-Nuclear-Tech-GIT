@@ -31,6 +31,7 @@ public class RadiationConfig {
 	public static double buffMobThreshold = 15D;
 	public static double sootFogThreshold = 35D;
 	public static double sootFogDivisor = 120D;
+	public static double smokeStackSootMult = 0.8;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -68,5 +69,6 @@ public class RadiationConfig {
 		buffMobThreshold = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_05_buffMobThreshold", "The amount of soot required to buff naturally spawning mobs", 15D);
 		sootFogThreshold = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_06_sootFogThreshold", "How much soot is required for smog to become visible", 35D);
 		sootFogDivisor = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_07_sootFogDivisor", "The divisor for smog, higher numbers will require more soot for the same smog density", 120D);
+		smokeStackSootMult = CommonConfig.createConfigDouble(config, CATEGORY_POL, "POL_08_smokeStackSootMult", "How much does smokestack multiply soot by, with decimal values reducing the soot", 0.8);
 	}
 }

@@ -13,7 +13,6 @@ import com.hbm.util.I18nUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -65,7 +64,7 @@ public class ItemFluidIdentifier extends Item implements IItemFluidIdentifier {
 		list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("info.templatefolder", I18nUtil.resolveKey(ModItems.template_folder.getUnlocalizedName() + ".name")));
 		list.add("");
 		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".info"));
-		list.add("   " + I18n.format(Fluids.fromID(stack.getItemDamage()).getUnlocalizedName()));
+		list.add("   " + Fluids.fromID(stack.getItemDamage()).getLocalizedName());
 		list.add("");
 		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".usage0"));
 		list.add(I18nUtil.resolveKey(getUnlocalizedName() + ".usage1"));

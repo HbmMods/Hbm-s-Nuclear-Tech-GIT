@@ -6,14 +6,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;

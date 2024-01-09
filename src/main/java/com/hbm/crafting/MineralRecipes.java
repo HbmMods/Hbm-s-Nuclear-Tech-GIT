@@ -1,6 +1,7 @@
 package com.hbm.crafting;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
@@ -417,6 +418,8 @@ public class MineralRecipes {
 		GameRegistry.addRecipe(new ItemStack(ModItems.ingot_mercury, 8), new Object[] { "#", '#', ModItems.bottle_mercury });
 		GameRegistry.addRecipe(new ItemStack(ModItems.egg_balefire, 1), new Object[] { "###", "###", "###", '#', ModItems.egg_balefire_shard });
 		GameRegistry.addRecipe(new ItemStack(ModItems.egg_balefire_shard, 9), new Object[] { "#", '#', ModItems.egg_balefire });
+		GameRegistry.addRecipe(new ItemStack(ModItems.nitra, 1), new Object[] { "##", "##", '#', ModItems.nitra_small });
+		GameRegistry.addRecipe(new ItemStack(ModItems.nitra_small, 4), new Object[] { "#", '#', ModItems.nitra });
 		add1To9Pair(ModItems.powder_paleogenite, ModItems.powder_paleogenite_tiny);
 		add1To9Pair(ModItems.ingot_osmiridium, ModItems.nugget_osmiridium);
 
@@ -446,6 +449,7 @@ public class MineralRecipes {
 		
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ball_fireclay, 4), new Object[] { Items.clay_ball, Items.clay_ball, Items.clay_ball, AL.dust() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ball_fireclay, 4), new Object[] { Items.clay_ball, Items.clay_ball, Items.clay_ball, AL.ore() });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ball_fireclay, 4), new Object[] { Items.clay_ball, Items.clay_ball, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), KEY_SAND });
 
 		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_IRON), new ItemStack(ModItems.powder_iron));
 		add9To1(DictFrame.fromOne(ModItems.ore_byproduct, EnumByproduct.B_COPPER), new ItemStack(ModItems.powder_copper));

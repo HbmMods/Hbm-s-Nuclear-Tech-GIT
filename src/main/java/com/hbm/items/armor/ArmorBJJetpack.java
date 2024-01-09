@@ -89,13 +89,13 @@ public class ArmorBJJetpack extends ArmorBJ {
 				}
 			}
 		}
-    }
-    
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-    	super.addInformation(stack, player, list, ext);
+	}
 
-    	list.add(EnumChatFormatting.RED + "  + " + I18nUtil.resolveKey("armor.electricJetpack"));
-    	list.add(EnumChatFormatting.GRAY + "  + " + I18nUtil.resolveKey("armor.glider"));
-    }
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		super.addInformation(stack, player, list, ext);
+
+		list.add(EnumChatFormatting.RED + "  + " + I18nUtil.resolveKey("armor.electricJetpack"));
+		list.add(EnumChatFormatting.GRAY + "  + " + I18nUtil.resolveKey("armor.glider"));
+	}
 }

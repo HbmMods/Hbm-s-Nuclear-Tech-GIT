@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.entity.missile.EntityBobmazon;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -15,6 +16,7 @@ import com.hbm.tileentity.IRepairable;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -39,6 +41,9 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 			if(comTimer == 100) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.hornFarDual", 10000F, 1F);
 			
 			if(comTimer == 0) {
+				List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord - 10, yCoord - 10, zCoord - 10, xCoord + 11, yCoord + 11, zCoord + 11));
+				EntityPlayer first = players.isEmpty() ? null : players.get(0);
+				boolean bonus = first == null ? false : (HbmPlayerProps.getData(first).reputation >= 10);
 				EntityBobmazon shuttle = new EntityBobmazon(worldObj);
 				shuttle.posX = xCoord + 0.5 + worldObj.rand.nextGaussian() * 10;
 				shuttle.posY = 300;
@@ -48,7 +53,7 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 						new ItemStack(ModItems.circuit_copper, 4 + worldObj.rand.nextInt(2)),
 						new ItemStack(ModItems.circuit_red_copper, 2 + worldObj.rand.nextInt(3)),
 						new ItemStack(ModItems.circuit_gold, 1 + worldObj.rand.nextInt(2)),
-						worldObj.rand.nextInt(3) == 0 ? new ItemStack(ModItems.gem_alexandrite) : new ItemStack(Items.diamond, 6 + worldObj.rand.nextInt(6)),
+						bonus ? new ItemStack(ModItems.gem_alexandrite) : new ItemStack(Items.diamond, 6 + worldObj.rand.nextInt(6)),
 						new ItemStack(Blocks.red_flower));
 				shuttle.payload = payload;
 				
@@ -62,6 +67,16 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("isBroken", isBroken);
 			INBTPacketReceiver.networkPack(this, data, 250);
+		}
+	}
+	
+	@Override
+	public void invalidate() {
+		super.invalidate();
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord - 50, yCoord - 50, zCoord - 50, xCoord + 51, yCoord + 51, zCoord + 51));
+		for(EntityPlayer player : players) {
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			if(props.reputation > -10) props.reputation--;
 		}
 	}
 

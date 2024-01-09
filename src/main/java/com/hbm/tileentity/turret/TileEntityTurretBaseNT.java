@@ -7,7 +7,7 @@ import java.util.function.BiFunction;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.logic.EntityBomber;
-import com.hbm.entity.missile.EntityMissileBaseAdvanced;
+import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.missile.EntitySiegeDropship;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
@@ -29,6 +29,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatExternal;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.entity.IRadarDetectableNT;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -642,7 +643,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		
 		if(targetMachines) {
 
-			if(e instanceof EntityMissileBaseAdvanced) return true;
+			if(e instanceof IRadarDetectableNT && !((IRadarDetectableNT)e).canBeSeenBy(this)) return false;
+			if(e instanceof EntityMissileBaseNT) return true;
 			if(e instanceof EntityMissileCustom) return true;
 			if(e instanceof EntityMinecart) return true;
 			if(e instanceof EntityRailCarBase) return true;
@@ -653,9 +655,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		
 		if(targetPlayers ) {
 			
-			if(e instanceof FakePlayer)
-				return false;
-			
+			if(e instanceof FakePlayer) return false;
 			if(e instanceof EntityPlayer) return true;
 			for(Class c : CompatExternal.turretTargetPlayer) if(c.isAssignableFrom(e.getClass())) return true;
 		}

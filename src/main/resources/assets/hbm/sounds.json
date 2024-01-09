@@ -59,6 +59,7 @@
     "block.hornFarSingle": {"category": "block", "sounds": [{"name": "block/hornFarSingle", "stream": false}]},
     "block.hornFarDual": {"category": "block", "sounds": [{"name": "block/hornFarDual", "stream": false}]},
     "block.reactorLoop": {"category": "block", "sounds": [{"name": "block/reactorLoop", "stream": false}]},
+    "block.fel": {"category":  "block", "sounds":  [{"name": "block/fel", "stream":  false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},
@@ -67,7 +68,20 @@
     "door.sliding_door_shut": {"category": "block", "sounds": [{"name": "block/door/sliding_door_shut", "stream": false}]},
     "door.sliding_door_opened": {"category": "block", "sounds": [{"name": "block/door/sliding_door_opened", "stream": false}]},
     "door.sliding_door_opening": {"category": "block", "sounds": [{"name": "block/door/sliding_door_opening", "stream": false}]},
-    
+
+    "door.garage_move": { "category": "block", "sounds": [{"name": "block/door/garage_move", "stream": false}] },
+    "door.garage_stop": { "category": "block", "sounds": [{"name": "block/door/garage_stop", "stream": false}] },
+    "door.lever": {"category": "block", "sounds": [{"name": "block/door/lever1", "stream": false}]},
+    "door.wgh_start": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": false}]},
+    "door.wgh_stop": {"category": "block", "sounds": [{"name": "block/door/wgh_stop", "stream": false}]},
+    "door.wgh_big_start": {"category": "block", "sounds": [{"name": "block/door/door_wgh_big_start", "stream": false}]},
+    "door.wgh_big_stop": {"category": "block", "sounds": [{"name": "block/door/door_wgh_big_stop", "stream": false}]},
+    "door.qe_sliding_shut": {"category": "block", "sounds": [{"name": "block/door/doorshut_1", "stream": false}]},
+    "door.qe_sliding_opened": {"category": "block", "sounds": [{"name": "block/door/doorslide_opened1", "stream": false}]},
+    "door.qe_sliding_opening": {"category": "block", "sounds": [{"name": "block/door/doorslide_opening1", "stream": false}]},
+    "door.sliding_seal_open": {"category": "block", "sounds": [{"name": "block/door/doormove2", "stream": false}]},
+    "door.sliding_seal_stop": {"category": "block", "sounds": [{"name": "block/door/metal_stop1", "stream": false}]},
+
 	"item.techBleep": {"category": "player", "sounds": [{"name": "tool/techBleep", "stream": false}]},
     "item.techBoop": {"category": "player", "sounds": [{"name": "tool/techBoop", "stream": false}]},
     "item.geiger1": {"category": "player", "sounds": [{"name": "tool/geiger1", "stream": false}]},
@@ -187,6 +201,8 @@
     "weapon.coilgunShoot": {"category": "player", "sounds": [{"name": "weapon/coilgunShoot", "stream": false}]},
     "weapon.glReload": {"category": "player", "sounds": [{"name": "weapon/glReload", "stream": false}]},
     "weapon.glShoot": {"category": "player", "sounds": [{"name": "weapon/glShoot", "stream": false}]},
+    "weapon.44Shoot": {"category": "player", "sounds": [{"name": "weapon/44Shoot", "stream": false}]},
+    "weapon.trainImpact": {"category": "player", "sounds": [{"name": "weapon/trainImpact", "stream": false}]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 

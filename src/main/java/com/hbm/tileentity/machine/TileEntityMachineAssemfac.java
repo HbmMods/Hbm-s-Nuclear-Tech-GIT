@@ -1,8 +1,10 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerAssemfac;
 import com.hbm.inventory.fluid.Fluids;
@@ -10,6 +12,9 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIAssemfac;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
+import com.hbm.tileentity.IUpgradeInfoProvider;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -21,11 +26,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase implements IFluidStandardTransceiver {
+public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase implements IFluidStandardTransceiver, IUpgradeInfoProvider {
 	
 	public AssemblerArm[] arms;
 
@@ -351,11 +356,11 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 		return new int[] { 5 + index * 14, 16 + index * 14, 18 + index * 14};
 	}
 
-	ChunkCoordinates[] inpos;
-	ChunkCoordinates[] outpos;
+	DirPos[] inpos;
+	DirPos[] outpos;
 	
 	@Override
-	public ChunkCoordinates[] getInputPositions() {
+	public DirPos[] getInputPositions() {
 		
 		if(inpos != null)
 			return inpos;
@@ -363,18 +368,18 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
-		inpos = new ChunkCoordinates[] {
-				new ChunkCoordinates(xCoord + dir.offsetX * 4 - rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 1),
-				new ChunkCoordinates(xCoord - dir.offsetX * 5 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 5 + rot.offsetZ * 2),
-				new ChunkCoordinates(xCoord - dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 4),
-				new ChunkCoordinates(xCoord + dir.offsetX * 1 + rot.offsetX * 5, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 5)
+		inpos = new DirPos[] {
+				new DirPos(xCoord + dir.offsetX * 4 - rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 1, dir),
+				new DirPos(xCoord - dir.offsetX * 5 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 5 + rot.offsetZ * 2, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 4, rot.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * 1 + rot.offsetX * 5, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 5, rot)
 		};
 		
 		return inpos;
 	}
 
 	@Override
-	public ChunkCoordinates[] getOutputPositions() {
+	public DirPos[] getOutputPositions() {
 		
 		if(outpos != null)
 			return outpos;
@@ -382,11 +387,11 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
-		outpos = new ChunkCoordinates[] {
-				new ChunkCoordinates(xCoord + dir.offsetX * 4 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 4 + rot.offsetZ * 2),
-				new ChunkCoordinates(xCoord - dir.offsetX * 5 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 5 - rot.offsetZ * 1),
-				new ChunkCoordinates(xCoord + dir.offsetX * 1 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 1 - rot.offsetZ * 4),
-				new ChunkCoordinates(xCoord - dir.offsetX * 2 + rot.offsetX * 5, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 5)
+		outpos = new DirPos[] {
+				new DirPos(xCoord + dir.offsetX * 4 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 4 + rot.offsetZ * 2, dir),
+				new DirPos(xCoord - dir.offsetX * 5 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 5 - rot.offsetZ * 1, dir.getOpposite()),
+				new DirPos(xCoord + dir.offsetX * 1 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 1 - rot.offsetZ * 4, rot.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX * 5, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 5, rot)
 		};
 		
 		return outpos;
@@ -421,5 +426,34 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIAssemfac(player.inventory, this);
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_assemfac));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 15) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 300) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 30) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (level * 5) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 6;
+		if(type == UpgradeType.POWER) return 3;
+		if(type == UpgradeType.OVERDRIVE) return 12;
+		return 0;
 	}
 }

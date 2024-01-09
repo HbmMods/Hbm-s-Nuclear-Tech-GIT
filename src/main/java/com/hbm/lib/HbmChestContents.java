@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.Mats;
 import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.items.ModItems;
@@ -55,7 +56,8 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.hull_big_steel, 0, 1, 2, 2),
 			new WeightedRandomChestContent(ModItems.hull_small_steel, 0, 1, 3, 3),
 			new WeightedRandomChestContent(ModItems.plate_polymer, 0, 1, 6, 5),
-			new WeightedRandomChestContent(ModItems.bolt_tungsten, 0, 1, 4, 3),
+			new WeightedRandomChestContent(ModItems.bolt, Mats.MAT_STEEL.id, 4, 16, 3),
+			new WeightedRandomChestContent(ModItems.bolt, Mats.MAT_TUNGSTEN.id, 4, 16, 3),
 			new WeightedRandomChestContent(ModItems.board_copper, 0, 1, 2, 4),
 			new WeightedRandomChestContent(ModItems.coil_tungsten, 0, 1, 2, 5),
 			new WeightedRandomChestContent(ModItems.motor, 0, 1, 2, 4),
@@ -246,7 +248,7 @@ public class HbmChestContents {
 			new WeightedRandomChestContent(ModItems.powder_niobium, 0, 1, 1, 1),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.fusion_conductor), 0, 2, 4, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.fusion_heater), 0, 1, 3, 5),
-			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.reactor_element), 0, 1, 2, 5),
+			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.pwr_fuel), 0, 1, 2, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.block_tungsten), 0, 3, 8, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_wire_coated), 0, 4, 8, 5),
 			new WeightedRandomChestContent(Item.getItemFromBlock(ModBlocks.red_cable), 0, 8, 16, 5) };
@@ -267,11 +269,13 @@ public class HbmChestContents {
 
 	public static WeightedRandomChestContent[] vault1 = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(Items.gold_ingot, 0, 3, 14, 1),
+			new WeightedRandomChestContent(ModItems.gun_uac_pistol, 0, 1, 1, 2),
 			new WeightedRandomChestContent(ModItems.pin, 0, 8, 8, 1),
 			new WeightedRandomChestContent(ModItems.gun_calamity, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.bottle_quantum, 0, 1, 3, 1),
 			new WeightedRandomChestContent(ModItems.ingot_advanced_alloy, 0, 4, 12, 1),
 			new WeightedRandomChestContent(ModItems.ammo_50bmg, 0, 24, 48, 1),
+			new WeightedRandomChestContent(ModItems.ammo_45, 0, 48, 64, 2),
 			new WeightedRandomChestContent(ModItems.circuit_red_copper, 0, 6, 12, 1),
 			new WeightedRandomChestContent(ModItems.gas_mask_m65, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.grenade_if_he, 0, 1, 1, 1),
@@ -387,6 +391,8 @@ public class HbmChestContents {
 	public static WeightedRandomChestContent[] lockersVault = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.robes_helmet, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.robes_plate, 0, 1, 1, 1),
+			new WeightedRandomChestContent(ModItems.ammo_45, 0, 48, 64, 2),
+			new WeightedRandomChestContent(ModItems.gun_uac_pistol, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.robes_legs, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.robes_boots, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.jackt, 0, 1, 1, 1),

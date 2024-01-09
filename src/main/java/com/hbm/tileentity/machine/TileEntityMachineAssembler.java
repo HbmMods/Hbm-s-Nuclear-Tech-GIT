@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
@@ -14,6 +15,9 @@ import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IUpgradeInfoProvider;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IBatteryItem;
@@ -25,11 +29,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase {
+public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase implements IUpgradeInfoProvider {
 	
 	public int recipe = -1;
 
@@ -211,16 +215,16 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase {
 	}
 
 	@Override
-	public ChunkCoordinates[] getInputPositions() {
+	public DirPos[] getInputPositions() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		return new ChunkCoordinates[] {new ChunkCoordinates(xCoord - dir.offsetX * 3 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 3 + rot.offsetZ)};
+		return new DirPos[] {new DirPos(xCoord - dir.offsetX * 3 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 3 + rot.offsetZ, dir.getOpposite())};
 	}
 
 	@Override
-	public ChunkCoordinates[] getOutputPositions() {
+	public DirPos[] getOutputPositions() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		return new ChunkCoordinates[] {new ChunkCoordinates(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2)};
+		return new DirPos[] {new DirPos(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, dir)};
 	}
 
 	@Override
@@ -265,5 +269,34 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase {
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineAssembler(player.inventory, this);
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_assembler));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 300) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 30) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (level * 5) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		if(type == UpgradeType.POWER) return 3;
+		if(type == UpgradeType.OVERDRIVE) return 9;
+		return 0;
 	}
 }

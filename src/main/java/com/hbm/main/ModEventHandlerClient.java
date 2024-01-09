@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -68,6 +69,7 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
@@ -144,7 +146,8 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public class ModEventHandlerClient {
 	
-	public static int flashTimer;
+	public static final int flashDuration = 5_000;
+	public static long flashTimestamp;
 	
 	@SubscribeEvent
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
@@ -152,7 +155,7 @@ public class ModEventHandlerClient {
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
 		/// NUKE FLASH ///
-		if(event.type == ElementType.CROSSHAIRS && flashTimer > 0) {
+		if(event.type == ElementType.CROSSHAIRS && (flashTimestamp + flashDuration - System.currentTimeMillis()) > 0) {
 			int width = event.resolution.getScaledWidth();
 			int height = event.resolution.getScaledHeight();
 			Tessellator tess = Tessellator.instance;
@@ -162,7 +165,7 @@ public class ModEventHandlerClient {
 			GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.0F);
 			GL11.glDepthMask(false);
 			tess.startDrawingQuads();
-			float brightness = (flashTimer - event.partialTicks) / 200F;
+			float brightness = (flashTimestamp + flashDuration - System.currentTimeMillis()) / (float) flashDuration;
 			tess.setColorRGBA_F(1F, 1F, 1F, brightness * 0.8F);
 			tess.addVertex(width, 0, 0);
 			tess.addVertex(0, 0, 0);
@@ -251,6 +254,11 @@ public class ModEventHandlerClient {
 				BlockPos anchor = new BlockPos(pos.blockX, pos.blockY, pos.blockZ);
 				
 				double distanceToCover = 4D * (i == 0 ? 1 : -1);
+				
+				if(distanceToCover < 0) {
+					distanceToCover *= -1;
+					yaw += 180;
+				}
 				
 				do {
 					
@@ -956,6 +964,25 @@ public class ModEventHandlerClient {
 				}
 			}
 		}
+		
+		if(event.phase == Phase.START) {
+			EntityPlayer player = mc.thePlayer;
+			
+			float discriminator = 0.003F;
+			float defaultStepSize = 0.5F;
+			int newStepSize = 0;
+			
+			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB) {
+				ArmorFSB plate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
+				if(plate.hasFSBArmor(player)) newStepSize = plate.stepSize;
+			}
+			
+			if(newStepSize > 0) {
+				player.stepHeight = newStepSize + discriminator;
+			} else {
+				for(int i = 1; i < 4; i++) if(player.stepHeight == i + discriminator) player.stepHeight = defaultStepSize;
+			}
+		}
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -1262,8 +1289,6 @@ public class ModEventHandlerClient {
 				client.sendQueue.addToSendQueue(new C0CPacketInput(client.moveStrafing, client.moveForward, client.movementInput.jump, client.movementInput.sneak));
 			}
 		}
-		
-		if(event.phase == Phase.START) if(flashTimer > 0) flashTimer--;
 	}
 	
 	@SubscribeEvent
@@ -1277,7 +1302,7 @@ public class ModEventHandlerClient {
 			case 0: main.splashText = "Floppenheimer!"; break;
 			case 1: main.splashText = "i should dip my balls in sulfuric acid"; break;
 			case 2: main.splashText = "All answers are popbob!"; break;
-			case 3: main.splashText = "None shall enter The Orb!"; break;
+			case 3: main.splashText = "None may enter The Orb!"; break;
 			case 4: main.splashText = "Wacarb was here"; break;
 			case 5: main.splashText = "SpongeBoy me Bob I am overdosing on keramine agagagagaga"; break;
 			case 6: main.splashText = EnumChatFormatting.RED + "I know where you live, " + System.getProperty("user.name"); break;
@@ -1286,10 +1311,10 @@ public class ModEventHandlerClient {
 			case 9: main.splashText = "There are bugs under your skin!"; break;
 			case 10: main.splashText = "Fentanyl!"; break;
 			case 11: main.splashText = "Do drugs!"; break;
-			//case 12: main.splashText = "post this on r/feedthememes for free internet points!"; break;
+			case 12: main.splashText = "Imagine being scared by splash texts!"; break;
 			}
 			
-			if(Math.random() < 0.1) main.splashText = "Visit r/feedthebeast if you hate yourself!";
+			if(Math.random() < 0.1) main.splashText = "Redditors aren't people!";
 		}
 	}
 }
