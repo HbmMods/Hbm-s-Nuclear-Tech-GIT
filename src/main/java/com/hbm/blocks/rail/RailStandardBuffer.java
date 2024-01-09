@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RailStandardBuffer extends BlockDummyable implements IRailNTM, IRenderRail {
+public class RailStandardBuffer extends BlockDummyable implements IRailNTM, IRenderBlock {
 
 	public RailStandardBuffer() {
 		super(Material.iron);

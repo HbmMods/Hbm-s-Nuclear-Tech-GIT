@@ -55,13 +55,8 @@ public class FalloutConfigJSON {
 	private static void initDefault() {
 		
 		double woodEffectRange = 65D;
-		/* destroy all leaves within the radios, kill all leaves outside of it */
-		entries.add(new FalloutEntry()	.mB(Blocks.leaves)			.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.leaves2)			.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(ModBlocks.waste_leaves)	.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.leaves)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.leaves2)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
 		
+		/* petrify all wooden things possible */
 		entries.add(new FalloutEntry()	.mB(Blocks.log)							.prim(new Triplet(ModBlocks.waste_log, 0, 1))		.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.log2)						.prim(new Triplet(ModBlocks.waste_log, 0, 1))		.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.red_mushroom_block).mM(10)	.prim(new Triplet(ModBlocks.waste_log, 0, 1))		.max(woodEffectRange));
@@ -69,24 +64,33 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()	.mB(Blocks.red_mushroom_block)			.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.brown_mushroom_block)		.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.planks)						.prim(new Triplet(ModBlocks.waste_planks, 0, 1))	.max(woodEffectRange));
-
-		FalloutEntry stoneCore = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 1, 1)).max(5).sol(true);
-		FalloutEntry stoneInner = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 0, 1)).min(5).max(15).sol(true);
-		FalloutEntry stoneOuter = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield_slaked, 0, 1)).min(15).max(50).sol(true);
+		/* if it can't be petrified, destroy it */
+		entries.add(new FalloutEntry()	.mMa(Material.wood)						.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
+		/* destroy all leaves within the radios, kill all leaves outside of it */
+		entries.add(new FalloutEntry()	.mMa(Material.leaves)		.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
+		entries.add(new FalloutEntry()	.mMa(Material.plants)		.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
+		entries.add(new FalloutEntry()	.mB(ModBlocks.waste_leaves)	.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
+		entries.add(new FalloutEntry()	.mB(Blocks.leaves)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
+		entries.add(new FalloutEntry()	.mB(Blocks.leaves2)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
 		
-		entries.add(stoneCore.clone().mB(Blocks.stone));
-		entries.add(stoneInner.clone().mB(Blocks.stone));
+
+		entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.sellafield_slaked, 0, 1)).max(35).sol(true).mMa(Material.ground));
+
+		//FalloutEntry stoneCore = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 1, 1)).max(5).sol(true);
+		//FalloutEntry stoneInner = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 0, 1)).min(5).max(15).sol(true);
+		FalloutEntry stoneOuter = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield_slaked, 0, 1)).max(50).sol(true);
+		
+		//entries.add(stoneCore.clone().mB(Blocks.stone));
+		//entries.add(stoneInner.clone().mB(Blocks.stone));
 		entries.add(stoneOuter.clone().mB(Blocks.stone));
-		entries.add(stoneCore.clone().mB(Blocks.gravel));
-		entries.add(stoneInner.clone().mB(Blocks.gravel));
+		//entries.add(stoneCore.clone().mB(Blocks.gravel));
+		//entries.add(stoneInner.clone().mB(Blocks.gravel));
 		entries.add(stoneOuter.clone().mB(Blocks.gravel));
 		/* recontaminate slaked sellafield */
-		entries.add(stoneCore.clone().mB(ModBlocks.sellafield_slaked));
-		entries.add(stoneInner.clone().mB(ModBlocks.sellafield_slaked));
+		//entries.add(stoneCore.clone().mB(ModBlocks.sellafield_slaked));
+		//entries.add(stoneInner.clone().mB(ModBlocks.sellafield_slaked));
 		
-		entries.add(new FalloutEntry()
-				.mB(Blocks.grass)
-				.prim(new Triplet(ModBlocks.waste_earth, 0, 1)));
+		//entries.add(new FalloutEntry().mB(Blocks.grass).prim(new Triplet(ModBlocks.waste_earth, 0, 1)));
 		entries.add(new FalloutEntry()
 				.mB(Blocks.mycelium)
 				.prim(new Triplet(ModBlocks.waste_mycelium, 0, 1)));
@@ -125,14 +129,14 @@ public class FalloutConfigJSON {
 		/// COMPAT ///
 		Block deepslate = Compat.tryLoadBlock(Compat.MOD_EF, "deepslate");
 		if(deepslate != null) { //identical to stone
-			entries.add(stoneCore.clone().mB(deepslate));
-			entries.add(stoneInner.clone().mB(deepslate));
+			//entries.add(stoneCore.clone().mB(deepslate));
+			//entries.add(stoneInner.clone().mB(deepslate));
 			entries.add(stoneOuter.clone().mB(deepslate));
 		}
 		Block stone = Compat.tryLoadBlock(Compat.MOD_EF, "stone");
 		if(stone != null) { //identical to stone
-			entries.add(stoneCore.clone().mB(stone));
-			entries.add(stoneInner.clone().mB(stone));
+			//entries.add(stoneCore.clone().mB(stone));
+			//entries.add(stoneInner.clone().mB(stone));
 			entries.add(stoneOuter.clone().mB(stone));
 		}
 	}
@@ -191,6 +195,7 @@ public class FalloutConfigJSON {
 		private double minDist = 0.0D;
 		private double maxDist = 100.0D;
 		
+		/** Whether the depth value should be decremented when this block is converted */
 		private boolean isSolid = false;
 		
 		public FalloutEntry clone() {

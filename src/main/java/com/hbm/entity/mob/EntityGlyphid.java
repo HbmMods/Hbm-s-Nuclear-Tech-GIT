@@ -107,9 +107,9 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.dataWatcher.addObject(DW_WALL, new Byte((byte) 0));			//wall climbing
+		this.dataWatcher.addObject(DW_WALL, new Byte((byte) 0));		//wall climbing
 		this.dataWatcher.addObject(DW_ARMOR, new Byte((byte) 0b11111));	//armor
-		this.dataWatcher.addObject(DW_SUBTYPE, new Byte((byte) 0));			//subtype (i.e. normal, infected, etc)
+		this.dataWatcher.addObject(DW_SUBTYPE, new Byte((byte) 0));		//subtype (i.e. normal, infected, etc)
 	}
 
 	@Override

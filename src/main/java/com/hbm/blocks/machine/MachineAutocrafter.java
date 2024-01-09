@@ -24,10 +24,8 @@ import net.minecraft.world.World;
 
 public class MachineAutocrafter extends BlockContainer {
 
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconBottom;
+	@SideOnly(Side.CLIENT) private IIcon iconTop;
+	@SideOnly(Side.CLIENT) private IIcon iconBottom;
 
 	public MachineAutocrafter() {
 		super(Material.iron);
@@ -67,48 +65,48 @@ public class MachineAutocrafter extends BlockContainer {
 		}
 	}
 
-	private final Random field_149933_a = new Random();
+	private final Random rand = new Random();
 
 	@Override
-	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_) {
-		ISidedInventory tileentityfurnace = (ISidedInventory) p_149749_1_.getTileEntity(p_149749_2_, p_149749_3_, p_149749_4_);
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+		ISidedInventory tile = (ISidedInventory) world.getTileEntity(x, y, z);
 
-		if(tileentityfurnace != null) {
+		if(tile != null) {
 			
-			for(int i1 = 10; i1 < tileentityfurnace.getSizeInventory(); ++i1) {
-				ItemStack itemstack = tileentityfurnace.getStackInSlot(i1);
+			for(int i1 = 10; i1 < tile.getSizeInventory(); ++i1) {
+				ItemStack itemstack = tile.getStackInSlot(i1);
 
 				if(itemstack != null) {
-					float f = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-					float f1 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
-					float f2 = this.field_149933_a.nextFloat() * 0.8F + 0.1F;
+					float f = this.rand.nextFloat() * 0.8F + 0.1F;
+					float f1 = this.rand.nextFloat() * 0.8F + 0.1F;
+					float f2 = this.rand.nextFloat() * 0.8F + 0.1F;
 
 					while(itemstack.stackSize > 0) {
-						int j1 = this.field_149933_a.nextInt(21) + 10;
+						int j1 = this.rand.nextInt(21) + 10;
 
 						if(j1 > itemstack.stackSize) {
 							j1 = itemstack.stackSize;
 						}
 
 						itemstack.stackSize -= j1;
-						EntityItem entityitem = new EntityItem(p_149749_1_, p_149749_2_ + f, p_149749_3_ + f1, p_149749_4_ + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+						EntityItem entityitem = new EntityItem(world, x + f, y + f1, z + f2, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
 
 						if(itemstack.hasTagCompound()) {
 							entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
 						}
 
 						float f3 = 0.05F;
-						entityitem.motionX = (float) this.field_149933_a.nextGaussian() * f3;
-						entityitem.motionY = (float) this.field_149933_a.nextGaussian() * f3 + 0.2F;
-						entityitem.motionZ = (float) this.field_149933_a.nextGaussian() * f3;
-						p_149749_1_.spawnEntityInWorld(entityitem);
+						entityitem.motionX = (float) this.rand.nextGaussian() * f3;
+						entityitem.motionY = (float) this.rand.nextGaussian() * f3 + 0.2F;
+						entityitem.motionZ = (float) this.rand.nextGaussian() * f3;
+						world.spawnEntityInWorld(entityitem);
 					}
 				}
 			}
 
-			p_149749_1_.func_147453_f(p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_);
+			world.func_147453_f(x, y, z, block);
 		}
 
-		super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
+		super.breakBlock(world, x, y, z, block, meta);
 	}
 }

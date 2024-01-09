@@ -22,9 +22,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRenderRail {
+public class RailStandardCurveBase extends BlockDummyable implements IRailNTM, IRenderBlock {
+	
+	protected int width = 4;
 
-	public RailStandardCurve() {
+	public RailStandardCurveBase() {
 		super(Material.iron);
 	}
 
@@ -59,8 +61,8 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRend
 		ForgeDirection dir = ForgeDirection.getOrientation(meta);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
-		double turnRadius = 4D;
-		double axisDist = 4.5D;
+		double turnRadius = width;
+		double axisDist = width + 0.5D;
 
 		Vec3 vec = Vec3.createVectorHelper(trainX, trainY, trainZ);
 		double axisX = cX + 0.5  + dir.offsetX * 0.5 + rot.offsetX * axisDist;
@@ -105,7 +107,7 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRend
 			double angleOvershoot = effAngle - 90D;
 			moveAngle -= angleOvershoot;
 			double lengthOvershoot = angleOvershoot * length90Deg / 90D;
-			info.dist(lengthOvershoot * Math.signum(speed * angularChange)).pos(new BlockPos(cX - dir.offsetX * 4 + rot.offsetX * 5, y, cZ - dir.offsetZ * 4 + rot.offsetZ * 5)).yaw((float) moveAngle);
+			info.dist(lengthOvershoot * Math.signum(speed * angularChange)).pos(new BlockPos(cX - dir.offsetX * width + rot.offsetX * (width + 1), y, cZ - dir.offsetZ * width + rot.offsetZ * (width + 1))).yaw((float) moveAngle);
 			return Vec3.createVectorHelper(axisX - dir.offsetX * turnRadius, y + 0.1875, axisZ - dir.offsetZ * turnRadius);
 		}
 		
@@ -130,7 +132,7 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRend
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {0, 0, 4, 0, 4, 0};
+		return new int[] {0, 0, width, 0, width, 0};
 	}
 
 	@Override
@@ -208,9 +210,10 @@ public class RailStandardCurve extends BlockDummyable implements IRailNTM, IRend
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void renderInventory(Tessellator tessellator, Block block, int metadata) {
-		GL11.glScaled(0.2, 0.2, 0.2);
-		GL11.glTranslated(2.5, -0.0625, -1.5);
-		GL11.glRotated(90, 0, 1, 0);
+		GL11.glScaled(0.3, 0.3, 0.3);
+		GL11.glRotated(45, 0, 1, 0);
+		GL11.glRotated(60, 1, 0, 0);
+		GL11.glTranslated(2, 0, 2);
 		tessellator.startDrawingQuads();
 		ObjUtil.renderWithIcon((WavefrontObject) ResourceManager.rail_standard_curve, block.getIcon(1, 0), tessellator, 0, false);
 		tessellator.draw();
