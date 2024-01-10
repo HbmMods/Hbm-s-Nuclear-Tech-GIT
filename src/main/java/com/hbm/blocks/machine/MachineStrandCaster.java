@@ -137,7 +137,6 @@ public class MachineStrandCaster extends BlockDummyable implements ICrucibleAcce
                 player.getHeldItem().stackSize--;
                 world.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
                 cast.markDirty();
-                world.markBlockForUpdate(x, y, z);
                 return true;
 
             }
@@ -154,7 +153,6 @@ public class MachineStrandCaster extends BlockDummyable implements ICrucibleAcce
                     cast.amount = 0;
                     cast.type = null;
                     cast.markDirty();
-                    world.markBlockForUpdate(x, y, z);
                 }
                 return true;
             }
@@ -225,10 +223,8 @@ public class MachineStrandCaster extends BlockDummyable implements ICrucibleAcce
         }
 
         cast.markDirty();
-        world.markBlockForUpdate(x, y, z);
 
         cast.slots[0] = null;
-        cast.markDirty();
 
         return true;
     }

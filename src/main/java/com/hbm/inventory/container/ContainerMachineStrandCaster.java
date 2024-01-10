@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.tileentity.machine.TileEntityMachineStrandCaster;
 import com.hbm.util.InventoryUtil;
@@ -22,7 +23,7 @@ public class ContainerMachineStrandCaster extends Container {
         //output
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 2; j++) {
-                this.addSlotToContainer(new SlotNonRetarded(this.caster, j + i * 2 + 1, 125 + j * 18, 26 + i * 18));
+                this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, this.caster, j + i * 2 + 1, 125 + j * 18, 26 + i * 18));
             }
         }
 
@@ -54,7 +55,7 @@ public class ContainerMachineStrandCaster extends Container {
 
                 slot.onSlotChange(originalStack, stack);
 
-            } else if (!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 0, 7, false)) {
+            } else if (!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 1, 2, false)) {
                 return null;
             }
 

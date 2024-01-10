@@ -37,7 +37,6 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
     public FluidTank water;
     public FluidTank steam;
 
-    @Override
     public String getName() {
         return "container.machineStrandCaster";
     }
@@ -66,9 +65,10 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
             }
 
             if (this.amount >= this.getCapacity()) {
+                //In case of overfill problems, spit out the excess as scrap
                 if (amount > getCapacity()) {
                     ItemStack scrap = ItemScraps.create(new Mats.MaterialStack(type, amount));
-                    EntityItem item = new EntityItem(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, scrap);
+                    EntityItem item = new EntityItem(worldObj, xCoord + 0.5, yCoord + 2, zCoord + 0.5, scrap);
                     worldObj.spawnEntityInWorld(item);
                 }
                 this.amount = this.getCapacity();

@@ -52,7 +52,7 @@ public class ResourceManager {
 	public static final IModelCustom hephaestus = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/hephaestus.obj"));
 
 	//Caster o' Strands
-	public static final IModelCustom strand_caster = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/strand_caster.obj"));
+	public static final IModelCustom strand_caster = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/strand_caster.obj"));
 
 	//Furnaces
 	public static final IModelCustom furnace_iron = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/furnace_iron.obj"));

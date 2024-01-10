@@ -26,9 +26,6 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 	}
 	public int cooloff = 100;
 
-
-	public abstract String getName();
-
 	@Override
 	public void updateEntity() {
 		super.updateEntity();

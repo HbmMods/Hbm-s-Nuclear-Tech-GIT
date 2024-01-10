@@ -13,11 +13,6 @@ public class TileEntityFoundryBasin extends TileEntityFoundryCastingBase impleme
 	}
 
 	@Override
-	public String getName() {
-		return null;
-	}
-
-	@Override
 	public void updateEntity() {
 		super.updateEntity();
 	}

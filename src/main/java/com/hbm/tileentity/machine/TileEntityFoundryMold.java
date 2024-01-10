@@ -9,11 +9,6 @@ public class TileEntityFoundryMold extends TileEntityFoundryCastingBase implemen
 	}
 
 	@Override
-	public String getName() {
-		return null;
-	}
-
-	@Override
 	public void updateEntity() {
 		super.updateEntity();
 	}
