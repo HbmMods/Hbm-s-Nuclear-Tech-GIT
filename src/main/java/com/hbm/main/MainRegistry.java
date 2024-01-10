@@ -1194,6 +1194,12 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.bolt_dura_steel");
 		ignoreMappings.add("hbm:tile.rail_large_curve_wide");
 		ignoreMappings.add("hbm:tile.nuke_n45");
+		ignoreMappings.add("hbm:tile.machine_coal_off");
+		ignoreMappings.add("hbm:tile.machine_coal_on");
+		ignoreMappings.add("hbm:tile.machine_drill");
+		ignoreMappings.add("hbm:tile.drill_pipe");
+		ignoreMappings.add("hbm:tile.dummy_block_drill");
+		ignoreMappings.add("hbm:tile.dummy_port_drill");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

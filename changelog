@@ -3,6 +3,8 @@
   * The fallout effect no longer creates dead grass, instead it converts the area into three new biomes, the outer crater, crater and inner crater
   * The entire crater is now slaked sellafite which now has texture variance to look more like debris, as well as getting darker towards the center
   * The biomes being overridden means that nukes are now a solution to thaumcraft taint. Yay!
+  * There are now new ore variants for the block conversions which match the surrounding sellafite
+  * Berylliumm ore now has a 100% chance of being converted into emerald
 * The watz now cools up to 20% of its current heat level instead of 10%, making reactors a lot cooler and therefore react faster, which means more energy and faster depletion rates
   * Mud production rates have been halved, to prevent currently working setups from exploding instantly
   * This is your reminder that you can achieve more power, mud and depletion by building larger watz powerplants, i.e. stacking more watz segments on top of each other. Your tiny poo reactors make me sick.
@@ -10,6 +12,7 @@
 * Adjusted the nuclear flash's intensity, the flash will now deal less and less radiation the longer it goes on
 * The nuclear flash now bypasses radiation resistance, being only affected by blocks and distance
 * Mushroom clouds' initial scale is now based on the total scale instead of all spawning roughly at the same size, causing fireballs to be comically small for huge bombs
+* Removed the old mining drill for good
 
 ## Fixed
 * Fixed a rare crash caused by radars force-loading chunks conflicting with certain mods' chunk loading changes
