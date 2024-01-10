@@ -10,6 +10,7 @@ import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.packet.PermaSyncHandler;
 import com.hbm.render.model.ModelMan;
+import com.hbm.world.biome.BiomeGenCraterBase;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -27,6 +28,8 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
@@ -369,6 +372,17 @@ public class ModEventHandlerRenderer {
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void tintFog(FogColors event) {
+		
+		EntityPlayer player = MainRegistry.proxy.me();
+		BiomeGenBase biome = player.worldObj.getBiomeGenForCoords((int) Math.floor(player.posX), (int) Math.floor(player.posZ));
+		
+		if(biome instanceof BiomeGenCraterBase) {
+			int color = ForgeHooksClient.getSkyBlendColour(player.worldObj, (int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ));
+			event.red = ((color & 0xff0000) >> 16) / 255F;
+			event.green = ((color & 0x00ff00) >> 8) / 255F;
+			event.blue = (color & 0x0000ff) / 255F;
+		}
+		
 		float soot = (float) (renderSoot - RadiationConfig.sootFogThreshold);
 		float sootColor = 0.15F;
 		float sootReq = (float) RadiationConfig.sootFogDivisor;

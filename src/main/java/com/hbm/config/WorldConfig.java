@@ -107,6 +107,10 @@ public class WorldConfig {
 	public static int meteorStrikeChance = 20 * 60 * 180;
 	public static int meteorShowerChance = 20 * 60 * 5;
 	public static int meteorShowerDuration = 6000;
+
+	public static int craterBiomeId = 80;
+	public static int craterBiomeInnerId = 81;
+	public static int craterBiomeOuterId = 82;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -217,6 +221,11 @@ public class WorldConfig {
 		meteorStrikeChance = CommonConfig.createConfigInt(config, CATEGORY_METEOR, "5.03_meteorStrikeChance", "The probability of a meteor spawning (an average of once every nTH ticks)", 20 * 60 * 60 * 5);
 		meteorShowerChance = CommonConfig.createConfigInt(config, CATEGORY_METEOR, "5.04_meteorShowerChance", "The probability of a meteor spawning during meteor shower (an average of once every nTH ticks)", 20 * 60 * 15);
 		meteorShowerDuration = CommonConfig.createConfigInt(config, CATEGORY_METEOR, "5.05_meteorShowerDuration", "Max duration of meteor shower in ticks", 20 * 60 * 30);
+
+		final String CATEGORY_BIOMES = CommonConfig.CATEGORY_BIOMES;
+		craterBiomeId = CommonConfig.createConfigInt(config, CATEGORY_METEOR, "17.00_craterBiomeId", "The numeric ID for the crater biome", 80);
+		craterBiomeInnerId = CommonConfig.createConfigInt(config, CATEGORY_METEOR, "17.01_craterBiomeInnerId", "The numeric ID for the inner crater biome", 81);
+		craterBiomeOuterId = CommonConfig.createConfigInt(config, CATEGORY_METEOR, "17.02_craterBiomeOuterId", "The numeric ID for the outer crater biome", 82);
 
 		radioStructure = CommonConfig.setDefZero(radioStructure, 1000);
 		antennaStructure = CommonConfig.setDefZero(antennaStructure, 1000);
