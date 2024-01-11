@@ -43,7 +43,6 @@ import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.tileentity.TileMappings;
 import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
-import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.*;
@@ -864,7 +863,6 @@ public class MainRegistry {
 		ArmorUtil.register();
 		HazmatRegistry.registerHazmats();
 		FluidContainerRegistry.register();
-		TileEntityMachineReactorLarge.registerAll();
 		BlockToolConversion.registerRecipes();
 		AchievementHandler.register();
 
@@ -1204,6 +1202,14 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.watz_core");
 		ignoreMappings.add("hbm:tile.watz_hatch");
 		ignoreMappings.add("hbm:tile.marker_structure");
+		ignoreMappings.add("hbm:tile.reactor_element");
+		ignoreMappings.add("hbm:tile.reactor_control");
+		ignoreMappings.add("hbm:tile.reactor_hatch");
+		ignoreMappings.add("hbm:tile.reactor_ejector");
+		ignoreMappings.add("hbm:tile.reactor_inserter");
+		ignoreMappings.add("hbm:tile.reactor_conductor");
+		ignoreMappings.add("hbm:tile.reactor_computer");
+		ignoreMappings.add("hbm:tile.ff");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

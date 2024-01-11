@@ -135,7 +135,6 @@ public class TileMappings {
 		put(TileEntityMachineShredderLarge.class, "tileentity_machine_big_shredder");
 		put(TileEntityRFDuct.class, "tileentity_hbm_rfduct");
 		put(TileEntityReactorControl.class, "tileentity_reactor_remote_control");
-		put(TileEntityMachineReactorLarge.class, "tileentity_large_reactor");
 		put(TileEntityWasteDrum.class, "tileentity_waste_drum");
 		put(TileEntityDecon.class, "tileentity_decon");
 		put(TileEntityMachineSatDock.class, "tileentity_miner_dock");

@@ -902,14 +902,6 @@ public class ModBlocks {
 	public static Block pwr_port;
 	public static Block pwr_controller;
 	public static Block pwr_block;
-
-	@Deprecated public static Block reactor_element;
-	@Deprecated public static Block reactor_control;
-	@Deprecated public static Block reactor_hatch;
-	@Deprecated public static Block reactor_ejector;
-	@Deprecated public static Block reactor_inserter;
-	@Deprecated public static Block reactor_conductor;
-	@Deprecated public static Block reactor_computer;
 	
 	public static Block fusion_conductor;
 	public static Block fusion_center;
@@ -1270,8 +1262,6 @@ public class ModBlocks {
 	public static Block pink_slab;
 	public static Block pink_double_slab;
 	public static Block pink_stairs;
-	
-	public static Block ff;
 	
 	public static Material materialGas = new MaterialGas();
 	
@@ -2068,14 +2058,6 @@ public class ModBlocks {
 		pwr_port = new BlockGenericPWR(Material.iron).setBlockName("pwr_port").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_port");
 		pwr_controller = new MachinePWRController(Material.iron).setBlockName("pwr_controller").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_casing_blank");
 		pwr_block = new BlockPWR(Material.iron).setBlockName("pwr_block").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pwr_block");
-		
-		reactor_element = new BlockPillar(Material.iron, RefStrings.MODID + ":reactor_element_top", RefStrings.MODID + ":reactor_element_base").setBlockName("reactor_element").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":reactor_element_side");
-		reactor_control = new BlockPillar(Material.iron, RefStrings.MODID + ":reactor_control_top").setBlockName("reactor_control").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":reactor_control_side");
-		reactor_hatch = new ReactorHatch(Material.iron).setBlockName("reactor_hatch").setHardness(5.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
-		reactor_ejector = new BlockRotatable(Material.iron).setBlockName("reactor_ejector").setHardness(5.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
-		reactor_inserter = new BlockRotatable(Material.iron).setBlockName("reactor_inserter").setHardness(5.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":brick_concrete");
-		reactor_conductor = new BlockPillar(Material.iron, RefStrings.MODID + ":reactor_conductor_top").setBlockName("reactor_conductor").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":reactor_conductor_side");
-		reactor_computer = new ReactorCore(Material.iron).setBlockName("reactor_computer").setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":reactor_computer");
 
 		fusion_conductor = new BlockToolConversionPillar(Material.iron).addVariant("_welded").setBlockName("fusion_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fusion_conductor");
 		fusion_center = new BlockPillar(Material.iron, RefStrings.MODID + ":fusion_center_top_alt").setBlockName("fusion_center").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fusion_center_side_alt");
@@ -2441,8 +2423,6 @@ public class ModBlocks {
 		pink_slab = new BlockPinkSlab(false, Material.wood).setBlockName("pink_slab").setStepSound(Block.soundTypeWood).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pink_planks");
 		pink_double_slab = new BlockPinkSlab(true, Material.wood).setBlockName("pink_double_slab").setStepSound(Block.soundTypeWood).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pink_planks");
 		pink_stairs = new BlockGenericStairs(pink_planks, 0).setBlockName("pink_stairs").setStepSound(Block.soundTypeWood).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pink_planks");
-		
-		ff = new BlockFF(Material.iron).setBlockName("ff").setHardness(0.5F).setStepSound(Block.soundTypeGravel).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":code");
 	}
 
 	private static void registerBlock() {
@@ -3440,14 +3420,6 @@ public class ModBlocks {
 		register(pwr_block);
 		
 		//Multiblock Generators
-		GameRegistry.registerBlock(reactor_element, reactor_element.getUnlocalizedName());
-		GameRegistry.registerBlock(reactor_control, reactor_control.getUnlocalizedName());
-		GameRegistry.registerBlock(reactor_hatch, reactor_hatch.getUnlocalizedName());
-		GameRegistry.registerBlock(reactor_ejector, reactor_ejector.getUnlocalizedName());
-		GameRegistry.registerBlock(reactor_inserter, reactor_inserter.getUnlocalizedName());
-		GameRegistry.registerBlock(reactor_conductor, reactor_conductor.getUnlocalizedName());
-		GameRegistry.registerBlock(reactor_computer, reactor_computer.getUnlocalizedName());
-
 		register(fusion_conductor);
 		GameRegistry.registerBlock(fusion_center, fusion_center.getUnlocalizedName());
 		GameRegistry.registerBlock(fusion_motor, fusion_motor.getUnlocalizedName());
@@ -3606,7 +3578,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(pink_slab, pink_slab.getUnlocalizedName());
 		GameRegistry.registerBlock(pink_double_slab, pink_double_slab.getUnlocalizedName());
 		GameRegistry.registerBlock(pink_stairs, pink_stairs.getUnlocalizedName());
-		GameRegistry.registerBlock(ff, ff.getUnlocalizedName());
 	}
 	
 	private static void register(Block b) {
