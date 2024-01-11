@@ -171,7 +171,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-import scala.tools.nsc.doc.model.Public;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
@@ -651,33 +650,10 @@ public class ModEventHandler {
 	public void onLoad(WorldEvent.Load event) {
 		BobmazonOfferFactory.init();
 	}
-	public static int chargetime;
-	public static float flashd;
+	
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
-		if(event.world.provider.dimensionId == SpaceConfig.moonDimension) {
-			if(chargetime <= 0 || chargetime <= 600) {
-				chargetime += 1;
-				flashd = 0;
-				//System.out.println(chargetime);
-			}else if(chargetime >= 100){
-				flashd += 0.2f;
-				flashd = Math.min(100.0f, flashd + 0.2f * (100.0f - flashd) * 0.15f);
-			    if (flashd <= 4) {
-			        for (Object p : event.world.playerEntities) {
-			            ((EntityPlayer)p).worldObj.playSoundEffect(((EntityPlayer)p).posX, ((EntityPlayer)p).posY, ((EntityPlayer)p).posZ, "hbm:misc.fireflash", 10F, 1F);
-			        }
-
-			    }
-			    if(flashd >= 100) {
-			    	chargetime = 0;
-			    }
-
-			}
-		}
-
 		
-
 		/// RADIATION STUFF START ///
 		if(event.world != null && !event.world.isRemote) {
 			

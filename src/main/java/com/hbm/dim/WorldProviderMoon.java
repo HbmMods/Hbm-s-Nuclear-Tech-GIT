@@ -2,7 +2,6 @@ package com.hbm.dim;
 
 import com.hbm.config.SpaceConfig;
 import com.hbm.main.MainRegistry;
-import com.hbm.main.ModEventHandler;
 import com.hbm.util.AstronomyUtil;
 import com.hbm.util.SkyColorManager;
 import com.hbm.util.PlanetaryTraitUtil.Hospitality;
@@ -56,34 +55,30 @@ public class WorldProviderMoon extends WorldProvider {
 	}
     
 	   @SideOnly(Side.CLIENT)
-	    public Vec3 getFogColor(float x, float y) {
-           float ne = ModEventHandler.flashd;
-           float alpha = (ne <= 0) ? 0.0F : 1.0F - Math.min(1.0F, ne / 100);
+	    public Vec3 getFogColor(float x, float y) {	    	
 	    	NBTTagCompound tagger3 = MainRegistry.proxy.getPlanetaryTags(worldObj);
 	        if (tagger3 != null) {
 	            String traitKey = Hospitality.BREATHEABLE.toString();
 	            if (tagger3.hasKey(traitKey)) {
 	                float f = 1.0F - this.getStarBrightness(1.0F);
-	                return Vec3.createVectorHelper(148.3D / 255 * f +  alpha , 144.4D / 255* f + alpha, 242.7D/ 255 * f + alpha);
+	                return Vec3.createVectorHelper(148.3D / 255 * f , 144.4D / 255* f, 242.7D/ 255 * f);
 	            }
 	        }
-	      return Vec3.createVectorHelper(0.0D + alpha , 0.0D + alpha , 0.0D + alpha);
+	      return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);
 	    }
 
 	    public Vec3 getSkyColor(Entity camera, float partialTicks) {
-            float ne = ModEventHandler.flashd;
-            float alpha = (ne <= 0) ? 0.0F : 1.0F - Math.min(1.0F, ne / 100);
 	    	NBTTagCompound tagger3 = MainRegistry.proxy.getPlanetaryTags(worldObj);
 	        if (tagger3 != null) {
 	            String traitKey = Hospitality.BREATHEABLE.toString();
 	            if (tagger3.hasKey(traitKey)) {
 	                float f = 1.0F - this.getStarBrightness(1.0F);
 
-	                return SkyColorManager.currentSkyColor = Vec3.createVectorHelper(92D / 255 * f + alpha, 83.4D / 255* f + alpha, 217.7D/ 255 * f + alpha);
+	                return SkyColorManager.currentSkyColor = Vec3.createVectorHelper(92D / 255 * f , 83.4D / 255* f, 217.7D/ 255 * f);
 	            }
 	        }
-		      return Vec3.createVectorHelper(0.0D + alpha , 0.0D + alpha , 0.0D + alpha);
-		      }
+	        return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);    
+	     }
 	    
 	    @SideOnly(Side.CLIENT)
 	    public float[] calcSunriseSunsetColors(float p_76560_1_, float p_76560_2_) {
