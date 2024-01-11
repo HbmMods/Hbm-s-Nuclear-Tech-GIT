@@ -112,6 +112,10 @@ public class EntityGlyphidScout extends EntityGlyphid {
 					hasTarget = true;
 				}
 			}
+			//fixes edge case where glyphids have no task and yet hasTarget is true
+			if(taskWaypoint == null && hasTarget){
+				hasTarget = false;
+			}
 
 			if (getCurrentTask() == TASK_TERRAFORM && super.isAtDestination() && canBuildHiveHere()) {
 				communicate(TASK_TERRAFORM, taskWaypoint);
@@ -295,9 +299,11 @@ public class EntityGlyphidScout extends EntityGlyphid {
 	@Override
 	protected Entity findPlayerToAttack() {
 		if(this.isPotionActive(Potion.blindness)) return null;
-
-		return this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() ? 128D : 8D);
+		//no extended targeting, and a low attack distance, ensures the scouts are focused in expanding, and not in chasing the player
+		return this.worldObj.getClosestVulnerablePlayerToEntity(this, 10);
 	}
+
+
 	///RAMPANT MODE STUFFS
 
 	/** Finds the direction from the bug's location to the target and adds it to their current coord

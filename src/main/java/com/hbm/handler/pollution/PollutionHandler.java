@@ -363,6 +363,7 @@ public class PollutionHandler {
 
 						if (soot >= MobConfig.rampantScoutSpawnThresh) {
 							EntityGlyphidScout scout = new EntityGlyphidScout(event.world);
+							//escort for the scout, which can also deal with obstacles
 							EntityGlyphidDigger digger = new EntityGlyphidDigger(event.world);
 							scout.setLocationAndAngles(event.x, event.y, event.z, event.world.rand.nextFloat() * 360.0F, 0.0F);
 							digger.setLocationAndAngles(event.x, event.y, event.z, event.world.rand.nextFloat() * 360.0F, 0.0F);

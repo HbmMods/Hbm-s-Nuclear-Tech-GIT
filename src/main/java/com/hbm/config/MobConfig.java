@@ -58,7 +58,7 @@ public class MobConfig {
 
 	public static boolean rampantMode = false;
 	public static boolean rampantNaturalScoutSpawn = false;
-	public static double rampantScoutSpawnThresh = 20;
+	public static double rampantScoutSpawnThresh = 14;
 	public static int rampantScoutSpawnChance = 600;
 	public static boolean scoutInitialSpawn = false;
 	public static boolean rampantExtendedTargetting = false;
@@ -101,7 +101,7 @@ public class MobConfig {
 		spawnMax = CommonConfig.createConfigDouble(config, CATEGORY, "12.G07_spawnMax", "Maximum amount of glyphids being able to exist at once through natural spawning", 50);
 		targetingThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G08_targetingThreshold", "Minimum amount of soot required for glyphids' extended targeting range to activate", 1D);
 
-		scoutSwarmSpawnChance = CommonConfig.createConfigInt(config, CATEGORY,"12.G10_scoutSwarmSpawn", "How likely are scouts to spawn in swarms, 1 in x chance format", 2);
+		scoutSwarmSpawnChance = CommonConfig.createConfigInt(config, CATEGORY,"12.G10_scoutSwarmSpawn", "How likely are scouts to spawn in swarms, 1 in x chance format", 3);
 
 		largeHiveChance = CommonConfig.createConfigInt(config, CATEGORY,"12.G11_largeHiveChance", "The chance for a large hive to spawn, formula: 1/x", 5);
 		largeHiveThreshold = CommonConfig.createConfigInt(config, CATEGORY,"12.G12_largeHiveThreshold", "The soot threshold for a large hive to spawn", 20);
