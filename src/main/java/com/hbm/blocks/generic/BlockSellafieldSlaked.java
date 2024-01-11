@@ -32,7 +32,7 @@ public class BlockSellafieldSlaked extends Block {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
-		return icons[meta % icons.length];
+		return icons[0];
 	}
 
 	@Override

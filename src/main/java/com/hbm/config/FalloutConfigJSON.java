@@ -75,23 +75,24 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()	.mB(Blocks.leaves2)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
 
 		entries.add(new FalloutEntry().mB(Blocks.mossy_cobblestone).prim(new Triplet(Blocks.coal_ore, 0, 1)));
-		entries.add(new FalloutEntry().mB(ModBlocks.ore_uranium).prim(new Triplet(ModBlocks.ore_schrabidium, 0, 1), new Triplet(ModBlocks.ore_uranium_scorched, 0, 99)));
 		entries.add(new FalloutEntry().mB(ModBlocks.ore_nether_uranium).prim(new Triplet(ModBlocks.ore_nether_schrabidium, 0, 1), new Triplet(ModBlocks.ore_nether_uranium_scorched, 0, 99)));
-		entries.add(new FalloutEntry().mB(ModBlocks.ore_gneiss_uranium).prim(new Triplet(ModBlocks.ore_gneiss_schrabidium, 0, 1), new Triplet(ModBlocks.ore_gneiss_uranium_scorched, 0, 99)));
 		
 		Block deepslate = Compat.tryLoadBlock(Compat.MOD_EF, "deepslate");
 		Block stone = Compat.tryLoadBlock(Compat.MOD_EF, "stone");
 		
 		for(int i = 1; i <= 10; i++) {
-			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_diamond, 10 - i, 3), new Triplet(ModBlocks.ore_sellafield_emerald, 10 - i, 2)).c(0.5).max(i * 5).sol(true).mB(Blocks.coal_ore));
-			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_diamond, 10 - i, 1)).c(0.2).max(i * 5).sol(true).mB(ModBlocks.ore_lignite));
-			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_emerald, 10 - i, 1)).max(i * 5).sol(true).mB(ModBlocks.ore_beryllium));
-			entries.add(new FalloutEntry()							.prim(new Triplet(ModBlocks.sellafield_slaked, 10 - i, 1)).max(i * 5).sol(true).mMa(Material.rock));
-			entries.add(new FalloutEntry()							.prim(new Triplet(ModBlocks.sellafield_slaked, 10 - i, 1)).max(i * 5).sol(true).mMa(Material.sand));
-			entries.add(new FalloutEntry()							.prim(new Triplet(ModBlocks.sellafield_slaked, 10 - i, 1)).max(i * 5).sol(true).mMa(Material.ground));
-			if(i <= 9) entries.add(new FalloutEntry()				.prim(new Triplet(ModBlocks.sellafield_slaked, 10 - i, 1)).max(i * 5).sol(true).mMa(Material.grass));
-			if(deepslate != null)	entries.add(new FalloutEntry()	.prim(new Triplet(ModBlocks.sellafield_slaked, 10 - i, 1)).max(i * 5).sol(true).mB(deepslate));
-			if(stone != null)		entries.add(new FalloutEntry()	.prim(new Triplet(ModBlocks.sellafield_slaked, 10 - i, 1)).max(i * 5).sol(true).mB(stone));
+			int m = 10 - i;
+			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_diamond, m, 3),		new Triplet(ModBlocks.ore_sellafield_emerald, m, 2))			.c(0.5)		.max(i * 5).sol(true).mB(Blocks.coal_ore));
+			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_diamond, m, 1))																		.c(0.2)		.max(i * 5).sol(true).mB(ModBlocks.ore_lignite));
+			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_emerald, m, 1))																					.max(i * 5).sol(true).mB(ModBlocks.ore_beryllium));
+			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_schrabidium, m, 1),	new Triplet(ModBlocks.ore_sellafield_uranium_scorched, m, 99))				.max(i * 5).sol(true).mB(ModBlocks.ore_uranium));
+			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_schrabidium, m, 1),	new Triplet(ModBlocks.ore_sellafield_uranium_scorched, m, 99))				.max(i * 5).sol(true).mB(ModBlocks.ore_gneiss_uranium));
+			entries.add(new FalloutEntry()							.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mMa(Material.rock));
+			entries.add(new FalloutEntry()							.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mMa(Material.sand));
+			entries.add(new FalloutEntry()							.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mMa(Material.ground));
+			if(i <= 9) entries.add(new FalloutEntry()				.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mMa(Material.grass));
+			if(deepslate != null)	entries.add(new FalloutEntry()	.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mB(deepslate));
+			if(stone != null)		entries.add(new FalloutEntry()	.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mB(stone));
 		}
 		
 		//entries.add(new FalloutEntry().mB(Blocks.grass).prim(new Triplet(ModBlocks.waste_earth, 0, 1)));

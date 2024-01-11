@@ -1200,6 +1200,10 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.drill_pipe");
 		ignoreMappings.add("hbm:tile.dummy_block_drill");
 		ignoreMappings.add("hbm:tile.dummy_port_drill");
+		ignoreMappings.add("hbm:tile.machine_combine_factory");
+		ignoreMappings.add("hbm:tile.watz_core");
+		ignoreMappings.add("hbm:tile.watz_hatch");
+		ignoreMappings.add("hbm:tile.marker_structure");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

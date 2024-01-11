@@ -536,6 +536,8 @@ public class ModBlocks {
 	public static Block sellafield;
 	public static Block ore_sellafield_diamond;
 	public static Block ore_sellafield_emerald;
+	public static Block ore_sellafield_uranium_scorched;
+	public static Block ore_sellafield_schrabidium;
 
 	public static Block geysir_water;
 	public static Block geysir_chlorine;
@@ -626,8 +628,6 @@ public class ModBlocks {
 	public static Block charger;
 	
 	public static Block tesla;
-
-	public static Block marker_structure;
 
 	public static Block muffler;
 
@@ -929,9 +929,7 @@ public class ModBlocks {
 	public static Block watz_control;
 	public static Block watz_cooler;
 	public static Block watz_end;
-	public static Block watz_hatch;
 	public static Block watz_conductor;
-	public static Block watz_core;
 	
 	public static Block fwatz_conductor;
 	public static Block fwatz_cooler;
@@ -970,8 +968,6 @@ public class ModBlocks {
 	public static Block machine_shredder_large;
 	public static final int guiID_machine_shredder_large = 76;
 
-	public static Block machine_combine_factory;
-	
 	public static Block machine_teleporter;
 	public static Block teleanchor;
 	public static Block field_disturber;
@@ -1769,6 +1765,8 @@ public class ModBlocks {
 		sellafield = new BlockSellafield(Material.rock).setBlockName("sellafield").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_0");
 		ore_sellafield_diamond = new BlockSellafieldOre(Material.rock).setBlockName("ore_sellafield_diamond").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":ore_overlay_diamond");
 		ore_sellafield_emerald = new BlockSellafieldOre(Material.rock).setBlockName("ore_sellafield_emerald").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":ore_overlay_emerald");
+		ore_sellafield_uranium_scorched = new BlockSellafieldOre(Material.rock).setBlockName("ore_sellafield_uranium_scorched").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":ore_overlay_uranium_scorched");
+		ore_sellafield_schrabidium = new BlockSellafieldOre(Material.rock).setBlockName("ore_sellafield_schrabidium").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":ore_overlay_schrabidium");
 		
 		geysir_water = new BlockGeysir(Material.rock).setBlockName("geysir_water").setStepSound(Block.soundTypeStone).setHardness(5.0F);
 		geysir_chlorine = new BlockGeysir(Material.rock).setBlockName("geysir_chlorine").setStepSound(Block.soundTypeStone).setHardness(5.0F);
@@ -1940,8 +1938,6 @@ public class ModBlocks {
 		machine_shredder = new MachineShredder(Material.iron).setBlockName("machine_shredder").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_shredder_large = new MachineShredderLarge(Material.iron).setBlockName("machine_shredder_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":code");
 
-		machine_combine_factory = new MachineCMBFactory(Material.iron).setBlockName("machine_combine_factory").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
-
 		machine_teleporter = new MachineTeleporter(Material.iron).setBlockName("machine_teleporter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		teleanchor = new MachineTeleanchor().setBlockName("teleanchor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		field_disturber = new MachineFieldDisturber().setBlockName("field_disturber").setHardness(5.0F).setResistance(200.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":field_disturber");
@@ -2094,9 +2090,7 @@ public class ModBlocks {
 		watz_control = new BlockPillar(Material.iron, RefStrings.MODID + ":watz_control_top").setBlockName("watz_control").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_control_side");
 		watz_cooler = new BlockPillar(Material.iron, RefStrings.MODID + ":watz_cooler_top").setBlockName("watz_cooler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_cooler_side");
 		watz_end = new BlockToolConversion(Material.iron).addVariant("_bolted").setBlockName("watz_end").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_casing");
-		watz_hatch = new WatzHatch(Material.iron).setBlockName("watz_hatch").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":watz_hatch");
 		watz_conductor = new BlockCableConnect(Material.iron).setBlockName("watz_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":watz_conductor_top");
-		watz_core = new WatzCore(Material.iron).setBlockName("watz_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":watz_computer");
 		watz = new Watz().setBlockName("watz").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		watz_pump = new WatzPump().setBlockName("watz_pump").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
@@ -2160,8 +2154,6 @@ public class ModBlocks {
 		charger = new Charger(Material.iron).setBlockName("charger").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		tesla = new MachineTesla(Material.iron).setBlockName("tesla").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":tesla");
-
-		marker_structure = new BlockMarker(Material.iron).setBlockName("marker_structure").setHardness(0.1F).setResistance(0.1F).setLightLevel(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":marker_structure");
 
 		muffler = new BlockGeneric(Material.cloth).setBlockName("muffler").setHardness(0.8F).setStepSound(Block.soundTypeCloth).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":muffler");
 		
@@ -2956,6 +2948,8 @@ public class ModBlocks {
 		register(sellafield_slaked);
 		register(ore_sellafield_diamond);
 		register(ore_sellafield_emerald);
+		register(ore_sellafield_uranium_scorched);
+		register(ore_sellafield_schrabidium);
 		GameRegistry.registerBlock(sellafield, ItemBlockNamedMeta.class, sellafield.getUnlocalizedName());
 
 		//Geysirs
@@ -3384,7 +3378,6 @@ public class ModBlocks {
 		register(machine_turbofan);
 		register(machine_turbinegas);
 		GameRegistry.registerBlock(machine_schrabidium_transmutator, machine_schrabidium_transmutator.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_combine_factory, machine_combine_factory.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_teleporter, machine_teleporter.getUnlocalizedName());
 		GameRegistry.registerBlock(teleanchor, teleanchor.getUnlocalizedName());
 		GameRegistry.registerBlock(field_disturber, field_disturber.getUnlocalizedName());
@@ -3394,9 +3387,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_forcefield, machine_forcefield.getUnlocalizedName());
 		GameRegistry.registerBlock(radiorec, radiorec.getUnlocalizedName());
 		GameRegistry.registerBlock(radiobox, radiobox.getUnlocalizedName());
-		
-		//Multiblock Helpers
-		GameRegistry.registerBlock(marker_structure, marker_structure.getUnlocalizedName());
 		
 		//The muffler
 		GameRegistry.registerBlock(muffler, muffler.getUnlocalizedName());
@@ -3463,7 +3453,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(fusion_motor, fusion_motor.getUnlocalizedName());
 		GameRegistry.registerBlock(fusion_heater, fusion_heater.getUnlocalizedName());
 		GameRegistry.registerBlock(fusion_hatch, fusion_hatch.getUnlocalizedName());
-		//GameRegistry.registerBlock(fusion_core, fusion_core.getUnlocalizedName());
 		GameRegistry.registerBlock(plasma, ItemBlockLore.class, plasma.getUnlocalizedName());
 		GameRegistry.registerBlock(iter, iter.getUnlocalizedName());
 		GameRegistry.registerBlock(plasma_heater, plasma_heater.getUnlocalizedName());
@@ -3472,9 +3461,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(watz_control, watz_control.getUnlocalizedName());
 		GameRegistry.registerBlock(watz_cooler, watz_cooler.getUnlocalizedName());
 		register(watz_end);
-		GameRegistry.registerBlock(watz_hatch, watz_hatch.getUnlocalizedName());
 		GameRegistry.registerBlock(watz_conductor, watz_conductor.getUnlocalizedName());
-		GameRegistry.registerBlock(watz_core, watz_core.getUnlocalizedName());
 		GameRegistry.registerBlock(watz, watz.getUnlocalizedName());
 		GameRegistry.registerBlock(watz_pump, watz_pump.getUnlocalizedName());
 

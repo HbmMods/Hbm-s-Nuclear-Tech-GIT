@@ -337,7 +337,6 @@ public class ClientProxy extends ServerProxy {
 		//DecoContainer
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFileCabinet.class, new RenderFileCabinet());
 		//multiblocks
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityStructureMarker.class, new RenderStructureMaker());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMultiblock.class, new RenderMultiblock());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySoyuzStruct.class, new RenderSoyuzMultiblock());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityITERStruct.class, new RenderITERMultiblock());

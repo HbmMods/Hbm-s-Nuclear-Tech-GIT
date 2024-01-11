@@ -82,9 +82,7 @@ public class TileMappings {
 		put(TileEntityConverterRfHe.class, "tileentity_converter_rfhe");
 		put(TileEntityMachineSchrabidiumTransmutator.class, "tileentity_schrabidium_transmutator");
 		put(TileEntityMachineDiesel.class, "tileentity_diesel_generator");
-		put(TileEntityWatzCore.class, "tileentity_watz_multiblock");
 		put(TileEntityMachineShredder.class, "tileentity_machine_shredder");
-		put(TileEntityMachineCMBFactory.class, "tileentity_machine_cmb");
 		put(TileEntityFWatzCore.class, "tileentity_fwatz_multiblock");
 		put(TileEntityMachineTeleporter.class, "tileentity_teleblock");
 		put(TileEntityHatch.class, "tileentity_seal_lid");
@@ -94,7 +92,6 @@ public class TileMappings {
 		put(TileEntityMachineCyclotron.class, "tileentity_cyclotron");
 		put(TileEntityMachineExposureChamber.class, "tileentity_exposure_chamber");
 		put(TileEntityMachineRTG.class, "tileentity_machine_rtg");
-		put(TileEntityStructureMarker.class, "tileentity_structure_marker");
 		put(TileEntityMachineExcavator.class, "tileentity_ntm_excavator");
 		put(TileEntityFluidDuctSimple.class, "tileentity_universal_duct_simple");
 		put(TileEntityFluidDuct.class, "tileentity_universal_duct");

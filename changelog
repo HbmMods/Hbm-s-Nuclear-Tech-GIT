@@ -12,8 +12,10 @@
 * Adjusted the nuclear flash's intensity, the flash will now deal less and less radiation the longer it goes on
 * The nuclear flash now bypasses radiation resistance, being only affected by blocks and distance
 * Mushroom clouds' initial scale is now based on the total scale instead of all spawning roughly at the same size, causing fireballs to be comically small for huge bombs
-* Removed the old mining drill for good
+* Removed the old mining drill, combustion generator, old watz core, structure marker and CMB furnace for good
 
 ## Fixed
 * Fixed a rare crash caused by radars force-loading chunks conflicting with certain mods' chunk loading changes
 * Fixed PWR fuel rods not having any radiation value assigned to them
+* Fixed trenchmaster helmet not having gas mask protection
+* Fixed large thermobaric artillery rocket still using the wrong slag block

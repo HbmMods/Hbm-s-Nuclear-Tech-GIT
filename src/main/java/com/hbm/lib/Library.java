@@ -76,6 +76,7 @@ public class Library {
 	public static String Barnaby99_x = "b04cf173-cff0-4acd-aa19-3d835224b43d";
 	public static String Ma118 = "1121cb7a-8773-491f-8e2b-221290c93d81";
 	public static String Adam29Adam29 = "bbae7bfa-0eba-40ac-a0dd-f3b715e73e61";
+	public static String Alcater = "0b399a4a-8545-45a1-be3d-ece70d7d48e9";
 
 	public static Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf
@@ -167,7 +168,6 @@ public class Library {
 				world.getBlock(x, y, z) == ModBlocks.reactor_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.reactor_conductor ||
 				world.getBlock(x, y, z) == ModBlocks.fusion_hatch ||
-				world.getBlock(x, y, z) == ModBlocks.watz_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||

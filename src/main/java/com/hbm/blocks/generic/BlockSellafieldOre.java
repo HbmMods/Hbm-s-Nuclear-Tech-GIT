@@ -43,6 +43,13 @@ public class BlockSellafieldOre extends BlockSellafieldSlaked implements IBlockM
 
 	@Override
 	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta) {
+		if(RenderBlockMultipass.currentPass == 1) return this.blockIcon;
+		return icons[0];
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
 		if(RenderBlockMultipass.currentPass == 1) return 0xffffff;
 		return super.colorMultiplier(world, x, y, z);
@@ -54,10 +61,15 @@ public class BlockSellafieldOre extends BlockSellafieldSlaked implements IBlockM
 	}
 
 	@Override
+	public boolean shouldRenderItemMulti() {
+		return true;
+	}
+
+	@Override
 	public Item getItemDropped(int meta, Random rand, int fortune) {
 		if(this == ModBlocks.ore_sellafield_diamond) return Items.diamond;
 		if(this == ModBlocks.ore_sellafield_emerald) return Items.emerald;
-		return null;
+		return Item.getItemFromBlock(this);
 	}
 
 	@Override
