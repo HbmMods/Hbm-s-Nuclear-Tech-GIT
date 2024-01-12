@@ -2,8 +2,11 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.lib.Library;
-import com.hbm.saveddata.TomSaveData;
+import com.hbm.util.TrackerUtil;
+import com.hbm.world.WorldUtil;
+import com.hbm.world.biome.BiomeGenCraterBase;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -40,11 +43,19 @@ public class ItemWandD extends Item {
 			TimeAnalyzer.endCount();
 			TimeAnalyzer.dump();*/
 			
-			TomSaveData data = TomSaveData.forWorld(world);
+			/*TomSaveData data = TomSaveData.forWorld(world);
 			data.impact = true;
 			data.fire = 0F;
 			data.dust = 0F;
-			data.markDirty();
+			data.markDirty();*/
+			
+			/*for(int i = -5; i <= 5; i++) {
+				for(int j = -5; j <= 5; j++) {
+					WorldUtil.setBiome(world, pos.blockX + i, pos.blockZ + j, BiomeGenCraterBase.craterBiome);
+				}
+			}
+
+			WorldUtil.syncBiomeChange(world, pos.blockX, pos.blockZ);*/
 			
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;
@@ -53,12 +64,11 @@ public class ItemWandD extends Item {
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
 			
-			/*EntityNukeTorex torex = new EntityNukeTorex(world);
+			EntityNukeTorex torex = new EntityNukeTorex(world);
 			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
 			torex.setScale(1.5F);
-			torex.setType(1);
 			world.spawnEntityInWorld(torex);
-			TrackerUtil.setTrackingRange(world, torex, 1000);*/
+			TrackerUtil.setTrackingRange(world, torex, 1000);
 			
 			/*EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
 			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");

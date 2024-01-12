@@ -62,11 +62,6 @@ public class EntityMissileShuttle extends EntityMissileBaseNT {
 	}
 
 	@Override
-	public RadarTargetType getTargetType() {
-		return RadarTargetType.MISSILE_TIER3;
-	}
-
-	@Override
 	public String getUnlocalizedName() {
 		return "radar.target.shuttle";
 	}

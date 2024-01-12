@@ -216,7 +216,7 @@ public class ItemAmmoHIMARS extends Item {
 			
 		this.itemTypes[LARGE_TB] = new HIMARSRocket("single_tb", "himars_single_tb", 1) {
 			public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) {
-				standardExplosion(rocket, mop, 50F, 12F, true, ModBlocks.slag, 1);
+				standardExplosion(rocket, mop, 50F, 12F, true, ModBlocks.block_slag, 1);
 				ExplosionLarge.spawnShrapnels(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 30);
 				standardMush(rocket, mop, 35);
 			}};

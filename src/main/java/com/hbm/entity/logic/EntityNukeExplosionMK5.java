@@ -63,7 +63,7 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 		}
 		
 		if(!worldObj.isRemote && fallout && explosion != null && this.ticksExisted < 10) {
-			radiate(500_000, this.length * 2);
+			radiate(2_500_000F / (this.ticksExisted * 5 + 1), this.length * 2);
 		}
 		
 		if(!mute) {
@@ -131,7 +131,7 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 			eRads /= (float)res;
 			eRads /= (float)(len * len);
 			
-			ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, eRads);
+			ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.RAD_BYPASS, eRads);
 		}
 	}
 

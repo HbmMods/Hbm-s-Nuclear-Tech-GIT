@@ -30,18 +30,14 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 	public HashSet<ChunkCoordinates> secondary = new HashSet();
 	
 	public TileEntitySolarBoiler() {
-		water = new FluidTank(Fluids.WATER, 16000, 0);
-		steam = new FluidTank(Fluids.STEAM, 1600000, 1);
+		water = new FluidTank(Fluids.WATER, 100, 0);
+		steam = new FluidTank(Fluids.STEAM, 10_000, 1);
 	}
 
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
-			//if(worldObj.getTotalWorldTime() % 5 == 0) {
-			fillFluidInit(Fluids.STEAM);
-			//}
 
 			this.trySubscribe(water.getTankType(), worldObj, xCoord, yCoord + 3, zCoord, Library.POS_Y);
 			this.trySubscribe(water.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);

@@ -138,7 +138,7 @@ public class RenderTorex extends Render {
 		float f4 = ActiveRenderInfo.rotationXY;
 		float f5 = ActiveRenderInfo.rotationXZ;
 
-		float brightness = 0.75F * cloud.colorMod;
+		float brightness = cloud.type == cloud.type.CONDENSATION ? 0.9F : 0.75F * cloud.colorMod;
 		Vec3 color = cloud.getInterpColor(interp);
 		tess.setColorRGBA_F((float)color.xCoord * brightness, (float)color.yCoord * brightness, (float)color.zCoord * brightness, alpha);
 

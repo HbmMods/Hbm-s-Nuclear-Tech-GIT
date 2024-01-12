@@ -22,6 +22,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.saveddata.satellites.Satellite.Interfaces;
+import com.hbm.saveddata.satellites.SatelliteHorizons;
 import com.hbm.saveddata.satellites.SatelliteLaser;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
@@ -427,6 +428,16 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 						worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
 						sat.onClick(world, x, z);
 					}
+				}
+				if(sat instanceof SatelliteHorizons) {
+					if(data.hasKey("launchPosX")) {
+						int x = data.getInteger("launchPosX");
+						int z = data.getInteger("launchPosZ");
+						int y = 60; //one day I will make radars transmit Y coordinate as well and you will be butchered alhamdulila
+						worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+						sat.onCoordAction(world,player,x,y,z);
+					}
+
 				}
 				
 				

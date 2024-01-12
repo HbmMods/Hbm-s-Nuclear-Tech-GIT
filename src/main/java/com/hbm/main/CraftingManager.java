@@ -107,8 +107,6 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.plate_polymer, 4), new Object[] { "BB", 'B', "ingotBrick" });
 		addRecipeAuto(new ItemStack(ModItems.plate_polymer, 4), new Object[] { "BB", 'B', "ingotNetherBrick" });
 
-		addRecipeAuto(new ItemStack(ModBlocks.marker_structure, 1), new Object[] { "L", "G", "R", 'L', LAPIS.dust(), 'G', Items.glowstone_dust, 'R', Blocks.redstone_torch });
-
 		addRecipeAuto(new ItemStack(ModItems.circuit_raw, 1), new Object[] { "A", "R", "S", 'S', STEEL.plate(), 'R', REDSTONE.dust(), 'A', ModItems.wire_aluminium });
 		addRecipeAuto(new ItemStack(ModItems.circuit_bismuth_raw, 1), new Object[] { "RPR", "ABA", "RPR", 'R', REDSTONE.dust(), 'P', ANY_PLASTIC.ingot(), 'A', (GeneralConfig.enable528 ? ModItems.circuit_tantalium : ASBESTOS.ingot()), 'B', ModItems.ingot_bismuth });
 		addRecipeAuto(new ItemStack(ModItems.circuit_tantalium_raw, 1), new Object[] { "RWR", "PTP", "RWR", 'R', REDSTONE.dust(), 'W', ModItems.wire_gold, 'P', CU.plate(), 'T', TA.nugget() });
@@ -518,8 +516,12 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModBlocks.rail_large_straight_short, 5), new Object[] { ModBlocks.rail_large_straight });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_large_buffer, 1), new Object[] { " S", "RS", 'R', ModBlocks.rail_large_straight, 'S', STEEL.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_large_curve, 1), new Object[] { "R ", " R", 'R', ModBlocks.rail_large_straight });
-		addRecipeAuto(new ItemStack(ModBlocks.rail_large_curve_wide, 1), new Object[] { "RR", " R", 'R', ModBlocks.rail_large_straight });
+		addRecipeAuto(new ItemStack(ModBlocks.rail_large_curve_7, 1), new Object[] { "RR", " R", 'R', ModBlocks.rail_large_straight });
+		addRecipeAuto(new ItemStack(ModBlocks.rail_large_curve_9, 1), new Object[] { "RR ", "  R", "  R", 'R', ModBlocks.rail_large_straight });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_large_ramp, 1), new Object[] { " R ", "SSS", 'R', ModBlocks.rail_large_straight, 'S', KEY_SLAB });
+		addRecipeAuto(new ItemStack(ModBlocks.rail_large_switch, 1), new Object[] { "R R", " RR", "  R", 'R', ModBlocks.rail_large_straight });
+		addShapelessAuto(new ItemStack(ModBlocks.rail_large_switch), new Object[] { ModBlocks.rail_large_switch_flipped });
+		addShapelessAuto(new ItemStack(ModBlocks.rail_large_switch_flipped), new Object[] { ModBlocks.rail_large_switch });
 
 		addRecipeAuto(new ItemStack(Item.getItemFromBlock(ModBlocks.bomb_multi), 1), new Object[] { "AAD", "CHF", "AAD", 'A', ModItems.wire_aluminium, 'C', ModItems.circuit_aluminium, 'H', ModItems.hull_small_aluminium, 'F', ModItems.fins_quad_titanium, 'D', KEY_WHITE });
 		addShapelessAuto(new ItemStack(ModItems.powder_ice, 4), new Object[] { Items.snowball, KNO.dust(), REDSTONE.dust() });
@@ -1077,6 +1079,8 @@ public class CraftingManager {
 			addRecipeAuto(new ItemStack(ModBlocks.ore_nether_uranium, 8), new Object[] { "OOO", "OBO", "OOO", 'O', ModBlocks.ore_nether_uranium_scorched, 'B', Items.water_bucket });
 			addShapelessAuto(new ItemStack(ModBlocks.ore_gneiss_uranium, 1), new Object[] { ModBlocks.ore_gneiss_uranium_scorched, Items.water_bucket });
 			addRecipeAuto(new ItemStack(ModBlocks.ore_gneiss_uranium, 8), new Object[] { "OOO", "OBO", "OOO", 'O', ModBlocks.ore_gneiss_uranium_scorched, 'B', Items.water_bucket });
+			addShapelessAuto(new ItemStack(ModBlocks.ore_uranium, 1), new Object[] { ModBlocks.ore_sellafield_uranium_scorched, Items.water_bucket });
+			addRecipeAuto(new ItemStack(ModBlocks.ore_uranium, 8), new Object[] { "OOO", "OBO", "OOO", 'O', ModBlocks.ore_sellafield_uranium_scorched, 'B', Items.water_bucket });
 
 			addRecipeAuto(new ItemStack(ModItems.plate_iron, 4), new Object[] { "##", "##", '#', IRON.ingot() });
 			addRecipeAuto(new ItemStack(ModItems.plate_gold, 4), new Object[] { "##", "##", '#', GOLD.ingot() });

@@ -82,9 +82,7 @@ public class TileMappings {
 		put(TileEntityConverterRfHe.class, "tileentity_converter_rfhe");
 		put(TileEntityMachineSchrabidiumTransmutator.class, "tileentity_schrabidium_transmutator");
 		put(TileEntityMachineDiesel.class, "tileentity_diesel_generator");
-		put(TileEntityWatzCore.class, "tileentity_watz_multiblock");
 		put(TileEntityMachineShredder.class, "tileentity_machine_shredder");
-		put(TileEntityMachineCMBFactory.class, "tileentity_machine_cmb");
 		put(TileEntityFWatzCore.class, "tileentity_fwatz_multiblock");
 		put(TileEntityMachineTeleporter.class, "tileentity_teleblock");
 		put(TileEntityHatch.class, "tileentity_seal_lid");
@@ -94,8 +92,6 @@ public class TileMappings {
 		put(TileEntityMachineCyclotron.class, "tileentity_cyclotron");
 		put(TileEntityMachineExposureChamber.class, "tileentity_exposure_chamber");
 		put(TileEntityMachineRTG.class, "tileentity_machine_rtg");
-		put(TileEntityStructureMarker.class, "tileentity_structure_marker");
-		put(TileEntityMachineMiningDrill.class, "tileentity_mining_drill");
 		put(TileEntityMachineExcavator.class, "tileentity_ntm_excavator");
 		put(TileEntityFluidDuctSimple.class, "tileentity_universal_duct_simple");
 		put(TileEntityFluidDuct.class, "tileentity_universal_duct");
@@ -128,7 +124,6 @@ public class TileMappings {
 		put(TileEntityLandmine.class, "tileentity_landmine");
 		put(TileEntityMachineKeyForge.class, "tileentity_key_forge");
 		put(TileEntitySellafield.class, "tileentity_sellafield_core");
-		put(TileEntityNukeN45.class, "tileentity_n45");
 		put(TileEntityBlastDoor.class, "tileentity_blast_door");
 		put(TileEntitySafe.class, "tileentity_safe");
 		put(TileEntityMachineGasCent.class, "tileentity_gas_centrifuge");
@@ -140,7 +135,6 @@ public class TileMappings {
 		put(TileEntityMachineShredderLarge.class, "tileentity_machine_big_shredder");
 		put(TileEntityRFDuct.class, "tileentity_hbm_rfduct");
 		put(TileEntityReactorControl.class, "tileentity_reactor_remote_control");
-		put(TileEntityMachineReactorLarge.class, "tileentity_large_reactor");
 		put(TileEntityWasteDrum.class, "tileentity_waste_drum");
 		put(TileEntityDecon.class, "tileentity_decon");
 		put(TileEntityMachineSatDock.class, "tileentity_miner_dock");

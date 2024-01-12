@@ -15,10 +15,6 @@ public class PacketDispatcher {
 	{
 		int i = 0;
 		
-		//Machine type for marker rendering
-		wrapper.registerMessage(TEStructurePacket.Handler.class, TEStructurePacket.class, i++, Side.CLIENT);
-		//Mining drill rotation for rendering
-		wrapper.registerMessage(TEDrillPacket.Handler.class, TEDrillPacket.class, i++, Side.CLIENT);
 		//Fluid packet for GUI
 		wrapper.registerMessage(TEFluidPacket.Handler.class, TEFluidPacket.class, i++, Side.CLIENT);
 		//Sound packet that keeps client and server separated

@@ -1047,6 +1047,7 @@ public class ResourceManager {
 	//Missiles
 	public static final IModelCustom missileV2 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_v2.obj")).asDisplayList();
 	public static final IModelCustom missileABM = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_abm.obj")).asDisplayList();
+	public static final IModelCustom missileStealth = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_stealth.obj"), false).asDisplayList();
 	public static final IModelCustom missileStrong = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_strong.obj"));
 	public static final IModelCustom missileHuge = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_huge.obj"));
 	public static final IModelCustom missileNuclear = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missileNeon.obj"));
@@ -1191,6 +1192,7 @@ public class ResourceManager {
 	public static final ResourceLocation missileV2_BU_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_v2_bu.png");
 	public static final ResourceLocation missileV2_decoy_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_v2_decoy.png");
 	public static final ResourceLocation missileAA_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_abm.png");
+	public static final ResourceLocation missileStealth_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_stealth.png");
 	public static final ResourceLocation missileStrong_HE_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_strong.png");
 	public static final ResourceLocation missileStrong_EMP_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_strong_emp.png");
 	public static final ResourceLocation missileStrong_IN_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_strong_inc.png");
@@ -1469,7 +1471,8 @@ public class ResourceManager {
 	public static final IModelCustom rail_standard_straight = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_standard.obj"));
 	public static final IModelCustom rail_standard_straight_short = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_standard_short.obj"));
 	public static final IModelCustom rail_standard_curve = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_standard_bend.obj"));
-	public static final IModelCustom rail_standard_curve_wide = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_standard_bend_wide.obj"));
+	public static final IModelCustom rail_standard_curve_wide7 = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_standard_bend_wide.obj"));
+	public static final IModelCustom rail_standard_curve_wide9 = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_standard_bend_wide9.obj"));
 	public static final IModelCustom rail_standard_ramp = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_standard_ramp.obj"));
 	public static final IModelCustom rail_standard_buffer = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_standard_buffer.obj"));
 	public static final IModelCustom rail_standard_switch = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_standard_switch.obj"));
