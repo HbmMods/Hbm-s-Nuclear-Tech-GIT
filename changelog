@@ -19,3 +19,4 @@
 * Fixed PWR fuel rods not having any radiation value assigned to them
 * Fixed trenchmaster helmet not having gas mask protection
 * Fixed large thermobaric artillery rocket still using the wrong slag block
+* Fixed some of the assembly templates having broken names due to using the wrong way of translating the output

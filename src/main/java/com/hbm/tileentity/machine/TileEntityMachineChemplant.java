@@ -428,41 +428,50 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
 			int[] access = sided != null ? sided.getAccessibleSlotsFromSide(dir.ordinal()) : null;
 			
-			for(int i = 5; i <= 8; i++) {
-				
-				ItemStack out = slots[i];
-				
-				if(out != null) {
+			boolean shouldOutput = true;
+			
+			while(shouldOutput) {
+				shouldOutput = false;
+				outer:
+				for(int i = 5; i <= 8; i++) {
 					
-					for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
-
-						int slot = access != null ? access[j] : j;
+					ItemStack out = slots[i];
+					
+					if(out != null) {
 						
-						if(!inv.isItemValidForSlot(slot, out))
-							continue;
+						for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
+	
+							int slot = access != null ? access[j] : j;
 							
-						ItemStack target = inv.getStackInSlot(slot);
-						
-						if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize()) {
-							this.decrStackSize(i, 1);
-							target.stackSize++;
-							return;
+							if(!inv.isItemValidForSlot(slot, out))
+								continue;
+								
+							ItemStack target = inv.getStackInSlot(slot);
+							
+							if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < Math.min(target.getMaxStackSize(), inv.getInventoryStackLimit())) {
+								int toDec = Math.min(out.stackSize, Math.min(target.getMaxStackSize(), inv.getInventoryStackLimit()) - target.stackSize);
+								this.decrStackSize(i, toDec);
+								target.stackSize += toDec;
+								shouldOutput = true;
+								break outer;
+							}
 						}
-					}
-					
-					for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
-
-						int slot = access != null ? access[j] : j;
 						
-						if(!inv.isItemValidForSlot(slot, out))
-							continue;
-						
-						if(inv.getStackInSlot(slot) == null && (sided != null ? sided.canInsertItem(slot, out, dir.ordinal()) : inv.isItemValidForSlot(slot, out))) {
-							ItemStack copy = out.copy();
-							copy.stackSize = 1;
-							inv.setInventorySlotContents(slot, copy);
-							this.decrStackSize(i, 1);
-							return;
+						for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
+	
+							int slot = access != null ? access[j] : j;
+							
+							if(!inv.isItemValidForSlot(slot, out))
+								continue;
+							
+							if(inv.getStackInSlot(slot) == null && (sided != null ? sided.canInsertItem(slot, out, dir.ordinal()) : inv.isItemValidForSlot(slot, out))) {
+								ItemStack copy = out.copy();
+								copy.stackSize = 1;
+								inv.setInventorySlotContents(slot, copy);
+								this.decrStackSize(i, 1);
+								shouldOutput = true;
+								break outer;
+							}
 						}
 					}
 				}
