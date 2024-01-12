@@ -13,6 +13,8 @@
 * The nuclear flash now bypasses radiation resistance, being only affected by blocks and distance
 * Mushroom clouds' initial scale is now based on the total scale instead of all spawning roughly at the same size, causing fireballs to be comically small for huge bombs
 * Removed the old mining drill, combustion generator, old watz core, structure marker, all old large reactor parts and CMB furnace for good
+* Chemical plants will now eject all their outputs within a single tick if possible, increasing the throughput of fast recipes with many outputs, like asphalt
+* Hitting CTRL + ALT when hovering over an item now displays a preview of that item. Useful if you want to get authentic renders for a wiki, or just like staring at things.
 
 ## Fixed
 * Fixed a rare crash caused by radars force-loading chunks conflicting with certain mods' chunk loading changes
