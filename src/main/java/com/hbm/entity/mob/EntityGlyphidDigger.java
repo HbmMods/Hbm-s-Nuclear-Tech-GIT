@@ -64,7 +64,7 @@ public class EntityGlyphidDigger extends EntityGlyphid {
      * Mainly composed of crusty old power fist code, with some touch ups
      **/
 	public void groundSlam(){
-		if (!worldObj.isRemote && entityToAttack instanceof EntityLivingBase && this.getDistanceToEntity(entityToAttack) < (useExtendedTargeting() ? 128D : 16D)) {
+		if (!worldObj.isRemote && entityToAttack instanceof EntityLivingBase && this.getDistanceToEntity(entityToAttack) < 30) {
 			Entity e = this.getEntityToAttack();
 
 			boolean topAttack = false;
@@ -91,7 +91,9 @@ public class EntityGlyphidDigger extends EntityGlyphid {
 
 			if(this.lastTarget != e) {
 				velX = velY = velZ = 0;
-			} else if (this.getDistanceToEntity(e) < 11) {
+			}
+
+			if (this.getDistanceToEntity(e) > 20) {
 				topAttack = true;
 			}
 
@@ -105,7 +107,7 @@ public class EntityGlyphidDigger extends EntityGlyphid {
 			double y = delta.yCoord;
 			double v0 = 1.2;
 			double v02 = v0 * v0;
-			double g = 0.07D;
+			double g = 0.03D;
 			double upperLower = topAttack ? 1 : -1;
 			double targetPitch = Math.atan((v02 + Math.sqrt(v02*v02 - g*(g*x*x + 2*y*v02)) * upperLower) / (g*x));
 			Vec3 fireVec = null;
@@ -126,7 +128,7 @@ public class EntityGlyphidDigger extends EntityGlyphid {
 				Block b = worldObj.getBlock(x1, y1, z1);
 				float k = b.getExplosionResistance(null);
 
-				if (k < 6000 && b.isNormalCube()) {
+				if (k < 200 && b.isNormalCube()) {
 
 					EntityRubble rubble = new EntityRubble(worldObj);
 					rubble.posX = x1 + 0.5F;

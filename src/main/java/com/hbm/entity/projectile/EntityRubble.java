@@ -12,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class EntityRubble extends EntityThrowableInterp {
+public class EntityRubble extends EntityThrowableNT {
 
     public EntityRubble(World world)
     {
@@ -48,11 +48,6 @@ public class EntityRubble extends EntityThrowableInterp {
     		if(!worldObj.isRemote)
     			PacketDispatcher.wrapper.sendToAllAround(new ParticleBurstPacket((int)Math.floor(posX), (int)posY, (int)Math.floor(posZ), this.dataWatcher.getWatchableObjectInt(16), this.dataWatcher.getWatchableObjectInt(17)), new TargetPoint(worldObj.provider.dimensionId, posX, posY, posZ, 50));
         }
-    }
-
-    @Override
-    public double getGravityVelocity() {
-        return 0.07D;
     }
 
     @Override
