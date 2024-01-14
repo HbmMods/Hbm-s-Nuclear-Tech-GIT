@@ -106,7 +106,7 @@ public class ItemAssemblyTemplate extends Item {
 				return EnumChatFormatting.RED + "Broken Template" + EnumChatFormatting.RESET;
 			}
 			
-			String s1 = ("" + StatCollector.translateToLocal(out.getUnlocalizedName() + ".name")).trim();
+			String s1 = out.getDisplayName().trim();
 	
 			if(s1 != null) {
 				s = s + " " + s1;

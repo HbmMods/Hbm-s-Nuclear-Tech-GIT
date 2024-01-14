@@ -94,8 +94,8 @@ public class GUIMachineRadarNT extends GuiScreen {
 
 		if(!radar.entries.isEmpty()) {
 			for(RadarEntry m : radar.entries) {
-				int x = guiLeft + (int)((m.posX - radar.xCoord) / ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) * (200D - 8D)) + 108;
-				int z = guiTop + (int)((m.posZ - radar.zCoord) / ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) * (200D - 8D)) + 117;
+				int x = guiLeft + (int)((m.posX - radar.xCoord) / ((double) radar.getRange() * 2 + 1) * (200D - 8D)) + 108;
+				int z = guiTop + (int)((m.posZ - radar.zCoord) / ((double) radar.getRange() * 2 + 1) * (200D - 8D)) + 117;
 				
 				if(mouseX + 5 > x && mouseX - 4 <= x && mouseY + 5 > z && mouseY - 4 <= z) {
 
@@ -107,8 +107,8 @@ public class GUIMachineRadarNT extends GuiScreen {
 		}
 
 		if(checkClick(mouseX, mouseY, 8, 17, 200, 200)) {
-			int tX = (int) ((lastMouseX - guiLeft - 108) * ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) / 192D + radar.xCoord);
-			int tZ = (int) ((lastMouseY - guiTop - 117) * ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) / 192D + radar.zCoord);
+			int tX = (int) ((lastMouseX - guiLeft - 108) * ((double) radar.getRange() * 2 + 1) / 192D + radar.xCoord);
+			int tZ = (int) ((lastMouseY - guiTop - 117) * ((double) radar.getRange() * 2 + 1) / 192D + radar.zCoord);
 			this.func_146283_a(Arrays.asList(tX + " / " + tZ), lastMouseX, lastMouseY);
 		}
 	}
@@ -190,8 +190,8 @@ public class GUIMachineRadarNT extends GuiScreen {
 		
 		if(!radar.entries.isEmpty()) {
 			for(RadarEntry m : radar.entries) {
-				double x = (m.posX - radar.xCoord) / ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) * (200D - 8D) - 4D;
-				double z = (m.posZ - radar.zCoord) / ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) * (200D - 8D) - 4D;
+				double x = (m.posX - radar.xCoord) / ((double) radar.getRange() * 2 + 1) * (200D - 8D) - 4D;
+				double z = (m.posZ - radar.zCoord) / ((double) radar.getRange() * 2 + 1) * (200D - 8D) - 4D;
 				int t = m.blipLevel;
 				drawTexturedModalRectDouble(guiLeft + 108 + x, guiTop + 117 + z, 216, 8 * t, 8, 8);
 			}
@@ -226,8 +226,8 @@ public class GUIMachineRadarNT extends GuiScreen {
 	
 			if(!radar.entries.isEmpty()) {
 				for(RadarEntry m : radar.entries) {
-					int x = guiLeft + (int) ((m.posX - radar.xCoord) / ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) * (200D - 8D)) + 108;
-					int z = guiTop + (int) ((m.posZ - radar.zCoord) / ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) * (200D - 8D)) + 117;
+					int x = guiLeft + (int) ((m.posX - radar.xCoord) / ((double) radar.getRange() * 2 + 1) * (200D - 8D)) + 108;
+					int z = guiTop + (int) ((m.posZ - radar.zCoord) / ((double) radar.getRange() * 2 + 1) * (200D - 8D)) + 117;
 
 					if(lastMouseX + 5 > x && lastMouseX - 4 <= x && lastMouseY + 5 > z && lastMouseY - 4 <= z) {
 						NBTTagCompound data = new NBTTagCompound();
@@ -239,8 +239,8 @@ public class GUIMachineRadarNT extends GuiScreen {
 				}
 			}
 
-			int tX = (int) ((lastMouseX - guiLeft - 108) * ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) / 192D + radar.xCoord);
-			int tZ = (int) ((lastMouseY - guiTop - 117) * ((double) TileEntityMachineRadarNT.radarRange * 2 + 1) / 192D + radar.zCoord);
+			int tX = (int) ((lastMouseX - guiLeft - 108) * ((double) radar.getRange() * 2 + 1) / 192D + radar.xCoord);
+			int tZ = (int) ((lastMouseY - guiTop - 117) * ((double) radar.getRange() * 2 + 1) / 192D + radar.zCoord);
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("launchPosX", tX);
 			data.setInteger("launchPosZ", tZ);

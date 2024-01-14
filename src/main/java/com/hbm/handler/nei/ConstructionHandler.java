@@ -83,12 +83,12 @@ public class ConstructionHandler extends NEIUniversalHandler {
 		
 		/* SOYUZ LAUNCHER */
 		ItemStack[] soysauce = new ItemStack[] {
-				new ItemStack(ModBlocks.struct_launcher, 60),
-				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.struct_launcher, 320), EnumChatFormatting.RED + "5x64"),
-				new ItemStack(ModBlocks.struct_scaffold, 53),
+				new ItemStack(ModBlocks.struct_launcher, 30),
+				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.struct_launcher, 384), EnumChatFormatting.RED + "6x64"),
+				new ItemStack(ModBlocks.struct_scaffold, 63),
 				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.struct_scaffold, 384), EnumChatFormatting.RED + "6x64"),
-				new ItemStack(ModBlocks.concrete_smooth, 8),
-				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.concrete_smooth, 320), EnumChatFormatting.RED + "5x64"),};
+				new ItemStack(ModBlocks.concrete_smooth, 38),
+				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.concrete_smooth, 320), EnumChatFormatting.RED + "4x64"),};
 
 		bufferedRecipes.put(soysauce, new ItemStack(ModBlocks.soyuz_launcher));
 		bufferedTools.put(soysauce, new ItemStack(ModBlocks.struct_soyuz_core));

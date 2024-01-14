@@ -291,7 +291,9 @@ public class ItemRenderLibrary {
 		        GL11.glDisable(GL11.GL_CULL_FACE);
 				GL11.glScaled(0.5, 0.5, 0.5);
 				GL11.glTranslatef(0, 0, 3);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.pumpjack_tex); ResourceManager.pumpjack.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
 		        GL11.glEnable(GL11.GL_CULL_FACE);
 			}});
 		
@@ -322,19 +324,6 @@ public class ItemRenderLibrary {
 		        GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
-		renderers.put(Item.getItemFromBlock(ModBlocks.machine_drill), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -2, 0);
-				GL11.glScaled(3, 3, 3);
-			}
-			public void renderCommon() {
-				GL11.glRotated(180, 0, 1, 0);
-		        GL11.glDisable(GL11.GL_CULL_FACE);
-				bindTexture(ResourceManager.drill_body_tex); ResourceManager.drill_body.renderAll();
-				bindTexture(ResourceManager.drill_bolt_tex); ResourceManager.drill_bolt.renderAll();
-		        GL11.glEnable(GL11.GL_CULL_FACE);
-			}});
-		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_mining_laser), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -0.5, 0);
@@ -351,7 +340,7 @@ public class ItemRenderLibrary {
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_turbofan), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glRotated(90, 0, 1, 0);
-				GL11.glScaled(2, 2, 2);
+				GL11.glScaled(2.25, 2.25, 2.25);
 			}
 			public void renderCommon() {
 				GL11.glShadeModel(GL11.GL_SMOOTH);
@@ -1150,7 +1139,9 @@ public class ItemRenderLibrary {
 			public void renderCommon() {
 				GL11.glScaled(0.25, 0.25, 0.25);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
+				GL11.glDisable(GL11.GL_CULL_FACE);
 				bindTexture(ResourceManager.fracking_tower_tex); ResourceManager.fracking_tower.renderAll();
+				GL11.glEnable(GL11.GL_CULL_FACE);
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		

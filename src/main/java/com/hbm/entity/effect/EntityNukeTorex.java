@@ -117,7 +117,7 @@ public class EntityNukeTorex extends Entity {
 			// spawn condensation clouds
 			if(ticksExisted > 200 && ticksExisted < 600) {
 				
-				for(int i = 0; i < 50; i++) {
+				for(int i = 0; i < 20; i++) {
 					for(int j = 0; j < 4; j++) {
 						float angle = (float) (Math.PI * 2 * rand.nextDouble());
 						Vec3 vec = Vec3.createVectorHelper(torusWidth + rollerSize * 3, 0, 0);
@@ -131,7 +131,7 @@ public class EntityNukeTorex extends Entity {
 			}
 			if(ticksExisted > 300 && ticksExisted < 600) {
 				
-				for(int i = 0; i < 50; i++) {
+				for(int i = 0; i < 20; i++) {
 					for(int j = 0; j < 4; j++) {
 						float angle = (float) (Math.PI * 2 * rand.nextDouble());
 						Vec3 vec = Vec3.createVectorHelper(torusWidth + rollerSize * 2, 0, 0);
