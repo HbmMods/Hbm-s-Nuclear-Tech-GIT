@@ -689,6 +689,7 @@ public class ModBlocks {
 	public static Block foundry_channel;
 	public static Block foundry_tank;
 	public static Block foundry_outlet;
+	public static Block machine_strand_caster;
 	public static Block foundry_slagtap;
 	public static Block slag;
 	
@@ -1830,6 +1831,7 @@ public class ModBlocks {
 		machine_stirling_steel = new MachineStirling().setBlockName("machine_stirling_steel").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_stirling_creative = new MachineStirling().setBlockName("machine_stirling_creative").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_sawmill = new MachineSawmill().setBlockName("machine_sawmill").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		machine_strand_caster = new MachineStrandCaster().setBlockName("machine_strand_caster").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
 		machine_crucible = new MachineCrucible().setBlockName("machine_crucible").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":brick_fire");
 		machine_boiler = new MachineHeatBoiler().setBlockName("machine_boiler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_copper");
 		machine_industrial_boiler = new MachineHeatBoilerIndustrial().setBlockName("machine_industrial_boiler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3114,6 +3116,7 @@ public class ModBlocks {
 		register(machine_stirling_creative);
 		register(machine_sawmill);
 		register(machine_crucible);
+		register(machine_strand_caster);
 		register(machine_boiler);
 		register(machine_industrial_boiler);
 		register(foundry_mold);

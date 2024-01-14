@@ -447,6 +447,15 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.wire_red_copper, 24),
 				new ComparableStack(ModItems.circuit_copper, 1)
 			}, 300);
+
+		makeRecipe(new ComparableStack(ModBlocks.machine_strand_caster, 1), new AStack[] {
+				new ComparableStack(ModItems.ingot_firebrick, 12),
+				new OreDictStack(STEEL.plateCast(), 6),
+				new OreDictStack(CU.plateWelded(), 2),
+				new ComparableStack(ModItems.tank_steel, 2),
+				new OreDictStack(ANY_CONCRETE.any(), 8)
+		}, 100);
+
 		makeRecipe(new ComparableStack(ModItems.piston_set, 1, EnumPistonType.STEEL.ordinal()), new AStack[] {
 				new OreDictStack(STEEL.plate(), 16),
 				new OreDictStack(CU.plate(), 4),
