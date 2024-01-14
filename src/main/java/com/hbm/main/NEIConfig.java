@@ -88,7 +88,6 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));
 		API.hideItem(ItemBattery.getFullBattery(ModItems.memory));
 		
-		API.hideItem(new ItemStack(ModBlocks.machine_coal_on));
 		API.hideItem(new ItemStack(ModBlocks.machine_electric_furnace_on));
 		API.hideItem(new ItemStack(ModBlocks.machine_difurnace_on));
 		API.hideItem(new ItemStack(ModBlocks.machine_nuke_furnace_on));
@@ -110,7 +109,6 @@ public class NEIConfig implements IConfigureNEI {
 			API.hideItem(new ItemStack(ModItems.burnt_bark));
 			API.hideItem(new ItemStack(ModItems.ams_core_thingy));
 		}
-		API.hideItem(new ItemStack(ModBlocks.dummy_block_drill));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_base));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_limiter));
@@ -118,7 +116,6 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_blast));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_uf6));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_puf6));
-		API.hideItem(new ItemStack(ModBlocks.dummy_port_drill));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_base));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_emitter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_limiter));

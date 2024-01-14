@@ -22,7 +22,7 @@ public abstract class EntityRailCarCargo extends EntityRailCarBase implements II
 		this.dataWatcher.addObject(10, new Integer(0));
 	}
 	
-	public int countVacantSlots() {
+	public int countOccupiedSlots() {
 		int slots = 0;
 		
 		for(int i = 0; i < this.getSizeInventory(); i++) {
@@ -53,11 +53,9 @@ public abstract class EntityRailCarCargo extends EntityRailCarBase implements II
 					this.slots[slot] = null;
 				}
 
-				if(!this.worldObj.isRemote) this.dataWatcher.updateObject(10, this.countVacantSlots());
 				return itemstack;
 			}
 		} else {
-			if(!this.worldObj.isRemote) this.dataWatcher.updateObject(10, this.countVacantSlots());
 			return null;
 		}
 	}
@@ -67,10 +65,8 @@ public abstract class EntityRailCarCargo extends EntityRailCarBase implements II
 		if(this.slots[slot] != null) {
 			ItemStack itemstack = this.slots[slot];
 			this.slots[slot] = null;
-			if(!this.worldObj.isRemote) this.dataWatcher.updateObject(10, this.countVacantSlots());
 			return itemstack;
 		} else {
-			if(!this.worldObj.isRemote) this.dataWatcher.updateObject(10, this.countVacantSlots());
 			return null;
 		}
 	}
@@ -82,8 +78,12 @@ public abstract class EntityRailCarCargo extends EntityRailCarBase implements II
 		if(stack != null && stack.stackSize > this.getInventoryStackLimit()) {
 			stack.stackSize = this.getInventoryStackLimit();
 		}
-		
-		if(!this.worldObj.isRemote) this.dataWatcher.updateObject(10, this.countVacantSlots());
+	}
+	
+	@Override
+	public void onUpdate() {
+		super.onUpdate();
+		if(!this.worldObj.isRemote) this.dataWatcher.updateObject(10, this.countOccupiedSlots());
 	}
 
 	@Override
@@ -142,7 +142,7 @@ public abstract class EntityRailCarCargo extends EntityRailCarBase implements II
 			}
 		}
 		
-		this.dataWatcher.updateObject(10, this.countVacantSlots());
+		this.dataWatcher.updateObject(10, this.countOccupiedSlots());
 	}
 	
 	@Override

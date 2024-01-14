@@ -127,7 +127,7 @@ public class BlockOre extends Block {
 			case 23:
 				return Item.getItemFromBlock(ModBlocks.fusion_conductor);
 			case 24:
-				return Item.getItemFromBlock(ModBlocks.reactor_computer);
+				return Item.getItemFromBlock(ModBlocks.pwr_fuel);
 			case 25:
 				return Item.getItemFromBlock(ModBlocks.machine_diesel);
 			case 26:

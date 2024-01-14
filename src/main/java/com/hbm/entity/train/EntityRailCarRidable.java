@@ -291,6 +291,6 @@ public abstract class EntityRailCarRidable extends EntityRailCarCargo {
 		text.add("Front: " + this.coupledFront);
 		text.add("Back: " + this.coupledBack);*/
 		text.add("Nearest seat: " + this.getNearestSeat(MainRegistry.proxy.me()));
-		ILookOverlay.printGeneric(event, this.getClass().getSimpleName() + " " + this.hashCode(), 0xffff00, 0x404000, text);
+		//ILookOverlay.printGeneric(event, this.getClass().getSimpleName() + " " + this.hashCode(), 0xffff00, 0x404000, text);
 	}
 }

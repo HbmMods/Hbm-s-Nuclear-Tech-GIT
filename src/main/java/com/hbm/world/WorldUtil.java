@@ -21,6 +21,18 @@ public class WorldUtil {
 	public static void setBiome(World world, int x, int z, BiomeGenBase biome) {
 		Chunk chunk = world.getChunkFromBlockCoords(x, z);
 		chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)] = (byte)(biome.biomeID & 255);
+		chunk.isModified = true;
+	}
+
+	public static void syncBiomeChange(World world, int x, int z) {
+		Chunk chunk = world.getChunkFromBlockCoords(x, z);
+		PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x >> 4, z >> 4, chunk.getBiomeArray()), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
+	}
+
+	public static void syncBiomeChangeBlock(World world, int x, int z) {
+		Chunk chunk = world.getChunkFromBlockCoords(x, z);
+		byte biome = chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)];
+		PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x, z, biome), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
 	}
 	
 	public static void syncBiomeChange(World world, Chunk chunk) {
@@ -69,18 +81,16 @@ public class WorldUtil {
 			}
 		}
 	}
-
-	public static void syncBiomeChange(World world, int x, int z) {
-		Chunk chunk = world.getChunkFromBlockCoords(x, z);
-		//byte biome = chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)];
-		PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x, z, chunk.getBiomeArray()), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
-	}
 	
 	public static Chunk provideChunk(WorldServer world, int chunkX, int chunkZ) {
-		ChunkProviderServer provider = world.theChunkProviderServer;
-		Chunk chunk = (Chunk) provider.loadedChunkHashMap.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ));
-		if(chunk != null) return chunk;
-		return loadChunk(world, provider, chunkX, chunkZ);
+		try {
+			ChunkProviderServer provider = world.theChunkProviderServer;
+			Chunk chunk = (Chunk) provider.loadedChunkHashMap.getValueByKey(ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ));
+			if(chunk != null) return chunk;
+			return loadChunk(world, provider, chunkX, chunkZ);
+		} catch(Throwable x) {
+			return null;
+		}
 	}
 
 	private static Chunk loadChunk(WorldServer world, ChunkProviderServer provider, int chunkX, int chunkZ) {

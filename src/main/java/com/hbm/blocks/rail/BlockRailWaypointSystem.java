@@ -158,8 +158,6 @@ public abstract class BlockRailWaypointSystem extends BlockDummyable implements 
 			currentPos = nextNode;
 		}
 
-		if(!world.isRemote) PacketDispatcher.wrapper.sendToAllAround(new PlayerInformPacket(ChatBuilder.start("" + distRemaining).color(EnumChatFormatting.RED).flush(), 1), new TargetPoint(world.provider.dimensionId, x, y, z, 50));
-		
 		info.overshoot = distRemaining;
 		info.pos = new BlockPos(currentPos.xCoord, currentPos.yCoord, currentPos.zCoord);
 		

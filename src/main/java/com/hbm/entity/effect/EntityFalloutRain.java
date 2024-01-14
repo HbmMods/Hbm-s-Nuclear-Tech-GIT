@@ -6,6 +6,8 @@ import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.FalloutConfigJSON.FalloutEntry;
 import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.saveddata.AuxSavedData;
+import com.hbm.world.WorldUtil;
+import com.hbm.world.biome.BiomeGenCraterBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -15,6 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -55,24 +58,40 @@ public class EntityFalloutRain extends Entity {
 					long chunkPos = chunksToProcess.remove(chunksToProcess.size() - 1); // Just so it doesn't shift the whole list every time
 					int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
 					int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
+					boolean biomeModified = false;
 					for(int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) {
 						for(int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
-							stomp(x, z, Math.hypot(x - posX, z - posZ) * 100 / getScale());
+							double percent = Math.hypot(x - posX, z - posZ) * 100 / getScale();
+							stomp(x, z, percent);
+							BiomeGenBase biome = getBiomeChange(percent, getScale());
+							if(biome != null) {
+								WorldUtil.setBiome(worldObj, x, z, biome);
+								biomeModified = true;
+							}
 						}
 					}
+					if(biomeModified) WorldUtil.syncBiomeChange(worldObj, chunkPosX << 4, chunkPosZ << 4);
 					
 				} else if (!outerChunksToProcess.isEmpty()) {
 					long chunkPos = outerChunksToProcess.remove(outerChunksToProcess.size() - 1);
 					int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
 					int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
+					boolean biomeModified = false;
 					for(int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) {
 						for(int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
 							double distance = Math.hypot(x - posX, z - posZ);
 							if(distance <= getScale()) {
-								stomp(x, z, distance * 100 / getScale());
+								double percent = distance * 100 / getScale();
+								stomp(x, z, percent);
+								BiomeGenBase biome = getBiomeChange(percent, getScale());
+								if(biome != null) {
+									WorldUtil.setBiome(worldObj, x, z, biome);
+									biomeModified = true;
+								}
 							}
 						}
 					}
+					if(biomeModified) WorldUtil.syncBiomeChange(worldObj, chunkPosX << 4, chunkPosZ << 4);
 					
 				} else {
 					setDead();
@@ -92,6 +111,13 @@ public class EntityFalloutRain extends Entity {
 				}
 			}
 		}
+	}
+	
+	public static BiomeGenBase getBiomeChange(double dist, int scale) {
+		if(scale >= 150 && dist < 15)	return BiomeGenCraterBase.craterInnerBiome;
+		if(scale >= 100 && dist < 55)	return BiomeGenCraterBase.craterBiome;
+		if(scale >= 25)					return BiomeGenCraterBase.craterOuterBiome;
+		return null;
 	}
 
 	private final List<Long> chunksToProcess = new ArrayList<>();
@@ -123,24 +149,20 @@ public class EntityFalloutRain extends Entity {
 		Collections.reverse(outerChunksToProcess);
 	}
 	
-	//private List<int[]> changedPositions = new ArrayList();
-	
-	// TODO cache chunks?
 	private void stomp(int x, int z, double dist) {
 
 		int depth = 0;
 
 		for(int y = 255; y >= 0; y--) {
 			
-			if(depth >= 3)
-				return;
+			if(depth >= 3) return;
 
 			Block b = worldObj.getBlock(x, y, z);
+
+			if(b.getMaterial() == Material.air) continue;
+			
 			Block ab = worldObj.getBlock(x, y + 1, z);
 			int meta = worldObj.getBlockMetadata(x, y, z);
-
-			if(b.getMaterial() == Material.air)
-				continue;
 
 			if(b != ModBlocks.fallout && (ab == Blocks.air || (ab.isReplaceable(worldObj, x, y + 1, z) && !ab.getMaterial().isLiquid()))) {
 
