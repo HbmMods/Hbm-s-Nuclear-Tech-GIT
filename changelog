@@ -1,6 +1,8 @@
 ## Added
 * Large Radar
   * A giant version of the radar with 3x the scan range
+* Strand caster
+  * Watercooled foundry basin that processes large amounts of material at once
 
 ## Changed
 * Nuclear craters have been reworked
@@ -23,7 +25,8 @@
 * Trenchmaster general damage multiplier has been halved, making it twice as strong
 * Updated generation rules for layers like schist and hematite, they will now only replace things tagged as stone, just like most ores
 * Mushroom clouds now have two additional outer condensation rings, those are not entirely finished and are still subject to change
-* Small radars are now a tad cheaper
+* Small radars are now a lot cheaper
+* Increased crucible pouring speed by 50%
 
 ## Fixed
 * Fixed a rare crash caused by radars force-loading chunks conflicting with certain mods' chunk loading changes
@@ -32,3 +35,5 @@
 * Fixed large thermobaric artillery rocket still using the wrong slag block
 * Fixed some of the assembly templates having broken names due to using the wrong way of translating the output
 * Fixed the soyuz launcher's NEI construction recipe showing the wrong amount of blocks
+* Fixed molten meteorite cobble dropping itself in addition to turning into lava
+* Fixed S~Cola RAD not being radish-colored

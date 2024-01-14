@@ -45,6 +45,7 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation vaer = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeVaer.png");
 	private static ResourceLocation adam = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeAdam.png");
 	private static ResourceLocation alcater = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeAlcater.png");
+	private static ResourceLocation jame = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeJame.png");
 	
 	public static ResourceLocation getCloakFromPlayer(EntityPlayer player) {
 		
@@ -126,6 +127,9 @@ public class RenderAccessoryUtility {
 		}
 		if(uuid.equals(Library.Alcater)) {
 			return alcater;
+		}
+		if(uuid.equals(Library.ege444)) {
+			return jame;
 		}
 		if(Library.contributors.contains(uuid)) {
 			return wiki;
