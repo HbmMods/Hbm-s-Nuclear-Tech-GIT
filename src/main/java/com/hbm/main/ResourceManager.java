@@ -245,6 +245,7 @@ public class ResourceManager {
 	public static final IModelCustom radar_body = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/radar_base.obj"));
 	public static final IModelCustom radar_head = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/radar_head.obj"));
 	public static final IModelCustom radar = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/radar.obj"));
+	public static final IModelCustom radar_large = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/radar_large.obj"));
 	public static final IModelCustom radar_screen = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/radar_screen.obj"));
 	
 	//Forcefield
@@ -661,6 +662,7 @@ public class ResourceManager {
 	public static final ResourceLocation radar_head_tex = new ResourceLocation(RefStrings.MODID, "textures/models/radar_head.png");
 	public static final ResourceLocation radar_base_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/radar_base.png");
 	public static final ResourceLocation radar_dish_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/radar_dish.png");
+	public static final ResourceLocation radar_large_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/radar_large.png");
 	public static final ResourceLocation radar_screen_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/radar_screen.png");
 	
 	//Forcefield

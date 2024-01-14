@@ -97,8 +97,10 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		if(!worldObj.isRemote) {
 
 			byte comp = this.getComparatorPower(); //do comparator shenanigans
-			if(comp != this.lastRedstone)
+			if(comp != this.lastRedstone) {
 				this.markDirty();
+				for(DirPos pos : getConPos()) this.updateRedstoneConnection(pos);
+			}
 			this.lastRedstone = comp;
 
 			tank.setType(0, 1, slots);

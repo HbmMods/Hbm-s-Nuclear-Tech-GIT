@@ -4147,6 +4147,7 @@ tile.machine_press.name=Befeuerte Presse
 tile.machine_puf6_tank.name=Plutoniumhexafluorid-Tank
 tile.machine_pumpjack.name=Pferdekopfpumpe
 tile.machine_radar.name=Radar
+tile.machine_radar_large.name=Großes Radar
 tile.machine_radgen.name=Strahlenbetriebener Generator
 tile.machine_reactor.name=Brutreaktor
 tile.machine_reactor_on.name=Brutreaktor
