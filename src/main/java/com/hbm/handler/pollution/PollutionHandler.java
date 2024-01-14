@@ -355,7 +355,8 @@ public class PollutionHandler {
 				&& !event.world.isRemote
 				&& event.world.provider.dimensionId == 0
 				&& event.type == EnumCreatureType.monster
-				&& event.world.canBlockSeeTheSky(event.x, event.y, event.z)) {
+				&& event.world.canBlockSeeTheSky(event.x, event.y, event.z)
+				&& !event.isCanceled()) {
 
 					if (event.world.rand.nextInt(MobConfig.rampantScoutSpawnChance) == 0) {
 
