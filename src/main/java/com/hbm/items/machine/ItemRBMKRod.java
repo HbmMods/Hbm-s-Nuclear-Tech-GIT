@@ -28,6 +28,7 @@ public class ItemRBMKRod extends Item {
 	public double xBurn = 50D;				//divider for xenon burnup
 	public double heat = 1D;				//heat produced per outFlux
 	public double yield;					//total potential inFlux the rod can take in its lifetime
+	public double efficiency = 1D;			//outFlux efficiency of current yield
 	public double meltingPoint = 1000D;		//the maximum heat of the rod's hull before shit hits the fan. the core can be as hot as it wants to be
 	public double diffusion = 0.02D;		//the speed at which the core heats the hull
 	public NType nType = NType.SLOW;		//neutronType, the most efficient neutron type for fission
@@ -144,6 +145,9 @@ public class ItemRBMKRod extends Item {
 		setPoison(stack, xenon);
 		
 		double outFlux = reactivityFunc(inFlux, getEnrichment(stack)) * RBMKDials.getReactivityMod(world);
+		double outFluxOri = reactivityFunc(inFlux, 1) * RBMKDials.getReactivityMod(world);
+		efficiency = outFlux / outFluxOri;
+		setEff(stack, efficiency);
 		
 		double y = getYield(stack);
 		y -= inFlux;
@@ -295,6 +299,7 @@ public class ItemRBMKRod extends Item {
 			enrichment = reactivityModByEnrichment(enrichment);
 			String reactivity = "" + this.reactivity;
 			String enrichmentMod = "" + ((int)(enrichment * 1000D) / 1000D);
+			String efficiencyPer = EnumChatFormatting.GOLD + " (" + ((int)(getEff(stack) * 1000D) / 10D) + "%)";
 
 			switch(this.function) {
 				case PASSIVE: function = EnumChatFormatting.RED + "" + selfRate + EnumChatFormatting.YELLOW + " * " + enrichmentMod;
@@ -318,7 +323,7 @@ public class ItemRBMKRod extends Item {
 				default: function = "ERROR";
 			}
 			
-			return String.format(Locale.US, function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + EnumChatFormatting.WHITE + ")" : "x", reactivity, enrichmentMod);
+			return String.format(Locale.US, function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + EnumChatFormatting.WHITE + ")" : "x", reactivity, enrichmentMod).concat(efficiencyPer);
 		}
 		
 		return String.format(Locale.US, function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + EnumChatFormatting.WHITE + ")" : "x", reactivity);
@@ -459,6 +464,13 @@ public class ItemRBMKRod extends Item {
 		}
 		
 		return 0;
+	}
+	public static void setEff(ItemStack stack, double efficiency) {
+		setDouble(stack, "efficiency", efficiency);
+	}
+
+	public static double getEff(ItemStack stack) {
+		return getDouble(stack, "efficiency");
 	}
 	
 	public static void setPoison(ItemStack stack, double xenon) {
