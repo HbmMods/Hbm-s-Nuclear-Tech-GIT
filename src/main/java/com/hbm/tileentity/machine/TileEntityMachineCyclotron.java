@@ -14,6 +14,7 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMachineCyclotron;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -30,6 +31,7 @@ import com.hbm.tileentity.IConditionalInvAccess;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -64,7 +66,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	private byte plugs; 
 	
 	public int progress;
-	public static final int duration = 690;
+	public static final int duration = 640;
 	
 	public FluidTank coolant;
 	public FluidTank amat;
@@ -100,14 +102,20 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 			this.power = Library.chargeTEFromItems(slots, 13, power, maxPower);
 			this.coolant.loadTank(11, 12, slots);
 			this.amat.unloadTank(9, 10, slots);
+
+			UpgradeManager.eval(slots, 14, 15);
+			int speedLevel = 1 + Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			int safetyLevel = 1 + Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
+			int overLevel = 1 + Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 			
 			if(isOn) {
 				
-				int defConsumption = consumption - 100_000 * getConsumption();
+				int defConsumption = consumption - 100_000 * powerLevel;
 				
 				if(canProcess() && power >= defConsumption) {
 					
-					progress += this.getSpeed();
+					progress += speedLevel * overLevel;
 					power -= defConsumption;
 					
 					if(progress >= duration) {
@@ -116,16 +124,14 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 						this.markDirty();
 					}
 					
-					int safety = this.getSafety();
-					
 					if(coolant.getFill() > 0) {
 
 			    		countdown = 0;
 						
-						if(worldObj.rand.nextInt(3 * safety) == 0)
+						if(worldObj.rand.nextInt(3 * safetyLevel) == 0)
 							coolant.setFill(coolant.getFill() - 1);
 						
-					} else if(worldObj.rand.nextInt(safety) == 0) {
+					} else if(worldObj.rand.nextInt(safetyLevel) == 0) {
 						
 						countdown++;
 						
@@ -313,66 +319,6 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		
 		if(this.amat.getFill() > this.amat.getMaxFill())
 			this.amat.setFill(this.amat.getMaxFill());
-	}
-	
-	public int getSpeed() {
-		
-		int speed = 1;
-		
-		for(int i = 14; i < 16; i++) {
-			
-			if(slots[i] != null) {
-				
-				if(slots[i].getItem() == ModItems.upgrade_speed_1)
-					speed += 1;
-				else if(slots[i].getItem() == ModItems.upgrade_speed_2)
-					speed += 2;
-				else if(slots[i].getItem() == ModItems.upgrade_speed_3)
-					speed += 3;
-			}
-		}
-		
-		return Math.min(speed, 4);
-	}
-	
-	public int getConsumption() {
-		
-		int speed = 0;
-		
-		for(int i = 14; i < 16; i++) {
-			
-			if(slots[i] != null) {
-				
-				if(slots[i].getItem() == ModItems.upgrade_power_1)
-					speed += 1;
-				else if(slots[i].getItem() == ModItems.upgrade_power_2)
-					speed += 2;
-				else if(slots[i].getItem() == ModItems.upgrade_power_3)
-					speed += 3;
-			}
-		}
-		
-		return Math.min(speed, 3);
-	}
-	
-	public int getSafety() {
-		
-		int speed = 1;
-		
-		for(int i = 14; i < 16; i++) {
-			
-			if(slots[i] != null) {
-				
-				if(slots[i].getItem() == ModItems.upgrade_effect_1)
-					speed += 1;
-				else if(slots[i].getItem() == ModItems.upgrade_effect_2)
-					speed += 2;
-				else if(slots[i].getItem() == ModItems.upgrade_effect_3)
-					speed += 3;
-			}
-		}
-		
-		return Math.min(speed, 4);
 	}
 
 	public long getPowerScaled(long i) {
@@ -586,7 +532,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 	@Override
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
-		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.EFFECT;
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.EFFECT || type == UpgradeType.OVERDRIVE;
 	}
 
 	@Override
@@ -601,6 +547,9 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		if(type == UpgradeType.EFFECT) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_COOLANT_CONSUMPTION, "-" + (100 - 100 / (level + 1)) + "%"));
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_OVERHEAT_CHANCE, "-" + (100 - 100 / (level + 1)) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
 		}
 	}
 
