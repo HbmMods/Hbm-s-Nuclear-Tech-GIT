@@ -422,6 +422,13 @@ public class AnvilRecipes {
 						new ComparableStack(Items.leather, 4),
 						new ComparableStack(Items.feather, 24)
 				}, new AnvilOutput(new ItemStack(ModItems.wings_limp))).setTier(2));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+					new ComparableStack(ModBlocks.glass_boron, 2),
+					new OreDictStack(ANY_HARDPLASTIC.ingot(), 1),
+					new ComparableStack(ModItems.circuit_aluminium, 2)
+				}, new AnvilOutput(new ItemStack(ModItems.pipette_laboratory))).setTier(3));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {

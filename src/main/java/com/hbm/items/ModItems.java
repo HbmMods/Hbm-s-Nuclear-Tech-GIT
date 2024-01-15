@@ -934,6 +934,9 @@ public class ModItems {
 	public static Item fluid_barrel_full;
 	public static Item fluid_barrel_empty;
 	public static Item fluid_barrel_infinite;
+	public static Item pipette;
+	public static Item pipette_boron;
+	public static Item pipette_laboratory;
 
 	public static Item disperser_canister_empty;
 	public static Item disperser_canister;
@@ -4652,6 +4655,9 @@ public class ModItems {
 		fluid_barrel_empty = new Item().setUnlocalizedName("fluid_barrel_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fluid_barrel");
 		fluid_barrel_full = new ItemFluidTank().setUnlocalizedName("fluid_barrel_full").setContainerItem(ModItems.fluid_barrel_empty).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fluid_barrel");
 		fluid_barrel_infinite = new ItemInfiniteFluid(null, 1_000_000_000).setUnlocalizedName("fluid_barrel_infinite").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":fluid_barrel_infinite");
+		pipette = new ItemPipette().setUnlocalizedName("pipette").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pipette");
+		pipette_boron = new ItemPipette().setUnlocalizedName("pipette_boron").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pipette_boron");
+		pipette_laboratory = new ItemPipette().setUnlocalizedName("pipette_laboratory").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pipette_laboratory");
 
 		disperser_canister_empty = new Item().setUnlocalizedName("disperser_canister_empty").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":disperser_canister");
 		disperser_canister = new ItemDisperser().setUnlocalizedName("disperser_canister").setContainerItem(ModItems.disperser_canister_empty).setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":disperser_canister");
@@ -6380,6 +6386,11 @@ public class ModItems {
 		GameRegistry.registerItem(fluid_barrel_empty, fluid_barrel_empty.getUnlocalizedName());
 		GameRegistry.registerItem(fluid_barrel_full, fluid_barrel_full.getUnlocalizedName());
 		GameRegistry.registerItem(fluid_barrel_infinite, fluid_barrel_infinite.getUnlocalizedName());
+
+		//Pipette
+		GameRegistry.registerItem(pipette, pipette.getUnlocalizedName());
+		GameRegistry.registerItem(pipette_boron, pipette_boron.getUnlocalizedName());
+		GameRegistry.registerItem(pipette_laboratory, pipette_laboratory.getUnlocalizedName());
 
 		//Disperser Canister
 		GameRegistry.registerItem(disperser_canister_empty, disperser_canister_empty.getUnlocalizedName());
