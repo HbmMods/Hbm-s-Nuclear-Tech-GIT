@@ -108,6 +108,7 @@ public class WorldConfig {
 	public static int meteorShowerChance = 20 * 60 * 5;
 	public static int meteorShowerDuration = 6000;
 
+	public static boolean enableCraterBiomes = true;
 	public static int craterBiomeId = 80;
 	public static int craterBiomeInnerId = 81;
 	public static int craterBiomeOuterId = 82;
@@ -227,6 +228,7 @@ public class WorldConfig {
 		meteorShowerDuration = CommonConfig.createConfigInt(config, CATEGORY_METEOR, "5.05_meteorShowerDuration", "Max duration of meteor shower in ticks", 20 * 60 * 30);
 
 		final String CATEGORY_BIOMES = CommonConfig.CATEGORY_BIOMES;
+		enableCraterBiomes = CommonConfig.createConfigBool(config, CATEGORY_BIOMES, "17.B_toggle", "Enables the biome change caused by nuclear explosions", true);
 		craterBiomeId = CommonConfig.createConfigInt(config, CATEGORY_BIOMES, "17.B00_craterBiomeId", "The numeric ID for the crater biome", 80);
 		craterBiomeInnerId = CommonConfig.createConfigInt(config, CATEGORY_BIOMES, "17.B01_craterBiomeInnerId", "The numeric ID for the inner crater biome", 81);
 		craterBiomeOuterId = CommonConfig.createConfigInt(config, CATEGORY_BIOMES, "17.B02_craterBiomeOuterId", "The numeric ID for the outer crater biome", 82);
