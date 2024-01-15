@@ -1463,6 +1463,8 @@ upgrade.delay=Время %s
 upgrade.efficiency=Эффективность %s
 upgrade.fortune=Удача %s
 upgrade.range=Радиус %s
+upgrade.coolantConsumption=Потребление охладителя %s
+upgrade.overheatChance=Шанс перегрева %s
 
 upgrade.gui.title=§lПринимаемые улучшения:§r
 upgrade.gui.afterburner= * §dФорсаж§r: Стакается до %s уровней
