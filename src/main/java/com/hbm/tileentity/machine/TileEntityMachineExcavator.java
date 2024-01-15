@@ -26,10 +26,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.util.Compat;
-import com.hbm.util.EnumUtil;
-import com.hbm.util.I18nUtil;
-import com.hbm.util.ItemStackUtil;
+import com.hbm.util.*;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -104,8 +101,9 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		UpgradeManager.eval(slots, 2, 3);
 		int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 		int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+		int overLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 		
-		consumption = baseConsumption * (1 + speedLevel);
+		consumption = baseConsumption * (1 + speedLevel) * overLevel;
 		consumption /= (1 + powerLevel);
 		
 		if(!worldObj.isRemote) {
@@ -134,7 +132,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 				this.power -= this.getPowerConsumption();
 				
 				this.speed = type.speed;
-				this.speed *= (1 + speedLevel / 2D);
+				this.speed *= (1 + speedLevel / 2D) * (1 + overLevel);
 				
 				int maxDepth = this.yCoord - 4;
 
@@ -182,10 +180,10 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 			this.prevCrusherRotation = this.crusherRotation;
 			
 			if(this.operational) {
-				this.drillRotation += 15F;
+				this.drillRotation += 10F * (overLevel + 1);
 				
 				if(this.enableCrusher) {
-					this.crusherRotation += 15F;
+					this.crusherRotation += 10F;
 				}
 			}
 			
@@ -845,18 +843,24 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 
 	@Override
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
-		return type == UpgradeType.SPEED || type == UpgradeType.POWER;
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.EFFECT || type == UpgradeType.OVERDRIVE;
 	}
 
 	@Override
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_excavator));
 		if(type == UpgradeType.SPEED) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level / 2 + 1)) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 200 / (level + 2)) + "%"));
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
 		}
 		if(type == UpgradeType.POWER) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (100 - 100 / (level + 1)) + "%"));
+		}
+		if(type == UpgradeType.EFFECT) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_RANGE, "+" + (level * 2) + " Blocks"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
 		}
 	}
 

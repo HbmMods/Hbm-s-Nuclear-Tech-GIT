@@ -20,7 +20,7 @@ public class ItemRBMKRod extends Item {
 	
 	public ItemRBMKPellet pellet;
 	public String fullName = "";			//full name of the fuel rod
-	public double reactivity;					//endpoint of the function
+	public double reactivity;				//endpoint of the function
 	public double selfRate;					//self-inflicted flux from self-igniting fuels
 	public EnumBurnFunc function = EnumBurnFunc.LOG_TEN;
 	public EnumDepleteFunc depFunc = EnumDepleteFunc.GENTLE_SLOPE;
@@ -270,19 +270,19 @@ public class ItemRBMKRod extends Item {
 		switch(this.function) {
 		case PASSIVE: function = EnumChatFormatting.RED + "" + selfRate;
 			break;
-		case LOG_TEN: function = "log10(%1$s + 1) * 0.5 * %2$s";
+		case LOG_TEN: function = "log10(%1$s + 1) * %2$s / 2";
 			break;
-		case PLATEU: function = "(1 - e^-%1$s / 25)) * %2$s";
+		case PLATEU: function = "(1 - e^-%1$s / 25) * %2$s";
 			break;
-		case ARCH: function = "(%1$s - %1$s² / 10000) / 100 * %2$s [0;∞]";
+		case ARCH: function = "(%1$s - %1$s² / 10000) * %2$s / 100";
 			break;
-		case SIGMOID: function = "%2$s / (1 + e^(-(%1$s - 50) / 10))";
+		case SIGMOID: function = "%2$s / (1 + e^(5 - %1$s / 10)";
 			break;
 		case SQUARE_ROOT: function = "sqrt(%1$s) * %2$s / 10";
 			break;
-		case LINEAR: function = "%1$s / 100 * %2$s";
+		case LINEAR: function = "%1$s * %2$s / 100";
 			break;
-		case QUADRATIC: function = "%1$s² / 10000 * %2$s";
+		case QUADRATIC: function = "%1$s² * %2$s / 10000";
 			break;
 		case EXPERIMENTAL: function = "%1$s * (sin(%1$s) + 1) * %2$s";
 			break;
@@ -293,13 +293,35 @@ public class ItemRBMKRod extends Item {
 		
 		if(enrichment < 1) {
 			enrichment = reactivityModByEnrichment(enrichment);
-			String reactivity = EnumChatFormatting.YELLOW + "" + ((int)(this.reactivity * enrichment * 1000D) / 1000D) + EnumChatFormatting.WHITE;
-			String enrichmentPer = EnumChatFormatting.GOLD + " (" + ((int)(enrichment * 1000D) / 10D) + "%)";
+			String reactivity = "" + this.reactivity;
+			String enrichmentMod = "" + ((int)(enrichment * 1000D) / 1000D);
+
+			switch(this.function) {
+				case PASSIVE: function = EnumChatFormatting.RED + "" + selfRate + EnumChatFormatting.GOLD + " * " + enrichmentMod;
+					break;
+				case LOG_TEN: function = "log10(%1$s " + EnumChatFormatting.GOLD + "* %3$s " + EnumChatFormatting.WHITE + "+ 1) * %2$s / 2";
+					break;
+				case PLATEU: function = "(1 - e^-(%1$s " + EnumChatFormatting.GOLD + "* %3$s" + EnumChatFormatting.WHITE + ") / 25) * %2$s";
+					break;
+				case ARCH: function = "(%1$s " + EnumChatFormatting.GOLD + "* %3$s " + EnumChatFormatting.WHITE + "- (%1$s " + EnumChatFormatting.GOLD + "* %3$s" + EnumChatFormatting.WHITE + ")² / 10000) * %2$s / 100";
+					break;
+				case SIGMOID: function = "%2$s / (1 + e^(5 - %1$s " + EnumChatFormatting.GOLD + "* %3$s " + EnumChatFormatting.WHITE + "/ 10)";
+					break;
+				case SQUARE_ROOT: function = "sqrt(%1$s" + EnumChatFormatting.GOLD + " * %3$s" + EnumChatFormatting.WHITE + ") * %2$s / 10";
+					break;
+				case LINEAR: function = "%1$s " + EnumChatFormatting.GOLD + "* %3$s " + EnumChatFormatting.WHITE + "* %2$s / 100";
+					break;
+				case QUADRATIC: function = "(%1$s " + EnumChatFormatting.GOLD + "* %3$s " + EnumChatFormatting.WHITE + ")² * %2$s / 10000";
+					break;
+				case EXPERIMENTAL: function = "%1$s " + EnumChatFormatting.GOLD + "* %3$s " + EnumChatFormatting.WHITE + "* (sin(%1$s " + EnumChatFormatting.GOLD + "* %3$s" + EnumChatFormatting.WHITE + ") + 1) * %2$s";
+					break;
+				default: function = "ERROR";
+			}
 			
-			return String.format(Locale.US, function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")" : "x", reactivity).concat(enrichmentPer);
+			return String.format(Locale.US, function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + EnumChatFormatting.WHITE + ")" : "x", reactivity, enrichmentMod);
 		}
 		
-		return String.format(Locale.US, function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")" : "x", reactivity);
+		return String.format(Locale.US, function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + EnumChatFormatting.WHITE + ")" : "x", reactivity);
 	}
 	
 	public static enum EnumDepleteFunc {
@@ -376,7 +398,7 @@ public class ItemRBMKRod extends Item {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.heat", heat + "°C"));
-			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.diffusion", diffusion + "¹/²"));
+			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.diffusion", diffusion + "¹/₂"));
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.skinTemp", ((int)(getHullHeat(stack) * 10D) / 10D) + "m"));
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.coreTemp", ((int)(getCoreHeat(stack) * 10D) / 10D) + "m"));
 			list.add(EnumChatFormatting.DARK_RED + I18nUtil.resolveKey("trait.rbmx.melt", meltingPoint + "m"));
@@ -396,7 +418,7 @@ public class ItemRBMKRod extends Item {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.heat", heat + "°C"));
-			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.diffusion", diffusion + "¹/²"));
+			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.diffusion", diffusion + "¹/₂"));
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.skinTemp", ((int)(getHullHeat(stack) * 10D) / 10D) + "°C"));
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.coreTemp", ((int)(getCoreHeat(stack) * 10D) / 10D) + "°C"));
 			list.add(EnumChatFormatting.DARK_RED + I18nUtil.resolveKey("trait.rbmk.melt", meltingPoint + "°C"));

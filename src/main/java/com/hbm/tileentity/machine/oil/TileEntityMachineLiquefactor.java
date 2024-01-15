@@ -19,6 +19,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -42,7 +43,7 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	public static final int usageBase = 500;
 	public int usage;
 	public int progress;
-	public static final int processTimeBase = 200;
+	public static final int processTimeBase = 160;
 	public int processTime;
 	
 	public FluidTank tank;
@@ -69,9 +70,10 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 			UpgradeManager.eval(slots, 2, 3);
 			int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			int power = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			int over = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 
-			this.processTime = processTimeBase - (processTimeBase / 4) * speed;
-			this.usage = (usageBase + (usageBase * speed)) / (power + 1);
+			this.processTime = processTimeBase * (4 - speed) / (1 + over) / 4;
+			this.usage = usageBase * (speed + 1) * (over + 1) / (power + 1);
 			
 			if(this.canProcess())
 				this.process();
@@ -303,7 +305,7 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 
 	@Override
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
-		return type == UpgradeType.SPEED || type == UpgradeType.POWER;
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
 	}
 
 	@Override
@@ -315,6 +317,9 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 		}
 		if(type == UpgradeType.POWER) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (100 - 100 / (level + 1)) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
 		}
 	}
 

@@ -232,7 +232,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			return 0;
 		}
 		
-		//break the neutron flow and nothign else
+		//break the neutron flow and nothing else
 		if(te instanceof TileEntityRBMKAbsorber) {
 			return 0;
 		}
