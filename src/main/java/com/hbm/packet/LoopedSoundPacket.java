@@ -54,18 +54,6 @@ public class LoopedSoundPacket implements IMessage {
 		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(LoopedSoundPacket m, MessageContext ctx) {
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
-
-			if (te != null && te instanceof TileEntityMachineMiningDrill) {
-				
-				boolean flag = true;
-				for(int i = 0; i < SoundLoopMiner.list.size(); i++)  {
-					if(SoundLoopMiner.list.get(i).getTE() == te && !SoundLoopMiner.list.get(i).isDonePlaying())
-						flag = false;
-				}
-				
-				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineMiningDrill)te).torque > 0.2F)
-					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopMiner(new ResourceLocation("hbm:block.minerOperate"), te));
-			}
 			
 			if (te != null && te instanceof TileEntityMachineAssembler) {
 				

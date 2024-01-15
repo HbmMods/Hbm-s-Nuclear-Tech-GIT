@@ -129,13 +129,21 @@ public class MachineBigAssTank9000 extends BlockDummyable implements IPersistent
 	@Override
 	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
 
-		TileEntity te = world.getTileEntity(x, y, z);
-
-		if(!(te instanceof TileEntityMachineBAT9000))
-			return 0;
-
-		TileEntityMachineBAT9000 tank = (TileEntityMachineBAT9000) te;
-		return tank.getComparatorPower();
+		int meta = world.getBlockMetadata(x, y, z);
+		
+		if(meta >= 6) {
+			int[] pos = this.findCore(world, x, y, z);
+			if(pos == null) return 0;
+			TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+	
+			if(!(te instanceof TileEntityMachineBAT9000))
+				return 0;
+	
+			TileEntityMachineBAT9000 tank = (TileEntityMachineBAT9000) te;
+			return tank.getComparatorPower();
+		}
+		
+		return 0;
 	}
 
 	@Override

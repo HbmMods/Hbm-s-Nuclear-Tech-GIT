@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
+import com.hbm.config.WorldConfig;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
@@ -30,6 +31,7 @@ import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hbm.world.biome.BiomeGenCraterBase;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
@@ -48,6 +50,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 
 public class EntityEffectHandler {
 
@@ -56,6 +59,17 @@ public class EntityEffectHandler {
 		if(entity.ticksExisted % 20 == 0) {
 			HbmLivingProps.setRadBuf(entity, HbmLivingProps.getRadEnv(entity));
 			HbmLivingProps.setRadEnv(entity, 0);
+		}
+		
+		if(entity instanceof EntityPlayer && entity == MainRegistry.proxy.me()) {
+			EntityPlayer player = MainRegistry.proxy.me();
+			if(player != null) {
+				BiomeGenBase biome = player.worldObj.getBiomeGenForCoords((int) Math.floor(player.posX), (int) Math.floor(player.posZ));
+				if(biome == BiomeGenCraterBase.craterBiome || biome == BiomeGenCraterBase.craterInnerBiome) {
+					Random rand = player.getRNG();
+					for(int i = 0; i < 3; i++) player.worldObj.spawnParticle("townaura", player.posX + rand.nextGaussian() * 3, player.posY + rand.nextGaussian() * 2, player.posZ + rand.nextGaussian() * 3, 0, 0, 0);
+				}
+			}
 		}
 
 		if(entity instanceof EntityPlayerMP) {
@@ -88,6 +102,18 @@ public class EntityEffectHandler {
 	
 			if(GeneralConfig.enable528 && entity instanceof EntityLivingBase && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
 				entity.setFire(5);
+			}
+			
+			BiomeGenBase biome = entity.worldObj.getBiomeGenForCoords((int) Math.floor(entity.posX), (int) Math.floor(entity.posZ));
+			float radiation = 0;
+			if(biome == BiomeGenCraterBase.craterOuterBiome) radiation = WorldConfig.craterBiomeOuterRad;
+			if(biome == BiomeGenCraterBase.craterBiome) radiation = WorldConfig.craterBiomeRad;
+			if(biome == BiomeGenCraterBase.craterInnerBiome) radiation = WorldConfig.craterBiomeInnerRad;
+			
+			if(entity.isWet()) radiation *= WorldConfig.craterBiomeWaterMult;
+			
+			if(radiation > 0) {
+				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, radiation / 20F);
 			}
 		}
 

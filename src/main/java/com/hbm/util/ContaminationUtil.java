@@ -254,7 +254,7 @@ public class ContaminationUtil {
 		DIGAMMA,			//preventable by fau armor or stability
 		DIGAMMA2,			//preventable by robes
 		CREATIVE,			//preventable by creative mode, for rad calculation armor piece bonuses still apply
-		RAD_BYPASS,			//same as craative but will not apply radiation resistance calculation
+		RAD_BYPASS,			//same as creative but will not apply radiation resistance calculation
 		NONE				//not preventable
 	}
 	

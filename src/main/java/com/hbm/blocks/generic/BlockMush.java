@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -47,17 +48,19 @@ public class BlockMush extends Block implements IGrowable, IPlantable {
 		}
 	}
 	
-	private static final Set<Block> canGrowOn = Sets.newHashSet(new Block[] {
-			ModBlocks.waste_earth,
-			ModBlocks.waste_mycelium,
-			ModBlocks.waste_trinitite,
-			ModBlocks.waste_trinitite_red,
-			ModBlocks.block_waste,
-			ModBlocks.block_waste_painted,
-			ModBlocks.block_waste_vitrified
-	});
+	private static final Set<Block> canGrowOn = new HashSet();
 	
 	public boolean canMushGrowHere(World world, int x, int y, int z) {
+		if(canGrowOn.isEmpty()) {
+			canGrowOn.add(ModBlocks.waste_earth);
+			canGrowOn.add(ModBlocks.waste_mycelium);
+			canGrowOn.add(ModBlocks.waste_trinitite);
+			canGrowOn.add(ModBlocks.waste_trinitite_red);
+			canGrowOn.add(ModBlocks.block_waste);
+			canGrowOn.add(ModBlocks.block_waste_painted);
+			canGrowOn.add(ModBlocks.block_waste_vitrified);
+		}
+		
 		Block block = world.getBlock(x, y - 1, z);
 		return canGrowOn.contains(block);
 	}
@@ -75,7 +78,7 @@ public class BlockMush extends Block implements IGrowable, IPlantable {
 	 */
 	@Override
 	public boolean func_149851_a(World world, int x, int y, int z, boolean b) {
-		return this.canMushGrowHere(world, x, y, z);
+		return canBlockStay(world, x, y, z);
 	}
 
 	/**

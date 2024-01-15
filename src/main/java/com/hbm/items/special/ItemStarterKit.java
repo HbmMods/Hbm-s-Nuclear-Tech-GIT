@@ -215,7 +215,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_lithium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_potato, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.screwdriver, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_coal_off, 3));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_excavator, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_diesel, 2));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_selenium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_cable, 64));

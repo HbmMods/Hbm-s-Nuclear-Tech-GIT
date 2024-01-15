@@ -5,9 +5,11 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.BufPacket;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -220,5 +222,28 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		float volume = 1 - (countMufflers() / (float)toSilence);
 		
 		return Math.max(volume, 0);
+	}
+	
+	public void updateRedstoneConnection(DirPos pos) {
+
+		int x = pos.getX();
+		int y = pos.getY();
+		int z = pos.getZ();
+		ForgeDirection dir = pos.getDir();
+		Block block1 = worldObj.getBlock(x, y, z);
+
+		block1.onNeighborChange(worldObj, x, y, z, xCoord, yCoord, zCoord);
+		block1.onNeighborBlockChange(worldObj, x, y, z, this.getBlockType());
+		if(block1.isNormalCube(worldObj, x, y, z)) {
+			x += dir.offsetX;
+			y += dir.offsetY;
+			z += dir.offsetZ;
+			Block block2 = worldObj.getBlock(x, y, z);
+
+			if(block2.getWeakChanges(worldObj, x, y, z)) {
+				block2.onNeighborChange(worldObj, x, y, z, xCoord, yCoord, zCoord);
+				block2.onNeighborBlockChange(worldObj, x, y, z, this.getBlockType());
+			}
+		}
 	}
 }

@@ -43,10 +43,10 @@ import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.tileentity.TileMappings;
 import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
-import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.*;
+import com.hbm.world.biome.BiomeGenCraterBase;
 import com.hbm.world.feature.BedrockOre;
 import com.hbm.world.feature.OreCave;
 import com.hbm.world.feature.OreLayer3D;
@@ -294,6 +294,8 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
 		OreDictManager.registerGroups(); //important to run first
 		OreDictManager.registerOres();
+		
+		BiomeGenCraterBase.initDictionary();
 
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");
@@ -861,7 +863,6 @@ public class MainRegistry {
 		ArmorUtil.register();
 		HazmatRegistry.registerHazmats();
 		FluidContainerRegistry.register();
-		TileEntityMachineReactorLarge.registerAll();
 		BlockToolConversion.registerRecipes();
 		AchievementHandler.register();
 
@@ -1191,6 +1192,24 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.bolt_dura_steel");
 		ignoreMappings.add("hbm:tile.rail_large_curve_wide");
 		ignoreMappings.add("hbm:tile.nuke_n45");
+		ignoreMappings.add("hbm:tile.machine_coal_off");
+		ignoreMappings.add("hbm:tile.machine_coal_on");
+		ignoreMappings.add("hbm:tile.machine_drill");
+		ignoreMappings.add("hbm:tile.drill_pipe");
+		ignoreMappings.add("hbm:tile.dummy_block_drill");
+		ignoreMappings.add("hbm:tile.dummy_port_drill");
+		ignoreMappings.add("hbm:tile.machine_combine_factory");
+		ignoreMappings.add("hbm:tile.watz_core");
+		ignoreMappings.add("hbm:tile.watz_hatch");
+		ignoreMappings.add("hbm:tile.marker_structure");
+		ignoreMappings.add("hbm:tile.reactor_element");
+		ignoreMappings.add("hbm:tile.reactor_control");
+		ignoreMappings.add("hbm:tile.reactor_hatch");
+		ignoreMappings.add("hbm:tile.reactor_ejector");
+		ignoreMappings.add("hbm:tile.reactor_inserter");
+		ignoreMappings.add("hbm:tile.reactor_conductor");
+		ignoreMappings.add("hbm:tile.reactor_computer");
+		ignoreMappings.add("hbm:tile.ff");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
