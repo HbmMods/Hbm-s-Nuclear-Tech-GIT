@@ -28,8 +28,8 @@ public class BiomeSyncPacket implements IMessage {
 	}
 	
 	public BiomeSyncPacket(int blockX, int blockZ, byte biome) {
-		this.chunkX = blockX << 4;
-		this.chunkZ = blockZ << 4;
+		this.chunkX = blockX >> 4;
+		this.chunkZ = blockZ >> 4;
 		this.blockX = (byte) (blockX & 15);
 		this.blockZ = (byte) (blockZ & 15);
 		this.biome = biome;
@@ -63,7 +63,6 @@ public class BiomeSyncPacket implements IMessage {
 			this.blockX = buf.readByte();
 			this.blockZ = buf.readByte();
 		} else {
-			buf.writeBoolean(true);
 			this.biomeArray = new byte[256];
 			for(int i = 0; i < 256; i++) {
 				this.biomeArray[i] = buf.readByte();
@@ -80,12 +79,15 @@ public class BiomeSyncPacket implements IMessage {
 			World world = Minecraft.getMinecraft().theWorld;
 			if(!world.getChunkProvider().chunkExists(m.chunkX, m.chunkZ)) return null;
 			Chunk chunk = world.getChunkFromChunkCoords(m.chunkX, m.chunkZ);
+			chunk.isModified = true;
 			
 			if(m.biomeArray == null) {
 				chunk.getBiomeArray()[(m.blockZ & 15) << 4 | (m.blockX & 15)] = m.biome;
+				world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, m.chunkX << 4, 255, m.chunkZ << 4);
 			} else {
 				for(int i = 0; i < 256; i++) {
 					chunk.getBiomeArray()[i] = m.biomeArray[i];
+					world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, (m.chunkX << 4) + 15, 255, (m.chunkZ << 4) + 15);
 				}
 			}
 			

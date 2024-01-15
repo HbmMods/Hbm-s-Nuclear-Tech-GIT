@@ -21,6 +21,18 @@ public class WorldUtil {
 	public static void setBiome(World world, int x, int z, BiomeGenBase biome) {
 		Chunk chunk = world.getChunkFromBlockCoords(x, z);
 		chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)] = (byte)(biome.biomeID & 255);
+		chunk.isModified = true;
+	}
+
+	public static void syncBiomeChange(World world, int x, int z) {
+		Chunk chunk = world.getChunkFromBlockCoords(x, z);
+		PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x, z, chunk.getBiomeArray()), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
+	}
+
+	public static void syncBiomeChangeBlock(World world, int x, int z) {
+		Chunk chunk = world.getChunkFromBlockCoords(x, z);
+		byte biome = chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)];
+		PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x, z, biome), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
 	}
 	
 	public static void syncBiomeChange(World world, Chunk chunk) {
@@ -68,12 +80,6 @@ public class WorldUtil {
 				world.onEntityAdded(entity);
 			}
 		}
-	}
-
-	public static void syncBiomeChange(World world, int x, int z) {
-		Chunk chunk = world.getChunkFromBlockCoords(x, z);
-		//byte biome = chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)];
-		PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x, z, chunk.getBiomeArray()), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
 	}
 	
 	public static Chunk provideChunk(WorldServer world, int chunkX, int chunkZ) {
