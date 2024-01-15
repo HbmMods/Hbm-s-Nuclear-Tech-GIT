@@ -19,8 +19,12 @@ import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemCoordinateBase;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
+import com.hbm.saveddata.satellites.Satellite.Interfaces;
+import com.hbm.saveddata.satellites.SatelliteHorizons;
 import com.hbm.saveddata.satellites.SatelliteLaser;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
@@ -28,6 +32,7 @@ import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Triplet;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.world.WorldUtil;
 
 import api.hbm.energy.IEnergyUser;
@@ -35,10 +40,12 @@ import api.hbm.entity.IRadarDetectable;
 import api.hbm.entity.IRadarDetectableNT;
 import api.hbm.entity.IRadarDetectableNT.RadarScanParams;
 import api.hbm.entity.RadarEntry;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -52,6 +59,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Now with SmЯt™ lag-free entity detection! (patent pending)
@@ -80,6 +88,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	public static int maxPower = 100_000;
 	public static int consumption = 500;
 	public static int radarRange = 1_000;
+	public static int radarLargeRange = 3_000;
 	public static int radarBuffer = 30;
 	public static int radarAltitude = 55;
 	public static int chunkLoadCap = 10;
@@ -100,6 +109,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		maxPower = IConfigurableMachine.grab(obj, "L:powerCap", maxPower);
 		consumption = IConfigurableMachine.grab(obj, "L:consumption", consumption);
 		radarRange = IConfigurableMachine.grab(obj, "I:radarRange", radarRange);
+		radarLargeRange = IConfigurableMachine.grab(obj, "I:radarLargeRange", radarLargeRange);
 		radarBuffer = IConfigurableMachine.grab(obj, "I:radarBuffer", radarBuffer);
 		radarAltitude = IConfigurableMachine.grab(obj, "I:radarAltitude", radarAltitude);
 		chunkLoadCap = IConfigurableMachine.grab(obj, "I:chunkLoadCap", chunkLoadCap);
@@ -111,6 +121,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		writer.name("L:powerCap").value(maxPower);
 		writer.name("L:consumption").value(consumption);
 		writer.name("I:radarRange").value(radarRange);
+		writer.name("I:radarLargeRange").value(radarLargeRange);
 		writer.name("I:radarBuffer").value(radarBuffer);
 		writer.name("I:radarAltitude").value(radarAltitude);
 		writer.name("B:generateChunks").value(generateChunks);
@@ -124,6 +135,10 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	public String getName() {
 		return "container.radar";
 	}
+	
+	public int getRange() {
+		return radarRange;
+	}
 
 	@Override
 	public void updateEntity() {
@@ -134,14 +149,19 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			
 			this.power = Library.chargeTEFromItems(slots, 9, power, maxPower);
 
-			if(worldObj.getTotalWorldTime() % 20 == 0) this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				for(DirPos pos : getConPos()) {
+					this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				}
+			}
 			
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			this.jammed = false;
 			allocateTargets();
 			
 			if(this.lastPower != getRedPower()) {
-				this.markDirty();
+				this.markChanged();
+				for(DirPos pos : getConPos()) this.updateRedstoneConnection(pos);
 			}
 			lastPower = getRedPower();
 			
@@ -159,11 +179,11 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 				int chunkLoads = 0;
 				for(int i = 0; i < 100; i++) {
 					int index = (int) (worldObj.getTotalWorldTime() % 400) * 100 + i;
-					int iX = (index % 200) * radarRange * 2 / 200;
-					int iZ = index / 200 * radarRange * 2 / 200;
+					int iX = (index % 200) * getRange() * 2 / 200;
+					int iZ = index / 200 * getRange() * 2 / 200;
 					
-					int x = xCoord - radarRange + iX;
-					int z = zCoord - radarRange + iZ;
+					int x = xCoord - getRange() + iX;
+					int z = zCoord - getRange() + iZ;
 					
 					if(worldObj.getChunkProvider().chunkExists(x >> 4, z >> 4)) {
 						this.map[index] = (byte) MathHelper.clamp_int(worldObj.getHeightValue(x, z), 50, 128);
@@ -213,6 +233,15 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 				prevRotation -= 360F;
 			}
 		}
+	}
+	
+	public DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
+		};
 	}
 	
 	@Override
@@ -339,7 +368,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			/// PROXIMITY ///
 			if(redMode) {
 				
-				double maxRange = WeaponConfig.radarRange * Math.sqrt(2D);
+				double maxRange = this.getRange() * Math.sqrt(2D);
 				int power = 0;
 				
 				for(int i = 0; i < entries.size(); i++) {
@@ -426,6 +455,16 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 						worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
 						sat.onClick(world, x, z);
 					}
+				}
+				if(sat instanceof SatelliteHorizons) {
+					if(data.hasKey("launchPosX")) {
+						int x = data.getInteger("launchPosX");
+						int z = data.getInteger("launchPosZ");
+						int y = 60; //one day I will make radars transmit Y coordinate as well and you will be butchered alhamdulila
+						worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
+						sat.onCoordAction(world,player,x,y,z);
+					}
+
 				}
 				
 				

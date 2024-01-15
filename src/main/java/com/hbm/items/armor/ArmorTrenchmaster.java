@@ -50,6 +50,7 @@ public class ArmorTrenchmaster extends ArmorFSB {
 
 	@Override
 	public void handleHurt(LivingHurtEvent event) {
+		super.handleHurt(event);
 
 		EntityLivingBase e = event.entityLiving;
 
@@ -68,6 +69,7 @@ public class ArmorTrenchmaster extends ArmorFSB {
 	
 	@Override
 	public void handleAttack(LivingAttackEvent event) {
+		super.handleAttack(event);
 
 		EntityLivingBase e = event.entityLiving;
 

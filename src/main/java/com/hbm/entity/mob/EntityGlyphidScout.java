@@ -81,6 +81,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 						target.setLocationAndAngles(dirVec.xCoord, dirVec.yCoord, dirVec.zCoord, 0, 0);
 						target.maxAge = 300;
 						target.radius = 6;
+						target.setWaypointType(TASK_BUILD_HIVE);
 						worldObj.spawnEntityInWorld(target);
 						hasTarget = true;
 
@@ -110,6 +111,10 @@ public class EntityGlyphidScout extends EntityGlyphid {
 					this.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 180 * 20, 1));
 					hasTarget = true;
 				}
+			}
+			//fixes edge case where glyphids have no task and yet hasTarget is true
+			if(taskWaypoint == null && hasTarget){
+				hasTarget = false;
 			}
 
 			if (getCurrentTask() == TASK_TERRAFORM && super.isAtDestination() && canBuildHiveHere()) {
@@ -290,6 +295,14 @@ public class EntityGlyphidScout extends EntityGlyphid {
 	public boolean useExtendedTargeting() {
 		return false;
 	}
+
+	@Override
+	protected Entity findPlayerToAttack() {
+		if(this.isPotionActive(Potion.blindness)) return null;
+		//no extended targeting, and a low attack distance, ensures the scouts are focused in expanding, and not in chasing the player
+		return this.worldObj.getClosestVulnerablePlayerToEntity(this, 10);
+	}
+
 
 	///RAMPANT MODE STUFFS
 

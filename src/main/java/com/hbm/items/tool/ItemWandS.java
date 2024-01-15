@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.world.machine.FWatz;
-import com.hbm.world.machine.NuclearReactor;
-import com.hbm.world.machine.Watz;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -19,10 +17,8 @@ public class ItemWandS extends Item {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
 	{
-		list.add("Creative-only item");
-		list.add("\"Instant structures for everyone!\"");
-		list.add("(Cycle with shift-right click,");
-		list.add("spawn structures with right click!)");
+		list.add("DEPRECATED");
+		
 		if(itemstack.stackTagCompound != null)
 		{
 			switch(itemstack.stackTagCompound.getInteger("building"))
@@ -58,10 +54,8 @@ public class ItemWandS extends Item {
 			switch(stack.stackTagCompound.getInteger("building"))
 			{
 			case 0:
-				new NuclearReactor().generate(world, rand, x, up ? y : y - 4, z);
 				break;
 			case 1:
-				new Watz().generate(world, rand, x, up ? y : y - 12, z);
 				break;
 			case 2:
 				new FWatz().generateHull(world, rand, x, up ? y : y - 18, z);
