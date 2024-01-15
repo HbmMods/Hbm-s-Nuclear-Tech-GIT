@@ -297,23 +297,23 @@ public class ItemRBMKRod extends Item {
 			String enrichmentMod = "" + ((int)(enrichment * 1000D) / 1000D);
 
 			switch(this.function) {
-				case PASSIVE: function = EnumChatFormatting.RED + "" + selfRate + EnumChatFormatting.GOLD + " * " + enrichmentMod;
+				case PASSIVE: function = EnumChatFormatting.RED + "" + selfRate + EnumChatFormatting.YELLOW + " * " + enrichmentMod;
 					break;
-				case LOG_TEN: function = "log10(%1$s " + EnumChatFormatting.GOLD + "* %3$s " + EnumChatFormatting.WHITE + "+ 1) * %2$s / 2";
+				case LOG_TEN: function = "log10(%1$s " + EnumChatFormatting.YELLOW + "* %3$s" + EnumChatFormatting.WHITE + " + 1) * %2$s / 2";
 					break;
-				case PLATEU: function = "(1 - e^-(%1$s " + EnumChatFormatting.GOLD + "* %3$s" + EnumChatFormatting.WHITE + ") / 25) * %2$s";
+				case PLATEU: function = "(1 - e^-(%1$s " + EnumChatFormatting.YELLOW + "* %3$s" + EnumChatFormatting.WHITE + ") / 25) * %2$s";
 					break;
-				case ARCH: function = "(%1$s " + EnumChatFormatting.GOLD + "* %3$s " + EnumChatFormatting.WHITE + "- (%1$s " + EnumChatFormatting.GOLD + "* %3$s" + EnumChatFormatting.WHITE + ")² / 10000) * %2$s / 100";
+				case ARCH: function = "(%1$s " + EnumChatFormatting.YELLOW + "* %3$s" + EnumChatFormatting.WHITE + " - (%1$s " + EnumChatFormatting.YELLOW + "* %3$s" + EnumChatFormatting.WHITE + ")² / 10000) * %2$s / 100";
 					break;
-				case SIGMOID: function = "%2$s / (1 + e^(5 - %1$s " + EnumChatFormatting.GOLD + "* %3$s " + EnumChatFormatting.WHITE + "/ 10)";
+				case SIGMOID: function = "%2$s / (1 + e^(5 - %1$s " + EnumChatFormatting.YELLOW + "* %3$s" + EnumChatFormatting.WHITE + " / 10)";
 					break;
-				case SQUARE_ROOT: function = "sqrt(%1$s" + EnumChatFormatting.GOLD + " * %3$s" + EnumChatFormatting.WHITE + ") * %2$s / 10";
+				case SQUARE_ROOT: function = "sqrt(%1$s " + EnumChatFormatting.YELLOW + "* %3$s" + EnumChatFormatting.WHITE + ") * %2$s / 10";
 					break;
-				case LINEAR: function = "%1$s " + EnumChatFormatting.GOLD + "* %3$s " + EnumChatFormatting.WHITE + "* %2$s / 100";
+				case LINEAR: function = "%1$s " + EnumChatFormatting.YELLOW + "* %3$s" + EnumChatFormatting.WHITE + " * %2$s / 100";
 					break;
-				case QUADRATIC: function = "(%1$s " + EnumChatFormatting.GOLD + "* %3$s " + EnumChatFormatting.WHITE + ")² * %2$s / 10000";
+				case QUADRATIC: function = "(%1$s " + EnumChatFormatting.YELLOW + "* %3$s" + EnumChatFormatting.WHITE + ")² * %2$s / 10000";
 					break;
-				case EXPERIMENTAL: function = "%1$s " + EnumChatFormatting.GOLD + "* %3$s " + EnumChatFormatting.WHITE + "* (sin(%1$s " + EnumChatFormatting.GOLD + "* %3$s" + EnumChatFormatting.WHITE + ") + 1) * %2$s";
+				case EXPERIMENTAL: function = "%1$s " + EnumChatFormatting.YELLOW + "* %3$s" + EnumChatFormatting.WHITE + " * (sin(%1$s " + EnumChatFormatting.YELLOW + "* %3$s" + EnumChatFormatting.WHITE + ") + 1) * %2$s";
 					break;
 				default: function = "ERROR";
 			}
