@@ -1,5 +1,13 @@
+## Added
+* Pipettes
+  * Precision tools for carrying small amounts of liquids
+  * Come in three variants, normal, boron (corrosion-resistant) and laboratory (smaller capacity, more precision)
+  * Unlike most fluid containers, can be partially filled
+  * Capacity can be changed by right-clicking if the pipette is empty
+
 ## Changed
-* there is now a config option to disable the biome change caused by fallout. The config will also determine whether the biomes are registered at all, which prevents them from conflicting with other mods' biomes when disabled.
+* There is now a config option to disable the biome change caused by fallout. The config will also determine whether the biomes are registered at all, which prevents them from conflicting with other mods' biomes when disabled.
+* Chemical plants now have a timer that starts after loading/unloading fluids using item fluid containers from the input buffers, this creates a delay between switching from loading and unloading, making it possible to retrieve fluids using pipettes.
 
 ## Fixed
 * Fixed trenchmaster armor not doing most of the armor calculation, making it the worst armor

@@ -131,6 +131,7 @@ public class ToolRecipes {
 
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pipette, 1), new Object[] { "  L", " G ", "G  ", 'L', ANY_RUBBER.ingot(), 'G', KEY_CLEARGLASS});
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pipette_boron, 1), new Object[] { "  P", " B ", "B  ", 'P', RUBBER.ingot(), 'B', ModBlocks.glass_boron});
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pipette_laboratory, 1), new Object[] { "  C", " R ", "P  ", 'C', ModItems.circuit_aluminium, 'R', RUBBER.ingot(), 'P', ModItems.pipette_boron });
 
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.mirror_tool), new Object[] { " A ", " IA", "I  ", 'A', AL.ingot(), 'I', IRON.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rbmk_tool), new Object[] { " A ", " IA", "I  ", 'A', PB.ingot(), 'I', IRON.ingot() });
