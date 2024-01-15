@@ -139,10 +139,10 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
 		return new DirPos[] {
-				new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ, rot),
-				new DirPos(xCoord - rot.offsetX - dir.offsetX, yCoord, zCoord - rot.offsetZ - dir.offsetZ, rot.getOpposite()),
+				new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX,     yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ, rot),
+				new DirPos(xCoord - rot.offsetX     - dir.offsetX,     yCoord, zCoord - rot.offsetZ     - dir.offsetZ, rot.getOpposite()),
 				new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX * 5, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ * 5, rot),
-				new DirPos(xCoord - rot.offsetX - dir.offsetX * 5, yCoord, zCoord - rot.offsetZ + dir.offsetZ * 5, rot.getOpposite())
+				new DirPos(xCoord - rot.offsetX     - dir.offsetX * 5, yCoord, zCoord - rot.offsetZ     - dir.offsetZ * 5, rot.getOpposite())
 			};
 	}
 
@@ -192,8 +192,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 	@Override
 	public boolean standardCheck(World world, int x, int y, int z, ForgeDirection side, Mats.MaterialStack stack) {
-		if(this.type != null && this.type != stack.material)
-			return false;
+		if(this.type != null && this.type != stack.material) return false;
 		return !(this.amount >= this.getCapacity() || getInstalledMold() == null);
 	}
 
@@ -210,9 +209,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 	private void updateConnections() {
 		for(DirPos pos : getFluidConPos()) {
 			this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
-		for(DirPos pos : getFluidConPos()) {
-			sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 
