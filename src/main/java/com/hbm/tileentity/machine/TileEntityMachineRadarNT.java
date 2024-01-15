@@ -8,7 +8,6 @@ import java.util.function.Function;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.WeaponConfig;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachineRadarNT;
@@ -19,11 +18,8 @@ import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemCoordinateBase;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
-import com.hbm.saveddata.satellites.Satellite.Interfaces;
 import com.hbm.saveddata.satellites.SatelliteHorizons;
 import com.hbm.saveddata.satellites.SatelliteLaser;
 import com.hbm.tileentity.IConfigurableMachine;
@@ -40,12 +36,10 @@ import api.hbm.entity.IRadarDetectable;
 import api.hbm.entity.IRadarDetectableNT;
 import api.hbm.entity.IRadarDetectableNT.RadarScanParams;
 import api.hbm.entity.RadarEntry;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -59,7 +53,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Now with SmЯt™ lag-free entity detection! (patent pending)
@@ -462,12 +455,9 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 						int z = data.getInteger("launchPosZ");
 						int y = 60; //one day I will make radars transmit Y coordinate as well and you will be butchered alhamdulila
 						worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1.0F, 1.0F);
-						sat.onCoordAction(world,player,x,y,z);
+						sat.onCoordAction(world, player, x, y, z);
 					}
-
 				}
-				
-				
 			}
 			if(link != null && link.getItem() == ModItems.radar_linker) {
 				BlockPos pos = ItemCoordinateBase.getPosition(link);

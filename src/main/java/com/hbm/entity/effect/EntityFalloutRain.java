@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.FalloutConfigJSON.FalloutEntry;
+import com.hbm.config.WorldConfig;
 import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.world.WorldUtil;
@@ -114,6 +115,7 @@ public class EntityFalloutRain extends Entity {
 	}
 	
 	public static BiomeGenBase getBiomeChange(double dist, int scale) {
+		if(!WorldConfig.enableCraterBiomes) return null;
 		if(scale >= 150 && dist < 15)	return BiomeGenCraterBase.craterInnerBiome;
 		if(scale >= 100 && dist < 55)	return BiomeGenCraterBase.craterBiome;
 		if(scale >= 25)					return BiomeGenCraterBase.craterOuterBiome;
@@ -160,6 +162,7 @@ public class EntityFalloutRain extends Entity {
 			Block b = worldObj.getBlock(x, y, z);
 
 			if(b.getMaterial() == Material.air) continue;
+			if(b == Blocks.bedrock) return;
 			
 			Block ab = worldObj.getBlock(x, y + 1, z);
 			int meta = worldObj.getBlockMetadata(x, y, z);
