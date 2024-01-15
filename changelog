@@ -8,9 +8,16 @@
 ## Changed
 * There is now a config option to disable the biome change caused by fallout. The config will also determine whether the biomes are registered at all, which prevents them from conflicting with other mods' biomes when disabled.
 * Chemical plants now have a timer that starts after loading/unloading fluids using item fluid containers from the input buffers, this creates a delay between switching from loading and unloading, making it possible to retrieve fluids using pipettes.
+* In addition to delaying overheats, efficiency upgrades now reduce the cyclotron's coolant demand
+* Removed the tooltips from common upgrades, as the info was incomplete and outdated anyway
+* Meteorite swords now render their variant glint in first person view
+* Meteorite swords are now a lot larger, similar to most other NTM swords
+* Non-custom missile items now render in 3D
 
 ## Fixed
 * Fixed trenchmaster armor not doing most of the armor calculation, making it the worst armor
 * Fixed glowing mushrooms not being able to be bonemealed
 * Fixed strand caster having one port that does not work with certain rotations
 * Fixed fallout being able to replace bedrock
+* Fixed the upgrade info of the large mining drill being incorrect
+* Fixed cyclotron not having the new upgrade info tooltip

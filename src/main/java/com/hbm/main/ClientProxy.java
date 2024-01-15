@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -90,6 +91,7 @@ import com.hbm.render.entity.mob.*;
 import com.hbm.render.entity.projectile.*;
 import com.hbm.render.entity.rocket.*;
 import com.hbm.render.item.*;
+import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.render.item.block.*;
 import com.hbm.render.item.weapon.*;
 import com.hbm.render.loader.HmfModelLoader;
@@ -415,10 +417,36 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.cmb_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
 		MinecraftForgeClient.registerItemRenderer(ModItems.dnt_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
 		
-		/*for(ItemSwordMeteorite sword : ItemSwordMeteorite.swords) {
-			MinecraftForgeClient.registerItemRenderer(sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
-		}*/
-		
+		ItemRenderMissileGeneric.init();
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_taint, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER0));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_micro, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER0));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_bhole, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER0));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_schrabidium, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER0));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_emp, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER0));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_stealth, new ItemRenderMissileGeneric(RenderMissileType.TYPE_STEALTH));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_generic, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER1));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_incendiary, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER1));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_cluster, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER1));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_buster, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER1));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_decoy, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER1));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_anti_ballistic, new ItemRenderMissileGeneric(RenderMissileType.TYPE_ABM));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_strong, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER2));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_incendiary_strong, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER2));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_cluster_strong, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER2));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_buster_strong, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER2));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_emp_strong, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER2));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_burst, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER3));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_inferno, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER3));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_rain, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER3));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_drill, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER3));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_nuclear, new ItemRenderMissileGeneric(RenderMissileType.TYPE_NUCLEAR));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_nuclear_cluster, new ItemRenderMissileGeneric(RenderMissileType.TYPE_NUCLEAR));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_volcano, new ItemRenderMissileGeneric(RenderMissileType.TYPE_NUCLEAR));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_endo, new ItemRenderMissileGeneric(RenderMissileType.TYPE_THERMAL));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_exo, new ItemRenderMissileGeneric(RenderMissileType.TYPE_THERMAL));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_doomsday, new ItemRenderMissileGeneric(RenderMissileType.TYPE_DOOMSDAY));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_carrier, new ItemRenderMissileGeneric(RenderMissileType.TYPE_CARRIER));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_shuttle, new ItemRenderMissileGeneric(RenderMissileType.TYPE_ROBIN));
 		
 		//test crap
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.test_bomb_advanced), new ItemRenderTestBombAdvanced());

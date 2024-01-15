@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.logic.EntityBalefire;
@@ -21,12 +22,15 @@ import com.hbm.inventory.gui.GUIMachineCyclotron;
 import com.hbm.inventory.recipes.CyclotronRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IConditionalInvAccess;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -42,14 +46,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCyclotron extends TileEntityMachineBase implements IFluidSource, IFluidAcceptor, IEnergyUser, IFluidStandardTransceiver, IGUIProvider, IConditionalInvAccess {
+public class TileEntityMachineCyclotron extends TileEntityMachineBase implements IFluidSource, IFluidAcceptor, IEnergyUser, IFluidStandardTransceiver, IGUIProvider, IConditionalInvAccess, IUpgradeInfoProvider {
 	
 	public long power;
 	public static final long maxPower = 100000000;
-	public int consumption = 1000000;
+	public int consumption = 1_000_000;
 	
 	public boolean isOn;
 	
@@ -98,7 +103,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 			
 			if(isOn) {
 				
-				int defConsumption = consumption - 100000 * getConsumption();
+				int defConsumption = consumption - 100_000 * getConsumption();
 				
 				if(canProcess() && power >= defConsumption) {
 					
@@ -111,14 +116,16 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 						this.markDirty();
 					}
 					
+					int safety = this.getSafety();
+					
 					if(coolant.getFill() > 0) {
 
 			    		countdown = 0;
 						
-						if(worldObj.rand.nextInt(3) == 0)
+						if(worldObj.rand.nextInt(3 * safety) == 0)
 							coolant.setFill(coolant.getFill() - 1);
 						
-					} else if(worldObj.rand.nextInt(this.getSafety()) == 0) {
+					} else if(worldObj.rand.nextInt(safety) == 0) {
 						
 						countdown++;
 						
@@ -575,5 +582,33 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		}
 		
 		return new int[] {6, 7, 8};
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.EFFECT;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_cyclotron));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level + 1)) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 10) + "%"));
+		}
+		if(type == UpgradeType.EFFECT) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_COOLANT_CONSUMPTION, "-" + (100 - 100 / (level + 1)) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_OVERHEAT_CHANCE, "-" + (100 - 100 / (level + 1)) + "%"));
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		if(type == UpgradeType.POWER) return 3;
+		if(type == UpgradeType.EFFECT) return 3;
+		return 0;
 	}
 }

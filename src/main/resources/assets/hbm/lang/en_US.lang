@@ -5668,9 +5668,11 @@ turret.players=Target Players: %s
 upgrade.acid=Acid required %s
 upgrade.burn=Burn %smb/t for %sHE
 upgrade.consumption=Consumption %s
+upgrade.coolantConsumption=Coolant Consumption %s
 upgrade.delay=Process time %s
 upgrade.efficiency=Efficiency %s
 upgrade.fortune=Fortune %s
+upgrade.overheatChance=Overheat chance %s
 upgrade.range=Range %s
 
 upgrade.gui.title=§lAcceptable Upgrades:§r
