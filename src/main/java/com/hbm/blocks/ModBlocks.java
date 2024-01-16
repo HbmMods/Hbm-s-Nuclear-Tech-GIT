@@ -3675,7 +3675,6 @@ public class ModBlocks {
 		register(machine_turbinegas);
 		GameRegistry.registerBlock(machine_schrabidium_transmutator, machine_schrabidium_transmutator.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_discharger, machine_discharger.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_combine_factory, machine_combine_factory.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_teleporter, machine_teleporter.getUnlocalizedName());
 		GameRegistry.registerBlock(teleanchor, teleanchor.getUnlocalizedName());
 		GameRegistry.registerBlock(field_disturber, field_disturber.getUnlocalizedName());

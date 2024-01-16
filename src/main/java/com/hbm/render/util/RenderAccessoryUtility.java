@@ -129,6 +129,7 @@ public class RenderAccessoryUtility {
 		}
 		if(uuid.equals(Library.DUODEC_)) {
 			return gwen;
+		}
 		if(uuid.equals(Library.Alcater)) {
 			return alcater;
 		}

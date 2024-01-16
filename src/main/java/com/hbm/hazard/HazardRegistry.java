@@ -467,12 +467,12 @@ public class HazardRegistry {
 		registerRBMKPellet(rbmk_pellet_ra226be, rabe * billet, rabe * billet * 0.4F, true);
 		registerRBMKPellet(rbmk_pellet_pu238be, pube * billet, wst * 1.5F);
 		registerRBMKPellet(rbmk_pellet_balefire_gold, au198 * billet, bf * billet * 0.5F, true);
-		registerRBMKPellet(rbmk_pellet_flashlead, pb209 * 1.25F * billet, pb209 * nugget * 0.05F, true, 0, 0, pb209 * billet * 0.008f );
+		registerRBMKPellet(rbmk_pellet_flashlead, pb209 * 1.25F * billet, pb209 * nugget * 0.05F, true, 0, 0);
 		registerRBMKPellet(rbmk_pellet_balefire, bf * billet, bf * billet * 100F, true);
 		registerRBMKPellet(rbmk_pellet_zfb_bismuth, pu241 * billet * 0.1F, wst * billet * 5F);
 		registerRBMKPellet(rbmk_pellet_zfb_pu241, pu239 * billet * 0.1F, wst * billet * 7.5F);
 		registerRBMKPellet(rbmk_pellet_zfb_am_mix, pu241 * billet * 0.1F, wst * billet * 10F);
-		registerRBMKPellet(rbmk_pellet_drx, bf * billet, bf * billet * 100F, true, 0F, 1F/24F, 0);
+		registerRBMKPellet(rbmk_pellet_drx, bf * billet, bf * billet * 100F, true, 0F, 1F/24F);
 		registerRBMKPellet(rbmk_pellet_lecm, cmrg * billet, wst * cf252 * 2.5F);
 		registerRBMKPellet(rbmk_pellet_mecm, cmrg * billet, wst * cf252 * 2.6F);
 		registerRBMKPellet(rbmk_pellet_hecm, cmrg * billet, wst * cf252 * 2.7F);
@@ -618,7 +618,6 @@ public class HazardRegistry {
 		data.addEntry(new HazardEntry(RADIATION, base).addMod(new HazardModifierRBMKRadiation(dep, linear)));
 		if(blinding > 0) data.addEntry(new HazardEntry(BLINDING, blinding));
 		if(digamma > 0) data.addEntry(new HazardEntry(DIGAMMA, digamma));
-		if(neutron > 0) data.addEntry(new HazardEntry(NEUTRON, neutron).addMod(new HazardModifierRBMKRadiation(dep / neutron, linear)));
 		HazardSystem.register(pellet, data);
 	}
 	
