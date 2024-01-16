@@ -85,9 +85,9 @@ public class ArcWelderRecipes extends SerializableRecipe {
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.thruster_medium), 100, 2_000L, new OreDictStack(STEEL.plate(), 8), new ComparableStack(ModItems.motor, 1), new OreDictStack(GRAPHITE.ingot(), 8)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.thruster_large), 200, 5_000L, new OreDictStack(DURA.ingot(), 12), new ComparableStack(ModItems.motor, 2), new OreDictStack(OreDictManager.getReflector(), 16)));
 
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.fuel_tank_small), 60, 1_000L, new OreDictStack(Fluids.ETHANOL.getDict(1_000), 6), new OreDictStack(TI.plate(), 6), new OreDictStack(STEEL.plate(), 2)));
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.fuel_tank_small), 60, 1_000L, new OreDictStack(Fluids.ETHANOL.getDict(1_000), 6), new OreDictStack(AL.plate(), 6), new OreDictStack(STEEL.plate(), 2)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.fuel_tank_medium), 100, 2_000L, new OreDictStack(Fluids.KEROSENE.getDict(1_000), 8), new OreDictStack(TI.plate(), 12), new OreDictStack(STEEL.plate(), 4)));
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.fuel_tank_large), 200, 5_000L, new OreDictStack(Fluids.KEROSENE.getDict(1_000), 12), new OreDictStack(TI.plate(), 24), new OreDictStack(STEEL.plate(), 8)));
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.fuel_tank_large), 200, 5_000L, new OreDictStack(Fluids.KEROSENE.getDict(1_000), 12), new OreDictStack(TI.plate(), 24), new OreDictStack(STEEL.plateCast(), 3)));
 
 		//Missiles
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.missile_generic), 100, 5_000L, new ComparableStack(ModItems.warhead_generic_small), new ComparableStack(ModItems.fuel_tank_small), new ComparableStack(ModItems.thruster_small)));

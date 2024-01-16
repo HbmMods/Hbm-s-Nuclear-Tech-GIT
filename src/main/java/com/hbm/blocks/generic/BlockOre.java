@@ -130,7 +130,7 @@ public class BlockOre extends Block {
 			case 23:
 				return Item.getItemFromBlock(ModBlocks.fusion_conductor);
 			case 24:
-				return Item.getItemFromBlock(ModBlocks.reactor_computer);
+				return Item.getItemFromBlock(ModBlocks.pwr_fuel);
 			case 25:
 				return Item.getItemFromBlock(ModBlocks.machine_diesel);
 			case 26:
@@ -214,6 +214,10 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.moho_sulfur) {
 			return ModItems.sulfur;
 		}
+		if(this == ModBlocks.block_meteor_molten) {
+			return null;
+		}
+
 		return Item.getItemFromBlock(this);
 	}
 
@@ -358,8 +362,7 @@ public class BlockOre extends Block {
 	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int i) {
 
 		if(this == ModBlocks.block_meteor_molten) {
-			if(!world.isRemote)
-				world.setBlock(x, y, z, Blocks.lava);
+			if(!world.isRemote) world.setBlock(x, y, z, Blocks.lava);
 		}
 	}
 }

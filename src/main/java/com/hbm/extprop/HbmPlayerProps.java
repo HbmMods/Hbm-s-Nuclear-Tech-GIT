@@ -45,6 +45,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	
 	public int reputation;
 	
+	public boolean isOnLadder = false;
+	
 	public HbmPlayerProps(EntityPlayer player) {
 		this.player = player;
 	}
@@ -155,7 +157,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public void saveNBTData(NBTTagCompound nbt) {
 		
 		NBTTagCompound props = new NBTTagCompound();
-		
+
 		props.setBoolean("hasReceivedBook", hasReceivedBook);
 		props.setFloat("shield", shield);
 		props.setFloat("maxShield", maxShield);
@@ -163,6 +165,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		props.setBoolean("enableBackpack", enableBackpack);
 		props.setBoolean("enableHUD", enableHUD);
 		props.setInteger("reputation", reputation);
+		props.setBoolean("isOnLadder", isOnLadder);
 		
 		nbt.setTag("HbmPlayerProps", props);
 	}
@@ -180,6 +183,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 			this.enableBackpack = props.getBoolean("enableBackpack");
 			this.enableHUD = props.getBoolean("enableHUD");
 			this.reputation = props.getInteger("reputation");
+			this.isOnLadder = props.getBoolean("isOnLadder");
 		}
 	}
 }

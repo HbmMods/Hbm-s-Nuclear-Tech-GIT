@@ -80,7 +80,11 @@ public class ShredderRecipes extends SerializableRecipe {
 				}
 			}
 			
-			if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
+			if(name.length() > 7 && name.substring(0, 8).equals("dustTiny")) {
+				for(ItemStack stack : matches) {
+					putIfValid(stack, new ItemStack(ModItems.dust_tiny), name);
+				}
+			} else if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
 				for(ItemStack stack : matches) {
 					putIfValid(stack, new ItemStack(ModItems.dust), name);
 				}
@@ -133,6 +137,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		/* Primary recipes */
 		ShredderRecipes.setRecipe(ModItems.scrap, new ItemStack(ModItems.dust));
 		ShredderRecipes.setRecipe(ModItems.dust, new ItemStack(ModItems.dust));
+		ShredderRecipes.setRecipe(ModItems.dust_tiny, new ItemStack(ModItems.dust_tiny));
 		ShredderRecipes.setRecipe(Blocks.glowstone, new ItemStack(Items.glowstone_dust, 4));
 		ShredderRecipes.setRecipe(new ItemStack(Blocks.quartz_block, 1, 0), new ItemStack(ModItems.powder_quartz, 4));
 		ShredderRecipes.setRecipe(new ItemStack(Blocks.quartz_block, 1, 1), new ItemStack(ModItems.powder_quartz, 4));

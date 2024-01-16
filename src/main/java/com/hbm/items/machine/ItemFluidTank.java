@@ -15,7 +15,7 @@ import net.minecraft.util.StatCollector;
 
 public class ItemFluidTank extends Item {
 
-	IIcon overlayIcon;
+	protected IIcon overlayIcon;
 
 	public ItemFluidTank() {
 		this.setHasSubtypes(true);

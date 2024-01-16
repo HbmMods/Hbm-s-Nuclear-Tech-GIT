@@ -74,7 +74,7 @@ public class ItemWatzPellet extends ItemEnumMulti {
 			this.colorDark = colorDark;
 			this.passive = passive;
 			this.heatEmission = heatEmission;
-			this.mudContent = mudContent;
+			this.mudContent = mudContent / 2D;
 			this.burnFunc = burnFunction;
 			this.heatDiv = heatDivisor;
 			this.absorbFunc = absorbFunction;

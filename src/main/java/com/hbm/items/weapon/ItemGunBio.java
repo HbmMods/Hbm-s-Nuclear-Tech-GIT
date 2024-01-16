@@ -22,7 +22,6 @@ public class ItemGunBio extends ItemGunBase {
 		super(config);
 	}
 	
-	/* just a test */
 	public static long lastShot;
 	public static List<double[]> smokeNodes = new ArrayList();
 	
@@ -66,8 +65,6 @@ public class ItemGunBio extends ItemGunBase {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public BusAnimation getAnimation(ItemStack stack, AnimType type) {
-		//GunConfiguration config = ((ItemGunBase) stack.getItem()).mainConfig;
-		//return config.animations.get(type);
 		
 		 if(type == AnimType.CYCLE) {
 			lastShot = System.currentTimeMillis();

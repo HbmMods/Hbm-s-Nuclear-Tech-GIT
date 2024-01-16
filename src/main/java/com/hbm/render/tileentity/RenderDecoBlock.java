@@ -13,7 +13,6 @@ import com.hbm.render.model.ModelSteelCorner;
 import com.hbm.render.model.ModelSteelRoof;
 import com.hbm.render.model.ModelSteelScaffold;
 import com.hbm.render.model.ModelSteelWall;
-import com.hbm.tileentity.deco.TileEntityBomber;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -229,33 +228,6 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	            GL11.glEnable(GL11.GL_CULL_FACE);
 	        	bindTexture(ResourceManager.duchessgambit_tex);
 	        	ResourceManager.duchessgambit.renderAll();
-			}
-			
-			if(tileentity instanceof TileEntityBomber)
-			{
-				TileEntityBomber bomber = (TileEntityBomber)tileentity;
-
-				float yaw = (float)(((double)bomber.yaw) / 180D * Math.PI);
-				float pitch = (float)(((double)bomber.pitch) / 180D * Math.PI);
-				
-		        GL11.glRotatef(yaw - 90.0F, 0.0F, 1.0F, 0.0F);
-		        GL11.glRotatef(90, 0F, 0F, 1F);
-		        GL11.glRotatef(pitch, 0.0F, 0.0F, 1.0F);
-
-		        GL11.glEnable(GL11.GL_LIGHTING);
-		        GL11.glDisable(GL11.GL_CULL_FACE);
-		        GL11.glScalef(5F, 5F, 5F);
-	            
-	            int i = bomber.type;
-	            
-	            switch(i) {
-	            case 0: bindTexture(ResourceManager.dornier_0_tex); break;
-	            case 1: bindTexture(ResourceManager.dornier_1_tex); break;
-	            case 2: bindTexture(ResourceManager.dornier_2_tex); break;
-	            default: bindTexture(ResourceManager.dornier_1_tex); break;
-	            }
-
-	        	ResourceManager.dornier.renderAll();
 			}
 			
 			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_radar) {

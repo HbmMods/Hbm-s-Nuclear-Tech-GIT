@@ -18,20 +18,7 @@ import com.hbm.tileentity.machine.storage.TileEntitySafe;
 import com.hbm.tileentity.machine.storage.TileEntitySoyuzCapsule;
 import com.hbm.util.LootGenerator;
 import com.hbm.util.WeightedRandomGeneric;
-import com.hbm.world.dungeon.AncientTomb;
-import com.hbm.world.dungeon.Antenna;
-import com.hbm.world.dungeon.ArcticVault;
-import com.hbm.world.dungeon.Barrel;
-import com.hbm.world.dungeon.CrashedVertibird;
-import com.hbm.world.dungeon.DesertAtom001;
-import com.hbm.world.dungeon.Factory;
-import com.hbm.world.dungeon.LibraryDungeon;
-import com.hbm.world.dungeon.Radio01;
-import com.hbm.world.dungeon.Relay;
-import com.hbm.world.dungeon.Satellite;
-import com.hbm.world.dungeon.Silo;
-import com.hbm.world.dungeon.Spaceship;
-import com.hbm.world.dungeon.Vertibird;
+import com.hbm.world.dungeon.*;
 import com.hbm.world.feature.BedrockOre;
 import com.hbm.world.feature.BedrockOre.BedrockOreDefinition;
 import com.hbm.world.feature.DepthDeposit;
@@ -254,7 +241,13 @@ public class HbmWorldGen implements IWorldGenerator {
 				int x = i + rand.nextInt(16) + 8;
 				int z = j + rand.nextInt(16) + 8;
 				int y = world.getHeightValue(x, z);
-				if(world.getBlock(x, y - 1, z).isNormalCube()) GlyphidHive.generate(world, x, y, z, rand);
+				
+				for(int k = 3; k >= -1; k--) {
+					if(world.getBlock(x, y - 1 + k, z).isNormalCube()) {
+						GlyphidHive.generateSmall(world, x, y + k, z, rand, rand.nextInt(10) == 0, true);
+						break;
+					}
+				}
 			}
 
 			if(biome == BiomeGenBase.plains || biome == BiomeGenBase.desert) {
@@ -377,6 +370,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				new Dud().generate(world, rand, x, y, z);
 			}
 
+
 			if(WorldConfig.spaceshipStructure > 0 && rand.nextInt(WorldConfig.spaceshipStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
@@ -384,7 +378,6 @@ public class HbmWorldGen implements IWorldGenerator {
 
 				new Spaceship().generate(world, rand, x, y, z);
 			}
-
 			if(WorldConfig.barrelStructure > 0 && biome.temperature >= 1.5F && !biome.canSpawnLightningBolt() && rand.nextInt(WorldConfig.barrelStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
@@ -758,6 +751,16 @@ public class HbmWorldGen implements IWorldGenerator {
 								(TileEntityChest) world.getTileEntity(-10000, 250, -10000), 29);
 					}
 				}
+			}
+		}
+		
+		if(rand.nextInt(4) == 0) {
+			int x = i + rand.nextInt(16) + 8;
+			int y = 6 + rand.nextInt(13);
+			int z = j + rand.nextInt(16) + 8;
+			
+			if(world.getBlock(x, y, z).isReplaceableOreGen(world, x, y, z, Blocks.stone)) {
+				world.setBlock(x, y, z, ModBlocks.stone_keyhole);
 			}
 		}
 

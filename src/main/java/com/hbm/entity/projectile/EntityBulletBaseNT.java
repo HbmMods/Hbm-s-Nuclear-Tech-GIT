@@ -378,8 +378,8 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 					data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
 					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, living.posX, living.posY + living.height - head, living.posZ), new TargetPoint(living.dimension, living.posX, living.posY, living.posZ, 50));
 					worldObj.playSoundEffect(victim.posX, victim.posY, victim.posZ, "mob.zombie.woodbreak", 1.0F, 0.95F + rand.nextFloat() * 0.2F);
-    			}
-    		}
+				}
+			}
 		}
 	}
 	

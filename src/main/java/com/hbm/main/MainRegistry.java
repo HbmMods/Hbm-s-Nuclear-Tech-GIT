@@ -25,6 +25,7 @@ import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.recipes.*;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
@@ -42,10 +43,10 @@ import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.tileentity.TileMappings;
 import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
-import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.*;
+import com.hbm.world.biome.BiomeGenCraterBase;
 import com.hbm.world.feature.BedrockOre;
 import com.hbm.world.feature.OreCave;
 import com.hbm.world.feature.OreLayer3D;
@@ -267,6 +268,7 @@ public class MainRegistry {
 	public static Achievement achGoFish;
 	public static Achievement achNo9;
 	public static Achievement achInferno;
+	public static Achievement achRedRoom;
 	public static Achievement bobHidden;
 	public static Achievement horizonsStart;
 	public static Achievement horizonsEnd;
@@ -348,6 +350,9 @@ public class MainRegistry {
 		loadConfig(PreEvent);
 		HbmPotion.init();
 		
+		/* For whichever fucking reason, replacing the bolt items with a bolt autogen broke all autogen items, most likely due to the load order.
+		 * This "fix" just makes sure that the material system is loaded first no matter what. */
+		Mats.MAT_STONE.getUnlocalizedName();
 		Fluids.init();
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
@@ -369,6 +374,8 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
 		OreDictManager.registerGroups(); //important to run first
 		OreDictManager.registerOres();
+		
+		if(WorldConfig.enableCraterBiomes) BiomeGenCraterBase.initDictionary();
 
 		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");
@@ -761,6 +768,7 @@ public class MainRegistry {
 		achSlimeball = new Achievement("achievement.slimeball", "slimeball", -10, 6, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.ACID), null).initIndependentStat().registerStat();
 		achSulfuric = new Achievement("achievement.sulfuric", "sulfuric", -10, 8, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.BALLS), achSlimeball).initIndependentStat().setSpecial().registerStat();
 		achInferno = new Achievement("achievement.inferno", "inferno", -8, 10, ModItems.canister_napalm, null).initIndependentStat().setSpecial().registerStat();
+		achRedRoom = new Achievement("achievement.redRoom", "redRoom", -10, 10, ModItems.key_red, null).initIndependentStat().setSpecial().registerStat();
 		
 		bobHidden = new Achievement("achievement.hidden", "hidden", 15, -4, ModItems.gun_dampfmaschine, null).initIndependentStat().registerStat();
 
@@ -841,6 +849,7 @@ public class MainRegistry {
 				achWitchtaunter,
 				achNo9,
 				achInferno,
+				achRedRoom,
 				achSlimeball,
 				achSulfuric,
 				bossCreeper,
@@ -941,7 +950,6 @@ public class MainRegistry {
 		ArmorUtil.register();
 		HazmatRegistry.registerHazmats();
 		FluidContainerRegistry.register();
-		TileEntityMachineReactorLarge.registerAll();
 		BlockToolConversion.registerRecipes();
 		AchievementHandler.register();
 
@@ -1269,6 +1277,33 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.recycled_nuclear");
 		ignoreMappings.add("hbm:item.recycled_misc");
 		ignoreMappings.add("hbm:item.gun_bf_ammo");
+		ignoreMappings.add("hbm:tile.brick_dungeon");
+		ignoreMappings.add("hbm:tile.brick_dungeon_flat");
+		ignoreMappings.add("hbm:tile.brick_dungeon_tile");
+		ignoreMappings.add("hbm:tile.brick_dungeon_circle");
+		ignoreMappings.add("hbm:tile.bomber");
+		ignoreMappings.add("hbm:item.bolt_tungsten");
+		ignoreMappings.add("hbm:item.bolt_dura_steel");
+		ignoreMappings.add("hbm:tile.rail_large_curve_wide");
+		ignoreMappings.add("hbm:tile.nuke_n45");
+		ignoreMappings.add("hbm:tile.machine_coal_off");
+		ignoreMappings.add("hbm:tile.machine_coal_on");
+		ignoreMappings.add("hbm:tile.machine_drill");
+		ignoreMappings.add("hbm:tile.drill_pipe");
+		ignoreMappings.add("hbm:tile.dummy_block_drill");
+		ignoreMappings.add("hbm:tile.dummy_port_drill");
+		ignoreMappings.add("hbm:tile.machine_combine_factory");
+		ignoreMappings.add("hbm:tile.watz_core");
+		ignoreMappings.add("hbm:tile.watz_hatch");
+		ignoreMappings.add("hbm:tile.marker_structure");
+		ignoreMappings.add("hbm:tile.reactor_element");
+		ignoreMappings.add("hbm:tile.reactor_control");
+		ignoreMappings.add("hbm:tile.reactor_hatch");
+		ignoreMappings.add("hbm:tile.reactor_ejector");
+		ignoreMappings.add("hbm:tile.reactor_inserter");
+		ignoreMappings.add("hbm:tile.reactor_conductor");
+		ignoreMappings.add("hbm:tile.reactor_computer");
+		ignoreMappings.add("hbm:tile.ff");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

@@ -1,6 +1,6 @@
 package com.hbm.items.tool;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.material.Mats;
 import com.hbm.items.IAnimatedItem;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
@@ -50,14 +50,14 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 		World world = player.worldObj;
 		if(!entity.isEntityAlive()) return false;
 		
-		Item[] bolts = new Item[] { ModItems.bolt_dura_steel, ModItems.bolt_tungsten, Item.getItemFromBlock(ModBlocks.steel_beam) };
+		ItemStack[] bolts = new ItemStack[] { Mats.MAT_STEEL.make(ModItems.bolt), Mats.MAT_TUNGSTEN.make(ModItems.bolt), Mats.MAT_DURA.make(ModItems.bolt)};
 		
-		for(Item item : bolts) {
+		for(ItemStack bolt : bolts) {
 			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				ItemStack slot = player.inventory.getStackInSlot(i);
 				
 				if(slot != null) {
-					if(slot.getItem() == item) {
+					if(slot.getItem() == bolt.getItem() && slot.getItemDamage() == bolt.getItemDamage()) {
 						if(!world.isRemote) {
 							world.playSoundAtEntity(entity, "hbm:item.boltgun", 1.0F, 1.0F);
 							player.inventory.decrStackSize(i, 1);

@@ -142,9 +142,9 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 			}
 			PacketDispatcher.wrapper.sendToAllAround(new TEDoorAnimationPacket(xCoord, yCoord, zCoord, state, skinIndex, (byte)(shouldUseBB ? 1 : 0)), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 100));
 			
-			if(redstonePower == -1 && state == 0){
+			if(redstonePower == -1 && state == 1){
 				tryToggle(-1);
-			} else if(redstonePower > 0 && state == 1){
+			} else if(redstonePower > 0 && state == 0){
 				tryToggle(-1);
 			}
 			if(redstonePower == -1){

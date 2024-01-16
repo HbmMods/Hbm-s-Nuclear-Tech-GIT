@@ -44,7 +44,7 @@ public class RenderInfoSystem {
 		}
 	}
 	
-	@SubscribeEvent
+	@SubscribeEvent(receiveCanceled = true)
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
 		
 		if(event.type != ElementType.CROSSHAIRS)
@@ -80,7 +80,7 @@ public class RenderInfoSystem {
 		int side = pX + 5 + longest;
 		int height = messages.size() * 10 + pZ + 2;
 		int z = 0;
-		
+
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		Tessellator tess = Tessellator.instance;
 		tess.startDrawingQuads();

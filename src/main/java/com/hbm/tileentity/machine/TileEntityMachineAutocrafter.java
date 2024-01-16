@@ -369,6 +369,10 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 			}
 		}
 		
+		public void clear() {
+			for(int i = 0; i < this.getSizeInventory(); i++) this.setInventorySlotContents(i, null);
+		}
+		
 		public static class ContainerBlank extends Container {
 			@Override public void onCraftMatrixChanged(IInventory inventory) { }
 			@Override public boolean canInteractWith(EntityPlayer player) { return false; }
