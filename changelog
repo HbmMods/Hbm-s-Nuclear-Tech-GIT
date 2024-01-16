@@ -1,27 +1,5 @@
-## Added
-* Pipettes
-  * Precision tools for carrying small amounts of liquids
-  * Come in three variants, normal, boron (corrosion-resistant) and laboratory (smaller capacity, more precision)
-  * Unlike most fluid containers, can be partially filled
-  * Capacity can be changed by right-clicking if the pipette is empty
-
-## Changed
-* Updated russian localization
-* There is now a config option to disable the biome change caused by fallout. The config will also determine whether the biomes are registered at all, which prevents them from conflicting with other mods' biomes when disabled.
-* Chemical plants now have a timer that starts after loading/unloading fluids using item fluid containers from the input buffers, this creates a delay between switching from loading and unloading, making it possible to retrieve fluids using pipettes.
-* In addition to delaying overheats, efficiency upgrades now reduce the cyclotron's coolant demand
-* Removed the tooltips from common upgrades, as the info was incomplete and outdated anyway
-* Meteorite swords now render their variant glint in first person view
-* Meteorite swords are now a lot larger, similar to most other NTM swords
-* Non-custom missile items now render in 3D
-* Combinator funnels can now be configured whether to only do 3x3, 2x2 or both recipe types
 
 ## Fixed
-* Fixed trenchmaster armor not doing most of the armor calculation, making it the worst armor
-* Fixed glowing mushrooms not being able to be bonemealed
-* Fixed strand caster having one port that does not work with certain rotations
-* Fixed fallout being able to replace bedrock
-* Fixed the upgrade info of the large mining drill being incorrect
-* Fixed cyclotron not having the new upgrade info tooltip
-* Fixed the large radar not actually having a larger scan range
-* Fixed radar blips going out of bounds when using a radar screen with a large radar or a radar with a different config
+* Fixed sellafite emerald ore being oredicted as emerald dust
+* Fixed fire replacing petrified wood, creating tons of dead trees with holes in them
+* Fixed inconsistent scaling with nuclear missiles
