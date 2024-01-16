@@ -204,7 +204,6 @@ public class Fluids {
 	public static FluidType EMILK; //ghostycore
 	public static FluidType CMILK;
 	public static FluidType CREAM;
-	public static FluidType ACETYLENE;
 	public static FluidType DICYANOACETYLENE;//DICYANOACETYLENE
 	public static FluidType FULLERENE;
 	public static FluidType MORKITE;
@@ -437,7 +436,6 @@ public class Fluids {
 		CMILK =					new FluidType("CMILK",				0xCFCFCF, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);//F5DEE4
 		CREAM =					new FluidType("CREAM",				0xCFCFCF, 0, 0, 0, EnumSymbol.NONE).addTraits(DELICIOUS, LIQUID);//F5DEE4
 		FULLERENE =				new FluidType(167, "FULLERENE",		0xFF7FED, 3, 3, 3, EnumSymbol.NONE).addTraits(LIQUID, new FT_Corrosive(65));
-		ACETYLENE =				new FluidType("ACETYLENE",			0x605346, 3, 3, 3, EnumSymbol.NONE).addTraits(new FT_Flammable(1_005_000), GASEOUS); //pure acetylene
 		MORKITE =				new FluidType("MORKITE",			0x333C42, 3, 3, 3, EnumSymbol.NONE).addTraits(new FT_Flammable(60), LIQUID, VISCOUS); 
 		DICYANOACETYLENE =		new FluidType("DICYANOACETYLENE",	0x675A9F, 1, 2, 1, EnumSymbol.NONE).addTraits(new FT_Flammable(4_000_000), GASEOUS); 
 		MORKINE =				new FluidType("MORKINE",			0x796089, 3, 3, 3, EnumSymbol.NONE).addTraits(new FT_Flammable(200), LIQUID, VISCOUS); 
@@ -555,7 +553,6 @@ public class Fluids {
 		metaOrder.add(MORKITE);
 		metaOrder.add(MORKINE);
 		metaOrder.add(MSLURRY);
-		metaOrder.add(ACETYLENE);
 		metaOrder.add(DICYANOACETYLENE);
 		//processing fluids
 		metaOrder.add(SALIENT);
@@ -772,7 +769,6 @@ public class Fluids {
 		registerCalculatedFuel(KEROSENE_REFORM, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * complexityReform, 1.5D, FuelGrade.AERO);
 		registerCalculatedFuel(REFORMGAS, (baseline / 0.06 * flammabilityHigh * demandLow * complexityVacuum * complexityFraction), 1.25D, FuelGrade.GAS);
 		registerCalculatedFuel(NMASSTETRANOL, BALEFIRE.getTrait(FT_Flammable.class).getHeatEnergy() * 1000, 10.5, FuelGrade.HIGH); //0.8
-		registerCalculatedFuel(ACETYLENE, (baseline / 0.14 * flammabilityHigh * demandHigh * complexityRefinery * complexityCracking), 0, null);
 		registerCalculatedFuel(DICYANOACETYLENE, (baseline / 0.15 * flammabilityHigh * demandHigh * complexityRefinery * complexityCracking) + REFORMGAS.getTrait(FT_Flammable.class).getHeatEnergy(), 0, null);
 		registerCalculatedFuel(MORKITE, (baseline / 0.9D * flammabilityLow * demandLow), 0, null);
 

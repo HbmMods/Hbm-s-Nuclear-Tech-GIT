@@ -66,7 +66,7 @@ public class CryoRecipes extends SerializableRecipe {
 				new FluidStack(Fluids.AMMONIA, 5)
 				));
 		recipes.put(Fluids.MORKINE, new Quartet(
-				new FluidStack(Fluids.ACETYLENE, 40), //PURE acetylene
+				new FluidStack(Fluids.UNSATURATEDS, 40), //PURE acetylene
 				new FluidStack(Fluids.AROMATICS, 25),
 				new FluidStack(Fluids.METHYLENE, 14),
 				new FluidStack(Fluids.HYDROGEN, 10)
