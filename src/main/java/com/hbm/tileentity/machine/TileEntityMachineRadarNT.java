@@ -81,7 +81,6 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	public static int maxPower = 100_000;
 	public static int consumption = 500;
 	public static int radarRange = 1_000;
-	public static int radarLargeRange = 3_000;
 	public static int radarBuffer = 30;
 	public static int radarAltitude = 55;
 	public static int chunkLoadCap = 10;
@@ -102,7 +101,6 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		maxPower = IConfigurableMachine.grab(obj, "L:powerCap", maxPower);
 		consumption = IConfigurableMachine.grab(obj, "L:consumption", consumption);
 		radarRange = IConfigurableMachine.grab(obj, "I:radarRange", radarRange);
-		radarLargeRange = IConfigurableMachine.grab(obj, "I:radarLargeRange", radarLargeRange);
 		radarBuffer = IConfigurableMachine.grab(obj, "I:radarBuffer", radarBuffer);
 		radarAltitude = IConfigurableMachine.grab(obj, "I:radarAltitude", radarAltitude);
 		chunkLoadCap = IConfigurableMachine.grab(obj, "I:chunkLoadCap", chunkLoadCap);
@@ -114,7 +112,6 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		writer.name("L:powerCap").value(maxPower);
 		writer.name("L:consumption").value(consumption);
 		writer.name("I:radarRange").value(radarRange);
-		writer.name("I:radarLargeRange").value(radarLargeRange);
 		writer.name("I:radarBuffer").value(radarBuffer);
 		writer.name("I:radarAltitude").value(radarAltitude);
 		writer.name("B:generateChunks").value(generateChunks);
@@ -207,6 +204,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 						screen.refX = xCoord;
 						screen.refY = yCoord;
 						screen.refZ = zCoord;
+						screen.range = this.getRange();
 						screen.linked = true;
 					}
 				}
@@ -328,7 +326,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		if(this.power < consumption) return;
 		this.power -= consumption;
 		
-		int scan = this.scanRange();
+		int scan = this.getRange();
 		
 		RadarScanParams params = new RadarScanParams(this.scanMissiles, this.scanShells, this.scanPlayers, this.smartMode);
 		
@@ -393,10 +391,6 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		}
 		
 		return 0;
-	}
-	
-	protected int scanRange() {
-		return radarRange;
 	}
 
 	@Override

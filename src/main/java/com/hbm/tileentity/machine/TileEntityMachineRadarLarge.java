@@ -1,11 +1,33 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineRadarLarge extends TileEntityMachineRadarNT {
+	
+	public static int radarLargeRange = 3_000;
+
+	@Override
+	public String getConfigName() {
+		return "radar_large";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		radarLargeRange = IConfigurableMachine.grab(obj, "I:radarLargeRange", radarLargeRange);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:radarLargeRange").value(radarLargeRange);
+	}
 	
 	@Override
 	public int getRange() {
