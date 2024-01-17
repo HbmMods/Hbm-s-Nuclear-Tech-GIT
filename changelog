@@ -3,3 +3,6 @@
 * Fixed sellafite emerald ore being oredicted as emerald dust
 * Fixed fire replacing petrified wood, creating tons of dead trees with holes in them
 * Fixed inconsistent scaling with nuclear missiles
+* Fixed BFB rods being called ZFB in hot and depleted variants
+* Fixed infinite water barrels voiding water completely after the chemplant's input buffer runs full, infinite barrels can no longer void water in chemplants
+* Fixed fallout affecting things on Y:0 like bedrock ores and oil

@@ -155,7 +155,7 @@ public class EntityFalloutRain extends Entity {
 
 		int depth = 0;
 
-		for(int y = 255; y >= 0; y--) {
+		for(int y = 255; y >= 1; y--) {
 			
 			if(depth >= 3) return;
 
