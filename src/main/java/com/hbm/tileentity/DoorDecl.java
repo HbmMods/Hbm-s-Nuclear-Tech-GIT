@@ -862,6 +862,65 @@ public abstract class DoorDecl {
 
 	};
 
+	public static final DoorDecl SILO_HATCH = new DoorDecl() {
+
+		@Override public String getOpenSoundEnd() { return "hbm:door.wgh_big_stop"; };
+		@Override public String getOpenSoundLoop() { return "hbm:door.wgh_big_start"; };
+		@Override public String getOpenSoundStart() { return null; };
+		@Override public String getCloseSoundStart() { return null; };
+		@Override public String getCloseSoundEnd() { return "hbm:door.wgh_big_stop"; };
+		@Override public float getSoundVolume() { return 2; }
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
+			if("Hatch".equals(partName)) {
+				set(trans, 0, 0.25F * Library.smoothstep(getNormTime(openTicks, 0, 10), 0, 1), 0);
+			} else {
+				set(trans, 0, 0, 0);
+			}
+		};
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public void getOrigin(String partName, float[] orig) {
+			if("Hatch".equals(partName)) {
+				set(orig, 0F, 0.875F, -1.875F);
+				return;
+			}
+			set(orig, 0, 0, 0);
+			super.getOrigin(partName, orig);
+		};
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public void getRotation(String partName, float openTicks, float[] rot) {
+			if("Hatch".equals(partName)) {
+				set(rot, Library.smoothstep(getNormTime(openTicks, 20, 100), 0, 1) * -240, 0, 0);
+				return;
+			}
+			super.getRotation(partName, openTicks, rot);
+		};
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public boolean doesRender(String partName, boolean child) {
+			return true;
+		};
+
+		@Override public int timeToOpen() { return 60; };
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { { 1, 0, 1, -3, 3, 0 }, { 0, 0, 1, -3, 3, 0 }, { -1, 0, 1, -3, 3, 0 } }; }
+		@Override public float getDoorRangeOpenTime(int ticks, int idx) { return getNormTime(ticks, 20, 20); };
+
+		
+		@Override public int getBlockOffset() { return 2; }
+		@Override public int[] getDimensions() { return new int[] { 0, 0, 2, 2, 2, 2 }; }
+		@Override @SideOnly(Side.CLIENT) public ResourceLocation getTextureForPart(String partName) { return ResourceManager.silo_hatch_tex; }
+		@Override public ResourceLocation getTextureForPart(int skinIndex, String partName) { return ResourceManager.silo_hatch_tex; }
+		@Override @SideOnly(Side.CLIENT) public WavefrontObjDisplayList getModel() { return ResourceManager.silo_hatch; }
+
+	};
+
 	public static final DoorDecl LARGE_VEHICLE_DOOR = new DoorDecl() {
 
 		@Override
@@ -948,6 +1007,10 @@ public abstract class DoorDecl {
 	public abstract int[][] getDoorOpenRanges();
 
 	public abstract int[] getDimensions();
+	
+	public int getBlockOffset() {
+		return 0;
+	}
 
 	public float getDoorRangeOpenTime(int ticks, int idx) {
 		return getNormTime(ticks);
