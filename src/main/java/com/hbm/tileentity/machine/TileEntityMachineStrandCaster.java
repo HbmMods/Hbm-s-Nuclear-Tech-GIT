@@ -67,7 +67,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
             if (this.amount >= this.getCapacity()) {
                 //In case of overfill problems, spit out the excess as scrap
                 if (amount > getCapacity()) {
-                    ItemStack scrap = ItemScraps.create(new Mats.MaterialStack(type, amount));
+                    ItemStack scrap = ItemScraps.create(new Mats.MaterialStack(type, Math.max(amount - getCapacity(), amount)));
                     EntityItem item = new EntityItem(worldObj, xCoord + 0.5, yCoord + 2, zCoord + 0.5, scrap);
                     worldObj.spawnEntityInWorld(item);
                 }
