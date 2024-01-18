@@ -1,34 +1,8 @@
-## Added
-* Large Radar
-  * A giant version of the radar with 3x the scan range
-
-## Changed
-* Nuclear craters have been reworked
-  * The fallout effect no longer creates dead grass, instead it converts the area into three new biomes, the outer crater, crater and inner crater
-  * The entire crater is now slaked sellafite which now has texture variance to look more like debris, as well as getting darker towards the center
-  * The biomes being overridden means that nukes are now a solution to thaumcraft taint. Yay!
-  * There are now new ore variants for the block conversions which match the surrounding sellafite
-  * Beryllium ore now has a 100% chance of being converted into emerald
-* The watz now cools up to 20% of its current heat level instead of 10%, making reactors a lot cooler and therefore react faster, which means more energy and faster depletion rates
-  * Mud production rates have been halved, to prevent currently working setups from exploding instantly
-  * This is your reminder that you can achieve more power, mud and depletion by building larger watz powerplants, i.e. stacking more watz segments on top of each other. Your tiny poo reactors make me sick.
-* Watz pellets now have a 50% smaller yield, halving the expected time until depletion
-* Adjusted the nuclear flash's intensity, the flash will now deal less and less radiation the longer it goes on
-* The nuclear flash now bypasses radiation resistance, being only affected by blocks and distance
-* Mushroom clouds' initial scale is now based on the total scale instead of all spawning roughly at the same size, causing fireballs to be comically small for huge bombs
-* Removed the old mining drill, combustion generator, old watz core, structure marker, all old large reactor parts and CMB furnace for good
-* Chemical plants will now eject all their outputs within a single tick if possible, increasing the throughput of fast recipes with many outputs, like asphalt
-* Hitting CTRL + ALT when hovering over an item now displays a preview of that item. Useful if you want to get authentic renders for a wiki, or just like staring at things.
-* 256k tanks and BAT9000s can now output comparator signals from their fluid ports
-* Trenchmaster general damage multiplier has been halved, making it twice as strong
-* Updated generation rules for layers like schist and hematite, they will now only replace things tagged as stone, just like most ores
-* Mushroom clouds now have two additional outer condensation rings, those are not entirely finished and are still subject to change
-* Small radars are now a tad cheaper
 
 ## Fixed
-* Fixed a rare crash caused by radars force-loading chunks conflicting with certain mods' chunk loading changes
-* Fixed PWR fuel rods not having any radiation value assigned to them
-* Fixed trenchmaster helmet not having gas mask protection
-* Fixed large thermobaric artillery rocket still using the wrong slag block
-* Fixed some of the assembly templates having broken names due to using the wrong way of translating the output
-* Fixed the soyuz launcher's NEI construction recipe showing the wrong amount of blocks
+* Fixed sellafite emerald ore being oredicted as emerald dust
+* Fixed fire replacing petrified wood, creating tons of dead trees with holes in them
+* Fixed inconsistent scaling with nuclear missiles
+* Fixed BFB rods being called ZFB in hot and depleted variants
+* Fixed infinite water barrels voiding water completely after the chemplant's input buffer runs full, infinite barrels can no longer void water in chemplants
+* Fixed fallout affecting things on Y:0 like bedrock ores and oil

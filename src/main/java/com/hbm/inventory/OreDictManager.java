@@ -314,8 +314,8 @@ public class OreDictManager {
 		GOLD.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold);
 		LAPIS.dust(powder_lapis);
 		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz).ore(Blocks.quartz_ore);
-		DIAMOND.dust(powder_diamond).ore(gravel_diamond);
-		EMERALD.dust(powder_emerald);
+		DIAMOND.dust(powder_diamond).ore(gravel_diamond, ore_sellafield_diamond);
+		EMERALD.dust(powder_emerald).ore(ore_sellafield_emerald);
 		
 		/*
 		 * RADIOACTIVE

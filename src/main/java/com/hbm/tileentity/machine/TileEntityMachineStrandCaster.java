@@ -34,35 +34,34 @@ import net.minecraftforge.common.util.ForgeDirection;
 //god thank you bob for this base class
 public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase implements IGUIProvider, ICrucibleAcceptor, ISidedInventory, IFluidStandardTransceiver, INBTPacketReceiver, IInventory {
 
-    public FluidTank water;
-    public FluidTank steam;
+	public FluidTank water;
+	public FluidTank steam;
 
-    public String getName() {
-        return "container.machineStrandCaster";
-    }
+	public String getName() {
+		return "container.machineStrandCaster";
+	}
 
-    @Override
-    public String getInventoryName() {
-        return getName();
-    }
+	@Override
+	public String getInventoryName() {
+		return getName();
+	}
 
-    public TileEntityMachineStrandCaster() {
-        super(7);
-        water = new FluidTank(Fluids.WATER, 64_000);
-        steam = new FluidTank(Fluids.SPENTSTEAM, 64_000);
-    }
+	public TileEntityMachineStrandCaster() {
+		super(7);
+		water = new FluidTank(Fluids.WATER, 64_000);
+		steam = new FluidTank(Fluids.SPENTSTEAM, 64_000);
+	}
 
+	@Override
+	public void updateEntity() {
 
-    @Override
-    public void updateEntity() {
+		if(!worldObj.isRemote) {
 
-        if (!worldObj.isRemote) {
-
-            if (this.lastType != this.type || this.lastAmount != this.amount) {
-                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-                this.lastType = this.type;
-                this.lastAmount = this.amount;
-            }
+			if(this.lastType != this.type || this.lastAmount != this.amount) {
+				worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+				this.lastType = this.type;
+				this.lastAmount = this.amount;
+			}
 
             if (this.amount >= this.getCapacity()) {
                 //In case of overfill problems, spit out the excess as scrap
@@ -72,262 +71,258 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
                     worldObj.spawnEntityInWorld(item);
                 }
                 this.amount = this.getCapacity();
+			}
 
-            }
+			if(this.amount == 0) {
+				this.type = null;
+			}
 
-            if (this.amount == 0) {
-                this.type = null;
-            }
+			this.updateConnections();
 
-            this.updateConnections();
+			ItemMold.Mold mold = this.getInstalledMold();
 
-            ItemMold.Mold mold = this.getInstalledMold();
+			if(canProcess()) {
 
-            if (canProcess()) {
+				int itemsCasted = Math.min(amount / mold.getCost(), 9);
 
-                int itemsCasted = Math.min(amount / mold.getCost(), 9);
+				for(int j = 0; j < itemsCasted; j++) {
+					this.amount -= mold.getCost();
 
-                for (int j = 0; j < itemsCasted; j++) {
-                    this.amount -= mold.getCost();
+					ItemStack out = mold.getOutput(type);
 
-                    ItemStack out = mold.getOutput(type);
+					for(int i = 1; i < 7; i++) {
+						if(slots[i] == null) {
+							slots[i] = out.copy();
+							break;
+						}
 
-                    for (int i = 1; i < 7; i++) {
-                        if (slots[i] == null) {
-                            slots[i] = out.copy();
-                            break;
-                        }
+						if(slots[i].isItemEqual(out) && slots[i].stackSize + out.stackSize <= out.getMaxStackSize()) {
+							slots[i].stackSize += out.stackSize;
+							break;
+						}
 
-                        if (slots[i].isItemEqual(out) && slots[i].stackSize + out.stackSize <= out.getMaxStackSize()) {
-                            slots[i].stackSize += out.stackSize;
-                            break;
-                        }
+					}
+				}
+				markChanged();
 
-                    }
-                }
-                markChanged();
+				water.setFill(water.getFill() - getWaterRequired() * itemsCasted);
+				steam.setFill(steam.getFill() + getWaterRequired() * itemsCasted);
+			}
+		}
 
-                water.setFill(water.getFill() - getWaterRequired() * itemsCasted);
-                steam.setFill(steam.getFill() + getWaterRequired() * itemsCasted);
-            }
-        }
+		NBTTagCompound data = new NBTTagCompound();
 
-        NBTTagCompound data = new NBTTagCompound();
+		water.writeToNBT(data, "w");
+		steam.writeToNBT(data, "s");
 
-        water.writeToNBT(data, "w");
-        steam.writeToNBT(data, "s");
+		this.networkPack(data, 150);
 
-        this.networkPack(data, 150);
+	}
 
-    }
+	public boolean canProcess() {
+		ItemMold.Mold mold = this.getInstalledMold();
+		if(type != null && mold != null && this.amount >= mold.getCost() * 9 && mold.getOutput(type) != null) {
+			for(int i = 1; i < 7; i++) {
+				if(slots[i] == null || slots[i].isItemEqual(mold.getOutput(type)) && slots[i].stackSize + mold.getOutput(type).stackSize <= mold.getOutput(type).getMaxStackSize())
+					return water.getFill() >= getWaterRequired() && steam.getFill() < steam.getMaxFill();
 
-    public boolean canProcess() {
-        ItemMold.Mold mold = this.getInstalledMold();
-        if (type != null && mold != null && this.amount >= mold.getCost() * 9 && mold.getOutput(type) != null) {
-            for (int i = 1; i < 7; i++) {
-                if (slots[i] == null || slots[i].isItemEqual(mold.getOutput(type)) && slots[i].stackSize + mold.getOutput(type).stackSize <= mold.getOutput(type).getMaxStackSize())
-                    return water.getFill() >= getWaterRequired() && steam.getFill() < steam.getMaxFill();
+			}
+		}
 
-            }
-        }
+		return false;
+	}
 
-        return false;
-    }
+	public DirPos[] getFluidConPos() {
 
-    public DirPos[] getFluidConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
-        ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-        ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		return new DirPos[] {
+				new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX,     yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ, rot),
+				new DirPos(xCoord - rot.offsetX     - dir.offsetX,     yCoord, zCoord - rot.offsetZ     - dir.offsetZ, rot.getOpposite()),
+				new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX * 5, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ * 5, rot),
+				new DirPos(xCoord - rot.offsetX     - dir.offsetX * 5, yCoord, zCoord - rot.offsetZ     - dir.offsetZ * 5, rot.getOpposite())
+			};
+	}
 
-        return new DirPos[]{
-                new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ, rot),
-                new DirPos(xCoord - rot.offsetX - dir.offsetX, yCoord, zCoord - rot.offsetZ - dir.offsetZ, rot.getOpposite()),
-                new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX * 5, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ * 5, rot),
-                new DirPos(xCoord - rot.offsetX - dir.offsetX * 5, yCoord, zCoord - rot.offsetZ + dir.offsetZ * 5, rot.getOpposite()),
-        };
-    }
+	public int[][] getMetalPourPos() {
 
-    public int[][] getMetalPourPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
-        ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-        ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		return new int[][] {
+			new int[] { xCoord + rot.offsetX - dir.offsetX, yCoord + 2, zCoord + rot.offsetZ - dir.offsetZ },
+			new int[] { xCoord - dir.offsetX, yCoord + 2, zCoord - dir.offsetZ },
+			new int[] { xCoord + rot.offsetX, yCoord + 2, zCoord + rot.offsetZ },
+			new int[] { xCoord, yCoord + 2, zCoord }
+			};
+	}
 
-        return new int[][]{
-                new int[]{xCoord + rot.offsetX - dir.offsetX, yCoord + 2, zCoord + rot.offsetZ - dir.offsetZ},
-                new int[]{xCoord - dir.offsetX, yCoord + 2, zCoord - dir.offsetZ},
-                new int[]{xCoord + rot.offsetX, yCoord + 2, zCoord + rot.offsetZ},
-                new int[]{xCoord, yCoord + 2, zCoord},
-        };
-    }
+	@Override
+	public ItemMold.Mold getInstalledMold() {
+		if(slots[0] == null)
+			return null;
 
-    @Override
-    public ItemMold.Mold getInstalledMold() {
-        if (slots[0] == null) return null;
+		if(slots[0].getItem() == ModItems.mold) {
+			return ((ItemMold) slots[0].getItem()).getMold(slots[0]);
+		}
 
-        if (slots[0].getItem() == ModItems.mold) {
-            return ((ItemMold) slots[0].getItem()).getMold(slots[0]);
-        }
+		return null;
+	}
 
-        return null;
-    }
+	@Override
+	public int getMoldSize() {
+		return getInstalledMold().size;
+	}
 
-    @Override
-    public int getMoldSize() {
-        return getInstalledMold().size;
-    }
+	@Override
+	public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, Mats.MaterialStack stack) {
 
-    @Override
-    public boolean canAcceptPartialPour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, Mats.MaterialStack stack) {
+		if(side != ForgeDirection.UP)
+			return false;
+		for(int[] pos : getMetalPourPos()) {
+			if(pos[0] == x && pos[1] == y && pos[2] == z) {
+				return this.standardCheck(world, x, y, z, side, stack);
+			}
+		}
+		return false;
 
-        if (side != ForgeDirection.UP) return false;
-        for (int[] pos : getMetalPourPos()) {
-            if (pos[0] == x && pos[1] == y && pos[2] == z) {
-                return this.standardCheck(world, x, y, z, side, stack);
-            }
-        }
-        return false;
+	}
 
-    }
+	@Override
+	public boolean standardCheck(World world, int x, int y, int z, ForgeDirection side, Mats.MaterialStack stack) {
+		if(this.type != null && this.type != stack.material) return false;
+		return !(this.amount >= this.getCapacity() || getInstalledMold() == null);
+	}
 
-    @Override
-    public boolean standardCheck(World world, int x, int y, int z, ForgeDirection side, Mats.MaterialStack stack) {
-        if (this.type != null && this.type != stack.material) return false;
-        return !(this.amount >= this.getCapacity() || getInstalledMold() == null);
-    }
+	@Override
+	public int getCapacity() {
+		ItemMold.Mold mold = this.getInstalledMold();
+		return mold == null ? 50000 : mold.getCost() * 10;
+	}
 
-    @Override
-    public int getCapacity() {
-        ItemMold.Mold mold = this.getInstalledMold();
-        return mold == null ? 50000 : mold.getCost() * 10;
-    }
+	private int getWaterRequired() {
+		return getInstalledMold() != null ? 5 * getInstalledMold().getCost() : 50;
+	}
 
-    private int getWaterRequired() {
-        return getInstalledMold() != null ? 5 * getInstalledMold().getCost() : 50;
-    }
+	private void updateConnections() {
+		for(DirPos pos : getFluidConPos()) {
+			this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
+	}
 
-    private void updateConnections() {
-        for (DirPos pos : getFluidConPos()) {
-            this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-        }
-        for (DirPos pos : getFluidConPos()) {
-            sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-        }
-    }
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { steam };
+	}
 
-    @Override
-    public FluidTank[] getSendingTanks() {
-        return new FluidTank[]{steam};
-    }
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { water };
+	}
 
-    @Override
-    public FluidTank[] getReceivingTanks() {
-        return new FluidTank[]{water};
-    }
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[] { water, steam };
+	}
 
-    @Override
-    public FluidTank[] getAllTanks() {
-        return new FluidTank[]{water, steam};
-    }
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMachineStrandCaster(player.inventory, this);
+	}
 
-    @Override
-    public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        return new ContainerMachineStrandCaster(player.inventory, this);
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIMachineStrandCaster(player.inventory, this);
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        return new GUIMachineStrandCaster(player.inventory, this);
-    }
+	public void networkPack(NBTTagCompound nbt, int range) {
+		if(!worldObj.isRemote)
+			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new NetworkRegistry.TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+	}
 
-    public void networkPack(NBTTagCompound nbt, int range) {
-        if (!worldObj.isRemote)
-            PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new NetworkRegistry.TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
-    }
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		water.readFromNBT(nbt, "w");
+		steam.readFromNBT(nbt, "s");
 
-    @Override
-    public void networkUnpack(NBTTagCompound nbt) {
-        water.readFromNBT(nbt, "w");
-        steam.readFromNBT(nbt, "s");
+	}
 
-    }
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		water.writeToNBT(nbt, "w");
+		steam.writeToNBT(nbt, "s");
+	}
 
-    @Override
-    public void writeToNBT(NBTTagCompound nbt) {
-        super.writeToNBT(nbt);
-        water.writeToNBT(nbt, "w");
-        steam.writeToNBT(nbt, "s");
-    }
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		water.readFromNBT(nbt, "w");
+		steam.readFromNBT(nbt, "s");
+	}
 
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        water.readFromNBT(nbt, "w");
-        steam.readFromNBT(nbt, "s");
-    }
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
 
-    @Override
-    public boolean isItemValidForSlot(int i, ItemStack stack) {
+		if(i == 0) {
+			return stack.getItem() == ModItems.mold;
+		}
 
-        if (i == 0) {
-            return stack.getItem() == ModItems.mold;
-        }
+		return false;
+	}
 
-        return false;
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public double getMaxRenderDistanceSquared() {
-        return 65536.0D;
-    }
+	@Override
+	public int[] getAccessibleSlotsFromSide(int meta) {
+		return new int[] { 1, 2, 3, 4, 5, 6 };
+	}
 
-    @Override
-    public int[] getAccessibleSlotsFromSide(int meta) {
-        return new int[]{1, 2, 3, 4, 5, 6};
-    }
+	public void markChanged() {
+		this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
+	}
 
-    public void markChanged() {
-        this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
-    }
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
+			return false;
+		} else {
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 128;
+		}
+	}
 
-    @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
-        if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
-            return false;
-        } else {
-            return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 128;
-        }
-    }
+	@Override
+	public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+		return this.isItemValidForSlot(slot, itemStack);
+	}
 
+	@Override
+	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
+		return !this.isItemValidForSlot(slot, itemStack);
+	}
 
-    @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
-        return this.isItemValidForSlot(slot, itemStack);
-    }
+	AxisAlignedBB bb = null;
 
-    @Override
-    public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
-        return !this.isItemValidForSlot(slot, itemStack);
-    }
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
 
-    AxisAlignedBB bb = null;
-
-    @Override
-    public AxisAlignedBB getRenderBoundingBox() {
-
-        if (bb == null) {
-            bb = AxisAlignedBB.getBoundingBox(
-                    xCoord - 7,
-                    yCoord,
-                    zCoord - 7,
-                    xCoord + 7,
-                    yCoord + 3,
-                    zCoord + 7
-            );
-        }
-        return bb;
-    }
-
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 7,
+					yCoord,
+					zCoord - 7,
+					xCoord + 7,
+					yCoord + 3,
+					zCoord + 7);
+		}
+		return bb;
+	}
 
 }

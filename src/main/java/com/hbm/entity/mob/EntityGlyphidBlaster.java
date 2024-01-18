@@ -60,7 +60,7 @@ public class EntityGlyphidBlaster extends EntityGlyphidBombardier {
 
 	@Override
 	public float getBombDamage() {
-		return 10F;
+			return 15F;
 	}
 
 	@Override

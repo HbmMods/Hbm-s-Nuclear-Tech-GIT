@@ -16,7 +16,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
 import java.nio.DoubleBuffer;
 
 public class RenderStrandCaster extends TileEntitySpecialRenderer implements IItemRendererProvider {
@@ -70,7 +69,7 @@ public class RenderStrandCaster extends TileEntitySpecialRenderer implements IIt
 			buf.put(new double[] { 0, 0, -1, 0.5} );
 			buf.rewind();
 			GL11.glClipPlane(GL11.GL_CLIP_PLANE0, buf);
-			GL11.glTranslated(0,0,-offset + 3.4);
+			GL11.glTranslated(0,0,Math.max(-offset + 3.4, 0));
 			ResourceManager.strand_caster.renderPart("plate");
 			GL11.glDisable(GL11.GL_CLIP_PLANE0);
 			GL11.glPopMatrix();

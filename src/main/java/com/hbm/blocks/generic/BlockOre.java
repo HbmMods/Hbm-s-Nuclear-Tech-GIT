@@ -205,6 +205,9 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_cobalt || this == ModBlocks.ore_nether_cobalt) {
 			return ModItems.fragment_cobalt;
 		}
+		if(this == ModBlocks.block_meteor_molten) {
+			return null;
+		}
 
 		return Item.getItemFromBlock(this);
 	}
@@ -345,8 +348,7 @@ public class BlockOre extends Block {
 	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int i) {
 
 		if(this == ModBlocks.block_meteor_molten) {
-			if(!world.isRemote)
-				world.setBlock(x, y, z, Blocks.lava);
+			if(!world.isRemote) world.setBlock(x, y, z, Blocks.lava);
 		}
 	}
 }

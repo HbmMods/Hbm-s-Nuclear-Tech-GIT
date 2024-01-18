@@ -46,7 +46,7 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 			
 			if(this.ticksExisted % 60 == 1) {
 				
-				boolean topAttack = rand.nextBoolean();
+				boolean topAttack = false;
 
 				double velX = e.posX - lastX;
 				double velY = e.posY - lastY;
@@ -55,7 +55,11 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 				if(this.lastTarget != e || Vec3.createVectorHelper(velX, velY, velZ).lengthVector() > 30) {
 					velX = velY = velZ = 0;
 				}
-				
+
+				if (this.getDistanceToEntity(e) > 20) {
+					topAttack = true;
+				}
+
 				int prediction = topAttack ? 60 : 20;
 				Vec3 delta = Vec3.createVectorHelper(e.posX - posX + velX * prediction, (e.posY + e.height / 2) - (posY + 1) + velY * prediction, e.posZ - posZ + velZ * prediction);
 				double len = delta.lengthVector();
@@ -91,7 +95,7 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 	}
 	
 	public float getBombDamage() {
-		return 1.5F;
+		return 5F;
 	}
 	
 	public int getBombCount() {
