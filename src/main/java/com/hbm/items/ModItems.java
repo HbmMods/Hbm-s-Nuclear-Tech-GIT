@@ -330,6 +330,7 @@ public class ModItems {
 	public static Item plate_dalekanium;
 	public static Item plate_euphemium;
 	public static Item bolt;
+	public static Item bolt_spike;
 	public static Item bolt_compound;
 	public static Item plate_polymer;
 	public static Item plate_kevlar;
@@ -2602,6 +2603,7 @@ public class ModItems {
 		plate_dalekanium = new Item().setUnlocalizedName("plate_dalekanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_dalekanium");
 		plate_euphemium = new ItemCustomLore().setRarity(EnumRarity.epic).setUnlocalizedName("plate_euphemium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_euphemium");
 		bolt = new ItemAutogen(MaterialShapes.BOLT).setUnlocalizedName("bolt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bolt");
+		bolt_spike = new ItemCustomLore().setUnlocalizedName("bolt_spike").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bolt_spike");
 		bolt_compound = new Item().setUnlocalizedName("bolt_compound").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bolt_compound");
 		plate_polymer = new Item().setUnlocalizedName("plate_polymer").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_polymer");
 		plate_kevlar = new Item().setUnlocalizedName("plate_kevlar").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_kevlar");
@@ -6058,6 +6060,7 @@ public class ModItems {
 		
 		//Bolts
 		GameRegistry.registerItem(bolt, bolt.getUnlocalizedName());
+		GameRegistry.registerItem(bolt_spike, bolt_spike.getUnlocalizedName());
 		GameRegistry.registerItem(bolt_compound, bolt_compound.getUnlocalizedName());
 		
 		//Cloth

@@ -50,7 +50,7 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 		World world = player.worldObj;
 		if(!entity.isEntityAlive()) return false;
 		
-		ItemStack[] bolts = new ItemStack[] { Mats.MAT_STEEL.make(ModItems.bolt), Mats.MAT_TUNGSTEN.make(ModItems.bolt), Mats.MAT_DURA.make(ModItems.bolt)};
+		ItemStack[] bolts = new ItemStack[] { new ItemStack(ModItems.bolt_spike), Mats.MAT_STEEL.make(ModItems.bolt), Mats.MAT_TUNGSTEN.make(ModItems.bolt), Mats.MAT_DURA.make(ModItems.bolt)};
 		
 		for(ItemStack bolt : bolts) {
 			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {

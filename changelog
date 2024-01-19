@@ -1,3 +1,11 @@
+## Added
+* Silo hatch
+  * The final missing door from 1.12, remade from scratch
+  * Comes with a brand-new model that fits perfectly over 3x3 missile launch tubes
+  * Has a 5x5 frame
+
+## Changed
+* Simplified door recipes
 
 ## Fixed
 * Fixed sellafite emerald ore being oredicted as emerald dust
@@ -6,3 +14,4 @@
 * Fixed BFB rods being called ZFB in hot and depleted variants
 * Fixed infinite water barrels voiding water completely after the chemplant's input buffer runs full, infinite barrels can no longer void water in chemplants
 * Fixed fallout affecting things on Y:0 like bedrock ores and oil
+* Fixed projectiles not being able to pass through open doors
