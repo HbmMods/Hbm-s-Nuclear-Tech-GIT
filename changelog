@@ -15,3 +15,6 @@
 * Fixed infinite water barrels voiding water completely after the chemplant's input buffer runs full, infinite barrels can no longer void water in chemplants
 * Fixed fallout affecting things on Y:0 like bedrock ores and oil
 * Fixed projectiles not being able to pass through open doors
+* Fixed material dupe caused by strand caster overflowing
+* Fixed rampant mode glyphid scout spawn ignoring light level
+* Fixed glyphid diggers' debris attack being able to break concrete
