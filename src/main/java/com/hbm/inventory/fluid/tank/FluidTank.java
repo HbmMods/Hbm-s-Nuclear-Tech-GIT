@@ -1,7 +1,9 @@
 package com.hbm.inventory.fluid.tank;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.lwjgl.opengl.GL11;
 
@@ -15,6 +17,7 @@ import com.hbm.packet.TEFluidPacket;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -22,8 +25,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 
 public class FluidTank {
-	
+
 	public static final List<FluidLoadingHandler> loadingHandlers = new ArrayList();
+	public static final Set<Item> noDualUnload = new HashSet();
 	
 	static {
 		loadingHandlers.add(new FluidLoaderStandard());

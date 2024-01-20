@@ -86,6 +86,12 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 	public String getName() {
 		return "container.chemplant";
 	}
+	
+	// last successful load
+	int lsl0 = 0;
+	int lsl1 = 0;
+	int lsu0 = 0;
+	int lsu1 = 0;
 
 	@Override
 	public void updateEntity() {
@@ -98,11 +104,21 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			this.isProgressing = false;
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 
-			if(!tanks[0].loadTank(17, 19, slots) && (slots[17] == null || slots[17].getItem() != ModItems.fluid_barrel_infinite)) tanks[0].unloadTank(17, 19, slots);
-			if(!tanks[1].loadTank(18, 20, slots) && (slots[18] == null || slots[18].getItem() != ModItems.fluid_barrel_infinite)) tanks[1].unloadTank(18, 20, slots);
+			int fluidDelay = 40;
+			
+			if(lsu0 >= fluidDelay && tanks[0].loadTank(17, 19, slots)) lsl0 = 0;
+			if(lsu1 >= fluidDelay && tanks[1].loadTank(18, 20, slots)) lsl1 = 0;
+			
+			if(lsl0 >= fluidDelay && slots[17] != null && !FluidTank.noDualUnload.contains(slots[17].getItem())) if(tanks[0].unloadTank(17, 19, slots)) lsu0 = 0;
+			if(lsl1 >= fluidDelay && slots[18] != null && !FluidTank.noDualUnload.contains(slots[18].getItem())) if(tanks[1].unloadTank(18, 20, slots)) lsu1 = 0;
 			
 			tanks[2].unloadTank(9, 11, slots);
 			tanks[3].unloadTank(10, 12, slots);
+
+			if(lsl0 < fluidDelay) lsl0++;
+			if(lsl1 < fluidDelay) lsl1++;
+			if(lsu0 < fluidDelay) lsu0++;
+			if(lsu1 < fluidDelay) lsu1++;
 			
 			loadItems();
 			unloadItems();

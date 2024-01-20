@@ -128,7 +128,11 @@ public class ToolRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.bismuth_tool, 1), new Object[] { "TBT", "SRS", "SCS", 'T', TA.nugget(), 'B', ModItems.nugget_bismuth, 'S', ANY_RESISTANTALLOY.ingot(), 'R', ModItems.reacher, 'C', ModItems.circuit_aluminium });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.sat_designator, 1), new Object[] { "RRD", "PIC", "  P", 'P', GOLD.plate(), 'R', Items.redstone, 'C', ModItems.circuit_gold, 'D', ModItems.sat_chip, 'I', GOLD.ingot() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.sat_relay), new Object[] { ModItems.sat_chip, ModItems.ducttape, ModItems.radar_linker });
-		
+
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pipette, 1), new Object[] { "  L", " G ", "G  ", 'L', ANY_RUBBER.ingot(), 'G', KEY_CLEARGLASS});
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pipette_boron, 1), new Object[] { "  P", " B ", "B  ", 'P', RUBBER.ingot(), 'B', ModBlocks.glass_boron});
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pipette_laboratory, 1), new Object[] { "  C", " R ", "P  ", 'C', ModItems.circuit_aluminium, 'R', RUBBER.ingot(), 'P', ModItems.pipette_boron });
+
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.mirror_tool), new Object[] { " A ", " IA", "I  ", 'A', AL.ingot(), 'I', IRON.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rbmk_tool), new Object[] { " A ", " IA", "I  ", 'A', PB.ingot(), 'I', IRON.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.power_net_tool), new Object[] { "WRW", " I ", " B ", 'W', ModItems.wire_red_copper, 'R', REDSTONE.dust(), 'I', IRON.ingot(), 'B', ModItems.battery_su });

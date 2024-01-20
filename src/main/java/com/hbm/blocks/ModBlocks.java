@@ -602,6 +602,7 @@ public class ModBlocks {
 	public static Block sliding_blast_door;
 	public static Block fire_door;
 	public static Block transition_seal;
+	public static Block silo_hatch;
 
 	// 1.12.2 Doors
 	public static Block secure_access_door;
@@ -2115,6 +2116,7 @@ public class ModBlocks {
 		sliding_blast_door = new BlockDoorGeneric(Material.iron, DoorDecl.SLIDE_DOOR).setBlockName("sliding_blast_door").setHardness(10.0F).setResistance(750.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":sliding_blast_door");
 		fire_door = new BlockDoorGeneric(Material.iron, DoorDecl.FIRE_DOOR).setBlockName("fire_door").setHardness(10.0F).setResistance(1_000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":fire_door");
 		transition_seal = new BlockDoorGeneric(Material.iron, DoorDecl.TRANSITION_SEAL).setBlockName("transition_seal").setHardness(10.0F).setResistance(1_000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":transition_seal");
+		silo_hatch = new BlockDoorGeneric(Material.iron, DoorDecl.SILO_HATCH).setBlockName("silo_hatch").setHardness(10.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		secure_access_door = new BlockDoorGeneric(Material.iron, DoorDecl.SECURE_ACCESS_DOOR).setBlockName("secure_access_door").setHardness(20.0F).setResistance(2_000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		large_vehicle_door = new BlockDoorGeneric(Material.iron, DoorDecl.LARGE_VEHICLE_DOOR).setBlockName("large_vehicle_door").setHardness(10.0F).setResistance(1_000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		qe_containment = new BlockDoorGeneric(Material.iron, DoorDecl.QE_CONTAINMENT).setBlockName("qe_containment").setHardness(10.0F).setResistance(1_000.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -3052,6 +3054,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(blast_door, blast_door.getUnlocalizedName());
 		GameRegistry.registerBlock(fire_door, fire_door.getUnlocalizedName());
 		GameRegistry.registerBlock(transition_seal, transition_seal.getUnlocalizedName());
+		GameRegistry.registerBlock(silo_hatch, silo_hatch.getUnlocalizedName());
 		GameRegistry.registerBlock(sliding_blast_door, sliding_blast_door.getUnlocalizedName());
 
 		//Doors

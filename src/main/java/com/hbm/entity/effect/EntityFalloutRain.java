@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.FalloutConfigJSON.FalloutEntry;
+import com.hbm.config.WorldConfig;
 import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.world.WorldUtil;
@@ -114,6 +115,7 @@ public class EntityFalloutRain extends Entity {
 	}
 	
 	public static BiomeGenBase getBiomeChange(double dist, int scale) {
+		if(!WorldConfig.enableCraterBiomes) return null;
 		if(scale >= 150 && dist < 15)	return BiomeGenCraterBase.craterInnerBiome;
 		if(scale >= 100 && dist < 55)	return BiomeGenCraterBase.craterBiome;
 		if(scale >= 25)					return BiomeGenCraterBase.craterOuterBiome;
@@ -153,13 +155,14 @@ public class EntityFalloutRain extends Entity {
 
 		int depth = 0;
 
-		for(int y = 255; y >= 0; y--) {
+		for(int y = 255; y >= 1; y--) {
 			
 			if(depth >= 3) return;
 
 			Block b = worldObj.getBlock(x, y, z);
 
 			if(b.getMaterial() == Material.air) continue;
+			if(b == Blocks.bedrock) return;
 			
 			Block ab = worldObj.getBlock(x, y + 1, z);
 			int meta = worldObj.getBlockMetadata(x, y, z);
@@ -175,7 +178,7 @@ public class EntityFalloutRain extends Entity {
 			}
 
 			if(dist < 65 && b.isFlammable(worldObj, x, y, z, ForgeDirection.UP)) {
-				if(rand.nextInt(5) == 0)
+				if(rand.nextInt(5) == 0 && worldObj.getBlock(x, y + 1, z).isAir(worldObj, x, y + 1, z))
 					setBlock(x, y + 1, z, Blocks.fire);
 			}
 			

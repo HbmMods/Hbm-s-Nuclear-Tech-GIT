@@ -96,6 +96,7 @@ public class CraftingManager {
 		addRecipeAuto(Mats.MAT_TUNGSTEN.make(ModItems.bolt, 16), new Object[] { "D", "D", 'D', W.ingot()});
 		addRecipeAuto(Mats.MAT_STEEL.make(ModItems.bolt, 16), new Object[] { "D", "D", 'D', STEEL.ingot()});
 		addRecipeAuto(Mats.MAT_DURA.make(ModItems.bolt, 16), new Object[] { "D", "D", 'D', DURA.ingot()});
+		addRecipeAuto(new ItemStack(ModItems.bolt_spike, 2), new Object[] { "BB", "B ", "B ", 'B', STEEL.bolt()});
 		addRecipeAuto(new ItemStack(ModItems.pipes_steel, 1), new Object[] { "B", "B", "B", 'B', STEEL.block() });
 		addRecipeAuto(new ItemStack(ModItems.bolt_compound, 1), new Object[] { "PDP", "PTP", "PDP", 'D', DURA.bolt(), 'T', W.bolt(), 'P', TI.plate() });
 		addRecipeAuto(new ItemStack(ModItems.pellet_coal, 1), new Object[] { "PFP", "FOF", "PFP", 'P', COAL.dust(), 'F', Items.flint, 'O', ModBlocks.gravel_obsidian });
@@ -511,7 +512,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.rail_highspeed, 16), new Object[] { "S S", "SIS", "S S", 'S', STEEL.ingot(), 'I', IRON.plate() });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_booster, 6), new Object[] { "S S", "CIC", "SRS", 'S', STEEL.ingot(), 'I', IRON.plate(), 'R', MINGRADE.ingot(), 'C', ModItems.coil_copper });
 
-		addRecipeAuto(new ItemStack(ModBlocks.rail_large_straight, 4), new Object[] { "B B", "SSS", "W W", 'B', STEEL.bolt(), 'S', ModBlocks.steel_beam, 'W', KEY_SLAB });
+		addRecipeAuto(new ItemStack(ModBlocks.rail_large_straight, 4), new Object[] { "B B", "SSS", "W W", 'B', ModItems.bolt_spike, 'S', ModBlocks.steel_beam, 'W', KEY_SLAB });
 		addShapelessAuto(new ItemStack(ModBlocks.rail_large_straight, 1), new Object[] { ModBlocks.rail_large_straight_short, ModBlocks.rail_large_straight_short, ModBlocks.rail_large_straight_short, ModBlocks.rail_large_straight_short, ModBlocks.rail_large_straight_short });
 		addShapelessAuto(new ItemStack(ModBlocks.rail_large_straight_short, 5), new Object[] { ModBlocks.rail_large_straight });
 		addRecipeAuto(new ItemStack(ModBlocks.rail_large_buffer, 1), new Object[] { " S", "RS", 'R', ModBlocks.rail_large_straight, 'S', STEEL.ingot() });

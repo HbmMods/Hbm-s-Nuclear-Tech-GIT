@@ -81,6 +81,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 						target.setLocationAndAngles(dirVec.xCoord, dirVec.yCoord, dirVec.zCoord, 0, 0);
 						target.maxAge = 300;
 						target.radius = 6;
+						target.setWaypointType(TASK_BUILD_HIVE);
 						worldObj.spawnEntityInWorld(target);
 						hasTarget = true;
 
@@ -110,6 +111,10 @@ public class EntityGlyphidScout extends EntityGlyphid {
 					this.addPotionEffect(new PotionEffect(Potion.fireResistance.id, 180 * 20, 1));
 					hasTarget = true;
 				}
+			}
+			//fixes edge case where glyphids have no task and yet hasTarget is true
+			if(taskWaypoint == null && hasTarget){
+				hasTarget = false;
 			}
 
 			if (getCurrentTask() == TASK_TERRAFORM && super.isAtDestination() && canBuildHiveHere()) {
@@ -291,6 +296,14 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		return false;
 	}
 
+	@Override
+	protected Entity findPlayerToAttack() {
+		if(this.isPotionActive(Potion.blindness)) return null;
+		//no extended targeting, and a low attack distance, ensures the scouts are focused in expanding, and not in chasing the player
+		return this.worldObj.getClosestVulnerablePlayerToEntity(this, 10);
+	}
+
+
 	///RAMPANT MODE STUFFS
 
 	/** Finds the direction from the bug's location to the target and adds it to their current coord
@@ -311,5 +324,24 @@ public class EntityGlyphidScout extends EntityGlyphid {
 			return Vec3.createVectorHelper(player.posX, player.posY, player.posZ);
 		}
 		return PollutionHandler.targetCoords;
+	}
+
+	/** Vanilla implementation, minus the RNG */
+	@Override
+	public boolean isValidLightLevel() {
+		int x = MathHelper.floor_double(this.posX);
+		int y = MathHelper.floor_double(this.boundingBox.minY);
+		int z = MathHelper.floor_double(this.posZ);
+
+		int light = this.worldObj.getBlockLightValue(x, y, z);
+
+		if(this.worldObj.isThundering()) {
+			int skylightSubtracted = this.worldObj.skylightSubtracted;
+			this.worldObj.skylightSubtracted = 10;
+			light = this.worldObj.getBlockLightValue(x, y, z);
+			this.worldObj.skylightSubtracted = skylightSubtracted;
+		}
+			
+		return light <= 7;
 	}
 }

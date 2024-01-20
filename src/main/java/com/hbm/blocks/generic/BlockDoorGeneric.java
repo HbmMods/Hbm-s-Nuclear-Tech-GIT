@@ -43,7 +43,7 @@ public class BlockDoorGeneric extends BlockDummyable {
 
 	@Override
 	public int getOffset(){
-		return 0;
+		return type.getBlockOffset();
 	}
 	
 	@Override
@@ -80,8 +80,8 @@ public class BlockDoorGeneric extends BlockDummyable {
 				Math.min(box.minX, box.maxX), Math.min(box.minY, box.maxY), Math.min(box.minZ, box.maxZ),
 				Math.max(box.minX, box.maxX), Math.max(box.minY, box.maxY), Math.max(box.minZ, box.maxZ));
 		
-		if(box.minY == y && box.maxY == y)
-			return;
+		if(box.minY == y && box.maxY == y) return;
+		if(box.minX == box.maxX && box.minY == box.maxY && box.minZ == box.maxZ) return;
 		
 		if(box != null && box.intersectsWith(entityBox)) {
 			collidingBoxes.add(box);
@@ -90,6 +90,13 @@ public class BlockDoorGeneric extends BlockDummyable {
 		//if(hasExtra(worldIn.getBlockMetadata(x, y, z))) //transition hatch only worked with this, but fire door doesn't
 		//	return;
 		//super.addCollisionBoxesToList(worldIn, x, y, z, entityBox, collidingBoxes, entityIn);
+	}
+	
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+		AxisAlignedBB aabb = this.getBoundingBox(world, x, y, z);
+		if(aabb.minX == aabb.maxX && aabb.minY == aabb.maxY && aabb.minZ == aabb.maxZ) return null;
+		return aabb;
 	}
 
 	@Override //should fix AI pathfinding
