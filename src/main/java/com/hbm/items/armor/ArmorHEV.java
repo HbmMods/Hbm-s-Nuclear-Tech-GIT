@@ -3,6 +3,7 @@ package com.hbm.items.armor;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.items.ModItems;
 import com.hbm.render.model.ModelArmorHEV;
 
 import cpw.mods.fml.relauncher.Side;
@@ -45,7 +46,7 @@ public class ArmorHEV extends ArmorFSBPowered {
 	@Override
 	public void handleOverlay(RenderGameOverlayEvent.Pre event, EntityPlayer player) {
 
-		if(this.hasFSBArmorIgnoreCharge(player)) {
+		if(this.hasFSBArmorIgnoreCharge(player) && player.inventory.armorInventory[2].getItem() == ModItems.hev_plate) {
 
 			if(event.type == ElementType.ARMOR) {
 				event.setCanceled(true);

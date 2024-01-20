@@ -36,7 +36,7 @@ public class BlockEnumMulti extends BlockMulti {
 			
 			for(int i = 0; i < icons.length; i++) {
 				Enum num = enums[i];
-				this.icons[i] = reg.registerIcon(this.getTextureName() + "." + num.name().toLowerCase(Locale.US));
+				this.icons[i] = reg.registerIcon(this.getTextureMultiName(num));
 			}
 		} else {
 			this.blockIcon = reg.registerIcon(this.getTextureName());
@@ -47,10 +47,18 @@ public class BlockEnumMulti extends BlockMulti {
 		
 		if(this.multiName) {
 			Enum num = EnumUtil.grabEnumSafely(this.theEnum, stack.getItemDamage());
-			return super.getUnlocalizedName() + "." + num.name().toLowerCase(Locale.US);
+			return getUnlocalizedMultiName(num);
 		}
 		
 		return this.getUnlocalizedName();
+	}
+	
+	public String getTextureMultiName(Enum num) {
+		return this.getTextureName() + "." + num.name().toLowerCase(Locale.US);
+	}
+	
+	public String getUnlocalizedMultiName(Enum num) {
+		return super.getUnlocalizedName() + "." + num.name().toLowerCase(Locale.US);
 	}
 	
 	@Override

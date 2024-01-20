@@ -3,9 +3,24 @@
   * The final missing door from 1.12, remade from scratch
   * Comes with a brand-new model that fits perfectly over 3x3 missile launch tubes
   * Has a 5x5 frame
+* Molysite
+  * Found in basalt from volcanos
+  * Can be combination-smelted into iron and chlorine
+  * Don't make me pull another chlorocalcite
+* Rad volcanos
+  * Created when fallout affects a volcano core
+  * Uses a new volcanic lava type that produces sellafite, as well as sellafite gem ores
+* Radioactive gem
+  * Created when fallout affects diamond ore, or if radioactive volcanic lava touches diamond ore
+  * Currenly only used in the radiation powered engine as powerful long-lasting fuel
+  * When depleted, turns back into a regular diamond
 
 ## Changed
 * Simplified door recipes
+* Fissure bombs now require tantalium
+* Removed the "nerve agent" hazard class because no gas used it
+* Fissures now continuously spawn volcanic lava, making basalt renewable without having an entire volcano
+* Volcanic lava now turns diamond ore into gem-rich basalt
 
 ## Fixed
 * Fixed sellafite emerald ore being oredicted as emerald dust
@@ -18,3 +33,8 @@
 * Fixed material dupe caused by strand caster overflowing
 * Fixed rampant mode glyphid scout spawn ignoring light level
 * Fixed glyphid diggers' debris attack being able to break concrete
+* Fixed `canLaunch` function of custom missile launch pads demanding a designator, preventing launch pads without designator from working even when the position is supplied by a radar
+* Fixed none of the helmets or filters protecting against corrosive gasses (blistering agents) like mustard gas
+* Fixed fallout layers being able to generate below roofs
+* Fixed exposure chamber not saving anything to NBT besides slots
+* Fixed crash caused by wearing the full PaA set and then putting on an HEV helmet (why would anyone ever do this??)

@@ -261,7 +261,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	
 	public boolean canLaunch() {
 		
-		if(power >= maxPower * 0.75 && isMissileValid() && hasDesignator() && hasFuel())
+		if(power >= maxPower * 0.75 && isMissileValid() && hasFuel())
 			return true;
 		
 		return false;
