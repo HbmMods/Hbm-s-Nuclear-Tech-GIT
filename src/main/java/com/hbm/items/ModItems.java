@@ -458,6 +458,8 @@ public class ModItems {
 	public static Item powder_plutonium;
 	public static Item dust;
 	public static Item dust_tiny;
+	public static Item dust_mineral;
+	public static Item dust_mineral_tiny;
 	public static Item fallout;
 	public static Item powder_power;
 
@@ -688,6 +690,7 @@ public class ModItems {
 	public static Item toothpicks;
 	public static Item ducttape;
 	public static Item catalyst_clay;
+	public static Item catalyst_fe_co;
 	
 	public static Item warhead_generic_small;
 	public static Item warhead_generic_medium;
@@ -1248,6 +1251,8 @@ public class ModItems {
 	public static Item powder_ice;
 	public static Item powder_poison;
 	public static Item powder_thermite;
+	public static Item powder_salt;
+	public static Item powder_salt_tiny;
 	public static Item pellet_gas;
 	public static Item magnetron;
 	public static Item pellet_buckshot;
@@ -2893,6 +2898,8 @@ public class ModItems {
 		powder_plutonium = new Item().setUnlocalizedName("powder_plutonium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_plutonium");
 		dust = new ItemCustomLore().setUnlocalizedName("dust").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":dust");
 		dust_tiny = new Item().setUnlocalizedName("dust_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":dust_tiny");
+		dust_mineral = new ItemCustomLore().setUnlocalizedName("dust_mineral").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":dust_mineral");
+		dust_mineral_tiny = new Item().setUnlocalizedName("dust_mineral_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":dust_mineral_tiny");
 		fallout = new Item().setUnlocalizedName("fallout").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fallout");
 		powder_advanced_alloy = new Item().setUnlocalizedName("powder_advanced_alloy").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_advanced_alloy");
 		powder_tcalloy = new Item().setUnlocalizedName("powder_tcalloy").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_tcalloy");
@@ -3048,6 +3055,7 @@ public class ModItems {
 		toothpicks = new Item().setUnlocalizedName("toothpicks").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":toothpicks");
 		ducttape = new Item().setUnlocalizedName("ducttape").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ducttape");
 		catalyst_clay = new Item().setUnlocalizedName("catalyst_clay").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":catalyst_clay");
+		catalyst_fe_co = new Item().setUnlocalizedName("catalyst_fe_co").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":catalyst_fe_co");
 		
 		warhead_generic_small = new Item().setUnlocalizedName("warhead_generic_small").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":warhead_generic_small");
 		warhead_generic_medium = new Item().setUnlocalizedName("warhead_generic_medium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":warhead_generic_medium");
@@ -3892,6 +3900,8 @@ public class ModItems {
 		powder_ice = new ItemCustomLore().setUnlocalizedName("powder_ice").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_ice");
 		powder_poison = new ItemCustomLore().setUnlocalizedName("powder_poison").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_poison");
 		powder_thermite = new ItemCustomLore().setUnlocalizedName("powder_thermite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_thermite");
+		powder_salt = new ItemCustomLore().setUnlocalizedName("powder_salt").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_salt");
+		powder_salt_tiny = new ItemCustomLore().setUnlocalizedName("powder_salt_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_salt_tiny");
 		cordite = new Item().setUnlocalizedName("cordite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":cordite");
 		ballistite = new Item().setUnlocalizedName("ballistite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ballistite");
 		ball_dynamite = new Item().setUnlocalizedName("ball_dynamite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ball_dynamite");
@@ -5886,6 +5896,8 @@ public class ModItems {
 		GameRegistry.registerItem(redstone_depleted, redstone_depleted.getUnlocalizedName());
 		GameRegistry.registerItem(dust, dust.getUnlocalizedName());
 		GameRegistry.registerItem(dust_tiny, dust_tiny.getUnlocalizedName());
+		GameRegistry.registerItem(dust_mineral, dust_mineral.getUnlocalizedName());
+		GameRegistry.registerItem(dust_mineral_tiny, dust_mineral_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(fallout, fallout.getUnlocalizedName());
 		GameRegistry.registerItem(powder_ash, powder_ash.getUnlocalizedName());
 		
@@ -5894,6 +5906,8 @@ public class ModItems {
 		GameRegistry.registerItem(powder_ice, powder_ice.getUnlocalizedName());
 		GameRegistry.registerItem(powder_poison, powder_poison.getUnlocalizedName());
 		GameRegistry.registerItem(powder_thermite, powder_thermite.getUnlocalizedName());
+		GameRegistry.registerItem(powder_salt, powder_salt.getUnlocalizedName());
+		GameRegistry.registerItem(powder_salt_tiny, powder_salt_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(powder_power, powder_power.getUnlocalizedName());
 		GameRegistry.registerItem(cordite, cordite.getUnlocalizedName());
 		GameRegistry.registerItem(ballistite, ballistite.getUnlocalizedName());
@@ -6164,6 +6178,7 @@ public class ModItems {
 		GameRegistry.registerItem(toothpicks, toothpicks.getUnlocalizedName());
 		GameRegistry.registerItem(ducttape, ducttape.getUnlocalizedName());
 		GameRegistry.registerItem(catalyst_clay, catalyst_clay.getUnlocalizedName());
+		GameRegistry.registerItem(catalyst_fe_co, catalyst_fe_co.getUnlocalizedName());
 		GameRegistry.registerItem(missile_assembly, missile_assembly.getUnlocalizedName());
 		GameRegistry.registerItem(warhead_generic_small, warhead_generic_small.getUnlocalizedName());
 		GameRegistry.registerItem(warhead_generic_medium, warhead_generic_medium.getUnlocalizedName());
