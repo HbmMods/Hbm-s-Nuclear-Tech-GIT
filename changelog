@@ -3,6 +3,7 @@
   * The final missing door from 1.12, remade from scratch
   * Comes with a brand-new model that fits perfectly over 3x3 missile launch tubes
   * Has a 5x5 frame
+  * Can be opened and closed with a detonator
 * Molysite
   * Found in basalt from volcanos
   * Can be combination-smelted into iron and chlorine
@@ -21,6 +22,15 @@
 * Removed the "nerve agent" hazard class because no gas used it
 * Fissures now continuously spawn volcanic lava, making basalt renewable without having an entire volcano
 * Volcanic lava now turns diamond ore into gem-rich basalt
+* Mushroom clouds have been tweaked
+  * Their scale no longer scales linearly, but rather with a square root function, this prevents tsar clouds from being so huge that the top fails to render due to clipping through the skybox
+  * Their default scale is now somewhat larger
+  * The flash scale has been increased
+  * Their general scaling is now consistent, larger clouds will no longer be chubby with a comically small ring
+  * Shockwave particles now have momentum, making them sweep over the landscape, as well as being 1.5x denser and slightly larger
+    * Effect shamelessly stolen from NTM-EE
+  * Outer condensation rings' spawning is no longer fixed, the time now scales with the size
+  * The inner condensation ring's spawn time is also now based on scale, which means larger clouds will no longer end up with comically thin rings due to not spawning enough cloudlets
 
 ## Fixed
 * Fixed sellafite emerald ore being oredicted as emerald dust
@@ -38,3 +48,4 @@
 * Fixed fallout layers being able to generate below roofs
 * Fixed exposure chamber not saving anything to NBT besides slots
 * Fixed crash caused by wearing the full PaA set and then putting on an HEV helmet (why would anyone ever do this??)
+* Fixed large doors only being lockable by clicking on the core block

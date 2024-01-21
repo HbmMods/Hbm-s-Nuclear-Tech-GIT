@@ -870,6 +870,7 @@ public abstract class DoorDecl {
 		@Override public String getCloseSoundStart() { return null; };
 		@Override public String getCloseSoundEnd() { return "hbm:door.wgh_big_stop"; };
 		@Override public float getSoundVolume() { return 2; }
+		@Override public boolean remoteControllable() { return true; }
 
 		@Override
 		@SideOnly(Side.CLIENT)
@@ -1010,6 +1011,10 @@ public abstract class DoorDecl {
 	
 	public int getBlockOffset() {
 		return 0;
+	}
+
+	public boolean remoteControllable() {
+		return false;
 	}
 
 	public float getDoorRangeOpenTime(int ticks, int idx) {

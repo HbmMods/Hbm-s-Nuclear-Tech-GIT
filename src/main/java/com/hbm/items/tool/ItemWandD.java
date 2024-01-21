@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.lib.Library;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.TrackerUtil;
 import com.hbm.world.WorldUtil;
 import com.hbm.world.biome.BiomeGenCraterBase;
@@ -11,6 +12,7 @@ import com.hbm.world.biome.BiomeGenCraterBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -64,11 +66,17 @@ public class ItemWandD extends Item {
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
 			
-			EntityNukeTorex torex = new EntityNukeTorex(world);
-			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
-			torex.setScale(1.5F);
-			world.spawnEntityInWorld(torex);
-			TrackerUtil.setTrackingRange(world, torex, 1000);
+			List<EntityNukeTorex> del = world.getEntitiesWithinAABB(EntityNukeTorex.class, AxisAlignedBB.getBoundingBox(pos.blockX, pos.blockY + 1, pos.blockZ, pos.blockX, pos.blockY + 1, pos.blockZ).expand(50, 50, 50));
+			
+			if(!del.isEmpty()) {
+				for(EntityNukeTorex torex : del) torex.setDead();
+			} else {
+				EntityNukeTorex torex = new EntityNukeTorex(world);
+				torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
+				torex.setScale((float) BobMathUtil.squirt( 1.5 ) * 1.5F);
+				world.spawnEntityInWorld(torex);
+				TrackerUtil.setTrackingRange(world, torex, 1000);
+			}
 			
 			/*EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
 			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
