@@ -76,9 +76,11 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(HEAVYOIL,		SF_HEAVY,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(HEAVYOIL_VACUUM,	SF_HEAVY,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(BITUMEN,			SF_BITUMEN,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
+		registerRecipe(BIOOIL,			SF_CRACK,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK));
 		registerRecipe(COALCREOSOTE,	SF_CREOSOTE,	DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL));
 		registerRecipe(WOODOIL,			SF_WOOD,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WOOD));
 		registerRecipe(LUBRICANT,		SF_LUBE,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.PARAFFIN));
+		registerRecipe(SYNOIL,		    250,		    DictFrame.fromOne(ModItems.oil_tar, EnumTarType.PARAFFIN));
 
 		registerRecipe(BALEFIRE,		250,			ModItems.solid_fuel_bf);
 		
