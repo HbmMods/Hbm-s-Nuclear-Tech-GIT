@@ -51,6 +51,12 @@ public class CrackingRecipes extends SerializableRecipe {
 		cracking.put(Fluids.XYLENE,				new Pair(new FluidStack(Fluids.AROMATICS,		xyl_crack_aroma),	new FluidStack(Fluids.PETROLEUM,	xyl_crack_petro)));
 		cracking.put(Fluids.HEATINGOIL_VACUUM,	new Pair(new FluidStack(Fluids.HEATINGOIL,		80),				new FluidStack(Fluids.REFORMGAS,	20)));
 		cracking.put(Fluids.REFORMATE,			new Pair(new FluidStack(Fluids.UNSATURATEDS,	40),				new FluidStack(Fluids.REFORMGAS,	60)));
+	        cracking.put(Fluids.BIOOIL,			new Pair(new FluidStack(Fluids.CRACKOIL,	    25),			new FluidStack(Fluids.AROMATICS,	75)));
+		cracking.put(Fluids.SYNOIL,			new Pair(new FluidStack(Fluids.SYNDIESEL,	    75),			new FluidStack(Fluids.SYNNAPHTHA,	25)));
+		cracking.put(Fluids.SYNDIESEL,			new Pair(new FluidStack(Fluids.SYNKEROSENE,	    40),	            new FluidStack(Fluids.PETROLEUM,	60)));
+		cracking.put(Fluids.SYNNAPHTHA,			new Pair(new FluidStack(Fluids.SYNPETROIL,	    60),			new FluidStack(Fluids.UNSATURATEDS,	40)));
+		cracking.put(Fluids.SYNPETROIL,			new Pair(new FluidStack(Fluids.GAS,	            20),			new FluidStack(Fluids.PETROLEUM,	80)));
+		cracking.put(Fluids.SYNKEROSENE,		new Pair(new FluidStack(Fluids.REFORMGAS,	    40),			new FluidStack(Fluids.PETROLEUM,	60)));
 	}
 	
 	public static Pair<FluidStack, FluidStack> getCracking(FluidType oil) {
