@@ -1235,10 +1235,8 @@ public class ModBlocks {
 
 	public static Block volcanic_lava_block;
 	public static Fluid volcanic_lava_fluid;
-	public static final Material fluidvolcanic = (new MaterialLiquid(MapColor.redColor));
 	public static Block rad_lava_block;
 	public static Fluid rad_lava_fluid;
-	public static final Material fluidradlava = (new MaterialLiquid(MapColor.redColor));
 
 	public static Block sulfuric_acid_block;
 	public static Fluid sulfuric_acid_fluid;
