@@ -166,6 +166,16 @@ public class Fluids {
 	public static FluidType THORIUM_SALT_HOT;
 	public static FluidType THORIUM_SALT_DEPLETED;
 	public static FluidType FULLERENE;
+	public static FluidType CRUDEBIOOIL;
+	public static FluidType BIOOIL;
+	public static FluidType HOTBIOOIL;
+	public static FluidType SYNOIL;
+	public static FluidType SYNNAPHTHA;
+	public static FluidType SYNDIESEL;
+	public static FluidType SYNKEROSENE;
+	public static FluidType SYNPETROIL;
+	public static FluidType BRINE;
+	public static FluidType BRINE_HOT;
 	
 	public static List<FluidType> customFluids = new ArrayList();
 
@@ -333,7 +343,17 @@ public class Fluids {
 		THORIUM_SALT_DEPLETED =	new FluidType("THORIUM_SALT_DEPLETED",	0x302D1C, 2, 0, 3, EnumSymbol.NONE).setTemp(800).addTraits(LIQUID, VISCOUS, new FT_Corrosive(65));
 		FULLERENE =				new FluidType("FULLERENE",			0xFF7FED, 3, 3, 3, EnumSymbol.NONE).addTraits(LIQUID, new FT_Corrosive(65));
 		PHEROMONE =				new FluidType("PHEROMONE",			0x5FA6E8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Pheromone(1));
-		PHEROMONE_M =			new FluidType(132, "PHEROMONE_M",	0x48C9B0 , 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Pheromone(2));
+		PHEROMONE_M =			new FluidType("PHEROMONE_M",	0x48C9B0 , 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Pheromone(2));
+		CRUDEBIOOIL=            new FluidType("CRUDEBIOOIL",		0x140f0b, 2, 1, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x181313)).addTraits(new FT_Flammable(8_000), LIQUID, VISCOUS, new FT_Corrosive(6));
+		BIOOIL =			    new FluidType("BIOOIL",		        0x070706, 2, 1, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x151719)).addTraits(new FT_Flammable(16_000), LIQUID, VISCOUS);
+		HOTBIOOIL=			new FluidType("HOTBIOOIL",				0x300900, 2, 3, 0, EnumSymbol.NONE).setTemp(350).addTraits(new FT_Flammable(16_000), LIQUID, VISCOUS);
+		SYNOIL=                 new FluidType("SYNOIL",		0xc1bbb3, 2, 1, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xaaa49c)).addTraits(new FT_Flammable(30_000), LIQUID, VISCOUS);
+		SYNNAPHTHA =			new FluidType("SYNNAPHTHA",			0xa7a48c, 2, 1, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xcfcaae)).addTraits(new FT_Flammable(250_000), new FT_Combustible(FuelGrade.MEDIUM, 300_000), LIQUID, VISCOUS);
+		SYNPETROIL =			new FluidType("SYNPETROIL",			0xd1ceca, 1, 3, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xd6d3cf)).addTraits(new FT_Flammable(350_000), new FT_Combustible(FuelGrade.MEDIUM, 600_000), LIQUID);
+		SYNDIESEL =		        new FluidType("SYNDIESEL",				0xfefeec, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xfc0505)).addTraits(new FT_Flammable(500_000), new FT_Combustible(FuelGrade.HIGH, 1000_000), LIQUID);
+		SYNKEROSENE =		    new FluidType("SYNKEROSENE",	0xd4bfd4, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID).addContainers(new CD_Canister(0xffeaff)).addTraits(new FT_Flammable(400_000), new FT_Combustible(FuelGrade.AERO, 2_250_000), LIQUID);;
+		BRINE =		            new FluidType("BRINE",	0xd2d8ff, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID,VISCOUS, new FT_Corrosive(30));
+		BRINE_HOT =		        new FluidType(142,"BRINE_HOT",	0xbcb2de, 0, 0, 0, EnumSymbol.NONE).setTemp(300).addTraits(LIQUID,VISCOUS, new FT_Corrosive(30));
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		
@@ -372,6 +392,8 @@ public class Fluids {
 		metaOrder.add(THORIUM_SALT);
 		metaOrder.add(THORIUM_SALT_HOT);
 		metaOrder.add(THORIUM_SALT_DEPLETED);
+		metaOrder.add(BRINE);
+		metaOrder.add(BRINE_HOT);
 		//pure elements, cyogenic gasses
 		metaOrder.add(HYDROGEN);
 		metaOrder.add(DEUTERIUM);
@@ -431,11 +453,19 @@ public class Fluids {
 		metaOrder.add(WOODOIL);
 		metaOrder.add(BIOGAS);
 		metaOrder.add(BIOFUEL);
+		metaOrder.add(CRUDEBIOOIL);
+		metaOrder.add(BIOOIL);
+		metaOrder.add(HOTBIOOIL);
 		metaOrder.add(ETHANOL);
 		metaOrder.add(FISHOIL);
 		metaOrder.add(SUNFLOWEROIL);
 		metaOrder.add(NITAN);
 		metaOrder.add(BALEFIRE);
+		metaOrder.add(SYNOIL);
+		metaOrder.add(SYNNAPHTHA);
+		metaOrder.add(SYNPETROIL);
+		metaOrder.add(SYNDIESEL);
+		metaOrder.add(SYNKEROSENE);
 		//processing fluids
 		metaOrder.add(SALIENT);
 		metaOrder.add(SEEDSLURRY);
@@ -525,9 +555,11 @@ public class Fluids {
 		
 		OIL.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(10, 1, HOTOIL, 1));
 		CRACKOIL.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(10, 1, HOTCRACKOIL, 1));
-
+		BIOOIL.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(10, 1, HOTBIOOIL, 1));
+		
 		HOTOIL.addTraits(new FT_Coolable(OIL, 1, 1, 10).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 		HOTCRACKOIL.addTraits(new FT_Coolable(CRACKOIL, 1, 1, 10).setEff(CoolingType.HEATEXCHANGER, 1.0D));
+		HOTBIOOIL.addTraits(new FT_Coolable(BIOOIL, 1, 1, 10).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 
 		COOLANT.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.0D).setEff(HeatingType.PWR, 1.0D).addStep(300, 1, COOLANT_HOT, 1));
 		COOLANT_HOT.addTraits(new FT_Coolable(COOLANT, 1, 1, 300).setEff(CoolingType.HEATEXCHANGER, 1.0D));
@@ -546,6 +578,9 @@ public class Fluids {
 		
 		THORIUM_SALT.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 1.0D).addStep(400, 1, THORIUM_SALT_HOT, 1), new FT_PWRModerator(2.5D));
 		THORIUM_SALT_HOT.addTraits(new FT_Coolable(THORIUM_SALT_DEPLETED, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));
+
+		BRINE.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.5D).setEff(HeatingType.PWR, 1.5D).addStep(300, 1, BRINE_HOT, 1));
+		BRINE_HOT.addTraits(new FT_Coolable(BRINE_HOT, 1, 1, 300).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 		
 		if(idMapping.size() != metaOrder.size()) {
 			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size());
@@ -576,6 +611,8 @@ public class Fluids {
 		registerCalculatedFuel(OIL, (baseline / 1D * flammabilityLow * demandLow), 0, null);
 		registerCalculatedFuel(CRACKOIL, (baseline / 1D * flammabilityLow * demandLow * complexityCracking), 0, null);
 		registerCalculatedFuel(OIL_COKER, (baseline / 1D * flammabilityLow * demandLow * complexityCoker), 0, null);
+		registerCalculatedFuel(BIOOIL, (baseline / 1D * flammabilityLow * demandLow), 0, null);
+		registerCalculatedFuel(SYNOIL, (baseline / 1D * flammabilityLow * demandLow * complexityRefinery), 1.25D, null);
 		registerCalculatedFuel(GAS, (baseline / 1D * flammabilityNormal * demandVeryLow), 1.25, FuelGrade.GAS);
 		registerCalculatedFuel(GAS_COKER, (baseline / 1D * flammabilityNormal * demandVeryLow * complexityCoker), 1.25, FuelGrade.GAS);
 		registerCalculatedFuel(HEAVYOIL, (baseline / 0.5 * flammabilityLow * demandLow * complexityRefinery), 1.25D, FuelGrade.LOW);
@@ -609,6 +646,8 @@ public class Fluids {
 		registerCalculatedFuel(DIESEL_REFORM, DIESEL.getTrait(FT_Flammable.class).getHeatEnergy() * complexityReform, 2.5D, FuelGrade.HIGH);
 		registerCalculatedFuel(DIESEL_CRACK_REFORM, DIESEL_CRACK.getTrait(FT_Flammable.class).getHeatEnergy() * complexityReform, 2.5D, FuelGrade.HIGH);
 		registerCalculatedFuel(KEROSENE_REFORM, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * complexityReform, 1.5D, FuelGrade.AERO);
+		registerCalculatedFuel(SYNDIESEL, (baseline / 0.35 * flammabilityNormal * demandLow * complexityRefinery * complexityCracking * complexityFraction), 2.5D, FuelGrade.HIGH);
+		registerCalculatedFuel(SYNKEROSENE, (baseline / 0.11 * flammabilityHigh * demandHigh * complexityRefinery * complexityFraction), 1.5D, FuelGrade.AERO);
 		registerCalculatedFuel(REFORMGAS, (baseline / 0.06 * flammabilityHigh * demandLow * complexityVacuum * complexityFraction), 1.25D, FuelGrade.GAS);
 		
 		//all hail the spreadsheet
