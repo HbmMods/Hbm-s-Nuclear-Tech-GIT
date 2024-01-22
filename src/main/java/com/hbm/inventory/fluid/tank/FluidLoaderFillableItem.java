@@ -16,6 +16,8 @@ public class FluidLoaderFillableItem extends FluidLoadingHandler {
 	
 	public boolean fill(ItemStack stack, FluidTank tank) {
 		
+		if(tank.pressure != 0) return false;
+		
 		if(stack == null)
 			return false;
 		

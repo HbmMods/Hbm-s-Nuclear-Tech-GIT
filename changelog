@@ -2,8 +2,9 @@
 * Muffler
   * An upgrade-like item that replaces the old muffler block
   * Creates 16 when crafted, however it is not returned when the muffled machine is broken
-  * Should work with pretty much all machines that use looped sounds, as well as a few other noisy ones (copressors, diesel generators, presses)
+  * Should work with pretty much all machines that use looped sounds, as well as a few other noisy ones (compressors, diesel generators, presses)
   * Simply right-click to install, doesn't need to be inserted into an upgrade slot, in fact it works on a few machines that have no GUI at all
 
 ## Fixed
 * Fixed basalt ores dropping their items with invalid metadata
+* Fixed creative infinite fluid tanks not being able to fill fluid gauges at >0PU
