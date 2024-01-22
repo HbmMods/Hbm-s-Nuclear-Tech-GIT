@@ -142,7 +142,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 				} else if(!audio.isPlaying()) {
 					audio = rebootAudio(audio);
 				}
-				
+
 				audio.keepAlive();
 				audio.updateVolume(this.getVolume(1F));
 				

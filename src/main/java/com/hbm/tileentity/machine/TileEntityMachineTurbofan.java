@@ -318,7 +318,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 				}
 
 				audio.keepAlive();
-				audio.updateVolume(getVolume(momentum));
+				audio.updateVolume(getVolume(momentum / 50F));
 				audio.updatePitch(momentum / 200F + 0.5F + this.afterburner * 0.16F);
 				
 			} else {
