@@ -286,17 +286,19 @@ public class GUIAnvil extends GuiContainer {
 			if(stack instanceof ComparableStack)  {
 				ItemStack input = ((ComparableStack) stack).toStack();
 				boolean hasItem = false;
+				int amount =0;
 				for (int i = 0; i < inventory.mainInventory.length; i++) {
 					ItemStack stackItem = inventory.mainInventory[i];
 					if(stackItem == null)
 					{
 						continue;
 					}
-					if (stackItem.getItem() == input.getItem() && stackItem.stackSize >= stack.stacksize) {
+					if (stackItem.getItem() == input.getItem() && input.getItemDamage() == stackItem.getItemDamage()) {
 						hasItem = true;
+						amount +=stackItem.stackSize;
 					}
 				}
-				if(hasItem) {
+				if(hasItem && amount >= stack.stacksize) {
 					list.add(">" + input.stackSize + "x " + input.getDisplayName());
 				}else {
 					list.add(EnumChatFormatting.RED + ">" + input.stackSize + "x " + input.getDisplayName());
@@ -308,17 +310,19 @@ public class GUIAnvil extends GuiContainer {
 				if(ores.size() > 0) {
 					ItemStack inStack = ores.get((int) (Math.abs(System.currentTimeMillis() / 1000) % ores.size()));
 					boolean hasItem = false;
+					int amount =0;
 					for (int i = 0; i < inventory.mainInventory.length; i++) {
 						ItemStack stackItem = inventory.mainInventory[i];
 						if(stackItem == null)
 						{
 							continue;
 						}
-						if (stackItem.getItem() == inStack.getItem() && stackItem.stackSize >= stack.stacksize) {
+						if (stackItem.getItem() == inStack.getItem() && inStack.getItemDamage() == stackItem.getItemDamage()) {
 							hasItem = true;
+							amount += stackItem.stackSize;
 						}
 					}
-					if (hasItem) {
+					if (hasItem && amount >= stack.stacksize) {
 						list.add(">" + input.stacksize + "x " + inStack.getDisplayName());
 					} else {
 						list.add(EnumChatFormatting.RED + ">" + input.stacksize + "x " + inStack.getDisplayName());
