@@ -25,6 +25,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -45,6 +47,22 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 	public boolean isOn = false;
 	public float rotation;
 	public float prevRotation;
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.progress = nbt.getInteger("progress");
+		this.power = nbt.getLong("power");
+		this.savedParticles = nbt.getInteger("savedParticles");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setInteger("progress", progress);
+		nbt.setLong("power", power);
+		nbt.setInteger("savedParticles", savedParticles);
+	}
 
 	public TileEntityMachineExposureChamber() {
 		/*

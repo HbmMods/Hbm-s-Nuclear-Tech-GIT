@@ -6,6 +6,7 @@ import org.lwjgl.input.Mouse;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
+import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
@@ -580,6 +581,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		
 		if(hasInfinity(stack, config)) return;
 		if(isTrenchMaster(player) && player.getRNG().nextInt(3) == 0) return;
+		if(hasAoS(player) && player.getRNG().nextInt(3) == 0) return;
 
 		if(config.reloadType != GunConfiguration.RELOAD_NONE) {
 			setMag(stack, getMag(stack) - 1);
@@ -830,5 +832,14 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	
 	public static boolean isTrenchMaster(EntityPlayer player) {
 		return player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() == ModItems.trenchmaster_plate && ArmorFSB.hasFSBArmor(player);
+	}
+	
+	public static boolean hasAoS(EntityPlayer player) {
+		if(player.inventory.armorInventory[3] != null) {
+			ItemStack[] mods =  ArmorModHandler.pryMods(player.inventory.armorInventory[3]);
+			ItemStack helmet = mods[ArmorModHandler.helmet_only];
+			return helmet != null && helmet.getItem() == ModItems.card_aos;
+		}
+		return false;
 	}
 }

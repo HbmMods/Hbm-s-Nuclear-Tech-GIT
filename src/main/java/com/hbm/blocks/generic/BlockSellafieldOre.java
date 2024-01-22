@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
 import com.hbm.render.block.RenderBlockMultipass;
 
 import cpw.mods.fml.relauncher.Side;
@@ -69,6 +70,7 @@ public class BlockSellafieldOre extends BlockSellafieldSlaked implements IBlockM
 	public Item getItemDropped(int meta, Random rand, int fortune) {
 		if(this == ModBlocks.ore_sellafield_diamond) return Items.diamond;
 		if(this == ModBlocks.ore_sellafield_emerald) return Items.emerald;
+		if(this == ModBlocks.ore_sellafield_radgem) return ModItems.gem_rad;
 		return Item.getItemFromBlock(this);
 	}
 
@@ -97,6 +99,7 @@ public class BlockSellafieldOre extends BlockSellafieldSlaked implements IBlockM
 
 			if(this == ModBlocks.ore_sellafield_diamond) j1 = MathHelper.getRandomIntegerInRange(rand, 3, 7);
 			if(this == ModBlocks.ore_sellafield_emerald) j1 = MathHelper.getRandomIntegerInRange(rand, 3, 7);
+			if(this == ModBlocks.ore_sellafield_radgem) j1 = MathHelper.getRandomIntegerInRange(rand, 3, 7);
 			
 			return j1;
 		}
