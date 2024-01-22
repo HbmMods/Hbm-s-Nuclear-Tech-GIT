@@ -580,7 +580,7 @@ public class Fluids {
 		THORIUM_SALT_HOT.addTraits(new FT_Coolable(THORIUM_SALT_DEPLETED, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 
 		BRINE.addTraits(new FT_Heatable().setEff(HeatingType.HEATEXCHANGER, 1.5D).setEff(HeatingType.PWR, 1.5D).addStep(300, 1, BRINE_HOT, 1));
-		BRINE_HOT.addTraits(new FT_Coolable(BRINE_HOT, 1, 1, 300).setEff(CoolingType.HEATEXCHANGER, 1.0D));
+		BRINE_HOT.addTraits(new FT_Coolable(BRINE, 1, 1, 300).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 		
 		if(idMapping.size() != metaOrder.size()) {
 			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size());
