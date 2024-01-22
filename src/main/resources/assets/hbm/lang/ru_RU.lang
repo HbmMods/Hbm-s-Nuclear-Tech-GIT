@@ -3787,6 +3787,7 @@ item.biomass_compressed.name=Сжатая биомасса
 item.component_limiter.name=Компонент стабилизатора
 item.component_emitter.name=Компонент излучателя
 item.catalyst_clay.name=Глинистый катализатор
+item.catalyst_fe_co.name=Железо-кобальтовый катализатор
 item.cell_empty.name=Пустая пробирка
 item.cell_uf6.name=Пробирка с гексафторидом урана
 item.cell_puf6.name=Пробирка с гексафторидом плутония
