@@ -730,6 +730,23 @@ public class ItemRenderLibrary {
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}
 		});
+		renderers.put(Item.getItemFromBlock(ModBlocks.silo_hatch), new ItemRenderBase(){
+			public void renderInventory() {
+				GL11.glTranslated(0, -2, 0);
+				GL11.glScaled(2, 2, 2);
+			}
+			public void renderCommon() {
+				bindTexture(ResourceManager.silo_hatch_tex);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				GL11.glRotated(90, 0, 1, 0);
+				ResourceManager.silo_hatch.renderPart("Frame");
+				GL11.glTranslated(0, 0.875, -1.875);
+				GL11.glRotated(-120, 1, 0, 0);
+				GL11.glTranslated(0, -0.875, 1.875);
+				ResourceManager.silo_hatch.renderPart("Hatch");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}
+		});
 		renderers.put(Item.getItemFromBlock(ModBlocks.qe_containment), new ItemRenderBase(){
 			public void renderInventory() {
 				GL11.glTranslated(0, -3.5, 0);

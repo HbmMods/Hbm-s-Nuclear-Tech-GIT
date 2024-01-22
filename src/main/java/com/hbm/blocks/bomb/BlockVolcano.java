@@ -81,8 +81,9 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 	}
 	
 	public static class TileEntityVolcanoCore extends TileEntity {
-		
+
 		private static List<ExAttrib> volcanoExplosion = Arrays.asList(new ExAttrib[] {ExAttrib.NODROP, ExAttrib.LAVA_V, ExAttrib.NOSOUND, ExAttrib.ALLMOD, ExAttrib.NOHURT});
+		private static List<ExAttrib> volcanoRadExplosion = Arrays.asList(new ExAttrib[] {ExAttrib.NODROP, ExAttrib.LAVA_R, ExAttrib.NOSOUND, ExAttrib.ALLMOD, ExAttrib.NOHURT});
 		
 		public int volcanoTimer;
 		
@@ -118,14 +119,27 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 					
 					if(this.shouldGrow()) {
 						worldObj.setBlock(xCoord, yCoord + 1, zCoord, this.getBlockType(), this.getBlockMetadata(), 3);
-						worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.volcanic_lava_block);
+						worldObj.setBlock(xCoord, yCoord, zCoord, getLava());
 						return;
 					} else if(this.isExtinguishing()) {
-						worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.volcanic_lava_block);
+						worldObj.setBlock(xCoord, yCoord, zCoord, getLava());
 						return;
 					}
 				}
 			}
+		}
+		
+		public boolean isRadioacitve() {
+			return this.getBlockType() == ModBlocks.volcano_rad_core;
+		}
+		
+		protected Block getLava() {
+			if(isRadioacitve()) return ModBlocks.rad_lava_block;
+			return ModBlocks.volcanic_lava_block;
+		}
+		
+		protected List<ExAttrib> getExpAttrb() {
+			return this.isRadioacitve() ? this.volcanoRadExplosion : this.volcanoExplosion;
 		}
 
 		@Override
@@ -185,20 +199,15 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 		}
 		
 		/* TODO */
-		private boolean doesPyroclastic() {
-			return false;
-		}
-		
-		private double getPyroclasticRange() {
-			return 0D;
-		}
+		private boolean doesPyroclastic() { return false; }
+		private double getPyroclasticRange() { return 0D; }
 		
 		/** Causes two magma explosions, one from bedrock to the core and one from the core to 15 blocks above. */
 		private void blastMagmaChannel() {
 			ExplosionNT explosion = new ExplosionNT(worldObj, null, xCoord + 0.5, yCoord + worldObj.rand.nextInt(15) + 1.5, zCoord + 0.5, 7);
-			explosion.addAllAttrib(volcanoExplosion).explode();
+			explosion.addAllAttrib(getExpAttrb()).explode();
 			ExplosionNT explosion2 = new ExplosionNT(worldObj, null, xCoord + 0.5 + worldObj.rand.nextGaussian() * 3, worldObj.rand.nextInt(yCoord + 1), zCoord + 0.5 + worldObj.rand.nextGaussian() * 3, 10);
-			explosion2.addAllAttrib(volcanoExplosion).explode();
+			explosion2.addAllAttrib(getExpAttrb()).explode();
 		}
 		
 		/** Causes two magma explosions at a random position around the core, one at normal and one at half range. */
@@ -207,7 +216,7 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 			for(int i = 0; i < 2; i++) {
 				double dist = size / (double) (i + 1);
 				ExplosionNT explosion = new ExplosionNT(worldObj, null, xCoord + 0.5 + worldObj.rand.nextGaussian() * dist, yCoord + 0.5 + worldObj.rand.nextGaussian() * dist, zCoord + 0.5 + worldObj.rand.nextGaussian() * dist, 7);
-				explosion.addAllAttrib(volcanoExplosion).explode();
+				explosion.addAllAttrib(getExpAttrb()).explode();
 			}
 		}
 		
@@ -224,7 +233,7 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 				
 				if(!b.isAir(worldObj, x, y, z) && b.getExplosionResistance(null) < Blocks.obsidian.getExplosionResistance(null)) {
 					//turn into lava if solid block, otherwise just break
-					worldObj.setBlock(x, y, z, b.isNormalCube() ? ModBlocks.volcanic_lava_block : Blocks.air);
+					worldObj.setBlock(x, y, z, b.isNormalCube() ? this.getLava() : Blocks.air);
 				}
 			}
 		}
@@ -236,8 +245,8 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 			int rY = yCoord + worldObj.rand.nextInt(11);
 			int rZ = zCoord - 10 + worldObj.rand.nextInt(21);
 			
-			if(worldObj.getBlock(rX, rY, rZ) == Blocks.air && worldObj.getBlock(rX, rY - 1, rZ) == ModBlocks.volcanic_lava_block)
-				worldObj.setBlock(rX, rY, rZ, ModBlocks.volcanic_lava_block);
+			if(worldObj.getBlock(rX, rY, rZ) == Blocks.air && worldObj.getBlock(rX, rY - 1, rZ) == this.getLava())
+				worldObj.setBlock(rX, rY, rZ, this.getLava());
 		}
 		
 		/** Creates a 3x3x3 lava sphere around the core. */
@@ -248,7 +257,7 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 					for(int k = -1; k <= 1; k++) {
 						
 						if(i != 0 || j != 0 || k != 0) {
-							worldObj.setBlock(xCoord + i, yCoord + j, zCoord + k, ModBlocks.volcanic_lava_block);
+							worldObj.setBlock(xCoord + i, yCoord + j, zCoord + k, this.getLava());
 						}
 					}
 				}
@@ -264,7 +273,11 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 				frag.motionY = 1D + worldObj.rand.nextDouble();
 				frag.motionX = worldObj.rand.nextGaussian() * 0.2D;
 				frag.motionZ = worldObj.rand.nextGaussian() * 0.2D;
-				frag.setVolcano(true);
+				if(this.isRadioacitve()) {
+					frag.setRadVolcano(true);
+				} else {
+					frag.setVolcano(true);
+				}
 				worldObj.spawnEntityInWorld(frag);
 			}
 		}

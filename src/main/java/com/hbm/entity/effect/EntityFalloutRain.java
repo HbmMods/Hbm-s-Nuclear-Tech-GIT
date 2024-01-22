@@ -155,7 +155,7 @@ public class EntityFalloutRain extends Entity {
 
 		int depth = 0;
 
-		for(int y = 255; y >= 0; y--) {
+		for(int y = 255; y >= 1; y--) {
 			
 			if(depth >= 3) return;
 
@@ -164,10 +164,15 @@ public class EntityFalloutRain extends Entity {
 			if(b.getMaterial() == Material.air) continue;
 			if(b == Blocks.bedrock) return;
 			
+			if(b == ModBlocks.volcano_core) {
+				worldObj.setBlock(x, y, z, ModBlocks.volcano_rad_core, worldObj.getBlockMetadata(x, y, z), 3);
+				continue;
+			}
+			
 			Block ab = worldObj.getBlock(x, y + 1, z);
 			int meta = worldObj.getBlockMetadata(x, y, z);
 
-			if(b != ModBlocks.fallout && (ab == Blocks.air || (ab.isReplaceable(worldObj, x, y + 1, z) && !ab.getMaterial().isLiquid()))) {
+			if(depth == 0 && b != ModBlocks.fallout && (ab == Blocks.air || (ab.isReplaceable(worldObj, x, y + 1, z) && !ab.getMaterial().isLiquid()))) {
 
 				double d = dist / 100;
 
@@ -178,7 +183,7 @@ public class EntityFalloutRain extends Entity {
 			}
 
 			if(dist < 65 && b.isFlammable(worldObj, x, y, z, ForgeDirection.UP)) {
-				if(rand.nextInt(5) == 0)
+				if(rand.nextInt(5) == 0 && worldObj.getBlock(x, y + 1, z).isAir(worldObj, x, y + 1, z))
 					setBlock(x, y + 1, z, Blocks.fire);
 			}
 			
