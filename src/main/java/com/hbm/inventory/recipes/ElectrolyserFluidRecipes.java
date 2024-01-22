@@ -29,6 +29,7 @@ public class ElectrolyserFluidRecipes extends SerializableRecipe {
 
 		recipes.put(Fluids.POTASSIUM_CHLORIDE, new ElectrolysisRecipe(250, new FluidStack(Fluids.CHLORINE, 125), new FluidStack(Fluids.NONE, 0), new ItemStack(ModItems.dust)));
 		recipes.put(Fluids.CALCIUM_CHLORIDE, new ElectrolysisRecipe(250, new FluidStack(Fluids.CHLORINE, 125), new FluidStack(Fluids.CALCIUM_SOLUTION, 125)));
+		recipes.put(Fluids.BRINE, new ElectrolysisRecipe(500, new FluidStack(Fluids.CHLORINE, 250), new FluidStack(Fluids.SODIUM, 250)));
 	}
 
 	public static HashMap getRecipes() {
