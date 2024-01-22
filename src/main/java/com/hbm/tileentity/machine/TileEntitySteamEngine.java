@@ -109,7 +109,7 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IFlui
 			if(this.rotor >= 360D) {
 				this.rotor -= 360D;
 				
-				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.steamEngineOperate", 1.0F, 0.5F + (acceleration / 80F));
+				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.steamEngineOperate", getVolume(1.0F), 0.5F + (acceleration / 80F));
 			}
 			
 			data.setLong("power", this.powerBuffer);

@@ -3337,6 +3337,7 @@ item.upgrade_fortune_2.name=Glückupgrade Mk.II
 item.upgrade_fortune_3.name=Glückupgrade Mk.III
 item.upgrade_gc_speed.name=Gaszentrifugen-Geschwindigkeitsupgrade
 item.upgrade_health.name=Kraftfeld-Resistenzupgrade
+item.upgrade_muffler.name=Schalldämpfer
 item.upgrade_nullifier.name=Müllvernichter-Upgrade
 item.upgrade_overdrive_1.name=Overdrive-Upgrade Mk.I
 item.upgrade_overdrive_2.name=Overdrive-Upgrade Mk.II

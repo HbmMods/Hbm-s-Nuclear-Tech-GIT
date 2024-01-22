@@ -72,6 +72,8 @@ public class TileEntityMachineReactorBreeding extends TileEntityMachineBase impl
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		flux = data.getInteger("flux");
 		progress = data.getFloat("progress");
 	}

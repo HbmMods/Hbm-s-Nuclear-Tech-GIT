@@ -291,6 +291,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
 		
 		this.power = nbt.getLong("power");
 		this.isOn = nbt.getBoolean("isOn");

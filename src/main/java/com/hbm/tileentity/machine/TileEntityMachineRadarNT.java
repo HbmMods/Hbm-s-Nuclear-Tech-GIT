@@ -7,7 +7,6 @@ import java.util.function.Function;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachineRadarNT;
@@ -155,7 +154,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			}
 			lastPower = getRedPower();
 			
-			if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) != ModBlocks.muffler) {
+			if(!this.muffled) {
 				
 				pingTimer++;
 				
@@ -237,6 +236,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	
 	@Override
 	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
 		buf.writeLong(this.power);
 		buf.writeBoolean(this.scanMissiles);
 		buf.writeBoolean(this.scanShells);
@@ -266,6 +266,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	
 	@Override
 	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
 		this.power = buf.readLong();
 		this.scanMissiles = buf.readBoolean();
 		this.scanShells = buf.readBoolean();

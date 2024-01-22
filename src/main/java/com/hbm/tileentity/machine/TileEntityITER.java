@@ -356,6 +356,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 
 	@Override
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.isOn = data.getBoolean("isOn");
 		this.power = data.getLong("power");
 		this.blanket = data.getInteger("blanket");

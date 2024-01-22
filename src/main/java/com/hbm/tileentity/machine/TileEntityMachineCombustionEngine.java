@@ -144,6 +144,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 				}
 				
 				audio.keepAlive();
+				audio.updateVolume(this.getVolume(1F));
 				
 			} else {
 				
@@ -203,6 +204,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
 		this.playersUsing = nbt.getInteger("playersUsing");
 		this.setting = nbt.getInteger("setting");
 		this.power = nbt.getLong("power");
