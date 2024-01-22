@@ -64,7 +64,7 @@ public class TileEntityNukeBalefire extends TileEntityMachineBase implements IGU
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
-		
+		super.networkUnpack(data);
 		timer = data.getInteger("timer");
 		started = data.getBoolean("started");
 		loaded = data.getBoolean("loaded");

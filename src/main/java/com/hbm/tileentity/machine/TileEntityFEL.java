@@ -202,6 +202,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 					audio = rebootAudio(audio);
 				}
 
+				audio.updateVolume(getVolume(2F));
 				audio.updatePitch((audioDuration - 10) / 100F + 0.5F);
 
 			} else {
@@ -226,6 +227,8 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.mode = EnumWavelengths.valueOf(nbt.getString("mode"));
 		this.isOn = nbt.getBoolean("isOn");

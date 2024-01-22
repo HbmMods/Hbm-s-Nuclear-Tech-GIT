@@ -155,6 +155,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
 		
 		this.power = data.getLong("power");
 		this.progress = data.getShort("progress");

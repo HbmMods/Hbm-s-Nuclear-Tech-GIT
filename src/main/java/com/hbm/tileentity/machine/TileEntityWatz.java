@@ -293,6 +293,8 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.heat = nbt.getInteger("heat");
 		this.isOn = nbt.getBoolean("isOn");
 		this.isLocked = nbt.getBoolean("lock");

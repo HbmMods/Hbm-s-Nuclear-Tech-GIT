@@ -197,6 +197,8 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.maxPower = nbt.getLong("maxPower");
 		this.consumption = nbt.getLong("consumption");

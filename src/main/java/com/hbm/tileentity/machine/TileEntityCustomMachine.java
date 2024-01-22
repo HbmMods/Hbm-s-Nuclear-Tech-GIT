@@ -364,6 +364,8 @@ public class TileEntityCustomMachine extends TileEntityMachineBase implements IF
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.machineType = nbt.getString("type");
 		if(this.config == null) this.init();
 		

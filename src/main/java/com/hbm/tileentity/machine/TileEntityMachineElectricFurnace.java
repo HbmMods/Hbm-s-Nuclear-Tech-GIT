@@ -236,6 +236,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	}
 
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.maxProgress = nbt.getInteger("MaxProgress");
 		this.progress = nbt.getInteger("progress");

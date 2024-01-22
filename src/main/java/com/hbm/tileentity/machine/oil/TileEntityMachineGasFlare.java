@@ -129,7 +129,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 						tank.getTankType().onFluidRelease(this, tank, eject);
 						
 						if(worldObj.getTotalWorldTime() % 7 == 0)
-							this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 11, this.zCoord, "random.fizz", 1.5F, 0.5F);
+							this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 11, this.zCoord, "random.fizz", getVolume(1.5F), 0.5F);
 					}
 				} else {
 					
@@ -159,7 +159,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 						}
 						
 						if(worldObj.getTotalWorldTime() % 3 == 0)
-							this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 11, this.zCoord, "hbm:weapon.flamethrowerShoot", 1.5F, 0.75F);
+							this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 11, this.zCoord, "hbm:weapon.flamethrowerShoot", getVolume(1.5F), 0.75F);
 
 						if(worldObj.getTotalWorldTime() % 20 == 0) {
 							PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 5);
@@ -234,6 +234,8 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.isOn = nbt.getBoolean("isOn");
 		this.doesBurn = nbt.getBoolean("doesBurn");

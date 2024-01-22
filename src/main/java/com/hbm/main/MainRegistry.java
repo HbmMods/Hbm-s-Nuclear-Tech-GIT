@@ -1210,6 +1210,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.reactor_conductor");
 		ignoreMappings.add("hbm:tile.reactor_computer");
 		ignoreMappings.add("hbm:tile.ff");
+		ignoreMappings.add("hbm:tile.muffler");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

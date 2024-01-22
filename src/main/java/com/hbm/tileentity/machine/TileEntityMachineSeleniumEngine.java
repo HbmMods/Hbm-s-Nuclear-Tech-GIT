@@ -305,7 +305,7 @@ public class TileEntityMachineSeleniumEngine extends TileEntityLoadedBase implem
 				
 				if(!shutUp) {
 					if (soundCycle == 0) {
-						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 1.0F, 0.5F);
+						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", this.getVolume(1.0F), 0.5F);
 					}
 					soundCycle++;
 	

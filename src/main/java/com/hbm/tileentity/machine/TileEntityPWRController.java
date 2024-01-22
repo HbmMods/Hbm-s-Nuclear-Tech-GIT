@@ -292,7 +292,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 				} else if(!audio.isPlaying()) {
 					audio = rebootAudio(audio);
 				}
-				
+
+				audio.updateVolume(getVolume(1F));
 				audio.keepAlive();
 				
 			} else {
@@ -376,6 +377,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		tanks[0].readFromNBT(nbt, "t0");
 		tanks[1].readFromNBT(nbt, "t1");
 		rodCount = nbt.getInteger("rodCount");

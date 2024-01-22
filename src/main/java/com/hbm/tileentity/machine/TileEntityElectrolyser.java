@@ -242,6 +242,8 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.progressFluid = nbt.getInteger("progressFluid");
 		this.progressOre = nbt.getInteger("progressOre");
