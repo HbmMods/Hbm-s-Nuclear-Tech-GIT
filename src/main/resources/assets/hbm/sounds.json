@@ -61,6 +61,7 @@
     "block.hornFarSingle": {"category": "block", "sounds": [{"name": "block/hornFarSingle", "stream": false}]},
     "block.hornFarDual": {"category": "block", "sounds": [{"name": "block/hornFarDual", "stream": false}]},
     "block.reactorLoop": {"category": "block", "sounds": [{"name": "block/reactorLoop", "stream": false}]},
+    "block.fusionReactorRunning": {"category": "block", "sounds": [{"name": "block/fusionReactorSpin", "stream": false}]},
     "block.fel": {"category":  "block", "sounds":  [{"name": "block/fel", "stream":  false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
