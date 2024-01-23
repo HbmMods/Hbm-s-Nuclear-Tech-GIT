@@ -409,7 +409,9 @@ public class ModEventHandlerRenderer {
 	private static int fogZ;
 	private static Vec3 fogRGBMultiplier;
 	
+	
 	/** Same procedure as getting the blended sky color but for fog */
+	/*
 	public static Vec3 getFogBlendColor(World world, int playerX, int playerZ, double partialTicks) {
 		
 		if(playerX == fogX && playerZ == fogZ && fogInit) return fogRGBMultiplier;
@@ -446,9 +448,10 @@ public class ModEventHandlerRenderer {
 		fogRGBMultiplier = Vec3.createVectorHelper(r / divider, g / divider, b / divider);
 		return fogRGBMultiplier;
 	}
+
 	
-	/** Returns the current biome's fog color adjusted for brightness if in a crater, or the world's cached fog color if not */
-	public static Vec3 getBiomeFogColors(World world, BiomeGenBase biome, double partialTicks) {
+	// Returns the current biome's fog color adjusted for brightness if in a crater, or the world's cached fog color if not /
+	public static Vec3 getBiomeFogColors(World world, BiomeGenBase biome, double poh artialTicks) {
 
 		Vec3 worldFog = world.getFogColor((float) partialTicks);
 		double r = worldFog.xCoord;
@@ -470,4 +473,5 @@ public class ModEventHandlerRenderer {
 		
 		return Vec3.createVectorHelper(r, g, b);
 	}
+	*/
 }
