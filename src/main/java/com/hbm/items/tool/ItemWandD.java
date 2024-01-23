@@ -5,16 +5,12 @@ import java.util.List;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.lib.Library;
 import com.hbm.util.TrackerUtil;
-import com.hbm.world.WorldUtil;
-import com.hbm.world.biome.BiomeGenCraterBase;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class ItemWandD extends Item {
 
@@ -38,88 +34,13 @@ public class ItemWandD extends Item {
 			
 			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
 			
-			int mI = 2;
-			int mK = 2;
+			/*int i = pos.blockX >> 4;
+			int j = pos.blockZ >> 4;
 			
-			if(!player.isSneaking()) {
-				for(int i = 0; i < mI; i++) {
-					for(int k = 0; k < mK; k++) {
-						for(int j = 0; j < 6; j++) {
-							double r = world.rand.nextGaussian();
-							
-							Block b;
-							int meta = 0;
-							if(r < -1) {
-								b = Blocks.iron_bars;
-							} else if(r < .1) {
-								
-								int h = world.rand.nextInt(20);
-								if(h < 5)
-									b = ModBlocks.brick_concrete_broken_stairs;
-								else if(h < 10)
-									b = ModBlocks.brick_concrete_cracked_stairs;
-								else
-									b = ModBlocks.brick_concrete_stairs;
-								
-								meta = world.rand.nextInt(16);
-							} else {
-								int h = world.rand.nextInt(20);
-								if(h < 5)
-									b = ModBlocks.brick_concrete_broken;
-								else if(h < 10)
-									b = ModBlocks.brick_concrete_cracked;
-								else
-									b = ModBlocks.brick_concrete;
-							}
-							
-							world.setBlock(pos.blockX + i, pos.blockY + j + 1, pos.blockZ + k, b, meta, 2);
-						}
-					}
-				}
-			} else {
-				for(int i = 0; i < mI; i++) {
-					for(int k = 0; k < mK; k++) {
-						double r = world.rand.nextGaussian();
-						
-						Block b;
-						int meta = 0;
-						if(r < -2) {
-							b = Blocks.iron_bars;
-						} else if(r < -1) {
-							b = ModBlocks.concrete_brick_slab;
-							meta = 8;
-							int h = world.rand.nextInt(20);
-							
-							if(h < 5)
-								meta |= 3;
-							else if(h < 10)
-								meta |= 2;
-							
-						} else if(r < .1) {
-							
-							int h = world.rand.nextInt(20);
-							if(h < 5)
-								b = ModBlocks.brick_concrete_broken_stairs;
-							else if(h < 10)
-								b = ModBlocks.brick_concrete_cracked_stairs;
-							else
-								b = ModBlocks.brick_concrete_stairs;
-							
-							meta = world.rand.nextInt(16);
-						} else {
-							int h = world.rand.nextInt(20);
-							if(h < 5)
-								b = ModBlocks.brick_concrete_broken;
-							else if(h < 10)
-								b = ModBlocks.brick_concrete_cracked;
-							else
-								b = ModBlocks.brick_concrete;
-						}
-						
-						world.setBlock(pos.blockX + i, pos.blockY + 1, pos.blockZ + k, b, meta, 2);
-					}
-				}
-			}
+			i = (i << 4) + 8;
+			j = (j << 4) + 8;
+			Component comp = new ElevatedPrefab1(world.rand, i, 64, j);
+			comp.addComponentParts(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));*/
 			
 			/*int i = pos.blockX >> 4;
 			int j = pos.blockZ >> 4;

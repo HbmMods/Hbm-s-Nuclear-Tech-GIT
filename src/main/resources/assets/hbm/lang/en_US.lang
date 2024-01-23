@@ -451,12 +451,6 @@ book_lore.beacon.page.9=Once the desired peer has responded, give the "ACCEPT CO
 book_lore.beacon.page.10=using the FAR-5M standard. Communication will end immediately if no standard has been negotiated, serving as a "ping". Should communication continue, the connection can be ended using another long single tone "END CONNECTION".
 book_lore.beacon.page.11=Chapter 5: Warranty $ [ page intentionally left blank ]
 
-book_lore.ruin_special.name=Detection Printout
-book_lore.ruin_special.page.0=§lDETECTION $ ----------------- $ DIST: %1$s km $ THETA: %2$s° $ PROGNOSIS $ %3$s 
-book_lore.ruin_special.low=Low-confidence detection. Distance is large and imprecise; high chance of interference. 
-book_lore.ruin_special.med=Medium-confidence detection. Chance of interference is low; further investigation recommended.
-book_lore.ruin_special.high=High-confidence detection. Location precisely triangulated by sensors; expedition urgently recommended.
-
 cannery.f1=[ Press F1 for help ]
 
 cannery.centrifuge=Gas Centrifuge

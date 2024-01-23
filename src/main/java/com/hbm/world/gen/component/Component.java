@@ -436,22 +436,6 @@ abstract public class Component extends StructureComponent {
 		}
 	}
 	
-	protected void placeLootBlock(World world, StructureBoundingBox box, Random rand, int featureX, int featureY, int featureZ, ItemStack stack) {
-		int posX = this.getXWithOffset(featureX, featureZ);
-		int posY = this.getYWithOffset(featureY);
-		int posZ = this.getZWithOffset(featureX, featureZ);
-		
-		if(!box.isVecInside(posX, posY, posZ)) return;
-		
-		world.setBlock(posX, posY, posZ, ModBlocks.deco_loot, 0, 2);
-		
-		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(posX, posY, posZ);
-		
-		if(loot != null && loot.items.isEmpty()) {
-			loot.addItem(stack, rand.nextGaussian() * 0.02, 0, rand.nextGaussian() * 0.02);
-		}
-	}
-	
 	/**
 	 * Places random bobblehead with a randomized orientation at specified location
 	 */

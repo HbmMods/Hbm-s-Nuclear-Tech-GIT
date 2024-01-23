@@ -7,11 +7,18 @@ import java.util.Random;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.StructureConfig;
-import com.hbm.world.gen.component.BrutalistFeatures.*;
 import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
-import com.hbm.world.gen.component.CivilianFeatures.*;
-import com.hbm.world.gen.component.OfficeFeatures.*;
-import com.hbm.world.gen.component.RuinFeatures.*;
+import com.hbm.world.gen.component.CivilianFeatures.NTMHouse1;
+import com.hbm.world.gen.component.CivilianFeatures.NTMHouse2;
+import com.hbm.world.gen.component.CivilianFeatures.NTMLab1;
+import com.hbm.world.gen.component.CivilianFeatures.NTMLab2;
+import com.hbm.world.gen.component.CivilianFeatures.NTMWorkshop1;
+import com.hbm.world.gen.component.OfficeFeatures.LargeOffice;
+import com.hbm.world.gen.component.OfficeFeatures.LargeOfficeCorner;
+import com.hbm.world.gen.component.RuinFeatures.NTMRuin1;
+import com.hbm.world.gen.component.RuinFeatures.NTMRuin2;
+import com.hbm.world.gen.component.RuinFeatures.NTMRuin3;
+import com.hbm.world.gen.component.RuinFeatures.NTMRuin4;
 
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;

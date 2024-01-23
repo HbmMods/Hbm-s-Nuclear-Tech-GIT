@@ -459,28 +459,4 @@ public class HbmChestContents {
 		
 		return ItemBookLore.createBook(key, pages, 0x1E1E1E, 0x46EA44);
 	}
-	
-	public static ItemStack generateRuinBook(Random rand, int chunkX, int chunkZ) {
-		ChunkCoordIntPair pair = HbmWorld.worldGenerator.specialFeatureGen.findClosestPosition(chunkX, chunkZ);
-		int[] vec = new int[] { pair.chunkXPos - chunkX, pair.chunkZPos  - chunkZ };
-		int dist = (int) Math.sqrt(vec[0] * vec[0] + vec[1] * vec[1]);
-		
-		String conf = "book_lore.ruin_special.";
-		if(dist > 128) {
-			dist -= dist * .5F * (.5F - rand.nextFloat());
-			conf += "low";
-		} else if(dist > 64) {
-			dist -= dist * .25F * (.5F - rand.nextFloat());
-			conf += "med";
-		} else {
-			conf += "high";
-		}
-		
-		String angle = Math.round(Math.toDegrees(Math.atan2(vec[0], vec[1])) * 10000D) / 10000D + "";
-		String res = (Math.round((dist * 16) / 1000D * 100D) / 100D) + "";
-		
-		ItemStack book = ItemBookLore.createBook("ruin_special", 1, 0x770011, 0xFFFFFF);
-		ItemBookLore.addArgs(book, 0, res, angle, conf);
-		return book;
-	}
 }

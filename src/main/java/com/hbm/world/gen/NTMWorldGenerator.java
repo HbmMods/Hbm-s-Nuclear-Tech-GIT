@@ -17,9 +17,7 @@ import static net.minecraftforge.event.terraingen.TerrainGen.*;
 import net.minecraftforge.event.world.WorldEvent;
 
 public class NTMWorldGenerator implements IWorldGenerator {
-	//turns out minecraft is cringe and WorldEvent.Load can be/is called after chunks are provided
 	private MapGenNTMFeatures scatteredFeatureGen = new MapGenNTMFeatures();
-	public MapGenSpecialFeatures specialFeatureGen = new MapGenSpecialFeatures();
 	
 	private final Random rand = new Random(); //A central random, used to cleanly generate our stuff without affecting vanilla or modded seeds.
 	
@@ -27,8 +25,6 @@ public class NTMWorldGenerator implements IWorldGenerator {
 	@SubscribeEvent
 	public void onLoad(WorldEvent.Load event) {
 		scatteredFeatureGen = (MapGenNTMFeatures) getModdedMapGen(new MapGenNTMFeatures(), EventType.CUSTOM);
-		specialFeatureGen = (MapGenSpecialFeatures) getModdedMapGen(new MapGenSpecialFeatures(), EventType.CUSTOM);
-		specialFeatureGen.setWorld(event.world); //doesn't matter on the client so we're good anyway
 		
 		hasPopulationEvent = false;
 	}
@@ -71,9 +67,6 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		
 		this.scatteredFeatureGen.func_151539_a(chunkProvider, world, chunkX, chunkZ, ablock);
 		this.scatteredFeatureGen.generateStructuresInChunk(world, rand, chunkX, chunkZ);
-		
-		this.specialFeatureGen.func_151539_a(chunkProvider, world, chunkX, chunkZ, ablock);
-		this.specialFeatureGen.generateStructuresInChunk(world, rand, chunkX, chunkZ);
 	}
 	
 	/*
