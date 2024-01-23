@@ -67,6 +67,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider, SimpleComponent, IRadarCommandReceiver, INBTPacketReceiver {
 
 	public ItemStack slots[];
+	public ItemStack syncStack;
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -212,25 +213,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				this.decrStackSize(4, 1);
 				solid += 250;
 			}
-			NBTTagCompound data = new NBTTagCompound();
-			NBTTagList list = new NBTTagList();
 
-			tanks[0].writeToNBT(data, "fuel");
-			tanks[1].writeToNBT(data, "oxidizer");
-			data.setInteger("solidfuel", solid);
-			data.setLong("power", power);
-			data.setInteger("padSize", padSize.ordinal());
-
-			for (int i = 0; i < slots.length; i++) {
-				if (slots[i] != null) {
-					NBTTagCompound nbt1 = new NBTTagCompound();
-					nbt1.setByte("slot", (byte) i);
-					slots[i].writeToNBT(nbt1);
-					list.appendTag(nbt1);
-				}
-			}
-			data.setTag("items", list);
-			INBTPacketReceiver.networkPack(this, data, 25);
 
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, solid, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
@@ -269,6 +252,15 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				}
 			}
 		}
+		NBTTagCompound data = new NBTTagCompound();
+		NBTTagList list = new NBTTagList();
+
+		tanks[0].writeToNBT(data, "fuel");
+		tanks[1].writeToNBT(data, "oxidizer");
+		data.setInteger("solidfuel", solid);
+		data.setLong("power", power);
+		data.setInteger("padSize", padSize.ordinal());
+		INBTPacketReceiver.networkPack(this, data, 150);
 	}
 	
 	private void updateConnections() {
@@ -444,6 +436,22 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		return -1;
 	}
 	
+	public void calFuel() {
+		if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != DestinationType.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true) {
+			switch (DestinationType.values()[slots[1].getItemDamage()]) {
+			case MOHO:
+				//float theWorldLooksRed = calfuelV2(AstronomyUtil.MohoAU);
+				int wiggle = tanks[0].changeTankSize(9000);
+				wiggle = tanks[0].getMaxFill();
+				break;
+			default: 
+				break;
+			}
+		}
+		
+		
+	}
+	
 	public int liquidState() {
 		
 		MissileStruct multipart = getStruct(slots[0]);
@@ -462,6 +470,9 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				
 				if(tanks[0].getFill() >= (Float)fuselage.attributes[1])
 					return 1;
+				else if (tanks[1].getFill() >= tanks[0].getMaxFill()) {
+					return 1;
+				}
 				else
 					return 0;
 			default: break;
@@ -525,23 +536,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			default: break;
 		}
 	}
-	
-	public void calFuel() {
-		if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != DestinationType.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true) {
-			switch (DestinationType.values()[slots[1].getItemDamage()]) {
-			case MOHO:
-				float theWorldLooksRed = calfuelV2(AstronomyUtil.MohoAU);
-				tanks[0].changeTankSize((int) theWorldLooksRed);
-				System.out.println(theWorldLooksRed);
-				break;
-			default: 
-				break;
-			}
-		}
-		
-		
-	}
-	
+
 	public float calfuelV2(double au) {
 	    float grav = PlanetaryTraitUtil.getGravityForDimension(worldObj.provider.dimensionId);
 	    FT_Combustible trait = tanks[0].getTankType().getTrait(FT_Combustible.class);
@@ -562,7 +557,6 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	}
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
-		NBTTagList list = nbt.getTagList("items", 10);
 
 		tanks[0].readFromNBT(nbt, "fuel");
 		tanks[1].readFromNBT(nbt, "oxidizer");
@@ -570,8 +564,11 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		power = nbt.getLong("power");
 		padSize = PartSize.values()[nbt.getInteger("padSize")];
 
-		slots = new ItemStack[getSizeInventory()];
+		/*
+		NBTTagList list = nbt.getTagList("items", 10);
 
+		slots = new ItemStack[getSizeInventory()];
+		
 		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
 			byte b0 = nbt1.getByte("slot");
@@ -579,6 +576,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+		*/
 	}
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
@@ -590,7 +588,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		solid = nbt.getInteger("solidfuel");
 		power = nbt.getLong("power");
 		padSize = PartSize.values()[nbt.getInteger("padSize")];
-
+		
 		slots = new ItemStack[getSizeInventory()];
 
 		for (int i = 0; i < list.tagCount(); i++) {
@@ -600,6 +598,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
+		
 	}
 
 	@Override
@@ -613,7 +612,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		nbt.setInteger("solidfuel", solid);
 		nbt.setLong("power", power);
 		nbt.setInteger("padSize", padSize.ordinal());
-
+		
 		for (int i = 0; i < slots.length; i++) {
 			if (slots[i] != null) {
 				NBTTagCompound nbt1 = new NBTTagCompound();
@@ -623,6 +622,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			}
 		}
 		nbt.setTag("items", list);
+		
 	}
 
 	@Override
