@@ -29,14 +29,22 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 	public int glSkyList;
 	public int glSkyList2;
 
+	public static boolean displayListsInitialized = false;
+
+
 	protected double x;
 	protected double y;
 	protected double z;
 
+	public RenderNTMSkyboxImpact() {
+	    if (!displayListsInitialized) {
+	        initializeDisplayLists();
+	    }
+	}
 	/// I had to break your compat feature for other mods' skyboxes in order to
 	/// make the skybox render correctly after Tom. Sorry about that. -Pu
 
-	public RenderNTMSkyboxImpact() {
+	public void initializeDisplayLists() {
 		GL11.glPushMatrix();
 		GL11.glNewList(this.starGLCallList, GL11.GL_COMPILE);
 		this.renderStars();

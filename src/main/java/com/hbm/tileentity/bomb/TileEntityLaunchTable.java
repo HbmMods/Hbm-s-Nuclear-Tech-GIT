@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.LaunchPad;
+import com.hbm.config.SpaceConfig;
+import com.hbm.dim.DebugTeleporter;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.handler.MissileStruct;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -12,6 +14,8 @@ import com.hbm.inventory.container.ContainerLaunchTable;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Combustible;
+import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.gui.GUIMachineLaunchTable;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ItemVOTVdrive.DestinationType;
@@ -27,8 +31,11 @@ import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.AstronomyUtil;
+import com.hbm.util.PlanetaryTraitUtil;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
@@ -57,7 +64,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider, SimpleComponent, IRadarCommandReceiver {
+public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider, SimpleComponent, IRadarCommandReceiver, INBTPacketReceiver {
 
 	public ItemStack slots[];
 
@@ -188,7 +195,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		if (!worldObj.isRemote) {
 			
 			updateTypes();
-			
+			calFuel();
 			if(worldObj.getTotalWorldTime() % 20 == 0)
 				this.updateConnections();
 
@@ -205,7 +212,26 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				this.decrStackSize(4, 1);
 				solid += 250;
 			}
-			
+			NBTTagCompound data = new NBTTagCompound();
+			NBTTagList list = new NBTTagList();
+
+			tanks[0].writeToNBT(data, "fuel");
+			tanks[1].writeToNBT(data, "oxidizer");
+			data.setInteger("solidfuel", solid);
+			data.setLong("power", power);
+			data.setInteger("padSize", padSize.ordinal());
+
+			for (int i = 0; i < slots.length; i++) {
+				if (slots[i] != null) {
+					NBTTagCompound nbt1 = new NBTTagCompound();
+					nbt1.setByte("slot", (byte) i);
+					slots[i].writeToNBT(nbt1);
+					list.appendTag(nbt1);
+				}
+			}
+			data.setTag("items", list);
+			INBTPacketReceiver.networkPack(this, data, 25);
+
 			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, solid, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, padSize.ordinal(), 1), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
@@ -499,7 +525,61 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			default: break;
 		}
 	}
+	
+	public void calFuel() {
+		if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != DestinationType.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true) {
+			switch (DestinationType.values()[slots[1].getItemDamage()]) {
+			case MOHO:
+				float theWorldLooksRed = calfuelV2(AstronomyUtil.MohoAU);
+				tanks[0].changeTankSize((int) theWorldLooksRed);
+				System.out.println(theWorldLooksRed);
+				break;
+			default: 
+				break;
+			}
+		}
+		
+		
+	}
+	
+	public float calfuelV2(double au) {
+	    float grav = PlanetaryTraitUtil.getGravityForDimension(worldObj.provider.dimensionId);
+	    FT_Combustible trait = tanks[0].getTankType().getTrait(FT_Combustible.class);
+	    long fuelPower = trait.getCombustionEnergy();
+	    // Adjust the fuel ratio by subtracting half of the fuel power
+	    double adjustedFuelRatio = Math.max(0, (fuelPower / 8.0) - Math.round(au));
 
+	    // Scale the total distance based on the adjusted ratio and gravity
+	    float totalDistance = (float) Math.round(adjustedFuelRatio * grav);
+
+	    // Invert the total distance based on fuel power
+	    totalDistance = Math.max(0, grav * 100 - totalDistance);
+
+	    // Adjust total distance based on fuel power (higher power, decreased requirement)
+	    totalDistance *= (100 - fuelPower) / 100.0;
+
+	    return totalDistance;
+	}
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		NBTTagList list = nbt.getTagList("items", 10);
+
+		tanks[0].readFromNBT(nbt, "fuel");
+		tanks[1].readFromNBT(nbt, "oxidizer");
+		solid = nbt.getInteger("solidfuel");
+		power = nbt.getLong("power");
+		padSize = PartSize.values()[nbt.getInteger("padSize")];
+
+		slots = new ItemStack[getSizeInventory()];
+
+		for (int i = 0; i < list.tagCount(); i++) {
+			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
+			byte b0 = nbt1.getByte("slot");
+			if (b0 >= 0 && b0 < slots.length) {
+				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
+			}
+		}
+	}
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);

@@ -442,7 +442,7 @@ public class Fluids {
 		MORKINE =				new FluidType("MORKINE",			0x796089, 3, 3, 3, EnumSymbol.NONE).addTraits(new FT_Flammable(200), LIQUID, VISCOUS); 
 		MSLURRY =				new FluidType("MSLURRY",			0x364D47, 0, 0, 2, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS); 
 		PHEROMONE =				new FluidType("PHEROMONE",			0x5FA6E8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Pheromone(1));
-		PHEROMONE_M =			new FluidType(132, "PHEROMONE_M",	0x48C9B0 , 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Pheromone(2));
+		PHEROMONE_M =			new FluidType("PHEROMONE_M",	0x48C9B0 , 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Pheromone(2));
 
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -603,6 +603,8 @@ public class Fluids {
 		metaOrder.add(POTASSIUM_CHLORIDE);
 		metaOrder.add(CALCIUM_CHLORIDE);
 		metaOrder.add(CALCIUM_SOLUTION);
+		metaOrder.add(PHEROMONE);
+		metaOrder.add(PHEROMONE_M);
 		//solutions and working fluids
 		metaOrder.add(FRACKSOL);
 		//the fun guys

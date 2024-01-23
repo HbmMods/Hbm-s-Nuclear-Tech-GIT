@@ -34,9 +34,18 @@ public class PlanetaryTraitUtil {
 		OXYNEG,
 		BREATHEABLE,
 		HOT,
-
 	}
-
+	
+	public static Map<Integer, Float> dimGrav = new HashMap<>();
+	
+	static {
+		dimGrav.put(DimensionManager.getProviderType(0), 9.8F);
+	}
+	
+    public static float getGravityForDimension(int dimensionId) {
+        return dimGrav.getOrDefault(dimensionId, 2F); // Default gravity value if not found
+    }
+	
     public static Map<Integer, Set<Hospitality>> idToDimensionMap = new HashMap<>();
     
     static {

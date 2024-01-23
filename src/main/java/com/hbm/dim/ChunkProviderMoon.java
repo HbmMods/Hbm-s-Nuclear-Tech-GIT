@@ -37,7 +37,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.ChunkProviderEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
-
+// actually fucking killing myself by how fucked this stupid class is
 public class ChunkProviderMoon implements IChunkProvider {
 	/** RNG. */
 	private Random rand;
@@ -59,16 +59,11 @@ public class ChunkProviderMoon implements IChunkProvider {
 	private final float[] parabolicField;
 	private double[] stoneNoise = new double[256];
 	private MapGenBase caveGenerator = new MapGenCaves();
-	/** Holds Stronghold Generator */
-	private MapGenStronghold strongholdGenerator = new MapGenStronghold();
-	/** Holds Village Generator */
-	private MapGenVillage villageGenerator = new MapGenVillage();
-	/** Holds Mineshaft Generator */
-	private MapGenMineshaft mineshaftGenerator = new MapGenMineshaft();
+
 	private MapGenScatteredFeature scatteredFeatureGenerator = new MapGenScatteredFeature();
 	private int seaLevel;
 	protected Block fillblock;
-	static ExperimentalCaveGenerator gen = new ExperimentalCaveGenerator();
+	static ExperimentalCaveGenerator caveGenV2 = new ExperimentalCaveGenerator();
 
 //	private MapGenCrater craterGenerator;
 	/** The biomes that are used to generate the chunk */
@@ -83,7 +78,7 @@ public class ChunkProviderMoon implements IChunkProvider {
 	{
 		caveGenerator = TerrainGen.getModdedMapGen(caveGenerator, CAVE);
 		scatteredFeatureGenerator = (MapGenScatteredFeature) TerrainGen.getModdedMapGen(scatteredFeatureGenerator, SCATTERED_FEATURE);
-		gen = (ExperimentalCaveGenerator) TerrainGen.getModdedMapGen(gen, CUSTOM);
+		caveGenV2 = (ExperimentalCaveGenerator) TerrainGen.getModdedMapGen(caveGenV2, CUSTOM);
 		//holy shit??
 	}
 
@@ -255,7 +250,7 @@ public class ChunkProviderMoon implements IChunkProvider {
 		this.replaceBlocksForBiome(p_73154_1_, p_73154_2_, ablock.ablock, ablock.abyte, this.biomesForGeneration);
 		//this.caveGenerator.func_151539_a(this, this.worldObj, p_73154_1_, p_73154_2_, ablock.ablock);
 		//this.ravineGenerator.func_151539_a(this, this.worldObj, p_73154_1_, p_73154_2_, ablock.ablock);
-		this.gen.func_151539_a(this, worldObj, p_73154_1_, p_73154_2_, ablock.ablock);
+		this.caveGenV2.func_151539_a(this, worldObj, p_73154_1_, p_73154_2_, ablock.ablock);
 		//if(this.craterGenerator != null)
 		//	this.craterGenerator.func_151539_a(this, this.worldObj, p_73154_1_, p_73154_2_, ablock.ablock);
 
