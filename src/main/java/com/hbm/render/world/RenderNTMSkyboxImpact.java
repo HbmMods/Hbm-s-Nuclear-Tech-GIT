@@ -25,9 +25,9 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/star_digamma.png");
 	private static final ResourceLocation bobmazonSat = new ResourceLocation("hbm:textures/misc/sat_bobmazon.png");
 
-	public int starGLCallList = GLAllocation.generateDisplayLists(3);
-	public int glSkyList;
-	public int glSkyList2;
+	public static int starGLCallList;
+	public static int glSkyList;
+	public static int glSkyList2;
 
 	public static boolean displayListsInitialized = false;
 
@@ -44,47 +44,47 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 	/// I had to break your compat feature for other mods' skyboxes in order to
 	/// make the skybox render correctly after Tom. Sorry about that. -Pu
 
-	public void initializeDisplayLists() {
-		GL11.glPushMatrix();
-		GL11.glNewList(this.starGLCallList, GL11.GL_COMPILE);
-		this.renderStars();
-		GL11.glEndList();
-		GL11.glPopMatrix();
-		final Tessellator tessellator = Tessellator.instance;
-		this.glSkyList = this.starGLCallList + 1;
-		GL11.glNewList(this.glSkyList, GL11.GL_COMPILE);
-		final byte byte2 = 64;
-		final int i = 256 / byte2 + 2;
-		float f = 16F;
+	private static void initializeDisplayLists() {
+	    GL11.glPushMatrix();
+	    GL11.glNewList(RenderNTMSkyboxImpact.starGLCallList, GL11.GL_COMPILE);
+	    renderStars(); // Assuming renderStars is not static
+	    GL11.glEndList();
+	    final Tessellator tessellator = Tessellator.instance;
+	    RenderNTMSkyboxImpact.glSkyList = RenderNTMSkyboxImpact.starGLCallList + 1;
+	    GL11.glNewList(RenderNTMSkyboxImpact.glSkyList, GL11.GL_COMPILE);
+	    final byte byte2 = 64;
+	    final int i = 256 / byte2 + 2;
+	    float f = 16F;
 
-		for(int j = -byte2 * i; j <= byte2 * i; j += byte2) {
-			for(int l = -byte2 * i; l <= byte2 * i; l += byte2) {
-				tessellator.startDrawingQuads();
-				tessellator.addVertex(j + 0, f, l + 0);
-				tessellator.addVertex(j + byte2, f, l + 0);
-				tessellator.addVertex(j + byte2, f, l + byte2);
-				tessellator.addVertex(j + 0, f, l + byte2);
-				tessellator.draw();
-			}
-		}
+	    for (int j = -byte2 * i; j <= byte2 * i; j += byte2) {
+	        for (int l = -byte2 * i; l <= byte2 * i; l += byte2) {
+	            tessellator.startDrawingQuads();
+	            tessellator.addVertex(j + 0, f, l + 0);
+	            tessellator.addVertex(j + byte2, f, l + 0);
+	            tessellator.addVertex(j + byte2, f, l + byte2);
+	            tessellator.addVertex(j + 0, f, l + byte2);
+	            tessellator.draw();
+	        }
+	    }
 
-		GL11.glEndList();
-		this.glSkyList2 = this.starGLCallList + 2;
-		GL11.glNewList(this.glSkyList2, GL11.GL_COMPILE);
-		f = -16F;
-		tessellator.startDrawingQuads();
+	    GL11.glEndList();
+	    RenderNTMSkyboxImpact.glSkyList2 = RenderNTMSkyboxImpact.starGLCallList + 2;
+	    GL11.glNewList(RenderNTMSkyboxImpact.glSkyList2, GL11.GL_COMPILE);
+	    f = -16F;
+	    tessellator.startDrawingQuads();
 
-		for(int k = -byte2 * i; k <= byte2 * i; k += byte2) {
-			for(int i1 = -byte2 * i; i1 <= byte2 * i; i1 += byte2) {
-				tessellator.addVertex(k + byte2, f, i1 + 0);
-				tessellator.addVertex(k + 0, f, i1 + 0);
-				tessellator.addVertex(k + 0, f, i1 + byte2);
-				tessellator.addVertex(k + byte2, f, i1 + byte2);
-			}
-		}
+	    for (int k = -byte2 * i; k <= byte2 * i; k += byte2) {
+	        for (int i1 = -byte2 * i; i1 <= byte2 * i; i1 += byte2) {
+	            tessellator.addVertex(k + byte2, f, i1 + 0);
+	            tessellator.addVertex(k + 0, f, i1 + 0);
+	            tessellator.addVertex(k + 0, f, i1 + byte2);
+	            tessellator.addVertex(k + byte2, f, i1 + byte2);
+	        }
+	    }
 
-		tessellator.draw();
-		GL11.glEndList();
+	    tessellator.draw();
+	    GL11.glEndList();
+	    displayListsInitialized = true;
 	}
 
 	@Override
@@ -292,7 +292,7 @@ public class RenderNTMSkyboxImpact extends IRenderHandler {
 
 	}
 
-	private void renderStars() {
+	private static void renderStars() {
 		Random random = new Random(10842L);
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
