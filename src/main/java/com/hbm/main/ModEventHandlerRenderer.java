@@ -376,11 +376,14 @@ public class ModEventHandlerRenderer {
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void tintFog(FogColors event) {
 		
+		/*
 		EntityPlayer player = MainRegistry.proxy.me();
 		Vec3 color = getFogBlendColor(player.worldObj, (int) Math.floor(player.posX), (int) Math.floor(player.posZ), event.renderPartialTicks);
 		event.red = (float) color.xCoord;
 		event.green = (float) color.yCoord;
 		event.blue = (float) color.zCoord;
+		*/
+		
 		
 		float soot = (float) (renderSoot - RadiationConfig.sootFogThreshold);
 		float sootColor = 0.15F;
