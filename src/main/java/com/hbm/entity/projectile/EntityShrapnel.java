@@ -52,13 +52,14 @@ public class EntityShrapnel extends EntityThrowable {
 			if(!worldObj.isRemote)
 				this.setDead();
 
-			if(this.dataWatcher.getWatchableObjectByte(16) == 2) {
+			int b = this.dataWatcher.getWatchableObjectByte(16);
+			if(b == 2 || b == 4) {
 				
 				if(!worldObj.isRemote) {
 					if(motionY < -0.2D) {
 						
 						if(worldObj.getBlock(mop.blockX, mop.blockY + 1, mop.blockZ).isReplaceable(worldObj, mop.blockX, mop.blockY + 1, mop.blockZ))
-							worldObj.setBlock(mop.blockX, mop.blockY + 1, mop.blockZ, ModBlocks.volcanic_lava_block);
+							worldObj.setBlock(mop.blockX, mop.blockY + 1, mop.blockZ, b == 2 ? ModBlocks.volcanic_lava_block : ModBlocks.rad_lava_block);
 						
 						for(int x = mop.blockX - 1; x <= mop.blockX + 1; x++) {
 							for(int y = mop.blockY; y <= mop.blockY + 2; y++) {
@@ -73,7 +74,7 @@ public class EntityShrapnel extends EntityThrowable {
 					if(motionY > 0) {
 						ExplosionNT explosion = new ExplosionNT(worldObj, null, mop.blockX + 0.5, mop.blockY + 0.5, mop.blockZ + 0.5, 7);
 						explosion.addAttrib(ExAttrib.NODROP);
-						explosion.addAttrib(ExAttrib.LAVA_V);
+						explosion.addAttrib(b == 2 ? ExAttrib.LAVA_V : ExAttrib.LAVA_R);
 						explosion.addAttrib(ExAttrib.NOSOUND);
 						explosion.addAttrib(ExAttrib.ALLMOD);
 						explosion.addAttrib(ExAttrib.NOHURT);
@@ -106,6 +107,10 @@ public class EntityShrapnel extends EntityThrowable {
 
 	public void setWatz(boolean b) {
 		this.dataWatcher.updateObject(16, (byte) (b ? 3 : 0));
+	}
+
+	public void setRadVolcano(boolean b) {
+		this.dataWatcher.updateObject(16, (byte) (b ? 4 : 0));
 	}
 
 	@Override

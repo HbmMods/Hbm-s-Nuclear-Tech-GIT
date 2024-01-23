@@ -175,6 +175,8 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 
 	public boolean tryToggle(EntityPlayer player){
 		
+		if(this.isLocked() && player == null) return false;
+		
 		if(state == 0 && redstonePower > 0){
 			//Redstone "power locks" doors, just like minecraft iron doors
 			return false;

@@ -218,7 +218,8 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 				} else if(!audio.isPlaying()) {
 					audio = rebootAudio(audio);
 				}
-				
+
+				audio.updateVolume(getVolume(1F));
 				audio.updatePitch((audioDuration - 10) / 100F + 0.5F);
 				
 			} else {
@@ -233,6 +234,8 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 
 	@Override
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.power = data.getLong("power");
 		this.progress = data.getInteger("progress");
 		this.isProgressing = data.getBoolean("isProgressing");

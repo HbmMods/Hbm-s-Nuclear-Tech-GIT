@@ -161,6 +161,8 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.heat = data.getInteger("heat");
 		this.water = data.getByte("water");
 		this.level = data.getDouble("level");

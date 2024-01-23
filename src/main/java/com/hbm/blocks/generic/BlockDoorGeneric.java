@@ -3,7 +3,9 @@ package com.hbm.blocks.generic;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.interfaces.IBomb;
 import com.hbm.items.special.ItemDoorSkin;
+import com.hbm.items.tool.ItemLock;
 import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -20,7 +22,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockDoorGeneric extends BlockDummyable {
+public class BlockDoorGeneric extends BlockDummyable implements IBomb {
 
 	public DoorDecl type;
 	
@@ -44,6 +46,22 @@ public class BlockDoorGeneric extends BlockDummyable {
 	@Override
 	public int getOffset(){
 		return type.getBlockOffset();
+	}
+
+	@Override
+	public BombReturnCode explode(World world, int x, int y, int z) {
+		int[] pos1 = findCore(world, x, y, z);
+		if(pos1 == null) return BombReturnCode.ERROR_INCOMPATIBLE;
+		TileEntityDoorGeneric door = (TileEntityDoorGeneric) world.getTileEntity(pos1[0], pos1[1], pos1[2]);
+		if(door != null) {
+			DoorDecl decl = door.getDoorType();
+			if(!decl.remoteControllable()) return BombReturnCode.ERROR_INCOMPATIBLE;
+			if(door.tryToggle(null)) {
+				return BombReturnCode.TRIGGERED;
+			}
+		}
+		
+		return BombReturnCode.ERROR_INCOMPATIBLE;
 	}
 	
 	@Override
@@ -148,5 +166,4 @@ public class BlockDoorGeneric extends BlockDummyable {
 		}
 		return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1);
 	}
-
 }

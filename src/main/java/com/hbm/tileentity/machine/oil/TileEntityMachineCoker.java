@@ -175,6 +175,8 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.wasOn = nbt.getBoolean("wasOn");
 		this.heat = nbt.getInteger("heat");
 		this.progress = nbt.getInteger("progress");

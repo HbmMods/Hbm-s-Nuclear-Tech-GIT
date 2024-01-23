@@ -120,7 +120,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase i
 			this.networkPack(data, 150);
 		} else {
 			
-			float volume = this.getVolume(2);
+			float volume = this.getVolume(2F);
 
 			if(isProgressing && volume > 0) {
 				
@@ -145,6 +145,8 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase i
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getIntArray("progress");
 		this.maxProgress = nbt.getIntArray("maxProgress");
@@ -246,18 +248,6 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase i
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
-	}
-	
-	public int countMufflers() {
-		
-		int count = 0;
-
-		for(int x = xCoord - 1; x <= xCoord + 1; x++)
-			for(int z = zCoord - 1; z <= zCoord + 1; z++)
-				if(worldObj.getBlock(x, yCoord - 1, z) == ModBlocks.muffler)
-					count++;
-		
-		return count;
 	}
 
 	@Override

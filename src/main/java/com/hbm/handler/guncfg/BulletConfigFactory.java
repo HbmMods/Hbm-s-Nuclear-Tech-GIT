@@ -376,7 +376,7 @@ public class BulletConfigFactory {
 							
 							EntityLivingBase entity = (EntityLivingBase) e;
 							
-							if(ArmorRegistry.hasAllProtection(entity, 3, HazardClass.GAS_CHLORINE))
+							if(ArmorRegistry.hasAllProtection(entity, 3, HazardClass.GAS_LUNG))
 								continue;
 
 							PotionEffect eff0 = new PotionEffect(Potion.poison.id, duration, 2, true);

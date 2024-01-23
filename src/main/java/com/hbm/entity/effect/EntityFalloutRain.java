@@ -164,10 +164,15 @@ public class EntityFalloutRain extends Entity {
 			if(b.getMaterial() == Material.air) continue;
 			if(b == Blocks.bedrock) return;
 			
+			if(b == ModBlocks.volcano_core) {
+				worldObj.setBlock(x, y, z, ModBlocks.volcano_rad_core, worldObj.getBlockMetadata(x, y, z), 3);
+				continue;
+			}
+			
 			Block ab = worldObj.getBlock(x, y + 1, z);
 			int meta = worldObj.getBlockMetadata(x, y, z);
 
-			if(b != ModBlocks.fallout && (ab == Blocks.air || (ab.isReplaceable(worldObj, x, y + 1, z) && !ab.getMaterial().isLiquid()))) {
+			if(depth == 0 && b != ModBlocks.fallout && (ab == Blocks.air || (ab.isReplaceable(worldObj, x, y + 1, z) && !ab.getMaterial().isLiquid()))) {
 
 				double d = dist / 100;
 

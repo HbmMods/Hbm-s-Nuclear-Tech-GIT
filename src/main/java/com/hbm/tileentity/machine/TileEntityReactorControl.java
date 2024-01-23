@@ -151,6 +151,8 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.heat = data.getInteger("heat");
 		this.level = data.getDouble("level");
 		this.flux = data.getInteger("flux");

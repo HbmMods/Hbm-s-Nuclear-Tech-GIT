@@ -110,8 +110,9 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 			this.networkPack(data, 250);
 		}
 	}
-	
+
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
 		beam = data.getInteger("beam");
 	}
 

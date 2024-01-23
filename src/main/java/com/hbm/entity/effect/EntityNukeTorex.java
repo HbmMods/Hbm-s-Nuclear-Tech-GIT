@@ -2,6 +2,7 @@ package com.hbm.entity.effect;
 
 import java.util.ArrayList;
 
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.TrackerUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -53,7 +54,7 @@ public class EntityNukeTorex extends Entity {
 	@Override
 	public void onUpdate() {
 		
-		double s = this.getScale();
+		double s = 1.5; //this.getScale();
 		double cs = 1.5;
 		int maxAge = this.getMaxAge();
 		
@@ -84,61 +85,61 @@ public class EntityNukeTorex extends Entity {
 				double x = posX + rand.nextGaussian() * range;
 				double z = posZ + rand.nextGaussian() * range;
 				Cloudlet cloud = new Cloudlet(x, lastSpawnY, z, (float)(rand.nextDouble() * 2D * Math.PI), 0, lifetime);
-				cloud.setScale(1F + this.ticksExisted * 0.005F * (float) s, 5F * (float) cs);
+				cloud.setScale(1F + this.ticksExisted * 0.005F * (float) cs, 5F * (float) cs);
 				cloudlets.add(cloud);
 			}
 			
 			// spawn shock clouds
-			if(ticksExisted < 100) {
+			if(ticksExisted < 150) {
 				
 				int cloudCount = ticksExisted * 5;
 				int shockLife = Math.max(300 - ticksExisted * 20, 50);
 				
 				for(int i = 0; i < cloudCount; i++) {
-					Vec3 vec = Vec3.createVectorHelper((ticksExisted * 2 + rand.nextDouble()) * 2, 0, 0);
+					Vec3 vec = Vec3.createVectorHelper((ticksExisted * 1.5 + rand.nextDouble()) * 1.5, 0, 0);
 					float rot = (float) (Math.PI * 2 * rand.nextDouble());
 					vec.rotateAroundY(rot);
-					this.cloudlets.add(new Cloudlet(vec.xCoord + posX, worldObj.getHeightValue((int) (vec.xCoord + posX) + 1, (int) (vec.zCoord + posZ)), vec.zCoord + posZ, rot, 0, shockLife)
-							.setScale(5F, 2F)
-							.setMotion(0));
+					this.cloudlets.add(new Cloudlet(vec.xCoord + posX, worldObj.getHeightValue((int) (vec.xCoord + posX) + 1, (int) (vec.zCoord + posZ)), vec.zCoord + posZ, rot, 0, shockLife, TorexType.SHOCK)
+							.setScale(7F, 2F)
+							.setMotion(ticksExisted > 15 ? 0.75 : 0));
 				}
 			}
 			
 			// spawn ring clouds
-			if(ticksExisted < 200) {
+			if(ticksExisted < 130 * s) {
 				lifetime *= s;
 				for(int i = 0; i < 2; i++) {
 					Cloudlet cloud = new Cloudlet(posX, posY + coreHeight, posZ, (float)(rand.nextDouble() * 2D * Math.PI), 0, lifetime, TorexType.RING);
-					cloud.setScale(1F + this.ticksExisted * 0.0025F * (float) (cs * s), 3F * (float) (cs * s));
+					cloud.setScale(1F + this.ticksExisted * 0.0025F * (float) (cs * cs), 3F * (float) (cs * cs));
 					cloudlets.add(cloud);
 				}
 			}
 			
 			// spawn condensation clouds
-			if(ticksExisted > 200 && ticksExisted < 600) {
+			if(ticksExisted > 130 * s && ticksExisted < 600 * s) {
 				
 				for(int i = 0; i < 20; i++) {
 					for(int j = 0; j < 4; j++) {
 						float angle = (float) (Math.PI * 2 * rand.nextDouble());
-						Vec3 vec = Vec3.createVectorHelper(torusWidth + rollerSize * 3, 0, 0);
+						Vec3 vec = Vec3.createVectorHelper(torusWidth + rollerSize * (3 + rand.nextDouble()), 0, 0);
 						vec.rotateAroundZ((float) (Math.PI / 45 * j));
 						vec.rotateAroundY(angle);
 						Cloudlet cloud = new Cloudlet(posX + vec.xCoord, posY + coreHeight - 5 + j * s, posZ + vec.zCoord, angle, 0, (int) ((20 + ticksExisted / 10) * (1 + rand.nextDouble() * 0.1)), TorexType.CONDENSATION);
-						cloud.setScale(0.125F * (float) (cs * s), 3F * (float) (cs * s));
+						cloud.setScale(0.125F * (float) (cs), 3F * (float) (cs));
 						cloudlets.add(cloud);
 					}
 				}
 			}
-			if(ticksExisted > 300 && ticksExisted < 600) {
+			if(ticksExisted > 200 * s && ticksExisted < 600 * s) {
 				
 				for(int i = 0; i < 20; i++) {
 					for(int j = 0; j < 4; j++) {
 						float angle = (float) (Math.PI * 2 * rand.nextDouble());
-						Vec3 vec = Vec3.createVectorHelper(torusWidth + rollerSize * 2, 0, 0);
+						Vec3 vec = Vec3.createVectorHelper(torusWidth + rollerSize * (3 + rand.nextDouble() * 0.5), 0, 0);
 						vec.rotateAroundZ((float) (Math.PI / 45 * j));
 						vec.rotateAroundY(angle);
-						Cloudlet cloud = new Cloudlet(posX + vec.xCoord, posY + coreHeight + 25 + j * s, posZ + vec.zCoord, angle, 0, (int) ((20 + ticksExisted / 10) * (1 + rand.nextDouble() * 0.1)), TorexType.CONDENSATION);
-						cloud.setScale(0.125F * (float) (cs * s), 3F * (float) (cs * s));
+						Cloudlet cloud = new Cloudlet(posX + vec.xCoord, posY + coreHeight + 25 + j * cs, posZ + vec.zCoord, angle, 0, (int) ((20 + ticksExisted / 10) * (1 + rand.nextDouble() * 0.1)), TorexType.CONDENSATION);
+						cloud.setScale(0.125F * (float) (cs), 3F * (float) (cs));
 						cloudlets.add(cloud);
 					}
 				}
@@ -147,12 +148,12 @@ public class EntityNukeTorex extends Entity {
 			for(Cloudlet cloud : cloudlets) {
 				cloud.update();
 			}
-			coreHeight += 0.15/* * s*/;
-			torusWidth += 0.05/* * s*/;
+			coreHeight += 0.15 / s;
+			torusWidth += 0.05 / s;
 			rollerSize = torusWidth * 0.35;
 			convectionHeight = coreHeight + rollerSize;
 			
-			int maxHeat = (int) (50 * s);
+			int maxHeat = (int) (50 * cs);
 			heat = maxHeat - Math.pow((maxHeat * this.ticksExisted) / maxAge, 1);
 			
 			cloudlets.removeIf(x -> x.isDead);
@@ -298,6 +299,14 @@ public class EntityNukeTorex extends Entity {
 				this.motionX = convection.xCoord * factor + lift.xCoord * (1D - factor);
 				this.motionY = convection.yCoord * factor + lift.yCoord * (1D - factor);
 				this.motionZ = convection.zCoord * factor + lift.zCoord * (1D - factor);
+			} else if(this.type == TorexType.SHOCK) {
+				
+				double factor = MathHelper.clamp_double((this.posY - EntityNukeTorex.this.posY) / EntityNukeTorex.this.coreHeight, 0, 1);
+				Vec3 motion = Vec3.createVectorHelper(1, 0, 0);
+				motion.rotateAroundY(this.angle);
+				this.motionX = motion.xCoord * factor;
+				this.motionY = motion.yCoord * factor;
+				this.motionZ = motion.zCoord * factor;
 			} else if(this.type == TorexType.RING) {
 				Vec3 motion = getRingMotion(simPosX, simPosZ);
 				this.motionX = motion.xCoord;
@@ -321,29 +330,13 @@ public class EntityNukeTorex extends Entity {
 		
 		private Vec3 getCondensationMotion() {
 			Vec3 delta = Vec3.createVectorHelper(posX - EntityNukeTorex.this.posX, 0, posZ - EntityNukeTorex.this.posZ);
-			double speed = 0.00002 * EntityNukeTorex.this.getScale() * EntityNukeTorex.this.ticksExisted;
+			double speed = 0.00002 * EntityNukeTorex.this.ticksExisted;
 			delta.xCoord *= speed;
-			//delta.yCoord *= speed * 0.75 * EntityNukeTorex.this.getScale();
 			delta.zCoord *= speed;
 			return delta;
 		}
 		
 		private Vec3 getRingMotion(double simPosX, double simPosZ) {
-			
-			/*Vec3 targetPos = Vec3.createVectorHelper(
-					(EntityNukeTorex.this.posX + torusWidth * 1),
-					(EntityNukeTorex.this.posY + coreHeight * 0.5),
-					EntityNukeTorex.this.posZ);
-			
-			Vec3 delta = Vec3.createVectorHelper(targetPos.xCoord - simPosX, targetPos.yCoord - this.posY, targetPos.zCoord - simPosZ);
-			
-			double speed = 0.125D;
-			delta.xCoord *= speed;
-			delta.yCoord *= speed;
-			delta.zCoord *= speed;
-			
-			delta.rotateAroundY(this.angle);
-			return delta;*/
 			
 			if(simPosX > EntityNukeTorex.this.posX + torusWidth * 2)
 				return Vec3.createVectorHelper(0, 0, 0);
@@ -391,9 +384,6 @@ public class EntityNukeTorex extends Entity {
 		
 		/* simulated on a 2D-plane along the X/Y axis */
 		private Vec3 getConvectionMotion(double simPosX, double simPosZ) {
-			
-			if(simPosX > EntityNukeTorex.this.posX + torusWidth * 2)
-				return Vec3.createVectorHelper(0, 0, 0);
 			
 			/* the position of the torus' outer ring center */
 			Vec3 torusPos = Vec3.createVectorHelper(
@@ -480,10 +470,19 @@ public class EntityNukeTorex extends Entity {
 		}
 		
 		public Vec3 getInterpPos(float interp) {
-			return Vec3.createVectorHelper(
+			float scale = (float) EntityNukeTorex.this.getScale();
+			Vec3 base = Vec3.createVectorHelper(
 					prevPosX + (posX - prevPosX) * interp,
 					prevPosY + (posY - prevPosY) * interp,
 					prevPosZ + (posZ - prevPosZ) * interp);
+
+			if(this.type != TorexType.SHOCK) { //no rescale for the shockwave as this messes with the positions
+				base.xCoord = ((base.xCoord) - EntityNukeTorex.this.posX) * scale + EntityNukeTorex.this.posX;
+				base.yCoord = ((base.yCoord) - EntityNukeTorex.this.posY) * scale + EntityNukeTorex.this.posY;
+				base.zCoord = ((base.zCoord) - EntityNukeTorex.this.posZ) * scale + EntityNukeTorex.this.posZ;
+			}
+			
+			return base;
 		}
 		
 		public Vec3 getInterpColor(float interp) {
@@ -514,7 +513,9 @@ public class EntityNukeTorex extends Entity {
 		private float growingScale = 5F;
 		
 		public float getScale() {
-			return startingScale + ((float)age / (float)cloudletLife) * growingScale;
+			float base = startingScale + ((float)age / (float)cloudletLife) * growingScale;
+			if(this.type != TorexType.SHOCK) base *= (float) EntityNukeTorex.this.getScale();
+			return base;
 		}
 		
 		public Cloudlet setScale(float start, float grow) {
@@ -533,6 +534,7 @@ public class EntityNukeTorex extends Entity {
 	
 	public static enum TorexType {
 		STANDARD,
+		SHOCK,
 		RING,
 		CONDENSATION
 	}
@@ -548,14 +550,14 @@ public class EntityNukeTorex extends Entity {
 	}
 	
 	public static void statFac(World world, double x, double y, double z, float scale) {
-		EntityNukeTorex torex = new EntityNukeTorex(world).setScale(MathHelper.clamp_float(scale * 0.01F, 0.5F, 5F));
+		EntityNukeTorex torex = new EntityNukeTorex(world).setScale(MathHelper.clamp_float((float) BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
 		torex.setPosition(x, y, z);
 		world.spawnEntityInWorld(torex);
 		TrackerUtil.setTrackingRange(world, torex, 1000);
 	}
 	
 	public static void statFacBale(World world, double x, double y, double z, float scale) {
-		EntityNukeTorex torex = new EntityNukeTorex(world).setScale(MathHelper.clamp_float(scale * 0.01F, 0.5F, 5F)).setType(1);
+		EntityNukeTorex torex = new EntityNukeTorex(world).setScale(MathHelper.clamp_float((float) BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F)).setType(1);
 		torex.setPosition(x, y, z);
 		world.spawnEntityInWorld(torex);
 		TrackerUtil.setTrackingRange(world, torex, 1000);

@@ -176,17 +176,17 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				
 				if(audio == null) { //if there is no sound playing, start it
 					
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 1.0F);
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 2.0F);
 					audio.startSound();
 					
 				} else if(!audio.isPlaying()) {
 					audio.stopSound();
-					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 1.0F);
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.turbinegasRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 2.0F);
 					audio.startSound();
 				}
 				
 				audio.updatePitch((float) (0.55 + 0.1 * rpm / 10)); //dynamic pitch update based on rpm
-				audio.updateVolume(100F); //yeah i need this
+				audio.updateVolume(getVolume(2F)); //yeah i need this
 				
 			} else {
 				
@@ -378,6 +378,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
 		
 		this.power = nbt.getLong("power");
 		this.rpm = nbt.getInteger("rpm");

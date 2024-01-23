@@ -318,7 +318,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 				}
 
 				audio.keepAlive();
-				audio.updateVolume(momentum);
+				audio.updateVolume(getVolume(momentum / 50F));
 				audio.updatePitch(momentum / 200F + 0.5F + this.afterburner * 0.16F);
 				
 			} else {
@@ -382,6 +382,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.afterburner = nbt.getByte("after");
 		this.wasOn = nbt.getBoolean("wasOn");

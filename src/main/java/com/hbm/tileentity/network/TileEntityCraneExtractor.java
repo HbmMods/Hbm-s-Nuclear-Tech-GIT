@@ -172,6 +172,8 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.isWhitelist = nbt.getBoolean("isWhitelist");
 		this.matcher.modes = new String[this.matcher.modes.length];
 		this.matcher.readFromNBT(nbt);

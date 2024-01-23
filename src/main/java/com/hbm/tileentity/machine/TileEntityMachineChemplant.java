@@ -183,7 +183,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 				worldObj.spawnParticle("cloud", x, y, z, 0.0, 0.1, 0.0);
 			}
 			
-			float volume = 1;//this.getVolume(2);
+			float volume = this.getVolume(1F);
 			
 			if(isProgressing && volume > 0) {
 				
@@ -213,6 +213,8 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");
 		this.maxProgress = nbt.getInteger("maxProgress");
