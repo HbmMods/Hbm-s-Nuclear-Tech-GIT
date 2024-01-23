@@ -51,6 +51,8 @@
     "block.turbinegasStartup": {"category": "block", "sounds": [{"name": "block/turbinegasStartup", "stream": true}]},
     "block.turbinegasRunning": {"category": "block", "sounds": [{"name": "block/turbinegasRunning", "stream": false}]},
     "block.turbinegasShutdown": {"category": "block", "sounds": [{"name": "block/turbinegasShutdown", "stream": true}]},
+    "block.chungusTurbineRunning": {"category": "block", "sounds": [{"name": "block/chungusTurbine", "stream": false}]},
+    "block.largeTurbineRunning": {"category": "block", "sounds": [{"name": "block/largeTurbine", "stream": false}]},
     "block.damage": {"category": "block", "sounds": ["block/dam1", "block/dam2", "block/dam3", "block/dam4"]},
     "block.electricHum": {"category": "block", "sounds": [{"name": "block/electricHum", "stream": false}]},
     "block.boiler": {"category": "block", "sounds": [{"name": "block/boiler", "stream": false}]},
