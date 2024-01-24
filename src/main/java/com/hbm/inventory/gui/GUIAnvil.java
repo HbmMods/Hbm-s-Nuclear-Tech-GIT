@@ -44,6 +44,7 @@ public class GUIAnvil extends GuiContainer {
 	int size;
 	int selection;
 	private GuiTextField search;
+	private InventoryPlayer playerInventory;
 
 	public GUIAnvil(InventoryPlayer player, int tier) {
 		super(new ContainerAnvil(player, tier));
@@ -51,7 +52,8 @@ public class GUIAnvil extends GuiContainer {
 		this.tier = tier;
 		this.xSize = 176;
 		this.ySize = 222;
-		
+
+		this.playerInventory = player;
 		for(AnvilConstructionRecipe recipe : AnvilRecipes.getConstruction()) {
 			if(recipe.isTierValid(this.tier))
 				this.originList.add(recipe);
@@ -243,7 +245,7 @@ public class GUIAnvil extends GuiContainer {
 		if(this.selection >= 0) {
 			
 			AnvilConstructionRecipe recipe = recipes.get(this.selection);
-			List<String> list = recipeToList(recipe);
+			List<String> list = recipeToList(recipe,playerInventory);
 			int longest = 0;
 			
 			for(String s : list) {
@@ -274,7 +276,7 @@ public class GUIAnvil extends GuiContainer {
 	 * @param recipe
 	 * @return
 	 */
-	public List<String> recipeToList(AnvilConstructionRecipe recipe) {
+	public List<String> recipeToList(AnvilConstructionRecipe recipe,InventoryPlayer inventory) {
 
 		List<String> list = new ArrayList();
 		
@@ -283,16 +285,48 @@ public class GUIAnvil extends GuiContainer {
 		for(AStack stack : recipe.input) {
 			if(stack instanceof ComparableStack)  {
 				ItemStack input = ((ComparableStack) stack).toStack();
-				list.add(">" + input.stackSize + "x " + input.getDisplayName());
-				
+				boolean hasItem = false;
+				int amount =0;
+				for (int i = 0; i < inventory.mainInventory.length; i++) {
+					ItemStack stackItem = inventory.mainInventory[i];
+					if(stackItem == null)
+					{
+						continue;
+					}
+					if (stackItem.getItem() == input.getItem() && input.getItemDamage() == stackItem.getItemDamage()) {
+						hasItem = true;
+						amount +=stackItem.stackSize;
+					}
+				}
+				if(hasItem && amount >= stack.stacksize) {
+					list.add(">" + input.stackSize + "x " + input.getDisplayName());
+				}else {
+					list.add(EnumChatFormatting.RED + ">" + input.stackSize + "x " + input.getDisplayName());
+				}
 			} else if(stack instanceof OreDictStack) {
 				OreDictStack input = (OreDictStack) stack;
 				ArrayList<ItemStack> ores = OreDictionary.getOres(input.name);
 				
 				if(ores.size() > 0) {
 					ItemStack inStack = ores.get((int) (Math.abs(System.currentTimeMillis() / 1000) % ores.size()));
-					list.add(">" + input.stacksize + "x " + inStack.getDisplayName());
-					
+					boolean hasItem = false;
+					int amount =0;
+					for (int i = 0; i < inventory.mainInventory.length; i++) {
+						ItemStack stackItem = inventory.mainInventory[i];
+						if(stackItem == null)
+						{
+							continue;
+						}
+						if (stackItem.getItem() == inStack.getItem() && inStack.getItemDamage() == stackItem.getItemDamage()) {
+							hasItem = true;
+							amount += stackItem.stackSize;
+						}
+					}
+					if (hasItem && amount >= stack.stacksize) {
+						list.add(">" + input.stacksize + "x " + inStack.getDisplayName());
+					} else {
+						list.add(EnumChatFormatting.RED + ">" + input.stacksize + "x " + inStack.getDisplayName());
+					}
 				} else {
 					list.add("I AM ERROR");
 				}
