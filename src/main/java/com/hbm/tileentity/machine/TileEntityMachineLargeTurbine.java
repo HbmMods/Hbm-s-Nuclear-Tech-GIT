@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.CompatHandler;
@@ -16,6 +17,8 @@ import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.inventory.gui.GUIMachineLargeTurbine;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -51,6 +54,9 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	public float rotor;
 	public float lastRotor;
 	public float fanAcceleration = 0F;
+
+	private AudioWrapper audio;
+	private float audioDesync;
 	
 	public TileEntityMachineLargeTurbine() {
 		super(7);
@@ -58,6 +64,9 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.STEAM, 512000, 0);
 		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 10240000, 1);
+
+		Random rand = new Random();
+		audioDesync = rand.nextFloat() * 0.05F;
 	}
 
 	@Override
@@ -129,11 +138,30 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			}
 			
 			if(shouldTurn) {
+				// Fan accelerates with a random offset to ensure the audio doesn't perfectly align, makes for a more pleasant hum
+				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration += 0.075F + audioDesync));
 
-				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration += 0.1F));
-			}
-			if(!shouldTurn) {
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.largeTurbineRunning", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
+					audio.startSound();
+				}
+
+				float turbineSpeed = this.fanAcceleration / 15F;
+				audio.updateVolume(getVolume(0.4f * turbineSpeed));
+				audio.updatePitch(0.25F + 0.75F * turbineSpeed);
+			} else {
 				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration -= 0.1F));
+				
+				if(audio != null) {
+					if(this.fanAcceleration > 0) {
+						float turbineSpeed = this.fanAcceleration / 15F;
+						audio.updateVolume(getVolume(0.4f * turbineSpeed));
+						audio.updatePitch(0.25F + 0.75F * turbineSpeed);
+					} else {
+						audio.stopSound();
+						audio = null;
+					}
+				}
 			}
 		}
 	}
@@ -292,6 +320,26 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	@Override
 	public String getComponentName() {
 		return "ntm_turbine";
+	}
+	
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
 	}
 
 	@Callback(direct = true)
