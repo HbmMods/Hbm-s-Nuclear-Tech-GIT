@@ -69,6 +69,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(WATZ,		1000,			ModItems.ingot_mud);
 		registerRecipe(REDMUD,		1000,			Items.iron_ingot);
 		registerRecipe(SODIUM,		100,			ModItems.powder_sodium);
+		registerRecipe(BRINE,		300,			ModItems.powder_salt);
 
 		registerRecipe(OIL,				SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(CRACKOIL,		SF_CRACK,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK));
@@ -94,11 +95,14 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerSFAuto(DIESEL);
 		registerSFAuto(DIESEL_REFORM);
 		registerSFAuto(DIESEL_CRACK);
+		registerSFAuto(SYNDIESEL);
 		registerSFAuto(DIESEL_CRACK_REFORM);
 		registerSFAuto(LIGHTOIL);
 		registerSFAuto(LIGHTOIL_CRACK);
 		registerSFAuto(LIGHTOIL_VACUUM);
 		registerSFAuto(KEROSENE);
+		registerSFAuto(SYNKEROSENE);
+		registerSFAuto(SYNPETROIL);
 		//registerSFAuto(GAS);
 		registerSFAuto(SOURGAS);
 		registerSFAuto(REFORMGAS);
