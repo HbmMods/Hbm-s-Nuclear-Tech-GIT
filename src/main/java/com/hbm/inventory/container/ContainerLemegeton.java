@@ -86,7 +86,7 @@ public class ContainerLemegeton extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return player.inventory.hasItem(ModItems.book_of_);
+		return player.inventory.hasItem(ModItems.book_lemegeton);
 	}
 
 	@Override

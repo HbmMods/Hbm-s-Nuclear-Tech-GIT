@@ -25,6 +25,8 @@
     * Cerium and lanthanium, due to being useless, only have a 10% chance of producing a framgent
     * Boron and cobalt each produce a guaranteed fragment, as well as an additional one with a 50% chance
     * Neodymium and niobium both yield a shard 50% of the time
+* Rebalanced all the food items so their saturation values aren't ridiculously high (turns out - the number represents a *multiplier* for the hunger value and not a flat number)
+* Dirt MREs are now just regular low-quality MREs made from latex packaging and some easily obtainable earlygame ingredients - wheat, rotten flesh and saplings (makes 4)
 
 ## Fixed
 * Fixed basalt ores dropping their items with invalid metadata
