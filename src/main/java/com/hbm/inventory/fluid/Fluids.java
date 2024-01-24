@@ -611,8 +611,7 @@ public class Fluids {
 		registerCalculatedFuel(OIL, (baseline / 1D * flammabilityLow * demandLow), 0, null);
 		registerCalculatedFuel(CRACKOIL, (baseline / 1D * flammabilityLow * demandLow * complexityCracking), 0, null);
 		registerCalculatedFuel(OIL_COKER, (baseline / 1D * flammabilityLow * demandLow * complexityCoker), 0, null);
-		registerCalculatedFuel(BIOOIL, (baseline / 1D * flammabilityLow * demandLow), 0, null);
-		registerCalculatedFuel(SYNOIL, (baseline / 1D * flammabilityLow * demandLow * complexityRefinery), 1.25D, null);
+		registerCalculatedFuel(SYNOIL, (baseline / 1D * flammabilityLow * demandLow * complexityChemplant), 0, null);
 		registerCalculatedFuel(GAS, (baseline / 1D * flammabilityNormal * demandVeryLow), 1.25, FuelGrade.GAS);
 		registerCalculatedFuel(GAS_COKER, (baseline / 1D * flammabilityNormal * demandVeryLow * complexityCoker), 1.25, FuelGrade.GAS);
 		registerCalculatedFuel(HEAVYOIL, (baseline / 0.5 * flammabilityLow * demandLow * complexityRefinery), 1.25D, FuelGrade.LOW);
@@ -646,8 +645,10 @@ public class Fluids {
 		registerCalculatedFuel(DIESEL_REFORM, DIESEL.getTrait(FT_Flammable.class).getHeatEnergy() * complexityReform, 2.5D, FuelGrade.HIGH);
 		registerCalculatedFuel(DIESEL_CRACK_REFORM, DIESEL_CRACK.getTrait(FT_Flammable.class).getHeatEnergy() * complexityReform, 2.5D, FuelGrade.HIGH);
 		registerCalculatedFuel(KEROSENE_REFORM, KEROSENE.getTrait(FT_Flammable.class).getHeatEnergy() * complexityReform, 1.5D, FuelGrade.AERO);
+		registerCalculatedFuel(SYNNAPHTHA, (baseline / 0.5 * flammabilityNormal * demandLow * complexityRefinery * complexityCracking * complexityFraction), 1.5D, FuelGrade.MEDIUM);
 		registerCalculatedFuel(SYNDIESEL, (baseline / 0.35 * flammabilityNormal * demandLow * complexityRefinery * complexityCracking * complexityFraction), 2.5D, FuelGrade.HIGH);
-		registerCalculatedFuel(SYNKEROSENE, (baseline / 0.11 * flammabilityHigh * demandHigh * complexityRefinery * complexityFraction), 1.5D, FuelGrade.AERO);
+		registerCalculatedFuel(SYNPETROIL, (baseline / 0.4 * flammabilityNormal * demandLow * complexityRefinery * complexityCracking * complexityFraction* complexityLubed), 1.5D, FuelGrade.MEDIUM);
+		registerCalculatedFuel(SYNKEROSENE, (baseline / 0.11 * flammabilityHigh * demandHigh * complexityRefinery * complexityCracking * complexityFraction), 1.5D, FuelGrade.AERO);
 		registerCalculatedFuel(REFORMGAS, (baseline / 0.06 * flammabilityHigh * demandLow * complexityVacuum * complexityFraction), 1.25D, FuelGrade.GAS);
 		
 		//all hail the spreadsheet
@@ -664,6 +665,7 @@ public class Fluids {
 
 		registerCalculatedFuel(BIOGAS, 250_000D * flammabilityLow /* biofuel with half compression, terrible flammability */, 1.25, FuelGrade.GAS);
 		registerCalculatedFuel(BIOFUEL, 500_000D /* slightly below diesel */, 2.5D, FuelGrade.HIGH);
+		registerCalculatedFuel(BIOOIL, 64_000D * flammabilityLow * complexityChemplant * complexityCracking, 0, null); /*Hydrotreated bio-oil is slightly inferior to mineral oil in terms of calorific value */
 
 		registerCalculatedFuel(WOODOIL, 110_000 /* 20_000 TU per 250mB + a bonus */, 0, null);
 		registerCalculatedFuel(COALCREOSOTE, 250_000 /* 20_000 TU per 100mB + a bonus */, 0, null);
