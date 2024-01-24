@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
+import org.lwjgl.opengl.GL11;
+
 public class HbmAnimations {
 	
 	//in flans mod and afaik also MW, there's an issue that there is only one
@@ -83,7 +85,21 @@ public class HbmAnimations {
 			}
 		}
 		
-		return new double[] {0, 0, 0};
+		return new double[] {
+			0, 0, 0, // position
+			0, 0, 0, // rotation
+			1, 1, 1  // scale
+		};
+	}
+
+	public static void applyRelevantTransformation(String bus) {
+		double[] transform = getRelevantTransformation(bus);
+
+		GL11.glTranslated(transform[0], transform[1], transform[2]);
+		GL11.glRotated(transform[3], 1, 0, 0);
+		GL11.glRotated(transform[4], 0, 1, 0);
+		GL11.glRotated(transform[5], 0, 0, 1);
+		GL11.glScaled(transform[6], transform[7], transform[8]);
 	}
 
 }
