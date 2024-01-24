@@ -843,6 +843,7 @@ public class MainRegistry {
 		TileEntityNukeFurnace.registerFuels();
 		AssemblerRecipes.loadRecipes();
 		MagicRecipes.register();
+		LemegetonRecipes.register();
 		SILEXRecipes.register();
 		AnvilRecipes.register();
 		RefineryRecipes.registerRefinery();

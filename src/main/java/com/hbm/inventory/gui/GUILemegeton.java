@@ -2,7 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerBook;
+import com.hbm.inventory.container.ContainerLemegeton;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.Minecraft;
@@ -10,19 +10,19 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIBook extends GuiContainer {
+public class GUILemegeton extends GuiContainer {
 
-	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_book.png");
+	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_lemegeton.png");
 
-	public GUIBook(InventoryPlayer player) {
-		super(new ContainerBook(player));
+	public GUILemegeton(InventoryPlayer player) {
+		super(new ContainerLemegeton(player));
 		this.xSize = 176;
 		this.ySize = 166;
 	}
 
 	protected void drawGuiContainerForegroundLayer(int mX, int mY) {
 
-		Minecraft.getMinecraft().standardGalacticFontRenderer.drawString("Extended 4-Slot Crafting", 28, 6, 4210752);
+		Minecraft.getMinecraft().standardGalacticFontRenderer.drawString("Material Upgrade Conversion", 28, 6, 4210752);
 		Minecraft.getMinecraft().standardGalacticFontRenderer.drawString("Standard Inventory", 8, this.ySize - 96 + 2, 4210752);
 	}
 
@@ -35,6 +35,6 @@ public class GUIBook extends GuiContainer {
 		this.drawTexturedModalRect(left, top, 0, 0, this.xSize, this.ySize);
 
 		if(this.inventorySlots.getSlot(0).getHasStack())
-			this.drawTexturedModalRect(left + 29, top + 16, 176, 0, 54, 54);
+			this.drawTexturedModalRect(left + 7, top + 22, 0, 166, 162, 42);
 	}
 }
