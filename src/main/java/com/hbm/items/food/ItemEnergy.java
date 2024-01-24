@@ -50,6 +50,15 @@ public class ItemEnergy extends Item {
 		return this;
 	}
 
+	public ItemEnergy makePlasticBottle(Item bottle, Item cap) { //because fuck having a bottle opener for caprisun
+		this.container = bottle;
+		this.cap = cap;
+		this.requiresOpener = false;
+		this.setContainerItem(this.container);
+		this.setCreativeTab(MainRegistry.consumableTab);
+		return this;
+	}
+
 	@Override
 	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player) {
 
