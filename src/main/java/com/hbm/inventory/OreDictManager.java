@@ -278,12 +278,15 @@ public class OreDictManager {
 	public static final DictFrame I131 = new DictFrame("Iodine131", "I131");
 	public static final DictFrame XE135 = new DictFrame("Xenon135", "Xe135");
 	public static final DictFrame CS137 = new DictFrame("Caesium137", "Cs137");
-	public static final DictFrame AT209 = new DictFrame("Astatine209", "At209");
-
+	public static final DictFrame AT209 = new DictFrame("Astatine209", "At209");	
 	/* 
 	 * SALT
 	 */
 	public static final DictFrame SALT = new DictFrame("Salt");
+	/*
+	 * MINERAL
+	 */
+	public static final DictFrame MINERAL = new DictFrame("Mineral");
 	/*
 	 * COLLECTIONS
 	 */
@@ -470,14 +473,6 @@ public class OreDictManager {
 		XE135	.rad(HazardRegistry.xe135)	.hot(10F)				.dustSmall(powder_xe135_tiny)	.dust(powder_xe135);
 		CS137	.rad(HazardRegistry.cs137)	.hot(3F)	.hydro(3F)	.dustSmall(powder_cs137_tiny)	.dust(powder_cs137);
 		AT209	.rad(HazardRegistry.at209)	.hot(20F)												.dust(powder_at209);
-	       /* 
-	        * SALT
-	        */
-	        public static final DictFrame SALT = new DictFrame("Salt");
-	        /*
-	         * MINERAL
-	         */
-	        public static final DictFrame MINERAL = new DictFrame("Mineral");
 		/*
 		 * COLLECTIONS
 		 */
