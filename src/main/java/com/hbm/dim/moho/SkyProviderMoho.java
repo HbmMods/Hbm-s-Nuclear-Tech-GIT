@@ -133,6 +133,9 @@ public class SkyProviderMoho extends IRenderHandler {
 
 		if(f18 > 0.0F) {
 			GL11.glPushMatrix();
+			GL11.glRotatef(50.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
 	        mc.renderEngine.bindTexture(this.night);
 	        GL11.glEnable(3553);
 	        GL11.glBlendFunc(770, 1);
@@ -146,7 +149,6 @@ public class SkyProviderMoho extends IRenderHandler {
 	        
 	       // 
 
-	        GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
 	        GL11.glRotatef(-90.0F, 1.0F, 0.0F, 0.0F);
 	        GL11.glColor4f(1.0F, 1.0F, 1.0F, starBrightness);
 	        
@@ -192,13 +194,10 @@ public class SkyProviderMoho extends IRenderHandler {
 		f8 = 0.0F;
 		f9 = 0.0F;
 		GL11.glTranslatef(f7, f8, f9);
+		GL11.glRotatef(50.0F, 1.0F, 0.0F, 0.0F);
 		GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
-
-		// Render sun
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
-		// Some blanking to conceal the stars
 		f10 = (AstronomyUtil.KerbolRadius/(AstronomyUtil.MohoAU*AstronomyUtil.AUToKm))*720;
 		float f11 = f10*2;
 		tessellator.startDrawingQuads();
@@ -231,61 +230,6 @@ public class SkyProviderMoho extends IRenderHandler {
 			tessellator.draw();
 		}
 		{
-    		GL11.glPushMatrix();
-    		//GL11.glDisable(GL11.GL_BLEND);
-    		f10 = 0.75f;
-    		GL11.glColor4d(0.4588f, 0.6784f, 0.3059f, 1/MohoJool);
-    		GL11.glRotatef(AstronomyUtil.calculatePlanetAngle(world.getWorldTime(), partialTicks, AstronomyUtil.MohoP, AstronomyUtil.JoolP) * -360.0F, 1.0F, 0.0F, 0.0F);        		
-    		GL11.glRotatef(280F, 1.0F, 0.0F, 0.0F);
-    		mc.renderEngine.bindTexture(this.planet);
-    		tessellator.startDrawingQuads();
-    		tessellator.addVertexWithUV(-f10, -100.0D, f10, 0.0D, 0.0D);
-    		tessellator.addVertexWithUV(f10, -100.0D, f10, 1.0D, 0.0D);
-    		tessellator.addVertexWithUV(f10, -100.0D, -f10, 1.0D, 1.0D);
-    		tessellator.addVertexWithUV(-f10, -100.0D, -f10, 0.0D, 1.0D);
-    		tessellator.draw();
-    		//GL11.glEnable(GL11.GL_BLEND);
-    		GL11.glPopMatrix();
-    	}
-		{
-    		GL11.glPushMatrix();
-    		//GL11.glDisable(GL11.GL_BLEND);
-    		f10 = (float) (0.15F/MohoDuna);
-    		GL11.glColor4d(0.4863F, 0.4F, 0.3456, 1/MohoDuna);
-    		GL11.glRotatef(AstronomyUtil.calculatePlanetAngle(world.getWorldTime(), partialTicks, AstronomyUtil.MohoP, AstronomyUtil.DunaP) * -360.0F, 1.0F, 0.0F, 0.0F);        		
-    		GL11.glRotatef(280F, 1.0F, 0.0F, 0.0F);
-    		GL11.glTranslated(MohoDuna, 0, 0);
-    		mc.renderEngine.bindTexture(this.planet);
-    		tessellator.startDrawingQuads();
-    		tessellator.addVertexWithUV(-f10, -100.0D, f10, 0.0D, 0.0D);
-    		tessellator.addVertexWithUV(f10, -100.0D, f10, 1.0D, 0.0D);
-    		tessellator.addVertexWithUV(f10, -100.0D, -f10, 1.0D, 1.0D);
-    		tessellator.addVertexWithUV(-f10, -100.0D, -f10, 0.0D, 1.0D);
-    		tessellator.draw();
-    		//GL11.glEnable(GL11.GL_BLEND);
-    		GL11.glPopMatrix();
-    	}
-
-
-		{
-    		GL11.glPushMatrix();
-    		//GL11.glDisable(GL11.GL_BLEND);
-    		f10 = (float) (0.15F/MohoKerbin);
-    		GL11.glColor4d(0.2863F, 0.3882F, 0.4745F, 1/MohoKerbin);
-    		GL11.glRotatef(AstronomyUtil.calculatePlanetAngle(world.getWorldTime(), partialTicks, AstronomyUtil.MohoP, AstronomyUtil.KerbinP) * -360.0F, 1.0F, 0.0F, 0.0F);        		
-    		GL11.glRotatef(280F, 1.0F, 0.0F, 0.0F);
-    		mc.renderEngine.bindTexture(this.planet);
-    		tessellator.startDrawingQuads();
-    		tessellator.addVertexWithUV(-f10, -100.0D, f10, 0.0D, 0.0D);
-    		tessellator.addVertexWithUV(f10, -100.0D, f10, 1.0D, 0.0D);
-    		tessellator.addVertexWithUV(f10, -100.0D, -f10, 1.0D, 1.0D);
-    		tessellator.addVertexWithUV(-f10, -100.0D, -f10, 0.0D, 1.0D);
-    		tessellator.draw();
-    		//GL11.glEnable(GL11.GL_BLEND);
-    		GL11.glPopMatrix();
-    	}
-
-		{
 			OpenGlHelper.glBlendFunc(770, 1, 1, 0);
 
 			float brightness = (float) Math.sin(world.getCelestialAngle(partialTicks) * Math.PI);
@@ -313,6 +257,7 @@ public class SkyProviderMoho extends IRenderHandler {
 			GL11.glPopMatrix();
 
 		}
+
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

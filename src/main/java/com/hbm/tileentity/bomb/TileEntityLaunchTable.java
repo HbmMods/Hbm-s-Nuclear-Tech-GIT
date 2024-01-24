@@ -441,8 +441,35 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			switch (DestinationType.values()[slots[1].getItemDamage()]) {
 			case MOHO:
 				//float theWorldLooksRed = calfuelV2(AstronomyUtil.MohoAU);
-				int wiggle = tanks[0].changeTankSize(9000);
-				wiggle = tanks[0].getMaxFill();
+				tanks[0].changeTankSize(90000);
+				break;
+			case LAYTHE:
+				tanks[0].changeTankSize(230000);
+				tanks[1].changeTankSize(230000);
+				break;
+			case DUNA:
+				tanks[0].changeTankSize(230000);
+				tanks[1].changeTankSize(150300);
+				break;
+			case DRES:
+				tanks[0].changeTankSize(290000);
+				tanks[1].changeTankSize(230000);
+				break;
+			case MINMUS:
+				tanks[0].changeTankSize(90000);
+				tanks[1].changeTankSize(90000);
+				break;
+			case EVE:
+				tanks[0].changeTankSize(230000);
+				tanks[1].changeTankSize(230000);
+				break;
+			case IKE:
+				tanks[0].changeTankSize(930000);
+				tanks[1].changeTankSize(1230000);
+				break;
+			case TEKTO:
+				tanks[0].changeTankSize(430000);
+				tanks[1].changeTankSize(200000);
 				break;
 			default: 
 				break;

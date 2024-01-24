@@ -136,6 +136,9 @@ public class SkyProviderLaythe extends IRenderHandler {
 
 		if(f18 > 0.0F) {
 			GL11.glPushMatrix();
+			GL11.glRotatef(60.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);	
 	        mc.renderEngine.bindTexture(this.night);
 	        GL11.glEnable(3553);
 	        GL11.glBlendFunc(770, 1);
@@ -149,7 +152,6 @@ public class SkyProviderLaythe extends IRenderHandler {
 	        
 	       // 
 
-	        GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
 	        GL11.glRotatef(-90.0F, 1.0F, 0.0F, 0.0F);
 	        GL11.glColor4f(1.0F, 1.0F, 1.0F, starBrightness);
 	        
@@ -196,14 +198,16 @@ public class SkyProviderLaythe extends IRenderHandler {
 		f8 = 0.0F;
 		f9 = 0.0F;
 		GL11.glTranslatef(f7, f8, f9);
-		GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
-
+		{
 		// Render sun
+		GL11.glPushMatrix();
+		GL11.glRotatef(60.0F, 1.0F, 0.0F, 0.0F);
+		GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);	
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
 		// Some blanking to conceal the stars
-		f10 = (float) (2*Math.atan((AstronomyUtil.KerbolRadius*4)/(2*AstronomyUtil.JoolAU*AstronomyUtil.AUToKm))*57.2958);
+		f10 = (float) (2*Math.atan((AstronomyUtil.KerbolRadius*9)/(2*AstronomyUtil.JoolAU*AstronomyUtil.AUToKm))*57.2958);
 		float f11 = f10*4;
 		tessellator.startDrawingQuads();
 		tessellator.addVertex(-f10, 99.9D, -f10);
@@ -211,7 +215,7 @@ public class SkyProviderLaythe extends IRenderHandler {
 		tessellator.addVertex(f10, 99.9D, f10);
 		tessellator.addVertex(-f10, 99.9D, f10);
 		tessellator.draw();
-		{
+		
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1);
 			mc.renderEngine.bindTexture(this.sunTexture);
@@ -221,8 +225,8 @@ public class SkyProviderLaythe extends IRenderHandler {
 			tessellator.addVertexWithUV(f10, 100.0D, f10, 1.0D, 1.0D);
 			tessellator.addVertexWithUV(-f10, 100.0D, f10, 0.0D, 1.0D);
 			tessellator.draw();
-		}
-		{
+		
+		
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.3f);
 			mc.renderEngine.bindTexture(this.flare);
@@ -232,7 +236,9 @@ public class SkyProviderLaythe extends IRenderHandler {
 			tessellator.addVertexWithUV(f11, 100.0D, f11, 1.0D, 1.0D);
 			tessellator.addVertexWithUV(-f11, 100.0D, f11, 0.0D, 1.0D);
 			tessellator.draw();
+			GL11.glPopMatrix();
 		}
+		
 		{
 			OpenGlHelper.glBlendFunc(770, 1, 1, 0);
 
@@ -261,6 +267,11 @@ public class SkyProviderLaythe extends IRenderHandler {
 			GL11.glPopMatrix();
 
 		}
+		GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+		
+
+
 		{
    		    GL11.glPushMatrix();
    		    double BopRad = AstronomyUtil.BopRadius;

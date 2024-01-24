@@ -19,6 +19,7 @@ import com.hbm.saveddata.TomSaveData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.channel.DefaultAddressedEnvelope;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
@@ -40,6 +41,7 @@ public class PlanetaryTraitUtil {
 	
 	static {
 		dimGrav.put(DimensionManager.getProviderType(0), 9.8F);
+
 	}
 	
     public static float getGravityForDimension(int dimensionId) {
@@ -54,6 +56,9 @@ public class PlanetaryTraitUtil {
         idToDimensionMap.put(DimensionManager.getProviderType(SpaceConfig.moonDimension), EnumSet.of(Hospitality.OXYNEG));
         idToDimensionMap.put(DimensionManager.getProviderType(SpaceConfig.ikeDimension), EnumSet.of(Hospitality.OXYNEG));
         idToDimensionMap.put(DimensionManager.getProviderType(SpaceConfig.mohoDimension), EnumSet.of(Hospitality.OXYNEG, Hospitality.HOT));
+        idToDimensionMap.put(DimensionManager.getProviderType(SpaceConfig.laytheDimension), EnumSet.of(Hospitality.BREATHEABLE));
+        idToDimensionMap.put(DimensionManager.getProviderType(SpaceConfig.minmusDimension), EnumSet.of(Hospitality.OXYNEG));
+        idToDimensionMap.put(DimensionManager.getProviderType(SpaceConfig.dunaDimension), EnumSet.of(Hospitality.OXYNEG, Hospitality.TOXIC));
     }
 
     @Deprecated
