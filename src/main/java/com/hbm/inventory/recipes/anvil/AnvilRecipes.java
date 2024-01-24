@@ -13,6 +13,7 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.items.ItemAmmoEnums.*;
+import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
 import com.hbm.items.food.ItemFlask.EnumInfusion;
 
@@ -702,6 +703,20 @@ public class AnvilRecipes {
 	}
 	
 	public static void registerConstructionRecycling() {
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.RARE)),
+				new AnvilOutput[] {
+						new AnvilOutput(new ItemStack(ModItems.fragment_boron)),
+						new AnvilOutput(new ItemStack(ModItems.fragment_boron), 0.5F),
+						new AnvilOutput(new ItemStack(ModItems.fragment_lanthanium), 0.1F),
+						new AnvilOutput(new ItemStack(ModItems.fragment_cobalt)),
+						new AnvilOutput(new ItemStack(ModItems.fragment_cobalt), 0.5F),
+						new AnvilOutput(new ItemStack(ModItems.fragment_cerium), 0.1F),
+						new AnvilOutput(new ItemStack(ModItems.fragment_neodymium), 0.5F),
+						new AnvilOutput(new ItemStack(ModItems.fragment_niobium), 0.5F),
+				}
+		).setTier(2));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.heater_firebox),
