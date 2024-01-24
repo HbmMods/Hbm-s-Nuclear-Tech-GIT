@@ -117,6 +117,12 @@ public class Fluids {
 	public static FluidType NITRIC_ACID;
 	public static FluidType SOLVENT;			//oranic solvent in fact
 	public static FluidType BLOOD;				//BLOOD ORB! BLOOD ORB! BLOOD ORB!
+	public static FluidType BLOOD_HEMOCHROMA; 	//Blood & Iron!
+	public static FluidType BLOOD_ONEG; 	// The universal donor!
+	public static FluidType BLOOD_FLUROPHORE; 	//WHY ARE MY VEINS GLOWING ARGHHHHHHH
+
+	public static FluidType GRAPE_JUICE;
+
 	public static FluidType BLOOD_HOT;
 
 	public static FluidType PHEROMONE;
@@ -334,6 +340,9 @@ public class Fluids {
 		FULLERENE =				new FluidType("FULLERENE",			0xFF7FED, 3, 3, 3, EnumSymbol.NONE).addTraits(LIQUID, new FT_Corrosive(65));
 		PHEROMONE =				new FluidType("PHEROMONE",			0x5FA6E8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Pheromone(1));
 		PHEROMONE_M =			new FluidType(132, "PHEROMONE_M",	0x48C9B0 , 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Pheromone(2));
+		BLOOD_FLUROPHORE =      new FluidType("BLOOD_FLUROPHORE",   0xE10600, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+		BLOOD_HEMOCHROMA = 	    new FluidType("BLOOD_HEMOCHROMA",   0x8C0000, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+		BLOOD_ONEG =            new FluidType("BLOOD_ONEG",         0xB22435, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		
@@ -479,6 +488,9 @@ public class Fluids {
 		//garbage
 		metaOrder.add(XPJUICE);
 		metaOrder.add(ENDERJUICE);
+		metaOrder.add(BLOOD_FLUROPHORE);
+		metaOrder.add(BLOOD_HEMOCHROMA);
+		metaOrder.add(BLOOD_ONEG);
 		//plasma
 		metaOrder.add(PLASMA_DT);
 		metaOrder.add(PLASMA_HD);

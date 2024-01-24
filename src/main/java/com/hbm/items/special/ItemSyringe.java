@@ -102,6 +102,16 @@ public class ItemSyringe extends Item {
 			}
 		}
 
+		if(this == ModItems.syringe_metal_empty){
+			if(!world.isRemote) {
+				player.swingItem();
+				world.playSoundAtEntity(player, "hbm:item.syringe", 1.0F, 1.0F);
+
+				if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.syringe_metal_empty))) {
+					player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.syringe_metal_empty, 1, 0), false);
+				}
+			}
+		}
 		if(this == ModItems.syringe_metal_stimpak && !VersatileConfig.hasPotionSickness(player)) {
 			if(!world.isRemote) {
 				player.heal(5);
@@ -548,6 +558,9 @@ public class ItemSyringe extends Item {
 
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+		if(this == ModItems.syringe_metal_empty) {
+			list.add("Hit a living entity to fill");
+		}
 		if(this == ModItems.syringe_antidote) {
 			list.add("Removes all potion effects");
 		}

@@ -299,9 +299,9 @@ public abstract class WeaponAbility {
 			if(victim instanceof EntityMob && ((EntityMob) victim).getHealth() <= 0.0F) {
 				
 				EntityMob mob = (EntityMob) victim;
-				
+
 				int chance = 1000;
-				
+
 				if(mob.getMaxHealth() > 20) {
 					chance = 750;
 				}
@@ -314,6 +314,29 @@ public abstract class WeaponAbility {
 		@Override
 		public String getName() {
 			return "weapon.ability.bobble";
+		}
+
+		@Override
+		public String getFullName() {
+			return I18n.format(getName());
+		}
+	}
+
+	public static class SuckerAbility extends WeaponAbility {
+
+		@Override
+		public void onHit(World world, EntityPlayer player, Entity victim, IItemAbility tool) {
+
+			if (player.getHeldItem().getItem() == ModItems.syringe_metal_empty) {
+				player.inventory.setInventorySlotContents(player.inventory.currentItem, new ItemStack(ModItems.syringe_metal_bloody));
+			}
+
+
+		}
+
+		@Override
+		public String getName() {
+			return "weapon.ability.sucker";
 		}
 
 		@Override
