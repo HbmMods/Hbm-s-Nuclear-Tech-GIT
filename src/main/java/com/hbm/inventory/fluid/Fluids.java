@@ -191,6 +191,7 @@ public class Fluids {
 	public static final FT_NoID NOID = new FT_NoID();
 	public static final FT_Delicious DELICIOUS = new FT_Delicious();
 	public static final FT_Leaded LEADED = new FT_Leaded();
+	public static final FT_Quenching QUENCHING = new FT_Quenching();
 
 	public static void init() {
 		
@@ -343,6 +344,7 @@ public class Fluids {
 		BLOOD_FLUROPHORE =      new FluidType("BLOOD_FLUROPHORE",   0xE10600, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 		BLOOD_HEMOCHROMA = 	    new FluidType("BLOOD_HEMOCHROMA",   0x8C0000, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 		BLOOD_ONEG =            new FluidType("BLOOD_ONEG",         0xB22435, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+		GRAPE_JUICE = 			new FluidType("GRAPE_JUICE",        0x8031A7, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID,QUENCHING);
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		
@@ -491,6 +493,7 @@ public class Fluids {
 		metaOrder.add(BLOOD_FLUROPHORE);
 		metaOrder.add(BLOOD_HEMOCHROMA);
 		metaOrder.add(BLOOD_ONEG);
+		metaOrder.add(GRAPE_JUICE);
 		//plasma
 		metaOrder.add(PLASMA_DT);
 		metaOrder.add(PLASMA_HD);

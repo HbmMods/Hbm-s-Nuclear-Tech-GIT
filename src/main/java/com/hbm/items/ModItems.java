@@ -1019,6 +1019,7 @@ public class ModItems {
 	public static Item coffee;
 	public static Item coffee_radium;
 	public static Item chocolate;
+	public static Item caprisun;
 	public static Item cap_nuka;
 	public static Item cap_quantum;
 	public static Item cap_sparkle;
@@ -3501,6 +3502,7 @@ public class ModItems {
 		chocolate_milk = new ItemEnergy().setUnlocalizedName("chocolate_milk").setTextureName(RefStrings.MODID + ":chocolate_milk");
 		coffee = new ItemEnergy().setUnlocalizedName("coffee").setTextureName(RefStrings.MODID + ":coffee");
 		coffee_radium = new ItemEnergy().setUnlocalizedName("coffee_radium").setTextureName(RefStrings.MODID + ":coffee_radium");
+		caprisun = new ItemEnergy().setUnlocalizedName("caprisun").setTextureName(RefStrings.MODID + ":caprisun");
 		chocolate = new ItemPill(0).setUnlocalizedName("chocolate").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":chocolate");
 		canned_conserve = (ItemEnumMulti) new ItemConserve().setUnlocalizedName("canned_conserve").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned");
 		can_key = new Item().setUnlocalizedName("can_key").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_key");
@@ -7685,6 +7687,9 @@ public class ModItems {
 		GameRegistry.registerItem(bottle2_fritz_special, bottle2_fritz_special.getUnlocalizedName());
 		GameRegistry.registerItem(bottle2_sunset, bottle2_sunset.getUnlocalizedName());
 		GameRegistry.registerItem(bottle_opener, bottle_opener.getUnlocalizedName());
+
+		//Other drinks
+		GameRegistry.registerItem(caprisun, caprisun.getUnlocalizedName());
 		
 		//Flasks
 		GameRegistry.registerItem(flask_infusion, flask_infusion.getUnlocalizedName());

@@ -200,6 +200,15 @@ public class EntityMist extends Entity {
 			teleportRandomly(living);
 		}
 
+		if(type == Fluids.GRAPE_JUICE && living != null) {
+
+			living.addPotionEffect(new PotionEffect(Potion.regeneration.id, 2 * 20, 3));
+			living.addPotionEffect(new PotionEffect(Potion.field_76443_y.id, 2 * 20, 0));
+			if (e instanceof EntityPlayer) {
+				((EntityPlayer) e).triggerAchievement(MainRegistry.achCapri);
+			}
+		}
+
 		if(type.hasTrait(FT_Pheromone.class)){
 
 			FT_Pheromone pheromone = type.getTrait(FT_Pheromone.class);

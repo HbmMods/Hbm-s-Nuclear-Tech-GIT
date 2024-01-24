@@ -238,6 +238,7 @@ public class MainRegistry {
 	public static Achievement achBreeding;
 	public static Achievement achFusion;
 	public static Achievement achMeltdown;
+	public static Achievement achCapri;
 	
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
@@ -679,6 +680,7 @@ public class MainRegistry {
 		achFiend2 = new Achievement("achievement.fiend2", "fiend2", -4, 9, ModItems.shimmer_axe, null).initIndependentStat().setSpecial().registerStat();
 		achStratum = new Achievement("achievement.stratum", "stratum", -4, -2, new ItemStack(ModBlocks.stone_gneiss), null).initIndependentStat().setSpecial().registerStat();
 		achOmega12 = new Achievement("achievement.omega12", "omega12", 17, -1, ModItems.particle_digamma, null).initIndependentStat().setSpecial().registerStat();
+		achCapri = new Achievement("achievement.capri", "capri", 17, 1, ModItems.caprisun, null).initIndependentStat().setSpecial().registerStat();
 
 		achWitchtaunter = new Achievement("achievement.witchtaunter", "witchtaunter", -8, 7, ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.VAMPIRE), null).initIndependentStat().setSpecial().registerStat();
 		achNo9 = new Achievement("achievement.no9", "no9", -8, 12, ModItems.no9, null).initIndependentStat().registerStat();
@@ -742,7 +744,6 @@ public class MainRegistry {
 		achMeltdown = new Achievement("achievement.meltdown", "meltdown", 15, -7, ModItems.powder_balefire, achFusion).initIndependentStat().setSpecial().registerStat();
 		achRedBalloons = new Achievement("achievement.redBalloons", "redBalloons", 11, 0, ModItems.missile_nuclear, achPolymer).initIndependentStat().setSpecial().registerStat();
 		achManhattan = new Achievement("achievement.manhattan", "manhattan", 11, -4, new ItemStack(ModBlocks.nuke_boy), achPolymer).initIndependentStat().setSpecial().registerStat();
-		
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[] {
 				achSacrifice,
 				achImpossible,
@@ -756,6 +757,7 @@ public class MainRegistry {
 				achFiend2,
 				achStratum,
 				achOmega12,
+				achCapri,
 				bobHidden,
 				horizonsStart,
 				horizonsEnd,

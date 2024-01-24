@@ -188,6 +188,11 @@ public class ItemEnergy extends Item {
 				HbmLivingProps.incrementRadiation(player, 500F);
 				player.triggerAchievement(MainRegistry.achRadium);
 			}
+			if(this == ModItems.caprisun) {
+				player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 3 * 20, 3));
+				player.addPotionEffect(new PotionEffect(Potion.field_76443_y.id, 60 * 20, 0));
+				player.triggerAchievement(MainRegistry.achCapri);
+			}
 
 			if(!player.capabilities.isCreativeMode) {
 
@@ -331,6 +336,11 @@ public class ItemEnergy extends Item {
 				list.add("The eternal #2. Screw you, Bradberton!");
 			}
 			list.add("[Requires bottle opener]");
+		}
+		if(this == ModItems.caprisun) {
+			list.add("It'll quench ya");
+			list.add("[Grape Flavoured!]");
+
 		}
 	}
 }
