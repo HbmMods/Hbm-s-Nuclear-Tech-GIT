@@ -414,6 +414,8 @@ public class OreDictManager {
 		HEMATITE																														.ore(fromOne(stone_resource, EnumStoneType.HEMATITE));
 		MALACHITE																														.ore(fromOne(stone_resource, EnumStoneType.MALACHITE));
 		SLAG																									.block(block_slag);
+		SALT                                                                            .dust(powder_salt)      .dustSmall(powder_salt_tiny);
+		MINERAL                                                                         .dust(dust_mineral)     .dustSmall (dust_mineral_tiny);
 		
 		/*
 		 * HAZARDS, MISC
@@ -463,7 +465,14 @@ public class OreDictManager {
 		XE135	.rad(HazardRegistry.xe135)	.hot(10F)				.dustSmall(powder_xe135_tiny)	.dust(powder_xe135);
 		CS137	.rad(HazardRegistry.cs137)	.hot(3F)	.hydro(3F)	.dustSmall(powder_cs137_tiny)	.dust(powder_cs137);
 		AT209	.rad(HazardRegistry.at209)	.hot(20F)												.dust(powder_at209);
-		
+	       /* 
+	        * SALT
+	        */
+	        public static final DictFrame SALT = new DictFrame("Salt");
+	        /*
+	         * MINERAL
+	         */
+	        public static final DictFrame MINERAL = new DictFrame("Mineral");
 		/*
 		 * COLLECTIONS
 		 */
