@@ -100,6 +100,7 @@ public class OreDictManager {
 	public static final String KEY_CIRCUIT_BISMUTH = "circuitVersatile";
 
 	public static final String KEY_GLYPHID_MEAT = "glyphidMeat";
+	public static final String KEY_SALT_POWDER = "dustSalt";
 
 	/*
 	 * MATERIALS
@@ -278,7 +279,11 @@ public class OreDictManager {
 	public static final DictFrame XE135 = new DictFrame("Xenon135", "Xe135");
 	public static final DictFrame CS137 = new DictFrame("Caesium137", "Cs137");
 	public static final DictFrame AT209 = new DictFrame("Astatine209", "At209");
-	
+
+	/* 
+	 * SALT
+	 */
+	public static final DictFrame SALT = new DictFrame("Salt");
 	/*
 	 * COLLECTIONS
 	 */
@@ -526,6 +531,11 @@ public class OreDictManager {
 		OreDictionary.registerOre(KEY_GLYPHID_MEAT, new ItemStack(glyphid_meat));
 		OreDictionary.registerOre(KEY_GLYPHID_MEAT, new ItemStack(glyphid_meat_grilled));
 
+		/*
+		 * SALT
+		 */
+		OreDictionary.registerOre(KEY_SALT_POWDER, powder_salt);
+		
 		for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.smeltable == SmeltingBehavior.SMELTABLE) {
 				if(mat.shapes.contains(MaterialShapes.BOLT)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.BOLT.name() + name, new ItemStack(ModItems.bolt, 1, mat.id));
