@@ -104,7 +104,6 @@ import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderOverhead.Marker;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
-import com.hbm.sound.AudioWrapperClientStartStop;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
@@ -2007,14 +2006,6 @@ public class ClientProxy extends ServerProxy {
 	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch, int keepAlive) {
 		AudioWrapper audio = getLoopedSound(sound, x, y, z, volume, range, pitch);
 		audio.setKeepAlive(keepAlive);
-		return audio;
-	}
-	
-	/** Only used for doors */
-	@Override
-	public AudioWrapper getLoopedSoundStartStop(World world, String sound, String start, String stop, float x, float y, float z, float volume, float pitch) {
-		AudioWrapperClientStartStop audio = new AudioWrapperClientStartStop(world, sound == null ? null : new ResourceLocation(sound), start, stop, volume * 5);
-		audio.updatePosition(x, y, z);
 		return audio;
 	}
 

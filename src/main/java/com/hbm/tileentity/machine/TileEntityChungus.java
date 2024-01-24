@@ -14,8 +14,10 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -50,11 +52,16 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 	
 	public FluidTank[] tanks;
 	
+	private AudioWrapper audio;
+	private float audioDesync;
+	
 	public TileEntityChungus() {
-		
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.STEAM, 1000000000, 0);
 		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 1000000000, 1);
+
+		Random rand = new Random();
+		audioDesync = rand.nextFloat() * 0.05F;
 	}
 
 	@Override
@@ -119,9 +126,9 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 			}
 			
 			if(turnTimer > 0) {
-
-				this.fanAcceleration = Math.max(0F, Math.min(25F, this.fanAcceleration += 0.1F));
-
+				// Fan accelerates with a random offset to ensure the audio doesn't perfectly align, makes for a more pleasant hum
+				this.fanAcceleration = Math.max(0F, Math.min(25F, this.fanAcceleration += 0.075F + audioDesync));
+				
 				Random rand = worldObj.rand;
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 				ForgeDirection side = dir.getRotation(ForgeDirection.UP);
@@ -133,9 +140,29 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 							zCoord + 0.5 + dir.offsetZ * (rand.nextDouble() + 1.25) + rand.nextGaussian() * side.offsetZ * 0.65,
 							-dir.offsetX * 0.2, 0, -dir.offsetZ * 0.2);
 				}
-			}
-			if(turnTimer < 0) {
+
+				
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.chungusTurbineRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 1.0F);
+					audio.startSound();
+				}
+
+				float turbineSpeed = this.fanAcceleration / 25F;
+				audio.updateVolume(getVolume(0.5f * turbineSpeed));
+				audio.updatePitch(0.25F + 0.75F * turbineSpeed);
+			} else {
 				this.fanAcceleration = Math.max(0F, Math.min(25F, this.fanAcceleration -= 0.1F));
+				
+				if(audio != null) {
+					if(this.fanAcceleration > 0) {
+						float turbineSpeed = this.fanAcceleration / 25F;
+						audio.updateVolume(getVolume(0.5f * turbineSpeed));
+						audio.updatePitch(0.25F + 0.75F * turbineSpeed);
+					} else {
+						audio.stopSound();
+						audio = null;
+					}
+				}
 			}	
 		}
 	}
@@ -285,6 +312,26 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 	@Override
 	public String getComponentName() {
 		return "ntm_turbine";
+	}
+	
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
 	}
 
 	@Callback(direct = true)
