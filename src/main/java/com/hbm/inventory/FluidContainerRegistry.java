@@ -55,10 +55,12 @@ public class FluidContainerRegistry {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.iv_blood), new ItemStack(ModItems.iv_empty), Fluids.BLOOD, 100));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.iv_xp), new ItemStack(ModItems.iv_xp_empty), Fluids.XPJUICE, 100));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.experience_bottle), new ItemStack(Items.glass_bottle), Fluids.XPJUICE, 100));
+
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.syringe_metal_bloody), new ItemStack(ModItems.syringe_metal_empty), Fluids.BLOOD, 100));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.syringe_metal_stimpak), new ItemStack(ModItems.syringe_metal_empty), Fluids.BLOOD_ONEG, 100));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.syringe_metal_medx), new ItemStack(ModItems.syringe_metal_empty), Fluids.BLOOD_HEMOCHROMA, 100));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.syringe_metal_psycho), new ItemStack(ModItems.syringe_metal_empty), Fluids.BLOOD_FLUROPHORE, 100));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.syringe_metal_psycho), new ItemStack(ModItems.syringe_metal_empty), Fluids.BLOOD_FLUOROPHORE, 100));
+		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.caprisun), new ItemStack(ModItems.iv_empty), Fluids.GRAPE_JUICE, 100));
 
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.can_mug), new ItemStack(ModItems.can_empty), Fluids.MUG, 100));
 

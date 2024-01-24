@@ -1020,6 +1020,7 @@ public class ModItems {
 	public static Item coffee_radium;
 	public static Item chocolate;
 	public static Item caprisun;
+	public static Item plastic_straw;
 	public static Item cap_nuka;
 	public static Item cap_quantum;
 	public static Item cap_sparkle;
@@ -3475,7 +3476,8 @@ public class ModItems {
 		cap_sunset = new Item().setUnlocalizedName("cap_sunset").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_sunset");
 		cap_star = new Item().setUnlocalizedName("cap_star").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_star");
 		ring_pull = new Item().setUnlocalizedName("ring_pull").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ring_pull");
-		
+		plastic_straw = new Item().setUnlocalizedName("plastic_straw").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":plastic_straw");
+
 		can_empty = new Item().setUnlocalizedName("can_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_empty");
 		can_smart = new ItemEnergy().makeCan().setUnlocalizedName("can_smart").setTextureName(RefStrings.MODID + ":can_smart");
 		can_creature = new ItemEnergy().makeCan().setUnlocalizedName("can_creature").setTextureName(RefStrings.MODID + ":can_creature");
@@ -3502,7 +3504,7 @@ public class ModItems {
 		chocolate_milk = new ItemEnergy().setUnlocalizedName("chocolate_milk").setTextureName(RefStrings.MODID + ":chocolate_milk");
 		coffee = new ItemEnergy().setUnlocalizedName("coffee").setTextureName(RefStrings.MODID + ":coffee");
 		coffee_radium = new ItemEnergy().setUnlocalizedName("coffee_radium").setTextureName(RefStrings.MODID + ":coffee_radium");
-		caprisun = new ItemEnergy().setUnlocalizedName("caprisun").setTextureName(RefStrings.MODID + ":caprisun");
+		caprisun = new ItemEnergy().makeBottle(iv_empty,plastic_straw).setUnlocalizedName("caprisun").setTextureName(RefStrings.MODID + ":caprisun");
 		chocolate = new ItemPill(0).setUnlocalizedName("chocolate").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":chocolate");
 		canned_conserve = (ItemEnumMulti) new ItemConserve().setUnlocalizedName("canned_conserve").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":canned");
 		can_key = new Item().setUnlocalizedName("can_key").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_key");
@@ -7735,6 +7737,7 @@ public class ModItems {
 		GameRegistry.registerItem(cap_star, cap_star.getUnlocalizedName());
 		GameRegistry.registerItem(ring_pull, ring_pull.getUnlocalizedName());
 		GameRegistry.registerItem(can_key, can_key.getUnlocalizedName());
+		GameRegistry.registerItem(plastic_straw, plastic_straw.getUnlocalizedName());
 		GameRegistry.registerItem(coin_creeper, coin_creeper.getUnlocalizedName());
 		GameRegistry.registerItem(coin_radiation,coin_radiation.getUnlocalizedName());
 		GameRegistry.registerItem(coin_maskman, coin_maskman.getUnlocalizedName());
