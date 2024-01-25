@@ -20,15 +20,17 @@
 * Rare earth ore, instead of detonating into a million fragments that are annoying to process, clog inventories and just cause everyone to not mine that ore in earlygame, will now drop a chunk of rare earth ore
   * Rare earth chunks can be shredded directly into one unit of desh blend
   * For efficiencymaxxers, silk-touching rare earth still works as expected, yielding two units when shredded
-  * The luck enchantment should work as expected, dropping multiple chunks. Yay!
+  * The fortune enchantment should work as expected, dropping multiple chunks. Yay!
   * To get things that can be useful in small amounts in earlygame like boron and cobalt (boron for Atlas and cobalt for tools), the rare earth chunk can be hammered down into fragments on a steel anvil
-    * Cerium and lanthanium, due to being useless, only have a 10% chance of producing a framgent
+    * Cerium and lanthanium, due to being useless, only have a 10% chance of producing a fragment
     * Boron and cobalt each produce a guaranteed fragment, as well as an additional one with a 50% chance
     * Neodymium and niobium both yield a shard 50% of the time
 * Rebalanced all the food items so their saturation values aren't ridiculously high (turns out - the number represents a *multiplier* for the hunger value and not a flat number)
 * Dirt MREs are now just regular low-quality MREs made from latex packaging and some easily obtainable earlygame ingredients - wheat, rotten flesh and saplings (makes 4)
+* The recipe for the chemical plant has been slightly simplified (again)
 
 ## Fixed
 * Fixed basalt ores dropping their items with invalid metadata
 * Fixed creative infinite fluid tanks not being able to fill fluid gauges at >0PU
 * Fixed an issue where repeatedly opening and closing certain doors would cause their sound loop to get stuck running forever
+* Fixed radar screens behaving weirdly when out of then intended range. The max interaction range for radars is now infinite, and radars will send a second information packet to players near connected radars

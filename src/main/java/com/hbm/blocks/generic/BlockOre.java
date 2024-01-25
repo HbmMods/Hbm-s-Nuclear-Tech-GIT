@@ -211,9 +211,6 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur || this == ModBlocks.basalt_sulfur) {
 			return 2 + rand.nextInt(3);
 		}
-		if(this == ModBlocks.ore_rare || this == ModBlocks.ore_gneiss_rare) {
-			return 4 + rand.nextInt(8);
-		}
 		if(this == ModBlocks.block_meteor_broken) {
 			return 1 + rand.nextInt(3);
 		}
