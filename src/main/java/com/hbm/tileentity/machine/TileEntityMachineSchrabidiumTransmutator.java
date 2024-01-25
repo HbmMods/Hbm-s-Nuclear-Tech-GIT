@@ -183,6 +183,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 				} else if(!audio.isPlaying()) {
 					audio = rebootAudio(audio);
 				}
+				audio.updateVolume(getVolume(1F));
 			} else {
 				
 				if(audio != null) {
@@ -226,6 +227,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 	
 	@Override
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
 
 		this.power = data.getLong("power");
 		this.process = data.getInteger("progress");

@@ -69,6 +69,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(WATZ,		1000,			ModItems.ingot_mud);
 		registerRecipe(REDMUD,		1000,			Items.iron_ingot);
 		registerRecipe(SODIUM,		100,			ModItems.powder_sodium);
+		registerRecipe(BRINE,		300,			ModItems.powder_salt);
 
 		registerRecipe(OIL,				SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(CRACKOIL,		SF_CRACK,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK));
@@ -76,9 +77,11 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(HEAVYOIL,		SF_HEAVY,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(HEAVYOIL_VACUUM,	SF_HEAVY,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(BITUMEN,			SF_BITUMEN,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
+		registerRecipe(BIOOIL,			SF_CRACK,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK));
 		registerRecipe(COALCREOSOTE,	SF_CREOSOTE,	DictFrame.fromOne(ModItems.oil_tar, EnumTarType.COAL));
 		registerRecipe(WOODOIL,			SF_WOOD,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.WOOD));
 		registerRecipe(LUBRICANT,		SF_LUBE,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.PARAFFIN));
+		registerRecipe(SYNOIL,		    250,		    DictFrame.fromOne(ModItems.oil_tar, EnumTarType.PARAFFIN));
 
 		registerRecipe(BALEFIRE,		250,			ModItems.solid_fuel_bf);
 		
@@ -92,11 +95,14 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerSFAuto(DIESEL);
 		registerSFAuto(DIESEL_REFORM);
 		registerSFAuto(DIESEL_CRACK);
+		registerSFAuto(SYNDIESEL);
 		registerSFAuto(DIESEL_CRACK_REFORM);
 		registerSFAuto(LIGHTOIL);
 		registerSFAuto(LIGHTOIL_CRACK);
 		registerSFAuto(LIGHTOIL_VACUUM);
 		registerSFAuto(KEROSENE);
+		registerSFAuto(SYNKEROSENE);
+		registerSFAuto(SYNPETROIL);
 		//registerSFAuto(GAS);
 		registerSFAuto(SOURGAS);
 		registerSFAuto(REFORMGAS);

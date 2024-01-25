@@ -214,6 +214,8 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.enableDrill = nbt.getBoolean("d");
 		this.enableCrusher = nbt.getBoolean("c");
 		this.enableWalling = nbt.getBoolean("w");

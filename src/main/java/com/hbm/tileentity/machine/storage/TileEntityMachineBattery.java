@@ -322,7 +322,8 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) { 
+	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
 
 		this.power = nbt.getLong("power");
 		this.delta = nbt.getLong("delta");

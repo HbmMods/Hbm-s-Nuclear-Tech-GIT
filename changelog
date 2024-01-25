@@ -1,51 +1,34 @@
 ## Added
-* Silo hatch
-  * The final missing door from 1.12, remade from scratch
-  * Comes with a brand-new model that fits perfectly over 3x3 missile launch tubes
-  * Has a 5x5 frame
-  * Can be opened and closed with a detonator
-* Molysite
-  * Found in basalt from volcanos
-  * Can be combination-smelted into iron and chlorine
-  * Don't make me pull another chlorocalcite
-* Rad volcanos
-  * Created when fallout affects a volcano core
-  * Uses a new volcanic lava type that produces sellafite, as well as sellafite gem ores
-* Radioactive gem
-  * Created when fallout affects diamond ore, or if radioactive volcanic lava touches diamond ore
-  * Currenly only used in the radiation powered engine as powerful long-lasting fuel
-  * When depleted, turns back into a regular diamond
+* Muffler
+  * An upgrade-like item that replaces the old muffler block
+  * Creates 16 when crafted, however it is not returned when the muffled machine is broken
+  * Should work with pretty much all machines that use looped sounds, as well as a few other noisy ones (compressors, diesel generators, presses)
+  * Simply right-click to install, doesn't need to be inserted into an upgrade slot, in fact it works on a few machines that have no GUI at all
+* Lemegeton
+  * A book that can do material upgrading, like turning steel into HSS, HSS into Tc-steel, lead into gold, gold into bismuth, bismuth into osmiridium, etc.
+  * Basically allows a material to be upgraded to the next gating material in progression
+  * Obviously unobtainable in survival mode
+  * I don't know how this would ever be useful but I was stuck in a phonecall at work for two consecutive hours and didn't have anything else to do
+  * They should invent handsets that don't hurt when you hold them onto your head for too long
+  * Has no NEI handler because the call ended before I got to that
 
 ## Changed
-* Simplified door recipes
-* Fissure bombs now require tantalium
-* Removed the "nerve agent" hazard class because no gas used it
-* Fissures now continuously spawn volcanic lava, making basalt renewable without having an entire volcano
-* Volcanic lava now turns diamond ore into gem-rich basalt
-* Mushroom clouds have been tweaked
-  * Their scale no longer scales linearly, but rather with a square root function, this prevents tsar clouds from being so huge that the top fails to render due to clipping through the skybox
-  * Their default scale is now somewhat larger
-  * The flash scale has been increased
-  * Their general scaling is now consistent, larger clouds will no longer be chubby with a comically small ring
-  * Shockwave particles now have momentum, making them sweep over the landscape, as well as being 1.5x denser and slightly larger
-    * Effect shamelessly stolen from NTM-EE
-  * Outer condensation rings' spawning is no longer fixed, the time now scales with the size
-  * The inner condensation ring's spawn time is also now based on scale, which means larger clouds will no longer end up with comically thin rings due to not spawning enough cloudlets
+* Large turbines, levis and geothermal heat exchangers now have their own sounds when operating
+* Anvils will now list ingredients in red if those aren't present in the player's inventory
+* Derricks now only need one set of steel pipes instead of 3. They can also be recycled by shredding, returning 32 steel
+* Pumpjacks now need a single desh motor instead of two regular ones
+* Rare earth ore, instead of detonating into a million fragments that are annoying to process, clog inventories and just cause everyone to not mine that ore in earlygame, will now drop a chunk of rare earth ore
+  * Rare earth chunks can be shredded directly into one unit of desh blend
+  * For efficiencymaxxers, silk-touching rare earth still works as expected, yielding two units when shredded
+  * The luck enchantment should work as expected, dropping multiple chunks. Yay!
+  * To get things that can be useful in small amounts in earlygame like boron and cobalt (boron for Atlas and cobalt for tools), the rare earth chunk can be hammered down into fragments on a steel anvil
+    * Cerium and lanthanium, due to being useless, only have a 10% chance of producing a framgent
+    * Boron and cobalt each produce a guaranteed fragment, as well as an additional one with a 50% chance
+    * Neodymium and niobium both yield a shard 50% of the time
+* Rebalanced all the food items so their saturation values aren't ridiculously high (turns out - the number represents a *multiplier* for the hunger value and not a flat number)
+* Dirt MREs are now just regular low-quality MREs made from latex packaging and some easily obtainable earlygame ingredients - wheat, rotten flesh and saplings (makes 4)
 
 ## Fixed
-* Fixed sellafite emerald ore being oredicted as emerald dust
-* Fixed fire replacing petrified wood, creating tons of dead trees with holes in them
-* Fixed inconsistent scaling with nuclear missiles
-* Fixed BFB rods being called ZFB in hot and depleted variants
-* Fixed infinite water barrels voiding water completely after the chemplant's input buffer runs full, infinite barrels can no longer void water in chemplants
-* Fixed fallout affecting things on Y:0 like bedrock ores and oil
-* Fixed projectiles not being able to pass through open doors
-* Fixed material dupe caused by strand caster overflowing
-* Fixed rampant mode glyphid scout spawn ignoring light level
-* Fixed glyphid diggers' debris attack being able to break concrete
-* Fixed `canLaunch` function of custom missile launch pads demanding a designator, preventing launch pads without designator from working even when the position is supplied by a radar
-* Fixed none of the helmets or filters protecting against corrosive gasses (blistering agents) like mustard gas
-* Fixed fallout layers being able to generate below roofs
-* Fixed exposure chamber not saving anything to NBT besides slots
-* Fixed crash caused by wearing the full PaA set and then putting on an HEV helmet (why would anyone ever do this??)
-* Fixed large doors only being lockable by clicking on the core block
+* Fixed basalt ores dropping their items with invalid metadata
+* Fixed creative infinite fluid tanks not being able to fill fluid gauges at >0PU
+* Fixed an issue where repeatedly opening and closing certain doors would cause their sound loop to get stuck running forever

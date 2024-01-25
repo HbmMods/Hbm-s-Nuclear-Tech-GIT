@@ -101,6 +101,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 	}
 
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
 
 		this.currentFill = nbt.getInteger("fill");
 		this.progress = nbt.getInteger("progress");

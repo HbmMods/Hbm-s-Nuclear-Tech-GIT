@@ -71,6 +71,8 @@ public class MineralRecipes {
 		add1To9Pair(ModItems.powder_xe135, ModItems.powder_xe135_tiny);
 		add1To9Pair(ModItems.powder_cs137, ModItems.powder_cs137_tiny);
 		add1To9Pair(ModItems.powder_i131, ModItems.powder_i131_tiny);
+		add1To9Pair(ModItems.powder_salt, ModItems.powder_salt_tiny);
+		add1To9Pair(ModItems.dust_mineral, ModItems.dust_mineral_tiny);
 
 		add1To9Pair(ModItems.ingot_technetium, ModItems.nugget_technetium);
 		add1To9Pair(ModItems.ingot_co60, ModItems.nugget_co60);

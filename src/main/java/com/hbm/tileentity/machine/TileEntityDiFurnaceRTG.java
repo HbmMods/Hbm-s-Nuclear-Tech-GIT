@@ -79,6 +79,8 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		progress = nbt.getShort("progress");
 		processSpeed = nbt.getShort("speed");
 		byte[] modes = nbt.getByteArray("modes");

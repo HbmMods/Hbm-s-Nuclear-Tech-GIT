@@ -8,6 +8,8 @@ import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -37,6 +39,8 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 	
 	private int[] heat = new int[10];
 	private long fissureScanTime;
+
+	private AudioWrapper audio;
 	
 	@Override
 	public void updateEntity() {
@@ -91,6 +95,16 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 					double z = worldObj.rand.nextGaussian() * 2;
 					worldObj.spawnParticle("cloud", xCoord + 0.5 + x, yCoord + 6 + y, zCoord + 0.5 + z, 0, 0, 0);
 				}
+
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.hephaestusRunning", xCoord, yCoord + 5F, zCoord, 0.75F, 10F, 1.0F);
+					audio.startSound();
+				}
+			} else {
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
 			}
 			
 			if(this.rot >= 360F) {
@@ -143,7 +157,8 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 		
 		if(b == Blocks.lava || b == Blocks.flowing_lava)	return 5;
 		if(b == ModBlocks.volcanic_lava_block)				return 150;
-		
+		if(b== ModBlocks.rad_lava_block)                                return 250;
+			
 		if(b == ModBlocks.ore_volcano) {
 			this.fissureScanTime = worldObj.getTotalWorldTime();
 			return 300;
@@ -232,6 +247,26 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 	@Override
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
 		return dir != ForgeDirection.UNKNOWN && dir != ForgeDirection.UP && dir != ForgeDirection.DOWN;
+	}
+	
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
 	}
 	
 	AxisAlignedBB bb = null;

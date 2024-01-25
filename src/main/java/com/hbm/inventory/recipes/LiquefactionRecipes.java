@@ -42,6 +42,7 @@ public class LiquefactionRecipes extends SerializableRecipe {
 		recipes.put(KEY_COAL_TAR,									new FluidStack(50, Fluids.BITUMEN));
 		recipes.put(KEY_LOG,										new FluidStack(100, Fluids.MUG));
 		recipes.put(KNO.dust(),										new FluidStack(250, Fluids.NITRIC_ACID));
+		recipes.put(KEY_SALT_POWDER,		                                                        new FluidStack(300, Fluids.BRINE));
 		recipes.put(NA.dust(),										new FluidStack(100, Fluids.SODIUM));
 		//general utility recipes because why not
 		recipes.put(new ComparableStack(Blocks.netherrack),			new FluidStack(250, Fluids.LAVA));
@@ -59,6 +60,7 @@ public class LiquefactionRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 3), new FluidStack(150, Fluids.ETHANOL));
 		recipes.put(new ComparableStack(ModBlocks.plant_flower, 1, 4), new FluidStack(50, Fluids.ETHANOL));
 		recipes.put(new ComparableStack(ModItems.biomass),			new FluidStack(125, Fluids.BIOGAS));
+		recipes.put(new ComparableStack(ModItems.biomass_compressed),		new FluidStack(250, Fluids.CRUDEBIOOIL));
 		recipes.put(new ComparableStack(ModItems.glyphid_gland_empty),			new FluidStack(2000, Fluids.BIOGAS));
 		recipes.put(new ComparableStack(Items.fish, 1, OreDictionary.WILDCARD_VALUE), new FluidStack(100, Fluids.FISHOIL));
 		recipes.put(new ComparableStack(Blocks.double_plant, 1, 0),	new FluidStack(100, Fluids.SUNFLOWEROIL));

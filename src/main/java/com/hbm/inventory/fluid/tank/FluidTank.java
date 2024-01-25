@@ -126,8 +126,6 @@ public class FluidTank {
 		if(slots[in] == null)
 			return false;
 		
-		if(this.pressure != 0) return false; //for now, canisters can only be loaded from high-pressure tanks, not unloaded
-		
 		int prev = this.getFill();
 		
 		for(FluidLoadingHandler handler : loadingHandlers) {

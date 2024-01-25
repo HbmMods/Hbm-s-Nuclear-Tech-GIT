@@ -162,6 +162,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
 
 		power = data.getInteger("power");
 		powerCap = data.getInteger("powerCap");
@@ -197,7 +198,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 				
 				if(!shutUp) {
 					if (soundCycle == 0) {
-						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 0.75F * this.getVolume(3), 0.5F);
+						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", this.getVolume(0.75F), 0.5F);
 					}
 					soundCycle++;
 				}

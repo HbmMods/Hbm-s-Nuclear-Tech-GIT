@@ -86,7 +86,7 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 						this.press += stampSpeed;
 						
 						if(this.press >= this.maxPress) {
-							this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
+							this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", getVolume(1.5F), 1.0F);
 							ItemStack output = PressRecipes.getOutput(slots[2], slots[1]);
 							if(slots[3] == null) {
 								slots[3] = output.copy();
@@ -142,6 +142,8 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.syncPress = nbt.getInteger("press");
 		

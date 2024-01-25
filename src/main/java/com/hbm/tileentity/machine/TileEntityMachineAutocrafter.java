@@ -207,6 +207,8 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 	
 	@Override
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.power = data.getLong("power");
 		
 		modes = new String[9];

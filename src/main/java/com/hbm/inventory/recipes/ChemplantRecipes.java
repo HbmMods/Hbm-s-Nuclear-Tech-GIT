@@ -444,6 +444,51 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(FractionRecipes.light_frac_diesel * 10, Fluids.DIESEL),
 						new FluidStack(FractionRecipes.light_frac_kero * 10, Fluids.KEROSENE)
 						));
+		recipes.add(new ChemRecipe(6, "HTL", 200) //hydrothermal liquefaction of biomass
+				.inputFluids(
+				        new FluidStack(Fluids.WATER, 3000)) 
+				.inputItems(
+				        new ComparableStack(ModItems.biomass_compressed, 16))
+				.outputItems (
+				        new ItemStack(ModItems.powder_coal, 4))
+				.outputFluids(
+				        new FluidStack(Fluids.CRUDEBIOOIL, 4000),
+				        new FluidStack(Fluids.CARBONDIOXIDE,500)));
+		recipes.add(new ChemRecipe(7, "BIOOIL_HYDROTREATING", 100) //hydrotreated bio-oil has greater flammability and contains more hydrocarbon compounds!!!
+				.inputFluids(
+				     new FluidStack(Fluids.CRUDEBIOOIL, 2500), 
+				     new FluidStack(Fluids.HYDROGEN, 1000))
+				.inputItems(
+				     new ComparableStack(ModItems.catalyst_clay, 4))
+				.outputFluids(
+				        new FluidStack(Fluids.BIOOIL, 1700),
+				        new FluidStack(Fluids.WATER, 800))
+				.outputItems(
+						new ItemStack(Items.clay_ball, 4),
+						new ItemStack(ModItems.powder_iron, 4)));
+		recipes.add(new ChemRecipe(8, "BRINE", 30) //evaporation of water produces brine and mineral dust
+				.inputFluids(
+				     new FluidStack(Fluids.WATER, 3000)) 
+				.outputFluids(
+				     new FluidStack(Fluids.BRINE, 1700))
+				.outputItems(
+					 new ItemStack(ModItems.dust_mineral, 1)));
+		recipes.add(new ChemRecipe(9, "CRYSTALLIZATION", 75) //The brine is crystallized into salt
+				.inputFluids(
+				     new FluidStack(Fluids.BRINE, 1200)) 
+				.outputItems(
+					 new ItemStack(ModItems.powder_salt, 4)));
+		recipes.add(new ChemRecipe(10, "FTP", 250) //The Fischer-Tropsch catalytic process
+				.inputFluids(
+				        new FluidStack(Fluids.SYNGAS, 6000)) 
+				.inputItems(
+				        new ComparableStack(ModItems.catalyst_fe_co, 8))
+				.outputItems (
+				        new ItemStack(ModItems.powder_iron, 8),
+					new ItemStack(ModItems.powder_cobalt, 8))
+				.outputFluids(
+				        new FluidStack(Fluids.SYNOIL, 4000),
+				        new FluidStack(Fluids.PETROLEUM,500)));
 	}
 
 	public static void registerOtherOil() {
