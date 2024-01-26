@@ -187,7 +187,6 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 		if(level >= threshold) {
 			if(slots[1] == null) {
 				slots[1] = DictFrame.fromOne(ModItems.powder_ash, type);
-				ashLevelWood -= threshold;
 				return true;
 			} else if(slots[1].stackSize < slots[1].getMaxStackSize() && slots[1].getItem() == ModItems.powder_ash && slots[1].getItemDamage() == type.ordinal()) {
 				slots[1].stackSize++;

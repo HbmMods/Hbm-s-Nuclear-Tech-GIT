@@ -2,8 +2,6 @@ package com.hbm.packet;
 
 import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.EntityDuck;
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.TileEntityTickingBase;

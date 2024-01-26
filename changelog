@@ -11,6 +11,17 @@
   * I don't know how this would ever be useful but I was stuck in a phonecall at work for two consecutive hours and didn't have anything else to do
   * They should invent handsets that don't hurt when you hold them onto your head for too long
   * Has no NEI handler because the call ended before I got to that
+* Bricked furnace
+  * An earlygame machine made from smooth stone and bricks
+  * Largely identical to vanilla furnaces
+  * Like the wood burner, it will collect ashes from burnt fuel
+  * Certain recipes are sped up, sand and cobblestone are smelted at twice the speed while (fire) clay is smelted at quadruple speed
+    * This means that making a clay brick block now takes as much time using a bricked furnace as one single furnace operation in a vanilla furnace
+  * I *really* like bricks and I don't feel like waiting until I can get an arc furnace to mass produce them at a sensible pace
+* Dwarven pickaxe
+  * Earlygame tool made from iron and copper
+  * Has the harvest level of iron, a durability of just 250 but the AoE ability
+  * Great for getting cobblestone quickly or making tunnels when you don't have desh or electric tools yet
 
 ## Changed
 * Large turbines, levis and geothermal heat exchangers now have their own sounds when operating
@@ -28,9 +39,11 @@
 * Rebalanced all the food items so their saturation values aren't ridiculously high (turns out - the number represents a *multiplier* for the hunger value and not a flat number)
 * Dirt MREs are now just regular low-quality MREs made from latex packaging and some easily obtainable earlygame ingredients - wheat, rotten flesh and saplings (makes 4)
 * The recipe for the chemical plant has been slightly simplified (again)
+* Iron furnaces now have a 20% faster base smelting speed, making them complete operations in 8 seconds instead of 10 without upgrades
 
 ## Fixed
 * Fixed basalt ores dropping their items with invalid metadata
 * Fixed creative infinite fluid tanks not being able to fill fluid gauges at >0PU
 * Fixed an issue where repeatedly opening and closing certain doors would cause their sound loop to get stuck running forever
 * Fixed radar screens behaving weirdly when out of then intended range. The max interaction range for radars is now infinite, and radars will send a second information packet to players near connected radars
+* Fixed very rare bug where waiting for wood ash to build up in the wood burner and then clearing the slot will remove twice as much ash on the internal counter for the initial ash item created

@@ -2091,6 +2091,7 @@ public class ModItems {
 	public static Item chlorophyte_pickaxe;
 	public static Item mese_pickaxe;
 	public static Item dnt_sword;
+	public static Item dwarven_pickaxe;
 
 	public static Item meteorite_sword;
 	public static Item meteorite_sword_seared;
@@ -5321,6 +5322,10 @@ public class ModItems {
 		
 		dnt_sword = new ItemSwordAbility(12F, 0, matMese).setUnlocalizedName("dnt_sword").setTextureName(RefStrings.MODID + ":dnt_sword");
 
+		ToolMaterial matDwarf = EnumHelper.addToolMaterial("HBM_DWARVEN", 2, 0, 4F, 0.0F, 10).setRepairItem(new ItemStack(ModItems.ingot_copper));
+		dwarven_pickaxe = new ItemToolAbility(5F, -0.1, matDwarf, EnumToolType.MINER)
+				.addBreakAbility(new ToolAbility.HammerAbility(1)).setUnlocalizedName("dwarven_pickaxe").setMaxDamage(250).setTextureName(RefStrings.MODID + ":dwarven_pickaxe");
+
 		ToolMaterial matMeteorite = EnumHelper.addToolMaterial("HBM_METEORITE", 4, 0, 50F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.plate_paa));
 		meteorite_sword = new ItemSwordMeteorite(10F, 0, matMeteorite).setUnlocalizedName("meteorite_sword").setTextureName(RefStrings.MODID + ":meteorite_sword");
 		meteorite_sword_seared = new ItemSwordMeteorite(15F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_seared").setTextureName(RefStrings.MODID + ":meteorite_sword");
@@ -7466,6 +7471,7 @@ public class ModItems {
 		GameRegistry.registerItem(cape_hidden, cape_hidden.getUnlocalizedName());
 		
 		//Tools
+		GameRegistry.registerItem(dwarven_pickaxe, dwarven_pickaxe.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_sword, schrabidium_sword.getUnlocalizedName());
 		GameRegistry.registerItem(schrabidium_hammer, schrabidium_hammer.getUnlocalizedName());
 		GameRegistry.registerItem(shimmer_sledge, shimmer_sledge.getUnlocalizedName());

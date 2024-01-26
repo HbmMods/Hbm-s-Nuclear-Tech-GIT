@@ -36,7 +36,7 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 
 	public int progress;
 	public int processingTime;
-	public static final int baseTime = 200;
+	public static final int baseTime = 160;
 	
 	public ModuleBurnTime burnModule;
 
@@ -63,7 +63,7 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 		if(!worldObj.isRemote) {
 			
 			UpgradeManager.eval(slots, 4, 4);
-			this.processingTime = baseTime - (100 * Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) / 3);
+			this.processingTime = baseTime - ((baseTime / 2) * Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) / 3);
 			
 			wasOn = false;
 			
