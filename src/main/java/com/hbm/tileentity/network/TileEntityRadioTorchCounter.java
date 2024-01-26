@@ -75,6 +75,8 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.polling = nbt.getBoolean("polling");
 		this.lastCount = nbt.getIntArray("last");
 		this.matcher.modes = new String[this.matcher.modes.length];

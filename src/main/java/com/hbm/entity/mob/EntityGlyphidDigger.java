@@ -1,5 +1,6 @@
 package com.hbm.entity.mob;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
@@ -9,7 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -126,9 +126,9 @@ public class EntityGlyphidDigger extends EntityGlyphid {
 
 
 				Block b = worldObj.getBlock(x1, y1, z1);
-				float k = b.getExplosionResistance(null);
+				float k = b.getExplosionResistance(this, worldObj, x1, y1, z1, posX, posY, posZ);
 
-				if (k < 200 && b.isNormalCube()) {
+				if (k < ModBlocks.concrete.getExplosionResistance(this) && b.isNormalCube()) {
 
 					EntityRubble rubble = new EntityRubble(worldObj);
 					rubble.posX = x1 + 0.5F;

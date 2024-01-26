@@ -151,6 +151,8 @@ public class TileEntityCraneBoxer extends TileEntityCraneBase implements IGUIPro
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.mode = nbt.getByte("mode");
 	}
 

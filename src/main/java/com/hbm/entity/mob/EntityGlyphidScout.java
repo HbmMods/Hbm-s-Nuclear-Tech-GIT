@@ -325,4 +325,23 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		}
 		return PollutionHandler.targetCoords;
 	}
+
+	/** Vanilla implementation, minus the RNG */
+	@Override
+	public boolean isValidLightLevel() {
+		int x = MathHelper.floor_double(this.posX);
+		int y = MathHelper.floor_double(this.boundingBox.minY);
+		int z = MathHelper.floor_double(this.posZ);
+
+		int light = this.worldObj.getBlockLightValue(x, y, z);
+
+		if(this.worldObj.isThundering()) {
+			int skylightSubtracted = this.worldObj.skylightSubtracted;
+			this.worldObj.skylightSubtracted = 10;
+			light = this.worldObj.getBlockLightValue(x, y, z);
+			this.worldObj.skylightSubtracted = skylightSubtracted;
+		}
+			
+		return light <= 7;
+	}
 }

@@ -78,6 +78,7 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
 		joules = data.getLong("joules");
 	}
 

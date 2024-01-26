@@ -81,6 +81,8 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		power = data.getLong("power");
 		time = data.getInteger("time");
 		speed = data.getInteger("speed");

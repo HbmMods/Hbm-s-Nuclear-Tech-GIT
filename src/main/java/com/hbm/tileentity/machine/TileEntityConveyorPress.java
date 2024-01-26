@@ -163,7 +163,7 @@ public class TileEntityConveyorPress extends TileEntityMachineBase implements IE
 			}
 		}
 		
-		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", getVolume(1.5F), 1.0F);
 		
 		if(slots[0].getMaxDamage() != 0) {
 			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
@@ -180,6 +180,7 @@ public class TileEntityConveyorPress extends TileEntityMachineBase implements IE
 	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
 		this.power = nbt.getLong("power");
 		this.syncPress = nbt.getInteger("press");
 		

@@ -27,6 +27,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -70,6 +71,10 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	public float rotor;
 	public float lastRotor;
 	public boolean isOn;
+
+	private float rotorSpeed = 0F;
+
+	private AudioWrapper audio;
 
 	public TileEntityITER() {
 		super(6);
@@ -230,16 +235,38 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			/// END Notif packets ///
 			
 		} else {
-			
+
 			this.lastRotor = this.rotor;
+			this.rotor += this.rotorSpeed;
+				
+			if(this.rotor >= 360) {
+				this.rotor -= 360;
+				this.lastRotor -= 360;
+			}
 			
-			if(this.isOn && this.power >= this.powerReq) {
+			if(this.isOn && this.power >= powerReq) {
+				this.rotorSpeed = Math.max(0F, Math.min(15F, this.rotorSpeed + 0.05F));
+
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.fusionReactorRunning", xCoord, yCoord, zCoord, 1.0F, 30F, 1.0F);
+					audio.startSound();
+				}
+
+				float rotorSpeed = this.rotorSpeed / 15F;
+				audio.updateVolume(getVolume(0.5f * rotorSpeed));
+				audio.updatePitch(0.25F + 0.75F * rotorSpeed);
+			} else {
+				this.rotorSpeed = Math.max(0F, Math.min(15F, this.rotorSpeed - 0.1F));
 				
-				this.rotor += 15F;
-				
-				if(this.rotor >= 360) {
-					this.rotor -= 360;
-					this.lastRotor -= 360;
+				if(audio != null) {
+					if(this.rotorSpeed > 0) {
+						float rotorSpeed = this.rotorSpeed / 15F;
+						audio.updateVolume(getVolume(0.5f * rotorSpeed));
+						audio.updatePitch(0.25F + 0.75F * rotorSpeed);
+					} else {
+						audio.stopSound();
+						audio = null;
+					}
 				}
 			}
 		}
@@ -410,6 +437,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 
 	@Override
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.isOn = data.getBoolean("isOn");
 		this.power = data.getLong("power");
 		this.blanket = data.getInteger("blanket");
@@ -555,6 +584,26 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			return 0;
 	}
 	*/
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);

@@ -105,6 +105,8 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.power = data.getLong("power");
 		this.heat = data.getInteger("heat");
 	}

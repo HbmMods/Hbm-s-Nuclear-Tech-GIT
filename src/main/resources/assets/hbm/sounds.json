@@ -51,6 +51,8 @@
     "block.turbinegasStartup": {"category": "block", "sounds": [{"name": "block/turbinegasStartup", "stream": true}]},
     "block.turbinegasRunning": {"category": "block", "sounds": [{"name": "block/turbinegasRunning", "stream": false}]},
     "block.turbinegasShutdown": {"category": "block", "sounds": [{"name": "block/turbinegasShutdown", "stream": true}]},
+    "block.chungusTurbineRunning": {"category": "block", "sounds": [{"name": "block/chungusTurbine", "stream": false}]},
+    "block.largeTurbineRunning": {"category": "block", "sounds": [{"name": "block/largeTurbine", "stream": false}]},
     "block.damage": {"category": "block", "sounds": ["block/dam1", "block/dam2", "block/dam3", "block/dam4"]},
     "block.electricHum": {"category": "block", "sounds": [{"name": "block/electricHum", "stream": false}]},
     "block.boiler": {"category": "block", "sounds": [{"name": "block/boiler", "stream": false}]},
@@ -59,7 +61,9 @@
     "block.hornFarSingle": {"category": "block", "sounds": [{"name": "block/hornFarSingle", "stream": false}]},
     "block.hornFarDual": {"category": "block", "sounds": [{"name": "block/hornFarDual", "stream": false}]},
     "block.reactorLoop": {"category": "block", "sounds": [{"name": "block/reactorLoop", "stream": false}]},
+    "block.fusionReactorRunning": {"category": "block", "sounds": [{"name": "block/fusionReactorSpin", "stream": false}]},
     "block.fel": {"category":  "block", "sounds":  [{"name": "block/fel", "stream":  false}]},
+    "block.hephaestusRunning": {"category": "block", "sounds": [{"name": "block/hephaestusRunning", "stream": false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},

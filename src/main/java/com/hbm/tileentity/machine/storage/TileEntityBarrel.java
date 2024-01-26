@@ -275,6 +275,8 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		mode = data.getShort("mode");
 	}
 

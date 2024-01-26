@@ -98,7 +98,8 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 				} else if(!audio.isPlaying()) {
 					audio = rebootAudio(audio);
 				}
-				
+
+				audio.updateVolume(getVolume(1F));
 				audio.keepAlive();
 				
 			} else {
@@ -138,6 +139,8 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.isOn = nbt.getBoolean("isOn");
 		for(int i = 0; i < 5; i++) tanks[i].readFromNBT(nbt, "" + i);

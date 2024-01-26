@@ -1,6 +1,5 @@
 package com.hbm.tileentity;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.BufPacket;
 import com.hbm.packet.NBTPacket;
@@ -157,17 +156,28 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	@Deprecated public void processGauge(int val, int id) { }
 	
 	@Deprecated public void networkPack(NBTTagCompound nbt, int range) {
+		nbt.setBoolean("muffled", muffled);
 		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
-	@Deprecated public void networkUnpack(NBTTagCompound nbt) { }
+	
+	@Deprecated
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.muffled = nbt.getBoolean("muffled");
+	}
 	
 	/** Sends a sync packet that uses ByteBuf for efficient information-cramming */
 	public void networkPackNT(int range) {
 		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
 
-	@Override public void serialize(ByteBuf buf) { }
-	@Override public void deserialize(ByteBuf buf) { }
+	@Override
+	public void serialize(ByteBuf buf) {
+		buf.writeBoolean(muffled);
+	}
+	
+	@Override public void deserialize(ByteBuf buf) {
+		this.muffled = buf.readBoolean();
+	}
 	
 	@Deprecated
 	public void handleButtonPacket(int value, int meta) { }
@@ -204,24 +214,6 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 			}
 		}
 		nbt.setTag("items", list);
-	}
-	
-	public int countMufflers() {
-		
-		int count = 0;
-		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			if(worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ) == ModBlocks.muffler)
-				count++;
-		
-		return count;
-	}
-	
-	public float getVolume(int toSilence) {
-		
-		float volume = 1 - (countMufflers() / (float)toSilence);
-		
-		return Math.max(volume, 0);
 	}
 	
 	public void updateRedstoneConnection(DirPos pos) {

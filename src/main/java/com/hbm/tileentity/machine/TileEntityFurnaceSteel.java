@@ -123,6 +123,8 @@ public class TileEntityFurnaceSteel extends TileEntityMachineBase implements IGU
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.progress = nbt.getIntArray("progress");
 		this.bonus = nbt.getIntArray("bonus");
 		this.heat = nbt.getInteger("heat");

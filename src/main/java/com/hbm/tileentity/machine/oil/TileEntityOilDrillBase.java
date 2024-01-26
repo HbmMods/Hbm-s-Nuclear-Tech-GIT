@@ -177,6 +177,8 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.indicator = nbt.getInteger("indicator");
 	}
