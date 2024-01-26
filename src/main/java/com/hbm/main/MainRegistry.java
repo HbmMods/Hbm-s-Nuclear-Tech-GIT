@@ -1212,6 +1212,10 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.reactor_computer");
 		ignoreMappings.add("hbm:tile.ff");
 		ignoreMappings.add("hbm:tile.muffler");
+		ignoreMappings.add("hbm:tile.basalt_sulfur");
+		ignoreMappings.add("hbm:tile.basalt_fluorite");
+		ignoreMappings.add("hbm:tile.basalt_asbestos");
+		ignoreMappings.add("hbm:tile.basalt_gem");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

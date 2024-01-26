@@ -9,6 +9,8 @@ import com.hbm.inventory.gui.GUICraneGrabber;
 import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.util.InventoryUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -81,7 +83,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 				
 				if(te instanceof ISidedInventory) {
 					sided = (ISidedInventory) te;
-					access = CraneInserter.masquerade(sided, outputSide.getOpposite().ordinal());
+					access = InventoryUtil.masquerade(sided, outputSide.getOpposite().ordinal());
 				}
 				
 				if(te instanceof IInventory) {

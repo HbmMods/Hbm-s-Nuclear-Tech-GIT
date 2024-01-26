@@ -152,10 +152,6 @@ public class ModBlocks {
 
 	public static Block basalt;
 	public static Block ore_basalt;
-	@Deprecated public static Block basalt_sulfur;
-	@Deprecated public static Block basalt_fluorite;
-	@Deprecated public static Block basalt_asbestos;
-	@Deprecated public static Block basalt_gem;
 	public static Block basalt_smooth;
 	public static Block basalt_brick;
 	public static Block basalt_polished;
@@ -713,10 +709,11 @@ public class ModBlocks {
 	public static Block machine_puf6_tank;
 
 	public static Block machine_reactor_breeding;
-	
+
+	public static Block machine_furnace_brick_off;
+	public static Block machine_furnace_brick_on;
 	public static Block machine_nuke_furnace_off;
 	public static Block machine_nuke_furnace_on;
-	
 	public static Block machine_rtg_furnace_off;
 	public static Block machine_rtg_furnace_on;
 	
@@ -1378,10 +1375,6 @@ public class ModBlocks {
 
 		basalt = new BlockGeneric(Material.rock).setBlockName("basalt").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt");
 		ore_basalt = new BlockOreBasalt().setBlockName("ore_basalt").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_basalt");
-		basalt_sulfur = new BlockRemap(ore_basalt, 0).setBlockName("basalt_sulfur");
-		basalt_fluorite = new BlockRemap(ore_basalt, 1).setBlockName("basalt_fluorite");
-		basalt_asbestos = new BlockRemap(ore_basalt, 2).setBlockName("basalt_asbestos");
-		basalt_gem = new BlockRemap(ore_basalt, 3).setBlockName("basalt_gem");
 		basalt_smooth = new BlockGeneric(Material.rock).setBlockName("basalt_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_smooth");
 		basalt_brick = new BlockGeneric(Material.rock).setBlockName("basalt_brick").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_brick");
 		basalt_polished = new BlockGeneric(Material.rock).setBlockName("basalt_polished").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_polished");
@@ -1864,10 +1857,11 @@ public class ModBlocks {
 		machine_puf6_tank = new MachinePuF6Tank(Material.iron).setBlockName("machine_puf6_tank").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		
 		machine_reactor_breeding = new MachineReactorBreeding(Material.iron).setBlockName("machine_reactor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_reactor");
-		
+
+		machine_furnace_brick_off = new MachineBrickFurnace(false).setBlockName("machine_furnace_brick_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+		machine_furnace_brick_on = new MachineBrickFurnace(true).setBlockName("machine_furnace_brick_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
 		machine_nuke_furnace_off = new MachineNukeFurnace(false).setBlockName("machine_nuke_furnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_nuke_furnace_on = new MachineNukeFurnace(true).setBlockName("machine_nuke_furnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
-		
 		machine_rtg_furnace_off = new MachineRtgFurnace(false).setBlockName("machine_rtg_furnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_rtg_furnace_on = new MachineRtgFurnace(true).setBlockName("machine_rtg_furnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
 
@@ -2549,10 +2543,6 @@ public class ModBlocks {
 		
 		//Basalt ores
 		register(ore_basalt);
-		GameRegistry.registerBlock(basalt_sulfur, basalt_sulfur.getUnlocalizedName());
-		GameRegistry.registerBlock(basalt_fluorite, basalt_fluorite.getUnlocalizedName());
-		GameRegistry.registerBlock(basalt_asbestos, basalt_asbestos.getUnlocalizedName());
-		GameRegistry.registerBlock(basalt_gem, ItemBlockBase.class, basalt_gem.getUnlocalizedName());
 		
 		//End Ores
 		GameRegistry.registerBlock(ore_tikite, ore_tikite.getUnlocalizedName());
@@ -3136,6 +3126,8 @@ public class ModBlocks {
 		register(foundry_outlet);
 		register(foundry_slagtap);
 		register(slag);
+		register(machine_furnace_brick_off);
+		register(machine_furnace_brick_on);
 		register(machine_difurnace_off);
 		register(machine_difurnace_on);
 		register(machine_difurnace_extension);
