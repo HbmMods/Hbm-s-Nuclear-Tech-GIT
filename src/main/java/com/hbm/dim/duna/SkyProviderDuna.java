@@ -189,7 +189,7 @@ public class SkyProviderDuna extends IRenderHandler {
 	            GL11.glDisable(GL11.GL_TEXTURE_2D);
 	            GL11.glShadeModel(GL11.GL_SMOOTH);
 	            GL11.glPushMatrix();
-	            GL11.glRotatef(125.0F, 1.0F, 0.0F, 0.0F);
+	            GL11.glRotatef(120.0F, 1.0F, 0.0F, 0.0F);
 	            GL11.glTranslatef(0, -70, 0);
 	            f6 = afloat[0];
 	            f7 = afloat[1];
