@@ -1273,7 +1273,7 @@ public class AssemblerRecipes {
 		}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_milk_reformer, 1), new AStack[] {
 				new OreDictStack(STEEL.plateCast(), 14),
-				new ComparableStack(ModItems.bolt_dura_steel, 2),
+				new OreDictStack(STEEL.bolt(), 8),
 				new ComparableStack(ModItems.motor, 2),
 				new ComparableStack(ModItems.hull_big_steel, 3),
 				new ComparableStack(ModItems.pipes_steel, 2)
