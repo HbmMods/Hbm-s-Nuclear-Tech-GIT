@@ -79,7 +79,7 @@ public class WorldProviderMoho extends WorldProvider {
             if (tagger3.hasKey(traitKey)) {
                 float f = 1.0F - this.getStarBrightness(1.0F);
 
-                return SkyColorManager.currentSkyColor = Vec3.createVectorHelper(0.3D* f, 0.2D * f, 1.4D * f);
+                return Vec3.createVectorHelper(0.3D* f, 0.2D * f, 1.4D * f);
             }
         }
         return Vec3.createVectorHelper(0.0D, 0.0D, 0.0D);    
