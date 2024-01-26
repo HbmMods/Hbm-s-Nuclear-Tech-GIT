@@ -61,6 +61,8 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 	}
 
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.power = data.getLong("power");
 		tanks[0].readFromNBT(data, "water");
 		tanks[1].readFromNBT(data, "heavyWater");

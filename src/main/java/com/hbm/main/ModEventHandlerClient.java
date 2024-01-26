@@ -3,6 +3,7 @@ package com.hbm.main;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -14,6 +15,10 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
+import com.hbm.blocks.rail.IRailNTM;
+import com.hbm.blocks.rail.IRailNTM.MoveContext;
+import com.hbm.blocks.rail.IRailNTM.RailCheckType;
+import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
@@ -31,6 +36,7 @@ import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
+import com.hbm.inventory.gui.GUIScreenPreview;
 import com.hbm.items.ISyncButtons;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -68,6 +74,7 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
@@ -255,6 +262,11 @@ public class ModEventHandlerClient  {
 				BlockPos anchor = new BlockPos(pos.blockX, pos.blockY, pos.blockZ);
 				
 				double distanceToCover = 4D * (i == 0 ? 1 : -1);
+				
+				if(distanceToCover < 0) {
+					distanceToCover *= -1;
+					yaw += 180;
+				}
 				
 				do {
 					
@@ -946,37 +958,25 @@ public class ModEventHandlerClient  {
 			}
 		}
 		
-		if(mc.currentScreen instanceof GuiContainer && Keyboard.isKeyDown(Keyboard.KEY_F1)) {
-
-			ScaledResolution scaledresolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-			int width = scaledresolution.getScaledWidth();
-			int height = scaledresolution.getScaledHeight();
-			int mouseX = Mouse.getX() * width / mc.displayWidth;
-			int mouseY = height - Mouse.getY() * height / mc.displayHeight - 1;
+		if(Keyboard.isKeyDown(Keyboard.KEY_F1)) {
 			
-			GuiContainer container = (GuiContainer) mc.currentScreen;
-			
-			for(Object o : container.inventorySlots.inventorySlots) {
-				Slot slot = (Slot) o;
-				
-				if(slot.getHasStack()) {
-					try {
-						Method isMouseOverSlot = ReflectionHelper.findMethod(GuiContainer.class, container, new String[] {"func_146981_a", "isMouseOverSlot"}, Slot.class, int.class, int.class);
-						
-						if((boolean) isMouseOverSlot.invoke(container, slot, mouseX, mouseY)) {
-							
-							ComparableStack comp = new ComparableStack(slot.getStack()).makeSingular();
-							CanneryBase cannery = Jars.canneries.get(comp);
-							
-							if(cannery != null) {
-								FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getName(), cannery.getIcon(), cannery.seeAlso()));
-							}
-							
-							break;
-						}
-						
-					} catch(Exception ex) { }
+			ItemStack stack = getMouseOverStack();
+			if(stack != null) {
+				ComparableStack comp = new ComparableStack(stack).makeSingular();
+				CanneryBase cannery = Jars.canneries.get(comp);
+				if(cannery != null) {
+					FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getName(), cannery.getIcon(), cannery.seeAlso()));
 				}
+			}
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_LMENU)) {
+			
+			ItemStack stack = getMouseOverStack();
+			if(stack != null) {
+				stack = stack.copy();
+				stack.stackSize = 1;
+				FMLCommonHandler.instance().showGuiScreen(new GUIScreenPreview(stack));
 			}
 		}
 		
@@ -998,6 +998,38 @@ public class ModEventHandlerClient  {
 				for(int i = 1; i < 4; i++) if(player.stepHeight == i + discriminator) player.stepHeight = defaultStepSize;
 			}
 		}
+	}
+	
+	public static ItemStack getMouseOverStack() {
+		
+		Minecraft mc = Minecraft.getMinecraft();
+		if(mc.currentScreen instanceof GuiContainer) {
+
+			ScaledResolution scaledresolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+			int width = scaledresolution.getScaledWidth();
+			int height = scaledresolution.getScaledHeight();
+			int mouseX = Mouse.getX() * width / mc.displayWidth;
+			int mouseY = height - Mouse.getY() * height / mc.displayHeight - 1;
+			
+			GuiContainer container = (GuiContainer) mc.currentScreen;
+			
+			for(Object o : container.inventorySlots.inventorySlots) {
+				Slot slot = (Slot) o;
+				
+				if(slot.getHasStack()) {
+					try {
+						Method isMouseOverSlot = ReflectionHelper.findMethod(GuiContainer.class, container, new String[] {"func_146981_a", "isMouseOverSlot"}, Slot.class, int.class, int.class);
+						
+						if((boolean) isMouseOverSlot.invoke(container, slot, mouseX, mouseY)) {
+							return slot.getStack();
+						}
+						
+					} catch(Exception ex) { }
+				}
+			}
+		}
+		
+		return null;
 	}
 	
 	@SideOnly(Side.CLIENT)

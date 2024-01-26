@@ -83,6 +83,8 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		for(int i = 0; i < 4; i++) tanks[i].readFromNBT(nbt, "" + i);
 	}

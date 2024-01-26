@@ -44,9 +44,9 @@ public class ItemTrain extends ItemEnumMulti {
 	public static enum EnumTrainType {
 		
 		//                                              Engine          Gauge               Max Speed   Accel.      Eng. Brake  Parking Brake
-		CARGO_TRAM(TrainCargoTram.class, 				"Electric",		"Standard Gauge",	"10m/s",	"0.2m/s",	"<1m/s",	"Yes"),
+		CARGO_TRAM(TrainCargoTram.class, 				"Electric",		"Standard Gauge",	"10m/s",	"0.2m/s²",	"<1m/s",	"Yes"),
 		CARGO_TRAM_TRAILER(TrainCargoTramTrailer.class,	null,			"Standard Gauge",	"Yes",		null,		null,		"No"),
-		TUNNEL_BORE(TrainTunnelBore.class, 				"NONE",			"Standard Gauge",	"10m/s",	"0.2m/s",	"<1m/s",	"Yes");
+		TUNNEL_BORE(TrainTunnelBore.class, 				"NONE",			"Standard Gauge",	"10m/s",	"0.2m/s²",	"<1m/s",	"Yes");
 		
 		public Class<? extends EntityRailCarBase> train;
 		public String engine;
@@ -78,20 +78,24 @@ public class ItemTrain extends ItemEnumMulti {
 			try { train = type.train.getConstructor(World.class).newInstance(world); } catch(Exception e) { }
 			
 			if(train != null && train.getGauge() == ((IRailNTM) b).getGauge(world, x, y, z)) {
-				if(!world.isRemote) {
-					train.setPosition(x + fx, y + fy, z + fz);
-					BlockPos anchor = train.getCurrentAnchorPos();
-					train.rotationYaw = entity.rotationYaw;
-					Vec3 corePos = train.getRelPosAlongRail(anchor, 0, new MoveContext(RailCheckType.CORE, 0));
+				
+				train.setPosition(x + fx, y + fy, z + fz);
+				BlockPos anchor = train.getCurrentAnchorPos();
+				train.rotationYaw = entity.rotationYaw;
+				Vec3 corePos = train.getRelPosAlongRail(anchor, 0, new MoveContext(RailCheckType.CORE, 0));
+				if(corePos != null) {
 					train.setPosition(corePos.xCoord, corePos.yCoord, corePos.zCoord);
 					Vec3 frontPos = train.getRelPosAlongRail(anchor, train.getLengthSpan(), new MoveContext(RailCheckType.FRONT, train.getCollisionSpan() - train.getLengthSpan()));
 					Vec3 backPos = train.getRelPosAlongRail(anchor, -train.getLengthSpan(), new MoveContext(RailCheckType.BACK, train.getCollisionSpan() - train.getLengthSpan()));
-					train.rotationYaw = train.generateYaw(frontPos, backPos);
-					world.spawnEntityInWorld(train);
+					if(frontPos != null && backPos != null) {
+						if(!world.isRemote) {
+							train.rotationYaw = train.generateYaw(frontPos, backPos);
+							world.spawnEntityInWorld(train);
+						}
+						stack.stackSize--;
+						return true;
+					}
 				}
-				
-				stack.stackSize--;
-				return true;
 			}
 		}
 		

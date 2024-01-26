@@ -10,6 +10,7 @@ import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.packet.PermaSyncHandler;
 import com.hbm.render.model.ModelMan;
+import com.hbm.world.biome.BiomeGenCraterBase;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -20,6 +21,7 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -27,12 +29,16 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.common.ForgeModContainer;
 
 public class ModEventHandlerRenderer {
 
@@ -369,6 +375,13 @@ public class ModEventHandlerRenderer {
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void tintFog(FogColors event) {
+		
+		EntityPlayer player = MainRegistry.proxy.me();
+		Vec3 color = getFogBlendColor(player.worldObj, (int) Math.floor(player.posX), (int) Math.floor(player.posZ), event.renderPartialTicks);
+		event.red = (float) color.xCoord;
+		event.green = (float) color.yCoord;
+		event.blue = (float) color.zCoord;
+		
 		float soot = (float) (renderSoot - RadiationConfig.sootFogThreshold);
 		float sootColor = 0.15F;
 		float sootReq = (float) RadiationConfig.sootFogDivisor;
@@ -389,5 +402,72 @@ public class ModEventHandlerRenderer {
 			double vertical = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 1;
 			GL11.glTranslated(horizontal * mult, vertical * mult, 0);
 		}
+	}
+
+	private static boolean fogInit = false;
+	private static int fogX;
+	private static int fogZ;
+	private static Vec3 fogRGBMultiplier;
+	
+	/** Same procedure as getting the blended sky color but for fog */
+	public static Vec3 getFogBlendColor(World world, int playerX, int playerZ, double partialTicks) {
+		
+		if(playerX == fogX && playerZ == fogZ && fogInit) return fogRGBMultiplier;
+		
+		fogInit = true;
+		GameSettings settings = Minecraft.getMinecraft().gameSettings;
+		int[] ranges = ForgeModContainer.blendRanges;
+		int distance = 0;
+		
+		if(settings.fancyGraphics && settings.renderDistanceChunks >= 0 && settings.renderDistanceChunks < ranges.length) {
+			distance = ranges[settings.renderDistanceChunks];
+		}
+
+		float r = 0F;
+		float g = 0F;
+		float b = 0F;
+		
+		int divider = 0;
+		
+		for(int x = -distance; x <= distance; x++) {
+			for(int z = -distance; z <= distance; z++) {
+				BiomeGenBase biome = world.getBiomeGenForCoords(playerX + x,  playerZ + z);
+				Vec3 color = getBiomeFogColors(world, biome, partialTicks);
+				r += color.xCoord;
+				g += color.yCoord;
+				b += color.zCoord;
+				divider++;
+			}
+		}
+
+		fogX = playerX;
+		fogZ = playerZ;
+		
+		fogRGBMultiplier = Vec3.createVectorHelper(r / divider, g / divider, b / divider);
+		return fogRGBMultiplier;
+	}
+	
+	/** Returns the current biome's fog color adjusted for brightness if in a crater, or the world's cached fog color if not */
+	public static Vec3 getBiomeFogColors(World world, BiomeGenBase biome, double partialTicks) {
+
+		Vec3 worldFog = world.getFogColor((float) partialTicks);
+		double r = worldFog.xCoord;
+		double g = worldFog.yCoord;
+		double b = worldFog.zCoord;
+		
+		if(biome instanceof BiomeGenCraterBase) {
+			int color = biome.getSkyColorByTemp(biome.temperature);
+			r = ((color & 0xff0000) >> 16) / 255F;
+			g = ((color & 0x00ff00) >> 8) / 255F;
+			b = (color & 0x0000ff) / 255F;
+			
+			float celestialAngle = world.getCelestialAngle((float) partialTicks);
+			float skyBrightness = MathHelper.clamp_float(MathHelper.cos(celestialAngle * (float) Math.PI * 2.0F) * 2.0F + 0.5F, 0F, 1F);
+			r *= skyBrightness;
+			g *= skyBrightness;
+			b *= skyBrightness;
+		}
+		
+		return Vec3.createVectorHelper(r, g, b);
 	}
 }

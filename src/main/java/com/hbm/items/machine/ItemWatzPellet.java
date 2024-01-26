@@ -59,7 +59,8 @@ public class ItemWatzPellet extends ItemEnumMulti {
 
 		CF252(			0x7879B4, 0x4D4E89, 1_050,	120,		0.0015D,		new FunctionLinear(1.8D), new FunctionSqrt(8.85D/28.8D).withOff(10D * 10D), null),
 		ES253(			0xB9BFB2, 0x594E44, 3_750,	70,		0.0001D,		new FunctionLinear(1.3D), new FunctionSqrt(7.0D/27.7D).withOff(10D * 10D), null);
-		public double yield = 1_000_000_000;
+		
+		public double yield = 500_000_000;
 		public int colorLight;
 		public int colorDark;
 		public double mudContent;	//how much mud per reaction flux should be produced
@@ -74,7 +75,7 @@ public class ItemWatzPellet extends ItemEnumMulti {
 			this.colorDark = colorDark;
 			this.passive = passive;
 			this.heatEmission = heatEmission;
-			this.mudContent = mudContent;
+			this.mudContent = mudContent / 2D;
 			this.burnFunc = burnFunction;
 			this.heatDiv = heatDivisor;
 			this.absorbFunc = absorbFunction;

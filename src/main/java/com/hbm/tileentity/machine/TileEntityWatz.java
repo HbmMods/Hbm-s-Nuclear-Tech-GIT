@@ -169,7 +169,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	
 	public void updateCoolant(FluidTank[] tanks) {
 		
-		double coolingFactor = 0.1D; //10% per tick, TEMP
+		double coolingFactor = 0.2D; //20% per tick
 		double heatToUse = this.heat * coolingFactor;
 		
 		FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
@@ -293,6 +293,8 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.heat = nbt.getInteger("heat");
 		this.isOn = nbt.getBoolean("isOn");
 		this.isLocked = nbt.getBoolean("lock");

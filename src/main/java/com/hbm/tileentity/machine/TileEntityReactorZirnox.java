@@ -133,6 +133,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	}
 
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.heat = data.getInteger("heat");
 		this.pressure = data.getInteger("pressure");
 		this.isOn = data.getBoolean("isOn");

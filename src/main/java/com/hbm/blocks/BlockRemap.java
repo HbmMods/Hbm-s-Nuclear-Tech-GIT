@@ -3,10 +3,12 @@ package com.hbm.blocks;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.hbm.lib.RefStrings;
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
@@ -21,12 +23,16 @@ public class BlockRemap extends Block implements ILookOverlay {
 		this.remapMeta = meta;
 		this.setTickRandomly(true);
 	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int meta, int side) {
+		return this.remapBlock.getIcon(meta, side);
+	}
 	
 	@Override
-	public Block setBlockName(String name) {
-		super.setBlockName(name);
-		this.setBlockTextureName(RefStrings.MODID + ":" + name);
-		return this;
+	public Item getItemDropped(int meta, Random rand, int fortune) {
+		return this.remapBlock.getItemDropped(meta, rand, fortune);
 	}
 
 	@Override

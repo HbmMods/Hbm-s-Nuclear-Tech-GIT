@@ -58,8 +58,8 @@ public class MobConfig {
 
 	public static boolean rampantMode = false;
 	public static boolean rampantNaturalScoutSpawn = false;
-	public static double rampantScoutSpawnThresh = 20;
-	public static int rampantScoutSpawnChance = 1000;
+	public static double rampantScoutSpawnThresh = 14;
+	public static int rampantScoutSpawnChance = 600;
 	public static boolean scoutInitialSpawn = false;
 	public static boolean rampantExtendedTargetting = false;
 	public static boolean rampantDig = false;
@@ -101,7 +101,7 @@ public class MobConfig {
 		spawnMax = CommonConfig.createConfigDouble(config, CATEGORY, "12.G07_spawnMax", "Maximum amount of glyphids being able to exist at once through natural spawning", 50);
 		targetingThreshold = CommonConfig.createConfigDouble(config, CATEGORY, "12.G08_targetingThreshold", "Minimum amount of soot required for glyphids' extended targeting range to activate", 1D);
 
-		scoutSwarmSpawnChance = CommonConfig.createConfigInt(config, CATEGORY,"12.G10_scoutSwarmSpawn", "How likely are scouts to spawn in swarms, 1 in x chance format", 2);
+		scoutSwarmSpawnChance = CommonConfig.createConfigInt(config, CATEGORY,"12.G10_scoutSwarmSpawn", "How likely are scouts to spawn in swarms, 1 in x chance format", 3);
 
 		largeHiveChance = CommonConfig.createConfigInt(config, CATEGORY,"12.G11_largeHiveChance", "The chance for a large hive to spawn, formula: 1/x", 5);
 		largeHiveThreshold = CommonConfig.createConfigInt(config, CATEGORY,"12.G12_largeHiveThreshold", "The soot threshold for a large hive to spawn", 20);
@@ -154,8 +154,8 @@ public class MobConfig {
 		config.addCustomCategoryComment(CATEGORY, "The individual features of rampant can be used regardless of whether the main rampant toggle is enabled or not");
 
 		rampantNaturalScoutSpawn = CommonConfig.createConfigBool(config, CATEGORY,"12.R02_rampantScoutSpawn", "Whether scouts should spawn natually in highly polluted chunks", false);
-		rampantScoutSpawnChance = CommonConfig.createConfigInt(config, CATEGORY, "12.R02.1_rampantScoutSpawnChance", "How much soot is needed for scouts to naturally spawn", 20);
-		rampantScoutSpawnThresh = CommonConfig.createConfigDouble(config, CATEGORY, "12.R02.2_rampantScoutSpawnThresh", "How often scouts naturally spawn per mob population, 1/x format, the bigger the number, the more uncommon the scouts", 600);
+		rampantScoutSpawnThresh = CommonConfig.createConfigDouble(config, CATEGORY, "12.R02.1_rampantScoutSpawnThresh", "How much soot is needed for scouts to naturally spawn", 20);
+		rampantScoutSpawnChance = CommonConfig.createConfigInt(config, CATEGORY, "12.R02.2_rampantScoutSpawnChance", "How often scouts naturally spawn per mob population, 1/x format, the bigger the number, the more uncommon the scouts", 600);
 		rampantExtendedTargetting = CommonConfig.createConfigBool(config, CATEGORY,"12.R03_rampantExtendedTargeting", "Whether Glyphids should have the extended targetting always enabled", false);
 		rampantDig = CommonConfig.createConfigBool(config, CATEGORY,"12.R04_rampantDig", "Whether Glyphids should be able to dig to waypoints", false);
 		rampantGlyphidGuidance = CommonConfig.createConfigBool(config, CATEGORY,"12.R05_rampantGlyphidGuidance", "Whether Glyphids should always expand toward a player's spawnpoint", false);

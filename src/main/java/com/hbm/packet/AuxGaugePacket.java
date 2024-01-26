@@ -5,7 +5,6 @@ import com.hbm.items.weapon.ItemMissile.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
-import com.hbm.tileentity.bomb.TileEntityNukeN45;
 import com.hbm.tileentity.machine.TileEntityAMSBase;
 import com.hbm.tileentity.machine.TileEntityAMSEmitter;
 import com.hbm.tileentity.machine.TileEntityAMSLimiter;
@@ -126,11 +125,6 @@ public class AuxGaugePacket implements IMessage {
 					
 					if(m.id == 0)
 						boiler.heat = m.value;
-				}
-				if (te instanceof TileEntityNukeN45) {
-					TileEntityNukeN45 nuke = (TileEntityNukeN45)te;
-					
-					nuke.primed = m.value == 1;
 				}
 				if (te instanceof TileEntityCompactLauncher) {
 					TileEntityCompactLauncher launcher = (TileEntityCompactLauncher)te;

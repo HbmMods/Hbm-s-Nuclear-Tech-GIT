@@ -68,6 +68,7 @@ public abstract class TileEntityLockableBase extends TileEntity {
 		if(!isLocked) {
 			return true;
 		} else {
+			if(player == null) return false;
 			ItemStack stack = player.getHeldItem();
 			
 			if(stack != null && stack.getItem() instanceof ItemKey &&

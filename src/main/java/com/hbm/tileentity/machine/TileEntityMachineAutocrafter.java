@@ -207,6 +207,8 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 	
 	@Override
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.power = data.getLong("power");
 		
 		modes = new String[9];
@@ -367,6 +369,10 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 			for(int i = 0; i < this.getSizeInventory(); i++) {
 				this.setInventorySlotContents(i, slots[start + i]);
 			}
+		}
+		
+		public void clear() {
+			for(int i = 0; i < this.getSizeInventory(); i++) this.setInventorySlotContents(i, null);
 		}
 		
 		public static class ContainerBlank extends Container {

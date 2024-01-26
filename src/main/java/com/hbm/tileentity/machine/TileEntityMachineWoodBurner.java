@@ -150,6 +150,8 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.burnTime = nbt.getInteger("burnTime");
 		this.maxBurnTime = nbt.getInteger("maxBurnTime");

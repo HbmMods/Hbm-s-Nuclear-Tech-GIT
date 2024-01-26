@@ -26,11 +26,6 @@ public abstract class EntityMissileTier1 extends EntityMissileBaseNT {
 	}
 
 	@Override
-	public RadarTargetType getTargetType() {
-		return RadarTargetType.MISSILE_TIER1;
-	}
-
-	@Override
 	public String getUnlocalizedName() {
 		return "radar.target.tier1";
 	}

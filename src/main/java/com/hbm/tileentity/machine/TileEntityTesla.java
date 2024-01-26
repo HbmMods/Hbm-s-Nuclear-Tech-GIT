@@ -147,6 +147,7 @@ public class TileEntityTesla extends TileEntityMachineBase implements IEnergyUse
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
 		
 		int s = data.getShort("length");
 		

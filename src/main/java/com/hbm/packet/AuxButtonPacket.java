@@ -13,7 +13,6 @@ import com.hbm.tileentity.machine.TileEntityCoreStabilizer;
 import com.hbm.tileentity.machine.TileEntityForceField;
 import com.hbm.tileentity.machine.TileEntityMachineMiningLaser;
 import com.hbm.tileentity.machine.TileEntityMachineMissileAssembly;
-import com.hbm.tileentity.machine.TileEntityMachineReactorLarge;
 import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 import com.hbm.tileentity.machine.storage.TileEntityBarrel;
 import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
@@ -83,30 +82,6 @@ public class AuxButtonPacket implements IMessage {
 					TileEntityForceField field = (TileEntityForceField)te;
 					
 					field.isOn = !field.isOn;
-				}
-				
-				if (te instanceof TileEntityMachineReactorLarge) {
-					TileEntityMachineReactorLarge reactor = (TileEntityMachineReactorLarge)te;
-					
-					if(m.id == 0)
-						reactor.rods = m.value;
-					
-					if(m.id == 1) {
-						FluidType type = Fluids.STEAM;
-						int fill = reactor.tanks[2].getFill();
-						
-						switch(m.value) {
-						case 0: type = Fluids.HOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-						case 1: type = Fluids.SUPERHOTSTEAM; fill = (int)Math.floor(fill / 10D); break;
-						case 2: type = Fluids.STEAM; fill = (int)Math.floor(fill * 100); break;
-						}
-						
-						if(fill > reactor.tanks[2].getMaxFill())
-							fill = reactor.tanks[2].getMaxFill();
-						
-						reactor.tanks[2].setTankType(type);
-						reactor.tanks[2].setFill(fill);
-					}
 				}
 				
 				if (te instanceof TileEntityMachineMissileAssembly) {

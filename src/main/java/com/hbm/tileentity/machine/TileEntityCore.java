@@ -156,8 +156,9 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 		}
 		
 	}
-	
+
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
 
 		tanks[0].setTankType(Fluids.fromID(data.getInteger("tank0")));
 		tanks[1].setTankType(Fluids.fromID(data.getInteger("tank1")));

@@ -146,7 +146,7 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 				if(this.pistonDir) {
 					this.piston -= randSpeed;
 					if(this.piston <= 0) {
-						MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:item.boltgun", 0.5F, 0.75F);
+						MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:item.boltgun", this.getVolume(0.5F), 0.75F);
 						this.pistonDir = !this.pistonDir;
 					}
 				} else {
@@ -165,6 +165,8 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 	private float randSpeed = 0.1F;
 	
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.progress = nbt.getInteger("progress");
 		this.processTime = nbt.getInteger("processTime");
 		this.powerRequirement = nbt.getInteger("powerRequirement");

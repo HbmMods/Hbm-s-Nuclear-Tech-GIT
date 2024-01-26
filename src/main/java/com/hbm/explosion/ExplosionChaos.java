@@ -538,7 +538,7 @@ public class ExplosionChaos {
 			if(entity.getDistance(x, y, z) > range)
 				continue;
 			
-			if(ArmorRegistry.hasAnyProtection(entity, 3, HazardClass.GAS_CHLORINE, HazardClass.GAS_CORROSIVE)) {
+			if(ArmorRegistry.hasAnyProtection(entity, 3, HazardClass.GAS_LUNG, HazardClass.GAS_BLISTERING)) {
 				ArmorUtil.damageGasMaskFilter(entity, 1);
 			} else {
 				entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 5 * 20, 0));

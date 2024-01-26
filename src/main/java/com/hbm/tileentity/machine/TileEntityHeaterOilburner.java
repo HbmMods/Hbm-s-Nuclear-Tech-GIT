@@ -108,6 +108,8 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		tank.readFromNBT(nbt, "tank");
 		isOn = nbt.getBoolean("isOn");
 		heatEnergy = nbt.getInteger("h");

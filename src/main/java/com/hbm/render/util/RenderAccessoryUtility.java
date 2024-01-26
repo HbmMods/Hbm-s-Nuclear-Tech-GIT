@@ -46,6 +46,8 @@ public class RenderAccessoryUtility {
 	private static ResourceLocation adam = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeAdam.png");
 	private static ResourceLocation gwen = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeGwen.png");
 
+	private static ResourceLocation alcater = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeAlcater.png");
+	private static ResourceLocation jame = new ResourceLocation(RefStrings.MODID + ":textures/models/capes/CapeJame.png");
 	
 	public static ResourceLocation getCloakFromPlayer(EntityPlayer player) {
 		
@@ -53,7 +55,7 @@ public class RenderAccessoryUtility {
 		String name = player.getDisplayName();
 
 		if(uuid.equals(Library.HbMinecraft)) {
-			return (MainRegistry.polaroidID == 11 ? hbm : hbm2);
+			return (MainRegistry.polaroidID == 11 ? hbm2 : hbm);
 		}
 
 		if(uuid.equals(Library.Drillgon)) {
@@ -127,6 +129,12 @@ public class RenderAccessoryUtility {
 		}
 		if(uuid.equals(Library.DUODEC_)) {
 			return gwen;
+		}
+		if(uuid.equals(Library.Alcater)) {
+			return alcater;
+		}
+		if(uuid.equals(Library.ege444)) {
+			return jame;
 		}
 		if(Library.contributors.contains(uuid)) {
 			return wiki;

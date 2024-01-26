@@ -131,8 +131,10 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			}
 
 			byte comp = this.getComparatorPower(); //comparator shit
-			if(comp != this.lastRedstone)
+			if(comp != this.lastRedstone) {
 				this.markDirty();
+				for(DirPos pos : getConPos()) this.updateRedstoneConnection(pos);
+			}
 			this.lastRedstone = comp;
 
 			if(tank.getFill() > 0) {

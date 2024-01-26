@@ -55,13 +55,8 @@ public class FalloutConfigJSON {
 	private static void initDefault() {
 		
 		double woodEffectRange = 65D;
-		/* destroy all leaves within the radios, kill all leaves outside of it */
-		entries.add(new FalloutEntry()	.mB(Blocks.leaves)			.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.leaves2)			.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(ModBlocks.waste_leaves)	.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.leaves)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
-		entries.add(new FalloutEntry()	.mB(Blocks.leaves2)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
 		
+		/* petrify all wooden things possible */
 		entries.add(new FalloutEntry()	.mB(Blocks.log)							.prim(new Triplet(ModBlocks.waste_log, 0, 1))		.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.log2)						.prim(new Triplet(ModBlocks.waste_log, 0, 1))		.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.red_mushroom_block).mM(10)	.prim(new Triplet(ModBlocks.waste_log, 0, 1))		.max(woodEffectRange));
@@ -69,24 +64,39 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()	.mB(Blocks.red_mushroom_block)			.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.brown_mushroom_block)		.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.planks)						.prim(new Triplet(ModBlocks.waste_planks, 0, 1))	.max(woodEffectRange));
+		/* if it can't be petrified, destroy it */
+		entries.add(new FalloutEntry()	.mMa(Material.wood)						.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
+		/* destroy all leaves within the radios, kill all leaves outside of it */
+		entries.add(new FalloutEntry()	.mMa(Material.leaves)		.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
+		entries.add(new FalloutEntry()	.mMa(Material.plants)		.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
+		entries.add(new FalloutEntry()	.mMa(Material.vine)			.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
+		entries.add(new FalloutEntry()	.mB(ModBlocks.waste_leaves)	.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
+		entries.add(new FalloutEntry()	.mB(Blocks.leaves)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
+		entries.add(new FalloutEntry()	.mB(Blocks.leaves2)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange));
 
-		FalloutEntry stoneCore = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 1, 1)).max(5).sol(true);
-		FalloutEntry stoneInner = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield, 0, 1)).min(5).max(15).sol(true);
-		FalloutEntry stoneOuter = new FalloutEntry().prim(new Triplet(ModBlocks.sellafield_slaked, 0, 1)).min(15).max(50).sol(true);
+		entries.add(new FalloutEntry().mB(Blocks.mossy_cobblestone).prim(new Triplet(Blocks.coal_ore, 0, 1)));
+		entries.add(new FalloutEntry().mB(ModBlocks.ore_nether_uranium).prim(new Triplet(ModBlocks.ore_nether_schrabidium, 0, 1), new Triplet(ModBlocks.ore_nether_uranium_scorched, 0, 99)));
 		
-		entries.add(stoneCore.clone().mB(Blocks.stone));
-		entries.add(stoneInner.clone().mB(Blocks.stone));
-		entries.add(stoneOuter.clone().mB(Blocks.stone));
-		entries.add(stoneCore.clone().mB(Blocks.gravel));
-		entries.add(stoneInner.clone().mB(Blocks.gravel));
-		entries.add(stoneOuter.clone().mB(Blocks.gravel));
-		/* recontaminate slaked sellafield */
-		entries.add(stoneCore.clone().mB(ModBlocks.sellafield_slaked));
-		entries.add(stoneInner.clone().mB(ModBlocks.sellafield_slaked));
+		Block deepslate = Compat.tryLoadBlock(Compat.MOD_EF, "deepslate");
+		Block stone = Compat.tryLoadBlock(Compat.MOD_EF, "stone");
 		
-		entries.add(new FalloutEntry()
-				.mB(Blocks.grass)
-				.prim(new Triplet(ModBlocks.waste_earth, 0, 1)));
+		for(int i = 1; i <= 10; i++) {
+			int m = 10 - i;
+			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_diamond, m, 3),		new Triplet(ModBlocks.ore_sellafield_emerald, m, 2))			.c(0.5)		.max(i * 5).sol(true).mB(Blocks.coal_ore));
+			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_diamond, m, 1))																		.c(0.2)		.max(i * 5).sol(true).mB(ModBlocks.ore_lignite));
+			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_emerald, m, 1))																					.max(i * 5).sol(true).mB(ModBlocks.ore_beryllium));
+			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_schrabidium, m, 1),	new Triplet(ModBlocks.ore_sellafield_uranium_scorched, m, 99))				.max(i * 5).sol(true).mB(ModBlocks.ore_uranium));
+			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_schrabidium, m, 1),	new Triplet(ModBlocks.ore_sellafield_uranium_scorched, m, 99))				.max(i * 5).sol(true).mB(ModBlocks.ore_gneiss_uranium));
+			entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ore_sellafield_radgem, m, 1))																						.max(i * 5).sol(true).mB(Blocks.diamond_ore));
+			entries.add(new FalloutEntry()							.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mMa(Material.rock));
+			entries.add(new FalloutEntry()							.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mMa(Material.sand));
+			entries.add(new FalloutEntry()							.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mMa(Material.ground));
+			if(i <= 9) entries.add(new FalloutEntry()				.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mMa(Material.grass));
+			if(deepslate != null)	entries.add(new FalloutEntry()	.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mB(deepslate));
+			if(stone != null)		entries.add(new FalloutEntry()	.prim(new Triplet(ModBlocks.sellafield_slaked, m, 1)).max(i * 5).sol(true).mB(stone));
+		}
+		
+		//entries.add(new FalloutEntry().mB(Blocks.grass).prim(new Triplet(ModBlocks.waste_earth, 0, 1)));
 		entries.add(new FalloutEntry()
 				.mB(Blocks.mycelium)
 				.prim(new Triplet(ModBlocks.waste_mycelium, 0, 1)));
@@ -101,40 +111,6 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()
 				.mB(Blocks.clay)
 				.prim(new Triplet(Blocks.hardened_clay, 0, 1)));
-		entries.add(new FalloutEntry()
-				.mB(Blocks.mossy_cobblestone)
-				.prim(new Triplet(Blocks.coal_ore, 0, 1)));
-		entries.add(new FalloutEntry()
-				.mB(Blocks.coal_ore)
-				.prim(new Triplet(Blocks.diamond_ore, 0, 3), new Triplet(Blocks.emerald_ore, 0, 2))
-				.c(0.5));
-		entries.add(new FalloutEntry()
-				.mB(ModBlocks.ore_lignite)
-				.prim(new Triplet(Blocks.diamond_ore, 0, 1))
-				.c(0.2));
-		entries.add(new FalloutEntry()
-				.mB(ModBlocks.ore_uranium)
-				.prim(new Triplet(ModBlocks.ore_schrabidium, 0, 1), new Triplet(ModBlocks.ore_uranium_scorched, 0, 99)));
-		entries.add(new FalloutEntry()
-				.mB(ModBlocks.ore_nether_uranium)
-				.prim(new Triplet(ModBlocks.ore_nether_schrabidium, 0, 1), new Triplet(ModBlocks.ore_nether_uranium_scorched, 0, 99)));
-		entries.add(new FalloutEntry()
-				.mB(ModBlocks.ore_gneiss_uranium)
-				.prim(new Triplet(ModBlocks.ore_gneiss_schrabidium, 0, 1), new Triplet(ModBlocks.ore_gneiss_uranium_scorched, 0, 99)));
-		
-		/// COMPAT ///
-		Block deepslate = Compat.tryLoadBlock(Compat.MOD_EF, "deepslate");
-		if(deepslate != null) { //identical to stone
-			entries.add(stoneCore.clone().mB(deepslate));
-			entries.add(stoneInner.clone().mB(deepslate));
-			entries.add(stoneOuter.clone().mB(deepslate));
-		}
-		Block stone = Compat.tryLoadBlock(Compat.MOD_EF, "stone");
-		if(stone != null) { //identical to stone
-			entries.add(stoneCore.clone().mB(stone));
-			entries.add(stoneInner.clone().mB(stone));
-			entries.add(stoneOuter.clone().mB(stone));
-		}
 	}
 	
 	private static void writeDefault(File file) {
@@ -191,6 +167,7 @@ public class FalloutConfigJSON {
 		private double minDist = 0.0D;
 		private double maxDist = 100.0D;
 		
+		/** Whether the depth value should be decremented when this block is converted */
 		private boolean isSolid = false;
 		
 		public FalloutEntry clone() {

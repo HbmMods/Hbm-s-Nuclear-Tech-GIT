@@ -14,7 +14,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class BlockCrate extends BlockFalling {
@@ -30,24 +29,16 @@ public class BlockCrate extends BlockFalling {
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_) {
-		return null;
-	}
-
-	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_) {
 		if(player.getHeldItem() != null && player.getHeldItem().getItem().equals(ModItems.crowbar)) {
-			dropItems(world, x, y, z);
-			world.setBlockToAir(x, y, z);
-			world.playSoundEffect(x, y, z, "hbm:block.crateBreak", 0.5F, 1.0F);
-			return true;
-		} else {
-			if(world.isRemote) {
-				player.addChatMessage(new ChatComponentText("I'll need a crate opening device to get the loot, smashing the whole thing won't work..."));
+			if(!world.isRemote) {
+				dropItems(world, x, y, z);
+				world.setBlockToAir(x, y, z);
+				world.playSoundEffect(x, y, z, "hbm:block.crateBreak", 0.5F, 1.0F);
 			}
+			return true;
 		}
-
-		return true;
+		return false;
 	}
 
 	public void setDrops() {
@@ -133,7 +124,7 @@ public class BlockCrate extends BlockFalling {
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_difurnace_off), 9);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_reactor_breeding), 6);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_nuke_furnace_off), 7);
-		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_coal_off), 10);
+		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_wood_burner), 10);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_diesel), 8);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_selenium), 7);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_rtg_grey), 4);
@@ -143,7 +134,6 @@ public class BlockCrate extends BlockFalling {
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_electric_furnace_off), 8);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_assembler), 10);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_fluidtank), 7);
-		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_drill), 4);
 		BlockCrate.addToListWithWeight(metalList, ModItems.centrifuge_element, 6);
 		BlockCrate.addToListWithWeight(metalList, ModItems.motor, 8);
 		BlockCrate.addToListWithWeight(metalList, ModItems.coil_tungsten, 7);

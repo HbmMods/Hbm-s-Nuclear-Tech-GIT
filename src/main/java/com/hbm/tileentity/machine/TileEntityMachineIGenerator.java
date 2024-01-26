@@ -262,6 +262,8 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.spin = nbt.getInteger("spin");
 		this.burn = nbt.getIntArray("burn");

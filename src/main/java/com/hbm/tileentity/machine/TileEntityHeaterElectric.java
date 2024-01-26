@@ -49,6 +49,7 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 			data.setByte("s", (byte) this.setting);
 			data.setInteger("h", this.heatEnergy);
 			data.setBoolean("o", isOn);
+			data.setBoolean("muffled", muffled);
 			INBTPacketReceiver.networkPack(this, data, 25);
 		} else {
 			
@@ -60,7 +61,8 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 				} else if(!audio.isPlaying()) {
 					audio = rebootAudio(audio);
 				}
-				
+
+				audio.updateVolume(getVolume(1F));
 				audio.keepAlive();
 				
 			} else {
@@ -103,6 +105,7 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 		this.setting = nbt.getByte("s");
 		this.heatEnergy = nbt.getInteger("h");
 		this.isOn = nbt.getBoolean("o");
+		this.muffled = nbt.getBoolean("muffled");
 	}
 	
 	@Override

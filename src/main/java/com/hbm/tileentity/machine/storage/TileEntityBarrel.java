@@ -98,6 +98,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	public long transferFluid(FluidType type, int pressure, long fluid) {
 		long toTransfer = Math.min(getDemand(type, pressure), fluid);
 		tank.setFill(tank.getFill() + (int) toTransfer);
+		this.markChanged();
 		return fluid - toTransfer;
 	}
 
@@ -108,8 +109,10 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			if(!this.hasExploded) {
 
 			byte comp = this.getComparatorPower(); //do comparator shenanigans
-			if(comp != this.lastRedstone)
+			if(comp != this.lastRedstone) {
 				this.markDirty();
+				for(DirPos pos : getConPos()) this.updateRedstoneConnection(pos);
+			}
 			this.lastRedstone = comp;
 
 			tank.setType(0, 1, slots);
@@ -120,12 +123,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			this.sendingBrake = true;
 			tank.setFill(transmitFluidFairly(worldObj, tank, this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
 			this.sendingBrake = false;
-			
-			age++;
-			if(age >= 20) {
-				age = 0;
-				this.markChanged();
-			}
 			
 			if((mode == 1 || mode == 2) && (age == 9 || age == 19))
 				fillFluidInit(tank.getTankType());
@@ -278,6 +275,8 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		mode = data.getShort("mode");
 	}
 

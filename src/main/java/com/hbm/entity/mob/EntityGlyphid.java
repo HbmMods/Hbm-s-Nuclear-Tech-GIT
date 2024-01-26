@@ -23,7 +23,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -107,9 +106,9 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.dataWatcher.addObject(DW_WALL, new Byte((byte) 0));			//wall climbing
+		this.dataWatcher.addObject(DW_WALL, new Byte((byte) 0));		//wall climbing
 		this.dataWatcher.addObject(DW_ARMOR, new Byte((byte) 0b11111));	//armor
-		this.dataWatcher.addObject(DW_SUBTYPE, new Byte((byte) 0));			//subtype (i.e. normal, infected, etc)
+		this.dataWatcher.addObject(DW_SUBTYPE, new Byte((byte) 0));		//subtype (i.e. normal, infected, etc)
 	}
 
 	@Override
@@ -176,8 +175,7 @@ public class EntityGlyphid extends EntityMob {
 	protected Entity findPlayerToAttack() {
 		if(this.isPotionActive(Potion.blindness)) return null;
 
-		EntityPlayer entityplayer = this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() ? 128D : 16D);
-		return entityplayer;
+		return this.worldObj.getClosestVulnerablePlayerToEntity(this, useExtendedTargeting() ? 128D : 16D);
 	}
 
 	@Override
@@ -316,7 +314,7 @@ public class EntityGlyphid extends EntityMob {
 		if(source.isFireDamage()) {
 			amount *= 0.7F;
 		} else if(source.getDamageType().equals("player")) {
-			amount *= 1.5F;
+			amount *= getScale() < 1.25 ? 1.5 : getScale() < 1.3 ? 0.8 : 0.5;
 		} else if(source == ModDamageSource.acid || source.equals(new DamageSource(ModDamageSource.s_acid))){
 			amount = 0;
 		} else if(source == DamageSource.inWall) {
