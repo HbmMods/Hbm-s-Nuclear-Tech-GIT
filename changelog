@@ -22,6 +22,10 @@
   * Earlygame tool made from iron and copper
   * Has the harvest level of iron, a durability of just 250 but the AoE ability
   * Great for getting cobblestone quickly or making tunnels when you don't have desh or electric tools yet
+* Cracked key
+  * A single-use item that can open red rooms like the red key, but does not work as a skeleton key for locks
+  * Spawns in dungeon chests or as a rare drop from hostile mobs
+  * Allows red rooms to be accessed without crafting the red key
 
 ## Changed
 * Large turbines, levis and geothermal heat exchangers now have their own sounds when operating
@@ -40,6 +44,8 @@
 * Dirt MREs are now just regular low-quality MREs made from latex packaging and some easily obtainable earlygame ingredients - wheat, rotten flesh and saplings (makes 4)
 * The recipe for the chemical plant has been slightly simplified (again)
 * Iron furnaces now have a 20% faster base smelting speed, making them complete operations in 8 seconds instead of 10 without upgrades
+* Due to rising chlorine prices and a failing halogen market, the recipe of combination smelting chlorocalcite into chlorine and calcium has been added back
+  * For legacy reasons, the chlorocalcite processing chain involving chemical plants and electrolyzers will continue to work
 
 ## Fixed
 * Fixed basalt ores dropping their items with invalid metadata

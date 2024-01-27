@@ -2216,6 +2216,7 @@ item.key.name=Schlüssel
 item.key_fake.name=Gefälschter Schlüssel
 item.key_kit.name=Schlüssel-Imitationskit
 item.key_red.name=Roter Schlüssel
+item.key_red_cracked.name=Zerbrochener Schlüssel
 item.kit_toolbox.name=Werkzeugkasten
 item.kit_toolbox_empty.name=Leerer Werkzeugkasten
 item.laser_crystal_bismuth.desc=Bismuth-Samarium-Uran-Thorium-Kristallmatrix

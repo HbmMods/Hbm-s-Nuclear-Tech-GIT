@@ -2347,6 +2347,7 @@ public class ModItems {
 
 	public static Item key;
 	public static Item key_red;
+	public static Item key_red_cracked;
 	public static Item key_kit;
 	public static Item key_fake;
 	public static Item pin;
@@ -4645,6 +4646,7 @@ public class ModItems {
 
 		key = new ItemKey().setUnlocalizedName("key").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":key");
 		key_red = new ItemCustomLore().setUnlocalizedName("key_red").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":key_red");
+		key_red_cracked = new ItemCustomLore().setUnlocalizedName("key_red_cracked").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":key_red_cracked");
 		key_kit = new ItemCounterfitKeys().setUnlocalizedName("key_kit").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":key_pair");
 		key_fake = new ItemKey().setUnlocalizedName("key_fake").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":key_gold");
 		pin = new ItemCustomLore().setUnlocalizedName("pin").setMaxStackSize(8).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":pin");
@@ -6872,6 +6874,7 @@ public class ModItems {
 		//Keys and Locks
 		GameRegistry.registerItem(key, key.getUnlocalizedName());
 		GameRegistry.registerItem(key_red, key_red.getUnlocalizedName());
+		GameRegistry.registerItem(key_red_cracked, key_red_cracked.getUnlocalizedName());
 		GameRegistry.registerItem(key_kit, key_kit.getUnlocalizedName());
 		GameRegistry.registerItem(key_fake, key_fake.getUnlocalizedName());
 		GameRegistry.registerItem(mech_key, mech_key.getUnlocalizedName());
