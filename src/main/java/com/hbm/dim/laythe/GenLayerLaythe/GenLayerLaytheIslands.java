@@ -48,9 +48,19 @@ public class GenLayerLaytheIslands extends GenLayer
                         || (j2 == BiomeGenBaseLaythe.laytheIsland.biomeID)
                         || (k2 == BiomeGenBaseLaythe.laytheIsland.biomeID)
                     );
-                    if (flag)
+
+
+                    boolean islandThreshold = flag && this.nextInt(50) == 0; 
+                    
+                    if (!islandThreshold)
                     {
                         k1 = BiomeGenBaseLaythe.laytheOcean.biomeID;
+                    }
+                }
+                else {
+
+                    if (k1 == BiomeGenBaseLaythe.laytheIsland.biomeID) {
+                        k1 = this.nextInt(3) == 0 ? BiomeGenBaseLaythe.laytheOcean.biomeID : k1;
                     }
                 }
 
@@ -60,5 +70,6 @@ public class GenLayerLaytheIslands extends GenLayer
 
         return aint1;
     }
+    
     
 }

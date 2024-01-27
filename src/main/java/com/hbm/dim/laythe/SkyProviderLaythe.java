@@ -134,22 +134,15 @@ public class SkyProviderLaythe extends IRenderHandler {
 		float f9;
 		float f10;
 		float f18 = world.getStarBrightness(partialTicks);
-	       GL11.glColor3f(f1, f2, f3);
-	        Tessellator tessellator1 = Tessellator.instance;
-	        GL11.glDepthMask(false);
-	        GL11.glEnable(GL11.GL_FOG);
-	        GL11.glColor3f(f1, f2, f3);
-	        GL11.glCallList(this.glSkyList);
-	        GL11.glDisable(GL11.GL_FOG);
-	        GL11.glDisable(GL11.GL_ALPHA_TEST);
-	        GL11.glEnable(GL11.GL_BLEND);
-	        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-	        RenderHelper.disableStandardItemLighting();
+		
+
 	        float[] afloat = mc.theWorld.provider.calcSunriseSunsetColors(mc.theWorld.getCelestialAngle(partialTicks), partialTicks);
 
 
 	        if (afloat != null)
 	        {
+	    		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_CONSTANT_ALPHA);
+
 	            GL11.glDisable(GL11.GL_TEXTURE_2D);
 	            GL11.glShadeModel(GL11.GL_SMOOTH);
 	            GL11.glPushMatrix();
@@ -171,29 +164,29 @@ public class SkyProviderLaythe extends IRenderHandler {
 	                f8 = f11;
 	            }
 
-	            tessellator1.startDrawing(6);
-	            tessellator1.setColorRGBA_F(f6, f7, f8, afloat[3]);
-	            tessellator1.addVertex(0.0D, 150.0D, 0.0D);
+	            tessellator.startDrawing(6);
+	            tessellator.setColorRGBA_F(f6, f7, f8, afloat[3]);
+	            tessellator.addVertex(0.0D, 150.0D, 0.0D);
 	            byte b0 = 16;
-	            tessellator1.setColorRGBA_F(afloat[0], afloat[1], afloat[2], 0.0F);
+	            tessellator.setColorRGBA_F(afloat[0], afloat[1], afloat[2], 0.0F);
 
 	            for (int j = 0; j <= b0; ++j)
 	            {
 	                f11 = (float)j * (float)Math.PI * 2.0F / (float)b0;
 	                float f12 = MathHelper.sin(f11);
 	                float f13 = MathHelper.cos(f11);
-	                tessellator1.addVertex((double)(f12 * 160.0F), (double)(f13 * 160.0F), (double)(-f13 * 90.0F * afloat[3]));
+	                tessellator.addVertex((double)(f12 * 160.0F), (double)(f13 * 160.0F), (double)(-f13 * 90.0F * afloat[3]));
 	            }
 
-	            tessellator1.draw();
+	            tessellator.draw();
 	            GL11.glPopMatrix();
 	            GL11.glShadeModel(GL11.GL_FLAT);
 	            
 	            GL11.glDisable(GL11.GL_TEXTURE_2D);
 	            GL11.glShadeModel(GL11.GL_SMOOTH);
 	            GL11.glPushMatrix();
-	            GL11.glRotatef(125.0F, 1.0F, 0.0F, 0.0F);
-	            GL11.glTranslatef(0, -70, 0);
+	            GL11.glRotatef(135.0F, 1.0F, 0.0F, 0.0F);
+	            GL11.glTranslatef(0, -60, 0);
 	            f6 = afloat[0];
 	            f7 = afloat[1];
 	            f8 = afloat[2];
@@ -207,11 +200,11 @@ public class SkyProviderLaythe extends IRenderHandler {
 	                f8 = f11;
 	            }
 
-	            tessellator1.startDrawing(6);
-	            tessellator1.setColorRGBA_F(f6, f7, f8, afloat[3]);
-	            tessellator1.addVertex(0.0D, 100.0D, 0.0D);
+	            tessellator.startDrawing(6);
+	            tessellator.setColorRGBA_F(f6, f7, f8, afloat[3]);
+	            tessellator.addVertex(0.0D, 100.0D, 0.0D);
 
-	            tessellator1.setColorRGBA_F(afloat[0], afloat[1], afloat[2], 0.0F);
+	            tessellator.setColorRGBA_F(afloat[0], afloat[1], afloat[2], 0.0F);
 
 	            for (int j = 0; j <= b0; ++j)
 	            {
@@ -219,13 +212,50 @@ public class SkyProviderLaythe extends IRenderHandler {
 	                float f12 = MathHelper.sin(f11);
 	                float f13 = MathHelper.cos(f11);
 	                
-	                tessellator1.addVertex((double)(f12 * 120.0F), (double)(f13 * 120.0F), (double)(-f13 * 90.0F));
+	                tessellator.addVertex((double)(f12 * 100.0F), (double)(f13 * 100.0F), (double)(-f13 * 90.0F));
 	            }
 
-	            tessellator1.draw();
+	            tessellator.draw();
 	            GL11.glPopMatrix();
 	            GL11.glShadeModel(GL11.GL_FLAT);
 	            
+	            GL11.glDisable(GL11.GL_TEXTURE_2D);
+	            GL11.glShadeModel(GL11.GL_SMOOTH);
+	            GL11.glPushMatrix();
+
+	            GL11.glRotatef(135.0F, 1.0F, 0.0F, 0.0F);
+	            GL11.glTranslatef(0, -30, 0);
+	            f6 = afloat[0];
+	            f7 = afloat[1];
+	            f8 = afloat[2];
+	            if (mc.gameSettings.anaglyph)
+	            {
+	                f9 = (f6 * 30.0F + f7 * 59.0F + f8 * 11.0F) / 100.0F;
+	                f10 = (f6 * 30.0F + f7 * 70.0F) / 100.0F;
+	                f11 = (f6 * 30.0F + f8 * 70.0F) / 100.0F;
+	                f6 = f9;
+	                f7 = f10;
+	                f8 = f11;
+	            }
+
+	            tessellator.startDrawing(6);
+	            tessellator.setColorRGBA_F(f6, f7, f8, afloat[3]);
+	            tessellator.addVertex(0.0D, 80.0D, 0.0D);
+
+	            tessellator.setColorRGBA_F(afloat[0], afloat[1] * 0.2F, afloat[2], 0.0F);
+
+	            for (int j = 0; j <= b0; ++j)
+	            {
+	                f11 = (float)j * (float)Math.PI * 2.0F / (float)b0;
+	                float f12 = MathHelper.sin(f11);
+	                float f13 = MathHelper.cos(f11);
+	                
+	                tessellator.addVertex((double)(f12 * 100.0F), (double)(f13 * 100.0F), (double)(-f13 * 90.0F));
+	            }
+
+	            tessellator.draw();
+	            GL11.glPopMatrix();
+	            GL11.glShadeModel(GL11.GL_FLAT);
 	            
 	        }
 		if(f18 > 0.0F) {

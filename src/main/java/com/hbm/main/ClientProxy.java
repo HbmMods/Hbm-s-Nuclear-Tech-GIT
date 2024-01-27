@@ -1756,6 +1756,14 @@ public class ClientProxy extends ServerProxy {
 			if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean()))
 				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleDuoDec2(man, world, x, y, z));
 		}
+		if("duststorm".equals(type)) {
+			double mX = data.getDouble("mX");
+			double mY = data.getDouble("mY");
+			double mZ = data.getDouble("mZ");
+			float scale = data.getFloat("scale");
+			ParticleDust text = new ParticleDust(world, x, y, z, mX, mY, mZ);
+			Minecraft.getMinecraft().effectRenderer.addEffect(text);
+		}
 		if("anim".equals(type)) {
 			
 			String mode = data.getString("mode");

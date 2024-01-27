@@ -28,8 +28,8 @@ public class BiomeGenDresCanyon extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.block_meteor_broken;
-        this.fillerBlock = ModBlocks.block_meteor_broken;
+        this.topBlock = ModBlocks.sellafield_slaked;
+        this.fillerBlock = ModBlocks.sellafield_slaked;
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class BiomeGenDresCanyon extends BiomeGenBase {
 
                 if (block2 != null && block2.getMaterial() != Material.air)
                 {
-                    if (block2 == ModBlocks.block_meteor_broken)
+                    if (block2 == ModBlocks.sellafield_slaked)
                     {
                         if (k == -1)
                         {
@@ -67,7 +67,7 @@ public class BiomeGenDresCanyon extends BiomeGenBase {
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = ModBlocks.block_meteor_broken;
+                                block1 = ModBlocks.sellafield_slaked;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {
@@ -100,13 +100,15 @@ public class BiomeGenDresCanyon extends BiomeGenBase {
                             else if (l1 < 68)
                             {
                                 block = null;
-                                block1 = ModBlocks.block_meteor_broken;
+                                block1 = ModBlocks.sellafield_slaked;
                                 if (Math.random() > 0.4) {
-                                	blocks[i2] = ModBlocks.block_meteor_cobble;
+                                	blocks[i2] = ModBlocks.sellafield_slaked;
+                                	meta[i2] = 8;
                                 }
                                 else
                                 {
-                                    blocks[i2] = ModBlocks.block_meteor_broken;   	
+                                    blocks[i2] = ModBlocks.sellafield_slaked;   	
+                                    meta[i2] = 7;
                                 }
                             }
                             else

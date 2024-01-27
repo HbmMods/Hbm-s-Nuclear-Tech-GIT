@@ -27,10 +27,10 @@ public class BiomeGenDresPlains extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.block_meteor_broken;
-        this.fillerBlock = ModBlocks.block_meteor_broken; //thiccer regolith due to uhhhhhh...................
+        this.topBlock = ModBlocks.sellafield_slaked;
+        this.fillerBlock = ModBlocks.sellafield_slaked; //thiccer regolith due to uhhhhhh...................
 	}
-
+	@Override
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
     {
         boolean flag = true;
@@ -57,7 +57,7 @@ public class BiomeGenDresPlains extends BiomeGenBase {
 
                 if (block2 != null && block2.getMaterial() != Material.air)
                 {
-                    if (block2 == ModBlocks.block_meteor_broken)
+                    if (block2 == ModBlocks.sellafield_slaked)
                     {
                         if (k == -1)
                         {
@@ -65,7 +65,7 @@ public class BiomeGenDresPlains extends BiomeGenBase {
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = ModBlocks.block_meteor_broken;
+                                block1 = ModBlocks.sellafield_slaked;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {
@@ -90,21 +90,24 @@ public class BiomeGenDresPlains extends BiomeGenBase {
 
                             k = l;
 
-                            if (l1 >= 62)
+                            if (l1 >= 82)
                             {
                             	blocks[i2] = block;
                             	meta[i2] = b0;
                             }
-                            else if (l1 < 68)
+                            else if (l1 < 80)
                             {
                                 block = null;
-                                block1 = ModBlocks.block_meteor_broken;
+                                block1 = ModBlocks.sellafield_slaked;
                                 if (Math.random() > 0.4) {
-                                	blocks[i2] = ModBlocks.block_meteor_cobble;
+                                	blocks[i2] = ModBlocks.sellafield_slaked;
+                                    meta[i2] = 8;
+
                                 }
                                 else
                                 {
-                                    blocks[i2] = ModBlocks.block_meteor_broken;   	
+                                    blocks[i2] = ModBlocks.sellafield_slaked;   	
+                                    meta[i2] = 9;
                                 }
                             }
                             else
@@ -132,4 +135,5 @@ public class BiomeGenDresPlains extends BiomeGenBase {
             }
         }
     }
+    
 }

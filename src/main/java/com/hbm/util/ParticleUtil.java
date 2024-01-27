@@ -70,5 +70,22 @@ public class ParticleUtil {
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
 			}
 		}	
+	}
+	public static void spawnDustFlame(World world, double x, double y, double z, double mX, double mY, double mZ) {
+
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "duststorm");
+		data.setDouble("mX", mX);
+		data.setDouble("mY", mY);
+		data.setDouble("mZ", mZ);
+		
+		if(world.isRemote) {
+			data.setDouble("posX", x);
+			data.setDouble("posY", y);
+			data.setDouble("posZ", z);
+			MainRegistry.proxy.effectNT(data);
+		} else {
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
 		}
+	}
 }
