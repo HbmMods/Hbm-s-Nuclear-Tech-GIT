@@ -141,10 +141,12 @@ public class SkyProviderLaythe extends IRenderHandler {
 
 	        if (afloat != null)
 	        {
-	    		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_CONSTANT_ALPHA);
+	    		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_CONSTANT_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+
 
 	            GL11.glDisable(GL11.GL_TEXTURE_2D);
 	            GL11.glShadeModel(GL11.GL_SMOOTH);
+	            
 	            GL11.glPushMatrix();
 	            GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
 	            GL11.glRotatef(MathHelper.sin(mc.theWorld.getCelestialAngleRadians(partialTicks)) < 0.0F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
@@ -184,6 +186,7 @@ public class SkyProviderLaythe extends IRenderHandler {
 	            
 	            GL11.glDisable(GL11.GL_TEXTURE_2D);
 	            GL11.glShadeModel(GL11.GL_SMOOTH);
+
 	            GL11.glPushMatrix();
 	            GL11.glRotatef(135.0F, 1.0F, 0.0F, 0.0F);
 	            GL11.glTranslatef(0, -60, 0);
