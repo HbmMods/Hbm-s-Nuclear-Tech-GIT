@@ -64,7 +64,7 @@ public class EntityFalloutRain extends Entity {
 						for(int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
 							double percent = Math.hypot(x - posX, z - posZ) * 100 / getScale();
 							stomp(x, z, percent);
-							BiomeGenBase biome = getBiomeChange(percent, getScale());
+							BiomeGenBase biome = getBiomeChange(percent, getScale(), worldObj.getBiomeGenForCoords(x, z));
 							if(biome != null) {
 								WorldUtil.setBiome(worldObj, x, z, biome);
 								biomeModified = true;
@@ -84,7 +84,7 @@ public class EntityFalloutRain extends Entity {
 							if(distance <= getScale()) {
 								double percent = distance * 100 / getScale();
 								stomp(x, z, percent);
-								BiomeGenBase biome = getBiomeChange(percent, getScale());
+								BiomeGenBase biome = getBiomeChange(percent, getScale(), worldObj.getBiomeGenForCoords(x, z));
 								if(biome != null) {
 									WorldUtil.setBiome(worldObj, x, z, biome);
 									biomeModified = true;
@@ -114,11 +114,14 @@ public class EntityFalloutRain extends Entity {
 		}
 	}
 	
-	public static BiomeGenBase getBiomeChange(double dist, int scale) {
+	public static BiomeGenBase getBiomeChange(double dist, int scale, BiomeGenBase original) {
 		if(!WorldConfig.enableCraterBiomes) return null;
-		if(scale >= 150 && dist < 15)	return BiomeGenCraterBase.craterInnerBiome;
-		if(scale >= 100 && dist < 55)	return BiomeGenCraterBase.craterBiome;
-		if(scale >= 25)					return BiomeGenCraterBase.craterOuterBiome;
+		if(scale >= 150 && dist < 15)
+			return BiomeGenCraterBase.craterInnerBiome;
+		if(scale >= 100 && dist < 55 && original != BiomeGenCraterBase.craterInnerBiome)
+			return BiomeGenCraterBase.craterBiome;
+		if(scale >= 25 && original != BiomeGenCraterBase.craterInnerBiome && original != BiomeGenCraterBase.craterBiome)
+			return BiomeGenCraterBase.craterOuterBiome;
 		return null;
 	}
 

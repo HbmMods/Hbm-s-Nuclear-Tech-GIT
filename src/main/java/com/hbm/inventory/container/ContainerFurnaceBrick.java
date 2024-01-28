@@ -1,6 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotCraftingOutput;
+import com.hbm.inventory.SlotSmelting;
 import com.hbm.tileentity.machine.TileEntityFurnaceBrick;
 import com.hbm.util.InventoryUtil;
 
@@ -23,7 +24,7 @@ public class ContainerFurnaceBrick extends Container {
 		//fuel
 		this.addSlotToContainer(new Slot(tedf, 1, 35, 17));
 		//output
-		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 2, 116, 35));
+		this.addSlotToContainer(new SlotSmelting(invPlayer.player, tedf, 2, 116, 35));
 		//ash
 		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tedf, 3, 35, 53));
 

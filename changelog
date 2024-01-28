@@ -46,6 +46,7 @@
 * Iron furnaces now have a 20% faster base smelting speed, making them complete operations in 8 seconds instead of 10 without upgrades
 * Due to rising chlorine prices and a failing halogen market, the recipe of combination smelting chlorocalcite into chlorine and calcium has been added back
   * For legacy reasons, the chlorocalcite processing chain involving chemical plants and electrolyzers will continue to work
+* Outer crater biomes can no longer override inner crater biomes, allowing craters to be "cleaned" by nuking them again with lower yield weapons
 
 ## Fixed
 * Fixed basalt ores dropping their items with invalid metadata
@@ -53,3 +54,8 @@
 * Fixed an issue where repeatedly opening and closing certain doors would cause their sound loop to get stuck running forever
 * Fixed radar screens behaving weirdly when out of then intended range. The max interaction range for radars is now infinite, and radars will send a second information packet to players near connected radars
 * Fixed very rare bug where waiting for wood ash to build up in the wood burner and then clearing the slot will remove twice as much ash on the internal counter for the initial ash item created
+* Fixed crater biome fog tinting applying even if there is no nearby crater biome, causing oddities like underground fog being all white instead of being dark as it should be
+* Crater biome fog no longer applies underwater, fixing an issue where being in water would cause the fog to be white instead of water-colored
+* Fixed "pipette not empty" message crashing servers
+* Fixed crash caused by certain modded blocks like Thermal's lumium lights being turned into falling blocks by impulse grenades or nuke aftereffects
+* Fixed receiver subscription persisting when 256k tanks explode, causing them to infinitely receive and the void fluids

@@ -552,6 +552,7 @@ public class EntityNukeTorex extends Entity {
 	public static void statFac(World world, double x, double y, double z, float scale) {
 		EntityNukeTorex torex = new EntityNukeTorex(world).setScale(MathHelper.clamp_float((float) BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
 		torex.setPosition(x, y, z);
+		torex.forceSpawn = true;
 		world.spawnEntityInWorld(torex);
 		TrackerUtil.setTrackingRange(world, torex, 1000);
 	}
@@ -559,6 +560,7 @@ public class EntityNukeTorex extends Entity {
 	public static void statFacBale(World world, double x, double y, double z, float scale) {
 		EntityNukeTorex torex = new EntityNukeTorex(world).setScale(MathHelper.clamp_float((float) BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F)).setType(1);
 		torex.setPosition(x, y, z);
+		torex.forceSpawn = true;
 		world.spawnEntityInWorld(torex);
 		TrackerUtil.setTrackingRange(world, torex, 1000);
 	}
