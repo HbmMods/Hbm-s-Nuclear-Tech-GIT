@@ -1,61 +1,8 @@
-## Added
-* Muffler
-  * An upgrade-like item that replaces the old muffler block
-  * Creates 16 when crafted, however it is not returned when the muffled machine is broken
-  * Should work with pretty much all machines that use looped sounds, as well as a few other noisy ones (compressors, diesel generators, presses)
-  * Simply right-click to install, doesn't need to be inserted into an upgrade slot, in fact it works on a few machines that have no GUI at all
-* Lemegeton
-  * A book that can do material upgrading, like turning steel into HSS, HSS into Tc-steel, lead into gold, gold into bismuth, bismuth into osmiridium, etc.
-  * Basically allows a material to be upgraded to the next gating material in progression
-  * Obviously unobtainable in survival mode
-  * I don't know how this would ever be useful but I was stuck in a phonecall at work for two consecutive hours and didn't have anything else to do
-  * They should invent handsets that don't hurt when you hold them onto your head for too long
-  * Has no NEI handler because the call ended before I got to that
-* Bricked furnace
-  * An earlygame machine made from smooth stone and bricks
-  * Largely identical to vanilla furnaces
-  * Like the wood burner, it will collect ashes from burnt fuel
-  * Certain recipes are sped up, sand and cobblestone are smelted at twice the speed while (fire) clay is smelted at quadruple speed
-    * This means that making a clay brick block now takes as much time using a bricked furnace as one single furnace operation in a vanilla furnace
-  * I *really* like bricks and I don't feel like waiting until I can get an arc furnace to mass produce them at a sensible pace
-* Dwarven pickaxe
-  * Earlygame tool made from iron and copper
-  * Has the harvest level of iron, a durability of just 250 but the AoE ability
-  * Great for getting cobblestone quickly or making tunnels when you don't have desh or electric tools yet
-* Cracked key
-  * A single-use item that can open red rooms like the red key, but does not work as a skeleton key for locks
-  * Spawns in dungeon chests or as a rare drop from hostile mobs
-  * Allows red rooms to be accessed without crafting the red key
-
 ## Changed
-* Large turbines, levis and geothermal heat exchangers now have their own sounds when operating
-* Anvils will now list ingredients in red if those aren't present in the player's inventory
-* Derricks now only need one set of steel pipes instead of 3. They can also be recycled by shredding, returning 32 steel
-* Pumpjacks now need a single desh motor instead of two regular ones
-* Rare earth ore, instead of detonating into a million fragments that are annoying to process, clog inventories and just cause everyone to not mine that ore in earlygame, will now drop a chunk of rare earth ore
-  * Rare earth chunks can be shredded directly into one unit of desh blend
-  * For efficiencymaxxers, silk-touching rare earth still works as expected, yielding two units when shredded
-  * The fortune enchantment should work as expected, dropping multiple chunks. Yay!
-  * To get things that can be useful in small amounts in earlygame like boron and cobalt (boron for Atlas and cobalt for tools), the rare earth chunk can be hammered down into fragments on a steel anvil
-    * Cerium and lanthanium, due to being useless, only have a 10% chance of producing a fragment
-    * Boron and cobalt each produce a guaranteed fragment, as well as an additional one with a 50% chance
-    * Neodymium and niobium both yield a shard 50% of the time
-* Rebalanced all the food items so their saturation values aren't ridiculously high (turns out - the number represents a *multiplier* for the hunger value and not a flat number)
-* Dirt MREs are now just regular low-quality MREs made from latex packaging and some easily obtainable earlygame ingredients - wheat, rotten flesh and saplings (makes 4)
-* The recipe for the chemical plant has been slightly simplified (again)
-* Iron furnaces now have a 20% faster base smelting speed, making them complete operations in 8 seconds instead of 10 without upgrades
-* Due to rising chlorine prices and a failing halogen market, the recipe of combination smelting chlorocalcite into chlorine and calcium has been added back
-  * For legacy reasons, the chlorocalcite processing chain involving chemical plants and electrolyzers will continue to work
-* Outer crater biomes can no longer override inner crater biomes, allowing craters to be "cleaned" by nuking them again with lower yield weapons
+* Sped up the electrolyzer, fluid electrolysis now takes 3 seconds instead of 5 and crystal processing now only takes 20 seconds instead of 50
+* Increased electrolyzer pouring speed to 3 nuggets per tick instead of 1
+* Deco blocks now only drop ingots 25% of the time
+  * The incredibly common structures now only yield a few dozen free ingots instead of several stacks. How horrible!
 
 ## Fixed
-* Fixed basalt ores dropping their items with invalid metadata
-* Fixed creative infinite fluid tanks not being able to fill fluid gauges at >0PU
-* Fixed an issue where repeatedly opening and closing certain doors would cause their sound loop to get stuck running forever
-* Fixed radar screens behaving weirdly when out of then intended range. The max interaction range for radars is now infinite, and radars will send a second information packet to players near connected radars
-* Fixed very rare bug where waiting for wood ash to build up in the wood burner and then clearing the slot will remove twice as much ash on the internal counter for the initial ash item created
-* Fixed crater biome fog tinting applying even if there is no nearby crater biome, causing oddities like underground fog being all white instead of being dark as it should be
-* Crater biome fog no longer applies underwater, fixing an issue where being in water would cause the fog to be white instead of water-colored
-* Fixed "pipette not empty" message crashing servers
-* Fixed crash caused by certain modded blocks like Thermal's lumium lights being turned into falling blocks by impulse grenades or nuke aftereffects
-* Fixed receiver subscription persisting when 256k tanks explode, causing them to infinitely receive and the void fluids
+* Fixed radar screens not working at all and potentially freezing the game
