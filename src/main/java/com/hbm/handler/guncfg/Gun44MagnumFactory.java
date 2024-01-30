@@ -65,7 +65,6 @@ public class Gun44MagnumFactory {
 
 		config.loadAnimations = i -> {
 			config.animations.put(AnimType.CYCLE, ResourceManager.novac_anim.get("Fire"));
-			config.animations.put(AnimType.RELOAD, ResourceManager.novac_anim.get("Reload"));
 		};
 		
 		return config;
