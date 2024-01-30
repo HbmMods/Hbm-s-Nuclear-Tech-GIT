@@ -347,7 +347,9 @@ public class MainRegistry {
 		ChestGenHooks.addItem(ChestGenHooks.MINESHAFT_CORRIDOR, new WeightedRandomChestContent(new ItemStack(ModItems.bathwater), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.MINESHAFT_CORRIDOR, new WeightedRandomChestContent(new ItemStack(ModItems.serum), 1, 1, 5));
 		ChestGenHooks.addItem(ChestGenHooks.MINESHAFT_CORRIDOR, new WeightedRandomChestContent(new ItemStack(ModItems.no9), 1, 1, 5));
+		ChestGenHooks.addItem(ChestGenHooks.MINESHAFT_CORRIDOR, new WeightedRandomChestContent(new ItemStack(ModItems.key_red_cracked), 1, 1, 5));
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.heart_piece), 1, 1, 1));
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.key_red_cracked), 1, 1, 5));
 		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.heart_piece), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.heart_piece), 1, 1, 1));
 		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(new ItemStack(ModItems.scrumpy), 1, 1, 1));
@@ -843,6 +845,7 @@ public class MainRegistry {
 		TileEntityNukeFurnace.registerFuels();
 		AssemblerRecipes.loadRecipes();
 		MagicRecipes.register();
+		LemegetonRecipes.register();
 		SILEXRecipes.register();
 		AnvilRecipes.register();
 		RefineryRecipes.registerRefinery();
@@ -1210,6 +1213,11 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.reactor_conductor");
 		ignoreMappings.add("hbm:tile.reactor_computer");
 		ignoreMappings.add("hbm:tile.ff");
+		ignoreMappings.add("hbm:tile.muffler");
+		ignoreMappings.add("hbm:tile.basalt_sulfur");
+		ignoreMappings.add("hbm:tile.basalt_fluorite");
+		ignoreMappings.add("hbm:tile.basalt_asbestos");
+		ignoreMappings.add("hbm:tile.basalt_gem");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

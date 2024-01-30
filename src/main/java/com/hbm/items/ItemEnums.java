@@ -50,6 +50,10 @@ public class ItemEnums {
 		MUSTARDWILLOW
 	}
 
+	public static enum EnumChunkType {
+		RARE
+	}
+
 	public static enum EnumAchievementType {
 		GOFISH,
 		ACID,

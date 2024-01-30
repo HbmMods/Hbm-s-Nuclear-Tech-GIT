@@ -109,7 +109,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 				}
 				this.wasOn = true;
 				
-				if(worldObj.rand.nextInt(15) == 0) {
+				if(worldObj.rand.nextInt(15) == 0 && !this.muffled) {
 					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "fire.fire", 1.0F, 0.5F + worldObj.rand.nextFloat() * 0.5F);
 				}
 			}
@@ -184,6 +184,8 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.maxBurnTime = nbt.getInteger("maxBurnTime");
 		this.burnTime = nbt.getInteger("burnTime");
 		this.burnHeat = nbt.getInteger("burnHeat");

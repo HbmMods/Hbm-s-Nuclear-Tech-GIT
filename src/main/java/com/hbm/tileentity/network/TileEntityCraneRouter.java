@@ -57,6 +57,8 @@ public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUI
 	
 	@Override
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		for(int i = 0; i < patterns.length; i++) {
 			NBTTagCompound compound = data.getCompoundTag("pattern" + i);
 			patterns[i].readFromNBT(compound);

@@ -322,8 +322,9 @@ public class ModEventHandler {
 					event.entityLiving.dropItem(ModItems.bandaid, 1);
 				}
 				
-				if(event.entityLiving instanceof IMob && event.entityLiving.getRNG().nextInt(1000) == 0) {
-					event.entityLiving.dropItem(ModItems.heart_piece, 1);
+				if(event.entityLiving instanceof IMob) {
+					if(event.entityLiving.getRNG().nextInt(1000) == 0) event.entityLiving.dropItem(ModItems.heart_piece, 1);
+					if(event.entityLiving.getRNG().nextInt(250) == 0) event.entityLiving.dropItem(ModItems.key_red_cracked, 1);
 				}
 				
 				if(event.entityLiving instanceof EntityCyberCrab && event.entityLiving.getRNG().nextInt(500) == 0) {

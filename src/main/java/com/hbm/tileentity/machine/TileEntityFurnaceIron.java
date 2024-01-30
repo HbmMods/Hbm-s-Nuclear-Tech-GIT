@@ -36,7 +36,7 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 
 	public int progress;
 	public int processingTime;
-	public static final int baseTime = 200;
+	public static final int baseTime = 160;
 	
 	public ModuleBurnTime burnModule;
 
@@ -63,7 +63,7 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 		if(!worldObj.isRemote) {
 			
 			UpgradeManager.eval(slots, 4, 4);
-			this.processingTime = baseTime - (100 * Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) / 3);
+			this.processingTime = baseTime - ((baseTime / 2) * Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) / 3);
 			
 			wasOn = false;
 			
@@ -93,7 +93,7 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 				this.progress++;
 				this.burnTime--;
 				
-				if(this.progress % 15 == 0) {
+				if(this.progress % 15 == 0 && !this.muffled) {
 					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "fire.fire", 1.0F, 0.5F + worldObj.rand.nextFloat() * 0.5F);
 				}
 				
@@ -142,6 +142,8 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.maxBurnTime = nbt.getInteger("maxBurnTime");
 		this.burnTime = nbt.getInteger("burnTime");
 		this.progress = nbt.getInteger("progress");

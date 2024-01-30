@@ -151,6 +151,8 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 	}
 	

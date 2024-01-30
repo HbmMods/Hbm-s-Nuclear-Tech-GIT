@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.world.feature.HugeMush;

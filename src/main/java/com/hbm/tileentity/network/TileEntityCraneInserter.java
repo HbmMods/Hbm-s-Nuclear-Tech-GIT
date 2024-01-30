@@ -4,6 +4,8 @@ import com.hbm.blocks.network.CraneInserter;
 import com.hbm.inventory.container.ContainerCraneInserter;
 import com.hbm.inventory.gui.GUICraneInserter;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.util.InventoryUtil;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -42,7 +44,7 @@ public class TileEntityCraneInserter extends TileEntityCraneBase implements IGUI
 			if(te instanceof ISidedInventory) {
 				ISidedInventory sided = (ISidedInventory) te;
 				//access = sided.getAccessibleSlotsFromSide(dir.ordinal());
-				access = CraneInserter.masquerade(sided, outputSide.getOpposite().ordinal());
+				access = InventoryUtil.masquerade(sided, outputSide.getOpposite().ordinal());
 			}
 			
 			if(te instanceof IInventory) {

@@ -51,19 +51,23 @@ public class BlockKeyhole extends BlockStone {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.key_red && side != 0 && side != 1) {
-			if(world.isRemote) return true;
-			ForgeDirection dir = ForgeDirection.getOrientation(side);
-			generateRoom(world, x - dir.offsetX * 4, y - 2, z - dir.offsetZ * 4);
-			int b = 0;
-			if(side == 2) b = 1;
-			if(side == 5) b = 2;
-			if(side == 3) b = 3;
-			if(side == 4) b = 0;
-			ItemModDoor.placeDoorBlock(world, x, y - 1, z, b, ModBlocks.door_red);
-			world.playSoundAtEntity(player, "hbm:block.lockOpen", 1.0F, 1.0F);
-			player.triggerAchievement(MainRegistry.achRedRoom);
-			return true;
+		if(player.getHeldItem() != null) {
+			boolean cracked = player.getHeldItem().getItem() == ModItems.key_red_cracked;
+			if((player.getHeldItem().getItem() == ModItems.key_red || cracked) && side != 0 && side != 1) {
+				if(cracked) player.getHeldItem().stackSize--;
+				if(world.isRemote) return true;
+				ForgeDirection dir = ForgeDirection.getOrientation(side);
+				generateRoom(world, x - dir.offsetX * 4, y - 2, z - dir.offsetZ * 4);
+				int b = 0;
+				if(side == 2) b = 1;
+				if(side == 5) b = 2;
+				if(side == 3) b = 3;
+				if(side == 4) b = 0;
+				ItemModDoor.placeDoorBlock(world, x, y - 1, z, b, ModBlocks.door_red);
+				world.playSoundAtEntity(player, "hbm:block.lockOpen", 1.0F, 1.0F);
+				player.triggerAchievement(MainRegistry.achRedRoom);
+				return true;
+			}
 		}
 		
 		return false;

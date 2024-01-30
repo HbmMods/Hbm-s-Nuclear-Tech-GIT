@@ -186,6 +186,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		this.search.setDisabledTextColour(0xffffff);
 		this.search.setEnableBackgroundDrawing(false);
 		this.search.setMaxStringLength(100);
+		this.search.setFocused(true);
 	}
 
 	@Override

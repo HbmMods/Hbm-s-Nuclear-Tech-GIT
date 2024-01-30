@@ -167,6 +167,8 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.power = data.getLong("power");
 		this.progress = data.getInteger("progress");
 		this.isProgressing = data.getBoolean("isProgressing");

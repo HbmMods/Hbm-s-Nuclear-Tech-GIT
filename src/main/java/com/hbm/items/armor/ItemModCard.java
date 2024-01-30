@@ -16,6 +16,7 @@ public class ItemModCard extends ItemArmorMod {
 	
 	public ItemModCard() {
 		super(ArmorModHandler.helmet_only, true, false, false, false);
+		this.setCreativeTab(null);
 	}
 
 	@Override

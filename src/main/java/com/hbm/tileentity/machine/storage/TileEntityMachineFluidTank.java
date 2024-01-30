@@ -128,6 +128,8 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 				
 				tank.loadTank(2, 3, slots);
 				tank.setType(0, 1, slots);
+			} else {
+				for(DirPos pos : getConPos()) this.tryUnsubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ());
 			}
 
 			byte comp = this.getComparatorPower(); //comparator shit

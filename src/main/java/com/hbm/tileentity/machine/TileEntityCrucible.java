@@ -235,6 +235,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
 
 		this.recipeStack.clear();
 		this.wasteStack.clear();

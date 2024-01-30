@@ -243,27 +243,49 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 	public void handleNewState(byte state){
 		
 		if(this.state != state) {
-			if(this.state == 0 && state == 3){
-				if(audio == null){
-					audio = MainRegistry.proxy.getLoopedSoundStartStop(worldObj, getDoorType().getOpenSoundLoop(), getDoorType().getOpenSoundStart(), getDoorType().getOpenSoundEnd(), xCoord, yCoord, zCoord, getDoorType().getSoundVolume(), 1);
+			DoorDecl doorType = getDoorType();
+
+			if(this.state == 0 && state == 3){ // Door transitioning to open
+				if(audio != null) audio.stopSound();
+
+				if(doorType.getOpenSoundLoop() != null){
+					audio = MainRegistry.proxy.getLoopedSound(doorType.getOpenSoundLoop(), xCoord, yCoord, zCoord, doorType.getSoundVolume(), 10F, 1F);
 					audio.startSound();
 				}
-				if(audio2 == null && getDoorType().getSoundLoop2() != null){
-					audio2 = MainRegistry.proxy.getLoopedSoundStartStop(worldObj, getDoorType().getSoundLoop2(), null, null, xCoord, yCoord, zCoord, getDoorType().getSoundVolume(), 1);
+
+				if(doorType.getOpenSoundStart() != null){
+					worldObj.playSound(xCoord, yCoord, zCoord, doorType.getOpenSoundStart(), doorType.getSoundVolume(), 1F, false);
+				}
+
+				if(doorType.getSoundLoop2() != null){
+					if(audio2 != null) audio2.stopSound();
+
+					audio2 = MainRegistry.proxy.getLoopedSound(doorType.getSoundLoop2(), xCoord, yCoord, zCoord, doorType.getSoundVolume(), 10F, 1F);
 					audio2.startSound();
 				}
 			}
-			if(this.state == 1 && state == 2){
-				if(audio == null){
-					audio = MainRegistry.proxy.getLoopedSoundStartStop(worldObj, getDoorType().getCloseSoundLoop(), getDoorType().getCloseSoundStart(), getDoorType().getCloseSoundEnd(), xCoord, yCoord, zCoord, getDoorType().getSoundVolume(), 1);
+
+			if(this.state == 1 && state == 2){ // Door transitioning to closed
+				if(audio != null) audio.stopSound();
+
+				if(doorType.getCloseSoundLoop() != null){
+					audio = MainRegistry.proxy.getLoopedSound(doorType.getCloseSoundLoop(), xCoord, yCoord, zCoord, doorType.getSoundVolume(), 10F, 1F);
 					audio.startSound();
 				}
-				if(audio2 == null && getDoorType().getSoundLoop2() != null){
-					audio2 = MainRegistry.proxy.getLoopedSoundStartStop(worldObj, getDoorType().getSoundLoop2(), null, null, xCoord, yCoord, zCoord, getDoorType().getSoundVolume(), 1);
+
+				if(doorType.getCloseSoundStart() != null){
+					worldObj.playSound(xCoord, yCoord, zCoord, doorType.getCloseSoundStart(), doorType.getSoundVolume(), 1F, false);
+				}
+
+				if(doorType.getSoundLoop2() != null){
+					if(audio2 != null) audio2.stopSound();
+
+					audio2 = MainRegistry.proxy.getLoopedSound(doorType.getSoundLoop2(), xCoord, yCoord, zCoord, doorType.getSoundVolume(), 10F, 1F);
 					audio2.startSound();
 				}
 			}
-			if((this.state == 3 && state == 1) || (this.state == 2 && state == 0)){
+
+			if((this.state == 3 && state == 1) || (this.state == 2 && state == 0)){ // Door finished any transition
 				if(audio != null){
 					audio.stopSound();
 					audio = null;
@@ -271,6 +293,18 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 				if(audio2 != null){
 					audio2.stopSound();
 					audio2 = null;
+				}
+			}
+
+			if(this.state == 3 && state == 1){ // Door finished transitioning to open
+				if(doorType.getOpenSoundEnd() != null){
+					worldObj.playSound(xCoord, yCoord, zCoord, doorType.getOpenSoundEnd(), doorType.getSoundVolume(), 1F, false);
+				}
+			}
+
+			if(this.state == 2 && state == 0){ // Door finished transitioning to closed
+				if(doorType.getCloseSoundEnd() != null){
+					worldObj.playSound(xCoord, yCoord, zCoord, doorType.getCloseSoundEnd(), doorType.getSoundVolume(), 1F, false);
 				}
 			}
 			

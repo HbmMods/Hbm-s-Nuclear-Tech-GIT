@@ -231,7 +231,8 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 				} else if(!audio.isPlaying()) {
 					audio = rebootAudio(audio);
 				}
-				
+
+				audio.updateVolume(getVolume(1F));
 				audio.keepAlive();
 				
 			} else {
@@ -271,6 +272,8 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		for(int i = 0; i < 5; i++) tanks[i].readFromNBT(nbt, "" + i);
 		this.hasExploded = nbt.getBoolean("exploded");
