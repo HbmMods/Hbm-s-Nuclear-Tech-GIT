@@ -1,10 +1,8 @@
-## Added
-* Muffler
-  * An upgrade-like item that replaces the old muffler block
-  * Creates 16 when crafted, however it is not returned when the muffled machine is broken
-  * Should work with pretty much all machines that use looped sounds, as well as a few other noisy ones (compressors, diesel generators, presses)
-  * Simply right-click to install, doesn't need to be inserted into an upgrade slot, in fact it works on a few machines that have no GUI at all
+## Changed
+* Sped up the electrolyzer, fluid electrolysis now takes 3 seconds instead of 5 and crystal processing now only takes 20 seconds instead of 50
+* Increased electrolyzer pouring speed to 3 nuggets per tick instead of 1
+* Deco blocks now only drop ingots 25% of the time
+  * The incredibly common structures now only yield a few dozen free ingots instead of several stacks. How horrible!
 
 ## Fixed
-* Fixed basalt ores dropping their items with invalid metadata
-* Fixed creative infinite fluid tanks not being able to fill fluid gauges at >0PU
+* Fixed radar screens not working at all and potentially freezing the game

@@ -33,15 +33,6 @@ public class ItemLemon extends ItemFood {
 			list.add("Eh, good enough.");
 		}
 		
-		if(this == ModItems.definitelyfood) {
-			list.add("A'right, I got sick and tired of");
-			list.add("having to go out, kill things just");
-			list.add("to get food and not die, so here is ");
-			list.add("my absolutely genius solution:");
-			list.add("");
-			list.add("Have some edible dirt.");
-		}
-		
 		if(this == ModItems.med_ipecac) {
 			list.add("Bitter juice that will cause your stomach");
 			list.add("to forcefully eject its contents.");

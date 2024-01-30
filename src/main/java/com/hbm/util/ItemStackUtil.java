@@ -2,12 +2,17 @@ package com.hbm.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemStackUtil {
@@ -160,5 +165,37 @@ public class ItemStackUtil {
 		}
 		
 		return list;
+	}
+	
+	public static void spillItems(World world, int x, int y, int z, Block block, Random rand) {
+		IInventory tileentityfurnace = (IInventory) world.getTileEntity(x, y, z);
+
+		if(tileentityfurnace != null) {
+			for(int slot = 0; slot < tileentityfurnace.getSizeInventory(); ++slot) {
+				ItemStack itemstack = tileentityfurnace.getStackInSlot(slot);
+
+				if(itemstack != null) {
+					float oX = rand.nextFloat() * 0.8F + 0.1F;
+					float oY = rand.nextFloat() * 0.8F + 0.1F;
+					float oZ = rand.nextFloat() * 0.8F + 0.1F;
+
+					while(itemstack.stackSize > 0) {
+						int j1 = rand.nextInt(21) + 10;
+						if(j1 > itemstack.stackSize) j1 = itemstack.stackSize;
+						itemstack.stackSize -= j1;
+						
+						EntityItem entityitem = new EntityItem(world, x + oX, y + oY, z + oZ, new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+						if(itemstack.hasTagCompound()) entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+
+						float motion = 0.05F;
+						entityitem.motionX = (float) rand.nextGaussian() * motion;
+						entityitem.motionY = (float) rand.nextGaussian() * motion + 0.2F;
+						entityitem.motionZ = (float) rand.nextGaussian() * motion;
+						world.spawnEntityInWorld(entityitem);
+					}
+				}
+			}
+			world.func_147453_f(x, y, z, block);
+		}
 	}
 }

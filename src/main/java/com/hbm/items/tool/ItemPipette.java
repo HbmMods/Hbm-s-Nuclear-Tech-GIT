@@ -16,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
@@ -92,7 +93,7 @@ public class ItemPipette extends Item implements IFillableItem {
 				stack.stackTagCompound.setShort("capacity", (short) a);
 				player.addChatMessage(new ChatComponentText(a + "/" + this.getMaxFill() + "mB"));
 			} else {
-				player.addChatMessage(new ChatComponentText(I18nUtil.resolveKey("desc.item.pipette.noEmpty")));
+				player.addChatMessage(new ChatComponentTranslation("desc.item.pipette.noEmpty"));
 			}
 		}
 		return stack;
