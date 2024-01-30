@@ -136,7 +136,6 @@ public class ClientProxy extends ServerProxy {
 		registerClientEventHandler(theInfoSystem);
 
 		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
-		ResourceManager.loadAnimatedModels();
 
 		registerTileEntitySpecialRenderer();
 		registerItemRenderer();

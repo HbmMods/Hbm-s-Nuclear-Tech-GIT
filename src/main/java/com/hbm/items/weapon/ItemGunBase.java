@@ -784,6 +784,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	@SideOnly(Side.CLIENT)
 	public BusAnimation getAnimation(ItemStack stack, AnimType type) {
 		GunConfiguration config = ((ItemGunBase) stack.getItem()).mainConfig;
+		if (!config.animationsLoaded && config.loadAnimations != null) {
+			config.loadAnimations.accept(null);
+			config.animationsLoaded = true;
+		}
 		return config.animations.get(type);
 	}
 	

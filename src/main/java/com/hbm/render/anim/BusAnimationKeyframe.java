@@ -10,25 +10,13 @@ public class BusAnimationKeyframe {
 		NONE,
 		LINEAR
 	}
-	
-	// public double x;
-	// public double y;
-	// public double z;
 
 	public double value;
 	public InterpolationType interpolationType;
 	public int duration;
 	
-	// public double[] toArray() {
-	// 	return new double[] {x, y, z};
-	// }
-	
 	//this one can be used for "reset" type keyframes
 	public BusAnimationKeyframe() {
-		// this.x = 0;
-		// this.y = 0;
-		// this.z = 0;
-
 		this.value = 0;
 		this.duration = 1;
 		this.interpolationType = InterpolationType.LINEAR;
@@ -44,19 +32,5 @@ public class BusAnimationKeyframe {
 		this(value, duration);
 		this.interpolationType = interpolation;
 	}
-	
-	// public BusAnimationKeyframe(double x, double y, double z, int duration) {
-	// 	this();
-	// 	this.x = x;
-	// 	this.y = y;
-	// 	this.z = z;
-	// 	this.duration = duration;
-	// }
-	
-	// public BusAnimationKeyframe(double x, double y, double z, int duration, InterpolationType interpolation) {
-	// 	this(x, y, z, duration);
-	// 	this.interpolationType = interpolation;
-	// }
-
 
 }

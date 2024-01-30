@@ -24,6 +24,8 @@ public class BusAnimationSequence {
 	// Storing a matrix of keyframe data, each keyframe stores a SINGLE dimension, so we can stagger frames over each parameter
 	private List<List<BusAnimationKeyframe>> transformKeyframes = new ArrayList<List<BusAnimationKeyframe>>(9);
 
+	public double[] offset = new double[3];
+
 
 	public BusAnimationSequence() {
 		// Initialise our keyframe storage, since it's multidimensional
@@ -42,9 +44,7 @@ public class BusAnimationSequence {
 	}
 
 	public BusAnimationSequence addKeyframe(Dimension dimension, double value, int duration) {
-		transformKeyframes.get(dimension.ordinal()).add(new BusAnimationKeyframe(value, duration));
-
-		return this;
+		return addKeyframe(dimension, new BusAnimationKeyframe(value, duration));
 	}
 
 
@@ -66,11 +66,15 @@ public class BusAnimationSequence {
 	}
 
 
-
+	public double getFirstValue(Dimension dimension) {
+		List<BusAnimationKeyframe> keyframes = transformKeyframes.get(dimension.ordinal());
+		if (keyframes.size() == 0) return 0;
+		return keyframes.get(0).value;
+	}
 	
 	//all transformation data is absolute, additive transformations have not yet been implemented
 	public double[] getTransformation(int millis) {
-		double[] transform = new double[9];
+		double[] transform = new double[12];
 
 		for (int i = 0; i < 9; i++) {
 			List<BusAnimationKeyframe> keyframes = transformKeyframes.get(i);
@@ -88,13 +92,13 @@ public class BusAnimationSequence {
 				if (millis < endTime) break;
 			}
 
-			if (currentFrame == null || millis >= endTime) {
+			if (currentFrame == null) {
 				// Scale defaults to 1, others are 0
 				transform[i] = i >= 6 ? 1 : 0;
 				continue;
 			}
 
-			if (currentFrame.interpolationType == InterpolationType.NONE) {
+			if (currentFrame.interpolationType == InterpolationType.NONE || millis >= endTime) {
 				transform[i] = currentFrame.value;
 				continue;
 			}
@@ -105,6 +109,10 @@ public class BusAnimationSequence {
 
 			transform[i] = (a - b) * t + b;
 		}
+
+		transform[9] = offset[0];
+		transform[10] = offset[1];
+		transform[11] = offset[2];
 
 		return transform;
 	}

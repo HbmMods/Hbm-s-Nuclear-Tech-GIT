@@ -3,6 +3,7 @@ package com.hbm.handler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.anim.BusAnimation;
@@ -35,7 +36,10 @@ public class GunConfiguration implements Cloneable {
 	public int durability;
 	
 	//animations!
-	public HashMap<AnimType, BusAnimation> animations = new HashMap();
+	public HashMap<AnimType, BusAnimation> animations = new HashMap<AnimType, BusAnimation>();
+	//lazy-ish loading for animations, required for loading animations from ResourceManager, since that occurs after we've initialised the guns
+	public Consumer<Void> loadAnimations;
+	public boolean animationsLoaded = false;
 	//when sneaking, disables crosshair and centers the bullet spawn point
 	public boolean hasSights;
 	//texture overlay when sneaking
@@ -79,10 +83,10 @@ public class GunConfiguration implements Cloneable {
 	
 	public String name = "";
 	public EnumGunManufacturer manufacturer = EnumGunManufacturer.NONE;
-	public List<String> comment = new ArrayList();
+	public List<String> comment = new ArrayList<String>();
 
 	//bullet configs for main and alt fire
-	public List<Integer> config = new ArrayList();
+	public List<Integer> config = new ArrayList<Integer>();
 
 	//crosshair
 	public Crosshair crosshair;

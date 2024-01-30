@@ -84,21 +84,23 @@ public class HbmAnimations {
 					return trans;
 			}
 		}
-		
+
 		return new double[] {
 			0, 0, 0, // position
 			0, 0, 0, // rotation
-			1, 1, 1  // scale
+			1, 1, 1, // scale
+			0, 0, 0  // offset
 		};
 	}
 
 	public static void applyRelevantTransformation(String bus) {
 		double[] transform = getRelevantTransformation(bus);
-
+		
 		GL11.glTranslated(transform[0], transform[1], transform[2]);
 		GL11.glRotated(transform[3], 1, 0, 0);
 		GL11.glRotated(transform[4], 0, 1, 0);
 		GL11.glRotated(transform[5], 0, 0, 1);
+		GL11.glTranslated(-transform[9], -transform[10], -transform[11]);
 		GL11.glScaled(transform[6], transform[7], transform[8]);
 	}
 
