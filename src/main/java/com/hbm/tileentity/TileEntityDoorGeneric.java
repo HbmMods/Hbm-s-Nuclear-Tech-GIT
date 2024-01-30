@@ -285,7 +285,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 				}
 			}
 
-			if((this.state == 3 && state == 1) || (this.state == 2 && state == 0)){ // Door finished any transition
+			if(state == 1 || state == 0){ // Door finished any transition
 				if(audio != null){
 					audio.stopSound();
 					audio = null;
