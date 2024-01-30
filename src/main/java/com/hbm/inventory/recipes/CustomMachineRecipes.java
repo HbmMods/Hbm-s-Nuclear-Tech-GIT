@@ -79,14 +79,33 @@ public class CustomMachineRecipes extends SerializableRecipe {
 			recipeInstance.outputItems = this.readItemStackArrayChance(rec.get("outputItems").getAsJsonArray());
 			recipeInstance.duration = rec.get("duration").getAsInt();
 			recipeInstance.consumptionPerTick = rec.get("consumptionPerTick").getAsInt();
-			recipeInstance.pollutionMode = rec.get("pollutionMode").getAsBoolean();
-			recipeInstance.pollutionType = rec.get("pollutionType").getAsString();
-			recipeInstance.pollutionAmount = rec.get("pollutionAmount").getAsFloat();
-			recipeInstance.radiationMode = rec.get("radiationMode").getAsBoolean();
-			recipeInstance.radiationAmount = rec.get("radiationAmount").getAsFloat();
-			recipeInstance.flux = rec.get("flux").getAsInt();
-			recipeInstance.heat = rec.get("heat").getAsInt();
 
+			if(rec.get("pollutionMode")!=null) {
+				recipeInstance.pollutionMode = rec.get("pollutionMode").getAsBoolean();
+				recipeInstance.pollutionType = rec.get("pollutionType").getAsString();
+				recipeInstance.pollutionAmount = rec.get("pollutionAmount").getAsFloat();
+			}
+			else {
+				recipeInstance.pollutionMode = false;
+				recipeInstance.pollutionType = "";
+				recipeInstance.pollutionAmount = 0;
+			}
+			if(rec.get("radiationMode")!=null) {
+				recipeInstance.radiationMode = rec.get("radiationMode").getAsBoolean();
+				recipeInstance.radiationAmount = rec.get("radiationAmount").getAsFloat();
+			}
+			else {
+				recipeInstance.radiationMode = false;
+				recipeInstance.radiationAmount = 0;
+			}
+			if(rec.get("flux")!=null) {
+				recipeInstance.flux = rec.get("flux").getAsInt();
+			}
+			else recipeInstance.flux = 0;
+			if(rec.get("heat")!=null) {
+				recipeInstance.heat = rec.get("heat").getAsInt();
+			}
+			else recipeInstance.heat = 0;
 			list.add(recipeInstance);
 		}
 

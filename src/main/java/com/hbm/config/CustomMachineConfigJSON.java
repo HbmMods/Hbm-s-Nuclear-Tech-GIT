@@ -159,12 +159,21 @@ public class CustomMachineConfigJSON {
 				configuration.fluidOutCap = machineObject.get("fluidOutCap").getAsInt();
 				configuration.itemOutCount = machineObject.get("itemOutCount").getAsInt();
 				configuration.generatorMode = machineObject.get("generatorMode").getAsBoolean();
-				configuration.maxPollutionCap = machineObject.get("maxPollutionCap").getAsInt();
-				configuration.fluxMode = machineObject.get("fluxMode").getAsBoolean();
+				if(machineObject.get("maxPollutionCap")!=null) {
+					configuration.maxPollutionCap = machineObject.get("maxPollutionCap").getAsInt();
+				}
+				else configuration.maxPollutionCap = 0;
+                if(machineObject.get("fluxMode")!=null) {
+					configuration.fluxMode = machineObject.get("fluxMode").getAsBoolean();
+				}
+				else configuration.fluxMode = false;
 				configuration.recipeSpeedMult = machineObject.get("recipeSpeedMult").getAsDouble();
 				configuration.recipeConsumptionMult = machineObject.get("recipeConsumptionMult").getAsDouble();
 				configuration.maxPower = machineObject.get("maxPower").getAsLong();
-				configuration.maxHeat = machineObject.get("maxHeat").getAsInt();
+				if(machineObject.get("maxHeat")!=null) {
+					configuration.maxHeat = machineObject.get("maxHeat").getAsInt();
+				}
+				else configuration.maxHeat = 0;
 
 				if(machineObject.has("recipeShape") && machineObject.has("recipeParts")) {
 					JsonArray recipeShape = machineObject.get("recipeShape").getAsJsonArray();
