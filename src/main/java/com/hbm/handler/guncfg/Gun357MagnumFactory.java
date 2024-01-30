@@ -129,6 +129,11 @@ public class Gun357MagnumFactory {
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.CURSED_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
+
+		config.loadAnimations = i -> {
+			config.animations.put(AnimType.CYCLE, ResourceManager.cursed_anim.get("Fire"));
+			config.animations.put(AnimType.RELOAD, ResourceManager.cursed_anim.get("Reload"));
+		};
 		
 		return config;
 	}
