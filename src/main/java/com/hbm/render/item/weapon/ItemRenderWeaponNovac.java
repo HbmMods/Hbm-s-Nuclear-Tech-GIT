@@ -68,7 +68,7 @@ public class ItemRenderWeaponNovac implements IItemRenderer {
 			GL11.glPushMatrix();
 			HbmAnimations.applyRelevantTransformation("Cylinder");
 			ResourceManager.novac.renderPart("Cylinder");
-			GL11.glPushMatrix();
+			GL11.glPopMatrix();
 
 			GL11.glPushMatrix();
 			HbmAnimations.applyRelevantTransformation("Hammer");
