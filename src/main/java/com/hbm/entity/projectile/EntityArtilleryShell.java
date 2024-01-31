@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityMist;
 import com.hbm.entity.logic.IChunkLoader;
+import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -187,11 +188,11 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 					needShell = false;
 					int fluidID = cargo.getItemDamage();
 					FluidType fluid = Fluids.fromID(fluidID);
+					Vec3 vec = Vec3.createVectorHelper(this.motionX, this.motionY, this.motionZ).normalize();
 					EntityMist mist = new EntityMist(worldObj);
 					mist.setType(fluid);
-					mist.setPosition(posX, posY-6, posZ);
-					mist.setArea(10, 5);
-					mist.setDuration(80);
+					mist.setPosition(mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord - 3, mop.hitVec.zCoord - vec.zCoord);
+					mist.setArea(15, 7.5F);
 					worldObj.spawnEntityInWorld(mist);
 				}
 			}
