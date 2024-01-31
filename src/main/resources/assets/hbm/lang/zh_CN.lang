@@ -968,8 +968,10 @@ desc.item.kitHaz=装甲将被防护服取代。
 desc.item.kitPack=真便宜！
 desc.item.kitPool=请在打开前清空背包库存！
 desc.item.pileRod=§e使用钻孔石墨插入$§E使用螺丝刀拔出$
- 
- 
+desc.item.pipette.corrosive=可处理腐蚀性液体。
+desc.item.pipette.laboratory=现在精度提高了50倍！
+desc.item.pipette.noCorrosive=§e无法处理腐蚀性液体。
+desc.item.pipette.noEmpty=§e移液管未排空
 desc.item.rtgDecay=衰变为：%s
 desc.item.rtgHeat=功率级别：%s
 desc.item.storage.capacity=容量 %s%%s
@@ -3413,6 +3415,9 @@ item.pin.name=发夹
 item.pin.desc=“*未修改*撬开标准锁的成功率约为10%。
 item.pipes_steel.name=钢管
 item.pipes_steel.desc=为了避免合成冲突,所以造价如此高昂
+item.pipette.name=移液管
+item.pipette_boron.name=硼玻璃移液管
+item.pipette_laboratory.name=移液器
 item.piston_selenium.name=星型发动机活塞
 item.piston_set_desh.name=Desh活塞组
 item.piston_set_dura.name=高速钢活塞组
