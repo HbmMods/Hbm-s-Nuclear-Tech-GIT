@@ -376,17 +376,20 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			
 			ammo.stacksize = toConsume;
 			setMag(stack, getMag(stack) + toAdd);
-			if (getMag(stack) >= mainConfig.ammoCap)
+			if (getMag(stack) >= mainConfig.ammoCap) {
 				setIsReloading(stack, false);
-			else
+				PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.RELOAD_END.ordinal()), (EntityPlayerMP) player);
+			} else {
 				resetReloadCycle(player, stack);
+				PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.RELOAD_CYCLE.ordinal()), (EntityPlayerMP) player);
+			}
 			
 			if(hasLoaded && mainConfig.reloadSoundEnd)
 				world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
 			
 			if(mainConfig.ejector != null && mainConfig.ejector.getAfterReload())
 				queueCasing(player, mainConfig.ejector, prevCfg, stack);
-			
+				
 			InventoryUtil.tryConsumeAStack(player.inventory.mainInventory, 0, player.inventory.mainInventory.length - 1, ammo);
 		} else {
 			setReloadCycle(stack, getReloadCycle(stack) - 1);
@@ -403,8 +406,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		
 		if(player.isSneaking() && hasInfinity(stack, mainConfig)) {
 			
-			if(this.getMag(stack) == mainConfig.ammoCap) {
-				this.setMag(stack, 0);
+			if(getMag(stack) == mainConfig.ammoCap) {
+				setMag(stack, 0);
 				this.resetAmmoType(stack, world, player);
 				world.playSoundAtEntity(player, "tile.piston.out", 1.0F, 1.0F);
 			}
@@ -412,7 +415,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			return;
 		}
 		
-		if(this.getMag(stack) == mainConfig.ammoCap)
+		if(getMag(stack) == mainConfig.ammoCap)
 			return;
 
 		if(getIsReloading(stack))
@@ -421,8 +424,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		if(!mainConfig.reloadSoundEnd)
 			world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
 		
-		if(!world.isRemote)
-			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.RELOAD.ordinal()), (EntityPlayerMP) player);
+		if(!world.isRemote) {
+			AnimType reloadType = getMag(stack) == 0 ? AnimType.RELOAD_EMPTY : AnimType.RELOAD;
+			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(reloadType.ordinal()), (EntityPlayerMP) player);
+		}
 		
 		setIsReloading(stack, true);
 		resetReloadCycle(player, stack);
@@ -784,6 +789,10 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	@SideOnly(Side.CLIENT)
 	public BusAnimation getAnimation(ItemStack stack, AnimType type) {
 		GunConfiguration config = ((ItemGunBase) stack.getItem()).mainConfig;
+		if (!config.animationsLoaded && config.loadAnimations != null) {
+			config.loadAnimations.accept(null);
+			config.animationsLoaded = true;
+		}
 		return config.animations.get(type);
 	}
 	
@@ -825,7 +834,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	}
 	
 	public static int getReloadDuration(EntityPlayer player, ItemStack stack) {
-		int cycle = ((ItemGunBase) stack.getItem()).mainConfig.reloadDuration;
+		GunConfiguration config = ((ItemGunBase) stack.getItem()).mainConfig;
+		int cycle = config.reloadDuration;
+		if (getMag(stack) == 0) cycle += config.emptyReloadAdditionalDuration;
 		if(isTrenchMaster(player)) return Math.max(1, cycle / 2);
 		return cycle;
 	}

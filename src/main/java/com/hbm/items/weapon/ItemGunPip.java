@@ -65,7 +65,7 @@ public class ItemGunPip extends ItemGunBase {
 		if(type == AnimType.EQUIP) {
 				return new BusAnimation()
 						.addBus("ROTATE", new BusAnimationSequence()
-								.addKeyframe(new BusAnimationKeyframe(-360, 0, 0, 350))
+								.addKeyframePosition(-360, 0, 0, 350)
 								);
 		}
 		
@@ -74,17 +74,17 @@ public class ItemGunPip extends ItemGunBase {
 			int s = 1;
 			return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50 * s))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, -3, 50 * s))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250 * s))
+						.addKeyframePosition(0, 0, 0, 50 * s)
+						.addKeyframePosition(0, 0, -3, 50 * s)
+						.addKeyframePosition(0, 0, 0, 250 * s)
 						)
 				.addBus("HAMMER", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 50 * s))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 300 * s))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200 * s))
+						.addKeyframePosition(0, 0, 1, 50 * s)
+						.addKeyframePosition(0, 0, 1, 300 * s)
+						.addKeyframePosition(0, 0, 0, 200 * s)
 						)
 				.addBus("DRUM", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 50 * s))
+						.addKeyframePosition(0, 0, 1, 50 * s)
 						);
 		 }
 		
@@ -92,44 +92,44 @@ public class ItemGunPip extends ItemGunBase {
 			int s = 1;
 				return new BusAnimation()
 						.addBus("RELAOD_TILT", new BusAnimationSequence()
-								.addKeyframe(new BusAnimationKeyframe(-15, 0, 0, 100 * s))
-								.addKeyframe(new BusAnimationKeyframe(65, 0, 0, 100 * s)) //200
-								.addKeyframe(new BusAnimationKeyframe(45, 0, 0, 50 * s)) //250
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200 * s)) //450
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 1450 * s)) //1900
-								.addKeyframe(new BusAnimationKeyframe(-80, 0, 0, 100 * s)) //2000
-								.addKeyframe(new BusAnimationKeyframe(-80, 0, 0, 100 * s)) //2100
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200 * s)) //2300
+								.addKeyframePosition(-15, 0, 0, 100 * s)
+								.addKeyframePosition(65, 0, 0, 100 * s) //200
+								.addKeyframePosition(45, 0, 0, 50 * s) //250
+								.addKeyframePosition(0, 0, 0, 200 * s) //450
+								.addKeyframePosition(0, 0, 0, 1450 * s) //1900
+								.addKeyframePosition(-80, 0, 0, 100 * s) //2000
+								.addKeyframePosition(-80, 0, 0, 100 * s) //2100
+								.addKeyframePosition(0, 0, 0, 200 * s) //2300
 								)
 						.addBus("RELOAD_CYLINDER", new BusAnimationSequence()
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200 * s))
-								.addKeyframe(new BusAnimationKeyframe(90, 0, 0, 100 * s)) //300
-								.addKeyframe(new BusAnimationKeyframe(90, 0, 0, 1700 * s)) //2000
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 70 * s)) //2100
+								.addKeyframePosition(0, 0, 0, 200 * s)
+								.addKeyframePosition(90, 0, 0, 100 * s) //300
+								.addKeyframePosition(90, 0, 0, 1700 * s) //2000
+								.addKeyframePosition(0, 0, 0, 70 * s) //2100
 								)
 						.addBus("RELOAD_LIFT", new BusAnimationSequence()
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 350 * s))
-								.addKeyframe(new BusAnimationKeyframe(-45, 0, 0, 250 * s)) //600
-								.addKeyframe(new BusAnimationKeyframe(-45, 0, 0, 350 * s)) //950
-								.addKeyframe(new BusAnimationKeyframe(-15, 0, 0, 200 * s)) //1150
-								.addKeyframe(new BusAnimationKeyframe(-15, 0, 0, 1050 * s)) //2200
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 100 * s)) //2300
+								.addKeyframePosition(0, 0, 0, 350 * s)
+								.addKeyframePosition(-45, 0, 0, 250 * s) //600
+								.addKeyframePosition(-45, 0, 0, 350 * s) //950
+								.addKeyframePosition(-15, 0, 0, 200 * s) //1150
+								.addKeyframePosition(-15, 0, 0, 1050 * s) //2200
+								.addKeyframePosition(0, 0, 0, 100 * s) //2300
 								)
 						.addBus("RELOAD_JOLT", new BusAnimationSequence()
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 600 * s))
-								.addKeyframe(new BusAnimationKeyframe(2, 0, 0, 50 * s)) //650
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 100 * s)) //750
+								.addKeyframePosition(0, 0, 0, 600 * s)
+								.addKeyframePosition(2, 0, 0, 50 * s) //650
+								.addKeyframePosition(0, 0, 0, 100 * s) //750
 								)
 						.addBus("RELOAD_BULLETS", new BusAnimationSequence()
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 650 * s))
-								.addKeyframe(new BusAnimationKeyframe(10, 0, 0, 300 * s)) //950
-								.addKeyframe(new BusAnimationKeyframe(10, 0, 0, 200 * s)) //1150
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 700 * s)) //1850
+								.addKeyframePosition(0, 0, 0, 650 * s)
+								.addKeyframePosition(10, 0, 0, 300 * s) //950
+								.addKeyframePosition(10, 0, 0, 200 * s) //1150
+								.addKeyframePosition(0, 0, 0, 700 * s) //1850
 								)
 						.addBus("RELOAD_BULLETS_CON", new BusAnimationSequence()
-								.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 0 * s))
-								.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 950 * s))
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 1 * s))
+								.addKeyframePosition(1, 0, 0, 0 * s)
+								.addKeyframePosition(1, 0, 0, 950 * s)
+								.addKeyframePosition(0, 0, 0, 1 * s)
 								);
 		}
 		
