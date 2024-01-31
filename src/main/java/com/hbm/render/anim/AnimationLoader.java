@@ -44,14 +44,32 @@ public class AnimationLoader {
         InputStreamReader reader = new InputStreamReader(in);
         JsonObject json = gson.fromJson(reader, JsonObject.class);
 
+        // Load our model offsets, we'll place these into all the sequences that share the name of the offset
+        // The offsets are only required when sequences are played for an object, which is why we don't globally offset! The obj rendering handles the non-animated case fine
+        // Effectively, this removes double translation AND ensures that rotations occur around the individual object origin, rather than the weapon origin
+        HashMap<String, double[]> offsets = new HashMap<String, double[]>();
+        for (Map.Entry<String, JsonElement> root : json.getAsJsonObject("offset").entrySet()) {
+            double[] offset = new double[3];
+
+            for (int i = 0; i < 3; i++) {
+                offset[i] = root.getValue().getAsJsonArray().get(i).getAsDouble();
+            }
+
+            offsets.put(root.getKey(), offset);
+        }
+
+
         // Top level parsing, this is for the animation name as set in Blender
-        for (Map.Entry<String, JsonElement> root : json.entrySet()) {
+        for (Map.Entry<String, JsonElement> root : json.getAsJsonObject("anim").entrySet()) {
             BusAnimation animation = new BusAnimation();
 
             // Loading the buses for this animation
             JsonObject entryObject = root.getValue().getAsJsonObject();
             for (Map.Entry<String, JsonElement> model : entryObject.entrySet()) {
-                animation.addBus(model.getKey(), loadSequence(model.getValue().getAsJsonObject()));
+                String modelName = model.getKey();
+                double[] offset = new double[3];
+                if (offsets.containsKey(modelName)) offset = offsets.get(modelName);
+                animation.addBus(modelName, loadSequence(model.getValue().getAsJsonObject(), offset));
             }
 
             animations.put(root.getKey(), animation);
@@ -60,7 +78,7 @@ public class AnimationLoader {
         return animations;
     }
 
-    private static BusAnimationSequence loadSequence(JsonObject json) {
+    private static BusAnimationSequence loadSequence(JsonObject json, double[] offset) {
         BusAnimationSequence sequence = new BusAnimationSequence();
 
         // Location fcurves
@@ -108,11 +126,7 @@ public class AnimationLoader {
             }
         }
 
-        // The first location must be undone to return everything to 0,0,0
-        // This is required to ensure that rotations occur around the origin of the part, not 0,0,0
-        sequence.offset[0] = sequence.getFirstValue(Dimension.TX);
-        sequence.offset[1] = sequence.getFirstValue(Dimension.TY);
-        sequence.offset[2] = sequence.getFirstValue(Dimension.TZ);
+        sequence.offset = offset;
 
         return sequence;
     }

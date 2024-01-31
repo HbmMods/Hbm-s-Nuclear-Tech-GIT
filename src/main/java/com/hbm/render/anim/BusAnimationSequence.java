@@ -64,13 +64,6 @@ public class BusAnimationSequence {
 
 		return this;
 	}
-
-
-	public double getFirstValue(Dimension dimension) {
-		List<BusAnimationKeyframe> keyframes = transformKeyframes.get(dimension.ordinal());
-		if (keyframes.size() == 0) return 0;
-		return keyframes.get(0).value;
-	}
 	
 	//all transformation data is absolute, additive transformations have not yet been implemented
 	public double[] getTransformation(int millis) {
