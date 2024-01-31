@@ -15,15 +15,15 @@ public class CargoShellCraftingHandler implements IRecipe {
 		
 		int itemCount = 0;
 		int shellCount = 0;
-		
 		for(int i = 0; i < 9; i++) {
 			ItemStack stack = inventory.getStackInRowAndColumn(i % 3, i / 3);
-			
+
 			if(stack != null) {
-				
-				if(stack.getItem().hasContainerItem(stack) || !stack.getItem().doesContainerItemLeaveCraftingGrid(stack))
-					return false;
-				
+
+				if(stack.getItem().hasContainerItem(stack) || !stack.getItem().doesContainerItemLeaveCraftingGrid(stack)) {
+					if(stack.getItem() != ModItems.disperser_canister) { //makes it so that the disperser canister can be used as a crafting ingredient
+						return false;}}
+
 				itemCount++;
 				
 				if(stack.getItem() == ModItems.ammo_arty && stack.getItemDamage() == 8 && !stack.hasTagCompound()) {
@@ -43,7 +43,7 @@ public class CargoShellCraftingHandler implements IRecipe {
 		
 		for(int i = 0; i < 9; i++) {
 			ItemStack stack = inventory.getStackInRowAndColumn(i % 3, i / 3);
-			
+
 			if(stack == null)
 				continue;
 
@@ -55,6 +55,9 @@ public class CargoShellCraftingHandler implements IRecipe {
 				ItemStack copy = stack.copy();
 				copy.stackSize = 1;
 				cargo = copy;
+			}
+			if(stack.getItem() == ModItems.disperser_canister) {
+				stack.getItem().setContainerItem(null); //removes the empty canister from the output
 			}
 		}
 		
