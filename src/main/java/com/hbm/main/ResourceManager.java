@@ -847,6 +847,7 @@ public class ResourceManager {
 	public static final HashMap<String, BusAnimation> python_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/python.json"));
 	public static final HashMap<String, BusAnimation> cursed_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/cursed.json"));
 	public static final HashMap<String, BusAnimation> novac_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/novac.json"));
+	public static final HashMap<String, BusAnimation> ks23_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/ks23.json"));
 	
 	public static final IModelCustom lance = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/lance.obj"));
 

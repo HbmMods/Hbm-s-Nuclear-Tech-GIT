@@ -49,17 +49,18 @@ public class GunConfiguration implements Cloneable {
 	//the target FOV/multiplied FOV modifier when sneaking
 	public float zoomFOV = 0.0F;
 	
-	//how long the reload animation will play
-	//MUST BE GREATER THAN ZERO ! ! !
-	public int reloadDuration;
 	//duration of every animation cycle, used also for how quickly a burst fire rifle can fire
 	public int firingDuration;
-	//sound path to the reload sound
-	public String reloadSound = "";
 	//sound path to the shooting sound
 	public String firingSound = "";
 	public float firingVolume = 1.0F;
 	public float firingPitch = 1.0F;
+	//how long the reload animation will play
+	//MUST BE GREATER THAN ZERO ! ! !
+	public int reloadDuration;
+	public int emptyReloadAdditionalDuration;
+	//sound path to the reload sound
+	public String reloadSound = "";
 	//whether the reload sound should be played at the beginning or at the end of the reload
 	public boolean reloadSoundEnd = true;
 	public String equipSound = "";
@@ -68,6 +69,8 @@ public class GunConfiguration implements Cloneable {
 	public int ammoCap;
 	//0 does not allow direct reload, 1 is full clip, 2 is single bullet
 	public int reloadType;
+	// If the animations are designed to be sequential, the last frame will be held until the next anmiation starts
+	public boolean reloadAnimationsSequential = false;
 	//whether or not the infinity enchantment should work
 	public boolean allowsInfinity;
 	//whether the ammo count should be displayed

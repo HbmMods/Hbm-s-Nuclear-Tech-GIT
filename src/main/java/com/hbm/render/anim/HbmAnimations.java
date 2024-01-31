@@ -18,13 +18,19 @@ public class HbmAnimations {
 	public static final Animation[] hotbar = new Animation[9];
 	
 	public static enum AnimType {
-		RELOAD,		//animation for every reload cycle
-		CYCLE,		//animation for every firing cycle
-		ALT_CYCLE,	//animation for alt fire cycles
-		SPINUP,		//animation for actionstart
-		SPINDOWN,	//animation for actionend
-		EQUIP		//animation for drawing the weapon
+		RELOAD,			//animation for reloading the weapon
+		RELOAD_EMPTY,	//animation for reloading from empty
+		RELOAD_CYCLE,	//animation that plays for every individual round (for shotguns and similar single round loading weapons)
+		RELOAD_END,		//animation for transitioning from our RELOAD_CYCLE to idle
+		CYCLE,			//animation for every firing cycle
+		ALT_CYCLE,		//animation for alt fire cycles
+		SPINUP,			//animation for actionstart
+		SPINDOWN,		//animation for actionend
+		EQUIP			//animation for drawing the weapon
 	}
+
+	// A NOTE ON SHOTGUN STYLE RELOADS
+	// Make sure the RELOAD and RELOAD_EMPTY adds shells, not just RELOAD_CYCLE, they all proc once for each loaded shell
 	
 	public static class Animation {
 		
@@ -35,11 +41,20 @@ public class HbmAnimations {
 		public long startMillis;
 		//the animation bus
 		public BusAnimation animation;
+		// If set, don't cancel this animation when the timer ends, instead wait for the next to start
+		public boolean holdLastFrame = false;
 		
 		public Animation(String key, long startMillis, BusAnimation animation) {
 			this.key = key;
 			this.startMillis = startMillis;
 			this.animation = animation;
+		}
+		
+		public Animation(String key, long startMillis, BusAnimation animation, boolean holdLastFrame) {
+			this.key = key;
+			this.startMillis = startMillis;
+			this.animation = animation;
+			this.holdLastFrame = holdLastFrame;
 		}
 	}
 	
