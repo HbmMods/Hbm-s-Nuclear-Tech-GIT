@@ -154,12 +154,6 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_rare || this == ModBlocks.ore_gneiss_rare) {
 			return ModItems.chunk_ore;
 		}
-		if(this == ModBlocks.deco_titanium) {
-			return rand.nextInt(4) == 0 ? ModItems.ingot_titanium : null;
-		}
-		if(this == ModBlocks.deco_asbestos) {
-			return rand.nextInt(4) == 0 ? ModItems.ingot_asbestos : null;
-		}
 		if(this == ModBlocks.ore_asbestos || this == ModBlocks.ore_gneiss_asbestos) {
 			return ModItems.ingot_asbestos;
 		}

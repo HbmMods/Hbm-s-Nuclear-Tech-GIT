@@ -1,8 +1,13 @@
-## Changed
-* Sped up the electrolyzer, fluid electrolysis now takes 3 seconds instead of 5 and crystal processing now only takes 20 seconds instead of 50
-* Increased electrolyzer pouring speed to 3 nuggets per tick instead of 1
-* Deco blocks now only drop ingots 25% of the time
-  * The incredibly common structures now only yield a few dozen free ingots instead of several stacks. How horrible!
+## Added
+* More custom machine parts
+  * Custom machines now have a neutron acceptor which allows them to use flux from the breeding reactor in recipes
+  * There is now a heat acceptor which can accept heat from things like fireboxes or electric heaters
+  * Also added a config option to create pollution
 
-## Fixed
-* Fixed radar screens not working at all and potentially freezing the game
+## Changed
+* Deco bocks now drop all of the time, but they drop themselves instead of ingots
+  * To get the ingots, deco blocks now have to be deconstructed in the anvil, yielding an ingot 25% of the time
+  * If I see one more person complaining about the chances I'm reducing it down to 10%
+* Catalytic reformers now have a tooltip informing about the need for a catalytic converter
+* Several guns now have reload animations including most .357 revolvers and Samuel
+* Updated stealth missile texture
