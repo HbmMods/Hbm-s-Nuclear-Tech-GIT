@@ -37,7 +37,7 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 	public static final long maxPower = 1_000_000;
 	
 	public int progress;
-	public static final int processTimeBase = 200;
+	public static final int processTimeBase = 80;
 	public int processTime = processTimeBase;
 	public static final int consumptionBase = 10_000;
 	public int consumption = consumptionBase;
