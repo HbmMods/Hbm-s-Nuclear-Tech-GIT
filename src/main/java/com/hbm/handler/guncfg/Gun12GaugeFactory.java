@@ -10,6 +10,7 @@ import com.hbm.items.ItemAmmoEnums.Ammo12Gauge;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.main.ResourceManager;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.particle.SpentCasing;
@@ -17,7 +18,6 @@ import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
-import com.hbm.render.anim.BusAnimationSequence.Dimension;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
@@ -88,11 +88,12 @@ public class Gun12GaugeFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 25;
+		config.rateOfFire = 20;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
 		config.reloadDuration = 10;
+		config.emptyReloadAdditionalDuration = 5;
 		config.firingDuration = 5;
 		config.ammoCap = 8;
 		config.durability = 2500;
@@ -108,20 +109,17 @@ public class Gun12GaugeFactory {
 		config.comment.add("Alt-fire with Mouse 2 (Right-click) to fire 2 shells at once");
 		
 		config.config = HbmCollection.g12hs;
-		
-		config.animations.put(AnimType.CYCLE, new BusAnimation()
-			.addBus("SPAS_RECOIL", new BusAnimationSequence()
-				.addKeyframePosition(0, 0, -2, 100)
-				.addKeyframePosition(0, 0, 0, 200)
-				.addKeyframeRotation(-10, 0, 5, 100)
-				.addKeyframeRotation(0, 0, 0, 200)
-			)
-			.addBus("SPAS_PUMP", new BusAnimationSequence()
-				.addKeyframe(Dimension.TZ, 0, 450)
-				.addKeyframe(Dimension.TZ, -1.8, 200)
-				.addKeyframe(Dimension.TZ, 0, 200)
-			)
-		);
+
+		config.reloadAnimationsSequential = true;
+
+		config.loadAnimations = i -> {
+			config.animations.put(AnimType.CYCLE, ResourceManager.spas_12_anim.get("Fire"));
+			config.animations.put(AnimType.ALT_CYCLE, ResourceManager.spas_12_anim.get("FireAlt"));
+			config.animations.put(AnimType.RELOAD, ResourceManager.spas_12_anim.get("ReloadStart"));
+			config.animations.put(AnimType.RELOAD_EMPTY, ResourceManager.spas_12_anim.get("ReloadEmptyStart"));
+			config.animations.put(AnimType.RELOAD_CYCLE, ResourceManager.spas_12_anim.get("Reload"));
+			config.animations.put(AnimType.RELOAD_END, ResourceManager.spas_12_anim.get("ReloadEnd"));
+		};
 		
 		config.ejector = EJECTOR_SPAS;
 		
@@ -290,7 +288,7 @@ public class Gun12GaugeFactory {
 		config.reloadType = 1;
 		config.ammoCap = 24;
 		config.reloadDuration = 20;
-		config.reloadSound = config.RSOUND_MAG;
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.reloadSoundEnd = true;
 		config.name += "Drum";
 		return config;
