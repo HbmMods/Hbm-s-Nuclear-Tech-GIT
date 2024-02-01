@@ -69,11 +69,13 @@ public class TileEntityMachineFunnel extends TileEntityMachineBase implements IG
 	
 	@Override
 	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
 		buf.writeInt(this.mode);
 	}
 	
 	@Override
 	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
 		this.mode = buf.readInt();
 	}
 

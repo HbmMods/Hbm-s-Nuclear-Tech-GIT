@@ -105,6 +105,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
 
 		power = data.getLong("power");
 		watts = data.getInteger("watts");

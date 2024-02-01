@@ -58,10 +58,10 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public int usage;
 	
 	public int progressFluid;
-	public static final int processFluidTimeBase = 80;
+	public static final int processFluidTimeBase = 40;
 	public int processFluidTime;
 	public int progressOre;
-	public static final int processOreTimeBase = 800;
+	public static final int processOreTimeBase = 400;
 	public int processOreTime;
 
 	public MaterialStack leftStack;
@@ -192,7 +192,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 				toCast.add(this.rightStack);
 				
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.NUGGET.q(1), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.NUGGET.q(3), impact);
 
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();

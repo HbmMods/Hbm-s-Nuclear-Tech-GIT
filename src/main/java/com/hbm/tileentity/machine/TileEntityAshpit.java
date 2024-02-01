@@ -109,6 +109,7 @@ public class TileEntityAshpit extends TileEntityMachineBase implements IGUIProvi
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
 		this.playersUsing = nbt.getInteger("playersUsing");
 		this.isFull = nbt.getBoolean("isFull");
 	}

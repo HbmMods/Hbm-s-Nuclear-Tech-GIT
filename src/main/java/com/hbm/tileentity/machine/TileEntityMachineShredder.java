@@ -249,7 +249,7 @@ public class TileEntityMachineShredder extends TileEntityLoadedBase implements I
 					flag1 = true;
 				}
 				if(soundCycle == 0)
-		        	this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "minecart.base", 1.0F, 0.75F);
+		        	this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "minecart.base", getVolume(1.0F), 0.75F);
 				soundCycle++;
 				
 				if(soundCycle >= 50)

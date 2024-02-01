@@ -104,7 +104,6 @@ import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderOverhead.Marker;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
-import com.hbm.sound.AudioWrapperClientStartStop;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 import com.hbm.tileentity.bomb.*;
 import com.hbm.tileentity.conductor.*;
@@ -137,7 +136,6 @@ public class ClientProxy extends ServerProxy {
 		registerClientEventHandler(theInfoSystem);
 
 		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
-		ResourceManager.loadAnimatedModels();
 
 		registerTileEntitySpecialRenderer();
 		registerItemRenderer();
@@ -544,7 +542,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_bio_revolver, new ItemRenderBioRevolver());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_deagle, new ItemRenderWeaponObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_supershotgun, new ItemRenderWeaponShotty());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_ks23, new ItemRenderWeaponObj());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_ks23, new ItemRenderWeaponKS23());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_flamer, new ItemRenderWeaponObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_flechette, new ItemRenderWeaponObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_quadro, new ItemRenderWeaponQuadro());
@@ -1741,9 +1739,9 @@ public class ClientProxy extends ServerProxy {
 				
 				BusAnimation animation = new BusAnimation()
 						.addBus("GUARD_ROT", new BusAnimationSequence()
-								.addKeyframe(new BusAnimationKeyframe(90, 0, 1, 0))
-								.addKeyframe(new BusAnimationKeyframe(90, 0, 1, 800))
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 50)));
+								.addKeyframePosition(90, 0, 1, 0)
+								.addKeyframePosition(90, 0, 1, 800)
+								.addKeyframePosition(0, 0, 1, 50));
 				
 				HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
 			}
@@ -1757,13 +1755,13 @@ public class ClientProxy extends ServerProxy {
 					
 					BusAnimation animation = new BusAnimation()
 							.addBus("SWING_ROT", new BusAnimationSequence()
-									.addKeyframe(new BusAnimationKeyframe(90 - offset, 90 - offset, 35, 75))
-									.addKeyframe(new BusAnimationKeyframe(90 + offset, 90 - offset, -45, 150))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500)))
+									.addKeyframePosition(90 - offset, 90 - offset, 35, 75)
+									.addKeyframePosition(90 + offset, 90 - offset, -45, 150)
+									.addKeyframePosition(0, 0, 0, 500))
 							.addBus("SWING_TRANS", new BusAnimationSequence()
-									.addKeyframe(new BusAnimationKeyframe(-3, 0, 0, 75))
-									.addKeyframe(new BusAnimationKeyframe(8, 0, 0, 150))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500)));
+									.addKeyframePosition(-3, 0, 0, 75)
+									.addKeyframePosition(8, 0, 0, 150)
+									.addKeyframePosition(0, 0, 0, 500));
 
 					Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:weapon.cSwing"), 0.8F + player.getRNG().nextFloat() * 0.2F));
 					
@@ -1782,13 +1780,13 @@ public class ClientProxy extends ServerProxy {
 					
 					BusAnimation animation = new BusAnimation()
 							.addBus("SWING_ROT", new BusAnimationSequence()
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 90, forward))
-									.addKeyframe(new BusAnimationKeyframe(45, 0, 90, sideways))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)))
+									.addKeyframePosition(0, 0, 90, forward)
+									.addKeyframePosition(45, 0, 90, sideways)
+									.addKeyframePosition(0, 0, 0, retire))
 							.addBus("SWING_TRANS", new BusAnimationSequence()
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 3, forward))
-									.addKeyframe(new BusAnimationKeyframe(2, 0, 2, sideways))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)));
+									.addKeyframePosition(0, 0, 3, forward)
+									.addKeyframePosition(2, 0, 2, sideways)
+									.addKeyframePosition(0, 0, 0, retire));
 
 					
 					HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
@@ -1802,15 +1800,15 @@ public class ClientProxy extends ServerProxy {
 					
 					BusAnimation animation = new BusAnimation()
 							.addBus("SWING_ROT", new BusAnimationSequence()
-									.addKeyframe(new BusAnimationKeyframe(rot[0], rot[1], rot[2], 0))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 90, forward))
-									.addKeyframe(new BusAnimationKeyframe(45, 0, 90, sideways))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)))
+									.addKeyframePosition(rot[0], rot[1], rot[2], 0)
+									.addKeyframePosition(0, 0, 90, forward)
+									.addKeyframePosition(45, 0, 90, sideways)
+									.addKeyframePosition(0, 0, 0, retire))
 							.addBus("SWING_TRANS", new BusAnimationSequence()
-									.addKeyframe(new BusAnimationKeyframe(trans[0], trans[1], trans[2], 0))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 3, forward))
-									.addKeyframe(new BusAnimationKeyframe(2, 0, 2, sideways))
-									.addKeyframe(new BusAnimationKeyframe(0, 0, 0, retire)));
+									.addKeyframePosition(trans[0], trans[1], trans[2], 0)
+									.addKeyframePosition(0, 0, 3, forward)
+									.addKeyframePosition(2, 0, 2, sideways)
+									.addKeyframePosition(0, 0, 0, retire));
 					
 					HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
 				}
@@ -2007,14 +2005,6 @@ public class ClientProxy extends ServerProxy {
 	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch, int keepAlive) {
 		AudioWrapper audio = getLoopedSound(sound, x, y, z, volume, range, pitch);
 		audio.setKeepAlive(keepAlive);
-		return audio;
-	}
-	
-	/** Only used for doors */
-	@Override
-	public AudioWrapper getLoopedSoundStartStop(World world, String sound, String start, String stop, float x, float y, float z, float volume, float pitch) {
-		AudioWrapperClientStartStop audio = new AudioWrapperClientStartStop(world, sound == null ? null : new ResourceLocation(sound), start, stop, volume * 5);
-		audio.updatePosition(x, y, z);
 		return audio;
 	}
 

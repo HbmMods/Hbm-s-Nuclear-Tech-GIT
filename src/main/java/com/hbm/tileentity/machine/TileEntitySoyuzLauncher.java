@@ -193,6 +193,8 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
     }
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		power = data.getLong("power");
 		mode = data.getByte("mode");
 		starting = data.getBoolean("starting");

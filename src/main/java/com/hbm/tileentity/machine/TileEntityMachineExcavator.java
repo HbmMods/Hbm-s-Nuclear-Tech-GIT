@@ -27,6 +27,11 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.*;
+import com.hbm.util.Compat;
+import com.hbm.util.EnumUtil;
+import com.hbm.util.I18nUtil;
+import com.hbm.util.InventoryUtil;
+import com.hbm.util.ItemStackUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -669,7 +674,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		
 		if(inv instanceof ISidedInventory) {
 			ISidedInventory sided = (ISidedInventory) inv;
-			access = CraneInserter.masquerade(sided, dir.ordinal());
+			access = InventoryUtil.masquerade(sided, dir.ordinal());
 		}
 		
 		for(ItemStack item : items) {

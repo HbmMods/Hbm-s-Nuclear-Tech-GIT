@@ -48,6 +48,11 @@ public class BlockOreBasalt extends BlockEnumMulti {
 	}
 
 	@Override
+	public int damageDropped(int meta) {
+		return 0;
+	}
+
+	@Override
 	public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
 		int meta = world.getBlockMetadata(x, y, z);
 		if(meta == EnumBasaltOreType.ASBESTOS.ordinal() && world.getBlock(x, y + 1, z) == Blocks.air) {

@@ -16,6 +16,8 @@ public class GUIBook extends GuiContainer {
 
 	public GUIBook(InventoryPlayer player) {
 		super(new ContainerBook(player));
+		this.xSize = 176;
+		this.ySize = 166;
 	}
 
 	protected void drawGuiContainerForegroundLayer(int mX, int mY) {
@@ -25,7 +27,6 @@ public class GUIBook extends GuiContainer {
 	}
 
 	protected void drawGuiContainerBackgroundLayer(float inter, int mX, int mY) {
-
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(texture);
 		int left = (this.width - this.xSize) / 2;

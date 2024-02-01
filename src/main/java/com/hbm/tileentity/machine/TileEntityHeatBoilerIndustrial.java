@@ -75,6 +75,7 @@ public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase impleme
 			}
 
 			data.setBoolean("isOn", this.isOn);
+			data.setBoolean("muffled", this.muffled);
 			INBTPacketReceiver.networkPack(this, data, 25);
 		} else {
 			
@@ -90,7 +91,8 @@ public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase impleme
 				} else if(!audio.isPlaying()) {
 					audio = rebootAudio(audio);
 				}
-				
+
+				audio.updateVolume(getVolume(1F));
 				audio.keepAlive();
 				
 			} else {
@@ -134,6 +136,7 @@ public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase impleme
 		this.tanks[0].readFromNBT(nbt, "0");
 		this.tanks[1].readFromNBT(nbt, "1");
 		this.isOn = nbt.getBoolean("isOn");
+		this.muffled = nbt.getBoolean("muffled");
 	}
 	
 	protected void tryPullHeat() {

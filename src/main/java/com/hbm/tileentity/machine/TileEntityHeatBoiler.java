@@ -94,6 +94,7 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 
 			data.setBoolean("exploded", this.hasExploded);
 			data.setBoolean("isOn", this.isOn);
+			data.setBoolean("muffled", this.muffled);
 			INBTPacketReceiver.networkPack(this, data, 25);
 		} else {
 			
@@ -109,7 +110,8 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 				} else if(!audio.isPlaying()) {
 					audio = rebootAudio(audio);
 				}
-				
+
+				audio.updateVolume(getVolume(1F));
 				audio.keepAlive();
 				
 			} else {
@@ -150,6 +152,7 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.hasExploded = nbt.getBoolean("exploded");
+		this.muffled = nbt.getBoolean("muffled");
 		this.heat = nbt.getInteger("heat");
 		this.tanks[0].readFromNBT(nbt, "0");
 		this.tanks[1].readFromNBT(nbt, "1");

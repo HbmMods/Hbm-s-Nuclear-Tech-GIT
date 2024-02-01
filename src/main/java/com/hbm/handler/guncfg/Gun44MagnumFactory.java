@@ -15,12 +15,14 @@ import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo44Magnum;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -60,6 +62,10 @@ public class Gun44MagnumFactory {
 		config.config.addAll(HbmCollection.m44Normal);
 		
 		config.ejector = EJECTOR_PIP;
+
+		config.loadAnimations = i -> {
+			config.animations.put(AnimType.CYCLE, ResourceManager.novac_anim.get("Fire"));
+		};
 		
 		return config;
 	}
@@ -220,7 +226,7 @@ public class Gun44MagnumFactory {
 		
 		PotionEffect eff = new PotionEffect(HbmPotion.phosphorus.id, 20 * 20, 0, true);
 		eff.getCurativeItems().clear();
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(eff));
 		
 		bullet.bntImpact = (bulletnt, x, y, z, sideHit) -> {

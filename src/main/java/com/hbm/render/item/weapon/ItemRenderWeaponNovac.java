@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -58,8 +59,37 @@ public class ItemRenderWeaponNovac implements IItemRenderer {
 			GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
 			GL11.glTranslatef(-0.0F, 0.0F, -1.25F);
 			GL11.glScaled(s0, s0, s0);
+
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+
+			HbmAnimations.applyRelevantTransformation("Body");
+			ResourceManager.novac.renderPart("Body");
+
+			GL11.glPushMatrix();
+			HbmAnimations.applyRelevantTransformation("Cylinder");
+			ResourceManager.novac.renderPart("Cylinder");
+			GL11.glPopMatrix();
+
+			GL11.glPushMatrix();
+			HbmAnimations.applyRelevantTransformation("Hammer");
+			ResourceManager.novac.renderPart("Hammer");
+			GL11.glPopMatrix();
+
+			GL11.glPushMatrix();
+			HbmAnimations.applyRelevantTransformation("Trigger");
+			ResourceManager.novac.renderPart("Trigger");
+			GL11.glPopMatrix();
+
+			if (item.getItem() == ModItems.gun_revolver_pip) {
+				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.novac_scope_tex);
+				ResourceManager.novac.renderPart("Scope");
+			}
+
+			GL11.glShadeModel(GL11.GL_FLAT);
 			
-			break;
+			GL11.glPopMatrix();
+			
+			return;
 			
 		case EQUIPPED:
 
@@ -97,15 +127,13 @@ public class ItemRenderWeaponNovac implements IItemRenderer {
 		}
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
+		ResourceManager.novac.renderAllExcept("Scope");
+
 		if(item.getItem() == ModItems.gun_revolver_pip) {
-			ResourceManager.novac_scoped.renderPart("Gun");
-			ResourceManager.novac_scoped.renderPart("Hammer");
-			ResourceManager.novac_scoped.renderPart("Cylinder");
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.novac_scope_tex);
-			ResourceManager.novac_scoped.renderPart("Scope");
-		} else {
-			ResourceManager.novac.renderAll();
+			ResourceManager.novac.renderPart("Scope");
 		}
+
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();

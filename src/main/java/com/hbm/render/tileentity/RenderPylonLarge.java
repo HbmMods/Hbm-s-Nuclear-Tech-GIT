@@ -14,6 +14,7 @@ public class RenderPylonLarge extends RenderPylonBase {
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5, y, z + 0.5);
+		GL11.glEnable(GL11.GL_LIGHTING);
 
 		switch(tile.getBlockMetadata() - BlockDummyable.offset) {
 		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;

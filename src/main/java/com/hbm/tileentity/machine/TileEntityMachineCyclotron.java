@@ -207,6 +207,8 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.isOn = data.getBoolean("isOn");
 		this.power = data.getLong("power");
 		this.progress = data.getInteger("progress");
