@@ -1,4 +1,4 @@
-package com.hbm.entity.mob;
+package com.hbm.entity.mob.glyphid;
 
 import com.hbm.entity.effect.EntityMist;
 import com.hbm.inventory.fluid.Fluids;
@@ -32,37 +32,18 @@ public class EntityGlyphidBrenda extends EntityGlyphid {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250D);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1.2D);
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(50D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(GlyphidStats.getStats().getBrenda().health);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getBrenda().speed);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBrenda().damage);
 	}
+
+	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBrenda().divisor; }
+	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBrenda().damageThreshold; }
 
 	@Override
 	public boolean isArmorBroken(float amount) {
 		// amount < 5 ? 5 : amount < 10 ? 3 : 2;
 		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.12, 2), 100);
-	}
-
-	@Override
-	public float calculateDamage(float amount) {
-
-		byte armor = this.dataWatcher.getWatchableObjectByte(17);
-		int divisor = 1;
-		
-		for(int i = 0; i < 5; i++) {
-			if((armor & (1 << i)) > 0) {
-				divisor += 5;
-			}
-		}
-		
-		amount /= divisor;
-		
-		return amount;
-	}
-
-	@Override
-	public float getDamageThreshold() {
-		return 10F;
 	}
 
 	@Override

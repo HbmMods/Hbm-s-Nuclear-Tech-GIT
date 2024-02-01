@@ -12,3 +12,7 @@
 * Several guns now have reload animations including most .357 revolvers and Samuel
 * Updated stealth missile texture
 * Some of the larger oil machines now render using display lists which should make them somewhat more performant
+* Glyphid diggers can no longer yeet multiblocks or blocks with tile entity
+
+## Fixed
+* Fixed dupe caused by shift-clicking ashes out of the bricked furnace

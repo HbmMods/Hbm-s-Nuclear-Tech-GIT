@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.mob.EntityGlyphid;
+import com.hbm.entity.mob.glyphid.EntityGlyphid;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.fluid.FluidType;
