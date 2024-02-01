@@ -15,6 +15,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.Item;
@@ -300,5 +301,18 @@ public class FluidTank {
 		
 		this.pressure = nbt.getShort(s + "_p");
 	}
+	
+	public void serialize(ByteBuf buf) {
+		buf.writeInt(fluid);
+		buf.writeInt(maxFluid);
+		buf.writeInt(type.getID());
+		buf.writeShort((short) pressure);
+	}
 
+	public void deserialize(ByteBuf buf) {
+		fluid = buf.readInt();
+		maxFluid = buf.readInt();
+		type = Fluids.fromID(buf.readInt());
+		pressure = buf.readShort();
+	}
 }
