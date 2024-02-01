@@ -86,7 +86,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 			int blackLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 			
 			if(recipe != null) {
-				this.processTime = recipe.duration - (recipe.duration * redLevel / 6) + (recipe.duration * blueLevel / 3);
+				this.processTime = (recipe.duration - (recipe.duration * redLevel / 4) + (recipe.duration * blueLevel / 3)) / (blackLevel + 1);
 				this.consumption = (recipe.consumption + (recipe.consumption * redLevel) - (recipe.consumption * blueLevel / 6)) * (blackLevel + 1);
 				intendedMaxPower = recipe.consumption * 20 * (blackLevel + 1);
 				
@@ -360,7 +360,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_arc_welder));
 		if(type == UpgradeType.SPEED) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 100 / 6) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
 		}
 		if(type == UpgradeType.POWER) {
