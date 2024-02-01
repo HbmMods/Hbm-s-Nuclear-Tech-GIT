@@ -15,6 +15,7 @@ import com.hbm.inventory.recipes.CustomMachineRecipes;
 import com.hbm.inventory.recipes.CustomMachineRecipes.CustomMachineRecipe;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.Tuple.Pair;
 
@@ -116,7 +117,7 @@ public class CustomMachineHandler extends TemplateRecipeHandler {
 
 	@Override
 	public String getRecipeName() {
-		return conf.localizedName;
+		return I18nUtil.resolveKey("tile.cm_" + conf.unlocalizedName + ".name").contains(".name") ? conf.localizedName : I18nUtil.resolveKey("tile.cm_" + conf.unlocalizedName + ".name");
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.tileentity.TileEntityProxyBase;
 import com.hbm.util.Compat;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -97,7 +98,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 
 	@Override
 	public String getName() {
-		return config != null ? config.localizedName : "INVALID";
+		return config != null ? I18nUtil.resolveKey("tile.cm_" + config.unlocalizedName + ".name").contains(".name") ? config.localizedName : I18nUtil.resolveKey("tile.cm_" + config.unlocalizedName + ".name") : "INVALID";
 	}
 
 	@Override
