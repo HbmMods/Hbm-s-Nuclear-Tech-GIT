@@ -115,7 +115,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				endActionClient(stack, world, entity, false);
 			}
 			
-			if(mainConfig.reloadType != mainConfig.RELOAD_NONE || (altConfig != null && altConfig.reloadType != 0)) {
+			if(mainConfig.reloadType != GunConfiguration.RELOAD_NONE || (altConfig != null && altConfig.reloadType != 0)) {
 				
 				if(GameSettings.isKeyDown(HbmKeybinds.reloadKey) && Minecraft.getMinecraft().currentScreen == null && (getMag(stack) < mainConfig.ammoCap || hasInfinity(stack, mainConfig))) {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 2));
@@ -184,7 +184,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	protected boolean tryShoot(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
 		//cancel reload when trying to shoot if it's a single reload weapon and at least one round is loaded
-		if(getIsReloading(stack) && mainConfig.reloadType == mainConfig.RELOAD_SINGLE && this.getMag(stack) > 0) {
+		if(getIsReloading(stack) && mainConfig.reloadType == GunConfiguration.RELOAD_SINGLE && getMag(stack) > 0) {
 			setReloadCycle(stack, 0);
 			setIsReloading(stack, false);
 		}
@@ -208,7 +208,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		if(!main)
 			config = altConfig;
 		
-		if(config.reloadType == mainConfig.RELOAD_NONE) {
+		if(config.reloadType == GunConfiguration.RELOAD_NONE) {
 			return getBeltSize(player, getBeltType(player, stack, main)) > 0;
 			
 		} else {
@@ -222,7 +222,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 
 		BulletConfiguration config = null;
 		
-		if(mainConfig.reloadType == mainConfig.RELOAD_NONE) {
+		if(mainConfig.reloadType == GunConfiguration.RELOAD_NONE) {
 			config = getBeltCfg(player, stack, true);
 		} else {
 			config = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
@@ -261,13 +261,13 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		if(altConfig == null)
 			return;
 
-		BulletConfiguration config = altConfig.reloadType == altConfig.RELOAD_NONE ? getBeltCfg(player, stack, false) : BulletConfigSyncingUtil.pullConfig(altConfig.config.get(getMagType(stack)));
+		BulletConfiguration config = altConfig.reloadType == GunConfiguration.RELOAD_NONE ? getBeltCfg(player, stack, false) : BulletConfigSyncingUtil.pullConfig(altConfig.config.get(getMagType(stack)));
 		
 		int bullets = config.bulletsMin;
 		
 		for(int k = 0; k < altConfig.roundsPerCycle; k++) {
 			
-			if(altConfig.reloadType != altConfig.RELOAD_NONE && !hasAmmo(stack, player, true))
+			if(altConfig.reloadType != GunConfiguration.RELOAD_NONE && !hasAmmo(stack, player, true))
 				break;
 			
 			if(config.bulletsMax > config.bulletsMin)
@@ -355,9 +355,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			
 			BulletConfiguration prevCfg = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
 			
-			if(getMag(stack) == 0)
-				resetAmmoType(stack, world, player);
-			
 			BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
 			ComparableStack ammo = (ComparableStack) cfg.ammo.copy();
 			
@@ -403,6 +400,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	
 	//initiates a reload
 	public void startReloadAction(ItemStack stack, World world, EntityPlayer player) {
+			
+		if(getMag(stack) == 0)
+			resetAmmoType(stack, world, player);
 		
 		if(player.isSneaking() && hasInfinity(stack, mainConfig)) {
 			
@@ -494,8 +494,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 		addAdditionalInformation(stack, list);
 	}
 	
-	protected void addAdditionalInformation(ItemStack stack, List<String> list)
-	{
+	protected void addAdditionalInformation(ItemStack stack, List<String> list) {
 		final BulletConfiguration bulletConfig = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
 		list.add(I18nUtil.resolveKey(HbmCollection.gunDamage, bulletConfig.dmgMin, bulletConfig.dmgMax));
 		if(bulletConfig.bulletsMax != 1)

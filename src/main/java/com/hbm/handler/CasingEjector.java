@@ -23,7 +23,7 @@ import net.minecraft.world.World;
  */
 public class CasingEjector implements Cloneable {
 	
-	public static HashMap<Integer, CasingEjector> mappings = new HashMap();
+	public static HashMap<Integer, CasingEjector> mappings = new HashMap<Integer, CasingEjector>();
 	public static final Random rand = new Random();
 
 	private int id;
