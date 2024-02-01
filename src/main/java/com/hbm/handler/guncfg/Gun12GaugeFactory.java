@@ -101,6 +101,7 @@ public class Gun12GaugeFactory {
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.CIRCLE;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.reloadSoundEnd = false;
 		config.firingSound = "hbm:weapon.shotgunPump";
 		
 		config.name = "spas12";

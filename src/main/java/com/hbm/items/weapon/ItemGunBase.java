@@ -374,6 +374,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				resetReloadCycle(player, stack);
 				AnimType animType = availableFills <= 1 ? AnimType.RELOAD_END : AnimType.RELOAD_CYCLE;
 				PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(animType.ordinal()), (EntityPlayerMP) player);
+				if (availableFills > 1 && !mainConfig.reloadSoundEnd)
+					world.playSoundAtEntity(player, mainConfig.reloadSound, 1.0F, 1.0F);
 			}
 			
 			if(hasLoaded && mainConfig.reloadSoundEnd)
