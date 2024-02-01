@@ -241,6 +241,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			for(int i = 0; i < bullets; i++) {
 				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
 			}
+
+			if(player instanceof EntityPlayerMP)
+				PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
 			
 			useUpAmmo(player, stack, true);
 			player.inventoryContainer.detectAndSendChanges();
@@ -276,6 +279,9 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			for(int i = 0; i < bullets; i++) {
 				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
 			}
+
+			if(player instanceof EntityPlayerMP)
+				PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.ALT_CYCLE.ordinal()), (EntityPlayerMP) player);
 			
 			useUpAmmo(player, stack, false);
 			player.inventoryContainer.detectAndSendChanges();
@@ -291,13 +297,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	
 	//spawns the actual projectile, can be overridden to change projectile entity
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
-		
 		EntityBulletBaseNT bullet = new EntityBulletBaseNT(world, config, player);
 		world.spawnEntityInWorld(bullet);
-		
-		if(player instanceof EntityPlayerMP)
-			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
-			
 	}
 	
 	//called on click (server side, called by mouse packet) for semi-automatics and specific events
@@ -314,10 +315,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				fire(stack, world, player);
 				setDelay(stack, mainConfig.rateOfFire);
 			}
-
-			//setMag(stack, getMag(stack) - 1);
-			//useUpAmmo(player, stack, main);
-			//player.inventoryContainer.detectAndSendChanges();
 		}
 		
 		if(!main && altConfig != null && tryShoot(stack, world, player, main)) {
@@ -328,9 +325,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				altFire(stack, world, player);
 				setDelay(stack, altConfig.rateOfFire);
 			}
-
-			//useUpAmmo(player, stack, main);
-			//player.inventoryContainer.detectAndSendChanges();
 		}
 	}
 	
@@ -378,7 +372,8 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 				PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.RELOAD_END.ordinal()), (EntityPlayerMP) player);
 			} else {
 				resetReloadCycle(player, stack);
-				PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.RELOAD_CYCLE.ordinal()), (EntityPlayerMP) player);
+				AnimType animType = availableFills <= 1 ? AnimType.RELOAD_END : AnimType.RELOAD_CYCLE;
+				PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(animType.ordinal()), (EntityPlayerMP) player);
 			}
 			
 			if(hasLoaded && mainConfig.reloadSoundEnd)
