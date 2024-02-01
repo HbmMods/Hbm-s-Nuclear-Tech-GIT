@@ -84,23 +84,23 @@ public class GunRocketFactory {
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("QUADRO_RECOIL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, -0.5, 50))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50))
+						.addKeyframePosition(0, 0, -0.5, 50)
+						.addKeyframePosition(0, 0, 0, 50)
 						)
 				);
 		
 		config.animations.put(AnimType.RELOAD, new BusAnimation()
 				.addBus("QUADRO_RELOAD_ROTATE", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 60, 750))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 60, 3500))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 750))
+						.addKeyframePosition(0, 0, 60, 750)
+						.addKeyframePosition(0, 0, 60, 3500)
+						.addKeyframePosition(0, 0, 0, 750)
 						)
 				.addBus("QUADRO_RELOAD_PUSH", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(-1, -1, 0, 0))
-						.addKeyframe(new BusAnimationKeyframe(-1, -1, 0, 750))
-						.addKeyframe(new BusAnimationKeyframe(-1, 0, 0, 500))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 3000))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 750))
+						.addKeyframePosition(-1, -1, 0, 0)
+						.addKeyframePosition(-1, -1, 0, 750)
+						.addKeyframePosition(-1, 0, 0, 500)
+						.addKeyframePosition(0, 0, 0, 3000)
+						.addKeyframePosition(0, 0, 0, 750)
 						)
 				);
 		

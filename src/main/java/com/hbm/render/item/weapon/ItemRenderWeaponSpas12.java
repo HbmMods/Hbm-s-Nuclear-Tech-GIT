@@ -44,24 +44,17 @@ public class ItemRenderWeaponSpas12 implements IItemRenderer {
 		
 		case EQUIPPED_FIRST_PERSON:
 			
-			double[] recoilT = HbmAnimations.getRelevantTransformation("SPAS_RECOIL_TRANSLATE");
-			double[] recoilR = HbmAnimations.getRelevantTransformation("SPAS_RECOIL_ROT");
-			double[] pump = HbmAnimations.getRelevantTransformation("SPAS_PUMP");
-			
 			double s0 = 0.5D;
 			GL11.glRotated(25, 0, 0, 1);
 			GL11.glTranslated(0, -0.8, 0.1);
 			GL11.glRotated(80, 0, 1, 0);
 			GL11.glScaled(s0, s0, s0);
-			
-			int m = 2;
-			
-			GL11.glTranslated(recoilT[0]*m, recoilT[1]*m, recoilT[2]*m);
-			GL11.glRotated(2, recoilR[0]*m, recoilR[1]*m, recoilR[2]*m);
+
+			HbmAnimations.applyRelevantTransformation("SPAS_RECOIL");
 			
 			ResourceManager.spas_12.renderPart("MainBody");
 			
-			GL11.glTranslated(pump[0], pump[1], pump[2]);
+			HbmAnimations.applyRelevantTransformation("SPAS_PUMP");
 			
 			ResourceManager.spas_12.renderPart("PumpGrip");
 			
