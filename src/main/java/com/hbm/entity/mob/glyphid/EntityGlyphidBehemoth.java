@@ -41,7 +41,7 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBehemoth().damage);
 	}
 
-	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBehemoth().divisor; }
+	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBehemoth().divisor; }
 	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBehemoth().damageThreshold; }
 	
 	public int timer = 120;

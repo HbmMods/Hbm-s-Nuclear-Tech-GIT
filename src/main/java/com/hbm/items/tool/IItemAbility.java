@@ -3,6 +3,8 @@ package com.hbm.items.tool;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
@@ -43,7 +45,7 @@ public interface IItemAbility {
 		Block block = world.getBlock(x, y, z);
 		int meta = world.getBlockMetadata(x, y, z);
 
-		if(!(canHarvestBlock(block, stack) || canShearBlock(block, stack, world, x, y, z)) || block == Blocks.bedrock)
+		if(!(canHarvestBlock(block, stack) || canShearBlock(block, stack, world, x, y, z)) || block == Blocks.bedrock || block == ModBlocks.stone_keyhole)
 			return;
 
 		Block refBlock = world.getBlock(refX, refY, refZ);

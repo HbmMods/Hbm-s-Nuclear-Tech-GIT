@@ -31,7 +31,7 @@ public class EntityGlyphidBrawler extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBrawler().damage);
 	}
 
-	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBrawler().divisor; }
+	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBrawler().divisor; }
 	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBrawler().damageThreshold; }
 
 	@Override

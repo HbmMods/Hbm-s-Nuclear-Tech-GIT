@@ -15,18 +15,19 @@ public class RenderMissileTaint extends Render {
 	}
 
 	@Override
-	public void doRender(Entity missile, double x, double y, double z, float f1, float f2) {
+	public void doRender(Entity entity, double x, double y, double z, float p_76986_8_, float interp) {
 
 		GL11.glPushMatrix();
-        GL11.glTranslatef((float)x, (float)y, (float)z);
-        GL11.glRotatef(missile.prevRotationYaw + (missile.rotationYaw - missile.prevRotationYaw) * f2 - 90.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(missile.prevRotationPitch + (missile.rotationPitch - missile.prevRotationPitch) * f2, 0.0F, 0.0F, 1.0F);
-        GL11.glScalef(2F, 2F, 2F);
+		GL11.glTranslatef((float) x, (float) y, (float) z);
+		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * interp, 0.0F, 0.0F, 1.0F);
+		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, -1.0F, 0.0F);
+		GL11.glScalef(2F, 2F, 2F);
 
-        GL11.glDisable(GL11.GL_CULL_FACE);
-        bindTexture(getEntityTexture(missile));
-        ResourceManager.missileTaint.renderAll();
-        GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		bindTexture(getEntityTexture(entity));
+		ResourceManager.missileTaint.renderAll();
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 	}
 

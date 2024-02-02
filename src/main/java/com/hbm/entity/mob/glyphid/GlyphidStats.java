@@ -28,10 +28,10 @@ public abstract class GlyphidStats {
 		public final double health;
 		public final double speed;
 		public final double damage;
-		public final int divisor;
+		public final float divisor;
 		public final float damageThreshold;
 		
-		public StatBundle(double health, double speed, double damage, int divisor, float damageThreshold) {
+		public StatBundle(double health, double speed, double damage, float divisor, float damageThreshold) {
 			this.health = health;
 			this.speed = speed;
 			this.damage = damage;
@@ -55,15 +55,15 @@ public abstract class GlyphidStats {
 	public static class GlyphidStats70K extends GlyphidStats {
 		
 		public GlyphidStats70K() {
-			this.statsGrunt =		new StatBundle(30D,		1D,		5D,		1,	0.5F);
-			this.statsBombardier =	new StatBundle(20D,		1D,		5D,		1,	0.5F);
-			this.statsBrawler =		new StatBundle(50D,		1D,		10D,	3,	1F);
-			this.statsDigger =		new StatBundle(50D,		1D,		5D,		1,	0.5F);
-			this.statsBlaster =		new StatBundle(50D,		1D,		10D,	2,	1F);
-			this.statsBehemoth =	new StatBundle(130D,	0.8D,	25D,	4,	2.5F);
-			this.statsBrenda =		new StatBundle(250D,	1.2D,	50D,	5,	10F);
-			this.statsNuclear =		new StatBundle(100D,	0.8D,	50D,	5,	10F);
-			this.statsScout =		new StatBundle(20D,		1.5D,	2D,		1,	0.5F);
+			this.statsGrunt =		new StatBundle(30D,		1D,		5D,		1F,		0.5F);
+			this.statsBombardier =	new StatBundle(20D,		1D,		5D,		1F,		0.5F);
+			this.statsBrawler =		new StatBundle(50D,		1D,		10D,	3F,		1F);
+			this.statsDigger =		new StatBundle(50D,		1D,		5D,		1F,		0.5F);
+			this.statsBlaster =		new StatBundle(50D,		1D,		10D,	2F,		1F);
+			this.statsBehemoth =	new StatBundle(130D,	0.8D,	25D,	4F,		2.5F);
+			this.statsBrenda =		new StatBundle(250D,	1.2D,	50D,	5F,		10F);
+			this.statsNuclear =		new StatBundle(100D,	0.8D,	50D,	5F,		10F);
+			this.statsScout =		new StatBundle(20D,		1.5D,	2D,		1F,		0.5F);
 		}
 
 		@Override

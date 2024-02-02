@@ -14,10 +14,11 @@ import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.ModItems;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.main.ResourceManager;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 
-import com.hbm.potion.HbmPotion;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -120,7 +121,7 @@ public class EntityGlyphid extends EntityMob {
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getGrunt().damage);
 	}
 	
-	public int getDivisorPerArmorPoint() {
+	public float getDivisorPerArmorPoint() {
 		return GlyphidStats.getStats().getGrunt().divisor;
 	}
 
@@ -318,6 +319,14 @@ public class EntityGlyphid extends EntityMob {
 					maggot.velocityChanged = true;
 					this.worldObj.spawnEntityInWorld(maggot);
 				}
+
+				worldObj.playSoundEffect(posX, posY, posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + worldObj.rand.nextFloat() * 0.2F);
+				
+				NBTTagCompound vdat = new NBTTagCompound();
+				vdat.setString("type", "giblets");
+				vdat.setInteger("ent", this.getEntityId());
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, posX, posY + height * 0.5, posZ), new TargetPoint(dimension, posX, posY + height * 0.5, posZ, 150));
+				
 			}
 		}
 
@@ -340,7 +349,7 @@ public class EntityGlyphid extends EntityMob {
 	public float calculateDamage(float amount) {
 
 		byte armor = this.dataWatcher.getWatchableObjectByte(DW_ARMOR);
-		int divisor = 1;
+		float divisor = 1;
 
 		for(int i = 0; i < 5; i++) {
 			if((armor & (1 << i)) > 0) {

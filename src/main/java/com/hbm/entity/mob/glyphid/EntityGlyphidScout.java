@@ -62,7 +62,7 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getScout().damage);
 	}
 
-	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getScout().divisor; }
+	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getScout().divisor; }
 	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getScout().damageThreshold; }
 
 	@Override

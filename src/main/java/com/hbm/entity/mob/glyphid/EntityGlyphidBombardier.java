@@ -33,7 +33,7 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBombardier().damage);
 	}
 
-	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBombardier().divisor; }
+	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBombardier().divisor; }
 	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBombardier().damageThreshold; }
 	
 	@Override

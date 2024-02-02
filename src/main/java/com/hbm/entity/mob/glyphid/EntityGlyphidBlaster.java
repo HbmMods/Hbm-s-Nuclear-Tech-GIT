@@ -31,7 +31,7 @@ public class EntityGlyphidBlaster extends EntityGlyphidBombardier {
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBlaster().damage);
 	}
 
-	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBlaster().divisor; }
+	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBlaster().divisor; }
 	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBlaster().damageThreshold; }
 
 	@Override

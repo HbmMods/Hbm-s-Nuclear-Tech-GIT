@@ -44,7 +44,7 @@ public class EntityGlyphidDigger extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getDigger().damage);
 	}
 
-	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getDigger().divisor; }
+	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getDigger().divisor; }
 	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getDigger().damageThreshold; }
 
 	public int timer = 0;

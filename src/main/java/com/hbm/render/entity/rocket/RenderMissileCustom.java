@@ -16,27 +16,26 @@ import net.minecraft.util.ResourceLocation;
 public class RenderMissileCustom extends Render {
 
 	@Override
-	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_,
-			float p_76986_9_) {
+	public void doRender(Entity entity, double x, double y, double z, float p_76986_8_, float interp) {
 
 		GL11.glPushMatrix();
-        GL11.glTranslatef((float)p_76986_2_, (float)p_76986_4_, (float)p_76986_6_);
-        GL11.glRotatef(p_76986_1_.prevRotationYaw + (p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_ - 90.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
+		GL11.glTranslatef((float) x, (float) y, (float) z);
+		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * interp, 0.0F, 0.0F, 1.0F);
+		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, -1.0F, 0.0F);
 
-        int w = p_76986_1_.getDataWatcher().getWatchableObjectInt(9);
-        int f = p_76986_1_.getDataWatcher().getWatchableObjectInt(10);
-        int s = p_76986_1_.getDataWatcher().getWatchableObjectInt(11);
-        int t = p_76986_1_.getDataWatcher().getWatchableObjectInt(12);
-        
-        MissileMultipart missile = new MissileMultipart();
-        missile.warhead = MissilePart.getPart(Item.getItemById(w));
-        missile.fuselage = MissilePart.getPart(Item.getItemById(f));
-        missile.fins = MissilePart.getPart(Item.getItemById(s));
-        missile.thruster = MissilePart.getPart(Item.getItemById(t));
-        
-        MissilePronter.prontMissile(missile, Minecraft.getMinecraft().getTextureManager());
-        
+		int w = entity.getDataWatcher().getWatchableObjectInt(9);
+		int f = entity.getDataWatcher().getWatchableObjectInt(10);
+		int s = entity.getDataWatcher().getWatchableObjectInt(11);
+		int t = entity.getDataWatcher().getWatchableObjectInt(12);
+		MissileMultipart missile = new MissileMultipart();
+		missile.warhead = MissilePart.getPart(Item.getItemById(w));
+		missile.fuselage = MissilePart.getPart(Item.getItemById(f));
+		missile.fins = MissilePart.getPart(Item.getItemById(s));
+		missile.thruster = MissilePart.getPart(Item.getItemById(t));
+
+		MissilePronter.prontMissile(missile, Minecraft.getMinecraft().getTextureManager());
+
 		GL11.glPopMatrix();
 	}
 
@@ -44,5 +43,4 @@ public class RenderMissileCustom extends Render {
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
 		return ResourceManager.universal;
 	}
-
 }

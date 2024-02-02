@@ -34,6 +34,9 @@ public abstract class EntityThrowableInterp extends EntityThrowableNT {
 		if(!worldObj.isRemote) {
 			super.onUpdate();
 		} else {
+			this.lastTickPosX = this.posX;
+			this.lastTickPosY = this.posY;
+			this.lastTickPosZ = this.posZ;
 			if(this.turnProgress > 0) {
 				double interpX = this.posX + (this.syncPosX - this.posX) / (double) this.turnProgress;
 				double interpY = this.posY + (this.syncPosY - this.posY) / (double) this.turnProgress;

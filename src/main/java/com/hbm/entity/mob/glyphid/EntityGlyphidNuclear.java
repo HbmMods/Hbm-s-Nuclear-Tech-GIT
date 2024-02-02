@@ -54,7 +54,7 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getNuclear().damage);
 	}
 
-	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getNuclear().divisor; }
+	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getNuclear().divisor; }
 	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getNuclear().damageThreshold; }
 
 	@Override

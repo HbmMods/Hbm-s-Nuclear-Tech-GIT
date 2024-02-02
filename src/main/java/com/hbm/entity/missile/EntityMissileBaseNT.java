@@ -14,10 +14,12 @@ import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.TrackerUtil;
 
 import api.hbm.entity.IRadarDetectableNT;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.EntityTrackerEntry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -26,6 +28,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
@@ -66,6 +69,8 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 		accelXZ = decelY = 1 / vector.lengthVector();
 		decelY *= 2;
 		velocity = 0;
+		
+		this.rotationYaw = (float) (Math.atan2(targetX - posX, targetZ - posZ) * 180.0D / Math.PI);
 
 		this.setSize(1.5F, 1.5F);
 	}
@@ -105,9 +110,12 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 	
 	@Override
 	public void onUpdate() {
+		this.lastTickPosX = this.posX;
+		this.lastTickPosY = this.posY;
+		this.lastTickPosZ = this.posZ;
 		super.onUpdate();
 		
-		if(velocity < 4) velocity += 0.025;
+		if(velocity < 4) velocity += MathHelper.clamp_double(this.ticksExisted / 60D * 0.05D, 0, 0.05);
 		
 		if(!worldObj.isRemote) {
 
@@ -141,15 +149,18 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 				this.setDead();
 				return;
 			}
-
+			
+			this.rotationYaw = (float) (Math.atan2(targetX - posX, targetZ - posZ) * 180.0D / Math.PI);
+			float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+			for(this.rotationPitch = (float) (Math.atan2(this.motionY, f2) * 180.0D / Math.PI) - 90; this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F);
+			EntityTrackerEntry tracker = TrackerUtil.getTrackerEntry((WorldServer) worldObj, this.getEntityId());
+			if(tracker != null) tracker.lastYaw += 100; //coax the tracker into sending smother updates
+			
 			loadNeighboringChunks((int) Math.floor(posX / 16), (int) Math.floor(posZ / 16));
 		} else {
 			this.spawnContrail();
 		}
 		
-		float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-		this.rotationYaw = (float) (Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
-		for(this.rotationPitch = (float) (Math.atan2(this.motionY, f2) * 180.0D / Math.PI) - 90; this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F);
 		while(this.rotationPitch - this.prevRotationPitch >= 180.0F) this.prevRotationPitch += 360.0F;
 		while(this.rotationYaw - this.prevRotationYaw < -180.0F) this.prevRotationYaw -= 360.0F;
 		while(this.rotationYaw - this.prevRotationYaw >= 180.0F) this.prevRotationYaw += 360.0F;
@@ -160,8 +171,12 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 	}
 	
 	protected void spawnContrail() {
-		Vec3 vec = Vec3.createVectorHelper(motionX, motionY, motionZ).normalize();
-		MainRegistry.proxy.particleControl(posX - vec.xCoord, posY - vec.yCoord, posZ - vec.zCoord, 2);
+		Vec3 vec = Vec3.createVectorHelper(this.lastTickPosX - this.posX, this.lastTickPosY - this.posY, this.lastTickPosZ - this.posZ);
+		double len = vec.lengthVector();
+		vec = vec.normalize();
+		for(int i = 0; i < Math.max(Math.min(len, 10), 1); i++) {
+			MainRegistry.proxy.particleControl(posX - vec.xCoord * i, posY - vec.yCoord * i, posZ - vec.zCoord * i, 2);
+		}
 	}
 
 	@Override

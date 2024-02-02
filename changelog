@@ -13,6 +13,14 @@
 * Updated stealth missile texture
 * Some of the larger oil machines now render using display lists which should make them somewhat more performant
 * Glyphid diggers can no longer yeet multiblocks or blocks with tile entity
+* Parasite-infested glyphids now explode into gore when the parasites pop out
+* Missiles now have a top acceleration twice as much as the previous acceleration, but instead of being static, the acceleration goes up from 0 to max within 3 seconds
+  * This makes missiles reach top speed faster while also making the launches themselves slower and more pleasant
+* Strange stone can no longer be destroyed via AoE, making it easier to find without accidentally mining it
+* Launch pads now spawn launch smoke just like custom missile compact launchers
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace
+* Fixed missiles jerkingly rotating when launching, they should now smoothly transition from being part of the launch pad to being an entity
+* Fixed missile control and launch smoke shifting around when the player is moving
+* Fixed fast-moving missiles spawning too few particles, causing holes in the contrail

@@ -37,7 +37,7 @@ public class EntityGlyphidBrenda extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBrenda().damage);
 	}
 
-	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBrenda().divisor; }
+	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBrenda().divisor; }
 	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBrenda().damageThreshold; }
 
 	@Override
