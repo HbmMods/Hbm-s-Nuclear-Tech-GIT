@@ -1,5 +1,6 @@
-package com.hbm.entity.mob;
+package com.hbm.entity.mob.glyphid;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.lib.Library;
@@ -38,17 +39,21 @@ public class EntityGlyphidDigger extends EntityGlyphid {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(50D);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1D);
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(5D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(GlyphidStats.getStats().getDigger().health);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getDigger().speed);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getDigger().damage);
 	}
 
+	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getDigger().divisor; }
+	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getDigger().damageThreshold; }
+
 	public int timer = 0;
+	
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
 		Entity e = this.getEntityToAttack();
-		if (e != null) {
+		if (e != null && this.isEntityAlive()) {
 
 			this.lastX = e.posX;
 			this.lastY = e.posY;
@@ -60,9 +65,8 @@ public class EntityGlyphidDigger extends EntityGlyphid {
 			}
 		}
 	}
-	/**
-     * Mainly composed of crusty old power fist code, with some touch ups
-     **/
+
+	/** Mainly composed of crusty old power fist code, with some touch ups **/
 	public void groundSlam(){
 		if (!worldObj.isRemote && entityToAttack instanceof EntityLivingBase && this.getDistanceToEntity(entityToAttack) < 30) {
 			Entity e = this.getEntityToAttack();
@@ -128,7 +132,7 @@ public class EntityGlyphidDigger extends EntityGlyphid {
 				Block b = worldObj.getBlock(x1, y1, z1);
 				float k = b.getExplosionResistance(this, worldObj, x1, y1, z1, posX, posY, posZ);
 
-				if (k < ModBlocks.concrete.getExplosionResistance(this) && b.isNormalCube()) {
+				if (k < ModBlocks.concrete.getExplosionResistance(this) && b.isNormalCube() && !(b instanceof BlockDummyable) && worldObj.getTileEntity(x1, y1, z1) == null) {
 
 					EntityRubble rubble = new EntityRubble(worldObj);
 					rubble.posX = x1 + 0.5F;

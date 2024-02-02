@@ -1,4 +1,4 @@
-package com.hbm.entity.mob;
+package com.hbm.entity.mob.glyphid;
 
 import com.hbm.entity.effect.EntityMist;
 import com.hbm.entity.projectile.EntityChemical;
@@ -36,10 +36,14 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(130D);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.8D);
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(25D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(GlyphidStats.getStats().getBehemoth().health);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getBehemoth().speed);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBehemoth().damage);
 	}
+
+	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBehemoth().divisor; }
+	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBehemoth().damageThreshold; }
+	
 	public int timer = 120;
 	int breathTime = 0;
 
@@ -63,11 +67,6 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 				timer = 120;
 			}
 		}
-
-	}
-	@Override
-	public boolean attackEntityAsMob(Entity victum) {
-		return super.attackEntityAsMob(victum);
 	}
 
 	@Override
@@ -107,26 +106,5 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 	@Override
 	public int swingDuration() {
 		return 100;
-	}
-	@Override
-	public float calculateDamage(float amount) {
-
-		byte armor = this.dataWatcher.getWatchableObjectByte(17);
-		int divisor = 1;
-		
-		for(int i = 0; i < 5; i++) {
-			if((armor & (1 << i)) > 0) {
-				divisor += 4;
-			}
-		}
-		
-		amount /= divisor;
-		
-		return amount;
-	}
-
-	@Override
-	public float getDamageThreshold() {
-		return 2.5F;
 	}
 }

@@ -2,7 +2,7 @@ package com.hbm.render.entity.mob;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.mob.EntityGlyphid;
+import com.hbm.entity.mob.glyphid.EntityGlyphid;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 

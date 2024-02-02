@@ -1,7 +1,8 @@
-package com.hbm.entity.mob;
+package com.hbm.entity.mob.glyphid;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.logic.EntityWaypoint;
+import com.hbm.entity.mob.EntityParasiteMaggot;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
@@ -46,6 +47,17 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(GlyphidStats.getStats().getNuclear().health);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getNuclear().speed);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getNuclear().damage);
+	}
+
+	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getNuclear().divisor; }
+	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getNuclear().damageThreshold; }
+
+	@Override
 	public void onUpdate() {
 		super.onUpdate();
 		if(ticksExisted % 20 == 0) {
@@ -86,40 +98,9 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		}
 	}
 
-
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100D);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.8D);
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(50D);
-	}
-
 	@Override
 	public boolean isArmorBroken(float amount) {
 		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.12, 2), 100);
-	}
-
-	@Override
-	public float calculateDamage(float amount) {
-
-		byte armor = this.dataWatcher.getWatchableObjectByte(17);
-		int divisor = 1;
-		
-		for(int i = 0; i < 5; i++) {
-			if((armor & (1 << i)) > 0) {
-				divisor += 5;
-			}
-		}
-		
-		amount /= divisor;
-		
-		return amount;
-	}
-
-	@Override
-	public float getDamageThreshold() {
-		return 10F;
 	}
 
 	@Override

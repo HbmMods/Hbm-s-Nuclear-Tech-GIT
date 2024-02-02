@@ -1,4 +1,4 @@
-package com.hbm.entity.mob;
+package com.hbm.entity.mob.glyphid;
 
 import com.hbm.main.ResourceManager;
 
@@ -26,36 +26,17 @@ public class EntityGlyphidBlaster extends EntityGlyphidBombardier {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(50D);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1D);
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(10D);
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(GlyphidStats.getStats().getBlaster().health);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getBlaster().speed);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBlaster().damage);
 	}
+
+	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBlaster().divisor; }
+	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBlaster().damageThreshold; }
 
 	@Override
 	public boolean isArmorBroken(float amount) {
 		return this.rand.nextInt(100) <= Math.min(Math.pow(amount * 0.25, 2), 100);
-	}
-
-	@Override
-	public float calculateDamage(float amount) {
-
-		byte armor = this.dataWatcher.getWatchableObjectByte(17);
-		int divisor = 1;
-		
-		for(int i = 0; i < 5; i++) {
-			if((armor & (1 << i)) > 0) {
-				divisor += 2;
-			}
-		}
-		
-		amount /= divisor;
-		
-		return amount;
-	}
-
-	@Override
-	public float getDamageThreshold() {
-		return 1.0F;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.hbm.entity.mob;
+package com.hbm.entity.mob.glyphid;
 
 import com.hbm.entity.projectile.EntityAcidBomb;
 import com.hbm.main.ResourceManager;
@@ -28,9 +28,14 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20D);
-
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(GlyphidStats.getStats().getBombardier().health);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getBombardier().speed);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBombardier().damage);
 	}
+
+	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBombardier().divisor; }
+	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBombardier().damageThreshold; }
+	
 	@Override
 	public void onUpdate() {
 		super.onUpdate();

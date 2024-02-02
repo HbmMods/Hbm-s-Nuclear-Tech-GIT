@@ -1,4 +1,4 @@
-package com.hbm.entity.mob;
+package com.hbm.entity.mob.glyphid;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
@@ -55,18 +55,21 @@ public class EntityGlyphidScout extends EntityGlyphid {
 	}
 
 	@Override
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(GlyphidStats.getStats().getScout().health);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getScout().speed);
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getScout().damage);
+	}
+
+	@Override public int getDivisorPerArmorPoint() { return GlyphidStats.getStats().getScout().divisor; }
+	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getScout().damageThreshold; }
+
+	@Override
 	public boolean isArmorBroken(float amount) {
 		return this.rand.nextInt(100) <= Math.min(Math.pow(amount, 2), 100);
 	}
 
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(20D);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1.5D);
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2D);
-	}
-	
 	@Override
 	public void onUpdate() {
 		super.onUpdate();

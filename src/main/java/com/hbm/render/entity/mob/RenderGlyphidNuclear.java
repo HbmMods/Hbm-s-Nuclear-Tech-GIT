@@ -2,8 +2,8 @@ package com.hbm.render.entity.mob;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.entity.mob.EntityGlyphid;
-import com.hbm.entity.mob.EntityGlyphidNuclear;
+import com.hbm.entity.mob.glyphid.EntityGlyphid;
+import com.hbm.entity.mob.glyphid.EntityGlyphidNuclear;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
