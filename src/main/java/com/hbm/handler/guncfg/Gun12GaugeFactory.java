@@ -138,7 +138,7 @@ public class Gun12GaugeFactory {
 		config.firingDuration = 10;
 		config.ammoCap = 8;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
-		config.firingSound = "hbm:weapon.shotgunPump";
+		config.firingSound = "hbm:weapon.shotgunPumpAlt";
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		
 		config.config = HbmCollection.g12hs;
