@@ -66,6 +66,11 @@ public class GunAnimationPacket implements IMessage {
 				if(animation == null && type == AnimType.RELOAD_EMPTY) {
 					animation = base.getAnimation(stack, AnimType.RELOAD);
 				}
+
+				// Fallback to regular CYCLE if no ALT_CYCLE exists
+				if(animation == null && type == AnimType.ALT_CYCLE) {
+					animation = base.getAnimation(stack, AnimType.CYCLE);
+				}
 				
 				if(animation != null) {
 					boolean isReloadAnimation = type == AnimType.RELOAD || type == AnimType.RELOAD_CYCLE || type == AnimType.RELOAD_EMPTY;
