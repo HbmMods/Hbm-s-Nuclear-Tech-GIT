@@ -1776,7 +1776,7 @@ public class ModBlocks {
 		moon_copper = new BlockOre(Material.rock).noFortune().setBlockName("moon_copper").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":moon_copper");
 		moon_palladium = new BlockOre(Material.rock).noFortune().setBlockName("moon_palladium").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":moon_palladium");
 		
-		tumor = new BlockGeneric(Material.clay).setBlockName("tumor").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":tumor_base");
+		tumor = new BlockTumor(Material.clay).setBlockName("tumor").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":tumor_base");
 		tumor2 = new BlockGeneric(Material.clay).setBlockName("tumor2").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":tumor_base2");
 		tumor3 = new BlockGeneric(Material.clay).setBlockName("tumor3").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":tumor_base3");
 		tumor4 = new BlockGeneric(Material.clay).setBlockName("tumor4").setStepSound(Block.soundTypeSnow).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setBlockTextureName(RefStrings.MODID + ":fleshv2");
@@ -1795,7 +1795,7 @@ public class ModBlocks {
 		laythe_silt = new BlockFalling(Material.sand).setBlockName("laythe_silt").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":laythe_silt");
 
 		
-		ike_regolith = new BlockGeneric(Material.rock).setBlockName("ike_regolith").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_regolith");
+		ike_regolith = new BlockIke(Material.rock).setBlockName("ike_regolith").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_regolith");
 		ike_stone = new BlockGeneric(Material.rock).setBlockName("ike_stone").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_stone");
 		ike_asbestos = new BlockGeneric(Material.rock).setBlockName("ike_asbestos").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_asbestos");
 		ike_copper = new BlockGeneric(Material.rock).setBlockName("ike_copper").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ike_copper");

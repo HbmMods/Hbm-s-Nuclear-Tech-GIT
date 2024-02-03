@@ -131,22 +131,15 @@ public class SkyProviderDuna extends IRenderHandler {
 		float f9;
 		float f10;
 		float f18 = world.getStarBrightness(partialTicks);
-	       GL11.glColor3f(f1, f2, f3);
 	        Tessellator tessellator1 = Tessellator.instance;
-	        GL11.glDepthMask(false);
-	        GL11.glEnable(GL11.GL_FOG);
-	        GL11.glColor3f(f1, f2, f3);
-	        GL11.glCallList(this.glSkyList);
-	        GL11.glDisable(GL11.GL_FOG);
-	        GL11.glDisable(GL11.GL_ALPHA_TEST);
-	        GL11.glEnable(GL11.GL_BLEND);
-	        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-	        RenderHelper.disableStandardItemLighting();
+
 	        float[] afloat = mc.theWorld.provider.calcSunriseSunsetColors(mc.theWorld.getCelestialAngle(partialTicks), partialTicks);
 
 
 	        if (afloat != null)
 	        {
+	    		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_CONSTANT_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+
 	            GL11.glDisable(GL11.GL_TEXTURE_2D);
 	            GL11.glShadeModel(GL11.GL_SMOOTH);
 	            GL11.glPushMatrix();

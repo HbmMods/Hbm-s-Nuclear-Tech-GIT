@@ -33,7 +33,7 @@ import net.minecraftforge.common.IPlantable;
 public class BlockTallPlantLaythe extends BlockEnumMulti implements IPlantable, IGrowable {
 	
 	public BlockTallPlantLaythe() {
-		super(Material.plants, EnumTallFlowerLaythe.class, true, true);
+		super(Material.water, EnumTallFlowerLaythe.class, true, true);
 		this.setTickRandomly(true);
 	}
 
@@ -84,7 +84,12 @@ public class BlockTallPlantLaythe extends BlockEnumMulti implements IPlantable, 
 	public int getRenderType() {
 		return 6;
 	}
-
+    @Override
+	public boolean canReplace(World world, int x, int y, int z, int side, ItemStack itemStack)
+    {
+    	return world.getBlock(x, y + 1, z) == Blocks.water && this.canBlockStay(world, x, y, z);
+    }
+    
 	@Override
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
 		return super.canPlaceBlockAt(world, x, y, z) && this.canBlockStay(world, x, y, z) && world.isAirBlock(x, y + 1, z);
