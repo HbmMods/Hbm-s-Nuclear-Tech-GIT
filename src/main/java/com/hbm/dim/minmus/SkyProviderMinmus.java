@@ -344,12 +344,12 @@ public class SkyProviderMinmus extends IRenderHandler {
 		{
 			GL11.glPushMatrix();
 			GL11.glDisable(GL11.GL_BLEND);
-			GL11.glColor4d(0, 0, 0, 1);
+			GL11.glColor4d(1, 1, 1, 1);
 			GL11.glRotatef(world.getCelestialAngle(partialTicks) * -360.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 			f10 = (AstronomyUtil.KerbinRadius/AstronomyUtil.MinmusKerbinKm)*180;
-			//FMLClientHandler.instance().getClient().renderEngine.bindTexture(this.kerbin);
+    		mc.renderEngine.bindTexture(this.kerbin);
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV(-f10, 100.0D, -f10, 0.0D, 0.0D);
 			tessellator.addVertexWithUV(f10, 100.0D, -f10, 1.0D, 0.0D);
@@ -357,6 +357,8 @@ public class SkyProviderMinmus extends IRenderHandler {
 			tessellator.addVertexWithUV(-f10, 100.0D, f10, 0.0D, 1.0D);
 			tessellator.draw();
 			GL11.glEnable(GL11.GL_BLEND);
+    		GL11.glPopMatrix();
+
 		}
 		if(MunMinmus<=AstronomyUtil.MinmusKerbinKm)
 		{
