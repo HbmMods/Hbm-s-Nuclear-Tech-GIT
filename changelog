@@ -18,6 +18,8 @@
   * This makes missiles reach top speed faster while also making the launches themselves slower and more pleasant
 * Strange stone can no longer be destroyed via AoE, making it easier to find without accidentally mining it
 * Launch pads now spawn launch smoke just like custom missile compact launchers
+* Remodeled all tier 0 missiles
+* Tier 0 missiles now have a much thinner contrail to match their size better
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace

@@ -48,8 +48,6 @@ public class EntityMappings {
 		addEntity(EntityGrenadeFrag.class, "entity_grenade_frag", 250);
 		addEntity(EntityGrenadeFire.class, "entity_grenade_fire", 250);
 		addEntity(EntityGrenadeCluster.class, "entity_grenade_cluster", 250);
-		addEntity(EntityTestMissile.class, "entity_test_missile", 1000);
-		addEntity(EntityNukeCloudSmall.class, "entity_nuke_cloud_small", 10000);
 		addEntity(EntityBullet.class, "entity_bullet", 250);
 		addEntity(EntityGrenadeFlare.class, "entity_grenade_flare", 500);
 		addEntity(EntityGrenadeElectric.class, "entity_grenade_electric", 500);
@@ -78,7 +76,6 @@ public class EntityMappings {
 		addEntity(EntityMissileMirv.class, "entity_missile_mirv", 1000);
 		addEntity(EntityMIRV.class, "entity_mirvlet", 1000);
 		addEntity(EntitySmokeFX.class, "entity_smoke_fx", 1000);
-		addEntity(EntityNukeCloudBig.class, "entity_nuke_cloud_big", 1000);
 		addEntity(EntityGrenadeNuclear.class, "entity_grenade_nuclear", 1000);
 		addEntity(EntityBSmokeFX.class, "entity_b_smoke_fx", 1000);
 		addEntity(EntityGrenadePlasma.class, "entity_grenade_plasma", 500);

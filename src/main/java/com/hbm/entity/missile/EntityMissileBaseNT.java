@@ -175,8 +175,19 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 		double len = vec.lengthVector();
 		vec = vec.normalize();
 		for(int i = 0; i < Math.max(Math.min(len, 10), 1); i++) {
-			MainRegistry.proxy.particleControl(posX - vec.xCoord * i, posY - vec.yCoord * i, posZ - vec.zCoord * i, 2);
+			int j = i - 1;
+			NBTTagCompound data = new NBTTagCompound();
+			data.setDouble("posX", posX - vec.xCoord * j);
+			data.setDouble("posY", posY - vec.yCoord * j);
+			data.setDouble("posZ", posZ - vec.zCoord * j);
+			data.setString("type", "missileContrail");
+			data.setFloat("scale", this.getContrailScale());
+			MainRegistry.proxy.effectNT(data);
 		}
+	}
+	
+	protected float getContrailScale() {
+		return 1F;
 	}
 
 	@Override

@@ -92,10 +92,10 @@ public class ParticleContrail extends EntityFX {
 			p_70539_1_.setNormal(0.0F, 1.0F, 0.0F);
 			p_70539_1_.setBrightness(240);
 
-			float scale = particleAlpha + 0.5F * this.particleScale;
-			float pX = (float) ((this.prevPosX + (this.posX - this.prevPosX) * (double) p_70539_2_ - dX) + urandom.nextGaussian() * 0.5);
-			float pY = (float) ((this.prevPosY + (this.posY - this.prevPosY) * (double) p_70539_2_ - dY) + urandom.nextGaussian() * 0.5);
-			float pZ = (float) ((this.prevPosZ + (this.posZ - this.prevPosZ) * (double) p_70539_2_ - dZ) + urandom.nextGaussian() * 0.5);
+			float scale = (particleAlpha + 0.5F) * this.particleScale;
+			float pX = (float) ((this.prevPosX + (this.posX - this.prevPosX) * (double) p_70539_2_ - dX) + urandom.nextGaussian() * 0.5 * this.particleScale);
+			float pY = (float) ((this.prevPosY + (this.posY - this.prevPosY) * (double) p_70539_2_ - dY) + urandom.nextGaussian() * 0.5 * this.particleScale);
+			float pZ = (float) ((this.prevPosZ + (this.posZ - this.prevPosZ) * (double) p_70539_2_ - dZ) + urandom.nextGaussian() * 0.5 * this.particleScale);
 
 			p_70539_1_.addVertexWithUV((double) (pX - p_70539_3_ * scale - p_70539_6_ * scale), (double) (pY - p_70539_4_ * scale), (double) (pZ - p_70539_5_ * scale - p_70539_7_ * scale), 1, 1);
 			p_70539_1_.addVertexWithUV((double) (pX - p_70539_3_ * scale + p_70539_6_ * scale), (double) (pY + p_70539_4_ * scale), (double) (pZ - p_70539_5_ * scale + p_70539_7_ * scale), 1, 0);

@@ -22,12 +22,12 @@ public class RenderMissileTaint extends Render {
 		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * interp, 0.0F, 0.0F, 1.0F);
 		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, -1.0F, 0.0F);
-		GL11.glScalef(2F, 2F, 2F);
 
-		GL11.glDisable(GL11.GL_CULL_FACE);
-		bindTexture(getEntityTexture(entity));
-		ResourceManager.missileTaint.renderAll();
 		GL11.glEnable(GL11.GL_CULL_FACE);
+		bindTexture(getEntityTexture(entity));
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		ResourceManager.missileMicro.renderAll();
+		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 	}
 
