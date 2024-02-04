@@ -108,7 +108,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
 		int overLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 		
-		consumption = baseConsumption * (1 + speedLevel) * overLevel;
+		consumption = baseConsumption * (1 + speedLevel) * (1 + overLevel);
 		consumption /= (1 + powerLevel);
 		
 		if(!worldObj.isRemote) {

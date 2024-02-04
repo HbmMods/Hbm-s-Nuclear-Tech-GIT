@@ -177,7 +177,7 @@ armorMod.type.special=Special
 
 battery.mode.buffer=Input/Output Mode
 battery.mode.input=Input Mode
-battery.mode.off=OffW
+battery.mode.off=Off
 battery.mode.output=Output Mode
 battery.priority.high=Charge Priority: High
 battery.priority.high.desc=Emergency buffers that$always need to be full
