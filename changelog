@@ -20,9 +20,13 @@
 * Launch pads now spawn launch smoke just like custom missile compact launchers
 * Remodeled all tier 0 missiles
 * Tier 0 missiles now have a much thinner contrail to match their size better
+* Covneyor ejectors can now eject sulfur out of the side ports of refineries
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace
 * Fixed missiles jerkingly rotating when launching, they should now smoothly transition from being part of the launch pad to being an entity
 * Fixed missile control and launch smoke shifting around when the player is moving
 * Fixed fast-moving missiles spawning too few particles, causing holes in the contrail
+* Fixed coker units creating soot when not processing anything
+* Foundry molds can no longer be removed from basins when there's still material in them, fixing a bug where doing so would void the material
+* Fixed molds not saving when cooling off, allowing to dupe metal when leaving and rejoining

@@ -101,7 +101,7 @@ public class TileEntityMachineCoker extends TileEntityMachineBase implements IFl
 					}
 				}
 
-				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 20);
+				if(wasOn && worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 20);
 			}
 			
 			for(DirPos pos : getConPos()) {

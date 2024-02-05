@@ -58,12 +58,11 @@ public class FractionRecipes extends SerializableRecipe {
 		fractions.put(Fluids.HEAVYOIL_VACUUM,	new Pair(new FluidStack(Fluids.SMEAR,			hvac_frac_smear),	new FluidStack(Fluids.HEATINGOIL_VACUUM,	hvac_frac_heat)));
 		fractions.put(Fluids.REFORMATE,			new Pair(new FluidStack(Fluids.AROMATICS,		reform_frac_arom),	new FluidStack(Fluids.XYLENE,				reform_frac_xyle)));
 		fractions.put(Fluids.LIGHTOIL_VACUUM,	new Pair(new FluidStack(Fluids.KEROSENE,		lvac_frac_kero),	new FluidStack(Fluids.REFORMGAS,			lvac_frac_gas)));
-		fractions.put(Fluids.SOURGAS,			new Pair(new FluidStack(Fluids.GAS,				30),				new FluidStack(Fluids.PETROLEUM,			20)));
 		fractions.put(Fluids.EGG,				new Pair(new FluidStack(Fluids.CHOLESTEROL,		50),				new FluidStack(Fluids.RADIOSOLVENT,			50)));
 		fractions.put(Fluids.OIL_COKER,			new Pair(new FluidStack(Fluids.CRACKOIL,		30),				new FluidStack(Fluids.HEATINGOIL,			70)));
 		fractions.put(Fluids.NAPHTHA_COKER,		new Pair(new FluidStack(Fluids.NAPHTHA_CRACK,	75),				new FluidStack(Fluids.LIGHTOIL_CRACK,		25)));
 		fractions.put(Fluids.GAS_COKER,			new Pair(new FluidStack(Fluids.AROMATICS,		25),				new FluidStack(Fluids.CARBONDIOXIDE,		75)));
-		fractions.put(Fluids.CHLOROCALCITE_MIX, new Pair(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 50), new FluidStack(Fluids.COLLOID, 50)));
+		fractions.put(Fluids.CHLOROCALCITE_MIX, new Pair(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 50),			new FluidStack(Fluids.COLLOID,				50)));
 	}
 	
 	public static Pair<FluidStack, FluidStack> getFractions(FluidType oil) {

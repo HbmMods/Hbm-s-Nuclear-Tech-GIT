@@ -23,6 +23,35 @@ public class HydrotreatingRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 		
+		recipes.put(Fluids.OIL, new Triplet(
+			new FluidStack(Fluids.HYDROGEN, 5),
+			new FluidStack(Fluids.OIL_DS, 90),
+			new FluidStack(Fluids.SOURGAS, 15)
+		));
+		
+		recipes.put(Fluids.CRACKOIL, new Triplet(
+			new FluidStack(Fluids.HYDROGEN, 5),
+			new FluidStack(Fluids.CRACKOIL_DS, 90),
+			new FluidStack(Fluids.SOURGAS, 15)
+		));
+		
+		recipes.put(Fluids.GAS, new Triplet(
+			new FluidStack(Fluids.HYDROGEN, 5),
+			new FluidStack(Fluids.PETROLEUM, 80),
+			new FluidStack(Fluids.SOURGAS, 15)
+		));
+		
+		recipes.put(Fluids.DIESEL_CRACK, new Triplet(
+			new FluidStack(Fluids.HYDROGEN, 10),
+			new FluidStack(Fluids.DIESEL, 80),
+			new FluidStack(Fluids.SOURGAS, 15)
+		));
+		
+		recipes.put(Fluids.DIESEL_CRACK_REFORM, new Triplet(
+			new FluidStack(Fluids.HYDROGEN, 10),
+			new FluidStack(Fluids.DIESEL_REFORM, 80),
+			new FluidStack(Fluids.SOURGAS, 15)
+		));
 	}
 	
 	public static Triplet<FluidStack, FluidStack, FluidStack> getOutput(FluidType type) {
