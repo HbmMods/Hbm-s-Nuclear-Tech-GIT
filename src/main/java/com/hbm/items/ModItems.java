@@ -942,6 +942,7 @@ public class ModItems {
 	public static Item pipette;
 	public static Item pipette_boron;
 	public static Item pipette_laboratory;
+	public static Item siphon;
 
 	public static Item disperser_canister_empty;
 	public static Item disperser_canister;
@@ -4678,6 +4679,7 @@ public class ModItems {
 		pipette = new ItemPipette().setUnlocalizedName("pipette").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pipette");
 		pipette_boron = new ItemPipette().setUnlocalizedName("pipette_boron").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pipette_boron");
 		pipette_laboratory = new ItemPipette().setUnlocalizedName("pipette_laboratory").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pipette_laboratory");
+		siphon = new ItemFluidSiphon().setUnlocalizedName("siphon").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":siphon");
 		inf_water = new ItemInfiniteFluid(Fluids.WATER, 50).setUnlocalizedName("inf_water").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water");
 		inf_water_mk2 = new ItemInfiniteFluid(Fluids.WATER, 500).setUnlocalizedName("inf_water_mk2").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water_mk2");
 
@@ -6426,6 +6428,9 @@ public class ModItems {
 		GameRegistry.registerItem(pipette, pipette.getUnlocalizedName());
 		GameRegistry.registerItem(pipette_boron, pipette_boron.getUnlocalizedName());
 		GameRegistry.registerItem(pipette_laboratory, pipette_laboratory.getUnlocalizedName());
+
+		//Siphon
+		GameRegistry.registerItem(siphon, siphon.getUnlocalizedName());
 
 		//Disperser Canister
 		GameRegistry.registerItem(disperser_canister_empty, disperser_canister_empty.getUnlocalizedName());

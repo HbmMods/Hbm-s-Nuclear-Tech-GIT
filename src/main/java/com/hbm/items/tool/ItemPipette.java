@@ -133,13 +133,16 @@ public class ItemPipette extends Item implements IFillableItem {
 		this.setFill(stack, type, (short) (this.getFill(stack) + toFill));
 
 		// fizzling checks
-		if(this.getFill(stack) > 0 && (this.getType(stack).isCorrosive() && type != Fluids.ACID)) {
-			if(this == ModItems.pipette) {
-				stack.stackSize = 0;
-			}
+		if(this.getFill(stack) > 0 && willFizzle(type)) {
+			stack.stackSize = 0;
 		}
 
 		return amount - toFill;
+	}
+
+	public boolean willFizzle(FluidType type) {
+		if (this != ModItems.pipette) return false;
+		return type.isCorrosive() && type != Fluids.ACID;
 	}
 
 	@Override

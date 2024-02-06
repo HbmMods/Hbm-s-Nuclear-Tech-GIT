@@ -3667,6 +3667,7 @@ item.power_net_tool.name=Cable Network Analysis Tool
 item.pipette.name=Pipette
 item.pipette_boron.name=Boron Pipette
 item.pipette_laboratory.name=Laboratory Grade Pipette
+item.siphon.name=Siphon
 item.primer_357.name=.357 Magnum Primer (x24)
 item.primer_44.name=.44 Magnum Primer (x24)
 item.primer_50.name=Large Caliber Primer (x12)
