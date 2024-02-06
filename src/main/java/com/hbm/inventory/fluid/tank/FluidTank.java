@@ -27,8 +27,8 @@ import net.minecraft.util.MathHelper;
 
 public class FluidTank {
 
-	public static final List<FluidLoadingHandler> loadingHandlers = new ArrayList();
-	public static final Set<Item> noDualUnload = new HashSet();
+	public static final List<FluidLoadingHandler> loadingHandlers = new ArrayList<FluidLoadingHandler>();
+	public static final Set<Item> noDualUnload = new HashSet<Item>();
 	
 	static {
 		loadingHandlers.add(new FluidLoaderStandard());
