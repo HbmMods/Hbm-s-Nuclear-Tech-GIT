@@ -2,14 +2,11 @@ package com.hbm.items.machine;
 
 import com.hbm.util.CompatExternal;
 
-import java.util.List;
-import java.util.Arrays;
-
 import com.hbm.inventory.FluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Unsiphonable;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemPipette;
 
@@ -22,15 +19,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class ItemFluidSiphon extends Item {
-
-    private static List<FluidType> IGNORED_FLUIDS = Arrays.asList(
-        Fluids.WATER,
-        Fluids.SPENTSTEAM,
-        Fluids.STEAM,
-        Fluids.HOTSTEAM,
-        Fluids.SUPERHOTSTEAM,
-        Fluids.ULTRAHOTSTEAM
-    );
 	
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f0, float f1, float f2) {
@@ -50,10 +38,11 @@ public class ItemFluidSiphon extends Item {
             // After we successfully siphon any fluid from a tank, we stop further processing, multiple fluid types require multiple clicks
             for (FluidTank tank : tanks) {
                 if (tank.getFill() <= 0) continue;
-                if (IGNORED_FLUIDS.contains(tank.getTankType())) continue;
 
                 ItemStack availablePipette = null;
                 FluidType tankType = tank.getTankType();
+
+                if (tankType.hasTrait(FT_Unsiphonable.class)) continue;
 
                 for (int j = 0; j < player.inventory.mainInventory.length; j++) {
                     ItemStack inventoryStack = player.inventory.mainInventory[j];
