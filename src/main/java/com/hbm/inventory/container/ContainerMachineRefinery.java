@@ -17,7 +17,7 @@ public class ContainerMachineRefinery extends Container {
 	public ContainerMachineRefinery(InventoryPlayer invPlayer, TileEntityMachineRefinery tedf) {
 		
 		testNuke = tedf;
-		
+
 		//Battery
 		this.addSlotToContainer(new Slot(tedf, 0, 8, 90));
 		//Canister Input
@@ -42,17 +42,16 @@ public class ContainerMachineRefinery extends Container {
 		this.addSlotToContainer(new SlotTakeOnly(tedf, 10, 134, 108));
 		//Sulfur Output
 		this.addSlotToContainer(new SlotTakeOnly(tedf, 11, 152, 36));
+		//Fluid ID
+		this.addSlotToContainer(new Slot(tedf, 12, 8, 108));
 		
-		for(int i = 0; i < 3; i++)
-		{
-			for(int j = 0; j < 9; j++)
-			{
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 9; j++) {
 				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + 56));
 			}
 		}
-		
-		for(int i = 0; i < 9; i++)
-		{
+
+		for(int i = 0; i < 9; i++) {
 			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142 + 56));
 		}
 	}
@@ -71,8 +70,8 @@ public class ContainerMachineRefinery extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= 11) {
-				if(!this.mergeItemStack(var5, 12, this.inventorySlots.size(), true)) {
+			if(par2 <= 12) {
+				if(!this.mergeItemStack(var5, 13, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else if(!this.mergeItemStack(var5, 0, 1, false))

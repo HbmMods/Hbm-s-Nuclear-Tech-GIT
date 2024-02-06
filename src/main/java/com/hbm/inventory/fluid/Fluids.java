@@ -124,7 +124,6 @@ public class Fluids {
 	public static FluidType SOLVENT;			//oranic solvent in fact
 	public static FluidType BLOOD;				//BLOOD ORB! BLOOD ORB! BLOOD ORB!
 	public static FluidType BLOOD_HOT;
-
 	public static FluidType PHEROMONE;
 	public static FluidType PHEROMONE_M;
 	public static FluidType SYNGAS;

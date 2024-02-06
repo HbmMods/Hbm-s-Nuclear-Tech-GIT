@@ -39,7 +39,7 @@ public class TileEntityMachineHydrotreater extends TileEntityMachineBase impleme
 		
 		this.tanks = new FluidTank[4];
 		this.tanks[0] = new FluidTank(Fluids.OIL, 64_000);
-		this.tanks[1] = new FluidTank(Fluids.HYDROGEN, 64_000);
+		this.tanks[1] = new FluidTank(Fluids.HYDROGEN, 64_000).withPressure(1);
 		this.tanks[2] = new FluidTank(Fluids.NONE, 24_000);
 		this.tanks[3] = new FluidTank(Fluids.SOURGAS, 24_000);
 	}
@@ -61,7 +61,7 @@ public class TileEntityMachineHydrotreater extends TileEntityMachineBase impleme
 			tanks[0].loadTank(1, 2, slots);
 			tanks[1].loadTank(3, 4, slots);
 			
-			reform();
+			if(worldObj.getTotalWorldTime() % 2 == 0) reform();
 
 			tanks[2].unloadTank(5, 6, slots);
 			tanks[3].unloadTank(7, 8, slots);
@@ -85,7 +85,7 @@ public class TileEntityMachineHydrotreater extends TileEntityMachineBase impleme
 			return;
 		}
 
-		tanks[1].setTankType(out.getX().type);
+		tanks[1].withPressure(out.getX().pressure).setTankType(out.getX().type);
 		tanks[2].setTankType(out.getY().type);
 		tanks[3].setTankType(out.getZ().type);
 		

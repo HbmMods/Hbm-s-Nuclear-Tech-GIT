@@ -1,16 +1,24 @@
 package com.hbm.blocks.machine;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.IPersistentInfoProvider;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineHydrotreater;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineHydrotreater extends BlockDummyable {
+public class MachineHydrotreater extends BlockDummyable implements IPersistentInfoProvider {
 
 	public MachineHydrotreater(Material mat) {
 		super(mat);
@@ -39,5 +47,15 @@ public class MachineHydrotreater extends BlockDummyable {
 		this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ - 1);
 		this.makeExtra(world, x - dir.offsetX - 1, y, z - dir.offsetZ + 1);
 		this.makeExtra(world, x - dir.offsetX - 1, y, z - dir.offsetZ - 1);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, NBTTagCompound persistentTag, EntityPlayer player, List list, boolean ext) {
+		
+		for(int i = 0; i < 4; i++) {
+			FluidTank tank = new FluidTank(Fluids.NONE, 0);
+			tank.readFromNBT(persistentTag, "" + i);
+			list.add(EnumChatFormatting.YELLOW + "" + tank.getFill() + "/" + tank.getMaxFill() + "mB " + tank.getTankType().getLocalizedName());
+		}
 	}
 }

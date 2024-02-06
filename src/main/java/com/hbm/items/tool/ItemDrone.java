@@ -34,7 +34,7 @@ public class ItemDrone extends ItemEnumMulti {
 		
 		if(stack.getItemDamage() < 4) {
 			toSpawn = new EntityDeliveryDrone(world);
-			if(stack.getItemDamage() % 2 == 0) {
+			if(stack.getItemDamage() % 2 == 1) {
 				((EntityDeliveryDrone) toSpawn).setChunkLoading();
 			}
 			if(stack.getItemDamage() > 1) {

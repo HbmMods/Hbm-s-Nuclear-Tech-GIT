@@ -9,7 +9,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -46,12 +45,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRefinery extends TileEntityMachineBase implements IEnergyUser, IControlReceiver, IOverpressurable, IPersistentNBT, IRepairable, IFluidStandardTransceiver, IGUIProvider {
+public class TileEntityMachineRefinery extends TileEntityMachineBase implements IEnergyUser, IOverpressurable, IPersistentNBT, IRepairable, IFluidStandardTransceiver, IGUIProvider {
 
 	public long power = 0;
 	public int sulfur = 0;
@@ -70,7 +68,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	private static final int[] slot_access = new int[] {11};
 	
 	public TileEntityMachineRefinery() {
-		super(12);
+		super(13);
 		tanks = new FluidTank[5];
 		tanks[0] = new FluidTank(Fluids.HOTOIL, 64_000);
 		tanks[1] = new FluidTank(Fluids.HEAVYOIL, 24_000);
@@ -157,6 +155,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 				this.updateConnections();
 				
 				power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+				tanks[0].setType(12, slots);
 				tanks[0].loadTank(1, 2, slots);
 				
 				refine();
@@ -268,17 +267,16 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	
 	private void refine() {
 		Quintet<FluidStack, FluidStack, FluidStack, FluidStack, ItemStack> refinery = RefineryRecipes.getRefinery(tanks[0].getTankType());
-		
-		if(refinery == null) //usually not possible
+		if(refinery == null) {
+			for(int i = 1; i < 5; i++) tanks[i].setTankType(Fluids.NONE);
 			return;
+		}
 		
 		FluidStack[] stacks = new FluidStack[] {refinery.getV(), refinery.getW(), refinery.getX(), refinery.getY()};
 		
-		for(int i = 0; i < stacks.length; i++)
-			tanks[i + 1].setTankType(stacks[i].type);
+		for(int i = 0; i < stacks.length; i++) tanks[i + 1].setTankType(stacks[i].type);
 		
-		if(power < 5 || tanks[0].getFill() < 100)
-			return;
+		if(power < 5 || tanks[0].getFill() < 100) return;
 
 		for(int i = 0; i < stacks.length; i++) {
 			if(tanks[i + 1].getFill() + stacks[i].fill > tanks[i + 1].getMaxFill()) {
@@ -289,8 +287,7 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		this.isOn = true;
 		tanks[0].setFill(tanks[0].getFill() - 100);
 
-		for(int i = 0; i < stacks.length; i++)
-			tanks[i + 1].setFill(tanks[i + 1].getFill() + stacks[i].fill);
+		for(int i = 0; i < stacks.length; i++) tanks[i + 1].setFill(tanks[i + 1].getFill() + stacks[i].fill);
 		
 		this.sulfur++;
 		
@@ -315,7 +312,6 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 		}
 
 		if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 5);
-		
 		this.power -= 5;
 	}
 	
@@ -368,28 +364,6 @@ public class TileEntityMachineRefinery extends TileEntityMachineBase implements 
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
-	}
-
-	@Override
-	public boolean hasPermission(EntityPlayer player) {
-		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 25;
-	}
-
-	@Override
-	public void receiveControl(NBTTagCompound data) {
-		
-		if(data.hasKey("toggle")) {
-			
-			for(DirPos pos : getConPos()) {
-				this.tryUnsubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ());
-			}
-			
-			if(tanks[0].getTankType() == Fluids.HOTOIL) {
-				tanks[0].setTankType(Fluids.HOTCRACKOIL);
-			} else {
-				tanks[0].setTankType(Fluids.HOTOIL);
-			}
-		}
 	}
 
 	@Override

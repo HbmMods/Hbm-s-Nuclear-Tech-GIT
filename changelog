@@ -3,6 +3,12 @@
   * Custom machines now have a neutron acceptor which allows them to use flux from the breeding reactor in recipes
   * There is now a heat acceptor which can accept heat from things like fireboxes or electric heaters
   * Also added a config option to create pollution
+* Hydrotreater
+  * Tier 3 oil machine (on the same level as vacuum oil and reforming)
+  * Can de-sulfurize oil, which allows extraction of sour gas directly from crude oil
+  * Using desulfurized oil skips the (rather destructive) desulfurization process of the standard refinery, yielding higher-quality oils
+  * Hydrotreating also allows cracked diesel variants to turn into their normal counterparts
+  * Can convert coal oil directly into coal gasoline
 
 ## Changed
 * Deco bocks now drop all of the time, but they drop themselves instead of ingots
@@ -21,6 +27,8 @@
 * Remodeled all tier 0 missiles
 * Tier 0 missiles now have a much thinner contrail to match their size better
 * Covneyor ejectors can now eject sulfur out of the side ports of refineries
+* Refineries and vacuum refineries now have fluid ID slots for changing the recipe
+* Removed the remaining old oil separation recipes from the chemical plant
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace
@@ -30,3 +38,6 @@
 * Fixed coker units creating soot when not processing anything
 * Foundry molds can no longer be removed from basins when there's still material in them, fixing a bug where doing so would void the material
 * Fixed molds not saving when cooling off, allowing to dupe metal when leaving and rejoining
+* Fixed normal drones loading chunks
+* Fixed chunk-loading drones not loading chunks
+* Fixed several chemistry templates missing names
