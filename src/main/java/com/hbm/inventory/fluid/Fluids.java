@@ -46,8 +46,12 @@ public class Fluids {
 	public static FluidType OIL;
 	public static FluidType CRACKOIL;
 	public static FluidType COALOIL;
+	public static FluidType OIL_DS;
+	public static FluidType CRACKOIL_DS;
 	public static FluidType HOTOIL;
 	public static FluidType HOTCRACKOIL;
+	public static FluidType HOTOIL_DS;
+	public static FluidType HOTCRACKOIL_DS;
 	public static FluidType HEAVYOIL;
 	public static FluidType BITUMEN;
 	public static FluidType SMEAR;
@@ -56,10 +60,12 @@ public class Fluids {
 	public static FluidType LUBRICANT;
 	public static FluidType NAPHTHA;
 	public static FluidType NAPHTHA_CRACK;
+	public static FluidType NAPHTHA_DS;
 	public static FluidType DIESEL;
 	public static FluidType DIESEL_CRACK;
 	public static FluidType LIGHTOIL;
 	public static FluidType LIGHTOIL_CRACK;
+	public static FluidType LIGHTOIL_DS;
 	public static FluidType KEROSENE;
 	public static FluidType GAS;
 	public static FluidType PETROLEUM;
@@ -118,7 +124,6 @@ public class Fluids {
 	public static FluidType SOLVENT;			//oranic solvent in fact
 	public static FluidType BLOOD;				//BLOOD ORB! BLOOD ORB! BLOOD ORB!
 	public static FluidType BLOOD_HOT;
-
 	public static FluidType PHEROMONE;
 	public static FluidType PHEROMONE_M;
 	public static FluidType SYNGAS;
@@ -185,6 +190,7 @@ public class Fluids {
 	public static final FT_NoID NOID = new FT_NoID();
 	public static final FT_Delicious DELICIOUS = new FT_Delicious();
 	public static final FT_Leaded LEADED = new FT_Leaded();
+	public static final FT_Unsiphonable UNSIPHONABLE = new FT_Unsiphonable();
 
 	public static void init() {
 		
@@ -202,11 +208,11 @@ public class Fluids {
 		 */
 		
 		NONE =					new FluidType("NONE",				0x888888, 0, 0, 0, EnumSymbol.NONE);
-		WATER =					new FluidType("WATER",				0x3333FF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
-		STEAM =					new FluidType("STEAM",				0xe5e5e5, 3, 0, 0, EnumSymbol.NONE).setTemp(100).addTraits(GASEOUS);
-		HOTSTEAM =				new FluidType("HOTSTEAM",			0xE7D6D6, 4, 0, 0, EnumSymbol.NONE).setTemp(300).addTraits(GASEOUS);
-		SUPERHOTSTEAM =			new FluidType("SUPERHOTSTEAM",		0xE7B7B7, 4, 0, 0, EnumSymbol.NONE).setTemp(450).addTraits(GASEOUS);
-		ULTRAHOTSTEAM =			new FluidType("ULTRAHOTSTEAM",		0xE39393, 4, 0, 0, EnumSymbol.NONE).setTemp(600).addTraits(GASEOUS);
+		WATER =					new FluidType("WATER",				0x3333FF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, UNSIPHONABLE);
+		STEAM =					new FluidType("STEAM",				0xe5e5e5, 3, 0, 0, EnumSymbol.NONE).setTemp(100).addTraits(GASEOUS, UNSIPHONABLE);
+		HOTSTEAM =				new FluidType("HOTSTEAM",			0xE7D6D6, 4, 0, 0, EnumSymbol.NONE).setTemp(300).addTraits(GASEOUS, UNSIPHONABLE);
+		SUPERHOTSTEAM =			new FluidType("SUPERHOTSTEAM",		0xE7B7B7, 4, 0, 0, EnumSymbol.NONE).setTemp(450).addTraits(GASEOUS, UNSIPHONABLE);
+		ULTRAHOTSTEAM =			new FluidType("ULTRAHOTSTEAM",		0xE39393, 4, 0, 0, EnumSymbol.NONE).setTemp(600).addTraits(GASEOUS, UNSIPHONABLE);
 		COOLANT =				new FluidType("COOLANT",			0xd8fcff, 1, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
 		LAVA =					new FluidType("LAVA",				0xFF3300, 4, 0, 0, EnumSymbol.NOWATER).setTemp(1200).addTraits(LIQUID, VISCOUS);
 		DEUTERIUM =				new FluidType("DEUTERIUM",			0x0000FF, 3, 4, 0, EnumSymbol.NONE).addTraits(new FT_Flammable(5_000), new FT_Combustible(FuelGrade.HIGH, 10_000), GASEOUS);
@@ -334,6 +340,13 @@ public class Fluids {
 		FULLERENE =				new FluidType("FULLERENE",			0xFF7FED, 3, 3, 3, EnumSymbol.NONE).addTraits(LIQUID, new FT_Corrosive(65));
 		PHEROMONE =				new FluidType("PHEROMONE",			0x5FA6E8, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Pheromone(1));
 		PHEROMONE_M =			new FluidType(132, "PHEROMONE_M",	0x48C9B0 , 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Pheromone(2));
+		OIL_DS =				new FluidType("OIL_DS",				0x020202, 2, 1, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+		HOTOIL_DS =				new FluidType("HOTOIL_DS",			0x300900, 2, 3, 0, EnumSymbol.NONE).setTemp(350).addTraits(LIQUID, VISCOUS);
+		CRACKOIL_DS =			new FluidType("CRACKOIL_DS",		0x020202, 2, 1, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+		HOTCRACKOIL_DS =		new FluidType("HOTCRACKOIL_DS",		0x300900, 2, 3, 0, EnumSymbol.NONE).setTemp(350).addTraits(LIQUID, VISCOUS);
+		NAPHTHA_DS =			new FluidType("NAPHTHA_DS",			0x595744, 2, 1, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+		LIGHTOIL_DS =			new FluidType("LIGHTOIL_DS",		0x8c7451, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID);
+		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
 		
@@ -384,18 +397,24 @@ public class Fluids {
 		metaOrder.add(MERCURY);
 		//oils, fuels
 		metaOrder.add(OIL);
+		metaOrder.add(OIL_DS);
 		metaOrder.add(CRACKOIL);
+		metaOrder.add(CRACKOIL_DS);
 		metaOrder.add(COALOIL);
 		metaOrder.add(OIL_COKER);
 		metaOrder.add(HOTOIL);
+		metaOrder.add(HOTOIL_DS);
 		metaOrder.add(HOTCRACKOIL);
+		metaOrder.add(HOTCRACKOIL_DS);
 		metaOrder.add(HEAVYOIL);
 		metaOrder.add(HEAVYOIL_VACUUM);
 		metaOrder.add(NAPHTHA);
+		metaOrder.add(NAPHTHA_DS);
 		metaOrder.add(NAPHTHA_CRACK);
 		metaOrder.add(NAPHTHA_COKER);
 		metaOrder.add(REFORMATE);
 		metaOrder.add(LIGHTOIL);
+		metaOrder.add(LIGHTOIL_DS);
 		metaOrder.add(LIGHTOIL_CRACK);
 		metaOrder.add(LIGHTOIL_VACUUM);
 		metaOrder.add(BITUMEN);

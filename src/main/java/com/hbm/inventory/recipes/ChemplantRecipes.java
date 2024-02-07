@@ -38,7 +38,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 		
-		registerFuelProcessing();
 		//6-30, formerly oil cracking, coal liquefaction and solidifciation
 		registerOtherOil();
 		
@@ -314,7 +313,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(
 						new FluidStack(Fluids.PETROLEUM, 100),
 						new FluidStack(Fluids.STEAM, 1000))
-				.outputItems(new ItemStack(ModItems.antiknock)));
+				.outputItems(new ItemStack(ModItems.fuel_additive)));
 		recipes.add(new ChemRecipe(4, "FR_REOIL", 30)
 				.inputFluids(new FluidStack(1000, Fluids.SMEAR))
 				.outputFluids(new FluidStack(800, Fluids.RECLAIMED)));
@@ -324,18 +323,18 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(200, Fluids.LUBRICANT))
 				.outputFluids(new FluidStack(1000, Fluids.PETROIL)));
 		recipes.add(new ChemRecipe(86, "PETROIL_LEADED", 40)
-				.inputItems(new ComparableStack(ModItems.antiknock))
+				.inputItems(new ComparableStack(ModItems.fuel_additive))
 				.inputFluids(new FluidStack(Fluids.PETROIL, 10_000))
 				.outputFluids(new FluidStack(Fluids.PETROIL_LEADED, 12_000)));
 		recipes.add(new ChemRecipe(71, "GASOLINE", 40)
 				.inputFluids(new FluidStack(Fluids.NAPHTHA, 1000))
 				.outputFluids(new FluidStack(Fluids.GASOLINE, 800)));
 		recipes.add(new ChemRecipe(85, "GASOLINE_LEADED", 40)
-				.inputItems(new ComparableStack(ModItems.antiknock))
+				.inputItems(new ComparableStack(ModItems.fuel_additive))
 				.inputFluids(new FluidStack(Fluids.GASOLINE, 10_000))
 				.outputFluids(new FluidStack(Fluids.GASOLINE_LEADED, 12_000)));
 		recipes.add(new ChemRecipe(87, "COALGAS_LEADED", 40)
-				.inputItems(new ComparableStack(ModItems.antiknock))
+				.inputItems(new ComparableStack(ModItems.fuel_additive))
 				.inputFluids(new FluidStack(Fluids.COALGAS, 10_000))
 				.outputFluids(new FluidStack(Fluids.COALGAS_LEADED, 12_000)));
 		recipes.add(new ChemRecipe(72, "FRACKSOL", 20)
@@ -417,33 +416,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ItemStack(ModItems.niter, 3))
 				.outputFluids(new FluidStack(Fluids.SALIENT, 250)));
 
-	}
-	
-	public static void registerFuelProcessing() {
-		recipes.add(new ChemRecipe(0, "FP_HEAVYOIL", 50)
-				.inputFluids(new FluidStack(1000, Fluids.HEAVYOIL))
-				.outputFluids(
-						new FluidStack(FractionRecipes.heavy_frac_bitu * 10, Fluids.BITUMEN),
-						new FluidStack(FractionRecipes.heavy_frac_smear * 10, Fluids.SMEAR)
-						));
-		recipes.add(new ChemRecipe(1, "FP_SMEAR", 50)
-				.inputFluids(new FluidStack(1000, Fluids.SMEAR))
-				.outputFluids(
-						new FluidStack(FractionRecipes.smear_frac_heat * 10, Fluids.HEATINGOIL),
-						new FluidStack(FractionRecipes.smear_frac_lube * 10, Fluids.LUBRICANT)
-						));
-		recipes.add(new ChemRecipe(2, "FP_NAPHTHA", 50)
-				.inputFluids(new FluidStack(1000, Fluids.NAPHTHA))
-				.outputFluids(
-						new FluidStack(FractionRecipes.napht_frac_heat * 10, Fluids.HEATINGOIL),
-						new FluidStack(FractionRecipes.napht_frac_diesel * 10, Fluids.DIESEL)
-						));
-		recipes.add(new ChemRecipe(3, "FP_LIGHTOIL", 50)
-				.inputFluids(new FluidStack(1000, Fluids.LIGHTOIL))
-				.outputFluids(
-						new FluidStack(FractionRecipes.light_frac_diesel * 10, Fluids.DIESEL),
-						new FluidStack(FractionRecipes.light_frac_kero * 10, Fluids.KEROSENE)
-						));
 	}
 
 	public static void registerOtherOil() {

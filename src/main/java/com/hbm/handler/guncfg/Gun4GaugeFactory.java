@@ -78,8 +78,11 @@ public class Gun4GaugeFactory {
 		
 		config.durability = 3000;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.reloadSoundEnd = false;
 		config.firingSound = "hbm:weapon.revolverShootAlt";
 		config.firingPitch = 0.65F;
+		
+		config.ejector = EJECTOR_SHOTGUN.clone().setDelay(10);
 		
 		config.name = "ks23";
 		config.manufacturer = EnumGunManufacturer.TULSKY;

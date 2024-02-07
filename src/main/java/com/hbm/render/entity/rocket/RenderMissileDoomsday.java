@@ -9,22 +9,24 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderMissileDoomsday extends Render {
-	
-	public RenderMissileDoomsday() { }
+
+	public RenderMissileDoomsday() {
+	}
 
 	@Override
-	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
+	public void doRender(Entity entity, double x, double y, double z, float p_76986_8_, float interp) {
 
 		GL11.glPushMatrix();
-        GL11.glTranslatef((float)p_76986_2_, (float)p_76986_4_, (float)p_76986_6_);
-        GL11.glRotatef(p_76986_1_.prevRotationYaw + (p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_ - 90.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
-        GL11.glScalef(2F, 2F, 2F);
+		GL11.glTranslatef((float) x, (float) y, (float) z);
+		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * interp, 0.0F, 0.0F, 1.0F);
+		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, -1.0F, 0.0F);
+		GL11.glScalef(2F, 2F, 2F);
 
-        GL11.glDisable(GL11.GL_CULL_FACE);
-        bindTexture(ResourceManager.missileDoomsday_tex);
-        ResourceManager.missileDoomsday.renderAll();
-        GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		bindTexture(ResourceManager.missileDoomsday_tex);
+		ResourceManager.missileDoomsday.renderAll();
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 	}
 

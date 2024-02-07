@@ -1,15 +1,16 @@
 package com.hbm.entity.logic;
 
 import com.hbm.config.MobConfig;
-import com.hbm.entity.mob.EntityGlyphid;
-import static com.hbm.entity.mob.EntityGlyphid.*;
-import com.hbm.entity.mob.EntityGlyphidNuclear;
-import com.hbm.entity.mob.EntityGlyphidScout;
+import com.hbm.entity.mob.glyphid.EntityGlyphid;
+import com.hbm.entity.mob.glyphid.EntityGlyphidNuclear;
+import com.hbm.entity.mob.glyphid.EntityGlyphidScout;
 import com.hbm.main.MainRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+
+import static com.hbm.entity.mob.glyphid.EntityGlyphid.*;
 
 import java.util.List;
 

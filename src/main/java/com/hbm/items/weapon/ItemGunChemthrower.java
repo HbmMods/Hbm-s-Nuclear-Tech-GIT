@@ -48,13 +48,14 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 			spawnProjectile(world, player, stack, 0);
 		}
 
+		if(player instanceof EntityPlayerMP)
+			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
+
 		useUpAmmo(player, stack, true);
 		player.inventoryContainer.detectAndSendChanges();
 
 		int wear = (int) Math.ceil(10 / (1F + EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack)));
 		setItemWear(stack, getItemWear(stack) + wear);
-		
-		//world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
 	}
 
 	@Override
@@ -86,15 +87,10 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 
 	@Override
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
-		
 		//spawn fluid projectile
-		
 		EntityChemical chem = new EntityChemical(world, player);
 		chem.setFluid(this.getFluidType(stack));
 		world.spawnEntityInWorld(chem);
-		
-		if(player instanceof EntityPlayerMP)
-			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
 	}
 	
 	@Override

@@ -38,6 +38,7 @@ public abstract class FluidTrait {
 		traitNameMap.put("pheromone", FT_Pheromone.class);
 		traitNameMap.put("noid", FT_NoID.class);
 		traitNameMap.put("nocontainer", FT_NoContainer.class);
+		traitNameMap.put("unsiphonable", FT_Unsiphonable.class);
 	}
 
 	/** Important information that should always be displayed */
