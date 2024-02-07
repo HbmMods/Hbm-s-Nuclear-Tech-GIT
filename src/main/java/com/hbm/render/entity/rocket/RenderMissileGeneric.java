@@ -23,6 +23,7 @@ public class RenderMissileGeneric extends Render {
 		GL11.glTranslatef((float) x, (float) y, (float) z);
 		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * interp, 0.0F, 0.0F, 1.0F);
+		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, -1.0F, 0.0F);
 
 		if(entity instanceof EntityMissileAntiBallistic) {
 			bindTexture(ResourceManager.missileAA_tex);

@@ -97,10 +97,6 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			if(StructureConfig.enableStructures) generateOverworldStructures(world, chunkGenerator, chunkX, chunkZ); //Do it through the post-population generation directly
 		}
 		
-		final int posX = (chunkX << 4) + 8;
-		final int posZ = (chunkZ << 4) + 8;
-		BiomeGenBase biome = world.getBiomeGenForCoords(posX, posZ);
-		
 		/* biome dictionary my beloved <3 
 		 * no check for tom here because the event handler already checks for decoration events, + this way they won't become permanently extinct.
 		 */

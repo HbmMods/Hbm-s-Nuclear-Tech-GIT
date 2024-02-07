@@ -170,8 +170,8 @@ public abstract class FoundryCastingBase extends BlockContainer implements ICruc
 		
 		TileEntityFoundryCastingBase cast = (TileEntityFoundryCastingBase) world.getTileEntity(x, y, z);
 		
-		if(cast.slots[0] == null)
-			return false;
+		if(cast.slots[0] == null) return false;
+		if(cast.amount > 0) return false;
 		
 		if(!player.inventory.addItemStackToInventory(cast.slots[0].copy())) {
 			EntityItem item = new EntityItem(world, x + 0.5, y + this.maxY, z + 0.5, cast.slots[0].copy());

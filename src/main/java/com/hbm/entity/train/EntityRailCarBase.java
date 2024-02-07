@@ -12,11 +12,8 @@ import com.hbm.blocks.rail.IRailNTM.RailCheckType;
 import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.blocks.rail.IRailNTM.TrackGauge;
 import com.hbm.items.ModItems;
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -890,7 +887,7 @@ public abstract class EntityRailCarBase extends Entity implements ILookOverlay {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void printHook(RenderGameOverlayEvent.Pre event, World world, int x, int y, int z) {
-		List<String> text = new ArrayList();
+		//List<String> text = new ArrayList();
 		//ILookOverlay.printGeneric(event, this.getClass().getSimpleName() + " " + this.hashCode(), 0xffff00, 0x404000, text);
 	}
 }

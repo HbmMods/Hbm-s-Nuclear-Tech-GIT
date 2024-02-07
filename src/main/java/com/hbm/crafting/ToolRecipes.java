@@ -69,6 +69,7 @@ public class ToolRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.centri_stick, 1), new Object[] { ModItems.centrifuge_element, ModItems.energy_core, KEY_STICK });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.smashing_hammer, 1), new Object[] { "STS", "SPS", " P ", 'S', STEEL.block(), 'T', W.block(), 'P', ANY_PLASTIC.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.meteorite_sword, 1), new Object[] { "  B", "GB ", "SG ", 'B', ModItems.blade_meteorite, 'G', GOLD.plate(), 'S', KEY_STICK });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.dwarven_pickaxe, 1), new Object[] { "CIC", " S ", " S ", 'C', CU.ingot(), 'I', IRON.ingot(), 'S', KEY_STICK });
 
 		//Drax
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.drax, 1), new Object[] { "BDS", "CDC", "FMF", 'B', ModItems.starmetal_pickaxe, 'S', ModItems.starmetal_shovel, 'C', CO.ingot(), 'F', ModItems.fusion_core, 'D', DESH.ingot(), 'M', ModItems.motor_desh });
@@ -132,6 +133,8 @@ public class ToolRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pipette, 1), new Object[] { "  L", " G ", "G  ", 'L', ANY_RUBBER.ingot(), 'G', KEY_CLEARGLASS});
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pipette_boron, 1), new Object[] { "  P", " B ", "B  ", 'P', RUBBER.ingot(), 'B', ModBlocks.glass_boron});
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pipette_laboratory, 1), new Object[] { "  C", " R ", "P  ", 'C', ModItems.circuit_aluminium, 'R', RUBBER.ingot(), 'P', ModItems.pipette_boron });
+
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.siphon, 1), new Object[] { " GR", " GR", " G ", 'G', KEY_CLEARGLASS, 'R', ANY_RUBBER.ingot()});
 
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.mirror_tool), new Object[] { " A ", " IA", "I  ", 'A', AL.ingot(), 'I', IRON.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.rbmk_tool), new Object[] { " A ", " IA", "I  ", 'A', PB.ingot(), 'I', IRON.ingot() });

@@ -10,10 +10,12 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.potion.PotionEffect;
@@ -39,7 +41,7 @@ public class Gun357MagnumFactory {
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
-		config.reloadDuration = 10;
+		config.reloadDuration = 30;
 		config.firingDuration = 0;
 		config.ammoCap = 6;
 		config.reloadType = GunConfiguration.RELOAD_FULL;
@@ -50,6 +52,11 @@ public class Gun357MagnumFactory {
 		config.reloadSoundEnd = false;
 		
 		config.ejector = EJECTOR_REVOLVER;
+
+		config.loadAnimations = i -> {
+			config.animations.put(AnimType.CYCLE, ResourceManager.python_anim.get("Fire"));
+			config.animations.put(AnimType.RELOAD, ResourceManager.python_anim.get("Reload"));
+		};
 		
 		return config;
 	}
@@ -122,6 +129,11 @@ public class Gun357MagnumFactory {
 		config.config = new ArrayList<Integer>();
 		config.config.add(BulletConfigSyncingUtil.CURSED_REVOLVER);
 		config.config.add(BulletConfigSyncingUtil.DESH_REVOLVER);
+
+		config.loadAnimations = i -> {
+			config.animations.put(AnimType.CYCLE, ResourceManager.cursed_anim.get("Fire"));
+			config.animations.put(AnimType.RELOAD, ResourceManager.cursed_anim.get("Reload"));
+		};
 		
 		return config;
 	}
@@ -242,7 +254,7 @@ public class Gun357MagnumFactory {
 		bullet.dmgMin = 10;
 		bullet.dmgMax = 15;
 		
-		bullet.effects = new ArrayList();
+		bullet.effects = new ArrayList<PotionEffect>();
 		bullet.effects.add(new PotionEffect(HbmPotion.radiation.id, 10 * 20, 4));
 		
 		bullet.spentCasing = CASING357.clone().register("357Nuc").setColor(0xFEFEFE);
@@ -328,8 +340,8 @@ public class Gun357MagnumFactory {
 		bullet.dmgMax = 100;
 		bullet.doesRicochet = false;
 		bullet.destroysBlocks = true;
-		bullet.style = bullet.STYLE_BOLT;
-		bullet.trail = bullet.BOLT_NIGHTMARE;
+		bullet.style = BulletConfiguration.STYLE_BOLT;
+		bullet.trail = BulletConfiguration.BOLT_NIGHTMARE;
 		
 		bullet.damageType = ModDamageSource.s_laser;
 		

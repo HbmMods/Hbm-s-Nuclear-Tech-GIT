@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 public class BusAnimation {
 	
 	//"buses" with one S since it's not a vehicle
-	private final HashMap<String, BusAnimationSequence> animationBuses= new HashMap();
+	private final HashMap<String, BusAnimationSequence> animationBuses = new HashMap<String, BusAnimationSequence>();
 	//multiples buses exist simultaneously and start with 0.
 	//a bus has one authority, i.e. the translation of a single part of a model or the rotation of the entire thing.
 	//imagine the busses being film strips that hang from the ceiling, with the tape player

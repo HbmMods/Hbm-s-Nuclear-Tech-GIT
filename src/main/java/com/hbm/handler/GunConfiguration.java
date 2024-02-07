@@ -3,6 +3,7 @@ package com.hbm.handler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.anim.BusAnimation;
@@ -35,7 +36,10 @@ public class GunConfiguration implements Cloneable {
 	public int durability;
 	
 	//animations!
-	public HashMap<AnimType, BusAnimation> animations = new HashMap();
+	public HashMap<AnimType, BusAnimation> animations = new HashMap<AnimType, BusAnimation>();
+	//lazy-ish loading for animations, required for loading animations from ResourceManager, since that occurs after we've initialised the guns
+	public Consumer<Void> loadAnimations;
+	public boolean animationsLoaded = false;
 	//when sneaking, disables crosshair and centers the bullet spawn point
 	public boolean hasSights;
 	//texture overlay when sneaking
@@ -45,17 +49,18 @@ public class GunConfiguration implements Cloneable {
 	//the target FOV/multiplied FOV modifier when sneaking
 	public float zoomFOV = 0.0F;
 	
-	//how long the reload animation will play
-	//MUST BE GREATER THAN ZERO ! ! !
-	public int reloadDuration;
 	//duration of every animation cycle, used also for how quickly a burst fire rifle can fire
 	public int firingDuration;
-	//sound path to the reload sound
-	public String reloadSound = "";
 	//sound path to the shooting sound
 	public String firingSound = "";
 	public float firingVolume = 1.0F;
 	public float firingPitch = 1.0F;
+	//how long the reload animation will play
+	//MUST BE GREATER THAN ZERO ! ! !
+	public int reloadDuration;
+	public int emptyReloadAdditionalDuration;
+	//sound path to the reload sound
+	public String reloadSound = "";
 	//whether the reload sound should be played at the beginning or at the end of the reload
 	public boolean reloadSoundEnd = true;
 	public String equipSound = "";
@@ -64,6 +69,8 @@ public class GunConfiguration implements Cloneable {
 	public int ammoCap;
 	//0 does not allow direct reload, 1 is full clip, 2 is single bullet
 	public int reloadType;
+	// If the animations are designed to be sequential, the last frame will be held until the next anmiation starts
+	public boolean reloadAnimationsSequential = false;
 	//whether or not the infinity enchantment should work
 	public boolean allowsInfinity;
 	//whether the ammo count should be displayed
@@ -79,10 +86,10 @@ public class GunConfiguration implements Cloneable {
 	
 	public String name = "";
 	public EnumGunManufacturer manufacturer = EnumGunManufacturer.NONE;
-	public List<String> comment = new ArrayList();
+	public List<String> comment = new ArrayList<String>();
 
 	//bullet configs for main and alt fire
-	public List<Integer> config = new ArrayList();
+	public List<Integer> config = new ArrayList<Integer>();
 
 	//crosshair
 	public Crosshair crosshair;

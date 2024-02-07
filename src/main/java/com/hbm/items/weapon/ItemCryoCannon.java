@@ -26,12 +26,12 @@ public class ItemCryoCannon extends ItemGunBase {
 	@Override
 	protected void fire(ItemStack stack, World world, EntityPlayer player) {
 		
-		if(this.getPressure(stack) >= 1000) return;
-		if(this.getTurbine(stack) < 100) return;
+		if(getPressure(stack) >= 1000) return;
+		if(getTurbine(stack) < 100) return;
 
 		BulletConfiguration config = null;
 		
-		if(mainConfig.reloadType == mainConfig.RELOAD_NONE) {
+		if(mainConfig.reloadType == GunConfiguration.RELOAD_NONE) {
 			config = getBeltCfg(player, stack, true);
 		} else {
 			config = BulletConfigSyncingUtil.pullConfig(mainConfig.config.get(getMagType(stack)));
@@ -50,6 +50,9 @@ public class ItemCryoCannon extends ItemGunBase {
 			for(int i = 0; i < bullets; i++) {
 				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
 			}
+
+			if(player instanceof EntityPlayerMP)
+				PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
 			
 			useUpAmmo(player, stack, true);
 			player.inventoryContainer.detectAndSendChanges();
@@ -66,26 +69,23 @@ public class ItemCryoCannon extends ItemGunBase {
 
 	@Override
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
-		
 		EntityChemical chem = new EntityChemical(world, player);
 		chem.setFluid(Fluids.OXYGEN);
 		world.spawnEntityInWorld(chem);
 
-		int pressure = this.getPressure(stack);
+		int pressure = getPressure(stack);
 		pressure += 5;
 		pressure = MathHelper.clamp_int(pressure, 0, 1000);
-		this.setPressure(stack, pressure);
-		
-		if(player instanceof EntityPlayerMP) PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
+		setPressure(stack, pressure);
 	}
 
 	@Override
 	protected void updateServer(ItemStack stack, World world, EntityPlayer player, int slot, boolean isCurrentItem) {
 		
-		int turbine = this.getTurbine(stack);
-		int pressure = this.getPressure(stack);
+		int turbine = getTurbine(stack);
+		int pressure = getPressure(stack);
 		
-		if(this.getIsMouseDown(stack)) {
+		if(getIsMouseDown(stack)) {
 			turbine += 10;
 		} else {
 			turbine -= 5;
@@ -94,8 +94,8 @@ public class ItemCryoCannon extends ItemGunBase {
 
 		turbine = MathHelper.clamp_int(turbine, 0, 100);
 		pressure = MathHelper.clamp_int(pressure, 0, 1000);
-		this.setTurbine(stack, turbine);
-		this.setPressure(stack, pressure);
+		setTurbine(stack, turbine);
+		setPressure(stack, pressure);
 		
 		super.updateServer(stack, world, player, slot, isCurrentItem);
 	}

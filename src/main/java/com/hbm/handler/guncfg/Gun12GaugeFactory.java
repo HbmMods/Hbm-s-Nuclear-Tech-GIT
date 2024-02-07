@@ -10,13 +10,13 @@ import com.hbm.items.ItemAmmoEnums.Ammo12Gauge;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.main.ResourceManager;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -70,13 +70,13 @@ public class Gun12GaugeFactory {
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("RECOIL_TRANSLATE", new BusAnimationSequence()
-					.addKeyframe(new BusAnimationKeyframe(0, 0, -2, 100))
-					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+					.addKeyframePosition(0, 0, -2, 100)
+					.addKeyframePosition(0, 0, 0, 200)
 					)
 				.addBus("PUMP", new BusAnimationSequence()
-					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 450))
-					.addKeyframe(new BusAnimationKeyframe(0, 0, -1.8, 200))
-					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+					.addKeyframePosition(0, 0, 0, 450)
+					.addKeyframePosition(0, 0, -1.8, 200)
+					.addKeyframePosition(0, 0, 0, 200)
 					)
 				);
 		
@@ -88,11 +88,12 @@ public class Gun12GaugeFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 25;
+		config.rateOfFire = 20;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
 		config.reloadDuration = 10;
+		config.emptyReloadAdditionalDuration = 5;
 		config.firingDuration = 5;
 		config.ammoCap = 8;
 		config.durability = 2500;
@@ -100,6 +101,7 @@ public class Gun12GaugeFactory {
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.CIRCLE;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
+		config.reloadSoundEnd = false;
 		config.firingSound = "hbm:weapon.shotgunPump";
 		
 		config.name = "spas12";
@@ -108,22 +110,17 @@ public class Gun12GaugeFactory {
 		config.comment.add("Alt-fire with Mouse 2 (Right-click) to fire 2 shells at once");
 		
 		config.config = HbmCollection.g12hs;
-		
-		config.animations.put(AnimType.CYCLE, new BusAnimation()
-				.addBus("SPAS_RECOIL_TRANSLATE", new BusAnimationSequence()
-					.addKeyframe(new BusAnimationKeyframe(0, 0, -2, 100))
-					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
-					)
-				.addBus("SPAS_RECOIL_ROT", new BusAnimationSequence()
-					.addKeyframe(new BusAnimationKeyframe(-1, 0, 1, 100))
-					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
-					)
-				.addBus("SPAS_PUMP", new BusAnimationSequence()
-					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 450))
-					.addKeyframe(new BusAnimationKeyframe(0, 0, -1.8, 200))
-					.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
-					)
-				);
+
+		config.reloadAnimationsSequential = true;
+
+		config.loadAnimations = i -> {
+			config.animations.put(AnimType.CYCLE, ResourceManager.spas_12_anim.get("Fire"));
+			config.animations.put(AnimType.ALT_CYCLE, ResourceManager.spas_12_anim.get("FireAlt"));
+			config.animations.put(AnimType.RELOAD, ResourceManager.spas_12_anim.get("ReloadStart"));
+			config.animations.put(AnimType.RELOAD_EMPTY, ResourceManager.spas_12_anim.get("ReloadEmptyStart"));
+			config.animations.put(AnimType.RELOAD_CYCLE, ResourceManager.spas_12_anim.get("Reload"));
+			config.animations.put(AnimType.RELOAD_END, ResourceManager.spas_12_anim.get("ReloadEnd"));
+		};
 		
 		config.ejector = EJECTOR_SPAS;
 		
@@ -141,7 +138,7 @@ public class Gun12GaugeFactory {
 		config.firingDuration = 10;
 		config.ammoCap = 8;
 		config.reloadSound = GunConfiguration.RSOUND_SHOTGUN;
-		config.firingSound = "hbm:weapon.shotgunPump";
+		config.firingSound = "hbm:weapon.shotgunPumpAlt";
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
 		
 		config.config = HbmCollection.g12hs;
@@ -200,24 +197,24 @@ public class Gun12GaugeFactory {
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("SHOTTY_RECOIL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0.5, 0, 0, 50))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 50))
+						.addKeyframePosition(0.5, 0, 0, 50)
+						.addKeyframePosition(0, 0, 0, 50)
 						)
 				.addBus("SHOTTY_BREAK", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 100))	//do nothing for 100ms
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 60, 200))	//open
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 60, 500))	//do nothing for 500ms
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))	//close
+						.addKeyframePosition(0, 0, 0, 100)	//do nothing for 100ms
+						.addKeyframePosition(0, 0, 60, 200)	//open
+						.addKeyframePosition(0, 0, 60, 500)	//do nothing for 500ms
+						.addKeyframePosition(0, 0, 0, 200)	//close
 						)
 				.addBus("SHOTTY_EJECT", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 300))	//do nothing for 300ms
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 700))	//fling!
+						.addKeyframePosition(0, 0, 0, 300)	//do nothing for 300ms
+						.addKeyframePosition(1, 0, 0, 700)	//fling!
 						)
 				.addBus("SHOTTY_INSERT", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 300))	//do nothing for 300ms
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 1, 0))		//reposition
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 350))	//come in from the side
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 150))	//push
+						.addKeyframePosition(0, 0, 0, 300)	//do nothing for 300ms
+						.addKeyframePosition(1, 0, 1, 0)		//reposition
+						.addKeyframePosition(1, 0, 0, 350)	//come in from the side
+						.addKeyframePosition(0, 0, 0, 150)	//push
 						)
 				);
 		
@@ -252,26 +249,26 @@ public class Gun12GaugeFactory {
 
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(6.25, 0.25, 2.5, 55))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 55))
+						.addKeyframePosition(6.25, 0.25, 2.5, 55)
+						.addKeyframePosition(0, 0, 0, 55)
 						)
 				.addBus("EJECT", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 25))
-						.addKeyframe(new BusAnimationKeyframe(25, 0, 0, 100))
+						.addKeyframePosition(0, 0, 0, 25)
+						.addKeyframePosition(25, 0, 0, 100)
 						)
 				);
 
 		config.animations.put(AnimType.RELOAD, new BusAnimation()
 				.addBus("RELOAD", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(60, 0, -10, 400))
-						.addKeyframe(new BusAnimationKeyframe(60, 125, -10, 200))
-						.addKeyframe(new BusAnimationKeyframe(60, 125, -10, 300))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 300))
+						.addKeyframePosition(60, 0, -10, 400)
+						.addKeyframePosition(60, 125, -10, 200)
+						.addKeyframePosition(60, 125, -10, 300)
+						.addKeyframePosition(0, 0, 0, 300)
 						)
 				.addBus("PUMP", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 900))
-						.addKeyframe(new BusAnimationKeyframe(10, 0, 0, 200))
-						.addKeyframe(new BusAnimationKeyframe())
+						.addKeyframePosition(0, 0, 0, 900)
+						.addKeyframePosition(10, 0, 0, 200)
+						.addKeyframePosition(0, 0, 0, 1)
 						)
 				);
 
@@ -292,7 +289,7 @@ public class Gun12GaugeFactory {
 		config.reloadType = 1;
 		config.ammoCap = 24;
 		config.reloadDuration = 20;
-		config.reloadSound = config.RSOUND_MAG;
+		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.reloadSoundEnd = true;
 		config.name += "Drum";
 		return config;

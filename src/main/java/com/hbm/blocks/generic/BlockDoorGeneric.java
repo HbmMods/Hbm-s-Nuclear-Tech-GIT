@@ -5,7 +5,6 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.special.ItemDoorSkin;
-import com.hbm.items.tool.ItemLock;
 import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 import com.hbm.util.fauxpointtwelve.BlockPos;

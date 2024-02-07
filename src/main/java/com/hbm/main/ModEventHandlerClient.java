@@ -321,6 +321,9 @@ public class ModEventHandlerClient {
 			
 			if(animation == null)
 				continue;
+
+			if(animation.holdLastFrame)
+				continue;
 			
 			long time = System.currentTimeMillis() - animation.startMillis;
 			

@@ -22,12 +22,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class CustomMachineRecipes extends SerializableRecipe {
-	
+
 	public static HashMap<String, List<CustomMachineRecipe>> recipes = new HashMap();
 
 	@Override
 	public void registerDefaults() {
-		
+
 		recipes.put("paperPress", new ArrayList() {{
 			CustomMachineRecipe recipe = new CustomMachineRecipe();
 			recipe.inputFluids = new FluidStack[] {new FluidStack(Fluids.WATER, 250)};
@@ -36,6 +36,13 @@ public class CustomMachineRecipes extends SerializableRecipe {
 			recipe.outputItems = new Pair[] {new Pair(new ItemStack(Items.paper, 3), 1F)};
 			recipe.duration = 60;
 			recipe.consumptionPerTick = 10;
+			recipe.pollutionMode = true;
+			recipe.pollutionType = "SOOT";
+			recipe.pollutionAmount = 0.03f;
+			recipe.radiationMode = false;
+			recipe.radiationAmount = 0;
+			recipe.flux = 0;
+			recipe.heat = 0;
 			add(recipe);
 		}});
 	}
@@ -58,11 +65,11 @@ public class CustomMachineRecipes extends SerializableRecipe {
 	@Override
 	public void readRecipe(JsonElement recipe) {
 		JsonObject obj = recipe.getAsJsonObject();
-		
+
 		String name = obj.get("recipeKey").getAsString();
 		List<CustomMachineRecipe> list = new ArrayList();
 		JsonArray array = obj.get("recipes").getAsJsonArray();
-		
+
 		for(int i = 0; i < array.size(); i++) {
 			JsonObject rec = array.get(i).getAsJsonObject();
 			CustomMachineRecipe recipeInstance = new CustomMachineRecipe();
@@ -72,56 +79,98 @@ public class CustomMachineRecipes extends SerializableRecipe {
 			recipeInstance.outputItems = this.readItemStackArrayChance(rec.get("outputItems").getAsJsonArray());
 			recipeInstance.duration = rec.get("duration").getAsInt();
 			recipeInstance.consumptionPerTick = rec.get("consumptionPerTick").getAsInt();
+
+			if(rec.get("pollutionMode")!=null) {
+				recipeInstance.pollutionMode = rec.get("pollutionMode").getAsBoolean();
+				recipeInstance.pollutionType = rec.get("pollutionType").getAsString();
+				recipeInstance.pollutionAmount = rec.get("pollutionAmount").getAsFloat();
+			}
+			else {
+				recipeInstance.pollutionMode = false;
+				recipeInstance.pollutionType = "";
+				recipeInstance.pollutionAmount = 0;
+			}
+			if(rec.get("radiationMode")!=null) {
+				recipeInstance.radiationMode = rec.get("radiationMode").getAsBoolean();
+				recipeInstance.radiationAmount = rec.get("radiationAmount").getAsFloat();
+			}
+			else {
+				recipeInstance.radiationMode = false;
+				recipeInstance.radiationAmount = 0;
+			}
+			if(rec.get("flux")!=null) {
+				recipeInstance.flux = rec.get("flux").getAsInt();
+			}
+			else recipeInstance.flux = 0;
+			if(rec.get("heat")!=null) {
+				recipeInstance.heat = rec.get("heat").getAsInt();
+			}
+			else recipeInstance.heat = 0;
 			list.add(recipeInstance);
 		}
-		
+
 		recipes.put(name, list);
 	}
 
 	@Override
 	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
 		Entry<String, List<CustomMachineRecipe>> entry = (Entry) recipe;
-		
+
 		writer.name("recipeKey").value(entry.getKey());
 		writer.name("recipes").beginArray();
-		
+
 		for(CustomMachineRecipe recipeInstance : entry.getValue()) {
 			writer.beginObject();
-			
+
 			writer.name("inputFluids").beginArray();
 			for(FluidStack stack : recipeInstance.inputFluids) this.writeFluidStack(stack, writer);
 			writer.endArray();
-			
+
 			writer.name("inputItems").beginArray();
 			for(AStack stack : recipeInstance.inputItems) this.writeAStack(stack, writer);
 			writer.endArray();
-			
+
 			writer.name("outputFluids").beginArray();
 			for(FluidStack stack : recipeInstance.outputFluids) this.writeFluidStack(stack, writer);
 			writer.endArray();
-			
+
 			writer.name("outputItems").beginArray();
 			for(Pair stack : recipeInstance.outputItems) this.writeItemStackChance(stack, writer);
 			writer.endArray();
 
 			writer.name("duration").value(recipeInstance.duration);
 			writer.name("consumptionPerTick").value(recipeInstance.consumptionPerTick);
-			
+			writer.name("pollutionMode").value(recipeInstance.pollutionMode);
+			writer.name("pollutionType").value(recipeInstance.pollutionType);
+			writer.name("pollutionAmount").value(recipeInstance.pollutionAmount);
+			writer.name("radiationMode").value(recipeInstance.radiationMode);
+			writer.name("radiationnAmount").value(recipeInstance.radiationAmount);
+			writer.name("flux").value(recipeInstance.flux);
+			writer.name("heat").value(recipeInstance.heat);
+
 			writer.endObject();
 		}
-		
+
 		writer.endArray();
 	}
-	
+
 	public static class CustomMachineRecipe {
-		
+
 		public FluidStack[] inputFluids;
 		public AStack[] inputItems;
 		public FluidStack[] outputFluids;
 		public Pair<ItemStack, Float>[] outputItems;
-		
+
 		public int duration;
 		public int consumptionPerTick;
+		public boolean pollutionMode;
+
+		public String pollutionType;
+		public float pollutionAmount;
+		public boolean radiationMode;
+		public float radiationAmount;
+		public int flux;
+		public int heat;
 	}
 
 }

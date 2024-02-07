@@ -62,6 +62,12 @@ public class FluidTraitSimple {
 		}
 	}
 
+	public static class FT_Unsiphonable extends FluidTrait {
+		@Override public void addInfoHidden(List<String> info) {
+			info.add(EnumChatFormatting.BLUE + "[Ignored by siphon]");
+		}
+	}
+
 	public static class FT_NoID extends FluidTrait { }
 	public static class FT_NoContainer extends FluidTrait { }
 }

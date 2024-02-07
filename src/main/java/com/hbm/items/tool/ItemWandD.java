@@ -85,11 +85,7 @@ public class ItemWandD extends Item {
 			if(!del.isEmpty()) {
 				for(EntityNukeTorex torex : del) torex.setDead();
 			} else {
-				EntityNukeTorex torex = new EntityNukeTorex(world);
-				torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
-				torex.setScale((float) BobMathUtil.squirt( 1.5 ) * 1.5F);
-				world.spawnEntityInWorld(torex);
-				TrackerUtil.setTrackingRange(world, torex, 1000);
+				EntityNukeTorex.statFac(world, pos.blockX, pos.blockY + 1, pos.blockZ, 150);
 			}
 			
 			/*EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
