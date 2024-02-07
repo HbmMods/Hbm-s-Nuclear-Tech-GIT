@@ -23,7 +23,7 @@ public class TileEntityConveyorPress extends TileEntityMachineBase implements IE
 	public long power = 0;
 	public final static long maxPower = 50000;
 
-	public double speed = 0.125;
+	public double speed = 0.2;
 	public double press;
 	public double renderPress;
 	public double lastPress;
