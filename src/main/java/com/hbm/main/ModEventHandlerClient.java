@@ -1338,7 +1338,9 @@ public class ModEventHandlerClient {
 			case 12: main.splashText = "Imagine being scared by splash texts!"; break;
 			}
 			
-			if(Math.random() < 0.1) main.splashText = "Redditors aren't people!";
+			double d = Math.random();
+			if(d < 0.1) main.splashText = "Redditors aren't people!";
+			else if(d < 0.2) main.splashText = "Can someone tell me what corrosive fumes the people on Reddit are huffing so I can avoid those more effectively?";
 		}
 	}
 }

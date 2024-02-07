@@ -51,6 +51,11 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	public boolean isModerated() {
 		return ((RBMKRod)this.getBlockType()).moderated;
 	}
+	
+	@Override
+	public int trackingRange() {
+		return 25;
+	}
 
 	@SuppressWarnings("incomplete-switch") //shut the fuck up
 	@Override

@@ -342,7 +342,7 @@ public class PollutionHandler {
 			}
 		}
 	}
-    ///RAMPANT MODE STUFFS///
+	///RAMPANT MODE STUFFS///
 
 	@SubscribeEvent
 	public void rampantTargetSetter(PlayerSleepInBedEvent event){
@@ -351,13 +351,9 @@ public class PollutionHandler {
 
 	@SubscribeEvent
 	public void rampantScoutPopulator(WorldEvent.PotentialSpawns event){
-		//yell at me if this vertical formatting hurts your brain
-		if(MobConfig.rampantNaturalScoutSpawn
-				&& !event.world.isRemote
-				&& event.world.provider.dimensionId == 0
-				&& event.type == EnumCreatureType.monster
-				&& event.world.canBlockSeeTheSky(event.x, event.y, event.z)
-				&& !event.isCanceled()) {
+		
+		if(MobConfig.rampantNaturalScoutSpawn && !event.world.isRemote && event.world.provider.dimensionId == 0 && event.type == EnumCreatureType.monster
+				&& event.world.canBlockSeeTheSky(event.x, event.y, event.z) && !event.isCanceled()) {
 
 					if (event.world.rand.nextInt(MobConfig.rampantScoutSpawnChance) == 0) {
 
@@ -370,8 +366,8 @@ public class PollutionHandler {
 								EntityGlyphidDigger digger = new EntityGlyphidDigger(event.world);
 								scout.setLocationAndAngles(event.x, event.y, event.z, event.world.rand.nextFloat() * 360.0F, 0.0F);
 								digger.setLocationAndAngles(event.x, event.y, event.z, event.world.rand.nextFloat() * 360.0F, 0.0F);
-								event.world.spawnEntityInWorld(scout);
-								event.world.spawnEntityInWorld(digger);
+								if(scout.getCanSpawnHere()) event.world.spawnEntityInWorld(scout);
+								if(digger.getCanSpawnHere()) event.world.spawnEntityInWorld(digger);
 							}
 						}
 					}

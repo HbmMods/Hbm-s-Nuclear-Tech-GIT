@@ -246,8 +246,9 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
 		}
 		
-		if(b == ModBlocks.barrel_corroded && worldObj.rand.nextInt(3) == 0) {
-			tank.setFill(tank.getFill() - 1);
+		if(b == ModBlocks.barrel_corroded ) {
+			if(worldObj.rand.nextInt(3) == 0) tank.setFill(tank.getFill() - 1);
+			if(worldObj.rand.nextInt(3 * 60 * 20) == 0) worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 		}
 		
 		//For when Tom's firestorm hits a barrel full of water
