@@ -70,7 +70,7 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		double guiOffset = 0;
 
 		switch(this.type) {
-		case TYPE_TIER0: guiScale = 2.25D; guiOffset = 7.5D; break;
+		case TYPE_TIER0: guiScale = 3.75D; guiOffset = 10.75D; break;
 		case TYPE_TIER1: guiScale = 2.5D; guiOffset = 8.5D; break;
 		case TYPE_TIER2: guiScale = 2D; guiOffset = 6.5D; break;
 		case TYPE_TIER3: guiScale = 1.25D; guiOffset = 1D; break;
@@ -82,6 +82,10 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		case TYPE_CARRIER: guiScale = 0.625D; guiOffset = -17D; break;
 		case TYPE_ROBIN: guiScale = 1.25D; guiOffset = 2D; break;
 		}
+
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0F);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		
 		switch(type) {
 		case EQUIPPED:
@@ -130,11 +134,11 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 	
 	public static void init() {
 
-		renderers.put(new ComparableStack(ModItems.missile_taint), generateDouble(ResourceManager.missileTaint_tex, ResourceManager.missileTaint));
-		renderers.put(new ComparableStack(ModItems.missile_micro), generateDouble(ResourceManager.missileMicro_tex, ResourceManager.missileTaint));
-		renderers.put(new ComparableStack(ModItems.missile_bhole), generateDouble(ResourceManager.missileMicroBHole_tex, ResourceManager.missileTaint));
-		renderers.put(new ComparableStack(ModItems.missile_schrabidium), generateDouble(ResourceManager.missileMicroSchrab_tex, ResourceManager.missileTaint));
-		renderers.put(new ComparableStack(ModItems.missile_emp), generateDouble(ResourceManager.missileMicroEMP_tex, ResourceManager.missileTaint));
+		renderers.put(new ComparableStack(ModItems.missile_taint), generateStandard(ResourceManager.missileTaint_tex, ResourceManager.missileMicro));
+		renderers.put(new ComparableStack(ModItems.missile_micro), generateStandard(ResourceManager.missileMicro_tex, ResourceManager.missileMicro));
+		renderers.put(new ComparableStack(ModItems.missile_bhole), generateStandard(ResourceManager.missileMicroBHole_tex, ResourceManager.missileMicro));
+		renderers.put(new ComparableStack(ModItems.missile_schrabidium), generateStandard(ResourceManager.missileMicroSchrab_tex, ResourceManager.missileMicro));
+		renderers.put(new ComparableStack(ModItems.missile_emp), generateStandard(ResourceManager.missileMicroEMP_tex, ResourceManager.missileMicro));
 		
 		renderers.put(new ComparableStack(ModItems.missile_stealth), x -> {
 			GL11.glShadeModel(GL11.GL_SMOOTH);

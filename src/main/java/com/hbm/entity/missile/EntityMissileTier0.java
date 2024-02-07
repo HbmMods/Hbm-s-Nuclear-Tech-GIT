@@ -46,6 +46,11 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 	public int getBlipLevel() {
 		return IRadarDetectableNT.TIER0;
 	}
+
+	@Override
+	protected float getContrailScale() {
+		return 0.5F;
+	}
 	
 	public static class EntityMissileMicro extends EntityMissileTier0 {
 		public EntityMissileMicro(World world) { super(world); }

@@ -1,6 +1,7 @@
 package com.hbm.inventory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
@@ -18,8 +19,9 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class FluidContainerRegistry {
 	
-	//TODO: somehow incorporate hashmaps into this
+	//TODO: continue incorporating hashmaps into this
 	public static List<FluidContainer> allContainers = new ArrayList<FluidContainer>();
+	private static HashMap<FluidType, List<FluidContainer>> containerMap = new HashMap<FluidType, List<FluidContainer>>();
 	
 	public static void register() {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(Items.water_bucket), new ItemStack(Items.bucket), Fluids.WATER, 1000));
@@ -88,6 +90,35 @@ public class FluidContainerRegistry {
 	public static void registerContainer(FluidContainer con) {
 		allContainers.add(con);
 		OreDictionary.registerOre(con.type.getDict(con.content), con.fullContainer);
+
+		if (!containerMap.containsKey(con.type))
+			containerMap.put(con.type, new ArrayList<FluidContainer>());
+
+		List<FluidContainer> items = containerMap.get(con.type);
+		items.add(con);
+	}
+
+	public static List<FluidContainer> getContainers(FluidType type) {
+		return containerMap.get(type);
+	}
+
+	public static FluidContainer getContainer(FluidType type, ItemStack stack) {
+		if(stack == null)
+			return null;
+		
+		ItemStack sta = stack.copy();
+		sta.stackSize = 1;
+
+		if (!containerMap.containsKey(type))
+			return null;
+
+		for (FluidContainer container : getContainers(type)) {
+			if (ItemStack.areItemStacksEqual(container.emptyContainer, sta) && ItemStack.areItemStackTagsEqual(container.emptyContainer, sta)) {
+				return container;
+			}
+		}
+
+		return null;
 	}
 	
 	public static int getFluidContent(ItemStack stack, FluidType type) {
@@ -97,11 +128,12 @@ public class FluidContainerRegistry {
 		
 		ItemStack sta = stack.copy();
 		sta.stackSize = 1;
+
+		if (!containerMap.containsKey(type))
+			return 0;
 		
-		for(FluidContainer container : allContainers) {
-			if(container.type == type &&
-					ItemStack.areItemStacksEqual(container.fullContainer, sta) &&
-					ItemStack.areItemStackTagsEqual(container.fullContainer, sta))
+		for(FluidContainer container : containerMap.get(type)) {
+			if(ItemStack.areItemStacksEqual(container.fullContainer, sta) && ItemStack.areItemStackTagsEqual(container.fullContainer, sta))
 				return container.content;
 		}
 		
@@ -131,8 +163,11 @@ public class FluidContainerRegistry {
 		ItemStack sta = stack.copy();
 		sta.stackSize = 1;
 
-		for(FluidContainer container : allContainers) {
-			if(ItemStack.areItemStacksEqual(container.emptyContainer, sta) &&  ItemStack.areItemStackTagsEqual(container.emptyContainer, sta) && container.type == type)
+		if (!containerMap.containsKey(type))
+			return null;
+
+		for(FluidContainer container : containerMap.get(type)) {
+			if(ItemStack.areItemStacksEqual(container.emptyContainer, sta) &&  ItemStack.areItemStackTagsEqual(container.emptyContainer, sta))
 				return container.fullContainer.copy();
 		}
 		

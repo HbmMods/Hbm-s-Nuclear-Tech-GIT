@@ -1,6 +1,7 @@
 package com.hbm.tileentity.bomb;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.logging.log4j.Level;
 
@@ -126,6 +127,22 @@ public class TileEntityLaunchPad extends TileEntityMachineBase implements IEnerg
 				data.setShort("meta", (short) slots[0].getItemDamage());
 			}
 			networkPack(data, 250);
+		} else {
+
+			
+			List<EntityMissileBaseNT> entities = worldObj.getEntitiesWithinAABB(EntityMissileBaseNT.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord, zCoord - 0.5, xCoord + 1.5, yCoord + 10, zCoord + 1.5));
+			
+			if(!entities.isEmpty()) {
+
+				for(int i = 0; i < 15; i++) {
+
+					boolean dir = worldObj.rand.nextBoolean();
+					float moX = (float) (dir ? 0 : worldObj.rand.nextGaussian() * 0.5F);
+					float moZ = (float) (!dir ? 0 : worldObj.rand.nextGaussian() * 0.5F);
+
+					MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] { moX, 0, moZ });
+				}
+			}
 		}
 	}
 
@@ -304,7 +321,7 @@ public class TileEntityLaunchPad extends TileEntityMachineBase implements IEnerg
 		
 		if(clazz != null) {
 			try {
-				EntityMissileBaseNT missile = clazz.getConstructor(World.class, float.class, float.class, float.class, int.class, int.class).newInstance(worldObj, xCoord + 0.5F, yCoord + 2F, zCoord + 0.5F, targetX, targetZ);
+				EntityMissileBaseNT missile = clazz.getConstructor(World.class, float.class, float.class, float.class, int.class, int.class).newInstance(worldObj, xCoord + 0.5F, yCoord + 1F, zCoord + 0.5F, targetX, targetZ);
 				worldObj.playSoundEffect(xCoord + 0.5, yCoord, zCoord + 0.5, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
 				if(GeneralConfig.enableExtendedLogging) MainRegistry.logger.log(Level.INFO, "[MISSILE] Tried to launch missile at " + xCoord + " / " + yCoord + " / " + zCoord + " to " + xCoord + " / " + zCoord + "!");
 				return missile;

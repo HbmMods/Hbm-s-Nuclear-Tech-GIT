@@ -2,7 +2,7 @@ package com.hbm.tileentity.deco;
 
 import java.util.List;
 
-import com.hbm.entity.mob.EntityGlyphid;
+import com.hbm.entity.mob.glyphid.EntityGlyphid;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

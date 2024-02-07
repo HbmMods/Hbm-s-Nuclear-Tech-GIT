@@ -4,8 +4,10 @@ import java.awt.Color;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.handler.BulletConfiguration;
+import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.ResourceManager;
-import com.hbm.particle.SpentCasing;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
@@ -83,12 +85,15 @@ public class ItemRenderWeaponKS23 implements IItemRenderer {
 
             HbmAnimations.applyRelevantTransformation("Shell");
 
-            // TODO: Fetch the correct colors to render on the shells
-            Color shellColor = new Color(SpentCasing.COLOR_CASE_4GA);
+            ItemGunBase gun = (ItemGunBase)item.getItem();
+            BulletConfiguration bullet = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(item)));
+            int[] colors = bullet.spentCasing.getColors();
+
+            Color shellColor = new Color(colors[1]);
             GL11.glColor3f(shellColor.getRed() / 255F, shellColor.getGreen() / 255F, shellColor.getBlue() / 255F);
             ResourceManager.ks23.renderPart("Shell");
             
-            Color shellForeColor = new Color(0xFFD800);
+            Color shellForeColor = new Color(colors[0]);
             GL11.glColor3f(shellForeColor.getRed() / 255F, shellForeColor.getGreen() / 255F, shellForeColor.getBlue() / 255F);
             ResourceManager.ks23.renderPart("ShellFore");
 

@@ -1223,6 +1223,7 @@ public class MainRegistry {
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
 		remapItems.put("hbm:item.man_explosive8", ModItems.explosive_lenses);
 		remapItems.put("hbm:item.briquette_lignite", ModItems.briquette);
+		remapItems.put("hbm:item.antiknock", ModItems.fuel_additive);
 		
 		for(MissingMapping mapping : event.get()) {
 			

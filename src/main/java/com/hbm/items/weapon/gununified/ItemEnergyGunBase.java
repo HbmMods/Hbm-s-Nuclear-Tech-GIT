@@ -5,7 +5,6 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
@@ -131,6 +130,9 @@ public class ItemEnergyGunBase extends ItemGunBase implements IBatteryItem {
 			for(int i = 0; i < bullets; i++) {
 				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
 			}
+
+			if(player instanceof EntityPlayerMP)
+				PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
 			
 			setCharge(stack, getCharge(stack) - config.dischargePerShot);;
 		}
@@ -138,19 +140,9 @@ public class ItemEnergyGunBase extends ItemGunBase implements IBatteryItem {
 		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
 	}
 	
-	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
-		
-		EntityBulletBaseNT bullet = new EntityBulletBaseNT(world, config, player);
-		world.spawnEntityInWorld(bullet);
-		
-		if(this.mainConfig.animations.containsKey(AnimType.CYCLE) && player instanceof EntityPlayerMP)
-			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
-			
-	}
-	
 	public void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
-		if(mainConfig.firingMode == mainConfig.FIRE_MANUAL && main && tryShoot(stack, world, player, main)) {
+		if(mainConfig.firingMode == GunConfiguration.FIRE_MANUAL && main && tryShoot(stack, world, player, main)) {
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
 			

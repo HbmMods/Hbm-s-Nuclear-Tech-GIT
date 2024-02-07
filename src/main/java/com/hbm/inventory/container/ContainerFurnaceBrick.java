@@ -49,7 +49,7 @@ public class ContainerFurnaceBrick extends Container {
 			var3 = var5.copy();
 
 			if(par2 <= 3) {
-				if(!this.mergeItemStack(var5, 3, this.inventorySlots.size(), true)) {
+				if(!this.mergeItemStack(var5, 4, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
