@@ -29,6 +29,10 @@
 * Covneyor ejectors can now eject sulfur out of the side ports of refineries
 * Refineries and vacuum refineries now have fluid ID slots for changing the recipe
 * Removed the remaining old oil separation recipes from the chemical plant
+* More large models have been converted into display lists which should improve performance somewhat
+* Corroded barrels now crumble after a while
+* PWRs on the edge of unloaded chunks now additionally reset their internal heat value to further reduce the time until they can potentially melt down
+* Removed the assembly recipe for the radial engine since it will be retired soon
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace
@@ -41,3 +45,4 @@
 * Fixed normal drones loading chunks
 * Fixed chunk-loading drones not loading chunks
 * Fixed several chemistry templates missing names
+* Fixed rampant mode random scout spawns being able to appear inside blocks
