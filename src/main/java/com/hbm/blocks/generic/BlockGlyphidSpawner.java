@@ -5,7 +5,6 @@ import java.util.function.Function;
 
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.config.MobConfig;
-import com.hbm.entity.mob.*;
 import com.hbm.entity.mob.glyphid.EntityGlyphid;
 import com.hbm.entity.mob.glyphid.EntityGlyphidBehemoth;
 import com.hbm.entity.mob.glyphid.EntityGlyphidBlaster;
