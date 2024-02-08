@@ -46,3 +46,4 @@
 * Fixed chunk-loading drones not loading chunks
 * Fixed several chemistry templates missing names
 * Fixed rampant mode random scout spawns being able to appear inside blocks
+* Fixed turret rotation sometimes desyncing when out of range, this is especially noticeable with slow-moving arty
