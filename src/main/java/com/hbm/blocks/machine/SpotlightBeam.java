@@ -29,12 +29,13 @@ public class SpotlightBeam extends BlockContainer {
 	// If a block is placed onto the beam, handle the new cutoff
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
-        super.breakBlock(world, x, y, z, block, metadata);
-		if (world.isRemote) return;
-
-		for (ForgeDirection dir : getDirections(metadata)) {
-			Spotlight.unpropagateBeam(world, x, y, z, dir);
+		if (!world.isRemote) {
+			for (ForgeDirection dir : getDirections(world, x, y, z)) {
+				Spotlight.unpropagateBeam(world, x, y, z, dir);
+			}
 		}
+        super.breakBlock(world, x, y, z, block, metadata);
+
     }
 
 	// If a block in the beam path is removed, repropagate beam

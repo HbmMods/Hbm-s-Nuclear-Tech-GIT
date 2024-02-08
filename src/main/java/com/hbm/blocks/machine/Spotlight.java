@@ -1,7 +1,6 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -75,15 +74,12 @@ public class Spotlight extends Block {
         Block block = world.getBlock(x, y, z);
         if (!block.isAir(world, x, y, z)) return;
 
-        // If we encounter a beam, add a new INCOMING direction to the metadata
-        // Otherwise, spawn a new beam
         if (!(block instanceof SpotlightBeam)) {
             world.setBlock(x, y, z, ModBlocks.spotlight_beam);
         }
 
-        int meta = SpotlightBeam.setDirection(world, x, y, z, dir, true);
-
-        MainRegistry.logger.info("block meta set to: " + meta + " - should be at least: " + dir.flag);
+        // If we encounter an existing beam, add a new INCOMING direction to the metadata
+        SpotlightBeam.setDirection(world, x, y, z, dir, true);
 
         propagateBeam(world, x, y, z, dir, distance);
     }
