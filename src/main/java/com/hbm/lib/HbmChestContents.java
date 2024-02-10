@@ -442,7 +442,7 @@ public class HbmChestContents {
 		String key;
 		int pages;
 		
-		switch(rand.nextInt(4)) {
+		switch(rand.nextInt(5)) {
 		case 0:
 			key = "bf_bomb_1"; pages = 4; break;
 		case 1:

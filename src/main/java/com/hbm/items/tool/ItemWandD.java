@@ -6,13 +6,17 @@ import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.lib.Library;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.TrackerUtil;
+import com.hbm.world.gen.component.CivilianFeatures.RuralHouse1;
+import com.hbm.world.gen.component.Component;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class ItemWandD extends Item {
 
@@ -26,6 +30,17 @@ public class ItemWandD extends Item {
 		
 		if(pos != null) {
 			
+			/*for(int x = 0; x <= 14; x++) {
+				for(int y = 0; y <= 8; y++) {
+					for(int z = 0; z <= 14; z++) {
+						System.out.print("a");
+						Block block = world.getBlock(pos.blockX + x, pos.blockY + y, pos.blockZ + z);
+						int meta = world.getBlockMetadata(pos.blockX + x, pos.blockY + y, pos.blockZ + z);
+						world.setBlock(pos.blockX + x, pos.blockY + y, pos.blockZ + z + 32, block, meta, 2);
+					}
+				}
+			}*/
+			
 			/*ExplosionVNT vnt = new ExplosionVNT(world, pos.hitVec.xCoord, pos.hitVec.yCoord, pos.hitVec.zCoord, 7);
 			vnt.setBlockAllocator(new BlockAllocatorBulkie(60));
 			vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorBulkie(ModBlocks.block_slag)).setNoDrop());
@@ -36,13 +51,13 @@ public class ItemWandD extends Item {
 			
 			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
 			
-			/*int i = pos.blockX >> 4;
+			int i = pos.blockX >> 4;
 			int j = pos.blockZ >> 4;
 			
 			i = (i << 4) + 8;
 			j = (j << 4) + 8;
-			Component comp = new ElevatedPrefab1(world.rand, i, 64, j);
-			comp.addComponentParts(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));*/
+			Component comp = new RuralHouse1(world.rand, i, j);
+			comp.addComponentParts(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));
 			
 			/*int i = pos.blockX >> 4;
 			int j = pos.blockZ >> 4;
@@ -80,7 +95,7 @@ public class ItemWandD extends Item {
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
 			
-			List<EntityNukeTorex> del = world.getEntitiesWithinAABB(EntityNukeTorex.class, AxisAlignedBB.getBoundingBox(pos.blockX, pos.blockY + 1, pos.blockZ, pos.blockX, pos.blockY + 1, pos.blockZ).expand(50, 50, 50));
+			/*List<EntityNukeTorex> del = world.getEntitiesWithinAABB(EntityNukeTorex.class, AxisAlignedBB.getBoundingBox(pos.blockX, pos.blockY + 1, pos.blockZ, pos.blockX, pos.blockY + 1, pos.blockZ).expand(50, 50, 50));
 			
 			if(!del.isEmpty()) {
 				for(EntityNukeTorex torex : del) torex.setDead();

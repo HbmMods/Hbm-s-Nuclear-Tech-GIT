@@ -6,13 +6,11 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
-import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.config.StructureConfig;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockWeb;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -197,7 +195,7 @@ abstract public class Component extends StructureComponent {
 				metadata = metadata ^ 3;
 			break;
 		}
-		
+		//genuinely like. why did i do that
 		return metadata << 2; //To accommodate for BlockDecoModel's shift in the rotation bits; otherwise, simply bit-shift right and or any non-rotation meta after
 	}
 	
