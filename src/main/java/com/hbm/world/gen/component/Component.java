@@ -38,7 +38,7 @@ abstract public class Component extends StructureComponent {
 	
 	protected Component(Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ ) {
 		super(0);
-		this.coordBaseMode = 0;//rand.nextInt(4);
+		this.coordBaseMode = rand.nextInt(4);
 		
 		switch(this.coordBaseMode) {
 		case 0:

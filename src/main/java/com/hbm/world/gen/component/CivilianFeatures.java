@@ -1023,7 +1023,8 @@ public class CivilianFeatures {
 			//Webs
 			randomlyFillWithBlocks(world, box, rand, 0.05F, 12, 3, 3, 12, 3, 8, Blocks.web);
 			randomlyFillWithBlocks(world, box, rand, 0.05F, 10, 4, 3, 11, 4, 8, Blocks.web);
-			randomlyFillWithBlocks(world, box, rand, 0.05F, 5, 3, 2, 9, 3, 8, Blocks.web);
+			randomlyFillWithBlocks(world, box, rand, 0.05F, 5, 3, 2, 8, 3, 2, Blocks.web);
+			randomlyFillWithBlocks(world, box, rand, 0.05F, 5, 3, 3, 9, 3, 8, Blocks.web);
 			randomlyFillWithBlocks(world, box, rand, 0.05F, 2, 3, 5, 4, 3, 8, Blocks.web);
 			randomlyFillWithBlocks(world, box, rand, 0.05F, 2, 3, 10, 7, 3, 12, Blocks.web);
 			//Doors
@@ -1049,11 +1050,11 @@ public class CivilianFeatures {
 			fillWithMetadataBlocks(world, box, 7, 1, 5, 8, 1, 5, Blocks.oak_stairs, stairS | 4); //Table
 			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairE | 4, 8, 1, 4, box);
 			placeBlockAtCurrentPosition(world, Blocks.wooden_slab, 8, 7, 1, 4, box);
-			placeBlockAtCurrentPosition(world, Blocks.stone_slab, 0, 8, 1, 2, box); //Kitchen Counter
+			placeBlockAtCurrentPosition(world, Blocks.double_stone_slab, 0, 8, 1, 2, box); //Kitchen Counter
 			placeBlockAtCurrentPosition(world, Blocks.cauldron, 1, 7, 1, 2, box);
-			fillWithBlocks(world, box, 5, 1, 2, 6, 1, 2, Blocks.stone_slab);
+			fillWithBlocks(world, box, 5, 1, 2, 6, 1, 2, Blocks.double_stone_slab);
 			placeBlockAtCurrentPosition(world, Blocks.furnace, 5, 5, 1, 3, box);
-			placeBlockAtCurrentPosition(world, Blocks.stone_slab, 0, 5, 1, 4, box);
+			placeBlockAtCurrentPosition(world, Blocks.double_stone_slab, 0, 5, 1, 4, box);
 			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairE, 9, 1, 8, box); //Bookshelf
 			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairE | 4, 9, 2, 8, box);
 			fillWithBlocks(world, box, 7, 1, 8, 8, 2, 8, Blocks.bookshelf);
@@ -1065,13 +1066,13 @@ public class CivilianFeatures {
 			fillWithBlocks(world, box, 2, 1, 5, 3, 1, 5, Blocks.bookshelf);
 			placeBlockAtCurrentPosition(world, ModBlocks.radiorec, getDecoMeta(2), 2, 2, 5, box);
 			
-			placeBlockAtCurrentPosition(world, Blocks.bed, 0, 2, 1, 11, box);
+			placeBed(world, box, 0, 2, 1, 11);
 			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, stairN | 4, 3, 1, 12, box); //Nightstand
 			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairW | 4, 5, 1, 12, box); //Desk
 			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairN | 4, 6, 1, 12, box);
 			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairW | 4, 7, 1, 12, box);
 			placeBlockAtCurrentPosition(world, Blocks.dark_oak_stairs, stairS, 6, 1, 11, box); //Chair
-			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, 0, 6, 2, 12, box);
+			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(0), 6, 2, 12, box);
 			
 			placeBlockAtCurrentPosition(world, ModBlocks.crate, 0, 7, 5, 12, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.crate_can, 0, 5, 5, 12, box);
