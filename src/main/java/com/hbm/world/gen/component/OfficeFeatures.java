@@ -30,8 +30,8 @@ public class OfficeFeatures {
 			super();
 		}
 		
-		public LargeOffice(Random rand, int minX, int minY, int minZ) {
-			super(rand, minX, minY, minZ, 14, 5, 12);
+		public LargeOffice(Random rand, int minX, int minZ) {
+			super(rand, minX, 64, minZ, 14, 5, 12);
 			this.hasPlacedLoot[0] = false;
 			this.hasPlacedLoot[1] = false;
 		}
@@ -231,8 +231,8 @@ public class OfficeFeatures {
 			super();
 		}
 		
-		public LargeOfficeCorner(Random rand, int minX, int minY, int minZ) {
-			super(rand, minX, minY, minZ, 11, 15, 14);
+		public LargeOfficeCorner(Random rand, int minX, int minZ) {
+			super(rand, minX, 64, minZ, 11, 15, 14);
 		}
 		
 		@Override

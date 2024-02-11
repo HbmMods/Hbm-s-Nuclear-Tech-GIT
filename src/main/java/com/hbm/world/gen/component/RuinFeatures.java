@@ -26,8 +26,8 @@ public class RuinFeatures {
 			super();
 		}
 		
-		public NTMRuin1(Random rand, int minX, int minY, int minZ) {
-			super(rand, minX, minY, minZ, 8, 6, 10);
+		public NTMRuin1(Random rand, int minX, int minZ) {
+			super(rand, minX, 64, minZ, 8, 6, 10);
 		}
 
 		@Override
@@ -98,8 +98,8 @@ public class RuinFeatures {
 			super();
 		}
 		
-		public NTMRuin2(Random rand, int minX, int minY, int minZ) {
-			super(rand, minX, minY, minZ, 7, 5, 10);
+		public NTMRuin2(Random rand, int minX, int minZ) {
+			super(rand, minX, 64, minZ, 7, 5, 10);
 		}
 
 		@Override
@@ -161,8 +161,8 @@ public class RuinFeatures {
 			super();
 		}
 		
-		public NTMRuin3(Random rand, int minX, int minY, int minZ) {
-			super(rand, minX, minY, minZ, 8, 3, 10);
+		public NTMRuin3(Random rand, int minX, int minZ) {
+			super(rand, minX, 64, minZ, 8, 3, 10);
 		}
 
 		@Override
@@ -218,8 +218,8 @@ public class RuinFeatures {
 			super();
 		}
 		
-		public NTMRuin4(Random rand, int minX, int minY, int minZ) {
-			super(rand, minX, minY, minZ, 10, 2, 11);
+		public NTMRuin4(Random rand, int minX, int minZ) {
+			super(rand, minX, 64, minZ, 10, 2, 11);
 		}
 
 		@Override

@@ -44,8 +44,8 @@ public class CivilianFeatures {
 		}
 		
 		/** Constructor for this feature; takes coordinates for bounding box */
-		public NTMHouse1(Random rand, int minX, int minY, int minZ) {
-			super(rand, minX, minY, minZ, 9, 4, 6);
+		public NTMHouse1(Random rand, int minX, int minZ) {
+			super(rand, minX, 64, minZ, 9, 4, 6);
 			this.hasPlacedChest = false;
 		}
 		
@@ -141,8 +141,8 @@ public class CivilianFeatures {
 			super();
 		}
 		
-		public NTMHouse2(Random rand, int minX, int minY, int minZ) {
-			super(rand, minX, minY, minZ, 15, 5, 9);
+		public NTMHouse2(Random rand, int minX, int minZ) {
+			super(rand, minX, 64, minZ, 15, 5, 9);
 			this.hasPlacedLoot[0] = false;
 			this.hasPlacedLoot[1] = false;
 		}
@@ -287,8 +287,8 @@ public class CivilianFeatures {
 		}
 		
 		/** Constructor for this feature; takes coordinates for bounding box */
-		public NTMLab1(Random rand, int minX, int minY, int minZ) {
-			super(rand, minX, minY, minZ, 9, 4, 7);
+		public NTMLab1(Random rand, int minX, int minZ) {
+			super(rand, minX, 64, minZ, 9, 4, 7);
 			this.hasPlacedLoot[0] = false;
 			this.hasPlacedLoot[1] = false;
 		}
@@ -414,8 +414,8 @@ public class CivilianFeatures {
 			super();
 		}
 
-		public NTMLab2(Random rand, int minX, int minY, int minZ) {
-			super(rand, minX, minY, minZ, 12, 11, 8);
+		public NTMLab2(Random rand, int minX, int minZ) {
+			super(rand, minX, 64, minZ, 12, 11, 8);
 			this.hasPlacedLoot[0] = false;
 			this.hasPlacedLoot[1] = false;
 		}
@@ -588,8 +588,8 @@ public class CivilianFeatures {
 			super();
 		}
 		
-		public NTMWorkshop1(Random rand, int minX, int minY, int minZ) {
-			super(rand, minX, minY, minZ, 10, 6, 8);
+		public NTMWorkshop1(Random rand, int minX, int minZ) {
+			super(rand, minX, 64, minZ, 10, 6, 8);
 			this.hasPlacedLoot = false;
 		}
 		
@@ -730,7 +730,6 @@ public class CivilianFeatures {
 	
 	public static class RuralHouse1 extends Component {
 		
-		
 		public RuralHouse1() {
 			super();
 		}
@@ -745,6 +744,12 @@ public class CivilianFeatures {
 			if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
 				return false;
 			}
+			
+			//FillWithAir
+			fillWithAir(world, box, 9, 1, 3, 12, 4, 8);
+			fillWithAir(world, box, 5, 1, 2, 8, 3, 8);
+			fillWithAir(world, box, 2, 1, 5, 4, 3, 8);
+			fillWithAir(world, box, 2, 1, 10, 7, 3, 12);
 			
 			//Foundations
 			fillWithBlocks(world, box, 1, 0, 4, 4, 0, 4, ModBlocks.concrete_colored_ext);
@@ -1067,7 +1072,7 @@ public class CivilianFeatures {
 			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairW | 4, 7, 2, 8, box);
 			fillWithMetadataBlocks(world, box, 7, 3, 8, 9, 3, 8, Blocks.wooden_slab, 1);
 			placeBlockAtCurrentPosition(world, Blocks.double_stone_slab, 0, 4, 1, 5, box); //kitchen
-			placeBlockAtCurrentPosition(world, ModBlocks.machine_electric_furnace_off, metaN, 3, 1, 5, box);
+			placeBlockAtCurrentPosition(world, rand.nextBoolean() ? ModBlocks.machine_electric_furnace_off : Blocks.furnace, metaN, 3, 1, 5, box); //idk why the meta is off between all these blocks and idc
 			fillWithBlocks(world, box, 2, 1, 5, 2, 1, 6, Blocks.double_stone_slab);
 			placeBlockAtCurrentPosition(world, Blocks.cauldron, 2, 2, 1, 7, box);
 			placeBlockAtCurrentPosition(world, Blocks.double_stone_slab, 0, 2, 1, 8, box);
