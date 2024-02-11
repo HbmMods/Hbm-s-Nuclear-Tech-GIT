@@ -101,9 +101,11 @@ public class LootGenerator {
 		
 		if(loot != null && loot.items.isEmpty()) {
 			
-			addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.gun_lever_action), 0.125, 0.025, 0.25);
+			boolean r = world.rand.nextBoolean();
+			if(r)
+				addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.gun_lever_action), 0.125, 0.025, 0.25);
 			
-			if(world.rand.nextBoolean())
+			if(!r || world.rand.nextBoolean())
 				addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.wrench), -0.25, 0, -0.28125);
 			
 			int count = world.rand.nextInt(2) + 1;
@@ -189,7 +191,7 @@ public class LootGenerator {
 			
 			int count = world.rand.nextInt(3) + 2;
 			for(int k = 0; k < count; k++)
-				addItemWithDeviation(loot, world.rand, new ItemStack(Items.book), -0.25, k * 0.03125, 0.1875);
+				addItemWithDeviation(loot, world.rand, new ItemStack(Items.book), -0.25, k * 0.03125, 0.25);
 			
 			count = world.rand.nextInt(2) + 1;
 			for(int k = 0; k < count; k++)
