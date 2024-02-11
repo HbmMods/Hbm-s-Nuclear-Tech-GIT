@@ -199,7 +199,7 @@ public class EntityFalloutRain extends Entity {
 			
 			for(FalloutEntry entry : FalloutConfigJSON.entries) {
 				
-				if(entry.eval(worldObj, x, y, z, b, meta, dist)) {
+				if(entry.eval(worldObj, x, y, z, b, meta, dist, b, meta)) {
 					if(entry.isSolid()) {
 						depth++;
 					}

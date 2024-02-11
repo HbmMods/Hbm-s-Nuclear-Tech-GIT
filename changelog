@@ -34,7 +34,9 @@
 * PWRs on the edge of unloaded chunks now additionally reset their internal heat value to further reduce the time until they can potentially melt down
 * Removed the assembly recipe for the radial engine since it will be retired soon
 * Removed the endo and exothermal missiles
-* Doomsday missiles are no longer laggy cluster missiles, instead they are now near-identical to thermonuclear missiles but with an added fallout radius of 100
+* Doomsday missiles are no longer laggy cluster missiles, instead they are now near-identical to thermonuclear missiles but with an added fallout radius of 100#
+* Fallout rain now uses the same variable length code that the MK5 uses for optimal tick utilization, making it a lot faster
+* Lighter sellafite variants should no longer replace darker ones in overlapping craters, making bombed-out landscapes look more natural
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace

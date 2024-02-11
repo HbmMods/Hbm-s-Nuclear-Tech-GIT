@@ -197,7 +197,7 @@ public class FalloutConfigJSON {
 		public FalloutEntry max(double max) { this.maxDist = max; return this; }
 		public FalloutEntry sol(boolean solid) { this.isSolid = solid; return this; }
 		
-		public boolean eval(World world, int x, int y, int z, Block b, int meta, double dist) {
+		public boolean eval(World world, int x, int y, int z, Block b, int meta, double dist, Block originalBlock, int originalMeta) {
 			
 			if(matchesBlock != null && b != matchesBlock) return false;
 			if(matchesMaterial != null && b.getMaterial() != matchesMaterial) return false;
@@ -210,6 +210,9 @@ public class FalloutConfigJSON {
 				if(primaryBlocks == null) return false;
 				
 				MetaBlock block = chooseRandomOutcome(primaryBlocks);
+				if(block.block == ModBlocks.sellafield_slaked && originalBlock == ModBlocks.sellafield_slaked) {
+					if(block.meta <= originalMeta) return false;
+				}
 				world.setBlock(x, y, z, block.block, block.meta, 3);
 				return true;
 				
@@ -218,6 +221,9 @@ public class FalloutConfigJSON {
 				if(secondaryBlocks == null) return false;
 				
 				MetaBlock block = chooseRandomOutcome(secondaryBlocks);
+				if(block.block == ModBlocks.sellafield_slaked && originalBlock == ModBlocks.sellafield_slaked) {
+					if(block.meta <= originalMeta) return false;
+				}
 				world.setBlock(x, y, z, block.block, block.meta, 3);
 				return true;
 			}
