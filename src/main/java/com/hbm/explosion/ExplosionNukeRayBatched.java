@@ -81,7 +81,7 @@ public class ExplosionNukeRayBatched {
 
 		int amountProcessed = 0;
 
-		while (this.gspNumMax >= this.gspNum){
+		while(this.gspNumMax >= this.gspNum){
 			// Get Cartesian coordinates for spherical coordinates
 			Vec3 vec = this.getSpherical2cartesian();
 
