@@ -428,8 +428,6 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_nuclear, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_nuclear_cluster, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_volcano, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_endo, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_exo, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_doomsday, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_taint, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_micro, 1));
