@@ -8,9 +8,18 @@ import java.util.Random;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.StructureConfig;
 import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
-import com.hbm.world.gen.component.CivilianFeatures.*;
-import com.hbm.world.gen.component.OfficeFeatures.*;
-import com.hbm.world.gen.component.RuinFeatures.*;
+import com.hbm.world.gen.component.CivilianFeatures.NTMHouse1;
+import com.hbm.world.gen.component.CivilianFeatures.NTMHouse2;
+import com.hbm.world.gen.component.CivilianFeatures.NTMLab1;
+import com.hbm.world.gen.component.CivilianFeatures.NTMLab2;
+import com.hbm.world.gen.component.CivilianFeatures.NTMWorkshop1;
+import com.hbm.world.gen.component.CivilianFeatures.RuralHouse1;
+import com.hbm.world.gen.component.OfficeFeatures.LargeOffice;
+import com.hbm.world.gen.component.OfficeFeatures.LargeOfficeCorner;
+import com.hbm.world.gen.component.RuinFeatures.NTMRuin1;
+import com.hbm.world.gen.component.RuinFeatures.NTMRuin2;
+import com.hbm.world.gen.component.RuinFeatures.NTMRuin3;
+import com.hbm.world.gen.component.RuinFeatures.NTMRuin4;
 
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -103,8 +112,10 @@ public class MapGenNTMFeatures extends MapGenStructure {
 		public Start(World world, Random rand, int chunkX, int chunkZ) {
 			super(chunkX, chunkZ);
 			
-			BiomeGenBase biome = world.getBiomeGenForCoords(chunkX * 16 + 8, chunkZ * 16 + 8); //Only gets the biome in the corner of the chunk.
-			final int posY = 64; // Terrain *does not exist* at this stage - at least, for vanilla. Here it has to be called after, but better safe than sorry.
+			int i = (chunkX << 4) + 8;
+			int j = (chunkZ << 4) + 8;
+			
+			BiomeGenBase biome = world.getBiomeGenForCoords(i, j); //Only gets the biome in the corner of the chunk.
 			
 			/*
 			 * Probably want to use nextInt() to increase the structures of rarity here. As a fallback, you could have generic stone brick/useless block ruins that will always be chosen if the
@@ -112,56 +123,61 @@ public class MapGenNTMFeatures extends MapGenStructure {
 			 * Rainfall & Temperature Check
 			 */
 			//TODO: Do something about this so it's nice-looking and easily readable. Plus, test compatibility against mods like BoP
+			
 			if(rand.nextInt(3) == 0) { //Empty Ruin Structures
 				switch(rand.nextInt(4)) {
 				case 0:
-					NTMRuin1 ruin1 = new NTMRuin1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMRuin1 ruin1 = new NTMRuin1(rand, i, j);
 					this.components.add(ruin1);
 					break;
 				case 1:
-					NTMRuin2 ruin2 = new NTMRuin2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMRuin2 ruin2 = new NTMRuin2(rand, i, j);
 					this.components.add(ruin2);
 					break;
 				case 2:
-					NTMRuin3 ruin3 = new NTMRuin3(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMRuin3 ruin3 = new NTMRuin3(rand, i, j);
 					this.components.add(ruin3);
 					break;
 				case 3:
-					NTMRuin4 ruin4 = new NTMRuin4(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMRuin4 ruin4 = new NTMRuin4(rand, i, j);
 					this.components.add(ruin4);
 				}
 				
 			} else if(biome.temperature >= 1.0 && biome.rainfall == 0 && !(biome instanceof BiomeGenMesa)) { //Desert & Savannah
 				if(rand.nextBoolean()) {
-					NTMHouse1 house1 = new NTMHouse1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMHouse1 house1 = new NTMHouse1(rand, i, j);
 					this.components.add(house1);
 				} else {
-					NTMHouse2 house2 = new NTMHouse2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMHouse2 house2 = new NTMHouse2(rand, i, j);
 					this.components.add(house2);
 				}
 				
 			} else if(biome.temperature >= 0.25 && biome.temperature <= 0.3 && biome.rainfall >= 0.6 && biome.rainfall <= 0.9 && rand.nextBoolean()) { //Taiga & Mega Taiga
-					NTMWorkshop1 workshop1 = new NTMWorkshop1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMWorkshop1 workshop1 = new NTMWorkshop1(rand, i, j); //TODO replace this
 					this.components.add(workshop1);
 			} else { //Everything else
-				switch(rand.nextInt(4)) {
+				switch(rand.nextInt(6)) {
 				case 0:
-					NTMLab2 lab2 = new NTMLab2(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMLab2 lab2 = new NTMLab2(rand, i, j); //and these, too
 					this.components.add(lab2); break;
 				case 1:
-					NTMLab1 lab1 = new NTMLab1(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					NTMLab1 lab1 = new NTMLab1(rand, i, j);
 					this.components.add(lab1); break;
 				case 2:
-					LargeOffice office = new LargeOffice(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					LargeOffice office = new LargeOffice(rand, i, j);
 					this.components.add(office); break;
 				case 3:
-					LargeOfficeCorner officeCorner = new LargeOfficeCorner(rand, chunkX * 16 + 8, posY, chunkZ * 16 + 8);
+					LargeOfficeCorner officeCorner = new LargeOfficeCorner(rand, i, j);
 					this.components.add(officeCorner); break;
+				case 4:
+				case 5:
+					RuralHouse1 ruralHouse = new RuralHouse1(rand, i, j);
+					this.components.add(ruralHouse); break;
 				}
 			}
 			
 			if(GeneralConfig.enableDebugMode) {
-				System.out.print("[Debug] StructureStart at " + (chunkX * 16 + 8) + ", " + posY + ", " + (chunkZ * 16 + 8) + "\n[Debug] Components: ");
+				System.out.print("[Debug] StructureStart at " + i + ", 64, " + j + "\n[Debug] Components: ");
 				this.components.forEach((component) -> {
 					System.out.print(MapGenStructureIO.func_143036_a((StructureComponent) component) + " ");
 				});

@@ -101,23 +101,21 @@ public class LootGenerator {
 		
 		if(loot != null && loot.items.isEmpty()) {
 			
-			if(world.rand.nextInt(2) == 0)
-				addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.gun_lever_action), 0, 0, 0.125);
+			boolean r = world.rand.nextBoolean();
+			if(r)
+				addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.gun_lever_action), 0.125, 0.025, 0.25);
+			
+			if(!r || world.rand.nextBoolean())
+				addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.wrench), -0.25, 0, -0.28125);
 			
 			int count = world.rand.nextInt(2) + 1;
 			for(int i = 0; i < count; i++) {
-				int type = world.rand.nextInt(2);
-				Item parts = type < 1 ? ModItems.plate_steel : ModItems.mechanism_rifle_1;
-				addItemWithDeviation(loot, world.rand, new ItemStack(parts), -0.3125, i * 0.03125, 0.3125);
+				addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.plate_steel), -0.25, i * 0.03125, 0.3125);
 			}
 			
 			count = world.rand.nextInt(2) + 2;
 			for(int i = 0; i < count; i++)
-				addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.wire_aluminium), 0.3125, i * 0.03125, -0.125);
-			
-			int type = world.rand.nextInt(4);
-			Item tool = type > 2 ? ModItems.wrench : ModItems.screwdriver;
-			addItemWithDeviation(loot, world.rand, new ItemStack(tool), 0.005, 0, -0.3125);
+				addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.wire_aluminium), 0.25, i * 0.03125, 0.1875);
 		}
 	}
 	
@@ -183,4 +181,22 @@ public class LootGenerator {
 			}
 		}
 	}
+	
+	public static void lootBookLore(World world, int x, int y, int z, ItemStack book) {
+		
+		TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
+		
+		if(loot != null && loot.items.isEmpty()) {
+			addItemWithDeviation(loot, world.rand, book, 0, 0, -0.25);
+			
+			int count = world.rand.nextInt(3) + 2;
+			for(int k = 0; k < count; k++)
+				addItemWithDeviation(loot, world.rand, new ItemStack(Items.book), -0.25, k * 0.03125, 0.25);
+			
+			count = world.rand.nextInt(2) + 1;
+			for(int k = 0; k < count; k++)
+				addItemWithDeviation(loot, world.rand, new ItemStack(Items.paper), 0.25, k * 0.03125, 0.125);
+		}
+	}
+	
 }
