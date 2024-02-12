@@ -1,5 +1,7 @@
 package com.hbm.render.block;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.blocks.machine.Spotlight;
 import com.hbm.blocks.machine.SpotlightModular;
 import com.hbm.render.util.ObjUtil;
@@ -8,6 +10,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -15,7 +18,25 @@ public class RenderLight implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+		if (!(block instanceof Spotlight)) return;
+		Spotlight spot = (Spotlight) block;
 
+		GL11.glPushMatrix();
+		Tessellator tessellator = Tessellator.instance;
+		IIcon iicon = block.getIcon(0, 0);
+		tessellator.setColorOpaque_F(1, 1, 1);
+
+		if(renderer.hasOverrideBlockTexture()) {
+			iicon = renderer.overrideBlockTexture;
+		}
+		
+		GL11.glRotated(-90, 0, 1, 0);
+		GL11.glScaled(1.5D, 1.5D, 1.5D);
+		tessellator.startDrawingQuads();
+		ObjUtil.renderPartWithIcon(spot.getModel(), spot.getPartName(0), iicon, tessellator, 0, false);
+		tessellator.draw();
+
+		GL11.glPopMatrix();
     }
 
 	@Override
@@ -70,7 +91,7 @@ public class RenderLight implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public boolean shouldRender3DInInventory(int modelId) {
-		return false;
+		return true;
 	}
 
 	@Override
