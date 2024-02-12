@@ -45,8 +45,8 @@ import net.minecraft.tileentity.TileEntity;
 
 public class TileMappings {
 
-	public static HashMap<Class<? extends TileEntity>, String[]> map = new HashMap();
-	public static List<Class<? extends IConfigurableMachine>> configurables = new ArrayList();
+	public static HashMap<Class<? extends TileEntity>, String[]> map = new HashMap<Class<? extends TileEntity>, String[]>();
+	public static List<Class<? extends IConfigurableMachine>> configurables = new ArrayList<Class<? extends IConfigurableMachine>>();
 	
 	public static void writeMappings() {
 		put(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
@@ -224,6 +224,8 @@ public class TileMappings {
 
 		put(TileEntityBlockPWR.class, "tileentity_block_pwr");
 		put(TileEntityPWRController.class, "tileentity_pwr_controller");
+
+		put(TileEntityData.class, "tileentity_data");
 		
 		putNetwork();
 		putBombs();

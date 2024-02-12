@@ -8,14 +8,19 @@ import net.minecraftforge.client.model.obj.GroupObject;
 import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
 import net.minecraftforge.client.model.obj.WavefrontObject;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class ObjUtil {
 
 	public static void renderWithIcon(WavefrontObject model, IIcon icon, Tessellator tes, float rot, boolean shadow) {
-		renderWithIcon(model, icon, tes, rot, 0, shadow);
+		renderWithIcon(model, icon, tes, rot, 0, 0, shadow);
 	}
 
 	public static void renderWithIcon(WavefrontObject model, IIcon icon, Tessellator tes, float rot, float pitch, boolean shadow) {
+		renderWithIcon(model, icon, tes, rot, pitch, 0, shadow);
+	}
+
+	public static void renderWithIcon(WavefrontObject model, IIcon icon, Tessellator tes, float rot, float pitch, float roll, boolean shadow) {
 		for(GroupObject go : model.groupObjects) {
 			
 			for(Face f : go.faces) {
@@ -41,6 +46,7 @@ public class ObjUtil {
 					Vertex v = f.vertices[i];
 
 					Vec3 vec = Vec3.createVectorHelper(v.x, v.y, v.z);
+					vec.rotateAroundX(roll);
 					vec.rotateAroundZ(pitch);
 					vec.rotateAroundY(rot);
 
@@ -61,10 +67,14 @@ public class ObjUtil {
 	}
 
 	public static void renderPartWithIcon(WavefrontObject model, String name, IIcon icon, Tessellator tes, float rot, boolean shadow) {
-		renderPartWithIcon(model, name, icon, tes, rot, 0, shadow);
+		renderPartWithIcon(model, name, icon, tes, rot, 0, 0, shadow);
 	}
 
 	public static void renderPartWithIcon(WavefrontObject model, String name, IIcon icon, Tessellator tes, float rot, float pitch, boolean shadow) {
+		renderPartWithIcon(model, name, icon, tes, rot, pitch, 0, shadow);
+	}
+
+	public static void renderPartWithIcon(WavefrontObject model, String name, IIcon icon, Tessellator tes, float rot, float pitch, float roll, boolean shadow) {
 
 		GroupObject go = null;
 
@@ -108,6 +118,7 @@ public class ObjUtil {
 				Vertex v = f.vertices[i];
 
 				Vec3 vec = Vec3.createVectorHelper(v.x, v.y, v.z);
+				vec.rotateAroundX(roll);
 				vec.rotateAroundZ(pitch);
 				vec.rotateAroundY(rot);
 
@@ -148,4 +159,20 @@ public class ObjUtil {
 	public static void clearColor() {
 		hasColor = false;
 	}
+
+	// Both methods assume model is facing towards +X (EAST)
+	// Why not +Z (NORTH)? Pitch doesn't rotate as you would expect in that case using the (current) draw methods
+	public static float getPitch(ForgeDirection dir) {
+		if (dir == ForgeDirection.UP) return (float)Math.PI * -0.5F;
+		if (dir == ForgeDirection.DOWN) return (float)Math.PI * 0.5F;
+		return 0;
+	}
+
+	public static float getYaw(ForgeDirection dir) {
+		if (dir == ForgeDirection.NORTH) return (float)Math.PI * 0.5f;;
+		if (dir == ForgeDirection.SOUTH) return (float)Math.PI * -0.5f;
+		if (dir == ForgeDirection.WEST) return (float)Math.PI;
+		return 0;
+	}
+
 }
