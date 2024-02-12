@@ -48,6 +48,17 @@
 * Lighter sellafite variants should no longer replace darker ones in overlapping craters, making bombed-out landscapes look more natural
 * Fallout's range-based effects now have a more natural gradient instead of creating smooth rings
 * Fallout has been made significantly darker and less saturated to blend in with the crater more
+* Except for solid fueled missiles, all missiles are now fueled in the launch pad and no longer need to be crafted with fuel
+* Missile fuel types have been adjusted
+  * Tier 0: Solid Fuel
+  * Tier 1: Ethanol + Peroxide
+  * Tier 2: Kerosene + Peroxide
+  * Tier 3: Kerosene + LOXY
+  * Tier 4: Jet Fuel + LOXY
+* The micro EMP has been made cheaper, while the schrabidium missile has been made more expensive
+* Oxyhydrogen can now be made by mixing air (i.e. nothing) with hydrogen
+  * The oxygen + hydrogen recipe remains in order to give an option to void oxygen without needing to resort to flare stacks
+* Removed some of the lower tier items fomr the red room loot pool, making the average red room better
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace

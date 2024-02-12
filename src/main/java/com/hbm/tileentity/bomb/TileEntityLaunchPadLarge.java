@@ -1,6 +1,8 @@
 package com.hbm.tileentity.bomb;
 
 import com.hbm.inventory.container.ContainerLaunchPadLarge;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUILaunchPadLarge;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.tileentity.IGUIProvider;
@@ -8,6 +10,7 @@ import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -17,9 +20,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements IEnergyUser, IGUIProvider, IRadarCommandReceiver {
+public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements IEnergyUser, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
 
 	public ItemStack toRender;
 	public int formFactor = -1;
@@ -35,15 +39,21 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 	public float prevLift = 1F;
 	public float prevErector = 90F;
 	public float syncLift;
-	public float syncErector ;
-	public int delay = 20;
+	public float syncErector;
 	private int sync;
+	/** Delay between erector movements */
+	public int delay = 20;
 	
 	public long power;
 	public final long maxPower = 100_000;
+	
+	public FluidTank[] tanks;
 
 	public TileEntityLaunchPadLarge() {
 		super(7);
+		this.tanks = new FluidTank[2];
+		this.tanks[0] = new FluidTank(Fluids.NONE, 24_000);
+		this.tanks[1] = new FluidTank(Fluids.NONE, 24_000);
 	}
 
 	@Override
@@ -61,7 +71,9 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 			
 			if(slots[0] != null) {
 				if(slots[0].getItem() instanceof ItemMissile) {
-					this.formFactor = ((ItemMissile) slots[0].getItem()).formFactor.ordinal();
+					ItemMissile missile = (ItemMissile) slots[0].getItem();
+					this.formFactor = missile.formFactor.ordinal();
+					setFuel(missile);
 				}
 				
 				if(this.erector == 90F && this.lift == 1F) {
@@ -148,6 +160,28 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 			}
 		}
 	}
+	
+	@SuppressWarnings("incomplete-switch") //shut up
+	public void setFuel(ItemMissile missile) {
+		switch(missile.fuel) {
+		case ETHANOL_PEROXIDE:
+			tanks[0].setTankType(Fluids.ETHANOL);
+			tanks[1].setTankType(Fluids.ACID);
+			break;
+		case KEROSENE_PEROXIDE:
+			tanks[0].setTankType(Fluids.KEROSENE);
+			tanks[1].setTankType(Fluids.ACID);
+			break;
+		case KEROSENE_LOXY:
+			tanks[0].setTankType(Fluids.KEROSENE);
+			tanks[1].setTankType(Fluids.OXYGEN);
+			break;
+		case JETFUEL_LOXY:
+			tanks[0].setTankType(Fluids.KEROSENE_REFORM);
+			tanks[1].setTankType(Fluids.OXYGEN);
+			break;
+		}
+	}
 
 	@Override
 	public void serialize(ByteBuf buf) {
@@ -189,21 +223,34 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 			this.sync = 3;
 		}
 	}
-
+	
 	@Override
-	public long getPower() {
-		return power;
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		power = nbt.getLong("power");
+
+		this.erected = nbt.getBoolean("erected");
+		this.readyToLoad = nbt.getBoolean("readyToLoad");
+		this.lift = nbt.getFloat("lift");
+		this.erector = nbt.getFloat("erector");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setLong("power", power);
+
+		nbt.setBoolean("erected", erected);
+		nbt.setBoolean("readyToLoad", readyToLoad);
+		nbt.setFloat("lift", lift);
+		nbt.setFloat("erector", erector);
 	}
 
-	@Override
-	public void setPower(long power) {
-		this.power = power;
-	}
-
-	@Override
-	public long getMaxPower() {
-		return maxPower;
-	}
+	@Override public long getPower() { return power; }
+	@Override public void setPower(long power) { this.power = power; }
+	@Override public long getMaxPower() { return maxPower; }
+	@Override public FluidTank[] getAllTanks() { return this.tanks; }
+	@Override public FluidTank[] getReceivingTanks() { return this.tanks; }
 
 	@Override
 	public boolean sendCommandPosition(int x, int y, int z) {

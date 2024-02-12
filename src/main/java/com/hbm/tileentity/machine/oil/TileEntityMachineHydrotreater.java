@@ -19,6 +19,7 @@ import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -73,7 +74,21 @@ public class TileEntityMachineHydrotreater extends TileEntityMachineBase impleme
 					}
 				}
 			}
+			
+			this.networkPackNT(25);
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		for(int i = 0; i < 4; i++) tanks[i].serialize(buf);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		for(int i = 0; i < 4; i++) tanks[i].deserialize(buf);
 	}
 	
 	private void reform() {

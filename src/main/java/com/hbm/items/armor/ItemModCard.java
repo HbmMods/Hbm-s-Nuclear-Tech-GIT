@@ -15,7 +15,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 public class ItemModCard extends ItemArmorMod {
 	
 	public ItemModCard() {
-		super(ArmorModHandler.helmet_only, true, false, false, false);
+		super(ArmorModHandler.helmet_only, true, true, false, false);
 		this.setCreativeTab(null);
 	}
 

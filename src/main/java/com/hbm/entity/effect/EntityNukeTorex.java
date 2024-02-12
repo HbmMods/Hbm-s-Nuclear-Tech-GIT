@@ -1,5 +1,6 @@
 package com.hbm.entity.effect;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import com.hbm.util.BobMathUtil;
@@ -460,6 +461,17 @@ public class EntityNukeTorex extends Entity {
 						Math.max(col * 2, 0.25),
 						Math.max(col * 0.5, 0.25)
 						);
+			} else if(type == 2) {
+				Color color = Color.getHSBColor(this.angle / 2F / (float) Math.PI, 1F, 1F);
+				if(this.type == TorexType.RING) {
+					this.color = Vec3.createVectorHelper(
+							Math.max(col * 1, 0.25),
+							Math.max(col * 1, 0.25),
+							Math.max(col * 1, 0.25)
+							);
+				} else {
+					this.color = Vec3.createVectorHelper(color.getRed() / 255D, color.getGreen() / 255D, color.getBlue() / 255D);
+				}
 			} else {
 				this.color = Vec3.createVectorHelper(
 						Math.max(col * 2, 0.25),

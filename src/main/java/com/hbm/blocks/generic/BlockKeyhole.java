@@ -221,26 +221,21 @@ public class BlockKeyhole extends BlockStone {
 	public static void initPedestal() {
 		pedestalItems = new ArrayList();
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.ballistic_gauntlet), 10));
-		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.night_vision), 10));
-		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.protection_charm), 10));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.armor_polish), 10));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.bandaid), 10));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.serum), 10));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.quartz_plutonium), 10));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.morning_glory), 10));
-		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.lodestone), 10));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.spider_milk), 10));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.ink), 10));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.heart_container), 10));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.black_diamond), 5));
-		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.wd40), 10));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.scrumpy), 10));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.wild_p), 5));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.card_aos), 5));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.card_qos), 5));
 
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.starmetal_sword), 5));
-		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.radaway_flush), 5));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.gem_alexandrite), 5));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.crackpipe), 5));
 		pedestalItems.add(new WeightedRandomObject(new ItemStack(ModItems.flask_infusion), 5));
