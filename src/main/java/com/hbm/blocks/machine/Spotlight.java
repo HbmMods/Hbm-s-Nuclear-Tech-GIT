@@ -1,22 +1,100 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.BlockEnums.LightType;
+import com.hbm.main.ResourceManager;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.obj.WavefrontObject;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class Spotlight extends Block {
 
     public int beamLength;
+    public LightType type;
 
-	public Spotlight(Material mat, int beamLength) {
+	public Spotlight(Material mat, int beamLength, LightType type) {
 		super(mat);
         setLightLevel(1.0F);
 
         this.beamLength = beamLength;
+        this.type = type;
 	}
+
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
+
+	@Override
+	public int getRenderType() {
+		return renderID;
+	}
+
+    public WavefrontObject getModel() {
+        switch (type) {
+            case FLUORESCENT: return (WavefrontObject) ResourceManager.fluorescent_lamp;
+            case HALOGEN: return (WavefrontObject) ResourceManager.flood_lamp;
+            default: return (WavefrontObject) ResourceManager.cage_lamp;
+        }
+    }
+
+    public String getPartName(int connectionCount) {
+        switch (type) {
+            case HALOGEN: return "FloodLamp";
+            default: return "CageLamp";
+        }
+    }
+
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
+
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World p_149668_1_, int p_149668_2_, int p_149668_3_, int p_149668_4_) {
+		return null;
+	}
+
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+		ForgeDirection dir = getDirection(world, x, y, z);
+        float[] bounds = swizzleBounds(dir);
+        float[] offset = new float[] { 0.5F - dir.offsetX * (0.5F - bounds[0]), 0.5F - dir.offsetY * (0.5F - bounds[1]), 0.5F - dir.offsetZ * (0.5F - bounds[2]) };
+		
+        setBlockBounds(offset[0] - bounds[0], offset[1] - bounds[1], offset[2] - bounds[2], offset[0] + bounds[0], offset[1] + bounds[1], offset[2] + bounds[2]);
+	}
+
+    private float[] swizzleBounds(ForgeDirection dir) {
+        float[] bounds = getBounds();
+        switch (dir) {
+            case EAST:
+            case WEST:
+                return new float[] { bounds[2], bounds[1], bounds[0] };
+            case UP:
+            case DOWN:
+                return new float[] { bounds[1], bounds[2], bounds[0] };
+            default:
+                return bounds;
+        }
+    }
+
+    // Returns an xyz (half-)size for a given object type
+    private float[] getBounds() {
+        switch (type) {
+            case FLUORESCENT: return new float[] {0.5F, 0.5F, 0.1F};
+            case HALOGEN: return new float[] {0.35F, 0.25F, 0.2F};
+            default: return new float[] {0.25F, 0.2F, 0.15F};
+        }
+    }
 
     @Override
     public int onBlockPlaced(World world, int x, int y, int z, int side, float hx, float hy, float hz, int initData) {
@@ -25,6 +103,7 @@ public class Spotlight extends Block {
 	
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
+        if (world.isRemote) return;
 		updateBeam(world, x, y, z);
 	}
 
@@ -43,22 +122,55 @@ public class Spotlight extends Block {
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighborBlock) {
 		if (world.isRemote) return;
         if (neighborBlock instanceof SpotlightBeam) return;
+
+        ForgeDirection dir = getDirection(world, x, y, z);
+
+        if (!canPlace(world, x, y, z, dir)) {
+            dropBlockAsItem(world, x, y, z, 0, 0);
+            world.setBlockToAir(x, y, z);
+            return;
+        }
+
         updateBeam(world, x, y, z);
 	}
+	
+	@Override
+	public boolean canPlaceBlockOnSide(World world, int x, int y, int z, int side) {
+		if(!super.canPlaceBlockOnSide(world, x, y, z, side)) return false;
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(side);
+		
+		return canPlace(world, x, y, z, dir);
+	}
 
-	public void updateBeam(World world, int x, int y, int z) {
-        if (world.isRemote) return;
+    // BlockSlab doesn't actually properly return isSideSolid,
+    // probably because MOJANK thought this would only ever be used for torches,
+    // which can't be placed on ceilings...
+    private boolean canPlace(World world, int x, int y, int z, ForgeDirection dir) {
+        x -= dir.offsetX;
+        y -= dir.offsetY;
+        z -= dir.offsetZ;
 
+        Block block = world.getBlock(x, y, z);
+        if (block instanceof BlockSlab) {
+            int meta = world.getBlockMetadata(x, y, z);
+            return dir == ((meta & 8) == 8 ? ForgeDirection.UP : ForgeDirection.DOWN) || block.func_149730_j();
+        }
+
+		return block.isSideSolid(world, x, y, z, dir);
+    }
+
+	private void updateBeam(World world, int x, int y, int z) {
         ForgeDirection dir = getDirection(world, x, y, z);
         propagateBeam(world, x, y, z, dir, beamLength);
 	}
 
-    private ForgeDirection getDirection(World world, int x, int y, int z) {
+    public ForgeDirection getDirection(IBlockAccess world, int x, int y, int z) {
         int metadata = world.getBlockMetadata(x, y, z);
         return getDirection(metadata);
     }
 
-    private ForgeDirection getDirection(int metadata) {
+    public ForgeDirection getDirection(int metadata) {
         return ForgeDirection.getOrientation(metadata >> 1);
     }
 

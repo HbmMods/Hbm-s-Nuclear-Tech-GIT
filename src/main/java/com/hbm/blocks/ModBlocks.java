@@ -335,7 +335,9 @@ public class ModBlocks {
 	public static Block lantern;
 	public static Block lantern_behemoth;
 
-	public static Block spotlight;
+	public static Block spotlight_incandescent;
+	public static Block spotlight_fluoro;
+	public static Block spotlight_halogen;
 	public static Block spotlight_beam;
 
 	public static Block reinforced_stone;
@@ -1563,7 +1565,9 @@ public class ModBlocks {
 		lantern = new BlockLantern().setBlockName("lantern").setStepSound(Block.soundTypeMetal).setCreativeTab(MainRegistry.blockTab).setLightLevel(1F).setHardness(3.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		lantern_behemoth = new BlockLanternBehemoth().setBlockName("lantern_behemoth").setStepSound(Block.soundTypeMetal).setCreativeTab(null).setHardness(3.0F).setBlockTextureName(RefStrings.MODID + ":block_rust");
 
-		spotlight = new Spotlight(Material.iron, 8).setBlockName("spotlight").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":reinforced_light");
+		spotlight_incandescent = new Spotlight(Material.iron, 2, LightType.INCANDESCENT).setBlockName("spotlight_incandescent").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":cage_lamp");
+		spotlight_fluoro = new SpotlightModular(Material.iron, 8, LightType.FLUORESCENT).setBlockName("spotlight_fluoro").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":fluorescent_lamp");
+		spotlight_halogen = new Spotlight(Material.iron, 32, LightType.HALOGEN).setBlockName("spotlight_halogen").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":flood_lamp");
 		spotlight_beam = new SpotlightBeam().setBlockName("spotlight_beam");
 		
 		reinforced_stone = new BlockGeneric(Material.rock).setBlockName("reinforced_stone").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_stone");
@@ -2744,7 +2748,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(lamp_demon, lamp_demon.getUnlocalizedName());
 		GameRegistry.registerBlock(lantern, lantern.getUnlocalizedName());
 		GameRegistry.registerBlock(lantern_behemoth, lantern_behemoth.getUnlocalizedName());
-		GameRegistry.registerBlock(spotlight, spotlight.getUnlocalizedName());
+		GameRegistry.registerBlock(spotlight_incandescent, spotlight_incandescent.getUnlocalizedName());
+		GameRegistry.registerBlock(spotlight_fluoro, spotlight_fluoro.getUnlocalizedName());
+		GameRegistry.registerBlock(spotlight_halogen, spotlight_halogen.getUnlocalizedName());
 		GameRegistry.registerBlock(spotlight_beam, spotlight_beam.getUnlocalizedName());
 
 		//Reinforced Blocks
