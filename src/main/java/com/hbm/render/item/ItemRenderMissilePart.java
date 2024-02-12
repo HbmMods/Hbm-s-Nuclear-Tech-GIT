@@ -2,7 +2,7 @@ package com.hbm.render.item;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.items.weapon.ItemMissile.PartType;
+import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.render.util.MissilePart;
 
 import net.minecraft.client.Minecraft;

@@ -13,6 +13,7 @@ import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.items.weapon.ItemMissile;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.TrackerUtil;
 
@@ -74,6 +75,9 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 
 		this.setSize(1.5F, 1.5F);
 	}
+	
+	/** Auto-generates radar blip level and all that from the item */
+	public abstract ItemStack getMissileItemForInfo();
 	
 	@Override
 	public boolean canBeSeenBy(Object radar) {
@@ -345,5 +349,41 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 		xnt.setSFX(new ExplosionEffectStandard());
 		if(largeSmoke) ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, ExplosionLarge.cloudFunction((int) strength));
 		xnt.explode();
+	}
+	
+	@Override
+	public String getUnlocalizedName() {
+		ItemStack item = this.getMissileItemForInfo();
+		if(item != null && item.getItem() instanceof ItemMissile) {
+			ItemMissile missile = (ItemMissile) item.getItem();
+			switch(missile.tier) {
+			case TIER0: return "radar.target.tier0";
+			case TIER1: return "radar.target.tier1";
+			case TIER2: return "radar.target.tier2";
+			case TIER3: return "radar.target.tier3";
+			case TIER4: return "radar.target.tier4";
+			default: return "Unknown";
+			}
+		}
+		
+		return "Unknown";
+	}
+	
+	@Override
+	public int getBlipLevel() {
+		ItemStack item = this.getMissileItemForInfo();
+		if(item != null && item.getItem() instanceof ItemMissile) {
+			ItemMissile missile = (ItemMissile) item.getItem();
+			switch(missile.tier) {
+			case TIER0: return IRadarDetectableNT.TIER0;
+			case TIER1: return IRadarDetectableNT.TIER1;
+			case TIER2: return IRadarDetectableNT.TIER2;
+			case TIER3: return IRadarDetectableNT.TIER3;
+			case TIER4: return IRadarDetectableNT.TIER4;
+			default: return IRadarDetectableNT.SPECIAL;
+			}
+		}
+		
+		return IRadarDetectableNT.SPECIAL;
 	}
 }

@@ -49,7 +49,7 @@ public class ItemStructurePattern extends ItemStructureTool {
 					Block b = world.getBlock(ix + pos.getX(), iy + pos.getY(), iz + pos.getZ());					
 					int meta = world.getBlockMetadata(ix + pos.getX(), iy + pos.getY(), iz + pos.getZ());
 					
-					message.concat("placeBlockAtCurrentPosition(world, " + b.getUnlocalizedName() + ", " + meta + ", " + ix + ", " + iy + ", " + iz + ", box);\n");
+					message += "placeBlockAtCurrentPosition(world, " + b.getUnlocalizedName() + ", " + meta + ", " + ix + ", " + iy + ", " + iz + ", box);\n";
 				}
 			}
 		}

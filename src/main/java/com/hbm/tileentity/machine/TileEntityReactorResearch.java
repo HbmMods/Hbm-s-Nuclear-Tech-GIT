@@ -432,7 +432,7 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setLevel(Context context, Arguments args) {
 		double newLevel = args.checkDouble(0)/100.0;
-		targetLevel = MathHelper.clamp_double(newLevel, 0, 100.0);
+		targetLevel = MathHelper.clamp_double(newLevel, 0, 1.0);
 		return new Object[] {};
 	}
 

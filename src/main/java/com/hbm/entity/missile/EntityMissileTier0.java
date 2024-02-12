@@ -14,8 +14,6 @@ import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.items.ModItems;
 
-import api.hbm.entity.IRadarDetectableNT;
-
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 
 import net.minecraft.item.ItemStack;
@@ -38,16 +36,6 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 	}
 
 	@Override
-	public String getUnlocalizedName() {
-		return "radar.target.tier0";
-	}
-
-	@Override
-	public int getBlipLevel() {
-		return IRadarDetectableNT.TIER0;
-	}
-
-	@Override
 	protected float getContrailScale() {
 		return 0.5F;
 	}
@@ -57,6 +45,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 		public EntityMissileMicro(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
 		@Override public void onImpact() { ExplosionNukeSmall.explode(worldObj, posX, posY + 0.5, posZ, ExplosionNukeSmall.PARAMS_HIGH); }
 		@Override public ItemStack getDebrisRareDrop() { return ModItems.ammo_nuke.stackFromEnum(AmmoFatman.HIGH); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_micro); }
 	}
 	
 	public static class EntityMissileSchrabidium extends EntityMissileTier0 {
@@ -74,6 +63,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 			}
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.powder_schrabidium, 1); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_schrabidium); }
 	}
 	
 	public static class EntityMissileBHole extends EntityMissileTier0 {
@@ -88,6 +78,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 			this.worldObj.spawnEntityInWorld(bl);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.grenade_black_hole, 1); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_bhole); }
 	}
 	
 	public static class EntityMissileTaint extends EntityMissileTier0 {
@@ -103,6 +94,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 			}
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.powder_spark_mix, 1); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_taint); }
 	}
 	
 	public static class EntityMissileEMP extends EntityMissileTier0 {
@@ -117,5 +109,6 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 			worldObj.spawnEntityInWorld(wave);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModBlocks.emp_bomb, 1); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_emp); }
 	}
 }

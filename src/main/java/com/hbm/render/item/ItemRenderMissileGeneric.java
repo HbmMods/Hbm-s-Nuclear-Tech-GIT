@@ -31,7 +31,6 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		TYPE_STEALTH,
 		TYPE_ABM,
 		TYPE_NUCLEAR,
-		TYPE_THERMAL,
 		TYPE_DOOMSDAY,
 		TYPE_CARRIER,
 		TYPE_ROBIN
@@ -77,7 +76,6 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		case TYPE_STEALTH: guiScale = 1.75D; guiOffset = 4.75D; break;
 		case TYPE_ABM: guiScale = 2.25D; guiOffset = 7D; break;
 		case TYPE_NUCLEAR: guiScale = 1.75D; guiOffset = 4D; break;
-		case TYPE_THERMAL: guiScale = 1.75D; guiOffset = 4.5D; break;
 		case TYPE_DOOMSDAY: guiScale = 1.5D; guiOffset = 3D; break;
 		case TYPE_CARRIER: guiScale = 0.625D; guiOffset = -17D; break;
 		case TYPE_ROBIN: guiScale = 1.25D; guiOffset = 2D; break;
@@ -167,9 +165,6 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		renderers.put(new ComparableStack(ModItems.missile_nuclear), generateLarge(ResourceManager.missileNuclear_tex, ResourceManager.missileNuclear));
 		renderers.put(new ComparableStack(ModItems.missile_nuclear_cluster), generateLarge(ResourceManager.missileMIRV_tex, ResourceManager.missileNuclear));
 		renderers.put(new ComparableStack(ModItems.missile_volcano), generateLarge(ResourceManager.missileVolcano_tex, ResourceManager.missileNuclear));
-		
-		renderers.put(new ComparableStack(ModItems.missile_endo), generateLarge(ResourceManager.missileEndo_tex, ResourceManager.missileThermo));
-		renderers.put(new ComparableStack(ModItems.missile_exo), generateLarge(ResourceManager.missileExo_tex, ResourceManager.missileThermo));
 
 		renderers.put(new ComparableStack(ModItems.missile_doomsday), generateDouble(ResourceManager.missileDoomsday_tex, ResourceManager.missileDoomsday));
 

@@ -58,4 +58,10 @@ public class BlockEnums {
 		GREEN,
 		STEEL
 	}
+
+	public static enum LightType {
+		INCANDESCENT,
+		FLUORESCENT,
+		HALOGEN
+	}
 }

@@ -246,7 +246,10 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 			DoorDecl doorType = getDoorType();
 
 			if(this.state == 0 && state == 3){ // Door transitioning to open
-				if(audio != null) audio.stopSound();
+				if(audio != null) {
+					audio.stopSound();
+					audio.setKeepAlive(0);
+				}
 
 				if(doorType.getOpenSoundLoop() != null){
 					audio = MainRegistry.proxy.getLoopedSound(doorType.getOpenSoundLoop(), xCoord, yCoord, zCoord, doorType.getSoundVolume(), 10F, 1F);
@@ -266,7 +269,9 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 			}
 
 			if(this.state == 1 && state == 2){ // Door transitioning to closed
-				if(audio != null) audio.stopSound();
+				if(audio != null) {
+					audio.stopSound();
+				}
 
 				if(doorType.getCloseSoundLoop() != null){
 					audio = MainRegistry.proxy.getLoopedSound(doorType.getCloseSoundLoop(), xCoord, yCoord, zCoord, doorType.getSoundVolume(), 10F, 1F);
