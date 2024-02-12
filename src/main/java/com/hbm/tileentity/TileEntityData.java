@@ -9,18 +9,18 @@ import net.minecraft.tileentity.TileEntity;
 // Use this TE if you need more bits, that's it. Blame Mojang
 public class TileEntityData extends TileEntity {
 
-    public int metadata;
-    
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        metadata = nbt.getInteger("meta");
-    }
+	public int metadata;
 
-    @Override
-    public void writeToNBT(NBTTagCompound nbt) {
-        super.writeToNBT(nbt);
-        nbt.setInteger("meta", metadata);
-    }
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		metadata = nbt.getInteger("meta");
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setInteger("meta", metadata);
+	}
 
 }

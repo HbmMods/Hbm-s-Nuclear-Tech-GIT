@@ -78,26 +78,12 @@ public class ReinforcedLamp extends Block {
 	}
 	
 	protected Block getOff() {
-
-		if(this == ModBlocks.reinforced_lamp_on)
-			return ModBlocks.reinforced_lamp_off;
-		if(this == ModBlocks.lamp_tritium_green_on)
-			return ModBlocks.lamp_tritium_green_off;
-		if(this == ModBlocks.lamp_tritium_blue_on)
-			return ModBlocks.lamp_tritium_blue_off;
-		
+		if(this == ModBlocks.reinforced_lamp_on) return ModBlocks.reinforced_lamp_off;
 		return this;
 	}
 	
 	protected Block getOn() {
-
-		if(this == ModBlocks.reinforced_lamp_off)
-			return ModBlocks.reinforced_lamp_on;
-		if(this == ModBlocks.lamp_tritium_green_off)
-			return ModBlocks.lamp_tritium_green_on;
-		if(this == ModBlocks.lamp_tritium_blue_off)
-			return ModBlocks.lamp_tritium_blue_on;
-		
+		if(this == ModBlocks.reinforced_lamp_off) return ModBlocks.reinforced_lamp_on;
 		return this;
 	}
 }

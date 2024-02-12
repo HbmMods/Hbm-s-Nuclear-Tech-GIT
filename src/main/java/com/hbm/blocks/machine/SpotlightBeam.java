@@ -16,25 +16,25 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class SpotlightBeam extends BlockContainer {
-    
-    public SpotlightBeam() {
-        super(Material.air);
-        setLightLevel(1.0F);
-        setLightOpacity(0);
-        setHardness(-1);
-        setResistance(1_000_000);
-        setBlockBounds(0, 0, 0, 0, 0, 0);
-    }
+
+	public SpotlightBeam() {
+		super(Material.air);
+		setLightLevel(1.0F);
+		setLightOpacity(0);
+		setHardness(-1);
+		setResistance(1_000_000);
+		setBlockBounds(0, 0, 0, 0, 0, 0);
+	}
 
 	// If a block is placed onto the beam, handle the new cutoff
-    @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
 		if (!world.isRemote) {
 			for (ForgeDirection dir : getDirections(world, x, y, z)) {
 				Spotlight.unpropagateBeam(world, x, y, z, dir);
 			}
 		}
-        super.breakBlock(world, x, y, z, block, metadata);
+		super.breakBlock(world, x, y, z, block, metadata);
 
     }
 
@@ -92,7 +92,7 @@ public class SpotlightBeam extends BlockContainer {
 	public boolean isOpaqueCube() {
 		return false;
 	}
-    
+	
 	@Override
 	public boolean isAir(IBlockAccess world, int x, int y, int z)  {
 		return true;
@@ -105,12 +105,11 @@ public class SpotlightBeam extends BlockContainer {
 	
 	@Override
 	public boolean isLeaves(IBlockAccess world, int x, int y, int z) {
-        // This was taken from GregsLighting (cargo cult behaviour)
+		// This was taken from GregsLighting (cargo cult behaviour)
 		// This is a bit screwy, but it's needed so that trees are not prevented from growing
 		// near a floodlight beam.
 		return true;
 	}
-    
 
 	@Override
 	public boolean renderAsNormalBlock() {
@@ -131,5 +130,4 @@ public class SpotlightBeam extends BlockContainer {
 	public int getRenderType() {
 		return -1;
 	}
-
 }
