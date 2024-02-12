@@ -48,6 +48,7 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
 			EntityNukeTorex.statFac(worldObj, posX, posY, posZ, BombConfig.missileRadius);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_nuclear); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_nuclear); }
 	}
 	
 	public static class EntityMissileMirv extends EntityMissileTier4 {
@@ -67,6 +68,7 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
 			return list;
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_mirv); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_nuclear_cluster); }
 	}
 	
 	public static class EntityMissileVolcano extends EntityMissileTier4 {
@@ -78,5 +80,6 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
 			worldObj.setBlock((int)Math.floor(posX), (int)Math.floor(posY), (int)Math.floor(posZ), ModBlocks.volcano_core);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_volcano); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_volcano); }
 	}
 }

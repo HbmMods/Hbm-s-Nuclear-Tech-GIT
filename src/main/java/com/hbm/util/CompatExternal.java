@@ -124,7 +124,7 @@ public class CompatExternal {
 		for(FluidTank tank : container.getAllTanks()) {
 			FluidType type = tank.getTankType();
 			list.add(new Object[] {
-					type.getName(),
+					type.getConditionalName(),
 					type.getID(),
 					type.getColor(),
 					tank.getFill(),

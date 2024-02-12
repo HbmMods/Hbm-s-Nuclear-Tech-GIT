@@ -17,6 +17,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.world.ChunkCoordIntPair;
 
 public class HbmChestContents {
 
@@ -419,21 +420,43 @@ public class HbmChestContents {
 	public static ItemStack generateOfficeBook(Random rand) { //TODO rework this lore in general
 		String key;
 		int pages;
-		switch(rand.nextInt(10)) {
-		case 0: key = "resignation_note"; pages = 3; break;
-		case 1: key = "memo_stocks"; pages = 1; break;
-		case 2: key = "memo_schrab_gsa"; pages = 2; break;
-		case 3: key = "memo_schrab_rd"; pages = 4; break;
-		case 4: key = "memo_schrab_nuke"; pages = 3; break;
-		case 5: key = "bf_bomb_1"; pages = 4; break;
-		case 6: key = "bf_bomb_2"; pages = 6; break;
-		case 7: key = "bf_bomb_3"; pages = 6; break;
-		case 8: key = "bf_bomb_4"; pages = 5; break;
-		case 9: key = "bf_bomb_5"; pages = 9; break;
+		switch(rand.nextInt(5)) {
+		case 0:
+			key = "resignation_note"; pages = 3; break;
+		case 1:
+			key = "memo_stocks"; pages = 1; break;
+		case 2:
+			key = "memo_schrab_gsa"; pages = 2; break;
+		case 3:
+			key = "memo_schrab_rd"; pages = 4; break;
+		case 4:
+			key = "memo_schrab_nuke"; pages = 3; break;
 		default:
 			return null;
 		}
 		
 		return ItemBookLore.createBook(key, pages, 0x6BC8FF, 0x0A0A0A);
+	}
+	
+	public static ItemStack generateLabBook(Random rand) {
+		String key;
+		int pages;
+		
+		switch(rand.nextInt(5)) {
+		case 0:
+			key = "bf_bomb_1"; pages = 4; break;
+		case 1:
+			key = "bf_bomb_2"; pages = 6; break;
+		case 2:
+			key = "bf_bomb_3"; pages = 6; break;
+		case 3:
+			key = "bf_bomb_4"; pages = 5; break;
+		case 4:
+			key = "bf_bomb_5"; pages = 9; break;
+		default:
+			return null;
+		}
+		
+		return ItemBookLore.createBook(key, pages, 0x1E1E1E, 0x46EA44);
 	}
 }

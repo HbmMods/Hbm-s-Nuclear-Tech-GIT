@@ -135,24 +135,23 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 	@Override
 	public void updateEntity() {
 		
-		this.lastCrane = this.crane;
-		
-		if(this.mode == this.MODE_MANUAL) {
-			if(!this.targetQueue.isEmpty()) {
-				this.tPos = this.targetQueue.get(0);
-			}
-		} else {
-			this.targetQueue.clear();
-		}
-		
 		if(worldObj.isRemote) {
 			this.lastRotationPitch = this.rotationPitch;
 			this.lastRotationYaw = this.rotationYaw;
+			this.lastCrane = this.crane;
 		}
-
-		this.aligned = false;
 		
 		if(!worldObj.isRemote) {
+			
+			if(this.mode == this.MODE_MANUAL) {
+				if(!this.targetQueue.isEmpty()) {
+					this.tPos = this.targetQueue.get(0);
+				}
+			} else {
+				this.targetQueue.clear();
+			}
+			
+			this.aligned = false;
 			
 			this.updateConnections();
 			
@@ -160,15 +159,12 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 				this.target = null;
 				this.stattrak++;
 			}
-		}
 		
-		if(target != null && this.mode != this.MODE_MANUAL) {
-			if(!this.entityInLOS(this.target)) {
-				this.target = null;
+			if(target != null && this.mode != this.MODE_MANUAL) {
+				if(!this.entityInLOS(this.target)) {
+					this.target = null;
+				}
 			}
-		}
-		
-		if(!worldObj.isRemote) {
 			
 			if(target != null) {
 				this.tPos = this.getEntityPos(target);
@@ -177,50 +173,47 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 					this.tPos = null;
 				}
 			}
-		}
 		
-		if(isOn() && hasPower()) {
-			
-			if(!this.hasAmmo() || this.crane > 0) {
+			if(isOn() && hasPower()) {
 				
-				this.turnTowardsAngle(0, this.rotationYaw);
-				
-				if(this.aligned) {
+				if(!this.hasAmmo() || this.crane > 0) {
 					
-					if(this.hasAmmo()) {
-						this.crane -= 0.0125F;
-					} else {
-						this.crane += 0.0125F;
+					this.turnTowardsAngle(0, this.rotationYaw);
+					
+					if(this.aligned) {
 						
-						if(this.crane >= 1F && !worldObj.isRemote) {
-							int available = this.getSpareRocket();
+						if(this.hasAmmo()) {
+							this.crane -= 0.0125F;
+						} else {
+							this.crane += 0.0125F;
 							
-							if(available != -1) {
-								HIMARSRocket type = ItemAmmoHIMARS.itemTypes[available];
-								this.typeLoaded = available;
-								this.ammo = type.amount;
-								this.conusmeAmmo(new ComparableStack(ModItems.ammo_himars, 1, available));
+							if(this.crane >= 1F) {
+								int available = this.getSpareRocket();
+								
+								if(available != -1) {
+									HIMARSRocket type = ItemAmmoHIMARS.itemTypes[available];
+									this.typeLoaded = available;
+									this.ammo = type.amount;
+									this.conusmeAmmo(new ComparableStack(ModItems.ammo_himars, 1, available));
+								}
 							}
 						}
 					}
+					
+					this.crane = MathHelper.clamp_float(this.crane, 0F, 1F);
+					
+				} else {
+					
+					if(tPos != null) {
+						this.alignTurret();
+					}
 				}
-				
-				this.crane = MathHelper.clamp_float(this.crane, 0F, 1F);
 				
 			} else {
-				
-				if(tPos != null) {
-					this.alignTurret();
-				}
+	
+				this.target = null;
+				this.tPos = null;
 			}
-			
-		} else {
-
-			this.target = null;
-			this.tPos = null;
-		}
-		
-		if(!worldObj.isRemote) {
 			
 			if(!isOn()) this.targetQueue.clear();
 			
@@ -256,10 +249,6 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 			
 		} else {
 			
-			Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
-			vec.rotateAroundZ((float) -this.rotationPitch);
-			vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
-			
 			//this will fix the interpolation error when the turret crosses the 360° point
 			if(Math.abs(this.lastRotationYaw - this.rotationYaw) > Math.PI) {
 				
@@ -277,6 +266,7 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 		data.setShort("mode", this.mode);
 		data.setInteger("type", this.typeLoaded);
 		data.setInteger("ammo", this.ammo);
+		data.setFloat("crane", crane);
 		return data;
 	}
 
@@ -286,6 +276,7 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 		this.mode = nbt.getShort("mode");
 		this.typeLoaded = nbt.getShort("type");
 		this.ammo = nbt.getInteger("ammo");
+		this.crane = nbt.getFloat("crane");
 	}
 	
 	public boolean hasAmmo() {

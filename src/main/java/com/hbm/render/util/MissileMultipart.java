@@ -1,7 +1,7 @@
 package com.hbm.render.util;
 
 import com.hbm.handler.MissileStruct;
-import com.hbm.items.weapon.ItemMissile.PartType;
+import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

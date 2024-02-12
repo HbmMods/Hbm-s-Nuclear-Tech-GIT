@@ -47,42 +47,25 @@ public class EntityFalloutRain extends Entity {
 		
 		if(!worldObj.isRemote) {
 			
+			long start = System.currentTimeMillis();
+			
 			if(firstTick) {
-				if (chunksToProcess.isEmpty() && outerChunksToProcess.isEmpty()) gatherChunks();
+				if(chunksToProcess.isEmpty() && outerChunksToProcess.isEmpty()) gatherChunks();
 				firstTick = false;
 			}
 
 			if(tickDelay == 0) {
 				tickDelay = BombConfig.fDelay;
 				
-				if (!chunksToProcess.isEmpty()) {
-					long chunkPos = chunksToProcess.remove(chunksToProcess.size() - 1); // Just so it doesn't shift the whole list every time
-					int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
-					int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
-					boolean biomeModified = false;
-					for(int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) {
-						for(int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
-							double percent = Math.hypot(x - posX, z - posZ) * 100 / getScale();
-							stomp(x, z, percent);
-							BiomeGenBase biome = getBiomeChange(percent, getScale(), worldObj.getBiomeGenForCoords(x, z));
-							if(biome != null) {
-								WorldUtil.setBiome(worldObj, x, z, biome);
-								biomeModified = true;
-							}
-						}
-					}
-					if(biomeModified) WorldUtil.syncBiomeChange(worldObj, chunkPosX << 4, chunkPosZ << 4);
-					
-				} else if (!outerChunksToProcess.isEmpty()) {
-					long chunkPos = outerChunksToProcess.remove(outerChunksToProcess.size() - 1);
-					int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
-					int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
-					boolean biomeModified = false;
-					for(int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) {
-						for(int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
-							double distance = Math.hypot(x - posX, z - posZ);
-							if(distance <= getScale()) {
-								double percent = distance * 100 / getScale();
+				while(System.currentTimeMillis() < start + BombConfig.mk5) {
+					if(!chunksToProcess.isEmpty()) {
+						long chunkPos = chunksToProcess.remove(chunksToProcess.size() - 1); // Just so it doesn't shift the whole list every time
+						int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
+						int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
+						boolean biomeModified = false;
+						for(int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) {
+							for(int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
+								double percent = Math.hypot(x - posX, z - posZ) * 100 / getScale();
 								stomp(x, z, percent);
 								BiomeGenBase biome = getBiomeChange(percent, getScale(), worldObj.getBiomeGenForCoords(x, z));
 								if(biome != null) {
@@ -91,11 +74,33 @@ public class EntityFalloutRain extends Entity {
 								}
 							}
 						}
+						if(biomeModified) WorldUtil.syncBiomeChange(worldObj, chunkPosX << 4, chunkPosZ << 4);
+						
+					} else if (!outerChunksToProcess.isEmpty()) {
+						long chunkPos = outerChunksToProcess.remove(outerChunksToProcess.size() - 1);
+						int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
+						int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
+						boolean biomeModified = false;
+						for(int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) {
+							for(int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
+								double distance = Math.hypot(x - posX, z - posZ);
+								if(distance <= getScale()) {
+									double percent = distance * 100 / getScale();
+									stomp(x, z, percent);
+									BiomeGenBase biome = getBiomeChange(percent, getScale(), worldObj.getBiomeGenForCoords(x, z));
+									if(biome != null) {
+										WorldUtil.setBiome(worldObj, x, z, biome);
+										biomeModified = true;
+									}
+								}
+							}
+						}
+						if(biomeModified) WorldUtil.syncBiomeChange(worldObj, chunkPosX << 4, chunkPosZ << 4);
+						
+					} else {
+						setDead();
+						break;
 					}
-					if(biomeModified) WorldUtil.syncBiomeChange(worldObj, chunkPosX << 4, chunkPosZ << 4);
-					
-				} else {
-					setDead();
 				}
 			}
 
@@ -194,7 +199,7 @@ public class EntityFalloutRain extends Entity {
 			
 			for(FalloutEntry entry : FalloutConfigJSON.entries) {
 				
-				if(entry.eval(worldObj, x, y, z, b, meta, dist)) {
+				if(entry.eval(worldObj, x, y, z, b, meta, dist, b, meta)) {
 					if(entry.isSolid()) {
 						depth++;
 					}

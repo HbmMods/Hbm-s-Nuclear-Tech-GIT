@@ -130,6 +130,11 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.pink_slab));
 		API.hideItem(new ItemStack(ModBlocks.pink_double_slab));
 		API.hideItem(new ItemStack(ModBlocks.pink_stairs));
+
+		API.hideItem(new ItemStack(ModBlocks.spotlight_incandescent_off));
+		API.hideItem(new ItemStack(ModBlocks.spotlight_fluoro_off));
+		API.hideItem(new ItemStack(ModBlocks.spotlight_halogen_off));
+		API.hideItem(new ItemStack(ModBlocks.spotlight_beam));
 		
 		API.registerHighlightIdentifier(ModBlocks.ore_random, new IHighlightHandler() {
 

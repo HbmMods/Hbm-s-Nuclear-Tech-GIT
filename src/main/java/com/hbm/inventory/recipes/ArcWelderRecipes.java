@@ -110,9 +110,6 @@ public class ArcWelderRecipes extends SerializableRecipe {
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.missile_nuclear), 600, 50_000L, new ComparableStack(ModItems.warhead_nuclear), new ComparableStack(ModItems.fuel_tank_large), new ComparableStack(ModItems.thruster_large)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.missile_nuclear_cluster), 600, 50_000L, new ComparableStack(ModItems.warhead_mirv), new ComparableStack(ModItems.fuel_tank_large), new ComparableStack(ModItems.thruster_large)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.missile_volcano), 600, 50_000L, new ComparableStack(ModItems.warhead_volcano), new ComparableStack(ModItems.fuel_tank_large), new ComparableStack(ModItems.thruster_large)));
-
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.missile_endo), 200, 10_000L, new ComparableStack(ModItems.warhead_thermo_endo), new ComparableStack(ModItems.fuel_tank_large), new ComparableStack(ModItems.thruster_large)));
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.missile_exo), 200, 10_000L, new ComparableStack(ModItems.warhead_thermo_exo), new ComparableStack(ModItems.fuel_tank_large), new ComparableStack(ModItems.thruster_large)));
 	}
 	
 	public static HashMap getRecipes() {

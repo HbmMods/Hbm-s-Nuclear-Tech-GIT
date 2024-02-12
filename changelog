@@ -9,6 +9,15 @@
   * Using desulfurized oil skips the (rather destructive) desulfurization process of the standard refinery, yielding higher-quality oils
   * Hydrotreating also allows cracked diesel variants to turn into their normal counterparts
   * Can convert coal oil directly into coal gasoline
+* Rural house
+  * A new structure of an old brick house
+* Industrial lighting
+  * Three new lamps that project out a beam of light for more coverage
+  * Cage lamps are made from tungsten filaments and project light by 2 additional blocks
+  * Fluorescent lights are made from mercury and project light 8 blocks, they also connect with each other to form light strips
+  * Halogen floodlights are made with bromine and cast a light beam 32 blocks long
+  * Lights are on by default and can be toggled with redstone
+  * Tritium lamps have also been retrofitted with longer range lighting, casting beams in all cardinal directions for 8 blocks
 
 ## Changed
 * Deco bocks now drop all of the time, but they drop themselves instead of ingots
@@ -18,7 +27,7 @@
 * Several guns now have reload animations including most .357 revolvers and Samuel
 * Updated stealth missile texture
 * Some of the larger oil machines now render using display lists which should make them somewhat more performant
-* Glyphid diggers can no longer yeet multiblocks or blocks with tile entity
+* Glyphid diggers can no longer yeet multiblocks or blocks with a tile entity
 * Parasite-infested glyphids now explode into gore when the parasites pop out
 * Missiles now have a top acceleration twice as much as the previous acceleration, but instead of being static, the acceleration goes up from 0 to max within 3 seconds
   * This makes missiles reach top speed faster while also making the launches themselves slower and more pleasant
@@ -33,6 +42,12 @@
 * Corroded barrels now crumble after a while
 * PWRs on the edge of unloaded chunks now additionally reset their internal heat value to further reduce the time until they can potentially melt down
 * Removed the assembly recipe for the radial engine since it will be retired soon
+* Removed the endo and exothermal missiles
+* Doomsday missiles are no longer laggy cluster missiles, instead they are now near-identical to thermonuclear missiles but with an added fallout radius of 100#
+* Fallout rain now uses the same variable length code that the MK5 uses for optimal tick utilization, making it a lot faster
+* Lighter sellafite variants should no longer replace darker ones in overlapping craters, making bombed-out landscapes look more natural
+* Fallout's range-based effects now have a more natural gradient instead of creating smooth rings
+* Fallout has been made significantly darker and less saturated to blend in with the crater more
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace
@@ -46,3 +61,5 @@
 * Fixed chunk-loading drones not loading chunks
 * Fixed several chemistry templates missing names
 * Fixed rampant mode random scout spawns being able to appear inside blocks
+* Fixed turret rotation sometimes desyncing when out of range, this is especially noticeable with slow-moving arty
+* Fixed research reactor OC integration allowing the control rods to be set out of bounds

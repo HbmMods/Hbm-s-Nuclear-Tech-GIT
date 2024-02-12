@@ -34,6 +34,14 @@ public class ItemWandD extends Item {
 			
 			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
 			
+			/*int i = pos.blockX >> 4;
+			int j = pos.blockZ >> 4;
+			
+			i = (i << 4) + 8;
+			j = (j << 4) + 8;
+			Component comp = new RuralHouse1(world.rand, i, j);
+			comp.addComponentParts(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));*/
+			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
 			TimeAnalyzer.startEndCount("getBlock");

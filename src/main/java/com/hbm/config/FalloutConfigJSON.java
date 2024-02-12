@@ -1,13 +1,5 @@
 package com.hbm.config;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -19,11 +11,18 @@ import com.hbm.inventory.RecipesCommon.MetaBlock;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.Compat;
 import com.hbm.util.Tuple.Triplet;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class FalloutConfigJSON {
 	
@@ -166,6 +165,7 @@ public class FalloutConfigJSON {
 		private double primaryChance = 1.0D;
 		private double minDist = 0.0D;
 		private double maxDist = 100.0D;
+		private double falloffStart = 0.9D;
 		
 		/** Whether the depth value should be decremented when this block is converted */
 		private boolean isSolid = false;
@@ -180,6 +180,7 @@ public class FalloutConfigJSON {
 			entry.sec(secondaryBlocks);
 			entry.min(minDist);
 			entry.max(maxDist);
+			entry.fo(falloffStart);
 			entry.sol(isSolid);
 			
 			return entry;
@@ -195,21 +196,26 @@ public class FalloutConfigJSON {
 		public FalloutEntry c(double chance) { this.primaryChance = chance; return this; }
 		public FalloutEntry min(double min) { this.minDist = min; return this; }
 		public FalloutEntry max(double max) { this.maxDist = max; return this; }
+		public FalloutEntry fo(double falloffStart) { this.falloffStart = falloffStart; return this; }
 		public FalloutEntry sol(boolean solid) { this.isSolid = solid; return this; }
 		
-		public boolean eval(World world, int x, int y, int z, Block b, int meta, double dist) {
-			
+		public boolean eval(World world, int x, int y, int z, Block b, int meta, double dist, Block originalBlock, int originalMeta) {
+
+			if(dist > maxDist || dist < minDist) return false;
 			if(matchesBlock != null && b != matchesBlock) return false;
 			if(matchesMaterial != null && b.getMaterial() != matchesMaterial) return false;
 			if(matchesMeta != -1 && meta != matchesMeta) return false;
 			if(matchesOpaque && !b.isOpaqueCube()) return false;
-			if(dist > maxDist || dist < minDist) return false;
-			
+			if(dist > maxDist * falloffStart && Math.abs(world.rand.nextGaussian()) < Math.pow((dist - maxDist * falloffStart) / (maxDist - maxDist * falloffStart), 2D) * 3D) return false;
+
 			if(primaryChance == 1D || rand.nextDouble() < primaryChance) {
 				
 				if(primaryBlocks == null) return false;
 				
 				MetaBlock block = chooseRandomOutcome(primaryBlocks);
+				if(block.block == ModBlocks.sellafield_slaked && originalBlock == ModBlocks.sellafield_slaked) {
+					if(block.meta <= originalMeta) return false;
+				}
 				world.setBlock(x, y, z, block.block, block.meta, 3);
 				return true;
 				
@@ -218,6 +224,9 @@ public class FalloutConfigJSON {
 				if(secondaryBlocks == null) return false;
 				
 				MetaBlock block = chooseRandomOutcome(secondaryBlocks);
+				if(block.block == ModBlocks.sellafield_slaked && originalBlock == ModBlocks.sellafield_slaked) {
+					if(block.meta <= originalMeta) return false;
+				}
 				world.setBlock(x, y, z, block.block, block.meta, 3);
 				return true;
 			}
@@ -268,7 +277,7 @@ public class FalloutConfigJSON {
 
 			if(minDist != 0.0D) writer.name("minimumDistancePercent").value(minDist);
 			if(maxDist != 100.0D) writer.name("maximumDistancePercent").value(maxDist);
-			
+			if(falloffStart != 0.9D) writer.name("falloffStartFactor").value(falloffStart);
 		}
 		
 		private static FalloutEntry readEntry(JsonElement recipe) {
@@ -290,6 +299,7 @@ public class FalloutConfigJSON {
 
 			if(obj.has("minimumDistancePercent")) entry.min(obj.get("minimumDistancePercent").getAsDouble());
 			if(obj.has("maximumDistancePercent")) entry.max(obj.get("maximumDistancePercent").getAsDouble());
+			if(obj.has("falloffStartFactor")) entry.fo(obj.get("falloffStartFactor").getAsDouble());
 			
 			return entry;
 		}

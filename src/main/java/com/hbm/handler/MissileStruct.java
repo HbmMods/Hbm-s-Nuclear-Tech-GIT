@@ -1,7 +1,7 @@
 package com.hbm.handler;
 
-import com.hbm.items.weapon.ItemMissile;
-import com.hbm.items.weapon.ItemMissile.PartType;
+import com.hbm.items.weapon.ItemCustomMissilePart;
+import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.Item;
@@ -9,35 +9,35 @@ import net.minecraft.item.ItemStack;
 
 public class MissileStruct {
 
-	public ItemMissile warhead;
-	public ItemMissile fuselage;
-	public ItemMissile fins;
-	public ItemMissile thruster;
+	public ItemCustomMissilePart warhead;
+	public ItemCustomMissilePart fuselage;
+	public ItemCustomMissilePart fins;
+	public ItemCustomMissilePart thruster;
 	
 	public MissileStruct() { }
 	
 	public MissileStruct(ItemStack w, ItemStack f, ItemStack s, ItemStack t) {
 
-		if(w != null && w.getItem() instanceof ItemMissile)
-			warhead = (ItemMissile) w.getItem();
-		if(f != null && f.getItem() instanceof ItemMissile)
-			fuselage = (ItemMissile) f.getItem();
-		if(s != null && s.getItem() instanceof ItemMissile)
-			fins = (ItemMissile) s.getItem();
-		if(t != null && t.getItem() instanceof ItemMissile)
-			thruster = (ItemMissile) t.getItem();
+		if(w != null && w.getItem() instanceof ItemCustomMissilePart)
+			warhead = (ItemCustomMissilePart) w.getItem();
+		if(f != null && f.getItem() instanceof ItemCustomMissilePart)
+			fuselage = (ItemCustomMissilePart) f.getItem();
+		if(s != null && s.getItem() instanceof ItemCustomMissilePart)
+			fins = (ItemCustomMissilePart) s.getItem();
+		if(t != null && t.getItem() instanceof ItemCustomMissilePart)
+			thruster = (ItemCustomMissilePart) t.getItem();
 	}
 	
 	public MissileStruct(Item w, Item f, Item s, Item t) {
 
-		if(w instanceof ItemMissile)
-			warhead = (ItemMissile) w;
-		if(f instanceof ItemMissile)
-			fuselage = (ItemMissile) f;
-		if(s instanceof ItemMissile)
-			fins = (ItemMissile) s;
-		if(t instanceof ItemMissile)
-			thruster = (ItemMissile) t;
+		if(w instanceof ItemCustomMissilePart)
+			warhead = (ItemCustomMissilePart) w;
+		if(f instanceof ItemCustomMissilePart)
+			fuselage = (ItemCustomMissilePart) f;
+		if(s instanceof ItemCustomMissilePart)
+			fins = (ItemCustomMissilePart) s;
+		if(t instanceof ItemCustomMissilePart)
+			thruster = (ItemCustomMissilePart) t;
 	}
 	
 	public void writeToByteBuffer(ByteBuf buf) {
@@ -74,16 +74,16 @@ public class MissileStruct {
 		int t = buf.readInt();
 		
 		if(w != 0)
-			multipart.warhead = (ItemMissile) Item.getItemById(w);
+			multipart.warhead = (ItemCustomMissilePart) Item.getItemById(w);
 		
 		if(f != 0)
-			multipart.fuselage = (ItemMissile) Item.getItemById(f);
+			multipart.fuselage = (ItemCustomMissilePart) Item.getItemById(f);
 		
 		if(s != 0)
-			multipart.fins = (ItemMissile) Item.getItemById(s);
+			multipart.fins = (ItemCustomMissilePart) Item.getItemById(s);
 		
 		if(t != 0)
-			multipart.thruster = (ItemMissile) Item.getItemById(t);
+			multipart.thruster = (ItemCustomMissilePart) Item.getItemById(t);
 		
 		return multipart;
 	}
