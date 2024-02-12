@@ -31,7 +31,6 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		TYPE_STEALTH,
 		TYPE_ABM,
 		TYPE_NUCLEAR,
-		TYPE_DOOMSDAY,
 		TYPE_CARRIER,
 		TYPE_ROBIN
 	}
@@ -75,8 +74,7 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		case TYPE_TIER3: guiScale = 1.25D; guiOffset = 1D; break;
 		case TYPE_STEALTH: guiScale = 1.75D; guiOffset = 4.75D; break;
 		case TYPE_ABM: guiScale = 2.25D; guiOffset = 7D; break;
-		case TYPE_NUCLEAR: guiScale = 1.75D; guiOffset = 4D; break;
-		case TYPE_DOOMSDAY: guiScale = 1.5D; guiOffset = 3D; break;
+		case TYPE_NUCLEAR: guiScale = 1.375D; guiOffset = 1.5D; break;
 		case TYPE_CARRIER: guiScale = 0.625D; guiOffset = -17D; break;
 		case TYPE_ROBIN: guiScale = 1.25D; guiOffset = 2D; break;
 		}
@@ -162,11 +160,10 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		renderers.put(new ComparableStack(ModItems.missile_rain), generateStandard(ResourceManager.missileHuge_CL_tex, ResourceManager.missileHuge));
 		renderers.put(new ComparableStack(ModItems.missile_drill), generateStandard(ResourceManager.missileHuge_BU_tex, ResourceManager.missileHuge));
 
-		renderers.put(new ComparableStack(ModItems.missile_nuclear), generateLarge(ResourceManager.missileNuclear_tex, ResourceManager.missileNuclear));
-		renderers.put(new ComparableStack(ModItems.missile_nuclear_cluster), generateLarge(ResourceManager.missileMIRV_tex, ResourceManager.missileNuclear));
-		renderers.put(new ComparableStack(ModItems.missile_volcano), generateLarge(ResourceManager.missileVolcano_tex, ResourceManager.missileNuclear));
-
-		renderers.put(new ComparableStack(ModItems.missile_doomsday), generateDouble(ResourceManager.missileDoomsday_tex, ResourceManager.missileDoomsday));
+		renderers.put(new ComparableStack(ModItems.missile_nuclear), generateStandard(ResourceManager.missileNuclear_tex, ResourceManager.missileNuclear));
+		renderers.put(new ComparableStack(ModItems.missile_nuclear_cluster), generateStandard(ResourceManager.missileMIRV_tex, ResourceManager.missileNuclear));
+		renderers.put(new ComparableStack(ModItems.missile_volcano), generateStandard(ResourceManager.missileVolcano_tex, ResourceManager.missileNuclear));
+		renderers.put(new ComparableStack(ModItems.missile_doomsday), generateStandard(ResourceManager.missileDoomsday_tex, ResourceManager.missileNuclear));
 
 		renderers.put(new ComparableStack(ModItems.missile_carrier), x -> {
 			GL11.glScalef(2F, 2F, 2F);

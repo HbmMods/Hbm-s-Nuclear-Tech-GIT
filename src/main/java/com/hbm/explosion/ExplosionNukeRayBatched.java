@@ -122,15 +122,6 @@ public class ExplosionNukeRayBatched {
 				}
 
 				if(res <= 0 || i + 1 >= this.length || i == length - 1) {
-					
-					/*NBTTagCompound fx = new NBTTagCompound();
-					fx.setString("type", "debugline");
-					fx.setDouble("mX", vec.xCoord * i);
-					fx.setDouble("mY", vec.yCoord * i);
-					fx.setDouble("mZ", vec.zCoord * i);
-					fx.setInteger("color", 0xff0000);
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(fx, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 200));*/
-					
 					break;
 				}
 			}
@@ -180,7 +171,7 @@ public class ExplosionNukeRayBatched {
 			int diff1 = Math.abs((chunkX - o1.chunkXPos)) + Math.abs((chunkZ - o1.chunkZPos));
 			int diff2 = Math.abs((chunkX - o2.chunkXPos)) + Math.abs((chunkZ - o2.chunkZPos));
 			
-			return diff1 > diff2 ? 1 : diff1 < diff2 ? -1 : 0;
+			return diff1 - diff2;
 		}
 	}
 
@@ -191,6 +182,7 @@ public class ExplosionNukeRayBatched {
 		ChunkCoordIntPair coord = orderedChunks.get(0);
 		List<FloatTriplet> list = perChunk.get(coord);
 		HashSet<BlockPos> toRem = new HashSet();
+		HashSet<BlockPos> toRemTips = new HashSet();
 		//List<BlockPos> toRem = new ArrayList();
 		int chunkX = coord.chunkXPos;
 		int chunkZ = coord.chunkZPos;
@@ -209,6 +201,10 @@ public class ExplosionNukeRayBatched {
 			double pX = vec.xCoord / vec.lengthVector();
 			double pY = vec.yCoord / vec.lengthVector();
 			double pZ = vec.zCoord / vec.lengthVector();
+
+			int tipX = (int) Math.floor(x);
+			int tipY = (int) Math.floor(y);
+			int tipZ = (int) Math.floor(z);
 			
 			boolean inChunk = false;
 			for(int i = enter; i < vec.lengthVector(); i++) {
@@ -227,14 +223,18 @@ public class ExplosionNukeRayBatched {
 				inChunk = true;
 
 				if(!world.isAirBlock(x0, y0, z0)) {
-					toRem.add(new BlockPos(x0, y0, z0));
+					
+					BlockPos pos = new BlockPos(x0, y0, z0);
+					
+					if(x0 == tipX && y0 == tipY && z0 == tipZ) {
+						toRemTips.add(pos);
+					}
+					toRem.add(pos);
 				}
 			}
 		}
-		
-		for(BlockPos pos : toRem) {
-			world.setBlock(pos.getX(), pos.getY(), pos.getZ(), Blocks.air);
-		}
+
+		for(BlockPos pos : toRem) world.setBlock(pos.getX(), pos.getY(), pos.getZ(), Blocks.air, 0, toRemTips.contains(pos) ? 3 : 2);
 		
 		perChunk.remove(coord);
 		orderedChunks.remove(0);

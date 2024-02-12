@@ -2,6 +2,9 @@ package com.hbm.render.entity.rocket;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.missile.EntityMissileDoomsday;
+import com.hbm.entity.missile.EntityMissileTier4.EntityMissileMirv;
+import com.hbm.entity.missile.EntityMissileTier4.EntityMissileNuclear;
 import com.hbm.entity.missile.EntityMissileTier4.EntityMissileVolcano;
 import com.hbm.main.ResourceManager;
 
@@ -21,14 +24,16 @@ public class RenderMissileNuclear extends Render {
 		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * interp, 0.0F, 0.0F, 1.0F);
 		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, -1.0F, 0.0F);
-		GL11.glScalef(1.5F, 1.5F, 1.5F);
 
-		if(entity instanceof EntityMissileVolcano)
-			bindTexture(ResourceManager.missileVolcano_tex);
-		else
-			bindTexture(ResourceManager.missileNuclear_tex);
+		if(entity instanceof EntityMissileNuclear) bindTexture(ResourceManager.missileNuclear_tex);
+		if(entity instanceof EntityMissileMirv) bindTexture(ResourceManager.missileMIRV_tex);
+		if(entity instanceof EntityMissileDoomsday) bindTexture(ResourceManager.missileDoomsday_tex);
+		if(entity instanceof EntityMissileVolcano) bindTexture(ResourceManager.missileVolcano_tex);
 
+		GL11.glShadeModel(GL11.GL_SMOOTH);
 		ResourceManager.missileNuclear.renderAll();
+		GL11.glShadeModel(GL11.GL_FLAT);
+		
 		GL11.glPopMatrix();
 	}
 

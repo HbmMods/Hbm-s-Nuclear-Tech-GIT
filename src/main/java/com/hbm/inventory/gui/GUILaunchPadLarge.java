@@ -63,7 +63,7 @@ public class GUILaunchPadLarge extends GuiInfoContainer {
 					case V2: scale = 1.75D; break;
 					case STRONG: scale = 1.375D; break;
 					case HUGE: scale = 0.925D; break;
-					case ATLAS: break;
+					case ATLAS: scale = 0.875D; break;
 					case OTHER: break;
 					}
 					if(missile == ModItems.missile_stealth) scale = 1.125D;

@@ -5,6 +5,9 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUILaunchPadLarge;
 import com.hbm.items.weapon.ItemMissile;
+import com.hbm.items.weapon.ItemMissile.MissileFormFactor;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -47,6 +50,12 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 	public long power;
 	public final long maxPower = 100_000;
 	
+	private AudioWrapper audioLift;
+	private AudioWrapper audioErector;
+	
+	protected boolean liftMoving = false;
+	protected boolean erectorMoving = false;
+	
 	public FluidTank[] tanks;
 
 	public TileEntityLaunchPadLarge() {
@@ -65,6 +74,9 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+
+			this.prevLift = this.lift;
+			this.prevErector = this.erector;
 			
 			float erectorSpeed = 1.5F;
 			float liftSpeed = 0.025F;
@@ -74,6 +86,11 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 					ItemMissile missile = (ItemMissile) slots[0].getItem();
 					this.formFactor = missile.formFactor.ordinal();
 					setFuel(missile);
+					
+					if(missile.formFactor == MissileFormFactor.ATLAS || missile.formFactor == MissileFormFactor.HUGE) {
+						erectorSpeed /= 2F;
+						liftSpeed /= 2F;
+					}
 				}
 				
 				if(this.erector == 90F && this.lift == 1F) {
@@ -144,6 +161,16 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 				}
 			}
 
+			boolean prevLiftMoving = this.liftMoving;
+			boolean prevErectorMoving = this.erectorMoving;
+			this.liftMoving = false;
+			this.erectorMoving = false;
+			if(this.prevLift != this.lift) this.liftMoving = true;
+			if(this.prevErector != this.erector) this.erectorMoving = true;
+
+			if(prevLiftMoving && !this.liftMoving) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:door.wgh_stop", 2F, 1F);
+			if(prevErectorMoving && !this.erectorMoving) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:door.garage_stop", 2F, 1F);
+
 			this.networkPackNT(250);
 			
 		} else {
@@ -157,6 +184,36 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 			} else {
 				this.lift = this.syncLift;
 				this.erector = this.syncErector;
+			}
+			
+			if(this.liftMoving) {
+				if(this.audioLift == null) {
+					this.audioLift = MainRegistry.proxy.getLoopedSound("hbm:door.wgh_start", xCoord, yCoord, zCoord, 0.75F, 25F, 1.0F, 5);
+					this.audioLift.startSound();
+				} else if(!this.audioLift.isPlaying()) {
+					this.audioLift.startSound();
+				}
+				this.audioLift.keepAlive();
+			} else {
+				if(this.audioLift != null) {
+					this.audioLift.stopSound();
+					this.audioLift = null;
+				}
+			}
+			
+			if(this.erectorMoving) {
+				if(this.audioErector == null) {
+					this.audioErector = MainRegistry.proxy.getLoopedSound("hbm:door.garage_move", xCoord, yCoord, zCoord, 1.5F, 25F, 1.0F, 5);
+					this.audioErector.startSound();
+				} else if(!this.audioErector.isPlaying()) {
+					this.audioErector.startSound();
+				}
+				this.audioErector.keepAlive();
+			} else {
+				if(this.audioErector != null) {
+					this.audioErector.stopSound();
+					this.audioErector = null;
+				}
 			}
 		}
 	}
@@ -187,6 +244,9 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		
+		buf.writeBoolean(this.liftMoving);
+		buf.writeBoolean(this.erectorMoving);
+		
 		if(slots[0] != null) {
 			buf.writeBoolean(true);
 			buf.writeInt(Item.getIdFromItem(slots[0].getItem()));
@@ -205,6 +265,9 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
+
+		this.liftMoving = buf.readBoolean();
+		this.erectorMoving = buf.readBoolean();
 		
 		if(buf.readBoolean()) {
 			this.toRender = new ItemStack(Item.getItemById(buf.readInt()), 1, buf.readShort());

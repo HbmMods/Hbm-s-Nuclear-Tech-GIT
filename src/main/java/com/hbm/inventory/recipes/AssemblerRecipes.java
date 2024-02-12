@@ -988,6 +988,16 @@ public class AssemblerRecipes {
 				new ComparableStack(ModItems.motor, 1),
 				new ComparableStack(ModItems.circuit_red_copper, 3)
 			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.machine_hydrotreater, 1), new AStack[] {
+				!exp ? new OreDictStack(STEEL.plateWelded(), 8) : new OreDictStack(STEEL.heavyComp(), 4),
+				!exp ? new OreDictStack(CU.plateCast(), 4) : new OreDictStack(CU.heavyComp(), 2),
+				new OreDictStack(NB.ingot(), 8),
+				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 4),
+				new ComparableStack(ModItems.hull_big_steel, 2),
+				new ComparableStack(ModItems.pipes_steel, 1),
+				new ComparableStack(ModItems.motor_desh, 2),
+				new ComparableStack(ModItems.circuit_red_copper, 3)
+			}, 200);
 
 		makeRecipe(new ComparableStack(ModBlocks.machine_compressor, 1), new AStack[] {
 				new OreDictStack(STEEL.plateCast(), 8),
