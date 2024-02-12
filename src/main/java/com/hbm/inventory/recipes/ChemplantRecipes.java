@@ -37,7 +37,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 	
 	@Override
 	public void registerDefaults() {
-
+		//0-3, formerly oil fractioning
 		recipes.add(new ChemRecipe(4, "FR_REOIL", 30)
 			.inputFluids(new FluidStack(1000, Fluids.SMEAR))
 			.outputFluids(new FluidStack(800, Fluids.RECLAIMED)));
@@ -46,7 +46,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 				new FluidStack(800, Fluids.RECLAIMED),
 				new FluidStack(200, Fluids.LUBRICANT))
 			.outputFluids(new FluidStack(1000, Fluids.PETROIL)));
-
 		//6-30, formerly oil cracking, coal liquefaction and solidifciation
 		registerOtherOil();
 
