@@ -47,6 +47,7 @@
 * Fallout rain now uses the same variable length code that the MK5 uses for optimal tick utilization, making it a lot faster
 * Lighter sellafite variants should no longer replace darker ones in overlapping craters, making bombed-out landscapes look more natural
 * Fallout's range-based effects now have a more natural gradient instead of creating smooth rings
+* Fallout has been made significantly darker and less saturated to blend in with the crater more
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace

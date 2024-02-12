@@ -271,7 +271,6 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 			if(this.state == 1 && state == 2){ // Door transitioning to closed
 				if(audio != null) {
 					audio.stopSound();
-					audio.setKeepAlive(0);
 				}
 
 				if(doorType.getCloseSoundLoop() != null){
@@ -294,12 +293,10 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 			if(state == 1 || state == 0){ // Door finished any transition
 				if(audio != null){
 					audio.stopSound();
-					audio.setKeepAlive(0);
 					audio = null;
 				}
 				if(audio2 != null){
 					audio2.stopSound();
-					audio.setKeepAlive(0);
 					audio2 = null;
 				}
 			}

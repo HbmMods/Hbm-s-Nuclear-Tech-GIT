@@ -38,6 +38,8 @@ public class Spotlight extends Block implements ISpotlight {
 		this.beamLength = beamLength;
 		this.type = type;
 		this.isOn = isOn;
+		
+		this.setHardness(1F);
 
 		if(isOn) setLightLevel(1.0F);
 	}
@@ -291,23 +293,17 @@ public class Spotlight extends Block implements ISpotlight {
 	}
 	
 	protected Block getOff() {
-		if(this == ModBlocks.spotlight_incandescent)
-			return ModBlocks.spotlight_incandescent_off;
-		if(this == ModBlocks.spotlight_fluoro)
-			return ModBlocks.spotlight_fluoro_off;
-		if(this == ModBlocks.spotlight_halogen)
-			return ModBlocks.spotlight_halogen_off;
+		if(this == ModBlocks.spotlight_incandescent) return ModBlocks.spotlight_incandescent_off;
+		if(this == ModBlocks.spotlight_fluoro) return ModBlocks.spotlight_fluoro_off;
+		if(this == ModBlocks.spotlight_halogen) return ModBlocks.spotlight_halogen_off;
 		
 		return this;
 	}
 	
 	protected Block getOn() {
-		if(this == ModBlocks.spotlight_incandescent_off)
-			return ModBlocks.spotlight_incandescent;
-		if(this == ModBlocks.spotlight_fluoro_off)
-			return ModBlocks.spotlight_fluoro;
-		if(this == ModBlocks.spotlight_halogen_off)
-			return ModBlocks.spotlight_halogen;
+		if(this == ModBlocks.spotlight_incandescent_off) return ModBlocks.spotlight_incandescent;
+		if(this == ModBlocks.spotlight_fluoro_off) return ModBlocks.spotlight_fluoro;
+		if(this == ModBlocks.spotlight_halogen_off) return ModBlocks.spotlight_halogen;
 		
 		return this;
 	}

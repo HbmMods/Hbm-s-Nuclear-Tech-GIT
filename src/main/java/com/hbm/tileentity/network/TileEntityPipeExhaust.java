@@ -112,4 +112,17 @@ public class TileEntityPipeExhaust extends TileEntity implements IFluidConductor
 		if(type == Fluids.SMOKE_LEADED) nets[1] = network;
 		if(type == Fluids.SMOKE_POISON) nets[2] = network;
 	}
+
+	public boolean isLoaded = true;
+	
+	@Override
+	public boolean isLoaded() {
+		return isLoaded;
+	}
+
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		this.isLoaded = false;
+	}
 }
