@@ -1,13 +1,20 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.blocks.ModBlocks;
+
+import java.util.Random;
+
 import com.hbm.blocks.BlockEnums.LightType;
 import com.hbm.main.ResourceManager;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -16,15 +23,22 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class Spotlight extends Block {
 
+    // I'd be extending the ReinforcedLamp class if it wasn't for the inverted behaviour of these specific lights
+    // I want these blocks to be eminently useful, so removing the need for redstone by default is desired,
+    // these act more like redstone torches, in that applying a signal turns them off
+    public boolean isOn;
+
     public int beamLength;
     public LightType type;
 
-	public Spotlight(Material mat, int beamLength, LightType type) {
+	public Spotlight(Material mat, int beamLength, LightType type, boolean isOn) {
 		super(mat);
-        setLightLevel(1.0F);
-
+        
         this.beamLength = beamLength;
         this.type = type;
+        this.isOn = isOn;
+
+        if (isOn) setLightLevel(1.0F);
 	}
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
@@ -104,8 +118,24 @@ public class Spotlight extends Block {
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
         if (world.isRemote) return;
+
+        if (updatePower(world, x, y, z)) return;
+
 		updateBeam(world, x, y, z);
 	}
+
+    private boolean updatePower(World world, int x, int y, int z) {
+        boolean isPowered = world.isBlockIndirectlyGettingPowered(x, y, z);
+        if (isOn && isPowered) {
+            world.scheduleBlockUpdate(x, y, z, this, 4);
+            return true;
+        } else if (!isOn && !isPowered) {
+            world.setBlock(x, y, z, getOn(), world.getBlockMetadata(x, y, z), 2);
+            return true;
+        }
+
+        return false;
+    }
 
     @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
@@ -116,6 +146,15 @@ public class Spotlight extends Block {
         
         unpropagateBeam(world, x, y, z, dir);
     }
+
+	@Override
+	public void updateTick(World world, int x, int y, int z, Random p_149674_5_) {
+        if (world.isRemote) return;
+		
+		if (isOn && world.isBlockIndirectlyGettingPowered(x, y, z)) {
+			world.setBlock(x, y, z, getOff(), world.getBlockMetadata(x, y, z), 2);
+		}
+	}
 
 	// Repropagate the beam if we've become unblocked
 	@Override
@@ -130,6 +169,8 @@ public class Spotlight extends Block {
             world.setBlockToAir(x, y, z);
             return;
         }
+
+        if (updatePower(world, x, y, z)) return;
 
         updateBeam(world, x, y, z);
 	}
@@ -161,6 +202,8 @@ public class Spotlight extends Block {
     }
 
 	private void updateBeam(World world, int x, int y, int z) {
+        if (!isOn) return;
+
         ForgeDirection dir = getDirection(world, x, y, z);
         propagateBeam(world, x, y, z, dir, beamLength);
 	}
@@ -173,6 +216,22 @@ public class Spotlight extends Block {
     public ForgeDirection getDirection(int metadata) {
         return ForgeDirection.getOrientation(metadata >> 1);
     }
+
+	@Override
+	public Item getItemDropped(int i, Random r, int j) {
+		return Item.getItemFromBlock(getOn());
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public Item getItem(World world, int x, int y, int z) {
+		return Item.getItemFromBlock(getOn());
+	}
+
+	@Override
+	protected ItemStack createStackedBlock(int e) {
+		return new ItemStack(getOn());
+	}
 
     // Recursively add beam blocks, updating any that already exist with new incoming light directions
     public static void propagateBeam(World world, int x, int y, int z, ForgeDirection dir, int distance) {
@@ -230,5 +289,27 @@ public class Spotlight extends Block {
 
         backPropagate(world, x, y, z, dir);
     }
+	
+	protected Block getOff() {
+		if(this == ModBlocks.spotlight_incandescent)
+			return ModBlocks.spotlight_incandescent_off;
+		if(this == ModBlocks.spotlight_fluoro)
+			return ModBlocks.spotlight_fluoro_off;
+		if(this == ModBlocks.spotlight_halogen)
+			return ModBlocks.spotlight_halogen_off;
+		
+		return this;
+	}
+	
+	protected Block getOn() {
+		if(this == ModBlocks.spotlight_incandescent_off)
+			return ModBlocks.spotlight_incandescent;
+		if(this == ModBlocks.spotlight_fluoro_off)
+			return ModBlocks.spotlight_fluoro;
+		if(this == ModBlocks.spotlight_halogen_off)
+			return ModBlocks.spotlight_halogen;
+		
+		return this;
+	}
     
 }

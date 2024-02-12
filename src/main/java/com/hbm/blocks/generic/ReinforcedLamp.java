@@ -77,7 +77,7 @@ public class ReinforcedLamp extends Block {
 		return new ItemStack(getOff());
 	}
 	
-	private Block getOff() {
+	protected Block getOff() {
 
 		if(this == ModBlocks.reinforced_lamp_on)
 			return ModBlocks.reinforced_lamp_off;
@@ -89,7 +89,7 @@ public class ReinforcedLamp extends Block {
 		return this;
 	}
 	
-	private Block getOn() {
+	protected Block getOn() {
 
 		if(this == ModBlocks.reinforced_lamp_off)
 			return ModBlocks.reinforced_lamp_on;

@@ -7,8 +7,8 @@ import net.minecraft.world.IBlockAccess;
 
 public class SpotlightModular extends Spotlight {
     
-    public SpotlightModular(Material mat, int beamLength, LightType type) {
-		super(mat, beamLength, type);
+    public SpotlightModular(Material mat, int beamLength, LightType type, boolean isOn) {
+		super(mat, beamLength, type, isOn);
 	}
 
     @Override
