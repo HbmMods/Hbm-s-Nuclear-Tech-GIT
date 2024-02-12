@@ -444,42 +444,42 @@ public class ChemplantRecipes extends SerializableRecipe {
 			.outputFluids(
 				new FluidStack(400, Fluids.SMEAR),
 				new FluidStack(600, Fluids.HEATINGOIL_VACUUM)));
-		recipes.add(new ChemRecipe(202, "FP_SMEAR", 50)
+		recipes.add(new ChemRecipe(210, "FP_SMEAR", 50)
 			.inputFluids(new FluidStack(1000, Fluids.SMEAR))
 			.outputFluids(
 				new FluidStack(600, Fluids.HEATINGOIL),
 				new FluidStack(400, Fluids.LUBRICANT)));
-		recipes.add(new ChemRecipe(203, "FP_NAPHTHA", 50)
+		recipes.add(new ChemRecipe(220, "FP_NAPHTHA", 50)
 			.inputFluids(new FluidStack(1000, Fluids.NAPHTHA))
 			.outputFluids(
 				new FluidStack(400, Fluids.HEATINGOIL),
 				new FluidStack(600, Fluids.DIESEL)));
-		recipes.add(new ChemRecipe(204, "FP_NAPHTHA_DS", 50)
+		recipes.add(new ChemRecipe(221, "FP_NAPHTHA_DS", 50)
 			.inputFluids(new FluidStack(1000, Fluids.NAPHTHA_DS))
 			.outputFluids(
 				new FluidStack(600, Fluids.XYLENE),
 				new FluidStack(400, Fluids.DIESEL_REFORM)));
-		recipes.add(new ChemRecipe(205, "FP_NAPHTHA_CRACK", 50)
+		recipes.add(new ChemRecipe(222, "FP_NAPHTHA_CRACK", 50)
 			.inputFluids(new FluidStack(1000, Fluids.NAPHTHA_CRACK))
 			.outputFluids(
 				new FluidStack(300, Fluids.HEATINGOIL),
 				new FluidStack(700, Fluids.DIESEL_CRACK)));
-		recipes.add(new ChemRecipe(206, "FP_LIGHTOIL", 50)
+		recipes.add(new ChemRecipe(230, "FP_LIGHTOIL", 50)
 			.inputFluids(new FluidStack(1000, Fluids.LIGHTOIL))
 			.outputFluids(
 				new FluidStack(400, Fluids.DIESEL),
 				new FluidStack(600, Fluids.KEROSENE)));
-		recipes.add(new ChemRecipe(207, "FP_LIGHTOIL_DS", 50)
+		recipes.add(new ChemRecipe(231, "FP_LIGHTOIL_DS", 50)
 			.inputFluids(new FluidStack(1000, Fluids.LIGHTOIL_DS))
 			.outputFluids(
 				new FluidStack(600, Fluids.DIESEL_REFORM),
 				new FluidStack(400, Fluids.KEROSENE_REFORM)));
-		recipes.add(new ChemRecipe(208, "FP_LIGHTOIL_CRACK", 50)
+		recipes.add(new ChemRecipe(232, "FP_LIGHTOIL_CRACK", 50)
 			.inputFluids(new FluidStack(1000, Fluids.LIGHTOIL_CRACK))
 			.outputFluids(
 				new FluidStack(700, Fluids.KEROSENE),
 				new FluidStack(300, Fluids.PETROLEUM)));
-		recipes.add(new ChemRecipe(209, "FP_LIGHTOIL_VACUMM", 50)
+		recipes.add(new ChemRecipe(233, "FP_LIGHTOIL_VACUMM", 50)
 			.inputFluids(new FluidStack(1000, Fluids.LIGHTOIL_VACUUM))
 			.outputFluids(
 				new FluidStack(700, Fluids.KEROSENE),
