@@ -16,6 +16,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUILaunchPadLarge;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemMissile;
+import com.hbm.items.weapon.ItemMissile.MissileFuel;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
@@ -338,6 +339,28 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	/** Full launch condition, checks if the item is launchable, fuel and power are present and any additional checks based on launch pad type */
 	public boolean canLaunch() {
 		return this.isMissileValid() && this.hasFuel() && this.isReadyForLaunch();
+	}
+	
+	public int getFuelState() {
+		return getGaugeState(0);
+	}
+	
+	public int getOxidizerState() {
+		return getGaugeState(1);
+	}
+	
+	public int getGaugeState(int tank) {
+		if(slots[0] == null) return 0;
+		
+		if(slots[0].getItem() instanceof ItemMissile) {
+			ItemMissile missile = (ItemMissile) slots[0].getItem();
+			MissileFuel fuel = missile.fuel;
+			
+			if(fuel == MissileFuel.SOLID) return 0;
+			return tanks[tank].getFill() >= missile.fuelCap ? 1 : -1;
+		}
+		
+		return 0;
 	}
 	
 	/** Any extra conditions for launching in addition to the missile being valid and fueled */

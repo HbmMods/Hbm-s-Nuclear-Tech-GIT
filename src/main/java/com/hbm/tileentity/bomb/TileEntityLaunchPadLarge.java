@@ -10,9 +10,12 @@ import com.hbm.tileentity.IRadarCommandReceiver;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements IEnergyUser, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
 
@@ -160,10 +163,8 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements
 			}
 			
 			if(this.liftMoving) {
-				if(this.audioLift == null) {
+				if(this.audioLift == null || !this.audioLift.isPlaying()) {
 					this.audioLift = MainRegistry.proxy.getLoopedSound("hbm:door.wgh_start", xCoord, yCoord, zCoord, 0.75F, 25F, 1.0F, 5);
-					this.audioLift.startSound();
-				} else if(!this.audioLift.isPlaying()) {
 					this.audioLift.startSound();
 				}
 				this.audioLift.keepAlive();
@@ -175,10 +176,8 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements
 			}
 			
 			if(this.erectorMoving) {
-				if(this.audioErector == null) {
+				if(this.audioErector == null || !this.audioErector.isPlaying()) {
 					this.audioErector = MainRegistry.proxy.getLoopedSound("hbm:door.garage_move", xCoord, yCoord, zCoord, 1.5F, 25F, 1.0F, 5);
-					this.audioErector.startSound();
-				} else if(!this.audioErector.isPlaying()) {
 					this.audioErector.startSound();
 				}
 				this.audioErector.keepAlive();
@@ -254,5 +253,30 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements
 		}
 		
 		return missile;
+	}
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 10,
+					yCoord,
+					zCoord - 10,
+					xCoord + 11,
+					yCoord + 15,
+					zCoord + 11
+					);
+		}
+		
+		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 }
