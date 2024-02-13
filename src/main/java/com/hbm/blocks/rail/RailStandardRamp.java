@@ -32,6 +32,7 @@ public class RailStandardRamp extends BlockDummyable implements IRailNTM, IRende
 		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.5, 0.0, -1.5, 0.5, 0.5, 0.5));
 		this.bounding.add(AxisAlignedBB.getBoundingBox(0.5, 0.0, -1.5, 1.5, 0.7, 0.5));
 		this.bounding.add(AxisAlignedBB.getBoundingBox(1.5, 0.0, -1.5, 2.5, 0.9, 0.5));
+		this.maxY = 0.999D; //item bounce prevention
 	}
 
 	@Override

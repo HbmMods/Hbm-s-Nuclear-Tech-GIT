@@ -19,6 +19,7 @@ public class MachineCentrifuge extends BlockDummyable {
 		super(mat);
 		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.5D, 0D, -0.5D, 0.5D, 1D, 0.5D));
 		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.375D, 1D, -0.375D, 0.375D, 4D, 0.375D));
+		this.maxY = 0.999D; //item bounce prevention
 	}
 	
 	@Override

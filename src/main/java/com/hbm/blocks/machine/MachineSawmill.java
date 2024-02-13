@@ -33,6 +33,7 @@ public class MachineSawmill extends BlockDummyable implements ILookOverlay, IToo
 		this.bounding.add(AxisAlignedBB.getBoundingBox(-1.5D, 0D, -1.5D, 1.5D, 1D, 1.5D));
 		this.bounding.add(AxisAlignedBB.getBoundingBox(-1.25D, 1D, -0.5D, -0.625D, 1.875D, 0.5D));
 		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.625D, 1D, -1D, 1.375D, 2D, 1D));
+		this.maxY = 0.999D; //item bounce prevention
 	}
 
 	@Override

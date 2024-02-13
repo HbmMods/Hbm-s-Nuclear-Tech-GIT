@@ -100,6 +100,7 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 	protected void entityInit() {
 		super.entityInit();
 		init(ForgeChunkManager.requestTicket(MainRegistry.instance, worldObj, Type.ENTITY));
+		this.dataWatcher.addObject(3, new Byte((byte) 5));
 	}
 
 	@Override
@@ -238,7 +239,7 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 		if(this.isEntityInvulnerable()) {
 			return false;
 		} else {
-			if(!this.isDead && !this.worldObj.isRemote) {
+			if(this.health > 0 && !this.worldObj.isRemote) {
 				health -= amount;
 
 				if(this.health <= 0) {
@@ -251,10 +252,12 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 	}
 
 	protected void killMissile() {
-		this.setDead();
-		ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
-		ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
-		ExplosionLarge.spawnMissileDebris(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 0.25, getDebris(), getDebrisRareDrop());
+		if(!this.isDead) {
+			this.setDead();
+			ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
+			ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
+			ExplosionLarge.spawnMissileDebris(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 0.25, getDebris(), getDebrisRareDrop());
+		}
 	}
 	
 	@Override

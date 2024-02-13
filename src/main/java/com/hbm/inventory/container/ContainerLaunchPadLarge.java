@@ -1,7 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotTakeOnly;
-import com.hbm.tileentity.bomb.TileEntityLaunchPadLarge;
+import com.hbm.tileentity.bomb.TileEntityLaunchPadBase;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerLaunchPadLarge extends Container {
 	
-	private TileEntityLaunchPadLarge launchpad;
+	private TileEntityLaunchPadBase launchpad;
 	
-	public ContainerLaunchPadLarge(InventoryPlayer invPlayer, TileEntityLaunchPadLarge tedf) {
+	public ContainerLaunchPadLarge(InventoryPlayer invPlayer, TileEntityLaunchPadBase tedf) {
 		
 		launchpad = tedf;
 		

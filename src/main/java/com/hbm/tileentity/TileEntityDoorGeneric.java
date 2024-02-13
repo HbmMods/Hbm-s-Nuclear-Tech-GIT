@@ -352,7 +352,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag){
+	public void readFromNBT(NBTTagCompound tag) {
 		this.state = tag.getByte("state");
 		this.openTicks = tag.getInteger("openTicks");
 		this.animStartTime = tag.getInteger("animStartTime");
@@ -361,16 +361,16 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		this.skinIndex = tag.getByte("skin");
 		NBTTagCompound activatedBlocks = tag.getCompoundTag("activatedBlocks");
 		this.activatedBlocks.clear();
-		for(int i = 0; i < activatedBlocks.func_150296_c().size()/3; i ++){
-			this.activatedBlocks.add(new BlockPos(activatedBlocks.getInteger("x"+i), activatedBlocks.getInteger("y"+i), activatedBlocks.getInteger("z"+i)));
+		for(int i = 0; i < activatedBlocks.func_150296_c().size() / 3; i++) {
+			this.activatedBlocks.add(new BlockPos(activatedBlocks.getInteger("x" + i), activatedBlocks.getInteger("y" + i), activatedBlocks.getInteger("z" + i)));
 		}
 		super.readFromNBT(tag);
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound tag){
+	public void writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
-		
+
 		tag.setByte("state", state);
 		tag.setInteger("openTicks", openTicks);
 		tag.setLong("animStartTime", animStartTime);
@@ -380,10 +380,10 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 			tag.setByte("skin", skinIndex);
 		NBTTagCompound activatedBlocks = new NBTTagCompound();
 		int i = 0;
-		for(BlockPos p : this.activatedBlocks){
-			activatedBlocks.setInteger("x"+i, p.getX());
-			activatedBlocks.setInteger("y"+i, p.getY());
-			activatedBlocks.setInteger("z"+i, p.getZ());
+		for(BlockPos p : this.activatedBlocks) {
+			activatedBlocks.setInteger("x" + i, p.getX());
+			activatedBlocks.setInteger("y" + i, p.getY());
+			activatedBlocks.setInteger("z" + i, p.getZ());
 			i++;
 		}
 		tag.setTag("activatedBlocks", activatedBlocks);
@@ -407,7 +407,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		}
 	}
 
-	public void updateRedstonePower(int x, int y, int z){
+	public void updateRedstonePower(int x, int y, int z) {
 		//Drillgon200: Best I could come up with without having to use dummy tile entities
 		BlockPos pos = new BlockPos(x, y, z);
 		boolean powered = worldObj.isBlockIndirectlyGettingPowered(x, y, z);

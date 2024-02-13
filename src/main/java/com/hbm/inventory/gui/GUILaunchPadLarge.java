@@ -11,7 +11,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.item.ItemRenderMissileGeneric;
-import com.hbm.tileentity.bomb.TileEntityLaunchPadLarge;
+import com.hbm.tileentity.bomb.TileEntityLaunchPadBase;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
@@ -23,9 +23,9 @@ import net.minecraft.util.ResourceLocation;
 public class GUILaunchPadLarge extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/weapon/gui_launch_pad_large.png");
-	private TileEntityLaunchPadLarge launchpad;
+	private TileEntityLaunchPadBase launchpad;
 
-	public GUILaunchPadLarge(InventoryPlayer invPlayer, TileEntityLaunchPadLarge tedf) {
+	public GUILaunchPadLarge(InventoryPlayer invPlayer, TileEntityLaunchPadBase tedf) {
 		super(new ContainerLaunchPadLarge(invPlayer, tedf));
 		launchpad = tedf;
 		

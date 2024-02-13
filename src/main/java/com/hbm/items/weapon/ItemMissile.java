@@ -13,17 +13,22 @@ public class ItemMissile extends ItemCustomLore {
 	public final MissileFormFactor formFactor;
 	public final MissileTier tier;
 	public final MissileFuel fuel;
+	public int fuelCap;
 	
 	public ItemMissile(MissileFormFactor form, MissileTier tier) {
-		this.formFactor = form;
-		this.tier = tier;
-		this.fuel = form.defaultFuel;
+		this(form, tier, form.defaultFuel);
 	}
 	
 	public ItemMissile(MissileFormFactor form, MissileTier tier, MissileFuel fuel) {
 		this.formFactor = form;
 		this.tier = tier;
 		this.fuel = fuel;
+		this.setFuelCap(this.fuel.defaultCap);
+	}
+	
+	public ItemMissile setFuelCap(int fuelCap) {
+		this.fuelCap = fuelCap;
+		return this;
 	}
 	
 	@Override
@@ -64,16 +69,18 @@ public class ItemMissile extends ItemCustomLore {
 	}
 	
 	public enum MissileFuel {
-		SOLID(EnumChatFormatting.GOLD + "Solid Fuel (pre-fueled)"),
-		ETHANOL_PEROXIDE(EnumChatFormatting.AQUA + "Ethanol / Hydrogen Peroxide"),
-		KEROSENE_PEROXIDE(EnumChatFormatting.BLUE + "Kerosene / Hydrogen Peroxide"),
-		KEROSENE_LOXY(EnumChatFormatting.LIGHT_PURPLE + "Kerosene / Liquid Oxygen"),
-		JETFUEL_LOXY(EnumChatFormatting.RED + "Jet Fuel / Liquid Oxygen");
+		SOLID(EnumChatFormatting.GOLD + "Solid Fuel (pre-fueled)", 0),
+		ETHANOL_PEROXIDE(EnumChatFormatting.AQUA + "Ethanol / Hydrogen Peroxide", 4_000),
+		KEROSENE_PEROXIDE(EnumChatFormatting.BLUE + "Kerosene / Hydrogen Peroxide", 8_000),
+		KEROSENE_LOXY(EnumChatFormatting.LIGHT_PURPLE + "Kerosene / Liquid Oxygen", 12_000),
+		JETFUEL_LOXY(EnumChatFormatting.RED + "Jet Fuel / Liquid Oxygen", 16_000);
 		
 		public String display;
+		public int defaultCap;
 		
-		private MissileFuel(String display) {
+		private MissileFuel(String display, int defaultCap) {
 			this.display = display;
+			this.defaultCap = defaultCap;
 		}
 	}
 }

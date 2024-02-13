@@ -9,6 +9,7 @@
   * Using desulfurized oil skips the (rather destructive) desulfurization process of the standard refinery, yielding higher-quality oils
   * Hydrotreating also allows cracked diesel variants to turn into their normal counterparts
   * Can convert coal oil directly into coal gasoline
+  * For people afraid that this means yet another oil expansion that they need to progress through, I can assure you that this machine is entirely optional
 * Rural house
   * A new structure of an old brick house
 * Industrial lighting
@@ -38,6 +39,9 @@
 * Covneyor ejectors can now eject sulfur out of the side ports of refineries
 * Refineries and vacuum refineries now have fluid ID slots for changing the recipe
 * Removed the remaining old oil separation recipes from the chemical plant
+  * To help people coping with this terrible, terrible loss, fraction towers are now twice as fast
+  * This is a reminder that the chemical plant is a chemical reactor first and foremost, recipes like mixing and fractioning only existed because at the time there was no dedicated machine for it
+  * Fractional distilling is not a chemical process but a purely physical one, I don't know who needs to know this but I feel like some people might be unaware of the fact
 * More large models have been converted into display lists which should improve performance somewhat
 * Corroded barrels now crumble after a while
 * PWRs on the edge of unloaded chunks now additionally reset their internal heat value to further reduce the time until they can potentially melt down
@@ -59,6 +63,8 @@
 * Oxyhydrogen can now be made by mixing air (i.e. nothing) with hydrogen
   * The oxygen + hydrogen recipe remains in order to give an option to void oxygen without needing to resort to flare stacks
 * Removed some of the lower tier items fomr the red room loot pool, making the average red room better
+* Retextured the fallout effect, fallout no longer has large snowflakes and the color now matches the crater better
+* High-yield mini nukes no longer create chunk radiation, since they use the MK5 which already has AoE radiation, this prevents dead grass from spawning that makes the crater look uglier
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace
@@ -74,3 +80,4 @@
 * Fixed rampant mode random scout spawns being able to appear inside blocks
 * Fixed turret rotation sometimes desyncing when out of range, this is especially noticeable with slow-moving arty
 * Fixed research reactor OC integration allowing the control rods to be set out of bounds
+* Fixed fallout falling faster and overlaying if multiple fallout areas intersect

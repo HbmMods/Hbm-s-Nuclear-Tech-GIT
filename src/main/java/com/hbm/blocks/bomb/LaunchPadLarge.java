@@ -1,14 +1,16 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.interfaces.IBomb;
 import com.hbm.tileentity.bomb.TileEntityLaunchPadLarge;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class LaunchPadLarge extends BlockDummyable {
+public class LaunchPadLarge extends BlockDummyable implements IBomb {
 
 	public LaunchPadLarge(Material mat) {
 		super(mat);
@@ -33,5 +35,40 @@ public class LaunchPadLarge extends BlockDummyable {
 	@Override
 	public int getOffset() {
 		return 4;
+	}
+
+	@Override
+	public BombReturnCode explode(World world, int x, int y, int z) {
+		
+		if(!world.isRemote) {
+			
+			int[] corePos = findCore(world, x, y, z);
+			if(corePos != null){
+				TileEntity core = world.getTileEntity(corePos[0], corePos[1], corePos[2]);
+				if(core instanceof TileEntityLaunchPadLarge){
+					TileEntityLaunchPadLarge entity = (TileEntityLaunchPadLarge)core;
+					return entity.launchFromDesignator();
+				}
+			}
+		}
+		
+		return BombReturnCode.UNDEFINED;
+	}
+	
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block blockIn){
+		
+		if(!world.isRemote){
+			
+			int[] corePos = findCore(world, x, y, z);
+			if(corePos != null){
+				TileEntity core = world.getTileEntity(corePos[0], corePos[1], corePos[2]);
+				if(core instanceof TileEntityLaunchPadLarge){
+					TileEntityLaunchPadLarge door = (TileEntityLaunchPadLarge)core;
+					door.updateRedstonePower(x, y, z);
+				}
+			}
+		}
+		super.onNeighborBlockChange( world, x, y, z, blockIn);
 	}
 }

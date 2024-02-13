@@ -1,34 +1,21 @@
 package com.hbm.tileentity.bomb;
 
-import com.hbm.inventory.container.ContainerLaunchPadLarge;
-import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.gui.GUILaunchPadLarge;
+import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.weapon.ItemMissile.MissileFormFactor;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
-import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 
-public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements IEnergyUser, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
+public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements IEnergyUser, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
 
-	public ItemStack toRender;
 	public int formFactor = -1;
 	/** Whether the missile has already been placed on the launchpad. Missile will render statically on the pad if true */
 	public boolean erected = false;
@@ -47,27 +34,15 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 	/** Delay between erector movements */
 	public int delay = 20;
 	
-	public long power;
-	public final long maxPower = 100_000;
-	
 	private AudioWrapper audioLift;
 	private AudioWrapper audioErector;
 	
 	protected boolean liftMoving = false;
 	protected boolean erectorMoving = false;
-	
-	public FluidTank[] tanks;
-
-	public TileEntityLaunchPadLarge() {
-		super(7);
-		this.tanks = new FluidTank[2];
-		this.tanks[0] = new FluidTank(Fluids.NONE, 24_000);
-		this.tanks[1] = new FluidTank(Fluids.NONE, 24_000);
-	}
 
 	@Override
-	public String getName() {
-		return "container.launchPad";
+	public boolean isReadyForLaunch() {
+		return this.erected && this.readyToLoad;
 	}
 
 	@Override
@@ -81,7 +56,7 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 			float erectorSpeed = 1.5F;
 			float liftSpeed = 0.025F;
 			
-			if(slots[0] != null) {
+			if(this.isMissileValid()) {
 				if(slots[0].getItem() instanceof ItemMissile) {
 					ItemMissile missile = (ItemMissile) slots[0].getItem();
 					this.formFactor = missile.formFactor.ordinal();
@@ -170,8 +145,6 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 
 			if(prevLiftMoving && !this.liftMoving) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:door.wgh_stop", 2F, 1F);
 			if(prevErectorMoving && !this.erectorMoving) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:door.garage_stop", 2F, 1F);
-
-			this.networkPackNT(250);
 			
 		} else {
 			this.prevLift = this.lift;
@@ -216,28 +189,8 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 				}
 			}
 		}
-	}
-	
-	@SuppressWarnings("incomplete-switch") //shut up
-	public void setFuel(ItemMissile missile) {
-		switch(missile.fuel) {
-		case ETHANOL_PEROXIDE:
-			tanks[0].setTankType(Fluids.ETHANOL);
-			tanks[1].setTankType(Fluids.ACID);
-			break;
-		case KEROSENE_PEROXIDE:
-			tanks[0].setTankType(Fluids.KEROSENE);
-			tanks[1].setTankType(Fluids.ACID);
-			break;
-		case KEROSENE_LOXY:
-			tanks[0].setTankType(Fluids.KEROSENE);
-			tanks[1].setTankType(Fluids.OXYGEN);
-			break;
-		case JETFUEL_LOXY:
-			tanks[0].setTankType(Fluids.KEROSENE_REFORM);
-			tanks[1].setTankType(Fluids.OXYGEN);
-			break;
-		}
+		
+		super.updateEntity();
 	}
 
 	@Override
@@ -246,17 +199,8 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 		
 		buf.writeBoolean(this.liftMoving);
 		buf.writeBoolean(this.erectorMoving);
-		
-		if(slots[0] != null) {
-			buf.writeBoolean(true);
-			buf.writeInt(Item.getIdFromItem(slots[0].getItem()));
-			buf.writeShort((short) slots[0].getItemDamage());
-		} else {
-			buf.writeBoolean(false);
-		}
-
-		buf.writeBoolean(erected);
-		buf.writeBoolean(readyToLoad);
+		buf.writeBoolean(this.erected);
+		buf.writeBoolean(this.readyToLoad);
 		buf.writeByte((byte) this.formFactor);
 		buf.writeFloat(this.lift);
 		buf.writeFloat(this.erector);
@@ -268,17 +212,9 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 
 		this.liftMoving = buf.readBoolean();
 		this.erectorMoving = buf.readBoolean();
-		
-		if(buf.readBoolean()) {
-			this.toRender = new ItemStack(Item.getItemById(buf.readInt()), 1, buf.readShort());
-		} else {
-			this.toRender = null;
-		}
-
 		this.erected = buf.readBoolean();
 		this.readyToLoad = buf.readBoolean();
 		this.formFactor = buf.readByte();
-
 		this.syncLift = buf.readFloat();
 		this.syncErector = buf.readFloat();
 		
@@ -290,49 +226,33 @@ public class TileEntityLaunchPadLarge extends TileEntityMachineBase implements I
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		power = nbt.getLong("power");
 
 		this.erected = nbt.getBoolean("erected");
 		this.readyToLoad = nbt.getBoolean("readyToLoad");
 		this.lift = nbt.getFloat("lift");
 		this.erector = nbt.getFloat("erector");
+		this.formFactor = nbt.getInteger("formFactor");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setLong("power", power);
 
 		nbt.setBoolean("erected", erected);
 		nbt.setBoolean("readyToLoad", readyToLoad);
 		nbt.setFloat("lift", lift);
 		nbt.setFloat("erector", erector);
+		nbt.setInteger("formFactor", formFactor);
 	}
-
-	@Override public long getPower() { return power; }
-	@Override public void setPower(long power) { this.power = power; }
-	@Override public long getMaxPower() { return maxPower; }
-	@Override public FluidTank[] getAllTanks() { return this.tanks; }
-	@Override public FluidTank[] getReceivingTanks() { return this.tanks; }
-
-	@Override
-	public boolean sendCommandPosition(int x, int y, int z) {
-		return false;
-	}
-
-	@Override
-	public boolean sendCommandEntity(Entity target) {
-		return false;
-	}
-
-	@Override
-	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new ContainerLaunchPadLarge(player.inventory, this);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUILaunchPadLarge(player.inventory, this);
+	
+	public Entity instantiateMissile(int targetX, int targetZ) {
+		Entity missile = super.instantiateMissile(targetX, targetZ);
+		
+		if(missile instanceof EntityMissileBaseNT) {
+			EntityMissileBaseNT base = (EntityMissileBaseNT) missile;
+			base.getDataWatcher().updateObject(3, (byte) (this.getBlockMetadata() - 10));
+		}
+		
+		return missile;
 	}
 }
