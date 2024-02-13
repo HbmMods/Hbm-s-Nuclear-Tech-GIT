@@ -234,10 +234,20 @@ public class ExplosionNukeRayBatched {
 			}
 		}
 
-		for(BlockPos pos : toRem) world.setBlock(pos.getX(), pos.getY(), pos.getZ(), Blocks.air, 0, toRemTips.contains(pos) ? 3 : 2);
+		for(BlockPos pos : toRem) {
+			if(toRemTips.contains(pos)) {
+				this.handleTip(pos.getX(), pos.getY(), pos.getZ());
+			} else {
+				world.setBlock(pos.getX(), pos.getY(), pos.getZ(), Blocks.air, 0, 2);
+			}
+		}
 		
 		perChunk.remove(coord);
 		orderedChunks.remove(0);
+	}
+	
+	protected void handleTip(int x, int y, int z) {
+		world.setBlock(x, y, z, Blocks.air, 0, 3);
 	}
 	
 	public class FloatTriplet {

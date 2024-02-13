@@ -65,6 +65,7 @@
 * Removed some of the lower tier items fomr the red room loot pool, making the average red room better
 * Retextured the fallout effect, fallout no longer has large snowflakes and the color now matches the crater better
 * High-yield mini nukes no longer create chunk radiation, since they use the MK5 which already has AoE radiation, this prevents dead grass from spawning that makes the crater look uglier
+* Balefire spread is now limited to prevent densely vegetated biomes from lagging to hell
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace
