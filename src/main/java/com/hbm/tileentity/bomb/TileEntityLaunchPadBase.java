@@ -144,6 +144,13 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 			this.power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 			tanks[0].loadTank(3, 4, slots);
 			tanks[1].loadTank(5, 6, slots);
+			
+			if(this.isMissileValid()) {
+				if(slots[0].getItem() instanceof ItemMissile) {
+					ItemMissile missile = (ItemMissile) slots[0].getItem();
+					setFuel(missile);
+				}
+			}
 
 			this.networkPackNT(250);
 		}

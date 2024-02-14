@@ -68,6 +68,7 @@
 * Balefire spread is now limited to prevent densely vegetated biomes from lagging to hell
 * The bricked furnace now makes charcoal twice as fast
 * Combination ovens no longer need two welded copper plates and instead only cast plates, therefore no longer being post-arc welder. This should make it more affordable and useful in the initial earlygame where things like automatic wood farms are most important.
+* Any water-like extinguishing fluid shot from the chemical thrower can now wash away fallout layers
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace
