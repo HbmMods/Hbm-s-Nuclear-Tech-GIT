@@ -408,7 +408,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			return true;
 		}
 		else {
-			if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != DestinationType.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true) {
+			if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != DestinationType.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true && sizeUp()) {
 				return true;
 			}
 		}
@@ -435,7 +435,21 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		
 		return -1;
 	}
-	
+	public boolean sizeUp() {
+		
+		MissileStruct multipart = getStruct(slots[0]);
+		
+		if(multipart == null || multipart.fuselage == null)
+			return false;
+		
+		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
+		
+		if( fuselage.top == padSize.SIZE_20) {
+			return true;
+		}
+		
+		return false;
+	}
 	public void calFuel() {
 		if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != DestinationType.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true) {
 			switch (DestinationType.values()[slots[1].getItemDamage()]) {

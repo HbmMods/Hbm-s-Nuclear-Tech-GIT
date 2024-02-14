@@ -93,9 +93,12 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		if(!worldObj.isRemote) {
 			if(this.hasPropulsion()) this.fuel -= this.consumption;
 			EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
+			ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
+
+			WarheadType type = (WarheadType) part.attributes[0];
 
 				if(payload != null) {
-				if(payload.getTagCompound().getBoolean("Processed") == true ) {
+				if(payload.getTagCompound().getBoolean("Processed") == true && type == WarheadType.APOLLO) {
 					
 				if(posY < 7 && riding == null) {
 					this.motionY = 0.01;
@@ -208,7 +211,10 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		case KEROSENE: smoke = "exKerosene"; break;
 		case SOLID: smoke = "exSolid"; break;
 		case XENON: break;
-		case HYDRAZINE: break;
+		case HYDRAZINE: smoke = "exKerosene"; break;
+		case METHALOX:
+			break;
+
 
 		}
 		EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
