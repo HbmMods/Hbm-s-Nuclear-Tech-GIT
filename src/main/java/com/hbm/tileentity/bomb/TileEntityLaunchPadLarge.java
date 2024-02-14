@@ -1,6 +1,6 @@
 package com.hbm.tileentity.bomb;
 
-import com.hbm.entity.missile.EntityMissileBaseNT;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.weapon.ItemMissile.MissileFormFactor;
 import com.hbm.main.MainRegistry;
@@ -13,7 +13,6 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -43,10 +42,8 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements
 	protected boolean liftMoving = false;
 	protected boolean erectorMoving = false;
 
-	@Override
-	public boolean isReadyForLaunch() {
-		return this.erected && this.readyToLoad;
-	}
+	@Override public boolean isReadyForLaunch() { return this.erected && this.readyToLoad; }
+	@Override public double getLaunchOffset() { return 2D; }
 
 	@Override
 	public void updateEntity() {
@@ -187,6 +184,43 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements
 					this.audioErector = null;
 				}
 			}
+			
+			if(this.erected && this.hasFuel() && this.tanks[1].getTankType() == Fluids.OXYGEN) {
+				
+				//maybe too much?
+				/*if(this.formFactor == MissileFormFactor.ATLAS.ordinal() && worldObj.getTotalWorldTime() % 4 == 0) {
+					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+					ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+					
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "tower");
+					data.setFloat("lift", -5F);
+					data.setFloat("base", 0.25F);
+					data.setFloat("max", 0.5F);
+					data.setInteger("life", 30 + worldObj.rand.nextInt(10));
+					data.setDouble("posX", xCoord + 0.5 - (dir.offsetX + rot.offsetX) * 0.5);
+					data.setDouble("posZ", zCoord + 0.5 - (dir.offsetZ + rot.offsetZ) * 0.5);
+					data.setDouble("posY", yCoord + 14.625);
+					data.setBoolean("noWind", true);
+					data.setFloat("alphaMod", 0.01F);
+					data.setFloat("strafe", 0.05F);
+					for(int i = 0; i < 3; i++) MainRegistry.proxy.effectNT(data);
+				}*/
+				
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "tower");
+				data.setFloat("lift", 0F);
+				data.setFloat("base", 0.5F);
+				data.setFloat("max", 2F);
+				data.setInteger("life", 60 + worldObj.rand.nextInt(30));
+				data.setDouble("posX", xCoord + 0.5);
+				data.setDouble("posZ", zCoord + 0.5);
+				data.setDouble("posY", yCoord + 2);
+				data.setBoolean("noWind", true);
+				data.setFloat("alphaMod", 2F);
+				data.setFloat("strafe", 0.05F);
+				for(int i = 0; i < 3; i++) MainRegistry.proxy.effectNT(data);
+			}
 		}
 		
 		super.updateEntity();
@@ -242,17 +276,6 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements
 		nbt.setFloat("lift", lift);
 		nbt.setFloat("erector", erector);
 		nbt.setInteger("formFactor", formFactor);
-	}
-	
-	public Entity instantiateMissile(int targetX, int targetZ) {
-		Entity missile = super.instantiateMissile(targetX, targetZ);
-		
-		if(missile instanceof EntityMissileBaseNT) {
-			EntityMissileBaseNT base = (EntityMissileBaseNT) missile;
-			base.getDataWatcher().updateObject(3, (byte) (this.getBlockMetadata() - 10));
-		}
-		
-		return missile;
 	}
 	
 	AxisAlignedBB bb = null;

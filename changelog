@@ -66,6 +66,8 @@
 * Retextured the fallout effect, fallout no longer has large snowflakes and the color now matches the crater better
 * High-yield mini nukes no longer create chunk radiation, since they use the MK5 which already has AoE radiation, this prevents dead grass from spawning that makes the crater look uglier
 * Balefire spread is now limited to prevent densely vegetated biomes from lagging to hell
+* The bricked furnace now makes charcoal twice as fast
+* Combination ovens no longer need two welded copper plates and instead only cast plates, therefore no longer being post-arc welder. This should make it more affordable and useful in the initial earlygame where things like automatic wood farms are most important.
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace

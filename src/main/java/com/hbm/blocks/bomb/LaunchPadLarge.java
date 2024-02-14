@@ -64,8 +64,8 @@ public class LaunchPadLarge extends BlockDummyable implements IBomb {
 			if(corePos != null){
 				TileEntity core = world.getTileEntity(corePos[0], corePos[1], corePos[2]);
 				if(core instanceof TileEntityLaunchPadLarge){
-					TileEntityLaunchPadLarge door = (TileEntityLaunchPadLarge)core;
-					door.updateRedstonePower(x, y, z);
+					TileEntityLaunchPadLarge launchpad = (TileEntityLaunchPadLarge)core;
+					launchpad.updateRedstonePower(x, y, z);
 				}
 			}
 		}
