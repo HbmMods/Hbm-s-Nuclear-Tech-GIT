@@ -12,7 +12,7 @@ public class CargoShellCraftingHandler implements IRecipe {
 
 	@Override
 	public boolean matches(InventoryCrafting inventory, World world) {
-		
+
 		int itemCount = 0;
 		int shellCount = 0;
 		for(int i = 0; i < 9; i++) {
@@ -25,22 +25,22 @@ public class CargoShellCraftingHandler implements IRecipe {
 						return false;}}
 
 				itemCount++;
-				
+
 				if(stack.getItem() == ModItems.ammo_arty && stack.getItemDamage() == 8 && !stack.hasTagCompound()) {
 					shellCount++;
 				}
 			}
 		}
-		
+
 		return itemCount == 2 && shellCount == 1;
 	}
 
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventory) {
-		
+
 		ItemStack shell = null;
 		ItemStack cargo = null;
-		
+
 		for(int i = 0; i < 9; i++) {
 			ItemStack stack = inventory.getStackInRowAndColumn(i % 3, i / 3);
 
@@ -56,19 +56,20 @@ public class CargoShellCraftingHandler implements IRecipe {
 				copy.stackSize = 1;
 				cargo = copy;
 			}
+			/*
 			if(stack.getItem() == ModItems.disperser_canister) {
 				stack.getItem().setContainerItem(null); //removes the empty canister from the output
-			}
+			}*/
 		}
-		
+
 		if(shell == null || cargo == null)
 			return null;
-		
+
 		if(!shell.hasTagCompound())
 			shell.stackTagCompound = new NBTTagCompound();
 
 		shell.stackTagCompound.setTag("cargo", cargo.writeToNBT(new NBTTagCompound()));
-		
+
 		return shell;
 	}
 
