@@ -21,10 +21,12 @@ import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,13 +44,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyGenerator, IFluidStandardTransceiver, IGUIProvider, SimpleComponent {
+public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyGenerator, IFluidStandardTransceiver, IGUIProvider, SimpleComponent, IInfoProviderEC {
 
 	public long power;
 	public static final long maxPower = 100000000;
 	public int age = 0;
 	public List<IFluidAcceptor> list2 = new ArrayList();
 	public FluidTank[] tanks;
+	protected double[] info = new double[3];
 	
 	private boolean shouldTurn;
 	public float rotor;
@@ -79,9 +82,10 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		
 		if(!worldObj.isRemote) {
 			
+			this.info = new double[3];
+			
 			age++;
-			if(age >= 2)
-			{
+			if(age >= 2) {
 				age = 0;
 			}
 			
@@ -112,6 +116,9 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 					tanks[0].setFill(tanks[0].getFill() - ops * trait.amountReq);
 					tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
 					this.power += (ops * trait.heatEnergy * eff);
+					info[0] = ops * trait.amountReq;
+					info[1] = ops * trait.amountProduced;
+					info[2] = ops * trait.heatEnergy * eff;
 					valid = true;
 					operational = ops > 0;
 				}
@@ -376,5 +383,13 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineLargeTurbine(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, info[1] > 0);
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, info[0]);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_MB, info[1]);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, info[2]);
 	}
 }
