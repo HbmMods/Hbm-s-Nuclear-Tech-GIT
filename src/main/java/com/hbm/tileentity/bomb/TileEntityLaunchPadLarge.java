@@ -75,60 +75,62 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements
 				delay = 20;
 			}
 			
-			if(delay > 0) {
-				delay--;
-				
-				if(delay < 10 && scheduleErect) {
-					this.erected = true;
-					this.scheduleErect = false;
-				}
-				
-				// if there is no missile or the missile isn't ready (i.e. the erector hasn't returned to zero position yet), retract
-				if(slots[0] == null || !readyToLoad) {
-					//fold back erector
-					if(erector < 90F) {
-						erector = Math.min(erector + erectorSpeed, 90F);
-						if(erector == 90F) delay = 20;
-					//extend lift
-					} else if(lift < 1F) {
-						lift = Math.min(lift + liftSpeed, 1F);
-						if(erector == 1F) {
-							//if the lift is fully extended, the loading can begin
-							readyToLoad = true;
-							delay = 20;
+			if(this.power >= 75_000) {
+				if(delay > 0) {
+					delay--;
+					
+					if(delay < 10 && scheduleErect) {
+						this.erected = true;
+						this.scheduleErect = false;
+					}
+					
+					// if there is no missile or the missile isn't ready (i.e. the erector hasn't returned to zero position yet), retract
+					if(slots[0] == null || !readyToLoad) {
+						//fold back erector
+						if(erector < 90F) {
+							erector = Math.min(erector + erectorSpeed, 90F);
+							if(erector == 90F) delay = 20;
+						//extend lift
+						} else if(lift < 1F) {
+							lift = Math.min(lift + liftSpeed, 1F);
+							if(erector == 1F) {
+								//if the lift is fully extended, the loading can begin
+								readyToLoad = true;
+								delay = 20;
+							}
 						}
 					}
-				}
-				
-			} else {
-				
-				//only extend if the erector isn't up yet and the missile can be loaded
-				if(!erected && readyToLoad) {
-					//first, rotate the erector
-					if(erector != 0F) {
-						erector = Math.max(erector - erectorSpeed, 0F);
-						if(erector == 0F) delay = 20;
-					//then retract the lift
-					} else if(lift > 0) {
-						lift = Math.max(lift - liftSpeed, 0F);
-						if(lift == 0F) {
-							//once the lift is at the bottom, the missile is deployed
-							scheduleErect = true;
-							delay = 20;
-						}
-					}
+					
 				} else {
-					//first, fold back the erector
-					if(erector < 90F) {
-						erector = Math.min(erector + erectorSpeed, 90F);
-						if(erector == 90F) delay = 20;
-					//then extend the lift again
-					} else if(lift < 1F) {
-						lift = Math.min(lift + liftSpeed, 1F);
-						if(erector == 1F) {
-							//if the lift is fully extended, the loading can begin
-							readyToLoad = true;
-							delay = 20;
+					
+					//only extend if the erector isn't up yet and the missile can be loaded
+					if(!erected && readyToLoad) {
+						//first, rotate the erector
+						if(erector != 0F) {
+							erector = Math.max(erector - erectorSpeed, 0F);
+							if(erector == 0F) delay = 20;
+						//then retract the lift
+						} else if(lift > 0) {
+							lift = Math.max(lift - liftSpeed, 0F);
+							if(lift == 0F) {
+								//once the lift is at the bottom, the missile is deployed
+								scheduleErect = true;
+								delay = 20;
+							}
+						}
+					} else {
+						//first, fold back the erector
+						if(erector < 90F) {
+							erector = Math.min(erector + erectorSpeed, 90F);
+							if(erector == 90F) delay = 20;
+						//then extend the lift again
+						} else if(lift < 1F) {
+							lift = Math.min(lift + liftSpeed, 1F);
+							if(erector == 1F) {
+								//if the lift is fully extended, the loading can begin
+								readyToLoad = true;
+								delay = 20;
+							}
 						}
 					}
 				}

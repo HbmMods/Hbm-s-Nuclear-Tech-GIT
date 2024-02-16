@@ -35,6 +35,7 @@ public class ItemMissile extends ItemCustomLore {
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		list.add(EnumChatFormatting.ITALIC + this.tier.display);
 		list.add("Fuel: " + this.fuel.display);
+		if(this.fuelCap > 0) list.add("Fuel capacity: " + this.fuelCap + "mB");
 		super.addInformation(itemstack, player, list, bool);
 	}
 	

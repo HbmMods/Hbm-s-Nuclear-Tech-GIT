@@ -42,6 +42,7 @@ public class NEIConfig implements IConfigureNEI {
 		registerHandler(new VacuumRecipeHandler());
 		registerHandler(new CrackingHandler());
 		registerHandler(new ReformingHandler());
+		registerHandler(new HydrotreatingHandler());
 		registerHandler(new BoilerRecipeHandler());
 		registerHandler(new ChemplantRecipeHandler());
 		registerHandler(new CrystallizerRecipeHandler());
