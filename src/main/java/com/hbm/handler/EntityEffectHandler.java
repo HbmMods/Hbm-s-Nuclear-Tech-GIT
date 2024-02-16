@@ -77,13 +77,13 @@ public class EntityEffectHandler {
 			HbmPlayerProps pprps = HbmPlayerProps.getData((EntityPlayerMP) entity);
 			NBTTagCompound data = new NBTTagCompound();
 
-			if(pprps.shield < pprps.maxShield && entity.ticksExisted > pprps.lastDamage + 60) {
+			if(pprps.shield < pprps.getEffectiveMaxShield() && entity.ticksExisted > pprps.lastDamage + 60) {
 				int tsd = entity.ticksExisted - (pprps.lastDamage + 60);
-				pprps.shield += Math.min(pprps.maxShield - pprps.shield, 0.005F * tsd);
+				pprps.shield += Math.min(pprps.getEffectiveMaxShield() - pprps.shield, 0.005F * tsd);
 			}
 
-			if(pprps.shield > pprps.maxShield)
-				pprps.shield = pprps.maxShield;
+			if(pprps.shield > pprps.getEffectiveMaxShield())
+				pprps.shield = pprps.getEffectiveMaxShield();
 
 			props.saveNBTData(data);
 			pprps.saveNBTData(data);

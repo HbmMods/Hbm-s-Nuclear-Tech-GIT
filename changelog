@@ -69,6 +69,11 @@
 * The bricked furnace now makes charcoal twice as fast
 * Combination ovens no longer need two welded copper plates and instead only cast plates, therefore no longer being post-arc welder. This should make it more affordable and useful in the initial earlygame where things like automatic wood farms are most important.
 * Any water-like extinguishing fluid shot from the chemical thrower can now wash away fallout layers
+* Overhauled the Mk.III life extender
+  * The assembler recipe has been replaced with a simpler but more expensive workbench recipe
+  * Instead of taking up the chestplate slot, it's now an armor mod worn in the insert slot
+  * The armor no longer gives absorption, instead it adds 25 points to the shield count
+  * The +25 bypasses the shield limit of 100, meaning that with enough shield infusions, the total maximum is now 125
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace
@@ -85,3 +90,5 @@
 * Fixed turret rotation sometimes desyncing when out of range, this is especially noticeable with slow-moving arty
 * Fixed research reactor OC integration allowing the control rods to be set out of bounds
 * Fixed fallout falling faster and overlaying if multiple fallout areas intersect
+* Fixed template folder 3D models rendering with weird shading
+* HUD elements like jetpack charge and the shield bar should now still render even if Tinker's Construct replaces the health bar renderer

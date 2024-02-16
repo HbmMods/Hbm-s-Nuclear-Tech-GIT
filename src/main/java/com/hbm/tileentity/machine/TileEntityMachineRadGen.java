@@ -11,9 +11,11 @@ import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.Tuple.Triplet;
 
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -28,12 +30,13 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRadGen extends TileEntityMachineBase implements IEnergyGenerator, IGUIProvider {
+public class TileEntityMachineRadGen extends TileEntityMachineBase implements IEnergyGenerator, IGUIProvider, IInfoProviderEC {
 
 	public int[] progress = new int[12];
 	public int[] maxProgress = new int[12];
 	public int[] production = new int[12];
 	public ItemStack[] processing = new ItemStack[12];
+	protected int output;
 	
 	public long power;
 	public static final long maxPower = 1000000;
@@ -53,6 +56,8 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.output = 0;
 
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			this.sendPower(worldObj, this.xCoord - dir.offsetX * 4, this.yCoord, this.zCoord - dir.offsetZ * 4, dir.getOpposite());
@@ -82,6 +87,7 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 					
 					this.isOn = true;
 					this.power += production[i];
+					this.output += production[i];
 					progress[i]++;
 					
 					if(progress[i] >= maxProgress[i]) {
@@ -289,5 +295,10 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineRadGen(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, output);
 	}
 }

@@ -18,11 +18,13 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.RTGUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -37,7 +39,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineIGenerator extends TileEntityMachineBase implements IFluidAcceptor, IEnergyGenerator, IFluidStandardReceiver, IConfigurableMachine, IGUIProvider {
+public class TileEntityMachineIGenerator extends TileEntityMachineBase implements IFluidAcceptor, IEnergyGenerator, IFluidStandardReceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC {
 	
 	public long power;
 	public int spin;
@@ -66,6 +68,8 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public static int waterRate = 10;
 	public static int lubeRate = 1;
 	public static long fluidHeatDiv = 1_000L;
+	
+	protected long output;
 
 	@Override
 	public String getConfigName() {
@@ -219,7 +223,8 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 					this.tanks[2].setFill(this.tanks[2].getFill() - lubeRate);
 				}
 				
-				this.power += this.spin * genMult;
+				this.output = (long) (this.spin * genMult);
+				this.power += this.output;
 				
 				if(this.power > this.maxPower)
 					this.power = this.maxPower;
@@ -384,5 +389,11 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIIGenerator(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.output > 0);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, this.output);
 	}
 }

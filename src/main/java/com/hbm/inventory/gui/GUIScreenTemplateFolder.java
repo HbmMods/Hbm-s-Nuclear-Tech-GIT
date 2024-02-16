@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
@@ -313,7 +314,7 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 		public void drawIcon(boolean b) {
 			try {
 				RenderHelper.enableGUIStandardItemLighting();
-				GL11.glDisable(GL11.GL_LIGHTING);
+				GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 				OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) 240 / 1.0F, (float) 240 / 1.0F);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 				if(stack != null) {

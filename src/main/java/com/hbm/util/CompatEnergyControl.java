@@ -139,6 +139,7 @@ public class CompatEnergyControl {
 	public static final String S_LEVEL_PERCENT =			"level";			// Research Reactor rods
 	@Deprecated public static final String L_HEATL =		"heatL";			// AMS and old Watz heat values
 	public static final String D_HEAT_C =					"heat";				// Research Reactor and RBMK column heat
+	public static final String D_MAXHEAT_C =				"maxHeat";			// ZIRNOX melting temp
 	public static final String L_PRESSURE_BAR =				"bar";				// ZIRNOX pressure
 	public static final String L_FUEL =						"fuel";				// RTG Blast Furnace heat
 	@Deprecated public static final String S_FUELTEXT =		"fuelText";			// Large Nuclear Reactor only

@@ -364,7 +364,7 @@ public class ModEventHandlerClient {
 		}
 	}
 	
-	@SubscribeEvent
+	@SubscribeEvent(receiveCanceled = true)
 	public void onOverlayRender(RenderGameOverlayEvent.Post event) {
 		
 		/// HANDLE ELECTRIC FSB HUD ///
@@ -374,7 +374,7 @@ public class ModEventHandlerClient {
 		
 		if(!event.isCanceled() && event.type == event.type.HEALTH) {
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
-			if(props.maxShield > 0) {
+			if(props.getEffectiveMaxShield() > 0) {
 				RenderScreenOverlay.renderShieldBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
 			}
 		}

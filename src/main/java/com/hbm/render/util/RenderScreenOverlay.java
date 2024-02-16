@@ -297,7 +297,7 @@ public class RenderScreenOverlay {
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
 		gui.drawTexturedModalRect(left, top, 146, 0, 81, 9);
-		int i = (int) Math.ceil(props.shield * 79 / props.maxShield);
+		int i = (int) Math.ceil(props.shield * 79 / props.getEffectiveMaxShield());
 		gui.drawTexturedModalRect(left + 1, top, 147, 9, i, 9);
 		
 		String label = "" + ((int) (props.shield * 10F)) / 10D;

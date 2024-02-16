@@ -91,8 +91,6 @@ public class TileEntityCondenserPowered extends TileEntityCondenser implements I
 		tanks[1].writeToNBT(nbt, "steam");
 	}
 
-	@Deprecated @Override public void fillFluidInit(FluidType type) { }
-
 	@Override
 	public void subscribeToAllAround(FluidType type, TileEntity te) {
 		for(DirPos pos : getConPos()) {
