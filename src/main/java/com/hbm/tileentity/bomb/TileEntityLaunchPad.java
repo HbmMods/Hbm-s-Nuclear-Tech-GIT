@@ -11,6 +11,7 @@ import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -62,6 +63,12 @@ public class TileEntityLaunchPad extends TileEntityLaunchPadBase implements IEne
 		}
 		
 		super.updateEntity();
+	}
+
+	@Override
+	public void finalizeLaunch(Entity missile) {
+		super.finalizeLaunch(missile);
+		this.delay = 100;
 	}
 	
 	@Override

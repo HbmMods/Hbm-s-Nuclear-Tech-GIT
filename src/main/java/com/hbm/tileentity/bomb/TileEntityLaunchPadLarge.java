@@ -16,6 +16,7 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -279,6 +280,12 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements
 		nbt.setFloat("lift", lift);
 		nbt.setFloat("erector", erector);
 		nbt.setInteger("formFactor", formFactor);
+	}
+
+	@Override
+	public void finalizeLaunch(Entity missile) {
+		super.finalizeLaunch(missile);
+		this.erected = false;
 	}
 	
 	@Override
