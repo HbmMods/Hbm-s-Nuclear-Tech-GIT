@@ -167,7 +167,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 	
 	public DoorDecl getDoorType(){
 		
-		if(this.doorType == null)
+		if(this.doorType == null && this.getBlockType() instanceof BlockDoorGeneric)
 			this.doorType = ((BlockDoorGeneric)this.getBlockType()).type;
 		
 		return this.doorType;

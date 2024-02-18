@@ -240,6 +240,8 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			}
 			this.lastRotationPitch = this.rotationPitch;
 			this.lastRotationYaw = this.rotationYaw;
+			this.rotationPitch = this.syncRotationPitch;
+			this.rotationYaw = this.syncRotationYaw;
 		}
 		
 		if(!worldObj.isRemote) {

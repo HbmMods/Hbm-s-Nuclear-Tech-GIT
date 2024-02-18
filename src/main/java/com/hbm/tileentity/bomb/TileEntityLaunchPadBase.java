@@ -48,7 +48,9 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.TrackerUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
@@ -66,6 +68,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase implements IEnergyUser, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
 	
@@ -116,6 +119,11 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	public int redstonePower;
 	public Set<BlockPos> activatedBlocks = new HashSet<>(4);
 	
+	public int state = 0;
+	public static final int STATE_MISSING = 0;
+	public static final int STATE_LOADING = 1;
+	public static final int STATE_READY = 2;
+	
 	public FluidTank[] tanks;
 
 	public TileEntityLaunchPadBase() {
@@ -129,11 +137,36 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	public String getName() {
 		return "container.launchPad";
 	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
+		return false;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 0 };
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+		return slot == 0 && this.isMissileValid(stack);
+	}
+	
+	public abstract DirPos[] getConPos();
 	
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			if(worldObj.getTotalWorldTime() % 20 == 0) {
+				for(DirPos pos : getConPos()) {
+					this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					if(tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					if(tanks[1].getTankType() != Fluids.NONE) this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				}
+			}
 			
 			if(this.redstonePower > 0 && this.prevRedstonePower == 0) {
 				this.launchFromDesignator();
@@ -161,6 +194,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		super.serialize(buf);
 		
 		buf.writeLong(this.power);
+		buf.writeInt(this.state);
 		tanks[0].serialize(buf);
 		tanks[1].serialize(buf);
 		
@@ -178,6 +212,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		super.deserialize(buf);
 		
 		this.power = buf.readLong();
+		this.state = buf.readInt();
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
 		
@@ -248,6 +283,10 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	@Override public long getMaxPower() { return maxPower; }
 	@Override public FluidTank[] getAllTanks() { return this.tanks; }
 	@Override public FluidTank[] getReceivingTanks() { return this.tanks; }
+	
+	@Override public boolean canConnect(ForgeDirection dir) {
+		return dir != ForgeDirection.UP && dir != ForgeDirection.DOWN;
+	}
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -284,7 +323,11 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	
 	/** Requires the missile slot to be non-null and he item to be compatible */
 	public boolean isMissileValid() {
-		return slots[0] != null && slots[0].getItem() instanceof ItemMissile;
+		return slots[0] != null && isMissileValid(slots[0]);
+	}
+	
+	public boolean isMissileValid(ItemStack stack) {
+		return stack.getItem() instanceof ItemMissile;
 	}
 	
 	public boolean hasFuel() {
@@ -329,6 +372,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	
 	public void finalizeLaunch(Entity missile) {
 		worldObj.spawnEntityInWorld(missile);
+		TrackerUtil.setTrackingRange(worldObj, missile, 500);
 		worldObj.playSoundEffect(xCoord + 0.5, yCoord, zCoord + 0.5, "hbm:weapon.missileTakeOff", 2.0F, 1.0F);
 
 		this.power -= 75_000;

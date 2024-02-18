@@ -84,22 +84,17 @@ public class TileEntityMachineReactorBreeding extends TileEntityMachineBase impl
 		
 		for(byte d = 2; d < 6; d++) {
 			ForgeDirection dir = ForgeDirection.getOrientation(d);
-			
 			Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
-			TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
 			
 			if(b == ModBlocks.reactor_research) {
 
 				int[] pos = ((ReactorResearch) ModBlocks.reactor_research).findCore(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
 
 				if(pos != null) {
-
 					TileEntity tile = worldObj.getTileEntity(pos[0], pos[1], pos[2]);
 
 					if(tile instanceof TileEntityReactorResearch) {
-
 						TileEntityReactorResearch reactor = (TileEntityReactorResearch) tile;
-
 						this.flux += reactor.totalFlux;
 					}
 				}

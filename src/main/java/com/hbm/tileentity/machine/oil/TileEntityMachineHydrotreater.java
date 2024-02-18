@@ -82,12 +82,14 @@ public class TileEntityMachineHydrotreater extends TileEntityMachineBase impleme
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
+		buf.writeLong(power);
 		for(int i = 0; i < 4; i++) tanks[i].serialize(buf);
 	}
 	
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
+		this.power = buf.readLong();
 		for(int i = 0; i < 4; i++) tanks[i].deserialize(buf);
 	}
 	

@@ -48,6 +48,7 @@ public class BlockFallout extends Block {
 	public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
 
 		if(!world.isRemote && entity instanceof EntityLivingBase) {
+			if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode) return;
 			PotionEffect effect = new PotionEffect(HbmPotion.radiation.id, 10 * 60 * 20, 0);
 			effect.setCurativeItems(new ArrayList());
 			((EntityLivingBase) entity).addPotionEffect(effect);

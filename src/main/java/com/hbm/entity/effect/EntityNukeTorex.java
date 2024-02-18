@@ -122,7 +122,7 @@ public class EntityNukeTorex extends Entity {
 				for(int i = 0; i < 20; i++) {
 					for(int j = 0; j < 4; j++) {
 						float angle = (float) (Math.PI * 2 * rand.nextDouble());
-						Vec3 vec = Vec3.createVectorHelper(torusWidth + rollerSize * (3 + rand.nextDouble()), 0, 0);
+						Vec3 vec = Vec3.createVectorHelper(torusWidth + rollerSize * (5 + rand.nextDouble()), 0, 0);
 						vec.rotateAroundZ((float) (Math.PI / 45 * j));
 						vec.rotateAroundY(angle);
 						Cloudlet cloud = new Cloudlet(posX + vec.xCoord, posY + coreHeight - 5 + j * s, posZ + vec.zCoord, angle, 0, (int) ((20 + ticksExisted / 10) * (1 + rand.nextDouble() * 0.1)), TorexType.CONDENSATION);

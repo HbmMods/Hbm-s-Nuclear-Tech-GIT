@@ -1,5 +1,7 @@
 package com.hbm.inventory.gui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.lwjgl.opengl.GL11;
@@ -12,12 +14,14 @@ import com.hbm.items.weapon.ItemMissile;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.tileentity.bomb.TileEntityLaunchPadBase;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class GUILaunchPadLarge extends GuiInfoContainer {
@@ -40,6 +44,17 @@ public class GUILaunchPadLarge extends GuiInfoContainer {
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 107, guiTop + 88 - 52, 16, 52, launchpad.power, launchpad.maxPower);
 		launchpad.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 125, guiTop + 88 - 52, 16, 52);
 		launchpad.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 143, guiTop + 88 - 52, 16, 52);
+
+		if(this.mc.thePlayer.inventory.getItemStack() == null && this.isMouseOverSlot(this.inventorySlots.getSlot(1), mouseX, mouseY) && !this.inventorySlots.getSlot(1).getHasStack()) {
+			ItemStack[] list = new ItemStack[] { new ItemStack(ModItems.designator), new ItemStack(ModItems.designator_range), new ItemStack(ModItems.designator_manual) };
+			List<Object[]> lines = new ArrayList();
+			ItemStack selected = list[(int) ((System.currentTimeMillis() % (1000 * list.length)) / 1000)];
+			selected.stackSize = 0;
+			lines.add(list);
+			
+			lines.add(new Object[] {I18nUtil.resolveKey(selected.getDisplayName())});
+			this.drawStackText(lines, mouseX, mouseY, this.fontRendererObj);
+		}
 	}
 	
 	@Override
@@ -109,5 +124,28 @@ public class GUILaunchPadLarge extends GuiInfoContainer {
 				GL11.glPopMatrix();
 			}
 		}
+		
+		GL11.glPushMatrix();
+		RenderHelper.disableStandardItemLighting();
+		GL11.glTranslated(guiLeft + 34, guiTop + 107, 0);
+		String text = "";
+		int color = 0xffffff;
+		if(launchpad.state == launchpad.STATE_MISSING) {
+			GL11.glScaled(0.5, 0.5, 1);
+			text = "Not ready";
+			color = 0xff0000;
+		}
+		if(launchpad.state == launchpad.STATE_LOADING) {
+			GL11.glScaled(0.6, 0.6, 1);
+			text = "Loading...";
+			color = 0xff8000;
+		}
+		if(launchpad.state == launchpad.STATE_READY) {
+			GL11.glScaled(0.8, 0.8, 1);
+			text = "Ready";
+			color = 0x00ff000;
+		}
+		this.fontRendererObj.drawString(text, -this.fontRendererObj.getStringWidth(text) / 2, -this.fontRendererObj.FONT_HEIGHT / 2, color);
+		GL11.glPopMatrix();
 	}
 }

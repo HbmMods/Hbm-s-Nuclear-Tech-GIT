@@ -1,11 +1,15 @@
 package com.hbm.tileentity.bomb;
 
+import java.util.List;
+
+import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.weapon.ItemMissile.MissileFormFactor;
+import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
@@ -14,8 +18,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements IEnergyUser, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
+public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements IEnergyUser, IFluidStandardReceiver, IRadarCommandReceiver {
 
 	public int formFactor = -1;
 	/** Whether the missile has already been placed on the launchpad. Missile will render statically on the pad if true */
@@ -105,6 +110,8 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements
 					
 					//only extend if the erector isn't up yet and the missile can be loaded
 					if(!erected && readyToLoad) {
+						this.state = this.STATE_LOADING;
+						
 						//first, rotate the erector
 						if(erector != 0F) {
 							erector = Math.max(erector - erectorSpeed, 0F);
@@ -135,6 +142,9 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements
 					}
 				}
 			}
+			
+			if(!this.hasFuel() || !this.isMissileValid()) this.state = this.STATE_MISSING;
+			if(this.erected && this.canLaunch()) this.state = this.STATE_READY;
 
 			boolean prevLiftMoving = this.liftMoving;
 			boolean prevErectorMoving = this.erectorMoving;
@@ -200,6 +210,20 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements
 				data.setFloat("strafe", 0.05F);
 				for(int i = 0; i < 3; i++) MainRegistry.proxy.effectNT(data);
 			}
+			
+			List<EntityMissileBaseNT> entities = worldObj.getEntitiesWithinAABB(EntityMissileBaseNT.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord, zCoord - 0.5, xCoord + 1.5, yCoord + 10, zCoord + 1.5));
+			
+			if(!entities.isEmpty()) {
+				for(int i = 0; i < 15; i++) {
+
+					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+					if(worldObj.rand.nextBoolean()) dir = dir.getOpposite();
+					float moX = (float) (worldObj.rand.nextGaussian() * 0.15F + 0.75) * dir.offsetX;
+					float moZ = (float) (worldObj.rand.nextGaussian() * 0.15F + 0.75) * dir.offsetZ;
+					
+					MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
+				}
+			}
 		}
 		
 		super.updateEntity();
@@ -255,6 +279,20 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements
 		nbt.setFloat("lift", lift);
 		nbt.setFloat("erector", erector);
 		nbt.setInteger("formFactor", formFactor);
+	}
+	
+	@Override
+	public DirPos[] getConPos() {
+		return new DirPos[] {
+				new DirPos(xCoord + 5, yCoord, zCoord - 2, Library.POS_X),
+				new DirPos(xCoord + 5, yCoord, zCoord + 2, Library.POS_X),
+				new DirPos(xCoord - 5, yCoord, zCoord - 2, Library.NEG_X),
+				new DirPos(xCoord - 5, yCoord, zCoord + 2, Library.NEG_X),
+				new DirPos(xCoord - 2, yCoord, zCoord + 5, Library.POS_Z),
+				new DirPos(xCoord + 2, yCoord, zCoord + 5, Library.POS_Z),
+				new DirPos(xCoord - 2, yCoord, zCoord - 5, Library.NEG_Z),
+				new DirPos(xCoord + 2, yCoord, zCoord - 5, Library.NEG_Z)
+		};
 	}
 	
 	AxisAlignedBB bb = null;

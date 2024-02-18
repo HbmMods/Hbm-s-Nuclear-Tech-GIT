@@ -19,6 +19,17 @@
   * Halogen floodlights are made with bromine and cast a light beam 32 blocks long
   * Lights are on by default and can be toggled with redstone
   * Tritium lamps have also been retrofitted with longer range lighting, casting beams in all cardinal directions for 8 blocks
+* Launch pad
+  * The standard launch pad is now a 9x9 platform that changes depending on what missile is loaded
+  * Missiles now have to be fueled like they would need to be on custom missile launchers
+  * The old launch pad has been renamed to silo launch pad and has kept the same rough shape
+  * Launch pads can still receive missiles from hoppers, however they now have a loading delay, making missiles no longer spammable from a single launch pad
+  * Large launch pads have to physically lift and place the rocket onto the pad, while the silo launch pad has a refueling delay
+  * Custom missiles are not yet usable on the new launch pad, for now they still require the dedicated custom missile launch pads
+* Large silo hatch
+  * Because the new nuclear missile model is too fat, there's now a larger silo hatch
+  * Has a 7x7 footprint and a 5x5 opening
+* Bedrock ores for neodymium and rare earth chunks
 
 ## Changed
 * Deco bocks now drop all of the time, but they drop themselves instead of ingots
@@ -74,6 +85,13 @@
   * Instead of taking up the chestplate slot, it's now an armor mod worn in the insert slot
   * The armor no longer gives absorption, instead it adds 25 points to the shield count
   * The +25 bypasses the shield limit of 100, meaning that with enough shield infusions, the total maximum is now 125
+* The likelihood of uranium ore turning into schrabidium from full-sized nukes is now 10% instead of 1%. Conversion rates for small dirty explosions such as radioactive barrels remain unchanged.
+* Fallout layers will no longer affect players in creative mode
+* Rare earth chunks are now centrifugable, yielding larger quantities of the elements that are most needed earlier in the game
+* Tier 3 missilles no longer need large fuel tanks and thrusters, instead they use two medium fuel tanks and four medium thrusters
+* Tier 4s now need three thrusters
+* Tier 0 missiles now come pre-fueled with solid fuel as part of their recipe
+* Updated the ABM recipe to use the act welder, being made of a tier 0 missile assembly with extra thrusters and loaded with TNT/TATB
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace
@@ -92,3 +110,5 @@
 * Fixed fallout falling faster and overlaying if multiple fallout areas intersect
 * Fixed template folder 3D models rendering with weird shading
 * HUD elements like jetpack charge and the shield bar should now still render even if Tinker's Construct replaces the health bar renderer
+* Fixed players glitching into blocks with larger bounding box when standing on top of them and relogging
+* Fixed a rare crash caused by doors on chunk borders

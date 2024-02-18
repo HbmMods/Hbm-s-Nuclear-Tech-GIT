@@ -5518,6 +5518,7 @@ tile.sellafield.5.name=Sellafite-Corium
 tile.sellafield_slaked.name=Slaked Sellafite
 tile.semtex.name=Semtex
 tile.silo_hatch.name=Silo Hatch
+tile.silo_hatch_large.name=Large Silo Hatch
 tile.sliding_blast_door.name=Sliding Blast Door
 tile.solar_mirror.name=Heliostat Mirror
 tile.soyuz_capsule.name=Cargo Landing Capsule

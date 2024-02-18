@@ -176,17 +176,29 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 	}
 	
 	protected void spawnContrail() {
+		this.spawnContraolWithOffset(0, 0, 0);
+	}
+	
+	protected void spawnContraolWithOffset(double offsetX, double offsetY, double offsetZ) {
 		Vec3 vec = Vec3.createVectorHelper(this.lastTickPosX - this.posX, this.lastTickPosY - this.posY, this.lastTickPosZ - this.posZ);
 		double len = vec.lengthVector();
 		vec = vec.normalize();
+		Vec3 thrust = Vec3.createVectorHelper(0, 1, 0);
+		thrust.rotateAroundZ(this.rotationPitch * (float) Math.PI / 180F);
+		thrust.rotateAroundY((this.rotationYaw + 90) * (float) Math.PI / 180F);
+		
 		for(int i = 0; i < Math.max(Math.min(len, 10), 1); i++) {
-			int j = i - 1;
+			double j = i - len;
 			NBTTagCompound data = new NBTTagCompound();
-			data.setDouble("posX", posX - vec.xCoord * j);
-			data.setDouble("posY", posY - vec.yCoord * j);
-			data.setDouble("posZ", posZ - vec.zCoord * j);
+			data.setDouble("posX", posX - vec.xCoord * j + offsetX);
+			data.setDouble("posY", posY - vec.yCoord * j + offsetY);
+			data.setDouble("posZ", posZ - vec.zCoord * j + offsetZ);
 			data.setString("type", "missileContrail");
 			data.setFloat("scale", this.getContrailScale());
+			data.setDouble("moX", -thrust.xCoord);
+			data.setDouble("moY", -thrust.yCoord);
+			data.setDouble("moZ", -thrust.zCoord);
+			data.setInteger("maxAge", 100 + rand.nextInt(40));
 			MainRegistry.proxy.effectNT(data);
 		}
 	}

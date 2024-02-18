@@ -4505,6 +4505,7 @@ tile.sellafield_core.name=Sellafit-Corium
 tile.sellafield_slaked.name=Gelöschtes Sellafit
 tile.semtex.name=Semtex
 tile.silo_hatch.name=Siloluke
+tile.silo_hatch_large.name=Große Siloluke
 tile.sliding_blast_door.name=Sprengtür
 tile.solar_mirror.name=Heliostatspiegel
 tile.soyuz_capsule.name=Landekapsel

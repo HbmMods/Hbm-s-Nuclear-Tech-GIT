@@ -11,6 +11,7 @@ import com.hbm.items.ModItems;
 
 import api.hbm.entity.IRadarDetectableNT;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public abstract class EntityMissileTier3 extends EntityMissileBaseNT {
@@ -38,6 +39,20 @@ public abstract class EntityMissileTier3 extends EntityMissileBaseNT {
 	@Override
 	public int getBlipLevel() {
 		return IRadarDetectableNT.TIER3;
+	}
+
+	@Override
+	protected void spawnContrail() {
+		
+		Vec3 thrust = Vec3.createVectorHelper(0, 0, 0.5);
+		thrust.rotateAroundY((this.rotationYaw + 90) * (float) Math.PI / 180F);
+		thrust.rotateAroundX(this.rotationPitch * (float) Math.PI / 180F);
+		thrust.rotateAroundY(-(this.rotationYaw + 90) * (float) Math.PI / 180F);
+
+		this.spawnContraolWithOffset(thrust.xCoord, thrust.yCoord, thrust.zCoord);
+		this.spawnContraolWithOffset(-thrust.zCoord, thrust.yCoord, thrust.xCoord);
+		this.spawnContraolWithOffset(-thrust.xCoord, -thrust.zCoord, -thrust.zCoord);
+		this.spawnContraolWithOffset(thrust.zCoord, -thrust.zCoord, -thrust.xCoord);
 	}
 	
 	public static class EntityMissileBurst extends EntityMissileTier3 {
