@@ -42,6 +42,8 @@ public class GunConfiguration implements Cloneable {
 	public boolean animationsLoaded = false;
 	//when sneaking, disables crosshair and centers the bullet spawn point
 	public boolean hasSights;
+	//does this weapon behave like fully sick old-school boomer shooters
+	public boolean isCentered;
 	//texture overlay when sneaking
 	public ResourceLocation scopeTexture;
 	//whether the FOV multiplier should be absolute or multiplicative to other modifiers, multiplicative mode is experimental!

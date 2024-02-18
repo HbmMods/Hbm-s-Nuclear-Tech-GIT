@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
+import com.hbm.render.anim.HbmAnimations.Animation;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,10 +42,6 @@ public class ItemRenderWeaponShotty implements IItemRenderer {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 
-		String barrel = "Body_Cube.008";
-		String handle = "handle_Cylinder.005";
-		String shells = "boolets_Cylinder.008";
-
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.shotty_tex);
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -52,70 +49,55 @@ public class ItemRenderWeaponShotty implements IItemRenderer {
 		switch(type) {
 		
 		case EQUIPPED_FIRST_PERSON:
-
-			double[] recoil = HbmAnimations.getRelevantTransformation("SHOTTY_RECOIL");
-			double[] eject = HbmAnimations.getRelevantTransformation("SHOTTY_BREAK");
-			double[] ejectShell = HbmAnimations.getRelevantTransformation("SHOTTY_EJECT");
-			double[] insertShell = HbmAnimations.getRelevantTransformation("SHOTTY_INSERT");
 			
 			GL11.glScalef(0.5F, 0.5F, 0.5F);
 			GL11.glRotatef(20F, 0.0F, 0.0F, 1.0F);
-			GL11.glRotatef(-10F, 0.0F, 1.0F, 0.0F);
-			GL11.glTranslatef(1.75F, -0.2F, -0.3F);
-			
-			if(player.isSneaking()) {
-				GL11.glTranslatef(0F, 1.0F, -2.05F);
-				GL11.glRotatef(3.5F, 0.0F, 1.0F, 0.0F);
-			} else {
-				
-				GL11.glRotated(-eject[2] * 0.25, 0, 0, 1);
-			}
+			GL11.glRotatef(-95F, 0.0F, 1.0F, 0.0F);
+			GL11.glTranslatef(-2.0F, 0.5F, -2.0F);
 
-			GL11.glTranslated(-recoil[0] * 2, 0, 0);
-			GL11.glRotated(recoil[0] * 5, 0, 0, 1);
-			
-			GL11.glPushMatrix();
-			GL11.glRotated(-eject[2] * 0.8, 0, 0, 1);
-			ResourceManager.shotty.renderPart(barrel);
+			HbmAnimations.applyRelevantTransformation("Body");
+			ResourceManager.shotty.renderPart("Body");
 
-			GL11.glPushMatrix();
-			GL11.glRotated(ejectShell[0] * 90, 0, 0, 1);
-			GL11.glTranslated(-ejectShell[0] * 10, 0, 0);
-			ResourceManager.shotty.renderPart(shells);
-			GL11.glPopMatrix();
-			
-			if(ItemGunBase.getBeltSize(player, ItemGunBase.getBeltType(player, item, true)) > 0) {
+			HbmAnimations.applyRelevantTransformation("Barrel");
+			ResourceManager.shotty.renderPart("Barrel");
+
+			// If we've run out of ammo, stop drawing the shells after ejection has completed
+			Animation anim = HbmAnimations.getRelevantAnim();
+			int millis = anim != null ? (int)(System.currentTimeMillis() - anim.startMillis) : 0;
+
+			if(ItemGunBase.getBeltSize(player, ItemGunBase.getBeltType(player, item, true)) > 0 || millis < 1000) {
 				GL11.glPushMatrix();
-				GL11.glTranslated(-insertShell[0], insertShell[2] * -2, insertShell[2] * -1);
-				ResourceManager.shotty.renderPart(shells);
+				HbmAnimations.applyRelevantTransformation("ShellL");
+				ResourceManager.shotty.renderPart("ShellL");
+				GL11.glPopMatrix();
+				
+				GL11.glPushMatrix();
+				HbmAnimations.applyRelevantTransformation("ShellR");
+				ResourceManager.shotty.renderPart("ShellR");
 				GL11.glPopMatrix();
 			}
-			
-			GL11.glPopMatrix();
-			
-			ResourceManager.shotty.renderPart(handle);
 			
 			break;
 			
 		case EQUIPPED:
 
-			GL11.glRotatef(-80F, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(-170F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(-10F, 0.0F, 0.0F, 1.0F);
-			GL11.glRotatef(10F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(-10F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(5F, 0.0F, 1.0F, 0.0F);
-			GL11.glTranslatef(0.5F, 0.0F, -0.4F);
+			GL11.glTranslatef(-0.4F, 0.0F, -0.5F);
 			GL11.glScaled(0.35, 0.35, 0.35);
-			ResourceManager.shotty.renderPart(handle);
-			ResourceManager.shotty.renderPart(barrel);
+			ResourceManager.shotty.renderPart("Body");
+			ResourceManager.shotty.renderPart("Barrel");
 			
 			break;
 			
 		case ENTITY:
 
 			GL11.glScaled(0.5, 0.5, 0.5);
-			GL11.glTranslatef(-1.0F, 0.2F, 0.0F);
-			ResourceManager.shotty.renderPart(handle);
-			ResourceManager.shotty.renderPart(barrel);
+			GL11.glTranslatef(0.0F, 0.2F, 0.0F);
+			ResourceManager.shotty.renderPart("Body");
+			ResourceManager.shotty.renderPart("Barrel");
 			break;
 			
 		default: break;

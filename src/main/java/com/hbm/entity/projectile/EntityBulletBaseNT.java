@@ -115,7 +115,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		if(gun != null && gun.getItem() instanceof ItemGunBase) {
 			GunConfiguration cfg = ((ItemGunBase) gun.getItem()).mainConfig;
 			
-			if(cfg != null && cfg.hasSights && entity.isSneaking()) {
+			if(cfg != null && (cfg.hasSights && entity.isSneaking()) || cfg.isCentered) {
 				offsetShot = false;
 			}
 		}
