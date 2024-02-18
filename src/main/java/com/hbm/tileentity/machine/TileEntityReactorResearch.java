@@ -14,7 +14,9 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPlateFuel;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,7 +41,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 //TODO: fix reactor control;
-public class TileEntityReactorResearch extends TileEntityMachineBase implements IControlReceiver, SimpleComponent, IGUIProvider {
+public class TileEntityReactorResearch extends TileEntityMachineBase implements IControlReceiver, SimpleComponent, IGUIProvider, IInfoProviderEC {
 	
 	@SideOnly(Side.CLIENT)
 	public double lastLevel;
@@ -445,5 +447,12 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIReactorResearch(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setDouble(CompatEnergyControl.D_HEAT_C, Math.round(heat * 2.0E-5D * 980.0D + 20.0D));
+		data.setInteger(CompatEnergyControl.I_FLUX, totalFlux);
+		data.setInteger(CompatEnergyControl.I_WATER, water);
 	}
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.handler.GunConfiguration;
 import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 

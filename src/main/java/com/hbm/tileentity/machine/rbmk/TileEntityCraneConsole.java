@@ -80,16 +80,18 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 				goesDown = false;
 				
 				if(!worldObj.isRemote && this.canTargetInteract()) {
-					if(this.loadedItem != null) {
-						getColumnAtPos().load(this.loadedItem);
-						this.loadedItem = null;
-					} else {
-						IRBMKLoadable column = getColumnAtPos();
-						this.loadedItem = column.provideNext();
-						column.unload();
+					IRBMKLoadable column = getColumnAtPos();
+					if(column != null) { // canTargetInteract already assumes this, but there seems to be some freak race conditions that cause the column to be null anyway
+						if(this.loadedItem != null) {
+							column.load(this.loadedItem);
+							this.loadedItem = null;
+						} else {
+							this.loadedItem = column.provideNext();
+							column.unload();
+						}
+						
+						this.markDirty();
 					}
-					
-					this.markDirty();
 				}
 					
 			}

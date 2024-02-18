@@ -16,10 +16,12 @@ import com.hbm.lib.Library;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -31,7 +33,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineWoodBurner extends TileEntityMachineBase implements IFluidStandardReceiver, IControlReceiver, IEnergyGenerator, IGUIProvider {
+public class TileEntityMachineWoodBurner extends TileEntityMachineBase implements IFluidStandardReceiver, IControlReceiver, IEnergyGenerator, IGUIProvider, IInfoProviderEC {
 	
 	public long power;
 	public static final long maxPower = 100_000;
@@ -39,6 +41,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 	public int maxBurnTime;
 	public boolean liquidBurn = false;
 	public boolean isOn = false;
+	protected int powerGen = 0;
 	
 	public FluidTank tank;
 	
@@ -62,6 +65,8 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			powerGen = 0;
 			
 			this.tank.setType(2, slots);
 			this.tank.loadTank(3, 4, slots);
@@ -96,8 +101,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 					
 				} else if(this.power < this.maxPower && isOn){
 					this.burnTime--;
-					this.power += 100;
-					if(power > maxPower) this.power = this.maxPower;
+					this.powerGen += 100;
 					if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND);
 				}
 				
@@ -111,7 +115,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 						int toBurn = Math.min(tank.getFill(), 2);
 						
 						if(toBurn > 0) {
-							this.power += trait.getHeatEnergy() * toBurn / 2_000L;
+							this.powerGen += trait.getHeatEnergy() * toBurn / 2_000L;
 							this.tank.setFill(this.tank.getFill() - toBurn);
 							if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * toBurn / 2F);
 						}
@@ -119,6 +123,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 				}
 			}
 			
+			this.power += this.powerGen;
 			if(this.power > this.maxPower) this.power = this.maxPower;
 			
 			NBTTagCompound data = new NBTTagCompound();
@@ -300,5 +305,12 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, isOn);
+		if(this.liquidBurn) data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, 1D);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, power);
 	}
 }

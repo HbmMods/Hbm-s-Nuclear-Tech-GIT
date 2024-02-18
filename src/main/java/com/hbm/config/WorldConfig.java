@@ -39,6 +39,7 @@ public class WorldConfig {
 	public static int bedrockChlorocalciteSpawn = 35;
 	public static int bedrockAsbestosSpawn = 50;
 	public static int bedrockNiobiumSpawn = 50;
+	public static int bedrockNeodymiumSpawn = 50;
 	public static int bedrockTitaniumSpawn = 100;
 	public static int bedrockTungstenSpawn = 100;
 	public static int bedrockGoldSpawn = 50;
@@ -48,6 +49,7 @@ public class WorldConfig {
 	public static int bedrockNiterSpawn = 50;
 	public static int bedrockFluoriteSpawn = 50;
 	public static int bedrockRedstoneSpawn = 50;
+	public static int bedrockRareEarthSpawn = 50;
 	public static int bedrockGlowstoneSpawn = 100;
 	public static int bedrockPhosphorusSpawn = 50;
 	public static int bedrockQuartzSpawn = 100;
@@ -166,6 +168,8 @@ public class WorldConfig {
 		bedrockFluoriteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B12_bedrockFluoriteWeight", "Spawn weight for fluorite bedrock ore", 50);
 		bedrockRedstoneSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B13_bedrockRedstoneWeight", "Spawn weight for redstone bedrock ore", 50);
 		bedrockChlorocalciteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B14_bedrockChlorocalciteWeight", "Spawn weight for chlorocalcite bedrock ore", 35);
+		bedrockNeodymiumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B15_bedrockNeodymiumWeight", "Spawn weight for neodymium bedrock ore", 50);
+		bedrockRareEarthSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B16_bedrockRareEarthWeight", "Spawn weight for rare earth bedrock ore", 50);
 
 		bedrockGlowstoneSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.BN00_bedrockGlowstoneWeight", "Spawn weight for glowstone bedrock ore", 100);
 		bedrockPhosphorusSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.BN01_bedrockPhosphorusWeight", "Spawn weight for phosphorus bedrock ore", 50);

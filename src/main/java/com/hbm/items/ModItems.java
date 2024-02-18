@@ -2017,10 +2017,6 @@ public class ModItems {
 	public static Item robes_legs;
 	public static Item robes_boots;
 
-	public static Item australium_iii;
-	public static Item australium_iv;
-	public static Item australium_v;
-
 	public static Item jetpack_boost;
 	public static Item jetpack_break;
 	public static Item jetpack_fly;
@@ -2212,6 +2208,7 @@ public class ModItems {
 	public static Item night_vision;
 	public static Item card_aos;
 	public static Item card_qos;
+	public static Item australium_iii;
 
 	public static Item hazmat_helmet;
 	public static Item hazmat_plate;
@@ -3460,6 +3457,7 @@ public class ModItems {
 		night_vision = new ItemModNightVision().setUnlocalizedName("night_vision").setTextureName(RefStrings.MODID + ":night_vision");
 		card_aos = new ItemModCard().setUnlocalizedName("card_aos").setTextureName(RefStrings.MODID + ":card_aos");
 		card_qos = new ItemModCard().setUnlocalizedName("card_qos").setTextureName(RefStrings.MODID + ":card_qos");
+		australium_iii = new ItemModShield(25F).setUnlocalizedName("australium_iii").setTextureName(RefStrings.MODID + ":australium_iii");
 
 		cap_nuka = new Item().setUnlocalizedName("cap_nuka").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_nuka");
 		cap_quantum = new Item().setUnlocalizedName("cap_quantum").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_quantum");
@@ -5371,8 +5369,6 @@ public class ModItems {
 		liquidator_legs = new ArmorLiquidator(aMatLiquidator, 2, RefStrings.MODID + ":textures/armor/liquidator_2.png").cloneStats((ArmorFSB) liquidator_helmet).setUnlocalizedName("liquidator_legs").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":liquidator_legs");
 		liquidator_boots = new ArmorLiquidator(aMatLiquidator, 3, RefStrings.MODID + ":textures/armor/liquidator_1.png").cloneStats((ArmorFSB) liquidator_helmet).setUnlocalizedName("liquidator_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":liquidator_boots");
 
-		australium_iii = new ArmorAustralium(MainRegistry.aMatAus3, 1).setUnlocalizedName("australium_iii").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":australium_iii");
-		
 		jetpack_boost = new JetpackBooster(Fluids.BALEFIRE, 32000).setUnlocalizedName("jetpack_boost").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_boost");
 		jetpack_break = new JetpackBreak(Fluids.KEROSENE, 12000).setUnlocalizedName("jetpack_break").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_break");
 		jetpack_fly = new JetpackRegular(Fluids.KEROSENE, 12000).setUnlocalizedName("jetpack_fly").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_fly");
@@ -7580,6 +7576,7 @@ public class ModItems {
 		GameRegistry.registerItem(night_vision, night_vision.getUnlocalizedName());
 		GameRegistry.registerItem(card_aos, card_aos.getUnlocalizedName());
 		GameRegistry.registerItem(card_qos, card_qos.getUnlocalizedName());
+		GameRegistry.registerItem(australium_iii, australium_iii.getUnlocalizedName());
 
 		//Chaos
 		GameRegistry.registerItem(chocolate_milk, chocolate_milk.getUnlocalizedName());
@@ -7863,7 +7860,6 @@ public class ModItems {
 		GameRegistry.registerItem(apple_euphemium, apple_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(watch, watch.getUnlocalizedName());
 		GameRegistry.registerItem(mask_of_infamy, mask_of_infamy.getUnlocalizedName());
-		GameRegistry.registerItem(australium_iii, australium_iii.getUnlocalizedName());
 		GameRegistry.registerItem(jackt, jackt.getUnlocalizedName());
 		GameRegistry.registerItem(jackt2, jackt2.getUnlocalizedName());
 		GameRegistry.registerItem(jetpack_fly, jetpack_fly.getUnlocalizedName());

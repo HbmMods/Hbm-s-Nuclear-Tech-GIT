@@ -2,8 +2,8 @@ package api.hbm.energy;
 
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.util.CompatEnergyControl;
 
-import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -112,8 +112,8 @@ public interface IEnergyConnector extends ILoadedTile {
 	
 	/** Shortcut for adding energy data to tiles that implement IInfoProviderEC, should NOT be used externally for compat! Use IInfoProviderEC.provideInfo() instead! */
 	public default void provideInfoForEC(NBTTagCompound data) {
-		data.setLong(IInfoProviderEC.L_ENERGY_HE, this.getPower());
-		data.setLong(IInfoProviderEC.L_CAPACITY_HE, this.getMaxPower());
+		data.setLong(CompatEnergyControl.L_ENERGY_HE, this.getPower());
+		data.setLong(CompatEnergyControl.L_CAPACITY_HE, this.getMaxPower());
 	}
 	
 	public default ConnectionPriority getPriority() {

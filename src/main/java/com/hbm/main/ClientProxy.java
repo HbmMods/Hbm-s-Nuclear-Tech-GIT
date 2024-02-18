@@ -1715,6 +1715,9 @@ public class ClientProxy extends ServerProxy {
 				fx.setBaseScale(data.getFloat("base"));
 				fx.setMaxScale(data.getFloat("max"));
 				fx.setLife(data.getInteger("life") / (particleSetting + 1));
+				if(data.hasKey("noWind")) fx.noWind();
+				if(data.hasKey("strafe")) fx.setStrafe(data.getFloat("strafe"));
+				if(data.hasKey("alpha")) fx.alphaMod(data.getFloat("alpha"));
 				
 				if(data.hasKey("color")) {
 					Color color = new Color(data.getInteger("color"));

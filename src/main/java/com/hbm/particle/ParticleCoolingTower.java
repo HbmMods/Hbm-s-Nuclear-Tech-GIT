@@ -15,6 +15,9 @@ public class ParticleCoolingTower extends EntityFX {
 	private float baseScale = 1.0F;
 	private float maxScale = 1.0F;
 	private float lift = 0.3F;
+	private float strafe = 0.075F;
+	private boolean windDir = true;
+	private float alphaMod = 0.25F;
 
 	public ParticleCoolingTower(TextureManager texman, World world, double x, double y, double z) {
 		super(world, x, y, z);
@@ -23,21 +26,13 @@ public class ParticleCoolingTower extends EntityFX {
 		this.noClip = true;
 	}
 	
-	public void setBaseScale(float f) {
-		this.baseScale = f;
-	}
-	
-	public void setMaxScale(float f) {
-		this.maxScale = f;
-	}
-	
-	public void setLift(float f) {
-		this.lift = f;
-	}
-	
-	public void setLife(int i) {
-		this.particleMaxAge = i;
-	}
+	public void setBaseScale(float f) { this.baseScale = f; }
+	public void setMaxScale(float f) { this.maxScale = f; }
+	public void setLift(float f) { this.lift = f; }
+	public void setLife(int i) { this.particleMaxAge = i; }
+	public void setStrafe(float f) { this.strafe = f; }
+	public void noWind() { this.windDir = false; }
+	public void alphaMod(float mod) { this.alphaMod = mod; }
 
 	public void onUpdate() {
 		
@@ -47,20 +42,25 @@ public class ParticleCoolingTower extends EntityFX {
 
 		float ageScale = (float) this.particleAge / (float) this.particleMaxAge;
 		
-		this.particleAlpha = 0.25F - ageScale * 0.25F;
+		this.particleAlpha = alphaMod - ageScale * alphaMod;
 		this.particleScale = baseScale + (float)Math.pow((maxScale * ageScale - baseScale), 2);
 
 		this.particleAge++;
-		
-		if(this.motionY < this.lift) {
+
+		if(lift > 0 && this.motionY < this.lift) {
 			this.motionY += 0.01F;
 		}
+		if(lift < 0 && this.motionY > this.lift) {
+			this.motionY -= 0.01F;
+		}
 
-		this.motionX += rand.nextGaussian() * 0.075D * ageScale;
-		this.motionZ += rand.nextGaussian() * 0.075D * ageScale;
+		this.motionX += rand.nextGaussian() * strafe * ageScale;
+		this.motionZ += rand.nextGaussian() * strafe * ageScale;
 
-		this.motionX += 0.02 * ageScale;
-		this.motionX -= 0.01 * ageScale;
+		if(windDir) {
+			this.motionX += 0.02 * ageScale;
+			this.motionZ -= 0.01 * ageScale;
+		}
 
 		if(this.particleAge == this.particleMaxAge) {
 			this.setDead();

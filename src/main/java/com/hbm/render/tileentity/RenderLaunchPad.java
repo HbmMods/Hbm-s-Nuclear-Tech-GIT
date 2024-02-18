@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderMissileGeneric;
@@ -21,12 +22,17 @@ public class RenderLaunchPad extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+
+		switch(tileEntity.getBlockMetadata() - BlockDummyable.offset) {
+		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
+		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
+		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
+		}
 
 		bindTexture(ResourceManager.missile_pad_tex);
 		ResourceManager.missile_pad.renderAll();
-
-		GL11.glDisable(GL11.GL_CULL_FACE);
 
 		if(tileEntity instanceof TileEntityLaunchPad) {
 			ItemStack toRender = ((TileEntityLaunchPad) tileEntity).toRender;

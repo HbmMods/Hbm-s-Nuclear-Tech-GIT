@@ -1,5 +1,6 @@
 package com.hbm.tileentity.bomb;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,6 +9,31 @@ import org.apache.logging.log4j.Level;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBaseNT;
+import com.hbm.entity.missile.EntityMissileDoomsday;
+import com.hbm.entity.missile.EntityMissileShuttle;
+import com.hbm.entity.missile.EntityMissileStealth;
+import com.hbm.entity.missile.EntityMissileTier0.EntityMissileBHole;
+import com.hbm.entity.missile.EntityMissileTier0.EntityMissileEMP;
+import com.hbm.entity.missile.EntityMissileTier0.EntityMissileMicro;
+import com.hbm.entity.missile.EntityMissileTier0.EntityMissileSchrabidium;
+import com.hbm.entity.missile.EntityMissileTier0.EntityMissileTaint;
+import com.hbm.entity.missile.EntityMissileTier1.EntityMissileBunkerBuster;
+import com.hbm.entity.missile.EntityMissileTier1.EntityMissileCluster;
+import com.hbm.entity.missile.EntityMissileTier1.EntityMissileDecoy;
+import com.hbm.entity.missile.EntityMissileTier1.EntityMissileGeneric;
+import com.hbm.entity.missile.EntityMissileTier1.EntityMissileIncendiary;
+import com.hbm.entity.missile.EntityMissileTier2.EntityMissileBusterStrong;
+import com.hbm.entity.missile.EntityMissileTier2.EntityMissileClusterStrong;
+import com.hbm.entity.missile.EntityMissileTier2.EntityMissileEMPStrong;
+import com.hbm.entity.missile.EntityMissileTier2.EntityMissileIncendiaryStrong;
+import com.hbm.entity.missile.EntityMissileTier2.EntityMissileStrong;
+import com.hbm.entity.missile.EntityMissileTier3.EntityMissileBurst;
+import com.hbm.entity.missile.EntityMissileTier3.EntityMissileDrill;
+import com.hbm.entity.missile.EntityMissileTier3.EntityMissileInferno;
+import com.hbm.entity.missile.EntityMissileTier3.EntityMissileRain;
+import com.hbm.entity.missile.EntityMissileTier4.EntityMissileMirv;
+import com.hbm.entity.missile.EntityMissileTier4.EntityMissileNuclear;
+import com.hbm.entity.missile.EntityMissileTier4.EntityMissileVolcano;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerLaunchPadLarge;
@@ -37,10 +63,49 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase implements IEnergyUser, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
+	
+	/** Automatic instantiation of generic missiles, i.e. everything that both extends EntityMissileBaseNT and needs a designator */
+	public static final HashMap<ComparableStack, Class<? extends EntityMissileBaseNT>> missiles = new HashMap();
+	
+	public static void registerLaunchables() {
+
+		//Tier 0
+		missiles.put(new ComparableStack(ModItems.missile_micro), EntityMissileMicro.class);
+		missiles.put(new ComparableStack(ModItems.missile_schrabidium), EntityMissileSchrabidium.class);
+		missiles.put(new ComparableStack(ModItems.missile_bhole), EntityMissileBHole.class);
+		missiles.put(new ComparableStack(ModItems.missile_taint), EntityMissileTaint.class);
+		missiles.put(new ComparableStack(ModItems.missile_emp), EntityMissileEMP.class);
+		//Tier 1
+		missiles.put(new ComparableStack(ModItems.missile_generic), EntityMissileGeneric.class);
+		missiles.put(new ComparableStack(ModItems.missile_decoy), EntityMissileDecoy.class);
+		missiles.put(new ComparableStack(ModItems.missile_incendiary), EntityMissileIncendiary.class);
+		missiles.put(new ComparableStack(ModItems.missile_cluster), EntityMissileCluster.class);
+		missiles.put(new ComparableStack(ModItems.missile_buster), EntityMissileBunkerBuster.class);
+		//Tier 2
+		missiles.put(new ComparableStack(ModItems.missile_strong), EntityMissileStrong.class);
+		missiles.put(new ComparableStack(ModItems.missile_incendiary_strong), EntityMissileIncendiaryStrong.class);
+		missiles.put(new ComparableStack(ModItems.missile_cluster_strong), EntityMissileClusterStrong.class);
+		missiles.put(new ComparableStack(ModItems.missile_buster_strong), EntityMissileBusterStrong.class);
+		missiles.put(new ComparableStack(ModItems.missile_emp_strong), EntityMissileEMPStrong.class);
+		//Tier 3
+		missiles.put(new ComparableStack(ModItems.missile_burst), EntityMissileBurst.class);
+		missiles.put(new ComparableStack(ModItems.missile_inferno), EntityMissileInferno.class);
+		missiles.put(new ComparableStack(ModItems.missile_rain), EntityMissileRain.class);
+		missiles.put(new ComparableStack(ModItems.missile_drill), EntityMissileDrill.class);
+		missiles.put(new ComparableStack(ModItems.missile_shuttle), EntityMissileShuttle.class);
+		//Tier 4
+		missiles.put(new ComparableStack(ModItems.missile_nuclear), EntityMissileNuclear.class);
+		missiles.put(new ComparableStack(ModItems.missile_nuclear_cluster), EntityMissileMirv.class);
+		missiles.put(new ComparableStack(ModItems.missile_volcano), EntityMissileVolcano.class);
+
+		missiles.put(new ComparableStack(ModItems.missile_doomsday), EntityMissileDoomsday.class);
+		missiles.put(new ComparableStack(ModItems.missile_stealth), EntityMissileStealth.class);
+	}
 
 	public ItemStack toRender;
 	
@@ -79,6 +144,13 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 			this.power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 			tanks[0].loadTank(3, 4, slots);
 			tanks[1].loadTank(5, 6, slots);
+			
+			if(this.isMissileValid()) {
+				if(slots[0].getItem() instanceof ItemMissile) {
+					ItemMissile missile = (ItemMissile) slots[0].getItem();
+					setFuel(missile);
+				}
+			}
 
 			this.networkPackNT(250);
 		}
@@ -233,21 +305,22 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		
 		if(slots[0] == null) return null;
 		
-		Class<? extends EntityMissileBaseNT> clazz = TileEntityLaunchPad.missiles.get(new ComparableStack(slots[0]).makeSingular());
+		Class<? extends EntityMissileBaseNT> clazz = TileEntityLaunchPadBase.missiles.get(new ComparableStack(slots[0]).makeSingular());
 		
 		if(clazz != null) {
 			try {
-				EntityMissileBaseNT missile = clazz.getConstructor(World.class, float.class, float.class, float.class, int.class, int.class).newInstance(worldObj, xCoord + 0.5F, yCoord + 2F, zCoord + 0.5F, targetX, targetZ);
+				EntityMissileBaseNT missile = clazz.getConstructor(World.class, float.class, float.class, float.class, int.class, int.class).newInstance(worldObj, xCoord + 0.5F, yCoord + (float) getLaunchOffset() /* Position arguments need to be floats, jackass */, zCoord + 0.5F, targetX, targetZ);
 				if(GeneralConfig.enableExtendedLogging) MainRegistry.logger.log(Level.INFO, "[MISSILE] Tried to launch missile at " + xCoord + " / " + yCoord + " / " + zCoord + " to " + xCoord + " / " + zCoord + "!");
+				missile.getDataWatcher().updateObject(3, (byte) MathHelper.clamp_int(this.getBlockMetadata() - 10, 2, 5));
 				return missile;
 			} catch(Exception e) { }
 		}
 
 		if(slots[0].getItem() == ModItems.missile_anti_ballistic) {
 			EntityMissileAntiBallistic missile = new EntityMissileAntiBallistic(worldObj);
-			missile.posX = xCoord + 0.5F;
-			missile.posY = yCoord + 2F;
-			missile.posZ = zCoord + 0.5F;
+			missile.posX = xCoord + 0.5D;
+			missile.posY = yCoord + getLaunchOffset();
+			missile.posZ = zCoord + 0.5D;
 			return missile;
 		}
 		
@@ -278,7 +351,6 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		int targetZ = 0;
 		
 		if(slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
-			
 			IDesignatorItem designator = (IDesignatorItem) slots[1].getItem();
 			
 			if(!designator.isReady(worldObj, slots[1], xCoord, yCoord, zCoord) && needsDesignator) return BombReturnCode.ERROR_MISSING_COMPONENT;
@@ -365,4 +437,5 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	
 	/** Any extra conditions for launching in addition to the missile being valid and fueled */
 	public abstract boolean isReadyForLaunch();
+	public abstract double getLaunchOffset();
 }

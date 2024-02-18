@@ -21,6 +21,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumAshType;
+import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
@@ -265,6 +266,12 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget_pu_mix, 2),
 				new ItemStack(ModItems.nugget_bismuth, 6),
 				new ItemStack(ModItems.nuclear_waste_tiny, 1) });
+
+		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.RARE)), new ItemStack[] {
+				new ItemStack(ModItems.powder_cobalt_tiny, 2),
+				new ItemStack(ModItems.powder_boron_tiny, 2),
+				new ItemStack(ModItems.powder_niobium_tiny, 2),
+				new ItemStack(ModItems.nugget_zirconium, 3) });
 		
 		ArrayList<ItemStack> naquadriaNuggets = OreDictionary.getOres("nuggetNaquadria");
 		if(naquadriaNuggets.size() != 0) {
