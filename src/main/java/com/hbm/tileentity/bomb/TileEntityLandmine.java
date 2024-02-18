@@ -3,7 +3,6 @@ package com.hbm.tileentity.bomb;
 import java.util.List;
 
 import com.hbm.blocks.bomb.Landmine;
-import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -48,14 +47,13 @@ public class TileEntityLandmine extends TileEntity {
 				// This is to prevent worldgen mines from detonating well before they become gameplay relevant
 
 				if(o instanceof EntityPlayer) {
-					MainRegistry.logger.info("player is in range, enabling");
 					waitingForPlayer = false;
 					return;
 				}
 			} else {
 				if(o instanceof EntityLivingBase) {
 					if(isPrimed) {
-						// iunno, you tell me
+						//the explosion is part of the mine block so that the IBomb interface works, i remember now
 						landmine.explode(worldObj, xCoord, yCoord, zCoord);
 					}
 	

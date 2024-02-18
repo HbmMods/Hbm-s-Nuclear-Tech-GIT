@@ -92,6 +92,8 @@
 * Tier 4s now need three thrusters
 * Tier 0 missiles now come pre-fueled with solid fuel as part of their recipe
 * Updated the ABM recipe to use the act welder, being made of a tier 0 missile assembly with extra thrusters and loaded with TNT/TATB
+* The super shotgun now has improved animations, and is centered like it is in the original DOOM games
+* 
 
 ## Fixed
 * Fixed dupe caused by shift-clicking ashes out of the bricked furnace

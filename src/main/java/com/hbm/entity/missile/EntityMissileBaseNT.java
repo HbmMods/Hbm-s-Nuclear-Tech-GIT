@@ -198,7 +198,7 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 			data.setDouble("moX", -thrust.xCoord);
 			data.setDouble("moY", -thrust.yCoord);
 			data.setDouble("moZ", -thrust.zCoord);
-			data.setInteger("maxAge", 100 + rand.nextInt(40));
+			data.setInteger("maxAge", 60 + rand.nextInt(20));
 			MainRegistry.proxy.effectNT(data);
 		}
 	}
