@@ -91,8 +91,13 @@ public class BusAnimationSequence {
 				continue;
 			}
 
-			if (currentFrame.interpolationType == InterpolationType.NONE || millis >= endTime) {
+			if (millis >= endTime) {
 				transform[i] = currentFrame.value;
+				continue;
+			}
+
+			if (previousFrame != null && previousFrame.interpolationType == InterpolationType.CONSTANT) {
+				transform[i] = previousFrame.value;
 				continue;
 			}
 
