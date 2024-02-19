@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.lib.Library;
+import com.hbm.world.dungeon.Silo;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -70,13 +71,15 @@ public class ItemWandD extends Item {
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
 			
-			List<EntityNukeTorex> del = world.getEntitiesWithinAABB(EntityNukeTorex.class, AxisAlignedBB.getBoundingBox(pos.blockX, pos.blockY + 1, pos.blockZ, pos.blockX, pos.blockY + 1, pos.blockZ).expand(50, 50, 50));
+			/*List<EntityNukeTorex> del = world.getEntitiesWithinAABB(EntityNukeTorex.class, AxisAlignedBB.getBoundingBox(pos.blockX, pos.blockY + 1, pos.blockZ, pos.blockX, pos.blockY + 1, pos.blockZ).expand(50, 50, 50));
 			
 			if(!del.isEmpty()) {
 				for(EntityNukeTorex torex : del) torex.setDead();
 			} else {
 				EntityNukeTorex.statFac(world, pos.blockX, pos.blockY + 1, pos.blockZ, 150);
-			}
+			}*/
+			
+			new Silo().generate(world, world.rand, pos.blockX, pos.blockY + 1, pos.blockZ);
 			
 			/*EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
 			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");

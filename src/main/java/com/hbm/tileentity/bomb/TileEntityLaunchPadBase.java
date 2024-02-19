@@ -168,7 +168,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 				}
 			}
 			
-			if(this.redstonePower > 0 && this.prevRedstonePower == 0) {
+			if(this.redstonePower > 0 && this.prevRedstonePower <= 0) {
 				this.launchFromDesignator();
 			}
 			

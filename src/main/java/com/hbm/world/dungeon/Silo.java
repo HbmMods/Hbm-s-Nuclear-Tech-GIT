@@ -4,7 +4,9 @@ package com.hbm.world.dungeon;
 
 import java.util.Random;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.config.GeneralConfig;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.lib.Library;
@@ -15,6 +17,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class Silo extends WorldGenerator
 {
@@ -374,8 +377,6 @@ public class Silo extends WorldGenerator
 		world.setBlock(x + 6, y + -20, z + 10, Blocks.air, 0, 3);
 		world.setBlock(x + 7, y + -20, z + 10, Blocks.air, 0, 3);
 		world.setBlock(x + 8, y + -20, z + 10, Blocks.air, 0, 3);
-		world.setBlock(x + 9, y + -20, z + 10, Block2, 0, 3);
-		world.setBlock(x + 10, y + -20, z + 10, Blocks.unpowered_repeater, 3, 3);
 		world.setBlock(x + 11, y + -20, z + 10, Blocks.redstone_wire, 0, 3);
 		world.setBlock(x + 12, y + -20, z + 10, Blocks.redstone_wire, 0, 3);
 		world.setBlock(x + 13, y + -20, z + 10, Blocks.iron_bars, 0, 3);
@@ -2474,6 +2475,14 @@ public class Silo extends WorldGenerator
 		world.setBlock(x + 8, y + 1, z + 13, Block6, 0, 3);
 		world.setBlock(x + 9, y + 1, z + 13, Block6, 0, 3);
 		world.setBlock(x + 10, y + 1, z + 13, Block6, 0, 3);
+		
+
+		BlockDummyable.safeRem = true;
+		world.setBlock(x + 9, y + -20, z + 10, ModBlocks.launch_pad, 12, 3);
+		((LaunchPad) ModBlocks.launch_pad).fillSpace(world, x + 9, y + -20, z + 10, ForgeDirection.NORTH, 0);
+		BlockDummyable.safeRem = false;
+		
+		//world.setBlock(x + 9, y + -20, z + 10, ModBlocks.stone_biome, 1, 3);
 
 		generate_r03_last(world, rand, x, y, z);
 		return true;
@@ -2520,6 +2529,7 @@ public class Silo extends WorldGenerator
 		world.setBlock(x + 9, y + -1, z + 2, Blocks.ladder, 3, 3);
 		world.setBlock(x + 9, y + 0, z + 2, Blocks.ladder, 3, 3);
 		world.setBlock(x + 9, y + 1, z + 2, Blocks.ladder, 3, 3);
+		
 		if(GeneralConfig.enableDebugMode)
 			System.out.print("[Debug] Successfully spawned missile silo at " + x + " " + y +" " + z + "\n");
 		return true;

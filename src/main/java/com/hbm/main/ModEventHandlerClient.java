@@ -365,23 +365,30 @@ public class ModEventHandlerClient {
 	}
 	
 	@SubscribeEvent(receiveCanceled = true)
-	public void onOverlayRender(RenderGameOverlayEvent.Post event) {
+	public void onHUDRenderShield(RenderGameOverlayEvent.Pre event) {
+
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
+		if(event.type == event.type.ARMOR) {
+
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			if(props.getEffectiveMaxShield() > 0) {
+				RenderScreenOverlay.renderShieldBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
+			}
+		}
+	}
+	
+	@SubscribeEvent(receiveCanceled = true, priority = EventPriority.LOW)
+	public void onHUDRenderBar(RenderGameOverlayEvent.Post event) {
 		
 		/// HANDLE ELECTRIC FSB HUD ///
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		Tessellator tess = Tessellator.instance;
 		
-		if(!event.isCanceled() && event.type == event.type.HEALTH) {
-			HbmPlayerProps props = HbmPlayerProps.getData(player);
-			if(props.getEffectiveMaxShield() > 0) {
-				RenderScreenOverlay.renderShieldBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
-			}
-		}
-		
-		if(!event.isCanceled() && event.type == event.type.ARMOR) {
+		if(event.type == event.type.ARMOR) {
 			
-			if(ForgeHooks.getTotalArmorValue(player) == 0/* && GuiIngameForge.left_height == 59*/) {
+			if(ForgeHooks.getTotalArmorValue(player) == 0) {
 				GuiIngameForge.left_height -= 10;
 			}
 
@@ -398,7 +405,7 @@ public class ModEventHandlerClient {
 
 				for(int i = 0; i < (noHelmet ? 3 : 4); i++) {
 					
-					int top = height - GuiIngameForge.left_height + 6;
+					int top = height - GuiIngameForge.left_height + 7;
 
 					ItemStack stack = player.inventory.armorInventory[i];
 
@@ -452,7 +459,6 @@ public class ModEventHandlerClient {
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 			}
-
 		}
 	}
 	
