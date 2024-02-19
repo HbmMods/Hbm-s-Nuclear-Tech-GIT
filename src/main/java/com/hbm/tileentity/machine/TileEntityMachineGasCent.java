@@ -15,11 +15,13 @@ import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,7 +36,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 //epic!
-public class TileEntityMachineGasCent extends TileEntityMachineBase implements IEnergyUser, IFluidStandardReceiver, IGUIProvider {
+public class TileEntityMachineGasCent extends TileEntityMachineBase implements IEnergyUser, IFluidStandardReceiver, IGUIProvider, IInfoProviderEC {
 	
 	public long power;
 	public int progress;
@@ -451,5 +453,11 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineGasCent(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.progress > 0);
+		data.setInteger(CompatEnergyControl.I_PROGRESS, this.progress);
 	}
 }

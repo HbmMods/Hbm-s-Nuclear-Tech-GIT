@@ -2,6 +2,7 @@ package com.hbm.render.entity.rocket;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.entity.missile.EntityMissileTier2.*;
 import com.hbm.main.ResourceManager;
 
@@ -22,6 +23,13 @@ public class RenderMissileStrong extends Render {
 		GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * interp, 0.0F, 0.0F, 1.0F);
 		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, -1.0F, 0.0F);
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
+
+		if(entity instanceof EntityMissileBaseNT) switch(entity.getDataWatcher().getWatchableObjectByte(3)) {
+		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
+		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
+		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
+		}
 
 		if(entity instanceof EntityMissileStrong) bindTexture(ResourceManager.missileStrong_HE_tex);
 		if(entity instanceof EntityMissileIncendiaryStrong) bindTexture(ResourceManager.missileStrong_IN_tex);

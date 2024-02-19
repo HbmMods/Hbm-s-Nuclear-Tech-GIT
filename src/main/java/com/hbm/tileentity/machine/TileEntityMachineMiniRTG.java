@@ -2,11 +2,14 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.tile.IInfoProviderEC;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineMiniRTG extends TileEntityLoadedBase implements IEnergyGenerator {
+public class TileEntityMachineMiniRTG extends TileEntityLoadedBase implements IEnergyGenerator, IInfoProviderEC {
 
 	public long power;
 	boolean tact = false;
@@ -16,10 +19,7 @@ public class TileEntityMachineMiniRTG extends TileEntityLoadedBase implements IE
 		
 		if(!worldObj.isRemote) {
 
-			if(this.getBlockType() == ModBlocks.machine_powerrtg)
-				power += 2500;
-			else
-				power += 700;
+			power += this.getOutput();
 			
 			if(power > getMaxPower())
 				power = getMaxPower();
@@ -28,15 +28,16 @@ public class TileEntityMachineMiniRTG extends TileEntityLoadedBase implements IE
 				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 		}
 	}
-
+	
+	public long getOutput() {
+		if(this.getBlockType() == ModBlocks.machine_powerrtg) return 2_500;
+		return 700;
+	}
 
 	@Override
 	public long getMaxPower() {
-		
-		if(this.getBlockType() == ModBlocks.machine_powerrtg)
-			return 50000;
-		
-		return 1400;
+		if(this.getBlockType() == ModBlocks.machine_powerrtg) return 50_000;
+		return 1_400;
 	}
 
 	@Override
@@ -47,5 +48,12 @@ public class TileEntityMachineMiniRTG extends TileEntityLoadedBase implements IE
 	@Override
 	public void setPower(long i) {
 		power = i;
+	}
+
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, true);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, this.getOutput());
 	}
 }

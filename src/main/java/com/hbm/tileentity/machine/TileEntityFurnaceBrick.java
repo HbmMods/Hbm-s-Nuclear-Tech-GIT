@@ -40,6 +40,8 @@ public class TileEntityFurnaceBrick extends TileEntityMachineBase implements IGU
 		burnSpeed.put(Item.getItemFromBlock(Blocks.netherrack),		4);
 		burnSpeed.put(Item.getItemFromBlock(Blocks.cobblestone),	2);
 		burnSpeed.put(Item.getItemFromBlock(Blocks.sand),			2);
+		burnSpeed.put(Item.getItemFromBlock(Blocks.log),			2);
+		burnSpeed.put(Item.getItemFromBlock(Blocks.log2),			2);
 	}
 	
 	public int burnTime;

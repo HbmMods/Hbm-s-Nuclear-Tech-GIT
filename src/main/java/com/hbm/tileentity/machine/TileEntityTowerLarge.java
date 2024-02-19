@@ -16,8 +16,8 @@ public class TileEntityTowerLarge extends TileEntityCondenser {
 	
 	public TileEntityTowerLarge() {
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, 10000, 0);
-		tanks[1] = new FluidTank(Fluids.WATER, 10000, 1);
+		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, 10000);
+		tanks[1] = new FluidTank(Fluids.WATER, 10000);
 	}
 	
 	@Override
@@ -40,18 +40,6 @@ public class TileEntityTowerLarge extends TileEntityCondenser {
 				
 				MainRegistry.proxy.effectNT(data);
 			}
-		}
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		
-		for(int i = 2; i < 6; i++) {
-			ForgeDirection dir = ForgeDirection.getOrientation(i);
-			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-			fillFluid(xCoord + dir.offsetX * 5, yCoord, zCoord + dir.offsetZ * 5, getTact(), type);
-			fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * 3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * 3, getTact(), type);
-			fillFluid(xCoord + dir.offsetX * 5 + rot.offsetX * -3, yCoord, zCoord + dir.offsetZ * 5 + rot.offsetZ * -3, getTact(), type);
 		}
 	}
 

@@ -164,12 +164,12 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			int chunkX = xCoord >> 4;
 			int chunkZ = zCoord >> 4;
 			
-			//since fluid sources are often not within 1 chunk, we just do 3 chunks distance and call it a day
+			//since fluid sources are often not within 1 chunk, we just do 2 chunks distance and call it a day
 			if(!worldObj.getChunkProvider().chunkExists(chunkX, chunkZ) ||
-					!worldObj.getChunkProvider().chunkExists(chunkX + 3, chunkZ + 3) ||
-					!worldObj.getChunkProvider().chunkExists(chunkX + 3, chunkZ - 3) ||
-					!worldObj.getChunkProvider().chunkExists(chunkX - 3, chunkZ + 3) ||
-					!worldObj.getChunkProvider().chunkExists(chunkX - 3, chunkZ - 3)) {
+					!worldObj.getChunkProvider().chunkExists(chunkX + 2, chunkZ + 2) ||
+					!worldObj.getChunkProvider().chunkExists(chunkX + 2, chunkZ - 2) ||
+					!worldObj.getChunkProvider().chunkExists(chunkX - 2, chunkZ + 2) ||
+					!worldObj.getChunkProvider().chunkExists(chunkX - 2, chunkZ - 2)) {
 				this.unloadDelay = 60;
 			}
 			

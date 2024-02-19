@@ -18,7 +18,7 @@ public class ItemModV1 extends ItemArmorMod implements IArmorModDash {
 	private static final UUID speed = UUID.fromString("1d11e63e-28c4-4e14-b09f-fe0bd1be708f");
 
 	public ItemModV1() {
-		super(ArmorModHandler.extra, false, true, false, false);
+		super(ArmorModHandler.plate_only, false, true, false, false);
 	}
 	
 	@Override

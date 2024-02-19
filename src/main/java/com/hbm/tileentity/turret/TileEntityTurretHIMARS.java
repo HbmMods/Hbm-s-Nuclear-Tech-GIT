@@ -139,6 +139,8 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 			this.lastRotationPitch = this.rotationPitch;
 			this.lastRotationYaw = this.rotationYaw;
 			this.lastCrane = this.crane;
+			this.rotationPitch = this.syncRotationPitch;
+			this.rotationYaw = this.syncRotationYaw;
 		}
 		
 		if(!worldObj.isRemote) {

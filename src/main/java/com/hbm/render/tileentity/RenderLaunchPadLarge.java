@@ -5,18 +5,23 @@ import java.util.function.Consumer;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.weapon.ItemMissile.MissileFormFactor;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.tileentity.bomb.TileEntityLaunchPadLarge;
 
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.client.IItemRenderer;
 
-public class RenderLaunchPadLarge extends TileEntitySpecialRenderer {
+public class RenderLaunchPadLarge extends TileEntitySpecialRenderer implements IItemRendererProvider {
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
@@ -96,5 +101,31 @@ public class RenderLaunchPadLarge extends TileEntitySpecialRenderer {
 		}
 
 		GL11.glPopMatrix();
+	}
+
+	@Override
+	public Item getItemForRenderer() {
+		return Item.getItemFromBlock(ModBlocks.launch_pad_large);
+	}
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase( ) {
+			public void renderInventory() {
+				GL11.glTranslated(0, -3.75, 0);
+				GL11.glScaled(1.625, 1.625, 1.625);
+			}
+			public void renderCommonWithStack(ItemStack item) {
+				GL11.glScaled(0.5, 0.5, 0.5);
+				GL11.glRotatef(90, 0F, 1F, 0F);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.missile_erector_tex);
+				ResourceManager.missile_erector.renderPart("Pad");
+				bindTexture(ResourceManager.missile_erector_atlas_tex);
+				ResourceManager.missile_erector.renderPart("Atlas_Pad");
+				ResourceManager.missile_erector.renderPart("Atlas_Erector");
+				ResourceManager.missile_erector.renderPart("Atlas_Pivot");
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}};
 	}
 }

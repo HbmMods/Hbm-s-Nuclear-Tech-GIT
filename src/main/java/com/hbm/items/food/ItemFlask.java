@@ -50,7 +50,7 @@ public class ItemFlask extends ItemEnumMulti {
 			float infusion = 5F;
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			props.maxShield = Math.min(props.shieldCap, props.maxShield + infusion);
-			props.shield = Math.min(props.shield + infusion, props.maxShield);
+			props.shield = Math.min(props.shield + infusion, props.getEffectiveMaxShield());
 		}
 		
 		return stack;

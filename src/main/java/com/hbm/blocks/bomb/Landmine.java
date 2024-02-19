@@ -26,8 +26,14 @@ public class Landmine extends BlockContainer implements IBomb {
 
 	public static boolean safeMode = false;
 
-	public Landmine(Material p_i45386_1_) {
-		super(p_i45386_1_);
+	public double range;
+	public double height;
+
+	public Landmine(Material mat, double range, double height) {
+		super(mat);
+
+		this.range = range;
+		this.height = height;
 	}
 
 	@Override
@@ -56,7 +62,7 @@ public class Landmine extends BlockContainer implements IBomb {
 	}
 
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_) {
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 		float f = 0.0625F;
 		if(this == ModBlocks.mine_ap)
 			this.setBlockBounds(6 * f, 0.0F, 6 * f, 10 * f, 2 * f, 10 * f);
@@ -70,15 +76,7 @@ public class Landmine extends BlockContainer implements IBomb {
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
-		float f = 0.0625F;
-		if(this == ModBlocks.mine_ap)
-			this.setBlockBounds(6 * f, 0.0F, 6 * f, 10 * f, 2 * f, 10 * f);
-		if(this == ModBlocks.mine_he)
-			this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
-		if(this == ModBlocks.mine_shrap)
-			this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
-		if(this == ModBlocks.mine_fat)
-			this.setBlockBounds(5 * f, 0.0F, 4 * f, 11 * f, 6 * f, 12 * f);
+		setBlockBoundsBasedOnState(world, x, y, z);
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
 
@@ -92,14 +90,7 @@ public class Landmine extends BlockContainer implements IBomb {
 			explode(world, x, y, z);
 		}
 
-		boolean flag = false;
-
 		if(!World.doesBlockHaveSolidTopSurface(world, x, y - 1, z) && !BlockFence.func_149825_a(world.getBlock(x, y - 1, z))) {
-			flag = true;
-		}
-
-		if(flag) {
-
 			if(!safeMode) {
 				explode(world, x, y, z);
 			} else {
@@ -157,18 +148,14 @@ public class Landmine extends BlockContainer implements IBomb {
 
 			if(this == ModBlocks.mine_ap) {
 				world.newExplosion(null, x + 0.5, y + 0.5, z + 0.5, 2.5F, false, false);
-			}
-			if(this == ModBlocks.mine_he) {
+			} else if(this == ModBlocks.mine_he) {
 				ExplosionLarge.explode(world, x + 0.5, y + 0.5, z + 0.5, 3F, true, false, false);
 				world.newExplosion(null, x + 0.5, y + 2, z + 0.5, 15F, false, false);
-			}
-			if(this == ModBlocks.mine_shrap) {
+			} else if(this == ModBlocks.mine_shrap) {
 				ExplosionLarge.explode(world, x + 0.5, y + 0.5, z + 0.5, 1, true, false, false);
 				ExplosionLarge.spawnShrapnelShower(world, x + 0.5, y + 0.5, z + 0.5, 0, 1D, 0, 45, 0.2D);
 				ExplosionLarge.spawnShrapnels(world, x + 0.5, y + 0.5, z + 0.5, 5);
-			}
-			if(this == ModBlocks.mine_fat) {
-
+			} else if(this == ModBlocks.mine_fat) {
 				ExplosionNukeSmall.explode(world, x + 0.5, y + 0.5, z + 0.5, ExplosionNukeSmall.PARAMS_MEDIUM);
 			}
 		}

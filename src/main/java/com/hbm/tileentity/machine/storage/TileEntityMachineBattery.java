@@ -1,6 +1,8 @@
 package com.hbm.tileentity.machine.storage;
 
 import api.hbm.energy.*;
+import api.hbm.tile.IInfoProviderEC;
+
 import com.hbm.blocks.machine.MachineBattery;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.container.ContainerMachineBattery;
@@ -9,6 +11,8 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
+
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,7 +36,7 @@ import java.util.List;
 import java.util.Set;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyUser, IPersistentNBT, SimpleComponent, IGUIProvider {
+public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyUser, IPersistentNBT, SimpleComponent, IGUIProvider, IInfoProviderEC {
 	
 	public long[] log = new long[20];
 	public long delta = 0;
@@ -463,5 +467,10 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineBattery(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setLong(CompatEnergyControl.L_DIFF_HE, (log[0] - log[19]) / 20L);
 	}
 }

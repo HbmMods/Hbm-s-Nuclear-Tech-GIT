@@ -198,10 +198,6 @@ public class BlockVolcano extends BlockContainer implements ITooltipProvider, IB
 			}
 		}
 		
-		/* TODO */
-		private boolean doesPyroclastic() { return false; }
-		private double getPyroclasticRange() { return 0D; }
-		
 		/** Causes two magma explosions, one from bedrock to the core and one from the core to 15 blocks above. */
 		private void blastMagmaChannel() {
 			ExplosionNT explosion = new ExplosionNT(worldObj, null, xCoord + 0.5, yCoord + worldObj.rand.nextInt(15) + 1.5, zCoord + 0.5, 7);
