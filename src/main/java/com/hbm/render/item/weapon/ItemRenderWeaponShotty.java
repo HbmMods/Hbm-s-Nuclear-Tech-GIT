@@ -2,6 +2,7 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.config.WeaponConfig;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
@@ -50,9 +51,7 @@ public class ItemRenderWeaponShotty implements IItemRenderer {
 		
 		case EQUIPPED_FIRST_PERSON:
 
-			boolean linear = false; // TODO: Config option
-
-			String animSuffix = linear ? "Lame" : "";
+			String animSuffix = WeaponConfig.linearAnimations ? "Lame" : "";
 			
 			GL11.glScalef(0.5F, 0.5F, 0.5F);
 			GL11.glRotatef(20F, 0.0F, 0.0F, 1.0F);
