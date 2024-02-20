@@ -49,7 +49,6 @@ import net.minecraft.world.biome.BiomeGenForest;
 import net.minecraft.world.biome.BiomeGenJungle;
 import net.minecraft.world.biome.BiomeGenRiver;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -218,13 +217,8 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 		}
 		
-		boolean enableDungeons = true;
+		boolean enableDungeons = world.getWorldInfo().isMapFeaturesEnabled();
 		
-		if(world.getChunkProvider() instanceof ChunkProviderFlat) {
-			ChunkProviderFlat provider = (ChunkProviderFlat) world.getChunkProvider();
-			enableDungeons = provider.hasDungeons;
-		}
-
 		if(GeneralConfig.enableDungeons && world.provider.dimensionId == 0 && enableDungeons) {
 			
 			if(MobConfig.enableHives && rand.nextInt(MobConfig.hiveSpawn) == 0) {

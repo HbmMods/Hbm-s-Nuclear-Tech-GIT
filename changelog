@@ -1,15 +1,9 @@
 ## Changed
 * Updated chinese localization
-* Due to the HTR-01 being incompatible with the new launch pad, it is no longer craftable and is being retired
-  * Any remaining rockets can be crafted into a Soyuz
-* All Soyuz launcher components now have double the yield in crafting recipes, making the launcher half as expensive
-* There is now a config for disabling fluid container oredict (i.e. anything with the "container" prefix) which also disables TrainCraft diesel compatibility
-* Silo structures now spawn with launch pads again
-  * This is strictly speaking a progression skip since silo launch pads are post vacuum oil, the structure will be overhauled soon
+* Tweaked super shotgun animations, added config for changing the animation style
+* The benelli now has reloading animations and the drum mag as advertised
+* Tom will now explode close to bedrock even when not hitting a block
 
 ## Fixed
-* Fixed missile loading process being skipped when a new missile is inserted in the same tick as the launch pad is triggered
-* Fixed super shotgun's centered model causing it to permanently have the ironsights accuracy bonus
-* The shield bar now renders as part of the armor HUD (but still below it), which should fix the issue of the bar not rendering with Tinker's Construct installed for good
-* Fixed launch pad redstone interaction breaking after the first time the redstone state changes
-* Fallout layers now use the sand material, fixing an issue where grass blocks with fallout on top look snowy
+* Fixed the structure toggle on the world creation screen not working correctly on most world types
+* Fixed antiknock having a broken sprite and localization
