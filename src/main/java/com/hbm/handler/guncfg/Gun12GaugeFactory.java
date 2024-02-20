@@ -246,6 +246,7 @@ public class Gun12GaugeFactory {
 		config.reloadDuration = 21;
 		config.emptyReloadAdditionalDuration = 15;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
+		config.reloadSoundEmpty = GunConfiguration.RSOUND_MAG_BOLT;
 		config.reloadSoundEnd = false;
 		config.name += "Drum";
 

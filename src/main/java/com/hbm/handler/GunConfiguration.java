@@ -63,6 +63,7 @@ public class GunConfiguration implements Cloneable {
 	public int emptyReloadAdditionalDuration;
 	//sound path to the reload sound
 	public String reloadSound = "";
+	public String reloadSoundEmpty = null;
 	//whether the reload sound should be played at the beginning or at the end of the reload
 	public boolean reloadSoundEnd = true;
 	public String equipSound = "";
@@ -114,6 +115,7 @@ public class GunConfiguration implements Cloneable {
 	public static final String RSOUND_REVOLVER = "hbm:weapon.revolverReload";
 	public static final String RSOUND_RIFLE = "";
 	public static final String RSOUND_MAG = "hbm:weapon.magReload";
+	public static final String RSOUND_MAG_BOLT = "hbm:weapon.magReloadBolt";
 	public static final String RSOUND_SHOTGUN = "hbm:weapon.shotgunReload";
 	public static final String RSOUND_LAUNCHER = "hbm:weapon.rpgReload";
 	public static final String RSOUND_GRENADE = "hbm:weapon.hkReload";
