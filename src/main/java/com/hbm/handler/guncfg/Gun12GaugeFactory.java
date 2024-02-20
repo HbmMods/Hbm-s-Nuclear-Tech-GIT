@@ -226,32 +226,6 @@ public class Gun12GaugeFactory {
 		config.firingSound = "hbm:weapon.deagleShoot";
 		config.firingPitch = 0.75F;
 		config.reloadType = 2;
-		config.reloadSoundEnd = true;
-
-		config.animations.put(AnimType.CYCLE, new BusAnimation()
-				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframePosition(6.25, 0.25, 2.5, 55)
-						.addKeyframePosition(0, 0, 0, 55)
-						)
-				.addBus("EJECT", new BusAnimationSequence()
-						.addKeyframePosition(0, 0, 0, 25)
-						.addKeyframePosition(25, 0, 0, 100)
-						)
-				);
-
-		config.animations.put(AnimType.RELOAD, new BusAnimation()
-				.addBus("RELOAD", new BusAnimationSequence()
-						.addKeyframePosition(60, 0, -10, 400)
-						.addKeyframePosition(60, 125, -10, 200)
-						.addKeyframePosition(60, 125, -10, 300)
-						.addKeyframePosition(0, 0, 0, 300)
-						)
-				.addBus("PUMP", new BusAnimationSequence()
-						.addKeyframePosition(0, 0, 0, 900)
-						.addKeyframePosition(10, 0, 0, 200)
-						.addKeyframePosition(0, 0, 0, 1)
-						)
-				);
 
 		config.name = "benelli";
 		config.manufacturer = EnumGunManufacturer.BENELLI;
@@ -269,10 +243,19 @@ public class Gun12GaugeFactory {
 
 		config.reloadType = 1;
 		config.ammoCap = 24;
-		config.reloadDuration = 20;
+		config.reloadDuration = 21;
+		config.emptyReloadAdditionalDuration = 15;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
-		config.reloadSoundEnd = true;
+		config.reloadSoundEmpty = GunConfiguration.RSOUND_MAG_BOLT;
+		config.reloadSoundEnd = false;
 		config.name += "Drum";
+
+		config.loadAnimations = i -> {
+			config.animations.put(AnimType.CYCLE, ResourceManager.benelli_anim.get("Fire"));
+			config.animations.put(AnimType.RELOAD, ResourceManager.benelli_anim.get("Reload"));
+			config.animations.put(AnimType.RELOAD_EMPTY, ResourceManager.benelli_anim.get("ReloadEmpty"));
+		};
+
 		return config;
 	}
 	
