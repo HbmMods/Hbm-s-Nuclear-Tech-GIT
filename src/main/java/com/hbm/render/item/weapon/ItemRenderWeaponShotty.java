@@ -2,6 +2,7 @@ package com.hbm.render.item.weapon;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.config.WeaponConfig;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
@@ -49,16 +50,18 @@ public class ItemRenderWeaponShotty implements IItemRenderer {
 		switch(type) {
 		
 		case EQUIPPED_FIRST_PERSON:
+
+			String animSuffix = WeaponConfig.linearAnimations ? "Lame" : "";
 			
 			GL11.glScalef(0.5F, 0.5F, 0.5F);
 			GL11.glRotatef(20F, 0.0F, 0.0F, 1.0F);
 			GL11.glRotatef(-95F, 0.0F, 1.0F, 0.0F);
-			GL11.glTranslatef(-2.0F, 0.5F, -2.0F);
+			GL11.glTranslatef(-2.0F, 0.25F, -2.5F);
 
-			HbmAnimations.applyRelevantTransformation("Body");
+			HbmAnimations.applyRelevantTransformation("Body" + animSuffix);
 			ResourceManager.shotty.renderPart("Body");
 
-			HbmAnimations.applyRelevantTransformation("Barrel");
+			HbmAnimations.applyRelevantTransformation("Barrel" + animSuffix);
 			ResourceManager.shotty.renderPart("Barrel");
 
 			// If we've run out of ammo, stop drawing the shells after ejection has completed
@@ -67,12 +70,12 @@ public class ItemRenderWeaponShotty implements IItemRenderer {
 
 			if(ItemGunBase.getBeltSize(player, ItemGunBase.getBeltType(player, item, true)) > 0 || millis < 1000) {
 				GL11.glPushMatrix();
-				HbmAnimations.applyRelevantTransformation("ShellL");
+				HbmAnimations.applyRelevantTransformation("ShellL" + animSuffix);
 				ResourceManager.shotty.renderPart("ShellL");
 				GL11.glPopMatrix();
 				
 				GL11.glPushMatrix();
-				HbmAnimations.applyRelevantTransformation("ShellR");
+				HbmAnimations.applyRelevantTransformation("ShellR" + animSuffix);
 				ResourceManager.shotty.renderPart("ShellR");
 				GL11.glPopMatrix();
 			}
