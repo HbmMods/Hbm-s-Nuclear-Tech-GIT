@@ -704,9 +704,11 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] launch(Context context, Arguments args) {
-		//worldObj.getBlock(xCoord, yCoord, zCoord).explode(worldObj, xCoord, yCoord, zCoord);
-		((LaunchPad) ModBlocks.launch_pad).explode(worldObj, xCoord, yCoord, zCoord);
-		return new Object[] {};
+		if(this.canLaunch()) {
+			this.launchFromDesignator();
+			return new Object[] {true};
+		}
+		return new Object[] {false};
 	}
 
 	@Override
