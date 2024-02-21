@@ -5,9 +5,11 @@ import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.tile.IHeatSource;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,7 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IHeatSource, IEnergyUser, INBTPacketReceiver {
+public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IHeatSource, IEnergyUser, INBTPacketReceiver, IInfoProviderEC {
 	
 	public long power;
 	public int heatEnergy;
@@ -199,5 +201,12 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setLong(CompatEnergyControl.D_CONSUMPTION_HE, getConsumption());
+		data.setLong(CompatEnergyControl.L_ENERGY_TU, getHeatStored());
+		data.setLong(CompatEnergyControl.D_OUTPUT_TU, getHeatGen());
 	}
 }

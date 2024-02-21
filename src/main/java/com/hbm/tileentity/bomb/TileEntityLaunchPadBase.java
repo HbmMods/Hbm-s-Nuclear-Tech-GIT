@@ -7,33 +7,12 @@ import java.util.Set;
 import org.apache.logging.log4j.Level;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.entity.missile.EntityMissileAntiBallistic;
-import com.hbm.entity.missile.EntityMissileBaseNT;
-import com.hbm.entity.missile.EntityMissileDoomsday;
-import com.hbm.entity.missile.EntityMissileShuttle;
-import com.hbm.entity.missile.EntityMissileStealth;
-import com.hbm.entity.missile.EntityMissileTier0.EntityMissileBHole;
-import com.hbm.entity.missile.EntityMissileTier0.EntityMissileEMP;
-import com.hbm.entity.missile.EntityMissileTier0.EntityMissileMicro;
-import com.hbm.entity.missile.EntityMissileTier0.EntityMissileSchrabidium;
-import com.hbm.entity.missile.EntityMissileTier0.EntityMissileTaint;
-import com.hbm.entity.missile.EntityMissileTier1.EntityMissileBunkerBuster;
-import com.hbm.entity.missile.EntityMissileTier1.EntityMissileCluster;
-import com.hbm.entity.missile.EntityMissileTier1.EntityMissileDecoy;
-import com.hbm.entity.missile.EntityMissileTier1.EntityMissileGeneric;
-import com.hbm.entity.missile.EntityMissileTier1.EntityMissileIncendiary;
-import com.hbm.entity.missile.EntityMissileTier2.EntityMissileBusterStrong;
-import com.hbm.entity.missile.EntityMissileTier2.EntityMissileClusterStrong;
-import com.hbm.entity.missile.EntityMissileTier2.EntityMissileEMPStrong;
-import com.hbm.entity.missile.EntityMissileTier2.EntityMissileIncendiaryStrong;
-import com.hbm.entity.missile.EntityMissileTier2.EntityMissileStrong;
-import com.hbm.entity.missile.EntityMissileTier3.EntityMissileBurst;
-import com.hbm.entity.missile.EntityMissileTier3.EntityMissileDrill;
-import com.hbm.entity.missile.EntityMissileTier3.EntityMissileInferno;
-import com.hbm.entity.missile.EntityMissileTier3.EntityMissileRain;
-import com.hbm.entity.missile.EntityMissileTier4.EntityMissileMirv;
-import com.hbm.entity.missile.EntityMissileTier4.EntityMissileNuclear;
-import com.hbm.entity.missile.EntityMissileTier4.EntityMissileVolcano;
+import com.hbm.entity.missile.*;
+import com.hbm.entity.missile.EntityMissileTier0.*;
+import com.hbm.entity.missile.EntityMissileTier1.*;
+import com.hbm.entity.missile.EntityMissileTier2.*;
+import com.hbm.entity.missile.EntityMissileTier3.*;
+import com.hbm.entity.missile.EntityMissileTier4.*;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerLaunchPadLarge;
@@ -78,6 +57,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	public static void registerLaunchables() {
 
 		//Tier 0
+		missiles.put(new ComparableStack(ModItems.missile_test), EntityMissileTest.class);
 		missiles.put(new ComparableStack(ModItems.missile_micro), EntityMissileMicro.class);
 		missiles.put(new ComparableStack(ModItems.missile_schrabidium), EntityMissileSchrabidium.class);
 		missiles.put(new ComparableStack(ModItems.missile_bhole), EntityMissileBHole.class);
