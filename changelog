@@ -3,6 +3,10 @@
 * Tweaked super shotgun animations, added config for changing the animation style
 * The benelli now has reloading animations and the drum mag as advertised
 * Tom will now explode close to bedrock even when not hitting a block
+* The assembler recipe config now uses the same system as all other recipe configs, the file has moved into the `hbmRecipes` folder
+  * Old files are still compatible if moved to the new folder, since the base structure of the recipe file is the same
+  * Recipes should work as expected with the `/ntmreload` command
+  * Recipes now have an optional list for specifying which template folder they are made in
 
 ## Fixed
 * Fixed the structure toggle on the world creation screen not working correctly on most world types

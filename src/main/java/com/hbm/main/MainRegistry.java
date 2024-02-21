@@ -285,7 +285,6 @@ public class MainRegistry {
 		Satellite.register();
 		HTTPHandler.loadStats();
 		CraftingManager.mainRegistry();
-		AssemblerRecipes.preInit(PreEvent.getModConfigurationDirectory());
 		SiegeTier.registerTiers();
 		HazardRegistry.registerItems();
 		HazardRegistry.registerTrafos();
@@ -843,11 +842,9 @@ public class MainRegistry {
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent) {
 		TileEntityNukeFurnace.registerFuels();
-		AssemblerRecipes.loadRecipes();
 		MagicRecipes.register();
 		LemegetonRecipes.register();
 		SILEXRecipes.register();
-		AnvilRecipes.register();
 		RefineryRecipes.registerRefinery();
 		GasCentrifugeRecipes.register();
 		
@@ -856,6 +853,9 @@ public class MainRegistry {
 		//the good stuff
 		SerializableRecipe.registerAllHandlers();
 		SerializableRecipe.initialize();
+		
+		//Anvil has to come after serializables (i.e. anvil)
+		AnvilRecipes.register();
 
 		//has to register after cracking, and therefore after all serializable recipes
 		RadiolysisRecipes.registerRadiolysis();

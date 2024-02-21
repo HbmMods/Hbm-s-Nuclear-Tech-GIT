@@ -7,6 +7,7 @@ import java.util.List;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.recipes.AssemblerRecipes;
+import com.hbm.inventory.recipes.AssemblerRecipes.AssemblerRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.util.I18nUtil;
 
@@ -37,8 +38,9 @@ public class ItemAssemblyTemplate extends Item {
 	public IIcon getIconFromDamage(int meta) {
 
 		ComparableStack stack = AssemblerRecipes.recipeList.get(meta);
+		AssemblerRecipe recipe = AssemblerRecipes.recipes.get(stack);
 
-		if(AssemblerRecipes.hidden.get(stack) != null)
+		if(recipe != null && !recipe.folders.contains(ModItems.template_folder))
 			return this.hiddenIcon;
 
 		return this.itemIcon;
@@ -52,7 +54,9 @@ public class ItemAssemblyTemplate extends Item {
 		//LEGACY
 		if(out == null) out = AssemblerRecipes.recipeList.get(stack.getItemDamage());
 
-		if(AssemblerRecipes.hidden.get(out) != null)
+		AssemblerRecipe recipe = AssemblerRecipes.recipes.get(stack);
+		
+		if(recipe != null && !recipe.folders.contains(ModItems.template_folder))
 			return this.hiddenIcon;
 
 		return this.itemIcon;
@@ -144,12 +148,11 @@ public class ItemAssemblyTemplate extends Item {
 		ComparableStack out = readType(stack);
 		//LEGACY
 		if(out == null) out = AssemblerRecipes.recipeList.get(i);
-		Integer time = AssemblerRecipes.time.get(out);
-
-		if(time != null)
-			return time;
-		else
-			return 100;
+		AssemblerRecipe recipe = AssemblerRecipes.recipes.get(out);
+		
+		if(recipe != null) return recipe.time;
+		
+		return 100;
 	}
 
 	@Override
@@ -174,7 +177,14 @@ public class ItemAssemblyTemplate extends Item {
 			out = AssemblerRecipes.recipeList.get(i);
 			nbtType = false;
 		}
-		HashSet<Item> folders = AssemblerRecipes.hidden.get(out);
+		
+		AssemblerRecipe recipe = AssemblerRecipes.recipes.get(out);
+		if(recipe == null) {
+			list.add("I AM ERROR");
+			return;
+		}
+		
+		HashSet<Item> folders = recipe.folders;
 
 		if(folders == null)
 			folders = new HashSet() {
@@ -206,7 +216,7 @@ public class ItemAssemblyTemplate extends Item {
 			return;
 		}
 
-		Object[] in = AssemblerRecipes.recipes.get(out);
+		Object[] in = recipe.ingredients;
 
 		if(in == null) {
 			list.add("I AM ERROR");

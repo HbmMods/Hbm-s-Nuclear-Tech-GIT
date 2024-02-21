@@ -12,6 +12,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.AssemblerRecipes;
+import com.hbm.inventory.recipes.AssemblerRecipes.AssemblerRecipe;
 import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
@@ -1058,10 +1059,10 @@ public class AnvilRecipes {
 	
 	public static void pullFromAssembler(ComparableStack result, int tier) {
 		
-		AStack[] ingredients = AssemblerRecipes.recipes.get(result);
+		AssemblerRecipe recipe = AssemblerRecipes.recipes.get(result);
 		
-		if(ingredients != null) {
-			constructionRecipes.add(new AnvilConstructionRecipe(ingredients, new AnvilOutput(result.toStack())).setTier(tier));
+		if(recipe != null) {
+			constructionRecipes.add(new AnvilConstructionRecipe(recipe.ingredients, new AnvilOutput(result.toStack())).setTier(tier));
 		}
 	}
 	
