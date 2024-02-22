@@ -36,10 +36,8 @@ public class CustomMachineRecipes extends SerializableRecipe {
 			recipe.outputItems = new Pair[] {new Pair(new ItemStack(Items.paper, 3), 1F)};
 			recipe.duration = 60;
 			recipe.consumptionPerTick = 10;
-			recipe.pollutionMode = true;
 			recipe.pollutionType = "SOOT";
-			recipe.pollutionAmount = 0.03f;
-			recipe.radiationMode = false;
+			recipe.pollutionAmount = 0.03F;
 			recipe.radiationAmount = 0;
 			recipe.flux = 0;
 			recipe.heat = 0;
@@ -80,32 +78,17 @@ public class CustomMachineRecipes extends SerializableRecipe {
 			recipeInstance.duration = rec.get("duration").getAsInt();
 			recipeInstance.consumptionPerTick = rec.get("consumptionPerTick").getAsInt();
 
-			if(rec.get("pollutionMode")!=null) {
-				recipeInstance.pollutionMode = rec.get("pollutionMode").getAsBoolean();
+			if(rec.has("pollutionType") && rec.has("pollutionAmount")) {
 				recipeInstance.pollutionType = rec.get("pollutionType").getAsString();
 				recipeInstance.pollutionAmount = rec.get("pollutionAmount").getAsFloat();
-			}
-			else {
-				recipeInstance.pollutionMode = false;
+			} else {
 				recipeInstance.pollutionType = "";
-				recipeInstance.pollutionAmount = 0;
 			}
-			if(rec.get("radiationMode")!=null) {
-				recipeInstance.radiationMode = rec.get("radiationMode").getAsBoolean();
-				recipeInstance.radiationAmount = rec.get("radiationAmount").getAsFloat();
-			}
-			else {
-				recipeInstance.radiationMode = false;
-				recipeInstance.radiationAmount = 0;
-			}
-			if(rec.get("flux")!=null) {
-				recipeInstance.flux = rec.get("flux").getAsInt();
-			}
-			else recipeInstance.flux = 0;
-			if(rec.get("heat")!=null) {
-				recipeInstance.heat = rec.get("heat").getAsInt();
-			}
-			else recipeInstance.heat = 0;
+			
+			if(rec.has("radiationAmount")) recipeInstance.radiationAmount = rec.get("radiationAmount").getAsFloat();
+			if(rec.has("flux")) recipeInstance.flux = rec.get("flux").getAsInt();
+			if(rec.has("heat")) recipeInstance.heat = rec.get("heat").getAsInt();
+			
 			list.add(recipeInstance);
 		}
 
@@ -140,10 +123,8 @@ public class CustomMachineRecipes extends SerializableRecipe {
 
 			writer.name("duration").value(recipeInstance.duration);
 			writer.name("consumptionPerTick").value(recipeInstance.consumptionPerTick);
-			writer.name("pollutionMode").value(recipeInstance.pollutionMode);
 			writer.name("pollutionType").value(recipeInstance.pollutionType);
 			writer.name("pollutionAmount").value(recipeInstance.pollutionAmount);
-			writer.name("radiationMode").value(recipeInstance.radiationMode);
 			writer.name("radiationnAmount").value(recipeInstance.radiationAmount);
 			writer.name("flux").value(recipeInstance.flux);
 			writer.name("heat").value(recipeInstance.heat);
@@ -163,11 +144,9 @@ public class CustomMachineRecipes extends SerializableRecipe {
 
 		public int duration;
 		public int consumptionPerTick;
-		public boolean pollutionMode;
 
 		public String pollutionType;
 		public float pollutionAmount;
-		public boolean radiationMode;
 		public float radiationAmount;
 		public int flux;
 		public int heat;

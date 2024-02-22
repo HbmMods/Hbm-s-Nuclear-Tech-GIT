@@ -84,13 +84,13 @@ public class CustomMachineHandler extends TemplateRecipeHandler {
 				}
 				outputs.add(new PositionedStack(out, 102 + (i - 3) * 18, 42));
 			}
-			if(recipe.pollutionMode) {
-				this.pollutionType = recipe.pollutionType;
-				this.pollutionAmount = recipe.pollutionAmount;
-			}
-			if(recipe.radiationMode) this.radiationAmount = recipe.radiationAmount;
+			
+			this.pollutionType = recipe.pollutionType;
+			this.pollutionAmount = recipe.pollutionAmount;
+			this.radiationAmount = recipe.radiationAmount;
 			if(conf.fluxMode) this.flux = recipe.flux;
-			if(conf.maxHeat>0 && recipe.heat>0) this.heat = recipe.heat;
+			if(conf.maxHeat > 0 && recipe.heat > 0) this.heat = recipe.heat;
+			
 			this.machine = new PositionedStack(new ItemStack(ModBlocks.custom_machine, 1, 100 + CustomMachineConfigJSON.niceList.indexOf(conf)), 75, 42);
 		}
 
@@ -212,6 +212,7 @@ public class CustomMachineHandler extends TemplateRecipeHandler {
 	@Override
 	public void loadTransferRects() {
 		if(this.conf == null) return;
+		transferRects.clear();
 		transferRects.add(new RecipeTransferRect(new Rectangle(65, 23, 36, 18), "ntm_" + conf.unlocalizedName));
 		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
 	}

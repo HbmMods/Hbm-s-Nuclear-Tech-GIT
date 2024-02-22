@@ -159,52 +159,49 @@ public class CustomMachineConfigJSON {
 				configuration.fluidOutCap = machineObject.get("fluidOutCap").getAsInt();
 				configuration.itemOutCount = machineObject.get("itemOutCount").getAsInt();
 				configuration.generatorMode = machineObject.get("generatorMode").getAsBoolean();
-				if(machineObject.get("maxPollutionCap")!=null) {
-					configuration.maxPollutionCap = machineObject.get("maxPollutionCap").getAsInt();
-				}
-				else configuration.maxPollutionCap = 0;
-                if(machineObject.get("fluxMode")!=null) {
-					configuration.fluxMode = machineObject.get("fluxMode").getAsBoolean();
-				}
-				else configuration.fluxMode = false;
+				if(machineObject.has("maxPollutionCap")) configuration.maxPollutionCap = machineObject.get("maxPollutionCap").getAsInt();
+				if(machineObject.has("fluxMode")) configuration.fluxMode = machineObject.get("fluxMode").getAsBoolean();
 				configuration.recipeSpeedMult = machineObject.get("recipeSpeedMult").getAsDouble();
 				configuration.recipeConsumptionMult = machineObject.get("recipeConsumptionMult").getAsDouble();
 				configuration.maxPower = machineObject.get("maxPower").getAsLong();
-				if(machineObject.get("maxHeat")!=null) {
-					configuration.maxHeat = machineObject.get("maxHeat").getAsInt();
-				}
-				else configuration.maxHeat = 0;
+				if(machineObject.has("maxHeat")) configuration.maxHeat = machineObject.get("maxHeat").getAsInt();
 
 				if(machineObject.has("recipeShape") && machineObject.has("recipeParts")) {
-					JsonArray recipeShape = machineObject.get("recipeShape").getAsJsonArray();
-					JsonArray recipeParts = machineObject.get("recipeParts").getAsJsonArray();
-
-					Object[] parts = new Object[recipeShape.size() + recipeParts.size()];
-
-					for(int j = 0; j < recipeShape.size(); j++) {
-						parts[j] = recipeShape.get(j).getAsString();
-					}
-
-					for(int j = 0; j < recipeParts.size(); j++) {
-						Object o = null;
-
-						if(j % 2 == 0) {
-							o = recipeParts.get(j).getAsString().charAt(0); //god is dead and we killed him
-						} else {
-							AStack a = SerializableRecipe.readAStack(recipeParts.get(j).getAsJsonArray());
-
-							if(a instanceof ComparableStack) o = ((ComparableStack) a).toStack();
-							if(a instanceof OreDictStack) o = ((OreDictStack) a).name;
+					try {
+						JsonArray recipeShape = machineObject.get("recipeShape").getAsJsonArray();
+						JsonArray recipeParts = machineObject.get("recipeParts").getAsJsonArray();
+	
+						Object[] parts = new Object[recipeShape.size() + recipeParts.size()];
+	
+						for(int j = 0; j < recipeShape.size(); j++) {
+							parts[j] = recipeShape.get(j).getAsString();
 						}
-
-						parts[j + recipeShape.size()] = o;
+	
+						for(int j = 0; j < recipeParts.size(); j++) {
+							Object o = null;
+	
+							if(j % 2 == 0) {
+								o = recipeParts.get(j).getAsString().charAt(0); //god is dead and we killed him
+							} else {
+								AStack a = SerializableRecipe.readAStack(recipeParts.get(j).getAsJsonArray());
+	
+								if(a instanceof ComparableStack) o = ((ComparableStack) a).toStack();
+								if(a instanceof OreDictStack) o = ((OreDictStack) a).name;
+							}
+	
+							parts[j + recipeShape.size()] = o;
+						}
+	
+						ItemStack stack = new ItemStack(ModBlocks.custom_machine, 1, i + 100);
+						stack.stackTagCompound = new NBTTagCompound();
+						stack.stackTagCompound.setString("machineType", configuration.unlocalizedName);
+	
+						CraftingManager.addRecipeAuto(stack, parts);
+					} catch(Exception ex) {
+						MainRegistry.logger.error("Caught exception trying to parse core recipe for custom machine " + configuration.unlocalizedName);
+						MainRegistry.logger.error("recipeShape was" + machineObject.get("recipeShape").toString());
+						MainRegistry.logger.error("recipeParts was" + machineObject.get("recipeParts").toString());
 					}
-
-					ItemStack stack = new ItemStack(ModBlocks.custom_machine, 1, i + 100);
-					stack.stackTagCompound = new NBTTagCompound();
-					stack.stackTagCompound.setString("machineType", configuration.unlocalizedName);
-
-					CraftingManager.addRecipeAuto(stack, parts);
 				}
 
 				JsonArray components = machineObject.get("components").getAsJsonArray();
