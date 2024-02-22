@@ -2,9 +2,7 @@ package com.hbm.tileentity.bomb;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.LaunchPad;
-import com.hbm.inventory.container.ContainerLaunchPadTier1;
 import com.hbm.inventory.container.ContainerLaunchPadTier2;
-import com.hbm.inventory.gui.GUILaunchPadTier1;
 import com.hbm.inventory.gui.GUILaunchPadTier2;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;

@@ -237,9 +237,6 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget_cf252, 3),
 				new ItemStack(ModItems.nuclear_waste, 24) });
 
-		if(OreDictionary.doesOreNameExist("nuggetNaquadria")) {
-			ItemStack nuggetNQR = OreDictionary.getOres("nuggetNaquadria").get(0);
-
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.pwr_fuel_depleted, EnumPWRFuel.MEU)), new ItemStack[] {
 				new ItemStack(ModItems.nugget_u238, 3),
 				new ItemStack(ModItems.nugget_plutonium, 4),
@@ -654,6 +651,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(ModItems.crystal_mineral), new ItemStack[] { new ItemStack(ModItems.mineral_dust, 2), new ItemStack(ModItems.powder_iron, 2), new ItemStack(ModItems.powder_aluminium, 2), new ItemStack(ModItems.powder_lithium_tiny, 1) });
 		recipes.put(new ComparableStack(ModItems.crystal_nickel), new ItemStack[] { new ItemStack(ModItems.powder_nickel, 2), new ItemStack(ModItems.powder_nickel, 2), new ItemStack(ModItems.powder_iron, 2), new ItemStack(ModItems.powder_titanium, 1) });
 		}
+	
 
 	
 	

@@ -442,7 +442,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		if(multipart == null || multipart.fuselage == null)
 			return false;
 		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
 		
 		if( fuselage.top == padSize.SIZE_20) {
 			return true;

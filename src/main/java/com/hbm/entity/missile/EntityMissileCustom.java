@@ -21,9 +21,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.ItemVOTVdrive.DestinationType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemMissile;
-import com.hbm.items.weapon.ItemMissile.FuelType;
-import com.hbm.items.weapon.ItemMissile.PartSize;
-import com.hbm.items.weapon.ItemMissile.WarheadType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomMissilePart;
 import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
@@ -31,6 +28,7 @@ import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.main.MainRegistry;
 
+import api.hbm.entity.IRadarDetectable;
 import api.hbm.entity.IRadarDetectableNT;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -39,7 +37,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLoader, IRadarDetectable {
+public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLoader {
 	private ItemStack payload;
 
 	public void setPayload(ItemStack stack) {
@@ -100,7 +98,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		if(!worldObj.isRemote) {
 			if(this.hasPropulsion()) this.fuel -= this.consumption;
 			EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
-			ItemMissile part = (ItemMissile) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
+			ItemCustomMissilePart  part = (ItemCustomMissilePart ) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
 
 			WarheadType type = (WarheadType) part.attributes[0];
 

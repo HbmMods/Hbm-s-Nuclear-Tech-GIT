@@ -86,7 +86,8 @@ public class ItemCustomMissilePart extends Item {
 		SCHRAB,
 		TAINT,
 		CLOUD,
-		TURBINE
+		TURBINE,
+		APOLLO
 	}
 	
 	public enum FuelType {
@@ -95,7 +96,9 @@ public class ItemCustomMissilePart extends Item {
 		SOLID,
 		HYDROGEN,
 		XENON,
-		BALEFIRE
+		BALEFIRE,
+		HYDRAZINE,
+		METHALOX
 	}
 	
 	public enum Rarity {
