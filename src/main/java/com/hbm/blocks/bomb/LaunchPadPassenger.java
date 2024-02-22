@@ -198,23 +198,7 @@ public class LaunchPadPassenger extends BlockContainer implements IBomb {
 			Entity missile = null;
 		}
 		
-		if(entity.slots[0] != null && entity.slots[0].getItem() == ModItems.passenger_carrier && entity.power >= 75000) {
-			EntityRidableCarrier missile = new EntityRidableCarrier(world);
-			missile.posX = x + 0.5F;
-			missile.posY = y + 1F;
-			missile.posZ = z + 0.5F;
 
-			if(entity.slots[1] != null)
-				missile.setPayload(entity.slots[1]);
-
-			world.spawnEntityInWorld(missile);
-			entity.power -= 75000;
-
-			entity.slots[0] = null;
-			entity.slots[1] = null;
-			world.playSoundEffect(x, y, z, "hbm:entity.rocketTakeoff", 100.0F, 1.0F);
-			return BombReturnCode.LAUNCHED;
-		}
 
 		
 		return BombReturnCode.ERROR_MISSING_COMPONENT;

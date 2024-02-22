@@ -209,8 +209,6 @@ public class TileEntityLaunchPadPassenger extends TileEntityLoadedBase implement
 			power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 			this.updateConnections();
 			
-			PacketDispatcher.wrapper.sendToAllAround(new TEPassengerPacket(xCoord, yCoord, zCoord, slots[0]), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 	}
 	

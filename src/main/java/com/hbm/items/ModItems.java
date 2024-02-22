@@ -1638,7 +1638,6 @@ public class ModItems {
 	public static Item missile_custom;
 
 	public static Item missile_carrier;
-	public static Item passenger_carrier;
 	public static Item missile_soyuz;
 	public static Item missile_soyuz_lander;
 	public static Item sat_mapper;
@@ -7431,7 +7430,6 @@ public class ModItems {
 		GameRegistry.registerItem(missile_doomsday, missile_doomsday.getUnlocalizedName());
 		//Rockets
 		GameRegistry.registerItem(missile_carrier, missile_carrier.getUnlocalizedName());
-		GameRegistry.registerItem(passenger_carrier, passenger_carrier.getUnlocalizedName());
 		GameRegistry.registerItem(missile_soyuz, missile_soyuz.getUnlocalizedName());
 		GameRegistry.registerItem(missile_soyuz_lander, missile_soyuz_lander.getUnlocalizedName());
 		GameRegistry.registerItem(missile_custom, missile_custom.getUnlocalizedName());

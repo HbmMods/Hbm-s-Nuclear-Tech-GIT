@@ -22,19 +22,7 @@ public class TEPassengerPacket implements IMessage {
 
 	public TEPassengerPacket() { }
 
-	@Spaghetti("die")
-	public TEPassengerPacket(int x, int y, int z, ItemStack stack) {
-		
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		this.type = 0;
-		if(stack != null) {
-			if(stack.getItem() == ModItems.passenger_carrier)
-				type = 20;
-			
-		}
-	}
+
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
