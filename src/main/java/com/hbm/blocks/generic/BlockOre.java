@@ -44,7 +44,7 @@ public class BlockOre extends Block {
 	@Spaghetti("*throws up*")
 	@Override
 	public Item getItemDropped(int i, Random rand, int j) {
-		if(this == ModBlocks.ore_fluorite || this == ModBlocks.basalt_fluorite) {
+		if(this == ModBlocks.ore_fluorite) {
 			return ModItems.fluorite;
 		}
 		if(this == ModBlocks.ore_niter) {
@@ -157,31 +157,7 @@ public class BlockOre extends Block {
 		if(this == ModBlocks.ore_rare || this == ModBlocks.ore_gneiss_rare) {
 			return ModItems.chunk_ore;
 		}
-		if(this == ModBlocks.deco_aluminium) {
-			return ModItems.ingot_aluminium;
-		}
-		if(this == ModBlocks.deco_beryllium) {
-			return ModItems.ingot_beryllium;
-		}
-		if(this == ModBlocks.deco_lead) {
-			return ModItems.ingot_lead;
-		}
-		if(this == ModBlocks.deco_red_copper) {
-			return ModItems.ingot_red_copper;
-		}
-		if(this == ModBlocks.deco_steel) {
-			return ModItems.ingot_steel;
-		}
-		if(this == ModBlocks.deco_titanium) {
-			return ModItems.ingot_titanium;
-		}
-		if(this == ModBlocks.deco_tungsten) {
-			return ModItems.ingot_tungsten;
-		}
-		if(this == ModBlocks.deco_asbestos) {
-			return ModItems.ingot_asbestos;
-		}
-		if(this == ModBlocks.ore_asbestos || this == ModBlocks.ore_gneiss_asbestos || this == ModBlocks.basalt_asbestos) {
+		if(this == ModBlocks.ore_asbestos || this == ModBlocks.ore_gneiss_asbestos) {
 			return ModItems.ingot_asbestos;
 		}
 		if(this == ModBlocks.ore_lignite) {
@@ -211,13 +187,13 @@ public class BlockOre extends Block {
 
 	@Override
 	public int quantityDropped(Random rand) {
-		if(this == ModBlocks.ore_fluorite || this == ModBlocks.basalt_fluorite) {
+		if(this == ModBlocks.ore_fluorite) {
 			return 2 + rand.nextInt(3);
 		}
 		if(this == ModBlocks.ore_niter) {
 			return 2 + rand.nextInt(3);
 		}
-		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur || this == ModBlocks.basalt_sulfur) {
+		if(this == ModBlocks.ore_sulfur || this == ModBlocks.ore_nether_sulfur || this == ModBlocks.ore_meteor_sulfur) {
 			return 2 + rand.nextInt(3);
 		}
 		if(this == ModBlocks.block_meteor_broken) {

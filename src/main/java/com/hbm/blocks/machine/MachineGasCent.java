@@ -20,6 +20,7 @@ public class MachineGasCent extends BlockDummyable implements IMultiblock {
 		super(mat);
 		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.5D, 0D, -0.5D, 0.5D, 1D, 0.5D));
 		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.4375D, 1D, -0.4375D, 0.4375D, 4D, 0.4375D));
+		this.maxY = 0.999D; //item bounce prevention
 	}
 
 	@Override

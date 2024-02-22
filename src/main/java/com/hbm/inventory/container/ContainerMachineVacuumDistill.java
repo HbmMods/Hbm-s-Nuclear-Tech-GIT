@@ -40,6 +40,8 @@ public class ContainerMachineVacuumDistill extends Container {
 		this.addSlotToContainer(new Slot(tedf, 9, 134, 90));
 		//Petroleum Output
 		this.addSlotToContainer(new SlotTakeOnly(tedf, 10, 134, 108));
+		//Fluid ID
+		this.addSlotToContainer(new Slot(tedf, 11, 26, 108));
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {

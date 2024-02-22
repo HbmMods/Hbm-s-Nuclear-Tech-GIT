@@ -170,8 +170,7 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
 
-	@Override
-	public void serialize(ByteBuf buf) {
+	@Override public void serialize(ByteBuf buf) {
 		buf.writeBoolean(muffled);
 	}
 	

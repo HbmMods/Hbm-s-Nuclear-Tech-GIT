@@ -4,15 +4,26 @@ import java.util.List;
 
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilOutput;
+import com.hbm.tileentity.machine.TileEntityFurnaceBrick;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.oredict.OreDictionary;
 
 //'t was about time
 public class InventoryUtil {
+
+	public static int[] masquerade(ISidedInventory sided, int side) {
+
+		if(sided instanceof TileEntityFurnace) return new int[] {1, 0};
+		if(sided instanceof TileEntityFurnaceBrick) return new int[] {1, 0, 3};
+		
+		return sided.getAccessibleSlotsFromSide(side);
+	}
 
 	/**
 	 * Will attempt to cram a much of the given itemstack into the stack array as possible

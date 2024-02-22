@@ -84,6 +84,10 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	//only used by clients for interpolation
 	public double lastRotationYaw;
 	public double lastRotationPitch;
+	//only used by clients for approach
+	public double syncRotationYaw;
+	public double syncRotationPitch;
+	protected int turnProgress;
 	//is the turret on?
 	public boolean isOn = false;
 	//is the turret aimed at the target?
@@ -156,46 +160,41 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		if(worldObj.isRemote) {
 			this.lastRotationPitch = this.rotationPitch;
 			this.lastRotationYaw = this.rotationYaw;
+			this.rotationPitch = this.syncRotationPitch;
+			this.rotationYaw = this.syncRotationYaw;
 		}
-
-		this.aligned = false;
 		
 		if(!worldObj.isRemote) {
-			
+
+			this.aligned = false;
 			this.updateConnections();
 			
 			if(this.target != null && !target.isEntityAlive()) {
 				this.target = null;
 				this.stattrak++;
 			}
-		}
-		
-		if(target != null) {
-			if(!this.entityInLOS(this.target)) {
-				this.target = null;
-			}
-		}
-		
-		if(!worldObj.isRemote) {
 			
+			if(target != null) {
+				if(!this.entityInLOS(this.target)) {
+					this.target = null;
+				}
+			}
+				
 			if(target != null) {
 				this.tPos = this.getEntityPos(target);
 			} else {
 				this.tPos = null;
 			}
-		}
-		
-		if(isOn() && hasPower()) {
 			
-			if(tPos != null)
-				this.alignTurret();
-		} else {
-
-			this.target = null;
-			this.tPos = null;
-		}
-		
-		if(!worldObj.isRemote) {
+			if(isOn() && hasPower()) {
+				
+				if(tPos != null)
+					this.alignTurret();
+			} else {
+	
+				this.target = null;
+				this.tPos = null;
+			}
 			
 			if(this.target != null && !target.isEntityAlive()) {
 				this.target = null;
@@ -237,10 +236,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			
 		} else {
 			
-			Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
-			vec.rotateAroundZ((float) -this.rotationPitch);
-			vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
-			
 			//this will fix the interpolation error when the turret crosses the 360° point
 			if(Math.abs(this.lastRotationYaw - this.rotationYaw) > Math.PI) {
 				
@@ -260,6 +255,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			data.setDouble("tY", this.tPos.yCoord);
 			data.setDouble("tZ", this.tPos.zCoord);
 		}
+		data.setDouble("pitch", this.rotationPitch);
+		data.setDouble("yaw", this.rotationYaw);
 		data.setLong("power", this.power);
 		data.setBoolean("isOn", this.isOn);
 		data.setBoolean("targetPlayers", this.targetPlayers);
@@ -292,7 +289,10 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		super.networkUnpack(nbt);
-		
+
+		this.turnProgress = 2;
+		this.syncRotationPitch = nbt.getDouble("pitch");
+		this.syncRotationYaw = nbt.getDouble("yaw");
 		this.power = nbt.getLong("power");
 		this.isOn = nbt.getBoolean("isOn");
 		this.targetPlayers = nbt.getBoolean("targetPlayers");

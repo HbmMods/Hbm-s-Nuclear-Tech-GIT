@@ -30,10 +30,12 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -51,7 +53,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IGUIProvider /* TODO: finish fluid API impl */ {
+public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC {
 	
 	public long power;
 	public static final long maxPower = 10000000;
@@ -736,50 +738,10 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean getTact() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.isOn && plasma.getFill() > 0);
+		int output = FusionRecipes.getSteamProduction(plasma.getTankType());
+		data.setDouble("consumption", output * 10);
+		data.setDouble("outputmb", output);
 	}
 }

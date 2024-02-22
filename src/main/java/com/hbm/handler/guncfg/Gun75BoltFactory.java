@@ -14,7 +14,6 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -49,25 +48,25 @@ public class Gun75BoltFactory {
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+						.addKeyframePosition(1, 0, 0, 25)
+						.addKeyframePosition(0, 0, 0, 75)
 						)
 				.addBus("EJECT", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 25))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 75))
+						.addKeyframePosition(0, 0, 0, 25)
+						.addKeyframePosition(0, 0, 1, 75)
 						)
 				);
 		
 		config.animations.put(AnimType.RELOAD, new BusAnimation()
 				.addBus("TILT", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 250))
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 1500))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 250))
+						.addKeyframePosition(1, 0, 0, 250)
+						.addKeyframePosition(1, 0, 0, 1500)
+						.addKeyframePosition(0, 0, 0, 250)
 						)
 				.addBus("MAG", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 500))
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 1, 500))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500))
+						.addKeyframePosition(0, 0, 1, 500)
+						.addKeyframePosition(1, 0, 1, 500)
+						.addKeyframePosition(0, 0, 0, 500)
 						)
 				);
 		

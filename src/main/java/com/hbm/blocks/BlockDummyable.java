@@ -36,7 +36,6 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 	public BlockDummyable(Material mat) {
 		super(mat);
-		this.maxY = 0.999D; //item bounce prevention
 		this.setTickRandomly(true);
 	}
 

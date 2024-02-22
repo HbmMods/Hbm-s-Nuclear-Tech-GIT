@@ -17,15 +17,15 @@ import static net.minecraftforge.event.terraingen.TerrainGen.*;
 import net.minecraftforge.event.world.WorldEvent;
 
 public class NTMWorldGenerator implements IWorldGenerator {
-	
-	private MapGenNTMFeatures scatteredFeatureGenerator = new MapGenNTMFeatures();
+	private MapGenNTMFeatures scatteredFeatureGen = new MapGenNTMFeatures();
 	
 	private final Random rand = new Random(); //A central random, used to cleanly generate our stuff without affecting vanilla or modded seeds.
 	
 	/** Inits all MapGen upon the loading of a new world. Hopefully clears out structureMaps and structureData when a different world is loaded. */
 	@SubscribeEvent
 	public void onLoad(WorldEvent.Load event) {
-		scatteredFeatureGenerator = (MapGenNTMFeatures) getModdedMapGen(new MapGenNTMFeatures(), EventType.CUSTOM);
+		scatteredFeatureGen = (MapGenNTMFeatures) getModdedMapGen(new MapGenNTMFeatures(), EventType.CUSTOM);
+		
 		hasPopulationEvent = false;
 	}
 	
@@ -65,8 +65,8 @@ public class NTMWorldGenerator implements IWorldGenerator {
 	protected void generateOverworldStructures(World world, IChunkProvider chunkProvider, int chunkX, int chunkZ) {
 		Block[] ablock = new Block[65536]; //ablock isn't actually used for anything in MapGenStructure
 		
-		this.scatteredFeatureGenerator.func_151539_a(chunkProvider, world, chunkX, chunkZ, ablock);
-		this.scatteredFeatureGenerator.generateStructuresInChunk(world, rand, chunkX, chunkZ);
+		this.scatteredFeatureGen.func_151539_a(chunkProvider, world, chunkX, chunkZ, ablock);
+		this.scatteredFeatureGen.generateStructuresInChunk(world, rand, chunkX, chunkZ);
 	}
 	
 	/*
@@ -97,10 +97,6 @@ public class NTMWorldGenerator implements IWorldGenerator {
 			if(StructureConfig.enableStructures) generateOverworldStructures(world, chunkGenerator, chunkX, chunkZ); //Do it through the post-population generation directly
 		}
 		
-		final int posX = (chunkX << 4) + 8;
-		final int posZ = (chunkZ << 4) + 8;
-		BiomeGenBase biome = world.getBiomeGenForCoords(posX, posZ);
-		
 		/* biome dictionary my beloved <3 
 		 * no check for tom here because the event handler already checks for decoration events, + this way they won't become permanently extinct.
 		 */
@@ -119,5 +115,14 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		}
 		
 		return true;
+	}
+	
+	/** utility method, same as above but inclusive. useful for catch-alls, like the dirty glass structures have */
+	public static boolean doesBiomeHaveTypes(BiomeGenBase biome, Type... types) {
+		for(Type type : types) {
+			if(isBiomeOfType(biome, type)) return true;
+		}
+		
+		return false;
 	}
 }

@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import org.lwjgl.input.Keyboard;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.*;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
@@ -150,7 +151,8 @@ public class FluidType {
 		return this.localizedOverride != null ? this.localizedOverride : this.unlocalized;
 	}
 	public String getDict(int quantity) {
-		return "container" + quantity + this.stringId.replace("_", "").toLowerCase(Locale.US);
+		String prefix = GeneralConfig.enableFluidContainerCompat ? "container" : "ntmcontainer";
+		return prefix + quantity + this.stringId.replace("_", "").toLowerCase(Locale.US);
 	}
 	
 	public boolean isHot() {

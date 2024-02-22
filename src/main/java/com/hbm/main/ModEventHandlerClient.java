@@ -342,6 +342,9 @@ public class ModEventHandlerClient {
 			
 			if(animation == null)
 				continue;
+
+			if(animation.holdLastFrame)
+				continue;
 			
 			long time = System.currentTimeMillis() - animation.startMillis;
 			
@@ -396,8 +399,22 @@ public class ModEventHandlerClient {
 	    }
 	}
 	
-	@SubscribeEvent
-	public void onOverlayRender(RenderGameOverlayEvent.Post event) {
+	@SubscribeEvent(receiveCanceled = true)
+	public void onHUDRenderShield(RenderGameOverlayEvent.Pre event) {
+
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		
+		if(event.type == event.type.ARMOR) {
+
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			if(props.getEffectiveMaxShield() > 0) {
+				RenderScreenOverlay.renderShieldBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
+			}
+		}
+	}
+	
+	@SubscribeEvent(receiveCanceled = true, priority = EventPriority.LOW)
+	public void onHUDRenderBar(RenderGameOverlayEvent.Post event) {
 		
 		/// HANDLE ELECTRIC FSB HUD ///
 		
@@ -421,9 +438,9 @@ public class ModEventHandlerClient {
         		RenderScreenOverlay.renderCountdown(event.resolution, Minecraft.getMinecraft().ingameGUI, Minecraft.getMinecraft().theWorld);	
         	}        	
         }
-		if(!event.isCanceled() && event.type == event.type.ARMOR) {
+		if(event.type == event.type.ARMOR) {
 			
-			if(ForgeHooks.getTotalArmorValue(player) == 0/* && GuiIngameForge.left_height == 59*/) {
+			if(ForgeHooks.getTotalArmorValue(player) == 0) {
 				GuiIngameForge.left_height -= 10;
 			}
 
@@ -466,7 +483,7 @@ public class ModEventHandlerClient {
 
 				for(int i = 0; i < (noHelmet ? 3 : 4); i++) {
 					
-					int top = height - GuiIngameForge.left_height + 6;
+					int top = height - GuiIngameForge.left_height + 7;
 
 					ItemStack stack = player.inventory.armorInventory[i];
 
@@ -1444,7 +1461,9 @@ public class ModEventHandlerClient {
 			case 12: main.splashText = "Imagine being scared by splash texts!"; break;
 			}
 			
-			if(Math.random() < 0.1) main.splashText = "Redditors aren't people!";
+			double d = Math.random();
+			if(d < 0.1) main.splashText = "Redditors aren't people!";
+			else if(d < 0.2) main.splashText = "Can someone tell me what corrosive fumes the people on Reddit are huffing so I can avoid those more effectively?";
 		}
 	}
 }

@@ -26,13 +26,8 @@ public abstract class EntityMissileTier1 extends EntityMissileBaseNT {
 	}
 
 	@Override
-	public String getUnlocalizedName() {
-		return "radar.target.tier1";
-	}
-
-	@Override
-	public int getBlipLevel() {
-		return IRadarDetectableNT.TIER1;
+	protected float getContrailScale() {
+		return 0.5F;
 	}
 
 	public static class EntityMissileGeneric extends EntityMissileTier1 {
@@ -40,6 +35,7 @@ public abstract class EntityMissileTier1 extends EntityMissileBaseNT {
 		public EntityMissileGeneric(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
 		@Override public void onImpact() { this.explodeStandard(15F, 24, false, true); }
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_generic_small); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_generic); }
 	}
 
 	public static class EntityMissileDecoy extends EntityMissileTier1 {
@@ -49,6 +45,7 @@ public abstract class EntityMissileTier1 extends EntityMissileBaseNT {
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.ingot_steel); }
 		@Override public String getUnlocalizedName() { return "radar.target.tier4"; }
 		@Override public int getBlipLevel() { return IRadarDetectableNT.TIER4; }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_decoy); }
 	}
 
 	public static class EntityMissileIncendiary extends EntityMissileTier1 {
@@ -56,6 +53,7 @@ public abstract class EntityMissileTier1 extends EntityMissileBaseNT {
 		public EntityMissileIncendiary(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
 		@Override public void onImpact() { this.explodeStandard(15F, 24, true, true); }
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_incendiary_small); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_incendiary); }
 	}
 
 	public static class EntityMissileCluster extends EntityMissileTier1 {
@@ -67,6 +65,7 @@ public abstract class EntityMissileTier1 extends EntityMissileBaseNT {
 		}
 		@Override public void cluster() { this.onImpact(); }
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_cluster_small); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_cluster); }
 	}
 
 	public static class EntityMissileBunkerBuster extends EntityMissileTier1 {
@@ -79,5 +78,6 @@ public abstract class EntityMissileTier1 extends EntityMissileBaseNT {
 			ExplosionLarge.spawnRubble(worldObj, this.posX, this.posY, this.posZ, 5);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_buster_small); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_buster); }
 	}
 }

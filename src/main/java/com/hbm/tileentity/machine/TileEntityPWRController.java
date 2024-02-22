@@ -144,14 +144,6 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 		connections = connectionsDouble / 2;
 		connectionsControlled = connectionsControlledDouble / 2;
-
-		/*System.out.println("Finalized nuclear reactor!");
-		System.out.println("Rods: " + rodCount);
-		System.out.println("Connections: " + connections);
-		System.out.println("Controlled connections: " + connectionsControlled);
-		System.out.println("Heatex: " + heatexCount);
-		System.out.println("Channels: " + channelCount);
-		System.out.println("Sources: " + sourceCount);*/
 	}
 
 	@Override
@@ -178,7 +170,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					!worldObj.getChunkProvider().chunkExists(chunkX + 2, chunkZ - 2) ||
 					!worldObj.getChunkProvider().chunkExists(chunkX - 2, chunkZ + 2) ||
 					!worldObj.getChunkProvider().chunkExists(chunkX - 2, chunkZ - 2)) {
-				this.unloadDelay = 40;
+				this.unloadDelay = 60;
 			}
 			
 			if(this.assembled) {
@@ -265,6 +257,9 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					if(this.coreHeat > this.coreHeatCapacity) {
 						meltDown();
 					}
+				} else {
+					this.hullHeat = 0;
+					this.coreHeat = 0;
 				}
 			}
 			

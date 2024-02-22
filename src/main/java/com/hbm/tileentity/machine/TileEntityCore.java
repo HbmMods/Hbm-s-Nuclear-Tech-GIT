@@ -21,7 +21,9 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.CompatEnergyControl;
 
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -33,7 +35,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityCore extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityCore extends TileEntityMachineBase implements IGUIProvider, IInfoProviderEC {
 	
 	public int field;
 	public int heat;
@@ -41,6 +43,8 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 	public FluidTank[] tanks;
 	private boolean lastTickValid = false;
 	public boolean meltdownTick = false;
+	protected int consumption;
+	protected int prevConsumption;
 
 	public TileEntityCore() {
 		super(3);
@@ -58,6 +62,9 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.prevConsumption = this.consumption;
+			this.consumption = 0;
 			
 			int chunkX = xCoord >> 4;
 			int chunkZ = zCoord >> 4;
@@ -231,6 +238,8 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 		if(tanks[0].getFill() < demand || tanks[1].getFill() < demand)
 			return joules;
 		
+		this.consumption += demand;
+		
 		heat += (int)Math.ceil((double)joules / 10000D);
 
 		tanks[0].setFill(tanks[0].getFill() - demand);
@@ -354,5 +363,10 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICore(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, this.prevConsumption);
 	}
 }

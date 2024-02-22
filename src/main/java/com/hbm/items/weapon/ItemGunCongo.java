@@ -2,7 +2,6 @@ package com.hbm.items.weapon;
 
 import com.hbm.handler.GunConfiguration;
 import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
@@ -23,12 +22,12 @@ public class ItemGunCongo extends ItemGunBase {
 		 if(type == AnimType.CYCLE) {
 				return new BusAnimation()
 						.addBus("RECOIL", new BusAnimationSequence()
-								.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 50))
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 100)))
+								.addKeyframePosition(1, 0, 0, 50)
+								.addKeyframePosition(0, 0, 0, 100))
 						.addBus("PUMP", new BusAnimationSequence()
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 500))
-								.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 100))
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200)));
+								.addKeyframePosition(0, 0, 0, 500)
+								.addKeyframePosition(1, 0, 0, 100)
+								.addKeyframePosition(0, 0, 0, 200));
 							
 		 }
 		 

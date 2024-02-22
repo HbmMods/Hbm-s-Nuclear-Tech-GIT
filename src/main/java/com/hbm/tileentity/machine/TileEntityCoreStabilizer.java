@@ -6,8 +6,10 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemLens;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energy.IEnergyUser;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyUser, SimpleComponent, IGUIProvider {
+public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyUser, SimpleComponent, IGUIProvider, IInfoProviderEC {
 
 	public long power;
 	public static final long maxPower = 2500000000L;
@@ -223,5 +225,16 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICoreStabilizer(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		int demand = (int) Math.pow(watts, 4);
+		long damage = ItemLens.getLensDamage(slots[0]);
+		ItemLens lens = (ItemLens) com.hbm.items.ModItems.ams_lens;
+		if(getPower() >= demand && slots[0] != null && slots[0].getItem() == lens && damage < 432000000L)
+			data.setDouble(CompatEnergyControl.D_CONSUMPTION_HE, demand);
+		else
+			data.setDouble(CompatEnergyControl.D_CONSUMPTION_HE, 0);
 	}
 }

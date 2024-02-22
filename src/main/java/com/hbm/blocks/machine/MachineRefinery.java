@@ -42,7 +42,7 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityMachineRefinery();
-		if(meta >= 6) return new TileEntityProxyCombo().fluid().power();
+		if(meta >= 6) return new TileEntityProxyCombo().fluid().power().inventory();
 		return null;
 	}
 	

@@ -1,6 +1,6 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.entity.mob.EntityGlyphid;
+import com.hbm.entity.mob.glyphid.EntityGlyphid;
 import com.hbm.lib.ModDamageSource;
 
 import net.minecraft.nbt.NBTTagCompound;

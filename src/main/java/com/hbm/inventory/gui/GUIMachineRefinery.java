@@ -5,15 +5,11 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerMachineRefinery;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.NBTControlPacket;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineRefinery extends GuiInfoContainer {
@@ -39,18 +35,6 @@ public class GUIMachineRefinery extends GuiInfoContainer {
 		refinery.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 70 - 52, 16, 52);
 		refinery.tanks[4].renderTankInfo(this, mouseX, mouseY, guiLeft + 134, guiTop + 70 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 8, guiTop + 70 - 52, 16, 52, refinery.power, refinery.maxPower);
-	}
-
-	@Override
-	protected void mouseClicked(int x, int y, int i) {
-		super.mouseClicked(x, y, i);
-		
-		if(guiLeft + 64 <= x && guiLeft + 76 > x && guiTop + 20 < y && guiTop + 46 >= y) {
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("toggle", true); //we only need to send one bit, so boolean it is
-			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, refinery.xCoord, refinery.yCoord, refinery.zCoord));
-		}
 	}
 	
 	@Override

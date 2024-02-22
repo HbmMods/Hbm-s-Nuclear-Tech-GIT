@@ -69,6 +69,7 @@ public class BlockCluster extends Block implements IDrillInteraction, ITooltipPr
 		if(this == ModBlocks.moho_copper_cluster)	return ModItems.crystal_copper;
 		if(this == ModBlocks.moho_iron_cluster)	return ModItems.crystal_iron;
 
+		
 		return null;
 	}
 

@@ -44,6 +44,7 @@ public abstract class EntityMissileTier2 extends EntityMissileBaseNT {
 		public EntityMissileStrong(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
 		@Override public void onImpact() { this.explodeStandard(30F, 32, false, true); }
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_generic_medium); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_strong); }
 	}
 
 	public static class EntityMissileIncendiaryStrong extends EntityMissileTier2 {
@@ -54,6 +55,7 @@ public abstract class EntityMissileTier2 extends EntityMissileBaseNT {
 			ExplosionChaos.flameDeath(this.worldObj, (int)((float)this.posX + 0.5F), (int)((float)this.posY + 0.5F), (int)((float)this.posZ + 0.5F), 25);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_incendiary_medium); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_incendiary_strong); }
 	}
 
 	public static class EntityMissileClusterStrong extends EntityMissileTier2 {
@@ -65,6 +67,7 @@ public abstract class EntityMissileTier2 extends EntityMissileBaseNT {
 		}
 		@Override public void cluster() { this.onImpact(); }
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_cluster_medium); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_cluster_strong); }
 	}
 
 	public static class EntityMissileBusterStrong extends EntityMissileTier2 {
@@ -77,6 +80,7 @@ public abstract class EntityMissileTier2 extends EntityMissileBaseNT {
 			ExplosionLarge.spawnRubble(worldObj, this.posX, this.posY, this.posZ, 8);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_buster_medium); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_buster_strong); }
 	}
 
 	public static class EntityMissileEMPStrong extends EntityMissileTier2 {
@@ -90,5 +94,6 @@ public abstract class EntityMissileTier2 extends EntityMissileBaseNT {
 			worldObj.spawnEntityInWorld(emp);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_generic_medium); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_emp_strong); }
 	}
 }

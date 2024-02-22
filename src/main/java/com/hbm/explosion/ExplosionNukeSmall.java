@@ -34,12 +34,14 @@ public class ExplosionNukeSmall {
 		if(params.killRadius > 0) ExplosionNukeGeneric.dealDamage(world, posX, posY, posZ, params.killRadius);
 		if(!params.miniNuke) world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, (int) params.blastRadius, posX, posY, posZ).mute());
 		
-		float radMod = params.radiationLevel / 3F;
-		
-		for(int i = -2; i <= 2; i++) {
-			for(int j = -2; j <= 2; j++) {
-				if(Math.abs(i) + Math.abs(j) < 4) {
-					ChunkRadiationManager.proxy.incrementRad(world, (int) Math.floor(posX + i * 16), (int) Math.floor(posY), (int) Math.floor(posZ + j * 16), 50 / (Math.abs(i) + Math.abs(j) + 1) * radMod);
+		if(params.miniNuke) {
+			float radMod = params.radiationLevel / 3F;
+			
+			for(int i = -2; i <= 2; i++) {
+				for(int j = -2; j <= 2; j++) {
+					if(Math.abs(i) + Math.abs(j) < 4) {
+						ChunkRadiationManager.proxy.incrementRad(world, (int) Math.floor(posX + i * 16), (int) Math.floor(posY), (int) Math.floor(posZ + j * 16), 50 / (Math.abs(i) + Math.abs(j) + 1) * radMod);
+					}
 				}
 			}
 		}
@@ -49,7 +51,7 @@ public class ExplosionNukeSmall {
 	public static MukeParams PARAMS_TOTS = new MukeParams() {{ blastRadius = 10F; killRadius = 30F; particle = "tinytot"; shrapnelCount = 0; resolution = 32; radiationLevel = 1; }};
 	public static MukeParams PARAMS_LOW = new MukeParams() {{ blastRadius = 15F; killRadius = 45F; radiationLevel = 2; }};
 	public static MukeParams PARAMS_MEDIUM = new MukeParams() {{ blastRadius = 20F; killRadius = 55F; radiationLevel = 3; }};
-	public static MukeParams PARAMS_HIGH = new MukeParams() {{ miniNuke = false; blastRadius = BombConfig.fatmanRadius; shrapnelCount = 0; radiationLevel = 4; }};
+	public static MukeParams PARAMS_HIGH = new MukeParams() {{ miniNuke = false; blastRadius = BombConfig.fatmanRadius; shrapnelCount = 0; }};
 	
 	/* more sensible approach with more customization options, idea shamelessly stolen from Martin */
 	public static class MukeParams {

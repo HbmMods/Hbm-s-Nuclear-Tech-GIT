@@ -5,7 +5,15 @@ import java.util.function.Function;
 
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.config.MobConfig;
-import com.hbm.entity.mob.*;
+import com.hbm.entity.mob.glyphid.EntityGlyphid;
+import com.hbm.entity.mob.glyphid.EntityGlyphidBehemoth;
+import com.hbm.entity.mob.glyphid.EntityGlyphidBlaster;
+import com.hbm.entity.mob.glyphid.EntityGlyphidBombardier;
+import com.hbm.entity.mob.glyphid.EntityGlyphidBrawler;
+import com.hbm.entity.mob.glyphid.EntityGlyphidBrenda;
+import com.hbm.entity.mob.glyphid.EntityGlyphidDigger;
+import com.hbm.entity.mob.glyphid.EntityGlyphidNuclear;
+import com.hbm.entity.mob.glyphid.EntityGlyphidScout;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.ModItems;

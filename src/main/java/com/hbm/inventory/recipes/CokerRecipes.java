@@ -38,12 +38,14 @@ public class CokerRecipes extends SerializableRecipe {
 		registerAuto(HEATINGOIL_VACUUM,		OIL_COKER);
 		registerAuto(RECLAIMED,				NAPHTHA_COKER);
 		registerAuto(NAPHTHA,				NAPHTHA_COKER);
+		registerAuto(NAPHTHA_DS,			NAPHTHA_COKER);
 		registerAuto(NAPHTHA_CRACK,			NAPHTHA_COKER);
 		registerAuto(DIESEL,				NAPHTHA_COKER);
 		registerAuto(DIESEL_REFORM,			NAPHTHA_COKER);
 		registerAuto(DIESEL_CRACK,			GAS_COKER);
 		registerAuto(DIESEL_CRACK_REFORM,	GAS_COKER);
 		registerAuto(LIGHTOIL,				GAS_COKER);
+		registerAuto(LIGHTOIL_DS,			GAS_COKER);
 		registerAuto(LIGHTOIL_CRACK,		GAS_COKER);
 		registerAuto(LIGHTOIL_VACUUM,		GAS_COKER);
 		registerAuto(BIOFUEL,				GAS_COKER);
@@ -60,6 +62,8 @@ public class CokerRecipes extends SerializableRecipe {
 		registerRecipe(BITUMEN, 16_000, DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), new FluidStack(OIL_COKER, 1_600));
 		registerRecipe(LUBRICANT, 12_000, DictFrame.fromOne(ModItems.coke, EnumCokeType.PETROLEUM), new FluidStack(OIL_COKER, 1_200));
 		registerRecipe(CALCIUM_SOLUTION, 125, new ItemStack(ModItems.powder_calcium), new FluidStack(SPENTSTEAM, 100));
+		//only cokable gas to extract sulfur content
+		registerRecipe(SOURGAS, 250, new ItemStack(ModItems.sulfur), new FluidStack(GAS_COKER, 150));
 	}
 
 	private static void registerAuto(FluidType fluid, FluidType type) {

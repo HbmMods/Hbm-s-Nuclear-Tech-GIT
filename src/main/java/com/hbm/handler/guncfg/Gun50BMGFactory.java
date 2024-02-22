@@ -25,7 +25,6 @@ import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -209,20 +208,20 @@ public class Gun50BMGFactory {
 
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+						.addKeyframePosition(1, 0, 0, 25)
+						.addKeyframePosition(0, 0, 0, 75)
 				)
 		);
 		config.animations.put(AnimType.RELOAD, new BusAnimation()
 				.addBus("TILT", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 125))
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 750))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 125))
+						.addKeyframePosition(1, 0, 0, 125)
+						.addKeyframePosition(1, 0, 0, 750)
+						.addKeyframePosition(0, 0, 0, 125)
 				)
 				.addBus("MAG", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 200))
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 1, 200))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 200))
+						.addKeyframePosition(0, 0, 1, 200)
+						.addKeyframePosition(1, 0, 1, 200)
+						.addKeyframePosition(0, 0, 0, 200)
 				)
 		);
 
@@ -262,8 +261,8 @@ public class Gun50BMGFactory {
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+						.addKeyframePosition(1, 0, 0, 25)
+						.addKeyframePosition(0, 0, 0, 75)
 						)
 				);
 		
@@ -310,10 +309,10 @@ public class Gun50BMGFactory {
 		config.animations.put(AnimType.CYCLE,
 				new BusAnimation()
 						.addBus("RECOIL", new BusAnimationSequence()
-								.addKeyframe(new BusAnimationKeyframe(-0.45, 0.15, 0, 40)) // Moves back  and raise slightly
-								.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))) // Then forward  again
-						.addBus("EJECT", new BusAnimationSequence().addKeyframe(new BusAnimationKeyframe(0, 0, 0, 30)) // Wait
-								.addKeyframe(new BusAnimationKeyframe(50, 0, 0, 120)))); // Fly // out
+								.addKeyframePosition(-0.45, 0.15, 0, 40) // Moves back  and raise slightly
+								.addKeyframePosition(0, 0, 0, 75)) // Then forward  again
+						.addBus("EJECT", new BusAnimationSequence().addKeyframePosition(0, 0, 0, 30) // Wait
+								.addKeyframePosition(50, 0, 0, 120))); // Fly // out
 
 		config.ejector = EJECTOR_SNIPER;
 		return config;

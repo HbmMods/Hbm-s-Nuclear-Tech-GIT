@@ -167,7 +167,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 	
 	public DoorDecl getDoorType(){
 		
-		if(this.doorType == null)
+		if(this.doorType == null && this.getBlockType() instanceof BlockDoorGeneric)
 			this.doorType = ((BlockDoorGeneric)this.getBlockType()).type;
 		
 		return this.doorType;
@@ -246,7 +246,10 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 			DoorDecl doorType = getDoorType();
 
 			if(this.state == 0 && state == 3){ // Door transitioning to open
-				if(audio != null) audio.stopSound();
+				if(audio != null) {
+					audio.stopSound();
+					audio.setKeepAlive(0);
+				}
 
 				if(doorType.getOpenSoundLoop() != null){
 					audio = MainRegistry.proxy.getLoopedSound(doorType.getOpenSoundLoop(), xCoord, yCoord, zCoord, doorType.getSoundVolume(), 10F, 1F);
@@ -266,7 +269,9 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 			}
 
 			if(this.state == 1 && state == 2){ // Door transitioning to closed
-				if(audio != null) audio.stopSound();
+				if(audio != null) {
+					audio.stopSound();
+				}
 
 				if(doorType.getCloseSoundLoop() != null){
 					audio = MainRegistry.proxy.getLoopedSound(doorType.getCloseSoundLoop(), xCoord, yCoord, zCoord, doorType.getSoundVolume(), 10F, 1F);
@@ -285,7 +290,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 				}
 			}
 
-			if((this.state == 3 && state == 1) || (this.state == 2 && state == 0)){ // Door finished any transition
+			if(state == 1 || state == 0){ // Door finished any transition
 				if(audio != null){
 					audio.stopSound();
 					audio = null;
@@ -347,7 +352,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag){
+	public void readFromNBT(NBTTagCompound tag) {
 		this.state = tag.getByte("state");
 		this.openTicks = tag.getInteger("openTicks");
 		this.animStartTime = tag.getInteger("animStartTime");
@@ -356,16 +361,16 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		this.skinIndex = tag.getByte("skin");
 		NBTTagCompound activatedBlocks = tag.getCompoundTag("activatedBlocks");
 		this.activatedBlocks.clear();
-		for(int i = 0; i < activatedBlocks.func_150296_c().size()/3; i ++){
-			this.activatedBlocks.add(new BlockPos(activatedBlocks.getInteger("x"+i), activatedBlocks.getInteger("y"+i), activatedBlocks.getInteger("z"+i)));
+		for(int i = 0; i < activatedBlocks.func_150296_c().size() / 3; i++) {
+			this.activatedBlocks.add(new BlockPos(activatedBlocks.getInteger("x" + i), activatedBlocks.getInteger("y" + i), activatedBlocks.getInteger("z" + i)));
 		}
 		super.readFromNBT(tag);
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound tag){
+	public void writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
-		
+
 		tag.setByte("state", state);
 		tag.setInteger("openTicks", openTicks);
 		tag.setLong("animStartTime", animStartTime);
@@ -375,10 +380,10 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 			tag.setByte("skin", skinIndex);
 		NBTTagCompound activatedBlocks = new NBTTagCompound();
 		int i = 0;
-		for(BlockPos p : this.activatedBlocks){
-			activatedBlocks.setInteger("x"+i, p.getX());
-			activatedBlocks.setInteger("y"+i, p.getY());
-			activatedBlocks.setInteger("z"+i, p.getZ());
+		for(BlockPos p : this.activatedBlocks) {
+			activatedBlocks.setInteger("x" + i, p.getX());
+			activatedBlocks.setInteger("y" + i, p.getY());
+			activatedBlocks.setInteger("z" + i, p.getZ());
 			i++;
 		}
 		tag.setTag("activatedBlocks", activatedBlocks);
@@ -402,7 +407,7 @@ public class TileEntityDoorGeneric extends TileEntityLockableBase implements IAn
 		}
 	}
 
-	public void updateRedstonePower(int x, int y, int z){
+	public void updateRedstonePower(int x, int y, int z) {
 		//Drillgon200: Best I could come up with without having to use dummy tile entities
 		BlockPos pos = new BlockPos(x, y, z);
 		boolean powered = worldObj.isBlockIndirectlyGettingPowered(x, y, z);

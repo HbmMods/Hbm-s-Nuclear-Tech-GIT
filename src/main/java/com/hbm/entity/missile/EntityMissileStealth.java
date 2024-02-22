@@ -8,7 +8,6 @@ import com.hbm.inventory.material.Mats;
 import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.items.ModItems;
 
-import api.hbm.entity.IRadarDetectableNT;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -24,10 +23,10 @@ public class EntityMissileStealth extends EntityMissileBaseNT {
 		return list;
 	}
 
-	@Override public String getUnlocalizedName() { return "radar.target.tier1"; }
-	@Override public int getBlipLevel() { return IRadarDetectableNT.TIER1; }
+	@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_stealth); }
 	@Override public boolean canBeSeenBy(Object radar) { return false; }
 	
 	@Override public void onImpact() { this.explodeStandard(20F, 24, false, true); }
 	@Override public ItemStack getDebrisRareDrop() { return DictFrame.fromOne(ModItems.powder_ash, EnumAshType.MISC); }
+
 }

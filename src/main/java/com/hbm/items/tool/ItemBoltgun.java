@@ -8,7 +8,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.util.EntityDamageUtil;
 
@@ -128,7 +127,7 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 	public BusAnimation getAnimation(NBTTagCompound data, ItemStack stack) {
 		return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 1, 50))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 100)));
+						.addKeyframePosition(1, 0, 1, 50)
+						.addKeyframePosition(0, 0, 1, 100));
 	}
 }

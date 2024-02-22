@@ -2,6 +2,10 @@ package com.hbm.render.entity.rocket;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.missile.EntityMissileBaseNT;
+import com.hbm.entity.missile.EntityMissileDoomsday;
+import com.hbm.entity.missile.EntityMissileTier4.EntityMissileMirv;
+import com.hbm.entity.missile.EntityMissileTier4.EntityMissileNuclear;
 import com.hbm.entity.missile.EntityMissileTier4.EntityMissileVolcano;
 import com.hbm.main.ResourceManager;
 
@@ -14,20 +18,30 @@ public class RenderMissileNuclear extends Render {
 	public RenderMissileNuclear() { }
 
 	@Override
-	public void doRender(Entity missile, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
+	public void doRender(Entity entity, double x, double y, double z, float p_76986_8_, float interp) {
 
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_, (float) p_76986_6_);
-		GL11.glScalef(1.5F, 1.5F, 1.5F);
-		GL11.glRotatef(missile.prevRotationYaw + (missile.rotationYaw - missile.prevRotationYaw) * p_76986_9_ - 90.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(missile.prevRotationPitch + (missile.rotationPitch - missile.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
+		GL11.glTranslatef((float) x, (float) y, (float) z);
+		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * interp, 0.0F, 0.0F, 1.0F);
+		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, -1.0F, 0.0F);
 
-		if(missile instanceof EntityMissileVolcano)
-			bindTexture(ResourceManager.missileVolcano_tex);
-		else
-			bindTexture(ResourceManager.missileNuclear_tex);
+		if(entity instanceof EntityMissileBaseNT) switch(entity.getDataWatcher().getWatchableObjectByte(3)) {
+		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
+		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
+		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
+		}
 
+		if(entity instanceof EntityMissileNuclear) bindTexture(ResourceManager.missileNuclear_tex);
+		if(entity instanceof EntityMissileMirv) bindTexture(ResourceManager.missileMIRV_tex);
+		if(entity instanceof EntityMissileDoomsday) bindTexture(ResourceManager.missileDoomsday_tex);
+		if(entity instanceof EntityMissileVolcano) bindTexture(ResourceManager.missileVolcano_tex);
+
+		GL11.glShadeModel(GL11.GL_SMOOTH);
 		ResourceManager.missileNuclear.renderAll();
+		GL11.glShadeModel(GL11.GL_FLAT);
+		
 		GL11.glPopMatrix();
 	}
 

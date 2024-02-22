@@ -16,6 +16,7 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -411,6 +412,7 @@ public class ModEventHandlerRenderer {
 	private static int fogX;
 	private static int fogZ;
 	private static Vec3 fogRGBMultiplier;
+	private static boolean doesBiomeApply = false;
 	
 	
 	/** Same procedure as getting the blended sky color but for fog */
@@ -433,11 +435,12 @@ public class ModEventHandlerRenderer {
 		float b = 0F;
 		
 		int divider = 0;
+		doesBiomeApply = false;
 		
 		for(int x = -distance; x <= distance; x++) {
 			for(int z = -distance; z <= distance; z++) {
 				BiomeGenBase biome = world.getBiomeGenForCoords(playerX + x,  playerZ + z);
-				Vec3 color = getBiomeFogColors(world, biome, partialTicks);
+				Vec3 color = getBiomeFogColors(world, biome, red, green, blue, partialTicks);
 				r += color.xCoord;
 				g += color.yCoord;
 				b += color.zCoord;
@@ -448,7 +451,7 @@ public class ModEventHandlerRenderer {
 		fogX = playerX;
 		fogZ = playerZ;
 		
-		fogRGBMultiplier = Vec3.createVectorHelper(r / divider, g / divider, b / divider);
+		if(doesBiomeApply) fogRGBMultiplier = Vec3.createVectorHelper(r / divider, g / divider, b / divider);
 		return fogRGBMultiplier;
 	}
 
@@ -472,6 +475,8 @@ public class ModEventHandlerRenderer {
 			r *= skyBrightness;
 			g *= skyBrightness;
 			b *= skyBrightness;
+			
+			doesBiomeApply = true;
 		}
 		
 		return Vec3.createVectorHelper(r, g, b);

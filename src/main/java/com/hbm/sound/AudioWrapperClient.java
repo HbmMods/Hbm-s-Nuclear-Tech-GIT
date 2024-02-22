@@ -72,8 +72,10 @@ public class AudioWrapperClient extends AudioWrapper {
 
 	@Override
 	public void stopSound() {
-		if(sound != null)
+		if(sound != null) {
 			sound.stop();
+			sound.setKeepAlive(0);
+		}
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package com.hbm.render.util;
 
 import java.util.HashMap;
 import com.hbm.items.ModItems;
-import com.hbm.items.weapon.ItemMissile.PartType;
+import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.item.Item;

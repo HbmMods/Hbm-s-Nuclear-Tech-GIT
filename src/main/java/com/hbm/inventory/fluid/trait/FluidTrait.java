@@ -25,6 +25,7 @@ public abstract class FluidTrait {
 		traitNameMap.put("toxin", FT_Toxin.class);					// x
 		traitNameMap.put("ventradiation", FT_VentRadiation.class);	// x
 		traitNameMap.put("pwrmoderator", FT_PWRModerator.class);	// x
+		traitNameMap.put("polluting", FT_Polluting.class);			// x
 
 		traitNameMap.put("gaseous", FT_Gaseous.class);
 		traitNameMap.put("gaseous_art", FT_Gaseous_ART.class);
@@ -41,6 +42,7 @@ public abstract class FluidTrait {
 		traitNameMap.put("explosive", FT_EXPLOSIVE.class);	// x
 		traitNameMap.put("uk", FT_ULTRAKILL.class);	// x
 
+		traitNameMap.put("unsiphonable", FT_Unsiphonable.class);
 	}
 
 	/** Important information that should always be displayed */
@@ -48,8 +50,14 @@ public abstract class FluidTrait {
 	/* General names of simple traits which are displayed when holding shift */
 	public void addInfoHidden(List<String> info) { }
 	
-	public void onFluidRelease(World world, int x, int y, int z, FluidTank tank, int overflowAmount) { }
+	public void onFluidRelease(World world, int x, int y, int z, FluidTank tank, int overflowAmount, FluidReleaseType type) { }
 
 	public void serializeJSON(JsonWriter writer) throws IOException { }
 	public void deserializeJSON(JsonObject obj) { }
+	
+	public static enum FluidReleaseType {
+		VOID,	//if fluid is deleted entirely, shouldn't be used
+		BURN,	//if fluid is burned or combusted
+		SPILL	//if fluid is spilled via leakage or the container breaking
+	}
 }

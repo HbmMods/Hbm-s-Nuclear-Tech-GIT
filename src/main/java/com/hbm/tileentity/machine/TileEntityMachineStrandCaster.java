@@ -325,4 +325,16 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		return bb;
 	}
 
+	public boolean isLoaded = true;
+	
+	@Override
+	public boolean isLoaded() {
+		return isLoaded;
+	}
+
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		this.isLoaded = false;
+	}
 }

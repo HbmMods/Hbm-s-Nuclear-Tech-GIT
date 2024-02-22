@@ -3,11 +3,14 @@ package com.hbm.tileentity.machine;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.tile.IInfoProviderEC;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 
-public class TileEntityMachineSPP extends TileEntityLoadedBase implements IEnergyGenerator {
+public class TileEntityMachineSPP extends TileEntityLoadedBase implements IEnergyGenerator, IInfoProviderEC {
 	
 	public long power;
 	public static final long maxPower = 100000;
@@ -86,4 +89,9 @@ public class TileEntityMachineSPP extends TileEntityLoadedBase implements IEnerg
 		return this.maxPower;
 	}
 
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.gen > 0);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, this.gen);
+	}
 }

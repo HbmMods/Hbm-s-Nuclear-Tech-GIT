@@ -14,7 +14,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 public class ItemModCharm extends ItemArmorMod {
 
 	public ItemModCharm() {
-		super(ArmorModHandler.helmet_only, false, true, false, false);
+		super(ArmorModHandler.helmet_only, true, true, false, false);
 	}
 
 	@Override
