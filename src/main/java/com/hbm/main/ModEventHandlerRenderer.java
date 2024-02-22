@@ -450,7 +450,12 @@ public class ModEventHandlerRenderer {
 		fogX = playerX;
 		fogZ = playerZ;
 		
-		if(doesBiomeApply) fogRGBMultiplier = Vec3.createVectorHelper(r / divider, g / divider, b / divider);
+		if(doesBiomeApply) {
+			fogRGBMultiplier = Vec3.createVectorHelper(r / divider, g / divider, b / divider);
+		} else {
+			fogRGBMultiplier = Vec3.createVectorHelper(red, green, blue);
+		}
+
 		return fogRGBMultiplier;
 	}
 	
