@@ -250,8 +250,9 @@ public class Spotlight extends Block implements ISpotlight {
 		}
 
 		// If we encounter an existing beam, add a new INCOMING direction to the
-		// metadata
-		SpotlightBeam.setDirection(world, x, y, z, dir, true);
+		// metadata, and cancel propagation if something goes wrong
+		if (SpotlightBeam.setDirection(world, x, y, z, dir, true) == 0)
+			return;
 
 		propagateBeam(world, x, y, z, dir, distance);
 	}
