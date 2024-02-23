@@ -41,7 +41,12 @@ public class BlockFallout extends Block {
 
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
 		Block block = world.getBlock(x, y - 1, z);
-		return block != Blocks.ice && block != Blocks.packed_ice ? (block.isLeaves(world, x, y - 1, z) ? true : (block == this && (world.getBlockMetadata(x, y - 1, z) & 7) == 7 ? true : block.isOpaqueCube() && block.getMaterial().blocksMovement())) : false;
+
+		if (block == Blocks.ice || block == Blocks.packed_ice) return false;
+		if (block.isLeaves(world, x, y - 1, z) && !block.isAir(world, x, y - 1, z)) return true;
+		if (block == this && (world.getBlockMetadata(x, y - 1, z) & 7) == 7) return true;
+
+		return block.isOpaqueCube() && block.getMaterial().blocksMovement();
 	}
 
 	@Override
