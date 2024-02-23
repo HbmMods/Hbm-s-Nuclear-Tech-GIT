@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.SlotPattern;
 import com.hbm.inventory.container.ContainerMachineCustom;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityCustomMachine;
 
 import net.minecraft.client.Minecraft;
@@ -69,6 +70,8 @@ public class GUIMachineCustom extends GuiInfoContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
 		String name = this.custom.getInventoryName();
+		String localizedName = this.custom.config.localization.get(MainRegistry.proxy.getLanguageCode());
+		if(localizedName != null) name = localizedName;
 		this.fontRendererObj.drawString(name, 68 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 		if(custom.config.fluxMode) this.fontRendererObj.drawString("Flux:" + custom.flux,83, 57,0x08FF00);
@@ -82,14 +85,14 @@ public class GUIMachineCustom extends GuiInfoContainer {
 		if(custom.config.fluxMode){
 			drawTexturedModalRect(guiLeft + 78, guiTop + 54, 192, 122,51 , 15);
 		}
-		if(custom.maxHeat>0) {
-			drawTexturedModalRect(guiLeft + 61, guiTop + 53, 236,0 , 18, 18);
+		if(custom.maxHeat > 0) {
+			drawTexturedModalRect(guiLeft + 61, guiTop + 53, 236, 0, 18, 18);
 			GaugeUtil.drawSmoothGauge(guiLeft + 70, guiTop + 62, this.zLevel, (double) custom.heat / (double) custom.config.maxHeat, 5, 2, 1, 0x7F0000);
 		}
 		int p = custom.progress * 90 / custom.maxProgress;
 		drawTexturedModalRect(guiLeft + 78, guiTop + 119, 192, 0, Math.min(p, 44), 16);
 		if(p > 44) {
-			p-= 44;
+			p -= 44;
 			drawTexturedModalRect(guiLeft + 78 + 44, guiTop + 119, 192, 16, p, 16);
 		}
 

@@ -11,7 +11,9 @@
 * Electrolyzing fluids now only takes 20 ticks instead of 60
   * Batch sizes for water and heavy water have been doubled, effectively increasing throughout 6x
   * The throughput for electrolysis on chemical plants has been halved (but heavy water still has the output buff, effectively remaining unchanged)
+* Custom machines now have an optional localization field which allows translations to be added within the config
 
 ## Fixed
 * Fixed the structure toggle on the world creation screen not working correctly on most world types
 * Fixed antiknock having a broken sprite and localization
+* Fixed crash caused by fallout affecting spotlight blocks, crashing the game

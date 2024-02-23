@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.entity.RenderMinecart;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.resources.Language;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -2103,5 +2104,11 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public void playSoundClient(double x, double y, double z, String sound, float volume, float pitch) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(sound), volume, pitch, (float) x, (float) y, (float) z));
+	}
+
+	@Override
+	public String getLanguageCode() {
+		Language lang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage();
+		return lang.getLanguageCode();
 	}
 }

@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
@@ -58,6 +60,9 @@ public class CustomMachineConfigJSON {
 			writer.beginObject();
 			writer.name("recipeKey").value("paperPress");
 			writer.name("unlocalizedName").value("paperPress");
+			writer.name("localization").beginObject();
+			writer.name("de_DE").value("Papierpresse");
+			writer.endObject();
 			writer.name("localizedName").value("Paper Press");
 			writer.name("fluidInCount").value(1);
 			writer.name("fluidInCap").value(1_000);
@@ -152,6 +157,12 @@ public class CustomMachineConfigJSON {
 				configuration.recipeKey = machineObject.get("recipeKey").getAsString();
 				configuration.unlocalizedName = machineObject.get("unlocalizedName").getAsString();
 				configuration.localizedName = machineObject.get("localizedName").getAsString();
+				if(machineObject.has("localization")) {
+					JsonObject localization = machineObject.get("localization").getAsJsonObject();
+					for(Entry<String, JsonElement> entry : localization.entrySet()) {
+						configuration.localization.put(entry.getKey(), entry.getValue().getAsString());
+					}
+				}
 				configuration.fluidInCount = machineObject.get("fluidInCount").getAsInt();
 				configuration.fluidInCap = machineObject.get("fluidInCap").getAsInt();
 				configuration.itemInCount = machineObject.get("itemInCount").getAsInt();
@@ -240,6 +251,7 @@ public class CustomMachineConfigJSON {
 		public String unlocalizedName;
 		/** The display name of this machine */
 		public String localizedName;
+		public HashMap<String, String> localization = new HashMap();;
 
 		public int fluidInCount;
 		public int fluidInCap;
