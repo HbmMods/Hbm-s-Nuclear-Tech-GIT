@@ -11,10 +11,12 @@ import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.AmmoGrenade;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
+import com.hbm.main.ResourceManager;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -69,11 +71,11 @@ public class GunGrenadeFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 20;
+		config.rateOfFire = 24;
 		config.roundsPerCycle = 1;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
-		config.reloadDuration = 20;
+		config.reloadDuration = 16;
 		config.firingDuration = 0;
 		config.ammoCap = 4;
 		config.reloadType = GunConfiguration.RELOAD_SINGLE;
@@ -81,6 +83,7 @@ public class GunGrenadeFactory {
 		config.crosshair = Crosshair.L_CIRCUMFLEX;
 		config.firingSound = "hbm:weapon.glShoot";
 		config.reloadSound = GunConfiguration.RSOUND_GRENADE_NEW;
+		config.reloadSoundEnd = false;
 		
 		config.name = "congoLake";
 		config.manufacturer = EnumGunManufacturer.NAWS;
@@ -89,7 +92,17 @@ public class GunGrenadeFactory {
 		config.durability = 2500;
 		
 		config.ejector = EJECTOR_CONGOLAKE;
-		
+
+		config.reloadAnimationsSequential = true;
+
+		config.loadAnimations = i -> {
+			config.animations.put(AnimType.CYCLE, ResourceManager.congolake_anim.get("Fire"));
+			config.animations.put(AnimType.RELOAD, ResourceManager.congolake_anim.get("ReloadStart"));
+			config.animations.put(AnimType.RELOAD_EMPTY, ResourceManager.congolake_anim.get("ReloadEmpty"));
+			config.animations.put(AnimType.RELOAD_CYCLE, ResourceManager.congolake_anim.get("Reload"));
+			config.animations.put(AnimType.RELOAD_END, ResourceManager.congolake_anim.get("ReloadEnd"));
+		};
+
 		return config;
 	}
 
