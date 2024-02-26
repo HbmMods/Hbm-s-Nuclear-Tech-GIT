@@ -1079,7 +1079,7 @@ public class ModEventHandler {
 				for(int k = 0; k < 5; k++) {
 					
 					vec.rotateAroundY((float) (1F * Math.PI / 180D));
-					player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + player.worldObj.rand.nextDouble() * 0.05, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
+					//player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + player.worldObj.rand.nextDouble() * 0.05, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
 				}
 			}
 			
