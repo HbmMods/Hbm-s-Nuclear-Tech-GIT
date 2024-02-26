@@ -241,9 +241,6 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			for(int i = 0; i < bullets; i++) {
 				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
 			}
-
-			if(player instanceof EntityPlayerMP)
-				PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
 			
 			useUpAmmo(player, stack, true);
 			player.inventoryContainer.detectAndSendChanges();
@@ -251,8 +248,15 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 			int wear = (int) Math.ceil(config.wear / (1F + EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack)));
 			setItemWear(stack, getItemWear(stack) + wear);
 		}
+
+		if(player instanceof EntityPlayerMP) {
+			AnimType animType = getMag(stack) == 0 ? AnimType.CYCLE_EMPTY : AnimType.CYCLE;
+			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(animType.ordinal()), (EntityPlayerMP) player);
+		}
 		
-		world.playSoundAtEntity(player, mainConfig.firingSound, mainConfig.firingVolume, mainConfig.firingPitch);
+		String firingSound = mainConfig.firingSound;
+		if (getMag(stack) == 0 && mainConfig.firingSoundEmpty != null) firingSound = mainConfig.firingSoundEmpty;
+		world.playSoundAtEntity(player, firingSound, mainConfig.firingVolume, mainConfig.firingPitch);
 		
 		if(mainConfig.ejector != null && !mainConfig.ejector.getAfterReload())
 			queueCasing(player, mainConfig.ejector, config, stack);

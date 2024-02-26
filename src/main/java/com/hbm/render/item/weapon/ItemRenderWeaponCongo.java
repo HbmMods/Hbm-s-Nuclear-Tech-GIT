@@ -8,6 +8,7 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.ResourceManager;
+import com.hbm.particle.SpentCasing;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
@@ -105,13 +106,13 @@ public class ItemRenderWeaponCongo implements IItemRenderer {
 
 				ItemGunBase gun = (ItemGunBase)item.getItem();
 				BulletConfiguration bullet = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(item)));
-				int[] colors = bullet.spentCasing != null ? bullet.spentCasing.getColors() : new int[] { 0x3E3E3E };
+				int[] colors = bullet.spentCasing != null ? bullet.spentCasing.getColors() : new int[] { SpentCasing.COLOR_CASE_40MM };
 
-				Color shellColor = new Color(colors.length >= 2 ? colors[1] : 0x3E3E3E);
+				Color shellColor = new Color(colors[0]);
 				GL11.glColor3f(shellColor.getRed() / 255F, shellColor.getGreen() / 255F, shellColor.getBlue() / 255F);
 				ResourceManager.congolake.renderPart("Shell");
 				
-				Color shellForeColor = new Color(colors[0]);
+				Color shellForeColor = new Color(colors.length > 1 ? colors[1] : colors[0]);
 				GL11.glColor3f(shellForeColor.getRed() / 255F, shellForeColor.getGreen() / 255F, shellForeColor.getBlue() / 255F);
 				ResourceManager.congolake.renderPart("ShellFore");
 
