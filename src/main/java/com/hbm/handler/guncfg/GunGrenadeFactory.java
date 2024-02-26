@@ -82,7 +82,6 @@ public class GunGrenadeFactory {
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CIRCUMFLEX;
 		config.firingSound = "hbm:weapon.glShoot";
-		config.firingSoundEmpty = "hbm:weapon.glShootEmpty";
 		config.reloadSound = GunConfiguration.RSOUND_GRENADE_NEW;
 		config.reloadSoundEnd = false;
 		
