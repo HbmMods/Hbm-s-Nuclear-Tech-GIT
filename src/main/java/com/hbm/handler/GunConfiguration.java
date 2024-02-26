@@ -55,6 +55,7 @@ public class GunConfiguration implements Cloneable {
 	public int firingDuration;
 	//sound path to the shooting sound
 	public String firingSound = "";
+	public String firingSoundEmpty = null;
 	public float firingVolume = 1.0F;
 	public float firingPitch = 1.0F;
 	//how long the reload animation will play

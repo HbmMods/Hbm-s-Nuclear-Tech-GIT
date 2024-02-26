@@ -414,13 +414,16 @@ public class ModEventHandlerRenderer {
 	private static int fogZ;
 	private static Vec3 fogRGBMultiplier;
 	private static boolean doesBiomeApply = false;
+	private static long fogTimer = 0;
 	
 	/** Same procedure as getting the blended sky color but for fog */
 	public static Vec3 getFogBlendColor(World world, int playerX, int playerZ, float red, float green, float blue, double partialTicks) {
 		
-		if(playerX == fogX && playerZ == fogZ && fogInit) return fogRGBMultiplier;
-		
+		long millis = System.currentTimeMillis() - fogTimer;
+		if(playerX == fogX && playerZ == fogZ && fogInit && millis < 3000) return fogRGBMultiplier;
+
 		fogInit = true;
+		fogTimer = System.currentTimeMillis();
 		GameSettings settings = Minecraft.getMinecraft().gameSettings;
 		int[] ranges = ForgeModContainer.blendRanges;
 		int distance = 0;
