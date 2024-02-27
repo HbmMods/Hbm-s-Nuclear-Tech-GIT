@@ -12,8 +12,14 @@
   * Batch sizes for water and heavy water have been doubled, effectively increasing throughout 6x
   * The throughput for electrolysis on chemical plants has been halved (but heavy water still has the output buff, effectively remaining unchanged)
 * Custom machines now have an optional localization field which allows translations to be added within the config
+* The congo lake now has reload and better firing animations
+* Improved shift clicking for centrifuges, acidizers, electric furnace, arc furnaces and arc welders
+* Schrabidium transmutation by fallout is now limited to the inner 40% of the sellafite conversion radius
+* Fluid traits are now listed in a fixed order instead of being arranged randomly
+* Hidden fluid trait descriptions will now be added below the visible part of that trait instead of below the last visible trait
 
 ## Fixed
 * Fixed the structure toggle on the world creation screen not working correctly on most world types
 * Fixed antiknock having a broken sprite and localization
 * Fixed crash caused by fallout affecting spotlight blocks, crashing the game
+* Fixed 528 mode bedrock ore replacements not working
