@@ -829,7 +829,8 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(B.ingot(), 4),
 				new OreDictStack(RUBBER.ingot(), 16),
 				new OreDictStack(KEY_ANYPANE, 64),
-				new ComparableStack(ModItems.motor, 18),
+				new ComparableStack(ModItems.motor, 16),
+				new ComparableStack(ModItems.part_generic, 4, EnumPartType.PISTON_HYDRAULIC.ordinal()),
 				new OreDictStack(W.bolt(), 16),
 				new ComparableStack(ModItems.pipes_steel, 1),
 				new ComparableStack(ModItems.circuit_gold, 3)
