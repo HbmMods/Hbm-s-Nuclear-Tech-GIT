@@ -44,6 +44,8 @@ public class PollutionHandler {
 	public static final float SOOT_PER_SECOND = 1F / 25F;
 	/** Baserate of heavy metal generation, balanced around the soot values of combustion engines */
 	public static final float HEAVY_METAL_PER_SECOND = 1F / 50F;
+	/** Baserate for poison when spilled */
+	public static final float POISON_PER_SECOND = 1F / 50F;
 	public static Vec3 targetCoords;
 
 	///////////////////////

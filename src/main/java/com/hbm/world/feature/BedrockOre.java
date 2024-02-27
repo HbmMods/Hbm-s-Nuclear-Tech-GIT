@@ -51,8 +51,8 @@ public class BedrockOre {
 		registerBedrockOre(weightedOresNether, new BedrockOreDefinition(new ItemStack(ModItems.powder_fire, 4),		1,	0xD7341F),							WorldConfig.bedrockPhosphorusSpawn);
 		registerBedrockOre(weightedOresNether, new BedrockOreDefinition(new ItemStack(Items.quartz, 4),				1,	0xF0EFDD),							WorldConfig.bedrockQuartzSpawn);
 
-		replacements.put(EnumBedrockOre.IRON.oreName, new BedrockOreDefinition(EnumBedrockOre.HEMATITE, 1));
-		replacements.put(EnumBedrockOre.COPPER.oreName, new BedrockOreDefinition(EnumBedrockOre.MALACHITE, 1));
+		replacements.put("ore" + EnumBedrockOre.IRON.oreName, new BedrockOreDefinition(EnumBedrockOre.HEMATITE, 1));
+		replacements.put("ore" + EnumBedrockOre.COPPER.oreName, new BedrockOreDefinition(EnumBedrockOre.MALACHITE, 1));
 	}
 	
 	public static void registerBedrockOre(List list, BedrockOreDefinition def, int weight) {
