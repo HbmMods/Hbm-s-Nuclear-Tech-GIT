@@ -692,6 +692,8 @@ public class ModItems {
 	public static Item toothpicks;
 	public static Item ducttape;
 	public static Item catalyst_clay;
+	public static Item wafer_silicon;//Silicon for processing, treat like billet 
+	public static Item boule_silicon;
 	
 	public static Item warhead_generic_small;
 	public static Item warhead_generic_medium;
@@ -3054,6 +3056,8 @@ public class ModItems {
 		toothpicks = new Item().setUnlocalizedName("toothpicks").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":toothpicks");
 		ducttape = new Item().setUnlocalizedName("ducttape").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ducttape");
 		catalyst_clay = new Item().setUnlocalizedName("catalyst_clay").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":catalyst_clay");
+		boule_silicon = new Item().setUnlocalizedName("boule_silicon").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":boule_silicon");
+		wafer_silicon = new Item().setUnlocalizedName("wafer_silicon").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wafer_silicon");
 		
 		warhead_generic_small = new Item().setUnlocalizedName("warhead_generic_small").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":warhead_generic_small");
 		warhead_generic_medium = new Item().setUnlocalizedName("warhead_generic_medium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":warhead_generic_medium");
@@ -6177,6 +6181,8 @@ public class ModItems {
 		GameRegistry.registerItem(toothpicks, toothpicks.getUnlocalizedName());
 		GameRegistry.registerItem(ducttape, ducttape.getUnlocalizedName());
 		GameRegistry.registerItem(catalyst_clay, catalyst_clay.getUnlocalizedName());
+		GameRegistry.registerItem(boule_silicon, boule_silicon.getUnlocalizedName());
+		GameRegistry.registerItem(wafer_silicon, wafer_silicon.getUnlocalizedName());
 		GameRegistry.registerItem(missile_assembly, missile_assembly.getUnlocalizedName());
 		GameRegistry.registerItem(warhead_generic_small, warhead_generic_small.getUnlocalizedName());
 		GameRegistry.registerItem(warhead_generic_medium, warhead_generic_medium.getUnlocalizedName());
