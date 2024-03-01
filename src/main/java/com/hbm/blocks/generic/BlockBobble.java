@@ -191,9 +191,9 @@ public class BlockBobble extends BlockContainer implements IGUIProvider {
 		NOS(			"Dr Nostalgia",						"Dr Nostalgia",		"SSG and Vortex models",									"Take a picture, I'ma pose, paparazzi$I've been drinking, moving like a zombie",					true,	ScrapType.BOARD_TRANSISTOR),
 		DRILLGON(		"Drillgon200",						"Drillgon200",		"1.12 Port",												null,																								false,	ScrapType.CPU_LOGIC),
 		CIRNO(			"Cirno",							"Cirno",			"the only multi layered skin i had",						"No brain. Head empty.",																			true,	ScrapType.BOARD_BLANK),
-		MICROWAVE(		"Microwave",						"Microwave",		"OC Compatibility",												"they call me the food heater",																		true,	ScrapType.BRIDGE_BIOS),
-		PEEP(			"Peep",								"LePeeperSauvage",	"Coilgun, Leadburster and Congo Lake models, BDCL QC",		"Fluffy ears can't hide in ash, nor snow.",															true,	ScrapType.CPU_CLOCK),
-		MELLOW(			"MELLOWARPEGGIATION",					"Mellow",				"Industrial lighting, animation tools",						"Make something cool now, ask for permission later.",												true,	ScrapType.CPU_LOGIC);
+		MICROWAVE(		"Microwave",						"Microwave",		"OC Compatibility",											"they call me the food heater",																		true,	ScrapType.BOARD_CONVERTER),
+		PEEP(			"Peep",								"LePeeperSauvage",	"Coilgun, Leadburster and Congo Lake models, BDCL QC",		"Fluffy ears can't hide in ash, nor snow.",															true,	ScrapType.CARD_BOARD),
+		MELLOW(			"MELLOWARPEGGIATION",				"Mellow",			"Industrial lighting, animation tools",						"Make something cool now, ask for permission later.",												true,	ScrapType.CARD_PROCESSOR);
 
 		public String name;			//the title of the tooltip
 		public String label;		//the name engraved in the socket

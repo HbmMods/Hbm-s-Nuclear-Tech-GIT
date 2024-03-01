@@ -5,24 +5,19 @@ import org.lwjgl.opengl.GL12;
 
 import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.lib.RefStrings;
-import com.hbm.wiaj.WorldInAJar;
+import com.hbm.render.loader.HFRWavefrontObject;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderSnowglobe extends TileEntitySpecialRenderer {
 	
-	public static final IModelCustom snowglobe = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/trinkets/snowglobe.obj"));
+	public static final IModelCustom snowglobe = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/trinkets/snowglobe.obj"), false).asDisplayList();
 	public static final ResourceLocation socket = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/snowglobe.png");
+	public static final ResourceLocation features = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/snowglobe_features.png");
 	public static RenderBlocks renderer = new RenderBlocks();
 
 	@Override
@@ -42,49 +37,18 @@ public class RenderSnowglobe extends TileEntitySpecialRenderer {
 		snowglobe.renderPart("Socket");
 
 		TileEntitySnowglobe te = (TileEntitySnowglobe) tile;
+		this.bindTexture(features);
 		
-		if(te.type.scene != null) {
-			
-			WorldInAJar world = te.type.scene;
-			renderer.blockAccess = world;
-			
-			double size = Math.max(world.sizeX, world.sizeZ);
-			scale = 4D / size;
-			GL11.glScaled(scale, scale, scale);
-			GL11.glTranslated(0, 1, 0);
-			GL11.glScaled(scale, scale, scale);
-			
-			GL11.glTranslated(world.sizeX * -0.5, 0, world.sizeZ * -0.5);
-
-			RenderHelper.disableStandardItemLighting();
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glDisable(GL11.GL_CULL_FACE);
-			GL11.glShadeModel(GL11.GL_SMOOTH);
-
-			bindTexture(TextureMap.locationBlocksTexture);
-			Minecraft.getMinecraft().entityRenderer.disableLightmap(interp);
-			
-			Tessellator tess = Tessellator.instance;
-			tess.startDrawingQuads();
-			tess.setColorOpaque_F(1F, 1F, 1F);
-			
-			for(int a = 0; a < world.sizeX; a++) {
-				for(int b = 0; b < world.sizeY; b++) {
-					for(int c = 0; c < world.sizeZ; c++) {
-						Block block = world.getBlock(a, b, c);
-						renderer.renderBlockByRenderType(block, a, b, c);
-					}
-				}
-			}
-			
-			tess.draw();
-			GL11.glShadeModel(GL11.GL_FLAT);
-
+		switch(te.type) {
+		case NONE: break;
+		case RIVETCITY:		snowglobe.renderPart("RivetCity"); break;
+		case TENPENNYTOWER:	snowglobe.renderPart("TenpennyTower"); break;
+		case LUCKY38:		snowglobe.renderPart("Lucky38_Plane"); break;
+		case SIERRAMADRE:	snowglobe.renderPart("SierraMadre"); break;
+		case PRYDWEN:		snowglobe.renderPart("Prydwen"); break;
+		default: break;
 		}
+		
 		GL11.glPopMatrix();
-		Minecraft.getMinecraft().entityRenderer.enableLightmap(interp);
-		RenderHelper.enableStandardItemLighting();
 	}
 }

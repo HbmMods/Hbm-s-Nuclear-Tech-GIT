@@ -3,8 +3,9 @@ package com.hbm.blocks.generic;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.inventory.gui.GUIScreenSnowglobe;
 import com.hbm.main.MainRegistry;
-import com.hbm.wiaj.WorldInAJar;
+import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -12,11 +13,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,7 +30,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class BlockSnowglobe extends BlockContainer {
+public class BlockSnowglobe extends BlockContainer implements IGUIProvider {
 
 	public BlockSnowglobe() {
 		super(Material.glass);
@@ -153,23 +155,28 @@ public class BlockSnowglobe extends BlockContainer {
 	}
 	
 	public static enum SnowglobeType {
-		NONE("NONE", new WorldInAJar(1, 1, 1)),
-		TEST("Test", getTestJar());
+		NONE(			"NONE"),
+		RIVETCITY(		"Rivet City"),
+		TENPENNYTOWER(	"Tenpenny Tower"),
+		LUCKY38(		"Lucky 38"),
+		SIERRAMADRE(	"Sierra Madre"),
+		PRYDWEN(		"Prydwen");
 		
 		public String label;
-		public WorldInAJar scene;
 		
-		private SnowglobeType(String label, WorldInAJar scene) {
+		private SnowglobeType(String label) {
 			this.label = label;
-			this.scene = scene;
 		}
 	}
-	
-	private static WorldInAJar getTestJar() {
-		WorldInAJar world = new WorldInAJar(3, 3, 3);
-		for(int x = 0; x < 3; x++) for(int z = 0; z < 3; z++) world.setBlock(x, 0, z, Blocks.brick_block, 0);
-		world.setBlock(1, 1, 1, Blocks.gold_block, 0);
-		world.setBlock(1, 2, 1, Blocks.gold_block, 0);
-		return world;
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return null;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIScreenSnowglobe((TileEntitySnowglobe) world.getTileEntity(x, y, z));
 	}
 }
