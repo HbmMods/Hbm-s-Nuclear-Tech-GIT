@@ -1153,11 +1153,18 @@ public class CraftingManager {
 				ModItems.circuit_star_piece.stackFromEnum(ScrapType.MEM_16K_D)
 		});
 		
+		addShapelessAuto(ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.CARD), new Object[] {
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.CARD_BOARD),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.CARD_PROCESSOR)
+		});
+		
 		addShapelessAuto(new ItemStack(ModItems.circuit_star), new Object[] {
 				ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.CHIPSET),
 				ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.CPU),
 				ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.RAM),
+				ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.CARD),
 				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BOARD_TRANSISTOR),
+				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BOARD_CONVERTER),
 				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BOARD_BLANK)
 		});
 

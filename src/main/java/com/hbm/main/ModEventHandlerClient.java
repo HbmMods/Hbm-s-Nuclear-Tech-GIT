@@ -216,9 +216,9 @@ public class ModEventHandlerClient {
 						((ILookOverlay) world.getBlock(mop.blockX, mop.blockY, mop.blockZ)).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
 					}
 					
-					List<String> text = new ArrayList();
+					/*List<String> text = new ArrayList();
 					text.add("Meta: " + world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ));
-					ILookOverlay.printGeneric(event, "DEBUG", 0xffff00, 0x4040000, text);
+					ILookOverlay.printGeneric(event, "DEBUG", 0xffff00, 0x4040000, text);*/
 					
 				} else if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
 					Entity entity = mop.entityHit;
