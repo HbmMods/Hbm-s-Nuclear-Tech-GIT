@@ -38,7 +38,7 @@ abstract public class Component extends StructureComponent {
 	
 	protected Component(Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ ) {
 		super(0);
-		this.coordBaseMode = rand.nextInt(4);
+		this.coordBaseMode = 0;// rand.nextInt(4);
 		
 		switch(this.coordBaseMode) {
 		case 0:
@@ -547,7 +547,7 @@ abstract public class Component extends StructureComponent {
 		if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
 			return;
 		
-		for(int x = minX; x <= maxX; x++) {
+		for(int x = minX; x <= maxX; x++) { //TODO these could technically be optimized a bit more. probably won't do anything but worth
 			
 			for(int z = minZ; z <= maxZ; z++) {
 				int posX = getXWithOffset(x, z);
