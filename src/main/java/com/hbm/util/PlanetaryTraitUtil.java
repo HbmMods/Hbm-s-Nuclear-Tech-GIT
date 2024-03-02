@@ -16,8 +16,6 @@ import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.TomSaveData;
-import com.hbm.util.Tuple.Quartet;
-import com.hbm.util.Tuple.Triplet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,23 +30,53 @@ import net.minecraftforge.common.util.Constants;
 
 public class PlanetaryTraitUtil {
 	
+	//rule: a planets trait list should NEVER be null
 	public enum Hospitality{
 		TOXIC, //this would be interesting, what if we made it so that if laythe was breatheable but toxic, we would need to have it so that you wear a gas mask at all times?
 		OXYNEG,
 		BREATHEABLE,
 		HOT,
+		PARENT,
+		CLOSEST,
+		MOON
 	}
 	
-	public static Triplet<Integer, Float, Double> dimProperties = new ArrayList()<>();
+	public static Map<Integer, Float> dimGrav = new HashMap<>();
 	
 	static {
-		dimProperties.put(DimensionManager.getProviderType(0), 9.8F);
+		dimGrav.put(DimensionManager.getProviderType(0), 9.8F);
 
 	}
 	
     public static float getGravityForDimension(int dimensionId) {
-        return dimProperties.getOrDefault(dimensionId, 2F); // Default gravity value if not found
+        return dimGrav.getOrDefault(dimensionId, 2F); // Default gravity value if not found
     }
+    
+	//TODO: actually somehow account for moons relative to a planets distance......
+    // one thing we can do is give a "MOON" planet trait and a PARENT planet trait.
+    // the game will then check for that and switch calculation from interplanetary to local orbit
+    // any better ideas lmk or i will set something on fire :333333333333333333333333333333333333333333333
+	public static Map<Integer, Float> dimau = new HashMap<>();
+	
+	static {
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.eveDimension), AstronomyUtil.EveAU);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.dresDimension), AstronomyUtil.DresAU);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.moonDimension), AstronomyUtil.MunKerbinAU);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.ikeDimension), AstronomyUtil.IkeDunaKm);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.mohoDimension), AstronomyUtil.MohoAU);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.laytheDimension), AstronomyUtil.JoolAU);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.minmusDimension), AstronomyUtil.MinmusKerbinAU);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.dunaDimension), AstronomyUtil.DunaAU);
+		dimau.put(DimensionManager.getProviderType(0), AstronomyUtil.KerbinAU);
+
+
+	}
+	
+    public static float getDistanceForDimension(int dimensionId) {
+        return dimau.getOrDefault(dimensionId, 1F); 
+    }
+
+    
 	
     public static Map<Integer, Set<Hospitality>> idToDimensionMap = new HashMap<>();
     
@@ -126,5 +154,7 @@ public class PlanetaryTraitUtil {
 		if(world != lastSyncWorld) return tag;
 		return tag;
 	}
+	
+	
 }
 

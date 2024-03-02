@@ -454,8 +454,11 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != DestinationType.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true) {
 			switch (DestinationType.values()[slots[1].getItemDamage()]) {
 			case MOHO:
-				//float theWorldLooksRed = calfuelV2(AstronomyUtil.MohoAU);
-				tanks[0].changeTankSize(90000);
+				float theWorldLooksRed = calfuelV2(AstronomyUtil.MohoAU, AstronomyUtil.MohoP);
+				tanks[0].changeTankSize((int) theWorldLooksRed);
+			    FT_Combustible trait = tanks[0].getTankType().getTrait(FT_Combustible.class);
+			    long fuelPower = trait.getCombustionEnergy();
+			   // System.out.println(theWorldLooksRed);
 				break;
 			case LAYTHE:
 				tanks[0].changeTankSize(230000);
@@ -578,35 +581,34 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		}
 	}
 
-	public float calfuelV2(double au) {
+	public float calfuelV2(double au, float p) {
 	   		float grav = PlanetaryTraitUtil.getGravityForDimension(worldObj.provider.dimensionId);
 	    	FT_Combustible trait = tanks[0].getTankType().getTrait(FT_Combustible.class);
-	    	long fuelPower = trait.getCombustionEnergy();	        double aue = 0.45972245832 * 100000; // Use the correct AU value
+	    	long fuelPower = trait.getCombustionEnergy();	       
+	    	double aue = au * 100000; 
+	    	float autwo = PlanetaryTraitUtil.getDistanceForDimension(worldObj.provider.dimensionId) * 100000;
+	    	
+	    	double finalvar = Math.abs(autwo - aue);
+	    	
+	    	finalvar = Math.floor(finalvar);
 	        //0.45972245832
 	        //0.035181876 
-	        double adjustedFuelRatio = calculateAdjustedFuelRatio(fuelPower, aue);
+	        double adjustedFuelRatio = calculateAdjustedFuelRatio(fuelPower, finalvar);
 
-	        float totalDistance = calculateTotalDistance(adjustedFuelRatio);
+	        float totalDistance = (float) (100000 / adjustedFuelRatio);
 
 	        int roundedDistance = (int) (Math.round(totalDistance / 100.0) * 100);
 
-	        return(roundedDistance);
+	        return (float) (roundedDistance);
 	    }
 
 	    private static double calculateAdjustedFuelRatio(long fuelPower, double aue) {
 	        double nnass = fuelPower / (aue * getScalingFactor(fuelPower)); // Divide by aue and apply scaling factor
-	        // Apply logarithmic scaling
 	        return Math.log(nnass + 1);
 	    }
 
-	    private static float calculateTotalDistance(double adjustedFuelRatio) {
-	        // Assuming some constant value (e.g., 100,000) for simplicity
-	        return (float) (100000 / adjustedFuelRatio);
-	    }
-
 	    private static double getScalingFactor(long fuelPower) {
-	        // Adjust this scaling factor as needed to reduce the difference in fuel needed
-	        return Math.sqrt(fuelPower) / 2048;
+	        return Math.sqrt(fuelPower) / 24;
 	    }
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {

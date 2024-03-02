@@ -36,7 +36,7 @@ public class AstronomyUtil
     public static final float PlockRadius=1184;
     public static final float TyloRadius=580F;
 	
-	public static final float MohoAU=5263138.304F/AUToKm;
+	public static final float MohoAU= 4263138.304F/AUToKm;
     public static final float EveAU=9832684.544F/AUToKm;
     public static final float KerbinAU=13599840.256F/AUToKm;    
     public static final float DunaAU=20726155.264F/AUToKm;
@@ -105,6 +105,7 @@ public class AstronomyUtil
 		double distance = Math.sqrt(Math.pow(PlanetBCos-PlanetACos, 2)+Math.pow(PlanetBSin-PlanetASin, 2));
 		return distance; 
     }
+
     /**
      * Calculates the visual angle between two planets. The first planet is the one you are on, and the second planet is the one you are observing.
      */
