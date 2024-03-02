@@ -13,6 +13,7 @@ public class ItemPlasticScrap extends ItemEnumMulti {
 		//GENERAL BOARD
 		BOARD_BLANK,
 		BOARD_TRANSISTOR,
+		BOARD_CONVERTER,
 		
 		//CHIPSET
 		BRIDGE_NORTH,
@@ -36,6 +37,10 @@ public class ItemPlasticScrap extends ItemEnumMulti {
 		MEM_16K_A,
 		MEM_16K_B,
 		MEM_16K_C,
-		MEM_16K_D
+		MEM_16K_D,
+		
+		//EXTENSION CARD
+		CARD_BOARD,
+		CARD_PROCESSOR
 	}
 }

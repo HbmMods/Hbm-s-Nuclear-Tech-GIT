@@ -1125,6 +1125,7 @@ public class ModBlocks {
 	public static Block turret_arty;
 	public static Block turret_himars;
 	public static Block turret_sentry;
+	public static Block turret_sentry_damaged;
 
 	public static Block rbmk_rod;
 	public static Block rbmk_rod_mod;
@@ -2199,6 +2200,7 @@ public class ModBlocks {
 		turret_arty = new TurretArty(Material.iron).setBlockName("turret_arty").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_himars = new TurretHIMARS(Material.iron).setBlockName("turret_himars").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_sentry = new TurretSentry().setBlockName("turret_sentry").setHardness(5.0F).setResistance(5.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_sentry_damaged = new TurretSentryDamaged().setBlockName("turret_sentry_damaged").setHardness(5.0F).setResistance(5.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_rust");
 
 		rbmk_rod = new RBMKRod(false).setBlockName("rbmk_rod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element");
 		rbmk_rod_mod = new RBMKRod(true).setBlockName("rbmk_rod_mod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element_mod");
@@ -3016,6 +3018,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_arty, turret_arty.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_himars, turret_himars.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_sentry, turret_sentry.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_sentry_damaged, turret_sentry_damaged.getUnlocalizedName());
 		
 		//Wall-mounted Explosives
 		GameRegistry.registerBlock(charge_dynamite, ItemBlockBase.class, charge_dynamite.getUnlocalizedName());

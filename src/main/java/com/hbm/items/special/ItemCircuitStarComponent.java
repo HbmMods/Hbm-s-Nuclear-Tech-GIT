@@ -11,6 +11,7 @@ public class ItemCircuitStarComponent extends ItemEnumMulti {
 	public static enum CircuitComponentType {
 		CHIPSET,
 		CPU,
-		RAM
+		RAM,
+		CARD
 	}
 }

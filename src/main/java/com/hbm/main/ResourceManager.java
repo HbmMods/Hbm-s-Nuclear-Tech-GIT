@@ -424,6 +424,7 @@ public class ResourceManager {
 	public static final ResourceLocation turret_arty_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/arty.png");
 	public static final ResourceLocation turret_himars_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/himars.png");
 	public static final ResourceLocation turret_sentry_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/sentry.png");
+	public static final ResourceLocation turret_sentry_damaged_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/sentry_damaged.png");
 
 	public static final ResourceLocation himars_standard_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/himars_standard.png");
 	public static final ResourceLocation himars_single_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/himars_single.png");
