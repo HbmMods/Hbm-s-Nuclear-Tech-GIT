@@ -788,6 +788,29 @@ abstract public class Component extends StructureComponent {
 		}
 	}
 	
+	protected void randomlyFillWithBlocks(World world, StructureBoundingBox box, Random rand, float randLimit, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Block block, int meta) {
+		
+		if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
+			return;
+		
+		for(int x = minX; x <= maxX; x++) {
+			
+			for(int z = minZ; z <= maxZ; z++) {
+				int posX = getXWithOffset(x, z);
+				int posZ = getZWithOffset(x, z);
+				
+				if(posX >= box.minX && posX <= box.maxX && posZ >= box.minZ && posZ <= box.maxZ) {
+					for(int y = minY; y <= maxY; y++) {
+						int posY = getYWithOffset(y);
+						
+						if(rand.nextFloat() <= randLimit)
+							world.setBlock(posX, posY, posZ, block, meta, 2);
+					}
+				}
+			}
+		}
+	}
+	
 	protected ForgeDirection getDirection(ForgeDirection dir) {
 		switch(coordBaseMode) {
 		default: //South

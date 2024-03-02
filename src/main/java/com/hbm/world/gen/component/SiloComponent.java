@@ -315,9 +315,9 @@ public class SiloComponent extends Component {
 		fillWithMetadataBlocks(world, box, 29, 22, 20, 36, 22, 20, ModBlocks.concrete_colored, 11);
 		fillWithRandomizedBlocks(world, box, 29, 23, 20, 36, 23, 20, rand, ConcreteBricks);
 		//E-facing side
-		fillWithRandomizedBlocks(world, box, 37, 21, 15, 37, 21, 19, rand, ConcreteBricks);
-		fillWithMetadataBlocks(world, box, 37, 22, 15, 37, 22, 19, ModBlocks.concrete_colored, 11);
-		fillWithRandomizedBlocks(world, box, 37, 23, 15, 37, 23, 19, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 37, 21, 15, 37, 21, 20, rand, ConcreteBricks);
+		fillWithMetadataBlocks(world, box, 37, 22, 15, 37, 22, 20, ModBlocks.concrete_colored, 11);
+		fillWithRandomizedBlocks(world, box, 37, 23, 15, 37, 23, 20, rand, ConcreteBricks);
 		fillWithRandomizedBlocks(world, box, 37, 24, 15, 37, 24, 15, rand, ConcreteBricks);
 		//Internal walls
 		fillWithRandomizedBlocks(world, box, 32, 21, 16, 32, 21, 19, rand, ConcreteBricks);
@@ -398,6 +398,25 @@ public class SiloComponent extends Component {
 			fillWithBlocks(world, box, 23, j, 18, 24, j, 18, ModBlocks.concrete_smooth);
 			fillWithBlocks(world, box, 22, j, 19, 23, j, 19, ModBlocks.concrete_smooth);
 		}
+		
+		//Walls
+		fillWithRandomizedBlocks(world, box, 17, 5, 7, 21, 19, 7, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 15, 4, 8, 16, 19, 8, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 14, 4, 9, 14, 19, 9, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 13, 4, 10, 13, 19, 11, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 12, 5, 12, 12, 19, 16, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 13, 4, 17, 13, 19, 18, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 14, 4, 19, 14, 19, 19, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 15, 4, 20, 16, 19, 20, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 17, 5, 21, 21, 19, 21, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 22, 4, 20, 23, 19, 20, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 24, 4, 19, 24, 19, 19, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 25, 4, 17, 25, 19, 18, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 26, 5, 12, 26, 19, 16, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 25, 4, 10, 25, 19, 11, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 24, 4, 9, 24, 19, 9, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 22, 4, 8, 23, 19, 8, rand, ConcreteBricks);
+		
 		//	TOP
 		//Floor
 		fillWithBlocks(world, box, 13, 20, 9, 13, 20, 11, ModBlocks.concrete_smooth);
@@ -465,13 +484,6 @@ public class SiloComponent extends Component {
 		fillWithRandomizedBlocks(world, box, 24, 20, 21, 24, 24, 21, rand, ConcreteBricks);
 		fillWithRandomizedBlocks(world, box, 25, 20, 20, 25, 24, 20, rand, ConcreteBricks);
 		fillWithRandomizedBlocks(world, box, 26, 20, 19, 26, 24, 19, rand, ConcreteBricks);
-		//	T - 1
-		
-		//	T - 2
-		
-		//	T - 3
-		
-		//	T - 4
 		
 		//	EXHAUST
 		//dark area N/S
@@ -561,6 +573,226 @@ public class SiloComponent extends Component {
 		for(int i = 0; i <= 2; i += 2)
 			for(int k = 0; k <= 2; k += 2)
 				makeExtra(world, box, ModBlocks.launch_pad, 18 + i, 1, 13 + k);
+		
+		/* Red Sector */
+		//Ceiling
+		fillWithBlocks(world, box, 1, 20, 8, 12, 20, 16, ModBlocks.concrete_smooth);
+		fillWithBlocks(world, box, 1, 20, 17, 13, 20, 26, ModBlocks.concrete_smooth);
+		//Floor
+		fillWithBlocks(world, box, 2, 16, 7, 11, 16, 7, ModBlocks.concrete_smooth);
+		fillWithBlocks(world, box, 1, 16, 8, 12, 16, 11, ModBlocks.concrete_smooth);
+		fillWithBlocks(world, box, 1, 16, 12, 11, 16, 16, ModBlocks.concrete_smooth);
+		fillWithBlocks(world, box, 1, 16, 17, 12, 16, 18, ModBlocks.concrete_smooth);
+		fillWithBlocks(world, box, 1, 16, 19, 13, 16, 26, ModBlocks.concrete_smooth);
+		placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth, 0, 12, 16, 14, box);
+		//Walls
+		//N
+		fillWithRandomizedBlocks(world, box, 2, 17, 7, 11, 19, 7, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 11, 17, 8, 12, 17, 8, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 8, 17, 8, 8, 17, 8, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 5, 17, 8, 5, 17, 8, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 1, 17, 8, 2, 17, 8, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 1, 19, 8, 12, 19, 8, rand, ConcreteBricks);
+		fillWithMetadataBlocks(world, box, 1, 18, 8, 2, 18, 8, ModBlocks.concrete_colored, 14);
+		placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored, 14, 5, 18, 8, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored, 14, 8, 18, 8, box);
+		fillWithMetadataBlocks(world, box, 11, 18, 8, 12, 18, 8, ModBlocks.concrete_colored, 14);
+		//W
+		fillWithMetadataBlocks(world, box, 1, 18, 9, 1, 18, 25, ModBlocks.concrete_colored, 14);
+		//S
+		fillWithMetadataBlocks(world, box, 1, 18, 26, 13, 18, 26, ModBlocks.concrete_colored, 14);
+		//E
+		fillWithMetadataBlocks(world, box, 13, 18, 17, 13, 18, 25, ModBlocks.concrete_colored, 14);
+		fillWithMetadataBlocks(world, box, 12, 18, 9, 12, 18, 16, ModBlocks.concrete_colored, 14);
+		fillWithMetadataBlocks(world, box, 13, 18, 10, 13, 18, 11, ModBlocks.concrete_colored, 14);
+		//Internal
+		fillWithMetadataBlocks(world, box, 2, 18, 12, 11, 18, 12, ModBlocks.concrete_colored, 14);
+		fillWithMetadataBlocks(world, box, 2, 18, 16, 11, 18, 16, ModBlocks.concrete_colored, 14);
+		fillWithMetadataBlocks(world, box, 7, 18, 17, 7, 18, 25, ModBlocks.concrete_colored, 14);
+		fillWithMetadataBlocks(world, box, 4, 18, 22, 6, 18, 22, ModBlocks.concrete_colored, 14);
+		fillWithMetadataBlocks(world, box, 4, 18, 23, 4, 18, 25, ModBlocks.concrete_colored, 14);
+		for(int i = 17; i <= 19; i += 2) {
+			//W
+			fillWithRandomizedBlocks(world, box, 1, i, 9, 1, i, 25, rand, ConcreteBricks);
+			//S
+			fillWithRandomizedBlocks(world, box, 1, i, 26, 13, i, 26, rand, ConcreteBricks);
+			//E
+			fillWithRandomizedBlocks(world, box, 13, i, 19, 13, i, 25, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 12, i, 9, 12, i, 11, rand, ConcreteBricks);
+			//Internal
+			fillWithRandomizedBlocks(world, box, 2, i, 12, 11, i, 12, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 2, i, 16, 11, i, 16, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 7, i, 17, 7, i, 25, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, i, 22, 6, i, 22, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 4, i, 23, 4, i, 25, rand, ConcreteBricks);
+		}
+		//Arches
+		ConcreteStairs.setMetadata(stairS | 4);
+		fillWithRandomizedBlocks(world, box, 2, 19, 9, 11, 19, 9, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 2, 19, 13, 11, 19, 13, rand, ConcreteStairs);
+		ConcreteStairs.setMetadata(stairN | 4);
+		fillWithRandomizedBlocks(world, box, 2, 19, 11, 11, 19, 11, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 2, 19, 15, 11, 19, 15, rand, ConcreteStairs);
+		ConcreteStairs.setMetadata(stairW | 4);
+		fillWithRandomizedBlocks(world, box, 12, 19, 17, 12, 19, 25, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 6, 19, 17, 6, 19, 21, rand, ConcreteStairs);
+		ConcreteStairs.setMetadata(stairE | 4);
+		fillWithRandomizedBlocks(world, box, 8, 19, 17, 8, 19, 25, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 2, 19, 17, 2, 19, 25, rand, ConcreteStairs);
+		//Doors
+		placeDoor(world, box, ModBlocks.door_bunker, 2, false, rand.nextBoolean(), 12, 17, 14);
+		placeDoor(world, box, ModBlocks.door_bunker, 3, false, rand.nextBoolean(), 10, 17, 12);
+		placeDoor(world, box, ModBlocks.door_bunker, 1, false, rand.nextBoolean(), 10, 17, 16);
+		placeDoor(world, box, ModBlocks.door_bunker, 1, false, rand.nextBoolean(), 4, 17, 16);
+		placeDoor(world, box, ModBlocks.door_metal, 0, false, rand.nextBoolean(), 4, 17, 24);
+		
+		/* Yellow Sector */
+		//Ceiling + Floor
+		for(int i = 12; i <= 16; i += 4) {
+			fillWithBlocks(world, box, 26, i, 17, 26, i, 22, ModBlocks.concrete_smooth);
+			fillWithBlocks(world, box, 27, i, 8, 34, i, 22, ModBlocks.concrete_smooth);
+			fillWithBlocks(world, box, 26, i, 8, 26, i, 11, ModBlocks.concrete_smooth);
+		}
+		placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth, 0, 26, 12, 14, box);
+		//Walls
+		//N
+		fillWithMetadataBlocks(world, box, 26, 14, 8, 34, 14, 8, ModBlocks.concrete_colored, 4);
+		//E
+		fillWithMetadataBlocks(world, box, 34, 14, 9, 34, 14, 21, ModBlocks.concrete_colored, 4);
+		//S
+		fillWithMetadataBlocks(world, box, 26, 14, 22, 34, 14, 22, ModBlocks.concrete_colored, 4);
+		//W
+		fillWithMetadataBlocks(world, box, 26, 14, 9, 26, 14, 21, ModBlocks.concrete_colored, 4);
+		fillWithMetadataBlocks(world, box, 25, 14, 17, 25, 14, 18, ModBlocks.concrete_colored, 4);
+		fillWithMetadataBlocks(world, box, 25, 14, 10, 25, 14, 11, ModBlocks.concrete_colored, 4);
+		//Internal
+		fillWithMetadataBlocks(world, box, 27, 14, 16, 33, 14, 16, ModBlocks.concrete_colored, 4);
+		fillWithMetadataBlocks(world, box, 27, 14, 12, 33, 14, 12, ModBlocks.concrete_colored, 4);
+		fillWithMetadataBlocks(world, box, 30, 14, 9, 30, 14, 11, ModBlocks.concrete_colored, 4);
+		for(int i = 13; i <= 15; i += 2) {
+			//N
+			fillWithRandomizedBlocks(world, box, 26, i, 8, 34, i, 8, rand, ConcreteBricks);
+			//E
+			fillWithRandomizedBlocks(world, box, 34, i, 9, 34, i, 21, rand, ConcreteBricks);
+			//S
+			fillWithRandomizedBlocks(world, box, 26, i, 22, 34, i, 22, rand, ConcreteBricks);
+			//W
+			fillWithRandomizedBlocks(world, box, 26, i, 15, 26, i, 21, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 26, i, 9, 26, i, 13, rand, ConcreteBricks);
+			//Internal
+			fillWithRandomizedBlocks(world, box, 27, i, 16, 33, i, 16, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 27, i, 12, 33, i, 12, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 30, i, 9, 30, i, 11, rand, ConcreteBricks);
+		}
+		//Arches
+		ConcreteStairs.setMetadata(stairN | 4);
+		fillWithRandomizedBlocks(world, box, 27, 15, 21, 33, 15, 21, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 27, 15, 15, 33, 15, 15, rand, ConcreteStairs);
+		ConcreteStairs.setMetadata(stairS | 4);
+		fillWithRandomizedBlocks(world, box, 27, 15, 17, 33, 15, 17, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 27, 15, 13, 33, 15, 13, rand, ConcreteStairs);
+		ConcreteStairs.setMetadata(stairW | 4);
+		fillWithRandomizedBlocks(world, box, 33, 15, 9, 33, 15, 11, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 29, 15, 9, 29, 15, 11, rand, ConcreteStairs); 
+		ConcreteStairs.setMetadata(stairE | 4);
+		fillWithRandomizedBlocks(world, box, 31, 15, 9, 31, 15, 11, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 27, 15, 9, 27, 15, 11, rand, ConcreteStairs);
+		//Doors
+		placeDoor(world, box, ModBlocks.door_bunker, 0, false, rand.nextBoolean(), 26, 13, 14);
+		placeDoor(world, box, ModBlocks.door_bunker, 3, false, rand.nextBoolean(), 28, 13, 12);
+		placeDoor(world, box, ModBlocks.door_bunker, 3, false, rand.nextBoolean(), 32, 13, 12);
+		placeDoor(world, box, ModBlocks.door_bunker, 1, false, rand.nextBoolean(), 32, 13, 16);
+		
+		/* Green Sector */
+		//Floor + Ceiling
+		placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth, 0, 12, 8, 14, box);
+		for(int i = 8; i <= 12; i += 4) {
+			fillWithBlocks(world, box, 0, i, 6, 12, i, 11, ModBlocks.concrete_smooth);
+			fillWithBlocks(world, box, 0, i, 12, 11, i, 16, ModBlocks.concrete_smooth);
+			fillWithBlocks(world, box, 0, i, 17, 12, i, 24, ModBlocks.concrete_smooth);
+		}
+		//Walls
+		//N
+		fillWithMetadataBlocks(world, box, 0, 10, 6, 12, 10, 6, ModBlocks.concrete_colored, 13);
+		//W
+		fillWithMetadataBlocks(world, box, 0, 10, 7, 0, 10, 23, ModBlocks.concrete_colored, 13);
+		//S
+		fillWithMetadataBlocks(world, box, 0, 10, 24, 12, 10, 24, ModBlocks.concrete_colored, 13);
+		//E
+		fillWithMetadataBlocks(world, box, 12, 10, 7, 12, 10, 23, ModBlocks.concrete_colored, 13);
+		fillWithMetadataBlocks(world, box, 13, 10, 17, 13, 10, 18, ModBlocks.concrete_colored, 13);
+		fillWithMetadataBlocks(world, box, 13, 10, 10, 13, 10, 11, ModBlocks.concrete_colored, 13);
+		//Internal
+		fillWithMetadataBlocks(world, box, 1, 10, 12, 11, 10, 12, ModBlocks.concrete_colored, 13);
+		fillWithMetadataBlocks(world, box, 1, 10, 16, 11, 10, 16, ModBlocks.concrete_colored, 13);
+		fillWithMetadataBlocks(world, box, 6, 10, 17, 6, 10, 23, ModBlocks.concrete_colored, 13);
+		for(int i = 9; i <= 11; i += 2) {
+			//N
+			fillWithRandomizedBlocks(world, box, 0, i, 6, 12, i, 6, rand, ConcreteBricks);
+			//W
+			fillWithRandomizedBlocks(world, box, 0, i, 7, 0, i, 23, rand, ConcreteBricks);
+			//S
+			fillWithRandomizedBlocks(world, box, 0, i, 24, 12, i, 24, rand, ConcreteBricks);
+			//E
+			fillWithRandomizedBlocks(world, box, 12, i, 17, 12, i, 23, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 12, i, 7, 12, i, 11, rand, ConcreteBricks);
+			//Internal
+			fillWithRandomizedBlocks(world, box, 1, i, 12, 11, i, 12, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 1, i, 16, 11, i, 16, rand, ConcreteBricks);
+			fillWithRandomizedBlocks(world, box, 6, i, 17, 6, i, 23, rand, ConcreteBricks);
+		}
+		//Arches
+		ConcreteStairs.setMetadata(stairS | 4);
+		fillWithRandomizedBlocks(world, box, 1, 11, 7, 11, 11, 7, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 1, 11, 13, 11, 11, 13, rand, ConcreteStairs);
+		ConcreteStairs.setMetadata(stairN | 4);
+		fillWithRandomizedBlocks(world, box, 1, 11, 11, 11, 11, 11, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 1, 11, 15, 11, 11, 15, rand, ConcreteStairs);
+		ConcreteStairs.setMetadata(stairW | 4);
+		fillWithRandomizedBlocks(world, box, 11, 11, 17, 11, 11, 23, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 5, 11, 17, 5, 11, 18, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 5, 11, 22, 5, 11, 23, rand, ConcreteStairs);
+		ConcreteStairs.setMetadata(stairE | 4);
+		fillWithRandomizedBlocks(world, box, 7, 11, 17, 7, 11, 23, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 1, 11, 17, 1, 11, 18, rand, ConcreteStairs);
+		fillWithRandomizedBlocks(world, box, 1, 11, 22, 1, 11, 23, rand, ConcreteStairs);
+		//Doors
+		placeDoor(world, box, ModBlocks.door_bunker, 2, false, rand.nextBoolean(), 12, 9, 14);
+		placeDoor(world, box, ModBlocks.door_bunker, 1, false, rand.nextBoolean(), 9, 9, 16);
+		placeDoor(world, box, ModBlocks.door_bunker, 1, false, rand.nextBoolean(), 3, 9, 16);
+		placeDoor(world, box, ModBlocks.door_bunker, 3, false, rand.nextBoolean(), 3, 9, 12);
+		
+		/* Black Sector */
+		//Floor + Ceiling
+		fillWithBlocks(world, box, 28, 0, 11, 31, 0, 15, Blocks.dirt);
+		randomlyFillWithBlocks(world, box, rand, 0.5F, 28, 0, 11, 31, 0, 15, Blocks.dirt, 2);
+		fillWithBlocks(world, box, 27, 4, 11, 31, 4, 15, ModBlocks.concrete_smooth);
+		fillWithBlocks(world, box, 27, 8, 12, 32, 8, 16, ModBlocks.concrete_smooth);
+		//Walls
+		//N
+		fillWithRandomizedBlocks(world, box, 27, 0, 10, 32, 4, 10, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 27, 5, 12, 32, 5, 12, rand, ConcreteBricks);
+		fillWithMetadataBlocks(world, box, 27, 6, 12, 32, 6, 12, ModBlocks.concrete_colored, 15);
+		fillWithRandomizedBlocks(world, box, 27, 7, 12, 32, 7, 12, rand, ConcreteBricks);
+		//E
+		fillWithRandomizedBlocks(world, box, 32, 0, 11, 32, 4, 12, rand, ConcreteBricks);
+		fillWithRandomizedBlocks(world, box, 32, 0, 13, 32, 5, 15, rand, ConcreteBricks);
+		fillWithMetadataBlocks(world, box, 32, 6, 13, 32, 6, 15, ModBlocks.concrete_colored, 15);
+		fillWithRandomizedBlocks(world, box, 32, 7, 13, 32, 7, 15, rand, ConcreteBricks);
+		//S
+		fillWithRandomizedBlocks(world, box, 27, 0, 16, 32, 5, 16, rand, ConcreteBricks);
+		fillWithMetadataBlocks(world, box, 27, 6, 16, 32, 6, 16, ModBlocks.concrete_colored, 15);
+		fillWithRandomizedBlocks(world, box, 27, 7, 16, 32, 7, 16, rand, ConcreteBricks);
+		//W
+		fillWithRandomizedBlocks(world, box, 27, 0, 11, 27, 3, 15, rand, ConcreteBricks);
+		//Arches
+		ConcreteStairs.setMetadata(stairN | 4);
+		fillWithRandomizedBlocks(world, box, 27, 7, 15, 31, 7, 15, rand, ConcreteStairs);
+		ConcreteStairs.setMetadata(stairS | 4);
+		fillWithRandomizedBlocks(world, box, 27, 7, 13, 31, 7, 13, rand, ConcreteStairs);
+		//Deco
+		fillWithBlocks(world, box, 26, 5, 14, 26, 6, 14, ModBlocks.concrete_smooth); //doorway
+		fillWithMetadataBlocks(world, box, 31, 2, 15, 31, 4, 15, ModBlocks.ladder_steel, getDecoMeta(4));
 		
 		return true;
 	}
