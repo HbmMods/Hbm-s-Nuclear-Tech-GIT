@@ -1,3 +1,11 @@
+##Added
+* CRTs and toasters
+  * Decorative blocks that will spawn in upcoming dungeons
+* Snow globes
+* Sentry turret "Edwin"
+  * A broken down version of the sentry turret with infinite power and ammo
+  * Will be found in the new silo structure
+
 ## Changed
 * Updated chinese localization
 * Tweaked super shotgun animations, added config for changing the animation style
@@ -17,9 +25,12 @@
 * Schrabidium transmutation by fallout is now limited to the inner 40% of the sellafite conversion radius
 * Fluid traits are now listed in a fixed order instead of being arranged randomly
 * Hidden fluid trait descriptions will now be added below the visible part of that trait instead of below the last visible trait
+* The methusalem turret no longer drops anything when broken
 
 ## Fixed
 * Fixed the structure toggle on the world creation screen not working correctly on most world types
 * Fixed antiknock having a broken sprite and localization
 * Fixed crash caused by fallout affecting spotlight blocks, crashing the game
 * Fixed 528 mode bedrock ore replacements not working
+* Fixed potential crashes with improperly configured custom machines
+* Fixed misspelling in the custom machine config template
