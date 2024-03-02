@@ -579,23 +579,35 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	}
 
 	public float calfuelV2(double au) {
-	    float grav = PlanetaryTraitUtil.getGravityForDimension(worldObj.provider.dimensionId);
-	    FT_Combustible trait = tanks[0].getTankType().getTrait(FT_Combustible.class);
-	    long fuelPower = trait.getCombustionEnergy();
-	    // Adjust the fuel ratio by subtracting half of the fuel power
-	    double adjustedFuelRatio = Math.max(0, (fuelPower / 8.0) - Math.round(au));
+	   		float grav = PlanetaryTraitUtil.getGravityForDimension(worldObj.provider.dimensionId);
+	    	FT_Combustible trait = tanks[0].getTankType().getTrait(FT_Combustible.class);
+	    	long fuelPower = trait.getCombustionEnergy();	        double aue = 0.45972245832 * 100000; // Use the correct AU value
+	        //0.45972245832
+	        //0.035181876 
+	        double adjustedFuelRatio = calculateAdjustedFuelRatio(fuelPower, aue);
 
-	    // Scale the total distance based on the adjusted ratio and gravity
-	    float totalDistance = (float) Math.round(adjustedFuelRatio * grav);
+	        float totalDistance = calculateTotalDistance(adjustedFuelRatio);
 
-	    // Invert the total distance based on fuel power
-	    totalDistance = Math.max(0, grav * 100 - totalDistance);
+	        int roundedDistance = (int) (Math.round(totalDistance / 100.0) * 100);
 
-	    // Adjust total distance based on fuel power (higher power, decreased requirement)
-	    totalDistance *= (100 - fuelPower) / 100.0;
+	        return(roundedDistance);
+	    }
 
-	    return totalDistance;
-	}
+	    private static double calculateAdjustedFuelRatio(long fuelPower, double aue) {
+	        double nnass = fuelPower / (aue * getScalingFactor(fuelPower)); // Divide by aue and apply scaling factor
+	        // Apply logarithmic scaling
+	        return Math.log(nnass + 1);
+	    }
+
+	    private static float calculateTotalDistance(double adjustedFuelRatio) {
+	        // Assuming some constant value (e.g., 100,000) for simplicity
+	        return (float) (100000 / adjustedFuelRatio);
+	    }
+
+	    private static double getScalingFactor(long fuelPower) {
+	        // Adjust this scaling factor as needed to reduce the difference in fuel needed
+	        return Math.sqrt(fuelPower) / 2048;
+	    }
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 

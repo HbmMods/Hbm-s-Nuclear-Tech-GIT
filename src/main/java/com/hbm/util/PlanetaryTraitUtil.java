@@ -16,6 +16,8 @@ import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.util.Tuple.Quartet;
+import com.hbm.util.Tuple.Triplet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -37,15 +39,15 @@ public class PlanetaryTraitUtil {
 		HOT,
 	}
 	
-	public static Map<Integer, Float> dimGrav = new HashMap<>();
+	public static Triplet<Integer, Float, Double> dimProperties = new ArrayList()<>();
 	
 	static {
-		dimGrav.put(DimensionManager.getProviderType(0), 9.8F);
+		dimProperties.put(DimensionManager.getProviderType(0), 9.8F);
 
 	}
 	
     public static float getGravityForDimension(int dimensionId) {
-        return dimGrav.getOrDefault(dimensionId, 2F); // Default gravity value if not found
+        return dimProperties.getOrDefault(dimensionId, 2F); // Default gravity value if not found
     }
 	
     public static Map<Integer, Set<Hospitality>> idToDimensionMap = new HashMap<>();
