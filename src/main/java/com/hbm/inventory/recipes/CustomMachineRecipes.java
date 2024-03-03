@@ -125,7 +125,7 @@ public class CustomMachineRecipes extends SerializableRecipe {
 			writer.name("consumptionPerTick").value(recipeInstance.consumptionPerTick);
 			writer.name("pollutionType").value(recipeInstance.pollutionType);
 			writer.name("pollutionAmount").value(recipeInstance.pollutionAmount);
-			writer.name("radiationnAmount").value(recipeInstance.radiationAmount);
+			writer.name("radiationAmount").value(recipeInstance.radiationAmount);
 			writer.name("flux").value(recipeInstance.flux);
 			writer.name("heat").value(recipeInstance.heat);
 
