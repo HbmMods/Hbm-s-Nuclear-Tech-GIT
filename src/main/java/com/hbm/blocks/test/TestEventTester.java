@@ -39,8 +39,8 @@ public class TestEventTester extends Block {
     	this.worldObj = p_149695_1_;
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x1, y1, z1))
         {
-        	Component comp = new SiloComponent(this.worldObj.rand, x1, y1, z1);
-        	comp.addComponentParts(p_149695_1_, this.worldObj.rand, new StructureBoundingBox(x1, z1, x1 + 42, z1 + 26));
+        	/*Component comp = new SiloComponent(this.worldObj.rand, x1, y1, z1);
+        	comp.addComponentParts(p_149695_1_, this.worldObj.rand, comp.getBoundingBox());*/
         	
         	//The laser thread is too dangerous to use right now
         	//ThreadLaser laser = new ThreadLaser(p_149695_1_, x, y, z, "north");

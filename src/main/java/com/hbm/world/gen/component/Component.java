@@ -38,7 +38,7 @@ abstract public class Component extends StructureComponent {
 	
 	protected Component(Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ ) {
 		super(0);
-		this.coordBaseMode = 0;// rand.nextInt(4);
+		this.coordBaseMode = rand.nextInt(4);
 		
 		switch(this.coordBaseMode) {
 		case 0:
@@ -829,17 +829,35 @@ abstract public class Component extends StructureComponent {
 		}
 	}
 	
+	/** Sets the core block for a BlockDummyable multiblock. WARNING: Does not take {@link com.hbm.blocks.BlockDummyable#getDirModified(ForgeDirection)} or {@link com.hbm.blocks.BlockDummyable#getMetaForCore(World, int, int, int, EntityPlayer, int)}
+	 * into account yet! This will be changed as it comes up!<br>
+	 * For BlockDummyables, 'dir' <b>always</b> faces the player, being the opposite of the player's direction. This is already taken into account. */
+	protected void placeCore(World world, StructureBoundingBox box, Block block, ForgeDirection dir, int x, int y, int z) {
+		int posX = getXWithOffset(x, z);
+		int posZ = getZWithOffset(x, z);
+		int posY = getYWithOffset(y);
+		
+		if(!box.isVecInside(posX, posY, posZ)) return;
+		
+		if(dir == null)
+			dir = ForgeDirection.NORTH;
+		
+		dir = getDirection(dir.getOpposite());
+		world.setBlock(posX, posY, posZ, block, dir.ordinal() + BlockDummyable.offset, 2);
+	}
+	
 	//always set the core block first
-	/** StructureComponent-friendly method for {@link com.hbm.handler.MultiblockHandlerXR#fillSpace(World, int, int, int, int[], Block, ForgeDirection)}. Prevents runoff outside of the provided bounding box. */
+	/** StructureComponent-friendly method for {@link com.hbm.handler.MultiblockHandlerXR#fillSpace(World, int, int, int, int[], Block, ForgeDirection)}. Prevents runoff outside of the provided bounding box.<br>
+	 * For BlockDummyables, 'dir' <b>always</b> faces the player, being the opposite of the player's direction. This is already taken into account. */
 	protected void fillSpace(World world, StructureBoundingBox box, int x, int y, int z, int[] dim, Block block, ForgeDirection dir) {
 		
 		if(getYWithOffset(y - dim[1]) < box.minY || getYWithOffset(y + dim[0]) > box.maxY) //the BlockDummyable will be fucked regardless if it goes beyond either limit
 			return;
 		
 		if(dir == null)
-			dir = ForgeDirection.SOUTH;
+			dir = ForgeDirection.NORTH;
 		
-		dir = getDirection(dir);
+		dir = getDirection(dir.getOpposite());
 		
 		int count = 0;
 		
