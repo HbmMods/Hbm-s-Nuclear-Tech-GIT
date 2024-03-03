@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.HbmChestContents;
+import com.hbm.tileentity.bomb.TileEntityLandmine;
 import com.hbm.tileentity.network.TileEntityRadioTorchBase;
 
 import net.minecraft.init.Blocks;
@@ -39,11 +40,10 @@ public class SiloComponent extends Component {
 	
 	@Override
 	public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
-		
-		//TODO add method to only count the surface portion for height offset
-		if(hpos == -1) {
-			hpos = this.getAverageHeight(world, this.boundingBox, box, getYWithOffset(25));
-			this.boundingBox.offset(0, hpos - 1 - getYWithOffset(25), 0);
+		//seems to work
+		if(this.hpos == -1) {
+			this.hpos = this.getAverageHeight(world, this.boundingBox, box, getYWithOffset(25));
+			this.boundingBox.offset(0, this.hpos - 1 - getYWithOffset(25), 0);
 		}
 		
 		/*if(!this.setAverageHeight(world, box, this.boundingBox.minY)) {
@@ -237,7 +237,7 @@ public class SiloComponent extends Component {
 		setRTTYFreq(world, box, 16, 25, 17);
 		
 		//Containers
-		generateInvContents(world, box, rand, Blocks.chest, 2, 36, 26, 17, HbmChestContents.antenna, 8); //TODO all are placeholders
+		generateInvContents(world, box, rand, Blocks.chest, 2, 36, 26, 17, HbmChestContents.vertibird, 5);
 		
 		/* Stairway */
 		fillWithAir(world, box, 37, 26, 9, 37, 27, 10);
@@ -449,22 +449,22 @@ public class SiloComponent extends Component {
 		placeRandomBobble(world, box, rand, 16, 22, 4);
 		
 		//Containers
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 17, HbmChestContents.antenna, 8);
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 18, HbmChestContents.antenna, 8);
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 19, HbmChestContents.antenna, 8);
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 22, 17, HbmChestContents.antenna, 8);
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 22, 19, HbmChestContents.antenna, 8);
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 29, 21, 19, HbmChestContents.antenna, 8);
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelE, 29, 21, 18, HbmChestContents.antenna, 8);
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelE, 29, 21, 17, HbmChestContents.antenna, 8);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 17, HbmChestContents.filingCabinet, 4);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 18, HbmChestContents.labVault, 6);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 19, HbmChestContents.filingCabinet, 4);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 22, 17, HbmChestContents.filingCabinet, 4);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 22, 19, HbmChestContents.filingCabinet, 4);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 29, 21, 19, HbmChestContents.officeTrash, 8);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelE, 29, 21, 18, HbmChestContents.filingCabinet, 4);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelE, 29, 21, 17, HbmChestContents.filingCabinet, 4);
 		
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 8, HbmChestContents.antenna, 8);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 8, HbmChestContents.filingCabinet, 5);
 		
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 3, 25, 21, 2, HbmChestContents.antenna, 8);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 3, 25, 21, 2, HbmChestContents.machineParts, 4);
 		
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelN, 23, 21, 5, HbmChestContents.antenna, 8);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelN, 23, 21, 5, HbmChestContents.filingCabinet, 5);
 		
-		generateInvContents(world, box, rand, ModBlocks.safe, decoW, 16, 21, 4, HbmChestContents.antenna, 8);
+		generateLockableContents(world, box, rand, ModBlocks.safe, decoW, 16, 21, 4, HbmChestContents.vault1, 3, 1D);
 		
 		/* Silo */
 		//	TOP
@@ -745,7 +745,7 @@ public class SiloComponent extends Component {
 		fillWithBlocks(world, box, 20, 5, 8, 20, 6, 9, ModBlocks.concrete_smooth);
 		fillWithBlocks(world, box, 21, 5, 8, 21, 7, 9, ModBlocks.concrete_smooth);
 		for(int i = 0; i < 4; i++)
-			fillWithMetadataBlocks(world, box, 18 + i, 5 + i, 8, 18 + i, 5 + i, 9, ModBlocks.concrete_smooth_stairs, 0);
+			fillWithMetadataBlocks(world, box, 18 + i, 5 + i, 8, 18 + i, 5 + i, 9, ModBlocks.concrete_smooth_stairs, stairW);
 		//Railing and Deco
 		placeBlockAtCurrentPosition(world, ModBlocks.fence_metal, 0, 18, 5, 11, box);
 		fillWithBlocks(world, box, 20, 5, 11, 22, 5, 11, ModBlocks.fence_metal);
@@ -903,12 +903,16 @@ public class SiloComponent extends Component {
 				placeBed(world, box, 1, i, j, 8);
 		
 		//Containers
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 8, 17, 25, HbmChestContents.antenna, 8);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 8, 17, 25, HbmChestContents.lockersVault, 6);
 		
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 2, 17, 11, HbmChestContents.antenna, 8); //placed separately for loot table control
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 4, 17, 11, HbmChestContents.antenna, 8);
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 6, 17, 11, HbmChestContents.antenna, 8);
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 8, 17, 11, HbmChestContents.antenna, 8);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 2, 17, 11, HbmChestContents.lockersVault, 6); //placed separately for loot table control
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 4, 17, 11, HbmChestContents.expensive, 2);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 6, 17, 11, HbmChestContents.lockersVault, 6);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 8, 17, 11, HbmChestContents.lockersVault, 6);
+		//Mines
+		fillWithMines(world, box, rand, 2, 17, 9, 11, 17, 11);
+		fillWithMines(world, box, rand, 9, 17, 17, 11, 17, 24);
+		fillWithMines(world, box, rand, 5, 17, 23, 6, 17, 25);
 		
 		/* Yellow Sector */
 		//Air
@@ -998,10 +1002,12 @@ public class SiloComponent extends Component {
 		placeBlockAtCurrentPosition(world, ModBlocks.deco_toaster, getCRTMeta(1), 28, 13, 17, box);
 		
 		//Containers
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 32, 13, 9, HbmChestContents.antenna, 8);
-		generateInvContents(world, box, rand, ModBlocks.safe, decoN, 33, 13, 9, HbmChestContents.antenna, 8);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 32, 13, 9, HbmChestContents.missile, 6);
+		generateInvContents(world, box, rand, ModBlocks.safe, decoN, 33, 13, 9, HbmChestContents.machineParts, 6);
 		
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 33, 13, 21, HbmChestContents.antenna, 8);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 33, 13, 21, HbmChestContents.labVault, 8);
+		//Mines
+		fillWithMines(world, box, rand, 27, 13, 13, 33, 13, 15);
 		
 		/* Green Sector */
 		//Air
@@ -1134,7 +1140,10 @@ public class SiloComponent extends Component {
 		fillWithBlocks(world, box, 7, 11, 8, 11, 11, 8, ModBlocks.deco_lead);
 		
 		//Containers
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 4, 9, 7, HbmChestContents.antenna, 8);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 4, 9, 7, HbmChestContents.nuclearFuel, 5);
+		//Mines
+		fillWithMines(world, box, rand, 1, 9, 7, 6, 9, 11);
+		fillWithMines(world, box, rand, 8, 9, 17, 10, 9, 22);
 		
 		/* Black Sector */
 		//Air
@@ -1190,11 +1199,13 @@ public class SiloComponent extends Component {
 		placeBlockAtCurrentPosition(world, ModBlocks.hev_battery, 0, 30, 2, 11, box);
 		
 		//Containers
-		generateInvContents(world, box, rand, ModBlocks.safe, decoE, 31, 5, 13, HbmChestContents.antenna, 8);
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 31, 5, 14, HbmChestContents.antenna, 8);
-		generateInvContents(world, box, rand, ModBlocks.safe, decoE, 31, 5, 15, HbmChestContents.antenna, 8);
+		generateLockableContents(world, box, rand, ModBlocks.safe, decoE, 31, 5, 13, HbmChestContents.vault2, 4, 0.1D);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 31, 5, 14, HbmChestContents.nukeTrash, 5);
+		generateInvContents(world, box, rand, ModBlocks.safe, decoE, 31, 5, 15, HbmChestContents.filingCabinet, 5);
 		
-		generateInvContents(world, box, rand, ModBlocks.crate_iron, 2, 30, 1, 11, HbmChestContents.antenna, 8);
+		generateInvContents(world, box, rand, ModBlocks.crate_iron, 2, 30, 1, 11, HbmChestContents.expensive, 7);
+		//Mines
+		fillWithMines(world, box, rand, 27, 5, 13, 30, 5, 15);
 		
 		return true;
 	}
@@ -1304,4 +1315,34 @@ public class SiloComponent extends Component {
 				this.field_151562_a = Blocks.air;
 		}
 	}
+	//stop-gap because there's no point in replacing all the blockselector classes yet
+	//this is basically just an in-line version of it anyway
+	protected void fillWithMines(World world, StructureBoundingBox box, Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+		
+		if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
+			return;
+		
+		for(int x = minX; x <= maxX; x++) {
+			
+			for(int z = minZ; z <= maxZ; z++) {
+				int posX = getXWithOffset(x, z);
+				int posZ = getZWithOffset(x, z);
+				
+				if(posX >= box.minX && posX <= box.maxX && posZ >= box.minZ && posZ <= box.maxZ) {
+					for(int y = minY; y <= maxY; y++) {
+						int posY = getYWithOffset(y);
+						//shouldn't cause issues
+						if(rand.nextInt(15) == 0 && world.getBlock(posX, posY, posZ).isAir(world, posX, posY, posZ) && !world.getBlock(posX, posY - 1, posZ).isAir(world, posX, posY - 1, posZ)) {
+							world.setBlock(posX, posY, posZ, ModBlocks.mine_ap, 0, 2);
+							
+							TileEntityLandmine mine = (TileEntityLandmine)world.getTileEntity(posX, posY, posZ);
+							if(mine != null)
+								mine.waitingForPlayer = true;
+						}
+					}
+				}
+			}
+		}
+	}
+	
 }
