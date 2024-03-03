@@ -132,7 +132,7 @@ abstract public class Component extends StructureComponent {
 	/**
 	 * Gets metadata for rotatable DecoBlock
 	 * honestly i don't remember how i did this and i'm scared to optimize it because i fail to see any reasonable patterns like the pillar
-	 * seriously, 3 fucking bits for 4 orientations when you can do it easily with 2?
+	 * should work for hoppers, just flip dir for N/S and W/E
 	 * @param metadata (2 for facing South, 3 for facing North, 4 for facing East, 5 for facing West
 	 */
 	protected int getDecoMeta(int metadata) {
@@ -197,6 +197,11 @@ abstract public class Component extends StructureComponent {
 		}
 		//genuinely like. why did i do that
 		return metadata << 2; //To accommodate for BlockDecoModel's shift in the rotation bits; otherwise, simply bit-shift right and or any non-rotation meta after
+	}
+	
+	//works for crts, toasters, and anything that follows mc's cardinal dirs. S: 0, W: 1, N: 2, E: 3
+	protected int getCRTMeta(int meta) {
+		return (meta + this.coordBaseMode) % 4;
 	}
 	
 	/**

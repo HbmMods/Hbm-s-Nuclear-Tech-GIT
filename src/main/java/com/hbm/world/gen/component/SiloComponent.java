@@ -3,15 +3,17 @@ package com.hbm.world.gen.component;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.tileentity.network.TileEntityRadioTorchBase;
 
-import net.minecraft.block.BlockStairs;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
-import net.minecraft.world.gen.structure.StructureComponent.BlockSelector;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class SiloComponent extends Component {
+	
+	public int freq = 0; //frequency of RTTY torches, this is the easiest way to sync them up.
 	
 	public SiloComponent() {
 		
@@ -19,6 +21,19 @@ public class SiloComponent extends Component {
 	
 	public SiloComponent(Random rand, int minX, int minY, int minZ) {
 		super(rand, minX, minY, minZ, 42, 29, 26);
+		this.freq = rand.nextInt(); //so other silos won't conflict, hopefully
+	}
+	
+	/** Set to NBT */
+	protected void func_143012_a(NBTTagCompound nbt) {
+		super.func_143012_a(nbt);
+		nbt.setInteger("freq", freq);
+	}
+	
+	/** Get from NBT */
+	protected void func_143011_b(NBTTagCompound nbt) {
+		super.func_143011_b(nbt);
+		this.freq = nbt.getInteger("freq");
 	}
 	
 	@Override
@@ -51,7 +66,6 @@ public class SiloComponent extends Component {
 		fillWithMetadataBlocks(world, box, 23, 25, 11, 23, 25, 17, ModBlocks.concrete_colored_ext, 5);
 		placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 5, 16, 25, 11, box); //it's figuring out meta that makes you shoot yourself anyway
 		placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 5, 22, 25, 11, box);
-		placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 5, 16, 25, 17, box);
 		placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 5, 22, 25, 17, box);
 		
 		ConcreteBricks ConcreteBricks = new ConcreteBricks();
@@ -160,7 +174,7 @@ public class SiloComponent extends Component {
 		placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_rim_rusted, 0, 37, 26, 15, box);
 		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 36, 25, 16, box);
 		placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_quad_rusted, 0, 36, 26, 16, box);
-		placeBlockAtCurrentPosition(world, Blocks.chest, 2, 36, 26, 17, box); //TODO move containers to one place per section
+		placeBlockAtCurrentPosition(world, Blocks.chest, 2, 36, 26, 17, box);
 		
 		//Access Building (staircase not included)
 		fillWithRandomizedBlocks(world, box, 35, 26, 5, 39, 28, 5, rand, ConcreteBricks);
@@ -212,6 +226,8 @@ public class SiloComponent extends Component {
 		//Large Silo Hatch
 		placeBlockAtCurrentPosition(world, ModBlocks.silo_hatch_large, 12, 19, 26, 14, box);
 		fillSpace(world, box, 19, 26, 14, new int[] { 0, 0, 3, 3, 3, 3 }, ModBlocks.silo_hatch_large, ForgeDirection.SOUTH);
+		placeBlockAtCurrentPosition(world, ModBlocks.radio_torch_receiver, 1, 16, 25, 17, box);
+		setRTTYFreq(world, box, 16, 25, 17);
 		
 		/* Stairway */
 		fillWithAir(world, box, 37, 26, 9, 37, 27, 10);
@@ -347,9 +363,84 @@ public class SiloComponent extends Component {
 		fillWithRandomizedBlocks(world, box, 30, 23, 5, 30, 23, 6, rand, ConcreteStairs);
 		fillWithRandomizedBlocks(world, box, 31, 23, 7, 31, 23, 9, rand, ConcreteStairs);
 		//Doors
-		placeDoor(world, box, ModBlocks.door_bunker, 1, false, rand.nextBoolean(), 19, 21, 5);
-		placeDoor(world, box, ModBlocks.door_bunker, 2, true, rand.nextBoolean(), 28, 21, 14);
+		placeDoor(world, box, ModBlocks.door_bunker, 1, true, rand.nextBoolean(), 19, 21, 5);
+		placeDoor(world, box, ModBlocks.door_bunker, 2, false, rand.nextBoolean(), 28, 21, 14);
 		//Deco
+		//Computer area
+		int decoS = getDecoMeta(2);
+		int decoN = getDecoMeta(3);
+		int decoE = getDecoMeta(4);
+		int decoW = getDecoMeta(5);
+		int pillarWE = getPillarMeta(4);
+		int pillarNS = getPillarMeta(8);
+		int decoModelN = getDecoModelMeta(0);
+		int decoModelW = getDecoModelMeta(2);
+		int decoModelE = getDecoModelMeta(3);
+		
+		fillWithBlocks(world, box, 33, 21, 19, 33, 23, 19, ModBlocks.deco_steel);
+		fillWithBlocks(world, box, 33, 21, 17, 33, 23, 17, ModBlocks.deco_steel);
+		placeBlockAtCurrentPosition(world, ModBlocks.tape_recorder, decoW, 33, 21, 18, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_crt, getCRTMeta(1) | 8, 33, 22, 18, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.tape_recorder, decoW, 33, 23, 18, box);
+		fillWithMetadataBlocks(world, box, 33, 21, 16, 33, 23, 16, ModBlocks.tape_recorder, decoW);
+		placeBlockAtCurrentPosition(world, ModBlocks.capacitor_copper, decoE, 36, 21, 16, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 36, 21, 17, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.machine_generator, 0, 36, 21, 19, box);
+		fillWithMetadataBlocks(world, box, 36, 22, 16, 36, 23, 16, ModBlocks.tape_recorder, decoE);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, decoModelW, 36, 22, 17, box);
+		fillWithMetadataBlocks(world, box, 36, 21, 18, 36, 23, 18, ModBlocks.tape_recorder, decoE);
+		fillWithMetadataBlocks(world, box, 36, 22, 19, 36, 23, 19, ModBlocks.deco_crt, getCRTMeta(3) | 12);
+		//Cabinets + Pipe
+		fillWithBlocks(world, box, 32, 21, 11, 32, 22, 11, ModBlocks.deco_pipe_framed_green_rusted);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_framed_green_rusted, pillarNS, 32, 23, 10, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 32, 23, 11, box);
+		fillWithMetadataBlocks(world, box, 32, 23, 12, 32, 23, 15, ModBlocks.deco_pipe_framed_green_rusted, pillarNS);
+		placeBlockAtCurrentPosition(world, ModBlocks.filing_cabinet, decoModelW, 31, 21, 17, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.filing_cabinet, decoModelW, 31, 21, 18, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.filing_cabinet, decoModelW, 31, 21, 19, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.filing_cabinet, decoModelW, 31, 22, 17, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.filing_cabinet, decoModelW, 31, 22, 19, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_steel, 2, 29, 21, 19, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.filing_cabinet, decoModelE, 29, 21, 18, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.filing_cabinet, decoModelE, 29, 21, 17, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.turret_sentry_damaged, 0, 30, 21, 16, box);
+		//Desk Area
+		fillWithBlocks(world, box, 27, 21, 9, 28, 21, 9, ModBlocks.deco_steel);
+		fillWithBlocks(world, box, 26, 21, 7, 26, 21, 8, ModBlocks.deco_steel);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 25, 21, 7, box);
+		fillWithBlocks(world, box, 24, 21, 5, 24, 21, 6, ModBlocks.deco_steel);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, decoModelN, 28, 22, 9, box);
+		placeBlockAtCurrentPosition(world, Blocks.lever, 6, 26, 22, 8, box); //placed on ground
+		placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairS, 28, 21, 7, box);
+		placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairW, 27, 21, 5, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.filing_cabinet, decoModelW, 31, 21, 8, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.tape_recorder, decoE, 30, 21, 5, box);
+		placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 27, 21, 3, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_steel, 3, 25, 21, 2, box);
+		placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 25, 22, 2, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.filing_cabinet, decoModelN, 23, 21, 5, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.radio_telex, 15, 25, 21, 5, box);
+		fillSpace(world, box, 25, 21, 5, new int[] {0, 0, 0, 0, 1, 0}, ModBlocks.radio_telex, ForgeDirection.EAST);
+		placeBlockAtCurrentPosition(world, ModBlocks.radio_torch_sender, 0, 26, 20, 8, box);
+		setRTTYFreq(world, box, 26, 20, 8);
+		
+		//Machine/Small Desk Area
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_framed_green_rusted, pillarWE, 23, 23, 1, box);
+		fillWithMetadataBlocks(world, box, 16, 23, 1, 19, 23, 1, ModBlocks.deco_pipe_framed_green_rusted, pillarWE);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 20, 21, 1, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.capacitor_copper, decoN, 20, 22, 1, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone_stairs, stairS | 4, 21, 21, 1, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_crt, getCRTMeta(2) | 4, 21, 22, 1, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 22, 21, 1, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.capacitor_copper, decoN, 22, 22, 1, box);
+		fillWithBlocks(world, box, 20, 23, 1, 22, 23, 1, ModBlocks.deco_steel);
+		placeBlockAtCurrentPosition(world, ModBlocks.hev_battery, 0, 23, 21, 1, box);
+		placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairW, 18, 21, 2, box);
+		fillWithBlocks(world, box, 16, 21, 1, 16, 21, 3, ModBlocks.deco_steel);
+		placeBlockAtCurrentPosition(world, ModBlocks.safe, decoW, 16, 21, 4, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, decoModelE, 16, 22, 2, box);
+		placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 16, 22, 3, box);
+		placeRandomBobble(world, box, rand, 16, 22, 4);
 		
 		/* Silo */
 		//	TOP
@@ -643,14 +734,17 @@ public class SiloComponent extends Component {
 		placeBlockAtCurrentPosition(world, Blocks.air, 0, 21, 5, 17, box);
 		placeBlockAtCurrentPosition(world, Blocks.air, 0, 17, 5, 11, box);
 		
-		fillWithMetadataBlocks(world, box, 17, 2, 12, 17, 4, 12, ModBlocks.ladder_steel, getDecoMeta(3));
-		fillWithMetadataBlocks(world, box, 21, 2, 16, 21, 4, 16, ModBlocks.ladder_steel, getDecoMeta(2));
+		fillWithMetadataBlocks(world, box, 17, 2, 12, 17, 4, 12, ModBlocks.ladder_steel, decoN);
+		fillWithMetadataBlocks(world, box, 21, 2, 16, 21, 4, 16, ModBlocks.ladder_steel, decoS);
 		//Launch Pad
 		placeBlockAtCurrentPosition(world, ModBlocks.launch_pad, 12, 19, 1, 14, box);
 		fillSpace(world, box, 19, 1, 14, new int[] {0, 0, 1, 1, 1, 1}, ModBlocks.launch_pad, ForgeDirection.NORTH);
 		for(int i = 0; i <= 2; i += 2)
 			for(int k = 0; k <= 2; k += 2)
 				makeExtra(world, box, ModBlocks.launch_pad, 18 + i, 1, 13 + k);
+		placeBlockAtCurrentPosition(world, ModBlocks.radio_torch_receiver, 3, 19, 0, 14, box);
+		setRTTYFreq(world, box, 19, 0, 14);
+		
 		//Air
 		fillWithAir(world, box, 18, 1, 8, 20, 3, 10);
 		fillWithAir(world, box, 18, 2, 11, 20, 3, 11);
@@ -749,7 +843,43 @@ public class SiloComponent extends Component {
 		placeDoor(world, box, ModBlocks.door_bunker, 1, false, rand.nextBoolean(), 4, 17, 16);
 		placeDoor(world, box, ModBlocks.door_metal, 0, false, rand.nextBoolean(), 4, 17, 24);
 		//Deco
-		
+		//Living Room
+		placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone_stairs, stairW | 4, 12, 17, 17, box);
+		placeBlockAtCurrentPosition(world, Blocks.cauldron, 0, 12, 17, 18, box);
+		fillWithMetadataBlocks(world, box, 12, 17, 19, 12, 17, 20, ModBlocks.reinforced_stone_stairs, stairW | 4);
+		placeBlockAtCurrentPosition(world, ModBlocks.machine_electric_furnace_off, decoE, 12, 17, 21, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_toaster, getCRTMeta(3) | 4, 12, 18, 17, box);
+		placeLever(world, box, 2, true, 12, 18, 18);
+		placeBlockAtCurrentPosition(world, ModBlocks.machine_microwave, decoE, 12, 18, 19, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.hev_battery, 0, 12, 18, 20, box);
+		placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairS, 8, 17, 17, box);
+		fillWithMetadataBlocks(world, box, 8, 17, 19, 9, 17, 19, ModBlocks.reinforced_stone_stairs, stairS | 4);
+		fillWithMetadataBlocks(world, box, 8, 17, 20, 9, 17, 20, ModBlocks.reinforced_stone_stairs, stairN | 4);
+		placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairN, 8, 17, 22, box);
+		placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairE, 10, 17, 23, box);
+		placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairS, 11, 17, 23, box);
+		placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairW, 12, 17, 23, box);
+		fillWithMetadataBlocks(world, box, 10, 17, 25, 12, 17, 25, ModBlocks.reinforced_stone_stairs, stairN | 4);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_crt, getCRTMeta(0), 11, 18, 25, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_steel, 2, 8, 17, 25, box);
+		//Bathroom
+		placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, 6, 17, 17, box);
+		fillWithBlocks(world, box, 6, 17, 18, 6, 17, 20, Blocks.cauldron);
+		placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone, 0, 6, 17, 21, box);
+		for(int i = 0; i < 3; i++)
+			placeLever(world, box, 2, true, 6, 18, 18 + i);
+		placeBlockAtCurrentPosition(world, Blocks.hopper, decoW, 6, 17, 24, box);
+		placeBlockAtCurrentPosition(world, Blocks.trapdoor, decoModelW >> 2, 6, 18, 24, box);
+		//Bedroom
+		for(int i = 3; i <= 7; i += 2)
+			placeBlockAtCurrentPosition(world, ModBlocks.reinforced_stone_stairs, stairN | 4, i, 17, 11, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_steel, 2, 2, 17, 11, box); //placed separately for loot table control
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_steel, 2, 4, 17, 11, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_steel, 2, 6, 17, 11, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_steel, 2, 8, 17, 11, box);
+		for(int i = 4; i <= 10; i += 3)
+			for(int j = 17; j <= 18; j++)
+				placeBed(world, box, 1, i, j, 8);
 		
 		/* Yellow Sector */
 		//Air
@@ -817,6 +947,27 @@ public class SiloComponent extends Component {
 		placeDoor(world, box, ModBlocks.door_bunker, 3, false, rand.nextBoolean(), 32, 13, 12);
 		placeDoor(world, box, ModBlocks.door_bunker, 1, false, rand.nextBoolean(), 32, 13, 16);
 		//Deco
+		//Room 1
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_ammo, 0, 27, 13, 9, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_can, 0, 27, 13, 10, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_can, 0, 27, 14, 9, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_can, 0, 28, 13, 9, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.barrel_corroded, 0, 29, 13, 9, box);
+		//Room 2
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_can, 0, 31, 13, 9, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, decoModelE, 31, 13, 11, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_steel, 2, 32, 13, 9, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.safe, decoN, 33, 13, 9, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_can, 0, 33, 13, 11, box);
+		//Workshop
+		placeBlockAtCurrentPosition(world, ModBlocks.machine_transformer, 0, 33, 13, 17, box);
+		fillWithRandomizedBlocks(world, box, 33, 13, 18, 33, 13, 20, rand, Supplies);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_steel, 2, 33, 13, 21, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.anvil_iron, decoN, 31, 13, 21, box);
+		fillWithBlocks(world, box, 28, 13, 18, 29, 13, 20, Blocks.planks);
+		placeBlockAtCurrentPosition(world, Blocks.crafting_table, 0, 29, 13, 19, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.radiorec, decoE, 28, 14, 19, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_toaster, getCRTMeta(1), 28, 13, 17, box);
 		
 		/* Green Sector */
 		//Air
@@ -891,6 +1042,62 @@ public class SiloComponent extends Component {
 		placeDoor(world, box, ModBlocks.door_bunker, 1, false, rand.nextBoolean(), 3, 9, 16);
 		placeDoor(world, box, ModBlocks.door_bunker, 3, false, rand.nextBoolean(), 3, 9, 12);
 		//Deco
+		//Fuel Infrastructure
+		fillWithMetadataBlocks(world, box, 17, 11, 14, 18, 11, 14, ModBlocks.deco_pipe_quad_rusted, pillarWE);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 16, 11, 14, box);
+		fillWithMetadataBlocks(world, box, 13, 11, 14, 15, 11, 14, ModBlocks.deco_pipe_quad_rusted, pillarWE);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 12, 11, 14, box);
+		fillWithMetadataBlocks(world, box, 10, 11, 14, 11, 11, 14, ModBlocks.deco_pipe_quad_rusted, pillarWE);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 9, 11, 14, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_quad_rusted, pillarNS, 9, 11, 15, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 9, 11, 16, box);
+		fillWithMetadataBlocks(world, box, 9, 11, 17, 9, 11, 19, ModBlocks.deco_pipe_quad_rusted, pillarNS);
+		placeBlockAtCurrentPosition(world, ModBlocks.fluid_duct_gauge, 0, 9, 11, 20, box);
+		fillWithMetadataBlocks(world, box, 9, 11, 21, 9, 11, 22, ModBlocks.deco_pipe_quad_rusted, pillarNS);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 9, 11, 23, box);
+		fillWithBlocks(world, box, 9, 9, 23, 9, 10, 23, ModBlocks.deco_pipe_framed_rusted);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 9, 8, 23, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_quad_rusted, pillarWE, 10, 11, 20, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 11, 11, 20, box);
+		fillWithBlocks(world, box, 11, 9, 20, 11, 10, 20, ModBlocks.deco_pipe_framed_rusted);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 11, 8, 20, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_quad_rusted, pillarWE, 8, 11, 20, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 7, 11, 20, box);
+		fillWithBlocks(world, box, 7, 9, 20, 7, 10, 20, ModBlocks.deco_pipe_framed_rusted);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 7, 8, 20, box);
+		fillWithBlocks(world, box, 8, 8, 18, 10, 8, 22, ModBlocks.deco_lead);
+		//Barrels in tank room
+		placeBlockAtCurrentPosition(world, ModBlocks.lox_barrel, 0, 7, 9, 17, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.pink_barrel, 0, 11, 9, 19, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.pink_barrel, 0, 11, 9, 22, box);
+		fillWithBlocks(world, box, 11, 9, 23, 11, 10, 23, ModBlocks.pink_barrel);
+		placeBlockAtCurrentPosition(world, ModBlocks.pink_barrel, 0, 10, 9, 23, box);
+		fillWithBlocks(world, box, 7, 9, 23, 8, 9, 23, ModBlocks.lox_barrel);
+		fillWithBlocks(world, box, 7, 9, 21, 7, 9, 22, ModBlocks.lox_barrel);
+		//Capacitor Room
+		for(int i = 1; i <= 5; i += 4) {
+			fillWithMetadataBlocks(world, box, i, 10, 17, i, 10, 18, ModBlocks.deco_pipe_quad_red, pillarNS);
+			fillWithMetadataBlocks(world, box, i, 10, 22, i, 10, 23, ModBlocks.deco_pipe_quad_red, pillarNS);
+			fillWithBlocks(world, box, i, 9, 19, i, 9, 21, ModBlocks.deco_lead);
+			fillWithMetadataBlocks(world, box, i, 10, 19, i, 10, 21, ModBlocks.capacitor_copper, i == 1 ? decoW : decoE);
+			fillWithBlocks(world, box, i, 11, 19, i, 11, 21, ModBlocks.deco_lead);
+		}
+		//Generator Room
+		placeBlockAtCurrentPosition(world, ModBlocks.barrel_corroded, 0, 1, 9, 11, box);
+		fillWithBlocks(world, box, 1, 9, 8, 1, 9, 9, ModBlocks.barrel_corroded);
+		fillWithBlocks(world, box, 1, 9, 7, 1, 10, 7, ModBlocks.barrel_corroded);
+		placeBlockAtCurrentPosition(world, ModBlocks.barrel_corroded, 0, 2, 9, 7, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_steel, 2, 4, 9, 7, box);
+		fillWithBlocks(world, box, 7, 9, 10, 11, 9, 10, ModBlocks.deco_lead);
+		fillWithBlocks(world, box, 7, 10, 10, 11, 10, 10, ModBlocks.hadron_coil_alloy);
+		fillWithBlocks(world, box, 7, 11, 10, 11, 11, 10, ModBlocks.deco_lead);
+		fillWithBlocks(world, box, 7, 9, 9, 11, 9, 9, ModBlocks.hadron_coil_alloy);
+		fillWithBlocks(world, box, 8, 10, 9, 11, 10, 9, ModBlocks.deco_red_copper);
+		placeBlockAtCurrentPosition(world, ModBlocks.red_cable_gauge, decoE, 7, 10, 9, box);
+		fillWithBlocks(world, box, 7, 11, 9, 11, 11, 9, ModBlocks.hadron_coil_alloy);
+		fillWithBlocks(world, box, 7, 9, 8, 11, 9, 8, ModBlocks.deco_lead);
+		fillWithBlocks(world, box, 7, 10, 8, 11, 10, 8, ModBlocks.hadron_coil_alloy);
+		fillWithBlocks(world, box, 7, 11, 8, 11, 11, 8, ModBlocks.deco_lead);
 		
 		/* Black Sector */
 		//Air
@@ -928,9 +1135,40 @@ public class SiloComponent extends Component {
 		fillWithBlocks(world, box, 28, 1, 11, 31, 1, 15, Blocks.water);
 		//Deco
 		fillWithBlocks(world, box, 26, 5, 14, 26, 6, 14, ModBlocks.concrete_smooth); //doorway
-		fillWithMetadataBlocks(world, box, 31, 2, 15, 31, 4, 15, ModBlocks.ladder_steel, getDecoMeta(4));
+		fillWithMetadataBlocks(world, box, 31, 2, 15, 31, 4, 15, ModBlocks.ladder_steel, decoE);
+		//Top Room
+		randomlyFillWithBlocks(world, box, rand, 0.15F, 27, 5, 13, 30, 6, 15, Blocks.web); //webs
+		randomlyFillWithBlocks(world, box, rand, 0.15F, 31, 6, 13, 31, 6, 15, Blocks.web);
+		randomlyFillWithBlocks(world, box, rand, 0.15F, 27, 7, 14, 31, 7, 14, Blocks.web);
+		placeBlockAtCurrentPosition(world, ModBlocks.safe, decoE, 31, 5, 13, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_steel, 2, 31, 5, 14, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.safe, decoE, 31, 5, 15, box);
+		//Flooded Room
+		randomlyFillWithBlocks(world, box, rand, 0.15F, 28, 2, 11, 31, 2, 15, ModBlocks.reeds);
+		fillWithMetadataBlocks(world, box, 28, 3, 12, 28, 3, 15, ModBlocks.deco_pipe_framed_green_rusted, pillarNS);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 28, 3, 11, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_rim_green_rusted, 0, 28, 2, 11, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 28, 0, 11, box);
+		fillWithBlocks(world, box, 31, 1, 11, 31, 1, 12, ModBlocks.deco_beryllium);
+		fillWithMetadataBlocks(world, box, 31, 2, 11, 31, 2, 12, ModBlocks.tape_recorder, decoE);
+		placeBlockAtCurrentPosition(world, ModBlocks.crate_iron, 2, 30, 1, 11, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.hev_battery, 0, 30, 2, 11, box);
 		
 		return true;
+	}
+	
+	protected void setRTTYFreq(World world, StructureBoundingBox box, int featureX, int featureY, int featureZ) {
+		int posX = this.getXWithOffset(featureX, featureZ);
+		int posY = this.getYWithOffset(featureY);
+		int posZ = this.getZWithOffset(featureX, featureZ);
+		
+		if(!box.isVecInside(posX, posY, posZ)) return;
+		
+		TileEntityRadioTorchBase torch = (TileEntityRadioTorchBase) world.getTileEntity(posX, posY, posZ);
+		
+		if(torch != null) {
+			torch.channel = String.valueOf(this.freq); //int for convenience
+		}
 	}
 	
 	public static class ConcreteStairs extends BlockSelector {
@@ -1007,7 +1245,6 @@ public class SiloComponent extends Component {
 		
 		@Override
 		public void selectBlocks(Random rand, int posX, int posY, int posZ, boolean notInterior) {
-			//TODO make better version of this shit that actually gives me a world instance
 			float chance = rand.nextFloat();
 			
 			if(chance < 0.2F)
