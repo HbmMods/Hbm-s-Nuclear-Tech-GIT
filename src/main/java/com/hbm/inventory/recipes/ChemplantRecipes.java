@@ -267,8 +267,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(Fluids.HYDROGEN, 500))
 				.outputItems(
 						new ItemStack(ModItems.powder_coltan),
-						new ItemStack(ModItems.powder_niobium),
-						new ItemStack(ModItems.dust))
+						new ItemStack(ModItems.powder_niobium))
 				.outputFluids(new FluidStack(Fluids.WATER, 500)));
 		recipes.add(new ChemRecipe(66, "COLTAN_PAIN", 120)
 				.inputItems(
@@ -284,7 +283,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(Fluids.ACID, 500))
 				.outputItems(
 						new ItemStack(ModItems.gem_tantalium),
-						new ItemStack(ModItems.dust, 3))
+						new ItemStack(ModItems.dust, 4))
 				.outputFluids(new FluidStack(Fluids.WATER, 250)));
 		recipes.add(new ChemRecipe(91, "ARSENIC", 1200)
 				.inputItems(new ComparableStack(ModItems.scrap_oil, 256))

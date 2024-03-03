@@ -1439,6 +1439,8 @@ hbmpseudofluid.nuf6=Natural UF6
 hbmpseudofluid.pf6=Plutonium Hexafluoride
 hbmpseudofluid.mud_heavy=Heavy Sludge Fraction
 hbmpseudofluid.mud=Poisonous Sludge Gas
+hbmpseudofluid.pain_light=Light Tantalite Fraction
+hbmpseudofluid.pain=Pandemonium(III) Tantalite
 
 hbmmat.actinium227=Actinium-227
 hbmmat.advancedalloy=Advanced Alloy
