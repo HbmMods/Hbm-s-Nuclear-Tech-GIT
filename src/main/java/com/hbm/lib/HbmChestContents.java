@@ -390,8 +390,6 @@ public class HbmChestContents {
 	public static WeightedRandomChestContent[] lockersVault = new WeightedRandomChestContent[] {
 			new WeightedRandomChestContent(ModItems.robes_helmet, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.robes_plate, 0, 1, 1, 1),
-			new WeightedRandomChestContent(ModItems.ammo_45, 0, 48, 64, 2),
-			new WeightedRandomChestContent(ModItems.gun_uac_pistol, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.robes_legs, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.robes_boots, 0, 1, 1, 1),
 			new WeightedRandomChestContent(ModItems.jackt, 0, 1, 1, 1),
