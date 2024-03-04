@@ -23,6 +23,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 
 public class AnvilRecipes {
@@ -753,7 +754,7 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(ModItems.ingot_tcalloy, 1), 0.25F)
 				}
 		).setTier(3));
-		
+
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.deco_computer),
 				new AnvilOutput[] {
@@ -765,6 +766,58 @@ public class AnvilRecipes {
 					
 				}
 		).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.deco_crt, 1, OreDictionary.WILDCARD_VALUE),
+				new AnvilOutput[] {
+					new AnvilOutput(new ItemStack(ModItems.crt_display, 1)),
+					new AnvilOutput(new ItemStack(ModItems.scrap, 2)),
+					new AnvilOutput(new ItemStack(ModItems.wire_copper, 2)),
+					new AnvilOutput(new ItemStack(ModItems.wire_gold, 2), 0.25F),
+					new AnvilOutput(new ItemStack(ModItems.circuit_aluminium, 1), 0.25F)
+					
+				}
+		).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.deco_toaster, 1, 0), //iron toaster
+				new AnvilOutput[] {
+					new AnvilOutput(new ItemStack(ModItems.plate_iron, 3)),
+					new AnvilOutput(new ItemStack(ModItems.scrap, 1)),
+					new AnvilOutput(new ItemStack(ModItems.coil_tungsten, 1)),
+					new AnvilOutput(new ItemStack(Items.bread, 1), 0.5F),
+					new AnvilOutput(new ItemStack(ModItems.battery_generic, 1), 0.25F),
+					new AnvilOutput(new ItemStack(ModItems.battery_advanced, 1), 0.1F),
+					new AnvilOutput(new ItemStack(ModItems.fusion_core, 1), 0.01F)
+					
+				}
+		).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.deco_toaster, 1, 1), // steel toaster
+				new AnvilOutput[] {
+					new AnvilOutput(new ItemStack(ModItems.plate_steel, 3)),
+					new AnvilOutput(new ItemStack(ModItems.scrap, 1)),
+					new AnvilOutput(new ItemStack(ModItems.coil_tungsten, 2)),
+					new AnvilOutput(new ItemStack(Items.bread, 1), 0.5F),
+					new AnvilOutput(new ItemStack(ModItems.battery_lithium, 1), 0.25F),
+					new AnvilOutput(new ItemStack(ModItems.battery_sc_uranium, 1), 0.1F),
+					new AnvilOutput(new ItemStack(ModItems.fusion_core, 1), 0.05F)
+					
+				}
+		).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new ComparableStack(ModBlocks.deco_toaster, 1, 2), // wooden toaster
+				new AnvilOutput[] {
+					new AnvilOutput(new ItemStack(ModItems.powder_sawdust, 4)),
+					new AnvilOutput(new ItemStack(ModItems.scrap, 1)),
+					new AnvilOutput(new ItemStack(ModItems.coil_tungsten, 4)),
+					new AnvilOutput(new ItemStack(Items.bread, 1), 0.5F),
+					new AnvilOutput(new ItemStack(ModItems.fusion_core, 1), 0.5F),
+					new AnvilOutput(new ItemStack(ModItems.fusion_core, 1), 0.5F),
+					new AnvilOutput(new ItemStack(ModItems.gem_alexandrite, 1), 0.25F),
+					new AnvilOutput(new ItemStack(ModItems.flame_pony, 1), 0.01F)
+					
+				}
+		).setTier(2));
+		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.filing_cabinet),
 				new AnvilOutput[] {

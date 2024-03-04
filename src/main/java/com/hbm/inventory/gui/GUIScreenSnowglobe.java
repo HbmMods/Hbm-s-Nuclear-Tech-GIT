@@ -1,8 +1,11 @@
 package com.hbm.inventory.gui;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiScreen;
@@ -78,7 +81,7 @@ public class GUIScreenSnowglobe extends GuiScreen {
 			}
 
 			nextLevel += 10;
-		}
+		}*/
 		
 		if(this.snowglobe.type.inscription != null) {
 
@@ -87,14 +90,14 @@ public class GUIScreenSnowglobe extends GuiScreen {
 			
 			nextLevel += 10;
 
-			String[] list = this.snowglobe.type.inscription.split("\\$");
+			List<String> list = I18nUtil.autoBreakWithParagraphs(this.fontRendererObj, this.snowglobe.type.inscription, 280);
 			for(String text : list) {
 				this.fontRendererObj.drawStringWithShadow(text, (int)(left + sizeX / 2 - this.fontRendererObj.getStringWidth(text) / 2), nextLevel, 0x009900);
 				nextLevel += 10;
 			}
 
 			nextLevel += 10;
-		}*/
+		}
 		
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}

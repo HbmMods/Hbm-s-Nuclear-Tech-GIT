@@ -1303,6 +1303,10 @@ public class ModItems {
 	public static Item bobmazon_tools;
 	public static Item bobmazon_hidden;
 
+	public static Item launch_code_piece;
+	public static Item launch_code;
+	public static Item launch_key;
+	
 	public static Item missile_assembly;
 	public static Item missile_generic;
 	public static Item missile_anti_ballistic;
@@ -3929,6 +3933,9 @@ public class ModItems {
 		designator_range = new ItemDesingatorRange().setUnlocalizedName("designator_range").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":designator_range_alt");
 		designator_manual = new ItemDesingatorManual().setUnlocalizedName("designator_manual").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":designator_manual");
 		designator_arty_range = new ItemDesignatorArtyRange().setUnlocalizedName("designator_arty_range").setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":designator_arty_range");
+		launch_code_piece = new Item().setUnlocalizedName("launch_code_piece").setMaxStackSize(1).setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":launch_code_piece");
+		launch_code = new Item().setUnlocalizedName("launch_code").setMaxStackSize(1).setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":launch_code");
+		launch_key = new Item().setUnlocalizedName("launch_key").setMaxStackSize(1).setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":launch_key");
 		missile_assembly = new Item().setUnlocalizedName("missile_assembly").setMaxStackSize(1).setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":missile_assembly");
 		missile_generic = new ItemMissile(MissileFormFactor.V2, MissileTier.TIER1).setUnlocalizedName("missile_generic").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_generic");
 		missile_anti_ballistic = new ItemMissile(MissileFormFactor.ABM, MissileTier.TIER1).setUnlocalizedName("missile_anti_ballistic").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_anti_ballistic");
@@ -6843,9 +6850,7 @@ public class ModItems {
 		GameRegistry.registerItem(designator_range, designator_range.getUnlocalizedName());
 		GameRegistry.registerItem(designator_manual, designator_manual.getUnlocalizedName());
 		GameRegistry.registerItem(designator_arty_range, designator_arty_range.getUnlocalizedName());
-		//GameRegistry.registerItem(turret_control, turret_control.getUnlocalizedName());
 		GameRegistry.registerItem(turret_chip, turret_chip.getUnlocalizedName());
-		//GameRegistry.registerItem(turret_biometry, turret_biometry.getUnlocalizedName());
 		GameRegistry.registerItem(linker, linker.getUnlocalizedName());
 		GameRegistry.registerItem(reactor_sensor, reactor_sensor.getUnlocalizedName());
 		GameRegistry.registerItem(oil_detector, oil_detector.getUnlocalizedName());
@@ -6877,6 +6882,9 @@ public class ModItems {
 		GameRegistry.registerItem(padlock, padlock.getUnlocalizedName());
 		GameRegistry.registerItem(padlock_reinforced, padlock_reinforced.getUnlocalizedName());
 		GameRegistry.registerItem(padlock_unbreakable, padlock_unbreakable.getUnlocalizedName());
+		GameRegistry.registerItem(launch_code_piece, launch_code_piece.getUnlocalizedName());
+		GameRegistry.registerItem(launch_code, launch_code.getUnlocalizedName());
+		GameRegistry.registerItem(launch_key, launch_key.getUnlocalizedName());
 		
 		//Missiles
 		//Tier 0

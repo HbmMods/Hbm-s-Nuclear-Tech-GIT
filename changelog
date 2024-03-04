@@ -26,6 +26,9 @@
 * Fluid traits are now listed in a fixed order instead of being arranged randomly
 * Hidden fluid trait descriptions will now be added below the visible part of that trait instead of below the last visible trait
 * The methusalem turret no longer drops anything when broken
+* Gaseous fuels now have a combusion multiplier of 1.5 instead of 1.25
+* LPG now has half the base burn value, preventing an unreasonable jump in efficiency simply by liquefacting petroleum gas
+  * While overall slightly less efficient that petroleum gas per unit of petroleum needed, LPG is still very much desirable due to being much easier to burn at max efficiency
 
 ## Fixed
 * Fixed the structure toggle on the world creation screen not working correctly on most world types

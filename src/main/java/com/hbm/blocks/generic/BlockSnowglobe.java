@@ -155,17 +155,19 @@ public class BlockSnowglobe extends BlockContainer implements IGUIProvider {
 	}
 	
 	public static enum SnowglobeType {
-		NONE(			"NONE"),
-		RIVETCITY(		"Rivet City"),
-		TENPENNYTOWER(	"Tenpenny Tower"),
-		LUCKY38(		"Lucky 38"),
-		SIERRAMADRE(	"Sierra Madre"),
-		PRYDWEN(		"Prydwen");
+		NONE(			"NONE",				null),
+		RIVETCITY(		"Rivet City",		"Welcome to Rivet City. Please wait while the bridge extends."),
+		TENPENNYTOWER(	"Tenpenny Tower",	"Tenpenny Tower is the brainchild of Allistair Tenpenny, a British refugee who came to the Capital Wasteland seeking his fortune."),
+		LUCKY38(		"Lucky 38",			"My guess? Leads to a big cashout at some casino - and if the \"38\" on it is any indication... well... Lucky 38 it is."),
+		SIERRAMADRE(	"Sierra Madre",		"It's the moment you've been waiting for, the reason we're all here - the Gala Event, the Grand Opening of the Sierra Madre Casino."),
+		PRYDWEN(		"Prydwen",			"People of the Commonwealth. Do not interfere. Our intentions are peaceful. We are the Brotherhood of Steel.");
 		
 		public String label;
+		public String inscription;
 		
-		private SnowglobeType(String label) {
+		private SnowglobeType(String label, String inscription) {
 			this.label = label;
+			this.inscription = inscription;
 		}
 	}
 
