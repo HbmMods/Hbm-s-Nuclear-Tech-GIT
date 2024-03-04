@@ -330,13 +330,13 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if(WorldConfig.siloStructure > 0 && rand.nextInt(WorldConfig.siloStructure) == 0) {
+			/*if(WorldConfig.siloStructure > 0 && rand.nextInt(WorldConfig.siloStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
 
 				new Silo().generate(world, rand, x, y, z);
-			}
+			}*/
 
 			if(WorldConfig.factoryStructure > 0 && rand.nextInt(WorldConfig.factoryStructure) == 0) {
 				int x = i + rand.nextInt(16);

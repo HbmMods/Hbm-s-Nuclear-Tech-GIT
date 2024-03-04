@@ -2,13 +2,19 @@ package com.hbm.world.gen.component;
 
 import java.util.Random;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.tileentity.bomb.TileEntityLandmine;
+import com.hbm.tileentity.bomb.TileEntityLaunchPadRusted;
 import com.hbm.tileentity.network.TileEntityRadioTorchBase;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -761,11 +767,11 @@ public class SiloComponent extends Component {
 		fillWithMetadataBlocks(world, box, 17, 2, 12, 17, 4, 12, ModBlocks.ladder_steel, decoN);
 		fillWithMetadataBlocks(world, box, 21, 2, 16, 21, 4, 16, ModBlocks.ladder_steel, decoS);
 		//Launch Pad
-		placeCore(world, box, ModBlocks.launch_pad, ForgeDirection.SOUTH, 19, 1, 14);
-		fillSpace(world, box, 19, 1, 14, new int[] {0, 0, 1, 1, 1, 1}, ModBlocks.launch_pad, ForgeDirection.SOUTH);
+		placeCoreLaunchpad(world, box, ModBlocks.launch_pad_rusted, ForgeDirection.SOUTH, 19, 1, 14);
+		fillSpace(world, box, 19, 1, 14, new int[] {0, 0, 1, 1, 1, 1}, ModBlocks.launch_pad_rusted, ForgeDirection.SOUTH);
 		for(int i = 0; i <= 2; i += 2)
 			for(int k = 0; k <= 2; k += 2)
-				makeExtra(world, box, ModBlocks.launch_pad, 18 + i, 1, 13 + k);
+				makeExtra(world, box, ModBlocks.launch_pad_rusted, 18 + i, 1, 13 + k);
 		placeBlockAtCurrentPosition(world, ModBlocks.radio_torch_receiver, 3, 19, 0, 14, box);
 		setRTTYFreq(world, box, 19, 0, 14);
 		
@@ -1199,7 +1205,7 @@ public class SiloComponent extends Component {
 		placeBlockAtCurrentPosition(world, ModBlocks.hev_battery, 0, 30, 2, 11, box);
 		
 		//Containers
-		generateLockableContents(world, box, rand, ModBlocks.safe, decoE, 31, 5, 13, HbmChestContents.vault2, 4, 0.1D);
+		generateLockableContents(world, box, rand, ModBlocks.safe, decoE, 31, 5, 13, launchKey, 1, 0.1D);
 		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 31, 5, 14, HbmChestContents.nukeTrash, 5);
 		generateInvContents(world, box, rand, ModBlocks.safe, decoE, 31, 5, 15, HbmChestContents.filingCabinet, 5);
 		
@@ -1209,6 +1215,8 @@ public class SiloComponent extends Component {
 		
 		return true;
 	}
+
+	public static WeightedRandomChestContent[] launchKey = new WeightedRandomChestContent[] { new WeightedRandomChestContent(ModItems.launch_key, 0, 1, 1, 1) };
 	
 	protected void setRTTYFreq(World world, StructureBoundingBox box, int featureX, int featureY, int featureZ) {
 		int posX = this.getXWithOffset(featureX, featureZ);
@@ -1344,5 +1352,22 @@ public class SiloComponent extends Component {
 			}
 		}
 	}
-	
+	protected void placeCoreLaunchpad(World world, StructureBoundingBox box, Block block, ForgeDirection dir, int x, int y, int z) {
+		int posX = getXWithOffset(x, z);
+		int posZ = getZWithOffset(x, z);
+		int posY = getYWithOffset(y);
+		
+		if(!box.isVecInside(posX, posY, posZ)) return;
+		
+		if(dir == null)
+			dir = ForgeDirection.NORTH;
+		
+		dir = getDirection(dir.getOpposite());
+		world.setBlock(posX, posY, posZ, block, dir.ordinal() + BlockDummyable.offset, 2);
+		
+		TileEntity launchpad = world.getTileEntity(posX, posY, posZ);
+		if(launchpad instanceof TileEntityLaunchPadRusted) {
+			((TileEntityLaunchPadRusted) launchpad).missileLoaded = true;
+		}
+	}
 }
