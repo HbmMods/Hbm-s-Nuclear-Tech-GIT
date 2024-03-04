@@ -3,10 +3,7 @@ package com.hbm.render.entity.rocket;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.missile.EntityMissileBaseNT;
-import com.hbm.entity.missile.EntityMissileDoomsday;
-import com.hbm.entity.missile.EntityMissileTier4.EntityMissileMirv;
-import com.hbm.entity.missile.EntityMissileTier4.EntityMissileNuclear;
-import com.hbm.entity.missile.EntityMissileTier4.EntityMissileVolcano;
+import com.hbm.entity.missile.EntityMissileTier4.*;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
@@ -36,6 +33,7 @@ public class RenderMissileNuclear extends Render {
 		if(entity instanceof EntityMissileNuclear) bindTexture(ResourceManager.missileNuclear_tex);
 		if(entity instanceof EntityMissileMirv) bindTexture(ResourceManager.missileMIRV_tex);
 		if(entity instanceof EntityMissileDoomsday) bindTexture(ResourceManager.missileDoomsday_tex);
+		if(entity instanceof EntityMissileDoomsdayRusted) bindTexture(ResourceManager.missileDoomsdayRusted_tex);
 		if(entity instanceof EntityMissileVolcano) bindTexture(ResourceManager.missileVolcano_tex);
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);

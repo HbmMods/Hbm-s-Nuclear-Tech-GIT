@@ -1126,6 +1126,14 @@ public class CraftingManager {
 			addRecipeAuto(new ItemStack(ModBlocks.rbmk_cooler, 1), new Object[] { "IGI", "GCG", "IGI", 'C', ModBlocks.rbmk_blank, 'I', ModItems.plate_polymer, 'G', ModBlocks.steel_grate });
 		}
 		
+		addShapelessAuto(new ItemStack(ModItems.launch_code), new Object[] {
+				new ItemStack(ModItems.launch_code_piece), new ItemStack(ModItems.launch_code_piece),
+				new ItemStack(ModItems.launch_code_piece), new ItemStack(ModItems.launch_code_piece),
+				new ItemStack(ModItems.launch_code_piece), new ItemStack(ModItems.launch_code_piece),
+				new ItemStack(ModItems.launch_code_piece), new ItemStack(ModItems.launch_code_piece),
+				new ItemStack(ModItems.circuit_aluminium)
+		});
+		
 		addShapelessAuto(ModItems.circuit_star_component.stackFromEnum(CircuitComponentType.CHIPSET), new Object[] {
 				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BRIDGE_BIOS),
 				ModItems.circuit_star_piece.stackFromEnum(ScrapType.BRIDGE_BUS),

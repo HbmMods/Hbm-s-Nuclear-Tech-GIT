@@ -1,12 +1,16 @@
 package com.hbm.blocks.bomb;
 
+import java.util.Random;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IBomb;
 import com.hbm.tileentity.bomb.TileEntityLaunchPadRusted;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -26,6 +30,11 @@ public class LaunchPadRusted extends BlockDummyable implements IBomb {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityLaunchPadRusted();
+		return null;
+	}
+
+	@Override
+	public Item getItemDropped(int i, Random rand, int j) {
 		return null;
 	}
 	

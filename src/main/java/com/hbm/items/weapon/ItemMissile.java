@@ -14,6 +14,7 @@ public class ItemMissile extends ItemCustomLore {
 	public final MissileTier tier;
 	public final MissileFuel fuel;
 	public int fuelCap;
+	public boolean launchable = true;
 	
 	public ItemMissile(MissileFormFactor form, MissileTier tier) {
 		this(form, tier, form.defaultFuel);
@@ -26,6 +27,11 @@ public class ItemMissile extends ItemCustomLore {
 		this.setFuelCap(this.fuel.defaultCap);
 	}
 	
+	public ItemMissile notLaunchable() {
+		this.launchable = false;
+		return this;
+	}
+	
 	public ItemMissile setFuelCap(int fuelCap) {
 		this.fuelCap = fuelCap;
 		return this;
@@ -34,9 +40,14 @@ public class ItemMissile extends ItemCustomLore {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 		list.add(EnumChatFormatting.ITALIC + this.tier.display);
-		list.add("Fuel: " + this.fuel.display);
-		if(this.fuelCap > 0) list.add("Fuel capacity: " + this.fuelCap + "mB");
-		super.addInformation(itemstack, player, list, bool);
+		
+		if(!this.launchable) {
+			list.add(EnumChatFormatting.RED + "Not launchable!");
+		} else {
+			list.add("Fuel: " + this.fuel.display);
+			if(this.fuelCap > 0) list.add("Fuel capacity: " + this.fuelCap + "mB");
+			super.addInformation(itemstack, player, list, bool);
+		}
 	}
 	
 	public enum MissileFormFactor {

@@ -85,8 +85,8 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		missiles.put(new ComparableStack(ModItems.missile_nuclear), EntityMissileNuclear.class);
 		missiles.put(new ComparableStack(ModItems.missile_nuclear_cluster), EntityMissileMirv.class);
 		missiles.put(new ComparableStack(ModItems.missile_volcano), EntityMissileVolcano.class);
-
 		missiles.put(new ComparableStack(ModItems.missile_doomsday), EntityMissileDoomsday.class);
+		
 		missiles.put(new ComparableStack(ModItems.missile_stealth), EntityMissileStealth.class);
 	}
 
@@ -307,7 +307,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	}
 	
 	public boolean isMissileValid(ItemStack stack) {
-		return stack.getItem() instanceof ItemMissile;
+		return stack.getItem() instanceof ItemMissile && ((ItemMissile) stack.getItem()).launchable;
 	}
 	
 	public boolean hasFuel() {
