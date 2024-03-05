@@ -26,8 +26,10 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockSnowglobe extends BlockContainer implements IGUIProvider {
@@ -58,13 +60,8 @@ public class BlockSnowglobe extends BlockContainer implements IGUIProvider {
 	
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
-		
 		TileEntitySnowglobe entity = (TileEntitySnowglobe) world.getTileEntity(x, y, z);
-		
-		if(entity != null) {
-			return new ItemStack(this, 1, entity.type.ordinal());
-		}
-		
+		if(entity != null) return new ItemStack(this, 1, entity.type.ordinal());
 		return super.getPickBlock(target, world, x, y, z, player);
 	}
 
@@ -100,9 +97,7 @@ public class BlockSnowglobe extends BlockContainer implements IGUIProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-		
-		for(int i = 1; i < SnowglobeType.values().length; i++)
-			list.add(new ItemStack(item, 1, i));
+		for(int i = 1; i < SnowglobeType.values().length; i++) list.add(new ItemStack(item, 1, i));
 	}
 
 	@Override
@@ -113,6 +108,18 @@ public class BlockSnowglobe extends BlockContainer implements IGUIProvider {
 		TileEntitySnowglobe bobble = (TileEntitySnowglobe) world.getTileEntity(x, y, z);
 		bobble.type = SnowglobeType.values()[Math.abs(stack.getItemDamage()) % SnowglobeType.values().length];
 		bobble.markDirty();
+	}
+	
+	@Override
+	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
+		float f = 0.0625F;
+		this.setBlockBounds(4F * f, 0.0F, 4F * f, 1.0F - 4F * f, 0.3125F, 1.0F - 4F * f);
+	}
+
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+		this.setBlockBoundsBasedOnState(world, x, y, z);
+		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
 
 	@Override
@@ -160,7 +167,7 @@ public class BlockSnowglobe extends BlockContainer implements IGUIProvider {
 		TENPENNYTOWER(	"Tenpenny Tower",	"Tenpenny Tower is the brainchild of Allistair Tenpenny, a British refugee who came to the Capital Wasteland seeking his fortune."),
 		LUCKY38(		"Lucky 38",			"My guess? Leads to a big cashout at some casino - and if the \"38\" on it is any indication... well... Lucky 38 it is."),
 		SIERRAMADRE(	"Sierra Madre",		"It's the moment you've been waiting for, the reason we're all here - the Gala Event, the Grand Opening of the Sierra Madre Casino."),
-		PRYDWEN(		"Prydwen",			"People of the Commonwealth. Do not interfere. Our intentions are peaceful. We are the Brotherhood of Steel.");
+		PRYDWEN(		"The Prydwen",		"People of the Commonwealth. Do not interfere. Our intentions are peaceful. We are the Brotherhood of Steel.");
 		
 		public String label;
 		public String inscription;

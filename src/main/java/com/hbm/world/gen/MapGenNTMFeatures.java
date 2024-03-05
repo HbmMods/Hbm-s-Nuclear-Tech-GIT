@@ -144,7 +144,7 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					this.components.add(ruin4);
 				}
 				
-			} else if(biome.heightVariation <= 0.25F && rand.nextInt(15) == 0) { //for now our only restriction is kinda-flat biomes. that and chance might change idk
+			} else if(biome.heightVariation <= 0.25F && rand.nextInt(10) == 0) { //for now our only restriction is kinda-flat biomes. that and chance might change idk
 				SiloComponent silo = new SiloComponent(rand, i, j);
 				this.components.add(silo);
 			} else if(biome.temperature >= 1.0 && biome.rainfall == 0 && !(biome instanceof BiomeGenMesa)) { //Desert & Savannah
