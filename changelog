@@ -1,9 +1,15 @@
 ##Added
 * CRTs and toasters
-  * Decorative blocks that will spawn in upcoming dungeons
+  * Found in the new silo structure
 * Sentry turret "Edwin"
   * A broken down version of the sentry turret with infinite power and ammo
-  * Will be found in the new silo structure
+  * Also found in the new silos
+* Launch code piece
+  * A rare drop from hostile mobs
+  * 8 of them can be combined into launch codes, which are required to launch the missile found in the silo
+  * Single-use
+* Launch key
+  * The key is required to launch the missile found in the silo
 
 ## Changed
 * Updated chinese localization
@@ -28,6 +34,11 @@
 * Gaseous fuels now have a combusion multiplier of 1.5 instead of 1.25
 * LPG now has half the base burn value, preventing an unreasonable jump in efficiency simply by liquefacting petroleum gas
   * While overall slightly less efficient that petroleum gas per unit of petroleum needed, LPG is still very much desirable due to being much easier to burn at max efficiency
+* The ZPE is no longer craftable in 528 mode
+* The silo structure has been remade. Instead of a concrete hole with a single small control room, it's now a much larger multi-level silo with a small bunker complex
+  * The silo will spawn with the new large silo hatch, as well as a structure-only variant of the silo launch pad
+  * The silo has a damaged version of the doomsday missile loaded, which can be launched using the launch code and launch key
+  * The missile can be released from the launch position, which renders it inoperable. Repairing it will make it usable again, as well as increase the yield considerably
 
 ## Fixed
 * Fixed the structure toggle on the world creation screen not working correctly on most world types

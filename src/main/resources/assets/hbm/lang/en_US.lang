@@ -3082,6 +3082,7 @@ item.missile_cluster_strong.name=Strong Cluster Missile
 item.missile_custom.name=Custom Missile
 item.missile_decoy.name=Decoy Missile
 item.missile_doomsday.name=Doomsday Missile
+item.missile_doomsday_rusted.name=Damaged Doomsday Missile
 item.missile_drill.name=The Concrete Cracker
 item.missile_emp.name=EMP Missile
 item.missile_emp_strong.name=Strong EMP Missile
