@@ -20,6 +20,7 @@ import com.hbm.world.gen.component.RuinFeatures.NTMRuin1;
 import com.hbm.world.gen.component.RuinFeatures.NTMRuin2;
 import com.hbm.world.gen.component.RuinFeatures.NTMRuin3;
 import com.hbm.world.gen.component.RuinFeatures.NTMRuin4;
+import com.hbm.world.gen.component.SiloComponent;
 
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -143,6 +144,9 @@ public class MapGenNTMFeatures extends MapGenStructure {
 					this.components.add(ruin4);
 				}
 				
+			} else if(biome.heightVariation <= 0.25F && rand.nextInt(10) == 0) { //for now our only restriction is kinda-flat biomes. that and chance might change idk
+				SiloComponent silo = new SiloComponent(rand, i, j);
+				this.components.add(silo);
 			} else if(biome.temperature >= 1.0 && biome.rainfall == 0 && !(biome instanceof BiomeGenMesa)) { //Desert & Savannah
 				if(rand.nextBoolean()) {
 					NTMHouse1 house1 = new NTMHouse1(rand, i, j);

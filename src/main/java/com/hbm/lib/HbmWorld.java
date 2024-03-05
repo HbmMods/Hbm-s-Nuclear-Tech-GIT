@@ -7,6 +7,7 @@ import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
 import com.hbm.world.gen.component.CivilianFeatures;
 import com.hbm.world.gen.component.OfficeFeatures;
 import com.hbm.world.gen.component.RuinFeatures;
+import com.hbm.world.gen.component.SiloComponent;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -47,5 +48,6 @@ public class HbmWorld {
 		OfficeFeatures.registerComponents();
 		RuinFeatures.registerComponents();
 		BunkerComponents.registerComponents();
+		MapGenStructureIO.func_143031_a(SiloComponent.class, "NTMSiloComponent");
 	}
 }

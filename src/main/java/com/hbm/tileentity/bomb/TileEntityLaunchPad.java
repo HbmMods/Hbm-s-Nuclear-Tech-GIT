@@ -88,14 +88,12 @@ public class TileEntityLaunchPad extends TileEntityLaunchPadBase implements IEne
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-
 		this.delay = nbt.getInteger("delay");
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-
 		nbt.setInteger("delay", delay);
 	}
 	
