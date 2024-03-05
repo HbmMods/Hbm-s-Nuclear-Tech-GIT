@@ -22,6 +22,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class SiloComponent extends Component {
 	
 	public int freq = 0; //frequency of RTTY torches, this is the easiest way to sync them up.
+	public int freqHatch = 0;
 	
 	public SiloComponent() {
 		
@@ -30,25 +31,29 @@ public class SiloComponent extends Component {
 	public SiloComponent(Random rand, int minX, int minZ) {
 		super(rand, minX, 64, minZ, 42, 29, 26);
 		this.freq = rand.nextInt(); //so other silos won't conflict, hopefully
+		this.freqHatch = rand.nextInt();
 	}
 	
 	/** Set to NBT */
 	protected void func_143012_a(NBTTagCompound nbt) {
 		super.func_143012_a(nbt);
 		nbt.setInteger("freq", freq);
+		nbt.setInteger("freqHatch", freqHatch);
 	}
 	
 	/** Get from NBT */
 	protected void func_143011_b(NBTTagCompound nbt) {
 		super.func_143011_b(nbt);
 		this.freq = nbt.getInteger("freq");
+		this.freqHatch = nbt.getInteger("freqHatch");
 	}
 	
 	@Override
 	public boolean addComponentParts(World world, Random rand, StructureBoundingBox box) {
 		//seems to work
 		if(this.hpos == -1) {
-			this.hpos = this.getAverageHeight(world, this.boundingBox, box, getYWithOffset(25));
+			StructureBoundingBox area = getRotatedBoundingBox(getXWithOffset(13, 2), getYWithOffset(25), getZWithOffset(13, 2), 29, 3, 18); //anchor offset/world pos already accounted for with offset methods
+			this.hpos = this.getAverageHeight(world, area, box, getYWithOffset(25));
 			this.boundingBox.offset(0, this.hpos - 1 - getYWithOffset(25), 0);
 		}
 		
@@ -240,7 +245,7 @@ public class SiloComponent extends Component {
 		placeCore(world, box, ModBlocks.silo_hatch_large, ForgeDirection.SOUTH, 19, 26, 14);
 		fillSpace(world, box, 19, 26, 14, new int[] { 0, 0, 3, 3, 3, 3 }, ModBlocks.silo_hatch_large, ForgeDirection.SOUTH);
 		placeBlockAtCurrentPosition(world, ModBlocks.radio_torch_receiver, 1, 16, 25, 17, box);
-		setRTTYFreq(world, box, 16, 25, 17);
+		setRTTYFreq(world, box, 16, 25, 17, freqHatch);
 		
 		//Containers
 		generateInvContents(world, box, rand, Blocks.chest, 2, 36, 26, 17, HbmChestContents.vertibird, 5);
@@ -418,11 +423,12 @@ public class SiloComponent extends Component {
 		placeBlockAtCurrentPosition(world, ModBlocks.turret_sentry_damaged, 0, 30, 21, 16, box);
 		//Desk Area
 		fillWithBlocks(world, box, 27, 21, 9, 28, 21, 9, ModBlocks.deco_steel);
-		fillWithBlocks(world, box, 26, 21, 7, 26, 21, 8, ModBlocks.deco_steel);
-		placeBlockAtCurrentPosition(world, ModBlocks.deco_steel, 0, 25, 21, 7, box);
+		placeBlockAtCurrentPosition(world, ModBlocks.deco_beryllium, 0, 26, 21, 8, box);
+		fillWithBlocks(world, box, 25, 21, 7, 26, 21, 7, ModBlocks.deco_steel);
 		fillWithBlocks(world, box, 24, 21, 5, 24, 21, 6, ModBlocks.deco_steel);
 		placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, decoModelN, 28, 22, 9, box);
 		placeBlockAtCurrentPosition(world, Blocks.lever, 6, 26, 22, 8, box); //placed on ground
+		placeBlockAtCurrentPosition(world, Blocks.lever, 6, 25, 22, 7, box);
 		placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairS, 28, 21, 7, box);
 		placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairW, 27, 21, 5, box);
 		
@@ -433,8 +439,10 @@ public class SiloComponent extends Component {
 		
 		placeCore(world, box, ModBlocks.radio_telex, ForgeDirection.WEST, 25, 21, 5);
 		fillSpace(world, box, 25, 21, 5, new int[] {0, 0, 0, 0, 1, 0}, ModBlocks.radio_telex, ForgeDirection.WEST);
-		placeBlockAtCurrentPosition(world, ModBlocks.radio_torch_sender, 0, 26, 20, 8, box);
-		setRTTYFreq(world, box, 26, 20, 8);
+		placeBlockAtCurrentPosition(world, ModBlocks.radio_torch_sender, 0, 26, 20, 8, box); //Launchpad lever
+		setRTTYFreq(world, box, 26, 20, 8, freq);
+		placeBlockAtCurrentPosition(world, ModBlocks.radio_torch_sender, 0, 25, 20, 7, box); //hatch lever
+		setRTTYFreq(world, box, 25, 20, 7, freqHatch);
 		
 		//Machine/Small Desk Area
 		placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_framed_green_rusted, pillarWE, 23, 23, 1, box);
@@ -773,7 +781,7 @@ public class SiloComponent extends Component {
 			for(int k = 0; k <= 2; k += 2)
 				makeExtra(world, box, ModBlocks.launch_pad_rusted, 18 + i, 1, 13 + k);
 		placeBlockAtCurrentPosition(world, ModBlocks.radio_torch_receiver, 3, 19, 0, 14, box);
-		setRTTYFreq(world, box, 19, 0, 14);
+		setRTTYFreq(world, box, 19, 0, 14, freq);
 		
 		//Air
 		fillWithAir(world, box, 18, 1, 8, 20, 3, 10);
@@ -1218,7 +1226,7 @@ public class SiloComponent extends Component {
 
 	public static WeightedRandomChestContent[] launchKey = new WeightedRandomChestContent[] { new WeightedRandomChestContent(ModItems.launch_key, 0, 1, 1, 1) };
 	
-	protected void setRTTYFreq(World world, StructureBoundingBox box, int featureX, int featureY, int featureZ) {
+	protected void setRTTYFreq(World world, StructureBoundingBox box, int featureX, int featureY, int featureZ, int freq) {
 		int posX = this.getXWithOffset(featureX, featureZ);
 		int posY = this.getYWithOffset(featureY);
 		int posZ = this.getZWithOffset(featureX, featureZ);
@@ -1230,7 +1238,7 @@ public class SiloComponent extends Component {
 		if(torch != null) {
 			//for some reason, the silo hatch torch stays at signal 15, despite the others not doing so.
 			//this is only an issue with this method changing the existing TE, so it will never occur during natural generation.
-			torch.channel = String.valueOf(this.freq); //int for convenience
+			torch.channel = String.valueOf(freq); //int for convenience
 			torch.lastState = 0; //just in case
 		}
 	}
@@ -1368,6 +1376,16 @@ public class SiloComponent extends Component {
 		TileEntity launchpad = world.getTileEntity(posX, posY, posZ);
 		if(launchpad instanceof TileEntityLaunchPadRusted) {
 			((TileEntityLaunchPadRusted) launchpad).missileLoaded = true;
+		}
+	}
+	//this might be a decent method to have in general actually
+	protected StructureBoundingBox getRotatedBoundingBox(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+		switch(this.coordBaseMode) {
+		default: //0 & 2
+			return new StructureBoundingBox(minX, minY, minZ, minX + maxX, minY + maxY, minZ + maxZ);
+		case 1:
+		case 3:
+			return new StructureBoundingBox(minX, minY, minZ, minX + maxZ, minY + maxY, minZ + maxX);
 		}
 	}
 }
