@@ -3,6 +3,7 @@ package com.hbm.inventory.recipes;
 import static com.hbm.inventory.OreDictManager.*;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,6 +45,9 @@ public class AssemblerRecipes extends SerializableRecipe {
 	
 	public static HashMap<ComparableStack, AssemblerRecipe> recipes = new HashMap();
 	public static List<ComparableStack> recipeList = new ArrayList();
+	
+	/** Legacy NOP, WarTec needs this */
+	public static void loadRecipes() { }
 
 	@Override
 	public void registerDefaults() {
@@ -1172,6 +1176,16 @@ public class AssemblerRecipes extends SerializableRecipe {
 				makeRecipe(new ComparableStack(ModItems.heavy_component, 1, mat.id), new AStack[] { new OreDictStack(MaterialShapes.CASTPLATE.name() + mat.names[0], 256) }, 12_000);
 			}
 		}
+		
+		// WarTec compatibility code
+		try {
+			Class wartecmodAssemblerRecipes = ClassLoader.getSystemClassLoader().loadClass("com.wartec.wartecmod.inventory.wartecmodAssemblerRecipes");
+			MainRegistry.logger.info("WarTec assembler recipes class found!");
+			Method method = wartecmodAssemblerRecipes.getDeclaredMethod("AssemblerRecipes");
+			MainRegistry.logger.info("WarTec AssemblerRecipes method found!");
+			method.invoke(null);
+			MainRegistry.logger.info("WarTec recipes loaded!");
+		} catch(Exception e) { }
 	}
 	
 	public static void makeRecipe(ComparableStack out, AStack[] in, int duration) {
