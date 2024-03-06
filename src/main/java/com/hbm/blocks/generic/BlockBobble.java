@@ -195,7 +195,8 @@ public class BlockBobble extends BlockContainer implements IGUIProvider {
 		JUICE(			"Juicy_Lad",						"Juicy_Lad",	"The Mojave Testing for this funny fork",					"\"What should the Inscription be?\",$ \"Uhh.. I'll think about it.\"",								true,	ScrapType.BOARD_BLANK),
 		JAMESH_2(		"JamesH_2",							"JamesH_2",		"The fork itself",										"COME ON AND SLAM",																						true,	ScrapType.BOARD_BLANK),
 		PEEP(			"Peep",								"LePeeperSauvage",	"Coilgun, Leadburster, Congo Lake models, and the 737",											"Fluffy ears can't hide in ash, nor snow.",											true,	ScrapType.CPU_CLOCK),
-		MICROWAVE(	    "Microwave",						"Microwave",   "adding OC compat",                                              "they call me the food heater",                                                                    true, ScrapType.BRIDGE_BIOS);
+		MICROWAVE(	    "Microwave",						"Microwave",   "adding OC compat",                                              "they call me the food heater",                                                                    true, ScrapType.BRIDGE_BIOS),
+		MELLOW(			"MELLOWARPEGGIATION",				"Mellow",			"Industrial lighting, animation tools",						"Make something cool now, ask for permission later.",												true,	ScrapType.CARD_PROCESSOR);
 
 		public String name;			//the title of the tooltip
 		public String label;		//the name engraved in the socket

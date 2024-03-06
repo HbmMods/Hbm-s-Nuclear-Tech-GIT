@@ -420,8 +420,7 @@ public class ModEventHandlerRenderer {
 	public static Vec3 getFogBlendColor(World world, int playerX, int playerZ, double partialTicks) {
 		
 		if(playerX == fogX && playerZ == fogZ && fogInit) return fogRGBMultiplier;
-		
-		fogInit = true;
+
 		GameSettings settings = Minecraft.getMinecraft().gameSettings;
 		int[] ranges = ForgeModContainer.blendRanges;
 		int distance = 0;
@@ -451,7 +450,12 @@ public class ModEventHandlerRenderer {
 		fogX = playerX;
 		fogZ = playerZ;
 		
-		if(doesBiomeApply) fogRGBMultiplier = Vec3.createVectorHelper(r / divider, g / divider, b / divider);
+		if(doesBiomeApply) {
+			fogRGBMultiplier = Vec3.createVectorHelper(r / divider, g / divider, b / divider);
+		} else {
+			fogRGBMultiplier = Vec3.createVectorHelper(red, green, blue);
+		}
+
 		return fogRGBMultiplier;
 	}
 

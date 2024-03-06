@@ -498,8 +498,10 @@ public class ModBlocks {
 
 	public static Block brick_forgotten;
 	public static Block brick_red;
-	
+
 	public static Block deco_computer;
+	public static Block deco_crt;
+	public static Block deco_toaster;
 	
 	public static Block filing_cabinet;
 	
@@ -1133,6 +1135,7 @@ public class ModBlocks {
 	public static Block launch_pad;
 	public static Block launch_pad_passenger;
 
+	public static Block launch_pad_rusted;
 	public static Block launch_pad_large;
 	
 	public static Block machine_missile_assembly;
@@ -1211,6 +1214,7 @@ public class ModBlocks {
 	public static Block turret_arty;
 	public static Block turret_himars;
 	public static Block turret_sentry;
+	public static Block turret_sentry_damaged;
 
 	public static Block rbmk_rod;
 	public static Block rbmk_rod_mod;
@@ -1849,6 +1853,8 @@ public class ModBlocks {
 		brick_red = new BlockRedBrick(Material.rock).setBlockName("brick_red").setResistance(10_000);
 		
 		deco_computer = new BlockDecoModel(Material.iron, DecoComputerEnum.class, true, false).setBlockBoundsTo(.160749F, 0F, 0F, .839251F, .867849F, .622184F).setBlockName("deco_computer").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_computer");
+		deco_crt = new BlockDecoCRT(Material.iron).setBlockName("deco_crt").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		deco_toaster = new BlockDecoToaster(Material.iron).setBlockName("deco_toaster").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		filing_cabinet = new BlockDecoContainer(Material.iron, DecoCabinetEnum.class, true, false, TileEntityFileCabinet.class).setBlockBoundsTo(.1875F, 0F, 0F, .8125F, 1F, .75F).setBlockName("filing_cabinet").setCreativeTab(MainRegistry.blockTab).setHardness(10.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		tape_recorder = new DecoTapeRecorder(Material.iron).setBlockName("tape_recorder").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":deco_tape_recorder");
@@ -2358,6 +2364,7 @@ public class ModBlocks {
 		
 		launch_pad_passenger = new LaunchPadPassenger(Material.iron).setBlockName("launch_pad_passenger").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":launch_pad");
 		launch_pad = new LaunchPad(Material.iron).setBlockName("launch_pad").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":launch_pad");
+		launch_pad_rusted = new LaunchPadRusted(Material.iron).setBlockName("launch_pad_rusted").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":launch_pad_rusted");
 		launch_pad_large = new LaunchPadLarge(Material.iron).setBlockName("launch_pad_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_radar = new MachineRadar(Material.iron).setBlockName("machine_radar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":machine_radar");
 		machine_radar_large = new MachineRadarLarge(Material.iron).setBlockName("machine_radar_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.missileTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -2391,6 +2398,7 @@ public class ModBlocks {
 		turret_arty = new TurretArty(Material.iron).setBlockName("turret_arty").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_himars = new TurretHIMARS(Material.iron).setBlockName("turret_himars").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_sentry = new TurretSentry().setBlockName("turret_sentry").setHardness(5.0F).setResistance(5.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		turret_sentry_damaged = new TurretSentryDamaged().setBlockName("turret_sentry_damaged").setHardness(5.0F).setResistance(5.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_rust");
 
 		rbmk_rod = new RBMKRod(false).setBlockName("rbmk_rod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element");
 		rbmk_rod_mod = new RBMKRod(true).setBlockName("rbmk_rod_mod").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_element_mod");
@@ -3123,7 +3131,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(brick_jungle_circle, brick_jungle_circle.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_forgotten, brick_forgotten.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_red, brick_red.getUnlocalizedName());
-		GameRegistry.registerBlock(deco_computer, ItemBlockBase.class, deco_computer.getUnlocalizedName());
+		register(deco_computer);
+		register(deco_crt);
+		register(deco_toaster);
 		GameRegistry.registerBlock(filing_cabinet, ItemBlockBase.class, filing_cabinet.getUnlocalizedName());
 		GameRegistry.registerBlock(tape_recorder, tape_recorder.getUnlocalizedName());
 		GameRegistry.registerBlock(steel_poles, steel_poles.getUnlocalizedName());
@@ -3314,6 +3324,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(turret_arty, turret_arty.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_himars, turret_himars.getUnlocalizedName());
 		GameRegistry.registerBlock(turret_sentry, turret_sentry.getUnlocalizedName());
+		GameRegistry.registerBlock(turret_sentry_damaged, turret_sentry_damaged.getUnlocalizedName());
 		
 		//Wall-mounted Explosives
 		GameRegistry.registerBlock(charge_dynamite, ItemBlockBase.class, charge_dynamite.getUnlocalizedName());
@@ -3830,6 +3841,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_missile_assembly, machine_missile_assembly.getUnlocalizedName());
 		GameRegistry.registerBlock(launch_pad, launch_pad.getUnlocalizedName());
 		GameRegistry.registerBlock(launch_pad_passenger, launch_pad_passenger.getUnlocalizedName());
+		GameRegistry.registerBlock(launch_pad_rusted, launch_pad_rusted.getUnlocalizedName());
 		GameRegistry.registerBlock(launch_pad_large, launch_pad_large.getUnlocalizedName());
 		GameRegistry.registerBlock(compact_launcher, compact_launcher.getUnlocalizedName());
 		GameRegistry.registerBlock(launch_table, launch_table.getUnlocalizedName());

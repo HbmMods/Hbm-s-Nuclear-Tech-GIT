@@ -131,7 +131,7 @@ public class ObjUtil {
 
 				// The shoddy way of rendering a tringulated model with a quad
 				// tessellator
-				if(i % 3 == 2)
+				if(f.vertices.length == 3 && i % 3 == 2)
 					tes.addVertexWithUV(x, y, z, icon.getInterpolatedU(t.u * 16D), icon.getInterpolatedV(t.v * 16D));
 			}
 		}

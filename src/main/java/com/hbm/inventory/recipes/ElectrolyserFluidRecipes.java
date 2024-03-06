@@ -24,8 +24,8 @@ public class ElectrolyserFluidRecipes extends SerializableRecipe {
 
 	@Override
 	public void registerDefaults() {
-		recipes.put(Fluids.WATER, new ElectrolysisRecipe(1_000, new FluidStack(Fluids.HYDROGEN, 100), new FluidStack(Fluids.OXYGEN, 100)));
-		recipes.put(Fluids.HEAVYWATER, new ElectrolysisRecipe(1_000, new FluidStack(Fluids.DEUTERIUM, 50), new FluidStack(Fluids.OXYGEN, 50)));
+		recipes.put(Fluids.WATER, new ElectrolysisRecipe(2_000, new FluidStack(Fluids.HYDROGEN, 200), new FluidStack(Fluids.OXYGEN, 200)));
+		recipes.put(Fluids.HEAVYWATER, new ElectrolysisRecipe(2_000, new FluidStack(Fluids.DEUTERIUM, 200), new FluidStack(Fluids.OXYGEN, 200)));
 
 		recipes.put(Fluids.POTASSIUM_CHLORIDE, new ElectrolysisRecipe(250, new FluidStack(Fluids.CHLORINE, 125), new FluidStack(Fluids.NONE, 0), new ItemStack(ModItems.dust)));
 		recipes.put(Fluids.CALCIUM_CHLORIDE, new ElectrolysisRecipe(250, new FluidStack(Fluids.CHLORINE, 125), new FluidStack(Fluids.CALCIUM_SOLUTION, 125)));

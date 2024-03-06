@@ -226,10 +226,10 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(new FluidStack(Fluids.PETROLEUM, 200, GeneralConfig.enable528 ? 1 : 0))
 				.outputItems(new ItemStack(ModItems.rocket_fuel, 4)));
 		recipes.add(new ChemRecipe(58, "ELECTROLYSIS", 150)
-				.inputFluids(new FluidStack(Fluids.WATER, 8000))
+				.inputFluids(new FluidStack(Fluids.WATER, 4000))
 				.outputFluids(
-						new FluidStack(Fluids.HYDROGEN, 800),
-						new FluidStack(Fluids.OXYGEN, 800)));
+						new FluidStack(Fluids.HYDROGEN, 400),
+						new FluidStack(Fluids.OXYGEN, 400)));
 		recipes.add(new ChemRecipe(59, "XENON", 300)
 				.inputFluids(new FluidStack(Fluids.NONE, 0))
 				.outputFluids(new FluidStack(Fluids.XENON, 50)));
@@ -371,10 +371,10 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(new FluidStack(Fluids.GAS, 1000))
 				.outputFluids(new FluidStack(Fluids.CARBONDIOXIDE, 1000)));
 		recipes.add(new ChemRecipe(78, "HEAVY_ELECTROLYSIS", 150)
-				.inputFluids(new FluidStack(Fluids.HEAVYWATER, 8000))
+				.inputFluids(new FluidStack(Fluids.HEAVYWATER, 2000))
 				.outputFluids(
-						new FluidStack(Fluids.DEUTERIUM, 400),
-						new FluidStack(Fluids.OXYGEN, 400)));
+						new FluidStack(Fluids.DEUTERIUM, 200),
+						new FluidStack(Fluids.OXYGEN, 200)));
 		recipes.add(new ChemRecipe(80, "EPEARL", 100)
 				.inputItems(new OreDictStack(DIAMOND.dust(), 1))
 				.inputFluids(new FluidStack(Fluids.XPJUICE, 500))

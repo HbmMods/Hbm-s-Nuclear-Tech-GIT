@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 import com.hbm.main.MainRegistry;
+import com.hbm.world.gen.component.Component;
+import com.hbm.world.gen.component.SiloComponent;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -17,6 +20,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class TestEventTester extends Block {
 	
@@ -33,8 +37,16 @@ public class TestEventTester extends Block {
 	public void onNeighborBlockChange(World p_149695_1_, int x1, int y1, int z1, Block p_149695_5_)
     {
     	this.worldObj = p_149695_1_;
+    	//Levers and buttons for some reason set meta and notify, and *then* notify again, meaning they will always fire this twice.
+    	//Pressure plates, torches, redstone, etc. do not have this issue.
         if (p_149695_1_.isBlockIndirectlyGettingPowered(x1, y1, z1))
         {
+        	/*Component comp = new SiloComponent(this.worldObj.rand, x1, z1);
+        	StructureBoundingBox box = comp.getBoundingBox();
+        	box.minY = 0;
+        	box.maxY = 512;
+        	comp.addComponentParts(p_149695_1_, this.worldObj.rand, box);*/
+        	
         	//The laser thread is too dangerous to use right now
         	//ThreadLaser laser = new ThreadLaser(p_149695_1_, x, y, z, "north");
         	//laser.start();

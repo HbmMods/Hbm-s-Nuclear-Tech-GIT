@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.entity.RenderMinecart;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.resources.Language;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -211,6 +212,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretArty.class, new RenderTurretArty());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretHIMARS.class, new RenderTurretHIMARS());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretSentry.class, new RenderTurretSentry());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTurretSentryDamaged.class, new RenderTurretSentry());
 		//mines
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLandmine.class, new RenderLandmine());
 		//machines
@@ -333,6 +335,7 @@ public class ClientProxy extends ServerProxy {
 		//missile blocks
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchPadPassenger.class, new RenderLaunchPadTier2());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchPad.class, new RenderLaunchPad());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchPadRusted.class, new RenderLaunchPadRusted());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaunchPadLarge.class, new RenderLaunchPadLarge());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineMissileAssembly.class, new RenderMissileAssembly());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCompactLauncher.class, new RenderCompactLauncher());
@@ -455,6 +458,7 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_nuclear_cluster, new ItemRenderMissileGeneric(RenderMissileType.TYPE_NUCLEAR));
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_volcano, new ItemRenderMissileGeneric(RenderMissileType.TYPE_NUCLEAR));
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_doomsday, new ItemRenderMissileGeneric(RenderMissileType.TYPE_NUCLEAR));
+		MinecraftForgeClient.registerItemRenderer(ModItems.missile_doomsday_rusted, new ItemRenderMissileGeneric(RenderMissileType.TYPE_NUCLEAR));
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_carrier, new ItemRenderMissileGeneric(RenderMissileType.TYPE_CARRIER));
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_shuttle, new ItemRenderMissileGeneric(RenderMissileType.TYPE_ROBIN));
 		
@@ -721,6 +725,7 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileVolcano.class, new RenderMissileNuclear());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMIRV.class, new RenderMirv());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileDoomsday.class, new RenderMissileNuclear());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileDoomsdayRusted.class, new RenderMissileNuclear());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityCarrier.class, new RenderCarrierMissile());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityRidableCarrier.class, new RenderCarrierPassenger());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBooster.class, new RenderBoosterMissile());
@@ -863,6 +868,8 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderCapacitor());
 		RenderingRegistry.registerBlockHandler(new RenderPedestal());
 		RenderingRegistry.registerBlockHandler(new RenderLight());
+		RenderingRegistry.registerBlockHandler(new RenderCRT());
+		RenderingRegistry.registerBlockHandler(new RenderToaster());
 
 		RenderingRegistry.registerBlockHandler(new RenderFoundryBasin());
 		RenderingRegistry.registerBlockHandler(new RenderFoundryMold());
@@ -2148,5 +2155,11 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public void playSoundClient(double x, double y, double z, String sound, float volume, float pitch) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(sound), volume, pitch, (float) x, (float) y, (float) z));
+	}
+
+	@Override
+	public String getLanguageCode() {
+		Language lang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage();
+		return lang.getLanguageCode();
 	}
 }
