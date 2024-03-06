@@ -438,7 +438,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 		if(this.config.itemInCount > 2) return new int[] { 4, 5, 6, 16, 17, 18, 19, 20, 21 };
 		if(this.config.itemInCount > 1) return new int[] { 4, 5, 16, 17, 18, 19, 20, 21 };
 		if(this.config.itemInCount > 0) return new int[] { 4, 16, 17, 18, 19, 20, 21 };
-		return new int[] { };
+		return new int[] { 16, 17, 18, 19, 20, 21 };
 	}
 
 	@Override
