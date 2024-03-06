@@ -129,7 +129,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	@Override
 	public void updateEntity() {
 		
-		if(!worldObj.isRemote) {
+		/*if(!worldObj.isRemote) {
 			
 			boolean con = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMIGen;
 			
@@ -252,7 +252,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 				this.rotation -= 360;
 				this.prevRotation -= 360;
 			}
-		}
+		}*/
 	}
 
 	@Override
