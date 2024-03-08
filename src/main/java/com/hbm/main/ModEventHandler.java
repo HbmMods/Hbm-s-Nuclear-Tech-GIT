@@ -212,31 +212,7 @@ public class ModEventHandler {
 		}
 	}
 	
-	@SubscribeEvent
-	public void onBlockChange(BlockEvent event) {
-	    if (event.world.isRemote) {
-	        return; 
-	    }
 
-
-	    for (TileEntity te : (Iterable<TileEntity>) event.world.loadedTileEntityList) { 
-	        if (te instanceof TileEntityAirPump) {
-	            TileEntityAirPump airPump = (TileEntityAirPump) te;
-	            AxisAlignedBB sealedRoomAABB = airPump.getSealedRoomAABB();
-	            if (sealedRoomAABB != null) {
-	                int x = event.x;
-	                int y = event.y;
-	                int z = event.z;
-	                if (sealedRoomAABB.minX <= x && x <= sealedRoomAABB.maxX &&
-	                    sealedRoomAABB.minY <= y && y <= sealedRoomAABB.maxY &&
-	                    sealedRoomAABB.minZ <= z && z <= sealedRoomAABB.maxZ) {
-	                    airPump.setNeedsRevalidate(true);
-	                    break;
-	                }
-	            }
-	        }
-	    }
-	}
 	@SubscribeEvent
 	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
 		
