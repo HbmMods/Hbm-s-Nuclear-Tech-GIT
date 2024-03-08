@@ -182,7 +182,6 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	    Set<BlockPos> visited = new HashSet<>();
 	    Set<BlockPos> air = new HashSet<>();
 	    Stack<BlockPos> stack = new Stack<>();
-	    List<AxisAlignedBB> sectionAABBs = new ArrayList<>();
 
 	    stack.push(new BlockPos(startX, startY, startZ));
 
@@ -224,14 +223,9 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 
 	        // After a section has been fully traversed, we add its AABB to the list
 	        if (stack.isEmpty() && !visited.isEmpty()) {
-	            AxisAlignedBB sectionAABB = AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
-	            sectionAABBs.add(sectionAABB);
 	            for(BlockPos pos : air)
 	            {
-	            	if((pos.getX()<sectionAABB.minX || pos.getX()>sectionAABB.maxX) || (pos.getY()<sectionAABB.minY || pos.getY()>sectionAABB.maxY) || (pos.getZ()<sectionAABB.minZ || pos.getZ()>sectionAABB.maxZ))
-	            	{
-	            		air.remove(pos);
-	            	}
+
 	            	world.setBlock(pos.getX(), pos.getY(), pos.getZ(), ModBlocks.air_block);
 	            }
 	            // Reset the bounds for the next section
@@ -249,18 +243,6 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 			}
 	    }
 
-	}
-	private AxisAlignedBB mergeAABBs(List<AxisAlignedBB> aabbs) {
-	    if (aabbs.isEmpty()) return null;
-
-	    AxisAlignedBB combinedAABB = aabbs.get(0); // Start with the first AABB
-
-	    // Expand the combined AABB to include all other AABBs
-	    for (int i = 1; i < aabbs.size(); i++) {
-	        combinedAABB = combinedAABB.func_111270_a(aabbs.get(i));
-	    }
-
-	    return combinedAABB;
 	}
 
 
