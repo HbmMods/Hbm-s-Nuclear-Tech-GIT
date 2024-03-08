@@ -16,21 +16,31 @@ public class TileEntityRBMKOutlet extends TileEntityLoadedBase implements IFluid
 	public FluidTank steam;
 	
 	public TileEntityRBMKOutlet() {
-		steam = new FluidTank(Fluids.SUPERHOTSTEAM, 32000);
+
+	steam = new FluidTank(Fluids.SUPERHOTSTEAM, 50000000);
+	
 	}
 	
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+		if(RBMKDials.getReasimCoolantBoilers(worldObj)&&(Fluids.fromName("SUPERCOOLANT_HOT")!=Fluids.NONE)) 
+		steam.setTankType(Fluids.fromName("SUPERCOOLANT_HOT"));			
+			for(int i = 0; i < 11; i++) {
+				for(int j = 0; j <11; j++ ){
+				Block b = worldObj.getBlock(xCoord + i - 5, yCoord, zCoord + j - 5);
+				
+				if(b instanceof RBMKBase) {
+					int[] pos = ((RBMKBase)b).findCore(worldObj, xCoord + i - 5, yCoord, zCoord + j - 5);
+/*
 			for(int i = 2; i < 6; i++) {
 				ForgeDirection dir = ForgeDirection.getOrientation(i);
 				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
 				
 				if(b instanceof RBMKBase) {
 					int[] pos = ((RBMKBase)b).findCore(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
-					
+*/					
 					if(pos != null) {
 						TileEntity te = worldObj.getTileEntity(pos[0], pos[1], pos[2]);
 						
@@ -44,7 +54,7 @@ public class TileEntityRBMKOutlet extends TileEntityLoadedBase implements IFluid
 					}
 				}
 			}
-			
+			}
 			fillFluidInit();
 		}
 	}

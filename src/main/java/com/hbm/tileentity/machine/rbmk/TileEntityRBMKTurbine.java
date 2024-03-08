@@ -1,0 +1,459 @@
+package com.hbm.tileentity.machine.rbmk;
+
+import com.hbm.handler.CompatHandler;
+import com.hbm.interfaces.IFluidContainer;
+import com.hbm.inventory.container.ContainerRBMKTurbine;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Coolable;
+import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
+import com.hbm.inventory.gui.GUIRBMKTurbine;
+import com.hbm.lib.Library;
+import com.hbm.packet.AuxElectricityPacket;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.CompatEnergyControl;
+import com.hbm.blocks.machine.rbmk.RBMKBase;
+import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
+import com.hbm.tileentity.machine.rbmk.RBMKDials;
+import api.hbm.energy.IBatteryItem;
+import api.hbm.energy.IEnergyGenerator;
+import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.tile.IInfoProviderEC;
+import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.World;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.block.Block;
+import net.minecraftforge.common.util.ForgeDirection;
+
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityRBMKTurbine extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IEnergyGenerator, IFluidStandardTransceiver, IGUIProvider, SimpleComponent, IInfoProviderEC {
+
+	private ItemStack slots[];
+
+	public long power;
+	public static final long maxPower = 500000000000000L;
+	public int age = 0;
+	public FluidTank[] tanks;
+
+	
+	private static final int[] slots_top = new int[] {4};
+	private static final int[] slots_bottom = new int[] {6};
+	private static final int[] slots_side = new int[] {4};
+	
+	private String customName;
+	protected double[] info = new double[3];
+	
+	public TileEntityRBMKTurbine() {
+		slots = new ItemStack[7];
+		tanks = new FluidTank[2];
+		tanks[0] = new FluidTank(Fluids.STEAM, 128000000, 0);
+		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 128000000, 1);
+	}
+
+	@Override
+	public int getSizeInventory() {
+		return slots.length;
+	}
+
+	@Override
+	public ItemStack getStackInSlot(int i) {
+		return slots[i];
+	}
+
+	@Override
+	public ItemStack getStackInSlotOnClosing(int i) {
+		if(slots[i] != null)
+		{
+			ItemStack itemStack = slots[i];
+			slots[i] = null;
+			return itemStack;
+		} else {
+		return null;
+		}
+	}
+
+	@Override
+	public void setInventorySlotContents(int i, ItemStack itemStack) {
+		slots[i] = itemStack;
+		if(itemStack != null && itemStack.stackSize > getInventoryStackLimit())
+		{
+			itemStack.stackSize = getInventoryStackLimit();
+		}
+	}
+
+	@Override
+	public String getInventoryName() {
+		return this.hasCustomInventoryName() ? this.customName : "container.RBMKTurbine";
+	}
+
+	@Override
+	public boolean hasCustomInventoryName() {
+		return this.customName != null && this.customName.length() > 0;
+	}
+	
+	public void setCustomName(String name) {
+		this.customName = name;
+	}
+
+	@Override
+	public int getInventoryStackLimit() {
+		return 64;
+	}
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
+		{
+			return false;
+		}else{
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
+		}
+	}
+	
+	//You scrubs aren't needed for anything (right now)
+	@Override
+	public void openInventory() {}
+	@Override
+	public void closeInventory() {}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack stack) {
+		
+		if(i == 4)
+			if(stack != null && stack.getItem() instanceof IBatteryItem)
+				return true;
+		
+		return false;
+	}
+	
+	@Override
+	public ItemStack decrStackSize(int i, int j) {
+		if(slots[i] != null)
+		{
+			if(slots[i].stackSize <= j)
+			{
+				ItemStack itemStack = slots[i];
+				slots[i] = null;
+				return itemStack;
+			}
+			ItemStack itemStack1 = slots[i].splitStack(j);
+			if (slots[i].stackSize == 0)
+			{
+				slots[i] = null;
+			}
+			
+			return itemStack1;
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		NBTTagList list = nbt.getTagList("items", 10);
+
+		tanks[0].readFromNBT(nbt, "water");
+		tanks[1].readFromNBT(nbt, "steam");
+		power = nbt.getLong("power");
+		
+		slots = new ItemStack[getSizeInventory()];
+		
+		for(int i = 0; i < list.tagCount(); i++)
+		{
+			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
+			byte b0 = nbt1.getByte("slot");
+			if(b0 >= 0 && b0 < slots.length)
+			{
+				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
+			}
+		}
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		tanks[0].writeToNBT(nbt, "water");
+		tanks[1].writeToNBT(nbt, "steam");
+		nbt.setLong("power", power);
+		
+		NBTTagList list = new NBTTagList();
+		
+		for(int i = 0; i < slots.length; i++)
+		{
+			if(slots[i] != null)
+			{
+				NBTTagCompound nbt1 = new NBTTagCompound();
+				nbt1.setByte("slot", (byte)i);
+				slots[i].writeToNBT(nbt1);
+				list.appendTag(nbt1);
+			}
+		}
+		nbt.setTag("items", list);
+	}
+	
+	@Override
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
+    {
+        return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
+    }
+
+	@Override
+	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
+		return this.isItemValidForSlot(i, itemStack);
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return false;
+	}
+	
+	public long getPowerScaled(int i) {
+		return (power * i) / maxPower;
+	}
+	
+	@Override
+	public void updateEntity() {
+		
+		if(!worldObj.isRemote) {
+			
+			this.info = new double[3];
+			
+			age++;
+			if(age >= 2) {
+				age = 0;
+			}
+			
+			this.subscribeToAllAround(tanks[0].getTankType(), this);
+			if(RBMKDials.getReasimCoolantBoilers(worldObj)||RBMKDials.getReasimBoilers(worldObj)){
+			if (Fluids.fromName("SUPERCOOLANT_HOT")!=Fluids.NONE)
+				tanks[0].setTankType(Fluids.fromName("SUPERCOOLANT_HOT"));
+			else tanks[0].setTankType(Fluids.fromName("SUPERHOTSTEAM"));
+			for(int i = 0; i < 11; i++) {
+				for(int j = 0; j <11; j++ ){
+				Block b = worldObj.getBlock(xCoord + i - 5, yCoord, zCoord + j - 5);
+				
+				if(b instanceof RBMKBase) {
+
+					int[] pos = ((RBMKBase)b).findCore(worldObj, xCoord + i - 5, yCoord, zCoord + j - 5);
+/*
+			for(int i = 2; i < 6; i++) {
+				ForgeDirection dir = ForgeDirection.getOrientation(i);
+				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
+				
+				if(b instanceof RBMKBase) {
+					int[] pos = ((RBMKBase)b).findCore(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
+*/					
+					if(pos != null) {
+						TileEntity te = worldObj.getTileEntity(pos[0], pos[1], pos[2]);
+						
+						if(te instanceof TileEntityRBMKBase) {
+							TileEntityRBMKBase rbmk = (TileEntityRBMKBase) te;
+							
+							int prov = Math.min(tanks[0].getMaxFill() -tanks[0].getFill(), rbmk.steam);
+							rbmk.steam -= prov;
+							tanks[0].setFill(tanks[0].getFill() + prov);
+							}
+						}
+					}
+				}
+			}
+		}
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
+				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+
+			tanks[0].setType(0, 1, slots);
+			tanks[0].loadTank(2, 3, slots);
+			power = Library.chargeItemsFromTE(slots, 4, power, maxPower);
+			
+			FluidType in = tanks[0].getTankType();
+			boolean valid = false;
+			if(in.hasTrait(FT_Coolable.class)) {
+				FT_Coolable trait = in.getTrait(FT_Coolable.class);
+				double eff = trait.getEfficiency(CoolingType.TURBINE) * 0.85D; //small turbine is only 85% efficient
+				if(in!=Fluids.HOTSTEAM||in!=Fluids.SUPERHOTSTEAM||in!=Fluids.ULTRAHOTSTEAM)     eff = trait.getEfficiency(CoolingType.TURBINE) * 0.96D;//but coolant is 96% efficient
+				if(eff > 0) {
+					tanks[1].setTankType(trait.coolsTo);
+					int inputOps = tanks[0].getFill() / trait.amountReq;
+					int outputOps = (tanks[1].getMaxFill() - tanks[1].getFill()) / trait.amountProduced;
+					int cap = 125000000 / trait.amountReq;
+					int ops = Math.min(inputOps, Math.min(outputOps, cap));
+					tanks[0].setFill(tanks[0].getFill() - ops * trait.amountReq);
+					tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
+					this.power += ops *eff * trait.heatEnergy;
+					info[0] = ops * trait.amountReq;
+					info[1] = ops * trait.amountProduced;
+					info[2] =ops *  eff * trait.heatEnergy ;
+					valid = true;
+				}
+			}
+			if(!valid) tanks[1].setTankType(Fluids.NONE);
+			if(power > maxPower) power = maxPower;
+			
+			this.sendFluidToAll(tanks[1], this);
+			if(RBMKDials.getReasimCoolantBoilers(worldObj)||RBMKDials.getReasimBoilers(worldObj)){	
+			for(int i = 0; i < 11; i++) {
+				for(int j = 0; j <11; j++ ){
+				Block b = worldObj.getBlock(xCoord + i - 5, yCoord, zCoord + j - 5);				
+				if(b instanceof RBMKBase) {		
+					int[] pos = ((RBMKBase)b).findCore(worldObj, xCoord + i - 5, yCoord, zCoord + j - 5);
+/*
+			for(int i = 2; i < 6; i++) {
+				ForgeDirection dir = ForgeDirection.getOrientation(i);
+				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
+				
+				if(b instanceof RBMKBase) {
+					int[] pos = ((RBMKBase)b).findCore(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
+*/					
+					if(pos != null) {
+						TileEntity te = worldObj.getTileEntity(pos[0], pos[1], pos[2]);
+						
+						if(te instanceof TileEntityRBMKBase) {
+							TileEntityRBMKBase rbmk = (TileEntityRBMKBase) te;
+
+							
+							int prov = Math.min(rbmk.maxWater - rbmk.water, tanks[1].getFill());
+							rbmk.water += prov;
+							tanks[1].setFill(tanks[1].getFill() - prov);
+
+								}
+							}	
+						}
+					}
+				}
+			}			
+			tanks[1].unloadTank(5, 6, slots);
+			
+			for(int i = 0; i < 2; i++)
+				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+
+			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+		}
+	}
+
+	@Override
+	public void setFluidFill(int i, FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			tanks[0].setFill(i);
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			tanks[1].setFill(i);
+	}
+
+	@Override
+	public int getFluidFill(FluidType type) {
+		if(type.name().equals(tanks[0].getTankType().name()))
+			return tanks[0].getFill();
+		else if(type.name().equals(tanks[1].getTankType().name()))
+			return tanks[1].getFill();
+		
+		return 0;
+	}
+
+	@Override
+	public void setFillForSync(int fill, int index) {
+		if(index < 2 && tanks[index] != null)
+			tanks[index].setFill(fill);
+	}
+
+	@Override
+	public void setTypeForSync(FluidType type, int index) {
+		if(index < 2 && tanks[index] != null)
+			tanks[index].setTankType(type);
+	}
+	
+	@Override
+	public long getPower() {
+		return power;
+	}
+
+	@Override
+	public long getMaxPower() {
+		return maxPower;
+	}
+
+	@Override
+	public void setPower(long i) {
+		this.power = i;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] { tanks[1] };
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] { tanks[0] };
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public String getComponentName() {
+		return "ntm_turbine";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluid(Context context, Arguments args) {
+		return new Object[] {tanks[0].getFill(), tanks[1].getFill(), tanks[1].getFill(), tanks[1].getMaxFill()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getType(Context context, Arguments args) {
+		return CompatHandler.steamTypeToInt(tanks[1].getTankType());
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setType(Context context, Arguments args) {
+		tanks[0].setTankType(CompatHandler.intToSteamType(args.checkInteger(0)));
+		return new Object[] {true};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getInfo(Context context, Arguments args) {
+		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill(), CompatHandler.steamTypeToInt(tanks[0].getTankType())};
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerRBMKTurbine(player.inventory, this);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIRBMKTurbine(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, info[1] > 0);
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, info[0]);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_MB, info[1]);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, info[2]);
+	}
+}

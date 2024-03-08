@@ -16,23 +16,35 @@ public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidS
 	public FluidTank water;
 	
 	public TileEntityRBMKInlet() {
-		water = new FluidTank(Fluids.WATER, 32000);
+
+	water = new FluidTank(Fluids.WATER, 50000000);
+
+				
 	}
 	
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
+		if(RBMKDials.getReasimCoolantBoilers(worldObj)&&(Fluids.fromName("SUPERCOOLANT")!=Fluids.NONE)) 
+		water.setTankType(Fluids.fromName("SUPERCOOLANT"));			
 			this.subscribeToAllAround(water.getTankType(), this);
 			
+			for(int i = 0; i < 11; i++) {
+				for(int j = 0; j <11; j++ ){
+				Block b = worldObj.getBlock(xCoord + i - 5, yCoord, zCoord + j - 5);
+				
+				if(b instanceof RBMKBase) {
+					int[] pos = ((RBMKBase)b).findCore(worldObj, xCoord + i - 5, yCoord, zCoord + j - 5);
+					
+/*
 			for(int i = 2; i < 6; i++) {
 				ForgeDirection dir = ForgeDirection.getOrientation(i);
 				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
 				
 				if(b instanceof RBMKBase) {
 					int[] pos = ((RBMKBase)b).findCore(worldObj, xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ);
-					
+*/
 					if(pos != null) {
 						TileEntity te = worldObj.getTileEntity(pos[0], pos[1], pos[2]);
 						
@@ -47,6 +59,7 @@ public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidS
 				}
 			}
 		}
+	}
 	}
 	
 	@Override

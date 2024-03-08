@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.rbmk;
 import api.hbm.fluid.IFluidConductor;
 import api.hbm.fluid.IFluidConnector;
 import api.hbm.fluid.IPipeNet;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.entity.effect.EntitySpear;
@@ -48,11 +49,12 @@ import java.util.*;
 public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements INBTPacketReceiver {
 	
 	public double heat;
-	
+
 	public int water;
-	public static final int maxWater = 16000;
+	public static final int maxWater = 1000000;
 	public int steam;
-	public static final int maxSteam = 16000;
+	public static final int maxSteam = 1000000;
+
 
 	public boolean hasLid() {
 		
@@ -99,10 +101,16 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		if(!worldObj.isRemote) {
 			
 			this.worldObj.theProfiler.startSection("rbmkBase_heat_movement");
+
+			if 	(!RBMKDials.getReasimCoolantBoilers(worldObj))
 			moveHeat();
 			if(RBMKDials.getReasimBoilers(worldObj)) {
 				this.worldObj.theProfiler.endStartSection("rbmkBase_reasim_boilers");
 				boilWater();
+			}
+			else if 	(RBMKDials.getReasimCoolantBoilers(worldObj)&&!RBMKDials.getReasimBoilers(worldObj)) {
+				this.worldObj.theProfiler.endStartSection("rbmkBase_reasim_boilers");
+				boilCoolant();
 			}
 
 			this.worldObj.theProfiler.endStartSection("rbmkBase_rpassive_cooling");
@@ -115,9 +123,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		}
 	}
 	
-	/**
-	 * The ReaSim boiler dial causes all RBMK parts to behave like boilers
-	 */
+
+
 	private void boilWater() {
 		
 		if(heat < 100D)
@@ -133,6 +140,23 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		this.water -= processedWater;
 		this.steam += processedWater;
 		this.heat -= processedWater * heatConsumption;
+	}
+
+	private void boilCoolant() {
+		
+		if(heat <= 500D)
+			return;
+		
+		//double heatConsumption = RBMKDials.getBoilerHeatConsumption(worldObj);
+		double availableHeat = (this.heat - 20D)/500D;
+		double availableWater = this.water;
+		double availableSpace = this.maxSteam - this.steam;
+		
+		int processedWater = (int)Math.floor(Math.min(availableHeat,Math.min(availableWater, availableSpace)));
+		
+		this.water -= processedWater;
+		this.steam += processedWater;
+		this.heat -= processedWater*500;
 	}
 	
 	public static final ForgeDirection[] neighborDirs = new ForgeDirection[] {
@@ -197,7 +221,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 			
 			for(TileEntityRBMKBase rbmk : rec) {
 				double delta = targetHeat - rbmk.heat;
-				rbmk.heat += delta * stepSize;
+				rbmk.heat += delta;// * stepSize;
 				
 				//set to the averages, rounded down
 				rbmk.water = tWater;

@@ -41,8 +41,8 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 	
 	public TileEntityRBMKHeater() {
 		super(1);
-		this.feed = new FluidTank(Fluids.COOLANT, 16_000, 0);
-		this.steam = new FluidTank(Fluids.COOLANT_HOT, 16_000, 1);
+		this.feed = new FluidTank(Fluids.COOLANT, 1_000_000, 0);
+		this.steam = new FluidTank(Fluids.COOLANT_HOT, 1_000_000, 1);
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 
 					feed.setFill(feed.getFill() - step.amountReq * ops);
 					steam.setFill(steam.getFill() + step.amountProduced * ops);
-					this.heat -= (step.heatReq * ops / TU_PER_DEGREE) * trait.getEfficiency(HeatingType.HEATEXCHANGER);
+					this.heat -= trait.getEfficiency(HeatingType.HEATEXCHANGER) * step.heatReq * ops / TU_PER_DEGREE ;
 				}
 				
 			} else {
@@ -86,6 +86,10 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 			fillFluidInit(steam.getTankType());
 			
 			this.trySubscribe(feed.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
+			this.trySubscribe(feed.getTankType(), worldObj, xCoord+1, yCoord , zCoord, Library.POS_X);
+			this.trySubscribe(feed.getTankType(), worldObj, xCoord-1, yCoord , zCoord, Library.NEG_X);
+			this.trySubscribe(feed.getTankType(), worldObj, xCoord, yCoord , zCoord+1, Library.POS_Z);
+			this.trySubscribe(feed.getTankType(), worldObj, xCoord, yCoord , zCoord-1, Library.NEG_Z);
 			for(DirPos pos : getOutputPos()) {
 				if(this.steam.getFill() > 0) this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
@@ -116,7 +120,11 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 			};
 		} else {
 			return new DirPos[] {
-					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y)
+					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y),
+					new DirPos(this.xCoord - 1, this.yCoord + RBMKDials.getColumnHeight(worldObj), this.zCoord, Library.NEG_X),
+					new DirPos(this.xCoord + 1, this.yCoord + RBMKDials.getColumnHeight(worldObj), this.zCoord, Library.POS_X),
+					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj), this.zCoord - 1, Library.NEG_Z),
+					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj), this.zCoord + 1, Library.POS_Z)
 			};
 		}
 	}
@@ -125,7 +133,11 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 	public void fillFluidInit(FluidType type) {
 
 		fillFluid(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, getTact(), type);
-		
+		fillFluid(this.xCoord, this.yCoord, this.zCoord+1, getTact(), type);
+		fillFluid(this.xCoord, this.yCoord, this.zCoord-1, getTact(), type);
+		fillFluid(this.xCoord+1, this.yCoord , this.zCoord, getTact(), type);
+		fillFluid(this.xCoord-1, this.yCoord , this.zCoord, getTact(), type);
+	
 		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
 
 			fillFluid(this.xCoord + 1, this.yCoord - 1, this.zCoord, getTact(), type);

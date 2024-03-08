@@ -10,11 +10,11 @@ import com.hbm.inventory.gui.GUIRBMKRod;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hbm.tileentity.machine.TileEntityMachineTurbine;
 import com.hbm.util.Compat;
-import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.ParticleUtil;
+import api.hbm.energy.IEnergyGenerator;
 
-import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,12 +33,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IRBMKLoadable, SimpleComponent, IInfoProviderEC {
+public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IEnergyGenerator, IRBMKFluxReceiver, IRBMKLoadable, SimpleComponent  {
 	
 	//amount of "neutron energy" buffered for the next tick to use for the reaction
 	public double fluxFast;
 	public double fluxSlow;
 	public boolean hasRod;
+	public long power;
 
 	public TileEntityRBMKRod() {
 		super(1);
@@ -84,7 +85,8 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				
 				rod.updateHeat(worldObj, slots[0], 1.0D);
 				this.heat += rod.provideHeat(worldObj, slots[0], heat, 1.0D);
-				
+			if	(RBMKDials.getGenerator(worldObj)&&this.heat>20D)
+				Generate();				
 				if(!this.hasLid()) {
 					ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, (float) ((this.fluxFast + this.fluxSlow) * 0.05F));
 				}
@@ -94,16 +96,14 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				if(this.heat > this.maxHeat()) {
 					
 					if(RBMKDials.getMeltdownsDisabled(worldObj)) {
-						ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5, yCoord + RBMKDials.getColumnHeight(worldObj) + 0.5, zCoord + 0.5, 0, 0.2, 0);
+						//ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5, yCoord + RBMKDials.getColumnHeight(worldObj) + 0.5, zCoord + 0.5, 0, 0.2, 0);
 					} else {
 						this.meltdown();
 					}
-					this.fluxFast = 0;
-					this.fluxSlow = 0;
 					return;
 				}
 				
-				if(this.heat > 10_000) this.heat = 10_000;
+				//if(this.heat > 10_000) this.heat = 10_000;
 				
 				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
 				this.fluxFast = 0;
@@ -163,7 +163,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			
 			stream = type;
 			double flux = fluxOut;
-			
+
 			for(int i = 1; i <= range; i++) {
 				
 				flux = runInteraction(xCoord + dir.offsetX * i, yCoord, zCoord + dir.offsetZ * i, flux);
@@ -171,12 +171,19 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				if(flux <= 0)
 					break;
 			}
-		}
+			}
+
+		
 	}
 	
 	protected double runInteraction(int x, int y, int z, double flux) {
 		
 		TileEntity te = Compat.getTileStandard(worldObj, x, y, z);
+
+		if(RBMKDials.getRodUnique(worldObj)) {
+			this.receiveFlux(this.isModerated() ? NType.SLOW : stream, flux*1.08D);
+			return 0;
+		}	
 		
 		if(te instanceof TileEntityRBMKBase) {
 			TileEntityRBMKBase base = (TileEntityRBMKBase) te;
@@ -232,13 +239,21 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			stream = NType.SLOW;
 			return flux;
 		}
-		
-		//return the neutrons back to this with no further action required
+
+
+		//return the neutrons back to this with no further action required			
+		if(!RBMKDials.getReflectorsAdded(worldObj)) {
 		if(te instanceof TileEntityRBMKReflector) {
 			this.receiveFlux(this.isModerated() ? NType.SLOW : stream, flux);
 			return 0;
+		}	
+		} else {
+		if(te instanceof TileEntityRBMKReflector||te instanceof TileEntityRBMKHeater||te instanceof TileEntityMachineTurbine) {
+			this.receiveFlux(this.isModerated() ? NType.SLOW : stream,flux);
+			return 0;
 		}
-		
+		}		
+
 		//break the neutron flow and nothign else
 		if(te instanceof TileEntityRBMKAbsorber) {
 			return 0;
@@ -389,6 +404,25 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		slots[0] = null;
 		this.markDirty();
 	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+		return true;
+	}
+
+	@Override
+	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
+		return true;
+	}
+
+	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+		return new int[] {0};
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return true;
+	}
 	
 	// do some opencomputer stuff
 	@Override
@@ -396,6 +430,55 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		return "rbmk_fuel_rod";
 	}
 
+
+	/**
+	 * The Generator consume all heats to generatting
+	 */
+	private void Generate() {
+		this.power =( new Double(this.heat).longValue()) * 1800;
+		//for(ForgeDirection dir : fluxDirs) {
+			for(int i = 0; i<6 ;i++){
+			for(int j = 1; j<6; j++){
+			this.sendPower(worldObj, xCoord +  i , yCoord, zCoord  +  j , ForgeDirection.EAST);
+			this.sendPower(worldObj, xCoord +  i , yCoord, zCoord  +  j , ForgeDirection.SOUTH);
+}
+}
+			for(int i = 1; i<6 ;i++){
+			for(int j = 0; j<6; j++){
+			this.sendPower(worldObj, xCoord +  i , yCoord, zCoord  -  j , ForgeDirection.EAST);
+			this.sendPower(worldObj, xCoord +  i , yCoord, zCoord  -  j , ForgeDirection.NORTH);
+}
+}
+			for(int i = 0; i<6 ;i++){
+			for(int j = 1; j<6; j++){
+			this.sendPower(worldObj, xCoord -  i , yCoord, zCoord -  j , ForgeDirection.WEST);
+			this.sendPower(worldObj, xCoord -  i , yCoord, zCoord -  j , ForgeDirection.NORTH);
+}
+}
+			for(int i = 1; i<6 ;i++){
+			for(int j = 0; j<6; j++){
+			this.sendPower(worldObj, xCoord -  i , yCoord, zCoord +  j , ForgeDirection.WEST);
+			this.sendPower(worldObj, xCoord -  i , yCoord, zCoord +  j , ForgeDirection.SOUTH);
+}
+}
+
+//}
+		this.heat = 0;
+
+	}
+
+	@Override
+	public void setPower(long i) {
+		this.power = i;
+	}
+
+	@Override
+	public long getPower() {
+		return power;
+	}
+	public long getMaxPower() {
+		return power;
+	}
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
@@ -504,16 +587,5 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIRBMKRod(player.inventory, this);
-	}
-
-	@Override
-	public void provideExtraInfo(NBTTagCompound data) {
-		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
-			data.setDouble(CompatEnergyControl.D_DEPLETION_PERCENT, ((1.0D - ItemRBMKRod.getEnrichment(slots[0])) * 100_000.0D) / 1_000.0D);
-			data.setDouble(CompatEnergyControl.D_XENON_PERCENT, ItemRBMKRod.getPoison(slots[0]));
-			data.setDouble(CompatEnergyControl.D_SKIN_C, ItemRBMKRod.getHullHeat(slots[0]));
-			data.setDouble(CompatEnergyControl.D_CORE_C, ItemRBMKRod.getCoreHeat(slots[0]));
-			data.setDouble(CompatEnergyControl.D_MELT_C, ((ItemRBMKRod) slots[0].getItem()).meltingPoint);
-		}
 	}
 }

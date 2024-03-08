@@ -30,6 +30,10 @@ public class RBMKDials {
 	public static final String KEY_REASIM_BOILER_SPEED = "dialReasimBoilerSpeed";
 	public static final String KEY_DISABLE_MELTDOWNS = "dialDisableMeltdowns";
 	public static final String KEY_ENABLE_MELTDOWN_OVERPRESSURE = "dialEnableMeltdownOverpressure";
+	public static final String KEY_MORE_REFLECTORS = "dialMoreReflectors";
+	public static final String KEY_UNIQUE_ROD = "dialUniqueRod";
+	public static final String KEY_REASIM_COOLANT_BOILERS = "dialReasimCoolantBoilers";
+	public static final String KEY_GENERATOR_MODE = "dialGeneratorMode";
 	
 	public static void createDials(World world) {
 		GameRules rules = world.getGameRules();
@@ -55,6 +59,10 @@ public class RBMKDials {
 			rules.setOrCreateGameRule(KEY_REASIM_BOILER_SPEED, "0.05");
 			rules.setOrCreateGameRule(KEY_DISABLE_MELTDOWNS, "false");
 			rules.setOrCreateGameRule(KEY_ENABLE_MELTDOWN_OVERPRESSURE, "false");
+			rules.setOrCreateGameRule(KEY_MORE_REFLECTORS, "false");
+			rules.setOrCreateGameRule(KEY_UNIQUE_ROD, "false");
+			rules.setOrCreateGameRule(KEY_REASIM_COOLANT_BOILERS, "false");
+			rules.setOrCreateGameRule(KEY_GENERATOR_MODE, "false");
 		}
 	}
 	
@@ -228,5 +236,26 @@ public class RBMKDials {
 	 */
 	public static boolean getOverpressure(World world) {
 		return world.getGameRules().getGameRuleBooleanValue(KEY_ENABLE_MELTDOWN_OVERPRESSURE);
+	}
+
+	public static boolean getReflectorsAdded(World world) {
+		return world.getGameRules().getGameRuleBooleanValue(KEY_MORE_REFLECTORS);
+	}
+
+	public static boolean getRodUnique(World world) {
+		return world.getGameRules().getGameRuleBooleanValue(KEY_UNIQUE_ROD);
+	}
+
+	/**
+	 * Whether or not all components should act like boilers with dedicated in/outlet blocks
+	 * @param world
+	 * @return
+	 */
+	public static boolean getReasimCoolantBoilers(World world) {
+		return world.getGameRules().getGameRuleBooleanValue(KEY_REASIM_COOLANT_BOILERS) ;
+	}
+
+	public static boolean getGenerator(World world) {
+		return world.getGameRules().getGameRuleBooleanValue(KEY_GENERATOR_MODE) ;
 	}
 }
