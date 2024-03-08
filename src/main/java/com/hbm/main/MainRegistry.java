@@ -3,6 +3,7 @@ package com.hbm.main;
 import com.google.common.collect.ImmutableList;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.ModBlocks2;
 import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockToolConversion;
 import com.hbm.commands.*;
@@ -24,6 +25,7 @@ import com.hbm.hazard.HazardRegistry;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.OreDictManager.DictFrame;
+import com.hbm.inventory.OreDictManager2;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.recipes.*;
@@ -32,6 +34,7 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
 import com.hbm.items.ItemEnums.EnumAchievementType;
 import com.hbm.items.ModItems;
+import com.hbm.items.ModItems2;
 import com.hbm.items.tool.ItemFertilizer;
 import com.hbm.items.weapon.ItemGenericGrenade;
 import com.hbm.lib.HbmWorld;
@@ -277,6 +280,8 @@ public class MainRegistry {
 		Fluids.init();
 		ModBlocks.mainRegistry();
 		ModItems.mainRegistry();
+		ModBlocks2.mainRegistry();
+		ModItems2.mainRegistry();
 		proxy.registerRenderInfo();
 		HbmWorld.mainRegistry();
 		GameRegistry.registerFuelHandler(new FuelHandler());
@@ -293,6 +298,7 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
 		OreDictManager.registerGroups(); //important to run first
 		OreDictManager.registerOres();
+		OreDictManager2.registerOres();
 		
 		if(WorldConfig.enableCraterBiomes) BiomeGenCraterBase.initDictionary();
 
@@ -853,10 +859,8 @@ public class MainRegistry {
 		//the good stuff
 		SerializableRecipe.registerAllHandlers();
 		SerializableRecipe.initialize();
-		
 		//Anvil has to come after serializables (i.e. anvil)
 		AnvilRecipes.register();
-
 		//has to register after cracking, and therefore after all serializable recipes
 		RadiolysisRecipes.registerRadiolysis();
 		
