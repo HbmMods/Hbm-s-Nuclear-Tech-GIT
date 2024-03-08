@@ -44,7 +44,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	private ItemStack slots[];
 
 	public long power;
-	public static final long maxPower = 1000000;
+	public static final long maxPower = 100000000000000L;
 	public int age = 0;
 	public FluidTank[] tanks;
 	
@@ -58,8 +58,8 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	public TileEntityMachineTurbine() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.STEAM, 64000, 0);
-		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.STEAM, 2048000, 0);
+		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 4096000, 1);
 	}
 
 	@Override
@@ -250,18 +250,19 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			if(in.hasTrait(FT_Coolable.class)) {
 				FT_Coolable trait = in.getTrait(FT_Coolable.class);
 				double eff = trait.getEfficiency(CoolingType.TURBINE) * 0.85D; //small turbine is only 85% efficient
+				if(in!=Fluids.HOTSTEAM||in!=Fluids.SUPERHOTSTEAM||in!=Fluids.ULTRAHOTSTEAM)     eff = trait.getEfficiency(CoolingType.TURBINE) * 0.96D;//but coolant is 96% efficient
 				if(eff > 0) {
 					tanks[1].setTankType(trait.coolsTo);
 					int inputOps = tanks[0].getFill() / trait.amountReq;
 					int outputOps = (tanks[1].getMaxFill() - tanks[1].getFill()) / trait.amountProduced;
-					int cap = 6_000 / trait.amountReq;
+					int cap = 2000000 / trait.amountReq;
 					int ops = Math.min(inputOps, Math.min(outputOps, cap));
 					tanks[0].setFill(tanks[0].getFill() - ops * trait.amountReq);
 					tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
-					this.power += (ops * trait.heatEnergy * eff);
+					this.power += ops *eff * trait.heatEnergy;
 					info[0] = ops * trait.amountReq;
 					info[1] = ops * trait.amountProduced;
-					info[2] = ops * trait.heatEnergy * eff;
+					info[2] =ops *  eff * trait.heatEnergy ;
 					valid = true;
 				}
 			}

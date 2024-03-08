@@ -21,9 +21,7 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ArmorUtil;
-import com.hbm.util.CompatEnergyControl;
 
-import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -35,7 +33,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityCore extends TileEntityMachineBase implements IGUIProvider, IInfoProviderEC {
+public class TileEntityCore extends TileEntityMachineBase implements IGUIProvider {
 	
 	public int field;
 	public int heat;
@@ -43,14 +41,12 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 	public FluidTank[] tanks;
 	private boolean lastTickValid = false;
 	public boolean meltdownTick = false;
-	protected int consumption;
-	protected int prevConsumption;
 
 	public TileEntityCore() {
 		super(3);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 128000, 0);
-		tanks[1] = new FluidTank(Fluids.TRITIUM, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.ASCHRAB, 128000, 0);
+		tanks[1] = new FluidTank(Fluids.BALEFIRE, 128000, 1);
 	}
 
 	@Override
@@ -62,9 +58,6 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
-			this.prevConsumption = this.consumption;
-			this.consumption = 0;
 			
 			int chunkX = xCoord >> 4;
 			int chunkZ = zCoord >> 4;
@@ -101,7 +94,7 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 						break;
 					}
 				}
-				
+				/*
 				if(canExplode) {
 					
 					EntityNukeExplosionMK3 ex = new EntityNukeExplosionMK3(worldObj);
@@ -125,7 +118,7 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 				} else {
 					meltdownTick = true;
 					ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, 100);
-				}
+				}*/
 			}
 			
 			if(slots[0] != null && slots[2] != null && slots[0].getItem() instanceof ItemCatalyst && slots[2].getItem() instanceof ItemCatalyst)
@@ -136,8 +129,8 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 			else
 				color = 0;
 			
-			if(heat > 0)
-				radiation();
+			//if(heat > 0)
+				//radiation();
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("tank0", tanks[0].getTankType().ordinal());
@@ -163,7 +156,7 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 		}
 		
 	}
-
+	
 	public void networkUnpack(NBTTagCompound data) {
 		super.networkUnpack(data);
 
@@ -235,15 +228,14 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 		int demand = (int)Math.ceil((double)joules / 1000D);
 		
 		//check if the reaction has enough valid fuel
-		if(tanks[0].getFill() < demand || tanks[1].getFill() < demand)
+		if(tanks[0].getFill() < 0 || tanks[1].getFill() < 0)
 			return joules;
-		
-		this.consumption += demand;
 		
 		heat += (int)Math.ceil((double)joules / 10000D);
 
-		tanks[0].setFill(tanks[0].getFill() - demand);
-		tanks[1].setFill(tanks[1].getFill() - demand);
+		//tanks[0].setFill(tanks[0].getFill());
+		//tanks[1].setFill(tanks[1].getFill());
+
 		
 		return (long) (joules * getCore() * getFuelEfficiency(tanks[0].getTankType()) * getFuelEfficiency(tanks[1].getTankType()));
 	}
@@ -264,11 +256,11 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 		if(type == Fluids.SAS3)
 			return 2.0F;
 		if(type == Fluids.BALEFIRE)
-			return 2.5F;
+			return 4.5F;
 		if(type == Fluids.AMAT)
-			return 2.2F;
+			return 3.5F;
 		if(type == Fluids.ASCHRAB)
-			return 2.7F;
+			return 4F;
 		return 0;
 	}
 	
@@ -286,7 +278,7 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 			return 650;
 		
 		if(slots[1].getItem() == ModItems.ams_core_eyeofharmony)
-			return 800;
+			return 2400;
 		
 		if(slots[1].getItem() == ModItems.ams_core_thingy)
 			return 2500;
@@ -363,10 +355,5 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICore(player.inventory, this);
-	}
-
-	@Override
-	public void provideExtraInfo(NBTTagCompound data) {
-		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, this.prevConsumption);
 	}
 }

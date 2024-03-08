@@ -47,7 +47,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyGenerator, IFluidStandardTransceiver, IGUIProvider, SimpleComponent, IInfoProviderEC {
 
 	public long power;
-	public static final long maxPower = 100000000;
+	public static final long maxPower = 100000000000000L;
 	public int age = 0;
 	public List<IFluidAcceptor> list2 = new ArrayList();
 	public FluidTank[] tanks;
@@ -65,8 +65,8 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		super(7);
 		
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.STEAM, 512000, 0);
-		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 10240000, 1);
+		tanks[0] = new FluidTank(Fluids.STEAM, 32768000, 0);
+		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 65536000, 1);
 
 		Random rand = new Random();
 		audioDesync = rand.nextFloat() * 0.05F;
@@ -111,14 +111,15 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 					tanks[1].setTankType(trait.coolsTo);
 					int inputOps = (int) Math.floor(tanks[0].getFill() / trait.amountReq); //amount of cycles possible with the entire input buffer
 					int outputOps = (tanks[1].getMaxFill() - tanks[1].getFill()) / trait.amountProduced; //amount of cycles possible with the output buffer's remaining space
-					int cap = (int) Math.ceil(tanks[0].getFill() / trait.amountReq / 5F); //amount of cycles by the "at least 20%" rule
+					int cap = (int) Math.ceil(20000000/ trait.amountReq ); //amount of cycles by the "at least 20%" rule
 					int ops = Math.min(inputOps, Math.min(outputOps, cap)); //defacto amount of cycles
 					tanks[0].setFill(tanks[0].getFill() - ops * trait.amountReq);
 					tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
-					this.power += (ops * trait.heatEnergy * eff);
+
+					this.power += ops *eff * trait.heatEnergy;
 					info[0] = ops * trait.amountReq;
 					info[1] = ops * trait.amountProduced;
-					info[2] = ops * trait.heatEnergy * eff;
+					info[2] =ops *  eff * trait.heatEnergy ;
 					valid = true;
 					operational = ops > 0;
 				}

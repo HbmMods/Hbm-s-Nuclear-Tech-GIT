@@ -3,8 +3,6 @@ package com.hbm.tileentity.machine;
 import api.hbm.block.ILaserable;
 import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
-import api.hbm.tile.IInfoProviderEC;
-
 import com.hbm.inventory.container.ContainerCoreEmitter;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -12,8 +10,6 @@ import com.hbm.inventory.gui.GUICoreEmitter;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.util.CompatEnergyControl;
-
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -37,7 +33,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyUser, ILaserable, IFluidStandardReceiver, SimpleComponent, IGUIProvider, IInfoProviderEC {
+public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyUser, ILaserable, IFluidStandardReceiver, SimpleComponent, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 1000000000L;
@@ -72,7 +68,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 			long demand = maxPower * watts / 2000;
 			
 			beam = 0;
-			
+/*			
 			if(joules > 0 || prev > 0) {
 
 				if(tank.getFill() >= 20) {
@@ -81,7 +77,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 					worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.flowing_lava);
 					return;
 				}
-			}
+			}*/
 			
 			if(isOn) {
 				
@@ -112,11 +108,13 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 						TileEntity te = worldObj.getTileEntity(x, y, z);
 						
 						if(block instanceof ILaserable) {
+							
 							((ILaserable)block).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
 							break;
 						}
 						
 						if(te instanceof ILaserable) {
+							
 							((ILaserable)te).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
 							break;
 						}
@@ -129,6 +127,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 						Block b = worldObj.getBlock(x, y, z);
 						
 						if(!b.isAir(worldObj, x, y, z)) {
+
 							
 							if(b.getMaterial().isLiquid()) {
 								worldObj.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.fizz", 1.0F, 1.0F);
@@ -333,11 +332,5 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICoreEmitter(player.inventory, this);
-	}
-
-	@Override
-	public void provideExtraInfo(NBTTagCompound data) {
-		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, joules > 0 || prev > 0 ? 20 : 0);
-		data.setDouble(CompatEnergyControl.D_CONSUMPTION_HE, maxPower * watts / 2000);
 	}
 }

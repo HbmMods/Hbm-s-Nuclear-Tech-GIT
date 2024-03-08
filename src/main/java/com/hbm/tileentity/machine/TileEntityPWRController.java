@@ -47,9 +47,9 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	
 	public FluidTank[] tanks;
 	public int coreHeat;
-	public static final int coreHeatCapacity = 10_000_000;
+	public static final int coreHeatCapacity = 2_000_000_000;
 	public int hullHeat;
-	public static final int hullHeatCapacity = 10_000_000;
+	public static final int hullHeatCapacity = 2_000_000_000;
 	public double flux;
 	
 	public int rodLevel = 100;
@@ -186,82 +186,82 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 				//only perform fission if the area has been loaded for 40 ticks or more
 				if(this.unloadDelay <= 0) {
 					
-					if((typeLoaded == -1 || amountLoaded <= 0) && slots[0] != null && slots[0].getItem() == ModItems.pwr_fuel) {
-						typeLoaded = slots[0].getItemDamage();
-						amountLoaded++;
-						this.decrStackSize(0, 1);
-						this.markChanged();
-					} else if(slots[0] != null && slots[0].getItem() == ModItems.pwr_fuel && slots[0].getItemDamage() == typeLoaded && amountLoaded < rodCount){
-						amountLoaded++;
-						this.decrStackSize(0, 1);
-						this.markChanged();
-					}
-		
-					if(this.rodTarget > this.rodLevel) this.rodLevel++;
-					if(this.rodTarget < this.rodLevel) this.rodLevel--;
+				if((typeLoaded == -1 || amountLoaded <= 0) && slots[0] != null && slots[0].getItem() == ModItems.pwr_fuel) {
+					typeLoaded = slots[0].getItemDamage();
+					amountLoaded++;
+					this.decrStackSize(0, 1);
+					this.markChanged();
+				} else if(slots[0] != null && slots[0].getItem() == ModItems.pwr_fuel && slots[0].getItemDamage() == typeLoaded && amountLoaded < rodCount){
+					amountLoaded++;
+					this.decrStackSize(0, 1);
+					this.markChanged();
+				}
+	
+				if(this.rodTarget > this.rodLevel) this.rodLevel++;
+				if(this.rodTarget < this.rodLevel) this.rodLevel--;
+				
+				int newFlux = this.sourceCount * 20;
+				
+				if(typeLoaded != -1 && amountLoaded > 0) {
 					
-					int newFlux = this.sourceCount * 20;
+					EnumPWRFuel fuel = EnumUtil.grabEnumSafely(EnumPWRFuel.class, typeLoaded);
+					double usedRods = getTotalProcessMultiplier();
+					double fluxPerRod = this.flux / this.rodCount;
+					double outputPerRod = fuel.function.effonix(fluxPerRod);
+					double totalOutput = outputPerRod * amountLoaded * usedRods;
+					double totalHeatOutput = totalOutput * fuel.heatEmission;
 					
-					if(typeLoaded != -1 && amountLoaded > 0) {
+					this.coreHeat += totalHeatOutput;
+					newFlux += totalOutput;
+					
+					this.processTime = (int) fuel.yield;
+					this.progress += totalOutput;
+					
+					if(this.progress >= this.processTime) {
+						this.progress -= this.processTime;
 						
-						EnumPWRFuel fuel = EnumUtil.grabEnumSafely(EnumPWRFuel.class, typeLoaded);
-						double usedRods = getTotalProcessMultiplier();
-						double fluxPerRod = this.flux / this.rodCount;
-						double outputPerRod = fuel.function.effonix(fluxPerRod);
-						double totalOutput = outputPerRod * amountLoaded * usedRods;
-						double totalHeatOutput = totalOutput * fuel.heatEmission;
-						
-						this.coreHeat += totalHeatOutput;
-						newFlux += totalOutput;
-						
-						this.processTime = (int) fuel.yield;
-						this.progress += totalOutput;
-						
-						if(this.progress >= this.processTime) {
-							this.progress -= this.processTime;
-							
-							if(slots[1] == null) {
-								slots[1] = new ItemStack(ModItems.pwr_fuel_hot, 1, typeLoaded);
-							} else if(slots[1].getItem() == ModItems.pwr_fuel_hot && slots[1].getItemDamage() == typeLoaded && slots[1].stackSize < slots[1].getMaxStackSize()) {
-								slots[1].stackSize++;
-							}
-							
-							this.amountLoaded--;
-							this.markChanged();
+						if(slots[1] == null) {
+							slots[1] = new ItemStack(ModItems.pwr_fuel_hot, 1, typeLoaded);
+						} else if(slots[1].getItem() == ModItems.pwr_fuel_hot && slots[1].getItemDamage() == typeLoaded && slots[1].stackSize < slots[1].getMaxStackSize()) {
+							slots[1].stackSize++;
 						}
+						
+						this.amountLoaded--;
+						this.markChanged();
 					}
-					
-					if(this.amountLoaded <= 0) {
-						this.typeLoaded = -1;
-					}
-					
-					if(amountLoaded > rodCount) amountLoaded = rodCount;
-					
-					/* CORE COOLING */
-					double coreCoolingApproachNum = getXOverE((double) this.heatexCount * 5 / (double) this.rodCount, 2) / 2D;
-					int averageCoreHeat = (this.coreHeat + this.hullHeat) / 2;
-					this.coreHeat -= (coreHeat - averageCoreHeat) * coreCoolingApproachNum;
-					this.hullHeat -= (hullHeat - averageCoreHeat) * coreCoolingApproachNum;
-					
-					updateCoolant();
-		
-					this.coreHeat *= 0.999D;
-					this.hullHeat *= 0.999D;
-					
-					this.flux = newFlux;
-					
-					if(tanks[0].getTankType().hasTrait(FT_PWRModerator.class) && tanks[0].getFill() > 0) {
-						this.flux *= tanks[0].getTankType().getTrait(FT_PWRModerator.class).getMultiplier();
-					}
-					
-					if(this.coreHeat > this.coreHeatCapacity) {
-						meltDown();
-					}
+				}
+				
+				if(this.amountLoaded <= 0) {
+					this.typeLoaded = -1;
+				}
+				
+				if(amountLoaded > rodCount) amountLoaded = rodCount;
+				
+				/* CORE COOLING */
+				double coreCoolingApproachNum = getXOverE((double) this.heatexCount * 2000 / (double) this.rodCount, 2) / 2D;
+				int averageCoreHeat = (this.coreHeat + this.hullHeat) / 2;
+				this.coreHeat -= (coreHeat - averageCoreHeat) * coreCoolingApproachNum;
+				this.hullHeat -= (hullHeat - averageCoreHeat) * coreCoolingApproachNum;
+				
+				updateCoolant();
+	
+				this.coreHeat *= 0.999D;
+				this.hullHeat *= 0.999D;
+				
+				this.flux = newFlux;
+				
+				if(tanks[0].getTankType().hasTrait(FT_PWRModerator.class) && tanks[0].getFill() > 0) {
+					this.flux *= tanks[0].getTankType().getTrait(FT_PWRModerator.class).getMultiplier();
+				}
+				
+				if(this.coreHeat > this.coreHeatCapacity) {
+					meltDown();
+				}
 				} else {
 					this.hullHeat = 0;
 					this.coreHeat = 0;
 				}
-			}
+		}
 			
 			NBTTagCompound data = new NBTTagCompound();
 			tanks[0].writeToNBT(data, "t0");
@@ -287,7 +287,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 				} else if(!audio.isPlaying()) {
 					audio = rebootAudio(audio);
 				}
-
+				
 				audio.updateVolume(getVolume(1F));
 				audio.keepAlive();
 				
@@ -356,7 +356,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
 		if(trait == null || trait.getEfficiency(HeatingType.PWR) <= 0) return;
 		
-		double coolingEff = (double) this.channelCount / (double) this.rodCount * 0.1D; //10% cooling if numbers match
+		double coolingEff = (double) this.channelCount / (double) this.rodCount *0.1D; //10% cooling if numbers match
 		if(coolingEff > 1D) coolingEff = 1D;
 		
 		int heatToUse = Math.min(this.hullHeat, (int) (this.hullHeat * coolingEff * trait.getEfficiency(HeatingType.PWR)));
@@ -373,7 +373,6 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	
 	public void networkUnpack(NBTTagCompound nbt) {
 		super.networkUnpack(nbt);
-		
 		tanks[0].readFromNBT(nbt, "t0");
 		tanks[1].readFromNBT(nbt, "t1");
 		rodCount = nbt.getInteger("rodCount");
@@ -602,3 +601,4 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		return new FluidTank[] { tanks[0] };
 	}
 }
+

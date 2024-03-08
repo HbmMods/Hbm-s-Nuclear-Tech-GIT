@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.ModBlocks2;
 import com.hbm.entity.projectile.EntityCog;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
@@ -14,6 +15,7 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
+import api.hbm.tile.IHeatHugeSource;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,7 +27,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityStirling extends TileEntityLoadedBase implements INBTPacketReceiver, IEnergyGenerator, IConfigurableMachine {
 	
 	public long powerBuffer;
-	public int heat;
+	public long heat;
 	private int warnCooldown = 0;
 	private int overspeed = 0;
 	public boolean hasCog = true;
@@ -89,7 +91,7 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", powerBuffer);
-			data.setInteger("heat", heat);
+			data.setLong("heat", heat);
 			data.setBoolean("hasCog", hasCog);
 			INBTPacketReceiver.networkPack(this, data, 150);
 			
@@ -126,7 +128,7 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 	}
 	
 	public int maxHeat() {
-		return this.getBlockType() == ModBlocks.machine_stirling ? 300 : 1500;
+		return this.getBlockType() ==ModBlocks2.machine_stirling_cmb ? 5000000 : this.getBlockType() ==ModBlocks.machine_stirling ? 300 : 1500;
 	}
 	
 	public boolean isCreative() {
@@ -145,14 +147,24 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.powerBuffer = nbt.getLong("power");
-		this.heat = nbt.getInteger("heat");
+		this.heat = nbt.getLong("heat");
 		this.hasCog = nbt.getBoolean("hasCog");
 	}
 	
 	protected void tryPullHeat() {
 		TileEntity con = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
 		
-		if(con instanceof IHeatSource) {
+		if(con instanceof IHeatHugeSource) {
+			IHeatHugeSource source = (IHeatHugeSource) con;
+			long heatSrc = (long) (source.getHeatStored() * diffusion);
+			
+			if(heatSrc > 0) {
+				source.useUpHeat(heatSrc);
+				this.heat += heatSrc;
+				return;
+			}
+		}
+		else if(con instanceof IHeatSource) {
 			IHeatSource source = (IHeatSource) con;
 			int heatSrc = (int) (source.getHeatStored() * diffusion);
 			
