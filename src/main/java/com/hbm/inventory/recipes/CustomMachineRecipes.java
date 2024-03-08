@@ -16,6 +16,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 import com.hbm.util.Tuple.Pair;
 
 import net.minecraft.init.Items;
@@ -36,13 +37,20 @@ public class CustomMachineRecipes extends SerializableRecipe {
 			recipe.outputItems = new Pair[] {new Pair(new ItemStack(Items.paper, 3), 1F)};
 			recipe.duration = 60;
 			recipe.consumptionPerTick = 10;
-			recipe.pollutionType = "SOOT";
-			recipe.pollutionAmount = 0.03F;
-			recipe.radiationAmount = 0;
-			recipe.flux = 0;
-			recipe.heat = 0;
 			add(recipe);
 		}});
+		recipes.put("simplefactory", new ArrayList() {{
+		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
+			int i = ore.ordinal();
+			CustomMachineRecipe recipe = new CustomMachineRecipe();
+			recipe.inputFluids = new FluidStack[] {new FluidStack(Fluids.NITRIC_ACID, 2000),new FluidStack(Fluids.SOLVENT,1000)};
+			recipe.inputItems = new AStack[] {new ComparableStack(ModItems.ore_bedrock, 1, i)};
+			recipe.outputFluids = new FluidStack[0];
+			recipe.outputItems = new Pair[] {new Pair(new ItemStack(ModItems.ore_enriched, 64, i), 1F)};
+			recipe.duration = 10;
+			recipe.consumptionPerTick = 1000;
+			add(recipe);
+		}}});
 	}
 
 	@Override
@@ -84,11 +92,11 @@ public class CustomMachineRecipes extends SerializableRecipe {
 			} else {
 				recipeInstance.pollutionType = "";
 			}
-			
+
 			if(rec.has("radiationAmount")) recipeInstance.radiationAmount = rec.get("radiationAmount").getAsFloat();
 			if(rec.has("flux")) recipeInstance.flux = rec.get("flux").getAsInt();
 			if(rec.has("heat")) recipeInstance.heat = rec.get("heat").getAsInt();
-			
+
 			list.add(recipeInstance);
 		}
 
