@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.util.EnumUtil;
-import com.hbm.util.function.Function;
 import com.hbm.util.function.Function.FunctionLogarithmic;
 import com.hbm.util.function.Function.FunctionSqrt;
+import com.hbm.util.function.Function;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -30,8 +30,9 @@ public class ItemPWRFuel extends ItemEnumMulti {
 		HEP241(		10.0D,	new FunctionSqrt(25)),
 		MEA(		07.5D,	new FunctionLogarithmic(25 * 30).withDiv(2_500)),
 		HEA242(		10.0D,	new FunctionSqrt(25)),
-		HES326(		12.5D,	new FunctionSqrt(27.5)),
-		HES327(		12.5D,	new FunctionSqrt(30)),
+		HES326(		10.0D,	new FunctionSqrt(3000)),
+		HES327(		12.0D,	new FunctionSqrt(2500)),
+		EUPH(	24.0D,	new FunctionSqrt(10000)),
 		BFB_AM_MIX(	2.5D,	new FunctionSqrt(15), 250_000_000),
 		BFB_PU241(	2.5D,	new FunctionSqrt(15), 250_000_000);
 

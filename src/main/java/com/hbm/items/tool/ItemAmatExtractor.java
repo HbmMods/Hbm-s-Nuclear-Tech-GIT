@@ -17,20 +17,25 @@ public class ItemAmatExtractor extends Item {
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
 		
 		if(world.getBlock(x, y, z) instanceof BlockCrashedBomb) {
-			if(!world.isRemote && player.inventory.hasItem(ModItems.cell_empty)) {
-				
+			//if(!world.isRemote && player.inventory.hasItem(ModItems.cell_empty)) {
+			if(!world.isRemote ) {				
 				float chance = world.rand.nextFloat();
 				
-				if(chance < 0.01) {
-					((BlockCrashedBomb) world.getBlock(x, y, z)).explode(world, x, y, z);
-				} else if(chance <= 0.3) {
-					player.inventory.consumeInventoryItem(ModItems.cell_empty);
+				
+				if(chance < 0.15) {
+					//player.inventory.consumeInventoryItem(ModItems.cell_empty);
 	
 					if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_balefire))) {
 						player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.cell_balefire, 1, 0), false);
+					}				} 
+				else if(chance <= 0.5) {
+					//player.inventory.consumeInventoryItem(ModItems.cell_empty);
+	
+					if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_anti_schrabidium))) {
+						player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.cell_anti_schrabidium, 1, 0), false);
 					}
 				} else {
-					player.inventory.consumeInventoryItem(ModItems.cell_empty);
+					//player.inventory.consumeInventoryItem(ModItems.cell_empty);
 	
 					if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.cell_antimatter))) {
 						player.dropPlayerItemWithRandomChoice(new ItemStack(ModItems.cell_antimatter, 1, 0), false);

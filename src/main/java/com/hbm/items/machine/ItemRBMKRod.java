@@ -162,8 +162,8 @@ public class ItemRBMKRod extends Item {
 	
 	private double rectify(double num) {
 		
-		if(num > 1_000_000D) num = 1_000_000D;
-		if(num < 20D || Double.isNaN(num)) num = 20D;
+		//if(num > 2_100_000_000D) num = 2_100_000_000D;
+		if(num < 100D || Double.isNaN(num)) num = 20D;
 		
 		return num;
 	}
@@ -201,20 +201,20 @@ public class ItemRBMKRod extends Item {
 		//metldown! the hull melts so the entire structure stops making sense
 		//hull and core heats are instantly equalized into 33% of their sum each,
 		//the rest is sent to the component which is always fatal
-		if(hullHeat > this.meltingPoint) {
-			double coreHeat = this.getCoreHeat(stack);
-			double avg = (heat + hullHeat + coreHeat) / 3D;
-			this.setCoreHeat(stack, avg);
-			this.setHullHeat(stack, avg);
-			return avg - heat;
-		}
+		//if(hullHeat > this.meltingPoint) {
+		//	double coreHeat = this.getCoreHeat(stack);
+		//	double avg = (heat + hullHeat + coreHeat) / 3D;
+		//	this.setCoreHeat(stack, avg);
+		//	this.setHullHeat(stack, avg);
+		//	return avg - heat;
+		//}
 		
 		if(hullHeat <= heat)
 			return 0;
 		
 		double ret = (hullHeat - heat) / 2;
 		
-		ret *= RBMKDials.getFuelHeatProvision(world) * mod;
+		//ret *= RBMKDials.getFuelHeatProvision(world) * mod;
 		
 		hullHeat -= ret;
 		this.setHullHeat(stack, hullHeat);
@@ -377,8 +377,8 @@ public class ItemRBMKRod extends Item {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.heat", heat + "°C"));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.diffusion", diffusion + "¹/²"));
-			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.skinTemp", ((int)(getHullHeat(stack) * 10D) / 10D) + "m"));
-			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.coreTemp", ((int)(getCoreHeat(stack) * 10D) / 10D) + "m"));
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.skinTemp", (long)getHullHeat(stack) + "m"));
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.coreTemp", (long)getCoreHeat(stack) + "m"));
 			list.add(EnumChatFormatting.DARK_RED + I18nUtil.resolveKey("trait.rbmx.melt", meltingPoint + "m"));
 			
 		} else {
@@ -397,8 +397,8 @@ public class ItemRBMKRod extends Item {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.heat", heat + "°C"));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.diffusion", diffusion + "¹/²"));
-			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.skinTemp", ((int)(getHullHeat(stack) * 10D) / 10D) + "°C"));
-			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.coreTemp", ((int)(getCoreHeat(stack) * 10D) / 10D) + "°C"));
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.skinTemp", (long)getHullHeat(stack) + "°C"));
+			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.coreTemp", (long)getCoreHeat(stack) + "°C"));
 			list.add(EnumChatFormatting.DARK_RED + I18nUtil.resolveKey("trait.rbmk.melt", meltingPoint + "°C"));
 		}
 
@@ -412,7 +412,6 @@ public class ItemRBMKRod extends Item {
 		list.add(EnumChatFormatting.GOLD + "Heat per tick at full power: " + heat + "°C");
 		list.add(EnumChatFormatting.GOLD + "Diffusion: " + diffusion + "°C/t");
 		list.add(EnumChatFormatting.RED + "Skin temp: " + ((int)(getHullHeat(stack) * 10D) / 10D) + "°C");
-		list.add(EnumChatFormatting.RED + "Core temp: " + ((int)(getCoreHeat(stack) * 10D) / 10D) + "°C");
 		list.add(EnumChatFormatting.DARK_RED + "Melting point: " + meltingPoint + "°C");*/
 		
 		super.addInformation(stack, player, list, bool);
