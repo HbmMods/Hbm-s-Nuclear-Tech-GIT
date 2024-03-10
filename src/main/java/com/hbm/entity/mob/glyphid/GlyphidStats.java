@@ -2,7 +2,6 @@ package com.hbm.entity.mob.glyphid;
 
 import com.hbm.lib.ModDamageSource;
 import com.hbm.potion.HbmPotion;
-import com.hbm.util.BobMathUtil;
 
 import net.minecraft.util.DamageSource;
 
@@ -12,7 +11,7 @@ public abstract class GlyphidStats {
 	public static GlyphidStats GLYPHID_STATS_NT = new GlyphidStatsNT();
 	
 	public static GlyphidStats getStats() {
-		return GLYPHID_STATS_70K;
+		return GLYPHID_STATS_NT;
 	}
 
 	protected StatBundle statsGrunt;
@@ -127,7 +126,7 @@ public abstract class GlyphidStats {
 		public boolean handleAttack(EntityGlyphid glyphid, DamageSource source, float amount) {
 			
 			// Completely immune to acid from other glyphids
-			if(ModDamageSource.s_acid.equals(source.getDamageType()) && source.getSourceOfDamage() instanceof EntityGlyphid) return false;
+			if((source == ModDamageSource.acid || ModDamageSource.s_acid.equals(source.getDamageType())) && source.getSourceOfDamage() instanceof EntityGlyphid) return false;
 			
 			// If damage is armor piercing or nuclear damage, don't apply any armor calculation
 			if(isNuclearDamage(source) || source.isDamageAbsolute() || source.isUnblockable()) {
@@ -140,13 +139,13 @@ public abstract class GlyphidStats {
 			if(source.isFireDamage()) {
 				float dmg = Math.min(amount, 5F);
 				if(amount > 5) dmg += (amount - 5F) * 0.1F;
-				return glyphid.attackSuperclass(source, amount);
+				return glyphid.attackSuperclass(source, dmg);
 				// This ensures that afterburn and flamethrowers remain effective wihin reason
 			}
 			
 			// If damage is explosive, reduce by 25% then ignore armor
 			if(source.isExplosion()) {
-				amount *= 0.75F;
+				amount *= 0.5F;
 				return glyphid.attackSuperclass(source, amount);
 				// This ensures that explosions remain mostly effective
 			}
@@ -161,10 +160,10 @@ public abstract class GlyphidStats {
 					amount *= 0.5F;
 				}
 				
-				amount = glyphid.calculateDamage((float) BobMathUtil.squirt(amount * 50));
+				amount = glyphid.calculateDamage((float) Math.min(amount, Math.sqrt(amount) * 50D / 7D));
 				// This ensures that higher numbers have a diminishing effect
 			}
-
+			
 			return glyphid.attackSuperclass(source, amount);
 		}
 		

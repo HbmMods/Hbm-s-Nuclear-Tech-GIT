@@ -290,12 +290,6 @@ public class CentrifugeRecipes extends SerializableRecipe {
 					new ItemStack(ModItems.nuclear_waste, 2) });
 		}
 		
-		recipes.put(new ComparableStack(ModItems.powder_cloud), new ItemStack[] {
-				new ItemStack(ModItems.powder_copper, 1),
-				new ItemStack(ModItems.sulfur, 1),
-				new ItemStack(ModItems.dust, 1),
-				new ItemStack(ModItems.dust, 1) });
-
 		recipes.put(new OreDictStack(COAL.ore()), new ItemStack[] {
 				new ItemStack(ModItems.powder_coal, 2),
 				new ItemStack(ModItems.powder_coal, 2),

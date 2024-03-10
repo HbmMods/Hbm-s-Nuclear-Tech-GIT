@@ -3,6 +3,12 @@
   * And this is why we can't ever have anything nice
 * Rebalanced glyphids
   * We'll see how it goes
+* Did some spring cleaning
+  * Removed cloud residue (looked horrible, allowed for weird dupes and made no sense overall)
+  * Removed bottle cap blocks (took up a ton of block IDs and nobody used those anyway)
+  * Removed the config option for silos (the option no longer works anyway since the new silos use the structure component system)
+  * Removed a few other minor things that won't be mentioned because nobody's gonna even notice their absence anyway
+* Retextured the laser detonator to look more like the old detonator, but keeping the 3D model
 
 ## Fixed
 * WarTec should now be compatible again
