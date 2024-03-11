@@ -204,4 +204,14 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 
 	@Override public boolean providesFluid(FluidType type, ItemStack stack) { return false; }
 	@Override public int tryEmpty(FluidType type, int amount, ItemStack stack) { return amount; }
+
+	@Override
+	public FluidType getFirstFluidType(ItemStack stack) {
+		return null;
+	}
+
+	@Override
+	public int getFill(ItemStack stack) {
+		return 0;
+	}
 }

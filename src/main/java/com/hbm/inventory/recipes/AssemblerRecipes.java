@@ -17,6 +17,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockCap.EnumCapBlock;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.RecipesCommon.*;
@@ -955,6 +956,15 @@ public class AssemblerRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.circuit_tantalium, 6),
 						new ComparableStack(ModItems.powder_nitan_mix, 18),
 				}, 600);
+
+		makeRecipe(new ComparableStack(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.NUKA)), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
+		makeRecipe(new ComparableStack(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.QUANTUM)), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);
+		makeRecipe(new ComparableStack(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.SPARKLE)), new AStack[] { new ComparableStack(ModItems.cap_sparkle, 128) }, 10);
+		makeRecipe(new ComparableStack(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.RAD)), new AStack[] { new ComparableStack(ModItems.cap_rad, 128) }, 10);
+		makeRecipe(new ComparableStack(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.FRITZ)), new AStack[] { new ComparableStack(ModItems.cap_fritz, 128) }, 10);
+		makeRecipe(new ComparableStack(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.KORL)), new AStack[] { new ComparableStack(ModItems.cap_korl, 128) }, 10);
+		makeRecipe(new ComparableStack(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.SUNSET)), new AStack[] { new ComparableStack(ModItems.cap_sunset, 128) }, 10);
+		makeRecipe(new ComparableStack(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.STAR)), new AStack[] { new ComparableStack(ModItems.cap_star, 128) }, 10);
 
 		if(!GeneralConfig.enable528) {
 			makeRecipe(new ComparableStack(ModBlocks.machine_hephaestus, 1), new AStack[] { new ComparableStack(ModItems.pipes_steel, 1), !exp ? new OreDictStack(STEEL.ingot(), 24) : new OreDictStack(STEEL.heavyComp(), 2), !exp ? new OreDictStack(CU.plate(), 24) : new OreDictStack(CU.heavyComp(), 2), new OreDictStack(NB.ingot(), 4), new OreDictStack(RUBBER.ingot(), 12), new ComparableStack(ModBlocks.glass_quartz, 16) }, 150);

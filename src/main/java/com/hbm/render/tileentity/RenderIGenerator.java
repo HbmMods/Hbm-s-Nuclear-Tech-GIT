@@ -35,7 +35,7 @@ public class RenderIGenerator extends TileEntitySpecialRenderer {
 		
 		GL11.glTranslated(0, 0, 1);
 		GL11.glScaled(1D/6D, 1D/6D, 1D/6D);
-		GL11.glTranslated(0, 0, -1);
+		GL11.glTranslated(0, 0, -0.5);
 
 		bindTexture(ResourceManager.igen_tex);
 		ResourceManager.igen.renderPart("Body");
