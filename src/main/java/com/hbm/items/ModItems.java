@@ -1011,7 +1011,6 @@ public class ModItems {
 	public static Item bottle2_fritz;
 	public static Item bottle2_korl_special;
 	public static Item bottle2_fritz_special;
-	public static Item bottle2_sunset;
 	public static Item flask_empty;
 	public static Item flask_infusion;
 	public static Item chocolate_milk;
@@ -1024,8 +1023,6 @@ public class ModItems {
 	public static Item cap_rad;
 	public static Item cap_korl;
 	public static Item cap_fritz;
-	public static Item cap_sunset;
-	public static Item cap_star;
 	public static Item ring_pull;
 	public static Item bdcl;
 	//public static Item canned_beef;
@@ -3466,8 +3463,6 @@ public class ModItems {
 		cap_rad = new Item().setUnlocalizedName("cap_rad").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_rad");
 		cap_korl = new Item().setUnlocalizedName("cap_korl").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_korl");
 		cap_fritz = new Item().setUnlocalizedName("cap_fritz").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_fritz");
-		cap_sunset = new Item().setUnlocalizedName("cap_sunset").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_sunset");
-		cap_star = new Item().setUnlocalizedName("cap_star").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_star");
 		ring_pull = new Item().setUnlocalizedName("ring_pull").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":ring_pull");
 		
 		can_empty = new Item().setUnlocalizedName("can_empty").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":can_empty");
@@ -3491,7 +3486,6 @@ public class ModItems {
 		bottle2_fritz = new ItemEnergy().makeBottle(bottle2_empty, cap_fritz).setUnlocalizedName("bottle2_fritz").setContainerItem(ModItems.bottle2_empty).setTextureName(RefStrings.MODID + ":bottle2_fritz");
 		bottle2_korl_special = new ItemEnergy().makeBottle(bottle2_empty, cap_korl).setUnlocalizedName("bottle2_korl_special").setContainerItem(ModItems.bottle2_empty).setTextureName(RefStrings.MODID + ":bottle2_korl");
 		bottle2_fritz_special = new ItemEnergy().makeBottle(bottle2_empty, cap_fritz).setUnlocalizedName("bottle2_fritz_special").setContainerItem(ModItems.bottle2_empty).setTextureName(RefStrings.MODID + ":bottle2_fritz");
-		bottle2_sunset = new ItemEnergy().makeBottle(bottle2_empty, cap_sunset).setUnlocalizedName("bottle2_sunset").setContainerItem(ModItems.bottle2_empty).setTextureName(RefStrings.MODID + ":bottle2_sunset");
 		flask_infusion = new ItemFlask().setUnlocalizedName("flask_infusion").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":flask");
 		chocolate_milk = new ItemEnergy().setUnlocalizedName("chocolate_milk").setTextureName(RefStrings.MODID + ":chocolate_milk");
 		coffee = new ItemEnergy().setUnlocalizedName("coffee").setTextureName(RefStrings.MODID + ":coffee");
@@ -7515,40 +7509,12 @@ public class ModItems {
 		GameRegistry.registerItem(bottle2_fritz, bottle2_fritz.getUnlocalizedName());
 		GameRegistry.registerItem(bottle2_korl_special, bottle2_korl_special.getUnlocalizedName());
 		GameRegistry.registerItem(bottle2_fritz_special, bottle2_fritz_special.getUnlocalizedName());
-		GameRegistry.registerItem(bottle2_sunset, bottle2_sunset.getUnlocalizedName());
 		GameRegistry.registerItem(bottle_opener, bottle_opener.getUnlocalizedName());
 		
 		//Flasks
 		GameRegistry.registerItem(flask_infusion, flask_infusion.getUnlocalizedName());
 		
 		//Canned Food
-		//GameRegistry.registerItem(canned_beef, canned_beef.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_tuna, canned_tuna.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_mystery, canned_mystery.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_pashtet, canned_pashtet.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_cheese, canned_cheese.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_jizz, canned_jizz.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_milk, canned_milk.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_ass, canned_ass.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_pizza, canned_pizza.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_tube, canned_tube.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_tomato, canned_tomato.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_asbestos, canned_asbestos.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_bhole, canned_bhole.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_hotdogs, canned_hotdogs.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_leftovers, canned_leftovers.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_yogurt, canned_yogurt.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_stew, canned_stew.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_chinese, canned_chinese.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_oil, canned_oil.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_fist, canned_fist.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_spam, canned_spam.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_fried, canned_fried.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_napalm, canned_napalm.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_diesel, canned_diesel.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_kerosene, canned_kerosene.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_recursion, canned_recursion.getUnlocalizedName());
-		//GameRegistry.registerItem(canned_bark, canned_bark.getUnlocalizedName());
 		GameRegistry.registerItem(canned_conserve, canned_conserve.getUnlocalizedName());
 		
 		//Money
@@ -7558,8 +7524,6 @@ public class ModItems {
 		GameRegistry.registerItem(cap_rad, cap_rad.getUnlocalizedName());
 		GameRegistry.registerItem(cap_korl, cap_korl.getUnlocalizedName());
 		GameRegistry.registerItem(cap_fritz, cap_fritz.getUnlocalizedName());
-		GameRegistry.registerItem(cap_sunset, cap_sunset.getUnlocalizedName());
-		GameRegistry.registerItem(cap_star, cap_star.getUnlocalizedName());
 		GameRegistry.registerItem(ring_pull, ring_pull.getUnlocalizedName());
 		GameRegistry.registerItem(can_key, can_key.getUnlocalizedName());
 		GameRegistry.registerItem(coin_creeper, coin_creeper.getUnlocalizedName());
