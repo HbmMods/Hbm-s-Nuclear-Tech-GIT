@@ -171,6 +171,7 @@
     "weapon.revolverReload": {"category": "player", "sounds": [{"name": "weapon/revolverReload", "stream": false}]},
     "weapon.shotgunReload": {"category": "player", "sounds": ["weapon/shotgunReload1", "weapon/shotgunReload2", "weapon/shotgunReload3"]},
     "weapon.magReload": {"category": "player", "sounds": [{"name": "weapon/magReload", "stream": false}]},
+    "weapon.magReloadBolt": {"category": "player", "sounds": [{"name": "weapon/magReloadBolt", "stream": false}]},
     "weapon.rpgReload": {"category": "player", "sounds": [{"name": "weapon/rpgReload", "stream": false}]},
     "weapon.boat": {"category": "player", "sounds": [{"name": "weapon/boat", "stream": false}]},
     "weapon.hkShoot": {"category": "player", "sounds": [{"name": "weapon/hkShoot", "stream": false}]},

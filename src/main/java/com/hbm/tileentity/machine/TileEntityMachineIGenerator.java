@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.config.GeneralConfig;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.container.ContainerIGenerator;
 import com.hbm.inventory.fluid.FluidType;
@@ -13,13 +12,10 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.gui.GUIIGenerator;
-import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatEnergyControl;
-import com.hbm.util.RTGUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
@@ -29,7 +25,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -129,7 +124,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	@Override
 	public void updateEntity() {
 		
-		if(!worldObj.isRemote) {
+		/*if(!worldObj.isRemote) {
 			
 			boolean con = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMIGen;
 			
@@ -252,7 +247,7 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 				this.rotation -= 360;
 				this.prevRotation -= 360;
 			}
-		}
+		}*/
 	}
 
 	@Override

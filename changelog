@@ -1,116 +1,17 @@
-## Added
-* More custom machine parts
-  * Custom machines now have a neutron acceptor which allows them to use flux from the breeding reactor in recipes
-  * There is now a heat acceptor which can accept heat from things like fireboxes or electric heaters
-  * Also added a config option to create pollution
-* Hydrotreater
-  * Tier 3 oil machine (on the same level as vacuum oil and reforming)
-  * Can de-sulfurize oil, which allows extraction of sour gas directly from crude oil
-  * Using desulfurized oil skips the (rather destructive) desulfurization process of the standard refinery, yielding higher-quality oils
-  * Hydrotreating also allows cracked diesel variants to turn into their normal counterparts
-  * Can convert coal oil directly into coal gasoline
-  * For people afraid that this means yet another oil expansion that they need to progress through, I can assure you that this machine is entirely optional
-* Rural house
-  * A new structure of an old brick house
-* Industrial lighting
-  * Three new lamps that project out a beam of light for more coverage
-  * Cage lamps are made from tungsten filaments and project light by 2 additional blocks
-  * Fluorescent lights are made from mercury and project light 8 blocks, they also connect with each other to form light strips
-  * Halogen floodlights are made with bromine and cast a light beam 32 blocks long
-  * Lights are on by default and can be toggled with redstone
-  * Tritium lamps have also been retrofitted with longer range lighting, casting beams in all cardinal directions for 8 blocks
-* Launch pad
-  * The standard launch pad is now a 9x9 platform that changes depending on what missile is loaded
-  * Missiles now have to be fueled like they would need to be on custom missile launchers
-  * The old launch pad has been renamed to silo launch pad and has kept the same rough shape
-  * Launch pads can still receive missiles from hoppers, however they now have a loading delay, making missiles no longer spammable from a single launch pad
-  * Large launch pads have to physically lift and place the rocket onto the pad, while the silo launch pad has a refueling delay
-  * Custom missiles are not yet usable on the new launch pad, for now they still require the dedicated custom missile launch pads
-* Large silo hatch
-  * Because the new nuclear missile model is too fat, there's now a larger silo hatch
-  * Has a 7x7 footprint and a 5x5 opening
-* Bedrock ores for neodymium and rare earth chunks
-
 ## Changed
-* Deco bocks now drop all of the time, but they drop themselves instead of ingots
-  * To get the ingots, deco blocks now have to be deconstructed in the anvil, yielding an ingot 25% of the time
-  * If I see one more person complaining about the chances I'm reducing it down to 10%
-* Catalytic reformers now have a tooltip informing about the need for a catalytic converter
-* Several guns now have reload animations including most .357 revolvers and Samuel
-* Updated stealth missile texture
-* Some of the larger oil machines now render using display lists which should make them somewhat more performant
-* Glyphid diggers can no longer yeet multiblocks or blocks with a tile entity
-* Parasite-infested glyphids now explode into gore when the parasites pop out
-* Missiles now have a top acceleration twice as much as the previous acceleration, but instead of being static, the acceleration goes up from 0 to max within 3 seconds
-  * This makes missiles reach top speed faster while also making the launches themselves slower and more pleasant
-* Strange stone can no longer be destroyed via AoE, making it easier to find without accidentally mining it
-* Launch pads now spawn launch smoke just like custom missile compact launchers
-* Remodeled all tier 0 missiles
-* Tier 0 missiles now have a much thinner contrail to match their size better
-* Covneyor ejectors can now eject sulfur out of the side ports of refineries
-* Refineries and vacuum refineries now have fluid ID slots for changing the recipe
-* Removed the remaining old oil separation recipes from the chemical plant
-  * To help people coping with this terrible, terrible loss, fraction towers are now twice as fast
-  * This is a reminder that the chemical plant is a chemical reactor first and foremost, recipes like mixing and fractioning only existed because at the time there was no dedicated machine for it
-  * Fractional distilling is not a chemical process but a purely physical one, I don't know who needs to know this but I feel like some people might be unaware of the fact
-* More large models have been converted into display lists which should improve performance somewhat
-* Corroded barrels now crumble after a while
-* PWRs on the edge of unloaded chunks now additionally reset their internal heat value to further reduce the time until they can potentially melt down
-* Removed the assembly recipe for the radial engine since it will be retired soon
-* Removed the endo and exothermal missiles
-* Doomsday missiles are no longer laggy cluster missiles, instead they are now near-identical to thermonuclear missiles but with an added fallout radius of 100#
-* Fallout rain now uses the same variable length code that the MK5 uses for optimal tick utilization, making it a lot faster
-* Lighter sellafite variants should no longer replace darker ones in overlapping craters, making bombed-out landscapes look more natural
-* Fallout's range-based effects now have a more natural gradient instead of creating smooth rings
-* Fallout has been made significantly darker and less saturated to blend in with the crater more
-* Except for solid fueled missiles, all missiles are now fueled in the launch pad and no longer need to be crafted with fuel
-* Missile fuel types have been adjusted
-  * Tier 0: Solid Fuel
-  * Tier 1: Ethanol + Peroxide
-  * Tier 2: Kerosene + Peroxide
-  * Tier 3: Kerosene + LOXY
-  * Tier 4: Jet Fuel + LOXY
-* The micro EMP has been made cheaper, while the schrabidium missile has been made more expensive
-* Oxyhydrogen can now be made by mixing air (i.e. nothing) with hydrogen
-  * The oxygen + hydrogen recipe remains in order to give an option to void oxygen without needing to resort to flare stacks
-* Removed some of the lower tier items fomr the red room loot pool, making the average red room better
-* Retextured the fallout effect, fallout no longer has large snowflakes and the color now matches the crater better
-* High-yield mini nukes no longer create chunk radiation, since they use the MK5 which already has AoE radiation, this prevents dead grass from spawning that makes the crater look uglier
-* Balefire spread is now limited to prevent densely vegetated biomes from lagging to hell
-* The bricked furnace now makes charcoal twice as fast
-* Combination ovens no longer need two welded copper plates and instead only cast plates, therefore no longer being post-arc welder. This should make it more affordable and useful in the initial earlygame where things like automatic wood farms are most important.
-* Any water-like extinguishing fluid shot from the chemical thrower can now wash away fallout layers
-* Overhauled the Mk.III life extender
-  * The assembler recipe has been replaced with a simpler but more expensive workbench recipe
-  * Instead of taking up the chestplate slot, it's now an armor mod worn in the insert slot
-  * The armor no longer gives absorption, instead it adds 25 points to the shield count
-  * The +25 bypasses the shield limit of 100, meaning that with enough shield infusions, the total maximum is now 125
-* The likelihood of uranium ore turning into schrabidium from full-sized nukes is now 10% instead of 1%. Conversion rates for small dirty explosions such as radioactive barrels remain unchanged.
-* Fallout layers will no longer affect players in creative mode
-* Rare earth chunks are now centrifugable, yielding larger quantities of the elements that are most needed earlier in the game
-* Tier 3 missilles no longer need large fuel tanks and thrusters, instead they use two medium fuel tanks and four medium thrusters
-* Tier 4s now need three thrusters
-* Tier 0 missiles now come pre-fueled with solid fuel as part of their recipe
-* Updated the ABM recipe to use the act welder, being made of a tier 0 missile assembly with extra thrusters and loaded with TNT/TATB
-* The super shotgun now has improved animations, and is centered like it is in the original DOOM games
-* 
+* After three quarters of a decade, three separate models, countless rebalances and hours of senseless yapping, the industrial generator has finally met its end. Suddenly, yet not unsurprisingly, on this here day the industrial generator has closed its eyes for the final time. It was a long and eventful journey, but as with all things in life, it too had to come to an end.
+  * And this is why we can't ever have anything nice
+* Rebalanced glyphids
+  * We'll see how it goes
+* Did some spring cleaning
+  * Removed cloud residue (looked horrible, allowed for weird dupes and made no sense overall)
+  * Bottlecap blocks now use a single block ID and metadata instead of using one ID per type. This change however will delete all existing bottlecap blocks in the world
+  * Removed the config option for silos (the option no longer works anyway since the new silos use the structure component system)
+  * Removed a few other minor things that won't be mentioned because nobody's gonna even notice their absence anyway
+* Retextured the laser detonator to look more like the old detonator, but keeping the 3D model
+* Bedrock ores can now be customized in creative mode. Using a drillbit sets the tier, a fluid container sets the borefluid requirement and any other item sets the resource.
+  * The texture used is random, and the color applied is based on the auto detect system. The system doesn't work with layered items, so the resulting color won't be the same as naturally generated bedrock ore. The bedrock ore item in particular will always result in a white ore, no matter the type
 
 ## Fixed
-* Fixed dupe caused by shift-clicking ashes out of the bricked furnace
-* Fixed missiles jerkingly rotating when launching, they should now smoothly transition from being part of the launch pad to being an entity
-* Fixed missile control and launch smoke shifting around when the player is moving
-* Fixed fast-moving missiles spawning too few particles, causing holes in the contrail
-* Fixed coker units creating soot when not processing anything
-* Foundry molds can no longer be removed from basins when there's still material in them, fixing a bug where doing so would void the material
-* Fixed molds not saving when cooling off, allowing to dupe metal when leaving and rejoining
-* Fixed normal drones loading chunks
-* Fixed chunk-loading drones not loading chunks
-* Fixed several chemistry templates missing names
-* Fixed rampant mode random scout spawns being able to appear inside blocks
-* Fixed turret rotation sometimes desyncing when out of range, this is especially noticeable with slow-moving arty
-* Fixed research reactor OC integration allowing the control rods to be set out of bounds
-* Fixed fallout falling faster and overlaying if multiple fallout areas intersect
-* Fixed template folder 3D models rendering with weird shading
-* HUD elements like jetpack charge and the shield bar should now still render even if Tinker's Construct replaces the health bar renderer
-* Fixed players glitching into blocks with larger bounding box when standing on top of them and relogging
-* Fixed a rare crash caused by doors on chunk borders
+* WarTec should now be compatible again
+* Fixed the "Hold shift for more info" line appearing on fluid info when shift is held, and disappearing otherwise

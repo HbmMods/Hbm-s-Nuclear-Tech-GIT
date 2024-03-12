@@ -38,6 +38,7 @@ public class ItemPlasmaSpear extends Item implements IFillableItem, ISyncButtons
 		return 1 - (double) getFill(stack) / (double) maxFuel;
 	}
 
+	@Override
 	public int getFill(ItemStack stack) {
 		if(stack.stackTagCompound == null) {
 			stack.stackTagCompound = new NBTTagCompound();
@@ -170,4 +171,9 @@ public class ItemPlasmaSpear extends Item implements IFillableItem, ISyncButtons
 
 	@Override public boolean providesFluid(FluidType type, ItemStack stack) { return false; }
 	@Override public int tryEmpty(FluidType type, int amount, ItemStack stack) { return 0; }
+
+	@Override
+	public FluidType getFirstFluidType(ItemStack stack) {
+		return Fluids.SCHRABIDIC;
+	}
 }

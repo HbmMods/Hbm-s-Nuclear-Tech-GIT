@@ -73,6 +73,7 @@ public class TileMappings {
 		put(TileEntityRedBarrel.class, "tileentity_barrel");
 		put(TileEntityYellowBarrel.class, "tileentity_nukebarrel");
 		put(TileEntityLaunchPad.class, "tileentity_launch1");
+		put(TileEntityLaunchPadRusted.class, "tileentity_launchpad_rusted");
 		put(TileEntityLaunchPadLarge.class, "tileentity_launchpad_large");
 		put(TileEntityDecoBlock.class, "tileentity_deco");
 		put(TileEntityDecoBlockAltW.class, "tileentity_deco_w");
@@ -267,6 +268,7 @@ public class TileMappings {
 		put(TileEntityTurretArty.class, "tileentity_turret_arty");
 		put(TileEntityTurretHIMARS.class, "tileentity_turret_himars");
 		put(TileEntityTurretSentry.class, "tileentity_turret_sentry");
+		put(TileEntityTurretSentryDamaged.class, "tileentity_turret_sentry_damaged");
 	}
 	
 	private static void putMachines() {

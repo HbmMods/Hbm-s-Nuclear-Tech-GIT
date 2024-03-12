@@ -49,7 +49,7 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		setRandomSeed(event.world, event.chunkX, event.chunkZ); //Set random for population down the line.
 		hasPopulationEvent = true;
 		
-		if(!StructureConfig.enableStructures) return;
+		if(!StructureConfig.enableStructures || !event.world.getWorldInfo().isMapFeaturesEnabled()) return;
 		
 		switch (event.world.provider.dimensionId) {
 		case -1:

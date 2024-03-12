@@ -99,7 +99,7 @@ public class GUIElectrolyserMetal extends GuiInfoContainer {
 		int p = (int) (electrolyser.power * 89 / electrolyser.maxPower);
 		drawTexturedModalRect(guiLeft + 186, guiTop + 107 - p, 210, 89 - p, 16, p);
 		
-		if(electrolyser.power >= electrolyser.usage)
+		if(electrolyser.power >= electrolyser.usageOre)
 			drawTexturedModalRect(guiLeft + 190, guiTop + 4, 226, 25, 9, 12);
 		
 		int o = electrolyser.progressOre * 26 / electrolyser.processOreTime;

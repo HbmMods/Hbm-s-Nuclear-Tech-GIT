@@ -49,7 +49,6 @@ import net.minecraft.world.biome.BiomeGenForest;
 import net.minecraft.world.biome.BiomeGenJungle;
 import net.minecraft.world.biome.BiomeGenRiver;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -218,13 +217,8 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 		}
 		
-		boolean enableDungeons = true;
+		boolean enableDungeons = world.getWorldInfo().isMapFeaturesEnabled();
 		
-		if(world.getChunkProvider() instanceof ChunkProviderFlat) {
-			ChunkProviderFlat provider = (ChunkProviderFlat) world.getChunkProvider();
-			enableDungeons = provider.hasDungeons;
-		}
-
 		if(GeneralConfig.enableDungeons && world.provider.dimensionId == 0 && enableDungeons) {
 			
 			if(MobConfig.enableHives && rand.nextInt(MobConfig.hiveSpawn) == 0) {
@@ -336,13 +330,13 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 
-			if(WorldConfig.siloStructure > 0 && rand.nextInt(WorldConfig.siloStructure) == 0) {
+			/*if(WorldConfig.siloStructure > 0 && rand.nextInt(WorldConfig.siloStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
 
 				new Silo().generate(world, rand, x, y, z);
-			}
+			}*/
 
 			if(WorldConfig.factoryStructure > 0 && rand.nextInt(WorldConfig.factoryStructure) == 0) {
 				int x = i + rand.nextInt(16);

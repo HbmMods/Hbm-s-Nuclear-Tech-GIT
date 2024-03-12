@@ -424,6 +424,7 @@ public class ResourceManager {
 	public static final ResourceLocation turret_arty_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/arty.png");
 	public static final ResourceLocation turret_himars_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/himars.png");
 	public static final ResourceLocation turret_sentry_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/sentry.png");
+	public static final ResourceLocation turret_sentry_damaged_tex = new ResourceLocation(RefStrings.MODID, "textures/models/turrets/sentry_damaged.png");
 
 	public static final ResourceLocation himars_standard_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/himars_standard.png");
 	public static final ResourceLocation himars_single_tex = new ResourceLocation(RefStrings.MODID, "textures/models/projectiles/himars_single.png");
@@ -852,6 +853,8 @@ public class ResourceManager {
 	public static final HashMap<String, BusAnimation> ks23_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/ks23.json"));
 	public static final HashMap<String, BusAnimation> spas_12_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/spas12.json"));
 	public static final HashMap<String, BusAnimation> supershotty_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/supershotty.json"));
+	public static final HashMap<String, BusAnimation> benelli_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/benelli.json"));
+	public static final HashMap<String, BusAnimation> congolake_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/congolake.json"));
 	
 	public static final IModelCustom lance = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/lance.obj"));
 
@@ -1227,6 +1230,7 @@ public class ResourceManager {
 	public static final ResourceLocation missileMIRV_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_atlas_thermo.png");
 	public static final ResourceLocation missileVolcano_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_atlas_tectonic.png");
 	public static final ResourceLocation missileDoomsday_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_atlas_doomsday.png");
+	public static final ResourceLocation missileDoomsdayRusted_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_atlas_doomsday_weathered.png");
 	public static final ResourceLocation missileTaint_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_micro_taint.png");
 	public static final ResourceLocation missileShuttle_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missileShuttle.png");
 	public static final ResourceLocation missileMicro_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_micro.png");
@@ -1238,6 +1242,7 @@ public class ResourceManager {
 	public static final ResourceLocation missileMicroBHole_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_micro_bhole.png");
 	public static final ResourceLocation missileMicroSchrab_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_micro_schrab.png");
 	public static final ResourceLocation missileMicroEMP_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_micro_emp.png");
+	public static final ResourceLocation missileMicroTest_tex = new ResourceLocation(RefStrings.MODID, "textures/models/missile_test.png");
 	
 	public static final ResourceLocation soyuz_engineblock = new ResourceLocation(RefStrings.MODID, "textures/models/soyuz/engineblock.png");
 	public static final ResourceLocation soyuz_bottomstage = new ResourceLocation(RefStrings.MODID, "textures/models/soyuz/bottomstage.png");
@@ -1292,6 +1297,7 @@ public class ResourceManager {
 	
 	//Missile Parts
 	public static final ResourceLocation missile_pad_tex = new ResourceLocation(RefStrings.MODID, "textures/models/launchpad/silo.png");
+	public static final ResourceLocation missile_pad_rusted_tex = new ResourceLocation(RefStrings.MODID, "textures/models/launchpad/silo_rusted.png");
 	public static final ResourceLocation missile_erector_tex = new ResourceLocation(RefStrings.MODID, "textures/models/launchpad/pad.png");
 	public static final ResourceLocation missile_erector_micro_tex = new ResourceLocation(RefStrings.MODID, "textures/models/launchpad/erector_micro.png");
 	public static final ResourceLocation missile_erector_v2_tex = new ResourceLocation(RefStrings.MODID, "textures/models/launchpad/erector_v2.png");
@@ -1469,6 +1475,8 @@ public class ResourceManager {
 	public static final IModelCustom pipe_quad = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/pipe_quad.obj"));
 	public static final IModelCustom pipe_frame = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/pipe_frame.obj"));
 	public static final IModelCustom rtty = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rtty.obj"));
+	public static final IModelCustom crt = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/crt.obj"));
+	public static final IModelCustom toaster = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/toaster.obj"));
 
 	public static final IModelCustom deco_computer = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/puter.obj"));
 	

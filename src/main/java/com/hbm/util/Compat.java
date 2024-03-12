@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.inventory.FluidContainer;
@@ -163,7 +164,7 @@ public class Compat {
 	
 	public static void registerCompatFluidContainers() {
 		
-		if(Compat.isModLoaded(Compat.MOD_TC)) {
+		if(Compat.isModLoaded(Compat.MOD_TC) && GeneralConfig.enableFluidContainerCompat) {
 			Item canister = Compat.tryLoadItem(Compat.MOD_TC, "emptyCanister");
 			Item diesel = Compat.tryLoadItem(Compat.MOD_TC, "diesel");
 			if(diesel != null && canister != null) FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(diesel), new ItemStack(canister), Fluids.DIESEL, 1000));

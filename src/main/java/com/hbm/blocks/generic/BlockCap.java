@@ -1,45 +1,71 @@
 package com.hbm.blocks.generic;
 
+import java.util.Locale;
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.machine.BlockPillar;
+import com.hbm.blocks.BlockEnumMulti;
 import com.hbm.items.ModItems;
+import com.hbm.util.EnumUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
+import net.minecraft.util.IIcon;
 
-public class BlockCap extends BlockPillar {
+public class BlockCap extends BlockEnumMulti {
+	
+	protected IIcon[] iconsTop;
 
-	public BlockCap(Material mat, String tex) {
-		super(mat, tex);
+	public BlockCap() {
+		super(Material.iron, EnumCapBlock.class, true, true);
 	}
 
 	@Override
-	public Item getItemDropped(int i, Random rand, int j) {
-
-		if(this == ModBlocks.block_cap_nuka)
-			return ModItems.cap_nuka;
-		if(this == ModBlocks.block_cap_quantum)
-			return ModItems.cap_quantum;
-		if(this == ModBlocks.block_cap_sparkle)
-			return ModItems.cap_sparkle;
-		if(this == ModBlocks.block_cap_rad)
-			return ModItems.cap_rad;
-		if(this == ModBlocks.block_cap_korl)
-			return ModItems.cap_korl;
-		if(this == ModBlocks.block_cap_fritz)
-			return ModItems.cap_fritz;
-		if(this == ModBlocks.block_cap_sunset)
-			return ModItems.cap_sunset;
-		if(this == ModBlocks.block_cap_star)
-			return ModItems.cap_star;
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister reg) {
 		
+		Enum[] enums = theEnum.getEnumConstants();
+		this.icons = new IIcon[enums.length];
+		this.iconsTop = new IIcon[enums.length];
+		
+		for(int i = 0; i < icons.length; i++) {
+			Enum num = enums[i];
+			this.icons[i] = reg.registerIcon(this.getTextureMultiName(num));
+			this.iconsTop[i] = reg.registerIcon(this.getTextureMultiName(num) + "_top");
+		}
+	}
+	
+	@Override public String getTextureMultiName(Enum num) { return this.getTextureName() + "_" + num.name().toLowerCase(Locale.US); }
+	@Override public String getUnlocalizedMultiName(Enum num) { return super.getUnlocalizedName() + "_" + num.name().toLowerCase(Locale.US); }
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta) {
+		return side == 0 || side == 1 ? this.iconsTop[meta % this.iconsTop.length] : this.icons[meta % this.icons.length];
+	}
+	
+	@Override
+	public Item getItemDropped(int meta, Random rand, int j) {
+		
+		EnumCapBlock cap = EnumUtil.grabEnumSafely(EnumCapBlock.class, meta);
+
+		if(cap == EnumCapBlock.NUKA) return ModItems.cap_nuka;
+		if(cap == EnumCapBlock.QUANTUM) return ModItems.cap_quantum;
+		if(cap == EnumCapBlock.SPARKLE) return ModItems.cap_sparkle;
+		if(cap == EnumCapBlock.RAD) return ModItems.cap_rad;
+		if(cap == EnumCapBlock.KORL) return ModItems.cap_korl;
+		if(cap == EnumCapBlock.FRITZ) return ModItems.cap_fritz;
+		if(cap == EnumCapBlock.SUNSET) return ModItems.cap_sunset;
+		if(cap == EnumCapBlock.STAR) return ModItems.cap_star;
+
 		return null;
-    }
-    
-    @Override
-	public int quantityDropped(Random rand) {
-    	return 128;
-    }
+	}
+
+	@Override public int quantityDropped(Random rand) { return 128; }
+
+	public static enum EnumCapBlock {
+		NUKA, QUANTUM, SPARKLE, RAD, KORL, FRITZ, SUNSET, STAR;
+	}
 }

@@ -75,7 +75,6 @@ public class ConsumableRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.mucho_mango, 1), new Object[] { Items.potionitem, Items.sugar, Items.sugar, KEY_ORANGE });
 
 		//Canteens
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.canteen_13, 1), new Object[] { "O", "P", 'O', Items.potionitem, 'P', STEEL.plate() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.canteen_vodka, 1), new Object[] { "O", "P", 'O', Items.potato, 'P', STEEL.plate() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.canteen_fab, 1), new Object[] { "VMV", "MVM", "VMV", 'V', ModItems.canteen_vodka, 'M', ModItems.powder_magic });
 

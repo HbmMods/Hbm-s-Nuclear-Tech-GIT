@@ -259,21 +259,17 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 		return null;
 	}
 	public void pollution(CustomMachineRecipe recipe) {
-		if (recipe.pollutionMode) {
-			if (recipe.pollutionAmount > 0) {
-				this.pollute(PollutionHandler.PollutionType.valueOf(recipe.pollutionType), recipe.pollutionAmount);
-			} else if (recipe.pollutionAmount < 0 && PollutionHandler.getPollution(worldObj, xCoord, yCoord, zCoord, PollutionHandler.PollutionType.valueOf(recipe.pollutionType)) >= -recipe.pollutionAmount) {
-				PollutionHandler.decrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionHandler.PollutionType.valueOf(recipe.pollutionType), -recipe.pollutionAmount);
-			}
+		if(recipe.pollutionAmount > 0) {
+			this.pollute(PollutionHandler.PollutionType.valueOf(recipe.pollutionType), recipe.pollutionAmount);
+		} else if(recipe.pollutionAmount < 0 && PollutionHandler.getPollution(worldObj, xCoord, yCoord, zCoord, PollutionHandler.PollutionType.valueOf(recipe.pollutionType)) >= -recipe.pollutionAmount) {
+			PollutionHandler.decrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionHandler.PollutionType.valueOf(recipe.pollutionType), -recipe.pollutionAmount);
 		}
 	}
 	public void radiation(CustomMachineRecipe recipe){
-		if (recipe.radiationMode) {
-			if (recipe.radiationAmount > 0) {
-				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, recipe.radiationAmount);
-			} else if (recipe.radiationAmount < 0) {
-				ChunkRadiationManager.proxy.decrementRad(worldObj, xCoord, yCoord, zCoord, -recipe.radiationAmount);
-			}
+		if(recipe.radiationAmount > 0) {
+			ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, recipe.radiationAmount);
+		} else if (recipe.radiationAmount < 0) {
+			ChunkRadiationManager.proxy.decrementRad(worldObj, xCoord, yCoord, zCoord, -recipe.radiationAmount);
 		}
 	}
 	protected void tryPullHeat(int x, int y, int z) {
@@ -442,7 +438,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 		if(this.config.itemInCount > 2) return new int[] { 4, 5, 6, 16, 17, 18, 19, 20, 21 };
 		if(this.config.itemInCount > 1) return new int[] { 4, 5, 16, 17, 18, 19, 20, 21 };
 		if(this.config.itemInCount > 0) return new int[] { 4, 16, 17, 18, 19, 20, 21 };
-		return new int[] { };
+		return new int[] { 16, 17, 18, 19, 20, 21 };
 	}
 
 	@Override

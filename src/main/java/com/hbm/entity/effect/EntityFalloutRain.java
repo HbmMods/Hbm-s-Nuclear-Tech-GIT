@@ -211,12 +211,12 @@ public class EntityFalloutRain extends Entity {
 			float hardness = b.getBlockHardness(worldObj, x, y, z);
 			if(dist < 65 && hardness <= Blocks.stonebrick.getExplosionResistance(null) && hardness >= 0/* && !b.hasTileEntity(worldObj.getBlockMetadata(x, y, z))*/) {
 				
-				Block bl = worldObj.getBlock(x, y - 1, z);
-				if(bl == Blocks.air) {
+				if(worldObj.getBlock(x, y - 1, z) == Blocks.air) {
 					for(int i = 0; i <= depth; i++) {
-						hardness = worldObj.getBlock(x, y + i, z).getBlockHardness(worldObj, x, y + i, z);
+						Block block = worldObj.getBlock(x, y + i, z);
+						hardness = block.getBlockHardness(worldObj, x, y + i, z);
 						if(hardness <= Blocks.stonebrick.getExplosionResistance(null) && hardness >= 0) {
-							EntityFallingBlockNT entityfallingblock = new EntityFallingBlockNT(worldObj, x + 0.5D, y + 0.5D + i, z + 0.5D, worldObj.getBlock(x, y + i, z), worldObj.getBlockMetadata(x, y + i, z));
+							EntityFallingBlockNT entityfallingblock = new EntityFallingBlockNT(worldObj, x + 0.5D, y + 0.5D + i, z + 0.5D, block, worldObj.getBlockMetadata(x, y + i, z));
 							entityfallingblock.canDrop = false; //turn off block drops because block dropping was coded by a mule with dementia
 							worldObj.spawnEntityInWorld(entityfallingblock);
 						}

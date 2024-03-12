@@ -13,6 +13,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.AssemblerRecipes;
+import com.hbm.inventory.recipes.AssemblerRecipes.AssemblerRecipe;
 import com.hbm.inventory.recipes.ChemplantRecipes;
 import com.hbm.inventory.recipes.ChemplantRecipes.ChemRecipe;
 import com.hbm.inventory.recipes.CrucibleRecipes;
@@ -34,6 +35,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -56,21 +58,22 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 
 		if(player.getHeldItem() == null)
 			return;
+		
+		Item item = player.getHeldItem().getItem();
 
-		if(player.getHeldItem().getItem() == ModItems.template_folder) {
+		this.isJournal = item != ModItems.template_folder;
 
+		if(!this.isJournal) {
 			// Stamps
-			for(ItemStack i : ItemStamp.stamps.get(StampType.PLATE))
-				allStacks.add(i.copy());
-			for(ItemStack i : ItemStamp.stamps.get(StampType.WIRE))
-				allStacks.add(i.copy());
-			for(ItemStack i : ItemStamp.stamps.get(StampType.CIRCUIT))
-				allStacks.add(i.copy());
+			for(ItemStack i : ItemStamp.stamps.get(StampType.PLATE)) allStacks.add(i.copy());
+			for(ItemStack i : ItemStamp.stamps.get(StampType.WIRE)) allStacks.add(i.copy());
+			for(ItemStack i : ItemStamp.stamps.get(StampType.CIRCUIT)) allStacks.add(i.copy());
 			
 			// Tracks
 			for(int i = 1; i < ItemCassette.TrackType.values().length; i++) {
 				allStacks.add(new ItemStack(ModItems.siren_track, 1, i));
 			}
+			
 			// Fluid IDs
 			FluidType[] fluids = Fluids.getInNiceOrder();
 			for(int i = 1; i < fluids.length; i++) {
@@ -78,14 +81,18 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 					allStacks.add(new ItemStack(ModItems.fluid_identifier, 1, fluids[i].getID()));
 				}
 			}
-			// Assembly Templates
-			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
-
-				ComparableStack comp = AssemblerRecipes.recipeList.get(i);
-				if(AssemblerRecipes.hidden.get(comp) == null) {
-					allStacks.add(ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template, 1, i), comp));
-				}
+		}
+		
+		// Assembly Templates
+		for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
+			ComparableStack comp = AssemblerRecipes.recipeList.get(i);
+			AssemblerRecipe recipe = AssemblerRecipes.recipes.get(comp);
+			if(recipe != null && recipe.folders.contains(item)) {
+				allStacks.add(ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template, 1, i), comp));
 			}
+		}
+
+		if(!this.isJournal) {
 			// Chemistry Templates
 			for(int i = 0; i < ChemplantRecipes.recipes.size(); i++) {
 				ChemRecipe chem = ChemplantRecipes.recipes.get(i);
@@ -96,19 +103,6 @@ public class GUIScreenTemplateFolder extends GuiScreen {
 			for(int i = 0; i < CrucibleRecipes.recipes.size(); i++) {
 				allStacks.add(new ItemStack(ModItems.crucible_template, 1, CrucibleRecipes.recipes.get(i).getId()));
 			}
-		} else {
-
-			for(int i = 0; i < AssemblerRecipes.recipeList.size(); i++) {
-				
-				if(AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)) != null &&
-						AssemblerRecipes.hidden.get(AssemblerRecipes.recipeList.get(i)).contains(player.getHeldItem().getItem())) {
-					
-					ComparableStack comp = AssemblerRecipes.recipeList.get(i);
-					allStacks.add(ItemAssemblyTemplate.writeType(new ItemStack(ModItems.assembly_template, 1, i), comp));
-				}
-			}
-			
-			isJournal = true;
 		}
 		
 		search(null);

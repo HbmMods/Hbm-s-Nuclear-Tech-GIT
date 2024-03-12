@@ -23,6 +23,7 @@ public class HbmAnimations {
 		RELOAD_CYCLE,	//animation that plays for every individual round (for shotguns and similar single round loading weapons)
 		RELOAD_END,		//animation for transitioning from our RELOAD_CYCLE to idle
 		CYCLE,			//animation for every firing cycle
+		CYCLE_EMPTY,	//animation for the final shot in the magazine
 		ALT_CYCLE,		//animation for alt fire cycles
 		SPINUP,			//animation for actionstart
 		SPINDOWN,		//animation for actionend

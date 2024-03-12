@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.machine.TileEntityMachineGasCent;
 import com.hbm.tileentity.machine.TileEntityMachineGasCent.PseudoFluidTank;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
@@ -22,6 +23,11 @@ import net.minecraft.world.World;
 
 /** Provides data specified by EC's CrossModBase */
 public class CompatEnergyControl {
+	
+	/** Returns the steel ingot to craft the sensor kit with */
+	public static ItemStack getCraftingMaterial() {
+		return new ItemStack(ModItems.ingot_steel); //in the event that i do end up moving all ingots to metadata
+	}
 
 	/** Returns true for stacks with electric items like batteries or powertools (i.e. implements IBatteryItem) */
 	public static boolean isElectricItem(ItemStack stack) {

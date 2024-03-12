@@ -24,12 +24,14 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -43,13 +45,15 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineGasFlare extends TileEntityMachineBase implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityMachineGasFlare extends TileEntityMachineBase implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC {
 
 	public long power;
 	public static final long maxPower = 100000;
 	public FluidTank tank;
 	public boolean isOn = false;
 	public boolean doesBurn = false;
+	protected int fluidUsed = 0;
+	protected int output = 0;
 
 	public TileEntityMachineGasFlare() {
 		super(6);
@@ -99,6 +103,9 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			this.fluidUsed = 0;
+			this.output = 0;
 
 			for(DirPos pos : getConPos()) {
 				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -125,6 +132,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 					
 					if(tank.getTankType().hasTrait(FT_Gaseous.class) || tank.getTankType().hasTrait(FT_Gaseous_ART.class)) {
 						int eject = Math.min(maxVent, tank.getFill());
+						this.fluidUsed = eject;
 						tank.setFill(tank.getFill() - eject);
 						tank.getTankType().onFluidRelease(this, tank, eject);
 						
@@ -135,6 +143,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 					
 					if(tank.getTankType().hasTrait(FT_Flammable.class)) {
 						int eject = Math.min(maxBurn, tank.getFill());
+						this.fluidUsed = eject;
 						tank.setFill(tank.getFill() - eject);
 						
 						int penalty = 5;
@@ -145,6 +154,7 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 						powerProd /= penalty;
 						powerProd += powerProd * yield / 3;
 						
+						this.output = (int) powerProd;
 						power += powerProd;
 						
 						if(power > maxPower)
@@ -335,5 +345,12 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 		if(type == UpgradeType.SPEED) return 3;
 		if(type == UpgradeType.EFFECT) return 3;
 		return 0;
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.fluidUsed > 0);
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, this.fluidUsed);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, this.output);
 	}
 }

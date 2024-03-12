@@ -15,6 +15,8 @@ public class WeaponConfig {
 	public static boolean dropStar = true;
 	public static boolean dropCrys = true;
 	public static boolean dropDead = true;
+
+	public static boolean linearAnimations = false;
 	
 	public static void loadFromConfig(Configuration config) {
 
@@ -38,5 +40,9 @@ public class WeaponConfig {
 		dropStar = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.02_dropStar", "Whether rigged star blaster cells should explode when dropped", true);
 		dropCrys = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.04_dropCrys", "Whether xen crystals should move blocks when dropped", true);
 		dropDead = CommonConfig.createConfigBool(config, CATEGORY_DROPS, "10.05_dropDead", "Whether dead man's explosives should explode when dropped", true);
+
+		final String CATEGORY_WEAPONS = CommonConfig.CATEGORY_WEAPONS;
+		linearAnimations = CommonConfig.createConfigBool(config, CATEGORY_WEAPONS, "18.00_linearAnimations", "Should heavily stylised weapon animations be replaced with more conventional ones?", false);
+
 	}
 }

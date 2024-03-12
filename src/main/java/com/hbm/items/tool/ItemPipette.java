@@ -68,7 +68,8 @@ public class ItemPipette extends Item implements IFillableItem {
 		stack.stackTagCompound.setShort("fill", fill);
 	}
 
-	public short getFill(ItemStack stack) {
+	@Override
+	public int getFill(ItemStack stack) {
 		if(!stack.hasTagCompound()) {
 			initNBT(stack);
 		}
@@ -203,4 +204,8 @@ public class ItemPipette extends Item implements IFillableItem {
 		}
 	}
 
+	@Override
+	public FluidType getFirstFluidType(ItemStack stack) {
+		return this.getType(stack);
+	}
 }

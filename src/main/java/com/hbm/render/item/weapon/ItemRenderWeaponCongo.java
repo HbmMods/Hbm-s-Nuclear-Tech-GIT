@@ -1,8 +1,14 @@
 package com.hbm.render.item.weapon;
 
+import java.awt.Color;
+
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.handler.BulletConfiguration;
+import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.ResourceManager;
+import com.hbm.particle.SpentCasing;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
@@ -34,8 +40,7 @@ public class ItemRenderWeaponCongo implements IItemRenderer {
 		
 		GL11.glPushMatrix();
 		
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.congolake_tex);
 		
@@ -50,17 +55,70 @@ public class ItemRenderWeaponCongo implements IItemRenderer {
 			GL11.glRotated(90, 0, 1, 0);
 			GL11.glScaled(s0, s0, s0);
 
-			double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
-			GL11.glTranslated(0, 0, -recoil[0]);
-			
-			GL11.glShadeModel(GL11.GL_SMOOTH);
+			HbmAnimations.applyRelevantTransformation("Gun");
 			ResourceManager.congolake.renderPart("Gun");
 
-			double[] pump = HbmAnimations.getRelevantTransformation("PUMP");
-			GL11.glTranslated(0, 0, -pump[0]);
-			
-			ResourceManager.congolake.renderPart("Pump_Pummp");
-			GL11.glShadeModel(GL11.GL_FLAT);
+
+			GL11.glPushMatrix();
+			{
+				HbmAnimations.applyRelevantTransformation("Pump");
+				ResourceManager.congolake.renderPart("Pump");
+			}
+			GL11.glPopMatrix();
+
+
+			GL11.glPushMatrix();
+			{
+				HbmAnimations.applyRelevantTransformation("Sight");
+				ResourceManager.congolake.renderPart("Sight");
+			}
+			GL11.glPopMatrix();
+
+
+			GL11.glPushMatrix();
+			{
+				HbmAnimations.applyRelevantTransformation("Loop");
+				ResourceManager.congolake.renderPart("Loop");
+			}
+			GL11.glPopMatrix();
+
+
+			GL11.glPushMatrix();
+			{
+				HbmAnimations.applyRelevantTransformation("GuardOuter");
+				ResourceManager.congolake.renderPart("GuardOuter");
+
+				GL11.glPushMatrix();
+				{
+					HbmAnimations.applyRelevantTransformation("GuardInner");
+					ResourceManager.congolake.renderPart("GuardInner");
+				}
+				GL11.glPopMatrix();
+			}
+			GL11.glPopMatrix();
+
+
+			GL11.glPushMatrix();
+			{
+				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.casings_tex);
+
+				HbmAnimations.applyRelevantTransformation("Shell");
+
+				ItemGunBase gun = (ItemGunBase)item.getItem();
+				BulletConfiguration bullet = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(item)));
+				int[] colors = bullet.spentCasing != null ? bullet.spentCasing.getColors() : new int[] { SpentCasing.COLOR_CASE_40MM };
+
+				Color shellColor = new Color(colors[0]);
+				GL11.glColor3f(shellColor.getRed() / 255F, shellColor.getGreen() / 255F, shellColor.getBlue() / 255F);
+				ResourceManager.congolake.renderPart("Shell");
+				
+				Color shellForeColor = new Color(colors.length > 1 ? colors[1] : colors[0]);
+				GL11.glColor3f(shellForeColor.getRed() / 255F, shellForeColor.getGreen() / 255F, shellForeColor.getBlue() / 255F);
+				ResourceManager.congolake.renderPart("ShellFore");
+
+				GL11.glColor3f(1F, 1F, 1F);
+			}
+			GL11.glPopMatrix();
 			
 			break;
 			
@@ -96,11 +154,11 @@ public class ItemRenderWeaponCongo implements IItemRenderer {
 		}
 
 		if(type != ItemRenderType.EQUIPPED_FIRST_PERSON) {
-			GL11.glShadeModel(GL11.GL_SMOOTH);
 			ResourceManager.congolake.renderAll();
-			GL11.glShadeModel(GL11.GL_FLAT);
 		}
-		
+
+		GL11.glShadeModel(GL11.GL_FLAT);
+
 		GL11.glPopMatrix();
 	}
 }

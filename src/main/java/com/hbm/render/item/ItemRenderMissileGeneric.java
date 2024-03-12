@@ -130,6 +130,7 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 	
 	public static void init() {
 
+		renderers.put(new ComparableStack(ModItems.missile_test), generateStandard(ResourceManager.missileMicroTest_tex, ResourceManager.missileMicro));
 		renderers.put(new ComparableStack(ModItems.missile_taint), generateStandard(ResourceManager.missileTaint_tex, ResourceManager.missileMicro));
 		renderers.put(new ComparableStack(ModItems.missile_micro), generateStandard(ResourceManager.missileMicro_tex, ResourceManager.missileMicro));
 		renderers.put(new ComparableStack(ModItems.missile_bhole), generateStandard(ResourceManager.missileMicroBHole_tex, ResourceManager.missileMicro));
@@ -164,6 +165,7 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		renderers.put(new ComparableStack(ModItems.missile_nuclear_cluster), generateStandard(ResourceManager.missileMIRV_tex, ResourceManager.missileNuclear));
 		renderers.put(new ComparableStack(ModItems.missile_volcano), generateStandard(ResourceManager.missileVolcano_tex, ResourceManager.missileNuclear));
 		renderers.put(new ComparableStack(ModItems.missile_doomsday), generateStandard(ResourceManager.missileDoomsday_tex, ResourceManager.missileNuclear));
+		renderers.put(new ComparableStack(ModItems.missile_doomsday_rusted), generateStandard(ResourceManager.missileDoomsdayRusted_tex, ResourceManager.missileNuclear));
 
 		renderers.put(new ComparableStack(ModItems.missile_carrier), x -> {
 			GL11.glScalef(2F, 2F, 2F);

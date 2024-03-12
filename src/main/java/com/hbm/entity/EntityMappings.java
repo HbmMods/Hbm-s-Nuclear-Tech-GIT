@@ -109,6 +109,7 @@ public class EntityMappings {
 		addEntity(EntityMinecartTest.class, "entity_minecart_test", 1000);
 		addEntity(EntitySparkBeam.class, "entity_spark_beam", 1000);
 		addEntity(EntityMissileDoomsday.class, "entity_missile_doomsday", 1000);
+		addEntity(EntityMissileDoomsdayRusted.class, "entity_missile_doomsday_rusted", 1000);
 		addEntity(EntityTSmokeFX.class, "entity_t_smoke_fx", 1000);
 		addEntity(EntityNukeExplosionMK3.class, "entity_nuke_mk3", 1000);
 		addEntity(EntityVortex.class, "entity_vortex", 250);
@@ -122,6 +123,7 @@ public class EntityMappings {
 		addEntity(EntityExplosiveBeam.class, "entity_beam_bomb", 1000);
 		addEntity(EntityAAShell.class, "entity_aa_shell", 1000);
 		addEntity(EntityRocketHoming.class, "entity_stinger", 1000);
+		addEntity(EntityMissileTest.class, "entity_missile_test_mk2", 1000);
 		addEntity(EntityMissileMicro.class, "entity_missile_micronuclear", 1000);
 		addEntity(EntityCloudSolinium.class, "entity_cloud_rainbow", 1000);
 		addEntity(EntityRagingVortex.class, "entity_raging_vortex", 250);
