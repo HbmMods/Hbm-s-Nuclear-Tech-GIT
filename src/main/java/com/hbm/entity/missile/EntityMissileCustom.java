@@ -72,8 +72,11 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 
 	@Override
 	protected void killMissile() {
-		ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
-		ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
+		if(!this.isDead) {
+			this.setDead();
+			ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
+			ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
+		}
 	}
 	
 	@Override

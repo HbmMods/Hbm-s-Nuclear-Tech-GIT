@@ -2,7 +2,9 @@ package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotUpgrade;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineCrystallizer;
 
 import api.hbm.energy.IBatteryItem;
@@ -46,44 +48,46 @@ public class ContainerCrystallizer extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
-		ItemStack var3 = null;
-		Slot var4 = (Slot) this.inventorySlots.get(par2);
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		ItemStack rStack = null;
+		Slot slot = (Slot) this.inventorySlots.get(index);
 
-		if(var4 != null && var4.getHasStack()) {
-			ItemStack var5 = var4.getStack();
-			var3 = var5.copy();
-			SlotCraftingOutput.checkAchievements(p_82846_1_, var5);
+		if(slot != null && slot.getHasStack()) {
+			ItemStack stack = slot.getStack();
+			rStack = stack.copy();
+			SlotCraftingOutput.checkAchievements(player, stack);
 
-			if(par2 <= diFurnace.getSizeInventory() - 1) {
-				if(!this.mergeItemStack(var5, diFurnace.getSizeInventory(), this.inventorySlots.size(), true)) {
+			if(index <= 7) {
+				if(!this.mergeItemStack(stack, 8, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
 				
-				if(var3.getItem() instanceof IBatteryItem) {
-					if(!this.mergeItemStack(var5, 1, 2, false)) {
+				if(rStack.getItem() instanceof IBatteryItem || rStack.getItem() == ModItems.battery_creative) {
+					if(!this.mergeItemStack(stack, 1, 2, false))
 						return null;
-					}
-				} else if(var3.getItem() instanceof IItemFluidIdentifier) {
-					if(!this.mergeItemStack(var5, 7, 8, false)) {
+					
+				} else if(rStack.getItem() instanceof IItemFluidIdentifier) {
+					if(!this.mergeItemStack(stack, 7, 8, false))
 						return null;
-					}
-				} else {
-					if(!this.mergeItemStack(var5, 0, 1, false)) {
+					
+				} else if(rStack.getItem() instanceof ItemMachineUpgrade) {
+					if(!this.mergeItemStack(stack, 5, 7, false))
 						return null;
-					}
-				}
+					
+				} else
+					if(!this.mergeItemStack(stack, 0, 1, false))
+						return null;
 			}
 
-			if(var5.stackSize == 0) {
-				var4.putStack((ItemStack) null);
+			if(stack.stackSize == 0) {
+				slot.putStack((ItemStack) null);
 			} else {
-				var4.onSlotChanged();
+				slot.onSlotChanged();
 			}
 		}
 
-		return var3;
+		return rStack;
 	}
 
 	@Override

@@ -1,12 +1,6 @@
 package com.hbm.tileentity.machine.oil;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.FractionRecipes;
@@ -22,19 +16,16 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineFractionTower extends TileEntityLoadedBase implements IFluidSource, IFluidAcceptor, INBTPacketReceiver, IFluidStandardTransceiver {
+public class TileEntityMachineFractionTower extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardTransceiver {
 	
 	public FluidTank[] tanks;
-	public List<IFluidAcceptor> list1 = new ArrayList();
-	public List<IFluidAcceptor> list2 = new ArrayList();
 	
 	public TileEntityMachineFractionTower() {
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(Fluids.HEAVYOIL, 4000, 0);
-		tanks[1] = new FluidTank(Fluids.BITUMEN, 4000, 1);
-		tanks[2] = new FluidTank(Fluids.SMEAR, 4000, 2);
+		tanks[0] = new FluidTank(Fluids.HEAVYOIL, 4000);
+		tanks[1] = new FluidTank(Fluids.BITUMEN, 4000);
+		tanks[2] = new FluidTank(Fluids.SMEAR, 4000);
 	}
 	
 	@Override
@@ -69,13 +60,8 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 			setupTanks();
 			this.updateConnections();
 			
-			if(worldObj.getTotalWorldTime() % 20 == 0)
+			if(worldObj.getTotalWorldTime() % 10 == 0)
 				fractionate();
-			
-			if(worldObj.getTotalWorldTime() % 10 == 0) {
-				fillFluidInit(tanks[1].getTankType());
-				fillFluidInit(tanks[2].getTankType());
-			}
 			
 			this.sendFluid();
 			
@@ -167,76 +153,6 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 
 		for(int i = 0; i < 3; i++)
 			tanks[i].writeToNBT(nbt, "tank" + i);
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if(index < 3 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				tank.setFill(fill);
-			}
-		}
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		this.tanks[index].setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				return tank.getFill();
-			}
-		}
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if(type == tanks[0].getTankType())
-			return tanks[0].getMaxFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		
-		for(int i = 2; i < 6; i++) {
-			ForgeDirection dir = ForgeDirection.getOrientation(i);
-			fillFluid(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, this.getTact(), type);
-		}
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 20 < 10;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		if(type == tanks[1].getTankType()) return list1;
-		if(type == tanks[2].getTankType()) return list2;
-		return new ArrayList<IFluidAcceptor>();
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		if(type == tanks[1].getTankType()) list1.clear();
-		if(type == tanks[2].getTankType()) list2.clear();
 	}
 	
 	AxisAlignedBB bb = null;

@@ -54,11 +54,13 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	
 	public long power;
 	public static final long maxPower = 20000000;
-	public static final int usageBase = 10000;
-	public int usage;
+	public static final int usageOreBase = 10_000;
+	public static final int usageFluidBase = 10_000;
+	public int usageOre;
+	public int usageFluid;
 	
 	public int progressFluid;
-	public static final int processFluidTimeBase = 40;
+	public static final int processFluidTimeBase = 20;
 	public int processFluidTime;
 	public int progressOre;
 	public static final int processOreTimeBase = 400;
@@ -138,11 +140,12 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 			processFluidTime = (processFluidTimeBase - processFluidTimeBase * speedLevel / 4) / (amps + 1);
 			processOreTime = (processOreTimeBase - processOreTimeBase * speedLevel / 4) / (amps + 1);
-			usage = (usageBase - usageBase * powerLevel / 4) * (amps + 1);
+			usageOre = (usageOreBase - usageOreBase * powerLevel / 4) * (amps + 1);
+			usageFluid = (usageFluidBase - usageFluidBase * powerLevel / 4) * (amps + 1);
 			
 			if(this.canProcessFluid()) {
 				this.progressFluid++;
-				this.power -= this.usage;
+				this.power -= this.usageFluid;
 				
 				if(this.progressFluid >= this.processFluidTime) {
 					this.processFluids();
@@ -153,7 +156,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			
 			if(this.canProcesMetal()) {
 				this.progressOre++;
-				this.power -= this.usage;
+				this.power -= this.usageOre;
 				
 				if(this.progressOre >= this.processOreTime) {
 					this.processMetal();
@@ -169,7 +172,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 				toCast.add(this.leftStack);
 				
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.NUGGET.q(1), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.NUGGET.q(3), impact);
 
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();
@@ -212,7 +215,8 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			data.setLong("power", this.power);
 			data.setInteger("progressFluid", this.progressFluid);
 			data.setInteger("progressOre", this.progressOre);
-			data.setInteger("usage", this.usage);
+			data.setInteger("usageOre", this.usageOre);
+			data.setInteger("usageFluid", this.usageFluid);
 			data.setInteger("processFluidTime", this.processFluidTime);
 			data.setInteger("processOreTime", this.processOreTime);
 			if(this.leftStack != null) {
@@ -244,10 +248,13 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.progressFluid = nbt.getInteger("progressFluid");
 		this.progressOre = nbt.getInteger("progressOre");
-		this.usage = nbt.getInteger("usage");
+		this.usageOre = nbt.getInteger("usageOre");
+		this.usageFluid = nbt.getInteger("usageFluid");
 		this.processFluidTime = nbt.getInteger("processFluidTime");
 		this.processOreTime = nbt.getInteger("processOreTime");
 		if(nbt.hasKey("leftType")) this.leftStack = new MaterialStack(Mats.matById.get(nbt.getInteger("leftType")), nbt.getInteger("leftAmount"));
@@ -259,7 +266,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	
 	public boolean canProcessFluid() {
 		
-		if(this.power < usage) return false;
+		if(this.power < usageFluid) return false;
 		
 		ElectrolysisRecipe recipe = ElectrolyserFluidRecipes.recipes.get(tanks[0].getTankType());
 		
@@ -310,7 +317,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public boolean canProcesMetal() {
 		
 		if(slots[14] == null) return false;
-		if(this.power < usage) return false;
+		if(this.power < usageOre) return false;
 		if(this.tanks[3].getFill() < 100) return false;
 		
 		ElectrolysisMetalRecipe recipe = ElectrolyserMetalRecipes.getRecipe(slots[14]);
@@ -382,7 +389,6 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		this.power = nbt.getLong("power");
 		this.progressFluid = nbt.getInteger("progressFluid");
 		this.progressOre = nbt.getInteger("progressOre");
-		this.usage = nbt.getInteger("usage");
 		this.processFluidTime = nbt.getInteger("processFluidTime");
 		this.processOreTime = nbt.getInteger("processOreTime");
 		if(nbt.hasKey("leftType")) this.leftStack = new MaterialStack(Mats.matById.get(nbt.getInteger("leftType")), nbt.getInteger("leftAmount"));
@@ -399,7 +405,6 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		nbt.setLong("power", this.power);
 		nbt.setInteger("progressFluid", this.progressFluid);
 		nbt.setInteger("progressOre", this.progressOre);
-		nbt.setInteger("usage", this.usage);
 		nbt.setInteger("processFluidTime", this.processFluidTime);
 		nbt.setInteger("processOreTime", this.processOreTime);
 		if(this.leftStack != null) {

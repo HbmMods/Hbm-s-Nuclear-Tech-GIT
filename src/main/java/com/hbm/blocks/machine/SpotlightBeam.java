@@ -69,6 +69,7 @@ public class SpotlightBeam extends BlockContainer {
 	// Returns the final metadata, so the caller can optionally remove the block
 	public static int setDirection(World world, int x, int y, int z, ForgeDirection dir, boolean state) {
 		TileEntityData te = (TileEntityData) world.getTileEntity(x, y, z);
+		if (te == null) return 0; // This shouldn't happen, and if it does, cancel propagation
 		int transformedMetadata = applyDirection(te.metadata, dir, state);
 		te.metadata = transformedMetadata;
 		return transformedMetadata;

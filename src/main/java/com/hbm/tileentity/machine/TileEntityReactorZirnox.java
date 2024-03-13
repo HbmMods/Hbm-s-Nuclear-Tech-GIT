@@ -28,10 +28,12 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -50,7 +52,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IGUIProvider {
+public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IGUIProvider, IInfoProviderEC {
 
 	public int heat;
 	public static final int maxHeat = 100000;
@@ -64,6 +66,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	public FluidTank steam;
 	public FluidTank carbonDioxide;
 	public FluidTank water;
+	protected int output;
 	
 	private static final int[] slots_io = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
 
@@ -188,6 +191,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 		if(!worldObj.isRemote) {
 
+			this.output = 0;
 			age++;
 
 			if (age >= 20) {
@@ -254,11 +258,11 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		// function of SHS produced per tick
 		// (heat - 10256)/100000 * steamFill (max efficiency at 14b) * 25 * 5 (should get rid of any rounding errors)
 		if(this.heat > 10256) {
-			int Water = (int)((((float)heat - 10256F) / (float)maxHeat) * Math.min(((float)carbonDioxide.getFill() / 14000F), 1F) * 25F * 5F);
-			int Steam = Water * 1;
+			int cycle = (int)((((float)heat - 10256F) / (float)maxHeat) * Math.min(((float)carbonDioxide.getFill() / 14000F), 1F) * 25F * 5F);
+			this.output = cycle;
 			
-			water.setFill(water.getFill() - Water);
-			steam.setFill(steam.getFill() + Steam);
+			water.setFill(water.getFill() - cycle);
+			steam.setFill(steam.getFill() + cycle);
 			
 			if(water.getFill() < 0)
 				water.setFill(0);
@@ -605,5 +609,14 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIReactorZirnox(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setDouble(CompatEnergyControl.D_HEAT_C, Math.round(heat * 1.0E-5D * 780.0D + 20.0D));
+		data.setDouble(CompatEnergyControl.D_MAXHEAT_C, Math.round(maxHeat * 1.0E-5D * 780.0D + 20.0D));
+		data.setLong(CompatEnergyControl.L_PRESSURE_BAR, Math.round(pressure * 1.0E-5D * 30.0D));
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, output);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_MB, output);
 	}
 }

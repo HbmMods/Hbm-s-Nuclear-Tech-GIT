@@ -7,8 +7,10 @@ import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.RTGUtil;
 
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -18,8 +20,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGUIProvider
-{
+public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGUIProvider, IInfoProviderEC {
+	
 	public short progress;
 	private short processSpeed = 0;
 	// Edit as needed
@@ -219,4 +221,9 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 		return new GUIMachineDiFurnaceRTG(player.inventory, this);
 	}
 
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setLong(CompatEnergyControl.L_FUEL, this.getPower());
+		data.setInteger(CompatEnergyControl.I_PROGRESS, this.progress);
+	}
 }

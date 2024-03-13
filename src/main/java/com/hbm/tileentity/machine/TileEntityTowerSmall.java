@@ -11,14 +11,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityTowerSmall extends TileEntityCondenser {
 	
 	public TileEntityTowerSmall() {
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, 1000, 0);
-		tanks[1] = new FluidTank(Fluids.WATER, 1000, 1);
+		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, 1000);
+		tanks[1] = new FluidTank(Fluids.WATER, 1000);
 	}
 	
 	@Override
@@ -58,15 +57,6 @@ public class TileEntityTowerSmall extends TileEntityCondenser {
 		this.sendFluid(this.tanks[1], worldObj, xCoord - 3, yCoord, zCoord, Library.NEG_X);
 		this.sendFluid(this.tanks[1], worldObj, xCoord, yCoord, zCoord + 3, Library.POS_Z);
 		this.sendFluid(this.tanks[1], worldObj, xCoord, yCoord, zCoord - 3, Library.NEG_Z);
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		
-		for(int i = 2; i <= 6; i++) {
-			ForgeDirection dir = ForgeDirection.getOrientation(i);
-			fillFluid(xCoord + dir.offsetX * 3, yCoord, zCoord + dir.offsetZ * 3, getTact(), type);
-		}
 	}
 	
 	AxisAlignedBB bb = null;

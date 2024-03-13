@@ -453,6 +453,18 @@ public class EntityChemical extends EntityThrowableNT {
 					if(core instanceof IRepairable) {
 						((IRepairable) core).tryExtinguish(worldObj, x, y, z, fext);
 					}
+					
+					if(fext == EnumExtinguishType.WATER && style == ChemicalStyle.LIQUID) {
+						for(int i = -2; i <= 2; i++) {
+							for(int j = 0; j <= 1; j++) {
+								for(int k = -2; k <= 2; k++) {
+									if(worldObj.getBlock(x + i, y + j, z + k) == ModBlocks.fallout) {
+										worldObj.setBlock(x + i, y + j, z + k, Blocks.air);
+									}
+								}
+							}
+						}
+					}
 				}
 				
 				Block block = worldObj.getBlock(x, y, z);

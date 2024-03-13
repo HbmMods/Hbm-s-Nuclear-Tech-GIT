@@ -42,6 +42,8 @@ public class GunConfiguration implements Cloneable {
 	public boolean animationsLoaded = false;
 	//when sneaking, disables crosshair and centers the bullet spawn point
 	public boolean hasSights;
+	//does this weapon behave like fully sick old-school boomer shooters
+	public boolean isCentered;
 	//texture overlay when sneaking
 	public ResourceLocation scopeTexture;
 	//whether the FOV multiplier should be absolute or multiplicative to other modifiers, multiplicative mode is experimental!
@@ -53,6 +55,7 @@ public class GunConfiguration implements Cloneable {
 	public int firingDuration;
 	//sound path to the shooting sound
 	public String firingSound = "";
+	public String firingSoundEmpty = null;
 	public float firingVolume = 1.0F;
 	public float firingPitch = 1.0F;
 	//how long the reload animation will play
@@ -61,6 +64,7 @@ public class GunConfiguration implements Cloneable {
 	public int emptyReloadAdditionalDuration;
 	//sound path to the reload sound
 	public String reloadSound = "";
+	public String reloadSoundEmpty = null;
 	//whether the reload sound should be played at the beginning or at the end of the reload
 	public boolean reloadSoundEnd = true;
 	public String equipSound = "";
@@ -112,6 +116,7 @@ public class GunConfiguration implements Cloneable {
 	public static final String RSOUND_REVOLVER = "hbm:weapon.revolverReload";
 	public static final String RSOUND_RIFLE = "";
 	public static final String RSOUND_MAG = "hbm:weapon.magReload";
+	public static final String RSOUND_MAG_BOLT = "hbm:weapon.magReloadBolt";
 	public static final String RSOUND_SHOTGUN = "hbm:weapon.shotgunReload";
 	public static final String RSOUND_LAUNCHER = "hbm:weapon.rpgReload";
 	public static final String RSOUND_GRENADE = "hbm:weapon.hkReload";

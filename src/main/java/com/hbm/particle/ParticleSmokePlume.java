@@ -30,7 +30,8 @@ public class ParticleSmokePlume extends EntityFX {
 	public ParticleSmokePlume(TextureManager p_i1213_1_, World p_i1218_1_, double p_i1218_2_, double p_i1218_4_, double p_i1218_6_) {
 		super(p_i1218_1_, p_i1218_2_, p_i1218_4_, p_i1218_6_);
 		theRenderEngine = p_i1213_1_;
-		maxAge = 100 + rand.nextInt(40);
+		maxAge = 80 + rand.nextInt(20);
+		this.particleScale = 0.25F;
 	}
 
 	public void onUpdate() {
@@ -39,6 +40,8 @@ public class ParticleSmokePlume extends EntityFX {
 		this.prevPosZ = this.posZ;
 
 		particleAlpha = 1 - ((float) age / (float) maxAge);
+		float prevScale = this.particleScale;
+		this.particleScale = 0.25F + ((float) age / (float) maxAge) * 2;
 
 		++this.age;
 
@@ -48,9 +51,9 @@ public class ParticleSmokePlume extends EntityFX {
 
 		double bak = Vec3.createVectorHelper(motionX, motionY, motionZ).lengthVector();
 
-		this.moveEntity(this.motionX, this.motionY, this.motionZ);
+		this.moveEntity(this.motionX, this.motionY + (this.particleScale - prevScale), this.motionZ);
 
-		if(Math.abs(motionX) < 0.025 && Math.abs(motionZ) < 0.025) {
+		if(this.isCollidedVertically) {
 			motionY = bak;
 		}
 
@@ -85,16 +88,16 @@ public class ParticleSmokePlume extends EntityFX {
 
 			p_70539_1_.startDrawingQuads();
 
-			this.particleRed = this.particleGreen = this.particleBlue = urandom.nextFloat() * 0.7F + 0.2F;
+			this.particleRed = this.particleGreen = this.particleBlue = urandom.nextFloat() * 0.75F + 0.1F;
 
 			p_70539_1_.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
 			p_70539_1_.setNormal(0.0F, 1.0F, 0.0F);
 			p_70539_1_.setBrightness(240);
 
-			float scale = 0.5F;
-			float pX = (float) ((this.prevPosX + (this.posX - this.prevPosX) * (double) p_70539_2_ - dX) + urandom.nextGaussian() * 0.5);
-			float pY = (float) ((this.prevPosY + (this.posY - this.prevPosY) * (double) p_70539_2_ - dY) + urandom.nextGaussian() * 0.5);
-			float pZ = (float) ((this.prevPosZ + (this.posZ - this.prevPosZ) * (double) p_70539_2_ - dZ) + urandom.nextGaussian() * 0.5);
+			float scale = this.particleScale;
+			float pX = (float) ((this.prevPosX + (this.posX - this.prevPosX) * (double) p_70539_2_ - dX) + urandom.nextGaussian() * 0.5 * scale);
+			float pY = (float) ((this.prevPosY + (this.posY - this.prevPosY) * (double) p_70539_2_ - dY) + urandom.nextGaussian() * 0.5 * scale);
+			float pZ = (float) ((this.prevPosZ + (this.posZ - this.prevPosZ) * (double) p_70539_2_ - dZ) + urandom.nextGaussian() * 0.5 * scale);
 
 			p_70539_1_.addVertexWithUV((double) (pX - p_70539_3_ * scale - p_70539_6_ * scale), (double) (pY - p_70539_4_ * scale), (double) (pZ - p_70539_5_ * scale - p_70539_7_ * scale), 1, 1);
 			p_70539_1_.addVertexWithUV((double) (pX - p_70539_3_ * scale + p_70539_6_ * scale), (double) (pY + p_70539_4_ * scale), (double) (pZ - p_70539_5_ * scale + p_70539_7_ * scale), 1, 0);

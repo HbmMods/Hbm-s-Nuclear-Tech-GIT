@@ -25,6 +25,11 @@ public abstract class EntityMissileTier1 extends EntityMissileBaseNT {
 		return list;
 	}
 
+	@Override
+	protected float getContrailScale() {
+		return 0.5F;
+	}
+
 	public static class EntityMissileGeneric extends EntityMissileTier1 {
 		public EntityMissileGeneric(World world) { super(world); }
 		public EntityMissileGeneric(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }

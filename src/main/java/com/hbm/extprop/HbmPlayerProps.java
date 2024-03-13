@@ -1,13 +1,16 @@
 package com.hbm.extprop;
 
 import com.hbm.entity.train.EntityRailCarBase;
+import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.items.armor.ItemModShield;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -144,8 +147,19 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		}
 	}
 	
-	public float getMaxShield() {
-		return this.maxShield;
+	public float getEffectiveMaxShield() {
+		
+		float max = this.maxShield;
+		
+		if(player.getCurrentArmor(2) != null) {
+			ItemStack[] mods = ArmorModHandler.pryMods(player.getCurrentArmor(2));
+			if(mods[ArmorModHandler.kevlar] != null && mods[ArmorModHandler.kevlar].getItem() instanceof ItemModShield) {
+				ItemModShield mod = (ItemModShield) mods[ArmorModHandler.kevlar].getItem();
+				max += mod.shield;
+			}
+		}
+		
+		return max;
 	}
 
 	@Override

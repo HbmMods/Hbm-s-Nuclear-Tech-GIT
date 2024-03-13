@@ -180,7 +180,7 @@ public class Gun12GaugeFactory {
 		
 		GunConfiguration config = new GunConfiguration();
 		
-		config.rateOfFire = 20;
+		config.rateOfFire = 30;
 		config.roundsPerCycle = 2;
 		config.gunMode = GunConfiguration.MODE_NORMAL;
 		config.firingMode = GunConfiguration.FIRE_MANUAL;
@@ -190,33 +190,14 @@ public class Gun12GaugeFactory {
 		config.durability = 3000;
 		config.reloadType = GunConfiguration.RELOAD_NONE;
 		config.allowsInfinity = true;
-		config.hasSights = true;
+		config.isCentered = true;
 		config.crosshair = Crosshair.L_CIRCLE;
 		config.reloadSound = GunConfiguration.RSOUND_REVOLVER;
 		config.firingSound = "hbm:weapon.shottyShoot";
-		
-		config.animations.put(AnimType.CYCLE, new BusAnimation()
-				.addBus("SHOTTY_RECOIL", new BusAnimationSequence()
-						.addKeyframePosition(0.5, 0, 0, 50)
-						.addKeyframePosition(0, 0, 0, 50)
-						)
-				.addBus("SHOTTY_BREAK", new BusAnimationSequence()
-						.addKeyframePosition(0, 0, 0, 100)	//do nothing for 100ms
-						.addKeyframePosition(0, 0, 60, 200)	//open
-						.addKeyframePosition(0, 0, 60, 500)	//do nothing for 500ms
-						.addKeyframePosition(0, 0, 0, 200)	//close
-						)
-				.addBus("SHOTTY_EJECT", new BusAnimationSequence()
-						.addKeyframePosition(0, 0, 0, 300)	//do nothing for 300ms
-						.addKeyframePosition(1, 0, 0, 700)	//fling!
-						)
-				.addBus("SHOTTY_INSERT", new BusAnimationSequence()
-						.addKeyframePosition(0, 0, 0, 300)	//do nothing for 300ms
-						.addKeyframePosition(1, 0, 1, 0)		//reposition
-						.addKeyframePosition(1, 0, 0, 350)	//come in from the side
-						.addKeyframePosition(0, 0, 0, 150)	//push
-						)
-				);
+
+		config.loadAnimations = i -> {
+			config.animations.put(AnimType.CYCLE, ResourceManager.supershotty_anim.get("Fire"));
+		};
 		
 		config.name = "supershotty";
 		config.manufacturer = EnumGunManufacturer.UAC;
@@ -245,32 +226,6 @@ public class Gun12GaugeFactory {
 		config.firingSound = "hbm:weapon.deagleShoot";
 		config.firingPitch = 0.75F;
 		config.reloadType = 2;
-		config.reloadSoundEnd = true;
-
-		config.animations.put(AnimType.CYCLE, new BusAnimation()
-				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframePosition(6.25, 0.25, 2.5, 55)
-						.addKeyframePosition(0, 0, 0, 55)
-						)
-				.addBus("EJECT", new BusAnimationSequence()
-						.addKeyframePosition(0, 0, 0, 25)
-						.addKeyframePosition(25, 0, 0, 100)
-						)
-				);
-
-		config.animations.put(AnimType.RELOAD, new BusAnimation()
-				.addBus("RELOAD", new BusAnimationSequence()
-						.addKeyframePosition(60, 0, -10, 400)
-						.addKeyframePosition(60, 125, -10, 200)
-						.addKeyframePosition(60, 125, -10, 300)
-						.addKeyframePosition(0, 0, 0, 300)
-						)
-				.addBus("PUMP", new BusAnimationSequence()
-						.addKeyframePosition(0, 0, 0, 900)
-						.addKeyframePosition(10, 0, 0, 200)
-						.addKeyframePosition(0, 0, 0, 1)
-						)
-				);
 
 		config.name = "benelli";
 		config.manufacturer = EnumGunManufacturer.BENELLI;
@@ -288,10 +243,19 @@ public class Gun12GaugeFactory {
 
 		config.reloadType = 1;
 		config.ammoCap = 24;
-		config.reloadDuration = 20;
+		config.reloadDuration = 21;
+		config.emptyReloadAdditionalDuration = 15;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
-		config.reloadSoundEnd = true;
+		config.reloadSoundEmpty = GunConfiguration.RSOUND_MAG_BOLT;
+		config.reloadSoundEnd = false;
 		config.name += "Drum";
+
+		config.loadAnimations = i -> {
+			config.animations.put(AnimType.CYCLE, ResourceManager.benelli_anim.get("Fire"));
+			config.animations.put(AnimType.RELOAD, ResourceManager.benelli_anim.get("Reload"));
+			config.animations.put(AnimType.RELOAD_EMPTY, ResourceManager.benelli_anim.get("ReloadEmpty"));
+		};
+
 		return config;
 	}
 	

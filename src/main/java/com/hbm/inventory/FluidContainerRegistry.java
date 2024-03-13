@@ -91,7 +91,7 @@ public class FluidContainerRegistry {
 		allContainers.add(con);
 		OreDictionary.registerOre(con.type.getDict(con.content), con.fullContainer);
 
-		if (!containerMap.containsKey(con.type))
+		if(!containerMap.containsKey(con.type))
 			containerMap.put(con.type, new ArrayList<FluidContainer>());
 
 		List<FluidContainer> items = containerMap.get(con.type);

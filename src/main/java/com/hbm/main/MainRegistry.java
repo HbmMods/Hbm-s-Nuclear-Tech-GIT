@@ -41,7 +41,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.tileentity.TileMappings;
-import com.hbm.tileentity.bomb.TileEntityLaunchPad;
+import com.hbm.tileentity.bomb.TileEntityLaunchPadBase;
 import com.hbm.tileentity.bomb.TileEntityNukeCustom;
 import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
@@ -66,6 +66,7 @@ import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
@@ -285,7 +286,6 @@ public class MainRegistry {
 		Satellite.register();
 		HTTPHandler.loadStats();
 		CraftingManager.mainRegistry();
-		AssemblerRecipes.preInit(PreEvent.getModConfigurationDirectory());
 		SiegeTier.registerTiers();
 		HazardRegistry.registerItems();
 		HazardRegistry.registerTrafos();
@@ -332,7 +332,7 @@ public class MainRegistry {
 		
 		TileMappings.writeMappings();
 		MachineDynConfig.initialize();
-		TileEntityLaunchPad.registerLaunchables();
+		TileEntityLaunchPadBase.registerLaunchables();
 		
 		for(Entry<Class<? extends TileEntity>, String[]> e : TileMappings.map.entrySet()) {
 			
@@ -843,11 +843,9 @@ public class MainRegistry {
 	@EventHandler
 	public static void PostLoad(FMLPostInitializationEvent PostEvent) {
 		TileEntityNukeFurnace.registerFuels();
-		AssemblerRecipes.loadRecipes();
 		MagicRecipes.register();
 		LemegetonRecipes.register();
 		SILEXRecipes.register();
-		AnvilRecipes.register();
 		RefineryRecipes.registerRefinery();
 		GasCentrifugeRecipes.register();
 		
@@ -856,6 +854,9 @@ public class MainRegistry {
 		//the good stuff
 		SerializableRecipe.registerAllHandlers();
 		SerializableRecipe.initialize();
+		
+		//Anvil has to come after serializables (i.e. anvil)
+		AnvilRecipes.register();
 
 		//has to register after cracking, and therefore after all serializable recipes
 		RadiolysisRecipes.registerRadiolysis();
@@ -1223,6 +1224,19 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.warhead_thermo_endo");
 		ignoreMappings.add("hbm:item.warhead_thermo_exo");
 		ignoreMappings.add("hbm:item.gun_dampfmaschine");
+		ignoreMappings.add("hbm:item.canteen_13");
+		ignoreMappings.add("hbm:tile.residue");
+		ignoreMappings.add("hbm:item.powder_cloud");
+		ignoreMappings.add("hbm:item.gun_detonator");
+		ignoreMappings.add("hbm:item.gun_avenger");
+		ignoreMappings.add("hbm:tile.block_cap_nuka");
+		ignoreMappings.add("hbm:tile.block_cap_quantum");
+		ignoreMappings.add("hbm:tile.block_cap_rad");
+		ignoreMappings.add("hbm:tile.block_cap_sparkle");
+		ignoreMappings.add("hbm:tile.block_cap_korl");
+		ignoreMappings.add("hbm:tile.block_cap_fritz");
+		ignoreMappings.add("hbm:tile.block_cap_sunset");
+		ignoreMappings.add("hbm:tile.block_cap_star");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
