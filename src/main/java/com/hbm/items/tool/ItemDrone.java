@@ -1,12 +1,18 @@
 package com.hbm.items.tool;
 
+import java.util.List;
+
+import org.lwjgl.input.Keyboard;
+
 import com.hbm.entity.item.EntityDeliveryDrone;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class ItemDrone extends ItemEnumMulti {
@@ -48,5 +54,17 @@ public class ItemDrone extends ItemEnumMulti {
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+			for(String s : I18nUtil.resolveKeyArray(stack.getUnlocalizedName() + ".desc"))
+				list.add(EnumChatFormatting.YELLOW + s);
+		} else {
+			list.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "Hold <" + EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" + EnumChatFormatting.DARK_GRAY
+					+ "" + EnumChatFormatting.ITALIC + "> to display more info");
+		}
 	}
 }
