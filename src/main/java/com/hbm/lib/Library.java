@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.calc.UnionOfTileEntitiesAndBooleansForFluids;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -16,10 +15,7 @@ import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.TileEntityProxyBase;
 import com.hbm.tileentity.TileEntityProxyInventory;
-import com.hbm.tileentity.conductor.TileEntityFluidDuctSimple;
-import com.hbm.tileentity.machine.TileEntityDummy;
 
 import api.hbm.energy.IBatteryItem;
 import api.hbm.energy.IEnergyConnector;
@@ -179,19 +175,6 @@ public class Library {
 		
 		if(world.getBlock(x, y, z) == ModBlocks.machine_mining_laser && tileentity instanceof TileEntityProxyInventory)
 			return true;
-		
-		return false;
-	}
-	
-	public static boolean checkUnionListForFluids(List<UnionOfTileEntitiesAndBooleansForFluids> list, IFluidSource that) {
-		
-		for(UnionOfTileEntitiesAndBooleansForFluids union : list)
-		{
-			if(union.source == that)
-			{
-				return true;
-			}
-		}
 		
 		return false;
 	}
@@ -385,116 +368,7 @@ public class Library {
 		 */
 	}
 	
-	public static void transmitFluid(int x, int y, int z, boolean newTact, IFluidSource that, World worldObj, FluidType type) {
-		Block block = worldObj.getBlock(x, y, z);
-		TileEntity tileentity = worldObj.getTileEntity(x, y, z);
-		
-		//FWatz Reactor
-		if(block == ModBlocks.fwatz_hatch && worldObj.getBlock(x, y + 11, z + 9) == ModBlocks.fwatz_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y + 11, z + 9);
-		}
-		if(block == ModBlocks.fwatz_hatch && worldObj.getBlock(x, y + 11, z - 9) == ModBlocks.fwatz_core)
-		{
-			tileentity = worldObj.getTileEntity(x, y + 11, z - 9);
-		}
-		if(block == ModBlocks.fwatz_hatch && worldObj.getBlock(x + 9, y + 11, z) == ModBlocks.fwatz_core)
-		{
-			tileentity = worldObj.getTileEntity(x + 9, y + 11, z);
-		}
-		if(block == ModBlocks.fwatz_hatch && worldObj.getBlock(x - 9, y + 11, z) == ModBlocks.fwatz_core)
-		{
-			tileentity = worldObj.getTileEntity(x - 9, y + 11, z);
-		}
-		//AMS Limiter
-		if(block == ModBlocks.dummy_port_ams_limiter)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//AMS Limiter
-		if(block == ModBlocks.dummy_port_ams_emitter)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//AMS Base
-		if(block == ModBlocks.dummy_port_ams_base)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		//Launchers
-		if(block == ModBlocks.dummy_port_compact_launcher || block == ModBlocks.dummy_port_launch_table)
-		{
-			tileentity = worldObj.getTileEntity(((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetX, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetY, ((TileEntityDummy)worldObj.getTileEntity(x, y, z)).targetZ);
-		}
-		
-		if(tileentity == that)
-			tileentity = null;
-		
-		if(tileentity instanceof TileEntityProxyBase) {
-			TileEntityProxyBase proxy = (TileEntityProxyBase) tileentity;
-			
-			if(proxy.getTE() == that)
-				tileentity = null;
-		}
-		
-		if(tileentity instanceof IFluidDuct)
-		{
-			if(tileentity instanceof TileEntityFluidDuctSimple && ((TileEntityFluidDuctSimple)tileentity).getType().name().equals(type.name()))
-			{
-				if(Library.checkUnionListForFluids(((TileEntityFluidDuctSimple)tileentity).uoteab, that))
-				{
-					for(int i = 0; i < ((TileEntityFluidDuctSimple)tileentity).uoteab.size(); i++)
-					{
-						if(((TileEntityFluidDuctSimple)tileentity).uoteab.get(i).source == that)
-						{
-							if(((TileEntityFluidDuctSimple)tileentity).uoteab.get(i).ticked != newTact)
-							{
-								((TileEntityFluidDuctSimple)tileentity).uoteab.get(i).ticked = newTact;
-								transmitFluid(x, y + 1, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y - 1, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x - 1, y, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x + 1, y, z, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y, z - 1, that.getTact(), that, worldObj, type);
-								transmitFluid(x, y, z + 1, that.getTact(), that, worldObj, type);
-							}
-						}
-					}
-				} else {
-					((TileEntityFluidDuctSimple)tileentity).uoteab.add(new UnionOfTileEntitiesAndBooleansForFluids(that, newTact));
-				}
-			}
-		}
-		
-		if(tileentity instanceof IFluidAcceptor && newTact && ((IFluidAcceptor)tileentity).getMaxFluidFillForReceive(type) > 0 &&
-				((IFluidAcceptor)tileentity).getMaxFluidFillForReceive(type) - ((IFluidAcceptor)tileentity).getFluidFillForReceive(type) > 0) {
-			that.getFluidList(type).add((IFluidAcceptor)tileentity);
-		}
-		
-		if(!newTact) {
-			int size = that.getFluidList(type).size();
-			
-			if(size > 0) {
-				int part = that.getFluidFillForTransfer(type) / size;
-				
-				for(IFluidAcceptor consume : that.getFluidList(type)) {
-					
-					if(consume.getFluidFillForReceive(type) < consume.getMaxFluidFillForReceive(type)) {
-						
-						if(consume.getMaxFluidFillForReceive(type) - consume.getFluidFillForReceive(type) >= part) {
-							that.transferFluid(part, type);
-							consume.receiveFluid(part, type);
-							
-						} else {
-							int transfer = consume.getMaxFluidFillForReceive(type) - consume.getFluidFillForReceive(type);
-							that.transferFluid(transfer, type);
-							consume.receiveFluid(transfer, type);
-						}
-					}
-				}
-			}
-			that.clearFluidList(type);
-		}
-	}
+	public static void transmitFluid(int x, int y, int z, boolean newTact, IFluidSource that, World worldObj, FluidType type) { }
 	
 	public static boolean isArrayEmpty(Object[] array) {
 		if(array == null)

@@ -5291,6 +5291,7 @@ tile.nuke_tsar.name=Tsar Bomba
 tile.oil_duct.name=Oil Pipe
 tile.oil_duct_solid.name=Coated Oil Pipe
 tile.oil_pipe.name=Crude Oil Extraction Pipe
+tile.oil_spill.name=Oil Spill
 tile.ore_alexandrite.name=Alexandrite Ore
 tile.ore_aluminium.name=Aluminium Ore
 tile.ore_asbestos.name=Asbestos Ore
