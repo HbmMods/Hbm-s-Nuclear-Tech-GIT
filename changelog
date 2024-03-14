@@ -21,3 +21,4 @@
 * WarTec should now be compatible again
 * Fixed the "Hold shift for more info" line appearing on fluid info when shift is held, and disappearing otherwise
 * Fixed smokestacks being able to void any fluid under certain conditions
+* Fixed the hydrotreater only using half as much crude oil per operation as it should
