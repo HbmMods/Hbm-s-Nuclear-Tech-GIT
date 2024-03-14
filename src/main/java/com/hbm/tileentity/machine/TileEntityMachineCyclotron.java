@@ -109,6 +109,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 			int speedLevel = 1 + Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
 			int overLevel = 1 + Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
+			int safety = Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
 
 			if(isOn) {
 				
@@ -124,8 +125,6 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 						progress = 0;
 						this.markDirty();
 					}
-					
-					int safety = this.getSafety();
 					
 					if(coolant.getFill() > 0) {
 
@@ -569,6 +568,6 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	@Override
 	public void provideExtraInfo(NBTTagCompound data) {
 		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.isOn && this.progress > 0);
-		data.setDouble(CompatEnergyControl.D_CONSUMPTION_HE, this.progress > 0 ? consumption - 100_000 * getConsumption() : 0);
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_HE, this.progress > 0 ? consumption - 100_000 * Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3) : 0);
 	}
 }
