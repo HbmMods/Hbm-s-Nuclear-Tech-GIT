@@ -16,6 +16,7 @@
   * This means that flare stacks are now significantly less polluting, assuming natural gas is burned
   * Flare stacks and barrels now also respect the spilling tag, which means that simply venting the gas may cause poison pollution
   * Hydrogen doesn't have the polluting tag, so hydrogen burning generators won't create soot anymore
+* Compressing blood no longer creates oil, rather it makes heavy oil (250mB)
 
 ## Fixed
 * WarTec should now be compatible again
