@@ -1,3 +1,8 @@
+## Added
+* More axes
+  * Bismuth, volcanic, chlorophyte and mese tool materials now have axes
+  * Axes also double as offensive weapons, being a lot more powerful than their pickaxe counterparts
+
 ## Changed
 * After three quarters of a decade, three separate models, countless rebalances and hours of senseless yapping, the industrial generator has finally met its end. Suddenly, yet not unsurprisingly, on this here day the industrial generator has closed its eyes for the final time. It was a long and eventful journey, but as with all things in life, it too had to come to an end.
   * And this is why we can't ever have anything nice
@@ -7,11 +12,20 @@
   * Removed cloud residue (looked horrible, allowed for weird dupes and made no sense overall)
   * Bottlecap blocks now use a single block ID and metadata instead of using one ID per type. This change however will delete all existing bottlecap blocks in the world
   * Removed the config option for silos (the option no longer works anyway since the new silos use the structure component system)
+  * Finally removed the deaerator
   * Removed a few other minor things that won't be mentioned because nobody's gonna even notice their absence anyway
 * Retextured the laser detonator to look more like the old detonator, but keeping the 3D model
 * Bedrock ores can now be customized in creative mode. Using a drillbit sets the tier, a fluid container sets the borefluid requirement and any other item sets the resource.
   * The texture used is random, and the color applied is based on the auto detect system. The system doesn't work with layered items, so the resulting color won't be the same as naturally generated bedrock ore. The bedrock ore item in particular will always result in a white ore, no matter the type
+* The polluting fluid trait is now recognized by machines, which means that pollution amounts now depend on the fluid used, not the machine
+  * This means that flare stacks are now significantly less polluting, assuming natural gas is burned
+  * Flare stacks and barrels now also respect the spilling tag, which means that simply venting the gas may cause poison pollution
+  * Hydrogen doesn't have the polluting tag, so hydrogen burning generators won't create soot anymore
+* Compressing blood no longer creates oil, rather it makes heavy oil (250mB)
+* Tier 2 pickaxes (bismuth and up) now use the large item renderer
 
 ## Fixed
 * WarTec should now be compatible again
 * Fixed the "Hold shift for more info" line appearing on fluid info when shift is held, and disappearing otherwise
+* Fixed smokestacks being able to void any fluid under certain conditions
+* Fixed the hydrotreater only using half as much crude oil per operation as it should

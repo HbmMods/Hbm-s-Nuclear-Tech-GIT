@@ -57,8 +57,6 @@ public class BlockCap extends BlockEnumMulti {
 		if(cap == EnumCapBlock.RAD) return ModItems.cap_rad;
 		if(cap == EnumCapBlock.KORL) return ModItems.cap_korl;
 		if(cap == EnumCapBlock.FRITZ) return ModItems.cap_fritz;
-		if(cap == EnumCapBlock.SUNSET) return ModItems.cap_sunset;
-		if(cap == EnumCapBlock.STAR) return ModItems.cap_star;
 
 		return null;
 	}
@@ -66,6 +64,6 @@ public class BlockCap extends BlockEnumMulti {
 	@Override public int quantityDropped(Random rand) { return 128; }
 
 	public static enum EnumCapBlock {
-		NUKA, QUANTUM, SPARKLE, RAD, KORL, FRITZ, SUNSET, STAR;
+		NUKA, QUANTUM, SPARKLE, RAD, KORL, FRITZ
 	}
 }

@@ -66,7 +66,6 @@ import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
@@ -1237,6 +1236,10 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.block_cap_fritz");
 		ignoreMappings.add("hbm:tile.block_cap_sunset");
 		ignoreMappings.add("hbm:tile.block_cap_star");
+		ignoreMappings.add("hbm:tile.machine_deaerator");
+		ignoreMappings.add("hbm:item.bottle2_sunset");
+		ignoreMappings.add("hbm:item.cap_sunset");
+		ignoreMappings.add("hbm:item.cap_star");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

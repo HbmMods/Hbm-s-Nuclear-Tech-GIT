@@ -79,16 +79,12 @@ public class LootGenerator {
 			for(int i = -1; i <= 1; i++) {
 				for(int j = -1; j <= 1; j++) {
 					
-					int r = world.rand.nextInt(3);
-					Item cap = r < 2 ? ModItems.cap_nuka : ModItems.cap_sunset;
+					int r = world.rand.nextInt(10);
+					Item cap = r < 9 ? ModItems.cap_nuka : ModItems.cap_quantum;
 					
 					int count = world.rand.nextInt(5) + 3;
 					for(int k = 0; k < count; k++) {
-						
-						if(cap == ModItems.cap_sunset && world.rand.nextInt(10) == 0)
-							addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.cap_star, 1), i * 0.3125, k * 0.03125, j * 0.3125);
-						else
-							addItemWithDeviation(loot, world.rand, new ItemStack(cap, 4), i * 0.3125, k * 0.03125, j * 0.3125);
+						addItemWithDeviation(loot, world.rand, new ItemStack(cap, 4), i * 0.3125, k * 0.03125, j * 0.3125);
 					}
 				}
 			}

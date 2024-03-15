@@ -4277,6 +4277,7 @@ tile.nuke_tsar.name=Tsar Bombe
 tile.oil_duct.name=Ölrohr
 tile.oil_duct_solid.name=Verstärktes Ölrohr
 tile.oil_pipe.name=Rohölrohr
+tile.oil_spill.name=Ölteppich
 tile.ore_alexandrite.name=Alexandriterz
 tile.ore_aluminium.name=Aluminiumerz
 tile.ore_asbestos.name=Asbesterz
