@@ -2081,9 +2081,13 @@ public class ModItems {
 	public static Item drax_mk2;
 	public static Item drax_mk3;
 	public static Item bismuth_pickaxe;
+	public static Item bismuth_axe;
 	public static Item volcanic_pickaxe;
+	public static Item volcanic_axe;
 	public static Item chlorophyte_pickaxe;
+	public static Item chlorophyte_axe;
 	public static Item mese_pickaxe;
+	public static Item mese_axe;
 	public static Item dnt_sword;
 	public static Item dwarven_pickaxe;
 
@@ -5271,6 +5275,16 @@ public class ModItems {
 				.addHitAbility(new WeaponAbility.VampireAbility(2F))
 				.addHitAbility(new WeaponAbility.BeheaderAbility())
 				.setDepthRockBreaker().setUnlocalizedName("bismuth_pickaxe").setTextureName(RefStrings.MODID + ":bismuth_pickaxe");
+		bismuth_axe = new ItemToolAbility(125F, 0, matBismuth, EnumToolType.AXE)
+				.addBreakAbility(new ToolAbility.HammerAbility(2))
+				.addBreakAbility(new ToolAbility.RecursionAbility(4))
+				.addBreakAbility(new ToolAbility.ShredderAbility())
+				.addBreakAbility(new ToolAbility.LuckAbility(2))
+				.addBreakAbility(new ToolAbility.SilkAbility())
+				.addHitAbility(new WeaponAbility.StunAbility(5))
+				.addHitAbility(new WeaponAbility.VampireAbility(2F))
+				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("bismuth_axe").setTextureName(RefStrings.MODID + ":bismuth_axe");
+
 		
 		ToolMaterial matVolcano = EnumHelper.addToolMaterial("HBM_VOLCANIC", 4, 0, 50F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.ingot_bismuth));
 		volcanic_pickaxe = new ItemToolAbility(15F, 0, matVolcano, EnumToolType.MINER)
@@ -5283,6 +5297,15 @@ public class ModItems {
 				.addHitAbility(new WeaponAbility.VampireAbility(2F))
 				.addHitAbility(new WeaponAbility.BeheaderAbility())
 				.setDepthRockBreaker().setUnlocalizedName("volcanic_pickaxe").setTextureName(RefStrings.MODID + ":volcanic_pickaxe");
+		volcanic_axe = new ItemToolAbility(125F, 0, matVolcano, EnumToolType.AXE)
+				.addBreakAbility(new ToolAbility.HammerAbility(2))
+				.addBreakAbility(new ToolAbility.RecursionAbility(4))
+				.addBreakAbility(new ToolAbility.SmelterAbility())
+				.addBreakAbility(new ToolAbility.LuckAbility(3))
+				.addBreakAbility(new ToolAbility.SilkAbility())
+				.addHitAbility(new WeaponAbility.FireAbility(5))
+				.addHitAbility(new WeaponAbility.VampireAbility(2F))
+				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("volcanic_axe").setTextureName(RefStrings.MODID + ":volcanic_axe");
 		
 		ToolMaterial matChlorophyte = EnumHelper.addToolMaterial("HBM_CHLOROPHYTE", 4, 0, 75F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.powder_chlorophyte));
 		chlorophyte_pickaxe = new ItemToolAbility(20F, 0, matChlorophyte, EnumToolType.MINER)
@@ -5295,7 +5318,14 @@ public class ModItems {
 				.addHitAbility(new WeaponAbility.VampireAbility(5F))
 				.addHitAbility(new WeaponAbility.BeheaderAbility())
 				.setDepthRockBreaker().setUnlocalizedName("chlorophyte_pickaxe").setTextureName(RefStrings.MODID + ":chlorophyte_pickaxe");
-		
+		chlorophyte_axe = new ItemToolAbility(175F, 0, matChlorophyte, EnumToolType.AXE)
+				.addBreakAbility(new ToolAbility.HammerAbility(2))
+				.addBreakAbility(new ToolAbility.RecursionAbility(4))
+				.addBreakAbility(new ToolAbility.LuckAbility(4))
+				.addHitAbility(new WeaponAbility.StunAbility(10))
+				.addHitAbility(new WeaponAbility.VampireAbility(5F))
+				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("chlorophyte_axe").setTextureName(RefStrings.MODID + ":chlorophyte_axe");
+
 		ToolMaterial matMese = EnumHelper.addToolMaterial("HBM_MESE", 4, 0, 100F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.plate_paa));
 		mese_pickaxe = new ItemToolAbility(35F, 0, matMese, EnumToolType.MINER)
 				.addBreakAbility(new ToolAbility.HammerAbility(3))
@@ -5311,6 +5341,18 @@ public class ModItems {
 				.addHitAbility(new WeaponAbility.PhosphorusAbility(60))
 				.addHitAbility(new WeaponAbility.BeheaderAbility())
 				.setDepthRockBreaker().setUnlocalizedName("mese_pickaxe").setTextureName(RefStrings.MODID + ":mese_pickaxe");
+		mese_axe = new ItemToolAbility(250F, 0, matMese, EnumToolType.AXE)
+				.addBreakAbility(new ToolAbility.HammerAbility(3))
+				.addBreakAbility(new ToolAbility.RecursionAbility(5))
+				.addBreakAbility(new ToolAbility.SilkAbility())
+				.addBreakAbility(new ToolAbility.LuckAbility(9))
+				.addBreakAbility(new ToolAbility.ExplosionAbility(2.5F))
+				.addBreakAbility(new ToolAbility.ExplosionAbility(5F))
+				.addBreakAbility(new ToolAbility.ExplosionAbility(10F))
+				.addBreakAbility(new ToolAbility.ExplosionAbility(15F))
+				.addHitAbility(new WeaponAbility.StunAbility(10))
+				.addHitAbility(new WeaponAbility.PhosphorusAbility(60))
+				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("mese_axe").setTextureName(RefStrings.MODID + ":mese_axe");
 		
 		dnt_sword = new ItemSwordAbility(12F, 0, matMese).setUnlocalizedName("dnt_sword").setTextureName(RefStrings.MODID + ":dnt_sword");
 
@@ -7361,10 +7403,13 @@ public class ModItems {
 		GameRegistry.registerItem(drax_mk2, drax_mk2.getUnlocalizedName());
 		GameRegistry.registerItem(drax_mk3, drax_mk3.getUnlocalizedName());
 		GameRegistry.registerItem(bismuth_pickaxe, bismuth_pickaxe.getUnlocalizedName());
+		GameRegistry.registerItem(bismuth_axe, bismuth_axe.getUnlocalizedName());
 		GameRegistry.registerItem(volcanic_pickaxe, volcanic_pickaxe.getUnlocalizedName());
+		GameRegistry.registerItem(volcanic_axe, volcanic_axe.getUnlocalizedName());
 		GameRegistry.registerItem(chlorophyte_pickaxe, chlorophyte_pickaxe.getUnlocalizedName());
+		GameRegistry.registerItem(chlorophyte_axe, chlorophyte_axe.getUnlocalizedName());
 		GameRegistry.registerItem(mese_pickaxe, mese_pickaxe.getUnlocalizedName());
-		GameRegistry.registerItem(matchstick, matchstick.getUnlocalizedName());
+		GameRegistry.registerItem(mese_axe, mese_axe.getUnlocalizedName());		GameRegistry.registerItem(matchstick, matchstick.getUnlocalizedName());
 		GameRegistry.registerItem(balefire_and_steel, balefire_and_steel.getUnlocalizedName());
 		GameRegistry.registerItem(crowbar, crowbar.getUnlocalizedName());
 		GameRegistry.registerItem(wrench, wrench.getUnlocalizedName());
