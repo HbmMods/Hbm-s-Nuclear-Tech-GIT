@@ -6,8 +6,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.MultiblockHandlerXR;
-import com.hbm.handler.pollution.PollutionHandler;
-import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -16,13 +14,9 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.container.ContainerMachineFluidTank;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.trait.FT_Corrosive;
-import com.hbm.inventory.fluid.trait.FT_Flammable;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Amat;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Leaded;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
+import com.hbm.inventory.fluid.trait.*;
+import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.inventory.gui.GUIMachineFluidTank;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -210,9 +204,8 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			Random rand = worldObj.rand;
 			ParticleUtil.spawnGasFlame(worldObj, xCoord + rand.nextDouble(), yCoord + 0.5 + rand.nextDouble(), zCoord + rand.nextDouble(), rand.nextGaussian() * 0.2, 0.1, rand.nextGaussian() * 0.2);
 			
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 50);
-				if(type.hasTrait(FT_Leaded.class)) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * 50);
+			if(worldObj.getTotalWorldTime() % 5 == 0) {
+				FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.BURN, amount * 5);
 			}
 			
 		} else if(type.hasTrait(FT_Gaseous.class) || type.hasTrait(FT_Gaseous_ART.class)) {
@@ -226,6 +219,10 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 				data.setInteger("life", 100 + worldObj.rand.nextInt(20));
 				data.setInteger("color", tank.getTankType().getColor());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5, yCoord + 1, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			}
+
+			if(worldObj.getTotalWorldTime() % 5 == 0 ) {
+				FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.SPILL, amount * 5);
 			}
 		}
 	}
