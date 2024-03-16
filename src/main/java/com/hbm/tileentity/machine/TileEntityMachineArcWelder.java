@@ -86,8 +86,8 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 			int blackLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 			
 			if(recipe != null) {
-				this.processTime = (recipe.duration - (recipe.duration * redLevel / 4) + (recipe.duration * blueLevel / 3)) / (blackLevel + 1);
-				this.consumption = (recipe.consumption + (recipe.consumption * redLevel) - (recipe.consumption * blueLevel / 6)) * (blackLevel + 1);
+				this.processTime = recipe.duration * (1 - redLevel / 4) / (blackLevel + 1);
+				this.consumption = recipe.consumption * (1 - blueLevel / 4) * (redLevel + 1) * (blackLevel + 1);
 				intendedMaxPower = recipe.consumption * 20 * (blackLevel + 1);
 				
 				if(canProcess(recipe)) {
@@ -364,8 +364,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
 		}
 		if(type == UpgradeType.POWER) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 100 / 6) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (level * 100 / 3) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 25) + "%"));
 		}
 		if(type == UpgradeType.OVERDRIVE) {
 			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");

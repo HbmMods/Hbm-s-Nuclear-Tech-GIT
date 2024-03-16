@@ -448,9 +448,9 @@ public class CentrifugeRecipes extends SerializableRecipe {
 		
 		recipes.put(new ComparableStack(ModItems.powder_tektite), new ItemStack[] {
 				new ItemStack(ModItems.powder_meteorite_tiny, 1),
-				new ItemStack(ModItems.powder_paleogenite_tiny, 1),
+				new ItemStack(ModItems.powder_paleogenite_tiny, 2),
 				new ItemStack(ModItems.powder_meteorite_tiny, 1),
-				new ItemStack(ModItems.dust, 6) });
+				new ItemStack(ModItems.dust, 5) });
 		
 		recipes.put(new ComparableStack(ModBlocks.block_slag), new ItemStack[] {
 				new ItemStack(Blocks.gravel, 1),
