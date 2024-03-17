@@ -110,6 +110,8 @@ public class TileEntityLaunchPadRusted extends TileEntityMachineBase implements 
 					this.missileLoaded = false;
 					this.decrStackSize(1, 1);
 					this.markDirty();
+					
+					return BombReturnCode.LAUNCHED;
 				}
 			}
 		}
