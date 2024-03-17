@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
@@ -137,10 +138,10 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			
 			particlesToRemove.clear();
 
-			// Sort the virtual particles by momentum, and run through them until we have enough momentum to complete the recipe
-			// If we succeed, "collapse" the cheapest particle that had enough momentum
-			// If we fail to make anything, "collapse" the most expensive particle
-			if (particles.isEmpty() && !particlesCompleted.isEmpty()) {
+			//Sort the virtual particles by momentum, and run through them until we have enough momentum to complete the recipe
+			//If we succeed, "collapse" the cheapest particle that had enough momentum
+			//If we fail to make anything, "collapse" the most expensive particle
+			if(particles.isEmpty() && !particlesCompleted.isEmpty()) {
 				ItemStack[] result = null;
 				Particle particle = null;
 
@@ -174,7 +175,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 	}
 	
 	private void process(Particle p, ItemStack[] result) {
-		// Collapse this particle to real by consuming power
+		//Collapse this particle to real by consuming power
 		p.consumePower();
 		
 		if(result == null) {
@@ -360,6 +361,9 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		}
 		worldObj.newExplosion(null, particle.posX + 0.5, particle.posY + 0.5, particle.posZ + 0.5, 10, false, false);
 
+		//If any particles expire, cancel any succeeding particles, since they'll confuse the player
+		particlesCompleted.clear();
+
 		TileEntityHadron.this.state = reason;
 		TileEntityHadron.this.delay = delayError;
 		TileEntityHadron.this.setExpireStats(reason, particle.momentum, particle.posX, particle.posY, particle.posZ);
@@ -390,6 +394,10 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		//Virtual particles traverse the accelerator without consuming electrical power
 		//The cheapest valid route to the analysis chamber is then turned into a real particle, consuming power
 		List<TileEntityHadronPower> plugs = new ArrayList<TileEntityHadronPower>();
+
+		//Quantum particles should only traverse a schottky direction ONCE
+		//Keep a list of traversed diodes and directions
+		HashMap<TileEntityHadronDiode, List<ForgeDirection>> history = new HashMap<TileEntityHadronDiode, List<ForgeDirection>>();
 		
 		public Particle(ItemStack item1, ItemStack item2, ForgeDirection dir, int posX, int posY, int posZ) {
 			this.item1 = item1.copy();
@@ -416,6 +424,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			p.cl1 = cl1;
 			p.expired = expired;
 			p.plugs = new ArrayList<TileEntityHadronPower>(plugs);
+			p.history = new HashMap<TileEntityHadronDiode, List<ForgeDirection>>(history);
 			p.cloned = true;
 			return p;
 		}
@@ -429,8 +438,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			if(expired) //just in case
 				return;
 
-			// Recently cloned particles have already set direction, disabling this causes infinite recursion
-			if (cloned) {
+			//Recently cloned particles have already a set direction, this prevents infinite recursion
+			if(cloned) {
 				cloned = false;
 			} else {
 				changeDirection(this);
@@ -646,7 +655,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 				expire(p, EnumHadronState.ERROR_ANALYSIS_TOO_LONG);
 			
 			if(p.analysis == 2) {
-				// Only pop for the first particle
+				//Only pop for the first particle
 				if(this.state != EnumHadronState.ANALYSIS) {
 					this.worldObj.playSoundEffect(p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5, "fireworks.blast", 2.0F, 2F);
 					NBTTagCompound data = new NBTTagCompound();
@@ -721,20 +730,30 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 
 			boolean hasTurnedCurrent = false;
 
+			if(!p.history.containsKey(diode))
+				p.history.put(diode, new ArrayList<ForgeDirection>());
+
+			List<ForgeDirection> usedDirections = p.history.get(diode);
+
 			//Instance a new particle for each required fork
 			for(ForgeDirection d : ForgeDirection.VALID_DIRECTIONS) {
-				if(diode.getConfig(d.ordinal()) == DiodeConfig.OUT) {
+				if(!usedDirections.contains(d) && diode.getConfig(d.ordinal()) == DiodeConfig.OUT) {
 					if(!hasTurnedCurrent) {
 						p.dir = d;
 						hasTurnedCurrent = true;
 					} else {
-						particlesToAdd.add(p.clone(d));
+						Particle clone = p.clone(d);
+						clone.history.get(diode).add(d);
+						particlesToAdd.add(clone);
 					}
 				}
 			}
 
+			//Add the used direction to the main particle AFTER cloning, so the clones don't get incorrect travel history
+			usedDirections.add(p.dir);
+
 			//If we managed to exit, keep going
-			if (hasTurnedCurrent) return;
+			if(hasTurnedCurrent) return;
 		}
 		
 		//next step is air or the core, proceed
