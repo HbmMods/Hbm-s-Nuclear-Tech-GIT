@@ -30,6 +30,7 @@ public class ArmorFSBFueled extends ArmorFSB implements IFillableItem {
 		this.maxFuel = maxFuel;
 	}
 
+	@Override
 	public int getFill(ItemStack stack) {
 		if(stack.stackTagCompound == null) {
 			stack.stackTagCompound = new NBTTagCompound();
@@ -122,5 +123,10 @@ public class ArmorFSBFueled extends ArmorFSB implements IFillableItem {
 	@Override
 	public int tryEmpty(FluidType type, int amount, ItemStack stack) {
 		return 0;
+	}
+
+	@Override
+	public FluidType getFirstFluidType(ItemStack stack) {
+		return null;
 	}
 }

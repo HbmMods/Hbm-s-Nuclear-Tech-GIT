@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
 
 import net.minecraft.util.EnumChatFormatting;
@@ -86,6 +87,18 @@ public class FT_Polluting extends FluidTrait {
 					burnMap.put(type, release.get(type.name()).getAsFloat());
 				}
 			}
+		}
+	}
+	
+	public static void pollute(World world, int x, int y, int z, FluidType type, FluidReleaseType release, float mB) {
+		FT_Polluting trait = type.getTrait(FT_Polluting.class);
+		if(trait == null) return;
+		if(release == FluidReleaseType.VOID) return;
+		
+		HashMap<PollutionType, Float> map = release == FluidReleaseType.BURN ? trait.burnMap : trait.releaseMap;
+		
+		for(Entry<PollutionType, Float> entry : map.entrySet()) {
+			PollutionHandler.incrementPollution(world, x, y, z, entry.getKey(), entry.getValue() * mB);
 		}
 	}
 }

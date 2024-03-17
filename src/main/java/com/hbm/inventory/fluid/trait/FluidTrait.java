@@ -39,7 +39,6 @@ public abstract class FluidTrait {
 		registerTrait("amat", FT_Amat.class);
 		registerTrait("leadcontainer", FT_LeadContainer.class);
 		registerTrait("delicious", FT_Delicious.class);
-		registerTrait("leaded", FT_Leaded.class);
 		registerTrait("noid", FT_NoID.class);
 		registerTrait("nocontainer", FT_NoContainer.class);
 		registerTrait("unsiphonable", FT_Unsiphonable.class);

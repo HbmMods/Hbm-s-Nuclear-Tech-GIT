@@ -84,7 +84,6 @@ public class WorldConfig {
 	public static int dungeonStructure = 64;
 	public static int relayStructure = 500;
 	public static int satelliteStructure = 500;
-	public static int siloStructure = 1000;
 	public static int factoryStructure = 1000;
 	public static int dudStructure = 500;
 	public static int spaceshipStructure = 1000;
@@ -206,7 +205,6 @@ public class WorldConfig {
 		dungeonStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.04_dungeonSpawn", "Spawn library dungeon on every nTH chunk", 64);
 		relayStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.05_relaySpawn", "Spawn relay on every nTH chunk", 500);
 		satelliteStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.06_satelliteSpawn", "Spawn satellite dish on every nTH chunk", 500);
-		siloStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.08_siloSpawn", "Spawn missile silo on every nTH chunk", 1000);
 		factoryStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.09_factorySpawn", "Spawn factory on every nTH chunk", 1000);
 		dudStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.10_dudSpawn", "Spawn dud on every nTH chunk", 500);
 		spaceshipStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.11_spaceshipSpawn", "Spawn spaceship on every nTH chunk", 1000);
@@ -250,7 +248,6 @@ public class WorldConfig {
 		dungeonStructure = CommonConfig.setDefZero(dungeonStructure, 1000);
 		relayStructure = CommonConfig.setDefZero(relayStructure, 1000);
 		satelliteStructure = CommonConfig.setDefZero(satelliteStructure, 1000);
-		siloStructure = CommonConfig.setDefZero(siloStructure, 1000);
 		factoryStructure = CommonConfig.setDefZero(factoryStructure, 1000);
 		dudStructure = CommonConfig.setDefZero(dudStructure, 1000);
 		spaceshipStructure = CommonConfig.setDefZero(spaceshipStructure, 1000);

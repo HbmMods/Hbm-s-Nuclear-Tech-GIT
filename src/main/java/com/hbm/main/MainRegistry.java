@@ -1223,6 +1223,23 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.warhead_thermo_endo");
 		ignoreMappings.add("hbm:item.warhead_thermo_exo");
 		ignoreMappings.add("hbm:item.gun_dampfmaschine");
+		ignoreMappings.add("hbm:item.canteen_13");
+		ignoreMappings.add("hbm:tile.residue");
+		ignoreMappings.add("hbm:item.powder_cloud");
+		ignoreMappings.add("hbm:item.gun_detonator");
+		ignoreMappings.add("hbm:item.gun_avenger");
+		ignoreMappings.add("hbm:tile.block_cap_nuka");
+		ignoreMappings.add("hbm:tile.block_cap_quantum");
+		ignoreMappings.add("hbm:tile.block_cap_rad");
+		ignoreMappings.add("hbm:tile.block_cap_sparkle");
+		ignoreMappings.add("hbm:tile.block_cap_korl");
+		ignoreMappings.add("hbm:tile.block_cap_fritz");
+		ignoreMappings.add("hbm:tile.block_cap_sunset");
+		ignoreMappings.add("hbm:tile.block_cap_star");
+		ignoreMappings.add("hbm:tile.machine_deaerator");
+		ignoreMappings.add("hbm:item.bottle2_sunset");
+		ignoreMappings.add("hbm:item.cap_sunset");
+		ignoreMappings.add("hbm:item.cap_star");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

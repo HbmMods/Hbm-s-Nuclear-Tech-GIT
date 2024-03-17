@@ -394,7 +394,7 @@ public class AnvilRecipes {
 		
 		pullFromAssembler(new ComparableStack(ModBlocks.machine_diesel), 2);
 
-		constructionRecipes.add(new AnvilConstructionRecipe(
+		/*constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
 						new OreDictStack(STEEL.ingot(), 6),
 						new OreDictStack(IRON.plate528(), 8),
@@ -403,7 +403,7 @@ public class AnvilRecipes {
 						new ComparableStack(ModItems.turbine_titanium, 1),
 						new ComparableStack(ModItems.thermo_element, 3),
 						new ComparableStack(ModItems.crt_display, 1)
-				}, new AnvilOutput(new ItemStack(ModBlocks.machine_industrial_generator))).setTier(2));
+				}, new AnvilOutput(new ItemStack(ModBlocks.machine_industrial_generator))).setTier(2));*/
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {

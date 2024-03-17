@@ -402,7 +402,6 @@ public class HbmChestContents {
 			weighted(ModItems.flame_conspiracy, 0, 1, 3, 5),
 			weighted(ModItems.flame_politics, 0, 1, 3, 5),
 			weighted(ModItems.cigarette, 0, 1, 8, 5),
-			weighted(ModItems.canteen_13, 0, 1, 1, 2),
 			weighted(ModItems.armor_polish, 0, 1, 1, 3),
 			weighted(ModItems.gun_kit_1, 0, 1, 1, 3),
 			weighted(ModItems.rag, 0, 1, 3, 5),
