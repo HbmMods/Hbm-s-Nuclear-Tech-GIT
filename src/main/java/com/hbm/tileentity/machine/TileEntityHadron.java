@@ -141,15 +141,11 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			// If we succeed, "collapse" the cheapest particle that had enough momentum
 			// If we fail to make anything, "collapse" the most expensive particle
 			if (particles.isEmpty() && !particlesCompleted.isEmpty()) {
-				MainRegistry.logger.info("number of COMPLETED: " + particlesCompleted.size());
-
 				ItemStack[] result = null;
 				Particle particle = null;
 
 				particlesCompleted.sort((p1, p2) -> { return p1.momentum - p2.momentum; });
 				for(Particle p : particlesCompleted) {
-					MainRegistry.logger.info(p.momentum);
-		
 					particle = p;
 					result = HadronRecipes.getOutput(p.item1, p.item2, p.momentum, analysisOnly);
 					if(result != null) break;
@@ -648,11 +644,14 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 				p.expire(EnumHadronState.ERROR_ANALYSIS_TOO_LONG);
 			
 			if(p.analysis == 2) {
+				// Only pop for the first particle
+				if(this.state != EnumHadronState.ANALYSIS) {
+					this.worldObj.playSoundEffect(p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5, "fireworks.blast", 2.0F, 2F);
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "hadron");
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5), new TargetPoint(worldObj.provider.dimensionId, p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5, 25));
+				}
 				this.state = EnumHadronState.ANALYSIS;
-				this.worldObj.playSoundEffect(p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5, "fireworks.blast", 2.0F, 2F);
-				NBTTagCompound data = new NBTTagCompound();
-				data.setString("type", "hadron");
-				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5), new TargetPoint(worldObj.provider.dimensionId, p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5, 25));
 			}
 
 			//if operating in line accelerator mode, halt after 2 blocks and staart the reading
