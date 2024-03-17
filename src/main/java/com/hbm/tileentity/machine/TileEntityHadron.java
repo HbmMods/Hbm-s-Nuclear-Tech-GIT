@@ -106,6 +106,9 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			
 			power = Library.chargeTEFromItems(slots, 4, power, maxPower);
 			drawPower();
+
+			particles.addAll(particlesToAdd);
+			particlesToAdd.clear();
 			
 			if(delay <= 0 && this.isOn && particles.size() < maxParticles && slots[0] != null && slots[1] != null && power >= maxPower * 0.75) {
 				
@@ -133,6 +136,29 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			}
 			
 			particlesToRemove.clear();
+
+			// Sort the virtual particles by momentum, and run through them until we have enough momentum to complete the recipe
+			// If we succeed, "collapse" the cheapest particle that had enough momentum
+			// If we fail to make anything, "collapse" the most expensive particle
+			if (particles.isEmpty() && !particlesCompleted.isEmpty()) {
+				MainRegistry.logger.info("number of COMPLETED: " + particlesCompleted.size());
+
+				ItemStack[] result = null;
+				Particle particle = null;
+
+				particlesCompleted.sort((p1, p2) -> { return p1.momentum - p2.momentum; });
+				for(Particle p : particlesCompleted) {
+					MainRegistry.logger.info(p.momentum);
+		
+					particle = p;
+					result = HadronRecipes.getOutput(p.item1, p.item2, p.momentum, analysisOnly);
+					if(result != null) break;
+				}
+
+				process(particle, result);
+
+				particlesCompleted.clear();
+			}
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("isOn", isOn);
@@ -151,9 +177,9 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		}
 	}
 	
-	private void process(Particle p) {
-		
-		ItemStack[] result = HadronRecipes.getOutput(p.item1, p.item2, p.momentum, analysisOnly);
+	private void process(Particle p, ItemStack[] result) {
+		// Collapse this particle to real by consuming power
+		p.consumePower();
 		
 		if(result == null) {
 			this.state = HadronRecipes.returnCode;
@@ -166,9 +192,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		if((slots[2] == null || (slots[2].getItem() == result[0].getItem() && slots[2].stackSize < slots[2].getMaxStackSize())) &&
 				(slots[3] == null || (slots[3].getItem() == result[1].getItem() && slots[3].stackSize < slots[3].getMaxStackSize()))) {
 			
-			for(int i = 2; i <= 3; i++ ) {
-				
-				//System.out.println("yes");
+			for(int i = 2; i <= 3; i++) {
 				if(slots[i] == null)
 					slots[i] = result[i - 2].copy();
 				else
@@ -252,17 +276,18 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		particlesToRemove.add(p);
 		
 		if(!p.isExpired())
-			process(p);
+			particlesCompleted.add(p);
 		
 		p.expired = true;
 	}
 	
 	static final int maxParticles = 1;
-	List<Particle> particles = new ArrayList();
-	List<Particle> particlesToRemove = new ArrayList();
+	List<Particle> particles = new ArrayList<Particle>();
+	List<Particle> particlesToRemove = new ArrayList<Particle>();
+	List<Particle> particlesToAdd = new ArrayList<Particle>();
+	List<Particle> particlesCompleted = new ArrayList<Particle>();
 	
 	private void updateParticles() {
-		
 		for(Particle particle : particles) {
 			particle.update();
 		}
@@ -347,6 +372,12 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		int cl1 = 0;
 		
 		boolean expired = false;
+		boolean cloned = false;
+
+		//Quantum mechanical ass particle
+		//Virtual particles traverse the accelerator without consuming electrical power
+		//The cheapest valid route to the analysis chamber is then turned into a real particle, consuming power
+		List<TileEntityHadronPower> plugs = new ArrayList<TileEntityHadronPower>();
 		
 		public Particle(ItemStack item1, ItemStack item2, ForgeDirection dir, int posX, int posY, int posZ) {
 			this.item1 = item1.copy();
@@ -361,6 +392,21 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			this.charge = 750;
 			this.momentum = 0;
 		}
+
+		//Clones the particle and gives it a new direction
+		public Particle clone(ForgeDirection dir) {
+			Particle p = new Particle(item1, item2, dir, posX, posY, posZ);
+			p.momentum = momentum;
+			p.charge = charge;
+			p.analysis = analysis;
+			p.isCheckExempt = isCheckExempt;
+			p.cl0 = cl0;
+			p.cl1 = cl1;
+			p.expired = expired;
+			p.plugs = new ArrayList<TileEntityHadronPower>(plugs);
+			p.cloned = true;
+			return p;
+		}
 		
 		public void expire(EnumHadronState reason) {
 			
@@ -370,9 +416,6 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			this.expired = true;
 			particlesToRemove.add(this);
 			worldObj.newExplosion(null, posX + 0.5, posY + 0.5, posZ + 0.5, 10, false, false);
-			//System.out.println("Last dir: " + dir.name());
-			//System.out.println("Last pos: " + posX + " " + posY + " " + posZ);
-			//Thread.currentThread().dumpStack();
 
 			TileEntityHadron.this.state = reason;
 			TileEntityHadron.this.delay = delayError;
@@ -388,7 +431,13 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			if(expired) //just in case
 				return;
 
-			changeDirection(this);
+			// Recently cloned particles have already set direction, disabling this causes infinite recursion
+			if (cloned) {
+				cloned = false;
+			} else {
+				changeDirection(this);
+			}
+
 			makeSteppy(this);
 			
 			if(!this.isExpired()) //only important for when the current segment is the core
@@ -426,6 +475,14 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			}
 			
 			this.momentum += coilVal;
+		}
+
+		public void consumePower() {
+			for(TileEntityHadronPower plug : plugs) {
+				long bit = 10000;
+				int times = (int) (plug.getPower() / bit);
+				plug.setPower(plug.getPower() - times * bit);
+			}
 		}
 	}
 	
@@ -566,7 +623,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 							int times = (int) (plug.getPower() / bit);	//how many charges the plug has to offer
 							
 							p.charge += times;
-							plug.setPower(plug.getPower() - times * bit);
+							p.plugs.add(plug);
 							
 							continue;
 						}
@@ -575,9 +632,6 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 						if(p.isCheckExempt && ix + iy + iz == 2) {
 							continue;
 						}
-						
-						//System.out.println("Was exempt: " + p.isCheckExempt);
-						//worldObj.setBlock(a, b, c, Blocks.dirt);
 
 						p.expire(EnumHadronState.ERROR_MALFORMED_SEGMENT);
 					}
@@ -594,8 +648,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 				p.expire(EnumHadronState.ERROR_ANALYSIS_TOO_LONG);
 			
 			if(p.analysis == 2) {
-				this.worldObj.playSoundEffect(p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5, "fireworks.blast", 2.0F, 2F);
 				this.state = EnumHadronState.ANALYSIS;
+				this.worldObj.playSoundEffect(p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5, "fireworks.blast", 2.0F, 2F);
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "hadron");
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5), new TargetPoint(worldObj.provider.dimensionId, p.posX + 0.5, p.posY + 0.5, p.posZ + 0.5, 25));
@@ -663,29 +717,23 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			p.isCheckExempt = true;
 			
 			TileEntityHadronDiode diode = (TileEntityHadronDiode)te;
-			
-			//the direction in which we were going anyway is an output, so we will keep going
-			if(diode.getConfig(dir.ordinal()) == DiodeConfig.OUT) {
-				return;
-				
-			//well then, iterate through some random directions and hope a valid output shows up
-			} else {
-				
-				List<ForgeDirection> dirs = getRandomDirs();
-				
-				for(ForgeDirection d : dirs) {
-					
-					if(d == dir || d == dir.getOpposite())
-						continue;
-					
-					//looks like we can leave!
-					if(diode.getConfig(d.ordinal()) == DiodeConfig.OUT) {
-						//set the direction and leave this hellhole
+
+			boolean hasTurnedCurrent = false;
+
+			//Instance a new particle for each required fork
+			for(ForgeDirection d : ForgeDirection.VALID_DIRECTIONS) {
+				if(diode.getConfig(d.ordinal()) == DiodeConfig.OUT) {
+					if(!hasTurnedCurrent) {
 						p.dir = d;
-						return;
+						hasTurnedCurrent = true;
+					} else {
+						particlesToAdd.add(p.clone(d));
 					}
 				}
 			}
+
+			//If we managed to exit, keep going
+			if (hasTurnedCurrent) return;
 		}
 		
 		//next step is air or the core, proceed
