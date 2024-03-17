@@ -348,6 +348,22 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		this.stat_z = z;
 		this.stat_success = false;
 	}
+		
+	public void expire(Particle particle, EnumHadronState reason) {
+		if(particle.expired)
+			return;
+		
+		particle.consumePower();
+		for(Particle p : particles) {
+			p.expired = true;
+			particlesToRemove.add(p);
+		}
+		worldObj.newExplosion(null, particle.posX + 0.5, particle.posY + 0.5, particle.posZ + 0.5, 10, false, false);
+
+		TileEntityHadron.this.state = reason;
+		TileEntityHadron.this.delay = delayError;
+		TileEntityHadron.this.setExpireStats(reason, particle.momentum, particle.posX, particle.posY, particle.posZ);
+	}
 	
 	public class Particle {
 		
@@ -404,20 +420,6 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			return p;
 		}
 		
-		public void expire(EnumHadronState reason) {
-			
-			if(expired)
-				return;
-			
-			this.expired = true;
-			particlesToRemove.add(this);
-			worldObj.newExplosion(null, posX + 0.5, posY + 0.5, posZ + 0.5, 10, false, false);
-
-			TileEntityHadron.this.state = reason;
-			TileEntityHadron.this.delay = delayError;
-			TileEntityHadron.this.setExpireStats(reason, this.momentum, posX, posY, posZ);
-		}
-		
 		public boolean isExpired() {
 			return this.expired;
 		}
@@ -442,7 +444,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			isCheckExempt = false; //clearing up the exemption we might have held from the previous turn, AFTER stepping
 			
 			if(charge < 0)
-				this.expire(EnumHadronState.ERROR_NO_CHARGE);
+				expire(this, EnumHadronState.ERROR_NO_CHARGE);
 
 			if(cl0 > 0) cl0--;
 			if(cl1 > 0) cl1--;
@@ -505,7 +507,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		if(te instanceof TileEntityHadron) {
 
 			if(p.analysis != 3)
-				p.expire(EnumHadronState.ERROR_NO_ANALYSIS);
+				expire(p, EnumHadronState.ERROR_NO_ANALYSIS);
 			else
 				this.finishParticle(p);
 			
@@ -513,7 +515,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		}
 		
 		if(block.getMaterial() != Material.air && block != ModBlocks.hadron_diode)
-			p.expire(EnumHadronState.ERROR_OBSTRUCTED_CHANNEL);
+			expire(p, EnumHadronState.ERROR_OBSTRUCTED_CHANNEL);
 		
 		if(block == ModBlocks.hadron_diode)
 			p.isCheckExempt = true;
@@ -585,7 +587,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 						
 						//not a valid coil: kablam!
 						if(!isValidCoil(block)) {
-							p.expire(EnumHadronState.ERROR_EXPECTED_COIL);
+							expire(p, EnumHadronState.ERROR_EXPECTED_COIL);
 						} else {
 							p.charge -= coilVal;
 							p.incrementCharge(block, meta, coilVal);
@@ -629,7 +631,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 							continue;
 						}
 
-						p.expire(EnumHadronState.ERROR_MALFORMED_SEGMENT);
+						expire(p, EnumHadronState.ERROR_MALFORMED_SEGMENT);
 					}
 				}
 			}
@@ -641,7 +643,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			
 			//if the analysis chamber is too big, destroy
 			if(p.analysis > 3)
-				p.expire(EnumHadronState.ERROR_ANALYSIS_TOO_LONG);
+				expire(p, EnumHadronState.ERROR_ANALYSIS_TOO_LONG);
 			
 			if(p.analysis == 2) {
 				// Only pop for the first particle
@@ -663,7 +665,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 
 			//if the analysis stops despite being short of 3 steps in the analysis chamber, destroy
 			if(p.analysis > 0 && p.analysis < 3)
-				p.expire(EnumHadronState.ERROR_ANALYSIS_TOO_SHORT);
+				expire(p, EnumHadronState.ERROR_ANALYSIS_TOO_SHORT);
 		}
 	}
 	
@@ -694,7 +696,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			
 			if(diode.getConfig(p.dir.getOpposite().ordinal()) != DiodeConfig.IN) {
 				//it appears as if we have slammed into the side of a diode, ouch
-				p.expire(EnumHadronState.ERROR_DIODE_COLLISION);
+				expire(p, EnumHadronState.ERROR_DIODE_COLLISION);
 			}
 			
 			//there's a diode ahead, turn off checks so we can make the curve
@@ -761,7 +763,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 					//it seems like there are two or more possible ways, which is not allowed without a diode
 					//sorry kid, nothing personal
 					} else {
-						p.expire(EnumHadronState.ERROR_BRANCHING_TURN);
+						expire(p, EnumHadronState.ERROR_BRANCHING_TURN);
 						return;
 					}
 				}
@@ -773,7 +775,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			return;
 		}
 
-		p.expire(EnumHadronState.ERROR_OBSTRUCTED_CHANNEL);
+		expire(p, EnumHadronState.ERROR_OBSTRUCTED_CHANNEL);
 	}
 	
 	/**
