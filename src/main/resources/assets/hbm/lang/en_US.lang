@@ -523,6 +523,16 @@ cannery.willow.7=Now the willow's leaves can be harvested. Breaking the top bloc
 cannery.willow.8=Soon the plant will start growing again, yielding more leaves if the dirt is replaced with oily dirt. The leaves can be processed into cadmium powder using an ore acidizer.
 cannery.willow.9=Harvesting willow leaves can be automated using the automatic buzzsaw, it will only break plants that are ready for harvest.
 
+cannery.hadron=Particle Accelerator
+cannery.hadron.0=A Particle Accelerator consists of three main parts: A Core, an Analysis Chamber, and a set of Superconducting Coils
+cannery.hadron.1=This is the Particle Accelerator Core Component, which fires particles at relativistic speeds down the coils towards the Analysis Chamber
+cannery.hadron.2=Particles are ejected from here
+cannery.hadron.3=And in circular accelerators, return to here
+cannery.hadron.4=A coil segment is constructed by using 8 Dense Coils with nothing (or the core) in the middle
+cannery.hadron.5=This coil segment must itself also be enclosed within Particle Accelerator Plating
+cannery.hadron.6=To access the Core Component, you'll need to add one or more Access Terminals
+cannery.hadron.7=The Core Component will also require power to operate, add a power plug on an edge
+
 chem.ARSENIC=Arsenic Extraction
 chem.ASPHALT=Asphalt Production
 chem.BAKELITE=Bakelite Production

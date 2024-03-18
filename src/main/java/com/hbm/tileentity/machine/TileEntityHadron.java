@@ -364,9 +364,9 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		//If any particles expire, cancel any succeeding particles, since they'll confuse the player
 		particlesCompleted.clear();
 
-		TileEntityHadron.this.state = reason;
-		TileEntityHadron.this.delay = delayError;
-		TileEntityHadron.this.setExpireStats(reason, particle.momentum, particle.posX, particle.posY, particle.posZ);
+		state = reason;
+		delay = delayError;
+		setExpireStats(reason, particle.momentum, particle.posX, particle.posY, particle.posZ);
 	}
 	
 	public class Particle {
