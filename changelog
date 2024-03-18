@@ -27,6 +27,7 @@
   * Hydrogen doesn't have the polluting tag, so hydrogen burning generators won't create soot anymore
 * Compressing blood no longer creates oil, rather it makes heavy oil (250mB)
 * Tier 2 pickaxes (bismuth and up) now use the large item renderer
+* Added the metal block material to the sellafite conversion list of nuclear explosions
 
 ## Fixed
 * WarTec should now be compatible again
@@ -35,3 +36,6 @@
 * Fixed the hydrotreater only using half as much crude oil per operation as it should
 * Fixed the old launchpad printing the wrong message when successfully launched via detonator
 * Oil spills should no longer save, fixing an issue where chunkloaded derricks would constantly spill oil entities into unloaded chunks, causing them to get stuck
+* Fixed schrabidium conversion happening outside the main crater instead of inside
+* Fixed wood burning generator creating smoke even if no power is being generated
+* Fixed one of the woodburner's ports being offset in certain orientations
