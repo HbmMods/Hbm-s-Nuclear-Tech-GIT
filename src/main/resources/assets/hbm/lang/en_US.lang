@@ -5159,6 +5159,7 @@ tile.machine_difurnace_on.name=Blast Furnace
 tile.machine_difurnace_rtg_off.name=Nuclear Blast Furnace
 tile.machine_difurnace_rtg_on.name=Nuclear Blast Furnace
 tile.machine_dineutronium_battery.name=Spark Energy Storage Block
+tile.machine_drain.name=Drainage Pipe
 tile.machine_drill.name=Automatic Mining Drill
 tile.machine_electric_furnace_off.name=Electric Furnace
 tile.machine_electric_furnace_on.name=Electric Furnace

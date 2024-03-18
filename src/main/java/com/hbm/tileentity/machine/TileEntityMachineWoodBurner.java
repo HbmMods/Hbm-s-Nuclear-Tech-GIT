@@ -129,6 +129,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("burnTime", burnTime);
+			data.setInteger("powerGen", powerGen);
 			data.setInteger("maxBurnTime", maxBurnTime);
 			data.setBoolean("isOn", isOn);
 			data.setBoolean("liquidBurn", liquidBurn);
@@ -136,7 +137,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 			this.networkPack(data, 25);
 		} else {
 			
-			if(this.isOn && ((!this.liquidBurn && this.burnTime > 0) || (this.liquidBurn && this.tank.getTankType().hasTrait(FT_Flammable.class) && tank.getFill() > 0))) {
+			if(powerGen > 0) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 				worldObj.spawnParticle("smoke", xCoord + 0.5 - dir.offsetX + rot.offsetX, yCoord + 4, zCoord + 0.5 - dir.offsetZ + rot.offsetZ, 0, 0.05, 0);
@@ -149,7 +150,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		return new DirPos[] {
 				new DirPos(xCoord - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetX, dir.getOpposite())
+				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite())
 		};
 	}
 
@@ -158,6 +159,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 		super.networkUnpack(nbt);
 		
 		this.power = nbt.getLong("power");
+		this.powerGen = nbt.getInteger("powerGen");
 		this.burnTime = nbt.getInteger("burnTime");
 		this.maxBurnTime = nbt.getInteger("maxBurnTime");
 		this.isOn = nbt.getBoolean("isOn");
