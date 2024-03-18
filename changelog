@@ -28,6 +28,10 @@
 * Compressing blood no longer creates oil, rather it makes heavy oil (250mB)
 * Tier 2 pickaxes (bismuth and up) now use the large item renderer
 * Added the metal block material to the sellafite conversion list of nuclear explosions
+* Changed the mechanics for schottky particle diodes
+  * Instead of randomizing directions, schottky diodes will now split particles into "virtual particles" which take mutliple paths at once
+  * The particles will collapse as soon as the first virtual particle with a valid outcome reaches the end
+  * This change allows branching accelerators to be made, where the particle will always take the shortest path necessary to complete the operation. In essence, it allows a single accelerator to do any recipe, without requiring to power the entire accelerator, as only the path of the finishing particle will use up energy.
 
 ## Fixed
 * WarTec should now be compatible again
@@ -39,3 +43,5 @@
 * Fixed schrabidium conversion happening outside the main crater instead of inside
 * Fixed wood burning generator creating smoke even if no power is being generated
 * Fixed one of the woodburner's ports being offset in certain orientations
+* Fixed fog caching causing weird behavior with the sky color change in response to crater biomes (or lack thereof)
+* Fixed "F1 for help" keybind not working on non-standard inventories such as the NEI item list
