@@ -32,6 +32,13 @@ public class CanneryHadron extends CanneryBase {
 	public String getName() {
 		return "cannery.hadron";
 	}
+	
+    @Override
+	public CanneryBase[] seeAlso() {
+		return new CanneryBase[] {
+            new CannerySchottky()
+		};
+	}
 
 	@Override
 	public JarScript createScript() {
