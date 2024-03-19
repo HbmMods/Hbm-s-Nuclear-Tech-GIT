@@ -459,13 +459,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			if(cl1 > 0) cl1--;
 		}
 
-		public void incrementCharge(Block block, int meta, int coilVal) {
-
-			if(block == ModBlocks.hadron_cooler) {
-				if(meta == 0) cl0 += 10;
-				if(meta == 1) cl1 += 5;
-			}
-			
+		public void incrementCharge(int coilVal) {	
 			//not the best code ever made but it works, dammit
 			if(cl1 > 0) {
 				
@@ -554,6 +548,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		//-> all coils have to be air
 		//-> all platings have to be analysis chamber walls
 		boolean analysis = true;
+		//ensures coolers are useful throughout their initial segment
+		int totalValue = 0;
 		
 		for(int a = x - dX * 2; a <= x + dX * 2; a++) {
 			for(int b = y - dY * 2; b <= y + dY * 2; b++) {
@@ -599,7 +595,12 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 							expire(p, EnumHadronState.ERROR_EXPECTED_COIL);
 						} else {
 							p.charge -= coilVal;
-							p.incrementCharge(block, meta, coilVal);
+							totalValue += coilVal;
+							
+							if(block == ModBlocks.hadron_cooler) {
+								if(meta == 0) p.cl0 += 10;
+								if(meta == 1) p.cl1 += 5;
+							}
 						}
 
 						continue;
@@ -645,6 +646,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 				}
 			}
 		}
+		//all errors prior to this point come from bad construction, where exact momentum is irrelevant
+		p.incrementCharge(totalValue);
 		
 		if(analysis) {
 			
@@ -834,7 +837,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 				b instanceof BlockHadronCoil ||
 				b == ModBlocks.hadron_plating_glass ||
 				b == ModBlocks.hadron_analysis_glass ||
-				b == ModBlocks.hadron_access;
+				b == ModBlocks.hadron_access ||
+				b == ModBlocks.hadron_cooler;
 	}
 	
 	public boolean isAnalysis(Block b) {
