@@ -13,6 +13,7 @@ import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.items.special.ItemBookLore;
 import com.hbm.items.tool.ItemBlowtorch;
 
+import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -85,10 +86,10 @@ public class HbmChestContents {
 			weighted(ModItems.battery_advanced, 0, 1, 1, 3),
 			weighted(ModItems.powder_iodine, 0, 1, 1, 1),
 			weighted(ModItems.powder_bromine, 0, 1, 1, 1),
-			weighted(Item.getItemFromBlock(ModBlocks.steel_poles), 0, 1, 4, 8),
-			weighted(Item.getItemFromBlock(ModBlocks.steel_scaffold), 0, 1, 3, 8),
-			weighted(Item.getItemFromBlock(ModBlocks.pole_top), 0, 1, 1, 4),
-			weighted(Item.getItemFromBlock(ModBlocks.pole_satellite_receiver), 0, 1, 1, 7),
+			weighted(ModBlocks.steel_poles, 0, 1, 4, 8),
+			weighted(ModBlocks.steel_scaffold, 0, 1, 3, 8),
+			weighted(ModBlocks.pole_top, 0, 1, 1, 4),
+			weighted(ModBlocks.pole_satellite_receiver, 0, 1, 1, 7),
 			weighted(ModItems.scrap, 0, 1, 3, 10),
 			weighted(ModItems.dust, 0, 2, 4, 9),
 			weighted(ModItems.bottle_opener, 0, 1, 1, 2),
@@ -124,7 +125,7 @@ public class HbmChestContents {
 			weighted(ModItems.fusion_core, 0, 1, 1, 4),
 			weighted(ModItems.bottle_nuka, 0, 1, 3, 6),
 			weighted(ModItems.bottle_quantum, 0, 1, 1, 3),
-			weighted(Item.getItemFromBlock(ModBlocks.red_barrel), 0, 1, 1, 6),
+			weighted(ModBlocks.red_barrel, 0, 1, 1, 6),
 			weighted(ModItems.canister_full, Fluids.DIESEL.getID(), 1, 2, 2),
 			weighted(ModItems.canister_full, Fluids.BIOFUEL.getID(), 1, 2, 3),
 			weighted(ModItems.gas_mask_m65, 60, 1, 1, 5),
@@ -146,7 +147,7 @@ public class HbmChestContents {
 			weighted(ModItems.gas_mask_m65, 60, 1, 1, 5),
 			weighted(ModItems.hazmat_kit, 0, 1, 1, 1),
 			weighted(ModItems.gas_mask_filter, 0, 1, 1, 5),
-			weighted(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 1, 2) };
+			weighted(ModBlocks.yellow_barrel, 0, 1, 1, 2) };
 	
 	public static WeightedRandomChestContent[] nuclearFuel = new WeightedRandomChestContent[] {
 			weighted(ModItems.billet_uranium, 0, 1, 4, 4),
@@ -190,7 +191,7 @@ public class HbmChestContents {
 			weighted(ModItems.gas_mask_m65, 60, 1, 1, 5),
 			weighted(ModItems.hazmat_kit, 0, 1, 1, 2),
 			weighted(ModItems.gas_mask_filter, 0, 1, 1, 5),
-			weighted(Item.getItemFromBlock(ModBlocks.yellow_barrel), 0, 1, 3, 3) };
+			weighted(ModBlocks.yellow_barrel, 0, 1, 3, 3) };
 
 	public static WeightedRandomChestContent[] vertibird = new WeightedRandomChestContent[] {
 			weighted(ModItems.t45_helmet, 0, 1, 1, 15),
@@ -245,12 +246,12 @@ public class HbmChestContents {
 			weighted(ModItems.cell_antimatter, 0, 1, 1, 1),
 			weighted(ModItems.powder_neodymium, 0, 1, 1, 1),
 			weighted(ModItems.powder_niobium, 0, 1, 1, 1),
-			weighted(Item.getItemFromBlock(ModBlocks.fusion_conductor), 0, 2, 4, 5),
-			weighted(Item.getItemFromBlock(ModBlocks.fusion_heater), 0, 1, 3, 5),
-			weighted(Item.getItemFromBlock(ModBlocks.pwr_fuel), 0, 1, 2, 5),
-			weighted(Item.getItemFromBlock(ModBlocks.block_tungsten), 0, 3, 8, 5),
-			weighted(Item.getItemFromBlock(ModBlocks.red_wire_coated), 0, 4, 8, 5),
-			weighted(Item.getItemFromBlock(ModBlocks.red_cable), 0, 8, 16, 5) };
+			weighted(ModBlocks.fusion_conductor, 0, 2, 4, 5),
+			weighted(ModBlocks.fusion_heater, 0, 1, 3, 5),
+			weighted(ModBlocks.pwr_fuel, 0, 1, 2, 5),
+			weighted(ModBlocks.block_tungsten, 0, 3, 8, 5),
+			weighted(ModBlocks.red_wire_coated, 0, 4, 8, 5),
+			weighted(ModBlocks.red_cable, 0, 8, 16, 5) };
 
 	public static WeightedRandomChestContent[] powder = new WeightedRandomChestContent[] {
 			weighted(ModItems.powder_neptunium, 0, 1, 32, 1),
@@ -410,8 +411,9 @@ public class HbmChestContents {
 			weighted(Items.book, 0, 1, 5, 10),
 			weighted(Items.experience_bottle, 0, 1, 3, 1),
 	};
-	
+
 	public static WeightedRandomChestContent weighted(Item item, int meta, int min, int max, int weight) { return new WeightedRandomChestContent(item, meta, min, max, weight); }
+	public static WeightedRandomChestContent weighted(Block block, int meta, int min, int max, int weight) { return new WeightedRandomChestContent(Item.getItemFromBlock(block), meta, min, max, weight); }
 	public static WeightedRandomChestContent weighted(ItemStack item, int min, int max, int weight) { return new WeightedRandomChestContent(item, min, max, weight); }
 	
 	/** ITEMBOOKLORE SHIT */

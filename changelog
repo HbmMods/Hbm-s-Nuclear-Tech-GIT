@@ -32,6 +32,7 @@
   * Instead of randomizing directions, schottky diodes will now split particles into "virtual particles" which take mutliple paths at once
   * The particles will collapse as soon as the first virtual particle with a valid outcome reaches the end
   * This change allows branching accelerators to be made, where the particle will always take the shortest path necessary to complete the operation. In essence, it allows a single accelerator to do any recipe, without requiring to power the entire accelerator, as only the path of the finishing particle will use up energy.
+* The particle accelerator as well as the schottky particle diodes now have presentations explaining how they work
 
 ## Fixed
 * WarTec should now be compatible again
