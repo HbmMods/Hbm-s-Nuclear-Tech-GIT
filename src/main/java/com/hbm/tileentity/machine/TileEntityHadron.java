@@ -837,7 +837,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 				b instanceof BlockHadronCoil ||
 				b == ModBlocks.hadron_plating_glass ||
 				b == ModBlocks.hadron_analysis_glass ||
-				b == ModBlocks.hadron_access;
+				b == ModBlocks.hadron_access ||
+				b == ModBlocks.hadron_cooler;
 	}
 	
 	public boolean isAnalysis(Block b) {
