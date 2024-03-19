@@ -364,9 +364,9 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		//If any particles expire, cancel any succeeding particles, since they'll confuse the player
 		particlesCompleted.clear();
 
-		TileEntityHadron.this.state = reason;
-		TileEntityHadron.this.delay = delayError;
-		TileEntityHadron.this.setExpireStats(reason, particle.momentum, particle.posX, particle.posY, particle.posZ);
+		state = reason;
+		delay = delayError;
+		setExpireStats(reason, particle.momentum, particle.posX, particle.posY, particle.posZ);
 	}
 	
 	public class Particle {
@@ -424,8 +424,14 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			p.cl1 = cl1;
 			p.expired = expired;
 			p.plugs = new ArrayList<TileEntityHadronPower>(plugs);
-			p.history = new HashMap<TileEntityHadronDiode, List<ForgeDirection>>(history);
 			p.cloned = true;
+
+			//Deep clone the history
+			p.history = new HashMap<TileEntityHadronDiode, List<ForgeDirection>>(history);
+			for(TileEntityHadronDiode diode : p.history.keySet()) {
+				p.history.put(diode, new ArrayList<ForgeDirection>(p.history.get(diode)));
+			}
+
 			return p;
 		}
 		
@@ -755,8 +761,11 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			//Add the used direction to the main particle AFTER cloning, so the clones don't get incorrect travel history
 			usedDirections.add(p.dir);
 
-			//If we managed to exit, keep going
-			if(hasTurnedCurrent) return;
+			//If we failed to exit, raise DIODE_COLLISION
+			if(!hasTurnedCurrent)
+				expire(p, EnumHadronState.ERROR_DIODE_COLLISION);
+
+			return;
 		}
 		
 		//next step is air or the core, proceed
