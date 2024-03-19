@@ -163,11 +163,11 @@ public class AssemblerRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModItems.part_carbon, 8), new AStack[] {new OreDictStack(ANY_RUBBER.ingot(), 1), new OreDictStack(COAL.dust(), 1), },50);
 		makeRecipe(new ComparableStack(ModItems.part_copper, 8), new AStack[] {new OreDictStack(ANY_RUBBER.ingot(), 1), new OreDictStack(CU.dust(), 1), },50);
 		makeRecipe(new ComparableStack(ModItems.part_plutonium, 8), new AStack[] {new OreDictStack(ANY_RUBBER.ingot(), 1), new OreDictStack(PU.dust(), 1), },50);
-		makeRecipe(new ComparableStack(ModItems.part_lithium, 2), new AStack[] {new ComparableStack(ModItems.plate_polymer, 1), new OreDictStack(LI.dust(), 1), },50);
-		makeRecipe(new ComparableStack(ModItems.part_beryllium, 2), new AStack[] {new ComparableStack(ModItems.plate_polymer, 1), new OreDictStack(BE.dust(), 1), },50);
-		makeRecipe(new ComparableStack(ModItems.part_carbon, 2), new AStack[] {new ComparableStack(ModItems.plate_polymer, 1), new OreDictStack(COAL.dust(), 1), },50);
-		makeRecipe(new ComparableStack(ModItems.part_copper, 2), new AStack[] {new ComparableStack(ModItems.plate_polymer, 1), new OreDictStack(CU.dust(), 1), },50);
-		makeRecipe(new ComparableStack(ModItems.part_plutonium, 2), new AStack[] {new ComparableStack(ModItems.plate_polymer, 1), new OreDictStack(PU.dust(), 1), },50);
+		makeRecipe(new ComparableStack(ModItems.part_lithium, 8), new AStack[] {new ComparableStack(ModItems.plate_polymer, 8), new OreDictStack(LI.dust(), 1), },400);
+		makeRecipe(new ComparableStack(ModItems.part_beryllium, 8), new AStack[] {new ComparableStack(ModItems.plate_polymer, 8), new OreDictStack(BE.dust(), 1), },400);
+		makeRecipe(new ComparableStack(ModItems.part_carbon, 8), new AStack[] {new ComparableStack(ModItems.plate_polymer, 8), new OreDictStack(COAL.dust(), 1), },50);
+		makeRecipe(new ComparableStack(ModItems.part_copper, 8), new AStack[] {new ComparableStack(ModItems.plate_polymer, 8), new OreDictStack(CU.dust(), 1), },50);
+		makeRecipe(new ComparableStack(ModItems.part_plutonium, 8), new AStack[] {new ComparableStack(ModItems.plate_polymer, 8), new OreDictStack(PU.dust(), 1), },50);
 		makeRecipe(new ComparableStack(ModItems.thermo_element, 1), new AStack[] {new OreDictStack(STEEL.plate(), 1), new ComparableStack(ModItems.wire_red_copper, 2), new OreDictStack(NETHERQUARTZ.dust(), 2), }, 60);
 		makeRecipe(new ComparableStack(ModItems.plate_dalekanium, 1), new AStack[] {new ComparableStack(ModBlocks.block_meteor, 1), },50);
 		makeRecipe(new ComparableStack(ModBlocks.block_meteor, 1), new AStack[] {new ComparableStack(ModItems.fragment_meteorite, 100), },500);

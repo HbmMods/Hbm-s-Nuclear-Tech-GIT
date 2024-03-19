@@ -63,7 +63,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public static final int processFluidTimeBase = 20;
 	public int processFluidTime;
 	public int progressOre;
-	public static final int processOreTimeBase = 400;
+	public static final int processOreTimeBase = 320;
 	public int processOreTime;
 
 	public MaterialStack leftStack;

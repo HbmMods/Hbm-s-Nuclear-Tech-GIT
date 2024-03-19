@@ -224,7 +224,8 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		if(slots[4] != null)
 			return false;
 
-		int progressSpeed = (int) Math.pow(2, this.mode.ordinal() - recipe.laserStrength.ordinal() + 1) / 2;
+		//due to obsessive-compulsive disorder
+		int progressSpeed = (int) Math.pow(2, this.mode.ordinal() - recipe.laserStrength.ordinal() + 1) * 5 / 8;
 
 		progress += progressSpeed;
 

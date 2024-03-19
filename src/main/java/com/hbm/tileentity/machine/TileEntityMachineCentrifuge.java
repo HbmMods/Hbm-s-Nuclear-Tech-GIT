@@ -38,7 +38,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	public long power;
 	public boolean isProgressing;
 	public static final int maxPower = 100000;
-	public static final int processingSpeed = 200;
+	public static final int processingSpeed = 160;
 	private int audioDuration = 0;
 	
 	private AudioWrapper audio;

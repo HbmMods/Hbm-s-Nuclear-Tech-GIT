@@ -385,7 +385,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public int getMaxLevel(UpgradeType type) {
 		if(type == UpgradeType.SPEED) return 3;
 		if(type == UpgradeType.EFFECT) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 2;
+		if(type == UpgradeType.OVERDRIVE) return 3;
 		return 0;
 	}
 }

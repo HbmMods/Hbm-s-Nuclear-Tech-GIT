@@ -796,7 +796,7 @@ public class GunEnergyFactory {
 		bullet.bulletsMin = 5;
 		bullet.bulletsMax = 5;
 		bullet.dmgMin = 100000;
-		bullet.dmgMax = 250000;
+		bullet.dmgMax = 1000000;
 		bullet.liveAfterImpact = true;
 		
 		bullet.damageType = ModDamageSource.s_zomg_prefix;
