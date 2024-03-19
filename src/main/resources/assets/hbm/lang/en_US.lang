@@ -534,6 +534,16 @@ cannery.hadron.6=To access the Core Component, you'll need to add one or more Ac
 cannery.hadron.7=The Core Component will also require power to operate, add a power plug on an edge
 cannery.hadron.8=The Accelerator will require enough Power Plugs to supply at least 10KHE of electricity per unit of Coil Strength
 cannery.hadron.9=Note that the coil segment that wraps around the Core Component is not factored into the Coil Strength calculation
+cannery.hadron.10=Nor is this coil segment required for purely linear accelerators
+cannery.hadron.11=For circular accelerators, you will need to add corners to change the direction of the particle
+cannery.hadron.12=The outside corner coils can be omitted entirely
+cannery.hadron.13=The final part of our Accelerator is the Analysis Chamber, which is a 3x3x3 empty chamber surrounded by Analysis Chamber blocks
+cannery.hadron.14=Your completed Particle Accelerator should look something like this!
+
+cannery.hadron.math.0=Neodymium Coil Strength: 50
+cannery.hadron.math.1=50 x 8 x 10KHE = 400 x 10KHE = 4MHE
+cannery.hadron.math.2=Starmetal Coil Strength: 1,000
+cannery.hadron.math.3=1,000 x 8 x 10KHE = 8,000 x 10KHE = 80MHE
 
 chem.ARSENIC=Arsenic Extraction
 chem.ASPHALT=Asphalt Production
