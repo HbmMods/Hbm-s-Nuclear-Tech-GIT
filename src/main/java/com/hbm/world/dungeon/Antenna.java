@@ -6,7 +6,8 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
-import com.hbm.lib.HbmChestContents;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsLegacy;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -88,7 +89,7 @@ public class Antenna extends WorldGenerator
 		world.setBlock(x + 1, y + 0, z + 2, ModBlocks.steel_poles, 3, 3);
 		world.setBlock(x + 2, y + 0, z + 2, Blocks.chest, 0, 3);
 		world.setBlockMetadataWithNotify(x + 2, y + 0, z + 2, 5, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.antenna, (TileEntityChest)world.getTileEntity(x + 2, y, z + 2), 8);
+        WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_ANTENNA), (TileEntityChest)world.getTileEntity(x + 2, y, z + 2), 8);
 		world.setBlock(x + 0, y + 1, z + 0, Blocks.air, 0, 3);
 		world.setBlock(x + 1, y + 1, z + 0, ModBlocks.steel_poles, 2, 3);
 		world.setBlock(x + 2, y + 1, z + 0, Blocks.air, 0, 3);

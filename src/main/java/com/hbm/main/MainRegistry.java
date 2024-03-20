@@ -29,7 +29,6 @@ import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.recipes.*;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
-import com.hbm.itempool.ItemPool;
 import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
 import com.hbm.items.ItemEnums.EnumAchievementType;
 import com.hbm.items.ModItems;
@@ -862,7 +861,6 @@ public class MainRegistry {
 		RadiolysisRecipes.registerRadiolysis();
 		
 		FalloutConfigJSON.initialize();
-		ItemPool.initialize();
 		ItemPoolConfigJSON.initialize();
 
 		TileEntityNukeCustom.registerBombItems();

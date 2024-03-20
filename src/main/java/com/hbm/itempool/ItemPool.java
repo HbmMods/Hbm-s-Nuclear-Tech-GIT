@@ -1,16 +1,22 @@
 package com.hbm.itempool;
 
+import static com.hbm.lib.HbmChestContents.weighted;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import com.hbm.config.ItemPoolConfigJSON;
+import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
 
 public class ItemPool {
+	
+	public static HashMap<String, ItemPool> pools = new HashMap();
 
 	public String name;
 	public WeightedRandomChestContent[] pool = new WeightedRandomChestContent[0];
@@ -21,7 +27,7 @@ public class ItemPool {
 	
 	public ItemPool(String name) {
 		this.name = name;
-		ItemPoolConfigJSON.pools.put(name, this);
+		pools.put(name, this);
 	}
 
 	public ItemPool add(Item item, int meta, int min, int max, int weight) {	buildingList.add(new WeightedRandomChestContent(item, meta, min, max, weight));							return this; }
@@ -42,12 +48,24 @@ public class ItemPool {
 	}
 	
 	public static void initialize() {
-		//here we abuse java's lazy loading behavior, referencing the item pools with what is effectively a NOP in order to cause instantiation
-		//this of course has to happen after the items and blocks are registered but before the item pool config
-		//will this cause horrific issues if something manages to load the item pools prematurely? absolutely
-		//however, the advantage here is that i don't need to separate the fields from the instantiation, i can simply slap them together into the class and it works
-		//is this shitty coding practice? yes! but it's slightly more convenient than the alternative so i will roll with it anyway because go fuck yourself
-		//who are you to tell me what i can and cannot do
-		ItemPoolsLegacy.poolGeneric.hashCode();
+		ItemPoolsLegacy.init();
+		ItemPoolsComponent.init();
+		ItemPoolsSingle.init();
+		ItemPoolsRedRoom.init();
 	}
+	
+	/** Grabs the specified item pool out of the pool map, will return the backup pool if the given pool is not present */
+	public static WeightedRandomChestContent[] getPool(String name) {
+		ItemPool pool = pools.get(name);
+		if(pool == null) return backupPool;
+		return pool.pool;
+	}
+	
+	/** Should a pool be lost due to misconfiguration or otherwise, this pool will be returned in its place */
+	private static WeightedRandomChestContent[] backupPool = new WeightedRandomChestContent[] {
+			weighted(Items.bread, 0, 1, 3, 10),
+			weighted(Items.stick, 0, 2, 5, 10),
+			weighted(ModItems.scrap, 0, 1, 3, 10),
+			weighted(ModItems.dust, 0, 2, 5, 5)
+	};
 }

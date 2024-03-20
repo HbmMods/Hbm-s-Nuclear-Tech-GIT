@@ -6,7 +6,8 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
-import com.hbm.lib.HbmChestContents;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsLegacy;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.storage.TileEntityMachinePuF6Tank;
 import com.hbm.tileentity.machine.storage.TileEntityMachineUF6Tank;
@@ -439,7 +440,7 @@ public class DesertAtom003
 		world.setBlock(x + 36, y + 4, z + 9, Blocks.chest, 2, 3);
 		if(world.getBlock(x + 36, y + 4, z + 9) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.nuclear, (TileEntityChest)world.getTileEntity(x + 36, y + 4, z + 9), 12);
+			WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_NUKE_MISC), (TileEntityChest)world.getTileEntity(x + 36, y + 4, z + 9), 12);
 		}
         world.setBlock(x + 37, y + 4, z + 9, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 40, y + 4, z + 9, Block5, 0, 3);

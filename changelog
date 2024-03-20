@@ -33,6 +33,8 @@
   * The particles will collapse as soon as the first virtual particle with a valid outcome reaches the end
   * This change allows branching accelerators to be made, where the particle will always take the shortest path necessary to complete the operation. In essence, it allows a single accelerator to do any recipe, without requiring to power the entire accelerator, as only the path of the finishing particle will use up energy.
 * The particle accelerator as well as the schottky particle diodes now have presentations explaining how they work
+* Loot pools are now configurable. Loot is divided into different categories, and structures may generate things from certain categories.
+  * The config currently includes all items spawned in dungeon chests/crates/safes/lockers, excluding black book spawns, but also including the loot pool for red room pedestals
 
 ## Fixed
 * WarTec should now be compatible again

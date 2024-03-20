@@ -13,7 +13,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.itempool.ItemPool;
-import com.hbm.itempool.ItemPoolsLegacy;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 
@@ -27,9 +26,12 @@ import net.minecraft.util.WeightedRandomChestContent;
 public class ItemPoolConfigJSON {
 
 	public static final Gson gson = new Gson();
-	public static HashMap<String, ItemPool> pools = new HashMap();
 	
 	public static void initialize() {
+		
+		//writes the defaults
+		ItemPool.initialize();
+		
 		File folder = MainRegistry.configHbmDir;
 
 		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmItemPools.json");
@@ -39,14 +41,6 @@ public class ItemPoolConfigJSON {
 			writeDefault(template);
 		} else {
 			readConfig(config);
-		}
-		
-		for(Entry<String, ItemPool> entry : pools.entrySet()) {
-			System.out.println(entry.getKey());
-			
-			for(WeightedRandomChestContent item : entry.getValue().pool) {
-				System.out.println(item.theItemId + " " + item.theItemId.stackTagCompound + " " + item.theMinimumChanceToGenerateItem + " " + item.theMaximumChanceToGenerateItem + " " + item.itemWeight);
-			}
 		}
 	}
 	
@@ -58,7 +52,7 @@ public class ItemPoolConfigJSON {
 			writer.beginObject();
 			writer.name("pools").beginObject();
 			
-			for(Entry<String, ItemPool> entry : pools.entrySet()) {
+			for(Entry<String, ItemPool> entry : ItemPool.pools.entrySet()) {
 				writer.name(entry.getKey()).beginArray();
 				
 				for(WeightedRandomChestContent content : entry.getValue().pool) {
@@ -110,7 +104,7 @@ public class ItemPoolConfigJSON {
 				newPools.put(poolName, pool);
 			}
 			
-			ItemPoolConfigJSON.pools = newPools;
+			ItemPool.pools = newPools;
 			
 		} catch(Exception ex) {
 			ex.printStackTrace();

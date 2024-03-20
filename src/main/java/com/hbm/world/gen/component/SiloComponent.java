@@ -4,8 +4,11 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsComponent;
+import com.hbm.itempool.ItemPoolsLegacy;
+import com.hbm.itempool.ItemPoolsSingle;
 import com.hbm.items.ModItems;
-import com.hbm.lib.HbmChestContents;
 import com.hbm.tileentity.bomb.TileEntityLandmine;
 import com.hbm.tileentity.bomb.TileEntityLaunchPadRusted;
 import com.hbm.tileentity.network.TileEntityRadioTorchBase;
@@ -248,7 +251,7 @@ public class SiloComponent extends Component {
 		setRTTYFreq(world, box, 16, 25, 17, freqHatch);
 		
 		//Containers
-		generateInvContents(world, box, rand, Blocks.chest, 2, 36, 26, 17, HbmChestContents.vertibird, 5);
+		generateInvContents(world, box, rand, Blocks.chest, 2, 36, 26, 17, ItemPool.getPool(ItemPoolsLegacy.POOL_VERTIBIRD), 5);
 		
 		/* Stairway */
 		fillWithAir(world, box, 37, 26, 9, 37, 27, 10);
@@ -463,22 +466,22 @@ public class SiloComponent extends Component {
 		placeRandomBobble(world, box, rand, 16, 22, 4);
 		
 		//Containers
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 17, HbmChestContents.filingCabinet, 4);
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 18, HbmChestContents.labVault, 6);
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 19, HbmChestContents.filingCabinet, 4);
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 22, 17, HbmChestContents.filingCabinet, 4);
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 22, 19, HbmChestContents.filingCabinet, 4);
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 29, 21, 19, HbmChestContents.officeTrash, 8);
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelE, 29, 21, 18, HbmChestContents.filingCabinet, 4);
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelE, 29, 21, 17, HbmChestContents.filingCabinet, 4);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 17, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 18, ItemPool.getPool(ItemPoolsComponent.POOL_VAULT_LAB), 6);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 19, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 22, 17, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 22, 19, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 29, 21, 19, ItemPool.getPool(ItemPoolsComponent.POOL_OFFICE_TRASH), 8);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelE, 29, 21, 18, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelE, 29, 21, 17, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
 		
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 8, HbmChestContents.filingCabinet, 5);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelW, 31, 21, 8, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 5);
 		
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 3, 25, 21, 2, HbmChestContents.machineParts, 4);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 3, 25, 21, 2, ItemPool.getPool(ItemPoolsComponent.POOL_MACHINE_PARTS), 4);
 		
-		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelN, 23, 21, 5, HbmChestContents.filingCabinet, 5);
+		generateInvContents(world, box, rand, ModBlocks.filing_cabinet, decoModelN, 23, 21, 5, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 5);
 		
-		generateLockableContents(world, box, rand, ModBlocks.safe, decoW, 16, 21, 4, HbmChestContents.vault1, 3, 1D);
+		generateLockableContents(world, box, rand, ModBlocks.safe, decoW, 16, 21, 4, ItemPool.getPool(ItemPoolsSingle.POOL_VAULT_RUSTY), 3, 1D);
 		
 		/* Silo */
 		//	TOP
@@ -917,12 +920,12 @@ public class SiloComponent extends Component {
 				placeBed(world, box, 1, i, j, 8);
 		
 		//Containers
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 8, 17, 25, HbmChestContents.lockersVault, 6);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 8, 17, 25, ItemPool.getPool(ItemPoolsComponent.POOL_VAULT_LOCKERS), 6);
 		
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 2, 17, 11, HbmChestContents.lockersVault, 6); //placed separately for loot table control
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 4, 17, 11, HbmChestContents.expensive, 2);
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 6, 17, 11, HbmChestContents.lockersVault, 6);
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 8, 17, 11, HbmChestContents.lockersVault, 6);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 2, 17, 11, ItemPool.getPool(ItemPoolsComponent.POOL_VAULT_LOCKERS), 6); //placed separately for loot table control
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 4, 17, 11, ItemPool.getPool(ItemPoolsLegacy.POOL_EXPENSIVE), 2);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 6, 17, 11, ItemPool.getPool(ItemPoolsComponent.POOL_VAULT_LOCKERS), 6);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 8, 17, 11, ItemPool.getPool(ItemPoolsComponent.POOL_VAULT_LOCKERS), 6);
 		//Mines
 		fillWithMines(world, box, rand, 2, 17, 9, 11, 17, 11);
 		fillWithMines(world, box, rand, 9, 17, 17, 11, 17, 24);
@@ -1016,10 +1019,10 @@ public class SiloComponent extends Component {
 		placeBlockAtCurrentPosition(world, ModBlocks.deco_toaster, getCRTMeta(1), 28, 13, 17, box);
 		
 		//Containers
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 32, 13, 9, HbmChestContents.missile, 6);
-		generateInvContents(world, box, rand, ModBlocks.safe, decoN, 33, 13, 9, HbmChestContents.machineParts, 6);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 32, 13, 9, ItemPool.getPool(ItemPoolsComponent.POOL_SILO), 6);
+		generateInvContents(world, box, rand, ModBlocks.safe, decoN, 33, 13, 9, ItemPool.getPool(ItemPoolsComponent.POOL_MACHINE_PARTS), 6);
 		
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 33, 13, 21, HbmChestContents.labVault, 8);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 33, 13, 21, ItemPool.getPool(ItemPoolsComponent.POOL_VAULT_LAB), 8);
 		//Mines
 		fillWithMines(world, box, rand, 27, 13, 13, 33, 13, 15);
 		
@@ -1154,7 +1157,7 @@ public class SiloComponent extends Component {
 		fillWithBlocks(world, box, 7, 11, 8, 11, 11, 8, ModBlocks.deco_lead);
 		
 		//Containers
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 4, 9, 7, HbmChestContents.nuclearFuel, 5);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 4, 9, 7, ItemPool.getPool(ItemPoolsComponent.POOL_NUKE_FUEL), 5);
 		//Mines
 		fillWithMines(world, box, rand, 1, 9, 7, 6, 9, 11);
 		fillWithMines(world, box, rand, 8, 9, 17, 10, 9, 22);
@@ -1214,10 +1217,10 @@ public class SiloComponent extends Component {
 		
 		//Containers
 		generateLockableContents(world, box, rand, ModBlocks.safe, decoE, 31, 5, 13, launchKey, 1, 0.1D);
-		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 31, 5, 14, HbmChestContents.nukeTrash, 5);
-		generateInvContents(world, box, rand, ModBlocks.safe, decoE, 31, 5, 15, HbmChestContents.filingCabinet, 5);
+		generateInvContents(world, box, rand, ModBlocks.crate_steel, 2, 31, 5, 14, ItemPool.getPool(ItemPoolsLegacy.POOL_NUKE_TRASH), 5);
+		generateInvContents(world, box, rand, ModBlocks.safe, decoE, 31, 5, 15, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 5);
 		
-		generateInvContents(world, box, rand, ModBlocks.crate_iron, 2, 30, 1, 11, HbmChestContents.expensive, 7);
+		generateInvContents(world, box, rand, ModBlocks.crate_iron, 2, 30, 1, 11, ItemPool.getPool(ItemPoolsLegacy.POOL_EXPENSIVE), 7);
 		//Mines
 		fillWithMines(world, box, rand, 27, 5, 13, 30, 5, 15);
 		
