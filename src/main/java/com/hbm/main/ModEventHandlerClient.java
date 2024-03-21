@@ -1,7 +1,6 @@
 package com.hbm.main;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -13,10 +12,6 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
-import com.hbm.blocks.rail.IRailNTM;
-import com.hbm.blocks.rail.IRailNTM.MoveContext;
-import com.hbm.blocks.rail.IRailNTM.RailCheckType;
-import com.hbm.blocks.rail.IRailNTM.RailContext;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
@@ -70,7 +65,6 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
-import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
@@ -822,6 +816,8 @@ public class ModEventHandlerClient {
 			CanneryBase cannery = Jars.canneries.get(comp);
 			if(cannery != null) {
 				list.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey("cannery.f1"));
+				lastCannery = comp;
+				canneryTimestamp = System.currentTimeMillis();
 			}
 		} catch(Exception ex) {
 			list.add(EnumChatFormatting.RED + "Error loading cannery: " + ex.getLocalizedMessage());
@@ -836,6 +832,9 @@ public class ModEventHandlerClient {
 			}
 		}*/
 	}
+	
+	private static long canneryTimestamp;
+	private static ComparableStack lastCannery = null;
 	
 	private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
 	
@@ -948,9 +947,14 @@ public class ModEventHandlerClient {
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_F1)) {
 			
-			ItemStack stack = getMouseOverStack();
-			if(stack != null) {
-				ComparableStack comp = new ComparableStack(stack).makeSingular();
+			ComparableStack comp = canneryTimestamp > System.currentTimeMillis() - 100 ? lastCannery : null;
+			
+			if(comp == null) {
+				ItemStack stack = getMouseOverStack();
+				if(stack != null) comp = new ComparableStack(stack).makeSingular();
+			}
+			
+			if(comp != null) {
 				CanneryBase cannery = Jars.canneries.get(comp);
 				if(cannery != null) {
 					FMLCommonHandler.instance().showGuiScreen(new GuiWorldInAJar(cannery.createScript(), cannery.getName(), cannery.getIcon(), cannery.seeAlso()));
@@ -1251,6 +1255,7 @@ public class ModEventHandlerClient {
 
 	public static IIcon particleBase;
 	public static IIcon particleLeaf;
+	public static IIcon particleSplash;
 
 	@SubscribeEvent
 	public void onTextureStitch(TextureStitchEvent.Pre event) {
@@ -1258,6 +1263,7 @@ public class ModEventHandlerClient {
 		if(event.map.getTextureType() == 0) {
 			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
 			particleLeaf = event.map.registerIcon(RefStrings.MODID + ":particle/dead_leaf");
+			particleSplash = event.map.registerIcon(RefStrings.MODID + ":particle/particle_splash");
 		}
 	}
 

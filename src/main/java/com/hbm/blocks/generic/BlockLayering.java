@@ -101,6 +101,8 @@ public class BlockLayering extends Block {
 
 	public boolean isReplaceable(IBlockAccess world, int x, int y, int z) {
 		if(this == ModBlocks.leaves_layer) return true;
+		if(this == ModBlocks.oil_spill) return true;
+		if(this == ModBlocks.foam_layer) return true;
 		int meta = world.getBlockMetadata(x, y, z);
 		return meta >= 7 ? false : blockMaterial.isReplaceable();
 	}

@@ -4145,6 +4145,7 @@ tile.machine_difurnace_on.name=Hochofen
 tile.machine_difurnace_rtg_off.name=Atomarer Hochofen
 tile.machine_difurnace_rtg_on.name=Atomarer Hochofen
 tile.machine_dineutronium_battery.name=Spark Energiespeicherblock
+tile.machine_drain.name=Ausgussrohr
 tile.machine_drill.name=Automatischer Minenbohrer
 tile.machine_electric_furnace_off.name=Elektrischer Ofen
 tile.machine_electric_furnace_on.name=Elektrischer Ofen

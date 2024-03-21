@@ -861,6 +861,7 @@ public class MainRegistry {
 		RadiolysisRecipes.registerRadiolysis();
 		
 		FalloutConfigJSON.initialize();
+		ItemPoolConfigJSON.initialize();
 
 		TileEntityNukeCustom.registerBombItems();
 		ArmorUtil.register();

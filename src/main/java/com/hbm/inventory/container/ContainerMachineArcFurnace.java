@@ -2,7 +2,6 @@ package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotSmelting;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineArcFurnace;
 
 import api.hbm.energy.IBatteryItem;

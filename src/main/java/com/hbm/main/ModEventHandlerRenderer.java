@@ -428,8 +428,8 @@ public class ModEventHandlerRenderer {
 		int[] ranges = ForgeModContainer.blendRanges;
 		int distance = 0;
 		
-		if(settings.fancyGraphics && settings.renderDistanceChunks >= 0 && settings.renderDistanceChunks < ranges.length) {
-			distance = ranges[settings.renderDistanceChunks];
+		if(settings.fancyGraphics && settings.renderDistanceChunks >= 0) {
+			distance = ranges[Math.min(settings.renderDistanceChunks, ranges.length - 1)];
 		}
 
 		float r = 0F;
@@ -456,7 +456,7 @@ public class ModEventHandlerRenderer {
 		if(doesBiomeApply) {
 			fogRGBMultiplier = Vec3.createVectorHelper(r / divider, g / divider, b / divider);
 		} else {
-			fogRGBMultiplier = Vec3.createVectorHelper(red, green, blue);
+			fogRGBMultiplier = null;
 		}
 
 		return fogRGBMultiplier;

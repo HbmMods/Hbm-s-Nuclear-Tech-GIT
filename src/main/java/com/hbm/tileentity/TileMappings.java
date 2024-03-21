@@ -97,6 +97,7 @@ public class TileMappings {
 		put(TileEntityMachineExcavator.class, "tileentity_ntm_excavator");
 		put(TileEntityFluidDuctSimple.class, "tileentity_universal_duct_simple");
 		put(TileEntityFluidDuct.class, "tileentity_universal_duct");
+		put(TileEntityMachineDrain.class, "tileentity_fluid_drain");
 		put(TileEntityMachineFluidTank.class, "tileentity_fluid_tank");
 		put(TileEntityMachineTurbofan.class, "tileentity_machine_turbofan");
 		put(TileEntityMachineTurbineGas.class, "tileentity_machine_gasturbine");
@@ -136,7 +137,6 @@ public class TileMappings {
 		put(TileEntityFF.class, "tileentity_forcefield");
 		put(TileEntityForceField.class, "tileentity_machine_field");
 		put(TileEntityMachineShredderLarge.class, "tileentity_machine_big_shredder");
-		put(TileEntityRFDuct.class, "tileentity_hbm_rfduct");
 		put(TileEntityReactorControl.class, "tileentity_reactor_remote_control");
 		put(TileEntityWasteDrum.class, "tileentity_waste_drum");
 		put(TileEntityDecon.class, "tileentity_decon");
