@@ -50,6 +50,7 @@ public class ItemPoolConfigJSON {
 			JsonWriter writer = new JsonWriter(new FileWriter(file));
 			writer.setIndent("  ");
 			writer.beginObject();
+			writer.name("description").value("Format is as follows: First object is an array representing the itemstack in question, same rules apply here as they do for recipe configs but with one difference: Stacks accept NBT. NBT is contained in {curly brackets}, the format is the same as it is for the /give command. After the stack comes the minimum amount of items, then the maximum (the stack's own stacksize value is ignored). The final number is the weight, an item with a weight of 3 is 3x as likely to appear than an item with a weight of 1.");
 			writer.name("pools").beginObject();
 			
 			for(Entry<String, ItemPool> entry : ItemPool.pools.entrySet()) {

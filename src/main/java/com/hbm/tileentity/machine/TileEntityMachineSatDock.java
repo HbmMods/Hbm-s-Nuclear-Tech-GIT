@@ -4,12 +4,12 @@ import com.hbm.entity.missile.EntityMinerRocket;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.inventory.container.ContainerSatDock;
 import com.hbm.inventory.gui.GUISatDock;
+import com.hbm.itempool.ItemPool;
 import com.hbm.items.ISatChip;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.saveddata.satellites.SatelliteMiner;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.util.WeightedRandomObject;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -23,6 +23,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.WeightedRandom;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -233,16 +234,18 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
         }
     }
 
-    private void unloadCargo(SatelliteMiner satellite) {
-        int itemAmount = worldObj.rand.nextInt(6) + 10;
+	private void unloadCargo(SatelliteMiner satellite) {
+		int itemAmount = worldObj.rand.nextInt(6) + 10;
 
-        WeightedRandomObject[] cargo = satellite.getCargo();
+		WeightedRandomChestContent[] cargo = ItemPool.getPool(satellite.getCargo());
 
-        for (int i = 0; i < itemAmount; i++) {
-            ItemStack stack = ((WeightedRandomObject) WeightedRandom.getRandomItem(worldObj.rand, cargo)).asStack();
-            addToInv(stack.copy());
-        }
-    }
+		for(int i = 0; i < itemAmount; i++) {
+			WeightedRandomChestContent weighted = (WeightedRandomChestContent) WeightedRandom.getRandomItem(worldObj.rand, cargo);
+			ItemStack stack = weighted.theItemId.copy();
+			stack.stackSize = weighted.theMinimumChanceToGenerateItem + worldObj.rand.nextInt(weighted.theMaximumChanceToGenerateItem - weighted.theMinimumChanceToGenerateItem + 1);
+			addToInv(stack);
+		}
+	}
 
     private void addToInv(ItemStack stack) {
         for (int i = 0; i < 15; i++) {
