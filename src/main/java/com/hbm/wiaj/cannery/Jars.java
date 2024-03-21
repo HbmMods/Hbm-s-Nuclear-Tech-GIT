@@ -11,7 +11,7 @@ import com.hbm.items.ItemEnums.EnumPlantType;
 
 public class Jars {
 
-	public static HashMap<ComparableStack, CanneryBase> canneries = new HashMap();
+	public static HashMap<ComparableStack, CanneryBase> canneries = new HashMap<ComparableStack, CanneryBase>();
 	
 	public static void initJars() {
 		canneries.put(new ComparableStack(ModBlocks.heater_firebox), new CanneryFirebox());
@@ -23,6 +23,8 @@ public class Jars {
 		canneries.put(new ComparableStack(ModBlocks.machine_silex), new CannerySILEX());
 		canneries.put(new ComparableStack(ModBlocks.foundry_channel), new CanneryFoundryChannel());
 		canneries.put(new ComparableStack(ModBlocks.machine_crucible), new CanneryCrucible());
+		canneries.put(new ComparableStack(ModBlocks.hadron_core), new CanneryHadron());
+		canneries.put(new ComparableStack(ModBlocks.hadron_diode), new CannerySchottky());
 
 		canneries.put(new ComparableStack(DictFrame.fromOne(ModItems.plant_item, EnumPlantType.MUSTARDWILLOW)), new CanneryWillow());
 		canneries.put(new ComparableStack(DictFrame.fromOne(ModBlocks.plant_flower, EnumFlowerType.CD0)), new CanneryWillow());

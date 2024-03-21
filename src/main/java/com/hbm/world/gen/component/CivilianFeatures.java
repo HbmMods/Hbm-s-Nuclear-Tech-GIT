@@ -5,6 +5,9 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsComponent;
+import com.hbm.itempool.ItemPoolsLegacy;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.util.LootGenerator;
 
@@ -118,7 +121,7 @@ public class CivilianFeatures {
 			//Loot/Sand
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_weapon, 0, 1, 0, 1, box);
 			if(!this.hasPlacedChest)
-				this.hasPlacedChest = this.generateStructureChestContents(world, box, rand, 3, 0, 1, HbmChestContents.modGeneric, rand.nextInt(2) + 8);
+				this.hasPlacedChest = this.generateStructureChestContents(world, box, rand, 3, 0, 1, ItemPool.getPool(ItemPoolsLegacy.POOL_GENERIC), rand.nextInt(2) + 8);
 			this.fillWithBlocks(world, box, 5, 0, 1, 6, 0, 1, ModBlocks.crate, Blocks.air, false);
 			this.placeBlockAtCurrentPosition(world, Blocks.sand, 0, 7, 0, 1, box);
 			if(rand.nextFloat() <= 0.25)
@@ -244,7 +247,7 @@ public class CivilianFeatures {
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_can, 0, 1, 1, 9 - 4, box);
 			if(!hasPlacedLoot[0]) {
 				this.placeBlockAtCurrentPosition(world, Blocks.chest, this.getMetadataWithOffset(Blocks.chest, 3), 1, 1, 9 - 2, box);
-				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.machineParts, (TileEntityChest)world.getTileEntity(this.getXWithOffset(1, 9 - 2), 
+				WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsComponent.POOL_MACHINE_PARTS), (TileEntityChest)world.getTileEntity(this.getXWithOffset(1, 9 - 2), 
 						this.getYWithOffset(1), this.getZWithOffset(1, 9 - 2)), 10);
 				this.hasPlacedLoot[0] = true;
 			}
@@ -257,7 +260,7 @@ public class CivilianFeatures {
 			//House 2
 			if(!hasPlacedLoot[1]) {
 				this.placeBlockAtCurrentPosition(world, Blocks.chest, this.getMetadataWithOffset(Blocks.chest, 3), 15 - 5, 1, 1, box);
-				WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.antenna, (TileEntityChest)world.getTileEntity(this.getXWithOffset(15 - 5, 1), 
+				WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_ANTENNA), (TileEntityChest)world.getTileEntity(this.getXWithOffset(15 - 5, 1), 
 						this.getYWithOffset(1), this.getZWithOffset(15 - 5, 1)), 10);
 				this.hasPlacedLoot[1] = true;
 			}
@@ -395,7 +398,7 @@ public class CivilianFeatures {
 			
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_can, 0, 9 - 1, 1, 7 - 2, box);
 			if(!hasPlacedLoot[1]) {
-				this.hasPlacedLoot[1] = this.generateInvContents(world, box, rand, ModBlocks.crate_iron, 9 - 1, 1, 7 - 1, HbmChestContents.modGeneric, 8);
+				this.hasPlacedLoot[1] = this.generateInvContents(world, box, rand, ModBlocks.crate_iron, 9 - 1, 1, 7 - 1, ItemPool.getPool(ItemPoolsLegacy.POOL_GENERIC), 8);
 			}
 			
 			return true;
@@ -559,7 +562,7 @@ public class CivilianFeatures {
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate, 0, 4, 1, 8 - 2, box);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.crate_lead, 0, 4, 2, 8 - 2, box);
 			if(!hasPlacedLoot[0]) {
-				this.hasPlacedLoot[0] = this.generateInvContents(world, box, rand, ModBlocks.crate_iron, 5, 1, 8 - 2, HbmChestContents.nuclearFuel, 10);
+				this.hasPlacedLoot[0] = this.generateInvContents(world, box, rand, ModBlocks.crate_iron, 5, 1, 8 - 2, ItemPool.getPool(ItemPoolsComponent.POOL_NUKE_FUEL), 10);
 			}
 			this.fillWithBlocks(world, box, 4, 1, 8 - 3, 5, 1, 8 - 3, ModBlocks.crate_lead, Blocks.air, false);
 			
@@ -569,7 +572,7 @@ public class CivilianFeatures {
 			this.placeBlockAtCurrentPosition(world, ModBlocks.steel_beam, 0, 12 - 2, 2, 8 - 2, box);
 			this.fillWithBlocks(world, box, 12 - 4, 3, 8 - 2, 12 - 2, 3, 8 - 2, ModBlocks.steel_roof, Blocks.air, false);
 			if(!hasPlacedLoot[1]) {
-				this.hasPlacedLoot[1] = this.generateInvContents(world, box, rand, ModBlocks.crate_iron, 12 - 2, 1, 3, HbmChestContents.nukeTrash, 9);
+				this.hasPlacedLoot[1] = this.generateInvContents(world, box, rand, ModBlocks.crate_iron, 12 - 2, 1, 3, ItemPool.getPool(ItemPoolsLegacy.POOL_NUKE_TRASH), 9);
 				if(rand.nextInt(2) == 0)
 					generateLoreBook(world, box, 12 - 2, 1, 3, 1, HbmChestContents.generateOfficeBook(rand));
 			}
@@ -703,7 +706,7 @@ public class CivilianFeatures {
 			this.placeBlockAtCurrentPosition(world, ModBlocks.radiorec, eastMeta, 6, 2, 8 - 1, box);
 			this.fillWithMetadataBlocks(world, box, 2, 1, 8 - 1, 3, 1, 8 - 1, ModBlocks.machine_electric_furnace_off, southMeta, Blocks.air, 0, false);
 			if(!hasPlacedLoot) {
-				this.hasPlacedLoot = this.generateInvContents(world, box, rand, ModBlocks.crate_iron, 4, 1, 8 - 1, HbmChestContents.machineParts, 11);
+				this.hasPlacedLoot = this.generateInvContents(world, box, rand, ModBlocks.crate_iron, 4, 1, 8 - 1, ItemPool.getPool(ItemPoolsComponent.POOL_MACHINE_PARTS), 11);
 			}
 			this.placeBlockAtCurrentPosition(world, Blocks.web, 0, 5, 3, 1, box);
 			this.placeBlockAtCurrentPosition(world, Blocks.web, 0, 2, 1, 2, box);
@@ -1103,8 +1106,8 @@ public class CivilianFeatures {
 			placeBlockAtCurrentPosition(world, rand.nextBoolean() ? ModBlocks.crate_weapon : ModBlocks.crate, 0, 6, 5, 12, box);
 			
 			//inventories
-			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(2), 7, 1, 10, HbmChestContents.officeTrash, 4);
-			generateInvContents(world, box, rand, Blocks.chest, metaE, 7, 5, 5, HbmChestContents.modGeneric, 8);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(2), 7, 1, 10, ItemPool.getPool(ItemPoolsComponent.POOL_OFFICE_TRASH), 4);
+			generateInvContents(world, box, rand, Blocks.chest, metaE, 7, 5, 5, ItemPool.getPool(ItemPoolsLegacy.POOL_GENERIC), 8);
 			//loot
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_loot, 0, 3, 2, 12, box);
 			LootGenerator.lootBookLore(world, getXWithOffset(3, 12), getYWithOffset(2), getZWithOffset(3, 12), HbmChestContents.generateLabBook(rand)); //TODO write more lore

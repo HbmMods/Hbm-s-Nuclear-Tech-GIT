@@ -3,7 +3,6 @@ package com.hbm.entity.train;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ILookOverlay;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.relauncher.Side;

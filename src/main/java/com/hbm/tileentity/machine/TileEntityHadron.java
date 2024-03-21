@@ -364,9 +364,9 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		//If any particles expire, cancel any succeeding particles, since they'll confuse the player
 		particlesCompleted.clear();
 
-		TileEntityHadron.this.state = reason;
-		TileEntityHadron.this.delay = delayError;
-		TileEntityHadron.this.setExpireStats(reason, particle.momentum, particle.posX, particle.posY, particle.posZ);
+		state = reason;
+		delay = delayError;
+		setExpireStats(reason, particle.momentum, particle.posX, particle.posY, particle.posZ);
 	}
 	
 	public class Particle {
@@ -424,8 +424,14 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			p.cl1 = cl1;
 			p.expired = expired;
 			p.plugs = new ArrayList<TileEntityHadronPower>(plugs);
-			p.history = new HashMap<TileEntityHadronDiode, List<ForgeDirection>>(history);
 			p.cloned = true;
+
+			//Deep clone the history
+			p.history = new HashMap<TileEntityHadronDiode, List<ForgeDirection>>(history);
+			for(TileEntityHadronDiode diode : p.history.keySet()) {
+				p.history.put(diode, new ArrayList<ForgeDirection>(p.history.get(diode)));
+			}
+
 			return p;
 		}
 		
@@ -459,13 +465,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			if(cl1 > 0) cl1--;
 		}
 
-		public void incrementCharge(Block block, int meta, int coilVal) {
-
-			if(block == ModBlocks.hadron_cooler) {
-				if(meta == 0) cl0 += 10;
-				if(meta == 1) cl1 += 5;
-			}
-			
+		public void incrementCharge(int coilVal) {	
 			//not the best code ever made but it works, dammit
 			if(cl1 > 0) {
 				
@@ -554,6 +554,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 		//-> all coils have to be air
 		//-> all platings have to be analysis chamber walls
 		boolean analysis = true;
+		//ensures coolers are useful throughout their initial segment
+		int totalValue = 0;
 		
 		for(int a = x - dX * 2; a <= x + dX * 2; a++) {
 			for(int b = y - dY * 2; b <= y + dY * 2; b++) {
@@ -599,7 +601,12 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 							expire(p, EnumHadronState.ERROR_EXPECTED_COIL);
 						} else {
 							p.charge -= coilVal;
-							p.incrementCharge(block, meta, coilVal);
+							totalValue += coilVal;
+							
+							if(block == ModBlocks.hadron_cooler) {
+								if(meta == 0) p.cl0 += 10;
+								if(meta == 1) p.cl1 += 5;
+							}
 						}
 
 						continue;
@@ -645,6 +652,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 				}
 			}
 		}
+		//all errors prior to this point come from bad construction, where exact momentum is irrelevant
+		p.incrementCharge(totalValue);
 		
 		if(analysis) {
 			
@@ -752,8 +761,11 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 			//Add the used direction to the main particle AFTER cloning, so the clones don't get incorrect travel history
 			usedDirections.add(p.dir);
 
-			//If we managed to exit, keep going
-			if(hasTurnedCurrent) return;
+			//If we failed to exit, raise DIODE_COLLISION
+			if(!hasTurnedCurrent)
+				expire(p, EnumHadronState.ERROR_DIODE_COLLISION);
+
+			return;
 		}
 		
 		//next step is air or the core, proceed
@@ -834,7 +846,8 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyUs
 				b instanceof BlockHadronCoil ||
 				b == ModBlocks.hadron_plating_glass ||
 				b == ModBlocks.hadron_analysis_glass ||
-				b == ModBlocks.hadron_access;
+				b == ModBlocks.hadron_access ||
+				b == ModBlocks.hadron_cooler;
 	}
 	
 	public boolean isAnalysis(Block b) {

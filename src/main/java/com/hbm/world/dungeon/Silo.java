@@ -8,7 +8,9 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.LaunchPad;
 import com.hbm.config.GeneralConfig;
-import com.hbm.lib.HbmChestContents;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsComponent;
+import com.hbm.itempool.ItemPoolsLegacy;
 import com.hbm.lib.Library;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -389,7 +391,7 @@ public class Silo extends WorldGenerator
 		world.setBlockMetadataWithNotify(x + 19, y + -20, z + 10, 5, 3);
 		if(world.getBlock(x + 19, y + -20, z + 10) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.expensive, (TileEntityChest)world.getTileEntity(x + 19, y + -20, z + 10), rand.nextInt(2)+ 6);
+			WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_EXPENSIVE), (TileEntityChest)world.getTileEntity(x + 19, y + -20, z + 10), rand.nextInt(2)+ 6);
 		}
         world.setBlock(x + 20, y + -20, z + 10, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 0, y + -20, z + 11, Library.getRandomConcrete(), 0, 3);
@@ -857,7 +859,7 @@ public class Silo extends WorldGenerator
 		world.setBlockMetadataWithNotify(x + 8, y + -17, z + 2, 3, 3);
 		if(world.getBlock(x + 8, y + -17, z + 2) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.missile, (TileEntityChest)world.getTileEntity(x + 8, y + -17, z + 2), rand.nextInt(2)+ 6);
+			WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsComponent.POOL_SILO), (TileEntityChest)world.getTileEntity(x + 8, y + -17, z + 2), rand.nextInt(2)+ 6);
 		}
         world.setBlock(x + 10, y + -17, z + 2, Blocks.air, 0, 3);
 		world.setBlock(x + 11, y + -17, z + 2, Library.getRandomConcrete(), 0, 3);
@@ -1641,7 +1643,7 @@ public class Silo extends WorldGenerator
 		world.setBlockMetadataWithNotify(x + 8, y + -9, z + 5, 3, 3);
 		if(world.getBlock(x + 8, y + -9, z + 5) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.modGeneric, (TileEntityChest)world.getTileEntity(x + 8, y + -9, z + 5), rand.nextInt(2)+ 8);
+			WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_GENERIC), (TileEntityChest)world.getTileEntity(x + 8, y + -9, z + 5), rand.nextInt(2)+ 8);
 		}
         world.setBlock(x + 8, y + -10, z + 5, Blocks.stone_slab, 8, 3);
 		world.setBlock(x + 9, y + -9, z + 5, Blocks.planks, 0, 3);

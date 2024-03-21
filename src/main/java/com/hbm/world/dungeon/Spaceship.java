@@ -5,7 +5,8 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.lib.HbmChestContents;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsLegacy;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -455,7 +456,7 @@ public class Spaceship extends WorldGenerator
 		world.setBlockMetadataWithNotify(x + 5, y + -2, z + 25, 5, 3);
 		if(world.getBlock(x + 5, y + -2, z + 25) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.spaceship, (TileEntityChest)world.getTileEntity(x + 5, y + -2, z + 25), 12);
+			WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_SPACESHIP), (TileEntityChest)world.getTileEntity(x + 5, y + -2, z + 25), 12);
 		}
 		world.setBlock(x + 6, y + -2, z + 25, Blocks.air, 0, 3);
 		world.setBlock(x + 7, y + -2, z + 25, Blocks.air, 0, 3);
@@ -463,7 +464,7 @@ public class Spaceship extends WorldGenerator
 		world.setBlockMetadataWithNotify(x + 8, y + -2, z + 25, 4, 3);
 		if(world.getBlock(x + 8, y + -2, z + 25) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.spaceship, (TileEntityChest)world.getTileEntity(x + 8, y + -2, z + 25), 12);
+			WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_SPACESHIP), (TileEntityChest)world.getTileEntity(x + 8, y + -2, z + 25), 12);
 		}
 		world.setBlock(x + 9, y + -2, z + 25, Block3, 0, 3);
 		world.setBlock(x + 10, y + -2, z + 25, Block2, 0, 3);
@@ -477,7 +478,7 @@ public class Spaceship extends WorldGenerator
 		world.setBlockMetadataWithNotify(x + 5, y + -2, z + 26, 5, 3);
 		if(world.getBlock(x + 5, y + -2, z + 26) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.spaceship, (TileEntityChest)world.getTileEntity(x + 5, y + -2, z + 26), 12);
+			WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_SPACESHIP), (TileEntityChest)world.getTileEntity(x + 5, y + -2, z + 26), 12);
 		}
 		world.setBlock(x + 6, y + -2, z + 26, Blocks.air, 0, 3);
 		world.setBlock(x + 7, y + -2, z + 26, Blocks.air, 0, 3);
@@ -485,7 +486,7 @@ public class Spaceship extends WorldGenerator
 		world.setBlockMetadataWithNotify(x + 8, y + -2, z + 26, 4, 3);
 		if(world.getBlock(x + 8, y + -2, z + 26) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.spaceship, (TileEntityChest)world.getTileEntity(x + 8, y + -2, z + 26), 12);
+			WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_SPACESHIP), (TileEntityChest)world.getTileEntity(x + 8, y + -2, z + 26), 12);
 		}
 		world.setBlock(x + 9, y + -2, z + 26, Block3, 0, 3);
 		world.setBlock(x + 10, y + -2, z + 26, Block3, 0, 3);
@@ -623,7 +624,7 @@ public class Spaceship extends WorldGenerator
 		world.setBlockMetadataWithNotify(x + 8, y + -2, z + 38, 2, 3);
 		if(world.getBlock(x + 8, y + -2, z + 38) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.expensive, (TileEntityChest)world.getTileEntity(x + 8, y + -2, z + 38), 12);
+			WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_EXPENSIVE), (TileEntityChest)world.getTileEntity(x + 8, y + -2, z + 38), 12);
 		}
 		world.setBlock(x + 9, y + -2, z + 38, Block3, 0, 3);
 		world.setBlock(x + 4, y + -2, z + 39, Block3, 0, 3);
