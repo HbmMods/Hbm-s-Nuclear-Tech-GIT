@@ -3,7 +3,6 @@ package api.hbm.energymk2;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
-import api.hbm.energy.IEnergyConductor;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -20,8 +19,8 @@ public interface IEnergyReceiverMK2 extends IEnergyConnectorMK2 {
 		TileEntity te = world.getTileEntity(x, y, z);
 		boolean red = false;
 		
-		/*if(te instanceof IEnergyConductor) {
-			IEnergyConductor con = (IEnergyConductor) te;
+		if(te instanceof IEnergyConductorMK2) {
+			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
 			
 			if(!con.canConnect(dir.getOpposite()))
 				return;
@@ -31,7 +30,7 @@ public interface IEnergyReceiverMK2 extends IEnergyConnectorMK2 {
 			
 			if(con.getPowerNet() != null)
 				red = true;
-		}*/
+		}
 		
 		if(particleDebug) {
 			NBTTagCompound data = new NBTTagCompound();
@@ -51,11 +50,11 @@ public interface IEnergyReceiverMK2 extends IEnergyConnectorMK2 {
 
 		TileEntity te = world.getTileEntity(x, y, z);
 		
-		if(te instanceof IEnergyConductor) {
-			IEnergyConductor con = (IEnergyConductor) te;
+		if(te instanceof IEnergyConductorMK2) {
+			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
 			
-			/*if(con.getPowerNet() != null && con.getPowerNet().isSubscribed(this))
-				con.getPowerNet().unsubscribe(this);*/
+			if(con.getPowerNet() != null && con.getPowerNet().isSubscribed(this))
+				con.getPowerNet().unsubscribe(this);
 		}
 	}
 	
