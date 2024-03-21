@@ -209,8 +209,8 @@ public class WorldConfig {
 		dudStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.10_dudSpawn", "Spawn dud on every nTH chunk", 500);
 		spaceshipStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.11_spaceshipSpawn", "Spawn spaceship on every nTH chunk", 1000);
 		barrelStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.12_barrelSpawn", "Spawn waste tank on every nTH chunk", 5000);
-		broadcaster = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.13_broadcasterSpawn", "Spawn corrupt broadcaster on every nTH chunk", 5000);
-		minefreq = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.14_landmineSpawn", "Spawn AP landmine on every nTH chunk", 64);
+		broadcaster = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.13_broadcasterSpawn", "Spawn corrupt broadcaster on every nTH chunk", 0);
+		minefreq = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.14_landmineSpawn", "Spawn AP landmine on every nTH chunk", 0);
 		radfreq = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.15_radHotspotSpawn", "Spawn radiation hotspot on every nTH chunk", 5000);
 		vaultfreq = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.16_vaultSpawn", "Spawn locked safe on every nTH chunk", 2500);
 		geyserWater = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.17_geyserWaterSpawn", "Spawn water geyser on every nTH chunk", 3000);
@@ -223,7 +223,7 @@ public class WorldConfig {
 		pyramidStructure = CommonConfig.createConfigInt(config, CATEGORY_DUNGEON, "4.24_pyramidSpawn", "Spawn pyramid on every nTH chunk", 4000);
 
 		final String CATEGORY_METEOR = CommonConfig.CATEGORY_METEORS;
-		enableMeteorStrikes = CommonConfig.createConfigBool(config, CATEGORY_METEOR, "5.00_enableMeteorStrikes", "Toggles the spawning of meteors", true);
+		enableMeteorStrikes = CommonConfig.createConfigBool(config, CATEGORY_METEOR, "5.00_enableMeteorStrikes", "Toggles the spawning of meteors", false);
 		enableMeteorShowers = CommonConfig.createConfigBool(config, CATEGORY_METEOR, "5.01_enableMeteorShowers", "Toggles meteor showers, which start with a 1% chance for every spawned meteor", true);
 		enableMeteorTails = CommonConfig.createConfigBool(config, CATEGORY_METEOR, "5.02_enableMeteorTails", "Toggles the particle effect created by falling meteors", true);
 		enableSpecialMeteors = CommonConfig.createConfigBool(config, CATEGORY_METEOR, "5.03_enableSpecialMeteors", "Toggles rare, special meteor types with different impact effects", true);
@@ -232,7 +232,7 @@ public class WorldConfig {
 		meteorShowerDuration = CommonConfig.createConfigInt(config, CATEGORY_METEOR, "5.05_meteorShowerDuration", "Max duration of meteor shower in ticks", 20 * 60 * 30);
 
 		final String CATEGORY_BIOMES = CommonConfig.CATEGORY_BIOMES;
-		enableCraterBiomes = CommonConfig.createConfigBool(config, CATEGORY_BIOMES, "17.B_toggle", "Enables the biome change caused by nuclear explosions", true);
+		enableCraterBiomes = CommonConfig.createConfigBool(config, CATEGORY_BIOMES, "17.B_toggle", "Enables the biome change caused by nuclear explosions", false);
 		craterBiomeId = CommonConfig.createConfigInt(config, CATEGORY_BIOMES, "17.B00_craterBiomeId", "The numeric ID for the crater biome", 80);
 		craterBiomeInnerId = CommonConfig.createConfigInt(config, CATEGORY_BIOMES, "17.B01_craterBiomeInnerId", "The numeric ID for the inner crater biome", 81);
 		craterBiomeOuterId = CommonConfig.createConfigInt(config, CATEGORY_BIOMES, "17.B02_craterBiomeOuterId", "The numeric ID for the outer crater biome", 82);

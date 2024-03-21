@@ -292,11 +292,7 @@ public class ModEventHandler {
 			foeq.setPositionAndRotation(event.entity.posX, 500, event.entity.posZ, 0.0F, 0.0F);
 			event.entity.worldObj.spawnEntityInWorld(foeq);
 		}
-		
-		if(event.entity.getUniqueID().toString().equals(Library.HbMinecraft) || event.entity.getCommandSenderName().equals("HbMinecraft")) {
-			event.entity.dropItem(ModItems.book_of_, 1);
-		}
-		
+
 		if(event.entity instanceof EntityCreeperTainted && event.source == ModDamageSource.boxcar) {
 			
 			for(Object o : event.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, event.entity.boundingBox.expand(50, 50, 50))) {
@@ -524,15 +520,11 @@ public class ModEventHandler {
 			}
 			
 			if(armor != null && ArmorModHandler.hasMods(armor)) {
-				
 				for(ItemStack mod : ArmorModHandler.pryMods(armor)) {
-					
 					if(mod != null && mod.getItem() instanceof ItemArmorMod) {
 						((ItemArmorMod)mod.getItem()).modUpdate(event.entityLiving, armor);
 						HazardSystem.applyHazards(mod, event.entityLiving);
-						
 						if(reapply) {
-							
 							Multimap map = ((ItemArmorMod)mod.getItem()).getModifiers(armor);
 							
 							if(map != null)
@@ -881,98 +873,9 @@ public class ModEventHandler {
 	
 	@SubscribeEvent
 	public void onWingFlop(TickEvent.PlayerTickEvent event) {
-
 		EntityPlayer player = event.player;
-		
 		if(event.phase == TickEvent.Phase.START) {
-			
-			if(player.getCurrentArmor(2) == null && !player.onGround) {
-				
-				boolean isBob = player.getUniqueID().toString().equals(Library.HbMinecraft) || player.getDisplayName().equals("HbMinecraft");
-				boolean isOther = player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd") ||
-						player.getUniqueID().toString().equals(Library.the_NCR) || player.getDisplayName().equals("the_NCR");
-				
-				if(isBob || isOther) {
-					
-					ArmorUtil.resetFlightTime(player);
-					
-					if(player.fallDistance > 0)
-						player.fallDistance = 0;
-					
-					if(player.motionY < -0.4D)
-						player.motionY = -0.4D;
-					
-					HbmPlayerProps props = HbmPlayerProps.getData(player);
-					
-					if(isBob || player.getFoodStats().getFoodLevel() > 6) {
-						
-						if(props.isJetpackActive()) {
-							
-							double cap = (isBob ? 0.8D : 0.4D);
-							
-							if(player.motionY < cap)
-								player.motionY += 0.15D;
-							else
-								player.motionY = cap + 0.15D;
-							
-							if(isOther) {
-								if(player.getFoodStats().getSaturationLevel() > 0F)
-									player.addExhaustion(4F); //burn up saturation so that super-saturating foods have no effect
-								else
-									player.addExhaustion(0.2F); //4:1 -> 0.05 hunger per tick or 1 per second
-							}
-							
-						} else if(props.enableBackpack && !player.isSneaking()) {
-							
-							if(player.motionY < -1)
-								player.motionY += 0.4D;
-							else if(player.motionY < -0.1)
-								player.motionY += 0.2D;
-							else if(player.motionY < 0)
-								player.motionY = 0;
-
-							if(isOther && !player.onGround) {
-								if(player.getFoodStats().getSaturationLevel() > 0F)
-									player.addExhaustion(4F);
-								else
-									player.addExhaustion(0.04F);
-							}
-							
-						} else if(!props.enableBackpack && player.isSneaking()) {
-							
-							if(player.motionY < -0.08) {
-	
-								double mo = player.motionY * (isBob ? -0.6 : -0.4);
-								player.motionY += mo;
-	
-								Vec3 vec = player.getLookVec();
-								vec.xCoord *= mo;
-								vec.yCoord *= mo;
-								vec.zCoord *= mo;
-	
-								player.motionX += vec.xCoord;
-								player.motionY += vec.yCoord;
-								player.motionZ += vec.zCoord;
-							}
-						}
-					}
-					
-					Vec3 orig = player.getLookVec();
-					Vec3 look = Vec3.createVectorHelper(orig.xCoord, 0, orig.zCoord).normalize();
-					double mod = props.enableBackpack ? (isBob ? 0.5D : 0.25D) : 0.125D;
-					
-					if(player.moveForward != 0) {
-						player.motionX += look.xCoord * 0.35 * player.moveForward * mod;
-						player.motionZ += look.zCoord * 0.35 * player.moveForward * mod;
-					}
-					
-					if(player.moveStrafing != 0) {
-						look.rotateAroundY((float) Math.PI * 0.5F);
-						player.motionX += look.xCoord * 0.15 * player.moveStrafing * mod;
-						player.motionZ += look.zCoord * 0.15 * player.moveStrafing * mod;
-					}
-				}
-			}
+			if(player.getCurrentArmor(2) == null && !player.onGround) {}
 		}
 	}
 	
@@ -1030,22 +933,6 @@ public class ModEventHandler {
 			}
 			/// BETA HEALTH END ///
 
-			/// PU RADIATION START ///
-			
-			if(player.getUniqueID().toString().equals(Library.Pu_238)) {
-				
-				List<EntityLivingBase> entities = player.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, player.boundingBox.expand(3, 3, 3));
-				
-				for(EntityLivingBase e : entities) {
-					
-					if(e != player) {
-						e.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 300, 2));
-					}
-				}
-			}
-			
-			/// PU RADIATION END ///
-			
 			/*if(player instanceof EntityPlayerMP) {
 
 				int x = (int) Math.floor(player.posX);
@@ -1064,35 +951,6 @@ public class ModEventHandler {
 			/// SYNC START ///
 			if(player instanceof EntityPlayerMP) PacketDispatcher.wrapper.sendTo(new PermaSyncPacket((EntityPlayerMP) player), (EntityPlayerMP) player);
 			/// SYNC END ///
-		}
-
-		//TODO: rewrite this so it doesn't look like shit
-		if(player.worldObj.isRemote && event.phase == event.phase.START && !player.isInvisible() && !player.isSneaking()) {
-			
-			if(player.getUniqueID().toString().equals(Library.HbMinecraft)) {
-				
-				int i = player.ticksExisted * 3;
-				
-				Vec3 vec = Vec3.createVectorHelper(3, 0, 0);
-				
-				vec.rotateAroundY((float) (i * Math.PI / 180D));
-				
-				for(int k = 0; k < 5; k++) {
-					
-					vec.rotateAroundY((float) (1F * Math.PI / 180D));
-					//player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + player.worldObj.rand.nextDouble() * 0.05, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
-				}
-			}
-			
-			if(player.getUniqueID().toString().equals(Library.Pu_238)) {
-				
-				Vec3 vec = Vec3.createVectorHelper(3 * rand.nextDouble(), 0, 0);
-				
-				vec.rotateAroundZ((float) (rand.nextDouble() * Math.PI));
-				vec.rotateAroundY((float) (rand.nextDouble() * Math.PI * 2));
-				
-				player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
-			}
 		}
 	}
 	

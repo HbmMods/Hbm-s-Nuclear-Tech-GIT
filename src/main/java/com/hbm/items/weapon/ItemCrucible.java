@@ -56,11 +56,7 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver {
 		
 		if(!(entityLiving instanceof EntityPlayerMP))
 			return false;
-		
-		if(entityLiving instanceof EntityPlayer && ((EntityPlayer)entityLiving).getUniqueID().toString().equals(Library.Tankish)) {
-			stack.setItemDamage(0);
-		}
-		
+
 		if(stack.getItemDamage() >= stack.getMaxDamage())
 			return false;
 		

@@ -230,7 +230,7 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 		}
 
 		fuels.put(	new ComparableStack(ModItems.scrap_nuclear),	new Triplet<Integer, Integer, ItemStack>(50,		5 * 60 * 20,		null));
-		fuels.put(	new ComparableStack(ModItems.gem_rad),			new Triplet<Integer, Integer, ItemStack>(50_000,	30 * 60 * 20,		new ItemStack(Items.diamond)));
+		fuels.put(	new ComparableStack(ModItems.gem_rad),			new Triplet<Integer, Integer, ItemStack>(25_000,	30 * 60 * 20,		new ItemStack(Items.diamond)));
 	}
 	
 	private Triplet<Integer, Integer, ItemStack> grabResult(ItemStack stack) {
