@@ -35,6 +35,10 @@
 * The particle accelerator as well as the schottky particle diodes now have presentations explaining how they work
 * Loot pools are now configurable. Loot is divided into different categories, and structures may generate things from certain categories.
   * The config currently includes all items spawned in dungeon chests/crates/safes/lockers, excluding black book spawns, but also including the loot pool for red room pedestals
+  * Also added satellites as configurable loot pools. Yay!
+* Pylons and wire connectors now use a texture instead of a solid colored wire
+  * The cable model has been simplified, being only a single face instead of three faces stuck inside each other at weird angles
+  * Cables now sag slightly more at long ranges
 
 ## Fixed
 * WarTec should now be compatible again
@@ -48,3 +52,4 @@
 * Fixed one of the woodburner's ports being offset in certain orientations
 * Fixed fog caching causing weird behavior with the sky color change in response to crater biomes (or lack thereof)
 * Fixed "F1 for help" keybind not working on non-standard inventories such as the NEI item list
+* Fixed pylon wire rendering having incorrect corrdinates for brightness checks
