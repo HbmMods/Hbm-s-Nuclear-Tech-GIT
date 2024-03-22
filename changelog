@@ -17,6 +17,7 @@
   * Bottlecap blocks now use a single block ID and metadata instead of using one ID per type. This change however will delete all existing bottlecap blocks in the world
   * Removed the config option for silos (the option no longer works anyway since the new silos use the structure component system)
   * Finally removed the deaerator
+  * Removed some of the ancient test blocks that haven't been needed in about 8 years
   * Removed a few other minor things that won't be mentioned because nobody's gonna even notice their absence anyway
 * Retextured the laser detonator to look more like the old detonator, but keeping the 3D model
 * Bedrock ores can now be customized in creative mode. Using a drillbit sets the tier, a fluid container sets the borefluid requirement and any other item sets the resource.
@@ -39,6 +40,7 @@
 * Pylons and wire connectors now use a texture instead of a solid colored wire
   * The cable model has been simplified, being only a single face instead of three faces stuck inside each other at weird angles
   * Cables now sag slightly more at long ranges
+* There are now configs for toggling the startup message as well as the guidebook
 
 ## Fixed
 * WarTec should now be compatible again

@@ -45,17 +45,10 @@ public class ModBlocks {
 		registerBlock();
 	}
 	
-	public static Block test_render;
-	public static Block test_bomb;
-	public static Block test_bomb_advanced;
-	public static Block test_nuke;
 	public static Block event_tester;
 	public static Block obj_tester;
 	public static Block test_core;
 	public static Block test_charge;
-	public static Block test_pipe;
-	public static Block test_ct;
-	public static Block test_rail;
 	public static Block structure_anchor;
 
 	public static Block ore_uranium;
@@ -1274,17 +1267,10 @@ public class ModBlocks {
 	
 	private static void initializeBlock() {
 		
-		test_render = new TestRender(Material.rock).setBlockName("test_render").setCreativeTab(null);
-		test_bomb = new TestBomb(Material.tnt).setBlockName("test_bomb").setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":test_bomb");
-		test_bomb_advanced = new TestBombAdvanced(Material.tnt).setBlockName("test_bomb_advanced").setCreativeTab(null);
-		test_nuke = new TestNuke(Material.iron).setBlockName("test_nuke").setCreativeTab(null).setHardness(2.5F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":test_nuke");
 		event_tester = new TestEventTester(Material.iron).setBlockName("event_tester").setCreativeTab(null).setHardness(2.5F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":event_tester");
 		obj_tester = new TestObjTester(Material.iron).setBlockName("obj_tester").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F);
 		test_core = new TestCore(Material.iron).setBlockName("test_core").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_core");
 		test_charge = new TestCharge(Material.iron).setBlockName("test_charge").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F);
-		test_pipe = new TestPipe(Material.iron).setBlockName("test_pipe").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":pipe_neo");
-		test_ct = new TestCT(Material.iron).setBlockName("test_ct").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_ct");
-		test_rail = new TestRail(Material.iron).setBlockName("test_rail").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_rail");
 		structure_anchor = new BlockGeneric(Material.iron).setBlockName("structure_anchor").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":structure_anchor");
 		
 		ore_uranium = new BlockOutgas(Material.rock, true, 5, true).setBlockName("ore_uranium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_uranium");
@@ -2447,20 +2433,10 @@ public class ModBlocks {
 
 	private static void registerBlock() {
 		//Test
-		GameRegistry.registerBlock(test_render, test_render.getUnlocalizedName());
-		//GameRegistry.registerBlock(test_container, test_container.getUnlocalizedName());
-		GameRegistry.registerBlock(test_bomb, test_bomb.getUnlocalizedName());
-		GameRegistry.registerBlock(test_bomb_advanced, test_bomb_advanced.getUnlocalizedName());
-		
-		GameRegistry.registerBlock(test_nuke, test_nuke.getUnlocalizedName());
-		
 		GameRegistry.registerBlock(event_tester, event_tester.getUnlocalizedName());
 		GameRegistry.registerBlock(obj_tester, obj_tester.getUnlocalizedName());
 		GameRegistry.registerBlock(test_core, test_core.getUnlocalizedName());
 		GameRegistry.registerBlock(test_charge, test_charge.getUnlocalizedName());
-		GameRegistry.registerBlock(test_pipe, test_pipe.getUnlocalizedName());
-		GameRegistry.registerBlock(test_ct, test_ct.getUnlocalizedName());
-		GameRegistry.registerBlock(test_rail, test_rail.getUnlocalizedName());
 		GameRegistry.registerBlock(structure_anchor, structure_anchor.getUnlocalizedName());
 
 		//Ores

@@ -1241,6 +1241,13 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.bottle2_sunset");
 		ignoreMappings.add("hbm:item.cap_sunset");
 		ignoreMappings.add("hbm:item.cap_star");
+		ignoreMappings.add("hbm:tile.test_render");
+		ignoreMappings.add("hbm:tile.test_bomb");
+		ignoreMappings.add("hbm:tile.test_bomb_advanced");
+		ignoreMappings.add("hbm:tile.test_nuke");
+		ignoreMappings.add("hbm:tile.test_pipe");
+		ignoreMappings.add("hbm:tile.test_ct");
+		ignoreMappings.add("hbm:tile.test_rail");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
