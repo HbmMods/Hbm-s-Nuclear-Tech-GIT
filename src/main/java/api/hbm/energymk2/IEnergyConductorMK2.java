@@ -1,9 +1,12 @@
 package api.hbm.energymk2;
 
-public interface IEnergyConductorMK2 extends IEnergyConnectorMK2 {
+import api.hbm.energymk2.Nodespace.PowerNode;
+import net.minecraft.tileentity.TileEntity;
 
-	// ??? could be redundant because of nodespace, we'll see how that works out
-	public PowerNetMK2 getPowerNet();
+public interface IEnergyConductorMK2 extends IEnergyConnectorMK2 {
 	
-	public void setPowerNet(PowerNetMK2 network);
+	public default PowerNode getNode() {
+		TileEntity tile = (TileEntity) this;
+		return Nodespace.getNode(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord);
+	}
 }

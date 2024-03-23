@@ -1,10 +1,12 @@
 package api.hbm.energymk2;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 
 /**
@@ -16,6 +18,19 @@ public class Nodespace {
 	
 	/** Contains all "NodeWorld" instances, i.e. lists of nodes existing per world */
 	public static HashMap<World, NodeWorld> worlds = new HashMap();
+	
+	public static PowerNode getNode(World world, int x, int y, int z) {
+		NodeWorld nodeWorld = worlds.get(world);
+		if(nodeWorld != null) return nodeWorld.nodes.get(new BlockPos(x, y, z));
+		return null;
+	}
+	
+	public static void updateNodespace() {
+		
+		for(World world : MinecraftServer.getServer().worldServers) {
+			NodeWorld nodes = worlds.get(world);
+		}
+	}
 	
 	public static class NodeWorld {
 
@@ -48,6 +63,7 @@ public class Nodespace {
 		
 		public BlockPos[] positions;
 		public DirPos[] connections;
+		public PowerNetMK2 net;
 		
 		public PowerNode(BlockPos... positions) {
 			this.positions = positions;

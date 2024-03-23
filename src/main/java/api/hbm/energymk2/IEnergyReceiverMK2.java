@@ -3,10 +3,10 @@ package api.hbm.energymk2;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
+import api.hbm.energymk2.Nodespace.PowerNode;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -21,15 +21,14 @@ public interface IEnergyReceiverMK2 extends IEnergyConnectorMK2 {
 		
 		if(te instanceof IEnergyConductorMK2) {
 			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
+			if(!con.canConnect(dir.getOpposite())) return;
 			
-			if(!con.canConnect(dir.getOpposite()))
-				return;
+			PowerNode node = con.getNode();
 			
-			if(con.getPowerNet() != null && !con.getPowerNet().isSubscribed(this))
-				con.getPowerNet().subscribe(this);
-			
-			if(con.getPowerNet() != null)
+			if(node != null && node.net != null) {
+				node.net.addReceiver(this);
 				red = true;
+			}
 		}
 		
 		if(particleDebug) {
@@ -52,18 +51,12 @@ public interface IEnergyReceiverMK2 extends IEnergyConnectorMK2 {
 		
 		if(te instanceof IEnergyConductorMK2) {
 			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
+			PowerNode node = con.getNode();
 			
-			if(con.getPowerNet() != null && con.getPowerNet().isSubscribed(this))
-				con.getPowerNet().unsubscribe(this);
+			if(node != null && node.net != null) {
+				node.net.removeReceiver(this);
+			}
 		}
-	}
-	
-	public static final boolean particleDebug = false;
-	
-	public default Vec3 getDebugParticlePos() {
-		TileEntity te = (TileEntity) this;
-		Vec3 vec = Vec3.createVectorHelper(te.xCoord + 0.5, te.yCoord + 1, te.zCoord + 0.5);
-		return vec;
 	}
 	
 	public default ConnectionPriority getPriority() {
