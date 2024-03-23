@@ -523,6 +523,40 @@ cannery.willow.7=Now the willow's leaves can be harvested. Breaking the top bloc
 cannery.willow.8=Soon the plant will start growing again, yielding more leaves if the dirt is replaced with oily dirt. The leaves can be processed into cadmium powder using an ore acidizer.
 cannery.willow.9=Harvesting willow leaves can be automated using the automatic buzzsaw, it will only break plants that are ready for harvest.
 
+cannery.hadron=Particle Accelerator
+cannery.hadron.0=A Particle Accelerator consists of three main parts: A Core, an Analysis Chamber, and a set of Superconducting Coils
+cannery.hadron.1=This is the Particle Accelerator Core Component, which fires particles at relativistic speeds down the coils towards the Analysis Chamber
+cannery.hadron.2=Particles are ejected from here
+cannery.hadron.3=And in circular accelerators, return to here
+cannery.hadron.4=A coil segment is constructed by using 8 Dense Coils with nothing (or the core) in the middle
+cannery.hadron.5=This coil segment must itself also be enclosed within Particle Accelerator Plating
+cannery.hadron.6=To access the Core Component, you'll need to add one or more Access Terminals
+cannery.hadron.7=The Core Component will also require power to operate, add a power plug on an edge
+cannery.hadron.8=The Accelerator will require enough Power Plugs to supply at least 10KHE of electricity per unit of Coil Strength
+cannery.hadron.9=Note that the coil segment that wraps around the Core Component is not factored into the Coil Strength calculation
+cannery.hadron.10=Nor is this coil segment required for purely linear accelerators
+cannery.hadron.11=For circular accelerators, you will need to add corners to change the direction of the particle
+cannery.hadron.12=The outside corner coils can be omitted entirely
+cannery.hadron.13=The final part of our Accelerator is the Analysis Chamber, which is a 3x3x3 empty chamber surrounded by Analysis Chamber blocks
+cannery.hadron.14=Your completed Particle Accelerator should look something like this!
+
+cannery.hadron.math.0=Neodymium Coil Strength: 50
+cannery.hadron.math.1=50 x 8 x 10KHE = 400 x 10KHE = 4MHE
+cannery.hadron.math.2=Starmetal Coil Strength: 1,000
+cannery.hadron.math.3=1,000 x 8 x 10KHE = 8,000 x 10KHE = 80MHE
+
+cannery.schottky=Schottky Particle Diode
+cannery.schottky.0=This is a Schottky Particle Diode. It can allow for more complex particle accelerator designs and save on electricity
+cannery.schottky.1=By default it blocks all particles and must be configured with a Screwdriver
+cannery.schottky.2=This face will now accept entering particles
+cannery.schottky.3=And this face will eject particles that enter
+cannery.schottky.4=The diode now has two exits, and will now behave in a quantum manner, creating virtual particles for each exit
+cannery.schottky.5=Once all the virtual particles have reached an Analysis Chamber, the particle with the lowest momentum required for the current recipe is chosen
+cannery.schottky.6=The chosen particle undergoes a wavefunction collapse and is made real, consuming only the power that the collapsing particle requires
+cannery.schottky.7=If any virtual particles encounter any malformed segments, all virtual particles will be discarded and the erroring particle will be collapsed instead
+cannery.schottky.8=Note that virtual particles will never use the same Diode exit twice. Infinite loops will fail, but re-entering a Diode is otherwise fine
+cannery.schottky.9=Your Schottky Particle Diode should be properly enclosed, with free paths for each intersection exit
+
 chem.ARSENIC=Arsenic Extraction
 chem.ASPHALT=Asphalt Production
 chem.BAKELITE=Bakelite Production

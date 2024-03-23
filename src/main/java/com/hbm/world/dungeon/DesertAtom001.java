@@ -5,7 +5,8 @@ package com.hbm.world.dungeon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.lib.HbmChestContents;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsLegacy;
 import com.hbm.lib.Library;
 
 import net.minecraft.block.Block;
@@ -214,7 +215,7 @@ public class DesertAtom001 extends WorldGenerator
 		world.setBlock(x + 9, y + -4, z + 14, Blocks.chest, 2, 3);
 		if(world.getBlock(x + 9, y + -4, z + 14) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.nuclear, (TileEntityChest)world.getTileEntity(x + 9, y + -4, z + 14), 10);
+			WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_NUKE_MISC), (TileEntityChest)world.getTileEntity(x + 9, y + -4, z + 14), 10);
 		}
         world.setBlock(x + 10, y + -4, z + 14, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 11, y + -4, z + 14, Library.getRandomConcrete(), 0, 3);

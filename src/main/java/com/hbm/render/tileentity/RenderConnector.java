@@ -34,7 +34,7 @@ public class RenderConnector extends RenderPylonBase {
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
-		this.renderSingleLine(con, x, y, z);
+		this.renderLinesGeneric(con, x, y, z);
 		GL11.glPopMatrix();
 	}
 }

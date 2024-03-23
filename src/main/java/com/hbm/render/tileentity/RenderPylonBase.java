@@ -2,10 +2,10 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.network.TileEntityPylonBase;
 import com.hbm.tileentity.network.TileEntityPylonBase.ConnectionType;
 
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 	
 	//TODO: adapt this into a more generic form for multi wire pylons
-	@Deprecated
+	/*@Deprecated
 	public void renderSingleLine(TileEntityPylonBase pyl, double x, double y, double z) {
 		
 		for(int i = 0; i < pyl.connected.size(); i++) {
@@ -70,7 +70,7 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 				}
 			}
 		}
-	}
+	}*/
 	
 	/**
 	 * The closest we have to a does-all solution. It will figure out if it needs to draw multiple lines,
@@ -81,6 +81,8 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 	 * @param z
 	 */
 	public void renderLinesGeneric(TileEntityPylonBase pyl, double x, double y, double z) {
+		
+		this.bindTexture(ResourceManager.wire_tex);
 		
 		for(int i = 0; i < pyl.connected.size(); i++) {
 
@@ -155,33 +157,46 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		GL11.glTranslated(x, y, z);
 		float count = 10;
+		Tessellator tess = Tessellator.instance;
+		
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_CULL_FACE);
+		tess.startDrawingQuads();
+		Vec3 delta = Vec3.createVectorHelper(x0 - x1, y0 - y1, z0 - z1);
+		double hang = Math.min(delta.lengthVector() / 15D, 2.5D);
 		
 		for(float j = 0; j < count; j++) {
 			
 			float k = j + 1;
+
+			double sagJ = Math.sin(j / count * Math.PI * 0.5) * hang;
+			double sagK = Math.sin(k / count * Math.PI * 0.5) * hang;
+			double sagMean = (sagJ + sagK) / 2D;
 			
 			double deltaX = x1 - x0;
 			double deltaY = y1 - y0;
 			double deltaZ = z1 - z0;
 			
 			double ja = j + 0.5D;
-			double ix = pyl.xCoord + x0 + deltaX / (double)(count * 2) * ja;
-			double iy = pyl.yCoord + y0 + deltaY / (double)(count * 2) * ja - Math.sin(j / count * Math.PI * 0.5);
-			double iz = pyl.zCoord + z0 + deltaZ / (double)(count * 2) * ja;
+			double ix = pyl.xCoord + x0 + deltaX / (double)(count) * ja;
+			double iy = pyl.yCoord + y0 + deltaY / (double)(count) * ja - sagMean;
+			double iz = pyl.zCoord + z0 + deltaZ / (double)(count) * ja;
 			
 			int brightness = world.getLightBrightnessForSkyBlocks(MathHelper.floor_double(ix), MathHelper.floor_double(iy), MathHelper.floor_double(iz), 0);
-			int lX = brightness % 65536;
-			int lY = brightness / 65536;
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)lX / 1.0F, (float)lY / 1.0F);
+			tess.setBrightness(brightness);
 			
-			drawLineSegment(
+			drawLineSegment(tess,
 					x0 + (deltaX * j / count),
-					y0 + (deltaY * j / count) - Math.sin(j / count * Math.PI * 0.5),
+					y0 + (deltaY * j / count) - sagJ,
 					z0 + (deltaZ * j / count),
 					x0 + (deltaX * k / count),
-					y0 + (deltaY * k / count) - Math.sin(k / count * Math.PI * 0.5),
+					y0 + (deltaY * k / count) - sagK,
 					z0 + (deltaZ * k / count));
 		}
+		tess.draw();
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		
 		GL11.glPopMatrix();
 	}
 	
@@ -196,32 +211,31 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 	 * @param b
 	 * @param c
 	 */
-	public void drawLineSegment(double x, double y, double z, double a, double b, double c) {
+	public void drawLineSegment(Tessellator tessellator, double x, double y, double z, double a, double b, double c) {
 		
 		double girth = 0.03125D;
+
+		double dX = x - a;
+		double dY = y - b;
+		double dZ = z - c;
+		double length = Math.sqrt(dX * dX + dY * dY + dZ * dZ);
+		int wrap = (int) Math.ceil(length * 8);
 		
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_CULL_FACE);
-		Tessellator tessellator = Tessellator.instance;
-		tessellator.startDrawing(5);
-		tessellator.setColorOpaque_I(LINE_COLOR);
-		tessellator.addVertex(x, y + girth, z);
-		tessellator.addVertex(x, y - girth, z);
-		tessellator.addVertex(a, b + girth, c);
-		tessellator.addVertex(a, b - girth, c);
-		tessellator.addVertex(x + girth, y, z);
+		if(dX + dZ < 0) wrap *= -1;
+		
+		tessellator.setColorOpaque_I(0xffffff);
+		tessellator.addVertexWithUV(x, y + girth, z, 0, 0);
+		tessellator.addVertexWithUV(x, y - girth, z, 0, 1);
+		tessellator.addVertexWithUV(a, b - girth, c, wrap, 1);
+		tessellator.addVertexWithUV(a, b + girth, c, wrap, 0);
+		/*tessellator.addVertex(x + girth, y, z);
 		tessellator.addVertex(x - girth, y, z);
 		tessellator.addVertex(a + girth, b, c);
 		tessellator.addVertex(a - girth, b, c);
 		tessellator.addVertex(x, y, z + girth);
 		tessellator.addVertex(x, y, z - girth);
 		tessellator.addVertex(a, b, c + girth);
-		tessellator.addVertex(a, b, c - girth);
-		tessellator.draw();
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_CULL_FACE);
+		tessellator.addVertex(a, b, c - girth);*/
 	}
 	
 	public static final int LINE_COLOR = 0xBB3311;

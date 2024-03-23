@@ -10,6 +10,8 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsSingle;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.TomSaveData;
@@ -523,39 +525,29 @@ public class HbmWorldGen implements IWorldGenerator {
 
 				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
 					world.setBlock(x, y, z, ModBlocks.safe, rand.nextInt(4) + 2, 2);
+					TileEntitySafe safe = (TileEntitySafe) world.getTileEntity(x, y, z);
 					
 					switch(rand.nextInt(10)) {
-					case 0:
-					case 1:
-					case 2:
-					case 3:
-						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
-						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(1);
-						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.vault1, (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(4) + 3);
+					case 0: case 1: case 2: case 3:
+						safe.setMod(1);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_VAULT_RUSTY), safe, rand.nextInt(4) + 3);
 						break;
-					case 4:
-					case 5:
-					case 6:
-						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
-						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(0.1);
-						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.vault2, (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(3) + 2);
+					case 4: case 5: case 6:
+						safe.setMod(0.1);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_VAULT_STANDARD), safe, rand.nextInt(3) + 2);
 						break;
-					case 7:
-					case 8:
-						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
-						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(0.02);
-						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.vault3, (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(3) + 1);
+					case 7: case 8:
+						safe.setMod(0.02);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_VAULT_REINFORCED), safe, rand.nextInt(3) + 1);
 						break;
 					case 9:
-						((TileEntitySafe)world.getTileEntity(x, y, z)).setPins(rand.nextInt(999) + 1);
-						((TileEntitySafe)world.getTileEntity(x, y, z)).setMod(0.0);
-						((TileEntitySafe)world.getTileEntity(x, y, z)).lock();
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.vault4, (TileEntitySafe)world.getTileEntity(x, y, z), rand.nextInt(2) + 1);
+						safe.setMod(0.0);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_VAULT_UNBREAKABLE), safe, rand.nextInt(2) + 1);
 						break;
 					}
+
+					safe.setPins(rand.nextInt(999) + 1);
+					safe.lock();
 					
 					if(GeneralConfig.enableDebugMode)
 						MainRegistry.logger.info("[Debug] Successfully spawned safe at " + x + " " + (y + 1) +" " + z);
@@ -672,8 +664,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(10000, 250, 10000) == Blocks.air) {
 					world.setBlock(10000, 250, 10000, Blocks.chest);
 					if (world.getBlock(10000, 250, 10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
-								(TileEntityChest) world.getTileEntity(10000, 250, 10000), 29);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(10000, 250, 10000), 29);
 					}
 				}
 			}
@@ -681,8 +672,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(0, 250, 10000) == Blocks.air) {
 					world.setBlock(0, 250, 10000, Blocks.chest);
 					if (world.getBlock(0, 250, 10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
-								(TileEntityChest) world.getTileEntity(0, 250, 10000), 29);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(0, 250, 10000), 29);
 					}
 				}
 			}
@@ -690,8 +680,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(-10000, 250, 10000) == Blocks.air) {
 					world.setBlock(-10000, 250, 10000, Blocks.chest);
 					if (world.getBlock(-10000, 250, 10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
-								(TileEntityChest) world.getTileEntity(-10000, 250, 10000), 29);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(-10000, 250, 10000), 29);
 					}
 				}
 			}
@@ -699,8 +688,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(10000, 250, 0) == Blocks.air) {
 					world.setBlock(10000, 250, 0, Blocks.chest);
 					if (world.getBlock(10000, 250, 0) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
-								(TileEntityChest) world.getTileEntity(10000, 250, 0), 29);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(10000, 250, 0), 29);
 					}
 				}
 			}
@@ -708,8 +696,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(-10000, 250, 0) == Blocks.air) {
 					world.setBlock(-10000, 250, 0, Blocks.chest);
 					if (world.getBlock(-10000, 250, 0) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
-								(TileEntityChest) world.getTileEntity(-10000, 250, 0), 29);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(-10000, 250, 0), 29);
 					}
 				}
 			}
@@ -717,8 +704,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(10000, 250, -10000) == Blocks.air) {
 					world.setBlock(10000, 250, -10000, Blocks.chest);
 					if (world.getBlock(10000, 250, -10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
-								(TileEntityChest) world.getTileEntity(10000, 250, -10000), 29);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(10000, 250, -10000), 29);
 					}
 				}
 			}
@@ -726,8 +712,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(0, 250, -10000) == Blocks.air) {
 					world.setBlock(0, 250, -10000, Blocks.chest);
 					if (world.getBlock(0, 250, -10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
-								(TileEntityChest) world.getTileEntity(0, 250, -10000), 29);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(0, 250, -10000), 29);
 					}
 				}
 			}
@@ -735,8 +720,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if (world.getBlock(-10000, 250, -10000) == Blocks.air) {
 					world.setBlock(-10000, 250, -10000, Blocks.chest);
 					if (world.getBlock(-10000, 250, -10000) == Blocks.chest) {
-						WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.powder,
-								(TileEntityChest) world.getTileEntity(-10000, 250, -10000), 29);
+						WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsSingle.POOL_POWDER), (TileEntityChest) world.getTileEntity(-10000, 250, -10000), 29);
 					}
 				}
 			}
