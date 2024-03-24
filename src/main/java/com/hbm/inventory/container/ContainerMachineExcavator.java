@@ -1,7 +1,10 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotTakeOnly;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemDrillbit;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineExcavator;
 
 import api.hbm.energy.IBatteryItem;
@@ -46,43 +49,40 @@ public class ContainerMachineExcavator extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
-		ItemStack var3 = null;
-		Slot var4 = (Slot) this.inventorySlots.get(par2);
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		ItemStack rStack = null;
+		Slot slot = (Slot) this.inventorySlots.get(index);
 
-		if(var4 != null && var4.getHasStack()) {
-			ItemStack var5 = var4.getStack();
-			var3 = var5.copy();
+		if(slot != null && slot.getHasStack()) {
+			ItemStack stack = slot.getStack();
+			rStack = stack.copy();
 
-			if(par2 <= 13) {
-				if(!this.mergeItemStack(var5, 14, this.inventorySlots.size(), true)) {
+			if(index <= 13) {
+				if(!this.mergeItemStack(stack, 14, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
 				
-				if(var3.getItem() instanceof IBatteryItem) {
-					if(!this.mergeItemStack(var5, 0, 1, false)) {
-						return null;
-					}
-				} else if(var3.getItem() instanceof IItemFluidIdentifier) {
-					if(!this.mergeItemStack(var5, 1, 2, false)) {
-						return null;
-					}
-				} else {
-					if(!this.mergeItemStack(var5, 2, 5, false)) {
-						return null;
-					}
-				}
+				if(rStack.getItem() instanceof IBatteryItem || rStack.getItem() == ModItems.battery_creative) {
+					if(!this.mergeItemStack(stack, 0, 1, false)) return null;
+				} else if(rStack.getItem() instanceof IItemFluidIdentifier) {
+					if(!this.mergeItemStack(stack, 1, 2, false)) return null;
+				} else if(rStack.getItem() instanceof ItemMachineUpgrade ) {
+					if(!this.mergeItemStack(stack, 2, 4, false)) return null;
+				} else if(rStack.getItem() instanceof ItemDrillbit) {
+					if(!this.mergeItemStack(stack, 4, 5, false)) return null;
+				} else
+					return null;
 			}
 
-			if(var5.stackSize == 0) {
-				var4.putStack((ItemStack) null);
+			if(stack.stackSize == 0) {
+				slot.putStack((ItemStack) null);
 			} else {
-				var4.onSlotChanged();
+				slot.onSlotChanged();
 			}
 		}
 
-		return var3;
+		return rStack;
 	}
 
 	@Override
