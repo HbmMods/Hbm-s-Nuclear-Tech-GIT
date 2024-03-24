@@ -44,7 +44,6 @@ import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
-import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -389,11 +388,6 @@ public class ModEventHandler {
 					}
 				}
 			}
-			
-			SiegeOrchestrator.playerDeathHook(player, event.source);
-			
-		} else {
-			SiegeOrchestrator.mobDeathHook(entity, event.source);
 		}
 	}
 	
@@ -716,7 +710,6 @@ public class ModEventHandler {
 		if(event.phase == Phase.START) {
 			BossSpawnHandler.rollTheDice(event.world);
 			TimedGenerator.automaton(event.world, 100);
-			SiegeOrchestrator.update(event.world);
 		}
 	}
 	

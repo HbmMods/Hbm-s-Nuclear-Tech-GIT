@@ -105,6 +105,7 @@ public class RenderSnowglobe extends TileEntitySpecialRenderer implements IItemR
 				GL11.glScaled(3, 3, 3);
 				SnowglobeType type = EnumUtil.grabEnumSafely(SnowglobeType.class, item.getItemDamage());
 				renderSnowglobe(type);
+				GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 			}};
 	}
 }
