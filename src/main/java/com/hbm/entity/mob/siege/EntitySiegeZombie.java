@@ -1,6 +1,5 @@
 package com.hbm.entity.mob.siege;
 
-import com.hbm.handler.SiegeOrchestrator;
 import api.hbm.entity.IRadiationImmune;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -41,9 +40,6 @@ public class EntitySiegeZombie extends EntityMob implements IRadiationImmune {
 	public boolean attackEntityFrom(DamageSource source, float damage) {
 		
 		if(this.isEntityInvulnerable())
-			return false;
-		
-		if(SiegeOrchestrator.isSiegeMob(source.getEntity()))
 			return false;
 		
 		SiegeTier tier = this.getTier();

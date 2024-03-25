@@ -1,8 +1,11 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotTakeOnly;
+import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
 
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -44,31 +47,39 @@ public class ContainerMachineTurbofan extends Container {
 	}
 	
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
-		ItemStack var3 = null;
-		Slot var4 = (Slot) this.inventorySlots.get(par2);
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		ItemStack rStack = null;
+		Slot slot = (Slot) this.inventorySlots.get(index);
 
-		if(var4 != null && var4.getHasStack()) {
-			ItemStack var5 = var4.getStack();
-			var3 = var5.copy();
+		if(slot != null && slot.getHasStack()) {
+			ItemStack stack = slot.getStack();
+			rStack = stack.copy();
 
-			if(par2 <= 4) {
-				if(!this.mergeItemStack(var5, 5, this.inventorySlots.size(), true)) {
+			if(index <= 4) {
+				if(!this.mergeItemStack(stack, 5, this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!this.mergeItemStack(var5, 0, 1, false)) {
-				if(!this.mergeItemStack(var5, 2, 3, false))
-					return null;
+			} else {
+				
+				if(rStack.getItem() instanceof IBatteryItem) {
+					if(!this.mergeItemStack(stack, 3, 4, false)) return null;
+				} else if(rStack.getItem() instanceof IItemFluidIdentifier) {
+					if(!this.mergeItemStack(stack, 4, 5, false)) return null;
+				} else if(rStack.getItem() instanceof ItemMachineUpgrade ) {
+					if(!this.mergeItemStack(stack, 2, 3, false)) return null;
+				} else {
+					if(!this.mergeItemStack(stack, 0, 1, false)) return null;
+				}
 			}
 
-			if(var5.stackSize == 0) {
-				var4.putStack((ItemStack) null);
+			if(stack.stackSize == 0) {
+				slot.putStack((ItemStack) null);
 			} else {
-				var4.onSlotChanged();
+				slot.onSlotChanged();
 			}
 		}
 
-		return var3;
+		return rStack;
 	}
 
 	@Override

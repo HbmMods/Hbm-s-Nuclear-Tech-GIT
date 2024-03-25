@@ -44,7 +44,6 @@ import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
-import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -158,33 +157,38 @@ public class ModEventHandler {
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 
 		if(!event.player.worldObj.isRemote) {
-			event.player.addChatMessage(new ChatComponentText("Loaded world with Hbm's Nuclear Tech Mod " + RefStrings.VERSION + " for Minecraft 1.7.10!"));
-
-			if(HTTPHandler.newVersion) {
-				event.player.addChatMessage(
-						new ChatComponentText("New version " + HTTPHandler.versionNumber + " is available! Click ")
-						.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW))
-						.appendSibling(new ChatComponentText("[here]")
-								.setChatStyle(new ChatStyle()
-									.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
-									.setUnderlined(true)
-									.setColor(EnumChatFormatting.RED)
+			
+			if(GeneralConfig.enableMOTD) {
+				event.player.addChatMessage(new ChatComponentText("Loaded world with Hbm's Nuclear Tech Mod " + RefStrings.VERSION + " for Minecraft 1.7.10!"));
+	
+				if(HTTPHandler.newVersion) {
+					event.player.addChatMessage(
+							new ChatComponentText("New version " + HTTPHandler.versionNumber + " is available! Click ")
+							.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW))
+							.appendSibling(new ChatComponentText("[here]")
+									.setChatStyle(new ChatStyle()
+										.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
+										.setUnderlined(true)
+										.setColor(EnumChatFormatting.RED)
+									)
 								)
-							)
-						.appendSibling(new ChatComponentText(" to download!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)))
-						);
+							.appendSibling(new ChatComponentText(" to download!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)))
+							);
+				}
 			}
 			
 			if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
 				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!", MainRegistry.proxy.ID_DUCK, 30_000), (EntityPlayerMP) event.player);
 			
-			
-			HbmPlayerProps props = HbmPlayerProps.getData(event.player);
-			
-			if(!props.hasReceivedBook) {
-				event.player.inventory.addItemStackToInventory(new ItemStack(ModItems.book_guide, 1, BookType.STARTER.ordinal()));
-				event.player.inventoryContainer.detectAndSendChanges();
-				props.hasReceivedBook = true;
+
+			if(GeneralConfig.enableGuideBook) {
+				HbmPlayerProps props = HbmPlayerProps.getData(event.player);
+				
+				if(!props.hasReceivedBook) {
+					event.player.inventory.addItemStackToInventory(new ItemStack(ModItems.book_guide, 1, BookType.STARTER.ordinal()));
+					event.player.inventoryContainer.detectAndSendChanges();
+					props.hasReceivedBook = true;
+				}
 			}
 		}
 	}
@@ -384,11 +388,6 @@ public class ModEventHandler {
 					}
 				}
 			}
-			
-			SiegeOrchestrator.playerDeathHook(player, event.source);
-			
-		} else {
-			SiegeOrchestrator.mobDeathHook(entity, event.source);
 		}
 	}
 	
@@ -711,7 +710,6 @@ public class ModEventHandler {
 		if(event.phase == Phase.START) {
 			BossSpawnHandler.rollTheDice(event.world);
 			TimedGenerator.automaton(event.world, 100);
-			SiegeOrchestrator.update(event.world);
 		}
 	}
 	

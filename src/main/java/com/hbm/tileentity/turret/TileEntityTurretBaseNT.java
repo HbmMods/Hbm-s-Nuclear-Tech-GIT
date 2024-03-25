@@ -9,7 +9,6 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.entity.missile.EntityMissileCustom;
-import com.hbm.entity.missile.EntitySiegeDropship;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
@@ -650,7 +649,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			if(e instanceof EntityMinecart) return true;
 			if(e instanceof EntityRailCarBase) return true;
 			if(e instanceof EntityBomber) return true;
-			if(e instanceof EntitySiegeDropship) return true;
 			for(Class c : CompatExternal.turretTargetMachine) if(c.isAssignableFrom(e.getClass())) return true;
 		}
 		

@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ILookOverlay;
-import com.hbm.blocks.test.TestPipe;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
@@ -13,6 +12,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 import com.hbm.util.I18nUtil;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -99,19 +99,22 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
-	    TileEntity tileEntity = world.getTileEntity(x, y, z);
-	    if (tileEntity instanceof TileEntityPipeBaseNT) {
-	        TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) tileEntity;
-	        FluidType fluidType = pipe.getType();
-	        int retadata = fluidType.getID(); //florf
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
+		if(tileEntity instanceof TileEntityPipeBaseNT) {
+			TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) tileEntity;
+			FluidType fluidType = pipe.getType();
+			int retadata = fluidType.getID(); // florf
 
-	        return new ItemStack(ModItems.fluid_duct, 1, retadata);
-	    }
-	    return super.getPickBlock(target, world, x, y, z, player); 
+			return new ItemStack(ModItems.fluid_duct, 1, retadata);
+		}
+		return super.getPickBlock(target, world, x, y, z, player);
 	}
+	
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
+	
 	@Override
 	public int getRenderType() {
-		return TestPipe.renderID;
+		return renderID;
 	}
 	
 	@Override

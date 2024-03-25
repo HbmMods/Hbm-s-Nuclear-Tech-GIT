@@ -12,10 +12,6 @@ import com.hbm.blocks.machine.pile.*;
 import com.hbm.blocks.machine.rbmk.*;
 import com.hbm.blocks.network.*;
 import com.hbm.blocks.rail.*;
-import com.hbm.blocks.siege.SiegeCircuit;
-import com.hbm.blocks.siege.SiegeHole;
-import com.hbm.blocks.siege.SiegeInternal;
-import com.hbm.blocks.siege.SiegeShield;
 import com.hbm.blocks.test.*;
 import com.hbm.blocks.turret.*;
 import com.hbm.items.block.*;
@@ -45,17 +41,10 @@ public class ModBlocks {
 		registerBlock();
 	}
 	
-	public static Block test_render;
-	public static Block test_bomb;
-	public static Block test_bomb_advanced;
-	public static Block test_nuke;
 	public static Block event_tester;
 	public static Block obj_tester;
 	public static Block test_core;
 	public static Block test_charge;
-	public static Block test_pipe;
-	public static Block test_ct;
-	public static Block test_rail;
 	public static Block structure_anchor;
 
 	public static Block ore_uranium;
@@ -197,7 +186,6 @@ public class ModBlocks {
 	public static Block block_titanium;
 	public static Block block_sulfur;
 	public static Block block_niter;
-	public static Block block_niter_reinforced;
 	public static Block block_copper;
 	public static Block block_red_copper;
 	public static Block block_tungsten;
@@ -392,12 +380,6 @@ public class ModBlocks {
 	public static Block tile_lab;
 	public static Block tile_lab_cracked;
 	public static Block tile_lab_broken;
-
-	public static Block siege_shield;
-	public static Block siege_internal;
-	public static Block siege_circuit;
-	public static Block siege_emergency;
-	public static Block siege_hole;
 
 	public static Block block_meteor;
 	public static Block block_meteor_cobble;
@@ -962,9 +944,6 @@ public class ModBlocks {
 
 	public static Block machine_shredder;
 
-	public static Block machine_shredder_large;
-	public static final int guiID_machine_shredder_large = 76;
-
 	public static Block machine_teleporter;
 	public static Block teleanchor;
 	public static Block field_disturber;
@@ -1274,17 +1253,10 @@ public class ModBlocks {
 	
 	private static void initializeBlock() {
 		
-		test_render = new TestRender(Material.rock).setBlockName("test_render").setCreativeTab(null);
-		test_bomb = new TestBomb(Material.tnt).setBlockName("test_bomb").setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":test_bomb");
-		test_bomb_advanced = new TestBombAdvanced(Material.tnt).setBlockName("test_bomb_advanced").setCreativeTab(null);
-		test_nuke = new TestNuke(Material.iron).setBlockName("test_nuke").setCreativeTab(null).setHardness(2.5F).setResistance(6000.0F).setBlockTextureName(RefStrings.MODID + ":test_nuke");
 		event_tester = new TestEventTester(Material.iron).setBlockName("event_tester").setCreativeTab(null).setHardness(2.5F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":event_tester");
 		obj_tester = new TestObjTester(Material.iron).setBlockName("obj_tester").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F);
 		test_core = new TestCore(Material.iron).setBlockName("test_core").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_core");
 		test_charge = new TestCharge(Material.iron).setBlockName("test_charge").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F);
-		test_pipe = new TestPipe(Material.iron).setBlockName("test_pipe").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":pipe_neo");
-		test_ct = new TestCT(Material.iron).setBlockName("test_ct").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_ct");
-		test_rail = new TestRail(Material.iron).setBlockName("test_rail").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":test_rail");
 		structure_anchor = new BlockGeneric(Material.iron).setBlockName("structure_anchor").setCreativeTab(null).setHardness(2.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":structure_anchor");
 		
 		ore_uranium = new BlockOutgas(Material.rock, true, 5, true).setBlockName("ore_uranium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_uranium");
@@ -1428,7 +1400,6 @@ public class ModBlocks {
 		block_titanium = new BlockBeaconable(Material.iron).setBlockName("block_titanium").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(50.0F).setBlockTextureName(RefStrings.MODID + ":block_titanium");
 		block_sulfur = new BlockBeaconable(Material.iron).setBlockName("block_sulfur").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_sulfur");
 		block_niter = new BlockBeaconable(Material.iron).setBlockName("block_niter").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_niter");
-		block_niter_reinforced = new BlockBeaconable(Material.iron).setBlockName("block_niter_reinforced").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":block_niter_reinforced");
 		block_copper = new BlockBeaconable(Material.iron).setBlockName("block_copper").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":block_copper");
 		block_red_copper = new BlockBeaconable(Material.iron).setBlockName("block_red_copper").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(25.0F).setBlockTextureName(RefStrings.MODID + ":block_red_copper");
 		block_tungsten = new BlockBeaconable(Material.iron).setBlockName("block_tungsten").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":block_tungsten");
@@ -1621,12 +1592,6 @@ public class ModBlocks {
 		tile_lab = new BlockOutgas(Material.rock, false, 5, true).setBlockName("tile_lab").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":tile_lab");
 		tile_lab_cracked = new BlockOutgas(Material.rock, false, 5, true).setBlockName("tile_lab_cracked").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":tile_lab_cracked");
 		tile_lab_broken = new BlockOutgas(Material.rock, true, 5, true).setBlockName("tile_lab_broken").setStepSound(Block.soundTypeGlass).setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setResistance(20.0F).setBlockTextureName(RefStrings.MODID + ":tile_lab_broken");
-
-		siege_shield = new SiegeShield(Material.iron).setBlockName("siege_shield").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(900.0F);
-		siege_internal = new SiegeInternal(Material.iron).setBlockName("siege_internal").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(60.0F);
-		siege_circuit = new SiegeCircuit(Material.iron).setBlockName("siege_circuit").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(10.0F);
-		siege_emergency = new BlockBase(Material.iron).setBlockName("siege_emergency").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(20000.0F).setBlockTextureName(RefStrings.MODID + ":siege_emergency");
-		siege_hole = new SiegeHole(Material.iron).setBlockName("siege_hole").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(900.0F).setBlockTextureName(RefStrings.MODID + ":siege_hole");
 
 		block_meteor = new BlockOre(Material.rock).noFortune().setBlockName("block_meteor").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(360.0F).setBlockTextureName(RefStrings.MODID + ":meteor");
 		block_meteor_cobble = new BlockOre(Material.rock).noFortune().setBlockName("block_meteor_cobble").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(360.0F).setBlockTextureName(RefStrings.MODID + ":meteor_cobble");
@@ -1936,7 +1901,6 @@ public class ModBlocks {
 		machine_combustion_engine = new MachineCombustionEngine().setBlockName("machine_combustion_engine").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 
 		machine_shredder = new MachineShredder(Material.iron).setBlockName("machine_shredder").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
-		machine_shredder_large = new MachineShredderLarge(Material.iron).setBlockName("machine_shredder_large").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":code");
 
 		machine_teleporter = new MachineTeleporter(Material.iron).setBlockName("machine_teleporter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		teleanchor = new MachineTeleanchor().setBlockName("teleanchor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -2290,7 +2254,7 @@ public class ModBlocks {
 		machine_selenium = new MachineSeleniumEngine(Material.iron).setBlockName("machine_selenium").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_selenium");
 		reactor_research = new ReactorResearch(Material.iron).setBlockName("machine_reactor_small").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_reactor_small");
 		reactor_zirnox = new ReactorZirnox(Material.iron).setBlockName("machine_zirnox").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		zirnox_destroyed = new ZirnoxDestroyed(Material.iron).setBlockName("zirnox_destroyed").setHardness(100.0F).setResistance(800.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		zirnox_destroyed = new ZirnoxDestroyed(Material.iron).setBlockName("zirnox_destroyed").setHardness(100.0F).setResistance(800.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_controller = new MachineReactorControl(Material.iron).setBlockName("machine_controller").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null);
 
 		machine_boiler_off = new MachineBoiler(false).setBlockName("machine_boiler_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_boiler_off");
@@ -2447,20 +2411,10 @@ public class ModBlocks {
 
 	private static void registerBlock() {
 		//Test
-		GameRegistry.registerBlock(test_render, test_render.getUnlocalizedName());
-		//GameRegistry.registerBlock(test_container, test_container.getUnlocalizedName());
-		GameRegistry.registerBlock(test_bomb, test_bomb.getUnlocalizedName());
-		GameRegistry.registerBlock(test_bomb_advanced, test_bomb_advanced.getUnlocalizedName());
-		
-		GameRegistry.registerBlock(test_nuke, test_nuke.getUnlocalizedName());
-		
 		GameRegistry.registerBlock(event_tester, event_tester.getUnlocalizedName());
 		GameRegistry.registerBlock(obj_tester, obj_tester.getUnlocalizedName());
 		GameRegistry.registerBlock(test_core, test_core.getUnlocalizedName());
 		GameRegistry.registerBlock(test_charge, test_charge.getUnlocalizedName());
-		GameRegistry.registerBlock(test_pipe, test_pipe.getUnlocalizedName());
-		GameRegistry.registerBlock(test_ct, test_ct.getUnlocalizedName());
-		GameRegistry.registerBlock(test_rail, test_rail.getUnlocalizedName());
 		GameRegistry.registerBlock(structure_anchor, structure_anchor.getUnlocalizedName());
 
 		//Ores
@@ -2624,7 +2578,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_titanium, block_titanium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_sulfur, block_sulfur.getUnlocalizedName());
 		GameRegistry.registerBlock(block_niter, block_niter.getUnlocalizedName());
-		GameRegistry.registerBlock(block_niter_reinforced, block_niter_reinforced.getUnlocalizedName());
 		GameRegistry.registerBlock(block_copper, block_copper.getUnlocalizedName());
 		GameRegistry.registerBlock(block_red_copper, block_red_copper.getUnlocalizedName());
 		GameRegistry.registerBlock(block_advanced_alloy, block_advanced_alloy.getUnlocalizedName());
@@ -2832,13 +2785,6 @@ public class ModBlocks {
 		
 		//Charger
 		GameRegistry.registerBlock(charger, charger.getUnlocalizedName());
-		
-		//Siege blocks
-		GameRegistry.registerBlock(siege_shield, ItemBlockLore.class, siege_shield.getUnlocalizedName());
-		GameRegistry.registerBlock(siege_internal, ItemBlockLore.class, siege_internal.getUnlocalizedName());
-		GameRegistry.registerBlock(siege_circuit, ItemBlockLore.class, siege_circuit.getUnlocalizedName());
-		GameRegistry.registerBlock(siege_emergency, siege_emergency.getUnlocalizedName());
-		GameRegistry.registerBlock(siege_hole, siege_hole.getUnlocalizedName());
 		
 		//Decoration Blocks
 		GameRegistry.registerBlock(block_meteor, block_meteor.getUnlocalizedName());
@@ -3362,7 +3308,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_waste_drum, machine_waste_drum.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_storage_drum, machine_storage_drum.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_shredder, machine_shredder.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_shredder_large, machine_shredder_large.getUnlocalizedName());
 		register(machine_well);
 		register(machine_pumpjack);
 		register(machine_fracking_tower);
