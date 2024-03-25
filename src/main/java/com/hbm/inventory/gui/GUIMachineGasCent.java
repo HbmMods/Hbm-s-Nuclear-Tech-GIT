@@ -33,11 +33,12 @@ public class GUIMachineGasCent extends GuiInfoContainer {
 		
 		String[] inTankInfo = new String[] {gasCent.inputTank.getTankType().getName(), gasCent.inputTank.getFill() + " / " + gasCent.inputTank.getMaxFill() + " mB"};
 		if(gasCent.inputTank.getTankType().getIfHighSpeed()) {
-			if(gasCent.getProcessingSpeed() > gasCent.processingSpeed - 70)
-				inTankInfo[0] = EnumChatFormatting.DARK_RED + inTankInfo[0];
-			else
-				inTankInfo[0] = EnumChatFormatting.GOLD + inTankInfo[0];
-		}
+            if (gasCent.getProcessingSpeed()) {
+                inTankInfo[0] = EnumChatFormatting.GOLD + inTankInfo[0];
+            } else {
+                inTankInfo[0] = EnumChatFormatting.DARK_RED + inTankInfo[0];
+            }
+        }
 		String[] outTankInfo = new String[] {gasCent.outputTank.getTankType().getName(), gasCent.outputTank.getFill() + " / " + gasCent.outputTank.getMaxFill() + " mB"};
 		if(gasCent.outputTank.getTankType().getIfHighSpeed())
 			outTankInfo[0] = EnumChatFormatting.GOLD + outTankInfo[0];

@@ -524,6 +524,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public int getMaxLevel(UpgradeType type) {
 		if(type == UpgradeType.SPEED) return 3;
 		if(type == UpgradeType.POWER) return 3;
+		if(type == UpgradeType.OVERDRIVE) return 3;
 		return 0;
 	}
 }
