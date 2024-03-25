@@ -1,8 +1,11 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotCraftingOutput;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemBlades;
 import com.hbm.tileentity.machine.TileEntityMachineShredder;
 
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -68,32 +71,37 @@ public class ContainerMachineShredder extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
-		ItemStack var3 = null;
-		Slot var4 = (Slot) this.inventorySlots.get(par2);
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		ItemStack rStack = null;
+		Slot slot = (Slot) this.inventorySlots.get(index);
 
-		if(var4 != null && var4.getHasStack()) {
-			ItemStack var5 = var4.getStack();
-			var3 = var5.copy();
+		if(slot != null && slot.getHasStack()) {
+			ItemStack stack = slot.getStack();
+			rStack = stack.copy();
 
-			if(par2 <= 29) {
-				if(!this.mergeItemStack(var5, 30, this.inventorySlots.size(), true)) {
+			if(index <= 29) {
+				if(!this.mergeItemStack(stack, 30, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
-				if(!this.mergeItemStack(var5, 0, 9, false))
-					if(!this.mergeItemStack(var5, 27, 30, false))
-						return null;
+				
+				if(rStack.getItem() instanceof IBatteryItem || rStack.getItem() == ModItems.battery_creative) {
+					if(!this.mergeItemStack(stack, 29, 30, false)) return null;
+				} else if(rStack.getItem() instanceof ItemBlades) {
+					if(!this.mergeItemStack(stack, 27, 29, false)) return null;
+				} else {
+					if(!this.mergeItemStack(stack, 0, 9, false)) return null;
+				}
 			}
 
-			if(var5.stackSize == 0) {
-				var4.putStack((ItemStack) null);
+			if(stack.stackSize == 0) {
+				slot.putStack((ItemStack) null);
 			} else {
-				var4.onSlotChanged();
+				slot.onSlotChanged();
 			}
 		}
 
-		return var3;
+		return rStack;
 	}
 
 	@Override

@@ -97,7 +97,6 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
 								if(buff.containsKey(newCoord)) {
 									int newY = MathHelper.clamp_int(y + j, 0, 15);
 									Float[] vals = radiation.get(newCoord);
-									float rad = vals[newY];
 									float newRad = vals[newY] + chunk.getValue()[newY] * percent;
 									vals[newY] = Math.max(0F, newRad * 0.999F - 0.05F);
 								}

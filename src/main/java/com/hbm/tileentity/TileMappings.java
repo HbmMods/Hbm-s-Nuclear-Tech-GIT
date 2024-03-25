@@ -49,10 +49,7 @@ public class TileMappings {
 	public static List<Class<? extends IConfigurableMachine>> configurables = new ArrayList<Class<? extends IConfigurableMachine>>();
 	
 	public static void writeMappings() {
-		put(TileEntityTestBombAdvanced.class, "tilentity_testbombadvanced");
 		put(TileEntityDiFurnace.class, "tilentity_diFurnace");
-		put(TileEntityTestNuke.class, "tilentity_testnuke");
-		put(TileEntityTestRender.class, "tilentity_testrenderer");
 		put(TileEntityObjTester.class, "tilentity_objtester");
 		put(TileEntityMachineCentrifuge.class, "tileentity_centrifuge");
 		put(TileEntityNukeMan.class, "tileentity_nukeman");
@@ -136,7 +133,6 @@ public class TileMappings {
 		put(TileEntityGeiger.class, "tileentity_geiger");
 		put(TileEntityFF.class, "tileentity_forcefield");
 		put(TileEntityForceField.class, "tileentity_machine_field");
-		put(TileEntityMachineShredderLarge.class, "tileentity_machine_big_shredder");
 		put(TileEntityReactorControl.class, "tileentity_reactor_remote_control");
 		put(TileEntityWasteDrum.class, "tileentity_waste_drum");
 		put(TileEntityDecon.class, "tileentity_decon");

@@ -2,8 +2,12 @@ package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotTakeOnly;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemChemistryTemplate;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 
+import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -60,31 +64,42 @@ public class ContainerMachineChemplant extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
-		ItemStack var3 = null;
-		Slot var4 = (Slot) this.inventorySlots.get(par2);
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		ItemStack rStack = null;
+		Slot slot = (Slot) this.inventorySlots.get(index);
 
-		if(var4 != null && var4.getHasStack()) {
-			ItemStack var5 = var4.getStack();
-			var3 = var5.copy();
-			SlotCraftingOutput.checkAchievements(p_82846_1_, var5);
+		if(slot != null && slot.getHasStack()) {
+			ItemStack stack = slot.getStack();
+			rStack = stack.copy();
+			SlotCraftingOutput.checkAchievements(player, stack);
 
-			if(par2 <= 20) {
-				if(!this.mergeItemStack(var5, 21, this.inventorySlots.size(), true)) {
+			if(index <= 20) {
+				if(!this.mergeItemStack(stack, 21, this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(!this.mergeItemStack(var5, 4, 5, false))
-				if(!this.mergeItemStack(var5, 13, 19, false))
-					return null;
-
-			if(var5.stackSize == 0) {
-				var4.putStack((ItemStack) null);
 			} else {
-				var4.onSlotChanged();
+				
+				if(rStack.getItem() instanceof IBatteryItem || rStack.getItem() == ModItems.battery_creative) {
+					if(!this.mergeItemStack(stack, 0, 1, false)) return null;
+				} else if(rStack.getItem() instanceof ItemMachineUpgrade ) {
+					if(!this.mergeItemStack(stack, 1, 4, false)) return null;
+				} else if(rStack.getItem() instanceof ItemChemistryTemplate) {
+					if(!this.mergeItemStack(stack, 4, 5, false)) return null;
+				} else { //proper shift-clicking filled/empty fluid tanks is an exercise in futility 
+					if(!this.mergeItemStack(stack, 13, 19, false))
+					if(!this.mergeItemStack(stack, 9, 11, false))
+						return null;
+				}
+			}
+			
+			if(stack.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
 			}
 		}
 
-		return var3;
+		return rStack;
 	}
 
 	@Override

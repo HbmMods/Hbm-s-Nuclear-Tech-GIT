@@ -2,7 +2,7 @@ package com.hbm.render.block;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.blocks.test.TestPipe;
+import com.hbm.blocks.network.FluidDuctStandard;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
@@ -146,6 +146,6 @@ public class RenderTestPipe implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return TestPipe.renderID;
+		return FluidDuctStandard.renderID;
 	}
 }

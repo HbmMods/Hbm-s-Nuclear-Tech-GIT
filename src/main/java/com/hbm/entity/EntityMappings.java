@@ -197,7 +197,6 @@ public class EntityMappings {
 		addEntity(EntityGhost.class, "entity_ntm_ghost", 1000);
 		addEntity(EntityGrenadeDynamite.class, "entity_grenade_dynamite", 250);
 		addEntity(EntitySiegeLaser.class, "entity_ntm_siege_laser", 1000);
-		addEntity(EntitySiegeDropship.class, "entity_ntm_siege_dropship", 1000);
 		addEntity(EntityTNTPrimedBase.class, "entity_ntm_tnt_primed", 1000);
 		addEntity(EntityGrenadeBouncyGeneric.class, "entity_grenade_bouncy_generic", 250);
 		addEntity(EntityGrenadeImpactGeneric.class, "entity_grenade_impact_generic", 250);

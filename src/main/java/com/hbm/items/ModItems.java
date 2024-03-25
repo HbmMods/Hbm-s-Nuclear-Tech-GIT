@@ -1906,7 +1906,6 @@ public class ModItems {
 	public static Item gas_mask_olde;
 	public static Item mask_rag;
 	public static Item mask_piss;
-	public static Item oxy_mask;
 	public static Item hat;
 	public static Item beta;
 	public static Item no9;
