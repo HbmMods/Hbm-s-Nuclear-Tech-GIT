@@ -1,66 +1,10 @@
-## Added
-* More axes
-  * Bismuth, volcanic, chlorophyte and mese tool materials now have axes
-  * Axes also double as offensive weapons, being a lot more powerful than their pickaxe counterparts
-* Drainage pipe
-  * Spills fluid, allowing to void up to 1.000mB per tick
-  * Might slightly alter the landscape, depending on whether the fluid was poisonous
-  * Viscous, flammable liquids cause oil spill blocks to appear
-  * Not all liquids have the appropriate pollution stats yet, the system is still subject to change
-
 ## Changed
-* After three quarters of a decade, three separate models, countless rebalances and hours of senseless yapping, the industrial generator has finally met its end. Suddenly, yet not unsurprisingly, on this here day the industrial generator has closed its eyes for the final time. It was a long and eventful journey, but as with all things in life, it too had to come to an end.
-  * And this is why we can't ever have anything nice
-* Rebalanced glyphids
-  * We'll see how it goes
-  * Still prone to changes, there's still a few inconsistencies and some behavior has barely been tested it all, but I have consulted the almighty spreadsheet and it said "yeah it ok"
-* Did some spring cleaning
-  * Removed cloud residue (looked horrible, allowed for weird dupes and made no sense overall)
-  * Bottlecap blocks now use a single block ID and metadata instead of using one ID per type. This change however will delete all existing bottlecap blocks in the world
-  * Removed the config option for silos (the option no longer works anyway since the new silos use the structure component system)
-  * Finally removed the deaerator and the large shredder
-  * Removed some of the ancient test blocks that haven't been needed in about 8 years
-  * Removed all the siege blocks, since siege mode will never be finished anyway
-  * Removed reinforced niter
-  * Removed a few other minor things that won't be mentioned because nobody's gonna even notice their absence anyway
-* Retextured the laser detonator to look more like the old detonator, but keeping the 3D model
-* Bedrock ores can now be customized in creative mode. Using a drillbit sets the tier, a fluid container sets the borefluid requirement and any other item sets the resource.
-  * The texture used is random, and the color applied is based on the auto detect system. The system doesn't work with layered items, so the resulting color won't be the same as naturally generated bedrock ore. The bedrock ore item in particular will always result in a white ore, no matter the type
-* The polluting fluid trait is now recognized by machines, which means that pollution amounts now depend on the fluid used, not the machine
-  * This means that flare stacks are now significantly less polluting, assuming natural gas is burned
-  * Flare stacks and barrels now also respect the spilling tag, which means that simply venting the gas may cause poison pollution
-  * Hydrogen doesn't have the polluting tag, so hydrogen burning generators won't create soot anymore
-* Compressing blood no longer creates oil, rather it makes heavy oil (250mB)
-* Tier 2 pickaxes (bismuth and up) now use the large item renderer
-* Added the metal block material to the sellafite conversion list of nuclear explosions
-* Changed the mechanics for schottky particle diodes
-  * Instead of randomizing directions, schottky diodes will now split particles into "virtual particles" which take mutliple paths at once
-  * The particles will collapse as soon as the first virtual particle with a valid outcome reaches the end
-  * This change allows branching accelerators to be made, where the particle will always take the shortest path necessary to complete the operation. In essence, it allows a single accelerator to do any recipe, without requiring to power the entire accelerator, as only the path of the finishing particle will use up energy.
-* The particle accelerator as well as the schottky particle diodes now have presentations explaining how they work
-* Loot pools are now configurable. Loot is divided into different categories, and structures may generate things from certain categories.
-  * The config currently includes all items spawned in dungeon chests/crates/safes/lockers, excluding black book spawns, but also including the loot pool for red room pedestals
-  * Also added satellites as configurable loot pools. Yay!
-* Pylons and wire connectors now use a texture instead of a solid colored wire
-  * The cable model has been simplified, being only a single face instead of three faces stuck inside each other at weird angles
-  * Cables now sag slightly more at long ranges
-* There are now configs for toggling the startup message as well as the guidebook
-* Cybercrab spawners will only start spawning as soon as a player is within 25 blocks of the spawner
-* Improved inventory shift-clicking for the FEL, assembler, chemplant, large mining drill, gas centrifuge, shredder and turbofan
-* Updated chinese localization
+* Glyphid hive treasures, hive bone piles and bottlecap stashes now have configurable item pools
+* Adjusted glyphid hive treasures, there's now more variety
+* Launch code pieces can now be found in the "expensive" loot pool with low chance
+* Removed Brandon
 
 ## Fixed
-* WarTec should now be compatible again
-* Fixed the "Hold shift for more info" line appearing on fluid info when shift is held, and disappearing otherwise
-* Fixed smokestacks being able to void any fluid under certain conditions
-* Fixed the hydrotreater only using half as much crude oil per operation as it should
-* Fixed the old launchpad printing the wrong message when successfully launched via detonator
-* Oil spills should no longer save, fixing an issue where chunkloaded derricks would constantly spill oil entities into unloaded chunks, causing them to get stuck
-* Fixed schrabidium conversion happening outside the main crater instead of inside
-* Fixed wood burning generator creating smoke even if no power is being generated
-* Fixed one of the woodburner's ports being offset in certain orientations
-* Fixed fog caching causing weird behavior with the sky color change in response to crater biomes (or lack thereof)
-* Fixed "F1 for help" keybind not working on non-standard inventories such as the NEI item list
-* Fixed pylon wire rendering having incorrect corrdinates for brightness checks
-* Fixed dupe caused by shift clicking certain slots in the fusion reactor
-* Fixed snowglobe rendering lighting setup leak causing blocks rendered after them in inventory to not have correct lighting
+* Fixed satellite item pool not being registered, resulting in satellites only delivering things from the backup pool
+* Fixed drill bits not correctly setting the tier when customizing a bedrock ore
+* Fixed debugging display showing glyphid damage still being in the game

@@ -8,7 +8,7 @@ import com.hbm.items.ModItems;
 import net.minecraft.init.Items;
 import net.minecraft.util.WeightedRandomChestContent;
 
-public class ItemPoolSatellite {
+public class ItemPoolsSatellite {
 
 	public static final String POOL_SAT_MINER = "POOL_SAT_MINER";
 	public static final String POOL_SAT_LUNAR = "POOL_SAT_LUNAR"; //woona

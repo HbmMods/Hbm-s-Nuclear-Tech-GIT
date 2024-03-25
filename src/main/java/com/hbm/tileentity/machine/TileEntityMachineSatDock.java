@@ -22,7 +22,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
@@ -240,10 +239,7 @@ public class TileEntityMachineSatDock extends TileEntity implements ISidedInvent
 		WeightedRandomChestContent[] cargo = ItemPool.getPool(satellite.getCargo());
 
 		for(int i = 0; i < itemAmount; i++) {
-			WeightedRandomChestContent weighted = (WeightedRandomChestContent) WeightedRandom.getRandomItem(worldObj.rand, cargo);
-			ItemStack stack = weighted.theItemId.copy();
-			stack.stackSize = weighted.theMinimumChanceToGenerateItem + worldObj.rand.nextInt(weighted.theMaximumChanceToGenerateItem - weighted.theMinimumChanceToGenerateItem + 1);
-			addToInv(stack);
+			addToInv(ItemPool.getStack(cargo, worldObj.rand));
 		}
 	}
 

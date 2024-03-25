@@ -1254,6 +1254,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.siege_emergency");
 		ignoreMappings.add("hbm:tile.siege_hole");
 		ignoreMappings.add("hbm:tile.machine_shredder_large");
+		ignoreMappings.add("hbm:tile.turret_brandon");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
