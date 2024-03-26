@@ -586,12 +586,13 @@ public class AssemblerRecipes extends SerializableRecipe {
 					new ComparableStack(ModItems.combine_scrap, 1),
 					new ComparableStack(ModItems.mp_warhead_15_balefire, 1),
 					new ComparableStack(ModItems.gem_rad, 4),
-					new ComparableStack(ModBlocks.machine_assemfac, 4),
+					new ComparableStack(ModBlocks.machine_assemfac, 2),
 					
-					new ComparableStack(ModItems.circuit_gold, 32),
+					new ComparableStack(ModItems.circuit_gold, 16),
 					new ComparableStack(ModItems.ingot_cft, 16),
-					new ComparableStack(ModItems.drone, 12 , 2),
-					new ComparableStack(ModItems.explosive_lenses, 8),
+					new ComparableStack(ModItems.explosive_lenses, 12),
+					new ComparableStack(ModItems.drone, 8 , 2),
+					
 					
 					new ComparableStack(ModItems.coin_creeper, 1),
 					new ComparableStack(ModItems.coin_radiation, 1),
