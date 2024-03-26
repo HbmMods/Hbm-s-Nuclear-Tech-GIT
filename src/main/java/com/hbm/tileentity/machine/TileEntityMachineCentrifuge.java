@@ -190,7 +190,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 				progress += speed;
 
 				if(this.progress >= TileEntityMachineCentrifuge.processingSpeed) {
-					this.progress = 0;
+					this.progress -= TileEntityMachineCentrifuge.processingSpeed;
 					this.processItem();
 				}
 			} else {

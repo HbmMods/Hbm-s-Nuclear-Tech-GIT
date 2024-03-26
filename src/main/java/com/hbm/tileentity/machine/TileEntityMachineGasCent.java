@@ -48,7 +48,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	
 	public long power;
 	public int progress;
-	public int progressPC;
+	public int progressNeeded = 160;
 	public boolean isProgressing;
 	public static final int maxPower = 100000;
 	public static final int processingTime = 160;
@@ -103,7 +103,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	}
 	
 	public int getCentrifugeProgressScaled(int i) {
-		return (progressPC * i) / 100;
+		return (progress * i) / progressNeeded;
 	}
 	
 	public long getPowerRemainingScaled(int i) {
@@ -181,6 +181,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		
 		this.power = data.getLong("power");
 		this.progress = data.getInteger("progress");
+		this.progressNeeded = data.getInteger("progressNeeded");
 		this.isProgressing = data.getBoolean("isProgressing");
 		this.inputTank.setTankType(PseudoFluidType.types.get(data.getString("inputType")));
 		this.outputTank.setTankType(PseudoFluidType.types.get(data.getString("outputType")));
@@ -208,7 +209,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			int overLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) + 1;
 			if((overLevel == 1) != (slots[6] != null && slots[6].getItem() == ModItems.upgrade_gc_speed)) overLevel = 0;
 
-			int progressNeeded = processingTime * (1 - speedLevel / 4);
+			this.progressNeeded = processingTime * (1 - speedLevel / 4);
 			int speed = (int) Math.pow(2 , overLevel);
 			int consumption = 200 * (int)Math.pow(2 , overLevel) * (speedLevel + 1);
 
@@ -223,15 +224,13 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 					this.progress = 0;
 				}
 				
-				if(progress >= progressNeeded)
+				if(progress >= this.progressNeeded)
 					enrich();
 				
 			} else {
 				isProgressing = false;
 				this.progress = 0;
 			}
-
-			this.progressPC = 100 * progress / progressNeeded;
 			
 			if(worldObj.getTotalWorldTime() % 10 == 0) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
@@ -252,6 +251,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("progress", progress);
+			data.setInteger("progressNeeded", progressNeeded);
 			data.setBoolean("isProgressing", isProgressing);
 			data.setInteger("inputFill", inputTank.getFill());
 			data.setInteger("outputFill", outputTank.getFill());
@@ -483,7 +483,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 
 	@Override
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
-		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_crystallizer));
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_gascent));
 		if(type == UpgradeType.SPEED) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
