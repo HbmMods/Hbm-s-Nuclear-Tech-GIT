@@ -54,7 +54,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 	public void registerDefaults() {
 		
 		boolean exp = GeneralConfig.enableExpensiveMode;
-		
+
 		makeRecipe(new ComparableStack(ModItems.plate_iron, 2), new AStack[] {new OreDictStack(IRON.ingot(), 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_gold, 2), new AStack[] {new OreDictStack(GOLD.ingot(), 3), },30);
 		makeRecipe(new ComparableStack(ModItems.plate_titanium, 2), new AStack[] {new OreDictStack(TI.ingot(), 3), },30);
@@ -563,21 +563,42 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.plate_armor_titanium, 50),
 				new ComparableStack(ModItems.coin_worm, 1)
 			}, 1200);
-
-		makeRecipe(new ComparableStack(ModItems.sat_gerald, 1), new AStack[] {
-				new ComparableStack(ModItems.burnt_bark, 1),
-				new ComparableStack(ModItems.combine_scrap, 1),
-				new ComparableStack(ModItems.crystal_horn, 1),
-				new ComparableStack(ModItems.crystal_charred, 1),
-				new ComparableStack(ModBlocks.pink_log, 1),
-				new ComparableStack(ModItems.mp_warhead_15_balefire, 1),
-				new ComparableStack(ModBlocks.det_nuke, 16),
-				new OreDictStack(STAR.ingot(), 32),
-				new ComparableStack(ModItems.coin_creeper, 1),
-				new ComparableStack(ModItems.coin_radiation, 1),
-				new ComparableStack(ModItems.coin_maskman, 1),
-				new ComparableStack(ModItems.coin_worm, 1),
+		
+		if(!GeneralConfig.alternateGeraldRecipe) {
+			makeRecipe(new ComparableStack(ModItems.sat_gerald, 1), new AStack[] {
+					new ComparableStack(ModItems.burnt_bark, 1),
+					new ComparableStack(ModItems.combine_scrap, 1),
+					new ComparableStack(ModItems.crystal_horn, 1),
+					new ComparableStack(ModItems.crystal_charred, 1),
+					new ComparableStack(ModBlocks.pink_log, 1),
+					new ComparableStack(ModItems.mp_warhead_15_balefire, 1),
+					new ComparableStack(ModBlocks.det_nuke, 16),
+					new OreDictStack(STAR.ingot(), 32),
+					new ComparableStack(ModItems.coin_creeper, 1),
+					new ComparableStack(ModItems.coin_radiation, 1),
+					new ComparableStack(ModItems.coin_maskman, 1),
+					new ComparableStack(ModItems.coin_worm, 1),
 			}, 1200, ModItems.journal_bj);
+		
+		} else {
+			
+			makeRecipe(new ComparableStack(ModItems.sat_gerald, 1), new AStack[] {
+					new ComparableStack(ModItems.combine_scrap, 1),
+					new ComparableStack(ModItems.mp_warhead_15_balefire, 1),
+					new ComparableStack(ModItems.gem_rad, 4),
+					new ComparableStack(ModBlocks.machine_assemfac, 4),
+					
+					new ComparableStack(ModItems.circuit_gold, 32),
+					new ComparableStack(ModItems.ingot_cft, 16),
+					new ComparableStack(ModItems.drone, 12 , 2),
+					new ComparableStack(ModItems.explosive_lenses, 8),
+					
+					new ComparableStack(ModItems.coin_creeper, 1),
+					new ComparableStack(ModItems.coin_radiation, 1),
+					new ComparableStack(ModItems.coin_maskman, 1),
+					new ComparableStack(ModItems.coin_worm, 1),
+			}, 6000, ModItems.journal_bj);
+		}
 		
 		makeRecipe(new ComparableStack(ModBlocks.vault_door, 1), new AStack[] {
 				new OreDictStack(STEEL.ingot(), 32),

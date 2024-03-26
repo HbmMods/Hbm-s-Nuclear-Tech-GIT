@@ -37,6 +37,7 @@ public class GeneralConfig {
 	public static int hintPos = 0;
 
 	public static boolean enableExpensiveMode = false;
+	public static boolean alternateGeraldRecipe = false;
 	
 	public static boolean enable528 = false;
 	public static boolean enable528ReasimBoilers = true;
@@ -99,6 +100,7 @@ public class GeneralConfig {
 		enableMOTD = config.get(CATEGORY_GENERAL, "1.36_enableMOTD", true, "If enabled, shows the 'Loaded mod!' chat message as well as update notifications when joining a world").getBoolean(true);
 		enableGuideBook = config.get(CATEGORY_GENERAL, "1.37_enableGuideBook", true, "If enabled, gives players the guide book when joining the world for the first time").getBoolean(true);
 		
+		alternateGeraldRecipe = config.get(CATEGORY_GENERAL, "1.98_alternateGeraldRecipe", false, "Replaces the recipe for gerald with a less RNG based, but still difficult, recipe.").getBoolean(false);
 		enableExpensiveMode = config.get(CATEGORY_GENERAL, "1.99_enableExpensiveMode", false, "It does what the name implies.").getBoolean(false);
 		
 		final String CATEGORY_528 = CommonConfig.CATEGORY_528;
@@ -106,7 +108,7 @@ public class GeneralConfig {
 		config.addCustomCategoryComment(CATEGORY_528, "CAUTION\n"
 				+ "528 Mode: Please proceed with caution!\n"
 				+ "528-Modus: Lassen Sie Vorsicht walten!\n"
-				+ "способ-528: действовать с осторожностью!");
+				+ "Ñ�Ð¿Ð¾Ñ�Ð¾Ð±-528: Ð´ÐµÐ¹Ñ�Ñ‚Ð²Ð¾Ð²Ð°Ñ‚ÑŒ Ñ� Ð¾Ñ�Ñ‚Ð¾Ñ€Ð¾Ð¶Ð½Ð¾Ñ�Ñ‚ÑŒÑŽ!");
 		
 		enable528 = CommonConfig.createConfigBool(config, CATEGORY_528, "enable528Mode", "The central toggle for 528 mode.", false);
 		enable528ReasimBoilers = CommonConfig.createConfigBool(config, CATEGORY_528, "X528_forceReasimBoilers", "Keeps the RBMK dial for ReaSim boilers on, preventing use of non-ReaSim boiler columns and forcing the use of steam in-/outlets", true);
