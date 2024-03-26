@@ -30,8 +30,8 @@ public class GasCentrifugeRecipes {
 		
 		public static PseudoFluidType PF6		= new PseudoFluidType("PF6",		300,	0,		NONE,		false,	new ItemStack(ModItems.nugget_pu238, 1), new ItemStack(ModItems.nugget_pu_mix, 2), new ItemStack(ModItems.fluorite, 1));
 		
-		public static PseudoFluidType MUD_HEAVY	= new PseudoFluidType("MUD_HEAVY",	500,	0,		NONE,		false,	new ItemStack(ModItems.powder_iron, 1), new ItemStack(ModItems.dust, 1), new ItemStack(ModItems.nuclear_waste_tiny, 1));
-		public static PseudoFluidType MUD		= new PseudoFluidType("MUD", 		1000,	500,	MUD_HEAVY,	false,	new ItemStack(ModItems.powder_lead, 1), new ItemStack(ModItems.dust, 1));
+		public static PseudoFluidType MUD_HEAVY	= new PseudoFluidType("MUD_HEAVY",	1000,	0,		NONE,		false,	new ItemStack(ModItems.powder_iron, 2), new ItemStack(ModItems.dust, 2), new ItemStack(ModItems.nuclear_waste_tiny, 2));
+		public static PseudoFluidType MUD		= new PseudoFluidType("MUD", 		2000,	1000,	MUD_HEAVY,	false,	new ItemStack(ModItems.powder_lead, 2), new ItemStack(ModItems.dust, 2));
 		
 		public String name;
 		int fluidConsumed;
