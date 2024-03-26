@@ -3,9 +3,15 @@ package com.hbm.entity.projectile;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.entity.effect.EntityMist;
 import com.hbm.entity.logic.IChunkLoader;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemAmmoArty;
 import com.hbm.items.weapon.ItemAmmoArty.ArtilleryShell;
+
 import com.hbm.main.MainRegistry;
 
 import api.hbm.entity.IRadarDetectable;
@@ -45,6 +51,7 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	private double targetZ;
 	private boolean shouldWhistle = false;
 	private boolean didWhistle = false;
+	private boolean needShell = true;
 	
 	private ItemStack cargo = null;
 	
@@ -171,9 +178,29 @@ public class EntityArtilleryShell extends EntityThrowableNT implements IChunkLoa
 	protected void onImpact(MovingObjectPosition mop) {
 		
 		if(!worldObj.isRemote) {
-			
+
 			if(mop.typeOfHit == mop.typeOfHit.ENTITY && mop.entityHit instanceof EntityArtilleryShell) return;
-			this.getType().onImpact(this, mop);
+
+			if(this.getType() == ItemAmmoArty.itemTypes[8])
+			{
+				if(cargo.getItem() == ModItems.disperser_canister)
+				{
+					needShell = false;
+					int fluidID = cargo.getItemDamage();
+					FluidType fluid = Fluids.fromID(fluidID);
+					Vec3 vec = Vec3.createVectorHelper(this.motionX, this.motionY, this.motionZ).normalize();
+					EntityMist mist = new EntityMist(worldObj);
+					mist.setType(fluid);
+					mist.setPosition(mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord - 3, mop.hitVec.zCoord - vec.zCoord);
+					mist.setArea(15, 7.5F);
+					worldObj.spawnEntityInWorld(mist);
+				}
+			}
+			if(needShell) {
+				this.getType().onImpact(this, mop);
+			}
+
+
 		}
 	}
 

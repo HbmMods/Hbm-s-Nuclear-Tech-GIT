@@ -12,38 +12,38 @@ public class CargoShellCraftingHandler implements IRecipe {
 
 	@Override
 	public boolean matches(InventoryCrafting inventory, World world) {
-		
+
 		int itemCount = 0;
 		int shellCount = 0;
-		
+
 		for(int i = 0; i < 9; i++) {
 			ItemStack stack = inventory.getStackInRowAndColumn(i % 3, i / 3);
-			
+
 			if(stack != null) {
-				
+
 				if(stack.getItem().hasContainerItem(stack) || !stack.getItem().doesContainerItemLeaveCraftingGrid(stack))
 					return false;
-				
+
 				itemCount++;
-				
+
 				if(stack.getItem() == ModItems.ammo_arty && stack.getItemDamage() == 8 && !stack.hasTagCompound()) {
 					shellCount++;
 				}
 			}
 		}
-		
+
 		return itemCount == 2 && shellCount == 1;
 	}
 
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventory) {
-		
+
 		ItemStack shell = null;
 		ItemStack cargo = null;
-		
+
 		for(int i = 0; i < 9; i++) {
 			ItemStack stack = inventory.getStackInRowAndColumn(i % 3, i / 3);
-			
+
 			if(stack == null)
 				continue;
 
@@ -57,15 +57,15 @@ public class CargoShellCraftingHandler implements IRecipe {
 				cargo = copy;
 			}
 		}
-		
+
 		if(shell == null || cargo == null)
 			return null;
-		
+
 		if(!shell.hasTagCompound())
 			shell.stackTagCompound = new NBTTagCompound();
 
 		shell.stackTagCompound.setTag("cargo", cargo.writeToNBT(new NBTTagCompound()));
-		
+
 		return shell;
 	}
 
