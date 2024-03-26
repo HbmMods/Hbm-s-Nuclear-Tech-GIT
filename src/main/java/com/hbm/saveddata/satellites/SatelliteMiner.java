@@ -1,6 +1,6 @@
 package com.hbm.saveddata.satellites;
 
-import com.hbm.itempool.ItemPoolSatellite;
+import com.hbm.itempool.ItemPoolsSatellite;
 import com.hbm.util.WeightedRandomObject;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -43,6 +43,6 @@ public class SatelliteMiner extends Satellite {
 	}
 
 	static {
-		registerCargo(SatelliteMiner.class, ItemPoolSatellite.POOL_SAT_MINER);
+		registerCargo(SatelliteMiner.class, ItemPoolsSatellite.POOL_SAT_MINER);
 	}
 }
