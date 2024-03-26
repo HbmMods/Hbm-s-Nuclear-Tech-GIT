@@ -42,7 +42,7 @@ public class ItemPoolsSatellite {
 					weighted(ModItems.crystal_plutonium, 0, 1, 1, 3),
 					weighted(ModItems.crystal_trixite, 0, 1, 1, 1),
 					weighted(ModItems.crystal_starmetal, 0, 1, 1, 1),
-					weighted(ModItems.crystal_lithium, 0, 2,1, 4)
+					weighted(ModItems.crystal_lithium, 0, 2 ,2, 4)
 			};
 		}};
 		
