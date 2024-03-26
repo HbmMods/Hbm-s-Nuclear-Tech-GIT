@@ -35,7 +35,8 @@ public class GeneralConfig {
 	public static boolean enableMOTD = true;
 	public static boolean enableGuideBook = true;
 	public static int hintPos = 0;
-
+	
+	public static boolean alternateGeraldRecipe = false;
 	public static boolean enableExpensiveMode = false;
 	
 	public static boolean enable528 = false;
@@ -99,6 +100,7 @@ public class GeneralConfig {
 		enableMOTD = config.get(CATEGORY_GENERAL, "1.36_enableMOTD", true, "If enabled, shows the 'Loaded mod!' chat message as well as update notifications when joining a world").getBoolean(true);
 		enableGuideBook = config.get(CATEGORY_GENERAL, "1.37_enableGuideBook", true, "If enabled, gives players the guide book when joining the world for the first time").getBoolean(true);
 		
+		alternateGeraldRecipe = config.get(CATEGORY_GENERAL, "1.98_alternateGeraldRecipe", false, "Replaces the recipe for gerald with a less RNG based, but still difficult, recipe.").getBoolean(false);
 		enableExpensiveMode = config.get(CATEGORY_GENERAL, "1.99_enableExpensiveMode", false, "It does what the name implies.").getBoolean(false);
 		
 		final String CATEGORY_528 = CommonConfig.CATEGORY_528;
