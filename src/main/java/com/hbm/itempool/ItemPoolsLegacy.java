@@ -131,7 +131,8 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.bomb_caller, 2, 1, 1, 1),
 					weighted(ModItems.gas_mask_filter, 0, 1, 1, 4),
 					weighted(ModItems.journal_pip, 0, 1, 1, 1),
-					weighted(ModItems.journal_bj, 0, 1, 1, 1)
+					weighted(ModItems.journal_bj, 0, 1, 1, 1),
+					weighted(ModItems.launch_code_piece, 0, 1, 1, 1)
 			};
 		}};
 		

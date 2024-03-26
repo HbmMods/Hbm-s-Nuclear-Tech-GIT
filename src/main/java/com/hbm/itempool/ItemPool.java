@@ -5,6 +5,7 @@ import static com.hbm.lib.HbmChestContents.weighted;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.items.ModItems;
 
@@ -12,9 +13,19 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomChestContent;
 
 public class ItemPool {
+	
+	public static void initialize() {
+		ItemPoolsLegacy.init();
+		ItemPoolsComponent.init();
+		ItemPoolsSingle.init();
+		ItemPoolsRedRoom.init();
+		ItemPoolsSatellite.init();
+		ItemPoolsPile.init();
+	}
 	
 	public static HashMap<String, ItemPool> pools = new HashMap();
 
@@ -47,18 +58,18 @@ public class ItemPool {
 		return this;
 	}
 	
-	public static void initialize() {
-		ItemPoolsLegacy.init();
-		ItemPoolsComponent.init();
-		ItemPoolsSingle.init();
-		ItemPoolsRedRoom.init();
-	}
-	
 	/** Grabs the specified item pool out of the pool map, will return the backup pool if the given pool is not present */
 	public static WeightedRandomChestContent[] getPool(String name) {
 		ItemPool pool = pools.get(name);
 		if(pool == null) return backupPool;
 		return pool.pool;
+	}
+	
+	public static ItemStack getStack(WeightedRandomChestContent[] pool, Random rand) {
+		WeightedRandomChestContent weighted = (WeightedRandomChestContent) WeightedRandom.getRandomItem(rand, pool);
+		ItemStack stack = weighted.theItemId.copy();
+		stack.stackSize = weighted.theMinimumChanceToGenerateItem + rand.nextInt(weighted.theMaximumChanceToGenerateItem - weighted.theMinimumChanceToGenerateItem + 1);
+		return stack;
 	}
 	
 	/** Should a pool be lost due to misconfiguration or otherwise, this pool will be returned in its place */
