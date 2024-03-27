@@ -55,6 +55,7 @@ import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
 import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
+import com.hbm.config.GeneralConfig;
 import com.hbm.entity.cart.*;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
@@ -126,11 +127,12 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import scala.tools.nsc.backend.icode.analysis.TypeFlowAnalysis;
 
-public class ClientProxy extends ServerProxy {
+ public class ClientProxy extends ServerProxy {
 	
 	public RenderInfoSystem theInfoSystem = new RenderInfoSystem();
-	
+
 	@Override
 	public void registerRenderInfo() {
 
@@ -1742,7 +1744,7 @@ public class ClientProxy extends ServerProxy {
 		}
 		
 		if("tower".equals(type)) {
-			if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
+			if(GeneralConfig.enableSteamParticles && (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean()))) {
 				ParticleCoolingTower fx = new ParticleCoolingTower(man, world, x, y, z);
 				fx.setLift(data.getFloat("lift"));
 				fx.setBaseScale(data.getFloat("base"));
