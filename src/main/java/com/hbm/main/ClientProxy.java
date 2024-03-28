@@ -128,7 +128,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 
- public class ClientProxy extends ServerProxy {
+public class ClientProxy extends ServerProxy {
 	
 	public RenderInfoSystem theInfoSystem = new RenderInfoSystem();
 
