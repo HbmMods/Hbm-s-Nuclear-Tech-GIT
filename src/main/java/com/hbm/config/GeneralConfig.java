@@ -35,6 +35,7 @@ public class GeneralConfig {
 	public static boolean enableMOTD = true;
 	public static boolean enableGuideBook = true;
 	public static boolean enableSteamParticles = true;
+
 	public static int hintPos = 0;
 
 	public static boolean enableExpensiveMode = false;
