@@ -131,7 +131,7 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 public class ClientProxy extends ServerProxy {
 	
 	public RenderInfoSystem theInfoSystem = new RenderInfoSystem();
-
+	
 	@Override
 	public void registerRenderInfo() {
 
