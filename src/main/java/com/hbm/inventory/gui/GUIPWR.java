@@ -62,7 +62,7 @@ public class GUIPWR extends GuiInfoContainer {
 		super.drawScreen(x, y, interp);
 		
 		this.drawCustomInfoStat(x, y, guiLeft + 115, guiTop + 31, 18, 18, x, y, new String[] { "Core: " + String.format(Locale.US, "%,d", controller.coreHeat) + " / " + String.format(Locale.US, "%,d", controller.coreHeatCapacity) + " TU" });
-		this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 31, 18, 18, x, y, new String[] { "Hull: " + String.format(Locale.US, "%,d", controller.hullHeat) + " / " + String.format(Locale.US, "%,d", controller.hullHeatCapacity) + " TU" });
+		this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 31, 18, 18, x, y, new String[] { "Hull: " + String.format(Locale.US, "%,d", controller.hullHeat) + " / " + String.format(Locale.US, "%,d", controller.hullHeatCapacityBase) + " TU" });
 
 		this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 31, 36, 18, x, y, new String[] { ((int) (controller.progress * 100 / controller.processTime)) + "%" });
 		this.drawCustomInfoStat(x, y, guiLeft + 52, guiTop + 53, 54, 4, x, y, "Control rod level: " + (100 - controller.rodLevel) + "%");
@@ -110,7 +110,7 @@ public class GUIPWR extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(controller.hullHeat > controller.hullHeatCapacity * 0.8 || controller.coreHeat > controller.coreHeatCapacity * 0.8)
+		if(controller.hullHeat > controller.hullHeatCapacityBase * 0.8 || controller.coreHeat > controller.coreHeatCapacity * 0.8)
 			drawTexturedModalRect(guiLeft + 147, guiTop, 176, 14, 26, 26);
 
 		int p = (int) (controller.progress * 33 / controller.processTime);
@@ -123,7 +123,7 @@ public class GUIPWR extends GuiInfoContainer {
 		//GaugeUtil.renderGauge(Gauge.ROUND_SMALL, guiLeft + 151, guiTop + 31, this.zLevel, (double) controller.hullHeat / (double) controller.hullHeatCapacity);
 
 		GaugeUtil.drawSmoothGauge(guiLeft + 124, guiTop + 40, this.zLevel, (double) controller.coreHeat / (double) controller.coreHeatCapacity, 5, 2, 1, 0x7F0000);
-		GaugeUtil.drawSmoothGauge(guiLeft + 160, guiTop + 40, this.zLevel, (double) controller.hullHeat / (double) controller.hullHeatCapacity, 5, 2, 1, 0x7F0000);
+		GaugeUtil.drawSmoothGauge(guiLeft + 160, guiTop + 40, this.zLevel, (double) controller.hullHeat / (double) controller.hullHeatCapacityBase, 5, 2, 1, 0x7F0000);
 		
 		if(controller.typeLoaded != -1 && controller.amountLoaded > 0) {
 			ItemStack display = new ItemStack(ModItems.pwr_fuel, 1, controller.typeLoaded);

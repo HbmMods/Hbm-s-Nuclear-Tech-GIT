@@ -1,10 +1,20 @@
+## Added
+* PWR Heatsink
+  * Increases the core heat capacity by 5% per block
+  * Makes cooling channels and heat exchangers slightly less effective (each heatsink counts as one quarter of a fuel rod in the heat calculation)
+
 ## Changed
-* Glyphid hive treasures, hive bone piles and bottlecap stashes now have configurable item pools
-* Adjusted glyphid hive treasures, there's now more variety
-* Launch code pieces can now be found in the "expensive" loot pool with low chance
-* Removed Brandon
+* All launch pad blocks can now accept items, not just ports
+* Removed the old watz pellets and titanium filter
+* Removed copper panels, cast copper plates now take its place in most use-cases
+* Removed the steam batteries (why did we even have those?)
+* Large and small shells have been merged into a single item which uses material autogen
+  * A copper variant for shells has been added which is used for artillery shells
+  * Shells are now only directly craftable via anvil, however they can be cast using the crucible as well
+* Most instances of the expensive steel pipes as well as the decorative pipes which need tons of microcrafting have been replaced with a new pipe item
+  * The new pipes also use autogen, being available in different materials
+  * Some of the recipes that used the small shells now use pipes instead
 
 ## Fixed
-* Fixed satellite item pool not being registered, resulting in satellites only delivering things from the backup pool
-* Fixed drill bits not correctly setting the tier when customizing a bedrock ore
-* Fixed debugging display showing glyphid damage still being in the game
+* Fixed crash caused by invalid default loot pool configuration
+* Fixeed enchantment glint not rendering on upscaled items like certain swords or tier 2 pickaxes

@@ -54,7 +54,7 @@ public class Mats {
 	public static final NTMMaterial MAT_PETCOKE			= make(			1411, 		PETCOKE)	.setConversion(MAT_CARBON,  4, 3);
 	public static final NTMMaterial MAT_LIGCOKE			= make(			1412, 		LIGCOKE)	.setConversion(MAT_CARBON,  4, 3);
 	public static final NTMMaterial MAT_GRAPHITE		= make(			1420, 		GRAPHITE)	.setConversion(MAT_CARBON,  1, 1);
-	public static final NTMMaterial MAT_IRON			= makeSmeltable(2600,		IRON,		0xFFFFFF, 0x353535, 0xFFA259).setShapes(CASTPLATE, WELDEDPLATE);
+	public static final NTMMaterial MAT_IRON			= makeSmeltable(2600,		IRON,		0xFFFFFF, 0x353535, 0xFFA259).setShapes(PIPE, CASTPLATE, WELDEDPLATE);
 	public static final NTMMaterial MAT_GOLD			= makeSmeltable(7900,		GOLD,		0xFFFF8B, 0xC26E00, 0xE8D754).setShapes(DENSEWIRE, CASTPLATE);
 	public static final NTMMaterial MAT_REDSTONE		= makeSmeltable(_VS + 01,	REDSTONE,	0xE3260C, 0x700E06, 0xFF1000);
 	public static final NTMMaterial MAT_OBSIDIAN		= makeSmeltable(_VS + 02,	df("Obsidian"), 0x3D234D);
@@ -94,11 +94,11 @@ public class Mats {
 	public static final NTMMaterial MAT_GHIORSIUM	= makeSmeltable(12836,		GH336,		0xF4EFE1, 0x2A3306, 0xC6C6A1).setShapes(NUGGET, BILLET, INGOT, BLOCK);
 
 	//Base metals
-	public static final NTMMaterial MAT_TITANIUM	= makeSmeltable(2200,		TI,			0xF7F3F2, 0x4F4C4B, 0xA99E79).setShapes(INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, BLOCK, HEAVY_COMPONENT);
-	public static final NTMMaterial MAT_COPPER		= makeSmeltable(2900,		CU,			0xFDCA88, 0x601E0D, 0xC18336).setShapes(WIRE, INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, BLOCK, HEAVY_COMPONENT);
+	public static final NTMMaterial MAT_TITANIUM	= makeSmeltable(2200,		TI,			0xF7F3F2, 0x4F4C4B, 0xA99E79).setShapes(INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, SHELL, BLOCK, HEAVY_COMPONENT);
+	public static final NTMMaterial MAT_COPPER		= makeSmeltable(2900,		CU,			0xFDCA88, 0x601E0D, 0xC18336).setShapes(WIRE, INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, SHELL, PIPE, BLOCK, HEAVY_COMPONENT);
 	public static final NTMMaterial MAT_TUNGSTEN	= makeSmeltable(7400,		W,			0x868686, 0x000000, 0x977474).setShapes(WIRE, BOLT, INGOT, DUST, DENSEWIRE, CASTPLATE, WELDEDPLATE, BLOCK, HEAVY_COMPONENT);
-	public static final NTMMaterial MAT_ALUMINIUM	= makeSmeltable(1300,		AL,			0xFFFFFF, 0x344550, 0xD0B8EB).setShapes(WIRE, INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, BLOCK, HEAVY_COMPONENT);
-	public static final NTMMaterial MAT_LEAD		= makeSmeltable(8200,		PB,			0xA6A6B2, 0x03030F, 0x646470).setShapes(NUGGET, INGOT, DUST, PLATE, CASTPLATE, BLOCK, HEAVY_COMPONENT);
+	public static final NTMMaterial MAT_ALUMINIUM	= makeSmeltable(1300,		AL,			0xFFFFFF, 0x344550, 0xD0B8EB).setShapes(WIRE, INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, SHELL, PIPE, BLOCK, HEAVY_COMPONENT);
+	public static final NTMMaterial MAT_LEAD		= makeSmeltable(8200,		PB,			0xA6A6B2, 0x03030F, 0x646470).setShapes(NUGGET, INGOT, DUST, PLATE, CASTPLATE, PIPE, BLOCK, HEAVY_COMPONENT);
 	public static final NTMMaterial MAT_BISMUTH		= makeSmeltable(8300,		BI, 		0xB200FF).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_ARSENIC		= makeSmeltable(3300,		AS,			0x6CBABA, 0x242525, 0x558080).setShapes(NUGGET, INGOT);
 	public static final NTMMaterial MAT_TANTALIUM	= makeSmeltable(7300,		TA,			0xFFFFFF, 0x1D1D36, 0xA89B74).setShapes(NUGGET, INGOT, DUST, BLOCK);
@@ -113,11 +113,11 @@ public class Mats {
 	public static final NTMMaterial MAT_OSMIRIDIUM	= makeSmeltable(7699,		OSMIRIDIUM, 0xDBE3EF, 0x7891BE, 0xACBDD9).setShapes(NUGGET, INGOT, CASTPLATE, WELDEDPLATE);
 	
 	//Alloys
-	public static final NTMMaterial MAT_STEEL		= makeSmeltable(_AS + 0,	STEEL,		0xAFAFAF, 0x0F0F0F, 0x4A4A4A).setShapes(DUSTTINY, BOLT, INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, BLOCK, HEAVY_COMPONENT);
+	public static final NTMMaterial MAT_STEEL		= makeSmeltable(_AS + 0,	STEEL,		0xAFAFAF, 0x0F0F0F, 0x4A4A4A).setShapes(DUSTTINY, BOLT, INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, SHELL, PIPE, BLOCK, HEAVY_COMPONENT);
 	public static final NTMMaterial MAT_MINGRADE	= makeSmeltable(_AS + 1,	MINGRADE,	0xFFBA7D, 0xAF1700, 0xE44C0F).setShapes(WIRE, INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_ALLOY		= makeSmeltable(_AS + 2,	ALLOY,		0xFF8330, 0x700000, 0xFF7318).setShapes(WIRE, INGOT, DUST, DENSEWIRE, PLATE, CASTPLATE, BLOCK, HEAVY_COMPONENT);
 	public static final NTMMaterial MAT_DURA		= makeSmeltable(_AS + 3,	DURA,		0x183039, 0x030B0B, 0x376373).setShapes(BOLT, INGOT, DUST, BLOCK);
-	public static final NTMMaterial MAT_SATURN		= makeSmeltable(_AS + 4,	BIGMT,		0x4DA3AF, 0x00000C, 0x4DA3AF).setShapes(INGOT, DUST, BLOCK);
+	public static final NTMMaterial MAT_SATURN		= makeSmeltable(_AS + 4,	BIGMT,		0x4DA3AF, 0x00000C, 0x4DA3AF).setShapes(INGOT, DUST, PLATE, CASTPLATE, BLOCK);
 	public static final NTMMaterial MAT_DESH		= makeSmeltable(_AS + 12,	DESH,		0xFF6D6D, 0x720000, 0xF22929).setShapes(INGOT, DUST, CASTPLATE, BLOCK, HEAVY_COMPONENT);
 	public static final NTMMaterial MAT_STAR		= makeSmeltable(_AS + 5,	STAR,		0xCCCCEA, 0x11111A, 0xA5A5D3).setShapes(INGOT, DUST, DENSEWIRE, BLOCK);
 	public static final NTMMaterial MAT_FERRO		= makeSmeltable(_AS + 7,	FERRO,		0xB7B7C9, 0x101022, 0x6B6B8B).setShapes(INGOT);

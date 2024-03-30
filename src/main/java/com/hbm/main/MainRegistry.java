@@ -733,7 +733,7 @@ public class MainRegistry {
 		achZIRNOXBoom = new Achievement("achievement.ZIRNOXBoom", "ZIRNOXBoom", 14, -1, ModItems.debris_element, achCentrifuge).initIndependentStat().setSpecial().registerStat();
 		achChicagoPile = new Achievement("achievement.chicagoPile", "chicagoPile", 13, 0, ModItems.pile_rod_plutonium, achCentrifuge).initIndependentStat().registerStat();
 		achSILEX = new Achievement("achievement.SILEX", "SILEX", 12, 7, new ItemStack(ModBlocks.machine_silex), achAcidizer).initIndependentStat().registerStat();
-		achWatz = new Achievement("achievement.watz", "watz", 14, 3, ModItems.pellet_schrabidium, achSchrab).initIndependentStat().registerStat();
+		achWatz = new Achievement("achievement.watz", "watz", 14, 3, ModItems.watz_pellet, achSchrab).initIndependentStat().registerStat();
 		achWatzBoom = new Achievement("achievement.watzBoom", "watzBoom", 14, 5, ModItems.bucket_mud, achWatz).initIndependentStat().setSpecial().registerStat();
 		achRBMK = new Achievement("achievement.RBMK", "RBMK", 9, -5, ModItems.rbmk_fuel_ueu, achConcrete).initIndependentStat().registerStat();
 		achRBMKBoom = new Achievement("achievement.RBMKBoom", "RBMKBoom", 9, -7, ModItems.debris_fuel, achRBMK).initIndependentStat().setSpecial().registerStat();
@@ -1255,6 +1255,39 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.siege_hole");
 		ignoreMappings.add("hbm:tile.machine_shredder_large");
 		ignoreMappings.add("hbm:tile.turret_brandon");
+		ignoreMappings.add("hbm:item.bottle2_sunset");
+		ignoreMappings.add("hbm:item.pellet_schrabidium");
+		ignoreMappings.add("hbm:item.pellet_hes");
+		ignoreMappings.add("hbm:item.pellet_mes");
+		ignoreMappings.add("hbm:item.pellet_les");
+		ignoreMappings.add("hbm:item.pellet_beryllium");
+		ignoreMappings.add("hbm:item.pellet_neptunium");
+		ignoreMappings.add("hbm:item.pellet_lead");
+		ignoreMappings.add("hbm:item.pellet_advanced");
+		ignoreMappings.add("hbm:item.board_copper");
+		ignoreMappings.add("hbm:item.titanium_filter");
+		ignoreMappings.add("hbm:item.battery_steam");
+		ignoreMappings.add("hbm:item.battery_steam_large");
+		ignoreMappings.add("hbm:item.hull_small_steel");
+		ignoreMappings.add("hbm:item.hull_small_aluminium");
+		ignoreMappings.add("hbm:item.hull_big_steel");
+		ignoreMappings.add("hbm:item.hull_big_aluminium");
+		ignoreMappings.add("hbm:item.hull_big_titanium");
+		ignoreMappings.add("hbm:item.rod_zirnox_natural_uranium_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_uranium_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_th232");
+		ignoreMappings.add("hbm:item.rod_zirnox_thorium_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_mox_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_plutonium_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_u233_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_u235_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_les_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_lithium");
+		ignoreMappings.add("hbm:item.rod_zirnox_zfb_mox");
+		ignoreMappings.add("hbm:item.gas_petroleum");
+		ignoreMappings.add("hbm:item.gas_biogas");
+		ignoreMappings.add("hbm:item.gas_lpg");
+		ignoreMappings.add("hbm:item.gun_coilgun_ammo");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

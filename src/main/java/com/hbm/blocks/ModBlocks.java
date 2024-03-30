@@ -884,6 +884,7 @@ public class ModBlocks {
 	public static Block pwr_control;
 	public static Block pwr_channel;
 	public static Block pwr_heatex;
+	public static Block pwr_heatsink;
 	public static Block pwr_neutron_source;
 	public static Block pwr_reflector;
 	public static Block pwr_casing;
@@ -2029,6 +2030,7 @@ public class ModBlocks {
 		pwr_control = new BlockPillarPWR(Material.iron, RefStrings.MODID + ":pwr_control_top").setBlockName("pwr_control").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_control_side");
 		pwr_channel = new BlockPillarPWR(Material.iron, RefStrings.MODID + ":pwr_channel_top").setBlockName("pwr_channel").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_channel_side");
 		pwr_heatex = new BlockGenericPWR(Material.iron).setBlockName("pwr_heatex").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_heatex");
+		pwr_heatsink = new BlockGenericPWR(Material.iron).setBlockName("pwr_heatsink").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_heatsink");
 		pwr_neutron_source = new BlockGenericPWR(Material.iron).setBlockName("pwr_neutron_source").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_neutron_source");
 		pwr_reflector = new BlockGenericPWR(Material.iron).setBlockName("pwr_reflector").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_reflector");
 		pwr_casing = new BlockGenericPWR(Material.iron).setBlockName("pwr_casing").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":pwr_casing");
@@ -3382,6 +3384,7 @@ public class ModBlocks {
 		register(pwr_control);
 		register(pwr_channel);
 		register(pwr_heatex);
+		register(pwr_heatsink);
 		register(pwr_neutron_source);
 		register(pwr_reflector);
 		register(pwr_casing);

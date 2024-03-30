@@ -12,6 +12,7 @@ import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
@@ -32,7 +33,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 		List<ItemStack> list = new ArrayList<ItemStack>();
 		list.add(new ItemStack(ModItems.wire_aluminium, 4));
 		list.add(new ItemStack(ModItems.plate_titanium, 4));
-		list.add(new ItemStack(ModItems.hull_small_aluminium, 2));
+		list.add(new ItemStack(ModItems.shell, 2, Mats.MAT_ALUMINIUM.id));
 		list.add(new ItemStack(ModItems.ducttape, 1));
 		list.add(new ItemStack(ModItems.circuit_targeting_tier1, 1));
 		return list;

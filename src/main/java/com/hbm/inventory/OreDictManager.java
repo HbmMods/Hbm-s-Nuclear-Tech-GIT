@@ -524,6 +524,8 @@ public class OreDictManager {
 				if(mat.shapes.contains(MaterialShapes.WELDEDPLATE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.WELDEDPLATE.name() + name, new ItemStack(ModItems.plate_welded, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.HEAVY_COMPONENT)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.HEAVY_COMPONENT.name() + name, new ItemStack(ModItems.heavy_component, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.DENSEWIRE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.DENSEWIRE.name() + name, new ItemStack(ModItems.wire_dense, 1, mat.id));
+				if(mat.shapes.contains(MaterialShapes.SHELL)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.SHELL.name() + name, new ItemStack(ModItems.shell, 1, mat.id));
+				if(mat.shapes.contains(MaterialShapes.PIPE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.PIPE.name() + name, new ItemStack(ModItems.pipe, 1, mat.id));
 			}
 		}
 		
@@ -676,6 +678,8 @@ public class OreDictManager {
 		public String plateWelded() {	return PLATEWELDED		+ mats[0]; }
 		public String heavyComp() {		return HEAVY_COMPONENT	+ mats[0]; }
 		public String wireDense() {		return WIREDENSE		+ mats[0]; }
+		public String shell() {			return SHELL			+ mats[0]; }
+		public String pipe() {			return PIPE				+ mats[0]; }
 		public String billet() {		return BILLET			+ mats[0]; }
 		public String block() {			return BLOCK			+ mats[0]; }
 		public String ore() {			return ORE				+ mats[0]; }
@@ -690,6 +694,8 @@ public class OreDictManager {
 		public String[] crystals() {	return appendToAll(CRYSTAL); }
 		public String[] plates() {		return appendToAll(PLATE); }
 		public String[] plateCasts() {	return appendToAll(PLATECAST); }
+		public String[] shells() {		return appendToAll(SHELL); }
+		public String[] pipes() {		return appendToAll(PIPE); }
 		public String[] billets() {		return appendToAll(BILLET); }
 		public String[] blocks() {		return appendToAll(BLOCK); }
 		public String[] ores() {		return appendToAll(ORE); }
