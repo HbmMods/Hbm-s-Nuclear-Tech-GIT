@@ -1288,6 +1288,9 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.gas_biogas");
 		ignoreMappings.add("hbm:item.gas_lpg");
 		ignoreMappings.add("hbm:item.gun_coilgun_ammo");
+		ignoreMappings.add("hbm:item.rotor_steel");
+		ignoreMappings.add("hbm:item.generator_steel");
+		ignoreMappings.add("hbm:item.bolt_compound");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

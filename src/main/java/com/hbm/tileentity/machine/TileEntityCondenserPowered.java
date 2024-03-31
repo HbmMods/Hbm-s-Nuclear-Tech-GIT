@@ -22,8 +22,8 @@ public class TileEntityCondenserPowered extends TileEntityCondenser implements I
 	
 	public TileEntityCondenserPowered() {
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, 100_000);
-		tanks[1] = new FluidTank(Fluids.WATER, 100_000);
+		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, 1_000_000);
+		tanks[1] = new FluidTank(Fluids.WATER, 1_000_000);
 	}
 	
 	@Override

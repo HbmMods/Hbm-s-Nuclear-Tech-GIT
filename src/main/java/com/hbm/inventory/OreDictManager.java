@@ -375,7 +375,7 @@ public class OreDictManager {
 		CO			.nugget(fragment_cobalt)	.nugget(nugget_cobalt)		.billet(billet_cobalt)			.ingot(ingot_cobalt)				.dust(powder_cobalt)			.dustSmall(powder_cobalt_tiny)	.block(block_cobalt)		.ore(ore_cobalt, ore_nether_cobalt);
 		B			.nugget(fragment_boron)									.ingot(ingot_boron)				.dustSmall(powder_boron_tiny)		.dust(powder_boron)												.block(block_boron);
 		GRAPHITE															.ingot(ingot_graphite)																												.block(block_graphite);
-		DURA																.ingot(ingot_dura_steel)											.dust(powder_dura_steel)										.block(block_dura_steel);
+		DURA																.ingot(ingot_dura_steel)											.dust(powder_dura_steel)		.plate(plate_dura_steel)		.block(block_dura_steel);
 		POLYMER																.ingot(ingot_polymer)												.dust(powder_polymer)											.block(block_polymer);
 		BAKELITE															.ingot(ingot_bakelite)												.dust(powder_bakelite)											.block(block_bakelite);
 		LATEX									.gem(ball_resin)			.ingot(ingot_biorubber);

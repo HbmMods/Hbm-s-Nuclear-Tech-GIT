@@ -214,28 +214,35 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 	public void drawLineSegment(Tessellator tessellator, double x, double y, double z, double a, double b, double c) {
 		
 		double girth = 0.03125D;
-
-		double dX = x - a;
-		double dY = y - b;
-		double dZ = z - c;
-		double length = Math.sqrt(dX * dX + dY * dY + dZ * dZ);
+		
+		double deltaX = a - x;
+		double deltaY = b - y;
+		double deltaZ = c - z;
+		double hyp = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+		double yaw = Math.atan2(deltaX, deltaZ);
+		double pitch = Math.atan2(deltaY, hyp);
+		double rotator = Math.PI * 0.5D;
+		double newPitch = pitch + rotator;
+		double newYaw = yaw + rotator;
+		double iZ = Math.cos(yaw) * Math.cos(newPitch) * girth;
+		double iX = Math.sin(yaw) * Math.cos(newPitch) * girth;
+		double iY = Math.sin(newPitch) * girth;
+		double jZ = Math.cos(newYaw) * Math.cos(newPitch) * girth;
+		double jX = Math.sin(newYaw) * Math.cos(newPitch) * girth;
+		double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 		int wrap = (int) Math.ceil(length * 8);
 		
-		if(dX + dZ < 0) wrap *= -1;
+		if(deltaX + deltaZ < 0) wrap *= -1;
 		
 		tessellator.setColorOpaque_I(0xffffff);
-		tessellator.addVertexWithUV(x, y + girth, z, 0, 0);
-		tessellator.addVertexWithUV(x, y - girth, z, 0, 1);
-		tessellator.addVertexWithUV(a, b - girth, c, wrap, 1);
-		tessellator.addVertexWithUV(a, b + girth, c, wrap, 0);
-		/*tessellator.addVertex(x + girth, y, z);
-		tessellator.addVertex(x - girth, y, z);
-		tessellator.addVertex(a + girth, b, c);
-		tessellator.addVertex(a - girth, b, c);
-		tessellator.addVertex(x, y, z + girth);
-		tessellator.addVertex(x, y, z - girth);
-		tessellator.addVertex(a, b, c + girth);
-		tessellator.addVertex(a, b, c - girth);*/
+		tessellator.addVertexWithUV(x + iX, y + iY, z + iZ, 0, 0);
+		tessellator.addVertexWithUV(x - iX, y - iY, z - iZ, 0, 1);
+		tessellator.addVertexWithUV(a - iX, b - iY, c - iZ, wrap, 1);
+		tessellator.addVertexWithUV(a + iX, b + iY, c + iZ, wrap, 0);
+		tessellator.addVertexWithUV(x + jX, y, z + jZ, 0, 0);
+		tessellator.addVertexWithUV(x - jX, y, z - jZ, 0, 1);
+		tessellator.addVertexWithUV(a - jX, b, c - jZ, wrap, 1);
+		tessellator.addVertexWithUV(a + jX, b, c + jZ, wrap, 0);
 	}
 	
 	public static final int LINE_COLOR = 0xBB3311;
