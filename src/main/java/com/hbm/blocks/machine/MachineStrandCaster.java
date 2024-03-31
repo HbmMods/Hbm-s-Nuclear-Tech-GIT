@@ -186,8 +186,7 @@ public class MachineStrandCaster extends BlockDummyable implements ICrucibleAcce
 			if(cast.slots[0] == null) {
 				text.add(EnumChatFormatting.RED + I18nUtil.resolveKey("foundry.noCast"));
 			} else if(cast.slots[0].getItem() == ModItems.mold) {
-				ItemMold.Mold mold = ((ItemMold) cast.slots[0].getItem()).getMold(cast.slots[0]);
-				text.add(EnumChatFormatting.BLUE + mold.getTitle());
+				text.add(EnumChatFormatting.BLUE + cast.getInstalledMold().getTitle());
 			}
 		}
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(this.getUnlocalizedName() + ".name"), 0xFF4000, 0x401000, text);
