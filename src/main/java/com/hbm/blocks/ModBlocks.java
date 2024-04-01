@@ -1450,8 +1450,8 @@ public class ModBlocks {
 		block_polymer = new BlockBeaconable(Material.rock).setBlockName("block_polymer").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_polymer");
 		block_bakelite = new BlockBeaconable(Material.rock).setBlockName("block_bakelite").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":block_bakelite");
 		block_rubber = new BlockBeaconable(Material.rock).setBlockName("block_rubber").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_rubber");
-		block_pvc = new BlockBeaconable(Material.rock).setBlockName("block_pvc").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_pvc");
-		block_pc = new BlockBeaconable(Material.rock).setBlockName("block_pc").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_pc");
+		block_pvc = new BlockRotatablePillar(Material.rock, RefStrings.MODID + ":block_pvc_top").setBlockName("block_pvc").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_pvc_side");
+		block_pc = new BlockRotatablePillar(Material.rock, RefStrings.MODID + ":block_pc_top").setBlockName("block_pc").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_pc_side");
 		block_yellowcake = new BlockHazardFalling().makeBeaconable().setBlockName("block_yellowcake").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSand).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_yellowcake");
 		block_insulator = new BlockRotatablePillar(Material.cloth, RefStrings.MODID + ":block_insulator_top").setBlockName("block_insulator").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeCloth).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_insulator_side");
 		block_fiberglass = new BlockRotatablePillar(Material.cloth, RefStrings.MODID + ":block_fiberglass_top").setBlockName("block_fiberglass").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeCloth).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_fiberglass_side");
@@ -1463,9 +1463,9 @@ public class ModBlocks {
 		block_red_phosphorus = new BlockHazardFalling().makeBeaconable().setStepSound(Block.soundTypeSand).setBlockName("block_red_phosphorus").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_red_phosphorus");
 		block_fallout = new BlockHazardFalling().setStepSound(Block.soundTypeGravel).setBlockName("block_fallout").setCreativeTab(MainRegistry.blockTab).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":ash");
 		block_foam = new BlockGeneric(Material.craftedSnow).setBlockName("block_foam").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSnow).setHardness(0.5F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":foam");
-		block_solid_fuel = new BlockGraphiteFuel().setBlockName("block_solid_fuel");
-		block_rocket_fuel = new BlockGraphiteFuel().setBlockName("block_rocket_fuel");
-		block_solid_fuel_bf = new BlockGraphiteFuel().setBlockName("block_solid_fuel_bf");
+		block_solid_fuel = new BlockBeaconable(Material.rock).setBlockName("block_solid_fuel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_solid_fuel");
+		block_rocket_fuel = new BlockBeaconable(Material.rock).setBlockName("block_rocket_fuel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_rocket_fuel");
+		block_solid_fuel_bf = new BlockHazard(Material.rock).makeBeaconable().setBlockName("block_solid_fuel_bf").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_solid_fuel_bf");
 		block_coke = new BlockCoke().setBlockName("block_coke").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F);
 		block_graphite = new BlockGraphite(Material.iron, 30, 5).setBlockName("block_graphite").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F);
 		block_graphite_drilled = new BlockGraphiteDrilled().setBlockName("block_graphite_drilled");
@@ -2624,6 +2624,9 @@ public class ModBlocks {
 		register(block_coke);
 		GameRegistry.registerBlock(block_graphite_drilled, block_graphite_drilled.getUnlocalizedName());
 		GameRegistry.registerBlock(block_graphite_fuel, block_graphite_fuel.getUnlocalizedName());
+		GameRegistry.registerBlock(block_solid_fuel, block_solid_fuel.getUnlocalizedName());
+		GameRegistry.registerBlock(block_rocket_fuel, block_rocket_fuel.getUnlocalizedName());
+		GameRegistry.registerBlock(block_solid_fuel_bf, block_solid_fuel_bf.getUnlocalizedName());
 		GameRegistry.registerBlock(block_graphite_rod, block_graphite_rod.getUnlocalizedName());
 		GameRegistry.registerBlock(block_graphite_plutonium, block_graphite_plutonium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_graphite_source, block_graphite_source.getUnlocalizedName());
