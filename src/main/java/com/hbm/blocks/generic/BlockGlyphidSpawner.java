@@ -107,7 +107,7 @@ public class BlockGlyphidSpawner extends BlockContainer implements IBlockMulti {
 
 			if(!worldObj.isRemote && this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL) {
 
-				if(initialSpawn || worldObj.getTotalWorldTime() % MobConfig.swarmCooldown == 0) {
+				if(initialSpawn || true) {
 
 					initialSpawn = false;
 					int count = 0;

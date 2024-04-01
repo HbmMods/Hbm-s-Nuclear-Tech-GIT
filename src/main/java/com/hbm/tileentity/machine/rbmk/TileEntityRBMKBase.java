@@ -29,6 +29,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -148,6 +149,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 	 * Moves heat to neighboring parts, if possible, in a relatively fair manner
 	 */
 	private void moveHeat() {
+		
+		if(!MinecraftServer.getServer().isHardcore()) return;
 		
 		List<TileEntityRBMKBase> rec = new ArrayList();
 		rec.add(this);

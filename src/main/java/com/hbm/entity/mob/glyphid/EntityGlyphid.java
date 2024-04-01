@@ -286,7 +286,7 @@ public class EntityGlyphid extends EntityMob {
 	}
 
 	public boolean useExtendedTargeting() {
-		return MobConfig.rampantExtendedTargetting || PollutionHandler.getPollution(worldObj, (int) Math.floor(posX), (int) Math.floor(posY), (int) Math.floor(posZ), PollutionType.SOOT) >= MobConfig.targetingThreshold;
+		return true;
 	}
 
 	@Override

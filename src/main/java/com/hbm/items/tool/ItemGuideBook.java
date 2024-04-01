@@ -30,8 +30,7 @@ public class ItemGuideBook extends Item implements IGUIProvider {
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		
-		if(world.isRemote)
-			player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
+		if(!world.isRemote) world.newExplosion(null, player.posX, player.posY + player.height / 2D, player.posZ, 5F, true, true);
 		
 		return stack;
 	}

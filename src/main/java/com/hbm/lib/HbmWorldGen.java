@@ -430,7 +430,18 @@ public class HbmWorldGen implements IWorldGenerator {
 				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
 					world.setBlock(x, y, z, ModBlocks.mine_he);
 					TileEntityLandmine landmine = (TileEntityLandmine) world.getTileEntity(x, y, z);
-					landmine.waitingForPlayer = true;
+					if(landmine != null) landmine.waitingForPlayer = true;
+				}
+			}
+
+			if(rand.nextInt(4) == 0) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				int y = world.getHeightValue(x, z);
+				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
+					world.setBlock(x, y, z, ModBlocks.mine_he);
+					TileEntityLandmine landmine = (TileEntityLandmine) world.getTileEntity(x, y, z);
+					if(landmine != null) landmine.waitingForPlayer = true;
 				}
 			}
 

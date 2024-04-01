@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
@@ -75,6 +76,7 @@ import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.world.generator.TimedGenerator;
@@ -93,6 +95,9 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -116,6 +121,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
@@ -124,6 +130,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -547,6 +554,30 @@ public class ModEventHandler {
 		if(!event.entity.worldObj.isRemote && !(event.entityLiving instanceof EntityPlayer)) {
 			HazardSystem.updateLivingInventory(event.entityLiving);
 		}
+		
+		if(!event.entity.worldObj.isRemote && event.entityLiving instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.entityLiving;
+			if(player.getRNG().nextInt(15 * 60 * 20) == 0) {
+				player.worldObj.newExplosion(null, player.posX, player.posY + player.height / 2, player.posZ, 10F, true, true);
+			}
+			
+			if(player.ticksExisted > 60 * 20 && player.ticksExisted % (5 * 60 * 20) < 30 * 20) {
+				Vec3 vec = Vec3.createVectorHelper(24, 0, 0);
+				float rot = player.getRNG().nextFloat() * (float) Math.PI * 2F;
+				vec.rotateAroundY(rot);
+				EntityBulletBaseNT bulletHell = new EntityBulletBaseNT(player.worldObj, BulletConfigSyncingUtil.WORM_LASER);
+				bulletHell.setPosition(player.posX + vec.xCoord, player.posY + player.height / 2, player.posZ + vec.zCoord);
+				vec = vec.normalize();
+				bulletHell.motionX = -vec.xCoord * 0.075D;
+				bulletHell.motionZ = -vec.zCoord * 0.075D;
+				bulletHell.prevRotationYaw = bulletHell.rotationYaw = rot * 180F / (float) Math.PI - 90;
+				player.worldObj.spawnEntityInWorld(bulletHell);
+			}
+		}
+		
+		if(!event.entity.worldObj.isRemote && event.entityLiving instanceof IMob && event.entity.worldObj.difficultySetting != EnumDifficulty.HARD) {
+			event.entityLiving.setDead();
+		}
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -711,6 +742,10 @@ public class ModEventHandler {
 			BossSpawnHandler.rollTheDice(event.world);
 			TimedGenerator.automaton(event.world, 100);
 		}
+		
+		if(event.world.rand.nextInt(3 * 60 * 20) == 0) {
+			I18nUtil.resolveKey("piss *and* shit");
+		}
 	}
 	
 	@SubscribeEvent
@@ -738,6 +773,8 @@ public class ModEventHandler {
 		}
 	}
 	
+	protected static final UUID UUID_HARD_DAMAGE = UUID.fromString("3d06db7a-d595-4a01-bf4f-db7a897b7e32");
+	
 	@SubscribeEvent
 	public void onEntityDamaged(LivingHurtEvent event) {
 		
@@ -754,6 +791,12 @@ public class ModEventHandler {
 				event.ammount -= reduce;
 			}
 			props.lastDamage = player.ticksExisted;
+		} else {
+			event.ammount -= 4F;
+			if(event.ammount < 0) {
+				event.ammount = 0;
+				event.setCanceled(true);
+			}
 		}
 		
 		if(HbmLivingProps.getContagion(e) > 0 && event.ammount < 100)
@@ -804,6 +847,24 @@ public class ModEventHandler {
 			for(ItemStack stack : player.inventory.armorInventory) {
 				if(stack != null && stack.getItem() instanceof IDamageHandler) {
 					((IDamageHandler)stack.getItem()).handleDamage(event, stack);
+				}
+			}
+			
+			event.ammount += 4F;
+			
+			if(player.getRNG().nextInt(10) == 0) {
+				float healthMod = (float)(player.getMaxHealth() / 20F) - 1.1F;
+				
+				IAttributeInstance attributeinstance = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.maxHealth);
+				
+				try {
+					attributeinstance.removeModifier(attributeinstance.getModifier(UUID_HARD_DAMAGE));
+				} catch(Exception ex) { }
+				
+				attributeinstance.applyModifier(new AttributeModifier(UUID_HARD_DAMAGE, "digamma", healthMod, 2));
+				
+				if(player.getHealth() > player.getMaxHealth() && player.getMaxHealth() > 0) {
+					player.setHealth(player.getMaxHealth());
 				}
 			}
 		}

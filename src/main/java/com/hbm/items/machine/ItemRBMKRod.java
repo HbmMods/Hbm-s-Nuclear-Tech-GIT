@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
@@ -149,8 +150,9 @@ public class ItemRBMKRod extends Item {
 		y -= inFlux;
 		
 		if(y < 0D) y = 0D;
+
 		
-		setYield(stack, y);
+		if(MinecraftServer.getServer().isHardcore()) setYield(stack, y);
 		
 		double coreHeat = this.getCoreHeat(stack);
 		coreHeat += outFlux * heat;

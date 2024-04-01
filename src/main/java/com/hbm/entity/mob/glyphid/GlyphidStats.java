@@ -125,6 +125,8 @@ public abstract class GlyphidStats {
 		@Override
 		public boolean handleAttack(EntityGlyphid glyphid, DamageSource source, float amount) {
 			
+			amount *= 0.05;
+			
 			// Completely immune to acid from other glyphids
 			if((source == ModDamageSource.acid || ModDamageSource.s_acid.equals(source.getDamageType())) && source.getSourceOfDamage() instanceof EntityGlyphid) return false;
 			

@@ -49,20 +49,10 @@ public class BossSpawnHandler {
 			
 			if(world.getTotalWorldTime() % MobConfig.maskmanDelay == 0) {
 				
-				if(world.rand.nextInt(MobConfig.maskmanChance) == 0 && !world.playerEntities.isEmpty() && world.provider.isSurfaceWorld()) {	//33% chance only if there is a player online
+				if(!world.playerEntities.isEmpty() && world.provider.isSurfaceWorld()) {	//33% chance only if there is a player online
 					
 					EntityPlayer player = (EntityPlayer) world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));	//choose a random player
-					int id = Item.getIdFromItem(Item.getItemFromBlock(ModBlocks.machine_crystallizer));
-
-					StatBase statCraft = StatList.objectCraftStats[id];
-					StatBase statPlace = StatList.objectUseStats[id];
 					
-					if(!(player instanceof EntityPlayerMP)) return;
-					EntityPlayerMP playerMP = (EntityPlayerMP) player;
-					
-					boolean acidizerStat = !GeneralConfig.enableStatReRegistering || (statCraft != null && playerMP.func_147099_x().writeStat(statCraft) > 0)|| (statPlace != null && playerMP.func_147099_x().writeStat(statPlace) > 0);
-					
-					if(acidizerStat && ContaminationUtil.getRads(player) >= MobConfig.maskmanMinRad && (world.getHeightValue((int)player.posX, (int)player.posZ) > player.posY + 3 || !MobConfig.maskmanUnderground)) {	//if the player has more than 50 RAD and is underground
 
 						player.addChatComponentMessage(new ChatComponentText("The mask man is about to claim another victim.").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
 						
@@ -71,7 +61,6 @@ public class BossSpawnHandler {
 						double spawnY = world.getHeightValue((int)spawnX, (int)spawnZ);
 						
 						trySpawn(world, (float)spawnX, (float)spawnY, (float)spawnZ, new EntityMaskMan(world));
-					}
 				}
 			}
 		}

@@ -214,9 +214,9 @@ public class GunNPCFactory {
 		bullet.ammo = new ComparableStack(ModItems.coin_worm);
 		bullet.spread = 0.0F;
 		bullet.maxAge = 100;
-		bullet.dmgMin = 35;
-		bullet.dmgMax = 60;
-		bullet.leadChance = 0;
+		bullet.dmgMin = 8;
+		bullet.dmgMax = 10;
+		bullet.leadChance = 100;
 		bullet.doesRicochet = false;
 		bullet.setToBolt(BulletConfiguration.BOLT_LASER);
 		bullet.damageType = ModDamageSource.s_laser;

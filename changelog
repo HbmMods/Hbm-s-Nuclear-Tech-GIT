@@ -1,32 +1,18 @@
-## Added
-* PWR Heatsink
-  * Increases the core heat capacity by 5% per block
-  * Makes cooling channels and heat exchangers slightly less effective (each heatsink counts as one quarter of a fuel rod in the heat calculation)
+## The Good Edition™
+Over the years, there's been plenty of games that I had some issue with, but I have been told that it wasn't because it's the game which had a flaw, but rather it was me who is stupid and wrong and stupid. In an effort to making NTM as good as possible, I have now decided to seek out these parts of games that are guaranteed to be good (I wouldn't know, I'm stupid and wrong) and add them to NTM!
 
-## Changed
-* All launch pad blocks can now accept items, not just ports
-* Removed the old watz pellets and titanium filter
-* Removed copper panels, cast copper plates now take its place in most use-cases
-* Removed generator bodies and rotors, recipes use 6 dense gold wires per generator instead
-* Removed reinforced turbine shafts, most turbines now use HSS pipes instead
-* Removed the steam batteries (why did we even have those?)
-* Removed some old remap items (from back when the ZIRNOX rods got remapped)
-* Large and small shells have been merged into a single item which uses material autogen
-  * A copper variant for shells has been added which is used for artillery shells
-  * Shells are now only directly craftable via anvil, however they can be cast using the crucible as well
-* Most instances of the expensive steel pipes as well as the decorative pipes which need tons of microcrafting have been replaced with a new pipe item
-  * The new pipes also use autogen, being available in different materials
-  * Some of the recipes that used the small shells now use pipes instead
-* Tenfolded the throughout of powered condensers
-* Regular and combo filters now work for blistering agents (like mustard gas or air pollution)
-* Wires now render two faces instead of one, making them appear equally thick from any viewed angle
-* Slag taps can now be toggled and filtered
-* Foundry channels now have twice the throughput (2 ingots)
-* RBMK ReaSim and steam connectors now have tooltips explaining how they work, as there is no other ingame documentation on them
-
-## Fixed
-* Fixed crash caused by invalid default loot pool configuration
-* Fixed enchantment glint not rendering on upscaled items like certain swords or tier 2 pickaxes
-* Fixed wire connections becoming invisible when pointing straight down, wires should now rotate correctly
-* Fixed connection issue allowing channels to output into slag taps sideways
-* Fixed the strand caster sometimes voiding small amounts of material
+* All mobs now have a damage threshold of 2 hearts. Players however now take 2 hearts extra damage from all sources, even ones that otherwise would not deal any damage (bypasses most armor protection).
+* Players now have a 10% chance of taking hard damage, hard damage removes 10% of their max life which cannot be regenerated
+* Players now have a constant chance of randomly exploding. There is no way of preventing this and it will just happen no matter what
+* The player might find themselves inn a random bullet hell situation in regular intervals
+* Anti tank mines now have a 25% chance of spawning per chunk
+* Guide books have been removed, read the wiki, dipshit
+* RBMKs are now gated behind hardcore mode. RBMKs can still be built and operated, however without hardcore mode, the fuel rods will never deplete, and heat will not propagate between RBMK parts, preventing them from cooling
+* Most ammo types are now uncraftable, you will have to make do with the meager amounts you can find in the world
+* Hostile mobs will no longer exist on difficulties below hard, effectively only creating two difficulty options, piss easy and ball crushing
+* Glyphids no longer have a spawn delay, even on difficulty options where they can't exist. Enjoy the lag!
+* Bugs are now near-invincible. Makes every encounter a challenge!
+* NEI integration has been removed. Handholding the player is bad, people should be smart enough to figure things out on their own
+* More mask men. Random bosses with no spawn condition are cool!
+* Servers will now randomly crash
+* Beds now have 25 million RAD/s, making them effectively unusable in survival play. You may only respawn at your spawn point or in beds spawned in structures, this is to make you lament every death and give you plenty of time to think about what went wrong as you drag your ass back to your death point or some bullshit
