@@ -349,7 +349,7 @@ public class OreDictManager {
 		SBD		.rad(HazardRegistry.sb)		.blinding(50F)																	.ingot(ingot_schrabidate)	.dust(powder_schrabidate)								.block(block_schrabidate);
 		SRN		.rad(HazardRegistry.sr)		.blinding(50F)																	.ingot(ingot_schraranium)															.block(block_schraranium);
 		GH336	.rad(HazardRegistry.gh336)							.nugget(nugget_gh336)		.billet(billet_gh336)		.ingot(ingot_gh336);
-		MUD		.rad(HazardRegistry.mud)																					.ingot(ingot_mud);
+		MUD		.rad(HazardRegistry.mud)																					.ingot(ingot_mud)																		.block(block_mud);
 		
 		/*
 		 * STABLE
