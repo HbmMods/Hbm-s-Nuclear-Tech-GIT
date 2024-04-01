@@ -141,7 +141,6 @@ public class BlockCrate extends BlockFalling {
 		BlockCrate.addToListWithWeight(metalList, ModItems.coil_copper, 10);
 		BlockCrate.addToListWithWeight(metalList, ModItems.tank_steel, 9);
 		BlockCrate.addToListWithWeight(metalList, ModItems.blade_titanium, 3);
-		BlockCrate.addToListWithWeight(metalList, ModItems.bolt_compound, 2);
 		BlockCrate.addToListWithWeight(metalList, ModItems.piston_selenium, 6);
 
 		// Red Crate

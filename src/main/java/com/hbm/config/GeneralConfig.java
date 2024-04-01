@@ -34,6 +34,7 @@ public class GeneralConfig {
 	public static boolean enableFluidContainerCompat = true;
 	public static boolean enableMOTD = true;
 	public static boolean enableGuideBook = true;
+	public static boolean enableSteamParticles = true;
 	public static int hintPos = 0;
 
 	public static boolean enableExpensiveMode = false;
@@ -98,7 +99,8 @@ public class GeneralConfig {
 		enableFluidContainerCompat = config.get(CATEGORY_GENERAL, "1.35_enableFluidContainerCompat", true, "If enabled, fluid containers will be oredicted and interchangable in recipes with other mods' containers, as well as TrainCraft's diesel being considered a valid diesel canister.").getBoolean(true);
 		enableMOTD = config.get(CATEGORY_GENERAL, "1.36_enableMOTD", true, "If enabled, shows the 'Loaded mod!' chat message as well as update notifications when joining a world").getBoolean(true);
 		enableGuideBook = config.get(CATEGORY_GENERAL, "1.37_enableGuideBook", true, "If enabled, gives players the guide book when joining the world for the first time").getBoolean(true);
-		
+		enableSteamParticles = config.get(CATEGORY_GENERAL, "1.38_enableSteamParticles",true, "If disabled, auxiliary cooling towers and large cooling towers will not emit steam particles when in use.").getBoolean(true);
+
 		enableExpensiveMode = config.get(CATEGORY_GENERAL, "1.99_enableExpensiveMode", false, "It does what the name implies.").getBoolean(false);
 		
 		final String CATEGORY_528 = CommonConfig.CATEGORY_528;

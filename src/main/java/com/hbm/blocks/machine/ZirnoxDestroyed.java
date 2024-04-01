@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -106,7 +107,7 @@ public class ZirnoxDestroyed extends BlockDummyable {
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune) {
 		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
 		drops.add(new ItemStack(ModBlocks.concrete_smooth, 6));
-		drops.add(new ItemStack(ModBlocks.deco_pipe_quad, 4));
+		drops.add(new ItemStack(ModItems.pipe, 4, Mats.MAT_STEEL.id));
 		drops.add(new ItemStack(ModBlocks.steel_grate, 2));
 		drops.add(new ItemStack(ModItems.debris_metal, 6));
 		drops.add(new ItemStack(ModItems.debris_graphite, 2));
