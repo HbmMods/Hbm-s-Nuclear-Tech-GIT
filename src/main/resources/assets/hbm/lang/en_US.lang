@@ -4619,6 +4619,7 @@ tile.block_coke.lignite.name=Block of Lignite Coke
 tile.block_coke.petroleum.name=Block of Petroleum Coke
 tile.block_coltan.name=Block of Coltan
 tile.block_combine_steel.name=Block of CMB Steel
+tile.block_mud.name=Mud Bricks
 tile.block_copper.name=Block of Copper
 tile.block_corium.name=Corium
 tile.block_corium_cobble.name=Corebblestone
