@@ -28,12 +28,10 @@ public class ItemPoolsComponent {
 		new ItemPool(POOL_MACHINE_PARTS) {{
 			this.pool = new WeightedRandomChestContent[] {
 					weighted(ModItems.plate_steel, 0, 1, 5, 5),
-					weighted(ModItems.hull_big_steel, 0, 1, 2, 2),
-					weighted(ModItems.hull_small_steel, 0, 1, 3, 3),
+					weighted(ModItems.shell, Mats.MAT_STEEL.id, 1, 3, 3),
 					weighted(ModItems.plate_polymer, 0, 1, 6, 5),
 					weighted(ModItems.bolt, Mats.MAT_STEEL.id, 4, 16, 3),
 					weighted(ModItems.bolt, Mats.MAT_TUNGSTEN.id, 4, 16, 3),
-					weighted(ModItems.board_copper, 0, 1, 2, 4),
 					weighted(ModItems.coil_tungsten, 0, 1, 2, 5),
 					weighted(ModItems.motor, 0, 1, 2, 4),
 					weighted(ModItems.tank_steel, 0, 1, 2, 3),

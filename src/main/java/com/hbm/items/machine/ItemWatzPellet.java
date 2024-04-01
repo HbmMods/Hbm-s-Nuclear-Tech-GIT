@@ -139,7 +139,7 @@ public class ItemWatzPellet extends ItemEnumMulti {
 		}
 		if(num.heatEmission > 0) list.add(color + "Heat per flux: " + reset + num.heatEmission + " TU");
 		if(num.burnFunc != null) {
-			list.add(color + "Reacton function: " + reset + num.burnFunc.getLabelForFuel());
+			list.add(color + "Reaction function: " + reset + num.burnFunc.getLabelForFuel());
 			list.add(color + "Fuel type: " + reset + num.burnFunc.getDangerFromFuel());
 		}
 		if(num.heatDiv != null) list.add(color + "Thermal multiplier: " + reset + num.heatDiv.getLabelForFuel() + " TU⁻¹");

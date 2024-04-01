@@ -26,7 +26,7 @@ public class LaunchPadLarge extends BlockDummyable implements IBomb {
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityLaunchPadLarge();
 		if(meta >= 6) return new TileEntityProxyCombo().inventory().power().fluid();
-		return null;
+		return new TileEntityProxyCombo().inventory();
 	}
 	
 	@Override

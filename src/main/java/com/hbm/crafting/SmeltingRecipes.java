@@ -7,7 +7,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ItemEnums.EnumPlantType;
-import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.special.ItemHot;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
 
@@ -177,8 +176,6 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(ModItems.ingot_meteorite_forged, ItemHot.heatUp(new ItemStack(ModItems.ingot_meteorite_forged)), 1.0F);
 		GameRegistry.addSmelting(ModItems.blade_meteorite, ItemHot.heatUp(new ItemStack(ModItems.blade_meteorite)), 1.0F);
 		GameRegistry.addSmelting(ModItems.meteorite_sword, ItemHot.heatUp(new ItemStack(ModItems.meteorite_sword_seared)), 1.0F);
-
-		GameRegistry.addSmelting(ModItems.battery_steam, ItemBattery.getFullBattery(ModItems.battery_steam), 1.0F);
 		
 		GameRegistry.addSmelting(new ItemStack(ModItems.scrap_plastic, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.ingot_polymer), 0.1F);
 		
