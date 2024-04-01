@@ -56,7 +56,7 @@ public class GUIScreenWikiRender extends GuiScreen {
 		GL11.glEnable(GL11.GL_LIGHTING);
 
         try {
-            String slotName = preview[index].getDisplayName().replaceAll("[^\\w ().-]+", "");
+            String slotName = preview[index].getDisplayName().replaceAll("§.", "").replaceAll("[^\\w ().-]+", "");
             if(!slotName.endsWith(".name")) {
                 saveScreenshot(Minecraft.getMinecraft().mcDataDir, "Slot " + slotName + ".png", 2, 2, 32, 32, 0xFF8B8B8B);
             }
