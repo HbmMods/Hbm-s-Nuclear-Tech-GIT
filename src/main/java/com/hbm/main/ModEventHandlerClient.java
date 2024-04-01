@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -30,6 +31,7 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
 import com.hbm.inventory.gui.GUIScreenPreview;
+import com.hbm.inventory.gui.GUIScreenWikiRender;
 import com.hbm.items.ISyncButtons;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -908,6 +910,8 @@ public class ModEventHandlerClient {
 
 	public static int currentBrightness = 0;
 	public static int lastBrightness = 0;
+
+	static boolean isRenderingItems = false;
 	
 	@SubscribeEvent
 	public void clentTick(ClientTickEvent event) {
@@ -970,6 +974,24 @@ public class ModEventHandlerClient {
 				stack.stackSize = 1;
 				FMLCommonHandler.instance().showGuiScreen(new GUIScreenPreview(stack));
 			}
+		}
+
+		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_0) && Keyboard.isKeyDown(Keyboard.KEY_1)) {
+			if (!isRenderingItems) {
+				isRenderingItems = true;
+
+				MainRegistry.logger.info("Taking a screenshot of ALL items, if you did this by mistake: fucking lmao get rekt nerd");
+
+				List<ItemStack> stacks = new ArrayList<ItemStack>();
+				for (Object reg : Item.itemRegistry) {
+					Item item = (Item) reg;
+					stacks.add(new ItemStack(item));
+				}
+
+				FMLCommonHandler.instance().showGuiScreen(new GUIScreenWikiRender(stacks.toArray(new ItemStack[0])));
+			}
+		} else {
+			isRenderingItems = false;
 		}
 		
 		if(event.phase == Phase.START) {
