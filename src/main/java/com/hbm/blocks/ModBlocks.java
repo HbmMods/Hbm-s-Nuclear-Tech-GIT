@@ -230,6 +230,8 @@ public class ModBlocks {
 	public static Block block_rubber;
 	public static Block block_yellowcake;
 	public static Block block_insulator;
+	public static Block block_pc;
+	public static Block block_pvc;
 	public static Block block_fiberglass;
 	public static Block block_asbestos;
 	public static Block block_cobalt;
@@ -239,6 +241,9 @@ public class ModBlocks {
 	public static Block block_red_phosphorus;
 	public static Block block_fallout;
 	public static Block block_foam;
+	public static Block block_solid_fuel;
+	public static Block block_rocket_fuel;
+	public static Block block_solid_fuel_bf;
 	public static Block block_coke;
 	public static Block block_graphite;
 	public static Block block_graphite_drilled;
@@ -467,6 +472,7 @@ public class ModBlocks {
 	public static Block sand_gold;
 	public static Block sand_gold198;
 	public static Block ash_digamma;
+	public static Block brick_ash;
 	public static Block glass_boron;
 	public static Block glass_lead;
 	public static Block glass_uranium;
@@ -505,6 +511,7 @@ public class ModBlocks {
 	public static Block stone_cracked;
 	public static Block burning_earth;
 	public static Block tektite;
+	public static Block brick_tektite;
 	public static Block ore_tektite_osmiridium;
 	public static Block impact_dirt;
 	
@@ -1443,6 +1450,8 @@ public class ModBlocks {
 		block_polymer = new BlockBeaconable(Material.rock).setBlockName("block_polymer").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_polymer");
 		block_bakelite = new BlockBeaconable(Material.rock).setBlockName("block_bakelite").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":block_bakelite");
 		block_rubber = new BlockBeaconable(Material.rock).setBlockName("block_rubber").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_rubber");
+		block_pvc = new BlockBeaconable(Material.rock).setBlockName("block_pvc").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_pvc");
+		block_pc = new BlockBeaconable(Material.rock).setBlockName("block_pc").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_pc");
 		block_yellowcake = new BlockHazardFalling().makeBeaconable().setBlockName("block_yellowcake").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSand).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_yellowcake");
 		block_insulator = new BlockRotatablePillar(Material.cloth, RefStrings.MODID + ":block_insulator_top").setBlockName("block_insulator").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeCloth).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_insulator_side");
 		block_fiberglass = new BlockRotatablePillar(Material.cloth, RefStrings.MODID + ":block_fiberglass_top").setBlockName("block_fiberglass").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeCloth).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_fiberglass_side");
@@ -1454,6 +1463,9 @@ public class ModBlocks {
 		block_red_phosphorus = new BlockHazardFalling().makeBeaconable().setStepSound(Block.soundTypeSand).setBlockName("block_red_phosphorus").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_red_phosphorus");
 		block_fallout = new BlockHazardFalling().setStepSound(Block.soundTypeGravel).setBlockName("block_fallout").setCreativeTab(MainRegistry.blockTab).setHardness(0.2F).setBlockTextureName(RefStrings.MODID + ":ash");
 		block_foam = new BlockGeneric(Material.craftedSnow).setBlockName("block_foam").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSnow).setHardness(0.5F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":foam");
+		block_solid_fuel = new BlockGraphiteFuel().setBlockName("block_solid_fuel");
+		block_rocket_fuel = new BlockGraphiteFuel().setBlockName("block_rocket_fuel");
+		block_solid_fuel_bf = new BlockGraphiteFuel().setBlockName("block_solid_fuel_bf");
 		block_coke = new BlockCoke().setBlockName("block_coke").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F);
 		block_graphite = new BlockGraphite(Material.iron, 30, 5).setBlockName("block_graphite").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeMetal).setHardness(5.0F).setResistance(10.0F);
 		block_graphite_drilled = new BlockGraphiteDrilled().setBlockName("block_graphite_drilled");
@@ -1557,7 +1569,9 @@ public class ModBlocks {
 		cmb_brick_reinforced = new BlockGeneric(Material.rock).setBlockName("cmb_brick_reinforced").setCreativeTab(MainRegistry.blockTab).setHardness(25.0F).setResistance(50000.0F).setBlockTextureName(RefStrings.MODID + ":cmb_brick_reinforced");
 		brick_asbestos = new BlockOutgas(Material.rock, true, 5, true).setBlockName("brick_asbestos").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(1000.0F).setBlockTextureName(RefStrings.MODID + ":brick_asbestos");
 		brick_fire = new BlockGeneric(Material.rock).setBlockName("brick_fire").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(35.0F).setBlockTextureName(RefStrings.MODID + ":brick_fire");
-		
+		brick_tektite = new BlockGeneric(Material.rock).setBlockName("brick_tektite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(80.0F).setBlockTextureName(RefStrings.MODID + ":brick_tektite");
+		brick_ash = new BlockGeneric(Material.rock).setBlockName("brick_ash").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(80.0F).setBlockTextureName(RefStrings.MODID + ":brick_ash");
+
 		ducrete_smooth = new BlockGeneric(Material.rock).setBlockName("ducrete_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(500.0F).setBlockTextureName(RefStrings.MODID + ":ducrete");
 		ducrete = new BlockGeneric(Material.rock).setBlockName("ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(20.0F).setResistance(500.0F).setBlockTextureName(RefStrings.MODID + ":ducrete_tile");
 		brick_ducrete = new BlockGeneric(Material.rock).setBlockName("brick_ducrete").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(750.0F).setBlockTextureName(RefStrings.MODID + ":brick_ducrete");
@@ -2644,6 +2658,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_polymer, block_polymer.getUnlocalizedName());
 		GameRegistry.registerBlock(block_bakelite, block_bakelite.getUnlocalizedName());
 		GameRegistry.registerBlock(block_rubber, block_rubber.getUnlocalizedName());
+		GameRegistry.registerBlock(block_pvc, block_pvc.getUnlocalizedName());
+		GameRegistry.registerBlock(block_pc, block_pc.getUnlocalizedName());
 		GameRegistry.registerBlock(block_australium, ItemOreBlock.class, block_australium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_weidanium, ItemOreBlock.class, block_weidanium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_reiium, ItemOreBlock.class, block_reiium.getUnlocalizedName());
@@ -2737,6 +2753,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(brick_compound, ItemBlockBlastInfo.class, brick_compound.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_light, ItemBlockBlastInfo.class, brick_light.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_asbestos, brick_asbestos.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_tektite, brick_tektite.getUnlocalizedName());
+		GameRegistry.registerBlock(brick_ash, brick_ash.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_fire, ItemBlockBlastInfo.class, brick_fire.getUnlocalizedName());
 
 		GameRegistry.registerBlock(concrete_slab, ItemModSlab.class, concrete_slab.getUnlocalizedName());
