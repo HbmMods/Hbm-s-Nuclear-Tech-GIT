@@ -57,7 +57,9 @@ public class GUIScreenWikiRender extends GuiScreen {
 
         try {
             String slotName = preview[index].getDisplayName().replaceAll("[^\\w ().-]+", "");
-            saveScreenshot(Minecraft.getMinecraft().mcDataDir, "Slot " + slotName + ".png", 2, 2, 32, 32, 0xFF8B8B8B);
+            if(!slotName.endsWith(".name")) {
+                saveScreenshot(Minecraft.getMinecraft().mcDataDir, "Slot " + slotName + ".png", 2, 2, 32, 32, 0xFF8B8B8B);
+            }
         } catch (Exception ex) {
             // Just skip any failures caused by display name or rendering
         }
