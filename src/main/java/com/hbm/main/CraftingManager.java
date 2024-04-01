@@ -865,10 +865,14 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModBlocks.hadron_plating_glass, 1), new Object[] { ModBlocks.hadron_plating, KEY_ANYGLASS });
 		addShapelessAuto(new ItemStack(ModBlocks.hadron_plating_voltz, 1), new Object[] { ModBlocks.hadron_plating, KEY_RED });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_power, 1), new Object[] { "SFS", "FTF", "SFS", 'S', BIGMT.ingot(), 'T', ModBlocks.machine_transformer, 'F', ModItems.fuse });
-		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_10m, 1), new Object[] { "HF", 'H', ModBlocks.hadron_power, 'F', ModItems.fuse });
-		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_100m, 1), new Object[] { "HF", 'H', ModBlocks.hadron_power_10m, 'F', ModItems.fuse });
-		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_1g, 1), new Object[] { "HF", 'H', ModBlocks.hadron_power_100m, 'F', ModItems.fuse });
-		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_10g, 1), new Object[] { "HF", 'H', ModBlocks.hadron_power_1g, 'F', ModItems.fuse });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_10m, 1), new Object[] { "F","H", 'H', ModBlocks.hadron_power, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_100m, 1), new Object[] { "F","H", 'H', ModBlocks.hadron_power_10m, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_1g, 1), new Object[] { "F","H", 'H', ModBlocks.hadron_power_100m, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_10g, 1), new Object[] { "F","H", 'H', ModBlocks.hadron_power_1g, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_1g, 1), new Object[] { "H","F", 'H', ModBlocks.hadron_power_10g, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_100m, 1), new Object[] { "H","F", 'H', ModBlocks.hadron_power_1g, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_10m, 1), new Object[] { "H","F", 'H', ModBlocks.hadron_power_100m, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power, 1), new Object[] { "H","F", 'H', ModBlocks.hadron_power_10m, 'F', KEY_TOOL_SCREWDRIVER });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_analysis, 1), new Object[] { "IPI", "PCP", "IPI", 'I', TI.ingot(), 'P', getReflector(), 'C', ModItems.circuit_gold });
 		addShapelessAuto(new ItemStack(ModBlocks.hadron_analysis_glass, 1), new Object[] { ModBlocks.hadron_analysis, KEY_ANYGLASS });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_access, 1), new Object[] { "IGI", "CRC", "IPI", 'I', ModItems.plate_polymer, 'G', KEY_ANYPANE, 'C', ModItems.circuit_aluminium, 'R', REDSTONE.block(), 'P', ModBlocks.hadron_plating_blue });

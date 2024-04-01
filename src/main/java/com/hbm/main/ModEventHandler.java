@@ -1060,38 +1060,6 @@ public class ModEventHandler {
 		}
 	}
 	
-	private static final Set<String> hashes = new HashSet();
-	
-	static {
-		hashes.add("41de5c372b0589bbdb80571e87efa95ea9e34b0d74c6005b8eab495b7afd9994");
-		hashes.add("31da6223a100ed348ceb3254ceab67c9cc102cb2a04ac24de0df3ef3479b1036");
-	}
-	
-	@SubscribeEvent
-	public void onClickSign(PlayerInteractEvent event) {
-
-		int x = event.x;
-		int y = event.y;
-		int z = event.z;
-		World world = event.world;
-		
-		if(!world.isRemote && event.action == Action.RIGHT_CLICK_BLOCK && world.getTileEntity(x, y, z) instanceof TileEntitySign) {
-			
-			TileEntitySign sign = (TileEntitySign)world.getTileEntity(x, y, z);
-			
-			String result = smoosh(sign.signText[0], sign.signText[1], sign.signText[2], sign.signText[3]);
-			System.out.println(result);
-			
-			if(hashes.contains(result)) {
-				world.func_147480_a(x, y, z, false);
-				EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(ModItems.bobmazon_hidden));
-				entityitem.delayBeforeCanPickup = 10;
-				world.spawnEntityInWorld(entityitem);
-			}
-		}
-		
-	}
-	
 	private String smoosh(String s1, String s2, String s3, String s4) {
 		
 		Random rand = new Random();
