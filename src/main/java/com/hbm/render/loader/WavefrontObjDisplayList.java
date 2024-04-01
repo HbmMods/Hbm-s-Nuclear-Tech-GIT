@@ -56,7 +56,7 @@ public class WavefrontObjDisplayList implements IModelCustom {
 	@Override
 	public void renderAll() {
 		for(Pair<String, Integer> p : nameToCallList)
-			GL11.glCallList(p.getRight());
+			callList(p.getRight());
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class WavefrontObjDisplayList implements IModelCustom {
 		for(Pair<String, Integer> p : nameToCallList){
 			for(String name : groupNames){
 				if(p.getLeft().equalsIgnoreCase(name)){
-					GL11.glCallList(p.getRight());
+					callList(p.getRight());
 					break;
 				}
 			}
@@ -75,7 +75,7 @@ public class WavefrontObjDisplayList implements IModelCustom {
 	public void renderPart(String partName) {
 		for(Pair<String, Integer> p : nameToCallList){
 			if(p.getLeft().equalsIgnoreCase(partName)){
-				GL11.glCallList(p.getRight());
+				callList(p.getRight());
 			}
 		}
 	}
@@ -91,8 +91,16 @@ public class WavefrontObjDisplayList implements IModelCustom {
 				}
 			}
 			if(!skip){
-				GL11.glCallList(p.getRight());
+				callList(p.getRight());
 			}
 		}
+	}
+	
+	protected static void callList(int i) {
+		boolean prevBlend = GL11.glIsEnabled(GL11.GL_BLEND);
+		GL11.glCallList(i);
+		boolean newBlend = GL11.glIsEnabled(GL11.GL_BLEND);
+		if(prevBlend && !newBlend) GL11.glEnable(GL11.GL_BLEND);
+		if(!prevBlend && newBlend) GL11.glDisable(GL11.GL_BLEND);
 	}
 }

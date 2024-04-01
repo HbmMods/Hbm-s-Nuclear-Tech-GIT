@@ -25,11 +25,36 @@ public class Nodespace {
 		return null;
 	}
 	
+	public static void createNode(World world, PowerNode node) {
+		NodeWorld nodeWorld = worlds.get(world);
+		if(nodeWorld == null) {
+			nodeWorld = new NodeWorld();
+			worlds.put(world, nodeWorld);
+		}
+		nodeWorld.pushNode(node);
+	}
+	
+	public static void destroyNode(World world, int x, int y, int z) {
+		PowerNode node = getNode(world, x, y, z);
+		if(node != null) worlds.get(world).popNode(node);
+	}
+	
 	public static void updateNodespace() {
 		
 		for(World world : MinecraftServer.getServer().worldServers) {
 			NodeWorld nodes = worlds.get(world);
+			
+			for(Entry<BlockPos, PowerNode> entry : nodes.nodes.entrySet()) {
+				PowerNode node = entry.getValue();
+				if(node.net == null || !node.net.isValid()) {
+					tryConnectNode(world, node);
+				}
+			}
 		}
+	}
+	
+	private static void tryConnectNode(World world, PowerNode node) {
+		
 	}
 	
 	public static class NodeWorld {
@@ -47,6 +72,7 @@ public class Nodespace {
 		
 		/** Removes the specified node from all positions from nodespace */
 		public void popNode(PowerNode node) {
+			if(node.net != null) node.net.destroy();
 			for(BlockPos pos : node.positions) {
 				nodes.remove(pos);
 			}
