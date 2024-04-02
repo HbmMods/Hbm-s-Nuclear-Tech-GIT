@@ -1,6 +1,8 @@
 package com.hbm.main;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -30,6 +32,7 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
 import com.hbm.inventory.gui.GUIScreenPreview;
+import com.hbm.inventory.gui.GUIScreenWikiRender;
 import com.hbm.items.ISyncButtons;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -37,6 +40,9 @@ import com.hbm.items.armor.ArmorFSBPowered;
 import com.hbm.items.armor.ArmorNo9;
 import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.JetpackBase;
+import com.hbm.items.machine.ItemDepletedFuel;
+import com.hbm.items.machine.ItemFluidDuct;
+import com.hbm.items.machine.ItemRBMKPellet;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
@@ -106,6 +112,7 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -908,6 +915,8 @@ public class ModEventHandlerClient {
 
 	public static int currentBrightness = 0;
 	public static int lastBrightness = 0;
+
+	static boolean isRenderingItems = false;
 	
 	@SubscribeEvent
 	public void clentTick(ClientTickEvent event) {
@@ -970,6 +979,46 @@ public class ModEventHandlerClient {
 				stack.stackSize = 1;
 				FMLCommonHandler.instance().showGuiScreen(new GUIScreenPreview(stack));
 			}
+		}
+
+		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_0) && Keyboard.isKeyDown(Keyboard.KEY_1)) {
+			if (!isRenderingItems) {
+				isRenderingItems = true;
+
+				MainRegistry.logger.info("Taking a screenshot of ALL items, if you did this by mistake: fucking lmao get rekt nerd");
+
+				List<Item> ignoredItems = Arrays.asList(
+					ModItems.assembly_template,
+					ModItems.crucible_template,
+					ModItems.chemistry_template,
+					ModItems.chemistry_icon,
+					ModItems.fluid_icon,
+					ModItems.achievement_icon,
+					Items.spawn_egg,
+					Item.getItemFromBlock(Blocks.mob_spawner)
+				);
+
+				List<Class<? extends Item>> collapsedClasses = Arrays.asList(
+					ItemRBMKPellet.class,
+					ItemDepletedFuel.class,
+					ItemFluidDuct.class
+				);
+
+				List<ItemStack> stacks = new ArrayList<ItemStack>();
+				for (Object reg : Item.itemRegistry) {
+					Item item = (Item) reg;
+					if(ignoredItems.contains(item)) continue;
+					if(collapsedClasses.contains(item.getClass())) {
+						stacks.add(new ItemStack(item));
+					} else {
+						item.getSubItems(item, null, stacks);
+					}
+				}
+
+				FMLCommonHandler.instance().showGuiScreen(new GUIScreenWikiRender(stacks.toArray(new ItemStack[0])));
+			}
+		} else {
+			isRenderingItems = false;
 		}
 		
 		if(event.phase == Phase.START) {

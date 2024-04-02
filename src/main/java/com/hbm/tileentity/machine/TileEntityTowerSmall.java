@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -26,7 +27,7 @@ public class TileEntityTowerSmall extends TileEntityCondenser {
 		
 		if(worldObj.isRemote) {
 			
-			if(this.waterTimer > 0 && this.worldObj.getTotalWorldTime() % 2 == 0) {
+			if(GeneralConfig.enableSteamParticles && (this.waterTimer > 0 && this.worldObj.getTotalWorldTime() % 2 == 0)) {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "tower");
 				data.setFloat("lift", 1F);

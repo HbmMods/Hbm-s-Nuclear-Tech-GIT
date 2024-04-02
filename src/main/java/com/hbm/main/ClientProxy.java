@@ -55,7 +55,6 @@ import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
 import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
-import com.hbm.config.GeneralConfig;
 import com.hbm.entity.cart.*;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
@@ -1743,7 +1742,7 @@ public class ClientProxy extends ServerProxy {
 		}
 		
 		if("tower".equals(type)) {
-			if(GeneralConfig.enableSteamParticles && (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean()))) {
+			if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
 				ParticleCoolingTower fx = new ParticleCoolingTower(man, world, x, y, z);
 				fx.setLift(data.getFloat("lift"));
 				fx.setBaseScale(data.getFloat("base"));
