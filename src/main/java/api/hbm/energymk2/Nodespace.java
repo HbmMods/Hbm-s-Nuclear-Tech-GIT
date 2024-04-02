@@ -39,6 +39,7 @@ public class Nodespace {
 		if(node != null) worlds.get(world).popNode(node);
 	}
 	
+	/** Goes over each node and manages connections */
 	public static void updateNodespace() {
 		
 		for(World world : MinecraftServer.getServer().worldServers) {
@@ -46,15 +47,46 @@ public class Nodespace {
 			
 			for(Entry<BlockPos, PowerNode> entry : nodes.nodes.entrySet()) {
 				PowerNode node = entry.getValue();
-				if(node.net == null || !node.net.isValid()) {
-					tryConnectNode(world, node);
-				}
+				checkNodeConnection(world, node);
 			}
 		}
 	}
 	
-	private static void tryConnectNode(World world, PowerNode node) {
+	/** Goes over each connection point of the given node, tries to find neighbor nodes and to join networks with them */
+	private static void checkNodeConnection(World world, PowerNode node) {
 		
+		for(DirPos con : node.connections) {
+			
+			PowerNode conNode = getNode(world, con.getX() + con.getDir().offsetX, con.getY() + con.getDir().offsetY, con.getZ() + con.getDir().offsetZ); // get whatever neighbor node intersects with that connection
+			
+			if(conNode != null) { // if there is a node at that place
+				
+				if(conNode.hasValidNet() && conNode.net == node.net) continue; // if the net is valid and both nodes have the same net, skip
+				
+				for(DirPos revCon : conNode.connections) { // check if neighbor node also has a valid reverse connection
+					
+					// god i hope i didn't fuck this up my brain is hurting already
+					if(revCon.getX() - revCon.getDir().offsetX == con.getX() && revCon.getY() - revCon.getDir().offsetY == con.getY() && revCon.getZ() - revCon.getDir().offsetZ == con.getZ() && revCon.getDir() == con.getDir().getOpposite()) {
+						connectToNode(node, conNode);
+						break;
+					}
+				}
+			}
+		}
+		
+		if(node.net == null || !node.net.isValid()) new PowerNetMK2().joinLink(node);
+	}
+	
+	/** Links two nodes with different or potentially no networks */
+	private static void connectToNode(PowerNode origin, PowerNode connection) {
+		
+		if(origin.hasValidNet() && connection.hasValidNet()) { // both nodes have nets, but the nets are different (previous assumption), join networks
+			origin.net.joinNetworks(connection.net);
+		} else if(!origin.hasValidNet() && connection.hasValidNet()) { // origin has no net, connection does, have origin join connection's net
+			connection.net.joinLink(origin);
+		} else if(origin.hasValidNet() && !connection.hasValidNet()) { // ...and vice versa
+			origin.net.joinLink(connection);
+		}
 	}
 	
 	public static class NodeWorld {
@@ -98,6 +130,10 @@ public class Nodespace {
 		public PowerNode setConnections(DirPos... connections) {
 			this.connections = connections;
 			return this;
+		}
+		
+		public boolean hasValidNet() {
+			return this.net != null && this.net.isValid();
 		}
 	}
 }
