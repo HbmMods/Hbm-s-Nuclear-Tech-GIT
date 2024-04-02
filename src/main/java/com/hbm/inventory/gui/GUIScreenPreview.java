@@ -54,8 +54,10 @@ public class GUIScreenPreview extends GuiScreen {
 		this.drawTexturedModalRect(res.getScaledWidth_double() / 2D / zoom - 9D, res.getScaledHeight_double() / 2D / zoom - 9D, 5, 87, 18, 18);
 		GL11.glPopMatrix();
 
-		this.fontRendererObj.drawString("Zoom: " + zoom, 2, this.height - 20, 0xff0000);
-		this.fontRendererObj.drawString("Windows Scale: " + res.getScaleFactor(), 2, this.height - 10, 0xff0000);
+		String zoomString = "Zoom: " + zoom;
+		String scaleString = "Windows Scale: " + res.getScaleFactor();
+		this.fontRendererObj.drawString(zoomString, this.width - this.fontRendererObj.getStringWidth(zoomString) - 2, this.height - 20, 0xff0000);
+		this.fontRendererObj.drawString(scaleString, this.width - this.fontRendererObj.getStringWidth(scaleString) - 2, this.height - 10, 0xff0000);
 	}
 
 	public void drawTexturedModalRect(double x, double y, int sourceX, int sourceY, int sizeX, int sizeY) {
