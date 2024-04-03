@@ -1,11 +1,17 @@
 package api.hbm.energymk2;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 
@@ -18,6 +24,7 @@ public class Nodespace {
 	
 	/** Contains all "NodeWorld" instances, i.e. lists of nodes existing per world */
 	public static HashMap<World, NodeWorld> worlds = new HashMap();
+	public static Set<PowerNetMK2> activePowerNets = new HashSet();
 	
 	public static PowerNode getNode(World world, int x, int y, int z) {
 		NodeWorld nodeWorld = worlds.get(world);
@@ -36,7 +43,19 @@ public class Nodespace {
 	
 	public static void destroyNode(World world, int x, int y, int z) {
 		PowerNode node = getNode(world, x, y, z);
-		if(node != null) worlds.get(world).popNode(node);
+		if(node != null) {
+			worlds.get(world).popNode(node);
+			markNeigbors(world, node);
+		}
+	}
+	
+	/** Grabs all neighbor nodes from the given node's connection points and removes them from the network entirely, forcing a hard reconnect */
+	private static void markNeigbors(World world, PowerNode node) {
+		
+		for(DirPos con : node.connections) {
+			PowerNode conNode = getNode(world, con.getX(), con.getY(), con.getZ());
+			if(conNode != null && conNode.hasValidNet()) conNode.net.leaveLink(conNode);
+		}
 	}
 	
 	/** Goes over each node and manages connections */
@@ -47,7 +66,22 @@ public class Nodespace {
 			
 			for(Entry<BlockPos, PowerNode> entry : nodes.nodes.entrySet()) {
 				PowerNode node = entry.getValue();
-				checkNodeConnection(world, node);
+				if(!node.hasValidNet()) {
+					checkNodeConnection(world, node);
+				}
+				
+				if(node.hasValidNet()) {
+					
+					for(BlockPos pos : node.positions) {
+						NBTTagCompound data = new NBTTagCompound();
+						data.setString("type", "marker");
+						data.setInteger("color", 0x00ff00);
+						data.setInteger("expires", 250);
+						data.setDouble("dist", 15D);
+						data.setString("label", "" + node.net.hashCode());
+						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.dimensionId, pos.getX(), pos.getY(), pos.getZ(), 50));
+					}
+				}
 			}
 		}
 	}
@@ -57,7 +91,7 @@ public class Nodespace {
 		
 		for(DirPos con : node.connections) {
 			
-			PowerNode conNode = getNode(world, con.getX() + con.getDir().offsetX, con.getY() + con.getDir().offsetY, con.getZ() + con.getDir().offsetZ); // get whatever neighbor node intersects with that connection
+			PowerNode conNode = getNode(world, con.getX(), con.getY(), con.getZ()); // get whatever neighbor node intersects with that connection
 			
 			if(conNode != null) { // if there is a node at that place
 				
@@ -107,6 +141,7 @@ public class Nodespace {
 			if(node.net != null) node.net.destroy();
 			for(BlockPos pos : node.positions) {
 				nodes.remove(pos);
+				node.expired = true;
 			}
 		}
 		
@@ -122,6 +157,7 @@ public class Nodespace {
 		public BlockPos[] positions;
 		public DirPos[] connections;
 		public PowerNetMK2 net;
+		public boolean expired = false;
 		
 		public PowerNode(BlockPos... positions) {
 			this.positions = positions;

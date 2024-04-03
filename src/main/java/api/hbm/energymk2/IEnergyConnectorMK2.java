@@ -25,13 +25,13 @@ public interface IEnergyConnectorMK2 extends ILoadedTile {
 	
 	public static final boolean particleDebug = false;
 	
-	public default Vec3 getDebugParticlePos() {
+	public default Vec3 getDebugParticlePosMK2() {
 		TileEntity te = (TileEntity) this;
 		Vec3 vec = Vec3.createVectorHelper(te.xCoord + 0.5, te.yCoord + 1, te.zCoord + 0.5);
 		return vec;
 	}
 	
-	public default void provideInfoForEC(NBTTagCompound data) {
+	public default void provideInfoForECMK2(NBTTagCompound data) {
 		data.setLong(CompatEnergyControl.L_ENERGY_HE, this.getPower());
 		data.setLong(CompatEnergyControl.L_CAPACITY_HE, this.getMaxPower());
 	}

@@ -14,6 +14,10 @@ public class PowerNetMK2 {
 	/** Maps all active subscribers to a timestamp, handy for handling timeouts. In a good system this shouldn't be necessary, but the previous system taught me to be cautious anyway */
 	private HashMap<IEnergyReceiverMK2, Long> receiverEntries = new HashMap();
 	private HashMap<IEnergyProviderMK2, Long> providerEntries = new HashMap();
+	
+	public PowerNetMK2() {
+		Nodespace.activePowerNets.add(this);
+	}
 
 	/// SUBSCRIBER HANDLING ///
 	public boolean isSubscribed(IEnergyReceiverMK2 receiver) {
@@ -72,6 +76,7 @@ public class PowerNetMK2 {
 	/// GENERAL POWER NET CONTROL ///
 	public void invalidate() {
 		this.valid = false;
+		Nodespace.activePowerNets.remove(this);
 	}
 	
 	public boolean isValid() {

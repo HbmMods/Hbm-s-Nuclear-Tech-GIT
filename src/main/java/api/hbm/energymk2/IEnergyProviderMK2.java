@@ -22,7 +22,7 @@ public interface IEnergyProviderMK2 extends IEnergyConnector {
 			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
 			if(!con.canConnect(dir.getOpposite())) return;
 			
-			PowerNode node = con.getNode();
+			PowerNode node = con.createNode();
 			
 			if(node != null && node.net != null) {
 				node.net.addProvider(this);

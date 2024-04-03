@@ -3,12 +3,16 @@ package com.hbm.tileentity.network;
 import api.hbm.energy.IEnergyConductor;
 import api.hbm.energy.IPowerNet;
 import api.hbm.energy.PowerNet;
+import api.hbm.energymk2.IEnergyConductorMK2;
+import api.hbm.energymk2.Nodespace;
+import api.hbm.energymk2.Nodespace.PowerNode;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCableBaseNT extends TileEntity implements IEnergyConductor {
+public class TileEntityCableBaseNT extends TileEntity implements IEnergyConductor, IEnergyConductorMK2 {
 	
 	protected IPowerNet network;
+	protected PowerNode node;
 
 	@Override
 	public void updateEntity() {
@@ -24,6 +28,22 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 				this.setPowerNet(new PowerNet().joinLink(this));
 			}
 		}
+		
+		if(!worldObj.isRemote) {
+			
+			if(this.node == null || this.node.expired) {
+				this.node = Nodespace.getNode(worldObj, xCoord, yCoord, zCoord);
+				
+				if(this.node == null || this.node.expired) {
+					this.node = this.createNode();
+					Nodespace.createNode(worldObj, this.node);
+				}
+			}
+		}
+	}
+	
+	public void onNodeDestroyedCallback() {
+		this.node = null;
 	}
 	
 	protected void connect() {
@@ -58,6 +78,10 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 			if(this.network != null) {
 				this.network.reevaluate();
 				this.network = null;
+			}
+			
+			if(this.node != null) {
+				Nodespace.destroyNode(worldObj, xCoord, yCoord, zCoord);
 			}
 		}
 	}

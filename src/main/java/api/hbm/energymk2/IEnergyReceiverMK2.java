@@ -23,7 +23,7 @@ public interface IEnergyReceiverMK2 extends IEnergyConnectorMK2 {
 			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
 			if(!con.canConnect(dir.getOpposite())) return;
 			
-			PowerNode node = con.getNode();
+			PowerNode node = con.createNode();
 			
 			if(node != null && node.net != null) {
 				node.net.addReceiver(this);
@@ -51,7 +51,7 @@ public interface IEnergyReceiverMK2 extends IEnergyConnectorMK2 {
 		
 		if(te instanceof IEnergyConductorMK2) {
 			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
-			PowerNode node = con.getNode();
+			PowerNode node = con.createNode();
 			
 			if(node != null && node.net != null) {
 				node.net.removeReceiver(this);
