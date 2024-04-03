@@ -336,15 +336,13 @@ public class EntityGlyphidScout extends EntityGlyphid {
 		int y = MathHelper.floor_double(this.boundingBox.minY);
 		int z = MathHelper.floor_double(this.posZ);
 
-		int light = this.worldObj.getBlockLightValue(x, y, z);
+		int skylightSubtracted = this.worldObj.skylightSubtracted;
 
-		if(this.worldObj.isThundering()) {
-			int skylightSubtracted = this.worldObj.skylightSubtracted;
-			this.worldObj.skylightSubtracted = 10;
-			light = this.worldObj.getBlockLightValue(x, y, z);
-			this.worldObj.skylightSubtracted = skylightSubtracted;
-		}
-			
+		if(this.worldObj.isThundering()) this.worldObj.skylightSubtracted = 10;
+		int light = worldObj.getChunkFromChunkCoords(x >> 4, z >> 4).getBlockLightValue(x & 15, y, z & 15, worldObj.skylightSubtracted);
+
+		this.worldObj.skylightSubtracted = skylightSubtracted;
 		return light <= 7;
+
 	}
 }
