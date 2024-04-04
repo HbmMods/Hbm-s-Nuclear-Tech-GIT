@@ -1,19 +1,21 @@
 package api.hbm.energymk2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import api.hbm.energymk2.Nodespace.PowerNode;
 
 public class PowerNetMK2 {
 	
-	private boolean valid = true;
-	private Set<PowerNode> links = new HashSet();
+	public boolean valid = true;
+	public Set<PowerNode> links = new HashSet();
 
 	/** Maps all active subscribers to a timestamp, handy for handling timeouts. In a good system this shouldn't be necessary, but the previous system taught me to be cautious anyway */
-	private HashMap<IEnergyReceiverMK2, Long> receiverEntries = new HashMap();
-	private HashMap<IEnergyProviderMK2, Long> providerEntries = new HashMap();
+	public HashMap<IEnergyReceiverMK2, Long> receiverEntries = new HashMap();
+	public HashMap<IEnergyProviderMK2, Long> providerEntries = new HashMap();
 	
 	public PowerNetMK2() {
 		Nodespace.activePowerNets.add(this);
@@ -52,7 +54,10 @@ public class PowerNetMK2 {
 		
 		if(network == this) return; //wtf?!
 
-		for(PowerNode conductor : network.links) joinLink(conductor);
+		List<PowerNode> oldNodes = new ArrayList(network.links.size());
+		oldNodes.addAll(network.links); // might prevent oddities related to joining - nvm it does nothing
+		
+		for(PowerNode conductor : oldNodes) forceJoinLink(conductor);
 		network.links.clear();
 
 		for(IEnergyReceiverMK2 connector : network.receiverEntries.keySet()) this.addReceiver(connector);
@@ -63,13 +68,19 @@ public class PowerNetMK2 {
 	/** Adds the power node as part of this network's links */
 	public PowerNetMK2 joinLink(PowerNode node) {
 		if(node.net != null) node.net.leaveLink(node);
-		node.net = this;
+		return forceJoinLink(node);
+	}
+
+	/** Adds the power node as part of this network's links, skips the part about removing it from existing networks */
+	public PowerNetMK2 forceJoinLink(PowerNode node) {
+		this.links.add(node);
+		node.setNet(this);
 		return this;
 	}
 
 	/** Removes the specified power node */
 	public void leaveLink(PowerNode node) {
-		node.net = null;
+		node.setNet(null);
 		this.links.remove(node);
 	}
 	
@@ -85,7 +96,7 @@ public class PowerNetMK2 {
 	
 	public void destroy() {
 		this.invalidate();
-		for(PowerNode link : this.links) if(link.net == this) link.net = null;
+		for(PowerNode link : this.links) if(link.net == this) link.setNet(null);
 		this.links.clear();
 		this.receiverEntries.clear();
 		this.providerEntries.clear();

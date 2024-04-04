@@ -45,10 +45,11 @@ public class Nodespace {
 		PowerNode node = getNode(world, x, y, z);
 		if(node != null) {
 			worlds.get(world).popNode(node);
-			markNeigbors(world, node);
+			//markNeigbors(world, node);
 		}
 	}
 	
+	// UNUSED DO NOT TOUCH
 	/** Grabs all neighbor nodes from the given node's connection points and removes them from the network entirely, forcing a hard reconnect */
 	private static void markNeigbors(World world, PowerNode node) {
 		
@@ -66,21 +67,22 @@ public class Nodespace {
 			
 			for(Entry<BlockPos, PowerNode> entry : nodes.nodes.entrySet()) {
 				PowerNode node = entry.getValue();
-				if(!node.hasValidNet()) {
+				if(!node.hasValidNet() || node.recentlyChanged) {
 					checkNodeConnection(world, node);
+					node.recentlyChanged = false;
 				}
 				
 				if(node.hasValidNet()) {
 					
-					for(BlockPos pos : node.positions) {
+					/*for(BlockPos pos : node.positions) {
 						NBTTagCompound data = new NBTTagCompound();
 						data.setString("type", "marker");
-						data.setInteger("color", 0x00ff00);
+						data.setInteger("color", node.net.hashCode() % 0xffffff);
 						data.setInteger("expires", 250);
-						data.setDouble("dist", 15D);
-						data.setString("label", "" + node.net.hashCode());
+						data.setDouble("dist", 50D);
+						data.setString("label", "" + node.net.links.size());
 						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.dimensionId, pos.getX(), pos.getY(), pos.getZ(), 50));
-					}
+					}*/
 				}
 			}
 		}
@@ -115,7 +117,11 @@ public class Nodespace {
 	private static void connectToNode(PowerNode origin, PowerNode connection) {
 		
 		if(origin.hasValidNet() && connection.hasValidNet()) { // both nodes have nets, but the nets are different (previous assumption), join networks
-			origin.net.joinNetworks(connection.net);
+			if(origin.net.links.size() > connection.net.links.size()) {
+				origin.net.joinNetworks(connection.net);
+			} else {
+				connection.net.joinNetworks(origin.net);
+			}
 		} else if(!origin.hasValidNet() && connection.hasValidNet()) { // origin has no net, connection does, have origin join connection's net
 			connection.net.joinLink(origin);
 		} else if(origin.hasValidNet() && !connection.hasValidNet()) { // ...and vice versa
@@ -158,6 +164,18 @@ public class Nodespace {
 		public DirPos[] connections;
 		public PowerNetMK2 net;
 		public boolean expired = false;
+		/**
+		 * Okay so here's the deal: The code has shit idiot brain fungus. I don't know why. I re-tested every part involved several times.
+		 * I don't know why. But for some reason, during neighbor checks, on certain arbitrary fucking places, the joining operation just fails.
+		 * Disallowing nodes to create new networks fixed the problem completely, which is hardly surprising since they wouldn't be able to make
+		 * a new net anyway and they will re-check neighbors until a net is found, so the solution is tautological in nature. So I tried limiting
+		 * creation of new networks. Didn't work. So what's there left to do? Hand out a mark to any node that has changed networks, and let those
+		 * recently modified nodes do another re-check. This creates a second layer of redundant operations, and in theory doubles (in practice,
+		 * it might be an extra 20% due to break-off section sizes) the amount of CPU time needed for re-building the networks after joining or
+		 * breaking, but it seems to allow those parts to connect back to their neighbor nets as they are supposed to. I am not proud of this solution,
+		 * this issue shouldn't exist to begin with and I am going fucking insane but it is what it is.
+		 */
+		public boolean recentlyChanged = true;
 		
 		public PowerNode(BlockPos... positions) {
 			this.positions = positions;
@@ -170,6 +188,11 @@ public class Nodespace {
 		
 		public boolean hasValidNet() {
 			return this.net != null && this.net.isValid();
+		}
+		
+		public void setNet(PowerNetMK2 net) {
+			this.net = net;
+			this.recentlyChanged = true;
 		}
 	}
 }
