@@ -12,7 +12,18 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public interface IEnergyReceiverMK2 extends IEnergyConnectorMK2 {
 
-	public long transferPower(long power);
+	public default long transferPower(long power) {
+		if(power + this.getPower() <= this.getMaxPower()) {
+			this.setPower(power + this.getPower());
+			return 0;
+		}
+		long capacity = this.getMaxPower() - this.getPower();
+		long overshoot = power - capacity;
+		this.setPower(this.getMaxPower());
+		return overshoot;
+	}
+	
+	public void setPower(long power);
 	
 	public default void trySubscribe(World world, int x, int y, int z, ForgeDirection dir) {
 
@@ -23,7 +34,7 @@ public interface IEnergyReceiverMK2 extends IEnergyConnectorMK2 {
 			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
 			if(!con.canConnect(dir.getOpposite())) return;
 			
-			PowerNode node = con.createNode();
+			PowerNode node = Nodespace.getNode(world, x, y, z);
 			
 			if(node != null && node.net != null) {
 				node.net.addReceiver(this);

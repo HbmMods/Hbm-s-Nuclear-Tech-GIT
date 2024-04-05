@@ -3,7 +3,6 @@ package api.hbm.energymk2;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
-import api.hbm.energy.IEnergyConnector;
 import api.hbm.energymk2.Nodespace.PowerNode;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,7 +10,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public interface IEnergyProviderMK2 extends IEnergyConnector {
+public interface IEnergyProviderMK2 extends IEnergyConnectorMK2 {
+	
+	public void setPower(long power);
 	
 	public default void tryProvide(World world, int x, int y, int z, ForgeDirection dir) {
 
@@ -22,13 +23,15 @@ public interface IEnergyProviderMK2 extends IEnergyConnector {
 			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
 			if(!con.canConnect(dir.getOpposite())) return;
 			
-			PowerNode node = con.createNode();
+			PowerNode node = Nodespace.getNode(world, x, y, z);
 			
 			if(node != null && node.net != null) {
 				node.net.addProvider(this);
 				red = true;
 			}
 		}
+		
+		//TODO: direct transfer
 		
 		if(particleDebug) {
 			NBTTagCompound data = new NBTTagCompound();

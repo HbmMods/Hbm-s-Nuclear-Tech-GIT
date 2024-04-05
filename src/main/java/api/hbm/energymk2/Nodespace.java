@@ -1,5 +1,6 @@
 package api.hbm.energymk2;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
@@ -49,9 +50,8 @@ public class Nodespace {
 		}
 	}
 	
-	// UNUSED DO NOT TOUCH
 	/** Grabs all neighbor nodes from the given node's connection points and removes them from the network entirely, forcing a hard reconnect */
-	private static void markNeigbors(World world, PowerNode node) {
+	@Deprecated private static void markNeigbors(World world, PowerNode node) {
 		
 		for(DirPos con : node.connections) {
 			PowerNode conNode = getNode(world, con.getX(), con.getY(), con.getZ());
@@ -72,9 +72,9 @@ public class Nodespace {
 					node.recentlyChanged = false;
 				}
 				
-				if(node.hasValidNet()) {
+				/*if(node.hasValidNet()) {
 					
-					/*for(BlockPos pos : node.positions) {
+					for(BlockPos pos : node.positions) {
 						NBTTagCompound data = new NBTTagCompound();
 						data.setString("type", "marker");
 						data.setInteger("color", node.net.hashCode() % 0xffffff);
@@ -82,8 +82,35 @@ public class Nodespace {
 						data.setDouble("dist", 50D);
 						data.setString("label", "" + node.net.links.size());
 						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.dimensionId, pos.getX(), pos.getY(), pos.getZ(), 50));
-					}*/
-				}
+					}
+				}*/
+			}
+		}
+		
+		updatePowerNets();
+	}
+	
+	private static void updatePowerNets() {
+		
+		int timeout = 3_000;
+		
+		for(PowerNetMK2 net : activePowerNets) {
+			
+			long timestamp = System.currentTimeMillis();
+			
+			//TODO: start over, impose a per-tick transfer limit in order to avoid bigints
+
+			BigInteger supply = BigInteger.valueOf(0);
+			BigInteger demand = BigInteger.valueOf(0);
+			
+			for(Entry<IEnergyProviderMK2, Long> entry : net.providerEntries.entrySet()) {
+				IEnergyProviderMK2 provider = entry.getKey();
+				if(provider.isLoaded() && timestamp - entry.getValue() < timeout) supply = supply.add(BigInteger.valueOf(provider.getPower()));
+			}
+			
+			for(Entry<IEnergyReceiverMK2, Long> entry : net.receiverEntries.entrySet()) {
+				IEnergyReceiverMK2 receiver = entry.getKey();
+				if(receiver.isLoaded() && timestamp - entry.getValue() < timeout) demand = demand.add(BigInteger.valueOf(receiver.getMaxPower() - receiver.getPower()));
 			}
 		}
 	}
