@@ -44,7 +44,7 @@ public class EntityGlyphidBrawler extends EntityGlyphid {
 		}
 	}
 
-	/** Mainly composed of crusty old power fist code, with some touch ups **/
+	/** Mainly composed of repurposed bombardier code**/
 	public void leap() {
 		if (!worldObj.isRemote && entityToAttack instanceof EntityLivingBase && this.getDistanceToEntity(entityToAttack) < 20) {
 			Entity e = this.getEntityToAttack();
@@ -128,8 +128,9 @@ public class EntityGlyphidBrawler extends EntityGlyphid {
 		data.setFloat("scale", 2.5F);
 		data.setString("text", "" + (int) amount);
 		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 2, posZ), new TargetPoint(dimension, posX, posY + 2, posZ, 50));*/
-		if(source != DamageSource.fall) super.attackEntityFrom(source, amount);
-		return false;
+		//allows brawlers to get no damage on short leaps, but still affected by fall damage on big drops
+		if(source == DamageSource.fall && amount <= 10) return false;
+		return super.attackEntityFrom(source, amount);
 	}
 	@Override
 	public boolean isArmorBroken(float amount) {

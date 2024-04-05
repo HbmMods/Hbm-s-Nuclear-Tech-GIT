@@ -73,7 +73,10 @@ public class EntityGlyphidScout extends EntityGlyphid {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-
+		//Updates to check whether the player still exists, important to make sure it wont stop doing work
+		if(entityToAttack != null && ticksExisted % 60 == 0){
+			entityToAttack = findPlayerToAttack();
+		}
 		if((getCurrentTask() != TASK_BUILD_HIVE || getCurrentTask() != TASK_TERRAFORM) && taskWaypoint == null) {
 
 				if(MobConfig.rampantGlyphidGuidance && PollutionHandler.targetCoords != null){
