@@ -87,4 +87,21 @@ public class CommonConfig {
 		return prop.getStringList();
 	}
 
+	public static int parseStructureFlag(String flag) {
+		if(flag == null) flag = "";
+		
+		switch(flag.toLowerCase(Locale.US)) {
+		case "true":
+		case "on":
+		case "yes":
+			return 1;
+		case "false":
+		case "off":
+		case "no":
+			return 0;
+		default:
+			return 2;
+		}
+	}
+
 }

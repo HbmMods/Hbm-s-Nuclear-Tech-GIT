@@ -220,8 +220,10 @@ public class HbmWorldGen implements IWorldGenerator {
 		}
 		
 		boolean enableDungeons = world.getWorldInfo().isMapFeaturesEnabled();
+		if(GeneralConfig.enableDungeons == 1) enableDungeons = true;
+		if(GeneralConfig.enableDungeons == 0) enableDungeons = false;
 		
-		if(GeneralConfig.enableDungeons && world.provider.dimensionId == 0 && enableDungeons) {
+		if(enableDungeons && world.provider.dimensionId == 0) {
 			
 			if(MobConfig.enableHives && rand.nextInt(MobConfig.hiveSpawn) == 0) {
 				int x = i + rand.nextInt(16) + 8;

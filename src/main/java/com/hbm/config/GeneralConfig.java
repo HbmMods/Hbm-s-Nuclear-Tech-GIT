@@ -9,7 +9,7 @@ public class GeneralConfig {
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
 	public static boolean enablePlutoniumOre = false;
-	public static boolean enableDungeons = true;
+	public static int enableDungeons = 2;
 	public static boolean enableMDOres = true;
 	public static boolean enableMines = true;
 	public static boolean enableRad = true;
@@ -73,7 +73,10 @@ public class GeneralConfig {
 		enableDebugMode = config.get(CATEGORY_GENERAL, "1.00_enableDebugMode", false, "Enable debugging mode").getBoolean(false);
 		enableMycelium = config.get(CATEGORY_GENERAL, "1.01_enableMyceliumSpread", false, "Allows glowing mycelium to spread").getBoolean(false);
 		enablePlutoniumOre = config.get(CATEGORY_GENERAL, "1.02_enablePlutoniumNetherOre", false, "Enables plutonium ore generation in the nether").getBoolean(false);
-		enableDungeons = config.get(CATEGORY_GENERAL, "1.03_enableDungeonSpawn", true, "Allows structures and dungeons to spawn").getBoolean(true);
+
+		String unparsedDungeonFlag = config.get(CATEGORY_GENERAL, "1.03_enableDungeonSpawn", "flag", "Allows structures and dungeons to spawn. Valid values are true|false|flag - flag will respect the \"Generate Structures\" world flag.").getString();
+		enableDungeons = CommonConfig.parseStructureFlag(unparsedDungeonFlag);
+
 		enableMDOres = config.get(CATEGORY_GENERAL, "1.04_enableOresInModdedDimensions", true, "Allows NTM ores to generate in modded dimensions").getBoolean(true);
 		enableMines = config.get(CATEGORY_GENERAL, "1.05_enableLandmineSpawn", true, "Allows landmines to generate").getBoolean(true);
 		enableRad = config.get(CATEGORY_GENERAL, "1.06_enableRadHotspotSpawn", true, "Allows radiation hotspots to generate").getBoolean(true);
