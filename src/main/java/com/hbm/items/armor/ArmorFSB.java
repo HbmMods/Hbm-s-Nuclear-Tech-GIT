@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.items.ModItems;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.I18nUtil;
 
@@ -574,6 +575,9 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 			return;
 
 		if(!hasFSBArmor(entity) || !this.geigerSound)
+			return;
+
+		if(entity.inventory.hasItem(ModItems.geiger_counter) || entity.inventory.hasItem(ModItems.dosimeter))
 			return;
 
 		if(world.getTotalWorldTime() % 5 == 0) {

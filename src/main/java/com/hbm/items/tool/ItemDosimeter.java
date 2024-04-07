@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.extprop.HbmLivingProps;
-import com.hbm.items.armor.ArmorFSB;
 import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.Entity;
@@ -24,12 +23,6 @@ public class ItemDosimeter extends Item {
 		
 		if(!(entity instanceof EntityLivingBase) || world.isRemote)
 			return;
-		
-		if(entity instanceof EntityPlayer) {
-			
-			if(ArmorFSB.hasFSBArmor((EntityPlayer)entity) && ((ArmorFSB)((EntityPlayer)entity).inventory.armorInventory[2].getItem()).geigerSound)
-				return;
-		}
 		
 		float x = HbmLivingProps.getRadBuf((EntityLivingBase)entity);
 		
