@@ -1,18 +1,16 @@
 package api.hbm.energymk2;
 
-import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 
@@ -46,16 +44,6 @@ public class Nodespace {
 		PowerNode node = getNode(world, x, y, z);
 		if(node != null) {
 			worlds.get(world).popNode(node);
-			//markNeigbors(world, node);
-		}
-	}
-	
-	/** Grabs all neighbor nodes from the given node's connection points and removes them from the network entirely, forcing a hard reconnect */
-	@Deprecated private static void markNeigbors(World world, PowerNode node) {
-		
-		for(DirPos con : node.connections) {
-			PowerNode conNode = getNode(world, con.getX(), con.getY(), con.getZ());
-			if(conNode != null && conNode.hasValidNet()) conNode.net.leaveLink(conNode);
 		}
 	}
 	
@@ -95,22 +83,64 @@ public class Nodespace {
 		int timeout = 3_000;
 		
 		for(PowerNetMK2 net : activePowerNets) {
+
+			if(net.providerEntries.isEmpty()) continue;
+			if(net.receiverEntries.isEmpty()) continue;
 			
 			long timestamp = System.currentTimeMillis();
-			
-			//TODO: start over, impose a per-tick transfer limit in order to avoid bigints
+			long transferCap = 100_000_000_000_000_00L; // that ought to be enough
 
-			BigInteger supply = BigInteger.valueOf(0);
-			BigInteger demand = BigInteger.valueOf(0);
+			long supply = 0;
+			long demand = 0;
 			
 			for(Entry<IEnergyProviderMK2, Long> entry : net.providerEntries.entrySet()) {
 				IEnergyProviderMK2 provider = entry.getKey();
-				if(provider.isLoaded() && timestamp - entry.getValue() < timeout) supply = supply.add(BigInteger.valueOf(provider.getPower()));
+				if(provider.isLoaded() && timestamp - entry.getValue() < timeout) supply += Math.min(provider.getPower(), provider.getConnectionSpeed());
 			}
 			
 			for(Entry<IEnergyReceiverMK2, Long> entry : net.receiverEntries.entrySet()) {
 				IEnergyReceiverMK2 receiver = entry.getKey();
-				if(receiver.isLoaded() && timestamp - entry.getValue() < timeout) demand = demand.add(BigInteger.valueOf(receiver.getMaxPower() - receiver.getPower()));
+				if(receiver.isLoaded() && timestamp - entry.getValue() < timeout) demand += Math.min(receiver.getMaxPower() - receiver.getPower(), receiver.getConnectionSpeed());
+			}
+			
+			double drainScale = 1D;
+			
+			if(supply > demand) {
+				drainScale = (double) demand / (double) supply;
+			}
+			
+			long toTransfer = Math.min(supply, demand);
+			if(toTransfer > transferCap) toTransfer = transferCap;
+			if(toTransfer <= 0) continue;
+			
+			//TODO: add caching for the ordered lists
+			List<IEnergyProviderMK2> providers = new ArrayList() {{ addAll(net.providerEntries.keySet()); }};
+			List<IEnergyReceiverMK2> receivers = new ArrayList() {{ addAll(net.receiverEntries.keySet()); }};
+			receivers.sort(COMP);
+			
+			int maxIteration = 1000;
+			//TODO: ok this implementation is shit but we can clutch this. add a var for the current receiver index and shift that after each transfer so that transfers are spaced out instead of shit getting priority treatment
+			while(!receivers.isEmpty() && maxIteration > 0) {
+				maxIteration--;
+				
+				IEnergyProviderMK2 src = providers.get(0);
+				IEnergyReceiverMK2 dest = receivers.get(0);
+				long toDrain = Math.min((long) (src.getPower() * drainScale), src.getConnectionSpeed());
+				long toFill = Math.min(dest.getMaxPower() - dest.getPower(), dest.getConnectionSpeed());
+				long finalTransfer = Math.min(toDrain, toFill);
+				if(finalTransfer <= 0) {
+					receivers.remove(0);
+					continue;
+				}
+				
+				finalTransfer -= dest.transferPower(finalTransfer);
+				src.usePower(finalTransfer);
+				
+				toTransfer -= finalTransfer;
+				if(finalTransfer <= 0) {
+					receivers.remove(0);
+					continue;
+				}
 			}
 		}
 	}
@@ -220,6 +250,16 @@ public class Nodespace {
 		public void setNet(PowerNetMK2 net) {
 			this.net = net;
 			this.recentlyChanged = true;
+		}
+	}
+	
+	public static final ReceiverComparator COMP = new ReceiverComparator();
+	
+	public static class ReceiverComparator implements Comparator<IEnergyReceiverMK2> {
+
+		@Override
+		public int compare(IEnergyReceiverMK2 o1, IEnergyReceiverMK2 o2) {
+			return o2.getPriority().ordinal() - o1.getPriority().ordinal();
 		}
 	}
 }

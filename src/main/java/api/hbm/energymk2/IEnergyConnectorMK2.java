@@ -23,6 +23,10 @@ public interface IEnergyConnectorMK2 extends ILoadedTile {
 	public long getPower();
 	public long getMaxPower();
 	
+	public default long getConnectionSpeed() {
+		return this.getMaxPower();
+	}
+	
 	public static final boolean particleDebug = false;
 	
 	public default Vec3 getDebugParticlePosMK2() {

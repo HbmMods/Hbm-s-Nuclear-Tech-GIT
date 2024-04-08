@@ -11,6 +11,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public interface IEnergyProviderMK2 extends IEnergyConnectorMK2 {
+
+	/** Uses up available power, default implementation has no sanity checking, make sure that the requested power is lequal to the current power */
+	public default void usePower(long power) {
+		this.setPower(this.getPower() - power);
+	}
 	
 	public void setPower(long power);
 	
