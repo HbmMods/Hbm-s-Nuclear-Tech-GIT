@@ -1,10 +1,12 @@
 package api.hbm.energymk2;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import api.hbm.energymk2.Nodespace.PowerNode;
 
@@ -100,5 +102,81 @@ public class PowerNetMK2 {
 		this.links.clear();
 		this.receiverEntries.clear();
 		this.providerEntries.clear();
+	}
+	
+	public void transferPower() {
+		
+		int timeout = 3_000;
+
+		if(providerEntries.isEmpty()) return;
+		if(receiverEntries.isEmpty()) return;
+		
+		long timestamp = System.currentTimeMillis();
+		long transferCap = 100_000_000_000_000_00L; // that ought to be enough
+
+		long supply = 0;
+		long demand = 0;
+		
+		for(Entry<IEnergyProviderMK2, Long> entry : providerEntries.entrySet()) {
+			IEnergyProviderMK2 provider = entry.getKey();
+			if(provider.isLoaded() && timestamp - entry.getValue() < timeout) supply += Math.min(provider.getPower(), provider.getConnectionSpeed());
+		}
+		
+		for(Entry<IEnergyReceiverMK2, Long> entry : receiverEntries.entrySet()) {
+			IEnergyReceiverMK2 receiver = entry.getKey();
+			if(receiver.isLoaded() && timestamp - entry.getValue() < timeout) demand += Math.min(receiver.getMaxPower() - receiver.getPower(), receiver.getConnectionSpeed());
+		}
+		
+		double drainScale = 1D;
+		
+		if(supply > demand) {
+			drainScale = (double) demand / (double) supply;
+		}
+		
+		long toTransfer = Math.min(supply, demand);
+		if(toTransfer > transferCap) toTransfer = transferCap;
+		if(toTransfer <= 0) return;
+		
+		List<IEnergyProviderMK2> providers = new ArrayList() {{ addAll(providerEntries.keySet()); }};
+		List<IEnergyReceiverMK2> receivers = new ArrayList() {{ addAll(receiverEntries.keySet()); }};
+		receivers.sort(COMP);
+		
+		int maxIteration = 1000;
+		
+		//how much the current sender/receiver have already sent/received
+		long prevSrc = 0;
+		long prevDest = 0;
+		
+		while(!receivers.isEmpty() && !providers.isEmpty() && maxIteration > 0) {
+			maxIteration--;
+			
+			IEnergyProviderMK2 src = providers.get(0);
+			IEnergyReceiverMK2 dest = receivers.get(0);
+			
+			long toDrain = Math.min((long) (src.getPower() * drainScale) + prevSrc, src.getConnectionSpeed()) - prevSrc;
+			long toFill = Math.min(dest.getMaxPower() - dest.getPower() + prevDest, dest.getConnectionSpeed()) - prevDest;
+			long finalTransfer = Math.min(toDrain, toFill);
+
+			if(toDrain <= 0) { providers.remove(0); prevSrc = 0; continue; }
+			if(toFill <= 0) { receivers.remove(0); prevDest = 0; continue; }
+			
+			finalTransfer -= dest.transferPower(finalTransfer);
+			src.usePower(finalTransfer);
+			
+			prevSrc += finalTransfer;
+			prevDest += finalTransfer;
+			
+			toTransfer -= finalTransfer;
+		}
+	}
+	
+	public static final ReceiverComparator COMP = new ReceiverComparator();
+	
+	public static class ReceiverComparator implements Comparator<IEnergyReceiverMK2> {
+
+		@Override
+		public int compare(IEnergyReceiverMK2 o1, IEnergyReceiverMK2 o2) {
+			return o2.getPriority().ordinal() - o1.getPriority().ordinal();
+		}
 	}
 }
