@@ -24,6 +24,10 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 		return overshoot;
 	}
 	
+	public default long getReceiverSpeed() {
+		return this.getMaxPower();
+	}
+	
 	public default void trySubscribe(World world, int x, int y, int z, ForgeDirection dir) {
 
 		TileEntity te = world.getTileEntity(x, y, z);

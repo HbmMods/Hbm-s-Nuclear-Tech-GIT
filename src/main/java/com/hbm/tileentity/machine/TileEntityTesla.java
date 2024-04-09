@@ -12,7 +12,7 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ArmorUtil;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
@@ -28,7 +28,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityTesla extends TileEntityMachineBase implements IEnergyUser {
+public class TileEntityTesla extends TileEntityMachineBase implements IEnergyReceiverMK2 {
 	
 	public long power;
 	public static final long maxPower = 100000;

@@ -9,7 +9,7 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -22,7 +22,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRadiobox extends TileEntityLoadedBase implements IEnergyUser, IGUIProvider {
+public class TileEntityRadiobox extends TileEntityLoadedBase implements IEnergyReceiverMK2, IGUIProvider {
 	
 	long power;
 	public static long maxPower = 500000;

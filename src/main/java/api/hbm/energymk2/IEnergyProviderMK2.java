@@ -18,6 +18,10 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 		this.setPower(this.getPower() - power);
 	}
 	
+	public default long getProviderSpeed() {
+		return this.getMaxPower();
+	}
+	
 	public default void tryProvide(World world, int x, int y, int z, ForgeDirection dir) {
 
 		TileEntity te = world.getTileEntity(x, y, z);
