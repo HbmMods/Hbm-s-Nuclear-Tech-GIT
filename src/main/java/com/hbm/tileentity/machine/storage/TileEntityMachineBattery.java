@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine.storage;
 
 import api.hbm.energy.*;
+import api.hbm.energymk2.IBatteryItem;
 import api.hbm.tile.IInfoProviderEC;
 
 import com.hbm.blocks.machine.MachineBattery;

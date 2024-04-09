@@ -11,8 +11,8 @@ import com.hbm.tileentity.machine.TileEntityMachineGasCent;
 import com.hbm.tileentity.machine.TileEntityMachineGasCent.PseudoFluidTank;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 
-import api.hbm.energy.IBatteryItem;
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IBatteryItem;
+import api.hbm.energymk2.IEnergyHandlerMK2;
 import api.hbm.fluid.IFluidUser;
 import api.hbm.tile.IInfoProviderEC;
 import net.minecraft.item.ItemStack;
@@ -47,8 +47,8 @@ public class CompatEnergyControl {
 		
 		data.setString(KEY_EUTYPE, "HE");
 		
-		if(tile instanceof IEnergyUser) {
-			IEnergyUser user = (IEnergyUser) tile;
+		if(tile instanceof IEnergyHandlerMK2) {
+			IEnergyHandlerMK2 user = (IEnergyHandlerMK2) tile;
 			data.setDouble(L_ENERGY_HE, user.getPower());
 			data.setDouble(L_CAPACITY_HE, user.getMaxPower());
 		}

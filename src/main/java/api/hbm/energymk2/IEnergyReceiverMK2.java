@@ -10,7 +10,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public interface IEnergyReceiverMK2 extends IEnergyConnectorMK2 {
+/** If it receives energy, use this */
+public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 
 	public default long transferPower(long power) {
 		if(power + this.getPower() <= this.getMaxPower()) {
@@ -22,8 +23,6 @@ public interface IEnergyReceiverMK2 extends IEnergyConnectorMK2 {
 		this.setPower(this.getMaxPower());
 		return overshoot;
 	}
-	
-	public void setPower(long power);
 	
 	public default void trySubscribe(World world, int x, int y, int z, ForgeDirection dir) {
 

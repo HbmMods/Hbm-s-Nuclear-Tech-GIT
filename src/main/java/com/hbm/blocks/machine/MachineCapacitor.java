@@ -17,7 +17,8 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyProviderMK2;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -145,7 +146,7 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 		player.addExhaustion(0.025F);
 	}
 
-	public static class TileEntityCapacitor extends TileEntityLoadedBase implements IEnergyUser, INBTPacketReceiver, IPersistentNBT {
+	public static class TileEntityCapacitor extends TileEntityLoadedBase implements IEnergyProviderMK2, IEnergyReceiverMK2, INBTPacketReceiver, IPersistentNBT {
 		
 		public long power;
 		protected long maxPower;
@@ -190,7 +191,7 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 				long preSend = power;
 				if(pos != null && last != null) {
 					this.tryUnsubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ());
-					this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), last);
+					this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), last);
 				}
 				long sent = preSend - power;
 				

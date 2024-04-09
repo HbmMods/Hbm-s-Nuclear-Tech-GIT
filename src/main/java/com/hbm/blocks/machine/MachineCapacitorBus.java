@@ -5,7 +5,7 @@ import java.util.List;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.lib.RefStrings;
 
-import api.hbm.energy.IEnergyConnectorBlock;
+import api.hbm.energymk2.IEnergyConnectorBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;

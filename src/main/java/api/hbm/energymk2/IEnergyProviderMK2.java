@@ -10,14 +10,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public interface IEnergyProviderMK2 extends IEnergyConnectorMK2 {
+/** If it sends energy, use this */
+public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 
 	/** Uses up available power, default implementation has no sanity checking, make sure that the requested power is lequal to the current power */
 	public default void usePower(long power) {
 		this.setPower(this.getPower() - power);
 	}
-	
-	public void setPower(long power);
 	
 	public default void tryProvide(World world, int x, int y, int z, ForgeDirection dir) {
 

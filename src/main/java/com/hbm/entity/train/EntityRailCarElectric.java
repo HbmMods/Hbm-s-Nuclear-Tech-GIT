@@ -2,7 +2,7 @@ package com.hbm.entity.train;
 
 import com.hbm.items.ModItems;
 
-import api.hbm.energy.IBatteryItem;
+import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 

@@ -10,9 +10,7 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
 import api.hbm.block.IToolable;
-import api.hbm.energy.IEnergyUser;
-import api.hbm.energy.IEnergyConnector.ConnectionPriority;
-import api.hbm.energy.IEnergyConnectorBlock;
+import api.hbm.energymk2.IEnergyConnectorBlock;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
