@@ -533,6 +533,8 @@ public class OreDictManager {
 			OreDictionary.registerOre("ore" + ore.oreName, new ItemStack(ModItems.ore_enriched, 1, ore.ordinal()));
 		}
 
+		OreDictionary.registerOre("oreThorium", new ItemStack(ModItems.ore_enriched, 1, 9));
+
 		OreDictionary.registerOre("itemRubber", ingot_rubber);
 
 		OreDictionary.registerOre("coalCoke", fromOne(coke, EnumCokeType.COAL));
