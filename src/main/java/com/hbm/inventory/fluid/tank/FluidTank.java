@@ -126,6 +126,9 @@ public class FluidTank {
 		
 		if(slots[in] == null)
 			return false;
+
+		if(pressure != 0)
+			return false;
 		
 		int prev = this.getFill();
 		
