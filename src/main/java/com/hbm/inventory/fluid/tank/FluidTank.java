@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GuiInfoContainer;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
@@ -127,7 +128,9 @@ public class FluidTank {
 		if(slots[in] == null)
 			return false;
 
-		if(pressure != 0)
+		boolean isInfiniteBarrel = slots[in].getItem() == ModItems.fluid_barrel_infinite;
+
+		if(!isInfiniteBarrel && pressure != 0)
 			return false;
 		
 		int prev = this.getFill();
