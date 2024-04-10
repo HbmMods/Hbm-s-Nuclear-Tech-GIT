@@ -64,8 +64,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
-			
-			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			this.subscribeToAllAround(tank.getTankType(), this);
 			
 			watts = MathHelper.clamp_int(watts, 1, 100);

@@ -119,12 +119,12 @@ public class PowerNetMK2 {
 		
 		for(Entry<IEnergyProviderMK2, Long> entry : providerEntries.entrySet()) {
 			IEnergyProviderMK2 provider = entry.getKey();
-			if(provider.isLoaded() && timestamp - entry.getValue() < timeout) supply += Math.min(provider.getPower(), provider.getConnectionSpeed());
+			if(provider.isLoaded() && timestamp - entry.getValue() < timeout) supply += Math.min(provider.getPower(), provider.getProviderSpeed());
 		}
 		
 		for(Entry<IEnergyReceiverMK2, Long> entry : receiverEntries.entrySet()) {
 			IEnergyReceiverMK2 receiver = entry.getKey();
-			if(receiver.isLoaded() && timestamp - entry.getValue() < timeout) demand += Math.min(receiver.getMaxPower() - receiver.getPower(), receiver.getConnectionSpeed());
+			if(receiver.isLoaded() && timestamp - entry.getValue() < timeout) demand += Math.min(receiver.getMaxPower() - receiver.getPower(), receiver.getReceiverSpeed());
 		}
 		
 		double drainScale = 1D;
@@ -153,8 +153,8 @@ public class PowerNetMK2 {
 			IEnergyProviderMK2 src = providers.get(0);
 			IEnergyReceiverMK2 dest = receivers.get(0);
 			
-			long toDrain = Math.min((long) (src.getPower() * drainScale) + prevSrc, src.getConnectionSpeed()) - prevSrc;
-			long toFill = Math.min(dest.getMaxPower() - dest.getPower() + prevDest, dest.getConnectionSpeed()) - prevDest;
+			long toDrain = Math.min((long) (src.getPower() * drainScale) + prevSrc, src.getProviderSpeed()) - prevSrc;
+			long toFill = Math.min(dest.getMaxPower() - dest.getPower() + prevDest, dest.getReceiverSpeed()) - prevDest;
 			long finalTransfer = Math.min(toDrain, toFill);
 
 			if(toDrain <= 0) { providers.remove(0); prevSrc = 0; continue; }

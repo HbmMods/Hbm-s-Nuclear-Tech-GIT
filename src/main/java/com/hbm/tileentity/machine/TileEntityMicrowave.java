@@ -23,6 +23,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityMicrowave extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, SimpleComponent {
@@ -48,8 +49,8 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
-			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
+
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			
 			this.power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 			
