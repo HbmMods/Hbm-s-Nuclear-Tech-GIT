@@ -19,6 +19,8 @@ public class PowerNetMK2 {
 	public HashMap<IEnergyReceiverMK2, Long> receiverEntries = new HashMap();
 	public HashMap<IEnergyProviderMK2, Long> providerEntries = new HashMap();
 	
+	public long energyTracker = 0L;
+	
 	public PowerNetMK2() {
 		Nodespace.activePowerNets.add(this);
 	}
@@ -104,6 +106,10 @@ public class PowerNetMK2 {
 		this.providerEntries.clear();
 	}
 	
+	public void resetEnergyTracker() {
+		this.energyTracker = 0;
+	}
+	
 	public void transferPower() {
 		
 		int timeout = 3_000;
@@ -167,6 +173,7 @@ public class PowerNetMK2 {
 			prevDest += finalTransfer;
 			
 			toTransfer -= finalTransfer;
+			this.energyTracker += finalTransfer;
 		}
 	}
 	

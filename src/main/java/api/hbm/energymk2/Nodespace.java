@@ -56,19 +56,6 @@ public class Nodespace {
 					checkNodeConnection(world, node);
 					node.recentlyChanged = false;
 				}
-				
-				/*if(node.hasValidNet()) {
-					
-					for(BlockPos pos : node.positions) {
-						NBTTagCompound data = new NBTTagCompound();
-						data.setString("type", "marker");
-						data.setInteger("color", node.net.hashCode() % 0xffffff);
-						data.setInteger("expires", 250);
-						data.setDouble("dist", 50D);
-						data.setString("label", "" + node.net.links.size());
-						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.getX(), pos.getY(), pos.getZ()), new TargetPoint(world.provider.dimensionId, pos.getX(), pos.getY(), pos.getZ(), 50));
-					}
-				}*/
 			}
 		}
 		
@@ -76,10 +63,9 @@ public class Nodespace {
 	}
 	
 	private static void updatePowerNets() {
-		
-		for(PowerNetMK2 net : activePowerNets) {
-			net.transferPower();
-		}
+
+		for(PowerNetMK2 net : activePowerNets) net.resetEnergyTracker(); //reset has to be done before everything else
+		for(PowerNetMK2 net : activePowerNets) net.transferPower();
 	}
 	
 	/** Goes over each connection point of the given node, tries to find neighbor nodes and to join networks with them */

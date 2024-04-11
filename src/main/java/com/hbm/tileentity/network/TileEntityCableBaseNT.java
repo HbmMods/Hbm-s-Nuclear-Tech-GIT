@@ -16,14 +16,21 @@ public class TileEntityCableBaseNT extends TileEntity implements IEnergyConducto
 		if(!worldObj.isRemote) {
 			
 			if(this.node == null || this.node.expired) {
-				this.node = Nodespace.getNode(worldObj, xCoord, yCoord, zCoord);
 				
-				if(this.node == null || this.node.expired) {
-					this.node = this.createNode();
-					Nodespace.createNode(worldObj, this.node);
+				if(this.shouldCreateNode()) {
+					this.node = Nodespace.getNode(worldObj, xCoord, yCoord, zCoord);
+					
+					if(this.node == null || this.node.expired) {
+						this.node = this.createNode();
+						Nodespace.createNode(worldObj, this.node);
+					}
 				}
 			}
 		}
+	}
+	
+	public boolean shouldCreateNode() {
+		return true;
 	}
 	
 	public void onNodeDestroyedCallback() {
