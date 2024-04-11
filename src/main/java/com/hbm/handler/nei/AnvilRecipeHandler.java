@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.NTMAnvil;
+import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.gui.GUIAnvil;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
@@ -24,7 +26,28 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
-public class AnvilRecipeHandler extends TemplateRecipeHandler {
+public class AnvilRecipeHandler extends TemplateRecipeHandler implements ICompatNHNEI {
+
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return new ItemStack[]{
+				new ItemStack(ModBlocks.anvil_iron),
+				new ItemStack(ModBlocks.anvil_lead),
+				new ItemStack(ModBlocks.anvil_steel),
+				new ItemStack(ModBlocks.anvil_starmetal),
+				new ItemStack(ModBlocks.anvil_meteorite),
+				new ItemStack(ModBlocks.anvil_ferrouranium),
+				new ItemStack(ModBlocks.anvil_bismuth),
+				new ItemStack(ModBlocks.anvil_schrabidate),
+				new ItemStack(ModBlocks.anvil_dnt),
+				new ItemStack(ModBlocks.anvil_osmiridium),
+				new ItemStack(ModBlocks.anvil_murky)};
+	}
+
+	@Override
+	public String getRecipeID() {
+		return "ntmAnvil";
+	}
 
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
 	public LinkedList<RecipeTransferRect> transferRectsGui = new LinkedList<RecipeTransferRect>();
