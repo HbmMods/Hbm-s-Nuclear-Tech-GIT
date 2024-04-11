@@ -79,18 +79,25 @@ public class Nodespace {
 				
 				if(conNode.hasValidNet() && conNode.net == node.net) continue; // if the net is valid and both nodes have the same net, skip
 				
-				for(DirPos revCon : conNode.connections) { // check if neighbor node also has a valid reverse connection
-					
-					// god i hope i didn't fuck this up my brain is hurting already
-					if(revCon.getX() - revCon.getDir().offsetX == con.getX() && revCon.getY() - revCon.getDir().offsetY == con.getY() && revCon.getZ() - revCon.getDir().offsetZ == con.getZ() && revCon.getDir() == con.getDir().getOpposite()) {
-						connectToNode(node, conNode);
-						break;
-					}
+				if(checkConnection(conNode, con, false)) {
+					connectToNode(node, conNode);
 				}
 			}
 		}
 		
 		if(node.net == null || !node.net.isValid()) new PowerNetMK2().joinLink(node);
+	}
+	
+	public static boolean checkConnection(PowerNode connectsTo, DirPos connectFrom, boolean skipSideCheck) {
+		
+		for(DirPos revCon : connectsTo.connections) {
+			
+			if(revCon.getX() - revCon.getDir().offsetX == connectFrom.getX() && revCon.getY() - revCon.getDir().offsetY == connectFrom.getY() && revCon.getZ() - revCon.getDir().offsetZ == connectFrom.getZ() && (revCon.getDir() == connectFrom.getDir().getOpposite() || skipSideCheck)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/** Links two nodes with different or potentially no networks */
@@ -163,6 +170,14 @@ public class Nodespace {
 		
 		public PowerNode setConnections(DirPos... connections) {
 			this.connections = connections;
+			return this;
+		}
+		
+		public PowerNode addConnection(DirPos connection) {
+			DirPos[] newCons = new DirPos[this.connections.length + 1];
+			for(int i = 0; i < this.connections.length; i++) newCons[i] = this.connections[i];
+			newCons[newCons.length - 1] = connection;
+			this.connections = newCons;
 			return this;
 		}
 		

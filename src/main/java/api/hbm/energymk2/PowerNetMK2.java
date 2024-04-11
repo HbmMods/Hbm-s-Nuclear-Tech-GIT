@@ -177,6 +177,10 @@ public class PowerNetMK2 {
 		}
 	}
 	
+	public long sendPowerDiode(long power) {
+		return power;
+	}
+	
 	public static final ReceiverComparator COMP = new ReceiverComparator();
 	
 	public static class ReceiverComparator implements Comparator<IEnergyReceiverMK2> {
