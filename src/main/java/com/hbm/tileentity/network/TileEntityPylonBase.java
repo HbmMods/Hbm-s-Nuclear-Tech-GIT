@@ -49,7 +49,7 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 	@Override
 	public PowerNode createNode() {
 		TileEntity tile = (TileEntity) this;
-		PowerNode node = new PowerNode(new BlockPos(tile.xCoord, tile.yCoord, tile.zCoord));
+		PowerNode node = new PowerNode(new BlockPos(tile.xCoord, tile.yCoord, tile.zCoord)).setConnections(new DirPos(xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN));
 		for(int[] pos : this.connected) node.addConnection(new DirPos(pos[0], pos[1], pos[2], ForgeDirection.UNKNOWN));
 		return node;
 	}
@@ -81,6 +81,7 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 			
 			if(te instanceof TileEntityPylonBase) {
 				TileEntityPylonBase pylon = (TileEntityPylonBase) te;
+				Nodespace.destroyNode(worldObj, pos[0], pos[1], pos[2]);
 				
 				for(int i = 0; i < pylon.connected.size(); i++) {
 					int[] conPos = pylon.connected.get(i);

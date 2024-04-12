@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -123,14 +124,20 @@ public class PowerNetMK2 {
 		long supply = 0;
 		long demand = 0;
 		
-		for(Entry<IEnergyProviderMK2, Long> entry : providerEntries.entrySet()) {
-			IEnergyProviderMK2 provider = entry.getKey();
-			if(provider.isLoaded() && timestamp - entry.getValue() < timeout) supply += Math.min(provider.getPower(), provider.getProviderSpeed());
+		Iterator<Entry<IEnergyProviderMK2, Long>> provIt = providerEntries.entrySet().iterator();
+		while(provIt.hasNext()) {
+			Entry<IEnergyProviderMK2, Long> entry = provIt.next();
+			if(timestamp - entry.getValue() > timeout) provIt.remove();
+			supply += Math.min(entry.getKey().getPower(), entry.getKey().getProviderSpeed());
 		}
 		
-		for(Entry<IEnergyReceiverMK2, Long> entry : receiverEntries.entrySet()) {
-			IEnergyReceiverMK2 receiver = entry.getKey();
-			if(receiver.isLoaded() && timestamp - entry.getValue() < timeout) demand += Math.min(receiver.getMaxPower() - receiver.getPower(), receiver.getReceiverSpeed());
+		if(supply <= 0) return;
+
+		Iterator<Entry<IEnergyReceiverMK2, Long>> recIt = receiverEntries.entrySet().iterator();
+		while(recIt.hasNext()) {
+			Entry<IEnergyReceiverMK2, Long> entry = recIt.next();
+			if(timestamp - entry.getValue() > timeout) recIt.remove();
+			demand += Math.min(entry.getKey().getMaxPower() - entry.getKey().getPower(), entry.getKey().getReceiverSpeed());
 		}
 		
 		double drainScale = 1D;
@@ -158,9 +165,13 @@ public class PowerNetMK2 {
 			
 			IEnergyProviderMK2 src = providers.get(0);
 			IEnergyReceiverMK2 dest = receivers.get(0);
+
+			long receiverShare = Math.min((long) ((double) (dest.getMaxPower() - dest.getPower()) * (double) supply / (double) demand), dest.getReceiverSpeed()) - prevDest;
+			long providerShare = Math.min((long) ((double) src.getPower() * (double) demand / (double) supply), src.getProviderSpeed()) - prevSrc;
 			
-			long toDrain = Math.min((long) (src.getPower() * drainScale) + prevSrc, src.getProviderSpeed()) - prevSrc;
-			long toFill = Math.min(dest.getMaxPower() - dest.getPower() + prevDest, dest.getReceiverSpeed()) - prevDest;
+			long toDrain = Math.min((long) (src.getPower() * drainScale), providerShare);
+			long toFill = Math.min(dest.getMaxPower() - dest.getPower(), receiverShare);
+			
 			long finalTransfer = Math.min(toDrain, toFill);
 
 			if(toDrain <= 0) { providers.remove(0); prevSrc = 0; continue; }

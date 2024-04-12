@@ -30,6 +30,7 @@ public class TileEntityPylon extends TileEntityPylonBase {
 	public PowerNode createNode() {
 		TileEntity tile = (TileEntity) this;
 		PowerNode node = new PowerNode(new BlockPos(tile.xCoord, tile.yCoord, tile.zCoord)).setConnections(
+				new DirPos(xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN),
 				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
 				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
 				new DirPos(xCoord, yCoord + 1, zCoord, Library.POS_Y),
