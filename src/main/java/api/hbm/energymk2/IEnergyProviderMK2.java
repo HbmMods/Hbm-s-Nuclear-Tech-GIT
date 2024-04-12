@@ -29,17 +29,27 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 		
 		if(te instanceof IEnergyConductorMK2) {
 			IEnergyConductorMK2 con = (IEnergyConductorMK2) te;
-			if(!con.canConnect(dir.getOpposite())) return;
-			
-			PowerNode node = Nodespace.getNode(world, x, y, z);
-			
-			if(node != null && node.net != null) {
-				node.net.addProvider(this);
-				red = true;
+			if(con.canConnect(dir.getOpposite())) {
+				
+				PowerNode node = Nodespace.getNode(world, x, y, z);
+				
+				if(node != null && node.net != null) {
+					node.net.addProvider(this);
+					red = true;
+				}
 			}
 		}
 		
-		//TODO: direct transfer
+		if(te instanceof IEnergyReceiverMK2 && te != this) {
+			IEnergyReceiverMK2 rec = (IEnergyReceiverMK2) te;
+			if(rec.canConnect(dir.getOpposite())) {
+				long provides = Math.min(this.getPower(), this.getProviderSpeed());
+				long receives = Math.min(rec.getMaxPower() - rec.getPower(), rec.getReceiverSpeed());
+				long toTransfer = Math.min(provides, receives);
+				toTransfer -= rec.transferPower(toTransfer);
+				this.usePower(toTransfer);
+			}
+		}
 		
 		if(particleDebug) {
 			NBTTagCompound data = new NBTTagCompound();
