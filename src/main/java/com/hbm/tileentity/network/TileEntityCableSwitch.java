@@ -6,7 +6,7 @@ public class TileEntityCableSwitch extends TileEntityCableBaseNT {
 	
 	@Override
 	public boolean canUpdate() {
-		return this.worldObj != null && this.getBlockMetadata() == 1 && super.canUpdate();
+		return super.canUpdate();
 	}
 
 	public void updateState() {

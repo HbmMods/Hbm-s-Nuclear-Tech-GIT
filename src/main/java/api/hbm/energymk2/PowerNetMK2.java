@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.energymk2.Nodespace.PowerNode;
 
 public class PowerNetMK2 {
@@ -111,10 +112,10 @@ public class PowerNetMK2 {
 		this.energyTracker = 0;
 	}
 	
+	protected static int timeout = 3_000;
+	
 	public void transferPower() {
 		
-		int timeout = 3_000;
-
 		if(providerEntries.isEmpty()) return;
 		if(receiverEntries.isEmpty()) return;
 		
@@ -123,11 +124,12 @@ public class PowerNetMK2 {
 
 		long supply = 0;
 		long demand = 0;
+		long[] priorityDemand = new long[ConnectionPriority.values().length];
 		
 		Iterator<Entry<IEnergyProviderMK2, Long>> provIt = providerEntries.entrySet().iterator();
 		while(provIt.hasNext()) {
 			Entry<IEnergyProviderMK2, Long> entry = provIt.next();
-			if(timestamp - entry.getValue() > timeout) provIt.remove();
+			if(timestamp - entry.getValue() > timeout) { provIt.remove(); continue; }
 			supply += Math.min(entry.getKey().getPower(), entry.getKey().getProviderSpeed());
 		}
 		
@@ -136,15 +138,13 @@ public class PowerNetMK2 {
 		Iterator<Entry<IEnergyReceiverMK2, Long>> recIt = receiverEntries.entrySet().iterator();
 		while(recIt.hasNext()) {
 			Entry<IEnergyReceiverMK2, Long> entry = recIt.next();
-			if(timestamp - entry.getValue() > timeout) recIt.remove();
-			demand += Math.min(entry.getKey().getMaxPower() - entry.getKey().getPower(), entry.getKey().getReceiverSpeed());
+			if(timestamp - entry.getValue() > timeout) { recIt.remove(); continue; }
+			long rec = Math.min(entry.getKey().getMaxPower() - entry.getKey().getPower(), entry.getKey().getReceiverSpeed());
+			demand += rec;
+			for(int i = 0; i <= entry.getKey().getPriority().ordinal(); i++) priorityDemand[i] += rec;
 		}
 		
-		double drainScale = 1D;
-		
-		if(supply > demand) {
-			drainScale = (double) demand / (double) supply;
-		}
+		if(demand <= 0) return;
 		
 		long toTransfer = Math.min(supply, demand);
 		if(toTransfer > transferCap) toTransfer = transferCap;
@@ -165,16 +165,18 @@ public class PowerNetMK2 {
 			
 			IEnergyProviderMK2 src = providers.get(0);
 			IEnergyReceiverMK2 dest = receivers.get(0);
-
-			long receiverShare = Math.min((long) ((double) (dest.getMaxPower() - dest.getPower()) * (double) supply / (double) demand), dest.getReceiverSpeed()) - prevDest;
-			long providerShare = Math.min((long) ((double) src.getPower() * (double) demand / (double) supply), src.getProviderSpeed()) - prevSrc;
 			
-			long toDrain = Math.min((long) (src.getPower() * drainScale), providerShare);
+			long pd = priorityDemand[dest.getPriority().ordinal()];
+			
+			long receiverShare = Math.min((long) Math.ceil((double) Math.min(dest.getMaxPower() - dest.getPower(), dest.getReceiverSpeed()) * (double) supply / (double) pd), dest.getReceiverSpeed()) - prevDest;
+			long providerShare = Math.min((long) Math.ceil((double) Math.min(src.getPower(), src.getProviderSpeed()) * (double) demand / (double) supply), src.getProviderSpeed()) - prevSrc;
+			
+			long toDrain = Math.min((long) (src.getPower()), providerShare);
 			long toFill = Math.min(dest.getMaxPower() - dest.getPower(), receiverShare);
 			
 			long finalTransfer = Math.min(toDrain, toFill);
 
-			if(toDrain <= 0) { providers.remove(0); prevSrc = 0; continue; }
+			if(src.getPower() <= 0) { providers.remove(0); prevSrc = 0; continue; }
 			if(toFill <= 0) { receivers.remove(0); prevDest = 0; continue; }
 			
 			finalTransfer -= dest.transferPower(finalTransfer);
@@ -182,6 +184,9 @@ public class PowerNetMK2 {
 			
 			prevSrc += finalTransfer;
 			prevDest += finalTransfer;
+
+			if(prevSrc >= src.getProviderSpeed()) { providers.remove(0); prevSrc = 0; continue; }
+			if(prevDest >= dest.getReceiverSpeed()) { receivers.remove(0); prevDest = 0; continue; }
 			
 			toTransfer -= finalTransfer;
 			this.energyTracker += finalTransfer;
@@ -189,7 +194,36 @@ public class PowerNetMK2 {
 	}
 	
 	public long sendPowerDiode(long power) {
-		return power;
+		
+		long timestamp = System.currentTimeMillis();
+		long demand = 0;
+		long[] priorityDemand = new long[ConnectionPriority.values().length];
+
+		Iterator<Entry<IEnergyReceiverMK2, Long>> recIt = receiverEntries.entrySet().iterator();
+		while(recIt.hasNext()) {
+			Entry<IEnergyReceiverMK2, Long> entry = recIt.next();
+			if(timestamp - entry.getValue() > timeout) { recIt.remove(); continue; }
+			long rec = Math.min(entry.getKey().getMaxPower() - entry.getKey().getPower(), entry.getKey().getReceiverSpeed());
+			demand += rec;
+			for(int i = 0; i <= entry.getKey().getPriority().ordinal(); i++) priorityDemand[i] += rec;
+		}
+		
+		if(demand <= 0) return power;
+		
+		long finalRemainder = power;
+
+		for(IEnergyReceiverMK2 dest : receiverEntries.keySet()) {
+			long pd = priorityDemand[dest.getPriority().ordinal()];
+			long toFill = Math.min((long) ((double) (Math.min(dest.getMaxPower() - dest.getPower(), dest.getReceiverSpeed())) * (double) power / (double) pd), dest.getReceiverSpeed());
+			toFill = Math.min(toFill, power);
+			long remainder = dest.transferPower(toFill);
+			long transferred = toFill - remainder;
+			finalRemainder -= transferred;
+			this.energyTracker += transferred;
+			if(finalRemainder <= 0) break;
+		}
+		
+		return finalRemainder;
 	}
 	
 	public static final ReceiverComparator COMP = new ReceiverComparator();

@@ -7,11 +7,12 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.Compat;
 import com.hbm.util.I18nUtil;
-import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.block.IToolable;
 import api.hbm.energymk2.IEnergyConnectorBlock;
+import api.hbm.energymk2.IEnergyConnectorMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.energymk2.Nodespace;
 import api.hbm.energymk2.Nodespace.PowerNode;
@@ -101,7 +102,7 @@ public class CableDiode extends BlockContainer implements IEnergyConnectorBlock,
 		
 		if(tool == ToolType.DEFUSER) {
 			int p = te.priority.ordinal() + 1;
-			if(p > 2) p = 0;
+			if(p > 4) p = 0;
 			te.priority = ConnectionPriority.values()[p];
 			te.markDirty();
 			world.markBlockForUpdate(x, y, z);
@@ -186,6 +187,9 @@ public class CableDiode extends BlockContainer implements IEnergyConnectorBlock,
 					
 					this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 				}
+				
+				pulses = 0;
+				this.setPower(0); //tick is over, reset our allowed transfe
 			}
 		}
 
@@ -197,7 +201,6 @@ public class CableDiode extends BlockContainer implements IEnergyConnectorBlock,
 		/** Used as an intra-tick tracker for how much energy has been transmitted, resets to 0 each tick and maxes out based on transfer */
 		private long power;
 		private boolean recursionBrake = false;
-		private long lastTransfer = 0;
 		private int pulses = 0;
 		public ConnectionPriority priority = ConnectionPriority.NORMAL;
 
@@ -208,30 +211,40 @@ public class CableDiode extends BlockContainer implements IEnergyConnectorBlock,
 				return power;
 			
 			pulses++;
-			
-			if(lastTransfer != worldObj.getTotalWorldTime()) {
-				lastTransfer = worldObj.getTotalWorldTime();
-				pulses = 0;
-				this.setPower(0); //tick is over, reset our allowed transfe
-			}
-			
 			if(this.getPower() >= this.getMaxPower() || pulses > 10) return power; //if we have already maxed out transfer or max pulses, abort
 			
 			recursionBrake = true;
 			
 			ForgeDirection dir = getDir();
 			PowerNode node = Nodespace.getNode(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+			TileEntity te = Compat.getTileStandard(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 			
-			if(node.hasValidNet() && Nodespace.checkConnection(node, new DirPos(xCoord, yCoord, zCoord, dir), false)) {
-				long prevPower = power;
-				power = node.net.sendPowerDiode(power);
-				this.power += (prevPower - power);
+			if(node != null && !node.expired && node.hasValidNet() && te instanceof IEnergyConnectorMK2 && ((IEnergyConnectorMK2) te).canConnect(dir.getOpposite())) {
+				long toTransfer = Math.min(power, this.getReceiverSpeed());
+				long remainder = node.net.sendPowerDiode(toTransfer);
+				long transferred = (toTransfer - remainder);
+				this.power += transferred;
+				power -= transferred;
+				
+			} else if(te instanceof IEnergyReceiverMK2 && te != this) {
+				IEnergyReceiverMK2 rec = (IEnergyReceiverMK2) te;
+				if(rec.canConnect(dir.getOpposite())) {
+					long toTransfer = Math.min(power, rec.getReceiverSpeed());
+					long remainder = rec.transferPower(toTransfer);
+					power -= (toTransfer - remainder);
+					recursionBrake = false;
+					return power;
+				}
 			}
 			
 			recursionBrake = false;
 			return power;
 		}
 
+		@Override
+		public long getReceiverSpeed() {
+			return this.getMaxPower() - this.getPower();
+		}
 
 		@Override
 		public long getMaxPower() {
