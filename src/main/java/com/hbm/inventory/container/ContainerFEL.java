@@ -3,7 +3,6 @@ package com.hbm.inventory.container;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.machine.TileEntityFEL;
 
-import api.hbm.energy.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -49,7 +48,7 @@ public class ContainerFEL extends Container {
 				}
 			} else {
 				
-				if(rStack.getItem() instanceof IBatteryItem || rStack.getItem() == ModItems.battery_creative) {
+				if(rStack.getItem() instanceof api.hbm.energymk2.IBatteryItem || rStack.getItem() == ModItems.battery_creative) {
 					if(!this.mergeItemStack(stack, 0, 1, false)) return null;
 				} else {
 					if(!this.mergeItemStack(stack, 1, 2, false)) return null;

@@ -382,6 +382,7 @@ public class TileMappings {
 		
 		put(TileEntityConnector.class, "tileentity_connector_redwire");
 		put(TileEntityPylon.class, "tileentity_pylon_redwire");
+		put(TileEntityPylonMedium.class, "tileentity_pylon_medium");
 		put(TileEntityPylonLarge.class, "tileentity_pylon_large");
 		put(TileEntitySubstation.class, "tileentity_substation");
 
