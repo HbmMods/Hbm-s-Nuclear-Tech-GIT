@@ -150,6 +150,8 @@ public class ModEventHandlerClient {
 	
 	public static final int flashDuration = 5_000;
 	public static long flashTimestamp;
+	public static final int shakeDuration = 1_500;
+	public static long shakeTimestamp;
 	
 	@SubscribeEvent
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {

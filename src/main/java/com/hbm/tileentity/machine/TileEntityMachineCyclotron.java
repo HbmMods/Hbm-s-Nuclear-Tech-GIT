@@ -224,7 +224,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 		if(rand < 2) {
 			
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, (int)(BombConfig.fatmanRadius * 1.5), xCoord + 0.5, yCoord + 1.5, zCoord + 0.5).mute());
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, (int)(BombConfig.fatmanRadius * 1.5), xCoord + 0.5, yCoord + 1.5, zCoord + 0.5));
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "muke");
@@ -233,7 +233,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 			
 		} else if(rand < 4) {
 			
-			EntityBalefire bf = new EntityBalefire(worldObj).mute();
+			EntityBalefire bf = new EntityBalefire(worldObj);
 			bf.posX = xCoord + 0.5;
 			bf.posY = yCoord + 1.5;
 			bf.posZ = zCoord + 0.5;

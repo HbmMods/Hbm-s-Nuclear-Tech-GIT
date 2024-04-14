@@ -209,6 +209,7 @@
     "weapon.glShoot": {"category": "player", "sounds": [{"name": "weapon/glShoot", "stream": false}]},
     "weapon.44Shoot": {"category": "player", "sounds": [{"name": "weapon/44Shoot", "stream": false}]},
     "weapon.trainImpact": {"category": "player", "sounds": [{"name": "weapon/trainImpact", "stream": false}]},
+    "weapon.nuclearExplosion": {"category": "player", "sounds": [{"name": "weapon/nuclearExplosion", "stream": true}]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 
