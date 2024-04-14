@@ -32,7 +32,7 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.world.WorldUtil;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.entity.IRadarDetectable;
 import api.hbm.entity.IRadarDetectableNT;
 import api.hbm.entity.IRadarDetectableNT.RadarScanParams;
@@ -60,7 +60,7 @@ import net.minecraft.world.WorldServer;
  * Now with SmЯt™ lag-free entity detection! (patent pending)
  * @author hbm
  */
-public class TileEntityMachineRadarNT extends TileEntityMachineBase implements IEnergyUser, IGUIProvider, IConfigurableMachine, IControlReceiver {
+public class TileEntityMachineRadarNT extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IConfigurableMachine, IControlReceiver {
 
 	public boolean scanMissiles = true;
 	public boolean scanShells = true;

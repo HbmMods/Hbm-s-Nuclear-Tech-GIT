@@ -19,7 +19,6 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.world.machine.FWatz;
 
-import api.hbm.energy.IEnergyGenerator;
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -34,7 +33,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 
-public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedInventory, IReactor, IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider {
+public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedInventory, IReactor, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider {
 
 	public long power;
 	public final static long maxPower = 10000000000L;
@@ -281,7 +280,6 @@ public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedI
 		if(!worldObj.isRemote && this.isStructureValid(this.worldObj)) {
 
 			for(DirPos pos : this.getConPos()) {
-				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 
 				this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tanks[2].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -386,21 +384,6 @@ public class TileEntityFWatzCore extends TileEntityLoadedBase implements ISidedI
 	
 	public boolean isRunning() {
 		return FWatz.getPlasma(worldObj, this.xCoord, this.yCoord, this.zCoord) && this.isStructureValid(worldObj);
-	}
-	
-	@Override
-	public long getMaxPower() {
-		return this.maxPower;
-	}
-
-	@Override
-	public long getPower() {
-		return power;
-	}
-
-	@Override
-	public void setPower(long i) {
-		this.power = i;
 	}
 
 	@Override

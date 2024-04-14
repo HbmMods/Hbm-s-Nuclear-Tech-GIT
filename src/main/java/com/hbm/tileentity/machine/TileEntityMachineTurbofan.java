@@ -32,7 +32,7 @@ import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyGenerator;
+import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -51,7 +51,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC {
+public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC {
 
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -182,7 +182,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 			power = Library.chargeItemsFromTE(slots, 3, power, power);
 			
 			for(DirPos pos : getConPos()) {
-				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				if(this.blood.getFill() > 0) this.sendFluid(blood, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());

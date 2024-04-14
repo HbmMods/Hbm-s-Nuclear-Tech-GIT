@@ -46,9 +46,6 @@ public class RenderSelenium extends TileEntitySpecialRenderer {
             ResourceManager.selenium_piston.renderAll();
     		GL11.glRotatef(rot, 0, 0, 1);
         }
-		
-        if(count > 2 && ((TileEntityMachineSeleniumEngine)tileEntity).hasAcceptableFuel() && ((TileEntityMachineSeleniumEngine)tileEntity).tank.getFill() > 0)
-        	GL11.glRotatef((System.currentTimeMillis() / 2) % 360, 0F, 0F, -1F);
 
         bindTexture(ResourceManager.selenium_rotor_tex);
         ResourceManager.selenium_rotor.renderAll();

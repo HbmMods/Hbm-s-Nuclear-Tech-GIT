@@ -12,7 +12,8 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.turret.TileEntityTurretSentry;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyHandlerMK2;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidUser;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -67,8 +68,8 @@ public class CompatExternal {
 	 */
 	public static long getBufferedPowerFromTile(TileEntity tile) {
 		
-		if(tile instanceof IEnergyUser) {
-			return ((IEnergyUser) tile).getPower();
+		if(tile instanceof IEnergyHandlerMK2) {
+			return ((IEnergyHandlerMK2) tile).getPower();
 		}
 		
 		return 0L;
@@ -81,8 +82,8 @@ public class CompatExternal {
 	 */
 	public static long getMaxPowerFromTile(TileEntity tile) {
 		
-		if(tile instanceof IEnergyUser) {
-			return ((IEnergyUser) tile).getMaxPower();
+		if(tile instanceof IEnergyHandlerMK2) {
+			return ((IEnergyHandlerMK2) tile).getMaxPower();
 		}
 		
 		return 0L;
@@ -95,8 +96,8 @@ public class CompatExternal {
 	 */
 	public static int getEnergyPriorityFromTile(TileEntity tile) {
 		
-		if(tile instanceof IEnergyUser) {
-			return ((IEnergyUser) tile).getPriority().ordinal();
+		if(tile instanceof IEnergyReceiverMK2) {
+			return ((IEnergyReceiverMK2) tile).getPriority().ordinal();
 		}
 		
 		return -1;

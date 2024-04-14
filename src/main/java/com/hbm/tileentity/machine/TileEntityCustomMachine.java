@@ -26,7 +26,8 @@ import com.hbm.util.Compat;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyProviderMK2;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,7 +41,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCustomMachine extends TileEntityMachinePolluting implements IFluidStandardTransceiver, IEnergyUser, IGUIProvider {
+public class TileEntityCustomMachine extends TileEntityMachinePolluting implements IFluidStandardTransceiver, IEnergyProviderMK2, IEnergyReceiverMK2, IGUIProvider {
 
 	public String machineType;
 	public MachineConfiguration config;
@@ -155,7 +156,7 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 
 			for (DirPos pos : this.connectionPos) {
 				if (config.generatorMode && power > 0)
-					this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				for (FluidTank tank : this.outputTanks)
 					if (tank.getFill() > 0)
 						this.sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -592,11 +593,16 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 
 		return 0;
 	}
-
+	
 	@Override
-	public long getTransferWeight() {
-		if(this.config != null && this.config.generatorMode) return 0;
-
-		return Math.max(getMaxPower() - getPower(), 0);
+	public long getReceiverSpeed() {
+		if(this.config != null && !this.config.generatorMode) return this.getMaxPower();
+		return 0;
+	}
+	
+	@Override
+	public long getProviderSpeed() {
+		if(this.config != null && this.config.generatorMode) return this.getMaxPower();
+		return 0;
 	}
 }

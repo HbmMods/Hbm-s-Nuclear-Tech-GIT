@@ -3,7 +3,11 @@ package com.hbm.tileentity.network;
 import java.util.ArrayList;
 import java.util.List;
 
-import api.hbm.energy.IEnergyConductor;
+import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.fauxpointtwelve.DirPos;
+
+import api.hbm.energymk2.Nodespace;
+import api.hbm.energymk2.Nodespace.PowerNode;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,6 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 	
@@ -40,15 +45,22 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 		
 		return len >= delta.lengthVector() ? 0 : 3;
 	}
+
+	@Override
+	public PowerNode createNode() {
+		TileEntity tile = (TileEntity) this;
+		PowerNode node = new PowerNode(new BlockPos(tile.xCoord, tile.yCoord, tile.zCoord)).setConnections(new DirPos(xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN));
+		for(int[] pos : this.connected) node.addConnection(new DirPos(pos[0], pos[1], pos[2], ForgeDirection.UNKNOWN));
+		return node;
+	}
 	
 	public void addConnection(int x, int y, int z) {
 		
 		connected.add(new int[] {x, y, z});
 		
-		if(this.getPowerNet() != null) {
-			this.getPowerNet().reevaluate();
-			this.network = null;
-		}
+		PowerNode node = Nodespace.getNode(worldObj, xCoord, yCoord, zCoord);
+		node.recentlyChanged = true;
+		node.addConnection(new DirPos(x, y, z, ForgeDirection.UNKNOWN));
 		
 		this.markDirty();
 		
@@ -69,6 +81,7 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 			
 			if(te instanceof TileEntityPylonBase) {
 				TileEntityPylonBase pylon = (TileEntityPylonBase) te;
+				Nodespace.destroyNode(worldObj, pos[0], pos[1], pos[2]);
 				
 				for(int i = 0; i < pylon.connected.size(); i++) {
 					int[] conPos = pylon.connected.get(i);
@@ -87,33 +100,8 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 				}
 			}
 		}
-	}
-	
-	@Override
-	protected void connect() {
 		
-		for(int[] pos : getConnectionPoints()) {
-			
-			TileEntity te = worldObj.getTileEntity(pos[0], pos[1], pos[2]);
-			
-			if(te instanceof IEnergyConductor) {
-				
-				IEnergyConductor conductor = (IEnergyConductor) te;
-				
-				if(this.getPowerNet() == null && conductor.getPowerNet() != null) {
-					conductor.getPowerNet().joinLink(this);
-				}
-				
-				if(this.getPowerNet() != null && conductor.getPowerNet() != null && this.getPowerNet() != conductor.getPowerNet()) {
-					conductor.getPowerNet().joinNetworks(this.getPowerNet());
-				}
-			}
-		}
-	}
-	
-	@Override
-	public List<int[]> getConnectionPoints() {
-		return new ArrayList(connected);
+		Nodespace.destroyNode(worldObj, xCoord, yCoord, zCoord);
 	}
 	
 	public abstract ConnectionType getConnectionType();

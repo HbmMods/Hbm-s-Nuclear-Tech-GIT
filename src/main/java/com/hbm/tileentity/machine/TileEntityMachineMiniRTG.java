@@ -4,12 +4,12 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.CompatEnergyControl;
 
-import api.hbm.energy.IEnergyGenerator;
+import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.tile.IInfoProviderEC;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineMiniRTG extends TileEntityLoadedBase implements IEnergyGenerator, IInfoProviderEC {
+public class TileEntityMachineMiniRTG extends TileEntityLoadedBase implements IEnergyProviderMK2, IInfoProviderEC {
 
 	public long power;
 	boolean tact = false;
@@ -24,8 +24,9 @@ public class TileEntityMachineMiniRTG extends TileEntityLoadedBase implements IE
 			if(power > getMaxPower())
 				power = getMaxPower();
 
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			}
 		}
 	}
 	
