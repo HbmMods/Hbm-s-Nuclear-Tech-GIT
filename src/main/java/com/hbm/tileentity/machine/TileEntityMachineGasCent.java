@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.tile.IInfoProviderEC;
 import com.hbm.blocks.BlockDummyable;
@@ -29,8 +28,6 @@ import com.hbm.util.InventoryUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardReceiver;
-import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
