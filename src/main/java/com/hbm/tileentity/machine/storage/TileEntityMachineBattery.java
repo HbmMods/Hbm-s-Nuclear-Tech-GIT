@@ -163,6 +163,10 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 		
 		if(!worldObj.isRemote && worldObj.getBlock(xCoord, yCoord, zCoord) instanceof MachineBattery) {
 			
+			if(priority == null || priority.ordinal() == 0 || priority.ordinal() == 4) {
+				priority = ConnectionPriority.LOW;
+			}
+			
 			int mode = this.getRelevantMode();
 			
 			if(this.node == null || this.node.expired) {
