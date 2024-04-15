@@ -165,6 +165,30 @@ public class PowerNetMK2 {
 			
 			IEnergyProviderMK2 src = providers.get(0);
 			IEnergyReceiverMK2 dest = receivers.get(0);
+
+			if(src.getPower() <= 0) { providers.remove(0); prevSrc = 0; continue; }
+			
+			if(src == dest) { // STALEMATE DETECTED
+				//if this happens, a buffer will waste both its share of transfer and receiving potential and do effectively nothing, essentially breaking
+				
+				//try if placing the conflicting provider at the end of the list does anything
+				//we do this first because providers have no priority, so we may shuffle those around as much as we want
+				if(providers.size() > 1) {
+					providers.add(providers.get(0));
+					providers.remove(0);
+					prevSrc = 0; //this might cause slight issues due to the tracking being effectively lost while there still might be pending operations
+					continue;
+				}
+				//if that didn't work, try shifting the receiver by one place (to minimize priority breakage)
+				if(receivers.size() > 1) {
+					receivers.add(2, receivers.get(0));
+					receivers.remove(0);
+					prevDest = 0; //ditto
+					continue;
+				}
+				
+				//if neither option could be performed, the only conclusion is that this buffer mode battery is alone in the power net, in which case: not my provlem
+			}
 			
 			long pd = priorityDemand[dest.getPriority().ordinal()];
 			
@@ -175,8 +199,6 @@ public class PowerNetMK2 {
 			long toFill = Math.min(dest.getMaxPower() - dest.getPower(), receiverShare);
 			
 			long finalTransfer = Math.min(toDrain, toFill);
-
-			if(src.getPower() <= 0) { providers.remove(0); prevSrc = 0; continue; }
 			if(toFill <= 0) { receivers.remove(0); prevDest = 0; continue; }
 			
 			finalTransfer -= dest.transferPower(finalTransfer);
