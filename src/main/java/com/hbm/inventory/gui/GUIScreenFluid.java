@@ -67,6 +67,7 @@ public class GUIScreenFluid extends GuiScreen {
 		this.search.setTextColor(-1);
 		this.search.setDisabledTextColour(-1);
 		this.search.setEnableBackgroundDrawing(false);
+		this.search.setFocused(true);
 		
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.fluid_identifier_multi) {
 			this.primary = ItemFluidIDMulti.getType(player.getHeldItem(), true);
