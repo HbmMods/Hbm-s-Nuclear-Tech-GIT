@@ -1,28 +1,4 @@
-## The new power network
-The entire energy transfer system has been rewritten which should hopefully fix a few things
-* Energy should no longer be voided (at least voiding is minimized due to timeouts for unloaded receivers)
-* Transfers should be way less resource intensive, as the expected iteration count is now `max(providers, receivers)` instead of `providers * receivers`
-The new system should respect priorities and diodes just like the old system did. Batteries still have their original three priority settings, diodes got two additional modes: LOWEST and HIGHEST.
-A bunch of tests have been done using the most important machines, however not all machines that had to be changed for the new system have been fully tested. Expect some things to not work, in which case please file a bug report on the issues board.
-Just like with the old system, grids going though unloaded chunks should still work so long as the endpoints are loaded. Grids should be less janky when changing while having unloaded parts, wwhich is likely the main cause for energy voiding.
-The system can potentially support saving to the world, i.e. keeping unloaded grids functional even after the entire world is unloaded, although the functionality hasn't been implemented yet.
-
-## Added
-* New medium sized electricity pylons
-  * Come in wood and steel flavor
-  * The regular ones don't connect to cable blocks, the variants with transformers do (i.e. they act like substations for huge pylons)
-
-## Changed
-* Updated russian localization
-* Condensers now need cast plates instead of welded plates
-* Tweaked the substation recipe, it now yields two substations
-* There is now a config option for steam clouds from cooling towers
-* Nuclear explosions no longer play thunder and explosion sounds in a loop, instead they play one singular sound once the shockwave passes the player
-  * The HUD shake is now also synced up with the shockwave
-  * In addition to the hud shake, there is one brief screen shake, the same used for mini nukes (although it ends up being more subtle because your screen is most likely covered in shockwave dust)
-  * The HUD shake is now 3x more intense, but also only 1.5s long (instead of 5) making it snappier
-
 ## Fixed
-* Changed the translation keys for bolts, pipes and shells to avoid naming conflicts
-* Fixed glpyhid scout rampant mode spawning not working correctly
-* Fixed nuclear explosions petrifying fallout layers, turning them into full sellafite blocks
+* Fixed battery connection priority being broken, all battery blocks present during the previous updates will now have their priority default to LOW
+* Fixed batteries sometimes ending up transferring themselves, wasting their entire receiving and sending speed on doing effectively nothing
+  * Energy tracking is still a bit flakey so there could be issues that remain with buffer mode batteries, however the transfer caps should mitigate most potential issues
