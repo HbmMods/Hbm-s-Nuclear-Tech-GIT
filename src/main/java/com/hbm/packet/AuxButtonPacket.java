@@ -15,7 +15,7 @@ import com.hbm.tileentity.machine.TileEntitySoyuzLauncher;
 import com.hbm.tileentity.machine.storage.TileEntityBarrel;
 import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 
-import api.hbm.energy.IEnergyConnector.ConnectionPriority;
+import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -68,6 +68,7 @@ public class AuxButtonPacket implements IMessage {
 
 	public static class Handler implements IMessageHandler<AuxButtonPacket, IMessage> {
 
+		@SuppressWarnings("incomplete-switch")
 		@Override
 		public IMessage onMessage(AuxButtonPacket m, MessageContext ctx) {
 			

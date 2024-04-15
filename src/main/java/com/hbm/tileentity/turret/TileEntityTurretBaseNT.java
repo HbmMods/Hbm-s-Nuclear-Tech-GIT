@@ -27,7 +27,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatExternal;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.entity.IRadarDetectableNT;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -58,7 +58,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @author hbm
  *
  */
-public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IEnergyUser, IControlReceiver, IGUIProvider {
+public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider {
 
 	@Override
 	public boolean hasPermission(EntityPlayer player) {

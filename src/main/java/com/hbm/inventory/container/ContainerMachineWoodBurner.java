@@ -4,7 +4,7 @@ import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityMachineWoodBurner;
 
-import api.hbm.energy.IBatteryItem;
+import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

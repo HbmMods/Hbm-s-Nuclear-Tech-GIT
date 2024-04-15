@@ -147,8 +147,6 @@ public class ClientProxy extends ServerProxy {
 		registerBlockRenderer();
 		
 		Jars.initJars();
-
-		//SoundUtil.addSoundCategory("ntmMachines");
 	}
 	
 	private void registerClientEventHandler(Object handler) {
@@ -337,6 +335,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluidDuct.class, new RenderFluidDuct());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylon.class, new RenderPylon());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConnector.class, new RenderConnector());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylonMedium.class, new RenderPylonMedium());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylonLarge.class, new RenderPylonLarge());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySubstation.class, new RenderSubstation());
 		//chargers

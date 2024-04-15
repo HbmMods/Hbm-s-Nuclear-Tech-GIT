@@ -25,8 +25,8 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.CompatEnergyControl;
 
-import api.hbm.energy.IBatteryItem;
-import api.hbm.energy.IEnergyGenerator;
+import api.hbm.energymk2.IBatteryItem;
+import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
@@ -39,7 +39,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC {
 
 	public long power;
 	public int soundCycle = 0;
@@ -132,7 +132,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 		if(!worldObj.isRemote) {
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 				this.sendSmoke(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			}
 

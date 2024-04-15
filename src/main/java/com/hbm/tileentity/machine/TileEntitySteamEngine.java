@@ -1,26 +1,20 @@
 package com.hbm.tileentity.machine;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
-import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyGenerator;
+import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -30,14 +24,13 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySteamEngine extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IEnergyGenerator, IFluidStandardTransceiver, INBTPacketReceiver, IConfigurableMachine {
+public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiver, INBTPacketReceiver, IConfigurableMachine {
 
 	public long powerBuffer;
 
 	public float rotor;
 	public float lastRotor;
 	private float syncRotor;
-	public List<IFluidAcceptor> list2 = new ArrayList();
 	public FluidTank[] tanks;
 
 	private int turnProgress;
@@ -51,8 +44,8 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IFlui
 	public TileEntitySteamEngine() {
 		
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.STEAM, steamCap, 0);
-		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, ldsCap, 1);
+		tanks[0] = new FluidTank(Fluids.STEAM, steamCap);
+		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, ldsCap);
 	}
 
 	@Override
@@ -117,12 +110,10 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IFlui
 			tanks[1].writeToNBT(data, "w");
 
 			for(DirPos pos : getConPos()) {
-				if(this.powerBuffer > 0)
-					this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if(this.powerBuffer > 0) this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
-			if(tanks[1].getFill() > 0) fillFluidInit(tanks[1].getTankType());
 			
 			INBTPacketReceiver.networkPack(this, data, 150);
 		} else {
@@ -167,69 +158,6 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IFlui
 		nbt.setFloat("acceleration", acceleration);
 		tanks[0].writeToNBT(nbt, "s");
 		tanks[1].writeToNBT(nbt, "w");
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		for(DirPos pos : getConPos()) fillFluid(pos.getX(), pos.getY(), pos.getZ(), getTact(), type);
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-	
-	@Override
-	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 2 == 0;
-	}
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type == tanks[0].getTankType())
-			tanks[0].setFill(i);
-		else if(type == tanks[1].getTankType())
-			tanks[1].setFill(i);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		if(type == tanks[0].getTankType())
-			return tanks[0].getFill();
-		else if(type == tanks[1].getTankType())
-			return tanks[1].getFill();
-		
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if(type == tanks[0].getTankType())
-			return tanks[0].getMaxFill();
-		
-		return 0;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if(index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if(index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
-	}
-	
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return list2;
-	}
-	
-	@Override
-	public void clearFluidList(FluidType type) {
-		list2.clear();
 	}
 	
 	@Override

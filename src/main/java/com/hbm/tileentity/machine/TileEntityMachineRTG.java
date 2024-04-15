@@ -11,7 +11,7 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.RTGUtil;
 
-import api.hbm.energy.IEnergyGenerator;
+import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -26,7 +26,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISidedInventory, IEnergyGenerator, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISidedInventory, IEnergyProviderMK2, IGUIProvider, IInfoProviderEC {
 
 	private ItemStack slots[];
 	
@@ -211,7 +211,7 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 		if(!worldObj.isRemote) {
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			
 			heat = RTGUtil.updateRTGs(slots, slot_io);
 			

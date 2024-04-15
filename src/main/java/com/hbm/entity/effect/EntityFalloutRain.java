@@ -169,7 +169,7 @@ public class EntityFalloutRain extends Entity {
 
 			Block b = worldObj.getBlock(x, y, z);
 
-			if(b.getMaterial() == Material.air) continue;
+			if(b.getMaterial() == Material.air || b == ModBlocks.fallout) continue;
 			if(b == Blocks.bedrock) return;
 			
 			if(b == ModBlocks.volcano_core) {

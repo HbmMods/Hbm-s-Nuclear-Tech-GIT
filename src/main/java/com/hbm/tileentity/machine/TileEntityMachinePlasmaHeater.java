@@ -16,7 +16,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,7 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase implements IFluidAcceptor, IEnergyUser, IFluidStandardReceiver, IGUIProvider {
+public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase implements IFluidAcceptor, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 100000000;

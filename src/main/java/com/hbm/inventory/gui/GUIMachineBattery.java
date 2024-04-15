@@ -110,6 +110,6 @@ public class GUIMachineBattery extends GuiInfoContainer {
 		int j = battery.redHigh;
 		drawTexturedModalRect(guiLeft + 133, guiTop + 52, 176, 52 + j * 18, 18, 18);
 		
-		drawTexturedModalRect(guiLeft + 152, guiTop + 35, 194, 52 + battery.priority.ordinal() * 16, 16, 16);
+		drawTexturedModalRect(guiLeft + 152, guiTop + 35, 194, 52 + battery.priority.ordinal() * 16 - 16, 16, 16);
 	}
 }

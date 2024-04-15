@@ -21,8 +21,8 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
-import api.hbm.energy.IBatteryItem;
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IBatteryItem;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -38,7 +38,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyUser, IFluidStandardTransceiver, IGUIProvider {
+public class TileEntityMachineBoilerElectric extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyReceiverMK2, IFluidStandardTransceiver, IGUIProvider {
 
 	private ItemStack slots[];
 	

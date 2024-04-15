@@ -27,7 +27,7 @@ import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -48,7 +48,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyUser, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
+public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
 
 	private ItemStack slots[];
 

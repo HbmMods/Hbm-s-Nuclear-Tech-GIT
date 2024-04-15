@@ -3,6 +3,7 @@ package com.hbm.entity.effect;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import com.hbm.main.MainRegistry;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.TrackerUtil;
 
@@ -28,6 +29,9 @@ public class EntityNukeTorex extends Entity {
 	public double lastSpawnY = - 1;
 	public ArrayList<Cloudlet> cloudlets = new ArrayList();
 	//public static int cloudletLife = 200;
+
+	public boolean didPlaySound = false;
+	public boolean didShake = false;
 
 	public EntityNukeTorex(World world) {
 		super(world);
@@ -103,6 +107,13 @@ public class EntityNukeTorex extends Entity {
 					this.cloudlets.add(new Cloudlet(vec.xCoord + posX, worldObj.getHeightValue((int) (vec.xCoord + posX) + 1, (int) (vec.zCoord + posZ)), vec.zCoord + posZ, rot, 0, shockLife, TorexType.SHOCK)
 							.setScale(7F, 2F)
 							.setMotion(ticksExisted > 15 ? 0.75 : 0));
+				}
+				
+				if(!didPlaySound) {
+					if(MainRegistry.proxy.me() != null && MainRegistry.proxy.me().getDistanceToEntity(this) < (ticksExisted * 1.5 + 1) * 1.5) {
+						MainRegistry.proxy.playSoundClient(posX, posY, posZ, "hbm:weapon.nuclearExplosion", 10_000F, 1F);
+						didPlaySound = true;
+					}
 				}
 			}
 			
