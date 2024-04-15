@@ -37,7 +37,7 @@ public class EntityDeathBlast extends Entity {
 		if(this.ticksExisted >= maxAge && !worldObj.isRemote) {
 			this.setDead();
 			
-			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(worldObj, 40, posX, posY, posZ).mute());
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(worldObj, 40, posX, posY, posZ));
 			
 			int count = 100;
 			for(int i = 0; i < count; i++) {

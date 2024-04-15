@@ -77,6 +77,7 @@ import com.hbm.util.InventoryUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.world.generator.TimedGenerator;
 
+import api.hbm.energymk2.Nodespace;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -953,6 +954,7 @@ public class ModEventHandler {
 			RTTYSystem.updateBroadcastQueue();
 			RequestNetwork.updateEntries();
 			TileEntityMachineRadarNT.updateSystem();
+			Nodespace.updateNodespace();
 		}
 	}
 	

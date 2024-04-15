@@ -8,7 +8,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityFWatzCore;
 
-import api.hbm.energy.IEnergyConnectorBlock;
+import api.hbm.energymk2.IEnergyConnectorBlock;
 import api.hbm.fluid.IFluidConnectorBlock;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;

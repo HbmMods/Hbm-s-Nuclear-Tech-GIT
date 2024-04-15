@@ -53,6 +53,8 @@ public class ItemDrone extends ItemEnumMulti {
 			world.spawnEntityInWorld(toSpawn);
 		}
 		
+		stack.stackSize--;
+		
 		return false;
 	}
 	

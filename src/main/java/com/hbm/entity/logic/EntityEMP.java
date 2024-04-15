@@ -6,7 +6,7 @@ import java.util.List;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.ParticleBurstPacket;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyHandlerMK2;
 import cofh.api.energy.IEnergyProvider;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
@@ -44,19 +44,15 @@ public class EntityEMP extends Entity {
 	private void allocate() {
 		
 		machines = new ArrayList();
-		
 		int radius = 100;
 		
 		for(int x = -radius; x <= radius; x++) {
-			
 			int x2 = (int) Math.pow(x, 2);
 			
 			for(int y = -radius; y <= radius; y++) {
-				
 				int y2 = (int) Math.pow(y, 2);
 				
 				for(int z = -radius; z <= radius; z++) {
-					
 					int z2 = (int) Math.pow(z, 2);
 					
 					if(Math.sqrt(x2 + y2 + z2) <= radius) {
@@ -81,7 +77,7 @@ public class EntityEMP extends Entity {
 	private void add(int x, int y, int z) {
 		TileEntity te = worldObj.getTileEntity(x, y, z);
 		
-		if (te != null && te instanceof IEnergyUser) {
+		if (te != null && te instanceof IEnergyHandlerMK2) {
 			machines.add(new int[] { x, y, z });
 		} else if (te != null && te instanceof IEnergyProvider) {
 			machines.add(new int[] { x, y, z });
@@ -94,9 +90,9 @@ public class EntityEMP extends Entity {
 		
 		boolean flag = false;
 		
-		if (te != null && te instanceof IEnergyUser) {
+		if (te != null && te instanceof IEnergyHandlerMK2) {
 			
-			((IEnergyUser)te).setPower(0);
+			((IEnergyHandlerMK2)te).setPower(0);
 			flag = true;
 		}
 		if (te != null && te instanceof IEnergyProvider) {

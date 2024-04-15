@@ -5,7 +5,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBlades;
 import com.hbm.tileentity.machine.TileEntityMachineShredder;
 
-import api.hbm.energy.IBatteryItem;
+import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

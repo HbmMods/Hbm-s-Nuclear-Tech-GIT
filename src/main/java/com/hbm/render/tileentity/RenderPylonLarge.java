@@ -35,5 +35,4 @@ public class RenderPylonLarge extends RenderPylonBase {
 		this.renderLinesGeneric(pyl, x, y, z);
 		GL11.glPopMatrix();
 	}
-
 }

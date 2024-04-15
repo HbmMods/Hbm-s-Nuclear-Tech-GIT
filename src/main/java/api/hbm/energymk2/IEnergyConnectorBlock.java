@@ -1,4 +1,4 @@
-package api.hbm.energy;
+package api.hbm.energymk2;
 
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
