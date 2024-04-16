@@ -1,4 +1,3 @@
-## Fixed
-* Fixed battery connection priority being broken, all battery blocks present during the previous updates will now have their priority default to LOW
-* Fixed batteries sometimes ending up transferring themselves, wasting their entire receiving and sending speed on doing effectively nothing
-  * Energy tracking is still a bit flakey so there could be issues that remain with buffer mode batteries, however the transfer caps should mitigate most potential issues
+## Changed
+* All pylons and electrical connectors are now dyeable, using any dye (even modded ones, based on ore dict) to change the color of the cable
+  * Colors are based on the connecting pylon, not the cables themselves, meaning that using one dye will change all wires connected to that pylon right up to the half way point
