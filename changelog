@@ -1,3 +1,17 @@
 ## Changed
 * All pylons and electrical connectors are now dyeable, using any dye (even modded ones, based on ore dict) to change the color of the cable
   * Colors are based on the connecting pylon, not the cables themselves, meaning that using one dye will change all wires connected to that pylon right up to the half way point
+* Glyphid behemoths now spew sulfuric acid instead of hydrogen peroxide
+* Glyphid brawlers can now leap at nearby players
+* The structure config has changed
+  * Instead of a central toggle for enabling/disabling structures, there's now three possible settings, enabling structures, disabling structures or making structure spawn respect the setting from the world creation menu
+* Pressurized gauges like for the vacuum refinery and hydrotreater no longer have slots for item barrels (as those would logically not work), instead they show a pressure symbol
+* Auditory geiger counters in armors will now click based on the radiation level *inside* the suit, i.e. the effective exposure for the player
+* Diamonds are now a valid crucible material, turning into carbon at a 1:1 ratio (like graphite)
+* Emerald is also a valid crucible material now, turning into beryllium at a 4:3 ratio
+* Emeralds can now be mined as bedrock ores with a weight of 50 (half as common as iron, as common as redstone)
+
+## Fixed
+* Fixed rocket artillery turret not saving loaded ammo type/count
+* Fixed crash caused by custom missile launchers operating without designator
+* Fixed meltdown elementals rendering their beam in the NEI spawner screen, causing extreme lag or the game to freeze

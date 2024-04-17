@@ -46,6 +46,7 @@ public class BedrockOre {
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(new ItemStack(Items.coal, 8),											1,	0x202020),										WorldConfig.bedrockCoalSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(new ItemStack(ModItems.niter, 4),										2,	0x808080,	new FluidStack(Fluids.ACID, 500)),	WorldConfig.bedrockNiterSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(new ItemStack(Items.redstone, 4),										1,	0xd01010),										WorldConfig.bedrockRedstoneSpawn);
+		registerBedrockOre(weightedOres, new BedrockOreDefinition(new ItemStack(Items.emerald, 4),										1,	0x3FDD85),										WorldConfig.bedrockEmeraldSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.RARE),			2,	0x8F9999,	new FluidStack(Fluids.ACID, 500)),	WorldConfig.bedrockRareEarthSpawn);
 		registerBedrockOre(weightedOres, new BedrockOreDefinition(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.BAUXITE, 2),1,	0xEF7213),										WorldConfig.bedrockBauxiteSpawn);
 
