@@ -350,6 +350,8 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 		super.readFromNBT(nbt);
 		
 		this.mode = nbt.getShort("mode");
+		this.typeLoaded = nbt.getShort("type");
+		this.ammo = nbt.getInteger("ammo");
 	}
 	
 	@Override
@@ -357,6 +359,8 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 		super.writeToNBT(nbt);
 		
 		nbt.setShort("mode", this.mode);
+		nbt.setInteger("type", this.typeLoaded);
+		nbt.setInteger("ammo", this.ammo);
 	}
 
 	@Override

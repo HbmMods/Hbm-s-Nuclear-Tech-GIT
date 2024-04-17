@@ -82,4 +82,17 @@ public class PylonLarge extends BlockDummyable implements ITooltipProvider {
 		
 		return dir.ordinal() + offset;
 	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(world.isRemote) {
+			return true;
+		} else if(!player.isSneaking()) {
+			int[] pos = this.findCore(world, x, y, z);
+			TileEntityPylonBase te = (TileEntityPylonBase) world.getTileEntity(pos[0], pos[1], pos[2]);
+			return te.setColor(player.getHeldItem());
+		} else {
+			return false;
+		}
+	}
 }

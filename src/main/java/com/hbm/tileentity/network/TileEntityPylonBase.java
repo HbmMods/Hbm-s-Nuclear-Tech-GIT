@@ -3,6 +3,7 @@ package com.hbm.tileentity.network;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.util.ColorUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -10,6 +11,7 @@ import api.hbm.energymk2.Nodespace;
 import api.hbm.energymk2.Nodespace.PowerNode;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -23,6 +25,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 	
 	public List<int[]> connected = new ArrayList<int[]>();
+	public int color;
 	
 	public static int canConnect(TileEntityPylonBase first, TileEntityPylonBase second) {
 		
@@ -44,6 +47,22 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 				);
 		
 		return len >= delta.lengthVector() ? 0 : 3;
+	}
+	
+	public boolean setColor(ItemStack stack) {
+		if(stack == null) return false;
+		int color = ColorUtil.getColorFromDye(stack);
+		if(color == 0 || color == this.color) return false;
+		stack.stackSize--;
+		this.color = color;
+		
+		this.markDirty();
+		if(worldObj instanceof WorldServer) {
+			WorldServer world = (WorldServer) worldObj;
+			world.getPlayerManager().markBlockForUpdate(xCoord, yCoord, zCoord);
+		}
+		
+		return true;
 	}
 
 	@Override
@@ -120,8 +139,9 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		nbt.setInteger("conCount", connected.size());
+		nbt.setInteger("color", color);
 		
 		for(int i = 0; i < connected.size(); i++) {
 			nbt.setIntArray("con" + i, connected.get(i));
@@ -133,6 +153,7 @@ public abstract class TileEntityPylonBase extends TileEntityCableBaseNT {
 		super.readFromNBT(nbt);
 		
 		int count = nbt.getInteger("conCount");
+		this.color = nbt.getInteger("color");
 		
 		this.connected.clear();
 		
