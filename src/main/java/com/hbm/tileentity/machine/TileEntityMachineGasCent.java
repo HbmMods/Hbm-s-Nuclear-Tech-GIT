@@ -210,7 +210,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			int overLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) + 1;
 			if((overLevel == 1) != (slots[6] != null && slots[6].getItem() == ModItems.upgrade_gc_speed)) overLevel = 0;
 
-			this.progressNeeded = processingTime * (1 - speedLevel / 4);
+			this.progressNeeded = processingTime * (4 - speedLevel) / 4;
 			int speed = (int) Math.pow(2 , overLevel);
 			int consumption = 200 * (int)Math.pow(2 , overLevel) * (speedLevel + 1);
 

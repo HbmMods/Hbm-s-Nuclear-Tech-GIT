@@ -86,8 +86,8 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 			int blackLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 			
 			if(recipe != null) {
-				this.processTime = recipe.duration * (1 - redLevel / 4) / (blackLevel + 1);
-				this.consumption = recipe.consumption * (1 - blueLevel / 4) * (redLevel + 1) * (blackLevel + 1);
+				this.processTime = recipe.duration * (4 - redLevel) / 4 / (blackLevel + 1);
+				this.consumption = recipe.consumption * (4 - blueLevel) / 4 * (redLevel + 1) * (blackLevel + 1);
 				intendedMaxPower = recipe.consumption * 20 * (blackLevel + 1);
 				
 				if(canProcess(recipe)) {
