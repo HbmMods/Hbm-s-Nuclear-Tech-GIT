@@ -33,6 +33,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.common.MinecraftForge;
+import paulscode.sound.SoundSystemConfig;
 
 import java.awt.Color;
 import java.awt.Desktop;
@@ -55,6 +56,7 @@ import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
 import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
+import com.hbm.config.GeneralConfig;
 import com.hbm.entity.cart.*;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
@@ -147,6 +149,11 @@ public class ClientProxy extends ServerProxy {
 		registerBlockRenderer();
 		
 		Jars.initJars();
+		
+		if(GeneralConfig.enableSoundExtension) {
+			SoundSystemConfig.setNumberNormalChannels(1000);
+			SoundSystemConfig.setNumberStreamingChannels(50);
+		}
 	}
 	
 	private void registerClientEventHandler(Object handler) {
