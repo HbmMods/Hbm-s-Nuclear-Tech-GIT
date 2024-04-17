@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import javax.imageio.ImageIO;
 
@@ -181,5 +182,37 @@ public class ColorUtil {
 		Color color = new Color(hex);
 		float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), new float[3]);
 		return hsb[2];
+	}
+	
+	public static HashMap<String, Integer> nameToColor = new HashMap() {{
+		put("black", 1973019);
+		put("red", 11743532);
+		put("green", 3887386);
+		put("brown", 5320730);
+		put("blue", 2437522);
+		put("purple", 8073150);
+		put("cyan", 2651799);
+		put("silver", 11250603);
+		put("gray", 4408131);
+		put("pink", 14188952);
+		put("lime", 4312372);
+		put("yellow", 14602026);
+		put("lightBlue", 6719955);
+		put("magenta", 12801229);
+		put("orange", 15435844);
+		put("white", 15790320);
+	}};
+	
+	public static int getColorFromDye(ItemStack stack) {
+		List<String> oreNames = ItemStackUtil.getOreDictNames(stack);
+		
+		for(String dict : oreNames) {
+			if(dict.length() > 3 && dict.startsWith("dye")) {
+				String color = dict.substring(3).toLowerCase(Locale.US);
+				if(nameToColor.containsKey(color)) return nameToColor.get(color);
+			}
+		}
+		
+		return 0;
 	}
 }

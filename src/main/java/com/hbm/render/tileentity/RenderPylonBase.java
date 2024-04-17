@@ -24,7 +24,7 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 	 */
 	public void renderLinesGeneric(TileEntityPylonBase pyl, double x, double y, double z) {
 		
-		this.bindTexture(ResourceManager.wire_tex);
+		this.bindTexture(pyl.color == 0 ? ResourceManager.wire_tex : ResourceManager.wire_greyscale_tex);
 		
 		for(int i = 0; i < pyl.connected.size(); i++) {
 
@@ -127,6 +127,8 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 			int brightness = world.getLightBrightnessForSkyBlocks(MathHelper.floor_double(ix), MathHelper.floor_double(iy), MathHelper.floor_double(iz), 0);
 			tess.setBrightness(brightness);
 			
+			tess.setColorOpaque_I(pyl.color == 0 ? 0xffffff : pyl.color);
+			
 			drawLineSegment(tess,
 					x0 + (deltaX * j / count),
 					y0 + (deltaY * j / count) - sagJ,
@@ -180,7 +182,6 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 			jX *= -1;
 		}
 		
-		tessellator.setColorOpaque_I(0xffffff);
 		tessellator.addVertexWithUV(x + iX, y + iY, z + iZ, 0, 0);
 		tessellator.addVertexWithUV(x - iX, y - iY, z - iZ, 0, 1);
 		tessellator.addVertexWithUV(a - iX, b - iY, c - iZ, wrap, 1);
