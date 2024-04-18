@@ -10,6 +10,8 @@
 * Diamonds are now a valid crucible material, turning into carbon at a 1:1 ratio (like graphite)
 * Emerald is also a valid crucible material now, turning into beryllium at a 4:3 ratio
 * Emeralds can now be mined as bedrock ores with a weight of 50 (half as common as iron, as common as redstone)
+* Tritium lamps are now substantially cheaper
+* Glyphid scouts can now spawn during the day when rampant glyphid spawning is enabled (artificial light however will still prevent them from spawning, keeping them out of bases)
 
 ## Fixed
 * Fixed rocket artillery turret not saving loaded ammo type/count
