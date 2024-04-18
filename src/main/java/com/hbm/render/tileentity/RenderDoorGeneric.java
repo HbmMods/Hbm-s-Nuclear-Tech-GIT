@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderDoorGeneric extends TileEntitySpecialRenderer {
 	
@@ -75,28 +76,29 @@ public class RenderDoorGeneric extends TileEntitySpecialRenderer {
 			animModel.controller.setAnim(w);
 			animModel.renderAnimated(System.currentTimeMillis());
 		} else {
-			WavefrontObjDisplayList model = door.getModel();
+			// IModelCustom model = door.getModel();
 			
-			long ms = System.currentTimeMillis()-te.animStartTime;
-			float openTicks = MathHelper.clamp_float(te.state == 2 || te.state == 0 ? door.timeToOpen()*50-ms : ms, 0, door.timeToOpen()*50)*0.02F;
-			for(Pair<String, Integer> p : model.nameToCallList){
-				if(!door.doesRender(p.getLeft(), false))
-					continue;
-				GL11.glPushMatrix();
-				bindTexture(door.getTextureForPart(te.getSkinIndex(), p.getLeft()));
-				doPartTransform(door, p.getLeft(), openTicks, false);
-				GL11.glCallList(p.getRight());
-				for(String name : door.getChildren(p.getLeft())){
-					if(!door.doesRender(name, true))
-						continue;
-					GL11.glPushMatrix();
-					bindTexture(door.getTextureForPart(te.getSkinIndex(), name));
-					doPartTransform(door, name, openTicks, true);
-					model.renderPart(name);
-					GL11.glPopMatrix();
-				}
-				GL11.glPopMatrix();
-			}
+			// long ms = System.currentTimeMillis()-te.animStartTime;
+			// float openTicks = MathHelper.clamp_float(te.state == 2 || te.state == 0 ? door.timeToOpen()*50-ms : ms, 0, door.timeToOpen()*50)*0.02F;
+
+			// for(Pair<String, Integer> p : model.nameToCallList){
+			// 	if(!door.doesRender(p.getLeft(), false))
+			// 		continue;
+			// 	GL11.glPushMatrix();
+			// 	bindTexture(door.getTextureForPart(te.getSkinIndex(), p.getLeft()));
+			// 	doPartTransform(door, p.getLeft(), openTicks, false);
+			// 	GL11.glCallList(p.getRight());
+			// 	for(String name : door.getChildren(p.getLeft())){
+			// 		if(!door.doesRender(name, true))
+			// 			continue;
+			// 		GL11.glPushMatrix();
+			// 		bindTexture(door.getTextureForPart(te.getSkinIndex(), name));
+			// 		doPartTransform(door, name, openTicks, true);
+			// 		model.renderPart(name);
+			// 		GL11.glPopMatrix();
+			// 	}
+			// 	GL11.glPopMatrix();
+			// }
 		}
 		
 		for(int i = 0; i < clip.length; i ++){

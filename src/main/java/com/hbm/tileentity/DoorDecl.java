@@ -10,6 +10,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.IModelCustom;
+
 import org.lwjgl.opengl.GL11;
 
 public abstract class DoorDecl {
@@ -179,7 +181,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustom getModel() {
 			return ResourceManager.fire_door;
 		}
 	};
@@ -1110,7 +1112,7 @@ public abstract class DoorDecl {
 	public abstract ResourceLocation getTextureForPart(int skinIndex, String partName);
 
 	@SideOnly(Side.CLIENT)
-	public abstract WavefrontObjDisplayList getModel();
+	public abstract IModelCustom getModel();
 
 	@SideOnly(Side.CLIENT)
 	public AnimatedModel getAnimatedModel() {

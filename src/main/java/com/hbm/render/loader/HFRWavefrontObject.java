@@ -482,6 +482,10 @@ public class HFRWavefrontObject implements IModelCustom {
 	public String getType() {
 		return "obj";
 	}
+
+	public WavefrontObjVBO asVBO() {
+		return new WavefrontObjVBO(this);
+	}
 	
 	public WavefrontObjDisplayList asDisplayList() {
 		return new WavefrontObjDisplayList(this);
