@@ -47,7 +47,7 @@ public class BlockGraphiteFuel extends BlockGraphiteDrilledTE implements IToolab
 	@Override
 	public int getComparatorInputOverride(World world, int x, int y, int z, int side) {
 		TileEntityPileFuel pile = (TileEntityPileFuel)world.getTileEntity(x, y, z);
-		return 15 * pile.progress / (pile.maxProgress - 1000);
+		return MathHelper.clamp_int((pile.progress * 15) / (pile.maxProgress - 1000), 0, 15);
 	}
 	
 	@Override

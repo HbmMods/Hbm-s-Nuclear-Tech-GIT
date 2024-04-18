@@ -1,4 +1,7 @@
 ## Changed
+* Large models no longer use display lists, instead their rendering makes use of the more modern VBO system
+  * Models using VBOs should now render slightly faster
+  * This also fixes an issue with Angelica where certain parts of the model would render transparently
 * All pylons and electrical connectors are now dyeable, using any dye (even modded ones, based on ore dict) to change the color of the cable
   * Colors are based on the connecting pylon, not the cables themselves, meaning that using one dye will change all wires connected to that pylon right up to the half way point
 * Glyphid behemoths now spew sulfuric acid instead of hydrogen peroxide
@@ -12,8 +15,16 @@
 * Emeralds can now be mined as bedrock ores with a weight of 50 (half as common as iron, as common as redstone)
 * Tritium lamps are now substantially cheaper
 * Glyphid scouts can now spawn during the day when rampant glyphid spawning is enabled (artificial light however will still prevent them from spawning, keeping them out of bases)
+* Balefire now has a much higher ignition radius
+* Balefire becomes darker the more it spreads, making it possible to gauge how much further or if at all the balefire will spread
+* The comparator output range of the pile fuel rods has been adjusted, allowing rods to be ejected exactly when they turn into bred uranium rods
 
 ## Fixed
 * Fixed rocket artillery turret not saving loaded ammo type/count
 * Fixed crash caused by custom missile launchers operating without designator
 * Fixed meltdown elementals rendering their beam in the NEI spawner screen, causing extreme lag or the game to freeze
+* Fixed certain incompatibilities with Angelica, like machine models being transparent and connected texture blocks not rendering at all
+* (Hopefully) fixed the issue of balefire spreading forever for good
+* Fixed stirling engines not outputting into cables
+* Power buffers (i.e. things that act as both providers and receivers in the same network) now have the lowest sending priority (sending priority didn't exist until now), preventing them from wasting transfer capacity by ping-ponging before all other relevant parts of the network are done transferring
+* Fixed potential issue causing diodes to consume negative energy
