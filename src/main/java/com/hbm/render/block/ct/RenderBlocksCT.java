@@ -26,11 +26,8 @@ public class RenderBlocksCT extends RenderBlocks {
 	VertInfo bc;
 	VertInfo br;
 	
-	Tessellator tess;
-	
 	public RenderBlocksCT() {
 		super();
-		this.tess = Tessellator.instance;
 	}
 	
 	public void prepWorld(IBlockAccess acc) {
@@ -240,13 +237,13 @@ public class RenderBlocksCT extends RenderBlocks {
 		boolean debugColor = false;
 		
 		/// ORDER: ROTATIONAL ///
-		if(debugColor) tess.setColorOpaque_F(1F, 1F, 0F);
+		if(debugColor) Tessellator.instance.setColorOpaque_F(1F, 1F, 0F);
 		drawVert(ftr, icon.getMaxU(), icon.getMinV(), ntr);
-		if(debugColor) tess.setColorOpaque_F(1F, 0F, 0F);
+		if(debugColor) Tessellator.instance.setColorOpaque_F(1F, 0F, 0F);
 		drawVert(ftl, icon.getMinU(), icon.getMinV(), ntl);
-		if(debugColor) tess.setColorOpaque_F(0F, 0F, 1F);
+		if(debugColor) Tessellator.instance.setColorOpaque_F(0F, 0F, 1F);
 		drawVert(fbl, icon.getMinU(), icon.getMaxV(), nbl);
-		if(debugColor) tess.setColorOpaque_F(0F, 1F, 0F);
+		if(debugColor) Tessellator.instance.setColorOpaque_F(0F, 1F, 0F);
 		drawVert(fbr, icon.getMaxU(), icon.getMaxV(), nbr);
 	}
 	
@@ -257,11 +254,11 @@ public class RenderBlocksCT extends RenderBlocks {
 	private void drawVert(double x, double y, double z, double u, double v, VertInfo info) {
 		
 		if(this.enableAO) {
-			tess.setColorOpaque_F(info.red, info.green, info.blue);
-			tess.setBrightness(info.brightness);
+			Tessellator.instance.setColorOpaque_F(info.red, info.green, info.blue);
+			Tessellator.instance.setBrightness(info.brightness);
 		}
 		
-		tess.addVertexWithUV(x, y, z, u, v);
+		Tessellator.instance.addVertexWithUV(x, y, z, u, v);
 	}
 	
 	private double[] avgCoords(double[] first, double[] second) {
@@ -315,32 +312,32 @@ public class RenderBlocksCT extends RenderBlocks {
 		GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 		
-		tess.startDrawingQuads();
-		tess.setNormal(0.0F, -1.0F, 0.0F);
+		Tessellator.instance.startDrawingQuads();
+		Tessellator.instance.setNormal(0.0F, -1.0F, 0.0F);
 		super.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 0, meta));
-		tess.draw();
-		tess.startDrawingQuads();
-		tess.setNormal(0.0F, 1.0F, 0.0F);
+		Tessellator.instance.draw();
+		Tessellator.instance.startDrawingQuads();
+		Tessellator.instance.setNormal(0.0F, 1.0F, 0.0F);
 		super.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 1, meta));
-		tess.draw();
+		Tessellator.instance.draw();
 
-		tess.startDrawingQuads();
-		tess.setNormal(0.0F, 0.0F, -1.0F);
+		Tessellator.instance.startDrawingQuads();
+		Tessellator.instance.setNormal(0.0F, 0.0F, -1.0F);
 		super.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 2, meta));
-		tess.draw();
-		tess.startDrawingQuads();
-		tess.setNormal(0.0F, 0.0F, 1.0F);
+		Tessellator.instance.draw();
+		Tessellator.instance.startDrawingQuads();
+		Tessellator.instance.setNormal(0.0F, 0.0F, 1.0F);
 		super.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 3, meta));
-		tess.draw();
+		Tessellator.instance.draw();
 		
-		tess.startDrawingQuads();
-		tess.setNormal(-1.0F, 0.0F, 0.0F);
+		Tessellator.instance.startDrawingQuads();
+		Tessellator.instance.setNormal(-1.0F, 0.0F, 0.0F);
 		super.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 4, meta));
-		tess.draw();
-		tess.startDrawingQuads();
-		tess.setNormal(1.0F, 0.0F, 0.0F);
+		Tessellator.instance.draw();
+		Tessellator.instance.startDrawingQuads();
+		Tessellator.instance.setNormal(1.0F, 0.0F, 0.0F);
 		super.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 5, meta));
-		tess.draw();
+		Tessellator.instance.draw();
 		
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 	}
