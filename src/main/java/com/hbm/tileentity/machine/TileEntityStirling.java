@@ -46,6 +46,7 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 		if(!worldObj.isRemote) {
 			
 			if(hasCog) {
+				this.powerBuffer = 0;
 				tryPullHeat();
 				
 				this.powerBuffer = (long) (this.heat * (this.isCreative() ? 1 : this.efficiency));
@@ -97,7 +98,6 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 				for(DirPos pos : getConPos()) {
 					this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
-				this.powerBuffer = 0;
 			} else {
 				
 				if(this.powerBuffer > 0)
