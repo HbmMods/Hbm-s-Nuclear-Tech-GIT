@@ -7,13 +7,12 @@ import java.util.List;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 
-import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
 
-public class WavefrontObjVBO implements IModelCustom {
+public class WavefrontObjVBO implements IModelCustomNamed {
 
-	class VBOBufferData {
+	public class VBOBufferData {
 
 		String name;
 		int vertices = 0;
@@ -23,7 +22,7 @@ public class WavefrontObjVBO implements IModelCustom {
 
 	}
 
-	List<VBOBufferData> groups = new ArrayList<VBOBufferData>();
+	public List<VBOBufferData> groups = new ArrayList<VBOBufferData>();
 
 	static int VERTEX_SIZE = 3;
 	static int UV_SIZE = 3;
@@ -145,6 +144,15 @@ public class WavefrontObjVBO implements IModelCustom {
 				renderVBO(data);
 			}
 		}
+	}
+
+	@Override
+	public List<String> getPartNames() {
+		List<String> names = new ArrayList<String>();
+		for(VBOBufferData data : groups) {
+			names.add(data.name);
+		}
+		return names;
 	}
 
 }
