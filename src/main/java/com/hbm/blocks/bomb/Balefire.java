@@ -7,8 +7,10 @@ import static net.minecraftforge.common.util.ForgeDirection.SOUTH;
 import static net.minecraftforge.common.util.ForgeDirection.UP;
 import static net.minecraftforge.common.util.ForgeDirection.WEST;
 
+import java.awt.Color;
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.relauncher.Side;
@@ -47,9 +49,9 @@ public class Balefire extends BlockFire {
 		return icon;
 	}
 
+	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		if(world.getGameRules().getGameRuleBooleanValue("doFireTick")) {
-			boolean onNetherrack = world.getBlock(x, y - 1, z).isFireSource(world, x, y - 1, z, UP);
 
 			if(!this.canPlaceBlockAt(world, x, y, z)) {
 				world.setBlockToAir(x, y, z);
@@ -57,12 +59,10 @@ public class Balefire extends BlockFire {
 
 			int meta = world.getBlockMetadata(x, y, z);
 
-			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world) + rand.nextInt(10));
+			if(meta < 15) world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world) + rand.nextInt(10));
 
-			if(!onNetherrack && !this.canNeighborBurn(world, x, y, z)) {
-				if(!World.doesBlockHaveSolidTopSurface(world, x, y - 1, z)) {
-					world.setBlockToAir(x, y, z);
-				}
+			if(!this.canNeighborBurn(world, x, y, z) && !World.doesBlockHaveSolidTopSurface(world, x, y - 1, z)) {
+				world.setBlockToAir(x, y, z);
 			} else {
 				if(meta < 15) {
 					this.tryCatchFire(world, x + 1, y, z, 500, rand, meta, WEST);
@@ -71,31 +71,33 @@ public class Balefire extends BlockFire {
 					this.tryCatchFire(world, x, y + 1, z, 300, rand, meta, DOWN);
 					this.tryCatchFire(world, x, y, z - 1, 500, rand, meta, SOUTH);
 					this.tryCatchFire(world, x, y, z + 1, 500, rand, meta, NORTH);
-				}
+					
+					int h = 3;
 
-				for(int i1 = x - 1; i1 <= x + 1; ++i1) {
-					for(int j1 = z - 1; j1 <= z + 1; ++j1) {
-						for(int k1 = y - 1; k1 <= y + 4; ++k1) {
-							if(i1 != x || k1 != y || j1 != z) {
-								int l1 = 100;
+					for(int ix = x - h; ix <= x + h; ++ix) {
+						for(int iz = z - h; iz <= z + h; ++iz) {
+							for(int iy = y - 1; iy <= y + 4; ++iy) {
+								
+								if(ix != x || iy != y || iz != z) {
+									int fireLimit = 100;
 
-								if(k1 > y + 1) {
-									l1 += (k1 - (y + 1)) * 100;
-								}
+									if(iy > y + 1) {
+										fireLimit += (iy - (y + 1)) * 100;
+									}
+									
+									if(world.getBlock(ix, iy, iz) == ModBlocks.balefire && world.getBlockMetadata(ix, iy, iz) > meta + 1) {
+										world.setBlock(ix, iy, iz, this, meta + 1, 3);
+										continue;
+									}
 
-								int i2 = this.getChanceOfNeighborsEncouragingFire(world, i1, k1, j1);
+									int neighborFireChance = this.getChanceOfNeighborsEncouragingFire(world, ix, iy, iz);
 
-								if(i2 > 0) {
-									int j2 = (i2 + 40 + world.difficultySetting.getDifficultyId() * 7) / (meta + 30);
+									if(neighborFireChance > 0) {
+										int adjustedFireChance = (neighborFireChance + 40 + world.difficultySetting.getDifficultyId() * 7) / (meta + 30);
 
-									if(j2 > 0 && rand.nextInt(l1) <= j2) {
-										int k2 = meta + rand.nextInt(5) / 4;
-
-										if(k2 > 15) {
-											k2 = 15;
+										if(adjustedFireChance > 0 && rand.nextInt(fireLimit) <= adjustedFireChance) {
+											world.setBlock(ix, iy, iz, this, meta + 1, 3);
 										}
-
-										world.setBlock(i1, k1, j1, this, k2, 3);
 									}
 								}
 							}
@@ -156,5 +158,15 @@ public class Balefire extends BlockFire {
 
 		if(entity instanceof EntityLivingBase) ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 5 * 20, 9));
 	}
+	
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
+		int meta = world.getBlockMetadata(x, y, z);
+		return Color.HSBtoRGB(0F, 0F, 1F - meta / 30F);
+	}
 
+	@Override
+	public int getRenderType() {
+		return 1;
+	}
 }

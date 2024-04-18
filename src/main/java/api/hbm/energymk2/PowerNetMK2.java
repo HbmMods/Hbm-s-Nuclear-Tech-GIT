@@ -150,8 +150,19 @@ public class PowerNetMK2 {
 		if(toTransfer > transferCap) toTransfer = transferCap;
 		if(toTransfer <= 0) return;
 		
-		List<IEnergyProviderMK2> providers = new ArrayList() {{ addAll(providerEntries.keySet()); }};
-		List<IEnergyReceiverMK2> receivers = new ArrayList() {{ addAll(receiverEntries.keySet()); }};
+		List<IEnergyProviderMK2> buffers = new ArrayList();
+		List<IEnergyProviderMK2> providers = new ArrayList();
+		Set<IEnergyReceiverMK2> receiverSet = receiverEntries.keySet();
+		for(IEnergyProviderMK2 provider : providerEntries.keySet()) {
+			if(receiverSet.contains(provider)) {
+				buffers.add(provider);
+			} else {
+				providers.add(provider);
+			}
+		}
+		providers.addAll(buffers); //makes buffers go last
+		List<IEnergyReceiverMK2> receivers = new ArrayList() {{ addAll(receiverSet); }};
+		
 		receivers.sort(COMP);
 		
 		int maxIteration = 1000;
@@ -237,7 +248,7 @@ public class PowerNetMK2 {
 		for(IEnergyReceiverMK2 dest : receiverEntries.keySet()) {
 			long pd = priorityDemand[dest.getPriority().ordinal()];
 			long toFill = Math.min((long) ((double) (Math.min(dest.getMaxPower() - dest.getPower(), dest.getReceiverSpeed())) * (double) power / (double) pd), dest.getReceiverSpeed());
-			toFill = Math.min(toFill, power);
+			toFill = Math.min(toFill, finalRemainder);
 			long remainder = dest.transferPower(toFill);
 			long transferred = toFill - remainder;
 			finalRemainder -= transferred;
