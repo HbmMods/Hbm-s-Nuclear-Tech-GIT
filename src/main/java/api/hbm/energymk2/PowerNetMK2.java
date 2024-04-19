@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import com.hbm.util.Tuple.Pair;
+
 import java.util.Map.Entry;
 
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
@@ -120,6 +123,68 @@ public class PowerNetMK2 {
 		if(receiverEntries.isEmpty()) return;
 		
 		long timestamp = System.currentTimeMillis();
+		long transferCap = 100_000_000_000_000_00L;
+		
+		List<Pair<IEnergyProviderMK2, Long>> providers = new ArrayList();
+		long powerAvailable = 0;
+		
+		Iterator<Entry<IEnergyProviderMK2, Long>> provIt = providerEntries.entrySet().iterator();
+		while(provIt.hasNext()) {
+			Entry<IEnergyProviderMK2, Long> entry = provIt.next();
+			if(timestamp - entry.getValue() > timeout) { provIt.remove(); continue; }
+			long src = Math.min(entry.getKey().getPower(), entry.getKey().getProviderSpeed());
+			providers.add(new Pair(entry.getKey(), src));
+			if(powerAvailable < transferCap) powerAvailable += src;
+		}
+		
+		powerAvailable = Math.min(powerAvailable, transferCap);
+		
+		List<Pair<IEnergyReceiverMK2, Long>>[] receivers = new ArrayList[ConnectionPriority.values().length];
+		for(int i = 0; i < receivers.length; i++) receivers[i] = new ArrayList();
+		long[] demand = new long[ConnectionPriority.values().length];
+		long totalDemand = 0;
+
+		Iterator<Entry<IEnergyReceiverMK2, Long>> recIt = receiverEntries.entrySet().iterator();
+		
+		while(recIt.hasNext()) {
+			Entry<IEnergyReceiverMK2, Long> entry = recIt.next();
+			if(timestamp - entry.getValue() > timeout) { recIt.remove(); continue; }
+			long rec = Math.min(entry.getKey().getMaxPower() - entry.getKey().getPower(), entry.getKey().getReceiverSpeed());
+			int p = entry.getKey().getPriority().ordinal();
+			receivers[p].add(new Pair(entry.getKey(), rec));
+			demand[p] += rec;
+			totalDemand += rec;
+		}
+
+		long receiveAmount = Math.min(powerAvailable, totalDemand);
+		long sendAmount = receiveAmount;
+		
+		double receiveScale = (Math.min(1D, (double) receiveAmount / (double) totalDemand)); //if receiveAmount and totalDemand are not equal, scale the effective demand down (i.e. due to insufficient supply)
+		
+		for(int i = ConnectionPriority.values().length - 1; i <= 0; i--) {
+			List<Pair<IEnergyReceiverMK2, Long>> list = receivers[i];
+			double priorityDemand = demand[i];
+			
+			for(Pair<IEnergyReceiverMK2, Long> entry : list) {
+				double weight = (double) entry.getValue() / (double) (priorityDemand * receiveScale);
+				long toSend = (long) (receiveAmount * weight);
+				sendAmount -= entry.getKey().transferPower(toSend); //leftovers are subtracted from the intended amount to use up
+			}
+		}
+
+		for(Pair<IEnergyProviderMK2, Long> entry : providers) {
+			double weight = (double) entry.getValue() / (double) powerAvailable;
+			long toUse = (long) (sendAmount * weight);
+			entry.getKey().usePower(toUse);
+		}
+	}
+	
+	@Deprecated public void transferPowerOld() {
+		
+		if(providerEntries.isEmpty()) return;
+		if(receiverEntries.isEmpty()) return;
+		
+		long timestamp = System.currentTimeMillis();
 		long transferCap = 100_000_000_000_000_00L; // that ought to be enough
 
 		long supply = 0;
@@ -226,6 +291,7 @@ public class PowerNetMK2 {
 		}
 	}
 	
+	//TODO: revise, use new code and hit it with a hammer until it yields
 	public long sendPowerDiode(long power) {
 		
 		long timestamp = System.currentTimeMillis();
