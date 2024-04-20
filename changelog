@@ -1,3 +1,13 @@
+## Added
+* Bismuth bronze and arsenic bronze
+  * Kind of self-explanatory
+  * Can be made into anvils, allows for an alternative that doesn't involve 10 entire ingots of bismuth for a single anvil
+
+## Changed
+* Arsenic is now made from only 16 oils scrap (instead of 256) in an ore acidizer using high-performance solvent (instead of chemical plant using sulfuric acid)
+* Meteorite and starmetal anvils have been replaced with desh and saturnite ones
+
 ## Fixed
 * Limited assembler input to up to 10 attempts per ingredient, fixing a rare issue where the assembler freezes the server when pulling items
 * Fixed fallout effects not loading chunks
+* Fixed RBMK steam channel recycling recipe
