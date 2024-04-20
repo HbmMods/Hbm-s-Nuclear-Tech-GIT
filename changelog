@@ -1,2 +1,3 @@
 ## Fixed
 * Limited assembler input to up to 10 attempts per ingredient, fixing a rare issue where the assembler freezes the server when pulling items
+* Fixed fallout effects not loading chunks

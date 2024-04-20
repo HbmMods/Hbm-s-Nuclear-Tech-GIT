@@ -20,15 +20,22 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	
 	public static final long maxTransfer = 10_000_000_000_000_000L;
 
-	@Override public long getProviderSpeed() { return maxTransfer; }
-	@Override public long getReceiverSpeed() { return maxTransfer; }
+	@Override public long getProviderSpeed() {
+		int mode = this.getRelevantMode(true);
+		return mode == mode_output || mode == mode_buffer ? maxTransfer : 0;
+	}
+	
+	@Override public long getReceiverSpeed() {
+		int mode = this.getRelevantMode(true);
+		return mode == mode_input || mode == mode_buffer ? maxTransfer : 0;
+	}
 	
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
 
-			int mode = this.getRelevantMode();
+			int mode = this.getRelevantMode(false);
 			
 			if(this.node == null || this.node.expired) {
 				

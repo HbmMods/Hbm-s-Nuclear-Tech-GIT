@@ -156,25 +156,25 @@ public class PowerNetMK2 {
 			totalDemand += rec;
 		}
 
-		long receiveAmount = Math.min(powerAvailable, totalDemand);
-		long sendAmount = receiveAmount;
+		long toTransfer = Math.min(powerAvailable, totalDemand);
+		long energyUsed = 0;
 		
-		double receiveScale = (Math.min(1D, (double) receiveAmount / (double) totalDemand)); //if receiveAmount and totalDemand are not equal, scale the effective demand down (i.e. due to insufficient supply)
-		
-		for(int i = ConnectionPriority.values().length - 1; i <= 0; i--) {
+		for(int i = ConnectionPriority.values().length - 1; i >= 0; i--) {
 			List<Pair<IEnergyReceiverMK2, Long>> list = receivers[i];
-			double priorityDemand = demand[i];
+			long priorityDemand = demand[i];
 			
 			for(Pair<IEnergyReceiverMK2, Long> entry : list) {
-				double weight = (double) entry.getValue() / (double) (priorityDemand * receiveScale);
-				long toSend = (long) (receiveAmount * weight);
-				sendAmount -= entry.getKey().transferPower(toSend); //leftovers are subtracted from the intended amount to use up
+				double weight = (double) entry.getValue() / (double) (priorityDemand);
+				long toSend = (long) Math.max(toTransfer * weight, 0D);
+				energyUsed += (toSend - entry.getKey().transferPower(toSend)); //leftovers are subtracted from the intended amount to use up
 			}
+			
+			toTransfer -= energyUsed;
 		}
 
 		for(Pair<IEnergyProviderMK2, Long> entry : providers) {
 			double weight = (double) entry.getValue() / (double) powerAvailable;
-			long toUse = (long) (sendAmount * weight);
+			long toUse = (long) Math.max(energyUsed * weight, 0D);
 			entry.getKey().usePower(toUse);
 		}
 	}
@@ -291,38 +291,46 @@ public class PowerNetMK2 {
 		}
 	}
 	
-	//TODO: revise, use new code and hit it with a hammer until it yields
 	public long sendPowerDiode(long power) {
 		
+		if(receiverEntries.isEmpty()) return power;
+		
 		long timestamp = System.currentTimeMillis();
-		long demand = 0;
-		long[] priorityDemand = new long[ConnectionPriority.values().length];
+		
+		List<Pair<IEnergyReceiverMK2, Long>>[] receivers = new ArrayList[ConnectionPriority.values().length];
+		for(int i = 0; i < receivers.length; i++) receivers[i] = new ArrayList();
+		long[] demand = new long[ConnectionPriority.values().length];
+		long totalDemand = 0;
 
 		Iterator<Entry<IEnergyReceiverMK2, Long>> recIt = receiverEntries.entrySet().iterator();
+		
 		while(recIt.hasNext()) {
 			Entry<IEnergyReceiverMK2, Long> entry = recIt.next();
 			if(timestamp - entry.getValue() > timeout) { recIt.remove(); continue; }
 			long rec = Math.min(entry.getKey().getMaxPower() - entry.getKey().getPower(), entry.getKey().getReceiverSpeed());
-			demand += rec;
-			for(int i = 0; i <= entry.getKey().getPriority().ordinal(); i++) priorityDemand[i] += rec;
+			int p = entry.getKey().getPriority().ordinal();
+			receivers[p].add(new Pair(entry.getKey(), rec));
+			demand[p] += rec;
+			totalDemand += rec;
 		}
-		
-		if(demand <= 0) return power;
-		
-		long finalRemainder = power;
 
-		for(IEnergyReceiverMK2 dest : receiverEntries.keySet()) {
-			long pd = priorityDemand[dest.getPriority().ordinal()];
-			long toFill = Math.min((long) ((double) (Math.min(dest.getMaxPower() - dest.getPower(), dest.getReceiverSpeed())) * (double) power / (double) pd), dest.getReceiverSpeed());
-			toFill = Math.min(toFill, finalRemainder);
-			long remainder = dest.transferPower(toFill);
-			long transferred = toFill - remainder;
-			finalRemainder -= transferred;
-			this.energyTracker += transferred;
-			if(finalRemainder <= 0) break;
+		long toTransfer = Math.min(power, totalDemand);
+		long energyUsed = 0;
+		
+		for(int i = ConnectionPriority.values().length - 1; i >= 0; i--) {
+			List<Pair<IEnergyReceiverMK2, Long>> list = receivers[i];
+			long priorityDemand = demand[i];
+			
+			for(Pair<IEnergyReceiverMK2, Long> entry : list) {
+				double weight = (double) entry.getValue() / (double) (priorityDemand);
+				long toSend = (long) Math.max(toTransfer * weight, 0D);
+				energyUsed += (toSend - entry.getKey().transferPower(toSend)); //leftovers are subtracted from the intended amount to use up
+			}
+			
+			toTransfer -= energyUsed;
 		}
 		
-		return finalRemainder;
+		return power - energyUsed;
 	}
 	
 	public static final ReceiverComparator COMP = new ReceiverComparator();
