@@ -6,6 +6,8 @@
 ## Changed
 * Arsenic is now made from only 16 oils scrap (instead of 256) in an ore acidizer using high-performance solvent (instead of chemical plant using sulfuric acid)
 * Meteorite and starmetal anvils have been replaced with desh and saturnite ones
+* Increased the nuke flash' intensity, having 100% occupancy at the peak instead of 80%
+* NTM now has integration for GTNH's fork of NEI, listing all valid crafting machines on the side of the recipe page
 
 ## Fixed
 * Limited assembler input to up to 10 attempts per ingredient, fixing a rare issue where the assembler freezes the server when pulling items

@@ -171,7 +171,7 @@ public class ModEventHandlerClient {
 			GL11.glDepthMask(false);
 			tess.startDrawingQuads();
 			float brightness = (flashTimestamp + flashDuration - System.currentTimeMillis()) / (float) flashDuration;
-			tess.setColorRGBA_F(1F, 1F, 1F, brightness * 0.8F);
+			tess.setColorRGBA_F(1F, 1F, 1F, brightness * 1F);
 			tess.addVertex(width, 0, 0);
 			tess.addVertex(0, 0, 0);
 			tess.addVertex(0, height, 0);
