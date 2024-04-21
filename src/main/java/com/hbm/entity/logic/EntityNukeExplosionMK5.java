@@ -128,9 +128,6 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 	}
 
 	@Override
-	protected void entityInit() { }
-
-	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		this.ticksExisted = nbt.getInteger("ticksExisted");
 	}

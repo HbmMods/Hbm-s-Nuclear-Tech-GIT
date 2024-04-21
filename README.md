@@ -104,10 +104,7 @@ One of the most common "performance" mods on 1.7.10, Optifine, achieves an incre
 * Entity "optimization" has a tendency to break chunkloading, this is especially noticeable with missiles which rely heavily on chunkloading to work, causing them to freeze mid-air. It's unclear what setting might fix this, and analysis of Optifine's source code (or rather, lack thereof) has not proven useful either.
 
 ### Angelica
-Like most performance mods, Angelica also does deep-rooted changes to the game's rendering to improve performance, changes which have unintended side effects with mods that otherwise rely on the vanilla functionality that was changed. Unlike with Optifine, Angelica's source code is accessible and the mod is still in active development, so the list of issues might be outdated:
-* 3D models in inventories might render with no texture, this issue apparently also breaks font rendering for item tooltips
-* 3D models for tile entities have a tendency to render with blend enabled (i.e. semi-transparent), especially models that are separated into multiple parts which use display lists (i.e. an older system for rendering larger models more efficiently)
-* Blocks with connected textures once again become invisible (exact fix for Angelica is unknown)
+In older versions, Angelica caused issues regarding model rendering, often times making 3D models transparent. Ever since the switch to VBOs, models work fine. Another issue was blocks with connected textures not rendering at all, but this too was fixed, meaning as of time of writing there are no major incompatibilities known with Angelica.
 
 ### Skybox chainloader
 NTM adds a few small things to the skybox using a custom skybox renderer. Minecraft can only have a single skybox renderer loaded, so setting the skybox to the NTM custom one would break compatibility with other mods' skyboxes. To mend this, NTM employs a **chainloader**. This chainloader will detect if a different skybox is loaded, save a reference to that skybox and then use NTM's skybox, which when used will also make sure to run the previous modded skybox renderer. In the event that NTM's skybox were to cause trouble, it can be disabled with the config option `1.31_enableSkyboxes`.
