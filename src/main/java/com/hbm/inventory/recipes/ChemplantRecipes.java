@@ -337,13 +337,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 			.inputItems(new OreDictStack(S.dust()))
 			.inputFluids(new FluidStack(Fluids.ACID, 800))
 			.outputFluids(new FluidStack(Fluids.SULFURIC_ACID, 500)));
-		recipes.add(new ChemRecipe(91, "ARSENIC", 1200)
-			.inputItems(new ComparableStack(ModItems.scrap_oil, 256))
-			.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1000))
-			.outputItems(
-				new ItemStack(ModItems.nugget_arsenic),
-				new ItemStack(ModItems.sulfur, 2))
-			.outputFluids(new FluidStack(Fluids.HEAVYOIL, 1500)));
 		recipes.add(new ChemRecipe(92, "NITRIC_ACID", 50)
 			.inputItems(new OreDictStack(KNO.dust()))
 			.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 500))

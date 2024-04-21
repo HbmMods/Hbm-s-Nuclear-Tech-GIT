@@ -184,8 +184,12 @@ public abstract class TileEntityMachineAssemblerBase extends TileEntityMachineBa
 					if(recipe != null) {
 
 						for(AStack ingredient : recipe) {
+							
+							int tracker = 0;
 
 							outer: while(!InventoryUtil.doesArrayHaveIngredients(slots, indices[0], indices[1], ingredient)) {
+								
+								if(tracker++ > 10) break;
 
 								boolean found = false;
 
