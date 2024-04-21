@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,12 +17,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.client.model.ModelFormatException;
 import net.minecraftforge.client.model.obj.TextureCoordinate;
 import net.minecraftforge.client.model.obj.Vertex;
 
-public class HFRWavefrontObject implements IModelCustom {
+public class HFRWavefrontObject implements IModelCustomNamed {
 	private static Pattern vertexPattern = Pattern.compile("(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
 	private static Pattern vertexNormalPattern = Pattern.compile("(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
 	private static Pattern textureCoordinatePattern = Pattern.compile("(vt( (\\-){0,1}\\d+\\.\\d+){2,3} *\\n)|(vt( (\\-){0,1}\\d+(\\.\\d+)?){2,3} *$)");
@@ -481,6 +481,19 @@ public class HFRWavefrontObject implements IModelCustom {
 	@Override
 	public String getType() {
 		return "obj";
+	}
+
+	@Override
+	public List<String> getPartNames() {
+		List<String> names = new ArrayList<String>();
+		for(S_GroupObject data : groupObjects) {
+			names.add(data.name);
+		}
+		return names;
+	}
+
+	public WavefrontObjVBO asVBO() {
+		return new WavefrontObjVBO(this);
 	}
 	
 	public WavefrontObjDisplayList asDisplayList() {

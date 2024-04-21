@@ -38,6 +38,14 @@ public class RenderTorex extends Render {
 		cloudletWrapper(cloud, interp);
 		if(cloud.ticksExisted < 101) flashWrapper(cloud, interp);
 		if(cloud.ticksExisted < 10 && System.currentTimeMillis() - ModEventHandlerClient.flashTimestamp > 1_000) ModEventHandlerClient.flashTimestamp = System.currentTimeMillis();
+		if(cloud.didPlaySound && !cloud.didShake && System.currentTimeMillis() - ModEventHandlerClient.shakeTimestamp > 1_000) {
+			ModEventHandlerClient.shakeTimestamp = System.currentTimeMillis();
+			cloud.didShake = true;
+			EntityPlayer player = MainRegistry.proxy.me();
+			player.hurtTime = 15;
+			player.maxHurtTime = 15;
+			player.attackedAtYaw = 0F;
+		}
 		if(fog) GL11.glEnable(GL11.GL_FOG);
 		GL11.glPopMatrix();
 	}

@@ -6,13 +6,13 @@ import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.FalloutConfigJSON.FalloutEntry;
 import com.hbm.config.WorldConfig;
 import com.hbm.entity.item.EntityFallingBlockNT;
+import com.hbm.entity.logic.EntityExplosionChunkloading;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.world.WorldUtil;
 import com.hbm.world.biome.BiomeGenCraterBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
@@ -24,7 +24,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.*;
 
-public class EntityFalloutRain extends Entity {
+public class EntityFalloutRain extends EntityExplosionChunkloading {
+	
 	private boolean firstTick = true; // Of course Vanilla has it private in Entity...
 
 	public EntityFalloutRain(World p_i1582_1_) {
@@ -98,7 +99,8 @@ public class EntityFalloutRain extends Entity {
 						if(biomeModified) WorldUtil.syncBiomeChange(worldObj, chunkPosX << 4, chunkPosZ << 4);
 						
 					} else {
-						setDead();
+						this.clearChunkLoader();
+						this.setDead();
 						break;
 					}
 				}
@@ -169,7 +171,7 @@ public class EntityFalloutRain extends Entity {
 
 			Block b = worldObj.getBlock(x, y, z);
 
-			if(b.getMaterial() == Material.air) continue;
+			if(b.getMaterial() == Material.air || b == ModBlocks.fallout) continue;
 			if(b == Blocks.bedrock) return;
 			
 			if(b == ModBlocks.volcano_core) {
@@ -240,6 +242,7 @@ public class EntityFalloutRain extends Entity {
 
 	@Override
 	protected void entityInit() {
+		super.entityInit();
 		this.dataWatcher.addObject(16, 0);
 	}
 

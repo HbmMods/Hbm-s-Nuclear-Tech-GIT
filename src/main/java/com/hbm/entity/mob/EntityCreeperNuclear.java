@@ -120,7 +120,7 @@ public class EntityCreeperNuclear extends EntityCreeper {
 				worldObj.playSoundEffect(posX, posY + 0.5, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 
 				if(flag) {
-					worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, 50, posX, posY, posZ).mute());
+					worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, 50, posX, posY, posZ));
 				} else {
 					ExplosionNukeGeneric.dealDamage(worldObj, posX, posY + 0.5, posZ, 100);
 				}

@@ -1,12 +1,14 @@
 package com.hbm.tileentity.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.lib.Library;
+import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyConductor;
+import api.hbm.energymk2.Nodespace.PowerNode;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntitySubstation extends TileEntityPylonBase {
 
@@ -45,33 +47,22 @@ public class TileEntitySubstation extends TileEntityPylonBase {
 	public double getMaxWireLength() {
 		return 20;
 	}
-	
-	@Override
-	public List<int[]> getConnectionPoints() {
-		List<int[]> pos = new ArrayList(connected);
-		pos.add(new int[] {xCoord + 2, yCoord, zCoord - 1});
-		pos.add(new int[] {xCoord + 2, yCoord, zCoord + 1});
-		pos.add(new int[] {xCoord - 2, yCoord, zCoord - 1});
-		pos.add(new int[] {xCoord - 2, yCoord, zCoord + 1});
-		pos.add(new int[] {xCoord - 1, yCoord, zCoord + 2});
-		pos.add(new int[] {xCoord + 1, yCoord, zCoord + 2});
-		pos.add(new int[] {xCoord - 1, yCoord, zCoord - 2});
-		pos.add(new int[] {xCoord + 1, yCoord, zCoord - 2});
-		return pos;
-	}
 
 	@Override
-	public boolean hasProxies() {
-		return true;
-	}
-
-	@Override
-	public List<Integer> getProxies() {
-		List<Integer> proxies = new ArrayList();
-		proxies.add(IEnergyConductor.getIdentityFromPos(xCoord + 1, yCoord, zCoord + 1));
-		proxies.add(IEnergyConductor.getIdentityFromPos(xCoord + 1, yCoord, zCoord - 1));
-		proxies.add(IEnergyConductor.getIdentityFromPos(xCoord - 1, yCoord, zCoord + 1));
-		proxies.add(IEnergyConductor.getIdentityFromPos(xCoord - 1, yCoord, zCoord - 1));
-		return proxies;
+	public PowerNode createNode() {
+		TileEntity tile = (TileEntity) this;
+		PowerNode node = new PowerNode(new BlockPos(tile.xCoord, tile.yCoord, tile.zCoord)).setConnections(
+				new DirPos(xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN),
+				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
+				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
+				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
+				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
+				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z)
+				);
+		for(int[] pos : this.connected) node.addConnection(new DirPos(pos[0], pos[1], pos[2], ForgeDirection.UNKNOWN));
+		return node;
 	}
 }

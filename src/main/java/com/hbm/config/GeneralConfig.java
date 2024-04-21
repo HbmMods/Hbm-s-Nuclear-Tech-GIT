@@ -9,7 +9,7 @@ public class GeneralConfig {
 	public static boolean enableDebugMode = true;
 	public static boolean enableMycelium = false;
 	public static boolean enablePlutoniumOre = false;
-	public static boolean enableDungeons = true;
+	public static int enableDungeons = 2;
 	public static boolean enableMDOres = true;
 	public static boolean enableMines = true;
 	public static boolean enableRad = true;
@@ -26,7 +26,6 @@ public class GeneralConfig {
 	public static boolean enableRenderDistCheck = true;
 	public static boolean enableReEval = true;
 	public static boolean enableSilentCompStackErrors = true;
-	public static boolean enableChunkyNEIHandler = true;
 	public static boolean enableSkyboxes = true;
 	public static boolean enableImpactWorldProvider = true;
 	public static boolean enableStatReRegistering = true;
@@ -35,6 +34,7 @@ public class GeneralConfig {
 	public static boolean enableMOTD = true;
 	public static boolean enableGuideBook = true;
 	public static boolean enableSteamParticles = true;
+	public static boolean enableSoundExtension = true;
 	public static int hintPos = 0;
 
 	public static boolean enableExpensiveMode = false;
@@ -73,7 +73,10 @@ public class GeneralConfig {
 		enableDebugMode = config.get(CATEGORY_GENERAL, "1.00_enableDebugMode", false, "Enable debugging mode").getBoolean(false);
 		enableMycelium = config.get(CATEGORY_GENERAL, "1.01_enableMyceliumSpread", false, "Allows glowing mycelium to spread").getBoolean(false);
 		enablePlutoniumOre = config.get(CATEGORY_GENERAL, "1.02_enablePlutoniumNetherOre", false, "Enables plutonium ore generation in the nether").getBoolean(false);
-		enableDungeons = config.get(CATEGORY_GENERAL, "1.03_enableDungeonSpawn", true, "Allows structures and dungeons to spawn").getBoolean(true);
+
+		String unparsedDungeonFlag = config.get(CATEGORY_GENERAL, "1.03_enableDungeonSpawn", "flag", "Allows structures and dungeons to spawn. Valid values are true|false|flag - flag will respect the \"Generate Structures\" world flag.").getString();
+		enableDungeons = CommonConfig.parseStructureFlag(unparsedDungeonFlag);
+
 		enableMDOres = config.get(CATEGORY_GENERAL, "1.04_enableOresInModdedDimensions", true, "Allows NTM ores to generate in modded dimensions").getBoolean(true);
 		enableMines = config.get(CATEGORY_GENERAL, "1.05_enableLandmineSpawn", true, "Allows landmines to generate").getBoolean(true);
 		enableRad = config.get(CATEGORY_GENERAL, "1.06_enableRadHotspotSpawn", true, "Allows radiation hotspots to generate").getBoolean(true);
@@ -91,7 +94,6 @@ public class GeneralConfig {
 		enableReEval = config.get(CATEGORY_GENERAL, "1.27_enableReEval", true, "Allows re-evaluating power networks on link remove instead of destroying and recreating").getBoolean(true);
 		enableSilentCompStackErrors = config.get(CATEGORY_GENERAL, "1.28_enableSilentCompStackErrors", false, "Enabling this will disable log spam created by unregistered items in ComparableStack instances.").getBoolean(false);
 		hintPos = CommonConfig.createConfigInt(config, CATEGORY_GENERAL, "1.29_hudOverlayPosition", "0: Top left\n1: Top right\n2: Center right\n3: Center Left", 0);
-		enableChunkyNEIHandler = config.get(CATEGORY_GENERAL, "1.30_enableChunkyNEIHandler", true, "If enabled, registers a NEI handler that will show the chosen item in a larger view.").getBoolean(true);
 		enableSkyboxes = config.get(CATEGORY_GENERAL, "1.31_enableSkyboxes", true, "If enabled, will try to use NTM's custom skyboxes.").getBoolean(true);
 		enableImpactWorldProvider = config.get(CATEGORY_GENERAL, "1.32_enableImpactWorldProvider", true, "If enabled, registers custom world provider which modifies lighting and sky colors for post impact effects.").getBoolean(true);
 		enableStatReRegistering = config.get(CATEGORY_GENERAL, "1.33_enableStatReRegistering", true, "If enabled, will re-register item crafting/breaking/usage stats in order to fix a forge bug where modded items just won't show up.").getBoolean(true);
@@ -100,6 +102,7 @@ public class GeneralConfig {
 		enableMOTD = config.get(CATEGORY_GENERAL, "1.36_enableMOTD", true, "If enabled, shows the 'Loaded mod!' chat message as well as update notifications when joining a world").getBoolean(true);
 		enableGuideBook = config.get(CATEGORY_GENERAL, "1.37_enableGuideBook", true, "If enabled, gives players the guide book when joining the world for the first time").getBoolean(true);
 		enableSteamParticles = config.get(CATEGORY_GENERAL, "1.38_enableSteamParticles",true, "If disabled, auxiliary cooling towers and large cooling towers will not emit steam particles when in use.").getBoolean(true);
+		enableSoundExtension = config.get(CATEGORY_GENERAL, "1.39_enableSoundExtension",true, "If enabled, will change the limit for how many sounds can play at once.").getBoolean(true);
 
 		enableExpensiveMode = config.get(CATEGORY_GENERAL, "1.99_enableExpensiveMode", false, "It does what the name implies.").getBoolean(false);
 		

@@ -17,9 +17,9 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.TileEntityProxyInventory;
 
-import api.hbm.energy.IBatteryItem;
-import api.hbm.energy.IEnergyConnector;
-import api.hbm.energy.IEnergyConnectorBlock;
+import api.hbm.energymk2.IBatteryItem;
+import api.hbm.energymk2.IEnergyConnectorBlock;
+import api.hbm.energymk2.IEnergyConnectorMK2;
 import api.hbm.fluid.IFluidConnector;
 import api.hbm.fluid.IFluidConnectorBlock;
 import net.minecraft.block.Block;
@@ -118,8 +118,8 @@ public class Library {
 		
 		TileEntity te = world.getTileEntity(x, y, z);
 		
-		if(te instanceof IEnergyConnector) {
-			IEnergyConnector con = (IEnergyConnector) te;
+		if(te instanceof IEnergyConnectorMK2) {
+			IEnergyConnectorMK2 con = (IEnergyConnectorMK2) te;
 			
 			if(con.canConnect(dir.getOpposite() /* machine's connecting side */))
 				return true;

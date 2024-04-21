@@ -1,15 +1,12 @@
 package com.hbm.main;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import codechicken.nei.recipe.*;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
 import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration;
 import com.hbm.config.VersatileConfig;
-import com.hbm.handler.imc.IMCHandlerNHNEI;
 import com.hbm.handler.nei.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
@@ -19,6 +16,10 @@ import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.api.IHighlightHandler;
 import codechicken.nei.api.ItemInfo.Layout;
+import codechicken.nei.recipe.GuiCraftingRecipe;
+import codechicken.nei.recipe.GuiUsageRecipe;
+import codechicken.nei.recipe.ICraftingHandler;
+import codechicken.nei.recipe.IUsageHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -28,6 +29,7 @@ import net.minecraft.world.World;
 import static com.hbm.main.ClientProxy.handlerList;
 
 public class NEIConfig implements IConfigureNEI {
+
 	@Override
 	public void loadConfig() {
 		for (TemplateRecipeHandler handler: handlerList()) {

@@ -1,11 +1,12 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.SlotDeprecated;
 import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.oil.TileEntityMachineHydrotreater;
 
-import api.hbm.energy.IBatteryItem;
+import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -26,10 +27,10 @@ public class ContainerMachineHydrotreater extends Container {
 		this.addSlotToContainer(new Slot(tedf, 1, 35, 90));
 		//Canister Output
 		this.addSlotToContainer(new SlotTakeOnly(tedf, 2, 35, 108));
-		//Hydrogen Input
-		this.addSlotToContainer(new Slot(tedf, 3, 53, 90));
-		//Hydrogen Output
-		this.addSlotToContainer(new SlotTakeOnly(tedf, 4, 53, 108));
+		//Hydrogen Input (removed, requires pressurization)
+		this.addSlotToContainer(new SlotDeprecated(tedf, 3, 53, 90));
+		//Hydrogen Output (samesies)
+		this.addSlotToContainer(new SlotDeprecated(tedf, 4, 53, 108));
 		//Desulfated Oil Input
 		this.addSlotToContainer(new Slot(tedf, 5, 125, 90));
 		//Desulfated Oil Output

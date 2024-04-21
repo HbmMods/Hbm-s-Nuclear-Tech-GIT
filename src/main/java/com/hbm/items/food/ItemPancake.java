@@ -5,7 +5,7 @@ import java.util.List;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 
-import api.hbm.energy.IBatteryItem;
+import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;

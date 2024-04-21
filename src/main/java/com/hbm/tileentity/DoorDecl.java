@@ -4,12 +4,13 @@ import com.hbm.animloader.AnimatedModel;
 import com.hbm.animloader.Animation;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.loader.WavefrontObjDisplayList;
+import com.hbm.render.loader.IModelCustomNamed;
 import com.hbm.util.BobMathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 public abstract class DoorDecl {
@@ -90,7 +91,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return null;
 		}
 	};
@@ -179,7 +180,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.fire_door;
 		}
 	};
@@ -267,7 +268,7 @@ public abstract class DoorDecl {
 		}
 
 		@Override
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return null;
 		}
 
@@ -358,7 +359,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.sliding_seal_door;
 		}
 	};
@@ -457,7 +458,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.secure_access_door;
 		}
 	};
@@ -546,7 +547,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.round_airlock_door;
 		}
 	};
@@ -629,7 +630,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.qe_sliding_door;
 		}
 
@@ -715,7 +716,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.qe_containment;
 		}
 
@@ -856,7 +857,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.water_door;
 		}
 
@@ -918,7 +919,7 @@ public abstract class DoorDecl {
 		@Override public int[] getDimensions() { return new int[] { 0, 0, 2, 2, 2, 2 }; }
 		@Override @SideOnly(Side.CLIENT) public ResourceLocation getTextureForPart(String partName) { return ResourceManager.silo_hatch_tex; }
 		@Override public ResourceLocation getTextureForPart(int skinIndex, String partName) { return ResourceManager.silo_hatch_tex; }
-		@Override @SideOnly(Side.CLIENT) public WavefrontObjDisplayList getModel() { return ResourceManager.silo_hatch; }
+		@Override @SideOnly(Side.CLIENT) public IModelCustomNamed getModel() { return ResourceManager.silo_hatch; }
 
 	};
 
@@ -978,7 +979,7 @@ public abstract class DoorDecl {
 		@Override public int[] getDimensions() { return new int[] { 0, 0, 3, 3, 3, 3 }; }
 		@Override @SideOnly(Side.CLIENT) public ResourceLocation getTextureForPart(String partName) { return ResourceManager.silo_hatch_large_tex; }
 		@Override public ResourceLocation getTextureForPart(int skinIndex, String partName) { return ResourceManager.silo_hatch_large_tex; }
-		@Override @SideOnly(Side.CLIENT) public WavefrontObjDisplayList getModel() { return ResourceManager.silo_hatch_large; }
+		@Override @SideOnly(Side.CLIENT) public IModelCustomNamed getModel() { return ResourceManager.silo_hatch_large; }
 
 	};
 
@@ -1056,7 +1057,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.large_vehicle_door;
 		}
 
@@ -1110,7 +1111,7 @@ public abstract class DoorDecl {
 	public abstract ResourceLocation getTextureForPart(int skinIndex, String partName);
 
 	@SideOnly(Side.CLIENT)
-	public abstract WavefrontObjDisplayList getModel();
+	public abstract IModelCustomNamed getModel();
 
 	@SideOnly(Side.CLIENT)
 	public AnimatedModel getAnimatedModel() {

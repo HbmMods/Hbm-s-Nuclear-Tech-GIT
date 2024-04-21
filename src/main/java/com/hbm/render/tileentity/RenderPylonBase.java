@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.network.TileEntityPylonBase;
-import com.hbm.tileentity.network.TileEntityPylonBase.ConnectionType;
 
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -14,63 +13,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
-	
-	//TODO: adapt this into a more generic form for multi wire pylons
-	/*@Deprecated
-	public void renderSingleLine(TileEntityPylonBase pyl, double x, double y, double z) {
-		
-		for(int i = 0; i < pyl.connected.size(); i++) {
-
-			int[] wire = pyl.connected.get(i);
-			TileEntity tile = pyl.getWorldObj().getTileEntity(wire[0], wire[1], wire[2]);
-			
-			if(tile instanceof TileEntityPylonBase) {
-				TileEntityPylonBase pylon = (TileEntityPylonBase) tile;
-				Vec3 myOffset = pyl.getMountPos()[0];
-				Vec3 theirOffset = pylon.getMountPos()[0];
-
-				double conX0 = pyl.xCoord + myOffset.xCoord;
-				double conY0 = pyl.yCoord + myOffset.yCoord;
-				double conZ0 = pyl.zCoord + myOffset.zCoord;
-				double conX1 = pylon.xCoord + theirOffset.xCoord;
-				double conY1 = pylon.yCoord + theirOffset.yCoord;
-				double conZ1 = pylon.zCoord + theirOffset.zCoord;
-				
-				double wX = (conX1 - conX0) / 2D;
-				double wY = (conY1 - conY0) / 2D;
-				double wZ = (conZ1 - conZ0) / 2D;
-				
-				float count = 10;
-				Vec3 delta = Vec3.createVectorHelper(conX1 - conX0, conY1 - conY0, conZ1 - conZ0);
-				double hang = delta.lengthVector() / 15D;
-				
-				for(float j = 0; j < count; j++) {
-					
-					float k = j + 1;
-					
-					double ja = j + 0.5D;
-					double ix = conX0 + delta.xCoord / (double)(count * 2) * ja;
-					double iy = conY0 + delta.yCoord / (double)(count * 2) * ja - Math.sin(j / count * Math.PI * 0.5) * hang;
-					double iz = conZ0 + delta.zCoord / (double)(count * 2) * ja;
-					
-					//pylon.getWorldObj().spawnParticle("reddust", ix, iy, iz, 0.01 + j * 0.1, 0, 0);
-					
-					int brightness = pyl.getWorldObj().getLightBrightnessForSkyBlocks(MathHelper.floor_double(ix), MathHelper.floor_double(iy), MathHelper.floor_double(iz), 0);
-					int lX = brightness % 65536;
-					int lY = brightness / 65536;
-					OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)lX / 1.0F, (float)lY / 1.0F);
-					
-					drawLineSegment(
-							x + myOffset.xCoord + (wX * j / count),
-							y + myOffset.yCoord + (wY * j / count) - Math.sin(j / count * Math.PI * 0.5) * hang,
-							z + myOffset.zCoord + (wZ * j / count),
-							x + myOffset.xCoord + (wX * k / count),
-							y + myOffset.yCoord + (wY * k / count) - Math.sin(k / count * Math.PI * 0.5) * hang,
-							z + myOffset.zCoord + (wZ * k / count));
-				}
-			}
-		}
-	}*/
 	
 	/**
 	 * The closest we have to a does-all solution. It will figure out if it needs to draw multiple lines,
@@ -82,7 +24,7 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 	 */
 	public void renderLinesGeneric(TileEntityPylonBase pyl, double x, double y, double z) {
 		
-		this.bindTexture(ResourceManager.wire_tex);
+		this.bindTexture(pyl.color == 0 ? ResourceManager.wire_tex : ResourceManager.wire_greyscale_tex);
 		
 		for(int i = 0; i < pyl.connected.size(); i++) {
 
@@ -95,7 +37,7 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 				Vec3[] m1 = pyl.getMountPos();
 				Vec3[] m2 = pylon.getMountPos();
 				
-				int lineCount = Math.max(pyl.getConnectionType() == ConnectionType.QUAD ? 4 : 1, pylon.getConnectionType() == ConnectionType.QUAD ? 4 : 1);
+				int lineCount = Math.min(m1.length, m2.length);
 				
 				for(int line = 0; line < lineCount; line++) {
 
@@ -185,6 +127,8 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 			int brightness = world.getLightBrightnessForSkyBlocks(MathHelper.floor_double(ix), MathHelper.floor_double(iy), MathHelper.floor_double(iz), 0);
 			tess.setBrightness(brightness);
 			
+			tess.setColorOpaque_I(pyl.color == 0 ? 0xffffff : pyl.color);
+			
 			drawLineSegment(tess,
 					x0 + (deltaX * j / count),
 					y0 + (deltaY * j / count) - sagJ,
@@ -227,14 +171,17 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 		double iZ = Math.cos(yaw) * Math.cos(newPitch) * girth;
 		double iX = Math.sin(yaw) * Math.cos(newPitch) * girth;
 		double iY = Math.sin(newPitch) * girth;
-		double jZ = Math.cos(newYaw) * Math.cos(newPitch) * girth;
-		double jX = Math.sin(newYaw) * Math.cos(newPitch) * girth;
+		double jZ = Math.cos(newYaw) * girth;
+		double jX = Math.sin(newYaw) * girth;
 		double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 		int wrap = (int) Math.ceil(length * 8);
 		
-		if(deltaX + deltaZ < 0) wrap *= -1;
+		if(deltaX + deltaZ < 0) {
+			wrap *= -1;
+			jZ *= -1;
+			jX *= -1;
+		}
 		
-		tessellator.setColorOpaque_I(0xffffff);
 		tessellator.addVertexWithUV(x + iX, y + iY, z + iZ, 0, 0);
 		tessellator.addVertexWithUV(x - iX, y - iY, z - iZ, 0, 1);
 		tessellator.addVertexWithUV(a - iX, b - iY, c - iZ, wrap, 1);
