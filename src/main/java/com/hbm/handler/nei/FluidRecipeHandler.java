@@ -5,7 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.recipes.MachineRecipes;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 
 import codechicken.nei.NEIServerUtils;
@@ -14,7 +17,23 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
-public class FluidRecipeHandler extends TemplateRecipeHandler {
+public class FluidRecipeHandler extends TemplateRecipeHandler implements ICompatNHNEI {
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return new ItemStack[]{
+				new ItemStack(ModItems.fluid_barrel_empty),
+				new ItemStack(ModItems.fluid_tank_empty),
+				new ItemStack(ModItems.fluid_tank_lead_empty),
+				new ItemStack(ModItems.canister_empty),
+				new ItemStack(ModItems.gas_empty),
+				new ItemStack(ModItems.cell_empty),
+				new ItemStack(ModItems.disperser_canister_empty),
+				new ItemStack(ModItems.glyphid_gland_empty)};
+	}
+	@Override
+	public String getRecipeID() {
+		return "fluidcons";
+	}
 
     public class SmeltingSet extends TemplateRecipeHandler.CachedRecipe
     {

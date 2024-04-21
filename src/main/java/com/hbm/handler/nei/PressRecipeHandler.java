@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.interfaces.Untested;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -25,8 +27,19 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
 @Untested
-public class PressRecipeHandler extends TemplateRecipeHandler {
+public class PressRecipeHandler extends TemplateRecipeHandler implements ICompatNHNEI {
 
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return new ItemStack[]{
+				new ItemStack(ModBlocks.machine_press),
+				new ItemStack(ModBlocks.machine_epress),
+				new ItemStack(ModBlocks.machine_conveyor_press)};
+	}
+	@Override
+	public String getRecipeID() {
+		return "pressing";
+	}
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
 	public LinkedList<RecipeTransferRect> transferRectsGui = new LinkedList<RecipeTransferRect>();
 	public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();
