@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.InventoryUtil;
 
@@ -21,8 +23,13 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
-	
+public abstract class NEIUniversalHandler extends TemplateRecipeHandler implements ICompatNHNEI {
+
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return machine;
+	}
+
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
 	public LinkedList<RecipeTransferRect> transferRectsGui = new LinkedList<RecipeTransferRect>();
 	public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();
@@ -34,7 +41,6 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 	public final HashMap<Object, Object> recipes;
 	public HashMap<Object, Object> machineOverrides;
 	/// SETUP ///
-
 	public NEIUniversalHandler(String display, ItemStack machine[], HashMap recipes) {
 		this.display = display;
 		this.machine = machine;
@@ -305,4 +311,9 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler {
 	}
 	
 	public abstract String getKey();
+
+	@Override
+	public String getRecipeID() {
+		return getKey();
+	}
 }

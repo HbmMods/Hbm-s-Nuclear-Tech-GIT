@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.gui.GUIMachineReactorBreeding;
 import com.hbm.inventory.recipes.BreederRecipes;
 import com.hbm.inventory.recipes.BreederRecipes.BreederRecipe;
@@ -16,8 +18,18 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
-public class BreederRecipeHandler extends TemplateRecipeHandler {
+public class BreederRecipeHandler extends TemplateRecipeHandler implements ICompatNHNEI {
 
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return new ItemStack[]{
+				new ItemStack(ModBlocks.machine_reactor_breeding)};
+	}
+
+	@Override
+	public String getRecipeID() {
+		return "breeding";
+	}
 	public class BreedingSet extends TemplateRecipeHandler.CachedRecipe {
 
 		PositionedStack input;
