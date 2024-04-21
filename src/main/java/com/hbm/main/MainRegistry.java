@@ -816,10 +816,9 @@ public class MainRegistry {
 		IMCHandler.registerHandler("centrifuge", new IMCCentrifuge());
 		if (Loader.isModLoaded("NotEnoughItems")){
 			if (Loader.instance().getIndexedModList().get("NotEnoughItems").getVersion().contains("GTNH")) {
-				IMCHandlerNHNEI.IMCSender();
+				proxy.handleNHNEICompat();
 			}
 		}
-
 	}
 	
 	@EventHandler
