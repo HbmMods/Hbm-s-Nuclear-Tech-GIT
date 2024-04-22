@@ -26,6 +26,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+@SuppressWarnings("unused") //shut the fuck up
 public class HazardRegistry {
 
 	//CO60		             5a		β−	030.00Rad/s	Spicy

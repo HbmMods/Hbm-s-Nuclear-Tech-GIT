@@ -1,19 +1,22 @@
 ## Added
-* Bismuth bronze and arsenic bronze
-  * Kind of self-explanatory
-  * Can be made into anvils, allows for an alternative that doesn't involve 10 entire ingots of bismuth for a single anvil
+* New meteorite ores
+  * All previous meteorite ores have been removed (each took up an entire block ID...) which have been replaced with a single block that uses metadata
+  * There's now only five variants with the contents chosen to be especially useful in earlygame: iron, copper, aluminium, rare earth and cobalt
+  * Each ore smelts into 16 items, except for cobalt which yields only 4 ingots
+  * All meteorite ores are now equally likely to spawn
+  * The new ores can only be smelted, shredding or other processing is not possible
 
 ## Changed
-* Arsenic is now made from only 16 oils scrap (instead of 256) in an ore acidizer using high-performance solvent (instead of chemical plant using sulfuric acid)
-* Meteorite and starmetal anvils have been replaced with desh and saturnite ones
-* Increased the nuke flash' intensity, having 100% occupancy at the peak instead of 80%
-* NTM now has integration for GTNH's fork of NEI, listing all valid crafting machines on the side of the recipe page
+* The Souyz' recipe is now available in the standard template folder
+* Removed some unused crap
+  * UV lamps (2 IDs)
+  * AMS (9 IDs)
+  * Rotary engine (1 ID)
+  * FWatz (8 IDs)
+  * Meteorite ores (10 IDs)
+* The loot pool for meteorite treasure blocks has been updated
+  * Treasures are no longer senselessly progression breaking, radioactive or plain stupid (whole-ass machines inside meteorites)
+  * The treasure now consists of mainly some rarer earlygame ingots, circuits, some gear, a small selection of armor mods and alexandrite (rare)
 
 ## Fixed
-* Limited assembler input to up to 10 attempts per ingredient, fixing a rare issue where the assembler freezes the server when pulling items
-* Fixed fallout effects not loading chunks
-* Fixed RBMK steam channel recycling recipe
-* Rewrote the transfer part of the power system *again*
-  * The current system is a hybrid of the previous transfer code and the old system
-  * While a little bit slower than the previous transfer code, it is still much faster than the old system
-  * This should fix issues caused by order (as order is now entirely irrelevant, just like with the old system) as well as issues caused by buffers wasting transfer capacity doing nothing
+* Fixed DFC receivers not outputting power

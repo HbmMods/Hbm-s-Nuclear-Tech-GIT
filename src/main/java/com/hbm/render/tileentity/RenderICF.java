@@ -8,7 +8,7 @@ import com.hbm.main.ResourceManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
-public class RenderPlasmaHeater extends TileEntitySpecialRenderer {
+public class RenderICF extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float f) {
@@ -21,16 +21,14 @@ public class RenderPlasmaHeater extends TileEntitySpecialRenderer {
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 
 		switch(te.getBlockMetadata() - BlockDummyable.offset) {
-		case 2: GL11.glRotatef(0, 0F, 1F, 0F); break;
-		case 4: GL11.glRotatef(90, 0F, 1F, 0F); break;
-		case 3: GL11.glRotatef(180, 0F, 1F, 0F); break;
-		case 5: GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
+		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
+		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
 		}
 
-		GL11.glTranslatef(0, 0, 18);
-
-		bindTexture(ResourceManager.iter_microwave);
-		ResourceManager.iter.renderPart("Microwave");
+		bindTexture(ResourceManager.icf_tex);
+		ResourceManager.icf.renderAll();
 
 		GL11.glShadeModel(GL11.GL_FLAT);
 

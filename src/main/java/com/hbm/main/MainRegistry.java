@@ -1297,15 +1297,42 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.anvil_meteorite");
 		ignoreMappings.add("hbm:tile.anvil_starmetal");
 		ignoreMappings.add("hbm:tile.anvil_bismuth");
+		ignoreMappings.add("hbm:tile.lamp_uv_off");
+		ignoreMappings.add("hbm:tile.lamp_uv_on");
+		ignoreMappings.add("hbm:tile.ams_base");
+		ignoreMappings.add("hbm:tile.ams_emitter");
+		ignoreMappings.add("hbm:tile.ams_limiter");
+		ignoreMappings.add("hbm:tile.dummy_block_ams_limiter");
+		ignoreMappings.add("hbm:tile.dummy_port_ams_limiter");
+		ignoreMappings.add("hbm:tile.dummy_block_ams_emitter");
+		ignoreMappings.add("hbm:tile.dummy_port_ams_emitter");
+		ignoreMappings.add("hbm:tile.dummy_block_ams_base");
+		ignoreMappings.add("hbm:tile.dummy_port_ams_base");
+		ignoreMappings.add("hbm:tile.machine_selenium");
+		ignoreMappings.add("hbm:tile.fwatz_conductor");
+		ignoreMappings.add("hbm:tile.fwatz_cooler");
+		ignoreMappings.add("hbm:tile.fwatz_tank");
+		ignoreMappings.add("hbm:tile.fwatz_scaffold");
+		ignoreMappings.add("hbm:tile.fwatz_hatch");
+		ignoreMappings.add("hbm:tile.fwatz_computer");
+		ignoreMappings.add("hbm:tile.fwatz_core");
+		ignoreMappings.add("hbm:tile.fwatz_plasma");
+		ignoreMappings.add("hbm:tile.ore_meteor_uranium");
+		ignoreMappings.add("hbm:tile.ore_meteor_thorium");
+		ignoreMappings.add("hbm:tile.ore_meteor_titanium");
+		ignoreMappings.add("hbm:tile.ore_meteor_sulfur");
+		ignoreMappings.add("hbm:tile.ore_meteor_copper");
+		ignoreMappings.add("hbm:tile.ore_meteor_tungsten");
+		ignoreMappings.add("hbm:tile.ore_meteor_aluminium");
+		ignoreMappings.add("hbm:tile.ore_meteor_lead");
+		ignoreMappings.add("hbm:tile.ore_meteor_lithium");
+		ignoreMappings.add("hbm:tile.ore_meteor_starmetal");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
 		remapItems.put("hbm:item.man_explosive8", ModItems.explosive_lenses);
 		remapItems.put("hbm:item.briquette_lignite", ModItems.briquette);
 		remapItems.put("hbm:item.antiknock", ModItems.fuel_additive);
-		remapItems.put("hbm:tile.anvil_meteorite", Item.getItemFromBlock(ModBlocks.anvil_desh));
-		remapItems.put("hbm:tile.anvil_starmetal", Item.getItemFromBlock(ModBlocks.anvil_saturnite));
-		remapItems.put("hbm:tile.anvil_bismuth", Item.getItemFromBlock(ModBlocks.anvil_bismuth_bronze));
 		
 		for(MissingMapping mapping : event.get()) {
 			
