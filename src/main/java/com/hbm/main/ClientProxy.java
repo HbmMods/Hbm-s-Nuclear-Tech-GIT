@@ -1,5 +1,6 @@
  package com.hbm.main;
 
+import com.hbm.handler.imc.IMCHandlerNHNEI;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -160,7 +161,12 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForge.EVENT_BUS.register(handler);
 		FMLCommonHandler.instance().bus().register(handler);
 	}
-	
+
+	@Override
+	public void handleNHNEICompat(){
+		IMCHandlerNHNEI.IMCSender();
+	}
+
 	@Override
 	public void registerTileEntitySpecialRenderer() {
 		//test crap

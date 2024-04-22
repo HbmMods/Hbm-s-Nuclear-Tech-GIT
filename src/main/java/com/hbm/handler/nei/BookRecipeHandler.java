@@ -4,6 +4,8 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
@@ -14,12 +16,22 @@ import com.hbm.inventory.recipes.MagicRecipes.MagicRecipe;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
+import com.hbm.items.ModItems;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
-public class BookRecipeHandler extends TemplateRecipeHandler {
+public class BookRecipeHandler extends TemplateRecipeHandler implements ICompatNHNEI {
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return new ItemStack[]{
+				new ItemStack(ModItems.book_of_)};
+	}
 
-    public class RecipeSet extends TemplateRecipeHandler.CachedRecipe {
+	@Override
+	public String getRecipeID() {
+		return "book_of_boxcars";
+	}
+	public class RecipeSet extends TemplateRecipeHandler.CachedRecipe {
     	
     	List<PositionedStack> input;
         PositionedStack result;

@@ -2,12 +2,9 @@ package com.hbm.main;
 
 import java.util.List;
 
+import codechicken.nei.recipe.*;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
-import com.hbm.config.CustomMachineConfigJSON;
-import com.hbm.config.CustomMachineConfigJSON.MachineConfiguration;
-import com.hbm.config.VersatileConfig;
-import com.hbm.handler.nei.*;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.RefStrings;
@@ -16,10 +13,6 @@ import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
 import codechicken.nei.api.IHighlightHandler;
 import codechicken.nei.api.ItemInfo.Layout;
-import codechicken.nei.recipe.GuiCraftingRecipe;
-import codechicken.nei.recipe.GuiUsageRecipe;
-import codechicken.nei.recipe.ICraftingHandler;
-import codechicken.nei.recipe.IUsageHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -27,64 +20,12 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class NEIConfig implements IConfigureNEI {
-
+	
 	@Override
 	public void loadConfig() {
-		registerHandler(new AlloyFurnaceRecipeHandler());
-		registerHandler(new ShredderRecipeHandler());
-		registerHandler(new PressRecipeHandler());
-		registerHandler(new CentrifugeRecipeHandler());
-		registerHandler(new GasCentrifugeRecipeHandler());
-		registerHandler(new BreederRecipeHandler());
-		registerHandler(new CyclotronRecipeHandler());
-		registerHandler(new AssemblerRecipeHandler());
-		registerHandler(new RefineryRecipeHandler());
-		registerHandler(new VacuumRecipeHandler());
-		registerHandler(new CrackingHandler());
-		registerHandler(new ReformingHandler());
-		registerHandler(new HydrotreatingHandler());
-		registerHandler(new BoilerRecipeHandler());
-		registerHandler(new ChemplantRecipeHandler());
-		registerHandler(new CrystallizerRecipeHandler());
-		registerHandler(new BookRecipeHandler());
-		registerHandler(new FusionRecipeHandler());
-		registerHandler(new HadronRecipeHandler());
-		registerHandler(new SILEXRecipeHandler());
-		registerHandler(new SmithingRecipeHandler());
-		registerHandler(new AnvilRecipeHandler());
-		registerHandler(new FuelPoolHandler());
-		registerHandler(new RadiolysisRecipeHandler());
-		registerHandler(new CrucibleSmeltingHandler());
-		registerHandler(new CrucibleAlloyingHandler());
-		registerHandler(new CrucibleCastingHandler());
-		registerHandler(new ToolingHandler());
-		registerHandler(new ConstructionHandler());
-		
-		//universal boyes
-		registerHandler(new ZirnoxRecipeHandler());
-		if(VersatileConfig.rtgDecay()) {
-			registerHandler(new RTGRecipeHandler());
+		for (TemplateRecipeHandler handler: NEIRegistry.listAllHandlers()) {
+			registerHandler(handler);
 		}
-		registerHandler(new LiquefactionHandler());
-		registerHandler(new SolidificationHandler());
-		registerHandler(new CokingHandler());
-		registerHandler(new FractioningHandler());
-		registerHandler(new BoilingHandler());
-		registerHandler(new CombinationHandler());
-		registerHandler(new SawmillHandler());
-		registerHandler(new MixerHandler());
-		registerHandler(new OutgasserHandler());
-		registerHandler(new ElectrolyserFluidHandler());
-		registerHandler(new ElectrolyserMetalHandler());
-		registerHandler(new AshpitHandler());
-		registerHandler(new ArcWelderHandler());
-		registerHandler(new ExposureChamberHandler());
-
-		for(MachineConfiguration conf : CustomMachineConfigJSON.niceList) registerHandlerBypass(new CustomMachineHandler(conf));
-		
-		//fluids
-		registerHandler(new FluidRecipeHandler());
-
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));
 		API.hideItem(ItemBattery.getFullBattery(ModItems.memory));

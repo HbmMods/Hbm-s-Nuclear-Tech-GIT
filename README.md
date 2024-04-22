@@ -4,12 +4,14 @@
 
 [NTM on CurseForge](https://minecraft.curseforge.com/projects/hbms-nuclear-tech-mod?gameCategorySlug=mc-mods&projectID=235439)
 
+[Official NTM Wiki](https://nucleartech.wiki/wiki/Main_Page)
+
 **This is for 1.7.10!** For 1.12, check out these projects:
 
 * NTM Reloaded: https://github.com/TheOriginalGolem/Hbm-s-Nuclear-Tech-GIT/releases
 * NTM Extended Edition (Alcater): https://github.com/Alcatergit/Hbm-s-Nuclear-Tech-GIT/releases
 
-For 1.18, try Martin's remake: https://github.com/MartinTheDragon/Nuclear-Tech-Mod-Remake/releases
+For 1.18, try Martin's remake: https://codeberg.org/MartinTheDragon/Nuclear-Tech-Mod-Remake/releases
 
 ## Downloading pre-compiled versions from GitHub
 
