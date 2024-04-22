@@ -6,8 +6,14 @@
 ## Changed
 * Arsenic is now made from only 16 oils scrap (instead of 256) in an ore acidizer using high-performance solvent (instead of chemical plant using sulfuric acid)
 * Meteorite and starmetal anvils have been replaced with desh and saturnite ones
+* Increased the nuke flash' intensity, having 100% occupancy at the peak instead of 80%
+* NTM now has integration for GTNH's fork of NEI, listing all valid crafting machines on the side of the recipe page
 
 ## Fixed
 * Limited assembler input to up to 10 attempts per ingredient, fixing a rare issue where the assembler freezes the server when pulling items
 * Fixed fallout effects not loading chunks
 * Fixed RBMK steam channel recycling recipe
+* Rewrote the transfer part of the power system *again*
+  * The current system is a hybrid of the previous transfer code and the old system
+  * While a little bit slower than the previous transfer code, it is still much faster than the old system
+  * This should fix issues caused by order (as order is now entirely irrelevant, just like with the old system) as well as issues caused by buffers wasting transfer capacity doing nothing

@@ -171,6 +171,8 @@ public class PowerNetMK2 {
 			
 			toTransfer -= energyUsed;
 		}
+		
+		this.energyTracker += energyUsed;
 
 		for(Pair<IEnergyProviderMK2, Long> entry : providers) {
 			double weight = (double) entry.getValue() / (double) powerAvailable;
@@ -329,6 +331,8 @@ public class PowerNetMK2 {
 			
 			toTransfer -= energyUsed;
 		}
+		
+		this.energyTracker += energyUsed;
 		
 		return power - energyUsed;
 	}
