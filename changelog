@@ -14,6 +14,8 @@
   * Rotary engine (1 ID)
   * FWatz (8 IDs)
   * Meteorite ores (10 IDs)
+  * Tiny nuclear rector (1 ID)
+* The small oil heaters are no longer craftable and the NEI handler has been removed, however existing ones can still be used
 * The loot pool for meteorite treasure blocks has been updated
   * Treasures are no longer senselessly progression breaking, radioactive or plain stupid (whole-ass machines inside meteorites)
   * The treasure now consists of mainly some rarer earlygame ingots, circuits, some gear, a small selection of armor mods and alexandrite (rare)

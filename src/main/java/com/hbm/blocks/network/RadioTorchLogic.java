@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.gui.GUIScreenRadioTorchLogic;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.network.TileEntityRadioTorchBase;
 import com.hbm.tileentity.network.TileEntityRadioTorchLogic;
 import com.hbm.util.I18nUtil;
 
