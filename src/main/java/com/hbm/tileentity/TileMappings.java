@@ -394,6 +394,7 @@ public class TileMappings {
 		put(TileEntityRadioTorchSender.class, "tileentity_rtty_sender");
 		put(TileEntityRadioTorchReceiver.class, "tileentity_rtty_rec");
 		put(TileEntityRadioTorchCounter.class, "tileentity_rtty_counter");
+		put(TileEntityRadioTorchLogic.class, "tileentity_rtty_logic");
 		put(TileEntityRadioTelex.class, "tileentity_rtty_telex");
 		
 		put(TileEntityDroneWaypoint.class, "tileentity_drone_waypoint");
