@@ -58,7 +58,7 @@ public class SILEXRecipes {
 		recipes.put(new ComparableStack(ModItems.ingot_schraranium), new SILEXRecipe(900, 100, 2)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_schrabidium), 4))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_uranium), 3))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_plutonium), 2))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_neptunium), 2))
 				);
 
 		itemTranslation.put(new ComparableStack(ModItems.powder_australium), new ComparableStack(ModItems.ingot_australium));
@@ -70,7 +70,7 @@ public class SILEXRecipes {
 		recipes.put(new ComparableStack(ModItems.crystal_schraranium), new SILEXRecipe(900, 100, 3)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_schrabidium), 5))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_uranium), 2))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_plutonium), 2))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_neptunium), 2))
 				);
 		
 		recipes.put(new ComparableStack(ModBlocks.ore_tikite), new SILEXRecipe(900, 100, EnumWavelengths.UV)
