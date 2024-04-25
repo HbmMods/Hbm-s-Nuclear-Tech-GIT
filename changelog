@@ -22,3 +22,6 @@
 
 ## Fixed
 * Fixed DFC receivers not outputting power
+* Fixed the custom machine NEI handlers not working
+* Fixed a potential crash caused by invalid assembly templates
+* Fixed general weirdness with the schrabidium transmutator item IO

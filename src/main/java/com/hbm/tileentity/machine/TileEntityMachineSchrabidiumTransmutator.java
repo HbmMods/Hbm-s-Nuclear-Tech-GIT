@@ -33,9 +33,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 	
 	private AudioWrapper audio;
 
-	private static final int[] slots_top = new int[] { 0 };
-	private static final int[] slots_bottom = new int[] { 1, 2 };
-	private static final int[] slots_side = new int[] { 3, 2 };
+	private static final int[] slots_io = new int[] { 0, 1, 2, 3 };
 
 	public TileEntityMachineSchrabidiumTransmutator() {
 		super(4);
@@ -82,22 +80,24 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		return p_94128_1_ == 0 ? slots_bottom : (p_94128_1_ == 1 ? slots_top : slots_side);
+		return slots_io;
 	}
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
 		
-		if (i == 2 && stack.getItem() != null && (stack.getItem() == ModItems.redcoil_capacitor && stack.getItemDamage() == stack.getMaxDamage()) || stack.getItem() == ModItems.euphemium_capacitor) {
+		if(stack.getItem() == ModItems.euphemium_capacitor) return false;
+		
+		if(i == 2 && stack.getItem() != null && (stack.getItem() == ModItems.redcoil_capacitor && stack.getItemDamage() == stack.getMaxDamage())) {
 			return true;
 		}
 
-		if (i == 1) {
+		if(i == 1) {
 			return true;
 		}
 
-		if (i == 3) {
-			if (stack.getItem() instanceof IBatteryItem && ((IBatteryItem)stack.getItem()).getCharge(stack) == 0)
+		if(i == 3) {
+			if(stack.getItem() instanceof IBatteryItem && ((IBatteryItem) stack.getItem()).getCharge(stack) == 0)
 				return true;
 		}
 

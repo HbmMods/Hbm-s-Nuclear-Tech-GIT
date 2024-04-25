@@ -1268,6 +1268,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 			ComparableStack compStack = ItemAssemblyTemplate.readType(stack);
 			if(compStack != null) {
 				AssemblerRecipe recipe = recipes.get(compStack);
+				if(recipe == null) return null;
 				AStack[] ret = recipe.ingredients;
 				return ret == null ? null : Arrays.asList(ret);
 			}
@@ -1280,6 +1281,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				if(out != null) {
 					ComparableStack comp = new ComparableStack(out);
 					AssemblerRecipe recipe = recipes.get(comp);
+					if(recipe == null) return null;
 					AStack[] ret = recipe.ingredients;
 					return ret == null ? null : Arrays.asList(ret);
 				}

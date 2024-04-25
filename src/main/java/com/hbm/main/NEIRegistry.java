@@ -3,7 +3,6 @@ package com.hbm.main;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.config.VersatileConfig;
 import com.hbm.handler.nei.*;
 
@@ -64,8 +63,6 @@ public class NEIRegistry {
 		handlers.add(new AshpitHandler());
 		handlers.add(new ArcWelderHandler());
 		handlers.add(new ExposureChamberHandler());
-
-		for(CustomMachineConfigJSON.MachineConfiguration conf : CustomMachineConfigJSON.niceList) handlers.add(new CustomMachineHandler(conf));
 		
 		return handlers;
 	}
