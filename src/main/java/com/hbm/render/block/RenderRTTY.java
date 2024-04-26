@@ -4,6 +4,7 @@ import com.hbm.blocks.network.RadioTorchBase;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.ObjUtil;
 import com.hbm.tileentity.network.TileEntityRadioTorchBase;
+import com.hbm.tileentity.network.TileEntityRadioTorchLogic;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
@@ -34,6 +35,14 @@ public class RenderRTTY implements ISimpleBlockRenderingHandler {
 		
 		if(tile instanceof TileEntityRadioTorchBase) {
 			TileEntityRadioTorchBase rtty = (TileEntityRadioTorchBase) tile;
+			
+			if(rtty.lastState > 0) {
+				icon = block.getIcon(1, 0);
+			}
+		}
+		//consequences of my actions
+		if(tile instanceof TileEntityRadioTorchLogic) {
+			TileEntityRadioTorchLogic rtty = (TileEntityRadioTorchLogic) tile;
 			
 			if(rtty.lastState > 0) {
 				icon = block.getIcon(1, 0);

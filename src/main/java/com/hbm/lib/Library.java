@@ -163,10 +163,6 @@ public class Library {
 		if((tileentity != null && (tileentity instanceof IFluidAcceptor || 
 				tileentity instanceof IFluidSource)) || 
 				world.getBlock(x, y, z) == ModBlocks.fusion_hatch ||
-				world.getBlock(x, y, z) == ModBlocks.fwatz_hatch ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_limiter ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_emitter ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_ams_base ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_compact_launcher ||
 				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table ||
 				world.getBlock(x, y, z) == ModBlocks.rbmk_loader) {

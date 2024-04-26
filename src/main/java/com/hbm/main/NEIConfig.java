@@ -5,6 +5,8 @@ import java.util.List;
 import codechicken.nei.recipe.*;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
+import com.hbm.config.CustomMachineConfigJSON;
+import com.hbm.handler.nei.CustomMachineHandler;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.lib.RefStrings;
@@ -26,6 +28,9 @@ public class NEIConfig implements IConfigureNEI {
 		for (TemplateRecipeHandler handler: NEIRegistry.listAllHandlers()) {
 			registerHandler(handler);
 		}
+
+		for(CustomMachineConfigJSON.MachineConfiguration conf : CustomMachineConfigJSON.niceList) registerHandler(new CustomMachineHandler(conf));
+		
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));
 		API.hideItem(ItemBattery.getFullBattery(ModItems.memory));
@@ -51,16 +56,10 @@ public class NEIConfig implements IConfigureNEI {
 			API.hideItem(new ItemStack(ModItems.burnt_bark));
 			API.hideItem(new ItemStack(ModItems.ams_core_thingy));
 		}
-		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_base));
-		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_emitter));
-		API.hideItem(new ItemStack(ModBlocks.dummy_block_ams_limiter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_vault));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_blast));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_uf6));
 		API.hideItem(new ItemStack(ModBlocks.dummy_block_puf6));
-		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_base));
-		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_emitter));
-		API.hideItem(new ItemStack(ModBlocks.dummy_port_ams_limiter));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_compact_launcher));
 		API.hideItem(new ItemStack(ModBlocks.dummy_port_launch_table));
 		API.hideItem(new ItemStack(ModBlocks.dummy_plate_compact_launcher));

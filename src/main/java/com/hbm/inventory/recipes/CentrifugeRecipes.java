@@ -422,12 +422,6 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.gem_sodalite, 1),
 				new ItemStack(Blocks.gravel, 1) });
 		
-		recipes.put(new ComparableStack(ModBlocks.ore_meteor_starmetal), new ItemStack[] {
-				new ItemStack(ModItems.powder_dura_steel, 3),
-				new ItemStack(ModItems.powder_astatine, 1),
-				new ItemStack(ModItems.powder_cobalt, 2),
-				new ItemStack(Blocks.gravel, 1) });
-		
 		recipes.put(new ComparableStack(ModBlocks.block_euphemium_cluster), new ItemStack[] {
 				new ItemStack(ModItems.nugget_euphemium, 7),
 				new ItemStack(ModItems.powder_schrabidium, 4),

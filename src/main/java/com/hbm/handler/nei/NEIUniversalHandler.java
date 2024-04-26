@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.InventoryUtil;

@@ -55,15 +55,6 @@ public class MachineRecipes {
 	 * this is the smoldering crater where once the 2016 shredder recipe code was
 	 */
 
-	public Map<Object[], Object> getCMBRecipes() {
-		Map<Object[], Object> recipes = new HashMap<Object[], Object>();
-		recipes.put(new ItemStack[] { new ItemStack(ModItems.ingot_advanced_alloy), new ItemStack(ModItems.ingot_magnetized_tungsten) },
-				new ItemStack(ModItems.ingot_combine_steel, 4));
-		recipes.put(new ItemStack[] { new ItemStack(ModItems.powder_advanced_alloy), new ItemStack(ModItems.powder_magnetized_tungsten) },
-				new ItemStack(ModItems.ingot_combine_steel, 4));
-		return recipes;
-	}
-
 	public ArrayList<ItemStack> getBatteries() {
 		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
 		fuels.add(new ItemStack(ModItems.battery_potato));
@@ -142,31 +133,6 @@ public class MachineRecipes {
 		}
 		
 		return false;
-	}
-	
-	
-	public Map<Object, Object> getBoilerRecipes() {
-
-		Map<Object, Object> recipes = new HashMap<Object, Object>();
-		
-		for(int i = 0; i < Fluids.getAll().length; i++) {
-			Object[] outs = getBoilerOutput(Fluids.fromID(i));
-			
-			if(outs != null) {
-
-				ItemStack in = new ItemStack(ModItems.fluid_icon, 1, i);
-				in.stackTagCompound = new NBTTagCompound();
-				in.stackTagCompound.setInteger("fill", (Integer) outs[2]);
-				
-				ItemStack out = new ItemStack(ModItems.fluid_icon, 1, ((FluidType)outs[0]).getID());
-				out.stackTagCompound = new NBTTagCompound();
-				out.stackTagCompound.setInteger("fill", (Integer) outs[1]);
-				
-				recipes.put(in, out);
-			}
-		}
-		
-		return recipes;
 	}
 	
 	public Map<Object, Object> getFluidContainers() {
