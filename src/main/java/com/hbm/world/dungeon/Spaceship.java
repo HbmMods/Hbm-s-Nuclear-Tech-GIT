@@ -889,14 +889,14 @@ public class Spaceship extends WorldGenerator
 		world.setBlock(x + 10, y + -1, z + 29, Block3, 0, 3);
 		world.setBlock(x + 11, y + -1, z + 29, Block3, 0, 3);
 		world.setBlock(x + 2, y + -1, z + 30, Block3, 0, 3);
-		world.setBlock(x + 3, y + -1, z + 30, ModBlocks.machine_generator, 0, 3);
+		world.setBlock(x + 3, y + -1, z + 30, ModBlocks.pwr_control, 0, 3);
 		world.setBlock(x + 4, y + -1, z + 30, ModBlocks.red_cable, 0, 3);
 		world.setBlock(x + 5, y + -1, z + 30, Blocks.air, 0, 3);
 		world.setBlock(x + 6, y + -1, z + 30, Blocks.air, 0, 3);
 		world.setBlock(x + 7, y + -1, z + 30, Blocks.air, 0, 3);
 		world.setBlock(x + 8, y + -1, z + 30, Blocks.air, 0, 3);
 		world.setBlock(x + 9, y + -1, z + 30, ModBlocks.red_cable, 0, 3);
-		world.setBlock(x + 10, y + -1, z + 30, ModBlocks.machine_generator, 0, 3);
+		world.setBlock(x + 10, y + -1, z + 30, ModBlocks.pwr_control, 0, 3);
 		world.setBlock(x + 11, y + -1, z + 30, Block3, 0, 3);
 		world.setBlock(x + 2, y + -1, z + 31, Block2, 0, 3);
 		world.setBlock(x + 3, y + -1, z + 31, Block3, 0, 3);
