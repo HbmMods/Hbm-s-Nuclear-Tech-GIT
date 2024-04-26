@@ -847,9 +847,9 @@ public class MainRegistry {
 		TileEntityNukeFurnace.registerFuels();
 		MagicRecipes.register();
 		LemegetonRecipes.register();
-		SILEXRecipes.register();
+		//SILEXRecipes.register();
 		RefineryRecipes.registerRefinery();
-		GasCentrifugeRecipes.register();
+		//GasCentrifugeRecipes.register();
 		
 		CustomMachineConfigJSON.initialize();
 

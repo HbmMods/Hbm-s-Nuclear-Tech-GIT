@@ -106,9 +106,10 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			
 			ItemStack[] list = inputTank.getTankType().getOutput();
 			
-			if(this.inputTank.getTankType().getIfHighSpeed())
-				if(!(slots[6] != null && slots[6].getItem() == ModItems.upgrade_gc_speed))
+			if(this.inputTank.getTankType().getIfHighSpeed()) {
+ 				if (!(slots[6] != null && slots[6].getItem() == ModItems.upgrade_gc_speed) && this.inputTank.getTankType().getLowSpeedOutput()==null)
 					return false;
+			}
 			
 			if(list == null)
 				return false;
@@ -125,13 +126,21 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	
 	private void enrich() {
 		ItemStack[] output = inputTank.getTankType().getOutput();
-		
+		ItemStack[] LowSpeedOutput = inputTank.getTankType().getLowSpeedOutput();
 		this.progress = 0;
 		inputTank.setFill(inputTank.getFill() - inputTank.getTankType().getFluidConsumed()); 
-		outputTank.setFill(outputTank.getFill() + inputTank.getTankType().getFluidProduced()); 
-		
-		for(byte i = 0; i < output.length; i++)
-			InventoryUtil.tryAddItemToInventory(slots, 0, 3, output[i].copy()); //reference types almost got me again
+		if(!inputTank.getTankType().getIfHighSpeed() || (inputTank.getTankType().getIfHighSpeed() && (slots[6] != null && slots[6].getItem() == ModItems.upgrade_gc_speed))) {
+			outputTank.setFill(outputTank.getFill() + inputTank.getTankType().getFluidProduced());
+
+			for (ItemStack stack : output) {
+				InventoryUtil.tryAddItemToInventory(slots, 0, 3, stack.copy());//reference types almost got me again
+			}
+		}
+		else if(LowSpeedOutput!=null){
+			for (ItemStack stack : LowSpeedOutput) {
+				InventoryUtil.tryAddItemToInventory(slots, 0, 3, stack.copy());//reference types almost got me again
+			}
+		}
 	}
 	
 	private void attemptConversion() {
@@ -221,9 +230,17 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			if(worldObj.getTotalWorldTime() % 10 == 0) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 				TileEntity te = worldObj.getTileEntity(this.xCoord - dir.offsetX, this.yCoord, this.zCoord - dir.offsetZ);
-				
+				if(!attemptTransfer(te) && this.inputTank.getTankType().getIfIdling() && this.inputTank.getTankType().getIdlingOutput()!=null){
+					ItemStack[] converted = this.inputTank.getTankType().getIdlingOutput();
+
+					if(this.outputTank.getFill() >= this.inputTank.getTankType().getFluidProduced() * 3 && InventoryUtil.doesArrayHaveSpace(slots, 0, 3, converted)) {
+						this.outputTank.setFill(this.outputTank.getFill() - this.inputTank.getTankType().getFluidProduced() * 3);
+						for(ItemStack stack : converted)
+							InventoryUtil.tryAddItemToInventory(slots, 0, 3, stack);
+					}
+				}
 				//*AT THE MOMENT*, there's not really any need for a dedicated method for this. Yet.
-				if(!attemptTransfer(te) && this.inputTank.getTankType() == PseudoFluidType.LEUF6) {
+				/*if(!attemptTransfer(te) && this.inputTank.getTankType() == PseudoFluidType.LEUF6) {
 					ItemStack[] converted = new ItemStack[] { new ItemStack(ModItems.nugget_uranium_fuel, 6), new ItemStack(ModItems.fluorite) };
 					
 					if(this.outputTank.getFill() >= 600 && InventoryUtil.doesArrayHaveSpace(slots, 0, 3, converted)) {
@@ -231,7 +248,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 						for(ItemStack stack : converted)
 							InventoryUtil.tryAddItemToInventory(slots, 0, 3, stack);
 					}
-				}
+				}*/
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();

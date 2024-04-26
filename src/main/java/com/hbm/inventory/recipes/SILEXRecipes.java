@@ -1,5 +1,6 @@
 package com.hbm.inventory.recipes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,14 +8,26 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import static com.hbm.inventory.OreDictManager.*;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.RecipesCommon;
+import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumAshType;
+import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
+import com.hbm.main.MainRegistry;
+import com.hbm.util.Tuple.Pair;
 import com.hbm.util.WeightedRandomObject;
 
 import net.minecraft.init.Blocks;
@@ -22,13 +35,14 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class SILEXRecipes {
+public class SILEXRecipes extends SerializableRecipe {
 
 	private static HashMap<Object, SILEXRecipe> recipes = new HashMap();
 	private static HashMap<ComparableStack, ComparableStack> itemTranslation = new HashMap();
 	private static HashMap<String, String> dictTranslation = new HashMap();
-	
-	public static void register() {
+
+	@Override
+	public void registerDefaults() {
 
 		itemTranslation.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.UF6.getID()), new ComparableStack(ModItems.ingot_uranium));
 		dictTranslation.put(U.dust(), U.ingot());
@@ -719,8 +733,75 @@ public class SILEXRecipes {
 		
 		return recipes;
 	}
-	
-public static class SILEXRecipe {
+
+	@Override
+	public String getFileName() {
+		return "hbmSILEX.json";
+	}
+
+	@Override
+	public Object getRecipeObject() {
+		return recipes;
+	}
+
+	@Override
+	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+		Object inputItem = null;
+		if(obj.has("fluid")) {
+			FluidType inputFluidType = Fluids.fromName(obj.get("fluid").getAsString());
+			inputItem = new ComparableStack(ModItems.fluid_icon, 1, inputFluidType.getID());
+		}
+		else if(obj.has("inputItem")){
+			inputItem = SerializableRecipe.readAStack(obj.get("inputItem").getAsJsonArray());
+		}
+		SILEXRecipe recipeInstance = new SILEXRecipe(0,0,0);
+		recipeInstance.fluidProduced = obj.get("fluidProduced").getAsInt();
+		recipeInstance.fluidConsumed = obj.get("fluidConsumed").getAsInt();
+		recipeInstance.laserStrength = EnumWavelengths.valueOf(obj.get("laserStrength").getAsString());
+
+		for(Pair<ItemStack, Float> outputItem : readItemStackArrayChance(obj.get("outputItems").getAsJsonArray())) {
+			recipeInstance.addOut(new WeightedRandomObject(outputItem.key, outputItem.value.intValue()));
+		}
+		recipes.put(inputItem, recipeInstance);
+	}
+
+	@Override
+	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
+		Map.Entry<Object, SILEXRecipe> rec = (Map.Entry<Object, SILEXRecipe>) recipe;
+		if(rec.getKey() instanceof AStack) {
+			if(((ComparableStack) rec.getKey()).item == ModItems.fluid_icon){
+				writer.name("fluid").value(Fluids.fromID(((ComparableStack) rec.getKey()).meta).getName());
+			}
+			else {
+				writer.name("inputItem");
+				SerializableRecipe.writeAStack((AStack) rec.getKey(), writer);
+			}
+		}
+		else if(rec.getKey() instanceof String){
+
+			writer.name("inputItem");
+			SerializableRecipe.writeAStack(new OreDictStack((String) rec.getKey()), writer);
+		}
+		writer.name("fluidProduced").value(rec.getValue().fluidProduced);
+		writer.name("fluidConsumed").value(rec.getValue().fluidConsumed);
+		writer.name("laserStrength").value(rec.getValue().laserStrength.toString());
+		writer.name("outputItems").beginArray();
+		for(WeightedRandomObject stack : rec.getValue().outputs){
+			Pair<ItemStack, Float> outputItems = new Pair<>(stack.asStack(), (float) stack.itemWeight);
+			SerializableRecipe.writeItemStackChance(outputItems, writer);
+		}
+		writer.endArray();
+
+	}
+
+
+	@Override
+	public void deleteRecipes() {
+		recipes.clear();
+	}
+
+	public static class SILEXRecipe {
 		
 		public int fluidProduced;
 		public int fluidConsumed;

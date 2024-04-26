@@ -71,6 +71,8 @@ public abstract class SerializableRecipe {
 		
 		recipeHandlers.add(new MatDistribution());
 		recipeHandlers.add(new CustomMachineRecipes());
+		recipeHandlers.add(new GasCentrifugeRecipes());
+		recipeHandlers.add(new SILEXRecipes());
 	}
 	
 	public static void initialize() {
