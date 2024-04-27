@@ -14,4 +14,8 @@ public interface IFillableItem {
 	public boolean providesFluid(FluidType type, ItemStack stack);
 	/** Provides fluid with the maximum being the requested amount */
 	public int tryEmpty(FluidType type, int amount, ItemStack stack);
+	/** Returns the first (or only) corrently held type, may return null. Currently only used for setting bedrock ores */
+	public FluidType getFirstFluidType(ItemStack stack);
+	/** Returns the fillstate for the specified fluid. Currently only used for setting bedrock ores */
+	public int getFill(ItemStack stack);
 }

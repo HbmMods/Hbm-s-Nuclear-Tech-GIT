@@ -214,4 +214,14 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 		
 		return toUnload;
 	}
+
+	@Override
+	public FluidType getFirstFluidType(ItemStack stack) {
+		return this.getFluidType(stack);
+	}
+
+	@Override
+	public int getFill(ItemStack stack) {
+		return this.getMag(stack);
+	}
 }

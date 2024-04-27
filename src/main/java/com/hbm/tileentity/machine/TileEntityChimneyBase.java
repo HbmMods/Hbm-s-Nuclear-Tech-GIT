@@ -85,6 +85,9 @@ public abstract class TileEntityChimneyBase extends TileEntityLoadedBase impleme
 
 	@Override
 	public long transferFluid(FluidType type, int pressure, long fluid) {
+		
+		if(type != Fluids.SMOKE && type != Fluids.SMOKE_LEADED && type != Fluids.SMOKE_POISON) return fluid;
+		
 		onTicks = 20;
 
 		if(cpaturesAsh()) ashTick += fluid;

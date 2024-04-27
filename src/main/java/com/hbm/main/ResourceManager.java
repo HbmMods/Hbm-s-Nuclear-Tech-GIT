@@ -308,6 +308,9 @@ public class ResourceManager {
 	public static final IModelCustom solar_boiler = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/solar_boiler.obj"));
 	public static final IModelCustom solar_mirror = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/solar_mirror.obj"));
 	
+	//Drain
+	public static final IModelCustom drain = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/machines/drain.obj"));
+	
 	//Vault Door
 	public static final IModelCustom vault_cog = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/vault_cog.obj"));
 	public static final IModelCustom vault_frame = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/vault_frame.obj"));
@@ -752,6 +755,9 @@ public class ResourceManager {
 	public static final ResourceLocation solar_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/solar_boiler.png");
 	public static final ResourceLocation solar_mirror_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/solar_mirror.png");
 	
+	//Drain
+	public static final ResourceLocation drain_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/drain.png");
+	
 	//Blast Door
 	public static final ResourceLocation blast_door_base_tex = new ResourceLocation(RefStrings.MODID, "textures/models/blast_door_base.png");
 	public static final ResourceLocation blast_door_tooth_tex = new ResourceLocation(RefStrings.MODID, "textures/models/blast_door_tooth.png");
@@ -794,6 +800,7 @@ public class ResourceManager {
 	public static final ResourceLocation connector_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/connector.png");
 	public static final ResourceLocation pylon_large_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/pylon_large.png");
 	public static final ResourceLocation substation_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/substation.png");
+	public static final ResourceLocation wire_tex = new ResourceLocation(RefStrings.MODID, "textures/models/network/wire.png");
 
 	//Radiolysis
 	public static final ResourceLocation radiolysis_tex = new ResourceLocation(RefStrings.MODID, "textures/models/radiolysis.png");

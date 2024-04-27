@@ -3,7 +3,6 @@ package com.hbm.blocks.bomb;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IBomb;
 import com.hbm.tileentity.bomb.TileEntityLaunchPadRusted;
 

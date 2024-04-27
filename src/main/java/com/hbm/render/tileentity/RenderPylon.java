@@ -33,7 +33,7 @@ public class RenderPylon extends RenderPylonBase {
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
-		this.renderSingleLine(pyl, x, y, z);
+		this.renderLinesGeneric(pyl, x, y, z);
 		GL11.glPopMatrix();
 	}
 }

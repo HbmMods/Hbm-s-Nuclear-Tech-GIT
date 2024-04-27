@@ -6,7 +6,8 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
-import com.hbm.lib.HbmChestContents;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsLegacy;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.bomb.TileEntitySellafield;
 import com.hbm.tileentity.machine.storage.TileEntityCrateSteel;
@@ -153,7 +154,7 @@ public class Barrel extends WorldGenerator {
 
 		if(world.getBlock(x + 2, y + 1, z + 2) == ModBlocks.crate_steel)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.expensive, (TileEntityCrateSteel)world.getTileEntity(x + 2, y + 1, z + 2), 16);
+			WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_EXPENSIVE), (TileEntityCrateSteel)world.getTileEntity(x + 2, y + 1, z + 2), 16);
 		}
 		
 		world.setBlock(x + 3, y + 1, z + 2, sellafield, 3, 3);

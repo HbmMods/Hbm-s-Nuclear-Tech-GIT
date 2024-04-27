@@ -3,6 +3,9 @@ package com.hbm.world.gen.component;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsComponent;
+import com.hbm.itempool.ItemPoolsLegacy;
 import com.hbm.lib.HbmChestContents;
 import com.hbm.util.LootGenerator;
 
@@ -207,9 +210,9 @@ public class OfficeFeatures {
 			
 			//Woot
 			if(!this.hasPlacedLoot[0])
-				this.hasPlacedLoot[0] = generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 14 - 4, 1, 12 - 1, HbmChestContents.officeTrash, 8);
+				this.hasPlacedLoot[0] = generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 14 - 4, 1, 12 - 1, ItemPool.getPool(ItemPoolsComponent.POOL_OFFICE_TRASH), 8);
 			if(!this.hasPlacedLoot[1]) {
-				this.hasPlacedLoot[1] = generateLockableContents(world, box, rand, ModBlocks.safe, getDecoMeta(3), 6, 1, 1, HbmChestContents.machineParts, 10, 0.5D);
+				this.hasPlacedLoot[1] = generateLockableContents(world, box, rand, ModBlocks.safe, getDecoMeta(3), 6, 1, 1, ItemPool.getPool(ItemPoolsComponent.POOL_MACHINE_PARTS), 10, 0.5D);
 				if(rand.nextInt(2) == 0)
 					generateLoreBook(world, box, 6, 1, 1, 7, HbmChestContents.generateOfficeBook(rand));
 			}
@@ -526,21 +529,21 @@ public class OfficeFeatures {
 			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 5, 13, 9, box);
 			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 7, 13, 11, box);
 			
-			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(3), 9, 1, 7, HbmChestContents.filingCabinet, 4);
-			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(1), 7, 5, 4, HbmChestContents.filingCabinet, 4);
-			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(1), 7, 6, 4, HbmChestContents.filingCabinet, 4);
-			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(2), 10, 5, 7, HbmChestContents.filingCabinet, 4);
-			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 10, 5, 12, HbmChestContents.filingCabinet, 4);
-			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 10, 6, 12, HbmChestContents.filingCabinet, 4);
-			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 2, 9, 5, HbmChestContents.filingCabinet, 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(3), 9, 1, 7, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(1), 7, 5, 4, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(1), 7, 6, 4, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(2), 10, 5, 7, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 10, 5, 12, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 10, 6, 12, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 2, 9, 5, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
 			
-			generateLockableContents(world, box, rand, ModBlocks.safe, getDecoMeta(2), 1, 9, 13, HbmChestContents.officeTrash, 10, 1.0D);
+			generateLockableContents(world, box, rand, ModBlocks.safe, getDecoMeta(2), 1, 9, 13, ItemPool.getPool(ItemPoolsComponent.POOL_OFFICE_TRASH), 10, 1.0D);
 			if(rand.nextInt(2) == 0)
 				generateLoreBook(world, box, 1, 9, 13, 7, HbmChestContents.generateOfficeBook(rand));
 			
-			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 2, 9, 13, HbmChestContents.filingCabinet, 4);
-			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 3, 9, 13, HbmChestContents.filingCabinet, 4);
-			generateLockableContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 3, 10, 13, HbmChestContents.expensive, 8, 0.1D);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 2, 9, 13, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 3, 9, 13, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
+			generateLockableContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 3, 10, 13, ItemPool.getPool(ItemPoolsLegacy.POOL_EXPENSIVE), 8, 0.1D);
 			
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_loot, 0, 6, 13, 11, box);
 			LootGenerator.lootCapStash(world, this.getXWithOffset(6, 11), this.getYWithOffset(13), this.getZWithOffset(6, 11));

@@ -1,6 +1,7 @@
 package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.ResourceManager;
@@ -30,6 +31,11 @@ public class RenderIGenerator extends TileEntitySpecialRenderer {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		
+		GL11.glTranslated(0, 0, 1);
+		GL11.glScaled(1D/6D, 1D/6D, 1D/6D);
+		GL11.glTranslated(0, 0, -0.5);
 
 		bindTexture(ResourceManager.igen_tex);
 		ResourceManager.igen.renderPart("Body");
@@ -39,6 +45,8 @@ public class RenderIGenerator extends TileEntitySpecialRenderer {
 		GL11.glRotatef(-rot, 0, 0, 1);
 		GL11.glTranslated(0, -1.5D, 0);
 		ResourceManager.igen.renderPart("Rotor");
+		
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 
 		GL11.glPopMatrix();
 	}

@@ -1,15 +1,14 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.handler.pollution.PollutionHandler;
-import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCombustionEngine;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Leaded;
+import com.hbm.inventory.fluid.trait.FT_Polluting;
+import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUICombustionEngine;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPistons.EnumPistonType;
@@ -86,10 +85,9 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 					int toBurn = Math.min(fill, speed);
 					this.power += toBurn * (trait.getCombustionEnergy() / 10_000D) * eff;
 					fill -= toBurn;
-					
-					if(worldObj.getTotalWorldTime() % 20 == 0) {
-						this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * setting * 0.1F);
-						if(tank.getTankType().hasTrait(FT_Leaded.class)) this.pollute(PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * setting * 0.1F);
+
+					if(worldObj.getTotalWorldTime() % 5 == 0 && toBurn > 0) {
+						FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.BURN, toBurn * 5);
 					}
 					
 					if(toBurn > 0) {

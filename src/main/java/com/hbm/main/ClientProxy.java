@@ -22,6 +22,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
@@ -119,6 +120,7 @@ import com.hbm.tileentity.network.*;
 import com.hbm.tileentity.turret.*;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.PlanetaryTraitUtil;
+import com.hbm.util.ColorUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.wiaj.cannery.Jars;
 
@@ -159,8 +161,6 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public void registerTileEntitySpecialRenderer() {
 		//test crap
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTestRender.class, new RenderTestRender());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTestBombAdvanced.class, new RenderTestBombAdvanced());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityObjTester.class, new RendererObjTester());
 		//deco
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoPoleSatelliteReceiver.class, new RenderPoleSatelliteReceiver());
@@ -277,6 +277,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineLiquefactor.class, new RenderLiquefactor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineSolidifier.class, new RenderSolidifier());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineCompressor.class, new RenderCompressor());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineDrain.class, new RenderDrain());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineRadiolysis.class, new RenderRadiolysis());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityElectrolyser.class, new RenderElectrolyser());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFurnaceIron.class, new RenderFurnaceIron());
@@ -344,7 +345,6 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySoyuzCapsule.class, new RenderCapsule());
 		//network
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFluidDuct.class, new RenderFluidDuct());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRFDuct.class, new RenderRFCable());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylon.class, new RenderPylon());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityConnector.class, new RenderConnector());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPylonLarge.class, new RenderPylonLarge());
@@ -430,6 +430,19 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.schrabidium_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
 		MinecraftForgeClient.registerItemRenderer(ModItems.cmb_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
 		MinecraftForgeClient.registerItemRenderer(ModItems.dnt_sword, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp, sfp, rir, tir, sir));
+
+		double[] sfp_default = new double[] {1, 1, 1};
+		double[] tfp_default = new double[] {0, 0, 0};
+		double[] sir_default = new double[] {1, 1, 1};
+		
+		MinecraftForgeClient.registerItemRenderer(ModItems.bismuth_pickaxe, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp_default, sfp_default, rir, tir, sir_default));
+		MinecraftForgeClient.registerItemRenderer(ModItems.bismuth_axe, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp_default, sfp_default, rir, tir, sir_default));
+		MinecraftForgeClient.registerItemRenderer(ModItems.volcanic_pickaxe, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp_default, sfp_default, rir, tir, sir_default));
+		MinecraftForgeClient.registerItemRenderer(ModItems.volcanic_axe, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp_default, sfp_default, rir, tir, sir_default));
+		MinecraftForgeClient.registerItemRenderer(ModItems.chlorophyte_pickaxe, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp_default, sfp_default, rir, tir, sir_default));
+		MinecraftForgeClient.registerItemRenderer(ModItems.chlorophyte_axe, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp_default, sfp_default, rir, tir, sir_default));
+		MinecraftForgeClient.registerItemRenderer(ModItems.mese_pickaxe, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp_default, sfp_default, rir, tir, sir_default));
+		MinecraftForgeClient.registerItemRenderer(ModItems.mese_axe, new ItemRenderTransformer(rtp, ttp_high, stp, rfp, tfp_default, sfp_default, rir, tir, sir_default));
 		
 		ItemRenderMissileGeneric.init();
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_test, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER0));
@@ -462,8 +475,6 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_carrier, new ItemRenderMissileGeneric(RenderMissileType.TYPE_CARRIER));
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_shuttle, new ItemRenderMissileGeneric(RenderMissileType.TYPE_ROBIN));
 		
-		//test crap
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(ModBlocks.test_bomb_advanced), new ItemRenderTestBombAdvanced());
 		//templates
 		MinecraftForgeClient.registerItemRenderer(ModItems.assembly_template, new ItemRenderTemplate());
 		MinecraftForgeClient.registerItemRenderer(ModItems.chemistry_template, new ItemRenderTemplate());
@@ -551,7 +562,6 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_uzi_saturnite_silencer, new ItemRenderUZI());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_calamity, new ItemRenderWeaponFFMG42());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun, new ItemRenderOverkill());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_avenger, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_lacunae, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_folly, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_hk69, new ItemRenderWeaponObj());
@@ -569,7 +579,6 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_bolter_digamma, new ItemRenderWeaponBolter());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_fireext, new ItemRenderFireExt());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_ar15, new ItemRenderWeaponAR15());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_detonator, new ItemRenderDetonatorLaser());
 		MinecraftForgeClient.registerItemRenderer(ModItems.detonator_laser, new ItemRenderDetonatorLaser());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_remington, new ItemRenderWeaponRemington());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_spas12, new ItemRenderWeaponSpas12());
@@ -1772,6 +1781,20 @@ public class ClientProxy extends ServerProxy {
 			}
 		}
 		
+		if("splash".equals(type)) {
+			if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
+				ParticleSplash fx = new ParticleSplash(man, world, x, y, z);
+				
+				if(data.hasKey("color")) {
+					Color color = new Color(data.getInteger("color"));
+					float f = 1F - rand.nextFloat() * 0.2F;
+					fx.setRBGColorF(color.getRed() / 255F * f, color.getGreen() / 255F * f, color.getBlue() / 255F * f);
+				}
+				
+				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+			}
+		}
+		
 		if("deadleaf".equals(type)) {
 			if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean()))
 				Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleDeadLeaf(man, world, x, y, z));
@@ -2161,5 +2184,17 @@ public class ClientProxy extends ServerProxy {
 	public String getLanguageCode() {
 		Language lang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage();
 		return lang.getLanguageCode();
+	}
+	
+	@Override
+	public int getStackColor(ItemStack stack, boolean amplify) {
+		if(stack == null) return 0x000000;
+		if(stack.getItem() instanceof ItemBlock) {
+			Block b = Block.getBlockFromItem(stack.getItem());
+			return b.getMaterial().getMaterialMapColor().colorValue;
+		}
+		int color = ColorUtil.getAverageColorFromStack(stack);
+		if(amplify) color = ColorUtil.amplifyColor(color);
+		return color;
 	}
 }
