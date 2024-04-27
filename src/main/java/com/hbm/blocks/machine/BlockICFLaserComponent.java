@@ -26,11 +26,12 @@ public class BlockICFLaserComponent extends BlockEnumMulti {
 		this.iconsTop = new IIcon[enums.length];
 
 		this.icons[0] = this.iconsTop[0] = reg.registerIcon(RefStrings.MODID + ":icf_casing");
-		this.icons[1] = this.iconsTop[1] = reg.registerIcon(RefStrings.MODID + ":icf_cell");
-		this.icons[2] = this.iconsTop[2] = reg.registerIcon(RefStrings.MODID + ":icf_emitter");
-		this.icons[3] = reg.registerIcon(RefStrings.MODID + ":icf_capacitor_side");
-		this.icons[4] = reg.registerIcon(RefStrings.MODID + ":icf_turbocharger");
-		this.iconsTop[3] = this.iconsTop[4] = reg.registerIcon(RefStrings.MODID + ":icf_capacitor_top");
+		this.icons[1] = this.iconsTop[1] = reg.registerIcon(RefStrings.MODID + ":icf_port");
+		this.icons[2] = this.iconsTop[2] = reg.registerIcon(RefStrings.MODID + ":icf_cell");
+		this.icons[3] = this.iconsTop[3] = reg.registerIcon(RefStrings.MODID + ":icf_emitter");
+		this.icons[4] = reg.registerIcon(RefStrings.MODID + ":icf_capacitor_side");
+		this.icons[5] = reg.registerIcon(RefStrings.MODID + ":icf_turbocharger");
+		this.iconsTop[4] = this.iconsTop[5] = reg.registerIcon(RefStrings.MODID + ":icf_capacitor_top");
 	}
 	
 	@Override
@@ -41,11 +42,12 @@ public class BlockICFLaserComponent extends BlockEnumMulti {
 
 	@Override
 	public int getSubCount() {
-		return 5;
+		return EnumICFPart.values().length;
 	}
 	
 	public static enum EnumICFPart {
 		CASING,
+		PORT,
 		CELL,
 		EMITTER,
 		CAPACITOR,
