@@ -56,7 +56,7 @@ public class TileEntityFurnaceSteel extends TileEntityMachineBase implements IGU
 			
 			this.wasOn = false;
 			
-			int burn = (heat - this.maxHeat / 3) / 10;
+			int burn = (heat - this.maxHeat / 5) / 10;
 			
 			for(int i = 0; i < 3; i++) {
 				

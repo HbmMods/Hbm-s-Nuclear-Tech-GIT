@@ -130,7 +130,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 			    		countdown = 0;
 						
-						if(worldObj.rand.nextInt(3 * safety) == 0)
+						if(worldObj.rand.nextInt(3 * safety + 1) == 0)
 							coolant.setFill(coolant.getFill() - 1);
 						
 					} else if(worldObj.rand.nextInt(safety) == 0) {
