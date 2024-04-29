@@ -162,6 +162,7 @@ public class TileMappings {
 		put(TileEntityMachineMiniRTG.class, "tileentity_mini_rtg");
 		put(TileEntityITER.class, "tileentity_iter");
 		put(TileEntityBlockICF.class, "tileentity_block_icf");
+		put(TileEntityICFController.class, "tileentity_icf_controller");
 		put(TileEntityICF.class, "tileentity_icf");
 		put(TileEntityMachinePlasmaHeater.class, "tileentity_plasma_heater");
 		put(TileEntityMachineFENSU.class, "tileentity_fensu");

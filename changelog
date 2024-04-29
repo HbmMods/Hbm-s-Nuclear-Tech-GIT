@@ -19,6 +19,7 @@
 * The loot pool for meteorite treasure blocks has been updated
   * Treasures are no longer senselessly progression breaking, radioactive or plain stupid (whole-ass machines inside meteorites)
   * The treasure now consists of mainly some rarer earlygame ingots, circuits, some gear, a small selection of armor mods and alexandrite (rare)
+* Schraranium processing now yields neptunium as a byproduct instead of plutonium, making neptunium easier to automate outside of the cyclotron
 
 ## Fixed
 * Fixed DFC receivers not outputting power
