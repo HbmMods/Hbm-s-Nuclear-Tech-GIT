@@ -125,4 +125,10 @@ public class ArmorFSBOxy extends ArmorFSB implements IFillableItem {
 	public int tryEmpty(FluidType type, int amount, ItemStack stack) {
 		return 0;
 	}
+
+	@Override
+	public FluidType getFirstFluidType(ItemStack stack) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -1265,10 +1265,10 @@ public class ModEventHandler {
 				//{
 				Random rand = new Random();
 				
-				if (Library.checkInventory(player, Items.experience_bottle, slot))
-				{
-					((EntityPlayer)player).inventory.mainInventory[slot] = new ItemStack(Items.glass_bottle);
-				}
+				//if (Library.checkInventory(player, Items.experience_bottle, slot))
+				//{
+				//	((EntityPlayer)player).inventory.mainInventory[slot] = new ItemStack(Items.glass_bottle);
+				//}
 				if (HbmLivingProps.getRadiation(((EntityPlayer)player))>10 && ((EntityPlayer)player).ticksExisted %20 == 0)
 				{
 					((EntityPlayer)player).getFoodStats().addStats(1, 0);
