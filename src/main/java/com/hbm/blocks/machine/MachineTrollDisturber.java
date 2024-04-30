@@ -5,7 +5,6 @@ import java.util.Random;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK3.ATEntry;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
-import com.hbm.entity.logic.EntityNukeExplosionMK5.ATEntry2;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 
@@ -39,7 +38,6 @@ public class MachineTrollDisturber extends Block {
 		if(!world.isRemote) {
 			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
 			EntityNukeExplosionMK3.at.put(new ATEntry(world.provider.dimensionId, x, y, z),  world.getTotalWorldTime() + 100);
-			EntityNukeExplosionMK5.at.put(new ATEntry2(world.provider.dimensionId, x, y, z),  world.getTotalWorldTime() + 100);
 		}
 	}
 }

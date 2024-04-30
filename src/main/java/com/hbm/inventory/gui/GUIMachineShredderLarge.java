@@ -6,7 +6,6 @@ import com.hbm.inventory.container.ContainerMachineShredderLarge;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.oil.TileEntityMachineShredderLarge;
 
-import api.hbm.energy.IBatteryItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;

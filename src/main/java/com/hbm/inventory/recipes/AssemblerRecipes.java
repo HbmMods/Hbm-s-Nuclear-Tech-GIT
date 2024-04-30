@@ -518,7 +518,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.mechanism_special, 1),
 				new ComparableStack(ModItems.plate_paa, 14),
 				new OreDictStack(FERRO.ingot(), 8),
-				new ComparableStack(ModItems.hull_small_steel, 4),
+				//new ComparableStack(ModItems.hull_small_steel, 4),
 				new ComparableStack(ModItems.wire_magnetized_tungsten, 8),
 				new OreDictStack(STEEL.plate(), 3),
 				new ComparableStack(ModBlocks.glass_quartz, 4),
@@ -1141,18 +1141,18 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(KEY_YELLOW, 4)
 			}, 5000);
 		makeRecipe(new ComparableStack(ModBlocks.machine_turbinegas, 1), new AStack[] {
-				new ComparableStack(ModItems.hull_big_steel, 3),
+				//new ComparableStack(ModItems.hull_big_steel, 3),
 				new OreDictStack(STAINLESS.plate(), 16),
 				new OreDictStack(TI.plate(), 6),
 				new ComparableStack(ModItems.turbine_syngas, 2),
 				new ComparableStack(ModItems.flywheel_beryllium, 1),
-				new ComparableStack(ModItems.generator_steel, 5),
-				new ComparableStack(ModItems.bolt_compound, 2),
+				//new ComparableStack(ModItems.generator_steel, 5),
+				//new ComparableStack(ModItems.bolt_compound, 2),
 				new ComparableStack(ModItems.pipes_steel, 3),
 				new ComparableStack(ModItems.circuit_copper, 1)
 			}, 500);
 		makeRecipe(new ComparableStack(ModBlocks.nuke_antimatter, 1), new AStack[] {
-				new ComparableStack(ModItems.hull_big_steel, 3),
+				//new ComparableStack(ModItems.hull_big_steel, 3),
 				new OreDictStack(STAINLESS.plate(), 16),
 				new ComparableStack(ModItems.wire_red_copper, 32),
 				new ComparableStack(ModItems.ingot_hafnium, 2),
@@ -1173,7 +1173,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 			new OreDictStack(STEEL.plateCast(), 14),
 			new ComparableStack(ModItems.ingot_steel, 2),
 			new ComparableStack(ModItems.motor, 2),
-			new ComparableStack(ModItems.hull_big_steel, 3),
+			//new ComparableStack(ModItems.hull_big_steel, 3),
 			new ComparableStack(ModItems.pipes_steel, 2)
 	}, 300);
 		makeRecipe(new ComparableStack(ModBlocks.large_vehicle_door, 1), new AStack[]{new OreDictStack(STEEL.plateCast(), 16), new ComparableStack(ModItems.plate_polymer, 4), new ComparableStack(ModItems.motor, 4), new OreDictStack(DURA.bolt(), 16), new OreDictStack("dyeGreen", 4)}, 400);

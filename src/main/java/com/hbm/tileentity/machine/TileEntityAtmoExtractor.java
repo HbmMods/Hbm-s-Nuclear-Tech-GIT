@@ -20,7 +20,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.PlanetaryTraitUtil;
 import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardSender;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,7 +30,7 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IFluidSource, IEnergyUser, IFluidStandardSender {
+public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IFluidSource, IEnergyReceiverMK2, IFluidStandardSender {
 	float rotSpeed;
 	int consumption = 200;
 	public float rot;

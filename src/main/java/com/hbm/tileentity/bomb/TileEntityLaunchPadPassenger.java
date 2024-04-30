@@ -11,7 +11,7 @@ import com.hbm.packet.TEPassengerPacket;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -34,7 +34,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityLaunchPadPassenger extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, SimpleComponent, IGUIProvider {
+public class TileEntityLaunchPadPassenger extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2, SimpleComponent, IGUIProvider {
 
 	public ItemStack slots[];
 	

@@ -30,9 +30,7 @@ public class WorldGeneratorDres implements IWorldGenerator {
 	private void generateDres(World world, Random rand, int i, int j) {
 	       DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.cobaltSpawn, 4, 3, 22, ModBlocks.dres_cobalt, ModBlocks.block_meteor_broken);
 	        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperSpawn, 9, 4, 27, ModBlocks.ore_meteor_iron, ModBlocks.block_meteor_broken);
-	        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.lithiumSpawn, 4, 4, 8, ModBlocks.ore_meteor_lithium, ModBlocks.block_meteor_broken);
 	        DungeonToolbox.generateOre(world, rand, i, j, 12,  8, 1, 33, ModBlocks.dres_niobium, ModBlocks.block_meteor_broken);
-	        DungeonToolbox.generateOre(world, rand, i, j, 1, 1, 1, 33, ModBlocks.ore_meteor_osmiridium, ModBlocks.block_meteor_broken);
 		
 		if (SpaceConfig.drescfreq > 0 && rand.nextInt(SpaceConfig.drescfreq) == 0) {
 			

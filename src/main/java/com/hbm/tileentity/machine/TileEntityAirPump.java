@@ -25,7 +25,6 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;

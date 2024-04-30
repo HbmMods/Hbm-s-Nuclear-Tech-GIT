@@ -11,7 +11,6 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
-import api.hbm.energy.IEnergyUser;
 import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -61,7 +60,6 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 	public void updateEntity() {
 		
 		if(!this.worldObj.isRemote) {
-			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
 			this.subscribeToAllAround(tank.getTankType(), this);
 
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);

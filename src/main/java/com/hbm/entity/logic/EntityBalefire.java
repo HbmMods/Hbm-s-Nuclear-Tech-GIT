@@ -155,10 +155,6 @@ public class EntityBalefire extends EntityExplosionChunkloading  {
 			}
 		}
 
-		if(!flag) {
-			ExplosionNukeGeneric.dealDamage(this.worldObj, this.posX, this.posY, this.posZ, this.destructionRange * 2);
-		}
-
 		age++;
 	}
 	public EntityBalefire mute() {
