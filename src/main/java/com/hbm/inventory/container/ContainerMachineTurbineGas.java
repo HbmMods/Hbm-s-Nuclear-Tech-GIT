@@ -5,7 +5,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.machine.ItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityMachineTurbineGas;
 
-import api.hbm.energy.IBatteryItem;
+import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

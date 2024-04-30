@@ -14,8 +14,8 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
-import api.hbm.energy.IBatteryItem;
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IBatteryItem;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import cpw.mods.fml.relauncher.Side;
@@ -31,7 +31,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineShredder extends TileEntityLoadedBase implements ISidedInventory, IEnergyUser, IGUIProvider {
+public class TileEntityMachineShredder extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2, IGUIProvider {
 
 	private ItemStack slots[];
 

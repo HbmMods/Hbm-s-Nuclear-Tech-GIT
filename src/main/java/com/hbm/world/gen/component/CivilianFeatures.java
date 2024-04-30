@@ -696,7 +696,7 @@ public class CivilianFeatures {
 			this.fillWithBlocks(world, box, 2, 6, 1, 4, 6, 2, ModBlocks.steel_roof, Blocks.air, false);
 			this.fillWithBlocks(world, box, 2, 1, 1, 2, 3, 1, ModBlocks.deco_red_copper, Blocks.air, false);
 			this.fillWithBlocks(world, box, 3, 1, 1, 3, 1, 2, ModBlocks.deco_beryllium, Blocks.air, false);
-			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_generator, 0, 4, 1, 1, box);
+			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_amgen, 0, 4, 1, 1, box);
 			this.placeBlockAtCurrentPosition(world, ModBlocks.machine_detector, 0, 4, 1, 2, box);
 			this.fillWithBlocks(world, box, 5, 1, 1, 5, 1, 2, ModBlocks.deco_beryllium, Blocks.air, false);
 			this.fillWithBlocks(world, box, 6, 1, 1, 6, 3, 1, ModBlocks.deco_red_copper, Blocks.air, false);

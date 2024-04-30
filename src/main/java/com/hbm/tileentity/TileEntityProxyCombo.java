@@ -6,8 +6,7 @@ import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.fluid.FluidType;
 
-import api.hbm.energy.IEnergyConnector;
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidConnector;
 import api.hbm.tile.IHeatSource;
 import com.hbm.inventory.material.Mats;
@@ -19,7 +18,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyUser, IFluidAcceptor, ISidedInventory, IFluidConnector, IHeatSource, ICrucibleAcceptor {
+public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, IFluidAcceptor, ISidedInventory, IFluidConnector, IHeatSource, ICrucibleAcceptor {
 	
 	TileEntity tile;
 	boolean inventory;
@@ -170,8 +169,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!power)
 			return;
 		
-		if(getTile() instanceof IEnergyUser) {
-			((IEnergyUser)getTile()).setPower(i);
+		if(getTile() instanceof IEnergyReceiverMK2) {
+			((IEnergyReceiverMK2)getTile()).setPower(i);
 		}
 	}
 
@@ -181,8 +180,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!power)
 			return 0;
 		
-		if(getTile() instanceof IEnergyConnector) {
-			return ((IEnergyConnector)getTile()).getPower();
+		if(getTile() instanceof IEnergyReceiverMK2) {
+			return ((IEnergyReceiverMK2)getTile()).getPower();
 		}
 		
 		return 0;
@@ -194,8 +193,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!power)
 			return 0;
 		
-		if(getTile() instanceof IEnergyConnector) {
-			return ((IEnergyConnector)getTile()).getMaxPower();
+		if(getTile() instanceof IEnergyReceiverMK2) {
+			return ((IEnergyReceiverMK2)getTile()).getMaxPower();
 		}
 		
 		return 0;
@@ -207,8 +206,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!this.power)
 			return power;
 		
-		if(getTile() instanceof IEnergyConnector) {
-			return ((IEnergyConnector)getTile()).transferPower(power);
+		if(getTile() instanceof IEnergyReceiverMK2) {
+			return ((IEnergyReceiverMK2)getTile()).transferPower(power);
 		}
 		
 		return power;
@@ -220,8 +219,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		if(!power)
 			return false;
 		
-		if(getTile() instanceof IEnergyConnector) {
-			return ((IEnergyConnector)getTile()).canConnect(dir);
+		if(getTile() instanceof IEnergyReceiverMK2) {
+			return ((IEnergyReceiverMK2)getTile()).canConnect(dir);
 		}
 		
 		return true;

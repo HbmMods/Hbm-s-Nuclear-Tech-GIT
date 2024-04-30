@@ -13,7 +13,7 @@ import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyGenerator;
+import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,7 +22,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityStirling extends TileEntityLoadedBase implements INBTPacketReceiver, IEnergyGenerator, IConfigurableMachine {
+public class TileEntityStirling extends TileEntityLoadedBase implements INBTPacketReceiver, IEnergyProviderMK2, IConfigurableMachine {
 	
 	public long powerBuffer;
 	public int heat;
@@ -46,6 +46,7 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 		if(!worldObj.isRemote) {
 			
 			if(hasCog) {
+				this.powerBuffer = 0;
 				tryPullHeat();
 				
 				this.powerBuffer = (long) (this.heat * (this.isCreative() ? 1 : this.efficiency));
@@ -95,9 +96,8 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 			
 			if(hasCog) {
 				for(DirPos pos : getConPos()) {
-					this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
-				this.powerBuffer = 0;
 			} else {
 				
 				if(this.powerBuffer > 0)

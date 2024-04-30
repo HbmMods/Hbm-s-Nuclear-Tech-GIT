@@ -2,6 +2,7 @@ package com.hbm.itempool;
 
 import static com.hbm.lib.HbmChestContents.weighted;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 
@@ -15,6 +16,7 @@ public class ItemPoolsSingle {
 	public static final String POOL_VAULT_STANDARD = "POOL_VAULT_STANDARD";
 	public static final String POOL_VAULT_REINFORCED = "POOL_VAULT_REINFORCED";
 	public static final String POOL_VAULT_UNBREAKABLE = "POOL_VAULT_UNBREAKABLE";
+	public static final String POOL_METEORITE_TREASURE = "POOL_METEORITE_TREASURE";
 	
 	public static void init() {
 
@@ -112,6 +114,29 @@ public class ItemPoolsSingle {
 					weighted(ModItems.warhead_mirv, 0, 1, 1, 1),
 					weighted(ModItems.battery_schrabidium_cell, 0, 1, 1, 1),
 					weighted(ModItems.powder_nitan_mix, 0, 16, 32, 1)
+			};
+		}};
+		
+		new ItemPool(POOL_METEORITE_TREASURE) {{
+			this.pool = new WeightedRandomChestContent[] {
+					weighted(ModItems.cobalt_pickaxe, 0, 1, 1, 10),
+					weighted(ModItems.ingot_zirconium, 0, 1, 16, 10),
+					weighted(ModItems.ingot_niobium, 0, 1, 16, 10),
+					weighted(ModItems.ingot_cobalt, 0, 1, 16, 10),
+					weighted(ModItems.ingot_boron, 0, 1, 16, 10),
+					weighted(ModItems.ingot_starmetal, 0, 1, 1, 5),
+					weighted(ModItems.crystal_gold, 0, 1, 4, 10),
+					weighted(ModItems.circuit_copper, 0, 4, 8, 10),
+					weighted(ModItems.circuit_red_copper, 0, 2, 4, 10),
+					weighted(ModItems.definitelyfood, 0, 16, 32, 25),
+					weighted(ModBlocks.crate_can, 0, 1, 3, 10),
+					weighted(ModItems.pill_herbal, 0, 1, 2, 10),
+					weighted(ModItems.serum, 0, 1, 1, 5),
+					weighted(ModItems.heart_piece, 0, 1, 1, 5),
+					weighted(ModItems.scrumpy, 0, 1, 1, 5),
+					weighted(ModItems.launch_code_piece, 0, 1, 1, 5),
+					weighted(ModItems.egg_glyphid, 0, 1, 1, 5),
+					weighted(ModItems.gem_alexandrite, 0, 1, 1, 1),
 			};
 		}};
 	}

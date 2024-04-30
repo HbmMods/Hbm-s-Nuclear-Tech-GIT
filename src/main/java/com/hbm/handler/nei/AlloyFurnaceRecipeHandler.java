@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.gui.GUIDiFurnace;
 import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.inventory.recipes.MachineRecipes;
@@ -17,9 +19,21 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
-public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler {
+public class AlloyFurnaceRecipeHandler extends TemplateRecipeHandler implements ICompatNHNEI {
 
 	public static ArrayList<Fuel> fuels;
+
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return new ItemStack[]{
+				new ItemStack(ModBlocks.machine_difurnace_off),
+				new ItemStack(ModBlocks.machine_difurnace_rtg_off)};
+	}
+
+	@Override
+	public String getRecipeID() {
+		return "alloysmelting";
+	}
 
 	public class SmeltingSet extends TemplateRecipeHandler.CachedRecipe {
 		PositionedStack input1;

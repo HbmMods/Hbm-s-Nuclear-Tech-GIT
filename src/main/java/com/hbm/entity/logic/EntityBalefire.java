@@ -43,6 +43,7 @@ public class EntityBalefire extends EntityExplosionChunkloading  {
 		did = nbt.getBoolean("did");
 		mute = nbt.getBoolean("mute");
 		antimatter = nbt.getBoolean("antimatter");
+		
     	
 		exp = new ExplosionBalefire((int)this.posX, (int)this.posY, (int)this.posZ, this.worldObj, this.destructionRange, this.antimatter);
 		exp.readFromNbt(nbt, "exp_");
@@ -153,8 +154,13 @@ public class EntityBalefire extends EntityExplosionChunkloading  {
 				}
 			}
 		}
+
+		if(!flag) {
+			ExplosionNukeGeneric.dealDamage(this.worldObj, this.posX, this.posY, this.posZ, this.destructionRange * 2);
+		}
+
+		age++;
 	}
-  
 	public EntityBalefire mute() {
 		this.mute = true;
 		return this;

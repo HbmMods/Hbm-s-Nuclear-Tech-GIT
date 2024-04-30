@@ -138,24 +138,6 @@ public class ItemRenderLibrary {
 		        GL11.glShadeModel(GL11.GL_FLAT);
 			}});
 		
-		renderers.put(Item.getItemFromBlock(ModBlocks.machine_selenium), new ItemRenderBase() {
-			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(4, 4, 4);
-			}
-			public void renderCommon() {
-				GL11.glScaled(2, 2, 2);
-		        GL11.glDisable(GL11.GL_CULL_FACE);
-		        bindTexture(ResourceManager.selenium_body_tex); ResourceManager.selenium_body.renderAll();
-		        GL11.glTranslated(0.0D, 1.0D, 0.0D);
-		        bindTexture(ResourceManager.selenium_rotor_tex); ResourceManager.selenium_rotor.renderAll();
-		        bindTexture(ResourceManager.selenium_piston_tex);
-		        for(int i = 0; i < 7; i++) {
-		            ResourceManager.selenium_piston.renderAll(); GL11.glRotatef(360F/7F, 0, 0, 1);
-		        }
-		        GL11.glEnable(GL11.GL_CULL_FACE);
-			}});
-		
 		renderers.put(Item.getItemFromBlock(ModBlocks.reactor_research), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -4, 0);

@@ -286,13 +286,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ItemStack(ModItems.gem_tantalium),
 						new ItemStack(ModItems.dust, 3))
 				.outputFluids(new FluidStack(Fluids.WATER, 250)));
-		recipes.add(new ChemRecipe(91, "ARSENIC", 1200)
-				.inputItems(new ComparableStack(ModItems.scrap_oil, 256))
-				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1000))
-				.outputItems(
-						new ItemStack(ModItems.nugget_arsenic),
-						new ItemStack(ModItems.sulfur, 2))
-				.outputFluids(new FluidStack(Fluids.HEAVYOIL, 1500)));
 		recipes.add(new ChemRecipe(68, "VIT_LIQUID", 100)
 				.inputItems(new ComparableStack(ModBlocks.sand_lead))
 				.inputFluids(new FluidStack(Fluids.WASTEFLUID, 1000))

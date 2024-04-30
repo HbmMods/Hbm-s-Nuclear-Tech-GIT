@@ -8,11 +8,8 @@ import com.hbm.items.weapon.ItemMissile.MissileFormFactor;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
-import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -21,7 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase implements IEnergyUser, IFluidStandardReceiver, IRadarCommandReceiver {
+public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 
 	public int formFactor = -1;
 	/** Whether the missile has already been placed on the launchpad. Missile will render statically on the pad if true */

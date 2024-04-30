@@ -27,6 +27,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+@SuppressWarnings("unused") //shut the fuck up
 public class HazardRegistry {
 
 	//CO60		             5a		β−	030.00Rad/s	Spicy
@@ -292,15 +293,6 @@ public class HazardRegistry {
 		registerOtherWaste(waste_u235, wst * billet * 11F);
 		registerOtherWaste(waste_schrabidium, wst * billet * 15F);
 		registerOtherWaste(waste_zfb_mox, wst * billet * 5F);
-		
-		registerOtherFuel(pellet_schrabidium, sa326 * ingot * 5, wst * ingot * 100, true);
-		registerOtherFuel(pellet_hes, saf * ingot * 5, wst * ingot * 75, true);
-		registerOtherFuel(pellet_mes, saf * ingot * 5, wst * ingot * 50, true);
-		registerOtherFuel(pellet_les, saf * ingot * 5, wst * ingot * 20, false);
-		registerOtherFuel(pellet_beryllium, 0F, 10F, false);
-		registerOtherFuel(pellet_neptunium, np237 * ingot * 5, wst * ingot * 10, false);
-		registerOtherFuel(pellet_lead, 0F, 15F, false);
-		registerOtherFuel(pellet_advanced, 0F, 20F, false);
 		
 		registerOtherFuel(plate_fuel_u233, u233 * ingot, wst * ingot * 13F, false);
 		registerOtherFuel(plate_fuel_u235, u235 * ingot, wst * ingot * 10F, false);

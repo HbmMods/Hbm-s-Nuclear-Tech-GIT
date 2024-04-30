@@ -5,13 +5,9 @@ import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
-import com.hbm.tileentity.machine.TileEntityAMSBase;
-import com.hbm.tileentity.machine.TileEntityAMSEmitter;
-import com.hbm.tileentity.machine.TileEntityAMSLimiter;
 import com.hbm.tileentity.machine.TileEntityMachineArcFurnace;
 import com.hbm.tileentity.machine.TileEntityMachineBoiler;
 import com.hbm.tileentity.machine.TileEntityMachineBoilerElectric;
-import com.hbm.tileentity.machine.TileEntityMachineSeleniumEngine;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -71,41 +67,6 @@ public class AuxGaugePacket implements IMessage {
 		public IMessage onMessage(AuxGaugePacket m, MessageContext ctx) {
 			try {
 				TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
-
-				if (te instanceof TileEntityAMSLimiter) {
-					TileEntityAMSLimiter limiter = (TileEntityAMSLimiter)te;
-					if(m.id == 0)
-						limiter.locked = m.value == 1;
-					else if(m.id == 1)
-						limiter.efficiency = m.value;
-				}
-				if (te instanceof TileEntityAMSEmitter) {
-					TileEntityAMSEmitter emitter = (TileEntityAMSEmitter)te;
-					if(m.id == 0)
-						emitter.locked = m.value == 1;
-					else if(m.id == 1)
-						emitter.efficiency = m.value;
-				}
-				if (te instanceof TileEntityAMSBase) {
-					TileEntityAMSBase base = (TileEntityAMSBase)te;
-					
-					if(m.id == 0)
-						base.locked = m.value == 1;
-					else if(m.id == 1)
-						base.color = m.value;
-					else if(m.id == 2)
-						base.efficiency = m.value;
-					else if(m.id == 3)
-						base.field = m.value;
-				}
-				if (te instanceof TileEntityMachineSeleniumEngine) {
-					TileEntityMachineSeleniumEngine selenium = (TileEntityMachineSeleniumEngine)te;
-
-					if(m.id == 0)
-						selenium.pistonCount = m.value;
-					if(m.id == 1)
-						selenium.powerCap = m.value;
-				}
 				if (te instanceof TileEntityMachineBoiler) {
 					TileEntityMachineBoiler boiler = (TileEntityMachineBoiler)te;
 					

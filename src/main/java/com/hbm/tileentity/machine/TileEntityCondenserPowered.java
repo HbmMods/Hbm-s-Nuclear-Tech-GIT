@@ -5,7 +5,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,7 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCondenserPowered extends TileEntityCondenser implements IEnergyUser {
+public class TileEntityCondenserPowered extends TileEntityCondenser implements IEnergyReceiverMK2 {
 	
 	public long power;
 	public static final long maxPower = 10_000_000;
@@ -22,8 +22,8 @@ public class TileEntityCondenserPowered extends TileEntityCondenser implements I
 	
 	public TileEntityCondenserPowered() {
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, 100_000);
-		tanks[1] = new FluidTank(Fluids.WATER, 100_000);
+		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, 1_000_000);
+		tanks[1] = new FluidTank(Fluids.WATER, 1_000_000);
 	}
 	
 	@Override

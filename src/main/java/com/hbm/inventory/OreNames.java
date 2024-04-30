@@ -17,6 +17,8 @@ public class OreNames {
 	public static final String PLATE = "plate";
 	public static final String PLATECAST = "plateTriple"; //cast plates are solid plates made from 3 ingots, turns out that's literally just a GT triple plate
 	public static final String PLATEWELDED = "plateSextuple";
+	public static final String SHELL = "shell";
+	public static final String PIPE = "ntmpipe";
 	public static final String WIREDENSE = "wireDense";
 	public static final String BILLET = "billet";
 	public static final String BLOCK = "block";

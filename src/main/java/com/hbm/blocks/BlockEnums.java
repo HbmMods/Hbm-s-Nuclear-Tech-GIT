@@ -12,6 +12,14 @@ public class BlockEnums {
 		CONGLOMERATE
 	}
 
+	public static enum EnumMeteorType {
+		IRON,
+		COPPER,
+		ALUMINIUM,
+		RAREEARTH,
+		COBALT
+	}
+
 	public static enum EnumBiomeType {
 		DESERT,
 		WOODLAND

@@ -38,8 +38,6 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 	public int speed;
 	public int length;
 	
-	public boolean mute = false;
-	
 	public boolean fallout = true;
 	public boolean salted = false;
 	private int falloutAdd = 0;
@@ -74,12 +72,6 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 		
 		if(!worldObj.isRemote && fallout && explosion != null && this.ticksExisted < 10) {
 			radiate(2_500_000F / (this.ticksExisted * 5 + 1), this.length * 2);
-		}
-		
-		if(!mute) {
-			this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "ambient.weather.thunder", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
-			if(rand.nextInt(5) == 0)
-				this.worldObj.playSoundEffect(this.posX, this.posY, this.posZ, "random.explode", 10000.0F, 0.8F + this.rand.nextFloat() * 0.2F);
 		}
 		
 		ExplosionNukeGeneric.dealDamage(this.worldObj, this.posX, this.posY, this.posZ, this.length * 2);
@@ -147,11 +139,6 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 			ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.RAD_BYPASS, eRads);
 		}
 	}
-
-	@Override
-	protected void entityInit() { }
-	
-	public static HashMap<ATEntry2, Long> at = new HashMap();
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
@@ -289,11 +276,6 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 	
 	public EntityNukeExplosionMK5 moreFallout(int fallout) {
 		falloutAdd = fallout;
-		return this;
-	}
-	
-	public EntityNukeExplosionMK5 mute() {
-		this.mute = true;
 		return this;
 	}
 }

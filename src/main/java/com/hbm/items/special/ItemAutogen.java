@@ -27,6 +27,7 @@ public class ItemAutogen extends Item {
 	
 	private HashMap<NTMMaterial, String> textureOverrides = new HashMap();
 	private HashMap<NTMMaterial, IIcon> iconMap = new HashMap();
+	private String overrideUnlocalizedName = null;
 	
 	public ItemAutogen(MaterialShapes shape) {
 		this.setHasSubtypes(true);
@@ -36,6 +37,10 @@ public class ItemAutogen extends Item {
 	/** add override texture */
 	public ItemAutogen aot(NTMMaterial mat, String tex) {
 		textureOverrides.put(mat, tex);
+		return this;
+	}
+	public ItemAutogen oun(String overrideUnlocalizedName) {
+		this.overrideUnlocalizedName = overrideUnlocalizedName;
 		return this;
 	}
 
@@ -116,5 +121,10 @@ public class ItemAutogen extends Item {
 		
 		String matName = StatCollector.translateToLocal(mat.getUnlocalizedName());
 		return StatCollector.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".name", matName);
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) {
+		return overrideUnlocalizedName != null ? "item." + overrideUnlocalizedName : super.getUnlocalizedName(stack);
 	}
 }

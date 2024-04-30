@@ -52,13 +52,10 @@ import com.hbm.world.feature.OreCave;
 import com.hbm.world.feature.OreLayer3D;
 import com.hbm.world.feature.SchistStratum;
 import com.hbm.world.generator.CellularDungeonFactory;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
@@ -817,7 +814,7 @@ public class MainRegistry {
 		achZIRNOXBoom = new Achievement("achievement.ZIRNOXBoom", "ZIRNOXBoom", 14, -1, ModItems.debris_element, achCentrifuge).initIndependentStat().setSpecial().registerStat();
 		achChicagoPile = new Achievement("achievement.chicagoPile", "chicagoPile", 13, 0, ModItems.pile_rod_plutonium, achCentrifuge).initIndependentStat().registerStat();
 		achSILEX = new Achievement("achievement.SILEX", "SILEX", 12, 7, new ItemStack(ModBlocks.machine_silex), achAcidizer).initIndependentStat().registerStat();
-		achWatz = new Achievement("achievement.watz", "watz", 14, 3, ModItems.pellet_schrabidium, achSchrab).initIndependentStat().registerStat();
+		achWatz = new Achievement("achievement.watz", "watz", 14, 3, ModItems.watz_pellet, achSchrab).initIndependentStat().registerStat();
 		achWatzBoom = new Achievement("achievement.watzBoom", "watzBoom", 14, 5, ModItems.bucket_mud, achWatz).initIndependentStat().setSpecial().registerStat();
 		achRBMK = new Achievement("achievement.RBMK", "RBMK", 9, -5, ModItems.rbmk_fuel_ueu, achConcrete).initIndependentStat().registerStat();
 		achRBMKBoom = new Achievement("achievement.RBMKBoom", "RBMKBoom", 9, -7, ModItems.debris_fuel, achRBMK).initIndependentStat().setSpecial().registerStat();
@@ -907,6 +904,12 @@ public class MainRegistry {
 		IMCHandler.registerHandler("centrifuge", new IMCCentrifuge());
 		
 		PlanetGen.init();
+
+		if (Loader.isModLoaded("NotEnoughItems")){
+			if (Loader.instance().getIndexedModList().get("NotEnoughItems").getVersion().contains("GTNH")) {
+				proxy.handleNHNEICompat();
+			}
+		}
 	}
 	
 	@EventHandler
@@ -1026,7 +1029,6 @@ public class MainRegistry {
 	public void serverStart(FMLServerStartingEvent event) {
 		World world = event.getServer().getEntityWorld();
 		RBMKDials.createDials(world);
-		SiegeOrchestrator.createGameRules(world);
 		event.registerServerCommand(new CommandReloadRecipes());
 		event.registerServerCommand(new CommandDebugChunkLoad());
 		event.registerServerCommand(new CommandSatellites());
@@ -1342,6 +1344,84 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.test_pipe");
 		ignoreMappings.add("hbm:tile.test_ct");
 		ignoreMappings.add("hbm:tile.test_rail");
+		ignoreMappings.add("hbm:tile.block_niter_reinforced");
+		ignoreMappings.add("hbm:tile.siege_shield");
+		ignoreMappings.add("hbm:tile.siege_internal");
+		ignoreMappings.add("hbm:tile.siege_circuit");
+		ignoreMappings.add("hbm:tile.siege_emergency");
+		ignoreMappings.add("hbm:tile.siege_hole");
+		ignoreMappings.add("hbm:tile.machine_shredder_large");
+		ignoreMappings.add("hbm:tile.turret_brandon");
+		ignoreMappings.add("hbm:item.bottle2_sunset");
+		ignoreMappings.add("hbm:item.pellet_schrabidium");
+		ignoreMappings.add("hbm:item.pellet_hes");
+		ignoreMappings.add("hbm:item.pellet_mes");
+		ignoreMappings.add("hbm:item.pellet_les");
+		ignoreMappings.add("hbm:item.pellet_beryllium");
+		ignoreMappings.add("hbm:item.pellet_neptunium");
+		ignoreMappings.add("hbm:item.pellet_lead");
+		ignoreMappings.add("hbm:item.pellet_advanced");
+		ignoreMappings.add("hbm:item.board_copper");
+		ignoreMappings.add("hbm:item.titanium_filter");
+		ignoreMappings.add("hbm:item.battery_steam");
+		ignoreMappings.add("hbm:item.battery_steam_large");
+		ignoreMappings.add("hbm:item.hull_small_steel");
+		ignoreMappings.add("hbm:item.hull_small_aluminium");
+		ignoreMappings.add("hbm:item.hull_big_steel");
+		ignoreMappings.add("hbm:item.hull_big_aluminium");
+		ignoreMappings.add("hbm:item.hull_big_titanium");
+		ignoreMappings.add("hbm:item.rod_zirnox_natural_uranium_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_uranium_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_th232");
+		ignoreMappings.add("hbm:item.rod_zirnox_thorium_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_mox_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_plutonium_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_u233_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_u235_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_les_fuel");
+		ignoreMappings.add("hbm:item.rod_zirnox_lithium");
+		ignoreMappings.add("hbm:item.rod_zirnox_zfb_mox");
+		ignoreMappings.add("hbm:item.gas_petroleum");
+		ignoreMappings.add("hbm:item.gas_biogas");
+		ignoreMappings.add("hbm:item.gas_lpg");
+		ignoreMappings.add("hbm:item.gun_coilgun_ammo");
+		ignoreMappings.add("hbm:item.rotor_steel");
+		ignoreMappings.add("hbm:item.generator_steel");
+		ignoreMappings.add("hbm:item.bolt_compound");
+		ignoreMappings.add("hbm:tile.anvil_meteorite");
+		ignoreMappings.add("hbm:tile.anvil_starmetal");
+		ignoreMappings.add("hbm:tile.anvil_bismuth");
+		ignoreMappings.add("hbm:tile.lamp_uv_off");
+		ignoreMappings.add("hbm:tile.lamp_uv_on");
+		ignoreMappings.add("hbm:tile.ams_base");
+		ignoreMappings.add("hbm:tile.ams_emitter");
+		ignoreMappings.add("hbm:tile.ams_limiter");
+		ignoreMappings.add("hbm:tile.dummy_block_ams_limiter");
+		ignoreMappings.add("hbm:tile.dummy_port_ams_limiter");
+		ignoreMappings.add("hbm:tile.dummy_block_ams_emitter");
+		ignoreMappings.add("hbm:tile.dummy_port_ams_emitter");
+		ignoreMappings.add("hbm:tile.dummy_block_ams_base");
+		ignoreMappings.add("hbm:tile.dummy_port_ams_base");
+		ignoreMappings.add("hbm:tile.machine_selenium");
+		ignoreMappings.add("hbm:tile.fwatz_conductor");
+		ignoreMappings.add("hbm:tile.fwatz_cooler");
+		ignoreMappings.add("hbm:tile.fwatz_tank");
+		ignoreMappings.add("hbm:tile.fwatz_scaffold");
+		ignoreMappings.add("hbm:tile.fwatz_hatch");
+		ignoreMappings.add("hbm:tile.fwatz_computer");
+		ignoreMappings.add("hbm:tile.fwatz_core");
+		ignoreMappings.add("hbm:tile.fwatz_plasma");
+		ignoreMappings.add("hbm:tile.ore_meteor_uranium");
+		ignoreMappings.add("hbm:tile.ore_meteor_thorium");
+		ignoreMappings.add("hbm:tile.ore_meteor_titanium");
+		ignoreMappings.add("hbm:tile.ore_meteor_sulfur");
+		ignoreMappings.add("hbm:tile.ore_meteor_copper");
+		ignoreMappings.add("hbm:tile.ore_meteor_tungsten");
+		ignoreMappings.add("hbm:tile.ore_meteor_aluminium");
+		ignoreMappings.add("hbm:tile.ore_meteor_lead");
+		ignoreMappings.add("hbm:tile.ore_meteor_lithium");
+		ignoreMappings.add("hbm:tile.ore_meteor_starmetal");
+		ignoreMappings.add("hbm:tile.machine_generator");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

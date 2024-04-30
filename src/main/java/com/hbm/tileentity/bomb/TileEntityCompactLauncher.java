@@ -28,7 +28,7 @@ import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -49,7 +49,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyUser, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
+public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
 
 	public ItemStack slots[];
 
@@ -285,12 +285,16 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	
 	public void launchFromDesignator() {
 
-		if(slots[1].stackTagCompound != null) {
-			int tX = slots[1].stackTagCompound.getInteger("xCoord");
-			int tZ = slots[1].stackTagCompound.getInteger("zCoord");
+		if(slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
+			IDesignatorItem designator = (IDesignatorItem) slots[1].getItem();
 			
-			this.launchTo(tX, tZ);
-		}
+			if(designator.isReady(worldObj, slots[1], xCoord, yCoord, zCoord)) {
+				Vec3 coords = designator.getCoords(worldObj, slots[1], xCoord, yCoord, zCoord);
+				int tX = (int) Math.floor(coords.xCoord);
+				int tZ = (int) Math.floor(coords.zCoord);
+				
+				this.launchTo(tX, tZ);
+			}
 		
 		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, 0, 0, getStruct(slots[0]));
 
@@ -300,6 +304,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		missile.setPayload(slots[1]);
 		
 		slots[0] = null;
+		}
 	}
 	public void launchTo(int tX, int tZ) {
 

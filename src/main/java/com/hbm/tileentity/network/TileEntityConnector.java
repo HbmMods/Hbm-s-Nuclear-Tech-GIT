@@ -1,9 +1,9 @@
 package com.hbm.tileentity.network;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyConductor;
+import api.hbm.energymk2.Nodespace.PowerNode;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -24,33 +24,16 @@ public class TileEntityConnector extends TileEntityPylonBase {
 	public double getMaxWireLength() {
 		return 10;
 	}
-	
+
 	@Override
-	public List<int[]> getConnectionPoints() {
-		List<int[]> pos = new ArrayList(connected);
-		
+	public PowerNode createNode() {
+		TileEntity tile = (TileEntity) this;
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
-		//pos.add(new int[] {xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ});
-		
-		TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-		
-		if(te instanceof IEnergyConductor) {
-			
-			IEnergyConductor conductor = (IEnergyConductor) te;
-			
-			if(conductor.canConnect(dir.getOpposite())) {
-				
-				if(this.getPowerNet() == null && conductor.getPowerNet() != null) {
-					conductor.getPowerNet().joinLink(this);
-				}
-				
-				if(this.getPowerNet() != null && conductor.getPowerNet() != null && this.getPowerNet() != conductor.getPowerNet()) {
-					conductor.getPowerNet().joinNetworks(this.getPowerNet());
-				}
-			}
-		}
-		
-		return pos;
+		PowerNode node = new PowerNode(new BlockPos(tile.xCoord, tile.yCoord, tile.zCoord)).setConnections(
+				new DirPos(xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN),
+				new DirPos(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir));
+		for(int[] pos : this.connected) node.addConnection(new DirPos(pos[0], pos[1], pos[2], ForgeDirection.UNKNOWN));
+		return node;
 	}
 
 	@Override

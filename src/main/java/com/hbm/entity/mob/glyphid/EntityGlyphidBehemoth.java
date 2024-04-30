@@ -74,7 +74,7 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 		super.onDeath(source);
 		if (!worldObj.isRemote) {
 			EntityMist mist = new EntityMist(worldObj);
-			mist.setType(Fluids.ACID);
+			mist.setType(Fluids.SULFURIC_ACID);
 			mist.setPosition(posX, posY, posZ);
 			mist.setArea(10, 4);
 			mist.setDuration(120);
@@ -88,7 +88,7 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 			this.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 2 * 20, 6));
 			EntityChemical chem = new EntityChemical(worldObj, this);
 
-			chem.setFluid(Fluids.ACID);
+			chem.setFluid(Fluids.SULFURIC_ACID);
 			worldObj.spawnEntityInWorld(chem);
 		}
 	}
