@@ -49,7 +49,8 @@ public class NTMWorldGenerator implements IWorldGenerator {
 		setRandomSeed(event.world, event.chunkX, event.chunkZ); //Set random for population down the line.
 		hasPopulationEvent = true;
 		
-		if(!StructureConfig.enableStructures || !event.world.getWorldInfo().isMapFeaturesEnabled()) return;
+		if(StructureConfig.enableStructures == 0) return;
+		if(StructureConfig.enableStructures == 2 && !event.world.getWorldInfo().isMapFeaturesEnabled()) return;
 		
 		switch (event.world.provider.dimensionId) {
 		case -1:
@@ -94,7 +95,12 @@ public class NTMWorldGenerator implements IWorldGenerator {
 	private void generateSurface(World world, Random rand, IChunkProvider chunkGenerator, IChunkProvider chunkProvider, int chunkX, int chunkZ) {
 		if(!hasPopulationEvent) { //If we've failed to generate any structures (flatlands)
 			setRandomSeed(world, chunkX, chunkZ); //Reset the random seed to compensate
-			if(StructureConfig.enableStructures) generateOverworldStructures(world, chunkGenerator, chunkX, chunkZ); //Do it through the post-population generation directly
+			
+			boolean enableStructures = world.getWorldInfo().isMapFeaturesEnabled();
+			if(StructureConfig.enableStructures == 1) enableStructures = true;
+			if(StructureConfig.enableStructures == 0) enableStructures = false;
+
+			if(enableStructures) generateOverworldStructures(world, chunkGenerator, chunkX, chunkZ); //Do it through the post-population generation directly
 		}
 		
 		/* biome dictionary my beloved <3 

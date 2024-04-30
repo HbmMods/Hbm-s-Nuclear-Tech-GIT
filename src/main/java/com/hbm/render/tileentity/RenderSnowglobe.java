@@ -24,7 +24,7 @@ import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderSnowglobe extends TileEntitySpecialRenderer implements IItemRendererProvider {
 	
-	public static final IModelCustom snowglobe = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/trinkets/snowglobe.obj"), false).asDisplayList();
+	public static final IModelCustom snowglobe = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/trinkets/snowglobe.obj"), false).asVBO();
 	public static final ResourceLocation socket = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/snowglobe.png");
 	public static final ResourceLocation glass = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/snowglobe_glass.png");
 	public static final ResourceLocation features = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/snowglobe_features.png");
@@ -105,6 +105,7 @@ public class RenderSnowglobe extends TileEntitySpecialRenderer implements IItemR
 				GL11.glScaled(3, 3, 3);
 				SnowglobeType type = EnumUtil.grabEnumSafely(SnowglobeType.class, item.getItemDamage());
 				renderSnowglobe(type);
+				GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 			}};
 	}
 }

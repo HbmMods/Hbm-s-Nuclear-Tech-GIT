@@ -336,13 +336,12 @@ public class EntityGlyphid extends EntityMob {
 	/** Provides a direct entrypoint from outside to access the superclass' implementation because otherwise we end up wwith infinite recursion */
 	public boolean attackSuperclass(DamageSource source, float amount) {
 		
-		NBTTagCompound data = new NBTTagCompound();
+		/*NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "debug");
 		data.setInteger("color", 0x0000ff);
 		data.setFloat("scale", 2.5F);
 		data.setString("text", "" + (int) amount);
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 2, posZ), new TargetPoint(dimension, posX, posY + 2, posZ, 50));
-
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, posX, posY + 2, posZ), new TargetPoint(dimension, posX, posY + 2, posZ, 50));*/
 		
 		return super.attackEntityFrom(source, amount);
 	}

@@ -51,6 +51,7 @@ public class WorldConfig {
 	public static int bedrockRedstoneSpawn = 50;
 	public static int bedrockRareEarthSpawn = 50;
 	public static int bedrockBauxiteSpawn = 100;
+	public static int bedrockEmeraldSpawn = 50;
 	public static int bedrockGlowstoneSpawn = 100;
 	public static int bedrockPhosphorusSpawn = 50;
 	public static int bedrockQuartzSpawn = 100;
@@ -171,6 +172,7 @@ public class WorldConfig {
 		bedrockNeodymiumSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B15_bedrockNeodymiumWeight", "Spawn weight for neodymium bedrock ore", 50);
 		bedrockRareEarthSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B16_bedrockRareEarthWeight", "Spawn weight for rare earth bedrock ore", 50);
 		bedrockBauxiteSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B17_bedrockBauxiteWeight", "Spawn weight for bauxite bedrock ore", 100);
+		bedrockEmeraldSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.B18_bedrockEmeraldWeight", "Spawn weight for emerald bedrock ore", 50);
 
 		bedrockGlowstoneSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.BN00_bedrockGlowstoneWeight", "Spawn weight for glowstone bedrock ore", 100);
 		bedrockPhosphorusSpawn = CommonConfig.createConfigInt(config, CATEGORY_OREGEN, "2.BN01_bedrockPhosphorusWeight", "Spawn weight for phosphorus bedrock ore", 50);

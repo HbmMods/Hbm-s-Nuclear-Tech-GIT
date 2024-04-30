@@ -202,8 +202,6 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 	
 	public void displayStartup() {
 		
-		boolean displayOn = true;
-		
 		if(numberToDisplay < 888888 && turbinegas.counter < 60) { //48 frames needed to complete
 			
 			digitNumber++;

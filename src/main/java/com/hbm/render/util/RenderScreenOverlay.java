@@ -230,11 +230,10 @@ public class RenderScreenOverlay {
 					int bar = barID;
 					if(stamina % 30 >= 25) 
 						bar++;
-					int yPos = y;
 					if(bar / 3 != y)
 						y++;
 					bar = bar % 3;
-					gui.drawTexturedModalRect(posX + (width+2)*bar, posY - 12*y, 76, 58, width, 10);
+					gui.drawTexturedModalRect(posX + (width + 2) * bar, posY - 12 * y, 76, 58, width, 10);
 					fadeOut -= 0.04F;
 					GL11.glColor4f(1F, 1F, 1F, 1F);
 				}

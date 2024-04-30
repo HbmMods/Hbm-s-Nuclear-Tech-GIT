@@ -1,6 +1,6 @@
 package com.hbm.packet;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyHandlerMK2;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -55,9 +55,9 @@ public class AuxElectricityPacket implements IMessage {
 			try {
 				TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 	
-				if (te instanceof IEnergyUser) {
+				if (te instanceof IEnergyHandlerMK2) {
 						
-					IEnergyUser gen = (IEnergyUser) te;
+					IEnergyHandlerMK2 gen = (IEnergyHandlerMK2) te;
 					gen.setPower(m.charge);
 				}
 			} catch (Exception x) { }

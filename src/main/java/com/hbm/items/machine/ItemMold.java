@@ -66,14 +66,8 @@ public class ItemMold extends Item {
 				Mats.MAT_TITANIUM,		new ItemStack(ModItems.stamp_titanium_flat),
 				Mats.MAT_OBSIDIAN,		new ItemStack(ModItems.stamp_obsidian_flat)));
 		
-		registerMold(new MoldMulti(		8, S, "hull_small", MaterialShapes.INGOT.q(2),
-				Mats.MAT_STEEL,		new ItemStack(ModItems.hull_small_steel),
-				Mats.MAT_ALUMINIUM,	new ItemStack(ModItems.hull_small_aluminium)));
-		
-		registerMold(new MoldMulti(		9, L, "hull_big", MaterialShapes.INGOT.q(6),
-				Mats.MAT_STEEL,		new ItemStack(ModItems.hull_big_steel),
-				Mats.MAT_ALUMINIUM,	new ItemStack(ModItems.hull_big_aluminium),
-				Mats.MAT_TITANIUM,	new ItemStack(ModItems.hull_big_titanium)));
+		registerMold(new MoldShape(		8, S, "shell", MaterialShapes.SHELL));
+		registerMold(new MoldShape(		9, S, "pipe", MaterialShapes.PIPE));
 		
 		registerMold(new MoldShape(		10, L, "ingots", MaterialShapes.INGOT, 9));
 		registerMold(new MoldShape(		11, L, "plates", MaterialShapes.PLATE, 9));

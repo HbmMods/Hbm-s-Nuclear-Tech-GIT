@@ -79,7 +79,7 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 			
 			if(stack.getItem() == ModItems.drillbit) {
 				EnumDrillType type = EnumUtil.grabEnumSafely(EnumDrillType.class, stack.getItemDamage());
-				ore.tier = type.ordinal();
+				ore.tier = type.tier;
 			} else if(FluidContainerRegistry.getFluidType(stack) != Fluids.NONE) {
 				FluidType type = FluidContainerRegistry.getFluidType(stack);
 				int amount = FluidContainerRegistry.getFluidContent(stack, type);

@@ -11,16 +11,18 @@ import api.hbm.block.ICrucibleAcceptor;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFoundrySlagtap extends TileEntity implements ICrucibleAcceptor {
+public class TileEntityFoundrySlagtap extends TileEntityFoundryOutlet implements ICrucibleAcceptor {
 	
 	@Override
 	public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) {
+		if(filter != null && (filter != stack.material ^ invertFilter)) return false;
+		if(isClosed()) return false;
+		if(side != ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite()) return false;
 
 		Vec3 start = Vec3.createVectorHelper(x + 0.5, y - 0.125, z + 0.5);
 		Vec3 end = Vec3.createVectorHelper(x + 0.5, y + 0.125 - 15, z + 0.5);

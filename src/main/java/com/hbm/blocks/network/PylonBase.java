@@ -6,6 +6,7 @@ import com.hbm.tileentity.network.TileEntityPylonBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -40,5 +41,17 @@ public abstract class PylonBase extends BlockContainer implements ITooltipProvid
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
+	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(world.isRemote) {
+			return true;
+		} else if(!player.isSneaking()) {
+			TileEntityPylonBase te = (TileEntityPylonBase) world.getTileEntity(x, y, z);
+			return te.setColor(player.getHeldItem());
+		} else {
+			return false;
+		}
 	}
 }

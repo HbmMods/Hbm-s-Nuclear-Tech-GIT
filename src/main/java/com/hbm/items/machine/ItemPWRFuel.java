@@ -58,7 +58,7 @@ public class ItemPWRFuel extends ItemEnumMulti {
 		String reset = EnumChatFormatting.RESET + "";
 		
 		list.add(color + "Heat per flux: " + reset + num.heatEmission + " TU");
-		list.add(color + "Reacton function: " + reset + num.function.getLabelForFuel());
+		list.add(color + "Reaction function: " + reset + num.function.getLabelForFuel());
 		list.add(color + "Fuel type: " + reset + num.function.getDangerFromFuel());
 	}
 }

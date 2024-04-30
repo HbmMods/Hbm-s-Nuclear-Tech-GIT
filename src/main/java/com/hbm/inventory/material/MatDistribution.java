@@ -55,11 +55,6 @@ public class MatDistribution extends SerializableRecipe {
 		registerEntry(ModItems.stamp_steel_flat,			MAT_STEEL,			INGOT.q(3));
 		registerEntry(ModItems.stamp_titanium_flat,			MAT_TITANIUM,		INGOT.q(3));
 		registerEntry(ModItems.stamp_obsidian_flat,			MAT_OBSIDIAN,		INGOT.q(3));
-		registerEntry(ModItems.hull_small_steel,			MAT_STEEL,			INGOT.q(2));
-		registerEntry(ModItems.hull_small_aluminium,		MAT_ALUMINIUM,		INGOT.q(2));
-		registerEntry(ModItems.hull_big_steel,				MAT_STEEL,			INGOT.q(6));
-		registerEntry(ModItems.hull_big_aluminium,			MAT_ALUMINIUM,		INGOT.q(6));
-		registerEntry(ModItems.hull_big_titanium,			MAT_TITANIUM,		INGOT.q(6));
 		registerEntry(ModItems.pipes_steel,					MAT_STEEL,			BLOCK.q(3));
 		registerEntry(ModItems.wire_aluminium,				MAT_ALUMINIUM,		WIRE.q(1));
 		registerEntry(ModItems.wire_copper,					MAT_COPPER,			WIRE.q(1));

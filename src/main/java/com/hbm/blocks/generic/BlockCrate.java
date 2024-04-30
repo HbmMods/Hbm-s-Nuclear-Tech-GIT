@@ -126,7 +126,6 @@ public class BlockCrate extends BlockFalling {
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_nuke_furnace_off), 7);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_wood_burner), 10);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_diesel), 8);
-		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_selenium), 7);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_rtg_grey), 4);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.red_pylon), 9);
 		BlockCrate.addToListWithWeight(metalList, Item.getItemFromBlock(ModBlocks.machine_battery), 8);
@@ -141,7 +140,6 @@ public class BlockCrate extends BlockFalling {
 		BlockCrate.addToListWithWeight(metalList, ModItems.coil_copper, 10);
 		BlockCrate.addToListWithWeight(metalList, ModItems.tank_steel, 9);
 		BlockCrate.addToListWithWeight(metalList, ModItems.blade_titanium, 3);
-		BlockCrate.addToListWithWeight(metalList, ModItems.bolt_compound, 2);
 		BlockCrate.addToListWithWeight(metalList, ModItems.piston_selenium, 6);
 
 		// Red Crate

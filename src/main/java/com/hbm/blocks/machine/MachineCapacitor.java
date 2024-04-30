@@ -17,7 +17,8 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyProviderMK2;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -145,11 +146,10 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 		player.addExhaustion(0.025F);
 	}
 
-	public static class TileEntityCapacitor extends TileEntityLoadedBase implements IEnergyUser, INBTPacketReceiver, IPersistentNBT {
+	public static class TileEntityCapacitor extends TileEntityLoadedBase implements IEnergyProviderMK2, IEnergyReceiverMK2, INBTPacketReceiver, IPersistentNBT {
 		
 		public long power;
 		protected long maxPower;
-		public long prevPower;
 		public long powerReceived;
 		public long powerSent;
 		
@@ -164,8 +164,6 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 			
 			if(!worldObj.isRemote) {
 				
-				long gain = power - prevPower;
-
 				ForgeDirection opp = ForgeDirection.getOrientation(this.getBlockMetadata());
 				ForgeDirection dir = opp.getOpposite();
 				
@@ -187,24 +185,43 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 					pos = pos.offset(current);
 				}
 				
-				long preSend = power;
 				if(pos != null && last != null) {
 					this.tryUnsubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ());
-					this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), last);
+					this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), last);
 				}
-				long sent = preSend - power;
 				
 				this.trySubscribe(worldObj, xCoord + opp.offsetX, yCoord+ opp.offsetY, zCoord + opp.offsetZ, opp);
 				
 				NBTTagCompound data = new NBTTagCompound();
 				data.setLong("power", power);
 				data.setLong("maxPower", maxPower);
-				data.setLong("rec", gain);
-				data.setLong("sent", sent);
+				data.setLong("rec", powerReceived);
+				data.setLong("sent", powerSent);
 				INBTPacketReceiver.networkPack(this, data, 15);
 				
-				this.prevPower = power;
+				this.powerSent = 0;
+				this.powerReceived = 0;
 			}
+		}
+
+		@Override
+		public long transferPower(long power) {
+			if(power + this.getPower() <= this.getMaxPower()) {
+				this.setPower(power + this.getPower());
+				this.powerReceived += power;
+				return 0;
+			}
+			long capacity = this.getMaxPower() - this.getPower();
+			long overshoot = power - capacity;
+			this.powerReceived += (this.getMaxPower() - this.getPower());
+			this.setPower(this.getMaxPower());
+			return overshoot;
+		}
+		
+		@Override
+		public void usePower(long power) {
+			this.powerSent += Math.min(this.getPower(), power);
+			this.setPower(this.getPower() - power);
 		}
 
 		@Override

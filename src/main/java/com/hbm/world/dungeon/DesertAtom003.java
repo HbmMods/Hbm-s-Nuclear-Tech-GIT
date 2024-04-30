@@ -34,7 +34,7 @@ public class DesertAtom003
 	Block Block11 = ModBlocks.reinforced_glass;
 	Block Block12 = ModBlocks.reinforced_lamp_off;
 	Block Block13 = ModBlocks.pole_satellite_receiver;
-	Block Block14 = ModBlocks.machine_generator;
+	Block Block14 = ModBlocks.pwr_fuel;
 	Block Block15 = ModBlocks.deco_titanium;
 	Block Block16 = ModBlocks.block_lead;
 	Block Block17 = ModBlocks.ore_schrabidium;

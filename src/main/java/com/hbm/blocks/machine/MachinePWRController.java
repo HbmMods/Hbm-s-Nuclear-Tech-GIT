@@ -200,7 +200,13 @@ public class MachinePWRController extends BlockContainer implements ITooltipProv
 	}
 	
 	private boolean isValidCore(Block block) {
-		if(block == ModBlocks.pwr_fuel || block == ModBlocks.pwr_control || block == ModBlocks.pwr_channel || block == ModBlocks.pwr_heatex || block == ModBlocks.pwr_neutron_source) return true;
+		if(block == ModBlocks.pwr_fuel ||
+				block == ModBlocks.pwr_control ||
+				block == ModBlocks.pwr_channel ||
+				block == ModBlocks.pwr_heatex ||
+				block == ModBlocks.pwr_heatsink ||
+				block == ModBlocks.pwr_neutron_source)
+			return true;
 		return false;
 	}
 	
