@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.tileentity.TileEntityTickingBase;
@@ -20,6 +21,10 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 	protected List<BlockPos> ports = new ArrayList();
 	
 	public boolean assembled;
+	
+	public void setup(HashSet<BlockPos> ports, HashSet<BlockPos> cells, HashSet<BlockPos> emitters, HashSet<BlockPos> capacitors, HashSet<BlockPos> turbochargers) {
+		
+	}
 
 	@Override
 	public String getInventoryName() {

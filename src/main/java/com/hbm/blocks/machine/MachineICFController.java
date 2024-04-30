@@ -134,6 +134,9 @@ public class MachineICFController extends BlockContainer {
 				icf.coreZ = z;
 				icf.markDirty();
 			}
+			
+			controller.setup(ports, cells, emitters, capacitors, turbochargers);
+			controller.markDirty();
 		}
 		controller.assembled = !errored;
 		
