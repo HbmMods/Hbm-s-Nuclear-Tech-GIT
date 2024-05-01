@@ -23,7 +23,13 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 	public boolean assembled;
 	
 	public void setup(HashSet<BlockPos> ports, HashSet<BlockPos> cells, HashSet<BlockPos> emitters, HashSet<BlockPos> capacitors, HashSet<BlockPos> turbochargers) {
+
+		this.cellCount = 0;
+		this.emitterCount = 0;
+		this.capacitorCount = 0;
+		this.turbochargerCount = 0;
 		
+		this.ports.addAll(ports);
 	}
 
 	@Override

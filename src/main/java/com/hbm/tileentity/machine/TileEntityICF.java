@@ -9,7 +9,7 @@ import net.minecraft.util.AxisAlignedBB;
 public class TileEntityICF extends TileEntityMachineBase {
 
 	public TileEntityICF() {
-		super(0);
+		super(12);
 	}
 
 	@Override
