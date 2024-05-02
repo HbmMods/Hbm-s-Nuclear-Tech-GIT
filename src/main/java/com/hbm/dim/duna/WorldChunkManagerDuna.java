@@ -40,6 +40,7 @@ public class WorldChunkManagerDuna extends WorldChunkManager
 		this.myBiomesToSpawnIn.add(BiomeGenBaseDuna.dunaPolar);
 		this.myBiomesToSpawnIn.add(BiomeGenBaseDuna.dunaHills);
 		this.myBiomesToSpawnIn.add(BiomeGenBaseDuna.dunaPolarHills);
+
 	}
 
 	public WorldChunkManagerDuna(long seed, WorldType type)

@@ -312,6 +312,14 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				
 				this.launchTo(tX, tZ);
 			}
+
+		}
+		if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive) {
+			//null because fuck you
+			int tX = slots[1].stackTagCompound.getInteger("xCoord");
+			int tZ = slots[1].stackTagCompound.getInteger("zCoord");
+			
+			this.launchTo(tX, tZ);
 		}
 	}
 	

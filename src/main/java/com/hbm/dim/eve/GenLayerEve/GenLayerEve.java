@@ -1,5 +1,8 @@
 package com.hbm.dim.eve.GenLayerEve;
 
+import com.hbm.dim.dres.GenLayerDres.GenLayerEveMountains;
+
+import net.minecraft.world.biome.BiomeGenRiver;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.GenLayerFuzzyZoom;
 import net.minecraft.world.gen.layer.GenLayerRiver;
@@ -35,12 +38,28 @@ public abstract class GenLayerEve extends GenLayer
          biomes = new GenLayerFuzzyZoom(1001L, biomes);
          biomes = new GenLayerSmooth(706L, biomes);
          biomes = new GenLayerFuzzyZoom(1002L, biomes);
+         //biomes = new GenLayerEveRiver(1002L, biomes);
+
+         GenLayer renlayerweek = new GenLayerRiverInit(100L, biomes);
+         GenLayer genlayercreek6 = new GenLayerRiver(1L, renlayerweek);
+         GenLayer genlayercreek7 = new GenLayerSmooth(1000L, genlayercreek6);
+         GenLayer genlayercreekfinal = new GenLayerEveRiver(100L, biomes, genlayercreek7);
+         GenLayer genLayerVeronoiZoom = new GenLayerVoronoiZoom(10L, genlayercreek7);
+         genLayerVeronoiZoom = new GenLayerRiver(l, biomes);
          
-         GenLayer genLayerVeronoiZoom = new GenLayerVoronoiZoom(10L, biomes);
- 
+         genlayercreekfinal.initWorldGenSeed(l);
+         genLayerVeronoiZoom.initWorldGenSeed(l);
+
         biomes.initWorldGenSeed(l);
         genLayerVeronoiZoom.initWorldGenSeed(l);
+        /*         GenLayer seismicPlains = new GenLayerEveSeismicPlains(l, biomes);
+     	 GenLayer sbiomes = new GenLayerEveMountains(l, biomes);
 
-        return new GenLayer[] { biomes, genLayerVeronoiZoom };
+         GenLayer genLayerVeronoiZoom = new GenLayerVoronoiZoom(10L, biomes);
+         biomes = new GenLayerRiver(1002L, sbiomes);
+	*/
+        
+        
+        return new GenLayer[] { genlayercreekfinal, genLayerVeronoiZoom, genlayercreekfinal };
     }
 }

@@ -37,7 +37,10 @@ public abstract class GenLayerDuna extends GenLayer
          biomes = new GenLayerZoom(1006L, biomes);
          
          GenLayer genLayerVeronoiZoom = new GenLayerVoronoiZoom(10L, biomes);
- 
+         GenLayerRiverInit rivers = new GenLayerRiverInit(l, biomes);
+
+         biomes = new GenLayerRiver(l, rivers);
+
         biomes.initWorldGenSeed(l);
         genLayerVeronoiZoom.initWorldGenSeed(l);
 

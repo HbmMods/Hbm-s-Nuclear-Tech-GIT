@@ -8,7 +8,7 @@ import net.minecraft.world.gen.layer.IntCache;
 
 public class GenLayerDiversifyEve extends GenLayer
 {
-    private static final BiomeGenBase[] biomes = new BiomeGenBase[] { BiomeGenBaseEve.evePlains, BiomeGenBaseEve.eveOcean, BiomeGenBaseEve.eveMountains, BiomeGenBaseEve.SeismicPlains};
+    private static final BiomeGenBase[] biomes = new BiomeGenBase[] { BiomeGenBaseEve.evePlains, BiomeGenBaseEve.eveOcean, BiomeGenBaseEve.eveMountains, BiomeGenBaseEve.SeismicPlains, BiomeGenBaseEve.eveRiver};
 
     public GenLayerDiversifyEve(long l, GenLayer parent)
     {

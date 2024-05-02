@@ -12,6 +12,8 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
+import com.hbm.util.PlanetaryTraitUtil;
+import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -85,7 +87,7 @@ public class MeltedFlesh extends Block {
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		super.randomDisplayTick(world, x, y, z, rand);
 
-		if(world.provider.dimensionId== SpaceConfig.eveDimension)
+		if(PlanetaryTraitUtil.isDimensionWithTraitNT(world, Hospitality.HOT))
 		{
 			float f;
             float f1;
@@ -107,7 +109,7 @@ public class MeltedFlesh extends Block {
 	
     public void updateTick(World world, int x, int y, int z, Random rand)
     {
-    	if(world.provider.dimensionId==SpaceConfig.eveDimension)
+		if(PlanetaryTraitUtil.isDimensionWithTraitNT(world, Hospitality.HOT))
 		{
 			if(this==ModBlocks.flesh_block)
 			{

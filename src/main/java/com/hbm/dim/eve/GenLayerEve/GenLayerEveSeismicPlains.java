@@ -52,7 +52,7 @@ public class GenLayerEveSeismicPlains extends GenLayer
                         || (k2 == BiomeGenBaseEve.evePlains.biomeID)
                     );
                     if (flag && rand.nextInt(10) == 0) {
-                        k1 = BiomeGenBaseEve.SeismicPlains.biomeID;
+                        k1 = BiomeGenBaseEve.river.biomeID;
                     }
                 }
 

@@ -146,7 +146,6 @@ public class ItemWandD extends Item {
 						default:
 							player.addChatMessage(new ChatComponentText("Dim: Moon"));
 					    	float autwo = PlanetaryTraitUtil.getDistanceForDimension(world.provider.dimensionId); //* 100000;
-					    	System.out.println("nigger " + autwo);
 							break;
 						}
 					}
