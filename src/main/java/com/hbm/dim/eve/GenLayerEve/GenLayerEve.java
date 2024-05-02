@@ -44,13 +44,14 @@ public abstract class GenLayerEve extends GenLayer
 
         GenLayer genlayerRiverZoom = new GenLayerZoom(1000L, genlayerBiomes);
         GenLayer genlayerRiver = new GenLayerRiver(1001L, genlayerRiverZoom); // Your custom river layer
-        genlayerRiver = new GenLayerZoom(101L, genlayerRiver);
-        genlayerRiver = new GenLayerFuzzyZoom(102L, genlayerRiver);
-        genlayerRiver = new GenLayerZoom(103L, genlayerRiver);
+        GenLayerSmooth genlayersmooth = new GenLayerSmooth(1000L, genlayerRiver);
 
         GenLayer genlayerRiverMix = new GenLayerRiverMix(100L, genlayerBiomes, genlayerRiver);
         GenLayer genlayerVoronoiZoomRiver = new GenLayerVoronoiZoom(101L, genlayerRiverMix);
+        GenLayerSmooth genlayersmooth1 = new GenLayerSmooth(1000L, genlayerBiomes);
+        GenLayerEveRiverMix genlayerrivermix = new GenLayerEveRiverMix(100L, genlayersmooth1, genlayersmooth);
+        GenLayerVoronoiZoom genlayervoronoizoom = new GenLayerVoronoiZoom(10L, genlayerrivermix);
         
-        return new GenLayer[]{genlayerRiverMix, genlayerVoronoiZoom, genlayerRiverMix, genlayerVoronoiZoomRiver, };
+        return new GenLayer[]{genlayerrivermix, genlayervoronoizoom, genlayerrivermix, genlayerVoronoiZoomRiver, };
     }
 }

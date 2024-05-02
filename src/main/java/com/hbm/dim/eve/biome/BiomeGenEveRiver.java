@@ -11,7 +11,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenEveRiver extends BiomeGenBase {
 	
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(-0.3F, 0.01F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(-0.7F, 0.0F);
 
     //TODO: avoid doing an extra planets and make each planet unique and cool.
 	public BiomeGenEveRiver(int id) {
@@ -24,7 +24,6 @@ public class BiomeGenEveRiver extends BiomeGenBase {
         this.spawnableMonsterList.clear();
         this.spawnableWaterCreatureList.clear();
         this.spawnableCaveCreatureList.clear();
-        
         this.theBiomeDecorator.generateLakes = false;
         
         this.setHeight(height);

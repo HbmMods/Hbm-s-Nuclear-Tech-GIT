@@ -46,7 +46,7 @@ public class WorldChunkManagerDuna extends WorldChunkManager
 	public WorldChunkManagerDuna(long seed, WorldType type)
 	{
 		this();
-		GenLayer[] genLayers = GenLayerDuna.makeTheWorld(seed);
+		GenLayer[] genLayers = GenLayerDuna.makeTheWorld(seed, type);
 		this.unzoomedBiomes = genLayers[0];
 		this.zoomedBiomes = genLayers[1];
 	}
