@@ -173,6 +173,7 @@ public class Fluids {
 	public static FluidType THORIUM_SALT_HOT;
 	public static FluidType THORIUM_SALT_DEPLETED;
 	public static FluidType FULLERENE;
+	public static FluidType STELLAR_FLUX;
 	
 	public static List<FluidType> customFluids = new ArrayList();
 
@@ -367,7 +368,8 @@ public class Fluids {
 		CRACKOIL_DS =			new FluidType("CRACKOIL_DS",		0x2A1C11, 2, 1, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x424242)).addTraits(LIQUID, VISCOUS, P_OIL);
 		HOTCRACKOIL_DS =		new FluidType("HOTCRACKOIL_DS",		0x3A1A28, 2, 3, 0, EnumSymbol.NONE).setTemp(350).addTraits(LIQUID, VISCOUS, P_OIL);
 		NAPHTHA_DS =			new FluidType("NAPHTHA_DS",			0x63614E, 2, 1, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x5F6D44)).addTraits(LIQUID, VISCOUS, P_FUEL);
-		LIGHTOIL_DS =			new FluidType(138, "LIGHTOIL_DS",	0x63543E, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xB46B52)).addTraits(LIQUID, P_FUEL);
+		LIGHTOIL_DS =			new FluidType("LIGHTOIL_DS",		0x63543E, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xB46B52)).addTraits(LIQUID, P_FUEL);
+		STELLAR_FLUX =			new FluidType(139, "STELLAR_FLUX",	0xE300FF, 0, 4, 4, EnumSymbol.ANTIMATTER).addTraits(ANTI, GASEOUS);
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -520,6 +522,8 @@ public class Fluids {
 		//garbage
 		metaOrder.add(XPJUICE);
 		metaOrder.add(ENDERJUICE);
+		//plasma-esque
+		metaOrder.add(STELLAR_FLUX);
 		//plasma
 		metaOrder.add(PLASMA_DT);
 		metaOrder.add(PLASMA_HD);

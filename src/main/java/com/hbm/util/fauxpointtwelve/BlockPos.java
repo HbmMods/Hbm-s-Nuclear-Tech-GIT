@@ -9,9 +9,9 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public class BlockPos implements Cloneable {
 
-	private final int x;
-	private final int y;
-	private final int z;
+	private int x;
+	private int y;
+	private int z;
 
 	public BlockPos(int x, int y, int z) {
 		this.x = x;
@@ -25,6 +25,15 @@ public class BlockPos implements Cloneable {
 	
 	public BlockPos(double x, double y, double z) {
 		this((int)MathHelper.floor_double(x), (int)MathHelper.floor_double(y), (int)MathHelper.floor_double(z));
+	}
+	
+	/** Basically a setter for the coords. Violates the "muh unmutability" horseshit I don't care about and
+	 * lets me re-use the same instance for a ton of checks. RAM has priority over stupid religious bullshit. */
+	public BlockPos mutate(int x, int y, int z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		return this;
 	}
 	
 	public BlockPos add(int x, int y, int z) {

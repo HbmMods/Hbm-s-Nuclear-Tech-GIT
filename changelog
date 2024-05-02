@@ -24,6 +24,8 @@
 * Certain earlygame things can now be recycled like stirling engines and gears
 * Antenna part recycling has been moved to the anvil
 * NTM's pickaxes now have a break speed bonus for glass
+* renamed the foundry slag outlet to foundry spill outlet because people always assume it's for slag and only slag (it is not)
+* The description for heatable/coolable fluid tags is now written in the same line as the label
 
 ## Fixed
 * Fixed DFC receivers not outputting power
@@ -31,3 +33,5 @@
 * Fixed a potential crash caused by invalid assembly templates
 * Fixed general weirdness with the schrabidium transmutator item IO
 * Fixed certain tooltips using the backslash escape character despite not needing them
+* Hopefully fixed the immense lag caused by tom post impact mechanics, burning grass will now only spread 20% of the time (instead of 100) and the world destruction handler will only process half the blocks per chunk
+* Hopefully fixed an issue where substations would not reliably connect to cable blocks

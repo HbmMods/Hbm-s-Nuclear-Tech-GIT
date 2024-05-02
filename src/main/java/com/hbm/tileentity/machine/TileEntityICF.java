@@ -1,10 +1,13 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.container.ContainerICF;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIICF;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -13,10 +16,16 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver {
+	
+	public FluidTank[] tanks;
 
 	public TileEntityICF() {
 		super(12);
+		this.tanks = new FluidTank[3];
+		this.tanks[0] = new FluidTank(Fluids.COOLANT, 256_000);
+		this.tanks[1] = new FluidTank(Fluids.COOLANT_HOT, 256_000);
+		this.tanks[2] = new FluidTank(Fluids.STELLAR_FLUX, 16_000);
 	}
 
 	@Override
@@ -27,6 +36,20 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 	@Override
 	public void updateEntity() {
 		
+		for(int i = 0; i < 3; i++) tanks[i].setFill(tanks[i].getMaxFill());
+		
+		if(!worldObj.isRemote) {
+			
+		}
+	}
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
+			return false;
+		} else {
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 256;
+		}
 	}
 	
 	AxisAlignedBB bb = null;
@@ -52,6 +75,21 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return new FluidTank[] {tanks[1], tanks[2]};
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return new FluidTank[] {tanks[0]};
 	}
 
 	@Override
