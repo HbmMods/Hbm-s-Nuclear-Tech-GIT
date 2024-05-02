@@ -32,37 +32,25 @@ public abstract class GenLayerEve extends GenLayer
         GenLayer genlayer = new GenLayerIsland(1L);
 
         GenLayerRiverInit genlayerRiverInit = new GenLayerRiverInit(100L, genlayer);
-        GenLayer biomes = new GenLayerEveBiomes(seed); // Your custom biome layer
-        biomes = new GenLayerDiversifyEve(1000L, biomes);
-        biomes = new GenLayerZoom(1000L, biomes);
-        biomes = new GenLayerDiversifyEve(1001L, biomes);
-        biomes = new GenLayerZoom(1001L, biomes);
-        biomes = new GenLayerEveOceans(1300L, biomes);
-        biomes = new GenLayerZoom(1003L, biomes);
-        biomes = new GenLayerSmooth(700L, biomes);
-        biomes = new GenLayerZoom(1005L, biomes);
-        biomes = new GenLayerSmooth(703L, biomes);
-        biomes = new GenLayerFuzzyZoom(1000L, biomes);
-        biomes = new GenLayerSmooth(705L, biomes);
-        biomes = new GenLayerFuzzyZoom(1001L, biomes);
-        biomes = new GenLayerSmooth(706L, biomes);
-        biomes = new GenLayerFuzzyZoom(1002L, biomes);
-        GenLayer genlayerVoronoiZoom = new GenLayerVoronoiZoom(10L, biomes);
+        GenLayer genlayerBiomes = new GenLayerEveBiomes(seed); // Your custom biome layer
+        genlayerBiomes = new GenLayerZoom(1000L, genlayerBiomes);
+        genlayerBiomes = new GenLayerZoom(1001L, genlayerBiomes);
+        genlayerBiomes = new GenLayerZoom(1002L, genlayerBiomes);
+        genlayerBiomes = new GenLayerZoom(1003L, genlayerBiomes);
+        genlayerBiomes = new GenLayerZoom(1004L, genlayerBiomes);
+        genlayerBiomes = new GenLayerZoom(1005L, genlayerBiomes);
 
-        GenLayer genlayerRiverZoom = new GenLayerZoom(1000L, biomes);
+        GenLayer genlayerVoronoiZoom = new GenLayerVoronoiZoom(10L, genlayerBiomes);
+
+        GenLayer genlayerRiverZoom = new GenLayerZoom(1000L, genlayerBiomes);
         GenLayer genlayerRiver = new GenLayerRiver(1001L, genlayerRiverZoom); // Your custom river layer
         genlayerRiver = new GenLayerZoom(101L, genlayerRiver);
+        genlayerRiver = new GenLayerFuzzyZoom(102L, genlayerRiver);
+        genlayerRiver = new GenLayerZoom(103L, genlayerRiver);
 
-        GenLayer genlayerRiverMix = new GenLayerRiverMix(100L, biomes, genlayerRiver);
+        GenLayer genlayerRiverMix = new GenLayerRiverMix(100L, genlayerBiomes, genlayerRiver);
         GenLayer genlayerVoronoiZoomRiver = new GenLayerVoronoiZoom(101L, genlayerRiverMix);
-
-        GenLayer riverLayer = new GenLayerEveRiver(seed, biomes, genlayerRiverMix);
-        riverLayer = new GenLayerZoom(seed, biomes);
-        biomes = new GenLayerFuzzyZoom(seed, riverLayer);
-        riverLayer.initWorldGenSeed(seed);
         
-        biomes.initWorldGenSeed(seed);
-        
-        return new GenLayer[]{genlayerRiverMix, genlayerVoronoiZoom, genlayerRiverMix, genlayerVoronoiZoomRiver, riverLayer, biomes};
+        return new GenLayer[]{genlayerRiverMix, genlayerVoronoiZoom, genlayerRiverMix, genlayerVoronoiZoomRiver, };
     }
 }
