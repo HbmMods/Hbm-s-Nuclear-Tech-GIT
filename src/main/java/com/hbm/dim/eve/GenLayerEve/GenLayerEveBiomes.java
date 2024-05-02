@@ -9,7 +9,8 @@ import net.minecraft.world.gen.layer.IntCache;
 
 public class GenLayerEveBiomes extends GenLayer
 {
-    private static final BiomeGenBase[] biomes = new BiomeGenBase[] { BiomeGenBaseEve.evePlains, BiomeGenBaseEve.eveOcean, BiomeGenBaseEve.eveMountains, BiomeGenBaseEve.SeismicPlains};
+    private static final BiomeGenBase[] biomes = new BiomeGenBase[] { BiomeGenBaseEve.evePlains, BiomeGenBaseEve.eveOcean, BiomeGenBaseEve.eveMountains};
+    protected BiomeGenBase[] rareBiomes = { BiomeGenBaseEve.SeismicPlains };
 
     public GenLayerEveBiomes(long l)
     {
@@ -21,15 +22,23 @@ public class GenLayerEveBiomes extends GenLayer
     {
         int[] dest = IntCache.getIntCache(width * depth);
 
-        for (int k = 0; k < depth; ++k)
+        for (int dz = 0; dz < depth; dz++)
         {
-            for (int i = 0; i < width; ++i)
+            for (int dx = 0; dx < width; dx++)
             {
-                initChunkSeed(x + i, z + k);
-                dest[i + k * width] = biomes[nextInt(biomes.length)].biomeID;
+                this.initChunkSeed(dx + x, dz + z);
+
+                if (this.nextInt(20) == 0)
+                {
+                    dest[dx + dz * width] = this.rareBiomes[this.nextInt(this.rareBiomes.length)].biomeID;
+                }
+                else
+                {
+                    dest[dx + dz * width] = this.biomes[this.nextInt(this.biomes.length)].biomeID;
+                }
             }
         }
-
         return dest;
     }
 }
+

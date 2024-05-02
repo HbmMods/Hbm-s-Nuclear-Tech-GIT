@@ -1405,7 +1405,7 @@ public class ModEventHandlerClient {
 				}
 				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
 
-	            event.density = 0.045F;
+	            event.density = 0.005F;
 	            event.setCanceled(true);
 	        
 	    }

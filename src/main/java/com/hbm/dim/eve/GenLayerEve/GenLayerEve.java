@@ -2,11 +2,21 @@ package com.hbm.dim.eve.GenLayerEve;
 
 import com.hbm.dim.dres.GenLayerDres.GenLayerEveMountains;
 
+import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeGenRiver;
 import net.minecraft.world.gen.layer.GenLayer;
+import net.minecraft.world.gen.layer.GenLayerAddIsland;
+import net.minecraft.world.gen.layer.GenLayerAddMushroomIsland;
+import net.minecraft.world.gen.layer.GenLayerAddSnow;
+import net.minecraft.world.gen.layer.GenLayerDeepOcean;
 import net.minecraft.world.gen.layer.GenLayerFuzzyZoom;
+import net.minecraft.world.gen.layer.GenLayerHills;
+import net.minecraft.world.gen.layer.GenLayerIsland;
+import net.minecraft.world.gen.layer.GenLayerRareBiome;
+import net.minecraft.world.gen.layer.GenLayerRemoveTooMuchOcean;
 import net.minecraft.world.gen.layer.GenLayerRiver;
 import net.minecraft.world.gen.layer.GenLayerRiverInit;
+import net.minecraft.world.gen.layer.GenLayerRiverMix;
 import net.minecraft.world.gen.layer.GenLayerSmooth;
 import net.minecraft.world.gen.layer.GenLayerVoronoiZoom;
 import net.minecraft.world.gen.layer.GenLayerZoom;
@@ -18,48 +28,41 @@ public abstract class GenLayerEve extends GenLayer
         super(l);
     }
 
-    public static GenLayer[] makeTheWorld(long l)
-    {
-    	GenLayer biomes = new GenLayerEveBiomes(l);
-    	 biomes = new GenLayerFuzzyZoom(2000L, biomes);
-         biomes = new GenLayerZoom(2001L, biomes);
-         biomes = new GenLayerEveSeismicPlains(1006L, biomes);
-         biomes = new GenLayerDiversifyEve(1000L, biomes);
-         biomes = new GenLayerZoom(1000L, biomes);
-         biomes = new GenLayerDiversifyEve(1001L, biomes);
-         biomes = new GenLayerZoom(1001L, biomes);
-         biomes = new GenLayerEveOceans(1300L, biomes);
-         biomes = new GenLayerZoom(1003L, biomes);
-         biomes = new GenLayerSmooth(700L, biomes);
-         biomes = new GenLayerZoom(1005L, biomes);
-         biomes = new GenLayerSmooth(703L, biomes);
-         biomes = new GenLayerFuzzyZoom(1000L, biomes);
-         biomes = new GenLayerSmooth(705L, biomes);
-         biomes = new GenLayerFuzzyZoom(1001L, biomes);
-         biomes = new GenLayerSmooth(706L, biomes);
-         biomes = new GenLayerFuzzyZoom(1002L, biomes);
-         //biomes = new GenLayerEveRiver(1002L, biomes);
+    public static GenLayer[] makeTheWorld(long seed, WorldType worldType) {
+        GenLayer genlayer = new GenLayerIsland(1L);
 
-         GenLayer renlayerweek = new GenLayerRiverInit(100L, biomes);
-         GenLayer genlayercreek6 = new GenLayerRiver(1L, renlayerweek);
-         GenLayer genlayercreek7 = new GenLayerSmooth(1000L, genlayercreek6);
-         GenLayer genlayercreekfinal = new GenLayerEveRiver(100L, biomes, genlayercreek7);
-         GenLayer genLayerVeronoiZoom = new GenLayerVoronoiZoom(10L, genlayercreek7);
-         genLayerVeronoiZoom = new GenLayerRiver(l, biomes);
-         
-         genlayercreekfinal.initWorldGenSeed(l);
-         genLayerVeronoiZoom.initWorldGenSeed(l);
+        GenLayerRiverInit genlayerRiverInit = new GenLayerRiverInit(100L, genlayer);
+        GenLayer biomes = new GenLayerEveBiomes(seed); // Your custom biome layer
+        biomes = new GenLayerDiversifyEve(1000L, biomes);
+        biomes = new GenLayerZoom(1000L, biomes);
+        biomes = new GenLayerDiversifyEve(1001L, biomes);
+        biomes = new GenLayerZoom(1001L, biomes);
+        biomes = new GenLayerEveOceans(1300L, biomes);
+        biomes = new GenLayerZoom(1003L, biomes);
+        biomes = new GenLayerSmooth(700L, biomes);
+        biomes = new GenLayerZoom(1005L, biomes);
+        biomes = new GenLayerSmooth(703L, biomes);
+        biomes = new GenLayerFuzzyZoom(1000L, biomes);
+        biomes = new GenLayerSmooth(705L, biomes);
+        biomes = new GenLayerFuzzyZoom(1001L, biomes);
+        biomes = new GenLayerSmooth(706L, biomes);
+        biomes = new GenLayerFuzzyZoom(1002L, biomes);
+        GenLayer genlayerVoronoiZoom = new GenLayerVoronoiZoom(10L, biomes);
 
-        biomes.initWorldGenSeed(l);
-        genLayerVeronoiZoom.initWorldGenSeed(l);
-        /*         GenLayer seismicPlains = new GenLayerEveSeismicPlains(l, biomes);
-     	 GenLayer sbiomes = new GenLayerEveMountains(l, biomes);
+        GenLayer genlayerRiverZoom = new GenLayerZoom(1000L, biomes);
+        GenLayer genlayerRiver = new GenLayerRiver(1001L, genlayerRiverZoom); // Your custom river layer
+        genlayerRiver = new GenLayerZoom(101L, genlayerRiver);
 
-         GenLayer genLayerVeronoiZoom = new GenLayerVoronoiZoom(10L, biomes);
-         biomes = new GenLayerRiver(1002L, sbiomes);
-	*/
+        GenLayer genlayerRiverMix = new GenLayerRiverMix(100L, biomes, genlayerRiver);
+        GenLayer genlayerVoronoiZoomRiver = new GenLayerVoronoiZoom(101L, genlayerRiverMix);
+
+        GenLayer riverLayer = new GenLayerEveRiver(seed, biomes, genlayerRiverMix);
+        riverLayer = new GenLayerZoom(seed, biomes);
+        biomes = new GenLayerFuzzyZoom(seed, riverLayer);
+        riverLayer.initWorldGenSeed(seed);
         
+        biomes.initWorldGenSeed(seed);
         
-        return new GenLayer[] { genlayercreekfinal, genLayerVeronoiZoom, genlayercreekfinal };
+        return new GenLayer[]{genlayerRiverMix, genlayerVoronoiZoom, genlayerRiverMix, genlayerVoronoiZoomRiver, riverLayer, biomes};
     }
 }

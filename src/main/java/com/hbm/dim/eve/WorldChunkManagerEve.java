@@ -48,7 +48,7 @@ public class WorldChunkManagerEve extends WorldChunkManager
 	public WorldChunkManagerEve(long seed, WorldType type)
 	{
 		this();
-		GenLayer[] genLayers = GenLayerEve.makeTheWorld(seed);
+		GenLayer[] genLayers = GenLayerEve.makeTheWorld(seed, type);
 		this.unzoomedBiomes = genLayers[0];
 		this.zoomedBiomes = genLayers[1];
 	}
