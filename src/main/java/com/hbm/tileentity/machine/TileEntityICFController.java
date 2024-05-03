@@ -8,6 +8,8 @@ import com.hbm.tileentity.TileEntityTickingBase;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityICFController extends TileEntityTickingBase implements IEnergyReceiverMK2 {
@@ -51,13 +53,13 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 		
 		for(BlockPos capacitor : capacitors) { for(ForgeDirection offset : ForgeDirection.VALID_DIRECTIONS) {
 				pos.mutate(capacitor.getX() + offset.offsetX, capacitor.getY() + offset.offsetY, capacitor.getZ() + offset.offsetZ);
-				if(emitters.contains(pos)) { this.emitterCount++; break; }
+				if(emitters.contains(pos)) { this.capacitorCount++; break; }
 			}
 		}
 		
 		for(BlockPos turbo : turbochargers) { for(ForgeDirection offset : ForgeDirection.VALID_DIRECTIONS) {
 				pos.mutate(turbo.getX() + offset.offsetX, turbo.getY() + offset.offsetY, turbo.getZ() + offset.offsetZ);
-				if(capacitors.contains(pos)) { this.emitterCount++; break; }
+				if(capacitors.contains(pos)) { this.turbochargerCount++; break; }
 			}
 		}
 		
@@ -72,11 +74,73 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 	@Override
 	public void updateEntity() {
 		
+		if(!worldObj.isRemote) {
+			
+			if(this.assembled) {
+				for(BlockPos pos : ports) {
+					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+						BlockPos portPos = pos.offset(dir);
+						if(this.getMaxPower() > 0) this.trySubscribe(worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
+					}
+				}
+			}
+			
+			this.networkPackNT(50);
+		}
+	}
+
+	@Override public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeInt(capacitorCount);
+		buf.writeInt(turbochargerCount);
+	}
+	
+	@Override public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.capacitorCount = buf.readInt();
+		this.turbochargerCount = buf.readInt();
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		this.assembled = nbt.getBoolean("assembled");
+		this.cellCount = nbt.getInteger("cellCount");
+		this.emitterCount = nbt.getInteger("emitterCount");
+		this.capacitorCount = nbt.getInteger("capacitorCount");
+		this.turbochargerCount = nbt.getInteger("turbochargerCount");
+		
+		ports.clear();
+		int portCount = nbt.getInteger("portCount");
+		for(int i = 0; i < portCount; i++) {
+			int[] port = nbt.getIntArray("p" + i);
+			ports.add(new BlockPos(port[0], port[1], port[2]));
+		}
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		
+		nbt.setBoolean("assembled", assembled);
+		nbt.setInteger("cellCount", cellCount);
+		nbt.setInteger("emitterCount", emitterCount);
+		nbt.setInteger("capacitorCount", capacitorCount);
+		nbt.setInteger("turbochargerCount", turbochargerCount);
+		
+		nbt.setInteger("portCount", ports.size());
+		for(int i = 0; i < ports.size(); i++) {
+			BlockPos pos = ports.get(i);
+			nbt.setIntArray("p" + i, new int[] { pos.getX(), pos.getY(), pos.getZ() });
+		}
 	}
 
 	@Override
 	public long getPower() {
-		return power;
+		return Math.min(power, this.getMaxPower());
 	}
 
 	@Override

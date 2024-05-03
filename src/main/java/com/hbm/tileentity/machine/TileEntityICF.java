@@ -13,6 +13,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
@@ -41,6 +42,23 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 		if(!worldObj.isRemote) {
 			
 		}
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+		return slot < 5;
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack stack, int side) {
+		return slot > 5;
+	}
+
+	public static final int[] io = new int[] {0, 1, 2, 3, 4, 6, 7, 8, 9, 10};
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return io;
 	}
 
 	@Override
