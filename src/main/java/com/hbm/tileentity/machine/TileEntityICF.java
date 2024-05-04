@@ -10,6 +10,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -18,6 +19,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver {
+	
+	public long laser;
+	public long maxLaser;
 	
 	public FluidTank[] tanks;
 
@@ -37,11 +41,28 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 	@Override
 	public void updateEntity() {
 		
-		for(int i = 0; i < 3; i++) tanks[i].setFill(tanks[i].getMaxFill());
-		
 		if(!worldObj.isRemote) {
 			
+			for(int i = 0; i < 3; i++) tanks[i].setFill(tanks[i].getMaxFill());
+			
+			this.networkPackNT(150);
+			this.laser = 0;
+			this.maxLaser = 0;
 		}
+	}
+
+	@Override public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(laser);
+		buf.writeLong(maxLaser);
+		for(int i = 0; i < 3; i++) tanks[i].serialize(buf);
+	}
+	
+	@Override public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.laser = buf.readLong();
+		this.maxLaser = buf.readLong();
+		for(int i = 0; i < 3; i++) tanks[i].deserialize(buf);
 	}
 
 	@Override

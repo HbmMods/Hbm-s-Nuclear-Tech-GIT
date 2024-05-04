@@ -23,6 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockICF extends BlockContainer implements IBlockCT {
 	
@@ -210,6 +211,12 @@ public class BlockICF extends BlockContainer implements IBlockCT {
 		public void onChunkUnload() {
 			super.onChunkUnload();
 			this.isLoaded = false;
+		}
+		
+		@Override
+		public boolean canConnect(ForgeDirection dir) {
+			if(this.getBlockMetadata() != 1) return false;
+			return dir != ForgeDirection.UNKNOWN;
 		}
 	}
 }

@@ -24,8 +24,11 @@
 * Certain earlygame things can now be recycled like stirling engines and gears
 * Antenna part recycling has been moved to the anvil
 * NTM's pickaxes now have a break speed bonus for glass
-* renamed the foundry slag outlet to foundry spill outlet because people always assume it's for slag and only slag (it is not)
+* Renamed the foundry slag outlet to foundry spill outlet because people always assume it's for slag and only slag (it is not)
 * The description for heatable/coolable fluid tags is now written in the same line as the label
+* Rubber can now be made from acidizing latex with sour gas (requires just 25mB)
+* Heating oil can now be reformed into naphtha
+* Coker naphtha can now also be reformed like the other naphtha types (yields refgas instead of petgas as a byproduct)
 
 ## Fixed
 * Fixed DFC receivers not outputting power
@@ -35,3 +38,5 @@
 * Fixed certain tooltips using the backslash escape character despite not needing them
 * Hopefully fixed the immense lag caused by tom post impact mechanics, burning grass will now only spread 20% of the time (instead of 100) and the world destruction handler will only process half the blocks per chunk
 * Hopefully fixed an issue where substations would not reliably connect to cable blocks
+* Fixed assembler rendering bugging out with Angelica installed and a door template loaded
+* Fixed medium pylon localizations
