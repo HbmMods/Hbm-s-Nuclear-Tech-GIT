@@ -85,32 +85,32 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	}
 
 	
+	private int delay = 40; // 2 sec revalidation
+	private int revalidateCounter = 0;
+
 	@Override
 	public void updateEntity() {
-		
-		if(!worldObj.isRemote) {
-			if(worldObj.getBlock(xCoord, yCoord+1, zCoord).isAir(worldObj, xCoord, yCoord+1, zCoord)) {
-			this.updateConnections();
-			if(onTicks > 0) onTicks--;
-			this.targets.clear();
-						
-			if(tank.getFill() > 0) {
-				onTicks = 20;
+	    if (!worldObj.isRemote) {
+	        if (worldObj.getBlock(xCoord, yCoord + 1, zCoord).isAir(worldObj, xCoord, yCoord + 1, zCoord)) {
+	            this.updateConnections();
+	            if (onTicks > 0) onTicks--;
+	            this.targets.clear();
 
+	            if (tank.getFill() > 0) {
+	                onTicks = 20;
+	                tank.setFill(tank.getFill() - 10);
 
-				tank.setFill(tank.getFill() - 10);
-
-				double dx = xCoord + 0.5;
-				double dy = yCoord + offset;
-				double dz = zCoord + 0.5;
-
-				revalidateRoom();  
-				
-			}else {
-	        	worldObj.setBlockToAir(xCoord, yCoord+1, zCoord);
-	        	findRoomSections(worldObj, xCoord, yCoord, zCoord);
-				}
+	                if (++revalidateCounter >= delay) {
+	                    revalidateRoom();
+	                    revalidateCounter = 0;
+	                }
+	            } else {
+	                worldObj.setBlockToAir(xCoord, yCoord + 1, zCoord);
+	                findRoomSections(worldObj, xCoord, yCoord, zCoord);
+	            }
 	        }
+	    
+
 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setShort("length", (short)targets.size());
@@ -137,26 +137,20 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		
 		
 		
-	public AxisAlignedBB getSealedRoomAABB() {
-	    return sealedRoomAABB;
-	}
 
-	public void setNeedsRevalidate(boolean flag) {
-	    needsRevalidate = flag;
-	    System.out.print("SEVENT RETURNED " + needsRevalidate);
-	}
+
 
 	public void revalidateRoom() {
 	    findRoomSections(worldObj, xCoord, yCoord, zCoord);
 	}
-	
+
 
 	private void updateConnections() {
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			this.trySubscribe(Fluids.OXYGEN, worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
-	
+	/*
 	public static List<double[]> zap(World worldObj, double x, double y, double z, double radius, Entity source) {
 
 		List<double[]> ret = new ArrayList();
@@ -176,6 +170,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		
 		return ret;
 	}
+	*/
 	private void reset(World world, int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
 	    Iterator<BlockPos> it = globalAirBlocks.iterator();
 	    while (it.hasNext()) {
