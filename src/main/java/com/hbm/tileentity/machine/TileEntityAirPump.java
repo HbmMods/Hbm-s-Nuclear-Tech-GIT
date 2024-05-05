@@ -176,7 +176,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		
 		return ret;
 	}
-	private void resetAndRefillAirBlocks(World world, int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
+	private void reset(World world, int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
 	    // First, convert all mod air blocks back to normal air
 	    Iterator<BlockPos> it = globalAirBlocks.iterator();
 	    while (it.hasNext()) {
@@ -187,18 +187,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	    }
 	    globalAirBlocks.clear(); // Clear the global air blocks set
 
-	    // Refill the area with ModBlocks.air_block according to the new boundaries
-	    for (int x = minX; x <= maxX; x++) {
-	        for (int y = minY; y <= maxY; y++) {
-	            for (int z = minZ; z <= maxZ; z++) {
-	                BlockPos pos = new BlockPos(x, y, z);
-	                if (world.getBlock(pos.getX(), pos.getY(), pos.getZ()) == Blocks.air) {
-	                    world.setBlock(x, y, z, ModBlocks.air_block);
-	                    globalAirBlocks.add(new BlockPos(x, y, z)); // Add new position to global set
-	                }
-	            }
-	        }
-	    }
+
 	}
 	private void revalidateTheRoom(World world, Set<BlockPos> air) {
 	    // Iterate through all positions that need to be validated as room air blocks
@@ -209,8 +198,8 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	        }
 	    }
 	}
-	private void updateAirBlocks(World world, Set<BlockPos> air, int minX, int maxX, int minY, int maxY, int minZ, int maxZ, Set<BlockPos> poweredTileEntities) {
-	    resetAndRefillAirBlocks(world, minX, maxX, minY, maxY, minZ, maxZ);
+	private void updateAirBlocks(World world, Set<BlockPos> air, int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
+		reset(world, minX, maxX, minY, maxY, minZ, maxZ);
 	    revalidateTheRoom(world, air); // Ensure that the air set is properly validated and updated
 	}
 	//TODO: Rewrite this fucking mess of a class
@@ -237,7 +226,6 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 
 	        if (!visited.contains(current)) {
 	            visited.add(current);
-	            mergeTileEntityRanges(visited, current, world, air, poweredTileEntities); // Merge ranges of neighboring tile entities
 
 	            for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 	                BlockPos neighbor = current.offset(dir);
@@ -253,12 +241,13 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	                    maxY = Math.max(maxY, current.getY() + 1);
 	                    maxZ = Math.max(maxZ, current.getZ() + 1);
 	                }
+	                
 	            }
 	        }
 
 	        if (stack.isEmpty() && !visited.isEmpty()) {
 
-	            updateAirBlocks(world, air, minX, maxX, minY, maxY, minZ, maxZ, poweredTileEntities);
+	            updateAirBlocks(world, air, minX, maxX, minY, maxY, minZ, maxZ);
 	            minX = maxX = current.getX();
 	            minY = maxY = current.getY();
 	            minZ = maxZ = current.getZ();
@@ -277,6 +266,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	        }
 	    }
 	}
+	/*
 	private void mergeTileEntityRanges(Set<BlockPos> visited, BlockPos current, World world, Set<BlockPos> air, Set<BlockPos> poweredTileEntities) {
 	    for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 	        BlockPos neighbor = current.offset(dir);
@@ -284,7 +274,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 			TileEntity tile = world.getTileEntity(neighbor.getX(), neighbor.getY(), neighbor.getZ());
 	        if (neighborTileEntity != null && !visited.contains(neighbor) && world.getTileEntity(neighbor.getX(), neighbor.getY(), neighbor.getZ()) instanceof TileEntityAirPump) {
 				TileEntityAirPump tEntityAirPump = (TileEntityAirPump) tile;
-
+				
 	            visited.add(neighbor);
 	            if (tEntityAirPump.tank.getFill() > 0) {
 	                poweredTileEntities.add(neighbor); // Add powered tile entity to set
@@ -295,6 +285,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	        }
 	    }
 	}
+	*/
 
 
 	@Override
