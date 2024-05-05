@@ -45,6 +45,8 @@ public class ImpactWorldHandler {
 				for(int x = 0; x < 16; x++) {
 					for(int z = 0; z < 16; z++) {
 						
+						if(world.rand.nextBoolean()) continue;
+						
 						int X = coord.getCenterXPos() - 8 + x;
 						int Z = coord.getCenterZPosition() - 8 + z;
 						int Y = world.getHeightValue(X, Z) - world.rand.nextInt(Math.max(1, world.getHeightValue(X, Z)));

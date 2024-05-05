@@ -42,14 +42,13 @@ public class FT_Coolable extends FluidTrait {
 	
 	@Override
 	public void addInfoHidden(List<String> info) {
-		info.add(EnumChatFormatting.AQUA + "Thermal capacity: " + heatEnergy + " TU");
+		info.add(EnumChatFormatting.RED + "Thermal capacity: " + heatEnergy + " TU");
 		for(CoolingType type : CoolingType.values()) {
 			
 			double eff = getEfficiency(type);
 			
 			if(eff > 0) {
-				info.add(EnumChatFormatting.AQUA + "[" + type.name + "]");
-				info.add(EnumChatFormatting.AQUA + "Efficiency: " + ((int) (eff * 100D)) + "%");
+				info.add(EnumChatFormatting.YELLOW + "[" + type.name + "] " + EnumChatFormatting.AQUA + "Efficiency: " + ((int) (eff * 100D)) + "%");
 			}
 		}
 	}

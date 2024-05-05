@@ -51,7 +51,11 @@ public class TileEntitySubstation extends TileEntityPylonBase {
 	@Override
 	public PowerNode createNode() {
 		TileEntity tile = (TileEntity) this;
-		PowerNode node = new PowerNode(new BlockPos(tile.xCoord, tile.yCoord, tile.zCoord)).setConnections(
+		PowerNode node = new PowerNode(new BlockPos(tile.xCoord, tile.yCoord, tile.zCoord),
+				new BlockPos(tile.xCoord + 1, tile.yCoord, tile.zCoord + 1),
+				new BlockPos(tile.xCoord + 1, tile.yCoord, tile.zCoord - 1),
+				new BlockPos(tile.xCoord - 1, tile.yCoord, tile.zCoord + 1),
+				new BlockPos(tile.xCoord - 1, tile.yCoord, tile.zCoord - 1)).setConnections(
 				new DirPos(xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN),
 				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
 				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),

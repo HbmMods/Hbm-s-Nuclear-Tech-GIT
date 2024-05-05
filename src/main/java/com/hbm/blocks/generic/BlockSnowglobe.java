@@ -10,7 +10,6 @@ import com.hbm.tileentity.IGUIProvider;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.GuiScreen;
@@ -25,6 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -66,20 +66,28 @@ public class BlockSnowglobe extends BlockContainer implements IGUIProvider {
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
+	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
 		
-		if(!world.isRemote) {
-			TileEntitySnowglobe entity = (TileEntitySnowglobe) world.getTileEntity(x, y, z);
-			if(entity != null) {
-				EntityItem item = new EntityItem(world, x + 0.5, y, z + 0.5, new ItemStack(this, 1, entity.type.ordinal()));
-				item.motionX = 0;
-				item.motionY = 0;
-				item.motionZ = 0;
-				world.spawnEntityInWorld(item);
+		if(!player.capabilities.isCreativeMode) {
+			harvesters.set(player);
+			if(!world.isRemote) {
+				TileEntitySnowglobe entity = (TileEntitySnowglobe) world.getTileEntity(x, y, z);
+				if(entity != null) {
+					EntityItem item = new EntityItem(world, x + 0.5, y, z + 0.5, new ItemStack(this, 1, entity.type.ordinal()));
+					item.motionX = 0;
+					item.motionY = 0;
+					item.motionZ = 0;
+					world.spawnEntityInWorld(item);
+				}
 			}
+			harvesters.set(null);
 		}
-		
-		super.breakBlock(world, x, y, z, block, meta);
+	}
+	
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
+		player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
+		player.addExhaustion(0.025F);
 	}
 
 	@Override
