@@ -1081,7 +1081,8 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.rbmk_control_auto), new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(ModBlocks.rbmk_control, 1)),
-						new AnvilOutput(new ItemStack(ModItems.circuit_targeting_tier1, 2))
+						new AnvilOutput(new ItemStack(ModItems.circuit_targeting_tier1, 1)),
+						new AnvilOutput(new ItemStack(ModItems.crt_display, 1))
 				}).setTier(4));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new ComparableStack(ModBlocks.rbmk_rod_reasim), new AnvilOutput[] {

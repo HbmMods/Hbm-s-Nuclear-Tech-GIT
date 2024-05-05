@@ -17,6 +17,8 @@
   * Cooling this reactor is exceedingly difficult due to the limitations of heat exchangers and the relatively low heat capacitor of most available coolants, there will most likely be more powerful ICF-exclusive coolants in the future (liquid lead? sodium compounds?)
 
 ## Changed
+* Updated russian localization
+* Added italian localization
 * The Souyz' recipe is now available in the standard template folder
 * Removed some unused crap
   * UV lamps (2 IDs)
@@ -42,6 +44,7 @@
 * Drainage pipes will now violently explode when voiding antimatter
 * Seeding slurry can now place grass over dead grass
 * Added an extra digit to the heat exchanger's configuration panel, allowing effective utilization of all 24,000mB per tick
+* Biomass can now also be made from cactii
 
 ## Fixed
 * Fixed DFC receivers not outputting power
@@ -53,3 +56,6 @@
 * Hopefully fixed an issue where substations would not reliably connect to cable blocks
 * Fixed assembler rendering bugging out with Angelica installed and a door template loaded
 * Fixed medium pylon localizations
+* Fixed crash related to spotlights
+* Fixed RBMK auto rod recycling yielding the wrong items
+* Fixed the bobblehead and snowglobe breaking behavior being weird, causing them to drop in creative mode when broken and allowing shredded plastic to be duped using the auto shredder ability
