@@ -12,7 +12,6 @@ import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -81,12 +80,12 @@ public class Gun45ACPFactory {
 
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("SLIDE", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 10))// Wait for hammer
-						.addKeyframe(new BusAnimationKeyframe(0, 0, -3.5, 40))// Slide back
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 40)))// Return
+						.addKeyframePosition(0, 0, 0, 10)// Wait for hammer
+						.addKeyframePosition(0, 0, -3.5, 40)// Slide back
+						.addKeyframePosition(0, 0, 0, 40))// Return
 				.addBus("HAMMER", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(15, 0, 0, 10))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 40))));
+						.addKeyframePosition(15, 0, 0, 10)
+						.addKeyframePosition(0, 0, 0, 40)));
 
 		return config;
 	}

@@ -47,9 +47,10 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	
 	public FluidTank[] tanks;
 	public int coreHeat;
-	public static final int coreHeatCapacity = 10_000_000;
+	public static final int coreHeatCapacityBase = 10_000_000;
+	public int coreHeatCapacity = 10_000_000;
 	public int hullHeat;
-	public static final int hullHeatCapacity = 10_000_000;
+	public static final int hullHeatCapacityBase = 10_000_000;
 	public double flux;
 	
 	public int rodLevel = 100;
@@ -64,6 +65,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public int connections;
 	public int connectionsControlled;
 	public int heatexCount;
+	public int heatsinkCount;
 	public int channelCount;
 	public int sourceCount;
 	
@@ -91,6 +93,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		connectionsControlled = 0;
 		heatexCount = 0;
 		channelCount = 0;
+		heatsinkCount = 0;
 		sourceCount = 0;
 		ports.clear();
 		rods.clear();
@@ -104,6 +107,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			if(block == ModBlocks.pwr_fuel) rodCount++;
 			if(block == ModBlocks.pwr_heatex) heatexCount++;
 			if(block == ModBlocks.pwr_channel) channelCount++;
+			if(block == ModBlocks.pwr_heatsink) heatsinkCount++;
 			if(block == ModBlocks.pwr_neutron_source) sourceCount++;
 			if(block == ModBlocks.pwr_port) ports.add(entry.getKey());
 		}
@@ -144,14 +148,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 		connections = connectionsDouble / 2;
 		connectionsControlled = connectionsControlledDouble / 2;
-
-		/*System.out.println("Finalized nuclear reactor!");
-		System.out.println("Rods: " + rodCount);
-		System.out.println("Connections: " + connections);
-		System.out.println("Controlled connections: " + connectionsControlled);
-		System.out.println("Heatex: " + heatexCount);
-		System.out.println("Channels: " + channelCount);
-		System.out.println("Sources: " + sourceCount);*/
+		
+		this.coreHeatCapacity = this.coreHeatCapacityBase + this.heatsinkCount * this.coreHeatCapacityBase / 20;
 	}
 
 	@Override
@@ -178,7 +176,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					!worldObj.getChunkProvider().chunkExists(chunkX + 2, chunkZ - 2) ||
 					!worldObj.getChunkProvider().chunkExists(chunkX - 2, chunkZ + 2) ||
 					!worldObj.getChunkProvider().chunkExists(chunkX - 2, chunkZ - 2)) {
-				this.unloadDelay = 40;
+				this.unloadDelay = 60;
 			}
 			
 			if(this.assembled) {
@@ -246,7 +244,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					if(amountLoaded > rodCount) amountLoaded = rodCount;
 					
 					/* CORE COOLING */
-					double coreCoolingApproachNum = getXOverE((double) this.heatexCount * 5 / (double) this.rodCount, 2) / 2D;
+					double coreCoolingApproachNum = getXOverE((double) this.heatexCount * 5 / (double) getRodCountForCoolant(), 2) / 2D;
 					int averageCoreHeat = (this.coreHeat + this.hullHeat) / 2;
 					this.coreHeat -= (coreHeat - averageCoreHeat) * coreCoolingApproachNum;
 					this.hullHeat -= (hullHeat - averageCoreHeat) * coreCoolingApproachNum;
@@ -265,6 +263,9 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					if(this.coreHeat > this.coreHeatCapacity) {
 						meltDown();
 					}
+				} else {
+					this.hullHeat = 0;
+					this.coreHeat = 0;
 				}
 			}
 			
@@ -281,6 +282,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			data.setInteger("amountLoaded", amountLoaded);
 			data.setInteger("rodLevel", rodLevel);
 			data.setInteger("rodTarget", rodTarget);
+			data.setInteger("coreHeatCapacity", coreHeatCapacity);
 			this.networkPack(data, 150);
 		} else {
 			
@@ -292,7 +294,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 				} else if(!audio.isPlaying()) {
 					audio = rebootAudio(audio);
 				}
-				
+
+				audio.updateVolume(getVolume(1F));
 				audio.keepAlive();
 				
 			} else {
@@ -360,7 +363,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
 		if(trait == null || trait.getEfficiency(HeatingType.PWR) <= 0) return;
 		
-		double coolingEff = (double) this.channelCount / (double) this.rodCount * 0.1D; //10% cooling if numbers match
+		double coolingEff = (double) this.channelCount / (double) getRodCountForCoolant() * 0.1D; //10% cooling if numbers match
 		if(coolingEff > 1D) coolingEff = 1D;
 		
 		int heatToUse = Math.min(this.hullHeat, (int) (this.hullHeat * coolingEff * trait.getEfficiency(HeatingType.PWR)));
@@ -375,7 +378,13 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		this.tanks[1].setFill(tanks[1].getFill() + step.amountProduced * cycles);
 	}
 	
+	protected int getRodCountForCoolant() {
+		return this.rodCount + (int) Math.ceil(this.heatsinkCount / 4D);
+	}
+	
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		tanks[0].readFromNBT(nbt, "t0");
 		tanks[1].readFromNBT(nbt, "t1");
 		rodCount = nbt.getInteger("rodCount");
@@ -388,6 +397,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		amountLoaded = nbt.getInteger("amountLoaded");
 		rodLevel = nbt.getInteger("rodLevel");
 		rodTarget = nbt.getInteger("rodTarget");
+		coreHeatCapacity = nbt.getInteger("coreHeatCapacity");
 	}
 	
 	protected void setupTanks() {
@@ -450,6 +460,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		this.amountLoaded = nbt.getInteger("amountLoaded");
 		this.progress = nbt.getDouble("progress");
 		this.processTime = nbt.getDouble("processTime");
+		this.coreHeatCapacity = nbt.getInteger("coreHeatCapacity");
+		if(this.coreHeatCapacity < this.coreHeatCapacityBase) this.coreHeatCapacity = this.coreHeatCapacityBase;
 
 		this.rodCount = nbt.getInteger("rodCount");
 		this.connections = nbt.getInteger("connections");
@@ -457,6 +469,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		this.heatexCount = nbt.getInteger("heatexCount");
 		this.channelCount = nbt.getInteger("channelCount");
 		this.sourceCount = nbt.getInteger("sourceCount");
+		this.heatsinkCount = nbt.getInteger("heatsinkCount");
 		
 		ports.clear();
 		int portCount = nbt.getInteger("portCount");
@@ -492,6 +505,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		nbt.setInteger("amountLoaded", amountLoaded);
 		nbt.setDouble("progress", progress);
 		nbt.setDouble("processTime", processTime);
+		nbt.setInteger("coreHeatCapacity", coreHeatCapacity);
 
 		nbt.setInteger("rodCount", rodCount);
 		nbt.setInteger("connections", connections);
@@ -499,6 +513,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		nbt.setInteger("heatexCount", heatexCount);
 		nbt.setInteger("channelCount", channelCount);
 		nbt.setInteger("sourceCount", sourceCount);
+		nbt.setInteger("heatsinkCount", heatsinkCount);
 		
 		nbt.setInteger("portCount", ports.size());
 		for(int i = 0; i < ports.size(); i++) {
@@ -528,6 +543,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	}
 
 
+	// do some opencomputer stuff
+	@Override
 	public String getComponentName() {
 		return "ntm_pwr_control";
 	}
@@ -547,13 +564,25 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getLevel(Context context, Arguments args) {
-		return new Object[] {rodTarget};
+		return new Object[] {rodTarget, rodLevel};
+	}
+	
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCoolantInfo(Context context, Arguments args) {
+		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill()};
+	}
+	
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFuelInfo(Context context, Arguments args) {
+		return new Object[] {amountLoaded, progress, processTime};
 	}
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {coreHeat, hullHeat, flux, rodTarget};
+		return new Object[] {coreHeat, hullHeat, flux, rodTarget, rodLevel, amountLoaded, progress, processTime, tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill()};
 	}
 
 	@Callback(direct = true, limit = 4)

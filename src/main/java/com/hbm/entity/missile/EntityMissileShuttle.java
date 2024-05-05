@@ -11,7 +11,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
-import api.hbm.entity.IRadarDetectableNT;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -60,19 +59,14 @@ public class EntityMissileShuttle extends EntityMissileBaseNT {
 	public ItemStack getDebrisRareDrop() {
 		return new ItemStack(ModItems.missile_generic);
 	}
-
-	@Override
-	public RadarTargetType getTargetType() {
-		return RadarTargetType.MISSILE_TIER3;
-	}
-
+	
 	@Override
 	public String getUnlocalizedName() {
 		return "radar.target.shuttle";
 	}
 
 	@Override
-	public int getBlipLevel() {
-		return IRadarDetectableNT.TIER3;
+	public ItemStack getMissileItemForInfo() {
+		return new ItemStack(ModItems.missile_shuttle);
 	}
 }

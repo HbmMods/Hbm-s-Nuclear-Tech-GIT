@@ -13,7 +13,6 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.MetaBlock;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
-import com.hbm.items.ModItems;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.Tuple.Pair;
@@ -151,7 +150,7 @@ public class BlockToolConversion extends BlockMulti implements IToolable, ILookO
 	public static HashMap<Pair<ToolType, MetaBlock>, Pair<AStack[], MetaBlock>> conversions = new HashMap();
 	
 	public static void registerRecipes() {
-		conversions.put(new Pair(ToolType.BOLT, new MetaBlock(ModBlocks.watz_end, 0)), new Pair(new AStack[] {new ComparableStack(ModItems.bolt_dura_steel, 4)}, new MetaBlock(ModBlocks.watz_end, 1)));
+		conversions.put(new Pair(ToolType.BOLT, new MetaBlock(ModBlocks.watz_end, 0)), new Pair(new AStack[] {new OreDictStack(OreDictManager.DURA.bolt(), 4)}, new MetaBlock(ModBlocks.watz_end, 1)));
 		conversions.put(new Pair(ToolType.TORCH, new MetaBlock(ModBlocks.fusion_conductor, 0)), new Pair(new AStack[] {new OreDictStack(OreDictManager.STEEL.plateCast())}, new MetaBlock(ModBlocks.fusion_conductor, 1)));
 	}
 

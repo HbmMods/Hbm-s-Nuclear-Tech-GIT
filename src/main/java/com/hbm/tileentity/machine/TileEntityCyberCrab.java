@@ -20,7 +20,7 @@ public class TileEntityCyberCrab extends TileEntity {
 		if (!this.worldObj.isRemote) {
 			
 			age++;
-			if(age > 200 && worldObj.getBlock(xCoord, yCoord + 1, zCoord) == Blocks.air) {
+			if(age > 200 && worldObj.getBlock(xCoord, yCoord + 1, zCoord) == Blocks.air && worldObj.getClosestPlayer(xCoord + 0.5, yCoord + 1, zCoord + 0.5, 25) != null) {
 				List<Entity> entities = this.worldObj.getEntitiesWithinAABB(EntityCyberCrab.class,
 						AxisAlignedBB.getBoundingBox(this.xCoord - 5, this.yCoord - 2, this.zCoord - 5, this.xCoord + 6,
 								this.yCoord + 4, this.zCoord + 6));

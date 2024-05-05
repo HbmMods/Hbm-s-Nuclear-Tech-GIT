@@ -1,20 +1,25 @@
 package com.hbm.inventory.fluid.tank;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GuiInfoContainer;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEFluidPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -22,8 +27,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 
 public class FluidTank {
-	
-	public static final List<FluidLoadingHandler> loadingHandlers = new ArrayList();
+
+	public static final List<FluidLoadingHandler> loadingHandlers = new ArrayList<FluidLoadingHandler>();
+	public static final Set<Item> noDualUnload = new HashSet<Item>();
 	
 	static {
 		loadingHandlers.add(new FluidLoaderStandard());
@@ -121,8 +127,11 @@ public class FluidTank {
 		
 		if(slots[in] == null)
 			return false;
-		
-		if(this.pressure != 0) return false; //for now, canisters can only be loaded from high-pressure tanks, not unloaded
+
+		boolean isInfiniteBarrel = slots[in].getItem() == ModItems.fluid_barrel_infinite;
+
+		if(!isInfiniteBarrel && pressure != 0)
+			return false;
 		
 		int prev = this.getFill();
 		
@@ -298,5 +307,18 @@ public class FluidTank {
 		
 		this.pressure = nbt.getShort(s + "_p");
 	}
+	
+	public void serialize(ByteBuf buf) {
+		buf.writeInt(fluid);
+		buf.writeInt(maxFluid);
+		buf.writeInt(type.getID());
+		buf.writeShort((short) pressure);
+	}
 
+	public void deserialize(ByteBuf buf) {
+		fluid = buf.readInt();
+		maxFluid = buf.readInt();
+		type = Fluids.fromID(buf.readInt());
+		pressure = buf.readShort();
+	}
 }

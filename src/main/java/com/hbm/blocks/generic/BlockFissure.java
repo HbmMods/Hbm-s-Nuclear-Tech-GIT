@@ -1,6 +1,9 @@
 package com.hbm.blocks.generic;
 
+import java.util.Random;
+
 import com.hbm.blocks.IBlockMultiPass;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.RenderBlockMultipass;
 
@@ -11,6 +14,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
 public class BlockFissure extends Block implements IBlockMultiPass {
 
@@ -21,6 +25,7 @@ public class BlockFissure extends Block implements IBlockMultiPass {
 		this.setBlockTextureName("bedrock");
 		this.setBlockUnbreakable();
 		this.setResistance(1_000_000);
+		this.setTickRandomly(true);
 	}
 
 	@Override
@@ -39,6 +44,16 @@ public class BlockFissure extends Block implements IBlockMultiPass {
 			return Blocks.bedrock.getIcon(0, 0);
 		
 		return this.overlay;
+	}
+
+	@Override
+	public void updateTick(World world, int x, int y, int z, Random rand) {
+		if(world.getBlock(x, y + 1, z).isReplaceable(world, x, y + 1, z)) world.setBlock(x, y + 1, z, ModBlocks.volcanic_lava_block);
+	}
+	
+	@Override
+	public boolean shouldRenderItemMulti() {
+		return true;
 	}
 
 	@Override

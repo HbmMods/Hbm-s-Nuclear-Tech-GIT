@@ -1,17 +1,8 @@
 package com.hbm.packet;
 
 import com.hbm.interfaces.Spaghetti;
-import com.hbm.sound.SoundLoopAssembler;
-import com.hbm.sound.SoundLoopBroadcaster;
-import com.hbm.sound.SoundLoopCentrifuge;
-import com.hbm.sound.SoundLoopMiner;
-import com.hbm.sound.SoundLoopTurbofan;
-import com.hbm.tileentity.machine.TileEntityBroadcaster;
-import com.hbm.tileentity.machine.TileEntityMachineAssembler;
-import com.hbm.tileentity.machine.TileEntityMachineCentrifuge;
-import com.hbm.tileentity.machine.TileEntityMachineGasCent;
-import com.hbm.tileentity.machine.TileEntityMachineMiningDrill;
-import com.hbm.tileentity.machine.TileEntityMachineTurbofan;
+import com.hbm.sound.*;
+import com.hbm.tileentity.machine.*;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -63,18 +54,6 @@ public class LoopedSoundPacket implements IMessage {
 		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(LoopedSoundPacket m, MessageContext ctx) {
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
-
-			if (te != null && te instanceof TileEntityMachineMiningDrill) {
-				
-				boolean flag = true;
-				for(int i = 0; i < SoundLoopMiner.list.size(); i++)  {
-					if(SoundLoopMiner.list.get(i).getTE() == te && !SoundLoopMiner.list.get(i).isDonePlaying())
-						flag = false;
-				}
-				
-				if(flag && te.getWorldObj().isRemote && ((TileEntityMachineMiningDrill)te).torque > 0.2F)
-					Minecraft.getMinecraft().getSoundHandler().playSound(new SoundLoopMiner(new ResourceLocation("hbm:block.minerOperate"), te));
-			}
 			
 			if (te != null && te instanceof TileEntityMachineAssembler) {
 				

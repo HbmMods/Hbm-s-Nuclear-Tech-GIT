@@ -12,6 +12,7 @@ public class RenderConnector extends RenderPylonBase {
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
 		TileEntityConnector con = (TileEntityConnector) te;
+		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glPushMatrix();
 		
@@ -33,7 +34,7 @@ public class RenderConnector extends RenderPylonBase {
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
-		this.renderSingleLine(con, x, y, z);
+		this.renderLinesGeneric(con, x, y, z);
 		GL11.glPopMatrix();
 	}
 }

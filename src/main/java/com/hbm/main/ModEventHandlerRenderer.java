@@ -10,16 +10,19 @@ import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.packet.PermaSyncHandler;
 import com.hbm.render.model.ModelMan;
+import com.hbm.world.biome.BiomeGenCraterBase;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -27,12 +30,16 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.common.ForgeModContainer;
 
 public class ModEventHandlerRenderer {
 
@@ -369,6 +376,17 @@ public class ModEventHandlerRenderer {
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void tintFog(FogColors event) {
+		
+		EntityPlayer player = MainRegistry.proxy.me();
+		if(player.worldObj.getBlock((int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ)).getMaterial() != Material.water) {
+			Vec3 color = getFogBlendColor(player.worldObj, (int) Math.floor(player.posX), (int) Math.floor(player.posZ), event.red, event.green, event.blue, event.renderPartialTicks);
+			if(color != null) {
+				event.red = (float) color.xCoord;
+				event.green = (float) color.yCoord;
+				event.blue = (float) color.zCoord;
+			}
+		}
+		
 		float soot = (float) (renderSoot - RadiationConfig.sootFogThreshold);
 		float sootColor = 0.15F;
 		float sootReq = (float) RadiationConfig.sootFogDivisor;
@@ -383,11 +401,85 @@ public class ModEventHandlerRenderer {
 	@SubscribeEvent
 	public void onRenderHUD(RenderGameOverlayEvent.Pre event) {
 		
-		if(event.type == ElementType.HOTBAR && (ModEventHandlerClient.flashTimestamp + ModEventHandlerClient.flashDuration - System.currentTimeMillis()) > 0) {
-			double mult = (ModEventHandlerClient.flashTimestamp + ModEventHandlerClient.flashDuration - System.currentTimeMillis()) / (double) ModEventHandlerClient.flashDuration * 2;
-			double horizontal = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.02), -0.7, 0.7) * 5;
-			double vertical = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 1;
+		if(event.type == ElementType.HOTBAR && (ModEventHandlerClient.shakeTimestamp + ModEventHandlerClient.shakeDuration - System.currentTimeMillis()) > 0) {
+			double mult = (ModEventHandlerClient.shakeTimestamp + ModEventHandlerClient.shakeDuration - System.currentTimeMillis()) / (double) ModEventHandlerClient.shakeDuration * 2;
+			double horizontal = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.02), -0.7, 0.7) * 15;
+			double vertical = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 3;
 			GL11.glTranslated(horizontal * mult, vertical * mult, 0);
 		}
+	}
+
+	private static boolean fogInit = false;
+	private static int fogX;
+	private static int fogZ;
+	private static Vec3 fogRGBMultiplier;
+	private static boolean doesBiomeApply = false;
+	private static long fogTimer = 0;
+	
+	/** Same procedure as getting the blended sky color but for fog */
+	public static Vec3 getFogBlendColor(World world, int playerX, int playerZ, float red, float green, float blue, double partialTicks) {
+		
+		long millis = System.currentTimeMillis() - fogTimer;
+		if(playerX == fogX && playerZ == fogZ && fogInit && millis < 3000) return fogRGBMultiplier;
+
+		fogInit = true;
+		fogTimer = System.currentTimeMillis();
+		GameSettings settings = Minecraft.getMinecraft().gameSettings;
+		int[] ranges = ForgeModContainer.blendRanges;
+		int distance = 0;
+		
+		if(settings.fancyGraphics && settings.renderDistanceChunks >= 0) {
+			distance = ranges[Math.min(settings.renderDistanceChunks, ranges.length - 1)];
+		}
+
+		float r = 0F;
+		float g = 0F;
+		float b = 0F;
+		
+		int divider = 0;
+		doesBiomeApply = false;
+		
+		for(int x = -distance; x <= distance; x++) {
+			for(int z = -distance; z <= distance; z++) {
+				BiomeGenBase biome = world.getBiomeGenForCoords(playerX + x,  playerZ + z);
+				Vec3 color = getBiomeFogColors(world, biome, red, green, blue, partialTicks);
+				r += color.xCoord;
+				g += color.yCoord;
+				b += color.zCoord;
+				divider++;
+			}
+		}
+
+		fogX = playerX;
+		fogZ = playerZ;
+		
+		if(doesBiomeApply) {
+			fogRGBMultiplier = Vec3.createVectorHelper(r / divider, g / divider, b / divider);
+		} else {
+			fogRGBMultiplier = null;
+		}
+
+		return fogRGBMultiplier;
+	}
+	
+	/** Returns the current biome's fog color adjusted for brightness if in a crater, or the world's cached fog color if not */
+	public static Vec3 getBiomeFogColors(World world, BiomeGenBase biome, float r, float g, float b, double partialTicks) {
+		
+		if(biome instanceof BiomeGenCraterBase) {
+			int color = biome.getSkyColorByTemp(biome.temperature);
+			r = ((color & 0xff0000) >> 16) / 255F;
+			g = ((color & 0x00ff00) >> 8) / 255F;
+			b = (color & 0x0000ff) / 255F;
+			
+			float celestialAngle = world.getCelestialAngle((float) partialTicks);
+			float skyBrightness = MathHelper.clamp_float(MathHelper.cos(celestialAngle * (float) Math.PI * 2.0F) * 2.0F + 0.5F, 0F, 1F);
+			r *= skyBrightness;
+			g *= skyBrightness;
+			b *= skyBrightness;
+			
+			doesBiomeApply = true;
+		}
+		
+		return Vec3.createVectorHelper(r, g, b);
 	}
 }

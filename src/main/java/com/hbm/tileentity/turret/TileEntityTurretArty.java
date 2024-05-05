@@ -3,7 +3,6 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntityArtilleryShell;
 import com.hbm.handler.CasingEjector;
 import com.hbm.inventory.container.ContainerTurretBase;
@@ -27,7 +26,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implements IGUIProvider {
 	
@@ -221,20 +219,6 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		return 7;
 	}
 	
-	protected void updateConnections() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		for(int i = 0; i < 2; i++) {
-			for(int j = 0; j < 4; j++) {
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * (-1 + j) + rot.offsetX * -3, yCoord + i, zCoord + dir.offsetZ * (-1 + j) + rot.offsetZ * -3, ForgeDirection.SOUTH);
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * (-1 + j) + rot.offsetX * 2, yCoord + i, zCoord + dir.offsetZ * (-1 + j) + rot.offsetZ * 2, ForgeDirection.NORTH);
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * -2 + rot.offsetX * (1 - j), yCoord + i, zCoord + dir.offsetZ * -2 + rot.offsetZ * (1 - j), ForgeDirection.EAST);
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * 3 + rot.offsetX * (1 - j), yCoord + i, zCoord + dir.offsetZ * 3 + rot.offsetZ * (1 - j), ForgeDirection.WEST);
-			}
-		}
-	}
-	
 	@Override
 	public void updateEntity() {
 		
@@ -254,24 +238,22 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 					this.barrelPos = 0;
 				}
 			}
-		}
-		
-		if(this.mode == this.MODE_MANUAL) {
-			if(!this.targetQueue.isEmpty()) {
-				this.tPos = this.targetQueue.get(0);
-			}
-		} else {
-			this.targetQueue.clear();
-		}
-		
-		if(worldObj.isRemote) {
 			this.lastRotationPitch = this.rotationPitch;
 			this.lastRotationYaw = this.rotationYaw;
+			this.rotationPitch = this.syncRotationPitch;
+			this.rotationYaw = this.syncRotationYaw;
 		}
-
-		this.aligned = false;
 		
 		if(!worldObj.isRemote) {
+			if(this.mode == this.MODE_MANUAL) {
+				if(!this.targetQueue.isEmpty()) {
+					this.tPos = this.targetQueue.get(0);
+				}
+			} else {
+				this.targetQueue.clear();
+			}
+	
+			this.aligned = false;
 			
 			this.updateConnections();
 			
@@ -279,15 +261,12 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 				this.target = null;
 				this.stattrak++;
 			}
-		}
 		
-		if(target != null && this.mode != this.MODE_MANUAL) {
-			if(!this.entityInLOS(this.target)) {
-				this.target = null;
+			if(target != null && this.mode != this.MODE_MANUAL) {
+				if(!this.entityInLOS(this.target)) {
+					this.target = null;
+				}
 			}
-		}
-		
-		if(!worldObj.isRemote) {
 			
 			if(target != null) {
 				this.tPos = this.getEntityPos(target);
@@ -296,18 +275,15 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 					this.tPos = null;
 				}
 			}
-		}
 		
-		if(isOn() && hasPower()) {
-			
-			if(tPos != null)
-				this.alignTurret();
-		} else {
-			this.target = null;
-			this.tPos = null;
-		}
-		
-		if(!worldObj.isRemote) {
+			if(isOn() && hasPower()) {
+				
+				if(tPos != null)
+					this.alignTurret();
+			} else {
+				this.target = null;
+				this.tPos = null;
+			}
 			
 			if(!isOn()) this.targetQueue.clear();
 			
@@ -350,10 +326,6 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			}
 			
 		} else {
-			
-			Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
-			vec.rotateAroundZ((float) -this.rotationPitch);
-			vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 			
 			//this will fix the interpolation error when the turret crosses the 360° point
 			if(Math.abs(this.lastRotationYaw - this.rotationYaw) > Math.PI) {

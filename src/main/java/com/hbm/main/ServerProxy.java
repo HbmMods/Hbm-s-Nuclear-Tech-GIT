@@ -34,6 +34,7 @@ public class ServerProxy {
 	public void registerItemRenderer() { }
 	public void registerEntityRenderer() { }
 	public void registerBlockRenderer() { }
+	public void handleNHNEICompat() { }
 	
 	public void particleControl(double x, double y, double z, int type) { }
 
@@ -45,7 +46,6 @@ public class ServerProxy {
 
 	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch) { return null; }
 	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch, int keepAlive) { return null; }
-	public AudioWrapper getLoopedSoundStartStop(World world, String sound, String start, String stop, float x, float y, float z, float volume, float pitch) { return null; }
 	
 	public void playSound(String sound, Object data) { }
 
@@ -87,4 +87,8 @@ public class ServerProxy {
 	}
 	
 	public void playSoundClient(double x, double y, double z, String sound, float volume, float pitch) { }
+	
+	public String getLanguageCode() { return "en_US"; }
+	
+	public int getStackColor(ItemStack stack, boolean amplify) { return 0x000000; }
 }

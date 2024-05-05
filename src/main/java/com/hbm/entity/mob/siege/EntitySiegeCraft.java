@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.hbm.entity.mob.EntityUFOBase;
 import com.hbm.entity.projectile.EntitySiegeLaser;
-import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
@@ -43,9 +42,6 @@ public class EntitySiegeCraft extends EntityUFOBase implements IBossDisplayData 
 	public boolean attackEntityFrom(DamageSource source, float damage) {
 		
 		if(this.isEntityInvulnerable())
-			return false;
-		
-		if(SiegeOrchestrator.isSiegeMob(source.getEntity()))
 			return false;
 		
 		SiegeTier tier = this.getTier();

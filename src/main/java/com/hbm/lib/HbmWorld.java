@@ -3,10 +3,11 @@ package com.hbm.lib;
 import com.hbm.world.gen.MapGenNTMFeatures;
 import com.hbm.world.gen.NTMWorldGenerator;
 import com.hbm.world.gen.component.BunkerComponents;
+import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
 import com.hbm.world.gen.component.CivilianFeatures;
 import com.hbm.world.gen.component.OfficeFeatures;
 import com.hbm.world.gen.component.RuinFeatures;
-import com.hbm.world.gen.component.BunkerComponents.BunkerStart;
+import com.hbm.world.gen.component.SiloComponent;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -19,6 +20,8 @@ public class HbmWorld {
 		initWorldGen();
 	}
 	
+	public static NTMWorldGenerator worldGenerator;
+	
 	public static void initWorldGen() {
 
 		//MapGenStructureIO.registerStructure(StructureStartTest.class, "HFR_STRUCTURE");
@@ -29,7 +32,7 @@ public class HbmWorld {
 		
 		registerWorldGen(new HbmWorldGen(), 1);
 		
-		NTMWorldGenerator worldGenerator = new NTMWorldGenerator();
+		worldGenerator = new NTMWorldGenerator();
 		registerWorldGen(worldGenerator, 1); //Ideally, move everything over from HbmWorldGen to NTMWorldGenerator
 		MinecraftForge.EVENT_BUS.register(worldGenerator);
 		//registerWorldGen(new WorldGenTest(), 1);
@@ -45,5 +48,6 @@ public class HbmWorld {
 		OfficeFeatures.registerComponents();
 		RuinFeatures.registerComponents();
 		BunkerComponents.registerComponents();
+		MapGenStructureIO.func_143031_a(SiloComponent.class, "NTMSiloComponent");
 	}
 }

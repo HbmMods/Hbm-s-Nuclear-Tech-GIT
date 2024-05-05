@@ -1,6 +1,6 @@
 package com.hbm.items.tool;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.material.Mats;
 import com.hbm.items.IAnimatedItem;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
@@ -8,7 +8,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.util.EntityDamageUtil;
 
@@ -50,14 +49,14 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 		World world = player.worldObj;
 		if(!entity.isEntityAlive()) return false;
 		
-		Item[] bolts = new Item[] { ModItems.bolt_dura_steel, ModItems.bolt_tungsten, Item.getItemFromBlock(ModBlocks.steel_beam) };
+		ItemStack[] bolts = new ItemStack[] { new ItemStack(ModItems.bolt_spike), Mats.MAT_STEEL.make(ModItems.bolt), Mats.MAT_TUNGSTEN.make(ModItems.bolt), Mats.MAT_DURA.make(ModItems.bolt)};
 		
-		for(Item item : bolts) {
+		for(ItemStack bolt : bolts) {
 			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				ItemStack slot = player.inventory.getStackInSlot(i);
 				
 				if(slot != null) {
-					if(slot.getItem() == item) {
+					if(slot.getItem() == bolt.getItem() && slot.getItemDamage() == bolt.getItemDamage()) {
 						if(!world.isRemote) {
 							world.playSoundAtEntity(entity, "hbm:item.boltgun", 1.0F, 1.0F);
 							player.inventory.decrStackSize(i, 1);
@@ -128,7 +127,7 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 	public BusAnimation getAnimation(NBTTagCompound data, ItemStack stack) {
 		return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 1, 50))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 1, 100)));
+						.addKeyframePosition(1, 0, 1, 50)
+						.addKeyframePosition(0, 0, 1, 100));
 	}
 }

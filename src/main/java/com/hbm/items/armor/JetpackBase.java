@@ -176,4 +176,14 @@ public abstract class JetpackBase extends ItemArmorMod implements IFillableItem 
 	public int tryEmpty(FluidType type, int amount, ItemStack stack) {
 		return 0;
 	}
+
+	@Override
+	public FluidType getFirstFluidType(ItemStack stack) {
+		return null;
+	}
+
+	@Override
+	public int getFill(ItemStack stack) {
+		return 0;
+	}
 }

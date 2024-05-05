@@ -7,7 +7,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.gui.GUIMachineRadarNT;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
 import com.hbm.tileentity.machine.TileEntityMachineRadarScreen;
 
 import api.hbm.entity.RadarEntry;
@@ -56,6 +55,7 @@ public class RenderRadarScreen extends TileEntitySpecialRenderer implements IIte
 	
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glDisable(GL11.GL_ALPHA_TEST);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			tess.draw();
@@ -70,8 +70,8 @@ public class RenderRadarScreen extends TileEntitySpecialRenderer implements IIte
 				
 				for(RadarEntry entry : screen.entries) {
 	
-					double sX = (entry.posX - screen.refX) / ((double) TileEntityMachineRadarNT.radarRange + 1) * (0.875D);
-					double sZ = (entry.posZ - screen.refZ) / ((double) TileEntityMachineRadarNT.radarRange + 1) * (0.875D);
+					double sX = (entry.posX - screen.refX) / ((double) screen.range + 1) * (0.875D);
+					double sZ = (entry.posZ - screen.refZ) / ((double) screen.range + 1) * (0.875D);
 					double size = 0.0625D;
 					tess.addVertexWithUV(0.38, 1 - sZ + size, 0.5 - sX + size, 216D / 256D, (entry.blipLevel * 8F + 8F) / 256F);
 					tess.addVertexWithUV(0.38, 1 - sZ + size, 0.5 - sX - size, 224D / 256D, (entry.blipLevel * 8F + 8F) / 256F);

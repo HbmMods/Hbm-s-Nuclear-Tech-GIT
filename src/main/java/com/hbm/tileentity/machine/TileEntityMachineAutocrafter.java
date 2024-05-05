@@ -10,7 +10,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ItemStackUtil;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -23,8 +23,9 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAutocrafter extends TileEntityMachineBase implements IEnergyUser, IGUIProvider {
+public class TileEntityMachineAutocrafter extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider {
 
 	public static final String MODE_EXACT = "exact";
 	public static final String MODE_WILDCARD = "wildcard";
@@ -146,7 +147,7 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		if(!worldObj.isRemote) {
 			
 			this.power = Library.chargeTEFromItems(slots, 20, power, maxPower);
-			this.updateStandardConnections(worldObj, this);
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			
 			if(!this.recipes.isEmpty() && this.power >= this.consumption) {
 				IRecipe recipe = this.recipes.get(recipeIndex);
@@ -207,6 +208,8 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 	
 	@Override
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.power = data.getLong("power");
 		
 		modes = new String[9];
@@ -367,6 +370,10 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 			for(int i = 0; i < this.getSizeInventory(); i++) {
 				this.setInventorySlotContents(i, slots[start + i]);
 			}
+		}
+		
+		public void clear() {
+			for(int i = 0; i < this.getSizeInventory(); i++) this.setInventorySlotContents(i, null);
 		}
 		
 		public static class ContainerBlank extends Container {

@@ -18,6 +18,7 @@ public class FluidLoaderInfinite extends FluidLoadingHandler {
 		
 		ItemInfiniteFluid item = (ItemInfiniteFluid) slots[in].getItem();
 		
+		if(!item.allowPressure(tank.pressure)) return false;
 		if(item.getType() != null && tank.type != item.getType()) return false;
 		
 		if(item.getChance() <= 1 || rand.nextInt(item.getChance()) == 0) {

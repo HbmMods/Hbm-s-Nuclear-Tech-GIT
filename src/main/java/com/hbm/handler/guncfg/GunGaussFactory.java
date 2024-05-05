@@ -9,7 +9,6 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.anim.BusAnimationKeyframe;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
@@ -42,8 +41,8 @@ public class GunGaussFactory {
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframe(new BusAnimationKeyframe(1, 0, 0, 25))
-						.addKeyframe(new BusAnimationKeyframe(0, 0, 0, 75))
+						.addKeyframePosition(1, 0, 0, 25)
+						.addKeyframePosition(0, 0, 0, 75)
 						)
 				);
 		

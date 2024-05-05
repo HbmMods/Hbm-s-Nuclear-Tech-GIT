@@ -4,12 +4,13 @@ import com.hbm.animloader.AnimatedModel;
 import com.hbm.animloader.Animation;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.loader.WavefrontObjDisplayList;
+import com.hbm.render.loader.IModelCustomNamed;
 import com.hbm.util.BobMathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.opengl.GL11;
 
 public abstract class DoorDecl {
@@ -90,7 +91,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return null;
 		}
 	};
@@ -179,7 +180,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.fire_door;
 		}
 	};
@@ -267,7 +268,7 @@ public abstract class DoorDecl {
 		}
 
 		@Override
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return null;
 		}
 
@@ -358,7 +359,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.sliding_seal_door;
 		}
 	};
@@ -457,7 +458,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.secure_access_door;
 		}
 	};
@@ -546,7 +547,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.round_airlock_door;
 		}
 	};
@@ -629,7 +630,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.qe_sliding_door;
 		}
 
@@ -715,7 +716,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.qe_containment;
 		}
 
@@ -856,9 +857,129 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.water_door;
 		}
+
+	};
+
+	public static final DoorDecl SILO_HATCH = new DoorDecl() {
+
+		@Override public String getOpenSoundEnd() { return "hbm:door.wgh_big_stop"; };
+		@Override public String getOpenSoundLoop() { return "hbm:door.wgh_big_start"; };
+		@Override public String getOpenSoundStart() { return null; };
+		@Override public String getCloseSoundStart() { return null; };
+		@Override public String getCloseSoundEnd() { return "hbm:door.wgh_big_stop"; };
+		@Override public float getSoundVolume() { return 2; }
+		@Override public boolean remoteControllable() { return true; }
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
+			if("Hatch".equals(partName)) {
+				set(trans, 0, 0.25F * Library.smoothstep(getNormTime(openTicks, 0, 10), 0, 1), 0);
+			} else {
+				set(trans, 0, 0, 0);
+			}
+		};
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public void getOrigin(String partName, float[] orig) {
+			if("Hatch".equals(partName)) {
+				set(orig, 0F, 0.875F, -1.875F);
+				return;
+			}
+			set(orig, 0, 0, 0);
+			super.getOrigin(partName, orig);
+		};
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public void getRotation(String partName, float openTicks, float[] rot) {
+			if("Hatch".equals(partName)) {
+				set(rot, Library.smoothstep(getNormTime(openTicks, 20, 100), 0, 1) * -240, 0, 0);
+				return;
+			}
+			super.getRotation(partName, openTicks, rot);
+		};
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public boolean doesRender(String partName, boolean child) {
+			return true;
+		};
+
+		@Override public int timeToOpen() { return 60; };
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { { 1, 0, 1, -3, 3, 0 }, { 0, 0, 1, -3, 3, 0 }, { -1, 0, 1, -3, 3, 0 } }; }
+		@Override public float getDoorRangeOpenTime(int ticks, int idx) { return getNormTime(ticks, 20, 20); };
+
+		
+		@Override public int getBlockOffset() { return 2; }
+		@Override public int[] getDimensions() { return new int[] { 0, 0, 2, 2, 2, 2 }; }
+		@Override @SideOnly(Side.CLIENT) public ResourceLocation getTextureForPart(String partName) { return ResourceManager.silo_hatch_tex; }
+		@Override public ResourceLocation getTextureForPart(int skinIndex, String partName) { return ResourceManager.silo_hatch_tex; }
+		@Override @SideOnly(Side.CLIENT) public IModelCustomNamed getModel() { return ResourceManager.silo_hatch; }
+
+	};
+
+	public static final DoorDecl SILO_HATCH_LARGE = new DoorDecl() {
+
+		@Override public String getOpenSoundEnd() { return "hbm:door.wgh_big_stop"; };
+		@Override public String getOpenSoundLoop() { return "hbm:door.wgh_big_start"; };
+		@Override public String getOpenSoundStart() { return null; };
+		@Override public String getCloseSoundStart() { return null; };
+		@Override public String getCloseSoundEnd() { return "hbm:door.wgh_big_stop"; };
+		@Override public float getSoundVolume() { return 2; }
+		@Override public boolean remoteControllable() { return true; }
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public void getTranslation(String partName, float openTicks, boolean child, float[] trans) {
+			if("Hatch".equals(partName)) {
+				set(trans, 0, 0.25F * Library.smoothstep(getNormTime(openTicks, 0, 10), 0, 1), 0);
+			} else {
+				set(trans, 0, 0, 0);
+			}
+		};
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public void getOrigin(String partName, float[] orig) {
+			if("Hatch".equals(partName)) {
+				set(orig, 0F, 0.875F, -2.875F);
+				return;
+			}
+			set(orig, 0, 0, 0);
+			super.getOrigin(partName, orig);
+		};
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public void getRotation(String partName, float openTicks, float[] rot) {
+			if("Hatch".equals(partName)) {
+				set(rot, Library.smoothstep(getNormTime(openTicks, 20, 100), 0, 1) * -240, 0, 0);
+				return;
+			}
+			super.getRotation(partName, openTicks, rot);
+		};
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public boolean doesRender(String partName, boolean child) {
+			return true;
+		};
+
+		@Override public int timeToOpen() { return 60; };
+		@Override public int[][] getDoorOpenRanges() { return new int[][] { { 2, 0, 1, -3, 3, 0 }, { 1, 0, 2, -5, 3, 0 }, { 0, 0, 2, -5, 3, 0 }, { -1, 0, 2, -5, 3, 0 }, { -2, 0, 1, -3, 3, 0 } }; }
+		@Override public float getDoorRangeOpenTime(int ticks, int idx) { return getNormTime(ticks, 20, 20); };
+
+		
+		@Override public int getBlockOffset() { return 3; }
+		@Override public int[] getDimensions() { return new int[] { 0, 0, 3, 3, 3, 3 }; }
+		@Override @SideOnly(Side.CLIENT) public ResourceLocation getTextureForPart(String partName) { return ResourceManager.silo_hatch_large_tex; }
+		@Override public ResourceLocation getTextureForPart(int skinIndex, String partName) { return ResourceManager.silo_hatch_large_tex; }
+		@Override @SideOnly(Side.CLIENT) public IModelCustomNamed getModel() { return ResourceManager.silo_hatch_large; }
 
 	};
 
@@ -936,7 +1057,7 @@ public abstract class DoorDecl {
 
 		@Override
 		@SideOnly(Side.CLIENT)
-		public WavefrontObjDisplayList getModel() {
+		public IModelCustomNamed getModel() {
 			return ResourceManager.large_vehicle_door;
 		}
 
@@ -948,6 +1069,14 @@ public abstract class DoorDecl {
 	public abstract int[][] getDoorOpenRanges();
 
 	public abstract int[] getDimensions();
+	
+	public int getBlockOffset() {
+		return 0;
+	}
+
+	public boolean remoteControllable() {
+		return false;
+	}
 
 	public float getDoorRangeOpenTime(int ticks, int idx) {
 		return getNormTime(ticks);
@@ -982,7 +1111,7 @@ public abstract class DoorDecl {
 	public abstract ResourceLocation getTextureForPart(int skinIndex, String partName);
 
 	@SideOnly(Side.CLIENT)
-	public abstract WavefrontObjDisplayList getModel();
+	public abstract IModelCustomNamed getModel();
 
 	@SideOnly(Side.CLIENT)
 	public AnimatedModel getAnimatedModel() {

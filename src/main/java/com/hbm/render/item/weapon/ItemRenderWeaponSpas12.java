@@ -1,7 +1,12 @@
 package com.hbm.render.item.weapon;
 
+import java.awt.Color;
+
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.handler.BulletConfigSyncingUtil;
+import com.hbm.handler.BulletConfiguration;
+import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -44,26 +49,40 @@ public class ItemRenderWeaponSpas12 implements IItemRenderer {
 		
 		case EQUIPPED_FIRST_PERSON:
 			
-			double[] recoilT = HbmAnimations.getRelevantTransformation("SPAS_RECOIL_TRANSLATE");
-			double[] recoilR = HbmAnimations.getRelevantTransformation("SPAS_RECOIL_ROT");
-			double[] pump = HbmAnimations.getRelevantTransformation("SPAS_PUMP");
-			
 			double s0 = 0.5D;
 			GL11.glRotated(25, 0, 0, 1);
 			GL11.glTranslated(0, -0.8, 0.1);
-			GL11.glRotated(80, 0, 1, 0);
+			GL11.glRotated(-100, 0, 1, 0);
 			GL11.glScaled(s0, s0, s0);
-			
-			int m = 2;
-			
-			GL11.glTranslated(recoilT[0]*m, recoilT[1]*m, recoilT[2]*m);
-			GL11.glRotated(2, recoilR[0]*m, recoilR[1]*m, recoilR[2]*m);
-			
+
+			HbmAnimations.applyRelevantTransformation("MainBody");
 			ResourceManager.spas_12.renderPart("MainBody");
 			
-			GL11.glTranslated(pump[0], pump[1], pump[2]);
-			
+			GL11.glPushMatrix();
+			HbmAnimations.applyRelevantTransformation("PumpGrip");
 			ResourceManager.spas_12.renderPart("PumpGrip");
+			GL11.glPopMatrix();
+
+
+            GL11.glPushMatrix();
+            Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.casings_tex);
+
+            HbmAnimations.applyRelevantTransformation("Shell");
+
+            ItemGunBase gun = (ItemGunBase)item.getItem();
+            BulletConfiguration bullet = BulletConfigSyncingUtil.pullConfig(gun.mainConfig.config.get(ItemGunBase.getMagType(item)));
+            int[] colors = bullet.spentCasing.getColors();
+
+            Color shellColor = new Color(colors[1]);
+            GL11.glColor3f(shellColor.getRed() / 255F, shellColor.getGreen() / 255F, shellColor.getBlue() / 255F);
+            ResourceManager.spas_12.renderPart("Shell");
+            
+            Color shellForeColor = new Color(colors[0]);
+            GL11.glColor3f(shellForeColor.getRed() / 255F, shellForeColor.getGreen() / 255F, shellForeColor.getBlue() / 255F);
+            ResourceManager.spas_12.renderPart("ShellFore");
+
+            GL11.glColor3f(1F, 1F, 1F);
+            GL11.glPopMatrix();
 			
 			break;
 			
@@ -72,9 +91,9 @@ public class ItemRenderWeaponSpas12 implements IItemRenderer {
 			double scale = 0.25D;
 			GL11.glScaled(scale, scale, scale);
 			GL11.glRotatef(20F, 0.0F, 0.0F, 1.0F);
-			GL11.glRotatef(10, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(15F, 1.0F, 0.0F, 0.0F);
-			GL11.glTranslatef(2F, -1F, -2F);
+			GL11.glRotatef(190, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(-15F, 1.0F, 0.0F, 0.0F);
+			GL11.glTranslatef(-2F, -1F, 2F);
 			
 			ResourceManager.spas_12.renderAll();
 			
@@ -84,7 +103,7 @@ public class ItemRenderWeaponSpas12 implements IItemRenderer {
 
 			double s1 = 0.25D;
 			GL11.glScaled(s1, s1, s1);
-			GL11.glTranslated(0, 0, -4);
+			GL11.glTranslated(0, 0, 4);
 			
 			ResourceManager.spas_12.renderAll();
 			
@@ -98,7 +117,7 @@ public class ItemRenderWeaponSpas12 implements IItemRenderer {
 			GL11.glTranslated(12, 13.5, 0);
 			GL11.glRotated(-90, 0, 1, 0);
 			GL11.glRotated(-135, 1, 0, 0);
-			GL11.glScaled(s, s, -s);
+			GL11.glScaled(s, s, s);
 			
 			ResourceManager.spas_12.renderAll();
 			
@@ -106,9 +125,6 @@ public class ItemRenderWeaponSpas12 implements IItemRenderer {
 			
 		default: break;
 		}
-
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();
 	}

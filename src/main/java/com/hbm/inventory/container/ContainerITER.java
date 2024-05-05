@@ -43,37 +43,31 @@ private TileEntityITER iter;
 	}
 	
 	@Override
-    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2)
-    {
+	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
 		ItemStack var3 = null;
 		Slot var4 = (Slot) this.inventorySlots.get(par2);
 		
-		if (var4 != null && var4.getHasStack())
-		{
+		if(var4 != null && var4.getHasStack()) {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 			
-            if (par2 <= 2) {
-				if (!this.mergeItemStack(var5, 2, this.inventorySlots.size(), true))
-				{
+			if(par2 <= 4) {
+				if(!this.mergeItemStack(var5, 5, this.inventorySlots.size(), true)) {
 					return null;
 				}
 			} else {
 				return null;
 			}
-            
-			if (var5.stackSize == 0)
-			{
+
+			if(var5.stackSize == 0) {
 				var4.putStack((ItemStack) null);
-			}
-			else
-			{
+			} else {
 				var4.onSlotChanged();
 			}
 		}
 		
 		return var3;
-    }
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {

@@ -11,7 +11,6 @@ import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockWeb;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
@@ -25,12 +24,7 @@ import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraftforge.common.util.ForgeDirection;
 
 abstract public class Component extends StructureComponent {
-	/** The size of the bounding box for this feature in the X axis */
-	protected int sizeX;
-	/** The size of the bounding box for this feature in the Y axis */
-	protected int sizeY;
-	/** The size of the bounding box for this feature in the Z axis */
-	protected int sizeZ;
+
 	/** Average height (Presumably stands for height position) */
 	protected int hpos = -1;
 	
@@ -44,9 +38,6 @@ abstract public class Component extends StructureComponent {
 	
 	protected Component(Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ ) {
 		super(0);
-		this.sizeX = maxX;
-		this.sizeY = maxY;
-		this.sizeZ = maxZ;
 		this.coordBaseMode = rand.nextInt(4);
 		
 		switch(this.coordBaseMode) {
@@ -70,17 +61,11 @@ abstract public class Component extends StructureComponent {
 	
 	/** Set to NBT */
 	protected void func_143012_a(NBTTagCompound nbt) {
-		nbt.setInteger("Width", this.sizeX);
-		nbt.setInteger("Height", this.sizeY);
-		nbt.setInteger("Depth", this.sizeZ);
 		nbt.setInteger("HPos", this.hpos);
 	}
 	
 	/** Get from NBT */
 	protected void func_143011_b(NBTTagCompound nbt) {
-		this.sizeX = nbt.getInteger("Width");
-		this.sizeY = nbt.getInteger("Height");
-		this.sizeZ = nbt.getInteger("Depth");
 		this.hpos = nbt.getInteger("HPos");
 	}
 	
@@ -147,7 +132,7 @@ abstract public class Component extends StructureComponent {
 	/**
 	 * Gets metadata for rotatable DecoBlock
 	 * honestly i don't remember how i did this and i'm scared to optimize it because i fail to see any reasonable patterns like the pillar
-	 * seriously, 3 fucking bits for 4 orientations when you can do it easily with 2?
+	 * should work for hoppers, just flip dir for N/S and W/E
 	 * @param metadata (2 for facing South, 3 for facing North, 4 for facing East, 5 for facing West
 	 */
 	protected int getDecoMeta(int metadata) {
@@ -210,8 +195,13 @@ abstract public class Component extends StructureComponent {
 				metadata = metadata ^ 3;
 			break;
 		}
-		
+		//genuinely like. why did i do that
 		return metadata << 2; //To accommodate for BlockDecoModel's shift in the rotation bits; otherwise, simply bit-shift right and or any non-rotation meta after
+	}
+	
+	//works for crts, toasters, and anything that follows mc's cardinal dirs. S: 0, W: 1, N: 2, E: 3
+	protected int getCRTMeta(int meta) {
+		return (meta + this.coordBaseMode) % 4;
 	}
 	
 	/**
@@ -377,6 +367,7 @@ abstract public class Component extends StructureComponent {
 		return generateInvContents(world, box, rand, block, 0, featureX, featureY, featureZ, content, amount);
 	}
 	
+	//TODO: explore min / max item generations: e.g., between 3 and 5 separate items are generated
 	protected boolean generateInvContents(World world, StructureBoundingBox box, Random rand, Block block, int meta, int featureX, int featureY, int featureZ, WeightedRandomChestContent[] content, int amount) {
 		int posX = this.getXWithOffset(featureX, featureZ);
 		int posY = this.getYWithOffset(featureY);
@@ -520,47 +511,11 @@ abstract public class Component extends StructureComponent {
 		}
 	}
 	
-	/** Fills an area with cobwebs. Cobwebs will concentrate on corners and surfaces without floating cobwebs. */
-	protected void fillWithCobwebs(World world, StructureBoundingBox box, Random rand, int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
-		
-		if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
-			return;
-		
-		for(int x = minX; x <= maxX; x++) {
-			
-			for(int z = minZ; z <= maxZ; z++) {
-				int posX = getXWithOffset(x, z);
-				int posZ = getZWithOffset(x, z);
-				
-				if(posX >= box.minX && posX <= box.maxX && posZ >= box.minZ && posZ <= box.maxZ) {
-					for(int y = minY; y <= maxY; y++) {
-						int posY = getYWithOffset(y);
-						Block genTarget = world.getBlock(posX, posY, posZ);
-						
-						if(!genTarget.isAir(world, posX, posY, posZ))
-							continue;
-						
-						int validNeighbors = 0;
-						for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-							Block neighbor = world.getBlock(posX + dir.offsetX, posY + dir.offsetY, posZ + dir.offsetZ);
-							
-							if(neighbor.getMaterial().blocksMovement() || neighbor instanceof BlockWeb)
-								validNeighbors++;
-						}
-						
-						if(validNeighbors > 5 || (validNeighbors > 1 && rand.nextInt(6 - validNeighbors) == 0))
-							world.setBlock(posX, posY, posZ, Blocks.web);
-					}
-				}
-			}
-		}
-	}
-	
 	/** getXWithOffset & getZWithOffset Methods that are actually fixed **/
 	//Turns out, this entire time every single minecraft structure is mirrored instead of rotated when facing East and North
 	//Also turns out, it's a scarily easy fix that they somehow didn't see *entirely*
 	@Override
-	protected int getXWithOffset(int x, int z) {
+	public int getXWithOffset(int x, int z) {
 		switch(this.coordBaseMode) {
 		case 0:
 			return this.boundingBox.minX + x;
@@ -576,7 +531,7 @@ abstract public class Component extends StructureComponent {
 	}
 	
 	@Override
-	protected int getZWithOffset(int x, int z) {
+	public int getZWithOffset(int x, int z) {
 		switch(this.coordBaseMode) {
 		case 0:
 			return this.boundingBox.minZ + z;
@@ -597,7 +552,7 @@ abstract public class Component extends StructureComponent {
 		if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
 			return;
 		
-		for(int x = minX; x <= maxX; x++) {
+		for(int x = minX; x <= maxX; x++) { //TODO these could technically be optimized a bit more. probably won't do anything but worth
 			
 			for(int z = minZ; z <= maxZ; z++) {
 				int posX = getXWithOffset(x, z);
@@ -739,7 +694,7 @@ abstract public class Component extends StructureComponent {
 			}
 		}
 	}
-	
+	//TODO replace the shitty block selector with something else. probably a lambda that returns a metablock for convenience
 	protected void fillWithRandomizedBlocks(World world, StructureBoundingBox box, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Random rand, BlockSelector selector) { //so i don't have to replace shit
 		
 		if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
@@ -838,6 +793,29 @@ abstract public class Component extends StructureComponent {
 		}
 	}
 	
+	protected void randomlyFillWithBlocks(World world, StructureBoundingBox box, Random rand, float randLimit, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, Block block, int meta) {
+		
+		if(getYWithOffset(minY) < box.minY || getYWithOffset(maxY) > box.maxY)
+			return;
+		
+		for(int x = minX; x <= maxX; x++) {
+			
+			for(int z = minZ; z <= maxZ; z++) {
+				int posX = getXWithOffset(x, z);
+				int posZ = getZWithOffset(x, z);
+				
+				if(posX >= box.minX && posX <= box.maxX && posZ >= box.minZ && posZ <= box.maxZ) {
+					for(int y = minY; y <= maxY; y++) {
+						int posY = getYWithOffset(y);
+						
+						if(rand.nextFloat() <= randLimit)
+							world.setBlock(posX, posY, posZ, block, meta, 2);
+					}
+				}
+			}
+		}
+	}
+	
 	protected ForgeDirection getDirection(ForgeDirection dir) {
 		switch(coordBaseMode) {
 		default: //South
@@ -851,17 +829,35 @@ abstract public class Component extends StructureComponent {
 		}
 	}
 	
+	/** Sets the core block for a BlockDummyable multiblock. WARNING: Does not take {@link com.hbm.blocks.BlockDummyable#getDirModified(ForgeDirection)} or {@link com.hbm.blocks.BlockDummyable#getMetaForCore(World, int, int, int, EntityPlayer, int)}
+	 * into account yet! This will be changed as it comes up!<br>
+	 * For BlockDummyables, 'dir' <b>always</b> faces the player, being the opposite of the player's direction. This is already taken into account. */
+	protected void placeCore(World world, StructureBoundingBox box, Block block, ForgeDirection dir, int x, int y, int z) {
+		int posX = getXWithOffset(x, z);
+		int posZ = getZWithOffset(x, z);
+		int posY = getYWithOffset(y);
+		
+		if(!box.isVecInside(posX, posY, posZ)) return;
+		
+		if(dir == null)
+			dir = ForgeDirection.NORTH;
+		
+		dir = getDirection(dir.getOpposite());
+		world.setBlock(posX, posY, posZ, block, dir.ordinal() + BlockDummyable.offset, 2);
+	}
+	
 	//always set the core block first
-	/** StructureComponent-friendly method for {@link com.hbm.handler.MultiblockHandlerXR#fillSpace(World, int, int, int, int[], Block, ForgeDirection)}. Prevents runoff outside of the provided bounding box. */
+	/** StructureComponent-friendly method for {@link com.hbm.handler.MultiblockHandlerXR#fillSpace(World, int, int, int, int[], Block, ForgeDirection)}. Prevents runoff outside of the provided bounding box.<br>
+	 * For BlockDummyables, 'dir' <b>always</b> faces the player, being the opposite of the player's direction. This is already taken into account. */
 	protected void fillSpace(World world, StructureBoundingBox box, int x, int y, int z, int[] dim, Block block, ForgeDirection dir) {
 		
 		if(getYWithOffset(y - dim[1]) < box.minY || getYWithOffset(y + dim[0]) > box.maxY) //the BlockDummyable will be fucked regardless if it goes beyond either limit
 			return;
 		
 		if(dir == null)
-			dir = ForgeDirection.SOUTH;
+			dir = ForgeDirection.NORTH;
 		
-		dir = getDirection(dir);
+		dir = getDirection(dir.getOpposite());
 		
 		int count = 0;
 		

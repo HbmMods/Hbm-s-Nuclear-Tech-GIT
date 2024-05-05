@@ -6,12 +6,12 @@ import java.util.List;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
-import com.hbm.explosion.ExplosionThermo;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.items.ModItems;
 
 import api.hbm.entity.IRadarDetectableNT;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public abstract class EntityMissileTier3 extends EntityMissileBaseNT {
@@ -32,11 +32,6 @@ public abstract class EntityMissileTier3 extends EntityMissileBaseNT {
 	}
 
 	@Override
-	public RadarTargetType getTargetType() {
-		return RadarTargetType.MISSILE_TIER3;
-	}
-
-	@Override
 	public String getUnlocalizedName() {
 		return "radar.target.tier3";
 	}
@@ -44,6 +39,20 @@ public abstract class EntityMissileTier3 extends EntityMissileBaseNT {
 	@Override
 	public int getBlipLevel() {
 		return IRadarDetectableNT.TIER3;
+	}
+
+	@Override
+	protected void spawnContrail() {
+		
+		Vec3 thrust = Vec3.createVectorHelper(0, 0, 0.5);
+		thrust.rotateAroundY((this.rotationYaw + 90) * (float) Math.PI / 180F);
+		thrust.rotateAroundX(this.rotationPitch * (float) Math.PI / 180F);
+		thrust.rotateAroundY(-(this.rotationYaw + 90) * (float) Math.PI / 180F);
+
+		this.spawnContraolWithOffset(thrust.xCoord, thrust.yCoord, thrust.zCoord);
+		this.spawnContraolWithOffset(-thrust.zCoord, thrust.yCoord, thrust.xCoord);
+		this.spawnContraolWithOffset(-thrust.xCoord, -thrust.zCoord, -thrust.zCoord);
+		this.spawnContraolWithOffset(thrust.zCoord, -thrust.zCoord, -thrust.xCoord);
 	}
 	
 	public static class EntityMissileBurst extends EntityMissileTier3 {
@@ -53,6 +62,7 @@ public abstract class EntityMissileTier3 extends EntityMissileBaseNT {
 			this.explodeStandard(50F, 48, false, true);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_generic_large); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_burst); }
 	}
 	
 	public static class EntityMissileInferno extends EntityMissileTier3 {
@@ -64,6 +74,7 @@ public abstract class EntityMissileTier3 extends EntityMissileBaseNT {
 			ExplosionChaos.flameDeath(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 25);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_incendiary_large); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_inferno); }
 	}
 
 	public static class EntityMissileRain extends EntityMissileTier3 {
@@ -75,6 +86,7 @@ public abstract class EntityMissileTier3 extends EntityMissileBaseNT {
 		}
 		@Override public void cluster() { this.onImpact(); }
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_cluster_large); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_rain); }
 	}
 	
 	public static class EntityMissileDrill extends EntityMissileTier3 {
@@ -91,45 +103,6 @@ public abstract class EntityMissileTier3 extends EntityMissileBaseNT {
 			ExplosionLarge.jolt(worldObj, this.posX, this.posY, this.posZ, 10, 50, 1);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_buster_large); }
-	}
-	
-	public static class EntityMissileEndo extends EntityMissileTier3 {
-		public EntityMissileEndo(World world) { super(world); }
-		public EntityMissileEndo(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
-		@Override public void onImpact() {
-			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 10.0F, true);
-			ExplosionThermo.freeze(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 30);
-			ExplosionThermo.freezer(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 40);
-		}
-		@Override public List<ItemStack> getDebris() {
-			List<ItemStack> list = new ArrayList<ItemStack>();
-			list.add(new ItemStack(ModItems.plate_titanium, 10));
-			list.add(new ItemStack(ModItems.plate_steel, 14));
-			list.add(new ItemStack(ModItems.plate_aluminium, 8));
-			list.add(new ItemStack(ModItems.thruster_large, 1));
-			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 1));
-			return list;
-		}
-		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_thermo_exo); }
-	}
-	
-	public static class EntityMissileExo extends EntityMissileTier3 {
-		public EntityMissileExo(World world) { super(world); }
-		public EntityMissileExo(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
-		@Override public void onImpact() {
-			this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 10.0F, true);
-			ExplosionThermo.scorch(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 30);
-			ExplosionThermo.setEntitiesOnFire(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 40);
-		}
-		@Override public List<ItemStack> getDebris() {
-			List<ItemStack> list = new ArrayList<ItemStack>();
-			list.add(new ItemStack(ModItems.plate_titanium, 10));
-			list.add(new ItemStack(ModItems.plate_steel, 14));
-			list.add(new ItemStack(ModItems.plate_aluminium, 8));
-			list.add(new ItemStack(ModItems.thruster_large, 1));
-			list.add(new ItemStack(ModItems.circuit_targeting_tier4, 1));
-			return list;
-		}
-		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_thermo_exo); }
+		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_drill); }
 	}
 }

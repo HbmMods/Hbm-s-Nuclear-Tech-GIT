@@ -11,13 +11,16 @@ import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.Tuple.Triplet;
 
-import api.hbm.energy.IEnergyGenerator;
+import api.hbm.energymk2.IEnergyProviderMK2;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,12 +30,13 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRadGen extends TileEntityMachineBase implements IEnergyGenerator, IGUIProvider {
+public class TileEntityMachineRadGen extends TileEntityMachineBase implements IEnergyProviderMK2, IGUIProvider, IInfoProviderEC {
 
 	public int[] progress = new int[12];
 	public int[] maxProgress = new int[12];
 	public int[] production = new int[12];
 	public ItemStack[] processing = new ItemStack[12];
+	protected int output;
 	
 	public long power;
 	public static final long maxPower = 1000000;
@@ -52,9 +56,11 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.output = 0;
 
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			this.sendPower(worldObj, this.xCoord - dir.offsetX * 4, this.yCoord, this.zCoord - dir.offsetZ * 4, dir.getOpposite());
+			this.tryProvide(worldObj, this.xCoord - dir.offsetX * 4, this.yCoord, this.zCoord - dir.offsetZ * 4, dir.getOpposite());
 			
 			//check if reload necessary for any queues
 			for(int i = 0; i < 12; i++) {
@@ -81,6 +87,7 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 					
 					this.isOn = true;
 					this.power += production[i];
+					this.output += production[i];
 					progress[i]++;
 					
 					if(progress[i] >= maxProgress[i]) {
@@ -117,6 +124,8 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.progress = nbt.getIntArray("progress");
 		this.maxProgress = nbt.getIntArray("maxProgress");
 		this.production = nbt.getIntArray("production");
@@ -212,15 +221,16 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 	static {
 
 		for(int i = 0; i < ItemWasteShort.WasteClass.values().length; i++) {
-			fuels.put(	new ComparableStack(ModItems.nuclear_waste_short, 1, i),		new Triplet<Integer, Integer, ItemStack>(150,	30 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_short_depleted, 1, i)));
-			fuels.put(	new ComparableStack(ModItems.nuclear_waste_short_tiny, 1, i),	new Triplet<Integer, Integer, ItemStack>(15,	3 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_short_depleted_tiny, 1, i)));
+			fuels.put(	new ComparableStack(ModItems.nuclear_waste_short, 1, i),		new Triplet<Integer, Integer, ItemStack>(1500,		30 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_short_depleted, 1, i)));
+			fuels.put(	new ComparableStack(ModItems.nuclear_waste_short_tiny, 1, i),	new Triplet<Integer, Integer, ItemStack>(150,		3 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_short_depleted_tiny, 1, i)));
 		}
 		for(int i = 0; i < ItemWasteLong.WasteClass.values().length; i++) {
-			fuels.put(	new ComparableStack(ModItems.nuclear_waste_long, 1, i),			new Triplet<Integer, Integer, ItemStack>(50,	2 * 60 * 60 * 20,	new ItemStack(ModItems.nuclear_waste_long_depleted, 1, i)));
-			fuels.put(	new ComparableStack(ModItems.nuclear_waste_long_tiny, 1, i),	new Triplet<Integer, Integer, ItemStack>(5,		12 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_long_depleted_tiny, 1, i)));
+			fuels.put(	new ComparableStack(ModItems.nuclear_waste_long, 1, i),			new Triplet<Integer, Integer, ItemStack>(500,		2 * 60 * 60 * 20,	new ItemStack(ModItems.nuclear_waste_long_depleted, 1, i)));
+			fuels.put(	new ComparableStack(ModItems.nuclear_waste_long_tiny, 1, i),	new Triplet<Integer, Integer, ItemStack>(50,		12 * 60 * 20,		new ItemStack(ModItems.nuclear_waste_long_depleted_tiny, 1, i)));
 		}
-		
-		fuels.put(		new ComparableStack(ModItems.scrap_nuclear),					new Triplet<Integer, Integer, ItemStack>(5,		5 * 60 * 20,		null));
+
+		fuels.put(		new ComparableStack(ModItems.scrap_nuclear),					new Triplet<Integer, Integer, ItemStack>(50,		5 * 60 * 20,		null));
+		fuels.put(		new ComparableStack(ModItems.gem_rad),							new Triplet<Integer, Integer, ItemStack>(25_000,	30 * 60 * 20,		new ItemStack(Items.diamond)));
 	}
 	
 	private Triplet<Integer, Integer, ItemStack> grabResult(ItemStack stack) {
@@ -285,5 +295,10 @@ public class TileEntityMachineRadGen extends TileEntityMachineBase implements IE
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineRadGen(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, output);
 	}
 }

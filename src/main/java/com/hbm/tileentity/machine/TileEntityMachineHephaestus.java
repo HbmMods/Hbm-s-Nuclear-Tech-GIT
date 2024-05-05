@@ -8,6 +8,8 @@ import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
 import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -37,6 +39,8 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 	
 	private int[] heat = new int[10];
 	private long fissureScanTime;
+
+	private AudioWrapper audio;
 	
 	@Override
 	public void updateEntity() {
@@ -90,6 +94,16 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 					double y = worldObj.rand.nextGaussian() * 3;
 					double z = worldObj.rand.nextGaussian() * 2;
 					worldObj.spawnParticle("cloud", xCoord + 0.5 + x, yCoord + 6 + y, zCoord + 0.5 + z, 0, 0, 0);
+				}
+
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.hephaestusRunning", xCoord, yCoord + 5F, zCoord, 0.75F, 10F, 1.0F);
+					audio.startSound();
+				}
+			} else {
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
 				}
 			}
 			
@@ -232,6 +246,26 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 	@Override
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
 		return dir != ForgeDirection.UNKNOWN && dir != ForgeDirection.UP && dir != ForgeDirection.DOWN;
+	}
+	
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
 	}
 	
 	AxisAlignedBB bb = null;

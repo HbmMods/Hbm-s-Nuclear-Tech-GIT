@@ -230,11 +230,10 @@ public class RenderScreenOverlay {
 					int bar = barID;
 					if(stamina % 30 >= 25) 
 						bar++;
-					int yPos = y;
 					if(bar / 3 != y)
 						y++;
 					bar = bar % 3;
-					gui.drawTexturedModalRect(posX + (width+2)*bar, posY - 12*y, 76, 58, width, 10);
+					gui.drawTexturedModalRect(posX + (width + 2) * bar, posY - 12 * y, 76, 58, width, 10);
 					fadeOut -= 0.04F;
 					GL11.glColor4f(1F, 1F, 1F, 1F);
 				}
@@ -297,7 +296,7 @@ public class RenderScreenOverlay {
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
 		gui.drawTexturedModalRect(left, top, 146, 0, 81, 9);
-		int i = (int) Math.ceil(props.shield * 79 / props.maxShield);
+		int i = (int) Math.ceil(props.shield * 79 / props.getEffectiveMaxShield());
 		gui.drawTexturedModalRect(left + 1, top, 147, 9, i, 9);
 		
 		String label = "" + ((int) (props.shield * 10F)) / 10D;

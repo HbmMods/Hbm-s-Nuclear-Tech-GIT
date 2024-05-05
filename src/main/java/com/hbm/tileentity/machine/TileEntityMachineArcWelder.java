@@ -23,7 +23,7 @@ import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -39,7 +39,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineArcWelder extends TileEntityMachineBase implements IEnergyUser, IFluidStandardReceiver, IConditionalInvAccess, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityMachineArcWelder extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IConditionalInvAccess, IGUIProvider, IUpgradeInfoProvider {
 	
 	public long power;
 	public long maxPower = 2_000;
@@ -142,7 +142,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 	
 	public boolean canProcess(ArcWelderRecipe recipe) {
 		
-		if(this.power < recipe.consumption) return false;
+		if(this.power < this.consumption) return false;
 		
 		if(recipe.fluid != null) {
 			if(this.tank.getTankType() != recipe.fluid.type) return false;
@@ -197,6 +197,8 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.maxPower = nbt.getLong("maxPower");
 		this.consumption = nbt.getLong("consumption");
@@ -354,7 +356,7 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 
 	@Override
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
-		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_electric_furnace_off));
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_arc_welder));
 		if(type == UpgradeType.SPEED) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 100 / 6) + "%"));
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));

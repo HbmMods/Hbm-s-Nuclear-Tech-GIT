@@ -2,6 +2,7 @@ package com.hbm.render.entity.rocket;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.entity.missile.EntityMissileTier0.*;
 import com.hbm.main.ResourceManager;
 
@@ -15,18 +16,26 @@ public class RenderMissileTaint extends Render {
 	}
 
 	@Override
-	public void doRender(Entity missile, double x, double y, double z, float f1, float f2) {
+	public void doRender(Entity entity, double x, double y, double z, float p_76986_8_, float interp) {
 
 		GL11.glPushMatrix();
-        GL11.glTranslatef((float)x, (float)y, (float)z);
-        GL11.glRotatef(missile.prevRotationYaw + (missile.rotationYaw - missile.prevRotationYaw) * f2 - 90.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(missile.prevRotationPitch + (missile.rotationPitch - missile.prevRotationPitch) * f2, 0.0F, 0.0F, 1.0F);
-        GL11.glScalef(2F, 2F, 2F);
+		GL11.glTranslatef((float) x, (float) y, (float) z);
+		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * interp, 0.0F, 0.0F, 1.0F);
+		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, -1.0F, 0.0F);
 
-        GL11.glDisable(GL11.GL_CULL_FACE);
-        bindTexture(getEntityTexture(missile));
-        ResourceManager.missileTaint.renderAll();
-        GL11.glEnable(GL11.GL_CULL_FACE);
+		if(entity instanceof EntityMissileBaseNT) switch(entity.getDataWatcher().getWatchableObjectByte(3)) {
+		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
+		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
+		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
+		}
+
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		bindTexture(getEntityTexture(entity));
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		ResourceManager.missileMicro.renderAll();
+		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 	}
 
@@ -40,6 +49,8 @@ public class RenderMissileTaint extends Render {
 			return ResourceManager.missileMicroSchrab_tex;
 		if(p_110775_1_ instanceof EntityMissileEMP)
 			return ResourceManager.missileMicroEMP_tex;
+		if(p_110775_1_ instanceof EntityMissileTest)
+			return ResourceManager.missileMicroTest_tex;
 		
 		return ResourceManager.missileMicro_tex;
 	}

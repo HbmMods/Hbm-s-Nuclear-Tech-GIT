@@ -5,7 +5,6 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 
 import com.hbm.config.GeneralConfig;
-import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
@@ -20,7 +19,7 @@ import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.ChatBuilder;
 
-import api.hbm.energy.IBatteryItem;
+import api.hbm.energymk2.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -131,6 +130,9 @@ public class ItemEnergyGunBase extends ItemGunBase implements IBatteryItem {
 			for(int i = 0; i < bullets; i++) {
 				spawnProjectile(world, player, stack, BulletConfigSyncingUtil.getKey(config));
 			}
+
+			if(player instanceof EntityPlayerMP)
+				PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
 			
 			setCharge(stack, getCharge(stack) - config.dischargePerShot);;
 		}
@@ -138,19 +140,9 @@ public class ItemEnergyGunBase extends ItemGunBase implements IBatteryItem {
 		world.playSoundAtEntity(player, mainConfig.firingSound, 1.0F, mainConfig.firingPitch);
 	}
 	
-	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
-		
-		EntityBulletBaseNT bullet = new EntityBulletBaseNT(world, config, player);
-		world.spawnEntityInWorld(bullet);
-		
-		if(this.mainConfig.animations.containsKey(AnimType.CYCLE) && player instanceof EntityPlayerMP)
-			PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.CYCLE.ordinal()), (EntityPlayerMP) player);
-			
-	}
-	
 	public void startAction(ItemStack stack, World world, EntityPlayer player, boolean main) {
 		
-		if(mainConfig.firingMode == mainConfig.FIRE_MANUAL && main && tryShoot(stack, world, player, main)) {
+		if(mainConfig.firingMode == GunConfiguration.FIRE_MANUAL && main && tryShoot(stack, world, player, main)) {
 			fire(stack, world, player);
 			setDelay(stack, mainConfig.rateOfFire);
 			

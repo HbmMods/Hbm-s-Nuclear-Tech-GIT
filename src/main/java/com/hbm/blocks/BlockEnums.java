@@ -11,6 +11,14 @@ public class BlockEnums {
 		BAUXITE
 	}
 
+	public static enum EnumMeteorType {
+		IRON,
+		COPPER,
+		ALUMINIUM,
+		RAREEARTH,
+		COBALT
+	}
+
 	public static enum EnumBiomeType {
 		DESERT,
 		WOODLAND
@@ -57,5 +65,11 @@ public class BlockEnums {
 	public static enum DecoCabinetEnum {
 		GREEN,
 		STEEL
+	}
+
+	public static enum LightType {
+		INCANDESCENT,
+		FLUORESCENT,
+		HALOGEN
 	}
 }

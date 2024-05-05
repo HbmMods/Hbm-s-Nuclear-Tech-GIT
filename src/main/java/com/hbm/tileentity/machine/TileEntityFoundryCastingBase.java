@@ -19,10 +19,12 @@ import net.minecraftforge.common.util.ForgeDirection;
  *
  */
 public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase implements ISidedInventory {
-
-	public ItemStack slots[] = new ItemStack[2];
+	public ItemStack[] slots;
+	public TileEntityFoundryCastingBase(int slotCount) {
+		slots = new ItemStack[slotCount];
+	}
 	public int cooloff = 100;
-	
+
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
@@ -52,6 +54,7 @@ public abstract class TileEntityFoundryCastingBase extends TileEntityFoundryBase
 					}
 					
 					cooloff = 200;
+					this.markDirty();
 				}
 				
 			} else {

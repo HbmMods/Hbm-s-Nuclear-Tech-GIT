@@ -13,9 +13,11 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.I18nUtil;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -28,7 +30,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineEPress extends TileEntityMachineBase implements IEnergyUser, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityMachineEPress extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC {
 
 	public long power = 0;
 	public final static long maxPower = 50000;
@@ -86,7 +88,7 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 						this.press += stampSpeed;
 						
 						if(this.press >= this.maxPress) {
-							this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
+							this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", getVolume(1.5F), 1.0F);
 							ItemStack output = PressRecipes.getOutput(slots[2], slots[1]);
 							if(slots[3] == null) {
 								slots[3] = output.copy();
@@ -142,6 +144,8 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.syncPress = nbt.getInteger("press");
 		
@@ -278,5 +282,10 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 	public int getMaxLevel(UpgradeType type) {
 		if(type == UpgradeType.SPEED) return 3;
 		return 0;
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setInteger(CompatEnergyControl.I_PROGRESS, this.press);
 	}
 }

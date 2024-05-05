@@ -4,12 +4,14 @@
 
 [NTM on CurseForge](https://minecraft.curseforge.com/projects/hbms-nuclear-tech-mod?gameCategorySlug=mc-mods&projectID=235439)
 
+[Official NTM Wiki](https://nucleartech.wiki/wiki/Main_Page)
+
 **This is for 1.7.10!** For 1.12, check out these projects:
 
 * NTM Reloaded: https://github.com/TheOriginalGolem/Hbm-s-Nuclear-Tech-GIT/releases
 * NTM Extended Edition (Alcater): https://github.com/Alcatergit/Hbm-s-Nuclear-Tech-GIT/releases
 
-For 1.18, try Martin's remake: https://github.com/MartinTheDragon/Nuclear-Tech-Mod-Remake/releases
+For 1.18, try Martin's remake: https://codeberg.org/MartinTheDragon/Nuclear-Tech-Mod-Remake/releases
 
 ## Downloading pre-compiled versions from GitHub
 
@@ -94,6 +96,18 @@ If you want to make some changes to the mod, follow this guide:
 ## Compatibility notice
 NTM has certain behaviors intended to fix vanilla code or to increase compatibility in certain cases where it otherwise would not be possible. These behaviors have the potential of not playing well with other mods, and while no such cases are currently known, here's a list of them.
 
+### Thermos
+Thermos servers (along with its forks such as Crucible) have a "performance" feature that causes all tile entity ticking to slow down if there's no player present in the same chunk. For obvious reasons, this will heavily impact machines and cause phantom issues that, not having knowledge of this "performance" feature, are near impossible to diagnose. By default, NTM will crash on servers running the Thermos base code and print a lengthy message informing server owners about this "performance" feature as well as how to fix the issues it causes. The error message is printed in plain English on the top of the crash log, failure to read (as well as understand) it will leave the server inoperable.
+
+### Optifine
+One of the most common "performance" mods on 1.7.10, Optifine, achieves an increase in performance by breaking small things in spots that are usually hard to notice, although this can cause severe issues with NTM. A short list of problems, along with some solutions, follows:
+* Get rid of Optifine and use one of the many [other, less intrusive performance mods](https://gist.github.com/makamys/7cb74cd71d93a4332d2891db2624e17c).
+* Blocks with connected textures may become invisible. This can be fixed by toggling triangulation (I do not know what or where this setting is, I just have been told that it exists and that it can fix the problem) or multicore chunk rendering (same here).
+* Entity "optimization" has a tendency to break chunkloading, this is especially noticeable with missiles which rely heavily on chunkloading to work, causing them to freeze mid-air. It's unclear what setting might fix this, and analysis of Optifine's source code (or rather, lack thereof) has not proven useful either.
+
+### Angelica
+In older versions, Angelica caused issues regarding model rendering, often times making 3D models transparent. Ever since the switch to VBOs, models work fine. Another issue was blocks with connected textures not rendering at all, but this too was fixed, meaning as of time of writing there are no major incompatibilities known with Angelica.
+
 ### Skybox chainloader
 NTM adds a few small things to the skybox using a custom skybox renderer. Minecraft can only have a single skybox renderer loaded, so setting the skybox to the NTM custom one would break compatibility with other mods' skyboxes. To mend this, NTM employs a **chainloader**. This chainloader will detect if a different skybox is loaded, save a reference to that skybox and then use NTM's skybox, which when used will also make sure to run the previous modded skybox renderer. In the event that NTM's skybox were to cause trouble, it can be disabled with the config option `1.31_enableSkyboxes`.
 
@@ -105,6 +119,15 @@ An often overlooked aspect of Minecraft is its stats, the game keeps track of ho
 
 ### Keybind overlap
 An often annoying aspect of modded Minecraft is its keybinds. Even though multiple binds can be assigned the same key, all but one will show up as "conflicting" and only the non-conflicting one will work. Which one this is is usually arbitrary, and there is no reason to have such limitation. Often times keybinds are only applicable in certain scenarios, and a commonly found degree of overlap is within reason. Therefore, NTM will run its own key handling code which allows conflicting keybinds to work. If there should be any issues with this behavior, it can be disabled with the config option `1.34_enableKeybindOverlap`.
+
+### Render distance capping
+There is a common crash caused by Minecraft's render distance slider going out of bounds, this usually happens when uninstalling a mod that extends the render distance (like Optifine) or when downgrading the Minecraft version (newer versions have higher render distance caps). To prevent crashes, the mod will attempt to decrease the render distance if it's above 16 unless Optifine is installed. If this behavior is not desired (for example, because another mod that allows higher render distance is being used), it can be disabled with the config option `1.25_enableRenderDistCheck`.
+
+### Log spam caused by ComparableStack
+In some modpacks (exact mods needed to replicate this are unknown), it's possible that invalid registered items may cause problems for NEI handlers. To prevent crashes, the ComparableStack class used to represent stacks will default to a safe registered item, and print a log message. In certain situations, this may cause dozens of errors to be printed at once, potentially even lagging the game. If that happens, the log message (but not the error handling) can be disabled with the config option `1.28_enableSilentCompStackErrors`.
+
+### Sound system limit
+By default, the sound system only allows a limited amount of sounds to run at once (28 regular sounds and 4 streaming sounds), this causes issues when there's many machines running at once, since their looped sounds will constantly interrupt each other, causing them to immediately restart, which in some isolated cases has proven to cause massive lagspikes. To prevent this, NTM will increase the sound limit to 1000 regular sounds and 50 streaming sounds, this can be disabled with the config option `1.39_enableSoundExtension`.
 
 # License
 This software is licensed under the GNU Lesser General Public License version 3. In short: This software is free, you may run the software freely, create modified versions, distribute this software and distribute modified versions, as long as the modified software too has a free software license (with an exception for linking to this software, as stated by the "Lesser" part of the LGPL, where this may not be required). You win this round, Stallman. The full license can be found in the `LICENSE` and `LICENSE.LESSER` files.

@@ -50,6 +50,10 @@ public class ItemEnums {
 		MUSTARDWILLOW
 	}
 
+	public static enum EnumChunkType {
+		RARE
+	}
+
 	public static enum EnumAchievementType {
 		GOFISH,
 		ACID,
@@ -59,7 +63,13 @@ public class ItemEnums {
 		DIGAMMAKNOW,
 		DIGAMMAKAUAIMOHO,
 		DIGAMMAUPONTOP,
-		DIGAMMAFOROURRIGHT
+		DIGAMMAFOROURRIGHT,
+		QUESTIONMARK
+	}
+
+	public static enum EnumFuelAdditive {
+		ANTIKNOCK,
+		DEICER
 	}
 
 	public static enum EnumPages {

@@ -15,9 +15,11 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.I18nUtil;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -29,8 +31,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCentrifuge extends TileEntityMachineBase implements IEnergyUser, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityMachineCentrifuge extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC {
 	
 	public int progress;
 	public long power;
@@ -153,8 +156,8 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			
-			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
+
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 
 			power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			
@@ -218,7 +221,8 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 				} else if(!audio.isPlaying()) {
 					audio = rebootAudio(audio);
 				}
-				
+
+				audio.updateVolume(getVolume(1F));
 				audio.updatePitch((audioDuration - 10) / 100F + 0.5F);
 				
 			} else {
@@ -233,6 +237,8 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 
 	@Override
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.power = data.getLong("power");
 		this.progress = data.getInteger("progress");
 		this.isProgressing = data.getBoolean("isProgressing");
@@ -341,5 +347,11 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 		if(type == UpgradeType.POWER) return 3;
 		if(type == UpgradeType.OVERDRIVE) return 3;
 		return 0;
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.progress > 0);
+		data.setInteger(CompatEnergyControl.B_ACTIVE, this.progress);
 	}
 }

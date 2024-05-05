@@ -13,9 +13,9 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineCompactLauncher;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomMissile;
-import com.hbm.items.weapon.ItemMissile;
-import com.hbm.items.weapon.ItemMissile.FuelType;
-import com.hbm.items.weapon.ItemMissile.PartSize;
+import com.hbm.items.weapon.ItemCustomMissilePart;
+import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
+import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxElectricityPacket;
@@ -27,7 +27,7 @@ import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -48,7 +48,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyUser, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
+public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
 
 	private ItemStack slots[];
 
@@ -284,22 +284,29 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	
 	public void launchFromDesignator() {
 
-		int tX = slots[1].stackTagCompound.getInteger("xCoord");
-		int tZ = slots[1].stackTagCompound.getInteger("zCoord");
-		
-		this.launchTo(tX, tZ);
+		if(slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
+			IDesignatorItem designator = (IDesignatorItem) slots[1].getItem();
+			
+			if(designator.isReady(worldObj, slots[1], xCoord, yCoord, zCoord)) {
+				Vec3 coords = designator.getCoords(worldObj, slots[1], xCoord, yCoord, zCoord);
+				int tX = (int) Math.floor(coords.xCoord);
+				int tZ = (int) Math.floor(coords.zCoord);
+				
+				this.launchTo(tX, tZ);
+			}
+		}
 	}
 	
 	public void launchTo(int tX, int tZ) {
 
 		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
 		
-		ItemMissile chip = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "chip"));
+		ItemCustomMissilePart chip = (ItemCustomMissilePart) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "chip"));
 		float c = (Float)chip.attributes[0];
 		float f = 1.0F;
 		
 		if(getStruct(slots[0]).fins != null) {
-			ItemMissile fins = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "stability"));
+			ItemCustomMissilePart fins = (ItemCustomMissilePart) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "stability"));
 			f = (Float) fins.attributes[0];
 		}
 		
@@ -329,7 +336,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		if(multipart == null || multipart.fuselage == null)
 			return;
 		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
 		
 		float f = (Float)fuselage.attributes[1];
 		int fuel = (int)f;
@@ -370,7 +377,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		if(multipart == null || multipart.fuselage == null)
 			return false;
 		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
 		
 		return fuselage.top == PartSize.SIZE_10;
 	}
@@ -391,7 +398,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		if(multipart == null || multipart.fuselage == null)
 			return -1;
 		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
 		
 		if((FuelType)fuselage.attributes[0] == FuelType.SOLID) {
 			
@@ -411,7 +418,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		if(multipart == null || multipart.fuselage == null)
 			return -1;
 		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
 		
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:
@@ -436,7 +443,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		if(multipart == null || multipart.fuselage == null)
 			return -1;
 		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
 		
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:
@@ -460,7 +467,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		if(multipart == null || multipart.fuselage == null)
 			return;
 		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
 		
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:

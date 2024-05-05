@@ -8,7 +8,7 @@ import com.hbm.items.ModItems;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
-import api.hbm.energy.IBatteryItem;
+import api.hbm.energymk2.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -64,7 +64,7 @@ public class TileEntityNukeBalefire extends TileEntityMachineBase implements IGU
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
-		
+		super.networkUnpack(data);
 		timer = data.getInteger("timer");
 		started = data.getBoolean("started");
 		loaded = data.getBoolean("loaded");

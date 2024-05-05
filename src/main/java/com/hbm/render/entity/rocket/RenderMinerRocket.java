@@ -3,7 +3,6 @@ package com.hbm.render.entity.rocket;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.missile.EntityMinerRocket;
-import com.hbm.entity.missile.EntitySiegeDropship;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.renderer.entity.Render;
@@ -22,12 +21,7 @@ public class RenderMinerRocket extends Render {
 		if(entity instanceof EntityMinerRocket) {
 			bindTexture(ResourceManager.minerRocket_tex);
 		} else {
-			
-			if(entity instanceof EntitySiegeDropship) {
-				bindTexture(ResourceManager.siege_dropship_tex);
-			} else {
-				bindTexture(ResourceManager.bobmazon_tex);
-			}
+			bindTexture(ResourceManager.bobmazon_tex);
 			GL11.glRotatef(180, 1, 0, 0);
 		}
 

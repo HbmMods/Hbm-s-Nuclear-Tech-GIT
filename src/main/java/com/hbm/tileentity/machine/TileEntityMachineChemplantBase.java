@@ -16,7 +16,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidUser;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -32,7 +32,7 @@ import net.minecraft.tileentity.TileEntity;
  * Tanks follow the order R1(I1, I2, O1, O2), R2(I1, I2, O1, O2) ...
  * @author hbm
  */
-public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBase implements IEnergyUser, IFluidUser, IGUIProvider {
+public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidUser, IGUIProvider {
 
 	public long power;
 	public int[] progress;
@@ -271,42 +271,50 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 				IInventory inv = (IInventory) te;
 				ISidedInventory sided = inv instanceof ISidedInventory ? (ISidedInventory) inv : null;
 				int[] access = sided != null ? sided.getAccessibleSlotsFromSide(coord.getDir().ordinal()) : null;
-				
-				for(int i = indices[2]; i <= indices[3]; i++) {
-					
-					ItemStack out = slots[i];
-					
-					if(out != null) {
-						
-						for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
 
-							int slot = access != null ? access[j] : j;
+				boolean shouldOutput = true;
+				while(shouldOutput) {
+					shouldOutput = false;
+					outer:
+					for(int i = indices[2]; i <= indices[3]; i++) {
+						
+						ItemStack out = slots[i];
+						
+						if(out != null) {
 							
-							if(!inv.isItemValidForSlot(slot, out))
-								continue;
-							
-							ItemStack target = inv.getStackInSlot(slot);
-							
-							if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize() && target.stackSize < inv.getInventoryStackLimit()) {
-								this.decrStackSize(i, 1);
-								target.stackSize++;
-								return;
+							for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
+	
+								int slot = access != null ? access[j] : j;
+								
+								if(!inv.isItemValidForSlot(slot, out))
+									continue;
+								
+								ItemStack target = inv.getStackInSlot(slot);
+								
+								if(InventoryUtil.doesStackDataMatch(out, target) && target.stackSize < target.getMaxStackSize() && target.stackSize < inv.getInventoryStackLimit()) {
+									int toDec = Math.min(out.stackSize, Math.min(target.getMaxStackSize(), inv.getInventoryStackLimit()) - target.stackSize);
+									this.decrStackSize(i, toDec);
+									target.stackSize += toDec;
+									shouldOutput = true;
+									break outer;
+								}
 							}
-						}
-						
-						for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
-
-							int slot = access != null ? access[j] : j;
 							
-							if(!inv.isItemValidForSlot(slot, out))
-								continue;
-							
-							if(inv.getStackInSlot(slot) == null && (sided != null ? sided.canInsertItem(slot, out, coord.getDir().ordinal()) : inv.isItemValidForSlot(slot, out))) {
-								ItemStack copy = out.copy();
-								copy.stackSize = 1;
-								inv.setInventorySlotContents(slot, copy);
-								this.decrStackSize(i, 1);
-								return;
+							for(int j = 0; j < (access != null ? access.length : inv.getSizeInventory()); j++) {
+	
+								int slot = access != null ? access[j] : j;
+								
+								if(!inv.isItemValidForSlot(slot, out))
+									continue;
+								
+								if(inv.getStackInSlot(slot) == null && (sided != null ? sided.canInsertItem(slot, out, coord.getDir().ordinal()) : inv.isItemValidForSlot(slot, out))) {
+									ItemStack copy = out.copy();
+									copy.stackSize = 1;
+									inv.setInventorySlotContents(slot, copy);
+									this.decrStackSize(i, 1);
+									shouldOutput = true;
+									break outer;
+								}
 							}
 						}
 					}

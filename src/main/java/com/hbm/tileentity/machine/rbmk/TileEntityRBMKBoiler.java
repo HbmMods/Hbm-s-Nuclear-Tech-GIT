@@ -3,6 +3,8 @@ package com.hbm.tileentity.machine.rbmk;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.fluid.IFluidUser;
 import api.hbm.fluid.IPipeNet;
+import api.hbm.tile.IInfoProviderEC;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
@@ -16,6 +18,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIRBMKBoiler;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
@@ -35,11 +38,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent {
+public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC {
 	
 	public FluidTank feed;
 	public FluidTank steam;
 	public List<IFluidAcceptor> list = new ArrayList();
+	protected int consumption;
+	protected int output;
 	
 	public TileEntityRBMKBoiler() {
 		super(0);
@@ -59,6 +64,9 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		if(!worldObj.isRemote) {
 			feed.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			steam.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
+
+			this.consumption = 0;
+			this.output = 0;
 			
 			double heatCap = this.getHeatFromSteam(steam.getTankType());
 			double heatProvided = this.heat - heatCap;
@@ -82,6 +90,9 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 					waterUsed = Math.min(waterUsed, feed.getFill());
 					steamProduced = (int)Math.floor((waterUsed * 100D) / steamFactor);
 				}
+				
+				this.consumption = waterUsed;
+				this.output = steamProduced;
 				
 				feed.setFill(feed.getFill() - waterUsed);
 				steam.setFill(steam.getFill() + steamProduced);
@@ -401,5 +412,11 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIRBMKBoiler(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, consumption);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_MB, output);
 	}
 }

@@ -1,8 +1,10 @@
 package com.hbm.tileentity.machine;
 
 import api.hbm.block.ILaserable;
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.tile.IInfoProviderEC;
+
 import com.hbm.inventory.container.ContainerCoreEmitter;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -10,6 +12,8 @@ import com.hbm.inventory.gui.GUICoreEmitter;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
+
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,7 +37,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyUser, ILaserable, IFluidStandardReceiver, SimpleComponent, IGUIProvider {
+public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEnergyReceiverMK2, ILaserable, IFluidStandardReceiver, SimpleComponent, IGUIProvider, IInfoProviderEC {
 	
 	public long power;
 	public static final long maxPower = 1000000000L;
@@ -60,8 +64,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
-			
-			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			this.subscribeToAllAround(tank.getTankType(), this);
 			
 			watts = MathHelper.clamp_int(watts, 1, 100);
@@ -177,6 +180,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
 
 		power = data.getLong("power");
 		watts = data.getInteger("watts");
@@ -328,5 +332,11 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICoreEmitter(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, joules > 0 || prev > 0 ? 20 : 0);
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_HE, maxPower * watts / 2000);
 	}
 }

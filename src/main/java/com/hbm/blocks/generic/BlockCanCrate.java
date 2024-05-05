@@ -11,9 +11,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 public class BlockCanCrate extends Block {
@@ -21,79 +19,77 @@ public class BlockCanCrate extends Block {
 	public BlockCanCrate(Material p_i45394_1_) {
 		super(p_i45394_1_);
 	}
-    
-    public static int renderID = RenderingRegistry.getNextAvailableRenderId();
-	
+
+	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
+
 	@Override
-	public int getRenderType(){
+	public int getRenderType() {
 		return renderID;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
 
-    @Override
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_) {
-    	
-		if(world.isRemote)
-		{
-			player.addChatMessage(new ChatComponentText("The one crate you are allowed to smash!"));
+		if(player.getHeldItem() != null && player.getHeldItem().getItem().equals(ModItems.crowbar)) {
+			if(!world.isRemote) {
+				dropContents(world, x, y, z);
+				world.setBlockToAir(x, y, z);
+				world.playSoundEffect(x, y, z, "hbm:block.crateBreak", 0.5F, 1.0F);
+			}
+			return true;
 		}
-    	
-    	return true;
-    }
-    
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
-    	ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
-    	
-    	int count = quantityDropped(metadata, fortune, world.rand);
-    	for(int i = 0; i < count; i++) {
-    		Item item = getItemDropped(metadata, world.rand, fortune);
-    		if(item != null)
-    			ret.add(new ItemStack(item, 1, damageDropped(metadata, world.rand, item)));
-    	}
-    	
-    	return ret;
-    }
-    
-    //pain
-    public int damageDropped(int meta, Random rand, Item item) {
-    	if(item != ModItems.canned_conserve)
-    		return damageDropped(meta);
-    	else
-    		return Math.abs(rand.nextInt() % EnumFoodType.values().length);
-    }
-    
-    @Override
-	public Item getItemDropped(int i, Random rand, int j) {
-    	
-    	List<Item> items = new ArrayList();
-    	for(int a = 0; a < EnumFoodType.values().length; a++)
-    		items.add(ModItems.canned_conserve);
-    	items.add(ModItems.can_smart);
-    	items.add(ModItems.can_creature);
-    	items.add(ModItems.can_redbomb);
-    	items.add(ModItems.can_mrsugar);
-    	items.add(ModItems.can_overcharge);
-    	items.add(ModItems.can_luna);
-    	items.add(ModItems.can_breen);
-    	items.add(ModItems.can_bepis);
-    	items.add(ModItems.pudding);
-    	
-        return items.get(rand.nextInt(items.size()));
-    }
-    
-    @Override
-	public int quantityDropped(Random rand) {
-    	
-    	return 5 + rand.nextInt(4);
-    }
+		return false;
+	}
 
+	Random rand = new Random();
+
+	public void dropContents(World world, int x, int y, int z) {
+		ArrayList<ItemStack> items = getContents(world, x, y, z);
+
+		for(ItemStack item : items) {
+			this.dropBlockAsItem(world, x, y, z, item);
+		}
+	}
+
+	public ArrayList<ItemStack> getContents(World world, int x, int y, int z) {
+		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+
+		int count = getContentAmount(world.rand);
+		for(int i = 0; i < count; i++) {
+			ret.add(getRandomItem(world.rand));
+		}
+
+		return ret;
+	}
+
+	public ItemStack getRandomItem(Random rand) {
+
+		List<ItemStack> items = new ArrayList();
+		for(int a = 0; a < EnumFoodType.values().length; a++)
+			items.add(new ItemStack(ModItems.canned_conserve, 1, a));
+		items.add(new ItemStack(ModItems.can_smart));
+		items.add(new ItemStack(ModItems.can_creature));
+		items.add(new ItemStack(ModItems.can_redbomb));
+		items.add(new ItemStack(ModItems.can_mrsugar));
+		items.add(new ItemStack(ModItems.can_overcharge));
+		items.add(new ItemStack(ModItems.can_luna));
+		items.add(new ItemStack(ModItems.can_breen));
+		items.add(new ItemStack(ModItems.can_bepis));
+		items.add(new ItemStack(ModItems.pudding));
+
+		return items.get(rand.nextInt(items.size()));
+	}
+
+	public int getContentAmount(Random rand) {
+		return 5 + rand.nextInt(4);
+	}
 }

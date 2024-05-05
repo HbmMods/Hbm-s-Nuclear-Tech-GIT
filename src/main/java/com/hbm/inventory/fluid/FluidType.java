@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map.Entry;
 
 import org.lwjgl.input.Keyboard;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.*;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
@@ -150,7 +150,8 @@ public class FluidType {
 		return this.localizedOverride != null ? this.localizedOverride : this.unlocalized;
 	}
 	public String getDict(int quantity) {
-		return "container" + quantity + this.stringId.replace("_", "").toLowerCase(Locale.US);
+		String prefix = GeneralConfig.enableFluidContainerCompat ? "container" : "ntmcontainer";
+		return prefix + quantity + this.stringId.replace("_", "").toLowerCase(Locale.US);
 	}
 	
 	public boolean isHot() {
@@ -170,6 +171,9 @@ public class FluidType {
 	}
 	public boolean needsLeadContainer() {
 		return this.traits.containsKey(FT_LeadContainer.class);
+	}
+	public boolean isDispersable() {
+		return !(this.traits.containsKey(FT_Amat.class) || this.traits.containsKey(FT_NoContainer.class) || this.traits.containsKey(FT_Viscous.class));
 	}
 
 	/**
@@ -205,23 +209,23 @@ public class FluidType {
 			if(temperature > 0) info.add(EnumChatFormatting.RED + "" + temperature + "°C");
 		}
 		
+		boolean shiftHeld = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
+		
 		List<String> hidden = new ArrayList();
 		
-		for(Entry<Class<? extends FluidTrait>, FluidTrait> entry : this.traits.entrySet()) {
-			entry.getValue().addInfo(info);
-			entry.getValue().addInfoHidden(hidden);
+		for(Class<? extends FluidTrait> clazz : FluidTrait.traitList) {
+			FluidTrait trait = this.getTrait(clazz);
+			if(trait != null) {
+				trait.addInfo(info);
+				if(shiftHeld) trait.addInfoHidden(info);
+				trait.addInfoHidden(hidden);
+			}
 		}
 		
-		if(!hidden.isEmpty()) {
-
-			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-				info.addAll(hidden);
-			} else {
-
-				info.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
-						EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
-						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
-			}
+		if(!hidden.isEmpty() && !shiftHeld) {
+			info.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
+					EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
+					EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
 		}
 	}
 	

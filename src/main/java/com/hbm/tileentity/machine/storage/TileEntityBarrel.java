@@ -10,6 +10,8 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
+import com.hbm.inventory.fluid.trait.FT_Polluting;
+import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIBarrel;
 import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
@@ -87,6 +89,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	public long transferFluid(FluidType type, int pressure, long fluid) {
 		long toTransfer = Math.min(getDemand(type, pressure), fluid);
 		tank.setFill(tank.getFill() + (int) toTransfer);
+		this.markChanged();
 		return fluid - toTransfer;
 	}
 
@@ -96,8 +99,10 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		if(!worldObj.isRemote) {
 
 			byte comp = this.getComparatorPower(); //do comparator shenanigans
-			if(comp != this.lastRedstone)
+			if(comp != this.lastRedstone) {
 				this.markDirty();
+				for(DirPos pos : getConPos()) this.updateRedstoneConnection(pos);
+			}
 			this.lastRedstone = comp;
 
 			tank.setType(0, 1, slots);
@@ -108,12 +113,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			this.sendingBrake = true;
 			tank.setFill(transmitFluidFairly(worldObj, tank, this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
 			this.sendingBrake = false;
-			
-			age++;
-			if(age >= 20) {
-				age = 0;
-				this.markChanged();
-			}
 			
 			if((mode == 1 || mode == 2) && (age == 9 || age == 19))
 				fillFluidInit(tank.getTankType());
@@ -249,8 +248,12 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
 		}
 		
-		if(b == ModBlocks.barrel_corroded && worldObj.rand.nextInt(3) == 0) {
-			tank.setFill(tank.getFill() - 1);
+		if(b == ModBlocks.barrel_corroded ) {
+			if(worldObj.rand.nextInt(3) == 0) {
+				tank.setFill(tank.getFill() - 1);
+				FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.SPILL, 1F);
+			}
+			if(worldObj.rand.nextInt(3 * 60 * 20) == 0) worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 		}
 		
 		//For when Tom's firestorm hits a barrel full of water
@@ -264,6 +267,8 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		mode = data.getShort("mode");
 	}
 

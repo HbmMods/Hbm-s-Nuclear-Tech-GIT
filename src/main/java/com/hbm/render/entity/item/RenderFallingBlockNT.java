@@ -32,27 +32,29 @@ public class RenderFallingBlockNT extends Render {
 		int iY = MathHelper.floor_double(entity.posY);
 		int iZ = MathHelper.floor_double(entity.posZ);
 
-		if(block != null && block != world.getBlock(iX, iY, iZ)) {
-			GL11.glPushMatrix();
-			GL11.glTranslated(x, y, z);
-			this.bindEntityTexture(entity);
-			GL11.glDisable(GL11.GL_LIGHTING);
-			
-			this.renderBlocks.blockAccess = world;
-			
-			if(block instanceof BlockFallingNT && ((BlockFallingNT) block).shouldOverrideRenderer()) {
-				Tessellator tessellator = Tessellator.instance;
-				tessellator.startDrawingQuads();
-				((BlockFallingNT) block).overrideRenderer(entity, renderBlocks, tessellator);
-				tessellator.draw();
-			} else {
-				this.renderBlocks.setRenderBoundsFromBlock(block);
-				this.renderBlocks.renderBlockSandFalling(block, world, iX, iY, iZ, entity.getDataWatcher().getWatchableObjectInt(11));
+		GL11.glPushMatrix();
+		try {
+			if(block != null && block != world.getBlock(iX, iY, iZ)) {
+				GL11.glTranslated(x, y, z);
+				this.bindEntityTexture(entity);
+				GL11.glDisable(GL11.GL_LIGHTING);
+				
+				this.renderBlocks.blockAccess = world;
+				
+				if(block instanceof BlockFallingNT && ((BlockFallingNT) block).shouldOverrideRenderer()) {
+					Tessellator tessellator = Tessellator.instance;
+					tessellator.startDrawingQuads();
+					((BlockFallingNT) block).overrideRenderer(entity, renderBlocks, tessellator);
+					tessellator.draw();
+				} else {
+					this.renderBlocks.setRenderBoundsFromBlock(block);
+					this.renderBlocks.renderBlockSandFalling(block, world, iX, iY, iZ, entity.getDataWatcher().getWatchableObjectInt(11));
+				}
+	
+				GL11.glEnable(GL11.GL_LIGHTING);
 			}
-
-			GL11.glEnable(GL11.GL_LIGHTING);
-			GL11.glPopMatrix();
-		}
+		} catch(Exception ex) { }
+		GL11.glPopMatrix();
 	}
 
 	protected ResourceLocation getEntityTexture(EntityFallingBlockNT entity) {

@@ -2,6 +2,7 @@ package com.hbm.render.entity.rocket;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.entity.missile.EntityMissileTier3.*;
 import com.hbm.main.ResourceManager;
 
@@ -15,21 +16,25 @@ public class RenderMissileHuge extends Render {
 	}
 
 	@Override
-	public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
+	public void doRender(Entity entity, double x, double y, double z, float p_76986_8_, float interp) {
 
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) p_76986_2_, (float) p_76986_4_, (float) p_76986_6_);
-		GL11.glRotatef(p_76986_1_.prevRotationYaw + (p_76986_1_.rotationYaw - p_76986_1_.prevRotationYaw) * p_76986_9_ - 90.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(p_76986_1_.prevRotationPitch + (p_76986_1_.rotationPitch - p_76986_1_.prevRotationPitch) * p_76986_9_, 0.0F, 0.0F, 1.0F);
+		GL11.glTranslatef((float) x, (float) y, (float) z);
+		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * interp, 0.0F, 0.0F, 1.0F);
+		GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, -1.0F, 0.0F);
 
-		if(p_76986_1_ instanceof EntityMissileBurst)
-			bindTexture(ResourceManager.missileHuge_HE_tex);
-		if(p_76986_1_ instanceof EntityMissileInferno)
-			bindTexture(ResourceManager.missileHuge_IN_tex);
-		if(p_76986_1_ instanceof EntityMissileRain)
-			bindTexture(ResourceManager.missileHuge_CL_tex);
-		if(p_76986_1_ instanceof EntityMissileDrill)
-			bindTexture(ResourceManager.missileHuge_BU_tex);
+		if(entity instanceof EntityMissileBaseNT) switch(entity.getDataWatcher().getWatchableObjectByte(3)) {
+		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
+		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
+		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
+		}
+
+		if(entity instanceof EntityMissileBurst) bindTexture(ResourceManager.missileHuge_HE_tex);
+		if(entity instanceof EntityMissileInferno) bindTexture(ResourceManager.missileHuge_IN_tex);
+		if(entity instanceof EntityMissileRain) bindTexture(ResourceManager.missileHuge_CL_tex);
+		if(entity instanceof EntityMissileDrill) bindTexture(ResourceManager.missileHuge_BU_tex);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		ResourceManager.missileHuge.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);

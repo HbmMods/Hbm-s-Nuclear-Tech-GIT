@@ -38,7 +38,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 		
-		registerFuelProcessing();
 		//6-30, formerly oil cracking, coal liquefaction and solidifciation
 		registerOtherOil();
 		
@@ -121,8 +120,8 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(Fluids.XYLENE, 250),
 						new FluidStack(Fluids.PHOSGENE, 250))
 				.inputItems(
-						new ComparableStack(com.hbm.blocks.ModBlocks.reinforced_glass),
-						new ComparableStack(com.hbm.items.ModItems.bolt_tungsten, 4))
+						new ComparableStack(ModBlocks.reinforced_glass),
+						new OreDictStack(STEEL.bolt(), 4))
 				.outputItems(new ItemStack(com.hbm.blocks.ModBlocks.reinforced_laminate)));
 		recipes.add(new ChemRecipe(94, "PC", 100)
 				.inputFluids(
@@ -227,10 +226,10 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(new FluidStack(Fluids.PETROLEUM, 200, GeneralConfig.enable528 ? 1 : 0))
 				.outputItems(new ItemStack(ModItems.rocket_fuel, 4)));
 		recipes.add(new ChemRecipe(58, "ELECTROLYSIS", 150)
-				.inputFluids(new FluidStack(Fluids.WATER, 8000))
+				.inputFluids(new FluidStack(Fluids.WATER, 4000))
 				.outputFluids(
-						new FluidStack(Fluids.HYDROGEN, 800),
-						new FluidStack(Fluids.OXYGEN, 800)));
+						new FluidStack(Fluids.HYDROGEN, 400),
+						new FluidStack(Fluids.OXYGEN, 400)));
 		recipes.add(new ChemRecipe(59, "XENON", 300)
 				.inputFluids(new FluidStack(Fluids.NONE, 0))
 				.outputFluids(new FluidStack(Fluids.XENON, 50)));
@@ -287,13 +286,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ItemStack(ModItems.gem_tantalium),
 						new ItemStack(ModItems.dust, 3))
 				.outputFluids(new FluidStack(Fluids.WATER, 250)));
-		recipes.add(new ChemRecipe(91, "ARSENIC", 1200)
-				.inputItems(new ComparableStack(ModItems.scrap_oil, 256))
-				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1000))
-				.outputItems(
-						new ItemStack(ModItems.nugget_arsenic),
-						new ItemStack(ModItems.sulfur, 2))
-				.outputFluids(new FluidStack(Fluids.HEAVYOIL, 1500)));
 		recipes.add(new ChemRecipe(68, "VIT_LIQUID", 100)
 				.inputItems(new ComparableStack(ModBlocks.sand_lead))
 				.inputFluids(new FluidStack(Fluids.WASTEFLUID, 1000))
@@ -314,7 +306,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(
 						new FluidStack(Fluids.PETROLEUM, 100),
 						new FluidStack(Fluids.STEAM, 1000))
-				.outputItems(new ItemStack(ModItems.antiknock)));
+				.outputItems(new ItemStack(ModItems.fuel_additive)));
 		recipes.add(new ChemRecipe(4, "FR_REOIL", 30)
 				.inputFluids(new FluidStack(1000, Fluids.SMEAR))
 				.outputFluids(new FluidStack(800, Fluids.RECLAIMED)));
@@ -324,18 +316,18 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new FluidStack(200, Fluids.LUBRICANT))
 				.outputFluids(new FluidStack(1000, Fluids.PETROIL)));
 		recipes.add(new ChemRecipe(86, "PETROIL_LEADED", 40)
-				.inputItems(new ComparableStack(ModItems.antiknock))
+				.inputItems(new ComparableStack(ModItems.fuel_additive))
 				.inputFluids(new FluidStack(Fluids.PETROIL, 10_000))
 				.outputFluids(new FluidStack(Fluids.PETROIL_LEADED, 12_000)));
 		recipes.add(new ChemRecipe(71, "GASOLINE", 40)
 				.inputFluids(new FluidStack(Fluids.NAPHTHA, 1000))
 				.outputFluids(new FluidStack(Fluids.GASOLINE, 800)));
 		recipes.add(new ChemRecipe(85, "GASOLINE_LEADED", 40)
-				.inputItems(new ComparableStack(ModItems.antiknock))
+				.inputItems(new ComparableStack(ModItems.fuel_additive))
 				.inputFluids(new FluidStack(Fluids.GASOLINE, 10_000))
 				.outputFluids(new FluidStack(Fluids.GASOLINE_LEADED, 12_000)));
 		recipes.add(new ChemRecipe(87, "COALGAS_LEADED", 40)
-				.inputItems(new ComparableStack(ModItems.antiknock))
+				.inputItems(new ComparableStack(ModItems.fuel_additive))
 				.inputFluids(new FluidStack(Fluids.COALGAS, 10_000))
 				.outputFluids(new FluidStack(Fluids.COALGAS_LEADED, 12_000)));
 		recipes.add(new ChemRecipe(72, "FRACKSOL", 20)
@@ -372,10 +364,10 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(new FluidStack(Fluids.GAS, 1000))
 				.outputFluids(new FluidStack(Fluids.CARBONDIOXIDE, 1000)));
 		recipes.add(new ChemRecipe(78, "HEAVY_ELECTROLYSIS", 150)
-				.inputFluids(new FluidStack(Fluids.HEAVYWATER, 8000))
+				.inputFluids(new FluidStack(Fluids.HEAVYWATER, 2000))
 				.outputFluids(
-						new FluidStack(Fluids.DEUTERIUM, 400),
-						new FluidStack(Fluids.OXYGEN, 400)));
+						new FluidStack(Fluids.DEUTERIUM, 200),
+						new FluidStack(Fluids.OXYGEN, 200)));
 		recipes.add(new ChemRecipe(80, "EPEARL", 100)
 				.inputItems(new OreDictStack(DIAMOND.dust(), 1))
 				.inputFluids(new FluidStack(Fluids.XPJUICE, 500))
@@ -401,6 +393,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(101, "CC_CENTRIFUGE", 200)
 				.inputFluids(new FluidStack(Fluids.CHLOROCALCITE_CLEANED, 500), new FluidStack(Fluids.SULFURIC_ACID, 8_000))
 				.outputFluids(new FluidStack(Fluids.POTASSIUM_CHLORIDE, 250), new FluidStack(Fluids.CALCIUM_CHLORIDE, 250)));
+		
 		recipes.add(new ChemRecipe(102, "THORIUM_SALT", 60)
 				.inputFluids(new FluidStack(Fluids.THORIUM_SALT_DEPLETED, 16_000))
 				.inputItems(new OreDictStack(TH232.nugget(), 2))
@@ -408,33 +401,14 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputItems(
 						new ItemStack(ModItems.nugget_u233, 1),
 						new ItemStack(ModItems.nuclear_waste_tiny, 1)));
-	}
-	
-	public static void registerFuelProcessing() {
-		recipes.add(new ChemRecipe(0, "FP_HEAVYOIL", 50)
-				.inputFluids(new FluidStack(1000, Fluids.HEAVYOIL))
-				.outputFluids(
-						new FluidStack(FractionRecipes.heavy_frac_bitu * 10, Fluids.BITUMEN),
-						new FluidStack(FractionRecipes.heavy_frac_smear * 10, Fluids.SMEAR)
-						));
-		recipes.add(new ChemRecipe(1, "FP_SMEAR", 50)
-				.inputFluids(new FluidStack(1000, Fluids.SMEAR))
-				.outputFluids(
-						new FluidStack(FractionRecipes.smear_frac_heat * 10, Fluids.HEATINGOIL),
-						new FluidStack(FractionRecipes.smear_frac_lube * 10, Fluids.LUBRICANT)
-						));
-		recipes.add(new ChemRecipe(2, "FP_NAPHTHA", 50)
-				.inputFluids(new FluidStack(1000, Fluids.NAPHTHA))
-				.outputFluids(
-						new FluidStack(FractionRecipes.napht_frac_heat * 10, Fluids.HEATINGOIL),
-						new FluidStack(FractionRecipes.napht_frac_diesel * 10, Fluids.DIESEL)
-						));
-		recipes.add(new ChemRecipe(3, "FP_LIGHTOIL", 50)
-				.inputFluids(new FluidStack(1000, Fluids.LIGHTOIL))
-				.outputFluids(
-						new FluidStack(FractionRecipes.light_frac_diesel * 10, Fluids.DIESEL),
-						new FluidStack(FractionRecipes.light_frac_kero * 10, Fluids.KEROSENE)
-						));
+
+		recipes.add(new ChemRecipe(103, "MEAT_PROCESSING", 200)
+				.inputItems(new OreDictStack(KEY_GLYPHID_MEAT, 3))
+				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1000))
+				.outputItems(new ItemStack(ModItems.sulfur, 4),
+						new ItemStack(ModItems.niter, 3))
+				.outputFluids(new FluidStack(Fluids.SALIENT, 250)));
+
 	}
 
 	public static void registerOtherOil() {

@@ -44,7 +44,6 @@ import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
-import com.hbm.handler.SiegeOrchestrator;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -80,6 +79,7 @@ import com.hbm.util.InventoryUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.world.generator.TimedGenerator;
 
+import api.hbm.energymk2.Nodespace;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -158,33 +158,38 @@ public class ModEventHandler {
 	public void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 
 		if(!event.player.worldObj.isRemote) {
-			event.player.addChatMessage(new ChatComponentText("Loaded world with Hbm's Nuclear Tech Mod " + RefStrings.VERSION + " for Minecraft 1.7.10!"));
-
-			if(HTTPHandler.newVersion) {
-				event.player.addChatMessage(
-						new ChatComponentText("New version " + HTTPHandler.versionNumber + " is available! Click ")
-						.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW))
-						.appendSibling(new ChatComponentText("[here]")
-								.setChatStyle(new ChatStyle()
-									.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
-									.setUnderlined(true)
-									.setColor(EnumChatFormatting.RED)
+			
+			if(GeneralConfig.enableMOTD) {
+				event.player.addChatMessage(new ChatComponentText("Loaded world with Hbm's Nuclear Tech Mod " + RefStrings.VERSION + " for Minecraft 1.7.10!"));
+	
+				if(HTTPHandler.newVersion) {
+					event.player.addChatMessage(
+							new ChatComponentText("New version " + HTTPHandler.versionNumber + " is available! Click ")
+							.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW))
+							.appendSibling(new ChatComponentText("[here]")
+									.setChatStyle(new ChatStyle()
+										.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
+										.setUnderlined(true)
+										.setColor(EnumChatFormatting.RED)
+									)
 								)
-							)
-						.appendSibling(new ChatComponentText(" to download!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)))
-						);
+							.appendSibling(new ChatComponentText(" to download!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)))
+							);
+				}
 			}
 			
 			if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
 				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!", MainRegistry.proxy.ID_DUCK, 30_000), (EntityPlayerMP) event.player);
 			
-			
-			HbmPlayerProps props = HbmPlayerProps.getData(event.player);
-			
-			if(!props.hasReceivedBook) {
-				event.player.inventory.addItemStackToInventory(new ItemStack(ModItems.book_guide, 1, BookType.STARTER.ordinal()));
-				event.player.inventoryContainer.detectAndSendChanges();
-				props.hasReceivedBook = true;
+
+			if(GeneralConfig.enableGuideBook) {
+				HbmPlayerProps props = HbmPlayerProps.getData(event.player);
+				
+				if(!props.hasReceivedBook) {
+					event.player.inventory.addItemStackToInventory(new ItemStack(ModItems.book_guide, 1, BookType.STARTER.ordinal()));
+					event.player.inventoryContainer.detectAndSendChanges();
+					props.hasReceivedBook = true;
+				}
 			}
 		}
 	}
@@ -322,8 +327,10 @@ public class ModEventHandler {
 					event.entityLiving.dropItem(ModItems.bandaid, 1);
 				}
 				
-				if(event.entityLiving instanceof IMob && event.entityLiving.getRNG().nextInt(1000) == 0) {
-					event.entityLiving.dropItem(ModItems.heart_piece, 1);
+				if(event.entityLiving instanceof IMob) {
+					if(event.entityLiving.getRNG().nextInt(1000) == 0) event.entityLiving.dropItem(ModItems.heart_piece, 1);
+					if(event.entityLiving.getRNG().nextInt(250) == 0) event.entityLiving.dropItem(ModItems.key_red_cracked, 1);
+					if(event.entityLiving.getRNG().nextInt(250) == 0) event.entityLiving.dropItem(ModItems.launch_code_piece, 1);
 				}
 				
 				if(event.entityLiving instanceof EntityCyberCrab && event.entityLiving.getRNG().nextInt(500) == 0) {
@@ -382,11 +389,6 @@ public class ModEventHandler {
 					}
 				}
 			}
-			
-			SiegeOrchestrator.playerDeathHook(player, event.source);
-			
-		} else {
-			SiegeOrchestrator.mobDeathHook(entity, event.source);
 		}
 	}
 	
@@ -709,7 +711,6 @@ public class ModEventHandler {
 		if(event.phase == Phase.START) {
 			BossSpawnHandler.rollTheDice(event.world);
 			TimedGenerator.automaton(event.world, 100);
-			SiegeOrchestrator.update(event.world);
 		}
 	}
 	
@@ -1078,7 +1079,7 @@ public class ModEventHandler {
 				for(int k = 0; k < 5; k++) {
 					
 					vec.rotateAroundY((float) (1F * Math.PI / 180D));
-					player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + player.worldObj.rand.nextDouble() * 0.05, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
+					//player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + player.worldObj.rand.nextDouble() * 0.05, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
 				}
 			}
 			
@@ -1101,6 +1102,7 @@ public class ModEventHandler {
 			RTTYSystem.updateBroadcastQueue();
 			RequestNetwork.updateEntries();
 			TileEntityMachineRadarNT.updateSystem();
+			Nodespace.updateNodespace();
 		}
 	}
 	

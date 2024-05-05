@@ -24,12 +24,15 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -43,7 +46,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IGUIProvider /* TODO: finish fluid API impl */ {
+public class TileEntityITER extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC {
 	
 	public long power;
 	public static final long maxPower = 10000000;
@@ -62,6 +65,10 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	public float rotor;
 	public float lastRotor;
 	public boolean isOn;
+
+	private float rotorSpeed = 0F;
+
+	private AudioWrapper audio;
 
 	public TileEntityITER() {
 		super(5);
@@ -181,16 +188,38 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			/// END Notif packets ///
 			
 		} else {
-			
+
 			this.lastRotor = this.rotor;
+			this.rotor += this.rotorSpeed;
+				
+			if(this.rotor >= 360) {
+				this.rotor -= 360;
+				this.lastRotor -= 360;
+			}
 			
-			if(this.isOn && this.power >= this.powerReq) {
+			if(this.isOn && this.power >= powerReq) {
+				this.rotorSpeed = Math.max(0F, Math.min(15F, this.rotorSpeed + 0.05F));
+
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.fusionReactorRunning", xCoord, yCoord, zCoord, 1.0F, 30F, 1.0F);
+					audio.startSound();
+				}
+
+				float rotorSpeed = this.rotorSpeed / 15F;
+				audio.updateVolume(getVolume(0.5f * rotorSpeed));
+				audio.updatePitch(0.25F + 0.75F * rotorSpeed);
+			} else {
+				this.rotorSpeed = Math.max(0F, Math.min(15F, this.rotorSpeed - 0.1F));
 				
-				this.rotor += 15F;
-				
-				if(this.rotor >= 360) {
-					this.rotor -= 360;
-					this.lastRotor -= 360;
+				if(audio != null) {
+					if(this.rotorSpeed > 0) {
+						float rotorSpeed = this.rotorSpeed / 15F;
+						audio.updateVolume(getVolume(0.5f * rotorSpeed));
+						audio.updatePitch(0.25F + 0.75F * rotorSpeed);
+					} else {
+						audio.stopSound();
+						audio = null;
+					}
 				}
 			}
 		}
@@ -356,6 +385,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 
 	@Override
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.isOn = data.getBoolean("isOn");
 		this.power = data.getLong("power");
 		this.blanket = data.getInteger("blanket");
@@ -473,6 +504,26 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			return plasma.getMaxFill();
 		else
 			return 0;
+	}
+	
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
 	}
 	
 	@Override
@@ -599,5 +650,13 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIITER(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.isOn && plasma.getFill() > 0);
+		int output = FusionRecipes.getSteamProduction(plasma.getTankType());
+		data.setDouble("consumption", output * 10);
+		data.setDouble("outputmb", output);
 	}
 }

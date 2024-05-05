@@ -4,9 +4,8 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.MultiblockHandlerXR;
-import com.hbm.handler.pollution.PollutionHandler;
-import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.interfaces.IFluidSource;
@@ -15,13 +14,9 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.container.ContainerMachineFluidTank;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.trait.FT_Corrosive;
-import com.hbm.inventory.fluid.trait.FT_Flammable;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Amat;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Leaded;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
+import com.hbm.inventory.fluid.trait.*;
+import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.inventory.gui.GUIMachineFluidTank;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -127,11 +122,15 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 				
 				tank.loadTank(2, 3, slots);
 				tank.setType(0, 1, slots);
+			} else {
+				for(DirPos pos : getConPos()) this.tryUnsubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ());
 			}
 
 			byte comp = this.getComparatorPower(); //comparator shit
-			if(comp != this.lastRedstone)
+			if(comp != this.lastRedstone) {
 				this.markDirty();
+				for(DirPos pos : getConPos()) this.updateRedstoneConnection(pos);
+			}
 			this.lastRedstone = comp;
 
 			if(tank.getFill() > 0) {
@@ -168,6 +167,15 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			this.tank.writeToNBT(data, "t");
 			this.networkPack(data, 150);
 		}
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 2.875, zCoord + 1).offset(dir.offsetX * 0.5 - rot.offsetX * 2.25, 0, dir.offsetZ * 0.5 - rot.offsetZ * 2.25));
+		
+		for(EntityPlayer player : players) {
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			props.isOnLadder = true;
+		}
 	}
 	
 	/** called when the tank breaks due to hazardous materials or external force, can be used to quickly void part of the tank or spawn a mushroom cloud */
@@ -196,9 +204,8 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			Random rand = worldObj.rand;
 			ParticleUtil.spawnGasFlame(worldObj, xCoord + rand.nextDouble(), yCoord + 0.5 + rand.nextDouble(), zCoord + rand.nextDouble(), rand.nextGaussian() * 0.2, 0.1, rand.nextGaussian() * 0.2);
 			
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 50);
-				if(type.hasTrait(FT_Leaded.class)) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * 50);
+			if(worldObj.getTotalWorldTime() % 5 == 0) {
+				FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.BURN, amount * 5);
 			}
 			
 		} else if(type.hasTrait(FT_Gaseous.class) || type.hasTrait(FT_Gaseous_ART.class)) {
@@ -212,6 +219,10 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 				data.setInteger("life", 100 + worldObj.rand.nextInt(20));
 				data.setInteger("color", tank.getTankType().getColor());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5, yCoord + 1, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			}
+
+			if(worldObj.getTotalWorldTime() % 5 == 0 ) {
+				FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.SPILL, amount * 5);
 			}
 		}
 	}

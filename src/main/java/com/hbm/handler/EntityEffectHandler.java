@@ -7,6 +7,7 @@ import java.util.Random;
 import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
+import com.hbm.config.WorldConfig;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
@@ -30,6 +31,7 @@ import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hbm.world.biome.BiomeGenCraterBase;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
@@ -48,6 +50,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 
 public class EntityEffectHandler {
 
@@ -57,19 +60,30 @@ public class EntityEffectHandler {
 			HbmLivingProps.setRadBuf(entity, HbmLivingProps.getRadEnv(entity));
 			HbmLivingProps.setRadEnv(entity, 0);
 		}
+		
+		if(entity instanceof EntityPlayer && entity == MainRegistry.proxy.me()) {
+			EntityPlayer player = MainRegistry.proxy.me();
+			if(player != null) {
+				BiomeGenBase biome = player.worldObj.getBiomeGenForCoords((int) Math.floor(player.posX), (int) Math.floor(player.posZ));
+				if(biome == BiomeGenCraterBase.craterBiome || biome == BiomeGenCraterBase.craterInnerBiome) {
+					Random rand = player.getRNG();
+					for(int i = 0; i < 3; i++) player.worldObj.spawnParticle("townaura", player.posX + rand.nextGaussian() * 3, player.posY + rand.nextGaussian() * 2, player.posZ + rand.nextGaussian() * 3, 0, 0, 0);
+				}
+			}
+		}
 
 		if(entity instanceof EntityPlayerMP) {
 			HbmLivingProps props = HbmLivingProps.getData(entity);
 			HbmPlayerProps pprps = HbmPlayerProps.getData((EntityPlayerMP) entity);
 			NBTTagCompound data = new NBTTagCompound();
 
-			if(pprps.shield < pprps.maxShield && entity.ticksExisted > pprps.lastDamage + 60) {
+			if(pprps.shield < pprps.getEffectiveMaxShield() && entity.ticksExisted > pprps.lastDamage + 60) {
 				int tsd = entity.ticksExisted - (pprps.lastDamage + 60);
-				pprps.shield += Math.min(pprps.maxShield - pprps.shield, 0.005F * tsd);
+				pprps.shield += Math.min(pprps.getEffectiveMaxShield() - pprps.shield, 0.005F * tsd);
 			}
 
-			if(pprps.shield > pprps.maxShield)
-				pprps.shield = pprps.maxShield;
+			if(pprps.shield > pprps.getEffectiveMaxShield())
+				pprps.shield = pprps.getEffectiveMaxShield();
 
 			props.saveNBTData(data);
 			pprps.saveNBTData(data);
@@ -89,6 +103,18 @@ public class EntityEffectHandler {
 			if(GeneralConfig.enable528 && entity instanceof EntityLivingBase && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
 				entity.setFire(5);
 			}
+			
+			BiomeGenBase biome = entity.worldObj.getBiomeGenForCoords((int) Math.floor(entity.posX), (int) Math.floor(entity.posZ));
+			float radiation = 0;
+			if(biome == BiomeGenCraterBase.craterOuterBiome) radiation = WorldConfig.craterBiomeOuterRad;
+			if(biome == BiomeGenCraterBase.craterBiome) radiation = WorldConfig.craterBiomeRad;
+			if(biome == BiomeGenCraterBase.craterInnerBiome) radiation = WorldConfig.craterBiomeInnerRad;
+			
+			if(entity.isWet()) radiation *= WorldConfig.craterBiomeWaterMult;
+			
+			if(radiation > 0) {
+				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, radiation / 20F);
+			}
 		}
 
 		handleContamination(entity);
@@ -102,6 +128,51 @@ public class EntityEffectHandler {
 
 		handleDashing(entity);
 		handlePlinking(entity);
+		
+		if(entity instanceof EntityPlayer) handleFauxLadder((EntityPlayer) entity);
+	}
+	
+	private static void handleFauxLadder(EntityPlayer player) {
+		
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
+		
+		if(props.isOnLadder) {
+			float f5 = 0.15F;
+
+			if(player.motionX < (double) (-f5)) {
+				player.motionX = (double) (-f5);
+			}
+
+			if(player.motionX > (double) f5) {
+				player.motionX = (double) f5;
+			}
+
+			if(player.motionZ < (double) (-f5)) {
+				player.motionZ = (double) (-f5);
+			}
+
+			if(player.motionZ > (double) f5) {
+				player.motionZ = (double) f5;
+			}
+
+			player.fallDistance = 0.0F;
+
+			if(player.motionY < -0.15D) {
+				player.motionY = -0.15D;
+			}
+
+			if(player.isSneaking() && player.motionY < 0.0D) {
+				player.motionY = 0.0D;
+			}
+
+			if(player.isCollidedHorizontally) {
+				player.motionY = 0.2D;
+			}
+
+			props.isOnLadder = false;
+			
+			if(!player.worldObj.isRemote) ArmorUtil.resetFlightTime(player);
+		}
 	}
 	
 	private static void handleContamination(EntityLivingBase entity) {
@@ -457,7 +528,7 @@ public class EntityEffectHandler {
 		
 		if(!RadiationConfig.enablePollution) return;
 		
-		if(RadiationConfig.enablePoison && !ArmorRegistry.hasProtection(entity, 3, HazardClass.GAS_CORROSIVE) && entity.ticksExisted % 60 == 0) {
+		if(RadiationConfig.enablePoison && !ArmorRegistry.hasProtection(entity, 3, HazardClass.GAS_BLISTERING) && entity.ticksExisted % 60 == 0) {
 			
 			float poison = PollutionHandler.getPollution(entity.worldObj, (int) Math.floor(entity.posX), (int) Math.floor(entity.posY + entity.getEyeHeight()), (int) Math.floor(entity.posZ), PollutionType.POISON);
 			

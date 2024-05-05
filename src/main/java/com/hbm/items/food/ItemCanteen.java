@@ -35,9 +35,6 @@ public class ItemCanteen extends Item {
 	public ItemStack onEaten(ItemStack stack, World world, EntityPlayer player) {
 		stack.setItemDamage(stack.getMaxDamage());
 
-		if (this == ModItems.canteen_13) {
-			player.heal(5F);
-		}
 		if (this == ModItems.canteen_vodka) {
 			player.addPotionEffect(new PotionEffect(Potion.confusion.id, 10 * 20, 0));
 			player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 30 * 20, 2));
@@ -77,17 +74,6 @@ public class ItemCanteen extends Item {
 	@SideOnly(Side.CLIENT)
     public void addInformation(ItemStack p_77624_1_, EntityPlayer p_77624_2_, List list, boolean p_77624_4_)
     {
-    	if(this == ModItems.canteen_13)
-    	{
-			list.add("Cooldown: 1 minute");
-			list.add("Restores 2.5 hearts");
-			list.add("");
-			
-    		if(MainRegistry.polaroidID == 11)
-    			list.add("You sip a sip from your trusty Vault 13 SIPPP");
-    		else
-    			list.add("You take a sip from your trusty Vault 13 canteen.");
-    	}
     	if(this == ModItems.canteen_vodka)
     	{
 			list.add("Cooldown: 3 minutes");

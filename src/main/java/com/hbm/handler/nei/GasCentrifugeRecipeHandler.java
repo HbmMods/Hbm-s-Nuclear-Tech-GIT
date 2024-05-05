@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.gui.GUIMachineGasCent;
 import com.hbm.inventory.recipes.GasCentrifugeRecipes;
 import com.hbm.inventory.recipes.MachineRecipes;
@@ -22,8 +24,16 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
-public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler {
-
+public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler implements ICompatNHNEI {
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return new ItemStack[]{
+				new ItemStack(ModBlocks.machine_gascent)};
+	}
+	@Override
+	public String getRecipeID() {
+		return "gascentprocessing";
+	}
 	public static ArrayList<Fuel> fuels;
 
 	public class SmeltingSet extends TemplateRecipeHandler.CachedRecipe {

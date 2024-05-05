@@ -1,16 +1,11 @@
 package com.hbm.tileentity.machine.storage;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.hbm.lib.Library;
+import com.hbm.util.fauxpointtwelve.BlockPos;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyConductor;
-import api.hbm.energy.IEnergyConnector;
-import api.hbm.energy.IPowerNet;
-import api.hbm.energy.PowerNet;
+import api.hbm.energymk2.Nodespace;
+import api.hbm.energymk2.Nodespace.PowerNode;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,24 +19,54 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	public float rotation = 0F;
 	
 	public static final long maxTransfer = 10_000_000_000_000_000L;
+
+	@Override public long getProviderSpeed() {
+		int mode = this.getRelevantMode(true);
+		return mode == mode_output || mode == mode_buffer ? maxTransfer : 0;
+	}
+	
+	@Override public long getReceiverSpeed() {
+		int mode = this.getRelevantMode(true);
+		return mode == mode_input || mode == mode_buffer ? maxTransfer : 0;
+	}
 	
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+
+			int mode = this.getRelevantMode(false);
+			
+			if(this.node == null || this.node.expired) {
+				
+				this.node = Nodespace.getNode(worldObj, xCoord, yCoord, zCoord);
+				
+				if(this.node == null || this.node.expired) {
+					this.node = this.createNode();
+					Nodespace.createNode(worldObj, this.node);
+				}
+			}
 			
 			long prevPower = this.power;
 			
 			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
 			
-			//////////////////////////////////////////////////////////////////////
-			this.transmitPowerFairly();
-			//////////////////////////////////////////////////////////////////////
+			if(mode == mode_output || mode == mode_buffer) {
+				this.tryProvide(worldObj, xCoord, yCoord - 1, zCoord, ForgeDirection.DOWN);
+			} else {
+				if(node != null && node.hasValidNet()) node.net.removeProvider(this);
+			}
 			
 			byte comp = this.getComparatorPower();
 			if(comp != this.lastRedstone)
 				this.markDirty();
 			this.lastRedstone = comp;
+			
+			if(mode == mode_input || mode == mode_buffer) {
+				if(node != null && node.hasValidNet()) node.net.addReceiver(this);
+			} else {
+				if(node != null && node.hasValidNet()) node.net.removeReceiver(this);
+			}
 			
 			power = Library.chargeTEFromItems(slots, 0, power, getMaxPower());
 
@@ -73,61 +98,10 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 			}
 		}
 	}
-	
-	@Deprecated protected void transmitPower() {
-		
-		short mode = (short) this.getRelevantMode();
-		
-		//HasSets to we don'T have any duplicates
-		Set<IPowerNet> nets = new HashSet();
-		Set<IEnergyConnector> consumers = new HashSet();
-		
-		//iterate over all sides
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-			
-			TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-			
-			//if it's a cable, buffer both the network and all subscribers of the net
-			if(te instanceof IEnergyConductor) {
-				IEnergyConductor con = (IEnergyConductor) te;
-				if(con.canConnect(dir.getOpposite()) && con.getPowerNet() != null) {
-					nets.add(con.getPowerNet());
-					con.getPowerNet().unsubscribe(this);
-					consumers.addAll(con.getPowerNet().getSubscribers());
-				}
-				
-			//if it's just a consumer, buffer it as a subscriber
-			} else if(te instanceof IEnergyConnector) {
-				IEnergyConnector con = (IEnergyConnector) te;
-				if(con.canConnect(dir.getOpposite())) {
-					consumers.add((IEnergyConnector) te);
-				}
-			}
-		}
 
-		//send power to buffered consumers, independent of nets
-		if(this.power > 0 && (mode == mode_buffer || mode == mode_output)) {
-			List<IEnergyConnector> con = new ArrayList();
-			con.addAll(consumers);
-			
-			if(PowerNet.trackingInstances == null) {
-				PowerNet.trackingInstances = new ArrayList();
-			}
-			PowerNet.trackingInstances.clear();
-			
-			nets.forEach(x -> {
-				if(x instanceof PowerNet) PowerNet.trackingInstances.add((PowerNet) x);
-			});
-			
-			long toSend = Math.min(this.power, maxTransfer);
-			long powerRemaining = this.power - toSend;
-			this.power = PowerNet.fairTransfer(con, toSend) + powerRemaining;
-		}
-		
-		//resubscribe to buffered nets, if necessary
-		if(mode == mode_buffer || mode == mode_input) {
-			nets.forEach(x -> x.subscribe(this));
-		}
+	@Override
+	public PowerNode createNode() {
+		return new PowerNode(new BlockPos(xCoord, yCoord, zCoord)).setConnections(new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y));
 	}
 
 	@Override
@@ -139,11 +113,6 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 	@Override
 	public long getMaxPower() {
 		return Long.MAX_VALUE;
-	}
-
-	@Override
-	public long getMaxTransfer() {
-		return maxTransfer;
 	}
 	
 	public float getSpeed() {

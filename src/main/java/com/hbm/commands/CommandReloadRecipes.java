@@ -1,5 +1,6 @@
 package com.hbm.commands;
 
+import com.hbm.config.ItemPoolConfigJSON;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.util.ChatBuilder;
 
@@ -24,6 +25,7 @@ public class CommandReloadRecipes extends CommandBase {
 	public void processCommand(ICommandSender sender, String[] args) {
 		try {
 			SerializableRecipe.initialize();
+			ItemPoolConfigJSON.initialize();
 			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Reload complete :)"));
 		} catch(Exception ex) {
 			sender.addChatMessage(ChatBuilder.start("----------------------------------").color(EnumChatFormatting.GRAY).flush());

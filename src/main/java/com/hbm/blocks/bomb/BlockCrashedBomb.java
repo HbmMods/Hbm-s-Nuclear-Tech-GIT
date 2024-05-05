@@ -98,7 +98,7 @@ public class BlockCrashedBomb extends BlockContainer implements IBomb {
 		if(!world.isRemote) {
 
 			world.setBlockToAir(x, y, z);
-			EntityBalefire bf = new EntityBalefire(world).mute();
+			EntityBalefire bf = new EntityBalefire(world);
 			bf.posX = x;
 			bf.posY = y;
 			bf.posZ = z;

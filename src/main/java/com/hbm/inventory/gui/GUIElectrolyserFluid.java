@@ -67,7 +67,7 @@ public class GUIElectrolyserFluid extends GuiInfoContainer {
 		int p = (int) (electrolyser.power * 89 / electrolyser.maxPower);
 		drawTexturedModalRect(guiLeft + 186, guiTop + 107 - p, 210, 89 - p, 16, p);
 		
-		if(electrolyser.power >= electrolyser.usage)
+		if(electrolyser.power >= electrolyser.usageFluid)
 			drawTexturedModalRect(guiLeft + 190, guiTop + 4, 226, 40, 9, 12);
 		
 		int e = electrolyser.progressFluid * 41 / electrolyser.processFluidTime;

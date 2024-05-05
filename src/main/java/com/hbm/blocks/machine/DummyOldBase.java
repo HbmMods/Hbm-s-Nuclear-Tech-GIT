@@ -7,7 +7,7 @@ import com.hbm.interfaces.IMultiblock;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.tileentity.machine.TileEntityDummy;
 
-import api.hbm.energy.IEnergyConnectorBlock;
+import api.hbm.energymk2.IEnergyConnectorBlock;
 import api.hbm.fluid.IFluidConnectorBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

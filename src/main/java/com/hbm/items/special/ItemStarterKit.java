@@ -215,9 +215,8 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_lithium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_potato, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.screwdriver, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_coal_off, 3));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_excavator, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_diesel, 2));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_selenium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_cable, 64));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_wire_coated, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_pylon, 8));
@@ -428,8 +427,6 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_nuclear, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_nuclear_cluster, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_volcano, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_endo, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_exo, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_doomsday, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_taint, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_micro, 1));

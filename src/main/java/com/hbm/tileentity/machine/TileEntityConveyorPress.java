@@ -9,7 +9,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityConveyorPress extends TileEntityMachineBase implements IEnergyUser {
+public class TileEntityConveyorPress extends TileEntityMachineBase implements IEnergyReceiverMK2 {
 
 	public int usage = 100;
 	public long power = 0;
@@ -163,7 +163,7 @@ public class TileEntityConveyorPress extends TileEntityMachineBase implements IE
 			}
 		}
 		
-		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", 1.5F, 1.0F);
+		this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", getVolume(1.5F), 1.0F);
 		
 		if(slots[0].getMaxDamage() != 0) {
 			slots[0].setItemDamage(slots[0].getItemDamage() + 1);
@@ -180,6 +180,7 @@ public class TileEntityConveyorPress extends TileEntityMachineBase implements IE
 	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
 		this.power = nbt.getLong("power");
 		this.syncPress = nbt.getInteger("press");
 		

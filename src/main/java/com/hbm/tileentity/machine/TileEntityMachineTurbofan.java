@@ -28,11 +28,13 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyGenerator;
+import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -49,7 +51,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC {
 
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -59,6 +61,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 	public int afterburner;
 	public boolean wasOn;
 	public boolean showBlood = false;
+	protected int output;
+	protected int consumption;
 
 	public float spin;
 	public float lastSpin;
@@ -119,6 +123,9 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 		
 		if(!worldObj.isRemote) {
 			
+			this.output = 0;
+			this.consumption = 0;
+			
 			//meta below 12 means that it's an old multiblock configuration
 			if(this.getBlockMetadata() < 12) {
 				//get old direction
@@ -165,7 +172,9 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 			if(amountToBurn > 0) {
 				this.wasOn = true;
 				this.tank.setFill(this.tank.getFill() - amountToBurn);
-				this.power += burnValue * amountToBurn * (1 + Math.min(this.afterburner / 3D, 4));
+				this.output = (int) (burnValue * amountToBurn * (1 + Math.min(this.afterburner / 3D, 4)));
+				this.power += this.output;
+				this.consumption = amountToBurn;
 				
 				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * amountToBurn);
 			}
@@ -173,7 +182,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 			power = Library.chargeItemsFromTE(slots, 3, power, power);
 			
 			for(DirPos pos : getConPos()) {
-				this.sendPower(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				if(this.blood.getFill() > 0) this.sendFluid(blood, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.sendSmoke(pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -318,7 +327,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 				}
 
 				audio.keepAlive();
-				audio.updateVolume(momentum);
+				audio.updateVolume(getVolume(momentum / 50F));
 				audio.updatePitch(momentum / 200F + 0.5F + this.afterburner * 0.16F);
 				
 			} else {
@@ -382,6 +391,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		
 		this.power = nbt.getLong("power");
 		this.afterburner = nbt.getByte("after");
 		this.wasOn = nbt.getBoolean("wasOn");
@@ -499,7 +510,7 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 
 	@Override
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
-		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_assembler));
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_turbofan));
 		if(type == UpgradeType.AFTERBURN) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_EFFICIENCY, "+" + (int)(level * 100 * (1 + Math.min(level / 3D, 4D))) + "%"));
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
@@ -510,5 +521,12 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 	public int getMaxLevel(UpgradeType type) {
 		if(type == UpgradeType.AFTERBURN) return 3;
 		return 0;
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.output > 0);
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, this.consumption);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, this.output);
 	}
 }

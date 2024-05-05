@@ -123,8 +123,8 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 	
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("power");
-		this.indicator = nbt.getInteger("indicator");
+		super.networkUnpack(nbt);
+		
 		this.speed = nbt.getFloat("speed");
 	}
 

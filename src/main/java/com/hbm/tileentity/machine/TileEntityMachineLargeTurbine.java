@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.CompatHandler;
@@ -16,12 +17,16 @@ import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.inventory.gui.GUIMachineLargeTurbine;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyGenerator;
+import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,18 +44,22 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyGenerator, IFluidStandardTransceiver, IGUIProvider, SimpleComponent {
+public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, SimpleComponent, IInfoProviderEC {
 
 	public long power;
 	public static final long maxPower = 100000000;
 	public int age = 0;
 	public List<IFluidAcceptor> list2 = new ArrayList();
 	public FluidTank[] tanks;
+	protected double[] info = new double[3];
 	
 	private boolean shouldTurn;
 	public float rotor;
 	public float lastRotor;
 	public float fanAcceleration = 0F;
+
+	private AudioWrapper audio;
+	private float audioDesync;
 	
 	public TileEntityMachineLargeTurbine() {
 		super(7);
@@ -58,6 +67,9 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.STEAM, 512000, 0);
 		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 10240000, 1);
+
+		Random rand = new Random();
+		audioDesync = rand.nextFloat() * 0.05F;
 	}
 
 	@Override
@@ -70,16 +82,17 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		
 		if(!worldObj.isRemote) {
 			
+			this.info = new double[3];
+			
 			age++;
-			if(age >= 2)
-			{
+			if(age >= 2) {
 				age = 0;
 			}
 			
 			fillFluidInit(tanks[1].getTankType());
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			this.sendPower(worldObj, xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, dir.getOpposite());
+			this.tryProvide(worldObj, xCoord + dir.offsetX * -4, yCoord, zCoord + dir.offsetZ * -4, dir.getOpposite());
 			for(DirPos pos : getConPos()) this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			for(DirPos pos : getConPos()) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 
@@ -103,6 +116,9 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 					tanks[0].setFill(tanks[0].getFill() - ops * trait.amountReq);
 					tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
 					this.power += (ops * trait.heatEnergy * eff);
+					info[0] = ops * trait.amountReq;
+					info[1] = ops * trait.amountProduced;
+					info[2] = ops * trait.heatEnergy * eff;
 					valid = true;
 					operational = ops > 0;
 				}
@@ -129,11 +145,30 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			}
 			
 			if(shouldTurn) {
+				// Fan accelerates with a random offset to ensure the audio doesn't perfectly align, makes for a more pleasant hum
+				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration += 0.075F + audioDesync));
 
-				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration += 0.1F));
-			}
-			if(!shouldTurn) {
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.largeTurbineRunning", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
+					audio.startSound();
+				}
+
+				float turbineSpeed = this.fanAcceleration / 15F;
+				audio.updateVolume(getVolume(0.4f * turbineSpeed));
+				audio.updatePitch(0.25F + 0.75F * turbineSpeed);
+			} else {
 				this.fanAcceleration = Math.max(0F, Math.min(15F, this.fanAcceleration -= 0.1F));
+				
+				if(audio != null) {
+					if(this.fanAcceleration > 0) {
+						float turbineSpeed = this.fanAcceleration / 15F;
+						audio.updateVolume(getVolume(0.4f * turbineSpeed));
+						audio.updatePitch(0.25F + 0.75F * turbineSpeed);
+					} else {
+						audio.stopSound();
+						audio = null;
+					}
+				}
 			}
 		}
 	}
@@ -149,6 +184,8 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {
+		super.networkUnpack(data);
+		
 		this.power = data.getLong("power");
 		this.shouldTurn = data.getBoolean("operational");
 	}
@@ -291,6 +328,26 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	public String getComponentName() {
 		return "ntm_turbine";
 	}
+	
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+		
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
@@ -326,5 +383,13 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineLargeTurbine(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, info[1] > 0);
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, info[0]);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_MB, info[1]);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, info[2]);
 	}
 }

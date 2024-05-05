@@ -17,7 +17,7 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -25,12 +25,13 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineExposureChamber extends TileEntityMachineBase implements IGUIProvider, IEnergyUser, IUpgradeInfoProvider {
+public class TileEntityMachineExposureChamber extends TileEntityMachineBase implements IGUIProvider, IEnergyReceiverMK2, IUpgradeInfoProvider {
 	
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -45,6 +46,22 @@ public class TileEntityMachineExposureChamber extends TileEntityMachineBase impl
 	public boolean isOn = false;
 	public float rotation;
 	public float prevRotation;
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		this.progress = nbt.getInteger("progress");
+		this.power = nbt.getLong("power");
+		this.savedParticles = nbt.getInteger("savedParticles");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setInteger("progress", progress);
+		nbt.setLong("power", power);
+		nbt.setInteger("savedParticles", savedParticles);
+	}
 
 	public TileEntityMachineExposureChamber() {
 		/*

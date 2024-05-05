@@ -25,6 +25,7 @@ public class MachineGasFlare extends BlockDummyable implements ITooltipProvider 
 		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.75D, 3.875D, -0.75D, 0.75D, 9, 0.75D));
 		this.bounding.add(AxisAlignedBB.getBoundingBox(-1.5D, 9D, -1.5D, 1.5D, 9.375D, 1.5D));
 		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.75D, 9.375D, -0.75D, 0.75D, 12, 0.75D));
+		this.maxY = 0.999D; //item bounce prevention
 	}
 
 	@Override

@@ -14,15 +14,19 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyGenerator;
+import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -36,7 +40,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IEnergyGenerator, INBTPacketReceiver, IFluidStandardTransceiver, SimpleComponent {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IEnergyProviderMK2, INBTPacketReceiver, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC {
 
 	public long power;
 	public static final long maxPower = 100000000000L;
@@ -48,18 +53,26 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 	public List<IFluidAcceptor> list2 = new ArrayList();
 	
 	public FluidTank[] tanks;
+	protected double[] info = new double[3];
+	
+	private AudioWrapper audio;
+	private float audioDesync;
 	
 	public TileEntityChungus() {
-		
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.STEAM, 1000000000, 0);
 		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 1000000000, 1);
+
+		Random rand = new Random();
+		audioDesync = rand.nextFloat() * 0.05F;
 	}
 
 	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			
+			this.info = new double[3];
 			
 			boolean operational = false;
 			FluidType in = tanks[0].getTankType();
@@ -75,6 +88,9 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 					tanks[0].setFill(tanks[0].getFill() - ops * trait.amountReq);
 					tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
 					this.power += (ops * trait.heatEnergy * eff);
+					info[0] = ops * trait.amountReq;
+					info[1] = ops * trait.amountProduced;
+					info[2] = ops * trait.heatEnergy * eff;
 					valid = true;
 					operational = ops > 0;
 				}
@@ -84,7 +100,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 			if(power > maxPower) power = maxPower;
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			this.sendPower(worldObj, xCoord - dir.offsetX * 11, yCoord, zCoord - dir.offsetZ * 11, dir.getOpposite());
+			this.tryProvide(worldObj, xCoord - dir.offsetX * 11, yCoord, zCoord - dir.offsetZ * 11, dir.getOpposite());
 			
 			for(DirPos pos : this.getConPos()) {
 				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -118,9 +134,9 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 			}
 			
 			if(turnTimer > 0) {
-
-				this.fanAcceleration = Math.max(0F, Math.min(25F, this.fanAcceleration += 0.1F));
-
+				// Fan accelerates with a random offset to ensure the audio doesn't perfectly align, makes for a more pleasant hum
+				this.fanAcceleration = Math.max(0F, Math.min(25F, this.fanAcceleration += 0.075F + audioDesync));
+				
 				Random rand = worldObj.rand;
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 				ForgeDirection side = dir.getRotation(ForgeDirection.UP);
@@ -132,9 +148,29 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 							zCoord + 0.5 + dir.offsetZ * (rand.nextDouble() + 1.25) + rand.nextGaussian() * side.offsetZ * 0.65,
 							-dir.offsetX * 0.2, 0, -dir.offsetZ * 0.2);
 				}
-			}
-			if(turnTimer < 0) {
+
+				
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.chungusTurbineRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 1.0F);
+					audio.startSound();
+				}
+
+				float turbineSpeed = this.fanAcceleration / 25F;
+				audio.updateVolume(getVolume(0.5f * turbineSpeed));
+				audio.updatePitch(0.25F + 0.75F * turbineSpeed);
+			} else {
 				this.fanAcceleration = Math.max(0F, Math.min(25F, this.fanAcceleration -= 0.1F));
+				
+				if(audio != null) {
+					if(this.fanAcceleration > 0) {
+						float turbineSpeed = this.fanAcceleration / 25F;
+						audio.updateVolume(getVolume(0.5f * turbineSpeed));
+						audio.updatePitch(0.25F + 0.75F * turbineSpeed);
+					} else {
+						audio.stopSound();
+						audio = null;
+					}
+				}
 			}	
 		}
 	}
@@ -285,6 +321,26 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 	public String getComponentName() {
 		return "ntm_turbine";
 	}
+	
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
@@ -324,5 +380,13 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 	@Override
 	public FluidTank[] getAllTanks() {
 		return tanks;
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, info[1] > 0);
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, info[0]);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_MB, info[1]);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, info[2]);
 	}
 }

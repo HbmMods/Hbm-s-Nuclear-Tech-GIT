@@ -38,6 +38,14 @@ public class RenderTorex extends Render {
 		cloudletWrapper(cloud, interp);
 		if(cloud.ticksExisted < 101) flashWrapper(cloud, interp);
 		if(cloud.ticksExisted < 10 && System.currentTimeMillis() - ModEventHandlerClient.flashTimestamp > 1_000) ModEventHandlerClient.flashTimestamp = System.currentTimeMillis();
+		if(cloud.didPlaySound && !cloud.didShake && System.currentTimeMillis() - ModEventHandlerClient.shakeTimestamp > 1_000) {
+			ModEventHandlerClient.shakeTimestamp = System.currentTimeMillis();
+			cloud.didShake = true;
+			EntityPlayer player = MainRegistry.proxy.me();
+			player.hurtTime = 15;
+			player.maxHurtTime = 15;
+			player.attackedAtYaw = 0F;
+		}
 		if(fog) GL11.glEnable(GL11.GL_FOG);
 		GL11.glPopMatrix();
 	}
@@ -77,7 +85,10 @@ public class RenderTorex extends Render {
 		
 		for(Cloudlet cloudlet : cloudlets) {
 			Vec3 vec = cloudlet.getInterpPos(interp);
-			tessellateCloudlet(tess, vec.xCoord - cloud.posX, vec.yCoord - cloud.posY, vec.zCoord - cloud.posZ, cloudlet, interp);
+			double x = vec.xCoord - cloud.posX;
+			double y = vec.yCoord - cloud.posY;
+			double z = vec.zCoord - cloud.posZ;
+			tessellateCloudlet(tess, x, y, z, cloudlet, interp);
 		}
 
 		tess.draw();
@@ -114,7 +125,7 @@ public class RenderTorex extends Render {
 			float x = (float) (rand.nextGaussian() * 0.5F * cloud.rollerSize);
 			float y = (float) (rand.nextGaussian() * 0.5F * cloud.rollerSize);
 			float z = (float) (rand.nextGaussian() * 0.5F * cloud.rollerSize);
-			tessellateFlash(tess, x, y + cloud.coreHeight, z, (float) (10 * cloud.rollerSize), alpha, interp);
+			tessellateFlash(tess, x, y + cloud.coreHeight, z, (float) (25 * cloud.rollerSize), alpha, interp);
 		}
 
 		tess.draw();
@@ -138,7 +149,7 @@ public class RenderTorex extends Render {
 		float f4 = ActiveRenderInfo.rotationXY;
 		float f5 = ActiveRenderInfo.rotationXZ;
 
-		float brightness = 0.75F * cloud.colorMod;
+		float brightness = cloud.type == cloud.type.CONDENSATION ? 0.9F : 0.75F * cloud.colorMod;
 		Vec3 color = cloud.getInterpColor(interp);
 		tess.setColorRGBA_F((float)color.xCoord * brightness, (float)color.yCoord * brightness, (float)color.zCoord * brightness, alpha);
 

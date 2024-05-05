@@ -171,13 +171,6 @@ public class ItemEnergy extends Item {
 				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 120 * 20, 1));
 				ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 15.0F);
 			}
-			if(this == ModItems.bottle2_sunset) {
-				player.heal(6);
-				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 1));
-				player.addPotionEffect(new PotionEffect(Potion.resistance.id, 60 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 60 * 20, 2));
-				player.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 60 * 20, 2));
-			}
 			if(this == ModItems.coffee) {
 				player.heal(10);
 				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 60 * 20, 2));
@@ -192,11 +185,7 @@ public class ItemEnergy extends Item {
 			if(!player.capabilities.isCreativeMode) {
 
 				if(this.cap != null) {
-					
-					if(this == ModItems.bottle2_sunset && world.rand.nextInt(20) == 0)
-						player.inventory.addItemStackToInventory(new ItemStack(ModItems.cap_star));
-					else
-						player.inventory.addItemStackToInventory(new ItemStack(this.cap));
+					player.inventory.addItemStackToInventory(new ItemStack(this.cap));
 				}
 				if(this.container != null) {
 					if(stack.stackSize <= 0) {
@@ -315,21 +304,6 @@ public class ItemEnergy extends Item {
 				list.add("Now with 400% more radiation!");
 			else
 				list.add("Tastes like radish and radiation.");
-			list.add("[Requires bottle opener]");
-		}
-		if(this == ModItems.bottle2_sunset) {
-			if(MainRegistry.polaroidID == 11) {
-				list.add("\"Authentic Sunset Juice\"");
-				list.add("");
-				list.add("This smells like fish.");
-				list.add("*sip*");
-				list.add("Yup, that's pretty disugsting.");
-				list.add("...");
-				list.add("...");
-				list.add("*sip*");
-			} else {
-				list.add("The eternal #2. Screw you, Bradberton!");
-			}
 			list.add("[Requires bottle opener]");
 		}
 	}
