@@ -1630,56 +1630,6 @@ public class ModEventHandler {
 		return "";
 	}
 
-	@SubscribeEvent
-	public void onBlockChange(BlockEvent.BreakEvent event) {
-	    if (event.world.isRemote) {
-	        return; 
-	    }
-	    
-
-	    for (TileEntity te : (Iterable<TileEntity>) event.world.loadedTileEntityList) { 
-	        if (te instanceof TileEntityAirPump) {
-	            TileEntityAirPump airPump = (TileEntityAirPump) te;
-	            AxisAlignedBB sealedRoomAABB = airPump.getSealedRoomAABB();
-	            if (sealedRoomAABB != null) {
-	                int x = event.x;
-	                int y = event.y;
-	                int z = event.z;
-	                if (sealedRoomAABB.minX <= x && x <= sealedRoomAABB.maxX &&
-	                    sealedRoomAABB.minY <= y && y <= sealedRoomAABB.maxY &&
-	                    sealedRoomAABB.minZ <= z && z <= sealedRoomAABB.maxZ) {
-	                    airPump.findRoomSections(event.world, airPump.xCoord, airPump.yCoord, airPump.zCoord);
-	                    System.out.println("gsd");
-	                }
-	            }
-	        }
-	    }
-	}
-	@SubscribeEvent
-	public void onBlockChange(BlockEvent.PlaceEvent event) {
-	    if (event.world.isRemote) {
-	        return; 
-	    }
-	    
-
-	    for (TileEntity te : (Iterable<TileEntity>) event.world.loadedTileEntityList) { 
-	        if (te instanceof TileEntityAirPump) {
-	            TileEntityAirPump airPump = (TileEntityAirPump) te;
-	            AxisAlignedBB sealedRoomAABB = airPump.getSealedRoomAABB();
-	            if (sealedRoomAABB != null) {
-	                int x = event.x;
-	                int y = event.y;
-	                int z = event.z;
-	                if (sealedRoomAABB.minX <= x && x <= sealedRoomAABB.maxX &&
-	                    sealedRoomAABB.minY <= y && y <= sealedRoomAABB.maxY &&
-	                    sealedRoomAABB.minZ <= z && z <= sealedRoomAABB.maxZ) {
-	                    airPump.findRoomSections(event.world, airPump.xCoord, airPump.yCoord, airPump.zCoord);
-	                    System.out.println("gsd");
-	                }
-	            }
-	        }
-	    }
-	}
 	
 	@SubscribeEvent
 	public void chatEvent(ServerChatEvent event) {
