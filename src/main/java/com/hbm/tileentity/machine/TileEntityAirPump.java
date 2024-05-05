@@ -177,7 +177,6 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		return ret;
 	}
 	private void reset(World world, int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
-	    // First, convert all mod air blocks back to normal air
 	    Iterator<BlockPos> it = globalAirBlocks.iterator();
 	    while (it.hasNext()) {
 	        BlockPos pos = it.next();
@@ -185,24 +184,30 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	            world.setBlock(pos.getX(), pos.getY(), pos.getZ(), Blocks.air);
 	        }
 	    }
-	    globalAirBlocks.clear(); // Clear the global air blocks set
+	    globalAirBlocks.clear();
 
 
 	}
 	private void revalidateTheRoom(World world, Set<BlockPos> air) {
-	    // Iterate through all positions that need to be validated as room air blocks
 	    for (BlockPos pos : air) {
 	        if (world.getBlock(pos.getX(), pos.getY(), pos.getZ()).isAir(world, pos.getX(), pos.getY(), pos.getZ())) {
 	            world.setBlock(pos.getX(), pos.getY(), pos.getZ(), ModBlocks.air_block);
-	            globalAirBlocks.add(pos); // Track the position globally
+	            globalAirBlocks.add(pos); 
 	        }
 	    }
 	}
 	private void updateAirBlocks(World world, Set<BlockPos> air, int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
 		reset(world, minX, maxX, minY, maxY, minZ, maxZ);
-	    revalidateTheRoom(world, air); // Ensure that the air set is properly validated and updated
+	    revalidateTheRoom(world, air); 
 	}
 	//TODO: Rewrite this fucking mess of a class
+	
+	//to everyone i know and love dearly, i would like to say...
+	//im sorry
+	//yes i used chatgpt to help me write this because i didnt want to take several fucking weeks to do this kinda shit instead just wrap it up with slop that midigates everything
+	//is this the best? no. is this the most effective? absolutley not. does it work? yeah it does the job i SPECIFICALLY designed it to do
+	
+	//please at least dont judge me too harshly
 	private Set<BlockPos> globalAirBlocks = new HashSet<>();
 
 	private void findRoomSections(World world, int startX, int startY, int startZ) {
