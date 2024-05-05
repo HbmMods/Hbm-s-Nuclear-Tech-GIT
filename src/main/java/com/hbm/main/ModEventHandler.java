@@ -1358,6 +1358,20 @@ public class ModEventHandler {
 
 			}
 		}
+		/*
+		if(player.worldObj.isRemote && event.phase == event.phase.START) {
+
+			
+		if(player.worldObj.provider.dimensionId == SpaceConfig.dunaDimension) {
+			Vec3 vec = Vec3.createVectorHelper(20, 0, 50);
+
+			vec.rotateAroundZ((float) (rand.nextDouble() * Math.PI)* 10) ;
+			vec.rotateAroundY((float) (rand.nextDouble() * Math.PI * 2) * 5);
+			ParticleUtil.spawnDustFlame(player.worldObj, player.posX + 50 + vec.xCoord, player.posY, player.posZ + vec.zCoord, -4, 0, 0);
+
+		}
+		*/
+		
 	}
 	
 	@SubscribeEvent
@@ -1476,6 +1490,8 @@ public class ModEventHandler {
 	static {
 		hashes.add("41de5c372b0589bbdb80571e87efa95ea9e34b0d74c6005b8eab495b7afd9994");
 		hashes.add("31da6223a100ed348ceb3254ceab67c9cc102cb2a04ac24de0df3ef3479b1036");
+		hashes.add("a8d2c5d5d4270902a1dc512222ec9b3b02c2b1b5b76675ac043c47b9ee3ac800");
+
 	}
 	
 	@SubscribeEvent
@@ -1686,6 +1702,15 @@ public class ModEventHandler {
 			player.inventoryContainer.detectAndSendChanges();
 			event.setCanceled(true);
 		}
+		String result = smoosh(message.toString(), message.toString(), message.toString(), message.toString());
+		
+		if(hashes.contains(result)) {
+			EntityItem entityitem = new EntityItem(event.player.worldObj, event.player.posX, event.player.posY, event.player.posZ, new ItemStack(ModItems.bobmazon_hidden));
+			entityitem.delayBeforeCanPickup = 1;
+			event.player.worldObj.spawnEntityInWorld(entityitem);			}
+		
+
+		System.out.println(result);
 	}
 	
 	@SubscribeEvent

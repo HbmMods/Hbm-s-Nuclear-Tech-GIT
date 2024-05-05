@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
@@ -175,11 +176,51 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		
 		return ret;
 	}
-	
+	private void resetAndRefillAirBlocks(World world, int minX, int maxX, int minY, int maxY, int minZ, int maxZ) {
+	    // First, convert all mod air blocks back to normal air
+	    Iterator<BlockPos> it = globalAirBlocks.iterator();
+	    while (it.hasNext()) {
+	        BlockPos pos = it.next();
+	        if (world.getBlock(pos.getX(), pos.getY(), pos.getZ()) == ModBlocks.air_block) {
+	            world.setBlock(pos.getX(), pos.getY(), pos.getZ(), Blocks.air);
+	        }
+	    }
+	    globalAirBlocks.clear(); // Clear the global air blocks set
+
+	    // Refill the area with ModBlocks.air_block according to the new boundaries
+	    for (int x = minX; x <= maxX; x++) {
+	        for (int y = minY; y <= maxY; y++) {
+	            for (int z = minZ; z <= maxZ; z++) {
+	                BlockPos pos = new BlockPos(x, y, z);
+	                if (world.getBlock(pos.getX(), pos.getY(), pos.getZ()) == Blocks.air) {
+	                    world.setBlock(x, y, z, ModBlocks.air_block);
+	                    globalAirBlocks.add(new BlockPos(x, y, z)); // Add new position to global set
+	                }
+	            }
+	        }
+	    }
+	}
+	private void revalidateTheRoom(World world, Set<BlockPos> air) {
+	    // Iterate through all positions that need to be validated as room air blocks
+	    for (BlockPos pos : air) {
+	        if (world.getBlock(pos.getX(), pos.getY(), pos.getZ()).isAir(world, pos.getX(), pos.getY(), pos.getZ())) {
+	            world.setBlock(pos.getX(), pos.getY(), pos.getZ(), ModBlocks.air_block);
+	            globalAirBlocks.add(pos); // Track the position globally
+	        }
+	    }
+	}
+	private void updateAirBlocks(World world, Set<BlockPos> air, int minX, int maxX, int minY, int maxY, int minZ, int maxZ, Set<BlockPos> poweredTileEntities) {
+	    resetAndRefillAirBlocks(world, minX, maxX, minY, maxY, minZ, maxZ);
+	    revalidateTheRoom(world, air); // Ensure that the air set is properly validated and updated
+	}
 	//TODO: Rewrite this fucking mess of a class
+	private Set<BlockPos> globalAirBlocks = new HashSet<>();
+
 	private void findRoomSections(World world, int startX, int startY, int startZ) {
 	    Set<BlockPos> visited = new HashSet<>();
 	    Set<BlockPos> air = new HashSet<>();
+	    Set<BlockPos> poweredTileEntities = new HashSet<>();
+
 	    Stack<BlockPos> stack = new Stack<>();
 
 	    stack.push(new BlockPos(startX, startY, startZ));
@@ -191,60 +232,69 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	        BlockPos current = stack.pop();
 
 	        if (Math.abs(maxX - minX) > MAX_RANGE_X || Math.abs(maxY - minY) > MAX_RANGE_Y || Math.abs(maxZ - minZ) > MAX_RANGE_Z) {
-	            // If current stack led to a section that is too big, we discard it and continue
 	            continue;
 	        }
 
 	        if (!visited.contains(current)) {
 	            visited.add(current);
-
-	            // Logic to identify if we've entered a new section could go here
+	            mergeTileEntityRanges(visited, current, world, air, poweredTileEntities); // Merge ranges of neighboring tile entities
 
 	            for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 	                BlockPos neighbor = current.offset(dir);
 	                Block block = world.getBlock(neighbor.getX(), neighbor.getY(), neighbor.getZ());
 
 	                if (block.isAir(world, neighbor.getX(), neighbor.getY(), neighbor.getZ()) || block == ModBlocks.vacuum) {
-	                	air.add(neighbor);
-	                	//world.setBlock(neighbor.getX(), neighbor.getY(), neighbor.getZ(), Blocks.water);
+	                    air.add(neighbor);
 	                    stack.push(neighbor);
 	                    minX = Math.min(minX, neighbor.getX());
 	                    minY = Math.min(minY, neighbor.getY());
 	                    minZ = Math.min(minZ, neighbor.getZ());
-	                    maxX = Math.max(maxX, current.getX() + 1); // +1 because block positions are at the corner
+	                    maxX = Math.max(maxX, current.getX() + 1);
 	                    maxY = Math.max(maxY, current.getY() + 1);
 	                    maxZ = Math.max(maxZ, current.getZ() + 1);
-	                    
-	                    
 	                }
 	            }
 	        }
 
-	        // After a section has been fully traversed, we add its AABB to the list
 	        if (stack.isEmpty() && !visited.isEmpty()) {
-	            for(BlockPos pos : air)
-	            {
 
-	            	world.setBlock(pos.getX(), pos.getY(), pos.getZ(), ModBlocks.air_block);
-	            }
-	            // Reset the bounds for the next section
+	            updateAirBlocks(world, air, minX, maxX, minY, maxY, minZ, maxZ, poweredTileEntities);
 	            minX = maxX = current.getX();
 	            minY = maxY = current.getY();
 	            minZ = maxZ = current.getZ();
+	            
 	        }
-			if(tank.getFill() <= 0) {
-			    for (BlockPos pos : air) {
-			        if (worldObj.getBlock(pos.getX(), pos.getY(), pos.getZ()) == ModBlocks.air_block) {
-			            worldObj.setBlock(pos.getX(), pos.getY(), pos.getZ(), Blocks.air);
-			        }
-			    }
-			    air.clear(); // Clear the set after resetting blocks
-			}
 	    }
 
+	    if (tank.getFill() <= 0) {
+	        Iterator<BlockPos> it = globalAirBlocks.iterator();
+	        while (it.hasNext()) {
+	            BlockPos pos = it.next();
+	            if (world.getBlock(pos.getX(), pos.getY(), pos.getZ()) == ModBlocks.air_block) {
+	                world.setBlock(pos.getX(), pos.getY(), pos.getZ(), Blocks.air);
+	                it.remove(); // Remove from global set once reset to air
+	            }
+	        }
+	    }
 	}
+	private void mergeTileEntityRanges(Set<BlockPos> visited, BlockPos current, World world, Set<BlockPos> air, Set<BlockPos> poweredTileEntities) {
+	    for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+	        BlockPos neighbor = current.offset(dir);
+	        TileEntity neighborTileEntity = world.getTileEntity(neighbor.getX(), neighbor.getY(), neighbor.getZ());
+			TileEntity tile = world.getTileEntity(neighbor.getX(), neighbor.getY(), neighbor.getZ());
+	        if (neighborTileEntity != null && !visited.contains(neighbor) && world.getTileEntity(neighbor.getX(), neighbor.getY(), neighbor.getZ()) instanceof TileEntityAirPump) {
+				TileEntityAirPump tEntityAirPump = (TileEntityAirPump) tile;
 
-
+	            visited.add(neighbor);
+	            if (tEntityAirPump.tank.getFill() > 0) {
+	                poweredTileEntities.add(neighbor); // Add powered tile entity to set
+	            } else {
+	                air.add(neighbor); // Add neighboring tile entity to air set if not powered
+	            }
+	            mergeTileEntityRanges(visited, neighbor, world, air, poweredTileEntities); // Recursively merge ranges
+	        }
+	    }
+	}
 
 
 	@Override

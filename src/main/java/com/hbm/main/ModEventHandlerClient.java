@@ -18,6 +18,9 @@ import com.hbm.blocks.gas.BlockGasAir;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
+import com.hbm.dim.dres.biome.BiomeGenBaseDres;
+import com.hbm.dim.duna.WorldProviderDuna;
+import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
 import com.hbm.dim.eve.WorldProviderEve;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.EntityHunterChopper;
@@ -149,8 +152,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderSurface;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.IRenderHandler;
+import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.client.event.EntityViewRenderEvent.RenderFogEvent;
 import net.minecraftforge.client.event.FOVUpdateEvent;
@@ -398,16 +403,7 @@ public class ModEventHandlerClient {
 			}
 		}
 	}
-	@SubscribeEvent
-	public void onPlayerChangeDimension(PlayerChangedDimensionEvent event) {
-	    if(event.toDim == SpaceConfig.mohoDimension) {
-	        NBTTagCompound data = new NBTTagCompound();
-	        data.setFloat("r", 0.5f);
-	        data.setFloat("g", 0.6f);
-	        data.setFloat("b", 0.7f);
-	        MainRegistry.network.sendTo(new FogMessage(data), (EntityPlayerMP) event.player);
-	    }
-	}
+
 	
 	@SubscribeEvent(receiveCanceled = true)
 	public void onHUDRenderShield(RenderGameOverlayEvent.Pre event) {
@@ -1395,6 +1391,9 @@ public class ModEventHandlerClient {
 	    if (event.entity.worldObj.provider instanceof WorldProviderEve) {
 	        event.setResult(Result.DENY);
 	    }
+	    if (event.entity.worldObj.provider instanceof WorldProviderDuna) {
+	        event.setResult(Result.DENY);
+	    }
 	}
 
 	@SubscribeEvent
@@ -1409,14 +1408,37 @@ public class ModEventHandlerClient {
 	            event.setCanceled(true);
 	        
 	    }
+
 	}
 	
-	/*@SubscribeEvent
-	public void tintFog(FogColors event) {
-		event.red = 0.5F;
-		event.green = 0.0F;
-		event.blue = 0.0F;
-	}*/
+    @SubscribeEvent
+    public void tintFog(FogColors event) {
+        if (event.entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) event.entity;
+
+            // Get the biome at the player's current location
+            int biomeID = player.worldObj.getBiomeGenForCoords((int) player.posX, (int) player.posZ).biomeID;
+
+            // Check if the current biome matches the one you're interested in
+            if (biomeID == SpaceConfig.dunaPolarBiome || biomeID == SpaceConfig.dunaPolarHillsBiome ) {
+                long time = player.worldObj.getWorldTime();
+
+                // Adjust fog color based on day/night cycle
+                if (time >= 12000 && time < 24000) {
+                    // Nighttime
+                    event.red = 0.1F;
+                    event.green = 0.1F;
+                    event.blue = 0.2F;
+                } else {
+                    // Daytime
+                    event.red = 0.2F;
+                    event.green = 0.18F;
+                    event.blue = 0.22F;
+                }
+            }
+        }
+    }
+
 
 	public static IIcon particleBase;
 	public static IIcon particleLeaf;
