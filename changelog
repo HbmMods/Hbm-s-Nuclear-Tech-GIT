@@ -5,6 +5,16 @@
   * Each ore smelts into 16 items, except for cobalt which yields only 4 ingots
   * All meteorite ores are now equally likely to spawn
   * The new ores can only be smelted, shredding or other processing is not possible
+* ICF (WIP!)
+  * A new tier of fusion reactor that replaces the FWatz
+  * Powered by external lasers which are dynamic multiblocks, using fuel pellets
+  * Construction of lasers: Place a controller, then a straight line of cells behind it, surround those with flash tubes, those with capacitors and optionally those with turbochargers (not recommended as of now)
+  * Stuff left unfinished:
+    * Pellet creation and recycling
+    * Final balancing (especially for lasers and cooling)
+    * Uses for stellar flux
+    * Crafting and assembling
+  * Cooling this reactor is exceedingly difficult due to the limitations of heat exchangers and the relatively low heat capacitor of most available coolants, there will most likely be more powerful ICF-exclusive coolants in the future (liquid lead? sodium compounds?)
 
 ## Changed
 * The Souyz' recipe is now available in the standard template folder
@@ -29,6 +39,9 @@
 * Rubber can now be made from acidizing latex with sour gas (requires just 25mB)
 * Heating oil can now be reformed into naphtha
 * Coker naphtha can now also be reformed like the other naphtha types (yields refgas instead of petgas as a byproduct)
+* Drainage pipes will now violently explode when voiding antimatter
+* Seeding slurry can now place grass over dead grass
+* Added an extra digit to the heat exchanger's configuration panel, allowing effective utilization of all 24,000mB per tick
 
 ## Fixed
 * Fixed DFC receivers not outputting power

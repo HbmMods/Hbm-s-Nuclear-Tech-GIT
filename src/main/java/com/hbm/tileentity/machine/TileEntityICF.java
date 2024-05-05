@@ -3,9 +3,16 @@ package com.hbm.tileentity.machine;
 import com.hbm.inventory.container.ContainerICF;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Heatable;
+import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingStep;
+import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.inventory.gui.GUIICF;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemICFPellet;
+import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
@@ -15,22 +22,26 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver {
 	
 	public long laser;
 	public long maxLaser;
+	public long heat;
+	public static final long maxHeat = 1_000_000_000_000L;
 	
 	public FluidTank[] tanks;
 
 	public TileEntityICF() {
 		super(12);
 		this.tanks = new FluidTank[3];
-		this.tanks[0] = new FluidTank(Fluids.COOLANT, 256_000);
-		this.tanks[1] = new FluidTank(Fluids.COOLANT_HOT, 256_000);
-		this.tanks[2] = new FluidTank(Fluids.STELLAR_FLUX, 16_000);
+		this.tanks[0] = new FluidTank(Fluids.SODIUM, 512_000);
+		this.tanks[1] = new FluidTank(Fluids.SODIUM_HOT, 512_000);
+		this.tanks[2] = new FluidTank(Fluids.STELLAR_FLUX, 24_000);
 	}
 
 	@Override
@@ -43,18 +54,98 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 		
 		if(!worldObj.isRemote) {
 			
-			for(int i = 0; i < 3; i++) tanks[i].setFill(tanks[i].getMaxFill());
+			tanks[0].setType(11, slots);
+			
+			for(DirPos pos : getConPos()) {
+				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
+			
+			this.heat += this.laser * 0.25D;
+			boolean markDirty = false;
+			
+			//eject depleted pellet
+			if(slots[5] != null && slots[5].getItem() == ModItems.icf_pellet_depleted) {
+				for(int i = 6; i < 11; i++) {
+					if(slots[i] == null) {
+						slots[i] = slots[5].copy();
+						slots[5] = null;
+						markDirty = true;
+						break;
+					}
+				}
+			}
+			
+			//insert fresh pellet
+			if(slots[5] == null) {
+				for(int i = 0; i < 5; i++) {
+					if(slots[i] != null && slots[i].getItem() == ModItems.icf_pellet) {
+						slots[5] = slots[i].copy();
+						slots[i] = null;
+						markDirty = true;
+						break;
+					}
+				}
+			}
+			
+			if(slots[5] != null && slots[5].getItem() == ModItems.icf_pellet) {
+				this.heat += ItemICFPellet.react(slots[5], this.laser);
+				if(ItemICFPellet.getDepletion(slots[5]) >= ItemICFPellet.getMaxDepletion(slots[5])) {
+					slots[5] = new ItemStack(ModItems.icf_pellet_depleted);
+					markDirty = true;
+				}
+				
+				tanks[2].setFill(tanks[2].getFill() + (int) Math.ceil(this.heat * 10D / this.maxHeat));
+				if(tanks[2].getFill() > tanks[2].getMaxFill()) tanks[2].setFill(tanks[2].getMaxFill());
+			}
+			
+			if(tanks[0].getTankType().hasTrait(FT_Heatable.class)) {
+				FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
+				HeatingStep step = trait.getFirstStep();
+				tanks[1].setTankType(step.typeProduced);
+				
+				int coolingCycles = tanks[0].getFill() / step.amountReq;
+				int heatingCycles = (tanks[1].getMaxFill() - tanks[1].getFill()) / step.amountProduced;
+				int heatCycles = (int) (this.heat / 4 / step.heatReq * trait.getEfficiency(HeatingType.ICF)); //25% cooling per tick
+				int cycles = Math.min(coolingCycles, Math.min(heatingCycles, heatCycles));
+
+				tanks[0].setFill(tanks[0].getFill() - step.amountReq * cycles);
+				tanks[1].setFill(tanks[1].getFill() + step.amountProduced * cycles);
+				this.heat -= step.heatReq * cycles;
+			}
+			
+			for(DirPos pos : getConPos()) {
+				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			}
+			
+			this.heat *= 0.999D;
+			if(this.heat > this.maxHeat) this.heat = this.maxHeat;
+			if(markDirty) this.markDirty();
 			
 			this.networkPackNT(150);
 			this.laser = 0;
 			this.maxLaser = 0;
 		}
 	}
+	
+	public DirPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		return new DirPos[] {
+				new DirPos(xCoord, yCoord + 6, zCoord, Library.POS_Y),
+				new DirPos(xCoord, yCoord - 1, zCoord, Library.NEG_Y),
+				new DirPos(xCoord + dir.offsetX * 3 + rot.offsetX * 6, yCoord + 3, zCoord + dir.offsetZ * 3 + rot.offsetZ * 6, dir),
+				new DirPos(xCoord + dir.offsetX * 3 - rot.offsetX * 6, yCoord + 3, zCoord + dir.offsetZ * 3 - rot.offsetZ * 6, dir),
+				new DirPos(xCoord - dir.offsetX * 3 + rot.offsetX * 6, yCoord + 3, zCoord - dir.offsetZ * 3 + rot.offsetZ * 6, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 3 - rot.offsetX * 6, yCoord + 3, zCoord - dir.offsetZ * 3 - rot.offsetZ * 6, dir.getOpposite())
+		};
+	}
 
 	@Override public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeLong(laser);
 		buf.writeLong(maxLaser);
+		buf.writeLong(heat);
 		for(int i = 0; i < 3; i++) tanks[i].serialize(buf);
 	}
 	
@@ -62,12 +153,13 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 		super.deserialize(buf);
 		this.laser = buf.readLong();
 		this.maxLaser = buf.readLong();
+		this.heat = buf.readLong();
 		for(int i = 0; i < 3; i++) tanks[i].deserialize(buf);
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		return slot < 5;
+		return slot < 5 && stack.getItem() == ModItems.icf_pellet;
 	}
 
 	@Override
@@ -80,6 +172,22 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return io;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		for(int i = 0; i < 3; i++) tanks[i].readFromNBT(nbt, "t" + i);
+		
+		this.heat = nbt.getLong("heat");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		for(int i = 0; i < 3; i++) tanks[i].writeToNBT(nbt, "t" + i);
+		
+		nbt.setLong("heat", heat);
 	}
 
 	@Override
