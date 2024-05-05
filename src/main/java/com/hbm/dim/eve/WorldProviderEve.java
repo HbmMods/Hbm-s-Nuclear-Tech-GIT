@@ -17,7 +17,8 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.client.IRenderHandler;
 
 public class WorldProviderEve extends WorldProvider {
-	
+    private float[] colorsSunriseSunset = new float[4];
+
 	public void registerWorldChunkManager() {
 		
 		this.worldChunkMgr = new WorldChunkManagerEve(worldObj);
@@ -40,18 +41,37 @@ public class WorldProviderEve extends WorldProvider {
     
     @SideOnly(Side.CLIENT)
     public Vec3 getFogColor(float x, float y) {
-        float f = 1.0F - this.getStarBrightness(1.0F);
+        float f = this.getSunBrightnessFactor(1.0F);
       return Vec3.createVectorHelper(53F / 255F * f, 32F / 255F * f, 74F / 255F * f);
     }
     
     public Vec3 getSkyColor(Entity camera, float partialTicks) {
-        float f = 1.0F - this.getStarBrightness(1.0F);
+        float f = this.getSunBrightnessFactor(1.0F);
       return Vec3.createVectorHelper(92 / 255.0F * f, 54 / 255.0F * f, 131 / 255.0F * f);
     }
     
     @SideOnly(Side.CLIENT)
-    public float[] calcSunriseSunsetColors(float p_76560_1_, float p_76560_2_) {
-    	return null;
+    public float[] calcSunriseSunsetColors(float p_76560_1_, float p_76560_2_)
+    {
+        float f2 = 0.4F;
+        float f3 = MathHelper.cos((p_76560_1_) * (float)Math.PI * 2.0F) - 0.0F;
+        float f4 = -0.0F;
+
+        if (f3 >= f4 - f2 && f3 <= f4 + f2)
+        {
+            float f5 = (f3 - f4) / f2 * 0.5F + 0.5F;
+            float f6 = 1.0F - (1.0F - MathHelper.sin(f5 * (float)Math.PI)) * 0.99F;
+            f6 *= f6;
+            this.colorsSunriseSunset[0] = f5 * 0.01F;
+            this.colorsSunriseSunset[1] = f5 * f5 * 0.9F + 0.3F;
+            this.colorsSunriseSunset[2] = f5 * f5;
+            this.colorsSunriseSunset[3] = f6;
+            return this.colorsSunriseSunset;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public boolean canDoLightning(Chunk chunk)
@@ -86,7 +106,7 @@ public class WorldProviderEve extends WorldProvider {
 	
     public long getDayLength()
     {
-    	return (long) (3.045*24000);
+    	return (long) (40000);
     }
     
     @Override
