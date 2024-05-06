@@ -55,6 +55,7 @@ public class SpotlightBeam extends BlockContainer {
 	// 111111 -> ALL directions illuminated, all incoming lights need to be disabled to turn off the beam
 	public static List<ForgeDirection> getDirections(World world, int x, int y, int z) {
 		TileEntityData te = (TileEntityData) world.getTileEntity(x, y, z);
+		if(te == null) return new ArrayList<ForgeDirection>();
 		return getDirections(te.metadata);
 	}
 

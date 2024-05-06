@@ -129,29 +129,31 @@ public class WasteEarth extends Block {
 		
 		if(this == ModBlocks.burning_earth) {
 			
-			for(int i = -1; i < 2; i++) {
-				for(int j = -1; j < 2; j++) {
-					for(int k = -1; k < 2; k++) {
-						
-						if(!world.blockExists(x + i, y + j, z + k)) continue;
-						
-						Block b0 = world.getBlock(x + i, y + j, z + k);
-						Block b1 = world.getBlock(x + i, y + j + 1, z + k);
-						
-						if(!b1.isOpaqueCube() &&
-								((b0 == Blocks.grass || b0 == Blocks.mycelium || b0 == ModBlocks.waste_earth ||
-								b0 == ModBlocks.frozen_grass || b0 == ModBlocks.waste_mycelium)
-								&& !world.canLightningStrikeAt(x, y, z))) {
-							world.setBlock(x + i, y + j, z + k, ModBlocks.burning_earth);
-						}
-						if((b0 instanceof BlockLeaves || b0 instanceof BlockBush)) {
-							world.setBlockToAir(x + i, y + j, z + k);
-						}
-						if(b0 == ModBlocks.frozen_dirt) {
-							world.setBlock(x + i, y + j, z + k, Blocks.dirt);
-						}
-						if(b1.isFlammable(world, x, y, z, ForgeDirection.UP) && !(b1 instanceof BlockLeaves || b1 instanceof BlockBush) && world.getBlock(x, y + 1, z) == Blocks.air) {
-							world.setBlock(x, y + 1, z, Blocks.fire);
+			if(rand.nextInt(5) == 0) {
+				for(int i = -1; i < 2; i++) {
+					for(int j = -1; j < 2; j++) {
+						for(int k = -1; k < 2; k++) {
+							
+							if(!world.blockExists(x + i, y + j, z + k)) continue;
+							
+							Block b0 = world.getBlock(x + i, y + j, z + k);
+							Block b1 = world.getBlock(x + i, y + j + 1, z + k);
+							
+							if(!b1.isOpaqueCube() &&
+									((b0 == Blocks.grass || b0 == Blocks.mycelium || b0 == ModBlocks.waste_earth ||
+									b0 == ModBlocks.frozen_grass || b0 == ModBlocks.waste_mycelium)
+									&& !world.canLightningStrikeAt(x, y, z))) {
+								world.setBlock(x + i, y + j, z + k, ModBlocks.burning_earth);
+							}
+							if((b0 instanceof BlockLeaves || b0 instanceof BlockBush)) {
+								world.setBlockToAir(x + i, y + j, z + k);
+							}
+							if(b0 == ModBlocks.frozen_dirt) {
+								world.setBlock(x + i, y + j, z + k, Blocks.dirt);
+							}
+							if(b1.isFlammable(world, x, y, z, ForgeDirection.UP) && !(b1 instanceof BlockLeaves || b1 instanceof BlockBush) && world.getBlock(x, y + 1, z) == Blocks.air) {
+								world.setBlock(x, y + 1, z, Blocks.fire);
+							}
 						}
 					}
 				}

@@ -23,6 +23,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -227,7 +228,7 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		if(data.hasKey("toCool")) this.amountToCool = Math.max(data.getInteger("toCool"), 1);
+		if(data.hasKey("toCool")) this.amountToCool = MathHelper.clamp_int(data.getInteger("toCool"), 1, tanks[0].getMaxFill());
 		if(data.hasKey("delay")) this.tickDelay = Math.max(data.getInteger("delay"), 1);
 		
 		this.markChanged();

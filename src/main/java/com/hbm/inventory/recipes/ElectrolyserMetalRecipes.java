@@ -93,7 +93,7 @@ public class ElectrolyserMetalRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(ModItems.crystal_schraranium), new ElectrolysisMetalRecipe(
 				new MaterialStack(Mats.MAT_SCHRABIDIUM, MaterialShapes.NUGGET.q(5)),
 				new MaterialStack(Mats.MAT_URANIUM, MaterialShapes.NUGGET.q(2)),
-				new ItemStack(ModItems.nugget_plutonium, 2)));
+				new ItemStack(ModItems.nugget_neptunium, 2)));
 		
 		recipes.put(new ComparableStack(ModItems.crystal_schrabidium), new ElectrolysisMetalRecipe(
 				new MaterialStack(Mats.MAT_SCHRABIDIUM, MaterialShapes.INGOT.q(6)),
