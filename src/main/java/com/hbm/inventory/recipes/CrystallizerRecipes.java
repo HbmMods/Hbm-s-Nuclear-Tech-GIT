@@ -135,7 +135,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 
 		
 		int oreTime = 200;
-		FluidStack technetic = new FluidStack(Fluids.HTcO4, 500);
+		FluidStack technetic = new FluidStack(Fluids.HTCO4, 500);
 
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
 			int i = ore.ordinal();

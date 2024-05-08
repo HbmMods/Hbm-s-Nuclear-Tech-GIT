@@ -95,7 +95,7 @@ public class MixerRecipes extends SerializableRecipe {
 
 		register(Fluids.ELBOWGREASE, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.REFORMGAS, 500)).setStack2(new FluidStack(Fluids.SYNGAS, 500)));
 
-		register(Fluids.HTcO4, new MixerRecipe(250, 50).setStack1(new FluidStack(Fluids.NITRIC_ACID, 500)).setSolid(new ComparableStack(ModItems.nugget_technetium)));
+		register(Fluids.HTCO4, new MixerRecipe(250, 50).setStack1(new FluidStack(Fluids.NITRIC_ACID, 500)).setSolid(new ComparableStack(ModItems.nugget_technetium)));
 
 		register(Fluids.MINSOL, new MixerRecipe(250, 50).setStack1(new FluidStack(Fluids.NITRIC_ACID, 500)).setSolid(new ComparableStack(ModBlocks.ore_mineral)));
 		register(Fluids.REDMUD, new MixerRecipe(50, 100).setStack1(new FluidStack(Fluids.HCL, 1400)).setSolid(new ComparableStack(ModBlocks.duna_sands, 4)));

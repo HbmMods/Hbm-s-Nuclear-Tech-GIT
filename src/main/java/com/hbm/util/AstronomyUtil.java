@@ -270,7 +270,17 @@ public class AstronomyUtil
     public static final int SimpleVallJoolKm = 43152; 
     public static final int SimpleTyloJoolKm = 58500;
     public static final int SimpleBopJoolKm = 128500;
-
+    
+    public static final int SimpleMohoKm = 5263138;
+    public static final int SimpleEveKm = 9832684;
+    public static final int SimpleKerbinKm = 13599840;
+    public static final int SimpleDunaKm = 20726155;
+    public static final int SimpleDresKm = 40839348;
+    public static final int SimpleJoolKm = 68773560;
+    public static final int SimpleSarnusKm = 125798522;
+    public static final int SimpleUrlumKm = 19;
+    public static final int SimpleNeidonKm = 30;
+    public static final int SimplePlockKm = 39;
 
 
 }
