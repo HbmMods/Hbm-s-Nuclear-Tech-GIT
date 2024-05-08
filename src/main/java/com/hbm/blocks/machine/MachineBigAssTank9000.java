@@ -101,17 +101,17 @@ public class MachineBigAssTank9000 extends BlockDummyable implements IPersistent
 			TileEntityMachineBAT9000 trialEntity = (TileEntityMachineBAT9000) world.getTileEntity(pos[0], pos[1], pos[2]);
 			
 			if(trialEntity != null) {
-			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
-				FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
+				if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof IItemFluidIdentifier) {
+					FluidType type = ((IItemFluidIdentifier) player.getHeldItem().getItem()).getType(world, pos[0], pos[1], pos[2], player.getHeldItem());
 
-				trialEntity.tank.setTankType(type);
-				trialEntity.markDirty();
-				player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation(type.getConditionalName())).appendSibling(new ChatComponentText("!")));
+					trialEntity.tank.setTankType(type);
+					trialEntity.markDirty();
+					player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation(type.getConditionalName())).appendSibling(new ChatComponentText("!")));
 				}
-			} 
-			
+			}
+
 			return true;
-			}else {
+		} else {
 			return true;
 		}
 	}

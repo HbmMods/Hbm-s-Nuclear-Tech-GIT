@@ -70,7 +70,8 @@ public class FT_Heatable extends FluidTrait {
 	public static enum HeatingType {
 		BOILER("Boilable"),
 		HEATEXCHANGER("Heatable"),
-		PWR("PWR Coolant");
+		PWR("PWR Coolant"),
+		ICF("ICF Coolant");
 		
 		public String name;
 		

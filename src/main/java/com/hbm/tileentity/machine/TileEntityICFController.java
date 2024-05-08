@@ -220,7 +220,7 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 
 	@Override
 	public long getMaxPower() {
-		return (long) (Math.sqrt(capacitorCount) * 5_000_000 + Math.sqrt(Math.min(turbochargerCount, capacitorCount)) * 10_000_000);
+		return (long) (Math.sqrt(capacitorCount) * 2_500_000 + Math.sqrt(Math.min(turbochargerCount, capacitorCount)) * 5_000_000);
 	}
 	
 	AxisAlignedBB bb = null;

@@ -33,6 +33,7 @@ public class GUIICF extends GuiInfoContainer {
 		icf.tanks[2].renderTankInfo(this, x, y, guiLeft + 224, guiTop + 18, 16, 70);
 		
 		this.drawCustomInfoStat(x, y, guiLeft + 8, guiTop + 18, 16, 70, x, y, icf.maxLaser <= 0 ? "OFFLINE" : (BobMathUtil.getShortNumber(icf.laser) + "TU - " + (icf.laser * 1000 / icf.maxLaser) / 10D + "%"));
+		this.drawCustomInfoStat(x, y, guiLeft + 187, guiTop + 89, 18, 18, x, y, BobMathUtil.getShortNumber(icf.heat) + " / " + BobMathUtil.getShortNumber(icf.maxHeat) + "TU");
 	}
 	
 	@Override
@@ -53,7 +54,7 @@ public class GUIICF extends GuiInfoContainer {
 			drawTexturedModalRect(guiLeft + 8, guiTop + 88 - p, 212, 192 - p, 16, p);
 		}
 		
-		GaugeUtil.drawSmoothGauge(guiLeft + 196, guiTop + 98, this.zLevel, 0D, 5, 2, 1, 0xFF00AF);
+		GaugeUtil.drawSmoothGauge(guiLeft + 196, guiTop + 98, this.zLevel, (double) icf.heat / (double) icf.maxHeat, 5, 2, 1, 0xFF00AF);
 
 		icf.tanks[0].renderTank(guiLeft + 44, guiTop + 88, this.zLevel, 16, 70);
 		icf.tanks[1].renderTank(guiLeft + 188, guiTop + 88, this.zLevel, 16, 70);

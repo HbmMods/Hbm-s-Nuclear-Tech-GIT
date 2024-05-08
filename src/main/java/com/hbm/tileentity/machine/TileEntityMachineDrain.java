@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FT_Polluting;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Amat;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Viscous;
@@ -49,6 +50,10 @@ public class TileEntityMachineDrain extends TileEntityLoadedBase implements IFlu
 			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			
 			if(tank.getFill() > 0) {
+				if(tank.getTankType().hasTrait(FT_Amat.class)) {
+					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 10F, true, true);
+					return;
+				}
 				int toSpill = Math.max(tank.getFill() / 2, 1);
 				tank.setFill(tank.getFill() - toSpill);
 				FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.SPILL, toSpill);
