@@ -1,6 +1,8 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotTakeOnly;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.tileentity.machine.TileEntityICFPress;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,10 +44,49 @@ public class ContainerICFPress extends Container {
 			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 155));
 		}
 	}
-	
+
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int id) {
-		return null;
+	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
+		ItemStack var3 = null;
+		Slot var4 = (Slot) this.inventorySlots.get(par2);
+
+		if(var4 != null && var4.getHasStack()) {
+			ItemStack var5 = var4.getStack();
+			var3 = var5.copy();
+
+			if(par2 <= 7) {
+				if(!this.mergeItemStack(var5, 8, this.inventorySlots.size(), true)) {
+					return null;
+				}
+			} else {
+				
+				if(var3.getItem() == ModItems.icf_pellet_empty) {
+					if(!this.mergeItemStack(var5, 0, 1, false)) {
+						return null;
+					}
+				} else if(var3.getItem() instanceof IItemFluidIdentifier) {
+					if(!this.mergeItemStack(var5, 6, 8, false)) {
+						return null;
+					}
+				} else if(var3.getItem() == ModItems.particle_muon) {
+					if(!this.mergeItemStack(var5, 2, 3, false)) {
+						return null;
+					}
+				} else {
+					if(!this.mergeItemStack(var5, 4, 6, false)) {
+						return null;
+					}
+				}
+			}
+
+			if(var5.stackSize == 0) {
+				var4.putStack((ItemStack) null);
+			} else {
+				var4.onSlotChanged();
+			}
+		}
+
+		return var3;
 	}
 
 	@Override

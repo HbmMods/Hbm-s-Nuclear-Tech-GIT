@@ -1,8 +1,13 @@
 package com.hbm.items.machine;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.Mats;
+import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.BobMathUtil;
@@ -34,7 +39,7 @@ public class ItemICFPellet extends Item {
 		LITHIUM(	0xE9E9E9,	1.0D,	1.0D,	1.0D), //fuck off
 		BERYLLIUM(	0xA79D80,	1.0D,	1.0D,	1.0D),
 		BORON(		0x697F89,	1.0D,	1.0D,	1.0D),
-		CARBON(		0x454545,	1.0D,	1.0D,	1.0D),
+		//CARBON(		0x454545,	1.0D,	1.0D,	1.0D),
 		OXYGEN(		0xB4E2FF,	1.0D,	1.0D,	1.0D),
 		SODIUM(		0xDFE4E7,	1.0D,	1.0D,	1.0D),
 		//aluminium, silicon, phosphorus
@@ -54,6 +59,24 @@ public class ItemICFPellet extends Item {
 			this.depletionSpeed = depl;
 			this.fusingDifficulty = laser;
 		}
+	}
+	
+	public static HashMap<FluidType, EnumICFFuel> fluidMap = new HashMap();
+	public static HashMap<NTMMaterial, EnumICFFuel> materialMap = new HashMap();
+	
+	public static void init() {
+		if(!fluidMap.isEmpty() && !materialMap.isEmpty()) return;
+		fluidMap.put(Fluids.HYDROGEN, EnumICFFuel.HYDROGEN);
+		fluidMap.put(Fluids.DEUTERIUM, EnumICFFuel.DEUTERIUM);
+		fluidMap.put(Fluids.TRITIUM, EnumICFFuel.TRITIUM);
+		fluidMap.put(Fluids.HELIUM3, EnumICFFuel.HELIUM3);
+		fluidMap.put(Fluids.HELIUM4, EnumICFFuel.HELIUM4);
+		materialMap.put(Mats.MAT_LITHIUM, EnumICFFuel.LITHIUM);
+		materialMap.put(Mats.MAT_BERYLLIUM, EnumICFFuel.BERYLLIUM);
+		materialMap.put(Mats.MAT_BORON, EnumICFFuel.BORON);
+		materialMap.put(Mats.MAT_SODIUM, EnumICFFuel.SODIUM);
+		fluidMap.put(Fluids.CHLORINE, EnumICFFuel.CHLORINE);
+		materialMap.put(Mats.MAT_CALCIUM, EnumICFFuel.CALCIUM);
 	}
 
 	public ItemICFPellet() {
