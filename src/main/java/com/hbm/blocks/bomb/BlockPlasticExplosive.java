@@ -1,5 +1,6 @@
 package com.hbm.blocks.bomb;
 
+import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.interfaces.IBomb;
@@ -13,17 +14,16 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockPlasticExplosive extends Block implements IBomb {
+public class BlockPlasticExplosive extends BlockDetonatable implements IBomb {
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon topIcon;
 
 	public BlockPlasticExplosive(Material mat) {
-		super(mat);
+		super(mat, 0, 0, 0, false, false);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -68,12 +68,7 @@ public class BlockPlasticExplosive extends Block implements IBomb {
 	}
 
 	@Override
-	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion explosion) {
-		this.explode(world, x, y, z);
-	}
-
-	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block p_149695_5_) {
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 		if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
 			this.explode(world, x, y, z);
 		}
@@ -88,5 +83,10 @@ public class BlockPlasticExplosive extends Block implements IBomb {
 		}
 		
 		return BombReturnCode.DETONATED;
+	}
+
+	@Override
+	public void explodeEntity(World world, double x, double y, double z, EntityTNTPrimedBase entity) {
+		explode(world, MathHelper.floor_double(x), MathHelper.floor_double(y), MathHelper.floor_double(z));
 	}
 }

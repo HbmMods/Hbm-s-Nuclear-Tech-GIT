@@ -2,7 +2,7 @@ package com.hbm.handler.guncfg;
 
 import java.util.ArrayList;
 
-import com.hbm.blocks.generic.RedBarrel;
+import com.hbm.blocks.bomb.BlockDetonatable;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
@@ -122,16 +122,16 @@ public class GunOSIPRFactory {
 
 		bullet.bntRicochet = (ball, x, y, z) -> {
 			Block block = ball.worldObj.getBlock(x, y, z);
-			if(block instanceof RedBarrel)
-				((RedBarrel) block).explode(ball.worldObj, x, y, z);
-
+			if(block instanceof BlockDetonatable) {
+				((BlockDetonatable) block).onShot(ball.worldObj, x, y, z);
+			}
 		};
 
 		bullet.bntImpact = (ball, x, y, z, sideHit) -> {
-			final Block block = ball.worldObj.getBlock(x, y, z);
-			if(block instanceof RedBarrel)
-				((RedBarrel) block).explode(ball.worldObj, x, y, z);
-
+			Block block = ball.worldObj.getBlock(x, y, z);
+			if(block instanceof BlockDetonatable) {
+				((BlockDetonatable) block).onShot(ball.worldObj, x, y, z);
+			}
 		};
 		
 		return bullet;

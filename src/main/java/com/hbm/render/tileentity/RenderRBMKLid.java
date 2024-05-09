@@ -71,36 +71,37 @@ public class RenderRBMKLid extends TileEntitySpecialRenderer {
 			if(meta == RBMKBase.DIR_GLASS_LID.ordinal()) {
 				bindTexture(texture_glass);
 			} else {
-				
 				if(control.getBlockType() instanceof RBMKBase) {
 					bindTexture(((RBMKBase)control.getBlockType()).coverTexture);
 				} else {
 					bindTexture(texture);
 				}
+
 				cherenkov = false;
 			}
 			
-			if((control instanceof TileEntityRBMKBoiler || control instanceof TileEntityRBMKHeater) && meta != RBMKBase.DIR_GLASS_LID.ordinal())
-				ResourceManager.rbmk_rods.renderPart("Lid");
-			ResourceManager.rbmk_element.renderPart("Lid");
+			if((control instanceof TileEntityRBMKBoiler || control instanceof TileEntityRBMKHeater) && meta != RBMKBase.DIR_GLASS_LID.ordinal()) {
+				ResourceManager.rbmk_rods_vbo.renderPart("Lid");
+			} else {
+				ResourceManager.rbmk_element_vbo.renderPart("Lid");
+			}
+
 			GL11.glPopMatrix();
 		}
 		
 		if(hasRod) {
-
 			GL11.glPushMatrix();
 			bindTexture(texture_rods);
 			
 			for(int j = 0; j <= offset; j++) {
-
-				ResourceManager.rbmk_element.renderPart("Rods");
+				ResourceManager.rbmk_element_vbo.renderPart("Rods");
 				GL11.glTranslated(0, 1, 0);
 			}
+
 			GL11.glPopMatrix();
 		}
 		
 		if(cherenkov) {
-			
 			GL11.glTranslated(0, 0.75, 0);
 
 			GL11.glDisable(GL11.GL_CULL_FACE);

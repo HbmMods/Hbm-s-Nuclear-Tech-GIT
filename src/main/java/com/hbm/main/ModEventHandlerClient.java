@@ -998,7 +998,6 @@ public class ModEventHandlerClient {
 					ModItems.crucible_template,
 					ModItems.chemistry_template,
 					ModItems.chemistry_icon,
-					ModItems.fluid_icon,
 					ModItems.achievement_icon,
 					Items.spawn_egg,
 					Item.getItemFromBlock(Blocks.mob_spawner)
@@ -1021,7 +1020,7 @@ public class ModEventHandlerClient {
 					}
 				}
 
-				FMLCommonHandler.instance().showGuiScreen(new GUIScreenWikiRender(stacks.toArray(new ItemStack[0])));
+				FMLCommonHandler.instance().showGuiScreen(new GUIScreenWikiRender(stacks.toArray(new ItemStack[0]), "Block ", "wiki-block-renders-256", 8));
 			}
 		} else {
 			isRenderingItems = false;

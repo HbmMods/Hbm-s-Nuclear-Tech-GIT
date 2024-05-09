@@ -4,8 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.RedBarrel;
+import com.hbm.blocks.bomb.BlockDetonatable;
 import com.hbm.entity.effect.EntityCloudFleijaRainbow;
 import com.hbm.entity.effect.EntityEMPBlast;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
@@ -47,6 +46,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 
 /**
@@ -73,7 +73,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 	public double prevRenderX;
 	public double prevRenderY;
 	public double prevRenderZ;
-	public final List<Pair<Vec3, Double>> trailNodes = new ArrayList();
+	public final List<Pair<Vec3, Double>> trailNodes = new ArrayList<Pair<Vec3, Double>>();
 	
 	public BulletConfiguration getConfig() {
 		return config;
@@ -201,7 +201,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 			return;
 		}
 		
-		if(worldObj.isRemote && config.style == config.STYLE_TAU) {
+		if(worldObj.isRemote && config.style == BulletConfiguration.STYLE_TAU) {
 			if(trailNodes.isEmpty()) {
 				this.ignoreFrustumCheck = true;
 				trailNodes.add(new Pair<Vec3, Double>(Vec3.createVectorHelper(-motionX * 2, -motionY * 2, -motionZ * 2), 0D));
@@ -265,7 +265,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		
-		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+		if(mop.typeOfHit == MovingObjectType.BLOCK) {
 			
 			boolean hRic = rand.nextInt(100) < config.HBRC;
 			boolean doesRic = config.doesRicochet && hRic;
@@ -393,6 +393,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 	
 	//for when a bullet dies by hitting a block
 	private void onBlockImpact(int bX, int bY, int bZ, int sideHit) {
+		Block block = worldObj.getBlock(bX, bY, bZ);
 		
 		if(config.bntImpact != null)
 			config.bntImpact.behaveBlockHit(this, bX, bY, bZ, sideHit);
@@ -418,17 +419,17 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		if(config.emp > 3) {
 			if (!this.worldObj.isRemote) {
 				
-	    		EntityEMPBlast cloud = new EntityEMPBlast(this.worldObj, config.emp);
-	    		cloud.posX = this.posX;
-	    		cloud.posY = this.posY + 0.5F;
-	    		cloud.posZ = this.posZ;
-	    		
+				EntityEMPBlast cloud = new EntityEMPBlast(this.worldObj, config.emp);
+				cloud.posX = this.posX;
+				cloud.posY = this.posY + 0.5F;
+				cloud.posZ = this.posZ;
+				
 				this.worldObj.spawnEntityInWorld(cloud);
 			}
 		}
 		
 		if(config.jolt > 0 && !worldObj.isRemote)
-    		ExplosionLarge.jolt(worldObj, posX, posY, posZ, config.jolt, 150, 0.25);
+			ExplosionLarge.jolt(worldObj, posX, posY, posZ, config.jolt, 150, 0.25);
 		
 		if(config.explosive > 0 && !worldObj.isRemote) {
 			//worldObj.newExplosion(this.thrower, posX, posY, posZ, config.explosive, config.incendiary > 0, config.blockDamage);
@@ -447,7 +448,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		
 		if(config.chlorine > 0 && !worldObj.isRemote) {
 			ExplosionChaos.spawnChlorine(worldObj, posX, posY, posZ, config.chlorine, 1.5, 0);
-        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
+			worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
 		}
 		
 		if(config.rainbow > 0 && !worldObj.isRemote) {
@@ -465,7 +466,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		}
 		
 		if(config.nuke > 0 && !worldObj.isRemote) {
-	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, config.nuke, posX, posY, posZ));
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, config.nuke, posX, posY, posZ));
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "muke");
 			if(MainRegistry.polaroidID == 11 || rand.nextInt(100) == 0) data.setBoolean("balefire", true);
@@ -474,17 +475,15 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		}
 		
 		if(config.destroysBlocks && !worldObj.isRemote) {
-			if(worldObj.getBlock(bX, bY, bZ).getBlockHardness(worldObj, bX, bY, bZ) <= 120)
-    			worldObj.func_147480_a(bX, bY, bZ, false);
+			if(block.getBlockHardness(worldObj, bX, bY, bZ) <= 120)
+				worldObj.func_147480_a(bX, bY, bZ, false);
 		} else if(config.doesBreakGlass && !worldObj.isRemote) {
-			if(worldObj.getBlock(bX, bY, bZ) == Blocks.glass || 
-					worldObj.getBlock(bX, bY, bZ) == Blocks.glass_pane || 
-					worldObj.getBlock(bX, bY, bZ) == Blocks.stained_glass || 
-					worldObj.getBlock(bX, bY, bZ) == Blocks.stained_glass_pane)
+			if(block == Blocks.glass || block == Blocks.glass_pane || block == Blocks.stained_glass || block == Blocks.stained_glass_pane)
 				worldObj.func_147480_a(bX, bY, bZ, false);
 			
-			if(worldObj.getBlock(bX, bY, bZ) == ModBlocks.red_barrel)
-				((RedBarrel) ModBlocks.red_barrel).explode(worldObj, bX, bY, bZ);
+			if(block instanceof BlockDetonatable) {
+				((BlockDetonatable) block).onShot(worldObj, bX, bY, bZ);
+			}
 		}
 	}
 	
