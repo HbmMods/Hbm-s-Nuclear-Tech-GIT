@@ -610,7 +610,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	    
 	    		
 	    	double g0 = 9.81;
-            double distance = Math.abs(km - thiskm); 
+            double distance = Math.abs(thiskm - km); 
 
             double effectiveExhaustVelocity = isp * g0;
             double deltaV = g0 * distance / (rocketMass * grav);
