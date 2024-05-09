@@ -1596,6 +1596,20 @@ matshape.nuggets=%s Nuggets
 matshape.quantum=%s Quantum
 matshape.quanta=%s Quanta
 
+icffuel.beryllium=Beryllium
+icffuel.boron=Boron
+icffuel.carbon=Carbon
+icffuel.calcium=Calcium
+icffuel.chlorine=Chlorine
+icffuel.deuterium=Deuterium
+icffuel.helium3=Helium-3
+icffuel.helium4=Helium-4
+icffuel.hydrogen=Hydrogen
+icffuel.lithium=Lithium
+icffuel.oxygen=Oxygen
+icffuel.sodium=Sodium
+icffuel.tritium=Tritium
+
 info.asbestos=My lungs are burning.
 info.coaldust=It's hard to breathe here.
 info.coil=Coil Strength
