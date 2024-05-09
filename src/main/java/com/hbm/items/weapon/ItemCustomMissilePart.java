@@ -168,12 +168,12 @@ public class ItemCustomMissilePart extends Item {
 		return this;
 	}
 	
-	public ItemCustomMissilePart makeThruster(FuelType type, float consumption, float lift, PartSize size) {
+	public ItemCustomMissilePart makeThruster(FuelType type, float consumption, float lift, PartSize size, int weight) {
 
 		this.type = PartType.THRUSTER;
 		this.top = size;
 		this.bottom = PartSize.NONE;
-		this.attributes = new Object[] { type, consumption, lift };
+		this.attributes = new Object[] { type, consumption, lift, weight};
 		setTextureName(RefStrings.MODID + ":mp_thruster");
 		
 		parts.put(this.hashCode(), this);
@@ -214,6 +214,7 @@ public class ItemCustomMissilePart extends Item {
 				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuel((FuelType)attributes[0]));
 				list.add(EnumChatFormatting.BOLD + "Fuel consumption: " + EnumChatFormatting.GRAY + (Float)attributes[1] + "l/tick");
 				list.add(EnumChatFormatting.BOLD + "Max. payload: " + EnumChatFormatting.GRAY + (Float)attributes[2] + "t");
+				list.add(EnumChatFormatting.BOLD + "Weight " + EnumChatFormatting.GRAY + (Integer)attributes[3] + "kg"); //will fix one day
 				break;
 			}
 		} catch(Exception ex) {
@@ -274,6 +275,8 @@ public class ItemCustomMissilePart extends Item {
 			return EnumChatFormatting.LIGHT_PURPLE + "Cloud";
 		case TURBINE:
 			return (System.currentTimeMillis() % 1000 < 500 ? EnumChatFormatting.RED : EnumChatFormatting.LIGHT_PURPLE) + "Turbine";
+		case APOLLO:
+			return (System.currentTimeMillis() % 1000 < 500 ? EnumChatFormatting.GOLD : EnumChatFormatting.RED) + "Capsule";
 		default:
 			return EnumChatFormatting.BOLD + "N/A";
 		}
@@ -292,6 +295,8 @@ public class ItemCustomMissilePart extends Item {
 			return EnumChatFormatting.DARK_PURPLE + "Xenon Gas";
 		case BALEFIRE:
 			return EnumChatFormatting.GREEN + "BF Rocket Fuel / Peroxide";
+		case HYDRAZINE:
+			return EnumChatFormatting.AQUA + "Hydrazine";
 		default:
 			return EnumChatFormatting.BOLD + "N/A";
 		}

@@ -38,6 +38,8 @@ public class MissilePart {
 		MissilePart.registerPart(ModItems.mp_thruster_10_solid, PartType.THRUSTER, 0.5, 1, ResourceManager.mp_t_10_solid, ResourceManager.mp_t_10_solid_tex);
 		MissilePart.registerPart(ModItems.mp_thruster_10_hydrazine, PartType.THRUSTER, 0.5, 1, ResourceManager.mp_t_10_solid, ResourceManager.mp_t_10_solid_tex);
 		MissilePart.registerPart(ModItems.mp_thruster_10_xenon, PartType.THRUSTER, 0.5, 1, ResourceManager.mp_t_10_xenon, ResourceManager.mp_t_10_xenon_tex);
+		MissilePart.registerPart(ModItems.mp_thruster_10_hydrazine, PartType.THRUSTER, 0.5, 1, ResourceManager.mp_t_10_solid, ResourceManager.mp_t_10_solid_tex);
+
 		//
 		MissilePart.registerPart(ModItems.mp_thruster_15_kerosene, PartType.THRUSTER, 1.5, 1.5, ResourceManager.mp_t_15_kerosene, ResourceManager.mp_t_15_kerosene_tex);
 		MissilePart.registerPart(ModItems.mp_thruster_15_kerosene_tec, PartType.THRUSTER, 1.5, 3.25, ResourceManager.mp_t_15_kerosene_tec, ResourceManager.universal);
@@ -58,6 +60,7 @@ public class MissilePart {
 		MissilePart.registerPart(ModItems.mp_thruster_20_solid, PartType.THRUSTER, 1, 1.75, ResourceManager.mp_t_20_solid, ResourceManager.mp_t_20_solid_tex);
 		MissilePart.registerPart(ModItems.mp_thruster_20_solid_multi, PartType.THRUSTER, 0.5, 1.5, ResourceManager.mp_t_20_solid_multi, ResourceManager.mp_t_20_solid_multi_tex);
 		MissilePart.registerPart(ModItems.mp_thruster_20_solid_multier, PartType.THRUSTER, 0.5, 1.5, ResourceManager.mp_t_20_solid_multi, ResourceManager.mp_t_20_solid_multier_tex);
+		MissilePart.registerPart(ModItems.mp_thruster_20_hydrazine, PartType.THRUSTER, 3, 2.5, ResourceManager.mp_t_20_azide, ResourceManager.mp_t_20_azide_tex);
 
 		//////
 		
@@ -152,7 +155,7 @@ public class MissilePart {
 		MissilePart.registerPart(ModItems.mp_fuselage_15_20_kerosene_magnusson, PartType.FUSELAGE, 16, 10, ResourceManager.mp_f_15_20_kerosene, ResourceManager.mp_f_15_20_kerosene_magnusson_tex);
 		MissilePart.registerPart(ModItems.mp_fuselage_15_20_solid, PartType.FUSELAGE, 16, 10, ResourceManager.mp_f_15_20_kerosene, ResourceManager.mp_f_15_20_solid_tex);
 		//
-		MissilePart.registerPart(ModItems.mp_fuselage_20_kerosene, PartType.FUSELAGE, 10, 8, ResourceManager.mp_f_20_neo, ResourceManager.mp_f_20_kerolox);
+		MissilePart.registerPart(ModItems.mp_fuselage_20_kerosene, PartType.FUSELAGE, 10, 8, ResourceManager.mp_f_20, ResourceManager.mp_f_20_kerolox);
 		MissilePart.registerPart(ModItems.mp_fuselage_20_hydrazine, PartType.FUSELAGE, 10, 8, ResourceManager.mp_f_20_neo, ResourceManager.mp_f_20_hydrazine_tex);
 
 
@@ -175,9 +178,7 @@ public class MissilePart {
 		MissilePart.registerPart(ModItems.mp_warhead_15_n2, PartType.WARHEAD, 3, 2, ResourceManager.mp_w_15_n2, ResourceManager.mp_w_15_n2_tex);
 		MissilePart.registerPart(ModItems.mp_warhead_15_balefire, PartType.WARHEAD, 2.75, 2, ResourceManager.mp_w_15_balefire, ResourceManager.mp_w_15_balefire_tex);
 		MissilePart.registerPart(ModItems.mp_warhead_15_turbine, PartType.WARHEAD, 2.25, 2, ResourceManager.mp_w_15_turbine, ResourceManager.mp_w_15_turbine_tex);
-		MissilePart.registerPart(ModItems.mp_warhead_20_ca, PartType.WARHEAD, 3, 2.25, ResourceManager.soyuz_lander_neo, ResourceManager.soyuz_module_lander_space_tex);
-		MissilePart.registerPart(ModItems.mp_thruster_10_hydrazine, PartType.THRUSTER, 0.5, 1, ResourceManager.mp_t_10_solid, ResourceManager.mp_t_10_solid_tex);
-		MissilePart.registerPart(ModItems.mp_thruster_20_hydrazine, PartType.THRUSTER, 1, 1.75, ResourceManager.mp_t_20_solid, ResourceManager.mp_t_20_solid_tex);
+		MissilePart.registerPart(ModItems.mp_warhead_20_ca, PartType.WARHEAD, 3, 2.25, ResourceManager.soyuz_lander_neo, ResourceManager.module_lander_tex);
 
 		//
 		MissilePart.registerPart(ModItems.mp_warhead_20_he, PartType.WARHEAD, 3, 2.25, ResourceManager.mp_w_20, ResourceManager.universal);

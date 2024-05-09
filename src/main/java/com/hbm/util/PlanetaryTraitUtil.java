@@ -44,6 +44,11 @@ public class PlanetaryTraitUtil {
 	public static Map<Integer, Float> dimGrav = new HashMap<>();
 	
 	static {
+		dimGrav.put(DimensionManager.getProviderType(SpaceConfig.eveDimension), 16.8F);
+		dimGrav.put(DimensionManager.getProviderType(SpaceConfig.mohoDimension), 2.6F);
+		dimGrav.put(DimensionManager.getProviderType(SpaceConfig.moonDimension), 1.6F);
+		dimGrav.put(DimensionManager.getProviderType(SpaceConfig.minmusDimension), 0.49F);
+		dimGrav.put(DimensionManager.getProviderType(SpaceConfig.dunaDimension), 2.9F);
 		dimGrav.put(DimensionManager.getProviderType(0), 9.8F);
 
 	}
@@ -56,24 +61,32 @@ public class PlanetaryTraitUtil {
     // one thing we can do is give a "MOON" planet trait and a PARENT planet trait.
     // the game will then check for that and switch calculation from interplanetary to local orbit
     // any better ideas lmk or i will set something on fire :333333333333333333333333333333333333333333333
-	public static Map<Integer, Float> dimau = new HashMap<>();
+    
+    //james  you are so fucking dumb you can just take the offset distance of a moons orbit then add it to the planets orbit relative to the sun
+    // meaning that if you are going to ike from duna, the two distances subtracted would still be 3200. aka ikes actual orbit in kms
+    // :p
+    
+    
+    
+    //temp
+	public static Map<Integer, Integer> dimau = new HashMap<>();
 	
 	static {
-		dimau.put(DimensionManager.getProviderType(SpaceConfig.eveDimension), AstronomyUtil.EveAU);
-		dimau.put(DimensionManager.getProviderType(SpaceConfig.dresDimension), AstronomyUtil.DresAU);
-		dimau.put(DimensionManager.getProviderType(SpaceConfig.moonDimension), AstronomyUtil.MunKerbinAU);
-		dimau.put(DimensionManager.getProviderType(SpaceConfig.ikeDimension), AstronomyUtil.IkeDunaKm);
-		dimau.put(DimensionManager.getProviderType(SpaceConfig.mohoDimension), AstronomyUtil.MohoAU);
-		dimau.put(DimensionManager.getProviderType(SpaceConfig.laytheDimension), AstronomyUtil.JoolAU);
-		dimau.put(DimensionManager.getProviderType(SpaceConfig.minmusDimension), AstronomyUtil.MinmusKerbinAU);
-		dimau.put(DimensionManager.getProviderType(SpaceConfig.dunaDimension), AstronomyUtil.DunaAU);
-		dimau.put(DimensionManager.getProviderType(0), AstronomyUtil.KerbinAU);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.eveDimension), 9832684);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.dresDimension), 40839348);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.moonDimension), 13611840);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.ikeDimension), 2029355);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.mohoDimension), 5263138);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.laytheDimension), 68773560); //this is actually JOOLs value
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.minmusDimension), 68800744);
+		dimau.put(DimensionManager.getProviderType(SpaceConfig.dunaDimension), 20726155);
+		dimau.put(DimensionManager.getProviderType(0), 13599840);
 
 
 	}
 	
-    public static float getDistanceForDimension(int dimensionId) {
-        return dimau.getOrDefault(dimensionId, 1F); 
+    public static int getDistanceForDimension(int dimensionId) {
+        return dimau.getOrDefault(dimensionId, 1); 
     }
 
     

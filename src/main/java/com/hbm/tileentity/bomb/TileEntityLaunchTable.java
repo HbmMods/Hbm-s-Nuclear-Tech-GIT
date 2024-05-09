@@ -16,6 +16,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
+import com.hbm.inventory.fluid.trait.FT_Rocket;
 import com.hbm.inventory.gui.GUIMachineLaunchTable;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ItemVOTVdrive.DestinationType;
@@ -469,19 +470,16 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != DestinationType.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true) {
 			switch (DestinationType.values()[slots[1].getItemDamage()]) {
 			case MOHO:
-				float theWorldLooksRed = calfuelV2(AstronomyUtil.MohoAU, AstronomyUtil.MohoP);
+				float theWorldLooksRed = calfuelV2(5263138);
 				tanks[0].changeTankSize((int) theWorldLooksRed);
-			    FT_Combustible trait = tanks[0].getTankType().getTrait(FT_Combustible.class);
-			    long fuelPower = trait.getCombustionEnergy();
-			   // System.out.println(theWorldLooksRed);
 				break;
 			case LAYTHE:
 				tanks[0].changeTankSize(230000);
 				tanks[1].changeTankSize(230000);
 				break;
 			case DUNA:
-				tanks[0].changeTankSize(230000);
-				tanks[1].changeTankSize(150300);
+				float whatthefuck = calfuelV2(20726155);
+				tanks[0].changeTankSize((int) whatthefuck);
 				break;
 			case DRES:
 				tanks[0].changeTankSize(290000);
@@ -596,25 +594,33 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		}
 	}
 
-	public float calfuelV2(double au, float p) {
+	public float calfuelV2(double thiskm) {
+		MissileStruct multipart = getStruct(slots[0]);
+		
+		if(multipart == null || multipart.thruster == null)
+			return -1;
+		
+		
+			ItemCustomMissilePart thruster = (ItemCustomMissilePart)multipart.thruster;
+			int rocketMass = (Integer)thruster.attributes[3];
 	   		float grav = PlanetaryTraitUtil.getGravityForDimension(worldObj.provider.dimensionId);
-	    	FT_Combustible trait = tanks[0].getTankType().getTrait(FT_Combustible.class);
-	    	long fuelPower = trait.getCombustionEnergy();	       
-	    	double aue = au * 100000; 
-	    	float autwo = PlanetaryTraitUtil.getDistanceForDimension(worldObj.provider.dimensionId) * 100000;
-	    	
-	    	double finalvar = Math.abs(autwo - aue);
-	    	
-	    	finalvar = Math.floor(finalvar);
-	        //0.45972245832
-	        //0.035181876 
-	        double adjustedFuelRatio = calculateAdjustedFuelRatio(fuelPower, finalvar);
+	    	FT_Rocket trait = tanks[0].getTankType().getTrait(FT_Rocket.class);
+	    	long isp = trait.getISP();	       
+	    	int km = PlanetaryTraitUtil.getDistanceForDimension(worldObj.provider.dimensionId);
+	    
+	    		
+	    	double g0 = 9.81;
+            double distance = Math.abs(km - thiskm); 
 
-	        float totalDistance = (float) (100000 / adjustedFuelRatio);
+            double effectiveExhaustVelocity = isp * g0;
+            double deltaV = g0 * distance / (rocketMass * grav);
 
-	        int roundedDistance = (int) (Math.round(totalDistance / 100.0) * 100);
+            double adjustedRocketMass = rocketMass * 5;
 
-	        return (float) (roundedDistance);
+            double requiredFuelMass = adjustedRocketMass * (Math.exp(deltaV / effectiveExhaustVelocity) - 1);
+
+            return (int) Math.round(requiredFuelMass);
+
 	    }
 
 	    private static double calculateAdjustedFuelRatio(long fuelPower, double aue) {
