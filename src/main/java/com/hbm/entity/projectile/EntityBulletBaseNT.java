@@ -419,17 +419,17 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		if(config.emp > 3) {
 			if (!this.worldObj.isRemote) {
 				
-	    		EntityEMPBlast cloud = new EntityEMPBlast(this.worldObj, config.emp);
-	    		cloud.posX = this.posX;
-	    		cloud.posY = this.posY + 0.5F;
-	    		cloud.posZ = this.posZ;
-	    		
+				EntityEMPBlast cloud = new EntityEMPBlast(this.worldObj, config.emp);
+				cloud.posX = this.posX;
+				cloud.posY = this.posY + 0.5F;
+				cloud.posZ = this.posZ;
+				
 				this.worldObj.spawnEntityInWorld(cloud);
 			}
 		}
 		
 		if(config.jolt > 0 && !worldObj.isRemote)
-    		ExplosionLarge.jolt(worldObj, posX, posY, posZ, config.jolt, 150, 0.25);
+			ExplosionLarge.jolt(worldObj, posX, posY, posZ, config.jolt, 150, 0.25);
 		
 		if(config.explosive > 0 && !worldObj.isRemote) {
 			//worldObj.newExplosion(this.thrower, posX, posY, posZ, config.explosive, config.incendiary > 0, config.blockDamage);
@@ -448,7 +448,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		
 		if(config.chlorine > 0 && !worldObj.isRemote) {
 			ExplosionChaos.spawnChlorine(worldObj, posX, posY, posZ, config.chlorine, 1.5, 0);
-        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
+			worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);
 		}
 		
 		if(config.rainbow > 0 && !worldObj.isRemote) {
@@ -466,7 +466,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		}
 		
 		if(config.nuke > 0 && !worldObj.isRemote) {
-	    	worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, config.nuke, posX, posY, posZ));
+			worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, config.nuke, posX, posY, posZ));
 			NBTTagCompound data = new NBTTagCompound();
 			data.setString("type", "muke");
 			if(MainRegistry.polaroidID == 11 || rand.nextInt(100) == 0) data.setBoolean("balefire", true);
@@ -476,7 +476,7 @@ public class EntityBulletBaseNT extends EntityThrowableInterp implements IBullet
 		
 		if(config.destroysBlocks && !worldObj.isRemote) {
 			if(block.getBlockHardness(worldObj, bX, bY, bZ) <= 120)
-    			worldObj.func_147480_a(bX, bY, bZ, false);
+				worldObj.func_147480_a(bX, bY, bZ, false);
 		} else if(config.doesBreakGlass && !worldObj.isRemote) {
 			if(block == Blocks.glass || block == Blocks.glass_pane || block == Blocks.stained_glass || block == Blocks.stained_glass_pane)
 				worldObj.func_147480_a(bX, bY, bZ, false);
