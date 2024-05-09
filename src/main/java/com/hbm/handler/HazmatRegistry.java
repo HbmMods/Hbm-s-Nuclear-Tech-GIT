@@ -14,10 +14,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ItemModCladding;
-import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.Compat;
+import com.hbm.util.ShadyUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -257,7 +257,7 @@ public class HazmatRegistry {
 		
 		float res = 0.0F;
 		
-		if(player.getUniqueID().toString().equals(Library.Pu_238)) {
+		if(player.getUniqueID().toString().equals(ShadyUtil.Pu_238)) {
 			res += 0.4F;
 		}
 		

@@ -71,6 +71,7 @@ import com.hbm.tileentity.machine.TileEntityNukeFurnace;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.LoggingUtil;
+import com.hbm.util.ShadyUtil;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
@@ -576,11 +577,11 @@ public class ModEventHandlerClient {
 		}
 		
 		if(player.getCurrentArmor(2) == null && !player.isPotionActive(Potion.invisibility)) {
-			if(player.getUniqueID().toString().equals(Library.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd"))
+			if(player.getUniqueID().toString().equals(ShadyUtil.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd"))
 				RenderAccessoryUtility.renderSol(event);
-			if(player.getUniqueID().toString().equals(Library.HbMinecraft) || player.getDisplayName().equals("HbMinecraft"))
+			if(player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) || player.getDisplayName().equals("HbMinecraft"))
 				RenderAccessoryUtility.renderWings(event, 2);
-			if(player.getUniqueID().toString().equals(Library.the_NCR) || player.getDisplayName().equals("the_NCR"))
+			if(player.getUniqueID().toString().equals(ShadyUtil.the_NCR) || player.getDisplayName().equals("the_NCR"))
 				RenderAccessoryUtility.renderWings(event, 3);
 		}
 	}
