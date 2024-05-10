@@ -12,9 +12,11 @@ import com.hbm.items.machine.ItemICFPellet;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -27,12 +29,15 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver {
+public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver, IInfoProviderEC {
 	
 	public long laser;
 	public long maxLaser;
 	public long heat;
 	public static final long maxHeat = 1_000_000_000_000L;
+	public long heatup;
+	public int consumption;
+	public int output;
 	
 	public FluidTank[] tanks;
 
@@ -60,7 +65,7 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
-			this.heat += this.laser * 0.25D;
+			if(slots[5] == null || slots[5].getItem() != ModItems.icf_pellet) this.heat += this.laser * 0.25D;
 			boolean markDirty = false;
 			
 			//eject depleted pellet
@@ -87,8 +92,11 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 				}
 			}
 			
+			this.heatup = 0;
+			
 			if(slots[5] != null && slots[5].getItem() == ModItems.icf_pellet) {
-				this.heat += ItemICFPellet.react(slots[5], this.laser);
+				this.heatup = ItemICFPellet.react(slots[5], this.laser);
+				this.heat += heat;
 				if(ItemICFPellet.getDepletion(slots[5]) >= ItemICFPellet.getMaxDepletion(slots[5])) {
 					slots[5] = new ItemStack(ModItems.icf_pellet_depleted);
 					markDirty = true;
@@ -97,6 +105,9 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 				tanks[2].setFill(tanks[2].getFill() + (int) Math.ceil(this.heat * 10D / this.maxHeat));
 				if(tanks[2].getFill() > tanks[2].getMaxFill()) tanks[2].setFill(tanks[2].getMaxFill());
 			}
+
+			this.consumption = 0;
+			this.output = 0;
 			
 			if(tanks[0].getTankType().hasTrait(FT_Heatable.class)) {
 				FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
@@ -111,6 +122,9 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 				tanks[0].setFill(tanks[0].getFill() - step.amountReq * cycles);
 				tanks[1].setFill(tanks[1].getFill() + step.amountProduced * cycles);
 				this.heat -= step.heatReq * cycles;
+
+				this.consumption = step.amountReq * cycles;
+				this.output = step.amountProduced * cycles;
 			}
 			
 			for(DirPos pos : getConPos()) {
@@ -248,5 +262,14 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIICF(player.inventory, this);
+	}
+	
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, heatup > 0);
+		data.setLong(CompatEnergyControl.L_CAPACITY_TU, this.maxHeat);
+		data.setLong(CompatEnergyControl.L_ENERGY_TU, this.heat);
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, this.consumption);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_MB, this.output);
 	}
 }

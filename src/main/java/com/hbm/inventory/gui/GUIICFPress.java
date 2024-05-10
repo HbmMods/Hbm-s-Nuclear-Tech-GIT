@@ -34,8 +34,8 @@ public class GUIICFPress extends GuiInfoContainer {
 		press.tanks[0].renderTankInfo(this, mouseX, mouseY, guiLeft + 44, guiTop + 18, 16, 52);
 		press.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 152, guiTop + 18, 16, 52);
 		
-		if(this.isMouseOverSlot(this.inventorySlots.getSlot(4), mouseX, mouseY)) this.func_146283_a(Arrays.asList(new String[] {EnumChatFormatting.YELLOW + "Item input: Top/Bottom"}), mouseX, mouseY);
-		if(this.isMouseOverSlot(this.inventorySlots.getSlot(5), mouseX, mouseY)) this.func_146283_a(Arrays.asList(new String[] {EnumChatFormatting.YELLOW + "Item input: Sides"}), mouseX, mouseY);
+		if(this.isMouseOverSlot(this.inventorySlots.getSlot(4), mouseX, mouseY) && !this.inventorySlots.getSlot(4).getHasStack()) this.func_146283_a(Arrays.asList(new String[] {EnumChatFormatting.YELLOW + "Item input: Top/Bottom"}), mouseX, mouseY);
+		if(this.isMouseOverSlot(this.inventorySlots.getSlot(5), mouseX, mouseY) && !this.inventorySlots.getSlot(5).getHasStack()) this.func_146283_a(Arrays.asList(new String[] {EnumChatFormatting.YELLOW + "Item input: Sides"}), mouseX, mouseY);
 	}
 	
 	@Override

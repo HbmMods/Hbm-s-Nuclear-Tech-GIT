@@ -34,12 +34,12 @@ public class ItemICFPellet extends Item {
 		HYDROGEN(	0x4040FF,	1.0D,	1.0D,	1.0D),
 		DEUTERIUM(	0x2828CB,	1.0D,	1.0D,	1.0D),
 		TRITIUM(	0x000092,	1.0D,	1.0D,	1.0D),
-		HELIUM3(	0xFFF09F,	1.0D,	1.0D,	1.0D), //hey you
-		HELIUM4(	0xFF9B60,	1.0D,	1.0D,	1.0D), //yes you
-		LITHIUM(	0xE9E9E9,	1.0D,	1.0D,	1.0D), //fuck off
+		HELIUM3(	0xFFF09F,	1.0D,	1.0D,	1.0D),
+		HELIUM4(	0xFF9B60,	1.0D,	1.0D,	1.0D),
+		LITHIUM(	0xE9E9E9,	1.0D,	1.0D,	1.0D),
 		BERYLLIUM(	0xA79D80,	1.0D,	1.0D,	1.0D),
 		BORON(		0x697F89,	1.0D,	1.0D,	1.0D),
-		//CARBON(		0x454545,	1.0D,	1.0D,	1.0D),
+		CARBON(		0x454545,	1.0D,	1.0D,	1.0D),
 		OXYGEN(		0xB4E2FF,	1.0D,	1.0D,	1.0D),
 		SODIUM(		0xDFE4E7,	1.0D,	1.0D,	1.0D),
 		//aluminium, silicon, phosphorus
@@ -74,6 +74,8 @@ public class ItemICFPellet extends Item {
 		materialMap.put(Mats.MAT_LITHIUM, EnumICFFuel.LITHIUM);
 		materialMap.put(Mats.MAT_BERYLLIUM, EnumICFFuel.BERYLLIUM);
 		materialMap.put(Mats.MAT_BORON, EnumICFFuel.BORON);
+		materialMap.put(Mats.MAT_GRAPHITE, EnumICFFuel.CARBON);
+		fluidMap.put(Fluids.OXYGEN, EnumICFFuel.OXYGEN);
 		materialMap.put(Mats.MAT_SODIUM, EnumICFFuel.SODIUM);
 		fluidMap.put(Fluids.CHLORINE, EnumICFFuel.CHLORINE);
 		materialMap.put(Mats.MAT_CALCIUM, EnumICFFuel.CALCIUM);
@@ -183,6 +185,7 @@ public class ItemICFPellet extends Item {
 		list.add(EnumChatFormatting.GREEN + "Depletion: " + String.format(Locale.US, "%.1f", getDurabilityForDisplay(stack) * 100D) + "%");
 		list.add(EnumChatFormatting.YELLOW + "Fuel: " + I18nUtil.resolveKey("icffuel." + getType(stack, true).name().toLowerCase(Locale.US)) + " / " + I18nUtil.resolveKey("icffuel." + getType(stack, false).name().toLowerCase(Locale.US)));
 		list.add(EnumChatFormatting.YELLOW + "Heat required: " + BobMathUtil.getShortNumber(this.getFusingDifficulty(stack)) + "TU");
+		list.add(EnumChatFormatting.YELLOW + "Reactivity multiplier: x" + (int) (getType(stack, true).reactionMult * getType(stack, false).reactionMult * 100) / 100D);
 		if(stack.hasTagCompound() && stack.stackTagCompound.getBoolean("muon")) list.add(EnumChatFormatting.DARK_AQUA + "Muon catalyzed!");
 	}
 }

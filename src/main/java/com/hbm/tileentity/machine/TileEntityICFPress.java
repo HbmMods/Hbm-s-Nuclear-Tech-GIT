@@ -91,7 +91,7 @@ public class TileEntityICFPress extends TileEntityMachineBase implements IFluidS
 		ItemICFPellet.init();
 		
 		EnumICFFuel fuel1 = getFuel(tanks[0], slots[4], 0);
-		EnumICFFuel fuel2 = getFuel(tanks[1], slots[5], 0);
+		EnumICFFuel fuel2 = getFuel(tanks[1], slots[5], 1);
 		
 		if(fuel1 == null || fuel2 == null || fuel1 == fuel2) return;
 		

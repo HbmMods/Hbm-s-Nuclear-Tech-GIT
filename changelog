@@ -1,0 +1,17 @@
+## Added
+* ICF pellet maker
+  * Can create custom ICF fuel pellets
+  * Pellets use binary fuels, meaning they need two different fluids, two different solids or a solid and a fluid
+  * Optionally, the pellet maker can accept muon capsules, each capsule can add muons to up to 16 pellets, reducing the laser input requirement
+
+## Changed
+* To make balancing easier, ICFs will only directly convert 25% of incoming laser heat into output heat when there is no fuel pellet loaded, meaning when using fuel, direct heating does not apply
+* The ICF should now display its relevant values using Energy Control screens
+* Sodium and calcium are now valid crucible materials
+* All RBMK models that render as TESRs now use VBOs which should make them somewhat less laggy
+* Blocks like explosive charges, radioactive barrels and so on which used to explode instantly when destroyed by another explosion, now behave more like TNT, spawning a primed version of the block that is knocked back by the initial explosion
+  * This fixes an issue where spamming too many blocks like that could potentially crash servers
+  * Most explosives go off after a short delay, flammable barrels however will explode on impact
+
+## Fixed
+* Fixed ICF laser parts being considered valid when bordering an otherwise invalid dependency block

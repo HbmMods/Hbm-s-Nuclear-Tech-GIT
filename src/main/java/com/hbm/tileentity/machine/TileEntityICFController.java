@@ -41,12 +41,17 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()).getOpposite();
 		BlockPos pos = new BlockPos(0, 0, 0);
+
+		HashSet<BlockPos> validCells = new HashSet();
+		HashSet<BlockPos> validEmitters = new HashSet();
+		HashSet<BlockPos> validCapacitors = new HashSet();
 		
 		for(int i = 0; i < cells.size(); i++) {
 			int j = i + 1;
 			
 			if(cells.contains(pos.mutate(xCoord + dir.offsetX * j, yCoord, zCoord + dir.offsetZ * j))) {
 				this.cellCount++;
+				validCells.add(pos.clone());
 			} else {
 				break;
 			}
@@ -54,19 +59,19 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 		
 		for(BlockPos emitter : emitters) { for(ForgeDirection offset : ForgeDirection.VALID_DIRECTIONS) {
 				pos.mutate(emitter.getX() + offset.offsetX, emitter.getY() + offset.offsetY, emitter.getZ() + offset.offsetZ);
-				if(cells.contains(pos)) { this.emitterCount++; break; }
+				if(validCells.contains(pos)) { this.emitterCount++; validEmitters.add(pos.clone()); break; }
 			}
 		}
 		
 		for(BlockPos capacitor : capacitors) { for(ForgeDirection offset : ForgeDirection.VALID_DIRECTIONS) {
 				pos.mutate(capacitor.getX() + offset.offsetX, capacitor.getY() + offset.offsetY, capacitor.getZ() + offset.offsetZ);
-				if(emitters.contains(pos)) { this.capacitorCount++; break; }
+				if(validEmitters.contains(pos)) { this.capacitorCount++; validCapacitors.add(pos.clone()); break; }
 			}
 		}
 		
 		for(BlockPos turbo : turbochargers) { for(ForgeDirection offset : ForgeDirection.VALID_DIRECTIONS) {
 				pos.mutate(turbo.getX() + offset.offsetX, turbo.getY() + offset.offsetY, turbo.getZ() + offset.offsetZ);
-				if(capacitors.contains(pos)) { this.turbochargerCount++; break; }
+				if(validCapacitors.contains(pos)) { this.turbochargerCount++; break; }
 			}
 		}
 		

@@ -886,7 +886,6 @@ public class ModBlocks {
 	public static Block fusion_motor;
 	public static Block fusion_heater;
 	public static Block fusion_hatch;
-	//public static Block fusion_core;
 	public static Block plasma;
 
 	public static Block iter;
