@@ -261,7 +261,7 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 		return getData(entity).oxygen;
 	}
 	
-	public static void SsetOxy(EntityLivingBase entity, int oxygen) {
+	public static void setOxy(EntityLivingBase entity, int oxygen) {
 		getData(entity).oxygen = oxygen;
 		
 		if(oxygen <= 0) {

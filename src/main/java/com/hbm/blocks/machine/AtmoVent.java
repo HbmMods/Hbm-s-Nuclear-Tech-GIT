@@ -5,30 +5,19 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
-import com.hbm.config.WorldConfig;
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.trait.FT_Flammable;
-import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.dim.CelestialBody;
+import com.hbm.dim.trait.PT_Atmosphere;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityAtmoVent;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBurner;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
-import com.hbm.util.PlanetaryTraitUtil;
-import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
 
 public class AtmoVent extends BlockDummyable implements ILookOverlay {
 
@@ -87,14 +76,12 @@ public class AtmoVent extends BlockDummyable implements ILookOverlay {
 
 		TileEntityAtmoVent tower = (TileEntityAtmoVent) te;
 
-		List<String> text = new ArrayList();
-		if(PlanetaryTraitUtil.isDimensionWithTraitNT(world, Hospitality.OXYNEG)) {
+		List<String> text = new ArrayList<String>();
+		if(!CelestialBody.hasTrait(world, PT_Atmosphere.class)) {
 			text.add(((EnumChatFormatting.RED + "ERROR: ")) + EnumChatFormatting.RESET + I18nUtil.resolveKey("CANNOT COLLECT IN VACUUM"));
-		}
-		else {
+		} else {
 			text.add((tower.power < tower.getMaxPower() / 20 ? EnumChatFormatting.RED : EnumChatFormatting.GREEN) + "Power: " + BobMathUtil.getShortNumber(tower.power) + "HE");
 			text.add(((EnumChatFormatting.RED + "<- ")) + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + tower.tanks.getTankType().getName().toLowerCase()) + ": " + tower.tanks.getFill() + "/" + tower.tanks.getMaxFill() + "mB");
-	
 		}
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);

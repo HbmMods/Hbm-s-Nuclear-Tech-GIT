@@ -2,32 +2,20 @@ package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import com.hbm.blocks.BlockDummyable;
-import com.hbm.config.SpaceConfig;
-import com.hbm.config.WorldConfig;
+import com.hbm.dim.CelestialBody;
+import com.hbm.dim.trait.PT_Atmosphere;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.fluid.trait.FT_Combustible;
-import com.hbm.inventory.fluid.trait.FT_Flammable;
-import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.util.PlanetaryTraitUtil;
-import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardSender;
-import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IFluidSource, IEnergyReceiverMK2, IFluidStandardSender {
@@ -65,26 +53,21 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 				//tank.setFill(tank.getFill() - 1);
 				//this.power -= this.consumption;
 		}
-			
-		if(worldObj.provider.dimensionId == SpaceConfig.eveDimension) {
-			tanks.setTankType(Fluids.EVEAIR);
-			this.markDirty();
-			//player.addChatComponentMessage(new ChatComponentText("Changed type to ").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)).appendSibling(new ChatComponentTranslation("hbmfluid." + type.getName().toLowerCase())).appendSibling(new ChatComponentText("!")));
-			//System.out.println("among us has been detected at " + WorldConfig.eveDimension);
-			}
-		if(worldObj.provider.dimensionId == SpaceConfig.dunaDimension) {
-			tanks.setTankType(Fluids.CARBONDIOXIDE);
-			this.markDirty();
-			}
-		if(PlanetaryTraitUtil.isDimensionWithTraitNT(worldObj, Hospitality.BREATHEABLE)) {
-			tanks.setTankType(Fluids.AIR);
-			this.markDirty();
-		}
-		if(PlanetaryTraitUtil.isDimensionWithTraitNT(worldObj, Hospitality.OXYNEG)) {
-			tanks.setTankType(Fluids.NONE);
-			this.markDirty();
-		}
 
+		CelestialBody body = CelestialBody.getBodyFromDimension(worldObj.provider.dimensionId);
+		
+		if(body != null) {
+			PT_Atmosphere atmosphere = body.getTrait(PT_Atmosphere.class);
+			if(atmosphere != null) {
+				tanks.setTankType(atmosphere.fluid);
+			} else {
+				tanks.setTankType(Fluids.NONE);
+			}
+		} else {
+			// If we aren't on a registered body (nether, custom dimensions), assume it's just regular breathable air
+			tanks.setTankType(Fluids.AIR);
+		}
+		markDirty();
 		
 		this.sendFluidToAll(tanks, this);
 		fillFluidInit(tanks.getTankType());

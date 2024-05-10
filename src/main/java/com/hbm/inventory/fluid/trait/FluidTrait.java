@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 public abstract class FluidTrait {
 	
-	public static List<Class<? extends FluidTrait>> traitList = new ArrayList();
+	public static List<Class<? extends FluidTrait>> traitList = new ArrayList<Class<? extends FluidTrait>>();
 	public static HashBiMap<String, Class<? extends FluidTrait>> traitNameMap = HashBiMap.create();
 	
 	static {

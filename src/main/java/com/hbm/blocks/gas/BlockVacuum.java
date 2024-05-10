@@ -3,8 +3,6 @@ package com.hbm.blocks.gas;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.SpaceConfig;
-import com.hbm.config.WorldConfig;
 import com.hbm.lib.ModDamageSource;
 
 import cpw.mods.fml.relauncher.Side;
@@ -13,7 +11,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
@@ -81,17 +78,6 @@ public class BlockVacuum extends Block {
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
-		//wait what the fuck
-		if(world.provider.dimensionId == SpaceConfig.moonDimension)
-		{
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-				Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-				if(b == Blocks.air)
-				{
-					world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.vacuum);
-				}	
-			}
-		}
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 			
 			Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);

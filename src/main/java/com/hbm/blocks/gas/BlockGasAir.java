@@ -3,25 +3,14 @@ package com.hbm.blocks.gas;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.SpaceConfig;
 import com.hbm.extprop.HbmLivingProps;
-import com.hbm.lib.ModDamageSource;
-import com.hbm.util.ArmorRegistry;
-import com.hbm.util.ArmorRegistry.HazardClass;
-import com.hbm.util.PlanetaryTraitUtil.Hospitality;
-import com.hbm.util.ArmorUtil;
-import com.hbm.util.PlanetaryTraitUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -72,15 +61,6 @@ public class BlockGasAir extends BlockGasBase {
     }
 
 	private Block[] airBlocks = {ModBlocks.air_block, ModBlocks.air_block1, ModBlocks.air_block2, ModBlocks.air_block3, ModBlocks.air_block4, ModBlocks.air_block5, ModBlocks.air_block6, ModBlocks.air_block7, ModBlocks.air_block8, ModBlocks.air_block9};
-
-	private Block getResult() {
-	    for (int i = 0; i < airBlocks.length - 1; i++) {
-	        if (this == airBlocks[i]) {
-	            return airBlocks[i+1];
-	        }
-	    }
-	    return ModBlocks.air_block;
-	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -141,7 +121,7 @@ public class BlockGasAir extends BlockGasBase {
 		if(!(entity instanceof EntityLivingBase))
 			return;
 		
-		HbmLivingProps.SsetOxy((EntityLivingBase)entity, 20);
+		HbmLivingProps.setOxy((EntityLivingBase)entity, 20);
 	}
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {

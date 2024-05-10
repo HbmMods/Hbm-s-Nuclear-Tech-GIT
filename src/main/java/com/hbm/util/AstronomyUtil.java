@@ -1,5 +1,7 @@
 package com.hbm.util;
 
+import com.hbm.dim.CelestialBody;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -7,7 +9,28 @@ import net.minecraft.world.World;
 
 public class AstronomyUtil
 {
+
+    // the G in G*M1*M2/r
+    public static final float GRAVITATIONAL_CONSTANT = 6.6743015e-11F;
+
+    // Default orbital altitude, added onto planet radius to get intended orbital radius
+    public static final float DEFAULT_ALTITUDE = 100_000; // 100km
+
+    // Day length in KSP -> day length in MC
+    // This conversion will make orbital mechanics run a considerable fraction faster than normal
+    public static final float DAY_FACTOR = (6 * 60 * 60) / (20 * 60);
+
+    // How many seconds in a MC day
+    public static final float SECONDS_IN_DAY = 24_000;
+
+    // Default for how fast the player character accelerates downwards due to gravity in m/s/s
+    public static final float STANDARD_GRAVITY = 1.6F; // 0.08 per tick
+    public static final float PLAYER_GRAVITY_MODIFIER = STANDARD_GRAVITY / 9.81F;
+
 	
+    // ALL VARIABLES BEYOND THIS POINT ARE ON BORROWED TIME
+    // SAY YOUR GOODBYES - PROMPTLY
+
 	//does it HAVE to be this complicated??
 	//im gonna make a seperate list of variables so i can calculate fuel or something
 	//these integers are meant for SKYBOXES ONLY
@@ -96,8 +119,12 @@ public class AstronomyUtil
     /**
      * Calculates the maximum angular distance from the Sun that the planet can appear in the sky. The first planet is the one that you are running the calculation for, and the second planet is the one you're standing on.
      */
-    public static double getMaxPlanetaryElongation(World world, Float planet1, Float planet2) {
+    public static double getMaxPlanetaryElongation(World world, float planet1, float planet2) {
     	return Math.toDegrees(Math.asin(planet1/planet2));
+    }
+
+    public static double getMaxPlanetaryElongation(World world, CelestialBody p1, CelestialBody p2) {
+        return getMaxPlanetaryElongation(world, p1.semiMajorAxisKm, p2.semiMajorAxisKm);
     }
     
     public static double getInterplanetaryDistance(World world, Float planet1AU, Float planet1Period, Float planet2AU, Float planet2Period) {

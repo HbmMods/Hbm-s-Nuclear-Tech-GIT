@@ -11,7 +11,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.UUID;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
@@ -22,11 +21,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
-import com.hbm.config.WorldConfig;
-import com.hbm.dim.WorldProviderMoon;
 import com.hbm.config.RadiationConfig;
-import com.hbm.config.SpaceConfig;
-import com.hbm.entity.missile.EntityMissileCustom;
+import com.hbm.dim.CelestialBody;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityCreeperNuclear;
@@ -71,14 +67,13 @@ import com.hbm.packet.PermaSyncPacket;
 import com.hbm.packet.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
-import com.hbm.saveddata.TomSaveData;
-import com.hbm.tileentity.machine.TileEntityAirPump;
 import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.tileentity.network.RequestNetwork;
 import com.hbm.util.AchievementHandler;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.AstronomyUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.EntityDamageUtil;
@@ -86,15 +81,10 @@ import com.hbm.util.EnumUtil;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
-import com.hbm.util.PlanetaryTraitUtil.Hospitality;
-import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.util.PlanetaryTraitWorldSavedData;
 import com.hbm.util.ParticleUtil;
-import com.hbm.util.PlanetaryTraitUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.world.generator.TimedGenerator;
 
-import cpw.mods.fml.common.eventhandler.Event.Result;
 import api.hbm.energymk2.Nodespace;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -106,7 +96,6 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockIce;
 import net.minecraft.block.BlockLever;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -137,9 +126,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EntityDamageSource;
@@ -171,7 +158,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
 public class ModEventHandler {
@@ -203,7 +189,7 @@ public class ModEventHandler {
 			}
 			
 			if(MobConfig.enableDucks && event.player instanceof EntityPlayerMP && !event.player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG).getBoolean("hasDucked"))
-				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!", MainRegistry.proxy.ID_DUCK, 30_000), (EntityPlayerMP) event.player);
+				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket("Press O to Duck!", ServerProxy.ID_DUCK, 30_000), (EntityPlayerMP) event.player);
 			
 
 			if(GeneralConfig.enableGuideBook) {
@@ -1152,59 +1138,27 @@ public class ModEventHandler {
 				step.onPlayerStep(player.worldObj, x, y, z, player);
 			}
 		}
-		if(player.worldObj.provider.dimensionId == SpaceConfig.moonDimension) {
-			
-			if(!player.capabilities.isFlying) {
-					player.motionY += 0.029D; // i could really do better
-				}
-				player.fallDistance = 0;
-			}
-		if(player.worldObj.provider.dimensionId == SpaceConfig.dunaDimension) {
-			
-			if(!player.capabilities.isFlying) {
-					player.motionY += 0.02D; // i could really do better
-				}
-				player.fallDistance = 0;
-			}
-		if(player.worldObj.provider.dimensionId == SpaceConfig.ikeDimension) {
-			
-			if(!player.capabilities.isFlying) {
-					player.motionY += 0.0299D; // i could really do better
-				}
-				player.fallDistance = 0;
-			}
-		
-		if(player.worldObj.provider.dimensionId == SpaceConfig.dresDimension) {
-			
-			if(!player.capabilities.isFlying) {
-					player.motionY += 0.0260D; // i could really do better
-				}
-				player.fallDistance = 0;
-			}
-		
-		/*
-		if(player.worldObj.provider instanceof WorldProviderMoon) {
-			
-			if(!player.capabilities.isFlying) {
 
-				if(player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ModItems.lead_boots) {
-					player.motionY += 0.02D;
-				} else {
-					player.motionY += 0.035D;
-				}
-				player.fallDistance = 0;
-			}
-		} else {
+		CelestialBody body = CelestialBody.getBodyFromDimension(player.worldObj);
+		if(body != null && event.phase == Phase.END) {
+			float gravity = body.getSurfaceGravity() * AstronomyUtil.PLAYER_GRAVITY_MODIFIER;
 
-			if(!player.capabilities.isFlying) {
-				if(player.getCurrentArmor(0) != null && player.getCurrentArmor(0).getItem() == ModItems.lead_boots) {
-					player.motionY -= 0.04D;
-					player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 20, 2));
+			// If gravity is basically the same as normal, do nothing
+			if(!player.capabilities.isFlying && (gravity < 1.5F || gravity > 1.7F)) {
+
+				// Modify fall distance by gravity, so the player has to fall for longer in low gravity to take damage
+				player.fallDistance *= Math.min(gravity / AstronomyUtil.STANDARD_GRAVITY, 1);
+
+				// Undo falling, and add our intended falling speed
+				// On high gravity planets, only apply falling speed when descending and not in water, so we can still jump up single blocks
+				if (gravity < 1.5F || (player.motionY < 0 && !player.isInWater())) {
+					player.motionY /= 0.98F;
+					player.motionY += (AstronomyUtil.STANDARD_GRAVITY / 20F);
+					player.motionY -= (gravity / 20F);
+					player.motionY *= 0.98F;
 				}
 			}
 		}
-	}
-	*/
 		
 	
 		

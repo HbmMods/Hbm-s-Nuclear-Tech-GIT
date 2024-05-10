@@ -56,7 +56,6 @@ import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
-import cpw.mods.fml.common.event.*;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
@@ -81,13 +80,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldProviderEnd;
 import net.minecraftforge.common.AchievementPage;
-import net.minecraftforge.common.BiomeManager;
-import net.minecraftforge.common.BiomeManager.BiomeEntry;
-import net.minecraftforge.common.BiomeManager.BiomeType;
 import net.minecraftforge.common.ChestGenHooks;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -104,75 +98,20 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.google.common.cache.AbstractCache;
-import com.google.common.collect.ImmutableList;
-import com.hbm.blocks.BlockEnums.EnumStoneType;
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockMotherOfAllOres;
-import com.hbm.blocks.generic.BlockToolConversion;
 import com.hbm.commands.CommandDebugChunkLoad;
 import com.hbm.commands.CommandReloadRecipes;
-import com.hbm.config.*;
-import com.hbm.crafting.RodRecipes;
-import com.hbm.creativetabs.*;
-import com.hbm.dim.WorldGeneratorMoon;
-import com.hbm.dim.WorldProviderMoon;
-import com.hbm.dim.Ike.WorldGeneratorIke;
-import com.hbm.dim.Ike.WorldProviderIke;
-import com.hbm.dim.duna.WorldGeneratorDuna;
-import com.hbm.dim.duna.WorldProviderDuna;
-import com.hbm.dim.duna.biome.BiomeGenDuna;
-import com.hbm.entity.EntityMappings;
-import com.hbm.entity.grenade.*;
-import com.hbm.entity.logic.*;
-import com.hbm.entity.mob.siege.*;
-import com.hbm.handler.*;
-import com.hbm.handler.imc.*;
-import com.hbm.handler.pollution.PollutionHandler;
-import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.hazard.HazardRegistry;
-import com.hbm.inventory.*;
-import com.hbm.inventory.OreDictManager.DictFrame;
-import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.recipes.*;
-import com.hbm.inventory.recipes.anvil.AnvilRecipes;
-import com.hbm.inventory.recipes.loader.SerializableRecipe;
-import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemFertilizer;
-import com.hbm.items.weapon.ItemGenericGrenade;
-import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
-import com.hbm.items.ItemEnums.EnumAchievementType;
-import com.hbm.lib.HbmWorld;
-import com.hbm.lib.Library;
-import com.hbm.lib.RefStrings;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.potion.HbmPotion;
-import com.hbm.saveddata.satellites.Satellite;
-import com.hbm.tileentity.TileMappings;
-import com.hbm.tileentity.bomb.TileEntityNukeCustom;
-import com.hbm.tileentity.machine.*;
-import com.hbm.tileentity.machine.rbmk.RBMKDials;
+import com.hbm.dim.SolarSystem;
 import com.hbm.world.ModBiomes;
 import com.hbm.world.PlanetGen;
 import com.hbm.world.feature.*;
-import com.hbm.world.generator.CellularDungeonFactory;
 
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
-import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
-import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
-import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = RefStrings.MODID, name = RefStrings.NAME, version = RefStrings.VERSION)
 public class MainRegistry {
@@ -365,6 +304,8 @@ public class MainRegistry {
 		SiegeTier.registerTiers();
 		HazardRegistry.registerItems();
 		HazardRegistry.registerTrafos();
+
+		SolarSystem.init();
 		
 		OreDictManager oreMan = new OreDictManager();
 		MinecraftForge.EVENT_BUS.register(oreMan); //OreRegisterEvent
@@ -1076,8 +1017,8 @@ public class MainRegistry {
 		} catch(ClassNotFoundException e) { }
 	}
 	
-	private static HashSet<String> ignoreMappings = new HashSet();
-	private static HashMap<String, Item> remapItems = new HashMap();
+	private static HashSet<String> ignoreMappings = new HashSet<String>();
+	private static HashMap<String, Item> remapItems = new HashMap<String, Item>();
 	
 
 	@EventHandler

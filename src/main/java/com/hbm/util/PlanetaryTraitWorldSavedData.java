@@ -1,30 +1,18 @@
 package com.hbm.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.Level;
-
-import com.hbm.main.MainRegistry;
-import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
-import net.minecraft.world.WorldServer;
-import net.minecraft.world.storage.MapStorage;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.event.world.WorldEvent;
 
 public class PlanetaryTraitWorldSavedData extends WorldSavedData {
+    // THIS WHOLE CLASS ON BORROWED TIME
+    
     private static final String DATA_NAME = "PlanetaryTraitsData";
 
     public NBTTagCompound data = new NBTTagCompound();

@@ -1,34 +1,23 @@
 package com.hbm.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.Level;
-
 import com.hbm.config.SpaceConfig;
-import com.hbm.config.WorldConfig;
-import com.hbm.main.MainRegistry;
-import com.hbm.saveddata.TomSaveData;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import io.netty.channel.DefaultAddressedEnvelope;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.util.Constants;
 
 public class PlanetaryTraitUtil {
+
+    // IT'S ALL COMING DOWN
 	
 	//rule: a planets trait list should NEVER be null
 	public enum Hospitality{

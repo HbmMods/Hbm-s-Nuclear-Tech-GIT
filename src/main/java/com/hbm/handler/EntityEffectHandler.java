@@ -8,8 +8,9 @@ import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.WorldConfig;
+import com.hbm.dim.CelestialBody;
+import com.hbm.dim.trait.PT_Atmosphere;
 import com.hbm.entity.mob.glyphid.EntityGlyphid;
-import com.hbm.entity.mob.glyphid.EntityGlyphidScout;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
@@ -30,8 +31,6 @@ import com.hbm.saveddata.AuxSavedData;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
-import com.hbm.util.PlanetaryTraitUtil;
-import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -295,17 +294,14 @@ public class EntityEffectHandler {
 			}
 		}
 	}
-	private static void handleOxy(EntityLivingBase entity) {
 
-		if(!ArmorUtil.checkForOxy(entity) && PlanetaryTraitUtil.isDimensionWithTraitNT(entity.worldObj, Hospitality.OXYNEG) && !(entity instanceof EntityGlyphid))
-		{
-			HbmLivingProps.SsetOxy(entity, HbmLivingProps.getOxy(entity) - 1);
+	private static void handleOxy(EntityLivingBase entity) {
+		if(!ArmorUtil.checkForOxy(entity) && !CelestialBody.hasTrait(entity.worldObj, PT_Atmosphere.class) && !(entity instanceof EntityGlyphid)) {
+			HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
 			return;
-			
-			
 		}
-		
 	}
+
 	private static void handleDigamma(EntityLivingBase entity) {
 		
 		if(!entity.worldObj.isRemote) {

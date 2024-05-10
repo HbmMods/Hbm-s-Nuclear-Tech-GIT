@@ -2,10 +2,7 @@ package com.hbm.tileentity.bomb;
 
 import java.util.List;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.bomb.LaunchPad;
-import com.hbm.config.SpaceConfig;
-import com.hbm.dim.DebugTeleporter;
+import com.hbm.dim.CelestialBody;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.handler.MissileStruct;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -14,8 +11,6 @@ import com.hbm.inventory.container.ContainerLaunchTable;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.fluid.trait.FT_Combustible;
-import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FT_Rocket;
 import com.hbm.inventory.gui.GUIMachineLaunchTable;
 import com.hbm.items.ItemVOTVdrive;
@@ -35,7 +30,6 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
-import com.hbm.util.AstronomyUtil;
 import com.hbm.util.PlanetaryTraitUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -600,37 +594,39 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		if(multipart == null || multipart.thruster == null)
 			return -1;
 		
+		CelestialBody localBody = CelestialBody.getBodyFromDimension(worldObj);
+		float localGravity = localBody.getSurfaceGravity();
 		
-			ItemCustomMissilePart thruster = (ItemCustomMissilePart)multipart.thruster;
-			int rocketMass = (Integer)thruster.attributes[3];
-	   		float grav = PlanetaryTraitUtil.getGravityForDimension(worldObj.provider.dimensionId);
-	    	FT_Rocket trait = tanks[0].getTankType().getTrait(FT_Rocket.class);
-	    	long isp = trait.getISP();	       
-	    	int km = PlanetaryTraitUtil.getDistanceForDimension(worldObj.provider.dimensionId);
-	    
-	    		
-	    	double g0 = 9.81;
-            double distance = Math.abs(km - thiskm); 
+		ItemCustomMissilePart thruster = (ItemCustomMissilePart)multipart.thruster;
+		int rocketMass = (Integer)thruster.attributes[3];
+		FT_Rocket trait = tanks[0].getTankType().getTrait(FT_Rocket.class);
+		long isp = trait.getISP();
+		int km = PlanetaryTraitUtil.getDistanceForDimension(worldObj.provider.dimensionId);
 
-            double effectiveExhaustVelocity = isp * g0;
-            double deltaV = g0 * distance / (rocketMass * grav);
 
-            double adjustedRocketMass = rocketMass * 5;
+		double g0 = 9.81;
+		double distance = Math.abs(km - thiskm); 
 
-            double requiredFuelMass = adjustedRocketMass * (Math.exp(deltaV / effectiveExhaustVelocity) - 1);
+		double effectiveExhaustVelocity = isp * g0;
+		double deltaV = g0 * distance / (rocketMass * localGravity);
 
-            return (int) Math.round(requiredFuelMass);
+		double adjustedRocketMass = rocketMass * 5;
 
-	    }
+		double requiredFuelMass = adjustedRocketMass * (Math.exp(deltaV / effectiveExhaustVelocity) - 1);
 
-	    private static double calculateAdjustedFuelRatio(long fuelPower, double aue) {
-	        double nnass = fuelPower / (aue * getScalingFactor(fuelPower)); // Divide by aue and apply scaling factor
-	        return Math.log(nnass + 1);
-	    }
+		return (int) Math.round(requiredFuelMass);
 
-	    private static double getScalingFactor(long fuelPower) {
-	        return Math.sqrt(fuelPower) / 24;
-	    }
+	}
+
+	private static double calculateAdjustedFuelRatio(long fuelPower, double aue) {
+		double nnass = fuelPower / (aue * getScalingFactor(fuelPower)); // Divide by aue and apply scaling factor
+		return Math.log(nnass + 1);
+	}
+
+	private static double getScalingFactor(long fuelPower) {
+		return Math.sqrt(fuelPower) / 24;
+	}
+
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 

@@ -2,17 +2,12 @@ package com.hbm.items;
 
 import java.util.List;
 
-import javax.sound.midi.VoiceStatus;
-
-import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 import com.hbm.lib.RefStrings;
-import com.hbm.util.EnumUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
@@ -30,6 +25,8 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 		this.canRepair = false;
 	}
 	public enum DestinationType {
+		// TODO: Insteado of an ItemEnumMulti, handle this using CelestialBody
+		
 		BLANK("blank", 0, true),
 	    DUNA("duna", 1, false),
 	    MOHO("moho", 2, true),

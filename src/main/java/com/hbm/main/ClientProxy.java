@@ -2175,11 +2175,6 @@ public class ClientProxy extends ServerProxy {
 	public boolean getImpact(World world) {
 		return ImpactWorldHandler.getImpactForClient(world);
 	}
-	
-	@Override
-	public NBTTagCompound getPlanetaryTags(World world) {
-		return PlanetaryTraitUtil.getTagsForClient(world);
-	}
 
 	@Override
 	public void playSoundClient(double x, double y, double z, String sound, float volume, float pitch) {

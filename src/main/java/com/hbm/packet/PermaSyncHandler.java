@@ -1,7 +1,6 @@
 package com.hbm.packet;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,9 +13,7 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.util.PlanetaryTraitUtil;
 import com.hbm.util.PlanetaryTraitWorldSavedData;
-import com.hbm.util.PlanetaryTraitUtil.Hospitality;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -42,31 +39,27 @@ public class PermaSyncHandler {
 		buf.writeBoolean(data.impact);
 		buf.writeLong(data.time);
 		/// TOM IMPACT DATA ///
+		
+        // /// PLANETARY TRAITS ///
+        // int dimensionId = player.dimension;
+        // PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
+        // Set<PlanetaryTraitUtil.Hospitality> traits = traitsData.getTraits(dimensionId);
 
+        // buf.writeInt(dimensionId);
+        // buf.writeShort(traits.size());
+        // for (PlanetaryTraitUtil.Hospitality trait : traits) {
+        //     buf.writeInt(trait.ordinal());
+        // }
+        // /// PLANETARY TRAITS ///
 		
 		/// SHITTY MEMES ///
-		List<Integer> ids = new ArrayList();
+		List<Integer> ids = new ArrayList<Integer>();
 		for(Object o : world.playerEntities) {
 			EntityPlayer p = (EntityPlayer) o;
 			if(p.isPotionActive(HbmPotion.death.id)) {
 				ids.add(p.getEntityId());
 			}
 		}
-		
-        /// PLANETARY TRAITS ///
-        int dimensionId = player.dimension;
-        PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
-        Set<PlanetaryTraitUtil.Hospitality> traits = traitsData.getTraits(dimensionId);
-
-        buf.writeInt(dimensionId);
-        buf.writeShort(traits.size());
-        for (PlanetaryTraitUtil.Hospitality trait : traits) {
-            buf.writeInt(trait.ordinal());
-        }
-        
-        
-        /// PLANETARY TRAITS ///
-		
 		buf.writeShort((short) ids.size());
 		for(Integer i : ids) buf.writeInt(i);
 		/// SHITTY MEMES ///
@@ -90,32 +83,32 @@ public class PermaSyncHandler {
 		ImpactWorldHandler.time = buf.readLong();
 		/// TOM IMPACT DATA ///
 
-        PlanetaryTraitUtil.lastSyncWorld = player.worldObj;
+        // PlanetaryTraitUtil.lastSyncWorld = player.worldObj;
 
 		
-        int dimensionId = buf.readInt();
-        int traitCount = buf.readShort();
+        // int dimensionId = buf.readInt();
+        // int traitCount = buf.readShort();
 
-        PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
-        Set<PlanetaryTraitUtil.Hospitality> traits = traitsData.getTraits(dimensionId);
+        // PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
+        // Set<PlanetaryTraitUtil.Hospitality> traits = traitsData.getTraits(dimensionId);
         
-        for (int i = 0; i < traitCount; i++) {
-            int traitOrdinal = buf.readInt();
-            PlanetaryTraitUtil.Hospitality trait = PlanetaryTraitUtil.Hospitality.values()[traitOrdinal];
-            traits.add(trait);
-        }
+        // for (int i = 0; i < traitCount; i++) {
+        //     int traitOrdinal = buf.readInt();
+        //     PlanetaryTraitUtil.Hospitality trait = PlanetaryTraitUtil.Hospitality.values()[traitOrdinal];
+        //     traits.add(trait);
+        // }
 
 
-        // Convert the set to an NBTTagCompound
-        NBTTagCompound tag = new NBTTagCompound();
-        for (PlanetaryTraitUtil.Hospitality trait : traits) {
-            if (traits.contains(trait)) {
-                tag.setBoolean(trait.name(), true);
-            }
-        }
+        // // Convert the set to an NBTTagCompound
+        // NBTTagCompound tag = new NBTTagCompound();
+        // for (PlanetaryTraitUtil.Hospitality trait : traits) {
+        //     if (traits.contains(trait)) {
+        //         tag.setBoolean(trait.name(), true);
+        //     }
+        // }
 
-        // Assign it to the static field for client-side access
-        PlanetaryTraitUtil.tag = tag;
+        // // Assign it to the static field for client-side access
+        // PlanetaryTraitUtil.tag = tag;
         
 		/// SHITTY MEMES ///
 		boykissers.clear();

@@ -79,10 +79,6 @@ public class ServerProxy {
 		return TomSaveData.forWorld(world).dust;
 	}
 	
-	public NBTTagCompound getPlanetaryTags(World world) {
-		return PlanetaryTraitWorldSavedData.get(world).data;
-	}
-	
 	public float getImpactFire(World world) {
 		return TomSaveData.forWorld(world).fire;
 	}

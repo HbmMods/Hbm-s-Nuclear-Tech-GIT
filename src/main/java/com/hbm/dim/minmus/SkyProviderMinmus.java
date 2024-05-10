@@ -14,12 +14,9 @@ import net.minecraftforge.client.IRenderHandler;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.extprop.HbmLivingProps;
-import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.util.AstronomyUtil;
 
 import java.util.Random;
-
-import javax.swing.text.Position;
 
 public class SkyProviderMinmus extends IRenderHandler {
 	
