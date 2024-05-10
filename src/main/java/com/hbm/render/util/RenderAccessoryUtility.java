@@ -1,10 +1,10 @@
 package com.hbm.render.util;
 
-import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.model.ModelArmorSolstice;
 import com.hbm.render.model.ModelArmorWings;
+import com.hbm.util.ShadyUtil;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
@@ -52,86 +52,86 @@ public class RenderAccessoryUtility {
 		String uuid = player.getUniqueID().toString();
 		String name = player.getDisplayName();
 
-		if(uuid.equals(Library.HbMinecraft)) {
+		if(uuid.equals(ShadyUtil.HbMinecraft)) {
 			return (MainRegistry.polaroidID == 11 ? hbm2 : hbm);
 		}
 
-		if(uuid.equals(Library.Drillgon)) {
+		if(uuid.equals(ShadyUtil.Drillgon)) {
 			return drillgon;
 		}
-		if(uuid.equals(Library.Dafnik)) {
+		if(uuid.equals(ShadyUtil.Dafnik)) {
 			return dafnik;
 		}
-		if(uuid.equals(Library.LPkukin)) {
+		if(uuid.equals(ShadyUtil.LPkukin)) {
 			return lpkukin;
 		}
-		if(uuid.equals(Library.LordVertice)) {
+		if(uuid.equals(ShadyUtil.LordVertice)) {
 			return vertice;
 		}
-		if(uuid.equals(Library.CodeRed_)) {
+		if(uuid.equals(ShadyUtil.CodeRed_)) {
 			return red;
 		}
-		if(uuid.equals(Library.dxmaster769)) {
+		if(uuid.equals(ShadyUtil.dxmaster769)) {
 			return ayy;
 		}
-		if(uuid.equals(Library.Dr_Nostalgia)) {
+		if(uuid.equals(ShadyUtil.Dr_Nostalgia)) {
 			return (MainRegistry.polaroidID == 11 ? nostalgia2 : nostalgia);
 		}
-		if(uuid.equals(Library.Samino2)) {
+		if(uuid.equals(ShadyUtil.Samino2)) {
 			return sam;
 		}
-		if(uuid.equals(Library.Hoboy03new)) {
+		if(uuid.equals(ShadyUtil.Hoboy03new)) {
 			return hoboy;
 		}
-		if(uuid.equals(Library.Dragon59MC)) {
+		if(uuid.equals(ShadyUtil.Dragon59MC)) {
 			return master;
 		}
-		if(uuid.equals(Library.Steelcourage)) {
+		if(uuid.equals(ShadyUtil.Steelcourage)) {
 			return mek;
 		}
-		if(uuid.equals(Library.ZippySqrl)) {
+		if(uuid.equals(ShadyUtil.ZippySqrl)) {
 			return zippy;
 		}
-		if(uuid.equals(Library.Schrabby)) {
+		if(uuid.equals(ShadyUtil.Schrabby)) {
 			return schrabby;
 		}
-		if(uuid.equals(Library.SweatySwiggs)) {
+		if(uuid.equals(ShadyUtil.SweatySwiggs)) {
 			return swiggs;
 		}
-		if(uuid.equals(Library.Doctor17) || uuid.equals(Library.Doctor17PH)) {
+		if(uuid.equals(ShadyUtil.Doctor17) || uuid.equals(ShadyUtil.Doctor17PH)) {
 			return doctor17;
 		}
-		if(uuid.equals(Library.ShimmeringBlaze)) {
+		if(uuid.equals(ShadyUtil.ShimmeringBlaze)) {
 			return (MainRegistry.polaroidID == 11 ? blaze2 : shimmeringblaze);
 		}
-		if(uuid.equals(Library.FifeMiner)) {
+		if(uuid.equals(ShadyUtil.FifeMiner)) {
 			return leftnugget;
 		}
-		if(uuid.equals(Library.lag_add)) {
+		if(uuid.equals(ShadyUtil.lag_add)) {
 			return rightnugget;
 		}
-		if(uuid.equals(Library.Tankish)) {
+		if(uuid.equals(ShadyUtil.Tankish)) {
 			return tankish;
 		}
-		if(uuid.equals(Library.FrizzleFrazzle)) {
+		if(uuid.equals(ShadyUtil.FrizzleFrazzle)) {
 			return frizzlefrazzle;
 		}
-		if(uuid.equals(Library.Barnaby99_x)) {
+		if(uuid.equals(ShadyUtil.Barnaby99_x)) {
 			return pheo;
 		}
-		if(uuid.equals(Library.Ma118)) {
+		if(uuid.equals(ShadyUtil.Ma118)) {
 			return vaer;
 		}
-		if(uuid.equals(Library.Adam29Adam29)) {
+		if(uuid.equals(ShadyUtil.Adam29Adam29)) {
 			return adam;
 		}
-		if(uuid.equals(Library.Alcater)) {
+		if(uuid.equals(ShadyUtil.Alcater)) {
 			return alcater;
 		}
-		if(uuid.equals(Library.ege444)) {
+		if(uuid.equals(ShadyUtil.ege444)) {
 			return jame;
 		}
-		if(Library.contributors.contains(uuid)) {
+		if(ShadyUtil.contributors.contains(uuid)) {
 			return wiki;
 		}
 		if(name.startsWith("Player")) {

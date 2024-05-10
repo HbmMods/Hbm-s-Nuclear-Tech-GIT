@@ -48,7 +48,7 @@ public class RenderRBMKControlRod extends TileEntitySpecialRenderer {
 		double level = control.lastLevel + (control.level - control.lastLevel) * i;
 		
 		GL11.glTranslated(0, level, 0);
-		ResourceManager.rbmk_rods.renderPart("Lid");
+		ResourceManager.rbmk_rods_vbo.renderPart("Lid");
 
 		GL11.glPopMatrix();
 	}

@@ -12,10 +12,13 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockContainerBase;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.interfaces.IBomb;
 import com.hbm.tileentity.bomb.TileEntityCharge;
 
+import api.hbm.block.IFuckingExplode;
 import api.hbm.block.IToolable;
+import codechicken.lib.math.MathHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,7 +32,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class BlockChargeBase extends BlockContainerBase implements IBomb, IToolable, ITooltipProvider {
+public abstract class BlockChargeBase extends BlockContainerBase implements IBomb, IToolable, ITooltipProvider, IFuckingExplode {
 	
 	public static boolean safe = false;
 	
@@ -134,8 +137,18 @@ public abstract class BlockChargeBase extends BlockContainerBase implements IBom
 	}
 	
 	@Override
-	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion p_149723_5_) {
-		this.explode(world, x, y, z);
+	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion explosion) {
+		if(!world.isRemote) {
+			EntityTNTPrimedBase tntPrimed = new EntityTNTPrimedBase(world, x + 0.5D, y + 0.5D, z + 0.5D, explosion != null ? explosion.getExplosivePlacedBy() : null, this);
+			tntPrimed.fuse = 0;
+			tntPrimed.detonateOnCollision = false;
+			world.spawnEntityInWorld(tntPrimed);
+		}
+	}
+
+	@Override
+	public void explodeEntity(World world, double x, double y, double z, EntityTNTPrimedBase entity) {
+		explode(world, MathHelper.floor_double(x), MathHelper.floor_double(y), MathHelper.floor_double(z));
 	}
 	
 	@Override
