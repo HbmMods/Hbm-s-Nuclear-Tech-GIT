@@ -173,6 +173,9 @@ public class MobConfig {
 			if(pollutionMult == 1) {
 				pollutionMult = 3;
 			}
+			if (bombardierChance[2] == 1){
+				bombardierChance[2] = 0;
+			}
 			RadiationConfig.sootFogThreshold *= pollutionMult;
 		}
 	}
