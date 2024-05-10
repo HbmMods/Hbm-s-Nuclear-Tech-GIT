@@ -52,6 +52,11 @@ public class MineralRecipes {
 		add1To9Pair(ModBlocks.block_polymer, ModItems.ingot_polymer);
 		add1To9Pair(ModBlocks.block_bakelite, ModItems.ingot_bakelite);
 		add1To9Pair(ModBlocks.block_rubber, ModItems.ingot_rubber);
+		add1To9Pair(ModBlocks.block_pvc, ModItems.ingot_pvc);
+		add1To9Pair(ModBlocks.block_pc, ModItems.ingot_pc);
+		add1To9Pair(ModBlocks.block_solid_fuel, ModItems.solid_fuel);
+		add1To9Pair(ModBlocks.block_rocket_fuel, ModItems.rocket_fuel);
+		add1To9Pair(ModBlocks.block_solid_fuel_bf, ModItems.solid_fuel_bf);
 		add1To9Pair(ModBlocks.block_cadmium, ModItems.ingot_cadmium);
 		add1To9Pair(ModBlocks.block_tcalloy, ModItems.ingot_tcalloy);
 		add1To9Pair(ModBlocks.block_cdalloy, ModItems.ingot_cdalloy);

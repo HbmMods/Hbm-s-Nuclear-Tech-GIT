@@ -219,6 +219,11 @@ public class ModBlocks {
 	public static Block block_polymer;
 	public static Block block_bakelite;
 	public static Block block_rubber;
+	public static Block block_pc;
+	public static Block block_pvc;
+	public static Block block_solid_fuel;
+	public static Block block_rocket_fuel;
+	public static Block block_solid_fuel_bf;
 	public static Block block_yellowcake;
 	public static Block block_insulator;
 	public static Block block_fiberglass;
@@ -1407,6 +1412,11 @@ public class ModBlocks {
 		block_polymer = new BlockBeaconable(Material.rock).setBlockName("block_polymer").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_polymer");
 		block_bakelite = new BlockBeaconable(Material.rock).setBlockName("block_bakelite").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":block_bakelite");
 		block_rubber = new BlockBeaconable(Material.rock).setBlockName("block_rubber").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_rubber");
+		block_pvc = new BlockRotatablePillar(Material.rock, RefStrings.MODID + ":block_pvc_top").setBlockName("block_pvc").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_pvc_side");
+		block_pc = new BlockRotatablePillar(Material.rock, RefStrings.MODID + ":block_pc_top").setBlockName("block_pc").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_pc_side");
+		block_solid_fuel = new BlockBeaconable(Material.rock).setBlockName("block_solid_fuel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_solid_fuel");
+		block_rocket_fuel = new BlockBeaconable(Material.rock).setBlockName("block_rocket_fuel").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_rocket_fuel");
+		block_solid_fuel_bf = new BlockHazard(Material.rock).makeBeaconable().setBlockName("block_solid_fuel_bf").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypePiston).setHardness(3.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_solid_fuel_bf");
 		block_yellowcake = new BlockHazardFalling().makeBeaconable().setBlockName("block_yellowcake").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSand).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_yellowcake");
 		block_insulator = new BlockRotatablePillar(Material.cloth, RefStrings.MODID + ":block_insulator_top").setBlockName("block_insulator").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeCloth).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_insulator_side");
 		block_fiberglass = new BlockRotatablePillar(Material.cloth, RefStrings.MODID + ":block_fiberglass_top").setBlockName("block_fiberglass").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeCloth).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_fiberglass_side");
@@ -2584,6 +2594,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_polymer, block_polymer.getUnlocalizedName());
 		GameRegistry.registerBlock(block_bakelite, block_bakelite.getUnlocalizedName());
 		GameRegistry.registerBlock(block_rubber, block_rubber.getUnlocalizedName());
+		GameRegistry.registerBlock(block_pvc, block_pvc.getUnlocalizedName());
+		GameRegistry.registerBlock(block_pc, block_pc.getUnlocalizedName());
+		GameRegistry.registerBlock(block_solid_fuel, block_solid_fuel.getUnlocalizedName());
+		GameRegistry.registerBlock(block_rocket_fuel, block_rocket_fuel.getUnlocalizedName());
+		GameRegistry.registerBlock(block_solid_fuel_bf, block_solid_fuel_bf.getUnlocalizedName());
 		GameRegistry.registerBlock(block_australium, ItemOreBlock.class, block_australium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_weidanium, ItemOreBlock.class, block_weidanium.getUnlocalizedName());
 		GameRegistry.registerBlock(block_reiium, ItemOreBlock.class, block_reiium.getUnlocalizedName());
