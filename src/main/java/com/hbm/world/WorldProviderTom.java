@@ -10,11 +10,11 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProviderSurface;
 
-public class WorldProviderNTM extends WorldProviderSurface {
+public class WorldProviderTom extends WorldProviderSurface {
 	
 	private float[] colorsSunriseSunset = new float[4];
 
-	public WorldProviderNTM() {
+	public WorldProviderTom() {
 	}
 
 	@Override

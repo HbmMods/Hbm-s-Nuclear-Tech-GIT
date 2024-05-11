@@ -65,6 +65,12 @@ public class SolarSystem {
                             .withRotationalPeriod(65_518)
 
                     ),
+                    
+
+                new CelestialBody("dres", SpaceConfig.dresDimension)
+                    .withMassRadius(3.219e20F, 138)
+                    .withSemiMajorAxis(40_839_348)
+                    .withRotationalPeriod(34_800),
 
                 new CelestialBody("jool")
                     .withMassRadius(4.233e24F, 6_000)
@@ -77,7 +83,7 @@ public class SolarSystem {
                             .withSemiMajorAxis(27_184)
                             .withRotationalPeriod(52_981)
                             .withProcessingLevel(3)
-                            .withTraits(new CBT_Atmosphere(Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE)
+                            .withTraits(new CBT_Atmosphere(Fluids.AIR, 0.6F), CelestialBodyTrait.BREATHABLE)
 
                     )
 

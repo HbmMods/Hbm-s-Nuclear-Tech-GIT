@@ -1,9 +1,7 @@
 package com.hbm.world;
 
 import com.hbm.config.SpaceConfig;
-import com.hbm.dim.WorldGeneratorMoon;
 import com.hbm.dim.dres.WorldGeneratorDres;
-import com.hbm.dim.WorldProviderMoon;
 import com.hbm.dim.Ike.WorldGeneratorIke;
 import com.hbm.dim.Ike.WorldProviderIke;
 import com.hbm.dim.dres.WorldProviderDres;
@@ -16,6 +14,8 @@ import com.hbm.dim.minmus.WorldGeneratorMinmus;
 import com.hbm.dim.minmus.WorldProviderMinmus;
 import com.hbm.dim.moho.WorldGeneratorMoho;
 import com.hbm.dim.moho.WorldProviderMoho;
+import com.hbm.dim.moon.WorldGeneratorMoon;
+import com.hbm.dim.moon.WorldProviderMoon;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraftforge.common.DimensionManager;

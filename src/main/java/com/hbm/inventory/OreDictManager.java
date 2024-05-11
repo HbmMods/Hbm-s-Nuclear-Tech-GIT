@@ -344,7 +344,7 @@ public class OreDictManager {
 		 * VANILLA
 		 */
 		COAL.gem(Items.coal).dustSmall(powder_coal_tiny).dust(powder_coal);
-		IRON.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron, /*dres_iron,*/ duna_iron, ore_meteor_iron, moho_iron);
+		IRON.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron, /*dres_iron,*/ duna_iron, moho_iron);
 		GOLD.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold, moho_gold);
 		LAPIS.dust(powder_lapis);
 		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz).ore(Blocks.quartz_ore);

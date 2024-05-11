@@ -19,7 +19,7 @@ import com.hbm.util.AstronomyUtil;
 
 import java.util.Random;
 
-public class SkyProviderMoon extends IRenderHandler {
+public class SkyProviderCelestial extends IRenderHandler {
 	
 	private static final ResourceLocation sunTexture = new ResourceLocation("textures/environment/sun.png");
 	private static final ResourceLocation kerbin = new ResourceLocation("hbm:textures/misc/space/kerbin.png");
@@ -38,7 +38,7 @@ public class SkyProviderMoon extends IRenderHandler {
 	protected double y;
 	protected double z;
 
-	public SkyProviderMoon() {
+	public SkyProviderCelestial() {
 	    if (!displayListsInitialized) {
 	        initializeDisplayLists();
 	    }
@@ -459,17 +459,17 @@ public class SkyProviderMoon extends IRenderHandler {
 		}
 		tessellator.draw();
 	}
-	//with all due respect i have zero idea how people manage to write this without any help
-	  private void renderSkyboxSide(Tessellator tessellator, int side)
-	  {
-	    double u = side % 3 / 3.0D;
-	    double v = side / 3 / 2.0D;
-	    tessellator.startDrawingQuads();
-	    tessellator.addVertexWithUV(-100.0D, -100.0D, -100.0D, u, v);
-	    tessellator.addVertexWithUV(-100.0D, -100.0D, 100.0D, u, v + 0.5D);
-	    tessellator.addVertexWithUV(100.0D, -100.0D, 100.0D, u + 0.3333333333333333D, v + 0.5D);
-	    tessellator.addVertexWithUV(100.0D, -100.0D, -100.0D, u + 0.3333333333333333D, v);
-	    tessellator.draw();
-	  }
+	
+	// is just drawing a big cube with UVs prepared to draw a gradient
+	private void renderSkyboxSide(Tessellator tessellator, int side) {
+		double u = side % 3 / 3.0D;
+		double v = side / 3 / 2.0D;
+		tessellator.startDrawingQuads();
+		tessellator.addVertexWithUV(-100.0D, -100.0D, -100.0D, u, v);
+		tessellator.addVertexWithUV(-100.0D, -100.0D, 100.0D, u, v + 0.5D);
+		tessellator.addVertexWithUV(100.0D, -100.0D, 100.0D, u + 0.3333333333333333D, v + 0.5D);
+		tessellator.addVertexWithUV(100.0D, -100.0D, -100.0D, u + 0.3333333333333333D, v);
+		tessellator.draw();
+	}
 
 }

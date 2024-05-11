@@ -98,7 +98,6 @@ public class ModBlocks {
 	
 	public static Block stone_gneiss;
 	public static Block ore_gneiss_iron;
-	public static Block ore_meteor_iron;
 	public static Block ore_gneiss_gold;
 	public static Block ore_gneiss_uranium;
 	public static Block ore_gneiss_uranium_scorched;

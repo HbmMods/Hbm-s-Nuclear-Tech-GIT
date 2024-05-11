@@ -1,4 +1,4 @@
-package com.hbm.dim;
+package com.hbm.dim.moon;
 
 import static net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen;
 
@@ -9,6 +9,7 @@ import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
+import com.hbm.dim.ExperimentalCaveGenerator;
 import com.hbm.world.feature.OreLayer3D;
 import com.hbm.world.gen.MapGenNTMFeatures;
 import com.hbm.world.generator.DungeonToolbox;

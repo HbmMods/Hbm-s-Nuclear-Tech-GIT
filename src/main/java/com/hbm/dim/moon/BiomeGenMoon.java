@@ -1,4 +1,4 @@
-package com.hbm.dim;
+package com.hbm.dim.moon;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;

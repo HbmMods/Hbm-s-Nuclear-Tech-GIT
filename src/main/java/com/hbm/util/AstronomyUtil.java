@@ -16,12 +16,12 @@ public class AstronomyUtil
     // Default orbital altitude, added onto planet radius to get intended orbital radius
     public static final float DEFAULT_ALTITUDE = 100_000; // 100km
 
+    // How many seconds in a MC day
+    public static final float SECONDS_IN_DAY = 20F * 60F;
+
     // Day length in KSP -> day length in MC
     // This conversion will make orbital mechanics run a considerable fraction faster than normal
-    public static final float DAY_FACTOR = (20 * 60) / (6 * 60 * 60);
-
-    // How many seconds in a MC day
-    public static final float SECONDS_IN_DAY = 24_000;
+    public static final float DAY_FACTOR = SECONDS_IN_DAY / (6F * 60F * 60F);
 
     // Default for how fast the player character accelerates downwards due to gravity in m/s/s
     public static final float STANDARD_GRAVITY = 1.6F; // 0.08 per tick

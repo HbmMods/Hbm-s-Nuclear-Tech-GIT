@@ -13,7 +13,7 @@ import com.hbm.entity.projectile.EntityTom;
 import com.hbm.handler.BossSpawnHandler;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.saveddata.TomSaveData;
-import com.hbm.world.WorldProviderNTM;
+import com.hbm.world.WorldProviderTom;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -183,7 +183,7 @@ public class ModEventHandlerImpact {
 		
 		if(GeneralConfig.enableImpactWorldProvider) {
 			DimensionManager.unregisterProviderType(0);
-			DimensionManager.registerProviderType(0, WorldProviderNTM.class, true);
+			DimensionManager.registerProviderType(0, WorldProviderTom.class, true);
 		}
 	}
 

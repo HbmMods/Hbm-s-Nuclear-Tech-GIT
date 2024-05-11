@@ -2,7 +2,6 @@ package com.hbm.packet;
 
 import java.util.Random;
 
-import com.hbm.dim.WorldProviderMoon;
 import com.hbm.entity.missile.EntityBobmazon;
 import com.hbm.handler.BobmazonOfferFactory;
 import com.hbm.inventory.gui.GUIScreenBobmazon.Offer;

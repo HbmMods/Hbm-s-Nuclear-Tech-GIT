@@ -1097,7 +1097,7 @@ public class ModEventHandler {
 		        double slipperiness = 0.6; 
 		        double inertia = 0.1;
 		        boolean isMoving = player.moveForward != 0.0 || player.moveStrafing != 0.0;
-		        double playerMotion = Math.sqrt(player.motionX * player.motionX + player.motionZ * player.motionZ);
+		        // double playerMotion = Math.sqrt(player.motionX * player.motionX + player.motionZ * player.motionZ);
 
 		        double angle = Math.atan2(player.motionZ, player.motionX);
 
@@ -1118,8 +1118,8 @@ public class ModEventHandler {
 		                player.motionX -= player.motionX / totalVelocity * smoothingAmount;
 		                player.motionZ -= player.motionZ / totalVelocity * smoothingAmount;
 		        }
+			}
 		}
-	}
 
 		if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB)
 			((ArmorFSB)player.inventory.armorInventory[2].getItem()).handleTick(event);
@@ -1145,6 +1145,9 @@ public class ModEventHandler {
 
 			// If gravity is basically the same as normal, do nothing
 			if(!player.capabilities.isFlying && (gravity < 1.5F || gravity > 1.7F)) {
+
+				// Minimum gravity to prevent floating bug
+				if(gravity < 0.2F) gravity = 0.2F;
 
 				// Modify fall distance by gravity, so the player has to fall for longer in low gravity to take damage
 				player.fallDistance *= Math.min(gravity / AstronomyUtil.STANDARD_GRAVITY, 1);

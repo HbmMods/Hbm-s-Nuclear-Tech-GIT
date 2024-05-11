@@ -67,6 +67,7 @@ public class ItemWandD extends Item {
 					break;
 				case 3:
 					DebugTeleporter.teleport(player, 0, player.posX, 300, player.posZ);
+					break;
 				case 4:
 					DebugTeleporter.teleport(player, SpaceConfig.eveDimension, player.posX, 300, player.posZ);
 					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
@@ -86,6 +87,7 @@ public class ItemWandD extends Item {
 					break;
 				case 8:
 					DebugTeleporter.teleport(player, SpaceConfig.laytheDimension, player.posX, 300, player.posZ);
+					break;
 				}
 			} else {
 				if(stack.stackTagCompound == null) {
@@ -133,19 +135,20 @@ public class ItemWandD extends Item {
 					}
 				}
 			}
-		}
+		} else {
 
-		// TESTING: Sets moho and the moon to post-terraformed
-		if(world.provider.dimensionId == SpaceConfig.mohoDimension) {
-			CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE);
+			// TESTING: Sets moho and the moon to post-terraformed
+			if(world.provider.dimensionId == SpaceConfig.mohoDimension) {
+				CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE);
 
-			player.addChatMessage(new ChatComponentText("Made MOHO breathable."));
-		}
+				player.addChatMessage(new ChatComponentText("Made MOHO breathable."));
+			}
 
-		if(world.provider.dimensionId == SpaceConfig.moonDimension) {
-			CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE);
+			if(world.provider.dimensionId == SpaceConfig.moonDimension) {
+				CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE);
 
-			player.addChatMessage(new ChatComponentText("Made MOON breathable."));
+				player.addChatMessage(new ChatComponentText("Made MOON breathable."));
+			}
 		}
 
 		return stack;

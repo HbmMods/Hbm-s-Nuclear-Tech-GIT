@@ -25,7 +25,7 @@ public class CelestialBody {
     public float massKg = 0;
     public float radiusKm = 0;
     public float semiMajorAxisKm = 0; // Distance to the parent body
-    private int rotationalPeriod = 0; // Day length in seconds
+    private int rotationalPeriod = 6 * 60 * 60; // Day length in seconds
 
     public double atmosphericPressureBar = 0;
 
@@ -117,19 +117,23 @@ public class CelestialBody {
     }
 
     public static CelestialBody getBodyFromDimension(World world) {
-        return bodyMap.get(world.provider.dimensionId);
+        return getBodyFromDimension(world.provider.dimensionId);
+    }
+
+    public static int getRotationalPeriod(World world) {
+        return getBodyFromDimension(world).getRotationalPeriod();
+    }
+
+    public static float getSemiMajorAxis(World world) {
+        return getBodyFromDimension(world).semiMajorAxisKm;
     }
 
     public static boolean hasTrait(World world, Class<? extends CelestialBodyTrait> trait) {
-        CelestialBody body = getBodyFromDimension(world);
-        if(body == null) return false;
-        return body.hasTrait(trait);
+        return getBodyFromDimension(world).hasTrait(trait);
     }
     
     public static <T extends CelestialBodyTrait> T getTrait(World world, Class<? extends T> trait) {
-        CelestialBody body = getBodyFromDimension(world);
-        if(body == null) return null;
-		return body.getTrait(trait);
+        return getBodyFromDimension(world).getTrait(trait);
 	}
 
     // /Statics
@@ -140,9 +144,9 @@ public class CelestialBody {
         return name;
     }
 
-    // Returns the day length, adjusted for the 20 minute minecraft day
+    // Returns the day length in ticks, adjusted for the 20 minute minecraft day
     public int getRotationalPeriod() {
-        return MathHelper.floor_double(rotationalPeriod * AstronomyUtil.DAY_FACTOR);
+        return MathHelper.floor_double((float)rotationalPeriod * AstronomyUtil.DAY_FACTOR * 20);
     }
 
     // Returns the year length in days, derived from semi-major axis
