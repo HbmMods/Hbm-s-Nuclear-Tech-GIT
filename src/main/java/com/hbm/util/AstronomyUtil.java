@@ -18,7 +18,7 @@ public class AstronomyUtil
 
     // Day length in KSP -> day length in MC
     // This conversion will make orbital mechanics run a considerable fraction faster than normal
-    public static final float DAY_FACTOR = (6 * 60 * 60) / (20 * 60);
+    public static final float DAY_FACTOR = (20 * 60) / (6 * 60 * 60);
 
     // How many seconds in a MC day
     public static final float SECONDS_IN_DAY = 24_000;

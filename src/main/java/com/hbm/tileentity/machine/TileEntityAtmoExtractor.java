@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.dim.CelestialBody;
-import com.hbm.dim.trait.PT_Atmosphere;
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.fluid.FluidType;
@@ -57,7 +57,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 		CelestialBody body = CelestialBody.getBodyFromDimension(worldObj.provider.dimensionId);
 		
 		if(body != null) {
-			PT_Atmosphere atmosphere = body.getTrait(PT_Atmosphere.class);
+			CBT_Atmosphere atmosphere = body.getTrait(CBT_Atmosphere.class);
 			if(atmosphere != null) {
 				tanks.setTankType(atmosphere.fluid);
 			} else {

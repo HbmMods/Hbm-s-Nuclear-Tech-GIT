@@ -13,7 +13,7 @@ import net.minecraftforge.client.IRenderHandler;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.dim.trait.PlanetaryTrait.PT_Breathable;
+import com.hbm.dim.trait.CelestialBodyTrait.CBT_Breathable;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.util.AstronomyUtil;
 
@@ -221,7 +221,7 @@ public class SkyProviderMoon extends IRenderHandler {
 		{
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1f);
-			if(CelestialBody.hasTrait(world, PT_Breathable.class)) {
+			if(CelestialBody.hasTrait(world, CBT_Breathable.class)) {
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5f);
 			}
 			mc.renderEngine.bindTexture(flash2);

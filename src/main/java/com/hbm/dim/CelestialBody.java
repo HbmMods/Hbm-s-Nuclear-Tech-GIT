@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import com.hbm.dim.trait.PlanetaryTrait;
+import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.util.AstronomyUtil;
 
 import codechicken.lib.math.MathHelper;
@@ -35,7 +35,7 @@ public class CelestialBody {
 
     public List<CelestialBody> satellites = new ArrayList<CelestialBody>(); // moon boyes
 
-    public HashMap<Class<? extends PlanetaryTrait>, PlanetaryTrait> traits = new HashMap<Class<? extends PlanetaryTrait>, PlanetaryTrait>();
+    public HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = new HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>();
 
     public CelestialBody(String name) {
         this.name = name;
@@ -79,8 +79,8 @@ public class CelestialBody {
         return this;
     }
 
-    public CelestialBody withTraits(PlanetaryTrait... traits) {
-        for(PlanetaryTrait trait : traits) this.traits.put(trait.getClass(), trait);
+    public CelestialBody withTraits(CelestialBodyTrait... traits) {
+        for(CelestialBodyTrait trait : traits) this.traits.put(trait.getClass(), trait);
         return this;
     }
 
@@ -91,7 +91,7 @@ public class CelestialBody {
     // Terraforming - trait overrides
     // If trait overrides exist, delete existing traits from the world, and replace them with the saved ones
 
-    public static void setTraits(World world, PlanetaryTrait... traits) {
+    public static void setTraits(World world, CelestialBodyTrait... traits) {
         // CelestialBodyWorldSavedData traitsData = CelestialBodyWorldSavedData.get(world);
 
         // // Set the updated traits in the saved data
@@ -120,13 +120,13 @@ public class CelestialBody {
         return bodyMap.get(world.provider.dimensionId);
     }
 
-    public static boolean hasTrait(World world, Class<? extends PlanetaryTrait> trait) {
+    public static boolean hasTrait(World world, Class<? extends CelestialBodyTrait> trait) {
         CelestialBody body = getBodyFromDimension(world);
         if(body == null) return false;
         return body.hasTrait(trait);
     }
     
-    public static <T extends PlanetaryTrait> T getTrait(World world, Class<? extends T> trait) {
+    public static <T extends CelestialBodyTrait> T getTrait(World world, Class<? extends T> trait) {
         CelestialBody body = getBodyFromDimension(world);
         if(body == null) return null;
 		return body.getTrait(trait);
@@ -158,12 +158,12 @@ public class CelestialBody {
 
     
 	
-	public boolean hasTrait(Class<? extends PlanetaryTrait> trait) {
+	public boolean hasTrait(Class<? extends CelestialBodyTrait> trait) {
 		return this.traits.containsKey(trait);
 	}
 	
 	@SuppressWarnings("unchecked")
-    public <T extends PlanetaryTrait> T getTrait(Class<? extends T> trait) {
+    public <T extends CelestialBodyTrait> T getTrait(Class<? extends T> trait) {
 		return (T) this.traits.get(trait);
 	}
 

@@ -3,7 +3,7 @@ package com.hbm.dim;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.hbm.dim.trait.PlanetaryTrait;
+import com.hbm.dim.trait.CelestialBodyTrait;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -47,25 +47,25 @@ public class CelestialBodyWorldSavedData extends WorldSavedData {
         nbt.setTag("traits", traits);
     }
 
-    public void setTraits(int dimensionId, PlanetaryTrait... traits) {
+    public void setTraits(int dimensionId, CelestialBodyTrait... traits) {
         this.traits.setTag(Integer.toString(dimensionId), writeTraitsToNBT(traits));
         markDirty(); 
     }
 
-    public Set<PlanetaryTrait> getTraits(int dimensionId) {
+    public Set<CelestialBodyTrait> getTraits(int dimensionId) {
         return readTraitsFromNBT(traits.getCompoundTag(Integer.toString(dimensionId)));
     }
 
-    private NBTTagCompound writeTraitsToNBT(PlanetaryTrait... traits) {
+    private NBTTagCompound writeTraitsToNBT(CelestialBodyTrait... traits) {
         NBTTagCompound nbt = new NBTTagCompound();
-        for (PlanetaryTrait trait : traits) {
+        for (CelestialBodyTrait trait : traits) {
             trait.writeToNBT(nbt);
         }
         return nbt;
     }
 
-    private Set<PlanetaryTrait> readTraitsFromNBT(NBTTagCompound nbt) {
-        Set<PlanetaryTrait> traits = new HashSet<PlanetaryTrait>();
+    private Set<CelestialBodyTrait> readTraitsFromNBT(NBTTagCompound nbt) {
+        Set<CelestialBodyTrait> traits = new HashSet<CelestialBodyTrait>();
         // TODO: READ
         return traits;
     }

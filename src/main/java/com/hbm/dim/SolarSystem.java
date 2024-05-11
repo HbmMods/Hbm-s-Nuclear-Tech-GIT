@@ -1,8 +1,8 @@
 package com.hbm.dim;
 
 import com.hbm.config.SpaceConfig;
-import com.hbm.dim.trait.PT_Atmosphere;
-import com.hbm.dim.trait.PlanetaryTrait;
+import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.inventory.fluid.Fluids;
 
 public class SolarSystem {
@@ -21,20 +21,20 @@ public class SolarSystem {
                     .withSemiMajorAxis(5_263_138)
                     .withRotationalPeriod(1_210_000)
                     .withProcessingLevel(2)
-                    .withTraits(PlanetaryTrait.HOT),
+                    .withTraits(CelestialBodyTrait.HOT),
 
                 new CelestialBody("eve", SpaceConfig.eveDimension)
                     .withMassRadius(1.224e23F, 700)
                     .withSemiMajorAxis(9_832_684)
                     .withRotationalPeriod(80_500)
                     .withProcessingLevel(1)
-                    .withTraits(new PT_Atmosphere(Fluids.EVEAIR, 1F), PlanetaryTrait.HOT),
+                    .withTraits(new CBT_Atmosphere(Fluids.EVEAIR, 1F), CelestialBodyTrait.HOT),
 
                 new CelestialBody("kerbin", 0) // overworld
                     .withMassRadius(5.292e22F, 600)
                     .withSemiMajorAxis(13_599_840)
                     .withRotationalPeriod(21_549)
-                    .withTraits(new PT_Atmosphere(Fluids.AIR, 1F), PlanetaryTrait.BREATHABLE)
+                    .withTraits(new CBT_Atmosphere(Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE)
                     .withSatellites(
 
                         new CelestialBody("moon", SpaceConfig.moonDimension)
@@ -54,7 +54,7 @@ public class SolarSystem {
                     .withSemiMajorAxis(20_726_155)
                     .withRotationalPeriod(65_518)
                     .withProcessingLevel(1)
-                    .withTraits(new PT_Atmosphere(Fluids.CARBONDIOXIDE, 0.1F))
+                    .withTraits(new CBT_Atmosphere(Fluids.CARBONDIOXIDE, 0.1F))
                     .withSatellites(
 
 
@@ -77,7 +77,7 @@ public class SolarSystem {
                             .withSemiMajorAxis(27_184)
                             .withRotationalPeriod(52_981)
                             .withProcessingLevel(3)
-                            .withTraits(new PT_Atmosphere(Fluids.AIR, 1F), PlanetaryTrait.BREATHABLE)
+                            .withTraits(new CBT_Atmosphere(Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE)
 
                     )
 

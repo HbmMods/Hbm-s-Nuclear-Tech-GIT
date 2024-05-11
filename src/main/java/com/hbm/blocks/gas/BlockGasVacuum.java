@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.CelestialBody;
-import com.hbm.dim.trait.PT_Atmosphere;
+import com.hbm.dim.trait.CBT_Atmosphere;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,7 +40,7 @@ public class BlockGasVacuum extends BlockGasBase {
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		if(!world.isRemote) {
-			if(!CelestialBody.hasTrait(world, PT_Atmosphere.class)) {
+			if(!CelestialBody.hasTrait(world, CBT_Atmosphere.class)) {
 				for(int i = -1; i < 2; i++) {
 					for(int j = -1; j < 2; j++) {
 						for(int k = -1; k < 2; k++) {

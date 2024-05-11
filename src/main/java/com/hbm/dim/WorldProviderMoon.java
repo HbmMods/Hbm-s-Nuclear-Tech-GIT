@@ -1,7 +1,7 @@
 package com.hbm.dim;
 
 import com.hbm.config.SpaceConfig;
-import com.hbm.dim.trait.PlanetaryTrait.PT_Breathable;
+import com.hbm.dim.trait.CelestialBodyTrait.CBT_Breathable;
 import com.hbm.util.AstronomyUtil;
 import com.hbm.util.SkyColorManager;
 
@@ -52,7 +52,7 @@ public class WorldProviderMoon extends WorldProvider {
     
 	@SideOnly(Side.CLIENT)
 	public Vec3 getFogColor(float x, float y) {
-		if(CelestialBody.hasTrait(worldObj, PT_Breathable.class)) {
+		if(CelestialBody.hasTrait(worldObj, CBT_Breathable.class)) {
 			float f = 1.0F - this.getStarBrightness(1.0F);
 			return Vec3.createVectorHelper(148.3D / 255 * f , 144.4D / 255* f, 242.7D/ 255 * f);
 		}
@@ -60,7 +60,7 @@ public class WorldProviderMoon extends WorldProvider {
 	}
 
 	public Vec3 getSkyColor(Entity camera, float partialTicks) {
-		if(CelestialBody.hasTrait(worldObj, PT_Breathable.class)) {
+		if(CelestialBody.hasTrait(worldObj, CBT_Breathable.class)) {
 			float f = 1.0F - this.getStarBrightness(1.0F);
 			return SkyColorManager.currentSkyColor = Vec3.createVectorHelper(92D / 255 * f , 83.4D / 255* f, 217.7D/ 255 * f);
 		}
@@ -72,7 +72,7 @@ public class WorldProviderMoon extends WorldProvider {
 		float f2 = 0.4F;
 		float f3 = MathHelper.cos(p_76560_1_ * (float)Math.PI * 2.0F) - 0.0F;
 		float f4 = -0.0F;
-		if(CelestialBody.hasTrait(worldObj, PT_Breathable.class)) {
+		if(CelestialBody.hasTrait(worldObj, CBT_Breathable.class)) {
 			if (f3 >= f4 - f2 && f3 <= f4 + f2) {
 				float f5 = (f3 - f4) / f2 * 0.5F + 0.5F;
 				float f6 = 1.0F - (1.0F - MathHelper.sin(f5 * (float)Math.PI)) * 0.99F;
@@ -100,7 +100,7 @@ public class WorldProviderMoon extends WorldProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float getStarBrightness(float par1) {
-		if(CelestialBody.hasTrait(worldObj, PT_Breathable.class)) {
+		if(CelestialBody.hasTrait(worldObj, CBT_Breathable.class)) {
 			float f1 = worldObj.getCelestialAngle(par1);
 			float f2 = 1.0F - (MathHelper.cos(f1 * (float) Math.PI * 2.0F) * 2.0F + 0.25F);
 

@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.dim.CelestialBody;
-import com.hbm.dim.trait.PlanetaryTrait.PT_Breathable;
+import com.hbm.dim.trait.CelestialBodyTrait.CBT_Breathable;
 import com.hbm.inventory.container.ContainerFirebox;
 import com.hbm.inventory.gui.GUIFirebox;
 import com.hbm.lib.RefStrings;
@@ -56,7 +56,7 @@ public class TileEntityHeaterOven extends TileEntityFireboxBase implements IConf
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			if(!CelestialBody.hasTrait(worldObj, PT_Breathable.class)) {
+			if(!CelestialBody.hasTrait(worldObj, CBT_Breathable.class)) {
 				return;
 			}
 			this.tryPullHeat();

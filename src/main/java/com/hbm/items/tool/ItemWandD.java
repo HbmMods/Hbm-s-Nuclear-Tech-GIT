@@ -6,8 +6,8 @@ import java.util.Random;
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.DebugTeleporter;
-import com.hbm.dim.trait.PT_Atmosphere;
-import com.hbm.dim.trait.PlanetaryTrait;
+import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 
@@ -137,13 +137,13 @@ public class ItemWandD extends Item {
 
 		// TESTING: Sets moho and the moon to post-terraformed
 		if(world.provider.dimensionId == SpaceConfig.mohoDimension) {
-			CelestialBody.setTraits(world, new PT_Atmosphere(Fluids.AIR, 1F), PlanetaryTrait.BREATHABLE);
+			CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE);
 
 			player.addChatMessage(new ChatComponentText("Made MOHO breathable."));
 		}
 
 		if(world.provider.dimensionId == SpaceConfig.moonDimension) {
-			CelestialBody.setTraits(world, new PT_Atmosphere(Fluids.AIR, 1F), PlanetaryTrait.BREATHABLE);
+			CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE);
 
 			player.addChatMessage(new ChatComponentText("Made MOON breathable."));
 		}

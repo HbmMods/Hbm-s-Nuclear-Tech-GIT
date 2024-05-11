@@ -2,7 +2,7 @@ package com.hbm.dim.moho;
 
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
-import com.hbm.dim.trait.PlanetaryTrait.PT_Breathable;
+import com.hbm.dim.trait.CelestialBodyTrait.CBT_Breathable;
 import com.hbm.util.AstronomyUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -43,7 +43,7 @@ public class WorldProviderMoho extends WorldProvider {
     
     @SideOnly(Side.CLIENT)
     public Vec3 getFogColor(float x, float y) {
-		if(CelestialBody.hasTrait(worldObj, PT_Breathable.class)) {
+		if(CelestialBody.hasTrait(worldObj, CBT_Breathable.class)) {
             float f = 1.0F - this.getStarBrightness(1.0F);
             return Vec3.createVectorHelper(0.4D * f , 0.2D * f, 0.1D * f);
         }
@@ -51,7 +51,7 @@ public class WorldProviderMoho extends WorldProvider {
     }
 
     public Vec3 getSkyColor(Entity camera, float partialTicks) {
-		if(CelestialBody.hasTrait(worldObj, PT_Breathable.class)) {
+		if(CelestialBody.hasTrait(worldObj, CBT_Breathable.class)) {
             float f = 1.0F - this.getStarBrightness(1.0F);
             return Vec3.createVectorHelper(0.3D* f, 0.2D * f, 1.4D * f);
         }
@@ -63,7 +63,7 @@ public class WorldProviderMoho extends WorldProvider {
         float f2 = 0.4F;
         float f3 = MathHelper.cos(p_76560_1_ * (float)Math.PI * 2.0F) - 0.0F;
         float f4 = -0.0F;
-		if(CelestialBody.hasTrait(worldObj, PT_Breathable.class)) {
+		if(CelestialBody.hasTrait(worldObj, CBT_Breathable.class)) {
             if(f3 >= f4 - f2 && f3 <= f4 + f2) {
                 float f5 = (f3 - f4) / f2 * 0.5F + 0.5F;
                 float f6 = 1.0F - (1.0F - MathHelper.sin(f5 * (float)Math.PI)) * 0.99F;
@@ -91,7 +91,7 @@ public class WorldProviderMoho extends WorldProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float getStarBrightness(float par1) {
-		if(CelestialBody.hasTrait(worldObj, PT_Breathable.class)) {
+		if(CelestialBody.hasTrait(worldObj, CBT_Breathable.class)) {
             float f1 = worldObj.getCelestialAngle(par1);
             float f2 = 1.0F - (MathHelper.cos(f1 * (float) Math.PI * 2.0F) * 2.0F + 0.25F);
 

@@ -9,7 +9,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.CelestialBody;
-import com.hbm.dim.trait.PT_Atmosphere;
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.entity.mob.glyphid.EntityGlyphid;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
@@ -296,7 +296,7 @@ public class EntityEffectHandler {
 	}
 
 	private static void handleOxy(EntityLivingBase entity) {
-		if(!ArmorUtil.checkForOxy(entity) && !CelestialBody.hasTrait(entity.worldObj, PT_Atmosphere.class) && !(entity instanceof EntityGlyphid)) {
+		if(!ArmorUtil.checkForOxy(entity) && !CelestialBody.hasTrait(entity.worldObj, CBT_Atmosphere.class) && !(entity instanceof EntityGlyphid)) {
 			HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
 			return;
 		}
