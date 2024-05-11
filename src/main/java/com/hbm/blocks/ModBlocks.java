@@ -849,6 +849,7 @@ public class ModBlocks {
 	public static Block struct_iter_core;
 	public static Block struct_plasma_core;
 	public static Block struct_watz_core;
+	public static Block struct_icf_core;
 	
 	public static Block factory_titanium_hull;
 	@Deprecated public static Block factory_titanium_furnace;
@@ -892,6 +893,7 @@ public class ModBlocks {
 	public static Block plasma_heater;
 
 	public static Block machine_icf_press;
+	public static Block icf_component;
 	public static Block icf;
 	public static Block icf_controller;
 	public static Block icf_laser_component;
@@ -1969,6 +1971,7 @@ public class ModBlocks {
 		struct_iter_core = new BlockITERStruct(Material.iron).setBlockName("struct_iter_core").setLightLevel(1F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":struct_iter_core");
 		struct_plasma_core = new BlockPlasmaStruct(Material.iron).setBlockName("struct_plasma_core").setLightLevel(1F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":struct_plasma_core");
 		struct_watz_core = new BlockWatzStruct(Material.iron).setBlockName("struct_watz_core").setLightLevel(1F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":struct_watz_core");
+		struct_icf_core = new BlockICFStruct(Material.iron).setBlockName("struct_icf_core").setLightLevel(1F).setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":struct_icf_core");
 		
 		factory_titanium_hull = new BlockGeneric(Material.iron).setBlockName("factory_titanium_hull").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_titanium_hull");
 		factory_titanium_furnace = new FactoryHatch(Material.iron).setBlockName("factory_titanium_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":factory_titanium_furnace");
@@ -2011,6 +2014,7 @@ public class ModBlocks {
 		
 		machine_icf_press = new MachineICFPress().setBlockName("machine_icf_press").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		icf = new MachineICF().setBlockName("icf").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		icf_component = new BlockICFComponent().setBlockName("icf_component").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":icf_component");
 		icf_controller = new MachineICFController().setBlockName("icf_controller").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":icf_casing");
 		icf_laser_component = new BlockICFLaserComponent().setBlockName("icf_laser_component").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.machineTab);
 		icf_block = new BlockICF(Material.iron).setBlockName("icf_block").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":icf_block");
@@ -3292,6 +3296,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(struct_iter_core, struct_iter_core.getUnlocalizedName());
 		GameRegistry.registerBlock(struct_plasma_core, struct_plasma_core.getUnlocalizedName());
 		GameRegistry.registerBlock(struct_watz_core, struct_watz_core.getUnlocalizedName());
+		GameRegistry.registerBlock(struct_icf_core, struct_icf_core.getUnlocalizedName());
 		
 		//Absorbers
 		GameRegistry.registerBlock(absorber, absorber.getUnlocalizedName());
@@ -3348,6 +3353,7 @@ public class ModBlocks {
 		register(icf_laser_component);
 		register(icf_controller);
 		register(icf_block);
+		register(icf_component);
 		register(icf);
 
 		GameRegistry.registerBlock(watz_element, watz_element.getUnlocalizedName());
