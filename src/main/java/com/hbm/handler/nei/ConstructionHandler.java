@@ -101,6 +101,20 @@ public class ConstructionHandler extends NEIUniversalHandler {
 		bufferedRecipes.put(soysauce, new ItemStack(ModBlocks.soyuz_launcher));
 		bufferedTools.put(soysauce, new ItemStack(ModBlocks.struct_soyuz_core));
 		
+		/* ICF */
+		ItemStack[] icf = new ItemStack[] {
+				new ItemStack(ModBlocks.icf_component, 50, 0),
+				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.icf_component, 240, 3), EnumChatFormatting.RED + "3x64 + 48"),
+				ItemStackUtil.addTooltipToStack(Mats.MAT_DURA.make(ModItems.bolt, 960), EnumChatFormatting.RED + "9x64"),
+				ItemStackUtil.addTooltipToStack(Mats.MAT_STEEL.make(ModItems.plate_cast, 240), EnumChatFormatting.RED + "3x64 + 48"),
+				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.icf_component, 117, 1), EnumChatFormatting.RED + "64 + 53"),
+				ItemStackUtil.addTooltipToStack(Mats.MAT_BBRONZE.make(ModItems.plate_cast, 117), EnumChatFormatting.RED + "64 + 53"),
+				new ItemStack(ModItems.blowtorch),
+				new ItemStack(ModItems.boltgun) };
+
+		bufferedRecipes.put(icf, new ItemStack(ModBlocks.icf));
+		bufferedTools.put(icf, new ItemStack(ModBlocks.struct_icf_core));
+		
 		return recipes ? bufferedRecipes : bufferedTools;
 	}
 }

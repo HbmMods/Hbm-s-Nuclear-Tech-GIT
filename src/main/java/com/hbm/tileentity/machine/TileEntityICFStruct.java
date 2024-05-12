@@ -4,8 +4,11 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineICF;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityICFStruct extends TileEntity {
@@ -46,5 +49,16 @@ public class TileEntityICFStruct extends TileEntity {
 		int iz = zCoord + dir.offsetZ * x + rot.offsetZ * x;
 		
 		return worldObj.getBlock(ix, iy, iz) == block && worldObj.getBlockMetadata(ix, iy, iz) == meta;
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 }
