@@ -59,13 +59,13 @@ public class TileEntityICFController extends TileEntityTickingBase implements IE
 		
 		for(BlockPos emitter : emitters) { for(ForgeDirection offset : ForgeDirection.VALID_DIRECTIONS) {
 				pos.mutate(emitter.getX() + offset.offsetX, emitter.getY() + offset.offsetY, emitter.getZ() + offset.offsetZ);
-				if(validCells.contains(pos)) { this.emitterCount++; validEmitters.add(pos.clone()); break; }
+				if(validCells.contains(pos)) { this.emitterCount++; validEmitters.add(emitter.clone()); break; }
 			}
 		}
 		
 		for(BlockPos capacitor : capacitors) { for(ForgeDirection offset : ForgeDirection.VALID_DIRECTIONS) {
 				pos.mutate(capacitor.getX() + offset.offsetX, capacitor.getY() + offset.offsetY, capacitor.getZ() + offset.offsetZ);
-				if(validEmitters.contains(pos)) { this.capacitorCount++; validCapacitors.add(pos.clone()); break; }
+				if(validEmitters.contains(pos)) { this.capacitorCount++; validCapacitors.add(capacitor.clone()); break; }
 			}
 		}
 		

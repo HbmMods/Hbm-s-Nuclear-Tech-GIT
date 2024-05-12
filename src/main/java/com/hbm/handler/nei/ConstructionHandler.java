@@ -96,7 +96,7 @@ public class ConstructionHandler extends NEIUniversalHandler {
 				new ItemStack(ModBlocks.struct_scaffold, 63),
 				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.struct_scaffold, 384), EnumChatFormatting.RED + "6x64"),
 				new ItemStack(ModBlocks.concrete_smooth, 38),
-				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.concrete_smooth, 320), EnumChatFormatting.RED + "4x64"),};
+				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.concrete_smooth, 320), EnumChatFormatting.RED + "5x64"),};
 
 		bufferedRecipes.put(soysauce, new ItemStack(ModBlocks.soyuz_launcher));
 		bufferedTools.put(soysauce, new ItemStack(ModBlocks.struct_soyuz_core));

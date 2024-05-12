@@ -12,6 +12,8 @@
 * Blocks like explosive charges, radioactive barrels and so on which used to explode instantly when destroyed by another explosion, now behave more like TNT, spawning a primed version of the block that is knocked back by the initial explosion
   * This fixes an issue where spamming too many blocks like that could potentially crash servers
   * Most explosives go off after a short delay, flammable barrels however will explode on impact
+* Removed unused permanent wings
 
 ## Fixed
 * Fixed ICF laser parts being considered valid when bordering an otherwise invalid dependency block
+* Fixed soyuz launcher NEI recipe showing the wrong amount of items
