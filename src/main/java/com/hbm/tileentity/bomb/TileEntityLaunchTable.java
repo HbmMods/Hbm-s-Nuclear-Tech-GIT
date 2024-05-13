@@ -615,6 +615,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		double propellantMass = rocketMass * (1 - Math.exp(-(totalDV / exhaustVelocity)));
 
 		// You can do some fuckery here to get the propellant mass into some reasonable number of buckets
+		
 
 		return MathHelper.floor_double(propellantMass);
 	}
