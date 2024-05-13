@@ -421,14 +421,14 @@ public class ModEventHandlerClient {
 				RenderScreenOverlay.renderTaintBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
 			}
 		}
-        if (!event.isCanceled() && event.type == event.type.ALL)
-        {
-        	long time = ImpactWorldHandler.getTimeForClient(player.worldObj);
-        	if(time>0)
-        	{
-        		RenderScreenOverlay.renderCountdown(event.resolution, Minecraft.getMinecraft().ingameGUI, Minecraft.getMinecraft().theWorld);	
-        	}        	
-        }
+		if (!event.isCanceled() && event.type == event.type.ALL)
+		{
+			long time = ImpactWorldHandler.getTimeForClient(player.worldObj);
+			if(time>0)
+			{
+				RenderScreenOverlay.renderCountdown(event.resolution, Minecraft.getMinecraft().ingameGUI, Minecraft.getMinecraft().theWorld);	
+			}        	
+		}
 		if(event.type == event.type.ARMOR) {
 			
 			if(ForgeHooks.getTotalArmorValue(player) == 0) {
@@ -1173,23 +1173,16 @@ public class ModEventHandlerClient {
 			IRenderHandler sky = world.provider.getSkyRenderer();
 			
 			if(world.provider instanceof WorldProviderSurface) {
-				
-				/*if(ImpactWorldHandler.getDustForClient(world) > 0 || ImpactWorldHandler.getFireForClient(world) > 0) {
+				world.provider.setSkyRenderer(new RenderNTMSkyboxImpact());
+				return;
+			}
 
-					//using a chainloader isn't necessary since none of the sky effects should render anyway
-					if(!(sky instanceof RenderNTMSkyboxImpact)) {*/
-						world.provider.setSkyRenderer(new RenderNTMSkyboxImpact());
-						return;
-					}
 			if(world.provider.dimensionId == 0) {
-				
 				if(!(sky instanceof RenderNTMSkyboxChainloader)) {
 					world.provider.setSkyRenderer(new RenderNTMSkyboxChainloader(sky));
 				}
 			}
 		}
-		
-		
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -1373,56 +1366,56 @@ public class ModEventHandlerClient {
 	
 	@SubscribeEvent
 	public void setupFog(RenderFogEvent event) {
-	    if (event.entity.worldObj.provider instanceof WorldProviderEve) {
-	        event.setResult(Result.DENY);
-	    }
-	    if (event.entity.worldObj.provider instanceof WorldProviderDuna) {
-	        event.setResult(Result.DENY);
-	    }
+		if (event.entity.worldObj.provider instanceof WorldProviderEve) {
+			event.setResult(Result.DENY);
+		}
+		if (event.entity.worldObj.provider instanceof WorldProviderDuna) {
+			event.setResult(Result.DENY);
+		}
 	}
 
 	@SubscribeEvent
 	public void thickenFog(FogDensity event) {
-	    if (event.entity.worldObj.provider instanceof WorldProviderEve) {
+		if (event.entity.worldObj.provider instanceof WorldProviderEve) {
 				if(GLContext.getCapabilities().GL_NV_fog_distance) {
 					GL11.glFogi(34138, 34139);
 				}
 				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
 
-	            event.density = 0.045F;
-	            event.setCanceled(true);
-	        
-	    }
+				event.density = 0.045F;
+				event.setCanceled(true);
+			
+		}
 
 	}
 	
-    @SubscribeEvent
-    public void tintFog(FogColors event) {
-        if (event.entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.entity;
+	@SubscribeEvent
+	public void tintFog(FogColors event) {
+		if (event.entity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.entity;
 
-            // Get the biome at the player's current location
-            int biomeID = player.worldObj.getBiomeGenForCoords((int) player.posX, (int) player.posZ).biomeID;
+			// Get the biome at the player's current location
+			int biomeID = player.worldObj.getBiomeGenForCoords((int) player.posX, (int) player.posZ).biomeID;
 
-            // Check if the current biome matches the one you're interested in
-            if (biomeID == SpaceConfig.dunaPolarBiome || biomeID == SpaceConfig.dunaPolarHillsBiome ) {
-                long time = player.worldObj.getWorldTime();
+			// Check if the current biome matches the one you're interested in
+			if (biomeID == SpaceConfig.dunaPolarBiome || biomeID == SpaceConfig.dunaPolarHillsBiome ) {
+				long time = player.worldObj.getWorldTime();
 
-                // Adjust fog color based on day/night cycle
-                if (time >= 12000 && time < 24000) {
-                    // Nighttime
-                    event.red = 0.1F;
-                    event.green = 0.1F;
-                    event.blue = 0.2F;
-                } else {
-                    // Daytime
-                    event.red = 0.2F;
-                    event.green = 0.18F;
-                    event.blue = 0.22F;
-                }
-            }
-        }
-    }
+				// Adjust fog color based on day/night cycle
+				if (time >= 12000 && time < 24000) {
+					// Nighttime
+					event.red = 0.1F;
+					event.green = 0.1F;
+					event.blue = 0.2F;
+				} else {
+					// Daytime
+					event.red = 0.2F;
+					event.green = 0.18F;
+					event.blue = 0.22F;
+				}
+			}
+		}
+	}
 
 
 	public static IIcon particleBase;
