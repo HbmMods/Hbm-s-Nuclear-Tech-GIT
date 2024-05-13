@@ -46,7 +46,6 @@ public class ShadyUtil {
 	public static String lag_add = "259785a0-20e9-4c63-9286-ac2f93ff528f";
 	public static String Pu_238 = "c95fdfd3-bea7-4255-a44b-d21bc3df95e3";
 	public static String Tankish = "609268ad-5b34-49c2-abba-a9d83229af03";
-	public static String SolsticeUnlimitd = "f5574fd2-ec28-4927-9d11-3c0c731771f4";
 	public static String FrizzleFrazzle = "fc4cc2ee-12e8-4097-b26a-1c6cb1b96531";
 	public static String the_NCR = "28ae585f-4431-4491-9ce8-3def6126e3c6";
 	public static String Barnaby99_x = "b04cf173-cff0-4acd-aa19-3d835224b43d";

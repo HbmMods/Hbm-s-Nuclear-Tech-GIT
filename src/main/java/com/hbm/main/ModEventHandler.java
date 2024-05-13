@@ -896,8 +896,7 @@ public class ModEventHandler {
 			if(player.getCurrentArmor(2) == null && !player.onGround) {
 				
 				boolean isBob = player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) || player.getDisplayName().equals("HbMinecraft");
-				boolean isOther = player.getUniqueID().toString().equals(ShadyUtil.SolsticeUnlimitd) || player.getDisplayName().equals("SolsticeUnlimitd") ||
-						player.getUniqueID().toString().equals(ShadyUtil.the_NCR) || player.getDisplayName().equals("the_NCR");
+				boolean isOther = player.getUniqueID().toString().equals(ShadyUtil.the_NCR) || player.getDisplayName().equals("the_NCR");
 				
 				if(isBob || isOther) {
 					

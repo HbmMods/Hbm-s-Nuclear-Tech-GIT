@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockCap.EnumCapBlock;
+import com.hbm.blocks.machine.BlockICFLaserComponent.EnumICFPart;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.RecipesCommon.*;
@@ -929,14 +930,78 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.circuit_gold, 1)
 			}, 400);
 		
-		makeRecipe(new ComparableStack(ModItems.euphemium_capacitor, 1), new AStack[]
-				{
-						new OreDictStack(NB.ingot(), 4),
-						new ComparableStack(ModItems.redcoil_capacitor, 1),
-						new ComparableStack(ModItems.ingot_euphemium, 4),
-						new ComparableStack(ModItems.circuit_tantalium, 6),
-						new ComparableStack(ModItems.powder_nitan_mix, 18),
-				}, 600);
+		makeRecipe(new ComparableStack(ModItems.euphemium_capacitor, 1), new AStack[] {
+				new OreDictStack(NB.ingot(), 4),
+				new ComparableStack(ModItems.redcoil_capacitor, 1),
+				new ComparableStack(ModItems.ingot_euphemium, 4),
+				new ComparableStack(ModItems.circuit_tantalium, 6),
+				new ComparableStack(ModItems.powder_nitan_mix, 18),
+			}, 600);
+
+		makeRecipe(new ComparableStack(ModBlocks.icf_laser_component, 1, EnumICFPart.CELL.ordinal()), new AStack[] {
+				new ComparableStack(ModItems.ingot_cft, 4),
+				new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4),
+				new ComparableStack(ModBlocks.glass_quartz, 16)
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.icf_laser_component, 1, EnumICFPart.EMITTER.ordinal()), new AStack[] {
+				new OreDictStack(W.plateWelded(), 4),
+				new OreDictStack(MAGTUNG.wireDense(), 16),
+				new OreDictStack(Fluids.XENON.getDict(16_000))
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.icf_laser_component, 1, EnumICFPart.CAPACITOR.ordinal()), new AStack[] {
+				new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 2),
+				new OreDictStack(ND.wireDense(), 16),
+				new OreDictStack(SBD.ingot(), 4)
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.icf_laser_component, 1, EnumICFPart.TURBO.ordinal()), new AStack[] {
+				new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 2),
+				new OreDictStack(DNT.wireDense(), 8),
+				new OreDictStack(SBD.ingot(), 16)
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.icf_laser_component, 1, EnumICFPart.CASING.ordinal()), new AStack[] {
+				new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4),
+				new OreDictStack(BIGMT.plateCast(), 4),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 16)
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.icf_laser_component, 1, EnumICFPart.PORT.ordinal()), new AStack[] {
+				new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 2),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 16),
+				new OreDictStack(ND.wireDense(), 4)
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.icf_controller, 1), new AStack[] {
+				new ComparableStack(ModItems.ingot_cft, 16),
+				new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 16),
+				new OreDictStack(KEY_CIRCUIT_BISMUTH, 4)
+			}, 200);
+
+		makeRecipe(new ComparableStack(ModBlocks.icf_component, 1, 0), new AStack[] {
+				new OreDictStack(STEEL.plateWelded(), 4),
+				new OreDictStack(TI.plateWelded(), 2),
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.icf_component, 1, 1), new AStack[] {
+				new ComparableStack(ModItems.ingot_cft, 2),
+				new OreDictStack(CMB.plateCast(), 1),
+				new OreDictStack(W.plateWelded(), 2),
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.icf_component, 1, 3), new AStack[] {
+				new OreDictStack(STEEL.plateWelded(), 2),
+				new OreDictStack(CU.plateWelded(), 2),
+				new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 1)
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.struct_icf_core, 1), new AStack[] {
+				new OreDictStack(CMB.plateWelded(), 16),
+				new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 16),
+				new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 16),
+				new OreDictStack(SBD.wireDense(), 32),
+				new OreDictStack(KEY_CIRCUIT_BISMUTH, 16),
+				new ComparableStack(ModItems.circuit_schrabidium, 24),
+			}, 600);
+		makeRecipe(new ComparableStack(ModBlocks.machine_icf_press, 1), new AStack[] {
+				new OreDictStack(GOLD.plateCast(), 8),
+				new ComparableStack(ModItems.motor, 4),
+				new OreDictStack(KEY_CIRCUIT_BISMUTH, 1),
+			}, 100);
 
 		makeRecipe(new ComparableStack(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.NUKA)), new AStack[] { new ComparableStack(ModItems.cap_nuka, 128) }, 10);
 		makeRecipe(new ComparableStack(DictFrame.fromOne(ModBlocks.block_cap, EnumCapBlock.QUANTUM)), new AStack[] { new ComparableStack(ModItems.cap_quantum, 128) }, 10);
