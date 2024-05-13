@@ -1139,7 +1139,7 @@ public class ModEventHandler {
 			}
 		}
 
-		CelestialBody body = CelestialBody.getBodyFromDimension(player.worldObj);
+		CelestialBody body = CelestialBody.getBody(player.worldObj);
 		if(body != null && event.phase == Phase.END) {
 			float gravity = body.getSurfaceGravity() * AstronomyUtil.PLAYER_GRAVITY_MODIFIER;
 

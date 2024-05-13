@@ -34,11 +34,14 @@ public class CelestialBody {
     public int processingLevel = 0; // What level of technology can locate this body?
 
     public List<CelestialBody> satellites = new ArrayList<CelestialBody>(); // moon boyes
+    public CelestialBody parent = null;
 
     public HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = new HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>();
 
     public CelestialBody(String name) {
         this.name = name;
+
+        nameToBodyMap.put(name, this);
     }
 
     public CelestialBody(String name, int id) {
@@ -46,7 +49,7 @@ public class CelestialBody {
         this.dimensionId = id;
         this.canLand = true;
 
-        bodyMap.put(id, this);
+        dimToBodyMap.put(id, this);
     }
 
 
@@ -76,6 +79,9 @@ public class CelestialBody {
 
     public CelestialBody withSatellites(CelestialBody... bodies) {
         Collections.addAll(satellites, bodies);
+        for(CelestialBody body : bodies) {
+            body.parent = this;
+        }
         return this;
     }
 
@@ -109,31 +115,37 @@ public class CelestialBody {
     // A lot of these are member getters but without having to check the celestial body exists
     // If it doesn't exist, return the overworld as the default, may cause issues with terraforming the overworld
 
-    private static HashMap<Integer, CelestialBody> bodyMap = new HashMap<Integer, CelestialBody>();
+    private static HashMap<Integer, CelestialBody> dimToBodyMap = new HashMap<Integer, CelestialBody>();
+    private static HashMap<String, CelestialBody> nameToBodyMap = new HashMap<String, CelestialBody>();
 
-    public static CelestialBody getBodyFromDimension(int id) {
-        CelestialBody body = bodyMap.get(id);
-        return body != null ? body : bodyMap.get(0);
+    public static CelestialBody getBody(String name) {
+        CelestialBody body = nameToBodyMap.get(name);
+        return body != null ? body : dimToBodyMap.get(0);
     }
 
-    public static CelestialBody getBodyFromDimension(World world) {
-        return getBodyFromDimension(world.provider.dimensionId);
+    public static CelestialBody getBody(int id) {
+        CelestialBody body = dimToBodyMap.get(id);
+        return body != null ? body : dimToBodyMap.get(0);
+    }
+
+    public static CelestialBody getBody(World world) {
+        return getBody(world.provider.dimensionId);
     }
 
     public static int getRotationalPeriod(World world) {
-        return getBodyFromDimension(world).getRotationalPeriod();
+        return getBody(world).getRotationalPeriod();
     }
 
     public static float getSemiMajorAxis(World world) {
-        return getBodyFromDimension(world).semiMajorAxisKm;
+        return getBody(world).semiMajorAxisKm;
     }
 
     public static boolean hasTrait(World world, Class<? extends CelestialBodyTrait> trait) {
-        return getBodyFromDimension(world).hasTrait(trait);
+        return getBody(world).hasTrait(trait);
     }
     
     public static <T extends CelestialBodyTrait> T getTrait(World world, Class<? extends T> trait) {
-        return getBodyFromDimension(world).getTrait(trait);
+        return getBody(world).getTrait(trait);
 	}
 
     // /Statics

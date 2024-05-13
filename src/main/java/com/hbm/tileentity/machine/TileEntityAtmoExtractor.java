@@ -54,7 +54,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 				//this.power -= this.consumption;
 		}
 
-		CelestialBody body = CelestialBody.getBodyFromDimension(worldObj.provider.dimensionId);
+		CelestialBody body = CelestialBody.getBody(worldObj.provider.dimensionId);
 		
 		if(body != null) {
 			CBT_Atmosphere atmosphere = body.getTrait(CBT_Atmosphere.class);

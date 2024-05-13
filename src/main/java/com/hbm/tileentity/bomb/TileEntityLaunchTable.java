@@ -594,7 +594,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		if(multipart == null || multipart.thruster == null)
 			return -1;
 		
-		CelestialBody localBody = CelestialBody.getBodyFromDimension(worldObj);
+		CelestialBody localBody = CelestialBody.getBody(worldObj);
 		float localGravity = localBody.getSurfaceGravity();
 		
 		ItemCustomMissilePart thruster = (ItemCustomMissilePart)multipart.thruster;
