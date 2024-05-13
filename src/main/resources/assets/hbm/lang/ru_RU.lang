@@ -1385,6 +1385,20 @@ hbmmat.watzmud=Токсичные отходы
 hbmmat.zirconium=Циркония
 hbmmat.neodymium=Неодима
 
+icffuel.beryllium=Бериллий
+icffuel.boron=Бор
+icffuel.carbon=Углерод
+icffuel.calcium=Кальций
+icffuel.chlorine=Хлор
+icffuel.deuterium=Дейтерий
+icffuel.helium3=Гелий-3
+icffuel.helium4=Гелий-4
+icffuel.hydrogen=Водород
+icffuel.lithium=Литий
+icffuel.oxygen=Кислород
+icffuel.sodium=Натрий
+icffuel.tritium=Тритий
+
 crucible.aa=Производство продвинутого сплава
 crucible.abronze=Производство мышьяковой бронзы
 crucible.bbronze=Производство висмутовой бронзы
@@ -2431,7 +2445,15 @@ tile.icf_laser_component.cell.name=Лазерная ячейка ICF
 tile.icf_laser_component.emitter.name=Лазерный излучатель ICF
 tile.icf_laser_component.port.name=Порт лазера ICF
 tile.icf_laser_component.turbo.name=Турбоусилитель лазера ICF
-tile.machine_icf_press.desc=Если бы только было что-то, что могло бы рассказать мне, как и работает ли эта штука$ Что-то вроде журнала изменений или чего-то в этом роде$ Увы, я слишком туп, чтобы читать что-то подобное.
+container.machineICFPress=Топливный пресс ICF
+tile.machine_icf_press.name=Топливный пресс ICF
+tile.machine_icf_press.desc=Наполняет топливные пеллеты ICF$Левый топливный слот принимается сверху/снизу, правый - по бокам$Мюоны и пеллеты могут подаваться с любой стороны
+tile.icf_component.name=Стабилизатор ICF
+tile.icf_component.structure.name=Обшивка ICF
+tile.icf_component.structure_bolted.name=Обшивка ICF (Заклепанный)
+tile.icf_component.vessel.name=Стенка активной зоны ICF
+tile.icf_component.vessel_welded.name=Стенка активной зоны ICF (Сваренная)
+tile.struct_icf_core.name=Ядро инерциального термоядерного реактора (ICF)
 
 tile.cm_block.alloy.name=Корпус машины из продвинутого сплава
 tile.cm_block.desh.name=Корпус машины из деша
