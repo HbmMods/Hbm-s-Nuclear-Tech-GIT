@@ -60,7 +60,7 @@ public class MachineIGenerator extends BlockDummyable implements ILookOverlay {
 			if(pos == null)
 				return false;
 			
-			TileEntityMachineIGenerator gen = (TileEntityMachineIGenerator)world.getTileEntity(pos[0], pos[1], pos[2]);
+			//TileEntityMachineIGenerator gen = (TileEntityMachineIGenerator)world.getTileEntity(pos[0], pos[1], pos[2]);
 			
 			//if(gen != null) FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			

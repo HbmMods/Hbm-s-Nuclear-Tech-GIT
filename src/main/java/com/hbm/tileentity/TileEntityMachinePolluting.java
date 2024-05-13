@@ -2,12 +2,18 @@ package com.hbm.tileentity;
 
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 
 import api.hbm.fluid.IFluidUser;
+import com.hbm.inventory.fluid.trait.FT_Polluting;
+import com.hbm.inventory.fluid.trait.FluidTrait;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class TileEntityMachinePolluting extends TileEntityMachineBase implements IFluidUser {
 
@@ -34,6 +40,30 @@ public abstract class TileEntityMachinePolluting extends TileEntityMachineBase i
 			PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, type, overflow / 100F);
 			
 			if(worldObj.rand.nextInt(3) == 0) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.fizz", 0.1F, 1.5F);
+		}
+	}
+	public void pollute(FluidType type, FluidTrait.FluidReleaseType release, float amount) {
+		FluidTank tank;
+		FT_Polluting trait = type.getTrait(FT_Polluting.class);
+		if(trait == null) return;
+		if(release == FluidTrait.FluidReleaseType.VOID) return;
+
+		HashMap<PollutionType, Float> map = release == FluidTrait.FluidReleaseType.BURN ? trait.burnMap : trait.releaseMap;
+
+		for(Map.Entry<PollutionType, Float> entry : map.entrySet()) {
+
+			tank = entry.getKey() == PollutionType.SOOT ? smoke : entry.getKey() == PollutionType.HEAVYMETAL ? smoke_leaded : smoke_poison;
+			int fluidAmount = (int) Math.ceil(entry.getValue() * amount * 100);
+			tank.setFill(tank.getFill() + fluidAmount);
+
+			if (tank.getFill() > tank.getMaxFill()) {
+				int overflow = tank.getFill() - tank.getMaxFill();
+				tank.setFill(tank.getMaxFill());
+				PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, entry.getKey(), overflow / 100F);
+
+				if (worldObj.rand.nextInt(3) == 0)
+					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "random.fizz", 0.1F, 1.5F);
+			}
 		}
 	}
 	

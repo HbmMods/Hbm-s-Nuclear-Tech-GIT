@@ -35,7 +35,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemFertilizer;
 import com.hbm.items.weapon.ItemGenericGrenade;
 import com.hbm.lib.HbmWorld;
-import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.potion.HbmPotion;
@@ -265,6 +264,7 @@ public class MainRegistry {
 				polaroidID = rand.nextInt(18) + 1;
 		}
 
+		ShadyUtil.test();
 		loadConfig(PreEvent);
 		HbmPotion.init();
 		
@@ -293,12 +293,12 @@ public class MainRegistry {
 		
 		if(WorldConfig.enableCraterBiomes) BiomeGenCraterBase.initDictionary();
 
-		Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
+		/*Library.superuser.add("192af5d7-ed0f-48d8-bd89-9d41af8524f8");
 		Library.superuser.add("5aee1e3d-3767-4987-a222-e7ce1fbdf88e");
 		Library.superuser.add("937c9804-e11f-4ad2-a5b1-42e62ac73077");
 		Library.superuser.add("3af1c262-61c0-4b12-a4cb-424cc3a9c8c0");
 		Library.superuser.add("4729b498-a81c-42fd-8acd-20d6d9f759e0");
-		Library.superuser.add("c3f5e449-6d8c-4fe3-acc9-47ef50e7e7ae");
+		Library.superuser.add("c3f5e449-6d8c-4fe3-acc9-47ef50e7e7ae");*/
 
 		aMatSchrab.customCraftingMaterial = ModItems.ingot_schrabidium;
 		aMatHaz.customCraftingMaterial = ModItems.hazmat_cloth;

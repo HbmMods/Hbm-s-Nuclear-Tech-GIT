@@ -172,7 +172,7 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 				
 				}
 
-				PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND / 2F);
+				PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND / 20F);
 			}
 			
 			/* pour recipe stack */

@@ -29,8 +29,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.RedBarrel;
+import com.hbm.blocks.bomb.BlockDetonatable;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.entity.particle.EntityBSmokeFX;
@@ -43,9 +42,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityBullet extends Entity implements IProjectile {
-	private int field_145791_d = -1;
-	private int field_145792_e = -1;
-	private int field_145789_f = -1;
+	private int tileX = -1;
+	private int tileY = -1;
+	private int tileZ = -1;
 	public double gravity = 0.0D;
 	private Block field_145790_g;
 	private int inData;
@@ -340,28 +339,28 @@ public class EntityBullet extends Entity implements IProjectile {
 			// (float)(Math.atan2(this.motionY, (double)f) * 180.0D / Math.PI);
 		}
 
-		Block block = this.worldObj.getBlock(this.field_145791_d, this.field_145792_e, this.field_145789_f);
+		Block block = this.worldObj.getBlock(this.tileX, this.tileY, this.tileZ);
 
 		if (block.getMaterial() != Material.air) {
-			block.setBlockBoundsBasedOnState(this.worldObj, this.field_145791_d, this.field_145792_e,
-					this.field_145789_f);
-			AxisAlignedBB axisalignedbb = block.getCollisionBoundingBoxFromPool(this.worldObj, this.field_145791_d,
-					this.field_145792_e, this.field_145789_f);
+			block.setBlockBoundsBasedOnState(this.worldObj, this.tileX, this.tileY,
+					this.tileZ);
+			AxisAlignedBB axisalignedbb = block.getCollisionBoundingBoxFromPool(this.worldObj, this.tileX,
+					this.tileY, this.tileZ);
 
 			if (axisalignedbb != null
 					&& axisalignedbb.isVecInside(Vec3.createVectorHelper(this.posX, this.posY, this.posZ))
 					&& !this.getIsCritical()) {
 				this.inGround = true;
 			}
-
-			if (block == ModBlocks.red_barrel) {
-				((RedBarrel) block).explode(worldObj, this.field_145791_d, this.field_145792_e, this.field_145789_f);
+			
+			if(block instanceof BlockDetonatable) {
+				((BlockDetonatable) block).onShot(worldObj, this.tileX, this.tileY, this.tileZ);
 			}
 
 			if (block == Blocks.glass || block == Blocks.stained_glass || block == Blocks.glass_pane
 					|| block == Blocks.stained_glass_pane) {
-				this.worldObj.setBlock(this.field_145791_d, this.field_145792_e, this.field_145789_f, Blocks.air);
-				this.worldObj.playSound(this.field_145791_d, this.field_145792_e, this.field_145789_f, "dig.glass",
+				this.worldObj.setBlock(this.tileX, this.tileY, this.tileZ, Blocks.air);
+				this.worldObj.playSound(this.tileX, this.tileY, this.tileZ, "dig.glass",
 						1.0F, 1.0F, true);
 			}
 		}
@@ -609,13 +608,13 @@ public class EntityBullet extends Entity implements IProjectile {
 						this.setDead();
 					}
 				} else if (!this.getIsCritical()) {
-					this.field_145791_d = movingobjectposition.blockX;
-					this.field_145792_e = movingobjectposition.blockY;
-					this.field_145789_f = movingobjectposition.blockZ;
-					this.field_145790_g = this.worldObj.getBlock(this.field_145791_d, this.field_145792_e,
-							this.field_145789_f);
-					this.inData = this.worldObj.getBlockMetadata(this.field_145791_d, this.field_145792_e,
-							this.field_145789_f);
+					this.tileX = movingobjectposition.blockX;
+					this.tileY = movingobjectposition.blockY;
+					this.tileZ = movingobjectposition.blockZ;
+					this.field_145790_g = this.worldObj.getBlock(this.tileX, this.tileY,
+							this.tileZ);
+					this.inData = this.worldObj.getBlockMetadata(this.tileX, this.tileY,
+							this.tileZ);
 					this.motionX = ((float) (movingobjectposition.hitVec.xCoord - this.posX));
 					this.motionY = ((float) (movingobjectposition.hitVec.yCoord - this.posY));
 					this.motionZ = ((float) (movingobjectposition.hitVec.zCoord - this.posZ));
@@ -628,8 +627,8 @@ public class EntityBullet extends Entity implements IProjectile {
 					this.arrowShake = 7;
 
 					if (this.field_145790_g.getMaterial() != Material.air) {
-						this.field_145790_g.onEntityCollidedWithBlock(this.worldObj, this.field_145791_d,
-								this.field_145792_e, this.field_145789_f, this);
+						this.field_145790_g.onEntityCollidedWithBlock(this.worldObj, this.tileX,
+								this.tileY, this.tileZ, this);
 					}
 				}
 			}
@@ -712,9 +711,9 @@ public class EntityBullet extends Entity implements IProjectile {
 	 */
 	@Override
 	public void writeEntityToNBT(NBTTagCompound p_70014_1_) {
-		p_70014_1_.setShort("xTile", (short) this.field_145791_d);
-		p_70014_1_.setShort("yTile", (short) this.field_145792_e);
-		p_70014_1_.setShort("zTile", (short) this.field_145789_f);
+		p_70014_1_.setShort("xTile", (short) this.tileX);
+		p_70014_1_.setShort("yTile", (short) this.tileY);
+		p_70014_1_.setShort("zTile", (short) this.tileZ);
 		p_70014_1_.setShort("life", (short) this.ticksInGround);
 		p_70014_1_.setByte("inTile", (byte) Block.getIdFromBlock(this.field_145790_g));
 		p_70014_1_.setByte("inData", (byte) this.inData);
@@ -729,9 +728,9 @@ public class EntityBullet extends Entity implements IProjectile {
 	 */
 	@Override
 	public void readEntityFromNBT(NBTTagCompound p_70037_1_) {
-		this.field_145791_d = p_70037_1_.getShort("xTile");
-		this.field_145792_e = p_70037_1_.getShort("yTile");
-		this.field_145789_f = p_70037_1_.getShort("zTile");
+		this.tileX = p_70037_1_.getShort("xTile");
+		this.tileY = p_70037_1_.getShort("yTile");
+		this.tileZ = p_70037_1_.getShort("zTile");
 		this.ticksInGround = p_70037_1_.getShort("life");
 		this.field_145790_g = Block.getBlockById(p_70037_1_.getByte("inTile") & 255);
 		this.inData = p_70037_1_.getByte("inData") & 255;
@@ -857,20 +856,18 @@ public class EntityBullet extends Entity implements IProjectile {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public int getBrightnessForRender(float p_70070_1_)
-    {
+	public int getBrightnessForRender(float p_70070_1_) {
 		if(this.getIsCritical() || this.getIsChopper())
 			return 15728880;
 		else
 			return super.getBrightnessForRender(p_70070_1_);
-    }
+	}
 
-    @Override
-	public float getBrightness(float p_70013_1_)
-    {
+	@Override
+	public float getBrightness(float p_70013_1_) {
 		if(this.getIsCritical() || this.getIsChopper())
 			return 1.0F;
 		else
 			return super.getBrightness(p_70013_1_);
-    }
+	}
 }

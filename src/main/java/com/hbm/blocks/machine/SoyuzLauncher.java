@@ -218,6 +218,7 @@ public class SoyuzLauncher extends BlockDummyable {
 				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_launcher, 30)));
 				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_scaffold, 63)));
 				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.concrete_smooth, 38)));
+				world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_soyuz_core, 1)));
 
 				world.func_147453_f(x, y, z, p_149749_5_);
 			}

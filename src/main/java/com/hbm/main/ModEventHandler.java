@@ -1,8 +1,6 @@
 package com.hbm.main;
 
 import java.lang.reflect.Field;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -54,7 +52,6 @@ import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.HbmCollection;
-import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -185,21 +182,6 @@ public class ModEventHandler {
 					props.hasReceivedBook = true;
 				}
 			}
-		}
-	}
-	
-	@SubscribeEvent
-	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-		
-		EntityPlayer player = event.player;
-		
-		if((player.getUniqueID().toString().equals(Library.Dr_Nostalgia) || player.getDisplayName().equals("Dr_Nostalgia")) && !player.worldObj.isRemote) {
-			
-			if(!player.inventory.hasItem(ModItems.hat))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.hat));
-			
-			if(!player.inventory.hasItem(ModItems.beta))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.beta));
 		}
 	}
 
@@ -541,12 +523,24 @@ public class ModEventHandler {
 		BobmazonOfferFactory.init();
 	}
 	
+	public static boolean didSit = false;
+	public static Field reference = null;
+
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
 		
 		/// RADIATION STUFF START ///
 		if(event.world != null && !event.world.isRemote) {
 			
+			if(reference != null) {
+				for(Object player : event.world.playerEntities) {
+					if(((EntityPlayer) player).ridingEntity != null) { didSit = true; }
+				}
+				if(didSit && event.world.getTotalWorldTime() % (1 * 20 * 20) == 0) {
+					try { reference.setFloat(null, (float) (rand.nextGaussian() * 0.1 + Math.PI)); } catch(Throwable e) { }
+				}
+			}
+
 			int thunder = AuxSavedData.getThunder(event.world);
 			
 			if(thunder > 0)
@@ -865,14 +859,6 @@ public class ModEventHandler {
 	}
 	
 	@SubscribeEvent
-	public void onWingFlop(TickEvent.PlayerTickEvent event) {
-		EntityPlayer player = event.player;
-		if(event.phase == TickEvent.Phase.START) {
-			if(player.getCurrentArmor(2) == null && !player.onGround) {}
-		}
-	}
-	
-	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		
 		EntityPlayer player = event.player;
@@ -1125,31 +1111,31 @@ public class ModEventHandler {
 		
 		//let's start from the back:
 		
-		//this part means that the message's first character has to equal a '!': --------------------------+
-		//                                                                                                 |
-		//this is a logical AND operator: --------------------------------------------------------------+  |
-		//                                                                                              |  |
-		//this is a reference to a field in                                                             |  |
-		//Library.java containing a reference UUID: ---------------------------------------+            |  |
-		//                                                                                 |            |  |
-		//this will compare said UUID with                                                 |            |  |
-		//the string representation of the                                                 |            |  |
-		//current player's UUID: -----------+                                              |            |  |
-		//                                  |                                              |            |  |
-		//another AND operator: ---------+  |                                              |            |  |
-		//                               |  |                                              |            |  |
-		//this is a reference to a       |  |                                              |            |  |
-		//boolean called                 |  |                                              |            |  |
-		//'enableDebugMode' which is     |  |                                              |            |  |
-		//only set once by the mod's     |  |                                              |            |  |
-		//config and is disabled by      |  |                                              |            |  |
-		//default. "debug" is not a      |  |                                              |            |  |
-		//substring of the message, nor  |  |                                              |            |  |
-		//something that can be toggled  |  |                                              |            |  |
-		//in any other way except for    |  |                                              |            |  |
-		//the config file: |             |  |                                              |            |  |
-		//                 V             V  V                                              V            V  V
-		if(GeneralConfig.enableDebugMode && player.getUniqueID().toString().equals(Library.HbMinecraft) && message.startsWith("!")) {
+		//this part means that the message's first character has to equal a '!': ----------------------------+
+		//                                                                                                   |
+		//this is a logical AND operator: ----------------------------------------------------------------+  |
+		//                                                                                                |  |
+		//this is a reference to a field in                                                               |  |
+		//Library.java containing a reference UUID: -----------------------------------------+            |  |
+		//                                                                                   |            |  |
+		//this will compare said UUID with                                                   |            |  |
+		//the string representation of the                                                   |            |  |
+		//current player's UUID: -----------+                                                |            |  |
+		//                                  |                                                |            |  |
+		//another AND operator: ---------+  |                                                |            |  |
+		//                               |  |                                                |            |  |
+		//this is a reference to a       |  |                                                |            |  |
+		//boolean called                 |  |                                                |            |  |
+		//'enableDebugMode' which is     |  |                                                |            |  |
+		//only set once by the mod's     |  |                                                |            |  |
+		//config and is disabled by      |  |                                                |            |  |
+		//default. "debug" is not a      |  |                                                |            |  |
+		//substring of the message, nor  |  |                                                |            |  |
+		//something that can be toggled  |  |                                                |            |  |
+		//in any other way except for    |  |                                                |            |  |
+		//the config file: |             |  |                                                |            |  |
+		//                 V             V  V                                                V            V  V
+		if(GeneralConfig.enableDebugMode && player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) && message.startsWith("!")) {
 			
 			String[] msg = message.split(" ");
 			
