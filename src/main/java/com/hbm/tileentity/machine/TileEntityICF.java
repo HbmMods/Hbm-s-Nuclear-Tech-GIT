@@ -99,7 +99,7 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 			if(slots[5] != null && slots[5].getItem() == ModItems.icf_pellet) {
 				if(ItemICFPellet.getFusingDifficulty(slots[5]) <=  this.laser) {
 					this.heatup = ItemICFPellet.react(slots[5], this.laser);
-					this.heat += heat;
+					this.heat += heatup;
 					if(ItemICFPellet.getDepletion(slots[5]) >= ItemICFPellet.getMaxDepletion(slots[5])) {
 						slots[5] = new ItemStack(ModItems.icf_pellet_depleted);
 						markDirty = true;

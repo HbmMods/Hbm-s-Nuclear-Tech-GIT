@@ -8,6 +8,6 @@ public class BlockC4 extends BlockTNTBase {
 
 	@Override
 	public void explodeEntity(World world, double x, double y, double z, EntityTNTPrimedBase entity) {
-		world.createExplosion(entity, x, y, z, 26F, true);
+		world.createExplosion(entity, x, y, z, 15F, true);
 	}
 }
