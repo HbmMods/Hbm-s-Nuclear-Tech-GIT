@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.util.PlanetaryTraitWorldSavedData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
