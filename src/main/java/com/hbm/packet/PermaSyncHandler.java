@@ -3,7 +3,6 @@ package com.hbm.packet;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.pollution.PollutionHandler;
@@ -11,13 +10,10 @@ import com.hbm.handler.pollution.PollutionHandler.PollutionData;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.TomSaveData;
-import com.hbm.util.PlanetaryTraitUtil;
-import com.hbm.util.PlanetaryTraitWorldSavedData;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 /**
@@ -27,7 +23,7 @@ import net.minecraft.world.World;
  */
 public class PermaSyncHandler {
 	
-	public static HashSet<Integer> boykissers = new HashSet();
+	public static HashSet<Integer> boykissers = new HashSet<Integer>();
 	public static float[] pollution = new float[PollutionType.values().length];
 
 	public static void writePacket(ByteBuf buf, World world, EntityPlayerMP player) {
@@ -39,18 +35,6 @@ public class PermaSyncHandler {
 		buf.writeBoolean(data.impact);
 		buf.writeLong(data.time);
 		/// TOM IMPACT DATA ///
-		
-        // /// PLANETARY TRAITS ///
-        // int dimensionId = player.dimension;
-        // PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
-        // Set<PlanetaryTraitUtil.Hospitality> traits = traitsData.getTraits(dimensionId);
-
-        // buf.writeInt(dimensionId);
-        // buf.writeShort(traits.size());
-        // for (PlanetaryTraitUtil.Hospitality trait : traits) {
-        //     buf.writeInt(trait.ordinal());
-        // }
-        // /// PLANETARY TRAITS ///
 		
 		/// SHITTY MEMES ///
 		List<Integer> ids = new ArrayList<Integer>();
@@ -82,33 +66,6 @@ public class PermaSyncHandler {
 		ImpactWorldHandler.impact = buf.readBoolean();
 		ImpactWorldHandler.time = buf.readLong();
 		/// TOM IMPACT DATA ///
-
-        // PlanetaryTraitUtil.lastSyncWorld = player.worldObj;
-
-		
-        // int dimensionId = buf.readInt();
-        // int traitCount = buf.readShort();
-
-        // PlanetaryTraitWorldSavedData traitsData = PlanetaryTraitWorldSavedData.get(world);
-        // Set<PlanetaryTraitUtil.Hospitality> traits = traitsData.getTraits(dimensionId);
-        
-        // for (int i = 0; i < traitCount; i++) {
-        //     int traitOrdinal = buf.readInt();
-        //     PlanetaryTraitUtil.Hospitality trait = PlanetaryTraitUtil.Hospitality.values()[traitOrdinal];
-        //     traits.add(trait);
-        // }
-
-
-        // // Convert the set to an NBTTagCompound
-        // NBTTagCompound tag = new NBTTagCompound();
-        // for (PlanetaryTraitUtil.Hospitality trait : traits) {
-        //     if (traits.contains(trait)) {
-        //         tag.setBoolean(trait.name(), true);
-        //     }
-        // }
-
-        // // Assign it to the static field for client-side access
-        // PlanetaryTraitUtil.tag = tag;
         
 		/// SHITTY MEMES ///
 		boykissers.clear();
