@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.logging.log4j.core.Logger;
+
 import com.hbm.dim.trait.CelestialBodyTrait;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -56,7 +59,9 @@ public class CelestialBodyWorldSavedData extends WorldSavedData {
                     CelestialBodyTrait trait = entry.getValue().newInstance();
                     trait.readFromNBT(data.getCompoundTag(entry.getKey()));
                     traits.put(trait.getClass(), trait);
-                } catch (Exception ex) { }
+                } catch (Exception ex) {
+                	MainRegistry.logger.catching(ex);
+                }
             }
         }
     }

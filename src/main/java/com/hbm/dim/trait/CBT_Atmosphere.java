@@ -8,7 +8,8 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
     
     public FluidType fluid;
     public float pressure;
-
+    //just like this class name, it has indeed tortured something
+    public CBT_Atmosphere() {}
     public CBT_Atmosphere(FluidType fluid, float pressure) {
         this.fluid = fluid;
         this.pressure = pressure;
