@@ -140,15 +140,23 @@ public class ItemWandD extends Item {
 
 			// TESTING: Sets moho and the moon to post-terraformed
 			if(world.provider.dimensionId == SpaceConfig.mohoDimension) {
-				CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE);
-
-				player.addChatMessage(new ChatComponentText("Made MOHO breathable."));
+				if(CelestialBody.hasTrait(world, CBT_Atmosphere.class)) {
+					CelestialBody.clearTraits(world);
+					player.addChatMessage(new ChatComponentText("RETURN TO MEAN"));
+				} else {
+					CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.COALCREOSOTE, 1F), new CBT_Temperature(10F));
+					player.addChatMessage(new ChatComponentText("Made MOHO HORRIBLE, why did you do this."));
+				}
 			}
 
 			if(world.provider.dimensionId == SpaceConfig.moonDimension) {
-				CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AROMATICS, 1F),  new CBT_Temperature(10F));
-
-				player.addChatMessage(new ChatComponentText("Made MOON breathable."));
+				if(CelestialBody.hasTrait(world, CBT_Atmosphere.class)) {
+					CelestialBody.clearTraits(world);
+					player.addChatMessage(new ChatComponentText("ONE MILLION DEAD WORLDS"));
+				} else {
+					CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AIR, 1F), new CBT_Temperature(10F));
+					player.addChatMessage(new ChatComponentText("Made MOON breathable."));
+				}
 			}
 		}
 

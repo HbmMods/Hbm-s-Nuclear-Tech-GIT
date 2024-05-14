@@ -1,13 +1,17 @@
 package com.hbm.packet;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import com.hbm.dim.CelestialBodyWorldSavedData;
+import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionData;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.TomSaveData;
 
@@ -55,6 +59,27 @@ public class PermaSyncHandler {
 			buf.writeFloat(pollution.pollution[i]);
 		}
 		/// POLLUTION ///
+
+		// CBT is VARIABLE LENGTH!
+		// Make sure it's always last, or you'll have issues OF THE CBT VARIETY!
+		/// CBT ///
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = CelestialBodyWorldSavedData.getTraits(world);
+		if(traits != null) {
+			buf.writeBoolean(true); // Has traits marker (since we can have an empty list)
+
+			for(int i = 0; i < CelestialBodyTrait.traitList.size(); i++) {
+				Class<? extends CelestialBodyTrait> traitClass = CelestialBodyTrait.traitList.get(i);
+				CelestialBodyTrait trait = traits.get(traitClass);
+	
+				if(trait != null) {
+					buf.writeInt(i); // ID of the trait, in order registered
+					trait.writeToBytes(buf);
+				}
+			}
+		} else {
+			buf.writeBoolean(false);
+		}
+		/// CBT ///
 	}
 	
 	public static void readPacket(ByteBuf buf, World world, EntityPlayer player) {
@@ -66,7 +91,7 @@ public class PermaSyncHandler {
 		ImpactWorldHandler.impact = buf.readBoolean();
 		ImpactWorldHandler.time = buf.readLong();
 		/// TOM IMPACT DATA ///
-        
+
 		/// SHITTY MEMES ///
 		boykissers.clear();
 		int ids = buf.readShort();
@@ -78,5 +103,33 @@ public class PermaSyncHandler {
 			pollution[i] = buf.readFloat();
 		}
 		/// POLLUTION ///
+
+		// I will clamp your balls if you don't heed the prior warning
+		// Unless you know how to delimit byte buffers, you magician you
+		/// CBT ///
+		try {
+			if(buf.readBoolean()) {
+				HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = new HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>();
+	
+				while(buf.isReadable()) {
+					CelestialBodyTrait trait = CelestialBodyTrait.traitList.get(buf.readInt()).newInstance();
+					trait.readFromBytes(buf);
+	
+					traits.put(trait.getClass(), trait);
+				}
+	
+				CelestialBodyWorldSavedData.updateClientTraits(traits);
+			} else {
+				CelestialBodyWorldSavedData.updateClientTraits(null);
+			}
+
+		} catch (Exception ex) {
+			// If any exception occurs, stop parsing any more bytes, they'll be unaligned
+			// We'll unset the client trait set to prevent any issues
+
+			MainRegistry.logger.catching(ex);
+			CelestialBodyWorldSavedData.updateClientTraits(null);
+		}
+		/// CBT ///
 	}
 }

@@ -6,7 +6,7 @@ public class AstronomyUtil {
 	public static final float GRAVITATIONAL_CONSTANT = 6.6743015e-11F;
 
 	// Default orbital altitude, added onto planet radius to get intended orbital radius
-	public static final float DEFAULT_ALTITUDE = 100_000; // 100km
+	public static final float DEFAULT_ALTITUDE_KM = 100;
 
 	// How many seconds in a MC day
 	public static final float SECONDS_IN_DAY = 20F * 60F;

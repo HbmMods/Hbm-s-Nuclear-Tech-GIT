@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.HashBiMap;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class CelestialBodyTrait {
@@ -40,17 +41,12 @@ public abstract class CelestialBodyTrait {
 		traitList.add(clazz);
 		traitMap.put(name, clazz);
 	}
-	public CelestialBodyTrait() {}
 	
 	// Serialization
-	public void readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(NBTTagCompound nbt) { }
+	public void writeToNBT(NBTTagCompound nbt) { }
 
-	}
+	public void readFromBytes(ByteBuf buf) { }
+	public void writeToBytes(ByteBuf buf) { }
 
-	public void writeToNBT(NBTTagCompound nbt) {
-		String traitName = traitMap.inverse().get(this.getClass());
-		nbt.setString("name", traitName);
-	}
-
-	
 }

@@ -13,7 +13,6 @@ import net.minecraftforge.client.IRenderHandler;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.config.SpaceConfig;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.extprop.HbmLivingProps;
 
@@ -119,11 +118,10 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 		float starBrightness = world.getStarBrightness(partialTicks);
 		float celestialAngle = world.getCelestialAngle(partialTicks);
-		if(world.provider.dimensionId == SpaceConfig.laytheDimension) {
-			rendersunset(celestialAngle, world, mc);
-			// TODO: break this up so that wonky rendering shit doesnt happen if i extend this class, i think it would be very, VERY nice
-			//this is a TEMPORARY INSTILLATION.
-		}
+
+		// Handle any special per-body sunset rendering
+		renderSunset(partialTicks, world, mc);
+
 		if(starBrightness > 0.0F) {
 			GL11.glPushMatrix();
 			{
@@ -265,7 +263,8 @@ public class SkyProviderCelestial extends IRenderHandler {
 				GL11.glPopMatrix();
 			}
 			
-			GL11.glDisable(GL11.GL_BLEND);
+			float blendAmount = hasAtmosphere ? MathHelper.clamp_float(1 - world.getSunBrightnessFactor(partialTicks), 0.25F, 1F) : 1F;
+			float blendDarken = 0.1F;
 
 			// Draw any moons (either our parents or our own)
 			for(CelestialBody moon : (parentBody != null ? parentBody.satellites : currentBody.satellites)) {
@@ -284,11 +283,13 @@ public class SkyProviderCelestial extends IRenderHandler {
 						GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
 					}
 
-					GL11.glColor4d(moon.color[0], moon.color[1], moon.color[2], 1);
+					GL11.glColor4d(1, 1, 1, 1);
 					GL11.glRotatef(moonAngle * -360.0F, 1.0F, 0.0F, 0.0F);
 					GL11.glRotatef(moon.axialTilt, 0.0F, 1.0F, 0.0F);
 
 					mc.renderEngine.bindTexture(moon.texture);
+
+					GL11.glDisable(GL11.GL_BLEND);
 
 					tessellator.startDrawingQuads();
 					tessellator.addVertexWithUV(-moonSize, -100.0D, moonSize, 0.0D, 0.0D);
@@ -296,6 +297,20 @@ public class SkyProviderCelestial extends IRenderHandler {
 					tessellator.addVertexWithUV(moonSize, -100.0D, -moonSize, 1.0D, 1.0D);
 					tessellator.addVertexWithUV(-moonSize, -100.0D, -moonSize, 0.0D, 1.0D);
 					tessellator.draw();
+
+					// Draw another layer on top to blend with the atmosphere
+					GL11.glEnable(GL11.GL_BLEND);
+					GL11.glDisable(GL11.GL_TEXTURE_2D);
+					GL11.glColor4f(skyR - blendDarken, skyG - blendDarken, skyB - blendDarken, 1 - blendAmount);
+
+					tessellator.startDrawingQuads();
+					tessellator.addVertexWithUV(-moonSize, -100.0D, moonSize, 0.0D, 0.0D);
+					tessellator.addVertexWithUV(moonSize, -100.0D, moonSize, 1.0D, 0.0D);
+					tessellator.addVertexWithUV(moonSize, -100.0D, -moonSize, 1.0D, 1.0D);
+					tessellator.addVertexWithUV(-moonSize, -100.0D, -moonSize, 0.0D, 1.0D);
+					tessellator.draw();
+
+					GL11.glEnable(GL11.GL_TEXTURE_2D);
 					
 				}
 				GL11.glPopMatrix();
@@ -311,10 +326,14 @@ public class SkyProviderCelestial extends IRenderHandler {
 					GL11.glRotatef(celestialAngle * -360.0F, 1.0F, 0.0F, 0.0F);
 					GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
 					GL11.glRotatef(90.0F + parentBody.axialTilt, 0.0F, 1.0F, 0.0F);
-	
-					float parentSize = SolarSystem.calculateBodySize(parentBody, currentBody);
+
+
+					// Prevent Jool and other planets from becoming ginemenosaurus
+					float parentSize = MathHelper.clamp_float(SolarSystem.calculateBodySize(parentBody, currentBody), 0, 24);
 	
 					mc.renderEngine.bindTexture(parentBody.texture);
+
+					GL11.glDisable(GL11.GL_BLEND);
 
 					tessellator.startDrawingQuads();
 					tessellator.addVertexWithUV(-parentSize, 100.0D, -parentSize, 0.0D, 0.0D);
@@ -322,11 +341,25 @@ public class SkyProviderCelestial extends IRenderHandler {
 					tessellator.addVertexWithUV(parentSize, 100.0D, parentSize, 1.0D, 1.0D);
 					tessellator.addVertexWithUV(-parentSize, 100.0D, parentSize, 0.0D, 1.0D);
 					tessellator.draw();
-					
+
+					// Draw another layer on top to blend with the atmosphere
+					GL11.glEnable(GL11.GL_BLEND);
+					GL11.glDisable(GL11.GL_TEXTURE_2D);
+					GL11.glColor4f(skyR - blendDarken, skyG - blendDarken, skyB - blendDarken, 1 - blendAmount);
+
+					tessellator.startDrawingQuads();
+					tessellator.addVertexWithUV(-parentSize, 100.0D, -parentSize, 0.0D, 0.0D);
+					tessellator.addVertexWithUV(parentSize, 100.0D, -parentSize, 1.0D, 0.0D);
+					tessellator.addVertexWithUV(parentSize, 100.0D, parentSize, 1.0D, 1.0D);
+					tessellator.addVertexWithUV(-parentSize, 100.0D, parentSize, 0.0D, 1.0D);
+					tessellator.draw();
+
+					GL11.glEnable(GL11.GL_TEXTURE_2D);
+
 				}
 				GL11.glPopMatrix();
 			}
-					
+
 			GL11.glEnable(GL11.GL_BLEND);
 
 
@@ -433,156 +466,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 	}
 	
-	public void rendersunset(float partialTicks, WorldClient world, Minecraft mc) {
-		Vec3 vec3 = world.getSkyColor(mc.renderViewEntity, partialTicks);
-		float f1 = (float) vec3.xCoord;
-		float f2 = (float) vec3.yCoord;
-		float f3 = (float) vec3.zCoord;
-		float f6;
-
-		if(mc.gameSettings.anaglyph) {
-			float f4 = (f1 * 30.0F + f2 * 59.0F + f3 * 11.0F) / 100.0F;
-			float f5 = (f1 * 30.0F + f2 * 70.0F) / 100.0F;
-			f6 = (f1 * 30.0F + f3 * 70.0F) / 100.0F;
-			f1 = f4;
-			f2 = f5;
-			f3 = f6;
-		}
- 
-		Tessellator tessellator = Tessellator.instance;
-		float f7;
-		float f8;
-		float f9;
-		float f10;
-		float f18 = world.getStarBrightness(partialTicks);
-		
-
-	        float[] afloat = mc.theWorld.provider.calcSunriseSunsetColors(mc.theWorld.getCelestialAngle(partialTicks), partialTicks);
-
-
-	        if (afloat != null)
-	        {
-	    		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_CONSTANT_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
-
-
-	            GL11.glDisable(GL11.GL_TEXTURE_2D);
-	            GL11.glShadeModel(GL11.GL_SMOOTH);
-	            
-	            GL11.glPushMatrix();
-	            GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
-	            GL11.glRotatef(MathHelper.sin(mc.theWorld.getCelestialAngleRadians(partialTicks)) < 0.0F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
-	            GL11.glRotatef(90.0F, 0.0F, 0.0F, 1.0F);
-	            f6 = afloat[0];
-	            f7 = afloat[1];
-	            f8 = afloat[2];
-	            float f11;
-
-	            if (mc.gameSettings.anaglyph)
-	            {
-	                f9 = (f6 * 30.0F + f7 * 59.0F + f8 * 11.0F) / 100.0F;
-	                f10 = (f6 * 30.0F + f7 * 70.0F) / 100.0F;
-	                f11 = (f6 * 30.0F + f8 * 70.0F) / 100.0F;
-	                f6 = f9;
-	                f7 = f10;
-	                f8 = f11;
-	            }
-
-	            tessellator.startDrawing(6);
-	            tessellator.setColorRGBA_F(f6, f7, f8, afloat[3]);
-	            tessellator.addVertex(0.0D, 150.0D, 0.0D);
-	            byte b0 = 16;
-	            tessellator.setColorRGBA_F(afloat[0], afloat[1], afloat[2], 0.0F);
-
-	            for (int j = 0; j <= b0; ++j)
-	            {
-	                f11 = (float)j * (float)Math.PI * 2.0F / (float)b0;
-	                float f12 = MathHelper.sin(f11);
-	                float f13 = MathHelper.cos(f11);
-	                tessellator.addVertex((double)(f12 * 160.0F), (double)(f13 * 160.0F), (double)(-f13 * 90.0F * afloat[3]));
-	            }
-
-	            tessellator.draw();
-	            GL11.glPopMatrix();
-	            GL11.glShadeModel(GL11.GL_FLAT);
-	            
-	            GL11.glDisable(GL11.GL_TEXTURE_2D);
-	            GL11.glShadeModel(GL11.GL_SMOOTH);
-
-	            GL11.glPushMatrix();
-	            GL11.glRotatef(135.0F, 1.0F, 0.0F, 0.0F);
-	            GL11.glTranslatef(0, -60, 0);
-	            f6 = afloat[0];
-	            f7 = afloat[1];
-	            f8 = afloat[2];
-	            if (mc.gameSettings.anaglyph)
-	            {
-	                f9 = (f6 * 30.0F + f7 * 59.0F + f8 * 11.0F) / 100.0F;
-	                f10 = (f6 * 30.0F + f7 * 70.0F) / 100.0F;
-	                f11 = (f6 * 30.0F + f8 * 70.0F) / 100.0F;
-	                f6 = f9;
-	                f7 = f10;
-	                f8 = f11;
-	            }
-
-	            tessellator.startDrawing(6);
-	            tessellator.setColorRGBA_F(f6, f7, f8, afloat[3]);
-	            tessellator.addVertex(0.0D, 100.0D, 0.0D);
-
-	            tessellator.setColorRGBA_F(afloat[0], afloat[1], afloat[2], 0.0F);
-
-	            for (int j = 0; j <= b0; ++j)
-	            {
-	                f11 = (float)j * (float)Math.PI * 2.0F / (float)b0;
-	                float f12 = MathHelper.sin(f11);
-	                float f13 = MathHelper.cos(f11);
-	                
-	                tessellator.addVertex((double)(f12 * 100.0F), (double)(f13 * 100.0F), (double)(-f13 * 90.0F));
-	            }
-
-	            tessellator.draw();
-	            GL11.glPopMatrix();
-	            GL11.glShadeModel(GL11.GL_FLAT);
-	            
-	            GL11.glDisable(GL11.GL_TEXTURE_2D);
-	            GL11.glShadeModel(GL11.GL_SMOOTH);
-	            GL11.glPushMatrix();
-
-	            GL11.glRotatef(135.0F, 1.0F, 0.0F, 0.0F);
-	            GL11.glTranslatef(0, -30, 0);
-	            f6 = afloat[0];
-	            f7 = afloat[1];
-	            f8 = afloat[2];
-	            if (mc.gameSettings.anaglyph)
-	            {
-	                f9 = (f6 * 30.0F + f7 * 59.0F + f8 * 11.0F) / 100.0F;
-	                f10 = (f6 * 30.0F + f7 * 70.0F) / 100.0F;
-	                f11 = (f6 * 30.0F + f8 * 70.0F) / 100.0F;
-	                f6 = f9;
-	                f7 = f10;
-	                f8 = f11;
-	            }
-
-	            tessellator.startDrawing(6);
-	            tessellator.setColorRGBA_F(f6, f7, f8, afloat[3]);
-	            tessellator.addVertex(0.0D, 80.0D, 0.0D);
-
-	            tessellator.setColorRGBA_F(afloat[0], afloat[1] * 0.2F, afloat[2], 0.0F);
-
-	            for (int j = 0; j <= b0; ++j)
-	            {
-	                f11 = (float)j * (float)Math.PI * 2.0F / (float)b0;
-	                float f12 = MathHelper.sin(f11);
-	                float f13 = MathHelper.cos(f11);
-	                
-	                tessellator.addVertex((double)(f12 * 100.0F), (double)(f13 * 100.0F), (double)(-f13 * 90.0F));
-	            }
-
-	            tessellator.draw();
-	            GL11.glPopMatrix();
-	            GL11.glShadeModel(GL11.GL_FLAT);
-	            
-	
-    }
+	public void renderSunset(float partialTicks, WorldClient world, Minecraft mc) {
 
 	}
 	

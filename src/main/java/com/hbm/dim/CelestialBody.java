@@ -9,7 +9,6 @@ import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.util.AstronomyUtil;
 
 import codechicken.lib.math.MathHelper;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
@@ -42,7 +41,7 @@ public class CelestialBody {
 	public List<CelestialBody> satellites = new ArrayList<CelestialBody>(); // moon boyes
 	public CelestialBody parent = null;
 
-	public HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = new HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>();
+	private HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = new HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>();
 
 	public CelestialBody(String name) {
 		this.name = name;
@@ -122,10 +121,17 @@ public class CelestialBody {
 	public static void setTraits(World world, CelestialBodyTrait... traits) {
 		CelestialBodyWorldSavedData traitsData = CelestialBodyWorldSavedData.get(world);
 
-		// // Set the updated traits in the saved data
-		traitsData.setTraits( traits);
+		// Set the updated traits in the saved data
+		traitsData.setTraits(traits);
 
-		// // Mark the saved data as dirty to ensure changes are saved
+		// Mark the saved data as dirty to ensure changes are saved
+		traitsData.markDirty();
+	}
+
+	public static void clearTraits(World world) {
+		CelestialBodyWorldSavedData traitsData = CelestialBodyWorldSavedData.get(world);
+
+		traitsData.clearTraits();
 		traitsData.markDirty();
 	}
 
@@ -208,7 +214,7 @@ public class CelestialBody {
 
     private HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits() {
         World world = DimensionManager.getWorld(dimensionId);
-        HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = CelestialBodyWorldSavedData.get(world).getTraits();
+        HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = CelestialBodyWorldSavedData.getTraits(world);
 
         if(traits != null)
             return traits;

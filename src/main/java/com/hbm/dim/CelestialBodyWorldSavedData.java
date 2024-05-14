@@ -1,23 +1,15 @@
 package com.hbm.dim;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
-
-import org.apache.logging.log4j.core.Logger;
 
 import com.hbm.dim.trait.CelestialBodyTrait;
-import com.hbm.main.MainRegistry;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
-import net.minecraftforge.common.util.Constants;
 
 public class CelestialBodyWorldSavedData extends WorldSavedData {
 
@@ -28,14 +20,8 @@ public class CelestialBodyWorldSavedData extends WorldSavedData {
 	}
 
     private HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits;
-
-	private static CelestialBodyWorldSavedData lastCachedUnsafe = null;
-
+    
 	public static CelestialBodyWorldSavedData get(World world) {
-		if(world == null) {
-			return lastCachedUnsafe;
-		}
-
 		CelestialBodyWorldSavedData result = (CelestialBodyWorldSavedData) world.perWorldStorage.loadData(CelestialBodyWorldSavedData.class, DATA_NAME);
 		
 		if(result == null) {
@@ -43,12 +29,16 @@ public class CelestialBodyWorldSavedData extends WorldSavedData {
 			result = (CelestialBodyWorldSavedData) world.perWorldStorage.loadData(CelestialBodyWorldSavedData.class, DATA_NAME);
 		}
 		
-		lastCachedUnsafe = result;
 		return result;
 	}
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
+        if(!nbt.hasKey("traits")) {
+            traits = null;
+            return;
+        }
+
         NBTTagCompound data = nbt.getCompoundTag("traits");
 
         // iterate through traits, loading into `traits`
@@ -67,6 +57,11 @@ public class CelestialBodyWorldSavedData extends WorldSavedData {
 
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
+        if(traits == null) {
+            nbt.removeTag("traits");
+            return;
+        }
+
         NBTTagCompound data = new NBTTagCompound();
 
         for(CelestialBodyTrait trait : traits.values()) {
@@ -87,18 +82,27 @@ public class CelestialBodyWorldSavedData extends WorldSavedData {
         markDirty();
     }
 
-    public HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits() {
-        return traits;
+    public void clearTraits() {
+        this.traits = null;
     }
 
-	private NBTTagCompound writeTraitsToNBT(CelestialBodyTrait... traits) {
-		NBTTagCompound nbt = new NBTTagCompound();
-		for (CelestialBodyTrait trait : traits) {
-			trait.writeToNBT(nbt);
-		}
-		return nbt;
-	}
+    private static HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> clientTraits;
 
+    @SideOnly(Side.CLIENT)
+    public static void updateClientTraits(HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits) {
+        clientTraits = traits;
+    }
 
+    public static HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits(World world) {
+        if(world == null) {
+            // If we don't have a world, assume we're a client, and return the permasync data.
+            // If we haven't yet received permasync data, don't fret, we just won't have overrides yet.
+            // This will only break rendering for the client, they're not gonna suffocate.
+
+            return clientTraits;
+        }
+
+        return get(world).traits;
+    }
 	
 }

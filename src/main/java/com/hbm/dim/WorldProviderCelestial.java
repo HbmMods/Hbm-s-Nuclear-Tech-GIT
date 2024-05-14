@@ -1,9 +1,6 @@
 package com.hbm.dim;
 
-import com.hbm.config.SpaceConfig;
-import com.hbm.dim.laythe.SkyProviderLaytheSunset;
 import com.hbm.dim.trait.CBT_Atmosphere;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 
 import cpw.mods.fml.relauncher.Side;
@@ -53,10 +50,9 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		} else if(atmosphere.fluid == Fluids.AIR){
 			// Default to regular ol' overworld
 			color = super.getFogColor(x, y);
-		}else {
-			int mecore = atmosphere.fluid.getColor();
-			Vec3 mecoreed = getColorFromHex((int) mecore);
-			color = Vec3.createVectorHelper(mecoreed.xCoord * 1.4 * f, mecoreed.yCoord * 1.4 * f, mecoreed.zCoord * 1.4 * f);;
+		} else {
+			Vec3 mecore = getColorFromHex(atmosphere.fluid.getColor());
+			color = Vec3.createVectorHelper(mecore.xCoord * 1.4 * f, mecore.yCoord * 1.4 * f, mecore.zCoord * 1.4 * f);;
 		}
 
 
@@ -82,10 +78,9 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		} else if(atmosphere.fluid == Fluids.AIR){
 			// Default to regular ol' overworld
 			color = super.getSkyColor(camera, partialTicks);
-		}else {
-			int mecore = atmosphere.fluid.getColor();
-			Vec3 mecoreed = getColorFromHex((int) mecore);
-			color = mecoreed;
+		} else {
+			Vec3 mecore = getColorFromHex(atmosphere.fluid.getColor());
+			color = Vec3.createVectorHelper(mecore.xCoord * f, mecore.yCoord * f, mecore.zCoord * f);
 		}
 
 		// Lower pressure sky renders thinner
@@ -95,12 +90,14 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 		return color;
 	}
-    public Vec3 getColorFromHex(int hexColor) {
+
+    private Vec3 getColorFromHex(int hexColor) {
         float red = ((hexColor >> 16) & 0xFF) / 255.0F;
         float green = ((hexColor >> 8) & 0xFF) / 255.0F;
         float blue = (hexColor & 0xFF) / 255.0F;
         return Vec3.createVectorHelper(red, green, blue);
     }
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float[] calcSunriseSunsetColors(float par1, float par2) {
@@ -207,11 +204,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IRenderHandler getSkyRenderer() {
-		if(worldObj.provider.dimensionId == SpaceConfig.laytheDimension) {
-			return new SkyProviderLaytheSunset();
-		}
 		return new SkyProviderCelestial();
-		
 	}
 
     protected long getDayLength() {

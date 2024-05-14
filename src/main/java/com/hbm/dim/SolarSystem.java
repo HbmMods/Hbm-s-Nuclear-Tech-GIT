@@ -18,9 +18,6 @@ public class SolarSystem {
 	
 	public static CelestialBody kerbol;
 
-	// How high a craft will orbit a body. Launch calcs try to get to a circular orbit at this level.
-	public static final float PARKING_ORBIT_ALTITUDE_KM = 100F;
-
 	// How much to scale celestial objects when rendering
 	public static final float RENDER_SCALE = 180F;
 	public static final float SUN_RENDER_SCALE = 4F;
@@ -283,22 +280,22 @@ public class SolarSystem {
 		} else if(start.parent == end.parent) {
 			// Intersystem transfer
 
-			double firstBurnCost = calculateSingleHohmannTransfer(start.parent.massKg, start.semiMajorAxisKm, end.semiMajorAxisKm, start.massKg, start.radiusKm + PARKING_ORBIT_ALTITUDE_KM);
-			double secondBurnCost = calculateSingleHohmannTransfer(start.parent.massKg, end.semiMajorAxisKm, start.semiMajorAxisKm, end.massKg, end.radiusKm + PARKING_ORBIT_ALTITUDE_KM);
+			double firstBurnCost = calculateSingleHohmannTransfer(start.parent.massKg, start.semiMajorAxisKm, end.semiMajorAxisKm, start.massKg, start.radiusKm + AstronomyUtil.DEFAULT_ALTITUDE_KM);
+			double secondBurnCost = calculateSingleHohmannTransfer(start.parent.massKg, end.semiMajorAxisKm, start.semiMajorAxisKm, end.massKg, end.radiusKm + AstronomyUtil.DEFAULT_ALTITUDE_KM);
 
 			return firstBurnCost + secondBurnCost;
 		} else if (start == end.parent) {
 			// Transferring from parent body to moon
 
-			double firstBurnCost = calculateSingleHohmannTransfer(start.massKg, start.radiusKm + PARKING_ORBIT_ALTITUDE_KM, end.semiMajorAxisKm);
-			double secondBurnCost = calculateSingleHohmannTransfer(start.massKg, end.semiMajorAxisKm, start.radiusKm + PARKING_ORBIT_ALTITUDE_KM, end.massKg, end.radiusKm + PARKING_ORBIT_ALTITUDE_KM);
+			double firstBurnCost = calculateSingleHohmannTransfer(start.massKg, start.radiusKm + AstronomyUtil.DEFAULT_ALTITUDE_KM, end.semiMajorAxisKm);
+			double secondBurnCost = calculateSingleHohmannTransfer(start.massKg, end.semiMajorAxisKm, start.radiusKm + AstronomyUtil.DEFAULT_ALTITUDE_KM, end.massKg, end.radiusKm + AstronomyUtil.DEFAULT_ALTITUDE_KM);
 
 			return firstBurnCost + secondBurnCost;
 		} else if(start.parent == end) {
 			// Transferring from moon to parent body
 
-			double firstBurnCost = calculateSingleHohmannTransfer(end.massKg, start.semiMajorAxisKm, end.radiusKm + PARKING_ORBIT_ALTITUDE_KM, start.massKg, start.radiusKm + PARKING_ORBIT_ALTITUDE_KM);
-			double secondBurnCost = calculateSingleHohmannTransfer(end.massKg, end.radiusKm + PARKING_ORBIT_ALTITUDE_KM, start.semiMajorAxisKm);
+			double firstBurnCost = calculateSingleHohmannTransfer(end.massKg, start.semiMajorAxisKm, end.radiusKm + AstronomyUtil.DEFAULT_ALTITUDE_KM, start.massKg, start.radiusKm + AstronomyUtil.DEFAULT_ALTITUDE_KM);
+			double secondBurnCost = calculateSingleHohmannTransfer(end.massKg, end.radiusKm + AstronomyUtil.DEFAULT_ALTITUDE_KM, start.semiMajorAxisKm);
 
 			return firstBurnCost + secondBurnCost;
 		} else {
