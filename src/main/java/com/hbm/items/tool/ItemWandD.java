@@ -7,6 +7,7 @@ import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.DebugTeleporter;
 import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.dim.trait.CBT_Temperature;
 import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
@@ -145,7 +146,7 @@ public class ItemWandD extends Item {
 			}
 
 			if(world.provider.dimensionId == SpaceConfig.moonDimension) {
-				CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE);
+				CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE,  new CBT_Temperature(10F));
 
 				player.addChatMessage(new ChatComponentText("Made MOON breathable."));
 			}

@@ -32,6 +32,8 @@ public abstract class CelestialBodyTrait {
 		registerTrait("breathable", CBT_Breathable.class);
 		registerTrait("hot", CBT_Hot.class);
 		registerTrait("cold", CBT_Cold.class);
+		registerTrait("hotter", CBT_Temperature.class);
+
 	};
 
 	private static void registerTrait(String name, Class<? extends CelestialBodyTrait> clazz) {
@@ -49,5 +51,6 @@ public abstract class CelestialBodyTrait {
 		String traitName = traitMap.inverse().get(this.getClass());
 		nbt.setString("name", traitName);
 	}
+
 	
 }

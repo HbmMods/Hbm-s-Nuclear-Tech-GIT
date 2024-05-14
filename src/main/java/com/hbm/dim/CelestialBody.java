@@ -9,8 +9,10 @@ import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.util.AstronomyUtil;
 
 import codechicken.lib.math.MathHelper;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.DimensionManager;
 
 public class CelestialBody {
 	
@@ -118,13 +120,13 @@ public class CelestialBody {
 	// If trait overrides exist, delete existing traits from the world, and replace them with the saved ones
 
 	public static void setTraits(World world, CelestialBodyTrait... traits) {
-		// CelestialBodyWorldSavedData traitsData = CelestialBodyWorldSavedData.get(world);
+		CelestialBodyWorldSavedData traitsData = CelestialBodyWorldSavedData.get(world);
 
 		// // Set the updated traits in the saved data
-		// traitsData.setTraits(world.provider.dimensionId, traits);
+		traitsData.setTraits( traits);
 
 		// // Mark the saved data as dirty to ensure changes are saved
-		// traitsData.markDirty();
+		traitsData.markDirty();
 	}
 
 	// /Terraforming
@@ -195,14 +197,23 @@ public class CelestialBody {
 	}
 
 	
-	
-	public boolean hasTrait(Class<? extends CelestialBodyTrait> trait) {
-		return this.traits.containsKey(trait);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <T extends CelestialBodyTrait> T getTrait(Class<? extends T> trait) {
-		return (T) this.traits.get(trait);
-	}
+    public boolean hasTrait(Class<? extends CelestialBodyTrait> trait) {
+    	return getTraits().containsKey(trait);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public <T extends CelestialBodyTrait> T getTrait(Class<? extends T> trait) {
+    	return (T) getTraits().get(trait);
+    }
+
+    private HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits() {
+        World world = DimensionManager.getWorld(dimensionId);
+        HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = CelestialBodyWorldSavedData.get(world).getTraits();
+
+        if(traits != null)
+            return traits;
+        
+        return this.traits;
+    }
 
 }
