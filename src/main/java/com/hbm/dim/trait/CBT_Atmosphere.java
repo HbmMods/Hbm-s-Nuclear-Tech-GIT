@@ -23,4 +23,10 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
     	super.writeToNBT(nbt);
     }
     
+    @Override
+    public void readFromNBT(NBTTagCompound nbt) {
+    	nbt.getString("fluid");
+    	nbt.getFloat("pressure");
+    	super.readFromNBT(nbt);
+    }
 }

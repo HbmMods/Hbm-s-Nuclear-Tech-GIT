@@ -42,9 +42,8 @@ public abstract class CelestialBodyTrait {
 	}
 
 	// Serialization
-	public static CelestialBodyTrait readFromNBT(NBTTagCompound nbt) {
+	public void readFromNBT(NBTTagCompound nbt) {
 
-		return null;
 	}
 
 	public void writeToNBT(NBTTagCompound nbt) {
