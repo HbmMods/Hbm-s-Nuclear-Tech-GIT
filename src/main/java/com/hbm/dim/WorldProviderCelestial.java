@@ -1,6 +1,7 @@
 package com.hbm.dim;
 
 import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 
 import cpw.mods.fml.relauncher.Side;
@@ -47,10 +48,15 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 			color = Vec3.createVectorHelper(53F / 255F * f, 32F / 255F * f, 74F / 255F * f);
 		} else if(atmosphere.fluid == Fluids.CARBONDIOXIDE) {
 			color = Vec3.createVectorHelper(212F / 255F * f, 112F / 255F * f, 78F / 255F * f);
-		} else {
+		} else if(atmosphere.fluid == Fluids.AIR){
 			// Default to regular ol' overworld
 			color = super.getFogColor(x, y);
+		}else {
+			int mecore = atmosphere.fluid.getColor();
+			Vec3 mecoreed = getColorFromHex((int) mecore);
+			color = Vec3.createVectorHelper(mecoreed.xCoord / 2 * f, mecoreed.yCoord / 2 * f, mecoreed.zCoord / 2 * f);;
 		}
+
 
 		// Fog intensity remains high to simulate a thin looking atmosphere on low pressure planets
 
@@ -61,7 +67,6 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	@SideOnly(Side.CLIENT)
 	public Vec3 getSkyColor(Entity camera, float partialTicks) {
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
-		System.out.println(atmosphere.pressure);
 		// The cold hard vacuum of space
 		if(atmosphere == null) return Vec3.createVectorHelper(0, 0, 0);
 
@@ -72,9 +77,13 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 			color = Vec3.createVectorHelper(92 / 255.0F * f, 54 / 255.0F * f, 131 / 255.0F * f);
 		} else if(atmosphere.fluid == Fluids.CARBONDIOXIDE) {
 			color = Vec3.createVectorHelper(125 / 255.0F * f, 69 / 255.0F * f, 48 / 255.0F * f);
-		} else {
+		} else if(atmosphere.fluid == Fluids.AIR){
 			// Default to regular ol' overworld
 			color = super.getSkyColor(camera, partialTicks);
+		}else {
+			int mecore = atmosphere.fluid.getColor();
+			Vec3 mecoreed = getColorFromHex((int) mecore);
+			color = mecoreed;
 		}
 
 		// Lower pressure sky renders thinner
@@ -84,7 +93,12 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 		return color;
 	}
-	
+    public Vec3 getColorFromHex(int hexColor) {
+        float red = ((hexColor >> 16) & 0xFF) / 255.0F;
+        float green = ((hexColor >> 8) & 0xFF) / 255.0F;
+        float blue = (hexColor & 0xFF) / 255.0F;
+        return Vec3.createVectorHelper(red, green, blue);
+    }
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float[] calcSunriseSunsetColors(float par1, float par2) {
