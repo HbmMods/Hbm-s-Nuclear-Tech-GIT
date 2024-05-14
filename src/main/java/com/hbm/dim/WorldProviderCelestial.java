@@ -1,5 +1,7 @@
 package com.hbm.dim;
 
+import com.hbm.config.SpaceConfig;
+import com.hbm.dim.laythe.SkyProviderLaytheSunset;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -54,7 +56,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		}else {
 			int mecore = atmosphere.fluid.getColor();
 			Vec3 mecoreed = getColorFromHex((int) mecore);
-			color = Vec3.createVectorHelper(mecoreed.xCoord / 2 * f, mecoreed.yCoord / 2 * f, mecoreed.zCoord / 2 * f);;
+			color = Vec3.createVectorHelper(mecoreed.xCoord * 1.4 * f, mecoreed.yCoord * 1.4 * f, mecoreed.zCoord * 1.4 * f);;
 		}
 
 
@@ -205,7 +207,11 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IRenderHandler getSkyRenderer() {
+		if(worldObj.provider.dimensionId == SpaceConfig.laytheDimension) {
+			return new SkyProviderLaytheSunset();
+		}
 		return new SkyProviderCelestial();
+		
 	}
 
     protected long getDayLength() {

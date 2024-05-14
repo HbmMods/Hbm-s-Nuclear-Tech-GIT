@@ -296,10 +296,10 @@ public class EntityEffectHandler {
 	}
 
 	private static void handleOxy(EntityLivingBase entity) {
-		if(!ArmorUtil.checkForOxy(entity) && !CelestialBody.hasTrait(entity.worldObj, CBT_Atmosphere.class) && !(entity instanceof EntityGlyphid)) {
-			HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
-			return;
-		}
+		//if(!ArmorUtil.checkForOxy(entity) && !CelestialBody.hasTrait(entity.worldObj, CBT_Atmosphere.class) && !(entity instanceof EntityGlyphid)) {
+			//HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
+			//return;
+	//	}
 	}
 
 	private static void handleDigamma(EntityLivingBase entity) {
