@@ -212,7 +212,7 @@ public class CelestialBody {
 
         if(traits != null)
             return traits;
-        
+        	
         return this.traits;
     }
 

@@ -41,6 +41,7 @@ public abstract class CelestialBodyTrait {
 		traitMap.put(name, clazz);
 	}
 	public CelestialBodyTrait() {}
+	
 	// Serialization
 	public void readFromNBT(NBTTagCompound nbt) {
 

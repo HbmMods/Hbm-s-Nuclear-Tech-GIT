@@ -60,7 +60,6 @@ public class CelestialBodyWorldSavedData extends WorldSavedData {
                     trait.readFromNBT(data.getCompoundTag(entry.getKey()));
                     traits.put(trait.getClass(), trait);
                 } catch (Exception ex) {
-                	MainRegistry.logger.catching(ex);
                 }
             }
         }

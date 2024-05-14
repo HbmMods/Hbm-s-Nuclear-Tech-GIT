@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class CBT_Temperature extends CelestialBodyTrait {
     
     public float gregrees;
-
+    public CBT_Temperature() {}
     public CBT_Temperature(float gregrees) {
         this.gregrees = gregrees;
     }

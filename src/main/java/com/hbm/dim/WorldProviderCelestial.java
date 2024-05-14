@@ -61,7 +61,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	@SideOnly(Side.CLIENT)
 	public Vec3 getSkyColor(Entity camera, float partialTicks) {
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
-
+		System.out.println(atmosphere.pressure);
 		// The cold hard vacuum of space
 		if(atmosphere == null) return Vec3.createVectorHelper(0, 0, 0);
 
