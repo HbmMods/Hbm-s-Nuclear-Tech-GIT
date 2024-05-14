@@ -146,7 +146,7 @@ public class ItemWandD extends Item {
 			}
 
 			if(world.provider.dimensionId == SpaceConfig.moonDimension) {
-				CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.OXYGEN, 1F),  new CBT_Temperature(10F));
+				CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AROMATICS, 1F),  new CBT_Temperature(10F));
 
 				player.addChatMessage(new ChatComponentText("Made MOON breathable."));
 			}
