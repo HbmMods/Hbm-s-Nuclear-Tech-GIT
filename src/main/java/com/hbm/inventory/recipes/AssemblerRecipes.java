@@ -939,7 +939,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 			}, 600);
 
 		makeRecipe(new ComparableStack(ModBlocks.icf_laser_component, 1, EnumICFPart.CELL.ordinal()), new AStack[] {
-				new ComparableStack(ModItems.ingot_cft, 4),
+				new ComparableStack(ModItems.ingot_cft, 2),
 				new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4),
 				new ComparableStack(ModBlocks.glass_quartz, 16)
 			}, 200);
@@ -949,14 +949,14 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(Fluids.XENON.getDict(16_000))
 			}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.icf_laser_component, 1, EnumICFPart.CAPACITOR.ordinal()), new AStack[] {
-				new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 2),
+				new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 1),
 				new OreDictStack(ND.wireDense(), 16),
-				new OreDictStack(SBD.ingot(), 4)
+				new OreDictStack(SBD.ingot(), 2)
 			}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.icf_laser_component, 1, EnumICFPart.TURBO.ordinal()), new AStack[] {
 				new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 2),
-				new OreDictStack(DNT.wireDense(), 8),
-				new OreDictStack(SBD.ingot(), 16)
+				new OreDictStack(DNT.wireDense(), 4),
+				new OreDictStack(SBD.ingot(), 4)
 			}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.icf_laser_component, 1, EnumICFPart.CASING.ordinal()), new AStack[] {
 				new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4),
@@ -980,7 +980,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(TI.plateWelded(), 2),
 			}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.icf_component, 1, 1), new AStack[] {
-				new ComparableStack(ModItems.ingot_cft, 2),
+				new ComparableStack(ModItems.ingot_cft, 1),
 				new OreDictStack(CMB.plateCast(), 1),
 				new OreDictStack(W.plateWelded(), 2),
 			}, 200);

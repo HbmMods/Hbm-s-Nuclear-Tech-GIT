@@ -31,20 +31,20 @@ public class ItemICFPellet extends Item {
 	
 	public static enum EnumICFFuel {
 
-		HYDROGEN(	0x4040FF,	1.0D,	1.0D,	1.0D),
-		DEUTERIUM(	0x2828CB,	1.0D,	1.0D,	1.0D),
-		TRITIUM(	0x000092,	1.0D,	1.0D,	1.0D),
-		HELIUM3(	0xFFF09F,	1.0D,	1.0D,	1.0D),
-		HELIUM4(	0xFF9B60,	1.0D,	1.0D,	1.0D),
-		LITHIUM(	0xE9E9E9,	1.0D,	1.0D,	1.0D),
-		BERYLLIUM(	0xA79D80,	1.0D,	1.0D,	1.0D),
-		BORON(		0x697F89,	1.0D,	1.0D,	1.0D),
-		CARBON(		0x454545,	1.0D,	1.0D,	1.0D),
-		OXYGEN(		0xB4E2FF,	1.0D,	1.0D,	1.0D),
-		SODIUM(		0xDFE4E7,	1.0D,	1.0D,	1.0D),
+		HYDROGEN(	0x4040FF,	1.00D,	0.85D,	1.00D),
+		DEUTERIUM(	0x2828CB,	1.25D,	1.00D,	1.00D),
+		TRITIUM(	0x000092,	1.50D,	1.00D,	1.05D),
+		HELIUM3(	0xFFF09F,	1.75D,	1.00D,	1.25D),
+		HELIUM4(	0xFF9B60,	2.00D,	1.00D,	1.50D),
+		LITHIUM(	0xE9E9E9,	1.25D,	0.85D,	2.00D),
+		BERYLLIUM(	0xA79D80,	2.00D,	1.00D,	2.50D),
+		BORON(		0x697F89,	3.00D,	0.50D,	3.50D),
+		CARBON(		0x454545,	2.00D,	1.00D,	5.00D),
+		OXYGEN(		0xB4E2FF,	1.25D,	1.50D,	7.50D),
+		SODIUM(		0xDFE4E7,	3.00D,	0.75D,	8.75D),
 		//aluminium, silicon, phosphorus
-		CHLORINE(	0xDAE598,	1.0D,	1.0D,	1.0D),
-		CALCIUM(	0xD2C7A9,	1.0D,	1.0D,	1.0D),
+		CHLORINE(	0xDAE598,	2.50D,	1.00D,	10.0D),
+		CALCIUM(	0xD2C7A9,	3.00D,	1.00D,	12.5D),
 		//titanium
 		;
 		
@@ -182,10 +182,11 @@ public class ItemICFPellet extends Item {
 	
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		boolean muon = stack.hasTagCompound() && stack.stackTagCompound.getBoolean("muon");
 		list.add(EnumChatFormatting.GREEN + "Depletion: " + String.format(Locale.US, "%.1f", getDurabilityForDisplay(stack) * 100D) + "%");
 		list.add(EnumChatFormatting.YELLOW + "Fuel: " + I18nUtil.resolveKey("icffuel." + getType(stack, true).name().toLowerCase(Locale.US)) + " / " + I18nUtil.resolveKey("icffuel." + getType(stack, false).name().toLowerCase(Locale.US)));
 		list.add(EnumChatFormatting.YELLOW + "Heat required: " + BobMathUtil.getShortNumber(this.getFusingDifficulty(stack)) + "TU");
 		list.add(EnumChatFormatting.YELLOW + "Reactivity multiplier: x" + (int) (getType(stack, true).reactionMult * getType(stack, false).reactionMult * 100) / 100D);
-		if(stack.hasTagCompound() && stack.stackTagCompound.getBoolean("muon")) list.add(EnumChatFormatting.DARK_AQUA + "Muon catalyzed!");
+		if(muon) list.add(EnumChatFormatting.DARK_AQUA + "Muon catalyzed!");
 	}
 }
