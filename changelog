@@ -2,7 +2,8 @@
 * Updated russian localization
 * Nerfed conventional explosives (dynamite, TNT, semtex, C4) in order to not outclass small nukes
 * Plastic explosive blocks no longer drop and blocks
+* Sellafite diamond ore now shreds into diamond gravel
 
 ## Fixed
-* Fixed missing localization for meteorite ores
+* Fixed missing localization for meteorite ores and the new crucible materials
 * Removed the starmetal crystallization recipe, despite starmetal ore no longer existing

@@ -114,6 +114,7 @@ public class Mats {
 	public static final NTMMaterial MAT_CALCIUM		= makeSmeltable(2000,		CA,			0xCFCFA6, 0x747F6E, 0xB7B784).setShapes(INGOT, DUST);
 	public static final NTMMaterial MAT_LITHIUM		= makeSmeltable(300,		LI,			0xFFFFFF, 0x818181, 0xD6D6D6).setShapes(INGOT, DUST, BLOCK);
 	public static final NTMMaterial MAT_CADMIUM		= makeSmeltable(4800,		CD,			0xFFFADE, 0x350000, 0xA85600).setShapes(INGOT, DUST);
+	public static final NTMMaterial MAT_SILICON		= makeSmeltable(1400,		SI,			0xD1D7DF, 0x1A1A3D, 0x878B9E).setShapes(NUGGET, BILLET, INGOT);
 	public static final NTMMaterial MAT_OSMIRIDIUM	= makeSmeltable(7699,		OSMIRIDIUM, 0xDBE3EF, 0x7891BE, 0xACBDD9).setShapes(NUGGET, INGOT, CASTPLATE, WELDEDPLATE);
 	
 	//Alloys
