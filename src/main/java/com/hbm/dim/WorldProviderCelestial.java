@@ -1,6 +1,7 @@
 package com.hbm.dim;
 
 import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.dim.trait.CelestialBodyTrait.CBT_SUNEXPLODED;
 import com.hbm.inventory.fluid.Fluids;
 
 import cpw.mods.fml.relauncher.Side;
@@ -13,7 +14,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.IRenderHandler;
 
 public abstract class WorldProviderCelestial extends WorldProvider {
-
+	
 	@Override
 	public abstract void registerWorldChunkManager();
 
@@ -36,7 +37,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	@SideOnly(Side.CLIENT)
 	public Vec3 getFogColor(float x, float y) {
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
-
+		if(CelestialBody.hasTrait(worldObj, CBT_SUNEXPLODED.class))return Vec3.createVectorHelper(0, 0, 0);
 		// The cold hard vacuum of space
 		if(atmosphere == null) return Vec3.createVectorHelper(0, 0, 0);
 
@@ -66,6 +67,8 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	public Vec3 getSkyColor(Entity camera, float partialTicks) {
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
 		// The cold hard vacuum of space
+		if(CelestialBody.hasTrait(worldObj, CBT_SUNEXPLODED.class)) return Vec3.createVectorHelper(0, 0, 0);
+
 		if(atmosphere == null) return Vec3.createVectorHelper(0, 0, 0);
 
 		float f = this.getSunBrightnessFactor(1.0F);
@@ -102,6 +105,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	@SideOnly(Side.CLIENT)
 	public float[] calcSunriseSunsetColors(float par1, float par2) {
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
+		if(CelestialBody.hasTrait(worldObj, CBT_SUNEXPLODED.class)) return null;
 		if(atmosphere == null) return null;
 
 		float[] colors = super.calcSunriseSunsetColors(par1, par2);
@@ -176,12 +180,17 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	public float getSunBrightness(float par1) {
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
 		float sunBrightness = super.getSunBrightness(par1);
+		if(CelestialBody.hasTrait(worldObj, CBT_SUNEXPLODED.class)) {
+			return sunBrightness *= 0.0F;
+
+		}
 
 		if(atmosphere == null) return sunBrightness;
 
 		if(atmosphere.fluid == Fluids.EVEAIR) {
 			return sunBrightness *= 0.3F;
 		}
+
 
 		return sunBrightness;
 	}

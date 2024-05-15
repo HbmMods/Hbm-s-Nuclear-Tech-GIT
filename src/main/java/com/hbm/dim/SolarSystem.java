@@ -34,7 +34,7 @@ public class SolarSystem {
 				new CelestialBody("moho", SpaceConfig.mohoDimension)
 					.withMassRadius(2.526e21F, 250)
 					.withSemiMajorAxis(5_263_138)
-					.withRotationalPeriod(1_210_000)
+					.withRotationalPeriod(210_000)
 					.withColor(0.4863F, 0.4F, 0.3456F)
 					.withAxialTilt(30F)
 					.withProcessingLevel(2)
