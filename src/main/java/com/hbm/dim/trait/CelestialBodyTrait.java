@@ -23,7 +23,11 @@ public abstract class CelestialBodyTrait {
 	public static class CBT_Cold extends CelestialBodyTrait { }
 	public static CBT_Cold COLD = new CBT_Cold();
 
-
+	public static class CBT_War extends CelestialBodyTrait { }
+	public static CBT_War WAR = new CBT_War();
+	
+	public static class CBT_SUNEXPLODED extends CelestialBodyTrait { }
+	public static CBT_SUNEXPLODED SPLODE = new CBT_SUNEXPLODED();
 	// Constructor and loading
 	public static List<Class<? extends CelestialBodyTrait>> traitList = new ArrayList<Class<? extends CelestialBodyTrait>>();
 	public static HashBiMap<String, Class<? extends CelestialBodyTrait>> traitMap = HashBiMap.create();
@@ -34,6 +38,9 @@ public abstract class CelestialBodyTrait {
 		registerTrait("hot", CBT_Hot.class);
 		registerTrait("cold", CBT_Cold.class);
 		registerTrait("hotter", CBT_Temperature.class);
+		registerTrait("war", CBT_War.class);
+		registerTrait("sunexploded", CBT_SUNEXPLODED.class);
+
 
 	};
 

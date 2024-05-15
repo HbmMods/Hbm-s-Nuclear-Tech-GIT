@@ -59,7 +59,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 		if(body != null) {
 			CBT_Atmosphere atmosphere = body.getTrait(CBT_Atmosphere.class);
 			if(atmosphere != null) {
-				tanks.setTankType(atmosphere.fluid);
+				tanks.setTankType((FluidType) atmosphere.fluids);
 			} else {
 				tanks.setTankType(Fluids.NONE);
 			}

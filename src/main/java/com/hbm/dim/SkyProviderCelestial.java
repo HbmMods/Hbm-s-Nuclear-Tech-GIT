@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.dim.SolarSystem.AstroMetric;
 import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.dim.trait.CelestialBodyTrait.CBT_SUNEXPLODED;
 import com.hbm.extprop.HbmLivingProps;
 
 public class SkyProviderCelestial extends IRenderHandler {
@@ -90,6 +91,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 		CelestialBody body = CelestialBody.getBody(world);
 
 		boolean hasAtmosphere = body.hasTrait(CBT_Atmosphere.class);
+		boolean sundied = body.hasTrait(CBT_SUNEXPLODED.class);
 
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		Vec3 vec3 = world.getSkyColor(mc.renderViewEntity, partialTicks);
@@ -175,7 +177,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
-
+		
 		GL11.glPushMatrix();
 		{
 
@@ -187,7 +189,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 			double coronaSize = sunSize * (hasAtmosphere ? 2 : 3);
 
 			// Some blanking to conceal the stars
-			{
+			if(!sundied) {
 				GL11.glDisable(GL11.GL_TEXTURE_2D);
 				GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
 	
@@ -203,7 +205,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 			}
 
 			// Draw the MIGHTY SUN
-			{
+			if(!sundied) {
 
 				mc.renderEngine.bindTexture(SolarSystem.kerbol.texture);
 
@@ -213,10 +215,12 @@ public class SkyProviderCelestial extends IRenderHandler {
 				tessellator.addVertexWithUV(sunSize, 100.0D, sunSize, 1.0D, 1.0D);
 				tessellator.addVertexWithUV(-sunSize, 100.0D, sunSize, 0.0D, 1.0D);
 				tessellator.draw();
+
 			}
 
 			// Draw a big ol' spiky flare! Less so when there is an atmosphere
-			{
+			if(!sundied) {
+
 				if(hasAtmosphere) {
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.25f);
 				}
@@ -229,6 +233,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 				tessellator.addVertexWithUV(coronaSize, 100.0D, coronaSize, 1.0D, 1.0D);
 				tessellator.addVertexWithUV(-coronaSize, 100.0D, coronaSize, 0.0D, 1.0D);
 				tessellator.draw();
+
 			}
 
 			

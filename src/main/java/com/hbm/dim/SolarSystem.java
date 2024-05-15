@@ -37,7 +37,7 @@ public class SolarSystem {
 				new CelestialBody("moho", SpaceConfig.mohoDimension)
 					.withMassRadius(2.526e21F, 250)
 					.withSemiMajorAxis(5_263_138)
-					.withRotationalPeriod(1_210_000)
+					.withRotationalPeriod(210_000)
 					.withColor(0.4863F, 0.4F, 0.3456F)
 					.withAxialTilt(30F)
 					.withProcessingLevel(2)
@@ -49,7 +49,7 @@ public class SolarSystem {
 					.withRotationalPeriod(80_500)
 					.withColor(0.408F, 0.298F, 0.553F)
 					.withProcessingLevel(1)
-					.withTraits(new CBT_Atmosphere(Fluids.EVEAIR, 1F), CelestialBodyTrait.HOT)
+					.withTraits(new CBT_Atmosphere(1F,Fluids.EVEAIR, 10F), CelestialBodyTrait.HOT)
 					.withSatellites(
 						
 						new CelestialBody("gilly")
@@ -64,7 +64,7 @@ public class SolarSystem {
 					.withMassRadius(5.292e22F, 600)
 					.withSemiMajorAxis(13_599_840)
 					.withRotationalPeriod(21_549)
-					.withTraits(new CBT_Atmosphere(Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE)
+					.withTraits(new CBT_Atmosphere(1F, Fluids.AIR, 10F), CelestialBodyTrait.BREATHABLE)
 					.withSatellites(
 
 						new CelestialBody("mun", SpaceConfig.moonDimension)
@@ -87,7 +87,7 @@ public class SolarSystem {
 					.withTidalLockingTo("ike")
 					.withColor(0.6471f, 0.2824f, 0.1608f)
 					.withProcessingLevel(1)
-					.withTraits(new CBT_Atmosphere(Fluids.CARBONDIOXIDE, 0.1F))
+					.withTraits(new CBT_Atmosphere(0.1F, Fluids.CARBONDIOXIDE, 10F))
 					.withSatellites(
 
 						new CelestialBody("ike", SpaceConfig.ikeDimension)
@@ -117,7 +117,7 @@ public class SolarSystem {
 							.withRotationalPeriod(52_981)
 							.withTidalLockingTo("jool")
 							.withProcessingLevel(3)
-							.withTraits(new CBT_Atmosphere(Fluids.AIR, 0.6F), CelestialBodyTrait.BREATHABLE),
+							.withTraits(new CBT_Atmosphere(0.6F,Fluids.AIR, 1F), CelestialBodyTrait.BREATHABLE),
 
 						new CelestialBody("vall")
 							.withMassRadius(3.109e21F, 300)

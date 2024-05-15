@@ -6,8 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.dim.trait.CelestialBodyTrait;
+import com.hbm.dim.trait.CelestialBodyTrait.CBT_SUNEXPLODED;
 import com.hbm.util.AstronomyUtil;
 
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
@@ -126,11 +128,36 @@ public class CelestialBody {
 
 	public static void setTraits(World world, CelestialBodyTrait... traits) {
 		CelestialBodyWorldSavedData traitsData = CelestialBodyWorldSavedData.get(world);
-
-		// Set the updated traits in the saved data
+		
 		traitsData.setTraits(traits);
 
 		// Mark the saved data as dirty to ensure changes are saved
+		traitsData.markDirty();
+	}
+	public static void modifyTraits(World world, CelestialBodyTrait... traits) {
+		CelestialBodyWorldSavedData traitsData = CelestialBodyWorldSavedData.get(world);
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = CelestialBodyWorldSavedData.getTraits(world);
+
+		if(currentTraits == null) {
+			currentTraits = new HashMap<>();
+		}
+		
+		for(CelestialBodyTrait trait : traits) {
+			currentTraits.put(trait.getClass(), trait);
+		}
+
+		CelestialBodyTrait[] takeAShotEverytimeISayTrait = currentTraits.values().toArray(new CelestialBodyTrait[0]);
+		if(currentTraits.containsKey(CBT_SUNEXPLODED.class)) {
+			System.out.println("wewew");
+			for (World world3 : MinecraftServer.getServer().worldServers) {
+				CelestialBodyWorldSavedData dimensionData = CelestialBodyWorldSavedData.get(world3);
+				dimensionData.setTraits(takeAShotEverytimeISayTrait);
+				dimensionData.markDirty();
+			}
+		}
+	
+		traitsData.setTraits(takeAShotEverytimeISayTrait);
+		
 		traitsData.markDirty();
 	}
 
@@ -234,23 +261,23 @@ public class CelestialBody {
 	}
 
 	
-    public boolean hasTrait(Class<? extends CelestialBodyTrait> trait) {
-    	return getTraits().containsKey(trait);
-    }
-    
-    @SuppressWarnings("unchecked")
-    public <T extends CelestialBodyTrait> T getTrait(Class<? extends T> trait) {
-    	return (T) getTraits().get(trait);
-    }
+	public boolean hasTrait(Class<? extends CelestialBodyTrait> trait) {
+		return getTraits().containsKey(trait);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T extends CelestialBodyTrait> T getTrait(Class<? extends T> trait) {
+		return (T) getTraits().get(trait);
+	}
 
-    private HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits() {
-        World world = DimensionManager.getWorld(dimensionId);
-        HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = CelestialBodyWorldSavedData.getTraits(world);
+	private HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits() {
+		World world = DimensionManager.getWorld(dimensionId);
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = CelestialBodyWorldSavedData.getTraits(world);
 
-        if(traits != null)
-            return traits;
-        	
-        return this.traits;
-    }
+		if(traits != null)
+			return traits;
+			
+		return this.traits;
+	}
 
 }

@@ -8,7 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
 public class CraterDres {
-	
+//TODO: port to mapgenbase, then generalize it so it can be called on any body if needed.	
 	private double depthFunc(double x, double rad, double depth) {
 		
 		return -Math.pow(x, 4) / Math.pow(rad, 4) * depth + depth;
