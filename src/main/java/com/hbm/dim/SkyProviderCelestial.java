@@ -245,15 +245,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 			CelestialBody tidalLockedBody = body.tidallyLockedTo != null ? CelestialBody.getBody(body.tidallyLockedTo) : null;
 
 			if(tidalLockedBody != null) {
-				// WE have to calculate metrics TWICE for orbital tidal locking, if you can find a way to get the angle without this,
-				// please implement it
-				List<AstroMetric> metrics = SolarSystem.calculateMetricsFromBody(world, partialTicks, 0, body);
-				for(AstroMetric metric : metrics) {
-					if(metric.body == tidalLockedBody) {
-						longitude = MathHelper.wrapAngleTo180_double(metric.angle + celestialAngle * 360.0 + 60.0);
-						break;
-					}
-				}
+				longitude = SolarSystem.calculateSingleAngle(world, partialTicks, body, tidalLockedBody) + celestialAngle * 360.0 + 60.0;
 			}
 
 			// Get our orrery of bodies

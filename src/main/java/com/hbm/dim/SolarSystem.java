@@ -262,6 +262,30 @@ public class SolarSystem {
 		return getApparentSize(from.parent.radiusKm, from.semiMajorAxisKm) * SUN_RENDER_SCALE;
 	}
 
+	// Gets angle for a single planet, good for locking tidal bodies
+	public static double calculateSingleAngle(World world, float partialTicks, CelestialBody from, CelestialBody to) {
+		List<AstroMetric> metrics = new ArrayList<AstroMetric>();
+
+		// Seed is added onto time to randomise the starting positions of planets
+		double ticks = ((double)(world.getWorldTime() - Math.abs(world.getSeed())) + partialTicks) * (double)AstronomyUtil.TIME_MULTIPLIER;
+
+		// Get our XYZ coordinates of all bodies
+		calculatePositionsRecursive(metrics, null, from.getStar(), ticks);
+
+		AstroMetric metricFrom = null;
+		AstroMetric metricTo = null;
+
+		for(AstroMetric metric : metrics) {
+			if(metric.body == from) {
+				metricFrom = metric;
+			} else if(metric.body == to) {
+				metricTo = metric;
+			}
+		}
+
+		return getApparentAngleDegrees(metricFrom.position, metricTo.position);
+	}
+
 
 	/**
 	 * Delta-V Calcs
