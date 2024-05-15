@@ -70,7 +70,8 @@ public class SolarSystem {
 						new CelestialBody("mun", SpaceConfig.moonDimension)
 							.withMassRadius(9.76e20F, 200)
 							.withSemiMajorAxis(12_000)
-							.withRotationalPeriod(138_984),
+							.withRotationalPeriod(138_984)
+							.withTidalLockingTo("kerbin"),
 
 						new CelestialBody("minmus", SpaceConfig.minmusDimension)
 							.withMassRadius(2.646e19F, 60)
@@ -83,6 +84,7 @@ public class SolarSystem {
 					.withMassRadius(4.515e21F, 320)
 					.withSemiMajorAxis(20_726_155)
 					.withRotationalPeriod(65_518)
+					.withTidalLockingTo("ike")
 					.withColor(0.6471f, 0.2824f, 0.1608f)
 					.withProcessingLevel(1)
 					.withTraits(new CBT_Atmosphere(Fluids.CARBONDIOXIDE, 0.1F))
@@ -93,6 +95,7 @@ public class SolarSystem {
 							.withSemiMajorAxis(3_200)
 							.withProcessingLevel(1)
 							.withRotationalPeriod(65_518)
+							.withTidalLockingTo("duna")
 
 					),
 
@@ -112,6 +115,7 @@ public class SolarSystem {
 							.withMassRadius(2.94e22F, 500)
 							.withSemiMajorAxis(27_184)
 							.withRotationalPeriod(52_981)
+							.withTidalLockingTo("jool")
 							.withProcessingLevel(3)
 							.withTraits(new CBT_Atmosphere(Fluids.AIR, 0.6F), CelestialBodyTrait.BREATHABLE),
 
@@ -166,17 +170,14 @@ public class SolarSystem {
 	 */
 
 	// Create an ordered list for rendering all bodies within the system, minus the parent star
-	public static List<AstroMetric> calculateMetricsFromBody(World world, float partialTicks, CelestialBody body) {
+	public static List<AstroMetric> calculateMetricsFromBody(World world, float partialTicks, double longitude, CelestialBody body) {
 		List<AstroMetric> metrics = new ArrayList<AstroMetric>();
 
-		// We want to put tidally locked bodies in an interesting location, so we adjust our longitude
-		// HACK, we always want tidally locked bodies visible, so we invert the longitude for parents
-		double longitude = body.getRotationalPeriod() / 3.0D;
-		if(body.parent.parent == null)
-			longitude = -longitude;
+		// You know not the horrors I have suffered through, in order to fix tidal locking
+		double offset = (double)body.getRotationalPeriod() * (longitude / 360.0);
 
 		// Seed is added onto time to randomise the starting positions of planets
-		double ticks = ((double)(world.getWorldTime() - Math.abs(world.getSeed())) + longitude + partialTicks) * (double)AstronomyUtil.TIME_MULTIPLIER;
+		double ticks = ((double)(world.getWorldTime() - Math.abs(world.getSeed())) + offset + partialTicks) * (double)AstronomyUtil.TIME_MULTIPLIER;
 
 		// Get our XYZ coordinates of all bodies
 		calculatePositionsRecursive(metrics, null, body.getStar(), ticks);
@@ -209,7 +210,7 @@ public class SolarSystem {
 	// Calculates the position of the body around its parent
 	private static Vec3 calculatePosition(CelestialBody body, double ticks) {
 		// Get how far (in radians) a planet has gone around its parent
-		double yearTicks = body.getOrbitalPeriod() * AstronomyUtil.TICKS_IN_DAY;
+		double yearTicks = (double)body.getOrbitalPeriod() * (double)AstronomyUtil.TICKS_IN_DAY;
 		double angleRadians = 2 * Math.PI * (ticks / yearTicks);
 
 		double x = body.semiMajorAxisKm * Math.cos(angleRadians);

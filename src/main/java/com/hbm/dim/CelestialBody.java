@@ -8,7 +8,6 @@ import java.util.List;
 import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.util.AstronomyUtil;
 
-import codechicken.lib.math.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
@@ -37,6 +36,8 @@ public class CelestialBody {
 
 	public ResourceLocation texture = null;
 	public float[] color = new float[] {0.4F, 0.4F, 0.4F}; // When too small to render the texture
+
+	public String tidallyLockedTo = null;
 
 	public List<CelestialBody> satellites = new ArrayList<CelestialBody>(); // moon boyes
 	public CelestialBody parent = null;
@@ -95,6 +96,11 @@ public class CelestialBody {
 
 	public CelestialBody withColor(float... color) {
 		this.color = color;
+		return this;
+	}
+
+	public CelestialBody withTidalLockingTo(String name) {
+		tidallyLockedTo = name;
 		return this;
 	}
 
@@ -164,7 +170,11 @@ public class CelestialBody {
 		return getBody(world).getStar();
 	}
 
-	public static int getRotationalPeriod(World world) {
+	public static CelestialBody getPlanet(World world) {
+		return getBody(world).getPlanet();
+	}
+
+	public static double getRotationalPeriod(World world) {
 		return getBody(world).getRotationalPeriod();
 	}
 
@@ -196,16 +206,25 @@ public class CelestialBody {
 		return body;
 	}
 
+	public CelestialBody getPlanet() {
+		if(this.parent == null) return this;
+		CelestialBody body = this;
+		while(body.parent.parent != null)
+			body = body.parent;
+
+		return body;
+	}
+
 	// Returns the day length in ticks, adjusted for the 20 minute minecraft day
-	public int getRotationalPeriod() {
-		return MathHelper.floor_double((double)rotationalPeriod * (AstronomyUtil.DAY_FACTOR / (double)AstronomyUtil.TIME_MULTIPLIER) * 20);
+	public double getRotationalPeriod() {
+		return (double)rotationalPeriod * (AstronomyUtil.DAY_FACTOR / (double)AstronomyUtil.TIME_MULTIPLIER) * 20;
 	}
 
 	// Returns the year length in days, derived from semi-major axis
-	public int getOrbitalPeriod() {
+	public double getOrbitalPeriod() {
 		double semiMajorAxis = semiMajorAxisKm * 1_000;
 		double orbitalPeriod = 2 * Math.PI * Math.sqrt((semiMajorAxis * semiMajorAxis * semiMajorAxis) / (AstronomyUtil.GRAVITATIONAL_CONSTANT * parent.massKg));
-		return MathHelper.floor_double(orbitalPeriod / (double)AstronomyUtil.SECONDS_IN_KSP_DAY);
+		return orbitalPeriod / (double)AstronomyUtil.SECONDS_IN_KSP_DAY;
 	}
 
 	// Get the gravitational force at the surface, derived from mass and radius

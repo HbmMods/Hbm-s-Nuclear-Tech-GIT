@@ -236,8 +236,24 @@ public class SkyProviderCelestial extends IRenderHandler {
 			float blendAmount = hasAtmosphere ? MathHelper.clamp_float(1 - world.getSunBrightnessFactor(partialTicks), 0.25F, 1F) : 1F;
 			float blendDarken = 0.1F;
 
+			double longitude = 0;
+			CelestialBody tidalLockedBody = body.tidallyLockedTo != null ? CelestialBody.getBody(body.tidallyLockedTo) : null;
+
+			if(tidalLockedBody != null) {
+				// WE have to calculate metrics TWICE for orbital tidal locking, if you can find a way to get the angle without this,
+				// please implement it
+				List<AstroMetric> metrics = SolarSystem.calculateMetricsFromBody(world, partialTicks, 0, body);
+				for(AstroMetric metric : metrics) {
+					if(metric.body == tidalLockedBody) {
+						longitude = MathHelper.wrapAngleTo180_double(metric.angle + celestialAngle * 360.0 + 60.0);
+						break;
+					}
+				}
+			}
+
 			// Get our orrery of bodies
-			List<AstroMetric> metrics = SolarSystem.calculateMetricsFromBody(world, partialTicks, body);
+			List<AstroMetric> metrics = SolarSystem.calculateMetricsFromBody(world, partialTicks, longitude, body);
+			
 			for(AstroMetric metric : metrics) {
 
 				// Ignore self
@@ -300,11 +316,11 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 				OpenGlHelper.glBlendFunc(770, 1, 1, 0);
 
-				float brightness = (float) Math.sin(world.getCelestialAngle(partialTicks) * Math.PI);
+				float brightness = (float) Math.sin(celestialAngle * Math.PI);
 				brightness *= brightness;
 				GL11.glColor4f(brightness, brightness, brightness, brightness);
 				GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-				GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(celestialAngle * 360.0F, 1.0F, 0.0F, 0.0F);
 				GL11.glRotatef(140.0F, 1.0F, 0.0F, 0.0F);
 				GL11.glRotatef(-40.0F, 0.0F, 0.0F, 1.0F);
 
