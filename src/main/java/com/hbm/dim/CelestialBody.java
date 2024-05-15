@@ -9,11 +9,9 @@ import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.dim.trait.CelestialBodyTrait.CBT_SUNEXPLODED;
 import com.hbm.util.AstronomyUtil;
 
-import codechicken.lib.math.MathHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
 public class CelestialBody {
@@ -40,6 +38,8 @@ public class CelestialBody {
 
 	public ResourceLocation texture = null;
 	public float[] color = new float[] {0.4F, 0.4F, 0.4F}; // When too small to render the texture
+
+	public String tidallyLockedTo = null;
 
 	public List<CelestialBody> satellites = new ArrayList<CelestialBody>(); // moon boyes
 	public CelestialBody parent = null;
@@ -101,6 +101,11 @@ public class CelestialBody {
 		return this;
 	}
 
+	public CelestialBody withTidalLockingTo(String name) {
+		tidallyLockedTo = name;
+		return this;
+	}
+
 	public CelestialBody withSatellites(CelestialBody... bodies) {
 		Collections.addAll(satellites, bodies);
 		for(CelestialBody body : bodies) {
@@ -130,31 +135,30 @@ public class CelestialBody {
 		traitsData.markDirty();
 	}
 	public static void modifyTraits(World world, CelestialBodyTrait... traits) {
-	    CelestialBodyWorldSavedData traitsData = CelestialBodyWorldSavedData.get(world);
-	    HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = traitsData.getTraits(world);
+		CelestialBodyWorldSavedData traitsData = CelestialBodyWorldSavedData.get(world);
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = CelestialBodyWorldSavedData.getTraits(world);
 
-	     if(currentTraits == null) {
-	    	 currentTraits = new HashMap<>();
-	     }
-	     
-	     for(CelestialBodyTrait trait : traits) {
-	    	 currentTraits.put(trait.getClass(), trait);
-	    	 
+		if(currentTraits == null) {
+			currentTraits = new HashMap<>();
+		}
+		
+		for(CelestialBodyTrait trait : traits) {
+			currentTraits.put(trait.getClass(), trait);
+		}
 
-	     }
-	     CelestialBodyTrait[] takeAShotEverytimeISayTrait = currentTraits.values().toArray(new CelestialBodyTrait[0]);
-	     if(currentTraits.containsKey(CBT_SUNEXPLODED.class)) {
-	    	 System.out.println("wewew");
-	    	 for (World world3 : MinecraftServer.getServer().worldServers) {
-			    	CelestialBodyWorldSavedData dimensionData = CelestialBodyWorldSavedData.get(world3);
-			    	dimensionData.setTraits(takeAShotEverytimeISayTrait);
-			    	dimensionData.markDirty();
-			 }
-	     }
+		CelestialBodyTrait[] takeAShotEverytimeISayTrait = currentTraits.values().toArray(new CelestialBodyTrait[0]);
+		if(currentTraits.containsKey(CBT_SUNEXPLODED.class)) {
+			System.out.println("wewew");
+			for (World world3 : MinecraftServer.getServer().worldServers) {
+				CelestialBodyWorldSavedData dimensionData = CelestialBodyWorldSavedData.get(world3);
+				dimensionData.setTraits(takeAShotEverytimeISayTrait);
+				dimensionData.markDirty();
+			}
+		}
 	
-	    traitsData.setTraits(takeAShotEverytimeISayTrait);
-	    
-	    traitsData.markDirty();
+		traitsData.setTraits(takeAShotEverytimeISayTrait);
+		
+		traitsData.markDirty();
 	}
 
 	public static void clearTraits(World world) {
@@ -189,7 +193,15 @@ public class CelestialBody {
 		return getBody(world.provider.dimensionId);
 	}
 
-	public static int getRotationalPeriod(World world) {
+	public static CelestialBody getStar(World world) {
+		return getBody(world).getStar();
+	}
+
+	public static CelestialBody getPlanet(World world) {
+		return getBody(world).getPlanet();
+	}
+
+	public static double getRotationalPeriod(World world) {
 		return getBody(world).getRotationalPeriod();
 	}
 
@@ -213,16 +225,33 @@ public class CelestialBody {
 		return name;
 	}
 
+	public CelestialBody getStar() {
+		CelestialBody body = this;
+		while(body.parent != null)
+			body = body.parent;
+
+		return body;
+	}
+
+	public CelestialBody getPlanet() {
+		if(this.parent == null) return this;
+		CelestialBody body = this;
+		while(body.parent.parent != null)
+			body = body.parent;
+
+		return body;
+	}
+
 	// Returns the day length in ticks, adjusted for the 20 minute minecraft day
-	public int getRotationalPeriod() {
-		return MathHelper.floor_double((float)rotationalPeriod * AstronomyUtil.DAY_FACTOR * 20);
+	public double getRotationalPeriod() {
+		return (double)rotationalPeriod * (AstronomyUtil.DAY_FACTOR / (double)AstronomyUtil.TIME_MULTIPLIER) * 20;
 	}
 
 	// Returns the year length in days, derived from semi-major axis
-	public int getOrbitalPeriod() {
+	public double getOrbitalPeriod() {
 		double semiMajorAxis = semiMajorAxisKm * 1_000;
 		double orbitalPeriod = 2 * Math.PI * Math.sqrt((semiMajorAxis * semiMajorAxis * semiMajorAxis) / (AstronomyUtil.GRAVITATIONAL_CONSTANT * parent.massKg));
-		return MathHelper.floor_double(orbitalPeriod / AstronomyUtil.SECONDS_IN_KSP_DAY);
+		return orbitalPeriod / (double)AstronomyUtil.SECONDS_IN_KSP_DAY;
 	}
 
 	// Get the gravitational force at the surface, derived from mass and radius
@@ -232,23 +261,23 @@ public class CelestialBody {
 	}
 
 	
-    public boolean hasTrait(Class<? extends CelestialBodyTrait> trait) {
-    	return getTraits().containsKey(trait);
-    }
-    
-    @SuppressWarnings("unchecked")
-    public <T extends CelestialBodyTrait> T getTrait(Class<? extends T> trait) {
-    	return (T) getTraits().get(trait);
-    }
+	public boolean hasTrait(Class<? extends CelestialBodyTrait> trait) {
+		return getTraits().containsKey(trait);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T extends CelestialBodyTrait> T getTrait(Class<? extends T> trait) {
+		return (T) getTraits().get(trait);
+	}
 
-    private HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits() {
-        World world = DimensionManager.getWorld(dimensionId);
-        HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = CelestialBodyWorldSavedData.getTraits(world);
+	private HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits() {
+		World world = DimensionManager.getWorld(dimensionId);
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = CelestialBodyWorldSavedData.getTraits(world);
 
-        if(traits != null)
-            return traits;
-        	
-        return this.traits;
-    }
+		if(traits != null)
+			return traits;
+			
+		return this.traits;
+	}
 
 }

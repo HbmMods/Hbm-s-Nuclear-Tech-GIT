@@ -1,10 +1,7 @@
 package com.hbm.dim;
 
-import java.util.List;
-
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CelestialBodyTrait.CBT_SUNEXPLODED;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 
 import cpw.mods.fml.relauncher.Side;
@@ -251,14 +248,15 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		return new SkyProviderCelestial();
 	}
 
-    protected long getDayLength() {
-		return CelestialBody.getRotationalPeriod(worldObj);
+    protected double getDayLength() {
+		CelestialBody body = CelestialBody.getBody(worldObj);
+		return body.getRotationalPeriod() / (1 - (1 / body.getPlanet().getOrbitalPeriod()));
     }
     
     @Override
     public float calculateCelestialAngle(long worldTime, float timeOffset) {
-        int j = (int) (worldTime % this.getDayLength());
-        float f1 = (j + timeOffset) / this.getDayLength() - 0.25F;
+        double j = ((worldTime - Math.abs(worldObj.getSeed())) % this.getDayLength());
+        double f1 = (j + timeOffset) / this.getDayLength() - 0.25F;
 
         if(f1 < 0.0F) {
             ++f1;
@@ -268,9 +266,9 @@ public abstract class WorldProviderCelestial extends WorldProvider {
             --f1;
         }
 
-        float f2 = f1;
-        f1 = 0.5F - MathHelper.cos(f1 * 3.1415927F) / 2.0F;
-        return f2 + (f1 - f2) / 3.0F;
+        double f2 = f1;
+        f1 = 0.5F - Math.cos(f1 * Math.PI) / 2.0F;
+        return (float)(f2 + (f1 - f2) / 3.0D);
     }
 
 }

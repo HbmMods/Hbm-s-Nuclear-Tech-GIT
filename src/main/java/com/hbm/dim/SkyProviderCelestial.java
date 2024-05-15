@@ -11,8 +11,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.client.IRenderHandler;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.dim.SolarSystem.AstroMetric;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CelestialBodyTrait.CBT_SUNEXPLODED;
 import com.hbm.extprop.HbmLivingProps;
@@ -85,11 +88,10 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
-		CelestialBody currentBody = CelestialBody.getBody(world);
-		CelestialBody parentBody = currentBody.parent != SolarSystem.kerbol ? currentBody.parent : null;
+		CelestialBody body = CelestialBody.getBody(world);
 
-		boolean hasAtmosphere = currentBody.hasTrait(CBT_Atmosphere.class);
-		boolean sundied = currentBody.hasTrait(CBT_SUNEXPLODED.class);
+		boolean hasAtmosphere = body.hasTrait(CBT_Atmosphere.class);
+		boolean sundied = body.hasTrait(CBT_SUNEXPLODED.class);
 
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		Vec3 vec3 = world.getSkyColor(mc.renderViewEntity, partialTicks);
@@ -127,7 +129,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 		if(starBrightness > 0.0F) {
 			GL11.glPushMatrix();
 			{
-				GL11.glRotatef(currentBody.axialTilt, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(body.axialTilt, 1.0F, 0.0F, 0.0F);
 
 				mc.renderEngine.bindTexture(nightTexture);
 	
@@ -179,34 +181,31 @@ public class SkyProviderCelestial extends IRenderHandler {
 		GL11.glPushMatrix();
 		{
 
-			GL11.glRotatef(currentBody.axialTilt, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(body.axialTilt, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(celestialAngle * 360.0F, 1.0F, 0.0F, 0.0F);
 
-			float sunSize = SolarSystem.calculateSunSize(currentBody);
-			float coronaSize = sunSize * (hasAtmosphere ? 2 : 3);
+			double sunSize = SolarSystem.calculateSunSize(body);
+			double coronaSize = sunSize * (hasAtmosphere ? 2 : 3);
 
 			// Some blanking to conceal the stars
-			{
-				if(!sundied) {
-					GL11.glDisable(GL11.GL_TEXTURE_2D);
-					GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
-		
-					tessellator.startDrawingQuads();
-					tessellator.addVertex(-sunSize, 99.9D, -sunSize);
-					tessellator.addVertex(sunSize, 99.9D, -sunSize);
-					tessellator.addVertex(sunSize, 99.9D, sunSize);
-					tessellator.addVertex(-sunSize, 99.9D, sunSize);
-					tessellator.draw();
+			if(!sundied) {
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
+	
+				tessellator.startDrawingQuads();
+				tessellator.addVertex(-sunSize, 99.9D, -sunSize);
+				tessellator.addVertex(sunSize, 99.9D, -sunSize);
+				tessellator.addVertex(sunSize, 99.9D, sunSize);
+				tessellator.addVertex(-sunSize, 99.9D, sunSize);
+				tessellator.draw();
 
-					GL11.glEnable(GL11.GL_TEXTURE_2D);
-					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);	
-				}
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			}
 
 			// Draw the MIGHTY SUN
-			{
-				if(!sundied) {
+			if(!sundied) {
 
 				mc.renderEngine.bindTexture(SolarSystem.kerbol.texture);
 
@@ -216,12 +215,11 @@ public class SkyProviderCelestial extends IRenderHandler {
 				tessellator.addVertexWithUV(sunSize, 100.0D, sunSize, 1.0D, 1.0D);
 				tessellator.addVertexWithUV(-sunSize, 100.0D, sunSize, 0.0D, 1.0D);
 				tessellator.draw();
-				}
+
 			}
 
 			// Draw a big ol' spiky flare! Less so when there is an atmosphere
-			{
-				if(!sundied) {
+			if(!sundied) {
 
 				if(hasAtmosphere) {
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.25f);
@@ -235,135 +233,80 @@ public class SkyProviderCelestial extends IRenderHandler {
 				tessellator.addVertexWithUV(coronaSize, 100.0D, coronaSize, 1.0D, 1.0D);
 				tessellator.addVertexWithUV(-coronaSize, 100.0D, coronaSize, 0.0D, 1.0D);
 				tessellator.draw();
-				}
+
 			}
 
-			// Draw each of the planets
-			for(CelestialBody planet : SolarSystem.kerbol.satellites) {
-
-				if(planet == currentBody || planet == currentBody.parent)
-					continue;
-
-				GL11.glPushMatrix();
-				{
-
-					float planetSize = 1F;
-					float planetAngle = SolarSystem.calculatePlanetAngle(world.getWorldTime(), partialTicks, parentBody != null ? parentBody : currentBody, planet);
-
-					if((parentBody != null ? parentBody : currentBody).semiMajorAxisKm > planet.semiMajorAxisKm) {
-						GL11.glRotatef(celestialAngle * -360.0F, 1.0F, 0.0F, 0.0F);
-						GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
-					}
-
-					GL11.glColor4d(planet.color[0], planet.color[1], planet.color[2], 1);
-					GL11.glRotatef(planetAngle * -360.0F, 1.0F, 0.0F, 0.0F);
-					GL11.glRotatef(planet.axialTilt, 0.0F, 1.0F, 0.0F);
-
-					mc.renderEngine.bindTexture(planetTexture);
-
-					tessellator.startDrawingQuads();
-					tessellator.addVertexWithUV(-planetSize, -100.0D, planetSize, 0.0D, 0.0D);
-					tessellator.addVertexWithUV(planetSize, -100.0D, planetSize, 1.0D, 0.0D);
-					tessellator.addVertexWithUV(planetSize, -100.0D, -planetSize, 1.0D, 1.0D);
-					tessellator.addVertexWithUV(-planetSize, -100.0D, -planetSize, 0.0D, 1.0D);
-					tessellator.draw();
-
-				}
-				GL11.glPopMatrix();
-			}
 			
+			double minSize = 1D;
 			float blendAmount = hasAtmosphere ? MathHelper.clamp_float(1 - world.getSunBrightnessFactor(partialTicks), 0.25F, 1F) : 1F;
 			float blendDarken = 0.1F;
 
-			// Draw any moons (either our parents or our own)
-			for(CelestialBody moon : (parentBody != null ? parentBody.satellites : currentBody.satellites)) {
+			double longitude = 0;
+			CelestialBody tidalLockedBody = body.tidallyLockedTo != null ? CelestialBody.getBody(body.tidallyLockedTo) : null;
 
-				if(moon == currentBody)
+			if(tidalLockedBody != null) {
+				// WE have to calculate metrics TWICE for orbital tidal locking, if you can find a way to get the angle without this,
+				// please implement it
+				List<AstroMetric> metrics = SolarSystem.calculateMetricsFromBody(world, partialTicks, 0, body);
+				for(AstroMetric metric : metrics) {
+					if(metric.body == tidalLockedBody) {
+						longitude = MathHelper.wrapAngleTo180_double(metric.angle + celestialAngle * 360.0 + 60.0);
+						break;
+					}
+				}
+			}
+
+			// Get our orrery of bodies
+			List<AstroMetric> metrics = SolarSystem.calculateMetricsFromBody(world, partialTicks, longitude, body);
+			
+			for(AstroMetric metric : metrics) {
+
+				// Ignore self
+				if(metric.distance == 0)
 					continue;
 
 				GL11.glPushMatrix();
 				{
 
-					float moonSize = SolarSystem.calculateBodySize(moon, moon);
-					float moonAngle = SolarSystem.calculatePlanetAngle(world.getWorldTime(), partialTicks, currentBody, moon);
+					double size = MathHelper.clamp_double(metric.apparentSize, 0, 24);
+					boolean renderAsPoint = size < minSize;
 
-					if(currentBody.semiMajorAxisKm > moon.semiMajorAxisKm) {
-						GL11.glRotatef(celestialAngle * -360.0F, 1.0F, 0.0F, 0.0F);
-						GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
+					if(renderAsPoint) {
+						GL11.glColor4f(metric.body.color[0], metric.body.color[1], metric.body.color[2], (float)size * 100);
+						mc.renderEngine.bindTexture(planetTexture);
+
+						size = minSize;
+					} else {
+						GL11.glDisable(GL11.GL_BLEND);
+						GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+						mc.renderEngine.bindTexture(metric.body.texture);
 					}
 
-					GL11.glColor4d(1, 1, 1, 1);
-					GL11.glRotatef(moonAngle * -360.0F, 1.0F, 0.0F, 0.0F);
-					GL11.glRotatef(moon.axialTilt, 0.0F, 1.0F, 0.0F);
-
-					mc.renderEngine.bindTexture(moon.texture);
-
-					GL11.glDisable(GL11.GL_BLEND);
+					GL11.glRotated(metric.angle, 1.0, 0.0, 0.0);
+					GL11.glRotatef(metric.body.axialTilt, 0.0F, 1.0F, 0.0F);
 
 					tessellator.startDrawingQuads();
-					tessellator.addVertexWithUV(-moonSize, -100.0D, moonSize, 0.0D, 0.0D);
-					tessellator.addVertexWithUV(moonSize, -100.0D, moonSize, 1.0D, 0.0D);
-					tessellator.addVertexWithUV(moonSize, -100.0D, -moonSize, 1.0D, 1.0D);
-					tessellator.addVertexWithUV(-moonSize, -100.0D, -moonSize, 0.0D, 1.0D);
+					tessellator.addVertexWithUV(-size, 100.0D, -size, 0.0D, 0.0D);
+					tessellator.addVertexWithUV(size, 100.0D, -size, 1.0D, 0.0D);
+					tessellator.addVertexWithUV(size, 100.0D, size, 1.0D, 1.0D);
+					tessellator.addVertexWithUV(-size, 100.0D, size, 0.0D, 1.0D);
 					tessellator.draw();
 
 					// Draw another layer on top to blend with the atmosphere
-					GL11.glEnable(GL11.GL_BLEND);
-					GL11.glDisable(GL11.GL_TEXTURE_2D);
-					GL11.glColor4f(skyR - blendDarken, skyG - blendDarken, skyB - blendDarken, 1 - blendAmount);
-
-					tessellator.startDrawingQuads();
-					tessellator.addVertexWithUV(-moonSize, -100.0D, moonSize, 0.0D, 0.0D);
-					tessellator.addVertexWithUV(moonSize, -100.0D, moonSize, 1.0D, 0.0D);
-					tessellator.addVertexWithUV(moonSize, -100.0D, -moonSize, 1.0D, 1.0D);
-					tessellator.addVertexWithUV(-moonSize, -100.0D, -moonSize, 0.0D, 1.0D);
-					tessellator.draw();
-
-					GL11.glEnable(GL11.GL_TEXTURE_2D);
-					
-				}
-				GL11.glPopMatrix();
-
-			}
-
-			// Draw the parent planet if we're a moon
-			if(parentBody != null) {
-				GL11.glPushMatrix();
-				{
-
-					GL11.glColor4d(1, 1, 1, 1);
-					GL11.glRotatef(celestialAngle * -360.0F, 1.0F, 0.0F, 0.0F);
-					GL11.glRotatef(-60.0F, 1.0F, 0.0F, 0.0F);
-					GL11.glRotatef(90.0F + parentBody.axialTilt, 0.0F, 1.0F, 0.0F);
-
-
-					// Prevent Jool and other planets from becoming ginemenosaurus
-					float parentSize = MathHelper.clamp_float(SolarSystem.calculateBodySize(parentBody, currentBody), 0, 24);
+					if(!renderAsPoint) {
+						GL11.glEnable(GL11.GL_BLEND);
+						GL11.glDisable(GL11.GL_TEXTURE_2D);
+						GL11.glColor4f(skyR - blendDarken, skyG - blendDarken, skyB - blendDarken, 1 - blendAmount);
 	
-					mc.renderEngine.bindTexture(parentBody.texture);
-
-					GL11.glDisable(GL11.GL_BLEND);
-
-					tessellator.startDrawingQuads();
-					tessellator.addVertexWithUV(-parentSize, 100.0D, -parentSize, 0.0D, 0.0D);
-					tessellator.addVertexWithUV(parentSize, 100.0D, -parentSize, 1.0D, 0.0D);
-					tessellator.addVertexWithUV(parentSize, 100.0D, parentSize, 1.0D, 1.0D);
-					tessellator.addVertexWithUV(-parentSize, 100.0D, parentSize, 0.0D, 1.0D);
-					tessellator.draw();
-
-					// Draw another layer on top to blend with the atmosphere
-					GL11.glEnable(GL11.GL_BLEND);
-					GL11.glDisable(GL11.GL_TEXTURE_2D);
-					GL11.glColor4f(skyR - blendDarken, skyG - blendDarken, skyB - blendDarken, 1 - blendAmount);
-
-					tessellator.startDrawingQuads();
-					tessellator.addVertexWithUV(-parentSize, 100.0D, -parentSize, 0.0D, 0.0D);
-					tessellator.addVertexWithUV(parentSize, 100.0D, -parentSize, 1.0D, 0.0D);
-					tessellator.addVertexWithUV(parentSize, 100.0D, parentSize, 1.0D, 1.0D);
-					tessellator.addVertexWithUV(-parentSize, 100.0D, parentSize, 0.0D, 1.0D);
-					tessellator.draw();
-
-					GL11.glEnable(GL11.GL_TEXTURE_2D);
+						tessellator.startDrawingQuads();
+						tessellator.addVertexWithUV(-size, 100.0D, -size, 0.0D, 0.0D);
+						tessellator.addVertexWithUV(size, 100.0D, -size, 1.0D, 0.0D);
+						tessellator.addVertexWithUV(size, 100.0D, size, 1.0D, 1.0D);
+						tessellator.addVertexWithUV(-size, 100.0D, size, 0.0D, 1.0D);
+						tessellator.draw();
+	
+						GL11.glEnable(GL11.GL_TEXTURE_2D);
+					}
 
 				}
 				GL11.glPopMatrix();
@@ -378,11 +321,11 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 				OpenGlHelper.glBlendFunc(770, 1, 1, 0);
 
-				float brightness = (float) Math.sin(world.getCelestialAngle(partialTicks) * Math.PI);
+				float brightness = (float) Math.sin(celestialAngle * Math.PI);
 				brightness *= brightness;
 				GL11.glColor4f(brightness, brightness, brightness, brightness);
 				GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
-				GL11.glRotatef(world.getCelestialAngle(partialTicks) * 360.0F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(celestialAngle * 360.0F, 1.0F, 0.0F, 0.0F);
 				GL11.glRotatef(140.0F, 1.0F, 0.0F, 0.0F);
 				GL11.glRotatef(-40.0F, 0.0F, 0.0F, 1.0F);
 
