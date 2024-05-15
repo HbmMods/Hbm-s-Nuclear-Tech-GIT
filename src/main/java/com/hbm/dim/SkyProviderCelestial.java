@@ -278,7 +278,11 @@ public class SkyProviderCelestial extends IRenderHandler {
 						mc.renderEngine.bindTexture(metric.body.texture);
 					}
 
-					GL11.glRotated(metric.angle, 1.0, 0.0, 0.0);
+					if(metric.body == tidalLockedBody) {
+						GL11.glRotated(celestialAngle * -360.0 - 60.0, 1.0, 0.0, 0.0);
+					} else {
+						GL11.glRotated(metric.angle, 1.0, 0.0, 0.0);
+					}
 					GL11.glRotatef(metric.body.axialTilt, 0.0F, 1.0F, 0.0F);
 
 					tessellator.startDrawingQuads();
