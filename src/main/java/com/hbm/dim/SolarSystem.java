@@ -1,6 +1,8 @@
 package com.hbm.dim;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.NotImplementedException;
 
@@ -12,6 +14,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.util.AstronomyUtil;
 
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class SolarSystem {
@@ -19,8 +22,8 @@ public class SolarSystem {
 	public static CelestialBody kerbol;
 
 	// How much to scale celestial objects when rendering
-	public static final float RENDER_SCALE = 180F;
-	public static final float SUN_RENDER_SCALE = 4F;
+	public static final double RENDER_SCALE = 180F;
+	public static final double SUN_RENDER_SCALE = 4F;
 
 
 	public static void init() {
@@ -139,92 +142,123 @@ public class SolarSystem {
 		runTests();
 	}
 
+	public static class AstroMetric {
+
+		// Convert a solar system into a set of metrics defining their position and size in the sky for a given body
+
+		public double distance;
+		public double angle;
+		public double apparentSize;
+
+		protected Vec3 position;
+
+		public CelestialBody body;
+
+		public AstroMetric(CelestialBody body, Vec3 position) {
+			this.body = body;
+			this.position = position;
+		}
+
+	}
+
 	/**
 	 * Celestial mechanics
 	 */
 
-	// Gets the distance between two planets at the current time in km
-	public static double getInterplanetaryDistanceKm(World world, CelestialBody from, CelestialBody to) {
-		double fromYearTicks = from.getOrbitalPeriod() * AstronomyUtil.TICKS_IN_DAY;
-		double toYearTicks = to.getOrbitalPeriod() * AstronomyUtil.TICKS_IN_DAY;
-		
-		double fromCos = from.semiMajorAxisKm * Math.cos((2 * (Math.PI * world.getWorldTime())) / fromYearTicks);
-		double fromSin = from.semiMajorAxisKm * Math.sin((2 * (Math.PI * world.getWorldTime())) / fromYearTicks);
-		
-		double toCos = to.semiMajorAxisKm * Math.cos((2 * (Math.PI * world.getWorldTime())) / toYearTicks);
-		double toSin = to.semiMajorAxisKm * Math.sin((2 * (Math.PI * world.getWorldTime())) / toYearTicks);
-		
-		return Math.sqrt(Math.pow(toCos - fromCos, 2) + Math.pow(toSin - fromSin, 2));
+	// Create an ordered list for rendering all bodies within the system, minus the parent star
+	public static List<AstroMetric> calculateMetricsFromBody(World world, float partialTicks, CelestialBody body) {
+		List<AstroMetric> metrics = new ArrayList<AstroMetric>();
+
+		// We want to put tidally locked bodies in an interesting location, so we adjust our longitude
+		// HACK, we always want tidally locked bodies visible, so we invert the longitude for parents
+		double longitude = body.getRotationalPeriod() / 3.0D;
+		if(body.parent.parent == null)
+			longitude = -longitude;
+
+		// Seed is added onto time to randomise the starting positions of planets
+		double ticks = ((double)(world.getWorldTime() - Math.abs(world.getSeed())) + longitude + partialTicks) * (double)AstronomyUtil.TIME_MULTIPLIER;
+
+		// Get our XYZ coordinates of all bodies
+		calculatePositionsRecursive(metrics, null, body.getStar(), ticks);
+
+		// Get the metrics from a given body
+		calculateMetricsFromBody(metrics, body);
+
+		// Sort by increasing distance
+		metrics.sort((a, b) -> {
+			return (int)(b.distance - a.distance);
+		});
+
+		return metrics;
 	}
 
-	// Gets the distance between two planets at the current time in AU
-	public static double getInterplanetaryDistanceAU(World world, CelestialBody from, CelestialBody to) {
-		return getInterplanetaryDistanceKm(world, from, to) * AstronomyUtil.KM_IN_AU;
-	}
+	// Recursively calculate the XYZ position of all planets from polar coordinates + time
+	private static void calculatePositionsRecursive(List<AstroMetric> metrics, AstroMetric parentMetric, CelestialBody body, double ticks) {
+		Vec3 parentPosition = parentMetric != null ? parentMetric.position : Vec3.createVectorHelper(0, 0, 0);
 
-	// Calculates the maximum angular distance from the Sun that the planet can appear in the sky. The first planet is the one that you are running the calculation for, and the second planet is the one you're standing on.
-	public static double getMaxPlanetaryElongation(CelestialBody from, CelestialBody to) {
-		return Math.toDegrees(Math.asin(from.semiMajorAxisKm / to.semiMajorAxisKm));
-	}
+		for(CelestialBody satellite : body.satellites) {
+			Vec3 position = calculatePosition(satellite, ticks).addVector(parentPosition.xCoord, parentPosition.yCoord, parentPosition.zCoord);
+			AstroMetric metric = new AstroMetric(satellite, position);
 
-	// Calculates the visual angle between two planets. The first planet is the one you are on, and the second planet is the one you are observing.
-	public static double getInterplanetaryAngle(World world, CelestialBody from, CelestialBody to) {
-		double fromYearTicks = from.getOrbitalPeriod() * AstronomyUtil.TICKS_IN_DAY;
-		double toYearTicks = to.getOrbitalPeriod() * AstronomyUtil.TICKS_IN_DAY;
-		
-		double fromCos = from.semiMajorAxisKm * Math.cos((2 * (Math.PI * world.getWorldTime())) / fromYearTicks);
-		double fromSin = from.semiMajorAxisKm * Math.sin((2 * (Math.PI * world.getWorldTime())) / fromYearTicks);
-		
-		double toCos = to.semiMajorAxisKm * Math.cos((2 * (Math.PI * world.getWorldTime())) / toYearTicks);
-		double toSin = to.semiMajorAxisKm * Math.sin((2 * (Math.PI * world.getWorldTime())) / toYearTicks);
-		
-		return (360D + (Math.atan2(toSin - fromSin, toCos - fromCos) - Math.atan2(0 - fromSin, 0 - fromCos)) * (180 / Math.PI)) % 360;
-	}
+			metrics.add(metric);
 
-	// Calculates the synodic period between two planets. The first planet is the one closest to the sun, and the second planet is the more distant one.
-	public static float calculateSynodicPeriod(CelestialBody from, CelestialBody to) {
-		float subperiod = (1F / (float)from.getOrbitalPeriod()) - (1F / (float)to.getOrbitalPeriod());
-		float period = (1F / subperiod) * AstronomyUtil.TICKS_IN_DAY;
-		return period;
-	}
-	
-	// Calculates the visual angle between two planets. The first planet is the one closest to the sun, and the second planet is the more distant one.
-	// When flipped, automatically limit to maximum elongation
-	public static float calculatePlanetAngle(long worldTimeTicks, float partialTicks, CelestialBody from, CelestialBody to) {
-		if(from.semiMajorAxisKm > to.semiMajorAxisKm) {
-			float synodic = calculateSynodicPeriod(to, from);
-			float sine = (float) Math.sin(((Math.PI / 2) / (synodic / 4)) * (worldTimeTicks));
-			double elong = getMaxPlanetaryElongation(to, from);
-			return (sine * (float)elong) / 360F;
+			calculatePositionsRecursive(metrics, metric, satellite, ticks);
 		}
-		
-		float synodic = calculateSynodicPeriod(from, to);
-		int j = (int) (worldTimeTicks % synodic);
-		float f1 = (j + partialTicks) / synodic - 0.25F;
+	}
 
-		if (f1 < 0.0F) {
-			++f1;
-		}
+	// Calculates the position of the body around its parent
+	private static Vec3 calculatePosition(CelestialBody body, double ticks) {
+		// Get how far (in radians) a planet has gone around its parent
+		double yearTicks = body.getOrbitalPeriod() * AstronomyUtil.TICKS_IN_DAY;
+		double angleRadians = 2 * Math.PI * (ticks / yearTicks);
 
-		if (f1 > 1.0F) {
-			--f1;
+		double x = body.semiMajorAxisKm * Math.cos(angleRadians);
+		double y = body.semiMajorAxisKm * Math.sin(angleRadians);
+
+		return Vec3.createVectorHelper(x, y, 0);
+	}
+
+	// Calculates the metrics for a given body in the system
+	private static void calculateMetricsFromBody(List<AstroMetric> metrics, CelestialBody body) {
+		AstroMetric from = null;
+		for(AstroMetric metric : metrics) {
+			if(metric.body == body) {
+				from = metric;
+				break;
+			}
 		}
 
-		float f2 = f1;
-		f1 = 0.5F - MathHelper.cos(f1 * 3.1415927F) / 2.0F;
-		return f2 + (f1 - f2) / 3.0F;
+		for(AstroMetric to : metrics) {
+			if(from == to)
+				continue;
+
+			// Calculate distance between bodies, for sorting
+			to.distance = from.position.distanceTo(to.position);
+			
+			// Calculate apparent size, for scaling in render
+			to.apparentSize = getApparentSize(to.body.radiusKm, to.distance);
+
+			// Get angle in relation to 0, 0 (sun position, origin)
+			to.angle = getApparentAngleDegrees(from.position, to.position);
+		}
+	}
+
+	private static double getApparentSize(double radius, double distance) {
+		return 2D * (float)Math.atan((2D * radius) / (2D * distance)) * RENDER_SCALE;
+	}
+
+	private static double getApparentAngleDegrees(Vec3 from, Vec3 to) {
+		double angleToOrigin = Math.atan2(-from.yCoord, -from.xCoord);
+		double angleToTarget = Math.atan2(to.yCoord - from.yCoord, to.xCoord - from.xCoord);
+
+		return MathHelper.wrapAngleTo180_double(Math.toDegrees(angleToOrigin - angleToTarget));
 	}
 
 	// Calculates how large to render the sun in the sky from a given vantage point
-	public static float calculateSunSize(CelestialBody from) {
-		return calculateBodySize(kerbol, from) * SUN_RENDER_SCALE;
-	}
-
-	// Calculates how large to render an object in the sky from a given vantage point
-	// If both arguments are the same, get body size from the parent
-	public static float calculateBodySize(CelestialBody body, CelestialBody from) {
-		if(from.parent != body && from != body) return calculateBodySize(body, from.parent);
-		return 2F * (float)Math.atan((2D * body.radiusKm) / (2D * from.semiMajorAxisKm)) * RENDER_SCALE;
+	public static double calculateSunSize(CelestialBody from) {
+		if(from.parent == null) return 0;
+		if(from.parent.parent != null) return calculateSunSize(from.parent);
+		return getApparentSize(from.parent.radiusKm, from.semiMajorAxisKm) * SUN_RENDER_SCALE;
 	}
 
 

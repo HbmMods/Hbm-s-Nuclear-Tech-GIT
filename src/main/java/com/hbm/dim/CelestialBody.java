@@ -160,6 +160,10 @@ public class CelestialBody {
 		return getBody(world.provider.dimensionId);
 	}
 
+	public static CelestialBody getStar(World world) {
+		return getBody(world).getStar();
+	}
+
 	public static int getRotationalPeriod(World world) {
 		return getBody(world).getRotationalPeriod();
 	}
@@ -184,16 +188,24 @@ public class CelestialBody {
 		return name;
 	}
 
+	public CelestialBody getStar() {
+		CelestialBody body = this;
+		while(body.parent != null)
+			body = body.parent;
+
+		return body;
+	}
+
 	// Returns the day length in ticks, adjusted for the 20 minute minecraft day
 	public int getRotationalPeriod() {
-		return MathHelper.floor_double((float)rotationalPeriod * AstronomyUtil.DAY_FACTOR * 20);
+		return MathHelper.floor_double((double)rotationalPeriod * (AstronomyUtil.DAY_FACTOR / (double)AstronomyUtil.TIME_MULTIPLIER) * 20);
 	}
 
 	// Returns the year length in days, derived from semi-major axis
 	public int getOrbitalPeriod() {
 		double semiMajorAxis = semiMajorAxisKm * 1_000;
 		double orbitalPeriod = 2 * Math.PI * Math.sqrt((semiMajorAxis * semiMajorAxis * semiMajorAxis) / (AstronomyUtil.GRAVITATIONAL_CONSTANT * parent.massKg));
-		return MathHelper.floor_double(orbitalPeriod / AstronomyUtil.SECONDS_IN_KSP_DAY);
+		return MathHelper.floor_double(orbitalPeriod / (double)AstronomyUtil.SECONDS_IN_KSP_DAY);
 	}
 
 	// Get the gravitational force at the surface, derived from mass and radius

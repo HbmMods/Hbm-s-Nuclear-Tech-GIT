@@ -213,7 +213,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
     
     @Override
     public float calculateCelestialAngle(long worldTime, float timeOffset) {
-        int j = (int) (worldTime % this.getDayLength());
+        int j = (int) ((worldTime - Math.abs(worldObj.getSeed())) % this.getDayLength());
         float f1 = (j + timeOffset) / this.getDayLength() - 0.25F;
 
         if(f1 < 0.0F) {
