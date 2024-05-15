@@ -20,6 +20,7 @@ import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IArmorModDash;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -296,10 +297,26 @@ public class EntityEffectHandler {
 	}
 
 	private static void handleOxy(EntityLivingBase entity) {
-		if(!ArmorUtil.checkForOxy(entity) && !CelestialBody.hasTrait(entity.worldObj, CBT_Atmosphere.class) && !(entity instanceof EntityGlyphid)) {
-			HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
-			return;
-		}
+	    CBT_Atmosphere atmosphere = CelestialBody.getTrait(entity.worldObj, CBT_Atmosphere.class);
+
+	    if (atmosphere == null) {
+            HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
+            return;
+	    }
+	        boolean hasBreathableAir = false;
+
+	        for (CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
+	            if (entry.fluid == Fluids.AIR && entry.percentage >= 21.0F) { // Assuming 21% AIR is required for breathable atmosphere
+	                hasBreathableAir = true;
+	                break;
+	            }
+	        }
+
+	        if (!ArmorUtil.checkForOxy(entity) && !hasBreathableAir && !(entity instanceof EntityGlyphid)) {
+	            HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
+	            return;
+	        
+	    }
 	}
 
 	private static void handleDigamma(EntityLivingBase entity) {
