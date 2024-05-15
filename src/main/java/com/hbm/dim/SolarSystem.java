@@ -153,6 +153,7 @@ public class SolarSystem {
 		public double distance;
 		public double angle;
 		public double apparentSize;
+		public double phase;
 
 		protected Vec3 position;
 
@@ -241,6 +242,8 @@ public class SolarSystem {
 
 			// Get angle in relation to 0, 0 (sun position, origin)
 			to.angle = getApparentAngleDegrees(from.position, to.position);
+
+			to.phase = getApparentAngleDegrees(to.position, from.position) / 180.0;
 		}
 	}
 
