@@ -47,13 +47,13 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	    Vec3 blendedColor = Vec3.createVectorHelper(0, 0, 0);
 
 	    for (CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
-		if(entry.fluid == Fluids.EVEAIR) {
-			color = Vec3.createVectorHelper(53F / 255F * f, 32F / 255F * f, 74F / 255F * f);
-		} else if(entry.fluid == Fluids.CARBONDIOXIDE) {
-			color = Vec3.createVectorHelper(212F / 255F * f, 112F / 255F * f, 78F / 255F * f);
-		} else if(entry.fluid == Fluids.AIR){
+		if(entry.fluid == Fluids.EVEAIR && atmosphere.fluids.size() == 1) {
+			blendedColor = Vec3.createVectorHelper(53F / 255F * f, 32F / 255F * f, 74F / 255F * f);
+		} else if(entry.fluid == Fluids.CARBONDIOXIDE && atmosphere.fluids.size() == 1) {
+			blendedColor = Vec3.createVectorHelper(212F / 255F * f, 112F / 255F * f, 78F / 255F * f);
+		} else if(entry.fluid == Fluids.AIR && atmosphere.fluids.size() == 1){
 			// Default to regular ol' overworld
-			color = super.getFogColor(x, y);
+			blendedColor = super.getFogColor(x, y);
 		} else {
 	        
 	            int colorInt = entry.fluid.getColor();
@@ -68,8 +68,8 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 	        blendedColor = Vec3.createVectorHelper(blendedColor.xCoord * 1.4 * f, blendedColor.yCoord * 1.4 * f, blendedColor.zCoord * 1.4 * f);
 	    	}
-	   
 		}
+
         color = blendedColor;
 
 
@@ -93,13 +93,13 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	    Vec3 blendedColor = Vec3.createVectorHelper(0, 0, 0);
 
 	    for (CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
-		if(entry.fluid == Fluids.EVEAIR) {
-			color = Vec3.createVectorHelper(53F / 255F * f, 32F / 255F * f, 74F / 255F * f);
-		} else if(entry.fluid == Fluids.CARBONDIOXIDE) {
-			color = Vec3.createVectorHelper(212F / 255F * f, 112F / 255F * f, 78F / 255F * f);
-		} else if(entry.fluid == Fluids.AIR){
+		if(entry.fluid == Fluids.EVEAIR && atmosphere.fluids.size() == 1) {
+			blendedColor = Vec3.createVectorHelper(53F / 255F * f, 32F / 255F * f, 74F / 255F * f);
+		} else if(entry.fluid == Fluids.CARBONDIOXIDE && atmosphere.fluids.size() == 1) {
+			blendedColor = Vec3.createVectorHelper(212F / 255F * f, 112F / 255F * f, 78F / 255F * f);
+		} else if(entry.fluid == Fluids.AIR&& atmosphere.fluids.size() == 1){
 			// Default to regular ol' overworld
-			color = super.getSkyColor(camera, partialTicks);
+			blendedColor = super.getSkyColor(camera, partialTicks);
 		} else {
 	        
 	            int colorInt = entry.fluid.getColor();
