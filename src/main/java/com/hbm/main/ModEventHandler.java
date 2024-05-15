@@ -54,7 +54,6 @@ import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PermaSyncPacket;
 import com.hbm.packet.PlayerInformPacket;
@@ -68,7 +67,6 @@ import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
-import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.ShadyUtil;
@@ -83,7 +81,6 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
@@ -340,22 +337,6 @@ public class ModEventHandler {
 	public void onEntityDeathLast(LivingDeathEvent event) {
 		
 		EntityLivingBase entity = event.entityLiving;
-		
-		if(EntityDamageUtil.wasAttackedByV1(event.source)) {
-
-			NBTTagCompound vdat = new NBTTagCompound();
-			vdat.setString("type", "giblets");
-			vdat.setInteger("ent", entity.getEntityId());
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, entity.posX, entity.posY + entity.height * 0.5, entity.posZ), new TargetPoint(entity.dimension, entity.posX, entity.posY + entity.height * 0.5, entity.posZ, 150));
-			
-			entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "mob.zombie.woodbreak", 2.0F, 0.95F + entity.worldObj.rand.nextFloat() * 0.2F);
-			
-			EntityPlayer attacker = (EntityPlayer) ((EntityDamageSource)event.source).getEntity();
-			
-			if(attacker.getDistanceSqToEntity(entity) < 100) {
-				attacker.heal(entity.getMaxHealth() * 0.25F);
-			}
-		}
 		
 		if(event.entityLiving instanceof EntityPlayer) {
 			
@@ -767,23 +748,6 @@ public class ModEventHandler {
 		
 		if(HbmLivingProps.getContagion(e) > 0 && event.ammount < 100)
 			event.ammount *= 2F;
-		
-		/// V1 ///
-		if(EntityDamageUtil.wasAttackedByV1(event.source)) {
-			EntityPlayer attacker = (EntityPlayer) ((EntityDamageSource)event.source).getEntity();
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setString("type", "vanillaburst");
-			data.setInteger("count", (int)Math.min(e.getMaxHealth() / 2F, 250));
-			data.setDouble("motion", 0.1D);
-			data.setString("mode", "blockdust");
-			data.setInteger("block", Block.getIdFromBlock(Blocks.redstone_block));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, e.posX, e.posY + e.height * 0.5, e.posZ), new TargetPoint(e.dimension, e.posX, e.posY, e.posZ, 50));
-			
-			if(attacker.getDistanceSqToEntity(e) < 25) {
-				attacker.heal(event.ammount * 0.5F);
-			}
-		}
 		
 		/// ARMOR MODS ///
 		for(int i = 1; i < 5; i++) {

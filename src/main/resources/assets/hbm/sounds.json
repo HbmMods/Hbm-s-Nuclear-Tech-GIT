@@ -261,8 +261,6 @@
     
     "player.vomit": {"category": "player", "sounds": [{"name": "player/vomit", "stream": false}]},
     "player.cough": {"category": "player", "sounds": ["player/cough1", "player/cough2", "player/cough3", "player/cough4"]},
-    "player.dash": {"category": "player", "sounds": [{"name": "player/dash", "stream": false}]},
-    "player.dashRecharge": {"category": "player", "sounds": [{"name": "player/dashRecharge", "stream": false}]},
     
     "potatos.random": {"category": "player", "sounds": ["potatos/randResponse0", "potatos/randResponse1", "potatos/randResponse2", "potatos/randResponse3", "potatos/randResponse4", "potatos/randResponse5", "potatos/randResponse6", "potatos/randResponse7"]},
     
