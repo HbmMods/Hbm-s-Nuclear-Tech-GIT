@@ -146,11 +146,12 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		// Mars IRL has inverted blue sunsets, which look cool as
 		// So carbon dioxide rich atmospheres will do the same
 		// for now, it's just a swizzle between red and blue
-		if(atmosphere.fluids == Fluids.CARBONDIOXIDE) {
+	    for (CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
+		if(entry.fluid == Fluids.CARBONDIOXIDE) {
 			float tmp = colors[0];
 			colors[0] = colors[2];
 			colors[2] = tmp;
-		} else if (atmosphere.fluids == Fluids.EVEAIR) {
+		} else if (entry.fluid == Fluids.EVEAIR) {
 			float f2 = 0.4F;
 			float f3 = MathHelper.cos((par1) * (float)Math.PI * 2.0F) - 0.0F;
 			float f4 = -0.0F;
@@ -165,6 +166,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 				colors[3] = f6;
 			}
 		}
+	   }
 
 		return colors;
 	}
