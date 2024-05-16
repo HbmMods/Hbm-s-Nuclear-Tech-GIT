@@ -23,6 +23,10 @@ import com.hbm.extprop.HbmLivingProps;
 public class SkyProviderCelestial extends IRenderHandler {
 	
 	private static final ResourceLocation planetTexture = new ResourceLocation("hbm:textures/misc/space/planet.png");
+	private static final ResourceLocation overlayNew = new ResourceLocation("hbm:textures/misc/space/phase_overlay_new.png");
+	private static final ResourceLocation overlayCrescent = new ResourceLocation("hbm:textures/misc/space/phase_overlay_crescent.png");
+	private static final ResourceLocation overlayHalf = new ResourceLocation("hbm:textures/misc/space/phase_overlay_half.png");
+	private static final ResourceLocation overlayGibbous = new ResourceLocation("hbm:textures/misc/space/phase_overlay_gibbous.png");
 	// private static final ResourceLocation flash = new ResourceLocation("hbm:textures/misc/space/flare.png");
 	private static final ResourceLocation flareTexture = new ResourceLocation("hbm:textures/misc/space/sunspike.png");
 	private static final ResourceLocation nightTexture = new ResourceLocation("hbm:textures/misc/space/night.png");
@@ -245,15 +249,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 			CelestialBody tidalLockedBody = body.tidallyLockedTo != null ? CelestialBody.getBody(body.tidallyLockedTo) : null;
 
 			if(tidalLockedBody != null) {
-				// WE have to calculate metrics TWICE for orbital tidal locking, if you can find a way to get the angle without this,
-				// please implement it
-				List<AstroMetric> metrics = SolarSystem.calculateMetricsFromBody(world, partialTicks, 0, body);
-				for(AstroMetric metric : metrics) {
-					if(metric.body == tidalLockedBody) {
-						longitude = MathHelper.wrapAngleTo180_double(metric.angle + celestialAngle * 360.0 + 60.0);
-						break;
-					}
-				}
+				longitude = SolarSystem.calculateSingleAngle(world, partialTicks, body, tidalLockedBody) + celestialAngle * 360.0 + 60.0;
 			}
 
 			// Get our orrery of bodies
@@ -282,8 +278,12 @@ public class SkyProviderCelestial extends IRenderHandler {
 						mc.renderEngine.bindTexture(metric.body.texture);
 					}
 
-					GL11.glRotated(metric.angle, 1.0, 0.0, 0.0);
-					GL11.glRotatef(metric.body.axialTilt, 0.0F, 1.0F, 0.0F);
+					if(metric.body == tidalLockedBody) {
+						GL11.glRotated(celestialAngle * -360.0 - 60.0, 1.0, 0.0, 0.0);
+					} else {
+						GL11.glRotated(metric.angle, 1.0, 0.0, 0.0);
+					}
+					GL11.glRotatef(metric.body.axialTilt + 90.0F, 0.0F, 1.0F, 0.0F);
 
 					tessellator.startDrawingQuads();
 					tessellator.addVertexWithUV(-size, 100.0D, -size, 0.0D, 0.0D);
@@ -292,11 +292,43 @@ public class SkyProviderCelestial extends IRenderHandler {
 					tessellator.addVertexWithUV(-size, 100.0D, size, 0.0D, 1.0D);
 					tessellator.draw();
 
-					// Draw another layer on top to blend with the atmosphere
 					if(!renderAsPoint) {
 						GL11.glEnable(GL11.GL_BLEND);
+						
+						// Draw a texture on top to simulate phase
+						OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
+
+						double phase = Math.abs(metric.phase);
+						double sign = Math.signum(metric.phase);
+
+						GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+						GL11.glRotatef((float)sign * 90.0F - 90.0F, 0.0F, 1.0F, 0.0F);
+						
+						if(phase > 0.95F) {
+							mc.renderEngine.bindTexture(overlayNew);
+						} else if(phase > 0.8F) {
+							mc.renderEngine.bindTexture(overlayCrescent);
+						} else if(phase > 0.5F) {
+							mc.renderEngine.bindTexture(overlayHalf);
+						} else {
+							mc.renderEngine.bindTexture(overlayGibbous);
+						}
+						
+						if(phase > 0.3F) {
+							tessellator.startDrawingQuads();
+							tessellator.addVertexWithUV(-size, 100.0D, -size, 0.0D, 0.0D);
+							tessellator.addVertexWithUV(size, 100.0D, -size, 1.0D, 0.0D);
+							tessellator.addVertexWithUV(size, 100.0D, size, 1.0D, 1.0D);
+							tessellator.addVertexWithUV(-size, 100.0D, size, 0.0D, 1.0D);
+							tessellator.draw();
+						}
+
+
 						GL11.glDisable(GL11.GL_TEXTURE_2D);
+						
+						// Draw another layer on top to blend with the atmosphere
 						GL11.glColor4f(skyR - blendDarken, skyG - blendDarken, skyB - blendDarken, 1 - blendAmount);
+						OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
 	
 						tessellator.startDrawingQuads();
 						tessellator.addVertexWithUV(-size, 100.0D, -size, 0.0D, 0.0D);
