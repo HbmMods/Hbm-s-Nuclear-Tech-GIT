@@ -10,3 +10,4 @@
 * Fixed missing localization for meteorite ores and the new crucible materials
 * Removed the starmetal crystallization recipe, despite starmetal ore no longer existing
 * Fixed the ICF structure block detection being incorrect, omitting some parts
+* Fixed armor mods adding health showing only half as much as they actually do
