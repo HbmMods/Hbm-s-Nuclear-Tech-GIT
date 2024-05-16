@@ -64,7 +64,7 @@ public class SolarSystem {
 					.withMassRadius(5.292e22F, 600)
 					.withSemiMajorAxis(13_599_840)
 					.withRotationalPeriod(21_549)
-					.withTraits(new CBT_Atmosphere(1F, Fluids.AIR, 10F), CelestialBodyTrait.BREATHABLE)
+					.withTraits(new CBT_Atmosphere(1F, Fluids.AIR, 100F), CelestialBodyTrait.BREATHABLE)
 					.withSatellites(
 
 						new CelestialBody("mun", SpaceConfig.moonDimension)

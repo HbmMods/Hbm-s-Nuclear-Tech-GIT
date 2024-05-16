@@ -154,7 +154,7 @@ public class ItemWandD extends Item {
 					CelestialBody.clearTraits(world);
 					player.addChatMessage(new ChatComponentText("ONE MILLION DEAD WORLDS"));
 				} else {
-					CelestialBody.setTraits(world, new CBT_Atmosphere(1F, Fluids.AIR, 20F), new CBT_Temperature(10F));
+					CelestialBody.setTraits(world, new CBT_Atmosphere(1F, Fluids.AIR, 25F), new CBT_Temperature(10F));
 					player.addChatMessage(new ChatComponentText("Made MOON breathable."));
 				}
 			}
