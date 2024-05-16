@@ -283,7 +283,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 					} else {
 						GL11.glRotated(metric.angle, 1.0, 0.0, 0.0);
 					}
-					GL11.glRotatef(metric.body.axialTilt, 0.0F, 1.0F, 0.0F);
+					GL11.glRotatef(metric.body.axialTilt + 90.0F, 0.0F, 1.0F, 0.0F);
 
 					tessellator.startDrawingQuads();
 					tessellator.addVertexWithUV(-size, 100.0D, -size, 0.0D, 0.0D);
@@ -302,7 +302,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 						double sign = Math.signum(metric.phase);
 
 						GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-						GL11.glRotatef((float)sign * 90.0F, 0.0F, 1.0F, 0.0F);
+						GL11.glRotatef((float)sign * 90.0F - 90.0F, 0.0F, 1.0F, 0.0F);
 						
 						if(phase > 0.95F) {
 							mc.renderEngine.bindTexture(overlayNew);
