@@ -46,6 +46,9 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		float sun = this.getSunBrightnessFactor(1.0F);
 		float totalPressure = atmosphere.getPressure();
 		Vec3 color = Vec3.createVectorHelper(0, 0, 0);
+		
+		// Fog color difference factor
+		float factor = 1.0F;
 
 		for(CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
 			Vec3 fluidColor;
@@ -62,6 +65,9 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 				fluidColor.xCoord *= sun;
 				fluidColor.yCoord *= sun;
 				fluidColor.zCoord *= sun;
+
+				// A bit hacky, but preserves existing planet colour behaviour
+				factor = 1.4F;
 			}
 
 			float percentage = entry.pressure / totalPressure;
@@ -71,8 +77,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 				color.zCoord + fluidColor.zCoord * percentage
 			);
 		}
-		
-		float factor = 1.4F;
+
 		color = Vec3.createVectorHelper(color.xCoord * factor, color.yCoord * factor, color.zCoord * factor);
 
 
