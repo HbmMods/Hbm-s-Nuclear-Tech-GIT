@@ -67,7 +67,7 @@ public class PermaSyncHandler {
 		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = CelestialBodyWorldSavedData.getTraits(world);
 		if(traits != null) {
 			buf.writeBoolean(true); // Has traits marker (since we can have an empty list)
-			buf.writeInt(CelestialBodyTrait.traitList.size());
+			buf.writeInt(traits.size());
 
 			for(int i = 0; i < CelestialBodyTrait.traitList.size(); i++) {
 				Class<? extends CelestialBodyTrait> traitClass = CelestialBodyTrait.traitList.get(i);
