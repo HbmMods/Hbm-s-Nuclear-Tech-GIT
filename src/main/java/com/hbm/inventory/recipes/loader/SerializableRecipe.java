@@ -68,6 +68,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new ArcWelderRecipes());
 		recipeHandlers.add(new ExposureChamberRecipes());
 		recipeHandlers.add(new AssemblerRecipes());
+		recipeHandlers.add(new ArcFurnaceRecipes());
 		
 		recipeHandlers.add(new MatDistribution());
 		recipeHandlers.add(new CustomMachineRecipes());

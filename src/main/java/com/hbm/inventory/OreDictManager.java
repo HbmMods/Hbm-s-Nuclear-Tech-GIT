@@ -662,7 +662,14 @@ public class OreDictManager {
 		}
 		
 		recursionBrake = false;
+
+		if(event.Name.startsWith("ingot")) { ingots.add(event.Name); names.add(event.Name.substring(5)); }
+		if(event.Name.startsWith("ore")) { ores.add(event.Name); names.add(event.Name.substring(3)); }
 	}
+
+	public static final HashSet<String> ores = new HashSet();
+	public static final HashSet<String> ingots = new HashSet();
+	public static final HashSet<String> names = new HashSet();
 	
 	public static class DictFrame {
 		public String[] mats;
