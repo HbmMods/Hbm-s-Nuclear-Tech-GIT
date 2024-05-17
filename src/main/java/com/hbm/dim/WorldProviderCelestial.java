@@ -32,48 +32,55 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		this.worldObj.rainingStrength = 0.0F;
 		this.worldObj.thunderingStrength = 0.0F;
 	}
-    
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Vec3 getFogColor(float x, float y) {
+		if(CelestialBody.hasTrait(worldObj, CBT_SUNEXPLODED.class)) return Vec3.createVectorHelper(0, 0, 0);
+
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
-		if(CelestialBody.hasTrait(worldObj, CBT_SUNEXPLODED.class))return Vec3.createVectorHelper(0, 0, 0);
+
 		// The cold hard vacuum of space
 		if(atmosphere == null) return Vec3.createVectorHelper(0, 0, 0);
+		
+		float sun = this.getSunBrightnessFactor(1.0F);
+		float totalPressure = atmosphere.getPressure();
+		Vec3 color = Vec3.createVectorHelper(0, 0, 0);
 
-		float f = this.getSunBrightnessFactor(1.0F);
+		for(CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
+			Vec3 fluidColor;
 
-		Vec3 color;
-	    Vec3 blendedColor = Vec3.createVectorHelper(0, 0, 0);
+			if(entry.fluid == Fluids.EVEAIR) {
+				fluidColor = Vec3.createVectorHelper(53F / 255F * sun, 32F / 255F * sun, 74F / 255F * sun);
+			} else if(entry.fluid == Fluids.CARBONDIOXIDE) {
+				fluidColor = Vec3.createVectorHelper(212F / 255F * sun, 112F / 255F * sun, 78F / 255F * sun);
+			} else if(entry.fluid == Fluids.AIR){
+				// Default to regular ol' overworld
+				fluidColor = super.getFogColor(x, y);
+			} else {
+				fluidColor = getColorFromHex(entry.fluid.getColor());
+				fluidColor.xCoord *= sun;
+				fluidColor.yCoord *= sun;
+				fluidColor.zCoord *= sun;
+			}
 
-	    for (CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
-		if(entry.fluid == Fluids.EVEAIR && atmosphere.fluids.size() == 1) {
-			blendedColor = Vec3.createVectorHelper(53F / 255F * f, 32F / 255F * f, 74F / 255F * f);
-		} else if(entry.fluid == Fluids.CARBONDIOXIDE && atmosphere.fluids.size() == 1) {
-			blendedColor = Vec3.createVectorHelper(212F / 255F * f, 112F / 255F * f, 78F / 255F * f);
-		} else if(entry.fluid == Fluids.AIR && atmosphere.fluids.size() == 1){
-			// Default to regular ol' overworld
-			blendedColor = super.getFogColor(x, y);
-		} else {
-	        
-	            int colorInt = entry.fluid.getColor();
-	            Vec3 fluidColor = getColorFromHex(colorInt);
-	            float percentage = entry.percentage / 100F;
-	            blendedColor = Vec3.createVectorHelper(
-	                blendedColor.xCoord + fluidColor.xCoord * percentage,
-	                blendedColor.yCoord + fluidColor.yCoord * percentage,
-	                blendedColor.zCoord + fluidColor.zCoord * percentage
-	            );
-	        
-
-	        blendedColor = Vec3.createVectorHelper(blendedColor.xCoord * 1.4 * f, blendedColor.yCoord * 1.4 * f, blendedColor.zCoord * 1.4 * f);
-	    	}
+			float percentage = entry.pressure / totalPressure;
+			color = Vec3.createVectorHelper(
+				color.xCoord + fluidColor.xCoord * percentage,
+				color.yCoord + fluidColor.yCoord * percentage,
+				color.zCoord + fluidColor.zCoord * percentage
+			);
 		}
-
-        color = blendedColor;
+		
+		float factor = 1.4F;
+		color = Vec3.createVectorHelper(color.xCoord * factor, color.yCoord * factor, color.zCoord * factor);
 
 
 		// Fog intensity remains high to simulate a thin looking atmosphere on low pressure planets
+		float pressureFactor = MathHelper.clamp_float(atmosphere.getPressure() * 10.0F, 0.0F, 1.0F);
+		color.xCoord *= pressureFactor;
+		color.yCoord *= pressureFactor;
+		color.zCoord *= pressureFactor;
 
 		return color;
 	}
@@ -81,57 +88,57 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Vec3 getSkyColor(Entity camera, float partialTicks) {
-		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
-		// The cold hard vacuum of space
 		if(CelestialBody.hasTrait(worldObj, CBT_SUNEXPLODED.class)) return Vec3.createVectorHelper(0, 0, 0);
 
+		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
+		
+		// The cold hard vacuum of space
 		if(atmosphere == null) return Vec3.createVectorHelper(0, 0, 0);
 
-		float f = this.getSunBrightnessFactor(1.0F);
+		float sun = this.getSunBrightnessFactor(1.0F);
+		float totalPressure = atmosphere.getPressure();
+		Vec3 color = Vec3.createVectorHelper(0, 0, 0);
 
-		Vec3 color;
-	    Vec3 blendedColor = Vec3.createVectorHelper(0, 0, 0);
+		for(CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
+			Vec3 fluidColor;
 
-	    for (CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
-		if(entry.fluid == Fluids.EVEAIR && atmosphere.fluids.size() == 1) {
-			blendedColor = Vec3.createVectorHelper(53F / 255F * f, 32F / 255F * f, 74F / 255F * f);
-		} else if(entry.fluid == Fluids.CARBONDIOXIDE && atmosphere.fluids.size() == 1) {
-			blendedColor = Vec3.createVectorHelper(212F / 255F * f, 112F / 255F * f, 78F / 255F * f);
-		} else if(entry.fluid == Fluids.AIR&& atmosphere.fluids.size() == 1){
-			// Default to regular ol' overworld
-			blendedColor = super.getSkyColor(camera, partialTicks);
-		} else {
-	        
-	            int colorInt = entry.fluid.getColor();
-	            Vec3 fluidColor = getColorFromHex(colorInt);
-	            float percentage = entry.percentage / 100F;
-	            blendedColor = Vec3.createVectorHelper(
-	                blendedColor.xCoord + fluidColor.xCoord * percentage,
-	                blendedColor.yCoord + fluidColor.yCoord * percentage,
-	                blendedColor.zCoord + fluidColor.zCoord * percentage
-	            );
-	        
+			if(entry.fluid == Fluids.EVEAIR) {
+				fluidColor = Vec3.createVectorHelper(53F / 255F * sun, 32F / 255F * sun, 74F / 255F * sun);
+			} else if(entry.fluid == Fluids.CARBONDIOXIDE) {
+				fluidColor = Vec3.createVectorHelper(212F / 255F * sun, 112F / 255F * sun, 78F / 255F * sun);
+			} else if(entry.fluid == Fluids.AIR){
+				// Default to regular ol' overworld
+				fluidColor = super.getSkyColor(camera, partialTicks);
+			} else {
+				fluidColor = getColorFromHex(entry.fluid.getColor());
+				fluidColor.xCoord *= sun;
+				fluidColor.yCoord *= sun;
+				fluidColor.zCoord *= sun;
+			}
 
-		        blendedColor = Vec3.createVectorHelper(blendedColor.xCoord * f, blendedColor.yCoord * f, blendedColor.zCoord * f);
-	    	}
-	   
+			float percentage = entry.pressure / totalPressure;
+			color = Vec3.createVectorHelper(
+				color.xCoord + fluidColor.xCoord * percentage,
+				color.yCoord + fluidColor.yCoord * percentage,
+				color.zCoord + fluidColor.zCoord * percentage
+			);
 		}
-        color = blendedColor;
 
 		// Lower pressure sky renders thinner
-		color.xCoord *= atmosphere.pressure;
-		color.yCoord *= atmosphere.pressure;
-		color.zCoord *= atmosphere.pressure;
+		float pressureFactor = MathHelper.clamp_float(atmosphere.getPressure(), 0.0F, 1.0F);
+		color.xCoord *= pressureFactor;
+		color.yCoord *= pressureFactor;
+		color.zCoord *= pressureFactor;
 
 		return color;
 	}
 
-    private Vec3 getColorFromHex(int hexColor) {
-        float red = ((hexColor >> 16) & 0xFF) / 255.0F;
-        float green = ((hexColor >> 8) & 0xFF) / 255.0F;
-        float blue = (hexColor & 0xFF) / 255.0F;
-        return Vec3.createVectorHelper(red, green, blue);
-    }
+	private Vec3 getColorFromHex(int hexColor) {
+		float red = ((hexColor >> 16) & 0xFF) / 255.0F;
+		float green = ((hexColor >> 8) & 0xFF) / 255.0F;
+		float blue = (hexColor & 0xFF) / 255.0F;
+		return Vec3.createVectorHelper(red, green, blue);
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -146,12 +153,11 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		// Mars IRL has inverted blue sunsets, which look cool as
 		// So carbon dioxide rich atmospheres will do the same
 		// for now, it's just a swizzle between red and blue
-	    for (CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
-		if(entry.fluid == Fluids.CARBONDIOXIDE) {
+		if(atmosphere.hasFluid(Fluids.CARBONDIOXIDE)) {
 			float tmp = colors[0];
 			colors[0] = colors[2];
 			colors[2] = tmp;
-		} else if (entry.fluid == Fluids.EVEAIR) {
+		} else if (atmosphere.hasFluid(Fluids.EVEAIR)) {
 			float f2 = 0.4F;
 			float f3 = MathHelper.cos((par1) * (float)Math.PI * 2.0F) - 0.0F;
 			float f4 = -0.0F;
@@ -166,7 +172,6 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 				colors[3] = f6;
 			}
 		}
-	   }
 
 		return colors;
 	}
@@ -212,12 +217,12 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float getSunBrightness(float par1) {
+		if(CelestialBody.hasTrait(worldObj, CBT_SUNEXPLODED.class)) {
+			return 0;
+		}
+
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
 		float sunBrightness = super.getSunBrightness(par1);
-		if(CelestialBody.hasTrait(worldObj, CBT_SUNEXPLODED.class)) {
-			return sunBrightness *= 0.0F;
-
-		}
 
 		if(atmosphere == null) return sunBrightness;
 
@@ -225,21 +230,20 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 			return sunBrightness *= 0.3F;
 		}
 
-
 		return sunBrightness;
 	}
 
 	@Override
-    public boolean canRespawnHere() {
-        return false;
-    }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public float getCloudHeight() {
+	public boolean canRespawnHere() {
+		return false;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public float getCloudHeight() {
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
 
-		if(atmosphere == null || atmosphere.pressure < 0.5F) return -100;
+		if(atmosphere == null || atmosphere.getPressure() < 0.5F) return -100;
 		
 		return super.getCloudHeight();
 	}
@@ -250,27 +254,27 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		return new SkyProviderCelestial();
 	}
 
-    protected double getDayLength() {
+	protected double getDayLength() {
 		CelestialBody body = CelestialBody.getBody(worldObj);
 		return body.getRotationalPeriod() / (1 - (1 / body.getPlanet().getOrbitalPeriod()));
-    }
-    
-    @Override
-    public float calculateCelestialAngle(long worldTime, float timeOffset) {
-        double j = ((worldTime - Math.abs(worldObj.getSeed())) % this.getDayLength());
-        double f1 = (j + timeOffset) / this.getDayLength() - 0.25F;
+	}
+	
+	@Override
+	public float calculateCelestialAngle(long worldTime, float timeOffset) {
+		double j = ((worldTime - Math.abs(worldObj.getSeed())) % this.getDayLength());
+		double f1 = (j + timeOffset) / this.getDayLength() - 0.25F;
 
-        if(f1 < 0.0F) {
-            ++f1;
-        }
+		if(f1 < 0.0F) {
+			++f1;
+		}
 
-        if(f1 > 1.0F) {
-            --f1;
-        }
+		if(f1 > 1.0F) {
+			--f1;
+		}
 
-        double f2 = f1;
-        f1 = 0.5F - Math.cos(f1 * Math.PI) / 2.0F;
-        return (float)(f2 + (f1 - f2) / 3.0D);
-    }
+		double f2 = f1;
+		f1 = 0.5F - Math.cos(f1 * Math.PI) / 2.0F;
+		return (float)(f2 + (f1 - f2) / 3.0D);
+	}
 
 }

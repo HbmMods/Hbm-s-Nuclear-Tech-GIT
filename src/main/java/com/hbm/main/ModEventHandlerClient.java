@@ -17,9 +17,11 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
+import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SkyProviderCelestial;
 import com.hbm.dim.duna.WorldProviderDuna;
 import com.hbm.dim.eve.WorldProviderEve;
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.entity.train.EntityRailCarRidable;
@@ -1382,17 +1384,16 @@ public class ModEventHandlerClient {
 
 	@SubscribeEvent
 	public void thickenFog(FogDensity event) {
-		if (event.entity.worldObj.provider instanceof WorldProviderEve) {
-				if(GLContext.getCapabilities().GL_NV_fog_distance) {
-					GL11.glFogi(34138, 34139);
-				}
-				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
+		CBT_Atmosphere atmosphere = CelestialBody.getTrait(event.entity.worldObj, CBT_Atmosphere.class);
+		if (atmosphere != null && atmosphere.getPressure() > 2F) {
+			if(GLContext.getCapabilities().GL_NV_fog_distance) {
+				GL11.glFogi(34138, 34139);
+			}
+			GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
 
-				event.density = 0.045F;
-				event.setCanceled(true);
-			
+			event.density = 0.045F;
+			event.setCanceled(true);
 		}
-
 	}
 	
 	@SubscribeEvent
