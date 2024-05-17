@@ -1,6 +1,5 @@
 package com.hbm.saveddata.satellites;
 
-import com.hbm.entity.projectile.EntityTom;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.TomSaveData;
@@ -11,7 +10,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
 
 public class SatelliteHorizons extends Satellite {
 	
@@ -61,4 +59,10 @@ public class SatelliteHorizons extends Satellite {
 			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(EnumChatFormatting.RED + "Horizons has been activated."));
 		}
 	}
+
+	@Override
+	public float[] getColor() {
+		return new float[] { 0.0F, 0.0F, 0.0F };
+	}
+
 }

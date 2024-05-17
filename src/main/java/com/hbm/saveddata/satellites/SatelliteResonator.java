@@ -21,4 +21,10 @@ public class SatelliteResonator extends Satellite {
 		((EntityPlayerMP)player).playerNetServerHandler.setPlayerLocation(x + 0.5D, y, z + 0.5D, player.rotationYaw, player.rotationPitch);
 		world.playSoundEffect(player.posX, player.posY, player.posZ, "mob.endermen.portal", 1.0F, 1.0F);
 	}
+
+	@Override
+	public float[] getColor() {
+		return new float[] { 1.0F, 0.646F, 0.181F };
+	}
+	
 }

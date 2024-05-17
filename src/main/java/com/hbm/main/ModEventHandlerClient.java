@@ -17,6 +17,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
+import com.hbm.dim.SkyProviderCelestial;
 import com.hbm.dim.duna.WorldProviderDuna;
 import com.hbm.dim.eve.WorldProviderEve;
 import com.hbm.entity.mob.EntityHunterChopper;
@@ -64,7 +65,6 @@ import com.hbm.render.util.RenderAccessoryUtility;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.render.util.SoyuzPronter;
-import com.hbm.render.world.RenderNTMSkyboxChainloader;
 import com.hbm.render.world.RenderNTMSkyboxImpact;
 import com.hbm.sound.MovingSoundChopper;
 import com.hbm.sound.MovingSoundChopperMine;
@@ -136,6 +136,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraftforge.client.GuiIngameForge;
@@ -223,7 +224,7 @@ public class ModEventHandlerClient {
 			
 			if(mop != null) {
 				
-				if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+				if(mop.typeOfHit == MovingObjectType.BLOCK) {
 					
 					if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ILookOverlay) {
 						((ILookOverlay) player.getHeldItem().getItem()).printHook(event, world, mop.blockX, mop.blockY, mop.blockZ);
@@ -236,7 +237,7 @@ public class ModEventHandlerClient {
 					text.add("Meta: " + world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ));
 					ILookOverlay.printGeneric(event, "DEBUG", 0xffff00, 0x4040000, text);*/
 					
-				} else if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
+				} else if(mop.typeOfHit == MovingObjectType.ENTITY) {
 					Entity entity = mop.entityHit;
 					
 					if(entity instanceof ILookOverlay) {
@@ -360,7 +361,7 @@ public class ModEventHandlerClient {
 		/// HANDLE SCOPE OVERLAY ///
 		ItemStack held = player.getHeldItem();
 		
-		if(player.isSneaking() && held != null && held.getItem() instanceof ItemGunBase && event.type == event.type.HOTBAR)  {
+		if(player.isSneaking() && held != null && held.getItem() instanceof ItemGunBase && event.type == ElementType.HOTBAR)  {
 			GunConfiguration config = ((ItemGunBase) held.getItem()).mainConfig;
 			
 			if(config.scopeTexture != null) {
@@ -379,7 +380,7 @@ public class ModEventHandlerClient {
 		if(helmet != null && helmet.getItem() instanceof ArmorFSB) {
 			((ArmorFSB)helmet.getItem()).handleOverlay(event, player);
 		}
-		if(!event.isCanceled() && event.type == event.type.HOTBAR) {
+		if(!event.isCanceled() && event.type == ElementType.HOTBAR) {
 			
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			if(props.getDashCount() > 0) {
@@ -395,7 +396,7 @@ public class ModEventHandlerClient {
 
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
-		if(event.type == event.type.ARMOR) {
+		if(event.type == ElementType.ARMOR) {
 
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			if(props.getEffectiveMaxShield() > 0) {
@@ -412,7 +413,7 @@ public class ModEventHandlerClient {
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		Tessellator tess = Tessellator.instance;
 		
-		if(!event.isCanceled() && event.type == event.type.HEALTH) {
+		if(!event.isCanceled() && event.type == ElementType.HEALTH) {
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			if(props.maxShield > 0) {
 				RenderScreenOverlay.renderShieldBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
@@ -421,15 +422,16 @@ public class ModEventHandlerClient {
 				RenderScreenOverlay.renderTaintBar(event.resolution, Minecraft.getMinecraft().ingameGUI);
 			}
 		}
-		if (!event.isCanceled() && event.type == event.type.ALL)
-		{
+
+		if (!event.isCanceled() && event.type == ElementType.ALL) {
 			long time = ImpactWorldHandler.getTimeForClient(player.worldObj);
 			if(time>0)
 			{
 				RenderScreenOverlay.renderCountdown(event.resolution, Minecraft.getMinecraft().ingameGUI, Minecraft.getMinecraft().theWorld);	
 			}        	
 		}
-		if(event.type == event.type.ARMOR) {
+
+		if(event.type == ElementType.ARMOR) {
 			
 			if(ForgeHooks.getTotalArmorValue(player) == 0) {
 				GuiIngameForge.left_height -= 10;
@@ -465,6 +467,7 @@ public class ModEventHandlerClient {
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 
 			}
+
 			if(ArmorFSB.hasFSBArmorIgnoreCharge(player)) {
 				ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
 				boolean noHelmet = chestplate.noHelmet;
@@ -506,7 +509,7 @@ public class ModEventHandlerClient {
 
 				ItemStack stack = player.inventory.armorInventory[2];
 
-				float tot = (float) ((JetpackBase) stack.getItem()).getFuel(stack) / (float) ((JetpackBase) stack.getItem()).getMaxFill(stack);
+				float tot = (float) JetpackBase.getFuel(stack) / (float) ((JetpackBase) stack.getItem()).getMaxFill(stack);
 				
 				int top = height - GuiIngameForge.left_height + 3;
 
@@ -864,8 +867,7 @@ public class ModEventHandlerClient {
 		///NEUTRON ACTIVATION
 		float level = 0;
 		float rads = HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.RADIATION);
-		if(HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.RADIATION)==0)
-		{
+		if(rads == 0) {
 			if(stack.hasTagCompound() && stack.stackTagCompound.hasKey("ntmNeutron")) {
 				level += stack.stackTagCompound.getFloat("ntmNeutron");
 			}
@@ -1033,12 +1035,12 @@ public class ModEventHandlerClient {
 			if(BlockAshes.ashes < 0) BlockAshes.ashes = 0;
 			
 			if(mc.theWorld.getTotalWorldTime() % 20 == 0) {
-				this.lastBrightness = this.currentBrightness;
+				lastBrightness = currentBrightness;
 				currentBrightness = mc.theWorld.getLightBrightnessForSkyBlocks(MathHelper.floor_double(mc.thePlayer.posX), MathHelper.floor_double(mc.thePlayer.posY), MathHelper.floor_double(mc.thePlayer.posZ), 0);
 			}
 			
 			if(ArmorUtil.isWearingEmptyMask(mc.thePlayer)) {
-				MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "Your mask has no filter!", MainRegistry.proxy.ID_FILTER);
+				MainRegistry.proxy.displayTooltip(EnumChatFormatting.RED + "Your mask has no filter!", ServerProxy.ID_FILTER);
 			}
 		}
 		
@@ -1118,7 +1120,7 @@ public class ModEventHandlerClient {
 			
 			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSB) {
 				ArmorFSB plate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
-				if(plate.hasFSBArmor(player)) newStepSize = plate.stepSize;
+				if(ArmorFSB.hasFSBArmor(player)) newStepSize = plate.stepSize;
 			}
 			
 			if(newStepSize > 0) {
@@ -1172,14 +1174,18 @@ public class ModEventHandlerClient {
 			
 			IRenderHandler sky = world.provider.getSkyRenderer();
 			
-			if(world.provider instanceof WorldProviderSurface) {
-				world.provider.setSkyRenderer(new RenderNTMSkyboxImpact());
-				return;
-			}
+			// if(world.provider instanceof WorldProviderSurface) {
+			// 	if(!(sky instanceof RenderNTMSkyboxImpact)) {
+			// 		world.provider.setSkyRenderer(new RenderNTMSkyboxImpact());
+			// 		return;
+			// 	}
+			// }
 
+			// Since we aren't just adding a star or two, we can't employ the chainloader,
+			// sorry, no custom skyboxes for SHPAYCE!
 			if(world.provider.dimensionId == 0) {
-				if(!(sky instanceof RenderNTMSkyboxChainloader)) {
-					world.provider.setSkyRenderer(new RenderNTMSkyboxChainloader(sky));
+				if(!(sky instanceof SkyProviderCelestial)) {
+					world.provider.setSkyRenderer(new SkyProviderCelestial());
 				}
 			}
 		}

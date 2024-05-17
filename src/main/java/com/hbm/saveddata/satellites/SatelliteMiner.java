@@ -45,4 +45,10 @@ public class SatelliteMiner extends Satellite {
 	static {
 		registerCargo(SatelliteMiner.class, ItemPoolsSatellite.POOL_SAT_MINER);
 	}
+
+	@Override
+	public float[] getColor() {
+		return new float[] { 0.0F, 0.0F, 0.0F };
+	}
+	
 }
