@@ -185,7 +185,7 @@ public class EntityEffectHandler {
 			return;
 		
 		List<ContaminationEffect> contamination = HbmLivingProps.getCont(entity);
-		List<ContaminationEffect> rem = new ArrayList();
+		List<ContaminationEffect> rem = new ArrayList<ContaminationEffect>();
 		
 		for(ContaminationEffect con : contamination) {
 			ContaminationUtil.contaminate(entity, HazardType.RADIATION, con.ignoreArmor ? ContaminationType.RAD_BYPASS : ContaminationType.CREATIVE, con.getRad());
@@ -297,26 +297,19 @@ public class EntityEffectHandler {
 	}
 
 	private static void handleOxy(EntityLivingBase entity) {
-	    CBT_Atmosphere atmosphere = CelestialBody.getTrait(entity.worldObj, CBT_Atmosphere.class);
+		CBT_Atmosphere atmosphere = CelestialBody.getTrait(entity.worldObj, CBT_Atmosphere.class);
 
-	    if (atmosphere == null) {
-            HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
-            return;
-	    }
-	        boolean hasBreathableAir = false;
+		if (atmosphere == null) {
+			HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
+			return;
+		}
 
-	        for (CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
-	            if (entry.fluid == Fluids.AIR && entry.percentage >= 21.0F) { // Assuming 21% AIR is required for breathable atmosphere
-	                hasBreathableAir = true;
-	                break;
-	            }
-	        }
+		boolean hasBreathableAir = atmosphere.hasFluid(Fluids.AIR, 0.21F) || atmosphere.hasFluid(Fluids.OXYGEN, 0.09F); // Assuming 21% AIR/9% OXY is required for breathable atmosphere
 
-	        if (!ArmorUtil.checkForOxy(entity) && !hasBreathableAir && !(entity instanceof EntityGlyphid)) {
-	            HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
-	            return;
-	        
-	    }
+		if (!ArmorUtil.checkForOxy(entity) && !hasBreathableAir && !(entity instanceof EntityGlyphid)) {
+			HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
+			return;
+		}
 	}
 
 	private static void handleDigamma(EntityLivingBase entity) {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import com.hbm.dim.CelestialBodyWorldSavedData;
 import com.hbm.dim.trait.CelestialBodyTrait;
@@ -13,7 +14,9 @@ import com.hbm.handler.pollution.PollutionHandler.PollutionData;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
+import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.saveddata.satellites.Satellite;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -60,12 +63,11 @@ public class PermaSyncHandler {
 		}
 		/// POLLUTION ///
 
-		// CBT is VARIABLE LENGTH!
-		// Make sure it's always last, or you'll have issues OF THE CBT VARIETY!
 		/// CBT ///
 		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = CelestialBodyWorldSavedData.getTraits(world);
 		if(traits != null) {
 			buf.writeBoolean(true); // Has traits marker (since we can have an empty list)
+			buf.writeInt(CelestialBodyTrait.traitList.size());
 
 			for(int i = 0; i < CelestialBodyTrait.traitList.size(); i++) {
 				Class<? extends CelestialBodyTrait> traitClass = CelestialBodyTrait.traitList.get(i);
@@ -80,6 +82,16 @@ public class PermaSyncHandler {
 			buf.writeBoolean(false);
 		}
 		/// CBT ///
+
+		/// SATELLITES ///
+		// Only syncs data required for rendering satellites on the client
+		HashMap<Integer, Satellite> sats = SatelliteSavedData.getData(world).sats;
+		buf.writeInt(sats.size());
+		for(Map.Entry<Integer, Satellite> entry : sats.entrySet()) {
+			buf.writeInt(entry.getKey());
+			buf.writeInt(entry.getValue().getID());
+		}
+		/// SATELLITES ///
 	}
 	
 	public static void readPacket(ByteBuf buf, World world, EntityPlayer player) {
@@ -104,14 +116,13 @@ public class PermaSyncHandler {
 		}
 		/// POLLUTION ///
 
-		// I will clamp your balls if you don't heed the prior warning
-		// Unless you know how to delimit byte buffers, you magician you
 		/// CBT ///
 		try {
 			if(buf.readBoolean()) {
 				HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = new HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>();
 	
-				while(buf.isReadable()) {
+				int cbtSize = buf.readInt();
+				for(int i = 0; i < cbtSize; i++) {
 					CelestialBodyTrait trait = CelestialBodyTrait.traitList.get(buf.readInt()).newInstance();
 					trait.readFromBytes(buf);
 	
@@ -129,7 +140,18 @@ public class PermaSyncHandler {
 
 			MainRegistry.logger.catching(ex);
 			CelestialBodyWorldSavedData.updateClientTraits(null);
+
+			return;
 		}
 		/// CBT ///
+
+		/// SATELLITES ///
+		int satSize = buf.readInt();
+		HashMap<Integer, Satellite> sats = new HashMap<Integer, Satellite>();
+		for(int i = 0; i < satSize; i++) {
+			sats.put(buf.readInt(), Satellite.create(buf.readInt()));
+		}
+		SatelliteSavedData.setClientSats(sats);
+		/// SATELLITES ///
 	}
 }

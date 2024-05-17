@@ -12,10 +12,6 @@ public abstract class CelestialBodyTrait {
 
 	// Similarly to fluid traits, we have classes, and instance members.
 	// For the simple traits, we'll just init both here rather than two places.
-	
-	// Breathable MAY be just replaced with a check against PT_Atmosphere
-	public static class CBT_Breathable extends CelestialBodyTrait { }
-	public static CBT_Breathable BREATHABLE = new CBT_Breathable();
 
 	public static class CBT_Hot extends CelestialBodyTrait { }
 	public static CBT_Hot HOT = new CBT_Hot();
@@ -28,20 +24,18 @@ public abstract class CelestialBodyTrait {
 	
 	public static class CBT_SUNEXPLODED extends CelestialBodyTrait { }
 	public static CBT_SUNEXPLODED SPLODE = new CBT_SUNEXPLODED();
+
 	// Constructor and loading
 	public static List<Class<? extends CelestialBodyTrait>> traitList = new ArrayList<Class<? extends CelestialBodyTrait>>();
 	public static HashBiMap<String, Class<? extends CelestialBodyTrait>> traitMap = HashBiMap.create();
 
 	static {
 		registerTrait("atmosphere", CBT_Atmosphere.class);
-		registerTrait("breathable", CBT_Breathable.class);
 		registerTrait("hot", CBT_Hot.class);
 		registerTrait("cold", CBT_Cold.class);
 		registerTrait("hotter", CBT_Temperature.class);
 		registerTrait("war", CBT_War.class);
 		registerTrait("sunexploded", CBT_SUNEXPLODED.class);
-
-
 	};
 
 	private static void registerTrait(String name, Class<? extends CelestialBodyTrait> clazz) {

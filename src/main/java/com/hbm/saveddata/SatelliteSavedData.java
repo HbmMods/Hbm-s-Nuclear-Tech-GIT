@@ -1,6 +1,9 @@
 package com.hbm.saveddata;
 
 import com.hbm.saveddata.satellites.Satellite;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
@@ -77,4 +80,17 @@ public class SatelliteSavedData extends WorldSavedData {
 	    
 	    return data;
 	}
+
+	public static HashMap<Integer, Satellite> clientSats = new HashMap<>();
+
+	@SideOnly(Side.CLIENT)
+	public static void setClientSats(HashMap<Integer, Satellite> sats) {
+		clientSats = sats;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public static HashMap<Integer, Satellite> getClientSats() {
+		return clientSats;
+	}
+
 }
