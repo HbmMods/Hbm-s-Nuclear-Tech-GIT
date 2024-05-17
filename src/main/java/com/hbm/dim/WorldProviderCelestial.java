@@ -46,9 +46,6 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		float sun = this.getSunBrightnessFactor(1.0F);
 		float totalPressure = atmosphere.getPressure();
 		Vec3 color = Vec3.createVectorHelper(0, 0, 0);
-		
-		// Fog color difference factor
-		float factor = 1.0F;
 
 		for(CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
 			Vec3 fluidColor;
@@ -62,12 +59,9 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 				fluidColor = super.getFogColor(x, y);
 			} else {
 				fluidColor = getColorFromHex(entry.fluid.getColor());
-				fluidColor.xCoord *= sun;
-				fluidColor.yCoord *= sun;
-				fluidColor.zCoord *= sun;
-
-				// A bit hacky, but preserves existing planet colour behaviour
-				factor = 1.4F;
+				fluidColor.xCoord *= sun * 1.4F;
+				fluidColor.yCoord *= sun * 1.4F;
+				fluidColor.zCoord *= sun * 1.4F;
 			}
 
 			float percentage = entry.pressure / totalPressure;
@@ -77,8 +71,6 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 				color.zCoord + fluidColor.zCoord * percentage
 			);
 		}
-
-		color = Vec3.createVectorHelper(color.xCoord * factor, color.yCoord * factor, color.zCoord * factor);
 
 
 		// Fog intensity remains high to simulate a thin looking atmosphere on low pressure planets
