@@ -104,5 +104,9 @@ public class CelestialBodyWorldSavedData extends WorldSavedData {
 
         return get(world).traits;
     }
+
+    public HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits() {
+        return traits;
+    }
 	
 }

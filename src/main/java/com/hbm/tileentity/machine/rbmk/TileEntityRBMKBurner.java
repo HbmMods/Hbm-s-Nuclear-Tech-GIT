@@ -1,7 +1,6 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import java.util.List;
-import java.util.Random;
 
 import api.hbm.fluid.IFluidStandardReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -9,26 +8,14 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
-import com.hbm.inventory.fluid.trait.FT_Heatable;
-import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
-import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.lib.Library;
-import com.hbm.tileentity.machine.TileEntityHeatBoiler;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.ParticleUtil;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.ChatStyle;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class TileEntityRBMKBurner extends TileEntityRBMKBase implements IFluidAcceptor, IFluidStandardReceiver {
@@ -51,18 +38,15 @@ public class TileEntityRBMKBurner extends TileEntityRBMKBase implements IFluidAc
 			maxBurn += maxBurn;
 
 			if((int)(this.heat) > 19) {
-				FT_Flammable trait = tank.getTankType().getTrait(FT_Flammable.class);
 				if(tank.getTankType().hasTrait(FT_Flammable.class)){
-						//int HeatProvided = Math.min(maxBurn, tank.getFill());
-						//int heatProvided = (int)(this.heat + 1D);
-						 int heating = Math.min(maxBurn, tank.getFill());
-						{
+					int heating = Math.min(maxBurn, tank.getFill());
+					{
 						tank.setFill(tank.getFill() - heating );
 						//Math.min(this.heat, maxBurn);
 						long powerProd = tank.getTankType().getTrait(FT_Flammable.class).getHeatEnergy() * heating  / 1_000000; // divided by 1000 per mB
 						this.heat += powerProd;
-					}			
-						this.lastHot = heating;	
+					}
+					this.lastHot = heating;
 				}
 				
 				if(lastHot > 0) {

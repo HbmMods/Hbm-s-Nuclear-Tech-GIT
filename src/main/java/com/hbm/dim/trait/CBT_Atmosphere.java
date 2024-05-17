@@ -18,9 +18,9 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 
 	public static class FluidEntry {
 		public FluidType fluid;
-		public float pressure;
+		public double pressure;
 
-		public FluidEntry(FluidType fluid, float percentage) {
+		public FluidEntry(FluidType fluid, double percentage) {
 			this.fluid = fluid;
 			this.pressure = percentage;
 		}
@@ -30,13 +30,14 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 		fluids = new ArrayList<>();
 	}
 
-	public CBT_Atmosphere(Object... fluidData) {
+	public CBT_Atmosphere(FluidType fluid, double pressure) {
 		fluids = new ArrayList<>();
-		for (int i = 0; i < fluidData.length; i += 2) {
-			FluidType fluid = (FluidType) fluidData[i];
-			float percentage = (float) fluidData[i + 1];
-			fluids.add(new FluidEntry(fluid, percentage));
-		}
+		fluids.add(new FluidEntry(fluid, pressure));
+	}
+
+	public CBT_Atmosphere and(FluidType fluid, double pressure) {
+		fluids.add(new FluidEntry(fluid, pressure));
+		return this;
 	}
 
 	public boolean hasFluid(FluidType fluid) {
@@ -48,19 +49,19 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 		return false;
 	}
 
-	public boolean hasFluid(FluidType fluid, float abovePressure) {
+	public boolean hasFluid(FluidType fluid, double abovePressure) {
 		for(FluidEntry entry : fluids) {
-			if(entry.fluid == fluid && entry.pressure >= abovePressure)
-				return true;
+			if(entry.fluid == fluid)
+				return entry.pressure >= abovePressure;
 		}
 
 		return false;
 	}
 
 	// FluidEntries store PARTIAL pressure, to get the total atmospheric pressure, use this method
-	public float getPressure() {
-		float pressure = 0;
-		for(FluidEntry entry: fluids) {
+	public double getPressure() {
+		double pressure = 0;
+		for(FluidEntry entry : fluids) {
 			pressure += entry.pressure;
 		}
 
@@ -81,7 +82,7 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 		for (FluidEntry entry : fluids) {
 			NBTTagCompound fluidTag = new NBTTagCompound();
 			fluidTag.setInteger("type", entry.fluid.getID());
-			fluidTag.setFloat("percentage", entry.pressure);
+			fluidTag.setDouble("percentage", entry.pressure);
 			fluidList.appendTag(fluidTag);
 		}
 		nbt.setTag("fluids", fluidList);
@@ -94,17 +95,18 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 		for (int i = 0; i < fluidList.tagCount(); i++) {
 			NBTTagCompound fluidTag = fluidList.getCompoundTagAt(i);
 			FluidType fluid = Fluids.fromID(fluidTag.getInteger("type"));
-			float percentage = fluidTag.getFloat("percentage");
+			double percentage = fluidTag.getDouble("percentage");
 			fluids.add(new FluidEntry(fluid, percentage));
 		}
 	}
 
+	// These methods are for client syncing, the precision loss is intentional
 	@Override
 	public void writeToBytes(ByteBuf buf) {
 		buf.writeInt(fluids.size());
 		for (FluidEntry entry : fluids) {
 			buf.writeInt(entry.fluid.getID());
-			buf.writeFloat(entry.pressure);
+			buf.writeFloat((float)entry.pressure);
 		}
 	}
 
@@ -114,7 +116,7 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 		fluids = new ArrayList<>();
 		for (int i = 0; i < size; i++) {
 			FluidType fluid = Fluids.fromID(buf.readInt());
-			float percentage = buf.readFloat();
+			double percentage = buf.readFloat();
 			fluids.add(new FluidEntry(fluid, percentage));
 		}
 	}

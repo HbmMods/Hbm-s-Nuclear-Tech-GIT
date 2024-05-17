@@ -100,7 +100,8 @@ public class SkyProviderCelestial extends IRenderHandler {
 		boolean hasAtmosphere = atmosphere != null;
 		boolean sundied = body.hasTrait(CBT_SUNEXPLODED.class);
 
-		float visibility = hasAtmosphere ? MathHelper.clamp_float(2.0F - atmosphere.getPressure(), 0.1F, 1.0F) : 1.0F;
+		float pressure = hasAtmosphere ? (float)atmosphere.getPressure() : 0.0F;
+		float visibility = hasAtmosphere ? MathHelper.clamp_float(2.0F - pressure, 0.1F, 1.0F) : 1.0F;
 
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		Vec3 vec3 = world.getSkyColor(mc.renderViewEntity, partialTicks);
@@ -195,7 +196,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 			GL11.glRotatef(celestialAngle * 360.0F, 1.0F, 0.0F, 0.0F);
 
 			double sunSize = SolarSystem.calculateSunSize(body);
-			double coronaSize = sunSize * (hasAtmosphere ? 2 : 3);
+			double coronaSize = sunSize * (3 - MathHelper.clamp_float(pressure, 0.0F, 1.0F));
 
 			// Some blanking to conceal the stars
 			if(!sundied) {
@@ -227,9 +228,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 			// Draw a big ol' spiky flare! Less so when there is an atmosphere
 			if(!sundied) {
-				if(hasAtmosphere) {
-					GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.25f);
-				}
+				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1 - MathHelper.clamp_float(pressure, 0.0F, 1.0F) * 0.75F);
 
 				mc.renderEngine.bindTexture(flareTexture);
 
