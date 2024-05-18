@@ -336,8 +336,6 @@ public class ModEventHandler {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityDeathLast(LivingDeathEvent event) {
 		
-		EntityLivingBase entity = event.entityLiving;
-		
 		if(event.entityLiving instanceof EntityPlayer) {
 			
 			EntityPlayer player = (EntityPlayer) event.entityLiving;

@@ -23,6 +23,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class TileEntityICFPress extends TileEntityMachineBase implements IFluidStandardReceiver, IGUIProvider {
@@ -151,6 +152,22 @@ public class TileEntityICFPress extends TileEntityMachineBase implements IFluidS
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return side == 0 || side == 1 ? topBottom : sides;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		tanks[0].readFromNBT(nbt, "t0");
+		tanks[1].readFromNBT(nbt, "t1");
+		this.muon = nbt.getByte("muon");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		tanks[0].writeToNBT(nbt, "t0");
+		tanks[1].writeToNBT(nbt, "t1");
+		nbt.setByte("muon", (byte) muon);
 	}
 
 	@Override

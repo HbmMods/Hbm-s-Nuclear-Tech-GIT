@@ -5,6 +5,7 @@
 * Sellafite diamond ore now shreds into diamond gravel
 * ICF vessel blocks now use half as much fullerite as before
 * ICF capacitor and turbocharger blocks are now quite a bit cheaper
+* Nerfed MEP, it only outputs 75% the heat it used to per outgoing flux and its self-ignition rate has been reduced from 20 flux to 2.5
 
 ## Fixed
 * Fixed missing localization for meteorite ores and the new crucible materials
