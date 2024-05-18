@@ -181,25 +181,23 @@ public class CelestialBody {
 		traitsData.markDirty();
 	}
 
-	// Conversion rate from millibuckets to atmospheres
-	// 1 atmosphere is 1 gigabucket
-	private static final double MB_PER_ATM = 1_000_000_000D * 1_000D;
-
 	public static void consumeGas(World world, FluidType fluid, double amount) {
 		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = getTraits(world);
 
 		CBT_Atmosphere atmosphere = (CBT_Atmosphere) currentTraits.get(CBT_Atmosphere.class);
+		if(atmosphere == null) return;
 
 		int emptyIndex = -1;
 		for(int i = 0; i < atmosphere.fluids.size(); i++) {
 			FluidEntry entry = atmosphere.fluids.get(i);
 			if(entry.fluid == fluid) {
-				entry.pressure -= amount / MB_PER_ATM;
+				entry.pressure -= amount / AstronomyUtil.MB_PER_ATM;
 				emptyIndex = entry.pressure <= 0 ? i : -1;
+				break;
 			}
 		}
 
-		if(emptyIndex > 0) {
+		if(emptyIndex >= 0) {
 			atmosphere.fluids.remove(emptyIndex);
 
 			if(atmosphere.fluids.size() == 0) {
@@ -223,8 +221,9 @@ public class CelestialBody {
 		boolean hasFluid = false;
 		for(FluidEntry entry : atmosphere.fluids) {
 			if(entry.fluid == fluid) {
-				entry.pressure += amount / MB_PER_ATM;
+				entry.pressure += amount / AstronomyUtil.MB_PER_ATM;
 				hasFluid = true;
+				break;
 			}
 		}
 
@@ -235,7 +234,7 @@ public class CelestialBody {
 				atmosphere.fluids.remove(atmosphere.fluids.size() - 1);
 			}
 
-			atmosphere.fluids.add(new FluidEntry(fluid, amount / MB_PER_ATM));
+			atmosphere.fluids.add(new FluidEntry(fluid, amount / AstronomyUtil.MB_PER_ATM));
 		}
 
 		setTraits(world, currentTraits);

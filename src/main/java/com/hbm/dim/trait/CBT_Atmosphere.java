@@ -77,6 +77,16 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 		return pressure;
 	}
 
+	public double getPressure(FluidType fluid) {
+		for(FluidEntry entry : fluids) {
+			if(entry.fluid == fluid) {
+				return entry.pressure;
+			}
+		}
+		
+		return 0;
+	}
+
 	public List<Integer> getFluidColors() {
 		List<Integer> colors = new ArrayList<>();
 		for (FluidEntry entry : fluids) {

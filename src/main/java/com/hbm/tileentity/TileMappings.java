@@ -15,6 +15,7 @@ import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
 import com.hbm.blocks.generic.BlockPedestal.TileEntityPedestal;
 import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.generic.PartEmitter.TileEntityPartEmitter;
+import com.hbm.blocks.machine.BlockAtmosphereEditor.TileEntityAtmosphereEditor;
 import com.hbm.blocks.machine.BlockICF.TileEntityBlockICF;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
 import com.hbm.blocks.machine.MachineCapacitor.TileEntityCapacitor;
@@ -224,6 +225,8 @@ public class TileMappings {
 
 		put(TileEntityBlockPWR.class, "tileentity_block_pwr");
 		put(TileEntityPWRController.class, "tileentity_pwr_controller");
+
+		put(TileEntityAtmosphereEditor.class, "tileentity_atmosphere_editor");
 
 		put(TileEntityData.class, "tileentity_data");
 		
