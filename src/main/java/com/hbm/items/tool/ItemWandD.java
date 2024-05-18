@@ -138,13 +138,18 @@ public class ItemWandD extends Item {
 			// TESTING: View atmospheric data
 			CBT_Atmosphere atmosphere = CelestialBody.getTrait(world, CBT_Atmosphere.class);
 
-			if(atmosphere == null) {
-				player.addChatMessage(new ChatComponentText("Atmosphere: TOTAL VACUUM"));
-			} else {
+			boolean isVacuum = true;
+			if(atmosphere != null) {
 				for(FluidEntry entry : atmosphere.fluids) {
-					player.addChatMessage(new ChatComponentText("Atmosphere: " + entry.fluid.getLocalizedName() + " - " + entry.pressure + "bar"));
+					if(entry.pressure > 0.001) {
+						player.addChatMessage(new ChatComponentText("Atmosphere: " + entry.fluid.getLocalizedName() + " - " + entry.pressure + "bar"));
+						isVacuum = false;
+					}
 				}
 			}
+
+			if(isVacuum)
+				player.addChatMessage(new ChatComponentText("Atmosphere: NEAR VACUUM"));
 
 			// // TESTING: Sets moho and the moon to post-terraformed
 			// if(world.provider.dimensionId == SpaceConfig.mohoDimension) {

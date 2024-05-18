@@ -54,7 +54,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 				fluidColor = Vec3.createVectorHelper(53F / 255F * sun, 32F / 255F * sun, 74F / 255F * sun);
 			} else if(entry.fluid == Fluids.CARBONDIOXIDE) {
 				fluidColor = Vec3.createVectorHelper(212F / 255F * sun, 112F / 255F * sun, 78F / 255F * sun);
-			} else if(entry.fluid == Fluids.AIR){
+			} else if(entry.fluid == Fluids.AIR || entry.fluid == Fluids.OXYGEN || entry.fluid == Fluids.NITROGEN) {
 				// Default to regular ol' overworld
 				fluidColor = super.getFogColor(x, y);
 			} else {
@@ -103,7 +103,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 				fluidColor = Vec3.createVectorHelper(53F / 255F * sun, 32F / 255F * sun, 74F / 255F * sun);
 			} else if(entry.fluid == Fluids.CARBONDIOXIDE) {
 				fluidColor = Vec3.createVectorHelper(212F / 255F * sun, 112F / 255F * sun, 78F / 255F * sun);
-			} else if(entry.fluid == Fluids.AIR){
+			} else if(entry.fluid == Fluids.AIR || entry.fluid == Fluids.OXYGEN || entry.fluid == Fluids.NITROGEN) {
 				// Default to regular ol' overworld
 				fluidColor = super.getSkyColor(camera, partialTicks);
 			} else {

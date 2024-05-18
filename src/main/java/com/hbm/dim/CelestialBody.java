@@ -10,7 +10,6 @@ import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.main.MainRegistry;
 import com.hbm.util.AstronomyUtil;
 
 import net.minecraft.util.ResourceLocation;
@@ -183,8 +182,8 @@ public class CelestialBody {
 	}
 
 	// Conversion rate from millibuckets to atmospheres
-	// 1 atmosphere is 1 terabucket
-	private static final double MB_PER_ATM = 1_000_000_000_000D * 1_000D;
+	// 1 atmosphere is 1 gigabucket
+	private static final double MB_PER_ATM = 1_000_000_000D * 1_000D;
 
 	public static void consumeGas(World world, FluidType fluid, double amount) {
 		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = getTraits(world);
@@ -230,7 +229,12 @@ public class CelestialBody {
 		}
 
 		if(!hasFluid) {
-			MainRegistry.logger.info("ADDING A FLUID!!!");
+			// Sort existing fluids and remove the lowest fraction
+			if(atmosphere.fluids.size() >= 8) {
+				atmosphere.sortDescending();
+				atmosphere.fluids.remove(atmosphere.fluids.size() - 1);
+			}
+
 			atmosphere.fluids.add(new FluidEntry(fluid, amount / MB_PER_ATM));
 		}
 

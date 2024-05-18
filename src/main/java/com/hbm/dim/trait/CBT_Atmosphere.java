@@ -40,13 +40,9 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 		return this;
 	}
 
+	// Fluid must be above at least 1 millbar to be "present"
 	public boolean hasFluid(FluidType fluid) {
-		for(FluidEntry entry : fluids) {
-			if(entry.fluid == fluid)
-				return true;
-		}
-
-		return false;
+		return hasFluid(fluid, 0.001);
 	}
 
 	public boolean hasFluid(FluidType fluid, double abovePressure) {
@@ -56,6 +52,19 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 		}
 
 		return false;
+	}
+
+	// Get the highest pressure fluid
+	public FluidType getMainFluid() {
+		sortDescending();
+		FluidEntry first = fluids.get(0);
+		return first != null ? first.fluid : Fluids.NONE;
+	}
+
+	public void sortDescending() {
+		fluids.sort((a, b) -> {
+			return Double.compare(b.pressure, a.pressure);
+		});
 	}
 
 	// FluidEntries store PARTIAL pressure, to get the total atmospheric pressure, use this method

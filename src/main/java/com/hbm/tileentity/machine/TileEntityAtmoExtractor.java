@@ -46,8 +46,8 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 			this.updateConnections();
 			
 			CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
-			if(atmosphere != null && atmosphere.fluids.size() > 0) {
-				tank.setTankType(atmosphere.fluids.get(0).fluid);
+			if(atmosphere != null) {
+				tank.setTankType(atmosphere.getMainFluid());
 			} else {
 				tank.setTankType(Fluids.NONE);
 			}
