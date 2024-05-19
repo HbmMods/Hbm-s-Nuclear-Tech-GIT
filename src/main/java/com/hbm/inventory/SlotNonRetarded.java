@@ -21,4 +21,13 @@ public class SlotNonRetarded extends Slot {
 	public boolean isItemValid(ItemStack stack) {
 		return inventory.isItemValidForSlot(this.slotNumber, stack);
 	}
+	
+	/**
+	 * Because if slots have higher stacksizes than the maximum allowed by the tile, the display just stops working.
+	 * Why was that necessary? Sure it's not intended but falsifying information isn't very cool.
+	 */
+	@Override
+	public int getSlotStackLimit() {
+		return Math.max(this.inventory.getInventoryStackLimit(), this.getHasStack() ? this.getStack().stackSize : 1);
+	}
 }

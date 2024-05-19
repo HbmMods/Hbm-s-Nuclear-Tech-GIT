@@ -1153,14 +1153,11 @@ public class AssemblerRecipes extends SerializableRecipe {
 				}, 200);
 		
 		makeRecipe(new ComparableStack(ModBlocks.machine_radiolysis), new AStack[] {
-				!exp ? new OreDictStack(STEEL.ingot(), 12) : new OreDictStack(STEEL.heavyComp()),
 				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 4),
-				new OreDictStack(DURA.ingot(), 10),
-				new OreDictStack(RUBBER.ingot(), 4),
+				new OreDictStack(RUBBER.ingot(), 8),
 				new OreDictStack(PB.plate528(), 12),
 				new OreDictStack(CU.plateCast(), 4),
-				new ComparableStack(ModItems.thermo_element, 10),
-				new ComparableStack(ModItems.wire_red_copper, 8),
+				new ComparableStack(ModItems.thermo_element, 8),
 				new ComparableStack(ModItems.tank_steel, 3)
 			}, 200);
 		
@@ -1272,6 +1269,8 @@ public class AssemblerRecipes extends SerializableRecipe {
 		ItemStack output = this.readItemStack(obj.get("output").getAsJsonArray());
 		AStack[] input = this.readAStackArray(obj.get("input").getAsJsonArray());
 		int duration = obj.get("duration").getAsInt();
+		
+		if(output == null || output.getItem() == ModItems.nothing) return;
 		
 		if(obj.has("folders")) {
 			JsonArray array = obj.get("folders").getAsJsonArray();

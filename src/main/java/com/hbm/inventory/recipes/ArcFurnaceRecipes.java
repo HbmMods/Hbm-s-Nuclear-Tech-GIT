@@ -2,11 +2,13 @@ package com.hbm.inventory.recipes;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import static com.hbm.inventory.OreDictManager.*;
 import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
@@ -29,6 +31,22 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 		recipes.put(new OreDictStack(NETHERQUARTZ.block()),	new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 12))	.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.NUGGET.q(12))));
 		recipes.put(new OreDictStack(FIBER.ingot()),		new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 4))		.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(1, 2))));
 		recipes.put(new OreDictStack(FIBER.block()),		new ArcFurnaceRecipe().solid(new ItemStack(ModItems.nugget_silicon, 40))	.fluid(new MaterialStack(Mats.MAT_SILICON, MaterialShapes.INGOT.q(9, 2))));
+	}
+	
+	public static ArcFurnaceRecipe getOutput(ItemStack stack) {
+		
+		if(stack == null || stack.getItem() == null) return null;
+		
+		ComparableStack comp = new ComparableStack(stack).makeSingular();
+		
+		if(recipes.containsKey(comp))
+			return recipes.get(comp);
+		
+		for(Entry<AStack, ArcFurnaceRecipe> entry : recipes.entrySet()) {
+			if(entry.getKey().isApplicable(stack)) return entry.getValue();
+		}
+		
+		return null;
 	}
 
 	@Override

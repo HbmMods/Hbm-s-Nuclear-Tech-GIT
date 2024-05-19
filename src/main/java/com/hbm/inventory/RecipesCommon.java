@@ -156,7 +156,7 @@ public class RecipesCommon {
 		}
 		
 		public ItemStack toStack() {
-			return new ItemStack(item, stacksize, meta);
+			return new ItemStack(item == null ? ModItems.nothing : item, stacksize, meta);
 		}
 		
 		public String[] getDictKeys() {

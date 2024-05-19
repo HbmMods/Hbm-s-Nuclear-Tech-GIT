@@ -313,7 +313,7 @@ public class TileMappings {
 		put(TileEntityElectrolyser.class, "tileentity_electrolyser");
 		put(TileEntityMachineMixer.class, "tileentity_mixer");
 		put(TileEntityMachineArcWelder.class, "tileentity_arc_welder");
-		put(TileEntityMachineArcFurnace.class, "tileentity_arc_furnace");
+		put(TileEntityMachineArcFurnaceLarge.class, "tileentity_arc_furnace_large");
 
 		put(TileEntitySteamEngine.class, "tileentity_steam_engine");
 		put(TileEntityMachineTurbine.class, "tileentity_turbine");

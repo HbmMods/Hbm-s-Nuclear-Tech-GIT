@@ -5,10 +5,12 @@
 * Sellafite diamond ore now shreds into diamond gravel
 * ICF vessel blocks now use half as much fullerite as before
 * ICF capacitor and turbocharger blocks are now quite a bit cheaper
-* Nerfed MEP, it only outputs 75% the heat it used to per outgoing flux and its self-ignition rate has been reduced from 20 flux to 2.5
+* MEP is no longer self-igniting
 
 ## Fixed
 * Fixed missing localization for meteorite ores and the new crucible materials
 * Removed the starmetal crystallization recipe, despite starmetal ore no longer existing
 * Fixed the ICF structure block detection being incorrect, omitting some parts
 * Fixed armor mods adding health showing only half as much as they actually do
+* Fixed RBMK fuel xenon burn function being described wrong
+* When converting ComparableStacks to ItemStacks, there is now a check that replaces null items with the nothing placeholder, fixing crashes caused by incorrect recipe configuration

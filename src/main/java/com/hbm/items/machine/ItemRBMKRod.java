@@ -374,7 +374,7 @@ public class ItemRBMKRod extends Item {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.fluxFunc", EnumChatFormatting.WHITE + getFuncDescription(stack)));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.funcType", this.function.title));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonBurn", EnumChatFormatting.WHITE + "x² / " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.heat", heat + "°C"));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.diffusion", diffusion + "¹/²"));
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.skinTemp", ((int)(getHullHeat(stack) * 10D) / 10D) + "m"));
@@ -394,7 +394,7 @@ public class ItemRBMKRod extends Item {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.fluxFunc", EnumChatFormatting.WHITE + getFuncDescription(stack)));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.funcType", this.function.title));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonBurn", EnumChatFormatting.WHITE + "x² / " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.heat", heat + "°C"));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.diffusion", diffusion + "¹/²"));
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.skinTemp", ((int)(getHullHeat(stack) * 10D) / 10D) + "°C"));

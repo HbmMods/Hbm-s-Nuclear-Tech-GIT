@@ -23,7 +23,7 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 		//Upgrade
 		this.addSlotToContainer(new Slot(tile, 4, 152, 108));
 		//Inputs
-		for(int i = 0; i < 4; i++) for(int j = 0; j < 5; j++) this.addSlotToContainer(new Slot(tile, 5 + j + i * 5, 44 + j * 18, 54 + i * 18));
+		for(int i = 0; i < 4; i++) for(int j = 0; j < 5; j++) this.addSlotToContainer(new SlotNonRetarded(tile, 5 + j + i * 5, 44 + j * 18, 54 + i * 18));
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
