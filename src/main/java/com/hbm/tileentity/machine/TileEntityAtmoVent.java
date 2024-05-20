@@ -26,7 +26,7 @@ public class TileEntityAtmoVent extends TileEntityAtmoExtractor {
 
 	public TileEntityAtmoVent() {
 		super();
-		tanks = new FluidTank(Fluids.AIR, 50000, 0);
+		tank = new FluidTank(Fluids.AIR, 50000, 0);
 	}
 
 	public void fillFluidInit(FluidType type) {

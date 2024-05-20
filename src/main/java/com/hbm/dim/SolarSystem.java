@@ -49,7 +49,7 @@ public class SolarSystem {
 					.withRotationalPeriod(80_500)
 					.withColor(0.408F, 0.298F, 0.553F)
 					.withProcessingLevel(1)
-					.withTraits(new CBT_Atmosphere(Fluids.EVEAIR, 5F), CelestialBodyTrait.HOT)
+					.withTraits(new CBT_Atmosphere(Fluids.EVEAIR, 5D), CelestialBodyTrait.HOT)
 					.withSatellites(
 						
 						new CelestialBody("gilly")
@@ -64,7 +64,7 @@ public class SolarSystem {
 					.withMassRadius(5.292e22F, 600)
 					.withSemiMajorAxis(13_599_840)
 					.withRotationalPeriod(21_549)
-					.withTraits(new CBT_Atmosphere(Fluids.AIR, 1F))
+					.withTraits(new CBT_Atmosphere(Fluids.AIR, 1D))
 					.withSatellites(
 
 						new CelestialBody("mun", SpaceConfig.moonDimension)
@@ -87,7 +87,7 @@ public class SolarSystem {
 					.withTidalLockingTo("ike")
 					.withColor(0.6471f, 0.2824f, 0.1608f)
 					.withProcessingLevel(1)
-					.withTraits(new CBT_Atmosphere(Fluids.CARBONDIOXIDE, 0.1F))
+					.withTraits(new CBT_Atmosphere(Fluids.CARBONDIOXIDE, 0.1D))
 					.withSatellites(
 
 						new CelestialBody("ike", SpaceConfig.ikeDimension)
@@ -117,7 +117,7 @@ public class SolarSystem {
 							.withRotationalPeriod(52_981)
 							.withTidalLockingTo("jool")
 							.withProcessingLevel(3)
-							.withTraits(new CBT_Atmosphere(Fluids.AIR, 0.6F)),
+							.withTraits(new CBT_Atmosphere(Fluids.AIR, 0.6D)),
 
 						new CelestialBody("vall")
 							.withMassRadius(3.109e21F, 300)

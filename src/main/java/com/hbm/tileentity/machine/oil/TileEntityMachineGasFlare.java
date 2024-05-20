@@ -14,7 +14,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FT_Polluting;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
+import com.hbm.inventory.fluid.trait.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
 import com.hbm.inventory.gui.GUIMachineGasFlare;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;

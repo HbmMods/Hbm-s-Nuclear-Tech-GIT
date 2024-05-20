@@ -44,7 +44,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		if(atmosphere == null) return Vec3.createVectorHelper(0, 0, 0);
 		
 		float sun = this.getSunBrightnessFactor(1.0F);
-		float totalPressure = atmosphere.getPressure();
+		float totalPressure = (float)atmosphere.getPressure();
 		Vec3 color = Vec3.createVectorHelper(0, 0, 0);
 
 		for(CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
@@ -54,7 +54,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 				fluidColor = Vec3.createVectorHelper(53F / 255F * sun, 32F / 255F * sun, 74F / 255F * sun);
 			} else if(entry.fluid == Fluids.CARBONDIOXIDE) {
 				fluidColor = Vec3.createVectorHelper(212F / 255F * sun, 112F / 255F * sun, 78F / 255F * sun);
-			} else if(entry.fluid == Fluids.AIR){
+			} else if(entry.fluid == Fluids.AIR || entry.fluid == Fluids.OXYGEN || entry.fluid == Fluids.NITROGEN) {
 				// Default to regular ol' overworld
 				fluidColor = super.getFogColor(x, y);
 			} else {
@@ -64,7 +64,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 				fluidColor.zCoord *= sun * 1.4F;
 			}
 
-			float percentage = entry.pressure / totalPressure;
+			float percentage = (float)entry.pressure / totalPressure;
 			color = Vec3.createVectorHelper(
 				color.xCoord + fluidColor.xCoord * percentage,
 				color.yCoord + fluidColor.yCoord * percentage,
@@ -74,7 +74,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 
 		// Fog intensity remains high to simulate a thin looking atmosphere on low pressure planets
-		float pressureFactor = MathHelper.clamp_float(atmosphere.getPressure() * 10.0F, 0.0F, 1.0F);
+		float pressureFactor = MathHelper.clamp_float(totalPressure * 10.0F, 0.0F, 1.0F);
 		color.xCoord *= pressureFactor;
 		color.yCoord *= pressureFactor;
 		color.zCoord *= pressureFactor;
@@ -93,7 +93,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		if(atmosphere == null) return Vec3.createVectorHelper(0, 0, 0);
 
 		float sun = this.getSunBrightnessFactor(1.0F);
-		float totalPressure = atmosphere.getPressure();
+		float totalPressure = (float)atmosphere.getPressure();
 		Vec3 color = Vec3.createVectorHelper(0, 0, 0);
 
 		for(CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
@@ -103,7 +103,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 				fluidColor = Vec3.createVectorHelper(53F / 255F * sun, 32F / 255F * sun, 74F / 255F * sun);
 			} else if(entry.fluid == Fluids.CARBONDIOXIDE) {
 				fluidColor = Vec3.createVectorHelper(212F / 255F * sun, 112F / 255F * sun, 78F / 255F * sun);
-			} else if(entry.fluid == Fluids.AIR){
+			} else if(entry.fluid == Fluids.AIR || entry.fluid == Fluids.OXYGEN || entry.fluid == Fluids.NITROGEN) {
 				// Default to regular ol' overworld
 				fluidColor = super.getSkyColor(camera, partialTicks);
 			} else {
@@ -113,7 +113,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 				fluidColor.zCoord *= sun;
 			}
 
-			float percentage = entry.pressure / totalPressure;
+			float percentage = (float)entry.pressure / totalPressure;
 			color = Vec3.createVectorHelper(
 				color.xCoord + fluidColor.xCoord * percentage,
 				color.yCoord + fluidColor.yCoord * percentage,
@@ -122,7 +122,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		}
 
 		// Lower pressure sky renders thinner
-		float pressureFactor = MathHelper.clamp_float(atmosphere.getPressure(), 0.0F, 1.0F);
+		float pressureFactor = MathHelper.clamp_float(totalPressure, 0.0F, 1.0F);
 		color.xCoord *= pressureFactor;
 		color.yCoord *= pressureFactor;
 		color.zCoord *= pressureFactor;
@@ -142,7 +142,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	public float[] calcSunriseSunsetColors(float par1, float par2) {
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
 		if(CelestialBody.hasTrait(worldObj, CBT_SUNEXPLODED.class)) return null;
-		if(atmosphere == null) return null;
+		if(atmosphere == null || atmosphere.getPressure() < 0.05F) return null;
 
 		float[] colors = super.calcSunriseSunsetColors(par1, par2);
 		if(colors == null) return null;
@@ -175,7 +175,9 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 	@Override
 	public boolean canDoLightning(Chunk chunk) {
-		if(CelestialBody.hasTrait(worldObj, CBT_Atmosphere.class))
+		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
+
+		if(atmosphere != null && atmosphere.getPressure() > 0.2)
 			return super.canDoLightning(chunk);
 
 		return false;
@@ -183,7 +185,9 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 	@Override
 	public boolean canDoRainSnowIce(Chunk chunk) {
-		if(CelestialBody.hasTrait(worldObj, CBT_Atmosphere.class))
+		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
+
+		if(atmosphere != null && atmosphere.getPressure() > 0.2)
 			return super.canDoRainSnowIce(chunk);
 
 		return false;
