@@ -302,7 +302,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 						double phase = Math.abs(metric.phase);
 						double sign = Math.signum(metric.phase);
 
-						GL11.glColor4f(1.0F, 1.0F, 1.0F, visibility);
+						GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 						GL11.glRotatef((float)sign * 90.0F - 90.0F, 0.0F, 1.0F, 0.0F);
 						
 						if(phase > 0.95F) {
@@ -328,7 +328,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 						GL11.glDisable(GL11.GL_TEXTURE_2D);
 						
 						// Draw another layer on top to blend with the atmosphere
-						GL11.glColor4f(skyR - blendDarken, skyG - blendDarken, skyB - blendDarken, (1 - blendAmount) * visibility);
+						GL11.glColor4f(skyR - blendDarken, skyG - blendDarken, skyB - blendDarken, (1 - blendAmount * visibility));
 						OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
 	
 						tessellator.startDrawingQuads();
