@@ -1336,6 +1336,8 @@ public class ModBlocks {
 	public static Block eu_log;
 	
 	public static Block ff;
+
+	public static Block atmosphere_editor;
 	
 	public static Material materialGas = new MaterialGas();
 		
@@ -2586,6 +2588,8 @@ public class ModBlocks {
 		eu_log = new BlockEuLog().setBlockName("eu_log").setStepSound(Block.soundTypeWood).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F);
 		
 		ff = new BlockFF(Material.iron).setBlockName("ff").setHardness(0.5F).setStepSound(Block.soundTypeGravel).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":code");
+
+		atmosphere_editor = new BlockAtmosphereEditor(Material.iron).setBlockName("atmosphere_editor").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":atmosphere_editor");
 	}
 
 	private static void registerBlock() {
@@ -3814,6 +3818,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(pink_slab, pink_slab.getUnlocalizedName());
 		GameRegistry.registerBlock(pink_double_slab, pink_double_slab.getUnlocalizedName());
 		GameRegistry.registerBlock(pink_stairs, pink_stairs.getUnlocalizedName());
+
+		// Terraforming
+		GameRegistry.registerBlock(atmosphere_editor, atmosphere_editor.getUnlocalizedName());
 	}
 	
 	private static void register(Block b) {

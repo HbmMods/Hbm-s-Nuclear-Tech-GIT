@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CelestialBodyTrait;
-import com.hbm.dim.trait.CelestialBodyTrait.CBT_SUNEXPLODED;
+import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.util.AstronomyUtil;
 
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
@@ -134,31 +136,42 @@ public class CelestialBody {
 		// Mark the saved data as dirty to ensure changes are saved
 		traitsData.markDirty();
 	}
-	public static void modifyTraits(World world, CelestialBodyTrait... traits) {
+
+	public static void setTraits(World world, Map<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits) {
+		setTraits(world, traits.values().toArray(new CelestialBodyTrait[0]));
+	}
+
+	// Gets a clone of the body traits that are SAFE for modifying
+	public static HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits(World world) {
 		CelestialBodyWorldSavedData traitsData = CelestialBodyWorldSavedData.get(world);
-		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = CelestialBodyWorldSavedData.getTraits(world);
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = traitsData.getTraits();
 
 		if(currentTraits == null) {
 			currentTraits = new HashMap<>();
+			CelestialBody body = CelestialBody.getBody(world);
+			for(CelestialBodyTrait trait : body.traits.values()) {
+				currentTraits.put(trait.getClass(), trait);
+			}
 		}
+
+		return currentTraits;
+	}
+
+	public static void modifyTraits(World world, CelestialBodyTrait... traits) {
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = getTraits(world);
 		
 		for(CelestialBodyTrait trait : traits) {
 			currentTraits.put(trait.getClass(), trait);
 		}
 
-		CelestialBodyTrait[] takeAShotEverytimeISayTrait = currentTraits.values().toArray(new CelestialBodyTrait[0]);
-		if(currentTraits.containsKey(CBT_SUNEXPLODED.class)) {
-			System.out.println("wewew");
-			for (World world3 : MinecraftServer.getServer().worldServers) {
-				CelestialBodyWorldSavedData dimensionData = CelestialBodyWorldSavedData.get(world3);
-				dimensionData.setTraits(takeAShotEverytimeISayTrait);
-				dimensionData.markDirty();
-			}
-		}
-	
-		traitsData.setTraits(takeAShotEverytimeISayTrait);
-		
-		traitsData.markDirty();
+		// Sun traits should be set on the sun, ideally
+		// Why? Otherwise we'll get a desync!
+		// Permasync will need to transmit that data too
+		// (Also the implementation that was here was wiping ALL planet terraforming)
+
+		// God Damn The Sun
+
+		setTraits(world, currentTraits);
 	}
 
 	public static void clearTraits(World world) {
@@ -166,6 +179,65 @@ public class CelestialBody {
 
 		traitsData.clearTraits();
 		traitsData.markDirty();
+	}
+
+	public static void consumeGas(World world, FluidType fluid, double amount) {
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = getTraits(world);
+
+		CBT_Atmosphere atmosphere = (CBT_Atmosphere) currentTraits.get(CBT_Atmosphere.class);
+		if(atmosphere == null) return;
+
+		int emptyIndex = -1;
+		for(int i = 0; i < atmosphere.fluids.size(); i++) {
+			FluidEntry entry = atmosphere.fluids.get(i);
+			if(entry.fluid == fluid) {
+				entry.pressure -= amount / AstronomyUtil.MB_PER_ATM;
+				emptyIndex = entry.pressure <= 0 ? i : -1;
+				break;
+			}
+		}
+
+		if(emptyIndex >= 0) {
+			atmosphere.fluids.remove(emptyIndex);
+
+			if(atmosphere.fluids.size() == 0) {
+				currentTraits.remove(CBT_Atmosphere.class);
+			}
+		}
+
+
+		setTraits(world, currentTraits);
+	}
+
+	public static void emitGas(World world, FluidType fluid, double amount) {
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = getTraits(world);
+
+		CBT_Atmosphere atmosphere = (CBT_Atmosphere) currentTraits.get(CBT_Atmosphere.class);
+		if(atmosphere == null) {
+			atmosphere = new CBT_Atmosphere();
+			currentTraits.put(CBT_Atmosphere.class, atmosphere);
+		}
+
+		boolean hasFluid = false;
+		for(FluidEntry entry : atmosphere.fluids) {
+			if(entry.fluid == fluid) {
+				entry.pressure += amount / AstronomyUtil.MB_PER_ATM;
+				hasFluid = true;
+				break;
+			}
+		}
+
+		if(!hasFluid) {
+			// Sort existing fluids and remove the lowest fraction
+			if(atmosphere.fluids.size() >= 8) {
+				atmosphere.sortDescending();
+				atmosphere.fluids.remove(atmosphere.fluids.size() - 1);
+			}
+
+			atmosphere.fluids.add(new FluidEntry(fluid, amount / AstronomyUtil.MB_PER_ATM));
+		}
+
+		setTraits(world, currentTraits);
 	}
 
 	// /Terraforming

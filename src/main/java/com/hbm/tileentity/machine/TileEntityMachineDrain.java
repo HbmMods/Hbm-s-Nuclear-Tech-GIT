@@ -6,9 +6,9 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FT_Polluting;
+import com.hbm.inventory.fluid.trait.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Amat;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Viscous;
 import com.hbm.main.MainRegistry;
@@ -56,7 +56,9 @@ public class TileEntityMachineDrain extends TileEntityLoadedBase implements IFlu
 				}
 				int toSpill = Math.max(tank.getFill() / 2, 1);
 				tank.setFill(tank.getFill() - toSpill);
+
 				FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.SPILL, toSpill);
+				FT_Gaseous.release(worldObj, tank.getTankType(), toSpill);
 				
 				if(toSpill >= 100 && worldObj.rand.nextInt(20) == 0 && tank.getTankType().hasTrait(FT_Liquid.class) && tank.getTankType().hasTrait(FT_Viscous.class) && tank.getTankType().hasTrait(FT_Flammable.class)) {
 					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);

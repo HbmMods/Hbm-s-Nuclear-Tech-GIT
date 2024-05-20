@@ -8,7 +8,7 @@ import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.trait.*;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
+import com.hbm.inventory.fluid.trait.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Viscous;

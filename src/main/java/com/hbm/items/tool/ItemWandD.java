@@ -7,9 +7,7 @@ import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.DebugTeleporter;
 import com.hbm.dim.trait.CBT_Atmosphere;
-import com.hbm.dim.trait.CBT_Temperature;
-import com.hbm.dim.trait.CelestialBodyTrait;
-import com.hbm.inventory.fluid.Fluids;
+import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -137,27 +135,42 @@ public class ItemWandD extends Item {
 				}
 			}
 		} else {
+			// TESTING: View atmospheric data
+			CBT_Atmosphere atmosphere = CelestialBody.getTrait(world, CBT_Atmosphere.class);
 
-			// TESTING: Sets moho and the moon to post-terraformed
-			if(world.provider.dimensionId == SpaceConfig.mohoDimension) {
-				if(CelestialBody.hasTrait(world, CBT_Atmosphere.class)) {
-					CelestialBody.clearTraits(world);
-					player.addChatMessage(new ChatComponentText("RETURN TO MEAN"));
-				} else {
-					CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.COALCREOSOTE, 1F), new CBT_Temperature(10F));
-					player.addChatMessage(new ChatComponentText("Made MOHO HORRIBLE, why did you do this."));
+			boolean isVacuum = true;
+			if(atmosphere != null) {
+				for(FluidEntry entry : atmosphere.fluids) {
+					// if(entry.pressure > 0.001) {
+						player.addChatMessage(new ChatComponentText("Atmosphere: " + entry.fluid.getLocalizedName() + " - " + entry.pressure + "bar"));
+						isVacuum = false;
+					// }
 				}
 			}
 
-			if(world.provider.dimensionId == SpaceConfig.moonDimension) {
-				if(CelestialBody.hasTrait(world, CBT_Atmosphere.class)) {
-					CelestialBody.clearTraits(world);
-					player.addChatMessage(new ChatComponentText("ONE MILLION DEAD WORLDS"));
-				} else {
-					CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AIR, 1F), new CBT_Temperature(10F));
-					player.addChatMessage(new ChatComponentText("Made MOON breathable."));
-				}
-			}
+			if(isVacuum)
+				player.addChatMessage(new ChatComponentText("Atmosphere: NEAR VACUUM"));
+
+			// // TESTING: Sets moho and the moon to post-terraformed
+			// if(world.provider.dimensionId == SpaceConfig.mohoDimension) {
+			// 	if(CelestialBody.hasTrait(world, CBT_Atmosphere.class)) {
+			// 		CelestialBody.clearTraits(world);
+			// 		player.addChatMessage(new ChatComponentText("RETURN TO MEAN"));
+			// 	} else {
+			// 		CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.COALCREOSOTE, 1D), new CBT_Temperature(10F));
+			// 		player.addChatMessage(new ChatComponentText("Made MOHO HORRIBLE, why did you do this."));
+			// 	}
+			// }
+
+			// if(world.provider.dimensionId == SpaceConfig.moonDimension) {
+			// 	if(CelestialBody.hasTrait(world, CBT_Atmosphere.class)) {
+			// 		CelestialBody.clearTraits(world);
+			// 		player.addChatMessage(new ChatComponentText("ONE MILLION DEAD WORLDS"));
+			// 	} else {
+			// 		CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AIR, 1D), new CBT_Temperature(10F));
+			// 		player.addChatMessage(new ChatComponentText("Made MOON breathable."));
+			// 	}
+			// }
 		}
 
 		return stack;

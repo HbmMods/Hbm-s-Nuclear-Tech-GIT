@@ -26,4 +26,8 @@ public class AstronomyUtil {
 	// How quickly time moves, for testing celestial mechanics
 	public static final long TIME_MULTIPLIER = 1;
 
+	// Conversion rate from millibuckets to atmospheres
+	// 1 atmosphere is 1 gigabucket
+	public static final double MB_PER_ATM = 1_000_000_000D * 1_000D;
+
 }
