@@ -14,3 +14,4 @@
 * Fixed armor mods adding health showing only half as much as they actually do
 * Fixed RBMK fuel xenon burn function being described wrong
 * When converting ComparableStacks to ItemStacks, there is now a check that replaces null items with the nothing placeholder, fixing crashes caused by incorrect recipe configuration
+* Fixed item icon lighting in the anvil's search field
