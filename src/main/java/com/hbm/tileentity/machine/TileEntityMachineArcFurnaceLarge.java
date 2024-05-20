@@ -3,18 +3,28 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMachineArcFurnaceLarge;
 import com.hbm.inventory.gui.GUIMachineArcFurnaceLarge;
+import com.hbm.inventory.material.MaterialShapes;
+import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.ArcFurnaceRecipes;
 import com.hbm.inventory.recipes.ArcFurnaceRecipes.ArcFurnaceRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemArcElectrode;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CrucibleUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -22,22 +32,34 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider {
+public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 10_000_000;
 	public boolean liquidMode = false;
 	public float progress;
+	public boolean isProgressing;
+	public boolean hasMaterial;
+	public int delay;
 	
 	public float lid;
 	public float prevLid;
 	public int approachNum;
 	public float syncLid;
 	
+	public byte[] electrodes = new byte[3];
+	public static final byte ELECTRODE_NONE = 0;
+	public static final byte ELECTRODE_FRESH = 1;
+	public static final byte ELECTRODE_USED = 2;
+	public static final byte ELECTRODE_DEPLETED = 3;
+	
+	public static final int maxLiquid = MaterialShapes.BLOCK.q(24);
 	public List<MaterialStack> liquids = new ArrayList();
 
 	public TileEntityMachineArcFurnaceLarge() {
@@ -50,16 +72,12 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	}
 
 	@Override
-	public int getInventoryStackLimit() {
-		return 1;
-	}
-
-	@Override
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
 			
 			this.power = Library.chargeTEFromItems(slots, 3, power, maxPower);
+			this.isProgressing = false;
 			
 			for(DirPos pos : getConPos()) this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			
@@ -68,26 +86,60 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				boolean ingredients = this.hasIngredients();
 				boolean electrodes = this.hasElectrodes();
 				
-				if(ingredients && electrodes) {
+				UpgradeManager.eval(slots, 4, 4);
+				int upgrade = UpgradeManager.getLevel(UpgradeType.SPEED);
+				
+				if(ingredients && electrodes && delay <= 0 && this.liquids.isEmpty()) {
 					if(lid > 0) {
 						lid -= 1F/60F;
 						if(lid < 0) lid = 0;
 						this.progress = 0;
 					} else {
-						this.progress += 1F/100F;
+						int duration = 400 / (upgrade * 2 + 1);
+						this.progress += 1F / duration;
+						this.isProgressing = true;
 						if(this.progress >= 1F) {
 							this.process();
 							this.progress = 0;
+							this.delay = 120;
 						}
 					}
 				} else {
+					if(this.delay > 0) delay--;
 					this.progress = 0;
-					if(lid < 1) {
+					if(lid < 1 && this.electrodes[0] != 0 && this.electrodes[1] != 0 && this.electrodes[2] != 0) {
 						lid += 1F/60F;
 						if(lid > 1) lid = 1;
 					}
 				}
+				
+				hasMaterial = ingredients;
 			}
+			
+			this.decideElectrodeState();
+			
+			if(!hasMaterial) hasMaterial = this.hasIngredients();
+			
+			if(!this.liquids.isEmpty() && this.lid >= 1F) {
+				
+				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+				
+				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1.25D, zCoord + 0.5D + dir.offsetZ * 2.875D, 6, true, this.liquids, MaterialShapes.INGOT.q(1, 2), impact);
+
+				if(didPour != null) {
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "foundry");
+					data.setInteger("color", didPour.material.moltenColor);
+					data.setByte("dir", (byte) dir.ordinal());
+					data.setFloat("off", 0.625F);
+					data.setFloat("base", 0.625F);
+					data.setFloat("len", Math.max(1F, yCoord + 1 - (float) (Math.ceil(impact.yCoord) - 0.875)));
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1, zCoord + 0.5D + dir.offsetZ * 2.875D), new TargetPoint(worldObj.provider.dimensionId, xCoord + 0.5, yCoord + 1, zCoord + 0.5, 50));
+				}
+			}
+			
+			this.liquids.removeIf(o -> o.amount <= 0);
 			
 			this.networkPackNT(150);
 		} else {
@@ -103,14 +155,48 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		}
 	}
 	
+	public void decideElectrodeState() {
+		for(int i = 0; i < 3; i++) {
+			
+			if(slots[i] != null) {
+				if(slots[i].getItem() == ModItems.arc_electrode_burnt) { this.electrodes[i] = this.ELECTRODE_DEPLETED; continue; }
+				if(slots[i].getItem() == ModItems.arc_electrode) {
+					if(this.isProgressing || ItemArcElectrode.getDurability(slots[i]) > 0) this.electrodes[i] = this.ELECTRODE_USED;
+					else this.electrodes[i] = this.ELECTRODE_FRESH;
+					continue;
+				}
+			}
+			this.electrodes[i] = this.ELECTRODE_NONE;
+		}
+	}
+	
 	public void process() {
 		
 		for(int i = 5; i < 25; i++) {
 			if(slots[i] == null) continue;
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(slots[i]);
+			if(recipe == null) continue;
 			
 			if(!liquidMode && recipe.solidOutput != null) {
 				slots[i] = recipe.solidOutput.copy();
+			}
+			
+			if(liquidMode && recipe.fluidOutput != null) {
+				int liquid = this.getStackAmount(liquids);
+				int toAdd = this.getStackAmount(recipe.fluidOutput);
+				
+				if(liquid + toAdd <= this.maxLiquid) {
+					slots[i] = null;
+					for(MaterialStack stack : recipe.fluidOutput) {
+						this.addToStack(stack);
+					}
+				}
+			}
+		}
+		
+		for(int i = 0; i < 3; i++) {
+			if(ItemArcElectrode.damage(slots[i])) {
+				slots[i] = new ItemStack(ModItems.arc_electrode_burnt, 1, slots[i].getItemDamage());
 			}
 		}
 	}
@@ -136,10 +222,56 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	}
 
 	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 0, 1, 2, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
+	}
+
+	@Override
+	public boolean canInsertItem(int slot, ItemStack stack, int side) {
+		return this.isItemValidForSlot(slot, stack) && stack.stackSize <= 1;
+	}
+
+	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if(slot < 3) return stack.getItem() == ModItems.arc_electrode;
-		if(slot > 4) return lid > 0;
+		if(slot > 4) {
+			if(lid <= 0 || slots[slot] != null) return false;
+			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack);
+			if(recipe == null) return false;
+			return liquidMode ? recipe.fluidOutput != null : recipe.solidOutput != null;
+		}
 		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack stack, int side) {
+		if(slot < 3) return lid >= 1 && stack.getItem() != ModItems.arc_electrode;
+		if(slot > 4) return lid > 0 && ArcFurnaceRecipes.getOutput(stack) == null;
+		return false;
+	}
+	
+	public void addToStack(MaterialStack matStack) {
+		
+		for(MaterialStack mat : liquids) {
+			if(mat.material == matStack.material) {
+				mat.amount += matStack.amount;
+				return;
+			}
+		}
+		
+		liquids.add(matStack.copy());
+	}
+	
+	public static int getStackAmount(List<MaterialStack> stack) {
+		int amount = 0;
+		for(MaterialStack mat : stack) amount += mat.amount;
+		return amount;
+	}
+	
+	public static int getStackAmount(MaterialStack[] stack) {
+		int amount = 0;
+		for(MaterialStack mat : stack) amount += mat.amount;
+		return amount;
 	}
 	
 	protected DirPos[] getConPos() {
@@ -162,6 +294,18 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		buf.writeLong(power);
 		buf.writeFloat(progress);
 		buf.writeFloat(lid);
+		buf.writeBoolean(isProgressing);
+		buf.writeBoolean(liquidMode);
+		buf.writeBoolean(hasMaterial);
+		
+		for(int i = 0; i < 3; i++) buf.writeByte(electrodes[i]);
+		
+		buf.writeShort(liquids.size());
+		
+		for(MaterialStack mat : liquids) {
+			buf.writeInt(mat.material.id);
+			buf.writeInt(mat.amount);
+		}
 	}
 	
 	@Override
@@ -170,6 +314,18 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		this.power = buf.readLong();
 		this.progress = buf.readFloat();
 		this.syncLid = buf.readFloat();
+		this.isProgressing = buf.readBoolean();
+		this.liquidMode = buf.readBoolean();
+		this.hasMaterial = buf.readBoolean();
+		
+		for(int i = 0; i < 3; i++) electrodes[i] = buf.readByte();
+		
+		int mats = buf.readShort();
+		
+		this.liquids.clear();
+		for(int i = 0; i < mats; i++) {
+			liquids.add(new MaterialStack(Mats.matById.get(buf.readInt()), buf.readInt()));
+		}
 		
 		this.approachNum = 2;
 	}
@@ -223,5 +379,18 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineArcFurnaceLarge(player.inventory, this);
+	}
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return this.isUseableByPlayer(player);
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		if(data.getBoolean("liquid")) {
+			this.liquidMode = !this.liquidMode;
+			this.markDirty();
+		}
 	}
 }
