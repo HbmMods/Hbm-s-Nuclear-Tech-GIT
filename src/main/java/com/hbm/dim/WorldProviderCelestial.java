@@ -139,12 +139,12 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public float[] calcSunriseSunsetColors(float par1, float par2) {
+	public float[] calcSunriseSunsetColors(float celestialAngle, float partialTicks) {
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
 		if(CelestialBody.hasTrait(worldObj, CBT_SUNEXPLODED.class)) return null;
 		if(atmosphere == null || atmosphere.getPressure() < 0.05F) return null;
 
-		float[] colors = super.calcSunriseSunsetColors(par1, par2);
+		float[] colors = super.calcSunriseSunsetColors(celestialAngle, partialTicks);
 		if(colors == null) return null;
 
 		// Mars IRL has inverted blue sunsets, which look cool as
@@ -156,7 +156,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 			colors[2] = tmp;
 		} else if (atmosphere.hasFluid(Fluids.EVEAIR)) {
 			float f2 = 0.4F;
-			float f3 = MathHelper.cos((par1) * (float)Math.PI * 2.0F) - 0.0F;
+			float f3 = MathHelper.cos((celestialAngle) * (float)Math.PI * 2.0F) - 0.0F;
 			float f4 = -0.0F;
 	
 			if (f3 >= f4 - f2 && f3 <= f4 + f2) {
