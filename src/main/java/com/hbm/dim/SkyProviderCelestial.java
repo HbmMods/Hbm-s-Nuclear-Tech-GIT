@@ -104,18 +104,16 @@ public class SkyProviderCelestial extends IRenderHandler {
 		float visibility = hasAtmosphere ? MathHelper.clamp_float(2.0F - pressure, 0.1F, 1.0F) : 1.0F;
 
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		Vec3 vec3 = world.getSkyColor(mc.renderViewEntity, partialTicks);
-		float skyR = (float) vec3.xCoord;
-		float skyG = (float) vec3.yCoord;
-		float skyB = (float) vec3.zCoord;
+		Vec3 skyColor = world.getSkyColor(mc.renderViewEntity, partialTicks);
+		float skyR = (float) skyColor.xCoord;
+		float skyG = (float) skyColor.yCoord;
+		float skyB = (float) skyColor.zCoord;
 
 		if(mc.gameSettings.anaglyph) {
-			float f4 = (skyR * 30.0F + skyG * 59.0F + skyB * 11.0F) / 100.0F;
-			float f5 = (skyR * 30.0F + skyG * 70.0F) / 100.0F;
-			float f6 = (skyR * 30.0F + skyB * 70.0F) / 100.0F;
-			skyR = f4;
-			skyG = f5;
-			skyB = f6;
+			float[] anaglyphColor = applyAnaglyph(skyR, skyG, skyB);
+			skyR = anaglyphColor[0];
+			skyG = anaglyphColor[1];
+			skyB = anaglyphColor[2];
 		}
 
 		GL11.glColor3f(skyR, skyG, skyB);
@@ -127,6 +125,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 		GL11.glDisable(GL11.GL_FOG);
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		GL11.glEnable(GL11.GL_BLEND);
+
 		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 		RenderHelper.disableStandardItemLighting();
 
@@ -465,7 +464,52 @@ public class SkyProviderCelestial extends IRenderHandler {
 	}
 	
 	public void renderSunset(float partialTicks, WorldClient world, Minecraft mc) {
+		Tessellator tessellator = Tessellator.instance;
+		
+		float[] sunsetColor = world.provider.calcSunriseSunsetColors(world.getCelestialAngle(partialTicks), partialTicks);
 
+		if(sunsetColor != null) {
+			float[] anaglyphColor = mc.gameSettings.anaglyph ? applyAnaglyph(sunsetColor) : sunsetColor;
+
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glShadeModel(GL11.GL_SMOOTH);
+
+			GL11.glPushMatrix();
+			{
+
+				GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
+				GL11.glRotatef(MathHelper.sin(world.getCelestialAngleRadians(partialTicks)) < 0.0F ? 180.0F : 0.0F, 0.0F, 0.0F, 1.0F);
+				GL11.glRotatef(90.0F, 0.0F, 0.0F, 1.0F);
+	
+				tessellator.startDrawing(6);
+				tessellator.setColorRGBA_F(anaglyphColor[0], anaglyphColor[1], anaglyphColor[2], sunsetColor[3]);
+				tessellator.addVertex(0.0, 100.0, 0.0);
+				tessellator.setColorRGBA_F(sunsetColor[0], sunsetColor[1], sunsetColor[2], 0.0F);
+				byte segments = 16;
+	
+				for(int j = 0; j <= segments; ++j) {
+					float angle = (float)j * 3.1415927F * 2.0F / (float)segments;
+					float sinAngle = MathHelper.sin(angle);
+					float cosAngle = MathHelper.cos(angle);
+					tessellator.addVertex((double)(sinAngle * 120.0F), (double)(cosAngle * 120.0F), (double)(-cosAngle * 40.0F * sunsetColor[3]));
+				}
+	
+				tessellator.draw();
+
+			}
+			GL11.glPopMatrix();
+
+			GL11.glShadeModel(GL11.GL_FLAT);
+		}
+	}
+
+	// Does anyone even play with 3D glasses anymore?
+	protected float[] applyAnaglyph(float... colors) {
+		float r = (colors[0] * 30.0F + colors[1] * 59.0F + colors[2] * 11.0F) / 100.0F;
+		float g = (colors[0] * 30.0F + colors[1] * 70.0F) / 100.0F;
+		float b = (colors[0] * 30.0F + colors[2] * 70.0F) / 100.0F;
+
+		return new float[] { r, g, b };
 	}
 
 	private void renderSatellite(float partialTicks, WorldClient world, Minecraft mc, float celestialAngle, long seed, float[] color) {
