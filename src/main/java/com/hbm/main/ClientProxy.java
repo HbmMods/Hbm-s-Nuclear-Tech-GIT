@@ -1446,6 +1446,10 @@ public class ClientProxy extends ServerProxy {
 				double ox = offset.xCoord;
 				double oz = offset.zCoord;
 				
+				if(player.isSneaking()) {
+					iy += 0.25;
+				}
+				
 				vec = vec.normalize();
 				double mult = 0.025D;
 				double mX = vec.xCoord * mult;

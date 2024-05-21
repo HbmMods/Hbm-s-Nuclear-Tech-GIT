@@ -81,6 +81,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
@@ -856,6 +857,33 @@ public class ModEventHandler {
 		if(event.phase == TickEvent.Phase.START) {
 			
 			if(player.getCurrentArmor(2) == null && !player.onGround) {
+				
+				if(player.getUniqueID().toString().equals(ShadyUtil.Barnaby99_x) || player.getDisplayName().equals("pheo7")) {
+
+					ArmorUtil.resetFlightTime(player);
+					HbmPlayerProps props = HbmPlayerProps.getData(player);
+					
+					if(props.isJetpackActive()) {
+						
+						if(player.motionY < 0.4D)
+							player.motionY += 0.1D;
+	
+						Vec3 look = player.getLookVec();
+	
+						if(Vec3.createVectorHelper(player.motionX, player.motionY, player.motionZ).lengthVector() < 2) {
+							player.motionX += look.xCoord * 0.2;
+							player.motionY += look.yCoord * 0.2;
+							player.motionZ += look.zCoord * 0.2;
+	
+							if(look.yCoord > 0)
+								player.fallDistance = 0;
+						}
+					} else if(props.enableBackpack && !player.isSneaking()) {
+						
+						if(player.motionY < -0.2)
+							player.motionY += 0.075D;
+					}
+				}
 				
 				boolean isBob = player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) || player.getDisplayName().equals("HbMinecraft");
 				boolean isOther = player.getUniqueID().toString().equals(ShadyUtil.the_NCR) || player.getDisplayName().equals("the_NCR");
