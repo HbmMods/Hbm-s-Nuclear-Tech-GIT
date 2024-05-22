@@ -1,11 +1,12 @@
 ## Changed
-* Updated russian localization
+* Updated russian and italian localization
 * Nerfed conventional explosives (dynamite, TNT, semtex, C4) in order to not outclass small nukes
 * Plastic explosive blocks no longer drop and blocks
 * Sellafite diamond ore now shreds into diamond gravel
 * ICF vessel blocks now use half as much fullerite as before
 * ICF capacitor and turbocharger blocks are now quite a bit cheaper
 * MEP is no longer self-igniting
+* The foundry storage basin now holds 4 blocks worth of material instea of 1
 
 ## Fixed
 * Fixed missing localization for meteorite ores and the new crucible materials

@@ -19,6 +19,7 @@ import com.hbm.hazard.HazardData;
 import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
@@ -665,13 +666,12 @@ public class OreDictManager {
 		
 		recursionBrake = false;
 
-		if(event.Name.startsWith("ingot")) { ingots.add(event.Name); names.add(event.Name.substring(5)); }
-		if(event.Name.startsWith("ore")) { ores.add(event.Name); names.add(event.Name.substring(3)); }
+		if(event.Name.startsWith("ingot") || event.Name.startsWith("ore") || event.Name.startsWith("plate")) {
+			arcSmeltable.add(new ComparableStack(event.Ore));
+		}
 	}
 
-	public static final HashSet<String> ores = new HashSet();
-	public static final HashSet<String> ingots = new HashSet();
-	public static final HashSet<String> names = new HashSet();
+	public static final HashSet<ComparableStack> arcSmeltable = new HashSet();
 	
 	public static class DictFrame {
 		public String[] mats;

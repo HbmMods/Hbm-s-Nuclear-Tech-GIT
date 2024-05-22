@@ -112,6 +112,6 @@ public class TileEntityFoundryTank extends TileEntityFoundryBase {
 
 	@Override
 	public int getCapacity() {
-		return MaterialShapes.BLOCK.q(1);
+		return MaterialShapes.BLOCK.q(4);
 	}
 }

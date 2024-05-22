@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMachineArcFurnaceLarge;
@@ -19,8 +20,10 @@ import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CrucibleUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -34,11 +37,12 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider {
+public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider, IUpgradeInfoProvider {
 	
 	public long power;
 	public static final long maxPower = 10_000_000;
@@ -87,7 +91,8 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				boolean electrodes = this.hasElectrodes();
 				
 				UpgradeManager.eval(slots, 4, 4);
-				int upgrade = UpgradeManager.getLevel(UpgradeType.SPEED);
+				int upgrade = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+				int consumption = (int) (1_000 * Math.pow(5, upgrade));
 				
 				if(ingredients && electrodes && delay <= 0 && this.liquids.isEmpty()) {
 					if(lid > 0) {
@@ -95,13 +100,17 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 						if(lid < 0) lid = 0;
 						this.progress = 0;
 					} else {
-						int duration = 400 / (upgrade * 2 + 1);
-						this.progress += 1F / duration;
-						this.isProgressing = true;
-						if(this.progress >= 1F) {
-							this.process();
-							this.progress = 0;
-							this.delay = 120;
+						
+						if(power >= consumption) {
+							int duration = 400 / (upgrade * 2 + 1);
+							this.progress += 1F / duration;
+							this.isProgressing = true;
+							this.power -= consumption;
+							if(this.progress >= 1F) {
+								this.process();
+								this.progress = 0;
+								this.delay = 120;
+							}
 						}
 					}
 				} else {
@@ -331,6 +340,42 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	}
 
 	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		
+		this.power = nbt.getLong("power");
+		this.liquidMode = nbt.getBoolean("liquidMode");
+		this.progress = nbt.getFloat("progress");
+		this.lid = nbt.getFloat("lid");
+		this.delay = nbt.getInteger("delay");
+		
+		int count = nbt.getShort("count");
+		liquids.clear();
+		
+		for(int i = 0; i < count; i++) {
+			liquids.add(new MaterialStack(Mats.matById.get(nbt.getInteger("m" + i)), nbt.getInteger("a" + i)));
+		}
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setLong("power", power);
+		nbt.setBoolean("liquidMode", liquidMode);
+		nbt.setFloat("progress", progress);
+		nbt.setFloat("lid", lid);
+		nbt.setInteger("delay", delay);
+		
+		int count = liquids.size();
+		nbt.setShort("count", (short) count);
+		for(int i = 0; i < count; i++) {
+			MaterialStack mat = liquids.get(i);
+			nbt.setInteger("m" + i, mat.material.id);
+			nbt.setInteger("a" + i, mat.amount);
+		}
+	}
+
+	@Override
 	public long getPower() {
 		return power;
 	}
@@ -392,5 +437,25 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			this.liquidMode = !this.liquidMode;
 			this.markDirty();
 		}
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_arc_furnace));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level * 2 + 1)) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + ((int) Math.pow(5, level) * 100 - 100) + "%"));
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		return 0;
 	}
 }
