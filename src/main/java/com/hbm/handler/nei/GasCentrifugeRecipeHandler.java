@@ -41,12 +41,14 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler implements
 		List<PositionedStack> output = new ArrayList();
 		boolean isHighSpeed;
 		int centNumber;
+		List<Integer> highSpeedCent;
 
-		public SmeltingSet(ItemStack input, ItemStack[] results, boolean isHighSpeed, int centNumber) {
+		public SmeltingSet(ItemStack input, ItemStack[] results, boolean isHighSpeed, int centNumber, List<Integer> highSpeedCent) {
 			input.stackSize = 1;
 			this.input = new PositionedStack(input, 52 - 5, 35 - 11);
 			this.isHighSpeed = isHighSpeed;
 			this.centNumber = centNumber;
+			this.highSpeedCent = highSpeedCent;
 			
 			for(byte i = 0; i < results.length; i++) {
 				this.output.add(new PositionedStack(results[i], i % 2 == 0 ? 134 - 5 : 152 - 5, i < 2 ? 26 - 11 : 44 - 11 ));
@@ -106,7 +108,7 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler implements
 		if((outputId.equals("gascentprocessing")) && getClass() == GasCentrifugeRecipeHandler.class) {
 			Map<Object, Object[]> recipes = GasCentrifugeRecipes.getGasCentrifugeRecipes();
 			for(Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
-				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack[]) recipe.getValue()[0], (boolean) recipe.getValue()[1], (int) recipe.getValue()[2]));
+				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack[]) recipe.getValue()[0], (boolean) recipe.getValue()[1], (int) recipe.getValue()[2], (List<Integer>) recipe.getValue()[3]));
 			}
 		} else {
 			super.loadCraftingRecipes(outputId, results);
@@ -119,7 +121,7 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler implements
 		for(Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
 			if(NEIServerUtils.areStacksSameType(((ItemStack[]) recipe.getValue()[0])[0], result) || NEIServerUtils.areStacksSameType(((ItemStack[]) recipe.getValue()[0])[1], result)
 					|| NEIServerUtils.areStacksSameType(((ItemStack[]) recipe.getValue()[0])[2], result) || NEIServerUtils.areStacksSameType(((ItemStack[]) recipe.getValue()[0])[3], result))
-				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack[]) recipe.getValue()[0], (boolean) recipe.getValue()[1], (int) recipe.getValue()[2]));
+				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack[]) recipe.getValue()[0], (boolean) recipe.getValue()[1], (int) recipe.getValue()[2], (List<Integer>) recipe.getValue()[3]));
 		}
 	}
 
@@ -137,7 +139,7 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler implements
 		Map<Object, Object[]> recipes = GasCentrifugeRecipes.getGasCentrifugeRecipes();
 		for(Map.Entry<Object, Object[]> recipe : recipes.entrySet()) {
 			if(compareFluidStacks(ingredient, (ItemStack) recipe.getKey()))
-				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack[]) recipe.getValue()[0], (boolean) recipe.getValue()[1], (int) recipe.getValue()[2]));
+				this.arecipes.add(new SmeltingSet((ItemStack) recipe.getKey(), (ItemStack[]) recipe.getValue()[0], (boolean) recipe.getValue()[1], (int) recipe.getValue()[2], (List<Integer>) recipe.getValue()[3]));
 		}
 	}
 
@@ -157,6 +159,15 @@ public class GasCentrifugeRecipeHandler extends TemplateRecipeHandler implements
 		
 		String centrifuges = set.centNumber + " G. Cents";
 		fontRenderer.drawString(centrifuges, (50 - fontRenderer.getStringWidth(centrifuges) / 2), 21 - 11, 65280);
+		if(set.isHighSpeed && set.highSpeedCent!=null) {
+			StringBuilder highSpeedCent = new StringBuilder();
+			for (int cent : set.highSpeedCent ) {
+				highSpeedCent.append(cent + 1).append(" ");
+			}
+			highSpeedCent.append("Cent");
+			fontRenderer.drawString(String.valueOf(highSpeedCent), (48 - fontRenderer.getStringWidth(String.valueOf(highSpeedCent)) / 2), 55 - 11, 0x404040);
+			fontRenderer.drawString("Need Overclock", (68 - fontRenderer.getStringWidth("Cents Need Overclock") / 2), 65 - 11, 0x404040);
+		}
 	}
 	
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
