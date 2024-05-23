@@ -32,7 +32,7 @@ public class EntityAIBehemothGun extends EntityAIBase {
         } else {
             this.target = entity;
             double dist = Vec3.createVectorHelper(target.posX - owner.posX, target.posY - owner.posY, target.posZ - owner.posZ).lengthVector();
-            return dist > 10;
+            return dist > 10 && dist < 50;
         }
 	}
 	
@@ -53,6 +53,21 @@ public class EntityAIBehemothGun extends EntityAIBase {
 			owner.worldObj.spawnEntityInWorld(bullet);
 			owner.playSound("hbm:weapon.calShoot", 1.0F, 1.0F);
 		}
+		
+		/*
+		 			EntityArtilleryShell grenade = new EntityArtilleryShell(owner.worldObj);
+			grenade.setType(10);
+			grenade.setPosition(owner.posX, owner.posY + 10, owner.posZ);
+			Vec3 vec = Vec3.createVectorHelper(target.posX - owner.posX, 0, target.posZ - owner.posZ);
+			grenade.motionX = vec.xCoord * 0.05D;
+			grenade.motionY = 0.5D + owner.getRNG().nextDouble() * 0.5D;
+			grenade.motionZ = vec.zCoord * 0.05D;
+			grenade.setThrowableHeading(grenade.motionX, grenade.motionY * 6, grenade.motionZ, 1F, 0);
+			grenade.setVelocity(grenade.motionX * 4, grenade.motionY * 6, grenade.motionZ* 4);
+			owner.worldObj.playSoundEffect(owner.posX, owner.posY, owner.posZ, "hbm:turret.jeremy_fire", 25.0F, 1.0F);
+
+			owner.worldObj.spawnEntityInWorld(grenade);
+		 */
 		
 		this.owner.rotationYaw = this.owner.rotationYawHead;
     }
