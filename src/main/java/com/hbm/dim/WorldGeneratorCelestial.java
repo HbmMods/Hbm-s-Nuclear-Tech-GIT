@@ -1,5 +1,6 @@
 package com.hbm.dim;
 
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.BlockEnums.EnumStoneType;
@@ -80,8 +81,15 @@ public class WorldGeneratorCelestial implements IWorldGenerator {
 
     public void generateBedrockOres(World world, Random rand, int x, int z, Block planetStone) {
         if(rand.nextInt(3) == 0) {
+            List<WeightedRandomGeneric<BedrockOreDefinition>> list = BedrockOre.weightedOres;
+            SolarSystem.Body bodyEnum = CelestialBody.getEnum(world);
+
+            // If we haven't got any defined body bedrock ores, default to earth bedrock ores
+            if(BedrockOre.weightedPlanetOres.containsKey(bodyEnum))
+                list = BedrockOre.weightedPlanetOres.get(bodyEnum);
+
             @SuppressWarnings("unchecked")
-            WeightedRandomGeneric<BedrockOreDefinition> item = (WeightedRandomGeneric<BedrockOreDefinition>) WeightedRandom.getRandomItem(rand, BedrockOre.weightedOres);
+            WeightedRandomGeneric<BedrockOreDefinition> item = (WeightedRandomGeneric<BedrockOreDefinition>) WeightedRandom.getRandomItem(rand, list);
             BedrockOreDefinition def = item.get();
             
             int randPosX = x + rand.nextInt(2) + 8;

@@ -282,6 +282,10 @@ public class CelestialBody {
 		return getBody(world).getPlanet();
 	}
 
+	public static SolarSystem.Body getEnum(World world) {
+		return getBody(world).getEnum();
+	}
+
 	public static int getMeta(World world) {
 		return getBody(world).getEnum().ordinal();
 	}
