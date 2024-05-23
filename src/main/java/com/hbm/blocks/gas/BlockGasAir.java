@@ -30,37 +30,36 @@ public class BlockGasAir extends BlockGasBase {
 	public int getRenderBlockPass() {
 		return 1;
 	}
-    public boolean isAir(IBlockAccess world, int x, int y, int z)
-    {
+
+    public boolean isAir(IBlockAccess world, int x, int y, int z) {
         return true;
     }
+
     @Override
     public void updateTick(World world, int x, int y, int z, Random rand) {
-    		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-    			
-    			Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-    			
-    			if(b == this)
-    				continue;
-    			
-    			if(isAirBlock(b)) {
-    				
-    				if(b.isReplaceable(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
-    					if(getAirCount(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == 0) {
-    						world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, Blocks.air);
-    						return;
-    					}
-    				}
-    				
-    				world.setBlockToAir(x, y, z);
-    				return;
-    			}
-    		}
+		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			
+			Block b = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
+			
+			if(b == this)
+				continue;
+			
+			if(isAirBlock(b)) {
+				
+				if(b.isReplaceable(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
+					if(getAirCount(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == 0) {
+						world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, Blocks.air);
+						return;
+					}
+				}
+				
+				world.setBlockToAir(x, y, z);
+				return;
+			}
+		}
         
         super.updateTick(world, x, y, z, rand);
     }
-
-	private Block[] airBlocks = {ModBlocks.air_block, ModBlocks.air_block1, ModBlocks.air_block2, ModBlocks.air_block3, ModBlocks.air_block4, ModBlocks.air_block5, ModBlocks.air_block6, ModBlocks.air_block7, ModBlocks.air_block8, ModBlocks.air_block9};
 	
 	@Override
 	@SideOnly(Side.CLIENT)

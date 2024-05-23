@@ -16,7 +16,6 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Rocket;
 import com.hbm.inventory.gui.GUIMachineLaunchTable;
 import com.hbm.items.ItemVOTVdrive;
-import com.hbm.items.ItemVOTVdrive.DestinationType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomMissile;
 import com.hbm.items.weapon.ItemCustomMissilePart;
@@ -420,7 +419,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			return true;
 		}
 		else {
-			if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != DestinationType.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true && sizeUp()) {
+			if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != SolarSystem.Body.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true && sizeUp()) {
 				return true;
 			}
 		}
@@ -447,6 +446,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		
 		return -1;
 	}
+	
 	public boolean sizeUp() {
 		
 		MissileStruct multipart = getStruct(slots[0]);
@@ -462,47 +462,19 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		
 		return false;
 	}
+
 	public void calFuel() {
-		if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != DestinationType.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true) {
-			switch (DestinationType.values()[slots[1].getItemDamage()]) {
-			case MOHO:
-				float theWorldLooksRed = calfuelV2(CelestialBody.getBody("moho"));
-				tanks[0].changeTankSize((int) theWorldLooksRed);
-				break;
-			case LAYTHE:
-				tanks[0].changeTankSize(230000);
-				tanks[1].changeTankSize(230000);
-				break;
-			case DUNA:
-				float whatthefuck = calfuelV2(CelestialBody.getBody("duna"));
-				tanks[0].changeTankSize((int) whatthefuck);
-				break;
-			case DRES:
-				tanks[0].changeTankSize(290000);
-				tanks[1].changeTankSize(230000);
-				break;
-			case MINMUS:
-				tanks[0].changeTankSize(90000);
-				tanks[1].changeTankSize(90000);
-				break;
-			case EVE:
-				tanks[0].changeTankSize(230000);
-				tanks[1].changeTankSize(230000);
-				break;
-			case IKE:
-				tanks[0].changeTankSize(930000);
-				tanks[1].changeTankSize(1230000);
-				break;
-			case TEKTO:
-				tanks[0].changeTankSize(430000);
-				tanks[1].changeTankSize(200000);
-				break;
-			default: 
-				break;
-			}
-		}
-		
-		
+		if(slots[1] == null || !(slots[1].getItem() instanceof ItemVOTVdrive)) return;
+
+		ItemVOTVdrive drive = (ItemVOTVdrive)slots[1].getItem();
+		SolarSystem.Body destination = drive.getDestination(slots[1]);
+
+		if(destination == SolarSystem.Body.BLANK) return;
+		if(!ItemVOTVdrive.isProcessed(slots[1])) return;
+
+		int fuelCost = calfuelV2(destination.getBody());
+		tanks[0].changeTankSize(fuelCost);
+		tanks[1].changeTankSize(fuelCost);	
 	}
 	
 	public int liquidState() {
@@ -590,7 +562,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		}
 	}
 
-	public float calfuelV2(CelestialBody targetBody) {
+	public int calfuelV2(CelestialBody targetBody) {
 		MissileStruct multipart = getStruct(slots[0]);
 		
 		if(multipart == null || multipart.thruster == null)

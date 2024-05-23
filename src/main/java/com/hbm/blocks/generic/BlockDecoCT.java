@@ -6,12 +6,13 @@ import com.hbm.render.block.ct.IBlockCT;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockDecoCT extends BlockOre implements IBlockCT{
+public class BlockDecoCT extends Block implements IBlockCT{
 
 	public BlockDecoCT(Material mat) {
 		super(mat);

@@ -48,6 +48,9 @@ public class CelestialBody {
 
 	private HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = new HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>();
 
+	public String stoneTexture = "stone";
+	public SolarSystem.Body type;
+
 	public CelestialBody(String name) {
 		this.name = name;
 		this.texture = new ResourceLocation("hbm:textures/misc/space/" + name + ".png");
@@ -55,10 +58,11 @@ public class CelestialBody {
 		nameToBodyMap.put(name, this);
 	}
 
-	public CelestialBody(String name, int id) {
+	public CelestialBody(String name, int id, SolarSystem.Body type) {
 		this(name);
 		this.dimensionId = id;
 		this.canLand = true;
+		this.type = type;
 
 		dimToBodyMap.put(id, this);
 	}
@@ -95,6 +99,11 @@ public class CelestialBody {
 
 	public CelestialBody withTexture(String path) {
 		this.texture = new ResourceLocation(path);
+		return this;
+	}
+
+	public CelestialBody withBlockTextures(String stone, String sand, String silt, String sravel) {
+		this.stoneTexture = stone;
 		return this;
 	}
 
@@ -268,9 +277,13 @@ public class CelestialBody {
 	public static CelestialBody getStar(World world) {
 		return getBody(world).getStar();
 	}
-
+	
 	public static CelestialBody getPlanet(World world) {
 		return getBody(world).getPlanet();
+	}
+
+	public static int getMeta(World world) {
+		return getBody(world).getEnum().ordinal();
 	}
 
 	public static double getRotationalPeriod(World world) {
@@ -295,6 +308,10 @@ public class CelestialBody {
 
 	public String getUnlocalizedName() {
 		return name;
+	}
+
+	public SolarSystem.Body getEnum() {
+		return type;
 	}
 
 	public CelestialBody getStar() {

@@ -6,6 +6,7 @@ import java.util.Random;
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.DebugTeleporter;
+import com.hbm.dim.SolarSystem;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.lib.Library;
@@ -31,108 +32,32 @@ public class ItemWandD extends Item {
 		MovingObjectPosition pos = Library.rayTrace(player, 500, 1, false, true, false);
 		
 		if(pos != null) {
-	
-			EntityPlayerMP thePlayer = (EntityPlayerMP) player;
-				
-			//if(!player.isSneaking())
-			//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.ikeDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
-			//else
-			//System.out.println(player.dimension);
-			
+
 			if(stack.stackTagCompound == null)
-			{
 				stack.stackTagCompound = new NBTTagCompound();
-				stack.stackTagCompound.setInteger("building", 0);
-			}
-			
-			boolean up = player.rotationPitch <= 0.5F;
 			
 			if(!player.isSneaking()) {
-				Random rand = new Random();
-				
-				switch(stack.stackTagCompound.getInteger("dim"))
-				{
-				case 0:
-					DebugTeleporter.teleport(player, SpaceConfig.moonDimension, player.posX, 300, player.posZ);
-					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.moonDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
-					break;
-				case 1:
-					DebugTeleporter.teleport(player, SpaceConfig.ikeDimension, player.posX, 300, player.posZ);
-					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.ikeDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
-					break;
-				case 2:
-					DebugTeleporter.teleport(player, SpaceConfig.dunaDimension, player.posX, 300, player.posZ);
-					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
-					break;
-				case 3:
-					DebugTeleporter.teleport(player, 0, player.posX, 300, player.posZ);
-					break;
-				case 4:
-					DebugTeleporter.teleport(player, SpaceConfig.eveDimension, player.posX, 300, player.posZ);
-					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
-					break;
-				case 5:
-					DebugTeleporter.teleport(player, SpaceConfig.dresDimension, player.posX, 300, player.posZ);
-					//DebugTeleporter.teleport(player, WorldConfig.eveDimension, player.posX, 300, player.posZ);
-					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
-					break;
-				case 6:
-					DebugTeleporter.teleport(player, SpaceConfig.mohoDimension, player.posX, 300, player.posZ);
-					//DebugTeleporter.teleport(player, WorldConfig.eveDimension, player.posX, 300, player.posZ);
-					//thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, WorldConfig.dunaDimension, new DebugTeleporter(thePlayer.getServerForPlayer()));
-					break;
-				case 7:
-					DebugTeleporter.teleport(player, SpaceConfig.minmusDimension, player.posX, 300, player.posZ);
-					break;
-				case 8:
-					DebugTeleporter.teleport(player, SpaceConfig.laytheDimension, player.posX, 300, player.posZ);
-					break;
-				}
+				int targetId = stack.stackTagCompound.getInteger("dim");
+				if(targetId == 0) targetId++; // skip blank
+
+				SolarSystem.Body target = SolarSystem.Body.values()[targetId];
+
+				DebugTeleporter.teleport(player, target.getBody().dimensionId, player.posX, 300, player.posZ);
+				player.addChatMessage(new ChatComponentText("Teleported to: " + target.getBody().getUnlocalizedName()));
+
 			} else {
-				if(stack.stackTagCompound == null) {
-					stack.stackTagCompound = new NBTTagCompound();
-					stack.stackTagCompound.setInteger("dim", 0);
-				} else {
-					int i = stack.stackTagCompound.getInteger("dim");
-					i++;
-					stack.stackTagCompound.setInteger("dim", i);
-					if(i >= 9) {
-						stack.stackTagCompound.setInteger("dim", 0);
-					}
-					
-					switch(i) {
-						case 0:
-							player.addChatMessage(new ChatComponentText("Dim: Moon"));
-							break;
-						case 1:
-							player.addChatMessage(new ChatComponentText("Dim: Ike"));
-							break;
-						case 2:
-							player.addChatMessage(new ChatComponentText("Dim: Duna"));
-							break;
-						case 3:
-							player.addChatMessage(new ChatComponentText("Dim: Kerbin"));
-							break;
-						case 4:
-							player.addChatMessage(new ChatComponentText("Dim: Eve"));
-							break;
-						case 5:
-							player.addChatMessage(new ChatComponentText("Dim: Dres"));
-							break;
-						case 6:
-							player.addChatMessage(new ChatComponentText("Dim: Moho"));
-							break;
-						case 7:
-							player.addChatMessage(new ChatComponentText("Dim: Minmus"));
-							break;
-						case 8:
-							player.addChatMessage(new ChatComponentText("Dim: Laythe"));
-							break;
-						default:
-							player.addChatMessage(new ChatComponentText("Dim: Moon"));
-							break;
-					}
+				int targetId = stack.stackTagCompound.getInteger("dim");
+				targetId++;
+
+				if(targetId >= SolarSystem.Body.values().length) {
+					targetId = 1;
 				}
+				
+				stack.stackTagCompound.setInteger("dim", targetId);
+
+				SolarSystem.Body target = SolarSystem.Body.values()[targetId];
+
+				player.addChatMessage(new ChatComponentText("Set teleport target to: " + target.getBody().getUnlocalizedName()));
 			}
 		} else {
 			// TESTING: View atmospheric data

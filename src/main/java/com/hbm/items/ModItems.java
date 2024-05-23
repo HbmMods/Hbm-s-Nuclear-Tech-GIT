@@ -16,7 +16,6 @@ import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ItemEnums.*;
-import com.hbm.items.ItemVOTVdrive.DestinationType;
 import com.hbm.items.armor.*;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.items.bomb.*;
@@ -8579,8 +8578,7 @@ public class ModItems {
 		GameRegistry.registerItem(bob_nuclear, bob_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(mysteryshovel, mysteryshovel.getUnlocalizedName());
 		GameRegistry.registerItem(memory, memory.getUnlocalizedName());
-		addRemap("hard_drive_duna", full_drive, DestinationType.DUNA);
-		addRemap("hard_drive_moho", full_drive, DestinationType.MOHO);	}
+	}
 	
 	public static void addRemap(String unloc, Item item, Enum sub) {
 		addRemap(unloc, item, sub.ordinal());
