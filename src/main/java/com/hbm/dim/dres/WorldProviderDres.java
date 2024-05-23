@@ -1,7 +1,9 @@
 package com.hbm.dim.dres;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.WorldProviderCelestial;
 
+import net.minecraft.block.Block;
 import net.minecraft.world.chunk.IChunkProvider;
 
 public class WorldProviderDres extends WorldProviderCelestial {
@@ -19,6 +21,11 @@ public class WorldProviderDres extends WorldProviderCelestial {
 	@Override
 	public IChunkProvider createChunkGenerator() {
 		return new ChunkProviderDres(this.worldObj, this.getSeed(), false);
+	}
+
+	@Override
+	public Block getStone() {
+		return ModBlocks.block_meteor_broken;
 	}
 
 }

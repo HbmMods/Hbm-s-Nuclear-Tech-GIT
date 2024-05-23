@@ -64,10 +64,14 @@ public class BedrockOre {
 	}
 
 	public static void generate(World world, int x, int z, ItemStack stack, FluidStack acid, int color, int tier) {
-		generate(world, x, z, stack, acid, color, tier, ModBlocks.stone_depth);
+		generate(world, x, z, stack, acid, color, tier, Blocks.stone, ModBlocks.stone_depth);
 	}
 
 	public static void generate(World world, int x, int z, ItemStack stack, FluidStack acid, int color, int tier, Block depthRock) {
+		generate(world, x, z, stack, acid, color, tier, Blocks.stone, depthRock);
+	}
+
+	public static void generate(World world, int x, int z, ItemStack stack, FluidStack acid, int color, int tier, Block depthRock, Block targetBlock) {
 		
 		for(int ix = x - 1; ix <= x + 1; ix++) {
 			for(int iz = z - 1; iz <= z + 1; iz++) {
@@ -97,7 +101,7 @@ public class BedrockOre {
 					if(iy < 3 || world.getBlock(ix, iy, iz) == Blocks.bedrock) {
 						
 						Block b = world.getBlock(ix, iy, iz);
-						if(b.isReplaceableOreGen(world, ix, iy, iz, Blocks.stone) || b.isReplaceableOreGen(world, ix, iy, iz, Blocks.bedrock)) {
+						if(b.isReplaceableOreGen(world, ix, iy, iz, targetBlock) || b.isReplaceableOreGen(world, ix, iy, iz, Blocks.bedrock)) {
 							world.setBlock(ix, iy, iz, depthRock);
 						}
 					}

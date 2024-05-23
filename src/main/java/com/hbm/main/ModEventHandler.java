@@ -23,6 +23,8 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.WorldGeneratorCelestial;
+import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityCreeperNuclear;
@@ -157,6 +159,7 @@ import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
@@ -777,6 +780,13 @@ public class ModEventHandler {
 		if(event.phase == Phase.START) {
 			BossSpawnHandler.rollTheDice(event.world);
 			TimedGenerator.automaton(event.world, 100);
+		}
+	}
+
+	@SubscribeEvent
+	public void onGenerateOre(GenerateMinable event) {
+		if(event.world.provider instanceof WorldProviderCelestial) {
+			WorldGeneratorCelestial.onGenerateOre(event);
 		}
 	}
 	
