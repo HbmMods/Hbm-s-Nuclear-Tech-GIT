@@ -49,6 +49,9 @@ public class RenderArcFurnace extends TileEntitySpecialRenderer implements IItem
 		GL11.glTranslated(0, 2 * lift, 0);
 		if(arc.isProgressing) GL11.glTranslated(0, 0, Math.sin((arc.getWorldObj().getTotalWorldTime() + interp)) * 0.005);
 		ResourceManager.arc_furnace.renderPart("Lid");
+		if(arc.electrodes[0] != arc.ELECTRODE_NONE) ResourceManager.arc_furnace.renderPart("Ring1");
+		if(arc.electrodes[1] != arc.ELECTRODE_NONE) ResourceManager.arc_furnace.renderPart("Ring2");
+		if(arc.electrodes[2] != arc.ELECTRODE_NONE) ResourceManager.arc_furnace.renderPart("Ring3");
 		if(arc.electrodes[0] == arc.ELECTRODE_FRESH) ResourceManager.arc_furnace.renderPart("Electrode1");
 		if(arc.electrodes[1] == arc.ELECTRODE_FRESH) ResourceManager.arc_furnace.renderPart("Electrode2");
 		if(arc.electrodes[2] == arc.ELECTRODE_FRESH) ResourceManager.arc_furnace.renderPart("Electrode3");
@@ -60,9 +63,6 @@ public class RenderArcFurnace extends TileEntitySpecialRenderer implements IItem
 		if(arc.electrodes[1] == arc.ELECTRODE_DEPLETED) ResourceManager.arc_furnace.renderPart("Electrode2Short");
 		if(arc.electrodes[2] == arc.ELECTRODE_DEPLETED) ResourceManager.arc_furnace.renderPart("Electrode3Short");
 		fullbright(false);
-		if(arc.electrodes[0] != arc.ELECTRODE_NONE) ResourceManager.arc_furnace.renderPart("Ring1");
-		if(arc.electrodes[1] != arc.ELECTRODE_NONE) ResourceManager.arc_furnace.renderPart("Ring2");
-		if(arc.electrodes[2] != arc.ELECTRODE_NONE) ResourceManager.arc_furnace.renderPart("Ring3");
 		
 		if(arc.electrodes[0] != arc.ELECTRODE_NONE) {
 			GL11.glPushMatrix();
@@ -94,15 +94,21 @@ public class RenderArcFurnace extends TileEntitySpecialRenderer implements IItem
 		GL11.glPopMatrix();
 	}
 	
+	private static float lastX;
+	private static float lastY;
+	
 	public static void fullbright(boolean on) {
 		
 		if(on) {
+			lastX = OpenGlHelper.lastBrightnessX;
+			lastY = OpenGlHelper.lastBrightnessY;
 			GL11.glPushMatrix();
 			GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
 			GL11.glDisable(GL11.GL_LIGHTING);
 			GL11.glDisable(GL11.GL_CULL_FACE);
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
 		} else {
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastX, lastY);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glPopAttrib();
 			GL11.glPopMatrix();

@@ -7,7 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.RenderDecoItem;
-import com.hbm.tileentity.machine.TileEntityMachineArcWelder;
+import com.hbm.tileentity.machine.TileEntityMachineSolderingStation;
 
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -40,16 +40,16 @@ public class RenderSolderingStation extends TileEntitySpecialRenderer implements
 		bindTexture(ResourceManager.soldering_station_tex);
 		ResourceManager.soldering_station.renderAll();
 		
-		/*TileEntityMachineArcWelder welder = (TileEntityMachineArcWelder) tile;
-		if(welder.display != null) {
+		TileEntityMachineSolderingStation solderer = (TileEntityMachineSolderingStation) tile;
+		if(solderer.display != null) {
 			GL11.glPushMatrix();
 			GL11.glTranslated(0.0625D * 2.5D, 1.125D, 0D);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glRotatef(90, 0F, 1F, 0F);
 			GL11.glRotatef(-90, 1F, 0F, 0F);
 			
-			if(welder.display != null) {
-				ItemStack stack = welder.display.copy();
+			if(solderer.display != null) {
+				ItemStack stack = solderer.display.copy();
 				
 				EntityItem item = new EntityItem(null, 0.0D, 0.0D, 0.0D, stack);
 				item.getEntityItem().stackSize = 1;
@@ -61,7 +61,7 @@ public class RenderSolderingStation extends TileEntitySpecialRenderer implements
 				RenderItem.renderInFrame = false;
 			}
 			GL11.glPopMatrix();
-		}*/
+		}
 		
 		GL11.glPopMatrix();
 	}

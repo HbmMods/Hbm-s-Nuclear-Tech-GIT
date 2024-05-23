@@ -600,6 +600,7 @@ public class ModItems {
 	
 	public static Item parts_legendary;
 
+	public static Item circuit;
 	public static Item circuit_raw;
 	public static Item circuit_aluminium;
 	public static Item circuit_copper;
@@ -3092,6 +3093,7 @@ public class ModItems {
 
 		entanglement_kit = new ItemCustomLore().setUnlocalizedName("entanglement_kit").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":entanglement_kit");
 		
+		circuit = new ItemCircuit().setUnlocalizedName("circuit").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit");
 		circuit_raw = new Item().setUnlocalizedName("circuit_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_raw");
 		circuit_aluminium = new Item().setUnlocalizedName("circuit_aluminium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_aluminium");
 		circuit_copper = new Item().setUnlocalizedName("circuit_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_copper");
@@ -6232,6 +6234,7 @@ public class ModItems {
 		GameRegistry.registerItem(shimmer_handle, shimmer_handle.getUnlocalizedName());
 		
 		//Circuits
+		GameRegistry.registerItem(circuit, circuit.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_raw, circuit_raw.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_aluminium, circuit_aluminium.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_copper, circuit_copper.getUnlocalizedName());
