@@ -109,7 +109,20 @@ public class GunNPCFactory {
 		
 		return bullet;
 	}
-	
+	public static BulletConfiguration getBehemothBullet() {
+		
+		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();
+		
+		bullet.ammo = new ComparableStack(ModItems.coin_maskman);
+		bullet.spread = 0.0F;
+		bullet.dmgMin = 5;
+		bullet.dmgMax = 10;
+		bullet.wear = 10;
+		bullet.leadChance = 15;
+		bullet.style = BulletConfiguration.STYLE_WAR;
+		
+		return bullet;
+	}
 	public static BulletConfiguration getMaskmanTracer() {
 		
 		BulletConfiguration bullet = BulletConfigFactory.standardBulletConfig();

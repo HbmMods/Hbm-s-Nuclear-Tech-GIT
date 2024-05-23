@@ -258,7 +258,8 @@
     "entity.siegeIdle": {"category": "hostile", "sounds": ["entity/siegeIdle1"]},
     "entity.siegeHurt": {"category": "hostile", "sounds": ["entity/siegeHurt1", "entity/siegeHurt2"]},
     "entity.siegeDeath": {"category": "hostile", "sounds": ["entity/siegeDeath1", "entity/siegeDeath2", "entity/siegeDeath3"]},
-    
+    "entity.beep": {"category": "hostile", "sounds": [{"name": "footsteps/deepbeep", "stream": false}]},
+
     "step.metal": {"category": "player", "sounds": [{"name": "footsteps/metal", "stream": false}]},
     "step.iron_jump": {"category": "player", "sounds": [{"name": "footsteps/iron_jump", "stream": false}]},
     "step.iron_land": {"category": "player", "sounds": [{"name": "footsteps/iron_land", "stream": false}]},

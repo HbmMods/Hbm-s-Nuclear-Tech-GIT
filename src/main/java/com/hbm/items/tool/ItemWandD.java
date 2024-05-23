@@ -8,6 +8,7 @@ import com.hbm.dim.CelestialBody;
 import com.hbm.dim.DebugTeleporter;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
+import com.hbm.entity.mob.EntityWarBehemoth;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,7 +50,6 @@ public class ItemWandD extends Item {
 			
 			if(!player.isSneaking()) {
 				Random rand = new Random();
-				
 				switch(stack.stackTagCompound.getInteger("dim"))
 				{
 				case 0:
