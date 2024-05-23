@@ -289,22 +289,13 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 			{
 				if(slots[i].stackSize <= 0)
 				{
-					slots[i] = new ItemStack(slots[i].getItem().setFull3D());
+					slots[i] = new ItemStack(slots[i].getItem());
 				}else{
 					slots[i].stackSize--;
 				}
 				if(slots[i].stackSize <= 0)
 				{
 					slots[i] = null;
-				}
-			}
-			
-			for(int i = 2; i < 5; i++) {
-				if(slots[i] != null && slots[i].getItem() == ModItems.arc_electrode) {
-					if(slots[i].getItemDamage() < slots[i].getMaxDamage())
-						slots[i].setItemDamage(slots[i].getItemDamage() + 1);
-					else
-						slots[i] = new ItemStack(ModItems.arc_electrode_burnt);
 				}
 			}
 		}

@@ -45,7 +45,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider, IUpgradeInfoProvider {
 	
 	public long power;
-	public static final long maxPower = 10_000_000;
+	public static final long maxPower = 2_500_000;
 	public boolean liquidMode = false;
 	public float progress;
 	public boolean isProgressing;
@@ -183,7 +183,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		
 		for(int i = 5; i < 25; i++) {
 			if(slots[i] == null) continue;
-			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(slots[i]);
+			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(slots[i], this.liquidMode);
 			if(recipe == null) continue;
 			
 			if(!liquidMode && recipe.solidOutput != null) {
@@ -214,7 +214,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		
 		for(int i = 5; i < 25; i++) {
 			if(slots[i] == null) continue;
-			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(slots[i]);
+			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(slots[i], this.liquidMode);
 			if(recipe == null) continue;
 			if(liquidMode && recipe.fluidOutput != null) return true;
 			if(!liquidMode && recipe.solidOutput != null) return true;
@@ -237,15 +237,15 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, int side) {
-		return this.isItemValidForSlot(slot, stack) && stack.stackSize <= 1;
+		return this.isItemValidForSlot(slot, stack) && stack.stackSize <= 1 && this.lid > 0;
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if(slot < 3) return stack.getItem() == ModItems.arc_electrode;
 		if(slot > 4) {
-			if(lid <= 0 || slots[slot] != null) return false;
-			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack);
+			if(slots[slot] != null) return false;
+			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, this.liquidMode);
 			if(recipe == null) return false;
 			return liquidMode ? recipe.fluidOutput != null : recipe.solidOutput != null;
 		}
@@ -255,7 +255,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	@Override
 	public boolean canExtractItem(int slot, ItemStack stack, int side) {
 		if(slot < 3) return lid >= 1 && stack.getItem() != ModItems.arc_electrode;
-		if(slot > 4) return lid > 0 && ArcFurnaceRecipes.getOutput(stack) == null;
+		if(slot > 4) return lid > 0 && ArcFurnaceRecipes.getOutput(stack, this.liquidMode) == null;
 		return false;
 	}
 	

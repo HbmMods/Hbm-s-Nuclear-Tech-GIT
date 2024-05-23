@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import static com.hbm.inventory.OreDictManager.*;
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -20,6 +23,7 @@ import com.hbm.inventory.material.NTMMaterial.SmeltingBehavior;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemScraps;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -94,6 +98,7 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 				smeltables.add(mat);
 			}
 		}
+		if(smeltables.isEmpty()) return;
 		ArcFurnaceRecipe recipe = recipes.get(astack);
 		if(recipe == null) recipe = new ArcFurnaceRecipe();
 		if(recipe.fluidOutput == null) {
@@ -102,21 +107,54 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 		}
 	}
 	
-	public static ArcFurnaceRecipe getOutput(ItemStack stack) {
+	public static ArcFurnaceRecipe getOutput(ItemStack stack, boolean liquid) {
 		
 		if(stack == null || stack.getItem() == null) return null;
 		
-		ComparableStack comp = new ComparableStack(stack).makeSingular();
-
-		if(recipes.containsKey(comp)) return recipes.get(comp);
-		comp.meta = OreDictionary.WILDCARD_VALUE;
-		if(recipes.containsKey(comp)) return recipes.get(comp);
+		if(stack.getItem() == ModItems.scraps && liquid) {
+			NTMMaterial mat = Mats.matById.get(stack.getItemDamage());
+			if(mat == null) return null;
+			MaterialStack mats = ItemScraps.getMats(stack);
+			if(mats.material.smeltable == SmeltingBehavior.SMELTABLE) {
+				return new ArcFurnaceRecipe().fluid(mats);
+			}
+		}
 		
 		for(Entry<AStack, ArcFurnaceRecipe> entry : recipes.entrySet()) {
-			if(entry.getKey().matchesRecipe(stack, true)) return entry.getValue();
+			if(entry.getKey().matchesRecipe(stack, true)) {
+				ArcFurnaceRecipe rec = entry.getValue();
+				if((liquid && rec.fluidOutput != null) || (!liquid && rec.solidOutput != null)) {
+					return rec;
+				}
+			}
 		}
 		
 		return null;
+	}
+
+	public static HashMap getSolidRecipes() {
+		HashMap<Object, Object> recipes = new HashMap<Object, Object>();
+		for(Entry<AStack, ArcFurnaceRecipe> recipe : ArcFurnaceRecipes.recipes.entrySet()) {
+			if(recipe.getValue().solidOutput != null) recipes.put(recipe.getKey().copy(), recipe.getValue().solidOutput.copy());
+		}
+		return recipes;
+	}
+
+	public static HashMap getFluidRecipes() {
+		HashMap<Object, Object> recipes = new HashMap<Object, Object>();
+		for(Entry<AStack, ArcFurnaceRecipe> recipe : ArcFurnaceRecipes.recipes.entrySet()) {
+			if(recipe.getValue().fluidOutput != null) {
+				Object[] out = new Object[recipe.getValue().fluidOutput.length];
+				for(int i = 0; i < out.length; i++) out[i] = ItemScraps.create(recipe.getValue().fluidOutput[i], true);
+				recipes.put(recipe.getKey().copy(), out);
+			}
+		}
+		for(NTMMaterial mat : Mats.orderedList) {
+			if(mat.smeltable == SmeltingBehavior.SMELTABLE) {
+				recipes.put(new ItemStack(ModItems.scraps, 1, mat.id), ItemScraps.create(new MaterialStack(mat, MaterialShapes.INGOT.q(1))));
+			}
+		}
+		return recipes;
 	}
 
 	@Override
@@ -136,7 +174,31 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 
 	@Override
 	public void readRecipe(JsonElement recipe) {
-		// TBI
+		JsonObject rec = (JsonObject) recipe;
+		ArcFurnaceRecipe arc = new ArcFurnaceRecipe();
+		
+		AStack input = this.readAStack(rec.get("input").getAsJsonArray());
+		
+		if(rec.has("solid")) {
+			arc.solid(this.readItemStack(rec.get("solid").getAsJsonArray()));
+		}
+		
+		if(rec.has("fluid")) {
+			JsonArray fluids = rec.get("fluid").getAsJsonArray();
+			List<MaterialStack> mats = new ArrayList();
+			for(JsonElement fluid : fluids) {
+				JsonArray matStack = fluid.getAsJsonArray();
+				MaterialStack stack = new MaterialStack(Mats.matById.get(matStack.get(0).getAsInt()), matStack.get(1).getAsInt());
+				if(stack.material.smeltable == SmeltingBehavior.SMELTABLE) {
+					mats.add(stack);
+				}
+			}
+			if(!mats.isEmpty()) {
+				arc.fluid(mats.toArray(new MaterialStack[0]));
+			}
+		}
+		
+		this.recipes.put(input, arc);
 	}
 
 	@Override

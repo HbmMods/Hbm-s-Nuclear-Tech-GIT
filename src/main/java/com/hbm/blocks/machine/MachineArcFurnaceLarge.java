@@ -2,11 +2,18 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hbm.items.machine.ItemScraps;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineArcFurnaceLarge;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -60,6 +67,35 @@ public class MachineArcFurnaceLarge extends BlockDummyable {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		return super.standardOpenBehavior(world, x, y, z, player, 0);
+		
+		if(world.isRemote) {
+			return true;
+		} else if(!player.isSneaking()) {
+			int[] pos = this.findCore(world, x, y, z);
+
+			if(pos == null)
+				return false;
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemTool && ((ItemTool) player.getHeldItem().getItem()).getToolClasses(player.getHeldItem()).contains("shovel")) {
+				TileEntityMachineArcFurnaceLarge crucible = (TileEntityMachineArcFurnaceLarge) world.getTileEntity(pos[0], pos[1], pos[2]);
+				
+				for(MaterialStack stack : crucible.liquids) {
+					ItemStack scrap = ItemScraps.create(new MaterialStack(stack.material, stack.amount));
+					if(!player.inventory.addItemStackToInventory(scrap)) {
+						EntityItem item = new EntityItem(world, x + hitX, y + hitY, z + hitZ, scrap);
+						world.spawnEntityInWorld(item);
+					}
+				}
+				
+				player.inventoryContainer.detectAndSendChanges();
+				crucible.liquids.clear();
+				crucible.markDirty();
+				
+			} else {
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
+			}
+			return true;
+		} else {
+			return true;
+		}
 	}
 }

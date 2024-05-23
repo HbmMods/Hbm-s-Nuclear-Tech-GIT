@@ -1,3 +1,10 @@
+## Added
+* Arc furnace
+  * A large version of the arc furnace that can do several types of recipe
+  * Solid mode smelts items like a furnace, however to work the recipe needs an ingredient or result that is oredicted as either an ore, block, ingot or plate
+  * Liquid mode smelts items like a crucible would, effectively liquiefying metals. Non-castable materials are voided
+  * Both modes have arc furnace exclusive recipes (smelting sand/quartz/fiberglass into silicon)
+
 ## Changed
 * Updated russian and italian localization
 * Nerfed conventional explosives (dynamite, TNT, semtex, C4) in order to not outclass small nukes
@@ -6,7 +13,8 @@
 * ICF vessel blocks now use half as much fullerite as before
 * ICF capacitor and turbocharger blocks are now quite a bit cheaper
 * MEP is no longer self-igniting
-* The foundry storage basin now holds 4 blocks worth of material instea of 1
+* The foundry storage basin now holds 4 blocks worth of material instead of 1
+* The small arc furnace is being retired and is no longer craftable. However, it will still function, and it can use any type of electrode without depleting it
 
 ## Fixed
 * Fixed missing localization for meteorite ores and the new crucible materials

@@ -630,6 +630,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("container1000lubricant", bdcl);
 		
 		MaterialShapes.registerCompatShapes();
+		compensateMojangSpaghettiBullshit();
 	}
 	
 	public static String getReflector() {
@@ -666,12 +667,35 @@ public class OreDictManager {
 		
 		recursionBrake = false;
 
-		if(event.Name.startsWith("ingot") || event.Name.startsWith("ore") || event.Name.startsWith("plate")) {
+		if(event.Name.startsWith("ingot") || event.Name.startsWith("ore") || event.Name.startsWith("plate") || event.Name.startsWith("block")) {
 			arcSmeltable.add(new ComparableStack(event.Ore));
 		}
 	}
 
 	public static final HashSet<ComparableStack> arcSmeltable = new HashSet();
+	
+	/** Vanilla item ore dict registration events never actually register in the ODM because vanilla items are registered so early that the ODM event handler doesn't exist yet. */
+	public static void compensateMojangSpaghettiBullshit() {
+
+		arcSmeltable.add(new ComparableStack(Blocks.gold_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.iron_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.lapis_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.diamond_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.redstone_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.emerald_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.quartz_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.gold_block));
+		arcSmeltable.add(new ComparableStack(Blocks.iron_block));
+		arcSmeltable.add(new ComparableStack(Blocks.lapis_block));
+		arcSmeltable.add(new ComparableStack(Blocks.diamond_block));
+		arcSmeltable.add(new ComparableStack(Blocks.redstone_block));
+		arcSmeltable.add(new ComparableStack(Blocks.emerald_block));
+		arcSmeltable.add(new ComparableStack(Blocks.quartz_block));
+		arcSmeltable.add(new ComparableStack(Items.iron_ingot));
+		arcSmeltable.add(new ComparableStack(Items.gold_ingot));
+		arcSmeltable.add(new ComparableStack(Items.brick));
+		arcSmeltable.add(new ComparableStack(Items.netherbrick));
+	}
 	
 	public static class DictFrame {
 		public String[] mats;
