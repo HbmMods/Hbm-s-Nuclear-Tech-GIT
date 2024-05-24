@@ -5207,7 +5207,7 @@ public class ModItems {
 		dieselsuit_boots = new ArmorDiesel(aMatDiesel, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.DIESEL, 64_000, 500, 50, 1).cloneStats((ArmorFSB) dieselsuit_helmet).setUnlocalizedName("dieselsuit_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dieselsuit_boots");
 
 		oxy_helmet = new ArmorFSB(MainRegistry.aMatAsbestos, 0, RefStrings.MODID + ":textures/armor/asbestos_1.png").setUnlocalizedName("oxy_helmet").setTextureName(RefStrings.MODID + ":asbestos_helmet");
-		oxy_plate = new ArmorFSBOxy(MainRegistry.aMatAsbestos, 1, RefStrings.MODID + ":textures/armor/asbestos_1.png", Fluids.OXYGEN, 16000, 500, 20, 5).setFireproof(true).setUnlocalizedName("oxy_plate").setTextureName(RefStrings.MODID + ":asbestos_plate");
+		oxy_plate = new ArmorFSBOxy(MainRegistry.aMatAsbestos, 1, RefStrings.MODID + ":textures/armor/asbestos_1.png", Fluids.OXYGEN, 16000, 500, 20, 1).setFireproof(true).setUnlocalizedName("oxy_plate").setTextureName(RefStrings.MODID + ":asbestos_plate");
 		oxy_legs = new ArmorFSB(MainRegistry.aMatAsbestos, 2, RefStrings.MODID + ":textures/armor/asbestos_2.png").setUnlocalizedName("oxy_legs").setTextureName(RefStrings.MODID + ":asbestos_legs");
 		oxy_boots = new ArmorFSB(MainRegistry.aMatAsbestos, 3, RefStrings.MODID + ":textures/armor/asbestos_1.png").setUnlocalizedName("oxy_boots").setTextureName(RefStrings.MODID + ":asbestos_boots");
 	
