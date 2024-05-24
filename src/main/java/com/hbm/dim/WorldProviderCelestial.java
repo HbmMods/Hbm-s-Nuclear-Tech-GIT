@@ -227,7 +227,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 		if(atmosphere == null) return sunBrightness;
 
-		if(atmosphere.getPressure() < 2F) {
+		if(atmosphere.getPressure() > 2F) {
 			return sunBrightness *= 0.3F;
 		}
 
