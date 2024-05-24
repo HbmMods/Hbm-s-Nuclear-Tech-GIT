@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
+import com.hbm.dim.CelestialBody;
 import com.hbm.main.MainRegistry;
 import com.hbm.world.generator.DungeonToolbox;
 
@@ -24,9 +25,11 @@ public class WorldGeneratorDres implements IWorldGenerator {
 	}
 
 	private void generateDres(World world, Random rand, int i, int j) {
-		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.cobaltSpawn, 4, 3, 22, ModBlocks.dres_cobalt, ModBlocks.block_meteor_broken);
-		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperSpawn, 9, 4, 27, Blocks.iron_ore, ModBlocks.block_meteor_broken); // temp fix for redone meteor ores
-		DungeonToolbox.generateOre(world, rand, i, j, 12,  8, 1, 33, ModBlocks.dres_niobium, ModBlocks.block_meteor_broken);
+		int meta = CelestialBody.getMeta(world);
+
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.cobaltSpawn, 4, 3, 22, ModBlocks.ore_cobalt, meta, ModBlocks.block_meteor_broken);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperSpawn, 9, 4, 27, ModBlocks.ore_iron, meta, ModBlocks.block_meteor_broken);
+		DungeonToolbox.generateOre(world, rand, i, j, 12,  8, 1, 33, ModBlocks.ore_niobium, meta, ModBlocks.block_meteor_broken);
 		
 		if (SpaceConfig.drescfreq > 0 && rand.nextInt(SpaceConfig.drescfreq) == 0) {
 			

@@ -44,17 +44,6 @@ public class SmeltingRecipes {
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_nether_schrabidium), new ItemStack(ModItems.ingot_schrabidium), 256.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_cobalt), new ItemStack(ModItems.ingot_cobalt), 2.0F);
 		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ore_nether_cobalt), new ItemStack(ModItems.ingot_cobalt), 2.0F);
-		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.duna_iron), new ItemStack(Items.iron_ingot, 2), 20.0F);
-		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.duna_zinc), new ItemStack(ModItems.ingot_zinc, 2), 20.0F);
-		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ike_asbestos), new ItemStack(ModItems.ingot_asbestos, 1), 20.0F); //we
-		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ike_iron), new ItemStack(Items.iron_ingot, 3), 20.0F);
-		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.ike_copper), new ItemStack(ModItems.ingot_copper, 3), 20.0F);
-		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_palladium), new ItemStack(ModItems.ingot_palladium, 1), 20.0F);
-		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_copper), new ItemStack(ModItems.ingot_copper, 3), 20.0F);
-		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_nickel), new ItemStack(ModItems.ingot_nickel, 2), 6.0F );
-		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_titanium), new ItemStack(ModItems.ingot_titanium, 2), 6.0F );
-		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_aluminium), new ItemStack(ModItems.ingot_aluminium, 2), 6.0F );
-		GameRegistry.addSmelting(Item.getItemFromBlock(ModBlocks.moon_lithium), new ItemStack(ModItems.lithium, 1), 6.0F );
 
 		GameRegistry.addSmelting(DictFrame.fromOne(ModBlocks.ore_meteor, EnumMeteorType.IRON), new ItemStack(Items.iron_ingot, 16), 10.0F);
 		GameRegistry.addSmelting(DictFrame.fromOne(ModBlocks.ore_meteor, EnumMeteorType.COPPER), new ItemStack(ModItems.ingot_copper, 16), 10.0F);

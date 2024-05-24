@@ -10,6 +10,7 @@ import com.hbm.config.SpaceConfig;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.AstronomyUtil;
 
@@ -34,20 +35,22 @@ public class SolarSystem {
 			.withTexture("textures/environment/sun.png")
 			.withSatellites(
 
-				new CelestialBody("moho", SpaceConfig.mohoDimension)
+				new CelestialBody("moho", SpaceConfig.mohoDimension, Body.MOHO)
 					.withMassRadius(2.526e21F, 250)
 					.withSemiMajorAxis(5_263_138)
 					.withRotationalPeriod(210_000)
 					.withColor(0.4863F, 0.4F, 0.3456F)
+					.withBlockTextures(RefStrings.MODID + ":moho_stone", "", "", "")
 					.withAxialTilt(30F)
 					.withProcessingLevel(2)
 					.withTraits(CelestialBodyTrait.HOT),
 
-				new CelestialBody("eve", SpaceConfig.eveDimension)
+				new CelestialBody("eve", SpaceConfig.eveDimension, Body.EVE)
 					.withMassRadius(1.224e23F, 700)
 					.withSemiMajorAxis(9_832_684)
 					.withRotationalPeriod(80_500)
 					.withColor(0.408F, 0.298F, 0.553F)
+					.withBlockTextures(RefStrings.MODID + ":eve_stone_2", "", "", "")
 					.withProcessingLevel(1)
 					.withTraits(new CBT_Atmosphere(Fluids.EVEAIR, 5D), CelestialBodyTrait.HOT)
 					.withSatellites(
@@ -60,49 +63,54 @@ public class SolarSystem {
 
 					),
 
-				new CelestialBody("kerbin", 0) // overworld
+				new CelestialBody("kerbin", 0, Body.KERBIN) // overworld
 					.withMassRadius(5.292e22F, 600)
 					.withSemiMajorAxis(13_599_840)
 					.withRotationalPeriod(21_549)
-					.withTraits(new CBT_Atmosphere(Fluids.AIR, 1D))
+					.withColor(0.608F, 0.914F, 1.0F)
+					.withTraits(new CBT_Atmosphere(Fluids.AIR, 1D), CelestialBodyTrait.HAS_WATER)
 					.withSatellites(
 
-						new CelestialBody("mun", SpaceConfig.moonDimension)
+						new CelestialBody("mun", SpaceConfig.moonDimension, Body.MUN)
 							.withMassRadius(9.76e20F, 200)
 							.withSemiMajorAxis(12_000)
 							.withRotationalPeriod(138_984)
-							.withTidalLockingTo("kerbin"),
+							.withTidalLockingTo("kerbin")
+							.withBlockTextures(RefStrings.MODID + ":moon_rock", "", "", ""),
 
-						new CelestialBody("minmus", SpaceConfig.minmusDimension)
+						new CelestialBody("minmus", SpaceConfig.minmusDimension, Body.MINMUS)
 							.withMassRadius(2.646e19F, 60)
 							.withSemiMajorAxis(47_000)
 							.withRotationalPeriod(40_400)
 
 					),
 
-				new CelestialBody("duna", SpaceConfig.dunaDimension)
+				new CelestialBody("duna", SpaceConfig.dunaDimension, Body.DUNA)
 					.withMassRadius(4.515e21F, 320)
 					.withSemiMajorAxis(20_726_155)
 					.withRotationalPeriod(65_518)
 					.withTidalLockingTo("ike")
 					.withColor(0.6471f, 0.2824f, 0.1608f)
+					.withBlockTextures(RefStrings.MODID + ":duna_rock", "", "", "")
 					.withProcessingLevel(1)
 					.withTraits(new CBT_Atmosphere(Fluids.CARBONDIOXIDE, 0.1D))
 					.withSatellites(
 
-						new CelestialBody("ike", SpaceConfig.ikeDimension)
+						new CelestialBody("ike", SpaceConfig.ikeDimension, Body.IKE)
 							.withMassRadius(2.782e20F, 130)
 							.withSemiMajorAxis(3_200)
+							.withBlockTextures(RefStrings.MODID + ":ike_stone", "", "", "")
 							.withProcessingLevel(1)
 							.withRotationalPeriod(65_518)
 							.withTidalLockingTo("duna")
 
 					),
 
-				new CelestialBody("dres", SpaceConfig.dresDimension)
+				new CelestialBody("dres", SpaceConfig.dresDimension, Body.DRES)
 					.withMassRadius(3.219e20F, 138)
 					.withSemiMajorAxis(40_839_348)
-					.withRotationalPeriod(34_800),
+					.withRotationalPeriod(34_800)
+					.withBlockTextures(RefStrings.MODID + ":dresbase", "", "", ""),
 
 				new CelestialBody("jool")
 					.withMassRadius(4.233e24F, 6_000)
@@ -111,13 +119,13 @@ public class SolarSystem {
 					.withColor(0.4588f, 0.6784f, 0.3059f)
 					.withSatellites(
 
-						new CelestialBody("laythe", SpaceConfig.laytheDimension)
+						new CelestialBody("laythe", SpaceConfig.laytheDimension, Body.LAYTHE)
 							.withMassRadius(2.94e22F, 500)
 							.withSemiMajorAxis(27_184)
 							.withRotationalPeriod(52_981)
 							.withTidalLockingTo("jool")
 							.withProcessingLevel(3)
-							.withTraits(new CBT_Atmosphere(Fluids.AIR, 0.6D)),
+							.withTraits(new CBT_Atmosphere(Fluids.AIR, 0.6D), CelestialBodyTrait.HAS_WATER),
 
 						new CelestialBody("vall")
 							.withMassRadius(3.109e21F, 300)
@@ -144,6 +152,46 @@ public class SolarSystem {
 			);
 
 		runTests();
+	}
+
+	// Simple enum used for blocks and items
+	public enum Body {
+		BLANK(""),
+		KERBIN("kerbin"),
+		MUN("mun"),
+		MINMUS("minmus"),
+		DUNA("duna"),
+		MOHO("moho"),
+		DRES("dres"),
+		EVE("eve"),
+		IKE("ike"),
+		LAYTHE("laythe");
+
+		public String name;
+
+		Body(String name) {
+			this.name = name;
+		}
+
+		// memoising, since ore rendering would be horrendous otherwise
+		private CelestialBody body;
+		public CelestialBody getBody() {
+			if(this == BLANK)
+				return null;
+
+			if(body == null)
+				body = CelestialBody.getBody(name);
+
+			return body;
+		}
+
+		public int getProcessingLevel() {
+			return getBody().processingLevel;
+		}
+
+		public String getStoneTexture() {
+			return getBody().stoneTexture;
+		}
 	}
 
 	public static class AstroMetric {
@@ -460,7 +508,7 @@ public class SolarSystem {
 		CelestialBody kerbin = CelestialBody.getBody("kerbin");
 		CelestialBody eve = CelestialBody.getBody("eve");
 		CelestialBody duna = CelestialBody.getBody("duna");
-		CelestialBody moon = CelestialBody.getBody("mun");
+		CelestialBody mun = CelestialBody.getBody("mun");
 		CelestialBody minmus = CelestialBody.getBody("minmus");
 		CelestialBody ike = CelestialBody.getBody("ike");
 
@@ -470,7 +518,7 @@ public class SolarSystem {
 		MainRegistry.logger.info("Kerbin launch cost: " + getLiftoffDeltaV(kerbin, deltaIVMass, RD180RocketThrust));
 		MainRegistry.logger.info("Eve launch cost: " + getLiftoffDeltaV(eve, deltaIVMass, RD180RocketThrust));
 		MainRegistry.logger.info("Duna launch cost: " + getLiftoffDeltaV(duna, deltaIVMass, RD180RocketThrust));
-		MainRegistry.logger.info("Moon launch cost: " + getLiftoffDeltaV(moon, deltaIVMass, RD180RocketThrust));
+		MainRegistry.logger.info("Mun launch cost: " + getLiftoffDeltaV(mun, deltaIVMass, RD180RocketThrust));
 		MainRegistry.logger.info("Minmus launch cost: " + getLiftoffDeltaV(minmus, deltaIVMass, RD180RocketThrust));
 		MainRegistry.logger.info("Ike launch cost: " + getLiftoffDeltaV(ike, deltaIVMass, RD180RocketThrust));
 
@@ -478,15 +526,15 @@ public class SolarSystem {
 		MainRegistry.logger.info("Kerbin -> Duna cost: " + getDeltaVBetween(kerbin, duna) + " - should be: " + (950+130+250+360));
 		MainRegistry.logger.info("Kerbin -> Ike cost: " + getDeltaVBetween(kerbin, ike) + " - should be: " + (950+130+250+30+180));
 		MainRegistry.logger.info("Eve -> Duna cost: " + getDeltaVBetween(eve, duna));
-		MainRegistry.logger.info("Kerbin -> Moon cost: " + getDeltaVBetween(kerbin, moon) + " - should be: " + (860+310));
+		MainRegistry.logger.info("Kerbin -> Mun cost: " + getDeltaVBetween(kerbin, mun) + " - should be: " + (860+310));
 		MainRegistry.logger.info("Kerbin -> Minmus cost: " + getDeltaVBetween(kerbin, minmus) + " - should be: " + (930+160));
-		MainRegistry.logger.info("Moon -> Kerbin cost: " + getDeltaVBetween(moon, kerbin) + " - should be: " + (860+310));
+		MainRegistry.logger.info("Mun -> Kerbin cost: " + getDeltaVBetween(mun, kerbin) + " - should be: " + (860+310));
 		MainRegistry.logger.info("Minmus -> Kerbin cost: " + getDeltaVBetween(minmus, kerbin) + " - should be: " + (930+160));
 		MainRegistry.logger.info("Minmus -> Ike cost: " + getDeltaVBetween(minmus, ike));
 
 		MainRegistry.logger.info("Kerbin orbital period: " + kerbin.getOrbitalPeriod() + " - should be: " + 426);
 		MainRegistry.logger.info("Eve orbital period: " + eve.getOrbitalPeriod() + " - should be: " + 261);
-		MainRegistry.logger.info("Moon orbital period: " + moon.getOrbitalPeriod() + " - should be: " + 6);
+		MainRegistry.logger.info("Mun orbital period: " + mun.getOrbitalPeriod() + " - should be: " + 6);
 	}
 
 }

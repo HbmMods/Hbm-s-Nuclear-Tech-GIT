@@ -16,7 +16,6 @@ import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ItemEnums.*;
-import com.hbm.items.ItemVOTVdrive.DestinationType;
 import com.hbm.items.armor.*;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.items.bomb.*;
@@ -5035,8 +5034,8 @@ public class ModItems {
 		pipette_boron = new ItemPipette().setUnlocalizedName("pipette_boron").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pipette_boron");
 		pipette_laboratory = new ItemPipette().setUnlocalizedName("pipette_laboratory").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":pipette_laboratory");
 		siphon = new ItemFluidSiphon().setUnlocalizedName("siphon").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":siphon");
-		inf_water = new ItemInfiniteFluid(Fluids.WATER, 50).setUnlocalizedName("inf_water").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water");
-		inf_water_mk2 = new ItemInfiniteFluid(Fluids.WATER, 500).setUnlocalizedName("inf_water_mk2").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water_mk2");
+		inf_water = new ItemInfiniteFluid(Fluids.WATER, 50, 0.5).setUnlocalizedName("inf_water").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water");
+		inf_water_mk2 = new ItemInfiniteFluid(Fluids.WATER, 500, 0.5).setUnlocalizedName("inf_water_mk2").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water_mk2");
 
 		FluidTank.noDualUnload.add(fluid_barrel_infinite);
 		FluidTank.noDualUnload.add(inf_water);
@@ -5208,7 +5207,7 @@ public class ModItems {
 		dieselsuit_boots = new ArmorDiesel(aMatDiesel, 3, RefStrings.MODID + ":textures/armor/starmetal_1.png", Fluids.DIESEL, 64_000, 500, 50, 1).cloneStats((ArmorFSB) dieselsuit_helmet).setUnlocalizedName("dieselsuit_boots").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":dieselsuit_boots");
 
 		oxy_helmet = new ArmorFSB(MainRegistry.aMatAsbestos, 0, RefStrings.MODID + ":textures/armor/asbestos_1.png").setUnlocalizedName("oxy_helmet").setTextureName(RefStrings.MODID + ":asbestos_helmet");
-		oxy_plate = new ArmorFSBOxy(MainRegistry.aMatAsbestos, 1, RefStrings.MODID + ":textures/armor/asbestos_1.png", Fluids.OXYGEN, 16000, 500, 20, 5).setFireproof(true).setUnlocalizedName("oxy_plate").setTextureName(RefStrings.MODID + ":asbestos_plate");
+		oxy_plate = new ArmorFSBOxy(MainRegistry.aMatAsbestos, 1, RefStrings.MODID + ":textures/armor/asbestos_1.png", Fluids.OXYGEN, 16000, 500, 20, 1).setFireproof(true).setUnlocalizedName("oxy_plate").setTextureName(RefStrings.MODID + ":asbestos_plate");
 		oxy_legs = new ArmorFSB(MainRegistry.aMatAsbestos, 2, RefStrings.MODID + ":textures/armor/asbestos_2.png").setUnlocalizedName("oxy_legs").setTextureName(RefStrings.MODID + ":asbestos_legs");
 		oxy_boots = new ArmorFSB(MainRegistry.aMatAsbestos, 3, RefStrings.MODID + ":textures/armor/asbestos_1.png").setUnlocalizedName("oxy_boots").setTextureName(RefStrings.MODID + ":asbestos_boots");
 	
@@ -8579,8 +8578,7 @@ public class ModItems {
 		GameRegistry.registerItem(bob_nuclear, bob_nuclear.getUnlocalizedName());
 		GameRegistry.registerItem(mysteryshovel, mysteryshovel.getUnlocalizedName());
 		GameRegistry.registerItem(memory, memory.getUnlocalizedName());
-		addRemap("hard_drive_duna", full_drive, DestinationType.DUNA);
-		addRemap("hard_drive_moho", full_drive, DestinationType.MOHO);	}
+	}
 	
 	public static void addRemap(String unloc, Item item, Enum sub) {
 		addRemap(unloc, item, sub.ordinal());

@@ -6,7 +6,9 @@ import com.hbm.inventory.fluid.Fluids;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProvider;
@@ -17,6 +19,11 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	
 	@Override
 	public abstract void registerWorldChunkManager();
+
+	// Ore gen will attempt to replace this block with ores
+	public Block getStone() {
+		return Blocks.stone;
+	}
 
 	@Override
 	public void updateWeather() {

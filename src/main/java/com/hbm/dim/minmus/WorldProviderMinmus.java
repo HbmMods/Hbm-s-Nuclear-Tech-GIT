@@ -2,6 +2,8 @@ package com.hbm.dim.minmus;
 
 import com.hbm.dim.WorldProviderCelestial;
 
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.chunk.IChunkProvider;
 
 public class WorldProviderMinmus extends WorldProviderCelestial {
@@ -19,6 +21,11 @@ public class WorldProviderMinmus extends WorldProviderCelestial {
 	@Override
 	public IChunkProvider createChunkGenerator() {
 		return new ChunkProviderMinmus(this.worldObj, this.getSeed(), false);
+	}
+
+	@Override
+	public Block getStone() {
+		return Blocks.snow;
 	}
 
 }

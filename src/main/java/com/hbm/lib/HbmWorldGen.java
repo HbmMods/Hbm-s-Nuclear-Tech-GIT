@@ -9,6 +9,7 @@ import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.WorldConfig;
+import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.itempool.ItemPool;
 import com.hbm.itempool.ItemPoolsSingle;
@@ -45,9 +46,6 @@ import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldProviderEnd;
-import net.minecraft.world.WorldProviderHell;
-import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBeach;
 import net.minecraft.world.biome.BiomeGenForest;
@@ -77,11 +75,10 @@ public class HbmWorldGen implements IWorldGenerator {
 	
 	private void generateSurface(World world, Random rand, int i, int j) {
 
-		//Failsafe to prevent overworld ores attempting to generate in space and crashing.
-		if(!(world.provider instanceof WorldProviderEnd) && !(world.provider instanceof WorldProviderHell) && !(world.provider instanceof WorldProviderSurface))
-		{
+		// Only generate our ores for the overworld and for custom dimensions
+		// We'll handle ore generation on planets separately
+		if(world.provider instanceof WorldProviderCelestial)
 			return;
-		}
 		
 		BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(i, j);
 
@@ -753,13 +750,6 @@ public class HbmWorldGen implements IWorldGenerator {
 	}
 
 	private void generateNether(World world, Random rand, int i, int j) {
-
-		//Failsafe to prevent Nether ores attempting to generate in space and crashing.
-		if(!(world.provider instanceof WorldProviderEnd) && !(world.provider instanceof WorldProviderHell) && !(world.provider instanceof WorldProviderSurface))
-		{
-			return;
-		}
-		
 		if(WorldConfig.netherOre) {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherUraniumuSpawn, 6, 0, 127, ModBlocks.ore_nether_uranium, Blocks.netherrack);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherTungstenSpawn, 10, 0, 127, ModBlocks.ore_nether_tungsten, Blocks.netherrack);
@@ -806,24 +796,8 @@ public class HbmWorldGen implements IWorldGenerator {
 	}
 
 	private void generateEnd(World world, Random rand, int i, int j) {
-		
-		//Failsafe to prevent End ores attempting to generate in space and crashing.
-		if(!(world.provider instanceof WorldProviderEnd) && !(world.provider instanceof WorldProviderHell) && !(world.provider instanceof WorldProviderSurface))
-		{
-			return;
-		}
 		if(WorldConfig.endOre) {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.endTikiteSpawn, 6, 0, 127, ModBlocks.ore_tikite, Blocks.end_stone);
-	
-			/*for(int k = 0; k < 50; k++){
-				int x = i + rand.nextInt(16);
-				int z = j + rand.nextInt(16);
-				int d = 5 + rand.nextInt(60);
-	
-				for(int y = d - 5; y <= d; y++)
-					if(world.getBlock(x, y, z) == Blocks.air && world.getBlock(x, y + 1, z).isSideSolid(world, x, y, z, ForgeDirection.DOWN))
-						world.setBlock(x, y, z, ModBlocks.crystal_trixite);
-			}*/
 		}
 	}
 }

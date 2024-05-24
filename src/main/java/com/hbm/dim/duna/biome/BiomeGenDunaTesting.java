@@ -29,8 +29,8 @@ public class BiomeGenDunaTesting extends BiomeGenBase {
         
         this.setHeight(height);
         
-        this.topBlock = ModBlocks.duna_iron;
-        this.fillerBlock = ModBlocks.duna_iron;
+        this.topBlock = ModBlocks.ore_iron;
+        this.fillerBlock = ModBlocks.ore_iron;
         BiomeDictionary.registerBiomeType(this, BiomeDictionary.Type.DEAD);
 	}
 
@@ -68,7 +68,7 @@ public class BiomeGenDunaTesting extends BiomeGenBase {
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = ModBlocks.duna_iron;
+                                block1 = ModBlocks.ore_iron;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {

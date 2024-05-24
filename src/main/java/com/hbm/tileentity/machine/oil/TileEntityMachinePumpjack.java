@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.dim.SolarSystem;
 import com.hbm.inventory.container.ContainerMachineOilWell;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.gui.GUIMachineOilWell;
@@ -132,31 +133,32 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 
 	@Override
 	public void onSuck(int x, int y, int z) {
+		int meta = worldObj.getBlockMetadata(x, y, z);
 		
-        if(worldObj.getBlock(x, y, z) == ModBlocks.duna_oil) {
-            this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDunaDepsoit);
-            if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
-        }
         if(worldObj.getBlock(x, y, z) == ModBlocks.ore_oil) {
-            this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDepsoit);
-            if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
-            this.tanks[1].setFill(this.tanks[1].getFill() + (gasPerDepositMin + worldObj.rand.nextInt((gasPerDepositMax - gasPerDepositMin + 1))));
-            if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) this.tanks[1].setFill(tanks[1].getMaxFill());
-           
+			if(meta == SolarSystem.Body.DUNA.ordinal()) {
+				this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDunaDepsoit);
+				if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
+			} else {
+				this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDepsoit);
+				if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
+				this.tanks[1].setFill(this.tanks[1].getFill() + (gasPerDepositMin + worldObj.rand.nextInt((gasPerDepositMax - gasPerDepositMin + 1))));
+				if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) this.tanks[1].setFill(tanks[1].getMaxFill());
+			}
         }
-        if(worldObj.getBlock(x, y, z)== ModBlocks.ore_oil) {
-        if(worldObj.rand.nextDouble() < drainChance) {
-        	worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty);
-        	}
+
+        if(worldObj.getBlock(x, y, z) == ModBlocks.ore_oil) {
+			if(meta == SolarSystem.Body.DUNA.ordinal()) {
+				if(worldObj.rand.nextDouble() < DunadrainChance) {
+					worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty, meta, 3);
+				}
+			} else {
+				if(worldObj.rand.nextDouble() < drainChance) {
+					worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty, meta, 3);
+				}
+			}
         }
-        
-        if(worldObj.getBlock(x, y, z)== ModBlocks.duna_oil) {
-        	if(worldObj.rand.nextDouble() < DunadrainChance) {
-	    		worldObj.setBlock(x, y, z, ModBlocks.duna_oil_empty);
-	    		//return; 
-		 }
 	}
-}
         
 
 	@Override

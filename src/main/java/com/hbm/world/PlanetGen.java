@@ -2,6 +2,7 @@ package com.hbm.world;
 
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.dres.WorldGeneratorDres;
+import com.hbm.dim.WorldGeneratorCelestial;
 import com.hbm.dim.Ike.WorldGeneratorIke;
 import com.hbm.dim.Ike.WorldProviderIke;
 import com.hbm.dim.dres.WorldProviderDres;
@@ -18,53 +19,38 @@ import com.hbm.dim.moon.WorldGeneratorMoon;
 import com.hbm.dim.moon.WorldProviderMoon;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.world.WorldProvider;
 import net.minecraftforge.common.DimensionManager;
 
 public class PlanetGen {
-	public static WorldGeneratorMoon worldGenMoon = new WorldGeneratorMoon(); //eventually i will need to rewrite this shit.
-	public static WorldGeneratorDuna worldGenDuna = new WorldGeneratorDuna(); 
-	public static WorldGeneratorIke worldGenIke = new WorldGeneratorIke(); 
-	public static WorldGeneratorDres worldGenDres = new WorldGeneratorDres(); //eventually i will need to rewrite this shit.
-	public static WorldGeneratorMinmus WorldGenMinmus = new WorldGeneratorMinmus(); 
-	public static WorldGeneratorEve WorldGenEve = new WorldGeneratorEve(); 
 
-	public static WorldGeneratorMoho worldGenMoho = new WorldGeneratorMoho(); 
-    public static void init()
-    {
-		GameRegistry.registerWorldGenerator(worldGenMoon, 0);
-		DimensionManager.registerProviderType(SpaceConfig.moonDimension, WorldProviderMoon.class, false);
-	    DimensionManager.registerDimension(SpaceConfig.moonDimension, SpaceConfig.moonDimension);
+    public static void init() {
 
-		GameRegistry.registerWorldGenerator(worldGenDuna, 1);
-		DimensionManager.registerProviderType(SpaceConfig.dunaDimension, WorldProviderDuna.class, false);
-	    DimensionManager.registerDimension(SpaceConfig.dunaDimension, SpaceConfig.dunaDimension);
-	    
+		// Register our ore providers
+		GameRegistry.registerWorldGenerator(new WorldGeneratorCelestial(), 1);
 
-		GameRegistry.registerWorldGenerator(worldGenIke, 1);
-		DimensionManager.registerProviderType(SpaceConfig.ikeDimension, WorldProviderIke.class, false);
-	    DimensionManager.registerDimension(SpaceConfig.ikeDimension, SpaceConfig.ikeDimension);
-	    
-		DimensionManager.registerProviderType(SpaceConfig.eveDimension, WorldProviderEve.class, false);
-	    DimensionManager.registerDimension(SpaceConfig.eveDimension, SpaceConfig.eveDimension);
-		GameRegistry.registerWorldGenerator(WorldGenEve, 0);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorMoon(), 2);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorDuna(), 2);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorIke(), 2);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorEve(), 2);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorDres(), 2);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorMoho(), 2);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorMinmus(), 2);
 
-		DimensionManager.registerProviderType(SpaceConfig.dresDimension, WorldProviderDres.class, false);
-	    DimensionManager.registerDimension(SpaceConfig.dresDimension, SpaceConfig.dresDimension);
-		GameRegistry.registerWorldGenerator(worldGenDres, 1);
-
-	    
-		GameRegistry.registerWorldGenerator(worldGenMoho, 1);
-		DimensionManager.registerProviderType(SpaceConfig.mohoDimension, WorldProviderMoho.class, false);
-	    DimensionManager.registerDimension(SpaceConfig.mohoDimension, SpaceConfig.mohoDimension);
-	    
-		DimensionManager.registerProviderType(SpaceConfig.minmusDimension, WorldProviderMinmus.class, false);
-	    DimensionManager.registerDimension(SpaceConfig.minmusDimension, SpaceConfig.minmusDimension);
-		GameRegistry.registerWorldGenerator(WorldGenMinmus, 1);
-		
-		DimensionManager.registerProviderType(SpaceConfig.laytheDimension, WorldProviderLaythe.class, false);
-	    DimensionManager.registerDimension(SpaceConfig.laytheDimension, SpaceConfig.laytheDimension);
-	    
-
+		registerDimension(SpaceConfig.moonDimension, WorldProviderMoon.class);
+		registerDimension(SpaceConfig.dunaDimension, WorldProviderDuna.class);
+		registerDimension(SpaceConfig.ikeDimension, WorldProviderIke.class);
+		registerDimension(SpaceConfig.eveDimension, WorldProviderEve.class);
+		registerDimension(SpaceConfig.dresDimension, WorldProviderDres.class);
+		registerDimension(SpaceConfig.mohoDimension, WorldProviderMoho.class);
+		registerDimension(SpaceConfig.minmusDimension, WorldProviderMinmus.class);
+		registerDimension(SpaceConfig.laytheDimension, WorldProviderLaythe.class);
     }
+
+	private static void registerDimension(int dimensionId, Class<? extends WorldProvider> clazz) {
+		DimensionManager.registerProviderType(dimensionId, clazz, false);
+		DimensionManager.registerDimension(dimensionId, dimensionId);
+	}
+	
 }
 

@@ -163,18 +163,18 @@ public class ArmorUtil {
 		return false;
 	}
 	public static boolean checkForOxy(EntityLivingBase player) {
-	    if (player instanceof EntityPlayer) {
-	        EntityPlayer play = (EntityPlayer) player;
+		if (player instanceof EntityPlayer) {
+			EntityPlayer play = (EntityPlayer) player;
 
-	        ItemStack plate = play.inventory.armorInventory[2];
+			ItemStack plate = play.inventory.armorInventory[2];
 			if(checkArmor(player, ModItems.oxy_helmet, ModItems.oxy_plate, ModItems.oxy_legs, ModItems.oxy_boots)) {
-	        if (plate != null && plate.getItem() instanceof ArmorFSBOxy) {
-				if(((ArmorFSBOxy) plate.getItem()).isArmorEnabled(plate)) {					
-					return true;					
+				if (plate != null && plate.getItem() instanceof ArmorFSBOxy) {
+					if(((ArmorFSBOxy) plate.getItem()).isArmorEnabled(plate)) {					
+						return true;
+					}
 				}
-	        }
-	    }
-	    }
+			}
+		}
 		
 		return false;
 	}

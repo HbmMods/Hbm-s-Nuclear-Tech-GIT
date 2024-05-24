@@ -344,21 +344,21 @@ public class OreDictManager {
 		 * VANILLA
 		 */
 		COAL.gem(Items.coal).dustSmall(powder_coal_tiny).dust(powder_coal);
-		IRON.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron, /*dres_iron,*/ duna_iron, moho_iron);
-		GOLD.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold, moho_gold);
-		LAPIS.dust(powder_lapis);
-		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz).ore(Blocks.quartz_ore);
-		DIAMOND.dust(powder_diamond).ore(gravel_diamond, ore_sellafield_diamond);
-		EMERALD.dust(powder_emerald).ore(ore_sellafield_emerald);
+		IRON.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron).oreAll(ore_iron);
+		GOLD.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold).oreAll(ore_gold);
+		LAPIS.dust(powder_lapis).oreAll(ore_lapis);
+		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz).ore(Blocks.quartz_ore).oreAll(ore_quartz);
+		DIAMOND.dust(powder_diamond).ore(gravel_diamond, ore_sellafield_diamond).oreAll(ore_diamond);
+		EMERALD.dust(powder_emerald).ore(ore_sellafield_emerald).oreAll(ore_emerald);
 		
 		/*
 		 * RADIOACTIVE
 		 */
-		U		.rad(HazardRegistry.u)								.nugget(nugget_uranium)		.billet(billet_uranium)		.ingot(ingot_uranium)		.dust(powder_uranium)									.block(block_uranium)		.ore(ore_uranium, ore_uranium_scorched, ore_gneiss_uranium, ore_gneiss_uranium_scorched, ore_nether_uranium, ore_nether_uranium_scorched, ore_sellafield_uranium_scorched)	.oreNether(ore_nether_uranium, ore_nether_uranium_scorched);
+		U		.rad(HazardRegistry.u)								.nugget(nugget_uranium)		.billet(billet_uranium)		.ingot(ingot_uranium)		.dust(powder_uranium)									.block(block_uranium)		.ore(ore_uranium_scorched, ore_gneiss_uranium, ore_gneiss_uranium_scorched, ore_nether_uranium, ore_nether_uranium_scorched, ore_sellafield_uranium_scorched)	.oreNether(ore_nether_uranium, ore_nether_uranium_scorched) .oreAll(ore_uranium);
 		U233	.rad(HazardRegistry.u233)							.nugget(nugget_u233)		.billet(billet_u233)		.ingot(ingot_u233)																	.block(block_u233);
 		U235	.rad(HazardRegistry.u235)							.nugget(nugget_u235)		.billet(billet_u235)		.ingot(ingot_u235)																	.block(block_u235);
 		U238	.rad(HazardRegistry.u238)							.nugget(nugget_u238)		.billet(billet_u238)		.ingot(ingot_u238)																	.block(block_u238);
-		TH232	.rad(HazardRegistry.th232)							.nugget(nugget_th232)		.billet(billet_th232)		.ingot(ingot_th232)			.dust(powder_thorium)									.block(block_thorium)		.ore(ore_thorium);
+		TH232	.rad(HazardRegistry.th232)							.nugget(nugget_th232)		.billet(billet_th232)		.ingot(ingot_th232)			.dust(powder_thorium)									.block(block_thorium)		.oreAll(ore_thorium);
 		PU		.rad(HazardRegistry.pu)								.nugget(nugget_plutonium)	.billet(billet_plutonium)	.ingot(ingot_plutonium)		.dust(powder_plutonium)									.block(block_plutonium)		.ore(ore_nether_plutonium)	.oreNether(ore_nether_plutonium);
 		PURG	.rad(HazardRegistry.purg).neutron(HazardRegistry.purg/60f)							.nugget(nugget_pu_mix)		.billet(billet_pu_mix)		.ingot(ingot_pu_mix)																.block(block_pu_mix);
 		PU238	.rad(HazardRegistry.pu238)	.hot(3F)				.nugget(nugget_pu238)		.billet(billet_pu238)		.ingot(ingot_pu238)																	.block(block_pu238);
@@ -389,7 +389,7 @@ public class OreDictManager {
 		CO60	.rad(HazardRegistry.co60)	.hot(1)					.nugget(nugget_co60)		.billet(billet_co60)		.ingot(ingot_co60)			.dust(powder_co60);
 		AU198	.rad(HazardRegistry.au198)	.hot(5)					.nugget(nugget_au198)		.billet(billet_au198)		.ingot(ingot_au198)			.dust(powder_au198);
 		PB209	.rad(HazardRegistry.pb209)	.blinding(50F)	.hot(7)	.nugget(nugget_pb209)		.billet(billet_pb209)		.ingot(ingot_pb209);
-		SA326	.rad(HazardRegistry.sa326)	.blinding(50F)			.nugget(nugget_schrabidium)	.billet(billet_schrabidium)	.ingot(ingot_schrabidium)	.dust(powder_schrabidium).plate(plate_schrabidium).plateCast(Mats.MAT_SCHRABIDIUM.make(plate_cast)).block(block_schrabidium).ore(ore_schrabidium, ore_gneiss_schrabidium, ore_nether_schrabidium, ore_sellafield_schrabidium)	.oreNether(ore_nether_schrabidium);
+		SA326	.rad(HazardRegistry.sa326)	.blinding(50F)			.nugget(nugget_schrabidium)	.billet(billet_schrabidium)	.ingot(ingot_schrabidium)	.dust(powder_schrabidium).plate(plate_schrabidium).plateCast(Mats.MAT_SCHRABIDIUM.make(plate_cast)).block(block_schrabidium).ore(ore_gneiss_schrabidium, ore_nether_schrabidium, ore_sellafield_schrabidium)	.oreNether(ore_nether_schrabidium) .oreAll(ore_schrabidium);
 		SA327	.rad(HazardRegistry.sa327)	.blinding(50F)			.nugget(nugget_solinium)	.billet(billet_solinium)	.ingot(ingot_solinium)																.block(block_solinium);
 		SBD		.rad(HazardRegistry.sb)		.blinding(50F)																	.ingot(ingot_schrabidate)	.dust(powder_schrabidate)								.block(block_schrabidate);
 		SRN		.rad(HazardRegistry.sr)		.blinding(50F)																	.ingot(ingot_schraranium)															.block(block_schraranium);
@@ -400,29 +400,29 @@ public class OreDictManager {
 		/*
 		 * STABLE
 		 */
-		NI																	.ingot(ingot_nickel)												.dust(powder_nickel)            .plate(plate_nickel) 			.block(block_nickel)		.ore(ore_nickel, moon_nickel) 												.nugget(nugget_nickel);
-		TI																	.ingot(ingot_titanium)												.dust(powder_titanium)			.plate(plate_titanium)			.block(block_titanium)		.ore(ore_titanium);
-		CU																	.ingot(ingot_copper)												.dust(powder_copper)			.plate(plate_copper)			.block(block_copper)		.ore(ore_copper, ore_gneiss_copper);
+		NI																	.ingot(ingot_nickel)												.dust(powder_nickel)            .plate(plate_nickel) 			.block(block_nickel)		.oreAll(ore_nickel) 												.nugget(nugget_nickel);
+		TI																	.ingot(ingot_titanium)												.dust(powder_titanium)			.plate(plate_titanium)			.block(block_titanium)		.oreAll(ore_titanium);
+		CU																	.ingot(ingot_copper)												.dust(powder_copper)			.plate(plate_copper)			.block(block_copper)		.ore(ore_gneiss_copper) .oreAll(ore_copper);
 		MINGRADE															.ingot(ingot_red_copper)											.dust(powder_red_copper)										.block(block_red_copper);
 		ALLOY																.ingot(ingot_advanced_alloy)										.dust(powder_advanced_alloy)	.plate(plate_advanced_alloy)	.block(block_advanced_alloy);
-		W																	.ingot(ingot_tungsten)												.dust(powder_tungsten)											.block(block_tungsten)		.ore(ore_tungsten, ore_nether_tungsten)	.oreNether(ore_nether_tungsten);
-		AL																	.ingot(ingot_aluminium)												.dust(powder_aluminium)			.plate(plate_aluminium)			.block(block_aluminium)		.ore(ore_aluminium);
+		W																	.ingot(ingot_tungsten)												.dust(powder_tungsten)											.block(block_tungsten)		.ore(ore_nether_tungsten)	.oreNether(ore_nether_tungsten) .oreAll(ore_tungsten);
+		AL																	.ingot(ingot_aluminium)												.dust(powder_aluminium)			.plate(plate_aluminium)			.block(block_aluminium)		.oreAll(ore_aluminium);
 		STEEL																.ingot(ingot_steel)				.dustSmall(powder_steel_tiny)		.dust(powder_steel)				.plate(plate_steel)				.block(block_steel);
 		STAINLESS															.ingot(ingot_stainless)			 																	.plate(plate_stainless);		
 		TCALLOY																.ingot(ingot_tcalloy)												.dust(powder_tcalloy)											.block(block_tcalloy);
 		CDALLOY																.ingot(ingot_cdalloy)																												.block(block_cdalloy);
 		BBRONZE																.ingot(ingot_bismuth_bronze);
 		ABRONZE																.ingot(ingot_arsenic_bronze);
-		PB			.nugget(nugget_lead)									.ingot(ingot_lead)													.dust(powder_lead)				.plate(plate_lead)				.block(block_lead)			.ore(ore_lead);
+		PB			.nugget(nugget_lead)									.ingot(ingot_lead)													.dust(powder_lead)				.plate(plate_lead)				.block(block_lead)			.oreAll(ore_lead);
 		BI			.nugget(nugget_bismuth)		.billet(billet_bismuth)		.ingot(ingot_bismuth)												.dust(powder_bismuth)											.block(block_bismuth);
 		AS			.nugget(nugget_arsenic)									.ingot(ingot_arsenic);
 		CA																	.ingot(ingot_calcium)												.dust(powder_calcium);
 		CD																	.ingot(ingot_cadmium)												.dust(powder_cadmium)											.block(block_cadmium);
 		TA			.nugget(nugget_tantalium)	.gem(gem_tantalium)			.ingot(ingot_tantalium)												.dust(powder_tantalium)											.block(block_tantalium);
-		COLTAN																.ingot(fragment_coltan)												.dust(powder_coltan_ore)										.block(block_coltan)		.ore(ore_coltan);
+		COLTAN																.ingot(fragment_coltan)												.dust(powder_coltan_ore)										.block(block_coltan)		.oreAll(ore_coltan);
 		NB			.nugget(fragment_niobium)								.ingot(ingot_niobium)			.dustSmall(powder_niobium_tiny)		.dust(powder_niobium)											.block(block_niobium);
-		BE			.nugget(nugget_beryllium)	.billet(billet_beryllium)	.ingot(ingot_beryllium)												.dust(powder_beryllium)											.block(block_beryllium)		.ore(ore_beryllium);
-		CO			.nugget(fragment_cobalt)	.nugget(nugget_cobalt)		.billet(billet_cobalt)			.ingot(ingot_cobalt)				.dust(powder_cobalt)			.dustSmall(powder_cobalt_tiny)	.block(block_cobalt)		.ore(ore_cobalt, ore_nether_cobalt, moho_cobalt);
+		BE			.nugget(nugget_beryllium)	.billet(billet_beryllium)	.ingot(ingot_beryllium)												.dust(powder_beryllium)											.block(block_beryllium)		.oreAll(ore_beryllium);
+		CO			.nugget(fragment_cobalt)	.nugget(nugget_cobalt)		.billet(billet_cobalt)			.ingot(ingot_cobalt)				.dust(powder_cobalt)			.dustSmall(powder_cobalt_tiny)	.block(block_cobalt)		.ore(ore_nether_cobalt) .oreAll(ore_cobalt);
 		B			.nugget(fragment_boron)									.ingot(ingot_boron)				.dustSmall(powder_boron_tiny)		.dust(powder_boron)												.block(block_boron);
 		GRAPHITE															.ingot(ingot_graphite)																												.block(block_graphite);
 		DURA																.ingot(ingot_dura_steel)											.dust(powder_dura_steel)		.plate(plate_dura_steel)		.block(block_dura_steel);
@@ -442,9 +442,9 @@ public class OreDictManager {
 		EUPH		.nugget(nugget_euphemium)								.ingot(ingot_euphemium)												.dust(powder_euphemium)											.block(block_euphemium);
 		DNT			.nugget(nugget_dineutronium)							.ingot(ingot_dineutronium)											.dust(powder_dineutronium)										.block(block_dineutronium);
 		FIBER																.ingot(ingot_fiberglass)																											.block(block_fiberglass);
-		ASBESTOS	.asbestos(1F)											.ingot(ingot_asbestos)												.dust(powder_asbestos)											.block(block_asbestos)		.ore(ore_asbestos, ore_gneiss_asbestos, DictFrame.fromOne(ore_basalt, EnumBasaltOreType.ASBESTOS), DictFrame.fromOne(stone_resource, EnumStoneType.ASBESTOS));
+		ASBESTOS	.asbestos(1F)											.ingot(ingot_asbestos)												.dust(powder_asbestos)											.block(block_asbestos)		.ore(ore_gneiss_asbestos, DictFrame.fromOne(ore_basalt, EnumBasaltOreType.ASBESTOS), DictFrame.fromOne(stone_resource, EnumStoneType.ASBESTOS)) .oreAll(ore_asbestos);
 		OSMIRIDIUM	.nugget(nugget_osmiridium)								.ingot(ingot_osmiridium)											.block(block_osmiridium);
-		ZI			.nugget(nugget_zinc)									.ingot(ingot_zinc)													.dust(powder_zinc)		.ore(ore_zinc, duna_zinc);
+		ZI			.nugget(nugget_zinc)									.ingot(ingot_zinc)													.dust(powder_zinc)		.oreAll(ore_zinc);
 		GALLIUM		.nugget(nugget_gallium)									.ingot(ingot_gallium)												.dust(powder_gallium)		.dustSmall(powder_gallium_tiny);
 		GAAS		.nugget(nugget_gaas)									.ingot(ingot_gaas)													.billet(billet_gaas);	
 		PLATNIUM	.nugget(nugget_platnium)								.ingot(ingot_platnium)												.dust(powder_platnium);
@@ -456,14 +456,14 @@ public class OreDictManager {
 		/*
 		 * DUST AND GEM ORES
 		 */
-		S																				.dust(sulfur)			.block(block_sulfur)	.ore(ore_sulfur, ore_nether_sulfur, DictFrame.fromOne(ore_basalt, EnumBasaltOreType.SULFUR), DictFrame.fromOne(stone_resource, EnumStoneType.SULFUR))	.oreNether(ore_nether_sulfur);
-		KNO																				.dust(niter)			.block(block_niter)		.ore(ore_niter);
-		F																				.dust(fluorite)			.block(block_fluorite)	.ore(ore_fluorite, DictFrame.fromOne(ore_basalt, EnumBasaltOreType.FLUORITE));
-		LIGNITE							.gem(lignite)									.dust(powder_lignite)							.ore(ore_lignite);
+		S																				.dust(sulfur)			.block(block_sulfur)	.ore(ore_nether_sulfur, DictFrame.fromOne(ore_basalt, EnumBasaltOreType.SULFUR), DictFrame.fromOne(stone_resource, EnumStoneType.SULFUR))	.oreNether(ore_nether_sulfur) .oreAll(ore_sulfur);
+		KNO																				.dust(niter)			.block(block_niter)		.oreAll(ore_niter);
+		F																				.dust(fluorite)			.block(block_fluorite)	.ore(DictFrame.fromOne(ore_basalt, EnumBasaltOreType.FLUORITE)) .oreAll(ore_fluorite);
+		LIGNITE							.gem(lignite)									.dust(powder_lignite)							.oreAll(ore_lignite);
 		COALCOKE						.gem(fromOne(coke, EnumCokeType.COAL))									.block(fromOne(block_coke, EnumCokeType.COAL));
 		PETCOKE							.gem(fromOne(coke, EnumCokeType.PETROLEUM))								.block(fromOne(block_coke, EnumCokeType.PETROLEUM));
 		LIGCOKE							.gem(fromOne(coke, EnumCokeType.LIGNITE))								.block(fromOne(block_coke, EnumCokeType.LIGNITE));
-		CINNABAR	.crystal(cinnebar)	.gem(cinnebar)																					.ore(ore_cinnebar, ore_depth_cinnebar);
+		CINNABAR	.crystal(cinnebar)	.gem(cinnebar)																					.ore(ore_depth_cinnebar) .oreAll(ore_cinnebar);
 		BORAX																			.dust(powder_borax)								.ore(ore_depth_borax);
 		CHLOROCALCITE																	.dust(powder_chlorocalcite);
 		MOLYSITE																		.dust(powder_molysite)							.ore(DictFrame.fromOne(ore_basalt, EnumBasaltOreType.MOLYSITE));
@@ -476,7 +476,7 @@ public class OreDictManager {
 		/*
 		 * HAZARDS, MISC
 		 */
-		LI	.hydro(1F)	.ingot(lithium)	.dustSmall(powder_lithium_tiny)	.dust(powder_lithium)	.block(block_lithium)	.ore(ore_gneiss_lithium, moon_lithium);
+		LI	.hydro(1F)	.ingot(lithium)	.dustSmall(powder_lithium_tiny)	.dust(powder_lithium)	.block(block_lithium)	.ore(ore_gneiss_lithium) .oreAll(ore_lithium);
 		NA	.hydro(1F)													.dust(powder_sodium);
 
 		/*
@@ -488,12 +488,12 @@ public class OreDictManager {
 		/*
 		 * RARE METALS
 		 */
-		AUSTRALIUM	.nugget(nugget_australium)	.billet(billet_australium)	.ingot(ingot_australium)	.dust(powder_australium)	.block(block_australium)	.ore(ore_australium);
-		REIIUM		.nugget(nugget_reiium)									.ingot(ingot_reiium)		.dust(powder_reiium)		.block(block_reiium)		.ore(ore_reiium);
-		WEIDANIUM	.nugget(nugget_weidanium)								.ingot(ingot_weidanium)		.dust(powder_weidanium)		.block(block_weidanium)		.ore(ore_weidanium);
-		UNOBTAINIUM	.nugget(nugget_unobtainium)								.ingot(ingot_unobtainium)	.dust(powder_unobtainium)	.block(block_unobtainium)	.ore(ore_unobtainium);
-		VERTICIUM	.nugget(nugget_verticium)								.ingot(ingot_verticium)		.dust(powder_verticium)		.block(block_verticium)		.ore(ore_verticium);
-		DAFFERGON	.nugget(nugget_daffergon)								.ingot(ingot_daffergon)		.dust(powder_daffergon)		.block(block_daffergon)		.ore(ore_daffergon);
+		AUSTRALIUM	.nugget(nugget_australium)	.billet(billet_australium)	.ingot(ingot_australium)	.dust(powder_australium)	.block(block_australium)	.oreAll(ore_australium);
+		REIIUM		.nugget(nugget_reiium)									.ingot(ingot_reiium)		.dust(powder_reiium)		.block(block_reiium)		.oreAll(ore_reiium);
+		WEIDANIUM	.nugget(nugget_weidanium)								.ingot(ingot_weidanium)		.dust(powder_weidanium)		.block(block_weidanium)		.oreAll(ore_weidanium);
+		UNOBTAINIUM	.nugget(nugget_unobtainium)								.ingot(ingot_unobtainium)	.dust(powder_unobtainium)	.block(block_unobtainium)	.oreAll(ore_unobtainium);
+		VERTICIUM	.nugget(nugget_verticium)								.ingot(ingot_verticium)		.dust(powder_verticium)		.block(block_verticium)		.oreAll(ore_verticium);
+		DAFFERGON	.nugget(nugget_daffergon)								.ingot(ingot_daffergon)		.dust(powder_daffergon)		.block(block_daffergon)		.oreAll(ore_daffergon);
 
 		/*
 		 * RARE EARTHS
@@ -869,6 +869,10 @@ public class OreDictManager {
 			hazMult = HazardRegistry.ore;
 			return makeObject(ORE, ore);
 		}
+		public DictFrame oreAll(Object... ore) { // Ignores metadata
+			hazMult = HazardRegistry.ore;
+			return makeObject(ORE, OreDictionary.WILDCARD_VALUE, ore);
+		}
 		
 		public DictFrame oreNether(Object... oreNether) {
 			hazMult = HazardRegistry.ore;
@@ -876,10 +880,14 @@ public class OreDictManager {
 		}
 
 		public DictFrame makeObject(String tag, Object... objects) {
+			return makeObject(tag, 0, objects);
+		}
+
+		public DictFrame makeObject(String tag, int meta, Object... objects) {
 			
 			for(Object o : objects) {
-				if(o instanceof Item)		registerStack(tag, new ItemStack((Item) o));
-				if(o instanceof Block)		registerStack(tag, new ItemStack((Block) o));
+				if(o instanceof Item)		registerStack(tag, new ItemStack((Item) o, 1, meta));
+				if(o instanceof Block)		registerStack(tag, new ItemStack((Block) o, 1, meta));
 				if(o instanceof ItemStack)	registerStack(tag, (ItemStack) o);
 			}
 			

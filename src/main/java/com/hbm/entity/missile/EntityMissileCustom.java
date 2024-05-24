@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockTaint;
-import com.hbm.config.SpaceConfig;
 import com.hbm.dim.DebugTeleporter;
+import com.hbm.dim.SolarSystem;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
@@ -16,11 +16,6 @@ import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.MissileStruct;
-import com.hbm.items.ItemVOTVdrive;
-import com.hbm.items.ModItems;
-import com.hbm.items.ItemVOTVdrive.DestinationType;
-import com.hbm.items.ModItems;
-import com.hbm.items.weapon.ItemMissile;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomMissilePart;
 import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
@@ -94,75 +89,52 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 	
 	@Override
 	public void onUpdate() {
+		EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
+		ItemCustomMissilePart part = (ItemCustomMissilePart) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
+
+		WarheadType type = (WarheadType) part.attributes[0];
+
+		// We need to lock movement on both the client and the server
+		boolean lockMovement = false;
+		if(payload != null) {
+			if(payload.getTagCompound().getBoolean("Processed") == true && type == WarheadType.APOLLO) {
+				if(velocity < 0.1 && riding == null) {
+					lockMovement = true;
+				}
+			}
+		}
 		
 		if(!worldObj.isRemote) {
-			if(this.hasPropulsion()) this.fuel -= this.consumption;
-			EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
-			ItemCustomMissilePart  part = (ItemCustomMissilePart ) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
+			if(!lockMovement) {
+				if(this.hasPropulsion()) this.fuel -= this.consumption;
 
-			WarheadType type = (WarheadType) part.attributes[0];
+				motionX = 0;
+				motionY = 1;
+				motionZ = 0;
+			}
 
-				if(payload != null) {
-				if(payload.getTagCompound().getBoolean("Processed") == true && type == WarheadType.APOLLO) {
-					
-				if(posY < 7 && riding == null) {
-					this.motionY = 0.01;
-					this.velocity = 0.01;
-
-					this.prevRotationPitch = 90;
-					this.prevRotationYaw = 90;
-
-				}else {
-					this.motionX = 0;
-					this.motionY = 1; 
-					this.motionZ = 0;
-					}
-				}
-
+			if(payload != null) {
 				if(posY > 600) {
 					if(riding != null) {
-					switch (DestinationType.values()[payload.getItemDamage()]) {
-					case MOHO:
-			            DebugTeleporter.teleport(riding, SpaceConfig.mohoDimension, riding.posX, 300, riding.posZ);
-						break;
-					case DUNA:
-			            DebugTeleporter.teleport(riding, SpaceConfig.dunaDimension, riding.posX, 300, riding.posZ);
-			            break;
-					case DRES:
-			            DebugTeleporter.teleport(riding, SpaceConfig.dresDimension, riding.posX, 300, riding.posZ);
-						break;
-					case MUN:
-			            DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ);
-			            break;
-					case MINMUS:
-			            DebugTeleporter.teleport(riding, SpaceConfig.minmusDimension, riding.posX, 300, riding.posZ);
-			            break;
-					case EVE:
-			            DebugTeleporter.teleport(riding, SpaceConfig.eveDimension, riding.posX, 300, riding.posZ);
-			            break;
-					case IKE:
-			            DebugTeleporter.teleport(riding, SpaceConfig.ikeDimension, riding.posX, 300, riding.posZ);
-			            break;
-					default: 
+						SolarSystem.Body destination = SolarSystem.Body.values()[payload.getItemDamage()];
+
+						if(destination.getBody() != null) {
+							DebugTeleporter.teleport(riding, destination.getBody().dimensionId, riding.posX, 300, riding.posZ);
+						}
+						
 						riding.dismountEntity(riding);
-						break;
-					}
-				}
-					if(riding != null) {
-					riding.dismountEntity(riding);
 					}
 
-			}
+				}
+
 				if(this.posY > 610) {
 					this.setDead();
 				}
-				
 			}
-
 		}
 		
-		
-		super.onUpdate();
+		if(!lockMovement)
+			super.onUpdate();
 	}
 
 	@Override
