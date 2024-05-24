@@ -99,6 +99,7 @@ public class ItemBedrockOre extends ItemEnumMulti {
 		BORAX("Borax", 0xE4BE74, 					B_LITHIUM, 	B_CALCIUM, 	B_CALCIUM), //calcium from ulexite, uhhh lithium?
 		ASBESTOS("Asbestos", 0xBFBFB9,				B_SILICON,	B_SILICON,	B_SILICON), //quartz i guess?
 		NIOBIUM("Niobium", 0xAF58D8,				B_IRON,		B_IRON,		B_IRON), //iron in columbite, often found along tantalite
+		NICKEL("Nickel", 0xBAB6AA,				B_SULFUR,	B_IRON,	B_ARSENIC), //nickel is generally found with sulfur, iron, and trace amounts of arsenic
 		TITANIUM("Titanium", 0xF2EFE2,				B_SILICON,	B_CALCIUM,	B_ALUMINIUM), //titanite is titanium + calcium + silicon with traces of iron and aluminium
 		TUNGSTEN("Tungsten", 0x2C293C,				B_LEAD,		B_IRON,		B_BISMUTH), //ferberite has iron, raspite has lead, russelite is bismuth tungsten
 		GOLD("Gold", 0xF9D738,						B_LEAD,		B_COPPER,	B_BISMUTH), //occurs with copper, lead and rare bismuthide

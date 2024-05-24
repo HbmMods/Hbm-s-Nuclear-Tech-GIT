@@ -32,6 +32,7 @@ public class ItemByproduct extends ItemEnumMulti {
 		B_SULFUR(0xEAD377),
 		B_CALCIUM(0xCFCFA6),
 		B_BISMUTH(0x8D8577),
+		B_ARSENIC(0x333F46),
 		B_RADIUM(0xE9FAF6),
 		B_TECHNETIUM(0xCADFDF),
 		B_POLONIUM(0xCADFDF),
