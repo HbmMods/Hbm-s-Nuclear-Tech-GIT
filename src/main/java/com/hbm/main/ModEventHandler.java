@@ -25,6 +25,7 @@ import com.hbm.config.RadiationConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.WorldGeneratorCelestial;
 import com.hbm.dim.WorldProviderCelestial;
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityCreeperNuclear;
@@ -44,6 +45,7 @@ import com.hbm.handler.EntityEffectHandler;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.pollution.PollutionHandler;
@@ -161,6 +163,7 @@ import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
 public class ModEventHandler {
@@ -516,6 +519,19 @@ public class ModEventHandler {
 		
 		if(yeet.getItem() == ModItems.bismuth_tool) {
 			ReflectionHelper.setPrivateValue(Entity.class, event.entityItem, true, "field_149119_a", "field_83001_bt", "field_149500_a", "invulnerable");
+		}
+	}
+
+	@SubscribeEvent
+	public void onBlockPlaced(PlaceEvent event) {
+		if(event.block == Blocks.torch) {
+			// Check for an atmosphere and destroy torches if there is insufficient oxygen
+
+			CBT_Atmosphere atmosphere = CelestialBody.getTrait(event.world, CBT_Atmosphere.class);
+			if(atmosphere == null || (!atmosphere.hasFluid(Fluids.OXYGEN, 0.09) && !atmosphere.hasFluid(Fluids.AIR, 0.21))) {
+				event.block.dropBlockAsItem(event.world, event.x, event.y, event.z, event.world.getBlockMetadata(event.x, event.y, event.z), 0);
+                event.world.setBlockToAir(event.x, event.y, event.z);
+			}
 		}
 	}
 	
