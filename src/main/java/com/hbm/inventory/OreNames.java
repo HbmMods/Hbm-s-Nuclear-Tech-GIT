@@ -19,6 +19,7 @@ public class OreNames {
 	public static final String PLATEWELDED = "plateSextuple";
 	public static final String SHELL = "shell";
 	public static final String PIPE = "ntmpipe";
+	public static final String WIRE = "wireFine";
 	public static final String WIREDENSE = "wireDense";
 	public static final String BILLET = "billet";
 	public static final String BLOCK = "block";
@@ -27,6 +28,6 @@ public class OreNames {
 	public static final String HEAVY_COMPONENT = "componentHeavy";
 	
 	public static final String[] prefixes = new String[] {
-			ANY, NUGGET, TINY, BOLT, INGOT, DUSTTINY, DUST, GEM, CRYSTAL, PLATE, PLATECAST, BILLET, BLOCK, ORE, ORENETHER, HEAVY_COMPONENT, WIREDENSE
+			ANY, NUGGET, TINY, BOLT, INGOT, DUSTTINY, DUST, GEM, CRYSTAL, PLATE, PLATECAST, BILLET, BLOCK, ORE, ORENETHER, HEAVY_COMPONENT, WIRE, WIREDENSE
 	};
 }

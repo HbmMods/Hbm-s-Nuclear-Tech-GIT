@@ -4483,6 +4483,7 @@ item.wire_advanced_alloy.name=Super Conductor
 item.wire_aluminium.name=Aluminium Wire
 item.wire_copper.name=Copper Wire
 item.wire_dense.name=Dense %s Wire
+item.wire_fine.name=%s Wire
 item.wire_gold.name=Gold Wire
 item.wire_magnetized_tungsten.name=4000K High Temperature Super Conductor
 item.wire_red_copper.name=Red Copper Wire

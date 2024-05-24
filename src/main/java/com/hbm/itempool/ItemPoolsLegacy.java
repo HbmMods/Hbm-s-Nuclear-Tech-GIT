@@ -1,6 +1,7 @@
 package com.hbm.itempool;
 
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
@@ -72,7 +73,7 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.ingot_steel, 0, 1, 2, 7),
 					weighted(ModItems.ingot_red_copper, 0, 1, 1, 4),
 					weighted(ModItems.ingot_titanium, 0, 1, 3, 5),
-					weighted(ModItems.wire_red_copper, 0, 2, 3, 7),
+					weighted(ModItems.wire_fine, Mats.MAT_MINGRADE.id, 2, 3, 7),
 					weighted(ModItems.circuit_targeting_tier1, 0, 1, 1, 4),
 					weighted(ModItems.circuit_copper, 0, 1, 1, 4),
 					weighted(ModItems.battery_generic, 0, 1, 1, 4),
@@ -220,7 +221,7 @@ public class ItemPoolsLegacy {
 			this.pool = new WeightedRandomChestContent[] {
 					weighted(ModItems.battery_advanced, 0, 1, 1, 5),
 					weighted(ModItems.ingot_advanced_alloy, 0, 2, 16, 5),
-					weighted(ModItems.wire_advanced_alloy, 0, 8, 32, 5),
+					weighted(ModItems.wire_fine, Mats.MAT_ALLOY.id, 8, 32, 5),
 					weighted(ModItems.coil_advanced_alloy, 0, 2, 16, 5),
 					weighted(ModItems.cell_deuterium, 0, 1, 8, 5),
 					weighted(ModItems.cell_tritium, 0, 1, 8, 5),

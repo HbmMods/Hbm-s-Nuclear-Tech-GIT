@@ -3490,6 +3490,7 @@ item.wire_advanced_alloy.name=Supraleiter
 item.wire_aluminium.name=Aluminiumdraht
 item.wire_copper.name=Kupferdraht
 item.wire_dense.name=Dichter %sdraht
+item.wire_fine.name=%sdraht
 item.wire_gold.name=Golddraht
 item.wire_magnetized_tungsten.name=4000K Hochtemperaturensupraleiter
 item.wire_red_copper.name=Roter Kupferdraht

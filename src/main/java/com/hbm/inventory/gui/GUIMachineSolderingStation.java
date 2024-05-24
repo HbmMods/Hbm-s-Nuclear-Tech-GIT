@@ -11,12 +11,12 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUIMachineSolderingMachine extends GuiInfoContainer {
+public class GUIMachineSolderingStation extends GuiInfoContainer {
 
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_soldering_station.png");
 	private TileEntityMachineSolderingStation solderer;
 
-	public GUIMachineSolderingMachine(InventoryPlayer playerInv, TileEntityMachineSolderingStation tile) {
+	public GUIMachineSolderingStation(InventoryPlayer playerInv, TileEntityMachineSolderingStation tile) {
 		super(new ContainerMachineSolderingStation(playerInv, tile));
 		
 		this.solderer = tile;

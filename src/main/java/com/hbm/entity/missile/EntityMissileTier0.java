@@ -31,7 +31,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 	@Override
 	public List<ItemStack> getDebris() {
 		List<ItemStack> list = new ArrayList<ItemStack>();
-		list.add(new ItemStack(ModItems.wire_aluminium, 4));
+		list.add(new ItemStack(ModItems.wire_fine, 4, Mats.MAT_ALUMINIUM.id));
 		list.add(new ItemStack(ModItems.plate_titanium, 4));
 		list.add(new ItemStack(ModItems.shell, 2, Mats.MAT_ALUMINIUM.id));
 		list.add(new ItemStack(ModItems.ducttape, 1));

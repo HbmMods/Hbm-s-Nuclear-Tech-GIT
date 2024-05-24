@@ -190,6 +190,7 @@ public class OreDictManager {
 	/** SILICON */ 
 	public static final DictFrame SI = new DictFrame("Silicon");
 	public static final DictFrame GRAPHITE = new DictFrame("Graphite");
+	public static final DictFrame CARBON = new DictFrame("Carbon");
 	public static final DictFrame DURA = new DictFrame("DuraSteel");
 	public static final DictFrame POLYMER = new DictFrame("Polymer");
 	public static final DictFrame BAKELITE = new DictFrame("Bakelite");
@@ -389,6 +390,7 @@ public class OreDictManager {
 		B			.nugget(fragment_boron)									.ingot(ingot_boron)				.dustSmall(powder_boron_tiny)		.dust(powder_boron)												.block(block_boron);
 		SI			.nugget(nugget_silicon)		.billet(billet_silicon)		.ingot(ingot_silicon);
 		GRAPHITE															.ingot(ingot_graphite)																												.block(block_graphite);
+		CARBON																.ingot(ingot_graphite)																												.block(block_graphite);
 		DURA																.ingot(ingot_dura_steel)											.dust(powder_dura_steel)		.plate(plate_dura_steel)		.block(block_dura_steel);
 		POLYMER																.ingot(ingot_polymer)												.dust(powder_polymer)											.block(block_polymer);
 		BAKELITE															.ingot(ingot_bakelite)												.dust(powder_bakelite)											.block(block_bakelite);
@@ -541,6 +543,7 @@ public class OreDictManager {
 				if(mat.shapes.contains(MaterialShapes.SHELL)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.SHELL.name() + name, new ItemStack(ModItems.shell, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.PIPE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.PIPE.name() + name, new ItemStack(ModItems.pipe, 1, mat.id));
 			}
+			if(mat.shapes.contains(MaterialShapes.WIRE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.WIRE.name() + name, new ItemStack(ModItems.wire_fine, 1, mat.id));
 		}
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
@@ -722,6 +725,7 @@ public class OreDictManager {
 		public String plateCast() {		return PLATECAST		+ mats[0]; }
 		public String plateWelded() {	return PLATEWELDED		+ mats[0]; }
 		public String heavyComp() {		return HEAVY_COMPONENT	+ mats[0]; }
+		public String wireFine() {		return WIRE				+ mats[0]; }
 		public String wireDense() {		return WIREDENSE		+ mats[0]; }
 		public String shell() {			return SHELL			+ mats[0]; }
 		public String pipe() {			return PIPE				+ mats[0]; }
@@ -980,6 +984,7 @@ public class OreDictManager {
 		public String plateCast() {		return PLATECAST		+ groupName; }
 		public String plateWelded() {	return PLATEWELDED		+ groupName; }
 		public String heavyComp() {		return HEAVY_COMPONENT	+ groupName; }
+		public String wireFine() {		return WIRE				+ groupName; }
 		public String wireDense() {		return WIREDENSE		+ groupName; }
 		public String billet() {		return BILLET			+ groupName; }
 		public String block() {			return BLOCK			+ groupName; }

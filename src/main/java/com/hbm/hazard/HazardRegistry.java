@@ -462,8 +462,6 @@ public class HazardRegistry {
 		HazardSystem.register(ModBlocks.block_fallout, makeData(RADIATION, yc * block * powder_mult));
 		HazardSystem.register(powder_caesium, makeData().addEntry(HYDROACTIVE, 1F).addEntry(HOT, 3F));
 		
-		HazardSystem.register(wire_schrabidium, makeData(RADIATION, sa326 * nugget));
-		
 		HazardSystem.register(brick_asbestos, makeData(ASBESTOS, 1F));
 		HazardSystem.register(tile_lab_broken, makeData(ASBESTOS, 1F));
 		HazardSystem.register(powder_coltan_ore, makeData(ASBESTOS, 3F));

@@ -61,7 +61,7 @@ public class ItemModDefuser extends ItemArmorMod {
 				if(toRem != null) {
 					creeper.tasks.removeTask(toRem);
 					creeper.worldObj.playSoundEffect(creeper.posX, creeper.posY, creeper.posZ, "hbm:item.pinBreak", 1.0F, 1.0F);
-					creeper.dropItem(creeper.getRNG().nextBoolean() ? ModItems.wire_copper : ModItems.safety_fuse, 1);
+					creeper.dropItem(ModItems.safety_fuse, 1);
 					creeper.attackEntityFrom(DamageSource.causeMobDamage(entity), 1.0F);
 					creeper.addPotionEffect(new PotionEffect(Potion.weakness.id, 0, 200));
 				}

@@ -2,15 +2,20 @@ package com.hbm.inventory.recipes;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import static com.hbm.inventory.OreDictManager.*;
 import com.google.gson.JsonElement;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 
 import net.minecraft.item.ItemStack;
@@ -28,7 +33,42 @@ public class SolderingRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CAPACITOR.ordinal())},
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.PCB.ordinal())},
-				new AStack[] {}
+				new AStack[] {
+						new OreDictStack(PB.wireFine(), 4)}
+		));
+		
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BASIC.ordinal()), 200, 250,
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP.ordinal())},
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.PCB.ordinal())},
+				new AStack[] {
+						new OreDictStack(PB.wireFine(), 4)}
+		));
+		
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED.ordinal()), 300, 1_000,
+				new FluidStack(Fluids.SULFURIC_ACID, 1_000),
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CHIP.ordinal()),
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CAPACITOR.ordinal())},
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 8, EnumCircuitType.PCB.ordinal()),
+						new OreDictStack(RUBBER.ingot())},
+				new AStack[] {
+						new OreDictStack(PB.wireFine(), 8)}
+		));
+		
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BISMOID.ordinal()), 400, 10_000,
+				new FluidStack(Fluids.RADIOSOLVENT, 1_000),
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP_BISMOID.ordinal()),
+						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CHIP.ordinal()),
+						new ComparableStack(ModItems.circuit, 24, EnumCircuitType.CAPACITOR.ordinal())},
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 12, EnumCircuitType.PCB.ordinal()),
+						new OreDictStack(ANY_HARDPLASTIC.ingot(), 4)},
+				new AStack[] {
+						new OreDictStack(PB.wireFine(), 12)}
 		));
 	}
 	
@@ -41,6 +81,24 @@ public class SolderingRecipes extends SerializableRecipe {
 		}
 		
 		return null;
+	}
+	
+	public static HashMap getRecipes() {
+
+		HashMap<Object, Object> recipes = new HashMap<Object, Object>();
+		
+		for(SolderingRecipe recipe : SolderingRecipes.recipes) {
+			
+			List ingredients = new ArrayList();
+			for(AStack stack : recipe.toppings) ingredients.add(stack);
+			for(AStack stack : recipe.pcb) ingredients.add(stack);
+			for(AStack stack : recipe.solder) ingredients.add(stack);
+			if(recipe.fluid != null) ingredients.add(ItemFluidIcon.make(recipe.fluid));
+			
+			recipes.put(ingredients.toArray(), recipe.output);
+		}
+		
+		return recipes;
 	}
 
 	@Override

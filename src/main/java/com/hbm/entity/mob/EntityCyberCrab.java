@@ -163,16 +163,6 @@ public class EntityCyberCrab extends EntityMob implements IRangedAttackMob, IRad
         return true;
     }
 
-    @Override
-	protected Item getDropItem()
-    {
-        return ModItems.wire_gold;
-    }
-
-    protected void dropRareDrop(int p_70600_1_) {
-    	this.dropItem(ModItems.wire_magnetized_tungsten, 1);
-    }
-
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase entity, float f) {
 		EntityBullet bullet = new EntityBullet(worldObj, this, entity, 1.6F, 2);

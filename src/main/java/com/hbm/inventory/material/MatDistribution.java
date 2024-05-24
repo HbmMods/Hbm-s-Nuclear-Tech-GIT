@@ -56,14 +56,6 @@ public class MatDistribution extends SerializableRecipe {
 		registerEntry(ModItems.stamp_titanium_flat,			MAT_TITANIUM,		INGOT.q(3));
 		registerEntry(ModItems.stamp_obsidian_flat,			MAT_OBSIDIAN,		INGOT.q(3));
 		registerEntry(ModItems.pipes_steel,					MAT_STEEL,			BLOCK.q(3));
-		registerEntry(ModItems.wire_aluminium,				MAT_ALUMINIUM,		WIRE.q(1));
-		registerEntry(ModItems.wire_copper,					MAT_COPPER,			WIRE.q(1));
-		registerEntry(ModItems.wire_red_copper,				MAT_MINGRADE,		WIRE.q(1));
-		registerEntry(ModItems.wire_tungsten,				MAT_TUNGSTEN,		WIRE.q(1));
-		registerEntry(ModItems.wire_gold,					MAT_GOLD,			WIRE.q(1));
-		registerEntry(ModItems.wire_advanced_alloy,			MAT_ALLOY,			WIRE.q(1));
-		registerEntry(ModItems.wire_magnetized_tungsten,	MAT_MAGTUNG,		WIRE.q(1));
-		registerEntry(ModItems.wire_schrabidium,			MAT_SCHRABIDIUM,	WIRE.q(1));
 
 		//actual ores
 		if(!Compat.isModLoaded(Compat.MOD_GT6)) {

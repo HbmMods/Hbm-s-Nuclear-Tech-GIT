@@ -12,10 +12,10 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerMachineSolderingStation extends Container {
 	
-	private TileEntityMachineSolderingStation welder;
+	private TileEntityMachineSolderingStation solderer;
 
 	public ContainerMachineSolderingStation(InventoryPlayer playerInv, TileEntityMachineSolderingStation tile) {
-		welder = tile;
+		solderer = tile;
 		
 		//Inputs
 		for(int i = 0; i < 2; i++) for(int j = 0; j < 3; j++) this.addSlotToContainer(new Slot(tile, i * 3 + j, 17 + j * 18, 18 + i * 18));
@@ -42,7 +42,7 @@ public class ContainerMachineSolderingStation extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return welder.isUseableByPlayer(player);
+		return solderer.isUseableByPlayer(player);
 	}
 
 	@Override

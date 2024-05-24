@@ -16,10 +16,10 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerMachineArcWelder extends Container {
 	
-	private TileEntityMachineArcWelder solderer;
+	private TileEntityMachineArcWelder welder;
 
 	public ContainerMachineArcWelder(InventoryPlayer playerInv, TileEntityMachineArcWelder tile) {
-		solderer = tile;
+		welder = tile;
 		
 		//Inputs
 		this.addSlotToContainer(new Slot(tile, 0, 17, 36));
@@ -48,7 +48,7 @@ public class ContainerMachineArcWelder extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return solderer.isUseableByPlayer(player);
+		return welder.isUseableByPlayer(player);
 	}
 
 	@Override

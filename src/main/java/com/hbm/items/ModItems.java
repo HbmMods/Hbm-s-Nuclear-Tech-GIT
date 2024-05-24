@@ -293,8 +293,6 @@ public class ModItems {
 	public static Item nugget_actinium;
 	public static Item plate_titanium;
 	public static Item plate_aluminium;
-	public static Item wire_red_copper;
-	public static Item wire_tungsten;
 	public static Item neutron_reflector;
 	public static Item ingot_steel;
 	public static Item plate_steel;
@@ -572,27 +570,25 @@ public class ModItems {
 	public static Item motor_desh;
 	public static Item motor_bismuth;
 	public static Item centrifuge_element;
-	//public static Item centrifuge_tower;
 	public static Item reactor_core;
 	public static Item rtg_unit;
-	//public static Item thermo_unit_empty;
-	//public static Item thermo_unit_endo;
-	//public static Item thermo_unit_exo;
 	public static Item levitation_unit;
+	
 	public static Item wire_aluminium;
 	public static Item wire_copper;
+	public static Item wire_red_copper;
+	public static Item wire_tungsten;
 	public static Item wire_gold;
 	public static Item wire_schrabidium;
 	public static Item wire_advanced_alloy;
+	public static Item wire_magnetized_tungsten;
+	
 	public static Item coil_advanced_alloy;
 	public static Item coil_advanced_torus;
-	public static Item wire_magnetized_tungsten;
 	public static Item coil_magnetized_tungsten;
 	public static Item coil_gold;
 	public static Item coil_gold_torus;
-	//public static Item magnet_dee;
 	public static Item magnet_circular;
-	//public static Item cyclotron_tower;
 	public static Item component_limiter;
 	public static Item component_emitter;
 	public static Item chlorine_pinwheel;
@@ -787,6 +783,7 @@ public class ModItems {
 	public static Item plate_cast;
 	public static Item plate_welded;
 	public static Item heavy_component;
+	public static Item wire_fine;
 	public static Item wire_dense;
 
 	public static Item part_lithium;
@@ -3282,6 +3279,7 @@ public class ModItems {
 		plate_cast = new ItemAutogen(MaterialShapes.CASTPLATE).aot(Mats.MAT_BISMUTH, "plate_cast_bismuth").setUnlocalizedName("plate_cast").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_cast");
 		plate_welded = new ItemAutogen(MaterialShapes.WELDEDPLATE).setUnlocalizedName("plate_welded").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_welded");
 		heavy_component = new ItemAutogen(MaterialShapes.HEAVY_COMPONENT).setUnlocalizedName("heavy_component").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":heavy_component");
+		wire_fine = new ItemAutogen(MaterialShapes.WIRE).setUnlocalizedName("wire_fine").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_fine");
 		wire_dense = new ItemAutogen(MaterialShapes.DENSEWIRE).setUnlocalizedName("wire_dense").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_dense");
 
 		part_lithium = new Item().setUnlocalizedName("part_lithium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":part_lithium");
@@ -6116,6 +6114,7 @@ public class ModItems {
 		GameRegistry.registerItem(wire_gold, wire_gold.getUnlocalizedName());
 		GameRegistry.registerItem(wire_schrabidium, wire_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(wire_magnetized_tungsten, wire_magnetized_tungsten.getUnlocalizedName());
+		GameRegistry.registerItem(wire_fine, wire_fine.getUnlocalizedName());
 		GameRegistry.registerItem(wire_dense, wire_dense.getUnlocalizedName());
 		
 		//Parts

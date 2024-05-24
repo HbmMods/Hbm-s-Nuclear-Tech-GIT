@@ -8,7 +8,7 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.container.ContainerMachineSolderingStation;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.gui.GUIMachineSolderingMachine;
+import com.hbm.inventory.gui.GUIMachineSolderingStation;
 import com.hbm.inventory.recipes.SolderingRecipes;
 import com.hbm.inventory.recipes.SolderingRecipes.SolderingRecipe;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
@@ -247,7 +247,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 	@Override
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUIMachineSolderingMachine(player.inventory, this);
+		return new GUIMachineSolderingStation(player.inventory, this);
 	}
 	
 	AxisAlignedBB bb = null;
