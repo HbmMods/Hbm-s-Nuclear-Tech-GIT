@@ -25,8 +25,6 @@ import scala.reflect.internal.Trees.This;
 //no model yet, im gonna take this low n slow
 public class EntityWarBehemoth extends EntityMob implements IRangedAttackMob {
     private int stepTimer = 0;
-    private static final int STEP_DURATION = 20; // Duration of each step in ticks (1 second)
-    private static final int STEP_COOLDOWN = 60; // Cooldown period between steps in ticks (1 second)
 
     private static final IEntitySelector selector = new IEntitySelector() {
 		public boolean isEntityApplicable(Entity p_82704_1_) {
@@ -40,11 +38,10 @@ public class EntityWarBehemoth extends EntityMob implements IRangedAttackMob {
         this.setSize(0.75F, 1.35F);
         this.getNavigator().setAvoidsWater(true);
                 
-        this.tasks.addTask(1, new EntityAIWander(this, 0.55F));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 0, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLiving.class, 0, true, true, selector));
-        this.tasks.addTask(3, new EntityAIStepTowardsTarget(this, 4, 0.4, STEP_DURATION, STEP_COOLDOWN, 0.6));
-		this.tasks.addTask(4, new EntityAIBehemothGun(this, true, true, 80));
+        this.tasks.addTask(3, new EntityAIStepTowardsTarget(this, 4, 0.4, 20, 60, 0.6));
+		this.tasks.addTask(4, new EntityAIBehemothGun(this, true, true, 2, 30, 20));
 		this.targetTasks.addTask(5, new EntityAIHurtByTarget(this, false));
 
 
