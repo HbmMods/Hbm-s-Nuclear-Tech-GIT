@@ -5,6 +5,8 @@ import org.lwjgl.opengl.GLContext;
 
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.config.RadiationConfig;
+import com.hbm.dim.CelestialBody;
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
@@ -27,7 +29,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
@@ -246,7 +248,7 @@ public class ModEventHandlerRenderer {
 	public void onDrawHighlight(DrawBlockHighlightEvent event) {
 		MovingObjectPosition mop = event.target;
 		
-		if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
+		if(mop != null && mop.typeOfHit == MovingObjectType.BLOCK) {
 			Block b = event.player.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
 			if(b instanceof ICustomBlockHighlight) {
 				ICustomBlockHighlight cus = (ICustomBlockHighlight) b;
@@ -258,83 +260,13 @@ public class ModEventHandlerRenderer {
 			}
 		}
 	}
-
-	//private ResourceLocation ashes = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_ash.png");
-	public static int currentBrightness = 0;
-	public static int lastBrightness = 0;
-
-	/*@SubscribeEvent
-	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
-
-		if(event.type == ElementType.PORTAL) {
-
-			Minecraft mc = Minecraft.getMinecraft();
-
-			ScaledResolution resolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-
-			GL11.glPushMatrix();
-			GL11.glDisable(GL11.GL_DEPTH_TEST);
-			GL11.glDepthMask(false);
-			GL11.glEnable(GL11.GL_BLEND);
-			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-			GL11.glEnable(GL11.GL_ALPHA_TEST);
-			GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.0F);
-
-			int w = resolution.getScaledWidth();
-			int h = resolution.getScaledHeight();
-			double off = System.currentTimeMillis() / 10000D % 10000D;
-			double aw = 1;
-
-			Tessellator tessellator = Tessellator.instance;
-
-			int cX = currentBrightness % 65536;
-			int cY = currentBrightness / 65536;
-			int lX = lastBrightness % 65536;
-			int lY = lastBrightness / 65536;
-			float interp = (mc.theWorld.getTotalWorldTime() % 20) * 0.05F;
-
-			if(mc.theWorld.getTotalWorldTime() == 1)
-				lastBrightness = currentBrightness;
-
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) (lX + (cX - lX) * interp) / 1.0F, (float) (lY + (cY - lY) * interp) / 1.0F);
-
-			// mc.entityRenderer.enableLightmap((double)event.partialTicks);
-
-			mc.getTextureManager().bindTexture(ashes);
-
-			for(int i = 1; i < 3; i++) {
-
-				GL11.glTranslated(w, h, 0);
-				GL11.glRotatef(-15, 0, 0, 1);
-				GL11.glTranslated(-w, -h, 0);
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, BlockAshes.ashes / 256F * 0.98F / i);
-
-				tessellator.startDrawingQuads();
-				tessellator.addVertexWithUV(-w * 1.25, h * 1.25, aw, 0.0D + off * i, 1.0D);
-				tessellator.addVertexWithUV(w * 1.25, h * 1.25, aw, 1.0D + off * i, 1.0D);
-				tessellator.addVertexWithUV(w * 1.25, -h * 1.25, aw, 1.0D + off * i, 0.0D);
-				tessellator.addVertexWithUV(-w * 1.25, -h * 1.25, aw, 0.0D + off * i, 0.0D);
-				tessellator.draw();
-			}
-
-			mc.entityRenderer.disableLightmap((double) event.partialTicks);
-
-			GL11.glDepthMask(true);
-			GL11.glEnable(GL11.GL_DEPTH_TEST);
-			GL11.glDisable(GL11.GL_BLEND);
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.1F);
-
-			GL11.glPopMatrix();
-		}
-	}*/
 	
 	float renderSoot = 0;
 	
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
 		
-		if(event.phase == event.phase.START && RadiationConfig.enableSootFog) {
+		if(event.phase == WorldTickEvent.Phase.START && RadiationConfig.enableSootFog) {
 
 			float step = 0.05F;
 			float soot = PermaSyncHandler.pollution[PollutionType.SOOT.ordinal()];
@@ -352,7 +284,18 @@ public class ModEventHandlerRenderer {
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void thickenFog(FogDensity event) {
 		float soot = (float) (renderSoot - RadiationConfig.sootFogThreshold);
-		if(soot > 0 && RadiationConfig.enableSootFog) {
+		CBT_Atmosphere atmosphere = CelestialBody.getTrait(event.entity.worldObj, CBT_Atmosphere.class);
+		double pressure;
+
+		if (atmosphere != null && (pressure = atmosphere.getPressure()) > 2F) {
+			if(GLContext.getCapabilities().GL_NV_fog_distance) {
+				GL11.glFogi(34138, 34139);
+			}
+			GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
+
+			event.density = (float)(pressure * pressure) * 0.002F;
+			event.setCanceled(true);
+		} else if(soot > 0 && RadiationConfig.enableSootFog) {
 			
 			float farPlaneDistance = (float) (Minecraft.getMinecraft().gameSettings.renderDistanceChunks * 16);
 			float fogDist = farPlaneDistance / (1 + soot * 5F / (float) RadiationConfig.sootFogDivisor);
@@ -362,23 +305,13 @@ public class ModEventHandlerRenderer {
 			if(GLContext.getCapabilities().GL_NV_fog_distance) {
 				GL11.glFogi(34138, 34139);
 			}
-			//GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
-			//GL11.glFogf(GL11.GL_FOG_DENSITY, 2F);
+			
 			event.setCanceled(true);
 		}
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void tintFog(FogColors event) {
-		
-		/*
-		EntityPlayer player = MainRegistry.proxy.me();
-		Vec3 color = getFogBlendColor(player.worldObj, (int) Math.floor(player.posX), (int) Math.floor(player.posZ), event.renderPartialTicks);
-		event.red = (float) color.xCoord;
-		event.green = (float) color.yCoord;
-		event.blue = (float) color.zCoord;
-		*/
-		
 		
 		float soot = (float) (renderSoot - RadiationConfig.sootFogThreshold);
 		float sootColor = 0.15F;
@@ -401,83 +334,4 @@ public class ModEventHandlerRenderer {
 			GL11.glTranslated(horizontal * mult, vertical * mult, 0);
 		}
 	}
-
-	private static boolean fogInit = false;
-	private static int fogX;
-	private static int fogZ;
-	private static Vec3 fogRGBMultiplier;
-	private static boolean doesBiomeApply = false;
-	
-	
-	/** Same procedure as getting the blended sky color but for fog */
-	/*
-	public static Vec3 getFogBlendColor(World world, int playerX, int playerZ, double partialTicks) {
-		
-		if(playerX == fogX && playerZ == fogZ && fogInit) return fogRGBMultiplier;
-
-		GameSettings settings = Minecraft.getMinecraft().gameSettings;
-		int[] ranges = ForgeModContainer.blendRanges;
-		int distance = 0;
-		
-		if(settings.fancyGraphics && settings.renderDistanceChunks >= 0) {
-			distance = ranges[Math.min(settings.renderDistanceChunks, ranges.length - 1)];
-		}
-
-		float r = 0F;
-		float g = 0F;
-		float b = 0F;
-		
-		int divider = 0;
-		doesBiomeApply = false;
-		
-		for(int x = -distance; x <= distance; x++) {
-			for(int z = -distance; z <= distance; z++) {
-				BiomeGenBase biome = world.getBiomeGenForCoords(playerX + x,  playerZ + z);
-				Vec3 color = getBiomeFogColors(world, biome, red, green, blue, partialTicks);
-				r += color.xCoord;
-				g += color.yCoord;
-				b += color.zCoord;
-				divider++;
-			}
-		}
-
-		fogX = playerX;
-		fogZ = playerZ;
-		
-		if(doesBiomeApply) {
-			fogRGBMultiplier = Vec3.createVectorHelper(r / divider, g / divider, b / divider);
-		} else {
-			fogRGBMultiplier = null;
-		}
-
-		return fogRGBMultiplier;
-	}
-
-	
-	// Returns the current biome's fog color adjusted for brightness if in a crater, or the world's cached fog color if not /
-	public static Vec3 getBiomeFogColors(World world, BiomeGenBase biome, double poh artialTicks) {
-
-		Vec3 worldFog = world.getFogColor((float) partialTicks);
-		double r = worldFog.xCoord;
-		double g = worldFog.yCoord;
-		double b = worldFog.zCoord;
-		
-		if(biome instanceof BiomeGenCraterBase) {
-			int color = biome.getSkyColorByTemp(biome.temperature);
-			r = ((color & 0xff0000) >> 16) / 255F;
-			g = ((color & 0x00ff00) >> 8) / 255F;
-			b = (color & 0x0000ff) / 255F;
-			
-			float celestialAngle = world.getCelestialAngle((float) partialTicks);
-			float skyBrightness = MathHelper.clamp_float(MathHelper.cos(celestialAngle * (float) Math.PI * 2.0F) * 2.0F + 0.5F, 0F, 1F);
-			r *= skyBrightness;
-			g *= skyBrightness;
-			b *= skyBrightness;
-			
-			doesBiomeApply = true;
-		}
-		
-		return Vec3.createVectorHelper(r, g, b);
-	}
-	*/
 }
