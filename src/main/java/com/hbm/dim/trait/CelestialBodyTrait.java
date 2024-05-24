@@ -25,6 +25,9 @@ public abstract class CelestialBodyTrait {
 	public static class CBT_SUNEXPLODED extends CelestialBodyTrait { }
 	public static CBT_SUNEXPLODED SPLODE = new CBT_SUNEXPLODED();
 
+	public static class CBT_Water extends CelestialBodyTrait { }
+	public static CBT_Water HAS_WATER = new CBT_Water();
+
 	// Constructor and loading
 	public static List<Class<? extends CelestialBodyTrait>> traitList = new ArrayList<Class<? extends CelestialBodyTrait>>();
 	public static HashBiMap<String, Class<? extends CelestialBodyTrait>> traitMap = HashBiMap.create();

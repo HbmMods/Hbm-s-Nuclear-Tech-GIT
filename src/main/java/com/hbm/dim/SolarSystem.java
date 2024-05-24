@@ -68,7 +68,7 @@ public class SolarSystem {
 					.withSemiMajorAxis(13_599_840)
 					.withRotationalPeriod(21_549)
 					.withColor(0.608F, 0.914F, 1.0F)
-					.withTraits(new CBT_Atmosphere(Fluids.AIR, 1D))
+					.withTraits(new CBT_Atmosphere(Fluids.AIR, 1D), CelestialBodyTrait.HAS_WATER)
 					.withSatellites(
 
 						new CelestialBody("mun", SpaceConfig.moonDimension, Body.MUN)
@@ -125,7 +125,7 @@ public class SolarSystem {
 							.withRotationalPeriod(52_981)
 							.withTidalLockingTo("jool")
 							.withProcessingLevel(3)
-							.withTraits(new CBT_Atmosphere(Fluids.AIR, 0.6D)),
+							.withTraits(new CBT_Atmosphere(Fluids.AIR, 0.6D), CelestialBodyTrait.HAS_WATER),
 
 						new CelestialBody("vall")
 							.withMassRadius(3.109e21F, 300)
