@@ -100,7 +100,7 @@ public class Gun50BMGFactory {
 						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, bullet.posX, bullet.posY, bullet.posZ),  new TargetPoint(bullet.dimension, bullet.posX, bullet.posY, bullet.posZ, 200));
 						
 						//PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(bullet.dimension, x, y, z, 100));
-						System.out.println(x + " " + y + " " + z);
+						//System.out.println(x + " " + y + " " + z);
 					}
 				}
 			}	

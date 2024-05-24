@@ -37,6 +37,7 @@ public abstract class CelestialBodyTrait {
 		registerTrait("hot", CBT_Hot.class);
 		registerTrait("cold", CBT_Cold.class);
 		registerTrait("hotter", CBT_Temperature.class);
+		registerTrait("bees", CBT_Bees.class);
 		registerTrait("war", CBT_War.class);
 		registerTrait("sunexploded", CBT_SUNEXPLODED.class);
 	};

@@ -9,6 +9,7 @@ import com.hbm.dim.DebugTeleporter;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
+import com.hbm.entity.mob.EntityWarBehemoth;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
