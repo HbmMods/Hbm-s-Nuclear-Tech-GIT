@@ -95,6 +95,7 @@ public class BedrockOre {
 		registerBedrockOre(Body.MUN, tungsten, WorldConfig.bedrockTungstenSpawn);
 		
 		// Minmus ores
+		registerBedrockOre(Body.MINMUS, ice, 100);
 		registerBedrockOre(Body.MINMUS, iron, WorldConfig.bedrockIronSpawn);
 		registerBedrockOre(Body.MINMUS, copper, WorldConfig.bedrockCopperSpawn);
 		registerBedrockOre(Body.MINMUS, niobium, WorldConfig.bedrockNiobiumSpawn);
@@ -102,6 +103,7 @@ public class BedrockOre {
 		registerBedrockOre(Body.MINMUS, cinnabar, 100);
 		
 		// Duna ores
+		registerBedrockOre(Body.DUNA, ice, 100);
 		registerBedrockOre(Body.DUNA, iron, WorldConfig.bedrockIronSpawn);
 		registerBedrockOre(Body.DUNA, copper, WorldConfig.bedrockCopperSpawn);
 		registerBedrockOre(Body.DUNA, borax, WorldConfig.bedrockBoraxSpawn);
@@ -139,7 +141,9 @@ public class BedrockOre {
 		registerBedrockOre(Body.EVE, thorium, WorldConfig.bedrockThoriumSpawn);
 		registerBedrockOre(Body.EVE, niobium, WorldConfig.bedrockNiobiumSpawn);
 		registerBedrockOre(Body.EVE, neodymium, WorldConfig.bedrockNeodymiumSpawn);
+		registerBedrockOre(Body.EVE, rare, WorldConfig.bedrockRareEarthSpawn);
 		registerBedrockOre(Body.EVE, schrabidium, 100);
+		registerBedrockOre(Body.EVE, cinnabar, 100);
 
 		replacements.put("ore" + EnumBedrockOre.IRON.oreName, new BedrockOreDefinition(EnumBedrockOre.HEMATITE, 1));
 		replacements.put("ore" + EnumBedrockOre.COPPER.oreName, new BedrockOreDefinition(EnumBedrockOre.MALACHITE, 1));
