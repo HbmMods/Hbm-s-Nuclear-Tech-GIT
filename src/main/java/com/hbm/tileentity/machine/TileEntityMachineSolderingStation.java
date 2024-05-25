@@ -77,7 +77,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 			SolderingRecipe recipe = SolderingRecipes.getRecipe(new ItemStack[] {slots[0], slots[1], slots[2], slots[3], slots[4], slots[5]});
 			long intendedMaxPower;
 			
-			UpgradeManager.eval(slots, 6, 7);
+			UpgradeManager.eval(slots, 9, 10);
 			int redLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			int blueLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
 			
@@ -184,6 +184,31 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 			this.tank.setFill(tank.getFill() - recipe.fluid.fill);
 		}
 	}
+
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+		if(slot < 3) {
+			for(int i = 0; i < 3; i++) if(i != slot && slots[i] != null && slots[i].isItemEqual(stack)) return false;
+			for(AStack t : SolderingRecipes.toppings) if(t.matchesRecipe(stack, true)) return true;
+		} else if(slot < 5) {
+			for(int i = 3; i < 5; i++) if(i != slot && slots[i] != null && slots[i].isItemEqual(stack)) return false;
+			for(AStack t : SolderingRecipes.pcb) if(t.matchesRecipe(stack, true)) return true;
+		} else if(slot < 6) {
+			for(int i = 5; i < 6; i++) if(i != slot && slots[i] != null && slots[i].isItemEqual(stack)) return false;
+			for(AStack t : SolderingRecipes.solder) if(t.matchesRecipe(stack, true)) return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return i == 6;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return new int[] { 0, 1, 2, 3, 4, 5, 6 };
+	}
 	
 	protected DirPos[] getConPos() {
 		
@@ -191,7 +216,14 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
 		return new DirPos[] {
-				
+				new DirPos(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir),
+				new DirPos(xCoord + dir.offsetX + rot.offsetX, yCoord, zCoord + dir.offsetZ + rot.offsetZ, dir),
+				new DirPos(xCoord - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2, dir.getOpposite()),
+				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite()),
+				new DirPos(xCoord - rot.offsetX, yCoord, zCoord - rot.offsetZ, rot.getOpposite()),
+				new DirPos(xCoord - dir.offsetX - rot.offsetX, yCoord, zCoord - dir.offsetZ - rot.offsetZ, rot.getOpposite()),
+				new DirPos(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
+				new DirPos(xCoord - dir.offsetX + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 2, rot),
 		};
 	}
 

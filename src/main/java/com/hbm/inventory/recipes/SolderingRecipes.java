@@ -3,6 +3,7 @@ package com.hbm.inventory.recipes;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import static com.hbm.inventory.OreDictManager.*;
@@ -53,13 +54,23 @@ public class SolderingRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CAPACITOR.ordinal())},
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 8, EnumCircuitType.PCB.ordinal()),
-						new OreDictStack(RUBBER.ingot())},
+						new OreDictStack(RUBBER.ingot(), 2)},
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 8)}
 		));
 		
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CAPACITOR_BOARD.ordinal()), 200, 300,
+				new FluidStack(Fluids.ACID, 250),
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 3, EnumCircuitType.CAPACITOR_TANTALIUM.ordinal())},
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.PCB.ordinal())},
+				new AStack[] {
+						new OreDictStack(PB.wireFine(), 3)}
+		));
+		
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BISMOID.ordinal()), 400, 10_000,
-				new FluidStack(Fluids.RADIOSOLVENT, 1_000),
+				new FluidStack(Fluids.SOLVENT, 1_000),
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP_BISMOID.ordinal()),
 						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CHIP.ordinal()),
@@ -114,6 +125,9 @@ public class SolderingRecipes extends SerializableRecipe {
 	@Override
 	public void deleteRecipes() {
 		recipes.clear();
+		toppings.clear();
+		pcb.clear();
+		solder.clear();
 	}
 
 	@Override
@@ -125,6 +139,10 @@ public class SolderingRecipes extends SerializableRecipe {
 	public void writeRecipe(Object obj, JsonWriter writer) throws IOException {
 		
 	}
+
+	public static HashSet<AStack> toppings = new HashSet();
+	public static HashSet<AStack> pcb = new HashSet();
+	public static HashSet<AStack> solder = new HashSet();
 	
 	public static class SolderingRecipe {
 
@@ -144,6 +162,9 @@ public class SolderingRecipes extends SerializableRecipe {
 			this.output = output;
 			this.duration = duration;
 			this.consumption = consumption;
+			for(AStack t : toppings) SolderingRecipes.toppings.add(t);
+			for(AStack t : pcb) SolderingRecipes.pcb.add(t);
+			for(AStack t : solder) SolderingRecipes.solder.add(t);
 		}
 		
 		public SolderingRecipe(ItemStack output, int duration, long consumption, AStack[] toppings, AStack[] pcb, AStack[] solder) {

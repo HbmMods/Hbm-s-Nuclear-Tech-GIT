@@ -25,6 +25,7 @@ import com.hbm.items.ItemAmmoEnums.Ammo556mm;
 import com.hbm.items.ItemAmmoEnums.AmmoLunaticSniper;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemStamp;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.util.Tuple.Pair;
 
@@ -96,6 +97,7 @@ public class PressRecipes extends SerializableRecipe {
 		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_bismuth_raw),	ModItems.circuit_bismuth);
 		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_arsenic_raw),	ModItems.circuit_arsenic);
 		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_tantalium_raw),	ModItems.circuit_tantalium);
+		makeRecipe(StampType.CIRCUIT, new OreDictStack(SI.billet()),						DictFrame.fromOne(ModItems.circuit, EnumCircuitType.SILICON));
 
 		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_iron),			ModItems.ammo_357.stackFromEnum(24, Ammo357Magnum.IRON));
 		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_steel),		ModItems.ammo_357.stackFromEnum(24, Ammo357Magnum.LEAD));

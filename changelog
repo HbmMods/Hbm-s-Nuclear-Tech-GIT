@@ -17,6 +17,7 @@
 * The small arc furnace is being retired and is no longer craftable. However, it will still function, and it can use any type of electrode without depleting it
 * Wires now use the autogen system and are oredicted with the "wireFine" prefix (equivalent to GT fine wires, 1/8 of an ingot)
 * Removed the assembler recipes for wires
+* Increased the maximum durability for all stamps
 
 ## Fixed
 * Fixed missing localization for meteorite ores and the new crucible materials

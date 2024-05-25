@@ -151,7 +151,7 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 		}
 		for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.smeltable == SmeltingBehavior.SMELTABLE) {
-				recipes.put(new ItemStack(ModItems.scraps, 1, mat.id), ItemScraps.create(new MaterialStack(mat, MaterialShapes.INGOT.q(1))));
+				recipes.put(new ItemStack(ModItems.scraps, 1, mat.id), ItemScraps.create(new MaterialStack(mat, MaterialShapes.INGOT.q(1)), true));
 			}
 		}
 		return recipes;

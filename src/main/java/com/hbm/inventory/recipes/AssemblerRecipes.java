@@ -31,6 +31,7 @@ import com.hbm.items.ItemAmmoEnums;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.machine.ItemAssemblyTemplate;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.machine.ItemDrillbit.EnumDrillType;
 import com.hbm.items.machine.ItemPistons.EnumPistonType;
 import com.hbm.items.weapon.ItemAmmoHIMARS;
@@ -359,6 +360,15 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(BIGMT.plate(), 24),
 				new OreDictStack(NB.ingot(), 16),
 				new OreDictStack(DURA.pipe(), 4)
+			}, 200);
+
+		makeRecipe(new ComparableStack(ModBlocks.machine_arc_furnace, 1), new AStack[] {
+				new OreDictStack(ANY_CONCRETE.any(), 12),
+				new OreDictStack(ANY_PLASTIC.ingot(), 8),
+				new ComparableStack(ModItems.ingot_firebrick, 16),
+				new OreDictStack(STEEL.plateCast(), 8),
+				new ComparableStack(ModBlocks.machine_transformer, 1),
+				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ANALOG.ordinal())
 			}, 200);
 
 		makeRecipe(new ComparableStack(ModBlocks.machine_excavator, 1), new AStack[] {

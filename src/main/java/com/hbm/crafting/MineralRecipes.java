@@ -46,7 +46,6 @@ public class MineralRecipes {
 		add1To9Pair(ModBlocks.block_schrabidate, ModItems.ingot_schrabidate);
 		add1To9Pair(ModBlocks.block_coltan, ModItems.fragment_coltan);
 		add1To9Pair(ModBlocks.block_smore, ModItems.ingot_smore);
-		add1To9Pair(ModBlocks.block_niobium, ModItems.ingot_niobium);
 		add1To9Pair(ModBlocks.block_semtex, ModItems.ingot_semtex);
 		add1To9Pair(ModBlocks.block_c4, ModItems.ingot_c4);
 		add1To9Pair(ModBlocks.block_polymer, ModItems.ingot_polymer);
@@ -60,6 +59,7 @@ public class MineralRecipes {
 			add1To9PairSameMeta(Item.getItemFromBlock(ModBlocks.block_coke), ModItems.coke, i);
 		}
 
+		addMineralSet(ModItems.nugget_niobium, ModItems.ingot_niobium, ModBlocks.block_niobium);
 		addMineralSet(ModItems.nugget_bismuth, ModItems.ingot_bismuth, ModBlocks.block_bismuth);
 		addMineralSet(ModItems.nugget_tantalium, ModItems.ingot_tantalium, ModBlocks.block_tantalium);
 		addMineralSet(ModItems.nugget_zirconium, ModItems.ingot_zirconium, ModBlocks.block_zirconium);

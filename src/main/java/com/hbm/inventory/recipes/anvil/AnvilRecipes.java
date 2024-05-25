@@ -22,6 +22,7 @@ import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
 import com.hbm.items.food.ItemFlask.EnumInfusion;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -356,6 +357,14 @@ public class AnvilRecipes {
 						new OreDictStack(CU.plate528(), 16),
 						new ComparableStack(ModItems.plate_polymer, 8)
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_boiler))).setTier(2));
+
+		constructionRecipes.add(new AnvilConstructionRecipe(
+				new AStack[] {
+						new OreDictStack(STEEL.plateCast(), 2),
+						new ComparableStack(ModItems.coil_copper, 4),
+						new OreDictStack(W.bolt(), 4),
+						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.VACUUM_TUBE.ordinal())
+				}, new AnvilOutput(new ItemStack(ModBlocks.machine_soldering_station))).setTier(2));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
