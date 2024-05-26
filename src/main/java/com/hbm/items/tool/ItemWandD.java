@@ -68,7 +68,7 @@ public class ItemWandD extends Item {
 			if(atmosphere != null) {
 				for(FluidEntry entry : atmosphere.fluids) {
 					// if(entry.pressure > 0.001) {
-						player.addChatMessage(new ChatComponentText("Atmosphere: " + entry.fluid.getLocalizedName() + " - " + entry.pressure + "bar"));
+						player.addChatMessage(new ChatComponentText("Atmosphere: " + entry.fluid.getUnlocalizedName() + " - " + entry.pressure + "bar"));
 						isVacuum = false;
 					// }
 				}

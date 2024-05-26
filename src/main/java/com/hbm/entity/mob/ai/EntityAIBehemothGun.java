@@ -84,8 +84,8 @@ public class EntityAIBehemothGun extends EntityAIBase {
 			grenade.motionX = vec.xCoord * 0.05D;
 			grenade.motionY = 0.5D + owner.getRNG().nextDouble() * 0.5D;
 			grenade.motionZ = vec.zCoord * 0.05D;
-			grenade.setThrowableHeading(grenade.motionX, grenade.motionY * 6, grenade.motionZ, 1F, 0);
-			grenade.setVelocity(grenade.motionX * 4, grenade.motionY * 6, grenade.motionZ * 4);
+			grenade.setThrowableHeading(grenade.motionX , grenade.motionY * 6, grenade.motionZ , 5F, 0);
+			grenade.setTarget(target.posX, target.posZ, target.posY);
 			owner.worldObj.playSoundEffect(owner.posX, owner.posY, owner.posZ, "hbm:turret.jeremy_fire", 25.0F, 1.0F);
 			owner.worldObj.spawnEntityInWorld(grenade);
 			reloadTimer = reloadDelay;

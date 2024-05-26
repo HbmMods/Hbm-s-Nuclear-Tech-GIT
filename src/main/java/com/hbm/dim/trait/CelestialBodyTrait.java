@@ -40,6 +40,8 @@ public abstract class CelestialBodyTrait {
 		registerTrait("bees", CBT_Bees.class);
 		registerTrait("war", CBT_War.class);
 		registerTrait("sunexploded", CBT_SUNEXPLODED.class);
+		registerTrait("water", CBT_Water.class);
+
 	};
 
 	private static void registerTrait(String name, Class<? extends CelestialBodyTrait> clazz) {
