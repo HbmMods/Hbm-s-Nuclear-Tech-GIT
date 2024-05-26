@@ -2,44 +2,17 @@ package com.hbm.util;
 
 import java.lang.reflect.Method;
 
-import com.hbm.handler.ArmorModHandler;
-import com.hbm.items.ModItems;
-
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.common.ForgeHooks;
 
 public class EntityDamageUtil {
-	
-	public static boolean wasAttackedByV1(DamageSource source) {
-
-		if(source instanceof EntityDamageSource) {
-			Entity attacker = ((EntityDamageSource) source).getEntity();
-			
-			if(attacker instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) attacker;
-				ItemStack chestplate = player.inventory.armorInventory[2];
-				
-				if(chestplate != null && ArmorModHandler.hasMods(chestplate)) {
-					ItemStack[] mods = ArmorModHandler.pryMods(chestplate);
-					
-					if(mods[ArmorModHandler.extra] != null && mods[ArmorModHandler.extra].getItem() == ModItems.v1) {
-						return true;
-					}
-				}
-			}
-		}
-		
-		return false;
-	}
 	
 	/**
 	 * Attacks the given entity twice, based on a piecring percentage. The second hit sets the damage source to bypass armor.

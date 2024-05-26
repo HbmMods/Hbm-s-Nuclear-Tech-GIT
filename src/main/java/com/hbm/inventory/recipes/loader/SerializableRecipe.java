@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -44,6 +45,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new PressRecipes());
 		recipeHandlers.add(new BlastFurnaceRecipes());
 		recipeHandlers.add(new ShredderRecipes());
+		recipeHandlers.add(new SolderingRecipes());
 		recipeHandlers.add(new ChemplantRecipes());
 		recipeHandlers.add(new CombinationRecipes());
 		recipeHandlers.add(new CrucibleRecipes());
@@ -71,6 +73,8 @@ public abstract class SerializableRecipe {
 		
 		recipeHandlers.add(new MatDistribution());
 		recipeHandlers.add(new CustomMachineRecipes());
+		//AFTER MatDistribution
+		recipeHandlers.add(new ArcFurnaceRecipes());
 	}
 	
 	public static void initialize() {
@@ -336,5 +340,34 @@ public abstract class SerializableRecipe {
 		if(stack.pressure != 0) writer.value(stack.pressure);
 		writer.endArray();
 		writer.setIndent("  ");
+	}
+	
+	public static boolean matchesIngredients(ItemStack[] inputs, AStack[] recipe) {
+
+		List<AStack> recipeList = new ArrayList();
+		for(AStack ingredient : recipe) recipeList.add(ingredient);
+		
+		for(int i = 0; i < inputs.length; i++) {
+			ItemStack inputStack = inputs[i];
+
+			if(inputStack != null) {
+				boolean hasMatch = false;
+				Iterator<AStack> iterator = recipeList.iterator();
+
+				while(iterator.hasNext()) {
+					AStack recipeStack = iterator.next();
+
+					if(recipeStack.matchesRecipe(inputStack, true) && inputStack.stackSize >= recipeStack.stacksize) {
+						hasMatch = true;
+						recipeList.remove(recipeStack);
+						break;
+					}
+				}
+				if(!hasMatch) {
+					return false;
+				}
+			}
+		}
+		return recipeList.isEmpty();
 	}
 }

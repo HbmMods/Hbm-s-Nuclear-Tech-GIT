@@ -27,7 +27,6 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
 		list.add(new ItemStack(ModItems.plate_steel, 20));
 		list.add(new ItemStack(ModItems.plate_aluminium, 12));
 		list.add(new ItemStack(ModItems.thruster_large, 1));
-		list.add(new ItemStack(ModItems.circuit_targeting_tier4, 1));
 		return list;
 	}
 
@@ -85,7 +84,6 @@ public abstract class EntityMissileTier4 extends EntityMissileBaseNT {
 			list.add(new ItemStack(ModItems.plate_steel, 20));
 			list.add(new ItemStack(ModItems.plate_aluminium, 12));
 			list.add(new ItemStack(ModItems.thruster_large, 1));
-			list.add(new ItemStack(ModItems.circuit_targeting_tier5, 1));
 			return list;
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_mirv); }

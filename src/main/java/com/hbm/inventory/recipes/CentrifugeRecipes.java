@@ -267,6 +267,12 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget_bismuth, 6),
 				new ItemStack(ModItems.nuclear_waste_tiny, 1) });
 
+		recipes.put(new ComparableStack(ModItems.icf_pellet_depleted), new ItemStack[] {
+				new ItemStack(ModItems.icf_pellet_empty, 1),
+				new ItemStack(ModItems.pellet_charged, 1),
+				new ItemStack(ModItems.pellet_charged, 1),
+				new ItemStack(ModItems.powder_iron, 1) });
+
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.RARE)), new ItemStack[] {
 				new ItemStack(ModItems.powder_cobalt_tiny, 2),
 				new ItemStack(ModItems.powder_boron_tiny, 2),

@@ -45,7 +45,7 @@ public class ItemMold extends Item {
 		registerMold(new MoldShape(		1, S, "billet", MaterialShapes.BILLET));
 		registerMold(new MoldShape(		2, S, "ingot", MaterialShapes.INGOT));
 		registerMold(new MoldShape(		3, S, "plate", MaterialShapes.PLATE));
-		registerMold(new MoldWire(		4, S, "wire"));
+		registerMold(new MoldShape(		4, S, "wire", MaterialShapes.WIRE));
 
 		registerMold(new MoldShape(		19, S, "plate_cast", MaterialShapes.CASTPLATE));
 		registerMold(new MoldShape(		20, S, "wire_dense", MaterialShapes.DENSEWIRE));
@@ -212,36 +212,6 @@ public class ItemMold extends Item {
 		}
 	}
 
-	public class MoldWire extends Mold {
-
-		public MoldWire(int id, int size, String name) {
-			super(id, size, name);
-		}
-
-		@Override
-		public ItemStack getOutput(NTMMaterial mat) {
-
-			if(mat == Mats.MAT_ALUMINIUM) return new ItemStack(ModItems.wire_aluminium, 8);
-			if(mat == Mats.MAT_ALLOY) return new ItemStack(ModItems.wire_advanced_alloy, 8);
-			if(mat == Mats.MAT_COPPER) return new ItemStack(ModItems.wire_copper, 8);
-			if(mat == Mats.MAT_GOLD) return new ItemStack(ModItems.wire_gold, 8);
-			if(mat == Mats.MAT_MAGTUNG) return new ItemStack(ModItems.wire_magnetized_tungsten, 8);
-			if(mat == Mats.MAT_MINGRADE) return new ItemStack(ModItems.wire_red_copper, 8);
-			if(mat == Mats.MAT_SCHRABIDIUM) return new ItemStack(ModItems.wire_schrabidium, 8);
-			if(mat == Mats.MAT_TUNGSTEN) return new ItemStack(ModItems.wire_tungsten, 8);
-			return null;
-		}
-
-		@Override
-		public int getCost() {
-			return MaterialShapes.WIRE.q(8);
-		}
-
-		@Override
-		public String getTitle() {
-			return I18nUtil.resolveKey("shape.wire") + " x8";
-		}
-	}
 
 	/* because why not */
 	public class MoldSingle extends Mold {

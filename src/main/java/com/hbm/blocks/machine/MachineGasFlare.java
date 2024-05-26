@@ -68,7 +68,7 @@ public class MachineGasFlare extends BlockDummyable implements ITooltipProvider 
 		list.add(EnumChatFormatting.GOLD + "Vents up to " + EnumChatFormatting.RED + "50mB/t");
 		list.add("");
 		list.add(EnumChatFormatting.YELLOW + "Fuel efficiency:");
-		list.add(EnumChatFormatting.YELLOW + "-Flammable Gasses: " + EnumChatFormatting.RED + "50%");
+		list.add(EnumChatFormatting.YELLOW + "-Flammable Gasses: " + EnumChatFormatting.RED + "20%");
 		list.add(EnumChatFormatting.YELLOW + "-Flammable Liquids: " + EnumChatFormatting.RED + "10%");
 	}
 }

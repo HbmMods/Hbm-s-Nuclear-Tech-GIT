@@ -24,6 +24,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.main.CraftingManager;
 import com.hbm.main.MainRegistry;
 
@@ -90,7 +91,7 @@ public class CustomMachineConfigJSON {
 			SerializableRecipe.writeAStack(new OreDictStack(OreDictManager.STEEL.plate()), writer);
 			writer.setIndent("");
 			writer.value("C");
-			SerializableRecipe.writeAStack(new ComparableStack(ModItems.circuit_aluminium), writer);
+			SerializableRecipe.writeAStack(new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BASIC), writer);
 			writer.endArray().setIndent("  ");
 
 			writer.name("components").beginArray();

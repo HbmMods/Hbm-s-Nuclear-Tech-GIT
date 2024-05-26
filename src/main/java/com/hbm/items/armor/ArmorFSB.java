@@ -476,46 +476,6 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 				} catch(Exception x) {
 				}
 			}
-			/*
-			if(dashCount > 0) {
-				
-				int perDash = 60;
-				
-				HbmPlayerProps props = (HbmPlayerProps) player.getExtendedProperties("NTM_EXT_PLAYER");
-				
-				props.setDashCount(dashCount);
-				
-				int stamina = props.getStamina();
-
-				if(props.getDashCooldown() <= 0) {
-					
-					if(!player.capabilities.isFlying && player.isSneaking() && stamina >= perDash) {
-						
-						Vec3 lookingIn = player.getLookVec();
-						lookingIn.yCoord = 0;
-						lookingIn.normalize();
-						player.addVelocity(lookingIn.xCoord, 0, lookingIn.zCoord);
-						player.playSound("hbm:player.dash", 1.0F, 1.0F);
-						
-						props.setDashCooldown(HbmPlayerProps.dashCooldownLength);
-						stamina -= perDash;
-					}
-				} else {	
-					props.setDashCooldown(props.getDashCooldown() - 1);
-				}
-				
-				if(stamina < props.getDashCount() * perDash) {
-					stamina++;
-					
-					if(stamina % perDash == perDash-1) {
-						
-						player.playSound("hbm:player.dashRecharge", 1.0F, (1.0F + ((1F/12F)*(stamina/perDash))));
-						stamina++;
-					}
-				}
-				
-				props.setStamina(stamina);
-			}	*/
 		}
 	}
 

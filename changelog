@@ -1,26 +1,42 @@
 ## Added
-* ICF pellet maker
-  * Can create custom ICF fuel pellets
-  * Pellets use binary fuels, meaning they need two different fluids, two different solids or a solid and a fluid
-  * Optionally, the pellet maker can accept muon capsules, each capsule can add muons to up to 16 pellets, reducing the laser input requirement
-  * Fuels currently only have default stats, custom stats will be added in the future
+* Arc furnace
+  * A large version of the arc furnace that can do several types of recipe
+  * Solid mode smelts items like a furnace, however to work the recipe needs an ingredient or result that is oredicted as either an ore, block, ingot or plate
+  * Liquid mode smelts items like a crucible would, effectively liquiefying metals. Non-castable materials are voided
+  * Both modes have arc furnace exclusive recipes (smelting sand/quartz/fiberglass into silicon)
+  * Can be upgraded only with regular speed upgrades
+* Soldering station
+  * Works similar to arc welders
+  * Used to assemble circuits from parts
+* New circuits
+  * The old circuits will be phased out, the items remain but can be recycled
+  * Circuits use an entirely new approach for crafting, instead of upgrading tiers constantly, all circuits are made from common parts
+  * Circuits can be automated entirely with only autocrafters, presses and the soldering station, no assembler or chemplant required
+  * Legacy circuits can be recycled in any anvil, yielding the roughly equivalent new circuit
 
 ## Changed
-* To make balancing easier, ICFs will only directly convert 25% of incoming laser heat into output heat when there is no fuel pellet loaded, meaning when using fuel, direct heating does not apply
-* The ICF should now display its relevant values using Energy Control screens
-* Sodium and calcium are now valid crucible materials
-* All RBMK models that render as TESRs now use VBOs which should make them somewhat less laggy
-* Blocks like explosive charges, radioactive barrels and so on which used to explode instantly when destroyed by another explosion, now behave more like TNT, spawning a primed version of the block that is knocked back by the initial explosion
-  * This fixes an issue where spamming too many blocks like that could potentially crash servers
-  * Most explosives go off after a short delay, flammable barrels however will explode on impact
-* Removed unused permanent wings
-* Added recipes to the ICF parts, the ICF can now be made in survival mode (recipes are still subject to change)
+* Updated russian and italian localization
+* Nerfed conventional explosives (dynamite, TNT, semtex, C4) in order to not outclass small nukes
+* Plastic explosive blocks no longer drop and blocks
+* Sellafite diamond ore now shreds into diamond gravel
+* ICF vessel blocks now use half as much fullerite as before
+* ICF capacitor and turbocharger blocks are now quite a bit cheaper
+* MEP is no longer self-igniting
+* The foundry storage basin now holds 4 blocks worth of material instead of 1
+* The small arc furnace is being retired and is no longer craftable. However, it will still function, and it can use any type of electrode without depleting it
+* Wires now use the autogen system and are oredicted with the "wireFine" prefix (equivalent to GT fine wires, 1/8 of an ingot)
+* Removed the assembler recipes for wires
+* Increased the maximum durability for all stamps
+* All upgrades now use the soldering station for their recipes, except for overdrive
+* Overdrive upgrade recipes have been rebalanced
 
 ## Fixed
-* Fixed ICF laser parts being considered valid when bordering an otherwise invalid dependency block
-* Fixed soyuz launcher NEI recipe showing the wrong amount of items
-* Fixed infinite xp exploit by constantly smelting and cooling things like meteorite ingots
-* Fixed centrifuge speed upgrade tooltip
-* Fixed smokestacks not working with a lot of machines
-* Fixed soot values being completely off for most machines
-* Fixed glyphid scouts not spawning in the daylight in rampant mode
+* Fixed missing localization for meteorite ores and the new crucible materials
+* Removed the starmetal crystallization recipe, despite starmetal ore no longer existing
+* Fixed the ICF structure block detection being incorrect, omitting some parts
+* Fixed armor mods adding health showing only half as much as they actually do
+* Fixed RBMK fuel xenon burn function being described wrong
+* When converting ComparableStacks to ItemStacks, there is now a check that replaces null items with the nothing placeholder, fixing crashes caused by incorrect recipe configuration
+* Fixed item icon lighting in the anvil's search field
+* Fixed custom machine NEI handlers (again)
+* Fixed FEL making sounds when turned on but not actually active
