@@ -98,8 +98,6 @@ public class OreDictManager {
 	public static final String KEY_TOOL_CHEMISTRYSET = "ntmchemistryset";
 	public static final String KEY_TOOL_TORCH = "ntmtorch";
 
-	public static final String KEY_CIRCUIT_BISMUTH = "circuitVersatile";
-
 	public static final String KEY_GLYPHID_MEAT = "glyphidMeat";
 
 	/*
@@ -522,12 +520,6 @@ public class OreDictManager {
 		OreDictionary.registerOre(KEY_TOOL_TORCH, new ItemStack(acetylene_torch, 1, OreDictionary.WILDCARD_VALUE));
 
 		/*
-		 * CIRCUITS
-		 */
-		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_bismuth);
-		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_arsenic);
-
-		/*
 		 * GLYPHID M E A T
 		 */
 		OreDictionary.registerOre(KEY_GLYPHID_MEAT, new ItemStack(glyphid_meat));
@@ -631,6 +623,7 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockGlassBlack", glass_ash);
 
 		OreDictionary.registerOre("container1000lubricant", bdcl);
+		OreDictionary.registerOre("itemSilicon", billet_silicon);
 		
 		MaterialShapes.registerCompatShapes();
 		compensateMojangSpaghettiBullshit();

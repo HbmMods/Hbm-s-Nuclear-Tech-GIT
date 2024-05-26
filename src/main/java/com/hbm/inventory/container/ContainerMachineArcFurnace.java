@@ -65,7 +65,7 @@ public class ContainerMachineArcFurnace extends Container {
 					if(!this.mergeItemStack(stack, 5, 6, false))
 						return null;
 					
-				} else if(rStack.getItem() == ModItems.arc_electrode_desh || rStack.getItem() == ModItems.arc_electrode) {
+				} else if(rStack.getItem() == ModItems.arc_electrode) {
 					if(!this.mergeItemStack(stack, 2, 5, false))
 						return null;
 					

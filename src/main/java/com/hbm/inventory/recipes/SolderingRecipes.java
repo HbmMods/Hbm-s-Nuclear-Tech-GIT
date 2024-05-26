@@ -19,6 +19,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class SolderingRecipes extends SerializableRecipe {
@@ -30,19 +31,19 @@ public class SolderingRecipes extends SerializableRecipe {
 		
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.ANALOG.ordinal()), 100, 100,
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 3, EnumCircuitType.VACUUM_TUBE.ordinal()),
-						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CAPACITOR.ordinal())},
+						new ComparableStack(ModItems.circuit, 3, EnumCircuitType.VACUUM_TUBE),
+						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CAPACITOR)},
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.PCB.ordinal())},
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.PCB)},
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 4)}
 		));
 		
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BASIC.ordinal()), 200, 250,
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP.ordinal())},
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP)},
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.PCB.ordinal())},
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.PCB)},
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 4)}
 		));
@@ -50,10 +51,10 @@ public class SolderingRecipes extends SerializableRecipe {
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED.ordinal()), 300, 1_000,
 				new FluidStack(Fluids.SULFURIC_ACID, 1_000),
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CHIP.ordinal()),
-						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CAPACITOR.ordinal())},
+						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CHIP),
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CAPACITOR)},
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 8, EnumCircuitType.PCB.ordinal()),
+						new ComparableStack(ModItems.circuit, 8, EnumCircuitType.PCB),
 						new OreDictStack(RUBBER.ingot(), 2)},
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 8)}
@@ -62,9 +63,9 @@ public class SolderingRecipes extends SerializableRecipe {
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CAPACITOR_BOARD.ordinal()), 200, 300,
 				new FluidStack(Fluids.ACID, 250),
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 3, EnumCircuitType.CAPACITOR_TANTALIUM.ordinal())},
+						new ComparableStack(ModItems.circuit, 3, EnumCircuitType.CAPACITOR_TANTALIUM)},
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.PCB.ordinal())},
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.PCB)},
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 3)}
 		));
@@ -72,14 +73,82 @@ public class SolderingRecipes extends SerializableRecipe {
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BISMOID.ordinal()), 400, 10_000,
 				new FluidStack(Fluids.SOLVENT, 1_000),
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP_BISMOID.ordinal()),
-						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CHIP.ordinal()),
-						new ComparableStack(ModItems.circuit, 24, EnumCircuitType.CAPACITOR.ordinal())},
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP_BISMOID),
+						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CHIP),
+						new ComparableStack(ModItems.circuit, 24, EnumCircuitType.CAPACITOR)},
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 12, EnumCircuitType.PCB.ordinal()),
+						new ComparableStack(ModItems.circuit, 12, EnumCircuitType.PCB),
 						new OreDictStack(ANY_HARDPLASTIC.ingot(), 4)},
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 12)}
+		));
+
+		/*
+		 * UPGRADES
+		 */
+		
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.upgrade_speed_1), 200, 1_000,
+				new AStack[] {new ComparableStack(ModItems.circuit, 4, EnumCircuitType.VACUUM_TUBE), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CAPACITOR)},
+				new AStack[] {new ComparableStack(ModItems.upgrade_template), new OreDictStack(MINGRADE.dust(), 4)},
+				new AStack[] {}
+		));
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.upgrade_effect_1), 200, 1_000,
+				new AStack[] {new ComparableStack(ModItems.circuit, 4, EnumCircuitType.VACUUM_TUBE), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CAPACITOR)},
+				new AStack[] {new ComparableStack(ModItems.upgrade_template), new OreDictStack(EMERALD.dust(), 4)},
+				new AStack[] {}
+		));
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.upgrade_power_1), 200, 1_000,
+				new AStack[] {new ComparableStack(ModItems.circuit, 4, EnumCircuitType.VACUUM_TUBE), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CAPACITOR)},
+				new AStack[] {new ComparableStack(ModItems.upgrade_template), new OreDictStack(GOLD.dust(), 4)},
+				new AStack[] {}
+		));
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.upgrade_fortune_1), 200, 1_000,
+				new AStack[] {new ComparableStack(ModItems.circuit, 4, EnumCircuitType.VACUUM_TUBE), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CAPACITOR)},
+				new AStack[] {new ComparableStack(ModItems.upgrade_template), new OreDictStack(NB.dust(), 4)},
+				new AStack[] {}
+		));
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.upgrade_afterburn_1), 200, 1_000,
+				new AStack[] {new ComparableStack(ModItems.circuit, 4, EnumCircuitType.VACUUM_TUBE), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CAPACITOR)},
+				new AStack[] {new ComparableStack(ModItems.upgrade_template), new OreDictStack(W.dust(), 4)},
+				new AStack[] {}
+		));
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.upgrade_radius), 200, 1_000,
+				new AStack[] {new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CAPACITOR)},
+				new AStack[] {new ComparableStack(ModItems.upgrade_template), new OreDictStack("dustGlowstone", 4)},
+				new AStack[] {}
+		));
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.upgrade_health), 200, 1_000,
+				new AStack[] {new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CAPACITOR)},
+				new AStack[] {new ComparableStack(ModItems.upgrade_template), new OreDictStack(LI.dust(), 4)},
+				new AStack[] {}
+		));
+		
+		addFirstUpgrade(ModItems.upgrade_speed_1, ModItems.upgrade_speed_2);
+		addSecondUpgrade(ModItems.upgrade_speed_2, ModItems.upgrade_speed_3);
+		addFirstUpgrade(ModItems.upgrade_effect_1, ModItems.upgrade_effect_2);
+		addSecondUpgrade(ModItems.upgrade_effect_2, ModItems.upgrade_effect_3);
+		addFirstUpgrade(ModItems.upgrade_power_1, ModItems.upgrade_power_2);
+		addSecondUpgrade(ModItems.upgrade_power_2, ModItems.upgrade_power_3);
+		addFirstUpgrade(ModItems.upgrade_fortune_1, ModItems.upgrade_fortune_2);
+		addSecondUpgrade(ModItems.upgrade_fortune_2, ModItems.upgrade_fortune_3);
+		addFirstUpgrade(ModItems.upgrade_afterburn_1, ModItems.upgrade_afterburn_2);
+		addSecondUpgrade(ModItems.upgrade_afterburn_2, ModItems.upgrade_afterburn_3);
+	}
+	
+	public static void addFirstUpgrade(Item lower, Item higher) {
+		recipes.add(new SolderingRecipe(new ItemStack(higher), 300, 10_000,
+				new AStack[] {new ComparableStack(ModItems.circuit, 8, EnumCircuitType.CHIP), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CAPACITOR)},
+				new AStack[] {new ComparableStack(lower), new OreDictStack(ANY_PLASTIC.ingot(), 4)},
+				new AStack[] {}
+		));
+	}
+	
+	public static void addSecondUpgrade(Item lower, Item higher) {
+		recipes.add(new SolderingRecipe(new ItemStack(higher), 400, 25_000,
+				new FluidStack(Fluids.SOLVENT, 500),
+				new AStack[] {new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CHIP), new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CAPACITOR)},
+				new AStack[] {new ComparableStack(lower), new OreDictStack(RUBBER.ingot(), 4)},
+				new AStack[] {}
 		));
 	}
 	

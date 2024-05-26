@@ -35,7 +35,6 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 		list.add(new ItemStack(ModItems.plate_titanium, 4));
 		list.add(new ItemStack(ModItems.shell, 2, Mats.MAT_ALUMINIUM.id));
 		list.add(new ItemStack(ModItems.ducttape, 1));
-		list.add(new ItemStack(ModItems.circuit_targeting_tier1, 1));
 		return list;
 	}
 

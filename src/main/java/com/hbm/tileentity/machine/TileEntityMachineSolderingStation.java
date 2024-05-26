@@ -11,6 +11,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineSolderingStation;
 import com.hbm.inventory.recipes.SolderingRecipes;
 import com.hbm.inventory.recipes.SolderingRecipes.SolderingRecipe;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
@@ -57,6 +58,15 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 	@Override
 	public String getName() {
 		return "container.machineSolderingStation";
+	}
+
+	@Override
+	public void setInventorySlotContents(int i, ItemStack stack) {
+		super.setInventorySlotContents(i, stack);
+		
+		if(stack != null && stack.getItem() instanceof ItemMachineUpgrade && i >= 9 && i <= 10) {
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
+		}
 	}
 
 	@Override
@@ -151,7 +161,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 		if(slots[6] != null) {
 			if(slots[6].getItem() != recipe.output.getItem()) return false;
 			if(slots[6].getItemDamage() != recipe.output.getItemDamage()) return false;
-			if(slots[6].stackSize + recipe.output.stackSize > slots[3].getMaxStackSize()) return false;
+			if(slots[6].stackSize + recipe.output.stackSize > slots[6].getMaxStackSize()) return false;
 		}
 		
 		return true;

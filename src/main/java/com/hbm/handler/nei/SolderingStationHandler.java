@@ -35,7 +35,6 @@ public class SolderingStationHandler extends NEIUniversalHandler {
 	public void drawExtras(int recipe) {
 
 		RecipeSet rec = (RecipeSet) this.arecipes.get(recipe);
-		Object[] original = (Object[]) rec.originalInputInstance;
 		ItemStack output = rec.output[0].item;
 		
 		for(SolderingRecipe sol : SolderingRecipes.recipes) {

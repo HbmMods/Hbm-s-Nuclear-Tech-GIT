@@ -5,6 +5,7 @@ import static com.hbm.lib.HbmChestContents.weighted;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ItemEnums.EnumCokeType;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemBlowtorch;
 
@@ -40,10 +41,9 @@ public class ItemPoolsComponent {
 					weighted(ModItems.wire_fine, Mats.MAT_MINGRADE.id, 1, 8, 5),
 					weighted(ModItems.piston_selenium, 0, 1, 1, 3),
 					weighted(ModItems.battery_advanced_cell, 0, 1, 1, 3),
-					weighted(ModItems.circuit_raw, 0, 1, 3, 5),
-					weighted(ModItems.circuit_aluminium, 0, 1, 2, 4),
-					weighted(ModItems.circuit_copper, 0, 1, 1, 3),
-					weighted(ModItems.circuit_red_copper, 0, 1, 1, 2),
+					weighted(ModItems.circuit, EnumCircuitType.VACUUM_TUBE.ordinal(), 1, 2, 4),
+					weighted(ModItems.circuit, EnumCircuitType.PCB.ordinal(), 1, 3, 5),
+					weighted(ModItems.circuit, EnumCircuitType.CAPACITOR.ordinal(), 1, 1, 3),
 					weighted(ModItems.blade_titanium, 0, 1, 8, 1)
 			};
 		}};

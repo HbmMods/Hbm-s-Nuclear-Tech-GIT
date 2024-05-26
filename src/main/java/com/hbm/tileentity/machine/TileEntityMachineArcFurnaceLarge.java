@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMachineArcFurnaceLarge;
@@ -15,10 +17,13 @@ import com.hbm.inventory.recipes.ArcFurnaceRecipes;
 import com.hbm.inventory.recipes.ArcFurnaceRecipes.ArcFurnaceRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemArcElectrode;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -57,6 +62,9 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public int approachNum;
 	public float syncLid;
 	
+	private AudioWrapper audioLid;
+	private AudioWrapper audioProgress;
+	
 	public byte[] electrodes = new byte[3];
 	public static final byte ELECTRODE_NONE = 0;
 	public static final byte ELECTRODE_FRESH = 1;
@@ -73,6 +81,15 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	@Override
 	public String getName() {
 		return "container.machineArcFurnaceLarge";
+	}
+
+	@Override
+	public void setInventorySlotContents(int i, ItemStack stack) {
+		super.setInventorySlotContents(i, stack);
+		
+		if(stack != null && stack.getItem() instanceof ItemMachineUpgrade && i == 4) {
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
+		}
 	}
 
 	@Override
@@ -110,6 +127,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 								this.process();
 								this.progress = 0;
 								this.delay = 120;
+								PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, 15F);
 							}
 						}
 					}
@@ -160,6 +178,54 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				--this.approachNum;
 			} else {
 				this.lid = this.syncLid;
+			}
+			
+			if(this.lid != this.prevLid) {
+				if(this.audioLid == null || !this.audioLid.isPlaying()) {
+					this.audioLid = MainRegistry.proxy.getLoopedSound("hbm:door.wgh_start", xCoord, yCoord, zCoord, this.getVolume(0.75F), 15F, 1.0F, 5);
+					this.audioLid.startSound();
+				}
+				this.audioLid.keepAlive();
+			} else {
+				if(this.audioLid != null) {
+					this.audioLid.stopSound();
+					this.audioLid = null;
+				}
+			}
+			
+			if((lid == 1 || lid == 0) && lid != prevLid) {
+				MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:door.wgh_stop", this.getVolume(1), 1F);
+			}
+			
+			if(this.isProgressing) {
+				if(this.audioProgress == null || !this.audioProgress.isPlaying()) {
+					this.audioProgress = MainRegistry.proxy.getLoopedSound("hbm:block.electricHum", xCoord, yCoord, zCoord, this.getVolume(1.5F), 15F, 0.75F, 5);
+					this.audioProgress.startSound();
+				}
+				this.audioProgress.updatePitch(0.75F);
+				this.audioProgress.keepAlive();
+			} else {
+				if(this.audioProgress != null) {
+					this.audioProgress.stopSound();
+					this.audioProgress = null;
+				}
+			}
+			
+			if(this.lid != this.prevLid && this.lid > this.prevLid && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 4, zCoord + 0.5) < 50) {
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "tower");
+				data.setFloat("lift", 0.01F);
+				data.setFloat("base", 0.5F);
+				data.setFloat("max", 2F);
+				data.setInteger("life", 70 + worldObj.rand.nextInt(30));
+				data.setDouble("posX", xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5);
+				data.setDouble("posZ", zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5);
+				data.setDouble("posY", yCoord + 4);
+				data.setBoolean("noWind", true);
+				data.setFloat("alphaMod", prevLid / lid);
+				data.setInteger("color", 0x000000);
+				data.setFloat("strafe", 0.05F);
+				for(int i = 0; i < 3; i++) MainRegistry.proxy.effectNT(data);
 			}
 		}
 	}
@@ -336,7 +402,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			liquids.add(new MaterialStack(Mats.matById.get(buf.readInt()), buf.readInt()));
 		}
 		
-		this.approachNum = 2;
+		if(syncLid != 0 && syncLid != 1) this.approachNum = 2;
 	}
 
 	@Override

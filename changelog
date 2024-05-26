@@ -4,6 +4,15 @@
   * Solid mode smelts items like a furnace, however to work the recipe needs an ingredient or result that is oredicted as either an ore, block, ingot or plate
   * Liquid mode smelts items like a crucible would, effectively liquiefying metals. Non-castable materials are voided
   * Both modes have arc furnace exclusive recipes (smelting sand/quartz/fiberglass into silicon)
+  * Can be upgraded only with regular speed upgrades
+* Soldering station
+  * Works similar to arc welders
+  * Used to assemble circuits from parts
+* New circuits
+  * The old circuits will be phased out, the items remain but can be recycled
+  * Circuits use an entirely new approach for crafting, instead of upgrading tiers constantly, all circuits are made from common parts
+  * Circuits can be automated entirely with only autocrafters, presses and the soldering station, no assembler or chemplant required
+  * Legacy circuits can be recycled in any anvil, yielding the roughly equivalent new circuit
 
 ## Changed
 * Updated russian and italian localization
@@ -18,6 +27,8 @@
 * Wires now use the autogen system and are oredicted with the "wireFine" prefix (equivalent to GT fine wires, 1/8 of an ingot)
 * Removed the assembler recipes for wires
 * Increased the maximum durability for all stamps
+* All upgrades now use the soldering station for their recipes, except for overdrive
+* Overdrive upgrade recipes have been rebalanced
 
 ## Fixed
 * Fixed missing localization for meteorite ores and the new crucible materials
@@ -27,3 +38,5 @@
 * Fixed RBMK fuel xenon burn function being described wrong
 * When converting ComparableStacks to ItemStacks, there is now a check that replaces null items with the nothing placeholder, fixing crashes caused by incorrect recipe configuration
 * Fixed item icon lighting in the anvil's search field
+* Fixed custom machine NEI handlers (again)
+* Fixed FEL making sounds when turned on but not actually active

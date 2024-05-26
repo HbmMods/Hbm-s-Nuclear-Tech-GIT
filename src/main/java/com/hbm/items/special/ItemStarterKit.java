@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.util.ShadyUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -199,9 +201,9 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coil_gold, 8));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coil_tungsten, 8));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.motor, 4));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.circuit_aluminium, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.circuit_copper, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.circuit_red_copper, 4));
+			player.inventory.addItemStackToInventory(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.VACUUM_TUBE, 16));
+			player.inventory.addItemStackToInventory(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CAPACITOR, 16));
+			player.inventory.addItemStackToInventory(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.wiring_red_copper, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.magnetron, 5));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.piston_selenium, 1));

@@ -122,7 +122,7 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		
 		if(i == 2 || i == 3 || i == 4)
-			return itemStack.getItem() == ModItems.arc_electrode || itemStack.getItem() == ModItems.arc_electrode_desh;
+			return itemStack.getItem() == ModItems.arc_electrode;
 		
 		if(i == 0)
 			return FurnaceRecipes.smelting().getSmeltingResult(itemStack) != null;
@@ -233,9 +233,9 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 	private boolean hasElectrodes() {
 		
 		if(slots[2] != null && slots[3] != null && slots[4] != null) {
-			if((slots[2].getItem() == ModItems.arc_electrode || slots[2].getItem() == ModItems.arc_electrode_desh) &&
-					(slots[3].getItem() == ModItems.arc_electrode || slots[3].getItem() == ModItems.arc_electrode_desh) &&
-					(slots[4].getItem() == ModItems.arc_electrode || slots[4].getItem() == ModItems.arc_electrode_desh))
+			if((slots[2].getItem() == ModItems.arc_electrode) &&
+					(slots[3].getItem() == ModItems.arc_electrode) &&
+					(slots[4].getItem() == ModItems.arc_electrode))
 				return true;
 		}
 		

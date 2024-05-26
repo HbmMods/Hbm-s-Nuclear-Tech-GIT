@@ -155,6 +155,11 @@ public class RecipesCommon {
 			this.meta = meta;
 		}
 		
+		public ComparableStack(Item item, int stacksize, Enum meta) {
+			this(item, stacksize);
+			this.meta = meta.ordinal();
+		}
+		
 		public ItemStack toStack() {
 			return new ItemStack(item == null ? ModItems.nothing : item, stacksize, meta);
 		}
