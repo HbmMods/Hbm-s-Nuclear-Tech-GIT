@@ -2752,7 +2752,15 @@ item.bobmazon_hidden.name=Скрытый каталог
 
 item.fuse.name=Предохранитель
 item.arc_electrode.name=Графитовый электрод
+item.arc_electrode.desh.name=Деш-электрод
+item.arc_electrode.graphite.name=Графитовый электрод
+item.arc_electrode.lanthanium.name=Лантановый электрод
+item.arc_electrode.saturnite.name=Сатурнитовый электрод
 item.arc_electrode_burnt.name=Расплавленный электрод
+item.arc_electrode_burnt.desh.name=Расплавленный Деш-электрод
+item.arc_electrode_burnt.graphite.name=Расплавленный графитовый электрод
+item.arc_electrode_burnt.lanthanium.name=Расплавленный лантановый электрод
+item.arc_electrode_burnt.saturnite.name=Расплавленный сатурнитовый электрод
 item.arc_electrode_desh.name=Электрод из деш
 item.crt_display.name=Электронно-лучевая трубка
 
