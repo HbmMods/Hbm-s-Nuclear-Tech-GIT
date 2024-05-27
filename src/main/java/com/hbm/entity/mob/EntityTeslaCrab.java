@@ -7,7 +7,6 @@ import com.hbm.items.ModItems;
 import com.hbm.tileentity.machine.TileEntityTesla;
 
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
 public class EntityTeslaCrab extends EntityCyberCrab {
@@ -33,12 +32,6 @@ public class EntityTeslaCrab extends EntityCyberCrab {
     	targets = TileEntityTesla.zap(worldObj, posX, posY + 1, posZ, 3, this);
     	
         super.onLivingUpdate();
-    }
-
-    @Override
-	protected Item getDropItem()
-    {
-        return ModItems.wire_advanced_alloy;
     }
 
     protected void dropRareDrop(int p_70600_1_) {

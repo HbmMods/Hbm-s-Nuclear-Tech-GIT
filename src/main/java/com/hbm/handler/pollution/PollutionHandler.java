@@ -21,7 +21,6 @@ import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.IMob;
@@ -397,8 +396,7 @@ public class PollutionHandler {
 	@SubscribeEvent
 	public void rampantScoutPopulator(WorldEvent.PotentialSpawns event){
 		
-		if(MobConfig.rampantNaturalScoutSpawn && !event.world.isRemote && event.world.provider.dimensionId == 0 && event.type == EnumCreatureType.monster
-				&& event.world.canBlockSeeTheSky(event.x, event.y, event.z) && !event.isCanceled()) {
+		if(MobConfig.rampantNaturalScoutSpawn && !event.world.isRemote && event.world.provider.dimensionId == 0 && event.world.canBlockSeeTheSky(event.x, event.y, event.z) && !event.isCanceled()) {
 
 					if (event.world.rand.nextInt(MobConfig.rampantScoutSpawnChance) == 0) {
 

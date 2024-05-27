@@ -351,7 +351,6 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 
 		this.dropItem(ModItems.combine_scrap, rand.nextInt(8) + 1);
 		this.dropItem(ModItems.plate_combine_steel, rand.nextInt(5) + 1);
-		this.dropItem(ModItems.wire_magnetized_tungsten, rand.nextInt(3) + 1);
 	}
 
 	/**
@@ -413,10 +412,8 @@ public class EntityHunterChopper extends EntityFlying implements IMob, IBossDisp
 
 		if(i < 6)
 			this.dropItem(ModItems.combine_scrap, 1);
-		else if(i > 7)
-			this.dropItem(ModItems.plate_combine_steel, 1);
 		else
-			this.dropItem(ModItems.wire_magnetized_tungsten, 1);
+			this.dropItem(ModItems.plate_combine_steel, 1);
 	}
 
 	public void setIsDying(boolean b) {

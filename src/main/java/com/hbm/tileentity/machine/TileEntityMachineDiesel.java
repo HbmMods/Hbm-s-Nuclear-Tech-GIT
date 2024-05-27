@@ -14,7 +14,6 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
-import com.hbm.inventory.fluid.trait.FT_Polluting;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIMachineDiesel;
@@ -212,7 +211,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 					tank.setFill(0);
 				
 				if(worldObj.getTotalWorldTime() % 5 == 0) {
-					FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.BURN, 5F);
+					super.pollute(tank.getTankType(), FluidReleaseType.BURN, 5F);
 				}
 
 				if(power + getHEFromFuel() <= powerCap) {

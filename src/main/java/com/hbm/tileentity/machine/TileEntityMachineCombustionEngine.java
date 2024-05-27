@@ -7,7 +7,6 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
-import com.hbm.inventory.fluid.trait.FT_Polluting;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUICombustionEngine;
 import com.hbm.items.ModItems;
@@ -87,7 +86,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 					fill -= toBurn;
 
 					if(worldObj.getTotalWorldTime() % 5 == 0 && toBurn > 0) {
-						FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.BURN, toBurn * 5);
+						super.pollute(tank.getTankType(), FluidReleaseType.BURN, toBurn * 0.5F);
 					}
 					
 					if(toBurn > 0) {

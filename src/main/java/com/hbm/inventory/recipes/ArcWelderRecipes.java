@@ -40,19 +40,9 @@ public class ArcWelderRecipes extends SerializableRecipe {
 
 		//Dense Wires
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.wire_dense, 1, Mats.MAT_ALLOY.id), 100, 10_000L,
-				new ComparableStack(ModItems.wire_advanced_alloy, 8)));
+				new OreDictStack(ALLOY.wireFine(), 8)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.wire_dense, 1, Mats.MAT_GOLD.id), 100, 10_000L,
-				new ComparableStack(ModItems.wire_gold, 8)));
-
-		//Circuits
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.circuit_copper), 100, 1_000L, new FluidStack(Fluids.GAS, 100),
-				new ComparableStack(ModItems.circuit_aluminium, 1), new OreDictStack(NETHERQUARTZ.dust()), new ComparableStack(ModItems.wire_copper, 8)));
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.circuit_red_copper), 100, 2_500L, new FluidStack(Fluids.PETROLEUM, 100),
-				new ComparableStack(ModItems.circuit_copper, 1), new ComparableStack(ModItems.plate_polymer), new ComparableStack(ModItems.wire_red_copper, 8)));
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.circuit_gold), 100, 10_000L, new FluidStack(Fluids.UNSATURATEDS, 250),
-				new ComparableStack(ModItems.circuit_red_copper, 1), new OreDictStack(ANY_PLASTIC.ingot()), new ComparableStack(ModItems.wire_gold, 8)));
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.circuit_schrabidium), 100, 50_000L, new FluidStack(Fluids.SOURGAS, 250),
-				new ComparableStack(ModItems.circuit_gold, 1), new OreDictStack(DESH.ingot()), new ComparableStack(ModItems.wire_schrabidium, 8)));
+				new OreDictStack(GOLD.wireFine(), 8)));
 
 		//earlygame welded parts
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_IRON.id), 100, 100L,
@@ -83,7 +73,7 @@ public class ArcWelderRecipes extends SerializableRecipe {
 				new OreDictStack(OSMIRIDIUM.plateCast(), 2)));
 		
 		//Missile Parts
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.thruster_small), 60, 1_000L, new OreDictStack(STEEL.plate(), 4), new ComparableStack(ModItems.wire_aluminium, 4), new OreDictStack(CU.plate(), 4)));
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.thruster_small), 60, 1_000L, new OreDictStack(STEEL.plate(), 4), new OreDictStack(AL.wireFine(), 4), new OreDictStack(CU.plate(), 4)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.thruster_medium), 100, 2_000L, new OreDictStack(STEEL.plate(), 8), new ComparableStack(ModItems.motor, 1), new OreDictStack(GRAPHITE.ingot(), 8)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.thruster_large), 200, 5_000L, new OreDictStack(DURA.ingot(), 10), new ComparableStack(ModItems.motor, 1), new OreDictStack(OreDictManager.getReflector(), 12)));
 

@@ -3,12 +3,15 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.BlockDetonatable;
 import com.hbm.blocks.machine.BlockFluidBarrel;
+import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+
+import codechicken.lib.math.MathHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
@@ -16,40 +19,18 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class YellowBarrel extends Block {
+public class YellowBarrel extends BlockDetonatable {
 
 	Random rand = new Random();
 
-	public YellowBarrel(Material p_i45386_1_) {
-		super(p_i45386_1_);
+	public YellowBarrel(Material material) {
+		super(material, 0, 0, 100, true, false);
 	}
 
 	@Override
-	public void onBlockDestroyedByExplosion(World p_149723_1_, int p_149723_2_, int p_149723_3_, int p_149723_4_, Explosion p_149723_5_) {
-		if(!p_149723_1_.isRemote && this == ModBlocks.yellow_barrel) {
-			explode(p_149723_1_, p_149723_2_, p_149723_3_, p_149723_4_);
-		}
-	}
-
-	public void explode(World world, int x, int y, int z) {
-
-		if(rand.nextInt(3) == 0) {
-			world.setBlock(x, y, z, ModBlocks.toxic_block);
-		} else {
-			world.createExplosion(null, x, y, z, 18.0F, true);
-		}
-		ExplosionNukeGeneric.waste(world, x, y, z, 35);
-
-		for(int i = -5; i <= 5; i++) {
-			for(int j = -5; j <= 5; j++) {
-				for(int k = -5; k <= 5; k++) {
-					
-					if(world.rand.nextInt(5) == 0 && world.getBlock(x + i, y + j, z + k) == Blocks.air)
-						world.setBlock(x + i, y + j, z + k, ModBlocks.gas_radon_dense);
-				}
-			}
-		}
-		ChunkRadiationManager.proxy.incrementRad(world, x, y, z, 35);
+	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion explosion) {
+		if (this != ModBlocks.yellow_barrel) return;
+		super.onBlockDestroyedByExplosion(world, x, y, z, explosion);
 	}
 
 	@Override
@@ -81,16 +62,11 @@ public class YellowBarrel extends Block {
 	}
 
 	@Override
-	public boolean canDropFromExplosion(Explosion p_149659_1_) {
-		return false;
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World p_149734_1_, int p_149734_2_, int p_149734_3_, int p_149734_4_, Random p_149734_5_) {
-		super.randomDisplayTick(p_149734_1_, p_149734_2_, p_149734_3_, p_149734_4_, p_149734_5_);
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
+		super.randomDisplayTick(world, x, y, z, rand);
 
-		p_149734_1_.spawnParticle("townaura", p_149734_2_ + p_149734_5_.nextFloat() * 0.5F + 0.25F, p_149734_3_ + 1.1F, p_149734_4_ + p_149734_5_.nextFloat() * 0.5F + 0.25F, 0.0D, 0.0D, 0.0D);
+		world.spawnParticle("townaura", x + rand.nextFloat() * 0.5F + 0.25F, y + 1.1F, z + rand.nextFloat() * 0.5F + 0.25F, 0.0D, 0.0D, 0.0D);
 	}
 
 	@Override
@@ -113,6 +89,29 @@ public class YellowBarrel extends Block {
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
 		world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
+	}
+
+	@Override
+	public void explodeEntity(World world, double x, double y, double z, EntityTNTPrimedBase entity) {
+		int ix = MathHelper.floor_double(x), iy = MathHelper.floor_double(y), iz = MathHelper.floor_double(z);
+
+		if(rand.nextInt(3) == 0) {
+			world.setBlock(ix, iy, iz, ModBlocks.toxic_block);
+		} else {
+			world.createExplosion(entity, x, y, z, 12.0F, true);
+		}
+		ExplosionNukeGeneric.waste(world, ix, iy, iz, 35);
+
+		for(int i = -5; i <= 5; i++) {
+			for(int j = -5; j <= 5; j++) {
+				for(int k = -5; k <= 5; k++) {
+					
+					if(world.rand.nextInt(5) == 0 && world.getBlock(ix + i, iy + j, iz + k) == Blocks.air)
+						world.setBlock(ix + i, iy + j, iz + k, ModBlocks.gas_radon_dense);
+				}
+			}
+		}
+		ChunkRadiationManager.proxy.incrementRad(world, ix, iy, iz, 35);
 	}
 
 }

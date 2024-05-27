@@ -29,7 +29,9 @@ public class NEIConfig implements IConfigureNEI {
 			registerHandler(handler);
 		}
 
-		for(CustomMachineConfigJSON.MachineConfiguration conf : CustomMachineConfigJSON.niceList) registerHandler(new CustomMachineHandler(conf));
+		for(CustomMachineConfigJSON.MachineConfiguration conf : CustomMachineConfigJSON.niceList) {
+			registerHandlerBypass(new CustomMachineHandler(conf));
+		}
 		
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));
