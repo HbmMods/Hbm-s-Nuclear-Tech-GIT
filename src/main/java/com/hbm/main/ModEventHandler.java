@@ -74,10 +74,13 @@ import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.AstronomyUtil;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.InventoryUtil;
+import com.hbm.util.ParticleUtil;
 import com.hbm.util.ShadyUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.world.generator.TimedGenerator;
@@ -1302,6 +1305,9 @@ public class ModEventHandler {
 				//}
 				
 				//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
+				
+				
+				//oh yeah remind me...
 				if(stack2 != null) {
 						if(stack2.hasTagCompound() && HazardSystem.getHazardLevelFromStack(stack2, HazardRegistry.RADIATION)==0)
 						{
@@ -1526,7 +1532,7 @@ public class ModEventHandler {
             {
             	if(entity instanceof EntityPlayer)
             	{
-        			if (((EntityPlayer)entity).getUniqueID().toString().equals(Library.Pu_238))
+        			if (((EntityPlayer)entity).getUniqueID().toString().equals(ShadyUtil.Pu_238))
         			{
         				return;
         			}
@@ -1642,15 +1648,7 @@ public class ModEventHandler {
 			player.inventoryContainer.detectAndSendChanges();
 			event.setCanceled(true);
 		}
-		String result = smoosh(message.toString(), message.toString(), message.toString(), message.toString());
-		
-		if(hashes.contains(result)) {
-			EntityItem entityitem = new EntityItem(event.player.worldObj, event.player.posX, event.player.posY, event.player.posZ, new ItemStack(ModItems.bobmazon_hidden));
-			entityitem.delayBeforeCanPickup = 1;
-			event.player.worldObj.spawnEntityInWorld(entityitem);			}
-		
 
-		System.out.println(result);
 	}
 	
 	@SubscribeEvent
