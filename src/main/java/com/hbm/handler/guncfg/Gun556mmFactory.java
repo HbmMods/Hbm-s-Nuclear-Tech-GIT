@@ -53,7 +53,7 @@ public class Gun556mmFactory {
 		config.reloadType = GunConfiguration.RELOAD_FULL;
 		config.allowsInfinity = true;
 		config.crosshair = Crosshair.L_CROSS;
-		config.durability = 10000;
+		config.durability = 100000;
 		config.reloadSound = GunConfiguration.RSOUND_MAG;
 		config.firingSound = "hbm:weapon.hksShoot";
 		config.reloadSoundEnd = false;
