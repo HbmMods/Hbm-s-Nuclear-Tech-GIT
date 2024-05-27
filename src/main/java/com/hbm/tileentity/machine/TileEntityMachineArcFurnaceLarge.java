@@ -211,7 +211,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				}
 			}
 			
-			if(this.lid != this.prevLid && this.lid > this.prevLid && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 4, zCoord + 0.5) < 50) {
+			if(this.lid != this.prevLid && this.lid > this.prevLid && !(this.prevLid == 0 && this.lid == 1) && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 4, zCoord + 0.5) < 50) {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "tower");
 				data.setFloat("lift", 0.01F);
@@ -226,6 +226,33 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				data.setInteger("color", 0x000000);
 				data.setFloat("strafe", 0.05F);
 				for(int i = 0; i < 3; i++) MainRegistry.proxy.effectNT(data);
+			}
+			
+			if(this.lid != this.prevLid && this.lid < this.prevLid && this.lid > 0.5F && this.hasMaterial && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 4, zCoord + 0.5) < 50) {
+				/*NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "tower");
+				data.setFloat("lift", 0.01F);
+				data.setFloat("base", 0.5F);
+				data.setFloat("max", 2F);
+				data.setInteger("life", 50 + worldObj.rand.nextInt(20));
+				data.setDouble("posX", xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25);
+				data.setDouble("posZ", zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25);
+				data.setDouble("posY", yCoord + 4);
+				data.setBoolean("noWind", true);
+				data.setFloat("alphaMod", prevLid / lid);
+				data.setInteger("color", 0x808080);
+				data.setFloat("strafe", 0.15F);
+				MainRegistry.proxy.effectNT(data);*/
+				
+				if(worldObj.rand.nextInt(5) == 0) {
+					NBTTagCompound flame = new NBTTagCompound();
+					flame.setString("type", "rbmkflame");
+					flame.setDouble("posX", xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5);
+					flame.setDouble("posZ", zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5);
+					flame.setDouble("posY", yCoord + 2.75);
+					flame.setInteger("maxAge", 50);
+					for(int i = 0; i < 2; i++) MainRegistry.proxy.effectNT(flame);
+				}
 			}
 		}
 	}
