@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -83,7 +84,7 @@ public class Fluids {
 	public static FluidType SCHRABIDIC;
 	public static FluidType AMAT;
 	public static FluidType ASCHRAB;
-	public static FluidType ACID;
+	public static FluidType PEROXIDE;
 	public static FluidType WATZ;
 	public static FluidType CRYOGEL;
 	public static FluidType HYDROGEN;
@@ -175,6 +176,8 @@ public class Fluids {
 	public static FluidType FULLERENE;
 	public static FluidType STELLAR_FLUX;
 	
+	public static final HashBiMap<String, FluidType> renameMapping = HashBiMap.create();
+	
 	public static List<FluidType> customFluids = new ArrayList();
 
 	private static final HashMap<Integer, FluidType> idMapping = new HashMap();
@@ -265,7 +268,7 @@ public class Fluids {
 		SCHRABIDIC =			new FluidType("SCHRABIDIC",			0x006B6B, 5, 0, 5, EnumSymbol.ACID).addTraits(new FT_VentRadiation(1F), new FT_Corrosive(75), new FT_Poison(true, 2), LIQUID);
 		AMAT =					new FluidType("AMAT",				0x010101, 5, 0, 5, EnumSymbol.ANTIMATTER).addTraits(ANTI, GASEOUS);
 		ASCHRAB =				new FluidType("ASCHRAB",			0xb50000, 5, 0, 5, EnumSymbol.ANTIMATTER).addTraits(ANTI, GASEOUS);
-		ACID =					new FluidType("ACID",				0xfff7aa, 3, 0, 3, EnumSymbol.OXIDIZER).addTraits(new FT_Corrosive(40), LIQUID);
+		PEROXIDE =				new FluidType("PEROXIDE",			0xfff7aa, 3, 0, 3, EnumSymbol.OXIDIZER).addTraits(new FT_Corrosive(40), LIQUID);
 		WATZ =					new FluidType("WATZ",				0x86653E, 4, 0, 3, EnumSymbol.ACID).addTraits(new FT_Corrosive(60), new FT_VentRadiation(0.1F), LIQUID, VISCOUS, new FT_Polluting().release(PollutionType.POISON, POISON_EXTREME));
 		CRYOGEL =				new FluidType("CRYOGEL",			0x32ffff, 2, 0, 0, EnumSymbol.CROYGENIC).setTemp(-170).addTraits(LIQUID, VISCOUS);
 		HYDROGEN =				new FluidType("HYDROGEN",			0x4286f4, 3, 4, 0, EnumSymbol.CROYGENIC).setTemp(-260).addContainers(new CD_Gastank(0x4286f4, 0xffffff)).addTraits(new FT_Flammable(5_000), new FT_Combustible(FuelGrade.HIGH, 10_000), LIQUID, EVAP);
@@ -484,7 +487,7 @@ public class Fluids {
 		metaOrder.add(SEEDSLURRY);
 		metaOrder.add(COLLOID);
 		metaOrder.add(IONGEL);
-		metaOrder.add(ACID);
+		metaOrder.add(PEROXIDE);
 		metaOrder.add(SULFURIC_ACID);
 		metaOrder.add(NITRIC_ACID);
 		metaOrder.add(SOLVENT);
@@ -538,6 +541,11 @@ public class Fluids {
 		//bug meth
 		metaOrder.add(PHEROMONE);
 		metaOrder.add(PHEROMONE_M);
+		
+		//ANY INTERNAL RENAMING MUST BE REFLECTED HERE - DON'T FORGET TO CHANGE: LANG FILES + TYPE'S STRING ID + NAME OF TANK/GUI TEXTURE FILES!
+		// V
+		
+		renameMapping.put("ACID", PEROXIDE);
 		
 		for(FluidType custom : customFluids) metaOrder.add(custom);
 
@@ -867,6 +875,34 @@ public class Fluids {
 			fluid = Fluids.NONE;
 		
 		return fluid;
+	}
+	
+	/** for old worlds with types saved as name, do not use otherwise */
+	public static FluidType fromNameCompat(String name) {
+		if(renameMapping.containsKey(name)) {
+			FluidType fluid = renameMapping.get(name);
+			
+			if(fluid == null) //null safety never killed nobody
+				fluid = Fluids.NONE;
+			
+			return fluid;
+		}
+		
+		return fromName(name);
+	}
+	
+	/** basically the inverse of the above method */
+	public static String toNameCompat(FluidType type) {
+		if(renameMapping.containsValue(type)) {
+			String name = renameMapping.inverse().get(type);
+			
+			if(name == null) //ditto
+				name = Fluids.NONE.getName();
+			
+			return name;
+		}
+		
+		return type.getName();
 	}
 	
 	public static FluidType[] getAll() {

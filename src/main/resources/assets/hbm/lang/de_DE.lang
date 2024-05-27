@@ -653,7 +653,6 @@ hbm.key.toggleBack=Rucksack umschalten
 hbm.key.toggleHUD=HUD umschalten
 hbm.key.reload=Nachladen
 
-hbmfluid.acid=Wasserstoffperoxid
 hbmfluid.amat=Antimaterie
 hbmfluid.aromatics=Aromatische Kohlenwasserstoffe
 hbmfluid.aschrab=Antischrabidium
@@ -739,6 +738,7 @@ hbmfluid.oil_coker=Koker-Öl
 hbmfluid.oxyhydrogen=Knallgas
 hbmfluid.oxygen=Flüssiger Sauerstoff
 hbmfluid.pain=Pandemonium(III)tantalit-Lösung
+hbmfluid.peroxide=Wasserstoffperoxid
 hbmfluid.petroil=Gemisch
 hbmfluid.petroil_leaded=Bleigemisch
 hbmfluid.petroleum=Petroleumgas

@@ -2,6 +2,7 @@ package com.hbm.entity.item;
 
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.MainRegistry;
 
@@ -73,7 +74,7 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 		nbt.setTag("Items", nbttaglist);
 		
 		if(fluid != null) {
-			nbt.setString("fluidType", fluid.type.getName());
+			nbt.setInteger("fluidType", fluid.type.getID());
 			nbt.setInteger("fluidAmount", fluid.fill);
 		}
 
@@ -98,7 +99,13 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 		}
 		
 		if(nbt.hasKey("fluidType")) {
-			this.fluid = new FluidStack(Fluids.fromName(nbt.getString("fluidType")), nbt.getInteger("fluidAmount"));
+			FluidType type = Fluids.fromNameCompat(nbt.getString("fluidType"));
+			if(type != Fluids.NONE) {
+				nbt.removeTag(nbt.getString("fluidType"));
+			} else
+				type = Fluids.fromID(nbt.getInteger("fluidType"));
+			
+			this.fluid = new FluidStack(type, nbt.getInteger("fluidAmount"));
 		}
 
 		this.dataWatcher.updateObject(11, nbt.getByte("load"));

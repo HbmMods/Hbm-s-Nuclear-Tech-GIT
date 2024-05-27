@@ -1247,7 +1247,6 @@ hbm.key.toggleBack=Włącz/wyłącz plecak
 hbm.key.toggleHUD=Włącz/wyłącz HUD
 hbm.key.reload=Przeładuj
 
-hbmfluid.acid=Nadtlenek wodoru
 hbmfluid.amat=Antymateria
 hbmfluid.aromatics=Węglowodory aromatyczne
 hbmfluid.aschrab=Antyschrabid
@@ -1326,6 +1325,7 @@ hbmfluid.oil_coker=Olej koksowniczy
 hbmfluid.oxygen=Ciekły tlen
 hbmfluid.oxyhydrogen=Tlenowodór
 hbmfluid.pain=Roztwór tantalitu pandemonium(III).
+hbmfluid.peroxide=Nadtlenek wodoru
 hbmfluid.petroil=Benzyna
 hbmfluid.petroil_leaded=Benzyna ołowiowa
 hbmfluid.petroleum=Gaz z ropy naftowej
