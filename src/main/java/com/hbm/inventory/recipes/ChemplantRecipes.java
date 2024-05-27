@@ -73,22 +73,8 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(40, "PEROXIDE", 50)
 			.inputFluids(new FluidStack(Fluids.WATER, 1000))
 			.outputFluids(new FluidStack(Fluids.ACID, 800)));
-		recipes.add(new ChemRecipe(41, "CIRCUIT_4", 200)
-			.inputItems(
-				new ComparableStack(ModItems.circuit_red_copper),
-				new ComparableStack(ModItems.wire_gold, 4),
-				new OreDictStack(LAPIS.dust()),
-				new OreDictStack(ANY_PLASTIC.ingot()))
-			.inputFluids(new FluidStack(Fluids.ACID, 400), new FluidStack(Fluids.PETROLEUM, 200))
-			.outputItems(new ItemStack(ModItems.circuit_gold)));
-		recipes.add(new ChemRecipe(42, "CIRCUIT_5", 250)
-			.inputItems(
-				new ComparableStack(ModItems.circuit_gold),
-				new ComparableStack(ModItems.wire_schrabidium, 4),
-				new OreDictStack(DIAMOND.dust()),
-				new OreDictStack(DESH.ingot()))
-			.inputFluids(new FluidStack(Fluids.ACID, 800, GeneralConfig.enable528 ? 1 : 0), new FluidStack(Fluids.MERCURY, 200))
-			.outputItems(new ItemStack(ModItems.circuit_schrabidium)));
+		//41, formerly T4 circuits
+		//42, formerly T5 circuits
 		recipes.add(new ChemRecipe(43, "POLYMER", 100)
 			.inputItems(
 				new OreDictStack(COAL.dust(), 2),

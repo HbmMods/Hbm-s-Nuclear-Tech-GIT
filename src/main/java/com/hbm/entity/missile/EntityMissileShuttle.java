@@ -49,7 +49,6 @@ public class EntityMissileShuttle extends EntityMissileBaseNT {
 		list.add(new ItemStack(ModItems.plate_steel, 8));
 		list.add(new ItemStack(ModItems.thruster_medium, 2));
 		list.add(new ItemStack(ModItems.canister_empty, 1));
-		list.add(new ItemStack(ModItems.circuit_targeting_tier4, 1));
 		list.add(new ItemStack(Blocks.glass_pane, 2));
 
 		return list;

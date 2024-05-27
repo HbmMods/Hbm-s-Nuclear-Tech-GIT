@@ -19,6 +19,7 @@ import com.hbm.hazard.HazardData;
 import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
@@ -97,8 +98,6 @@ public class OreDictManager {
 	public static final String KEY_TOOL_CHEMISTRYSET = "ntmchemistryset";
 	public static final String KEY_TOOL_TORCH = "ntmtorch";
 
-	public static final String KEY_CIRCUIT_BISMUTH = "circuitVersatile";
-
 	public static final String KEY_GLYPHID_MEAT = "glyphidMeat";
 
 	/*
@@ -113,6 +112,7 @@ public class OreDictManager {
 	public static final DictFrame LAPIS = new DictFrame("Lapis");
 	public static final DictFrame REDSTONE = new DictFrame("Redstone");
 	public static final DictFrame NETHERQUARTZ = new DictFrame("NetherQuartz");
+	public static final DictFrame QUARTZ = new DictFrame("Quartz");
 	public static final DictFrame DIAMOND = new DictFrame("Diamond");
 	public static final DictFrame EMERALD = new DictFrame("Emerald");
 	/*
@@ -185,7 +185,10 @@ public class OreDictManager {
 	public static final DictFrame CO = new DictFrame("Cobalt");
 	/** BORON */ 
 	public static final DictFrame B = new DictFrame("Boron");
+	/** SILICON */ 
+	public static final DictFrame SI = new DictFrame("Silicon");
 	public static final DictFrame GRAPHITE = new DictFrame("Graphite");
+	public static final DictFrame CARBON = new DictFrame("Carbon");
 	public static final DictFrame DURA = new DictFrame("DuraSteel");
 	public static final DictFrame POLYMER = new DictFrame("Polymer");
 	public static final DictFrame BAKELITE = new DictFrame("Bakelite");
@@ -322,6 +325,7 @@ public class OreDictManager {
 		GOLD.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold);
 		LAPIS.dust(powder_lapis);
 		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz).ore(Blocks.quartz_ore);
+		QUARTZ.dust(powder_quartz);
 		DIAMOND.dust(powder_diamond).ore(gravel_diamond, ore_sellafield_diamond);
 		EMERALD.dust(powder_emerald).ore(ore_sellafield_emerald);
 		
@@ -378,11 +382,13 @@ public class OreDictManager {
 		CD																	.ingot(ingot_cadmium)												.dust(powder_cadmium)											.block(block_cadmium);
 		TA			.nugget(nugget_tantalium)	.gem(gem_tantalium)			.ingot(ingot_tantalium)												.dust(powder_tantalium)											.block(block_tantalium);
 		COLTAN																.ingot(fragment_coltan)												.dust(powder_coltan_ore)										.block(block_coltan)		.ore(ore_coltan);
-		NB			.nugget(fragment_niobium)								.ingot(ingot_niobium)			.dustSmall(powder_niobium_tiny)		.dust(powder_niobium)											.block(block_niobium);
+		NB			.nugget(nugget_niobium, fragment_niobium)				.ingot(ingot_niobium)			.dustSmall(powder_niobium_tiny)		.dust(powder_niobium)											.block(block_niobium);
 		BE			.nugget(nugget_beryllium)	.billet(billet_beryllium)	.ingot(ingot_beryllium)												.dust(powder_beryllium)											.block(block_beryllium)		.ore(ore_beryllium);
 		CO			.nugget(fragment_cobalt)	.nugget(nugget_cobalt)		.billet(billet_cobalt)			.ingot(ingot_cobalt)				.dust(powder_cobalt)			.dustSmall(powder_cobalt_tiny)	.block(block_cobalt)		.ore(ore_cobalt, ore_nether_cobalt);
 		B			.nugget(fragment_boron)									.ingot(ingot_boron)				.dustSmall(powder_boron_tiny)		.dust(powder_boron)												.block(block_boron);
+		SI			.nugget(nugget_silicon)		.billet(billet_silicon)		.ingot(ingot_silicon);
 		GRAPHITE															.ingot(ingot_graphite)																												.block(block_graphite);
+		CARBON																.ingot(ingot_graphite)																												.block(block_graphite);
 		DURA																.ingot(ingot_dura_steel)											.dust(powder_dura_steel)		.plate(plate_dura_steel)		.block(block_dura_steel);
 		POLYMER																.ingot(ingot_polymer)												.dust(powder_polymer)											.block(block_polymer);
 		BAKELITE															.ingot(ingot_bakelite)												.dust(powder_bakelite)											.block(block_bakelite);
@@ -514,12 +520,6 @@ public class OreDictManager {
 		OreDictionary.registerOre(KEY_TOOL_TORCH, new ItemStack(acetylene_torch, 1, OreDictionary.WILDCARD_VALUE));
 
 		/*
-		 * CIRCUITS
-		 */
-		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_bismuth);
-		OreDictionary.registerOre(KEY_CIRCUIT_BISMUTH, circuit_arsenic);
-
-		/*
 		 * GLYPHID M E A T
 		 */
 		OreDictionary.registerOre(KEY_GLYPHID_MEAT, new ItemStack(glyphid_meat));
@@ -535,6 +535,7 @@ public class OreDictManager {
 				if(mat.shapes.contains(MaterialShapes.SHELL)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.SHELL.name() + name, new ItemStack(ModItems.shell, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.PIPE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.PIPE.name() + name, new ItemStack(ModItems.pipe, 1, mat.id));
 			}
+			if(mat.shapes.contains(MaterialShapes.WIRE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.WIRE.name() + name, new ItemStack(ModItems.wire_fine, 1, mat.id));
 		}
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
@@ -624,8 +625,10 @@ public class OreDictManager {
 		OreDictionary.registerOre("blockGlassBlack", glass_ash);
 
 		OreDictionary.registerOre("container1000lubricant", bdcl);
+		OreDictionary.registerOre("itemSilicon", billet_silicon);
 		
 		MaterialShapes.registerCompatShapes();
+		compensateMojangSpaghettiBullshit();
 	}
 	
 	public static String getReflector() {
@@ -661,6 +664,35 @@ public class OreDictManager {
 		}
 		
 		recursionBrake = false;
+
+		if(event.Name.startsWith("ingot") || event.Name.startsWith("ore") || event.Name.startsWith("plate") || event.Name.startsWith("block")) {
+			arcSmeltable.add(new ComparableStack(event.Ore));
+		}
+	}
+
+	public static final HashSet<ComparableStack> arcSmeltable = new HashSet();
+	
+	/** Vanilla item ore dict registration events never actually register in the ODM because vanilla items are registered so early that the ODM event handler doesn't exist yet. */
+	public static void compensateMojangSpaghettiBullshit() {
+
+		arcSmeltable.add(new ComparableStack(Blocks.gold_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.iron_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.lapis_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.diamond_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.redstone_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.emerald_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.quartz_ore));
+		arcSmeltable.add(new ComparableStack(Blocks.gold_block));
+		arcSmeltable.add(new ComparableStack(Blocks.iron_block));
+		arcSmeltable.add(new ComparableStack(Blocks.lapis_block));
+		arcSmeltable.add(new ComparableStack(Blocks.diamond_block));
+		arcSmeltable.add(new ComparableStack(Blocks.redstone_block));
+		arcSmeltable.add(new ComparableStack(Blocks.emerald_block));
+		arcSmeltable.add(new ComparableStack(Blocks.quartz_block));
+		arcSmeltable.add(new ComparableStack(Items.iron_ingot));
+		arcSmeltable.add(new ComparableStack(Items.gold_ingot));
+		arcSmeltable.add(new ComparableStack(Items.brick));
+		arcSmeltable.add(new ComparableStack(Items.netherbrick));
 	}
 	
 	public static class DictFrame {
@@ -688,6 +720,7 @@ public class OreDictManager {
 		public String plateCast() {		return PLATECAST		+ mats[0]; }
 		public String plateWelded() {	return PLATEWELDED		+ mats[0]; }
 		public String heavyComp() {		return HEAVY_COMPONENT	+ mats[0]; }
+		public String wireFine() {		return WIRE				+ mats[0]; }
 		public String wireDense() {		return WIREDENSE		+ mats[0]; }
 		public String shell() {			return SHELL			+ mats[0]; }
 		public String pipe() {			return PIPE				+ mats[0]; }
@@ -946,6 +979,7 @@ public class OreDictManager {
 		public String plateCast() {		return PLATECAST		+ groupName; }
 		public String plateWelded() {	return PLATEWELDED		+ groupName; }
 		public String heavyComp() {		return HEAVY_COMPONENT	+ groupName; }
+		public String wireFine() {		return WIRE				+ groupName; }
 		public String wireDense() {		return WIREDENSE		+ groupName; }
 		public String billet() {		return BILLET			+ groupName; }
 		public String block() {			return BLOCK			+ groupName; }

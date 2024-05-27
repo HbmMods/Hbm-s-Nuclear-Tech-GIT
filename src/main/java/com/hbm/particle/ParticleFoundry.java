@@ -82,7 +82,7 @@ public class ParticleFoundry extends EntityFX {
 		int r = (int) (255D - (255D - color.getRed()) * brightener);
 		int g = (int) (255D - (255D - color.getGreen()) * brightener);
 		int b = (int) (255D - (255D - color.getBlue()) * brightener);
-		
+
 		GL11.glColor3f(r / 255F, g / 255F, b / 255F);
 
 		GL11.glPushMatrix();
@@ -170,9 +170,8 @@ public class ParticleFoundry extends EntityFX {
 		tess.addVertexWithUV(dirXG - rotXW,	0,		dirZG - rotZW,	uMin,	vMin + add + 0.75);
 		tess.addVertexWithUV(-rotXW,		girth,	-rotZW,			uMin,	vMax + add + 0.75);
 		tess.addVertexWithUV(rotXW,			girth,	rotZW,			uMax,	vMax + add + 0.75);
-		
-		tess.draw();
 
+		tess.draw();
 		
 		GL11.glColor3f(1F, 1F, 1F);
 		GL11.glEnable(GL11.GL_CULL_FACE);

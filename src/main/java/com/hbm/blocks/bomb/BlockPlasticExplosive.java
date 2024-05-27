@@ -1,8 +1,8 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.entity.item.EntityTNTPrimedBase;
-import com.hbm.explosion.ExplosionLarge;
-import com.hbm.explosion.ExplosionNT;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.interfaces.IBomb;
 
 import cpw.mods.fml.relauncher.Side;
@@ -78,8 +78,7 @@ public class BlockPlasticExplosive extends BlockDetonatable implements IBomb {
 	public BombReturnCode explode(World world, int x, int y, int z) {
 		
 		if(!world.isRemote) {
-			new ExplosionNT(world, null, x + 0.5, y + 0.5, z + 0.5, 50).overrideResolution(64).explode();
-			ExplosionLarge.spawnParticles(world, x, y, z, ExplosionLarge.cloudFunction(15));
+			new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 20).makeStandard().setBlockProcessor(new BlockProcessorStandard().setNoDrop()).explode();
 		}
 		
 		return BombReturnCode.DETONATED;

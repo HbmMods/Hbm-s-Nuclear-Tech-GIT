@@ -28,9 +28,9 @@ public class TileEntityICFStruct extends TileEntity {
 			if(!cbarp(ModBlocks.icf_component, 2, 0, 3, i, dir)) return;
 
 			for(int j = -1; j <= 1; j++) if(!cbarp(ModBlocks.icf_component, Math.abs(i) <= 2 ? 2 : 4, j, 1, i, dir)) return;
-			for(int j = -1; j <= 1; j++) if(!cbarp(ModBlocks.icf_component, Math.abs(i) <= 2 ? 2 : 4, j, 2, i, dir)) return;
-			for(int j = -1; j <= 1; j++) if(j != 0) if(!cbarp(ModBlocks.icf_component, Math.abs(i) <= 2 ? 2 : 4, j, 3, i, dir)) return;
-			for(int j = -1; j <= 1; j++) if(!cbarp(ModBlocks.icf_component, Math.abs(i) <= 2 ? 2 : 4, j, 4, i, dir)) return;
+			for(int j = -2; j <= 2; j++) if(!cbarp(ModBlocks.icf_component, Math.abs(i) <= 2 ? 2 : 4, j, 2, i, dir)) return;
+			for(int j = -2; j <= 2; j++) if(j != 0) if(!cbarp(ModBlocks.icf_component, Math.abs(i) <= 2 ? 2 : 4, j, 3, i, dir)) return;
+			for(int j = -2; j <= 2; j++) if(!cbarp(ModBlocks.icf_component, Math.abs(i) <= 2 ? 2 : 4, j, 4, i, dir)) return;
 			for(int j = -1; j <= 1; j++) if(!cbarp(ModBlocks.icf_component, Math.abs(i) <= 2 ? 2 : 4, j, 5, i, dir)) return;
 		}
 		
