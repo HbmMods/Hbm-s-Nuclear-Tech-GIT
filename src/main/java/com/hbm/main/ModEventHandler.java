@@ -1356,7 +1356,7 @@ public class ModEventHandler {
 				
 				player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
 			}
-			if(player.getUniqueID().toString().equals(Library.DUODEC_)) {
+			if(player.getUniqueID().toString().equals(ShadyUtil.DUODEC_)) {
 				
 				Vec3 vec = Vec3.createVectorHelper(3 * rand.nextDouble(), 0, 0);
 				
