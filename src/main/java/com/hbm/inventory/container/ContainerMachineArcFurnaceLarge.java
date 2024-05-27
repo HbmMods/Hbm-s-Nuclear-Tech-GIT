@@ -4,6 +4,7 @@ import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineArcFurnaceLarge;
+import com.hbm.util.InventoryUtil;
 
 import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,13 +57,13 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 			} else {
 				
 				if(rStack.getItem() instanceof IBatteryItem || rStack.getItem() == ModItems.battery_creative) {
-					if(!this.mergeItemStack(stack, 3, 4, false)) return null;
+					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 3, 4, false)) return null;
 				} else if(rStack.getItem() == ModItems.arc_electrode) {
-					if(!this.mergeItemStack(stack, 4, 5, false)) return null;
+					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 4, 5, false)) return null;
 				} else if(rStack.getItem() instanceof ItemMachineUpgrade) {
-					if(!this.mergeItemStack(stack, 0, 3, false)) return null;
+					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 0, 3, false)) return null;
 				} else {
-					if(!this.mergeItemStack(stack, 5, 25, false)) return null;
+					if(!InventoryUtil.mergeItemStack(this.inventorySlots, stack, 5, 25, false)) return null;
 				}
 			}
 

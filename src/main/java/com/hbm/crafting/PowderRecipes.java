@@ -4,8 +4,12 @@ import static com.hbm.inventory.OreDictManager.*;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.MaterialShapes;
+import com.hbm.inventory.material.Mats;
+import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemChemicalDye.EnumChemDye;
+import com.hbm.items.machine.ItemScraps;
 import com.hbm.main.CraftingManager;
 
 import net.minecraft.init.Blocks;
@@ -55,7 +59,9 @@ public class PowderRecipes {
 		//Metal powders
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_magnetized_tungsten, 1), new Object[] { W.dust(), SA326.nugget() });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_tcalloy, 1), new Object[] { STEEL.dust(), TC99.nugget() });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_steel, 1), new Object[] { IRON.dust(), COAL.dust() });
+
+		CraftingManager.addShapelessAuto(ItemScraps.create(new MaterialStack(Mats.MAT_STEEL, MaterialShapes.INGOT.q(1))), new Object[] { IRON.dust(), COAL.dust() });
+		CraftingManager.addShapelessAuto(ItemScraps.create(new MaterialStack(Mats.MAT_STEEL, MaterialShapes.INGOT.q(4))), new Object[] { IRON.dust(), IRON.dust(), IRON.dust(), IRON.dust(), COAL.dust(), COAL.dust(), COAL.dust(), COAL.dust() });
 
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 1), new Object[] { new ItemStack(Items.coal, 1, 1), KEY_SAND });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 2), new Object[] { COAL.dust(), KEY_SAND });
