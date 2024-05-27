@@ -698,14 +698,13 @@ public class EntityEffectHandler {
 						player.addVelocity(lookingIn.xCoord * forward + strafeVec.xCoord * strafe, 0, lookingIn.zCoord * forward + strafeVec.zCoord * strafe);
 						player.motionY = 0;
 						player.fallDistance = 0F;
-						player.playSound("hbm:weapon.rocketFlame", 1.0F, 1.0F);
+						player.playSound("hbm:player.dash", 1.0F, 1.0F);
 						
 						props.setDashCooldown(HbmPlayerProps.dashCooldownLength);
 						stamina -= perDash;
 					}
 				} else {	
 					props.setDashCooldown(props.getDashCooldown() - 1);
-					props.setKeyPressed(EnumKeybind.DASH, false);
 				}
 						
 				if(stamina < props.getDashCount() * perDash) {
@@ -713,7 +712,7 @@ public class EntityEffectHandler {
 					
 					if(stamina % perDash == perDash-1) {
 						
-						player.playSound("hbm:item.techBoop", 1.0F, (1.0F + ((1F/12F)*(stamina/perDash))));
+						player.playSound("hbm:player.dashRecharge", 1.0F, (1.0F + ((1F/12F)*(stamina/perDash))));
 						stamina++;
 					}
 				}

@@ -1363,9 +1363,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.ore_meteor_lithium");
 		ignoreMappings.add("hbm:tile.ore_meteor_starmetal");
 		ignoreMappings.add("hbm:tile.machine_generator");
-		ignoreMappings.add("hbm:item.v1");
 		ignoreMappings.add("hbm:item.arc_electrode_desh");
-		
+
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
 		remapItems.put("hbm:item.man_explosive8", ModItems.explosive_lenses);
