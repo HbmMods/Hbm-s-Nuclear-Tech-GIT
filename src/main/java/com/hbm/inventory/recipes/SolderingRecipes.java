@@ -78,7 +78,7 @@ public class SolderingRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.circuit, 24, EnumCircuitType.CAPACITOR)},
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 12, EnumCircuitType.PCB),
-						new OreDictStack(ANY_HARDPLASTIC.ingot(), 4)},
+						new OreDictStack(ANY_HARDPLASTIC.ingot(), 1)},
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 12)}
 		));
