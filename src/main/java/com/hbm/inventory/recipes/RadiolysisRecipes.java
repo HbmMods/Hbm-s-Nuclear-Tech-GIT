@@ -47,7 +47,7 @@ public class RadiolysisRecipes {
 	}
 	
 	public static void registerRadiolysis() {
-		radiolysis.put(Fluids.WATER, new Pair(new FluidStack(80, Fluids.ACID), new FluidStack(20, Fluids.HYDROGEN)));
+		radiolysis.put(Fluids.WATER, new Pair(new FluidStack(80, Fluids.PEROXIDE), new FluidStack(20, Fluids.HYDROGEN)));
 		
 		//automatically add cracking recipes to the radiolysis recipe list
 		//we want the numbers and types to stay consistent anyway and this will save us a lot of headache later on

@@ -266,7 +266,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		if(stack != null && stack.getItem() != null) {
 			if(hasCrystallizer()) {
 
-				CrystallizerRecipe result = CrystallizerRecipes.getOutput(stack, Fluids.ACID);
+				CrystallizerRecipe result = CrystallizerRecipes.getOutput(stack, Fluids.PEROXIDE);
 				if(result == null) result = CrystallizerRecipes.getOutput(stack, Fluids.SULFURIC_ACID);
 				
 				if(result != null) {

@@ -53,7 +53,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 
 	public TileEntitySILEX() {
 		super(11);
-		tank = new FluidTank(Fluids.ACID, 16000, 0);
+		tank = new FluidTank(Fluids.PEROXIDE, 16000, 0);
 	}
 
 	@Override
@@ -188,7 +188,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		if(loadDelay > 20)
 			loadDelay = 0;
 
-		if(loadDelay == 0 && slots[0] != null && tank.getTankType() == Fluids.ACID && (this.current == null || this.current.equals(new ComparableStack(slots[0]).makeSingular()))) {
+		if(loadDelay == 0 && slots[0] != null && tank.getTankType() == Fluids.PEROXIDE && (this.current == null || this.current.equals(new ComparableStack(slots[0]).makeSingular()))) {
 			SILEXRecipe recipe = SILEXRecipes.getOutput(slots[0]);
 
 			if(recipe == null)

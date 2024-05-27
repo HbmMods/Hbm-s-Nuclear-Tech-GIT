@@ -441,7 +441,7 @@ public abstract class ToolAbility {
 				block = Blocks.redstone_ore;
 			
 			ItemStack stack = new ItemStack(block, 1, meta);
-			CrystallizerRecipe result = CrystallizerRecipes.getOutput(stack, Fluids.ACID);
+			CrystallizerRecipe result = CrystallizerRecipes.getOutput(stack, Fluids.PEROXIDE);
 			
 			if(result != null) {
 				world.setBlockToAir(x, y, z);
