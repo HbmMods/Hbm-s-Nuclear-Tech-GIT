@@ -64,11 +64,13 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputFluids(new FluidStack(Fluids.NITAN, 1000)));
 		recipes.add(new ChemRecipe(40, "PEROXIDE", 50)
 				.inputFluids(new FluidStack(Fluids.WATER, 1000))
-				.outputFluids(new FluidStack(Fluids.ACID, 800)));
+				.outputFluids(new FluidStack(Fluids.PEROXIDE, 800)));
 		recipes.add(new ChemRecipe(90, "SULFURIC_ACID", 50)
 				.inputItems(new OreDictStack(S.dust()))
-				.inputFluids(new FluidStack(Fluids.ACID, 800))
-				.outputFluids(new FluidStack(Fluids.SULFURIC_ACID, 500)));
+				.inputFluids(
+						new FluidStack(Fluids.PEROXIDE, 800),
+						new FluidStack(Fluids.WATER, 1_000))
+				.outputFluids(new FluidStack(Fluids.SULFURIC_ACID, 2_000)));
 		recipes.add(new ChemRecipe(92, "NITRIC_ACID", 50)
 				.inputItems(new OreDictStack(KNO.dust()))
 				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 500))
@@ -142,7 +144,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(
 						new OreDictStack(U.billet(), 2), //12 nuggets: the numbers do match up :)
 						new OreDictStack(S.dust(), 2))
-				.inputFluids(new FluidStack(Fluids.ACID, 500))
+				.inputFluids(new FluidStack(Fluids.PEROXIDE, 500))
 				.outputItems(new ItemStack(ModItems.powder_yellowcake)));
 		recipes.add(new ChemRecipe(47, "UF6", 100)
 				.inputItems(
@@ -161,7 +163,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(
 						new OreDictStack(SA326.dust()),
 						new OreDictStack(S.dust(), 2))
-				.inputFluids(new FluidStack(Fluids.ACID, 2000))
+				.inputFluids(new FluidStack(Fluids.PEROXIDE, 2000))
 				.outputFluids(new FluidStack(Fluids.SAS3, 1000)));
 		recipes.add(new ChemRecipe(53, "CORDITE", 40)
 				.inputItems(
@@ -236,7 +238,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(new ComparableStack(ModItems.pellet_charged))
 				.inputFluids(
 						new FluidStack(Fluids.SAS3, 8000),
-						new FluidStack(Fluids.ACID, 6000))
+						new FluidStack(Fluids.PEROXIDE, 6000))
 				.outputFluids(new FluidStack(Fluids.SCHRABIDIC, 16000)));
 		recipes.add(new ChemRecipe(64, "SCHRABIDATE", 150)
 				.inputItems(new OreDictStack(IRON.dust()))
@@ -247,7 +249,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new OreDictStack(COLTAN.dust(), 2),
 						new OreDictStack(COAL.dust()))
 				.inputFluids(
-						new FluidStack(Fluids.ACID, 250),
+						new FluidStack(Fluids.PEROXIDE, 250),
 						new FluidStack(Fluids.HYDROGEN, 500))
 				.outputItems(
 						new ItemStack(ModItems.powder_coltan),
@@ -265,7 +267,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(67, "COLTAN_CRYSTAL", 80)
 				.inputFluids(
 						new FluidStack(Fluids.PAIN, 1000),
-						new FluidStack(Fluids.ACID, 500))
+						new FluidStack(Fluids.PEROXIDE, 500))
 				.outputItems(
 						new ItemStack(ModItems.gem_tantalium),
 						new ItemStack(ModItems.dust, 3))
@@ -328,7 +330,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.powder_paleogenite),
 						new OreDictStack(F.dust(), 8),
 						new ComparableStack(ModItems.nugget_bismuth, 4))
-				.inputFluids(new FluidStack(Fluids.ACID, 1000, 5))
+				.inputFluids(new FluidStack(Fluids.PEROXIDE, 1000, 5))
 				.outputFluids(new FluidStack(Fluids.DEATH, 1000, GeneralConfig.enable528 ? 5 : 0)));
 		//one bucket of ethanol equals 275_000 TU using the diesel baseline0
 		//the coal baseline is 400_000 per piece
@@ -342,7 +344,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ComparableStack(Items.dye, 2, 3))
 				.inputFluids(
 						new FluidStack(Fluids.LUBRICANT, 400),
-						new FluidStack(Fluids.ACID, 400))
+						new FluidStack(Fluids.PEROXIDE, 400))
 				.outputItems(new ItemStack(ModItems.chocolate, 4)));
 		recipes.add(new ChemRecipe(77, "CO2", 60)
 				.inputFluids(new FluidStack(Fluids.GAS, 1000))

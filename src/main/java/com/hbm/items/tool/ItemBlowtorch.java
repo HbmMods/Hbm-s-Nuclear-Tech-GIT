@@ -69,7 +69,17 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 			initNBT(stack);
 		}
 		
-		return stack.stackTagCompound.getInteger(type.getName());
+		//just in case
+		String name = Fluids.toNameCompat(type);
+		if(stack.stackTagCompound.hasKey(name)) {
+			int fill = stack.stackTagCompound.getInteger(name);
+			stack.stackTagCompound.removeTag(name);
+			stack.stackTagCompound.setInteger(Integer.toString(type.getID()), fill);
+			
+			return fill;
+		}
+			
+		return stack.stackTagCompound.getInteger(Integer.toString(type.getID()));
 	}
 	
 	public int getMaxFill(FluidType type) {
@@ -85,7 +95,7 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 			initNBT(stack);
 		}
 		
-		stack.stackTagCompound.setInteger(type.getName(), fill);
+		stack.stackTagCompound.setInteger(Integer.toString(type.getID()), fill);
 	}
 	
 	public void initNBT(ItemStack stack) {

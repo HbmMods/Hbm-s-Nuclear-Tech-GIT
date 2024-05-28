@@ -143,7 +143,7 @@ public class ItemPipette extends Item implements IFillableItem {
 
 	public boolean willFizzle(FluidType type) {
 		if (this != ModItems.pipette) return false;
-		return type.isCorrosive() && type != Fluids.ACID;
+		return type.isCorrosive() && type != Fluids.PEROXIDE;
 	}
 
 	@Override
