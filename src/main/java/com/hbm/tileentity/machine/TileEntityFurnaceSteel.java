@@ -209,7 +209,7 @@ public class TileEntityFurnaceSteel extends TileEntityMachineBase implements IGU
 	
 	public boolean canSmelt(int index) {
 		
-		if(this.heat < this.maxHeat / 3) return false;
+		if(this.heat < this.maxHeat / 5) return false;
 		if(slots[index] == null) return false;
 		
 		ItemStack result = FurnaceRecipes.smelting().getSmeltingResult(slots[index]);

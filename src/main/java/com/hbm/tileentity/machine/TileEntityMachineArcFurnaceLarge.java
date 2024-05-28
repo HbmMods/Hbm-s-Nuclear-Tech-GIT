@@ -109,17 +109,17 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				
 				UpgradeManager.eval(slots, 4, 4);
 				int upgrade = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-				int consumption = (int) (1_000 * Math.pow(5, upgrade));
+				int consumption = 1000 * (upgrade * upgrade + 1);
 				
 				if(ingredients && electrodes && delay <= 0 && this.liquids.isEmpty()) {
 					if(lid > 0) {
-						lid -= 1F/60F;
+						lid -= 1F/30F;
 						if(lid < 0) lid = 0;
 						this.progress = 0;
 					} else {
 						
 						if(power >= consumption) {
-							int duration = 400 / (upgrade * 2 + 1);
+							int duration = 400 / (upgrade * upgrade + 1);
 							this.progress += 1F / duration;
 							this.isProgressing = true;
 							this.power -= consumption;
@@ -135,7 +135,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 					if(this.delay > 0) delay--;
 					this.progress = 0;
 					if(lid < 1 && this.electrodes[0] != 0 && this.electrodes[1] != 0 && this.electrodes[2] != 0) {
-						lid += 1F/60F;
+						lid += 1F/30F;
 						if(lid > 1) lid = 1;
 					}
 				}
@@ -514,8 +514,8 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_arc_furnace));
 		if(type == UpgradeType.SPEED) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level * 2 + 1)) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + ((int) Math.pow(5, level) * 100 - 100) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level * level + 1)) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + ((level * level + 1) * 100 - 100) + "%"));
 		}
 	}
 
