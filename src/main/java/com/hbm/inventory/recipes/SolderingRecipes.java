@@ -61,7 +61,7 @@ public class SolderingRecipes extends SerializableRecipe {
 		));
 		
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CAPACITOR_BOARD.ordinal()), 200, 300,
-				new FluidStack(Fluids.ACID, 250),
+				new FluidStack(Fluids.PEROXIDE, 250),
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 3, EnumCircuitType.CAPACITOR_TANTALIUM)},
 				new AStack[] {
@@ -78,7 +78,7 @@ public class SolderingRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.circuit, 24, EnumCircuitType.CAPACITOR)},
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 12, EnumCircuitType.PCB),
-						new OreDictStack(ANY_HARDPLASTIC.ingot(), 4)},
+						new OreDictStack(ANY_HARDPLASTIC.ingot(), 1)},
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 12)}
 		));

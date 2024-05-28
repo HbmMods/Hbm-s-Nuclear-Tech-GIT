@@ -53,7 +53,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 	public TileEntityMachineCrystallizer() {
 		super(8);
-		tank = new FluidTank(Fluids.ACID, 8000);
+		tank = new FluidTank(Fluids.PEROXIDE, 8000);
 	}
 
 	@Override

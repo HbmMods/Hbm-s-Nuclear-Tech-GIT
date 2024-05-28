@@ -226,7 +226,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 	}
 	
 	public static void registerRecipe(Object input, CrystallizerRecipe recipe) {
-		registerRecipe(input, recipe, new FluidStack(Fluids.ACID, 500));
+		registerRecipe(input, recipe, new FluidStack(Fluids.PEROXIDE, 500));
 	}
 	
 	public static void registerRecipe(Object input, CrystallizerRecipe recipe, FluidStack stack) {

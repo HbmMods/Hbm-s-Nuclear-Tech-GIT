@@ -1,42 +1,9 @@
-## Added
-* Arc furnace
-  * A large version of the arc furnace that can do several types of recipe
-  * Solid mode smelts items like a furnace, however to work the recipe needs an ingredient or result that is oredicted as either an ore, block, ingot or plate
-  * Liquid mode smelts items like a crucible would, effectively liquiefying metals. Non-castable materials are voided
-  * Both modes have arc furnace exclusive recipes (smelting sand/quartz/fiberglass into silicon)
-  * Can be upgraded only with regular speed upgrades
-* Soldering station
-  * Works similar to arc welders
-  * Used to assemble circuits from parts
-* New circuits
-  * The old circuits will be phased out, the items remain but can be recycled
-  * Circuits use an entirely new approach for crafting, instead of upgrading tiers constantly, all circuits are made from common parts
-  * Circuits can be automated entirely with only autocrafters, presses and the soldering station, no assembler or chemplant required
-  * Legacy circuits can be recycled in any anvil, yielding the roughly equivalent new circuit
-
 ## Changed
-* Updated russian and italian localization
-* Nerfed conventional explosives (dynamite, TNT, semtex, C4) in order to not outclass small nukes
-* Plastic explosive blocks no longer drop and blocks
-* Sellafite diamond ore now shreds into diamond gravel
-* ICF vessel blocks now use half as much fullerite as before
-* ICF capacitor and turbocharger blocks are now quite a bit cheaper
-* MEP is no longer self-igniting
-* The foundry storage basin now holds 4 blocks worth of material instead of 1
-* The small arc furnace is being retired and is no longer craftable. However, it will still function, and it can use any type of electrode without depleting it
-* Wires now use the autogen system and are oredicted with the "wireFine" prefix (equivalent to GT fine wires, 1/8 of an ingot)
-* Removed the assembler recipes for wires
-* Increased the maximum durability for all stamps
-* All upgrades now use the soldering station for their recipes, except for overdrive
-* Overdrive upgrade recipes have been rebalanced
+* The powder combination recipe for steel powder now yields steel scraps instead, meaning that it has to be smelted either via crucible or arc furnace
+  * In addition, there is now an alternate recipe combining four times the material, yielding larger steel scraps, allowing for higher throughput
+* The new autogen wire items now use texture overrides, restoring the original textures
+* Arc furnaces now start burning on the inside as the electrodes are inserted, making the process look a lot more violent
 
 ## Fixed
-* Fixed missing localization for meteorite ores and the new crucible materials
-* Removed the starmetal crystallization recipe, despite starmetal ore no longer existing
-* Fixed the ICF structure block detection being incorrect, omitting some parts
-* Fixed armor mods adding health showing only half as much as they actually do
-* Fixed RBMK fuel xenon burn function being described wrong
-* When converting ComparableStacks to ItemStacks, there is now a check that replaces null items with the nothing placeholder, fixing crashes caused by incorrect recipe configuration
-* Fixed item icon lighting in the anvil's search field
-* Fixed custom machine NEI handlers (again)
-* Fixed FEL making sounds when turned on but not actually active
+* Removed sand to silicon AE2 compat recipe which caused sand to be shreddable into the new silicon wafers, skipping the arc furnace entirely
+* Fixed shift clicking into the arc furnace placing the entire stack into a single slot, ignoring stacksize limitations

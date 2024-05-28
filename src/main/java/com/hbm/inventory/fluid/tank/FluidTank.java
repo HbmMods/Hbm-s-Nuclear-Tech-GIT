@@ -301,7 +301,7 @@ public class FluidTank {
 		
 		fluid = MathHelper.clamp_int(fluid, 0, max);
 		
-		type = Fluids.fromName(nbt.getString(s + "_type")); //compat
+		type = Fluids.fromNameCompat(nbt.getString(s + "_type")); //compat
 		if(type == Fluids.NONE)
 			type = Fluids.fromID(nbt.getInteger(s + "_type"));
 		
