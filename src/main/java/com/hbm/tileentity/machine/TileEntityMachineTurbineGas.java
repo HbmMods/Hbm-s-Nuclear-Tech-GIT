@@ -70,7 +70,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		fuelMaxCons.put(Fluids.GAS, 50D);			// natgas doesn't burn well so it burns faster to compensate
 		fuelMaxCons.put(Fluids.SYNGAS, 10D);		// syngas just fucks
 		fuelMaxCons.put(Fluids.OXYHYDROGEN, 100D);	// oxyhydrogen is terrible so it needs to burn a ton for the bare minimum
-		fuelMaxCons.put(Fluids.REFORMGAS, 2.5D);	// halved because it's too powerful
+		fuelMaxCons.put(Fluids.REFORMGAS, 5D);	// fuck it we ball
 		// default to 5 if not in list
 	}
 	
