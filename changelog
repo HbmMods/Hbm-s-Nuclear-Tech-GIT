@@ -3,6 +3,13 @@
   * In addition, there is now an alternate recipe combining four times the material, yielding larger steel scraps, allowing for higher throughput
 * The new autogen wire items now use texture overrides, restoring the original textures
 * Arc furnaces now start burning on the inside as the electrodes are inserted, making the process look a lot more violent
+* Arc furnaces in liquid mode will now immediately start draining their contents as soon as the lid starts lifting, instead of waiting until the lid is fully lifted
+* The arc furnace's lid now moves faster depending on the upgrade (each upgrade adds 50% movement speed). Do note that this shortens the timespan for cycling items, so to utilize it fully you will need multiple or upgraded conveyors.
+* Doubled the arc furnace's pouring speed to a full ingot per tick
+* Demand for hard plastic per versatile circuit has been reduced from 4 to 2 bars per board
+* The autocrafter now uses vacuum tubes instead of microchips
+* Buoyant items (fish spawned by fishing dynamite) now sink in flowing water (i.e. in a tank of non-source blocks)
+* Retextured all explosive sticks
 
 ## Fixed
 * Removed sand to silicon AE2 compat recipe which caused sand to be shreddable into the new silicon wafers, skipping the arc furnace entirely
