@@ -13,9 +13,13 @@ import com.hbm.render.model.ModelSteelCorner;
 import com.hbm.render.model.ModelSteelRoof;
 import com.hbm.render.model.ModelSteelScaffold;
 import com.hbm.render.model.ModelSteelWall;
+import com.hbm.tileentity.machine.TileEntityTransporterRocket;
+import com.hbm.util.CompatExternal;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderDecoBlock extends TileEntitySpecialRenderer {
@@ -53,16 +57,18 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f) {
 		GL11.glPushMatrix();
+		{
+
 			GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
 			GL11.glRotatef(180, 0F, 0F, 1F);
 			
 			GL11.glEnable(GL11.GL_LIGHTING);
+
+			Block block = tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord);
 			
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.steel_wall)
-			{
+			if(block == ModBlocks.steel_wall) {
 				this.bindTexture(texture1);
-				switch(tileentity.getBlockMetadata())
-				{
+				switch(tileentity.getBlockMetadata()) {
 				case 4:
 					GL11.glRotatef(90, 0F, 1F, 0F); break;
 				case 2:
@@ -73,11 +79,9 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 					GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 			}
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.steel_corner)
-			{
+			if(block == ModBlocks.steel_corner) {
 				this.bindTexture(texture2);
-				switch(tileentity.getBlockMetadata())
-				{
+				switch(tileentity.getBlockMetadata()) {
 				case 4:
 					GL11.glRotatef(90, 0F, 1F, 0F); break;
 				case 2:
@@ -88,19 +92,15 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 					GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 			}
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.steel_roof)
-			{
+			if(block == ModBlocks.steel_roof) {
 				this.bindTexture(texture3);
 			}
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.steel_beam)
-			{
+			if(block == ModBlocks.steel_beam) {
 				this.bindTexture(texture4);
 			}
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.steel_scaffold)
-			{
+			if(block == ModBlocks.steel_scaffold) {
 				this.bindTexture(texture5);
-				switch(tileentity.getBlockMetadata())
-				{
+				switch(tileentity.getBlockMetadata()) {
 				case 4:
 					GL11.glRotatef(90, 0F, 1F, 0F); break;
 				case 2:
@@ -111,11 +111,9 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 					GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 			}
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.broadcaster_pc)
-			{
+			if(block == ModBlocks.broadcaster_pc) {
 				this.bindTexture(texture6);
-				switch(tileentity.getBlockMetadata())
-				{
+				switch(tileentity.getBlockMetadata()) {
 				case 4:
 					GL11.glRotatef(90, 0F, 1F, 0F); break;
 				case 2:
@@ -126,11 +124,9 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 					GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 			}
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.geiger)
-			{
+			if(block == ModBlocks.geiger) {
 				this.bindTexture(texture9);
-				switch(tileentity.getBlockMetadata())
-				{
+				switch(tileentity.getBlockMetadata()) {
 				case 4:
 					GL11.glRotatef(90, 0F, 1F, 0F); break;
 				case 2:
@@ -141,11 +137,9 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 					GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 			}
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.radiorec)
-			{
+			if(block == ModBlocks.radiorec) {
 				this.bindTexture(texture8);
-				switch(tileentity.getBlockMetadata())
-				{
+				switch(tileentity.getBlockMetadata()) {
 				case 4:
 					GL11.glRotatef(90, 0F, 1F, 0F); break;
 				case 2:
@@ -156,11 +150,9 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 					GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 			}
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.radiobox)
-			{
+			if(block == ModBlocks.radiobox) {
 				this.bindTexture(texture7);
-				switch(tileentity.getBlockMetadata())
-				{
+				switch(tileentity.getBlockMetadata()) {
 				case 4:
 				case 8:
 					GL11.glRotatef(270, 0F, 1F, 0F); break;
@@ -178,27 +170,27 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 			}
 			
 			GL11.glPushMatrix();
-				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.steel_wall)
+				if(block == ModBlocks.steel_wall)
 					this.model1.renderModel(0.0625F);
-				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.steel_corner)
+				if(block == ModBlocks.steel_corner)
 					this.model2.renderModel(0.0625F);
-				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.steel_roof)
+				if(block == ModBlocks.steel_roof)
 					this.model3.renderModel(0.0625F);
-				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.steel_beam)
+				if(block == ModBlocks.steel_beam)
 					this.model4.renderModel(0.0625F);
-				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.steel_scaffold)
+				if(block == ModBlocks.steel_scaffold)
 					this.model5.renderModel(0.0625F);
-				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.broadcaster_pc)
+				if(block == ModBlocks.broadcaster_pc)
 					this.model6.renderModel(0.0625F);
-				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.geiger)
+				if(block == ModBlocks.geiger)
 					this.model8.renderModel(0.0625F);
-				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.radiobox)
+				if(block == ModBlocks.radiobox)
 					this.model7.renderModel(0.0625F, tileentity.getBlockMetadata() > 5 ? 160 : 20);
-				if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.radiorec)
+				if(block == ModBlocks.radiorec)
 					this.model6.renderModel(0.0625F);
 			GL11.glPopMatrix();
 			
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.boxcar) {
+			if(block == ModBlocks.boxcar) {
 
 				GL11.glRotatef(180, 0F, 0F, 1F);
 				GL11.glTranslatef(0, -1.5F, 0);
@@ -220,7 +212,7 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	        	ResourceManager.boxcar.renderAll();
 			}
 			
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.boat) {
+			if(block == ModBlocks.boat) {
 				GL11.glRotatef(180, 0F, 0F, 1F);
 				GL11.glTranslatef(0, 0, -1.5F);
 				GL11.glTranslatef(0, 0.5F, 0);
@@ -230,22 +222,17 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	        	ResourceManager.duchessgambit.renderAll();
 			}
 			
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_radar) {
+			if(block == ModBlocks.sat_radar) {
 				GL11.glRotatef(180, 0F, 0F, 1F);
 				GL11.glTranslatef(0, -1.5F, 0);
 
 	        	GL11.glRotated(90, 0, 1, 0);
 	        	
-				switch(tileentity.getBlockMetadata())
-				{
-				case 4:
-					GL11.glRotatef(270, 0F, 1F, 0F); break;
-				case 2:
-					GL11.glRotatef(180, 0F, 1F, 0F); break;
-				case 5:
-					GL11.glRotatef(90, 0F, 1F, 0F); break;
-				case 3:
-					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				switch(tileentity.getBlockMetadata()) {
+				case 4: GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 2: GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5: GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 3: GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 
 	            GL11.glEnable(GL11.GL_CULL_FACE);
@@ -255,22 +242,17 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	        	ResourceManager.sat_radar.renderAll();
 			}
 			
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_resonator) {
+			if(block == ModBlocks.sat_resonator) {
 				GL11.glRotatef(180, 0F, 0F, 1F);
 				GL11.glTranslatef(0, -1.5F, 0);
 
 	        	GL11.glRotated(90, 0, 1, 0);
 	        	
-				switch(tileentity.getBlockMetadata())
-				{
-				case 4:
-					GL11.glRotatef(270, 0F, 1F, 0F); break;
-				case 2:
-					GL11.glRotatef(180, 0F, 1F, 0F); break;
-				case 5:
-					GL11.glRotatef(90, 0F, 1F, 0F); break;
-				case 3:
-					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				switch(tileentity.getBlockMetadata()) {
+				case 4: GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 2: GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5: GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 3: GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 
 	            GL11.glEnable(GL11.GL_CULL_FACE);
@@ -280,22 +262,17 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	        	ResourceManager.sat_resonator.renderAll();
 			}
 			
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_scanner) {
+			if(block == ModBlocks.sat_scanner) {
 				GL11.glRotatef(180, 0F, 0F, 1F);
 				GL11.glTranslatef(0, -1.5F, 0);
 
 	        	GL11.glRotated(90, 0, 1, 0);
 	        	
-				switch(tileentity.getBlockMetadata())
-				{
-				case 4:
-					GL11.glRotatef(270, 0F, 1F, 0F); break;
-				case 2:
-					GL11.glRotatef(180, 0F, 1F, 0F); break;
-				case 5:
-					GL11.glRotatef(90, 0F, 1F, 0F); break;
-				case 3:
-					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				switch(tileentity.getBlockMetadata()) {
+				case 4: GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 2: GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5: GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 3: GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 
 	            GL11.glEnable(GL11.GL_CULL_FACE);
@@ -305,22 +282,17 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	        	ResourceManager.sat_scanner.renderAll();
 			}
 			
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_mapper) {
+			if(block == ModBlocks.sat_mapper) {
 				GL11.glRotatef(180, 0F, 0F, 1F);
 				GL11.glTranslatef(0, -1.5F, 0);
 
 	        	GL11.glRotated(90, 0, 1, 0);
 	        	
-				switch(tileentity.getBlockMetadata())
-				{
-				case 4:
-					GL11.glRotatef(270, 0F, 1F, 0F); break;
-				case 2:
-					GL11.glRotatef(180, 0F, 1F, 0F); break;
-				case 5:
-					GL11.glRotatef(90, 0F, 1F, 0F); break;
-				case 3:
-					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				switch(tileentity.getBlockMetadata()) {
+				case 4: GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 2: GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5: GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 3: GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 
 	            GL11.glEnable(GL11.GL_CULL_FACE);
@@ -330,22 +302,17 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	        	ResourceManager.sat_mapper.renderAll();
 			}
 			
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_laser) {
+			if(block == ModBlocks.sat_laser) {
 				GL11.glRotatef(180, 0F, 0F, 1F);
 				GL11.glTranslatef(0, -1.5F, 0);
 
 	        	GL11.glRotated(90, 0, 1, 0);
 	        	
-				switch(tileentity.getBlockMetadata())
-				{
-				case 4:
-					GL11.glRotatef(270, 0F, 1F, 0F); break;
-				case 2:
-					GL11.glRotatef(180, 0F, 1F, 0F); break;
-				case 5:
-					GL11.glRotatef(90, 0F, 1F, 0F); break;
-				case 3:
-					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				switch(tileentity.getBlockMetadata()) {
+				case 4: GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 2: GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5: GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 3: GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 
 	            GL11.glEnable(GL11.GL_CULL_FACE);
@@ -355,22 +322,17 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	        	ResourceManager.sat_laser.renderAll();
 			}
 			
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_foeq) {
+			if(block == ModBlocks.sat_foeq) {
 				GL11.glRotatef(180, 0F, 0F, 1F);
 				GL11.glTranslatef(0, -1.5F, 0);
 
 	        	GL11.glRotated(90, 0, 1, 0);
 	        	
-				switch(tileentity.getBlockMetadata())
-				{
-				case 4:
-					GL11.glRotatef(270, 0F, 1F, 0F); break;
-				case 2:
-					GL11.glRotatef(180, 0F, 1F, 0F); break;
-				case 5:
-					GL11.glRotatef(90, 0F, 1F, 0F); break;
-				case 3:
-					GL11.glRotatef(0, 0F, 1F, 0F); break;
+				switch(tileentity.getBlockMetadata()) {
+				case 4: GL11.glRotatef(270, 0F, 1F, 0F); break;
+				case 2: GL11.glRotatef(180, 0F, 1F, 0F); break;
+				case 5: GL11.glRotatef(90, 0F, 1F, 0F); break;
+				case 3: GL11.glRotatef(0, 0F, 1F, 0F); break;
 				}
 
 	            GL11.glEnable(GL11.GL_CULL_FACE);
@@ -378,14 +340,35 @@ public class RenderDecoBlock extends TileEntitySpecialRenderer {
 	        	ResourceManager.sat_foeq.renderAll();
 			}
 			
-			if(tileentity.getWorldObj().getBlock(tileentity.xCoord, tileentity.yCoord, tileentity.zCoord) == ModBlocks.sat_dock) {
+			if(block == ModBlocks.sat_dock || block == ModBlocks.transporter_rocket) {
 				GL11.glRotatef(180, 0F, 0F, 1F);
 				GL11.glTranslatef(0, -1.5F, 0);
 				
 	        	bindTexture(ResourceManager.satdock_tex);
 	        	ResourceManager.satDock.renderAll();
+
+				if(block == ModBlocks.transporter_rocket) {
+					if(tileentity instanceof TileEntityTransporterRocket && ((TileEntityTransporterRocket)tileentity).launchTicks < 100) {
+						TileEntityTransporterRocket transporter = (TileEntityTransporterRocket) tileentity;
+						GL11.glPushMatrix();
+						{
+							
+							GL11.glTranslatef(0.0F, 0.75F + MathHelper.clamp_float(transporter.launchTicks + (transporter.hasRocket ? -f : f), 0, 200), 0.0F);
+							GL11.glDisable(GL11.GL_CULL_FACE);
+	
+							bindTexture(ResourceManager.minerRocket_tex);
+	
+							ResourceManager.minerRocket.renderAll();
+	
+							GL11.glEnable(GL11.GL_CULL_FACE);
+	
+						}
+						GL11.glPopMatrix();
+					}
+				}
 			}
-			
+
+		}
 		GL11.glPopMatrix();
 	}
 

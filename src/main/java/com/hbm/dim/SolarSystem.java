@@ -342,6 +342,24 @@ public class SolarSystem {
 	 * Delta-V Calcs
 	 */
 
+	// Get a number of buckets of fuel required to travel somewhere, (halved, since we're assuming bipropellant)
+	public static int getCostBetween(CelestialBody from, CelestialBody to, int mass, int thrust, int isp) {
+
+		double launchDV = SolarSystem.getLiftoffDeltaV(from, mass, thrust);
+		double travelDV = SolarSystem.getDeltaVBetween(from, to);
+		double landerDV = SolarSystem.getLandingDeltaV(to, mass, thrust, to.hasTrait(CBT_Atmosphere.class));
+		
+		double totalDV = launchDV + travelDV + landerDV;
+
+		double g0 = 9.81;
+		double exhaustVelocity = isp * g0;
+		double propellantMass = mass * (1 - Math.exp(-(totalDV / exhaustVelocity)));
+
+		// You can do some fuckery here to get the propellant mass into some reasonable number of buckets
+
+		return MathHelper.floor_double(propellantMass);
+	}
+
 	// Provides the deltaV required to get into orbit, ignoring losses due to atmospheric friction
 	// Make sure to convert from kN to N (kilonewtons to newtons) before calling these two functions
 	public static double getLiftoffDeltaV(CelestialBody body, float craftMassKg, float craftThrustN) {

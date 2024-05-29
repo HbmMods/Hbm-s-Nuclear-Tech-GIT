@@ -6,6 +6,7 @@ import java.util.Random;
 import com.hbm.entity.projectile.EntityOilSpill;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
+import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.util.ParticleUtil;
@@ -48,7 +49,14 @@ public class ExplosionLarge {
 		data.setString("mode", "shock");
 		data.setInteger("count", count);
 		data.setDouble("strength", strength);
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y + 0.5, z),  new TargetPoint(world.provider.dimensionId, x, y, z, 250));
+		if(world.isRemote) {
+			data.setDouble("posX", x);
+			data.setDouble("posY", y + 0.5);
+			data.setDouble("posZ", z);
+			MainRegistry.proxy.effectNT(data);
+		} else {
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y + 0.5, z), new TargetPoint(world.provider.dimensionId, x, y, z, 250));
+		}
 	}
 
 	public static void spawnBurst(World world, double x, double y, double z, int count, double strength) {

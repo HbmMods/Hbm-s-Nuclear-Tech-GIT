@@ -381,6 +381,10 @@ public class MainRegistry {
 			@Override
 			public void ticketsLoaded(List<Ticket> tickets, World world) {
 				for(Ticket ticket : tickets) {
+					if(ticket.getType() == ForgeChunkManager.Type.NORMAL) {
+						ChunkLoaderManager.loadTicket(ticket);
+						return;
+					}
 
 					if(ticket.getEntity() instanceof IChunkLoader) {
 						((IChunkLoader) ticket.getEntity()).init(ticket);
