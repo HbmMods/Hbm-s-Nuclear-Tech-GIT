@@ -30,6 +30,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
@@ -38,6 +39,12 @@ public class ItemTransporterLinker extends Item implements IGUIProvider {
 	
 	@SideOnly(Side.CLIENT)
 	public static List<TransporterInfo> currentTransporters;
+
+	@Override
+	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
+		list.add("Sneak-click to save transporter");
+		list.add("Use on transporter to link to a saved transporter");
+	}
 	
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fx, float fy, float fz) {
@@ -49,7 +56,10 @@ public class ItemTransporterLinker extends Item implements IGUIProvider {
 
 		TileEntityTransporterBase transporter = (TileEntityTransporterBase) tile;
 		if(player.isSneaking()) {
-			if(!world.isRemote) addTransporter(stack, world, transporter);
+			if(!world.isRemote) {
+				addTransporter(stack, world, transporter);
+				player.addChatMessage(new ChatComponentText("Added transporter to linker"));
+			}
 		} else if(world.isRemote) {
 			lastTransporter = TransporterInfo.from(world.provider.dimensionId, transporter);
 			player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
