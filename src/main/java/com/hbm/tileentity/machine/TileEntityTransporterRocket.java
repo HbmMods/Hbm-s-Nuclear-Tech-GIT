@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.inventory.container.ContainerTransporterRocket;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.trait.FT_Rocket;
@@ -25,7 +26,7 @@ import net.minecraft.world.World;
 
 public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 
-	public boolean hasRocket = false;
+	public boolean hasRocket = true;
 	public int launchTicks = 0;
 
 	public int threshold = 0;
@@ -46,6 +47,10 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 
 		if(worldObj.isRemote && launchTicks > 0 && launchTicks < 100) {
 			ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5, yCoord + 0.5 + launchTicks, zCoord + 0.5, 0.0, -1.0, 0.0);
+
+			if(launchTicks < 10) {
+				ExplosionLarge.spawnShock(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 1 + worldObj.rand.nextInt(3), 1 + worldObj.rand.nextGaussian());
+			}
 		}
 	}
 
