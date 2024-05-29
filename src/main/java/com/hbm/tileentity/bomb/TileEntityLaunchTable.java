@@ -576,20 +576,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		long isp = trait.getISP();
 		long thrust = trait.getThrust();
 
-		double launchDV = SolarSystem.getLiftoffDeltaV(localBody, rocketMass, thrust);
-		double travelDV = SolarSystem.getDeltaVBetween(localBody, targetBody);
-		double landerDV = SolarSystem.getLandingDeltaV(targetBody, rocketMass, thrust, targetBody.hasTrait(CBT_Atmosphere.class));
-
-		double totalDV = launchDV + travelDV + landerDV;
-
-		double g0 = 9.81;
-		double exhaustVelocity = isp * g0;
-		double propellantMass = rocketMass * (1 - Math.exp(-(totalDV / exhaustVelocity)));
-
-		// You can do some fuckery here to get the propellant mass into some reasonable number of buckets
-		
-
-		return MathHelper.floor_double(propellantMass);
+		return SolarSystem.getCostBetween(localBody, targetBody, rocketMass, (int)thrust, (int)isp);
 	}
 
 	private static double calculateAdjustedFuelRatio(long fuelPower, double aue) {

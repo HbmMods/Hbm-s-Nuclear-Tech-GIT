@@ -136,24 +136,35 @@ public class GUITransporterLinker extends GuiScreen {
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+
+		int x = guiLeft + 10;
+
+		if(isInAABB(mouseX, mouseY, x, guiTop + 13, 18, 18)) {
+			drawTexturedModalRect(x, guiTop + 13, xSize + 18, 0, 18, 18);
+		}
+
 		for(int i = index; i < Math.min(index + 5, visibleTransporters.size()); i++) {
 			TransporterInfo transporter = visibleTransporters.get(i);
 
-			int x = guiLeft + 10;
 			int y = guiTop + 69 + (i-index) * 26;
 			if(linkToTransporter != null && linkToTransporter.equals(transporter)) {
 				drawTexturedModalRect(x, y, xSize, 18, 18, 18);
+
+				if(isInAABB(mouseX, mouseY, x, y, 18, 18)) {
+					drawTexturedModalRect(x, y, xSize + 18, 0, 18, 18);
+				}
+			} else {
+				if(isInAABB(mouseX, mouseY, x, y, 18, 18)) {
+					drawTexturedModalRect(x, y, xSize, 0, 18, 18);
+				}
 			}
 
-			if(isInAABB(mouseX, mouseY, x, y, 18, 18)) {
-				drawTexturedModalRect(x, y, xSize, 0, 18, 18);
-			}
 		}
 
 		// Draw scrollbar
 		if(visibleTransporters.size() > 5) {
-			int x = guiLeft + 202;
-			int y = guiTop + 68 + MathHelper.floor_float(index / (visibleTransporters.size() - 5) * 114);
+			x = guiLeft + 202;
+			int y = guiTop + 68 + MathHelper.floor_float((float)index / (float)(visibleTransporters.size() - 5) * 114.0F);
 			drawTexturedModalRect(x, y, xSize, 36, 14, 15);
 		}
 	}
@@ -162,8 +173,15 @@ public class GUITransporterLinker extends GuiScreen {
 	protected void mouseClicked(int mouseX, int mouseY, int button) {
 		search.mouseClicked(mouseX, mouseY, button);
 
+		int x = guiLeft + 10;
+
+		if(isInAABB(mouseX, mouseY, x, guiTop + 13, 18, 18)) {
+			if(selectTransporter(null)) {
+				player.closeScreen();
+			}
+		}
+
 		for(int i = index; i < Math.min(index + 5, visibleTransporters.size()); i++) {
-			int x = guiLeft + 10;
 			int y = guiTop + 69 + (i-index) * 26;
 			if(isInAABB(mouseX, mouseY, x, y, 18, 18)) {
 				if(selectTransporter(visibleTransporters.get(i))) {
@@ -175,9 +193,13 @@ public class GUITransporterLinker extends GuiScreen {
 
 	// Links commutatively
 	private boolean selectTransporter(TransporterInfo transporter) {
-		if(linkFromTransporter == transporter) return false;
+		if(linkFromTransporter.equals(transporter)) return false;
 
-		linkTransporters(linkFromTransporter, transporter);
+		if(linkToTransporter != null && linkToTransporter.equals(transporter)) {
+			linkTransporters(linkFromTransporter, null);
+		} else {
+			linkTransporters(linkFromTransporter, transporter);
+		}
 
 		return true;
 	}

@@ -5,11 +5,15 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerTransporterRocket;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.TileEntityTransporterBase;
+import com.hbm.packet.NBTControlPacket;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.machine.TileEntityTransporterRocket;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class GUITransporterRocket extends GuiInfoContainer {
@@ -18,9 +22,9 @@ public class GUITransporterRocket extends GuiInfoContainer {
 
 	private GuiTextField transporterName;
 
-	private TileEntityTransporterBase transporter;
+	private TileEntityTransporterRocket transporter;
 
-	public GUITransporterRocket(InventoryPlayer invPlayer, TileEntityTransporterBase transporter) {
+	public GUITransporterRocket(InventoryPlayer invPlayer, TileEntityTransporterRocket transporter) {
 		super(new ContainerTransporterRocket(invPlayer, transporter));
 
 		this.transporter = transporter;
@@ -34,7 +38,7 @@ public class GUITransporterRocket extends GuiInfoContainer {
 		super.initGui();
 		
 		Keyboard.enableRepeatEvents(true);
-		transporterName = new GuiTextField(this.fontRendererObj, guiLeft + 28, guiTop + 12, 122, 12);
+		transporterName = new GuiTextField(this.fontRendererObj, guiLeft + 8, guiTop + 12, 122, 12);
 		transporterName.setTextColor(0x00ff00);
 		transporterName.setDisabledTextColour(0x00ff00);
 		transporterName.setEnableBackgroundDrawing(false);
@@ -49,6 +53,8 @@ public class GUITransporterRocket extends GuiInfoContainer {
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
+
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		for(int i = 0; i < 4; i++) {
 			int x = guiLeft + 8 + i * 18;
@@ -92,6 +98,13 @@ public class GUITransporterRocket extends GuiInfoContainer {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+
+		drawTexturedModalRect(guiLeft + 100 + (int)(transporter.threshold * 7.4), guiTop + 122, xSize, 0, 4, 15);
+
+		int threshold = transporter.getThreshold();
+		int width = fontRendererObj.getStringWidth("x" + threshold);
+
+		fontRendererObj.drawStringWithShadow("x" + threshold, guiLeft + 167 - width, guiTop + 12, -1);
 		
 		transporterName.drawTextBox();
 	}
@@ -100,6 +113,22 @@ public class GUITransporterRocket extends GuiInfoContainer {
 	protected void mouseClicked(int mouseX, int mouseY, int button) {
 		super.mouseClicked(mouseX, mouseY, button);
 		transporterName.mouseClicked(mouseX, mouseY, button);
+	}
+	
+	@Override
+	protected void mouseClickMove(int mouseX, int mouseY, int lastButtonClicked, long timeSinceLastClick) {
+		super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeSinceLastClick);
+	
+		int slidPos = transporter.threshold;
+
+		if(isInAABB(mouseX, mouseY, guiLeft + 98, guiTop + 120, 74, 20)) {
+			slidPos = (int)((mouseX - (guiLeft + 98)) / 7.4);
+			slidPos = MathHelper.clamp_int(slidPos, 0, 10); // 2^0 - 2^9 | 0 - 512
+			
+			NBTTagCompound data = new NBTTagCompound();
+			data.setDouble("threshold", slidPos);
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, transporter.xCoord, transporter.yCoord, transporter.zCoord));
+		}
 	}
 
 	@Override
@@ -117,6 +146,10 @@ public class GUITransporterRocket extends GuiInfoContainer {
 
 	private void setName() {
 		transporter.setTransporterName(transporterName.getText());
+	}
+
+	private boolean isInAABB(int mouseX, int mouseY, int x, int y, int width, int height) {
+		return x <= mouseX && x + width > mouseX && y <= mouseY && y + height > mouseY;
 	}
 
 }

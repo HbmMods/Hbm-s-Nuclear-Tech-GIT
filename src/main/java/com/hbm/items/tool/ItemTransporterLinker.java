@@ -17,6 +17,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TransporterLinkerPacket;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.TileEntityTransporterBase;
+import com.hbm.util.CompatExternal;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,7 +41,7 @@ public class ItemTransporterLinker extends Item implements IGUIProvider {
 	
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fx, float fy, float fz) {
-		TileEntity tile = world.getTileEntity(x, y, z);
+		TileEntity tile = CompatExternal.getCoreFromPos(world, x, y, z);
 		
 		if(!(tile instanceof TileEntityTransporterBase)) {
 			return false;

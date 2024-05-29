@@ -2533,7 +2533,7 @@ public class ModBlocks {
 
 		atmosphere_editor = new BlockAtmosphereEditor(Material.iron).setBlockName("atmosphere_editor").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":atmosphere_editor");
 
-		transporter_rocket = new BlockTransporter(Material.iron).setBlockName("transporter_rocket").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":transporter_rocket");
+		transporter_rocket = new BlockTransporterRocket(Material.iron).setBlockName("transporter_rocket").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":transporter_rocket");
 	}
 
 	private static void registerBlock() {
@@ -3740,7 +3740,7 @@ public class ModBlocks {
 		// Terraforming
 		GameRegistry.registerBlock(atmosphere_editor, atmosphere_editor.getUnlocalizedName());
 
-		GameRegistry.registerBlock(transporter_rocket, transporter_rocket.getUnlocalizedName());
+		register(transporter_rocket);
 	}
 	
 	private static void register(Block b) {

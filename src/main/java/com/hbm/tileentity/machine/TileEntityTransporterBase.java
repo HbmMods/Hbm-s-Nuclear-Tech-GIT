@@ -2,6 +2,8 @@ package com.hbm.tileentity.machine;
 
 import java.util.stream.IntStream;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -12,13 +14,13 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import scala.actors.threadpool.Arrays;
@@ -26,9 +28,6 @@ import scala.actors.threadpool.Arrays;
 public abstract class TileEntityTransporterBase extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, IFluidStandardTransceiver {
 
 	private String name = "Transporter";
-
-	public int dimensionId = 0;
-	public ResourceLocation dimensionImage;
 
 	public FluidTank[] tanks;
 
@@ -69,10 +68,6 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 		return "container.transporter";
 	}
 
-	public Class<? extends TileEntityTransporterBase> getCompatible() {
-		return TileEntityTransporterBase.class;
-	}
-
 	@Override
 	public void updateEntity() {
 		if(worldObj.isRemote) return;
@@ -80,11 +75,13 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 		// Set tank types
 		for(int i = 0; i < inputTankMax; i++) {
 			tanks[i].setType(outputSlotMax + i, slots);
-			subscribeToAllAround(tanks[i].getTankType(), this);
 		}
 		for(int i = outputTankMax; i < tanks.length; i++) {
 			tanks[i].setType(outputSlotMax + inputTankMax + i - outputTankMax, slots);
-			subscribeToAllAround(tanks[i].getTankType(), this);
+		}
+			
+		if(worldObj.getTotalWorldTime() % 20 == 0) {
+			updateConnections();
 		}
 
 		fetchLinkedTransporter();
@@ -119,19 +116,25 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 				}
 			}
 
-			if(isDirty)
+			hasSent(linkedTransporter);
+
+			if(isDirty) {
 				markChanged();
+			}
 		}
 
-			
 		NBTTagCompound data = new NBTTagCompound();
-		data.setString("name", name);
-		if(linkedTransporterInfo != null) {
-			data.setInteger("dimensionId", linkedTransporterInfo.dimensionId);
-			data.setIntArray("linkedTo", new int[] { linkedTransporterInfo.x, linkedTransporterInfo.y, linkedTransporterInfo.z });
-		}
-		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(data, "t" + i);
 		this.networkPack(data, 250);
+	}
+
+	private void updateConnections() {
+		for(DirPos pos : getConPos()) {
+			for(int i = 0; i < tanks.length; i++) {
+				if(tanks[i].getTankType() != Fluids.NONE) {
+					trySubscribe(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				}
+			}
+		}
 	}
 
 	@Override
@@ -141,12 +144,25 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 
 	@Override
 	public FluidTank[] getReceivingTanks() {
-		return (FluidTank[]) Arrays.copyOfRange(tanks, 0, inputTankMax);
+		FluidTank[] inputTanks = (FluidTank[]) Arrays.copyOfRange(tanks, 0, inputTankMax);
+		FluidTank[] extraTanks = (FluidTank[]) Arrays.copyOfRange(tanks, outputTankMax, tanks.length);
+		return ArrayUtils.addAll(inputTanks, extraTanks);
 	}
 
 	@Override
 	public FluidTank[] getAllTanks() {
 		return tanks;
+	}
+
+	@Override
+	public void networkPack(NBTTagCompound nbt, int range) {
+		nbt.setString("name", name);
+		if(linkedTransporterInfo != null) {
+			nbt.setInteger("dimensionId", linkedTransporterInfo.dimensionId);
+			nbt.setIntArray("linkedTo", new int[] { linkedTransporterInfo.x, linkedTransporterInfo.y, linkedTransporterInfo.z });
+		}
+		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(nbt, "t" + i);
+		super.networkPack(nbt, range);
 	}
 	
 	@Override
@@ -164,9 +180,23 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
 	}
 
-	// Designated override for delaying sending or requiring fuel
-	public boolean canSend(TileEntityTransporterBase linkedTransporter) {
-		return true;
+	protected abstract DirPos[] getConPos();
+
+	// Designated overrides for delaying sending or requiring fuel
+	protected abstract boolean canSend(TileEntityTransporterBase linkedTransporter);
+	protected abstract void hasSent(TileEntityTransporterBase linkedTransporter);
+	protected abstract void hasConnected(TileEntityTransporterBase linkedTransporter);
+
+	// Turns items and fluids into a "mass" of sorts
+	protected int itemCount() {
+		int count = 0;
+		for(int i = 0; i < inputSlotMax; i++) {
+			if(slots[i] != null) count += slots[i].stackSize;
+		}
+		for(int i = 0; i < inputTankMax; i++) {
+			count += tanks[i].getFill() / 1000;
+		}
+		return count;
 	}
 
 	public String getTransporterName() {
@@ -266,6 +296,8 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 			if(linkedTransporter != null) {
 				linkedTransporter.linkedTransporterInfo = TransporterInfo.from(worldObj.provider.dimensionId, this);
 				linkedTransporter.fetchLinkedTransporter();
+
+				hasConnected(linkedTransporter);
 			}
 		}
 		
