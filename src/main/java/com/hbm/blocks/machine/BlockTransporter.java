@@ -1,12 +1,15 @@
 package com.hbm.blocks.machine;
 
 import com.hbm.items.ModItems;
+import com.hbm.main.ChunkLoaderManager;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityTransporterRocket;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -32,6 +35,12 @@ public class BlockTransporter extends BlockContainer {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+		if(world.isRemote) return;
+		ChunkLoaderManager.forceChunk(world, x, z);
 	}
 	
 }

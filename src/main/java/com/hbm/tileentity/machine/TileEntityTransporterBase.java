@@ -82,10 +82,10 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 			tanks[i].setType(outputSlotMax + i, slots);
 			subscribeToAllAround(tanks[i].getTankType(), this);
 		}
-		// for(int i = outputTankMax; i < tanks.length; i++) {
-		// 	tanks[i].setType(outputSlotMax + inputTankMax + i, slots);
-		// 	subscribeToAllAround(tanks[i].getTankType(), this);
-		// }
+		for(int i = outputTankMax; i < tanks.length; i++) {
+			tanks[i].setType(outputSlotMax + inputTankMax + i - outputTankMax, slots);
+			subscribeToAllAround(tanks[i].getTankType(), this);
+		}
 
 		fetchLinkedTransporter();
 
