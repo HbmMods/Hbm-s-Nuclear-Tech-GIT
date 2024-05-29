@@ -9,14 +9,16 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemTransporterLinker;
+import com.hbm.items.tool.ItemTransporterLinker.TransporterInfo;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.machine.TileEntityTransporterBase;
+import com.hbm.packet.NBTControlPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
@@ -33,20 +35,19 @@ public class GUITransporterLinker extends GuiScreen {
 
 	private int index = 0;
 
-	protected TileEntityTransporterBase linkFromTransporter;
-	protected TileEntityTransporterBase linkToTransporter;
-	protected List<TileEntityTransporterBase> transporters;
+	protected TransporterInfo linkFromTransporter;
+	protected TransporterInfo linkToTransporter;
+	protected List<TransporterInfo> transporters;
 
-	private List<TileEntityTransporterBase> visibleTransporters;
+	private List<TransporterInfo> visibleTransporters;
 	
 	private final EntityPlayer player;
 
-	public GUITransporterLinker(EntityPlayer player, TileEntityTransporterBase linkFromTransporter) {
+	public GUITransporterLinker(EntityPlayer player, List<TransporterInfo> transporters, TransporterInfo linkFromTransporter) {
 		this.player = player;
 		this.linkFromTransporter = linkFromTransporter;
-
-		transporters = ItemTransporterLinker.getTransporters(player.getHeldItem(), linkFromTransporter);
-		linkToTransporter = linkFromTransporter.getLinkedTransporter();
+		if(linkFromTransporter != null) this.linkToTransporter = linkFromTransporter.linkedTo;
+		this.transporters = transporters;
 	}
 
 	@Override
@@ -81,7 +82,7 @@ public class GUITransporterLinker extends GuiScreen {
 		search.setEnableBackgroundDrawing(false);
 		search.setFocused(true);
 
-		visibleTransporters = transporters;
+		updateSearch();
 	}
 
 	@Override
@@ -108,26 +109,26 @@ public class GUITransporterLinker extends GuiScreen {
 		int textLeftX = guiLeft + 62;
 		int textRightX = guiLeft + 188;
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(linkFromTransporter.dimensionImage);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(linkFromTransporter.planet);
 		func_146110_a(x, guiTop + 14, 0, 0, 16, 16, 16, 16);
 
-		String coordinates = "x: " + linkFromTransporter.xCoord + ", z: " + linkFromTransporter.zCoord;
+		String coordinates = "x: " + linkFromTransporter.x + ", z: " + linkFromTransporter.z;
 		int width = fontRendererObj.getStringWidth(coordinates);
-		fontRendererObj.drawStringWithShadow(linkFromTransporter.getTransporterName(), textLeftX, guiTop + 13, 0x00ff00);
+		fontRendererObj.drawStringWithShadow(linkFromTransporter.name, textLeftX, guiTop + 13, 0x00ff00);
 		fontRendererObj.drawStringWithShadow(coordinates, textRightX - width, guiTop + 23, 0x00ff00);
 		
 		// Draw linkable transporters
 		for(int i = index; i < Math.min(index + 5, visibleTransporters.size()); i++) {
-			TileEntityTransporterBase transporter = visibleTransporters.get(i);
+			TransporterInfo transporter = visibleTransporters.get(i);
 			int y = guiTop + 70 + (i-index) * 26;
 
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			Minecraft.getMinecraft().getTextureManager().bindTexture(transporter.dimensionImage);
+			Minecraft.getMinecraft().getTextureManager().bindTexture(transporter.planet);
 			func_146110_a(x, y, 0, 0, 16, 16, 16, 16);
 
-			coordinates = "x: " + transporter.xCoord + ", z: " + transporter.zCoord;
+			coordinates = "x: " + transporter.x + ", z: " + transporter.z;
 			width = fontRendererObj.getStringWidth(coordinates);
-			fontRendererObj.drawStringWithShadow(transporter.getTransporterName(), textLeftX, y - 1, 0x00ff00);
+			fontRendererObj.drawStringWithShadow(transporter.name, textLeftX, y - 1, 0x00ff00);
 			fontRendererObj.drawStringWithShadow(coordinates, textRightX - width, y + 9, 0x00ff00);
 		}
 	}
@@ -136,11 +137,11 @@ public class GUITransporterLinker extends GuiScreen {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		for(int i = index; i < Math.min(index + 5, visibleTransporters.size()); i++) {
-			TileEntityTransporterBase transporter = visibleTransporters.get(i);
+			TransporterInfo transporter = visibleTransporters.get(i);
 
 			int x = guiLeft + 10;
 			int y = guiTop + 69 + (i-index) * 26;
-			if(linkToTransporter != null && ItemTransporterLinker.matches(linkToTransporter, transporter)) {
+			if(linkToTransporter != null && linkToTransporter.equals(transporter)) {
 				drawTexturedModalRect(x, y, xSize, 18, 18, 18);
 			}
 
@@ -173,19 +174,34 @@ public class GUITransporterLinker extends GuiScreen {
 	}
 
 	// Links commutatively
-	private boolean selectTransporter(TileEntityTransporterBase transporter) {
+	private boolean selectTransporter(TransporterInfo transporter) {
 		if(linkFromTransporter == transporter) return false;
-		
-		TileEntityTransporterBase previouslyLinked = transporter.getLinkedTransporter();
 
-		if(previouslyLinked != null && !ItemTransporterLinker.matches(linkFromTransporter, previouslyLinked)) {
-			previouslyLinked.setLinkedTransporter(null);
-		}
-		
-		transporter.setLinkedTransporter(linkFromTransporter);
-		linkFromTransporter.setLinkedTransporter(transporter);
+		linkTransporters(linkFromTransporter, transporter);
 
 		return true;
+	}
+
+	
+	private void linkTransporters(TransporterInfo from, TransporterInfo to) {
+		if(from == null && to == null) return;
+
+		if(to == null) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setBoolean("unlink", true);
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, from.x, from.y, from.z));
+			return;
+		} else if(from == null) {
+			NBTTagCompound data = new NBTTagCompound();
+			data.setBoolean("unlink", true);
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, to.x, to.y, to.z));
+			return;
+		}
+
+		NBTTagCompound data = new NBTTagCompound();
+		data.setInteger("dimensionId", to.dimensionId);
+		data.setIntArray("linkedTo", new int[] { to.x, to.y, to.z });
+		PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, from.x, from.y, from.z));
 	}
 
 	@Override
@@ -208,8 +224,10 @@ public class GUITransporterLinker extends GuiScreen {
 		
 		String subs = search.getText().toLowerCase(Locale.US);
 
-		for(TileEntityTransporterBase transporter : transporters) {
-			if(transporter.getTransporterName().toLowerCase(Locale.US).contains(subs)) {
+		for(TransporterInfo transporter : transporters) {
+			if(transporter.equals(linkFromTransporter)) continue;
+			if(transporter.linkedTo != null && !transporter.linkedTo.equals(linkFromTransporter)) continue;
+			if(transporter.name.toLowerCase(Locale.US).contains(subs)) {
 				visibleTransporters.add(transporter);
 			}
 		}

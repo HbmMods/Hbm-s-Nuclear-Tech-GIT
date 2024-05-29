@@ -13,13 +13,17 @@ import java.util.Set;
 import com.hbm.dim.CelestialBody;
 import com.hbm.inventory.gui.GUITransporterLinker;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.TransporterLinkerPacket;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.TileEntityTransporterBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -31,6 +35,9 @@ import net.minecraftforge.common.DimensionManager;
 
 public class ItemTransporterLinker extends Item implements IGUIProvider {
 	
+	@SideOnly(Side.CLIENT)
+	public static List<TransporterInfo> currentTransporters;
+	
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fx, float fy, float fz) {
 		TileEntity tile = world.getTileEntity(x, y, z);
@@ -41,16 +48,28 @@ public class ItemTransporterLinker extends Item implements IGUIProvider {
 
 		TileEntityTransporterBase transporter = (TileEntityTransporterBase) tile;
 		if(player.isSneaking()) {
-			addTransporter(stack, world, transporter);
-		} else {
-			lastTransporter = transporter;
-			lastTransporter.dimensionId = world.provider.dimensionId;
-			lastTransporter.dimensionImage = CelestialBody.getBody(world).texture;
+			if(!world.isRemote) addTransporter(stack, world, transporter);
+		} else if(world.isRemote) {
+			lastTransporter = TransporterInfo.from(world.provider.dimensionId, transporter);
 			player.openGui(MainRegistry.instance, 0, world, 0, 0, 0);
 		}
 
 		return true;
 	}
+	
+    public void onUpdate(ItemStack stack, World world, Entity entity, int i, boolean b) {
+    	if(world.isRemote || !(entity instanceof EntityPlayerMP))
+    		return;
+    	
+    	if(((EntityPlayerMP)entity).getHeldItem() != stack)
+    		return;
+		
+		List<TransporterInfo> transporters = getTransporters(stack);
+
+		if(entity.ticksExisted % 2 == 0) {
+			PacketDispatcher.wrapper.sendTo(new TransporterLinkerPacket(transporters), (EntityPlayerMP) entity);
+		}
+    }
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
@@ -62,12 +81,12 @@ public class ItemTransporterLinker extends Item implements IGUIProvider {
 		return null;
 	}
 
-	private TileEntityTransporterBase lastTransporter;
+	private TransporterInfo lastTransporter;
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int i, EntityPlayer player, World world, int x, int y, int z) {
-		return new GUITransporterLinker(player, lastTransporter);
+		return new GUITransporterLinker(player, currentTransporters, lastTransporter);
 	}
 
 	// Trivially comparable transporter info, for hashsets and client/server communications
@@ -75,6 +94,7 @@ public class ItemTransporterLinker extends Item implements IGUIProvider {
 
 		public String name;
 		public ResourceLocation planet;
+		public TransporterInfo linkedTo;
 
 		// Comparables
 		public int dimensionId;
@@ -91,7 +111,35 @@ public class ItemTransporterLinker extends Item implements IGUIProvider {
 		}
 
 		public static TransporterInfo from(int dimensionId, TileEntityTransporterBase transporter) {
-			return new TransporterInfo(transporter.getTransporterName(), dimensionId, transporter.xCoord, transporter.yCoord, transporter.zCoord);
+			TransporterInfo info = new TransporterInfo(transporter.getTransporterName(), dimensionId, transporter.xCoord, transporter.yCoord, transporter.zCoord);
+			info.linkedTo = transporter.getLinkedTransporter();
+			return info;
+		}
+
+		public void writeToNBT(NBTTagCompound nbt) {
+            writeToNBT(nbt, true);
+		}
+
+		private void writeToNBT(NBTTagCompound nbt, boolean recurse) {
+			nbt.setString("name", name);
+            nbt.setInteger("dimensionId", dimensionId);
+            nbt.setInteger("x", x);
+			nbt.setInteger("y", y);
+			nbt.setInteger("z", z);
+
+			if(recurse && linkedTo != null) {
+				NBTTagCompound linked = new NBTTagCompound();
+				linkedTo.writeToNBT(linked, false);
+				nbt.setTag("linked", linked);
+			}
+		}
+
+		public static TransporterInfo readFromNBT(NBTTagCompound nbt) {
+			TransporterInfo info = new TransporterInfo(nbt.getString("name"), nbt.getInteger("dimensionId"), nbt.getInteger("x"), nbt.getInteger("y"), nbt.getInteger("z"));
+			if(nbt.hasKey("linked")) {
+				info.linkedTo = readFromNBT(nbt.getCompoundTag("linked"));
+			}
+			return info;
 		}
 
 		@Override
@@ -113,62 +161,33 @@ public class ItemTransporterLinker extends Item implements IGUIProvider {
 
 	}
 
-	public void addTransporter(ItemStack stack, World world, TileEntityTransporterBase transporter) {
+	private void addTransporter(ItemStack stack, World world, TileEntityTransporterBase transporter) {
 		int dimensionId = world.provider.dimensionId;
 
-		Map<Integer, Set<TileEntityTransporterBase>> transporters = loadTransporters(stack);
+		Set<TransporterInfo> transporters = loadTransporters(stack);
 
-		if(!transporters.containsKey(dimensionId))
-			transporters.put(dimensionId, new HashSet<>());
-
-		transporters.get(dimensionId).add(transporter);
+		transporters.add(TransporterInfo.from(dimensionId, transporter));
 
 		saveTransporters(stack, transporters);
 	}
 
-	public static List<TileEntityTransporterBase> getTransporters(ItemStack stack, TileEntityTransporterBase except) {
-		return getTransporters(stack, except, except.getCompatible());
-	}
+	private List<TransporterInfo> getTransporters(ItemStack stack) {
+		List<TransporterInfo> transporters = new ArrayList<>();
+		Set<TransporterInfo> transporterData = loadTransporters(stack);
 
-	public static List<TileEntityTransporterBase> getTransporters(ItemStack stack, TileEntityTransporterBase except, Class<? extends TileEntityTransporterBase> filter) {
-		List<TileEntityTransporterBase> transporters = new ArrayList<>();
-
-		Map<Integer, Set<TileEntityTransporterBase>> transporterData = loadTransporters(stack);
-		
-		for(Entry<Integer, Set<TileEntityTransporterBase>> entry : transporterData.entrySet()) {
-			int dimensionId = entry.getKey();
-
-			for(TileEntityTransporterBase transporter : entry.getValue()) {
-				if(filter.isInstance(transporter)) {
-					if(transporter.getLinkedTransporter() != null ? matches(transporter.getLinkedTransporter(), except) : !matches(transporter, except)) {
-						transporter.dimensionId = dimensionId;
-						transporter.dimensionImage = CelestialBody.getBody(dimensionId).texture;
-						transporters.add(transporter);
-					}
-				}
-			}
-		}
+		transporters.addAll(transporterData);
 
 		return transporters;
 	}
 
-	public static boolean matches(TileEntityTransporterBase a, TileEntityTransporterBase b) {
-		return a.dimensionId == b.dimensionId
-			&& a.xCoord == b.xCoord
-			&& a.yCoord == b.yCoord
-			&& a.zCoord == b.zCoord;
-	}
-
-	private static Map<Integer, Set<TileEntityTransporterBase>> loadTransporters(ItemStack stack) {
+	private static Set<TransporterInfo> loadTransporters(ItemStack stack) {
 		if(stack.stackTagCompound == null)
 			stack.stackTagCompound = new NBTTagCompound();
 			
-		Map<Integer, Set<TileEntityTransporterBase>> transporterCoordinates = new HashMap<>();
+		Set<TransporterInfo> transporterCoordinates = new HashSet<>();
 
 		int[] dimensionsToLoad = stack.stackTagCompound.getIntArray("dimensions");
 		for(int dimensionId : dimensionsToLoad) {
-			if(!transporterCoordinates.containsKey(dimensionId))
-				transporterCoordinates.put(dimensionId, new HashSet<>());
 
 			NBTTagCompound dimensionTag = stack.stackTagCompound.getCompoundTag("d" + dimensionId);
 			int[] coordinateList = dimensionTag.getIntArray("coords");
@@ -178,7 +197,7 @@ public class ItemTransporterLinker extends Item implements IGUIProvider {
 			for(int i = 0; i < coordinateList.length; i += 3) {
 				TileEntity te = world.getTileEntity(coordinateList[i], coordinateList[i+1], coordinateList[i+2]);
 				if(te instanceof TileEntityTransporterBase) {
-					transporterCoordinates.get(dimensionId).add((TileEntityTransporterBase) te);
+					transporterCoordinates.add(TransporterInfo.from(dimensionId, (TileEntityTransporterBase) te));
 				}
 			}
 		}
@@ -186,26 +205,24 @@ public class ItemTransporterLinker extends Item implements IGUIProvider {
 		return transporterCoordinates;
 	}
 
-	private static void saveTransporters(ItemStack stack, Map<Integer, Set<TileEntityTransporterBase>> transporters) {
+	private static void saveTransporters(ItemStack stack, Set<TransporterInfo> transporters) {
 		if(stack.stackTagCompound == null)
 			stack.stackTagCompound = new NBTTagCompound();
 
-		stack.stackTagCompound.setIntArray("dimensions", Arrays.stream(transporters.keySet().toArray()).mapToInt(i -> (int)i).toArray());
+		Map<Integer, List<Integer>> data = new HashMap<>();
 
-		for(Entry<Integer, Set<TileEntityTransporterBase>> entry : transporters.entrySet()) {
+		for(TransporterInfo info : transporters) {
+			if(!data.containsKey(info.dimensionId))
+				data.put(info.dimensionId, new ArrayList<>());
+
+			data.get(info.dimensionId).addAll(Arrays.asList(info.x, info.y, info.z));
+		}
+
+		stack.stackTagCompound.setIntArray("dimensions", Arrays.stream(data.keySet().toArray()).mapToInt(i -> (int)i).toArray());
+
+		for(Entry<Integer, List<Integer>> entry : data.entrySet()) {
 			NBTTagCompound dimensionTag = new NBTTagCompound();
-			int[] coordinateArray = new int[entry.getValue().size() * 3];
-
-			// Collapse into single array
-			int i = 0;
-			for(TileEntityTransporterBase transporter : entry.getValue()) {
-				coordinateArray[i++] = transporter.xCoord;
-				coordinateArray[i++] = transporter.yCoord;
-				coordinateArray[i++] = transporter.zCoord;
-			}
-
-			dimensionTag.setIntArray("coords", coordinateArray);
-
+			dimensionTag.setIntArray("coords", Arrays.stream(entry.getValue().toArray()).mapToInt(i -> (int)i).toArray());
 			stack.stackTagCompound.setTag("d" + entry.getKey(), dimensionTag);
 		}
 	}

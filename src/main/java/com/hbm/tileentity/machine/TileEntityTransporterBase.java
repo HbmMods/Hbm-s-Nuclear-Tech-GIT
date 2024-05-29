@@ -5,6 +5,7 @@ import java.util.stream.IntStream;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.tool.ItemTransporterLinker.TransporterInfo;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -43,8 +44,7 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 
 	// The transporter we're sending our contents to
 	private TileEntityTransporterBase linkedTransporter;
-	private int linkedTransporterDimensionId;
-	private int[] linkedTransporterCoords;
+	private TransporterInfo linkedTransporterInfo;
 
 	protected int inputSlotMax;
 	protected int outputSlotMax;
@@ -62,9 +62,7 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 	public void updateEntity() {
 		if(worldObj.isRemote) return;
 
-		if(linkedTransporter == null && linkedTransporterCoords != null) {
-			getLinkedTransporter(); // Reusing the memoisation
-		}
+		fetchLinkedTransporter();
 
 		if(linkedTransporter != null && canSend(linkedTransporter)) {
 			boolean isDirty = false;
@@ -87,9 +85,9 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 			
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("name", name);
-		if(linkedTransporterCoords != null) {
-			data.setInteger("dimensionId", linkedTransporterDimensionId);
-			data.setIntArray("linkedTo", linkedTransporterCoords);
+		if(linkedTransporterInfo != null) {
+			data.setInteger("dimensionId", linkedTransporterInfo.dimensionId);
+			data.setIntArray("linkedTo", new int[] { linkedTransporterInfo.x, linkedTransporterInfo.y, linkedTransporterInfo.z });
 		}
 		this.networkPack(data, 250);
 	}
@@ -97,16 +95,14 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		super.networkUnpack(nbt);
-
 		name = nbt.getString("name");
 		linkedTransporter = null;
-		linkedTransporterDimensionId = nbt.getInteger("dimensionId");
-
+		int dimensionId = nbt.getInteger("dimensionId");
 		int[] coords = nbt.getIntArray("linkedTo");
 		if(coords.length > 0) {
-			linkedTransporterCoords = coords;
+			linkedTransporterInfo = new TransporterInfo("Linked Transporter", dimensionId, coords[0], coords[1], coords[2]);
 		} else {
-			linkedTransporterCoords = null;
+			linkedTransporterInfo = null;
 		}
 	}
 
@@ -126,36 +122,18 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 		PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, xCoord, yCoord, zCoord));
 	}
 
-	public TileEntityTransporterBase getLinkedTransporter() {
-		if(linkedTransporter == null && linkedTransporterCoords != null) {
-			World transporterWorld = DimensionManager.getWorld(linkedTransporterDimensionId);
-			TileEntity te = transporterWorld.getTileEntity(linkedTransporterCoords[0], linkedTransporterCoords[1], linkedTransporterCoords[2]);
+	private void fetchLinkedTransporter() {
+		if(linkedTransporter == null && linkedTransporterInfo != null) {
+			World transporterWorld = DimensionManager.getWorld(linkedTransporterInfo.dimensionId);
+			TileEntity te = transporterWorld.getTileEntity(linkedTransporterInfo.x, linkedTransporterInfo.y, linkedTransporterInfo.z);
 			if(te != null && te instanceof TileEntityTransporterBase) {
 				linkedTransporter = (TileEntityTransporterBase) te;
 			}
 		}
-
-		return linkedTransporter;
 	}
 
-	public void setLinkedTransporter(TileEntityTransporterBase linkTo) {
-		if(linkTo == this) return;
-
-		linkedTransporter = null;
-
-		if(linkTo == null) {
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("unlink", true);
-			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, xCoord, yCoord, zCoord));
-		}
-
-		int[] linkedTransporterCoords = new int[] { linkTo.xCoord, linkTo.yCoord, linkTo.zCoord };
-		int linkedTransporterDimensionId = linkTo.worldObj.provider.dimensionId;
-
-		NBTTagCompound data = new NBTTagCompound();
-		data.setInteger("dimensionId", linkedTransporterDimensionId);
-		data.setIntArray("linkedTo", linkedTransporterCoords);
-		PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, xCoord, yCoord, zCoord));
+	public TransporterInfo getLinkedTransporter() {
+		return linkedTransporterInfo;
 	}
 
 	@Override
@@ -178,13 +156,12 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 		super.readFromNBT(nbt);
 		name = nbt.getString("name");
 		linkedTransporter = null;
-		linkedTransporterDimensionId = nbt.getInteger("dimensionId");
-
+		int dimensionId = nbt.getInteger("dimensionId");
 		int[] coords = nbt.getIntArray("linkedTo");
 		if(coords.length > 0) {
-			linkedTransporterCoords = coords;
+			linkedTransporterInfo = new TransporterInfo("Linked Transporter", dimensionId, coords[0], coords[1], coords[2]);
 		} else {
-			linkedTransporterCoords = null;
+			linkedTransporterInfo = null;
 		}
 	}
 	
@@ -192,23 +169,44 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setString("name", name);
-		if(linkedTransporterCoords != null) {
-			nbt.setInteger("dimensionId", linkedTransporterDimensionId);
-			nbt.setIntArray("linkedTo", linkedTransporterCoords);
+		if(linkedTransporterInfo != null) {
+			nbt.setInteger("dimensionId", linkedTransporterInfo.dimensionId);
+			nbt.setIntArray("linkedTo", new int[] { linkedTransporterInfo.x, linkedTransporterInfo.y, linkedTransporterInfo.z });
 		}
 	}
 
+	// Is commutative, will automatically link and unlink its pair
 	@Override
 	public void receiveControl(NBTTagCompound nbt) {
 		if(nbt.hasKey("name")) name = nbt.getString("name");
 		if(nbt.hasKey("unlink")) {
+			if(linkedTransporter != null) {
+				linkedTransporter.linkedTransporter = null;
+				linkedTransporter.linkedTransporterInfo = null;
+			}
+
 			linkedTransporter = null;
-			linkedTransporterCoords = null;
+			linkedTransporterInfo = null;
 		}
 		if(nbt.hasKey("linkedTo")) {
+			// If already linked, unlink the target
+			if(linkedTransporter != null) {
+				linkedTransporter.linkedTransporter = null;
+				linkedTransporter.linkedTransporterInfo = null;
+			}
+
 			linkedTransporter = null;
-			linkedTransporterCoords = nbt.getIntArray("linkedTo");
-			linkedTransporterDimensionId = nbt.getInteger("dimensionId");
+			
+			int[] coords = nbt.getIntArray("linkedTo");
+			int dimensionId = nbt.getInteger("dimensionId");
+			linkedTransporterInfo = new TransporterInfo("Linked Transporter", dimensionId, coords[0], coords[1], coords[2]);
+
+			fetchLinkedTransporter();
+
+			if(linkedTransporter != null) {
+				linkedTransporter.linkedTransporterInfo = TransporterInfo.from(worldObj.provider.dimensionId, this);
+				linkedTransporter.fetchLinkedTransporter();
+			}
 		}
 		
 		this.markDirty();
