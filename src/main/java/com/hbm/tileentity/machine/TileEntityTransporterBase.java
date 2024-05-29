@@ -13,6 +13,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
 
+import api.hbm.fluid.IFluidStandardTransceiver;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,34 +21,48 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
+import scala.actors.threadpool.Arrays;
 
-public abstract class TileEntityTransporterBase extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
+public abstract class TileEntityTransporterBase extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, IFluidStandardTransceiver {
 
 	private String name = "Transporter";
 
 	public int dimensionId = 0;
 	public ResourceLocation dimensionImage;
 
-	FluidTank[] tanks;
-	
-	public TileEntityTransporterBase(int slotCount, int tankCount, int tankSize) {
-		super(slotCount + tankCount / 2);
+	public FluidTank[] tanks;
 
-		tanks = new FluidTank[tankCount];
+	public TileEntityTransporterBase(int slotCount, int tankCount, int tankSize) {
+		this(slotCount, tankCount, tankSize, 0, 0, 0);
+	}
+	
+	public TileEntityTransporterBase(int slotCount, int tankCount, int tankSize, int extraSlots, int extraTanks, int extraTankSize) {
+		super(slotCount + tankCount / 2 + extraSlots + extraTanks);
+
+		tanks = new FluidTank[tankCount + extraTanks];
 		for(int i = 0; i < tankCount; i++) {
 			tanks[i] = new FluidTank(Fluids.NONE, tankSize);
+		}
+		for(int i = tankCount; i < tankCount + extraTanks; i++) {
+			tanks[i] = new FluidTank(Fluids.NONE, extraTankSize);
 		}
 
 		inputSlotMax = slotCount / 2;
 		outputSlotMax = slotCount;
+
+		inputTankMax = tankCount / 2;
+		outputTankMax = tankCount;
 	}
 
 	// The transporter we're sending our contents to
 	private TileEntityTransporterBase linkedTransporter;
 	private TransporterInfo linkedTransporterInfo;
 
-	protected int inputSlotMax;
-	protected int outputSlotMax;
+	private int inputSlotMax;
+	private int outputSlotMax;
+
+	private int inputTankMax;
+	private int outputTankMax;
 
 	@Override
 	public String getName() {
@@ -61,6 +76,16 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 	@Override
 	public void updateEntity() {
 		if(worldObj.isRemote) return;
+
+		// Set tank types
+		for(int i = 0; i < inputTankMax; i++) {
+			tanks[i].setType(outputSlotMax + i, slots);
+			subscribeToAllAround(tanks[i].getTankType(), this);
+		}
+		// for(int i = outputTankMax; i < tanks.length; i++) {
+		// 	tanks[i].setType(outputSlotMax + inputTankMax + i, slots);
+		// 	subscribeToAllAround(tanks[i].getTankType(), this);
+		// }
 
 		fetchLinkedTransporter();
 
@@ -76,7 +101,23 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 			}
 
 			// Move all fluids into the target
+			for(int i = 0; i < inputTankMax; i++) {
+				int o = i+inputTankMax;
 
+				linkedTransporter.tanks[o].setTankType(tanks[i].getTankType());
+
+				int sourceFillLevel = tanks[i].getFill();
+				int targetFillLevel = linkedTransporter.tanks[o].getFill();
+
+				int spaceAvailable = linkedTransporter.tanks[o].getMaxFill() - targetFillLevel;
+				int amountToSend = Math.min(sourceFillLevel, spaceAvailable);
+
+				if(amountToSend > 0) {
+					linkedTransporter.tanks[o].setFill(targetFillLevel + amountToSend);
+					tanks[i].setFill(sourceFillLevel - amountToSend);
+					isDirty = true;
+				}
+			}
 
 			if(isDirty)
 				markChanged();
@@ -89,7 +130,23 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 			data.setInteger("dimensionId", linkedTransporterInfo.dimensionId);
 			data.setIntArray("linkedTo", new int[] { linkedTransporterInfo.x, linkedTransporterInfo.y, linkedTransporterInfo.z });
 		}
+		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(data, "t" + i);
 		this.networkPack(data, 250);
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return (FluidTank[]) Arrays.copyOfRange(tanks, inputTankMax, outputTankMax);
+	}
+
+	@Override
+	public FluidTank[] getReceivingTanks() {
+		return (FluidTank[]) Arrays.copyOfRange(tanks, 0, inputTankMax);
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return tanks;
 	}
 	
 	@Override
@@ -104,6 +161,7 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 		} else {
 			linkedTransporterInfo = null;
 		}
+		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
 	}
 
 	// Designated override for delaying sending or requiring fuel
@@ -163,6 +221,7 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 		} else {
 			linkedTransporterInfo = null;
 		}
+		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
 	}
 	
 	@Override
@@ -173,6 +232,7 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 			nbt.setInteger("dimensionId", linkedTransporterInfo.dimensionId);
 			nbt.setIntArray("linkedTo", new int[] { linkedTransporterInfo.x, linkedTransporterInfo.y, linkedTransporterInfo.z });
 		}
+		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(nbt, "t" + i);
 	}
 
 	// Is commutative, will automatically link and unlink its pair

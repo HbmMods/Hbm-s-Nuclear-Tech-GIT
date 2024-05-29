@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.container.ContainerTransporterRocket;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GUITransporterRocket;
 
 import cpw.mods.fml.relauncher.Side;
@@ -13,11 +14,10 @@ import net.minecraft.world.World;
 public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 
     public TileEntityTransporterRocket() {
-        super(18, 8, 64_000);
+        super(16, 8, 64_000, 0, 2, 64_000);
 
-		// We have two extra slots for fuel fluid IDs so manually set these
-		inputSlotMax = 8;
-		outputSlotMax = 16;
+		tanks[8].setTankType(Fluids.HYDROGEN);
+		tanks[9].setTankType(Fluids.OXYGEN);
     }
 
     @Override

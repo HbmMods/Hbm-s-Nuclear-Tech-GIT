@@ -9,11 +9,10 @@ import com.hbm.tileentity.machine.TileEntityTransporterBase;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUITransporterRocket extends GuiContainer {
+public class GUITransporterRocket extends GuiInfoContainer {
 	
 	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_transporter.png");
 
@@ -48,17 +47,53 @@ public class GUITransporterRocket extends GuiContainer {
 	}
 
 	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+
+		for(int i = 0; i < 4; i++) {
+			int x = guiLeft + 8 + i * 18;
+			int y = guiTop + 70;
+			transporter.tanks[i].renderTank(x, y + 34, zLevel, 16, 34);
+		}
+
+		for(int i = 0; i < 4; i++) {
+			int x = guiLeft + 98 + i * 18;
+			int y = guiTop + 70;
+			transporter.tanks[i+4].renderTank(x, y + 34, zLevel, 16, 34);
+		}
+
+		for(int i = 0; i < 2; i++) {
+			int x = guiLeft + 188 + i * 18;
+			int y = guiTop + 18;
+			transporter.tanks[i+8].renderTank(x, y + 70, zLevel, 16, 70);
+		}
+
+		for(int i = 0; i < 4; i++) {
+			int x = guiLeft + 8 + i * 18;
+			int y = guiTop + 70;
+			transporter.tanks[i].renderTankInfo(this, mouseX, mouseY, x, y, 16, 34);
+		}
+
+		for(int i = 0; i < 4; i++) {
+			int x = guiLeft + 98 + i * 18;
+			int y = guiTop + 70;
+			transporter.tanks[i+4].renderTankInfo(this, mouseX, mouseY, x, y, 16, 34);
+		}
+
+		for(int i = 0; i < 2; i++) {
+			int x = guiLeft + 188 + i * 18;
+			int y = guiTop + 18;
+			transporter.tanks[i+8].renderTankInfo(this, mouseX, mouseY, x, y, 16, 70);
+		}
+	}
+
+	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
 		transporterName.drawTextBox();
-	}
-
-	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		
 	}
 
 	@Override

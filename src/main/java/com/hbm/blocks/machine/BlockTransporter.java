@@ -24,9 +24,9 @@ public class BlockTransporter extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
-			return player.getHeldItem().getItem() != ModItems.transporter_linker;
+			return player.getHeldItem() == null || player.getHeldItem().getItem() != ModItems.transporter_linker;
 		
-		if(player.getHeldItem().getItem() != ModItems.transporter_linker) {
+		if(player.getHeldItem() == null || player.getHeldItem().getItem() != ModItems.transporter_linker) {
 			player.openGui(MainRegistry.instance, 0, world, x, y, z);
 			return true;
 		}
