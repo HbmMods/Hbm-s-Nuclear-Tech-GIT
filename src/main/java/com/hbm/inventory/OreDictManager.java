@@ -625,6 +625,16 @@ public class OreDictManager {
 		OreDictionary.registerOre("container1000lubricant", bdcl);
 		OreDictionary.registerOre("itemSilicon", billet_silicon);
 		
+		//Legacy wires
+		OreDictionary.registerOre(AL.wireFine(), wire_aluminium);
+		OreDictionary.registerOre(CU.wireFine(), wire_copper);
+		OreDictionary.registerOre(MINGRADE.wireFine(), wire_red_copper);
+		OreDictionary.registerOre(GOLD.wireFine(), wire_gold);
+		OreDictionary.registerOre(W.wireFine(), wire_tungsten);
+		OreDictionary.registerOre(ALLOY.wireFine(), wire_advanced_alloy);
+		OreDictionary.registerOre(MAGTUNG.wireFine(), wire_magnetized_tungsten);
+		OreDictionary.registerOre(SA326.wireFine(), wire_schrabidium);
+		
 		MaterialShapes.registerCompatShapes();
 		compensateMojangSpaghettiBullshit();
 	}

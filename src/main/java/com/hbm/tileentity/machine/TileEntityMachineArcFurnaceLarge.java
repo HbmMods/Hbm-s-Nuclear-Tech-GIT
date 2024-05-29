@@ -113,7 +113,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				
 				if(ingredients && electrodes && delay <= 0 && this.liquids.isEmpty()) {
 					if(lid > 0) {
-						lid -= 1F/60F;
+						lid -= 1F / (60F / (upgrade * 0.5 + 1));
 						if(lid < 0) lid = 0;
 						this.progress = 0;
 					} else {
@@ -126,7 +126,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 							if(this.progress >= 1F) {
 								this.process();
 								this.progress = 0;
-								this.delay = 120;
+								this.delay = (int) (120 / (upgrade * 0.5 + 1));
 								PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, 15F);
 							}
 						}
@@ -135,7 +135,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 					if(this.delay > 0) delay--;
 					this.progress = 0;
 					if(lid < 1 && this.electrodes[0] != 0 && this.electrodes[1] != 0 && this.electrodes[2] != 0) {
-						lid += 1F/60F;
+						lid += 1F / (60F / (upgrade * 0.5 + 1));
 						if(lid > 1) lid = 1;
 					}
 				}
@@ -147,12 +147,12 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			
 			if(!hasMaterial) hasMaterial = this.hasIngredients();
 			
-			if(!this.liquids.isEmpty() && this.lid >= 1F) {
+			if(!this.liquids.isEmpty() && this.lid > 0F) {
 				
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 				
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1.25D, zCoord + 0.5D + dir.offsetZ * 2.875D, 6, true, this.liquids, MaterialShapes.INGOT.q(1, 2), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1.25D, zCoord + 0.5D + dir.offsetZ * 2.875D, 6, true, this.liquids, MaterialShapes.INGOT.q(1), impact);
 
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();
