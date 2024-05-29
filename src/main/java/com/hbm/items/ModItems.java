@@ -1435,6 +1435,8 @@ public class ModItems {
 	public static Item launch_code_piece;
 	public static Item launch_code;
 	public static Item launch_key;
+
+	public static Item transporter_linker;
 	
 	public static Item missile_assembly;
 	public static Item missile_generic;
@@ -5037,6 +5039,8 @@ public class ModItems {
 		inf_water = new ItemInfiniteFluid(Fluids.WATER, 50, 0.5).setUnlocalizedName("inf_water").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water");
 		inf_water_mk2 = new ItemInfiniteFluid(Fluids.WATER, 500, 0.5).setUnlocalizedName("inf_water_mk2").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":inf_water_mk2");
 
+		transporter_linker = new ItemTransporterLinker().setUnlocalizedName("transporter_linker").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":transporter_linker");
+
 		FluidTank.noDualUnload.add(fluid_barrel_infinite);
 		FluidTank.noDualUnload.add(inf_water);
 		FluidTank.noDualUnload.add(inf_water_mk2);
@@ -6885,6 +6889,8 @@ public class ModItems {
 		//Infinite Tanks
 		GameRegistry.registerItem(inf_water, inf_water.getUnlocalizedName());
 		GameRegistry.registerItem(inf_water_mk2, inf_water_mk2.getUnlocalizedName());
+
+		GameRegistry.registerItem(transporter_linker, transporter_linker.getUnlocalizedName());
 		
 		//Canisters
 		GameRegistry.registerItem(fuel_additive, fuel_additive.getUnlocalizedName());
