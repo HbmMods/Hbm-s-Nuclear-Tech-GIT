@@ -4225,7 +4225,6 @@ item.upgrade_stack_1.name=一级堆栈弹出升级
 item.upgrade_stack_2.name=二级堆栈弹出升级
 item.upgrade_stack_3.name=三级堆栈弹出升级
 item.upgrade_template.name=机器升级模板
-item.v1.name=V1
 item.volcanic_pickaxe.name=熔岩镐
 item.wand_d.name=调试魔杖
 item.wand_k.name=建筑魔杖

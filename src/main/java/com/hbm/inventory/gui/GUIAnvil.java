@@ -7,6 +7,7 @@ import java.util.Locale;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -427,6 +428,7 @@ public class GUIAnvil extends GuiContainer {
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 			RenderHelper.enableGUIStandardItemLighting();
 			GL11.glDisable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 			
 			AnvilConstructionRecipe recipe = recipes.get(i);
 			ItemStack display = recipe.getDisplay();
@@ -438,7 +440,7 @@ public class GUIAnvil extends GuiContainer {
 			itemRender.zLevel = 100.0F;
 			itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), recipe.getDisplay(), guiLeft + 17 + 18 * (ind / 2), guiTop + 72 + 18 * (ind % 2));
 			itemRender.zLevel = 0.0F;
-			
+
 			GL11.glEnable(GL11.GL_ALPHA_TEST);
 			GL11.glDisable(GL11.GL_LIGHTING);
 			this.mc.getTextureManager().bindTexture(texture);

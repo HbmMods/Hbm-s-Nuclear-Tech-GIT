@@ -185,7 +185,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyRecei
 			this.networkPack(data, 250);
 		} else {
 
-			if(isOn) {
+			if(power > powerReq * Math.pow(2, mode.ordinal()) && isOn && !(mode == EnumWavelengths.NULL) && distance - 3 > 0) {
 				audioDuration += 2;
 			} else {
 				audioDuration -= 3;

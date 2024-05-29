@@ -2,25 +2,22 @@ package com.hbm.blocks.bomb;
 
 import java.util.Random;
 
-import org.apache.logging.log4j.Level;
-
 import com.hbm.blocks.machine.BlockPillar;
-import com.hbm.config.GeneralConfig;
+import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.interfaces.IBomb;
-import com.hbm.main.MainRegistry;
 
+import api.hbm.block.IFuckingExplode;
+import codechicken.lib.math.MathHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-public class DetMiner extends BlockPillar implements IBomb {
+public class DetMiner extends BlockPillar implements IBomb, IFuckingExplode {
 
 	public DetMiner(Material mat, String top) {
 		super(mat, top);
@@ -50,8 +47,13 @@ public class DetMiner extends BlockPillar implements IBomb {
 	}
 
 	@Override
-	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion p_149723_5_) {
-		this.explode(world, x, y, z);
+	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion explosion) {
+		if(!world.isRemote) {
+			EntityTNTPrimedBase tntPrimed = new EntityTNTPrimedBase(world, x + 0.5D, y + 0.5D, z + 0.5D, explosion != null ? explosion.getExplosivePlacedBy() : null, this);
+			tntPrimed.fuse = 0;
+			tntPrimed.detonateOnCollision = false;
+			world.spawnEntityInWorld(tntPrimed);
+		}
 	}
 
 	@Override
@@ -60,12 +62,9 @@ public class DetMiner extends BlockPillar implements IBomb {
 			this.explode(world, x, y, z);
 		}
 	}
+
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
-		if(!world.isRemote) {
-			if(GeneralConfig.enableExtendedLogging) {
-				MainRegistry.logger.log(Level.INFO, "[BOMBPL]" + this.getLocalizedName() + " placed at " + x + " / " + y + " / " + z + "! " + "by "+ player.getCommandSenderName());
-		}	
-	}
+	public void explodeEntity(World world, double x, double y, double z, EntityTNTPrimedBase entity) {
+		explode(world, MathHelper.floor_double(x), MathHelper.floor_double(y), MathHelper.floor_double(z));
 	}
 }

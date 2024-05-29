@@ -42,7 +42,7 @@ public class CelestialBody {
 	public float[] color = new float[] {0.4F, 0.4F, 0.4F}; // When too small to render the texture
 
 	public String tidallyLockedTo = null;
-
+	
 	public List<CelestialBody> satellites = new ArrayList<CelestialBody>(); // moon boyes
 	public CelestialBody parent = null;
 

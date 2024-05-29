@@ -6,6 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.effect.EntityNukeTorex;
+import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
@@ -13,6 +14,7 @@ import com.hbm.interfaces.IBomb;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
+import codechicken.lib.math.MathHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -22,16 +24,15 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-public class ExplosiveCharge extends Block implements IBomb, IDetConnectible {
+public class ExplosiveCharge extends BlockDetonatable implements IBomb, IDetConnectible {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 
-	public ExplosiveCharge(Material p_i45394_1_) {
-		super(p_i45394_1_);
+	public ExplosiveCharge(Material material) {
+		super(material, 0, 0, 0, false, false);
 	}
 
 	@Override
@@ -57,16 +58,6 @@ public class ExplosiveCharge extends Block implements IBomb, IDetConnectible {
 			return this.blockIcon;
 
 		return side == 1 ? this.iconTop : (side == 0 ? this.iconTop : this.blockIcon);
-	}
-
-	@Override
-	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion p_149723_5_) {
-		this.explode(world, x, y, z);
-	}
-	
-	@Override
-	public boolean canDropFromExplosion(Explosion explosion) {
-		return false;
 	}
 
 	@Override
@@ -108,6 +99,11 @@ public class ExplosiveCharge extends Block implements IBomb, IDetConnectible {
 				MainRegistry.logger.log(Level.INFO, "[BOMBPL]" + this.getLocalizedName() + " placed at " + x + " / " + y + " / " + z + "! " + "by "+ player.getCommandSenderName());
 		}	
 	}
+	}
+
+	@Override
+	public void explodeEntity(World world, double x, double y, double z, EntityTNTPrimedBase entity) {
+		explode(world, MathHelper.floor_double(x), MathHelper.floor_double(y), MathHelper.floor_double(z));
 	}
 
 }

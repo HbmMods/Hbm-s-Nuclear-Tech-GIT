@@ -3,6 +3,7 @@ package com.hbm.inventory.gui;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.IntBuffer;
+import java.util.function.Function;
 
 import javax.imageio.ImageIO;
 
@@ -31,9 +32,24 @@ public class GUIScreenWikiRender extends GuiScreen {
 	protected static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/nei/gui_nei.png");
 	protected ItemStack[] preview;
     protected int index = 0;
+	protected int scale = 1;
+	protected String saveLocation = "wiki-screenshots";
+	protected String prefix = "";
 
-	public GUIScreenWikiRender(ItemStack[] stacks) {
+	protected Function<ItemStack, String> getStackName = (stack) -> {
+		return stack.getDisplayName();
+	};
+
+	public GUIScreenWikiRender(ItemStack[] stacks, String prefix, String directory, int scale) {
 		this.preview = stacks;
+		this.prefix = prefix;
+		this.saveLocation = directory;
+		this.scale = scale;
+	}
+
+	public GUIScreenWikiRender(ItemStack[] stacks, String prefix, String directory, int scale, Function<ItemStack, String> getStackName) {
+		this(stacks, prefix, directory, scale);
+		this.getStackName = getStackName;
 	}
 
     @Override
@@ -54,11 +70,14 @@ public class GUIScreenWikiRender extends GuiScreen {
 		GL11.glDisable(GL11.GL_LIGHTING);
 		this.drawGuiContainerForegroundLayer(preview[index]);
 		GL11.glEnable(GL11.GL_LIGHTING);
+		
+		ScaledResolution res = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+		int zoom = scale * res.getScaleFactor();
 
         try {
-            String slotName = preview[index].getDisplayName().replaceAll("§.", "").replaceAll("[^\\w ().-]+", "");
+            String slotName = getStackName.apply(preview[index]).replaceAll("§.", "").replaceAll("[^\\w ().-]+", "");
             if(!slotName.endsWith(".name")) {
-                saveScreenshot(Minecraft.getMinecraft().mcDataDir, "Slot " + slotName + ".png", 2, 2, 32, 32, 0xFF8B8B8B);
+                saveScreenshot(Minecraft.getMinecraft().mcDataDir, saveLocation, prefix + slotName + ".png", zoom, zoom, zoom * 16, zoom * 16, 0xFF8B8B8B);
             }
         } catch (Exception ex) {
             // Just skip any failures caused by display name or rendering
@@ -72,7 +91,8 @@ public class GUIScreenWikiRender extends GuiScreen {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(texture);
 		ScaledResolution res = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
-        this.drawTexturedModalRect(0, res.getScaledHeight_double() - 18D, 5, 87, 18, 18);
+		GL11.glScaled(scale, scale, scale);
+        this.drawTexturedModalRect(0, res.getScaledHeight_double() / scale - 18D, 5, 87, 18, 18);
 		GL11.glPopMatrix();
 	}
 
@@ -100,8 +120,10 @@ public class GUIScreenWikiRender extends GuiScreen {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		
+		GL11.glScaled(scale, scale, scale);
+		
 		ScaledResolution res = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
-        GL11.glTranslated(9D, res.getScaledHeight_double() - 9D, -200);
+        GL11.glTranslated(9D, res.getScaledHeight_double() / scale - 9D, -200);
 
 		this.zLevel = 200.0F;
 		itemRender.zLevel = 200.0F;
@@ -122,9 +144,9 @@ public class GUIScreenWikiRender extends GuiScreen {
 
 	// This implementation is based directly on ScreenShotHelper.saveScreenshot()
 	// But allows for defining a rect where you want to sample pixels from
-	private static void saveScreenshot(File dataDir, String fileName, int x, int y, int width, int height, int transparentColor) {
+	private static void saveScreenshot(File dataDir, String ssDir, String fileName, int x, int y, int width, int height, int transparentColor) {
 		try {
-			File screenshotDirectory = new File(dataDir, "wiki-screenshots");
+			File screenshotDirectory = new File(dataDir, ssDir);
 			screenshotDirectory.mkdir();
 
 			int bufferSize = width * height;

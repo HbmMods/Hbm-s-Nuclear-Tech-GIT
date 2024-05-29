@@ -17,8 +17,12 @@ public class EntityItemBuoyant extends EntityItem {
 	
 	@Override
 	public void onUpdate() {
-		
-		if(worldObj.getBlock((int) Math.floor(posX), (int) Math.floor(posY - 0.0625), (int) Math.floor(posZ)).getMaterial() == Material.water) {
+
+		int x = (int) Math.floor(posX);
+		int y = (int) Math.floor(posY - 0.0625);
+		int z = (int) Math.floor(posZ);
+
+		if(worldObj.getBlock(x, y, z).getMaterial() == Material.water && worldObj.getBlockMetadata(x, y, z) < 8) {
 			this.motionY += 0.045D;
 		}
 		

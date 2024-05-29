@@ -212,7 +212,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 					tank.setFill(0);
 				
 				if(worldObj.getTotalWorldTime() % 5 == 0) {
-					FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.BURN, 5F);
+					super.pollute(tank.getTankType(), FluidReleaseType.BURN, 5F);
 				}
 
 				if(power + getHEFromFuel() <= powerCap) {

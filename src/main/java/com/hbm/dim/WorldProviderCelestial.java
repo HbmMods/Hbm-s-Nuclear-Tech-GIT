@@ -153,7 +153,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 		float[] colors = super.calcSunriseSunsetColors(celestialAngle, partialTicks);
 		if(colors == null) return null;
-
+		
 		// Mars IRL has inverted blue sunsets, which look cool as
 		// So carbon dioxide rich atmospheres will do the same
 		// for now, it's just a swizzle between red and blue

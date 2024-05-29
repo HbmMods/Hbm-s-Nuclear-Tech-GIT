@@ -36,6 +36,14 @@ public class ParticleUtil {
 		if(rand.nextInt(12) == 0) {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "duodec");
+		if(world.isRemote) {
+			data.setDouble("posX", x);
+			data.setDouble("posY", y);
+			data.setDouble("posZ", z);
+			MainRegistry.proxy.effectNT(data);
+		} else {
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 150));
+		}
 		}
 	}
 	

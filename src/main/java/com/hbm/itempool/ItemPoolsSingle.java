@@ -5,6 +5,7 @@ import static com.hbm.lib.HbmChestContents.weighted;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 
 import net.minecraft.init.Items;
 import net.minecraft.util.WeightedRandomChestContent;
@@ -48,7 +49,7 @@ public class ItemPoolsSingle {
 					weighted(ModItems.ingot_advanced_alloy, 0, 4, 12, 1),
 					weighted(ModItems.ammo_50bmg, 0, 24, 48, 1),
 					weighted(ModItems.ammo_45, 0, 48, 64, 2),
-					weighted(ModItems.circuit_red_copper, 0, 6, 12, 1),
+					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 3, 6, 1),
 					weighted(ModItems.gas_mask_m65, 0, 1, 1, 1),
 					weighted(ModItems.grenade_if_he, 0, 1, 1, 1),
 					weighted(ModItems.grenade_if_incendiary, 0, 1, 1, 1),
@@ -70,8 +71,8 @@ public class ItemPoolsSingle {
 					weighted(ModItems.gun_uzi, 0, 1, 1, 1),
 					weighted(ModItems.gun_uzi_silencer, 0, 1, 1, 1),
 					weighted(ModItems.clip_uzi, 0, 1, 3, 1),
-					weighted(ModItems.circuit_red_copper, 0, 12, 16, 1),
-					weighted(ModItems.circuit_gold, 0, 2, 6, 1)
+					weighted(ModItems.circuit, EnumCircuitType.VACUUM_TUBE.ordinal(), 12, 16, 1),
+					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 2, 6, 1)
 			};
 		}};
 		
@@ -92,8 +93,8 @@ public class ItemPoolsSingle {
 					weighted(ModItems.gun_fatman, 0, 1, 1, 1),
 					weighted(ModItems.gun_revolver_pip, 0, 1, 1, 1),
 					weighted(ModItems.clip_revolver_pip, 0, 2, 4, 1),
-					weighted(ModItems.circuit_red_copper, 0, 18, 32, 1),
-					weighted(ModItems.circuit_gold, 0, 6, 12, 1)
+					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 18, 32, 1),
+					weighted(ModItems.circuit, EnumCircuitType.BASIC.ordinal(), 6, 12, 1)
 			};
 		}};
 		
@@ -126,8 +127,8 @@ public class ItemPoolsSingle {
 					weighted(ModItems.ingot_boron, 0, 1, 16, 10),
 					weighted(ModItems.ingot_starmetal, 0, 1, 1, 5),
 					weighted(ModItems.crystal_gold, 0, 1, 4, 10),
-					weighted(ModItems.circuit_copper, 0, 4, 8, 10),
-					weighted(ModItems.circuit_red_copper, 0, 2, 4, 10),
+					weighted(ModItems.circuit, EnumCircuitType.VACUUM_TUBE.ordinal(), 4, 8, 10),
+					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 2, 4, 10),
 					weighted(ModItems.definitelyfood, 0, 16, 32, 25),
 					weighted(ModBlocks.crate_can, 0, 1, 3, 10),
 					weighted(ModItems.pill_herbal, 0, 1, 2, 10),

@@ -10,9 +10,13 @@ import static com.hbm.inventory.OreDictManager.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.inventory.OreNames;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.material.MaterialShapes;
+import com.hbm.inventory.material.Mats;
+import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumBriquetteType;
 import com.hbm.items.ItemEnums.EnumPages;
@@ -21,6 +25,7 @@ import com.hbm.items.ItemAmmoEnums.Ammo556mm;
 import com.hbm.items.ItemAmmoEnums.AmmoLunaticSniper;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemStamp;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.machine.ItemStamp.StampType;
 import com.hbm.util.Tuple.Pair;
 
@@ -84,20 +89,13 @@ public class PressRecipes extends SerializableRecipe {
 		makeRecipe(StampType.PLATE, new OreDictStack(BIGMT.ingot()),	ModItems.plate_saturnite);
 		makeRecipe(StampType.PLATE, new OreDictStack(DURA.ingot()),		ModItems.plate_dura_steel);
 
-		makeRecipe(StampType.WIRE, new OreDictStack(AL.ingot()),		new ItemStack(ModItems.wire_aluminium, 8));
-		makeRecipe(StampType.WIRE, new OreDictStack(CU.ingot()),		new ItemStack(ModItems.wire_copper, 8));
-		makeRecipe(StampType.WIRE, new OreDictStack(ZI.ingot()),		new ItemStack(ModItems.wire_zinc, 8));
-		makeRecipe(StampType.WIRE, new OreDictStack(W.ingot()),			new ItemStack(ModItems.wire_tungsten, 8));
-		makeRecipe(StampType.WIRE, new OreDictStack(MINGRADE.ingot()),	new ItemStack(ModItems.wire_red_copper, 8));
-		makeRecipe(StampType.WIRE, new OreDictStack(GOLD.ingot()),		new ItemStack(ModItems.wire_gold, 8));
-		makeRecipe(StampType.WIRE, new OreDictStack(SA326.ingot()),		new ItemStack(ModItems.wire_schrabidium, 8));
-		makeRecipe(StampType.WIRE, new OreDictStack(ALLOY.ingot()),		new ItemStack(ModItems.wire_advanced_alloy, 8));
-		makeRecipe(StampType.WIRE, new OreDictStack(MAGTUNG.ingot()),	new ItemStack(ModItems.wire_magnetized_tungsten, 8));
+		for(NTMMaterial mat : Mats.orderedList) {
+			if(mat.shapes.contains(MaterialShapes.WIRE) && mat.shapes.contains(MaterialShapes.INGOT)) {
+				makeRecipe(StampType.WIRE, new OreDictStack(OreNames.INGOT + mat.names[0]), new ItemStack(ModItems.wire_fine, 8, mat.id));
+			}
+		}
 
-		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_raw),			ModItems.circuit_aluminium);
-		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_bismuth_raw),	ModItems.circuit_bismuth);
-		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_arsenic_raw),	ModItems.circuit_arsenic);
-		makeRecipe(StampType.CIRCUIT, new ComparableStack(ModItems.circuit_tantalium_raw),	ModItems.circuit_tantalium);
+		makeRecipe(StampType.CIRCUIT, new OreDictStack(SI.billet()),						DictFrame.fromOne(ModItems.circuit, EnumCircuitType.SILICON));
 
 		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_iron),			ModItems.ammo_357.stackFromEnum(24, Ammo357Magnum.IRON));
 		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_steel),		ModItems.ammo_357.stackFromEnum(24, Ammo357Magnum.LEAD));
