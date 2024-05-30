@@ -96,7 +96,8 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 					isDirty = true;
 				}
 			}
-
+	
+			
 			// Move all fluids into the target
 			for(int i = 0; i < inputTankMax; i++) {
 				int o = i+inputTankMax;
@@ -132,6 +133,8 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 			for(int i = 0; i < tanks.length; i++) {
 				if(tanks[i].getTankType() != Fluids.NONE) {
 					trySubscribe(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+
 				}
 			}
 		}
