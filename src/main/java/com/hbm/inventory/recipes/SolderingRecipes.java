@@ -8,6 +8,7 @@ import java.util.List;
 
 import static com.hbm.inventory.OreDictManager.*;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -201,12 +202,45 @@ public class SolderingRecipes extends SerializableRecipe {
 
 	@Override
 	public void readRecipe(JsonElement recipe) {
+		JsonObject obj = (JsonObject) recipe;
+
+		AStack[] toppings = this.readAStackArray(obj.get("toppings").getAsJsonArray());
+		AStack[] pcb = this.readAStackArray(obj.get("pcb").getAsJsonArray());
+		AStack[] solder = this.readAStackArray(obj.get("solder").getAsJsonArray());
+		FluidStack fluid = obj.has("fluid") ? this.readFluidStack(obj.get("fluid").getAsJsonArray()) : null;
+		ItemStack output = this.readItemStack(obj.get("output").getAsJsonArray());
+		int duration = obj.get("duration").getAsInt();
+		long consumption = obj.get("consumption").getAsLong();
 		
+		recipes.add(new SolderingRecipe(output, duration, consumption, fluid, toppings, pcb, solder));
 	}
 
 	@Override
 	public void writeRecipe(Object obj, JsonWriter writer) throws IOException {
+		SolderingRecipe recipe = (SolderingRecipe) obj;
 		
+		writer.name("toppings").beginArray();
+		for(AStack aStack : recipe.toppings) this.writeAStack(aStack, writer);
+		writer.endArray();
+		
+		writer.name("pcb").beginArray();
+		for(AStack aStack : recipe.pcb) this.writeAStack(aStack, writer);
+		writer.endArray();
+		
+		writer.name("solder").beginArray();
+		for(AStack aStack : recipe.solder) this.writeAStack(aStack, writer);
+		writer.endArray();
+		
+		if(recipe.fluid != null) {
+			writer.name("fluid");
+			this.writeFluidStack(recipe.fluid, writer);
+		}
+		
+		writer.name("output");
+		this.writeItemStack(recipe.output, writer);
+
+		writer.name("duration").value(recipe.duration);
+		writer.name("consumption").value(recipe.consumption);
 	}
 
 	public static HashSet<AStack> toppings = new HashSet();
