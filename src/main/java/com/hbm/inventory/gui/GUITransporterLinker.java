@@ -60,7 +60,7 @@ public class GUITransporterLinker extends GuiScreen {
 			int scroll = Mouse.getEventDWheel();
 			
 			if(scroll > 0 && index > 0) index--;
-			if(scroll < 0 && index < transporters.size() - 5) index++;
+			if(scroll < 0 && index < visibleTransporters.size() - 5) index++;
 		}
 	}
 
@@ -165,7 +165,7 @@ public class GUITransporterLinker extends GuiScreen {
 		if(visibleTransporters.size() > 5) {
 			x = guiLeft + 202;
 			int y = guiTop + 68 + MathHelper.floor_float((float)index / (float)(visibleTransporters.size() - 5) * 114.0F);
-			drawTexturedModalRect(x, y, xSize, 36, 14, 15);
+			drawTexturedModalRect(x, y, xSize, 54, 14, 15);
 		}
 	}
 
@@ -188,6 +188,16 @@ public class GUITransporterLinker extends GuiScreen {
 					player.closeScreen();
 				}
 			}
+		}
+	}
+	
+	@Override
+	protected void mouseClickMove(int mouseX, int mouseY, int lastButtonClicked, long timeSinceLastClick) {
+		super.mouseClickMove(mouseX, mouseY, lastButtonClicked, timeSinceLastClick);
+
+		if(isInAABB(mouseX, mouseY, guiLeft + 198, guiTop + 64, 22, 137)) {
+			index = MathHelper.floor_float((mouseY - (guiTop + 68)) / 114.0F * (float)(visibleTransporters.size() - 5));
+			index = MathHelper.clamp_int(index, 0, visibleTransporters.size() - 5);
 		}
 	}
 

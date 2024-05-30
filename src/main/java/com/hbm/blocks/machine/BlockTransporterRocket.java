@@ -6,6 +6,7 @@ import com.hbm.main.ChunkLoaderManager;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityTransporterRocket;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,8 +42,21 @@ public class BlockTransporterRocket extends BlockDummyable {
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 		if(world.isRemote) return;
+
+		// If we don't have a position, we failed to place, and should skip chunkloading
 		int[] pos = findCore(world, x, y, z);
-		ChunkLoaderManager.forceChunk(world, pos[0], pos[2]);
+		if(pos != null) {
+			ChunkLoaderManager.forceChunk(world, pos[0], pos[1], pos[2]);
+		}
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block b, int meta) {
+		if(meta >= 12) {
+			ChunkLoaderManager.unforceChunk(world, x, y, z);
+		}
+
+		super.breakBlock(world, x, y, z, b, meta);
 	}
 
 	@Override
