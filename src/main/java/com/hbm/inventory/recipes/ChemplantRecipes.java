@@ -421,7 +421,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 			.outputFluids(
 				new FluidStack(300, Fluids.BITUMEN),
 				new FluidStack(700, Fluids.SMEAR)));
-		recipes.add(new ChemRecipe(201, "FP_HEAVYOIL_VACUMM", 50)
+		recipes.add(new ChemRecipe(201, "FP_HEAVYOIL_VACUUM", 50)
 			.inputFluids(new FluidStack(1000, Fluids.HEAVYOIL_VACUUM))
 			.outputFluids(
 				new FluidStack(400, Fluids.SMEAR),
@@ -461,7 +461,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 			.outputFluids(
 				new FluidStack(700, Fluids.KEROSENE),
 				new FluidStack(300, Fluids.PETROLEUM)));
-		recipes.add(new ChemRecipe(233, "FP_LIGHTOIL_VACUMM", 50)
+		recipes.add(new ChemRecipe(233, "FP_LIGHTOIL_VACUUM", 50)
 			.inputFluids(new FluidStack(1000, Fluids.LIGHTOIL_VACUUM))
 			.outputFluids(
 				new FluidStack(700, Fluids.KEROSENE),
