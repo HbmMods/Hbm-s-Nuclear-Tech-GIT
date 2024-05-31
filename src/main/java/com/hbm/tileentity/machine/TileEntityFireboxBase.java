@@ -3,9 +3,12 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.dim.CelestialBody;
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.module.ModuleBurnTime;
@@ -56,6 +59,14 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
+			if (atmosphere == null) {
+				return;
+				
+			}
+			else if(!atmosphere.hasFluid(Fluids.AIR) && !atmosphere.hasFluid(Fluids.OXYGEN)) {
+				return;
+			}
 			
 			for(int i = 2; i < 6; i++) {
 				ForgeDirection dir = ForgeDirection.getOrientation(i);

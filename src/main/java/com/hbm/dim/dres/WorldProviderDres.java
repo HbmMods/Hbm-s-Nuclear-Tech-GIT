@@ -23,9 +23,5 @@ public class WorldProviderDres extends WorldProviderCelestial {
 		return new ChunkProviderDres(this.worldObj, this.getSeed(), false);
 	}
 
-	@Override
-	public Block getStone() {
-		return ModBlocks.block_meteor_broken;
-	}
 
 }

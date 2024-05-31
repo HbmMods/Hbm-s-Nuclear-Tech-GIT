@@ -30,7 +30,12 @@ import net.minecraftforge.event.terraingen.ChunkProviderEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class ChunkProviderDres implements IChunkProvider {
-
+// i am so pissed off.
+// why is this class so fucking complex and fucking stupid and fucked up fuck this fuck that fuck MY LIFE
+//not to mention, its ONLY dres that has this stupid issue where i cant seem to specify the stone/surface layers. like the ONLY dimension
+// worst part was it worked at one point, why didnt it???????
+//fucking hell
+//if theres a way where this shit can be polymorphized so i dont have 2002103012031203210301203120312030123012030120321 variables not being called for shit then PUH-LEASE
 	/** RNG. */
 	private Random rand;
 	private NoiseGeneratorOctaves octave1;
@@ -98,7 +103,7 @@ public class ChunkProviderDres implements IChunkProvider {
 		// seaLevel = 0;
 		// oceanBlock = dimProperties.getOceanBlock();
 
-		fillblock = ModBlocks.block_meteor_broken;
+		fillblock = ModBlocks.dres_rock;
 
 		NoiseGenerator[] noiseGens = { octave1, octave2, octave3, octave4, noiseGen5, noiseGen6, mobSpawnerNoise };
 		noiseGens = TerrainGen.getModdedNoiseGenerators(DresWorld, this.rand, noiseGens);

@@ -59,7 +59,7 @@ public class BiomeGenDresCanyon extends BiomeGenBase {
 
                 if (block2 != null && block2.getMaterial() != Material.air)
                 {
-                    if (block2 == ModBlocks.sellafield_slaked)
+                    if (block2 == ModBlocks.dres_rock)
                     {
                         if (k == -1)
                         {

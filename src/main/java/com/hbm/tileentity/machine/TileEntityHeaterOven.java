@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.inventory.container.ContainerFirebox;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GUIFirebox;
@@ -57,10 +58,6 @@ public class TileEntityHeaterOven extends TileEntityFireboxBase implements IConf
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
-			if(!atmosphere.hasFluid(Fluids.AIR) && !atmosphere.hasFluid(Fluids.OXYGEN)) {
-				return;
-			}
 			this.tryPullHeat();
 		}
 		
