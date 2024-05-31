@@ -22,6 +22,10 @@ public class WorldProviderDres extends WorldProviderCelestial {
 	public IChunkProvider createChunkGenerator() {
 		return new ChunkProviderDres(this.worldObj, this.getSeed(), false);
 	}
-
+	// sorry mellow...
+	@Override
+	public Block getStone() {
+		return ModBlocks.dres_rock;
+	}
 
 }
