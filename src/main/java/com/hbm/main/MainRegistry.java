@@ -375,14 +375,14 @@ public class MainRegistry {
 
 		EntityMappings.writeMappings();
 		
-		
+
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
 
 			@Override
 			public void ticketsLoaded(List<Ticket> tickets, World world) {
 				for(Ticket ticket : tickets) {
 					if(ticket.getType() == ForgeChunkManager.Type.NORMAL) {
-						ChunkLoaderManager.loadTicket(ticket);
+						ChunkLoaderManager.loadTicket(world, ticket);
 						return;
 					}
 
@@ -392,8 +392,8 @@ public class MainRegistry {
 				}
 			}
 		});
-        network = NetworkRegistry.INSTANCE.newSimpleChannel("YourModChannel");
-        network.registerMessage(FogColorMessageHandler.class, FogMessage.class, 0, Side.CLIENT);
+		network = NetworkRegistry.INSTANCE.newSimpleChannel("YourModChannel");
+		network.registerMessage(FogColorMessageHandler.class, FogMessage.class, 0, Side.CLIENT);
 
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_generic, new BehaviorProjectileDispense() {
 
