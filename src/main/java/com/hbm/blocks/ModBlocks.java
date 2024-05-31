@@ -89,6 +89,7 @@ public class ModBlocks {
 	public static Block ore_palladium;
 	public static Block ore_iodine;
 	public static Block ore_arsenic;
+	public static Block ore_silicon;
 
 	public static Block ore_random;
 	public static Block ore_bedrock;
@@ -1359,7 +1360,8 @@ public class ModBlocks {
 		ore_asbestos = new BlockOutgas(Material.rock, true, 5, true).setBlockName("ore_asbestos").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":ore_asbestos");
 		ore_coal_oil = new BlockCoalOil(Material.rock).setBlockName("ore_coal_oil").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":ore_coal_oil");
 		ore_coal_oil_burning = new BlockCoalBurning(Material.rock).setBlockName("ore_coal_oil_burning").setCreativeTab(MainRegistry.blockTab).setLightLevel(10F/15F).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":ore_coal_oil_burning");
-		
+		ore_silicon = new BlockOre(Material.rock).setBlockName("ore_silicon").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_silicon");
+
 		cluster_iron = new BlockCluster(Material.rock).setBlockName("cluster_iron").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":cluster_iron");
 		cluster_titanium = new BlockCluster(Material.rock).setBlockName("cluster_titanium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":cluster_titanium");
 		cluster_aluminium = new BlockCluster(Material.rock).setBlockName("cluster_aluminium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":cluster_aluminium");
@@ -2587,7 +2589,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_palladium, ore_palladium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_iodine, ore_iodine.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_arsenic, ore_arsenic.getUnlocalizedName());
-		
+		GameRegistry.registerBlock(ore_silicon, ore_silicon.getUnlocalizedName());
+
 		//Rare Minerals
 		GameRegistry.registerBlock(ore_australium, ItemOreBlock.class, ore_australium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_weidanium, ItemOreBlock.class, ore_weidanium.getUnlocalizedName());
