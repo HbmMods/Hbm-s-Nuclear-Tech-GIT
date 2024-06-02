@@ -1,10 +1,17 @@
 package com.hbm.inventory.gui;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
+import codechicken.nei.VisiblityData;
+import codechicken.nei.api.INEIGuiHandler;
+import codechicken.nei.api.TaggedInventoryArea;
+import com.hbm.inventory.SlotPattern;
+import com.hbm.inventory.container.ContainerBase;
+import com.hbm.packet.NBTControlPacket;
+import com.hbm.packet.PacketDispatcher;
+import cpw.mods.fml.common.Optional;
+import net.minecraft.item.Item;
+import net.minecraft.nbt.NBTTagCompound;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -25,8 +32,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class GuiInfoContainer extends GuiContainer {
-	
+@Optional.Interface(iface = "codechicken.nei.api.INEIGuiHandler", modid = "NotEnoughItems")
+public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHandler {
+
 	static final ResourceLocation guiUtil =  new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_utility.png");
 
 	public GuiInfoContainer(Container p_i1072_1_) {
@@ -106,6 +114,22 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	protected boolean isMouseOverSlot(Slot slot, int x, int y) {
 		return this.func_146978_c(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, x, y);
 	}
+
+	//whoever made this private on the super deserves to eat a bowl of wasps
+	public Slot getSlotAtPosition(int p_146975_1_, int p_146975_2_)
+	{
+		for (int k = 0; k < this.inventorySlots.inventorySlots.size(); ++k)
+		{
+			Slot slot = (Slot)this.inventorySlots.inventorySlots.get(k);
+
+			if (this.isMouseOverSlot(slot, p_146975_1_, p_146975_2_))
+			{
+				return slot;
+			}
+		}
+
+		return null;
+	}
 	
 	protected boolean checkClick(int x, int y, int left, int top, int sizeX, int sizeY) {
 		return guiLeft + left <= x && guiLeft + left + sizeX > x && guiTop + top < y && guiTop + top + sizeY >= y;
@@ -135,6 +159,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	public FontRenderer getFontRenderer() {
 		return this.fontRendererObj;
 	}
+
 
 	protected void drawItemStack(ItemStack stack, int x, int y, String label) {
 		GL11.glTranslatef(0.0F, 0.0F, 32.0F);
@@ -266,4 +291,51 @@ public abstract class GuiInfoContainer extends GuiContainer {
 			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		}
 	}
+	///NEI drag and drop support
+	@Override
+	@Optional.Method(modid = "NotEnoughItems")
+	public boolean handleDragNDrop(GuiContainer gui, int x, int y, ItemStack stack, int button) {
+		if(gui instanceof GuiInfoContainer && stack != null){
+			Slot slot = getSlotAtPosition(x,y);
+			if(slot instanceof SlotPattern){
+				if(inventorySlots instanceof ContainerBase) {
+					NBTTagCompound tag = new NBTTagCompound();
+					tag.setInteger("slot", slot.slotNumber);
+					//Item IDs are usually dangerous, but this is only getting called from clientside, while ingame anyway
+					//if someone somehow gets an ID shift with this i will eat my shoe - 70k
+					tag.setInteger("id", Item.getIdFromItem(stack.getItem()));
+					tag.setInteger("meta", stack.getItemDamage());
+
+					TileEntity te = (TileEntity) ((ContainerBase) inventorySlots).te;
+					PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(tag, te.xCoord, te.yCoord, te.zCoord));
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	//all credits for impl to GTNH's EnderCore fork
+	@Override
+	@Optional.Method(modid = "NotEnoughItems")
+	public boolean hideItemPanelSlot(GuiContainer gc, int x, int y, int w, int h) {
+		return false;
+	}
+	@Override
+	@Optional.Method(modid = "NotEnoughItems")
+	public VisiblityData modifyVisiblity(GuiContainer gc, VisiblityData vd) {
+		return vd;
+	}
+
+	@Override
+	@Optional.Method(modid = "NotEnoughItems")
+	public Iterable<Integer> getItemSpawnSlots(GuiContainer gc, ItemStack is) {
+		return null;
+	}
+
+	@Override
+	@Optional.Method(modid = "NotEnoughItems")
+	public List<TaggedInventoryArea> getInventoryAreas(GuiContainer gc) {
+		return Collections.emptyList();
+	}
+
 }

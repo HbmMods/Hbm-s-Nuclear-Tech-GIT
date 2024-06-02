@@ -11,11 +11,12 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerCraneExtractor extends Container {
+public class ContainerCraneExtractor extends ContainerBase {
 	
 	protected TileEntityCraneExtractor extractor;
 	
 	public ContainerCraneExtractor(InventoryPlayer invPlayer, TileEntityCraneExtractor extractor) {
+		super(invPlayer, extractor);
 		this.extractor = extractor;
 		
 		//filter
@@ -36,15 +37,8 @@ public class ContainerCraneExtractor extends Container {
 		this.addSlotToContainer(new SlotUpgrade(extractor, 18, 152, 23));
 		this.addSlotToContainer(new SlotUpgrade(extractor, 19, 152, 47));
 
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 103 + i * 18));
-			}
-		}
+		playerInv(invPlayer, 8, 103, 161);
 
-		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 161));
-		}
 	}
 
 	@Override
@@ -89,11 +83,6 @@ public class ContainerCraneExtractor extends Container {
 		}
 
 		return var3;
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-		return extractor.isUseableByPlayer(player);
 	}
 
 	@Override

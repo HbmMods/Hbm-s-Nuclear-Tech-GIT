@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
  * @author 70k **/
 public class ContainerBase extends Container {
 
-    protected IInventory te;
+    public IInventory te;
 
     public ContainerBase (InventoryPlayer invPlayer, IInventory tedf){
         te = tedf;
