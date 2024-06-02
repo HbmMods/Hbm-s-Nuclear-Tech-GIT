@@ -29,7 +29,7 @@ public abstract class EntityDroneBase extends Entity {
 	
 	public void setTarget(double x, double y, double z) {
 		this.targetX = x;
-		this.targetY = y;
+		this.targetY = y + 1;
 		this.targetZ = z;
 	}
 

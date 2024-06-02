@@ -17,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -61,78 +62,97 @@ public class EntityRequestDrone extends EntityDroneBase {
 					} else if(next instanceof AStack && heldItem == null) {
 						
 						AStack aStack = (AStack) next;
-						TileEntity tile = worldObj.getTileEntity((int) Math.floor(posX), (int) Math.floor(posY - 1), (int) Math.floor(posZ));
-						
-						if(tile instanceof TileEntityDroneProvider) {
-							TileEntityDroneProvider provider = (TileEntityDroneProvider) tile;
-							
-							for(int i = 0; i < provider.slots.length; i++) {
-								ItemStack stack = provider.slots[i];
-								
-								if(stack != null && aStack.matchesRecipe(stack, true)) {
-									this.heldItem = stack.copy();
-									this.setAppearance(1);
-									worldObj.playSoundEffect(posX, posY, posZ, "hbm:item.unpack", 0.5F, 0.75F);
-									provider.slots[i] = null;
-									provider.markDirty();
-									break;
+						//to make DAMN sure this fuckin idiot doesnt miss the dock
+						Vec3 pos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+						Vec3 nextPos = Vec3.createVectorHelper(this.posX, this.posY - 4, this.posZ);
+						MovingObjectPosition mop = this.worldObj.rayTraceBlocks(pos, nextPos);
+
+						if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+
+							TileEntity tile = worldObj.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+							if (tile instanceof TileEntityDroneProvider) {
+								TileEntityDroneProvider provider = (TileEntityDroneProvider) tile;
+
+								for (int i = 0; i < provider.slots.length; i++) {
+									ItemStack stack = provider.slots[i];
+
+									if (stack != null && aStack.matchesRecipe(stack, true)) {
+										this.heldItem = stack.copy();
+										this.setAppearance(1);
+										worldObj.playSoundEffect(posX, posY, posZ, "hbm:item.unpack", 0.5F, 0.75F);
+										provider.slots[i] = null;
+										provider.markDirty();
+										break;
+									}
 								}
 							}
 						}
 						nextActionTimer = 5;
 					} else if(next == DroneProgram.UNLOAD && this.heldItem != null) {
-	
-						TileEntity tile = worldObj.getTileEntity((int) Math.floor(posX), (int) Math.floor(posY - 1), (int) Math.floor(posZ));
-						if(tile instanceof TileEntityDroneRequester) {
-							TileEntityDroneRequester requester = (TileEntityDroneRequester) tile;
-							
-							for(int i = 9; i < 18; i++) {
-								ItemStack stack = requester.slots[i];
-								if(stack != null && stack.getItem() == heldItem.getItem() && stack.getItemDamage() == heldItem.getItemDamage()) {
-									int toTransfer = Math.min(stack.getMaxStackSize() - stack.stackSize, heldItem.stackSize);
-									requester.slots[i].stackSize += toTransfer;
-									this.heldItem.stackSize -= toTransfer;
+						Vec3 pos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+						Vec3 nextPos = Vec3.createVectorHelper(this.posX, this.posY - 4, this.posZ);
+						MovingObjectPosition mop = this.worldObj.rayTraceBlocks(pos, nextPos);
+
+						if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+
+							TileEntity tile = worldObj.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+							if (tile instanceof TileEntityDroneRequester) {
+								TileEntityDroneRequester requester = (TileEntityDroneRequester) tile;
+
+								for (int i = 9; i < 18; i++) {
+									ItemStack stack = requester.slots[i];
+									if (stack != null && stack.getItem() == heldItem.getItem() && stack.getItemDamage() == heldItem.getItemDamage()) {
+										int toTransfer = Math.min(stack.getMaxStackSize() - stack.stackSize, heldItem.stackSize);
+										requester.slots[i].stackSize += toTransfer;
+										this.heldItem.stackSize -= toTransfer;
+									}
 								}
-							}
-							
-							if(this.heldItem.stackSize <= 0) this.heldItem = null;
-							
-							if(this.heldItem != null) for(int i = 9; i < 18; i++) {
-								if(requester.slots[i] == null) {
-									requester.slots[i] = this.heldItem.copy();
-									this.heldItem = null;
-									break;
+
+								if (this.heldItem.stackSize <= 0) this.heldItem = null;
+
+								if (this.heldItem != null) for (int i = 9; i < 18; i++) {
+									if (requester.slots[i] == null) {
+										requester.slots[i] = this.heldItem.copy();
+										this.heldItem = null;
+										break;
+									}
 								}
+
+								if (this.heldItem == null) {
+									this.setAppearance(0);
+									worldObj.playSoundEffect(posX, posY, posZ, "hbm:item.unpack", 0.5F, 0.75F);
+								}
+
+								requester.markDirty();
 							}
-							
-							if(this.heldItem == null) {
-								this.setAppearance(0);
-								worldObj.playSoundEffect(posX, posY, posZ, "hbm:item.unpack", 0.5F, 0.75F);
-							}
-							
-							requester.markDirty();
 						}
 						nextActionTimer = 5;
 					} else if(next == DroneProgram.DOCK) {
-	
-						TileEntity tile = worldObj.getTileEntity((int) Math.floor(posX), (int) Math.floor(posY - 1), (int) Math.floor(posZ));
-						if(tile instanceof TileEntityDroneDock) {
-							TileEntityDroneDock dock = (TileEntityDroneDock) tile;
-							
-							for(int i = 0; i < dock.slots.length; i++) {
-								if(dock.slots[i] == null) {
-									this.setDead();
-									dock.slots[i] = new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal());
-									this.worldObj.playSoundEffect(dock.xCoord + 0.5, dock.yCoord + 0.5, dock.zCoord + 0.5, "hbm:block.storageClose", 2.0F, 1.0F);
-									break;
+						Vec3 pos = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
+						Vec3 nextPos = Vec3.createVectorHelper(this.posX, this.posY - 4, this.posZ);
+						MovingObjectPosition mop = this.worldObj.rayTraceBlocks(pos, nextPos);
+
+						if (mop != null && mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+
+							TileEntity tile = worldObj.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+							if (tile instanceof TileEntityDroneDock) {
+								TileEntityDroneDock dock = (TileEntityDroneDock) tile;
+
+								for (int i = 0; i < dock.slots.length; i++) {
+									if (dock.slots[i] == null) {
+										this.setDead();
+										dock.slots[i] = new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal());
+										this.worldObj.playSoundEffect(dock.xCoord + 0.5, dock.yCoord + 0.5, dock.zCoord + 0.5, "hbm:block.storageClose", 2.0F, 1.0F);
+										break;
+									}
 								}
 							}
 						}
-						
-						if(!this.isDead) {
+						if (!this.isDead) {
 							this.setDead();
 							this.entityDropItem(new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal()), 1F);
 						}
+
 					}
 				}
 			}
