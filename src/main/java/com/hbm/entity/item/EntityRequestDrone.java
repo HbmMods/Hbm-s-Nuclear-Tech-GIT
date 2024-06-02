@@ -137,11 +137,16 @@ public class EntityRequestDrone extends EntityDroneBase {
 							TileEntity tile = worldObj.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
 							if (tile instanceof TileEntityDroneDock) {
 								TileEntityDroneDock dock = (TileEntityDroneDock) tile;
-
+								ItemStack drone = new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal());
 								for (int i = 0; i < dock.slots.length; i++) {
-									if (dock.slots[i] == null) {
+									if (dock.slots[i] == null || (dock.slots[i].isItemEqual(drone) && dock.slots[i].stackSize < 64)) {
 										this.setDead();
-										dock.slots[i] = new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal());
+										if(heldItem != null){
+											if(i != 9 && dock.slots[i + 1] != null){
+												dock.slots[i + 1] = heldItem.copy();
+											}
+										}
+										dock.slots[i] = drone.copy();
 										this.worldObj.playSoundEffect(dock.xCoord + 0.5, dock.yCoord + 0.5, dock.zCoord + 0.5, "hbm:block.storageClose", 2.0F, 1.0F);
 										break;
 									}
@@ -150,6 +155,7 @@ public class EntityRequestDrone extends EntityDroneBase {
 						}
 						if (!this.isDead) {
 							this.setDead();
+							this.entityDropItem(heldItem, 1F);
 							this.entityDropItem(new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal()), 1F);
 						}
 
