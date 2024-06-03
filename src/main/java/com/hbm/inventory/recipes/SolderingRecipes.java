@@ -30,6 +30,10 @@ public class SolderingRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 		
+		/*
+		 * CIRCUITS
+		 */
+		
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.ANALOG.ordinal()), 100, 100,
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 3, EnumCircuitType.VACUUM_TUBE),
@@ -82,6 +86,34 @@ public class SolderingRecipes extends SerializableRecipe {
 						new OreDictStack(ANY_HARDPLASTIC.ingot(), 2)},
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 12)}
+		));
+		
+		/*
+		 * COMPUTERS
+		 */
+
+		// a very, very vague guess on what the recipes should be. testing still needed, upgrade requirements are likely to change. maybe inclusion of caesium?
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER.ordinal()), 400, 15_000,
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 32, EnumCircuitType.CHIP),
+						new ComparableStack(ModItems.circuit, 32, EnumCircuitType.CAPACITOR),
+						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CAPACITOR_TANTALIUM)},
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 12, EnumCircuitType.CONTROLLER_CHASSIS),
+						new ComparableStack(ModItems.upgrade_speed_1)},
+				new AStack[] {
+						new OreDictStack(PB.wireFine(), 16)}
+		));
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER_ADVANCED.ordinal()), 600, 25_000,
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CHIP_BISMOID),
+						new ComparableStack(ModItems.circuit, 48, EnumCircuitType.CAPACITOR),
+						new ComparableStack(ModItems.circuit, 32, EnumCircuitType.CAPACITOR_TANTALIUM)},
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 12, EnumCircuitType.CONTROLLER_CHASSIS),
+						new ComparableStack(ModItems.upgrade_speed_3)},
+				new AStack[] {
+						new OreDictStack(PB.wireFine(), 24)}
 		));
 
 		/*

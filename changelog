@@ -3,7 +3,10 @@
   * Stairs, but fast
 
 ## Changed
+* Wires now use recipe autogen for anvils, meaning that all fine wires are now obtainable via tier 4 anvil
 
 ## Fixed
 * Fixed dupe regarding conveyor grabbers
 * Fixed soldering stations not saving progress or their fluid tanks
+* Fixed a bug where missile debris would always spawn with a stack size of 1 and a meta of 0
+* Fixed FM radios disassembling into incorrect parts

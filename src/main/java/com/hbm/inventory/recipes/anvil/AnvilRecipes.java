@@ -149,14 +149,11 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CMB.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_combine_steel))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(BIGMT.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_saturnite))).setTier(3));
 
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(AL.ingot()), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, Mats.MAT_ALUMINIUM.id))).setTier(4));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CU.ingot()), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, Mats.MAT_COPPER.id))).setTier(4));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(W.ingot()), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, Mats.MAT_TUNGSTEN.id))).setTier(4));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(MINGRADE.ingot()), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, Mats.MAT_MINGRADE.id))).setTier(4));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(ALLOY.ingot()), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, Mats.MAT_ALLOY.id))).setTier(4));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(GOLD.ingot()), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, Mats.MAT_GOLD.id))).setTier(4));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(SA326.ingot()), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, Mats.MAT_SCHRABIDIUM.id))).setTier(4));
-		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(MAGTUNG.ingot()), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, Mats.MAT_MAGTUNG.id))).setTier(4));
+		for(NTMMaterial mat : Mats.orderedList) {
+			if(mat.shapes.contains(MaterialShapes.WIRE) && mat.shapes.contains(MaterialShapes.INGOT)) {
+				constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(OreNames.INGOT + mat.names[0]), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, mat.id))).setTier(4));
+			}
+		}
 
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(COAL.dust()), new AnvilOutput(new ItemStack(Items.coal))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(NETHERQUARTZ.dust()), new AnvilOutput(new ItemStack(Items.quartz))).setTier(3));
@@ -879,7 +876,7 @@ public class AnvilRecipes {
 				new AnvilOutput[] {
 						new AnvilOutput(new ItemStack(ModItems.plate_steel, 4)),
 						new AnvilOutput(new ItemStack(ModItems.wire_fine, 1, Mats.MAT_COPPER.id)),
-						new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BASIC.ordinal()), 0.5F),
+						new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.VACUUM_TUBE.ordinal()), 0.5F),
 						new AnvilOutput(new ItemStack(ModItems.ingot_polymer, 1), 0.25F),
 				}
 		).setTier(2));
