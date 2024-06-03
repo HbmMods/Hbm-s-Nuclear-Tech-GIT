@@ -4,7 +4,6 @@ import com.hbm.entity.projectile.EntityArtilleryShell;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 
-import codechicken.lib.math.MathHelper;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
