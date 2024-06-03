@@ -21,7 +21,7 @@ import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.world.World;
-import scala.reflect.internal.Trees.This;
+
 //no model yet, im gonna take this low n slow
 public class EntityWarBehemoth extends EntityMob implements IRangedAttackMob {
     private int stepTimer = 0;

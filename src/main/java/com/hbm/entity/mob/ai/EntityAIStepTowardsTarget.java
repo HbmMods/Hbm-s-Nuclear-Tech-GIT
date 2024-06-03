@@ -3,7 +3,6 @@ package com.hbm.entity.mob.ai;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import scala.reflect.internal.Trees.This;
 
 public class EntityAIStepTowardsTarget extends EntityAIBase {
 

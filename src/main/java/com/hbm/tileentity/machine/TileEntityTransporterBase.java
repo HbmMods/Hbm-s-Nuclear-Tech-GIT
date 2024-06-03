@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import java.util.stream.IntStream;
+import java.util.Arrays;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -23,7 +24,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
-import scala.actors.threadpool.Arrays;
 
 public abstract class TileEntityTransporterBase extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, IFluidStandardTransceiver {
 
