@@ -2,7 +2,7 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.entity.item.EntityTNTPrimedBase;
 
-import codechicken.lib.math.MathHelper;
+import net.minecraft.util.MathHelper;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
