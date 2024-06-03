@@ -1,12 +1,22 @@
 ## Added
 * Asphalt stairs
   * Stairs, but fast
+* More circuits
+  * Control units and advanced control units are exclusively used for nukes
+  * CUs and ACUs are quite a bit more expensive than standard circuits and also make use of tantalum capacitors
+  * Nukes are no longer for people who weasel their way through progression and then get 8 uranium, 2 steel and some duct tape, instead every atomic bomb requires a large electronics production capacity
+  * WMDs are expensive, who woulda thunk
 
 ## Changed
 * Wires now use recipe autogen for anvils, meaning that all fine wires are now obtainable via tier 4 anvil
+* Changed most nuke recipes
+  * Most assembler recipes have been de-cluttered, no longer using random extra plates or wires
+  * Nukes now exclusively use control units or ACUs instead of circuits
+* CRTs are now crafted in the crafting table instead of via assembler, making use of vacuum tubes
 
 ## Fixed
 * Fixed dupe regarding conveyor grabbers
 * Fixed soldering stations not saving progress or their fluid tanks
 * Fixed a bug where missile debris would always spawn with a stack size of 1 and a meta of 0
 * Fixed FM radios disassembling into incorrect parts
+* Fixed 256k tanks yielding too much steel when shredded

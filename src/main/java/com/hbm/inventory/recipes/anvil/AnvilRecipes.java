@@ -815,8 +815,11 @@ public class AnvilRecipes {
 					new AnvilOutput(new ItemStack(ModItems.crt_display, 1)),
 					new AnvilOutput(new ItemStack(ModItems.scrap, 3)),
 					new AnvilOutput(new ItemStack(ModItems.wire_fine, 4, Mats.MAT_COPPER.id)),
-					new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.VACUUM_TUBE.ordinal()), 0.25F),
-					new AnvilOutput(new ItemStack(ModItems.circuit, 2, EnumCircuitType.PCB.ordinal()))
+					new AnvilOutput(new ItemStack(ModItems.circuit, 2, EnumCircuitType.PCB.ordinal())),
+					new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.VACUUM_TUBE.ordinal()), 0.5F),
+					new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CAPACITOR.ordinal()), 0.75F),
+					new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CAPACITOR.ordinal()), 0.5F),
+					new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.ANALOG.ordinal()), 0.1F)
 					
 				}
 		).setTier(2));
