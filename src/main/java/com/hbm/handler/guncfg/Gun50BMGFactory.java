@@ -42,7 +42,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import scala.collection.parallel.ParIterableLike.Count;
 
 public class Gun50BMGFactory {
 	
