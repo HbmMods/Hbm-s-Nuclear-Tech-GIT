@@ -26,6 +26,8 @@ public class ItemCircuit extends ItemEnumMulti {
 		ADVANCED,
 		CAPACITOR_BOARD,
 		BISMOID,
+		AVIONICS,
+		AREO
 	}
 	
 	@Override
