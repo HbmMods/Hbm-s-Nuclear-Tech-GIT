@@ -4,7 +4,11 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import java.awt.Color;
+
 import com.hbm.inventory.OreDictManager.DictFrame;
+import com.hbm.main.MainRegistry;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -86,6 +90,7 @@ public class NTMMaterial {
 	
 	public NTMMaterial setMoltenColor(int color) {
 		this.moltenColor = color;
+		MainRegistry.logger.info(I18nUtil.resolveKey(getUnlocalizedName()) + " : " + String.format("0x%08X", color));
 		return this;
 	}
 	
