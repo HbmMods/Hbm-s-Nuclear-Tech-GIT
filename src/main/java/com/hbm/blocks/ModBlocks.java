@@ -3750,7 +3750,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(pink_stairs, pink_stairs.getUnlocalizedName());
 
 		// Terraforming
-		GameRegistry.registerBlock(atmosphere_editor, atmosphere_editor.getUnlocalizedName());
+		GameRegistry.registerBlock(atmosphere_editor, ItemBlockBase.class, atmosphere_editor.getUnlocalizedName());
 
 		register(transporter_rocket);
 	}
