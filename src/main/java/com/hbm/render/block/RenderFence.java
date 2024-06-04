@@ -19,6 +19,7 @@ public class RenderFence implements ISimpleBlockRenderingHandler {
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 		
 		BlockMetalFence fence = (BlockMetalFence) ModBlocks.fence_metal;
+		int meta = world.getBlockMetadata(x, y, z);
 
 		boolean xNeg = fence.canConnectFenceTo(world, x - 1, y, z);
 		boolean xPos = fence.canConnectFenceTo(world, x + 1, y, z);
@@ -28,7 +29,9 @@ public class RenderFence implements ISimpleBlockRenderingHandler {
 		boolean flag1 = xNeg || xPos;
 		boolean flag2 = zNeg || zPos;
 		
-		boolean hidePost = (xNeg && xPos) || (zNeg && zPos);
+		boolean straightX = xNeg && xPos;
+		boolean straightZ = zNeg && zPos;
+		boolean showPost = meta == 1 || (!straightX && !straightZ);
 
 		if (!flag1 && !flag2) {
 			flag1 = true;
@@ -52,7 +55,7 @@ public class RenderFence implements ISimpleBlockRenderingHandler {
 			renderer.renderStandardBlock(fence, x, y, z);
 		}
 
-		if(!hidePost) {
+		if(showPost) {
 			f = 0.375F;
 			f1 = 0.625F;
 			renderer.setOverrideBlockTexture(fence.postIcon);

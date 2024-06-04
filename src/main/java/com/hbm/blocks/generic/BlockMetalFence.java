@@ -2,18 +2,23 @@ package com.hbm.blocks.generic;
 
 import java.util.List;
 
+import com.hbm.blocks.IBlockMulti;
+
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockMetalFence extends BlockFence {
+public class BlockMetalFence extends BlockFence implements IBlockMulti {
 
 	public IIcon postIcon;
 
@@ -36,6 +41,21 @@ public class BlockMetalFence extends BlockFence {
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
+	}
+
+	@Override
+	public int damageDropped(int meta) {
+		return rectify(meta);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta) {
+		return meta == 0 ? this.blockIcon : this.postIcon;
+	}
+
+	public String getUnlocalizedName(ItemStack stack) {
+		return stack.getItemDamage() == 1 ? getUnlocalizedName() + "_post" : getUnlocalizedName();
 	}
 
 	@Override
@@ -102,6 +122,19 @@ public class BlockMetalFence extends BlockFence {
 		if(axisalignedbb1 != null && aabb.intersectsWith(axisalignedbb1)) {
 			list.add(axisalignedbb1);
 		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+		for(int i = 0; i < getSubCount(); ++i) {
+			list.add(new ItemStack(item, 1, i));
+		}
+	}
+
+	@Override
+	public int getSubCount() {
+		return 2;
 	}
 
 }

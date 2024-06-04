@@ -2934,7 +2934,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(hev_battery, hev_battery.getUnlocalizedName());
 		
 		//Chainlink Fence
-		GameRegistry.registerBlock(fence_metal, fence_metal.getUnlocalizedName());
+		GameRegistry.registerBlock(fence_metal, ItemBlockBase.class, fence_metal.getUnlocalizedName());
 		
 		//Sands, Glass
 		GameRegistry.registerBlock(ash_digamma, ash_digamma.getUnlocalizedName());
