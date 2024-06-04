@@ -4615,7 +4615,7 @@ shape.plate=Plate
 shape.plateTriple=Cast Plate
 shape.shell=Shell
 shape.stamp=Press Stamp
-shape.wire=Wire
+shape.wireFine=Wires
 shape.wireDense=Dense Wire
 shape.wiresDense=Dense Wires
 

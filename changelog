@@ -1,6 +1,7 @@
 ## Added
 * Asphalt stairs
   * Stairs, but fast
+  * Slabs too
 * More circuits
   * Control units and advanced control units are exclusively used for nukes
   * CUs and ACUs are quite a bit more expensive than standard circuits and also make use of tantalum capacitors
@@ -13,6 +14,8 @@
   * Most assembler recipes have been de-cluttered, no longer using random extra plates or wires
   * Nukes now exclusively use control units or ACUs instead of circuits
 * CRTs are now crafted in the crafting table instead of via assembler, making use of vacuum tubes
+* Chainlink fences now only create posts on edges or intersections
+  * The new chainlink fence post block will always create a post, emulating the behavior of the old fences
 
 ## Fixed
 * Fixed dupe regarding conveyor grabbers
@@ -20,3 +23,4 @@
 * Fixed a bug where missile debris would always spawn with a stack size of 1 and a meta of 0
 * Fixed FM radios disassembling into incorrect parts
 * Fixed 256k tanks yielding too much steel when shredded
+* Fixed the wire mold only creating 1 wie instead of the intended 8 due to the changes to the wire oredict
