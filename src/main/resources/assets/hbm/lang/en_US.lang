@@ -5069,6 +5069,7 @@ tile.fallout.name=Fallout
 tile.fan.name=Fan
 tile.fan.desc=Activates using redstone$Will push entities up to 10 blocks$Right-click with screwdriver to flip
 tile.fence_metal.name=Chainlink Fence
+tile.fence_metal_post.name=Chainlink Fence Post
 tile.field_disturber.name=High Energy Field Jammer
 tile.filing_cabinet.green.name=Dusty Filing Cabinet
 tile.filing_cabinet.steel.name=Steel Filing Cabinet
