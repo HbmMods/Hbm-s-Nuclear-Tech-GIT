@@ -26,15 +26,15 @@ public class RenderFence implements ISimpleBlockRenderingHandler {
 		boolean zNeg = fence.canConnectFenceTo(world, x, y, z - 1);
 		boolean zPos = fence.canConnectFenceTo(world, x, y, z + 1);
 
-		boolean flag1 = xNeg || xPos;
-		boolean flag2 = zNeg || zPos;
+		boolean hasX = xNeg || xPos;
+		boolean hasZ = zNeg || zPos;
 		
-		boolean straightX = xNeg && xPos;
-		boolean straightZ = zNeg && zPos;
+		boolean straightX = !hasZ && xNeg && xPos;
+		boolean straightZ = !hasX && zNeg && zPos;
 		boolean showPost = meta == 1 || (!straightX && !straightZ);
 
-		if (!flag1 && !flag2) {
-			flag1 = true;
+		if (!hasX && !hasZ) {
+			hasX = true;
 		}
 
 		float f = 0.4375F;
@@ -45,12 +45,12 @@ public class RenderFence implements ISimpleBlockRenderingHandler {
 		float f7 = zPos ? 1.0F : f1;
 		renderer.field_152631_f = true;
 
-		if (flag1) {
+		if (hasX) {
 			renderer.setRenderBounds((double)f4, (double)0, (double)0.5, (double)f5, (double)1, (double)0.5);
 			renderer.renderStandardBlock(fence, x, y, z);
 		}
 
-		if (flag2) {
+		if (hasZ) {
 			renderer.setRenderBounds((double)0.5, (double)0, (double)f6, (double)0.5, (double)1, (double)f7);
 			renderer.renderStandardBlock(fence, x, y, z);
 		}
