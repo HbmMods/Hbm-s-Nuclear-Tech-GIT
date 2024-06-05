@@ -98,8 +98,9 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 				if(slots[i] != null) {
 					int beforeSize = slots[i].stackSize;
 					slots[i] = InventoryUtil.tryAddItemToInventory(linkedTransporter.slots, linkedTransporter.inputSlotMax, linkedTransporter.outputSlotMax - 1, slots[i]);
+					int afterSize = slots[i] != null ? slots[i].stackSize : 0;
+					sentItems += beforeSize - afterSize;
 					isDirty = true;
-					sentItems += beforeSize - slots[i].stackSize;
 				}
 			}
 			
@@ -118,8 +119,8 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 				if(amountToSend > 0) {
 					linkedTransporter.tanks[o].setFill(targetFillLevel + amountToSend);
 					tanks[i].setFill(sourceFillLevel - amountToSend);
-					isDirty = true;
 					sentFluid += amountToSend;
+					isDirty = true;
 				}
 			}
 
