@@ -56,6 +56,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public boolean isProgressing;
 	public boolean hasMaterial;
 	public int delay;
+	public int upgrade;
 	
 	public float lid;
 	public float prevLid;
@@ -71,7 +72,9 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public static final byte ELECTRODE_USED = 2;
 	public static final byte ELECTRODE_DEPLETED = 3;
 	
-	public static final int MAX_INPUT_STACK_SIZE = 16;
+	public int getMaxInputSize() {
+		return upgrade == 0 ? 1 : upgrade == 1 ? 4 : upgrade == 2 ? 8 : 16;
+	}
 	
 	public static final int maxLiquid = MaterialShapes.BLOCK.q(128);
 	public List<MaterialStack> liquids = new ArrayList();
@@ -97,6 +100,9 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	@Override
 	public void updateEntity() {
 		
+		UpgradeManager.eval(slots, 4, 4);
+		this.upgrade = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+		
 		if(!worldObj.isRemote) {
 			
 			this.power = Library.chargeTEFromItems(slots, 3, power, maxPower);
@@ -109,8 +115,6 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				boolean ingredients = this.hasIngredients();
 				boolean electrodes = this.hasElectrodes();
 				
-				UpgradeManager.eval(slots, 4, 4);
-				int upgrade = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 				int consumption = (int) (1_000 * Math.pow(5, upgrade));
 				
 				if(ingredients && electrodes && delay <= 0 && this.liquids.isEmpty()) {
@@ -345,7 +349,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				if(recipe.solidOutput == null) return false;
 				int sta = slots[slot] != null ? slots[slot].stackSize : 0;
 				sta += stack.stackSize;
-				return sta * recipe.solidOutput.stackSize <= recipe.solidOutput.getMaxStackSize() && sta <= MAX_INPUT_STACK_SIZE;
+				return sta * recipe.solidOutput.stackSize <= recipe.solidOutput.getMaxStackSize() && sta <= getMaxInputSize();
 			}
 		}
 		return false;

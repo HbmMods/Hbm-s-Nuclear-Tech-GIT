@@ -96,14 +96,15 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 			if(furnace.liquidMode) return true;
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, furnace.liquidMode);
 			if(recipe != null && recipe.solidOutput != null) {
-				return recipe.solidOutput.stackSize * stack.stackSize <= recipe.solidOutput.getMaxStackSize() && stack.stackSize <= TileEntityMachineArcFurnaceLarge.MAX_INPUT_STACK_SIZE;
+				return recipe.solidOutput.stackSize * stack.stackSize <= recipe.solidOutput.getMaxStackSize() && stack.stackSize <= furnace.getMaxInputSize();
 			}
 			return false;
 		}
 		
 		@Override
 		public int getSlotStackLimit() {
-			return this.getHasStack() ? TileEntityMachineArcFurnaceLarge.MAX_INPUT_STACK_SIZE : 1;
+			TileEntityMachineArcFurnaceLarge furnace = (TileEntityMachineArcFurnaceLarge) this.inventory;
+			return this.getHasStack() ? furnace.getMaxInputSize() : 1;
 		}
 	}
 }
