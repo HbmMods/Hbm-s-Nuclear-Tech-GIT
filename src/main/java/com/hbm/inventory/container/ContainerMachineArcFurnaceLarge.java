@@ -1,6 +1,8 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotNonRetarded;
+import com.hbm.inventory.recipes.ArcFurnaceRecipes;
+import com.hbm.inventory.recipes.ArcFurnaceRecipes.ArcFurnaceRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineArcFurnaceLarge;
@@ -87,10 +89,21 @@ public class ContainerMachineArcFurnaceLarge extends Container {
 		public SlotArcFurnace(IInventory inventory, int id, int x, int y) {
 			super(inventory, id, x, y);
 		}
+
+		@Override
+		public boolean isItemValid(ItemStack stack) {
+			TileEntityMachineArcFurnaceLarge furnace = (TileEntityMachineArcFurnaceLarge) this.inventory;
+			if(furnace.liquidMode) return true;
+			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, furnace.liquidMode);
+			if(recipe != null && recipe.solidOutput != null) {
+				return recipe.solidOutput.stackSize * stack.stackSize <= recipe.solidOutput.getMaxStackSize() && stack.stackSize <= TileEntityMachineArcFurnaceLarge.MAX_INPUT_STACK_SIZE;
+			}
+			return false;
+		}
 		
 		@Override
 		public int getSlotStackLimit() {
-			return this.getHasStack() ? this.getStack().stackSize : 1;
+			return this.getHasStack() ? TileEntityMachineArcFurnaceLarge.MAX_INPUT_STACK_SIZE : 1;
 		}
 	}
 }

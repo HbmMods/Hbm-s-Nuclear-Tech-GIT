@@ -45,7 +45,7 @@ public class ItemMold extends Item {
 		registerMold(new MoldShape(		1, S, "billet", MaterialShapes.BILLET));
 		registerMold(new MoldShape(		2, S, "ingot", MaterialShapes.INGOT));
 		registerMold(new MoldShape(		3, S, "plate", MaterialShapes.PLATE));
-		registerMold(new MoldShape(		4, S, "wires", MaterialShapes.WIRE, 8));
+		registerMold(new MoldShape(		4, S, "wire", MaterialShapes.WIRE, 8));
 
 		registerMold(new MoldShape(		19, S, "plate_cast", MaterialShapes.CASTPLATE));
 		registerMold(new MoldShape(		20, S, "wire_dense", MaterialShapes.DENSEWIRE));

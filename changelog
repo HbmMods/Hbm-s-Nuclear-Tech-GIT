@@ -16,6 +16,16 @@
 * CRTs are now crafted in the crafting table instead of via assembler, making use of vacuum tubes
 * Chainlink fences now only create posts on edges or intersections
   * The new chainlink fence post block will always create a post, emulating the behavior of the old fences
+* Removed gold sands (frees up 2 block IDs)
+* There's now two new variants of builder's choice concrete, desert storm (the texture from the launch pad) and bronze plating (the old ICF laser texture)
+* Microwaves are no longer electric furnace copies, instead their recipes are restricted to things considered food
+* Electric furnaces now cause minor pollution (does not connect to smoke stacks!)
+* Increased the arc furnace's liquid buffer to 128 blocks (from 24)
+* The arc furnace can now accept up to *16* items per slot (effective amount is lower depending on the output in order to prevent >64 stacks)
+  * Due to technical limitations, clicking into a slot once will only place a single item, however after the item is present, the slot's capacity extends to 16
+  * This is especially apparent when clicking items into slots by hand, and still noticeable when shift clicking by how the items spred out
+  * This does not affect automation at all, items will stack up nicely without spreading out unnecessarily
+* Reduced arc furnace pollution from 15 to 10 soot per cycle
 
 ## Fixed
 * Fixed dupe regarding conveyor grabbers
@@ -23,4 +33,4 @@
 * Fixed a bug where missile debris would always spawn with a stack size of 1 and a meta of 0
 * Fixed FM radios disassembling into incorrect parts
 * Fixed 256k tanks yielding too much steel when shredded
-* Fixed the wire mold only creating 1 wie instead of the intended 8 due to the changes to the wire oredict
+* Fixed the wire mold only creating 1 wire instead of the intended 8 due to the changes to the wire oredict

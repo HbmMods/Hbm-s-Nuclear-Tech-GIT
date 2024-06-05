@@ -71,7 +71,9 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public static final byte ELECTRODE_USED = 2;
 	public static final byte ELECTRODE_DEPLETED = 3;
 	
-	public static final int maxLiquid = MaterialShapes.BLOCK.q(24);
+	public static final int MAX_INPUT_STACK_SIZE = 16;
+	
+	public static final int maxLiquid = MaterialShapes.BLOCK.q(128);
 	public List<MaterialStack> liquids = new ArrayList();
 
 	public TileEntityMachineArcFurnaceLarge() {
@@ -127,7 +129,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 								this.process();
 								this.progress = 0;
 								this.delay = (int) (120 / (upgrade * 0.5 + 1));
-								PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, 15F);
+								PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, 10F);
 							}
 						}
 					}
@@ -280,7 +282,9 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			if(recipe == null) continue;
 			
 			if(!liquidMode && recipe.solidOutput != null) {
+				int amount = slots[i].stackSize;
 				slots[i] = recipe.solidOutput.copy();
+				slots[i].stackSize *= amount;
 			}
 			
 			if(liquidMode && recipe.fluidOutput != null) {
@@ -330,17 +334,34 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, int side) {
-		return this.isItemValidForSlot(slot, stack) && stack.stackSize <= 1 && this.lid > 0;
+		if(lid <= 0) return false;
+		if(slot < 3) return stack.getItem() == ModItems.arc_electrode;
+		if(slot > 4) {
+			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, this.liquidMode);
+			if(recipe == null) return false;
+			if(liquidMode) {
+				return recipe.fluidOutput != null;
+			} else {
+				if(recipe.solidOutput == null) return false;
+				int sta = slots[slot] != null ? slots[slot].stackSize : 0;
+				sta += stack.stackSize;
+				return sta * recipe.solidOutput.stackSize <= recipe.solidOutput.getMaxStackSize() && sta <= MAX_INPUT_STACK_SIZE;
+			}
+		}
+		return false;
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if(slot < 3) return stack.getItem() == ModItems.arc_electrode;
 		if(slot > 4) {
-			if(slots[slot] != null) return false;
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, this.liquidMode);
 			if(recipe == null) return false;
-			return liquidMode ? recipe.fluidOutput != null : recipe.solidOutput != null;
+			if(liquidMode) {
+				return recipe.fluidOutput != null;
+			} else {
+				return recipe.solidOutput != null;
+			}
 		}
 		return false;
 	}
