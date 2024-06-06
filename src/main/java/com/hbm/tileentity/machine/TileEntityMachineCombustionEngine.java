@@ -64,6 +64,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			boolean canOperate = canBreatheAir();
 
 			this.tank.loadTank(0, 1, slots);
 			if(this.tank.setType(4, slots)) {
@@ -73,7 +74,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 			wasOn = false;
 
 			int fill = tank.getFill() * 10 + tenth;
-			if(isOn && setting > 0 && slots[2] != null && slots[2].getItem() == ModItems.piston_set && fill > 0 && tank.getTankType().hasTrait(FT_Combustible.class)) {
+			if(canOperate && isOn && setting > 0 && slots[2] != null && slots[2].getItem() == ModItems.piston_set && fill > 0 && tank.getTankType().hasTrait(FT_Combustible.class)) {
 				EnumPistonType piston = EnumUtil.grabEnumSafely(EnumPistonType.class, slots[2].getItemDamage());
 				FT_Combustible trait = tank.getTankType().getTrait(FT_Combustible.class);
 				

@@ -44,6 +44,7 @@ import com.hbm.interfaces.IBomb;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.IEquipReceiver;
@@ -523,10 +524,15 @@ public class ModEventHandler {
 		if(event.block == Blocks.torch) {
 			// Check for an atmosphere and destroy torches if there is insufficient oxygen
 
-			CBT_Atmosphere atmosphere = CelestialBody.getTrait(event.world, CBT_Atmosphere.class);
+			CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(event.world, event.x, event.y, event.z);
 			if(atmosphere == null || (!atmosphere.hasFluid(Fluids.OXYGEN, 0.09) && !atmosphere.hasFluid(Fluids.AIR, 0.21))) {
 				event.block.dropBlockAsItem(event.world, event.x, event.y, event.z, event.world.getBlockMetadata(event.x, event.y, event.z), 0);
                 event.world.setBlockToAir(event.x, event.y, event.z);
+			}
+		} else if(event.block == Blocks.water || event.block == Blocks.flowing_water) {
+			CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(event.world, event.x, event.y, event.z);
+			if(atmosphere == null || atmosphere.getPressure() < 0.2) {
+				event.world.setBlockToAir(event.x, event.y, event.z);
 			}
 		}
 	}
@@ -1194,7 +1200,8 @@ public class ModEventHandler {
 			float gravity = body.getSurfaceGravity() * AstronomyUtil.PLAYER_GRAVITY_MODIFIER;
 
 			// If gravity is basically the same as normal, do nothing
-			if(!player.capabilities.isFlying && (gravity < 1.5F || gravity > 1.7F)) {
+			// Also do nothing in water, or if we've been alive less than a second (so we don't glitch into the ground)
+			if(!player.capabilities.isFlying && !player.isInWater() && player.ticksExisted > 20 && (gravity < 1.5F || gravity > 1.7F)) {
 
 				// Minimum gravity to prevent floating bug
 				if(gravity < 0.2F) gravity = 0.2F;
@@ -1203,8 +1210,8 @@ public class ModEventHandler {
 				player.fallDistance *= Math.min(gravity / AstronomyUtil.STANDARD_GRAVITY, 1);
 
 				// Undo falling, and add our intended falling speed
-				// On high gravity planets, only apply falling speed when descending and not in water, so we can still jump up single blocks
-				if (gravity < 1.5F || (player.motionY < 0 && !player.isInWater())) {
+				// On high gravity planets, only apply falling speed when descending, so we can still jump up single blocks
+				if (gravity < 1.5F || player.motionY < 0) {
 					player.motionY /= 0.98F;
 					player.motionY += (AstronomyUtil.STANDARD_GRAVITY / 20F);
 					player.motionY -= (gravity / 20F);

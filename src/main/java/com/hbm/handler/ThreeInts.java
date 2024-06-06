@@ -1,6 +1,8 @@
 package com.hbm.handler;
 
-public class ThreeInts implements Comparable {
+import net.minecraftforge.common.util.ForgeDirection;
+
+public class ThreeInts implements Comparable<ThreeInts> {
 	
 	public int x;
 	public int y;
@@ -41,8 +43,31 @@ public class ThreeInts implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object o) {
-		
+	public int compareTo(ThreeInts o) {
 		return equals(o) ? 0 : 1;
 	}
+	
+	/**
+	 * @param dx x offset
+	 * @param dy y offset
+	 * @param dz z offset
+	 * @return a new object containing the coordinates of that offset
+	 */
+	public ThreeInts getPositionAtOffset(int dx, int dy, int dz) {
+		return new ThreeInts(dx + x, dy + y, dz + z);
+	}
+
+	public ThreeInts getPositionAtOffset(ForgeDirection dir) {
+		return new ThreeInts(dir.offsetX + x, dir.offsetY + y, dir.offsetZ + z);
+	}
+
+	public double getDistanceSquared(ThreeInts to) {
+		int ox = x - to.x, oy = y - to.y, oz = z - to.z;
+		return ox * ox + oy * oy + oz * oz;
+	}
+	
+	public double getDistance(ThreeInts to) {
+		return Math.sqrt(getDistanceSquared(to));
+	}
+
 }

@@ -179,7 +179,7 @@ public class EntityRidableCarrier extends Entity {
 			if(payload.getItem() == ModItems.ingot_tt) {
 				EntityPlayer riding = (EntityPlayer) this.riddenByEntity;
 				if(riding != null) {
-					DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ);
+					DebugTeleporter.teleport(riding, SpaceConfig.moonDimension, riding.posX, 300, riding.posZ, false);
 				}
 			}
 		

@@ -14,6 +14,7 @@ import com.hbm.entity.grenade.*;
 import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.mob.siege.SiegeTier;
 import com.hbm.handler.*;
+import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.handler.imc.IMCBlastFurnace;
 import com.hbm.handler.imc.IMCCentrifuge;
 import com.hbm.handler.imc.IMCCrystallizer;
@@ -957,6 +958,10 @@ public class MainRegistry {
 		PollutionHandler pollution = new PollutionHandler();
 		MinecraftForge.EVENT_BUS.register(pollution);
 		FMLCommonHandler.instance().bus().register(pollution);
+
+		ChunkAtmosphereManager atmosphere = new ChunkAtmosphereManager();
+		MinecraftForge.EVENT_BUS.register(atmosphere);
+		FMLCommonHandler.instance().bus().register(atmosphere);
 		
 		MainThreadQueue queue = new MainThreadQueue();
 		MinecraftForge.EVENT_BUS.register(queue);

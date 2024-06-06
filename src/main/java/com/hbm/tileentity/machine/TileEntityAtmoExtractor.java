@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.fluid.FluidType;
@@ -45,7 +46,11 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 			
 			this.updateConnections();
 			
-			CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
+			// Extractors will not work indoors
+			CBT_Atmosphere atmosphere = !ChunkAtmosphereManager.proxy.hasAtmosphere(worldObj, xCoord, yCoord, zCoord)
+				? CelestialBody.getTrait(worldObj, CBT_Atmosphere.class)
+				: null;
+
 			if(atmosphere != null) {
 				tank.setTankType(atmosphere.getMainFluid());
 			} else {

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.handler.atmosphere.IBlockSealable;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.tileentity.machine.TileEntityMachineDiesel;
 
@@ -17,7 +18,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineDiesel extends BlockMachineBase implements ITooltipProvider {
+public class MachineDiesel extends BlockMachineBase implements ITooltipProvider, IBlockSealable {
 
 	public MachineDiesel() {
 		super(Material.iron, 0);
@@ -73,5 +74,10 @@ public class MachineDiesel extends BlockMachineBase implements ITooltipProvider 
 				list.add(EnumChatFormatting.YELLOW + "-" + grade.getGrade() + ": " + EnumChatFormatting.RED + "" + eff + "%");
 			}
 		}
+	}
+
+	@Override
+	public boolean isSealed(World world, int x, int y, int z) {
+		return false;
 	}
 }

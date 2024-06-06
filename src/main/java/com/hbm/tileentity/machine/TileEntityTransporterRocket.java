@@ -43,7 +43,7 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 	public void updateEntity() {
 		super.updateEntity();
 
-		launchTicks = MathHelper.clamp_int(launchTicks + (hasRocket ? -1 : 1), 0, 100);
+		launchTicks = MathHelper.clamp_int(launchTicks + (hasRocket ? -1 : 1), hasRocket ? -20 : 0, 100);
 
 		if(worldObj.isRemote && launchTicks > 0 && launchTicks < 100) {
 			ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5, yCoord + 0.5 + launchTicks, zCoord + 0.5, 0.0, -1.0, 0.0);
@@ -54,8 +54,6 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 		}
 	}
 
-	private int sendCost;
-
 	public int getThreshold() {
 		return threshold == 0 ? 0 : (int)Math.pow(2, threshold - 1);
 	}
@@ -63,7 +61,8 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 	// Check that we have enough fuel to send to our destination
 	@Override
 	protected boolean canSend(TileEntityTransporterBase linkedTransporter) {
-		if(launchTicks > 0) return false;
+		if(launchTicks > -20) return false;
+		if(((TileEntityTransporterRocket)linkedTransporter).launchTicks < 100) return false;
 		if(!hasRocket) return false;
 
 		int mass = itemCount();
@@ -77,17 +76,22 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 		CelestialBody from = CelestialBody.getBody(worldObj);
 		CelestialBody to = CelestialBody.getBody(linkedTransporter.getWorldObj());
 
-		sendCost = Math.min(64_000, SolarSystem.getCostBetween(from, to, mass, (int)fuelStats.getThrust(), (int)fuelStats.getISP()));
+		int sendCost = Math.min(64_000, SolarSystem.getCostBetween(from, to, mass, (int)fuelStats.getThrust(), (int)fuelStats.getISP()));
 
-		if(tanks[8].getFill() >= sendCost && tanks[9].getFill() >= sendCost) {
-			return true;
-		}
-
-		return false;
+		return tanks[8].getFill() >= sendCost && tanks[9].getFill() >= sendCost;
 	}
 
 	@Override
-	protected void hasSent(TileEntityTransporterBase linkedTransporter) {
+	protected void hasSent(TileEntityTransporterBase linkedTransporter, int quantitySent) {
+		// Recalculate send cost from what was actually successfully sent
+		FT_Rocket fuelStats = tanks[8].getTankType().getTrait(FT_Rocket.class);
+		if(fuelStats == null) fuelStats = tanks[9].getTankType().getTrait(FT_Rocket.class);
+
+		CelestialBody from = CelestialBody.getBody(worldObj);
+		CelestialBody to = CelestialBody.getBody(linkedTransporter.getWorldObj());
+
+		int sendCost = Math.min(64_000, SolarSystem.getCostBetween(from, to, quantitySent, (int)fuelStats.getThrust(), (int)fuelStats.getISP()));
+
 		tanks[8].setFill(tanks[8].getFill() - sendCost);
 		tanks[9].setFill(tanks[9].getFill() - sendCost);
 
@@ -181,6 +185,12 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 		super.receiveControl(nbt);
 		if(nbt.hasKey("threshold"))
 			threshold = nbt.getInteger("threshold");
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
     
 }

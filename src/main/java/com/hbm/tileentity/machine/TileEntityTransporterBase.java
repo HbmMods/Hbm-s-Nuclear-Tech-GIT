@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.Arrays;
 
@@ -89,14 +90,19 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 		if(linkedTransporter != null && canSend(linkedTransporter)) {
 			boolean isDirty = false;
 
+			int sentItems = 0;
+			int sentFluid = 0;
+
 			// Move all items into the target
 			for(int i = 0; i < inputSlotMax; i++) {
 				if(slots[i] != null) {
+					int beforeSize = slots[i].stackSize;
 					slots[i] = InventoryUtil.tryAddItemToInventory(linkedTransporter.slots, linkedTransporter.inputSlotMax, linkedTransporter.outputSlotMax - 1, slots[i]);
+					int afterSize = slots[i] != null ? slots[i].stackSize : 0;
+					sentItems += beforeSize - afterSize;
 					isDirty = true;
 				}
 			}
-	
 			
 			// Move all fluids into the target
 			for(int i = 0; i < inputTankMax; i++) {
@@ -113,11 +119,14 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 				if(amountToSend > 0) {
 					linkedTransporter.tanks[o].setFill(targetFillLevel + amountToSend);
 					tanks[i].setFill(sourceFillLevel - amountToSend);
+					sentFluid += amountToSend;
 					isDirty = true;
 				}
 			}
 
-			hasSent(linkedTransporter);
+
+
+			hasSent(linkedTransporter, sentItems + (sentFluid / 1000));
 
 			if(isDirty) {
 				markChanged();
@@ -187,7 +196,7 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 
 	// Designated overrides for delaying sending or requiring fuel
 	protected abstract boolean canSend(TileEntityTransporterBase linkedTransporter);
-	protected abstract void hasSent(TileEntityTransporterBase linkedTransporter);
+	protected abstract void hasSent(TileEntityTransporterBase linkedTransporter, int quantitySent);
 	protected abstract void hasConnected(TileEntityTransporterBase linkedTransporter);
 
 	// Turns items and fluids into a "mass" of sorts

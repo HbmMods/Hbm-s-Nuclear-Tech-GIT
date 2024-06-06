@@ -119,7 +119,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 						SolarSystem.Body destination = SolarSystem.Body.values()[payload.getItemDamage()];
 
 						if(destination.getBody() != null) {
-							DebugTeleporter.teleport(riding, destination.getBody().dimensionId, riding.posX, 300, riding.posZ);
+							DebugTeleporter.teleport(riding, destination.getBody().dimensionId, riding.posX, 300, riding.posZ, false);
 						}
 						
 						riding.dismountEntity(riding);
