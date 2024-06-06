@@ -43,7 +43,7 @@ public class ItemWandD extends Item {
 
 				SolarSystem.Body target = SolarSystem.Body.values()[targetId];
 
-				DebugTeleporter.teleport(player, target.getBody().dimensionId, player.posX, 300, player.posZ);
+				DebugTeleporter.teleport(player, target.getBody().dimensionId, player.posX, 300, player.posZ, true);
 				player.addChatMessage(new ChatComponentText("Teleported to: " + target.getBody().getUnlocalizedName()));
 
 			} else {

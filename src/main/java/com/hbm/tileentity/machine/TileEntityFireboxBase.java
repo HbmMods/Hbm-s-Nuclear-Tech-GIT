@@ -3,12 +3,9 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.dim.CelestialBody;
-import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.module.ModuleBurnTime;
@@ -59,14 +56,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
-			if (atmosphere == null) {
-				return;
-				
-			}
-			else if(!atmosphere.hasFluid(Fluids.AIR) && !atmosphere.hasFluid(Fluids.OXYGEN)) {
-				return;
-			}
+			boolean canOperate = canBreatheAir();
 			
 			for(int i = 2; i < 6; i++) {
 				ForgeDirection dir = ForgeDirection.getOrientation(i);
@@ -93,7 +83,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 							
 							if(below instanceof TileEntityAshpit) {
 								TileEntityAshpit ashpit = (TileEntityAshpit) below;
-								EnumAshType type = this.getAshFromFuel(slots[i]);
+								EnumAshType type = getAshFromFuel(slots[i]);
 								if(type == EnumAshType.WOOD) ashpit.ashLevelWood += baseTime;
 								if(type == EnumAshType.COAL) ashpit.ashLevelCoal += baseTime;
 								if(type == EnumAshType.MISC) ashpit.ashLevelMisc += baseTime;
@@ -112,7 +102,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 						}
 					}
 				} 
-			} else {
+			} else if(canOperate) {
 				
 				if(this.heatEnergy < getMaxHeat()) {
 					burnTime--;
@@ -129,7 +119,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 				this.heatEnergy = Math.min(this.heatEnergy + this.burnHeat, getMaxHeat());
 			} else {
 				this.heatEnergy = Math.max(this.heatEnergy - Math.max(this.heatEnergy / 1000, 1), 0);
-				this.burnHeat = 0;
+				if(canOperate) this.burnHeat = 0;
 			}
 			
 			NBTTagCompound data = new NBTTagCompound();

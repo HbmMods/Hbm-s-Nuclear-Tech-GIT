@@ -3,6 +3,7 @@ package com.hbm.blocks.machine;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.atmosphere.IBlockSealable;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDiFurnace;
@@ -26,7 +27,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class MachineDiFurnace extends BlockContainer {
+public class MachineDiFurnace extends BlockContainer implements IBlockSealable {
 
     private final Random rand = new Random();
 	private final boolean isActive;
@@ -205,5 +206,10 @@ public class MachineDiFurnace extends BlockContainer {
 				world.spawnParticle("smoke", x + xOff, y + 1, z + zOff, 0.0D, 0.0D, 0.0D);
 			}
 		}
+	}
+
+	@Override
+	public boolean isSealed(World world, int x, int y, int z) {
+		return false;
 	}
 }

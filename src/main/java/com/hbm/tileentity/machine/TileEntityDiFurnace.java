@@ -55,29 +55,29 @@ public class TileEntityDiFurnace extends TileEntityMachinePolluting implements I
 		return i != 3;
 	}
 
-	public boolean hasItemPower(ItemStack stack) {
-		return getItemPower(stack) > 0;
+	public boolean hasItemPower(ItemStack stack, boolean canBreathe) {
+		return getItemPower(stack, canBreathe) > 0;
 	}
 
 	//TODO: replace this terribleness
-	private static int getItemPower(ItemStack stack) {
+	private int getItemPower(ItemStack stack, boolean canBreathe) {
 		if(stack == null) {
 			return 0;
 		} else {
 			Item item = stack.getItem();
 
-			if(item == Items.coal) return 200;
-			if(item == Item.getItemFromBlock(Blocks.coal_block)) return 2000;
-			if(item == Item.getItemFromBlock(ModBlocks.block_coke)) return 4000;
+			if(item == Items.coal) return canBreathe ? 200 : 0;
+			if(item == Item.getItemFromBlock(Blocks.coal_block)) return canBreathe ? 2000 : 0;
+			if(item == Item.getItemFromBlock(ModBlocks.block_coke)) return canBreathe ? 4000 : 0;
 			if(item == Items.lava_bucket) return 12800;
-			if(item == Items.blaze_rod) return 1000;
-			if(item == Items.blaze_powder) return 300;
-			if(item == ModItems.lignite) return 150;
-			if(item == ModItems.powder_lignite) return 150;
-			if(item == ModItems.powder_coal) return 200;
-			if(item == ModItems.briquette) return 200;
-			if(item == ModItems.coke) return 400;
-			if(item == ModItems.solid_fuel) return 400;
+			if(item == Items.blaze_rod) return canBreathe ? 1000 : 0;
+			if(item == Items.blaze_powder) return canBreathe ? 300 : 0;
+			if(item == ModItems.lignite) return canBreathe ? 150 : 0;
+			if(item == ModItems.powder_lignite) return canBreathe ? 150 : 0;
+			if(item == ModItems.powder_coal) return canBreathe ? 200 : 0;
+			if(item == ModItems.briquette) return canBreathe ? 200 : 0;
+			if(item == ModItems.coke) return canBreathe ? 400 : 0;
+			if(item == ModItems.solid_fuel) return canBreathe ? 400 : 0;
 
 			return 0;
 		}
@@ -185,9 +185,10 @@ public class TileEntityDiFurnace extends TileEntityMachinePolluting implements I
 			if(extension) this.sendSmoke(xCoord, yCoord + 2, zCoord, ForgeDirection.UP);
 
 			boolean markDirty = false;
+			boolean canOperate = canBreatheAir();
 			
-			if(this.hasItemPower(this.slots[2]) && this.fuel <= (TileEntityDiFurnace.maxFuel - TileEntityDiFurnace.getItemPower(this.slots[2]))) {
-				this.fuel += getItemPower(this.slots[2]);
+			if(this.hasItemPower(this.slots[2], canOperate) && this.fuel <= (TileEntityDiFurnace.maxFuel - getItemPower(this.slots[2], canOperate))) {
+				this.fuel += getItemPower(this.slots[2], canOperate);
 				if(this.slots[2] != null) {
 					markDirty = true;
 					this.slots[2].stackSize--;
