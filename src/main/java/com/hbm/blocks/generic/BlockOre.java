@@ -63,7 +63,9 @@ public class BlockOre extends Block implements IBlockMultiPass {
 		if(this == ModBlocks.ore_cobalt) {
 			return ModItems.fragment_cobalt;
 		}
-
+		if(this == ModBlocks.ferric_clay) {
+			return ModItems.ball_ferric_clay;
+		}
 		// Vanilla reproduction
 		if(this == ModBlocks.ore_redstone) {
 			return Items.redstone;
@@ -103,6 +105,9 @@ public class BlockOre extends Block implements IBlockMultiPass {
 		}
 		if(this == ModBlocks.ore_lapis) {
 			return 4 + rand.nextInt(5);
+		}
+		if(this == ModBlocks.ferric_clay) {
+			return 4 + rand.nextInt(4);
 		}
 		return 1;
 	}
