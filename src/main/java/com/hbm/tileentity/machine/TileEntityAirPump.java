@@ -102,6 +102,8 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 				}
 	        }
 
+			subscribeToAllAround(tank.getTankType(), this);
+
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("onTicks", onTicks);
 			tank.writeToNBT(data, "at");
