@@ -22,7 +22,9 @@ public class RenderGrate implements ISimpleBlockRenderingHandler {
 		tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
 		tessellator.setColorOpaque_F(1, 1, 1);
 
-		renderer.setRenderBounds(0.0D, meta * 0.125D, 0D, 1D, meta * 0.125D + 0.125D, 1D);
+		float fy = ((BlockGrate)block).getY(meta);
+
+		renderer.setRenderBounds(0.0D, fy, 0D, 1D, fy + 0.125D, 1D);
 		renderer.renderStandardBlock(block, x, y, z);
 		return true;
 	}
