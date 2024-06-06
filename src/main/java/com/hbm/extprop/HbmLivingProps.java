@@ -262,12 +262,16 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	}
 	
 	public static void setOxy(EntityLivingBase entity, int oxygen) {
-		getData(entity).oxygen = oxygen;
-		
 		if(oxygen <= 0) {
-			getData(entity).oxygen = 0;
-			entity.attackEntityFrom(ModDamageSource.oxyprime, 2);
+			oxygen = 0;
+
+			// Only damage every 4 ticks, giving the player more time to react
+			if(entity.ticksExisted % 4 == 0) {
+				entity.attackEntityFrom(ModDamageSource.oxyprime, 1);
+			}
 		}
+
+		getData(entity).oxygen = oxygen;
 	}
 	
 	/// BLACK LUNG DISEASE ///

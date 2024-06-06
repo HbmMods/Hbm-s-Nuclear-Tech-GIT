@@ -300,6 +300,7 @@ public class EntityEffectHandler {
 	private static boolean TEST_ATMO = false;
 
 	private static void handleOxy(EntityLivingBase entity) {
+		if(entity.worldObj.isRemote) return;
 		if(entity instanceof EntityGlyphid) return; // can't suffocate the bastards
 
 		CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(entity);
@@ -319,6 +320,8 @@ public class EntityEffectHandler {
 
 		if (!ArmorUtil.checkForOxy(entity) && !hasBreathableAir) {
 			HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
+		} else {
+			HbmLivingProps.setOxy(entity, 100); // 5 seconds until vacuum damage
 		}
 	}
 
