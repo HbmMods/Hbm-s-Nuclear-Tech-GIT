@@ -148,6 +148,7 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(SA326.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_schrabidium))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(CMB.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_combine_steel))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(BIGMT.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_saturnite))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(DURA.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_dura_steel))).setTier(3));
 
 		for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.shapes.contains(MaterialShapes.WIRE) && mat.shapes.contains(MaterialShapes.INGOT)) {

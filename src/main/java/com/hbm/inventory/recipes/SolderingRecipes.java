@@ -10,6 +10,7 @@ import static com.hbm.inventory.OreDictManager.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -29,6 +30,8 @@ public class SolderingRecipes extends SerializableRecipe {
 
 	@Override
 	public void registerDefaults() {
+		
+		boolean lbsm = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCrafting;
 		
 		/*
 		 * CIRCUITS
@@ -56,7 +59,7 @@ public class SolderingRecipes extends SerializableRecipe {
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED.ordinal()), 300, 1_000,
 				new FluidStack(Fluids.SULFURIC_ACID, 1_000),
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CHIP),
+						new ComparableStack(ModItems.circuit, lbsm ? 4 : 16, EnumCircuitType.CHIP),
 						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CAPACITOR)},
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 8, EnumCircuitType.PCB),
@@ -79,8 +82,8 @@ public class SolderingRecipes extends SerializableRecipe {
 				new FluidStack(Fluids.SOLVENT, 1_000),
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP_BISMOID),
-						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CHIP),
-						new ComparableStack(ModItems.circuit, 24, EnumCircuitType.CAPACITOR)},
+						new ComparableStack(ModItems.circuit, lbsm ? 4 : 16, EnumCircuitType.CHIP),
+						new ComparableStack(ModItems.circuit, lbsm ? 8 : 24, EnumCircuitType.CAPACITOR)},
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 12, EnumCircuitType.PCB),
 						new OreDictStack(ANY_HARDPLASTIC.ingot(), 2)},
@@ -95,9 +98,9 @@ public class SolderingRecipes extends SerializableRecipe {
 		// a very, very vague guess on what the recipes should be. testing still needed, upgrade requirements are likely to change. maybe inclusion of caesium?
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER.ordinal()), 400, 15_000,
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 32, EnumCircuitType.CHIP),
-						new ComparableStack(ModItems.circuit, 32, EnumCircuitType.CAPACITOR),
-						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CAPACITOR_TANTALIUM)},
+						new ComparableStack(ModItems.circuit, lbsm ? 8 : 32, EnumCircuitType.CHIP),
+						new ComparableStack(ModItems.circuit, lbsm ? 8 : 32, EnumCircuitType.CAPACITOR),
+						new ComparableStack(ModItems.circuit, lbsm ? 8 : 16, EnumCircuitType.CAPACITOR_TANTALIUM)},
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER_CHASSIS),
 						new ComparableStack(ModItems.upgrade_speed_1)},
@@ -106,9 +109,9 @@ public class SolderingRecipes extends SerializableRecipe {
 		));
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER_ADVANCED.ordinal()), 600, 25_000,
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CHIP_BISMOID),
-						new ComparableStack(ModItems.circuit, 48, EnumCircuitType.CAPACITOR),
-						new ComparableStack(ModItems.circuit, 32, EnumCircuitType.CAPACITOR_TANTALIUM)},
+						new ComparableStack(ModItems.circuit, lbsm ? 8 : 16, EnumCircuitType.CHIP_BISMOID),
+						new ComparableStack(ModItems.circuit, lbsm ? 16 : 48, EnumCircuitType.CAPACITOR),
+						new ComparableStack(ModItems.circuit, lbsm ? 8 : 32, EnumCircuitType.CAPACITOR_TANTALIUM)},
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER_CHASSIS),
 						new ComparableStack(ModItems.upgrade_speed_3)},
@@ -169,17 +172,19 @@ public class SolderingRecipes extends SerializableRecipe {
 	}
 	
 	public static void addFirstUpgrade(Item lower, Item higher) {
+		boolean lbsm = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCrafting;
 		recipes.add(new SolderingRecipe(new ItemStack(higher), 300, 10_000,
-				new AStack[] {new ComparableStack(ModItems.circuit, 8, EnumCircuitType.CHIP), new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CAPACITOR)},
+				new AStack[] {new ComparableStack(ModItems.circuit, lbsm ? 4 : 8, EnumCircuitType.CHIP), new ComparableStack(ModItems.circuit, lbsm ? 2 : 4, EnumCircuitType.CAPACITOR)},
 				new AStack[] {new ComparableStack(lower), new OreDictStack(ANY_PLASTIC.ingot(), 4)},
 				new AStack[] {}
 		));
 	}
 	
 	public static void addSecondUpgrade(Item lower, Item higher) {
+		boolean lbsm = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCrafting;
 		recipes.add(new SolderingRecipe(new ItemStack(higher), 400, 25_000,
 				new FluidStack(Fluids.SOLVENT, 500),
-				new AStack[] {new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CHIP), new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CAPACITOR)},
+				new AStack[] {new ComparableStack(ModItems.circuit, lbsm ? 6 : 16, EnumCircuitType.CHIP), new ComparableStack(ModItems.circuit, lbsm ? 4 : 16, EnumCircuitType.CAPACITOR)},
 				new AStack[] {new ComparableStack(lower), new OreDictStack(RUBBER.ingot(), 4)},
 				new AStack[] {}
 		));

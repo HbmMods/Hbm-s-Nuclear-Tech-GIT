@@ -269,9 +269,9 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	public int getFuelRequired() {
 		
 		if(mode == 1)
-			return 20000 + getDist();
+			return Math.min(5000 + getDist(), 128_000);
 		
-		return 128000;
+		return 128_000;
 	}
 	
 	public int getDist() {
