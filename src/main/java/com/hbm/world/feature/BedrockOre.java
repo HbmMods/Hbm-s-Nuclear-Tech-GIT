@@ -62,7 +62,7 @@ public class BedrockOre {
 		// NTM Space Fork ores
 		BedrockOreDefinition nickel = new BedrockOreDefinition(EnumBedrockOre.NICKEL,												2,	new FluidStack(Fluids.ACID, 500));
 		BedrockOreDefinition lithium = new BedrockOreDefinition(new ItemStack(ModItems.powder_lithium, 4), 1, 0xFFFFFF);
-		BedrockOreDefinition ice = new BedrockOreDefinition(new ItemStack(Blocks.ice, 8), 1, 0x0000FF);
+		BedrockOreDefinition ice = new BedrockOreDefinition(new ItemStack(Blocks.packed_ice, 8), 1, 0xAAFFFF);
 		BedrockOreDefinition coltan = new BedrockOreDefinition(new ItemStack(ModItems.powder_coltan, 4), 1, 0x7C3F00);
 		BedrockOreDefinition schrabidium = new BedrockOreDefinition(new ItemStack(ModItems.powder_schrabidium, 1), 1, 0x00FFFF);
 		BedrockOreDefinition cinnabar = new BedrockOreDefinition(new ItemStack(ModItems.cinnebar, 4), 1, 0xFF0000);
