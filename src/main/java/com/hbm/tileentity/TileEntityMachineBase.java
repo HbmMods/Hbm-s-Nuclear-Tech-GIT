@@ -1,5 +1,8 @@
 package com.hbm.tileentity;
 
+import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.BufPacket;
 import com.hbm.packet.NBTPacket;
@@ -236,5 +239,12 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 				block2.onNeighborBlockChange(worldObj, x, y, z, this.getBlockType());
 			}
 		}
+	}
+
+	// TODO: Consume air from the environment, increasing your oxygen production needs
+	public boolean breatheAir() {
+		CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(worldObj, xCoord, yCoord, zCoord);
+		if(atmosphere == null) return false;
+		return atmosphere.hasFluid(Fluids.AIR, 0.19) || atmosphere.hasFluid(Fluids.OXYGEN, 0.09);
 	}
 }

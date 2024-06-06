@@ -8,14 +8,15 @@ import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.WorldConfig;
-import com.hbm.dim.CelestialBody;
 import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.entity.mob.glyphid.EntityGlyphid;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -296,19 +297,28 @@ public class EntityEffectHandler {
 		}
 	}
 
-	private static void handleOxy(EntityLivingBase entity) {
-		CBT_Atmosphere atmosphere = CelestialBody.getTrait(entity.worldObj, CBT_Atmosphere.class);
+	private static boolean TEST_ATMO = false;
 
-		if (atmosphere == null) {
-			HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
-			return;
+	private static void handleOxy(EntityLivingBase entity) {
+		if(entity instanceof EntityGlyphid) return; // can't suffocate the bastards
+
+		CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(entity);
+
+		if(TEST_ATMO && !entity.worldObj.isRemote && entity instanceof EntityPlayer && entity.worldObj.getTotalWorldTime() % 20 == 0) {
+			if(atmosphere != null) {
+				for(FluidEntry entry : atmosphere.fluids) {
+					MainRegistry.logger.info("Atmosphere: " + entry.fluid.getUnlocalizedName() + " - " + entry.pressure + "bar");
+				}
+			} else {
+				MainRegistry.logger.info("Atmosphere: TOTAL VACUUM");
+			}
 		}
 
-		boolean hasBreathableAir = atmosphere.hasFluid(Fluids.AIR, 0.21F) || atmosphere.hasFluid(Fluids.OXYGEN, 0.09F); // Assuming 21% AIR/9% OXY is required for breathable atmosphere
+		// Assuming 21% AIR/9% OXY is required for breathable atmosphere
+		boolean hasBreathableAir = atmosphere != null && (atmosphere.hasFluid(Fluids.AIR, 0.21F) || atmosphere.hasFluid(Fluids.OXYGEN, 0.09F));
 
-		if (!ArmorUtil.checkForOxy(entity) && !hasBreathableAir && !(entity instanceof EntityGlyphid)) {
+		if (!ArmorUtil.checkForOxy(entity) && !hasBreathableAir) {
 			HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
-			return;
 		}
 	}
 

@@ -14,7 +14,7 @@ import net.minecraftforge.common.util.Constants;
 
 public class CBT_Atmosphere extends CelestialBodyTrait {
 
-	public List<FluidEntry> fluids;
+	public ArrayList<FluidEntry> fluids;
 
 	public static class FluidEntry {
 		public FluidType fluid;
@@ -38,6 +38,40 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 	public CBT_Atmosphere and(FluidType fluid, double pressure) {
 		fluids.add(new FluidEntry(fluid, pressure));
 		return this;
+	}
+
+	@SuppressWarnings("unchecked")
+	public CBT_Atmosphere clone() {
+		CBT_Atmosphere clone = new CBT_Atmosphere();
+		clone.fluids = (ArrayList<FluidEntry>)fluids.clone();
+		return clone;
+	}
+
+	// Add to the pressure by incrementing existing fluid entries
+	public void add(FluidType fluid, double pressure) {
+		for(FluidEntry entry : fluids) {
+			if(entry.fluid == fluid) {
+				entry.pressure += pressure;
+				return;
+			}
+		}
+
+		fluids.add(new FluidEntry(fluid, pressure));
+	}
+
+	// Reduce the pressure by proportionally reducing the pressure of each entry
+	public void reduce(double pressure) {
+		double totalPressure = getPressure();
+		if(pressure >= totalPressure) {
+			fluids = new ArrayList<>();
+			return;
+		}
+
+		double pressureRatio = pressure / totalPressure;
+
+		for(FluidEntry entry : fluids) {
+			entry.pressure *= pressureRatio;
+		}
 	}
 
 	// Fluid must be above at least 1 millbar to be "present"
