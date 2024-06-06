@@ -68,6 +68,7 @@ public class AtmosphereBlob implements Runnable {
 
         Material material = block.getMaterial();
         if(material.isLiquid() || !material.isSolid()) return false; // Liquids need to know what pressurized atmosphere they're in to determine evaporation
+		if(material == Material.leaves) return false; // Leaves never block air
 
         AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(world, pos.x, pos.y, pos.z);
 
