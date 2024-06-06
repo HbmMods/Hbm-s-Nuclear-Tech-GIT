@@ -5,7 +5,6 @@ import com.hbm.inventory.container.ContainerOilburner;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
-import com.hbm.inventory.fluid.trait.FT_Polluting;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIOilburner;
 import com.hbm.lib.Library;
@@ -66,8 +65,9 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 			}
 			
 			boolean shouldCool = true;
+			boolean canOperate = canBreatheAir();
 			
-			if(this.isOn && this.heatEnergy < maxHeatEnergy) {
+			if(canOperate && this.isOn && this.heatEnergy < maxHeatEnergy) {
 				
 				if(tank.getTankType().hasTrait(FT_Flammable.class)) {
 					FT_Flammable type = tank.getTankType().getTrait(FT_Flammable.class);

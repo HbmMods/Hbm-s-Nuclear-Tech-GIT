@@ -66,6 +66,7 @@ public class TileEntityFurnaceBrick extends TileEntityMachineBase implements IGU
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			boolean canOperate = canBreatheAir();
 			boolean wasBurning = this.burnTime > 0;
 			boolean markDirty = false;
 	
@@ -74,7 +75,7 @@ public class TileEntityFurnaceBrick extends TileEntityMachineBase implements IGU
 			}
 	
 			if(this.burnTime != 0 || this.slots[1] != null && this.slots[0] != null) {
-				if(this.burnTime == 0 && this.canSmelt()) {
+				if(canOperate && this.burnTime == 0 && this.canSmelt()) {
 					this.maxBurnTime = this.burnTime = TileEntityFurnace.getItemBurnTime(this.slots[1]);
 
 					if(this.burnTime > 0) {
@@ -99,7 +100,7 @@ public class TileEntityFurnaceBrick extends TileEntityMachineBase implements IGU
 					}
 				}
 
-				if(this.burnTime > 0 && this.canSmelt()) {
+				if(canOperate && this.burnTime > 0 && this.canSmelt()) {
 					this.progress += this.getBurnSpeed();
 
 					if(this.progress >= 200) {

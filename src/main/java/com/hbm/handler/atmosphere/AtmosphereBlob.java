@@ -118,7 +118,6 @@ public class AtmosphereBlob implements Runnable {
 
 	private void addSingleBlock(ThreeInts blockPos) {
         if(!graph.contains(blockPos)) {
-            MainRegistry.logger.info("ADDING: " + blockPos.x + " - " + blockPos.y + " - " + blockPos.z);
 			graph.add(blockPos, getPositionsToAdd(blockPos));
 		}
 	}

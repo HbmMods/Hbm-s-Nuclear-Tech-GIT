@@ -88,10 +88,6 @@ public abstract class BlockGasBase extends Block {
 	
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-		if (this == ModBlocks.vacuum || this == ModBlocks.air_block)
-		{
-			world.scheduleBlockUpdate(x, y, z, this, 0);
-		}
 		if(world.getBlockMetadata(x, y, z) != 0) {
 			world.setBlockMetadataWithNotify(x, y, z, 0, 4);
 			world.scheduleBlockUpdate(x, y, z, this, 10);
@@ -130,10 +126,6 @@ public abstract class BlockGasBase extends Block {
 	}
 
 	public int getDelay(World world) {
-		if (this == ModBlocks.vacuum || this == ModBlocks.air_block)
-		{
-			return 1;
-		}
 		return 2;
 	}
 

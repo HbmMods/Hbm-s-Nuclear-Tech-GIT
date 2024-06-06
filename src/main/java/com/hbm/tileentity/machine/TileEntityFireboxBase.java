@@ -56,7 +56,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			boolean canOperate = breatheAir();
+			boolean canOperate = canBreatheAir();
 			
 			for(int i = 2; i < 6; i++) {
 				ForgeDirection dir = ForgeDirection.getOrientation(i);
