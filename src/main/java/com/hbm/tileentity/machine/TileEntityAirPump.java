@@ -13,6 +13,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.fluid.IFluidStandardReceiver;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -109,11 +110,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 
 			subscribeToAllAround(tank.getTankType(), this);
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("onTicks", onTicks);
-			tank.writeToNBT(data, "at");
-
-			this.networkPack(data, 100);
+			this.networkPackNT(100);
 			
 		} else {
 			if(onTicks > 0) {
@@ -132,11 +129,16 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		}
 	}
 
-
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		tank.readFromNBT(nbt, "at");
-		onTicks = nbt.getInteger("onTicks");
+	@Override public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(onTicks);
+		tank.serialize(buf);
+	}
+	
+	@Override public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		onTicks = buf.readInt();
+		tank.deserialize(buf);
 	}
 
 
