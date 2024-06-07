@@ -128,8 +128,8 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			tanks[0].setType(10, 11, slots);
 			setupTanks();
 			
-			if(heat > 100) {
-				int crackTime = (int) Math.max(-0.1 * (heat - 100) + 30, 5);
+			if(heat >= 100) {
+				int crackTime = (int) Math.max(95 / Math.sqrt(heat - 90) + 0.75, 1);
 				
 				if(worldObj.getTotalWorldTime() % crackTime == 0)
 					crack();
