@@ -14,6 +14,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.fluid.IFluidStandardReceiver;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 public class TileEntityAirPump extends TileEntityMachineBase implements IFluidStandardReceiver, IAtmosphereProvider {
 
@@ -32,6 +33,10 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		tank = new FluidTank(Fluids.OXYGEN, 16000);
 	}
 	
+	@Override
+	public World getWorld() {
+		return worldObj;
+	}
 	
 	public void spawnParticles() {
 

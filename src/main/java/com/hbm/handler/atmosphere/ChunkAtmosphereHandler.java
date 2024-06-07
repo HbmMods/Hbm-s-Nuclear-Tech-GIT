@@ -90,7 +90,7 @@ public class ChunkAtmosphereHandler {
 	 * Registration methods
 	 */
 	public void registerAtmosphere(IAtmosphereProvider handler) {
-		HashMap<IAtmosphereProvider, AtmosphereBlob> blobs = worldBlobs.get(handler.getWorldObj().provider.dimensionId);
+		HashMap<IAtmosphereProvider, AtmosphereBlob> blobs = worldBlobs.get(handler.getWorld().provider.dimensionId);
 		AtmosphereBlob blob = blobs.get(handler);
 		
 		if(blob == null) {
@@ -101,7 +101,7 @@ public class ChunkAtmosphereHandler {
 	}
 
 	public void unregisterAtmosphere(IAtmosphereProvider handler) {
-		HashMap<IAtmosphereProvider, AtmosphereBlob> blobs = worldBlobs.get(handler.getWorldObj().provider.dimensionId);
+		HashMap<IAtmosphereProvider, AtmosphereBlob> blobs = worldBlobs.get(handler.getWorld().provider.dimensionId);
 		blobs.remove(handler);
 	}
 

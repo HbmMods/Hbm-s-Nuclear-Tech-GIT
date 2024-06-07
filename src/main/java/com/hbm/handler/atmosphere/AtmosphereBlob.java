@@ -185,7 +185,7 @@ public class AtmosphereBlob implements Runnable {
 
 				ThreeInts newBlock = blockPos.getPositionAtOffset(direction);
 				if(graph.contains(newBlock) && !graph.doesPathExist(newBlock, handler.getRootPosition()))
-					runEffectOnWorldBlocks(handler.getWorldObj(), graph.removeAllNodesConnectedTo(newBlock));
+					runEffectOnWorldBlocks(handler.getWorld(), graph.removeAllNodesConnectedTo(newBlock));
 			}
 		}
 	}
@@ -194,7 +194,7 @@ public class AtmosphereBlob implements Runnable {
 	 * Removes all nodes from the blob
 	 */
 	public void clearBlob() {
-        World world = handler.getWorldObj();
+        World world = handler.getWorld();
 
 		runEffectOnWorldBlocks(world, getLocations());
         
@@ -235,7 +235,7 @@ public class AtmosphereBlob implements Runnable {
 				if(!graph.contains(searchNextPosition) && !addableBlocks.contains(searchNextPosition)) {
 
 					try {
-						if(isPositionAllowed(handler.getWorldObj(), searchNextPosition)) {
+						if(isPositionAllowed(handler.getWorld(), searchNextPosition)) {
 							if(searchNextPosition.getDistanceSquared(this.getRootPosition()) <= maxSize * maxSize) {
 								stack.push(searchNextPosition);
 								addableBlocks.add(searchNextPosition);
