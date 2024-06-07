@@ -7,6 +7,7 @@ import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.config.RadiationConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
@@ -17,7 +18,9 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -30,6 +33,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
@@ -332,6 +336,32 @@ public class ModEventHandlerRenderer {
 			double horizontal = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.02), -0.7, 0.7) * 15;
 			double vertical = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 3;
 			GL11.glTranslated(horizontal * mult, vertical * mult, 0);
+		} else if(event.type == ElementType.AIR) {
+			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+
+			// If we're suffocating for a reason other than water, render the HUD bubbles
+			int air = HbmLivingProps.getOxy(player);
+			if(air < 100) {
+				int width = event.resolution.getScaledWidth();
+				int height = event.resolution.getScaledHeight();
+				GuiIngame gui = Minecraft.getMinecraft().ingameGUI;
+	
+				GL11.glEnable(GL11.GL_BLEND);
+				int left = width / 2 + 91;
+				int top = height - GuiIngameForge.right_height;
+	
+				int full = MathHelper.ceiling_double_int((double)(air - 2) * 10.0D / 100.0D);
+				int partial = MathHelper.ceiling_double_int((double)air * 10.0D / 100.0D) - full;
+
+				for(int i = 0; i < full + partial; ++i) {
+					gui.drawTexturedModalRect(left - i * 8 - 9, top, (i < full ? 16 : 25), 18, 9, 9);
+				}
+				GuiIngameForge.right_height += 10;
+	
+				GL11.glDisable(GL11.GL_BLEND);
+	
+				event.setCanceled(true);
+			}
 		}
 	}
 }
