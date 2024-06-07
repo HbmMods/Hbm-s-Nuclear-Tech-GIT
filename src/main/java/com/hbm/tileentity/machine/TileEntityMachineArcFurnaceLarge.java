@@ -152,7 +152,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 				
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1.25D, zCoord + 0.5D + dir.offsetZ * 2.875D, 6, true, this.liquids, MaterialShapes.INGOT.q(1), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1.25D, zCoord + 0.5D + dir.offsetZ * 2.875D, 6, true, this.liquids, MaterialShapes.INGOT.q(3), impact);
 
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();

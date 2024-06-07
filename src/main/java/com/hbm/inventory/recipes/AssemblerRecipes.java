@@ -426,7 +426,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.FERRO.ordinal()), new AStack[] {
 				new OreDictStack(FERRO.ingot(), 24),
 				new OreDictStack(ANY_RESISTANTALLOY.ingot(), 12),
-				new OreDictStack(BI.ingot(), 4),
+				new OreDictStack(ANY_BISMOIDBRONZE.ingot(), 4),
 			}, 200);
 		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.FERRO_DIAMOND.ordinal()), new AStack[] {
 				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.FERRO.ordinal()),
