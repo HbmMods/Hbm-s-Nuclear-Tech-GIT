@@ -109,13 +109,15 @@ public class BlockGrate extends Block implements ITooltipProvider {
 
 			if(meta == 0) {
 				// Check that the block below can fit a grate above it
-				AxisAlignedBB bb = world.getBlock(x, y - 1, z).getCollisionBoundingBoxFromPool(world, x, y - 1, z);
-				if(bb == null || (int) ((bb.maxY - (y - 1)) * 100) < 90) {
+				Block block = world.getBlock(x, y - 1, z);
+				AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(world, x, y - 1, z);
+				if(!block.isAir(world, x, y + 1, z) && (bb == null || (int) ((bb.maxY - (y - 1)) * 100) < 90)) {
 					world.setBlockMetadataWithNotify(x, y, z, 9, 3);
 				}
 			} else if(meta == 7) {
-				AxisAlignedBB bb = world.getBlock(x, y + 1, z).getCollisionBoundingBoxFromPool(world, x, y + 1, z);
-				if(bb == null || (int) ((bb.minY - (y + 1)) * 100) > 10) {
+				Block block = world.getBlock(x, y + 1, z);
+				AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(world, x, y + 1, z);
+				if(!block.isAir(world, x, y + 1, z) && (bb == null || (int) ((bb.minY - (y + 1)) * 100) > 10)) {
 					world.setBlockMetadataWithNotify(x, y, z, 8, 3);
 				}
 			}
