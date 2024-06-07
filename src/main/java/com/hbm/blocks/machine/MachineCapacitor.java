@@ -10,7 +10,9 @@ import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.packet.BufPacket;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BobMathUtil;
@@ -20,8 +22,10 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -146,7 +150,7 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 		player.addExhaustion(0.025F);
 	}
 
-	public static class TileEntityCapacitor extends TileEntityLoadedBase implements IEnergyProviderMK2, IEnergyReceiverMK2, INBTPacketReceiver, IPersistentNBT {
+	public static class TileEntityCapacitor extends TileEntityLoadedBase implements IEnergyProviderMK2, IEnergyReceiverMK2, IBufPacketReceiver, IPersistentNBT {
 		
 		public long power;
 		protected long maxPower;
@@ -190,18 +194,29 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 					this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), last);
 				}
 				
-				this.trySubscribe(worldObj, xCoord + opp.offsetX, yCoord+ opp.offsetY, zCoord + opp.offsetZ, opp);
-				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setLong("power", power);
-				data.setLong("maxPower", maxPower);
-				data.setLong("rec", powerReceived);
-				data.setLong("sent", powerSent);
-				INBTPacketReceiver.networkPack(this, data, 15);
+				this.trySubscribe(worldObj, xCoord + opp.offsetX, yCoord + opp.offsetY, zCoord + opp.offsetZ, opp);
+
+				PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 15));
 				
 				this.powerSent = 0;
 				this.powerReceived = 0;
 			}
+		}
+
+		@Override
+		public void serialize(ByteBuf buf) {
+			buf.writeLong(power);
+			buf.writeLong(maxPower);
+			buf.writeLong(powerReceived);
+			buf.writeLong(powerSent);
+		}
+		
+		@Override
+		public void deserialize(ByteBuf buf) {
+			power = buf.readLong();
+			maxPower = buf.readLong();
+			powerReceived = buf.readLong();
+			powerSent = buf.readLong();
 		}
 
 		@Override
@@ -222,14 +237,6 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 		public void usePower(long power) {
 			this.powerSent += Math.min(this.getPower(), power);
 			this.setPower(this.getPower() - power);
-		}
-
-		@Override
-		public void networkUnpack(NBTTagCompound nbt) { 
-			this.power = nbt.getLong("power");
-			this.maxPower = nbt.getLong("maxPower");
-			this.powerReceived = nbt.getLong("rec");
-			this.powerSent = nbt.getLong("sent");
 		}
 
 		@Override
