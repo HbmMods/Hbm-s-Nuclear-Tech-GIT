@@ -115,7 +115,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 6.875, zCoord + 1).offset(dir.offsetX * 0.75 + rot.offsetX * 1.25, 0, dir.offsetZ * 0.75 + rot.offsetZ * 1.25));
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.25, yCoord + 1, zCoord + 0.25, xCoord + 0.75, yCoord + 5.875, zCoord + 0.75).offset(rot.offsetX * 1.5, 0, rot.offsetZ * 1.5));
 		
 		for(EntityPlayer player : players) {
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
@@ -133,25 +133,16 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	
 	protected DirPos[] getConPos() {
 
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-
-		if(dir == ForgeDirection.NORTH || dir == ForgeDirection.SOUTH) {
-			
-			return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord + 5, zCoord, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord + 5, zCoord, Library.NEG_X)
-			};
-		}
-
-		if(dir == ForgeDirection.EAST || dir == ForgeDirection.WEST) {
-			
-			return new DirPos[] {
-				new DirPos(xCoord, yCoord + 5, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord, yCoord + 5, zCoord - 2, Library.NEG_Z)
-			};
-		}
-		
-		return new DirPos[0];
+		return new DirPos[] {
+				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
+				new DirPos(xCoord + 2, yCoord, zCoord - 2, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
+				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
+				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z)
+		};
 	}
 	
 	public void networkUnpack(NBTTagCompound data) {

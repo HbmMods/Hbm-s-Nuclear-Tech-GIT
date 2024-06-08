@@ -36,6 +36,12 @@
 * There is now an alternate recipe for standard capacitors, using one aluminium dust for two capacitors (i.e. 4.5 aluminium nuggets, vs the standard 1 niobium nugget)
 * Shift-clicking steel grates onto the top/bottom of a block now shifts the grate into that block (if there is space, for example for cables or ducts). The effect is only visual, and the block still occupies the position above the block that the grate has been placed at
   * This allows for making pipes with grates over them which are flush with the floor
+* The ore acidizer has been remodeled
+  * The ports are now much simpler, having universale ports for all types instead of ppower/fluid being separated from items
+  * The ports are now all located at the bottom, making it easier to connect power/fluid
+  * There are now more ports to choose from
+  * The machine is now one block shorter
+  * The ladder is now wider and centered on the side
 
 ## Fixed
 * Fixed dupe regarding conveyor grabbers
@@ -44,3 +50,4 @@
 * Fixed FM radios disassembling into incorrect parts
 * Fixed 256k tanks yielding too much steel when shredded
 * Fixed the wire mold only creating 1 wire instead of the intended 8 due to the changes to the wire oredict
+* Fixed potential crashes in the arc welder and soldering station GUIs

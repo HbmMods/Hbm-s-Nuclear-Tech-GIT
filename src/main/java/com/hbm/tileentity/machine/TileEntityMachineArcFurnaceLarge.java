@@ -292,13 +292,18 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			}
 			
 			if(liquidMode && recipe.fluidOutput != null) {
-				int liquid = this.getStackAmount(liquids);
-				int toAdd = this.getStackAmount(recipe.fluidOutput);
 				
-				if(liquid + toAdd <= this.maxLiquid) {
-					slots[i] = null;
-					for(MaterialStack stack : recipe.fluidOutput) {
-						this.addToStack(stack);
+				while(slots[i] != null && slots[i].stackSize > 0) {
+					int liquid = this.getStackAmount(liquids);
+					int toAdd = this.getStackAmount(recipe.fluidOutput);
+					
+					if(liquid + toAdd <= this.maxLiquid) {
+						this.decrStackSize(i, 1);
+						for(MaterialStack stack : recipe.fluidOutput) {
+							this.addToStack(stack);
+						}
+					} else {
+						break;
 					}
 				}
 			}
