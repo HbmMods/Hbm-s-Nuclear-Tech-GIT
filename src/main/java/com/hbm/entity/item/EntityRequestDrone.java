@@ -31,6 +31,14 @@ public class EntityRequestDrone extends EntityDroneBase {
 		UNLOAD, DOCK
 	}
 
+	@Override
+	public void setTarget(double x, double y, double z) {
+		this.targetX = x;
+		this.targetY = y + 1;
+		this.targetZ = z;
+	}
+
+
 	public EntityRequestDrone(World world) {
 		super(world);
 	}

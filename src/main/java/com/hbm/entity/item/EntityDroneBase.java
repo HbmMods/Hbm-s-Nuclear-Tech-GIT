@@ -29,7 +29,7 @@ public abstract class EntityDroneBase extends Entity {
 	
 	public void setTarget(double x, double y, double z) {
 		this.targetX = x;
-		this.targetY = y + 1;
+		this.targetY = y;
 		this.targetZ = z;
 	}
 
@@ -112,7 +112,9 @@ public abstract class EntityDroneBase extends Entity {
 					this.motionZ = dist.zCoord * speed;
 				}
 			}
-			
+			if(isCollidedHorizontally){
+				motionY += 1;
+			}
 			this.moveEntity(motionX, motionY, motionZ);
 		}
 	}
