@@ -257,8 +257,8 @@ public class AssemblerRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModItems.mp_fuselage_10_15_balefire, 1), new AStack[] {new ComparableStack(ModItems.seg_10, 1), new ComparableStack(ModItems.seg_15, 1), new ComparableStack(ModBlocks.steel_scaffold, 9), new OreDictStack(TI.plate(), 36), new OreDictStack(BIGMT.plate(), 9), },500);
 		makeRecipe(new ComparableStack(ModItems.mp_fuselage_15_20_kerosene, 1), new AStack[] {new ComparableStack(ModItems.seg_15, 1), new ComparableStack(ModItems.seg_20, 1), new ComparableStack(ModBlocks.steel_scaffold, 16), new OreDictStack(TI.plate(), 64), new OreDictStack(STEEL.plate(), 16), },600);
 		makeRecipe(new ComparableStack(ModItems.mp_fuselage_15_20_solid, 1), new AStack[] {new ComparableStack(ModItems.seg_15, 1), new ComparableStack(ModItems.seg_20, 1), new ComparableStack(ModBlocks.steel_scaffold, 16), new OreDictStack(TI.plate(), 64), new OreDictStack(AL.plate(), 16), },600);
-		makeRecipe(new ComparableStack(ModItems.mp_fuselage_20_kerosene, 1), new AStack[] {new ComparableStack(ModItems.seg_20, 1), new ComparableStack(ModBlocks.steel_scaffold, 16), new OreDictStack(TI.shell(), 12), new OreDictStack(AL.plate(), 32), },600);
-		makeRecipe(new ComparableStack(ModItems.mp_fuselage_20_hydrazine, 1), new AStack[] {new ComparableStack(ModItems.seg_20, 1), new ComparableStack(ModBlocks.steel_scaffold, 16), new OreDictStack(TI.shell(), 12), new OreDictStack(AL.plate(), 32), new OreDictStack(POLYMER.ingot(), 12) },600); //needs teflon because its inert to such a hypergolic fuel
+		makeRecipe(new ComparableStack(ModItems.mp_fuselage_20_kerosene, 1), new AStack[] {new ComparableStack(ModItems.seg_20, 1), new ComparableStack(ModBlocks.steel_scaffold, 16), new OreDictStack(TI.shell(), 12), new OreDictStack(AL.plateWelded(), 16), },600);
+		makeRecipe(new ComparableStack(ModItems.mp_fuselage_20_hydrazine, 1), new AStack[] {new ComparableStack(ModItems.seg_20, 1), new OreDictStack(TI.shell(), 12), new OreDictStack(AL.plateWelded(), 16), new OreDictStack(POLYMER.ingot(), 8) },600); //needs teflon because its inert to such a hypergolic fuel
 
 		makeRecipe(new ComparableStack(ModItems.mp_warhead_10_he, 1), new AStack[] {new ComparableStack(ModItems.seg_10, 1), new OreDictStack(STEEL.plate(), 6), new OreDictStack(ANY_HIGHEXPLOSIVE.ingot(), 3), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BASIC), },100);
 		makeRecipe(new ComparableStack(ModItems.mp_warhead_10_incendiary, 1), new AStack[] {new ComparableStack(ModItems.seg_10, 1), new OreDictStack(TI.plate(), 4), new OreDictStack(P_RED.dust(), 3), new OreDictStack(ANY_HIGHEXPLOSIVE.ingot(), 2), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BASIC), },100);
@@ -600,6 +600,16 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(W.bolt(), 4),
 				new OreDictStack(DURA.bolt(), 4),
 				new ComparableStack(ModItems.motor, 1),
+			}, 300);
+		
+		makeRecipe(new ComparableStack(ModBlocks.transporter_rocket, 1), new AStack[] {
+				new OreDictStack(TI.plateWelded(), 10),
+				new ComparableStack(ModBlocks.crate_iron, 2), 
+				//new ComparableStack(ModItems.circuit, 1, EnumCircuitType.AREO), //gate,
+				new ComparableStack(ModItems.tank_steel, 10),
+				new ComparableStack(ModItems.thruster_small, 1), 
+				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.AVIONICS),
+
 			}, 300);
 		
 		makeRecipe(new ComparableStack(ModBlocks.fire_door, 1), new AStack[] {

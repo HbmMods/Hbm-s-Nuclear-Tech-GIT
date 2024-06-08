@@ -59,7 +59,7 @@ public class WorldGeneratorCelestial implements IWorldGenerator {
         DungeonToolbox.generateOre(world, rand, x, z, WorldConfig.copperSpawn, 6, 5, 45, ModBlocks.ore_copper, meta, planetStone);
         DungeonToolbox.generateOre(world, rand, x, z, WorldConfig.nickelSpawn, 6, 5, 10, ModBlocks.ore_nickel, meta, planetStone);
         DungeonToolbox.generateOre(world, rand, x, z, WorldConfig.zincSpawn, 6, 5, 32, ModBlocks.ore_zinc, meta, planetStone);
-        DungeonToolbox.generateOre(world, rand, x, z, WorldConfig.mineralSpawn, 10, 12, 32, ModBlocks.ore_mineral, meta, planetStone);
+        //DungeonToolbox.generateOre(world, rand, x, z, WorldConfig.mineralSpawn, 10, 12, 32, ModBlocks.ore_mineral, meta, planetStone);
         DungeonToolbox.generateOre(world, rand, x, z, WorldConfig.fluoriteSpawn, 4, 5, 45, ModBlocks.ore_fluorite, meta, planetStone);
         DungeonToolbox.generateOre(world, rand, x, z, WorldConfig.niterSpawn, 6, 5, 30, ModBlocks.ore_niter, meta, planetStone);
         DungeonToolbox.generateOre(world, rand, x, z, WorldConfig.tungstenSpawn, 8, 5, 30, ModBlocks.ore_tungsten, meta, planetStone);

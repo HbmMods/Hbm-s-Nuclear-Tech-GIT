@@ -795,6 +795,7 @@ public class SILEXRecipes {
 				);
 		
 		//okay so at this point, silex for ore processing should be a lategame incentive, instead of the standard
+		/*
 		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 0), new SILEXRecipe(1000, 200, EnumWavelengths.IR) //peroxide
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_nickel), 50))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_boron), 20))
@@ -826,6 +827,7 @@ public class SILEXRecipes {
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 3))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_caesium), 2))
 				);
+				*/
 		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.FULLERENE.getID()), new SILEXRecipe(1_000, 1_000, EnumWavelengths.UV)
 				.addOut(new WeightedRandomObject(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.FULLERENE), 1))
 				);

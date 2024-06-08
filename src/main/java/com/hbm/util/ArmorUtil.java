@@ -167,7 +167,7 @@ public class ArmorUtil {
 			EntityPlayer play = (EntityPlayer) player;
 
 			ItemStack plate = play.inventory.armorInventory[2];
-			if(checkArmor(player, ModItems.oxy_helmet, ModItems.oxy_plate, ModItems.oxy_legs, ModItems.oxy_boots)) {
+			if(checkArmor(player, ModItems.envsuit_helmet, ModItems.envsuit_plate, ModItems.envsuit_legs, ModItems.envsuit_boots)) {
 				if (plate != null && plate.getItem() instanceof ArmorFSBOxy) {
 					if(((ArmorFSBOxy) plate.getItem()).isArmorEnabled(plate)) {					
 						return true;

@@ -510,38 +510,38 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.powder_fire, 1),
 				new ItemStack(ModItems.powder_calcium),
 				new ItemStack(ModItems.dust) });
-
+		//nitric acid needs air chem to use, something that c
 		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 0), new ItemStack[] { //peroxide, easy to use and get
-				new ItemStack(ModItems.powder_iron, 6),
-				new ItemStack(ModItems.powder_aluminium, 6),
-				new ItemStack(ModItems.powder_copper, 6), 
+				new ItemStack(ModItems.powder_iron, 4),
+				new ItemStack(ModItems.powder_aluminium, 3),
+				new ItemStack(ModItems.powder_copper, 3), 
 				new ItemStack(ModItems.nugget_beryllium, 1) });
 		
 		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 1), new ItemStack[] { //nitric acid, harder and energy expensive
-				new ItemStack(ModItems.powder_asbestos, 1),
-				new ItemStack(ModItems.nugget_beryllium, 2),
-				new ItemStack(ModItems.powder_aluminium, 6), //temp
-				new ItemStack(ModItems.nugget_mercury, 2) });
+				new ItemStack(ModItems.powder_asbestos, 2),
+				new ItemStack(ModItems.powder_beryllium, 2),
+				new ItemStack(ModItems.nugget_mercury, 3), //temp
+				new ItemStack(ModItems.nugget_hafnium, 2) });
 		
 		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 2), new ItemStack[] { //sulfuric acid, less harder
 				new ItemStack(ModItems.powder_beryllium, 2),
-				new ItemStack(ModItems.nugget_platnium, 1),
+				new ItemStack(ModItems.powder_aluminium, 3),
 				new ItemStack(ModItems.powder_nickel, 3), //temp
 				new ItemStack(ModItems.powder_calcium, 1) });
 		
-		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 3), new ItemStack[] { // hard to get
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 3), new ItemStack[] {// solvent uses *oil* something that sulfuric doesnt
 				new ItemStack(ModItems.nugget_gallium, 1),
-				new ItemStack(ModItems.powder_iron, 6),
-				new ItemStack(ModItems.powder_cobalt, 3), //temp
-				new ItemStack(ModItems.niter, 6) });
+				new ItemStack(ModItems.powder_boron, 2),
+				new ItemStack(ModItems.powder_cobalt, 1), //temp
+				new ItemStack(ModItems.powder_lithium, 6) });
 		
-		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 4), new ItemStack[] { // similar to sulfuric
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 4), new ItemStack[] {  // chlorine is important mid-lategame. since it makes Plastics
 				new ItemStack(ModItems.powder_neodymium, 1),
-				new ItemStack(ModItems.powder_nickel, 3),
+				new ItemStack(ModItems.powder_niobium, 2),
 				new ItemStack(ModItems.powder_gallium_tiny, 2), //temp
 				new ItemStack(ModItems.powder_lithium, 1) });
 		
-		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 5), new ItemStack[] {
+		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 5), new ItemStack[] { // shchrab acid can go fuck itself
 				new ItemStack(ModItems.powder_co60, 1),
 				new ItemStack(ModItems.nugget_bismuth, 1),
 				new ItemStack(ModItems.powder_asbestos, 6), //temp
