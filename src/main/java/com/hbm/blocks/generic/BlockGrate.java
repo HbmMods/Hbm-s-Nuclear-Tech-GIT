@@ -14,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,8 +32,6 @@ public class BlockGrate extends Block implements ITooltipProvider {
 	
 	public BlockGrate(Material material) {
 		super(material);
-		
-		//this.maxY = 0.999D;
 	}
 	
 	@Override
@@ -65,16 +64,23 @@ public class BlockGrate extends Block implements ITooltipProvider {
 		return false;
 	}
 
+	public float getY(int meta) {
+		if(meta == 9) return -0.125F;
+		return meta * 0.125F;
+	}
+
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
-		this.setBlockBounds(0F, meta * 0.125F, 0F, 1F, meta * 0.125F + 0.125F - (this == ModBlocks.steel_grate_wide ? 0.001F : 0), 1F);
+		float fy = getY(meta);
+		this.setBlockBounds(0F, fy, 0F, 1F, fy + 0.125F - (this == ModBlocks.steel_grate_wide ? 0.001F : 0), 1F);
 	}
 
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
-		this.setBlockBounds(0F, meta * 0.125F, 0F, 1F, meta * 0.125F + 0.125F - (this == ModBlocks.steel_grate_wide ? 0.001F : 0), 1F);
+		float fy = getY(meta);
+		this.setBlockBounds(0F, fy, 0F, 1F, fy + 0.125F - (this == ModBlocks.steel_grate_wide ? 0.001F : 0), 1F);
 		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
 	}
 
@@ -94,6 +100,50 @@ public class BlockGrate extends Block implements ITooltipProvider {
 			return 0;
 		
 		return (int)Math.floor(hY * 8D);
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
+		if(player.isSneaking()) {
+			int meta = world.getBlockMetadata(x, y, z);
+
+			if(meta == 0) {
+				// Check that the block below can fit a grate above it
+				Block block = world.getBlock(x, y - 1, z);
+				AxisAlignedBB otherBB = block.getSelectedBoundingBoxFromPool(world, x, y - 1, z);
+				if(!block.isAir(world, x, y + 1, z) && (otherBB == null || otherBB.maxY - (double)y < -0.05)) {
+					world.setBlockMetadataWithNotify(x, y, z, 9, 3);
+				}
+			} else if(meta == 7) {
+				Block block = world.getBlock(x, y + 1, z);
+				AxisAlignedBB otherBB = block.getSelectedBoundingBoxFromPool(world, x, y + 1, z);
+				if(!block.isAir(world, x, y + 1, z) && (otherBB == null || otherBB.minY - (double)(y + 1) > 0.05)) {
+					world.setBlockMetadataWithNotify(x, y, z, 8, 3);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighborBlock) {
+		if(world.isRemote) return;
+
+		int meta = world.getBlockMetadata(x, y, z);
+
+		boolean breakIt = false;
+
+		if(meta == 9) {
+			AxisAlignedBB otherBB = world.getBlock(x, y - 1, z).getSelectedBoundingBoxFromPool(world, x, y - 1, z);
+			breakIt = !(otherBB == null || otherBB.maxY - (double)y < -0.05);
+		} else if(meta == 8) {
+			AxisAlignedBB otherBB = world.getBlock(x, y + 1, z).getSelectedBoundingBoxFromPool(world, x, y + 1, z);
+			breakIt = !(otherBB == null || otherBB.minY - (double)(y + 1) > 0.05);
+		}
+
+		if(breakIt) {
+			dropBlockAsItem(world, x, y, z, 0, 0);
+			world.setBlockToAir(x, y, z);
+		}
 	}
 
 	@Override

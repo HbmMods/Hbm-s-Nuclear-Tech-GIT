@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.hbm.blocks.IStepTickReceiver;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
@@ -13,12 +14,13 @@ import net.minecraft.block.BlockSlab;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockMultiSlab extends BlockSlab {
+public class BlockMultiSlab extends BlockSlab implements IStepTickReceiver {
 	
 	public static List<Object[]> recipeGen = new ArrayList();
 	
@@ -99,5 +101,19 @@ public class BlockMultiSlab extends BlockSlab {
 		meta = (meta & 7) % slabMaterials.length;
 		Block block = slabMaterials[meta];
 		return block.getBlockHardness(world, x, y, z); //relies on block not assuming that they are at that position
+	}
+
+	@Override
+	public void onPlayerStep(World world, int x, int y, int z, EntityPlayer player) {
+		int meta = world.getBlockMetadata(x, y, z);
+		meta = (meta & 7) % slabMaterials.length;
+		Block block = slabMaterials[meta];
+		if(!world.isRemote || !(block instanceof BlockSpeedy))
+			return;
+
+		if(player.moveForward != 0 || player.moveStrafing != 0) {
+			player.motionX *= 1.5;
+			player.motionZ *= 1.5;
+		}
 	}
 }

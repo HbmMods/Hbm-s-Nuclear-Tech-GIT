@@ -878,9 +878,8 @@ public class ModEventHandler {
 								player.fallDistance = 0;
 						}
 					} else if(props.enableBackpack && !player.isSneaking()) {
-						
-						if(player.motionY < -0.2)
-							player.motionY += 0.075D;
+						if(player.motionY < -0.2) player.motionY += 0.075D;
+						if(player.fallDistance > 0) player.fallDistance = 0;
 					}
 				}
 				

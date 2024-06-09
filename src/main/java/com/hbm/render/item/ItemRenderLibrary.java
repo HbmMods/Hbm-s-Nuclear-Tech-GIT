@@ -93,22 +93,6 @@ public class ItemRenderLibrary {
 		        bindTexture(ResourceManager.epress_head_tex); ResourceManager.epress_head.renderAll();
 			}});
 		
-		renderers.put(Item.getItemFromBlock(ModBlocks.machine_crystallizer), new ItemRenderBase() {
-			public void renderNonInv() {
-				GL11.glScaled(0.5, 0.5, 0.5);
-			}
-			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(1.75, 1.75, 1.75);
-			}
-			public void renderCommon() {
-				GL11.glShadeModel(GL11.GL_SMOOTH);
-		        bindTexture(ResourceManager.crystallizer_tex); ResourceManager.crystallizer.renderPart("Body");
-		        bindTexture(ResourceManager.crystallizer_window_tex); ResourceManager.crystallizer.renderPart("Windows");
-		        bindTexture(ResourceManager.crystallizer_spinner_tex); ResourceManager.crystallizer.renderPart("Spinner");
-				GL11.glShadeModel(GL11.GL_FLAT);
-			}});
-		
 		renderers.put(Item.getItemFromBlock(ModBlocks.machine_reactor_breeding), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -4, 0);
