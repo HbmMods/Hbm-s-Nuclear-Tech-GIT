@@ -7,6 +7,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.tileentity.machine.TileEntityMachineCrystallizer;
 
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -20,7 +21,7 @@ public class RenderCrystallizer extends TileEntitySpecialRenderer implements IIt
 		GL11.glPushMatrix();
 		GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_CULL_FACE);
+		GL11.glEnable(GL11.GL_CULL_FACE);
 
 		switch(te.getBlockMetadata() - 10) {
 		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
@@ -39,6 +40,16 @@ public class RenderCrystallizer extends TileEntitySpecialRenderer implements IIt
 		GL11.glRotatef(crys.prevAngle + (crys.angle - crys.prevAngle) * inter, 0, 1, 0);
 		ResourceManager.crystallizer.renderPart("Spinner");
 		GL11.glPopMatrix();
+		
+		if(crys.prevAngle != crys.angle) {
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glDepthMask(false);
+			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+			bindTexture(crys.tank.getTankType().getTexture());
+			ResourceManager.crystallizer.renderPart("Fluid");
+			GL11.glDepthMask(true);
+			GL11.glDisable(GL11.GL_BLEND);
+		}
 
 		GL11.glShadeModel(GL11.GL_FLAT);
 

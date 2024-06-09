@@ -21,7 +21,7 @@ public class DesertAtom001 extends WorldGenerator
 {
 	Block Block2 = ModBlocks.yellow_barrel;
 	Block Block3 = ModBlocks.reinforced_sand;
-	Block Block4 = ModBlocks.nuke_man;
+	Block Block4 = ModBlocks.crashed_balefire;
 	Block Block5 = ModBlocks.deco_steel;
 	Block Block6 = ModBlocks.brick_light;
 	Block Block7 = ModBlocks.deco_tungsten;
