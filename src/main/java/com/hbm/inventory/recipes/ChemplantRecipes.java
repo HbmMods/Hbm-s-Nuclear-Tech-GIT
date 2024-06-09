@@ -326,8 +326,8 @@ public class ChemplantRecipes extends SerializableRecipe {
 			.outputFluids(new FluidStack(Fluids.SULFURIC_ACID, 2000)));
 		recipes.add(new ChemRecipe(92, "NITRIC_ACID", 50)
 			.inputItems(new OreDictStack(KNO.dust()))
-			.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 500))
-			.outputFluids(new FluidStack(Fluids.NITRIC_ACID, 500)));
+			.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 2000))
+			.outputFluids(new FluidStack(Fluids.NITRIC_ACID, 2000)));
 		recipes.add(new ChemRecipe(93, "SOLVENT", 50)
 			.inputFluids(new FluidStack(Fluids.NAPHTHA, 500), new FluidStack(Fluids.AROMATICS, 500))
 			.outputFluids(new FluidStack(Fluids.SOLVENT, 1000)));
