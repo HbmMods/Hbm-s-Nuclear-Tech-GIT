@@ -1330,6 +1330,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.machine_generator");
 		ignoreMappings.add("hbm:item.v1");
 		ignoreMappings.add("hbm:item.arc_electrode_desh");
+		ignoreMappings.add("hbm:tile.sand_gold");
+		ignoreMappings.add("hbm:tile.sand_gold198");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

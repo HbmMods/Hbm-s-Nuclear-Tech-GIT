@@ -259,49 +259,37 @@ public class ModEventHandler {
 	
 	@SubscribeEvent
 	public void onEntityDeath(LivingDeathEvent event) {
-		
 		HbmLivingProps.setRadiation(event.entityLiving, 0);
-		
 		if(event.entity.worldObj.isRemote)
 			return;
-		
 		if(GeneralConfig.enableCataclysm) {
 			EntityBurningFOEQ foeq = new EntityBurningFOEQ(event.entity.worldObj);
 			foeq.setPositionAndRotation(event.entity.posX, 500, event.entity.posZ, 0.0F, 0.0F);
 			event.entity.worldObj.spawnEntityInWorld(foeq);
 		}
-
 		if(event.entity instanceof EntityCreeperTainted && event.source == ModDamageSource.boxcar) {
-			
 			for(Object o : event.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, event.entity.boundingBox.expand(50, 50, 50))) {
 				EntityPlayer player = (EntityPlayer)o;
 				player.triggerAchievement(MainRegistry.bobHidden);
 			}
 		}
-		
 		if(!event.entityLiving.worldObj.isRemote) {
-			
 			if(event.source instanceof EntityDamageSource && ((EntityDamageSource)event.source).getEntity() instanceof EntityPlayer
 					 && !(((EntityDamageSource)event.source).getEntity() instanceof FakePlayer)) {
-				
 				if(event.entityLiving instanceof EntitySpider && event.entityLiving.getRNG().nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.spider_milk, 1);
 				}
-				
 				if(event.entityLiving instanceof EntityCaveSpider && event.entityLiving.getRNG().nextInt(100) == 0) {
 					event.entityLiving.dropItem(ModItems.serum, 1);
 				}
-				
 				if(event.entityLiving instanceof EntityAnimal && event.entityLiving.getRNG().nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.bandaid, 1);
 				}
-				
 				if(event.entityLiving instanceof IMob) {
 					if(event.entityLiving.getRNG().nextInt(1000) == 0) event.entityLiving.dropItem(ModItems.heart_piece, 1);
 					if(event.entityLiving.getRNG().nextInt(250) == 0) event.entityLiving.dropItem(ModItems.key_red_cracked, 1);
 					if(event.entityLiving.getRNG().nextInt(250) == 0) event.entityLiving.dropItem(ModItems.launch_code_piece, 1);
 				}
-				
 				if(event.entityLiving instanceof EntityCyberCrab && event.entityLiving.getRNG().nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.wd40, 1);
 				}
@@ -311,31 +299,20 @@ public class ModEventHandler {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityDeathLast(LivingDeathEvent event) {
-
 		if(event.entityLiving instanceof EntityPlayer) {
-			
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
-			
 			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
-				
 				ItemStack stack = player.inventory.getStackInSlot(i);
-				
 				if(stack != null && stack.getItem() == ModItems.detonator_deadman) {
-					
 					if(stack.stackTagCompound != null) {
-						
 						int x = stack.stackTagCompound.getInteger("x");
 						int y = stack.stackTagCompound.getInteger("y");
 						int z = stack.stackTagCompound.getInteger("z");
-
 						if(!player.worldObj.isRemote && player.worldObj.getBlock(x, y, z) instanceof IBomb) {
-							
 							((IBomb) player.worldObj.getBlock(x, y, z)).explode(player.worldObj, x, y, z);
-							
 							if(GeneralConfig.enableExtendedLogging)
 								MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by dead man's switch from " + player.getDisplayName() + "!");
 						}
-						
 						player.inventory.setInventorySlotContents(i, null);
 					}
 				}
@@ -819,7 +796,129 @@ public class ModEventHandler {
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)
 			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleFall((EntityPlayer)e);
 	}
+	
+	@SubscribeEvent
+	public void onWingFlop(TickEvent.PlayerTickEvent event) {
 
+		EntityPlayer player = event.player;
+		
+		if(event.phase == TickEvent.Phase.START) {
+			
+			if(player.getCurrentArmor(2) == null && !player.onGround) {
+				
+				if(player.getUniqueID().toString().equals(ShadyUtil.Barnaby99_x) || player.getDisplayName().equals("pheo7")) {
+
+					ArmorUtil.resetFlightTime(player);
+					HbmPlayerProps props = HbmPlayerProps.getData(player);
+					
+					if(props.isJetpackActive()) {
+						
+						if(player.motionY < 0.4D)
+							player.motionY += 0.1D;
+	
+						Vec3 look = player.getLookVec();
+	
+						if(Vec3.createVectorHelper(player.motionX, player.motionY, player.motionZ).lengthVector() < 2) {
+							player.motionX += look.xCoord * 0.2;
+							player.motionY += look.yCoord * 0.2;
+							player.motionZ += look.zCoord * 0.2;
+	
+							if(look.yCoord > 0)
+								player.fallDistance = 0;
+						}
+					} else if(props.enableBackpack && !player.isSneaking()) {
+						if(player.motionY < -0.2) player.motionY += 0.075D;
+						if(player.fallDistance > 0) player.fallDistance = 0;
+					}
+				}
+				
+				boolean isBob = player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) || player.getDisplayName().equals("HbMinecraft");
+				boolean isOther = player.getUniqueID().toString().equals(ShadyUtil.the_NCR) || player.getDisplayName().equals("the_NCR");
+				
+				if(isBob || isOther) {
+					
+					ArmorUtil.resetFlightTime(player);
+					
+					if(player.fallDistance > 0)
+						player.fallDistance = 0;
+					
+					if(player.motionY < -0.4D)
+						player.motionY = -0.4D;
+					
+					HbmPlayerProps props = HbmPlayerProps.getData(player);
+					
+					if(isBob || player.getFoodStats().getFoodLevel() > 6) {
+						
+						if(props.isJetpackActive()) {
+							
+							double cap = (isBob ? 0.8D : 0.4D);
+							
+							if(player.motionY < cap)
+								player.motionY += 0.15D;
+							else
+								player.motionY = cap + 0.15D;
+							
+							if(isOther) {
+								if(player.getFoodStats().getSaturationLevel() > 0F)
+									player.addExhaustion(4F); //burn up saturation so that super-saturating foods have no effect
+								else
+									player.addExhaustion(0.2F); //4:1 -> 0.05 hunger per tick or 1 per second
+							}
+							
+						} else if(props.enableBackpack && !player.isSneaking()) {
+							
+							if(player.motionY < -1)
+								player.motionY += 0.4D;
+							else if(player.motionY < -0.1)
+								player.motionY += 0.2D;
+							else if(player.motionY < 0)
+								player.motionY = 0;
+
+							if(isOther && !player.onGround) {
+								if(player.getFoodStats().getSaturationLevel() > 0F)
+									player.addExhaustion(4F);
+								else
+									player.addExhaustion(0.04F);
+							}
+							
+						} else if(!props.enableBackpack && player.isSneaking()) {
+							
+							if(player.motionY < -0.08) {
+	
+								double mo = player.motionY * (isBob ? -0.6 : -0.4);
+								player.motionY += mo;
+	
+								Vec3 vec = player.getLookVec();
+								vec.xCoord *= mo;
+								vec.yCoord *= mo;
+								vec.zCoord *= mo;
+	
+								player.motionX += vec.xCoord;
+								player.motionY += vec.yCoord;
+								player.motionZ += vec.zCoord;
+							}
+						}
+					}
+					
+					Vec3 orig = player.getLookVec();
+					Vec3 look = Vec3.createVectorHelper(orig.xCoord, 0, orig.zCoord).normalize();
+					double mod = props.enableBackpack ? (isBob ? 0.5D : 0.25D) : 0.125D;
+					
+					if(player.moveForward != 0) {
+						player.motionX += look.xCoord * 0.35 * player.moveForward * mod;
+						player.motionZ += look.zCoord * 0.35 * player.moveForward * mod;
+					}
+					
+					if(player.moveStrafing != 0) {
+						look.rotateAroundY((float) Math.PI * 0.5F);
+						player.motionX += look.xCoord * 0.15 * player.moveStrafing * mod;
+						player.motionZ += look.zCoord * 0.15 * player.moveStrafing * mod;
+					}
+				}
+			}
+		}
+	}
+	
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		

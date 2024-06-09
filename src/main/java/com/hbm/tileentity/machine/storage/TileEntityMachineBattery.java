@@ -184,7 +184,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
 			
 			if(mode == mode_output || mode == mode_buffer) {
-				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+				this.tryProvide(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN);
 			} else {
 				if(node != null && node.hasValidNet()) node.net.removeProvider(this);
 			}

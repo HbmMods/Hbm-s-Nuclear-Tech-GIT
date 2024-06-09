@@ -177,6 +177,9 @@ public class Fluids {
 	public static FluidType FULLERENE;
 	public static FluidType STELLAR_FLUX;
 
+	/* Lagacy names for compatibility purposes */
+	@Deprecated public static FluidType ACID;	//JAOPCA uses this, apparently
+
 	public static final HashBiMap<String, FluidType> renameMapping = HashBiMap.create();
 
 	public static List<FluidType> customFluids = new ArrayList();
@@ -549,6 +552,9 @@ public class Fluids {
 		// V
 
 		renameMapping.put("ACID", PEROXIDE);
+
+		// LEGACY
+		ACID = PEROXIDE;
 
 		for(FluidType custom : customFluids) metaOrder.add(custom);
 
