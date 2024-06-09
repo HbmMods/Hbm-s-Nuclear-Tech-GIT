@@ -13,6 +13,8 @@ import com.hbm.tileentity.network.TileEntityDroneProvider;
 import com.hbm.tileentity.network.TileEntityDroneRequester;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,7 +40,18 @@ public class EntityRequestDrone extends EntityDroneBase {
 		this.targetZ = z;
 	}
 
+	@Override
+	public boolean hitByEntity(Entity attacker) {
 
+		if(attacker instanceof EntityPlayer && !worldObj.isRemote) {
+			this.setDead();
+			if(heldItem != null)
+				this.entityDropItem(heldItem, 1F);
+			this.entityDropItem(new ItemStack(ModItems.drone, 1, EnumDroneType.REQUEST.ordinal()), 1F);
+		}
+
+		return false;
+	}
 	public EntityRequestDrone(World world) {
 		super(world);
 	}
