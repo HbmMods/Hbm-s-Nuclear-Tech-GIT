@@ -331,7 +331,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new OreDictStack(F.dust(), 8),
 						new ComparableStack(ModItems.nugget_bismuth, 4))
 				.inputFluids(new FluidStack(Fluids.PEROXIDE, 1000, 5))
-				.outputFluids(new FluidStack(Fluids.DEATH, 1000, GeneralConfig.enable528 ? 5 : 0)));
+				.outputFluids(new FluidStack(Fluids.DEATH, 1000, 0)));
 		//one bucket of ethanol equals 275_000 TU using the diesel baseline0
 		//the coal baseline is 400_000 per piece
 		//if we assume a burntime of 1.5 ops (300 ticks) for sugar at 100 TU/t that would equal a total of 30_000 TU

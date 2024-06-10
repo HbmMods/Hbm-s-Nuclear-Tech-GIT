@@ -99,6 +99,19 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				}
 			}
 			
+			if(autoMode) { //power production depending on power requirement
+				
+				//scales the slider proportionally to the power gauge
+				int powerSliderTarget = 60 - (int) (60 * power / maxPower);
+				
+				if(powerSliderTarget > powerSliderPos) { //makes the auto slider slide instead of snapping into position
+					powerSliderPos++;
+				}
+				else if(powerSliderTarget < powerSliderPos) {
+					powerSliderPos--;
+				}
+			}
+			
 			switch(state) { //what to do when turbine offline, starting up and online			
 			case 0:
 				shutdown();	
@@ -113,19 +126,6 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				break;
 			default:
 				break;
-			}
-			
-			if(autoMode) { //power production depending on power requirement
-				
-				//scales the slider proportionally to the power gauge
-				int powerSliderTarget = 60 - (int) (60 * power / maxPower);
-				
-				if(powerSliderTarget > powerSliderPos) { //makes the auto slider slide instead of snapping into position
-					powerSliderPos++;
-				}
-				else if(powerSliderTarget < powerSliderPos) {
-					powerSliderPos--;
-				}
 			}
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
