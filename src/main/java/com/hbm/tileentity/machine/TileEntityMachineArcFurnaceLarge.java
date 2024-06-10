@@ -349,7 +349,10 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, this.liquidMode);
 			if(recipe == null) return false;
 			if(liquidMode) {
-				return recipe.fluidOutput != null;
+				if(recipe.fluidOutput == null) return false;
+				int sta = slots[slot] != null ? slots[slot].stackSize : 0;
+				sta += stack.stackSize;
+				return sta <= getMaxInputSize();
 			} else {
 				if(recipe.solidOutput == null) return false;
 				int sta = slots[slot] != null ? slots[slot].stackSize : 0;

@@ -1,0 +1,6 @@
+## Changed
+* Centrifuges and refineries now use analog circuits
+
+## Fixed
+* Fixed hopper IO ignoring the stack limit on arc furnaces under certain circumstances
+* Fixed the watz powerplant not dropping as many HSS bolts as it should

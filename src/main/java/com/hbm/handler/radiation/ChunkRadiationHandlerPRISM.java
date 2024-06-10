@@ -3,6 +3,8 @@ package com.hbm.handler.radiation;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.hbm.lib.Library;
+
 import net.minecraft.block.Block;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -215,8 +217,22 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 		}
 		
 		public float getResistanceValue(ForgeDirection movement) {
-			//TODO
+			if(movement == Library.POS_X) return getResistanceFromArray(xResist, false);
+			if(movement == Library.NEG_X) return getResistanceFromArray(xResist, true);
+			if(movement == Library.POS_Y) return getResistanceFromArray(yResist, false);
+			if(movement == Library.NEG_Y) return getResistanceFromArray(yResist, true);
+			if(movement == Library.POS_Z) return getResistanceFromArray(zResist, false);
+			if(movement == Library.NEG_Z) return getResistanceFromArray(zResist, true);
 			return 0;
+		}
+		
+		private float getResistanceFromArray(float[] resist, boolean reverse) {
+			float res = 0F;
+			for(int i = 0; i < 15; i++) {
+				int index = reverse ? 15 - i : i;
+				res += resist[index] / 15F * i;
+			}
+			return res;
 		}
 	}
 }
