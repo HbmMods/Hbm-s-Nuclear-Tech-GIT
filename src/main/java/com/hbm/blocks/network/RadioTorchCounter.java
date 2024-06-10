@@ -8,18 +8,22 @@ import com.hbm.inventory.container.ContainerCounterTorch;
 import com.hbm.inventory.gui.GUICounterTorch;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.network.TileEntityRadioTorchCounter;
+import com.hbm.util.Compat;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class RadioTorchCounter extends RadioTorchBase {
 	
@@ -36,6 +40,13 @@ public class RadioTorchCounter extends RadioTorchBase {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityRadioTorchCounter();
+	}
+
+	@Override
+	public boolean canBlockStay(World world, int x, int y, int z, ForgeDirection dir, Block b) {
+		if(b.isSideSolid(world, x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ, dir) || (b.renderAsNormalBlock() && !b.isAir(world, x, y, z))) return true;
+		TileEntity te = Compat.getTileStandard(world, x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ);
+		return te instanceof IInventory;
 	}
 
 	@Override
