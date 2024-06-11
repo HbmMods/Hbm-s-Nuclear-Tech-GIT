@@ -12,6 +12,7 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
+import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
@@ -30,7 +31,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ShredderRecipes extends SerializableRecipe {
 
-	public static HashMap<ComparableStack, ItemStack> shredderRecipes = new HashMap();
+	public static HashMap<ComparableStack, ItemStack> shredderRecipes = new HashMap<>();
 	public static HashMap<Object, Object> neiShredderRecipes;
 	
 	@Override
@@ -160,7 +161,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.brick_concrete_broken, new ItemStack(Blocks.gravel, 1));
 		ShredderRecipes.setRecipe(ModBlocks.brick_obsidian, new ItemStack(ModBlocks.gravel_obsidian, 1));
 		ShredderRecipes.setRecipe(Blocks.obsidian, new ItemStack(ModBlocks.gravel_obsidian, 1));
-		ShredderRecipes.setRecipe(Blocks.stone, new ItemStack(Blocks.gravel, 1));
 		ShredderRecipes.setRecipe(ModBlocks.ore_oil_empty, new ItemStack(Blocks.gravel, 1));
 		ShredderRecipes.setRecipe(Blocks.cobblestone, new ItemStack(Blocks.gravel, 1));
 		ShredderRecipes.setRecipe(Blocks.stonebrick, new ItemStack(Blocks.gravel, 1));
@@ -235,17 +235,14 @@ public class ShredderRecipes extends SerializableRecipe {
 		List<ItemStack> logs = OreDictionary.getOres("logWood");
 		List<ItemStack> planks = OreDictionary.getOres("plankWood");
 		List<ItemStack> saplings = OreDictionary.getOres("treeSapling");
+		List<ItemStack> stones = OreDictionary.getOres(OreDictManager.KEY_STONE);
+		List<ItemStack> sands = OreDictionary.getOres(OreDictManager.KEY_SAND);
 		
 		for(ItemStack log : logs) ShredderRecipes.setRecipe(log, new ItemStack(ModItems.powder_sawdust, 4));
 		for(ItemStack plank : planks) ShredderRecipes.setRecipe(plank, new ItemStack(ModItems.powder_sawdust, 1));
 		for(ItemStack sapling : saplings) ShredderRecipes.setRecipe(sapling, new ItemStack(Items.stick, 1));
-
-		List<ItemStack> silicon = OreDictionary.getOres("itemSilicon");
-		if(!silicon.isEmpty()) {
-			ShredderRecipes.setRecipe(Blocks.sand, silicon.get(0).copy());
-		} else {
-			ShredderRecipes.setRecipe(Blocks.sand, new ItemStack(ModItems.dust, 2));
-		}
+		for(ItemStack stone : stones) ShredderRecipes.setRecipe(stone, new ItemStack(Blocks.gravel, 1));
+		for(ItemStack sand : sands) ShredderRecipes.setRecipe(sand, new ItemStack(ModItems.dust, 2));
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
 			int i = ore.ordinal();
@@ -449,7 +446,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		
 		//convert the map only once to save on processing power (might be more ram intensive but that can't be THAT bad, right?)
 		if(neiShredderRecipes == null)
-			neiShredderRecipes = new HashMap(shredderRecipes);
+			neiShredderRecipes = new HashMap<>(shredderRecipes);
 		
 		return neiShredderRecipes;
 	}

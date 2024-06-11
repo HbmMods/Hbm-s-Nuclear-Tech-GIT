@@ -22,7 +22,7 @@ public class PowderRecipes {
 
 		//Explosives
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ballistite, 3), new Object[] { Items.gunpowder, KNO.dust(), Items.sugar });
-		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ball_dynamite, 2), new Object[] { KNO.dust(), Items.sugar, Blocks.sand, KEY_TOOL_CHEMISTRYSET });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ball_dynamite, 2), new Object[] { KNO.dust(), Items.sugar, KEY_SAND, KEY_TOOL_CHEMISTRYSET });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ball_tnt, 4), new Object[] { Fluids.AROMATICS.getDict(1000), KNO.dust(), KEY_TOOL_CHEMISTRYSET });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ingot_c4, 4), new Object[] { Fluids.UNSATURATEDS.getDict(1000), KNO.dust(), KEY_TOOL_CHEMISTRYSET });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_semtex_mix, 3), new Object[] { ModItems.solid_fuel, ModItems.cordite, KNO.dust() });

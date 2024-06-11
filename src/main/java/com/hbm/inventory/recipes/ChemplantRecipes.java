@@ -508,7 +508,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputItems(new ItemStack(Blocks.sand, 4), new ItemStack(Blocks.sand, 4), new ItemStack(Blocks.sand, 4), new ItemStack(Blocks.sand, 4))
 				.outputFluids(new FluidStack(1000, Fluids.BITUMEN)));
 		recipes.add(new ChemRecipe(35, "ASPHALT", 100)
-				.inputItems(new ComparableStack(Blocks.gravel, 2), new ComparableStack(Blocks.sand, 6))
+				.inputItems(new ComparableStack(Blocks.gravel, 2), new OreDictStack(KEY_SAND, 6))
 				.inputFluids(new FluidStack(1000, Fluids.BITUMEN))
 				.outputItems(new ItemStack(ModBlocks.asphalt, 16)));
 	}
