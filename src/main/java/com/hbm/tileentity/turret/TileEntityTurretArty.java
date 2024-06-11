@@ -472,7 +472,9 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] addCoords(Context context, Arguments args) {
 		this.mode = MODE_MANUAL;
+		if(Math.sqrt(Math.pow(xCoord - args.checkDouble(0), 2)+Math.pow(yCoord - args.checkDouble(1), 2)+Math.pow(zCoord - args.checkDouble(2), 2)) >= this.getDecetorRange()) // check distance against range
+			return new Object[] {false};
 		targetQueue.add(Vec3.createVectorHelper(args.checkDouble(0), args.checkDouble(1), args.checkDouble(2)));
-		return new Object[] {};
+		return new Object[] {true};
 	}
 }

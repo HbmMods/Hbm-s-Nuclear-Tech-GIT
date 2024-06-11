@@ -79,9 +79,16 @@ public abstract class TileEntityTurretBaseArtillery extends TileEntityTurretBase
 	public String getComponentName() {
 		return "ntm_artillery";
 	}
+
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCurrentTarget(Context context, Arguments args) {
 		return new Object[] {targetQueue.get(0).xCoord, targetQueue.get(0).yCoord, targetQueue.get(0).zCoord};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getTargetDistance(Context context, Arguments args) {
+		return new Object[] {Math.sqrt(Math.pow(xCoord - args.checkDouble(0), 2)+Math.pow(yCoord - args.checkDouble(1), 2)+Math.pow(zCoord - args.checkDouble(2), 2))};
 	}
 }
