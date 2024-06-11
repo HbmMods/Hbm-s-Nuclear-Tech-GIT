@@ -65,6 +65,7 @@ public class OreDictManager {
 	public static final String KEY_LEAVES = "treeLeaves";
 	public static final String KEY_SAPLING = "treeSapling";
 	public static final String KEY_SAND = "sand";
+	public static final String KEY_STONE = "stone";
 	public static final String KEY_COBBLESTONE = "cobblestone";
 	
 	public static final String KEY_BLACK = "dyeBlack";
@@ -347,13 +348,13 @@ public class OreDictManager {
 		 * VANILLA
 		 */
 		COAL.gem(Items.coal).dustSmall(powder_coal_tiny).dust(powder_coal);
-		IRON.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron);
-		GOLD.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold);
-		LAPIS.dust(powder_lapis);
-		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz).ore(Blocks.quartz_ore);
+		IRON.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron).oreAll(ore_iron);
+		GOLD.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold).oreAll(ore_gold);
+		LAPIS.dust(powder_lapis).oreAll(ore_lapis);
+		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz).ore(Blocks.quartz_ore).oreAll(ore_quartz);
 		QUARTZ.dust(powder_quartz);
-		DIAMOND.dust(powder_diamond).ore(gravel_diamond, ore_sellafield_diamond);
-		EMERALD.dust(powder_emerald).ore(ore_sellafield_emerald);
+		DIAMOND.dust(powder_diamond).ore(gravel_diamond, ore_sellafield_diamond).oreAll(ore_diamond);
+		EMERALD.dust(powder_emerald).ore(ore_sellafield_emerald).oreAll(ore_emerald);
 		
 		/*
 		 * RADIOACTIVE
@@ -674,6 +675,20 @@ public class OreDictManager {
 
 		OreDictionary.registerOre("container1000lubricant", bdcl);
 		OreDictionary.registerOre("itemSilicon", billet_silicon);
+
+		OreDictionary.registerOre(KEY_SAND, duna_sands);
+		OreDictionary.registerOre(KEY_SAND, laythe_silt);
+		OreDictionary.registerOre(KEY_SAND, eve_silt);
+		OreDictionary.registerOre(KEY_SAND, moon_turf);
+
+		OreDictionary.registerOre(KEY_STONE, duna_rock);
+		OreDictionary.registerOre(KEY_STONE, dres_rock);
+		OreDictionary.registerOre(KEY_STONE, ike_regolith);
+		OreDictionary.registerOre(KEY_STONE, ike_stone);
+		OreDictionary.registerOre(KEY_STONE, eve_rock);
+		OreDictionary.registerOre(KEY_STONE, moho_regolith);
+		OreDictionary.registerOre(KEY_STONE, moho_stone);
+		OreDictionary.registerOre(KEY_STONE, moon_rock);
 		
 		MaterialShapes.registerCompatShapes();
 		compensateMojangSpaghettiBullshit();
@@ -825,7 +840,8 @@ public class OreDictManager {
 		/** Returns an ItemStack composed of the supplied item with the meta being the enum's ordinal. Purely syntactic candy */
 		public static ItemStack fromOne(Item item, Enum en) {
 			return new ItemStack(item, 1, en.ordinal());
-		}		public static ItemStack fromOne(Block block, Enum en) {
+		}
+		public static ItemStack fromOne(Block block, Enum en) {
 			return new ItemStack(block, 1, en.ordinal());
 		}
 		public static ItemStack fromOne(Item item, Enum en, int stacksize) {
