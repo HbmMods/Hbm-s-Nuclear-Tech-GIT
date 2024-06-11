@@ -7,8 +7,15 @@ import java.util.List;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.ThreeInts;
+import com.hbm.inventory.fluid.Fluids;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
+import net.minecraft.block.BlockCactus;
+import net.minecraft.block.BlockReed;
+import net.minecraft.block.BlockTorch;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -28,7 +35,7 @@ public class ChunkAtmosphereHandler {
 	 * Methods to get information about the current atmosphere
 	 */
 	public CBT_Atmosphere getAtmosphere(Entity entity) {
-		return getAtmosphere(entity.worldObj, MathHelper.floor_double(entity.posX), MathHelper.ceiling_double_int(entity.posY), MathHelper.floor_double(entity.posZ));
+		return getAtmosphere(entity.worldObj, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ));
 	}
 
 	public CBT_Atmosphere getAtmosphere(World world, int x, int y, int z) {
@@ -83,6 +90,51 @@ public class ChunkAtmosphereHandler {
 		}
 
 		return list;
+	}
+
+	/**
+	 * Actions to rectify world status based on atmosphere
+	 */
+	private void runEffectsOnBlock(CBT_Atmosphere atmosphere, World world, Block block, int x, int y, int z, boolean fetchAtmosphere) {
+		boolean requiresPressure = block == Blocks.water || block == Blocks.flowing_water;
+		boolean requiresO2 = block instanceof BlockTorch;
+		boolean requiresCO2 = block instanceof BlockBush || block instanceof BlockReed || block instanceof BlockCactus;
+
+		boolean dropsNothing = block == Blocks.water || block == Blocks.flowing_water;
+
+		if(!requiresO2 && !requiresCO2 && !requiresPressure) return;
+
+		if(fetchAtmosphere) {
+			atmosphere = getAtmosphere(world, x, y, z);
+		}
+
+		boolean canExist = true;
+
+		if(requiresO2) {
+			// Check for an atmosphere and destroy torches if there is insufficient oxygen
+			canExist = !(atmosphere == null || (!atmosphere.hasFluid(Fluids.OXYGEN, 0.09) && !atmosphere.hasFluid(Fluids.AIR, 0.21)));
+		} else if(requiresPressure) {
+			canExist = !(atmosphere == null || atmosphere.getPressure() < 0.2);
+		} else if(requiresCO2) {
+			// TODO: Make plants rely on CO2 once CO2 is more readily available (via natural gas most likely)
+			canExist = !(atmosphere == null || (!atmosphere.hasFluid(Fluids.OXYGEN, 0.01) && !atmosphere.hasFluid(Fluids.AIR, 0.1)));
+		}
+
+		if(canExist) return;
+		
+		if(!dropsNothing) {
+			block.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+		}
+			
+		world.setBlockToAir(x, y, z);
+	}
+
+	public void runEffectsOnBlock(CBT_Atmosphere atmosphere, World world, Block block, int x, int y, int z) {
+		runEffectsOnBlock(atmosphere, world, block, x, y, z, false);
+	}
+
+	public void runEffectsOnBlock(World world, Block block, int x, int y, int z) {
+		runEffectsOnBlock(null, world, block, x, y, z, true);
 	}
 
 

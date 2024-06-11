@@ -288,16 +288,7 @@ public class AtmosphereBlob implements Runnable {
 			}
 
 			final Block block = world.getBlock(pos.x, pos.y, pos.z);
-			if(block == Blocks.torch) {
-				if(globalAtmosphere == null || (!globalAtmosphere.hasFluid(Fluids.OXYGEN, 0.09) && !globalAtmosphere.hasFluid(Fluids.AIR, 0.21))) {
-					block.dropBlockAsItem(world, pos.x, pos.y, pos.z, world.getBlockMetadata(pos.x, pos.y, pos.z), 0);
-					world.setBlockToAir(pos.x, pos.y, pos.z);
-				}
-			} else if(block == Blocks.water || block == Blocks.flowing_water) {
-				if(globalAtmosphere == null || globalAtmosphere.getPressure() < 0.2) {
-					world.setBlockToAir(pos.x, pos.y, pos.z);
-				}
-			}
+			ChunkAtmosphereManager.proxy.runEffectsOnBlock(globalAtmosphere, world, block, pos.x, pos.y, pos.z);
 		}
 	}
 

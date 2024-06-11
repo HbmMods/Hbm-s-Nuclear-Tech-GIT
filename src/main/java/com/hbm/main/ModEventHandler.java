@@ -21,7 +21,6 @@ import com.hbm.config.RadiationConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.WorldGeneratorCelestial;
 import com.hbm.dim.WorldProviderCelestial;
-import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityCreeperNuclear;
@@ -41,7 +40,6 @@ import com.hbm.handler.EntityEffectHandler;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
@@ -521,20 +519,7 @@ public class ModEventHandler {
 
 	@SubscribeEvent
 	public void onBlockPlaced(PlaceEvent event) {
-		if(event.block == Blocks.torch) {
-			// Check for an atmosphere and destroy torches if there is insufficient oxygen
-
-			CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(event.world, event.x, event.y, event.z);
-			if(atmosphere == null || (!atmosphere.hasFluid(Fluids.OXYGEN, 0.09) && !atmosphere.hasFluid(Fluids.AIR, 0.21))) {
-				event.block.dropBlockAsItem(event.world, event.x, event.y, event.z, event.world.getBlockMetadata(event.x, event.y, event.z), 0);
-                event.world.setBlockToAir(event.x, event.y, event.z);
-			}
-		} else if(event.block == Blocks.water || event.block == Blocks.flowing_water) {
-			CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(event.world, event.x, event.y, event.z);
-			if(atmosphere == null || atmosphere.getPressure() < 0.2) {
-				event.world.setBlockToAir(event.x, event.y, event.z);
-			}
-		}
+		ChunkAtmosphereManager.proxy.runEffectsOnBlock(event.world, event.block, event.x, event.y, event.z);
 	}
 	
 	@SubscribeEvent
