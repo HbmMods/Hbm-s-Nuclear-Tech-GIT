@@ -353,6 +353,12 @@ public class CelestialBody {
 		return AstronomyUtil.GRAVITATIONAL_CONSTANT * massKg / (radius * radius);
 	}
 
+	// Get the power multiplier for sun based machines
+	public float getSunPower() {
+		float distanceAU = getPlanet().semiMajorAxisKm / AstronomyUtil.KM_IN_AU;
+		return 1 / (distanceAU * distanceAU);
+	}
+
 	
 	public boolean hasTrait(Class<? extends CelestialBodyTrait> trait) {
 		return getTraits().containsKey(trait);
