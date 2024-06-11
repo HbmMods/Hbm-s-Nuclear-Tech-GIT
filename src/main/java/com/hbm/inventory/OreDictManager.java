@@ -46,7 +46,7 @@ import net.minecraftforge.oredict.OreDictionary.OreRegisterEvent;
 public class OreDictManager {
 	
 	/** Alternate, additional names for ore dict registration. Used mostly for DictGroups */
-	private static final HashMap<String, HashSet<String>> reRegistration = new HashMap();
+	private static final HashMap<String, HashSet<String>> reRegistration = new HashMap<>();
 
 	/*
 	 * Standard keys
@@ -335,6 +335,7 @@ public class OreDictManager {
 	/** Any higher tier high explosive (therefore excluding dynamite) like TNT */
 	public static final DictFrame ANY_HIGHEXPLOSIVE = new DictFrame("AnyHighexplosive");
 	public static final DictFrame ANY_COKE = new DictFrame("AnyCoke", "Coke");
+	public static final DictGroup ANY_COAL_COKE = new DictGroup("AnyCoalCoke", ANY_COKE, COAL);
 	public static final DictFrame ANY_CONCRETE = new DictFrame("Concrete");			//no any prefix means that any has to be appended with the any() or anys() getters, registering works with the any (i.e. no shape) setter
 	public static final DictGroup ANY_TAR = new DictGroup("Tar", KEY_OIL_TAR, KEY_COAL_TAR, KEY_CRACK_TAR, KEY_WOOD_TAR);
 	/** Any special post-RBMK gating material, namely bismuth and arsenic */
@@ -467,9 +468,9 @@ public class OreDictManager {
 		KNO																				.dust(niter)			.block(block_niter)		.oreAll(ore_niter);
 		F																				.dust(fluorite)			.block(block_fluorite)	.ore(DictFrame.fromOne(ore_basalt, EnumBasaltOreType.FLUORITE)) .oreAll(ore_fluorite);
 		LIGNITE							.gem(lignite)									.dust(powder_lignite)							.oreAll(ore_lignite);
-		COALCOKE						.gem(fromOne(coke, EnumCokeType.COAL))									.block(fromOne(block_coke, EnumCokeType.COAL));
-		PETCOKE							.gem(fromOne(coke, EnumCokeType.PETROLEUM))								.block(fromOne(block_coke, EnumCokeType.PETROLEUM));
-		LIGCOKE							.gem(fromOne(coke, EnumCokeType.LIGNITE))								.block(fromOne(block_coke, EnumCokeType.LIGNITE));
+		COALCOKE						.gem(fromOne(coke, EnumCokeType.COAL))			.dust(fromOne(powder_coke, EnumCokeType.COAL))		.block(fromOne(block_coke, EnumCokeType.COAL));
+		PETCOKE							.gem(fromOne(coke, EnumCokeType.PETROLEUM))		.dust(fromOne(powder_coke, EnumCokeType.PETROLEUM))	.block(fromOne(block_coke, EnumCokeType.PETROLEUM));
+		LIGCOKE							.gem(fromOne(coke, EnumCokeType.LIGNITE))		.dust(fromOne(powder_coke, EnumCokeType.LIGNITE))	.block(fromOne(block_coke, EnumCokeType.LIGNITE));
 		CINNABAR	.crystal(cinnebar)	.gem(cinnebar)																					.ore(ore_depth_cinnebar) .oreAll(ore_cinnebar);
 		BORAX																			.dust(powder_borax)								.ore(ore_depth_borax);
 		CHLOROCALCITE																	.dust(powder_chlorocalcite);
@@ -539,7 +540,7 @@ public class OreDictManager {
 		ANY_CONCRETE			.any(concrete, concrete_smooth, concrete_asbestos, ducrete, ducrete_smooth);
 		for(int i = 0; i < 16; i++) { ANY_CONCRETE.any(new ItemStack(ModBlocks.concrete_colored, 1, i)); }
 		for(int i = 0; i < 16; i++) { ANY_CONCRETE.any(new ItemStack(ModBlocks.concrete_colored_ext, 1, i)); }
-		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class)).block(fromAll(block_coke, EnumCokeType.class));
+		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class))	.dust(fromAll(powder_coke, EnumCokeType.class))	.block(fromAll(block_coke, EnumCokeType.class));
 		ANY_BISMOID				.ingot(ingot_bismuth, ingot_arsenic).nugget(nugget_bismuth, nugget_arsenic).block(block_bismuth);
 		ANY_ASH					.any(fromOne(ModItems.powder_ash, EnumAshType.WOOD), fromOne(ModItems.powder_ash, EnumAshType.COAL), fromOne(ModItems.powder_ash, EnumAshType.MISC), fromOne(ModItems.powder_ash, EnumAshType.FLY), fromOne(ModItems.powder_ash, EnumAshType.SOOT));
 
@@ -705,6 +706,7 @@ public class OreDictManager {
 		ANY_RESISTANTALLOY.addPrefix(INGOT, true).addPrefix(DUST, true).addPrefix(PLATECAST, true).addPrefix(PLATEWELDED, true).addPrefix(HEAVY_COMPONENT, true).addPrefix(BLOCK, true);
 		ANY_BISMOIDBRONZE.addPrefix(INGOT, true).addPrefix(PLATECAST, true);
 		ANY_TAR.addPrefix(ANY, false);
+		ANY_COAL_COKE.addPrefix(DUST, true);
 	}
 	
 	private static boolean recursionBrake = false;
@@ -733,7 +735,7 @@ public class OreDictManager {
 		}
 	}
 
-	public static final HashSet<ComparableStack> arcSmeltable = new HashSet();
+	public static final HashSet<ComparableStack> arcSmeltable = new HashSet<>();
 	
 	/** Vanilla item ore dict registration events never actually register in the ODM because vanilla items are registered so early that the ODM event handler doesn't exist yet. */
 	public static void compensateMojangSpaghettiBullshit() {
@@ -761,7 +763,7 @@ public class OreDictManager {
 	public static class DictFrame {
 		public String[] mats;
 		float hazMult = 1.0F;
-		List<HazardEntry> hazards = new ArrayList();
+		List<HazardEntry> hazards = new ArrayList<>();
 		
 		public DictFrame(String... mats) {
 			this.mats = mats;
@@ -990,7 +992,7 @@ public class OreDictManager {
 	public static class DictGroup {
 		
 		private String groupName;
-		private HashSet<String> names = new HashSet();
+		private HashSet<String> names = new HashSet<>();
 		
 		public DictGroup(String groupName) {
 			this.groupName = groupName;
@@ -1067,7 +1069,7 @@ public class OreDictManager {
 		HashSet<String> strings = reRegistration.get(original);
 		
 		if(strings == null)
-			strings = new HashSet();
+			strings = new HashSet<>();
 		
 		strings.add(additional);
 		

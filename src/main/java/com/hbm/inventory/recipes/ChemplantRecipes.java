@@ -224,7 +224,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(
 						new OreDictStack(DURA.dust(), 2),
 						new OreDictStack(CU.dust(), 1),
-						new OreDictStack(COAL.dust(), 1))
+						new OreDictStack(ANY_COAL_COKE.dust(), 1))
 				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
 				.outputItems(new ItemStack(ModItems.ingot_saturnite, 4)));
 		recipes.add(new ChemRecipe(62, "BALEFIRE", 100)
@@ -245,7 +245,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(65, "COLTAN_CLEANING", 60)
 				.inputItems(
 						new OreDictStack(COLTAN.dust(), 2),
-						new OreDictStack(COAL.dust()))
+						new OreDictStack(ANY_COAL_COKE.dust()))
 				.inputFluids(
 						new FluidStack(Fluids.ACID, 250),
 						new FluidStack(Fluids.HYDROGEN, 500))

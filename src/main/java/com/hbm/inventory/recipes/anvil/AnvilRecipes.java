@@ -21,6 +21,7 @@ import com.hbm.inventory.recipes.AssemblerRecipes;
 import com.hbm.inventory.recipes.AssemblerRecipes.AssemblerRecipe;
 import com.hbm.items.ItemAmmoEnums.*;
 import com.hbm.items.ItemEnums.EnumChunkType;
+import com.hbm.items.ItemEnums.EnumCokeType;
 import com.hbm.items.ModItems;
 import com.hbm.items.food.ItemFlask.EnumInfusion;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
@@ -161,6 +162,9 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(MAGTUNG.ingot()), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, Mats.MAT_MAGTUNG.id))).setTier(4));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(COAL.dust()), new AnvilOutput(new ItemStack(Items.coal))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(COALCOKE.dust()), new AnvilOutput(new ItemStack(ModItems.coke, 1, EnumCokeType.COAL.ordinal()))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(LIGCOKE.dust()), new AnvilOutput(new ItemStack(ModItems.coke, 1, EnumCokeType.LIGNITE.ordinal()))).setTier(3));
+		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(PETCOKE.dust()), new AnvilOutput(new ItemStack(ModItems.coke, 1, EnumCokeType.PETROLEUM.ordinal()))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(NETHERQUARTZ.dust()), new AnvilOutput(new ItemStack(Items.quartz))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(LAPIS.dust()), new AnvilOutput(new ItemStack(Items.dye, 1, 4))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(DIAMOND.dust()), new AnvilOutput(new ItemStack(Items.diamond))).setTier(3));

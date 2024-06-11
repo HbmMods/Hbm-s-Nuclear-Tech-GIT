@@ -141,6 +141,7 @@ public class ModItems {
 	public static Item nitra_small;
 	
 	public static Item coke;
+	public static Item powder_coke;
 	public static Item lignite;
 	public static Item powder_lignite;
 	public static Item briquette;
@@ -2950,6 +2951,7 @@ public class ModItems {
 		solid_fuel_presto_triplet_bf = new Item().setUnlocalizedName("solid_fuel_presto_triplet_bf").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":solid_fuel_presto_triplet_bf");
 		rocket_fuel = new Item().setUnlocalizedName("rocket_fuel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":rocket_fuel");
 		coke = new ItemEnumMulti(EnumCokeType.class, true, true).setUnlocalizedName("coke").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coke");
+		powder_coke = new ItemEnumMulti(EnumCokeType.class, true, true).setUnlocalizedName("powder_coke").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_coke");
 		lignite = new Item().setUnlocalizedName("lignite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":lignite");
 		briquette = new ItemEnumMulti(EnumBriquetteType.class, true, true).setUnlocalizedName("briquette").setCreativeTab(MainRegistry.partsTab);
 		powder_lignite = new Item().setUnlocalizedName("powder_lignite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_lignite");
@@ -6259,6 +6261,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_mercury, ingot_mercury.getUnlocalizedName());
 		GameRegistry.registerItem(bottle_mercury, bottle_mercury.getUnlocalizedName());
 		GameRegistry.registerItem(coke, coke.getUnlocalizedName());
+		GameRegistry.registerItem(powder_coke, powder_coke.getUnlocalizedName());
 		GameRegistry.registerItem(lignite, lignite.getUnlocalizedName());
 		GameRegistry.registerItem(coal_infernal, coal_infernal.getUnlocalizedName());
 		GameRegistry.registerItem(briquette, briquette.getUnlocalizedName());
