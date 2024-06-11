@@ -29,9 +29,14 @@ import com.hbm.util.CompatExternal;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.entity.IRadarDetectableNT;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -48,6 +53,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
@@ -58,7 +64,8 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @author hbm
  *
  */
-public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider, SimpleComponent {
 
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
@@ -898,5 +905,111 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerTurretBase(player.inventory, this);
+	}
+
+	// OC stuff
+	// This is a large compat, so I have to leave comments to know what I'm doing
+
+	@Override
+	public String getComponentName() {
+		return "ntm_turret";
+	}
+
+	// On/Off
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setActive(Context context, Arguments args) {
+		this.isOn = args.checkBoolean(0);
+		return new Object[] {};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isActive(Context context, Arguments args) {
+		return new Object[] {this.isOn};
+	}
+
+	// Energy information
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {this.getPower(), this.getMaxPower()};
+	}
+
+	///////////////////////
+	// Whitelist Control //
+	///////////////////////
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getWhitelisted(Context context, Arguments args) {
+		if(slots[0] != null && slots[0].getItem() == ModItems.turret_chip) {
+			String[] array = ItemTurretBiometry.getNames(slots[0]);
+			return new Object[] {array};
+		}
+		return new Object[] {};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] addWhitelist(Context context, Arguments args) {
+		if(this.getWhitelist() != null) {
+			List<String> names = this.getWhitelist();
+			if (names.contains(args.checkString(0)))
+				return new Object[]{false};
+		}
+		this.addName(args.checkString(0));
+		return new Object[]{true};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] removeWhitelist(Context context, Arguments args) {
+		List<String> names = this.getWhitelist();
+		if(!names.contains(args.checkString(0)))
+			return new Object[] {false};
+		this.removeName(names.indexOf(args.checkString(0)));
+		return new Object[] {true};
+	}
+
+	///////////////////////
+	// Targeting Control //
+	///////////////////////
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setTargeting(Context context, Arguments args) {
+		Object[] oldTargeting = new Object[] {this.targetPlayers, this.targetAnimals, this.targetMobs, this.targetMachines};
+		this.targetPlayers = args.checkBoolean(0);
+		this.targetAnimals = args.checkBoolean(1);
+		this.targetMobs = args.checkBoolean(2);
+		this.targetMachines = args.checkBoolean(3);
+		return oldTargeting;
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getTargeting(Context context, Arguments args) {
+		return new Object[] {this.targetPlayers, this.targetAnimals, this.targetMobs, this.targetMachines};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] hasTarget(Context context, Arguments args) {
+		return new Object[] {this.target != null};
+	}
+
+	///////////////////
+	// Angle Control //
+	///////////////////
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getAngle(Context context, Arguments args) {
+		return new Object[] {Math.toDegrees(this.rotationPitch), Math.toDegrees(this.rotationYaw)};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isAligned(Context context, Arguments args) {
+		return new Object[] {this.aligned};
 	}
 }
