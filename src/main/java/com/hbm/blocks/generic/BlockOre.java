@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 import java.util.List;
 
+import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.SolarSystem;
@@ -24,7 +25,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockOre extends Block implements IBlockMultiPass {
+public class BlockOre extends Block implements IBlockMultiPass, IBlockMulti {
 
 	// Slightly modified from NTMain
 	// Every ore can be placed on every planet, via a planet enum
@@ -170,7 +171,7 @@ public class BlockOre extends Block implements IBlockMultiPass {
 	public int damageDropped(int meta) {
 		if(this == ModBlocks.ore_rare || this == ModBlocks.ore_gneiss_rare) return EnumChunkType.RARE.ordinal();
 		if(this == ModBlocks.ore_lapis) return 4;
-		return meta;
+		return rectify(meta) & 7;
 	}
 
 	@Override
@@ -184,7 +185,7 @@ public class BlockOre extends Block implements IBlockMultiPass {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-		for(int i = 0; i < SolarSystem.Body.values().length; i++)
+		for(int i = 0; i < getSubCount(); i++)
 			list.add(new ItemStack(item, 1, i));
 	}
 	
@@ -207,6 +208,11 @@ public class BlockOre extends Block implements IBlockMultiPass {
 	@Override
 	public int getRenderType(){
 		return IBlockMultiPass.getRenderType();
+	}
+
+	@Override
+	public int getSubCount() {
+		return SolarSystem.Body.values().length;
 	}
 
 }

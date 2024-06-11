@@ -2550,44 +2550,44 @@ public class ModBlocks {
 		GameRegistry.registerBlock(structure_anchor, structure_anchor.getUnlocalizedName());
 
 		// Vanilla ores (for other planets)
-		GameRegistry.registerBlock(ore_iron, ore_iron.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_gold, ore_gold.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_redstone, ore_redstone.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_lapis, ore_lapis.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_emerald, ore_emerald.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_quartz, ore_quartz.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_diamond, ore_diamond.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_iron, ItemBlockBase.class, ore_iron.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_gold, ItemBlockBase.class, ore_gold.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_redstone, ItemBlockBase.class, ore_redstone.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_lapis, ItemBlockBase.class, ore_lapis.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_emerald, ItemBlockBase.class, ore_emerald.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_quartz, ItemBlockBase.class, ore_quartz.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_diamond, ItemBlockBase.class, ore_diamond.getUnlocalizedName());
 
 		//Ores
-		GameRegistry.registerBlock(ore_uranium, ore_uranium.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_uranium_scorched, ore_uranium_scorched.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_thorium, ore_thorium.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_morkite, ore_morkite.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_titanium, ore_titanium.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_sulfur, ore_sulfur.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_niter, ore_niter.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_copper, ore_copper.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_nickel, ore_nickel.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_mineral, ore_mineral.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_zinc, ore_zinc.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_tungsten, ore_tungsten.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_aluminium, ore_aluminium.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_fluorite, ore_fluorite.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_beryllium, ore_beryllium.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_lead, ore_lead.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_uranium, ItemBlockBase.class, ore_uranium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_uranium_scorched, ItemBlockBase.class, ore_uranium_scorched.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_thorium, ItemBlockBase.class, ore_thorium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_morkite, ItemBlockBase.class, ore_morkite.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_titanium, ItemBlockBase.class, ore_titanium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_sulfur, ItemBlockBase.class, ore_sulfur.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_niter, ItemBlockBase.class, ore_niter.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_copper, ItemBlockBase.class, ore_copper.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_nickel, ItemBlockBase.class, ore_nickel.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_mineral, ItemBlockBase.class, ore_mineral.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_zinc, ItemBlockBase.class, ore_zinc.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_tungsten, ItemBlockBase.class, ore_tungsten.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_aluminium, ItemBlockBase.class, ore_aluminium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_fluorite, ItemBlockBase.class, ore_fluorite.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_beryllium, ItemBlockBase.class, ore_beryllium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_lead, ItemBlockBase.class, ore_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_oil, ItemBlockLore.class, ore_oil.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_oil_empty, ore_oil_empty.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_oil_sand, ore_oil_sand.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_lignite, ore_lignite.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_asbestos, ore_asbestos.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_schrabidium, ItemBlockLore.class, ore_schrabidium.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_lithium, ore_lithium.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_niobium, ore_niobium.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_cadmium, ore_cadmium.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_palladium, ore_palladium.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_iodine, ore_iodine.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_arsenic, ore_arsenic.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_silicon, ore_silicon.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_oil_empty, ItemBlockBase.class, ore_oil_empty.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_oil_sand, ItemBlockBase.class, ore_oil_sand.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_lignite, ItemBlockBase.class, ore_lignite.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_asbestos, ItemBlockBase.class, ore_asbestos.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_schrabidium, ItemBlockBase.class, ore_schrabidium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_lithium, ItemBlockBase.class, ore_lithium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_niobium, ItemBlockBase.class, ore_niobium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_cadmium, ItemBlockBase.class, ore_cadmium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_palladium, ItemBlockBase.class, ore_palladium.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_iodine, ItemBlockBase.class, ore_iodine.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_arsenic, ItemBlockBase.class, ore_arsenic.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_silicon, ItemBlockBase.class, ore_silicon.getUnlocalizedName());
 
 		//Rare Minerals
 		GameRegistry.registerBlock(ore_australium, ItemOreBlock.class, ore_australium.getUnlocalizedName());
@@ -2597,9 +2597,9 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_daffergon, ItemOreBlock.class, ore_daffergon.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_verticium, ItemOreBlock.class, ore_verticium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_rare, ItemOreBlock.class, ore_rare.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_cobalt, ore_cobalt.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_cinnebar, ore_cinnebar.getUnlocalizedName());
-		GameRegistry.registerBlock(ore_coltan, ore_coltan.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_cobalt, ItemBlockBase.class, ore_cobalt.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_cinnebar, ItemBlockBase.class, ore_cinnebar.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_coltan, ItemBlockBase.class, ore_coltan.getUnlocalizedName());
 		
 		//Stone clusters
 		GameRegistry.registerBlock(cluster_iron, ItemBlockBase.class, cluster_iron.getUnlocalizedName());
