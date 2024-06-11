@@ -199,7 +199,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				}
 			}
 			
-			if((lid == 1 || lid == 0) && lid != prevLid) {
+			if((lid == 1 || lid == 0) && lid != prevLid && !(this.prevLid == 0 && this.lid == 1)) {
 				MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:door.wgh_stop", this.getVolume(1), 1F);
 			}
 			
@@ -349,7 +349,10 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, this.liquidMode);
 			if(recipe == null) return false;
 			if(liquidMode) {
-				return recipe.fluidOutput != null;
+				if(recipe.fluidOutput == null) return false;
+				int sta = slots[slot] != null ? slots[slot].stackSize : 0;
+				sta += stack.stackSize;
+				return sta <= getMaxInputSize();
 			} else {
 				if(recipe.solidOutput == null) return false;
 				int sta = slots[slot] != null ? slots[slot].stackSize : 0;

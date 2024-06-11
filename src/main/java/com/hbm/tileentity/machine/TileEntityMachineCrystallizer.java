@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
-import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.inventory.UpgradeManager;
@@ -15,6 +14,7 @@ import com.hbm.inventory.recipes.CrystallizerRecipes.CrystallizerRecipe;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -45,6 +45,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public static final int demand = 1000;
 	public short progress;
 	public short duration = 600;
+	public boolean isOn;
 	
 	public float angle;
 	public float prevAngle;
@@ -66,6 +67,8 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		
 		if(!worldObj.isRemote) {
 			
+			this.isOn = false;
+			
 			this.updateConnections();
 			
 			power = Library.chargeTEFromItems(slots, 1, power, maxPower);
@@ -80,6 +83,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 					
 					progress++;
 					power -= getPowerRequired();
+					isOn = true;
 					
 					if(progress > getDuration()) {
 						progress = 0;
@@ -97,18 +101,23 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			data.setShort("progress", progress);
 			data.setShort("duration", getDuration());
 			data.setLong("power", power);
+			data.setBoolean("isOn", isOn);
 			tank.writeToNBT(data, "t");
 			this.networkPack(data, 25);
 		} else {
 			
 			prevAngle = angle;
 			
-			if(progress > 0) {
+			if(isOn) {
 				angle += 5F * this.getCycleCount();
 				
 				if(angle >= 360) {
 					angle -= 360;
 					prevAngle -= 360;
+				}
+				
+				if(worldObj.rand.nextInt(20) == 0 && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 6, zCoord + 0.5) < 50) {
+					worldObj.spawnParticle("cloud", xCoord + worldObj.rand.nextDouble(), yCoord + 6.5D, zCoord + worldObj.rand.nextDouble(), 0.0, 0.1, 0.0);
 				}
 			}
 		}
@@ -135,7 +144,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 
 		return new DirPos[] {
 				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
-				new DirPos(xCoord + 2, yCoord, zCoord - 2, Library.POS_X),
+				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
 				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
 				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
 				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
@@ -151,6 +160,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		this.power = data.getLong("power");
 		this.progress = data.getShort("progress");
 		this.duration = data.getShort("duration");
+		this.isOn = data.getBoolean("isOn");
 		this.tank.readFromNBT(data, "t");
 	}
 	

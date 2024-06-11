@@ -91,7 +91,7 @@ public abstract class RadioTorchBase extends BlockContainer implements IGUIProvi
 		ForgeDirection dir = ForgeDirection.getOrientation(meta);
 		Block b = world.getBlock(x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ);
 		
-		if(!b.isSideSolid(world, x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ, dir) && !b.hasComparatorInputOverride() && (!b.renderAsNormalBlock() || b.isAir(world, x, y, z))) {
+		if(!canBlockStay(world, x, y, z, dir, b)) {
 			this.dropBlockAsItem(world, x, y, z, meta, 0);
 			world.setBlockToAir(x, y, z);
 		}
@@ -104,7 +104,11 @@ public abstract class RadioTorchBase extends BlockContainer implements IGUIProvi
 		ForgeDirection dir = ForgeDirection.getOrientation(side);
 		Block b = world.getBlock(x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ);
 		
-		return b.isSideSolid(world, x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ, dir) || b.hasComparatorInputOverride() || (b.renderAsNormalBlock() && !b.isAir(world, x, y, z));
+		return canBlockStay(world, x, y, z, dir, b);
+	}
+	
+	public boolean canBlockStay(World world, int x, int y, int z, ForgeDirection dir, Block b) {
+		return b.isSideSolid(world, x - dir.offsetX, y - dir.offsetY, z - dir.offsetZ, dir) || b.hasComparatorInputOverride() || b.canProvidePower() || (b.renderAsNormalBlock() && !b.isAir(world, x, y, z));
 	}
 	
 	@Override
