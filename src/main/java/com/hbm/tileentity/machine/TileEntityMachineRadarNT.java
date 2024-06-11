@@ -43,6 +43,9 @@ import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
@@ -603,5 +606,72 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		return "ntm_radar";
 	}
 
-	//soon :tm:
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getSettings(Context context, Arguments args) {
+		return new Object[] {scanMissiles, scanShells, scanPlayers, smartMode};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getRange(Context context, Arguments args) {
+		return new Object[] {this.getRange()};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setSettings(Context context, Arguments args) {
+		this.scanMissiles = args.checkBoolean(0);
+		this.scanShells = args.checkBoolean(1);
+		this.scanPlayers = args.checkBoolean(2);
+		this.smartMode = args.checkBoolean(3);
+		return new Object[] {};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isJammed(Context context, Arguments args) {
+		return new Object[] {this.jammed};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getAmount(Context context, Arguments args) {
+		return new Object[] {entries.size()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isIndexPlayer(Context context, Arguments args) {
+		int index = args.checkInteger(0);
+		RadarEntry e = entries.get(0);
+		return new Object[] {e.blipLevel == IRadarDetectableNT.PLAYER};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getIndexType(Context context, Arguments args) {
+		int index = args.checkInteger(0);
+		RadarEntry e = entries.get(0);
+		return new Object[] {e.blipLevel};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEntityAtIndex(Context context, Arguments args) {
+		int index = args.checkInteger(0);
+		RadarEntry e = entries.get(0);
+		boolean isPlayer = (boolean)this.isIndexPlayer(context, args)[0];
+		int type = (int)this.getIndexType(context, args)[0];
+		if(isPlayer) {
+			return new Object[]{true, e.posX, e.posY, e.posZ, type, e.unlocalizedName};
+		}
+		return new Object[]{false, e.posX, e.posY, e.posZ, type};
+	}
 }
