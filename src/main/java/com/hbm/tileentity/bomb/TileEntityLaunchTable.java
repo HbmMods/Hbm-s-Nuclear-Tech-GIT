@@ -661,7 +661,11 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getContents(Context context, Arguments args) {
-		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[0].getTankType().getName(), tanks[1].getFill(), tanks[1].getMaxFill(), tanks[1].getTankType().getName(), solid, maxSolid};
+		return new Object[] {
+				tanks[0].getFill(), tanks[0].getMaxFill(), tanks[0].getTankType().getUnlocalizedName(),
+				tanks[1].getFill(), tanks[1].getMaxFill(), tanks[1].getTankType().getUnlocalizedName(),
+				solid, maxSolid
+		};
 	}
 
 	@Callback
