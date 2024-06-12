@@ -27,6 +27,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -97,13 +98,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 				}
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setShort("progress", progress);
-			data.setShort("duration", getDuration());
-			data.setLong("power", power);
-			data.setBoolean("isOn", isOn);
-			tank.writeToNBT(data, "t");
-			this.networkPack(data, 25);
+			this.networkPackNT(25);
 		} else {
 			
 			prevAngle = angle;
@@ -154,14 +149,24 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		};
 	}
 	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		this.power = data.getLong("power");
-		this.progress = data.getShort("progress");
-		this.duration = data.getShort("duration");
-		this.isOn = data.getBoolean("isOn");
-		this.tank.readFromNBT(data, "t");
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeShort(progress);
+		buf.writeShort(getDuration());
+		buf.writeLong(power);
+		buf.writeBoolean(isOn);
+		tank.serialize(buf);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		progress = buf.readShort();
+		duration = buf.readShort();
+		power = buf.readLong();
+		isOn = buf.readBoolean();
+		tank.deserialize(buf);
 	}
 	
 	private void processItem() {
