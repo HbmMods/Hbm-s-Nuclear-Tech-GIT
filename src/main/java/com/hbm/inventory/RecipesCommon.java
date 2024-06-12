@@ -72,7 +72,7 @@ public class RecipesCommon {
 				List<ItemStack> ores = OreDictionary.getOres(((OreDictStack)this).name);
 				
 				for(ItemStack stack : ores) {
-					if(stack.getItem() == comp.item && stack.getItemDamage() == comp.meta)
+					if(stack.getItem() == comp.item && (stack.getItemDamage() == OreDictionary.WILDCARD_VALUE || stack.getItemDamage() == comp.meta))
 						return true;
 				}
 			}

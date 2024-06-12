@@ -8,7 +8,7 @@ import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
-import com.hbm.items.armor.ArmorFSBOxy;
+import com.hbm.items.armor.ItemModOxy;
 import com.hbm.lib.Library;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry.HazardClass;
@@ -66,7 +66,6 @@ public class ArmorUtil {
 		ArmorRegistry.registerHazard(ModItems.rpa_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_LUNG, HazardClass.BACTERIA, HazardClass.GAS_BLISTERING, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
 		ArmorRegistry.registerHazard(ModItems.envsuit_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_LUNG, HazardClass.BACTERIA, HazardClass.GAS_BLISTERING, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
 		ArmorRegistry.registerHazard(ModItems.trenchmaster_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_LUNG, HazardClass.BACTERIA, HazardClass.GAS_BLISTERING, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
-		ArmorRegistry.registerHazard(ModItems.oxy_helmet, HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.BACTERIA, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND); //its a fucking space suit...
 
 		//Ob ihr wirklich richtig steht, seht ihr wenn das Licht angeht!
 		registerIfExists(Compat.MOD_GT6, "gt.armor.hazmat.universal.head", HazardClass.PARTICLE_COARSE, HazardClass.PARTICLE_FINE, HazardClass.GAS_LUNG, HazardClass.BACTERIA, HazardClass.GAS_BLISTERING, HazardClass.GAS_MONOXIDE, HazardClass.LIGHT, HazardClass.SAND);
@@ -145,7 +144,6 @@ public class ArmorUtil {
 				checkArmor(player, ModItems.liquidator_helmet, ModItems.liquidator_plate, ModItems.liquidator_legs, ModItems.liquidator_boots) || 
 				checkArmor(player, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots) || 
 				checkArmor(player, ModItems.rpa_helmet, ModItems.rpa_plate, ModItems.rpa_legs, ModItems.rpa_boots) || 
-				checkArmor(player, ModItems.oxy_helmet, ModItems.oxy_plate, ModItems.oxy_legs, ModItems.oxy_boots) || 
 				checkArmor(player, ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots) || 
 				checkArmor(player, ModItems.dns_helmet, ModItems.dns_plate, ModItems.dns_legs, ModItems.dns_boots))
 		{
@@ -162,22 +160,41 @@ public class ArmorUtil {
 
 		return false;
 	}
-	public static boolean checkForOxy(EntityLivingBase player) {
-		if (player instanceof EntityPlayer) {
-			EntityPlayer play = (EntityPlayer) player;
 
-			ItemStack plate = play.inventory.armorInventory[2];
-			if(checkArmor(player, ModItems.envsuit_helmet, ModItems.envsuit_plate, ModItems.envsuit_legs, ModItems.envsuit_boots)) {
-				if (plate != null && plate.getItem() instanceof ArmorFSBOxy) {
-					if(((ArmorFSBOxy) plate.getItem()).isArmorEnabled(plate)) {					
-						return true;
-					}
-				}
-			}
-		}
-		
-		return false;
+	public static boolean checkForOxy(EntityLivingBase entity) {
+		if(!(entity instanceof EntityPlayer)) return ItemModOxy.canBreathe(entity);
+
+		ItemStack tank = getOxygenTank((EntityPlayer)entity);
+		if(tank == null) return ItemModOxy.canBreathe(entity);
+
+		// If we have an oxygen tank, block drowning
+		entity.setAir(300);
+
+		return ((ItemModOxy)tank.getItem()).attemptBreathing(entity, tank);
 	}
+
+	public static ItemStack getOxygenTank(EntityPlayer player) {
+		// TODO: only require pressure suits in near vacuums, and use regular oxygen tanks otherwise
+
+		// Check that all the armor pieces are sealed
+		for(int i = 0; i < 4; i++) {
+			ItemStack stack = player.getCurrentArmor(i);
+			if(stack == null || !(stack.getItem() instanceof ArmorFSB)) return null;
+			if(!((ArmorFSB)stack.getItem()).canSeal) return null;
+		}
+
+		// Check for a non-empty oxygen tank
+		ItemStack helmet = player.getCurrentArmor(3);
+		if(ArmorModHandler.hasMods(helmet)) {
+			ItemStack tankMod = ArmorModHandler.pryMods(helmet)[ArmorModHandler.plate_only];
+			if(tankMod == null || !(tankMod.getItem() instanceof ItemModOxy)) return null;
+
+			return tankMod;
+		}
+
+		return null;
+	}
+
 	public static boolean checkForDigamma(EntityPlayer player) {
 		
 		if(checkArmor(player, ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots))

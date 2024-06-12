@@ -68,6 +68,7 @@ public class AtmosphereBlob implements Runnable {
 
         Material material = block.getMaterial();
         if(material.isLiquid() || !material.isSolid()) return false; // Liquids need to know what pressurized atmosphere they're in to determine evaporation
+		if(material == Material.leaves) return false; // Leaves never block air
 
         AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(world, pos.x, pos.y, pos.z);
 
@@ -184,7 +185,7 @@ public class AtmosphereBlob implements Runnable {
 
 				ThreeInts newBlock = blockPos.getPositionAtOffset(direction);
 				if(graph.contains(newBlock) && !graph.doesPathExist(newBlock, handler.getRootPosition()))
-					runEffectOnWorldBlocks(handler.getWorldObj(), graph.removeAllNodesConnectedTo(newBlock));
+					runEffectOnWorldBlocks(handler.getWorld(), graph.removeAllNodesConnectedTo(newBlock));
 			}
 		}
 	}
@@ -193,7 +194,7 @@ public class AtmosphereBlob implements Runnable {
 	 * Removes all nodes from the blob
 	 */
 	public void clearBlob() {
-        World world = handler.getWorldObj();
+        World world = handler.getWorld();
 
 		runEffectOnWorldBlocks(world, getLocations());
         
@@ -234,7 +235,7 @@ public class AtmosphereBlob implements Runnable {
 				if(!graph.contains(searchNextPosition) && !addableBlocks.contains(searchNextPosition)) {
 
 					try {
-						if(isPositionAllowed(handler.getWorldObj(), searchNextPosition)) {
+						if(isPositionAllowed(handler.getWorld(), searchNextPosition)) {
 							if(searchNextPosition.getDistanceSquared(this.getRootPosition()) <= maxSize * maxSize) {
 								stack.push(searchNextPosition);
 								addableBlocks.add(searchNextPosition);
@@ -287,16 +288,7 @@ public class AtmosphereBlob implements Runnable {
 			}
 
 			final Block block = world.getBlock(pos.x, pos.y, pos.z);
-			if(block == Blocks.torch) {
-				if(globalAtmosphere == null || (!globalAtmosphere.hasFluid(Fluids.OXYGEN, 0.09) && !globalAtmosphere.hasFluid(Fluids.AIR, 0.21))) {
-					block.dropBlockAsItem(world, pos.x, pos.y, pos.z, world.getBlockMetadata(pos.x, pos.y, pos.z), 0);
-					world.setBlockToAir(pos.x, pos.y, pos.z);
-				}
-			} else if(block == Blocks.water || block == Blocks.flowing_water) {
-				if(globalAtmosphere == null || globalAtmosphere.getPressure() < 0.2) {
-					world.setBlockToAir(pos.x, pos.y, pos.z);
-				}
-			}
+			ChunkAtmosphereManager.proxy.runEffectsOnBlock(globalAtmosphere, world, block, pos.x, pos.y, pos.z);
 		}
 	}
 

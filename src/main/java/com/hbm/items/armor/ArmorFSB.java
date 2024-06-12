@@ -71,6 +71,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 	public String step;
 	public String jump;
 	public String fall;
+	public boolean canSeal;
 
 	public ArmorFSB(ArmorMaterial material, int slot, String texture) {
 		super(material, 0, slot);
@@ -187,6 +188,11 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 		return this;
 	}
 
+	public ArmorFSB setSealed(boolean canSeal) {
+		this.canSeal = canSeal;
+		return this;
+	}
+
 	public ArmorFSB cloneStats(ArmorFSB original) {
 
 		//lists aren't being modified after instantiation, so there's no need to dereference
@@ -211,6 +217,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 		this.step = original.step;
 		this.jump = original.jump;
 		this.fall = original.fall;
+		this.canSeal = original.canSeal;
 		//overlay doesn't need to be copied because it's helmet exclusive
 		return this;
 	}
@@ -224,6 +231,10 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 
 		list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("armor.fullSetBonus"));
+
+		if(canSeal) {
+			list.add(EnumChatFormatting.BLUE + "  " + I18n.format("armor.canSeal"));
+		}
 
 		if(!effects.isEmpty()) {
 

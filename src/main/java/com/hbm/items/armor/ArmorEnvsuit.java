@@ -3,7 +3,6 @@ package com.hbm.items.armor;
 import java.util.UUID;
 
 import com.google.common.collect.Multimap;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
 import com.hbm.render.model.ModelArmorEnvsuit;
 
@@ -15,16 +14,15 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class ArmorEnvsuit extends ArmorFSBOxy {
+public class ArmorEnvsuit extends ArmorFSBPowered {
 
-	public ArmorEnvsuit(ArmorMaterial material, int slot, String texture, FluidType fuelType, int maxFuel, int fillRate, int consumption, int drain) {
-		super(material, slot, texture, fuelType, maxFuel, fillRate, consumption, drain);
+	public ArmorEnvsuit(ArmorMaterial material, int slot, String texture, long maxPower, long chargeRate, long consumption, long drain) {
+		super(material, slot, texture, maxPower, chargeRate, consumption, drain);
 	}
 
 	@SideOnly(Side.CLIENT)

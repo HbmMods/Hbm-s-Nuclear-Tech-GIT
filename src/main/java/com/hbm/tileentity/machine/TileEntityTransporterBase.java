@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
-import java.util.Arrays;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -23,6 +22,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
@@ -76,6 +76,26 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 		// Set tank types
 		for(int i = 0; i < inputTankMax; i++) {
 			tanks[i].setType(outputSlotMax + i, slots);
+
+			// Evenly distribute fluids between sending tanks and extra tanks
+			// this is so that if you are sending oxygen and are fueled by oxygen
+			// it doesn't only fill one tank
+			for(int o = outputTankMax; o < tanks.length; o++) {
+				if(tanks[i].getTankType() == tanks[o].getTankType()) {
+					int fill = tanks[i].getFill() + tanks[o].getFill();
+
+					float iFill = tanks[i].getMaxFill();
+					float oFill = tanks[o].getMaxFill();
+					float total = iFill + oFill;
+					float iFrac = iFill / total;
+					float oFrac = oFill / total;
+
+					tanks[i].setFill(MathHelper.ceiling_float_int(iFrac * (float)fill));
+					tanks[o].setFill(MathHelper.floor_double(oFrac * (float)fill));
+
+					break;
+				}
+			}
 		}
 		for(int i = outputTankMax; i < tanks.length; i++) {
 			tanks[i].setType(outputSlotMax + inputTankMax + i - outputTankMax, slots);
