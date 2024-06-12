@@ -243,6 +243,7 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 
 	// TODO: Consume air from the environment, increasing your oxygen production needs
 	// TODO: Consume air from connected tanks if available
+	
 	public boolean canBreatheAir() {
 		CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(worldObj, xCoord, yCoord, zCoord);
 		if(atmosphere == null) return false;
