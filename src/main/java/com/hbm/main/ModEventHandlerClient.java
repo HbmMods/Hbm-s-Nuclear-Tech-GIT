@@ -39,7 +39,6 @@ import com.hbm.inventory.gui.GUIScreenWikiRender;
 import com.hbm.items.ISyncButtons;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
-import com.hbm.items.armor.ArmorFSBOxy;
 import com.hbm.items.armor.ArmorFSBPowered;
 import com.hbm.items.armor.ArmorNo9;
 import com.hbm.items.armor.ItemArmorMod;
@@ -433,33 +432,6 @@ public class ModEventHandlerClient {
 			int width = event.resolution.getScaledWidth();
 			int height = event.resolution.getScaledHeight();
 			int left = width / 2 - 91;
-			if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof ArmorFSBOxy) {
-				
-
-				ItemStack stack = player.inventory.armorInventory[2];
-
-				float tot = (float) ((ArmorFSBOxy) stack.getItem()).getFill(stack) / (float) ((ArmorFSBOxy) stack.getItem()).getMaxFill(stack);
-				
-				int top = height - GuiIngameForge.left_height + 3;
-
-				GL11.glDisable(GL11.GL_TEXTURE_2D);
-				tess.startDrawingQuads();
-				tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
-				tess.addVertex(left - 0.5, top - 0.5, 0);
-				tess.addVertex(left - 0.5, top + 4.5, 0);
-				tess.addVertex(left + 81.5, top + 4.5, 0);
-				tess.addVertex(left + 81.5, top - 0.5, 0);
-
-				tess.setColorOpaque_F(1F - tot, tot, 0F);
-				tess.addVertex(left, top, 0);
-				tess.addVertex(left, top + 4, 0);
-				tess.addVertex(left + 81 * tot, top + 4, 0);
-				tess.addVertex(left + 81 * tot, top, 0);
-				tess.draw();
-
-				GL11.glEnable(GL11.GL_TEXTURE_2D);
-
-			}
 
 			if(ArmorFSB.hasFSBArmorIgnoreCharge(player)) {
 				ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[2].getItem();

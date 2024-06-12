@@ -11,18 +11,20 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
+import com.hbm.items.armor.ItemModOxy;
 import com.hbm.packet.PermaSyncHandler;
 import com.hbm.render.model.ModelMan;
+import com.hbm.util.ArmorUtil;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -330,6 +332,7 @@ public class ModEventHandlerRenderer {
 	
 	@SubscribeEvent
 	public void onRenderHUD(RenderGameOverlayEvent.Pre event) {
+		Tessellator tess = Tessellator.instance;
 		
 		if(event.type == ElementType.HOTBAR && (ModEventHandlerClient.shakeTimestamp + ModEventHandlerClient.shakeDuration - System.currentTimeMillis()) > 0) {
 			double mult = (ModEventHandlerClient.shakeTimestamp + ModEventHandlerClient.shakeDuration - System.currentTimeMillis()) / (double) ModEventHandlerClient.shakeDuration * 2;
@@ -338,12 +341,12 @@ public class ModEventHandlerRenderer {
 			GL11.glTranslated(horizontal * mult, vertical * mult, 0);
 		} else if(event.type == ElementType.AIR) {
 			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+			int width = event.resolution.getScaledWidth();
+			int height = event.resolution.getScaledHeight();
 
 			// If we're suffocating for a reason other than water, render the HUD bubbles
 			int air = HbmLivingProps.getOxy(player);
 			if(air < 100) {
-				int width = event.resolution.getScaledWidth();
-				int height = event.resolution.getScaledHeight();
 				GuiIngame gui = Minecraft.getMinecraft().ingameGUI;
 	
 				GL11.glEnable(GL11.GL_BLEND);
@@ -360,6 +363,38 @@ public class ModEventHandlerRenderer {
 	
 				GL11.glDisable(GL11.GL_BLEND);
 	
+				// Prevent regular bubbles rendering
+				event.setCanceled(true);
+			}
+			
+			ItemStack tankStack = ArmorUtil.getOxygenTank(player);
+			if(tankStack != null) {
+				ItemModOxy tank = (ItemModOxy)tankStack.getItem();
+				
+				float tot = (float)ItemModOxy.getFuel(tankStack) / (float)tank.getMaxFuel();
+				
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				int right = width / 2 + 91;
+				int top = height - GuiIngameForge.right_height + 3;
+
+				tess.startDrawingQuads();
+				tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
+				tess.addVertex(right - 81.5, top - 0.5, 0);
+				tess.addVertex(right - 81.5, top + 4.5, 0);
+				tess.addVertex(right + 0.5, top + 4.5, 0);
+				tess.addVertex(right + 0.5, top - 0.5, 0);
+
+				tess.setColorOpaque_F(1F - tot, tot, tot);
+				tess.addVertex(right - 81 * tot, top, 0);
+				tess.addVertex(right - 81 * tot, top + 4, 0);
+				tess.addVertex(right, top + 4, 0);
+				tess.addVertex(right, top, 0);
+				tess.draw();
+
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+				
+				GuiIngameForge.right_height += 6;
+
 				event.setCanceled(true);
 			}
 		}
