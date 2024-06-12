@@ -2,7 +2,6 @@ package com.hbm.tileentity.network;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GuiScreenRadioTelex;
@@ -297,9 +296,9 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 			// check if it was never given or if it's an empty string
 			// if it was never given then just assign it as an empty string
 			// this also checks if it's even a string at all
-			if(args.checkAny(i) == null || Objects.equals(args.checkString(i), ""))
+			if(args.checkAny(i) == null || args.checkString(i).equals(""))
 				this.txBuffer[i] = "";
-			if(!Objects.equals(args.checkString(i), "")) { // if it isn't an empty string
+			if(args.checkString(i).equals("")) { // if it isn't an empty string
 				if(args.checkString(i).length() > TileEntityRadioTelex.lineWidth) { // line longer than allowed
 					this.txBuffer[i] = args.checkString(i).substring(0, TileEntityRadioTelex.lineWidth); // truncate it
 				} else
