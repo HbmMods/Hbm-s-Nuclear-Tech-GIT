@@ -10,6 +10,7 @@ import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 
 import api.hbm.fluid.IFillableItem;
 import net.minecraft.client.resources.I18n;
@@ -27,6 +28,8 @@ public class ItemModOxy extends ItemArmorMod implements IFillableItem {
     private int maxFuel;
     private int rate;
     private int consumption;
+
+    private AudioWrapper audioBreathing;
 
     public ItemModOxy(int maxFuel, int rate, int consumption) {
         super(ArmorModHandler.plate_only, true, false, false, false);
@@ -48,6 +51,27 @@ public class ItemModOxy extends ItemArmorMod implements IFillableItem {
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
 		list.add(EnumChatFormatting.RED + "  " + stack.getDisplayName() + " (" + fuel.getLocalizedName() + ": " + getFuel(stack) + "mB / " + this.maxFuel + "mB");
 	}
+	
+    @Override
+	public void modUpdate(EntityLivingBase entity, ItemStack armor) {
+        if(entity.worldObj.isRemote) {
+            ItemStack stack = ArmorModHandler.pryMods(armor)[ArmorModHandler.plate_only];
+            if(getInUse(stack)) {
+                if(audioBreathing == null || !audioBreathing.isPlaying()) {
+                    audioBreathing = MainRegistry.proxy.getLoopedSound("hbm:player.plss_breathing", (float)entity.posX, (float)entity.posY, (float)entity.posZ, 0.1F, 5.0F, 1.0F, 5);
+                    audioBreathing.startSound();
+                }
+
+                audioBreathing.updatePosition((float)entity.posX, (float)entity.posY, (float)entity.posZ);
+                audioBreathing.keepAlive();
+            } else {
+                if(audioBreathing != null) {
+                    audioBreathing.stopSound();
+                    audioBreathing = null;
+                }
+            }
+        }
+    }
 
     // Assuming 21% AIR/9% OXY is required for breathable atmosphere
     public static boolean canBreathe(EntityLivingBase entity) {
@@ -69,12 +93,19 @@ public class ItemModOxy extends ItemArmorMod implements IFillableItem {
     // returns true if the entity can breathe, either via the contained air, or via the atmosphere itself
     // if contained air is used, it'll be decremented here, this saves on multiple atmosphere checks
     public boolean attemptBreathing(EntityLivingBase entity, ItemStack stack) {
-        if(canBreathe(entity)) return true;
+        if(canBreathe(entity)) {
+            setInUse(stack, false);
+            return true;
+        }
 
         if(entity.ticksExisted % rate == 0)
             setFuel(stack, Math.max(getFuel(stack) - consumption, 0));
 
-        return getFuel(stack) > 0;
+        boolean hasFuel = getFuel(stack) > 0;
+
+        setInUse(stack, hasFuel);
+
+        return hasFuel;
     }
 
     @Override
@@ -109,6 +140,27 @@ public class ItemModOxy extends ItemArmorMod implements IFillableItem {
     public FluidType getFirstFluidType(ItemStack stack) {
         return null;
     }
+	
+    public static boolean getInUse(ItemStack stack) {
+		if(stack.stackTagCompound == null) {
+			stack.stackTagCompound = new NBTTagCompound();
+			return false;
+		}
+		
+		return stack.stackTagCompound.getInteger("ticks") > 20;
+	}
+	
+	public static void setInUse(ItemStack stack, boolean inUse) {
+		if(stack.stackTagCompound == null) {
+			stack.stackTagCompound = new NBTTagCompound();
+		}
+		
+        if(inUse) {
+            stack.stackTagCompound.setInteger("ticks", stack.stackTagCompound.getInteger("ticks") + 1);
+        } else {
+            stack.stackTagCompound.setInteger("ticks", 0);
+        }
+	}
 	
     public static int getFuel(ItemStack stack) {
 		if(stack.stackTagCompound == null) {

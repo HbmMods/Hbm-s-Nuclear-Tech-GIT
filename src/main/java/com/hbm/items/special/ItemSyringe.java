@@ -621,6 +621,9 @@ public class ItemSyringe extends Item {
 		if(this == ModItems.jetpack_tank) {
 			list.add("Fills worn jetpack with up to 1000mB of kerosene");
 		}
+		if(this == ModItems.lox_tank) {
+			list.add("Fills a worn PLSS with 1000mB of oxygen");
+		}
 		if(this == ModItems.gun_kit_1) {
 			list.add("Repairs all weapons in hotbar by 10%");
 		}
