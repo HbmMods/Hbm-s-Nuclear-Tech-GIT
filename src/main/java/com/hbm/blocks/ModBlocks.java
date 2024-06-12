@@ -414,7 +414,8 @@ public class ModBlocks {
 	public static Block duna_sands;
 	public static Block duna_rock;
 	public static Block dry_ice;
-	
+	public static Block ferric_clay;
+
 	public static Block ike_regolith;
 	public static Block ike_stone; //Genuinely wish i stopped fucking doing this 5000 stone type shit
 	
@@ -1688,7 +1689,8 @@ public class ModBlocks {
 		duna_sands = new BlockFalling(Material.sand).setBlockName("duna_sands").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":duna_sands");
 		duna_rock = new BlockGeneric(Material.rock).setBlockName("duna_rock").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":duna_rock");
 		dry_ice = new BlockGeneric(Material.ice).setBlockName("dry_ice").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":ice_dry");
-		
+		ferric_clay = new BlockOre(Material.clay).setBlockName("ferric_clay").setStepSound(Block.soundTypeGravel).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":ferric_clay");
+
 		eve_silt = new BlockFalling(Material.sand).setBlockName("eve_silt").setStepSound(Block.soundTypeSand).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setBlockTextureName(RefStrings.MODID + ":eve_silt");
 		eve_rock = new BlockGeneric(Material.rock).setBlockName("eve_rock").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":eve_stone_2");
 		
@@ -3014,7 +3016,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(duna_sands, duna_sands.getUnlocalizedName());
 		GameRegistry.registerBlock(duna_rock, duna_rock.getUnlocalizedName());
 		GameRegistry.registerBlock(dry_ice, dry_ice.getUnlocalizedName());
-		
+		GameRegistry.registerBlock(ferric_clay, ferric_clay.getUnlocalizedName());
+
 		GameRegistry.registerBlock(eve_silt, eve_silt.getUnlocalizedName());
 		GameRegistry.registerBlock(eve_rock, eve_rock.getUnlocalizedName());
 		
