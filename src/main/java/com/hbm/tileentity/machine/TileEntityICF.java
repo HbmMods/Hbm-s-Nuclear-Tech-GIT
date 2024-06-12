@@ -19,10 +19,15 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IInfoProviderEC;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -32,7 +37,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver, IInfoProviderEC {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver, IInfoProviderEC, SimpleComponent {
 	
 	public long laser;
 	public long maxLaser;
@@ -284,4 +290,58 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, this.consumption);
 		data.setDouble(CompatEnergyControl.D_OUTPUT_MB, this.output);
 	}
+
+	//OC stuff
+
+	@Override
+	public String getComponentName() {
+		return "ntm_icf_reactor";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getHeat(Context context, Arguments args) {
+		return new Object[] {this.heat};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getHeatingRate(Context context, Arguments args) {
+		return new Object[] {this.heatup};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getMaxHeat(Context context, Arguments args) {
+		return new Object[] {maxHeat};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPower(Context context, Arguments args) {
+		return new Object[] {this.laser};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluid(Context context, Arguments args) {
+		return new Object[] {
+				tanks[0].getFill(), tanks[0].getMaxFill(), tanks[0].getTankType().getUnlocalizedName(),
+				tanks[1].getFill(), tanks[1].getMaxFill(), tanks[1].getTankType().getUnlocalizedName(),
+				tanks[2].getFill(), tanks[2].getMaxFill()
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPelletStats(Context context, Arguments args) {
+		return new Object[] {
+				ItemICFPellet.getDepletion(slots[5]),
+				ItemICFPellet.getMaxDepletion(slots[5]),
+				ItemICFPellet.getFusingDifficulty(slots[5]),
+				ItemICFPellet.getType(slots[5], true).name(),
+				ItemICFPellet.getType(slots[5], false).name()
+		};
+	}
+
 }

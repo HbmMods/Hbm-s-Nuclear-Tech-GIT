@@ -23,6 +23,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -226,6 +227,19 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] test(Context context, Arguments args) {
 		return new Object[] {"This is a testing device for everything OC."};
+	}
+
+	@Callback(direct = true, getter = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] variableget(Context context, Arguments args) {
+		return new Object[] {speed, "test of the `getter` callback function"};
+	}
+
+	@Callback(direct = true, setter = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] variableset(Context context, Arguments args) {
+		speed = MathHelper.clamp_int(args.checkInteger(0), 0, 5);
+		return new Object[] {"test of the `setter` callback function"};
 	}
 
 	@Override
