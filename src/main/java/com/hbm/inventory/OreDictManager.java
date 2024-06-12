@@ -682,14 +682,14 @@ public class OreDictManager {
 		OreDictionary.registerOre(KEY_SAND, eve_silt);
 		OreDictionary.registerOre(KEY_SAND, moon_turf);
 
-		OreDictionary.registerOre(KEY_STONE, duna_rock);
-		OreDictionary.registerOre(KEY_STONE, dres_rock);
-		OreDictionary.registerOre(KEY_STONE, ike_regolith);
+		OreDictionary.registerOre(KEY_COBBLESTONE, duna_rock);
+		OreDictionary.registerOre(KEY_COBBLESTONE, dres_rock);
+		OreDictionary.registerOre(KEY_COBBLESTONE, ike_regolith);
 		OreDictionary.registerOre(KEY_STONE, ike_stone);
-		OreDictionary.registerOre(KEY_STONE, eve_rock);
-		OreDictionary.registerOre(KEY_STONE, moho_regolith);
+		OreDictionary.registerOre(KEY_COBBLESTONE, eve_rock);
+		OreDictionary.registerOre(KEY_COBBLESTONE, moho_regolith);
 		OreDictionary.registerOre(KEY_STONE, moho_stone);
-		OreDictionary.registerOre(KEY_STONE, moon_rock);
+		OreDictionary.registerOre(KEY_COBBLESTONE, moon_rock);
 		
 		MaterialShapes.registerCompatShapes();
 		compensateMojangSpaghettiBullshit();
