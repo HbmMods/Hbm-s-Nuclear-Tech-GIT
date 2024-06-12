@@ -649,7 +649,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	// do some opencomputer stuff
 	@Override
 	public String getComponentName() {
-		return "large_launch_pad";
+		return "ntm_custom_launch_pad";
 	}
 
 	@Callback
