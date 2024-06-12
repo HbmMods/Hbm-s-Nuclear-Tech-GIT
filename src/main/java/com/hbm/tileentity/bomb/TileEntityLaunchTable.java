@@ -682,13 +682,6 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			} else
 				return new Object[] {false};
 
-			// Not sure if i should have this
-			/*
-			if(xCoord2 == xCoord && zCoord2 == zCoord) {
-				xCoord2 += 1;
-			}
-			*/
-
 			return new Object[] {xCoord2, zCoord2};
 		}
 		return new Object[] {false, "Designator not found"};
