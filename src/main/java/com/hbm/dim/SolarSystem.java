@@ -357,7 +357,7 @@ public class SolarSystem {
 
 		// You can do some fuckery here to get the propellant mass into some reasonable number of buckets
 
-		return MathHelper.floor_double(propellantMass);
+		return MathHelper.ceiling_double_int(propellantMass * 5) * 10;
 	}
 
 	// Provides the deltaV required to get into orbit, ignoring losses due to atmospheric friction

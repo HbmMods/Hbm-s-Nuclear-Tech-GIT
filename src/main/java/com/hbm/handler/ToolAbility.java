@@ -9,6 +9,7 @@ import java.util.Set;
 import com.hbm.config.ToolConfig;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
+import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
@@ -26,10 +27,12 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 public abstract class ToolAbility {
 
@@ -48,15 +51,22 @@ public abstract class ToolAbility {
 			this.radius = radius;
 		}
 		
-		private Set<ThreeInts> pos = new HashSet();
+		private Set<ThreeInts> pos = new HashSet<>();
 
 		@Override
 		public boolean onDig(World world, int x, int y, int z, EntityPlayer player, Block block, int meta, IItemAbility tool) {
 			
 			Block b = world.getBlock(x, y, z);
+			
+			if(!ToolConfig.recursiveStone) {
+				Item item = Item.getItemFromBlock(b);
+				List<ItemStack> ores = OreDictionary.getOres(OreDictManager.KEY_STONE);
+				for(ItemStack stack : ores) {
+					if(stack.getItem() == item)
+						return false;
+				}
+			}
 
-			if(b == Blocks.stone && !ToolConfig.recursiveStone)
-				return false;
 			if(b == Blocks.netherrack && !ToolConfig.recursiveNetherrack)
 				return false;
 			

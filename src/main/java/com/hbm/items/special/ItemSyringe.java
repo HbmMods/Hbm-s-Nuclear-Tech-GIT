@@ -297,30 +297,30 @@ public class ItemSyringe extends Item {
 				stack.stackSize--;
 			}
 		}
-		if(this == ModItems.lox_tank && player.inventory.armorInventory[2] != null) {
 
+		if(this == ModItems.lox_tank && player.inventory.armorInventory[3] != null) {
 			if(!world.isRemote) {
+				ItemStack helmet = player.inventory.armorInventory[3];
 
-				ItemStack space = player.inventory.armorInventory[2];
-
-				if(space == null)
-					return stack;
-
-				if(space == null || !(space.getItem() instanceof IFillableItem))
-					return stack;
-
-				IFillableItem fillable = (IFillableItem) space.getItem();
-				
-				if(!fillable.acceptsFluid(Fluids.OXYGEN, space))
-					return stack;
-				
-				fillable.tryFill(Fluids.OXYGEN, 1000, space);
-				
-				world.playSoundAtEntity(player, "hbm:item.jetpackTank", 1.0F, 1.0F);
-
-				stack.stackSize--;
+				if(ArmorModHandler.hasMods(helmet)) {
+					ItemStack tankStack = ArmorModHandler.pryMods(helmet)[ArmorModHandler.plate_only];
+					if(tankStack == null || !(tankStack.getItem() instanceof IFillableItem))
+						return stack;
+					
+					IFillableItem fillable = (IFillableItem) tankStack.getItem();
+			
+					if(!fillable.acceptsFluid(Fluids.OXYGEN, tankStack))
+						return stack;
+					
+					fillable.tryFill(Fluids.OXYGEN, 1000, tankStack);
+					
+					world.playSoundAtEntity(player, "hbm:item.jetpackTank", 1.0F, 1.0F);
+	
+					stack.stackSize--;
+				}
 			}
 		}
+
 		if(this == ModItems.gun_kit_1 || this == ModItems.gun_kit_2) {
 			if(!world.isRemote) {
 				float repair = 0;
@@ -620,6 +620,9 @@ public class ItemSyringe extends Item {
 		}
 		if(this == ModItems.jetpack_tank) {
 			list.add("Fills worn jetpack with up to 1000mB of kerosene");
+		}
+		if(this == ModItems.lox_tank) {
+			list.add("Fills a worn PLSS with 1000mB of oxygen");
 		}
 		if(this == ModItems.gun_kit_1) {
 			list.add("Repairs all weapons in hotbar by 10%");

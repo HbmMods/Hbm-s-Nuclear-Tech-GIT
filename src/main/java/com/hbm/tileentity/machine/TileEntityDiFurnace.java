@@ -77,6 +77,7 @@ public class TileEntityDiFurnace extends TileEntityMachinePolluting implements I
 			if(item == ModItems.powder_coal) return canBreathe ? 200 : 0;
 			if(item == ModItems.briquette) return canBreathe ? 200 : 0;
 			if(item == ModItems.coke) return canBreathe ? 400 : 0;
+			if(item == ModItems.powder_coke) return canBreathe ? 400 : 0;
 			if(item == ModItems.solid_fuel) return canBreathe ? 400 : 0;
 
 			return 0;

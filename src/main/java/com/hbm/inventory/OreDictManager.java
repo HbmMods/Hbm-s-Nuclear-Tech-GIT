@@ -46,7 +46,7 @@ import net.minecraftforge.oredict.OreDictionary.OreRegisterEvent;
 public class OreDictManager {
 	
 	/** Alternate, additional names for ore dict registration. Used mostly for DictGroups */
-	private static final HashMap<String, HashSet<String>> reRegistration = new HashMap();
+	private static final HashMap<String, HashSet<String>> reRegistration = new HashMap<>();
 
 	/*
 	 * Standard keys
@@ -65,6 +65,7 @@ public class OreDictManager {
 	public static final String KEY_LEAVES = "treeLeaves";
 	public static final String KEY_SAPLING = "treeSapling";
 	public static final String KEY_SAND = "sand";
+	public static final String KEY_STONE = "stone";
 	public static final String KEY_COBBLESTONE = "cobblestone";
 	
 	public static final String KEY_BLACK = "dyeBlack";
@@ -334,6 +335,7 @@ public class OreDictManager {
 	/** Any higher tier high explosive (therefore excluding dynamite) like TNT */
 	public static final DictFrame ANY_HIGHEXPLOSIVE = new DictFrame("AnyHighexplosive");
 	public static final DictFrame ANY_COKE = new DictFrame("AnyCoke", "Coke");
+	public static final DictGroup ANY_COAL_COKE = new DictGroup("AnyCoalCoke", ANY_COKE, COAL);
 	public static final DictFrame ANY_CONCRETE = new DictFrame("Concrete");			//no any prefix means that any has to be appended with the any() or anys() getters, registering works with the any (i.e. no shape) setter
 	public static final DictGroup ANY_TAR = new DictGroup("Tar", KEY_OIL_TAR, KEY_COAL_TAR, KEY_CRACK_TAR, KEY_WOOD_TAR);
 	/** Any special post-RBMK gating material, namely bismuth and arsenic */
@@ -347,13 +349,13 @@ public class OreDictManager {
 		 * VANILLA
 		 */
 		COAL.gem(Items.coal).dustSmall(powder_coal_tiny).dust(powder_coal);
-		IRON.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron);
-		GOLD.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold);
-		LAPIS.dust(powder_lapis);
-		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz).ore(Blocks.quartz_ore);
+		IRON.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron).oreAll(ore_iron);
+		GOLD.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold).oreAll(ore_gold);
+		LAPIS.dust(powder_lapis).oreAll(ore_lapis);
+		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz).ore(Blocks.quartz_ore).oreAll(ore_quartz);
 		QUARTZ.dust(powder_quartz);
-		DIAMOND.dust(powder_diamond).ore(gravel_diamond, ore_sellafield_diamond);
-		EMERALD.dust(powder_emerald).ore(ore_sellafield_emerald);
+		DIAMOND.dust(powder_diamond).ore(gravel_diamond, ore_sellafield_diamond).oreAll(ore_diamond);
+		EMERALD.dust(powder_emerald).ore(ore_sellafield_emerald).oreAll(ore_emerald);
 		
 		/*
 		 * RADIOACTIVE
@@ -466,9 +468,9 @@ public class OreDictManager {
 		KNO																				.dust(niter)			.block(block_niter)		.oreAll(ore_niter);
 		F																				.dust(fluorite)			.block(block_fluorite)	.ore(DictFrame.fromOne(ore_basalt, EnumBasaltOreType.FLUORITE)) .oreAll(ore_fluorite);
 		LIGNITE							.gem(lignite)									.dust(powder_lignite)							.oreAll(ore_lignite);
-		COALCOKE						.gem(fromOne(coke, EnumCokeType.COAL))									.block(fromOne(block_coke, EnumCokeType.COAL));
-		PETCOKE							.gem(fromOne(coke, EnumCokeType.PETROLEUM))								.block(fromOne(block_coke, EnumCokeType.PETROLEUM));
-		LIGCOKE							.gem(fromOne(coke, EnumCokeType.LIGNITE))								.block(fromOne(block_coke, EnumCokeType.LIGNITE));
+		COALCOKE						.gem(fromOne(coke, EnumCokeType.COAL))			.dust(fromOne(powder_coke, EnumCokeType.COAL))		.block(fromOne(block_coke, EnumCokeType.COAL));
+		PETCOKE							.gem(fromOne(coke, EnumCokeType.PETROLEUM))		.dust(fromOne(powder_coke, EnumCokeType.PETROLEUM))	.block(fromOne(block_coke, EnumCokeType.PETROLEUM));
+		LIGCOKE							.gem(fromOne(coke, EnumCokeType.LIGNITE))		.dust(fromOne(powder_coke, EnumCokeType.LIGNITE))	.block(fromOne(block_coke, EnumCokeType.LIGNITE));
 		CINNABAR	.crystal(cinnebar)	.gem(cinnebar)																					.ore(ore_depth_cinnebar) .oreAll(ore_cinnebar);
 		BORAX																			.dust(powder_borax)								.ore(ore_depth_borax);
 		CHLOROCALCITE																	.dust(powder_chlorocalcite);
@@ -538,7 +540,7 @@ public class OreDictManager {
 		ANY_CONCRETE			.any(concrete, concrete_smooth, concrete_asbestos, ducrete, ducrete_smooth);
 		for(int i = 0; i < 16; i++) { ANY_CONCRETE.any(new ItemStack(ModBlocks.concrete_colored, 1, i)); }
 		for(int i = 0; i < 16; i++) { ANY_CONCRETE.any(new ItemStack(ModBlocks.concrete_colored_ext, 1, i)); }
-		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class)).block(fromAll(block_coke, EnumCokeType.class));
+		ANY_COKE				.gem(fromAll(coke, EnumCokeType.class))	.dust(fromAll(powder_coke, EnumCokeType.class))	.block(fromAll(block_coke, EnumCokeType.class));
 		ANY_BISMOID				.ingot(ingot_bismuth, ingot_arsenic).nugget(nugget_bismuth, nugget_arsenic).block(block_bismuth);
 		ANY_ASH					.any(fromOne(ModItems.powder_ash, EnumAshType.WOOD), fromOne(ModItems.powder_ash, EnumAshType.COAL), fromOne(ModItems.powder_ash, EnumAshType.MISC), fromOne(ModItems.powder_ash, EnumAshType.FLY), fromOne(ModItems.powder_ash, EnumAshType.SOOT));
 
@@ -674,6 +676,20 @@ public class OreDictManager {
 
 		OreDictionary.registerOre("container1000lubricant", bdcl);
 		OreDictionary.registerOre("itemSilicon", billet_silicon);
+
+		OreDictionary.registerOre(KEY_SAND, duna_sands);
+		OreDictionary.registerOre(KEY_SAND, laythe_silt);
+		OreDictionary.registerOre(KEY_SAND, eve_silt);
+		OreDictionary.registerOre(KEY_SAND, moon_turf);
+
+		OreDictionary.registerOre(KEY_COBBLESTONE, duna_rock);
+		OreDictionary.registerOre(KEY_COBBLESTONE, dres_rock);
+		OreDictionary.registerOre(KEY_COBBLESTONE, ike_regolith);
+		OreDictionary.registerOre(KEY_STONE, ike_stone);
+		OreDictionary.registerOre(KEY_COBBLESTONE, eve_rock);
+		OreDictionary.registerOre(KEY_COBBLESTONE, moho_regolith);
+		OreDictionary.registerOre(KEY_STONE, moho_stone);
+		OreDictionary.registerOre(KEY_COBBLESTONE, moon_rock);
 		
 		MaterialShapes.registerCompatShapes();
 		compensateMojangSpaghettiBullshit();
@@ -690,6 +706,7 @@ public class OreDictManager {
 		ANY_RESISTANTALLOY.addPrefix(INGOT, true).addPrefix(DUST, true).addPrefix(PLATECAST, true).addPrefix(PLATEWELDED, true).addPrefix(HEAVY_COMPONENT, true).addPrefix(BLOCK, true);
 		ANY_BISMOIDBRONZE.addPrefix(INGOT, true).addPrefix(PLATECAST, true);
 		ANY_TAR.addPrefix(ANY, false);
+		ANY_COAL_COKE.addPrefix(DUST, true);
 	}
 	
 	private static boolean recursionBrake = false;
@@ -718,7 +735,7 @@ public class OreDictManager {
 		}
 	}
 
-	public static final HashSet<ComparableStack> arcSmeltable = new HashSet();
+	public static final HashSet<ComparableStack> arcSmeltable = new HashSet<>();
 	
 	/** Vanilla item ore dict registration events never actually register in the ODM because vanilla items are registered so early that the ODM event handler doesn't exist yet. */
 	public static void compensateMojangSpaghettiBullshit() {
@@ -746,7 +763,7 @@ public class OreDictManager {
 	public static class DictFrame {
 		public String[] mats;
 		float hazMult = 1.0F;
-		List<HazardEntry> hazards = new ArrayList();
+		List<HazardEntry> hazards = new ArrayList<>();
 		
 		public DictFrame(String... mats) {
 			this.mats = mats;
@@ -825,7 +842,8 @@ public class OreDictManager {
 		/** Returns an ItemStack composed of the supplied item with the meta being the enum's ordinal. Purely syntactic candy */
 		public static ItemStack fromOne(Item item, Enum en) {
 			return new ItemStack(item, 1, en.ordinal());
-		}		public static ItemStack fromOne(Block block, Enum en) {
+		}
+		public static ItemStack fromOne(Block block, Enum en) {
 			return new ItemStack(block, 1, en.ordinal());
 		}
 		public static ItemStack fromOne(Item item, Enum en, int stacksize) {
@@ -974,7 +992,7 @@ public class OreDictManager {
 	public static class DictGroup {
 		
 		private String groupName;
-		private HashSet<String> names = new HashSet();
+		private HashSet<String> names = new HashSet<>();
 		
 		public DictGroup(String groupName) {
 			this.groupName = groupName;
@@ -1051,7 +1069,7 @@ public class OreDictManager {
 		HashSet<String> strings = reRegistration.get(original);
 		
 		if(strings == null)
-			strings = new HashSet();
+			strings = new HashSet<>();
 		
 		strings.add(additional);
 		

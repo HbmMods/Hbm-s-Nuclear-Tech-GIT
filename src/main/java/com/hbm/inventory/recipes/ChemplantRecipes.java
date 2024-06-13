@@ -224,7 +224,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputItems(
 						new OreDictStack(DURA.dust(), 2),
 						new OreDictStack(CU.dust(), 1),
-						new OreDictStack(COAL.dust(), 1))
+						new OreDictStack(ANY_COAL_COKE.dust(), 1))
 				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
 				.outputItems(new ItemStack(ModItems.ingot_saturnite, 4)));
 		recipes.add(new ChemRecipe(62, "BALEFIRE", 100)
@@ -245,7 +245,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(65, "COLTAN_CLEANING", 60)
 				.inputItems(
 						new OreDictStack(COLTAN.dust(), 2),
-						new OreDictStack(COAL.dust()))
+						new OreDictStack(ANY_COAL_COKE.dust()))
 				.inputFluids(
 						new FluidStack(Fluids.ACID, 250),
 						new FluidStack(Fluids.HYDROGEN, 500))
@@ -508,7 +508,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputItems(new ItemStack(Blocks.sand, 4), new ItemStack(Blocks.sand, 4), new ItemStack(Blocks.sand, 4), new ItemStack(Blocks.sand, 4))
 				.outputFluids(new FluidStack(1000, Fluids.BITUMEN)));
 		recipes.add(new ChemRecipe(35, "ASPHALT", 100)
-				.inputItems(new ComparableStack(Blocks.gravel, 2), new ComparableStack(Blocks.sand, 6))
+				.inputItems(new ComparableStack(Blocks.gravel, 2), new OreDictStack(KEY_SAND, 6))
 				.inputFluids(new FluidStack(1000, Fluids.BITUMEN))
 				.outputItems(new ItemStack(ModBlocks.asphalt, 16)));
 	}

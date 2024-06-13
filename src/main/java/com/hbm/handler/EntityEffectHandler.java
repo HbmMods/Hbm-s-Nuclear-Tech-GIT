@@ -297,28 +297,11 @@ public class EntityEffectHandler {
 		}
 	}
 
-	private static boolean TEST_ATMO = false;
-
 	private static void handleOxy(EntityLivingBase entity) {
 		if(entity.worldObj.isRemote) return;
 		if(entity instanceof EntityGlyphid) return; // can't suffocate the bastards
 
-		CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(entity);
-
-		if(TEST_ATMO && !entity.worldObj.isRemote && entity instanceof EntityPlayer && entity.worldObj.getTotalWorldTime() % 20 == 0) {
-			if(atmosphere != null) {
-				for(FluidEntry entry : atmosphere.fluids) {
-					MainRegistry.logger.info("Atmosphere: " + entry.fluid.getUnlocalizedName() + " - " + entry.pressure + "bar");
-				}
-			} else {
-				MainRegistry.logger.info("Atmosphere: TOTAL VACUUM");
-			}
-		}
-
-		// Assuming 21% AIR/9% OXY is required for breathable atmosphere
-		boolean hasBreathableAir = atmosphere != null && (atmosphere.hasFluid(Fluids.AIR, 0.21F) || atmosphere.hasFluid(Fluids.OXYGEN, 0.09F));
-
-		if (!ArmorUtil.checkForOxy(entity) && !hasBreathableAir) {
+		if (!ArmorUtil.checkForOxy(entity)) {
 			HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
 		} else {
 			HbmLivingProps.setOxy(entity, 100); // 5 seconds until vacuum damage
