@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hbm.dim.CelestialBodyWorldSavedData;
+import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.pollution.PollutionHandler;
@@ -92,6 +93,15 @@ public class PermaSyncHandler {
 			buf.writeInt(entry.getValue().getID());
 		}
 		/// SATELLITES ///
+
+		/// TIME OF DAY ///
+		if(world.provider instanceof WorldProviderCelestial) {
+			buf.writeBoolean(true);
+			buf.writeLong(world.provider.getWorldTime());
+		} else {
+			buf.writeBoolean(false);
+		}
+		/// TIME OF DAY ///
 	}
 	
 	public static void readPacket(ByteBuf buf, World world, EntityPlayer player) {
@@ -153,5 +163,12 @@ public class PermaSyncHandler {
 		}
 		SatelliteSavedData.setClientSats(sats);
 		/// SATELLITES ///
+
+		/// TIME OF DAY ///
+		if(buf.readBoolean()) {
+			long localTime = buf.readLong();
+			world.provider.setWorldTime(localTime);
+		}
+		/// TIME OF DAY ///
 	}
 }

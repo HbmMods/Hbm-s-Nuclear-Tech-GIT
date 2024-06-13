@@ -23,13 +23,13 @@ public class TileEntityMachineSolarPanel extends TileEntityLoadedBase implements
 			
 			// Sun power ranges from 1-4
 			int sun = worldObj.getSavedLightValue(EnumSkyBlock.Sky, xCoord, yCoord, zCoord) - worldObj.skylightSubtracted - 11;
-			
-			if(sun <= 0 || !worldObj.canBlockSeeTheSky(xCoord, yCoord + 1, zCoord)) {
-				return;
-			}
 
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			}
+			
+			if(sun <= 0 || !worldObj.canBlockSeeTheSky(xCoord, yCoord + 1, zCoord)) {
+				return;
 			}
 			
 			power += getOutput(sun);

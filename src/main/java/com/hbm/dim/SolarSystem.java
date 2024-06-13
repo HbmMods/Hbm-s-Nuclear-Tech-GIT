@@ -225,8 +225,7 @@ public class SolarSystem {
 		// You know not the horrors I have suffered through, in order to fix tidal locking
 		double offset = (double)body.getRotationalPeriod() * (longitude / 360.0);
 
-		// Seed is added onto time to randomise the starting positions of planets
-		double ticks = ((double)(world.getWorldTime() - Math.abs(world.getSeed())) + offset + partialTicks) * (double)AstronomyUtil.TIME_MULTIPLIER;
+		double ticks = ((double)world.getTotalWorldTime() + offset + partialTicks) * (double)AstronomyUtil.TIME_MULTIPLIER;
 
 		// Get our XYZ coordinates of all bodies
 		calculatePositionsRecursive(metrics, null, body.getStar(), ticks);
@@ -317,8 +316,7 @@ public class SolarSystem {
 	public static double calculateSingleAngle(World world, float partialTicks, CelestialBody from, CelestialBody to) {
 		List<AstroMetric> metrics = new ArrayList<AstroMetric>();
 
-		// Seed is added onto time to randomise the starting positions of planets
-		double ticks = ((double)(world.getWorldTime() - Math.abs(world.getSeed())) + partialTicks) * (double)AstronomyUtil.TIME_MULTIPLIER;
+		double ticks = ((double)world.getTotalWorldTime() + partialTicks) * (double)AstronomyUtil.TIME_MULTIPLIER;
 
 		// Get our XYZ coordinates of all bodies
 		calculatePositionsRecursive(metrics, null, from.getStar(), ticks);

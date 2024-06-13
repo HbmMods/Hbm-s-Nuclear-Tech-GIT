@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.handler.ThreeInts;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
@@ -15,6 +18,8 @@ import net.minecraft.block.BlockCactus;
 import net.minecraft.block.BlockReed;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -90,6 +95,27 @@ public class ChunkAtmosphereHandler {
 		}
 
 		return list;
+	}
+
+    // Assuming 21% AIR/9% OXY is required for breathable atmosphere
+    public boolean canBreathe(EntityLivingBase entity) {
+		CBT_Atmosphere atmosphere = getAtmosphere(entity);
+
+		if(GeneralConfig.enableDebugMode && entity instanceof EntityPlayer && entity.worldObj.getTotalWorldTime() % 20 == 0) {
+			if(atmosphere != null && atmosphere.fluids.size() > 0) {
+				for(FluidEntry entry : atmosphere.fluids) {
+					MainRegistry.logger.info("Atmosphere: " + entry.fluid.getUnlocalizedName() + " - " + entry.pressure + "bar");
+				}
+			} else {
+				MainRegistry.logger.info("Atmosphere: TOTAL VACUUM");
+			}
+		}
+
+		return canBreathe(atmosphere);
+    }
+
+	public boolean canBreathe(CBT_Atmosphere atmosphere) {
+        return atmosphere != null && (atmosphere.hasFluid(Fluids.AIR, 0.21F) || atmosphere.hasFluid(Fluids.OXYGEN, 0.09F));
 	}
 
 	/**

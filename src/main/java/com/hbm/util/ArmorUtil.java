@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ItemModOxy;
@@ -162,10 +163,10 @@ public class ArmorUtil {
 	}
 
 	public static boolean checkForOxy(EntityLivingBase entity) {
-		if(!(entity instanceof EntityPlayer)) return ItemModOxy.canBreathe(entity);
+		if(!(entity instanceof EntityPlayer)) return ChunkAtmosphereManager.proxy.canBreathe(entity);
 
 		ItemStack tank = getOxygenTank((EntityPlayer)entity);
-		if(tank == null) return ItemModOxy.canBreathe(entity);
+		if(tank == null) return ChunkAtmosphereManager.proxy.canBreathe(entity);
 
 		// If we have an oxygen tank, block drowning
 		entity.setAir(300);
