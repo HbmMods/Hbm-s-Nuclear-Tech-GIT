@@ -22,6 +22,9 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	private int onTicks = 0;
 	private boolean registered = false;
 
+	// When a pump loads, this sets a timer for a bubble to reinitialise, just in case it fails to seal for any reason
+	private int recovering = 0;
+
 	private AtmosphereBlob currentBlob;
 	private int blobFillAmount = 0;
 
@@ -67,36 +70,46 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 
 	            if (tank.getFill() > 0) {
 	                onTicks = 20;
-					if(currentBlob != null) {
-						int size = currentBlob.getBlobSize();
-						if(size != 0) {
-							if(blobFillAmount > size)
-								blobFillAmount = size;
-
-							// Fill the blob from the tank, 1mB per block
-							int toFill = Math.min(size - blobFillAmount, 10);
-							blobFillAmount += toFill;
-
-							// Fill to the brim, and then trickle randomly afterwards
-							if(toFill > 0) {
-								tank.setFill(tank.getFill() - toFill);
-							} else if(rand.nextBoolean()) {
-								tank.setFill(tank.getFill() - 1);
-							}
-						} else {
-							currentBlob = null;
-						}
-					}
-					
-					if(currentBlob == null) {
-						// Venting to vacuum
-						tank.setFill(tank.getFill() - 10);
-						blobFillAmount = 0;
-					}
 
 					if(!registered) {
 						ChunkAtmosphereManager.proxy.registerAtmosphere(this);
 						registered = true;
+
+						if(blobFillAmount > 0) {
+							recovering = 20;
+						}
+					} else if(recovering > 0) {
+						recovering--;
+						if(currentBlob != null) {
+							recovering = 0;
+						}
+					} else {
+						if(currentBlob != null) {
+							int size = currentBlob.getBlobSize();
+							if(size != 0) {
+								if(blobFillAmount > size)
+									blobFillAmount = size;
+	
+								// Fill the blob from the tank, 1mB per block
+								int toFill = Math.min(size - blobFillAmount, 10);
+								blobFillAmount += toFill;
+	
+								// Fill to the brim, and then trickle randomly afterwards
+								if(toFill > 0) {
+									tank.setFill(tank.getFill() - toFill);
+								} else if(rand.nextBoolean()) {
+									tank.setFill(tank.getFill() - 1);
+								}
+							} else {
+								currentBlob = null;
+							}
+						}
+						
+						if(currentBlob == null) {
+							// Venting to vacuum
+							tank.setFill(tank.getFill() - 10);
+							blobFillAmount = 0;
+						}
 					}
 	            } else {
 					if(registered) {
