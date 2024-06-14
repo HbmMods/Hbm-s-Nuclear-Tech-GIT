@@ -116,7 +116,7 @@ public class NBTStructure {
 			world.setBlock(x + pos.x, y + pos.y, z + pos.z, palette[state].block, palette[state].meta, 2);
 
 			if(block.hasKey("nbt")) {
-				NBTTagCompound nbt = block.getCompoundTag("nbt");
+				NBTTagCompound nbt = (NBTTagCompound)block.getCompoundTag("nbt").copy();
 
 				if(itemPalette != null) relinkItems(itemPalette, nbt);
 
