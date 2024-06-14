@@ -1193,6 +1193,8 @@ geiger.playerAct=Player radioactivity:
 geiger.title=GEIGER COUNTER
 geiger.title.dosimeter=DOSIMETER
 
+generator.martian=The Martian
+
 gun.make.ARMALITE=Armalite
 gun.make.AUTO_ORDINANCE=Auto-Ordnance Corporation
 gun.make.BAE=BAE Systems plc

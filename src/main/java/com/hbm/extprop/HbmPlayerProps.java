@@ -49,6 +49,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public int reputation;
 	
 	public boolean isOnLadder = false;
+
+	public boolean hasWarped = false;
 	
 	public HbmPlayerProps(EntityPlayer player) {
 		this.player = player;
@@ -180,6 +182,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		props.setBoolean("enableHUD", enableHUD);
 		props.setInteger("reputation", reputation);
 		props.setBoolean("isOnLadder", isOnLadder);
+		props.setBoolean("hasWarped", hasWarped);
 		
 		nbt.setTag("HbmPlayerProps", props);
 	}
@@ -198,6 +201,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 			this.enableHUD = props.getBoolean("enableHUD");
 			this.reputation = props.getInteger("reputation");
 			this.isOnLadder = props.getBoolean("isOnLadder");
+			this.hasWarped = props.getBoolean("hasWarped");
 		}
 	}
 }

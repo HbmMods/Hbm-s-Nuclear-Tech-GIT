@@ -21,6 +21,7 @@ import com.hbm.config.RadiationConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.WorldGeneratorCelestial;
 import com.hbm.dim.WorldProviderCelestial;
+import com.hbm.dim.WorldTypeTeleport;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityCreeperNuclear;
@@ -202,6 +203,17 @@ public class ModEventHandler {
 					props.hasReceivedBook = true;
 				}
 			}
+
+
+			if(event.player.worldObj.getWorldInfo().getTerrainType() instanceof WorldTypeTeleport) {
+				HbmPlayerProps props = HbmPlayerProps.getData(event.player);
+
+				if(!props.hasWarped) {
+					WorldTypeTeleport teleport = (WorldTypeTeleport) event.player.worldObj.getWorldInfo().getTerrainType();
+					teleport.onPlayerJoin(event.player);
+					props.hasWarped = true;
+				}
+			}
 		}
 	}
 	
@@ -235,10 +247,10 @@ public class ModEventHandler {
 				Random rand = new Random();
 				if(rand.nextInt(9) != 0) {
 					event.setCanceled(true);
-					}
 				}
 			}
 		}
+	}
 
 	@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing event) {

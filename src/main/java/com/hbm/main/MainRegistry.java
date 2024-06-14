@@ -101,6 +101,7 @@ import java.util.Random;
 import com.hbm.commands.CommandDebugChunkLoad;
 import com.hbm.commands.CommandReloadRecipes;
 import com.hbm.dim.SolarSystem;
+import com.hbm.dim.WorldTypeTeleport;
 import com.hbm.world.ModBiomes;
 import com.hbm.world.PlanetGen;
 
@@ -953,6 +954,8 @@ public class MainRegistry {
 		
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
+
+		WorldTypeTeleport.init();
 		
 		//ExplosionTests.runTest();
 	}
