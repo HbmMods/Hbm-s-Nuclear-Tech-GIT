@@ -8,6 +8,7 @@ import com.hbm.blocks.machine.MachineITER;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.container.ContainerITER;
@@ -52,7 +53,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityITER extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC, SimpleComponent {
+public class TileEntityITER extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC, SimpleComponent, CompatHandler.OCComponent {
 	
 	public long power;
 	public static final long maxPower = 10000000;
@@ -721,5 +722,37 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 		if (slots[3] != null && (slots[3].getItem() instanceof ItemFusionShield))
 			return new Object[]{ItemFusionShield.getShieldDamage(slots[3]), ((ItemFusionShield)slots[3].getItem()).maxDamage};
 		return new Object[] {"N/A", "N/A"};
+	}
+
+	public String[] methods() {
+		return new String[] {
+				"getEnergyInfo",
+				"isActive",
+				"setActive",
+				"getFluid",
+				"getPlasmaTemp",
+				"getMaxTemp",
+				"getBlanketDamage"
+		};
+	}
+
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case ("getEnergyInfo"):
+				return getEnergyInfo(context, args);
+			case ("isActive"):
+				return isActive(context, args);
+			case ("setActive"):
+				return setActive(context, args);
+			case ("getFluid"):
+				return getFluid(context, args);
+			case ("getPlasmaTemp"):
+				return getPlasmaTemp(context, args);
+			case ("getMaxTemp"):
+				return getMaxTemp(context, args);
+			case ("getBlanketDamage"):
+				return getBlanketDamage(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 }

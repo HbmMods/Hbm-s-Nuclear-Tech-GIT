@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.handler.CompatHandler;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.RenderBlockMultipass;
 import com.hbm.tileentity.INBTPacketReceiver;
@@ -104,7 +105,7 @@ public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, 
 	}
 
 	@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-	public static class TileEntityCableGauge extends TileEntityCableBaseNT implements INBTPacketReceiver, SimpleComponent {
+	public static class TileEntityCableGauge extends TileEntityCableBaseNT implements INBTPacketReceiver, SimpleComponent, CompatHandler.OCComponent {
 
 		private long deltaTick = 0;
 		private long deltaSecond = 0;

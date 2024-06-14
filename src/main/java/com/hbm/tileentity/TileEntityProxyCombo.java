@@ -2,6 +2,7 @@ package com.hbm.tileentity;
 
 
 import api.hbm.block.ICrucibleAcceptor;
+import com.hbm.handler.CompatHandler.OCComponent;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.fluid.FluidType;
@@ -10,6 +11,10 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidConnector;
 import api.hbm.tile.IHeatSource;
 import com.hbm.inventory.material.Mats;
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -18,7 +23,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, IFluidAcceptor, ISidedInventory, IFluidConnector, IHeatSource, ICrucibleAcceptor {
+@Optional.InterfaceList({
+		@Optional.Interface(iface = "com.hbm.handler.CompatHandler.OCComponent", modid = "opencomputers"),
+		@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
+})
+public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, IFluidAcceptor, ISidedInventory, IFluidConnector, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent {
 	
 	TileEntity tile;
 	boolean inventory;
@@ -536,5 +545,40 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 			return ((ICrucibleAcceptor)getTile()).flow(world, x, y, z, side, stack);
 		}
 		return null;
+	}
+
+	@Override // please work
+	public String getComponentName() {
+		if(this.getTile() instanceof OCComponent)
+			return ((OCComponent) this.getTile()).getComponentName();
+		return OCComponent.super.getComponentName();
+	}
+
+	@Override
+	public boolean canConnectNode(ForgeDirection side) { //thank you vaer
+		if(this.getTile() instanceof OCComponent)
+			return (this.getTile().getBlockMetadata() & 6) == 6 && ((OCComponent) this.getTile()).canConnectNode(side);
+		return OCComponent.super.canConnectNode(null);
+	}
+
+	@Override
+	public String[] getExtraInfo() {
+		if(this.getTile() instanceof OCComponent)
+			return new String[] {"analyze.dummy"};
+		return OCComponent.super.getExtraInfo();
+	}
+
+	@Override
+	public String[] methods() {
+		if(this.getTile() instanceof OCComponent)
+			return ((OCComponent) this.getTile()).methods();
+		return OCComponent.super.methods();
+	}
+
+	@Override
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		if(this.getTile() instanceof OCComponent)
+			return ((OCComponent) this.getTile()).invoke(method, context, args);
+		return OCComponent.super.invoke(null, null, null);
 	}
 }

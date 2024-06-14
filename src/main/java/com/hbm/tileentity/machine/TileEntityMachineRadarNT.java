@@ -8,6 +8,7 @@ import java.util.function.Function;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachineRadarNT;
 import com.hbm.inventory.gui.GUIMachineRadarNT;
@@ -66,7 +67,7 @@ import net.minecraft.world.WorldServer;
  * @author hbm
  */
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineRadarNT extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IConfigurableMachine, IControlReceiver, SimpleComponent {
+public class TileEntityMachineRadarNT extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IConfigurableMachine, IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
 
 	public boolean scanMissiles = true;
 	public boolean scanShells = true;
@@ -674,4 +675,43 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		}
 		return new Object[]{false, e.posX, e.posY, e.posZ, type};
 	}
+
+	public String[] methods() {
+		return new String[] {
+				"getSettings",
+				"getRange",
+				"setSettings",
+				"getEnergyInfo",
+				"isJammed",
+				"getAmount",
+				"isIndexPlayer",
+				"getIndexType",
+				"getEntityAtIndex"
+		};
+	}
+
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case ("getSettings"):
+				return getSettings(context, args);
+			case ("getRange"):
+				return getRange(context, args);
+			case ("setSettings"):
+				return setSettings(context, args);
+			case ("getEnergyInfo"):
+				return getEnergyInfo(context, args);
+			case ("isJammed"):
+				return isJammed(context, args);
+			case ("getAmount"):
+				return getAmount(context, args);
+			case ("isIndexPlayer"):
+				return isIndexPlayer(context, args);
+			case ("getIndexType"):
+				return getIndexType(context, args);
+			case ("getEntityAtIndex"):
+				return getEntityAtIndex(context, args);
+		}
+		throw new NoSuchMethodException();
+	}
+
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.hbm.handler.CompatHandler;
 import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
@@ -55,7 +56,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver, SimpleComponent {
+public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver, SimpleComponent, CompatHandler.OCComponent {
 	
 	/** Automatic instantiation of generic missiles, i.e. everything that both extends EntityMissileBaseNT and needs a designator */
 	public static final HashMap<ComparableStack, Class<? extends EntityMissileBaseNT>> missiles = new HashMap();
@@ -523,4 +524,32 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		}
 		return new Object[] {false};
 	}
+
+	@Override
+	public String[] methods() {
+		return new String[] {
+				"getEnergyInfo",
+				"getFluid",
+				"canLaunch",
+				"getTier",
+				"launch"
+		};
+	}
+
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case ("getEnergyInfo"):
+				return getEnergyInfo(context, args);
+			case ("getFluid"):
+				return getFluid(context, args);
+			case ("canLaunch"):
+				return canLaunch(context, args);
+			case ("getTier"):
+				return getTier(context, args);
+			case ("launch"):
+				return launch(context, args);
+	}
+	throw new NoSuchMethodException();
+}
+
 }

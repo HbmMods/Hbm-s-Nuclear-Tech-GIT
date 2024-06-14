@@ -33,12 +33,13 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC {
+public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
 	
 	public FluidTank feed;
 	public FluidTank steam;
@@ -401,6 +402,11 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		int type = args.checkInteger(0);
 		steam.setTankType(CompatHandler.intToSteamType(type));
 		return new Object[] {true};
+	}
+
+	@Override
+	public boolean canConnectNode(ForgeDirection side) {
+		return side == ForgeDirection.DOWN;
 	}
 
 	@Override

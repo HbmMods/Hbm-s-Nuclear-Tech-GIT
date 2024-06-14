@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.container.ContainerICF;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -38,7 +39,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver, IInfoProviderEC, SimpleComponent {
+public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver, IInfoProviderEC, SimpleComponent, CompatHandler.OCComponent {
 	
 	public long laser;
 	public long maxLaser;
@@ -344,4 +345,32 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 		};
 	}
 
+	public String[] methods() {
+		return new String[] {
+				"getHeat",
+				"getHeatingRate",
+				"getMaxHeat",
+				"getPower",
+				"getFluid",
+				"getPelletStats"
+		};
+	}
+
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case ("getHeat"):
+				return getHeat(context, args);
+			case ("getHeatingRate"):
+				return getHeatingRate(context, args);
+			case ("getMaxHeat"):
+				return getMaxHeat(context, args);
+			case ("getPower"):
+				return getPower(context, args);
+			case ("getFluid"):
+				return getFluid(context, args);
+			case ("getPelletStats"):
+				return getPelletStats(context, args);
+		}
+		throw new NoSuchMethodException();
+	}
 }

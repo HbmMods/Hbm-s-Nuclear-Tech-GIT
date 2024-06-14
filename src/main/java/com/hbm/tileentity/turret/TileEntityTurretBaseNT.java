@@ -14,6 +14,7 @@ import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerTurretBase;
@@ -65,7 +66,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  *
  */
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider, SimpleComponent {
+public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase implements IEnergyReceiverMK2, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
 
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
@@ -1011,5 +1012,56 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] isAligned(Context context, Arguments args) {
 		return new Object[] {this.aligned};
+	}
+
+	@Override
+	public boolean canConnectNode(ForgeDirection side) {
+		return side == ForgeDirection.DOWN;
+	}
+
+	@Override
+	public String[] methods() {
+		return new String[] {
+				"setActive",
+				"isActive",
+				"getEnergyInfo",
+				"getWhitelisted",
+				"addWhitelist",
+				"removeWhitelist",
+				"setTargeting",
+				"getTargeting",
+				"hasTarget",
+				"getAngle",
+				"isAligned"
+		};
+	}
+
+	@Override
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "setActive":
+				return setActive(context, args);
+			case "isActive":
+				return isActive(context, args);
+			case "getEnergyInfo":
+				return getEnergyInfo(context, args);
+			case "getWhitelisted":
+				return getWhitelisted(context, args);
+			case "addWhitelist":
+				return addWhitelist(context, args);
+			case "removeWhitelist":
+				return removeWhitelist(context, args);
+			case "setTargeting":
+				return setTargeting(context, args);
+			case "getTargeting":
+				return getTargeting(context, args);
+			case "hasTarget":
+				return hasTarget(context, args);
+			case "getAngle":
+				return getAngle(context, args);
+			case "isAligned":
+				return isAligned(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 }

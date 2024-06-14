@@ -131,6 +131,14 @@ achievement.witchtaunter=Witch Taunter
 achievement.ZIRNOXBoom.desc=cope, seethe, mald
 achievement.ZIRNOXBoom=CIRNOX
 
+analyze.basic1======NTM Component=====
+analyze.basic2=More documentation can be found on the wiki.
+analyze.basic3====Extra Information===
+analyze.dummy=Type: Dummy Block
+analyze.error=This block's compatibility has not been set properly, this should be reported as a bug!
+analyze.name=Name: %s
+analyze.noInfo=No additional information.
+
 armor.blastProtection=Damage modifier of %s against explosions
 armor.cap=Hard damage cap of %s
 armor.damageModifier=Damage modifier of %s against %s
