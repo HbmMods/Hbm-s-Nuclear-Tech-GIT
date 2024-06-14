@@ -39,7 +39,7 @@ public class DebugTeleporter extends Teleporter {
 		if(grounded) {
 			for(int i = worldServerInstance.getHeight(); i > 0; i--) {
 				if(worldServerInstance.getBlock(ix, i, iz) != Blocks.air) {
-					y = i + 2;
+					y = i + 5;
 					break;
 				}
 			}			

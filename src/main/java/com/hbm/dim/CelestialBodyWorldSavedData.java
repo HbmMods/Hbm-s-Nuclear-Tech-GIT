@@ -20,6 +20,7 @@ public class CelestialBodyWorldSavedData extends WorldSavedData {
 	}
 
     private HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits;
+    private long localTime;
     
 	public static CelestialBodyWorldSavedData get(World world) {
 		CelestialBodyWorldSavedData result = (CelestialBodyWorldSavedData) world.perWorldStorage.loadData(CelestialBodyWorldSavedData.class, DATA_NAME);
@@ -34,6 +35,8 @@ public class CelestialBodyWorldSavedData extends WorldSavedData {
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
+        localTime = nbt.getLong("time");
+
         if(!nbt.hasKey("traits")) {
             traits = null;
             return;
@@ -57,6 +60,8 @@ public class CelestialBodyWorldSavedData extends WorldSavedData {
 
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
+        nbt.setLong("time", localTime);
+
         if(traits == null) {
             nbt.removeTag("traits");
             return;
@@ -72,6 +77,15 @@ public class CelestialBodyWorldSavedData extends WorldSavedData {
         }
 
         nbt.setTag("traits", data);
+    }
+
+    public long getLocalTime() {
+        return localTime;
+    }
+
+    public void setLocalTime(long time) {
+        localTime = time;
+        markDirty();
     }
 
     public void setTraits(CelestialBodyTrait... traits) {

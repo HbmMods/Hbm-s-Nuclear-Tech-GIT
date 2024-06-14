@@ -101,9 +101,9 @@ import java.util.Random;
 import com.hbm.commands.CommandDebugChunkLoad;
 import com.hbm.commands.CommandReloadRecipes;
 import com.hbm.dim.SolarSystem;
+import com.hbm.dim.WorldTypeTeleport;
 import com.hbm.world.ModBiomes;
 import com.hbm.world.PlanetGen;
-import com.hbm.world.feature.*;
 
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -916,19 +916,46 @@ public class MainRegistry {
 		MinecraftForge.EVENT_BUS.register(new SchistStratum()); //DecorateBiomeEvent.Pre
 		//MinecraftForge.EVENT_BUS.register(new DeepLayer()); //DecorateBiomeEvent.Pre
 
-		new OreCave(ModBlocks.stone_resource, 0).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20).withFluid(ModBlocks.sulfuric_acid_block);	//sulfur
-		new OreCave(ModBlocks.stone_resource, 1).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);											//asbestos
-		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal()).setScaleH(0.04D).setScaleV(0.25D).setThreshold(230);
-		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.BAUXITE.ordinal()).setScaleH(0.03D).setScaleV(0.15D).setThreshold(300);
-		//new BiomeCave().setThreshold(1.5D).setRangeMult(20).setYLevel(40).setMaxRange(20);
-		//new OreLayer(Blocks.coal_ore, 0.2F).setThreshold(4).setRangeMult(3).setYLevel(70);
-		new OreLayer3DMoon(ModBlocks.stone_resource, EnumStoneType.CONGLOMERATE.ordinal());	//this was such a fucking pain in the ass
-		//if there is something better tell me, i would greatly appreciate it
-		//i didnt want to create a new class for this believe me, but for some reason registering dimension types doesnt work here.
+		// Global caves + layers
+		// Sulfur caves can't be defined globally due to vacuums evaporating fluids
+		new OreCave(ModBlocks.stone_resource, EnumStoneType.ASBESTOS.ordinal()).setGlobal(true).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);
+		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal()).setGlobal(true).setScaleH(0.04D).setScaleV(0.25D).setThreshold(230);
+		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.BAUXITE.ordinal()).setGlobal(true).setScaleH(0.03D).setScaleV(0.15D).setThreshold(300);
+
+
+		
+		// Earth caves + layers
+		new OreCave(ModBlocks.stone_resource, EnumStoneType.SULFUR.ordinal()).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20).withFluid(ModBlocks.sulfuric_acid_block);
+		
+		// Moon caves + layers
+		new OreCave(ModBlocks.stone_resource, EnumStoneType.SULFUR.ordinal()).setDimension(SpaceConfig.moonDimension).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20);
+		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.CONGLOMERATE.ordinal()).setDimension(SpaceConfig.moonDimension).setScaleH(0.04D).setScaleV(0.25D).setThreshold(220);
+		
+		// Duna caves + layers
+		new OreCave(ModBlocks.stone_resource, EnumStoneType.SULFUR.ordinal()).setDimension(SpaceConfig.dunaDimension).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20);
+		
+		// Ike caves + layers
+		new OreCave(ModBlocks.stone_resource, EnumStoneType.SULFUR.ordinal()).setDimension(SpaceConfig.ikeDimension).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20);
+		
+		// Eve caves + layers
+		new OreCave(ModBlocks.stone_resource, EnumStoneType.SULFUR.ordinal()).setDimension(SpaceConfig.eveDimension).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20).withFluid(ModBlocks.sulfuric_acid_block);
+		
+		// Moho caves + layers
+		new OreCave(ModBlocks.stone_resource, EnumStoneType.SULFUR.ordinal()).setDimension(SpaceConfig.mohoDimension).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20);
+
+		// Minmus caves + layers
+		new OreCave(ModBlocks.stone_resource, EnumStoneType.SULFUR.ordinal()).setDimension(SpaceConfig.minmusDimension).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20);
+		
+		// Laythe caves + layers
+		new OreCave(ModBlocks.stone_resource, EnumStoneType.SULFUR.ordinal()).setDimension(SpaceConfig.laytheDimension).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20).withFluid(ModBlocks.sulfuric_acid_block);
+
+
 		BedrockOre.init();
 		
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
+
+		WorldTypeTeleport.init();
 		
 		//ExplosionTests.runTest();
 	}

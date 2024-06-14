@@ -76,27 +76,6 @@ public class ItemWandD extends Item {
 
 			if(isVacuum)
 				player.addChatMessage(new ChatComponentText("Atmosphere: NEAR VACUUM"));
-
-			// // TESTING: Sets moho and the moon to post-terraformed
-			// if(world.provider.dimensionId == SpaceConfig.mohoDimension) {
-			// 	if(CelestialBody.hasTrait(world, CBT_Atmosphere.class)) {
-			// 		CelestialBody.clearTraits(world);
-			// 		player.addChatMessage(new ChatComponentText("RETURN TO MEAN"));
-			// 	} else {
-			// 		CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.COALCREOSOTE, 1D), new CBT_Temperature(10F));
-			// 		player.addChatMessage(new ChatComponentText("Made MOHO HORRIBLE, why did you do this."));
-			// 	}
-			// }
-
-			// if(world.provider.dimensionId == SpaceConfig.moonDimension) {
-			// 	if(CelestialBody.hasTrait(world, CBT_Atmosphere.class)) {
-			// 		CelestialBody.clearTraits(world);
-			// 		player.addChatMessage(new ChatComponentText("ONE MILLION DEAD WORLDS"));
-			// 	} else {
-			// 		CelestialBody.setTraits(world, new CBT_Atmosphere(Fluids.AIR, 1D), new CBT_Temperature(10F));
-			// 		player.addChatMessage(new ChatComponentText("Made MOON breathable."));
-			// 	}
-			// }
 		}
 
 		return stack;
@@ -109,39 +88,15 @@ public class ItemWandD extends Item {
 
 
 	@Override
-	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
 		list.add("Used for debugging purposes.");
 
-		if(itemstack.stackTagCompound != null)
-		{
-			switch(itemstack.stackTagCompound.getInteger("dim"))
-			{
-			case 0:
-				list.add("Dim: Moon");
-				break;
-			case 1:
-				list.add("Dim: Ike");
-				break;
-			case 2:
-				list.add("Dim: Duna");
-				break;
-			case 3:
-				list.add("Dim: Kerbin");
-				break;
-			case 4:
-				list.add("Dim: Eve");
-				break;
-			case 5:
-				list.add("Dim: Dres");
-				break;
-			case 6:
-				list.add("Dim: Moho");
-				break;
-			case 7:
-				list.add("Dim: Minmus");
-				break;
-	}
-}
+		if(stack.stackTagCompound != null) {
+			int targetId = stack.stackTagCompound.getInteger("dim");
+			SolarSystem.Body target = SolarSystem.Body.values()[targetId];
+
+			list.add("Teleportation target: " + target.getBody().getUnlocalizedName());
+		}
 	}
 }

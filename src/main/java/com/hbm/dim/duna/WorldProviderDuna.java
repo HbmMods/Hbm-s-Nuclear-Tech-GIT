@@ -2,8 +2,10 @@ package com.hbm.dim.duna;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.WorldProviderCelestial;
+import com.hbm.dim.WorldTypeTeleport;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.chunk.IChunkProvider;
 
 public class WorldProviderDuna extends WorldProviderCelestial {
@@ -26,6 +28,17 @@ public class WorldProviderDuna extends WorldProviderCelestial {
 	@Override
 	public Block getStone() {
 		return ModBlocks.duna_rock;
+	}
+
+	@Override
+	public int getRespawnDimension(EntityPlayerMP player) {
+		// BRING
+		//  HIM
+		// HOMIE
+		if(worldObj.getWorldInfo().getTerrainType() == WorldTypeTeleport.martian)
+			return dimensionId;
+
+		return super.getRespawnDimension(player);
 	}
 
 }

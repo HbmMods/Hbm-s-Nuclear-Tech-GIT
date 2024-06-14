@@ -1193,6 +1193,8 @@ geiger.playerAct=Player radioactivity:
 geiger.title=GEIGER COUNTER
 geiger.title.dosimeter=DOSIMETER
 
+generator.martian=The Martian
+
 gun.make.ARMALITE=Armalite
 gun.make.AUTO_ORDINANCE=Auto-Ordnance Corporation
 gun.make.BAE=BAE Systems plc
@@ -3708,6 +3710,7 @@ item.ore_separated.name=Separated %s Ore
 item.overfuse.name=Singularity Screwdriver
 item.overfuse.desc=Say what?
 item.oxy_mask.name=Oxygen Mask
+item.oxy_pinwheel.name=Oxygen Pinwheel
 item.oxy_plss.name=PLSS
 item.paa_boots.name=PaA "good ol' shoes"
 item.paa_legs.name=PaA Leg Reinforcements

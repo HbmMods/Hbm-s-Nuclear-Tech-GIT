@@ -21,6 +21,7 @@ import com.hbm.config.RadiationConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.WorldGeneratorCelestial;
 import com.hbm.dim.WorldProviderCelestial;
+import com.hbm.dim.WorldTypeTeleport;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityCreeperNuclear;
@@ -95,7 +96,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLever;
+import net.minecraft.block.BlockBed;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -202,6 +203,17 @@ public class ModEventHandler {
 					props.hasReceivedBook = true;
 				}
 			}
+
+
+			if(event.player.worldObj.getWorldInfo().getTerrainType() instanceof WorldTypeTeleport) {
+				HbmPlayerProps props = HbmPlayerProps.getData(event.player);
+
+				if(!props.hasWarped) {
+					WorldTypeTeleport teleport = (WorldTypeTeleport) event.player.worldObj.getWorldInfo().getTerrainType();
+					teleport.onPlayerJoin(event.player);
+					props.hasWarped = true;
+				}
+			}
 		}
 	}
 	
@@ -235,10 +247,10 @@ public class ModEventHandler {
 				Random rand = new Random();
 				if(rand.nextInt(9) != 0) {
 					event.setCanceled(true);
-					}
 				}
 			}
 		}
+	}
 
 	@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing event) {
@@ -789,6 +801,13 @@ public class ModEventHandler {
 			
 			if(event.phase == Phase.END) {
 				EntityRailCarBase.updateMotion(event.world);
+			}
+
+			// Tick our per celestial body timer
+			if(event.phase == Phase.START && event.world.provider instanceof WorldProviderCelestial) {
+				if(event.world.getGameRules().getGameRuleBooleanValue("doDaylightCycle")) {
+					event.world.provider.setWorldTime(event.world.provider.getWorldTime() + 1L);
+				}
 			}
 		}
 		
@@ -1512,6 +1531,18 @@ public class ModEventHandler {
 			}
 		}		
 	}
+
+	// This is really fucky, but ensures we can respawn safely on celestial bodies
+	// and prevents beds exploding
+	@SubscribeEvent
+	public void onTrySleep(PlayerInteractEvent event) {
+		if(event.world.isRemote) return;
+		if(!(event.world.provider instanceof WorldProviderCelestial)) return;
+
+		if(event.action == Action.RIGHT_CLICK_BLOCK && event.world.getBlock(event.x, event.y, event.z) instanceof BlockBed) {
+			WorldProviderCelestial.attemptingSleep = true;
+		}
+	}
 	
     @SubscribeEvent
     public void onEntityHeal(LivingHealEvent event)
@@ -1544,7 +1575,7 @@ public class ModEventHandler {
         }
     }
 
-	
+	// PULL THE LEVER KRONK
 	@SubscribeEvent
 	public void onPull(PlayerInteractEvent event) {
 		int x = event.x;
@@ -1553,17 +1584,9 @@ public class ModEventHandler {
 		World world = event.world;
 		
 		if(!world.isRemote && event.action == Action.RIGHT_CLICK_BLOCK && world.getBlock(x, y, z) == Blocks.lever && GeneralConfig.enableExtendedLogging == true) {
-			
-			EntityPlayer player = event.entityPlayer;
-			BlockLever sign = (BlockLever)world.getBlock(x, y, z);
-			
-
-			MainRegistry.logger.log(Level.INFO, "[DET] pulled lever at " + x + " / " + y + " / " + z + " by " + player.getDisplayName() + "!");
-			
-			//System.out.println(result);
-		
-			}
+			MainRegistry.logger.log(Level.INFO, "[DET] pulled lever at " + x + " / " + y + " / " + z + " by " + event.entityPlayer.getDisplayName() + "!");
 		}
+	}
 	
 
 	

@@ -2,13 +2,16 @@ package com.hbm.dim;
 
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CelestialBodyTrait.CBT_SUNEXPLODED;
+import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.inventory.fluid.Fluids;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProvider;
@@ -16,6 +19,8 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.IRenderHandler;
 
 public abstract class WorldProviderCelestial extends WorldProvider {
+
+	private long localTime = -1;
 	
 	@Override
 	public abstract void registerWorldChunkManager();
@@ -27,7 +32,8 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 	@Override
 	public void updateWeather() {
-		if(CelestialBody.hasTrait(worldObj, CBT_Atmosphere.class)) {
+		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
+		if(atmosphere != null && atmosphere.getPressure() > 0.5F) {
 			super.updateWeather();
 			return;
 		}
@@ -238,8 +244,67 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	}
 
 	@Override
+	public int getRespawnDimension(EntityPlayerMP player) {
+		ChunkCoordinates coords = player.getBedLocation(dimensionId);
+
+		// If no bed, respawn in overworld
+		if(coords == null)
+			return 0;
+
+		// If the bed location has no breathable atmosphere, respawn in overworld
+		CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(worldObj, coords.posX, coords.posY, coords.posZ);
+		if(!ChunkAtmosphereManager.proxy.canBreathe(atmosphere))
+			return 0;
+
+		return dimensionId;
+	}
+
+	// We want spawning to check for breathable, and getRespawnDimension() only runs if this is FALSE
+	// BUT this also makes beds blow up (Mojang I swear), so we hook into the sleep event and set a flag
+	public static boolean attemptingSleep = false;
+
+	@Override
 	public boolean canRespawnHere() {
+		if(attemptingSleep) {
+			attemptingSleep = false;
+			return true;
+		}
+
 		return false;
+	}
+
+	// Another AWFULLY named deobfuscation function, this one is called when players have all slept,
+	// which means we can set the time of day to local morning safely here!
+	// HOWEVER, since we have to maintain a single world timer, and things will get funky with tidal locking
+	// otherwise, we'll have to fuck over players on other planets when we sleep
+	// There is room for improvement, including having local time for all planets and longitudinal fuckery
+	@Override
+	public void resetRainAndThunder() {
+		super.resetRainAndThunder();
+
+		if(!worldObj.getGameRules().getGameRuleBooleanValue("doDaylightCycle")) return;
+
+		long dayLength = (long)getDayLength();
+		long i = getWorldTime() % dayLength;
+		setWorldTime(i - i % dayLength);
+	}
+
+	@Override
+	public long getWorldTime() {
+		if(!worldObj.isRemote) {
+			localTime = CelestialBodyWorldSavedData.get(worldObj).getLocalTime();
+		}
+
+		return localTime;
+	}
+
+	@Override
+	public void setWorldTime(long time) {
+		if(!worldObj.isRemote) {
+			CelestialBodyWorldSavedData.get(worldObj).setLocalTime(time);
+		}
+
+		localTime = time;
 	}
 	
 	@Override
@@ -264,9 +329,11 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	}
 	
 	@Override
-	public float calculateCelestialAngle(long worldTime, float timeOffset) {
-		double j = ((worldTime - Math.abs(worldObj.getSeed())) % this.getDayLength());
-		double f1 = (j + timeOffset) / this.getDayLength() - 0.25F;
+	public float calculateCelestialAngle(long worldTime, float partialTicks) {
+		worldTime = getWorldTime(); // the worldtime passed in is from the fucking overworld
+		double dayLength = getDayLength();
+		double j = worldTime % dayLength;
+		double f1 = (j + partialTicks) / dayLength - 0.25F;
 
 		if(f1 < 0.0F) {
 			++f1;

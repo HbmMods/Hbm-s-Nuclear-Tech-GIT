@@ -6,6 +6,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.WorldTypeTeleport;
+import com.hbm.main.ResourceManager;
 import com.hbm.world.feature.OilBubbleDuna;
 import com.hbm.world.generator.DungeonToolbox;
 
@@ -21,6 +23,7 @@ public class WorldGeneratorDuna implements IWorldGenerator {
 			generateDuna(world, random, chunkX * 16, chunkZ * 16);
 		}
 	}
+
 	private void generateDuna(World world, Random rand, int i, int j) {
 		int meta = CelestialBody.getMeta(world);
 
@@ -34,6 +37,15 @@ public class WorldGeneratorDuna implements IWorldGenerator {
 
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.nickelSpawn, 8, 1, 43, ModBlocks.ore_iron, meta, ModBlocks.duna_rock);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumSpawn, 9, 4, 27, ModBlocks.ore_zinc, meta, ModBlocks.duna_rock);
+
+
+		if(i == 0 && j == 0 && world.getWorldInfo().getTerrainType() == WorldTypeTeleport.martian) {
+			int x = 0;
+			int z = 0;
+			int y = world.getHeightValue(x, z);
+
+			ResourceManager.martian.build(world, x, y, z);
+		}
 	}
 	
 }

@@ -2,9 +2,6 @@ package com.hbm.items.armor;
 
 import java.util.List;
 
-import com.hbm.config.GeneralConfig;
-import com.hbm.dim.trait.CBT_Atmosphere;
-import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.inventory.fluid.FluidType;
@@ -73,27 +70,10 @@ public class ItemModOxy extends ItemArmorMod implements IFillableItem {
         }
     }
 
-    // Assuming 21% AIR/9% OXY is required for breathable atmosphere
-    public static boolean canBreathe(EntityLivingBase entity) {
-		CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(entity);
-
-		if(GeneralConfig.enableDebugMode && entity instanceof EntityPlayer && entity.worldObj.getTotalWorldTime() % 20 == 0) {
-			if(atmosphere != null) {
-				for(FluidEntry entry : atmosphere.fluids) {
-					MainRegistry.logger.info("Atmosphere: " + entry.fluid.getUnlocalizedName() + " - " + entry.pressure + "bar");
-				}
-			} else {
-				MainRegistry.logger.info("Atmosphere: TOTAL VACUUM");
-			}
-		}
-
-        return atmosphere != null && (atmosphere.hasFluid(Fluids.AIR, 0.21F) || atmosphere.hasFluid(Fluids.OXYGEN, 0.09F));
-    }
-
     // returns true if the entity can breathe, either via the contained air, or via the atmosphere itself
     // if contained air is used, it'll be decremented here, this saves on multiple atmosphere checks
     public boolean attemptBreathing(EntityLivingBase entity, ItemStack stack) {
-        if(canBreathe(entity)) {
+        if(ChunkAtmosphereManager.proxy.canBreathe(entity)) {
             setInUse(stack, false);
             return true;
         }
