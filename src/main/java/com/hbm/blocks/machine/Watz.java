@@ -94,7 +94,7 @@ public class Watz extends BlockDummyable {
 		if(i >= 12 && drop) {
 
 			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.watz_end, 48)));
-			for(int j = 0; j < 3; j++) world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, Mats.MAT_DURA.make(ModItems.bolt)));
+			for(int j = 0; j < 3; j++) world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, Mats.MAT_DURA.make(ModItems.bolt, 64)));
 			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.watz_element, 36)));
 			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.watz_cooler, 26)));
 			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, new ItemStack(ModBlocks.struct_watz_core, 1)));

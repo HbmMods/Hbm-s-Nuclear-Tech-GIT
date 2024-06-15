@@ -20,6 +20,7 @@ import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -219,12 +220,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 				markDirty = true;
 				MachineElectricFurnace.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
-
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			data.setInteger("MaxProgress", this.maxProgress);
-			data.setInteger("progress", this.progress);
-			this.networkPack(data, 50);
+			
+			this.networkPackNT(50);
 
 
 			if(markDirty) {
@@ -232,20 +229,27 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			}
 		}
 	}
-
+	
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeInt(maxProgress);
+		buf.writeInt(progress);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		maxProgress = buf.readInt();
+		progress = buf.readInt();
+	}
+	
 	private void updateConnections() {
 
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-	}
-
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.maxProgress = nbt.getInteger("MaxProgress");
-		this.progress = nbt.getInteger("progress");
-
 	}
 
 	@Override

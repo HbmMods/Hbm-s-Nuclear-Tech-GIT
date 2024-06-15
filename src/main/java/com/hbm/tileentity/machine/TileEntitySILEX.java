@@ -15,6 +15,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.WeightedRandomObject;
@@ -23,6 +24,7 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -84,37 +86,41 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 			if(currentFill <= 0) {
 				current = null;
 			}
-
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("fill", currentFill);
-			data.setInteger("progress", progress);
-			data.setString("mode", mode.toString());
-
-			if(this.current != null) {
-				data.setInteger("item", Item.getIdFromItem(this.current.item));
-				data.setInteger("meta", this.current.meta);
-			}
-
-			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			this.networkPack(data, 50);
+			
+			this.networkPackNT(50);
 
 			this.mode = EnumWavelengths.NULL;
 		}
 	}
-
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-
-		this.currentFill = nbt.getInteger("fill");
-		this.progress = nbt.getInteger("progress");
-		this.mode = EnumWavelengths.valueOf(nbt.getString("mode"));
-
-		if(this.currentFill > 0) {
-			this.current = new ComparableStack(Item.getItemById(nbt.getInteger("item")), 1, nbt.getInteger("meta"));
-
-		} else {
-			this.current = null;
+	
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(currentFill);
+		buf.writeInt(progress);
+		BufferUtil.writeString(buf, mode.toString());
+		
+		tank.serialize(buf);
+		
+		if(this.current != null) {
+			buf.writeInt(Item.getIdFromItem(this.current.item));
+			buf.writeInt(this.current.meta);
 		}
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		currentFill = buf.readInt();
+		progress = buf.readInt();
+		mode = EnumWavelengths.valueOf(BufferUtil.readString(buf));
+		
+		tank.deserialize(buf);
+		
+		if(currentFill > 0) {
+			current = new ComparableStack(Item.getItemById(buf.readInt()), 1, buf.readInt());
+		} else
+			current = null;
 	}
 
 	public void handleButtonPacket(int value, int meta) {
