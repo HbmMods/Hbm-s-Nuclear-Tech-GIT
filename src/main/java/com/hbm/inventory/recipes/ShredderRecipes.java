@@ -62,7 +62,7 @@ public class ShredderRecipes extends SerializableRecipe {
 			generateRecipes("gem", name, matches, 1);
 			generateRecipes("crystal", name, matches, 1);
 			//2 ingot units, any
-			generateRecipes("ore", name, matches, 2, true);
+			generateRecipes("ore", name, matches, 2);
 			
 			if(name.length() > 5 && name.substring(0, 5).equals("block")) {
 				ItemStack dust = getDustByName(name.substring(5));
@@ -75,28 +75,24 @@ public class ShredderRecipes extends SerializableRecipe {
 						dust.stackSize = 4;
 					
 					for(ItemStack stack : matches) {
-						putIfValid(stack, dust, name, false);
+						putIfValid(stack, dust, name);
 					}
 				}
 			}
 			
 			if(name.length() > 7 && name.substring(0, 8).equals("dustTiny")) {
 				for(ItemStack stack : matches) {
-					putIfValid(stack, new ItemStack(ModItems.dust_tiny), name, false);
+					putIfValid(stack, new ItemStack(ModItems.dust_tiny), name);
 				}
 			} else if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
 				for(ItemStack stack : matches) {
-					putIfValid(stack, new ItemStack(ModItems.dust), name, false);
+					putIfValid(stack, new ItemStack(ModItems.dust), name);
 				}
 			}
 		}
 	}
-
-	private static void generateRecipes(String prefix, String name, List<ItemStack> matches, int outCount) {
-		generateRecipes(prefix, name, matches, outCount, false);
-	}
 	
-	private static void generateRecipes(String prefix, String name, List<ItemStack> matches, int outCount, boolean matchAnyMeta) {
+	private static void generateRecipes(String prefix, String name, List<ItemStack> matches, int outCount) {
 		
 		int len = prefix.length();
 		
@@ -110,20 +106,18 @@ public class ShredderRecipes extends SerializableRecipe {
 				dust.stackSize = outCount;
 				
 				for(ItemStack stack : matches) {
-					putIfValid(stack, dust, name, matchAnyMeta);
+					putIfValid(stack, dust, name);
 				}
 			}
 		}
 	}
 	
-	private static void putIfValid(ItemStack in, ItemStack dust, String name, boolean matchAnyMeta) {
+	private static void putIfValid(ItemStack in, ItemStack dust, String name) {
 
 		if(in != null) {
 			
 			if(in.getItem() != null) {
-				ComparableStack comparable = new ComparableStack(in);
-				// comparable.meta = matchAnyMeta ? OreDictionary.WILDCARD_VALUE : comparable.meta;
-				setRecipe(comparable, dust);
+				setRecipe(new ComparableStack(in), dust);
 			} else {
 				MainRegistry.logger.error("Ore dict entry '" + name + "' has a null item in its stack! How does that even happen?");
 				Thread.currentThread().dumpStack();
@@ -150,6 +144,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(new ItemStack(Blocks.stone_slab, 1, 7), new ItemStack(ModItems.powder_quartz, 2));
 		ShredderRecipes.setRecipe(Items.quartz, new ItemStack(ModItems.powder_quartz));
 		ShredderRecipes.setRecipe(Blocks.quartz_ore, new ItemStack(ModItems.powder_quartz, 2));
+		ShredderRecipes.setRecipe(ModBlocks.ore_quartz, new ItemStack(ModItems.powder_quartz, 2));
 		ShredderRecipes.setRecipe(ModBlocks.ore_nether_fire, new ItemStack(ModItems.powder_fire, 6));
 		ShredderRecipes.setRecipe(Blocks.packed_ice, new ItemStack(ModItems.powder_ice, 1));
 		ShredderRecipes.setRecipe(ModBlocks.brick_light, new ItemStack(Items.clay_ball, 4));
