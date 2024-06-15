@@ -115,7 +115,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				boolean ingredients = this.hasIngredients();
 				boolean electrodes = this.hasElectrodes();
 				
-				int consumption = 1000 * (upgrade * upgrade + 1);
+				int consumption = 1000 * (upgrade * upgrade + 1) * (upgrade * upgrade + 1);
 				
 				if(ingredients && electrodes && delay <= 0 && this.liquids.isEmpty()) {
 					if(lid > 0) {
