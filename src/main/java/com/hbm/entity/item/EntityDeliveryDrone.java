@@ -80,7 +80,7 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 
 	@Override
 	public double getSpeed() {
-		return this.dataWatcher.getWatchableObjectByte(11) == 1 ? 0.375 : 0.125;
+		return this.dataWatcher.getWatchableObjectByte(11) == 1 ? 0.375 * 3 : 0.375;
 	}
 	
 	@Override

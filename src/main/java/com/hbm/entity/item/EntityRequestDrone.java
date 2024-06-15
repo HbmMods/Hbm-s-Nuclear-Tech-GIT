@@ -188,7 +188,7 @@ public class EntityRequestDrone extends EntityDroneBase {
 
 	@Override
 	public double getSpeed() {
-		return 0.5D;
+		return 0.6D;
 	}
 
 	@Override
