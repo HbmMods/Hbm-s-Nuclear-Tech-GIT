@@ -16,7 +16,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.client.IItemRenderer;
 
-public class RenderSolarPanel extends TileEntitySpecialRenderer implements IItemRendererProvider {
+public class RenderStardar extends TileEntitySpecialRenderer implements IItemRendererProvider {
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
@@ -35,10 +35,10 @@ public class RenderSolarPanel extends TileEntitySpecialRenderer implements IItem
 		case 5: GL11.glRotatef(270, 0F, 1F, 0F); break;
 		}
 
-		bindTexture(ResourceManager.solarp_tex);
+		bindTexture(ResourceManager.stardar_tex);
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		ResourceManager.solarp.renderAll();
+		ResourceManager.stardar.renderAll();
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 
@@ -55,15 +55,15 @@ public class RenderSolarPanel extends TileEntitySpecialRenderer implements IItem
 				GL11.glScaled(0.55, 0.55, 0.55);
 				GL11.glDisable(GL11.GL_CULL_FACE);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
-				bindTexture(ResourceManager.solarp_tex);
-				ResourceManager.solarp.renderAll();
+				bindTexture(ResourceManager.stardar_tex);
+				ResourceManager.stardar.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 				GL11.glEnable(GL11.GL_CULL_FACE);
 			}};
 	}
 	@Override
 	public Item getItemForRenderer() {
-		return Item.getItemFromBlock(ModBlocks.machine_solar);
+		return Item.getItemFromBlock(ModBlocks.machine_stardar);
 	}
 
 }
