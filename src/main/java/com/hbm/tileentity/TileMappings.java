@@ -182,6 +182,7 @@ public class TileMappings {
 		put(TileEntityHadron.class, "tileentity_hadron");
 		put(TileEntitySolarBoiler.class, "tileentity_solarboiler");
 		put(TileEntityMachineSolarPanel.class, "tileentity_solarpanel");
+		put(TileEntityMachineStardar.class, "tileentity_stardar");
 		put(TileEntitySolarMirror.class, "tileentity_solarmirror");
 		put(TileEntityMachineDetector.class, "tileentity_he_detector");
 		put(TileEntityFireworks.class, "tileentity_firework_box");
