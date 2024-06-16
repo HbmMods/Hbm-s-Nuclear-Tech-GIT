@@ -716,7 +716,7 @@ container.centrifuge=Centrifuge
 container.chemplant=Chemical Plant
 container.compactLauncher=Compact Launch Pad
 container.craneBoxer=Conveyor Boxer
-container.craneExtractor=Conveyor Ejectorcontainer.craneGrabber=Conveyor Grabber
+container.craneExtractor=Conveyor Ejector
 container.craneGrabber=Conveyor Grabber
 container.craneInserter=Conveyor Inserter
 container.craneRouter=Conveyor Router

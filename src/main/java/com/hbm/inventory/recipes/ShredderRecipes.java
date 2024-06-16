@@ -231,12 +231,14 @@ public class ShredderRecipes extends SerializableRecipe {
 		List<ItemStack> planks = OreDictionary.getOres("plankWood");
 		List<ItemStack> saplings = OreDictionary.getOres("treeSapling");
 		List<ItemStack> stones = OreDictionary.getOres(OreDictManager.KEY_STONE);
+		List<ItemStack> cobbles = OreDictionary.getOres(OreDictManager.KEY_COBBLESTONE);
 		List<ItemStack> sands = OreDictionary.getOres(OreDictManager.KEY_SAND);
 		
 		for(ItemStack log : logs) ShredderRecipes.setRecipe(log, new ItemStack(ModItems.powder_sawdust, 4));
 		for(ItemStack plank : planks) ShredderRecipes.setRecipe(plank, new ItemStack(ModItems.powder_sawdust, 1));
 		for(ItemStack sapling : saplings) ShredderRecipes.setRecipe(sapling, new ItemStack(Items.stick, 1));
 		for(ItemStack stone : stones) ShredderRecipes.setRecipe(stone, new ItemStack(Blocks.gravel, 1));
+		for(ItemStack cobble : cobbles) ShredderRecipes.setRecipe(cobble, new ItemStack(Blocks.gravel, 1));
 		for(ItemStack sand : sands) ShredderRecipes.setRecipe(sand, new ItemStack(ModItems.dust, 2));
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
