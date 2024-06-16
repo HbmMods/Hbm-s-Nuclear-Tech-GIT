@@ -120,7 +120,7 @@ public class CyclotronRecipeHandler extends TemplateRecipeHandler implements ICo
         guiGui = new LinkedList<Class<? extends GuiContainer>>();
         
         transferRects.add(new RecipeTransferRect(new Rectangle(83 - 3 + 16 - 52, 5 + 18 + 1, 24, 18), "cyclotronProcessing"));
-        transferRectsGui.add(new RecipeTransferRect(new Rectangle(47, 15, 36, 36), "cyclotronProcessing"));
+        transferRectsGui.add(new RecipeTransferRect(new Rectangle(48 - 5, 27 - 11, 34, 34), "cyclotronProcessing"));
         guiGui.add(GUIMachineCyclotron.class);
         RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
         RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
