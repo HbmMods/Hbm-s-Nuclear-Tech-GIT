@@ -10,6 +10,7 @@
 * Centrifuges and refineries now use analog circuits
 * Updated the cyclotron, the GUI is now much cleaner and it uses water as coolant (produces LPS) instead of regular coolant
 * Due to some people's inability to put a square peg into a square hole rather than a round one, it is now impossible to manually click soldering station ingredients into the wrong slot (you could have just shift-clicked, you know?)
+* Slightly simplified a few crafting recipes, steel tanks and steel shells take the same role so the steel tanks were dropped from a few recipes
 
 ## Fixed
 * Fixed hopper IO ignoring the stack limit on arc furnaces under certain circumstances
@@ -19,3 +20,5 @@
 * Fixed issue where the power system would constantly disconnect when multiple dimensions are loaded
 * Fixed the rare sideways-rendering tank not using the correct UV
 * Fixed incorrect resource path for the hot blood tank, causing a missing texture
+* Fixed welded CMB plates being unobtainable
+* Fixed the ICF pellet maker not being able to eject the output
