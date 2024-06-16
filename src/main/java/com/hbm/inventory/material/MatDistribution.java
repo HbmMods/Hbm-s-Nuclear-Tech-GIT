@@ -83,6 +83,7 @@ public class MatDistribution extends SerializableRecipe {
 		registerEntry(ModItems.powder_flux, MAT_FLUX, DUST.q(1));
 		
 		registerEntry(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), MAT_FLUX, DUST.q(10));
+		registerEntry(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.CALCIUM), MAT_FLUX, DUST.q(12));
 		registerEntry(ModItems.powder_flux, MAT_FLUX, DUST.q(1));
 		registerEntry(new ItemStack(Items.coal, 1, 1), MAT_CARBON, NUGGET.q(3));
 

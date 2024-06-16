@@ -169,7 +169,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(Blocks.clay, new ItemStack(Items.clay_ball, 4));
 		ShredderRecipes.setRecipe(Blocks.hardened_clay, new ItemStack(Items.clay_ball, 4));
 		ShredderRecipes.setRecipe(Blocks.tnt, new ItemStack(Items.gunpowder, Compat.isModLoaded(Compat.MOD_GT6) ? 4 : 5));
-		ShredderRecipes.setRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), new ItemStack(ModItems.powder_calcium));
 		ShredderRecipes.setRecipe(ModBlocks.stone_gneiss, new ItemStack(ModItems.powder_lithium_tiny, 1));
 		ShredderRecipes.setRecipe(ModItems.powder_lapis, new ItemStack(ModItems.powder_cobalt_tiny, 1));
 		ShredderRecipes.setRecipe(ModItems.fragment_neodymium, new ItemStack(ModItems.powder_neodymium_tiny, 1));
@@ -223,6 +222,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 2, 9), new ItemStack(ModItems.nugget_bismuth, 1));
 
 		ShredderRecipes.setRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), new ItemStack(ModItems.powder_calcium, 4));
+		ShredderRecipes.setRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.CALCIUM), new ItemStack(ModItems.powder_calcium, 6));
 		ShredderRecipes.setRecipe(ModItems.can_empty, new ItemStack(ModItems.powder_aluminium, 2));
 		ShredderRecipes.setRecipe(ModBlocks.machine_well, new ItemStack(ModItems.powder_steel, 32));
 		ShredderRecipes.setRecipe(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.RARE), new ItemStack(ModItems.powder_desh_mix));
