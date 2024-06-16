@@ -9,7 +9,6 @@ import com.hbm.config.WorldConfig;
 import com.hbm.entity.mob.EntityFBI;
 import com.hbm.entity.mob.EntityFBIDrone;
 import com.hbm.entity.mob.EntityGhost;
-import com.hbm.particle.ParticleRadiationFog;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.entity.mob.EntityMaskMan;
 import com.hbm.entity.mob.EntityRADBeast;
@@ -20,9 +19,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.util.ContaminationUtil;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
-import cpw.mods.fml.relauncher.Side;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -35,6 +31,8 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProviderEnd;
+import net.minecraft.world.WorldProviderHell;
 import net.minecraftforge.event.ForgeEventFactory;
 
 public class BossSpawnHandler {
@@ -207,7 +205,7 @@ public class BossSpawnHandler {
 				
 				EntityPlayer p = (EntityPlayer)world.playerEntities.get(meteorRand.nextInt(world.playerEntities.size()));
 				
-				if(p != null && p.dimension == 0) {
+				if(p != null && !(p.worldObj.provider instanceof WorldProviderHell || p.worldObj.provider instanceof WorldProviderEnd)) {
 					
 					boolean repell = false;
 					boolean strike = true;
