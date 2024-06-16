@@ -16,8 +16,8 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
-public class Spaceship extends WorldGenerator
-{
+public class Spaceship extends WorldGenerator {
+
 	Block Block1 = ModBlocks.deco_tungsten;
 	Block Block2 = ModBlocks.deco_red_copper;
 	Block Block3 = ModBlocks.deco_steel;
@@ -29,27 +29,35 @@ public class Spaceship extends WorldGenerator
 	Block Block9 = ModBlocks.reinforced_light;
 	Block Block10 = ModBlocks.reinforced_glass;
 	
-	protected Block[] GetValidSpawnBlocks()
-	{
-		return new Block[]
-		{
+	protected Block[] GetValidSpawnBlocks() {
+		return new Block[] {
 			Blocks.grass,
 			Blocks.dirt,
 			Blocks.stone,
 			Blocks.sand,
 			Blocks.sandstone,
+			ModBlocks.moon_turf,
+			ModBlocks.moon_rock,
+			ModBlocks.duna_sands,
+			ModBlocks.duna_rock,
+			ModBlocks.ike_regolith,
+			ModBlocks.ike_stone,
+			ModBlocks.dres_rock,
+			ModBlocks.laythe_silt,
+			ModBlocks.eve_silt,
+			ModBlocks.eve_rock,
+			ModBlocks.moho_regolith,
+			ModBlocks.moho_stone,
 		};
 	}
 
-	public boolean LocationIsValidSpawn(World world, int x, int y, int z)
- {
+	public boolean LocationIsValidSpawn(World world, int x, int y, int z) {
 
 		Block checkBlock = world.getBlock(x, y - 1, z);
 		world.getBlock(x, y , z);
 		Block blockBelow = world.getBlock(x, y - 2, z);
 
-		for (Block i : GetValidSpawnBlocks())
-		{
+		for (Block i : GetValidSpawnBlocks()) {
 			if (checkBlock == i)
 			{
 				return true;
@@ -67,12 +75,10 @@ public class Spaceship extends WorldGenerator
 	}
 
 	@Override
-	public boolean generate(World world, Random rand, int x, int y, int z)
-	{
+	public boolean generate(World world, Random rand, int x, int y, int z) {
 		int i = rand.nextInt(1);
 
-		if(i == 0)
-		{
+		if(i == 0) {
 		    generate_r0(world, rand, x, y, z);
 		}
 
@@ -80,12 +86,9 @@ public class Spaceship extends WorldGenerator
 
 	}
 
-	public boolean generate_r0(World world, Random rand, int x, int y, int z)
-	{
+	public boolean generate_r0(World world, Random rand, int x, int y, int z) {
 		if(!LocationIsValidSpawn(world, x, y, z) || !LocationIsValidSpawn(world, x + 12, y, z) || !LocationIsValidSpawn(world, x, y, z + 23) || !LocationIsValidSpawn(world, x + 12, y, z + 23))
-		{
 			return false;
-		}
 
 		y += 1;
 		
