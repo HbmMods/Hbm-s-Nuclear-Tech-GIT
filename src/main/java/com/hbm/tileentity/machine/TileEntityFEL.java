@@ -16,6 +16,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -23,6 +24,7 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.EntityLivingBase;
@@ -176,13 +178,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyRecei
 				}
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setString("mode", mode.toString());
-			data.setBoolean("isOn", isOn);
-			data.setBoolean("valid", missingValidSilex);
-			data.setInteger("distance", distance);
-			this.networkPack(data, 250);
+			this.networkPackNT(250);
 		} else {
 
 			if(power > powerReq * Math.pow(2, mode.ordinal()) && isOn && !(mode == EnumWavelengths.NULL) && distance - 3 > 0) {
@@ -224,16 +220,25 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyRecei
 		 
 		return false;
 	}
-
+	
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.mode = EnumWavelengths.valueOf(nbt.getString("mode"));
-		this.isOn = nbt.getBoolean("isOn");
-		this.distance = nbt.getInteger("distance");
-		this.missingValidSilex = nbt.getBoolean("valid");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		BufferUtil.writeString(buf, mode.toString());
+		buf.writeBoolean(isOn);
+		buf.writeBoolean(missingValidSilex);
+		buf.writeInt(distance);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		mode = EnumWavelengths.valueOf(BufferUtil.readString(buf));
+		isOn = buf.readBoolean();
+		missingValidSilex = buf.readBoolean();
+		distance = buf.readInt();
 	}
 
 	@Override
