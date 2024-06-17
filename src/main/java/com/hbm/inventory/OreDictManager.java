@@ -352,6 +352,7 @@ public class OreDictManager {
 		IRON.plate(plate_iron).dust(powder_iron).ore(ore_gneiss_iron).oreAll(ore_iron);
 		GOLD.plate(plate_gold).dust(powder_gold).ore(ore_gneiss_gold).oreAll(ore_gold);
 		LAPIS.dust(powder_lapis).oreAll(ore_lapis);
+		REDSTONE.oreAll(ore_redstone);
 		NETHERQUARTZ.gem(Items.quartz).dust(powder_quartz).ore(Blocks.quartz_ore).oreAll(ore_quartz);
 		QUARTZ.dust(powder_quartz);
 		DIAMOND.dust(powder_diamond).ore(gravel_diamond, ore_sellafield_diamond).oreAll(ore_diamond);
