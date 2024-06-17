@@ -29,6 +29,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -152,17 +153,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 				process();
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			data.setInteger("progress", this.progress);
-			data.setInteger("maxProgress", this.maxProgress);
-			data.setBoolean("isProgressing", isProgressing);
-			
-			for(int i = 0; i < tanks.length; i++) {
-				tanks[i].writeToNBT(data, "t" + i);
-			}
-			
-			this.networkPack(data, 150);
+			this.networkPackNT(150);
 		} else {
 			
 			if(isProgressing && this.worldObj.getTotalWorldTime() % 3 == 0) {
@@ -197,24 +188,34 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 			}
 		}
 	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeInt(progress);
+		buf.writeInt(maxProgress);
+		buf.writeBoolean(isProgressing);
+
+		for(int i = 0; i < tanks.length; i++)
+			tanks[i].serialize(buf);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		progress = buf.readInt();
+		maxProgress = buf.readInt();
+		isProgressing = buf.readBoolean();
+
+		for(int i = 0; i < tanks.length; i++)
+			tanks[i].deserialize(buf);
+	}
 	
 	@Override
 	public AudioWrapper createAudioLoop() {
 		return MainRegistry.proxy.getLoopedSound("hbm:block.chemplantOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
-	}
-
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.progress = nbt.getInteger("progress");
-		this.maxProgress = nbt.getInteger("maxProgress");
-		this.isProgressing = nbt.getBoolean("isProgressing");
-
-		for(int i = 0; i < tanks.length; i++) {
-			tanks[i].readFromNBT(nbt, "t" + i);
-		}
 	}
 
 	@Override
@@ -501,7 +502,7 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 
 	@Override
 	public long getMaxPower() {
-		return this.maxPower;
+		return maxPower;
 	}
 	
 	@Override
@@ -588,12 +589,12 @@ public class TileEntityMachineChemplant extends TileEntityMachineBase implements
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_chemplant));
 		if(type == UpgradeType.SPEED) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 300) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_DELAY, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(KEY_CONSUMPTION, "+" + (level * 300) + "%"));
 		}
 		if(type == UpgradeType.POWER) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 30) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (level * 5) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_CONSUMPTION, "-" + (level * 30) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(KEY_DELAY, "+" + (level * 5) + "%"));
 		}
 		if(type == UpgradeType.OVERDRIVE) {
 			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");

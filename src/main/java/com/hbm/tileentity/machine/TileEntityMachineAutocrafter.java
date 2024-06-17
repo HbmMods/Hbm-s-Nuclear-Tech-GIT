@@ -8,11 +8,13 @@ import com.hbm.inventory.gui.GUIAutocrafter;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.ItemStackUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -193,33 +195,38 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 				}
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			for(int i = 0; i < 9; i++) {
-				if(modes[i] != null) {
-					data.setString("mode" + i, modes[i]);
-				}
-			}
-			data.setInteger("count", this.recipeCount);
-			data.setInteger("rec", this.recipeIndex);
-			this.networkPack(data, 15);
+			this.networkPackNT(15);
 		}
 	}
 	
 	@Override
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		for(int i = 0; i < 9; i++) {
+			if(modes[i] != null) {
+				buf.writeBoolean(true);
+				BufferUtil.writeString(buf, modes[i]);
+			} else
+				buf.writeBoolean(false);
+		}
 		
-		this.power = data.getLong("power");
+		buf.writeInt(recipeCount);
+		buf.writeInt(recipeIndex);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
 		
 		modes = new String[9];
 		for(int i = 0; i < 9; i++) {
-			if(data.hasKey("mode" + i)) {
-				modes[i] = data.getString("mode" + i);
-			}
+			if(buf.readBoolean()) modes[i] = BufferUtil.readString(buf);
 		}
-		this.recipeCount = data.getInteger("count");
-		this.recipeIndex = data.getInteger("rec");
+		
+		recipeCount = buf.readInt();
+		recipeIndex = buf.readInt();
 	}
 	
 	public void updateTemplateGrid() {

@@ -691,6 +691,16 @@ public class OreDictManager {
 		OreDictionary.registerOre(KEY_STONE, moho_stone);
 		OreDictionary.registerOre(KEY_COBBLESTONE, moon_rock);
 		
+		//Legacy wires
+		OreDictionary.registerOre(AL.wireFine(), wire_aluminium);
+		OreDictionary.registerOre(CU.wireFine(), wire_copper);
+		OreDictionary.registerOre(MINGRADE.wireFine(), wire_red_copper);
+		OreDictionary.registerOre(GOLD.wireFine(), wire_gold);
+		OreDictionary.registerOre(W.wireFine(), wire_tungsten);
+		OreDictionary.registerOre(ALLOY.wireFine(), wire_advanced_alloy);
+		OreDictionary.registerOre(MAGTUNG.wireFine(), wire_magnetized_tungsten);
+		OreDictionary.registerOre(SA326.wireFine(), wire_schrabidium);
+		
 		MaterialShapes.registerCompatShapes();
 		compensateMojangSpaghettiBullshit();
 	}

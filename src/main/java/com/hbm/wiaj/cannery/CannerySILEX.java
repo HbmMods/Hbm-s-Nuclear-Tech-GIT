@@ -184,7 +184,7 @@ public class CannerySILEX extends CanneryBase {
 		scene1.add(new ActionWait(10));
 
 		TileEntityPipeBaseNT duct = new TileEntityPipeBaseNT();
-		duct.setType(Fluids.ACID);
+		duct.setType(Fluids.PEROXIDE);
 		scene1.add(new ActionSetTile(5, 2, 0, duct));
 		scene1.add(new ActionSetTile(5, 1, 0, duct));
 		scene1.add(new ActionSetTile(6, 1, 0, duct));
