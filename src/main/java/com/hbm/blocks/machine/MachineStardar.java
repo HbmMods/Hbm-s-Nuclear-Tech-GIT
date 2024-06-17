@@ -28,7 +28,7 @@ public class MachineStardar extends BlockDummyable {
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {0, 0, 2, 2, 0, 0};
+		return new int[] {3, 0, 2, 2, 2, 2};
 	}
 
 	@Override

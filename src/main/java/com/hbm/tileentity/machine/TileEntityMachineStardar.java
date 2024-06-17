@@ -13,11 +13,18 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineStardar extends TileEntityLoadedBase  {
 
-	//quite literally.
+	private long power;
+	private long maxpwr = 1_000;
 
 	@Override
 	public void updateEntity() {
 		
 	}
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+
 
 }
