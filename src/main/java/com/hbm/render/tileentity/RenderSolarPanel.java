@@ -48,11 +48,11 @@ public class RenderSolarPanel extends TileEntitySpecialRenderer implements IItem
 	public IItemRenderer getRenderer() {
 		return new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glTranslated(0, -5, 0);
+				GL11.glTranslated(0, -3, 0);
 				GL11.glScaled(2.75, 2.75, 2.75);
 			}
 			public void renderCommon() {
-				GL11.glScaled(0.55, 0.55, 0.55);
+				GL11.glScaled(1, 1, 1);
 				GL11.glDisable(GL11.GL_CULL_FACE);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.solarp_tex);
