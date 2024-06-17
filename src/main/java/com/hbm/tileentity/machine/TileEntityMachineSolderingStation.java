@@ -255,6 +255,28 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 		
 		this.tank.readFromNBT(nbt, "t");
 	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+
+		this.power = nbt.getLong("power");
+		this.maxPower = nbt.getLong("maxPower");
+		this.progress = nbt.getInteger("progress");
+		this.processTime = nbt.getInteger("processTime");
+		tank.readFromNBT(nbt, "t");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setLong("power", power);
+		nbt.setLong("maxPower", maxPower);
+		nbt.setInteger("progress", progress);
+		nbt.setInteger("processTime", processTime);
+		tank.writeToNBT(nbt, "t");
+	}
 
 	@Override
 	public long getPower() {

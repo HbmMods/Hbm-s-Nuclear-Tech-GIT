@@ -19,8 +19,8 @@ import net.minecraft.world.World;
 public class Nodespace {
 	
 	/** Contains all "NodeWorld" instances, i.e. lists of nodes existing per world */
-	public static HashMap<World, NodeWorld> worlds = new HashMap();
-	public static Set<PowerNetMK2> activePowerNets = new HashSet();
+	public static HashMap<World, NodeWorld> worlds = new HashMap<>();
+	public static Set<PowerNetMK2> activePowerNets = new HashSet<>();
 	
 	public static PowerNode getNode(World world, int x, int y, int z) {
 		NodeWorld nodeWorld = worlds.get(world);
@@ -49,6 +49,9 @@ public class Nodespace {
 		
 		for(World world : MinecraftServer.getServer().worldServers) {
 			NodeWorld nodes = worlds.get(world);
+
+			if(nodes == null)
+				continue;
 			
 			for(Entry<BlockPos, PowerNode> entry : nodes.nodes.entrySet()) {
 				PowerNode node = entry.getValue();
@@ -120,7 +123,7 @@ public class Nodespace {
 
 		/** Contains a map showing where each node is, a node is every spot that a cable exists at.
 		 * Instead of the old proxy system, things like substation now create multiple nodes at their connection points */
-		public static HashMap<BlockPos, PowerNode> nodes = new HashMap();
+		public HashMap<BlockPos, PowerNode> nodes = new HashMap<>();
 		
 		/** Adds a node at all its positions to the nodespace */
 		public void pushNode(PowerNode node) {

@@ -56,6 +56,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public boolean isProgressing;
 	public boolean hasMaterial;
 	public int delay;
+	public int upgrade;
 	
 	public float lid;
 	public float prevLid;
@@ -71,7 +72,11 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public static final byte ELECTRODE_USED = 2;
 	public static final byte ELECTRODE_DEPLETED = 3;
 	
-	public static final int maxLiquid = MaterialShapes.BLOCK.q(24);
+	public int getMaxInputSize() {
+		return upgrade == 0 ? 1 : upgrade == 1 ? 4 : upgrade == 2 ? 8 : 16;
+	}
+	
+	public static final int maxLiquid = MaterialShapes.BLOCK.q(128);
 	public List<MaterialStack> liquids = new ArrayList();
 
 	public TileEntityMachineArcFurnaceLarge() {
@@ -95,6 +100,9 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	@Override
 	public void updateEntity() {
 		
+		UpgradeManager.eval(slots, 4, 4);
+		this.upgrade = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+		
 		if(!worldObj.isRemote) {
 			
 			this.power = Library.chargeTEFromItems(slots, 3, power, maxPower);
@@ -107,13 +115,11 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				boolean ingredients = this.hasIngredients();
 				boolean electrodes = this.hasElectrodes();
 				
-				UpgradeManager.eval(slots, 4, 4);
-				int upgrade = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 				int consumption = (int) (1_000 * Math.pow(5, upgrade));
 				
 				if(ingredients && electrodes && delay <= 0 && this.liquids.isEmpty()) {
 					if(lid > 0) {
-						lid -= 1F/60F;
+						lid -= 1F / (60F / (upgrade * 0.5 + 1));
 						if(lid < 0) lid = 0;
 						this.progress = 0;
 					} else {
@@ -126,8 +132,8 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 							if(this.progress >= 1F) {
 								this.process();
 								this.progress = 0;
-								this.delay = 120;
-								PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, 15F);
+								this.delay = (int) (120 / (upgrade * 0.5 + 1));
+								PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, 10F);
 							}
 						}
 					}
@@ -135,7 +141,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 					if(this.delay > 0) delay--;
 					this.progress = 0;
 					if(lid < 1 && this.electrodes[0] != 0 && this.electrodes[1] != 0 && this.electrodes[2] != 0) {
-						lid += 1F/60F;
+						lid += 1F / (60F / (upgrade * 0.5 + 1));
 						if(lid > 1) lid = 1;
 					}
 				}
@@ -147,12 +153,12 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			
 			if(!hasMaterial) hasMaterial = this.hasIngredients();
 			
-			if(!this.liquids.isEmpty() && this.lid >= 1F) {
+			if(!this.liquids.isEmpty() && this.lid > 0F) {
 				
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 				
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1.25D, zCoord + 0.5D + dir.offsetZ * 2.875D, 6, true, this.liquids, MaterialShapes.INGOT.q(1, 2), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1.25D, zCoord + 0.5D + dir.offsetZ * 2.875D, 6, true, this.liquids, MaterialShapes.INGOT.q(1), impact);
 
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();
@@ -193,7 +199,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				}
 			}
 			
-			if((lid == 1 || lid == 0) && lid != prevLid) {
+			if((lid == 1 || lid == 0) && lid != prevLid && !(this.prevLid == 0 && this.lid == 1)) {
 				MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, "hbm:door.wgh_stop", this.getVolume(1), 1F);
 			}
 			
@@ -211,7 +217,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				}
 			}
 			
-			if(this.lid != this.prevLid && this.lid > this.prevLid && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 4, zCoord + 0.5) < 50) {
+			if(this.lid != this.prevLid && this.lid > this.prevLid && !(this.prevLid == 0 && this.lid == 1) && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 4, zCoord + 0.5) < 50) {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "tower");
 				data.setFloat("lift", 0.01F);
@@ -226,6 +232,33 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				data.setInteger("color", 0x000000);
 				data.setFloat("strafe", 0.05F);
 				for(int i = 0; i < 3; i++) MainRegistry.proxy.effectNT(data);
+			}
+			
+			if(this.lid != this.prevLid && this.lid < this.prevLid && this.lid > 0.5F && this.hasMaterial && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 4, zCoord + 0.5) < 50) {
+				/*NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "tower");
+				data.setFloat("lift", 0.01F);
+				data.setFloat("base", 0.5F);
+				data.setFloat("max", 2F);
+				data.setInteger("life", 50 + worldObj.rand.nextInt(20));
+				data.setDouble("posX", xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25);
+				data.setDouble("posZ", zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.25);
+				data.setDouble("posY", yCoord + 4);
+				data.setBoolean("noWind", true);
+				data.setFloat("alphaMod", prevLid / lid);
+				data.setInteger("color", 0x808080);
+				data.setFloat("strafe", 0.15F);
+				MainRegistry.proxy.effectNT(data);*/
+				
+				if(worldObj.rand.nextInt(5) == 0) {
+					NBTTagCompound flame = new NBTTagCompound();
+					flame.setString("type", "rbmkflame");
+					flame.setDouble("posX", xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5);
+					flame.setDouble("posZ", zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5);
+					flame.setDouble("posY", yCoord + 2.75);
+					flame.setInteger("maxAge", 50);
+					for(int i = 0; i < 2; i++) MainRegistry.proxy.effectNT(flame);
+				}
 			}
 		}
 	}
@@ -253,17 +286,24 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			if(recipe == null) continue;
 			
 			if(!liquidMode && recipe.solidOutput != null) {
+				int amount = slots[i].stackSize;
 				slots[i] = recipe.solidOutput.copy();
+				slots[i].stackSize *= amount;
 			}
 			
 			if(liquidMode && recipe.fluidOutput != null) {
-				int liquid = this.getStackAmount(liquids);
-				int toAdd = this.getStackAmount(recipe.fluidOutput);
 				
-				if(liquid + toAdd <= this.maxLiquid) {
-					slots[i] = null;
-					for(MaterialStack stack : recipe.fluidOutput) {
-						this.addToStack(stack);
+				while(slots[i] != null && slots[i].stackSize > 0) {
+					int liquid = this.getStackAmount(liquids);
+					int toAdd = this.getStackAmount(recipe.fluidOutput);
+					
+					if(liquid + toAdd <= this.maxLiquid) {
+						this.decrStackSize(i, 1);
+						for(MaterialStack stack : recipe.fluidOutput) {
+							this.addToStack(stack);
+						}
+					} else {
+						break;
 					}
 				}
 			}
@@ -303,17 +343,37 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack stack, int side) {
-		return this.isItemValidForSlot(slot, stack) && stack.stackSize <= 1 && this.lid > 0;
+		if(lid <= 0) return false;
+		if(slot < 3) return stack.getItem() == ModItems.arc_electrode;
+		if(slot > 4) {
+			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, this.liquidMode);
+			if(recipe == null) return false;
+			if(liquidMode) {
+				if(recipe.fluidOutput == null) return false;
+				int sta = slots[slot] != null ? slots[slot].stackSize : 0;
+				sta += stack.stackSize;
+				return sta <= getMaxInputSize();
+			} else {
+				if(recipe.solidOutput == null) return false;
+				int sta = slots[slot] != null ? slots[slot].stackSize : 0;
+				sta += stack.stackSize;
+				return sta * recipe.solidOutput.stackSize <= recipe.solidOutput.getMaxStackSize() && sta <= getMaxInputSize();
+			}
+		}
+		return false;
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if(slot < 3) return stack.getItem() == ModItems.arc_electrode;
 		if(slot > 4) {
-			if(slots[slot] != null) return false;
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, this.liquidMode);
 			if(recipe == null) return false;
-			return liquidMode ? recipe.fluidOutput != null : recipe.solidOutput != null;
+			if(liquidMode) {
+				return recipe.fluidOutput != null;
+			} else {
+				return recipe.solidOutput != null;
+			}
 		}
 		return false;
 	}

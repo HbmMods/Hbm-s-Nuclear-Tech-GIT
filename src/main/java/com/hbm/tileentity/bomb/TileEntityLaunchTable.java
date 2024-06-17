@@ -542,7 +542,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:
 				tanks[0].setTankType(Fluids.KEROSENE);
-				tanks[1].setTankType(Fluids.ACID);
+				tanks[1].setTankType(Fluids.PEROXIDE);
 				break;
 			case HYDROGEN:
 				tanks[0].setTankType(Fluids.HYDROGEN);
@@ -553,7 +553,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				break;
 			case BALEFIRE:
 				tanks[0].setTankType(Fluids.BALEFIRE);
-				tanks[1].setTankType(Fluids.ACID);
+				tanks[1].setTankType(Fluids.PEROXIDE);
 				break;
 			case HYDRAZINE:
 				tanks[0].setTankType(Fluids.HYDRAZINE);

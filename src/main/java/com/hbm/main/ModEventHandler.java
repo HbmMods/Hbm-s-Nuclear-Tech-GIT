@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import org.apache.commons.lang3.math.NumberUtils;
@@ -46,6 +47,10 @@ import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM;
+import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM.RadPerWorld;
+import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM.SubChunk;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -134,6 +139,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -1019,9 +1025,8 @@ public class ModEventHandler {
 								player.fallDistance = 0;
 						}
 					} else if(props.enableBackpack && !player.isSneaking()) {
-						
-						if(player.motionY < -0.2)
-							player.motionY += 0.075D;
+						if(player.motionY < -0.2) player.motionY += 0.075D;
+						if(player.fallDistance > 0) player.fallDistance = 0;
 					}
 				}
 				
@@ -1380,20 +1385,6 @@ public class ModEventHandler {
 
 			}
 		}
-		/*
-		if(player.worldObj.isRemote && event.phase == event.phase.START) {
-
-			
-		if(player.worldObj.provider.dimensionId == SpaceConfig.dunaDimension) {
-			Vec3 vec = Vec3.createVectorHelper(20, 0, 50);
-
-			vec.rotateAroundZ((float) (rand.nextDouble() * Math.PI)* 10) ;
-			vec.rotateAroundY((float) (rand.nextDouble() * Math.PI * 2) * 5);
-			ParticleUtil.spawnDustFlame(player.worldObj, player.posX + 50 + vec.xCoord, player.posY, player.posZ + vec.zCoord, -4, 0, 0);
-
-		}
-		*/
-		
 	}
 	
 	@SubscribeEvent

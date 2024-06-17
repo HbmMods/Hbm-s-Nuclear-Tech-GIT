@@ -40,19 +40,19 @@ public class BedrockOre {
 		BedrockOreDefinition borax = new BedrockOreDefinition(EnumBedrockOre.BORAX,													3,	new FluidStack(Fluids.SULFURIC_ACID, 500));
 		BedrockOreDefinition chlorocalcite = new BedrockOreDefinition(EnumBedrockOre.CHLOROCALCITE,											3,	new FluidStack(Fluids.SULFURIC_ACID, 500));
 		BedrockOreDefinition asbestos = new BedrockOreDefinition(EnumBedrockOre.ASBESTOS,												2);
-		BedrockOreDefinition niobium = new BedrockOreDefinition(EnumBedrockOre.NIOBIUM,												2,	new FluidStack(Fluids.ACID, 500));
-		BedrockOreDefinition neodymium = new BedrockOreDefinition(EnumBedrockOre.NEODYMIUM,												3,	new FluidStack(Fluids.ACID, 500));
+		BedrockOreDefinition niobium = new BedrockOreDefinition(EnumBedrockOre.NIOBIUM,												2,	new FluidStack(Fluids.PEROXIDE, 500));
+		BedrockOreDefinition neodymium = new BedrockOreDefinition(EnumBedrockOre.NEODYMIUM,												3,	new FluidStack(Fluids.PEROXIDE, 500));
 		BedrockOreDefinition titanium = new BedrockOreDefinition(EnumBedrockOre.TITANIUM,												2,	new FluidStack(Fluids.SULFURIC_ACID, 500));
-		BedrockOreDefinition tungsten = new BedrockOreDefinition(EnumBedrockOre.TUNGSTEN,												2,	new FluidStack(Fluids.ACID, 500));
+		BedrockOreDefinition tungsten = new BedrockOreDefinition(EnumBedrockOre.TUNGSTEN,												2,	new FluidStack(Fluids.PEROXIDE, 500));
 		BedrockOreDefinition gold = new BedrockOreDefinition(EnumBedrockOre.GOLD,													1);
 		BedrockOreDefinition uranium = new BedrockOreDefinition(EnumBedrockOre.URANIUM,												4,	new FluidStack(Fluids.SULFURIC_ACID, 500));
 		BedrockOreDefinition thorium = new BedrockOreDefinition(EnumBedrockOre.THORIUM,												4,	new FluidStack(Fluids.SULFURIC_ACID, 500));
 		BedrockOreDefinition fluorite = new BedrockOreDefinition(EnumBedrockOre.FLUORITE,												1);
 		BedrockOreDefinition coal = new BedrockOreDefinition(new ItemStack(Items.coal, 8),											1,	0x202020);
-		BedrockOreDefinition niter = new BedrockOreDefinition(new ItemStack(ModItems.niter, 4),										2,	0x808080,	new FluidStack(Fluids.ACID, 500));
+		BedrockOreDefinition niter = new BedrockOreDefinition(new ItemStack(ModItems.niter, 4),										2,	0x808080,	new FluidStack(Fluids.PEROXIDE, 500));
 		BedrockOreDefinition redstone = new BedrockOreDefinition(new ItemStack(Items.redstone, 4),										1,	0xd01010);
 		BedrockOreDefinition emerald = new BedrockOreDefinition(new ItemStack(Items.emerald, 4),										1,	0x3FDD85);
-		BedrockOreDefinition rare = new BedrockOreDefinition(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.RARE),			2,	0x8F9999,	new FluidStack(Fluids.ACID, 500));
+		BedrockOreDefinition rare = new BedrockOreDefinition(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.RARE),			2,	0x8F9999,	new FluidStack(Fluids.PEROXIDE, 500));
 		BedrockOreDefinition bauxite = new BedrockOreDefinition(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.BAUXITE, 2),1,	0xEF7213);
 		
 		BedrockOreDefinition glowstone = new BedrockOreDefinition(new ItemStack(Items.glowstone_dust, 4),		1,	0xF9FF4D);
@@ -60,7 +60,7 @@ public class BedrockOre {
 		BedrockOreDefinition quartz = new BedrockOreDefinition(new ItemStack(Items.quartz, 4),				1,	0xF0EFDD);
 		
 		// NTM Space Fork ores
-		BedrockOreDefinition nickel = new BedrockOreDefinition(EnumBedrockOre.NICKEL,												2,	new FluidStack(Fluids.ACID, 500));
+		BedrockOreDefinition nickel = new BedrockOreDefinition(EnumBedrockOre.NICKEL,												2,	new FluidStack(Fluids.PEROXIDE, 500));
 		BedrockOreDefinition zinc = new BedrockOreDefinition(EnumBedrockOre.ZINC,												2);
 		BedrockOreDefinition lithium = new BedrockOreDefinition(new ItemStack(ModItems.powder_lithium, 4), 1, 0xFFFFFF);
 		BedrockOreDefinition ice = new BedrockOreDefinition(new ItemStack(Blocks.packed_ice, 8), 1, 0xAAFFFF);

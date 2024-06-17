@@ -3,6 +3,8 @@ package com.hbm.handler.radiation;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.hbm.interfaces.Untested;
+
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
@@ -19,7 +21,7 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
 	
 	private HashMap<World, ThreeDimRadiationPerWorld> perWorld = new HashMap();
 
-	@Override
+	@Override @Untested
 	public float getRadiation(World world, int x, int y, int z) {
 		ThreeDimRadiationPerWorld radWorld = perWorld.get(world);
 		
@@ -28,7 +30,7 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
 			
 			int yReg = MathHelper.clamp_int(y >> 4, 0, 15);
 			
-			Float rad = radWorld.radiation.get(coords)[yReg];
+			Float rad = radWorld.radiation.get(coords)[yReg]; // this will crash if the coord pair isn't nullchecked
 			return rad == null ? 0F : rad;
 		}
 		
@@ -66,7 +68,7 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
 		setRadiation(world, x, y, z, Math.max(getRadiation(world, x, y, z) - rad, 0));
 	}
 
-	@Override
+	@Override @Untested //will most definitely crash, for this to work i need to figure out what it even was i wanted to do in the first place
 	public void updateSystem() {
 		
 		for(Entry<World, ThreeDimRadiationPerWorld> entry : perWorld.entrySet()) {
@@ -96,7 +98,7 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
 								
 								if(buff.containsKey(newCoord)) {
 									int newY = MathHelper.clamp_int(y + j, 0, 15);
-									Float[] vals = radiation.get(newCoord);
+									Float[] vals = radiation.get(newCoord); // ????????? but radiation was cleared!
 									float newRad = vals[newY] + chunk.getValue()[newY] * percent;
 									vals[newY] = Math.max(0F, newRad * 0.999F - 0.05F);
 								}
