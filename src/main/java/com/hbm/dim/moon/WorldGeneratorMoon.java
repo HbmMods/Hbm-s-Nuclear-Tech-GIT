@@ -5,7 +5,6 @@ import static net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.CommonConfig;
 import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.CelestialBody;

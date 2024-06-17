@@ -78,7 +78,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputFluids(new FluidStack(Fluids.SOLVENT, 1000)));
 		recipes.add(new ChemRecipe(43, "POLYMER", 100)
 				.inputItems(
-						new OreDictStack(COAL.dust(), 2),
+						new OreDictStack(ANY_COAL_COKE.dust(), 2),
 						new OreDictStack(F.dust()))
 				.inputFluids(new FluidStack(Fluids.PETROLEUM, 500, GeneralConfig.enable528 ? 1 : 0))
 				.outputItems(new ItemStack(ModItems.ingot_polymer)));

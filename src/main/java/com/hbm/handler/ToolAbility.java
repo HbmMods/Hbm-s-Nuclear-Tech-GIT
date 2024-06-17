@@ -60,8 +60,13 @@ public abstract class ToolAbility {
 			
 			if(!ToolConfig.recursiveStone) {
 				Item item = Item.getItemFromBlock(b);
-				List<ItemStack> ores = OreDictionary.getOres(OreDictManager.KEY_STONE);
-				for(ItemStack stack : ores) {
+				List<ItemStack> stone = OreDictionary.getOres(OreDictManager.KEY_STONE);
+				for(ItemStack stack : stone) {
+					if(stack.getItem() == item)
+						return false;
+				}
+				List<ItemStack> cobble = OreDictionary.getOres(OreDictManager.KEY_COBBLESTONE);
+				for(ItemStack stack : cobble) {
 					if(stack.getItem() == item)
 						return false;
 				}

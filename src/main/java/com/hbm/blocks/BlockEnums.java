@@ -9,7 +9,8 @@ public class BlockEnums {
 		MALACHITE,
 		LIMESTONE,
 		BAUXITE,
-		CONGLOMERATE
+		CONGLOMERATE,
+		CALCIUM,
 	}
 
 	public static enum EnumMeteorType {

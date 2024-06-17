@@ -62,7 +62,7 @@ public class ShredderRecipes extends SerializableRecipe {
 			generateRecipes("gem", name, matches, 1);
 			generateRecipes("crystal", name, matches, 1);
 			//2 ingot units, any
-			generateRecipes("ore", name, matches, 2, true);
+			generateRecipes("ore", name, matches, 2);
 			
 			if(name.length() > 5 && name.substring(0, 5).equals("block")) {
 				ItemStack dust = getDustByName(name.substring(5));
@@ -75,28 +75,24 @@ public class ShredderRecipes extends SerializableRecipe {
 						dust.stackSize = 4;
 					
 					for(ItemStack stack : matches) {
-						putIfValid(stack, dust, name, false);
+						putIfValid(stack, dust, name);
 					}
 				}
 			}
 			
 			if(name.length() > 7 && name.substring(0, 8).equals("dustTiny")) {
 				for(ItemStack stack : matches) {
-					putIfValid(stack, new ItemStack(ModItems.dust_tiny), name, false);
+					putIfValid(stack, new ItemStack(ModItems.dust_tiny), name);
 				}
 			} else if(name.length() > 3 && name.substring(0, 4).equals("dust")) {
 				for(ItemStack stack : matches) {
-					putIfValid(stack, new ItemStack(ModItems.dust), name, false);
+					putIfValid(stack, new ItemStack(ModItems.dust), name);
 				}
 			}
 		}
 	}
-
-	private static void generateRecipes(String prefix, String name, List<ItemStack> matches, int outCount) {
-		generateRecipes(prefix, name, matches, outCount, false);
-	}
 	
-	private static void generateRecipes(String prefix, String name, List<ItemStack> matches, int outCount, boolean matchAnyMeta) {
+	private static void generateRecipes(String prefix, String name, List<ItemStack> matches, int outCount) {
 		
 		int len = prefix.length();
 		
@@ -110,20 +106,18 @@ public class ShredderRecipes extends SerializableRecipe {
 				dust.stackSize = outCount;
 				
 				for(ItemStack stack : matches) {
-					putIfValid(stack, dust, name, matchAnyMeta);
+					putIfValid(stack, dust, name);
 				}
 			}
 		}
 	}
 	
-	private static void putIfValid(ItemStack in, ItemStack dust, String name, boolean matchAnyMeta) {
+	private static void putIfValid(ItemStack in, ItemStack dust, String name) {
 
 		if(in != null) {
 			
 			if(in.getItem() != null) {
-				ComparableStack comparable = new ComparableStack(in);
-				// comparable.meta = matchAnyMeta ? OreDictionary.WILDCARD_VALUE : comparable.meta;
-				setRecipe(comparable, dust);
+				setRecipe(new ComparableStack(in), dust);
 			} else {
 				MainRegistry.logger.error("Ore dict entry '" + name + "' has a null item in its stack! How does that even happen?");
 				Thread.currentThread().dumpStack();
@@ -150,6 +144,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(new ItemStack(Blocks.stone_slab, 1, 7), new ItemStack(ModItems.powder_quartz, 2));
 		ShredderRecipes.setRecipe(Items.quartz, new ItemStack(ModItems.powder_quartz));
 		ShredderRecipes.setRecipe(Blocks.quartz_ore, new ItemStack(ModItems.powder_quartz, 2));
+		ShredderRecipes.setRecipe(ModBlocks.ore_quartz, new ItemStack(ModItems.powder_quartz, 2));
 		ShredderRecipes.setRecipe(ModBlocks.ore_nether_fire, new ItemStack(ModItems.powder_fire, 6));
 		ShredderRecipes.setRecipe(Blocks.packed_ice, new ItemStack(ModItems.powder_ice, 1));
 		ShredderRecipes.setRecipe(ModBlocks.brick_light, new ItemStack(Items.clay_ball, 4));
@@ -174,7 +169,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(Blocks.clay, new ItemStack(Items.clay_ball, 4));
 		ShredderRecipes.setRecipe(Blocks.hardened_clay, new ItemStack(Items.clay_ball, 4));
 		ShredderRecipes.setRecipe(Blocks.tnt, new ItemStack(Items.gunpowder, Compat.isModLoaded(Compat.MOD_GT6) ? 4 : 5));
-		ShredderRecipes.setRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), new ItemStack(ModItems.powder_calcium));
 		ShredderRecipes.setRecipe(ModBlocks.stone_gneiss, new ItemStack(ModItems.powder_lithium_tiny, 1));
 		ShredderRecipes.setRecipe(ModItems.powder_lapis, new ItemStack(ModItems.powder_cobalt_tiny, 1));
 		ShredderRecipes.setRecipe(ModItems.fragment_neodymium, new ItemStack(ModItems.powder_neodymium_tiny, 1));
@@ -228,6 +222,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		//ShredderRecipes.setRecipe(new ItemStack(ModItems.ore_byproduct, 2, 9), new ItemStack(ModItems.nugget_bismuth, 1));
 
 		ShredderRecipes.setRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), new ItemStack(ModItems.powder_calcium, 4));
+		ShredderRecipes.setRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.CALCIUM), new ItemStack(ModItems.powder_calcium, 6));
 		ShredderRecipes.setRecipe(ModItems.can_empty, new ItemStack(ModItems.powder_aluminium, 2));
 		ShredderRecipes.setRecipe(ModBlocks.machine_well, new ItemStack(ModItems.powder_steel, 32));
 		ShredderRecipes.setRecipe(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.RARE), new ItemStack(ModItems.powder_desh_mix));
@@ -237,12 +232,14 @@ public class ShredderRecipes extends SerializableRecipe {
 		List<ItemStack> planks = OreDictionary.getOres("plankWood");
 		List<ItemStack> saplings = OreDictionary.getOres("treeSapling");
 		List<ItemStack> stones = OreDictionary.getOres(OreDictManager.KEY_STONE);
+		List<ItemStack> cobbles = OreDictionary.getOres(OreDictManager.KEY_COBBLESTONE);
 		List<ItemStack> sands = OreDictionary.getOres(OreDictManager.KEY_SAND);
 		
 		for(ItemStack log : logs) ShredderRecipes.setRecipe(log, new ItemStack(ModItems.powder_sawdust, 4));
 		for(ItemStack plank : planks) ShredderRecipes.setRecipe(plank, new ItemStack(ModItems.powder_sawdust, 1));
 		for(ItemStack sapling : saplings) ShredderRecipes.setRecipe(sapling, new ItemStack(Items.stick, 1));
 		for(ItemStack stone : stones) ShredderRecipes.setRecipe(stone, new ItemStack(Blocks.gravel, 1));
+		for(ItemStack cobble : cobbles) ShredderRecipes.setRecipe(cobble, new ItemStack(Blocks.gravel, 1));
 		for(ItemStack sand : sands) ShredderRecipes.setRecipe(sand, new ItemStack(ModItems.dust, 2));
 
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {

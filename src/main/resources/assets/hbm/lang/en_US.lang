@@ -716,7 +716,7 @@ container.centrifuge=Centrifuge
 container.chemplant=Chemical Plant
 container.compactLauncher=Compact Launch Pad
 container.craneBoxer=Conveyor Boxer
-container.craneExtractor=Conveyor Ejectorcontainer.craneGrabber=Conveyor Grabber
+container.craneExtractor=Conveyor Ejector
 container.craneGrabber=Conveyor Grabber
 container.craneInserter=Conveyor Inserter
 container.craneRouter=Conveyor Router
@@ -6055,6 +6055,7 @@ tile.stone_resource.asbestos.name=Chrysotile
 tile.stone_resource.bauxite.name=Bauxite
 tile.stone_resource.hematite.name=Hematite
 tile.stone_resource.limestone.name=Limestone
+tile.stone_resource.calcium.name=Calcium
 tile.stone_resource.malachite.name=Malachite
 tile.stone_resource.sulfur.name=Sulfurous Stone
 tile.struct_icf_core.name=Inertial Confinement Fusion Reactor Core Component
