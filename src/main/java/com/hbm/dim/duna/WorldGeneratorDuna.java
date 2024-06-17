@@ -42,7 +42,7 @@ public class WorldGeneratorDuna implements IWorldGenerator {
 		if(i == 0 && j == 0 && world.getWorldInfo().getTerrainType() == WorldTypeTeleport.martian) {
 			int x = 0;
 			int z = 0;
-			int y = world.getHeightValue(x, z);
+			int y = world.getHeightValue(x, z) - 1;
 
 			ResourceManager.martian.build(world, x, y, z);
 		}
