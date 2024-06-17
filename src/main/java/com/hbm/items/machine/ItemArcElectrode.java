@@ -47,9 +47,9 @@ public class ItemArcElectrode extends ItemEnumMulti {
 
 	public static enum EnumElectrodeType {
 		GRAPHITE(	10),
-		LANTHANIUM(	50),
-		DESH(		250),
-		SATURNITE(	500);
+		LANTHANIUM(	100),
+		DESH(		500),
+		SATURNITE(	1500);
 		
 		public int durability;
 		

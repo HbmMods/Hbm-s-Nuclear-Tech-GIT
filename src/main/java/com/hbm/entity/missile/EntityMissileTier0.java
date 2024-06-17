@@ -99,7 +99,7 @@ public abstract class EntityMissileTier0 extends EntityMissileBaseNT {
 				this.worldObj.spawnEntityInWorld(cloud);
 			}
 		}
-		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.powder_schrabidium, 1); }
+		@Override public ItemStack getDebrisRareDrop() { return null; }
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_schrabidium); }
 	}
 	

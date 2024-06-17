@@ -1,15 +1,19 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.BlockHadronPower;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.packet.BufPacket;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHadronPower extends TileEntityLoadedBase implements IEnergyReceiverMK2, INBTPacketReceiver {
+public class TileEntityHadronPower extends TileEntityLoadedBase implements IEnergyReceiverMK2, IBufPacketReceiver {
 
 	public long power;
 
@@ -26,15 +30,18 @@ public class TileEntityHadronPower extends TileEntityLoadedBase implements IEner
 				this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			INBTPacketReceiver.networkPack(this, data, 15);
+			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 15));
 		}
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("power");
+	public void serialize(ByteBuf buf) {
+		buf.writeLong(power);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		power = buf.readLong();
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import api.hbm.energymk2.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -111,13 +112,7 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase i
 				rec = AssemblerRecipes.recipeList.indexOf(comp);
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setIntArray("progress", this.progress);
-			data.setIntArray("maxProgress", this.maxProgress);
-			data.setBoolean("isProgressing", isProgressing);
-			data.setInteger("recipe", rec);
-			this.networkPack(data, 150);
+			this.networkPackNT(150);
 		} else {
 			
 			float volume = this.getVolume(2F);
@@ -142,16 +137,31 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase i
 			}
 		}
 	}
-
+	
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		for(int i = 0; i < getRecipeCount(); i++) {
+			buf.writeInt(progress[i]);
+			buf.writeInt(maxProgress[i]);
+		}
 		
-		this.power = nbt.getLong("power");
-		this.progress = nbt.getIntArray("progress");
-		this.maxProgress = nbt.getIntArray("maxProgress");
-		this.isProgressing = nbt.getBoolean("isProgressing");
-		this.recipe = nbt.getInteger("recipe");
+		buf.writeBoolean(isProgressing);
+		buf.writeInt(recipe);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		for(int i = 0; i < getRecipeCount(); i++) {
+			progress[i] = buf.readInt();
+			maxProgress[i] = buf.readInt();
+		}
+		
+		isProgressing = buf.readBoolean();
+		recipe = buf.readInt();
 	}
 	
 	@Override

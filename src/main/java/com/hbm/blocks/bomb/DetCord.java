@@ -2,11 +2,11 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.entity.item.EntityTNTPrimedBase;
 
+import net.minecraft.util.MathHelper;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class DetCord extends BlockDetonatable implements IDetConnectible {

@@ -25,42 +25,34 @@ public class ContainerMachineCyclotron extends Container {
 		cyclotron = tile;
 		
 		//Input
-		this.addSlotToContainer(new Slot(tile, 0, 17, 18));
-		this.addSlotToContainer(new Slot(tile, 1, 17, 36));
-		this.addSlotToContainer(new Slot(tile, 2, 17, 54));
+		this.addSlotToContainer(new Slot(tile, 0, 11, 18));
+		this.addSlotToContainer(new Slot(tile, 1, 11, 36));
+		this.addSlotToContainer(new Slot(tile, 2, 11, 54));
 		//Targets
-		this.addSlotToContainer(new Slot(tile, 3, 107, 18));
-		this.addSlotToContainer(new Slot(tile, 4, 107, 36));
-		this.addSlotToContainer(new Slot(tile, 5, 107, 54));
+		this.addSlotToContainer(new Slot(tile, 3, 101, 18));
+		this.addSlotToContainer(new Slot(tile, 4, 101, 36));
+		this.addSlotToContainer(new Slot(tile, 5, 101, 54));
 		//Output
-		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 6, 143, 18));
-		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 7, 143, 36));
-		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 8, 143, 54));
-		//AMAT In
-		this.addSlotToContainer(new Slot(tile, 9, 143, 90));
-		//AMAT Out
-		this.addSlotToContainer(new SlotTakeOnly(tile, 10, 143, 108));
-		//Coolant In
-		this.addSlotToContainer(new Slot(tile, 11, 62, 72));
-		//Coolant Out
-		this.addSlotToContainer(new SlotTakeOnly(tile, 12, 62, 90));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 6, 131, 18));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 7, 131, 36));
+		this.addSlotToContainer(new SlotCraftingOutput(invPlayer.player, tile, 8, 131, 54));
 		//Battery
-		this.addSlotToContainer(new Slot(tile, 13, 62, 108));
+		this.addSlotToContainer(new Slot(tile, 9, 168, 83));
 		//Upgrades
-		this.addSlotToContainer(new SlotUpgrade(tile, 14, 17, 90));
-		this.addSlotToContainer(new SlotUpgrade(tile, 15, 17, 108));
+		this.addSlotToContainer(new SlotUpgrade(tile, 10, 60, 81));
+		this.addSlotToContainer(new SlotUpgrade(tile, 11, 78, 81));
 		
 		for(int i = 0; i < 3; i++)
 		{
 			for(int j = 0; j < 9; j++)
 			{
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18 + 56));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 15 + j * 18, 133 + i * 18));
 			}
 		}
 		
 		for(int i = 0; i < 9; i++)
 		{
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142 + 56));
+			this.addSlotToContainer(new Slot(invPlayer, i, 15 + i * 18, 191));
 		}
 	}
 	
@@ -82,20 +74,12 @@ public class ContainerMachineCyclotron extends Container {
 			} else {
 				
 				if(stack.getItem() instanceof IBatteryItem || stack.getItem() == ModItems.battery_creative) {
-					if(!this.mergeItemStack(stack, 13, 14, true))
-						return null;
-					
-				} else if(FluidContainerRegistry.getFluidContent(stack, Fluids.COOLANT) > 0) {
-					if(!this.mergeItemStack(stack, 11, 12, true))
-						return null;
-					
-				} else if(FluidContainerRegistry.getFullContainer(stack, Fluids.AMAT) != null) {
 					if(!this.mergeItemStack(stack, 9, 10, true))
 						return null;
 					
 				} else if(stack.getItem() instanceof ItemMachineUpgrade) {
-					if(!this.mergeItemStack(stack, 14, 15, true))
-						if(!this.mergeItemStack(stack, 15, 16, true))
+					if(!this.mergeItemStack(stack, 10, 11, true))
+						if(!this.mergeItemStack(stack, 11, 12, true))
 							return null;
 					
 				} else {

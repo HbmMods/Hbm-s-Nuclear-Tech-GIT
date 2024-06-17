@@ -14,6 +14,7 @@ import com.hbm.interfaces.IBomb;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 
+import net.minecraft.util.MathHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -23,7 +24,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class ExplosiveCharge extends BlockDetonatable implements IBomb, IDetConnectible {

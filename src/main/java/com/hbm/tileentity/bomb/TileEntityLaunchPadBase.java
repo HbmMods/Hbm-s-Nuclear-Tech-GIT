@@ -284,11 +284,11 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		switch(missile.fuel) {
 		case ETHANOL_PEROXIDE:
 			tanks[0].setTankType(Fluids.ETHANOL);
-			tanks[1].setTankType(Fluids.ACID);
+			tanks[1].setTankType(Fluids.PEROXIDE);
 			break;
 		case KEROSENE_PEROXIDE:
 			tanks[0].setTankType(Fluids.KEROSENE);
-			tanks[1].setTankType(Fluids.ACID);
+			tanks[1].setTankType(Fluids.PEROXIDE);
 			break;
 		case KEROSENE_LOXY:
 			tanks[0].setTankType(Fluids.KEROSENE);

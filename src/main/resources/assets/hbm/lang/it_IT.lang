@@ -1338,7 +1338,6 @@ hbm.key.toggleBack=Toggle Backpack
 hbm.key.toggleHUD=Toggle HUD
 hbm.key.reload=Reload
 
-hbmfluid.acid=Hydrogen Peroxide
 hbmfluid.amat=Antimatter
 hbmfluid.aromatics=Aromatic Hydrocarbons
 hbmfluid.aschrab=Antischrabidium
@@ -1425,6 +1424,7 @@ hbmfluid.oil_ds=Desulfurized Crude Oil
 hbmfluid.oxygen=Liquid Oxygen
 hbmfluid.oxyhydrogen=Oxyhydrogen
 hbmfluid.pain=Pandemonium(III)tantalite Solution
+hbmfluid.peroxide=Hydrogen Peroxide
 hbmfluid.petroil=Petroil
 hbmfluid.petroil_leaded=Leaded Petroil
 hbmfluid.petroleum=Petroleum Gas

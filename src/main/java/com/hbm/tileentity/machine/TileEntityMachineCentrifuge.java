@@ -22,6 +22,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -198,11 +199,7 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 				progress = 0;
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("progress", progress);
-			data.setBoolean("isProgressing", isProgressing);
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		} else {
 			
 			if(isProgressing) {
@@ -234,14 +231,21 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 			}
 		}
 	}
-
+	
 	@Override
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		this.power = data.getLong("power");
-		this.progress = data.getInteger("progress");
-		this.isProgressing = data.getBoolean("isProgressing");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeInt(progress);
+		buf.writeBoolean(isProgressing);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		progress = buf.readInt();
+		isProgressing = buf.readBoolean();
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class CraneGrabber extends BlockCraneBase {
 		this.iconDirectionalSideDownTurnRight = iconRegister.registerIcon(RefStrings.MODID + ":crane_grabber_side_down_turn_right");
 	}
 
-    @Override
+	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		this.dropContents(world, x, y, z, block, meta, 9, 11);
 		super.breakBlock(world, x, y, z, block, meta);

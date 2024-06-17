@@ -40,7 +40,7 @@ public class IMCCrystallizer extends IMCHandler {
 			time = 600;
 		
 		if(acid.type == Fluids.NONE)
-			acid = new FluidStack(Fluids.ACID, 500);
+			acid = new FluidStack(Fluids.PEROXIDE, 500);
 		
 		CrystallizerRecipe recipe = new CrystallizerRecipe(out, time);
 		recipe.acidAmount = acid.fill;
