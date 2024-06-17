@@ -12,7 +12,7 @@ import net.minecraftforge.event.world.WorldEvent;
 
 public class ChunkRadiationManager {
 	
-	public static ChunkRadiationHandler proxy = /*new ChunkRadiationHandlerNT();*/ new ChunkRadiationHandlerSimple(); /*new ChunkRadiationHandlerPRISM();*/
+	public static ChunkRadiationHandler proxy = new ChunkRadiationHandlerSimple();
 
 	@SubscribeEvent
 	public void onWorldLoad(WorldEvent.Load event) {

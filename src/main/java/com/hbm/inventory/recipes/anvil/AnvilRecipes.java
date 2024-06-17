@@ -439,10 +439,9 @@ public class AnvilRecipes {
 				new AStack[] {
 						new ComparableStack(ModItems.deuterium_filter, 2),
 						new OreDictStack(STEEL.shell(), 5),
-						new ComparableStack(ModBlocks.concrete_smooth, 8),
-						new ComparableStack(ModBlocks.concrete_asbestos, 4),
-						new ComparableStack(ModBlocks.steel_scaffold, 16),
 						new OreDictStack(STEEL.pipe(), 12),
+						new ComparableStack(ModBlocks.concrete_asbestos, 8),
+						new ComparableStack(ModBlocks.steel_scaffold, 16),
 						new OreDictStack(Fluids.SOURGAS.getDict(1_000), 8),
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_deuterium_tower))).setTier(4));

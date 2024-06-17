@@ -250,10 +250,10 @@ public class FluidTank {
 			maxX += i;
 			maxY += height;
 			
-			minV = 0;
+			minV = 0D;
 			maxV = height / 16D;
-			minU = 0D;
-			maxU = width / 16D;
+			minU = 1D;
+			maxU = 1D - i / 16D;
 		}
 		
 		Tessellator tessellator = Tessellator.instance;

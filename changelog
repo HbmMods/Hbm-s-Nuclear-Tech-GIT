@@ -1,6 +1,24 @@
+## Added
+* PRISM
+  * A new 3D radiation system which makes use of block explosion resistance to determine spreading
+  * Unlike the 1.12.2 "pocket" system, radiation isn't perfectly sealed, blocks in a 16x16x16 area are simply summed up and used as a divisor
+  * Using enough high-resistance blocks (or a ton of lesser resistant blocks), radiation can still be effectively blocked (either thick concrete walls or a mountain)
+  * Radiation is still (sub) chunk based, so the radiation on both sides of a wall in the middle of a chunk will still be the same, the wall will however affect spreading to neighboring chunks
+  * For TPT players: radiation can be compared to pressure, where pressure also uses 4x4 pixel regions and is affected by pixels within those regions
+
 ## Changed
 * Centrifuges and refineries now use analog circuits
+* Updated the cyclotron, the GUI is now much cleaner and it uses water as coolant (produces LPS) instead of regular coolant
+* Due to some people's inability to put a square peg into a square hole rather than a round one, it is now impossible to manually click soldering station ingredients into the wrong slot (you could have just shift-clicked, you know?)
+* Slightly simplified a few crafting recipes, steel tanks and steel shells take the same role so the steel tanks were dropped from a few recipes
 
 ## Fixed
 * Fixed hopper IO ignoring the stack limit on arc furnaces under certain circumstances
 * Fixed the watz powerplant not dropping as many HSS bolts as it should
+* Fixed grates crashing servers when placed using shift click onto blocks
+* Many machines now use the much more efficient byte buffer for sending information to the client which heavily reduces lag (NBT packing is a major contributor to TPS lg)
+* Fixed issue where the power system would constantly disconnect when multiple dimensions are loaded
+* Fixed the rare sideways-rendering tank not using the correct UV
+* Fixed incorrect resource path for the hot blood tank, causing a missing texture
+* Fixed welded CMB plates being unobtainable
+* Fixed the ICF pellet maker not being able to eject the output

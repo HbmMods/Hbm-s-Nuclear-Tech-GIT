@@ -153,6 +153,11 @@ public class TileEntityICFPress extends TileEntityMachineBase implements IFluidS
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return side == 0 || side == 1 ? topBottom : sides;
 	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
+		return slot == 1;
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
