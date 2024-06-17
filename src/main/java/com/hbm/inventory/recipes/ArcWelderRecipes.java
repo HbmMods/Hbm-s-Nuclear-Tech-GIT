@@ -68,6 +68,8 @@ public class ArcWelderRecipes extends SerializableRecipe {
 				new OreDictStack(CDALLOY.plateCast(), 2)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_TUNGSTEN.id), 1_200, 250_000L, new FluidStack(Fluids.OXYGEN, 1_000),
 				new OreDictStack(W.plateCast(), 2)));
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_CMB.id), 1_200, 10_000_000L, new FluidStack(Fluids.REFORMGAS, 1_000),
+				new OreDictStack(CMB.plateCast(), 2)));
 		//pre-DFC
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.plate_welded, 1, Mats.MAT_OSMIRIDIUM.id), 6_000, 20_000_000L, new FluidStack(Fluids.REFORMGAS, 16_000),
 				new OreDictStack(OSMIRIDIUM.plateCast(), 2)));

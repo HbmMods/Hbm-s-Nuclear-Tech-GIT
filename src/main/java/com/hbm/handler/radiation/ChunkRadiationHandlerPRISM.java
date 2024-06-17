@@ -42,7 +42,8 @@ import net.minecraftforge.event.world.WorldEvent;
  */
 public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 	
-	private HashMap<World, RadPerWorld> perWorld = new HashMap();
+	public HashMap<World, RadPerWorld> perWorld = new HashMap();
+	public static int cycles = 0;
 	
 	public static final float MAX_RADIATION = 1_000_000;
 	private static final String NBT_KEY_CHUNK_RADIATION = "hfr_prism_radiation_";
@@ -169,15 +170,53 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 	@Override
 	public void updateSystem() {
 		
+		cycles++;
+		
 		for(Entry<World, RadPerWorld> entries : perWorld.entrySet()) {
 			World world = entries.getKey();
 			RadPerWorld system = entries.getValue();
 			
+			int rebuildAllowance = 25;
+			
 			//it would be way to expensive to replace the sub-chunks entirely like with the old system
 			//(that only used floats anyway...) so instead we shift the radiation into the prev value
-			for(Entry<ChunkCoordIntPair, SubChunk[]> chunk : system.radiation.entrySet()) for(SubChunk sub : chunk.getValue()) if(sub != null) {
-				sub.prevRadiation = sub.radiation;
-				sub.radiation = 0;
+			for(Entry<ChunkCoordIntPair, SubChunk[]> chunk : system.radiation.entrySet()) {
+				for(int i = 0; i < 16; i++) {
+					
+					SubChunk sub = chunk.getValue()[i];
+					
+					boolean hasTriedRebuild = false;
+					
+					if(sub != null) {
+						sub.prevRadiation = sub.radiation;
+						sub.radiation = 0;
+						
+						//process some chunks that need extra rebuilding
+						if(rebuildAllowance > 0 && sub.needsRebuild) {
+							sub.rebuild(world, chunk.getKey().chunkXPos << 4, i << 4, chunk.getKey().chunkZPos << 4);
+							if(!sub.needsRebuild) {
+								rebuildAllowance--;
+								hasTriedRebuild = true;
+							}
+						}
+						
+						if(!hasTriedRebuild && Math.abs(chunk.getKey().chunkXPos * chunk.getKey().chunkZPos) % 5 == cycles % 5 && world.getChunkProvider().chunkExists(chunk.getKey().chunkXPos, chunk.getKey().chunkZPos)) {
+
+							Chunk c = world.getChunkFromChunkCoords(chunk.getKey().chunkXPos, chunk.getKey().chunkZPos);
+							ExtendedBlockStorage[] xbs = c.getBlockStorageArray();
+							ExtendedBlockStorage subChunk = xbs[i];
+							int checksum = 0;
+							
+							if(subChunk != null) {
+								for(int iX = 0; iX < 16; iX++) for(int iY = 0; iY < 16; iY ++) for(int iZ = 0; iZ < 16; iZ ++) checksum += subChunk.getBlockLSBArray()[MathHelper.clamp_int(iY << 8 | iZ << 4 | iX, 0, 4095)];
+							}
+							
+							if(checksum != sub.checksum) {
+								sub.rebuild(world, chunk.getKey().chunkXPos << 4, i << 4, chunk.getKey().chunkZPos << 4);
+							}
+						}
+					}
+				}
 			}
 
 			//has to support additions while iterating
@@ -190,10 +229,12 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 					SubChunk sub = chunk.getValue()[i];
 					
 					if(sub != null) {
-						if(sub.prevRadiation <= 0 || Float.isNaN(sub.prevRadiation)) continue;
+						if(sub.prevRadiation <= 0 || Float.isNaN(sub.prevRadiation) || Float.isInfinite(sub.prevRadiation)) continue;
 						float radSpread = 0;
 						for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) radSpread += spreadRadiation(world, sub, i, chunk.getKey(), chunk.getValue(), system.radiation, dir);
 						sub.radiation += (sub.prevRadiation - radSpread) * 0.95F;
+						sub.radiation -= 1F;
+						sub.radiation = MathHelper.clamp_float(sub.radiation, 0, MAX_RADIATION);
 					}
 				}
 			}
@@ -262,8 +303,9 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 		public float[] yResist = new float[16];
 		public float[] zResist = new float[16];
 		public boolean needsRebuild = false;
+		public int checksum = 0;
 		
-		public void updateBlock(World world, int x, int y, int z) {
+		@Deprecated public void updateBlock(World world, int x, int y, int z) {
 			int cX = x >> 4;
 			int cY = MathHelper.clamp_int(y >> 4, 0, 15);
 			int cZ = z >> 4;
@@ -319,17 +361,21 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 			Chunk chunk = world.getChunkFromChunkCoords(cX, cZ);
 			ExtendedBlockStorage[] xbs = chunk.getBlockStorageArray();
 			ExtendedBlockStorage subChunk = xbs[cY];
+			checksum = 0;
 			
-			for(int iX = 0; iX < 16; iX++) {
-				for(int iY = 0; iY < 16; iY ++) {
-					for(int iZ = 0; iZ < 16; iZ ++) {
-						
-						Block b = subChunk.getBlockByExtId(iX, iY, iZ);
-						if(b.getMaterial() == Material.air) continue;
-						float resistance = b.getExplosionResistance(null, world, tX + iX, tY + iY, tZ + iZ, x, y, z);
-						xResist[iX] += resistance;
-						yResist[iY] += resistance;
-						zResist[iZ] += resistance;
+			if(subChunk != null) {
+				for(int iX = 0; iX < 16; iX++) {
+					for(int iY = 0; iY < 16; iY ++) {
+						for(int iZ = 0; iZ < 16; iZ ++) {
+							
+							Block b = subChunk.getBlockByExtId(iX, iY, iZ);
+							if(b.getMaterial() == Material.air) continue;
+							float resistance = b.getExplosionResistance(null, world, tX + iX, tY + iY, tZ + iZ, x, y, z);
+							xResist[iX] += resistance;
+							yResist[iY] += resistance;
+							zResist[iZ] += resistance;
+							checksum += subChunk.getBlockLSBArray()[MathHelper.clamp_int(iY << 8 | iZ << 4 | iX, 0, 4095)]; // the "good enough" approach
+						}
 					}
 				}
 			}

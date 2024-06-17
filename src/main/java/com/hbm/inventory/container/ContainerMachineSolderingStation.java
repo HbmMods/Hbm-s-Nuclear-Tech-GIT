@@ -2,6 +2,7 @@ package com.hbm.inventory.container;
 
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.SlotCraftingOutput;
+import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.inventory.SlotUpgrade;
 import com.hbm.inventory.recipes.SolderingRecipes;
 import com.hbm.items.ModItems;
@@ -24,7 +25,7 @@ public class ContainerMachineSolderingStation extends Container {
 		solderer = tile;
 		
 		//Inputs
-		for(int i = 0; i < 2; i++) for(int j = 0; j < 3; j++) this.addSlotToContainer(new Slot(tile, i * 3 + j, 17 + j * 18, 18 + i * 18));
+		for(int i = 0; i < 2; i++) for(int j = 0; j < 3; j++) this.addSlotToContainer(new SlotNonRetarded(tile, i * 3 + j, 17 + j * 18, 18 + i * 18));
 		//Output
 		this.addSlotToContainer(new SlotCraftingOutput(playerInv.player, tile, 6, 107, 27));
 		//Battery

@@ -1,5 +1,8 @@
 package com.hbm.config;
 
+import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM;
+import com.hbm.handler.radiation.ChunkRadiationManager;
+
 import net.minecraftforge.common.config.Configuration;
 
 public class RadiationConfig {
@@ -14,6 +17,7 @@ public class RadiationConfig {
 
 	public static boolean enableContamination = true;
 	public static boolean enableChunkRads = true;
+	public static boolean enablePRISM = false;
 
 	public static boolean disableAsbestos = false;
 	public static boolean disableCoal = false;
@@ -47,6 +51,8 @@ public class RadiationConfig {
 
 		enableContamination = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "RADIATION_00_enableContamination", "Toggles player contamination (and negative effects from radiation poisoning)", true);
 		enableChunkRads = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "RADIATION_01_enableChunkRads", "Toggles the world radiation system (chunk radiation only, some blocks use an AoE!)", true);
+		enablePRISM = CommonConfig.createConfigBool(config, CATEGORY_NUKE, "RADIATION_99_enablePRISM", "Enables the new 3D resistance-aware PRISM radiation system", false);
+		if(enablePRISM) ChunkRadiationManager.proxy = new ChunkRadiationHandlerPRISM();
 		
 		fogCh = CommonConfig.setDef(fogCh, 20);
 
