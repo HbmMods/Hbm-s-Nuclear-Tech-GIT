@@ -26,9 +26,10 @@ public class WorldGeneratorIke implements IWorldGenerator {
 	private void generateIke(World world, Random rand, int i, int j) {
 		int meta = CelestialBody.getMeta(world);
 
-		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.asbestosSpawn, 4, 3, 22, ModBlocks.ore_asbestos, meta, ModBlocks.ike_stone);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.asbestosSpawn, 8, 3, 22, ModBlocks.ore_asbestos, meta, ModBlocks.ike_stone);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.copperSpawn, 9, 4, 27, ModBlocks.ore_copper, meta, ModBlocks.ike_stone);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.ironClusterSpawn,  8, 1, 33, ModBlocks.ore_iron, meta, ModBlocks.ike_stone);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.lithiumSpawn,  6, 4, 8, ModBlocks.ore_lithium, meta, ModBlocks.ike_stone);
 		
 		if (SpaceConfig.ikecfreq > 0 && rand.nextInt(SpaceConfig.ikecfreq) == 0) {
 			

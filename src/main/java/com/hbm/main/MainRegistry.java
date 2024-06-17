@@ -918,14 +918,13 @@ public class MainRegistry {
 
 		// Global caves + layers
 		// Sulfur caves can't be defined globally due to vacuums evaporating fluids
-		new OreCave(ModBlocks.stone_resource, EnumStoneType.ASBESTOS.ordinal()).setGlobal(true).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);
 		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.HEMATITE.ordinal()).setGlobal(true).setScaleH(0.04D).setScaleV(0.25D).setThreshold(230);
 		new OreLayer3D(ModBlocks.stone_resource, EnumStoneType.BAUXITE.ordinal()).setGlobal(true).setScaleH(0.03D).setScaleV(0.15D).setThreshold(300);
-
 
 		
 		// Earth caves + layers
 		new OreCave(ModBlocks.stone_resource, EnumStoneType.SULFUR.ordinal()).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20).withFluid(ModBlocks.sulfuric_acid_block);
+		new OreCave(ModBlocks.stone_resource, EnumStoneType.ASBESTOS.ordinal()).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);
 		
 		// Moon caves + layers
 		new OreCave(ModBlocks.stone_resource, EnumStoneType.SULFUR.ordinal()).setDimension(SpaceConfig.moonDimension).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20);
@@ -948,6 +947,7 @@ public class MainRegistry {
 		
 		// Laythe caves + layers
 		new OreCave(ModBlocks.stone_resource, EnumStoneType.SULFUR.ordinal()).setDimension(SpaceConfig.laytheDimension).setThreshold(1.5D).setRangeMult(20).setYLevel(30).setMaxRange(20).withFluid(ModBlocks.sulfuric_acid_block);
+		new OreCave(ModBlocks.stone_resource, EnumStoneType.ASBESTOS.ordinal()).setDimension(SpaceConfig.laytheDimension).setThreshold(1.75D).setRangeMult(20).setYLevel(25).setMaxRange(20);
 
 
 		BedrockOre.init();

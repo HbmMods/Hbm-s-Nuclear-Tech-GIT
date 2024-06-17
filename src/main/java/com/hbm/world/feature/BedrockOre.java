@@ -110,7 +110,6 @@ public class BedrockOre {
 		registerBedrockOre(Body.DUNA, copper, WorldConfig.bedrockCopperSpawn);
 		registerBedrockOre(Body.DUNA, borax, WorldConfig.bedrockBoraxSpawn);
 		registerBedrockOre(Body.DUNA, chlorocalcite, WorldConfig.bedrockChlorocalciteSpawn);
-		registerBedrockOre(Body.DUNA, asbestos, WorldConfig.bedrockAsbestosSpawn);
 		registerBedrockOre(Body.DUNA, uranium, WorldConfig.bedrockUraniumSpawn);
 		registerBedrockOre(Body.DUNA, thorium, WorldConfig.bedrockThoriumSpawn);
 		registerBedrockOre(Body.DUNA, fluorite, WorldConfig.bedrockFluoriteSpawn);
@@ -131,6 +130,7 @@ public class BedrockOre {
 		registerBedrockOre(Body.LAYTHE, iron, WorldConfig.bedrockIronSpawn);
 		registerBedrockOre(Body.LAYTHE, copper, WorldConfig.bedrockCopperSpawn);
 		registerBedrockOre(Body.LAYTHE, rare, WorldConfig.bedrockRareEarthSpawn);
+		registerBedrockOre(Body.LAYTHE, asbestos, WorldConfig.bedrockAsbestosSpawn);
 		registerBedrockOre(Body.LAYTHE, emerald, WorldConfig.bedrockEmeraldSpawn);
 
 		// Moho ores
