@@ -510,30 +510,26 @@ public class AssemblerRecipes extends SerializableRecipe {
 			}, 200);
 
 		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.STOCK.ordinal()), new AStack[] {
-				new OreDictStack(STEEL.plate(), 2),
-				new OreDictStack(CU.plate(), 1),
-				new ComparableStack(ModItems.casing_50, 5),
+				new OreDictStack(STEEL.plate(), 4),
 				new OreDictStack(ANY_PLASTICEXPLOSIVE.ingot(), 2),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 2),
 				new ComparableStack(ModItems.cordite, 3),
 				new OreDictStack(U238.ingot(), 1)
 			}, 60);
 
 		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.INCENDIARY.ordinal()), new AStack[] {
-				new OreDictStack(STEEL.plate(), 2),
-				new OreDictStack(CU.plate(), 1),
-				new ComparableStack(ModItems.casing_50, 5),
-				new OreDictStack(ANY_PLASTICEXPLOSIVE.ingot(), 3),
+				new OreDictStack(STEEL.plate(), 4),
+				new OreDictStack(ANY_PLASTICEXPLOSIVE.ingot(), 2),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 2),
 				new ComparableStack(ModItems.cordite, 3),
 				new OreDictStack(P_WHITE.ingot(), 3)
 			}, 60);
 
 		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.HE.ordinal()), new AStack[] {
-				new OreDictStack(STEEL.plate(), 2),
-				new OreDictStack(CU.plate(), 1),
-				new ComparableStack(ModItems.casing_50, 5),
-				new OreDictStack(ANY_HIGHEXPLOSIVE.ingot(), 5),
-				new ComparableStack(ModItems.cordite, 5),
-				new OreDictStack(REDSTONE.dust(), 3)
+				new OreDictStack(STEEL.plate(), 4),
+				new OreDictStack(ANY_PLASTICEXPLOSIVE.ingot(), 2),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 5),
+				new ComparableStack(ModItems.cordite, 5)
 			}, 60);
 
 		makeRecipe(new ComparableStack(ModItems.spawn_worm, 1), new AStack[] {
