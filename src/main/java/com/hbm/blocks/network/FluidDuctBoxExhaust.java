@@ -46,7 +46,7 @@ public class FluidDuctBoxExhaust extends FluidDuctBox {
 		iconCurveTR = new IIcon[1];
 		iconCurveBL = new IIcon[1];
 		iconCurveBR = new IIcon[1];
-		iconJunction = new IIcon[1];
+		iconJunction = new IIcon[1][5];
 
 		iconStraight[0] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_exhaust_straight");
 		iconEnd[0] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_exhaust_end");
@@ -54,7 +54,7 @@ public class FluidDuctBoxExhaust extends FluidDuctBox {
 		iconCurveTR[0] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_exhaust_curve_tr");
 		iconCurveBL[0] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_exhaust_curve_bl");
 		iconCurveBR[0] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_exhaust_curve_br");
-		iconJunction[0] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_exhaust_junction");
+		for(int i = 0; i < 5; i++) iconJunction[0][i] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_exhaust_junction_" + i);
 	}
 	
 	public boolean canConnectTo(IBlockAccess world, int x, int y, int z, ForgeDirection dir, TileEntity tile) {

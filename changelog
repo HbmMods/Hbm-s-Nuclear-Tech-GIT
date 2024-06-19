@@ -1,10 +1,8 @@
 ## Changed
-* Changed PRISM's resistance function to work more like armor resistance instead of a straight divider
-* Capped PRISM's resistance value per block to 100 (bit over concrete)
-* Removed the unused rare metal ores, freeing up 5 block IDs
-* Changed the .75 bolt recipes
+* Updated boxducts
+  * All boxducts are now way cleaner, only having bolts on intersections, with straight parts only having very light seams
+  * Intersections now have unique textures for each size
+  * Copper boxducts now have a much nicer color gradient
+  * Exhaust pipes now have a more rusted appearance
 
-## Fixed
-* Fixed PRISM crashing instantly
-* Fixed PRISM's resistance check being on backwards
-* Fixed PRISM's resistance check omitting the wrong layers
+## Fixed crash caused by PRISM updating unloaded worlds
