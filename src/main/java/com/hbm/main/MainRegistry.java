@@ -1332,6 +1332,11 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.arc_electrode_desh");
 		ignoreMappings.add("hbm:tile.sand_gold");
 		ignoreMappings.add("hbm:tile.sand_gold198");
+		ignoreMappings.add("hbm:tile.ore_weidanium");
+		ignoreMappings.add("hbm:tile.ore_reiium");
+		ignoreMappings.add("hbm:tile.ore_unobtainium");
+		ignoreMappings.add("hbm:tile.ore_daffergon");
+		ignoreMappings.add("hbm:tile.ore_verticium");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
