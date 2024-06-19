@@ -11,8 +11,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.world.ChunkDataEvent;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -176,9 +178,10 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 		
 		cycles++;
 		
-		for(Entry<World, RadPerWorld> entries : perWorld.entrySet()) {
-			World world = entries.getKey();
-			RadPerWorld system = entries.getValue();
+		for(WorldServer world : DimensionManager.getWorlds()) { //only updates loaded worlds
+			
+			RadPerWorld system = perWorld.get(world);
+			if(system == null) continue;
 			
 			int rebuildAllowance = 25;
 			
