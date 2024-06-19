@@ -1,10 +1,7 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.SlotCraftingOutput;
-import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.inventory.SlotUpgrade;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineCyclotron;
