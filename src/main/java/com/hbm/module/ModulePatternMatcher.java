@@ -2,8 +2,10 @@ package com.hbm.module;
 
 import java.util.List;
 
+import com.hbm.util.BufferUtil;
 import com.hbm.util.ItemStackUtil;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -149,6 +151,18 @@ public class ModulePatternMatcher {
 			if(modes[i] != null) {
 				nbt.setString("mode" + i, modes[i]);
 			}
+		}
+	}
+	
+	public void serialize(ByteBuf buf) {
+		for(int i = 0; i < modes.length; i++) {
+			BufferUtil.writeString(buf, modes[i]);
+		}
+	}
+	
+	public void deserialize(ByteBuf buf) {
+		for(int i = 0; i < modes.length; i++) {
+			modes[i] = BufferUtil.readString(buf);
 		}
 	}
 }

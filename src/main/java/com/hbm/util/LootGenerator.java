@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
+import com.hbm.inventory.material.Mats;
 import com.hbm.itempool.ItemPool;
 import com.hbm.itempool.ItemPoolsPile;
 import com.hbm.items.ModItems;
@@ -110,7 +111,7 @@ public class LootGenerator {
 			
 			count = world.rand.nextInt(2) + 2;
 			for(int i = 0; i < count; i++)
-				addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.wire_aluminium), 0.25, i * 0.03125, 0.1875);
+				addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.wire_fine, 1, Mats.MAT_ALUMINIUM.id), 0.25, i * 0.03125, 0.1875);
 		}
 	}
 	

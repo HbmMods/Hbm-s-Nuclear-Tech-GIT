@@ -156,6 +156,9 @@ public class ResourceManager {
 	//Arc Welder
 	public static final IModelCustom arc_welder = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/arc_welder.obj"), false).asVBO();
 	
+	//Solderer
+	public static final IModelCustom soldering_station = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/soldering_station.obj"), false).asVBO();
+	
 	//Arc Furnace
 	public static final IModelCustom arc_furnace = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/arc_furnace.obj")).asVBO();
 	
@@ -181,7 +184,7 @@ public class ResourceManager {
 	public static final IModelCustom mining_laser = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/mining_laser.obj")).asVBO();
 	
 	//Crystallizer
-	public static final IModelCustom crystallizer = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/crystallizer.obj")).asVBO();
+	public static final IModelCustom crystallizer = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/acidizer.obj")).asVBO();
 	
 	//Cyclotron
 	public static final IModelCustom cyclotron = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/machines/cyclotron.obj")).asVBO();
@@ -555,6 +558,9 @@ public class ResourceManager {
 	//Welder
 	public static final ResourceLocation arc_welder_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/arc_welder.png");
 	
+	//Solderer
+	public static final ResourceLocation soldering_station_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/soldering_station.png");
+	
 	//Arc Furnace
 	public static final ResourceLocation arc_furnace_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/arc_furnace.png");
 
@@ -585,9 +591,7 @@ public class ResourceManager {
 	public static final ResourceLocation mining_laser_laser_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/mining_laser_laser.png");
 	
 	//Crystallizer
-	public static final ResourceLocation crystallizer_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/crystallizer.png");
-	public static final ResourceLocation crystallizer_spinner_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/crystallizer_spinner.png");
-	public static final ResourceLocation crystallizer_window_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/crystallizer_window.png");
+	public static final ResourceLocation crystallizer_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/acidizer.png");
 	
 	//Cyclotron
 	public static final ResourceLocation cyclotron_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/cyclotron.png");
@@ -866,6 +870,7 @@ public class ResourceManager {
 	public static final IModelCustom armor_bismuth = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/bismuth.obj"));
 	public static final IModelCustom armor_mod_tesla = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/mod_tesla.obj"));
 	public static final IModelCustom armor_wings = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/murk.obj"));
+	public static final IModelCustom armor_axepack = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/wings_pheo.obj"));
 	public static final IModelCustom player_manly_af = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/armor/player_fem.obj"));
 	public static final IModelCustom armor_envsuit = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/envsuit.obj"));
 	public static final IModelCustom armor_trenchmaster = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/armor/trenchmaster.obj"));
@@ -1029,6 +1034,7 @@ public class ResourceManager {
 	public static final ResourceLocation wings_murk = new ResourceLocation(RefStrings.MODID, "textures/armor/wings_murk.png");
 	public static final ResourceLocation wings_bob = new ResourceLocation(RefStrings.MODID, "textures/armor/wings_bob.png");
 	public static final ResourceLocation wings_black = new ResourceLocation(RefStrings.MODID, "textures/armor/wings_black.png");
+	public static final ResourceLocation wings_pheo = new ResourceLocation(RefStrings.MODID, "textures/armor/axepack.png");
 
 	public static final ResourceLocation hat = new ResourceLocation(RefStrings.MODID, "textures/armor/hat.png");
 	public static final ResourceLocation no9 = new ResourceLocation(RefStrings.MODID, "textures/armor/no9.png");

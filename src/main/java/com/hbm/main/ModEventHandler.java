@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import org.apache.commons.lang3.math.NumberUtils;
@@ -40,6 +41,10 @@ import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM;
+import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM.RadPerWorld;
+import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM.SubChunk;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -118,6 +123,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -857,6 +863,32 @@ public class ModEventHandler {
 			
 			if(player.getCurrentArmor(2) == null && !player.onGround) {
 				
+				if(player.getUniqueID().toString().equals(ShadyUtil.Barnaby99_x) || player.getDisplayName().equals("pheo7")) {
+
+					ArmorUtil.resetFlightTime(player);
+					HbmPlayerProps props = HbmPlayerProps.getData(player);
+					
+					if(props.isJetpackActive()) {
+						
+						if(player.motionY < 0.4D)
+							player.motionY += 0.1D;
+	
+						Vec3 look = player.getLookVec();
+	
+						if(Vec3.createVectorHelper(player.motionX, player.motionY, player.motionZ).lengthVector() < 2) {
+							player.motionX += look.xCoord * 0.2;
+							player.motionY += look.yCoord * 0.2;
+							player.motionZ += look.zCoord * 0.2;
+	
+							if(look.yCoord > 0)
+								player.fallDistance = 0;
+						}
+					} else if(props.enableBackpack && !player.isSneaking()) {
+						if(player.motionY < -0.2) player.motionY += 0.075D;
+						if(player.fallDistance > 0) player.fallDistance = 0;
+					}
+				}
+				
 				boolean isBob = player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) || player.getDisplayName().equals("HbMinecraft");
 				boolean isOther = player.getUniqueID().toString().equals(ShadyUtil.the_NCR) || player.getDisplayName().equals("the_NCR");
 				
@@ -1062,6 +1094,45 @@ public class ModEventHandler {
 				player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
 			}
 		}
+		
+		// PRISMDBG
+		/*if(!event.player.worldObj.isRemote) {
+			ChunkRadiationHandlerPRISM prism = (ChunkRadiationHandlerPRISM) ChunkRadiationManager.proxy;
+			
+			RadPerWorld perWorld = prism.perWorld.get(player.worldObj);
+			
+			if(perWorld != null) {
+				SubChunk[] chunk = perWorld.radiation.get(new ChunkCoordIntPair(((int) Math.floor(player.posX)) >> 4, ((int) Math.floor(player.posZ)) >> 4));
+				
+				if(chunk != null) {
+					
+					int y = ((int) Math.floor(player.posY)) >> 4;
+					
+					if(y >= 0 && y <= 15) {
+						SubChunk sub = chunk[y];
+						
+						if(sub != null) {
+							float xSum = 0, ySum = 0, zSum = 0;
+							for(int i = 0; i < 16; i++) {
+								xSum += sub.xResist[i]; ySum += sub.yResist[i]; zSum += sub.zResist[i];
+							}
+							PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(EnumChatFormatting.RED + "FREE SPACE", 1), (EntityPlayerMP) player);
+							PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(EnumChatFormatting.RED + "FREE SPACE", 2), (EntityPlayerMP) player);
+							PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(EnumChatFormatting.GREEN + "" + sub.checksum + " - " + ((int) sub.radiation) + "RAD/s - " + sub.needsRebuild
+									+ " - " + (int) xSum+ " - " + (int) ySum + " - " + (int) zSum, 3), (EntityPlayerMP) player);
+						} else {
+							PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(EnumChatFormatting.RED + "SUB IS NULL", 1), (EntityPlayerMP) player);
+						}
+					} else {
+						PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(EnumChatFormatting.RED + "OUTSIDE OF WORLD", 1), (EntityPlayerMP) player);
+					}
+				} else {
+					PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(EnumChatFormatting.RED + "CHUNK IS NULL", 1), (EntityPlayerMP) player);
+				}
+			} else {
+				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(EnumChatFormatting.RED + "PERWORLD IS NULL", 1), (EntityPlayerMP) player);
+			}
+		}*/
 	}
 	
 	@SubscribeEvent

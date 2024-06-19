@@ -184,8 +184,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModItems.fragment_meteorite, new ItemStack(ModItems.powder_meteorite_tiny, 1));
 		ShredderRecipes.setRecipe(ModBlocks.block_meteor, new ItemStack(ModItems.powder_meteorite, 10));
 		ShredderRecipes.setRecipe(Items.enchanted_book, new ItemStack(ModItems.powder_magic, 1));
-		ShredderRecipes.setRecipe(ModItems.arc_electrode_burnt, new ItemStack(ModItems.powder_coal, 1));
-		ShredderRecipes.setRecipe(ModItems.arc_electrode_desh, new ItemStack(ModItems.powder_desh, 2));
 		ShredderRecipes.setRecipe(ModBlocks.meteor_polished, new ItemStack(ModItems.powder_meteorite, 1));
 		ShredderRecipes.setRecipe(ModBlocks.meteor_brick, new ItemStack(ModItems.powder_meteorite, 1));
 		ShredderRecipes.setRecipe(ModBlocks.meteor_brick_mossy, new ItemStack(ModItems.powder_meteorite, 1));
@@ -209,6 +207,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModItems.can_empty, new ItemStack(ModItems.powder_aluminium, 2));
 		ShredderRecipes.setRecipe(ModBlocks.machine_well, new ItemStack(ModItems.powder_steel, 32));
 		ShredderRecipes.setRecipe(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.RARE), new ItemStack(ModItems.powder_desh_mix));
+		ShredderRecipes.setRecipe(Blocks.sand, new ItemStack(ModItems.dust, 2));
 		
 		List<ItemStack> logs = OreDictionary.getOres("logWood");
 		List<ItemStack> planks = OreDictionary.getOres("plankWood");
@@ -217,13 +216,6 @@ public class ShredderRecipes extends SerializableRecipe {
 		for(ItemStack log : logs) ShredderRecipes.setRecipe(log, new ItemStack(ModItems.powder_sawdust, 4));
 		for(ItemStack plank : planks) ShredderRecipes.setRecipe(plank, new ItemStack(ModItems.powder_sawdust, 1));
 		for(ItemStack sapling : saplings) ShredderRecipes.setRecipe(sapling, new ItemStack(Items.stick, 1));
-
-		List<ItemStack> silicon = OreDictionary.getOres("itemSilicon");
-		if(!silicon.isEmpty()) {
-			ShredderRecipes.setRecipe(Blocks.sand, silicon.get(0).copy());
-		} else {
-			ShredderRecipes.setRecipe(Blocks.sand, new ItemStack(ModItems.dust, 2));
-		}
 		
 		for(EnumBedrockOre ore : EnumBedrockOre.values()) {
 			int i = ore.ordinal();
@@ -291,7 +283,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.chain, new ItemStack(ModItems.powder_steel_tiny, 1));
 		ShredderRecipes.setRecipe(ModBlocks.steel_grate, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModItems.pipes_steel, new ItemStack(ModItems.powder_steel, 27));
-		ShredderRecipes.setRecipe(ModBlocks.machine_fluidtank, new ItemStack(ModItems.powder_steel, 32));
+		ShredderRecipes.setRecipe(ModBlocks.machine_fluidtank, new ItemStack(ModItems.powder_steel, 16));
 
 		/* Sellafite scrapping */
 		ShredderRecipes.setRecipe(ModBlocks.sellafield_slaked, new ItemStack(Blocks.gravel));

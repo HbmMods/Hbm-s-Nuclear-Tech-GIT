@@ -4,6 +4,7 @@ import com.hbm.items.ItemEnumMulti;
 import com.hbm.util.EnumUtil;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class ItemArcElectrode extends ItemEnumMulti {
 
@@ -18,7 +19,18 @@ public class ItemArcElectrode extends ItemEnumMulti {
 		return stack.stackTagCompound.getInteger("durability");
 	}
 	
-	public static int getMaxtDurability(ItemStack stack) {
+	public static boolean damage(ItemStack stack) {
+		if(!stack.hasTagCompound()) {
+			stack.stackTagCompound = new NBTTagCompound();
+		}
+		
+		int durability = stack.stackTagCompound.getInteger("durability");
+		durability++;
+		stack.stackTagCompound.setInteger("durability", durability);
+		return durability >= getMaxDurability(stack);
+	}
+	
+	public static int getMaxDurability(ItemStack stack) {
 		EnumElectrodeType num = EnumUtil.grabEnumSafely(EnumElectrodeType.class, stack.getItemDamage());
 		return num.durability;
 	}
@@ -30,14 +42,14 @@ public class ItemArcElectrode extends ItemEnumMulti {
 
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) {
-		return (double) getDurability(stack) / (double) getMaxtDurability(stack);
+		return (double) getDurability(stack) / (double) getMaxDurability(stack);
 	}
 
 	public static enum EnumElectrodeType {
 		GRAPHITE(	10),
-		LANTHANIUM(	50),
-		DESH(		250),
-		SATURNITE(	500);
+		LANTHANIUM(	100),
+		DESH(		500),
+		SATURNITE(	1500);
 		
 		public int durability;
 		

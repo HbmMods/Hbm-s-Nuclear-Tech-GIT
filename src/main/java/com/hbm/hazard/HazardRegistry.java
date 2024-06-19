@@ -216,7 +216,6 @@ public class HazardRegistry {
 		HazardSystem.register(ancient_scrap, makeData(RADIATION, 150F));
 		HazardSystem.register(block_corium, makeData(RADIATION, 150F));
 		HazardSystem.register(block_corium_cobble, makeData(RADIATION, 150F));
-		HazardSystem.register(sand_gold198, makeData(RADIATION, au198 * block * powder_mult));
 		
 		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 0), makeData(RADIATION, 0.5F));
 		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 1), makeData(RADIATION, 1F));
@@ -461,8 +460,6 @@ public class HazardRegistry {
 		HazardSystem.register(ModBlocks.fallout, makeData(RADIATION, fo * powder * 2));
 		HazardSystem.register(ModBlocks.block_fallout, makeData(RADIATION, yc * block * powder_mult));
 		HazardSystem.register(powder_caesium, makeData().addEntry(HYDROACTIVE, 1F).addEntry(HOT, 3F));
-		
-		HazardSystem.register(wire_schrabidium, makeData(RADIATION, sa326 * nugget));
 		
 		HazardSystem.register(brick_asbestos, makeData(ASBESTOS, 1F));
 		HazardSystem.register(tile_lab_broken, makeData(ASBESTOS, 1F));

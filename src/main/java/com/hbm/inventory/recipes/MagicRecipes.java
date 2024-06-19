@@ -11,6 +11,7 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
@@ -101,7 +102,7 @@ public class MagicRecipes {
 		recipes.add(new MagicRecipe(new ItemStack(ModItems.ammo_dart, 4, ItemAmmoEnums.AmmoDart.NUCLEAR.ordinal()),
 				new OreDictStack(ANY_RUBBER.ingot()),
 				new ComparableStack(ModItems.nugget_pu239),
-				new ComparableStack(ModItems.circuit_aluminium)));
+				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CHIP)));
 	}
 	
 	public static List<MagicRecipe> getRecipes() {

@@ -21,6 +21,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -101,19 +102,7 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase imp
 				this.speed = 1;
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			data.setIntArray("progress", this.progress);
-			data.setIntArray("maxProgress", this.maxProgress);
-			data.setBoolean("isProgressing", isProgressing);
-			
-			for(int i = 0; i < tanks.length; i++) {
-				tanks[i].writeToNBT(data, "t" + i);
-			}
-			water.writeToNBT(data, "w");
-			steam.writeToNBT(data, "s");
-			
-			this.networkPack(data, 150);
+			this.networkPackNT(150);
 		} else {
 			
 			float maxSpeed = 30F;
@@ -156,21 +145,39 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase imp
 			}
 		}
 	}
-
+	
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.progress = nbt.getIntArray("progress");
-		this.maxProgress = nbt.getIntArray("maxProgress");
-		this.isProgressing = nbt.getBoolean("isProgressing");
-
-		for(int i = 0; i < tanks.length; i++) {
-			tanks[i].readFromNBT(nbt, "t" + i);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		for(int i = 0; i < getRecipeCount(); i++) {
+			buf.writeInt(progress[i]);
+			buf.writeInt(maxProgress[i]);
 		}
-		water.readFromNBT(nbt, "w");
-		steam.readFromNBT(nbt, "s");
+		
+		buf.writeBoolean(isProgressing);
+		
+		for(int i = 0; i < tanks.length; i++) tanks[i].serialize(buf);
+		
+		water.serialize(buf);
+		steam.serialize(buf);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		for(int i = 0; i < getRecipeCount(); i++) {
+			progress[i] = buf.readInt();
+			maxProgress[i] = buf.readInt();
+		}
+		
+		isProgressing = buf.readBoolean();
+		
+		for(int i = 0; i < tanks.length; i++) tanks[i].deserialize(buf);
+		
+		water.deserialize(buf);
+		steam.deserialize(buf);
 	}
 	
 	private int getWaterRequired() {

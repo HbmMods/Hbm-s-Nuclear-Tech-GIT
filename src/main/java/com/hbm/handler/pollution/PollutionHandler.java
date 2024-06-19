@@ -207,13 +207,12 @@ public class PollutionHandler {
 					int P = PollutionType.POISON.ordinal();
 					
 					/* CALCULATION */
-					if(data.pollution[S] > 15) {
+					if(data.pollution[S] > 10) {
 						pollutionForNeightbors[S] = (float) (data.pollution[S] * 0.05F);
 						data.pollution[S] *= 0.8F;
-					} else {
-						data.pollution[S] *= 0.99F;
 					}
 
+					data.pollution[S] *= 0.99F;
 					data.pollution[H] *= 0.9995F;
 					
 					if(data.pollution[P] > 10) {

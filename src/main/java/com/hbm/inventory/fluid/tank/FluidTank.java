@@ -250,10 +250,10 @@ public class FluidTank {
 			maxX += i;
 			maxY += height;
 			
-			minV = 0;
+			minV = 0D;
 			maxV = height / 16D;
-			minU = 0D;
-			maxU = width / 16D;
+			minU = 1D;
+			maxU = 1D - i / 16D;
 		}
 		
 		Tessellator tessellator = Tessellator.instance;
@@ -301,7 +301,7 @@ public class FluidTank {
 		
 		fluid = MathHelper.clamp_int(fluid, 0, max);
 		
-		type = Fluids.fromName(nbt.getString(s + "_type")); //compat
+		type = Fluids.fromNameCompat(nbt.getString(s + "_type")); //compat
 		if(type == Fluids.NONE)
 			type = Fluids.fromID(nbt.getInteger(s + "_type"));
 		

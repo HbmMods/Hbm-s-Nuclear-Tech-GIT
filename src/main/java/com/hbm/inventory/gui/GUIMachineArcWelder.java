@@ -47,10 +47,10 @@ public class GUIMachineArcWelder extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int p = (int) (welder.power * 52 / welder.maxPower);
+		int p = (int) (welder.power * 52 / Math.max(welder.maxPower, 1));
 		drawTexturedModalRect(guiLeft + 152, guiTop + 70 - p, 176, 52 - p, 16, p);
 		
-		int i = welder.progress * 33 / welder.processTime;
+		int i = welder.progress * 33 / Math.max(welder.processTime, 1);
 		drawTexturedModalRect(guiLeft + 72, guiTop + 37, 192, 0, i, 14);
 		
 		if(welder.power >= welder.consumption) {

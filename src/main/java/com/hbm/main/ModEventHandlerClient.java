@@ -581,6 +581,8 @@ public class ModEventHandlerClient {
 				RenderAccessoryUtility.renderWings(event, 2);
 			if(player.getUniqueID().toString().equals(ShadyUtil.the_NCR) || player.getDisplayName().equals("the_NCR"))
 				RenderAccessoryUtility.renderWings(event, 3);
+			if(player.getUniqueID().toString().equals(ShadyUtil.Barnaby99_x) || player.getDisplayName().equals("pheo7"))
+				RenderAccessoryUtility.renderAxePack(event);
 		}
 	}
 

@@ -6,10 +6,12 @@ import java.util.List;
 import com.hbm.entity.missile.EntityBobmazon;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.inventory.OreDictManager;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.special.ItemKitCustom;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.IRepairable;
@@ -49,10 +51,8 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 				shuttle.posY = 300;
 				shuttle.posZ = zCoord + 0.5 + worldObj.rand.nextGaussian() * 10;
 				ItemStack payload = ItemKitCustom.create("Supplies", null, 0xffffff, 0x008000,
-						new ItemStack(ModItems.circuit_aluminium, 4 + worldObj.rand.nextInt(4)),
-						new ItemStack(ModItems.circuit_copper, 4 + worldObj.rand.nextInt(2)),
-						new ItemStack(ModItems.circuit_red_copper, 2 + worldObj.rand.nextInt(3)),
-						new ItemStack(ModItems.circuit_gold, 1 + worldObj.rand.nextInt(2)),
+						DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC, 4 + worldObj.rand.nextInt(4)),
+						DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED, 4 + worldObj.rand.nextInt(2)),
 						bonus ? new ItemStack(ModItems.gem_alexandrite) : new ItemStack(Items.diamond, 6 + worldObj.rand.nextInt(6)),
 						new ItemStack(Blocks.red_flower));
 				shuttle.payload = payload;
@@ -112,7 +112,7 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 			return repair;
 
 		repair.add(new OreDictStack(OreDictManager.STEEL.plate(), 2));
-		repair.add(new ComparableStack(ModItems.circuit_copper, 1));
+		repair.add(new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BASIC));
 		return repair;
 	}
 

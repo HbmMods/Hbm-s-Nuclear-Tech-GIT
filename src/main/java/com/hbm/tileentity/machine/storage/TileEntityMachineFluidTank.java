@@ -34,6 +34,7 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -161,11 +162,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			
 			tank.unloadTank(4, 5, slots);
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setShort("mode", mode);
-			data.setBoolean("hasExploded", hasExploded);
-			this.tank.writeToNBT(data, "t");
-			this.networkPack(data, 150);
+			this.networkPackNT(150);
 		}
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
@@ -176,6 +173,22 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			props.isOnLadder = true;
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeShort(mode);
+		buf.writeBoolean(hasExploded);
+		tank.serialize(buf);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		mode = buf.readShort();
+		hasExploded = buf.readBoolean();
+		tank.deserialize(buf);
 	}
 	
 	/** called when the tank breaks due to hazardous materials or external force, can be used to quickly void part of the tank or spawn a mushroom cloud */
@@ -267,12 +280,6 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
 				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z)
 		};
-	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		this.mode = data.getShort("mode");
-		this.hasExploded = data.getBoolean("hasExploded");
-		this.tank.readFromNBT(data, "t");
 	}
 	
 	public void handleButtonPacket(int value, int meta) {
@@ -462,7 +469,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		return this.hasExploded;
 	}
 	
-	List<AStack> repair = new ArrayList();
+	List<AStack> repair = new ArrayList<>();
 	@Override
 	public List<AStack> getRepairMaterials() {
 		

@@ -1,10 +1,12 @@
 package com.hbm.itempool;
 
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
 
 import static com.hbm.lib.HbmChestContents.*;
@@ -40,7 +42,7 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.ingot_steel, 0, 2, 5, 7),
 					weighted(ModItems.ingot_beryllium, 0, 1, 2, 4),
 					weighted(ModItems.ingot_titanium, 0, 1, 1, 3),
-					weighted(ModItems.circuit_targeting_tier1, 0, 1, 1, 5),
+					weighted(ModItems.circuit, EnumCircuitType.VACUUM_TUBE.ordinal(), 1, 1, 5),
 					weighted(ModItems.gun_revolver, 0, 1, 1, 3),
 					weighted(ModItems.ammo_357, Ammo357Magnum.LEAD.ordinal(), 2, 6, 4),
 					weighted(ModItems.gun_kit_1, 0, 1, 3, 4),
@@ -72,9 +74,9 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.ingot_steel, 0, 1, 2, 7),
 					weighted(ModItems.ingot_red_copper, 0, 1, 1, 4),
 					weighted(ModItems.ingot_titanium, 0, 1, 3, 5),
-					weighted(ModItems.wire_red_copper, 0, 2, 3, 7),
-					weighted(ModItems.circuit_targeting_tier1, 0, 1, 1, 4),
-					weighted(ModItems.circuit_copper, 0, 1, 1, 4),
+					weighted(ModItems.wire_fine, Mats.MAT_MINGRADE.id, 2, 3, 7),
+					weighted(ModItems.circuit, EnumCircuitType.VACUUM_TUBE.ordinal(), 1, 1, 4),
+					weighted(ModItems.circuit, EnumCircuitType.CAPACITOR.ordinal(), 1, 1, 2),
 					weighted(ModItems.battery_generic, 0, 1, 1, 4),
 					weighted(ModItems.battery_advanced, 0, 1, 1, 3),
 					weighted(ModItems.powder_iodine, 0, 1, 1, 1),
@@ -99,9 +101,9 @@ public class ItemPoolsLegacy {
 		new ItemPool(POOL_EXPENSIVE) {{
 			this.pool = new WeightedRandomChestContent[] {
 					weighted(ModItems.chlorine_pinwheel, 0, 1, 1, 1),
-					weighted(ModItems.circuit_targeting_tier3, 0, 1, 1, 4),
-					weighted(ModItems.circuit_gold, 0, 1, 2, 3),
-					weighted(ModItems.circuit_targeting_tier4, 0, 1, 1, 2),
+					weighted(ModItems.circuit, EnumCircuitType.VACUUM_TUBE.ordinal(), 1, 1, 4),
+					weighted(ModItems.circuit, EnumCircuitType.ANALOG.ordinal(), 1, 1, 3),
+					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 1, 1, 2),
 					weighted(ModItems.gun_kit_1, 0, 1, 3, 6),
 					weighted(ModItems.gun_kit_2, 0, 1, 2, 3),
 					weighted(ModItems.gun_rpg, 0, 1, 1, 4),
@@ -220,7 +222,7 @@ public class ItemPoolsLegacy {
 			this.pool = new WeightedRandomChestContent[] {
 					weighted(ModItems.battery_advanced, 0, 1, 1, 5),
 					weighted(ModItems.ingot_advanced_alloy, 0, 2, 16, 5),
-					weighted(ModItems.wire_advanced_alloy, 0, 8, 32, 5),
+					weighted(ModItems.wire_fine, Mats.MAT_ALLOY.id, 8, 32, 5),
 					weighted(ModItems.coil_advanced_alloy, 0, 2, 16, 5),
 					weighted(ModItems.cell_deuterium, 0, 1, 8, 5),
 					weighted(ModItems.cell_tritium, 0, 1, 8, 5),

@@ -5,19 +5,23 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.FractionRecipes;
 import com.hbm.lib.Library;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.packet.BufPacket;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.Tuple.Pair;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineFractionTower extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardTransceiver {
+public class TileEntityMachineFractionTower extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiver {
 	
 	public FluidTank[] tanks;
 	
@@ -64,20 +68,21 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 				fractionate();
 			
 			this.sendFluid();
-			
-			NBTTagCompound data = new NBTTagCompound();
 
-			for(int i = 0; i < 3; i++)
-				tanks[i].writeToNBT(data, "tank" + i);
-			
-			INBTPacketReceiver.networkPack(this, data, 50);
+			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 		}
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
+	public void serialize(ByteBuf buf) {
 		for(int i = 0; i < 3; i++)
-			tanks[i].readFromNBT(nbt, "tank" + i);
+			tanks[i].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		for(int i = 0; i < 3; i++)
+			tanks[i].deserialize(buf);
 	}
 	
 	private void updateConnections() {

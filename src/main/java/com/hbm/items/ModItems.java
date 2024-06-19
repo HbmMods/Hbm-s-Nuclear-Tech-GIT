@@ -293,8 +293,6 @@ public class ModItems {
 	public static Item nugget_actinium;
 	public static Item plate_titanium;
 	public static Item plate_aluminium;
-	public static Item wire_red_copper;
-	public static Item wire_tungsten;
 	public static Item neutron_reflector;
 	public static Item ingot_steel;
 	public static Item plate_steel;
@@ -311,6 +309,7 @@ public class ModItems {
 	public static Item billet_silicon;
 	public static Item nugget_silicon;
 	public static Item ingot_niobium;
+	public static Item nugget_niobium;
 	public static Item ingot_osmiridium;
 	public static Item nugget_osmiridium;
 	public static Item plate_lead;
@@ -572,27 +571,25 @@ public class ModItems {
 	public static Item motor_desh;
 	public static Item motor_bismuth;
 	public static Item centrifuge_element;
-	//public static Item centrifuge_tower;
 	public static Item reactor_core;
 	public static Item rtg_unit;
-	//public static Item thermo_unit_empty;
-	//public static Item thermo_unit_endo;
-	//public static Item thermo_unit_exo;
 	public static Item levitation_unit;
+	
 	public static Item wire_aluminium;
 	public static Item wire_copper;
+	public static Item wire_red_copper;
+	public static Item wire_tungsten;
 	public static Item wire_gold;
 	public static Item wire_schrabidium;
 	public static Item wire_advanced_alloy;
+	public static Item wire_magnetized_tungsten;
+	
 	public static Item coil_advanced_alloy;
 	public static Item coil_advanced_torus;
-	public static Item wire_magnetized_tungsten;
 	public static Item coil_magnetized_tungsten;
 	public static Item coil_gold;
 	public static Item coil_gold_torus;
-	//public static Item magnet_dee;
 	public static Item magnet_circular;
-	//public static Item cyclotron_tower;
 	public static Item component_limiter;
 	public static Item component_emitter;
 	public static Item chlorine_pinwheel;
@@ -600,6 +597,8 @@ public class ModItems {
 	
 	public static Item parts_legendary;
 
+	public static Item circuit;
+	
 	public static Item circuit_raw;
 	public static Item circuit_aluminium;
 	public static Item circuit_copper;
@@ -612,6 +611,14 @@ public class ModItems {
 	public static Item circuit_arsenic;
 	public static Item circuit_tantalium_raw;
 	public static Item circuit_tantalium;
+
+	public static Item circuit_targeting_tier1;
+	public static Item circuit_targeting_tier2;
+	public static Item circuit_targeting_tier3;
+	public static Item circuit_targeting_tier4;
+	public static Item circuit_targeting_tier5;
+	public static Item circuit_targeting_tier6;
+	
 	public static Item crt_display;
 	public static ItemEnumMulti circuit_star_piece;
 	public static ItemEnumMulti circuit_star_component;
@@ -654,13 +661,6 @@ public class ModItems {
 	public static Item folly_bullet;
 	public static Item folly_bullet_nuclear;
 	public static Item folly_bullet_du;
-
-	public static Item circuit_targeting_tier1;
-	public static Item circuit_targeting_tier2;
-	public static Item circuit_targeting_tier3;
-	public static Item circuit_targeting_tier4;
-	public static Item circuit_targeting_tier5;
-	public static Item circuit_targeting_tier6;
 
 	public static Item wiring_red_copper;
 	public static Item shell;
@@ -786,6 +786,7 @@ public class ModItems {
 	public static Item plate_cast;
 	public static Item plate_welded;
 	public static Item heavy_component;
+	public static Item wire_fine;
 	public static Item wire_dense;
 
 	public static Item part_lithium;
@@ -1838,7 +1839,6 @@ public class ModItems {
 	public static Item overfuse;
 	public static Item arc_electrode;
 	public static Item arc_electrode_burnt;
-	public static Item arc_electrode_desh;
 	
 	/*public static Item factory_core_titanium;
 	public static Item factory_core_advanced;*/
@@ -2590,7 +2590,7 @@ public class ModItems {
 		ingot_semtex = new ItemLemon(4, 5, true).setUnlocalizedName("ingot_semtex").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_semtex");
 		ingot_c4 = new Item().setUnlocalizedName("ingot_c4").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_c4");
 		ingot_phosphorus = new Item().setUnlocalizedName("ingot_phosphorus").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_phosphorus");
-		wire_advanced_alloy = new Item().setUnlocalizedName("wire_advanced_alloy").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_advanced_alloy");
+		wire_advanced_alloy = new Item().setUnlocalizedName("wire_advanced_alloy").setCreativeTab(null).setTextureName(RefStrings.MODID + ":wire_advanced_alloy");
 		coil_advanced_alloy = new Item().setUnlocalizedName("coil_advanced_alloy").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coil_advanced_alloy");
 		coil_advanced_torus = new Item().setUnlocalizedName("coil_advanced_torus").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coil_advanced_torus");
 		ingot_magnetized_tungsten = new Item().setUnlocalizedName("ingot_magnetized_tungsten").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_magnetized_tungsten");
@@ -2797,8 +2797,8 @@ public class ModItems {
 		nugget_actinium = new Item().setUnlocalizedName("nugget_actinium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_actinium");
 		plate_titanium = new Item().setUnlocalizedName("plate_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_titanium");
 		plate_aluminium = new Item().setUnlocalizedName("plate_aluminium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_aluminium");
-		wire_red_copper = new Item().setUnlocalizedName("wire_red_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_red_copper");
-		wire_tungsten = new ItemCustomLore().setUnlocalizedName("wire_tungsten").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_tungsten");
+		wire_red_copper = new Item().setUnlocalizedName("wire_red_copper").setCreativeTab(null).setTextureName(RefStrings.MODID + ":wire_red_copper");
+		wire_tungsten = new ItemCustomLore().setUnlocalizedName("wire_tungsten").setCreativeTab(null).setTextureName(RefStrings.MODID + ":wire_tungsten");
 		neutron_reflector = new Item().setUnlocalizedName("neutron_reflector").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":neutron_reflector");
 		nugget_lead = new Item().setUnlocalizedName("nugget_lead").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_lead");
 		ingot_bismuth = new ItemCustomLore().setUnlocalizedName("ingot_bismuth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_bismuth");
@@ -2811,6 +2811,7 @@ public class ModItems {
 		billet_silicon = new Item().setUnlocalizedName("billet_silicon").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_silicon");
 		nugget_silicon = new Item().setUnlocalizedName("nugget_silicon").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_silicon");
 		ingot_niobium = new Item().setUnlocalizedName("ingot_niobium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_niobium");
+		nugget_niobium = new Item().setUnlocalizedName("nugget_niobium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_niobium");
 		ingot_osmiridium = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("ingot_osmiridium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_osmiridium");
 		nugget_osmiridium = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("nugget_osmiridium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_osmiridium");
 		nugget_schrabidium = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("nugget_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_schrabidium");
@@ -2992,24 +2993,18 @@ public class ModItems {
 		motor_desh = new Item().setUnlocalizedName("motor_desh").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":motor_desh");
 		motor_bismuth = new Item().setUnlocalizedName("motor_bismuth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":motor_bismuth");
 		centrifuge_element = new Item().setUnlocalizedName("centrifuge_element").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":centrifuge_element");
-		//centrifuge_tower = new Item().setUnlocalizedName("centrifuge_tower").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":centrifuge_tower");
 		reactor_core = new Item().setUnlocalizedName("reactor_core").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":reactor_core");
 		rtg_unit = new Item().setUnlocalizedName("rtg_unit").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":rtg_unit");
-		//thermo_unit_empty = new Item().setUnlocalizedName("thermo_unit_empty").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":thermo_unit_empty");
-		//thermo_unit_endo= new Item().setUnlocalizedName("thermo_unit_endo").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":thermo_unit_endo");
-		//thermo_unit_exo = new Item().setUnlocalizedName("thermo_unit_exo").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":thermo_unit_exo");
 		levitation_unit = new Item().setUnlocalizedName("levitation_unit").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":levitation_unit");
-		wire_aluminium = new Item().setUnlocalizedName("wire_aluminium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_aluminium");
-		wire_copper = new Item().setUnlocalizedName("wire_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_copper");
-		wire_gold = new Item().setUnlocalizedName("wire_gold").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_gold");
-		wire_schrabidium = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("wire_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_schrabidium");
+		wire_aluminium = new Item().setUnlocalizedName("wire_aluminium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":wire_aluminium");
+		wire_copper = new Item().setUnlocalizedName("wire_copper").setCreativeTab(null).setTextureName(RefStrings.MODID + ":wire_copper");
+		wire_gold = new Item().setUnlocalizedName("wire_gold").setCreativeTab(null).setTextureName(RefStrings.MODID + ":wire_gold");
+		wire_schrabidium = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("wire_schrabidium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":wire_schrabidium");
 		wire_magnetized_tungsten = new Item().setUnlocalizedName("wire_magnetized_tungsten").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_magnetized_tungsten");
 		coil_magnetized_tungsten = new Item().setUnlocalizedName("coil_magnetized_tungsten").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coil_magnetized_tungsten");
 		coil_gold = new Item().setUnlocalizedName("coil_gold").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coil_gold");
 		coil_gold_torus = new Item().setUnlocalizedName("coil_gold_torus").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coil_gold_torus");
-		//magnet_dee = new Item().setUnlocalizedName("magnet_dee").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":magnet_dee");
 		magnet_circular = new Item().setUnlocalizedName("magnet_circular").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":magnet_circular");
-		//cyclotron_tower = new Item().setUnlocalizedName("cyclotron_tower").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":cyclotron_tower");
 		pellet_coal = new Item().setUnlocalizedName("pellet_coal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellet_coal");
 		component_limiter = new Item().setUnlocalizedName("component_limiter").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":component_limiter");
 		component_emitter = new Item().setUnlocalizedName("component_emitter").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":component_emitter");
@@ -3092,28 +3087,29 @@ public class ModItems {
 
 		entanglement_kit = new ItemCustomLore().setUnlocalizedName("entanglement_kit").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":entanglement_kit");
 		
-		circuit_raw = new Item().setUnlocalizedName("circuit_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_raw");
-		circuit_aluminium = new Item().setUnlocalizedName("circuit_aluminium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_aluminium");
-		circuit_copper = new Item().setUnlocalizedName("circuit_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_copper");
-		circuit_red_copper = new Item().setUnlocalizedName("circuit_red_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_red_copper");
-		circuit_gold = new Item().setUnlocalizedName("circuit_gold").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_gold");
-		circuit_schrabidium = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("circuit_schrabidium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_schrabidium");
-		circuit_bismuth_raw = new Item().setUnlocalizedName("circuit_bismuth_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_bismuth_raw");
-		circuit_bismuth = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_bismuth").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_bismuth");
-		circuit_arsenic_raw = new Item().setUnlocalizedName("circuit_arsenic_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_arsenic_raw");
-		circuit_arsenic = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_arsenic").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_arsenic");
-		circuit_tantalium_raw = new Item().setUnlocalizedName("circuit_tantalium_raw").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_tantalium_raw");
-		circuit_tantalium = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_tantalium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_tantalium");
+		circuit = new ItemCircuit().setUnlocalizedName("circuit").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit");
+		circuit_raw = new Item().setUnlocalizedName("circuit_raw").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_raw");
+		circuit_aluminium = new Item().setUnlocalizedName("circuit_aluminium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_aluminium");
+		circuit_copper = new Item().setUnlocalizedName("circuit_copper").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_copper");
+		circuit_red_copper = new Item().setUnlocalizedName("circuit_red_copper").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_red_copper");
+		circuit_gold = new Item().setUnlocalizedName("circuit_gold").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_gold");
+		circuit_schrabidium = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("circuit_schrabidium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_schrabidium");
+		circuit_bismuth_raw = new Item().setUnlocalizedName("circuit_bismuth_raw").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_bismuth_raw");
+		circuit_bismuth = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_bismuth").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_bismuth");
+		circuit_arsenic_raw = new Item().setUnlocalizedName("circuit_arsenic_raw").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_arsenic_raw");
+		circuit_arsenic = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_arsenic").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_arsenic");
+		circuit_tantalium_raw = new Item().setUnlocalizedName("circuit_tantalium_raw").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_tantalium_raw");
+		circuit_tantalium = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_tantalium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_tantalium");
 		crt_display = new Item().setUnlocalizedName("crt_display").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crt_display");
 		circuit_star_piece = (ItemEnumMulti) new ItemEnumMulti(ScrapType.class, true, true).setUnlocalizedName("circuit_star_piece").setCreativeTab(null);
 		circuit_star_component = (ItemEnumMulti) new ItemCircuitStarComponent().setUnlocalizedName("circuit_star_component").setCreativeTab(null);
 		circuit_star = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_star").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_star");
-		circuit_targeting_tier1 = new Item().setUnlocalizedName("circuit_targeting_tier1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_targeting_tier1");
-		circuit_targeting_tier2 = new Item().setUnlocalizedName("circuit_targeting_tier2").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_targeting_tier2");
-		circuit_targeting_tier3 = new Item().setUnlocalizedName("circuit_targeting_tier3").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_targeting_tier3");
-		circuit_targeting_tier4 = new Item().setUnlocalizedName("circuit_targeting_tier4").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_targeting_tier4");
-		circuit_targeting_tier5 = new Item().setUnlocalizedName("circuit_targeting_tier5").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_targeting_tier5");
-		circuit_targeting_tier6 = new Item().setUnlocalizedName("circuit_targeting_tier6").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit_targeting_tier6");
+		circuit_targeting_tier1 = new Item().setUnlocalizedName("circuit_targeting_tier1").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_targeting_tier1");
+		circuit_targeting_tier2 = new Item().setUnlocalizedName("circuit_targeting_tier2").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_targeting_tier2");
+		circuit_targeting_tier3 = new Item().setUnlocalizedName("circuit_targeting_tier3").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_targeting_tier3");
+		circuit_targeting_tier4 = new Item().setUnlocalizedName("circuit_targeting_tier4").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_targeting_tier4");
+		circuit_targeting_tier5 = new Item().setUnlocalizedName("circuit_targeting_tier5").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_targeting_tier5");
+		circuit_targeting_tier6 = new Item().setUnlocalizedName("circuit_targeting_tier6").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_targeting_tier6");
 		mechanism_revolver_1 = new Item().setUnlocalizedName("mechanism_revolver_1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_1");
 		mechanism_revolver_2 = new Item().setUnlocalizedName("mechanism_revolver_2").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_3");
 		mechanism_rifle_1 = new Item().setUnlocalizedName("mechanism_rifle_1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_2");
@@ -3234,26 +3230,26 @@ public class ModItems {
 		pellet_antimatter = new ItemDrop().setUnlocalizedName("pellet_antimatter").setCreativeTab(MainRegistry.controlTab).setContainerItem(ModItems.cell_empty).setTextureName(RefStrings.MODID + ":pellet_antimatter");
 		crystal_xen = new ItemDrop().setUnlocalizedName("crystal_xen").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":crystal_xen");
 
-		stamp_stone_flat = new ItemStamp(10, StampType.FLAT).setUnlocalizedName("stamp_stone_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_stone_flat");
-		stamp_stone_plate = new ItemStamp(10, StampType.PLATE).setUnlocalizedName("stamp_stone_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_stone_plate");
-		stamp_stone_wire = new ItemStamp(10, StampType.WIRE).setUnlocalizedName("stamp_stone_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_stone_wire");
-		stamp_stone_circuit = new ItemStamp(10, StampType.CIRCUIT).setUnlocalizedName("stamp_stone_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_stone_circuit");
-		stamp_iron_flat = new ItemStamp(50, StampType.FLAT).setUnlocalizedName("stamp_iron_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_iron_flat");
-		stamp_iron_plate = new ItemStamp(50, StampType.PLATE).setUnlocalizedName("stamp_iron_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_iron_plate");
-		stamp_iron_wire = new ItemStamp(50, StampType.WIRE).setUnlocalizedName("stamp_iron_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_iron_wire");
-		stamp_iron_circuit = new ItemStamp(50, StampType.CIRCUIT).setUnlocalizedName("stamp_iron_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_iron_circuit");
-		stamp_steel_flat = new ItemStamp(100, StampType.FLAT).setUnlocalizedName("stamp_steel_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_steel_flat");
-		stamp_steel_plate = new ItemStamp(100, StampType.PLATE).setUnlocalizedName("stamp_steel_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_steel_plate");
-		stamp_steel_wire = new ItemStamp(100, StampType.WIRE).setUnlocalizedName("stamp_steel_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_steel_wire");
-		stamp_steel_circuit = new ItemStamp(100, StampType.CIRCUIT).setUnlocalizedName("stamp_steel_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_steel_circuit");
-		stamp_titanium_flat = new ItemStamp(150, StampType.FLAT).setUnlocalizedName("stamp_titanium_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_titanium_flat");
-		stamp_titanium_plate = new ItemStamp(150, StampType.PLATE).setUnlocalizedName("stamp_titanium_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_titanium_plate");
-		stamp_titanium_wire = new ItemStamp(150, StampType.WIRE).setUnlocalizedName("stamp_titanium_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_titanium_wire");
-		stamp_titanium_circuit = new ItemStamp(150, StampType.CIRCUIT).setUnlocalizedName("stamp_titanium_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_titanium_circuit");
-		stamp_obsidian_flat = new ItemStamp(170, StampType.FLAT).setUnlocalizedName("stamp_obsidian_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_obsidian_flat");
-		stamp_obsidian_plate = new ItemStamp(170, StampType.PLATE).setUnlocalizedName("stamp_obsidian_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_obsidian_plate");
-		stamp_obsidian_wire = new ItemStamp(170, StampType.WIRE).setUnlocalizedName("stamp_obsidian_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_obsidian_wire");
-		stamp_obsidian_circuit = new ItemStamp(170, StampType.CIRCUIT).setUnlocalizedName("stamp_obsidian_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_obsidian_circuit");
+		stamp_stone_flat = new ItemStamp(32, StampType.FLAT).setUnlocalizedName("stamp_stone_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_stone_flat");
+		stamp_stone_plate = new ItemStamp(32, StampType.PLATE).setUnlocalizedName("stamp_stone_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_stone_plate");
+		stamp_stone_wire = new ItemStamp(32, StampType.WIRE).setUnlocalizedName("stamp_stone_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_stone_wire");
+		stamp_stone_circuit = new ItemStamp(32, StampType.CIRCUIT).setUnlocalizedName("stamp_stone_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_stone_circuit");
+		stamp_iron_flat = new ItemStamp(64, StampType.FLAT).setUnlocalizedName("stamp_iron_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_iron_flat");
+		stamp_iron_plate = new ItemStamp(64, StampType.PLATE).setUnlocalizedName("stamp_iron_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_iron_plate");
+		stamp_iron_wire = new ItemStamp(64, StampType.WIRE).setUnlocalizedName("stamp_iron_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_iron_wire");
+		stamp_iron_circuit = new ItemStamp(64, StampType.CIRCUIT).setUnlocalizedName("stamp_iron_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_iron_circuit");
+		stamp_steel_flat = new ItemStamp(192, StampType.FLAT).setUnlocalizedName("stamp_steel_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_steel_flat");
+		stamp_steel_plate = new ItemStamp(192, StampType.PLATE).setUnlocalizedName("stamp_steel_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_steel_plate");
+		stamp_steel_wire = new ItemStamp(192, StampType.WIRE).setUnlocalizedName("stamp_steel_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_steel_wire");
+		stamp_steel_circuit = new ItemStamp(192, StampType.CIRCUIT).setUnlocalizedName("stamp_steel_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_steel_circuit");
+		stamp_titanium_flat = new ItemStamp(256, StampType.FLAT).setUnlocalizedName("stamp_titanium_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_titanium_flat");
+		stamp_titanium_plate = new ItemStamp(256, StampType.PLATE).setUnlocalizedName("stamp_titanium_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_titanium_plate");
+		stamp_titanium_wire = new ItemStamp(256, StampType.WIRE).setUnlocalizedName("stamp_titanium_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_titanium_wire");
+		stamp_titanium_circuit = new ItemStamp(256, StampType.CIRCUIT).setUnlocalizedName("stamp_titanium_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_titanium_circuit");
+		stamp_obsidian_flat = new ItemStamp(512, StampType.FLAT).setUnlocalizedName("stamp_obsidian_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_obsidian_flat");
+		stamp_obsidian_plate = new ItemStamp(512, StampType.PLATE).setUnlocalizedName("stamp_obsidian_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_obsidian_plate");
+		stamp_obsidian_wire = new ItemStamp(512, StampType.WIRE).setUnlocalizedName("stamp_obsidian_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_obsidian_wire");
+		stamp_obsidian_circuit = new ItemStamp(512, StampType.CIRCUIT).setUnlocalizedName("stamp_obsidian_circuit").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_obsidian_circuit");
 		stamp_desh_flat = new ItemStamp(0, StampType.FLAT).setUnlocalizedName("stamp_desh_flat").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_desh_flat");
 		stamp_desh_plate = new ItemStamp(0, StampType.PLATE).setUnlocalizedName("stamp_desh_plate").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_desh_plate");
 		stamp_desh_wire = new ItemStamp(0, StampType.WIRE).setUnlocalizedName("stamp_desh_wire").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":stamp_desh_wire");
@@ -3280,6 +3276,12 @@ public class ModItems {
 		plate_cast = new ItemAutogen(MaterialShapes.CASTPLATE).aot(Mats.MAT_BISMUTH, "plate_cast_bismuth").setUnlocalizedName("plate_cast").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_cast");
 		plate_welded = new ItemAutogen(MaterialShapes.WELDEDPLATE).setUnlocalizedName("plate_welded").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_welded");
 		heavy_component = new ItemAutogen(MaterialShapes.HEAVY_COMPONENT).setUnlocalizedName("heavy_component").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":heavy_component");
+		wire_fine = new ItemAutogen(MaterialShapes.WIRE)
+				.aot(Mats.MAT_ALUMINIUM, "wire_aluminium").aot(Mats.MAT_COPPER, "wire_copper")
+				.aot(Mats.MAT_MINGRADE, "wire_red_copper").aot(Mats.MAT_GOLD, "wire_gold")
+				.aot(Mats.MAT_TUNGSTEN, "wire_tungsten").aot(Mats.MAT_ALLOY, "wire_advanced_alloy")
+				.aot(Mats.MAT_CARBON, "wire_carbon").aot(Mats.MAT_SCHRABIDIUM, "wire_schrabidium")
+				.aot(Mats.MAT_MAGTUNG, "wire_magnetized_tungsten").setUnlocalizedName("wire_fine").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_fine");
 		wire_dense = new ItemAutogen(MaterialShapes.DENSEWIRE).setUnlocalizedName("wire_dense").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":wire_dense");
 
 		part_lithium = new Item().setUnlocalizedName("part_lithium").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":part_lithium");
@@ -3848,7 +3850,7 @@ public class ModItems {
 
 		icf_pellet_empty = new Item().setUnlocalizedName("icf_pellet_empty").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":icf_pellet_empty");
 		icf_pellet = new ItemICFPellet().setUnlocalizedName("icf_pellet").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":icf_pellet");
-		icf_pellet_depleted = new Item().setUnlocalizedName("icf_pellet_depleted").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":icf_pellet");
+		icf_pellet_depleted = new Item().setUnlocalizedName("icf_pellet_depleted").setCreativeTab(MainRegistry.controlTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":icf_pellet_depleted");
 		
 		trinitite = new ItemNuclearWaste().setUnlocalizedName("trinitite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":trinitite_new");
 		nuclear_waste_long = new ItemWasteLong().setUnlocalizedName("nuclear_waste_long").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nuclear_waste_long");
@@ -4445,7 +4447,6 @@ public class ModItems {
 		overfuse = new ItemCustomLore().setUnlocalizedName("overfuse").setMaxStackSize(1).setFull3D().setTextureName(RefStrings.MODID + ":overfuse");
 		arc_electrode = new ItemArcElectrode().setUnlocalizedName("arc_electrode").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":arc_electrode");
 		arc_electrode_burnt = new ItemArcElectrodeBurnt().setUnlocalizedName("arc_electrode_burnt").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":arc_electrode_burnt");
-		arc_electrode_desh = new ItemCustomLore().setUnlocalizedName("arc_electrode_desh").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setFull3D().setTextureName(RefStrings.MODID + ":arc_electrode_desh");
 
 		ams_focus_blank = new Item().setUnlocalizedName("ams_focus_blank").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_focus_blank");
 		ams_focus_limiter = new ItemCustomLore().setUnlocalizedName("ams_focus_limiter").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":ams_focus_limiter");
@@ -6025,6 +6026,7 @@ public class ModItems {
 		GameRegistry.registerItem(nugget_arsenic, nugget_arsenic.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_tantalium, nugget_tantalium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_silicon, nugget_silicon.getUnlocalizedName());
+		GameRegistry.registerItem(nugget_niobium, nugget_niobium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_beryllium, nugget_beryllium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_schrabidium, nugget_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_solinium, nugget_solinium.getUnlocalizedName());
@@ -6114,6 +6116,7 @@ public class ModItems {
 		GameRegistry.registerItem(wire_gold, wire_gold.getUnlocalizedName());
 		GameRegistry.registerItem(wire_schrabidium, wire_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(wire_magnetized_tungsten, wire_magnetized_tungsten.getUnlocalizedName());
+		GameRegistry.registerItem(wire_fine, wire_fine.getUnlocalizedName());
 		GameRegistry.registerItem(wire_dense, wire_dense.getUnlocalizedName());
 		
 		//Parts
@@ -6232,6 +6235,7 @@ public class ModItems {
 		GameRegistry.registerItem(shimmer_handle, shimmer_handle.getUnlocalizedName());
 		
 		//Circuits
+		GameRegistry.registerItem(circuit, circuit.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_raw, circuit_raw.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_aluminium, circuit_aluminium.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_copper, circuit_copper.getUnlocalizedName());
@@ -6579,7 +6583,6 @@ public class ModItems {
 		GameRegistry.registerItem(overfuse, overfuse.getUnlocalizedName());
 		GameRegistry.registerItem(arc_electrode, arc_electrode.getUnlocalizedName());
 		GameRegistry.registerItem(arc_electrode_burnt, arc_electrode_burnt.getUnlocalizedName());
-		GameRegistry.registerItem(arc_electrode_desh, arc_electrode_desh.getUnlocalizedName());
 		
 		//Particle Collider Fuel
 		GameRegistry.registerItem(part_lithium, part_lithium.getUnlocalizedName());

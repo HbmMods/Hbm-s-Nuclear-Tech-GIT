@@ -218,6 +218,25 @@ book.error.title8=Errore 0x08 [DC]
 book.error.page8=§lNome:§r "ERRORE_COLLISIONE_DIODO" §lDescrizione:§r La particella si è scontrata con con la parte non input del diodo. §lPossibile soluzione:§r Controlla che il diodo sia configurato correttamente. Le particelle possono entrare soltanto dalla parte con le frecce verdi che indicano dentro.
 book.error.title9=Errore 0x09 [BT]
 book.error.page9=§lNome:§r "ERRORE_RAMIFICAZIONE_CURVA" §lDescrizione:§r La particella ha raggiunto una curva con più uscite. §lPossibile soluzione:§r Se la curva è normale, controlla se ci sono tutte le bobine richieste (N.B. non ci dev'essere nessun buco che esponga le bobine). Se la curva dev'essere con più uscite, richiede un diodo a particelle schottky configurato correttamente.
+book.error.cover=Hadron Collider:$Troubleshooting
+book.error.title1=Error 0x01 [NC]
+book.error.page1=§lName:§r "ERROR_NO_CHARGE" §lDescription:§r The particle has reached a segment with insufficient charge. §lPotential fix:§r Either replace one of the plugs that the particle successfully passes with higher-tier ones or add another plug slightly before the segment where the particle expires.
+book.error.title2=Error 0x02 [NA]
+book.error.page2=§lName:§r "ERROR_NO_ANALYSIS" §lDescription:§r The particle has reached the core, despite not passing an analysis chamber. §lPotential fix:§r Make sure that your accelerator has an analysis chamber and double-check the operating mode (linear/circular).
+book.error.title3=Error 0x03 [OC]
+book.error.page3=§lName:§r "ERROR_OBSTRUCTED_CHANNEL" §lDescription:§r The particle has collided with a block inside the collider's channel. §lPotential fix:§r Make sure that the inside of your particle collider is free of any obstructions, except for particle diodes and core blocks.
+book.error.title4=Error 0x04 [EC]
+book.error.page4=§lName:§r "ERROR_EXPECTED_COIL" §lDescription:§r The particle has passed a segment that lacks one or multiple coils. §lPotential fix:§r Remove the plating of the collider in the offending area and check if all the coils are there. This error will also happen at T-crossings that are built without diodes.
+book.error.title5=Error 0x05 [MS]
+book.error.page5=§lName:§r "ERROR_MALFORMED_SEGMENT" §lDescription:§r The particle has passed a segment that was built incorrectly (but neither obstructed nor missing coils). §lPotential fix:§r Make sure that the offending segment has platings in all the required spaces, leaving no coils exposed.
+book.error.title6=Error 0x06 [ATL]
+book.error.page6=§lName:§r "ERROR_ANALYSIS_TOO_LONG" §lDescription:§r The particle has passed more than the three required valid analysis chamber segments. §lPotential fix:§r Make sure that the analysis chamber is exactly 3 blocks long for circular accelerator and at least 2 blocks long for linear ones. Also check if the particle doesn't pass multiple analysis chambers in a branching and/or looped accelerator.
+book.error.title7=Error 0x07 [ATS]
+book.error.page7=§lName:§r "ERROR_ANALYSIS_TOO_SHORT" §lDescription:§r The particle has left the analysis chamber, despite not meeting the length requirement. §lPotential fix:§r Make sure that the analysis chamber on your circular accelerator is exactly 3 blocks long. Valid analysis segments have no coils and the plating is entirely composed of analysis chamber walls/windows. Analysis chambers with coils in them count as regular segments.
+book.error.title8=Error 0x08 [DC]
+book.error.page8=§lName:§r "ERROR_DIODE_COLLISION" §lDescription:§r The particle collided with a non-input side of a schottky particle diode. §lPotential fix:§r Check if your diodes are configured correctly. Particles can only enter the diode from sides with green inward-pointing arrows.
+book.error.title9=Error 0x09 [BT]
+book.error.page9=§lName:§r "ERROR_BRANCHING_TURN" §lDescription:§r The particle has reached a turn with multiple exits. §lPotential fix:§r If your turn is a normal one, check if all the required coils are present (i.e. no holes in the coil layer). If the turn is intended to be branched, it requires a schottky particle diode that is correctly configured.
 
 book.rbmk.cover=Il mio primo RBMK:$Basi per$costruire un$reattore
 book.rbmk.title1=Introduzione
@@ -291,6 +310,44 @@ book.starter.title16=Conclusione
 book.starter.page16=Se sei arrivato così lontano, sei sulla strada per la ricostruzione della civilizzazione. Hai ricreato macchinari avanzati pre-apocalittici - con energia nucleare, prodotti petrolchimici e di più. Non posso sapere §ocome§r utilizzerai questi nuovi vantaggi, ma è mia personale speranza che tu li usi per il bene tuo e degli altri - o almeno per legittima difesa. Au revoir!
 book.starter.title18=Qualcosa sull'autore
 book.starter.page18=vær è solo un ragazzo rimasto intrappolato nel vuoto grigio presente nei Talking Head §oUna volta nella vita§r molto a lungo. Una volta trovò la porta di uno studio, ma con suo sgomento scoprì che era un ritaglio di cartone.
+book.starter.cover=An Industrialist's$Guide to Rebuilding$Society
+book.starter.title1=Introduction
+book.starter.page1=If you're reading this, it's highly likely that society, in one way or another, has collapsed entirely. Governments, countries, and authority are a concept of the past - along with all of the amenities of civilized life. As such, this guide will inform you how to change that by recreating the industry and technology of the past for the improvement of your own life.
+book.starter.title2=Coal & Mustard Gas
+book.starter.page2=Whilst it is impossible to predict the actual state of the world in a post-apocalyptic time, it's not unlikely that war and industry in its current form may not have ended. To protect your own lungs, an effective and cheap way is to urinate on some §lcloth§r to make a §ltrench mask§r, to protect you from coal dust or mustard gas, if you ever encounter either.
+book.starter.title3=Anvils & Presses
+book.starter.page3=The quintessentials to beginning your industrial revitalization is an §lanvil§r and a §lburner press§r. The anvil will allow you to manually craft together early machinery such as the Assembler, whilst the burner press will let you make plates, wires, and circuits that you cannot hammer together with an anvil.
+book.starter.title4=Templates
+book.starter.page4=In order to stamp metal into useful shapes, assemble machinery, and perform chemical reactions, you will need to create a §lMachine Template Folder§r to create the various stamps and templates shown to the right.
+book.starter.title5=Scavenging
+book.starter.page5=Depending on how bad the initial apocalyptic event was to the preexisting structures of the world, there's a likely chance that many useful materials and machines can be salvaged from them directly. Metallic alloys like steel, parts like circuitry, and even fissile material from a nuclear power plant might be awaiting you. Beware certain ruins, however, as there may be an excess of danger lurking there like a snake in the grass; waiting to strike you down with radiation, traps, or indescribable horrors...
+book.starter.title6=Early Machinery
+book.starter.page6a=Two of the first machines you should assemble are the §lBlast Furnace§r and the §lAssembly Machine§r. The former will allow you to create alloys such as §lsteel§r, §lminecraft-grade copper§r, and §ladvanced alloy§r; you will need to use these metals for the bodies of machines, the wiring of circuits, advanced electromagnets, and more.
+book.starter.page6b=The assembler will be used to create practically every other machine described in this guide. You will need a power source, such as a §lCombustion§r §lGenerator§r or §lSolar Boiler§r.
+book.starter.page7a=The §lShredder§r, along with a pair of shredder blades, will be very useful for doubling the output of most ores, via shredding into smeltable powders. These powders are also crucial to begin making circuitry for various machines, such as §lEnhanced§r and §lOverclocked§r circuits.
+book.starter.page7b=Using your new machinery, you can create the §lChemical Plant§r, used for the synthesis of better circuits, concrete, the processing of petrochemicals, and more.
+book.starter.title8=Black Gold
+book.starter.page8a=Using an §lOil §lReservoir§r §lDetector§r, you can find underground oil deposits to place a §lPumpjack§r or §lDerrick§r over via surveying an area. Remember that oil deposits will run out over time.
+book.starter.page8b=Before the oil can be refined and separated into its constituent parts in an §lOil Refinery§r, you must heat the oil to 300°C in a §lBoiler§r.
+book.starter.title9=Petrochemicals
+book.starter.page9=Using §lChemical Plants§r, §lFractioning§r §lTowers§r, and §lCatalytic Cracking§r §lTowers§r, you can transform the separated oil into a variety of useful products. For example: §lPolymer§r or §lBakelite§r, durable and flexible plastics; §lDesh§r, an extremely durable and heat-resistant rare earth metal alloy; §lSolid Fuel§r, which can be burnt for energy; or even §lLiquid Fuels§r, such as §lGasoline§r, §lDiesel§r, §lKerosene§r, and more.
+book.starter.title10=Advanced Machinery
+book.starter.page10=With oil processing under your belt, you can create the §lCentrifuge§r, which will triple ore outputs; the §lOre §lAcidizer§r, which will crystallize ores, increasing the yield; and the §lSILEX + §lFEL§r, two marvels of modern engineering which can separate the isotopes of materials with ease. You will require significantly more energy to power these; which can be obtained with sources such as a §lDiesel Generator§r, an §lIndustrial Generator§r, or even a nuclear reactor.
+book.starter.title11=Strata
+book.starter.page11=Underneath the ground you walk, there is several naturally-occurring §lStrata§r, or special mineral layers and formations. §lSchist Strata§r are blue, lithium-containing layers filled with uranium, iron, copper, asbestos, and other ores for your own use. §lDepth Rock§r contains large quantities of rarer minerals, such as §lZirconium§r and §lBoron§r, but requires explosives to properly harvest.
+book.starter.title12=Radiation
+book.starter.page12a=§oThe rest of this book will deal with matters that involve §oradiation. For the safety of you and others, I will give §oadvice on how to mitigate and deal with exposure to it.
+book.starter.page12b=Enough exposure to radiation can and will cause bodily harm. The first step is prevention; be sure to limit your exposure, and wear protective gear, such as a §lHazmat Suit§r, or apply §lCladding§r to your clothing or armor; you can also take §lRad-X§r to limit your intake. Thanks to modern medicine, the second step can be removal if necessary; for example, a §lPlayer §lDecontaminator§r will slowly reduce the radiation absorbed by your body. §lRad-Away§r can also be used as a post-exposure prophylaxis, quickly and effectively reversing damage caused to your body by ionizing radiation.
+book.starter.title13=Uranium Enrichment
+book.starter.page13=There are a few, easy options for fuels to use for a nuclear reactor; for instance, §lNatural Uranium§r or §lThorium Fuel§r. However, if you're looking for something more powerful, you can set up an enrichment cascade of two §lGas Centrifuges§r to produce §lUranium Fuel§r with leftover §lUranium-238§r. You will have to transmute the natural uranium into §lYellowcake§r, then §lUranium §lHexafluoride§r to do so.
+book.starter.title14=The Chicago Pile
+book.starter.page14=Alternatively, you can breed §lReactor-Grade Plutonium§r, a more powerful fuel, from Natural Uranium using the §lChicago Pile§r. By stacking graphite blocks and drilling into them, you can insert fuel rods to breed into plutonium and neutron source rods, such as §lRadium-Beryllium§r, to begin the reaction. Make sure to test your designs; spacing out or limiting the amount of blocks may be necessary to prevent overheating.
+book.starter.title15=ZIRNOX GCR
+book.starter.page15=Finally, you can create your first §oreal§r source of energy: the §lZIRNOX§r Nuclear Reactor. Nuclear reactors require more setup then other power sources; first, you will want to have a good source of water, such as the §lHeavy §lInfinite Water Tank§r. To remove heat from the reactor core and boil the water into steam, you will need a sufficient amount of §lCarbon Dioxide§r. You want just enough pressure, but not §otoo§r much. You will also need three steam turbines to utilize the created steam to make energy; the §lSteam §lTurbine§r or §lIndustrial Steam §lTurbine§r will be optimal. Finally, a §lCondensor§r or §lAuxilary Cooling Tower§r is needed to condense the leftover steam into water, where it can be voided or recycled in a cooling loop.
+book.starter.title16=Conclusion
+book.starter.page16=If you've reached this far, you're on track to helping rebuild civilization. You've successfully recreated the advanced machinery of the pre-apocalypse - with nuclear power, petrochemicals, and more. I cannot know §ohow§r you will use these new-found advantages, but it's my personal hope you use them for the good of yourself and others - or at the very least, in self-defense. Au revoir!
+book.starter.title18=About the Author
+book.starter.page18=vær is just a guy who has been trapped in the grey void featured in the Talking Head's §oOnce In A Lifetime§r for too long. He once found a studio door, but to his dismay found out it was a cardboard cut-out.
 
 #book.rbmk.cover=HOW 2 RBMK:$The Basics$of Reactor$Construction
 #book.rbmk.title1=Introduction
@@ -330,6 +387,11 @@ book_lore.test.name=questo libro non funziona...
 book_lore.test.author=io ti ho trollato eheh :3c
 book_lore.test.page.0=>ciao anonimi, prima di iniziare vorrei chiarire che non sono gay. >Sii me >Questa notte >18 > Uscendo con il mio migliore amico senza i miei genitori per alcuni giornis >Siamo migliori amici ormai da un anno >Abbiamo bevuto un po', giocato a molti videogiochi e ordinato una pizza >Ci stavamo divertendo molto >A un certo punto della notte, verso le 9:00, fa una cosa davvero divertente battuta che non ricordo ma so che ci ha fatto ridere tantissimo tutti e due > Senza pensarci passo la mano destra tra i suoi capelli neri semiricci e lo chiamo ragazzo simpatico > Lui arrossisce > Mi rendo conto che mi sento agitato >Siamo abbastanza vicini >All'improvviso lui mi bacia e per qualche motivo io lo bacio >Facciamo l'amore >Ci coccoliamo insieme e ci addormentiamo >Svegliarsi nel cuore della notte con la sua testa rannicchiata sul mio petto e zona del collo >È stato bello ma non sono omosessuale.
 book_lore.test.page.1=Lo scrivo mentre lui dorme tra le mie braccia. Come posso deludere bene il mio migliore amico? Non voglio essere un [censurato] /b/
+book_lore.author=By %s
+book_lore.test.name=this book doesn't work...
+book_lore.test.author=me i trolled you hehe :3c
+book_lore.test.page.0=>hello anons before i begin let me clarify that i'm not gay. >Be me >This night >18 > At hanging out with my best friend with my parents gone for a few days >We've been best friends for a year now >Been drinking a bit and playing lots of video games and ordered a pizza >We were having a blast >At a certain point in the night like around 9:00 he makes a really funny joke that I don't remember but I know that it made us both laugh really hard > With out thinking I brush my right hand through his semi-curly black hair and call him a funny boy >He blushes >I realize I'm feeling flustered >We're kinda close >All of the sudden he kisses me and for some reason I kiss him back >We make love >Cuddle together and fall asleep >Wake up in the middle of the night with his head snuggled up on my chest and neck area >It feels nice but I'm not a homosexual
+book_lore.test.page.1=I'm typing this as he's asleep in my arms. How do I let my best friend down nicely? I don't want to be a [redacted] /b/
 book_lore.test.page.2=3
 book_lore.test.page.3=4
 book_lore.test.page.4=5
@@ -556,6 +618,227 @@ cannery.schottky.6=La particella scelta subisce un collasso della funzione d'ond
 cannery.schottky.7=Se una qualsiasi particella virtuale incontra segmenti malformati, tutte le particelle virtuali verranno scartate e la particella che ha generato l'errore verrà collassata
 cannery.schottky.8=Nota che le particelle virtuali non utilizzeranno mai la stessa uscita del Diodo due volte. I loop infiniti falliranno, ma rientrare in un Diodo è comunque accettabile
 cannery.schottky.9=Il tuo Diodo di Particelle Schottky deve essere correttamente racchiuso, con percorsi liberi per ciascuna uscita dell'intersezione
+=======
+book_lore.book_iodine.page.0=alright you will not believe this, but old man weathervane finally managed to show up again since he left two weeks ago and what's more surprising is the fact that he actually decided to spill the beans on what they were doing in the canyon:
+book_lore.book_iodine.page.1=apparently the morons from R&D discovered a compound that is mostly inorganic, pretty much like a toxin in nature, but get this: the dying cells will reproduce said toxin and excrete it through the skin, creating an aerosol that is highly contagious.
+book_lore.book_iodine.page.2=it's just like a virus, but not a virus. the composition is weird, you can mix it in any household bottle but you do have to get the order right. the doc told me that the first ingredient which is just powdered iodine crystals goes into slot %d
+
+book_lore.book_phosphorous.name=Note
+book_lore.book_phosphorous.author=Dave
+book_lore.book_phosphorous.page.0=heyo, it's me again. i assume you got my last memo, the doc wasn't too happy about it. i'll have to do this quick, the dunderheads from R&D are currently moaning again, probably over money. again. anyway, doc weathervane found that the second
+book_lore.book_phosphorous.page.1=ingredient is red phosphorous, whihc has to be mixed into slot %d
+
+book_lore.book_dust.name=Note
+book_lore.book_dust.author=Dave
+book_lore.book_dust.page.0=the doc was furious when he found out that the R&D dorks kept the one remaining sample, ranting about gross negligence this and a doomsday scenario that. i told him to chill for a minute, getting all worked up isn't good for his blood pressure, not
+book_lore.book_dust.page.1=that he has much blood left to begin with. one of the R&D morons slipped some more info into last week's circular, they call their little concoction "MKU" whatever that means, and that it contains actual household lint. can you believe that? one of the most
+book_lore.book_dust.page.2=dangerous inventions of theirs and it contains dust. strangely they also mentioned that it goes into slot %d
+
+book_lore.book_mercury.name=Note
+book_lore.book_mercury.author=Dave
+book_lore.book_mercury.page.0=well that settles that. not counting the vomitting blood part, the toxicological report mostly resembles that of mercury poisoning. why? because our little mix also contains mercury! i just wonder where all that stuff comes from when being
+book_lore.book_mercury.page.1=replicated by the body? whatever, the mercury goes into slot %d
+
+book_lore.book_flower.name=Note
+book_lore.book_flower.author=Dave
+book_lore.book_flower.page.0=remember when i mentioned in my first memo that the compound is mostly anorganic? well guess what, the old man shared the fourth ingredient: ipomoea nil, a genus of flower. morning glory! it might be due to its low sulfur content, whatever might be the case,
+book_lore.book_flower.page.1=it does not work with other flowers. the morning glory goes into slot %d
+
+book_lore.book_syringe.name=Note
+book_lore.book_syringe.author=Dave
+book_lore.book_syringe.page.0=a little addendum to my fifth message, obviously you have to store this MKU stuff in a container. the R&D nuts used regular metal syringes that they got from medical. surplus ware i presume, they got thousands of needles just lying around. the metal
+book_lore.book_syringe.page.1=syringe goes into slot %d
+
+book_lore.resignation_note.name=Letter of Resignation
+book_lore.resignation_note.author=Kosma
+book_lore.resignation_note.page.0=Management downsized our department again yesterday. Those idiots only have themselves to blame, I don't know what they were expecting after that fiasco. Who the hell leaks that sort of information? We're losing millions and
+book_lore.resignation_note.page.1=it's ME who's the one out of a job now. I'M the one being asked to resign. I hope you asshats finally learn from your overabundance of mistakes and take that stick out of your ass.
+book_lore.resignation_note.page.2=I'm not coming back on Friday. Just send the paycheck.
+
+book_lore.memo_stocks.name=Intracorporate Memorandum
+book_lore.memo_stocks.page.0=Investor Relations - $ $ There's been some glaring discrepancies in the figures provided for the latest quarterly report. It would be prudent for the financial department to make some adjustments, so there won't be any concern.
+
+book_lore.memo_schrab_gsa.name=Internal Memorandum
+book_lore.memo_schrab_gsa.page.0=Contract Management - $ $ Legal has made a breakthrough with the DLA. They've awarded us with a 45 BILLION GSA Schedule for further procurement and research of saralloy. At current estimates, that would be at minimum
+book_lore.memo_schrab_gsa.page.1=a 40%% profit on related operations, let alone the possibility of future contracts. Due to the confidential nature, all fiscal evidence is to remain private.
+
+book_lore.memo_schrab_rd.name=Internal Memorandum
+book_lore.memo_schrab_rd.page.0=Research & Development - $ $ Our main production method of saralloy has been through the new particle accelerator. However, the energy costs are exorbitantly high compared to the amount of output.
+book_lore.memo_schrab_rd.page.1=Doctor Schrabauer, however, has discovered a new interaction - called "Strange Lepton Oscillation" - that could significantly reduce costs. Through a not entirely understood process, supplied electrons are transmuted into extremely
+book_lore.memo_schrab_rd.page.2=high-energy photons, through a strange charm. This is an extreme exception to many established particle conversion laws, but preliminary experiments have proved that these protons transmute into up and down quarks, eventually creating saralloy.
+book_lore.memo_schrab_rd.page.3=Strangely, the prototype requires Tungsten alloyed with small amounts of saralloy. In addition, a special capacitor is required to negate the leftover positive charge.
+
+book_lore.memo_schrab_nuke.name=Research Report
+book_lore.memo_schrab_nuke.author=Doctor Schrabauer
+book_lore.memo_schrab_nuke.page.0=Our most recent investigation led us to the effects of nuclear explosions on materials. Thanks to our grant money, we *accidentally* tested our theory on direct saralloy synthesis from uranium.
+book_lore.memo_schrab_nuke.page.1=Only our cyclotron has actually created saralloy previously. However, at our underground shot at Everwerpen, miniscule traces of saralloy were found in uranium ore at the site. All pure, metallic uranium nearby had fissioned.
+book_lore.memo_schrab_nuke.page.2=As such, given enough uranium ore concentrated around an explosive, or perhaps even a dirty bomb rich in waste containing fissionable material, one could hypothetically create enough saralloy to collect manually.
+
+book_lore.bf_bomb_1.name=Private Notes
+book_lore.bf_bomb_1.author=M. Porter
+book_lore.bf_bomb_1.page.0=Took long enough, but my transfer was accepted. Those new grads were already hard to handle, let alone all the unprofessionalism of the lead. $ Not all good news - this lab was withholding further detail, and I didn't need more chaos over another magic new discovery.
+book_lore.bf_bomb_1.page.1=Of course that was the case. The alumni had their doubts (surprising, considering how bright-eyed they were), but my only... competent? colleague actually got his hands on the primer hand-out. Must have more connections than I thought. His memo is discouraging:
+book_lore.bf_bomb_1.page.2=apparently, there's yet ANOTHER miracle material that they prodded out of some concoction of antimatter and a fringe isotope. The brochure calls it "SWIRLMAT" - hell if I know - and that's it. No wonder they wanted a theoretical physicist,
+book_lore.bf_bomb_1.page.3=they don't even know what it is yet. Either way, practically any job would be better than my old position, so I can't complain much about sketchiness.
+
+book_lore.bf_bomb_2.name=Private Notes
+book_lore.bf_bomb_2.author=M. Porter
+book_lore.bf_bomb_2.page.0=Despite the absence of information in that primer, I still had some hope they knew a bit more. Not at all. Every other senior researcher has a blind faith in this material; their propositions were practically biblical. I was near speechless.
+book_lore.bf_bomb_2.page.1=And yet I can't even blame them. Swirlmat makes no goddamn sense - it is completely unlike any other substance I've seen before. Its appearance was near frightening, a literal mass of swirling colors, with darker lines permeating through the neon green surface.
+book_lore.bf_bomb_2.page.2=Even worse, this thing is an energy source. The existence of our sample is a violation of ALARA: the lab was vacated when it arrived, and the only person brave enough (one Dr. Melfyn) donned a level A hazmat just to carry it 20 meters.
+book_lore.bf_bomb_2.page.3=The empirical data isn't better, as we're breaking the first law of thermodynamics with how much energy it radiates. Being anywhere near that thing - even behind a meter of lead - was terrifying. We sprinted out of the chamber upon conclusion of the spectroscopy
+book_lore.bf_bomb_2.page.4=and we got nothing new out of it. Those idiots in the science team, god, did not even waver after all that. Sitting through those "discussions" was horrible; that quack of a head researcher even rumored that the test ban would be lifted, that we could be
+book_lore.bf_bomb_2.page.5=building bombs out of the shit in the coming weeks, who in their right mind would work on that? Hell, the one sane assistant (an Andrew) nicknamed it "balefire" - because burning to death on a funeral pyre would be painless by comparison. 
+
+book_lore.bf_bomb_3.name=Private Notes
+book_lore.bf_bomb_3.author=M. Porter
+book_lore.bf_bomb_3.page.0=The team and I have made some breakthroughs. Emphasis on the separation - isolating myself from the more devout has made working there so much more bearable. While we still have no idea about the actual properties of balefire (it's difficult to analyze
+book_lore.bf_bomb_3.page.1=a sample that fries your equipment) its interactions with other matter has proved fruitful. Notably, they synthesized a "gaseous" form: Andrew, of all people, informed me that it was really a colloid consisting of microscopic balefire particles, suspended in some
+book_lore.bf_bomb_3.page.2=noble gas. Each particle is enveloped by a positively-charged 'bubble' of ionized gas, preventing it from settling. Who could've guessed that fatal gamma radiation had a benefit? Not me. $ I'm choosing not to think about how they transformed the sample into
+book_lore.bf_bomb_3.page.3=particulate, but I can't understate the utility of this gaseous balefire - it's made it much safer to experiment on. $ Speaking of safety, the head researcher (in an act of callous disregard) made a discovery that also nearly took his head off. 
+book_lore.bf_bomb_3.page.4=He decided to get "dirty" by letting a cell of our new colloid interact directly with some very expensive antimatter: the resulting explosion turned the table it was on into a piece of radiation-bleached slag, carved a near-perfect hemisphere through
+book_lore.bf_bomb_3.page.5=the top, and gave the head a healthy dose of ARS. I guess we know how to make it explode now, but god, some people...
+
+book_lore.bf_bomb_4.name=Private Notes
+book_lore.bf_bomb_4.author=M. Porter
+book_lore.bf_bomb_4.page.0=I just can't escape my old work. They're the only place that's hiring despite all this godforsaken turmoil, but I'm not going back into that hole. $ They only tempted me because I need out, fast. Remember that atmospheric testing treaty we withdrew from a week ago?
+book_lore.bf_bomb_4.page.1=Well, the dipshit in charge of our lab got something right for once. The denunciation came with a flurry of new "scientists" joining, just so we could weaponize balefire. The lack of critical thought here is honestly baffling - bless him, Andrew even jumped ship the
+book_lore.bf_bomb_4.page.2=second the first fucking BOMB DESIGN was drafted. That ass Melfyn looked so happy with his little mechanism - perhaps he got brainworms from carrying that sample? - which involved some stupid shit using the solidified, base balefire and an HV
+book_lore.bf_bomb_4.page.3=battery. $ Apparently, the form matters for energy output and activation method or whatever, kind of like uranium versus plutonium in regular nukes, but the end result is an initial shock starting the explosion. I find it funny, hilarious even.
+book_lore.bf_bomb_4.page.4=All of them place such emphasis on the activation; they ignore the actual mechanism of it all because they don't have a single clue how it works! It may as well be magic at this point, and yet they're still trying to twist and bend it - just for more weapons of war.
+
+book_lore.bf_bomb_5.name=Private Notes
+book_lore.bf_bomb_5.author=M. Porter
+book_lore.bf_bomb_5.page.0=I just... can't come to grips with it, even days after. It was a foregone conclusion, really, with how flippant the science team was with safety. $ $ Doctor Melfyn, M.S., is gone. Dead, maybe. I saw it happen before my own eyes, in their test chamber.
+book_lore.bf_bomb_5.page.1=We had just gotten another batch of pure balefire, and he had recovered electrical equipment and an energy source to test his proposal. I don't know what caused it (was the power on? had he begun too soon?), but it seemingly progressed in agonizingly slow motion,
+book_lore.bf_bomb_5.page.2=as the green-tinted light consumed the table, the battery, and Dr. Melfyn standing only a meter away. Even when the table had degraded into a pool of broiling metal on the floor, he did not burn. I don't know what I saw in his eyes... $ $ Terror, or awe
+book_lore.bf_bomb_5.page.3=over his continued survival, maybe? Whatever our "miracle" material was, it didn't care. With a bright blaze of light, he disappeared in the next moment. Was he evaporated? incinerated? annihilated? sent to fucking hell itself, I don't know anymore!
+book_lore.bf_bomb_5.page.4=The head researcher sickens me. Said we could be more careful, keep trucking, whatever other morale-improving filth he spewed. That dipshit won't ever figure out that playing with fire will get you burned. $ I didn't bother
+book_lore.bf_bomb_5.page.5=resigning, I just grabbed my shit and ran for the hills. Not like it matters, anyway; considering the lack of calls, and the mushroom cloud that rose over my (now former) workplace, they've either blown everything up or entered full-on military jurisdiction.
+book_lore.bf_bomb_5.page.6=There's a vital distinction to be made between dissection and VIVISECTION, one which was clearly lost on them. They can dissect metal or atoms as much as they like, but tearing into, vivisecting reality itself is only going to end in more Dr. Melfyns. Who knows!
+book_lore.bf_bomb_5.page.7=The government wants to put this shit into bombs after all, maybe we'll see a couple more wars, couple more million resigned to a fate worse than death. They can't hide this forever. $ $ I don't care. Not anymore. Please, god, let me go back
+book_lore.bf_bomb_5.page.8=to actual science. $ $ Goddamnit, Mae, get ahold of yourself...
+
+book_lore.beacon.name=Signal Beacon Instruction Booklet
+book_lore.beacon.author=Flim Flam Industries
+book_lore.beacon.page.0=Thank you for your purchase of a Mk.2 Illuminated Signal Beacon (rev. 1.3)! This small booklet will provide a short introduction in the operation of the beacon, as well as its inner workings.
+book_lore.beacon.page.1=Chapter 1: Architecture $ Each unit is composed of four main parts: The control circuit, a lantern, a fog horn and the casing which houses the other parts. For a detailed explanation of the main circuit, please
+book_lore.beacon.page.2=refer to the circuit diagram found on the inside of the maintenance lid of the casing. The lantern is made up of a polycarbonate case containing a dual-color 250 Watt halogen bulb with a standard 200mm socket, replacements
+book_lore.beacon.page.3=for the bulb can be ordered from our stores. Third party bulbs are not recommended, as we cannot ensure safe operation. The case is made from a specialized zinc-coated stainless steel and is resistant to weathering.
+book_lore.beacon.page.4=Chapter 2: Lantern $ The lantern's primary uses are providing light for ease of maintenance in harsh weather conditions as well as a status indicator. Should the power-on self test (POST) fail, the lantern will
+book_lore.beacon.page.5=light up red, otherwise it will light up green. Note that colors can vary depending on the replacement bulb.
+book_lore.beacon.page.6=Chapter 3: Fog Horn $ The fog horn is the primary communication device of the beacon. The beacon is designed for peer-to-peer (P2P) communication as well as for message broadcasting.
+book_lore.beacon.page.7=Chapter 4: Peer-to-Peer $ For details on communication, refer to the communications handbook. A short rundown of establishing a P2P connection follows: First, the beacon has to give the "START CONNECTION" signal,
+book_lore.beacon.page.8=being a single long tone. All available peers should respond with a single long tone as well (order specified by proximity, as well as the communication guidelines outlined in the handbook, section "Responding to a Connection")
+book_lore.beacon.page.9=Once the desired peer has responded, give the "ACCEPT CONNECTION" signal, being two long tones, the peer will then also respond with two long tones. All communication afterwards has to happen using pre-negotiated signals, most commonly
+book_lore.beacon.page.10=using the FAR-5M standard. Communication will end immediately if no standard has been negotiated, serving as a "ping". Should communication continue, the connection can be ended using another long single tone "END CONNECTION".
+book_lore.beacon.page.11=Chapter 5: Warranty $ [ page intentionally left blank ]
+
+cannery.f1=[ Press F1 for help ]
+
+cannery.centrifuge=Gas Centrifuge
+cannery.centrifuge.0=Gas centrifuges can be supplied with fluid using regular fluid ducts.
+cannery.centrifuge.1=Most recipes require multiple centrifuges. The intermediate products cannot be transported via pipes.
+cannery.centrifuge.2=This side acts as a connector which outputs the intermediate product into an adjacent centrifuge.
+cannery.centrifuge.3=Uranium hexafluoride can be processed with just two centrifuges, this however will produce Uranium fuel and Uranium-238.
+cannery.centrifuge.4=Fully processing it into Uranium-235 and Uranium-238 requires a total of four centrifuges.
+cannery.centrifuge.5=Some recipes also require the centrifuge overclocking upgrade.
+
+cannery.crucible=Crucible
+cannery.crucible.0=The crucible is used to smelt ores, ingots or other metallic items for alloying and to cast them into different shapes.
+cannery.crucible.1=It requires an external heat source connected to the bottom, like a firebox.
+cannery.crucible.2=Once heated up, the crucible can be used in two ways, with or without a recipe template.
+cannery.crucible.3=The crucible has two storage buffers for material:
+cannery.crucible.4=The buffer to the left is for §abyproducts§r, all material smelted without a recipe template will land here.
+cannery.crucible.5=If a recipe is installed, materials that do not match the recipe will also be stored here.
+cannery.crucible.6=Materials in this buffer will not react with each other, they can only be output from the green outlet for casting.
+cannery.crucible.7=The buffer to the right is for §crecipes§r, if a recipe is installed and that particular material is relevant to that recipe, it will land here.
+cannery.crucible.8=The materials will slowly combine into the output material which is automatically output from the red outlet.
+cannery.crucible.9=Note that only this buffer handles recipes. If a template is installed retroactively, materials in the byproduct buffer will not combine, nor transfer to the recipe buffer.
+cannery.crucible.10=The outlet will output material automatically, if the target is valid, for example a foundry channel or a mold.
+cannery.crucible.11=As with all foundry blocks, a shovel can be used to remove all material from the crucible.
+
+cannery.fensu=FEnSU
+cannery.fensu.0=The FEnSU is capable of storing absurd amounts of energy, over 9EHE (that's a nine followed by 18 zeros).
+cannery.fensu.1=There is only one energy connector which can be found on the bottom.
+cannery.fensu.2=This is also the only place where the FEnSU can receive a redstone signal.
+
+cannery.firebox=Firebox
+cannery.firebox.0=The firebox burns flammable items to generate heat.
+cannery.firebox.1=It can burn any flammable item, although higher quality fuels such as coal, coke and solid fuel burn longer and hotter.
+cannery.firebox.2=Heat is given off by the copper contact at the top of the firebox. Machines with an identical contact on the bottom can receive heat by being placed on top of the firebox.
+cannery.firebox.3=If heat isn't being used up and the heat buffer becomes full, the firebox will shut off to prevent wasting of fuel.
+cannery.firebox.4=One such machine is the stirling engine, which will turn heat directly into energy.
+
+cannery.foundryChannel=Foundry Channel
+cannery.foundryChannel.0=Foundry channels are used to transport molten material from a crucible or storage tank into molds.
+cannery.foundryChannel.1=Channels can receive material either by pouring from the top - via an outlet or directly from a crucible - or from the side from other channels.
+cannery.foundryChannel.2=When transporting materials, channels will prioritize blocks like outlets and shallow molds.
+cannery.foundryChannel.3=When it cannot supply an outlet or a mold, the material will then flow into a neighboring channel.
+cannery.foundryChannel.4=Leftover material can be removed by using a shovel.
+
+cannery.silex=FEL & SILEX
+cannery.silex.0=The Free Electron Laser (FEL) uses energy and a laser crystal to create a powerful laser beam.
+cannery.silex.1=Be careful, as the laser will burn/melt through weaker blocks...
+cannery.silex.2=...but not blast-proof ones.
+cannery.silex.3=The FEL is used to power the Laser Isotope Separation Chamber (SILEX). The FEL and SILEX have to be at least two blocks apart.
+cannery.silex.4=The laser has to enter through the glass openings of the SILEX. Aiming it wrong could destroy it.
+cannery.silex.5=The openings on the sides can be used to connect fluid ducts to the SILEX.
+cannery.silex.6=In addition to the two connectors on the sides, there is a third hidden connector at the bottom from which items can be extracted.
+cannery.silex.7=Each recipe requires a specific laser type. Using a stronger type than required will process items faster.
+cannery.silex.8=One FEL can supply up to 5 SILEX. Each SILEX has to be one block apart from one another.
+
+cannery.stirling=Stirling Engine
+cannery.stirling.0=The Stirling engine uses heat energy from external sources to create power.
+cannery.stirling.1=It needs to be placed on top of a heat-producing machine, such as the firebox.
+cannery.stirling.2=The amount of heat it can utilize however is limited, overspinning can lead to catastrophic malfunction.
+cannery.stirling.3=The upgraded version can take significantly more heat without breaking.
+
+cannery.willow=Mustard Willow
+cannery.willow.0=The mustard willow is a plant that allows cadmium metal to be harvested.
+cannery.willow.1=Willows can be placed on dirt, grass or even dead/oily dirt, but they require water to grow.
+cannery.willow.2=Willows can be fertilized with bone meal or industrial fertilizer. They do not need light to grow.
+cannery.willow.3=After the second stage of growth, they will need an extra block of space above them to grow further.
+cannery.willow.4=After the fourth stage of growth, they require dead or oily dirt below them.
+cannery.willow.5=This can be done either by manually planting willows on dead/oily dirt, or by having a hydraulic fracking tower nearby which continuously contaminates the ground.
+cannery.willow.6=After reaching the final stage, the willow will remove contamination from the ground, reverting the dead/oily dirt back into regular dirt.
+cannery.willow.7=Now the willow's leaves can be harvested. Breaking the top block will drop a small willow plant, 3-6 leaves and keep the bottom part of the plant intact.
+cannery.willow.8=Soon the plant will start growing again, yielding more leaves if the dirt is replaced with oily dirt. The leaves can be processed into cadmium powder using an ore acidizer.
+cannery.willow.9=Harvesting willow leaves can be automated using the automatic buzzsaw, it will only break plants that are ready for harvest.
+
+cannery.hadron=Particle Accelerator
+cannery.hadron.0=A Particle Accelerator consists of three main parts: A Core, an Analysis Chamber, and a set of Superconducting Coils
+cannery.hadron.1=This is the Particle Accelerator Core Component, which fires particles at relativistic speeds down the coils towards the Analysis Chamber
+cannery.hadron.2=Particles are ejected from here
+cannery.hadron.3=And in circular accelerators, return to here
+cannery.hadron.4=A coil segment is constructed by using 8 Dense Coils with nothing (or the core) in the middle
+cannery.hadron.5=This coil segment must itself also be enclosed within Particle Accelerator Plating
+cannery.hadron.6=To access the Core Component, you'll need to add one or more Access Terminals
+cannery.hadron.7=The Core Component will also require power to operate, add a power plug on an edge
+cannery.hadron.8=The Accelerator will require enough Power Plugs to supply at least 10KHE of electricity per unit of Coil Strength
+cannery.hadron.9=Note that the coil segment that wraps around the Core Component is not factored into the Coil Strength calculation
+cannery.hadron.10=Nor is this coil segment required for purely linear accelerators
+cannery.hadron.11=For circular accelerators, you will need to add corners to change the direction of the particle
+cannery.hadron.12=The outside corner coils can be omitted entirely
+cannery.hadron.13=The final part of our Accelerator is the Analysis Chamber, which is a 3x3x3 empty chamber surrounded by Analysis Chamber blocks
+cannery.hadron.14=Your completed Particle Accelerator should look something like this!
+
+cannery.hadron.math.0=Neodymium Coil Strength: 50
+cannery.hadron.math.1=50 x 8 x 10KHE = 400 x 10KHE = 4MHE
+cannery.hadron.math.2=Starmetal Coil Strength: 1,000
+cannery.hadron.math.3=1,000 x 8 x 10KHE = 8,000 x 10KHE = 80MHE
+
+cannery.schottky=Schottky Particle Diode
+cannery.schottky.0=This is a Schottky Particle Diode. It can allow for more complex particle accelerator designs and save on electricity
+cannery.schottky.1=By default it blocks all particles and must be configured with a Screwdriver
+cannery.schottky.2=This face will now accept entering particles
+cannery.schottky.3=And this face will eject particles that enter
+cannery.schottky.4=The diode now has two exits, and will now behave in a quantum manner, creating virtual particles for each exit
+cannery.schottky.5=Once all the virtual particles have reached an Analysis Chamber, the particle with the lowest momentum required for the current recipe is chosen
+cannery.schottky.6=The chosen particle undergoes a wavefunction collapse and is made real, consuming only the power that the collapsing particle requires
+cannery.schottky.7=If any virtual particles encounter any malformed segments, all virtual particles will be discarded and the erroring particle will be collapsed instead
+cannery.schottky.8=Note that virtual particles will never use the same Diode exit twice. Infinite loops will fail, but re-entering a Diode is otherwise fine
+cannery.schottky.9=Your Schottky Particle Diode should be properly enclosed, with free paths for each intersection exit
 
 chem.ARSENIC=Arsenic Extraction
 chem.ASPHALT=Asphalt Production
@@ -1879,6 +2162,7 @@ item.arc_electrode_burnt.desh.name=Molten Desh Electrode
 item.arc_electrode_burnt.graphite.name=Molten Graphite Electrode
 item.arc_electrode_burnt.lanthanium.name=Molten Lanthanium Electrode
 item.arc_electrode_burnt.saturnite.name=Molten Saturnite Electrode
+item.arc_electrode_burnt.name=Molten Electrode
 item.arc_electrode_desh.name=Desh Electrode
 item.armor_polish.name=ShiningArmor™ Armor Polish
 item.asbestos_boots.name=Fire Proximity Boots
@@ -4617,6 +4901,7 @@ shape.plateTriple=Cast Plate
 shape.shell=Shell
 shape.stamp=Press Stamp
 shape.wireFine=Wires
+shape.wire=Wire
 shape.wireDense=Dense Wire
 shape.wiresDense=Dense Wires
 
@@ -4926,6 +5211,7 @@ tile.concrete_colored_ext.purple.name=Builder's Choice Concrete - Mysterious Pur
 tile.concrete_colored_ext.sand.name=Builder's Choice Concrete - Desert Storm
 tile.concrete_pillar.name=Rebar Reinforced Concrete Pillar
 tile.concrete_slab.asphalt.name=Asphalt Slab
+tile.concrete_pillar.name=Rebar Reinforced Concrete Pillar
 tile.concrete_slab.concrete.name=Concrete Tile Slab
 tile.concrete_slab.concrete_asbestos.name=Asbestos Concrete Slab
 tile.concrete_slab.concrete_smooth.name=Concrete Slab

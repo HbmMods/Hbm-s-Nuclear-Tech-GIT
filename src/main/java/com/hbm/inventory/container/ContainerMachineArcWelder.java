@@ -70,7 +70,7 @@ public class ContainerMachineArcWelder extends Container {
 					if(!this.mergeItemStack(stack, 4, 5, false)) return null;
 				} else if(rStack.getItem() instanceof IItemFluidIdentifier) {
 					if(!this.mergeItemStack(stack, 5, 6, false)) return null;
-				} else if(rStack.getItem() instanceof ItemMachineUpgrade ) {
+				} else if(rStack.getItem() instanceof ItemMachineUpgrade) {
 					if(!this.mergeItemStack(stack, 6, 8, false)) return null;
 				} else {
 					if(!this.mergeItemStack(stack, 0, 3, false)) return null;
