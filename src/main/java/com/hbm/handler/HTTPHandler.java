@@ -37,7 +37,7 @@ public class HTTPHandler {
 
 	private static void loadVersion() throws IOException {
 
-		URL github = new URL("https://raw.githubusercontent.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/master/src/main/java/com/hbm/lib/RefStrings.java");
+		URL github = new URL("https://raw.githubusercontent.com/JameH2/Hbm-s-Nuclear-Tech-GIT/space-travel-twopointfive/src/main/java/com/hbm/lib/RefStrings.java");
 		BufferedReader in = new BufferedReader(new InputStreamReader(github.openStream()));
 
 		MainRegistry.logger.info("Searching for new versions...");
