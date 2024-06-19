@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
 import com.hbm.potion.HbmPotion;
 
@@ -146,6 +147,7 @@ public class BlockStepEffect extends Block {
 
 	@Override
 	public int damageDropped(int meta) {
+		if(this == ModBlocks.ore_gneiss_rare) return EnumChunkType.RARE.ordinal();
 		return this == ModBlocks.waste_planks ? 1 : meta;
 	}
 

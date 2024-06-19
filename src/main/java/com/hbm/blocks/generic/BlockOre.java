@@ -174,10 +174,10 @@ public class BlockOre extends Block implements IBlockMultiPass, IBlockMulti {
 
 	@Override
 	public int damageDropped(int meta) {
-		if(this == ModBlocks.ore_rare || this == ModBlocks.ore_gneiss_rare) return EnumChunkType.RARE.ordinal();
+		if(this == ModBlocks.ore_rare) return EnumChunkType.RARE.ordinal();
 		if(this == ModBlocks.ore_lapis) return 4;
 		if(getItemDropped(0, null, 0) != Item.getItemFromBlock(this)) return 0;
-		return rectify(meta) & 7;
+		return rectify(meta);
 	}
 
 	@Override
@@ -212,7 +212,7 @@ public class BlockOre extends Block implements IBlockMultiPass, IBlockMulti {
 	}
 	
 	@Override
-	public int getRenderType(){
+	public int getRenderType() {
 		return IBlockMultiPass.getRenderType();
 	}
 

@@ -8,19 +8,17 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockOutgas extends Block {
-	
+public class BlockOreOutgas extends BlockOre {
+
 	boolean randomTick;
 	int rate;
 	boolean onBreak;
 	boolean onNeighbour;
 	
-
-	public BlockOutgas(Material mat, boolean randomTick, int rate, boolean onBreak) {
+	public BlockOreOutgas(Material mat, boolean randomTick, int rate, boolean onBreak) {
 		super(mat);
 		this.setTickRandomly(randomTick);
 		this.randomTick = randomTick;
@@ -29,7 +27,7 @@ public class BlockOutgas extends Block {
 		this.onNeighbour = false;
 	}
 
-	public BlockOutgas(Material mat, boolean randomTick, int rate, boolean onBreak, boolean onNeighbour) {
+	public BlockOreOutgas(Material mat, boolean randomTick, int rate, boolean onBreak, boolean onNeighbour) {
 		this(mat, randomTick, rate, onBreak);
 		this.onNeighbour = onNeighbour;
 	}
@@ -39,46 +37,15 @@ public class BlockOutgas extends Block {
 	}
 	
 	protected Block getGas() {
-		if(this == ModBlocks.ore_uranium_scorched ||
-				this == ModBlocks.ore_gneiss_uranium || this == ModBlocks.ore_gneiss_uranium_scorched || 
-				this == ModBlocks.ore_nether_uranium || this == ModBlocks.ore_nether_uranium_scorched) {
+		if(this == ModBlocks.ore_uranium) {
 			return ModBlocks.gas_radon;
 		}
 		
-		if(this == ModBlocks.block_corium_cobble)
-			return ModBlocks.gas_radon;
-		
-		if(this == ModBlocks.ancient_scrap)
-			return ModBlocks.gas_radon_tomb;
-		
-		if(this == ModBlocks.ore_coal_oil_burning || this == ModBlocks.ore_nether_coal) {
-			return ModBlocks.gas_monoxide;
-		}
-		
-		if(this == ModBlocks.ore_gneiss_asbestos ||
-				this == ModBlocks.block_asbestos || this == ModBlocks.deco_asbestos ||
-				this == ModBlocks.brick_asbestos || this == ModBlocks.tile_lab ||
-				this == ModBlocks.tile_lab_cracked || this == ModBlocks.tile_lab_broken) {
+		if(this == ModBlocks.ore_asbestos) {
 			return ModBlocks.gas_asbestos;
 		}
 		
 		return Blocks.air;
-	}
-	
-	@Override
-	public int quantityDroppedWithBonus(int fortune, Random rand) {
-		
-		if(fortune > 0 && Item.getItemFromBlock(this) != this.getItemDropped(0, rand, fortune)) {
-			int mult = rand.nextInt(fortune + 2) - 1;
-
-			if(mult < 0) {
-				mult = 0;
-			}
-
-			return this.quantityDropped(rand) * (mult + 1);
-		} else {
-			return this.quantityDropped(rand);
-		}
 	}
 
 	@Override
@@ -130,22 +97,5 @@ public class BlockOutgas extends Block {
 			}
 		}
 	}
-
-	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int i) {
-		super.breakBlock(world, x, y, z, block, i);
-		
-		if(this == ModBlocks.ancient_scrap) {
-			for(int ix = -2; ix <= 2; ix++) {
-				for(int iy = -2; iy <= 2; iy++) {
-					for(int iz = -2; iz <= 2; iz++) {
-						
-						if(Math.abs(ix + iy + iz) < 5 && Math.abs(ix + iy + iz) > 0 && world.getBlock(x + ix, y + iy, z + iz) == Blocks.air) {
-							world.setBlock(x + ix, y + iy, z + iz, this.getGas());
-						}
-					}
-				}
-			}
-		}
-	}
+	
 }
