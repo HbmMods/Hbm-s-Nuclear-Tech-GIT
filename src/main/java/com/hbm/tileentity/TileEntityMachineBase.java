@@ -1,6 +1,10 @@
 package com.hbm.tileentity;
 
+import java.util.List;
+
+import com.hbm.dim.CelestialBody;
 import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.handler.atmosphere.AtmosphereBlob;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.packet.AuxGaugePacket;
@@ -241,12 +245,23 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		}
 	}
 
-	// TODO: Consume air from the environment, increasing your oxygen production needs
-	// TODO: Consume air from connected tanks if available
-	
-	public boolean canBreatheAir() {
-		CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(worldObj, xCoord, yCoord, zCoord);
-		if(atmosphere == null) return false;
-		return atmosphere.hasFluid(Fluids.AIR, 0.19) || atmosphere.hasFluid(Fluids.OXYGEN, 0.09);
+	// TODO: Consume air from connected tanks if available	
+	public boolean breatheAir(int amount) {
+		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
+		if(atmosphere != null) {
+			if(atmosphere.hasFluid(Fluids.AIR, 0.19) || atmosphere.hasFluid(Fluids.OXYGEN, 0.09)) {
+				return true;
+			}
+		}
+
+		List<AtmosphereBlob> blobs = ChunkAtmosphereManager.proxy.getBlobs(worldObj, xCoord, yCoord, zCoord);
+		for(AtmosphereBlob blob : blobs) {
+			if(blob.hasFluid(Fluids.AIR, 0.19) || blob.hasFluid(Fluids.OXYGEN, 0.09)) {
+				blob.consume(amount);
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

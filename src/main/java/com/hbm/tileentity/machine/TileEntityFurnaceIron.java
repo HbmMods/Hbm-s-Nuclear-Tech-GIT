@@ -62,8 +62,6 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 		
 		if(!worldObj.isRemote) {
 
-			boolean canOperate = canBreatheAir();
-			
 			UpgradeManager.eval(slots, 4, 4);
 			this.processingTime = baseTime - ((baseTime / 2) * Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) / 3);
 			
@@ -90,7 +88,7 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 				} 
 			}
 			
-			if(canOperate && canSmelt()) {
+			if(canSmelt() && breatheAir(worldObj.getTotalWorldTime() % 5 == 0 ? 1 : 0)) {
 				wasOn = true;
 				this.progress++;
 				this.burnTime--;

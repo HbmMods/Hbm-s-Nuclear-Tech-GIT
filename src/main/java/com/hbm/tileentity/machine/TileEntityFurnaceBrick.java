@@ -66,8 +66,8 @@ public class TileEntityFurnaceBrick extends TileEntityMachineBase implements IGU
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			boolean canOperate = canBreatheAir();
 			boolean wasBurning = this.burnTime > 0;
+			boolean canOperate = breatheAir(wasBurning && worldObj.getTotalWorldTime() % 5 == 0 ? 1 : 0);
 			boolean markDirty = false;
 	
 			if(this.burnTime > 0) {

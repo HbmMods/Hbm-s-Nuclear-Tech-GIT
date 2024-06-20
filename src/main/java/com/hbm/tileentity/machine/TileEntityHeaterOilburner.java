@@ -66,27 +66,27 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 			}
 			
 			boolean shouldCool = true;
-			boolean canOperate = canBreatheAir();
 			
-			if(canOperate && this.isOn && this.heatEnergy < maxHeatEnergy) {
-				
-				if(tank.getTankType().hasTrait(FT_Flammable.class)) {
-					FT_Flammable type = tank.getTankType().getTrait(FT_Flammable.class);
-					
-					int burnRate = setting;
-					int toBurn = Math.min(burnRate, tank.getFill());
-					
-					tank.setFill(tank.getFill() - toBurn);
-					
-					int heat = (int)(type.getHeatEnergy() / 1000);
-					
-					this.heatEnergy += heat * toBurn;
-
-					if(worldObj.getTotalWorldTime() % 5 == 0 && toBurn > 0) {
-						super.pollute(tank.getTankType(), FluidReleaseType.BURN, toBurn * 5);
+			if(this.isOn && this.heatEnergy < maxHeatEnergy) {
+				if(breatheAir(setting)) {
+					if(tank.getTankType().hasTrait(FT_Flammable.class)) {
+						FT_Flammable type = tank.getTankType().getTrait(FT_Flammable.class);
+						
+						int burnRate = setting;
+						int toBurn = Math.min(burnRate, tank.getFill());
+						
+						tank.setFill(tank.getFill() - toBurn);
+						
+						int heat = (int)(type.getHeatEnergy() / 1000);
+						
+						this.heatEnergy += heat * toBurn;
+	
+						if(worldObj.getTotalWorldTime() % 5 == 0 && toBurn > 0) {
+							super.pollute(tank.getTankType(), FluidReleaseType.BURN, toBurn * 5);
+						}
+						
+						shouldCool = false;
 					}
-					
-					shouldCool = false;
 				}
 			}
 			

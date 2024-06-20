@@ -211,4 +211,10 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		currentBlob = blob;
 	}
 
+	@Override
+	public void consume(int amount) {
+		blobFillAmount -= amount;
+		if(blobFillAmount < 0) blobFillAmount = 0;
+	}
+
 }

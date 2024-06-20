@@ -130,8 +130,6 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			boolean canOperate = canBreatheAir();
-			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 				this.sendSmoke(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
@@ -154,7 +152,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 			// Battery Item
 			power = Library.chargeItemsFromTE(slots, 2, power, powerCap);
 
-			if(canOperate) generate();
+			generate();
 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("power", (int) power);
@@ -196,7 +194,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	public void generate() {
 		
 		if(hasAcceptableFuel()) {
-			if (tank.getFill() > 0) {
+			if (tank.getFill() > 0 && breatheAir(1)) {
 				
 				if(!shutUp) {
 					if (soundCycle == 0) {

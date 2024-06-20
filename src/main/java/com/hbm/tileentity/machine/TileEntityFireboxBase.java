@@ -57,8 +57,8 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			boolean canOperate = canBreatheAir();
-			
+			boolean canOperate = false;
+
 			for(int i = 2; i < 6; i++) {
 				ForgeDirection dir = ForgeDirection.getOrientation(i);
 				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
@@ -71,6 +71,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 			wasOn = false;
 			
 			if(burnTime <= 0) {
+				canOperate = breatheAir(0);
 				
 				for(int i = 0; i < 2; i++) {
 					if(slots[i] != null) {
@@ -103,16 +104,25 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 						}
 					}
 				} 
-			} else if(canOperate) {
-				
+			} else {
 				if(this.heatEnergy < getMaxHeat()) {
-					burnTime--;
-					if(worldObj.getTotalWorldTime() % 20 == 0) this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
+					// firebox consumes 1mB every 5 ticks, heating oven every tick
+					canOperate = breatheAir(worldObj.getTotalWorldTime() % (500 / getBaseHeat()) == 0 ? 1 : 0);
+
+					if(canOperate) {
+						burnTime--;
+						if(worldObj.getTotalWorldTime() % 20 == 0) this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
+					}
+				} else {
+					canOperate = breatheAir(0);
 				}
-				this.wasOn = true;
-				
-				if(worldObj.rand.nextInt(15) == 0 && !this.muffled) {
-					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "fire.fire", 1.0F, 0.5F + worldObj.rand.nextFloat() * 0.5F);
+
+				if(canOperate) {
+					this.wasOn = true;
+					
+					if(worldObj.rand.nextInt(15) == 0 && !this.muffled) {
+						worldObj.playSoundEffect(xCoord, yCoord, zCoord, "fire.fire", 1.0F, 0.5F + worldObj.rand.nextFloat() * 0.5F);
+					}
 				}
 			}
 			

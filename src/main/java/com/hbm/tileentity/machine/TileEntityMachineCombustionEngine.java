@@ -64,8 +64,6 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			boolean canOperate = canBreatheAir();
-
 			this.tank.loadTank(0, 1, slots);
 			if(this.tank.setType(4, slots)) {
 				this.tenth = 0;
@@ -74,29 +72,31 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 			wasOn = false;
 
 			int fill = tank.getFill() * 10 + tenth;
-			if(canOperate && isOn && setting > 0 && slots[2] != null && slots[2].getItem() == ModItems.piston_set && fill > 0 && tank.getTankType().hasTrait(FT_Combustible.class)) {
+			if(isOn && setting > 0 && slots[2] != null && slots[2].getItem() == ModItems.piston_set && fill > 0 && tank.getTankType().hasTrait(FT_Combustible.class)) {
 				EnumPistonType piston = EnumUtil.grabEnumSafely(EnumPistonType.class, slots[2].getItemDamage());
 				FT_Combustible trait = tank.getTankType().getTrait(FT_Combustible.class);
 				
 				double eff = piston.eff[trait.getGrade().ordinal()];
 				
 				if(eff > 0) {
-					int speed = setting * 2;
-					
-					int toBurn = Math.min(fill, speed);
-					this.power += toBurn * (trait.getCombustionEnergy() / 10_000D) * eff;
-					fill -= toBurn;
-
-					if(worldObj.getTotalWorldTime() % 5 == 0 && toBurn > 0) {
-						super.pollute(tank.getTankType(), FluidReleaseType.BURN, toBurn * 0.5F);
+					if(breatheAir(worldObj.getTotalWorldTime() % 5 == 0 ? setting : 0)) {
+						int speed = setting * 2;
+						
+						int toBurn = Math.min(fill, speed);
+						this.power += toBurn * (trait.getCombustionEnergy() / 10_000D) * eff;
+						fill -= toBurn;
+	
+						if(worldObj.getTotalWorldTime() % 5 == 0 && toBurn > 0) {
+							super.pollute(tank.getTankType(), FluidReleaseType.BURN, toBurn * 0.5F);
+						}
+						
+						if(toBurn > 0) {
+							wasOn = true;
+						}
+						
+						tank.setFill(fill / 10);
+						tenth = fill % 10;
 					}
-					
-					if(toBurn > 0) {
-						wasOn = true;
-					}
-					
-					tank.setFill(fill / 10);
-					tenth = fill % 10;
 				}
 			}
 			

@@ -186,7 +186,7 @@ public class TileEntityDiFurnace extends TileEntityMachinePolluting implements I
 			if(extension) this.sendSmoke(xCoord, yCoord + 2, zCoord, ForgeDirection.UP);
 
 			boolean markDirty = false;
-			boolean canOperate = canBreatheAir();
+			boolean canOperate = breatheAir(0); // checks breathable but doesn't consume air
 			
 			if(this.hasItemPower(this.slots[2], canOperate) && this.fuel <= (TileEntityDiFurnace.maxFuel - getItemPower(this.slots[2], canOperate))) {
 				this.fuel += getItemPower(this.slots[2], canOperate);

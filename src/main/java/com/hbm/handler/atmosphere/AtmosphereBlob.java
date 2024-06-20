@@ -14,6 +14,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.ThreeInts;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.AdjacencyGraph;
 
@@ -85,6 +86,19 @@ public class AtmosphereBlob implements Runnable {
 	
 	public int getBlobMaxRadius() {
 		return handler.getMaxBlobRadius();
+	}
+
+	public boolean hasFluid(FluidType fluid) {
+		return hasFluid(fluid, 0.001);
+	}
+
+	public boolean hasFluid(FluidType fluid, double abovePressure) {
+		if(handler.getFluidType() != fluid) return false;
+		return handler.getFluidPressure() >= abovePressure;
+	}
+
+	public void consume(int amount) {
+		handler.consume(amount);
 	}
 	
 	/**

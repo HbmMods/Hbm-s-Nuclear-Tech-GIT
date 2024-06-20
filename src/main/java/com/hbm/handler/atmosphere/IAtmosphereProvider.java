@@ -19,6 +19,8 @@ public interface IAtmosphereProvider {
 	FluidType getFluidType();
 	double getFluidPressure();
 
+	void consume(int amount);
+
 	void onBlobCreated(AtmosphereBlob blob);
 
 }

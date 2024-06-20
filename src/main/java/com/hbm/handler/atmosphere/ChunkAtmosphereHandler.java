@@ -1,5 +1,6 @@
 package com.hbm.handler.atmosphere;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,6 +70,21 @@ public class ChunkAtmosphereHandler {
 		if(atmosphere.fluids.size() == 0) return null;
 
 		return atmosphere;
+	}
+
+	public List<AtmosphereBlob> getBlobs(World world, int x, int y, int z) {
+		List<AtmosphereBlob> inBlobs = new ArrayList<AtmosphereBlob>();
+
+		ThreeInts pos = new ThreeInts(x, y, z);
+		HashMap<IAtmosphereProvider, AtmosphereBlob> blobs = worldBlobs.get(world.provider.dimensionId);
+
+		for(AtmosphereBlob blob : blobs.values()) {
+			if(blob.contains(pos)) {
+				inBlobs.add(blob);
+			}
+		}
+
+		return inBlobs;
 	}
 
 	public boolean hasAtmosphere(World world, int x, int y, int z) {
