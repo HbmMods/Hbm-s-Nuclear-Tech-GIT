@@ -68,7 +68,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	        if (worldObj.getBlock(xCoord, yCoord + 1, zCoord).isAir(worldObj, xCoord, yCoord + 1, zCoord)) {
 	            if (onTicks > 0) onTicks--;
 
-	            if (tank.getFill() > 0) {
+	            if (tank.getFill() >= 10) {
 	                onTicks = 20;
 
 					if(!registered) {
