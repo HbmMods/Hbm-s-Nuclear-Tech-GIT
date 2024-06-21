@@ -4,5 +4,14 @@
   * Intersections now have unique textures for each size
   * Copper boxducts now have a much nicer color gradient
   * Exhaust pipes now have a more rusted appearance
+* Added an alternate recipe for blank upgrades using integrated circuits and polymer instead of analog circuits
+* Update the soyuz and orbital module recipes
+  * Simplified the recipes, fewer microcrafting parts
+  * Both now use low-density elements which are made from aluminium/titanium, fiberglass and hard plastic
+  * Both now make use of more advanced electronics, although in smaller numbers
+* Removed the recipes for the satellite deco blocks, those will be phased out soon. Existing deco blocks can still be crafted back into functional satellites
+* Moved the satellite recipes to the welder, the attachment is now welded onto the common satellite body
+* Simplified the satellite recipes, adjusted cost based on utility (depth scanner, death ray and resonator are more expensive than the mapper/radar)
 
-## Fixed crash caused by PRISM updating unloaded worlds
+## Fixed
+* Crash caused by PRISM updating unloaded worlds

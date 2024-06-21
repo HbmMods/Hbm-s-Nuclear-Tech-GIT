@@ -3532,6 +3532,7 @@ item.part_copper.name=Box of Copper Dust
 item.part_generic.piston_electric.name=Electric Piston
 item.part_generic.piston_hydraulic.name=Hydraulic Piston
 item.part_generic.piston_pneumatic.name=Pneumatic Piston
+item.part_generic.lde.name=Low-Density Element
 item.part_lithium.name=Box of Lithium Dust
 item.part_plutonium.name=Box of Plutonium Dust
 item.particle_aelectron.name=Positron Capsule
