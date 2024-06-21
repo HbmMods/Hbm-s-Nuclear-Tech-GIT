@@ -1185,6 +1185,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.cm_heat, 1, 0), "PCP", "PCP", "PCP", 'P', ModItems.plate_polymer, 'C', CU.ingot());
 
 		addShapelessAuto(new ItemStack(ModItems.missile_soyuz), new ItemStack(ModItems.missile_carrier));
+		addRecipeAuto(new ItemStack(ModItems.nothing, 8, 0), "B B", " B ", "B B", 'B', "dyeBlack");
 	}
 	
 	public static void crumple() {

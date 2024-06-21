@@ -53,7 +53,7 @@ public class ItemModLodestone extends ItemArmorMod {
 				item.motionY += 0.2;
 		}
 
-		List<EntityXPOrb> xpOrbs = entity.worldObj.getEntitiesWithinAABB(EntityXPOrb.class, entity.boundingBox.expand(range * 2, range * 2, range * 2));
+		List<EntityXPOrb> xpOrbs = entity.worldObj.getEntitiesWithinAABB(EntityXPOrb.class, entity.boundingBox.expand(range, range, range));
 		for(EntityXPOrb xpOrb : xpOrbs) {
 
 			Vec3 vec = Vec3.createVectorHelper(entity.posX - xpOrb.posX, entity.posY - xpOrb.posY, entity.posZ - xpOrb.posZ);
