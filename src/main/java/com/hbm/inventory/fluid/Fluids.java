@@ -158,7 +158,7 @@ public class Fluids {
 	public static FluidType OLIVEOIL;
 	public static FluidType FLUORINE; //why not
 	//public static FluidType HYALURONIC; // from mobs, more efficent than engine lubricant.
-	//public static FluidType DUNAAIR; //yields mostly carbon dioxide
+	public static FluidType DUNAAIR; //yields mostly carbon dioxide with a touch of N2
 	public static FluidType TEKTOAIR; // makes methane, and some hydrocarbons too. literally free... //can be distilled for methane, chlorine, aromatics, or can be cracked for chlorine, unsats, and possibly methanol
 	//public static FluidType LAYTHEAIR;
 	public static FluidType JOOLGAS;
@@ -215,7 +215,7 @@ public class Fluids {
 	public static FluidType FULLERENE;
 	public static FluidType MORKITE;
 	public static FluidType MORKINE; //gaseous morkite
-	public static FluidType MSLURRY; //Slurry for minerals
+	public static FluidType MSLURRY; // Morkite slurry, similar to MINSOL
 	public static FluidType PHEROMONE; 
 	public static FluidType PHEROMONE_M; 
 
@@ -485,6 +485,7 @@ public class Fluids {
 		NAPHTHA_DS =			new FluidType("NAPHTHA_DS",			0x63614E, 2, 1, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x5F6D44)).addTraits(LIQUID, VISCOUS, P_FUEL);
 		LIGHTOIL_DS =			new FluidType("LIGHTOIL_DS",		0x63543E, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xB46B52)).addTraits(LIQUID, P_FUEL);
 		STELLAR_FLUX =			new FluidType("STELLAR_FLUX",	0xE300FF, 0, 4, 4, EnumSymbol.ANTIMATTER).addTraits(ANTI, GASEOUS);
+		DUNAAIR =				new FluidType("DUNAAIR",		0xD4704E, 3, 0, 0, EnumSymbol.ASPHYXIANT).addTraits(GASEOUS, new FT_Polluting().release(PollutionType.POISON, POISON_MINOR));
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -701,6 +702,8 @@ public class Fluids {
 		metaOrder.add(SMOKE);
 		metaOrder.add(SMOKE_LEADED);
 		metaOrder.add(SMOKE_POISON);
+
+		metaOrder.add(DUNAAIR);
 		
 		//ANY INTERNAL RENAMING MUST BE REFLECTED HERE - DON'T FORGET TO CHANGE: LANG FILES + TYPE'S STRING ID + NAME OF TANK/GUI TEXTURE FILES!
 		// V

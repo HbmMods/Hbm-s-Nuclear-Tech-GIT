@@ -22,54 +22,60 @@ public class CryoRecipes extends SerializableRecipe {
 
 	@Override
 	public void registerDefaults() {
-		recipes.put(Fluids.AIR, new Quartet(
+		recipes.put(Fluids.AIR, new Quartet<>(
 				new FluidStack(Fluids.NITROGEN, 50),
 				new FluidStack(Fluids.OXYGEN, 15),
 				new FluidStack(Fluids.KRYPTON, 10),
 				new FluidStack(Fluids.CARBONDIOXIDE, 5)
 				));
 		
-		recipes.put(Fluids.TEKTOAIR, new Quartet(
+		recipes.put(Fluids.TEKTOAIR, new Quartet<>(
 				new FluidStack(Fluids.CHLORINE, 45),
 				new FluidStack(Fluids.AROMATICS, 25),
 				new FluidStack(Fluids.METHANE, 15),
 				new FluidStack(Fluids.GAS, 5)
 				));
-		recipes.put(Fluids.JOOLGAS, new Quartet(
+		recipes.put(Fluids.JOOLGAS, new Quartet<>(
 				new FluidStack(Fluids.HELIUM3, 25),
 				new FluidStack(Fluids.HYDROGEN, 25),
 				new FluidStack(Fluids.CHLORINE, 20),
 				new FluidStack(Fluids.FLUORINE, 12)
 				));
-		recipes.put(Fluids.NGAS, new Quartet(
+		recipes.put(Fluids.NGAS, new Quartet<>(
 				new FluidStack(Fluids.METHANE, 35),
 				new FluidStack(Fluids.AMMONIA, 24),
 				new FluidStack(Fluids.UNSATURATEDS, 15),
 				new FluidStack(Fluids.XENON, 14)
 				));
-		recipes.put(Fluids.UGAS, new Quartet(
+		recipes.put(Fluids.UGAS, new Quartet<>(
 				new FluidStack(Fluids.OXYGEN, 35),
 				new FluidStack(Fluids.NITROGEN, 25),
 				new FluidStack(Fluids.METHANOL, 15),
 				new FluidStack(Fluids.AROMATICS, 10)
 				));
-		recipes.put(Fluids.SARNUSGAS, new Quartet(
+		recipes.put(Fluids.SARNUSGAS, new Quartet<>(
 				new FluidStack(Fluids.HYDROGEN, 45),
 				new FluidStack(Fluids.HELIUM3, 25),
 				new FluidStack(Fluids.METHANE, 15),
 				new FluidStack(Fluids.NITROGEN, 5)
 				));
-		recipes.put(Fluids.EVEAIR, new Quartet(
+		recipes.put(Fluids.EVEAIR, new Quartet<>(
 				new FluidStack(Fluids.KMnO4, 30),
 				new FluidStack(Fluids.MERCURY, 25),
 				new FluidStack(Fluids.XENON, 15),
 				new FluidStack(Fluids.AMMONIA, 5)
 				));
-		recipes.put(Fluids.MORKINE, new Quartet(
+		recipes.put(Fluids.MORKINE, new Quartet<>(
 				new FluidStack(Fluids.UNSATURATEDS, 40), //PURE acetylene
 				new FluidStack(Fluids.AROMATICS, 25),
 				new FluidStack(Fluids.METHYLENE, 14),
 				new FluidStack(Fluids.HYDROGEN, 10)
+				));
+		recipes.put(Fluids.DUNAAIR, new Quartet<>(
+				new FluidStack(Fluids.CARBONDIOXIDE, 80),
+				new FluidStack(Fluids.NITROGEN, 10), 
+				new FluidStack(Fluids.ARGON, 8),
+				new FluidStack(Fluids.OXYGEN, 2)
 				));
 		
 	} // this is such a sexy machine might use your code for atmospheric distillator
@@ -78,17 +84,17 @@ public class CryoRecipes extends SerializableRecipe {
 		return recipes.get(type);
 	}
 	
-	public static HashMap<Object, Object[]> getCryoRecipes() {
+	public static HashMap<Object, Object> getCryoRecipes() {
 
-		HashMap<Object, Object[]> map = new HashMap<Object, Object[]>();
+		HashMap<Object, Object> map = new HashMap<Object, Object>();
 		
 		for(Entry<FluidType, Quartet<FluidStack, FluidStack, FluidStack, FluidStack>> recipe : recipes.entrySet()) {
 			map.put(ItemFluidIcon.make(recipe.getKey(), 1000),
 					new ItemStack[] {
-							ItemFluidIcon.make(recipe.getValue().getW().type,	recipe.getValue().getX().fill * 10),
-							ItemFluidIcon.make(recipe.getValue().getX().type,	recipe.getValue().getY().fill * 10),
-							ItemFluidIcon.make(recipe.getValue().getY().type,	recipe.getValue().getZ().fill * 10),
-							ItemFluidIcon.make(recipe.getValue().getZ().type,	recipe.getValue().getW().fill * 10)});
+							ItemFluidIcon.make(recipe.getValue().getW().type,	recipe.getValue().getW().fill * 10),
+							ItemFluidIcon.make(recipe.getValue().getX().type,	recipe.getValue().getX().fill * 10),
+							ItemFluidIcon.make(recipe.getValue().getY().type,	recipe.getValue().getY().fill * 10),
+							ItemFluidIcon.make(recipe.getValue().getZ().type,	recipe.getValue().getZ().fill * 10)});
 
 		}
 		

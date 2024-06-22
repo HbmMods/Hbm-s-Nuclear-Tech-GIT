@@ -93,7 +93,7 @@ public class SolarSystem {
 					.withColor(0.6471f, 0.2824f, 0.1608f)
 					.withBlockTextures(RefStrings.MODID + ":duna_rock", "", "", "")
 					.withProcessingLevel(1)
-					.withTraits(new CBT_Atmosphere(Fluids.CARBONDIOXIDE, 0.1D))
+					.withTraits(new CBT_Atmosphere(Fluids.DUNAAIR, 0.1D))
 					.withSatellites(
 
 						new CelestialBody("ike", SpaceConfig.ikeDimension, Body.IKE)

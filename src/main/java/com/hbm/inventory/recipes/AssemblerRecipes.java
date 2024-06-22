@@ -1192,7 +1192,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(STAINLESS.plate(), 12),
 				new OreDictStack(ANY_PLASTIC.ingot(), 4),
 				new ComparableStack(ModItems.tank_steel, 4),
-				new ComparableStack(ModItems.battery_lithium_cell_6, 1),
+				new ComparableStack(ModBlocks.machine_battery, 1),
 				new ComparableStack(ModItems.coil_copper, 4),
 				}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_radiolysis), new AStack[] {

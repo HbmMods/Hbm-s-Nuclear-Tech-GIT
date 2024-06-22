@@ -65,7 +65,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 			if(entry.fluid == Fluids.EVEAIR) {
 				fluidColor = Vec3.createVectorHelper(53F / 255F * sun, 32F / 255F * sun, 74F / 255F * sun);
-			} else if(entry.fluid == Fluids.CARBONDIOXIDE) {
+			} else if(entry.fluid == Fluids.DUNAAIR || entry.fluid == Fluids.CARBONDIOXIDE) {
 				fluidColor = Vec3.createVectorHelper(212F / 255F * sun, 112F / 255F * sun, 78F / 255F * sun);
 			} else if(entry.fluid == Fluids.AIR || entry.fluid == Fluids.OXYGEN || entry.fluid == Fluids.NITROGEN) {
 				// Default to regular ol' overworld
@@ -114,7 +114,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 			if(entry.fluid == Fluids.EVEAIR) {
 				fluidColor = Vec3.createVectorHelper(53F / 255F * sun, 32F / 255F * sun, 74F / 255F * sun);
-			} else if(entry.fluid == Fluids.CARBONDIOXIDE) {
+			} else if(entry.fluid == Fluids.DUNAAIR || entry.fluid == Fluids.CARBONDIOXIDE) {
 				fluidColor = Vec3.createVectorHelper(212F / 255F * sun, 112F / 255F * sun, 78F / 255F * sun);
 			} else if(entry.fluid == Fluids.AIR || entry.fluid == Fluids.OXYGEN || entry.fluid == Fluids.NITROGEN) {
 				// Default to regular ol' overworld
@@ -163,7 +163,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		// Mars IRL has inverted blue sunsets, which look cool as
 		// So carbon dioxide rich atmospheres will do the same
 		// for now, it's just a swizzle between red and blue
-		if(atmosphere.hasFluid(Fluids.CARBONDIOXIDE)) {
+		if(atmosphere.hasFluid(Fluids.DUNAAIR) || atmosphere.hasFluid(Fluids.CARBONDIOXIDE)) {
 			float tmp = colors[0];
 			colors[0] = colors[2];
 			colors[2] = tmp;
