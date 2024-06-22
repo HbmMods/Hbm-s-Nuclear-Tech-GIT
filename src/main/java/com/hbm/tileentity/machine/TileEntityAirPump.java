@@ -68,14 +68,14 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	        if (worldObj.getBlock(xCoord, yCoord + 1, zCoord).isAir(worldObj, xCoord, yCoord + 1, zCoord)) {
 	            if (onTicks > 0) onTicks--;
 
-	            if (tank.getFill() >= 10) {
+	            if (tank.getFill() >= 20) {
 	                onTicks = 20;
 
 					if(!registered) {
 						ChunkAtmosphereManager.proxy.registerAtmosphere(this);
 						registered = true;
 
-						if(blobFillAmount > 0) {
+						if(blobFillAmount > 1) {
 							recovering = 20;
 						}
 					} else if(recovering > 0) {
@@ -91,7 +91,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 									blobFillAmount = size;
 	
 								// Fill the blob from the tank, 1mB per block
-								int toFill = Math.min(size - blobFillAmount, 10);
+								int toFill = Math.min(size - blobFillAmount, 20);
 								blobFillAmount += toFill;
 	
 								// Fill to the brim, and then trickle randomly afterwards
@@ -107,7 +107,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 						
 						if(currentBlob == null) {
 							// Venting to vacuum
-							tank.setFill(tank.getFill() - 10);
+							tank.setFill(tank.getFill() - 20);
 							blobFillAmount = 0;
 						}
 					}
@@ -142,15 +142,19 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		}
 	}
 
-	@Override public void serialize(ByteBuf buf) {
+	@Override
+	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeInt(onTicks);
+		buf.writeInt(blobFillAmount);
 		tank.serialize(buf);
 	}
 	
-	@Override public void deserialize(ByteBuf buf) {
+	@Override
+	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		onTicks = buf.readInt();
+		blobFillAmount = buf.readInt();
 		tank.deserialize(buf);
 	}
 
@@ -203,7 +207,11 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	public double getFluidPressure() {
 		if(currentBlob == null || currentBlob.getBlobSize() == 0) return 0;
 
-		return ((double)blobFillAmount / (double)currentBlob.getBlobSize()) * 0.1;
+		return ((double)blobFillAmount / (double)currentBlob.getBlobSize()) * 0.2;
+	}
+
+	public boolean hasSeal() {
+		return blobFillAmount > 1;
 	}
 
 	@Override
@@ -214,7 +222,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	@Override
 	public void consume(int amount) {
 		blobFillAmount -= amount;
-		if(blobFillAmount < 0) blobFillAmount = 0;
+		if(blobFillAmount < 1) blobFillAmount = 1;
 	}
 
 }

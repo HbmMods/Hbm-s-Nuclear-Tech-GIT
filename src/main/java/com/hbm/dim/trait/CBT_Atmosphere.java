@@ -40,10 +40,11 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 		return this;
 	}
 
-	@SuppressWarnings("unchecked")
 	public CBT_Atmosphere clone() {
 		CBT_Atmosphere clone = new CBT_Atmosphere();
-		clone.fluids = (ArrayList<FluidEntry>)fluids.clone();
+		for(FluidEntry entry : fluids) {
+			clone.fluids.add(new FluidEntry(entry.fluid, entry.pressure));
+		}
 		return clone;
 	}
 
@@ -104,8 +105,8 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 	// FluidEntries store PARTIAL pressure, to get the total atmospheric pressure, use this method
 	public double getPressure() {
 		double pressure = 0;
-		for(int i = 0; i < fluids.size(); i++) {
-			pressure += fluids.get(i).pressure;
+		for(FluidEntry entry : fluids) {
+			pressure += entry.pressure;
 		}
 
 		return pressure;

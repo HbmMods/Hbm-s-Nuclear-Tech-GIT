@@ -179,6 +179,11 @@ armorMod.type.leggings=Leggings
 armorMod.type.servo=Servos
 armorMod.type.special=Special
 
+atmosphere.name=Atmosphere
+atmosphere.noSeal=ROOM UNSEALED
+atmosphere.noTank=EMPTY TANK
+atmosphere.vacuum=Near Vacuum
+
 battery.mode.buffer=Input/Output Mode
 battery.mode.input=Input Mode
 battery.mode.off=OffW

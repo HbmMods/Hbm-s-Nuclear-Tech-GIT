@@ -2,19 +2,19 @@ package com.hbm.blocks.generic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.hbm.blocks.ILookOverlay;
-import com.hbm.config.GeneralConfig;
-import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
+import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
+import com.hbm.handler.atmosphere.IBlockSealable;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityAirPump;
-import com.hbm.tileentity.machine.TileEntityMachineTeleporter;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -24,7 +24,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class BlockAirPump extends BlockContainer implements ILookOverlay {
+public class BlockAirPump extends BlockContainer implements ILookOverlay, IBlockSealable {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
@@ -60,14 +60,44 @@ public class BlockAirPump extends BlockContainer implements ILookOverlay {
 		
 		if(!(tile instanceof TileEntityAirPump)) return;
 		
-		TileEntityAirPump tele = (TileEntityAirPump) tile;
+		TileEntityAirPump pump = (TileEntityAirPump) tile;
 		
-		List<String> text = new ArrayList();
-		
-		
-		text.add(I18nUtil.resolveKey("hbmfluid." + tele.tank.getTankType().getName().toLowerCase()) + ": " + tele.tank.getFill() + "/" + tele.tank.getMaxFill() + "mB");
+		CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(world, x, y, z);
+
+		List<String> text = new ArrayList<>();
+
+		text.add(I18nUtil.resolveKey("hbmfluid." + pump.tank.getTankType().getName().toLowerCase()) + ": " + pump.tank.getFill() + "/" + pump.tank.getMaxFill() + "mB");
+
+		if(pump.tank.getFill() <= 10) {
+			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! " + I18nUtil.resolveKey("atmosphere.noTank") + " ! ! !");
+		} else if(!pump.hasSeal()) {
+			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! " + I18nUtil.resolveKey("atmosphere.noSeal") + " ! ! !");
+		}
+
+		text.add(I18nUtil.resolveKey("atmosphere.name") + ": ");
+
+		boolean hasPressure = false;
+
+		if(atmosphere != null) {
+			for(FluidEntry entry : atmosphere.fluids) {
+				if(entry.pressure > 0.01) {
+					double pressure = BobMathUtil.roundDecimal(entry.pressure, 3);
+					text.add(EnumChatFormatting.AQUA + " - " + I18nUtil.resolveKey("hbmfluid." + entry.fluid.getName().toLowerCase()) + " - " + pressure + "atm");
+					hasPressure = true;
+				}
+			}
+		}
+
+		if(!hasPressure) {
+			text.add(EnumChatFormatting.AQUA + " - " + I18nUtil.resolveKey("atmosphere.vacuum"));
+		}
 	
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+	}
+
+	@Override
+	public boolean isSealed(World world, int x, int y, int z) {
+		return false;
 	}
 }
 
