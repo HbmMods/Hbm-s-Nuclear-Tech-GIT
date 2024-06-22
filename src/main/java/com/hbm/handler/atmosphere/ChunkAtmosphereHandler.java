@@ -134,6 +134,11 @@ public class ChunkAtmosphereHandler {
         return atmosphere != null && (atmosphere.hasFluid(Fluids.AIR, 0.21F) || atmosphere.hasFluid(Fluids.OXYGEN, 0.09F));
 	}
 
+	// Is the air pressure high enough to support liquids
+	public boolean hasLiquidPressure(CBT_Atmosphere atmosphere) {
+		return atmosphere != null && atmosphere.getPressure() >= 0.2;
+	}
+
 	/**
 	 * Actions to rectify world status based on atmosphere
 	 */
@@ -156,7 +161,7 @@ public class ChunkAtmosphereHandler {
 			// Check for an atmosphere and destroy torches if there is insufficient oxygen
 			canExist = !(atmosphere == null || (!atmosphere.hasFluid(Fluids.OXYGEN, 0.09) && !atmosphere.hasFluid(Fluids.AIR, 0.21)));
 		} else if(requiresPressure) {
-			canExist = !(atmosphere == null || atmosphere.getPressure() < 0.2);
+			canExist = hasLiquidPressure(atmosphere);
 		} else if(requiresCO2) {
 			// TODO: Make plants rely on CO2 once CO2 is more readily available (via natural gas most likely)
 			canExist = !(atmosphere == null || (!atmosphere.hasFluid(Fluids.OXYGEN, 0.01) && !atmosphere.hasFluid(Fluids.AIR, 0.1)));

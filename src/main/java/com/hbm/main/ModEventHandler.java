@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import org.apache.commons.lang3.math.NumberUtils;
@@ -23,6 +22,7 @@ import com.hbm.dim.CelestialBody;
 import com.hbm.dim.WorldGeneratorCelestial;
 import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.WorldTypeTeleport;
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityCreeperNuclear;
@@ -47,10 +47,6 @@ import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
-import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM;
-import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM.RadPerWorld;
-import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM.SubChunk;
-import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -139,7 +135,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -159,6 +155,7 @@ import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
@@ -538,6 +535,20 @@ public class ModEventHandler {
 	@SubscribeEvent
 	public void onBlockPlaced(PlaceEvent event) {
 		ChunkAtmosphereManager.proxy.runEffectsOnBlock(event.world, event.block, event.x, event.y, event.z);
+	}
+
+	@SubscribeEvent
+	public void onBucketUse(FillBucketEvent event) {
+		if(event.world.isRemote) return;
+		if(event.target.typeOfHit != MovingObjectType.BLOCK) return;
+
+		if(event.current != null && event.current.getItem() == Items.water_bucket) {
+			ForgeDirection dir = ForgeDirection.getOrientation(event.target.sideHit);
+			CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(event.world, event.target.blockX + dir.offsetX, event.target.blockY + dir.offsetY, event.target.blockZ + dir.offsetZ);
+			if(!ChunkAtmosphereManager.proxy.hasLiquidPressure(atmosphere)) {
+				event.setCanceled(true);
+			}
+		}
 	}
 	
 	@SubscribeEvent
