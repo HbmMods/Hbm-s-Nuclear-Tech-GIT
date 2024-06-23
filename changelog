@@ -12,6 +12,12 @@
 * Removed the recipes for the satellite deco blocks, those will be phased out soon. Existing deco blocks can still be crafted back into functional satellites
 * Moved the satellite recipes to the welder, the attachment is now welded onto the common satellite body
 * Simplified the satellite recipes, adjusted cost based on utility (depth scanner, death ray and resonator are more expensive than the mapper/radar)
+* CTRL + ALT view now shows the item's internal name and domain
+* Adjusted Mekanism compat
+  * Decreased crafting complexity and time for the digiminer assembler recipe
+  * Replaced recipes for the wind turbine and atomic disassembler
+  * Added a config option for toggling Mekanism compat
 
 ## Fixed
-* Crash caused by PRISM updating unloaded worlds
+* Fixed crash caused by PRISM updating unloaded worlds
+* Hopefully fixed another crash caused by PRISM (reproduction was unreliable and sporadic, not confirmed)

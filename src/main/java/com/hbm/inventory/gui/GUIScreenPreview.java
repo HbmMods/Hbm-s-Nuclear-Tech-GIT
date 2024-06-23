@@ -11,6 +11,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -54,10 +55,16 @@ public class GUIScreenPreview extends GuiScreen {
 		this.drawTexturedModalRect(res.getScaledWidth_double() / 2D / zoom - 9D, res.getScaledHeight_double() / 2D / zoom - 9D, 5, 87, 18, 18);
 		GL11.glPopMatrix();
 
+		String nameString = Item.itemRegistry.getNameForObject(preview.getItem()) + ", " + preview.getItemDamage();
 		String zoomString = "Zoom: " + zoom;
 		String scaleString = "Windows Scale: " + res.getScaleFactor();
-		this.fontRendererObj.drawString(zoomString, this.width - this.fontRendererObj.getStringWidth(zoomString) - 2, this.height - 20, 0xff0000);
-		this.fontRendererObj.drawString(scaleString, this.width - this.fontRendererObj.getStringWidth(scaleString) - 2, this.height - 10, 0xff0000);
+
+		GL11.glPushMatrix();
+		GL11.glScaled(0.5, 0.5, 1);
+		this.fontRendererObj.drawString(zoomString, this.width * 2 - this.fontRendererObj.getStringWidth(zoomString) - 2, this.height * 2 - 35, 0xff0000);
+		this.fontRendererObj.drawString(scaleString, this.width * 2 - this.fontRendererObj.getStringWidth(scaleString) - 2, this.height * 2 - 25, 0xff0000);
+		this.fontRendererObj.drawString(nameString, this.width * 2 - this.fontRendererObj.getStringWidth(nameString) - 2, this.height * 2 - 15, 0xff0000);
+		GL11.glPopMatrix();
 	}
 
 	public void drawTexturedModalRect(double x, double y, int sourceX, int sourceY, int sizeX, int sizeY) {

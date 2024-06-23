@@ -577,12 +577,10 @@ public class ModEventHandlerClient {
 		}
 		
 		if(player.getCurrentArmor(2) == null && !player.isPotionActive(Potion.invisibility)) {
-			if(player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) || player.getDisplayName().equals("HbMinecraft"))
-				RenderAccessoryUtility.renderWings(event, 2);
-			if(player.getUniqueID().toString().equals(ShadyUtil.the_NCR) || player.getDisplayName().equals("the_NCR"))
-				RenderAccessoryUtility.renderWings(event, 3);
-			if(player.getUniqueID().toString().equals(ShadyUtil.Barnaby99_x) || player.getDisplayName().equals("pheo7"))
-				RenderAccessoryUtility.renderAxePack(event);
+			if(player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) ||		player.getDisplayName().equals("HbMinecraft"))		RenderAccessoryUtility.renderWings(event, 2);
+			if(player.getUniqueID().toString().equals(ShadyUtil.the_NCR) ||			player.getDisplayName().equals("the_NCR"))			RenderAccessoryUtility.renderWings(event, 3);
+			if(player.getUniqueID().toString().equals(ShadyUtil.Barnaby99_x) ||		player.getDisplayName().equals("pheo7"))			RenderAccessoryUtility.renderAxePack(event);
+			if(player.getUniqueID().toString().equals(ShadyUtil.LePeeperSauvage) ||	player.getDisplayName().equals("LePeeperSauvage"))	RenderAccessoryUtility.renderFaggot(event);
 		}
 	}
 
