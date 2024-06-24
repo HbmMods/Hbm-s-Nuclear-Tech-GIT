@@ -17,6 +17,7 @@
   * Decreased crafting complexity and time for the digiminer assembler recipe
   * Replaced recipes for the wind turbine and atomic disassembler
   * Added a config option for toggling Mekanism compat
+* Added recipe caching to the combinator funnel, meaning it no longer has to iterate over the entire recipe list all the time for compression/automation, this should improve performance by a fair bit
 
 ## Fixed
 * Fixed crash caused by PRISM updating unloaded worlds

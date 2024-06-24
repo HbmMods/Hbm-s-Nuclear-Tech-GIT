@@ -1,6 +1,9 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
+
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerFunnel;
 import com.hbm.inventory.gui.GUIFunnel;
 import com.hbm.tileentity.IGUIProvider;
@@ -96,24 +99,37 @@ public class TileEntityMachineFunnel extends TileEntityMachineBase implements IG
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if(slot > 8) return false;
+		if(slots[slot] != null) return true; //if the slot is already occupied, return true because then the same type merging skips the validity check
 		return this.getFrom9(stack) != null || this.getFrom4(stack) != null;
 	}
 	
 	protected InventoryCraftingAuto craftingInventory = new InventoryCraftingAuto(3, 3);
+
+	//hashmap lookups are way faster than iterating over the entire ass crafting list all the fucking time
+	public static final HashMap<ComparableStack, ItemStack> from4Cache = new HashMap();
+	public static final HashMap<ComparableStack, ItemStack> from9Cache = new HashMap();
 	
 	public ItemStack getFrom4(ItemStack ingredient) {
+		ComparableStack singular = new ComparableStack(ingredient).makeSingular();
+		if(from4Cache.containsKey(singular)) return from4Cache.get(singular);
 		this.craftingInventory.clear();
 		this.craftingInventory.setInventorySlotContents(0, ingredient.copy());
 		this.craftingInventory.setInventorySlotContents(1, ingredient.copy());
 		this.craftingInventory.setInventorySlotContents(3, ingredient.copy());
 		this.craftingInventory.setInventorySlotContents(4, ingredient.copy());
-		return getMatch(this.craftingInventory);
+		ItemStack match = getMatch(this.craftingInventory);
+		from4Cache.put(singular, match != null ? match.copy() : null);
+		return match;
 	}
 	
 	public ItemStack getFrom9(ItemStack ingredient) {
+		ComparableStack singular = new ComparableStack(ingredient).makeSingular();
+		if(from9Cache.containsKey(singular)) return from9Cache.get(singular);
 		this.craftingInventory.clear();
 		for(int i = 0; i < 9; i++) this.craftingInventory.setInventorySlotContents(i, ingredient.copy());
-		return getMatch(this.craftingInventory);
+		ItemStack match = getMatch(this.craftingInventory);
+		from9Cache.put(singular, match != null ? match.copy() : null);
+		return match;
 	}
 	
 	public ItemStack getMatch(InventoryCrafting grid) {
