@@ -1173,12 +1173,23 @@ public class CraftingManager {
 	
 	public static void crumple() {
 		
-		if(Loader.isModLoaded("Mekanism")) {
+		List<ItemStack> targets = new ArrayList();
+		
+		if(GeneralConfig.enableMekanismChanges) {
+			
+			if(Loader.isModLoaded("Mekanism")) {
+				Block mb = (Block) Block.blockRegistry.getObject("Mekanism:MachineBlock");
+				Item disassembler = (Item) Item.itemRegistry.getObject("Mekanism:AtomicDisassembler");
+				targets.add(new ItemStack(mb, 1, 4)); // digiminer
+				targets.add(new ItemStack(disassembler)); // atomic disassembler
+			}
+			
+			if(Loader.isModLoaded("MekanismGenerators")) {
+				Block mb = (Block) Block.blockRegistry.getObject("MekanismGenerators:Generator");
+				targets.add(new ItemStack(mb, 1, 6)); // wind turbine
+			}
 			
 			List<IRecipe> toDestroy = new ArrayList();
-			
-			Block mb = (Block) Block.blockRegistry.getObject("Mekanism:MachineBlock");
-			ItemStack digiminer = new ItemStack(mb, 1, 4);
 			
 			for(Object o : net.minecraft.item.crafting.CraftingManager.getInstance().getRecipeList()) {
 				
@@ -1186,14 +1197,26 @@ public class CraftingManager {
 					IRecipe rec = (IRecipe)o;
 					ItemStack stack = rec.getRecipeOutput();
 					
-					if(stack != null && stack.getItem() == digiminer.getItem() && stack.getItemDamage() == digiminer.getItemDamage()) {
-						toDestroy.add(rec);
+					for(ItemStack target : targets) {
+						if(stack != null && stack.getItem() == target.getItem() && stack.getItemDamage() == target.getItemDamage()) toDestroy.add(rec);
 					}
 				}
 			}
 			
 			if(toDestroy.size() > 0) {
 				net.minecraft.item.crafting.CraftingManager.getInstance().getRecipeList().removeAll(toDestroy);
+			}
+
+			if(Loader.isModLoaded("Mekanism")) {
+				Item disassembler = (Item) Item.itemRegistry.getObject("Mekanism:AtomicDisassembler");
+				
+				if(disassembler != null) addRecipeAuto(new ItemStack(disassembler, 1), "GAG", "EIE", " I ", 'G', GOLD.plateCast(), 'A', "alloyUltimate", 'E', "battery", 'I', "ingotRefinedObsidian");
+			}
+			
+			if(Loader.isModLoaded("MekanismGenerators")) {
+				Block generator = (Block) Block.blockRegistry.getObject("MekanismGenerators:Generator");
+				
+				if(generator != null) addRecipeAuto(new ItemStack(generator, 1, 6), " T ", "TAT", "BCB", 'T', TI.plateCast(), 'A', "alloyAdvanced", 'B', "battery", 'C', ANY_PLASTIC.ingot());
 			}
 		}
 	}

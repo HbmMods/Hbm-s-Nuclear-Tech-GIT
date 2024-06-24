@@ -35,9 +35,9 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 	@Untested
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-		
-		if(recursionBrake)
-			return 0;
+
+		if(this.tileEntityInvalid) return 0;
+		if(recursionBrake) return 0;
 		
 		if(simulate)
 			return maxReceive;

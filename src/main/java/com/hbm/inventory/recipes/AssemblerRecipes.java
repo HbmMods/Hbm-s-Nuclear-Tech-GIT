@@ -1269,26 +1269,21 @@ public class AssemblerRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModBlocks.silo_hatch, 1), new AStack[]{new OreDictStack(STEEL.plateWelded(), 4), new ComparableStack(ModItems.plate_polymer, 4), new ComparableStack(ModItems.motor, 2), new OreDictStack(STEEL.bolt(), 16), new OreDictStack(KEY_GREEN, 4)}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.silo_hatch_large, 1), new AStack[]{new OreDictStack(STEEL.plateWelded(), 6), new ComparableStack(ModItems.plate_polymer, 8), new ComparableStack(ModItems.motor, 2), new OreDictStack(STEEL.bolt(), 16), new OreDictStack(KEY_GREEN, 8)}, 200);
 		
-		if(Loader.isModLoaded("Mekanism")) {
+		if(GeneralConfig.enableMekanismChanges && Loader.isModLoaded("Mekanism")) {
 			
 			Block mb = (Block) Block.blockRegistry.getObject("Mekanism:MachineBlock");
 			
 			if(mb != null) {
 	
 				makeRecipe(new ComparableStack(mb, 1, 4), new AStack[] {
-						new OreDictStack(DURA.ingot(), 16),
-						new OreDictStack(DESH.ingot(), 16),
-						new OreDictStack(STEEL.plateWelded(), 32),
-						new OreDictStack(CU.plateWelded(), 24),
-						new ComparableStack(ModItems.pipes_steel, 8),
+						new OreDictStack(BIGMT.plateCast(), 16),
+						new OreDictStack(CU.plateWelded(), 12),
+						new OreDictStack("alloyUltimate", 32),
 						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.BISMOID),
-						new ComparableStack(ModItems.wire_dense, 32, Mats.MAT_ALLOY.id),
-						new ComparableStack(ModBlocks.fusion_conductor, 12),
-						new ComparableStack(ModBlocks.capacitor_tantalium, 53),
-						new ComparableStack(ModItems.crystal_redstone, 16),
-						new ComparableStack(ModItems.crystal_diamond, 8),
-						new ComparableStack(ModItems.motor_bismuth, 4)
-					}, 15 * 60 * 20);
+						new ComparableStack(ModItems.circuit, 32, EnumCircuitType.CAPACITOR_BOARD),
+						new ComparableStack(ModItems.wire_dense, 32, Mats.MAT_GOLD.id),
+						new ComparableStack(ModItems.motor_bismuth, 3)
+					}, 1200);
 			}
 		}
 		

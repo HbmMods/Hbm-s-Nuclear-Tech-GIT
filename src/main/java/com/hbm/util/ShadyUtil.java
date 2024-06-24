@@ -53,6 +53,7 @@ public class ShadyUtil {
 	public static String Adam29Adam29 = "bbae7bfa-0eba-40ac-a0dd-f3b715e73e61";
 	public static String Alcater = "0b399a4a-8545-45a1-be3d-ece70d7d48e9";
 	public static String ege444 = "42ee978c-442a-4cd8-95b6-29e469b6df10";
+	public static String LePeeperSauvage = "433c2bb7-018c-4d51-acfe-27f907432b5e";
 	
 	public static final Set<String> hashes = new HashSet();
 	static {
