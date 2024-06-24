@@ -33,13 +33,13 @@ public class WorldGeneratorCelestial implements IWorldGenerator {
         Block blockToReplace = celestialProvider.getStone();
         int meta = CelestialBody.getMeta(world);
 
-        generateNTMOres(world, rand, chunkX * 16, chunkZ * 16, blockToReplace, meta);
-        generateBedrockOres(world, rand, chunkX * 16, chunkZ * 16, blockToReplace);
-
         // Generate vanilla ores too
         if(blockToReplace != Blocks.stone) {
             generateVanillaOres(world, rand, chunkX * 16, chunkZ * 16, blockToReplace, meta);
         }
+
+        generateNTMOres(world, rand, chunkX * 16, chunkZ * 16, blockToReplace, meta);
+        generateBedrockOres(world, rand, chunkX * 16, chunkZ * 16, blockToReplace);
     }
 
     public void generateNTMOres(World world, Random rand, int x, int z, Block planetStone, int meta) {
