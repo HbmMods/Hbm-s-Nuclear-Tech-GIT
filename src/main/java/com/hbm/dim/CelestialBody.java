@@ -10,6 +10,7 @@ import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.render.shader.Shader;
 import com.hbm.util.AstronomyUtil;
 
 import net.minecraft.util.ResourceLocation;
@@ -50,6 +51,9 @@ public class CelestialBody {
 
 	public String stoneTexture = "stone";
 	public SolarSystem.Body type;
+
+	public Shader shader;
+	public float shaderScale = 1; // If the shader renders the item within the quad (not filling it entirely), scale it up from the true size
 
 	public CelestialBody(String name) {
 		this.name = name;
@@ -127,6 +131,16 @@ public class CelestialBody {
 
 	public CelestialBody withTraits(CelestialBodyTrait... traits) {
 		for(CelestialBodyTrait trait : traits) this.traits.put(trait.getClass(), trait);
+		return this;
+	}
+
+	public CelestialBody withShader(ResourceLocation fragmentShader) {
+		return withShader(fragmentShader, 1);
+	}
+	
+	public CelestialBody withShader(ResourceLocation fragmentShader, float scale) {
+		shader = new Shader(fragmentShader);
+		shaderScale = scale;
 		return this;
 	}
 

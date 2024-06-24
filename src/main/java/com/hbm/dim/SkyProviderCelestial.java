@@ -18,8 +18,9 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.dim.SolarSystem.AstroMetric;
 import com.hbm.dim.trait.CBT_Atmosphere;
-import com.hbm.dim.trait.CelestialBodyTrait.CBT_SUNEXPLODED;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.lib.RefStrings;
+import com.hbm.render.shader.Shader;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
 
@@ -33,6 +34,8 @@ public class SkyProviderCelestial extends IRenderHandler {
 	private static final ResourceLocation flareTexture = new ResourceLocation("hbm:textures/misc/space/sunspike.png");
 	private static final ResourceLocation nightTexture = new ResourceLocation("hbm:textures/misc/space/night.png");
 	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/space/star_digamma.png");
+
+	private static final ResourceLocation noise = new ResourceLocation(RefStrings.MODID, "shaders/iChannel1.png");
 
 	public static boolean displayListsInitialized = false;
 	public static int glSkyList;
@@ -98,7 +101,6 @@ public class SkyProviderCelestial extends IRenderHandler {
 		CBT_Atmosphere atmosphere = body.getTrait(CBT_Atmosphere.class);
 
 		boolean hasAtmosphere = atmosphere != null;
-		boolean sundied = body.hasTrait(CBT_SUNEXPLODED.class);
 
 		float pressure = hasAtmosphere ? (float)atmosphere.getPressure() : 0.0F;
 		float visibility = hasAtmosphere ? MathHelper.clamp_float(2.0F - pressure, 0.1F, 1.0F) : 1.0F;
@@ -197,8 +199,33 @@ public class SkyProviderCelestial extends IRenderHandler {
 			double sunSize = SolarSystem.calculateSunSize(body);
 			double coronaSize = sunSize * (3 - MathHelper.clamp_float(pressure, 0.0F, 1.0F));
 
-			// Some blanking to conceal the stars
-			if(!sundied) {
+			if(SolarSystem.kerbol.shader != null) {
+				// BLACK HOLE SUN
+				// WON'T YOU COME
+				// AND WASH AWAY THE RAIN
+
+				Shader shader = SolarSystem.kerbol.shader;
+				double shaderSize = sunSize * SolarSystem.kerbol.shaderScale; 
+
+				shader.use();
+
+				float time = ((float)world.getWorldTime() + partialTicks) / 20.0F;
+				int textureUnit = 0;
+
+				mc.renderEngine.bindTexture(noise);
+		
+				shader.setUniforms(time, textureUnit);
+				
+				tessellator.startDrawingQuads();
+				tessellator.addVertexWithUV(-shaderSize, 100.0D, -shaderSize, 0.0D, 0.0D);
+				tessellator.addVertexWithUV(shaderSize, 100.0D, -shaderSize, 1.0D, 0.0D);
+				tessellator.addVertexWithUV(shaderSize, 100.0D, shaderSize, 1.0D, 1.0D);
+				tessellator.addVertexWithUV(-shaderSize, 100.0D, shaderSize, 0.0D, 1.0D);
+				tessellator.draw();
+		
+				shader.stop();
+			} else {
+				// Some blanking to conceal the stars
 				GL11.glDisable(GL11.GL_TEXTURE_2D);
 				GL11.glColor4f(0.0F, 0.0F, 0.0F, 1.0F);
 	
@@ -208,10 +235,8 @@ public class SkyProviderCelestial extends IRenderHandler {
 				tessellator.addVertex(sunSize, 99.9D, sunSize);
 				tessellator.addVertex(-sunSize, 99.9D, sunSize);
 				tessellator.draw();
-			}
 
-			// Draw the MIGHTY SUN
-			if(!sundied) {
+				// Draw the MIGHTY SUN
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, visibility);
 
@@ -223,10 +248,8 @@ public class SkyProviderCelestial extends IRenderHandler {
 				tessellator.addVertexWithUV(sunSize, 100.0D, sunSize, 1.0D, 1.0D);
 				tessellator.addVertexWithUV(-sunSize, 100.0D, sunSize, 0.0D, 1.0D);
 				tessellator.draw();
-			}
 
-			// Draw a big ol' spiky flare! Less so when there is an atmosphere
-			if(!sundied) {
+				// Draw a big ol' spiky flare! Less so when there is an atmosphere
 				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1 - MathHelper.clamp_float(pressure, 0.0F, 1.0F) * 0.75F);
 
 				mc.renderEngine.bindTexture(flareTexture);

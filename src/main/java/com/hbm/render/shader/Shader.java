@@ -1,42 +1,98 @@
 package com.hbm.render.shader;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+
+import com.hbm.lib.RefStrings;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.IResource;
+import net.minecraft.util.ResourceLocation;
 
 public class Shader {
 
-	private int shader;
-	private List<Uniform> uniforms = new ArrayList<>(2);
+    private int shaderProgram;
+    private int vertexShader;
+    private int fragmentShader;
+    private int timeUniform;
+    private int channel1Uniform;
 
-	public Shader(int shader) {
-		this.shader = shader;
-	}
+    public Shader(ResourceLocation fragment) {
+        this(new ResourceLocation(RefStrings.MODID, "shaders/default.vert"), fragment);
+    }
 
-	public Shader withUniforms(Uniform... uniforms) {
-		for(Uniform u : uniforms) {
-			this.uniforms.add(u);
+    public Shader(ResourceLocation vertex, ResourceLocation fragment) {
+        vertexShader = loadShader(vertex, GL20.GL_VERTEX_SHADER);
+        fragmentShader = loadShader(fragment, GL20.GL_FRAGMENT_SHADER);
+
+        shaderProgram = GL20.glCreateProgram();
+        GL20.glAttachShader(shaderProgram, vertexShader);
+        GL20.glAttachShader(shaderProgram, fragmentShader);
+        GL20.glLinkProgram(shaderProgram);
+
+        if (GL20.glGetProgrami(shaderProgram, GL20.GL_LINK_STATUS) == GL11.GL_FALSE) {
+            throw new RuntimeException("Failed to link shader program: " + GL20.glGetProgramInfoLog(shaderProgram, 1024));
+        }
+
+        timeUniform = GL20.glGetUniformLocation(shaderProgram, "iTime");
+        channel1Uniform = GL20.glGetUniformLocation(shaderProgram, "iChannel1");
+    }
+
+    private int loadShader(ResourceLocation location, int type) {
+        int shader = GL20.glCreateShader(type);
+        GL20.glShaderSource(shader, loadResource(location));
+        GL20.glCompileShader(shader);
+
+        if (GL20.glGetShaderi(shader, GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE) {
+            throw new RuntimeException("Failed to compile shader: " + GL20.glGetShaderInfoLog(shader, 1024));
+        }
+
+        return shader;
+    }
+
+    private String loadResource(ResourceLocation location) {
+		try {
+			IResource res = Minecraft.getMinecraft().getResourceManager().getResource(location);
+			return loadResource(res.getInputStream());
+		} catch(IOException e) {
+			throw new RuntimeException("IO Exception reading model format", e);
 		}
-		return this;
-	}
+    }
 
-	public void use() {
-		
-		if(!ShaderManager.enableShaders)
-			return;
+    private String loadResource(InputStream in) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+            return reader.lines().collect(Collectors.joining("\n"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error reading shader file", e);
+        }
+    }
 
-		GL20.glUseProgram(shader);
-		for(Uniform u : uniforms) {
-			u.apply(shader);
-		}
-	}
+    public void use() {
+        GL20.glUseProgram(shaderProgram);
+    }
 
-	public void release() {
-		GL20.glUseProgram(0);
-	}
+    public void stop() {
+        GL20.glUseProgram(0);
+    }
 
-	public int getShaderId() {
-		return shader;
-	}
+    public void cleanup() {
+        GL20.glDetachShader(shaderProgram, vertexShader);
+        GL20.glDetachShader(shaderProgram, fragmentShader);
+        GL20.glDeleteShader(vertexShader);
+        GL20.glDeleteShader(fragmentShader);
+        GL20.glDeleteProgram(shaderProgram);
+    }
+
+    public void setUniforms(float time, int textureUnit) {
+        GL20.glUniform1f(timeUniform, time);
+        GL20.glUniform1i(channel1Uniform, textureUnit);
+    }
+
 }
