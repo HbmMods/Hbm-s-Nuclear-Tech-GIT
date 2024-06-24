@@ -43,25 +43,15 @@ public class TileEntityDroneDock extends TileEntityRequestNetworkContainer imple
 	public void updateEntity() {
 		super.updateEntity();
 		
-		if(!worldObj.isRemote && this.hasDrone()) {
+		if(!worldObj.isRemote && worldObj.getTotalWorldTime() % 100 == 0 && this.hasDrone()) {
 			
 			// grab all nodes in a 5 chunk radius
 			HashedSet<PathNode> localNodes = this.getAllLocalNodes(worldObj, xCoord, zCoord, 5);
 			List<RequestNode> requests = new ArrayList();
 			List<OfferNode> offers = new ArrayList();
-
-			PathNode prevNode = null;
-			int delay = 0;
+			
 			for(PathNode local : localNodes) {
-				if(local instanceof RequestNode) {
-					if(local != prevNode || delay > 100) {
-						requests.add((RequestNode) local);
-						prevNode = local;
-						delay = 0;
-					}
-					delay++;
-
-				}
+				if(local instanceof RequestNode) requests.add((RequestNode) local);
 				if(local instanceof OfferNode) offers.add((OfferNode) local);
 			}
 			
