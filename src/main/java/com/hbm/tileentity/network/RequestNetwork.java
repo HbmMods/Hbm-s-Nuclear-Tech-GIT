@@ -108,6 +108,7 @@ public class RequestNetwork {
 	/** Node created by requesters, lists requested AStacks */
 	public static class RequestNode extends PathNode {
 		public List<AStack> request;
+		public int droneCount;
 		public RequestNode(BlockPos pos, HashedSet<PathNode> reachableNodes, List<AStack> request) {
 			super(pos, reachableNodes);
 			this.request = request;

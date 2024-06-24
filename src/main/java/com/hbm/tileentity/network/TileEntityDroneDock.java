@@ -43,7 +43,7 @@ public class TileEntityDroneDock extends TileEntityRequestNetworkContainer imple
 	public void updateEntity() {
 		super.updateEntity();
 		
-		if(!worldObj.isRemote && worldObj.getTotalWorldTime() % 100 == 0 && this.hasDrone()) {
+		if(!worldObj.isRemote && worldObj.getTotalWorldTime() % 20 == 0 && this.hasDrone()) {
 			
 			// grab all nodes in a 5 chunk radius
 			HashedSet<PathNode> localNodes = this.getAllLocalNodes(worldObj, xCoord, zCoord, 5);
