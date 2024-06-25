@@ -26,16 +26,14 @@ import com.hbm.saveddata.satellites.Satellite;
 
 public class SkyProviderCelestial extends IRenderHandler {
 	
-	private static final ResourceLocation planetTexture = new ResourceLocation("hbm:textures/misc/space/planet.png");
-	private static final ResourceLocation overlayNew = new ResourceLocation("hbm:textures/misc/space/phase_overlay_new.png");
-	private static final ResourceLocation overlayCrescent = new ResourceLocation("hbm:textures/misc/space/phase_overlay_crescent.png");
-	private static final ResourceLocation overlayHalf = new ResourceLocation("hbm:textures/misc/space/phase_overlay_half.png");
-	private static final ResourceLocation overlayGibbous = new ResourceLocation("hbm:textures/misc/space/phase_overlay_gibbous.png");
-	private static final ResourceLocation flareTexture = new ResourceLocation("hbm:textures/misc/space/sunspike.png");
-	private static final ResourceLocation nightTexture = new ResourceLocation("hbm:textures/misc/space/night.png");
-	private static final ResourceLocation digammaStar = new ResourceLocation("hbm:textures/misc/space/star_digamma.png");
+	private static final ResourceLocation planetTexture = new ResourceLocation(RefStrings.MODID, "textures/misc/space/planet.png");
+	private static final ResourceLocation flareTexture = new ResourceLocation(RefStrings.MODID, "textures/misc/space/sunspike.png");
+	private static final ResourceLocation nightTexture = new ResourceLocation(RefStrings.MODID, "textures/misc/space/night.png");
+	private static final ResourceLocation digammaStar = new ResourceLocation(RefStrings.MODID, "textures/misc/space/star_digamma.png");
 
 	private static final ResourceLocation noise = new ResourceLocation(RefStrings.MODID, "shaders/iChannel1.png");
+
+	private static final Shader planetShader = new Shader(new ResourceLocation(RefStrings.MODID, "shaders/crescent.frag"));
 
 	public static boolean displayListsInitialized = false;
 	public static int glSkyList;
@@ -286,7 +284,6 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 				GL11.glPushMatrix();
 				{
-					
 
 					double size = MathHelper.clamp_double(metric.apparentSize, 0, 24);
 					boolean renderAsPoint = size < minSize;
@@ -320,33 +317,22 @@ public class SkyProviderCelestial extends IRenderHandler {
 					if(!renderAsPoint) {
 						GL11.glEnable(GL11.GL_BLEND);
 						
-						// Draw a texture on top to simulate phase
+						// Draw a shader on top to render celestial phase
 						OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 
-						double phase = Math.abs(metric.phase);
-						double sign = Math.signum(metric.phase);
-
 						GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-						GL11.glRotatef((float)sign * 90.0F - 90.0F, 0.0F, 1.0F, 0.0F);
+
+						planetShader.use();
+						planetShader.setUniforms((float)-metric.phase, 0);
 						
-						if(phase > 0.95F) {
-							mc.renderEngine.bindTexture(overlayNew);
-						} else if(phase > 0.8F) {
-							mc.renderEngine.bindTexture(overlayCrescent);
-						} else if(phase > 0.5F) {
-							mc.renderEngine.bindTexture(overlayHalf);
-						} else {
-							mc.renderEngine.bindTexture(overlayGibbous);
-						}
-						
-						if(phase > 0.3F) {
-							tessellator.startDrawingQuads();
-							tessellator.addVertexWithUV(-size, 100.0D, -size, 0.0D, 0.0D);
-							tessellator.addVertexWithUV(size, 100.0D, -size, 1.0D, 0.0D);
-							tessellator.addVertexWithUV(size, 100.0D, size, 1.0D, 1.0D);
-							tessellator.addVertexWithUV(-size, 100.0D, size, 0.0D, 1.0D);
-							tessellator.draw();
-						}
+						tessellator.startDrawingQuads();
+						tessellator.addVertexWithUV(-size, 100.0D, -size, 0.0D, 0.0D);
+						tessellator.addVertexWithUV(size, 100.0D, -size, 1.0D, 0.0D);
+						tessellator.addVertexWithUV(size, 100.0D, size, 1.0D, 1.0D);
+						tessellator.addVertexWithUV(-size, 100.0D, size, 0.0D, 1.0D);
+						tessellator.draw();
+
+						planetShader.stop();
 
 
 						GL11.glDisable(GL11.GL_TEXTURE_2D);

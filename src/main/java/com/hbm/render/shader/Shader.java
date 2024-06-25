@@ -24,6 +24,8 @@ public class Shader {
     private int timeUniform;
     private int channel1Uniform;
 
+    private int previousProgram;
+
     public Shader(ResourceLocation fragment) {
         this(new ResourceLocation(RefStrings.MODID, "shaders/default.vert"), fragment);
     }
@@ -75,11 +77,12 @@ public class Shader {
     }
 
     public void use() {
+        previousProgram = GL11.glGetInteger(GL20.GL_CURRENT_PROGRAM);
         GL20.glUseProgram(shaderProgram);
     }
 
     public void stop() {
-        GL20.glUseProgram(0);
+        GL20.glUseProgram(previousProgram);
     }
 
     public void cleanup() {
