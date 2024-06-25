@@ -203,9 +203,10 @@ public class SkyProviderCelestial extends IRenderHandler {
 				// BLACK HOLE SUN
 				// WON'T YOU COME
 				// AND WASH AWAY THE RAIN
-
+				
 				Shader shader = SolarSystem.kerbol.shader;
 				double shaderSize = sunSize * SolarSystem.kerbol.shaderScale; 
+				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 				shader.use();
 
@@ -285,6 +286,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 				GL11.glPushMatrix();
 				{
+					
 
 					double size = MathHelper.clamp_double(metric.apparentSize, 0, 24);
 					boolean renderAsPoint = size < minSize;

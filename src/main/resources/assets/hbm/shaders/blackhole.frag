@@ -46,7 +46,7 @@ void main() {
 
 	float eyer = 2.0;
 	float eyea = 0.0;
-	float eyea2 = -0.24 * pi * 2.0;
+	float eyea2 = -0.22 * pi * 2.0;
 
 	vec3 ro = vec3(
 		eyer * cos(eyea) * sin(eyea2),
@@ -88,14 +88,26 @@ void main() {
 
 		float dr = length(bhv.xz);
 		float da = atan(bhv.x, bhv.z);
-		vec2 ra = vec2(dr, da * (0.01 + (dr - bhr) * 0.002) + 2.0 * pi + iTime * 0.02);
+		vec2 ra = vec2(dr, da * (0.01 + (dr - bhr) * 0.002) + 2.0 * pi + iTime * 0.002);
 		ra *= vec2(10.0, 20.0);
 
-		vec3 dcol = mix(c2, c1, pow(length(bhv) - bhr, 2.0)) * max(0.0, texture2D(iChannel1, ra * vec2(0.1, 0.5)).r + 0.05) * (4.0 / ((0.001 + (length(bhv) - bhr) * 50.0)));
+		vec3 dcol = mix(c2, c1, pow(length(bhv) - bhr, 2.0)) * max(0.0, texture2D(iChannel1, ra * vec2(0.1, 0.5)).r + 0.15) * (4.0 / ((0.001 + (length(bhv) - bhr) * 50.0)));
 
-		col += max(vec3(0.0), dcol * step(0.0, -sdTorus((p * vec3(1.0, 50.0, 1.0)) - bh, vec2(0.8, 0.99))) * noncaptured);
-		col += vec3(1.0, 0.9, 0.7) * (1.0 / vec3(dot(bhv, bhv))) * 0.003 * noncaptured;
-	}
+        
+        col += max(vec3(0.0),dcol * step(0.0,-sdTorus( (p * vec3(1.0,50.0,1.0)) - bh, vec2(0.8,0.99))) * noncaptured);
+        
+        //col += dcol * (1.0/dr) * noncaptured * 0.01;
+        
+        // glow
+        col += vec3(1.0,0.9,0.7) * (3.0/vec3(dot(bhv,bhv))) * 0.0008 * noncaptured * clamp(r, 0.8, 0.9);
+        col -= 0.0004;
 
-	gl_FragColor = vec4(col, col.r);
+        if(r < 0.5) {
+            alpha = 1.0;
+        } else {
+            alpha = col.r;
+        }
+    }
+
+	gl_FragColor = vec4(smoothstep(0.1, 0.6, col.r), smoothstep(0.5, 0.9, col.g), smoothstep(0.1, 0.9, col.b),alpha);
 }
