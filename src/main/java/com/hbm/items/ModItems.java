@@ -213,6 +213,7 @@ public class ModItems {
 	public static Item ore_seared;
 	//public static Item ore_radcleaned;
 	public static Item ore_enriched; //final stage
+	public static Item bedrock_ore;
 
 	public static Item billet_uranium;
 	public static Item billet_u233;
@@ -1085,7 +1086,7 @@ public class ModItems {
 	public static Item waste_u233;
 	public static Item waste_u235;
 	public static Item waste_schrabidium;
-	public static Item waste_zfb_mox; //TODO: remind me to smite these useless waste items and condense em like the rbmk waste
+	public static Item waste_zfb_mox;
 	
 	public static Item waste_plate_u233;
 	public static Item waste_plate_u235;
@@ -2720,6 +2721,7 @@ public class ModItems {
 		ore_seared = new ItemBedrockOre().setUnlocalizedName("ore_seared").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_seared");
 		//ore_radcleaned = new ItemBedrockOre().setUnlocalizedName("ore_radcleaned").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_radcleaned");
 		ore_enriched = new ItemBedrockOre().setUnlocalizedName("ore_enriched").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_enriched");
+		bedrock_ore = new ItemBedrockOreNew().setUnlocalizedName("bedrock_ore").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bedrock_ore_base");
 
 		ingot_lanthanium = new ItemCustomLore().setUnlocalizedName("ingot_lanthanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_lanthanium");
 		ingot_actinium = new ItemCustomLore().setUnlocalizedName("ingot_actinium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_actinium");
@@ -5940,6 +5942,7 @@ public class ModItems {
 		//GameRegistry.registerItem(ore_radcleaned, ore_radcleaned.getUnlocalizedName());
 		GameRegistry.registerItem(ore_enriched, ore_enriched.getUnlocalizedName());
 		GameRegistry.registerItem(ore_byproduct, ore_byproduct.getUnlocalizedName());
+		GameRegistry.registerItem(bedrock_ore, bedrock_ore.getUnlocalizedName());
 		
 		//Crystals
 		GameRegistry.registerItem(crystal_coal, crystal_coal.getUnlocalizedName());
