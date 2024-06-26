@@ -673,6 +673,7 @@ chem.SF_SMEAR=Industrial Oil Solidification
 chem.SHELL_CHLORINE=Chlorine Gas Artillery Shell Production
 chem.SHELL_MUSTARD=Mustard Gas Artillery Shell Production
 chem.SHELL_PHOSGENE=Phosgene Artillery Shell Production
+chem.SOIL=Soil Production
 chem.SOLID_FUEL=Solid Rocket Fuel Production
 chem.SOLVENT=Organic Solvent Mixing
 chem.STEAM=Water Boiling

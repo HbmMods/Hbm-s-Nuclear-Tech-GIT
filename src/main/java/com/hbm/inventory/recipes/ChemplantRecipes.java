@@ -488,11 +488,18 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(122, "STRAWICE", 50)
 				.inputFluids(new FluidStack(Fluids.CREAM, 1000)) 
 				.inputItems(
-				new ComparableStack(ModItems.butter, 2),
-				new ComparableStack(Blocks.packed_ice, 1),
-				new ComparableStack(ModItems.strawberry, 4))
+						new ComparableStack(ModItems.butter, 2),
+						new ComparableStack(Blocks.packed_ice, 1),
+						new ComparableStack(ModItems.strawberry, 4))
 				.outputItems(
 						new ItemStack(ModItems.s_cream, 4)));
+
+		recipes.add(new ChemRecipe(1001, "SOIL", 100)
+				.inputFluids(new FluidStack(Fluids.WATER, 4000))
+				.inputItems(
+						new ComparableStack(ModItems.ammonium_nitrate, 1),
+						new ComparableStack(Blocks.gravel, 8))
+				.outputItems(new ItemStack(Blocks.dirt, 8)));
 	}
 
 	public static void registerOtherOil() {

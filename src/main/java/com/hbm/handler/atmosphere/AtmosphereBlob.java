@@ -2,7 +2,6 @@ package com.hbm.handler.atmosphere;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -11,7 +10,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.dim.CelestialBody;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.ThreeInts;
 import com.hbm.inventory.fluid.FluidType;
@@ -19,6 +17,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.util.AdjacencyGraph;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -54,14 +53,19 @@ public class AtmosphereBlob implements Runnable {
         return !isBlockSealed(world, pos);
 	}
 
-    public static boolean isBlockSealed(World world, ThreeInts pos) {
-        if(pos.y < 0 || pos.y > 256) return false;
+	public static boolean isBlockSealed(World world, ThreeInts pos) {
+		return isBlockSealed(world, pos.x, pos.y, pos.z);
+	}
 
-        Block block = world.getBlock(pos.x, pos.y, pos.z);
+    public static boolean isBlockSealed(World world, int x, int y, int z) {
+        if(y < 0 || y > 256) return false;
 
-        if(block.isAir(world, pos.x, pos.y, pos.z)) return false; // Air obviously doesn't seal
+        Block block = world.getBlock(x, y, z);
+
+        if(block.isAir(world, x, y, z)) return false; // Air obviously doesn't seal
+		if(block instanceof BlockFarmland) return false;
         if(block instanceof IBlockSealable) { // Custom semi-sealables, like doors
-            return ((IBlockSealable)block).isSealed(world, pos.x, pos.y, pos.z);
+            return ((IBlockSealable)block).isSealed(world, x, y, z);
         }
         if(block instanceof BlockDummyable) return false; // Machines can't seal, almost all have gaps
 
@@ -69,17 +73,17 @@ public class AtmosphereBlob implements Runnable {
         if(material.isLiquid() || !material.isSolid()) return false; // Liquids need to know what pressurized atmosphere they're in to determine evaporation
 		if(material == Material.leaves) return false; // Leaves never block air
 
-        AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(world, pos.x, pos.y, pos.z);
+        AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(world, x, y, z);
 
         if(bb == null) return false; // No collision, can't seal (like lamps)
 
         // size * 100 to correct rounding errors
-        int minX = (int) ((bb.minX - pos.x) * 100);
-        int minY = (int) ((bb.minY - pos.y) * 100);
-        int minZ = (int) ((bb.minZ - pos.z) * 100);
-        int maxX = (int) ((bb.maxX - pos.x) * 100);
-        int maxY = (int) ((bb.maxY - pos.y) * 100);
-        int maxZ = (int) ((bb.maxZ - pos.z) * 100);
+        int minX = (int) ((bb.minX - x) * 100);
+        int minY = (int) ((bb.minY - y) * 100);
+        int minZ = (int) ((bb.minZ - z) * 100);
+        int maxX = (int) ((bb.maxX - x) * 100);
+        int maxY = (int) ((bb.maxY - y) * 100);
+        int maxZ = (int) ((bb.maxZ - z) * 100);
 
         return minX == 0 && minY == 0 && minZ == 0 && maxX == 100 && maxY == 100 && maxZ == 100;
     }
@@ -290,17 +294,12 @@ public class AtmosphereBlob implements Runnable {
 	 * @param blocks Collection containing affected locations
 	 */
 	protected void runEffectOnWorldBlocks(World world, Collection<ThreeInts> blocks) {
-		CBT_Atmosphere globalAtmosphere = CelestialBody.getTrait(world, CBT_Atmosphere.class);
-
-		List<AtmosphereBlob> nearbyBlobs = ChunkAtmosphereManager.proxy.getBlobsWithinRadius(world, getRootPosition(), getBlobMaxRadius());
+		ThreeInts root = handler.getRootPosition();
+		CBT_Atmosphere newAtmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(world, root.x, root.y, root.z, this);
 
 		for(ThreeInts pos : blocks) {
-			for(AtmosphereBlob blob : nearbyBlobs) {
-				if(blob != this && blob.contains(pos)) continue;
-			}
-
 			final Block block = world.getBlock(pos.x, pos.y, pos.z);
-			ChunkAtmosphereManager.proxy.runEffectsOnBlock(globalAtmosphere, world, block, pos.x, pos.y, pos.z);
+			ChunkAtmosphereManager.proxy.runEffectsOnBlock(newAtmosphere, world, block, pos.x, pos.y, pos.z);
 		}
 	}
 
