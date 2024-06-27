@@ -105,8 +105,8 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 	// FluidEntries store PARTIAL pressure, to get the total atmospheric pressure, use this method
 	public double getPressure() {
 		double pressure = 0;
-		for(FluidEntry entry : fluids) {
-			pressure += entry.pressure;
+		for(int i = 0; i < fluids.size(); i++) {
+			pressure += fluids.get(i).pressure;
 		}
 
 		return pressure;

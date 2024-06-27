@@ -57,8 +57,10 @@ public class ModBlocks {
 
 	public static Block ore_uranium;
 	public static Block ore_uranium_scorched;
+	public static Block ore_plutonium;
 	public static Block ore_titanium;
 	public static Block ore_sulfur;
+	public static Block ore_glowstone;
 	public static Block ore_thorium;
 	public static Block ore_morkite;
 	public static Block ore_niter;
@@ -90,6 +92,7 @@ public class ModBlocks {
 	public static Block ore_iodine;
 	public static Block ore_arsenic;
 	public static Block ore_silicon;
+	public static Block ore_fire;
 
 	public static Block ore_random;
 	public static Block ore_bedrock;
@@ -169,6 +172,8 @@ public class ModBlocks {
 	public static Block ore_asbestos;
 	public static Block ore_coal_oil;
 	public static Block ore_coal_oil_burning;
+	public static Block ore_gas;
+	public static Block ore_gas_empty;
 
 	public static Block ore_tikite;
 
@@ -1336,8 +1341,10 @@ public class ModBlocks {
 
 		ore_uranium = new BlockOreOutgas(Material.rock, true, 5, true).setBlockName("ore_uranium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_uranium");
 		ore_uranium_scorched = new BlockOutgas(Material.rock, true, 5, true).setBlockName("ore_uranium_scorched").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_uranium_scorched");
+		ore_plutonium = new BlockOreOutgas(Material.rock, true, 5, true).setBlockName("ore_plutonium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_plutonium");
 		ore_titanium = new BlockOre(Material.rock).setBlockName("ore_titanium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_titanium");
 		ore_sulfur = new BlockOre(Material.rock).setBlockName("ore_sulfur").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_sulfur");
+		ore_glowstone = new BlockOre(Material.rock).setLightLevel(4F/15F).setBlockName("ore_glowstone").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_glowstone");
 		ore_thorium = new BlockOre(Material.rock).setBlockName("ore_thorium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_thorium");
 		ore_morkite = new BlockOre(Material.rock).setBlockName("ore_morkite").setCreativeTab(MainRegistry.blockTab).setStepSound(ModSoundTypes.mork).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_morkite");
 		ore_niter = new BlockOre(Material.rock).setBlockName("ore_niter").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_niter");
@@ -1362,6 +1369,7 @@ public class ModBlocks {
 		ore_coal_oil = new BlockCoalOil(Material.rock).setBlockName("ore_coal_oil").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":ore_coal_oil");
 		ore_coal_oil_burning = new BlockCoalBurning(Material.rock).setBlockName("ore_coal_oil_burning").setCreativeTab(MainRegistry.blockTab).setLightLevel(10F/15F).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":ore_coal_oil_burning");
 		ore_silicon = new BlockOre(Material.rock).setBlockName("ore_silicon").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_silicon");
+		ore_fire = new BlockOre(Material.rock).setBlockName("ore_fire").setCreativeTab(MainRegistry.blockTab).setHardness(0.4F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_fire");
 
 		cluster_iron = new BlockCluster(Material.rock).setBlockName("cluster_iron").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":cluster_iron");
 		cluster_titanium = new BlockCluster(Material.rock).setBlockName("cluster_titanium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":cluster_titanium");
@@ -1449,6 +1457,8 @@ public class ModBlocks {
 		ore_oil_empty = new BlockOre(Material.rock).setBlockName("ore_oil_empty").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil_empty");
 		ore_oil_sand = new BlockFalling(Material.sand).setBlockName("ore_oil_sand").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSand).setHardness(0.5F).setResistance(1.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil_sand_alt");
 		ore_bedrock_oil = new BlockGeneric(Material.rock).setBlockName("ore_bedrock_oil").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(1_000_000).setBlockTextureName(RefStrings.MODID + ":ore_bedrock_oil");
+		ore_gas = new BlockOre(Material.rock).setBlockName("ore_gas").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_gas");
+		ore_gas_empty = new BlockOre(Material.rock).setBlockName("ore_gas_empty").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil_empty");
 		
 		ore_tikite = new BlockDragonProof(Material.rock).setBlockName("ore_tikite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_tikite_alt");
 
@@ -2566,10 +2576,12 @@ public class ModBlocks {
 		//Ores
 		GameRegistry.registerBlock(ore_uranium, ItemBlockBase.class, ore_uranium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_uranium_scorched, ItemBlockBase.class, ore_uranium_scorched.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_plutonium, ItemBlockBase.class, ore_plutonium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_thorium, ItemBlockBase.class, ore_thorium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_morkite, ItemBlockBase.class, ore_morkite.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_titanium, ItemBlockBase.class, ore_titanium.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_sulfur, ItemBlockBase.class, ore_sulfur.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_glowstone, ItemBlockBase.class, ore_glowstone.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_niter, ItemBlockBase.class, ore_niter.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_copper, ItemBlockBase.class, ore_copper.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_nickel, ItemBlockBase.class, ore_nickel.getUnlocalizedName());
@@ -2582,6 +2594,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_lead, ItemBlockBase.class, ore_lead.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_oil, ItemBlockLore.class, ore_oil.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_oil_empty, ItemBlockBase.class, ore_oil_empty.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_gas, ItemBlockLore.class, ore_gas.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_gas_empty, ItemBlockBase.class, ore_gas_empty.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_oil_sand, ItemBlockBase.class, ore_oil_sand.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_lignite, ItemBlockBase.class, ore_lignite.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_asbestos, ItemBlockBase.class, ore_asbestos.getUnlocalizedName());
@@ -2593,6 +2607,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(ore_iodine, ItemBlockBase.class, ore_iodine.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_arsenic, ItemBlockBase.class, ore_arsenic.getUnlocalizedName());
 		GameRegistry.registerBlock(ore_silicon, ItemBlockBase.class, ore_silicon.getUnlocalizedName());
+		GameRegistry.registerBlock(ore_fire, ItemBlockBase.class, ore_fire.getUnlocalizedName());
 
 		//Rare Minerals
 		GameRegistry.registerBlock(ore_australium, ItemOreBlock.class, ore_australium.getUnlocalizedName());

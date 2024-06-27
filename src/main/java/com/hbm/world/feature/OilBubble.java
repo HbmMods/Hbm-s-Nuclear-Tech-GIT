@@ -1,13 +1,11 @@
 package com.hbm.world.feature;
 
-import com.hbm.blocks.ModBlocks;
-
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
 public class OilBubble {
 
-	public static void spawnOil(World world, int x, int y, int z, int radius) {
+	public static void spawnOil(World world, int x, int y, int z, int radius, Block block, int meta, Block target) {
 		int r = radius;
 		int r2 = r * r;
 		int r22 = r2 / 2;
@@ -22,8 +20,8 @@ public class OilBubble {
 					int Z = zz + z;
 					int ZZ = YY + zz * zz;
 					if (ZZ < r22) {
-						if(world.getBlock(X, Y, Z) == Blocks.stone)
-							world.setBlock(X, Y, Z, ModBlocks.ore_oil);
+						if(world.getBlock(X, Y, Z) == target)
+							world.setBlock(X, Y, Z, block, meta, 2);
 					}
 				}
 			}

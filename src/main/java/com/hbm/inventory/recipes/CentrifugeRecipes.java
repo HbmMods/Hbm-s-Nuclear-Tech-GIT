@@ -492,6 +492,12 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.powder_fire, 2),
 				new ItemStack(ModItems.ingot_phosphorus),
 				new ItemStack(Blocks.netherrack) });
+
+		recipes.put(new ComparableStack(ModBlocks.ore_fire), new ItemStack[] {
+				new ItemStack(Items.blaze_powder, 2),
+				new ItemStack(ModItems.powder_fire, 2),
+				new ItemStack(ModItems.ingot_phosphorus),
+				new ItemStack(Blocks.netherrack) });
 		
 		recipes.put(new OreDictStack(CO.ore()), new ItemStack[] {
 				new ItemStack(ModItems.powder_cobalt, 2),

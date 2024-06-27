@@ -1,6 +1,7 @@
 package com.hbm.dim;
 
 import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.dim.trait.CelestialBodyTrait.CBT_SUNEXPLODED;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.inventory.fluid.Fluids;
@@ -60,7 +61,8 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		float totalPressure = (float)atmosphere.getPressure();
 		Vec3 color = Vec3.createVectorHelper(0, 0, 0);
 
-		for(CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
+		for(int i = 0; i < atmosphere.fluids.size(); i++) {
+			FluidEntry entry = atmosphere.fluids.get(i);
 			Vec3 fluidColor;
 
 			if(entry.fluid == Fluids.EVEAIR) {
@@ -109,7 +111,8 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		float totalPressure = (float)atmosphere.getPressure();
 		Vec3 color = Vec3.createVectorHelper(0, 0, 0);
 
-		for(CBT_Atmosphere.FluidEntry entry : atmosphere.fluids) {
+		for(int i = 0; i < atmosphere.fluids.size(); i++) {
+			FluidEntry entry = atmosphere.fluids.get(i);
 			Vec3 fluidColor;
 
 			if(entry.fluid == Fluids.EVEAIR) {

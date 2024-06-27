@@ -25,6 +25,7 @@ public class ItemSurveyScanner extends Item {
 			int z = (int) Math.floor(player.posZ);
 			
 			boolean hasOil = false;
+			boolean hasGas = false;
 			boolean hasColtan = false;
 			boolean hasDepth = false;
 			boolean hasSchist = false;
@@ -39,6 +40,8 @@ public class ItemSurveyScanner extends Item {
 						
 						if(block == ModBlocks.ore_oil)
 							hasOil = true;
+						else if(block == ModBlocks.ore_gas)
+							hasGas = true;
 						else if(block == ModBlocks.ore_coltan)
 							hasColtan = true;
 						else if(block == ModBlocks.stone_depth)
@@ -59,6 +62,8 @@ public class ItemSurveyScanner extends Item {
 
 			if(hasOil)
 				player.addChatComponentMessage(new ChatComponentText("Found OIL!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.BLACK)));
+			if(hasGas)
+				player.addChatComponentMessage(new ChatComponentText("Found NATURAL GAS!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.WHITE)));
 			if(hasColtan)
 				player.addChatComponentMessage(new ChatComponentText("Found COLTAN!").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)));
 			if(hasDepth)

@@ -46,6 +46,12 @@ public class BlockOre extends Block implements IBlockMultiPass, IBlockMulti {
 		if(this == ModBlocks.ore_sulfur) {
 			return ModItems.sulfur;
 		}
+		if(this == ModBlocks.ore_glowstone) {
+			return Items.glowstone_dust;
+		}
+		if(this == ModBlocks.ore_fire) {
+			return rand != null && rand.nextInt(10) == 0 ? ModItems.ingot_phosphorus : ModItems.powder_fire;
+		}
 		if(this == ModBlocks.ore_rare) {
 			return ModItems.chunk_ore;
 		}
@@ -97,6 +103,9 @@ public class BlockOre extends Block implements IBlockMultiPass, IBlockMulti {
 		}
 		if(this == ModBlocks.ore_sulfur) {
 			return 2 + rand.nextInt(3);
+		}
+		if(this == ModBlocks.ore_glowstone) {
+			return 1 + rand.nextInt(3);
 		}
 		if(this == ModBlocks.ore_cobalt) {
 			return 4 + rand.nextInt(6);
@@ -182,9 +191,15 @@ public class BlockOre extends Block implements IBlockMultiPass, IBlockMulti {
 
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
+		int meta = world.getBlockMetadata(x, y, z);
+
 		if(world.getBlock(x, y - 1, z) == ModBlocks.ore_oil_empty) {
-			world.setBlock(x, y, z, ModBlocks.ore_oil_empty);
-			world.setBlock(x, y - 1, z, ModBlocks.ore_oil);
+			world.setBlock(x, y, z, ModBlocks.ore_oil_empty, meta, 3);
+			world.setBlock(x, y - 1, z, ModBlocks.ore_oil, meta, 3);
+		}
+		if(world.getBlock(x, y - 1, z) == ModBlocks.ore_gas_empty) {
+			world.setBlock(x, y, z, ModBlocks.ore_gas_empty, meta, 3);
+			world.setBlock(x, y - 1, z, ModBlocks.ore_gas, meta, 3);
 		}
 	}
 

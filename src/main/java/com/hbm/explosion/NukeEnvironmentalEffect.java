@@ -82,6 +82,9 @@ public class NukeEnvironmentalEffect {
 		} else if(in == ModBlocks.ore_uranium) {
 			b = ModBlocks.ore_schrabidium;
 			chance = 10;
+		} else if(in == ModBlocks.ore_plutonium) {
+			b = ModBlocks.ore_schrabidium;
+			chance = 10;
 			
 		} else if(in == ModBlocks.ore_nether_uranium) {
 			b = ModBlocks.ore_nether_schrabidium;
