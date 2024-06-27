@@ -37,14 +37,18 @@ public abstract class TileEntityRequestNetwork extends TileEntity {
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				BlockPos pos = getCoord();
+
+				PathNode newNode = createNode(pos);
+				if(this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) newNode.active = false;
 				// push new node
-				push(worldObj, createNode(pos));
+				push(worldObj, newNode);
 				
 				// remove known nodes that no longer exist
 				// since we can assume a sane number of nodes to exist at any given time, we can run this check in full every second
 				Iterator<PathNode> it = knownNodes.iterator();
 				HashedSet<PathNode> localNodes = this.getAllLocalNodes(worldObj, xCoord, zCoord, 2); // this bit may spiral into multiple nested hashtable lookups but it's limited to only a few chunks so it shouldn't be an issue
 				localNodes.remove(pos);
+
 				while(it.hasNext()) {
 					PathNode node = it.next();
 					if(!localNodes.contains(node)) {

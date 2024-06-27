@@ -64,7 +64,7 @@ public class TileEntityDroneDock extends TileEntityRequestNetworkContainer imple
 				
 				// simply pick the first request node that has unfulfilled requests
 				for(RequestNode request : requests) {
-					if(!request.request.isEmpty()) {
+					if(request.active && !request.request.isEmpty()) {
 						firstRequest = request;
 						break;
 					}
@@ -78,7 +78,7 @@ public class TileEntityDroneDock extends TileEntityRequestNetworkContainer imple
 					outer: for(OfferNode offer : offers) {
 						
 						for(ItemStack stack : offer.offer) {
-							if(stack != null && request.matchesRecipe(stack, true)) {
+							if(offer.active && stack != null && request.matchesRecipe(stack, true)) {
 								if(tryEmbark(own, firstRequest, offer, request, localNodes)) break attempt; // if the drone can be pathed and spawned, stop doing more attempts
 								break outer; // if not, simply continue iterating over offer nodes
 							}
