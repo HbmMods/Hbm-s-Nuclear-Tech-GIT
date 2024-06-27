@@ -2,9 +2,13 @@ package com.hbm.dim.moho;
 
 import java.util.Random;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
+import com.hbm.config.WorldConfig;
+import com.hbm.dim.CelestialBody;
 import com.hbm.main.MainRegistry;
+import com.hbm.world.generator.DungeonToolbox;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.world.World;
@@ -18,7 +22,14 @@ public class WorldGeneratorMoho implements IWorldGenerator {
 			generateMoho(world, random, chunkX * 16, chunkZ * 16);
 		}
 	}
+
 	private void generateMoho(World world, Random rand, int i, int j) {
+		int meta = CelestialBody.getMeta(world);
+
+        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherSulfurSpawn, 12, 5, 30, ModBlocks.ore_glowstone, meta, ModBlocks.moho_stone);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPhosphorusSpawn, 6, 8, 64, ModBlocks.ore_fire, meta, ModBlocks.moho_stone);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPlutoniumSpawn, 4, 0, 24, ModBlocks.ore_plutonium, meta, ModBlocks.moho_stone);
+
 		if (SpaceConfig.ikecfreq > 0 && rand.nextInt(SpaceConfig.ikecfreq) == 0) {
 			
 			for (int a = 0; a < 1; a++) {
@@ -36,6 +47,6 @@ public class WorldGeneratorMoho implements IWorldGenerator {
 					MainRegistry.logger.info("[Debug] Successfully spawned crater at " + x + " " + z);
 			}
 		}
-		
 	}
+
 }

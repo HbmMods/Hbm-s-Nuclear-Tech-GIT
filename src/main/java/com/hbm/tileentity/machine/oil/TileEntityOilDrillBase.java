@@ -241,7 +241,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	}
 	
 	public boolean canSuckBlock(Block b) {
-		return b == ModBlocks.ore_oil || b == ModBlocks.ore_oil_empty;
+		return b == ModBlocks.ore_oil || b == ModBlocks.ore_oil_empty || b == ModBlocks.ore_gas || b == ModBlocks.ore_gas_empty;
 	}
 	
 	protected HashSet<Tuple.Triplet<Integer, Integer, Integer>> trace = new HashSet();
@@ -260,12 +260,12 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 		
 		Block b = worldObj.getBlock(x, y, z);
 		
-		if(b == ModBlocks.ore_oil || b == ModBlocks.ore_bedrock_oil) {
+		if(b == ModBlocks.ore_oil || b == ModBlocks.ore_bedrock_oil || b == ModBlocks.ore_gas) {
 			doSuck(x, y, z);
 			return true;
 		}
 		
-		if(b == ModBlocks.ore_oil_empty) {
+		if(b == ModBlocks.ore_oil_empty || b == ModBlocks.ore_gas_empty) {
 			ForgeDirection[] dirs = BobMathUtil.getShuffledDirs();
 			
 			for(ForgeDirection dir : dirs) {
@@ -278,8 +278,9 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	}
 	
 	public void doSuck(int x, int y, int z) {
+		Block b = worldObj.getBlock(x, y, z);
 		
-		if(worldObj.getBlock(x, y, z) == ModBlocks.ore_oil) {
+		if(b == ModBlocks.ore_oil || b == ModBlocks.ore_gas) {
 			onSuck(x, y, z);
 		}
 	}

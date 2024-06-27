@@ -127,7 +127,7 @@ public class SolarSystem {
 							.withRotationalPeriod(52_981)
 							.withTidalLockingTo("jool")
 							.withProcessingLevel(3)
-							.withTraits(new CBT_Atmosphere(Fluids.AIR, 0.6D), CelestialBodyTrait.HAS_WATER),
+							.withTraits(new CBT_Atmosphere(Fluids.AIR, 0.45D).and(Fluids.XENON, 0.15D), CelestialBodyTrait.HAS_WATER),
 
 						new CelestialBody("vall")
 							.withMassRadius(3.109e21F, 300)

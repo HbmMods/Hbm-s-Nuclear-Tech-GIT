@@ -10,6 +10,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.SolarSystem;
 import com.hbm.inventory.container.ContainerMachineOilWell;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GUIMachineOilWell;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.tileentity.IConfigurableMachine;
@@ -37,12 +38,17 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 	protected static int maxPower = 250_000;
 	protected static int consumption = 200;
 	protected static int delay = 25;
-	protected static int oilPerDepsoit = 750;
+	protected static int oilPerDeposit = 750;
+	protected static int oilPerDunaDeposit = 300;
 	protected static int gasPerDepositMin = 50;
 	protected static int gasPerDepositMax = 250;
 	protected static double drainChance = 0.025D;
-	protected static double DunadrainChance = 0.08D; //essentially, duna is supposed to produce weaker oil than the overworld. laythe on the other hand... 
-	protected static int oilPerDunaDepsoit = 250;
+	protected static double drainChanceDuna = 0.05D; //essentially, duna is supposed to produce weaker oil than the overworld.
+
+	// Gas from pure natgas deposits
+	protected static int gasPerDeposit = 750;
+	protected static int petgasPerDepositMin = 10;
+	protected static int petgasPerDepositMax = 50;
 	
 	public float rot = 0;
 	public float prevRot = 0;
@@ -134,30 +140,50 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 	@Override
 	public void onSuck(int x, int y, int z) {
 		int meta = worldObj.getBlockMetadata(x, y, z);
+		Block block = worldObj.getBlock(x, y, z);
 		
-        if(worldObj.getBlock(x, y, z) == ModBlocks.ore_oil) {
-			if(meta == SolarSystem.Body.DUNA.ordinal()) {
-				this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDunaDepsoit);
-				if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
+        if(block == ModBlocks.ore_oil) {
+			if(meta == SolarSystem.Body.LAYTHE.ordinal()) {
+				tanks[0].setTankType(Fluids.OIL_DS);
 			} else {
-				this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDepsoit);
-				if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
-				this.tanks[1].setFill(this.tanks[1].getFill() + (gasPerDepositMin + worldObj.rand.nextInt((gasPerDepositMax - gasPerDepositMin + 1))));
-				if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) this.tanks[1].setFill(tanks[1].getMaxFill());
+				tanks[0].setTankType(Fluids.OIL);
 			}
-        }
+			tanks[1].setTankType(Fluids.GAS);
 
-        if(worldObj.getBlock(x, y, z) == ModBlocks.ore_oil) {
 			if(meta == SolarSystem.Body.DUNA.ordinal()) {
-				if(worldObj.rand.nextDouble() < DunadrainChance) {
+				this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDunaDeposit);
+				if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
+				this.tanks[1].setFill(this.tanks[1].getFill() + (gasPerDepositMin + worldObj.rand.nextInt((gasPerDepositMax - gasPerDepositMin + 1)))); // ditto, lotsa gas
+				if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) this.tanks[1].setFill(tanks[1].getMaxFill());
+				
+				if(worldObj.rand.nextDouble() < drainChanceDuna) {
 					worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty, meta, 3);
 				}
 			} else {
+				this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDeposit);
+				if(this.tanks[0].getFill() > this.tanks[0].getMaxFill()) this.tanks[0].setFill(tanks[0].getMaxFill());
+				this.tanks[1].setFill(this.tanks[1].getFill() + (gasPerDepositMin + worldObj.rand.nextInt((gasPerDepositMax - gasPerDepositMin + 1))));
+				if(this.tanks[1].getFill() > this.tanks[1].getMaxFill()) this.tanks[1].setFill(tanks[1].getMaxFill());
+
 				if(worldObj.rand.nextDouble() < drainChance) {
 					worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty, meta, 3);
 				}
 			}
         }
+
+		if(block == ModBlocks.ore_gas) {
+			tanks[0].setTankType(Fluids.GAS);
+			tanks[1].setTankType(Fluids.PETROLEUM);
+
+			tanks[0].setFill(tanks[0].getFill() + gasPerDeposit);
+			if(tanks[0].getFill() > tanks[0].getMaxFill()) tanks[0].setFill(tanks[0].getMaxFill());
+			tanks[1].setFill(tanks[1].getFill() + (petgasPerDepositMin + worldObj.rand.nextInt((petgasPerDepositMax - petgasPerDepositMin + 1))));
+			if(tanks[1].getFill() > tanks[1].getMaxFill()) tanks[1].setFill(tanks[1].getMaxFill());
+
+			if(worldObj.rand.nextDouble() < drainChance) {
+				worldObj.setBlock(x, y, z, ModBlocks.ore_gas_empty, meta, 3);
+			}
+		}
 	}
         
 
@@ -223,7 +249,7 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 		maxPower = IConfigurableMachine.grab(obj, "I:powerCap", maxPower);
 		consumption = IConfigurableMachine.grab(obj, "I:consumption", consumption);
 		delay = IConfigurableMachine.grab(obj, "I:delay", delay);
-		oilPerDepsoit = IConfigurableMachine.grab(obj, "I:oilPerDeposit", oilPerDepsoit);
+		oilPerDeposit = IConfigurableMachine.grab(obj, "I:oilPerDeposit", oilPerDeposit);
 		gasPerDepositMin = IConfigurableMachine.grab(obj, "I:gasPerDepositMin", gasPerDepositMin);
 		gasPerDepositMax = IConfigurableMachine.grab(obj, "I:gasPerDepositMax", gasPerDepositMax);
 		drainChance = IConfigurableMachine.grab(obj, "D:drainChance", drainChance);
@@ -234,7 +260,7 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 		writer.name("I:powerCap").value(maxPower);
 		writer.name("I:consumption").value(consumption);
 		writer.name("I:delay").value(delay);
-		writer.name("I:oilPerDeposit").value(oilPerDepsoit);
+		writer.name("I:oilPerDeposit").value(oilPerDeposit);
 		writer.name("I:gasPerDepositMin").value(gasPerDepositMin);
 		writer.name("I:gasPerDepositMax").value(gasPerDepositMax);
 		writer.name("D:drainChance").value(drainChance);
@@ -255,15 +281,15 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_pumpjack));
 		if(type == UpgradeType.SPEED) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_DELAY, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(KEY_CONSUMPTION, "+" + (level * 25) + "%"));
 		}
 		if(type == UpgradeType.POWER) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 25) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (level * 10) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_CONSUMPTION, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(KEY_DELAY, "+" + (level * 10) + "%"));
 		}
 		if(type == UpgradeType.AFTERBURN) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_BURN, level * 10, level * 50));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(KEY_BURN, level * 10, level * 50));
 		}
 		if(type == UpgradeType.OVERDRIVE) {
 			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");

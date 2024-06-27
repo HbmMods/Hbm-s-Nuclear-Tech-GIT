@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.crypto.Data;
-
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.dim.SolarSystem;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.UpgradeManager;
@@ -373,7 +372,23 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			
 			if(item.getEntityItem().getItem() == Item.getItemFromBlock(ModBlocks.ore_oil)) {
 				
-				tank.setTankType(Fluids.OIL); //just to be sure
+				if(item.getEntityItem().getItemDamage() == SolarSystem.Body.LAYTHE.ordinal()) {
+					tank.setTankType(Fluids.OIL_DS);
+				} else {
+					tank.setTankType(Fluids.OIL); // now it seems we must be sure
+				}
+				
+				tank.setFill(tank.getFill() + 500);
+				if(tank.getFill() > tank.getMaxFill())
+					tank.setFill(tank.getMaxFill());
+				
+				item.setDead();
+				continue;
+			}
+			
+			if(item.getEntityItem().getItem() == Item.getItemFromBlock(ModBlocks.ore_gas)) {
+				
+				tank.setTankType(Fluids.GAS); // because the tank can change forever more
 				
 				tank.setFill(tank.getFill() + 500);
 				if(tank.getFill() > tank.getMaxFill())

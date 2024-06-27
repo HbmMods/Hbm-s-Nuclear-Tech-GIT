@@ -10,6 +10,7 @@ import com.hbm.dim.duna.WorldGeneratorDuna;
 import com.hbm.dim.duna.WorldProviderDuna;
 import com.hbm.dim.eve.WorldProviderEve;
 import com.hbm.dim.eve.GenLayerEve.WorldGeneratorEve;
+import com.hbm.dim.laythe.WorldGeneratorLaythe;
 import com.hbm.dim.laythe.WorldProviderLaythe;
 import com.hbm.dim.minmus.WorldGeneratorMinmus;
 import com.hbm.dim.minmus.WorldProviderMinmus;
@@ -27,15 +28,16 @@ public class PlanetGen {
     public static void init() {
 
 		// Register our ore providers
-		GameRegistry.registerWorldGenerator(new WorldGeneratorCelestial(), 1);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorCelestial(), 2);
 
-		GameRegistry.registerWorldGenerator(new WorldGeneratorMoon(), 2);
-		GameRegistry.registerWorldGenerator(new WorldGeneratorDuna(), 2);
-		GameRegistry.registerWorldGenerator(new WorldGeneratorIke(), 2);
-		GameRegistry.registerWorldGenerator(new WorldGeneratorEve(), 2);
-		GameRegistry.registerWorldGenerator(new WorldGeneratorDres(), 2);
-		GameRegistry.registerWorldGenerator(new WorldGeneratorMoho(), 2);
-		GameRegistry.registerWorldGenerator(new WorldGeneratorMinmus(), 2);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorMoon(), 1);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorDuna(), 1);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorIke(), 1);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorEve(), 1);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorDres(), 1);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorMoho(), 1);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorMinmus(), 1);
+		GameRegistry.registerWorldGenerator(new WorldGeneratorLaythe(), 1);
 
 		registerDimension(SpaceConfig.moonDimension, WorldProviderMoon.class);
 		registerDimension(SpaceConfig.dunaDimension, WorldProviderDuna.class);
