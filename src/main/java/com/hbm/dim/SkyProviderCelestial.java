@@ -197,7 +197,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 			double sunSize = SolarSystem.calculateSunSize(body);
 			double coronaSize = sunSize * (3 - MathHelper.clamp_float(pressure, 0.0F, 1.0F));
 
-			if(SolarSystem.kerbol.shader != null) {
+			if(SolarSystem.kerbol.shader != null && !SolarSystem.kerbol.skipShader) {
 				// BLACK HOLE SUN
 				// WON'T YOU COME
 				// AND WASH AWAY THE RAIN

@@ -11,6 +11,7 @@ import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.entity.mob.EntityWarBehemoth;
 import com.hbm.lib.Library;
+import com.hbm.lib.RefStrings;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,7 +19,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class ItemWandD extends Item {
@@ -61,21 +64,36 @@ public class ItemWandD extends Item {
 				player.addChatMessage(new ChatComponentText("Set teleport target to: " + target.getBody().getUnlocalizedName()));
 			}
 		} else {
-			// TESTING: View atmospheric data
-			CBT_Atmosphere atmosphere = CelestialBody.getTrait(world, CBT_Atmosphere.class);
-
-			boolean isVacuum = true;
-			if(atmosphere != null) {
-				for(FluidEntry entry : atmosphere.fluids) {
-					// if(entry.pressure > 0.001) {
-						player.addChatMessage(new ChatComponentText("Atmosphere: " + entry.fluid.getUnlocalizedName() + " - " + entry.pressure + "bar"));
-						isVacuum = false;
-					// }
+			if(!player.isSneaking()) {
+				// TESTING: View atmospheric data
+				CBT_Atmosphere atmosphere = CelestialBody.getTrait(world, CBT_Atmosphere.class);
+	
+				boolean isVacuum = true;
+				if(atmosphere != null) {
+					for(FluidEntry entry : atmosphere.fluids) {
+						// if(entry.pressure > 0.001) {
+							player.addChatMessage(new ChatComponentText("Atmosphere: " + entry.fluid.getUnlocalizedName() + " - " + entry.pressure + "bar"));
+							isVacuum = false;
+						// }
+					}
 				}
+	
+				if(isVacuum)
+					player.addChatMessage(new ChatComponentText("Atmosphere: NEAR VACUUM"));
+			} else {
+				// TESTING: END OF TIME
+				SolarSystem.kerbol.skipShader = false;
+	
+				// TESTING: END OF LIFE
+				CelestialBody.degas(world);
+	
+				// GOD
+				// DAMN
+				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "GOD"));
+				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "DAMN"));
+				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "THE"));
+				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "" + EnumChatFormatting.OBFUSCATED + "SUN"));
 			}
-
-			if(isVacuum)
-				player.addChatMessage(new ChatComponentText("Atmosphere: NEAR VACUUM"));
 		}
 
 		return stack;

@@ -16,7 +16,6 @@ import com.hbm.util.AstronomyUtil;
 
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-// import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -35,7 +34,7 @@ public class SolarSystem {
 			.withMassRadius(1.757e28F, 261_600)
 			.withRotationalPeriod(432_000)
 			.withTexture("textures/environment/sun.png")
-			.withShader(new ResourceLocation(RefStrings.MODID, "shaders/blackhole.frag"), 3) 
+			.withShader(new ResourceLocation(RefStrings.MODID, "shaders/blackhole.frag"), 3).disabledTho()
 			.withSatellites(
 
 				new CelestialBody("moho", SpaceConfig.mohoDimension, Body.MOHO)

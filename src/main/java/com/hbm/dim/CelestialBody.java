@@ -54,6 +54,7 @@ public class CelestialBody {
 
 	public Shader shader;
 	public float shaderScale = 1; // If the shader renders the item within the quad (not filling it entirely), scale it up from the true size
+	public boolean skipShader = false;
 
 	public CelestialBody(String name) {
 		this.name = name;
@@ -144,6 +145,12 @@ public class CelestialBody {
 		return this;
 	}
 
+	// it's unfinished, the sun will stay damned until you restart the game
+	public CelestialBody disabledTho() {
+		skipShader = true;
+		return this;
+	}
+
 	// /Chainables
 
 
@@ -202,6 +209,15 @@ public class CelestialBody {
 
 		traitsData.clearTraits();
 		traitsData.markDirty();
+	}
+
+	// he has ceased to be
+	public static void degas(World world) {
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = getTraits(world);
+
+		currentTraits.remove(CBT_Atmosphere.class);
+
+		setTraits(world, currentTraits);
 	}
 
 	public static void consumeGas(World world, FluidType fluid, double amount) {
