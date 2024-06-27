@@ -223,6 +223,8 @@ public class SkyProviderCelestial extends IRenderHandler {
 				tessellator.draw();
 		
 				shader.stop();
+
+				OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
 			} else {
 				// Some blanking to conceal the stars
 				GL11.glDisable(GL11.GL_TEXTURE_2D);
