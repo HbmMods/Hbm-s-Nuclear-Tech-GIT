@@ -51,6 +51,8 @@ import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.ItemModRevive;
 import com.hbm.items.armor.ItemModShackles;
 import com.hbm.items.food.ItemConserve.EnumFoodType;
+import com.hbm.items.special.ItemBedrockOreBase;
+import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.HbmCollection;
@@ -121,6 +123,7 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
@@ -1087,6 +1090,13 @@ public class ModEventHandler {
 				player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
 			}
 		}
+		
+		// OREDBG
+		/*if(!event.player.worldObj.isRemote) {
+			for(BedrockOreType type : BedrockOreType.values()) {
+				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(StatCollector.translateToLocalFormatted("item.bedrock_ore.type." + type.suffix + ".name") + ": " + ((int) (ItemBedrockOreBase.getOreLevel((int) Math.floor(player.posX), (int) Math.floor(player.posZ), type) * 100) / 100D), 777 + type.ordinal()), (EntityPlayerMP) player);
+			}
+		}*/
 		
 		// PRISMDBG
 		/*if(!event.player.worldObj.isRemote) {

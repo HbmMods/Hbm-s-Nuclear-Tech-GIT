@@ -32,6 +32,11 @@ import net.minecraftforge.oredict.OreDictionary;
 public class ItemBedrockOreNew extends Item {
 	
 	public IIcon[] icons = new IIcon[BedrockOreType.values().length * BedrockOreGrade.values().length];
+	
+	public ItemBedrockOreNew() {
+		this.setHasSubtypes(true);
+		this.setMaxDamage(0);
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
