@@ -16,6 +16,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -136,8 +137,18 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getColor(Context context, Arguments args) {
-		return new Object[] {this.color};
+		return new Object[] {this.color.ordinal()};
 	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setColor(Context context, Arguments args) {
+		int colorI = args.checkInteger(0);
+		colorI = MathHelper.clamp_int(colorI, 0, 4);
+		this.color = RBMKColor.values()[colorI];
+		return new Object[] {true};
+	}
+
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {

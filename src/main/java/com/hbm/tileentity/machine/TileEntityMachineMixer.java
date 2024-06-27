@@ -25,6 +25,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -121,7 +122,7 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 			for(int i = 0; i < 3; i++) {
 				tanks[i].writeToNBT(data, i + "");
 			}
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 			
 		} else {
 			
@@ -136,6 +137,30 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 				this.prevRotation -= 360;
 			}
 		}
+	}
+	
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeInt(processTime);
+		buf.writeInt(progress);
+		buf.writeInt(recipeIndex);
+		buf.writeBoolean(wasOn);
+		
+		for(int i = 0; i < tanks.length; i++) tanks[i].serialize(buf);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		processTime = buf.readInt();
+		progress = buf.readInt();
+		recipeIndex = buf.readInt();
+		wasOn = buf.readBoolean();
+		
+		for(int i = 0; i < tanks.length; i++) tanks[i].deserialize(buf);
 	}
 
 	@Override

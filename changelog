@@ -1,9 +1,26 @@
-## Added
-* Asphalt stairs
-  * Stairs, but fast
-
 ## Changed
+* Updated boxducts
+  * All boxducts are now way cleaner, only having bolts on intersections, with straight parts only having very light seams
+  * Intersections now have unique textures for each size
+  * Copper boxducts now have a much nicer color gradient
+  * Exhaust pipes now have a more rusted appearance
+* Added an alternate recipe for blank upgrades using integrated circuits and polymer instead of analog circuits
+* Update the soyuz and orbital module recipes
+  * Simplified the recipes, fewer microcrafting parts
+  * Both now use low-density elements which are made from aluminium/titanium, fiberglass and hard plastic
+  * Both now make use of more advanced electronics, although in smaller numbers
+* Removed the recipes for the satellite deco blocks, those will be phased out soon. Existing deco blocks can still be crafted back into functional satellites
+* Moved the satellite recipes to the welder, the attachment is now welded onto the common satellite body
+* Simplified the satellite recipes, adjusted cost based on utility (depth scanner, death ray and resonator are more expensive than the mapper/radar)
+* CTRL + ALT view now shows the item's internal name and domain
+* Adjusted Mekanism compat
+  * Decreased crafting complexity and time for the digiminer assembler recipe
+  * Replaced recipes for the wind turbine and atomic disassembler
+  * Added a config option for toggling Mekanism compat
+* Added recipe caching to the combinator funnel, meaning it no longer has to iterate over the entire recipe list all the time for compression/automation, this should improve performance by a fair bit
+* Diodes now use silicon nuggets instead of nether quartz
+* Aluminium wire's coloring is now consistent with the ingot
 
 ## Fixed
-* Fixed dupe regarding conveyor grabbers
-* Fixed soldering stations not saving progress or their fluid tanks
+* Fixed crash caused by PRISM updating unloaded worlds
+* Hopefully fixed another crash caused by PRISM (reproduction was unreliable and sporadic, not confirmed)

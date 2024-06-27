@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.hbm.handler.imc.ICompatNHNEI;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.InventoryUtil;
 
@@ -243,9 +244,13 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler implemen
 		
 		if(outputId.equals(getKey())) {
 			
-			for(Entry<Object, Object> recipe : recipes.entrySet()) {
+			outer: for(Entry<Object, Object> recipe : recipes.entrySet()) {
 				ItemStack[][] ins = InventoryUtil.extractObject(recipe.getKey());
 				ItemStack[][] outs = InventoryUtil.extractObject(recipe.getValue());
+				
+				for(ItemStack[] array : ins) for(ItemStack stack : array) if(stack.getItem() == ModItems.item_secret) continue outer;
+				for(ItemStack[] array : outs) for(ItemStack stack : array) if(stack.getItem() == ModItems.item_secret) continue outer;
+				
 				this.arecipes.add(new RecipeSet(ins, outs, recipe.getKey()));
 			}
 			
@@ -257,9 +262,12 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler implemen
 	@Override
 	public void loadCraftingRecipes(ItemStack result) {
 		
-		for(Entry<Object, Object> recipe : recipes.entrySet()) {
+		outer: for(Entry<Object, Object> recipe : recipes.entrySet()) {
 			ItemStack[][] ins = InventoryUtil.extractObject(recipe.getKey());
 			ItemStack[][] outs = InventoryUtil.extractObject(recipe.getValue());
+			
+			for(ItemStack[] array : ins) for(ItemStack stack : array) if(stack.getItem() == ModItems.item_secret) continue outer;
+			for(ItemStack[] array : outs) for(ItemStack stack : array) if(stack.getItem() == ModItems.item_secret) continue outer;
 			
 			match:
 			for(ItemStack[] array : outs) {
@@ -285,9 +293,12 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler implemen
 	@Override
 	public void loadUsageRecipes(ItemStack ingredient) {
 		
-		for(Entry<Object, Object> recipe : recipes.entrySet()) {
+		outer: for(Entry<Object, Object> recipe : recipes.entrySet()) {
 			ItemStack[][] ins = InventoryUtil.extractObject(recipe.getKey());
 			ItemStack[][] outs = InventoryUtil.extractObject(recipe.getValue());
+			
+			for(ItemStack[] array : ins) for(ItemStack stack : array) if(stack.getItem() == ModItems.item_secret) continue outer;
+			for(ItemStack[] array : outs) for(ItemStack stack : array) if(stack.getItem() == ModItems.item_secret) continue outer;
 			
 			match:
 			for(ItemStack[] array : ins) {

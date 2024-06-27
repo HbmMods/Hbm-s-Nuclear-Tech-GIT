@@ -17,6 +17,7 @@ import api.hbm.fluid.IFluidStandardSender;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -121,14 +122,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 				this.burnHeat = 0;
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("maxBurnTime", this.maxBurnTime);
-			data.setInteger("burnTime", this.burnTime);
-			data.setInteger("burnHeat", this.burnHeat);
-			data.setInteger("heatEnergy", this.heatEnergy);
-			data.setInteger("playersUsing", this.playersUsing);
-			data.setBoolean("wasOn", this.wasOn);
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		} else {
 			this.prevDoorAngle = this.doorAngle;
 			float swingSpeed = (doorAngle / 10F) + 3;
@@ -149,6 +143,28 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 				worldObj.spawnParticle("flame", x + worldObj.rand.nextDouble() * 0.5 - 0.25, y + worldObj.rand.nextDouble() * 0.25, z + worldObj.rand.nextDouble() * 0.5 - 0.25, 0, 0, 0);
 			}
 		}
+	}
+	
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(maxBurnTime);
+		buf.writeInt(burnTime);
+		buf.writeInt(burnHeat);
+		buf.writeInt(heatEnergy);
+		buf.writeInt(playersUsing);
+		buf.writeBoolean(wasOn);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		maxBurnTime = buf.readInt();
+		burnTime = buf.readInt();
+		burnHeat = buf.readInt();
+		heatEnergy = buf.readInt();
+		playersUsing = buf.readInt();
+		wasOn = buf.readBoolean();
 	}
 	
 	public static EnumAshType getAshFromFuel(ItemStack stack) {
@@ -180,18 +196,6 @@ public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting i
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		return getModule().getBurnTime(itemStack) > 0;
-	}
-
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.maxBurnTime = nbt.getInteger("maxBurnTime");
-		this.burnTime = nbt.getInteger("burnTime");
-		this.burnHeat = nbt.getInteger("burnHeat");
-		this.heatEnergy = nbt.getInteger("heatEnergy");
-		this.playersUsing = nbt.getInteger("playersUsing");
-		this.wasOn = nbt.getBoolean("wasOn");
 	}
 	
 	@Override

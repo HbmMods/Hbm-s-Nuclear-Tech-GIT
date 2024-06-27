@@ -17,6 +17,7 @@ import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -131,11 +132,9 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 			
 			ItemStack stack = FurnaceRecipes.smelting().getSmeltingResult(slots[0]);
 			
-			if(slots[1] == null)
-				return true;
-			
-			if(!stack.isItemEqual(slots[1]))
-				return false;
+			if(!(slots[0].getItem() instanceof ItemFood) && !(stack.getItem() instanceof ItemFood)) return false;
+			if(slots[1] == null) return true;
+			if(!stack.isItemEqual(slots[1])) return false;
 			
 			return stack.stackSize + slots[1].stackSize <= stack.getMaxStackSize();
 		}

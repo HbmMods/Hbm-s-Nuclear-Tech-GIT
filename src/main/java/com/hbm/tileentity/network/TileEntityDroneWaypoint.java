@@ -5,8 +5,13 @@ import java.util.List;
 import com.hbm.entity.item.EntityDeliveryDrone;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.util.ParticleUtil;
+import com.hbm.packet.BufPacket;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -14,7 +19,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketReceiver, IDroneLinkable {
+public class TileEntityDroneWaypoint extends TileEntity implements IBufPacketReceiver, IDroneLinkable {
 	
 	public int height = 5;
 	public int nextX = -1;
@@ -34,11 +39,8 @@ public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketRec
 					}
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("height", height);
-			data.setIntArray("pos", new int[] {nextX, nextY, nextZ});
-			INBTPacketReceiver.networkPack(this, data, 15);
+
+			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 15));
 		} else {
 			BlockPos pos = getCoord(dir);
 			if(nextY != -1 && worldObj.getTotalWorldTime() % 2 == 0) {
@@ -56,6 +58,22 @@ public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketRec
 	}
 
 	@Override
+	public void serialize(ByteBuf buf) {
+		buf.writeInt(height);
+		buf.writeInt(nextX);
+		buf.writeInt(nextY);
+		buf.writeInt(nextZ);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		height = buf.readInt();
+		nextX = buf.readInt();
+		nextY = buf.readInt();
+		nextZ = buf.readInt();
+	}
+
+	@Override
 	public BlockPos getPoint() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 		return new BlockPos(xCoord, yCoord, zCoord).offset(dir, height);
@@ -67,15 +85,6 @@ public class TileEntityDroneWaypoint extends TileEntity implements INBTPacketRec
 		this.nextY = y;
 		this.nextZ = z;
 		this.markDirty();
-	}
-
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.height = nbt.getInteger("height");
-		int[] pos = nbt.getIntArray("pos");
-		this.nextX = pos[0];
-		this.nextY = pos[1];
-		this.nextZ = pos[2];
 	}
 	
 	public void addHeight(int h) {

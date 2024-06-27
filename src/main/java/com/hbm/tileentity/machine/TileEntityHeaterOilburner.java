@@ -16,6 +16,7 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -94,23 +95,28 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 			if(shouldCool)
 				this.heatEnergy = Math.max(this.heatEnergy - Math.max(this.heatEnergy / 1000, 1), 0);
 			
-			NBTTagCompound data = new NBTTagCompound();
-			tank.writeToNBT(data, "tank");
-			data.setBoolean("isOn", isOn);
-			data.setInteger("h", heatEnergy);
-			data.setByte("s", (byte) this.setting);
-			this.networkPack(data, 25);
+			this.networkPackNT(25);
 		}
 	}
-
+	
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		tank.serialize(buf);
 		
-		tank.readFromNBT(nbt, "tank");
-		isOn = nbt.getBoolean("isOn");
-		heatEnergy = nbt.getInteger("h");
-		setting = nbt.getByte("s");
+		buf.writeBoolean(isOn);
+		buf.writeInt(heatEnergy);
+		buf.writeByte((byte) this.setting);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		tank.deserialize(buf);
+		
+		isOn = buf.readBoolean();
+		heatEnergy = buf.readInt();
+		setting = buf.readByte();
 	}
 	
 	@Override

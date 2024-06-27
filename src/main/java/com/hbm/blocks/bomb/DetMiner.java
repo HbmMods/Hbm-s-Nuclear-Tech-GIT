@@ -10,7 +10,7 @@ import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.interfaces.IBomb;
 
 import api.hbm.block.IFuckingExplode;
-import codechicken.lib.math.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
