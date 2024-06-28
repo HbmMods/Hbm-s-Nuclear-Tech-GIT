@@ -30,36 +30,6 @@ public class ItemOreBlock extends ItemBlock {
 			list.add("Deposit location: X:-400; Z:-400");
 			list.add("Estimated quantity: 490");
 		}
-		
-		if(this.field_150939_a == ModBlocks.ore_weidanium) {
-			list.add("Weidanium ore");
-			list.add("Deposit location: X:0; Z:300");
-			list.add("Estimated quantity: 2800");
-		}
-			
-		if(this.field_150939_a == ModBlocks.ore_reiium) {
-			list.add("Reiium ore");
-			list.add("Deposit location: X:0; Z:0");
-			list.add("Estimated quantity: 2800");
-		}
-			
-		if(this.field_150939_a == ModBlocks.ore_unobtainium) {
-			list.add("Unobtainium ore");
-			list.add("Deposit location: X:200; Z:200");
-			list.add("Estimated quantity: 12480");
-		}
-			
-		if(this.field_150939_a == ModBlocks.ore_daffergon) {
-			list.add("Daffergon ore");
-			list.add("Deposit location: X:400; Z:-200");
-			list.add("Estimated quantity: 14980");
-		}
-			
-		if(this.field_150939_a == ModBlocks.ore_verticium) {
-			list.add("Verticium ore");
-			list.add("Deposit location: X:-300; Z:200");
-			list.add("Estimated quantity: 4680");
-		}
 	}
 
 }

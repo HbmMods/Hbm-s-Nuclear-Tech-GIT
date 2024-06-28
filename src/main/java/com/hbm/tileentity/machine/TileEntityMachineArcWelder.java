@@ -29,6 +29,7 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -135,19 +136,46 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 			
 			this.maxPower = Math.max(intendedMaxPower, power);
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setLong("maxPower", maxPower);
-			data.setLong("consumption", consumption);
-			data.setInteger("progress", progress);
-			data.setInteger("processTime", processTime);
-			if(recipe != null) {
-				data.setInteger("display", Item.getIdFromItem(recipe.output.getItem()));
-				data.setInteger("displayMeta", recipe.output.getItemDamage());
-			}
-			this.tank.writeToNBT(data, "t");
-			this.networkPack(data, 25);
+			this.networkPackNT(25);
 		}
+	}
+	
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeLong(maxPower);
+		buf.writeLong(consumption);
+		buf.writeInt(progress);
+		buf.writeInt(processTime);
+		
+		tank.serialize(buf);
+		
+		ArcWelderRecipe recipe = ArcWelderRecipes.getRecipe(slots[0], slots[1], slots[2]);
+		
+		if(recipe != null) {
+			buf.writeBoolean(true);
+			buf.writeInt(Item.getIdFromItem(recipe.output.getItem()));
+			buf.writeInt(recipe.output.getItemDamage());
+		} else
+			buf.writeBoolean(false);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		maxPower = buf.readLong();
+		consumption = buf.readLong();
+		progress = buf.readInt();
+		processTime = buf.readInt();
+		
+		tank.deserialize(buf);
+		
+		if(buf.readBoolean()) {
+			this.display = new ItemStack(Item.getItemById(buf.readInt()), 1, buf.readInt());
+		} else
+			this.display = null;
 	}
 	
 	public boolean canProcess(ArcWelderRecipe recipe) {
@@ -203,25 +231,6 @@ public class TileEntityMachineArcWelder extends TileEntityMachineBase implements
 				new DirPos(xCoord - rot.offsetX * 2, yCoord, zCoord - rot.offsetZ * 2, rot.getOpposite()),
 				new DirPos(xCoord - dir.offsetX - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ - rot.offsetZ * 2, rot.getOpposite())
 		};
-	}
-
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.maxPower = nbt.getLong("maxPower");
-		this.consumption = nbt.getLong("consumption");
-		this.progress = nbt.getInteger("progress");
-		this.processTime = nbt.getInteger("processTime");
-		
-		if(nbt.hasKey("display")) {
-			this.display = new ItemStack(Item.getItemById(nbt.getInteger("display")), 1, nbt.getInteger("displayMeta"));
-		} else {
-			this.display = null;
-		}
-		
-		this.tank.readFromNBT(nbt, "t");
 	}
 	
 	@Override

@@ -25,6 +25,9 @@ import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemScraps;
+import com.hbm.items.special.ItemBedrockOreNew;
+import com.hbm.items.special.ItemBedrockOreNew.BedrockOreGrade;
+import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -50,6 +53,24 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 
 		recipes.put(new ComparableStack(ModBlocks.sand_quartz), new ArcFurnaceRecipe().solid(new ItemStack(ModBlocks.glass_quartz)));
 		recipes.put(new OreDictStack(BORAX.dust()), new ArcFurnaceRecipe().solid(new ItemStack(ModItems.powder_boron_tiny, 3)).fluid(new MaterialStack(Mats.MAT_BORON, MaterialShapes.NUGGET.q(3))));
+		
+		for(BedrockOreType type : BedrockOreType.values()) {
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_BYPRODUCT, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ARC, type, 2)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ARC, type, 3)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_BYPRODUCT, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ARC, type, 2)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ARC, type, 3)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_BYPRODUCT, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ARC, type, 2)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ARC, type, 3)));
+
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_FIRST, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.primary1, MaterialShapes.INGOT.q(5)), ItemBedrockOreNew.toFluid(type.primary2, MaterialShapes.INGOT.q(2))));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_SECOND, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.primary1, MaterialShapes.INGOT.q(2)), ItemBedrockOreNew.toFluid(type.primary2, MaterialShapes.INGOT.q(5))));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.primary1, MaterialShapes.INGOT.q(1)), ItemBedrockOreNew.toFluid(type.primary2, MaterialShapes.INGOT.q(1))));
+			
+			int i3 = MaterialShapes.INGOT.q(3);
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_WASHED, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.byproductAcid1, i3), ItemBedrockOreNew.toFluid(type.byproductAcid2, i3), ItemBedrockOreNew.toFluid(type.byproductAcid3, i3)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_WASHED, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.byproductSolvent1, i3), ItemBedrockOreNew.toFluid(type.byproductSolvent2, i3), ItemBedrockOreNew.toFluid(type.byproductSolvent3, i3)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_WASHED, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.byproductRad1, i3), ItemBedrockOreNew.toFluid(type.byproductRad2, i3), ItemBedrockOreNew.toFluid(type.byproductRad3, i3)));
+		}
 		
 		// Autogen for simple single type items
 		for(NTMMaterial material : Mats.orderedList) {
@@ -151,7 +172,7 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 	public static HashMap getFluidRecipes() {
 		HashMap<Object, Object> recipes = new HashMap<Object, Object>();
 		for(Entry<AStack, ArcFurnaceRecipe> recipe : ArcFurnaceRecipes.recipes.entrySet()) {
-			if(recipe.getValue().fluidOutput != null) {
+			if(recipe.getValue().fluidOutput != null && recipe.getValue().fluidOutput.length > 0) {
 				Object[] out = new Object[recipe.getValue().fluidOutput.length];
 				for(int i = 0; i < out.length; i++) out[i] = ItemScraps.create(recipe.getValue().fluidOutput[i], true);
 				recipes.put(recipe.getKey().copy(), out);
@@ -241,6 +262,13 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 		
 		public ArcFurnaceRecipe fluid(MaterialStack... outputs) {
 			this.fluidOutput = outputs;
+			return this;
+		}
+		
+		public ArcFurnaceRecipe fluidNull(MaterialStack... outputs) {
+			List<MaterialStack> mat = new ArrayList();
+			for(MaterialStack stack : outputs) if(stack != null) mat.add(stack);
+			if(!mat.isEmpty()) this.fluidOutput = mat.toArray(new MaterialStack[0]);
 			return this;
 		}
 		

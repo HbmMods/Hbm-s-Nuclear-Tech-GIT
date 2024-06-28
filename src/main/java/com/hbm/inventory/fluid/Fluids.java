@@ -175,6 +175,7 @@ public class Fluids {
 	public static FluidType THORIUM_SALT_DEPLETED;
 	public static FluidType FULLERENE;
 	public static FluidType STELLAR_FLUX;
+	public static FluidType VITRIOL;
 	
 	/* Lagacy names for compatibility purposes */
 	@Deprecated public static FluidType ACID;	//JAOPCA uses this, apparently
@@ -375,7 +376,8 @@ public class Fluids {
 		HOTCRACKOIL_DS =		new FluidType("HOTCRACKOIL_DS",		0x3A1A28, 2, 3, 0, EnumSymbol.NONE).setTemp(350).addTraits(LIQUID, VISCOUS, P_OIL);
 		NAPHTHA_DS =			new FluidType("NAPHTHA_DS",			0x63614E, 2, 1, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0x5F6D44)).addTraits(LIQUID, VISCOUS, P_FUEL);
 		LIGHTOIL_DS =			new FluidType("LIGHTOIL_DS",		0x63543E, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xB46B52)).addTraits(LIQUID, P_FUEL);
-		STELLAR_FLUX =			new FluidType(139, "STELLAR_FLUX",	0xE300FF, 0, 4, 4, EnumSymbol.ANTIMATTER).addTraits(ANTI, GASEOUS);
+		STELLAR_FLUX =			new FluidType("STELLAR_FLUX",		0xE300FF, 0, 4, 4, EnumSymbol.ANTIMATTER).addTraits(ANTI, GASEOUS);
+		VITRIOL =				new FluidType(140, "VITRIOL",		0x6E5222, 2, 0, 1, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE
@@ -489,6 +491,7 @@ public class Fluids {
 		metaOrder.add(SALIENT);
 		metaOrder.add(SEEDSLURRY);
 		metaOrder.add(COLLOID);
+		metaOrder.add(VITRIOL);
 		metaOrder.add(IONGEL);
 		metaOrder.add(PEROXIDE);
 		metaOrder.add(SULFURIC_ACID);

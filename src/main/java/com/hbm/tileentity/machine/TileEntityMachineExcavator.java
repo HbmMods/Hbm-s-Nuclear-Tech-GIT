@@ -22,6 +22,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemDrillbit;
 import com.hbm.items.machine.ItemDrillbit.EnumDrillType;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
+import com.hbm.items.special.ItemBedrockOreBase;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
@@ -40,6 +41,7 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.item.EntityItem;
@@ -150,18 +152,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 				this.targetDepth = 0;
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("d", enableDrill);
-			data.setBoolean("c", enableCrusher);
-			data.setBoolean("w", enableWalling);
-			data.setBoolean("v", enableVeinMiner);
-			data.setBoolean("s", enableSilkTouch);
-			data.setBoolean("o", operational);
-			data.setInteger("t", targetDepth);
-			data.setInteger("g", chuteTimer);
-			data.setLong("p", power);
-			tank.writeToNBT(data, "tank");
-			this.networkPack(data, 150);
+			this.networkPackNT(150);
 			
 		} else {
 			
@@ -214,19 +205,34 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		};
 	}
 	
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.enableDrill = nbt.getBoolean("d");
-		this.enableCrusher = nbt.getBoolean("c");
-		this.enableWalling = nbt.getBoolean("w");
-		this.enableVeinMiner = nbt.getBoolean("v");
-		this.enableSilkTouch = nbt.getBoolean("s");
-		this.operational = nbt.getBoolean("o");
-		this.targetDepth = nbt.getInteger("t");
-		this.chuteTimer = nbt.getInteger("g");
-		this.power = nbt.getLong("p");
-		this.tank.readFromNBT(nbt, "tank");
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(enableDrill);
+		buf.writeBoolean(enableCrusher);
+		buf.writeBoolean(enableWalling);
+		buf.writeBoolean(enableVeinMiner);
+		buf.writeBoolean(enableSilkTouch);
+		buf.writeBoolean(operational);
+		buf.writeInt(targetDepth);
+		buf.writeInt(chuteTimer);
+		buf.writeLong(power);
+		tank.serialize(buf);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		enableDrill = buf.readBoolean();
+		enableCrusher = buf.readBoolean();
+		enableWalling = buf.readBoolean();
+		enableVeinMiner = buf.readBoolean();
+		enableSilkTouch = buf.readBoolean();
+		operational = buf.readBoolean();
+		targetDepth = buf.readInt();
+		chuteTimer = buf.readInt();
+		power = buf.readLong();
+		tank.deserialize(buf);
 	}
 	
 	protected int getY() {
@@ -321,6 +327,10 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 			ItemStack stack = ore.resource.copy();
 			List<ItemStack> stacks = new ArrayList();
 			stacks.add(stack);
+			
+			if(stack.getItem() == ModItems.bedrock_ore_base) {
+				ItemBedrockOreBase.setOreAmount(stack, pos.getX(), pos.getZ());
+			}
 
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 
