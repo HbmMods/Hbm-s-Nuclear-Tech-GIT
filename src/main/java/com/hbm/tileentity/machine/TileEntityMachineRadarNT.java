@@ -650,27 +650,35 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] isIndexPlayer(Context context, Arguments args) {
-		int index = args.checkInteger(0);
-		RadarEntry e = entries.get(0);
+		int index = args.checkInteger(0) - 1;
+		if(index > entries.size() || index < 0) {
+			return new Object[] {null, "No entity exists at that index."};
+		}
+		RadarEntry e = entries.get(index);
 		return new Object[] {e.blipLevel == IRadarDetectableNT.PLAYER};
 	}
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getIndexType(Context context, Arguments args) {
-		int index = args.checkInteger(0);
-		RadarEntry e = entries.get(0);
+		int index = args.checkInteger(0) - 1;
+		if(index > entries.size() || index < 0) {
+			return new Object[] {null, "No entity exists at that index."};
+		}
+		RadarEntry e = entries.get(index);
 		return new Object[] {e.blipLevel};
 	}
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getEntityAtIndex(Context context, Arguments args) {
-		int index = args.checkInteger(0);
-		RadarEntry e = entries.get(0);
-		boolean isPlayer = (boolean)this.isIndexPlayer(context, args)[0];
-		int type = (int)this.getIndexType(context, args)[0];
-		if(isPlayer) {
+		int index = args.checkInteger(0) - 1;
+		if(index > entries.size() || index < 0) {
+			return new Object[] {null, "No entity exists at that index."};
+		}
+		RadarEntry e = entries.get(index);
+		int type = e.blipLevel;
+		if(e.blipLevel == IRadarDetectableNT.PLAYER) {
 			return new Object[]{true, e.posX, e.posY, e.posZ, type, e.unlocalizedName};
 		}
 		return new Object[]{false, e.posX, e.posY, e.posZ, type};
