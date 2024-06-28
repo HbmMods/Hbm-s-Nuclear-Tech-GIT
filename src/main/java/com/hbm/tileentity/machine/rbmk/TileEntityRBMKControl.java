@@ -166,9 +166,4 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 		targetLevel = MathHelper.clamp_double(newLevel, 0, 1);
 		return new Object[] {};
 	}
-
-	@Override
-	public boolean canConnectNode(ForgeDirection side) {
-		return side == ForgeDirection.DOWN;
-	}
 }
