@@ -55,7 +55,7 @@ public class CompatHandler {
             @Optional.Interface(iface = "li.cil.oc.api.network.Analyzable", modid = "OpenComputers"),
             @Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "OpenComputers"),
     })
-    @SimpleComponent.SkipInjection
+    @SimpleComponent.SkipInjection // make sure OC doesn't inject this shit into the interface and crash
     public interface OCComponent extends SimpleComponent, SidedComponent, Analyzable, ManagedPeripheral {
 
         /**

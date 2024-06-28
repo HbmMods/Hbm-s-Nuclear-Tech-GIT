@@ -978,12 +978,11 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setTargeting(Context context, Arguments args) {
-		Object[] oldTargeting = new Object[] {this.targetPlayers, this.targetAnimals, this.targetMobs, this.targetMachines};
 		this.targetPlayers = args.checkBoolean(0);
 		this.targetAnimals = args.checkBoolean(1);
 		this.targetMobs = args.checkBoolean(2);
 		this.targetMachines = args.checkBoolean(3);
-		return oldTargeting;
+		return new Object[] {};
 	}
 
 	@Callback(direct = true)
@@ -1020,7 +1019,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	}
 
 	@Override
-	public String[] methods() {
+	public String[] methods() { // :vomit:
 		return new String[] {
 				"setActive",
 				"isActive",
