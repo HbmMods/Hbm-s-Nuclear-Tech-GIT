@@ -34,7 +34,7 @@ public class TestDungeonRoom8 extends CellularDungeonRoom {
 
 		DungeonToolbox.generateBox(world, x + 4, y + 1, z + 4, parent.width - 8, 1, parent.width - 8, ModBlocks.meteor_polished);
 		
-		int i = world.rand.nextInt(8);
+		int i = world.rand.nextInt(9);
 		
 		switch(i) {
 		case 0: world.setBlock(x + parent.width / 2, y + 2, z + parent.width / 2, ModBlocks.meteor_brick_chiseled, 0, 3); break;
@@ -44,7 +44,7 @@ public class TestDungeonRoom8 extends CellularDungeonRoom {
 		case 4: world.setBlock(x + parent.width / 2, y + 2, z + parent.width / 2, ModBlocks.crate_red, 0, 3); break;
 		case 5: world.setBlock(x + parent.width / 2, y + 2, z + parent.width / 2, ModBlocks.balefire, 0, 3); break;
 		case 6: world.setBlock(x + parent.width / 2, y + 2, z + parent.width / 2, ModBlocks.block_meteor, 0, 3); break;
-		case 7:
+		case 7: case 8:
 			world.setBlock(x + parent.width / 2, y + 2, z + parent.width / 2, ModBlocks.safe, 0, 3);
 			if(world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2) instanceof TileEntitySafe) {
 				
@@ -55,13 +55,13 @@ public class TestDungeonRoom8 extends CellularDungeonRoom {
 				} else if(r < 4) {
 					TileEntitySafe safe =  (TileEntitySafe) world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2);
 					safe.setInventorySlotContents(5, generateBook(world));
-					safe.setInventorySlotContents(7, new ItemStack(ModItems.stamp_book, 1, world.rand.nextInt(8)));
-					safe.setInventorySlotContents(9, new ItemStack(ModItems.stamp_book, 1, world.rand.nextInt(8)));
+					safe.setInventorySlotContents(7, new ItemStack(ModItems.stamp_book, 1, world.rand.nextInt(4)));
+					safe.setInventorySlotContents(9, new ItemStack(ModItems.stamp_book, 1, world.rand.nextInt(4) + 4));
 				} else {
 					TileEntitySafe safe =  (TileEntitySafe) world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2);
 					safe.setInventorySlotContents(5, new ItemStack(Items.book));
-					safe.setInventorySlotContents(7, new ItemStack(ModItems.stamp_book, 1, world.rand.nextInt(8)));
-					safe.setInventorySlotContents(9, new ItemStack(ModItems.stamp_book, 1, world.rand.nextInt(8)));
+					safe.setInventorySlotContents(7, new ItemStack(ModItems.stamp_book, 1, world.rand.nextInt(4)));
+					safe.setInventorySlotContents(9, new ItemStack(ModItems.stamp_book, 1, world.rand.nextInt(4) + 4));
 				}
 			}
 			break;
