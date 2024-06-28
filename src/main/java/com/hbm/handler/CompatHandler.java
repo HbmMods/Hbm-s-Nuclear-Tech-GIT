@@ -14,6 +14,8 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.lang.reflect.Array;
+
 
 /**
  * General handler for OpenComputers compatibility.
@@ -96,11 +98,9 @@ public class CompatHandler {
                 if(!info.equals(""))
                     player.addChatComponentMessage(new ChatComponentTranslation(info).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
             }
-            TileEntity te = player.worldObj.getTileEntity((int) hitX, (int) hitY, (int) hitZ);
-            OCComponent component = (OCComponent) te;
-            if((component.methods() == null && te instanceof TileEntityProxyCombo) || component.getComponentName().equals("ntm_null")) {
+            TileEntity te = (TileEntity) this;
+            if(Array.getLength(this.methods()) == 0 && te instanceof TileEntityProxyCombo || this.getComponentName().equals("ntm_null"))
                 player.addChatComponentMessage(new ChatComponentTranslation("analyze.error").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
-            }
             return null;
         }
 
@@ -109,7 +109,7 @@ public class CompatHandler {
          * @return Array of methods to expose to the computer.
          */
         @Override
-        default String[] methods() {return null;}
+        default String[] methods() {return new String[0];}
 
         /**
          * Standard invoke function from {@link li.cil.oc.api.network.ManagedPeripheral} extending {@link li.cil.oc.api.network.SimpleComponent}.

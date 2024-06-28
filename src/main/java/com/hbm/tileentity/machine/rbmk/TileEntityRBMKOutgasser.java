@@ -265,11 +265,6 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	}
 
 	@Override
-	public boolean canConnectNode(ForgeDirection side) {
-		return side == ForgeDirection.DOWN;
-	}
-
-	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerRBMKOutgasser(player.inventory, this);
 	}

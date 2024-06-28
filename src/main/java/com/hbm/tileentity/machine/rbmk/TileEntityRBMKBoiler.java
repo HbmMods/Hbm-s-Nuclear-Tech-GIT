@@ -405,11 +405,6 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	}
 
 	@Override
-	public boolean canConnectNode(ForgeDirection side) {
-		return side == ForgeDirection.DOWN;
-	}
-
-	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerRBMKGeneric(player.inventory);
 	}

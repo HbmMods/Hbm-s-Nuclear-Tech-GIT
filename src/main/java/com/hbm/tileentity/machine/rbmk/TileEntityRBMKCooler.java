@@ -180,9 +180,4 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[]{heat, tank.getFill(), tank.getMaxFill(), xCoord, yCoord, zCoord};
 	}
-
-	@Override
-	public boolean canConnectNode(ForgeDirection side) {
-		return side == ForgeDirection.DOWN;
-	}
 }
