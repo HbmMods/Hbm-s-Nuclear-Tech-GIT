@@ -548,8 +548,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 				return getTier(context, args);
 			case ("launch"):
 				return launch(context, args);
-	}
+		}
 	throw new NoSuchMethodException();
-}
-
+	}
 }

@@ -518,7 +518,11 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 
 	@Override
 	public String[] methods() {
-		return new String[] {"getFluidStored", "getMaxStored", "getTypeStored", "getInfo"};
+		return new String[] {
+				"getFluidStored",
+				"getMaxStored",
+				"getTypeStored",
+				"getInfo"};
 	}
 
 	@Override

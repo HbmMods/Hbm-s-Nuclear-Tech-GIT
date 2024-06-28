@@ -431,7 +431,12 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 
 	@Override
 	public String[] methods() {
-		return new String[] {"getFluidStored", "getMaxStored", "getTypeStored", "getInfo"};
+		return new String[] {
+				"getFluidStored",
+				"getMaxStored",
+				"getTypeStored",
+				"getInfo"
+		};
 	}
 
 	@Override

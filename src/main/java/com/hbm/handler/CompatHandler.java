@@ -99,7 +99,7 @@ public class CompatHandler {
                     player.addChatComponentMessage(new ChatComponentTranslation(info).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
             }
             TileEntity te = (TileEntity) this;
-            if(Array.getLength(this.methods()) == 0 && te instanceof TileEntityProxyCombo || this.getComponentName().equals("ntm_null"))
+            if((Array.getLength(this.methods()) == 0 && te instanceof TileEntityProxyCombo) || this.getComponentName().equals("ntm_null"))
                 player.addChatComponentMessage(new ChatComponentTranslation("analyze.error").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
             return null;
         }
