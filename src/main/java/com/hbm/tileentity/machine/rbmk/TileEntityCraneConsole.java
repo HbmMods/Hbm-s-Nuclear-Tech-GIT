@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.rbmk;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.CompatHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.packet.NBTPacket;
@@ -28,7 +29,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCraneConsole extends TileEntity implements INBTPacketReceiver, SimpleComponent {
+public class TileEntityCraneConsole extends TileEntity implements INBTPacketReceiver, SimpleComponent, CompatHandler.OCComponent {
 	
 	public int centerX;
 	public int centerY;

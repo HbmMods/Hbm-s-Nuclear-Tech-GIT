@@ -4,6 +4,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.hbm.handler.CompatHandler;
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import org.apache.logging.log4j.Level;
 
 import com.hbm.config.GeneralConfig;
@@ -49,7 +55,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IRadarCommandReceiver, SimpleComponent, CompatHandler.OCComponent {
 	
 	/** Automatic instantiation of generic missiles, i.e. everything that both extends EntityMissileBaseNT and needs a designator */
 	public static final HashMap<ComparableStack, Class<? extends EntityMissileBaseNT>> missiles = new HashMap();
@@ -462,4 +469,87 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	/** Any extra conditions for launching in addition to the missile being valid and fueled */
 	public abstract boolean isReadyForLaunch();
 	public abstract double getLaunchOffset();
+
+	// do some opencomputer stuff
+	@Override
+	public String getComponentName() {
+		return "ntm_launch_pad";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluid(Context context, Arguments args) {
+		return new Object[] {
+				this.tanks[0].getFill(), this.tanks[0].getMaxFill(), this.tanks[0].getTankType().getUnlocalizedName(),
+				this.tanks[1].getFill(), this.tanks[1].getMaxFill(), this.tanks[1].getTankType().getUnlocalizedName()
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] canLaunch(Context context, Arguments args) {
+		return new Object[] {canLaunch()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getTier(Context context, Arguments args) {
+		if(!isMissileValid())
+			return new Object[] {};
+		ItemMissile missile = (ItemMissile) slots[0].getItem();
+		if(missile.tier == ItemMissile.MissileTier.TIER0)
+			return new Object[] {0};
+		if(missile.tier == ItemMissile.MissileTier.TIER1)
+			return new Object[] {1};
+		if(missile.tier == ItemMissile.MissileTier.TIER2)
+			return new Object[] {2};
+		if(missile.tier == ItemMissile.MissileTier.TIER3)
+			return new Object[] {3};
+		if(missile.tier == ItemMissile.MissileTier.TIER4)
+			return new Object[] {4};
+		return new Object[] {5}; // unknown tier
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] launch(Context context, Arguments args) {
+		if(canLaunch()) {
+			return new Object[] {sendCommandPosition(args.checkInteger(0), -1 /*unused anyway*/, args.checkInteger(1))};
+		}
+		return new Object[] {false};
+	}
+
+	@Override
+	public String[] methods() {
+		return new String[] {
+				"getEnergyInfo",
+				"getFluid",
+				"canLaunch",
+				"getTier",
+				"launch"
+		};
+	}
+
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case ("getEnergyInfo"):
+				return getEnergyInfo(context, args);
+			case ("getFluid"):
+				return getFluid(context, args);
+			case ("canLaunch"):
+				return canLaunch(context, args);
+			case ("getTier"):
+				return getTier(context, args);
+			case ("launch"):
+				return launch(context, args);
+	}
+	throw new NoSuchMethodException();
+}
+
 }
