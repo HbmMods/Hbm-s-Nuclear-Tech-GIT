@@ -123,7 +123,16 @@ public class AnvilRecipes {
 		smithingRecipes.add(new AnvilSmithingMold(18, new ComparableStack(ModItems.casing_buckshot), new ItemStack[] {new ItemStack(ModItems.casing_buckshot)}));
 		smithingRecipes.add(new AnvilSmithingMold(20, new OreDictStack(ALLOY.wireDense(), 1),  new OreDictStack("wireDense", 1)));
 		smithingRecipes.add(new AnvilSmithingMold(21, new OreDictStack(ALLOY.wireDense(), 9),  new OreDictStack("wireDense", 9)));
-		
+
+		smithingRecipes.add(new AnvilSmithingRecipe(7, new ItemStack(ModItems.stamp_book,1,1), new ComparableStack(ModItems.stamp_book,1,0), new ComparableStack(ModItems.gem_alexandrite)));
+		smithingRecipes.add(new AnvilSmithingRecipe(7, new ItemStack(ModItems.stamp_book,1,2), new ComparableStack(ModItems.stamp_book,1,1), new ComparableStack(ModItems.gem_alexandrite)));
+		smithingRecipes.add(new AnvilSmithingRecipe(7, new ItemStack(ModItems.stamp_book,1,3), new ComparableStack(ModItems.stamp_book,1,2), new ComparableStack(ModItems.gem_alexandrite)));
+		smithingRecipes.add(new AnvilSmithingRecipe(7, new ItemStack(ModItems.stamp_book,1,4), new ComparableStack(ModItems.stamp_book,1,3), new ComparableStack(ModItems.gem_alexandrite)));
+		smithingRecipes.add(new AnvilSmithingRecipe(7, new ItemStack(ModItems.stamp_book,1,5), new ComparableStack(ModItems.stamp_book,1,4), new ComparableStack(ModItems.gem_alexandrite)));
+		smithingRecipes.add(new AnvilSmithingRecipe(7, new ItemStack(ModItems.stamp_book,1,6), new ComparableStack(ModItems.stamp_book,1,5), new ComparableStack(ModItems.gem_alexandrite)));
+		smithingRecipes.add(new AnvilSmithingRecipe(7, new ItemStack(ModItems.stamp_book,1,7), new ComparableStack(ModItems.stamp_book,1,6), new ComparableStack(ModItems.gem_alexandrite)));
+		smithingRecipes.add(new AnvilSmithingRecipe(7, new ItemStack(ModItems.stamp_book,1,0), new ComparableStack(ModItems.stamp_book,1,7), new ComparableStack(ModItems.gem_alexandrite)));
+
 		smithingRecipes.add(new AnvilSmithingCyanideRecipe());
 		smithingRecipes.add(new AnvilSmithingRenameRecipe());
 	}
