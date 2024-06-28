@@ -1,12 +1,14 @@
 package com.hbm.items.special;
 
 import static com.hbm.inventory.OreDictManager.*;
+import static com.hbm.items.special.ItemBedrockOreNew.ProcessingTrait.*;
 
 import java.util.List;
 import java.util.Locale;
 
 import com.hbm.items.ModItems;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -23,6 +25,7 @@ import com.hbm.render.icon.TextureAtlasSpriteMutatable;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -30,8 +33,9 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemBedrockOreNew extends Item {
-	
+
 	public IIcon[] icons = new IIcon[BedrockOreType.values().length * BedrockOreGrade.values().length];
+	public IIcon[] overlays = new IIcon[ProcessingTrait.values().length];
 	
 	public ItemBedrockOreNew() {
 		this.setHasSubtypes(true);
@@ -55,6 +59,11 @@ public class ItemBedrockOreNew extends Item {
 				}
 			}
 		}
+		
+		for(int i = 0; i < overlays.length; i++) {
+			ProcessingTrait trait = ProcessingTrait.values()[i];
+			overlays[i] = reg.registerIcon(RefStrings.MODID + ":bedrock_ore_overlay." + trait.name().toLowerCase(Locale.US));
+		}
 	}
 
 	@Override
@@ -70,6 +79,23 @@ public class ItemBedrockOreNew extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
+	public boolean requiresMultipleRenderPasses() {
+		return true;
+	}
+	
+	@Override
+	public int getRenderPasses(int metadata) {
+		return 1 + this.getGrade(metadata).traits.length;
+	}
+
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconFromDamageForRenderPass(int meta, int pass) {
+		if(pass == 0) return this.getIconFromDamage(meta);
+		return this.overlays[this.getGrade(meta).traits[pass - 1].ordinal()];
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int meta) {
 		int icon = this.getGrade(meta).ordinal() * BedrockOreType.values().length + this.getType(meta).ordinal();
 		return icons[Math.abs(icon % icons.length)];
@@ -80,6 +106,14 @@ public class ItemBedrockOreNew extends Item {
 		int meta = stack.getItemDamage();
 		String type = StatCollector.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".type." + this.getType(meta).suffix + ".name");
 		return StatCollector.translateToLocalFormatted(this.getUnlocalizedNameInefficiently(stack) + ".grade." + this.getGrade(meta).name().toLowerCase(Locale.US) + ".name", type);
+	}
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+		
+		for(ProcessingTrait trait : this.getGrade(stack.getItemDamage()).traits) {
+			list.add(I18nUtil.resolveKey(this.getUnlocalizedNameInefficiently(stack) + ".trait." + trait.name().toLowerCase(Locale.US)));
+		}
 	}
 
 	public static enum BedrockOreType {
@@ -147,6 +181,7 @@ public class ItemBedrockOreNew extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack stack, int pass) {
+		if(pass != 0) return 0xFFFFFF;
 		BedrockOreGrade grade = this.getGrade(stack.getItemDamage());
 		return grade.tint;
 	}
@@ -156,43 +191,55 @@ public class ItemBedrockOreNew extends Item {
 	public static final int arc = 0xC3A2A2;
 	public static final int washed = 0xDBE2CB;
 	
+	public static enum ProcessingTrait {
+		ROASTED,
+		ARC,
+		WASHED,
+		CENTRIFUGED,
+		SULFURIC,
+		SOLVENT,
+		RAD
+	}
+	
 	public static enum BedrockOreGrade {
-		BASE(none, "base"),						//from the slopper
-		BASE_ROASTED(roasted, "base"),			//optional combination oven step, yields vitriol
-		BASE_WASHED(washed, "base"),			//primitive-ass acidizer with water
-		PRIMARY(none, "primary"),				//centrifuging for more primary
-		PRIMARY_ROASTED(roasted, "primary"),	//optional comboven
-		PRIMARY_SULFURIC(0xFFFFD3, "primary"),	//sulfuric acid
-		PRIMARY_NOSULFURIC(0xD3D4FF, "primary"),//from centrifuging, sulfuric byproduct removed
-		PRIMARY_SOLVENT(0xD3F0FF, "primary"),	//solvent
-		PRIMARY_NOSOLVENT(0xFFDED3, "primary"),	//solvent byproduct removed
-		PRIMARY_RAD(0xECFFD3, "primary"),		//radsolvent
-		PRIMARY_NORAD(0xEBD3FF, "primary"),		//radsolvent byproduct removed
-		PRIMARY_FIRST(0xFFD3D4, "primary"),		//higher first material yield
-		PRIMARY_SECOND(0xD3FFEB, "primary"),	//higher second material yield
-		CRUMBS(none, "crumbs"),					//endpoint for primary, recycling
+		BASE(none, "base"),												//from the slopper
+		BASE_ROASTED(roasted, "base", ROASTED),							//optional combination oven step, yields vitriol
+		BASE_WASHED(washed, "base", WASHED),							//primitive-ass acidizer with water
+		PRIMARY(none, "primary", CENTRIFUGED),							//centrifuging for more primary
+		PRIMARY_ROASTED(roasted, "primary", ROASTED),					//optional comboven
+		PRIMARY_SULFURIC(0xFFFFD3, "primary", SULFURIC),				//sulfuric acid
+		PRIMARY_NOSULFURIC(0xD3D4FF, "primary", CENTRIFUGED, SULFURIC),	//from centrifuging, sulfuric byproduct removed
+		PRIMARY_SOLVENT(0xD3F0FF, "primary", SOLVENT),					//solvent
+		PRIMARY_NOSOLVENT(0xFFDED3, "primary", CENTRIFUGED, SOLVENT),	//solvent byproduct removed
+		PRIMARY_RAD(0xECFFD3, "primary", RAD),							//radsolvent
+		PRIMARY_NORAD(0xEBD3FF, "primary", CENTRIFUGED, RAD),			//radsolvent byproduct removed
+		PRIMARY_FIRST(0xFFD3D4, "primary", CENTRIFUGED),				//higher first material yield
+		PRIMARY_SECOND(0xD3FFEB, "primary", CENTRIFUGED),				//higher second material yield
+		CRUMBS(none, "crumbs", CENTRIFUGED),							//endpoint for primary, recycling
 		
-		SULFURIC_BYPRODUCT(none, "sulfuric"),	//from centrifuging
-		SULFURIC_ROASTED(roasted, "sulfuric"),	//comboven again
-		SULFURIC_ARC(arc, "sulfuric"),			//alternate step
-		SULFURIC_WASHED(washed, "sulfuric"),	//sulfuric endpoint
+		SULFURIC_BYPRODUCT(none, "sulfuric", CENTRIFUGED, SULFURIC),	//from centrifuging
+		SULFURIC_ROASTED(roasted, "sulfuric", ROASTED, SULFURIC),		//comboven again
+		SULFURIC_ARC(arc, "sulfuric", ARC, SULFURIC),					//alternate step
+		SULFURIC_WASHED(washed, "sulfuric", WASHED, SULFURIC),			//sulfuric endpoint
 		
-		SOLVENT_BYPRODUCT(none, "solvent"),		//from centrifuging
-		SOLVENT_ROASTED(roasted, "solvent"),	//comboven again
-		SOLVENT_ARC(arc, "solvent"),			//alternate step
-		SOLVENT_WASHED(washed, "solvent"),		//solvent endpoint
+		SOLVENT_BYPRODUCT(none, "solvent", CENTRIFUGED, SOLVENT),		//from centrifuging
+		SOLVENT_ROASTED(roasted, "solvent", ROASTED, SOLVENT),			//comboven again
+		SOLVENT_ARC(arc, "solvent", ARC, SOLVENT),						//alternate step
+		SOLVENT_WASHED(washed, "solvent", WASHED, SOLVENT),				//solvent endpoint
 		
-		RAD_BYPRODUCT(none, "rad"),				//from centrifuging
-		RAD_ROASTED(roasted, "rad"),			//comboven again
-		RAD_ARC(arc, "rad"),					//alternate step
-		RAD_WASHED(washed, "rad");				//rad endpoint
+		RAD_BYPRODUCT(none, "rad", CENTRIFUGED, RAD),					//from centrifuging
+		RAD_ROASTED(roasted, "rad", ROASTED, RAD),						//comboven again
+		RAD_ARC(arc, "rad", ARC, RAD),									//alternate step
+		RAD_WASHED(washed, "rad", WASHED, RAD);							//rad endpoint
 		
 		public int tint;
 		public String prefix;
+		public ProcessingTrait[] traits;
 		
-		private BedrockOreGrade(int tint, String prefix) {
+		private BedrockOreGrade(int tint, String prefix, ProcessingTrait... traits) {
 			this.tint = tint;
 			this.prefix = prefix;
+			this.traits = traits;
 		}
 	}
 	
