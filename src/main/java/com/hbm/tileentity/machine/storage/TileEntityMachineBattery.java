@@ -9,6 +9,7 @@ import api.hbm.energymk2.Nodespace.PowerNode;
 import api.hbm.tile.IInfoProviderEC;
 
 import com.hbm.blocks.machine.MachineBattery;
+import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.container.ContainerMachineBattery;
 import com.hbm.inventory.gui.GUIMachineBattery;
 import com.hbm.lib.Library;
@@ -34,7 +35,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyConductorMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IPersistentNBT, SimpleComponent, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyConductorMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IPersistentNBT, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
 	
 	public long[] log = new long[20];
 	public long delta = 0;
@@ -184,7 +185,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			power = Library.chargeItemsFromTE(slots, 1, power, getMaxPower());
 			
 			if(mode == mode_output || mode == mode_buffer) {
-				for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+				this.tryProvide(worldObj, xCoord, yCoord, zCoord, ForgeDirection.UNKNOWN);
 			} else {
 				if(node != null && node.hasValidNet()) node.net.removeProvider(this);
 			}

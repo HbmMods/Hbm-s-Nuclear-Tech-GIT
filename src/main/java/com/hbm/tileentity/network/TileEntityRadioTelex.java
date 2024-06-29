@@ -3,6 +3,7 @@ package com.hbm.tileentity.network;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GuiScreenRadioTelex;
 import com.hbm.tileentity.IGUIProvider;
@@ -10,8 +11,13 @@ import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
 import com.hbm.util.ItemStackUtil;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +29,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiver, IControlReceiver, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiver, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
 
 	public static final int lineWidth = 33;
 	public String txChannel = "";
@@ -249,5 +256,83 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public String getComponentName() {
+		return "ntm_telex";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getChannels(Context context, Arguments args) {
+		return new Object[] {this.txChannel, this.rxChannel};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setChannels(Context context, Arguments args) {
+		String[] old = {this.txChannel, this.rxChannel};
+		this.rxChannel = args.checkString(0);
+		this.txChannel = args.checkString(1);
+		return new Object[] {old[0], old[1]};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getSendingTexts(Context context, Arguments args) {
+		return new Object[] {this.txBuffer[0], this.txBuffer[1], this.txBuffer[2], this.txBuffer[3], this.txBuffer[4]};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getReceivingText(Context context, Arguments args) {
+		return new Object[] {this.rxBuffer[0], this.rxBuffer[1], this.rxBuffer[2], this.rxBuffer[3], this.rxBuffer[4]};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setSendingText(Context context, Arguments args) { // this function nearly killed me
+		for(int i = 0; i < 5; i++) {
+			// check if it was never given or if it's an empty string
+			// if it was never given then just assign it as an empty string
+			// this also checks if it's even a string at all
+			if(args.checkAny(i) == null || args.checkString(i).equals(""))
+				this.txBuffer[i] = "";
+			if(args.checkString(i).equals("")) { // if it isn't an empty string
+				if(args.checkString(i).length() > TileEntityRadioTelex.lineWidth) { // line longer than allowed
+					this.txBuffer[i] = args.checkString(i).substring(0, TileEntityRadioTelex.lineWidth); // truncate it
+				} else
+					this.txBuffer[i] = args.checkString(i); // else just set it directly
+			}
+		}
+		return new Object[] {true};
+	}
+
+	@Callback //you don't get to run this more than once per tick, that would be very very bad
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] printMessage(Context context, Arguments args) {
+		this.print();
+		return new Object[] {};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] clearAll(Context context, Arguments args) {
+		for(int i = 0; i < 5; i++) this.rxBuffer[i] = "";
+		this.writingLine = 0;
+		return new Object[] {};
+	}
+
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] sendMessage(Context context, Arguments args) {
+		if(!this.isSending) {
+			this.isSending = true;
+			this.sendingLine = 0;
+			this.sendingIndex = 0;
+			return new Object[] {true};
+		}
+		return new Object[] {false};
 	}
 }

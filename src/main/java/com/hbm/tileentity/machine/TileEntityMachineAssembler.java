@@ -6,12 +6,9 @@ import java.util.Random;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMachineAssembler;
 import com.hbm.inventory.gui.GUIMachineAssembler;
-import com.hbm.inventory.recipes.AssemblerRecipes;
-import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
@@ -23,6 +20,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import api.hbm.energymk2.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -105,19 +103,13 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase i
 			speed /= (overLevel + 1);
 			consumption *= (overLevel + 1);
 
-			int rec = -1;
+			/*int rec = -1;
 			if(AssemblerRecipes.getOutputFromTempate(slots[4]) != null) {
 				ComparableStack comp = ItemAssemblyTemplate.readType(slots[4]);
 				rec = AssemblerRecipes.recipeList.indexOf(comp);
-			}
+			}*/
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setIntArray("progress", this.progress);
-			data.setIntArray("maxProgress", this.maxProgress);
-			data.setBoolean("isProgressing", isProgressing);
-			data.setInteger("recipe", rec);
-			this.networkPack(data, 150);
+			this.networkPackNT(150);
 		} else {
 			
 			float volume = this.getVolume(2F);
@@ -142,16 +134,31 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase i
 			}
 		}
 	}
-
+	
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		for(int i = 0; i < getRecipeCount(); i++) {
+			buf.writeInt(progress[i]);
+			buf.writeInt(maxProgress[i]);
+		}
 		
-		this.power = nbt.getLong("power");
-		this.progress = nbt.getIntArray("progress");
-		this.maxProgress = nbt.getIntArray("maxProgress");
-		this.isProgressing = nbt.getBoolean("isProgressing");
-		this.recipe = nbt.getInteger("recipe");
+		buf.writeBoolean(isProgressing);
+		buf.writeInt(recipe);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		for(int i = 0; i < getRecipeCount(); i++) {
+			progress[i] = buf.readInt();
+			maxProgress[i] = buf.readInt();
+		}
+		
+		isProgressing = buf.readBoolean();
+		recipe = buf.readInt();
 	}
 	
 	@Override

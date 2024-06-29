@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.storage;
 
 import api.hbm.fluid.*;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidContainerRegistry;
@@ -22,6 +23,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -43,7 +45,7 @@ import java.util.List;
 import java.util.Set;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, SimpleComponent, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider {
+public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, SimpleComponent, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -108,7 +110,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			tank.setType(0, 1, slots);
 			tank.loadTank(2, 3, slots);
 			tank.unloadTank(4, 5, slots);
-			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			this.sendingBrake = true;
 			tank.setFill(transmitFluidFairly(worldObj, tank, this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
@@ -121,10 +122,22 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				checkFluidInteraction();
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setShort("mode", mode);
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeShort(mode);
+		tank.serialize(buf);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		mode = buf.readShort();
+		tank.deserialize(buf);
 	}
 	
 	protected DirPos[] getConPos() {
@@ -140,8 +153,8 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	
 	protected static int transmitFluidFairly(World world, FluidTank tank, IFluidConnector that, int fill, boolean connect, boolean send, DirPos[] connections) {
 		
-		Set<IPipeNet> nets = new HashSet();
-		Set<IFluidConnector> consumers = new HashSet();
+		Set<IPipeNet> nets = new HashSet<>();
+		Set<IFluidConnector> consumers = new HashSet<>();
 		FluidType type = tank.getTankType();
 		int pressure = tank.getPressure();
 		
@@ -166,13 +179,13 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 		consumers.remove(that);
 
 		if(fill > 0 && send) {
-			List<IFluidConnector> con = new ArrayList();
+			List<IFluidConnector> con = new ArrayList<>();
 			con.addAll(consumers);
 
 			con.removeIf(x -> x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid());
 			
 			if(PipeNet.trackingInstances == null) {
-				PipeNet.trackingInstances = new ArrayList();
+				PipeNet.trackingInstances = new ArrayList<>();
 			}
 			
 			PipeNet.trackingInstances.clear();
@@ -264,12 +277,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 			}
 		}
-	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		mode = data.getShort("mode");
 	}
 
 	@Override
@@ -420,5 +427,25 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};
+	}
+
+	@Override
+	public String[] methods() {
+		return new String[] {"getFluidStored", "getMaxStored", "getTypeStored", "getInfo"};
+	}
+
+	@Override
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "getFluidStored":
+				return getFluidStored(context, args);
+			case "getMaxStored":
+				return getMaxStored(context, args);
+			case "getTypeStored":
+				return getTypeStored(context, args);
+			case "getInfo":
+				return getInfo(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 }

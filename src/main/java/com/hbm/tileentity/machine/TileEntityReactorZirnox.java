@@ -10,6 +10,7 @@ import com.hbm.config.MobConfig;
 import com.hbm.entity.projectile.EntityZirnoxDebris;
 import com.hbm.entity.projectile.EntityZirnoxDebris.DebrisType;
 import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.handler.CompatHandler;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -52,7 +53,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IGUIProvider, IInfoProviderEC {
+public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
 
 	public int heat;
 	public static final int maxHeat = 100000;
@@ -598,6 +599,41 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 	public Object[] setActive(Context context, Arguments args) {
 		isOn = args.checkBoolean(0);
 		return new Object[] {};
+	}
+
+	public String[] methods() {
+		return new String[] {
+				"getTemp",
+				"getPressure",
+				"getWater",
+				"getSteam",
+				"getCarbonDioxide",
+				"isActive",
+				"getInfo",
+				"setActive"
+		};
+	}
+
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case ("getTemp"):
+				return getTemp(context, args);
+			case ("getPressure"):
+				return getPressure(context, args);
+			case ("getWater"):
+				return getWater(context, args);
+			case ("getSteam"):
+				return getSteam(context, args);
+			case ("getCarbonDioxide"):
+				return getCarbonDioxide(context, args);
+			case ("isActive"):
+				return isActive(context, args);
+			case ("getInfo"):
+				return getInfo(context, args);
+			case ("setActive"):
+				return setActive(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 
 	@Override

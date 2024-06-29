@@ -4,13 +4,37 @@ import java.util.List;
 
 import com.hbm.items.ItemEnumMulti;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemCircuit extends ItemEnumMulti {
 
 	public ItemCircuit() {
 		super(EnumCircuitType.class, true, true);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item item, CreativeTabs tab, List list) {
+		list.add(new ItemStack(item, 1, EnumCircuitType.VACUUM_TUBE.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.CAPACITOR.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.CAPACITOR_TANTALIUM.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.PCB.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.SILICON.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.CHIP.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.CHIP_BISMOID.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.ANALOG.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.BASIC.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.ADVANCED.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.CAPACITOR_BOARD.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.BISMOID.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER_CHASSIS.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER_ADVANCED.ordinal()));
 	}
 
 	public static enum EnumCircuitType {
@@ -26,6 +50,9 @@ public class ItemCircuit extends ItemEnumMulti {
 		ADVANCED,
 		CAPACITOR_BOARD,
 		BISMOID,
+		CONTROLLER_CHASSIS,
+		CONTROLLER,
+		CONTROLLER_ADVANCED,
 	}
 	
 	@Override

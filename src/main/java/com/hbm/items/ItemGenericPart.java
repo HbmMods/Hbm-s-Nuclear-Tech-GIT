@@ -12,7 +12,8 @@ public class ItemGenericPart extends ItemEnumMulti {
 	public static enum EnumPartType {
 		PISTON_PNEUMATIC("piston_pneumatic"),
 		PISTON_HYDRAULIC("piston_hydraulic"),
-		PISTON_ELECTRIC("piston_electric");
+		PISTON_ELECTRIC("piston_electric"),
+		LDE("low_density_element");
 		
 		private String texName;
 		

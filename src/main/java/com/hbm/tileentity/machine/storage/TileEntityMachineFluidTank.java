@@ -5,6 +5,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.CompatHandler.OCComponent;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
@@ -34,6 +35,7 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -54,7 +56,7 @@ import java.util.List;
 import java.util.Random;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineFluidTank extends TileEntityMachineBase implements IFluidContainer, SimpleComponent, IFluidSource, IFluidAcceptor, IFluidStandardTransceiver, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable {
+public class TileEntityMachineFluidTank extends TileEntityMachineBase implements IFluidContainer, SimpleComponent, OCComponent, IFluidSource, IFluidAcceptor, IFluidStandardTransceiver, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -161,11 +163,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			
 			tank.unloadTank(4, 5, slots);
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setShort("mode", mode);
-			data.setBoolean("hasExploded", hasExploded);
-			this.tank.writeToNBT(data, "t");
-			this.networkPack(data, 150);
+			this.networkPackNT(150);
 		}
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
@@ -176,6 +174,22 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
 			props.isOnLadder = true;
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeShort(mode);
+		buf.writeBoolean(hasExploded);
+		tank.serialize(buf);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		mode = buf.readShort();
+		hasExploded = buf.readBoolean();
+		tank.deserialize(buf);
 	}
 	
 	/** called when the tank breaks due to hazardous materials or external force, can be used to quickly void part of the tank or spawn a mushroom cloud */
@@ -267,12 +281,6 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z),
 				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z)
 		};
-	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		this.mode = data.getShort("mode");
-		this.hasExploded = data.getBoolean("hasExploded");
-		this.tank.readFromNBT(data, "t");
 	}
 	
 	public void handleButtonPacket(int value, int meta) {
@@ -462,7 +470,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		return this.hasExploded;
 	}
 	
-	List<AStack> repair = new ArrayList();
+	List<AStack> repair = new ArrayList<>();
 	@Override
 	public List<AStack> getRepairMaterials() {
 		
@@ -506,5 +514,25 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};
+	}
+
+	@Override
+	public String[] methods() {
+		return new String[] {"getFluidStored", "getMaxStored", "getTypeStored", "getInfo"};
+	}
+
+	@Override
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "getFluidStored":
+				return getFluidStored(context, args);
+			case "getMaxStored":
+				return getMaxStored(context, args);
+			case "getTypeStored":
+				return getTypeStored(context, args);
+			case "getInfo":
+				return getInfo(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 }

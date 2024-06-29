@@ -24,6 +24,7 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -126,15 +127,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 			this.power += this.powerGen;
 			if(this.power > this.maxPower) this.power = this.maxPower;
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("burnTime", burnTime);
-			data.setInteger("powerGen", powerGen);
-			data.setInteger("maxBurnTime", maxBurnTime);
-			data.setBoolean("isOn", isOn);
-			data.setBoolean("liquidBurn", liquidBurn);
-			tank.writeToNBT(data, "t");
-			this.networkPack(data, 25);
+			this.networkPackNT(25);
 		} else {
 			
 			if(powerGen > 0) {
@@ -145,6 +138,32 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 		}
 	}
 	
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeInt(burnTime);
+		buf.writeInt(powerGen);
+		buf.writeInt(maxBurnTime);
+		buf.writeBoolean(isOn);
+		buf.writeBoolean(liquidBurn);
+		
+		tank.serialize(buf);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		burnTime = buf.readInt();
+		powerGen = buf.readInt();
+		maxBurnTime = buf.readInt();
+		isOn = buf.readBoolean();
+		liquidBurn = buf.readBoolean();
+		
+		tank.deserialize(buf);
+	}
+	
 	private DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
@@ -153,20 +172,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite())
 		};
 	}
-
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.powerGen = nbt.getInteger("powerGen");
-		this.burnTime = nbt.getInteger("burnTime");
-		this.maxBurnTime = nbt.getInteger("maxBurnTime");
-		this.isOn = nbt.getBoolean("isOn");
-		this.liquidBurn = nbt.getBoolean("liquidBurn");
-		tank.readFromNBT(nbt, "t");
-	}
-
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);

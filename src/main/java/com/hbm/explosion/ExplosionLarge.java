@@ -130,7 +130,7 @@ public class ExplosionLarge {
 				if(debris.get(i) != null) {
 					int k = rand.nextInt(debris.get(i).stackSize + 1);
 					for(int j = 0; j < k; j++) {
-						EntityItem item = new EntityItem(world, x, y, z, new ItemStack(debris.get(i).getItem()));
+						EntityItem item = new EntityItem(world, x, y, z, debris.get(i).copy());
 						item.motionX = (motionX + rand.nextGaussian() * deviation) * 0.85;
 						item.motionY = (motionY + rand.nextGaussian() * deviation) * 0.85;
 						item.motionZ = (motionZ + rand.nextGaussian() * deviation) * 0.85;

@@ -167,24 +167,6 @@ public class ItemRenderMissileGeneric implements IItemRenderer {
 		renderers.put(new ComparableStack(ModItems.missile_doomsday), generateStandard(ResourceManager.missileDoomsday_tex, ResourceManager.missileNuclear));
 		renderers.put(new ComparableStack(ModItems.missile_doomsday_rusted), generateStandard(ResourceManager.missileDoomsdayRusted_tex, ResourceManager.missileNuclear));
 
-		renderers.put(new ComparableStack(ModItems.missile_carrier), x -> {
-			GL11.glScalef(2F, 2F, 2F);
-			x.bindTexture(ResourceManager.missileCarrier_tex);
-			ResourceManager.missileCarrier.renderAll();
-			GL11.glTranslated(0.0D, 0.5D, 0.0D);
-			GL11.glTranslated(1.25D, 0.0D, 0.0D);
-			x.bindTexture(ResourceManager.missileBooster_tex);
-			ResourceManager.missileBooster.renderAll();
-			GL11.glTranslated(-2.5D, 0.0D, 0.0D);
-			ResourceManager.missileBooster.renderAll();
-			GL11.glTranslated(1.25D, 0.0D, 0.0D);
-			GL11.glTranslated(0.0D, 0.0D, 1.25D);
-			ResourceManager.missileBooster.renderAll();
-			GL11.glTranslated(0.0D, 0.0D, -2.5D);
-			ResourceManager.missileBooster.renderAll();
-			GL11.glTranslated(0.0D, 0.0D, 1.25D);
-		});
-
 		renderers.put(new ComparableStack(ModItems.missile_shuttle), generateStandard(ResourceManager.missileShuttle_tex, ResourceManager.missileShuttle));
 	}
 }

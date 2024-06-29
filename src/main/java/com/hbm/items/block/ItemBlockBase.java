@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockMulti;
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.blocks.generic.BlockMetalFence;
 import com.hbm.tileentity.IPersistentNBT;
 
 import cpw.mods.fml.relauncher.Side;
@@ -42,6 +43,8 @@ public class ItemBlockBase extends ItemBlock {
 		
 		if(field_150939_a instanceof BlockMulti) {
 			return ((BlockMulti)field_150939_a).getUnlocalizedName(stack);
+		} else if(field_150939_a instanceof BlockMetalFence) {
+			return ((BlockMetalFence)field_150939_a).getUnlocalizedName(stack); // I considered reworking IBlockMulti instead but there are like a bajillion implementers
 		} else {
 			return super.getUnlocalizedName(stack);
 		}

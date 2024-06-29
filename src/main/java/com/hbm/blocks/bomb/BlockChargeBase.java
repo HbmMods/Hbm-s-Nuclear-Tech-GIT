@@ -18,7 +18,7 @@ import com.hbm.tileentity.bomb.TileEntityCharge;
 
 import api.hbm.block.IFuckingExplode;
 import api.hbm.block.IToolable;
-import codechicken.lib.math.MathHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
