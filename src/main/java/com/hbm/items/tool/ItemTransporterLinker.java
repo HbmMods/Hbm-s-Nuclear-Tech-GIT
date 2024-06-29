@@ -17,6 +17,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TransporterLinkerPacket;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.machine.TileEntityTransporterBase;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.CompatExternal;
 
 import cpw.mods.fml.relauncher.Side;
@@ -229,11 +230,11 @@ public class ItemTransporterLinker extends Item implements IGUIProvider {
 			data.get(info.dimensionId).addAll(Arrays.asList(info.x, info.y, info.z));
 		}
 
-		stack.stackTagCompound.setIntArray("dimensions", Arrays.stream(data.keySet().toArray()).mapToInt(i -> (int)i).toArray());
+		stack.stackTagCompound.setIntArray("dimensions", BobMathUtil.intCollectionToArray(data.keySet()));
 
 		for(Entry<Integer, List<Integer>> entry : data.entrySet()) {
 			NBTTagCompound dimensionTag = new NBTTagCompound();
-			dimensionTag.setIntArray("coords", Arrays.stream(entry.getValue().toArray()).mapToInt(i -> (int)i).toArray());
+			dimensionTag.setIntArray("coords", BobMathUtil.intCollectionToArray(entry.getValue()));
 			stack.stackTagCompound.setTag("d" + entry.getKey(), dimensionTag);
 		}
 	}
