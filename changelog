@@ -20,6 +20,7 @@
 * Added recipe caching to the combinator funnel, meaning it no longer has to iterate over the entire recipe list all the time for compression/automation, this should improve performance by a fair bit
 * Diodes now use silicon nuggets instead of nether quartz
 * Aluminium wire's coloring is now consistent with the ingot
+* Nuclear explosions below a radius of 75 no longer have a gamma flash, therefore a high yield mini nuke should no longer be able to instakill someone wearing full euph armor
 
 ## Fixed
 * Fixed crash caused by PRISM updating unloaded worlds

@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public class ContainerOreSlopper extends Container {
 	
@@ -29,8 +30,8 @@ public class ContainerOreSlopper extends Container {
 		this.addSlotToContainer(new SlotCraftingOutput(player.player, slopper, 7, 134, 54));
 		this.addSlotToContainer(new SlotCraftingOutput(player.player, slopper, 8, 152, 54));
 		//Upgrades
-		this.addSlotToContainer(new Slot(slopper, 0, 62, 72));
-		this.addSlotToContainer(new Slot(slopper, 0, 80, 72));
+		this.addSlotToContainer(new Slot(slopper, 9, 62, 72));
+		this.addSlotToContainer(new Slot(slopper, 10, 80, 72));
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -41,6 +42,11 @@ public class ContainerOreSlopper extends Container {
 		for(int i = 0; i < 9; i++) {
 			this.addSlotToContainer(new Slot(player, i, 8 + i * 18, 180));
 		}
+	}
+	
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
+		return null;
 	}
 
 	@Override
