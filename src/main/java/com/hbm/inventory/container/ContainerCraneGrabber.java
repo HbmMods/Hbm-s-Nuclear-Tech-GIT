@@ -31,15 +31,6 @@ public class ContainerCraneGrabber extends ContainerBase {
 		this.addSlotToContainer(new SlotUpgrade(grabber, 9, 121, 23));
 		this.addSlotToContainer(new SlotUpgrade(grabber, 10, 121, 47));
 
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 103 + i * 18));
-			}
-		}
-
-		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 161));
-		}
 		playerInv(invPlayer, 8, 103, 161);
 	}
 

@@ -52,6 +52,7 @@ public class ContainerBase extends Container {
         return var3;
     }
 
+    /**Used to quickly set up the player inventory*/
     public void playerInv(InventoryPlayer invPlayer, int playerInvX, int playerInvY, int playerHotbarY){
         for(int i = 0; i < 3; i++) {
             for(int j = 0; j < 9; j++) {
@@ -64,4 +65,17 @@ public class ContainerBase extends Container {
         }
     }
 
+    // I'm gonna make a farken helper function for this shit, why was it done the old way for 9 whole ass years?
+    //- Mellow, 1884
+    /**Used to add several conventional inventory slots at a time
+     * @param inv the inventory to add the slots to
+     * @param from the slot index to start from*/
+    public void addSlots(IInventory inv, int from, int x, int y, int rows, int cols) {
+        int slotSize = 18;
+        for(int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                this.addSlotToContainer(new Slot(inv, col + row * cols + from, x + col * slotSize, y + row * slotSize));
+            }
+        }
+    }
 }
