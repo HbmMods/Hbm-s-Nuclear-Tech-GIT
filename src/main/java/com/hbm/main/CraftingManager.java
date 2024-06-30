@@ -761,8 +761,6 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.obj_tester, 1), new Object[] { "P", "I", "S", 'P', ModItems.polaroid, 'I', ModItems.flame_pony, 'S', STEEL.plate() });
 
 		addRecipeAuto(new ItemStack(ModBlocks.fence_metal, 6), new Object[] { "BIB", "BIB", 'B', Blocks.iron_bars, 'I', Items.iron_ingot });
-		
-		addShapelessAuto(new ItemStack(Items.dye, 32, 15), new Object[] { new ItemStack(ModItems.ammonium_nitrate, 1) });
 
 		addShapelessAuto(new ItemStack(ModBlocks.fence_metal, 1, 1), new Object[] { new ItemStack(ModBlocks.fence_metal, 1, 0) });
 		addShapelessAuto(new ItemStack(ModBlocks.fence_metal, 1, 0), new Object[] { new ItemStack(ModBlocks.fence_metal, 1, 1) });
