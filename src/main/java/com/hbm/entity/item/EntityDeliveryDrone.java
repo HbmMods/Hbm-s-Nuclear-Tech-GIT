@@ -4,8 +4,11 @@ import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ModItems;
+import com.hbm.items.tool.ItemDrone;
 import com.hbm.main.MainRegistry;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -27,6 +30,30 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 	
 	public EntityDeliveryDrone(World world) {
 		super(world);
+	}
+
+	@Override
+	public boolean hitByEntity(Entity attacker) {
+
+		if(attacker instanceof EntityPlayer && !worldObj.isRemote) {
+			this.setDead();
+			for (ItemStack stack : slots) {
+				if(stack != null)
+					this.entityDropItem(stack, 1F);
+			}
+			int meta = 0;
+
+			//whether it is an express drone
+			if(this.dataWatcher.getWatchableObjectByte(11) == 1)
+				meta = 2;
+
+			if(chunkLoading)
+				meta += 1;
+
+			this.entityDropItem(new ItemStack(ModItems.drone, 1, meta), 1F);
+		}
+
+		return false;
 	}
 
 	@Override
@@ -53,7 +80,7 @@ public class EntityDeliveryDrone extends EntityDroneBase implements IInventory, 
 
 	@Override
 	public double getSpeed() {
-		return this.dataWatcher.getWatchableObjectByte(11) == 1 ? 0.375 : 0.125;
+		return this.dataWatcher.getWatchableObjectByte(11) == 1 ? 0.375 * 3 : 0.375;
 	}
 	
 	@Override
