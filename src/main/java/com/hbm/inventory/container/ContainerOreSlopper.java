@@ -1,8 +1,12 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotCraftingOutput;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineOreSlopper;
 
+import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -43,10 +47,51 @@ public class ContainerOreSlopper extends Container {
 			this.addSlotToContainer(new Slot(player, i, 8 + i * 18, 180));
 		}
 	}
-	
+
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
-		return null;
+	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
+		ItemStack var3 = null;
+		Slot var4 = (Slot) this.inventorySlots.get(par2);
+
+		if(var4 != null && var4.getHasStack()) {
+			ItemStack var5 = var4.getStack();
+			var3 = var5.copy();
+
+			if(par2 <= 10) {
+				if(!this.mergeItemStack(var5, 11, this.inventorySlots.size(), true)) {
+					return null;
+				}
+			} else {
+				
+				if(var3.getItem() == ModItems.bedrock_ore_base) {
+					if(!this.mergeItemStack(var5, 2, 3, false)) {
+						return null;
+					}
+				} else if(var3.getItem() instanceof ItemMachineUpgrade) {
+					if(!this.mergeItemStack(var5, 9, 11, false)) {
+						return null;
+					}
+				} else if(var3.getItem() instanceof IItemFluidIdentifier) {
+					if(!this.mergeItemStack(var5, 1, 2, false)) {
+						return null;
+					}
+				} else if(var3.getItem() instanceof IBatteryItem || var3.getItem() == ModItems.battery_creative) {
+					if(!this.mergeItemStack(var5, 0, 1, false)) {
+						return null;
+					}
+				} else {
+					return null;
+				}
+			}
+
+			if(var5.stackSize == 0) {
+				var4.putStack((ItemStack) null);
+			} else {
+				var4.onSlotChanged();
+			}
+		}
+
+		return var3;
 	}
 
 	@Override

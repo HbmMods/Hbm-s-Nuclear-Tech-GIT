@@ -1,4 +1,24 @@
+## Added
+* Limestone dust
+  * Limestone now shreds into limestone dust instead of calcium (yields 4)
+  * Can be combination cooked into calcium
+  * Used for making cement
+* Cement
+  * Used in all concretes (only requires 1 per 16 concrete)
+  * Either made from combining 1 limestone dust with 3 clay (yields 4) or from shredding slag (also yields 4)
+* Bedrock ore processor
+  * Used for separating the new bedrock ore
+  * Creates ore slop as a byproduct
+  * Slop can be coked into some rare byproducts or solidified into tar sand
+  * Vitriol can be coked into iron and sulfuric acid or electrolyzed into sulfuric acid and chlorine
+* New bedrock ore processing
+  * Most bedrock ores now create a single common item that contains different quantities of the 6 main ore types
+  * Ores can be processed in many different ways with three tiers of byproducts and many optional steps, also making use of machines that the old bedrock ores didn't
+  * New bedrock ores are now rarer, only spawning in every 10th chunk vs in evbery 3rd
+  * The old system can be restored via config
+
 ## Changed
+* Updated italian localization
 * Updated boxducts
   * All boxducts are now way cleaner, only having bolts on intersections, with straight parts only having very light seams
   * Intersections now have unique textures for each size
@@ -21,6 +41,19 @@
 * Diodes now use silicon nuggets instead of nether quartz
 * Aluminium wire's coloring is now consistent with the ingot
 * Nuclear explosions below a radius of 75 no longer have a gamma flash, therefore a high yield mini nuke should no longer be able to instakill someone wearing full euph armor
+* Updated OpenComputers compat
+* The solar boiler now has a tooltip showing its contents
+* Updated drones
+  * Drones will now drop when destroyed
+  * Drones are now generally faster (standard drones are now as fast as express drones used to be)
+  * Holding a transport drone item now shows transport drone paths, just like how logistics drones work
+  * Drones should no longer randomly get stuck on waypoints
+  * Drones will now move upwards to avoid small ledges, this usually happens when drones approach docks from a lower angle
+  * Logistics drone crates can now be disabled with a redstone signal
+  * Logistics drone docks are now 5x faster, spawning a new rone every second instead of every 5 seconds
+  * Drones are now a fair bit cheaper
+* Tar sand can now be liquefacted into bitumen directly with a higher yield than the chemplant recipe
+  * This however is slower, more energy intensive and yields no sand byproduct
 
 ## Fixed
 * Fixed crash caused by PRISM updating unloaded worlds
