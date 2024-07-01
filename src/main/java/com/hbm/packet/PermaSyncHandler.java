@@ -20,6 +20,7 @@ import com.hbm.saveddata.TomSaveData;
 import com.hbm.saveddata.satellites.Satellite;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
@@ -102,6 +103,14 @@ public class PermaSyncHandler {
 			buf.writeBoolean(false);
 		}
 		/// TIME OF DAY ///
+
+		/// RIDING DESYNC FIX ///
+		if(player.ridingEntity != null) {
+			buf.writeInt(player.ridingEntity.getEntityId());
+		} else {
+			buf.writeInt(-1);
+		}
+		/// RIDING DESYNC FIX ///
 	}
 	
 	public static void readPacket(ByteBuf buf, World world, EntityPlayer player) {
@@ -170,5 +179,13 @@ public class PermaSyncHandler {
 			world.provider.setWorldTime(localTime);
 		}
 		/// TIME OF DAY ///
+
+		/// RIDING DESYNC FIX ///
+		int ridingId = buf.readInt();
+		if(ridingId >= 0 && player.ridingEntity == null) {
+			Entity entity = world.getEntityByID(ridingId);
+			player.mountEntity(entity);
+		}
+		/// RIDING DESYNC FIX ///
 	}
 }

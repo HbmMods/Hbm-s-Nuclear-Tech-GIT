@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
@@ -51,19 +52,30 @@ public class DebugTeleporter extends Teleporter {
 	}
 
 	public static void teleport(EntityPlayer player, int dim, double x, double y, double z, boolean grounded) {
+		if(player.dimension == dim) return; // ignore if we're teleporting to the same place
+
 		MinecraftServer mServer = MinecraftServer.getServer();
 		Side sidex = FMLCommonHandler.instance().getEffectiveSide();
 		if (sidex == Side.SERVER) {
 			if (player instanceof EntityPlayerMP) {
-				WorldServer worldserver = (WorldServer) mServer.worldServerForDimension(dim);
 				EntityPlayerMP playerMP = (EntityPlayerMP) player;
+				WorldServer sourceServer = playerMP.getServerForPlayer();
+				WorldServer targetServer = (WorldServer) mServer.worldServerForDimension(dim);
+				ServerConfigurationManager manager = playerMP.mcServer.getConfigurationManager();
+				DebugTeleporter teleporter = new DebugTeleporter(targetServer, x, y, z, grounded);
 
-				if(player.ridingEntity != null) {
-					// Bring it with us?
+				// Store these since they change after transfer
+				int fromDimension = player.dimension;
+				Entity ridingEntity = player.ridingEntity;
+
+				manager.transferPlayerToDimension(playerMP, dim, teleporter);
+
+				if(ridingEntity != null) {
+					manager.transferEntityToWorld(ridingEntity, fromDimension, sourceServer, targetServer, teleporter);
+					player.mountEntity(ridingEntity);
 				}
-
-				playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dim, new DebugTeleporter(worldserver, x, y, z, grounded));
 			}
 		}
 	}
+
 }
