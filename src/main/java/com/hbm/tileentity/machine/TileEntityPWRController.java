@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerPWR;
 import com.hbm.inventory.fluid.Fluids;
@@ -43,7 +44,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, SimpleComponent, IFluidStandardTransceiver {
+public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, SimpleComponent, IFluidStandardTransceiver, CompatHandler.OCComponent {
 	
 	public FluidTank[] tanks;
 	public int coreHeat;
@@ -53,8 +54,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public static final int hullHeatCapacityBase = 10_000_000;
 	public double flux;
 	
-	public int rodLevel = 100;
-	public int rodTarget = 100;
+	public double rodLevel = 100;
+	public double rodTarget = 100;
 	
 	public int typeLoaded;
 	public int amountLoaded;
@@ -202,7 +203,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 						this.decrStackSize(0, 1);
 						this.markChanged();
 					}
-		
+					double diff = this.rodLevel - this.rodTarget;
+					if(diff < 1 && diff > -1) this.rodLevel = this.rodTarget;
 					if(this.rodTarget > this.rodLevel) this.rodLevel++;
 					if(this.rodTarget < this.rodLevel) this.rodLevel--;
 					
@@ -280,8 +282,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			data.setDouble("progress", progress);
 			data.setInteger("typeLoaded", typeLoaded);
 			data.setInteger("amountLoaded", amountLoaded);
-			data.setInteger("rodLevel", rodLevel);
-			data.setInteger("rodTarget", rodTarget);
+			data.setDouble("rodLevel", rodLevel);
+			data.setDouble("rodTarget", rodTarget);
 			data.setInteger("coreHeatCapacity", coreHeatCapacity);
 			this.networkPack(data, 150);
 		} else {
@@ -395,7 +397,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		progress = nbt.getDouble("progress");
 		typeLoaded = nbt.getInteger("typeLoaded");
 		amountLoaded = nbt.getInteger("amountLoaded");
-		rodLevel = nbt.getInteger("rodLevel");
+		rodLevel = nbt.getDouble("rodLevel");
 		rodTarget = nbt.getInteger("rodTarget");
 		coreHeatCapacity = nbt.getInteger("coreHeatCapacity");
 	}
@@ -454,8 +456,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		this.coreHeat = nbt.getInteger("coreHeat");
 		this.hullHeat = nbt.getInteger("hullHeat");
 		this.flux = nbt.getDouble("flux");
-		this.rodLevel = nbt.getInteger("rodLevel");
-		this.rodTarget = nbt.getInteger("rodTarget");
+		this.rodLevel = nbt.getDouble("rodLevel");
+		this.rodTarget = nbt.getDouble("rodTarget");
 		this.typeLoaded = nbt.getInteger("typeLoaded");
 		this.amountLoaded = nbt.getInteger("amountLoaded");
 		this.progress = nbt.getDouble("progress");
@@ -499,8 +501,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		nbt.setInteger("coreHeat", coreHeat);
 		nbt.setInteger("hullHeat", hullHeat);
 		nbt.setDouble("flux", flux);
-		nbt.setInteger("rodLevel", rodLevel);
-		nbt.setInteger("rodTarget", rodTarget);
+		nbt.setDouble("rodLevel", rodLevel);
+		nbt.setDouble("rodTarget", rodTarget);
 		nbt.setInteger("typeLoaded", typeLoaded);
 		nbt.setInteger("amountLoaded", amountLoaded);
 		nbt.setDouble("progress", progress);
@@ -588,7 +590,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setLevel(Context context, Arguments args) {
-		rodTarget = MathHelper.clamp_int(args.checkInteger(0), 0, 100);
+		rodTarget = MathHelper.clamp_double(args.checkDouble(0), 0, 100);
 		this.markChanged();
 		return new Object[] {true};
 	}

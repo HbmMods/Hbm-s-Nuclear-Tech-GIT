@@ -152,20 +152,32 @@ public class HbmWorldGen implements IWorldGenerator {
 
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.malachiteSpawn, 16, 6, 40, ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal());
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.limestoneSpawn, 12, 25, 30, ModBlocks.stone_resource, EnumStoneType.LIMESTONE.ordinal());
-			
-			if(rand.nextInt(3) == 0) {
-				@SuppressWarnings("unchecked")
-				WeightedRandomGeneric<BedrockOreDefinition> item = (WeightedRandomGeneric<BedrockOreDefinition>) WeightedRandom.getRandomItem(rand, BedrockOre.weightedOres);
-				BedrockOreDefinition def = item.get();
-				
-				if(GeneralConfig.enable528 && GeneralConfig.enable528BedrockReplacement) {
-					BedrockOreDefinition replacement = BedrockOre.replacements.get(def.id);
-					if(replacement != null) def = replacement;
+
+			if(WorldConfig.newBedrockOres) {
+
+				if(rand.nextInt(10) == 0) {
+					int randPosX = i + rand.nextInt(2) + 8;
+					int randPosZ = j + rand.nextInt(2) + 8;
+	
+					BedrockOre.generate(world, randPosX, randPosZ, new ItemStack(ModItems.bedrock_ore_base), null, 0xD78A16, 1);
 				}
-				
-				int randPosX = i + rand.nextInt(2) + 8;
-				int randPosZ = j + rand.nextInt(2) + 8;
-				BedrockOre.generate(world, randPosX, randPosZ, def.stack, def.acid, def.color, def.tier);
+
+			} else {
+
+				if(rand.nextInt(3) == 0) {
+					@SuppressWarnings("unchecked")
+					WeightedRandomGeneric<BedrockOreDefinition> item = (WeightedRandomGeneric<BedrockOreDefinition>) WeightedRandom.getRandomItem(rand, BedrockOre.weightedOres);
+					BedrockOreDefinition def = item.get();
+
+					if(GeneralConfig.enable528 && GeneralConfig.enable528BedrockReplacement) {
+						BedrockOreDefinition replacement = BedrockOre.replacements.get(def.id);
+						if(replacement != null) def = replacement;
+					}
+
+					int randPosX = i + rand.nextInt(2) + 8;
+					int randPosZ = j + rand.nextInt(2) + 8;
+					BedrockOre.generate(world, randPosX, randPosZ, def.stack, def.acid, def.color, def.tier);
+				}
 			}
 
 			for(int k = 0; k < WorldConfig.randomSpawn; k++) {

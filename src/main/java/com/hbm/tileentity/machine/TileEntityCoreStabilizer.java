@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.container.ContainerCoreStabilizer;
 import com.hbm.inventory.gui.GUICoreStabilizer;
 import com.hbm.items.ModItems;
@@ -28,7 +29,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyReceiverMK2, SimpleComponent, IGUIProvider, IInfoProviderEC {
+public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyReceiverMK2, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
 
 	public long power;
 	public static final long maxPower = 2500000000L;

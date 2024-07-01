@@ -3,6 +3,8 @@ package com.hbm.tileentity.network;
 import java.util.List;
 
 import com.hbm.entity.item.EntityDeliveryDrone;
+import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.util.ParticleUtil;
 import com.hbm.packet.BufPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IBufPacketReceiver;
@@ -26,11 +28,9 @@ public class TileEntityDroneWaypoint extends TileEntity implements IBufPacketRec
 
 	@Override
 	public void updateEntity() {
-		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 		
 		if(!worldObj.isRemote) {
-			
 			if(nextY != -1) {
 				List<EntityDeliveryDrone> drones = worldObj.getEntitiesWithinAABB(EntityDeliveryDrone.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).offset(dir.offsetX * height, dir.offsetY * height, dir.offsetZ * height));
 				for(EntityDeliveryDrone drone : drones) {
@@ -42,13 +42,17 @@ public class TileEntityDroneWaypoint extends TileEntity implements IBufPacketRec
 
 			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 15));
 		} else {
-			
+			BlockPos pos = getCoord(dir);
 			if(nextY != -1 && worldObj.getTotalWorldTime() % 2 == 0) {
 				double x = xCoord + height * dir.offsetX + 0.5;
 				double y = yCoord + height * dir.offsetY + 0.5;
 				double z = zCoord + height * dir.offsetZ + 0.5;
 				
 				worldObj.spawnParticle("reddust", x, y, z, 0, 0, 0);
+
+				ParticleUtil.spawnDroneLine(worldObj,
+				pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+				(nextX  - pos.getX()), (nextY - pos.getY()), (nextZ - pos.getZ()), 0x0000ff);
 			}
 		}
 	}
@@ -105,5 +109,8 @@ public class TileEntityDroneWaypoint extends TileEntity implements IBufPacketRec
 
 		nbt.setInteger("height", height);
 		nbt.setIntArray("pos", new int[] {nextX, nextY, nextZ});
+	}
+	public BlockPos getCoord(ForgeDirection dir) {
+		return new BlockPos(xCoord  + height * dir.offsetX + 0.5, yCoord + height * dir.offsetY + 0.5, zCoord + height * dir.offsetZ + 0.5);
 	}
 }

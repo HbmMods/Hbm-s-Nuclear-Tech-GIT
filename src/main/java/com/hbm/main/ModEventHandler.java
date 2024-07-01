@@ -6,12 +6,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
+import java.util.UUID;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.hbm.blocks.IStepTickReceiver;
 import com.hbm.blocks.ModBlocks;
@@ -41,10 +42,6 @@ import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
-import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM;
-import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM.RadPerWorld;
-import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM.SubChunk;
-import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
@@ -54,6 +51,8 @@ import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.ItemModRevive;
 import com.hbm.items.armor.ItemModShackles;
 import com.hbm.items.food.ItemConserve.EnumFoodType;
+import com.hbm.items.special.ItemBedrockOreBase;
+import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.HbmCollection;
@@ -92,6 +91,8 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -122,8 +123,8 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -854,6 +855,8 @@ public class ModEventHandler {
 			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleFall((EntityPlayer)e);
 	}
 	
+	private static final UUID fopSpeed = UUID.fromString("e5a8c95d-c7a0-4ecf-8126-76fb8c949389");
+	
 	@SubscribeEvent
 	public void onWingFlop(TickEvent.PlayerTickEvent event) {
 
@@ -973,6 +976,17 @@ public class ModEventHandler {
 					}
 				}
 			}
+			
+			if(player.getUniqueID().toString().equals(ShadyUtil.LePeeperSauvage) ||	player.getDisplayName().equals("LePeeperSauvage")) {
+				
+				Multimap multimap = HashMultimap.create();
+				multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(fopSpeed, "FOP SPEED", 0.5, 1));
+				player.getAttributeMap().removeAttributeModifiers(multimap);
+				
+				if(player.isSprinting()) {
+					player.getAttributeMap().applyAttributeModifiers(multimap);
+				}
+			}
 		}
 	}
 	
@@ -1066,34 +1080,23 @@ public class ModEventHandler {
 			/// SYNC END ///
 		}
 
-		//TODO: rewrite this so it doesn't look like shit
 		if(player.worldObj.isRemote && event.phase == event.phase.START && !player.isInvisible() && !player.isSneaking()) {
-			
-			if(player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft)) {
-				
-				int i = player.ticksExisted * 3;
-				
-				Vec3 vec = Vec3.createVectorHelper(3, 0, 0);
-				
-				vec.rotateAroundY((float) (i * Math.PI / 180D));
-				
-				for(int k = 0; k < 5; k++) {
-					
-					vec.rotateAroundY((float) (1F * Math.PI / 180D));
-					//player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + player.worldObj.rand.nextDouble() * 0.05, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
-				}
-			}
 			
 			if(player.getUniqueID().toString().equals(ShadyUtil.Pu_238)) {
 				
 				Vec3 vec = Vec3.createVectorHelper(3 * rand.nextDouble(), 0, 0);
-				
 				vec.rotateAroundZ((float) (rand.nextDouble() * Math.PI));
 				vec.rotateAroundY((float) (rand.nextDouble() * Math.PI * 2));
-				
 				player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
 			}
 		}
+		
+		// OREDBG
+		/*if(!event.player.worldObj.isRemote) {
+			for(BedrockOreType type : BedrockOreType.values()) {
+				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(StatCollector.translateToLocalFormatted("item.bedrock_ore.type." + type.suffix + ".name") + ": " + ((int) (ItemBedrockOreBase.getOreLevel((int) Math.floor(player.posX), (int) Math.floor(player.posZ), type) * 100) / 100D), 777 + type.ordinal()), (EntityPlayerMP) player);
+			}
+		}*/
 		
 		// PRISMDBG
 		/*if(!event.player.worldObj.isRemote) {

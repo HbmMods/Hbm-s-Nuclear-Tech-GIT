@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.HashMap;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.CompatHandler;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.interfaces.IControlReceiver;
@@ -41,7 +42,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyProviderMK2, IControlReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC {
+public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyProviderMK2, IControlReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
 	
 	public long power;
 	public static final long maxPower = 1000000L;
@@ -605,14 +606,14 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setThrottle(Context context, Arguments args) {
 		throttle = args.checkInteger(0);
-		return new Object[] {true};
+		return new Object[] {};
 	}
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setAuto(Context context, Arguments args) {
 		autoMode = args.checkBoolean(0);
-		return new Object[] {true};
+		return new Object[] {};
 	}
 
 	@Callback(direct = true, limit = 4)
@@ -620,25 +621,82 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	public Object[] start(Context context, Arguments args) {
 		stopIfNotReady();
 		startup();
-		return new Object[] {true};
+		return new Object[] {};
 	}
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] stop(Context context, Arguments args) {
 		shutdown();
-		return new Object[] {true};
+		return new Object[] {};
 	}
 
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-
 		return new Object[] {throttle, state,
 				tanks[0].getFill(), tanks[0].getMaxFill(),
 				tanks[1].getFill(), tanks[1].getMaxFill(),
 				tanks[2].getFill(), tanks[2].getMaxFill(),
 				tanks[3].getFill(), tanks[3].getMaxFill()};
+	}
+
+	public String[] methods() {
+		return new String[] {
+				"getFluid",
+				"getType",
+				"getPower",
+				"getThrottle",
+				"getState",
+				"getAuto",
+				"setThrottle",
+				"setAuto",
+				"start",
+				"stop",
+				"getInfo"
+		};
+	}
+
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case ("getFluid"):
+				return new Object[] {
+						tanks[0].getFill(), tanks[0].getMaxFill(),
+						tanks[1].getFill(), tanks[1].getMaxFill(),
+						tanks[2].getFill(), tanks[2].getMaxFill(),
+						tanks[3].getFill(), tanks[3].getMaxFill()
+				};
+			case ("getType"):
+				return new Object[] {tanks[0].getTankType().getName()};
+			case ("getPower"):
+				return new Object[] {power};
+			case ("getThrottle"):
+				return new Object[] {throttle};
+			case ("getState"):
+				return new Object[] {state};
+			case ("getAuto"):
+				return new Object[] {autoMode};
+			case ("setThrottle"):
+				throttle = args.checkInteger(0);
+				return new Object[] {};
+			case ("setAuto"):
+				autoMode = args.checkBoolean(0);
+				return new Object[] {};
+			case ("start"):
+				stopIfNotReady();
+				startup();
+				return new Object[] {};
+			case ("stop"):
+				shutdown();
+				return new Object[] {};
+			case ("getInfo"):
+				return new Object[] {throttle, state,
+						tanks[0].getFill(), tanks[0].getMaxFill(),
+						tanks[1].getFill(), tanks[1].getMaxFill(),
+						tanks[2].getFill(), tanks[2].getMaxFill(),
+						tanks[3].getFill(), tanks[3].getMaxFill()};
+		}
+		throw new NoSuchMethodException();
 	}
 
 	@Override

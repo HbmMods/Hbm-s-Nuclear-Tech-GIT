@@ -8,6 +8,7 @@ import java.util.function.Function;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachineRadarNT;
 import com.hbm.inventory.gui.GUIMachineRadarNT;
@@ -37,11 +38,16 @@ import api.hbm.entity.IRadarDetectable;
 import api.hbm.entity.IRadarDetectableNT;
 import api.hbm.entity.IRadarDetectableNT.RadarScanParams;
 import api.hbm.entity.RadarEntry;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -60,7 +66,8 @@ import net.minecraft.world.WorldServer;
  * Now with SmЯt™ lag-free entity detection! (patent pending)
  * @author hbm
  */
-public class TileEntityMachineRadarNT extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IConfigurableMachine, IControlReceiver {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityMachineRadarNT extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IConfigurableMachine, IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
 
 	public boolean scanMissiles = true;
 	public boolean scanShells = true;
@@ -592,4 +599,127 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			return null;
 		});
 	}
+
+	//OC compat!
+
+	@Override
+	public String getComponentName() {
+		return "ntm_radar";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getSettings(Context context, Arguments args) {
+		return new Object[] {scanMissiles, scanShells, scanPlayers, smartMode};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getRange(Context context, Arguments args) {
+		return new Object[] {this.getRange()};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setSettings(Context context, Arguments args) {
+		this.scanMissiles = args.checkBoolean(0);
+		this.scanShells = args.checkBoolean(1);
+		this.scanPlayers = args.checkBoolean(2);
+		this.smartMode = args.checkBoolean(3);
+		return new Object[] {};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isJammed(Context context, Arguments args) {
+		return new Object[] {this.jammed};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getAmount(Context context, Arguments args) {
+		return new Object[] {entries.size()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isIndexPlayer(Context context, Arguments args) {
+		int index = args.checkInteger(0) - 1;
+		if(index > entries.size() || index < 0) {
+			return new Object[] {null, "No entity exists at that index."};
+		}
+		RadarEntry e = entries.get(index);
+		return new Object[] {e.blipLevel == IRadarDetectableNT.PLAYER};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getIndexType(Context context, Arguments args) {
+		int index = args.checkInteger(0) - 1;
+		if(index > entries.size() || index < 0) {
+			return new Object[] {null, "No entity exists at that index."};
+		}
+		RadarEntry e = entries.get(index);
+		return new Object[] {e.blipLevel};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEntityAtIndex(Context context, Arguments args) {
+		int index = args.checkInteger(0) - 1;
+		if(index > entries.size() || index < 0) {
+			return new Object[] {null, "No entity exists at that index."};
+		}
+		RadarEntry e = entries.get(index);
+		int type = e.blipLevel;
+		if(e.blipLevel == IRadarDetectableNT.PLAYER) {
+			return new Object[]{true, e.posX, e.posY, e.posZ, type, e.unlocalizedName};
+		}
+		return new Object[]{false, e.posX, e.posY, e.posZ, type};
+	}
+
+	public String[] methods() {
+		return new String[] {
+				"getSettings",
+				"getRange",
+				"setSettings",
+				"getEnergyInfo",
+				"isJammed",
+				"getAmount",
+				"isIndexPlayer",
+				"getIndexType",
+				"getEntityAtIndex"
+		};
+	}
+
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case ("getSettings"):
+				return getSettings(context, args);
+			case ("getRange"):
+				return getRange(context, args);
+			case ("setSettings"):
+				return setSettings(context, args);
+			case ("getEnergyInfo"):
+				return getEnergyInfo(context, args);
+			case ("isJammed"):
+				return isJammed(context, args);
+			case ("getAmount"):
+				return getAmount(context, args);
+			case ("isIndexPlayer"):
+				return isIndexPlayer(context, args);
+			case ("getIndexType"):
+				return getIndexType(context, args);
+			case ("getEntityAtIndex"):
+				return getEntityAtIndex(context, args);
+		}
+		throw new NoSuchMethodException();
+	}
+
 }

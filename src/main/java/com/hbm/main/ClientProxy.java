@@ -302,6 +302,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineDiesel.class, new RenderDieselGen());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineCombustionEngine.class, new RenderCombustionEngine());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineExcavator.class, new RenderExcavator());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineOreSlopper.class, new RenderOreSlopper());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineMixer.class, new RenderMixer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineHephaestus.class, new RenderHephaestus());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineAutosaw.class, new RenderAutosaw());
@@ -1961,7 +1962,9 @@ public class ClientProxy extends ServerProxy {
 					held == Item.getItemFromBlock(ModBlocks.drone_crate_provider) ||
 					held == Item.getItemFromBlock(ModBlocks.drone_crate_requester) ||
 					held == Item.getItemFromBlock(ModBlocks.drone_dock) ||
-					held == Item.getItemFromBlock(ModBlocks.drone_waypoint_request)) {
+					held == Item.getItemFromBlock(ModBlocks.drone_waypoint_request) ||
+					held == Item.getItemFromBlock(ModBlocks.drone_waypoint) ||
+					held == ModItems.drone_linker) {
 				double mX = data.getDouble("mX");
 				double mY = data.getDouble("mY");
 				double mZ = data.getDouble("mZ");

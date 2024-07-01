@@ -25,7 +25,10 @@ import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
+import com.hbm.items.special.ItemBedrockOreNew;
 import com.hbm.items.special.ItemBedrockOre.EnumBedrockOre;
+import com.hbm.items.special.ItemBedrockOreNew.BedrockOreGrade;
+import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
 import com.hbm.items.special.ItemByproduct.EnumByproduct;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.ItemStackUtil;
@@ -507,6 +510,40 @@ public class CentrifugeRecipes extends SerializableRecipe {
 					new ItemStack(ModItems.ore_enriched, 1, i),
 					ItemStackUtil.carefulCopy(by3),
 					ItemStackUtil.carefulCopy(by3) });
+		}
+		
+		for(BedrockOreType type : BedrockOreType.values()) {
+
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.BASE, type)), new ItemStack[] {ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY, type), new ItemStack(Blocks.gravel)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.BASE_ROASTED, type)), new ItemStack[] {ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY, type), new ItemStack(Blocks.gravel)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.BASE_WASHED, type)), new ItemStack[] {ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY, type), ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY, type), new ItemStack(Blocks.gravel)});
+
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_SULFURIC, type)), new ItemStack[] {ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_NOSULFURIC, type), ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_NOSULFURIC, type), ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_BYPRODUCT, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_SOLVENT, type)), new ItemStack[] {ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_NOSOLVENT, type), ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_NOSOLVENT, type), ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_BYPRODUCT, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_RAD, type)), new ItemStack[] {ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_NORAD, type), ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_NORAD, type), ItemBedrockOreNew.make(BedrockOreGrade.RAD_BYPRODUCT, type)});
+
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.primary1), ItemBedrockOreNew.extract(type.primary2)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_ROASTED, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.primary1), ItemBedrockOreNew.extract(type.primary2), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_NOSULFURIC, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.primary1), ItemBedrockOreNew.extract(type.primary2), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_NOSOLVENT, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.primary1), ItemBedrockOreNew.extract(type.primary2), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_NORAD, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.primary1), ItemBedrockOreNew.extract(type.primary2), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_FIRST, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.primary1), ItemBedrockOreNew.extract(type.primary1), ItemBedrockOreNew.extract(type.primary2), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type, 2)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_SECOND, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.primary1), ItemBedrockOreNew.extract(type.primary2), ItemBedrockOreNew.extract(type.primary2), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type, 2)});
+
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_BYPRODUCT, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.byproductAcid1), ItemBedrockOreNew.extract(type.byproductAcid2), ItemBedrockOreNew.extract(type.byproductAcid3), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ROASTED, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.byproductAcid1), ItemBedrockOreNew.extract(type.byproductAcid2), ItemBedrockOreNew.extract(type.byproductAcid3), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ARC, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.byproductAcid1), ItemBedrockOreNew.extract(type.byproductAcid2), ItemBedrockOreNew.extract(type.byproductAcid3), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_WASHED, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.byproductAcid1, 2), ItemBedrockOreNew.extract(type.byproductAcid2, 2), ItemBedrockOreNew.extract(type.byproductAcid3, 2), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_BYPRODUCT, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.byproductSolvent1), ItemBedrockOreNew.extract(type.byproductSolvent2), ItemBedrockOreNew.extract(type.byproductSolvent3), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ROASTED, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.byproductSolvent1), ItemBedrockOreNew.extract(type.byproductSolvent2), ItemBedrockOreNew.extract(type.byproductSolvent3), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ARC, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.byproductSolvent1), ItemBedrockOreNew.extract(type.byproductSolvent2), ItemBedrockOreNew.extract(type.byproductSolvent3), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_WASHED, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.byproductSolvent1, 2), ItemBedrockOreNew.extract(type.byproductSolvent2, 2), ItemBedrockOreNew.extract(type.byproductSolvent3, 2), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_BYPRODUCT, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.byproductRad1), ItemBedrockOreNew.extract(type.byproductRad2), ItemBedrockOreNew.extract(type.byproductRad3), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ROASTED, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.byproductRad1), ItemBedrockOreNew.extract(type.byproductRad2), ItemBedrockOreNew.extract(type.byproductRad3), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ARC, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.byproductRad1), ItemBedrockOreNew.extract(type.byproductRad2), ItemBedrockOreNew.extract(type.byproductRad3), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_WASHED, type)), new ItemStack[] {ItemBedrockOreNew.extract(type.byproductRad1, 2), ItemBedrockOreNew.extract(type.byproductRad2, 2), ItemBedrockOreNew.extract(type.byproductRad3, 2), ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)});
 		}
 		
 		List<ItemStack> quartz = OreDictionary.getOres("crystalCertusQuartz");

@@ -6,7 +6,12 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.tileentity.IRadarCommandReceiver;
 
+import cpw.mods.fml.common.Optional;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -68,5 +73,22 @@ public abstract class TileEntityTurretBaseArtillery extends TileEntityTurretBase
 				this.trySubscribe(worldObj, xCoord + dir.offsetX * 3 + rot.offsetX * (1 - j), yCoord + i, zCoord + dir.offsetZ * 3 + rot.offsetZ * (1 - j), ForgeDirection.WEST);
 			}
 		}
+	}
+
+	@Override
+	public String getComponentName() {
+		return "ntm_artillery";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getCurrentTarget(Context context, Arguments args) {
+		return new Object[] {targetQueue.get(0).xCoord, targetQueue.get(0).yCoord, targetQueue.get(0).zCoord};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getTargetDistance(Context context, Arguments args) {
+		return new Object[] {Math.sqrt(Math.pow(xCoord - args.checkDouble(0), 2)+Math.pow(yCoord - args.checkDouble(1), 2)+Math.pow(zCoord - args.checkDouble(2), 2))};
 	}
 }
