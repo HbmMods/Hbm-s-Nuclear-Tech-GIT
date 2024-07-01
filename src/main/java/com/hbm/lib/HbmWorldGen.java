@@ -400,8 +400,8 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 
 			if(WorldConfig.minefreq > 0 && GeneralConfig.enableMines && rand.nextInt(WorldConfig.minefreq) == 0) {
-				int x = i + rand.nextInt(16);
-				int z = j + rand.nextInt(16);
+				int x = i + rand.nextInt(16) + 8;
+				int z = j + rand.nextInt(16) + 8;
 				int y = world.getHeightValue(x, z);
 
 				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {

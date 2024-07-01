@@ -1,60 +1,12 @@
 ## Added
-* Limestone dust
-  * Limestone now shreds into limestone dust instead of calcium (yields 4)
-  * Can be combination cooked into calcium
-  * Used for making cement
-* Cement
-  * Used in all concretes (only requires 1 per 16 concrete)
-  * Either made from combining 1 limestone dust with 3 clay (yields 4) or from shredding slag (also yields 4)
-* Bedrock ore processor
-  * Used for separating the new bedrock ore
-  * Creates ore slop as a byproduct
-  * Slop can be coked into some rare byproducts or solidified into tar sand
-  * Vitriol can be coked into iron and sulfuric acid or electrolyzed into sulfuric acid and chlorine
-* New bedrock ore processing
-  * Most bedrock ores now create a single common item that contains different quantities of the 6 main ore types
-  * Ores can be processed in many different ways with three tiers of byproducts and many optional steps, also making use of machines that the old bedrock ores didn't
-  * New bedrock ores are now rarer, only spawning in every 10th chunk vs in evbery 3rd
-  * The old system can be restored via config
+* Acidizer Input Partitioner
+  * Buffers inputs for the ore acidizer and releases the exact amount needed to complete an operation
+  * This allows easy automation of acidizers accepting multiple types which have higher input requirements
+  * By simply shoving items into the acidizer all at once, there is a high likelyhood of the acidizer to clog, as the remaining input is no longer sufficient
+  * The partitioner only has 9 slots for ingredients, for more types it's necessary to sort the items and use multiple partitioners
+  * The partitioner has 9 additional slots for invalid items that cannot be processed via acidizer, those can be ejected via hopper IO
+  * An inline conveyor machine similar to the splitter, receives items from conveyors (but not from ejectors directly) and outputs them on its built-in conveyor belt
 
 ## Changed
-* Updated italian localization
-* Updated boxducts
-  * All boxducts are now way cleaner, only having bolts on intersections, with straight parts only having very light seams
-  * Intersections now have unique textures for each size
-  * Copper boxducts now have a much nicer color gradient
-  * Exhaust pipes now have a more rusted appearance
-* Added an alternate recipe for blank upgrades using integrated circuits and polymer instead of analog circuits
-* Update the soyuz and orbital module recipes
-  * Simplified the recipes, fewer microcrafting parts
-  * Both now use low-density elements which are made from aluminium/titanium, fiberglass and hard plastic
-  * Both now make use of more advanced electronics, although in smaller numbers
-* Removed the recipes for the satellite deco blocks, those will be phased out soon. Existing deco blocks can still be crafted back into functional satellites
-* Moved the satellite recipes to the welder, the attachment is now welded onto the common satellite body
-* Simplified the satellite recipes, adjusted cost based on utility (depth scanner, death ray and resonator are more expensive than the mapper/radar)
-* CTRL + ALT view now shows the item's internal name and domain
-* Adjusted Mekanism compat
-  * Decreased crafting complexity and time for the digiminer assembler recipe
-  * Replaced recipes for the wind turbine and atomic disassembler
-  * Added a config option for toggling Mekanism compat
-* Added recipe caching to the combinator funnel, meaning it no longer has to iterate over the entire recipe list all the time for compression/automation, this should improve performance by a fair bit
-* Diodes now use silicon nuggets instead of nether quartz
-* Aluminium wire's coloring is now consistent with the ingot
-* Nuclear explosions below a radius of 75 no longer have a gamma flash, therefore a high yield mini nuke should no longer be able to instakill someone wearing full euph armor
-* Updated OpenComputers compat
-* The solar boiler now has a tooltip showing its contents
-* Updated drones
-  * Drones will now drop when destroyed
-  * Drones are now generally faster (standard drones are now as fast as express drones used to be)
-  * Holding a transport drone item now shows transport drone paths, just like how logistics drones work
-  * Drones should no longer randomly get stuck on waypoints
-  * Drones will now move upwards to avoid small ledges, this usually happens when drones approach docks from a lower angle
-  * Logistics drone crates can now be disabled with a redstone signal
-  * Logistics drone docks are now 5x faster, spawning a new rone every second instead of every 5 seconds
-  * Drones are now a fair bit cheaper
-* Tar sand can now be liquefacted into bitumen directly with a higher yield than the chemplant recipe
-  * This however is slower, more energy intensive and yields no sand byproduct
-
-## Fixed
-* Fixed crash caused by PRISM updating unloaded worlds
-* Hopefully fixed another crash caused by PRISM (reproduction was unreliable and sporadic, not confirmed)
+* The mandatory washing step for bedrock ore byproducts now needs 4 items for sulfuric, 12 for dissolved and 24 for cleaned byproducts (isntead of just one)
+  * This should offset the exponentially increasing amount of byproduct created from processing bedrock ore which ends up being far greater than the primary product
