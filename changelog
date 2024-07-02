@@ -10,3 +10,7 @@
 ## Changed
 * The mandatory washing step for bedrock ore byproducts now needs 4 items for sulfuric, 12 for dissolved and 24 for cleaned byproducts (isntead of just one)
   * This should offset the exponentially increasing amount of byproduct created from processing bedrock ore which ends up being far greater than the primary product
+
+## Fixed
+* Added a write lock o cellular dungeons while generating, fixing a crash caused by dungeons that generate next to each other due to cascading worldgen
+* Added recipe caching to the arc furnace, fixing an issue where recipe detection and item IO are horribly inefficient

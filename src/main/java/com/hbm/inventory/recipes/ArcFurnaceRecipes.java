@@ -35,8 +35,10 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class ArcFurnaceRecipes extends SerializableRecipe {
-	
+
 	public static HashMap<AStack, ArcFurnaceRecipe> recipes = new HashMap();
+	public static HashMap<ComparableStack, ArcFurnaceRecipe> fastCacheSolid = new HashMap();
+	public static HashMap<ComparableStack, ArcFurnaceRecipe> fastCacheLiquid = new HashMap();
 
 	@Override
 	public void registerDefaults() {
@@ -149,14 +151,23 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 			}
 		}
 		
+		ComparableStack cacheKey = new ComparableStack(stack).makeSingular();
+		if(!liquid && fastCacheSolid.containsKey(cacheKey)) return fastCacheSolid.get(cacheKey);
+		if(liquid && fastCacheLiquid.containsKey(cacheKey)) return fastCacheLiquid.get(cacheKey);
+		
 		for(Entry<AStack, ArcFurnaceRecipe> entry : recipes.entrySet()) {
 			if(entry.getKey().matchesRecipe(stack, true)) {
 				ArcFurnaceRecipe rec = entry.getValue();
 				if((liquid && rec.fluidOutput != null) || (!liquid && rec.solidOutput != null)) {
+					if(!liquid) fastCacheSolid.put(cacheKey, rec);
+					if(liquid) fastCacheLiquid.put(cacheKey, rec);
 					return rec;
 				}
 			}
 		}
+		
+		if(!liquid) fastCacheSolid.put(cacheKey, null);
+		if(liquid) fastCacheLiquid.put(cacheKey, null);
 		
 		return null;
 	}
@@ -199,6 +210,8 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 	@Override
 	public void deleteRecipes() {
 		recipes.clear();
+		fastCacheSolid.clear();
+		fastCacheLiquid.clear();
 	}
 
 	@Override

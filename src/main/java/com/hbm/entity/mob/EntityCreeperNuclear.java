@@ -64,7 +64,6 @@ public class EntityCreeperNuclear extends EntityCreeper {
 
 	@Override
 	protected void dropFewItems(boolean p_70628_1_, int p_70628_2_) {
-
 		super.dropFewItems(p_70628_1_, p_70628_2_);
 
 		if(rand.nextInt(3) == 0)
