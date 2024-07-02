@@ -56,18 +56,10 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 		if(!worldObj.isRemote) {
 			
 			if(this.worldObj.getTotalWorldTime() % 20 == 0) this.updateConnections();
-			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			tanks[0].setType(9, slots);
 			
-			tanks[0].loadTank(1, 2, slots);
-			tanks[1].loadTank(3, 4, slots);
 			
 			if(worldObj.getTotalWorldTime() % 2 == 0) reform();
 
-			tanks[2].unloadTank(5, 6, slots);
-			tanks[3].unloadTank(7, 8, slots);
-
-	    
 	
 			for(DirPos pos : getConPos()) {
 				for(int i = 2; i < 4; i++) {
@@ -104,7 +96,7 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 			return;
 		}
 
-		tanks[1].withPressure(out.getX().pressure).setTankType(out.getX().type);
+		tanks[1].setTankType(out.getX().type);
 		tanks[2].setTankType(out.getY().type);
 		tanks[3].setTankType(out.getZ().type);
 		
