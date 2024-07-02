@@ -1,12 +1,10 @@
 package com.hbm.tileentity.machine.oil;
 
 import com.hbm.inventory.FluidStack;
-import com.hbm.inventory.container.ContainerMachineHydrotreater;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.gui.GUIMachineHydrotreater;
-import com.hbm.inventory.recipes.HydrotreatingRecipes;
+import com.hbm.inventory.recipes.AlkylationRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
@@ -95,7 +93,7 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 	
 	private void reform() {
 		
-		Triplet<FluidStack, FluidStack, FluidStack> out = HydrotreatingRecipes.getOutput(tanks[0].getTankType());
+		Triplet<FluidStack, FluidStack, FluidStack> out = AlkylationRecipes.getOutput(tanks[0].getTankType());
 		if(out == null) {
 			tanks[2].setTankType(Fluids.NONE);
 			tanks[3].setTankType(Fluids.NONE);
@@ -109,7 +107,6 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 		if(power < 20_000) return;
 		if(tanks[0].getFill() < 100) return;
 		if(tanks[1].getFill() < out.getX().fill) return;
-		if(slots[10] == null || slots[10].getItem() != ModItems.catalytic_converter) return;
 
 		if(tanks[2].getFill() + out.getY().fill > tanks[2].getMaxFill()) return;
 		if(tanks[3].getFill() + out.getZ().fill > tanks[3].getMaxFill()) return;
@@ -141,6 +138,7 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
 				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
 				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z)
+				
 		};
 	}
 	

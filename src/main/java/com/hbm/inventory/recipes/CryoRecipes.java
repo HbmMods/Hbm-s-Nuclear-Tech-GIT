@@ -103,7 +103,7 @@ public class CryoRecipes extends SerializableRecipe {
 
 	@Override
 	public String getFileName() {
-		return "cryodistillator.json";
+		return "hbmCryodistillator.json";
 	}
 
 	@Override
