@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.oil;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -20,6 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -30,7 +32,7 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 	
 	public long power;
 	public static final long maxPower = 1_000_000;
-	
+
 	public FluidTank[] tanks;
 
 	public TileEntityMachineAlkylation() {
@@ -64,7 +66,9 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 
 			tanks[2].unloadTank(5, 6, slots);
 			tanks[3].unloadTank(7, 8, slots);
-			
+
+	    
+	
 			for(DirPos pos : getConPos()) {
 				for(int i = 2; i < 4; i++) {
 					if(tanks[i].getFill() > 0) {
@@ -128,17 +132,21 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 	}
 	
 	public DirPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 		
 		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
-				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
-				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z)
-				
+				new DirPos( xCoord- dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * -2, dir),
+				new DirPos( xCoord- dir.offsetX * 2 - rot.offsetX * -2, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 2, dir),
+				new DirPos(xCoord- dir.offsetX * 3 - rot.offsetX * -1, yCoord, zCoord - dir.offsetZ * 3 - rot.offsetZ * -1, dir),
+				new DirPos(xCoord- dir.offsetX * 3 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 3 - rot.offsetZ * 1, dir),
+				new DirPos(xCoord- dir.offsetX * -0 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * -0 - rot.offsetZ * 2, dir),
+				new DirPos(xCoord- dir.offsetX * 0 - rot.offsetX * -2, yCoord, zCoord - dir.offsetZ * -0 - rot.offsetZ * -2, dir),
+				new DirPos(xCoord- dir.offsetX * -2 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * -2 - rot.offsetZ * 2, dir),
+				new DirPos(xCoord- dir.offsetX * -3 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * -3 - rot.offsetZ * 1, dir),
+				new DirPos( xCoord- dir.offsetX * -3 - rot.offsetX * -1, yCoord, zCoord - dir.offsetZ * -3 - rot.offsetZ * -1, dir),
+				new DirPos( xCoord- dir.offsetX * -2 - rot.offsetX * -2, yCoord, zCoord - dir.offsetZ * -2 - rot.offsetZ * -2, dir)
+
 		};
 	}
 	
