@@ -9,7 +9,7 @@ import net.minecraft.inventory.Slot;
 public class ContainerCrateTungsten extends ContainerCrateBase {
 
 	public ContainerCrateTungsten(InventoryPlayer invPlayer, TileEntityCrateTungsten te) {
-		super(te);
+		super(invPlayer,te);
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -17,14 +17,6 @@ public class ContainerCrateTungsten extends ContainerCrateBase {
 			}
 		}
 
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 32 + i * 18 + (18 * 3)));
-			}
-		}
-
-		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 90 + (18 * 3)));
-		}
+		this.playerInv(invPlayer,8, 32 + 18 * 3, 90 + (18 * 3));
 	}
 }

@@ -11,11 +11,13 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerCraneGrabber extends Container {
+public class ContainerCraneGrabber extends ContainerBase {
 	
 	protected TileEntityCraneGrabber grabber;
 	
 	public ContainerCraneGrabber(InventoryPlayer invPlayer, TileEntityCraneGrabber grabber) {
+		super(invPlayer, grabber);
+
 		this.grabber = grabber;
 		
 		//filter
@@ -29,15 +31,7 @@ public class ContainerCraneGrabber extends Container {
 		this.addSlotToContainer(new SlotUpgrade(grabber, 9, 121, 23));
 		this.addSlotToContainer(new SlotUpgrade(grabber, 10, 121, 47));
 
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 103 + i * 18));
-			}
-		}
-
-		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 161));
-		}
+		playerInv(invPlayer, 8, 103, 161);
 	}
 
 	@Override
@@ -80,11 +74,6 @@ public class ContainerCraneGrabber extends Container {
 		}
 
 		return var3;
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-		return grabber.isUseableByPlayer(player);
 	}
 
 	@Override
