@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
-import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.entity.missile.EntityMissileCustom;
+import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.handler.MissileStruct;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
@@ -54,7 +54,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -243,7 +242,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 					float moX = (float) (dir ? 0 : worldObj.rand.nextGaussian() * 0.65F);
 					float moZ = (float) (!dir ? 0 : worldObj.rand.nextGaussian() * 0.65F);
 					if (slots[1] != null && !(slots[1].getItem() instanceof ItemVOTVdrive)) {
-					MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
+						MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
 					}
 				}
 			}
@@ -338,14 +337,15 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		
 		target.rotateAroundY(worldObj.rand.nextFloat() * 360);
 		
-		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX + (int)target.xCoord, tZ + (int)target.zCoord, getStruct(slots[0]));
+		EntityMissileCustom missile;
+		if(slots[1].stackTagCompound.getBoolean("Processed")) {
+			missile = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, getStruct(slots[0])).withPayload(slots[1]);
+		} else {
+			missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX + (int)target.xCoord, tZ + (int)target.zCoord, getStruct(slots[0]));
+		}
+
 		worldObj.spawnEntityInWorld(missile);
 		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
-
-		
-		if(slots[1].stackTagCompound.getBoolean("Processed")) {
-			missile.setPayload(slots[1]);
-		}
 
 		subtractFuel();
 		

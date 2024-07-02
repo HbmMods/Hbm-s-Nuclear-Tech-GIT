@@ -296,14 +296,13 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 				this.launchTo(tX, tZ);
 			}
 		
-		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, 0, 0, getStruct(slots[0]));
+			EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, 0, 0, getStruct(slots[0]));
 
 
-		worldObj.spawnEntityInWorld(missile);
-		subtractFuel();
-		missile.setPayload(slots[1]);
-		
-		slots[0] = null;
+			worldObj.spawnEntityInWorld(missile);
+			subtractFuel();
+			
+			slots[0] = null;
 		}
 	}
 	public void launchTo(int tX, int tZ) {

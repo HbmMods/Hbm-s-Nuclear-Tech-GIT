@@ -127,7 +127,6 @@ public class EntityMappings {
 		addEntity(EntityCloudSolinium.class, "entity_cloud_rainbow", 1000);
 		addEntity(EntityRagingVortex.class, "entity_raging_vortex", 250);
 		addEntity(EntityCarrier.class, "entity_missile_carrier", 1000);
-		addEntity(EntityRidableCarrier.class, "entity_rocket_carrier", 1000);
 		addEntity(EntityBooster.class, "entity_missile_booster", 1000);
 		addEntity(EntityModBeam.class, "entity_beam_bang", 1000);
 		addEntity(EntityMissileBHole.class, "entity_missile_blackhole", 1000);
@@ -170,6 +169,7 @@ public class EntityMappings {
 		addEntity(EntityWaterSplash.class, "entity_water_splash", 1000);
 		addEntity(EntityBobmazon.class, "entity_bobmazon_delivery", 1000);
 		addEntity(EntityMissileCustom.class, "entity_custom_missile", 1000);
+		addEntity(EntityRideableRocket.class, "entity_rideable_rocket", 1000);
 		addEntity(EntityBalefire.class, "entity_balefire", 1000);
 		addEntity(EntityTom.class, "entity_tom_the_moonstone", 1000);
 		addEntity(EntityTomBlast.class, "entity_tom_bust", 1000);
