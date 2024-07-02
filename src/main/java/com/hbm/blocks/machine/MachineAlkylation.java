@@ -39,7 +39,7 @@ public class MachineAlkylation extends BlockDummyable implements ILookOverlay {
 		if(meta >= 12)
 			return new TileEntityMachineAlkylation();
 		if(meta >= extra)
-			return new TileEntityProxyCombo(false, false, true);
+			return new TileEntityProxyCombo(false, true, true);
 		
 		return null;
 	}
