@@ -649,6 +649,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_custom_launch_pad";
 	}
@@ -714,6 +715,8 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		return new Object[] {false};
 	}
 
+	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
 		return new String[] {
 				"getEnergyInfo",
@@ -725,6 +728,8 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		};
 	}
 
+	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch(method) {
 			case ("getEnergyInfo"):

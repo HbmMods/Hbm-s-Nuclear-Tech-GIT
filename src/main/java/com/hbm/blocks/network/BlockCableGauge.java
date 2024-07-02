@@ -143,6 +143,7 @@ public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, 
 		}
 
 		@Override
+		@Optional.Method(modid = "OpenComputers")
 		public String getComponentName() {
 			return "ntm_power_gauge";
 		}

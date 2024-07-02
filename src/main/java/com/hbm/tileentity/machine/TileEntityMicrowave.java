@@ -220,6 +220,7 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "microwave";
 	}

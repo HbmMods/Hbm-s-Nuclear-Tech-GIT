@@ -152,7 +152,7 @@ public class ClientProxy extends ServerProxy {
 		Jars.initJars();
 		
 		if(GeneralConfig.enableSoundExtension) {
-			SoundSystemConfig.setNumberNormalChannels(1000);
+			SoundSystemConfig.setNumberNormalChannels(GeneralConfig.normalSoundChannels);
 			SoundSystemConfig.setNumberStreamingChannels(50);
 		}
 	}

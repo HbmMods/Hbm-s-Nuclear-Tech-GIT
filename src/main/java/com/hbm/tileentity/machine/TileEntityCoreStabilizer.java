@@ -172,6 +172,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "dfc_stabilizer";
 	}

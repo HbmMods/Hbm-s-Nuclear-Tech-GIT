@@ -603,6 +603,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	//OC compat!
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_radar";
 	}
@@ -684,6 +685,8 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		return new Object[]{false, e.posX, e.posY, e.posZ, type};
 	}
 
+	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
 		return new String[] {
 				"getSettings",
@@ -698,6 +701,8 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		};
 	}
 
+	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch(method) {
 			case ("getSettings"):

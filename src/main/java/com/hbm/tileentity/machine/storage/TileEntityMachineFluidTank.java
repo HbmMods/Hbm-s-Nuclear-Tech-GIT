@@ -488,6 +488,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_fluid_tank";
 	}
@@ -517,11 +518,17 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
-		return new String[] {"getFluidStored", "getMaxStored", "getTypeStored", "getInfo"};
+		return new String[] {
+				"getFluidStored",
+				"getMaxStored",
+				"getTypeStored",
+				"getInfo"};
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch (method) {
 			case "getFluidStored":

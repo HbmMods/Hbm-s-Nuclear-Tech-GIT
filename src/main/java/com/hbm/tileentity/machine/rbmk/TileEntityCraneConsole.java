@@ -338,6 +338,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 	
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "rbmk_crane";
 	}

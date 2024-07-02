@@ -76,6 +76,7 @@ public abstract class TileEntityTurretBaseArtillery extends TileEntityTurretBase
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_artillery";
 	}

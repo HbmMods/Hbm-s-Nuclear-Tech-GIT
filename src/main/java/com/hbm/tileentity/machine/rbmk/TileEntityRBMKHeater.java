@@ -279,6 +279,7 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 	//opencomputers stuff
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "rbmk_heater";
 	}

@@ -259,6 +259,7 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_telex";
 	}

@@ -190,6 +190,7 @@ public class TileEntityCoreReceiver extends TileEntityMachineBase implements IEn
 
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "dfc_receiver";
 	}
