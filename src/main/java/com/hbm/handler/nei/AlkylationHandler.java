@@ -2,7 +2,6 @@ package com.hbm.handler.nei;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.recipes.AlkylationRecipes;
-import com.hbm.inventory.recipes.HydrotreatingRecipes;
 
 public class AlkylationHandler extends NEIUniversalHandler {
 
