@@ -36,7 +36,7 @@ public class GeneralConfig {
 	public static boolean enableSteamParticles = true;
 	public static boolean enableSoundExtension = true;
 	public static boolean enableMekanismChanges = true;
-	public static int normalSoundChannels = 100;
+	public static int normalSoundChannels = 200;
 	public static int hintPos = 0;
 
 	public static boolean enableExpensiveMode = false;
