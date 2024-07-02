@@ -494,6 +494,7 @@ public class Fluids {
 		metaOrder.add(SEEDSLURRY);
 		metaOrder.add(COLLOID);
 		metaOrder.add(VITRIOL);
+		metaOrder.add(SLOP);
 		metaOrder.add(IONGEL);
 		metaOrder.add(PEROXIDE);
 		metaOrder.add(SULFURIC_ACID);

@@ -873,6 +873,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderLight());
 		RenderingRegistry.registerBlockHandler(new RenderCRT());
 		RenderingRegistry.registerBlockHandler(new RenderToaster());
+		RenderingRegistry.registerBlockHandler(new RenderPartitioner());
 
 		RenderingRegistry.registerBlockHandler(new RenderFoundryBasin());
 		RenderingRegistry.registerBlockHandler(new RenderFoundryMold());
@@ -1962,7 +1963,9 @@ public class ClientProxy extends ServerProxy {
 					held == Item.getItemFromBlock(ModBlocks.drone_crate_provider) ||
 					held == Item.getItemFromBlock(ModBlocks.drone_crate_requester) ||
 					held == Item.getItemFromBlock(ModBlocks.drone_dock) ||
-					held == Item.getItemFromBlock(ModBlocks.drone_waypoint_request)) {
+					held == Item.getItemFromBlock(ModBlocks.drone_waypoint_request) ||
+					held == Item.getItemFromBlock(ModBlocks.drone_waypoint) ||
+					held == ModItems.drone_linker) {
 				double mX = data.getDouble("mX");
 				double mY = data.getDouble("mY");
 				double mZ = data.getDouble("mZ");

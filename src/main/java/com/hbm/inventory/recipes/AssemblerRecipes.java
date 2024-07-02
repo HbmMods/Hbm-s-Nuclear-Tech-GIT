@@ -466,6 +466,13 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.motor, 2),
 				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ANALOG)
 			}, 300);
+		makeRecipe(new ComparableStack(ModBlocks.machine_ore_slopper, 1), new AStack[] {
+				new OreDictStack(STEEL.plateCast(), 6),
+				new OreDictStack(TI.plate(), 8),
+				new OreDictStack(CU.pipe(), 3),
+				new ComparableStack(ModItems.motor, 3),
+				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ANALOG)
+			}, 200);
 		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.STEEL.ordinal()), new AStack[] {
 				new OreDictStack(STEEL.ingot(), 12),
 				new OreDictStack(W.ingot(), 4)

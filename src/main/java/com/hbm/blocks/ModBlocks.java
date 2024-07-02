@@ -526,7 +526,6 @@ public class ModBlocks {
 	public static Block lox_barrel;
 	public static Block taint_barrel;
 	public static Block crashed_balefire;
-	public static Block rejuvinator;
 	public static Block fireworks;
 	public static Block dynamite;
 	public static Block tnt;
@@ -591,6 +590,7 @@ public class ModBlocks {
 	public static Block spikes;
 
 	public static Block charger;
+	public static Block floodlight;
 	
 	public static Block tesla;
 
@@ -791,6 +791,7 @@ public class ModBlocks {
 	public static Block crane_boxer;
 	public static Block crane_unboxer;
 	public static Block crane_splitter;
+	public static Block crane_partitioner;
 
 	public static Block drone_waypoint;
 	public static Block drone_crate;
@@ -1491,6 +1492,7 @@ public class ModBlocks {
 		spotlight_halogen = new Spotlight(Material.iron, 32, LightType.HALOGEN, true).setBlockName("spotlight_halogen").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":flood_lamp");
 		spotlight_halogen_off = new Spotlight(Material.iron, 32, LightType.HALOGEN, false).setBlockName("spotlight_halogen_off").setBlockTextureName(RefStrings.MODID + ":flood_lamp_off");
 		spotlight_beam = new SpotlightBeam().setBlockName("spotlight_beam");
+		floodlight = new Floodlight(Material.iron).setBlockName("floodlight").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		reinforced_stone = new BlockGeneric(Material.rock).setBlockName("reinforced_stone").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(100.0F).setBlockTextureName(RefStrings.MODID + ":reinforced_stone");
 		concrete_smooth = new BlockRadResistant(Material.rock).setBlockName("concrete_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(140.0F).setBlockTextureName(RefStrings.MODID + ":concrete");
@@ -1911,6 +1913,7 @@ public class ModBlocks {
 		crane_boxer = new CraneBoxer().setBlockName("crane_boxer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crane_unboxer = new CraneUnboxer().setBlockName("crane_unboxer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crane_splitter = new CraneSplitter().setBlockName("crane_splitter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":crane_side");
+		crane_partitioner = new CranePartitioner().setBlockName("crane_partitioner").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":crane_side");
 		fan = new MachineFan().setBlockName("fan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		piston_inserter = new PistonInserter().setBlockName("piston_inserter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
@@ -2717,6 +2720,7 @@ public class ModBlocks {
 		
 		//Charger
 		GameRegistry.registerBlock(charger, charger.getUnlocalizedName());
+		//GameRegistry.registerBlock(floodlight, floodlight.getUnlocalizedName());
 		
 		//Decoration Blocks
 		GameRegistry.registerBlock(block_meteor, block_meteor.getUnlocalizedName());
@@ -2892,7 +2896,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(therm_endo, therm_endo.getUnlocalizedName());
 		GameRegistry.registerBlock(therm_exo, therm_exo.getUnlocalizedName());
 		GameRegistry.registerBlock(emp_bomb, emp_bomb.getUnlocalizedName());
-		//GameRegistry.registerBlock(rejuvinator, rejuvinator.getUnlocalizedName());
 		GameRegistry.registerBlock(det_cord, det_cord.getUnlocalizedName());
 		GameRegistry.registerBlock(det_charge, det_charge.getUnlocalizedName());
 		GameRegistry.registerBlock(det_nuke, det_nuke.getUnlocalizedName());
@@ -3162,6 +3165,7 @@ public class ModBlocks {
 		register(conveyor_chute);
 		register(conveyor_lift);
 		register(crane_splitter);
+		register(crane_partitioner);
 		register(drone_waypoint);
 		register(drone_crate);
 		register(drone_waypoint_request);

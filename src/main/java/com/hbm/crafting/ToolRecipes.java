@@ -131,7 +131,7 @@ public class ToolRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModBlocks.geiger), new Object[] { ModItems.geiger_counter });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.digamma_diagnostic), new Object[] { ModItems.geiger_counter, PO210.billet(), ASBESTOS.ingot() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.pollution_detector, 1), new Object[] { "SFS", "SCS", " S ", 'S', STEEL.plate(), 'F', ModItems.filter_coal, 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.VACUUM_TUBE) });
-		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ore_density_scanner, 1), new Object[] { "VVV", "CSC", "GGG", " S ", 'V', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.VACUUM_TUBE), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CAPACITOR), 'S', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER_CHASSIS), 'G', GOLD.plate() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.ore_density_scanner, 1), new Object[] { "VVV", "CSC", "GGG", 'V', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.VACUUM_TUBE), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CAPACITOR), 'S', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CONTROLLER_CHASSIS), 'G', GOLD.plate() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.defuser, 1), new Object[] { " PS", "P P", " P ", 'P', ANY_PLASTIC.ingot(), 'S', STEEL.plate() });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.coltan_tool, 1), new Object[] { "ACA", "CXC", "ACA", 'A', ALLOY.ingot(), 'C', CINNABAR.crystal(), 'X', Items.compass });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.reacher, 1), new Object[] { "BIB", "P P", "B B", 'B', W.bolt(), 'I', W.ingot(), 'P', ANY_RUBBER.ingot() });

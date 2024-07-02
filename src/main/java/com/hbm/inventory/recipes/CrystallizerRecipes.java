@@ -46,6 +46,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 	
 	//'Object' is either a ComparableStack or the key for the ore dict
 	private static HashMap<Pair<Object, FluidType>, CrystallizerRecipe> recipes = new HashMap();
+	private static HashMap<Object, Integer> amounts = new HashMap(); // for use in the partitioner
 
 	@Override
 	public void registerDefaults() {
@@ -155,17 +156,20 @@ public class CrystallizerRecipes extends SerializableRecipe {
 			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_NOSULFURIC, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_RAD, type), bedrock), new FluidStack(Fluids.RADIOSOLVENT, 250));
 			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_NOSOLVENT, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_RAD, type), bedrock), new FluidStack(Fluids.RADIOSOLVENT, 250));
 
-			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_BYPRODUCT, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_WASHED, type), washing), new FluidStack(Fluids.WATER, 250));
-			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ROASTED, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_WASHED, type), washing), new FluidStack(Fluids.WATER, 250));
-			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ARC, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_WASHED, type), washing), new FluidStack(Fluids.WATER, 250));
+			int sulf = 4;
+			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_BYPRODUCT, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_WASHED, type), washing).setReq(sulf), new FluidStack(Fluids.WATER, 250));
+			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ROASTED, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_WASHED, type), washing).setReq(sulf), new FluidStack(Fluids.WATER, 250));
+			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ARC, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_WASHED, type), washing).setReq(sulf), new FluidStack(Fluids.WATER, 250));
 
-			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_BYPRODUCT, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_WASHED, type), washing), new FluidStack(Fluids.WATER, 250));
-			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ROASTED, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_WASHED, type), washing), new FluidStack(Fluids.WATER, 250));
-			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ARC, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_WASHED, type), washing), new FluidStack(Fluids.WATER, 250));
+			int solv = 12;
+			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_BYPRODUCT, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_WASHED, type), washing).setReq(solv), new FluidStack(Fluids.WATER, 250));
+			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ROASTED, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_WASHED, type), washing).setReq(solv), new FluidStack(Fluids.WATER, 250));
+			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ARC, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_WASHED, type), washing).setReq(solv), new FluidStack(Fluids.WATER, 250));
 
-			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_BYPRODUCT, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.RAD_WASHED, type), washing), new FluidStack(Fluids.WATER, 250));
-			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ROASTED, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.RAD_WASHED, type), washing), new FluidStack(Fluids.WATER, 250));
-			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ARC, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.RAD_WASHED, type), washing), new FluidStack(Fluids.WATER, 250));
+			int rad = 24;
+			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_BYPRODUCT, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.RAD_WASHED, type), washing).setReq(rad), new FluidStack(Fluids.WATER, 250));
+			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ROASTED, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.RAD_WASHED, type), washing).setReq(rad), new FluidStack(Fluids.WATER, 250));
+			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ARC, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.RAD_WASHED, type), washing).setReq(rad), new FluidStack(Fluids.WATER, 250));
 
 			FluidStack primary = new FluidStack(Fluids.HYDROGEN, 250);
 			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_FIRST, type), bedrock), primary);
@@ -238,21 +242,40 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		
 		ComparableStack comp = new ComparableStack(stack.getItem(), 1, stack.getItemDamage());
 		Pair compKey = new Pair(comp, type);
-		
-		if(recipes.containsKey(compKey))
-			return recipes.get(compKey);
+
+		if(recipes.containsKey(compKey)) return recipes.get(compKey);
 		
 		String[] dictKeys = comp.getDictKeys();
 		
 		for(String key : dictKeys) {
-			
 			Pair dictKey = new Pair(key, type);
-
-			if(recipes.containsKey(dictKey))
-				return recipes.get(dictKey);
+			if(recipes.containsKey(dictKey)) return recipes.get(dictKey);
 		}
 		
+		comp.meta = OreDictionary.WILDCARD_VALUE;
+		if(recipes.containsKey(compKey)) return recipes.get(compKey);
+		
 		return null;
+	}
+	
+	public static int getAmount(ItemStack stack) {
+		
+		if(stack == null || stack.getItem() == null)
+			return 0;
+		
+		ComparableStack comp = new ComparableStack(stack.getItem(), 1, stack.getItemDamage());
+		if(amounts.containsKey(comp)) return amounts.get(comp);
+		
+		String[] dictKeys = comp.getDictKeys();
+		
+		for(String key : dictKeys) {
+			if(amounts.containsKey(key)) return amounts.get(key);
+		}
+		
+		comp.meta = OreDictionary.WILDCARD_VALUE;
+		if(amounts.containsKey(comp)) return amounts.get(comp);
+		
+		return 0;
 	}
 
 	public static HashMap getRecipes() {
@@ -289,6 +312,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 	public static void registerRecipe(Object input, CrystallizerRecipe recipe, FluidStack stack) {
 		recipe.acidAmount = stack.fill;
 		recipes.put(new Pair(input, stack.type), recipe);
+		amounts.put(input, recipe.itemAmount);
 	}
 	
 	public static class CrystallizerRecipe {
@@ -362,6 +386,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 	@Override
 	public void deleteRecipes() {
 		recipes.clear();
+		amounts.clear();
 	}
 
 	@Override

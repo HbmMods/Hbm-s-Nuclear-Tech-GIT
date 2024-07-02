@@ -54,6 +54,7 @@ public class CombinationRecipes extends SerializableRecipe {
 		recipes.put(SODALITE.gem(),								new Pair(new ItemStack(ModItems.powder_sodium), new FluidStack(Fluids.CHLORINE, 100)));
 		recipes.put(new ComparableStack(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.BAUXITE)), new Pair(new ItemStack(ModItems.ingot_aluminium, 2), new FluidStack(Fluids.REDMUD, 250)));
 		recipes.put(NA.dust(),									new Pair(null, new FluidStack(Fluids.SODIUM, 100)));
+		recipes.put(LIMESTONE.dust(),							new Pair(new ItemStack(ModItems.powder_calcium), new FluidStack(Fluids.CARBONDIOXIDE, 50)));
 
 		recipes.put(KEY_LOG,		new Pair(new ItemStack(Items.coal, 1 ,1),							new FluidStack(Fluids.WOODOIL, 250)));
 		recipes.put(KEY_SAPLING,	new Pair(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.WOOD),	new FluidStack(Fluids.WOODOIL, 50)));
