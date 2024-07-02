@@ -548,6 +548,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	}
 
 	@Override // please work
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		if(this.getTile() instanceof OCComponent)
 			return ((OCComponent) this.getTile()).getComponentName();
@@ -555,6 +556,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public boolean canConnectNode(ForgeDirection side) { //thank you vaer
 		if(this.getTile() instanceof OCComponent)
 			return (this.getTile().getBlockMetadata() & 6) == 6 && ((OCComponent) this.getTile()).canConnectNode(side);
@@ -562,6 +564,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String[] getExtraInfo() {
 		if(this.getTile() instanceof OCComponent)
 			return new String[] {"analyze.dummy"};
@@ -569,6 +572,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
 		if(this.getTile() instanceof OCComponent)
 			return ((OCComponent) this.getTile()).methods();
@@ -576,6 +580,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		if(this.getTile() instanceof OCComponent)
 			return ((OCComponent) this.getTile()).invoke(method, context, args);

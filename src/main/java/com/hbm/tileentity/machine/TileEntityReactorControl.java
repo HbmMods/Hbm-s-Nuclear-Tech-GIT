@@ -255,6 +255,7 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "reactor_control";
 	}

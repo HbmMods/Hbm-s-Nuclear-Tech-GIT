@@ -125,6 +125,7 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "rbmk_control_rod";
 	}

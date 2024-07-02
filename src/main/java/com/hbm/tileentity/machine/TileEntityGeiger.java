@@ -70,6 +70,7 @@ public class TileEntityGeiger extends TileEntity implements SimpleComponent, IIn
 		return rads;
 	}
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_geiger";
 	}

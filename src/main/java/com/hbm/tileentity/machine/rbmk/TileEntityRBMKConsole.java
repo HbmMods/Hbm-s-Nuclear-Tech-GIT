@@ -521,6 +521,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 	
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "rbmk_console";
 	}

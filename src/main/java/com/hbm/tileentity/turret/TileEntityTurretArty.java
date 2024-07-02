@@ -479,6 +479,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() { // :vomit:
 		return new String[] {
 				"setActive",
@@ -499,6 +500,7 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch (method) {
 			case "setActive":
