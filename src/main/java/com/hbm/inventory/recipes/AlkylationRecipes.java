@@ -18,21 +18,25 @@ import net.minecraft.item.ItemStack;
 
 public class AlkylationRecipes extends SerializableRecipe {
 	
-	private static HashMap<FluidType, Triplet<FluidStack, FluidStack, FluidStack>> recipes = new HashMap();
+	private static HashMap<FluidType, Triplet<FluidStack, FluidStack, FluidStack>> recipes = new HashMap<>();
 
 	@Override
 	public void registerDefaults() {
-		
-		recipes.put(Fluids.GAS, new Triplet(
-			new FluidStack(Fluids.SULFURIC_ACID, 5, 1),
-			new FluidStack(Fluids.AROMATICS, 90),
-			new FluidStack(Fluids.PETROLEUM, 15)
+		recipes.put(Fluids.CHLOROMETHANE, new Triplet<>( // Alkylation via halogenated methane
+			new FluidStack(Fluids.NONE, 0),
+			new FluidStack(Fluids.UNSATURATEDS, 75),
+			new FluidStack(Fluids.CHLORINE, 25)
 		));
-		recipes.put(Fluids.CHLORINE, new Triplet(
-				new FluidStack(Fluids.HCL, 5, 1),
-				new FluidStack(Fluids.UNSATURATEDS, 90),
-				new FluidStack(Fluids.REFORMGAS, 15)
-			));
+		recipes.put(Fluids.UNSATURATEDS, new Triplet<>( // iron oxide catalyst in the unit + heat produces cyclic chains
+			new FluidStack(Fluids.NONE, 0),
+			new FluidStack(Fluids.AROMATICS, 70),
+			new FluidStack(Fluids.PETROLEUM, 30)
+		));
+		recipes.put(Fluids.AROMATICS, new Triplet<>( // Dichloromethane triggers a further alkylation process, creating high-octane aromatics!
+			new FluidStack(Fluids.RADIOSOLVENT, 40),
+			new FluidStack(Fluids.XYLENE, 100),
+			new FluidStack(Fluids.CHLORINE, 10) // Chlorine is preserved in all, but you'll need to re-irradiate here 
+		));
 	}
 	
 	public static Triplet<FluidStack, FluidStack, FluidStack> getOutput(FluidType type) {
@@ -44,12 +48,16 @@ public class AlkylationRecipes extends SerializableRecipe {
 		HashMap<Object, Object[]> map = new HashMap<Object, Object[]>();
 		
 		for(Entry<FluidType, Triplet<FluidStack, FluidStack, FluidStack>> recipe : recipes.entrySet()) {
-			map.put(new ItemStack[] {
-							ItemFluidIcon.make(recipe.getKey(), 1000),
-							ItemFluidIcon.make(recipe.getValue().getX().type,	recipe.getValue().getX().fill * 10, 1) },
-					new ItemStack[] {
-							ItemFluidIcon.make(recipe.getValue().getY().type,	recipe.getValue().getY().fill * 10),
-							ItemFluidIcon.make(recipe.getValue().getZ().type,	recipe.getValue().getZ().fill * 10) });
+			ItemStack[] inputs = recipe.getValue().getX().type == Fluids.NONE
+				? new ItemStack[] { ItemFluidIcon.make(recipe.getKey(), 1000) }
+				: new ItemStack[] {
+					ItemFluidIcon.make(recipe.getKey(), 1000),
+					ItemFluidIcon.make(recipe.getValue().getX().type,	recipe.getValue().getX().fill * 10) }; // this nesting level is bird-behaviour
+
+			map.put(inputs,
+				new ItemStack[] {
+						ItemFluidIcon.make(recipe.getValue().getY().type,	recipe.getValue().getY().fill * 10),
+						ItemFluidIcon.make(recipe.getValue().getZ().type,	recipe.getValue().getZ().fill * 10) });
 		}
 		
 		return map;
@@ -70,21 +78,22 @@ public class AlkylationRecipes extends SerializableRecipe {
 		JsonObject obj = (JsonObject) recipe;
 
 		FluidType input = Fluids.fromName(obj.get("input").getAsString());
-		FluidStack acid = this.readFluidStack(obj.get("acid").getAsJsonArray());
-		FluidStack output1 = this.readFluidStack(obj.get("output1").getAsJsonArray());
-		FluidStack output2 = this.readFluidStack(obj.get("output2").getAsJsonArray());
+		FluidStack acid = readFluidStack(obj.get("acid").getAsJsonArray());
+		FluidStack output1 = readFluidStack(obj.get("output1").getAsJsonArray());
+		FluidStack output2 = readFluidStack(obj.get("output2").getAsJsonArray());
 		
-		recipes.put(input, new Triplet(acid, output1, output2));
+		recipes.put(input, new Triplet<>(acid, output1, output2));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void writeRecipe(Object recipe, JsonWriter writer) throws IOException {
 		Entry<FluidType, Triplet<FluidStack, FluidStack, FluidStack>> rec = (Entry<FluidType, Triplet<FluidStack, FluidStack, FluidStack>>) recipe;
 		
 		writer.name("input").value(rec.getKey().getName());
-		writer.name("acid"); this.writeFluidStack(rec.getValue().getX(), writer);
-		writer.name("output1"); this.writeFluidStack(rec.getValue().getY(), writer);
-		writer.name("output2"); this.writeFluidStack(rec.getValue().getZ(), writer);
+		writer.name("acid"); writeFluidStack(rec.getValue().getX(), writer);
+		writer.name("output1"); writeFluidStack(rec.getValue().getY(), writer);
+		writer.name("output2"); writeFluidStack(rec.getValue().getZ(), writer);
 	}
 
 	@Override

@@ -46,8 +46,8 @@ public class RenderAlkylation extends TileEntitySpecialRenderer implements IItem
 	public IItemRenderer getRenderer() {
 		return new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glTranslated(0, -4, 0);
-				GL11.glScaled(4, 4, 4);
+				GL11.glTranslated(0, -2, 0);
+				GL11.glScaled(5, 5, 5);
 			}
 			public void renderCommon() {
 				GL11.glScaled(0.5, 0.5, 0.5);

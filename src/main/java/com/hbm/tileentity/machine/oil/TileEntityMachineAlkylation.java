@@ -6,9 +6,6 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.AlkylationRecipes;
-import com.hbm.items.ModItems;
-import com.hbm.lib.Library;
-import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Triplet;
@@ -19,13 +16,8 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineAlkylation extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IPersistentNBT {
@@ -39,10 +31,10 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 		super(11);
 		
 		this.tanks = new FluidTank[4];
-		this.tanks[0] = new FluidTank(Fluids.GAS, 64_000);
-		this.tanks[1] = new FluidTank(Fluids.SULFURIC_ACID, 64_000);
-		this.tanks[2] = new FluidTank(Fluids.AROMATICS, 24_000);
-		this.tanks[3] = new FluidTank(Fluids.PETROLEUM, 24_000);
+		this.tanks[0] = new FluidTank(Fluids.CHLOROMETHANE, 8_000);
+		this.tanks[1] = new FluidTank(Fluids.NONE, 4_000);
+		this.tanks[2] = new FluidTank(Fluids.UNSATURATEDS, 8_000);
+		this.tanks[3] = new FluidTank(Fluids.CHLORINE, 8_000);
 	}
 
 	@Override
@@ -54,12 +46,9 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
 			if(this.worldObj.getTotalWorldTime() % 20 == 0) this.updateConnections();
 			
-			
 			if(worldObj.getTotalWorldTime() % 2 == 0) reform();
-
 	
 			for(DirPos pos : getConPos()) {
 				for(int i = 2; i < 4; i++) {
@@ -77,14 +66,14 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeLong(power);
-		for(int i = 0; i < 4; i++) tanks[i].serialize(buf);
+		for(int i = 0; i < tanks.length; i++) tanks[i].serialize(buf);
 	}
 	
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		this.power = buf.readLong();
-		for(int i = 0; i < 4; i++) tanks[i].deserialize(buf);
+		for(int i = 0; i < tanks.length; i++) tanks[i].deserialize(buf);
 	}
 	
 	private void reform() {
@@ -100,7 +89,7 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 		tanks[2].setTankType(out.getY().type);
 		tanks[3].setTankType(out.getZ().type);
 		
-		if(power < 20_000) return;
+		if(power < 4_000) return; // 40 kHE/s
 		if(tanks[0].getFill() < 100) return;
 		if(tanks[1].getFill() < out.getX().fill) return;
 
@@ -112,7 +101,7 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 		tanks[2].setFill(tanks[2].getFill() + out.getY().fill);
 		tanks[3].setFill(tanks[3].getFill() + out.getZ().fill);
 		
-		power -= 20_000;
+		power -= 4_000;
 	}
 	
 	private void updateConnections() {
@@ -128,17 +117,16 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 		
 		return new DirPos[] {
-				new DirPos( xCoord- dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * -2, dir),
-				new DirPos( xCoord- dir.offsetX * 2 - rot.offsetX * -2, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 2, dir),
-				new DirPos(xCoord- dir.offsetX * 3 - rot.offsetX * -1, yCoord, zCoord - dir.offsetZ * 3 - rot.offsetZ * -1, dir),
-				new DirPos(xCoord- dir.offsetX * 3 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 3 - rot.offsetZ * 1, dir),
-				new DirPos(xCoord- dir.offsetX * -0 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * -0 - rot.offsetZ * 2, dir),
-				new DirPos(xCoord- dir.offsetX * 0 - rot.offsetX * -2, yCoord, zCoord - dir.offsetZ * -0 - rot.offsetZ * -2, dir),
-				new DirPos(xCoord- dir.offsetX * -2 - rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * -2 - rot.offsetZ * 2, dir),
-				new DirPos(xCoord- dir.offsetX * -3 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * -3 - rot.offsetZ * 1, dir),
-				new DirPos( xCoord- dir.offsetX * -3 - rot.offsetX * -1, yCoord, zCoord - dir.offsetZ * -3 - rot.offsetZ * -1, dir),
-				new DirPos( xCoord- dir.offsetX * -2 - rot.offsetX * -2, yCoord, zCoord - dir.offsetZ * -2 - rot.offsetZ * -2, dir)
-
+			new DirPos(xCoord - dir.offsetX * 2  - rot.offsetX * 2,  yCoord, zCoord - dir.offsetZ * 2  - rot.offsetZ * -2, dir),
+			new DirPos(xCoord - dir.offsetX * 2  - rot.offsetX * -2, yCoord, zCoord - dir.offsetZ * 2  - rot.offsetZ * 2,  dir),
+			new DirPos(xCoord - dir.offsetX * 3  - rot.offsetX * -1, yCoord, zCoord - dir.offsetZ * 3  - rot.offsetZ * -1, dir),
+			new DirPos(xCoord - dir.offsetX * 3  - rot.offsetX * 1,  yCoord, zCoord - dir.offsetZ * 3  - rot.offsetZ * 1,  dir),
+			new DirPos(xCoord - dir.offsetX * -0 - rot.offsetX * 2,  yCoord, zCoord - dir.offsetZ * -0 - rot.offsetZ * 2,  dir),
+			new DirPos(xCoord - dir.offsetX * 0  - rot.offsetX * -2, yCoord, zCoord - dir.offsetZ * -0 - rot.offsetZ * -2, dir),
+			new DirPos(xCoord - dir.offsetX * -2 - rot.offsetX * 2,  yCoord, zCoord - dir.offsetZ * -2 - rot.offsetZ * 2,  dir),
+			new DirPos(xCoord - dir.offsetX * -3 - rot.offsetX * 1,  yCoord, zCoord - dir.offsetZ * -3 - rot.offsetZ * 1,  dir),
+			new DirPos(xCoord - dir.offsetX * -3 - rot.offsetX * -1, yCoord, zCoord - dir.offsetZ * -3 - rot.offsetZ * -1, dir),
+			new DirPos(xCoord - dir.offsetX * -2 - rot.offsetX * -2, yCoord, zCoord - dir.offsetZ * -2 - rot.offsetZ * -2, dir)
 		};
 	}
 	
@@ -146,36 +134,29 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		power = nbt.getLong("power");
-		tanks[0].readFromNBT(nbt, "t0");
-		tanks[1].readFromNBT(nbt, "t1");
-		tanks[2].readFromNBT(nbt, "t2");
-		tanks[3].readFromNBT(nbt, "t3");
+		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setLong("power", power);
-		tanks[0].writeToNBT(nbt, "t0");
-		tanks[1].writeToNBT(nbt, "t1");
-		tanks[2].writeToNBT(nbt, "t2");
-		tanks[3].writeToNBT(nbt, "t3");
+		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(nbt, "t" + i);
 	}
 	
 	AxisAlignedBB bb = null;
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 1,
-					yCoord,
-					zCoord - 1,
-					xCoord + 2,
-					yCoord + 7,
-					zCoord + 2
-					);
+				xCoord - 3,
+				yCoord,
+				zCoord - 1,
+				xCoord + 2,
+				yCoord + 3,
+				zCoord + 2
+			);
 		}
 		
 		return bb;
@@ -200,15 +181,13 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 	public void writeNBT(NBTTagCompound nbt) {
 		if(tanks[0].getFill() == 0 && tanks[1].getFill() == 0 && tanks[2].getFill() == 0 && tanks[3].getFill() == 0) return;
 		NBTTagCompound data = new NBTTagCompound();
-		for(int i = 0; i < 4; i++) this.tanks[i].writeToNBT(data, "" + i);
+		for(int i = 0; i < tanks.length; i++) this.tanks[i].writeToNBT(data, "t" + i);
 		nbt.setTag(NBT_PERSISTENT_KEY, data);
 	}
 
 	@Override
 	public void readNBT(NBTTagCompound nbt) {
 		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
-		for(int i = 0; i < 4; i++) this.tanks[i].readFromNBT(data, "" + i);
+		for(int i = 0; i < tanks.length; i++) this.tanks[i].readFromNBT(data, "t" + i);
 	}
-
-
 }

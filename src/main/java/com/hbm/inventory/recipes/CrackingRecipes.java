@@ -46,7 +46,7 @@ public class CrackingRecipes extends SerializableRecipe {
 		cracking.put(Fluids.OIL_DS,					new Pair(new FluidStack(Fluids.CRACKOIL_DS,		oil_crack_oil),		new FluidStack(Fluids.PETROLEUM,	oil_crack_petro)));
 		cracking.put(Fluids.BITUMEN,				new Pair(new FluidStack(Fluids.OIL,				bitumen_crack_oil),	new FluidStack(Fluids.AROMATICS,	bitumen_crack_aroma)));
 		cracking.put(Fluids.SMEAR,					new Pair(new FluidStack(Fluids.NAPHTHA,			smear_crack_napht),	new FluidStack(Fluids.PETROLEUM,	smear_crack_petro)));
-		cracking.put(Fluids.GAS,					new Pair(new FluidStack(Fluids.PETROLEUM,		gas_crack_petro),	new FluidStack(Fluids.UNSATURATEDS,	gas_crack_unsat)));
+		// cracking.put(Fluids.GAS,					new Pair(new FluidStack(Fluids.PETROLEUM,		gas_crack_petro),	new FluidStack(Fluids.UNSATURATEDS,	gas_crack_unsat)));
 		cracking.put(Fluids.DIESEL,					new Pair(new FluidStack(Fluids.KEROSENE,		diesel_crack_kero),	new FluidStack(Fluids.PETROLEUM,	diesel_crack_petro)));
 		cracking.put(Fluids.DIESEL_REFORM,			new Pair(new FluidStack(Fluids.KEROSENE_REFORM,	diesel_crack_kero),	new FluidStack(Fluids.PETROLEUM,	diesel_crack_petro)));
 		cracking.put(Fluids.DIESEL_CRACK,			new Pair(new FluidStack(Fluids.KEROSENE,		diesel_crack_kero),	new FluidStack(Fluids.PETROLEUM,	diesel_crack_petro)));

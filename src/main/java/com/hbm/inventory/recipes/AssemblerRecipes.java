@@ -38,7 +38,6 @@ import com.hbm.items.weapon.ItemAmmoHIMARS;
 import com.hbm.main.MainRegistry;
 
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModClassLoader;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -1202,6 +1201,16 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(CU.plateCast(), 4),
 				new ComparableStack(ModItems.thermo_element, 8),
 				new ComparableStack(ModItems.tank_steel, 3)
+			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.machine_alkylation), new AStack[] {
+				new OreDictStack(ANY_CONCRETE.any(), 12),
+				new OreDictStack(AL.plate528(), 12),
+				new OreDictStack(BIGMT.ingot(), 4),
+				new OreDictStack(STEEL.shell(), 3),
+				new OreDictStack(STEEL.pipe(), 4),
+				new ComparableStack(ModItems.circuit, 8, EnumCircuitType.CAPACITOR),
+				new ComparableStack(ModItems.catalyst_clay, 12),
+				new ComparableStack(ModItems.coil_tungsten, 4)
 			}, 200);
 		
 		makeRecipe(new ComparableStack(ModBlocks.transition_seal, 1), new AStack[]{
