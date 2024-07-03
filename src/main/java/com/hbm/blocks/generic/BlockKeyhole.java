@@ -123,14 +123,14 @@ public class BlockKeyhole extends BlockStone {
 		//Torches
 		int torchDist = width - 1;
 		int torchOff = torchDist - 1;
-		world.setBlock(x + torchDist, y + 2, z + torchOff, Blocks.torch);
-		world.setBlock(x + torchDist, y + 2, z - torchOff, Blocks.torch);
-		world.setBlock(x - torchDist, y + 2, z + torchOff, Blocks.torch);
-		world.setBlock(x - torchDist, y + 2, z - torchOff, Blocks.torch);
-		world.setBlock(x + torchOff, y + 2, z + torchDist, Blocks.torch);
-		world.setBlock(x - torchOff, y + 2, z + torchDist, Blocks.torch);
-		world.setBlock(x + torchOff, y + 2, z - torchDist, Blocks.torch);
-		world.setBlock(x - torchOff, y + 2, z - torchDist, Blocks.torch);
+		world.setBlock(x + torchDist, y + 2, z + torchOff, Blocks.redstone_torch);
+		world.setBlock(x + torchDist, y + 2, z - torchOff, Blocks.redstone_torch);
+		world.setBlock(x - torchDist, y + 2, z + torchOff, Blocks.redstone_torch);
+		world.setBlock(x - torchDist, y + 2, z - torchOff, Blocks.redstone_torch);
+		world.setBlock(x + torchOff, y + 2, z + torchDist, Blocks.redstone_torch);
+		world.setBlock(x - torchOff, y + 2, z + torchDist, Blocks.redstone_torch);
+		world.setBlock(x + torchOff, y + 2, z - torchDist, Blocks.redstone_torch);
+		world.setBlock(x - torchOff, y + 2, z - torchDist, Blocks.redstone_torch);
 		
 		//Cobwebs
 		if(world.rand.nextInt(4) == 0) {

@@ -104,7 +104,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			prevAngle = angle;
 			
 			if(isOn) {
-				angle += 5F * this.getCycleCount();
+				angle += 5F + this.getCycleCount();
 				
 				if(angle >= 360) {
 					angle -= 360;
@@ -243,7 +243,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	
 	public short getDuration() {
 		CrystallizerRecipe result = CrystallizerRecipes.getOutput(slots[0], tank.getTankType());
-		int base = result != null ? result.duration : 480;
+		int base = result != null ? result.duration : 600;
 		int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 		if(speed > 0) {
 			return (short) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.25F)));
