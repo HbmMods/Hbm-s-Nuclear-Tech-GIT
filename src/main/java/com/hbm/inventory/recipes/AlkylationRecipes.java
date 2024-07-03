@@ -64,8 +64,8 @@ public class AlkylationRecipes extends SerializableRecipe {
 
 			map.put(inputs,
 				new ItemStack[] {
-						ItemFluidIcon.make(recipe.getValue().getY().type,	recipe.getValue().getY().fill * 10),
-						ItemFluidIcon.make(recipe.getValue().getZ().type,	recipe.getValue().getZ().fill * 10) });
+					ItemFluidIcon.make(recipe.getValue().getY().type,	recipe.getValue().getY().fill * 10),
+					ItemFluidIcon.make(recipe.getValue().getZ().type,	recipe.getValue().getZ().fill * 10) });
 		}
 		
 		return map;
@@ -73,7 +73,7 @@ public class AlkylationRecipes extends SerializableRecipe {
 
 	@Override
 	public String getFileName() {
-		return "hbmAlklyation.json";
+		return "hbmAlkylation.json";
 	}
 
 	@Override
