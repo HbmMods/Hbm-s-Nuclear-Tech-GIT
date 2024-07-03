@@ -16,7 +16,6 @@ import static com.hbm.inventory.OreDictManager.*;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
@@ -34,8 +33,8 @@ public class ChemplantRecipes extends SerializableRecipe {
 	 * Meta order: Fixed using the id param, saved in indexMapping
 	 */
 
-	public static HashMap<Integer, ChemRecipe> indexMapping = new HashMap();
-	public static List<ChemRecipe> recipes = new ArrayList();
+	public static HashMap<Integer, ChemRecipe> indexMapping = new HashMap<>();
+	public static List<ChemRecipe> recipes = new ArrayList<>();
 	
 	@Override
 	public void registerDefaults() {
@@ -393,7 +392,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.canned_conserve, 1, 5))
 				.outputItems(new ItemStack(ModItems.animan, 1)));
 		recipes.add(new ChemRecipe(107, "ELBOWS", 250)
-				.inputFluids(new FluidStack(Fluids.ACID, 100), new FluidStack(Fluids.ELBOWGREASE, 900))
+				.inputFluids(new FluidStack(Fluids.PEROXIDE, 100), new FluidStack(Fluids.ELBOWGREASE, 900))
 				.inputItems(
 						new ComparableStack(ModBlocks.sand_dirty, 20))
 				.outputItems(new ItemStack(ModItems.ingot_iridium, 1)));
@@ -500,6 +499,10 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.ammonium_nitrate, 1),
 						new ComparableStack(Blocks.gravel, 8))
 				.outputItems(new ItemStack(Blocks.dirt, 8)));
+
+		recipes.add(new ChemRecipe(1002, "CHLOROMETHANE", 50)
+				.inputFluids(new FluidStack(Fluids.GAS, 750), new FluidStack(Fluids.CHLORINE, 250))
+				.outputFluids(new FluidStack(Fluids.CHLOROMETHANE, 1000)));
 	}
 
 	public static void registerOtherOil() {
@@ -587,7 +590,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 
 	@Override
 	public Object getRecipeObject() {
-		return this.recipes;
+		return recipes;
 	}
 
 	@Override
@@ -598,10 +601,10 @@ public class ChemplantRecipes extends SerializableRecipe {
 		int duration = obj.get("duration").getAsInt();
 		
 		recipes.add(new ChemRecipe(id, name, duration)
-				.inputFluids(	this.readFluidArray(		(JsonArray) obj.get("fluidInput")))
-				.inputItems(	this.readAStackArray(		(JsonArray) obj.get("itemInput")))
-				.outputFluids(	this.readFluidArray(		(JsonArray) obj.get("fluidOutput")))
-				.outputItems(	this.readItemStackArray(	(JsonArray) obj.get("itemOutput"))));
+				.inputFluids(	readFluidArray(		(JsonArray) obj.get("fluidInput")))
+				.inputItems(	readAStackArray(		(JsonArray) obj.get("itemInput")))
+				.outputFluids(	readFluidArray(		(JsonArray) obj.get("fluidOutput")))
+				.outputItems(	readItemStackArray(	(JsonArray) obj.get("itemOutput"))));
 	}
 
 	@Override
@@ -613,19 +616,19 @@ public class ChemplantRecipes extends SerializableRecipe {
 		writer.name("duration").value(chem.duration);
 		//Fluid IN
 		writer.name("fluidInput").beginArray();
-		for(FluidStack input : chem.inputFluids) { if(input != null) this.writeFluidStack(input, writer); }
+		for(FluidStack input : chem.inputFluids) { if(input != null) writeFluidStack(input, writer); }
 		writer.endArray();
 		//Item IN
 		writer.name("itemInput").beginArray();
-		for(AStack input : chem.inputs) { if(input != null) this.writeAStack(input, writer); }
+		for(AStack input : chem.inputs) { if(input != null) writeAStack(input, writer); }
 		writer.endArray();
 		//Fluid OUT
 		writer.name("fluidOutput").beginArray();
-		for(FluidStack output : chem.outputFluids) { if(output != null) this.writeFluidStack(output, writer); }
+		for(FluidStack output : chem.outputFluids) { if(output != null) writeFluidStack(output, writer); }
 		writer.endArray();
 		//Item OUT
 		writer.name("itemOutput").beginArray();
-		for(ItemStack output : chem.outputs) { if(output != null) this.writeItemStack(output, writer); }
+		for(ItemStack output : chem.outputs) { if(output != null) writeItemStack(output, writer); }
 		writer.endArray();
 		} catch(Exception ex) {
 			MainRegistry.logger.error(ex);
@@ -642,7 +645,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 
 	@Override
 	public void deleteRecipes() {
-		this.indexMapping.clear();
-		this.recipes.clear();
+		indexMapping.clear();
+		recipes.clear();
 	}
 }
