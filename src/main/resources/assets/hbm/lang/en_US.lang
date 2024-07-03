@@ -5809,6 +5809,7 @@ tile.ore_fire.name=Phosphorus Ore
 tile.ore_fluorite.name=Fluorite Ore
 tile.ore_gas.name=Natural Gas Deposit
 tile.ore_gas_empty.name=Empty Natural Gas Deposit
+tile.ore_shale.name=Natural Gas Shale
 tile.ore_glowstone.name=Glowstone Ore
 tile.ore_gneiss_asbestos.name=Schist Asbestos Ore
 tile.ore_gneiss_copper.name=Schist Copper Ore
