@@ -1341,6 +1341,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.ore_verticium");
 		ignoreMappings.add("hbm:item.warhead_mirvlet");
 		ignoreMappings.add("hbm:item.generator_front");
+		ignoreMappings.add("hbm:tile.rbmk_heatex");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

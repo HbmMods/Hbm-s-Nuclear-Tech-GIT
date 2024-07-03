@@ -5,7 +5,6 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
-import com.hbm.items.tool.ItemDrone;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.Entity;

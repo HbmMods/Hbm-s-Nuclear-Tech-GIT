@@ -8,9 +8,16 @@
   * An inline conveyor machine similar to the splitter, receives items from conveyors (but not from ejectors directly) and outputs them on its built-in conveyor belt
 
 ## Changed
-* The mandatory washing step for bedrock ore byproducts now needs 4 items for sulfuric, 12 for dissolved and 24 for cleaned byproducts (isntead of just one)
+* Updated russian localization
+* The mandatory washing step for bedrock ore byproducts now needs 4 items for sulfuric, 12 for dissolved and 24 for cleaned byproducts (instead of just one)
   * This should offset the exponentially increasing amount of byproduct created from processing bedrock ore which ends up being far greater than the primary product
+* The sound extension is now configurable, and the amount of sound channels reserved is now 200 by default instead of 1000, this should fix an issue where OC's sound would not work
+* Logistics drones are now crafted with standard transport drones and not express ones, making them substantially cheaper
+* Added strontium to the rare earth bedrock ore chain
 
 ## Fixed
-* Added a write lock o cellular dungeons while generating, fixing a crash caused by dungeons that generate next to each other due to cascading worldgen
+* Added a write lock on cellular dungeons while generating, fixing a crash caused by dungeons that generate next to each other due to cascading worldgen
 * Added recipe caching to the arc furnace, fixing an issue where recipe detection and item IO are horribly inefficient
+* Fixed arc furnace state not properly saving after performing a recipe
+* Fixed crash regarding OC compat
+* Fixed a rare crash with the anvil GUI
