@@ -22,6 +22,7 @@ public class AlkylationRecipes extends SerializableRecipe {
 
 	@Override
 	public void registerDefaults() {
+		// Useful halogenation recipes
 		recipes.put(Fluids.CHLOROMETHANE, new Triplet<>( // Alkylation via halogenated methane
 			new FluidStack(Fluids.NONE, 0),
 			new FluidStack(Fluids.UNSATURATEDS, 75),
@@ -36,6 +37,13 @@ public class AlkylationRecipes extends SerializableRecipe {
 			new FluidStack(Fluids.RADIOSOLVENT, 40),
 			new FluidStack(Fluids.XYLENE, 100),
 			new FluidStack(Fluids.CHLORINE, 10) // Chlorine is preserved in all, but you'll need to re-irradiate here 
+		));
+		
+		// Real world alkylation unit recipes
+		recipes.put(Fluids.PETROLEUM, new Triplet<>( // Alkys are generally used to turn isobutane into gasoline
+			new FluidStack(Fluids.SULFURIC_ACID, 50), // "significant volumes" of sulfuric acid are required
+			new FluidStack(Fluids.LIGHTOIL, 100), // but the output is highly useful!
+			new FluidStack(Fluids.PEROXIDE, 20) // "dehydrogenated sulfuric acid", aka we don't have that so sulfuric precursor, add water and sulfur to get a full loop
 		));
 	}
 	
