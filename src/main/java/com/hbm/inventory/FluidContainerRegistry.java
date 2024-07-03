@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
+import com.hbm.dim.SolarSystem;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.Fluids.CD_Canister;
@@ -35,9 +36,13 @@ public class FluidContainerRegistry {
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.pink_barrel), new ItemStack(ModItems.tank_steel), Fluids.KEROSENE, 10000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.lox_barrel), new ItemStack(ModItems.tank_steel), Fluids.OXYGEN, 10000));
 
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_oil), null, Fluids.OIL, 250));
-		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_gas), null, Fluids.GAS, 250));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_gneiss_gas), null, Fluids.PETROLEUM, GeneralConfig.enable528 ? 50 : 250));
+
+		for(int i = 0; i < SolarSystem.Body.values().length; i++) {
+			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_oil, 1, i), null, Fluids.OIL, 250));
+			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_gas, 1, i), null, Fluids.GAS, 100));
+			FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModBlocks.ore_shale, 1, i), null, Fluids.GAS, GeneralConfig.enable528 ? 50 : 250));
+		}
 
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_deuterium), new ItemStack(ModItems.cell_empty), Fluids.DEUTERIUM, 1000));
 		FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.cell_tritium), new ItemStack(ModItems.cell_empty), Fluids.TRITIUM, 1000));
