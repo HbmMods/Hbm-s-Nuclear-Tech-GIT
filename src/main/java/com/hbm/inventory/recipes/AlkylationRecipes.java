@@ -42,7 +42,7 @@ public class AlkylationRecipes extends SerializableRecipe {
 		// Real world alkylation unit recipes
 		recipes.put(Fluids.PETROLEUM, new Triplet<>( // Alkys are generally used to turn isobutane into gasoline
 			new FluidStack(Fluids.SULFURIC_ACID, 50), // "significant volumes" of sulfuric acid are required
-			new FluidStack(Fluids.LIGHTOIL, 100), // but the output is highly useful!
+			new FluidStack(Fluids.LIGHTOIL, 50), // but the output is highly useful!
 			new FluidStack(Fluids.PEROXIDE, 20) // "dehydrogenated sulfuric acid", aka we don't have that so sulfuric precursor, add water and sulfur to get a full loop
 		));
 	}
