@@ -6,14 +6,26 @@
   * The partitioner only has 9 slots for ingredients, for more types it's necessary to sort the items and use multiple partitioners
   * The partitioner has 9 additional slots for invalid items that cannot be processed via acidizer, those can be ejected via hopper IO
   * An inline conveyor machine similar to the splitter, receives items from conveyors (but not from ejectors directly) and outputs them on its built-in conveyor belt
+* New circuit items
+  * Quantum computer themed circuits for post fusion circuits
+  * The ICF core now needs 16 solid state quantum processors
+  * Quantum computers are post fusion tier control units
+  * Quantum circuits are made from a new alloy, BSCCO, which requires bismuth
 
 ## Changed
 * Updated russian localization
 * The mandatory washing step for bedrock ore byproducts now needs 4 items for sulfuric, 12 for dissolved and 24 for cleaned byproducts (instead of just one)
   * This should offset the exponentially increasing amount of byproduct created from processing bedrock ore which ends up being far greater than the primary product
+  * The step being mandatory means that byproducts cannot be centrifuged until they are washed
 * The sound extension is now configurable, and the amount of sound channels reserved is now 200 by default instead of 1000, this should fix an issue where OC's sound would not work
 * Logistics drones are now crafted with standard transport drones and not express ones, making them substantially cheaper
 * Added strontium to the rare earth bedrock ore chain
+* Electrolyzing primary bedrock ore fractions now yields more material, as well as crumbs
+* The Gerald recipe has been reworked
+  * Gerald no longer needs a ton of coins, instead it's just a single UFO coin (still requires the boss progression, may be changed in the future)
+  * Gerald now makes use of BSCCO wires
+  * A new microcrafting item has been added, heavy duty elements, these need to be mass-produced in the arc welder using cast bronze, welded CMB and fullerite, also using stellar flux for welding
+  * The recipe uses a stack of the brand new quantum computers
 
 ## Fixed
 * Added a write lock on cellular dungeons while generating, fixing a crash caused by dungeons that generate next to each other due to cascading worldgen

@@ -13,7 +13,8 @@ public class ItemGenericPart extends ItemEnumMulti {
 		PISTON_PNEUMATIC("piston_pneumatic"),
 		PISTON_HYDRAULIC("piston_hydraulic"),
 		PISTON_ELECTRIC("piston_electric"),
-		LDE("low_density_element");
+		LDE("low_density_element"),
+		HDE("heavy_duty_element");
 		
 		private String texName;
 		

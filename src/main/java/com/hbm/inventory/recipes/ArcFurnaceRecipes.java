@@ -58,11 +58,11 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 		
 		for(BedrockOreType type : BedrockOreType.values()) {
 			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_BYPRODUCT, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ARC, type, 2)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ARC, type, 3)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ARC, type, 4)));
 			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_BYPRODUCT, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ARC, type, 2)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ARC, type, 3)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ARC, type, 4)));
 			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_BYPRODUCT, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ARC, type, 2)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ARC, type, 3)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ROASTED, type)), new ArcFurnaceRecipe().solid(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ARC, type, 4)));
 
 			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_FIRST, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.primary1, MaterialShapes.INGOT.q(5)), ItemBedrockOreNew.toFluid(type.primary2, MaterialShapes.INGOT.q(2))));
 			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_SECOND, type)), new ArcFurnaceRecipe().fluidNull(ItemBedrockOreNew.toFluid(type.primary1, MaterialShapes.INGOT.q(2)), ItemBedrockOreNew.toFluid(type.primary2, MaterialShapes.INGOT.q(5))));

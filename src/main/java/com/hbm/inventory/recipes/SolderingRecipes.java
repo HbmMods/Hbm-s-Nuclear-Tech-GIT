@@ -92,7 +92,7 @@ public class SolderingRecipes extends SerializableRecipe {
 		));
 		
 		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.QUANTUM.ordinal()), 400, 100_000,
-				new FluidStack(Fluids.RADIOSOLVENT, 1_000),
+				new FluidStack(Fluids.HELIUM4, 1_000),
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP_QUANTUM),
 						new ComparableStack(ModItems.circuit, lbsm ? 4 : 16, EnumCircuitType.CHIP_BISMOID),
