@@ -108,7 +108,7 @@ public class EntityRideableRocket extends EntityMissileCustom {
 
 	@Override
 	protected void spawnContrail() {
-		if(getState() == RocketState.LAUNCHING || getState() == RocketState.LANDING) {
+		if(getState() == RocketState.LAUNCHING) {
 			super.spawnContrail();
 		}
 	}

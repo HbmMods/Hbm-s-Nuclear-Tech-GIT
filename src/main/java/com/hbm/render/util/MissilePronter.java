@@ -40,4 +40,13 @@ public class MissilePronter {
 
 		GL11.glPopMatrix();
 	}
+
+	// Attaches a set of stages together
+	public static void prontRocket(MissileMultipart[] rocket, TextureManager tex) {
+		GL11.glPushMatrix();
+
+		
+
+		GL11.glPopMatrix();
+	}
 }
