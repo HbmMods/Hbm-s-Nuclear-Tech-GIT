@@ -9,10 +9,13 @@ import com.hbm.dim.SolarSystem;
 import com.hbm.handler.MissileStruct;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
+import com.hbm.render.util.MissileMultipart;
+import com.hbm.render.util.MissilePart;
 import com.hbm.util.BobMathUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -35,6 +38,8 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 
 	private double rocketVelocity = 0;
 
+	private boolean sizeSet = false;
+
 	public enum RocketState {
 		AWAITING,		// Prepped for launch, once mounted will transition to launching
 		LAUNCHING,		// Ascending through the atmosphere up to the target altitude, at which point it'll teleport to the target body
@@ -44,13 +49,18 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 
 	public EntityRideableRocket(World world) {
 		super(world);
-		setSize(2, 20);
 	}
 
 	public EntityRideableRocket(World world, float x, float y, float z, MissileStruct template, NBTTagCompound itemData) {
 		super(world, x, y, z, (int) x, (int) z, template);
 		this.itemData = itemData;
-		setSize(2, 20);
+		
+		MissileMultipart missile = new MissileMultipart();
+		missile.warhead = MissilePart.getPart(template.warhead);
+		missile.fuselage = MissilePart.getPart(template.fuselage);
+		missile.thruster = MissilePart.getPart(template.thruster);
+
+		setSize(2, (float)missile.getHeight() + 1);
 	}
 
 	public EntityRideableRocket withPayload(ItemStack stack) {
@@ -69,6 +79,15 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 	public void onUpdate() {
 		super.onUpdate();
 
+		if(!sizeSet) {
+			MissileMultipart missile = new MissileMultipart();
+			missile.warhead = MissilePart.getPart(Item.getItemById(dataWatcher.getWatchableObjectInt(9)));
+			missile.fuselage = MissilePart.getPart(Item.getItemById(dataWatcher.getWatchableObjectInt(10)));
+			missile.thruster = MissilePart.getPart(Item.getItemById(dataWatcher.getWatchableObjectInt(12)));
+			
+			setSize(2, (float)missile.getHeight() + 1);
+		}
+
 		EntityPlayer rider = (EntityPlayer) this.riddenByEntity;
 		RocketState state = getState();
 
@@ -83,8 +102,8 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 
 				rotationPitch = Math.min(stateTimer * 0.4F, 60.0F);
 			} else if(state == RocketState.LANDING) {
-				double targetHeight = (double)worldObj.getHeightValue((int)posX, (int)posY) + height * 0.5;
-				rocketVelocity = MathHelper.clamp_double((targetHeight - posY) * 0.005, -0.2, 0.002);
+				double targetHeight = (double)worldObj.getHeightValue((int)posX, (int)posZ) + 1;
+				rocketVelocity = MathHelper.clamp_double((targetHeight - posY) * 0.005, -0.15, -0.005);
 				rotationPitch = 0;
 			} else {
 				rocketVelocity = 0;
@@ -93,9 +112,9 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 
 			if(state == RocketState.LAUNCHING) {
 				Vec3 motion = BobMathUtil.getDirectionFromAxisAngle(rotationPitch - 90.0F, 180.0F - rotationYaw, rocketVelocity);
-				motionX = motion.xCoord;
-				motionY = motion.yCoord + rocketVelocity;
-				motionZ = motion.zCoord;
+				motionX = MathHelper.clamp_double(motion.xCoord, -1, 1);
+				motionY = rocketVelocity;
+				motionZ = MathHelper.clamp_double(motion.zCoord, -1, 1);
 			} else {
 				motionX = 0;
 				motionY = rocketVelocity;
@@ -109,7 +128,7 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 					SolarSystem.Body destination = SolarSystem.Body.values()[navDrive.getItemDamage()];
 
 					if(destination.getBody() != null) {
-						DebugTeleporter.teleport(rider, destination.getBody().dimensionId, rider.posX, 300, rider.posZ, false);
+						DebugTeleporter.teleport(rider, destination.getBody().dimensionId, 0, 300, 0, false);
 					}
 				}
 			}
@@ -151,9 +170,22 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 	protected void onImpact(MovingObjectPosition mop) {
 		setState(RocketState.LANDED);
 
+		posY = (double)worldObj.getHeightValue((int)posX, (int)posZ);
+
 		motionX = 0;
 		motionY = 0;
 		motionZ = 0;
+	}
+
+	@Override
+	public double getMountedYOffset() {
+		return height - 3.0;
+	}
+	
+	@Override
+    protected void setSize(float width, float height) {
+		super.setSize(width, height);
+		sizeSet = true;
 	}
 
 	/**
