@@ -598,6 +598,7 @@ public class ModItems {
 	public static Item magnet_circular;
 	public static Item component_limiter;
 	public static Item component_emitter;
+	public static Item coolant_pinwheel;
 	public static Item chlorine_pinwheel;
 	public static Item deuterium_filter;
 	
@@ -1727,6 +1728,7 @@ public class ModItems {
 	public static Item marshmallow;
 	public static Item cheese;
 	public static Item quesadilla;
+	public static Item package_crayons;
 	public static Item glyphid_meat;
 	public static Item glyphid_meat_grilled;
 	public static Item egg_glyphid;
@@ -3023,6 +3025,8 @@ public class ModItems {
 		component_emitter = new Item().setUnlocalizedName("component_emitter").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":component_emitter");
 		chlorine_pinwheel = new ItemInfiniteFluid(Fluids.CHLORINE, 1, 2).setUnlocalizedName("chlorine_pinwheel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":chlorine_pinwheel");
 		FluidTank.noDualUnload.add(chlorine_pinwheel);
+		coolant_pinwheel = new ItemInfiniteFluid(Fluids.COOLANT, 1, 2).setUnlocalizedName("coolant_pinwheel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fumo_cirno");
+		FluidTank.noDualUnload.add(coolant_pinwheel);
 		ring_starmetal = new Item().setUnlocalizedName("ring_starmetal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ring_starmetal");
 		flywheel_beryllium = new Item().setUnlocalizedName("flywheel_beryllium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":flywheel_beryllium");
 		deuterium_filter = new Item().setUnlocalizedName("deuterium_filter").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":deuterium_filter");
@@ -4348,6 +4352,7 @@ public class ModItems {
 		marshmallow = new ItemMarshmallow().setUnlocalizedName("marshmallow").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":marshmallow");
 		cheese = new ItemLemon(5, 0.75F, false).setUnlocalizedName("cheese").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cheese");
 		quesadilla = new ItemLemon(8, 1F, false).setUnlocalizedName("cheese_quesadilla").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":quesadilla");
+		package_crayons = new ItemLemon(8, 0.5F, false).setUnlocalizedName("package_crayons").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":package_crayons");
 		mucho_mango = new ItemMuchoMango(10).setUnlocalizedName("mucho_mango").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":mucho_mango");
 		glyphid_meat = new ItemLemon(3, 0.5F, true).setUnlocalizedName("glyphid_meat").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":glyphid_meat");
 		glyphid_meat_grilled = new ItemLemon(8, 0.75F, true).setPotionEffect(Potion.damageBoost.id, 180, 1, 1F).setUnlocalizedName("glyphid_meat_grilled").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":glyphid_meat_grilled");
@@ -6173,6 +6178,7 @@ public class ModItems {
 		GameRegistry.registerItem(drill_titanium, drill_titanium.getUnlocalizedName());
 		GameRegistry.registerItem(photo_panel, photo_panel.getUnlocalizedName());
 		GameRegistry.registerItem(chlorine_pinwheel, chlorine_pinwheel.getUnlocalizedName());
+		GameRegistry.registerItem(coolant_pinwheel, coolant_pinwheel.getUnlocalizedName());
 		GameRegistry.registerItem(ring_starmetal, ring_starmetal.getUnlocalizedName());
 		GameRegistry.registerItem(deuterium_filter, deuterium_filter.getUnlocalizedName());
 		GameRegistry.registerItem(chemical_dye, chemical_dye.getUnlocalizedName());
@@ -7505,6 +7511,7 @@ public class ModItems {
 		GameRegistry.registerItem(marshmallow, marshmallow.getUnlocalizedName());
 		GameRegistry.registerItem(cheese, cheese.getUnlocalizedName());
 		GameRegistry.registerItem(quesadilla, quesadilla.getUnlocalizedName());
+		GameRegistry.registerItem(package_crayons, package_crayons.getUnlocalizedName());
 		GameRegistry.registerItem(glyphid_meat, glyphid_meat.getUnlocalizedName());
 		GameRegistry.registerItem(glyphid_meat_grilled, glyphid_meat_grilled.getUnlocalizedName());
 		GameRegistry.registerItem(egg_glyphid, egg_glyphid.getUnlocalizedName());

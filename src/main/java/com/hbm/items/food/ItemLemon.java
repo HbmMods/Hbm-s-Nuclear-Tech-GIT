@@ -88,6 +88,10 @@ public class ItemLemon extends ItemFood {
 		if(this == ModItems.quesadilla) {
 			list.add("That's what a 50 year old yeast infection does to you.");
 		}
+
+		if(this == ModItems.package_crayons) {
+			list.add("Standard issue US Marine core field rations.");
+		}
 	}
 
 
