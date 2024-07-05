@@ -341,7 +341,24 @@ public class SILEXRecipes {
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.SCHRABIDIUM.ordinal()), 2 + 5 * i))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.SCHRABIDIUM.ordinal()), 4 + 6 * i))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_coal_tiny), 2 + 4 * i)) );
-					
+
+			// UES //
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_ues, 1, i), new SILEXRecipe(600, 100, 2)
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_schrabidium), 90 - i * 20))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.SCHRABIDIUM.ordinal()), 1 + 5 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.SCHRABIDIUM.ordinal()), 1 + 7 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_tantalium), 5 + 3 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_solinium), 5 + 3 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_neodymium_tiny), 1 + 1 * i)) );
+
+			recipes.put(new ComparableStack(ModItems.rbmk_pellet_ues, 1, i + 5), new SILEXRecipe(600, 100, 2)
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_schrabidium), 90 - i * 20))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.SCHRABIDIUM.ordinal()), 1 + 5 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.SCHRABIDIUM.ordinal()), 1 + 7 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_tantalium), 1 + 3 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_solinium), 1 + 3 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_neodymium_tiny), 1 + 1 * i)) );
+
 			// BALEFIRE //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_balefire, 1, i), new SILEXRecipe(400, 100, 3)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_balefire), 90 - i * 20))

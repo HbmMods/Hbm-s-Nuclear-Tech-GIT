@@ -1142,6 +1142,7 @@ public class ModItems {
 	public static ItemRBMKRod rbmk_fuel_les;
 	public static ItemRBMKRod rbmk_fuel_mes;
 	public static ItemRBMKRod rbmk_fuel_hes;
+	public static ItemRBMKRod rbmk_fuel_ues;
 	public static ItemRBMKRod rbmk_fuel_leaus;
 	public static ItemRBMKRod rbmk_fuel_heaus;
 	public static ItemRBMKRod rbmk_fuel_po210be;
@@ -1174,6 +1175,7 @@ public class ModItems {
 	public static ItemRBMKPellet rbmk_pellet_les;
 	public static ItemRBMKPellet rbmk_pellet_mes;
 	public static ItemRBMKPellet rbmk_pellet_hes;
+	public static ItemRBMKPellet rbmk_pellet_ues;
 	public static ItemRBMKPellet rbmk_pellet_leaus;
 	public static ItemRBMKPellet rbmk_pellet_heaus;
 	public static ItemRBMKPellet rbmk_pellet_po210be;
@@ -3594,6 +3596,7 @@ public class ModItems {
 		rbmk_pellet_les = (ItemRBMKPellet) new ItemRBMKPellet("Low Enriched Schrabidium-326").setUnlocalizedName("rbmk_pellet_les").setTextureName(RefStrings.MODID + ":rbmk_pellet_les");
 		rbmk_pellet_mes = (ItemRBMKPellet) new ItemRBMKPellet("Medium Enriched Schrabidium-326").setUnlocalizedName("rbmk_pellet_mes").setTextureName(RefStrings.MODID + ":rbmk_pellet_mes");
 		rbmk_pellet_hes = (ItemRBMKPellet) new ItemRBMKPellet("Highly Enriched Schrabidium-326").setUnlocalizedName("rbmk_pellet_hes").setTextureName(RefStrings.MODID + ":rbmk_pellet_hes");
+		rbmk_pellet_ues = (ItemRBMKPellet) new ItemRBMKPellet("Ultra Enriched Schrabidium-326").setUnlocalizedName("rbmk_pellet_ues").setTextureName(RefStrings.MODID + ":rbmk_pellet_ues");
 		rbmk_pellet_leaus = (ItemRBMKPellet) new ItemRBMKPellet("Low Enriched Australium (Tasmanite)").setUnlocalizedName("rbmk_pellet_leaus").setTextureName(RefStrings.MODID + ":rbmk_pellet_leaus");
 		rbmk_pellet_heaus = (ItemRBMKPellet) new ItemRBMKPellet("Highly Enriched Australium (Ayerite)").setUnlocalizedName("rbmk_pellet_heaus").setTextureName(RefStrings.MODID + ":rbmk_pellet_heaus");
 		rbmk_pellet_po210be = (ItemRBMKPellet) new ItemRBMKPellet("Polonium-210 & Beryllium Neutron Source").disableXenon().setUnlocalizedName("rbmk_pellet_po210be").setTextureName(RefStrings.MODID + ":rbmk_pellet_po210be");
@@ -3749,6 +3752,14 @@ public class ModItems {
 				.setHeat(1.75D)
 				.setMeltingPoint(3000)
 				.setUnlocalizedName("rbmk_fuel_hes").setTextureName(RefStrings.MODID + ":rbmk_fuel_hes");
+		rbmk_fuel_ues = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_ues)
+				.setYield(100000000D)
+				.setStats(500, 0)
+				.setFunction(EnumBurnFunc.QUADRATIC)
+				.setDepletionFunction(EnumDepleteFunc.RAISING_SLOPE)
+				.setHeat(2.25D)
+				.setMeltingPoint(3500)
+				.setUnlocalizedName("rbmk_fuel_ues").setTextureName(RefStrings.MODID + ":rbmk_fuel_ues");
 		rbmk_fuel_leaus = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_leaus)
 				.setYield(100000000D)
 				.setStats(30)
@@ -6763,6 +6774,7 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_fuel_les, rbmk_fuel_les.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_mes, rbmk_fuel_mes.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_hes, rbmk_fuel_hes.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_fuel_ues, rbmk_fuel_ues.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_leaus, rbmk_fuel_leaus.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_heaus, rbmk_fuel_heaus.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_po210be, rbmk_fuel_po210be.getUnlocalizedName());
@@ -6796,6 +6808,7 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_pellet_les, rbmk_pellet_les.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_mes, rbmk_pellet_mes.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_hes, rbmk_pellet_hes.getUnlocalizedName());
+		GameRegistry.registerItem(rbmk_pellet_ues, rbmk_pellet_ues.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_leaus, rbmk_pellet_leaus.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_heaus, rbmk_pellet_heaus.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_po210be, rbmk_pellet_po210be.getUnlocalizedName());
