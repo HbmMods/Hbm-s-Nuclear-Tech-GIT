@@ -339,7 +339,8 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		
 		EntityMissileCustom missile;
 		if(slots[1].stackTagCompound.getBoolean("Processed")) {
-			missile = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, getStruct(slots[0])).withPayload(slots[1]);
+			missile = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, getStruct(slots[0]), slots[0].stackTagCompound).withPayload(slots[1]);
+			slots[1] = null;
 		} else {
 			missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX + (int)target.xCoord, tZ + (int)target.zCoord, getStruct(slots[0]));
 		}

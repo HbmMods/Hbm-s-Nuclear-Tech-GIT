@@ -3,6 +3,8 @@ package com.hbm.items;
 import java.util.List;
 
 import com.hbm.dim.SolarSystem;
+import com.hbm.entity.missile.EntityRideableRocket;
+import com.hbm.entity.missile.EntityRideableRocket.RocketState;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
@@ -106,8 +108,31 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 		if(!isProcessed(stack)) {
 			setProcessed(stack, true);
 		}
+
+		ItemStack newStack = stack;
+
+		if(player.ridingEntity != null && player.ridingEntity instanceof EntityRideableRocket) {
+			EntityRideableRocket rocket = (EntityRideableRocket) player.ridingEntity;
+
+			// Replace our held stack with the rocket drive and place our held drive into the rocket
+			if(rocket.navDrive != null) {
+				newStack = rocket.navDrive;
+			} else {
+				newStack.stackSize = 0;
+			}
+
+			rocket.navDrive = stack;
+
+			if(!world.isRemote) {
+				if(rocket.getState() == RocketState.LANDED) {
+					rocket.setState(RocketState.AWAITING);
+				}
+			}
+
+			world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:item.upgradePlug", 1.0F, 1.0F);
+		}
     
-        return stack;
+        return newStack;
     }
 
 }
