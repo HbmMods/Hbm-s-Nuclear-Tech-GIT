@@ -51,6 +51,8 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 	public boolean isOnLadder = false;
 
 	public boolean hasWarped = false;
+
+	public int lastDimension = 0;
 	
 	public HbmPlayerProps(EntityPlayer player) {
 		this.player = player;
@@ -183,6 +185,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 		props.setInteger("reputation", reputation);
 		props.setBoolean("isOnLadder", isOnLadder);
 		props.setBoolean("hasWarped", hasWarped);
+		props.setInteger("lastDimension", lastDimension);
 		
 		nbt.setTag("HbmPlayerProps", props);
 	}
@@ -202,6 +205,7 @@ public class HbmPlayerProps implements IExtendedEntityProperties {
 			this.reputation = props.getInteger("reputation");
 			this.isOnLadder = props.getBoolean("isOnLadder");
 			this.hasWarped = props.getBoolean("hasWarped");
+			this.lastDimension = props.getInteger("lastDimension");
 		}
 	}
 }

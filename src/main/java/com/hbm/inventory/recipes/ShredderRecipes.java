@@ -137,6 +137,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModItems.dust, new ItemStack(ModItems.dust));
 		ShredderRecipes.setRecipe(ModItems.dust_tiny, new ItemStack(ModItems.dust_tiny));
 		ShredderRecipes.setRecipe(Blocks.glowstone, new ItemStack(Items.glowstone_dust, 4));
+		ShredderRecipes.setRecipe(ModBlocks.reinforced_light, new ItemStack(Items.glowstone_dust, 4));
 		ShredderRecipes.setRecipe(ModBlocks.ore_glowstone, new ItemStack(Items.glowstone_dust, 4));
 		ShredderRecipes.setRecipe(new ItemStack(Blocks.quartz_block, 1, 0), new ItemStack(ModItems.powder_quartz, 4));
 		ShredderRecipes.setRecipe(new ItemStack(Blocks.quartz_block, 1, 1), new ItemStack(ModItems.powder_quartz, 4));

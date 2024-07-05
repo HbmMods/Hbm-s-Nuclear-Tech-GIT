@@ -71,6 +71,14 @@ public class BobMathUtil {
 		return angle;
 	}
 
+	public static Vec3 getDirectionFromAxisAngle(float pitch, float yaw, double length) {
+		double ox = (double) (-MathHelper.sin(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI) * length);
+		double oz = (double) (MathHelper.cos(yaw / 180.0F * (float) Math.PI) * MathHelper.cos(pitch / 180.0F * (float) Math.PI) * length);
+		double oy = (double) (-MathHelper.sin(pitch / 180.0F * (float) Math.PI) * length);
+
+		return Vec3.createVectorHelper(ox, oy, oz);
+	}
+
 	public static float remap(float num, float min1, float max1, float min2, float max2){
 		return ((num - min1) / (max1 - min1)) * (max2 - min2) + min2;
 	}

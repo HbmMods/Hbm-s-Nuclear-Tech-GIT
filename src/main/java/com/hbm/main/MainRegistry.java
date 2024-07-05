@@ -1037,6 +1037,7 @@ public class MainRegistry {
 		WeaponConfig.loadFromConfig(config);
 		MobConfig.loadFromConfig(config);
 		StructureConfig.loadFromConfig(config);
+		SpaceConfig.loadFromConfig(config);
 
 		config.save();
 		

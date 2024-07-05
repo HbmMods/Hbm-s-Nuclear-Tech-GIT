@@ -6,6 +6,7 @@ import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModelCustom;
 
@@ -190,9 +191,15 @@ public class MissilePart {
 		MissilePart part = new MissilePart(item, type, height, guiheight, model, texture);
 		parts.put(item.hashCode(), part);
 	}
+
+	public static MissilePart getPart(ItemStack stack) {
+		if(stack == null)
+			return null;
+		
+		return getPart(stack.getItem());
+	}
 	
 	public static MissilePart getPart(Item item) {
-		
 		if(item == null)
 			return null;
 		

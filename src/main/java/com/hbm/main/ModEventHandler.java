@@ -18,6 +18,7 @@ import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.RadiationConfig;
+import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.WorldGeneratorCelestial;
 import com.hbm.dim.WorldProviderCelestial;
@@ -98,6 +99,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
+import net.minecraft.block.BlockFire;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -127,6 +129,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
@@ -137,6 +140,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -534,7 +538,11 @@ public class ModEventHandler {
 
 	@SubscribeEvent
 	public void onBlockPlaced(PlaceEvent event) {
-		ChunkAtmosphereManager.proxy.runEffectsOnBlock(event.world, event.block, event.x, event.y, event.z);
+		boolean placeCancelled = ChunkAtmosphereManager.proxy.runEffectsOnBlock(event.world, event.block, event.x, event.y, event.z);
+
+		if(SpaceConfig.allowNetherPortals && !placeCancelled && event.world.provider.dimensionId > 1 && event.block instanceof BlockFire) {
+			Blocks.portal.func_150000_e(event.world, event.x, event.y, event.z);
+		}
 	}
 
 	@SubscribeEvent
@@ -1243,6 +1251,28 @@ public class ModEventHandler {
 	
 		
 		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.START) {
+
+			// keep Nether teleports localized
+			// this effectively turns the Nether into a shared pocket dimension, but disallows using it to travel between celestial bodies
+			if(player.inPortal) {
+				MinecraftServer minecraftserver = ((WorldServer)player.worldObj).func_73046_m();
+				int maxTime = player.getMaxInPortalTime();
+				if(minecraftserver.getAllowNether() && player.ridingEntity == null && player.portalCounter + 1 >= maxTime) {
+					player.portalCounter = maxTime;
+					player.timeUntilPortal = player.getPortalCooldown();
+
+					HbmPlayerProps props = HbmPlayerProps.getData(player);
+					int targetDimension = -1;
+					if(player.worldObj.provider.dimensionId == -1) {
+						targetDimension = props.lastDimension;
+					} else {
+						props.lastDimension = player.worldObj.provider.dimensionId;
+					}
+
+					player.travelToDimension(targetDimension);
+					player.inPortal = false;
+				}
+			}
 			
 			/// GHOST FIX START ///
 			
