@@ -114,7 +114,7 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 		if(player.ridingEntity != null && player.ridingEntity instanceof EntityRideableRocket) {
 			EntityRideableRocket rocket = (EntityRideableRocket) player.ridingEntity;
 
-			if(rocket.getState() == RocketState.LANDED) {
+			if(rocket.getState() == RocketState.LANDED || rocket.getState() == RocketState.AWAITING) {
 				// Replace our held stack with the rocket drive and place our held drive into the rocket
 				if(rocket.navDrive != null) {
 					newStack = rocket.navDrive;
