@@ -90,7 +90,7 @@ public class ItemLemon extends ItemFood {
 		}
 
 		if(this == ModItems.package_crayons) {
-			list.add("Standard issue US Marine core field rations.");
+			list.add("Standard issue US Marine corps field rations.");
 		}
 	}
 
