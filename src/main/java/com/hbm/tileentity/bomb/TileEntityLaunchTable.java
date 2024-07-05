@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
+import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.handler.MissileStruct;
@@ -337,7 +338,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		
 		target.rotateAroundY(worldObj.rand.nextFloat() * 360);
 		
-		EntityMissileCustom missile;
+		EntityMissileBaseNT missile;
 		if(slots[1].stackTagCompound.getBoolean("Processed")) {
 			missile = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, getStruct(slots[0]), slots[0].stackTagCompound).withPayload(slots[1]);
 			slots[1] = null;

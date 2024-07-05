@@ -3,6 +3,7 @@ package com.hbm.dim;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -71,8 +72,22 @@ public class DebugTeleporter extends Teleporter {
 				manager.transferPlayerToDimension(playerMP, dim, teleporter);
 
 				if(ridingEntity != null) {
+					sourceServer.removeEntity(ridingEntity);
+					ridingEntity.isDead = false;
+
 					manager.transferEntityToWorld(ridingEntity, fromDimension, sourceServer, targetServer, teleporter);
-					player.mountEntity(ridingEntity);
+
+					Entity newEntity = EntityList.createEntityByName(EntityList.getEntityString(ridingEntity), targetServer);
+					if (newEntity != null) {
+						newEntity.copyDataFrom(ridingEntity, true);
+						targetServer.spawnEntityInWorld(newEntity);
+					}
+
+					ridingEntity.isDead = true;
+					sourceServer.resetUpdateEntityTick();
+					targetServer.resetUpdateEntityTick();
+
+					player.mountEntity(newEntity);
 				}
 			}
 		}

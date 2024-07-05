@@ -15,6 +15,7 @@ import com.hbm.util.BobMathUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,11 +26,20 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class EntityRideableRocket extends EntityMissileCustom implements ILookOverlay {
+public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOverlay {
+
+	protected float fuel;
+	protected float consumption;
 
 	public ItemStack navDrive;
 
 	private int stateTimer = 0;
+
+	// temp, replace with VAB parts later
+	private static final int WATCHABLE_WARHEAD = 9;
+	private static final int WATCHABLE_FUSELAGE = 10;
+	private static final int WATCHABLE_FINS = 11;
+	private static final int WATCHABLE_THRUSTER = 12;
 
 	private static final int WATCHABLE_STATE = 13;
 	private static final int WATCHABLE_DESTINATION = 14;
@@ -52,8 +62,17 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 	}
 
 	public EntityRideableRocket(World world, float x, float y, float z, MissileStruct template, NBTTagCompound itemData) {
-		super(world, x, y, z, (int) x, (int) z, template);
+		super(world, x, y, z, (int) x, (int) z);
 		this.itemData = itemData;
+
+		this.dataWatcher.updateObject(WATCHABLE_WARHEAD, Item.getIdFromItem(template.warhead));
+		this.dataWatcher.updateObject(WATCHABLE_FUSELAGE, Item.getIdFromItem(template.fuselage));
+		this.dataWatcher.updateObject(WATCHABLE_THRUSTER, Item.getIdFromItem(template.thruster));
+		if(template.fins != null) {
+			this.dataWatcher.updateObject(WATCHABLE_FINS, Item.getIdFromItem(template.fins));
+		} else {
+			this.dataWatcher.updateObject(WATCHABLE_FINS, Integer.valueOf(0));
+		}
 		
 		MissileMultipart missile = new MissileMultipart();
 		missile.warhead = MissilePart.getPart(template.warhead);
@@ -81,9 +100,9 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 
 		if(!sizeSet) {
 			MissileMultipart missile = new MissileMultipart();
-			missile.warhead = MissilePart.getPart(Item.getItemById(dataWatcher.getWatchableObjectInt(9)));
-			missile.fuselage = MissilePart.getPart(Item.getItemById(dataWatcher.getWatchableObjectInt(10)));
-			missile.thruster = MissilePart.getPart(Item.getItemById(dataWatcher.getWatchableObjectInt(12)));
+			missile.warhead = MissilePart.getPart(Item.getItemById(dataWatcher.getWatchableObjectInt(WATCHABLE_WARHEAD)));
+			missile.fuselage = MissilePart.getPart(Item.getItemById(dataWatcher.getWatchableObjectInt(WATCHABLE_FUSELAGE)));
+			missile.thruster = MissilePart.getPart(Item.getItemById(dataWatcher.getWatchableObjectInt(WATCHABLE_THRUSTER)));
 			
 			setSize(2, (float)missile.getHeight() + 1);
 		}
@@ -157,14 +176,14 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 	}
 
 	@Override
-    public void updateRiderPosition() {
-        if (this.riddenByEntity == null) return;
+	public void updateRiderPosition() {
+		if (this.riddenByEntity == null) return;
 
 		double length = getMountedYOffset() + riddenByEntity.getYOffset();
 		Vec3 target = BobMathUtil.getDirectionFromAxisAngle(rotationPitch - 90.0F, 180.0F - rotationYaw, length);
 
 		riddenByEntity.setPosition(posX + target.xCoord, posY + target.yCoord, posZ + target.zCoord);
-    }
+	}
 
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
@@ -183,7 +202,7 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 	}
 	
 	@Override
-    protected void setSize(float width, float height) {
+	protected void setSize(float width, float height) {
 		super.setSize(width, height);
 		sizeSet = true;
 	}
@@ -252,6 +271,11 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 	@Override
 	protected void entityInit() {
 		super.entityInit();
+		this.dataWatcher.addObject(8, Integer.valueOf(this.health));
+		this.dataWatcher.addObject(9, Integer.valueOf(0));
+		this.dataWatcher.addObject(10, Integer.valueOf(0));
+		this.dataWatcher.addObject(11, Integer.valueOf(0));
+		this.dataWatcher.addObject(12, Integer.valueOf(0));
 		this.dataWatcher.addObject(WATCHABLE_STATE, RocketState.AWAITING.ordinal());
 		this.dataWatcher.addObject(WATCHABLE_DESTINATION, "NO DRIVE PRESENT");
 	}
@@ -259,6 +283,14 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
+
+		fuel = nbt.getFloat("fuel");
+		consumption = nbt.getFloat("consumption");
+		this.dataWatcher.updateObject(9, nbt.getInteger("warhead"));
+		this.dataWatcher.updateObject(10, nbt.getInteger("fuselage"));
+		this.dataWatcher.updateObject(11, nbt.getInteger("fins"));
+		this.dataWatcher.updateObject(12, nbt.getInteger("thruster"));
+
 		setState(RocketState.values()[nbt.getInteger("state")]);
 		itemData = nbt.getCompoundTag("item");
 
@@ -272,6 +304,14 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
+
+		nbt.setFloat("fuel", fuel);
+		nbt.setFloat("consumption", consumption);
+		nbt.setInteger("warhead", this.dataWatcher.getWatchableObjectInt(WATCHABLE_WARHEAD));
+		nbt.setInteger("fuselage", this.dataWatcher.getWatchableObjectInt(WATCHABLE_FUSELAGE));
+		nbt.setInteger("fins", this.dataWatcher.getWatchableObjectInt(WATCHABLE_FINS));
+		nbt.setInteger("thruster", this.dataWatcher.getWatchableObjectInt(WATCHABLE_THRUSTER));
+
 		nbt.setInteger("state", getState().ordinal());
 		nbt.setTag("item", itemData);
 
@@ -302,6 +342,28 @@ public class EntityRideableRocket extends EntityMissileCustom implements ILookOv
 		}
 
 		ILookOverlay.printGeneric(event, "rokemt", 0xffff00, 0x404000, text);
+	}
+
+	@Override
+	public ItemStack getMissileItemForInfo() {
+		return new ItemStack(ModItems.missile_custom);
+	}
+
+	@Override
+	public List<ItemStack> getDebris() {
+		List<ItemStack> list = new ArrayList<ItemStack>();
+
+		list.add(new ItemStack(ModItems.plate_steel, 8));
+		list.add(new ItemStack(ModItems.thruster_medium, 2));
+		list.add(new ItemStack(ModItems.canister_empty, 1));
+		list.add(new ItemStack(Blocks.glass_pane, 2));
+
+		return list;
+	}
+
+	@Override
+	public ItemStack getDebrisRareDrop() {
+		return new ItemStack(ModItems.missile_generic);
 	}
 
 }

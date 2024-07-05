@@ -727,6 +727,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityDisperserCanister.class, new RenderGenericGrenade());
 		//missiles
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileCustom.class, new RenderMissileCustom());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityRideableRocket.class, new RenderMissileCustom());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileGeneric.class, new RenderMissileGeneric());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileDecoy.class, new RenderMissileGeneric());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityMissileStealth.class, new RenderMissileGeneric());
