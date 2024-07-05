@@ -13,6 +13,8 @@
 
 For 1.18, try Martin's remake: https://codeberg.org/MartinTheDragon/Nuclear-Tech-Mod-Remake/releases
 
+hello my name is nootles this is my nork  :)
+
 ## Downloading pre-compiled versions from GitHub
 
 Simply navigate to "Releases" on the right side of the page, download links for the compiled JAR as well as the corresponding source code are under the "Assets" category below the changelog. Make sure to review all changelogs when updating!
