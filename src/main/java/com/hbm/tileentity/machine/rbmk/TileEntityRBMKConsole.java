@@ -14,6 +14,7 @@ import com.hbm.inventory.gui.GUIRBMKConsole;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
+import com.hbm.util.Compat;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.I18nUtil;
 
@@ -88,7 +89,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		for(int i = -7; i <= 7; i++) {
 			for(int j = -7; j <= 7; j++) {
 				
-				TileEntity te = worldObj.getTileEntity(targetX + i, targetY, targetZ + j);
+				TileEntity te = Compat.getTileStandard(worldObj, targetX + i, targetY, targetZ + j);
 				int index = (i + 7) + (j + 7) * 15;
 				
 				if(te instanceof TileEntityRBMKBase) {
@@ -266,7 +267,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 					int x = data.getInteger(key) % 15 - 7;
 					int z = data.getInteger(key) / 15 - 7;
 					
-					TileEntity te = worldObj.getTileEntity(targetX + x, targetY, targetZ + z);
+					TileEntity te = Compat.getTileStandard(worldObj, targetX + x, targetY, targetZ + z);
 					
 					if(te instanceof TileEntityRBMKControlManual) {
 						TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
@@ -307,7 +308,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				int x = i % 15 - 7;
 				int z = i / 15 - 7;
 				
-				TileEntity te = worldObj.getTileEntity(targetX + x, targetY, targetZ + z);
+				TileEntity te = Compat.getTileStandard(worldObj, targetX + x, targetY, targetZ + z);
 				
 				if(te instanceof TileEntityRBMKControlManual) {
 					TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
@@ -324,7 +325,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				int x = i % 15 - 7;
 				int z = i / 15 - 7;
 				
-				TileEntity te = worldObj.getTileEntity(targetX + x, targetY, targetZ + z);
+				TileEntity te = Compat.getTileStandard(worldObj, targetX + x, targetY, targetZ + z);
 				
 				if(te instanceof TileEntityRBMKBoiler) {
 					TileEntityRBMKBoiler rod = (TileEntityRBMKBoiler) te;
@@ -534,7 +535,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 
 		int i = (y + 7) * 15 + (x + 7);
 
-		TileEntity te = worldObj.getTileEntity(targetX + x, targetY, targetZ + y);
+		TileEntity te = Compat.getTileStandard(worldObj, targetX + x, targetY, targetZ + y);
 		if (te instanceof TileEntityRBMKBase) {
 			TileEntityRBMKBase column = (TileEntityRBMKBase) te;
 
@@ -603,7 +604,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		boolean foundRods = false;
 		for(int i = -7; i <= 7; i++) {
 			for(int j = -7; j <= 7; j++) {
-				TileEntity te = worldObj.getTileEntity(targetX + i, targetY, targetZ + j);
+				TileEntity te = Compat.getTileStandard(worldObj, targetX + i, targetY, targetZ + j);
 	
 				if (te instanceof TileEntityRBMKControlManual) {
 					TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
@@ -629,7 +630,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		int y = -args.checkInteger(1) + 7;
 		double new_level = args.checkDouble(2);
 
-		TileEntity te = worldObj.getTileEntity(targetX + x, targetY, targetZ + y);
+		TileEntity te = Compat.getTileStandard(worldObj, targetX + x, targetY, targetZ + y);
 		
 		if (te instanceof TileEntityRBMKControlManual) {
 			TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
@@ -652,7 +653,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		if(color >= 0 && color <=4){
 			for(int i = -7; i <= 7; i++) {
 				for(int j = -7; j <= 7; j++) {
-					TileEntity te = worldObj.getTileEntity(targetX + i, targetY, targetZ + j);
+					TileEntity te = Compat.getTileStandard(worldObj, targetX + i, targetY, targetZ + j);
 
 					if (te instanceof TileEntityRBMKControlManual) {
 						TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
@@ -682,7 +683,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		int y = -args.checkInteger(1) + 7;
 		int new_color = args.checkInteger(2);
 		if(new_color >= 0 && new_color <=4){
-			TileEntity te = worldObj.getTileEntity(targetX + x, targetY, targetZ + y);
+			TileEntity te = Compat.getTileStandard(worldObj, targetX + x, targetY, targetZ + y);
 
 			if (te instanceof TileEntityRBMKControlManual) {
 				TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;
@@ -701,7 +702,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 		boolean hasRods = false;
 		for(int i = -7; i <= 7; i++) {
 			for(int j = -7; j <= 7; j++) {
-				TileEntity te = worldObj.getTileEntity(targetX + i, targetY, targetZ + j);
+				TileEntity te = Compat.getTileStandard(worldObj, targetX + i, targetY, targetZ + j);
 		
 				if (te instanceof TileEntityRBMKControlManual) {
 					TileEntityRBMKControlManual rod = (TileEntityRBMKControlManual) te;

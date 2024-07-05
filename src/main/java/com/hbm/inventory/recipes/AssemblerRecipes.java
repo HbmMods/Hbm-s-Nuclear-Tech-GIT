@@ -639,7 +639,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 			}, 1200);
 
 		makeRecipe(new ComparableStack(ModItems.sat_gerald, 1), new AStack[] {
-				new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 128),
+				new OreDictStack(SBD.plateCast(), 128),
 				new OreDictStack(BSCCO.wireDense(), 128),
 				new ComparableStack(ModBlocks.det_nuke, 64),
 				new ComparableStack(ModItems.part_generic, 256, EnumPartType.HDE),

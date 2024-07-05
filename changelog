@@ -2,7 +2,7 @@
 * Acidizer Input Partitioner
   * Buffers inputs for the ore acidizer and releases the exact amount needed to complete an operation
   * This allows easy automation of acidizers accepting multiple types which have higher input requirements
-  * By simply shoving items into the acidizer all at once, there is a high likelyhood of the acidizer to clog, as the remaining input is no longer sufficient
+  * By simply shoving items into the acidizer all at once, there is a high likelihood of the acidizer to clog, as the remaining input is no longer sufficient
   * The partitioner only has 9 slots for ingredients, for more types it's necessary to sort the items and use multiple partitioners
   * The partitioner has 9 additional slots for invalid items that cannot be processed via acidizer, those can be ejected via hopper IO
   * An inline conveyor machine similar to the splitter, receives items from conveyors (but not from ejectors directly) and outputs them on its built-in conveyor belt
@@ -33,3 +33,4 @@
 * Fixed arc furnace state not properly saving after performing a recipe
 * Fixed crash regarding OC compat
 * Fixed a rare crash with the anvil GUI
+* Fixed potential world corruption caused by the RBMK console

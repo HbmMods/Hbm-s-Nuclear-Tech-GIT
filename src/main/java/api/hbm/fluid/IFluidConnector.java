@@ -3,6 +3,7 @@ package api.hbm.fluid;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.util.Compat;
 
 import api.hbm.tile.ILoadedTile;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -45,7 +46,7 @@ public interface IFluidConnector extends ILoadedTile {
 	 */
 	public default void trySubscribe(FluidType type, World world, int x, int y, int z, ForgeDirection dir) {
 
-		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntity te = Compat.getTileStandard(world, x, y, z);
 		boolean red = false;
 		
 		if(te instanceof IFluidConductor) {
