@@ -42,7 +42,8 @@ public class ItemCassette extends Item {
 		NOSTROMO_SIREN(		"Nostromo Self Destruct",	new ResourceLocation("hbm:alarm.nostromoSiren"),	SoundType.LOOP,		0x5dd800,	100),
 		EAS_ALARM(			"EAS Alarm Screech",		new ResourceLocation("hbm:alarm.easAlarm"),			SoundType.LOOP,		0xb3a8c1,	50),
 		APC_PASS(			"APC Pass", 				new ResourceLocation("hbm:alarm.apcPass"),			SoundType.PASS,		3422163,	50),
-		RAZORTRAIN(			"Razortrain Horn", 			new ResourceLocation("hbm:alarm.razortrainHorn"),	SoundType.SOUND,	7819501,	250);
+		RAZORTRAIN(			"Razortrain Horn", 			new ResourceLocation("hbm:alarm.razortrainHorn"),	SoundType.SOUND,	7819501,	250),
+		HORN(				"Foghorn",					new ResourceLocation("hbm:alarm.hornNearSingle"),	SoundType.SOUND,	0xff0000,	500);
 		
 		//Name of the track shown in GUI
 		private String title;
