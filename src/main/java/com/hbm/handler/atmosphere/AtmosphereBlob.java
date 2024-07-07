@@ -24,22 +24,22 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class AtmosphereBlob implements Runnable {
-    
-    /**
-     * Somewhat based on the Advanced-Rocketry implementation, but extended to
-     * define the gases and gas pressure inside the enclosed volume
-     */
+	
+	/**
+	 * Somewhat based on the Advanced-Rocketry implementation, but extended to
+	 * define the gases and gas pressure inside the enclosed volume
+	 */
 
-    // Graph containing the enclosed area
+	// Graph containing the enclosed area
 	protected final AdjacencyGraph<ThreeInts> graph;
 
 	// Handler, provides atmosphere information and receives callbacks
 	protected IAtmosphereProvider handler;
 
 
-    private static ThreadPoolExecutor pool = new ThreadPoolExecutor(2, 16, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<>(32));
+	private static ThreadPoolExecutor pool = new ThreadPoolExecutor(2, 16, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<>(32));
 
-    
+	
 	private boolean executing;
 	private ThreeInts blockPos;
 
@@ -50,43 +50,43 @@ public class AtmosphereBlob implements Runnable {
 	}
 	
 	public boolean isPositionAllowed(World world, ThreeInts pos) {
-        return !isBlockSealed(world, pos);
+		return !isBlockSealed(world, pos);
 	}
 
 	public static boolean isBlockSealed(World world, ThreeInts pos) {
 		return isBlockSealed(world, pos.x, pos.y, pos.z);
 	}
 
-    public static boolean isBlockSealed(World world, int x, int y, int z) {
-        if(y < 0 || y > 256) return false;
+	public static boolean isBlockSealed(World world, int x, int y, int z) {
+		if(y < 0 || y > 256) return false;
 
-        Block block = world.getBlock(x, y, z);
+		Block block = world.getBlock(x, y, z);
 
-        if(block.isAir(world, x, y, z)) return false; // Air obviously doesn't seal
+		if(block.isAir(world, x, y, z)) return false; // Air obviously doesn't seal
 		if(block instanceof BlockFarmland) return false;
-        if(block instanceof IBlockSealable) { // Custom semi-sealables, like doors
-            return ((IBlockSealable)block).isSealed(world, x, y, z);
-        }
-        if(block instanceof BlockDummyable) return false; // Machines can't seal, almost all have gaps
+		if(block instanceof IBlockSealable) { // Custom semi-sealables, like doors
+			return ((IBlockSealable)block).isSealed(world, x, y, z);
+		}
+		if(block instanceof BlockDummyable) return false; // Machines can't seal, almost all have gaps
 
-        Material material = block.getMaterial();
-        if(material.isLiquid() || !material.isSolid()) return false; // Liquids need to know what pressurized atmosphere they're in to determine evaporation
+		Material material = block.getMaterial();
+		if(material.isLiquid() || !material.isSolid()) return false; // Liquids need to know what pressurized atmosphere they're in to determine evaporation
 		if(material == Material.leaves) return false; // Leaves never block air
 
-        AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(world, x, y, z);
+		AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(world, x, y, z);
 
-        if(bb == null) return false; // No collision, can't seal (like lamps)
+		if(bb == null) return false; // No collision, can't seal (like lamps)
 
-        // size * 100 to correct rounding errors
-        int minX = (int) ((bb.minX - x) * 100);
-        int minY = (int) ((bb.minY - y) * 100);
-        int minZ = (int) ((bb.minZ - z) * 100);
-        int maxX = (int) ((bb.maxX - x) * 100);
-        int maxY = (int) ((bb.maxY - y) * 100);
-        int maxZ = (int) ((bb.maxZ - z) * 100);
+		// size * 100 to correct rounding errors
+		int minX = (int) ((bb.minX - x) * 100);
+		int minY = (int) ((bb.minY - y) * 100);
+		int minZ = (int) ((bb.minZ - z) * 100);
+		int maxX = (int) ((bb.maxX - x) * 100);
+		int maxY = (int) ((bb.maxY - y) * 100);
+		int maxZ = (int) ((bb.maxZ - z) * 100);
 
-        return minX == 0 && minY == 0 && minZ == 0 && maxX == 100 && maxY == 100 && maxZ == 100;
-    }
+		return minX == 0 && minY == 0 && minZ == 0 && maxX == 100 && maxY == 100 && maxZ == 100;
+	}
 	
 	public int getBlobMaxRadius() {
 		return handler.getMaxBlobRadius();
@@ -134,7 +134,7 @@ public class AtmosphereBlob implements Runnable {
 	}
 
 	private void addSingleBlock(ThreeInts blockPos) {
-        if(!graph.contains(blockPos)) {
+		if(!graph.contains(blockPos)) {
 			graph.add(blockPos, getPositionsToAdd(blockPos));
 		}
 	}
@@ -194,7 +194,7 @@ public class AtmosphereBlob implements Runnable {
 	 * @param blockPos
 	 */
 	public void removeBlock(ThreeInts blockPos) {
-        synchronized (graph) {
+		synchronized (graph) {
 			graph.remove(blockPos);
 
 			for(ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
@@ -210,10 +210,10 @@ public class AtmosphereBlob implements Runnable {
 	 * Removes all nodes from the blob
 	 */
 	public void clearBlob() {
-        World world = handler.getWorld();
+		World world = handler.getWorld();
 
 		runEffectOnWorldBlocks(world, getLocations());
-        
+		
 		graph.clear();
 	}
 	
@@ -231,12 +231,12 @@ public class AtmosphereBlob implements Runnable {
 		return graph.size();
 	}
 
-    @Override
-    public void run() {
+	@Override
+	public void run() {
 		Stack<ThreeInts> stack = new Stack<>();
 		stack.push(blockPos);
 
-        final int maxSize = this.getBlobMaxRadius();
+		final int maxSize = this.getBlobMaxRadius();
 		final HashSet<ThreeInts> addableBlocks = new HashSet<>();
 
 		// Breadth first search; non recursive
@@ -286,10 +286,10 @@ public class AtmosphereBlob implements Runnable {
 		}
 
 		executing = false;
-    }
+	}
 
 
-    /**
+	/**
 	 * @param world
 	 * @param blocks Collection containing affected locations
 	 */
