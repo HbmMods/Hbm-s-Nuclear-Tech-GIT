@@ -21,6 +21,7 @@ import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class AtmosphereBlob implements Runnable {
@@ -59,6 +60,10 @@ public class AtmosphereBlob implements Runnable {
 
 	public static boolean isBlockSealed(World world, int x, int y, int z) {
 		if(y < 0 || y > 256) return false;
+
+		// Prevent loading new chunks, or we violate thread safety!
+		if(world instanceof WorldServer && !((WorldServer) world).getChunkProvider().chunkExists(x >> 4, z >> 4))
+			return true;
 
 		Block block = world.getBlock(x, y, z);
 

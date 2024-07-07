@@ -124,8 +124,7 @@ public class MainRegistry {
 
 	@Metadata
 	public static ModMetadata meta;
-	
-	public static SimpleNetworkWrapper network;
+
 	public static Logger logger = LogManager.getLogger("HBM");
 
 	// Tool Materials
@@ -393,8 +392,6 @@ public class MainRegistry {
 				}
 			}
 		});
-		network = NetworkRegistry.INSTANCE.newSimpleChannel("YourModChannel");
-		network.registerMessage(FogColorMessageHandler.class, FogMessage.class, 0, Side.CLIENT);
 
 		BlockDispenser.dispenseBehaviorRegistry.putObject(ModItems.grenade_generic, new BehaviorProjectileDispense() {
 
@@ -989,10 +986,6 @@ public class MainRegistry {
 		ChunkAtmosphereManager atmosphere = new ChunkAtmosphereManager();
 		MinecraftForge.EVENT_BUS.register(atmosphere);
 		FMLCommonHandler.instance().bus().register(atmosphere);
-		
-		MainThreadQueue queue = new MainThreadQueue();
-		MinecraftForge.EVENT_BUS.register(queue);
-		FMLCommonHandler.instance().bus().register(queue);
 		
 		if(event.getSide() == Side.CLIENT) {
 			HbmKeybinds.register();
