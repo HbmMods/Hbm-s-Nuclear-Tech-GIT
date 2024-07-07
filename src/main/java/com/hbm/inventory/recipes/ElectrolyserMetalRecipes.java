@@ -24,6 +24,7 @@ import com.hbm.items.machine.ItemScraps;
 import com.hbm.items.special.ItemBedrockOreNew;
 import com.hbm.items.special.ItemBedrockOreNew.BedrockOreGrade;
 import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.ItemStackUtil;
 
 import net.minecraft.item.ItemStack;
@@ -134,22 +135,23 @@ public class ElectrolyserMetalRecipes extends SerializableRecipe {
 		
 		for(BedrockOreType type : BedrockOreType.values()) {
 
-			MaterialStack f0 = ItemBedrockOreNew.toFluid(type.primary1, MaterialShapes.INGOT.q(12));
-			MaterialStack f1 = ItemBedrockOreNew.toFluid(type.primary2, MaterialShapes.INGOT.q(6));
+			MaterialStack f0 = ItemBedrockOreNew.toFluid(type.primary1, MaterialShapes.INGOT.q(7));
+			MaterialStack f1 = ItemBedrockOreNew.toFluid(type.primary2, MaterialShapes.INGOT.q(4));
 			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_FIRST, type)), new ElectrolysisMetalRecipe(
 					f0 != null ? f0 : new MaterialStack(Mats.MAT_SLAG, MaterialShapes.INGOT.q(1)),
 					f1 != null ? f1 : new MaterialStack(Mats.MAT_SLAG, MaterialShapes.INGOT.q(1)),
-					f0 == null ? ItemBedrockOreNew.extract(type.primary1, 12) : new ItemStack(ModItems.dust),
-					f1 == null ? ItemBedrockOreNew.extract(type.primary2, 6) : new ItemStack(ModItems.dust),
+					20,
+					f0 == null ? ItemBedrockOreNew.extract(type.primary1, 7) : new ItemStack(ModItems.dust),
+					f1 == null ? ItemBedrockOreNew.extract(type.primary2, 4) : new ItemStack(ModItems.dust),
 					ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)));
-
-			MaterialStack s0 = ItemBedrockOreNew.toFluid(type.primary1, MaterialShapes.INGOT.q(6));
-			MaterialStack s1 = ItemBedrockOreNew.toFluid(type.primary2, MaterialShapes.INGOT.q(12));
+			MaterialStack s0 = ItemBedrockOreNew.toFluid(type.primary1, MaterialShapes.INGOT.q(4));
+			MaterialStack s1 = ItemBedrockOreNew.toFluid(type.primary2, MaterialShapes.INGOT.q(7));
 			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_SECOND, type)), new ElectrolysisMetalRecipe(
 					s0 != null ? s0 : new MaterialStack(Mats.MAT_SLAG, MaterialShapes.INGOT.q(1)),
 					s1 != null ? s1 : new MaterialStack(Mats.MAT_SLAG, MaterialShapes.INGOT.q(1)),
-					s0 == null ? ItemBedrockOreNew.extract(type.primary1, 12) : new ItemStack(ModItems.dust),
-					s1 == null ? ItemBedrockOreNew.extract(type.primary2, 6) : new ItemStack(ModItems.dust),
+					20,
+					s0 == null ? ItemBedrockOreNew.extract(type.primary1, 4) : new ItemStack(ModItems.dust),
+					s1 == null ? ItemBedrockOreNew.extract(type.primary2, 7) : new ItemStack(ModItems.dust),
 					ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)));
 
 			MaterialStack c0 = ItemBedrockOreNew.toFluid(type.primary1, MaterialShapes.INGOT.q(2));
@@ -157,13 +159,16 @@ public class ElectrolyserMetalRecipes extends SerializableRecipe {
 			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)), new ElectrolysisMetalRecipe(
 					c0 != null ? c0 : new MaterialStack(Mats.MAT_SLAG, MaterialShapes.INGOT.q(1, 2)),
 					c1 != null ? c1 : new MaterialStack(Mats.MAT_SLAG, MaterialShapes.INGOT.q(1, 2)),
+					20,
 					c0 == null ? ItemBedrockOreNew.extract(type.primary1, 2) : new ItemStack(ModItems.dust),
 					c1 == null ? ItemBedrockOreNew.extract(type.primary2, 2) : new ItemStack(ModItems.dust)));
 		}
 	}
 	
 	public static ElectrolysisMetalRecipe getRecipe(ItemStack stack) {
-		
+		if(stack == null || stack.getItem() == null)
+			return null;
+
 		ComparableStack comp = new ComparableStack(stack).makeSingular();
 		
 		if(recipes.containsKey(comp)) return recipes.get(comp);
@@ -180,7 +185,7 @@ public class ElectrolyserMetalRecipes extends SerializableRecipe {
 
 	public static HashMap getRecipes() {
 		
-		HashMap<Object[], Object[]> recipes = new HashMap<Object[], Object[]>();
+		HashMap<Object[], Object[]> recipes = new HashMap<>();
 		
 		for(Entry<AStack, ElectrolysisMetalRecipe> entry : ElectrolyserMetalRecipes.recipes.entrySet()) {
 			
@@ -266,11 +271,19 @@ public class ElectrolyserMetalRecipes extends SerializableRecipe {
 		public MaterialStack output1;
 		public MaterialStack output2;
 		public ItemStack[] byproduct;
+		public int duration;
 		
 		public ElectrolysisMetalRecipe(MaterialStack output1, MaterialStack output2, ItemStack... byproduct) {
 			this.output1 = output1;
 			this.output2 = output2;
 			this.byproduct = byproduct;
+			duration = 600;
+		}
+		public ElectrolysisMetalRecipe(MaterialStack output1, MaterialStack output2, int duration, ItemStack... byproduct) {
+			this.output1 = output1;
+			this.output2 = output2;
+			this.byproduct = byproduct;
+			this.duration = duration;
 		}
 	}
 }
