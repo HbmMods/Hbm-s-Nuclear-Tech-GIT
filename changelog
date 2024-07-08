@@ -27,6 +27,10 @@
   * Gerald now makes use of BSCCO wires
   * A new microcrafting item has been added, heavy duty elements, these need to be mass-produced in the arc welder using cast bronze, welded CMB and fullerite, also using stellar flux for welding
   * The recipe uses a stack of the brand new quantum computers
+* Electrolyzers now support variable duration recipes
+  * The water electrolysis now only takes 10 ticks per batch
+* Rebalanced the upgrades for the electrolyzer, it can now also take overdrive upgrades
+* Changed crystalline bedrock ore, redstone and cinnabar (mercury) are now primary while the less important diamond and sodalite are sulfuric byproducts
 
 ## Fixed
 * Added a write lock on cellular dungeons while generating, fixing a crash caused by dungeons that generate next to each other due to cascading worldgen
