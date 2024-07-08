@@ -14,9 +14,10 @@
 
 ## Changed
 * Updated russian localization
-* The mandatory washing step for bedrock ore byproducts now needs 4 items for sulfuric, 12 for dissolved and 24 for cleaned byproducts (instead of just one)
+* The mandatory washing step for bedrock ore byproducts now needs 4 items to complete (instead of just one)
   * This should offset the exponentially increasing amount of byproduct created from processing bedrock ore which ends up being far greater than the primary product
   * The step being mandatory means that byproducts cannot be centrifuged until they are washed
+  * To counteract the resulting sparsity of earlier byproducts due to the down-the-line duplication process, later acidizing steps now also yield byproducts of the previous steps
 * The sound extension is now configurable, and the amount of sound channels reserved is now 200 by default instead of 1000, this should fix an issue where OC's sound would not work
 * Logistics drones are now crafted with standard transport drones and not express ones, making them substantially cheaper
 * Added strontium to the rare earth bedrock ore chain

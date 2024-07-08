@@ -161,12 +161,12 @@ public class CrystallizerRecipes extends SerializableRecipe {
 			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ROASTED, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_WASHED, type), washing).setReq(sulf), new FluidStack(Fluids.WATER, 250));
 			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ARC, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_WASHED, type), washing).setReq(sulf), new FluidStack(Fluids.WATER, 250));
 
-			int solv = 12;
+			int solv = 4;
 			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_BYPRODUCT, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_WASHED, type), washing).setReq(solv), new FluidStack(Fluids.WATER, 250));
 			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ROASTED, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_WASHED, type), washing).setReq(solv), new FluidStack(Fluids.WATER, 250));
 			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ARC, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_WASHED, type), washing).setReq(solv), new FluidStack(Fluids.WATER, 250));
 
-			int rad = 24;
+			int rad = 4;
 			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_BYPRODUCT, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.RAD_WASHED, type), washing).setReq(rad), new FluidStack(Fluids.WATER, 250));
 			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ROASTED, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.RAD_WASHED, type), washing).setReq(rad), new FluidStack(Fluids.WATER, 250));
 			registerRecipe(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ARC, type)), new CrystallizerRecipe(ItemBedrockOreNew.make(BedrockOreGrade.RAD_WASHED, type), washing).setReq(rad), new FluidStack(Fluids.WATER, 250));
