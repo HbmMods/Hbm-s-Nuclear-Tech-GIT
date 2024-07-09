@@ -1,7 +1,6 @@
 package com.hbm.handler;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.hbm.render.util.MissilePart;
 
@@ -11,7 +10,7 @@ import net.minecraft.item.ItemStack;
 public class RocketStruct {
 	
 	public MissilePart capsule;
-	public List<RocketStage> stages = new ArrayList<>();
+	public ArrayList<RocketStage> stages = new ArrayList<>();
 
 	public RocketStruct() {}
 
@@ -24,11 +23,7 @@ public class RocketStruct {
 	}
 
 	public void addStage(ItemStack fuselage, ItemStack fins, ItemStack thruster) {
-		RocketStage stage = new RocketStage();
-		stage.fuselage = MissilePart.getPart(fuselage);
-		stage.fins = MissilePart.getPart(fins);
-		stage.thruster = MissilePart.getPart(thruster);
-		stages.add(stage);
+		addStage(MissilePart.getPart(fuselage), MissilePart.getPart(fins), MissilePart.getPart(thruster));
 	}
 
 	public void addStage(MissilePart fuselage, MissilePart fins, MissilePart thruster) {
@@ -36,7 +31,7 @@ public class RocketStruct {
 		stage.fuselage = fuselage;
 		stage.fins = fins;
 		stage.thruster = thruster;
-		stages.add(stage);
+		stages.add(0, stage);
 	}
 
 	public double getHeight() {
@@ -45,6 +40,32 @@ public class RocketStruct {
 		if(capsule != null) height += capsule.height;
 
 		for(RocketStage stage : stages) {
+			if(stage.fuselage != null) height += stage.fuselage.height;
+			if(stage.thruster != null) height += stage.thruster.height;
+		}
+
+		return height;
+	}
+
+	public double getHeight(int stageNum) {
+		double height = 0;
+
+		RocketStage stage = stages.get(Math.min(stageNum, stages.size() - 1));
+		if(stage.fuselage != null) height += stage.fuselage.height;
+		if(stage.thruster != null) height += stage.thruster.height;
+
+		if(stageNum == stages.size() - 1) {
+			if(capsule != null) height += capsule.height;
+		}
+
+		return height;
+	}
+
+	public double getOffset(int stageNum) {
+		double height = 0;
+
+		for(int i = 0; i < Math.min(stageNum, stages.size() - 1); i++) {
+			RocketStage stage = stages.get(i);
 			if(stage.fuselage != null) height += stage.fuselage.height;
 			if(stage.thruster != null) height += stage.thruster.height;
 		}

@@ -21,19 +21,19 @@ public class ContainerMachineRocketAssembly extends Container {
 		int slotId = 0;
 
 		// Capsule slot
-		this.addSlotToContainer(new Slot(machine, slotId++, 5, 12));
+		this.addSlotToContainer(new Slot(machine, slotId++, 18, 13));
 
 		// Stages
 		for(int i = 0; i < 5; i++) {
-			this.addSlotToContainer(new SlotLayer(machine, slotId++, 5, 48, i));
-			this.addSlotToContainer(new SlotLayer(machine, slotId++, 5, 66, i));
-			this.addSlotToContainer(new SlotLayer(machine, slotId++, 5, 84, i));
+			this.addSlotToContainer(new SlotLayer(machine, slotId++, 18, 44, i));
+			this.addSlotToContainer(new SlotLayer(machine, slotId++, 18, 62, i));
+			this.addSlotToContainer(new SlotLayer(machine, slotId++, 18, 80, i));
 		}
 
-		this.addSlotToContainer(new SlotTakeOnly(machine, slotId++, 41, 138));
+		this.addSlotToContainer(new SlotTakeOnly(machine, slotId++, 42, 91));
 
-		addSlots(invPlayer, 9, 34, 174, 3, 9); // Player inventory
-		addSlots(invPlayer, 0, 34, 232, 1, 9); // Player hotbar
+		addSlots(invPlayer, 9, 8, 142, 3, 9); // Player inventory
+		addSlots(invPlayer, 0, 8, 200, 1, 9); // Player hotbar
 	}
 	
 	private void addSlots(IInventory inv, int from, int x, int y, int rows, int cols) {
