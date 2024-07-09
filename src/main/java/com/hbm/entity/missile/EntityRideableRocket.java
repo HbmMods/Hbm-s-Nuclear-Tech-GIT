@@ -9,6 +9,7 @@ import com.hbm.dim.SolarSystem;
 import com.hbm.handler.MissileStruct;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemVOTVdrive.Destination;
 import com.hbm.render.util.MissileMultipart;
 import com.hbm.render.util.MissilePart;
 import com.hbm.util.BobMathUtil;
@@ -89,7 +90,10 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	public void beginLandingSequence() {
 		setState(RocketState.LANDING);
-		posY = 500;
+
+		motionX = 0;
+		motionY = 0;
+		motionZ = 0;
 
 		setStuckIn(0);
 	}
@@ -119,11 +123,17 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				if(rocketVelocity < 4)
 					rocketVelocity += MathHelper.clamp_double(stateTimer / 120D * 0.05D, 0, 0.05);
 
-				rotationPitch = Math.min(stateTimer * 0.4F, 60.0F);
+				rotationPitch = MathHelper.clamp_float((stateTimer - 60) * 0.3F, 0.0F, 45.0F);
 			} else if(state == RocketState.LANDING) {
-				double targetHeight = (double)worldObj.getHeightValue((int)posX, (int)posZ) + 1;
-				rocketVelocity = MathHelper.clamp_double((targetHeight - posY) * 0.005, -0.15, -0.005);
+				double targetHeight = (double)worldObj.getHeightValue((int)posX, (int)posZ);
+				rocketVelocity = MathHelper.clamp_double((targetHeight - posY) * 0.005, -0.5, -0.005);
 				rotationPitch = 0;
+
+				if(navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
+					Destination destination = ((ItemVOTVdrive)navDrive.getItem()).getDestination(navDrive);
+					posX = destination.x;
+					posZ = destination.z;
+				}
 			} else {
 				rocketVelocity = 0;
 				rotationPitch = 0;
@@ -131,30 +141,30 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 			if(state == RocketState.LAUNCHING) {
 				Vec3 motion = BobMathUtil.getDirectionFromAxisAngle(rotationPitch - 90.0F, 180.0F - rotationYaw, rocketVelocity);
-				motionX = MathHelper.clamp_double(motion.xCoord, -1, 1);
-				motionY = rocketVelocity;
-				motionZ = MathHelper.clamp_double(motion.zCoord, -1, 1);
+				motionX = motion.xCoord;
+				motionY = motion.yCoord;
+				motionZ = motion.zCoord;
 			} else {
 				motionX = 0;
 				motionY = rocketVelocity;
 				motionZ = 0;
 			}
 
-			if(state == RocketState.LAUNCHING && posY > 600) {
+			if(state == RocketState.LAUNCHING && posY > 900) {
 				beginLandingSequence();
 
-				if(rider != null && navDrive != null) {
-					SolarSystem.Body destination = SolarSystem.Body.values()[navDrive.getItemDamage()];
+				if(rider != null && navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
+					Destination destination = ((ItemVOTVdrive)navDrive.getItem()).getDestination(navDrive);
 
-					if(destination.getBody() != null) {
-						DebugTeleporter.teleport(rider, destination.getBody().dimensionId, 0, 300, 0, false);
+					if(destination.body != SolarSystem.Body.BLANK) {
+						DebugTeleporter.teleport(rider, destination.body.getDimensionId(), destination.x, 800, destination.z, false);
 					}
 				}
 			}
 
 			if(navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
 				ItemVOTVdrive drive = (ItemVOTVdrive) navDrive.getItem();
-				setDestinationName(drive.getDestination(navDrive).name);
+				setDestinationName(drive.getDestination(navDrive).body.name);
 			} else {
 				setDestinationName("NO DRIVE PRESENT");
 			}
@@ -187,6 +197,9 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
+		if(getState() == RocketState.LAUNCHING)
+			return;
+
 		setState(RocketState.LANDED);
 
 		posY = (double)worldObj.getHeightValue((int)posX, (int)posZ);

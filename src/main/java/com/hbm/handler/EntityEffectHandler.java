@@ -10,6 +10,7 @@ import com.hbm.config.RadiationConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
+import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.entity.mob.glyphid.EntityGlyphid;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.extprop.HbmLivingProps;
@@ -300,6 +301,7 @@ public class EntityEffectHandler {
 	private static void handleOxy(EntityLivingBase entity) {
 		if(entity.worldObj.isRemote) return;
 		if(entity instanceof EntityGlyphid) return; // can't suffocate the bastards
+		if(entity.ridingEntity != null && entity.ridingEntity instanceof EntityRideableRocket) return; // breathe easy in your ship
 
 		if (!ArmorUtil.checkForOxy(entity)) {
 			HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);

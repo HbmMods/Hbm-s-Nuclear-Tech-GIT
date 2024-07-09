@@ -20,6 +20,7 @@ import com.hbm.config.MobConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.DebugTeleporter;
 import com.hbm.dim.WorldGeneratorCelestial;
 import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.WorldTypeTeleport;
@@ -826,6 +827,8 @@ public class ModEventHandler {
 			
 			if(event.phase == Phase.END) {
 				EntityRailCarBase.updateMotion(event.world);
+
+				DebugTeleporter.runQueuedTeleport();
 			}
 
 			// Tick our per celestial body timer

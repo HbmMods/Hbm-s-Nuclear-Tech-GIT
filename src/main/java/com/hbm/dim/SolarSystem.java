@@ -188,11 +188,18 @@ public class SolarSystem {
 		}
 
 		public int getProcessingLevel() {
+			if(this == BLANK) return 0;
 			return getBody().processingLevel;
 		}
 
 		public String getStoneTexture() {
+			if(this == BLANK) return null;
 			return getBody().stoneTexture;
+		}
+
+		public int getDimensionId() {
+			if(this == BLANK) return -1;
+			return getBody().dimensionId;
 		}
 	}
 

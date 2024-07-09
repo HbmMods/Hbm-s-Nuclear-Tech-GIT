@@ -148,6 +148,7 @@ public class TileMappings {
 		put(TileEntityMachineAmgen.class, "tileentity_amgen");
 		put(TileEntityGeysir.class, "tileentity_geysir");
 		put(TileEntityMachineMissileAssembly.class, "tileentity_missile_assembly");
+		put(TileEntityMachineRocketAssembly.class, "tileentity_rocket_assembly");
 		put(TileEntityMachineHephaestus.class, "tileentity_hephaestus");
 		put(TileEntityLaunchTable.class, "tileentity_large_launch_table");
 		put(TileEntityCompactLauncher.class, "tileentity_small_launcher");

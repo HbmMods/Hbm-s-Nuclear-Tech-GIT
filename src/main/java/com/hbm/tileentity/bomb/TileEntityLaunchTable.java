@@ -232,6 +232,15 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 					}
 				}
 			}
+
+			NBTTagCompound data = new NBTTagCompound();
+	
+			tanks[0].writeToNBT(data, "fuel");
+			tanks[1].writeToNBT(data, "oxidizer");
+			data.setInteger("solidfuel", solid);
+			data.setLong("power", power);
+			data.setInteger("padSize", padSize.ordinal());
+			INBTPacketReceiver.networkPack(this, data, 150);
 		} else {
 			
 			List<EntityMissileCustom> entities = worldObj.getEntitiesWithinAABB(EntityMissileCustom.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord, zCoord - 0.5, xCoord + 1.5, yCoord + 10, zCoord + 1.5));
@@ -248,15 +257,6 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				}
 			}
 		}
-		NBTTagCompound data = new NBTTagCompound();
-		NBTTagList list = new NBTTagList();
-
-		tanks[0].writeToNBT(data, "fuel");
-		tanks[1].writeToNBT(data, "oxidizer");
-		data.setInteger("solidfuel", solid);
-		data.setLong("power", power);
-		data.setInteger("padSize", padSize.ordinal());
-		INBTPacketReceiver.networkPack(this, data, 150);
 	}
 	
 	private void updateConnections() {
@@ -320,9 +320,6 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	}
 	
 	public void launchTo(int tX, int tZ) {
-
-		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
-		
 		ItemCustomMissilePart chip = (ItemCustomMissilePart) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "chip"));
 		float c = (Float)chip.attributes[0];
 		float f = 1.0F;
@@ -344,10 +341,10 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			slots[1] = null;
 		} else {
 			missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX + (int)target.xCoord, tZ + (int)target.zCoord, getStruct(slots[0]));
+			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
 		}
 
 		worldObj.spawnEntityInWorld(missile);
-		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
 
 		subtractFuel();
 		
@@ -469,10 +466,10 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		if(slots[1] == null || !(slots[1].getItem() instanceof ItemVOTVdrive)) return;
 
 		ItemVOTVdrive drive = (ItemVOTVdrive)slots[1].getItem();
-		SolarSystem.Body destination = drive.getDestination(slots[1]);
+		SolarSystem.Body destination = drive.getDestination(slots[1]).body;
 
 		if(destination == SolarSystem.Body.BLANK) return;
-		if(!ItemVOTVdrive.isProcessed(slots[1])) return;
+		if(!ItemVOTVdrive.getProcessed(slots[1])) return;
 
 		int fuelCost = calfuelV2(destination.getBody());
 		tanks[0].changeTankSize(fuelCost);
