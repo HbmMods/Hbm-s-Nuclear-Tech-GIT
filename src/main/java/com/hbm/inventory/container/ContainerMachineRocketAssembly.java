@@ -1,7 +1,9 @@
 package com.hbm.inventory.container;
 
-import com.hbm.inventory.SlotLayer;
+import com.hbm.inventory.SlotRocket;
 import com.hbm.inventory.SlotTakeOnly;
+import com.hbm.inventory.SlotRocket.SlotCapsule;
+import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -21,13 +23,13 @@ public class ContainerMachineRocketAssembly extends Container {
 		int slotId = 0;
 
 		// Capsule slot
-		this.addSlotToContainer(new Slot(machine, slotId++, 18, 13));
+		this.addSlotToContainer(new SlotCapsule(machine, slotId++, 18, 13));
 
 		// Stages
 		for(int i = 0; i < 5; i++) {
-			this.addSlotToContainer(new SlotLayer(machine, slotId++, 18, 44, i));
-			this.addSlotToContainer(new SlotLayer(machine, slotId++, 18, 62, i));
-			this.addSlotToContainer(new SlotLayer(machine, slotId++, 18, 80, i));
+			this.addSlotToContainer(new SlotRocket(machine, slotId++, 18, 44, i, PartType.FUSELAGE));
+			this.addSlotToContainer(new SlotRocket(machine, slotId++, 18, 62, i, PartType.FINS));
+			this.addSlotToContainer(new SlotRocket(machine, slotId++, 18, 80, i, PartType.THRUSTER));
 		}
 
 		this.addSlotToContainer(new SlotTakeOnly(machine, slotId++, 42, 91));

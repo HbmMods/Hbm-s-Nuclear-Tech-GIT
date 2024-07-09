@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineRocketAssembly;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.NBTControlPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.MissilePronter;
 import com.hbm.tileentity.machine.TileEntityMachineRocketAssembly;
 
@@ -11,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
@@ -43,9 +46,11 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		int stage = Math.max(machine.rocket.stages.size() - 1 - getLayer(), 0);
+		int stage = Math.max(machine.rocket.stages.size() - 1 - getLayer(), -1);
 
-		drawTexturedModalRect(guiLeft + 47, guiTop + 39, 194 + stage * 6, 0, 6, 8);
+		drawTexturedModalRect(guiLeft + 47, guiTop + 39, 194 + (stage + 1) * 6, 0, 6, 8);
+
+		stage = Math.max(stage, 0);
 
 		ScaledResolution res = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
 		double dt = (double)(System.nanoTime() - lastTime) / 1000000000;
@@ -92,6 +97,10 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 		if(checkClick(mouseX, mouseY, 17, 98, 18, 8)) {
 			drawTexturedModalRect(17, 98, 176, 44, 18, 8);
 		}
+
+		if(machine.rocket.validate()) {
+			drawTexturedModalRect(41, 62, 194, 8, 18, 18);
+		}
 	}
 
 	@Override
@@ -111,10 +120,18 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 		if(checkClick(x, y, 17, 98, 18, 8)) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 
-			if(getLayer() < 5) {
+			if(getLayer() < Math.min(machine.rocket.stages.size(), 4)) {
 				setLayer(getLayer() + 1);
 			}
     	}
+
+		// Construct rocket
+		if(machine.rocket.validate() && checkClick(x, y, 41, 62, 18, 18)) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			NBTTagCompound data = new NBTTagCompound();
+			data.setBoolean("construct", true);
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, machine.xCoord, machine.yCoord, machine.zCoord));
+		}
     }
 		
 }

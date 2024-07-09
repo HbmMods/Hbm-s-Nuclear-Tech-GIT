@@ -2,6 +2,9 @@ package com.hbm.handler;
 
 import java.util.ArrayList;
 
+import com.hbm.items.weapon.ItemCustomMissilePart;
+import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
+import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.render.util.MissilePart;
 
 import io.netty.buffer.ByteBuf;
@@ -34,6 +37,22 @@ public class RocketStruct {
 		stages.add(0, stage);
 	}
 
+	public boolean validate() {
+		if(capsule == null || capsule.type != PartType.WARHEAD || ((ItemCustomMissilePart)capsule.part).attributes[0] != WarheadType.APOLLO)
+			return false;
+		
+		if(stages.size() == 0)
+			return false;
+
+		for(RocketStage stage : stages) {
+			if(stage.fuselage == null || stage.fuselage.type != PartType.FUSELAGE) return false;
+			if(stage.fins != null && stage.fins.type != PartType.FINS) return false;
+			if(stage.thruster == null || stage.thruster.type != PartType.THRUSTER) return false;
+		}
+		
+		return true;
+	}
+
 	public double getHeight() {
 		double height = 0;
 		
@@ -50,11 +69,13 @@ public class RocketStruct {
 	public double getHeight(int stageNum) {
 		double height = 0;
 
-		RocketStage stage = stages.get(Math.min(stageNum, stages.size() - 1));
-		if(stage.fuselage != null) height += stage.fuselage.height;
-		if(stage.thruster != null) height += stage.thruster.height;
+		if(stages.size() > 0) {
+			RocketStage stage = stages.get(Math.min(stageNum, stages.size() - 1));
+			if(stage.fuselage != null) height += stage.fuselage.height;
+			if(stage.thruster != null) height += stage.thruster.height;
+		}
 
-		if(stageNum == stages.size() - 1) {
+		if(stages.size() == 0 || stageNum == stages.size() - 1) {
 			if(capsule != null) height += capsule.height;
 		}
 

@@ -1,8 +1,10 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.handler.RocketStruct;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachineRocketAssembly;
 import com.hbm.inventory.gui.GUIMachineRocketAssembly;
+import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -12,11 +14,12 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityMachineRocketAssembly extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityMachineRocketAssembly extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
 	
 	public RocketStruct rocket;
 
@@ -51,6 +54,16 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 	public void deserialize(ByteBuf buf) {
 		rocket = RocketStruct.readFromByteBuffer(buf);
 	}
+
+	public void construct() {
+		if(!rocket.validate()) return;
+
+		slots[slots.length - 1] = ItemCustomRocket.build(rocket);
+
+		for(int i = 0; i < slots.length - 1; i++) {
+			slots[i] = null;
+		}
+	}
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
@@ -72,6 +85,18 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineRocketAssembly(player.inventory, this);
+	}
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return isUseableByPlayer(player);
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		if(data.getBoolean("construct")) {
+			construct();
+		}
 	}
 	
 }
