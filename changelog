@@ -1,41 +1,6 @@
-## Added
-* Acidizer Input Partitioner
-  * Buffers inputs for the ore acidizer and releases the exact amount needed to complete an operation
-  * This allows easy automation of acidizers accepting multiple types which have higher input requirements
-  * By simply shoving items into the acidizer all at once, there is a high likelihood of the acidizer to clog, as the remaining input is no longer sufficient
-  * The partitioner only has 9 slots for ingredients, for more types it's necessary to sort the items and use multiple partitioners
-  * The partitioner has 9 additional slots for invalid items that cannot be processed via acidizer, those can be ejected via hopper IO
-  * An inline conveyor machine similar to the splitter, receives items from conveyors (but not from ejectors directly) and outputs them on its built-in conveyor belt
-* New circuit items
-  * Quantum computer themed circuits for post fusion circuits
-  * The ICF core now needs 16 solid state quantum processors
-  * Quantum computers are post fusion tier control units
-  * Quantum circuits are made from a new alloy, BSCCO, which requires bismuth
-
 ## Changed
-* Updated russian localization
-* The mandatory washing step for bedrock ore byproducts now needs 4 items to complete (instead of just one)
-  * This should offset the exponentially increasing amount of byproduct created from processing bedrock ore which ends up being far greater than the primary product
-  * The step being mandatory means that byproducts cannot be centrifuged until they are washed
-  * To counteract the resulting sparsity of earlier byproducts due to the down-the-line duplication process, later acidizing steps now also yield byproducts of the previous steps
-* The sound extension is now configurable, and the amount of sound channels reserved is now 200 by default instead of 1000, this should fix an issue where OC's sound would not work
-* Logistics drones are now crafted with standard transport drones and not express ones, making them substantially cheaper
-* Added strontium to the rare earth bedrock ore chain
-* Electrolyzing primary bedrock ore fractions now yields more material, as well as crumbs
-* The Gerald recipe has been reworked
-  * Gerald no longer needs a ton of coins, instead it's just a single UFO coin (still requires the boss progression, may be changed in the future)
-  * Gerald now makes use of BSCCO wires
-  * A new microcrafting item has been added, heavy duty elements, these need to be mass-produced in the arc welder using cast bronze, welded CMB and fullerite, also using stellar flux for welding
-  * The recipe uses a stack of the brand new quantum computers
-* Electrolyzers now support variable duration recipes
-  * The water electrolysis now only takes 10 ticks per batch
-* Rebalanced the upgrades for the electrolyzer, it can now also take overdrive upgrades
-* Changed crystalline bedrock ore, redstone and cinnabar (mercury) are now primary while the less important diamond and sodalite are sulfuric byproducts
+* Changed bedrock ore processing time in the electrolyzer to 60 ticks
 
 ## Fixed
-* Added a write lock on cellular dungeons while generating, fixing a crash caused by dungeons that generate next to each other due to cascading worldgen
-* Added recipe caching to the arc furnace, fixing an issue where recipe detection and item IO are horribly inefficient
-* Fixed arc furnace state not properly saving after performing a recipe
-* Fixed crash regarding OC compat
-* Fixed a rare crash with the anvil GUI
-* Fixed potential world corruption caused by the RBMK console
+* Fixed issue where the NEI universal handler can not correctly display more than 4 outputs (now supports up to 8, which should cover all possible electrolyzer cases too)
+* Fixed the metal electrolysis duration variable not being part of the config
