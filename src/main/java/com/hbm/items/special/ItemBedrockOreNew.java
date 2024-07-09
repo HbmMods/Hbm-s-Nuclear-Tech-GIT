@@ -120,10 +120,10 @@ public class ItemBedrockOreNew extends Item {
 		//												primary						sulfuric						solvent							radsolvent
 		LIGHT_METAL(	0xFFFFFF, 0x353535, "light",	IRON, CU,					TI, AL, AL,						CHLOROCALCITE, LI, NA,			CHLOROCALCITE, LI, NA),
 		HEAVY_METAL(	0x868686, 0x000000, "heavy",	W, PB,						GOLD, GOLD, BE,					W, PB, GOLD,					BI, BI, GOLD),
-		RARE_EARTH(		0xE6E6B6, 0x1C1C00, "rare",		CO, EnumChunkType.RARE,		B, LA, NB,						ND, SR, ZR,						CO, ND, SR),
+		RARE_EARTH(		0xE6E6B6, 0x1C1C00, "rare",		CO, EnumChunkType.RARE,		B, LA, NB,						ND, SR, ZR,						NB, ND, SR),
 		ACTINIDE(		0xC1C7BD, 0x2B3227, "actinide",	U, TH232,					RA226, RA226, PO210,			RA226, RA226, PO210,			TC99, TC99, U238),
 		NON_METAL(		0xAFAFAF, 0x0F0F0F, "nonmetal",	COAL, S,					LIGNITE, KNO, F,				P_RED, F, S,					CHLOROCALCITE, SI, SI),
-		CRYSTALLINE(	0xE2FFFA, 0x1E8A77, "crystal",	DIAMOND, SODALITE,			CINNABAR, ASBESTOS, REDSTONE,	CINNABAR, ASBESTOS, EMERALD,	BORAX, MOLYSITE, SODALITE);
+		CRYSTALLINE(	0xE2FFFA, 0x1E8A77, "crystal",	REDSTONE, CINNABAR,			SODALITE, ASBESTOS, DIAMOND,	CINNABAR, ASBESTOS, EMERALD,	BORAX, MOLYSITE, SODALITE);
 		//sediment
 		
 		public int light;
