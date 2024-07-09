@@ -3,8 +3,6 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.main.ResourceManager;
-import com.hbm.render.util.MissileMultipart;
-import com.hbm.render.util.MissilePart;
 import com.hbm.render.util.MissilePronter;
 import com.hbm.tileentity.machine.TileEntityMachineRocketAssembly;
 
@@ -42,19 +40,12 @@ public class RenderRocketAssembly extends TileEntitySpecialRenderer {
 
 		bindTexture(ResourceManager.missile_assembly_tex);
 		ResourceManager.missile_assembly.renderAll();
-
-		MissileMultipart missile = MissileMultipart.loadFromStruct(te.rocket);
 		
-		if(missile != null) {
-			missile.warhead = MissilePart.getPart(te.getStackInSlot(0));
-			missile.fuselage = MissilePart.getPart(te.getStackInSlot(1));
-			missile.fins = MissilePart.getPart(te.getStackInSlot(2));
-			missile.thruster = MissilePart.getPart(te.getStackInSlot(3));
-	
+		if(te.rocket != null) {
 			GL11.glTranslatef(0F, 1.5F, 0F);
 	
 			GL11.glEnable(GL11.GL_CULL_FACE);
-			MissilePronter.prontMissile(missile, Minecraft.getMinecraft().getTextureManager());
+			MissilePronter.prontRocket(te.rocket, Minecraft.getMinecraft().getTextureManager());
 		}
 		
 		GL11.glPopMatrix();

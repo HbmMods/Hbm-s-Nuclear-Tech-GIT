@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.handler.MissileStruct;
+import com.hbm.handler.RocketStruct;
 import com.hbm.inventory.container.ContainerMachineRocketAssembly;
 import com.hbm.inventory.gui.GUIMachineRocketAssembly;
 import com.hbm.tileentity.IGUIProvider;
@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 
 public class TileEntityMachineRocketAssembly extends TileEntityMachineBase implements IGUIProvider {
 	
-	public MissileStruct rocket;
+	public RocketStruct rocket;
 
 	public TileEntityMachineRocketAssembly() {
 		super(1 + 5 * 3 + 1); // capsule + stages + result
@@ -32,7 +32,12 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 	@Override
 	public void updateEntity() {
 		if(!worldObj.isRemote) {
-			rocket = new MissileStruct(slots[0], slots[1], slots[2], slots[3]);
+			rocket = new RocketStruct(slots[0]);
+			for(int i = 1; i < 5 * 3; i += 3) {
+				if(slots[i] == null && slots[i+1] == null && slots[i+2] == null) break;
+
+				rocket.addStage(slots[i], slots[i+1], slots[i+2]);
+			}
 			networkPackNT(250);
 		}
 	}
@@ -44,7 +49,7 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 
 	@Override
 	public void deserialize(ByteBuf buf) {
-		rocket = MissileStruct.readFromByteBuffer(buf);
+		rocket = RocketStruct.readFromByteBuffer(buf);
 	}
 	
 	@Override

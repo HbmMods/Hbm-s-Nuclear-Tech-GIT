@@ -206,4 +206,16 @@ public class MissilePart {
 		return parts.get(item.hashCode());
 	}
 
+	public static MissilePart getPart(int id) {
+		if(id <= 0)
+			return null;
+
+		return getPart(Item.getItemById(id));
+	}
+
+	public static int getId(MissilePart m) {
+		if(m == null) return 0;
+		return Item.getIdFromItem(m.part);
+	}
+
 }
