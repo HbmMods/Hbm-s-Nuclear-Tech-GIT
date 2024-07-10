@@ -135,15 +135,13 @@ public class ElectrolyserMetalRecipes extends SerializableRecipe {
 			ArrayList<Pair<Object, Integer>> productsF = new ArrayList<>();
 			productsF.add(new Pair<>(type.primary1,12));
 			productsF.add(new Pair<>(type.primary2,6));
-			productsF.add(new Pair<>(type.byproductAcid1,3));
-			productsF.add(new Pair<>(type.byproductAcid2,3));
+			productsF.add(new Pair<>(ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type), 3));
 			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_FIRST, type)), makeBedrockOreProduct(productsF));
 
 			ArrayList<Pair<Object, Integer>> productsS = new ArrayList<>();
 			productsS.add(new Pair<>(type.primary1,6));
 			productsS.add(new Pair<>(type.primary2,12));
-			productsS.add(new Pair<>(type.byproductAcid2,3));
-			productsS.add(new Pair<>(type.byproductAcid3,3));
+			productsS.add(new Pair<>(ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type),3));
 
 			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_SECOND, type)), makeBedrockOreProduct(productsS));
 

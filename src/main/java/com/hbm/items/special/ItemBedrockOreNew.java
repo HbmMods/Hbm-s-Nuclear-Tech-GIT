@@ -169,8 +169,11 @@ public class ItemBedrockOreNew extends Item {
 			List<ItemStack> billets = OreDictionary.getOres(frame.billet(), false); if(!billets.isEmpty()) return fromList(billets, amount);
 			List<ItemStack> ingots = OreDictionary.getOres(frame.ingot(), false); if(!ingots.isEmpty()) return fromList(ingots, amount);
 		}
+		//Solely for recipe handling, to make the code more compact
 		if(o instanceof ItemStack){
-			return (ItemStack) o;
+			ItemStack stack = (ItemStack) o;
+			stack.stackSize = amount;
+			return stack;
 		}
 		return new ItemStack(ModItems.nothing);
 	}
