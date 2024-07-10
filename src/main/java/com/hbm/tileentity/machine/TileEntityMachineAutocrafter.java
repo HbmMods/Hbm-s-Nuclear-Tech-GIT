@@ -351,7 +351,7 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		int slot = nbt.getInteger("slot");
 		setInventorySlotContents(
 				slot,
-				new ItemStack(Item.getItemById(nbt.getInteger("id")), nbt.getInteger("meta")));
+				new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
 		nextMode(slot);
 		markChanged();
 	}
