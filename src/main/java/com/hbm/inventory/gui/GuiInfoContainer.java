@@ -16,6 +16,7 @@ import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -52,7 +53,7 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	
 	/** Automatically grabs upgrade info out of the tile entity if it's a IUpgradeInfoProvider and crams the available info into a list for display. Automation, yeah! */
 	public List<String> getUpgradeInfo(TileEntity tile) {
-		List<String> lines = new ArrayList();
+		List<String> lines = new ArrayList<>();
 		
 		if(tile instanceof IUpgradeInfoProvider) {
 			IUpgradeInfoProvider provider = (IUpgradeInfoProvider) tile;
@@ -129,11 +130,24 @@ public abstract class GuiInfoContainer extends GuiContainer {
 	}
 	
 	public RenderItem getItemRenderer() {
-		return this.itemRender;
+		return itemRender;
 	}
 	
 	public FontRenderer getFontRenderer() {
 		return this.fontRendererObj;
+	}
+
+	public void pushScissor(int x, int y, int width, int height) {
+		ScaledResolution res = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
+		int scale = res.getScaleFactor();
+
+		// Note: Scissor is cut from the BOTTOM of the screen, so Y is inverted!
+		GL11.glEnable(GL11.GL_SCISSOR_TEST);
+		GL11.glScissor((guiLeft + x) * scale, (guiTop + ySize - y - height) * scale, width * scale, height * scale);
+	}
+
+	public void popScissor() {
+		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 	}
 
 	protected void drawItemStack(ItemStack stack, int x, int y, String label) {

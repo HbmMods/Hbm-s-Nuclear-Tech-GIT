@@ -8,12 +8,18 @@ import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.render.util.MissilePart;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.DataWatcher;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.Constants;
 
 public class RocketStruct {
 	
 	public MissilePart capsule;
 	public ArrayList<RocketStage> stages = new ArrayList<>();
+
+	public static final int MAX_STAGES = 5;
 
 	public RocketStruct() {}
 
@@ -51,6 +57,10 @@ public class RocketStruct {
 		}
 		
 		return true;
+	}
+
+	public int getMass() {
+		return 2000;
 	}
 
 	public double getHeight() {
@@ -120,6 +130,77 @@ public class RocketStruct {
 			rocket.stages.add(stage);
 		}
 		
+		return rocket;
+	}
+
+	public void writeToNBT(NBTTagCompound nbt) {
+		nbt.setInteger("capsule", MissilePart.getId(capsule));
+
+		NBTTagList stagesTag = new NBTTagList();
+		for(RocketStage stage : stages) {
+			NBTTagCompound stageTag = new NBTTagCompound();
+			stageTag.setInteger("fuselage", MissilePart.getId(stage.fuselage));
+			stageTag.setInteger("fins", MissilePart.getId(stage.fins));
+			stageTag.setInteger("thruster", MissilePart.getId(stage.thruster));
+			stagesTag.appendTag(stageTag);
+		}
+		nbt.setTag("stages", stagesTag);
+	}
+
+	public static RocketStruct readFromNBT(NBTTagCompound nbt) {
+		RocketStruct rocket = new RocketStruct();
+		rocket.capsule = MissilePart.getPart(nbt.getInteger("capsule"));
+
+		NBTTagList stagesTag = nbt.getTagList("stages", Constants.NBT.TAG_COMPOUND);
+		for(int i = 0; i < stagesTag.tagCount(); i++) {
+			NBTTagCompound stageTag = stagesTag.getCompoundTagAt(i);
+			RocketStage stage = new RocketStage();
+			stage.fuselage = MissilePart.getPart(stageTag.getInteger("fuselage"));
+			stage.fins = MissilePart.getPart(stageTag.getInteger("fins"));
+			stage.thruster = MissilePart.getPart(stageTag.getInteger("thruster"));
+			rocket.stages.add(stage);
+		}
+
+		return rocket;
+	}
+
+	// Sets up a DataWatcher to accept serialization
+	public static void setupDataWatcher(DataWatcher watcher, int start) {
+		watcher.addObject(start, 0);
+		watcher.addObject(start + 1, 0);
+		for(int i = 0; i < MAX_STAGES; i++) {
+			watcher.addObject(start + i * 3 + 2, 0);
+			watcher.addObject(start + i * 3 + 3, 0);
+			watcher.addObject(start + i * 3 + 4, 0);
+		}
+	}
+
+	// Serializes into an entity DataWatcher
+	public void writeToDataWatcher(DataWatcher watcher, int start) {
+		watcher.updateObject(start, MissilePart.getId(capsule));
+		watcher.updateObject(start + 1, stages.size());
+		for(int i = 0; i < stages.size(); i++) {
+			RocketStage stage = stages.get(i);
+			watcher.updateObject(start + i * 3 + 2, MissilePart.getId(stage.fuselage));
+			watcher.updateObject(start + i * 3 + 3, MissilePart.getId(stage.fins));
+			watcher.updateObject(start + i * 3 + 4, MissilePart.getId(stage.thruster));
+		}
+	}
+
+	public static RocketStruct readFromDataWatcher(DataWatcher watcher, int start) {
+		RocketStruct rocket = new RocketStruct();
+
+		rocket.capsule = MissilePart.getPart(watcher.getWatchableObjectInt(start));
+
+		int count = watcher.getWatchableObjectInt(start + 1);
+		for(int i = 0; i < count; i++) {
+			RocketStage stage = new RocketStage();
+			stage.fuselage = MissilePart.getPart(watcher.getWatchableObjectInt(start + i * 3 + 2));
+			stage.fins = MissilePart.getPart(watcher.getWatchableObjectInt(start + i * 3 + 3));
+			stage.thruster = MissilePart.getPart(watcher.getWatchableObjectInt(start + i * 3 + 4));
+			rocket.stages.add(stage);
+		}
+
 		return rocket;
 	}
 

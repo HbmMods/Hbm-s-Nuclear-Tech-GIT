@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.handler.RocketStruct;
 import com.hbm.inventory.SlotRocket;
 import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.inventory.SlotRocket.SlotCapsule;
@@ -26,7 +27,7 @@ public class ContainerMachineRocketAssembly extends Container {
 		this.addSlotToContainer(new SlotCapsule(machine, slotId++, 18, 13));
 
 		// Stages
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < RocketStruct.MAX_STAGES; i++) {
 			this.addSlotToContainer(new SlotRocket(machine, slotId++, 18, 44, i, PartType.FUSELAGE));
 			this.addSlotToContainer(new SlotRocket(machine, slotId++, 18, 62, i, PartType.FINS));
 			this.addSlotToContainer(new SlotRocket(machine, slotId++, 18, 80, i, PartType.THRUSTER));

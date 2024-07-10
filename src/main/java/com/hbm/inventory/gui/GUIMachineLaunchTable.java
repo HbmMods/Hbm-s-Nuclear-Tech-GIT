@@ -2,8 +2,10 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.handler.RocketStruct;
 import com.hbm.inventory.container.ContainerLaunchTable;
 import com.hbm.items.weapon.ItemCustomMissile;
+import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.AuxButtonPacket;
@@ -139,27 +141,41 @@ public class GUIMachineLaunchTable extends GuiInfoContainer {
 		/// DRAW MISSILE START
 		GL11.glPushMatrix();
 
-		MissileMultipart missile;
 		
 		if(launcher.isMissileValid()) {
-			ItemStack custom = launcher.getStackInSlot(0);
+			ItemStack stack = launcher.getStackInSlot(0);
 			
-			missile = new MissileMultipart();
-			
-			missile = MissileMultipart.loadFromStruct(ItemCustomMissile.getStruct(custom));
-		
-			GL11.glTranslatef(guiLeft + 88, guiTop + 115, 100);
-			
-			double size = 5 * 18;
-			double scale = size / Math.max(missile.getHeight(), 6);
+			if(stack.getItem() instanceof ItemCustomMissile) {
+				MissileMultipart missile = MissileMultipart.loadFromStruct(ItemCustomMissile.getStruct(stack));
 
-			GL11.glRotatef(90, 0, 1, 0);
-			GL11.glTranslated(missile.getHeight() / 2D * scale, 0, 0);
-			GL11.glScaled(scale, scale, scale);
-			
-			GL11.glScalef(-1, -1, -1);
-			
-			MissilePronter.prontMissile(missile, Minecraft.getMinecraft().getTextureManager());
+				GL11.glTranslatef(guiLeft + 88, guiTop + 115, 100);
+				
+				double size = 5 * 18;
+				double scale = size / Math.max(missile.getHeight(), 6);
+	
+				GL11.glRotatef(90, 0, 1, 0);
+				GL11.glTranslated(missile.getHeight() / 2D * scale, 0, 0);
+				GL11.glScaled(scale, scale, scale);
+				
+				GL11.glScalef(-1, -1, -1);
+				
+				MissilePronter.prontMissile(missile, Minecraft.getMinecraft().getTextureManager());
+			} else if(stack.getItem() instanceof ItemCustomRocket) {
+				RocketStruct rocket = ItemCustomRocket.get(stack);
+				
+				GL11.glTranslatef(guiLeft + 88, guiTop + 115, 100);
+				
+				double size = 5 * 18;
+				double scale = size / Math.max(rocket.getHeight(), 6);
+	
+				GL11.glRotatef(90, 0, 1, 0);
+				GL11.glTranslated(rocket.getHeight() / 2D * scale, 0, 0);
+				GL11.glScaled(scale, scale, scale);
+				
+				GL11.glScalef(-1, -1, -1);
+				
+				MissilePronter.prontRocket(rocket, Minecraft.getMinecraft().getTextureManager());
+			}
 		}
 		
 		GL11.glPopMatrix();

@@ -11,22 +11,20 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.trait.FT_Gaseous;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.packet.NBTPacket;
+import com.hbm.packet.BufPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.util.AstronomyUtil;
 import com.hbm.util.I18nUtil;
 
 import api.hbm.block.IToolable;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
@@ -46,6 +44,7 @@ public class BlockAtmosphereEditor extends BlockContainer implements IToolable, 
         return new TileEntityAtmosphereEditor();
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
 		list.add(EnumChatFormatting.GOLD + "Use screwdriver to turn on and off");
@@ -129,7 +128,7 @@ public class BlockAtmosphereEditor extends BlockContainer implements IToolable, 
         return false;
 	}
 
-    public static class TileEntityAtmosphereEditor extends TileEntity implements INBTPacketReceiver {
+    public static class TileEntityAtmosphereEditor extends TileEntity implements IBufPacketReceiver {
 
         private boolean isOn = false;
         private int throughputFactor = 10;
@@ -147,26 +146,9 @@ public class BlockAtmosphereEditor extends BlockContainer implements IToolable, 
                     FT_Gaseous.capture(worldObj, fluid, Math.pow(10, throughputFactor));
                 }
             }
-				
-            NBTTagCompound data = new NBTTagCompound();
-            data.setBoolean("isOn", isOn);
-            data.setInteger("throughput", throughputFactor);
-            data.setInteger("fluid", fluid.getID());
-            data.setBoolean("emit", isEmitting);
-            PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(data, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
-        }
 
-		@Override
-		public Packet getDescriptionPacket() {
-			NBTTagCompound nbt = new NBTTagCompound();
-			this.writeToNBT(nbt);
-			return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbt);
-		}
-		
-		@Override
-		public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-			this.readFromNBT(pkt.func_148857_g());
-		}
+            PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
+        }
 
 		@Override
 		public void readFromNBT(NBTTagCompound nbt) {
@@ -187,11 +169,19 @@ public class BlockAtmosphereEditor extends BlockContainer implements IToolable, 
 		}
 
         @Override
-        public void networkUnpack(NBTTagCompound nbt) {
-            isOn = nbt.getBoolean("isOn");
-            throughputFactor = nbt.getInteger("throughput");
-            fluid = Fluids.fromID(nbt.getInteger("fluid"));
-            isEmitting = nbt.getBoolean("emit");
+        public void serialize(ByteBuf buf) {
+            buf.writeBoolean(isOn);
+            buf.writeInt(throughputFactor);
+            buf.writeInt(fluid.getID());
+            buf.writeBoolean(isEmitting);
+        }
+
+        @Override
+        public void deserialize(ByteBuf buf) {
+            isOn = buf.readBoolean();
+            throughputFactor = buf.readInt();
+            fluid = Fluids.fromID(buf.readInt());
+            isEmitting = buf.readBoolean();
         }
 
     }

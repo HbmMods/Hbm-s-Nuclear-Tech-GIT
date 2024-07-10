@@ -53,11 +53,13 @@ public class RenderLaunchTable extends TileEntitySpecialRenderer {
 
 		GL11.glPushMatrix();
 		
-		if(launcher.load != null) {
-			MissileMultipart mp = MissileMultipart.loadFromStruct(launcher.load);
+		if(launcher.loadMissile != null) {
+			MissileMultipart mp = MissileMultipart.loadFromStruct(launcher.loadMissile);
 			
 			if(mp != null && mp.fuselage != null)
 				launcher.height = (int) mp.getHeight();
+		} else if(launcher.loadRocket != null) {
+			launcher.height = (int) launcher.loadRocket.getHeight();
 		}
 		
 		int height = (int) (launcher.height * 0.75);
@@ -87,7 +89,10 @@ public class RenderLaunchTable extends TileEntitySpecialRenderer {
 				emptyM.renderAll();
 			} else {
 				
-				if(launcher.load != null && launcher.load.fuselage != null && ((ItemCustomMissilePart)launcher.load.fuselage).top == launcher.padSize) {
+				if(launcher.loadMissile != null && launcher.loadMissile.fuselage != null && ((ItemCustomMissilePart)launcher.loadMissile.fuselage).top == launcher.padSize) {
+					bindTexture(connector);
+					connectorM.renderAll();
+				} else if(launcher.loadRocket != null && launcher.padSize == PartSize.SIZE_20) {
 					bindTexture(connector);
 					connectorM.renderAll();
 				} else {
@@ -105,8 +110,11 @@ public class RenderLaunchTable extends TileEntitySpecialRenderer {
 		/// DRAW MISSILE START
 		GL11.glPushMatrix();
 		
-		if(launcher.load != null && launcher.load.fuselage != null && launcher.load.fuselage.top == launcher.padSize)
-			MissilePronter.prontMissile(MissileMultipart.loadFromStruct(launcher.load), Minecraft.getMinecraft().getTextureManager());
+		if(launcher.loadMissile != null && launcher.loadMissile.fuselage != null && launcher.loadMissile.fuselage.top == launcher.padSize) {
+			MissilePronter.prontMissile(MissileMultipart.loadFromStruct(launcher.loadMissile), Minecraft.getMinecraft().getTextureManager());
+		} else if(launcher.loadRocket != null && launcher.padSize == PartSize.SIZE_20) {
+			MissilePronter.prontRocket(launcher.loadRocket, Minecraft.getMinecraft().getTextureManager());
+		}
 		
 		GL11.glPopMatrix();
 		/// DRAW MISSILE END

@@ -2,6 +2,7 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.handler.RocketStruct;
 import com.hbm.inventory.container.ContainerMachineRocketAssembly;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
@@ -11,7 +12,6 @@ import com.hbm.tileentity.machine.TileEntityMachineRocketAssembly;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -52,16 +52,13 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 
 		stage = Math.max(stage, 0);
 
-		ScaledResolution res = new ScaledResolution(this.mc, this.mc.displayWidth, this.mc.displayHeight);
 		double dt = (double)(System.nanoTime() - lastTime) / 1000000000;
 		lastTime = System.nanoTime();
 		
 		GL11.glPushMatrix();
 		{
 
-			// Note: Scissor is cut from the BOTTOM of the screen, so Y is inverted!
-			GL11.glEnable(GL11.GL_SCISSOR_TEST);
-			GL11.glScissor((guiLeft + 65) * res.getScaleFactor(), (guiTop + ySize - 111) * res.getScaleFactor(), 106 * res.getScaleFactor(), 106 * res.getScaleFactor());
+			pushScissor(65, 5, 106, 106);
 
 			GL11.glTranslatef(guiLeft + 116, guiTop + 103, 100);
 			GL11.glRotatef(System.currentTimeMillis() / 10 % 360, 0, -1, 0);
@@ -79,7 +76,7 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 
 			MissilePronter.prontRocket(machine.rocket, Minecraft.getMinecraft().getTextureManager());
 
-			GL11.glDisable(GL11.GL_SCISSOR_TEST);
+			popScissor();
 
 		}
 		GL11.glPopMatrix();
@@ -120,7 +117,7 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 		if(checkClick(x, y, 17, 98, 18, 8)) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 
-			if(getLayer() < Math.min(machine.rocket.stages.size(), 4)) {
+			if(getLayer() < Math.min(machine.rocket.stages.size(), RocketStruct.MAX_STAGES - 1)) {
 				setLayer(getLayer() + 1);
 			}
     	}

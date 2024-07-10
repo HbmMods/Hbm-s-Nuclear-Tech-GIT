@@ -6,18 +6,16 @@ import java.util.List;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.dim.DebugTeleporter;
 import com.hbm.dim.SolarSystem;
-import com.hbm.handler.MissileStruct;
+import com.hbm.handler.RocketStruct;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemVOTVdrive.Destination;
-import com.hbm.render.util.MissileMultipart;
-import com.hbm.render.util.MissilePart;
+import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.util.BobMathUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -29,23 +27,15 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
 public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOverlay {
 
-	protected float fuel;
-	protected float consumption;
-
 	public ItemStack navDrive;
 
 	private int stateTimer = 0;
 
-	// temp, replace with VAB parts later
-	private static final int WATCHABLE_WARHEAD = 9;
-	private static final int WATCHABLE_FUSELAGE = 10;
-	private static final int WATCHABLE_FINS = 11;
-	private static final int WATCHABLE_THRUSTER = 12;
+	private static final int WATCHABLE_STATE = 8;
+	private static final int WATCHABLE_DESTINATION = 9;
+	private static final int WATCHABLE_FUEL = 10;
 
-	private static final int WATCHABLE_STATE = 13;
-	private static final int WATCHABLE_DESTINATION = 14;
-
-	private NBTTagCompound itemData;
+	private static final int WATCHABLE_ROCKET = 11; // Variable size, must always be last!
 
 	private double rocketVelocity = 0;
 
@@ -62,25 +52,12 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		super(world);
 	}
 
-	public EntityRideableRocket(World world, float x, float y, float z, MissileStruct template, NBTTagCompound itemData) {
+	public EntityRideableRocket(World world, float x, float y, float z, ItemStack stack) {
 		super(world, x, y, z, (int) x, (int) z);
-		this.itemData = itemData;
+		RocketStruct rocket = ItemCustomRocket.get(stack);
 
-		this.dataWatcher.updateObject(WATCHABLE_WARHEAD, Item.getIdFromItem(template.warhead));
-		this.dataWatcher.updateObject(WATCHABLE_FUSELAGE, Item.getIdFromItem(template.fuselage));
-		this.dataWatcher.updateObject(WATCHABLE_THRUSTER, Item.getIdFromItem(template.thruster));
-		if(template.fins != null) {
-			this.dataWatcher.updateObject(WATCHABLE_FINS, Item.getIdFromItem(template.fins));
-		} else {
-			this.dataWatcher.updateObject(WATCHABLE_FINS, Integer.valueOf(0));
-		}
-		
-		MissileMultipart missile = new MissileMultipart();
-		missile.warhead = MissilePart.getPart(template.warhead);
-		missile.fuselage = MissilePart.getPart(template.fuselage);
-		missile.thruster = MissilePart.getPart(template.thruster);
-
-		setSize(2, (float)missile.getHeight() + 1);
+		setRocket(rocket);
+		setSize(2, (float)rocket.getHeight() + 1);
 	}
 
 	public EntityRideableRocket withPayload(ItemStack stack) {
@@ -103,12 +80,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		super.onUpdate();
 
 		if(!sizeSet) {
-			MissileMultipart missile = new MissileMultipart();
-			missile.warhead = MissilePart.getPart(Item.getItemById(dataWatcher.getWatchableObjectInt(WATCHABLE_WARHEAD)));
-			missile.fuselage = MissilePart.getPart(Item.getItemById(dataWatcher.getWatchableObjectInt(WATCHABLE_FUSELAGE)));
-			missile.thruster = MissilePart.getPart(Item.getItemById(dataWatcher.getWatchableObjectInt(WATCHABLE_THRUSTER)));
-			
-			setSize(2, (float)missile.getHeight() + 1);
+			setSize(2, (float)getRocket().getHeight() + 1);
 		}
 
 		EntityPlayer rider = (EntityPlayer) this.riddenByEntity;
@@ -210,6 +182,11 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	}
 
 	@Override
+	public void onImpact() {
+		// no boom
+	}
+
+	@Override
 	public double getMountedYOffset() {
 		return height - 3.0;
 	}
@@ -242,19 +219,13 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		setDead();
 
 		// Drop the rocket itself, to be taken to a pad and refueled
-		ItemStack itemstack = new ItemStack(ModItems.missile_custom, 1);
-		itemstack.stackTagCompound = itemData;
-		entityDropItem(itemstack, 0.0F);
+		ItemStack stack = ItemCustomRocket.build(getRocket());
+		entityDropItem(stack, 0.0F);
 
 		// Drop the drive if it is still present
 		if(navDrive != null) {
 			entityDropItem(navDrive, 0.0F);
 		}
-	}
-
-	@Override
-	public void onImpact() {
-		// no boom
 	}
 
 	@Override
@@ -264,48 +235,56 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		}
 	}
 
+	public RocketStruct getRocket() {
+		return RocketStruct.readFromDataWatcher(dataWatcher, WATCHABLE_ROCKET);
+	}
+
+	public void setRocket(RocketStruct rocket) {
+		rocket.writeToDataWatcher(dataWatcher, WATCHABLE_ROCKET);
+	}
+
 	public RocketState getState() {
-		return RocketState.values()[this.dataWatcher.getWatchableObjectInt(WATCHABLE_STATE)];
+		return RocketState.values()[dataWatcher.getWatchableObjectInt(WATCHABLE_STATE)];
 	}
 
 	public void setState(RocketState state) {
-		this.dataWatcher.updateObject(WATCHABLE_STATE, state.ordinal());
+		dataWatcher.updateObject(WATCHABLE_STATE, state.ordinal());
 		stateTimer = 0;
 	}
 
 	public String getDestinationName() {
-		return this.dataWatcher.getWatchableObjectString(WATCHABLE_DESTINATION);
+		return dataWatcher.getWatchableObjectString(WATCHABLE_DESTINATION);
 	}
 
 	public void setDestinationName(String destination) {
-		this.dataWatcher.updateObject(WATCHABLE_DESTINATION, destination);
+		dataWatcher.updateObject(WATCHABLE_DESTINATION, destination);
+	}
+
+	public float getFuel() {
+		return dataWatcher.getWatchableObjectFloat(WATCHABLE_FUEL);
+	}
+
+	public void setFuel(float fuel) {
+		dataWatcher.updateObject(WATCHABLE_FUEL, fuel);
 	}
 
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.dataWatcher.addObject(8, Integer.valueOf(this.health));
-		this.dataWatcher.addObject(9, Integer.valueOf(0));
-		this.dataWatcher.addObject(10, Integer.valueOf(0));
-		this.dataWatcher.addObject(11, Integer.valueOf(0));
-		this.dataWatcher.addObject(12, Integer.valueOf(0));
-		this.dataWatcher.addObject(WATCHABLE_STATE, RocketState.AWAITING.ordinal());
-		this.dataWatcher.addObject(WATCHABLE_DESTINATION, "NO DRIVE PRESENT");
+		dataWatcher.addObject(WATCHABLE_STATE, RocketState.AWAITING.ordinal());
+		dataWatcher.addObject(WATCHABLE_DESTINATION, "NO DRIVE PRESENT");
+		dataWatcher.addObject(WATCHABLE_FUEL, 0.0F);
+		RocketStruct.setupDataWatcher(dataWatcher, WATCHABLE_ROCKET); // again, this MUST be the highest int!
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt) {
 		super.readEntityFromNBT(nbt);
 
-		fuel = nbt.getFloat("fuel");
-		consumption = nbt.getFloat("consumption");
-		this.dataWatcher.updateObject(9, nbt.getInteger("warhead"));
-		this.dataWatcher.updateObject(10, nbt.getInteger("fuselage"));
-		this.dataWatcher.updateObject(11, nbt.getInteger("fins"));
-		this.dataWatcher.updateObject(12, nbt.getInteger("thruster"));
-
+		setFuel(nbt.getFloat("fuel"));
 		setState(RocketState.values()[nbt.getInteger("state")]);
-		itemData = nbt.getCompoundTag("item");
+
+		setRocket(RocketStruct.readFromNBT(nbt.getCompoundTag("rocket")));
 
 		if(nbt.hasKey("drive")) {
 			navDrive = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("drive"));
@@ -318,15 +297,12 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	public void writeEntityToNBT(NBTTagCompound nbt) {
 		super.writeEntityToNBT(nbt);
 
-		nbt.setFloat("fuel", fuel);
-		nbt.setFloat("consumption", consumption);
-		nbt.setInteger("warhead", this.dataWatcher.getWatchableObjectInt(WATCHABLE_WARHEAD));
-		nbt.setInteger("fuselage", this.dataWatcher.getWatchableObjectInt(WATCHABLE_FUSELAGE));
-		nbt.setInteger("fins", this.dataWatcher.getWatchableObjectInt(WATCHABLE_FINS));
-		nbt.setInteger("thruster", this.dataWatcher.getWatchableObjectInt(WATCHABLE_THRUSTER));
-
+		nbt.setFloat("fuel", getFuel());
 		nbt.setInteger("state", getState().ordinal());
-		nbt.setTag("item", itemData);
+
+		NBTTagCompound rocketTag = new NBTTagCompound();
+		getRocket().writeToNBT(rocketTag);
+		nbt.setTag("rocket", rocketTag);
 
 		if(navDrive != null) {
 			NBTTagCompound driveData = new NBTTagCompound();
@@ -359,7 +335,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	@Override
 	public ItemStack getMissileItemForInfo() {
-		return new ItemStack(ModItems.missile_custom);
+		return new ItemStack(ModItems.rocket_custom);
 	}
 
 	@Override
