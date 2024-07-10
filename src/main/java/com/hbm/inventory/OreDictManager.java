@@ -168,6 +168,8 @@ public class OreDictManager {
 	public static final DictFrame BBRONZE = new DictFrame("BismuthBronze");
 	/** ARSENIC BRONZE */
 	public static final DictFrame ABRONZE = new DictFrame("ArsenicBronze");
+	/** BISMUTH STRONTIUM CALCIUM COPPER OXIDE */
+	public static final DictFrame BSCCO = new DictFrame("BSCCO");
 	/** LEAD */ 
 	public static final DictFrame PB = new DictFrame("Lead");
 	public static final DictFrame BI = new DictFrame("Bismuth");
@@ -229,6 +231,7 @@ public class OreDictManager {
 	public static final DictFrame VOLCANIC = new DictFrame("Volcanic");
 	public static final DictFrame HEMATITE = new DictFrame("Hematite");
 	public static final DictFrame MALACHITE = new DictFrame("Malachite");
+	public static final DictFrame LIMESTONE = new DictFrame("Limestone");
 	public static final DictFrame SLAG = new DictFrame("Slag");
 	/*
 	 * HAZARDS, MISC
@@ -280,6 +283,7 @@ public class OreDictManager {
 	/*
 	 * FISSION FRAGMENTS
 	 */
+	public static final DictFrame SR = new DictFrame("Strontium");
 	public static final DictFrame SR90 = new DictFrame("Strontium90", "Sr90");
 	public static final DictFrame I131 = new DictFrame("Iodine131", "I131");
 	public static final DictFrame XE135 = new DictFrame("Xenon135", "Xe135");
@@ -375,6 +379,7 @@ public class OreDictManager {
 		CDALLOY																.ingot(ingot_cdalloy)																												.block(block_cdalloy);
 		BBRONZE																.ingot(ingot_bismuth_bronze);
 		ABRONZE																.ingot(ingot_arsenic_bronze);
+		BSCCO																.ingot(ingot_bscco);
 		PB			.nugget(nugget_lead)									.ingot(ingot_lead)													.dust(powder_lead)				.plate(plate_lead)				.block(block_lead)			.ore(ore_lead);
 		BI			.nugget(nugget_bismuth)		.billet(billet_bismuth)		.ingot(ingot_bismuth)												.dust(powder_bismuth)											.block(block_bismuth);
 		AS			.nugget(nugget_arsenic)									.ingot(ingot_arsenic);
@@ -427,6 +432,7 @@ public class OreDictManager {
 		VOLCANIC						.gem(gem_volcanic)																				.ore(DictFrame.fromOne(ore_basalt, EnumBasaltOreType.GEM));
 		HEMATITE																														.ore(fromOne(stone_resource, EnumStoneType.HEMATITE));
 		MALACHITE																														.ore(fromOne(stone_resource, EnumStoneType.MALACHITE));
+		LIMESTONE																		.dust(powder_limestone)							.ore(fromOne(stone_resource, EnumStoneType.LIMESTONE));
 		SLAG																									.block(block_slag);
 		
 		/*
@@ -472,6 +478,7 @@ public class OreDictManager {
 		/*
 		 * FISSION FRAGMENTS
 		 */
+		SR									.hot(1F)	.hydro(1F)									.dust(powder_strontium);
 		SR90	.rad(HazardRegistry.sr90)	.hot(1F)	.hydro(1F)	.dustSmall(powder_sr90_tiny)	.dust(powder_sr90)	.ingot(ingot_sr90)	.billet(billet_sr90)	.nugget(nugget_sr90);
 		I131	.rad(HazardRegistry.i131)	.hot(1F)				.dustSmall(powder_i131_tiny)	.dust(powder_i131);
 		XE135	.rad(HazardRegistry.xe135)	.hot(10F)				.dustSmall(powder_xe135_tiny)	.dust(powder_xe135);

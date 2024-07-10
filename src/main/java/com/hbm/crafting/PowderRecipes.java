@@ -33,6 +33,7 @@ public class PowderRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_semtex_mix, 1), new Object[] { ModItems.solid_fuel, ModItems.ballistite, KNO.dust() });
 		CraftingManager.addShapelessAuto(new ItemStack(Items.clay_ball, 4), new Object[] { KEY_SAND, ModItems.dust, ModItems.dust, Fluids.WATER.getDict(1_000) });
 		CraftingManager.addShapelessAuto(new ItemStack(Items.clay_ball, 4), new Object[] { Blocks.clay }); //clay uncrafting because placing and breaking it isn't worth anyone's time
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_cement, 4), new Object[] { LIMESTONE.dust(), Items.clay_ball, Items.clay_ball, Items.clay_ball });
 		
 		//Other
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.ingot_steel_dusted, 1), new Object[] { STEEL.ingot(), COAL.dust() });
@@ -67,6 +68,7 @@ public class PowderRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 2), new Object[] { COAL.dust(), KEY_SAND });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 4), new Object[] { F.dust(), KEY_SAND });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 8), new Object[] { PB.dust(), S.dust(), KEY_SAND });
+		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 12), new Object[] { LIMESTONE.dust(), KEY_SAND });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 12), new Object[] { CA.dust(), KEY_SAND });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.powder_flux, 16), new Object[] { BORAX.dust(), KEY_SAND });
 

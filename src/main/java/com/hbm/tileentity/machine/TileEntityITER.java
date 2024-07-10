@@ -669,6 +669,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_fusion";
 	}
@@ -724,6 +725,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 		return new Object[] {"N/A", "N/A"};
 	}
 
+	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
 		return new String[] {
 				"getEnergyInfo",
@@ -736,6 +739,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 		};
 	}
 
+	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch (method) {
 			case ("getEnergyInfo"):

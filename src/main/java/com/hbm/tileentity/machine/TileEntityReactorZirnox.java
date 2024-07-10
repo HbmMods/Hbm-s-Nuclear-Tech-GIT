@@ -548,6 +548,7 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
   
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "zirnox_reactor";
 	}
@@ -601,6 +602,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		return new Object[] {};
 	}
 
+	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
 		return new String[] {
 				"getTemp",
@@ -614,6 +617,8 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		};
 	}
 
+	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch(method) {
 			case ("getTemp"):

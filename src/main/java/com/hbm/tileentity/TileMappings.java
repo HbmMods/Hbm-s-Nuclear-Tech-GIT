@@ -17,6 +17,7 @@ import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
 import com.hbm.blocks.generic.PartEmitter.TileEntityPartEmitter;
 import com.hbm.blocks.machine.BlockICF.TileEntityBlockICF;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
+import com.hbm.blocks.machine.Floodlight.TileEntityFloodlight;
 import com.hbm.blocks.machine.MachineCapacitor.TileEntityCapacitor;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
@@ -24,6 +25,7 @@ import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
 import com.hbm.blocks.network.BlockCableGauge.TileEntityCableGauge;
 import com.hbm.blocks.network.BlockCablePaintable.TileEntityCablePaintable;
 import com.hbm.blocks.network.CableDiode.TileEntityDiode;
+import com.hbm.blocks.network.CranePartitioner.TileEntityCranePartitioner;
 import com.hbm.blocks.network.FluidDuctGauge.TileEntityPipeGauge;
 import com.hbm.blocks.network.FluidDuctPaintable.TileEntityPipePaintable;
 import com.hbm.blocks.rail.RailStandardSwitch.TileEntityRailSwitch;
@@ -91,6 +93,7 @@ public class TileMappings {
 		put(TileEntityMachineExposureChamber.class, "tileentity_exposure_chamber");
 		put(TileEntityMachineRTG.class, "tileentity_machine_rtg");
 		put(TileEntityMachineExcavator.class, "tileentity_ntm_excavator");
+		put(TileEntityMachineOreSlopper.class, "tileentity_ore_slopper");
 		put(TileEntityFluidDuctSimple.class, "tileentity_universal_duct_simple");
 		put(TileEntityFluidDuct.class, "tileentity_universal_duct");
 		put(TileEntityMachineDrain.class, "tileentity_fluid_drain");
@@ -182,6 +185,7 @@ public class TileMappings {
 		put(TileEntitySILEX.class, "tileentity_silex");
 		put(TileEntityFEL.class, "tileentity_fel");
 		put(TileEntityDemonLamp.class, "tileentity_demonlamp");
+		put(TileEntityFloodlight.class, "tileentity_floodlight");
 		put(TileEntityLantern.class, "tileentity_lantern_ordinary");
 		put(TileEntityLanternBehemoth.class, "tileentity_lantern_behemoth");
 		put(TileEntityStorageDrum.class, "tileentity_waste_storage_drum");
@@ -395,6 +399,7 @@ public class TileMappings {
 		put(TileEntityCraneUnboxer.class, "tileentity_unboxer");
 		put(TileEntityCraneRouter.class, "tileentity_router");
 		put(TileEntityCraneSplitter.class, "tileentity_splitter");
+		put(TileEntityCranePartitioner.class, "tileentity_partitioner");
 		put(TileEntityFan.class, "tileentity_fan");
 		put(TileEntityPistonInserter.class, "tileentity_piston_inserter");
 

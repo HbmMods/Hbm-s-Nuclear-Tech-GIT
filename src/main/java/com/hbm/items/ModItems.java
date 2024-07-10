@@ -116,6 +116,8 @@ public class ModItems {
 	public static Item coal_infernal;
 	public static Item cinnebar;
 	public static Item powder_ash;
+	public static Item powder_limestone;
+	public static Item powder_cement;
 
 	public static Item niter;
 	public static Item ingot_copper;
@@ -146,6 +148,7 @@ public class ModItems {
 	public static Item ingot_cdalloy;
 	public static Item ingot_bismuth_bronze;
 	public static Item ingot_arsenic_bronze;
+	public static Item ingot_bscco;
 	public static Item lithium;
 	public static Item ingot_zirconium;
 	public static Item ingot_hes;
@@ -2566,6 +2569,7 @@ public class ModItems {
 		ingot_cdalloy = new Item().setUnlocalizedName("ingot_cdalloy").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_cdalloy");
 		ingot_bismuth_bronze = new Item().setUnlocalizedName("ingot_bismuth_bronze").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_bismuth_bronze");
 		ingot_arsenic_bronze = new Item().setUnlocalizedName("ingot_arsenic_bronze").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_arsenic_bronze");
+		ingot_bscco = new Item().setUnlocalizedName("ingot_bscco").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_bscco");
 
 		niter = new Item().setUnlocalizedName("niter").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":salpeter");
 		ingot_copper = new Item().setUnlocalizedName("ingot_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_copper");
@@ -2757,6 +2761,8 @@ public class ModItems {
 		coal_infernal = new Item().setUnlocalizedName("coal_infernal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":coal_infernal");
 		cinnebar = new Item().setUnlocalizedName("cinnebar").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":cinnebar");
 		powder_ash = new ItemEnumMulti(EnumAshType.class, true, true).setUnlocalizedName("powder_ash").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_ash");
+		powder_limestone = new Item().setUnlocalizedName("powder_limestone").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_limestone");
+		powder_cement = new Item().setUnlocalizedName("powder_cement").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_cement");
 		
 		ingot_gh336 = new ItemCustomLore().setRarity(EnumRarity.epic).setUnlocalizedName("ingot_gh336").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_gh336");
 		nugget_gh336 = new ItemCustomLore().setRarity(EnumRarity.epic).setUnlocalizedName("nugget_gh336").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_gh336");
@@ -5659,6 +5665,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_cdalloy, ingot_cdalloy.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_bismuth_bronze, ingot_bismuth_bronze.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_arsenic_bronze, ingot_arsenic_bronze.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_bscco, ingot_bscco.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_lead, ingot_lead.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_bismuth, ingot_bismuth.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_arsenic, ingot_arsenic.getUnlocalizedName());
@@ -5918,6 +5925,8 @@ public class ModItems {
 		GameRegistry.registerItem(dust_tiny, dust_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(fallout, fallout.getUnlocalizedName());
 		GameRegistry.registerItem(powder_ash, powder_ash.getUnlocalizedName());
+		GameRegistry.registerItem(powder_limestone, powder_limestone.getUnlocalizedName());
+		GameRegistry.registerItem(powder_cement, powder_cement.getUnlocalizedName());
 		
 		//Powders
 		GameRegistry.registerItem(powder_fire, powder_fire.getUnlocalizedName());

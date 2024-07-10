@@ -112,7 +112,9 @@ public abstract class EntityDroneBase extends Entity {
 					this.motionZ = dist.zCoord * speed;
 				}
 			}
-			
+			if(isCollidedHorizontally){
+				motionY += 1;
+			}
 			this.moveEntity(motionX, motionY, motionZ);
 		}
 	}

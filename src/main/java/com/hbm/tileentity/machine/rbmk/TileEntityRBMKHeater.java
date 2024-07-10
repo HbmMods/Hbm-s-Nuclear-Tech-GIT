@@ -29,7 +29,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -279,6 +278,7 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 	//opencomputers stuff
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "rbmk_heater";
 	}

@@ -10,16 +10,21 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
+import com.hbm.packet.BufPacket;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 
-public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver {
+public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IBufPacketReceiver {
 
 	private FluidTank water;
 	private FluidTank steam;
@@ -56,6 +61,8 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 			this.sendFluid(steam, worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			
 			heat = 0;
+
+			networkPackNT(15);
 		} else {
 			
 			//a delayed queue of mirror positions because we can't expect the boiler to always tick first
@@ -189,5 +196,21 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 	@Override
 	public FluidTank[] getAllTanks() {
 		return new FluidTank[] { water, steam };
+	}
+	
+	public void networkPackNT(int range) {
+		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		water.serialize(buf);
+		steam.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		water.deserialize(buf);
+		steam.deserialize(buf);
 	}
 }

@@ -472,6 +472,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_launch_pad";
 	}
@@ -526,6 +527,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
 		return new String[] {
 				"getEnergyInfo",
@@ -536,6 +538,8 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 		};
 	}
 
+	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch(method) {
 			case ("getEnergyInfo"):
@@ -548,8 +552,7 @@ public abstract class TileEntityLaunchPadBase extends TileEntityMachineBase impl
 				return getTier(context, args);
 			case ("launch"):
 				return launch(context, args);
-	}
+		}
 	throw new NoSuchMethodException();
-}
-
+	}
 }

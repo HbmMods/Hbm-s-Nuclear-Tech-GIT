@@ -54,7 +54,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
@@ -912,6 +911,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	// This is a large compat, so I have to leave comments to know what I'm doing
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_turret";
 	}
@@ -1014,11 +1014,13 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public boolean canConnectNode(ForgeDirection side) {
 		return side == ForgeDirection.DOWN;
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() { // :vomit:
 		return new String[] {
 				"setActive",
@@ -1036,6 +1038,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch (method) {
 			case "setActive":

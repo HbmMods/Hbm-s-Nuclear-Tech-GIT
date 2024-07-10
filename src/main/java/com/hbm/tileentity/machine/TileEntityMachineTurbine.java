@@ -340,6 +340,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_turbine";
 	}
