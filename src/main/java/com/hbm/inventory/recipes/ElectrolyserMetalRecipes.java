@@ -1,9 +1,7 @@
 package com.hbm.inventory.recipes;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
 
 import com.google.gson.JsonArray;
@@ -26,6 +24,7 @@ import com.hbm.items.special.ItemBedrockOreNew.BedrockOreGrade;
 import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
 import com.hbm.util.ItemStackUtil;
 
+import com.hbm.util.Tuple.*;
 import net.minecraft.item.ItemStack;
 
 public class ElectrolyserMetalRecipes extends SerializableRecipe {
@@ -133,35 +132,49 @@ public class ElectrolyserMetalRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.powder_lithium_tiny, 3)));
 		
 		for(BedrockOreType type : BedrockOreType.values()) {
+			ArrayList<Pair<Object, Integer>> productsF = new ArrayList<>();
+			productsF.add(new Pair<>(type.primary1,12));
+			productsF.add(new Pair<>(type.primary2,6));
+			productsF.add(new Pair<>(ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type), 3));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_FIRST, type)), makeBedrockOreProduct(productsF));
 
-			MaterialStack f0 = ItemBedrockOreNew.toFluid(type.primary1, MaterialShapes.INGOT.q(12));
-			MaterialStack f1 = ItemBedrockOreNew.toFluid(type.primary2, MaterialShapes.INGOT.q(6));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_FIRST, type)), new ElectrolysisMetalRecipe(
-					f0 != null ? f0 : new MaterialStack(Mats.MAT_SLAG, MaterialShapes.INGOT.q(1)),
-					f1 != null ? f1 : new MaterialStack(Mats.MAT_SLAG, MaterialShapes.INGOT.q(1)),
-					60,
-					f0 == null ? ItemBedrockOreNew.extract(type.primary1, 12) : new ItemStack(ModItems.dust),
-					f1 == null ? ItemBedrockOreNew.extract(type.primary2, 6) : new ItemStack(ModItems.dust),
-					ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)));
-			MaterialStack s0 = ItemBedrockOreNew.toFluid(type.primary1, MaterialShapes.INGOT.q(6));
-			MaterialStack s1 = ItemBedrockOreNew.toFluid(type.primary2, MaterialShapes.INGOT.q(12));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_SECOND, type)), new ElectrolysisMetalRecipe(
-					s0 != null ? s0 : new MaterialStack(Mats.MAT_SLAG, MaterialShapes.INGOT.q(1)),
-					s1 != null ? s1 : new MaterialStack(Mats.MAT_SLAG, MaterialShapes.INGOT.q(1)),
-					60,
-					s0 == null ? ItemBedrockOreNew.extract(type.primary1, 6) : new ItemStack(ModItems.dust),
-					s1 == null ? ItemBedrockOreNew.extract(type.primary2, 12) : new ItemStack(ModItems.dust),
-					ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)));
+			ArrayList<Pair<Object, Integer>> productsS = new ArrayList<>();
+			productsS.add(new Pair<>(type.primary1,6));
+			productsS.add(new Pair<>(type.primary2,12));
+			productsS.add(new Pair<>(ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type),3));
 
-			MaterialStack c0 = ItemBedrockOreNew.toFluid(type.primary1, MaterialShapes.INGOT.q(2));
-			MaterialStack c1 = ItemBedrockOreNew.toFluid(type.primary2, MaterialShapes.INGOT.q(2));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)), new ElectrolysisMetalRecipe(
-					c0 != null ? c0 : new MaterialStack(Mats.MAT_SLAG, MaterialShapes.INGOT.q(1, 2)),
-					c1 != null ? c1 : new MaterialStack(Mats.MAT_SLAG, MaterialShapes.INGOT.q(1, 2)),
-					60,
-					c0 == null ? ItemBedrockOreNew.extract(type.primary1, 2) : new ItemStack(ModItems.dust),
-					c1 == null ? ItemBedrockOreNew.extract(type.primary2, 2) : new ItemStack(ModItems.dust)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_SECOND, type)), makeBedrockOreProduct(productsS));
+
+			ArrayList<Pair<Object, Integer>> productsC = new ArrayList<>();
+			productsC.add(new Pair<>(type.primary1,2));
+			productsC.add(new Pair<>(type.primary2,2));
+
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.CRUMBS, type)), makeBedrockOreProduct(productsC));
 		}
+	}
+
+	public static ElectrolysisMetalRecipe makeBedrockOreProduct(ArrayList<Pair<Object, Integer>> products){
+		ArrayList<MaterialStack> moltenProducts = new ArrayList<>();
+		ArrayList<ItemStack> solidProducts = new ArrayList<>();
+
+		for(Pair<Object, Integer> product : products){
+			if(moltenProducts.size() < 2) {
+				MaterialStack melt = ItemBedrockOreNew.toFluid(product.getKey(), MaterialShapes.INGOT.q(product.getValue()));
+				if (melt != null) {
+					moltenProducts.add(melt);
+					continue;
+				}
+			}
+			solidProducts.add(ItemBedrockOreNew.extract(product.getKey(), product.getValue()));
+		}
+		if(moltenProducts.size() == 0)
+			moltenProducts.add(new MaterialStack(Mats.MAT_SLAG, MaterialShapes.INGOT.q(2)));
+
+		return new ElectrolysisMetalRecipe(
+				moltenProducts.get(0),
+				moltenProducts.size() > 1 ? moltenProducts.get(1) : null,
+				20,
+				solidProducts.toArray(new ItemStack[0]));
 	}
 	
 	public static ElectrolysisMetalRecipe getRecipe(ItemStack stack) {

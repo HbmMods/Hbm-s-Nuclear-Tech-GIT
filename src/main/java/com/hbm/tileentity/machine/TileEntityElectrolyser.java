@@ -348,18 +348,19 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public void processMetal() {
 
 		ElectrolysisMetalRecipe recipe = ElectrolyserMetalRecipes.getRecipe(slots[14]);
+		if(recipe.output1 != null)
+			if(leftStack == null) {
+				leftStack = new MaterialStack(recipe.output1.material, recipe.output1.amount);
+			} else {
+				leftStack.amount += recipe.output1.amount;
+			}
 
-		if(leftStack == null) {
-			leftStack = new MaterialStack(recipe.output1.material, recipe.output1.amount);
-		} else {
-			leftStack.amount += recipe.output1.amount;
-		}
-
-		if(rightStack == null) {
-			rightStack = new MaterialStack(recipe.output2.material, recipe.output2.amount);
-		} else {
-			rightStack.amount += recipe.output2.amount;
-		}
+		if(recipe.output2 != null)
+			if(rightStack == null ) {
+				rightStack = new MaterialStack(recipe.output2.material, recipe.output2.amount);
+			} else {
+				rightStack.amount += recipe.output2.amount;
+			}
 
 		if(recipe.byproduct != null) {
 
