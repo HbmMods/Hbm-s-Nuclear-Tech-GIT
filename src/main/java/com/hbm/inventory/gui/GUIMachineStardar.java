@@ -28,6 +28,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
 	private TileEntityMachineStardar star;
 	private int mX, mY;
 	private int sX, sY;
+	private int imgoingtojumpoffabuildingbutwithloveandroses, nmass2;
 	public GUIMachineStardar(InventoryPlayer iplayer, TileEntityMachineStardar restard) {
 		super(new ContainerStardar(iplayer, restard));
 		this.star = restard;
@@ -46,10 +47,12 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(nightTexture);
 		int nmass = (mX - sX);
 		int ymass = (mY - sY);
-		
+		imgoingtojumpoffabuildingbutwithloveandroses = nmass;
+		nmass2 = ymass;
+        System.out.println("sxw 2;" + nmass);
+        System.out.println("mxw 2;" + ymass);
 
-
-		drawTexturedModalRect(guiLeft + nmass, guiTop + ymass, 0, 0, xSize, ySize);
+		drawTexturedModalRect(guiLeft + imgoingtojumpoffabuildingbutwithloveandroses, guiTop + nmass2, 0, 0, xSize, ySize);
 		popScissor();
 	}
     @Override
@@ -58,16 +61,17 @@ public class GUIMachineStardar extends GuiInfoContainer {
         int button = Mouse.getEventButton();
 
         if (button == 0 && !Mouse.getEventButtonState()) { 
-        	sX = mX;
-        	sY = mY;
+        	imgoingtojumpoffabuildingbutwithloveandroses = (mX - sX);
+        	nmass2 = (mY - sY);
             System.out.println("sx ;" + sX);
+            System.out.println("mx ;" + mX);
         }
     }
 	@Override
 	protected void mouseClickMove(int x, int y, int p_146273_3_, long p_146273_4_) {
 		
 		super.mouseClickMove(x, y, p_146273_3_, p_146273_4_);
-		mX =  x;
+		mX = x;
 		mY = y;
 		System.out.println(mX);
 		System.out.println(mY);
