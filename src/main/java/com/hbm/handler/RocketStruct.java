@@ -6,6 +6,7 @@ import com.hbm.items.weapon.ItemCustomMissilePart;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.render.util.MissilePart;
+import com.hbm.util.Tuple.Pair;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.DataWatcher;
@@ -32,14 +33,16 @@ public class RocketStruct {
 	}
 
 	public void addStage(ItemStack fuselage, ItemStack fins, ItemStack thruster) {
-		addStage(MissilePart.getPart(fuselage), MissilePart.getPart(fins), MissilePart.getPart(thruster));
+		addStage(MissilePart.getPart(fuselage), MissilePart.getPart(fins), MissilePart.getPart(thruster), fuselage != null ? fuselage.stackSize : 1, thruster != null ? thruster.stackSize : 1);
 	}
 
-	public void addStage(MissilePart fuselage, MissilePart fins, MissilePart thruster) {
+	public void addStage(MissilePart fuselage, MissilePart fins, MissilePart thruster, int fuselageCount, int thrusterCount) {
 		RocketStage stage = new RocketStage();
 		stage.fuselage = fuselage;
 		stage.fins = fins;
 		stage.thruster = thruster;
+		stage.fuselageCount = fuselageCount;
+		stage.thrusterCount = thrusterCount;
 		stages.add(0, stage);
 	}
 
@@ -54,6 +57,8 @@ public class RocketStruct {
 			if(stage.fuselage == null || stage.fuselage.type != PartType.FUSELAGE) return false;
 			if(stage.fins != null && stage.fins.type != PartType.FINS) return false;
 			if(stage.thruster == null || stage.thruster.type != PartType.THRUSTER) return false;
+
+			if(stage.thrusterCount > stage.fuselageCount || stage.fuselageCount % stage.thrusterCount != 0) return false;
 		}
 		
 		return true;
@@ -69,7 +74,7 @@ public class RocketStruct {
 		if(capsule != null) height += capsule.height;
 
 		for(RocketStage stage : stages) {
-			if(stage.fuselage != null) height += stage.fuselage.height;
+			if(stage.fuselage != null) height += stage.fuselage.height * stage.getStack();
 			if(stage.thruster != null) height += stage.thruster.height;
 		}
 
@@ -81,7 +86,7 @@ public class RocketStruct {
 
 		if(stages.size() > 0) {
 			RocketStage stage = stages.get(Math.min(stageNum, stages.size() - 1));
-			if(stage.fuselage != null) height += stage.fuselage.height;
+			if(stage.fuselage != null) height += stage.fuselage.height * stage.getStack();
 			if(stage.thruster != null) height += stage.thruster.height;
 		}
 
@@ -97,7 +102,7 @@ public class RocketStruct {
 
 		for(int i = 0; i < Math.min(stageNum, stages.size() - 1); i++) {
 			RocketStage stage = stages.get(i);
-			if(stage.fuselage != null) height += stage.fuselage.height;
+			if(stage.fuselage != null) height += stage.fuselage.height * stage.getStack();
 			if(stage.thruster != null) height += stage.thruster.height;
 		}
 
@@ -112,6 +117,8 @@ public class RocketStruct {
 			buf.writeInt(MissilePart.getId(stage.fuselage));
 			buf.writeInt(MissilePart.getId(stage.fins));
 			buf.writeInt(MissilePart.getId(stage.thruster));
+			buf.writeByte(stage.fuselageCount);
+			buf.writeByte(stage.thrusterCount);
 		}
 	}
 	
@@ -126,6 +133,8 @@ public class RocketStruct {
 			stage.fuselage = MissilePart.getPart(buf.readInt());
 			stage.fins = MissilePart.getPart(buf.readInt());
 			stage.thruster = MissilePart.getPart(buf.readInt());
+			stage.fuselageCount = buf.readByte();
+			stage.thrusterCount = buf.readByte();
 
 			rocket.stages.add(stage);
 		}
@@ -142,6 +151,8 @@ public class RocketStruct {
 			stageTag.setInteger("fuselage", MissilePart.getId(stage.fuselage));
 			stageTag.setInteger("fins", MissilePart.getId(stage.fins));
 			stageTag.setInteger("thruster", MissilePart.getId(stage.thruster));
+			stageTag.setInteger("fc", stage.fuselageCount);
+			stageTag.setInteger("tc", stage.thrusterCount);
 			stagesTag.appendTag(stageTag);
 		}
 		nbt.setTag("stages", stagesTag);
@@ -158,6 +169,8 @@ public class RocketStruct {
 			stage.fuselage = MissilePart.getPart(stageTag.getInteger("fuselage"));
 			stage.fins = MissilePart.getPart(stageTag.getInteger("fins"));
 			stage.thruster = MissilePart.getPart(stageTag.getInteger("thruster"));
+			stage.fuselageCount = stageTag.getInteger("fc");
+			stage.thrusterCount = stageTag.getInteger("tc");
 			rocket.stages.add(stage);
 		}
 
@@ -169,9 +182,8 @@ public class RocketStruct {
 		watcher.addObject(start, 0);
 		watcher.addObject(start + 1, 0);
 		for(int i = 0; i < MAX_STAGES; i++) {
-			watcher.addObject(start + i * 3 + 2, 0);
-			watcher.addObject(start + i * 3 + 3, 0);
-			watcher.addObject(start + i * 3 + 4, 0);
+			watcher.addObject(start + i * 2 + 2, 0);
+			watcher.addObject(start + i * 2 + 3, 0);
 		}
 	}
 
@@ -180,10 +192,9 @@ public class RocketStruct {
 		watcher.updateObject(start, MissilePart.getId(capsule));
 		watcher.updateObject(start + 1, stages.size());
 		for(int i = 0; i < stages.size(); i++) {
-			RocketStage stage = stages.get(i);
-			watcher.updateObject(start + i * 3 + 2, MissilePart.getId(stage.fuselage));
-			watcher.updateObject(start + i * 3 + 3, MissilePart.getId(stage.fins));
-			watcher.updateObject(start + i * 3 + 4, MissilePart.getId(stage.thruster));
+			Pair<Integer, Integer> watchable = stages.get(i).zipWatchable();
+			watcher.updateObject(start + i * 2 + 2, watchable.key);
+			watcher.updateObject(start + i * 2 + 3, watchable.value);
 		}
 	}
 
@@ -194,11 +205,10 @@ public class RocketStruct {
 
 		int count = watcher.getWatchableObjectInt(start + 1);
 		for(int i = 0; i < count; i++) {
-			RocketStage stage = new RocketStage();
-			stage.fuselage = MissilePart.getPart(watcher.getWatchableObjectInt(start + i * 3 + 2));
-			stage.fins = MissilePart.getPart(watcher.getWatchableObjectInt(start + i * 3 + 3));
-			stage.thruster = MissilePart.getPart(watcher.getWatchableObjectInt(start + i * 3 + 4));
-			rocket.stages.add(stage);
+			Pair<Integer, Integer> watchable = new Pair<Integer, Integer>(
+				watcher.getWatchableObjectInt(start + i * 2 + 2),
+				watcher.getWatchableObjectInt(start + i * 2 + 3));
+			rocket.stages.add(RocketStage.unzipWatchable(watchable));
 		}
 
 		return rocket;
@@ -209,6 +219,35 @@ public class RocketStruct {
 		public MissilePart fuselage;
 		public MissilePart fins;
 		public MissilePart thruster;
+
+		public int fuselageCount = 1;
+		public int thrusterCount = 1;
+
+		// fucking datawatchers and their limit of 32 synced values
+		// I'm a crafty bastard though and can utilise the fact our values are always positive shorts and bytes
+		public Pair<Integer, Integer> zipWatchable() {
+			int first = MissilePart.getId(fuselage) << 16 | MissilePart.getId(fins);
+			int second = MissilePart.getId(thruster) << 16 | fuselageCount << 8 | thrusterCount;
+			return new Pair<Integer, Integer>(first, second);
+		}
+
+		public static RocketStage unzipWatchable(Pair<Integer, Integer> pair) {
+			RocketStage stage = new RocketStage();
+			stage.fuselage = MissilePart.getPart(pair.key >> 16);
+			stage.fins = MissilePart.getPart(pair.key & 0xFFFF);
+			stage.thruster = MissilePart.getPart(pair.value >> 16);
+			stage.fuselageCount = (pair.value >> 8) & 0xFF;
+			stage.thrusterCount = pair.value & 0xFF;
+			return stage;
+		}
+
+		public int getStack() {
+			return Math.max(fuselageCount / thrusterCount, 1);
+		}
+
+		public int getCluster() {
+			return Math.max(fuselageCount / getStack(), 1);
+		}
 		
 	}
 

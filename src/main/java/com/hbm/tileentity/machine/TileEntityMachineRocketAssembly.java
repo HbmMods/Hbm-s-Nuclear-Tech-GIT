@@ -98,5 +98,10 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 			construct();
 		}
 	}
+
+	@Override
+	public int getInventoryStackLimit() {
+		return 8;
+	}
 	
 }

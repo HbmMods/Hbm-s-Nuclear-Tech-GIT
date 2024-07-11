@@ -106,7 +106,7 @@ public class ArcWelderRecipes extends SerializableRecipe {
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.missile_nuclear), 600, 50_000L, new ComparableStack(ModItems.warhead_nuclear), new ComparableStack(ModItems.fuel_tank_large), new ComparableStack(ModItems.thruster_large, 3)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.missile_nuclear_cluster), 600, 50_000L, new ComparableStack(ModItems.warhead_mirv), new ComparableStack(ModItems.fuel_tank_large), new ComparableStack(ModItems.thruster_large, 3)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.missile_volcano), 600, 50_000L, new ComparableStack(ModItems.warhead_volcano), new ComparableStack(ModItems.fuel_tank_large), new ComparableStack(ModItems.thruster_large, 3)));
-		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.mp_warhead_20_ca), 600, 50_000L, new ComparableStack(ModItems.plate_stainless, 4), new OreDictStack(STEEL.shell()), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.AVIONICS )));
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.rp_capsule_20), 600, 50_000L, new ComparableStack(ModItems.plate_stainless, 4), new OreDictStack(STEEL.shell()), new ComparableStack(ModItems.circuit, 1, EnumCircuitType.AVIONICS )));
 
 	}
 	

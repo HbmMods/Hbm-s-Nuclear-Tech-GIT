@@ -47,23 +47,52 @@ public class MissilePronter {
 	public static void prontRocket(RocketStruct rocket, TextureManager tex) {
 		GL11.glPushMatrix();
 
+		// first stage is always deployed, ready to be landed on
+		boolean isDeployed = true;
+
 		for(RocketStage stage : rocket.stages) {
-			if(stage.thruster != null) {
-				tex.bindTexture(stage.thruster.texture);
-				stage.thruster.model.renderAll();
-				GL11.glTranslated(0, stage.thruster.height, 0);
+			int stack = stage.getStack();
+			int cluster = stage.getCluster();
+
+			
+			for(int c = 0; c < cluster; c++) {
+				GL11.glPushMatrix();
+				{
+
+					if(c > 0) {
+						float spin = (float)c / (float)(cluster - 1);
+						GL11.glRotatef(360.0F * spin, 0, 1, 0);
+						GL11.glTranslatef(2, 0, 0);
+					}
+
+					if(stage.thruster != null) {
+						tex.bindTexture(stage.thruster.texture);
+						stage.thruster.getModel(isDeployed).renderAll();
+						GL11.glTranslated(0, stage.thruster.height, 0);
+					}
+		
+					if(stage.fuselage != null) {
+						if(stage.fins != null) {
+							tex.bindTexture(stage.fins.texture);
+							stage.fins.getModel(isDeployed).renderAll();
+						}
+					
+						for(int s = 0; s < stack; s++) {
+							tex.bindTexture(stage.fuselage.texture);
+							stage.fuselage.getModel(isDeployed).renderAll();
+							GL11.glTranslated(0, stage.fuselage.height, 0);
+						}
+					}
+
+				}
+				GL11.glPopMatrix();
 			}
 
-			if(stage.fuselage != null) {
-				if(stage.fins != null) {
-					tex.bindTexture(stage.fins.texture);
-					stage.fins.model.renderAll();
-				}
 			
-				tex.bindTexture(stage.fuselage.texture);
-				stage.fuselage.model.renderAll();
-				GL11.glTranslated(0, stage.fuselage.height, 0);
-			}
+			if(stage.thruster != null) GL11.glTranslated(0, stage.thruster.height, 0);
+			if(stage.fuselage != null) GL11.glTranslated(0, stage.fuselage.height * stack, 0);
+
+			isDeployed = false;
 		}
 
 		if(rocket.capsule != null) {

@@ -24,11 +24,10 @@ public class ItemCustomMissilePart extends Item {
 	private String witty;
 	
 	public ItemCustomMissilePart() {
-		this.setMaxStackSize(1);
 		this.setCreativeTab(MainRegistry.missileTab);
 	}
 	
-	public static HashMap<Integer, ItemCustomMissilePart> parts = new HashMap();
+	public static HashMap<Integer, ItemCustomMissilePart> parts = new HashMap<>();
 	
 	/**
 	 * == Chips ==
@@ -58,11 +57,10 @@ public class ItemCustomMissilePart extends Item {
 		WARHEAD,
 		FUSELAGE,
 		FINS,
-		THRUSTER
+		THRUSTER,
 	}
 	
 	public enum PartSize {
-		
 		//for chips
 		ANY,
 		//for missile tips and thrusters
@@ -70,11 +68,13 @@ public class ItemCustomMissilePart extends Item {
 		//regular sizes, 1.0m, 1.5m and 2.0m
 		SIZE_10,
 		SIZE_15,
-		SIZE_20
+		SIZE_20,
+		// Space-grade
+		SIZE_25,
+		SIZE_30,
 	}
 	
 	public enum WarheadType {
-		
 		HE,
 		INC,
 		BUSTER,
@@ -87,18 +87,19 @@ public class ItemCustomMissilePart extends Item {
 		TAINT,
 		CLOUD,
 		TURBINE,
-		APOLLO
+		APOLLO,
 	}
 	
 	public enum FuelType {
-		
+		ANY, // Used by space-grade fuselages
 		KEROSENE,
 		SOLID,
 		HYDROGEN,
 		XENON,
 		BALEFIRE,
 		HYDRAZINE,
-		METHALOX
+		METHALOX,
+		KEROLOX, // oxygen rather than peroxide
 	}
 	
 	public enum Rarity {
@@ -181,6 +182,7 @@ public class ItemCustomMissilePart extends Item {
 		return this;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
 	{
@@ -285,8 +287,12 @@ public class ItemCustomMissilePart extends Item {
 	public String getFuel(FuelType type) {
 		
 		switch(type) {
+		case ANY:
+			return EnumChatFormatting.GRAY + "Any Liquid Fuel";
 		case KEROSENE:
 			return EnumChatFormatting.LIGHT_PURPLE + "Kerosene / Peroxide";
+		case KEROLOX:
+			return EnumChatFormatting.LIGHT_PURPLE + "Kerosene / Oxygen";
 		case SOLID:
 			return EnumChatFormatting.GOLD + "Solid Fuel";
 		case HYDROGEN:
