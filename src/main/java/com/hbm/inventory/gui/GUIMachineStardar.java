@@ -52,7 +52,17 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft + nmass, guiTop + ymass, 0, 0, xSize, ySize);
 		popScissor();
 	}
-	
+    @Override
+    public void handleMouseInput() {
+        super.handleMouseInput();
+        int button = Mouse.getEventButton();
+
+        if (button == 0 && !Mouse.getEventButtonState()) { 
+        	sX = mX;
+        	sY = mY;
+            System.out.println("sx ;" + sX);
+        }
+    }
 	@Override
 	protected void mouseClickMove(int x, int y, int p_146273_3_, long p_146273_4_) {
 		
@@ -82,16 +92,5 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		System.out.println("start x: " + sX);
 		System.out.println("start y: " + sY);
 	}
-    @Override
-    public void handleMouseInput() {
-        super.handleMouseInput();
-        int mouseX = Mouse.getEventX() * this.width / this.mc.displayWidth;
-        int mouseY = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
-        int button = Mouse.getEventButton();
 
-        if (button == 0 && Mouse.getEventButtonState()) { 
-            sX = mX;
-            sY = mY;
-        }
-    }
 }
