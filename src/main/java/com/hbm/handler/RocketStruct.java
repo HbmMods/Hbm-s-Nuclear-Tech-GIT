@@ -13,6 +13,7 @@ import net.minecraft.entity.DataWatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.Constants;
 
 public class RocketStruct {
@@ -65,7 +66,16 @@ public class RocketStruct {
 	}
 
 	public int getMass() {
-		return 2000;
+		int mass = 0;
+
+		if(capsule != null) mass += capsule.part.mass;
+
+		for(RocketStage stage : stages) {
+			if(stage.fuselage != null) mass += stage.fuselage.part.mass * stage.fuselageCount;
+			if(stage.thruster != null) mass += stage.thruster.part.mass * stage.thrusterCount;
+		}
+
+		return MathHelper.ceiling_float_int(mass * 0.01F);
 	}
 
 	public double getHeight() {

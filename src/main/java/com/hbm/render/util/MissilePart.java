@@ -2,6 +2,7 @@ package com.hbm.render.util;
 
 import java.util.HashMap;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemCustomMissilePart;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.main.ResourceManager;
 
@@ -14,7 +15,7 @@ public class MissilePart {
 	
 	public static HashMap<Integer, MissilePart> parts = new HashMap<Integer, MissilePart>();
 
-	public Item part;
+	public ItemCustomMissilePart part;
 	public PartType type;
 	public double height;
 	public double guiheight;
@@ -23,7 +24,7 @@ public class MissilePart {
 	public ResourceLocation texture;
 	
 	private MissilePart(Item item, PartType type, double height, double guiheight, IModelCustom model, ResourceLocation texture) {
-		this.part = item;
+		this.part = (ItemCustomMissilePart)item;
 		this.type = type;
 		this.height = height;
 		this.guiheight = guiheight;

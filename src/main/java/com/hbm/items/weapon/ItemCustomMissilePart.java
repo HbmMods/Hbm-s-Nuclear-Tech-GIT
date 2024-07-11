@@ -19,6 +19,7 @@ public class ItemCustomMissilePart extends Item {
 	public PartSize bottom;
 	public Rarity rarity;
 	public float health;
+	public int mass = 0;
 	private String title;
 	private String author;
 	private String witty;
@@ -130,12 +131,13 @@ public class ItemCustomMissilePart extends Item {
 		return this;
 	}
 	
-	public ItemCustomMissilePart makeWarhead(WarheadType type, float punch, float weight, PartSize size) {
+	public ItemCustomMissilePart makeWarhead(WarheadType type, float punch, int mass, PartSize size) {
 
 		this.type = PartType.WARHEAD;
 		this.top = PartSize.NONE;
 		this.bottom = size;
-		this.attributes = new Object[] { type, punch, weight };
+		this.mass = mass;
+		this.attributes = new Object[] { type, punch };
 		setTextureName(RefStrings.MODID + ":mp_warhead");
 		
 		parts.put(this.hashCode(), this);
@@ -143,11 +145,12 @@ public class ItemCustomMissilePart extends Item {
 		return this;
 	}
 	
-	public ItemCustomMissilePart makeFuselage(FuelType type, float fuel, PartSize top, PartSize bottom) {
+	public ItemCustomMissilePart makeFuselage(FuelType type, float fuel, int mass, PartSize top, PartSize bottom) {
 
 		this.type = PartType.FUSELAGE;
 		this.top = top;
 		this.bottom = bottom;
+		this.mass = mass;
 		attributes = new Object[] { type, fuel };
 		setTextureName(RefStrings.MODID + ":mp_fuselage");
 		
@@ -169,12 +172,13 @@ public class ItemCustomMissilePart extends Item {
 		return this;
 	}
 	
-	public ItemCustomMissilePart makeThruster(FuelType type, float consumption, float lift, PartSize size, int weight) {
+	public ItemCustomMissilePart makeThruster(FuelType type, float consumption, float lift, PartSize size, int thrust, int mass) {
 
 		this.type = PartType.THRUSTER;
 		this.top = size;
 		this.bottom = PartSize.NONE;
-		this.attributes = new Object[] { type, consumption, lift, weight};
+		this.mass = mass;
+		this.attributes = new Object[] { type, consumption, lift, thrust};
 		setTextureName(RefStrings.MODID + ":mp_thruster");
 		
 		parts.put(this.hashCode(), this);
@@ -199,13 +203,14 @@ public class ItemCustomMissilePart extends Item {
 				list.add(EnumChatFormatting.BOLD + "Size: " + EnumChatFormatting.GRAY + getSize(bottom));
 				list.add(EnumChatFormatting.BOLD + "Type: " + EnumChatFormatting.GRAY + getWarhead((WarheadType)attributes[0]));
 				list.add(EnumChatFormatting.BOLD + "Strength: " + EnumChatFormatting.GRAY + (Float)attributes[1]);
-				list.add(EnumChatFormatting.BOLD + "Weight: " + EnumChatFormatting.GRAY + (Float)attributes[2] + "t");
+				list.add(EnumChatFormatting.BOLD + "Mass: " + EnumChatFormatting.GRAY + mass + "kg");
 				break;
 			case FUSELAGE:
 				list.add(EnumChatFormatting.BOLD + "Top size: " + EnumChatFormatting.GRAY + getSize(top));
 				list.add(EnumChatFormatting.BOLD + "Bottom size: " + EnumChatFormatting.GRAY + getSize(bottom));
 				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuel((FuelType)attributes[0]));
 				list.add(EnumChatFormatting.BOLD + "Fuel amount: " + EnumChatFormatting.GRAY + (Float)attributes[1] + "l");
+				list.add(EnumChatFormatting.BOLD + "Mass: " + EnumChatFormatting.GRAY + mass + "kg");
 				break;
 			case FINS:
 				list.add(EnumChatFormatting.BOLD + "Size: " + EnumChatFormatting.GRAY + getSize(top));
@@ -216,7 +221,8 @@ public class ItemCustomMissilePart extends Item {
 				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuel((FuelType)attributes[0]));
 				list.add(EnumChatFormatting.BOLD + "Fuel consumption: " + EnumChatFormatting.GRAY + (Float)attributes[1] + "l/tick");
 				list.add(EnumChatFormatting.BOLD + "Max. payload: " + EnumChatFormatting.GRAY + (Float)attributes[2] + "t");
-				list.add(EnumChatFormatting.BOLD + "Weight " + EnumChatFormatting.GRAY + (Integer)attributes[3] + "kg"); //will fix one day
+				list.add(EnumChatFormatting.BOLD + "Thrust " + EnumChatFormatting.GRAY + (Integer)attributes[3] + "N");
+				list.add(EnumChatFormatting.BOLD + "Mass: " + EnumChatFormatting.GRAY + mass + "kg");
 				break;
 			}
 		} catch(Exception ex) {
@@ -245,6 +251,10 @@ public class ItemCustomMissilePart extends Item {
 			return "1.5m";
 		case SIZE_20:
 			return "2.0m";
+		case SIZE_25:
+			return "2.5m";
+		case SIZE_30:
+			return "3.0m";
 		default:
 			return "None";
 		}
@@ -319,6 +329,7 @@ public class ItemCustomMissilePart extends Item {
 		part.health = this.health;
 		part.attributes = this.attributes;
 		part.health = this.health;
+		part.mass = this.mass;
 		part.setTextureName(this.iconString);
 		
 		return part;

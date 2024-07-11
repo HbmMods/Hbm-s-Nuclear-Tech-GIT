@@ -72,7 +72,9 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		motionY = 0;
 		motionZ = 0;
 
-		setStuckIn(0);
+		RocketStruct rocket = getRocket();
+		rocket.stages.remove(0);
+		setRocket(rocket);
 	}
 
 	@Override
@@ -219,8 +221,15 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		setDead();
 
 		// Drop the rocket itself, to be taken to a pad and refueled
-		ItemStack stack = ItemCustomRocket.build(getRocket());
-		entityDropItem(stack, 0.0F);
+		// unless it's just the capsule
+		RocketStruct rocket = getRocket();
+		if(rocket.stages.size() == 0) {
+			ItemStack stack = new ItemStack(rocket.capsule.part);
+			entityDropItem(stack, 0.0F);
+		} else {
+			ItemStack stack = ItemCustomRocket.build(rocket);
+			entityDropItem(stack, 0.0F);
+		}
 
 		// Drop the drive if it is still present
 		if(navDrive != null) {
@@ -314,6 +323,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
+		if(getRocket().stages.size() == 0) return;
+
 		List<String> text = new ArrayList<>();
 
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
