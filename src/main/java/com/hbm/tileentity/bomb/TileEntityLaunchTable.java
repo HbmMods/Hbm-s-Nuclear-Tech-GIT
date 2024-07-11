@@ -548,12 +548,12 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		
 		int rocketMass = rocket.getMass();
 		FT_Rocket trait = tanks[0].getTankType().getTrait(FT_Rocket.class);
-		if(trait != null) {
-			long isp = trait.getISP();
-			long thrust = trait.getThrust();
-	
-		}
-		return 100;
+		if(trait == null) return 100;
+
+		long isp = trait.getISP();
+		long thrust = trait.getThrust();
+
+		return SolarSystem.getCostBetween(localBody, targetBody, rocketMass, (int)thrust, (int)isp);
 	}
 
 	@Override
