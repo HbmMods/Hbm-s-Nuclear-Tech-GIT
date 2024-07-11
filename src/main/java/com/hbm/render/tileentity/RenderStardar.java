@@ -38,12 +38,11 @@ public class RenderStardar extends TileEntitySpecialRenderer implements IItemRen
 		bindTexture(ResourceManager.stardar_tex);
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		ResourceManager.stardar.renderPart("cylinder");
-		ResourceManager.stardar.renderPart("cuboid");
+		ResourceManager.stardar.renderPart("base");
+		ResourceManager.stardar.renderPart("rotation");
 
 		GL11.glShadeModel(GL11.GL_FLAT);
-		GL11.glRotatef(6, 1, 0, 0);
-		ResourceManager.stardar.renderPart("sphere");
+		ResourceManager.stardar.renderPart("pitch");
 
 		GL11.glPopMatrix();
 
