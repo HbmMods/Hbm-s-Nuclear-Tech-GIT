@@ -9,11 +9,12 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerCraneRouter extends Container {
+public class ContainerCraneRouter extends ContainerBase {
 
 	private TileEntityCraneRouter router;
 
 	public ContainerCraneRouter(InventoryPlayer invPlayer, TileEntityCraneRouter router) {
+		super(invPlayer, router);
 		this.router = router;
 
 		for(int j = 0; j < 2; j++) {
@@ -23,16 +24,7 @@ public class ContainerCraneRouter extends Container {
 				}
 			}
 		}
-
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 47 + j * 18, 119 + i * 18));
-			}
-		}
-
-		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 47 + i * 18, 177));
-		}
+		playerInv(invPlayer, 47, 119, 177);
 	}
 
 	@Override
@@ -77,10 +69,5 @@ public class ContainerCraneRouter extends Container {
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		return null;
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-		return router.isUseableByPlayer(player);
 	}
 }

@@ -9,11 +9,12 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerAutocrafter extends Container {
+public class ContainerAutocrafter extends ContainerBase {
 
 	private TileEntityMachineAutocrafter autocrafter;
 
 	public ContainerAutocrafter(InventoryPlayer invPlayer, TileEntityMachineAutocrafter tedf) {
+		super(invPlayer, tedf);
 		autocrafter = tedf;
 
 		/* TEMPLATE */
@@ -25,25 +26,14 @@ public class ContainerAutocrafter extends Container {
 		this.addSlotToContainer(new SlotPattern(tedf, 9, 116, 40));
 
 		/* RECIPE */
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 3; j++) {
-				this.addSlotToContainer(new Slot(tedf, j + i * 3 + 10, 44 + j * 18, 86 + i * 18));
-			}
-		}
+		addSlots(tedf,10, 44, 86, 3, 3);
+
 		this.addSlotToContainer(new Slot(tedf, 19, 116, 104));
 		
 		//Battery
 		this.addSlotToContainer(new Slot(tedf, 20, 17, 99));
 
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 158 + i * 18));
-			}
-		}
-
-		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 216));
-		}
+		playerInv(invPlayer,8,158,216);
 	}
 
 	@Override
@@ -90,7 +80,7 @@ public class ContainerAutocrafter extends Container {
 			}
 			
 			slot.onSlotChanged();
-			autocrafter.initPattern(slot.getStack(), index);
+			autocrafter.matcher.initPatternSmart(autocrafter.getWorldObj(), slot.getStack(), index);
 			autocrafter.updateTemplateGrid();
 			
 			return ret;
@@ -100,10 +90,5 @@ public class ContainerAutocrafter extends Container {
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		return null;
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-		return autocrafter.isUseableByPlayer(player);
 	}
 }

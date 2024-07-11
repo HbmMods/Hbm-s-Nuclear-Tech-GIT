@@ -10,27 +10,21 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerMassStorage extends Container {
+public class ContainerMassStorage extends ContainerBase {
 	
 	private TileEntityMassStorage storage;
 
 	public ContainerMassStorage(InventoryPlayer invPlayer, TileEntityMassStorage te) {
+		super(invPlayer,te);
+
 		this.storage = te;
 		this.storage.openInventory();
 
 		this.addSlotToContainer(new Slot(storage, 0, 61, 17));
 		this.addSlotToContainer(new SlotPattern(storage, 1, 61, 53));
 		this.addSlotToContainer(new SlotTakeOnly(storage, 2, 61, 89));
-		
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 139 + i * 18));
-			}
-		}
 
-		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 197));
-		}
+		playerInv(invPlayer,8,139,197);
 	}
 
 	@Override

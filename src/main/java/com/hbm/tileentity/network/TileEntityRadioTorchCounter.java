@@ -2,17 +2,19 @@ package com.hbm.tileentity.network;
 
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.tileentity.IFilterable;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Compat;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRadioTorchCounter extends TileEntityMachineBase implements IControlReceiver {
+public class TileEntityRadioTorchCounter extends TileEntityMachineBase implements IFilterable {
 	
 	public String[] channel;
 	public int[] lastCount;
@@ -30,6 +32,10 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 	@Override
 	public String getName() {
 		return "container.rttyCounter";
+	}
+	@Override
+	public void nextMode(int i) {
+		this.matcher.nextMode(worldObj, slots[i], i);
 	}
 
 	@Override
@@ -123,5 +129,18 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 			}
 			this.markChanged();
 		}
+		if(data.hasKey("slot")){
+			setFilterContents(data);
+		}
 	}
+	@Override
+	public void setFilterContents(NBTTagCompound nbt) {
+		int slot = nbt.getInteger("slot");
+		setInventorySlotContents(
+				slot,
+				new ItemStack(Item.getItemById(nbt.getInteger("id")), 1,  nbt.getInteger("meta")));
+		nextMode(slot);
+		markChanged();
+	}
+
 }
