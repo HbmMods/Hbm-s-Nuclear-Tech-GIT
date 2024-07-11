@@ -306,7 +306,7 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 					tag.setInteger("id", Item.getIdFromItem(stack.getItem()));
 					tag.setInteger("meta", stack.getItemDamage());
 
-					TileEntity te = (TileEntity) ((ContainerBase) inventorySlots).te;
+					TileEntity te = (TileEntity) ((ContainerBase) inventorySlots).tile;
 					PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(tag, te.xCoord, te.yCoord, te.zCoord));
 					return true;
 				}

@@ -7,75 +7,84 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-/**For now, only used for stuff with filters and crates as a reference implementation,
- * because I really needed to get the te from a container
- * But you should very much use this to kill the giant amount of boilerplate in container classes
- * @author 70k **/
+/**
+ * For now, only used for stuff with filters and crates as a reference
+ * implementation, because I really needed to get the te from a container But
+ * you should very much use this to kill the giant amount of boilerplate in
+ * container classes
+ * 
+ * @author 70k
+ **/
 public class ContainerBase extends Container {
 
-    public IInventory te;
+	public IInventory tile;
 
-    public ContainerBase (InventoryPlayer invPlayer, IInventory tedf){
-        te = tedf;
-    }
-    @Override
-    public boolean canInteractWith(EntityPlayer player) {
-        return te.isUseableByPlayer(player);
-    }
+	public ContainerBase(InventoryPlayer invPlayer, IInventory tedf) {
+		tile = tedf;
+	}
 
-    @Override
-    public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
-        ItemStack var3 = null;
-        Slot var4 = (Slot) this.inventorySlots.get(par2);
+	@Override
+	public boolean canInteractWith(EntityPlayer player) {
+		return tile.isUseableByPlayer(player);
+	}
 
-        if(var4 != null && var4.getHasStack()) {
-            ItemStack var5 = var4.getStack();
-            var3 = var5.copy();
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		ItemStack slotOriginal = null;
+		Slot slot = (Slot) this.inventorySlots.get(index);
 
-            if(par2 <= te.getSizeInventory() - 1) {
-                if(!this.mergeItemStack(var5, te.getSizeInventory(), this.inventorySlots.size(), true)) {
-                    return null;
-                }
-            } else if(!this.mergeItemStack(var5, 0, te.getSizeInventory(), false)) {
-                return null;
-            }
+		if(slot != null && slot.getHasStack()) {
+			ItemStack slotStack = slot.getStack();
+			slotOriginal = slotStack.copy();
 
-            if(var5.stackSize == 0) {
-                var4.putStack(null);
-            } else {
-                var4.onSlotChanged();
-            }
+			if(index <= tile.getSizeInventory() - 1) {
+				if(!this.mergeItemStack(slotStack, tile.getSizeInventory(), this.inventorySlots.size(), true)) {
+					return null;
+				}
+			} else if(!this.mergeItemStack(slotStack, 0, tile.getSizeInventory(), false)) {
+				return null;
+			}
 
-            var4.onPickupFromSlot(p_82846_1_, var5);
-        }
+			if(slotStack.stackSize == 0) {
+				slot.putStack(null);
+			} else {
+				slot.onSlotChanged();
+			}
 
-        return var3;
-    }
+			slot.onPickupFromSlot(player, slotStack);
+		}
 
-    /**Used to quickly set up the player inventory*/
-    public void playerInv(InventoryPlayer invPlayer, int playerInvX, int playerInvY, int playerHotbarY){
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 9; j++) {
-                this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, playerInvX + j * 18, playerInvY + i * 18));
-            }
-        }
+		return slotOriginal;
+	}
 
-        for(int i = 0; i < 9; i++) {
-            this.addSlotToContainer(new Slot(invPlayer, i, playerInvX + i * 18, playerHotbarY));
-        }
-    }
+	/** Used to quickly set up the player inventory */
+	public void playerInv(InventoryPlayer invPlayer, int playerInvX, int playerInvY, int playerHotbarY) {
+		for(int i = 0; i < 3; i++) {
+			for(int j = 0; j < 9; j++) {
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, playerInvX + j * 18, playerInvY + i * 18));
+			}
+		}
 
-    // I'm gonna make a farken helper function for this shit, why was it done the old way for 9 whole ass years?
-    //- Mellow, 1884
-    /**Used to add several conventional inventory slots at a time
-     * @param inv the inventory to add the slots to
-     * @param from the slot index to start from*/
-    public void addSlots(IInventory inv, int from, int x, int y, int rows, int cols) {
-        int slotSize = 18;
-        for(int row = 0; row < rows; row++) {
-            for(int col = 0; col < cols; col++) {
-                this.addSlotToContainer(new Slot(inv, col + row * cols + from, x + col * slotSize, y + row * slotSize));
-            }
-        }
-    }
+		for(int i = 0; i < 9; i++) {
+			this.addSlotToContainer(new Slot(invPlayer, i, playerInvX + i * 18, playerHotbarY));
+		}
+	}
+
+	// I'm gonna make a farken helper function for this shit, why was it done
+	// the old way for 9 whole ass years?
+	// - Mellow, 1884
+	/**
+	 * Used to add several conventional inventory slots at a time
+	 * 
+	 * @param inv the inventory to add the slots to
+	 * @param from the slot index to start from
+	 */
+	public void addSlots(IInventory inv, int from, int x, int y, int rows, int cols) {
+		int slotSize = 18;
+		for(int row = 0; row < rows; row++) {
+			for(int col = 0; col < cols; col++) {
+				this.addSlotToContainer(new Slot(inv, col + row * cols + from, x + col * slotSize, y + row * slotSize));
+			}
+		}
+	}
 }
