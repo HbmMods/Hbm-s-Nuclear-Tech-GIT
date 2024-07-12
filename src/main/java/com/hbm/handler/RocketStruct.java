@@ -1,7 +1,11 @@
 package com.hbm.handler;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.weapon.ItemCustomMissilePart;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
@@ -65,7 +69,41 @@ public class RocketStruct {
 		return true;
 	}
 
-	public int getMass() {
+	// Lists any validation issues so the player can rectify easily
+	public List<String> findIssues() {
+		List<String> issues = new ArrayList<String>();
+
+		// If we have no parts, we have no worries
+		if(capsule == null && stages.size() == 0) return issues;
+
+		return issues;
+	}
+
+	// NONE fluid is solid fuel
+	public Map<FluidType, Integer> getFillRequirement() {
+		Map<FluidType, Integer> tanks = new HashMap<>();
+
+		for(RocketStage stage : stages) {
+			FluidType fuel = stage.thruster.part.getFuel();
+			FluidType oxidizer = stage.thruster.part.getOxidizer();
+
+			if(fuel != null) {
+				int amount = stage.fuselage.part.getTankSize();
+				if(tanks.containsKey(fuel)) amount += tanks.get(fuel);
+				tanks.put(fuel, amount);
+			}
+
+			if(oxidizer != null) {
+				int amount = stage.fuselage.part.getTankSize();
+				if(tanks.containsKey(oxidizer)) amount += tanks.get(oxidizer);
+				tanks.put(oxidizer, amount);
+			}
+		}
+
+		return tanks;
+	}
+
+	public int getDryMass() {
 		int mass = 0;
 
 		if(capsule != null) mass += capsule.part.mass;

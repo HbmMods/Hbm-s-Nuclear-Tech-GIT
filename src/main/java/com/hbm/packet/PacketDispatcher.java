@@ -18,8 +18,6 @@ public class PacketDispatcher {
 		//Fluid packet for GUI
 		wrapper.registerMessage(TEFluidPacket.Handler.class, TEFluidPacket.class, i++, Side.CLIENT);
 
-		wrapper.registerMessage(TEPassengerPacket.Handler.class, TEPassengerPacket.class, i++, Side.CLIENT);
-
 		//Sound packet that keeps client and server separated
 		wrapper.registerMessage(LoopedSoundPacket.Handler.class, LoopedSoundPacket.class, i++, Side.CLIENT);
 		//Signals server to consume items and create template

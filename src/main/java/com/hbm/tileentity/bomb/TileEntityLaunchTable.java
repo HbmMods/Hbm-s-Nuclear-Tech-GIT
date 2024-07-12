@@ -302,7 +302,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		
 		EntityMissileBaseNT missile;
 		if(slots[1].stackTagCompound.getBoolean("Processed")) {
-			missile = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, slots[0]).withPayload(slots[1]);
+			missile = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 2.0F, zCoord + 0.5F, slots[0]).withPayload(slots[1]);
 			slots[1] = null;
 		} else {
 			ItemCustomMissilePart chip = (ItemCustomMissilePart) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "chip"));
@@ -345,8 +345,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		
 		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
 		
-		float f = (Float)fuselage.attributes[1];
-		int fuel = (int)f;
+		int fuel = fuselage.getTankSize();
 		
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:
@@ -420,7 +419,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		
 		if((FuelType)fuselage.attributes[0] == FuelType.SOLID) {
 			
-			if(solid >= (Float)fuselage.attributes[1])
+			if(solid >= fuselage.getTankSize())
 				return 1;
 			else
 				return 0;
@@ -473,7 +472,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			case BALEFIRE:
 			case HYDRAZINE:
 				
-				if(tanks[0].getFill() >= (Float)fuselage.attributes[1])
+				if(tanks[0].getFill() >= fuselage.getTankSize())
 					return 1;
 				else
 					return 0;
@@ -497,7 +496,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 			case HYDROGEN:
 			case BALEFIRE:
 				
-				if(tanks[1].getFill() >= (Float)fuselage.attributes[1])
+				if(tanks[1].getFill() >= fuselage.getTankSize())
 					return 1;
 				else
 					return 0;
@@ -546,7 +545,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		
 		CelestialBody localBody = CelestialBody.getBody(worldObj);
 		
-		int rocketMass = rocket.getMass();
+		int rocketMass = rocket.getDryMass();
 		FT_Rocket trait = tanks[0].getTankType().getTrait(FT_Rocket.class);
 		if(trait == null) return 100;
 

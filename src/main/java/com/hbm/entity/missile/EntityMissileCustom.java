@@ -64,7 +64,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		ItemCustomMissilePart fuselage = (ItemCustomMissilePart) template.fuselage;
 		ItemCustomMissilePart thruster = (ItemCustomMissilePart) template.thruster;
 
-		this.fuel = (Float) fuselage.attributes[1];
+		this.fuel = (float) fuselage.getTankSize();
 		this.consumption = (Float) thruster.attributes[1];
 
 		this.setSize(1.5F, 1.5F);

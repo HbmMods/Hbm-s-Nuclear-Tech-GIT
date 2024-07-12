@@ -3,6 +3,8 @@ package com.hbm.items.weapon;
 import java.util.HashMap;
 import java.util.List;
 
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.special.ItemLootCrate;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -145,7 +147,7 @@ public class ItemCustomMissilePart extends Item {
 		return this;
 	}
 	
-	public ItemCustomMissilePart makeFuselage(FuelType type, float fuel, int mass, PartSize top, PartSize bottom) {
+	public ItemCustomMissilePart makeFuselage(FuelType type, int fuel, int mass, PartSize top, PartSize bottom) {
 
 		this.type = PartType.FUSELAGE;
 		this.top = top;
@@ -201,15 +203,15 @@ public class ItemCustomMissilePart extends Item {
 				break;
 			case WARHEAD:
 				list.add(EnumChatFormatting.BOLD + "Size: " + EnumChatFormatting.GRAY + getSize(bottom));
-				list.add(EnumChatFormatting.BOLD + "Type: " + EnumChatFormatting.GRAY + getWarhead((WarheadType)attributes[0]));
+				list.add(EnumChatFormatting.BOLD + "Type: " + EnumChatFormatting.GRAY + getWarhead());
 				list.add(EnumChatFormatting.BOLD + "Strength: " + EnumChatFormatting.GRAY + (Float)attributes[1]);
 				list.add(EnumChatFormatting.BOLD + "Mass: " + EnumChatFormatting.GRAY + mass + "kg");
 				break;
 			case FUSELAGE:
 				list.add(EnumChatFormatting.BOLD + "Top size: " + EnumChatFormatting.GRAY + getSize(top));
 				list.add(EnumChatFormatting.BOLD + "Bottom size: " + EnumChatFormatting.GRAY + getSize(bottom));
-				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuel((FuelType)attributes[0]));
-				list.add(EnumChatFormatting.BOLD + "Fuel amount: " + EnumChatFormatting.GRAY + (Float)attributes[1] + "l");
+				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuel());
+				list.add(EnumChatFormatting.BOLD + "Fuel amount: " + EnumChatFormatting.GRAY + getTankSize() + "mB");
 				list.add(EnumChatFormatting.BOLD + "Mass: " + EnumChatFormatting.GRAY + mass + "kg");
 				break;
 			case FINS:
@@ -218,8 +220,8 @@ public class ItemCustomMissilePart extends Item {
 				break;
 			case THRUSTER:
 				list.add(EnumChatFormatting.BOLD + "Size: " + EnumChatFormatting.GRAY + getSize(top));
-				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuel((FuelType)attributes[0]));
-				list.add(EnumChatFormatting.BOLD + "Fuel consumption: " + EnumChatFormatting.GRAY + (Float)attributes[1] + "l/tick");
+				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuel());
+				list.add(EnumChatFormatting.BOLD + "Fuel consumption: " + EnumChatFormatting.GRAY + (Float)attributes[1] + "mB/tick");
 				list.add(EnumChatFormatting.BOLD + "Max. payload: " + EnumChatFormatting.GRAY + (Float)attributes[2] + "t");
 				list.add(EnumChatFormatting.BOLD + "Thrust " + EnumChatFormatting.GRAY + (Integer)attributes[3] + "N");
 				list.add(EnumChatFormatting.BOLD + "Mass: " + EnumChatFormatting.GRAY + mass + "kg");
@@ -260,9 +262,10 @@ public class ItemCustomMissilePart extends Item {
 		}
 	}
 	
-	public String getWarhead(WarheadType type) {
+	public String getWarhead() {
+		if(!(attributes[0] instanceof WarheadType)) return EnumChatFormatting.BOLD + "N/A";
 		
-		switch(type) {
+		switch((WarheadType)attributes[0]) {
 		case HE:
 			return EnumChatFormatting.YELLOW + "HE";
 		case INC:
@@ -294,9 +297,10 @@ public class ItemCustomMissilePart extends Item {
 		}
 	}
 	
-	public String getFuel(FuelType type) {
-		
-		switch(type) {
+	public String getFuelName() {
+		if(!(attributes[0] instanceof FuelType)) return EnumChatFormatting.BOLD + "N/A";
+
+		switch((FuelType)attributes[0]) {
 		case ANY:
 			return EnumChatFormatting.GRAY + "Any Liquid Fuel";
 		case KEROSENE:
@@ -316,6 +320,49 @@ public class ItemCustomMissilePart extends Item {
 		default:
 			return EnumChatFormatting.BOLD + "N/A";
 		}
+	}
+
+	public FluidType getFuel() {
+		if(!(attributes[0] instanceof FuelType)) return null;
+
+		switch((FuelType)attributes[0]) {
+		case KEROSENE:
+			return Fluids.KEROSENE;
+		case KEROLOX:
+			return Fluids.KEROSENE;
+		case HYDROGEN:
+			return Fluids.HYDROGEN;
+		case XENON:
+			return Fluids.XENON;
+		case BALEFIRE:
+			return Fluids.BALEFIRE;
+		case HYDRAZINE:
+			return Fluids.HYDRAZINE;
+		case SOLID:
+			return Fluids.NONE; // Requires non-fluid fuel
+		default:
+			return null;
+		}
+	}
+
+	public FluidType getOxidizer() {
+		if(!(attributes[0] instanceof FuelType)) return null;
+
+		switch((FuelType)attributes[0]) {
+		case KEROLOX:
+		case HYDROGEN:
+			return Fluids.OXYGEN;
+		case KEROSENE:
+		case BALEFIRE:
+			return Fluids.PEROXIDE;
+		default:
+			return null;
+		}
+	}
+
+	public int getTankSize() {
+		if(!(attributes[1] instanceof Integer)) return 0;
+		return (Integer) attributes[1];
 	}
 	
 	//am i retarded?

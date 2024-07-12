@@ -123,7 +123,7 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
     	}
 
 		// Construct rocket
-		if(machine.rocket.validate() && checkClick(x, y, 41, 62, 18, 18)) {
+		if(machine.rocket != null && machine.rocket.validate() && checkClick(x, y, 41, 62, 18, 18)) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			NBTTagCompound data = new NBTTagCompound();
 			data.setBoolean("construct", true);

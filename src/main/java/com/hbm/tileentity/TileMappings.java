@@ -72,7 +72,7 @@ public class TileMappings {
 		put(TileEntityBrownBarrel.class, "tileentity_brown_barrel");
 		put(TileEntityYellowBarrel.class, "tileentity_nukebarrel");
 		put(TileEntityLaunchPad.class, "tileentity_launch1");
-		put(TileEntityLaunchPadPassenger.class, "tileentity_launch2");
+		put(TileEntityLaunchPadRocket.class, "tileentity_launchpad_rocket");
 		put(TileEntityLaunchPadRusted.class, "tileentity_launchpad_rusted");
 		put(TileEntityLaunchPadLarge.class, "tileentity_launchpad_large");
 		put(TileEntityDecoBlock.class, "tileentity_deco");
