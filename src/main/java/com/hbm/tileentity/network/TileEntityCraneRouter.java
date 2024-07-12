@@ -1,6 +1,5 @@
 package com.hbm.tileentity.network;
 
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneRouter;
 import com.hbm.inventory.gui.GUICraneRouter;
 import com.hbm.module.ModulePatternMatcher;

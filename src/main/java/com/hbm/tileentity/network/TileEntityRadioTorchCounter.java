@@ -1,6 +1,5 @@
 package com.hbm.tileentity.network;
 
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IFilterable;
 import com.hbm.tileentity.TileEntityMachineBase;

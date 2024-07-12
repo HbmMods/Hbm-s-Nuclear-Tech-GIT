@@ -3,7 +3,6 @@ package com.hbm.tileentity.network;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
