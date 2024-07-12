@@ -1,13 +1,11 @@
 package com.hbm.hazard.type;
 
 import java.util.List;
-import java.util.Random;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.machine.TileEntityStorageDrum;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -24,10 +22,12 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class HazardTypeNeutron extends HazardTypeBase {
 
+	public static final String NEUTRON_KEY = "ntmNeutron";
+
 	@Override
 	public void onUpdate(EntityLivingBase target, float level, ItemStack stack) {
-		if(RadiationConfig.disableNeutron)
-			return;
+		if(RadiationConfig.disableNeutron) return;
+
 		boolean reacher = false;
 		
 		if(target instanceof EntityPlayer && !GeneralConfig.enable528)
@@ -42,41 +42,18 @@ public class HazardTypeNeutron extends HazardTypeBase {
 				rad = (float) (rad / 49F);	//More realistic function for 528: x / distance^2
 			} else if(reacher) {
 				rad = (float) Math.sqrt(rad + 1F / ((rad + 2F) * (rad + 2F))) - 1F / (rad + 2F); //Reworked radiation function: sqrt(x+1/(x+2)^2)-1/(x+2)
-			}											
+			}
+
 			if(target instanceof EntityPlayer) {
-				Random rand = target.getRNG();
 				EntityPlayer player = (EntityPlayer) target;
-				for(int i = 0; i < player.inventory.mainInventory.length; i++)
-				{
-					ItemStack stack2 = player.inventory.getStackInSlot(i);
-					
-					//if(rand.nextInt(100) == 0) {
-						//stack2 = player.inventory.armorItemInSlot(rand.nextInt(4));
-					//}
-					
-					//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-					if(stack2 != null) {
-							if(!stack2.hasTagCompound())
-								stack2.stackTagCompound = new NBTTagCompound();
-							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(rad/stack2.stackSize)/10);
-							
-						//}
-					}
+				for(int i = 0; i < player.inventory.mainInventory.length; i++) {
+					apply(player.inventory.getStackInSlot(i), rad);
 				}
-				for(int i = 0; i < player.inventory.armorInventory.length; i++)
-				{
-					ItemStack stack2 = player.inventory.getStackInSlot(i);
-					
-					//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-					if(stack2 != null) {					
-							if(!stack2.hasTagCompound())
-								stack2.stackTagCompound = new NBTTagCompound();
-							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(rad/stack2.stackSize)/10);
-					}
+				for(int i = 0; i < player.inventory.armorInventory.length; i++) {
+					apply(player.inventory.armorItemInSlot(i), rad);
 				}	
 			}
+
 			ContaminationUtil.contaminate(target, HazardType.NEUTRON, ContaminationType.CREATIVE, rad);
 		}
 	}
@@ -84,6 +61,7 @@ public class HazardTypeNeutron extends HazardTypeBase {
 	@Override
 	public void updateEntity(EntityItem item, float level) { }
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addHazardInformation(EntityPlayer player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
@@ -100,6 +78,30 @@ public class HazardTypeNeutron extends HazardTypeBase {
 		if(stack.stackSize > 1) {
 			list.add(EnumChatFormatting.LIGHT_PURPLE + "Stack: " + ((Math.floor(level * 1000 * stack.stackSize) / 1000) + "RAD/s^2"));
 		}
+	}
+
+	public static void apply(ItemStack stack, float rad) {
+		if(stack == null) return;
+
+		if(!stack.hasTagCompound())
+			stack.stackTagCompound = new NBTTagCompound();
+
+		float activation = stack.stackTagCompound.getFloat(NEUTRON_KEY);
+		stack.stackTagCompound.setFloat(NEUTRON_KEY, activation + (rad / stack.stackSize) / 10);
+	}
+
+	public static void decay(ItemStack stack, float factor) {
+		if(stack == null) return;
+		if(!stack.hasTagCompound()) return;
+		
+		float activation = stack.stackTagCompound.getFloat(NEUTRON_KEY);
+		stack.stackTagCompound.setFloat(NEUTRON_KEY, activation * factor);
+
+		if(activation < 1e-5)
+			stack.stackTagCompound.removeTag(NEUTRON_KEY);
+
+		if(stack.stackTagCompound.hasNoTags())
+			stack.setTagCompound((NBTTagCompound) null);
 	}
 
 }

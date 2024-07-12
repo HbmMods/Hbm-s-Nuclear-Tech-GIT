@@ -29,6 +29,7 @@ import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.hazard.type.HazardTypeNeutron;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.interfaces.Spaghetti;
@@ -833,8 +834,8 @@ public class ModEventHandlerClient {
 		float level = 0;
 		float rads = HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.RADIATION);
 		if(rads == 0) {
-			if(stack.hasTagCompound() && stack.stackTagCompound.hasKey("ntmNeutron")) {
-				level += stack.stackTagCompound.getFloat("ntmNeutron");
+			if(stack.hasTagCompound() && stack.stackTagCompound.hasKey(HazardTypeNeutron.NEUTRON_KEY)) {
+				level += stack.stackTagCompound.getFloat(HazardTypeNeutron.NEUTRON_KEY);
 			}
 			
 			if(level < 1e-5)

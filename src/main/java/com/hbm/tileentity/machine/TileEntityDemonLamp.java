@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 
 import com.hbm.config.RadiationConfig;
+import com.hbm.hazard.type.HazardTypeNeutron;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -64,38 +65,13 @@ public class TileEntityDemonLamp extends TileEntity {
 			ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, eRads);
 			ContaminationUtil.contaminate(e, HazardType.NEUTRON, ContaminationType.CREATIVE, eRads);
 			if(e instanceof EntityPlayer && !RadiationConfig.disableNeutron) {
-				//Random rand = target.getRNG();
 				EntityPlayer player = (EntityPlayer) e;
-				for(int i2 = 0; i2 < player.inventory.mainInventory.length; i2++)
-				{
-					ItemStack stack2 = player.inventory.getStackInSlot(i2);
-					
-					//if(rand.nextInt(100) == 0) {
-						//stack2 = player.inventory.armorItemInSlot(rand.nextInt(4));
-					//}
-					
-					//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-					if(stack2 != null) {
-							if(!stack2.hasTagCompound())
-								stack2.stackTagCompound = new NBTTagCompound();
-							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(eRads/stack2.stackSize));
-							
-						//}
-					}
+				for(int i = 0; i < player.inventory.mainInventory.length; i++) {
+					HazardTypeNeutron.apply(player.inventory.getStackInSlot(i), eRads);
 				}
-				for(int i2 = 0; i2 < player.inventory.armorInventory.length; i2++)
-				{
-					ItemStack stack2 = player.inventory.armorItemInSlot(i2);
-					
-					//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-					if(stack2 != null) {					
-							if(!stack2.hasTagCompound())
-								stack2.stackTagCompound = new NBTTagCompound();
-							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-							stack2.stackTagCompound.setFloat("ntmNeutron", activation+(eRads/stack2.stackSize));
-					}
-				}	
+				for(int i = 0; i < player.inventory.armorInventory.length; i++) {
+					HazardTypeNeutron.apply(player.inventory.armorItemInSlot(i), eRads);
+				}
 			}
 			
 			if(len < 2) {

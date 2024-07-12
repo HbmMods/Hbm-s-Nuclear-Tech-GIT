@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.hbm.config.RadiationConfig;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.hazard.type.HazardTypeNeutron;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
@@ -60,35 +61,11 @@ public class TileEntityDecon extends TileEntity {
 
 			if(e instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) e;
-				for(int i2 = 0; i2 < player.inventory.mainInventory.length; i2++) {
-					ItemStack stack2 = player.inventory.getStackInSlot(i2);
-
-					if(stack2 != null) {
-						if(!stack2.hasTagCompound())
-							stack2.stackTagCompound = new NBTTagCompound();
-						float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-						stack2.stackTagCompound.setFloat("ntmNeutron", activation * 0.899916f);
-						if(activation < 1e-5)
-							stack2.stackTagCompound.removeTag("ntmNeutron");
-						if(stack2.stackTagCompound.hasNoTags()) {
-							stack2.setTagCompound((NBTTagCompound) null);
-						}
-					}
+				for(int i = 0; i < player.inventory.mainInventory.length; i++) {
+					HazardTypeNeutron.decay(player.inventory.getStackInSlot(i), 0.899916F);
 				}
-				for(int i2 = 0; i2 < player.inventory.armorInventory.length; i2++) {
-					ItemStack stack2 = player.inventory.armorItemInSlot(i2);
-
-					if(stack2 != null) {
-						if(!stack2.hasTagCompound())
-							stack2.stackTagCompound = new NBTTagCompound();
-						float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-						stack2.stackTagCompound.setFloat("ntmNeutron", activation * 0.899916f);
-						if(activation < 1e-5)
-							stack2.stackTagCompound.removeTag("ntmNeutron");
-						if(stack2.stackTagCompound.hasNoTags()) {
-							stack2.setTagCompound((NBTTagCompound) null);
-						}
-					}
+				for(int i = 0; i < player.inventory.armorInventory.length; i++) {
+					HazardTypeNeutron.decay(player.inventory.armorItemInSlot(i), 0.899916F);
 				}
 			}
 		}

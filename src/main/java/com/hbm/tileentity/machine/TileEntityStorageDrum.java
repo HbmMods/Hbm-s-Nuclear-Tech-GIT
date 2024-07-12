@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.config.VersatileConfig;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.hazard.type.HazardTypeNeutron;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.container.ContainerStorageDrum;
@@ -125,29 +126,18 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 					if(item == ModItems.nugget_pb209 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 50) == 0) {
 						slots[i] = new ItemStack(ModItems.nugget_bismuth, 1, meta);
 					}
-					if(slots[i]!=null)
-					{
-						if(slots[i].hasTagCompound())
-						{
-							//NBTTagCompound itemNBT = slots[i].getTagCompound(); 
-							float activation = slots[i].stackTagCompound.getFloat("ntmNeutron");
-							slots[i].stackTagCompound.setFloat("ntmNeutron",activation*0.9899916f);
-							if(activation<1e-5)
-								slots[i].stackTagCompound.removeTag("ntmNeutron");
-							if (slots[i].stackTagCompound.hasNoTags()){ 
-							    slots[i].setTagCompound((NBTTagCompound)null); //fuck you nbt 
-							}
-						}
+					if(slots[i] != null) {
+						HazardTypeNeutron.decay(slots[i], 0.9899916F);
 
-					if(item == ModItems.powder_sr90 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 10) == 0) {
-						slots[i] = new ItemStack(ModItems.powder_zirconium, 1, meta);
-					}
-					if(item == ModItems.nugget_sr90 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 50) == 0) {
-						slots[i] = new ItemStack(ModItems.nugget_zirconium, 1, meta);
+						if(item == ModItems.powder_sr90 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 10) == 0) {
+							slots[i] = new ItemStack(ModItems.powder_zirconium, 1, meta);
+						}
+						if(item == ModItems.nugget_sr90 && worldObj.rand.nextInt(VersatileConfig.getShortDecayChance() / 50) == 0) {
+							slots[i] = new ItemStack(ModItems.nugget_zirconium, 1, meta);
+						}
 					}
 				}
 			}
-		}
 
 			this.tanks[0].setFill(this.tanks[0].getFill() + liquid);
 			this.tanks[1].setFill(this.tanks[1].getFill() + gas);

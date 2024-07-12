@@ -44,6 +44,7 @@ import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.hazard.type.HazardTypeNeutron;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
@@ -692,17 +693,7 @@ public class ModEventHandler {
 			        		EntityPlayer player = (EntityPlayer) entity;
 
 							int randSlot = rand.nextInt(player.inventory.mainInventory.length);
-							ItemStack stack2 = player.inventory.getStackInSlot(randSlot);
-							if(stack2 != null) {
-								if(stack2.hasTagCompound()) {
-									float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-									if(activation < 1e-5) {
-										stack2.stackTagCompound.removeTag("ntmNeutron");
-									} else {
-										stack2.stackTagCompound.setFloat("ntmNeutron", activation * 0.999916f);		
-									}
-								}	
-							}
+							HazardTypeNeutron.decay(player.inventory.getStackInSlot(randSlot), 0.999916F);
 
 							// handle dismount events, or our players will splat upon leaving tall rockets
 							if(player.ridingEntity != null && player.ridingEntity instanceof EntityRideableRocket && player.isSneaking()) {
@@ -1358,38 +1349,15 @@ public class ModEventHandler {
 			
 			/// PU RADIATION END ///
 			
-			/*if(player instanceof EntityPlayerMP) {
-
-				int x = (int) Math.floor(player.posX);
-				int y = (int) Math.floor(player.posY - 0.01);
-				int z = (int) Math.floor(player.posZ);
-				
-				if(player.worldObj.getTileEntity(x, y, z) instanceof IEnergyConductor) {
-					PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(((IEnergyConductor) player.worldObj.getTileEntity(x, y, z)).getPowerNet() + ""), (EntityPlayerMP) player);
-				}
-			}*/
-			for(int i = 0; i < player.inventory.mainInventory.length; i++)
-			{
+			for(int i = 0; i < player.inventory.mainInventory.length; i++) {
 				ItemStack stack2 = player.inventory.getStackInSlot(i);
-				
-				//if(rand.nextInt(100) == 0) {
-					//stack2 = player.inventory.armorItemInSlot(rand.nextInt(4));
-				//}
-				
-				//only affect unstackables (e.g. tools and armor) so that the NBT tag's stack restrictions isn't noticeable
-				
 				
 				//oh yeah remind me...
 				if(stack2 != null) {
-						if(stack2.hasTagCompound() && HazardSystem.getHazardLevelFromStack(stack2, HazardRegistry.RADIATION)==0)
-						{
-							float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-							//System.out.println("activation: "+activation);
-							ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.CREATIVE, activation/20);
-						}
-						
-						
-					//}
+					if(stack2.hasTagCompound() && HazardSystem.getHazardLevelFromStack(stack2, HazardRegistry.RADIATION) == 0) {
+						float activation = stack2.stackTagCompound.getFloat(HazardTypeNeutron.NEUTRON_KEY);
+						ContaminationUtil.contaminate(player, HazardType.RADIATION, ContaminationType.CREATIVE, activation / 20);
+					}
 				}
 			}
 			/// NEW ITEM SYS START ///
