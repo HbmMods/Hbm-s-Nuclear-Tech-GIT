@@ -11,8 +11,12 @@ import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemVOTVdrive.Destination;
 import com.hbm.items.weapon.ItemCustomRocket;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.util.BobMathUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -40,6 +44,11 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	private double rocketVelocity = 0;
 
 	private boolean sizeSet = false;
+
+	private AudioWrapper audio;
+
+	@SideOnly(Side.CLIENT)
+	private RocketState lastState = RocketState.AWAITING;
 
 	public enum RocketState {
 		AWAITING,		// Prepped for launch, once mounted will transition to launching
@@ -75,6 +84,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		RocketStruct rocket = getRocket();
 		rocket.stages.remove(0);
 		setRocket(rocket);
+
+		setSize(2, (float)rocket.getHeight() + 1);
 	}
 
 	@Override
@@ -141,6 +152,34 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				setDestinationName(drive.getDestination(navDrive).body.name);
 			} else {
 				setDestinationName("NO DRIVE PRESENT");
+			}
+		} else {
+			// ON state transitions
+			if(state != lastState) {
+				if(state == RocketState.LAUNCHING) {
+					AudioWrapper ignition = MainRegistry.proxy.getLoopedSound("hbm:entity.rocketIgnition", (float)posX, (float)posY, (float)posZ, 1.0F, 250.0F, 1.0F, 5);
+					ignition.setDoesRepeat(false);
+					ignition.startSound();
+				}
+
+				lastState = state;
+			} else {
+				// We can't start audio loops at the same time as playing a sound, for some reason
+				if(state == RocketState.LAUNCHING || (state == RocketState.LANDING && motionY > -0.4)) {
+					if(audio == null || !audio.isPlaying()) {
+						String rocketAudio = getRocket().stages.size() <= 1 ? "hbm:entity.rocketFlyLight" : "hbm:entity.rocketFlyHeavy";
+						audio = MainRegistry.proxy.getLoopedSound(rocketAudio, (float)posX, (float)posY, (float)posZ, 1.0F, 250.0F, 1.0F, 5);
+						audio.startSound();
+					}
+	
+					audio.updatePosition((float)posX, (float)posY, (float)posZ);
+					audio.keepAlive();
+				} else {
+					if(audio != null) {
+						audio.stopSound();
+						audio = null;
+					}
+				}
 			}
 		}
 
@@ -325,6 +364,10 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		if(getRocket().stages.size() == 0) return;
 
+		RocketState state = getState();
+		if(state == RocketState.LAUNCHING || state == RocketState.LANDING)
+			return;
+
 		List<String> text = new ArrayList<>();
 
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -336,7 +379,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		} else {
 			text.add("Destination: " + getDestinationName());
 
-			if(getState() == RocketState.AWAITING) {
+			if(state == RocketState.AWAITING) {
 				text.add("JUMP TO LAUNCH");
 			}
 		}
