@@ -17,6 +17,7 @@ import com.hbm.util.AstronomyUtil;
 import com.hbm.util.I18nUtil;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import org.lwjgl.input.Keyboard;
 import net.minecraft.client.Minecraft;
@@ -24,6 +25,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
 
@@ -87,27 +89,64 @@ public class GUIMachineStardar extends GuiInfoContainer {
         }
 
         popScissor();
-        Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		
-        int offsetx = 20;
-        int offsety = 70;
+		//RenderPOI(80, 80, x, y, 1);
+		//RenderPOI(60, 100, x, y, 2);
+		//RenderPOI(20, 100, x, y, 3);
 
-		int fx = (int) (guiLeft + additive + offsetx);
-		int fy = (int) (guiTop + additivey + offsety);
-		if(fx < 275 && fx > 143 && fy > 6 && fy < 109) {
-	        drawTexturedModalRect(guiLeft +(int)additive + offsetx, guiTop + (int)additivey + offsety ,  157, 0, 6, 7);
-		}
-	       System.out.println(fx);
-		if(checkClick(x, y, (int) (additive + offsetx), guiTop + fy, 8,8)) {
-			System.out.println("ci");
-			this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("POI")), x, y);
-		} 
 		//TODO: so this is a test to see if the system well... systems. but anyway im thinking that you can see arrows that point to a planet to look at and then you can "ping"
-// drawTexturedModalRect(guiLeft +(int)additive + 20, guiTop + (int)additivey + 20 ,  157, 0, 6, 7);
 
-		
+		RenderPOI(80, 80, x, y, 1);
+		RenderPOI(60, 100, x, y, 2);
+		RenderPOI(20, 85, x, y, 3); 
+		RenderPOI(10, 70, x, y, 2); 
+		RenderPOI(20, 40, x, y, 4); 
+		RenderPOI(65, 50, x, y, 1); 
 
     }
+    
+    protected boolean WithinBounds(int x, int y) {
+		return x < 275 && x > 143 && y > 6 && y < 109;
+	}
+    
+    
+    protected void RenderPOI(int offsetx, int offsety, int mx, int my, int tier) {
+
+		int x = (int) (guiLeft + additive + offsetx);
+		int y = (int) (guiTop + additivey + offsety);
+		
+		if(WithinBounds(x, y)) {
+	        Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+
+			switch (tier) {
+			case 1:
+		        drawTexturedModalRect(guiLeft +(int)additive + offsetx, guiTop + (int)additivey + offsety ,  157, 0, 6, 7);
+				break;
+			case 2:
+		        drawTexturedModalRect(guiLeft +(int)additive + offsetx, guiTop + (int)additivey + offsety ,  164, 0, 8, 8);
+				break;
+			case 3:
+		        drawTexturedModalRect(guiLeft +(int)additive + offsetx, guiTop + (int)additivey + offsety ,  173, 0, 8, 8);
+				break;
+			case 4:
+		        drawTexturedModalRect(guiLeft +(int)additive + offsetx, guiTop + (int)additivey + offsety ,  182, 0, 8, 8);
+				break;
+			default:
+		        drawTexturedModalRect(guiLeft +(int)additive + offsetx, guiTop + (int)additivey + offsety ,  157, 0, 6, 7);
+				break;
+			}
+			
+		}
+		if(checkClick(mx, my, (int) (additive + offsetx), guiTop + y, 8,8)) {
+			//this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("POI Tier: " + tier)), x, y);
+			drawCustomInfoStat(mx, my, x, y, 35, 14, mx, my, "POI");
+			drawCustomInfoStat(mx, my, x, y, 35, 14, mx, my, "POI", "Processing Tier: " + String.format(Locale.US, "%,d", (int)(tier)));
+
+
+		} 
+
+    
+	}
 	protected boolean checkClick(int x, int y, int left, int top, int sizeX, int sizeY) {
 		return guiLeft + left <= x && guiLeft + left + sizeX > x && guiTop + top < y && guiTop + top + sizeY >= y;
 	}
@@ -143,6 +182,8 @@ public class GUIMachineStardar extends GuiInfoContainer {
     @Override
     public void drawScreen(int mouseX, int mouseY, float f) {
         super.drawScreen(mouseX, mouseY, f);
+		this.drawGuiContainerForegroundLayer(mouseX, mouseY);
+
     }
 
     @Override
