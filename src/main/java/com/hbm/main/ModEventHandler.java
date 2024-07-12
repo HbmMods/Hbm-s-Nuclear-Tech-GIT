@@ -27,6 +27,7 @@ import com.hbm.dim.WorldTypeTeleport;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
+import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.entity.mob.EntityCreeperTainted;
@@ -679,12 +680,40 @@ public class ModEventHandler {
 				
 				/**
 				 *  REMOVE THIS V V V
+				 * except the entity dismounting part, it literally can NOT be done elsewhere
 				 */
 				for(Object e : oList) {
 					if(e instanceof EntityLivingBase) {
 						
 						//effect for radiation
 						EntityLivingBase entity = (EntityLivingBase) e;
+
+			        	if(entity instanceof EntityPlayer) {
+			        		EntityPlayer player = (EntityPlayer) entity;
+
+							int randSlot = rand.nextInt(player.inventory.mainInventory.length);
+							ItemStack stack2 = player.inventory.getStackInSlot(randSlot);
+							if(stack2 != null) {
+								if(stack2.hasTagCompound()) {
+									float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
+									if(activation < 1e-5) {
+										stack2.stackTagCompound.removeTag("ntmNeutron");
+									} else {
+										stack2.stackTagCompound.setFloat("ntmNeutron", activation * 0.999916f);		
+									}
+								}	
+							}
+
+							// handle dismount events, or our players will splat upon leaving tall rockets
+							if(player.ridingEntity != null && player.ridingEntity instanceof EntityRideableRocket && player.isSneaking()) {
+								Entity ridingEntity = player.ridingEntity;
+								float prevHeight = ridingEntity.height;
+								ridingEntity.height = 1.0F;
+								player.mountEntity(null);
+								player.setSneaking(false);
+								ridingEntity.height = prevHeight;
+							}
+			        	}
 						
 						if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
 							continue;
@@ -794,23 +823,6 @@ public class ModEventHandler {
 				        	if(entity instanceof EntityPlayer)
 				        		((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadPoison);
 						}
-						
-			        	if(entity instanceof EntityPlayer)
-			        	{
-			        		EntityPlayer player = (EntityPlayer) entity;
-							int randSlot = rand.nextInt(player.inventory.mainInventory.length);
-							ItemStack stack2 = player.inventory.getStackInSlot(randSlot);
-							if(stack2!=null)
-							{
-								if(stack2.hasTagCompound())
-								{
-									float activation = stack2.stackTagCompound.getFloat("ntmNeutron");
-									if(activation<1e-5)
-										stack2.stackTagCompound.removeTag("ntmNeutron");
-									stack2.stackTagCompound.setFloat("ntmNeutron",activation*0.999916f);		
-								}	
-							}
-			        	}
 					}
 					
 					if(e instanceof EntityItem) {
