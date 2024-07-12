@@ -17,7 +17,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
@@ -147,6 +146,7 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 
 	//do some opencomputers stuff
 
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "rbmk_cooler";
 	}

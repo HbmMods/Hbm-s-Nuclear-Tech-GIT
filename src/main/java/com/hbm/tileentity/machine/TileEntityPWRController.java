@@ -547,6 +547,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_pwr_control";
 	}

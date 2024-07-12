@@ -11,7 +11,6 @@ import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase implements SimpleComponent, CompatHandler.OCComponent {
@@ -125,6 +124,7 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "rbmk_control_rod";
 	}

@@ -54,6 +54,7 @@ import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.blocks.generic.BlockPedestal.TileEntityPedestal;
 import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
+import com.hbm.blocks.machine.Floodlight.TileEntityFloodlight;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
 import com.hbm.blocks.machine.WatzPump.TileEntityWatzPump;
@@ -152,7 +153,7 @@ public class ClientProxy extends ServerProxy {
 		Jars.initJars();
 		
 		if(GeneralConfig.enableSoundExtension) {
-			SoundSystemConfig.setNumberNormalChannels(1000);
+			SoundSystemConfig.setNumberNormalChannels(GeneralConfig.normalSoundChannels);
 			SoundSystemConfig.setNumberStreamingChannels(50);
 		}
 	}
@@ -184,6 +185,7 @@ public class ClientProxy extends ServerProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoBlockAltW.class, new RenderDecoBlockAlt());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDecoBlockAltF.class, new RenderDecoBlockAlt());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityDemonLamp.class, new RenderDemonLamp());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFloodlight.class, new RenderFloodlight());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLoot.class, new RenderLoot());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPedestal.class, new RenderPedestalTile());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBobble.class, new RenderBobble());
@@ -873,6 +875,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerBlockHandler(new RenderLight());
 		RenderingRegistry.registerBlockHandler(new RenderCRT());
 		RenderingRegistry.registerBlockHandler(new RenderToaster());
+		RenderingRegistry.registerBlockHandler(new RenderPartitioner());
 
 		RenderingRegistry.registerBlockHandler(new RenderFoundryBasin());
 		RenderingRegistry.registerBlockHandler(new RenderFoundryMold());

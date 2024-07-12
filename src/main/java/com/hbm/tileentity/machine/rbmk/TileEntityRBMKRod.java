@@ -393,6 +393,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "rbmk_fuel_rod";
 	}

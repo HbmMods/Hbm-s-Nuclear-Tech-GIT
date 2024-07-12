@@ -557,6 +557,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_gas_turbine";
 	}
@@ -641,6 +642,8 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				tanks[3].getFill(), tanks[3].getMaxFill()};
 	}
 
+	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
 		return new String[] {
 				"getFluid",
@@ -657,6 +660,8 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		};
 	}
 
+	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch(method) {
 			case ("getFluid"):

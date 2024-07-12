@@ -67,6 +67,7 @@ public class CompatHandler {
          * @return String
          */
         @Override
+        @Optional.Method(modid = "OpenComputers")
         default String getComponentName() {
             return "ntm_null";
         }
@@ -77,6 +78,7 @@ public class CompatHandler {
          * @return If the side should be able to connect.
          */
         @Override
+        @Optional.Method(modid = "OpenComputers")
         default boolean canConnectNode(ForgeDirection side) {
             return true;
         }
@@ -85,9 +87,11 @@ public class CompatHandler {
          * Function to give more information when analyzing the block. Multiple entries in the array will be sent to the user in the order of the array.
          * @return Additional text to add in the form of lang entries (ex: "analyze.basic2").
          */
+        @Optional.Method(modid = "OpenComputers")
         default String[] getExtraInfo() {return new String[] {"analyze.noInfo"};}
 
         @Override
+        @Optional.Method(modid = "OpenComputers")
         default Node[] onAnalyze(EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
             player.addChatComponentMessage(new ChatComponentTranslation("analyze.basic1").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)));
             player.addChatComponentMessage(new ChatComponentTranslation("analyze.basic2").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
@@ -99,7 +103,7 @@ public class CompatHandler {
                     player.addChatComponentMessage(new ChatComponentTranslation(info).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
             }
             TileEntity te = (TileEntity) this;
-            if(Array.getLength(this.methods()) == 0 && te instanceof TileEntityProxyCombo || this.getComponentName().equals("ntm_null"))
+            if((Array.getLength(this.methods()) == 0 && te instanceof TileEntityProxyCombo) || this.getComponentName().equals("ntm_null"))
                 player.addChatComponentMessage(new ChatComponentTranslation("analyze.error").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
             return null;
         }
@@ -109,6 +113,7 @@ public class CompatHandler {
          * @return Array of methods to expose to the computer.
          */
         @Override
+        @Optional.Method(modid = "OpenComputers")
         default String[] methods() {return new String[0];}
 
         /**
@@ -116,6 +121,7 @@ public class CompatHandler {
          * @return Data to the computer as a return from the function.
          */
         @Override
+        @Optional.Method(modid = "OpenComputers")
         default Object[] invoke(String method, Context context, Arguments args) throws Exception {return null;}
     }
 }

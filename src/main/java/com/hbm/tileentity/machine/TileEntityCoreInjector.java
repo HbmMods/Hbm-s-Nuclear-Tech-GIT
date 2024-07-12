@@ -197,6 +197,7 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 	
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "dfc_injector";
 	}

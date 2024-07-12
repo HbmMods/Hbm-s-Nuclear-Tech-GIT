@@ -3,12 +3,14 @@ package com.hbm.tileentity.network;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.container.ContainerDroneRequester;
 import com.hbm.inventory.gui.GUIDroneRequester;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.tileentity.IFilterable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.network.RequestNetwork.PathNode;
@@ -20,12 +22,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer implements INBTPacketReceiver, IGUIProvider {
+public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer implements INBTPacketReceiver, IGUIProvider, IFilterable {
 	
 	public ModulePatternMatcher matcher;
 
@@ -55,7 +59,8 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.matcher.readFromNBT(nbt);
 	}
-	
+
+	@Override
 	public void nextMode(int i) {
 		this.matcher.nextMode(worldObj, slots[i], i);
 	}
@@ -121,5 +126,20 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 			if(stock == null || !this.matcher.isValidForFilter(filter, i, stock)) request.add(aStack);
 		}
 		return new RequestNode(pos, this.reachableNodes, request);
+	}
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
+	}
+
+	@Override
+	public void setFilterContents(NBTTagCompound nbt) {
+		int slot = nbt.getInteger("slot");
+		setInventorySlotContents(
+				slot,
+				new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
+		nextMode(slot);
+		markChanged();
 	}
 }

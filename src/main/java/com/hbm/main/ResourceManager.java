@@ -1491,6 +1491,7 @@ public class ResourceManager {
 	public static final IModelCustom pipe_neo = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/pipe_neo.obj"));
 	public static final IModelCustom difurnace_extension = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/difurnace_extension.obj"));
 	public static final IModelCustom splitter = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/splitter.obj"));
+	public static final IModelCustom crane_buffer = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/crane_buffer.obj"));
 	public static final IModelCustom rail_narrow_straight = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_narrow.obj"));
 	public static final IModelCustom rail_narrow_curve = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_narrow_bend.obj"));
 	public static final IModelCustom rail_standard_straight = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/blocks/rail_standard.obj"));

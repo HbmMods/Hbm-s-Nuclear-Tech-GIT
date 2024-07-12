@@ -27,7 +27,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IFluidStandardSender, SimpleComponent, CompatHandler.OCComponent {
@@ -224,6 +223,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 
 	//do some opencomputers stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "rbmk_outgasser";
 	}

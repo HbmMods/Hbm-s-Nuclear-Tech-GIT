@@ -791,6 +791,7 @@ public class ModBlocks {
 	public static Block crane_boxer;
 	public static Block crane_unboxer;
 	public static Block crane_splitter;
+	public static Block crane_partitioner;
 
 	public static Block drone_waypoint;
 	public static Block drone_crate;
@@ -1098,7 +1099,6 @@ public class ModBlocks {
 	public static Block rbmk_loader;
 	public static Block rbmk_steam_inlet;
 	public static Block rbmk_steam_outlet;
-	public static Block rbmk_heatex;
 	public static Block pribris;
 	public static Block pribris_burning;
 	public static Block pribris_radiating;
@@ -1912,6 +1912,7 @@ public class ModBlocks {
 		crane_boxer = new CraneBoxer().setBlockName("crane_boxer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crane_unboxer = new CraneUnboxer().setBlockName("crane_unboxer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		crane_splitter = new CraneSplitter().setBlockName("crane_splitter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":crane_side");
+		crane_partitioner = new CranePartitioner().setBlockName("crane_partitioner").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":crane_partitioner_side");
 		fan = new MachineFan().setBlockName("fan").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		piston_inserter = new PistonInserter().setBlockName("piston_inserter").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
@@ -2126,7 +2127,6 @@ public class ModBlocks {
 		rbmk_loader = new RBMKLoader(Material.iron).setBlockName("rbmk_loader").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_loader");
 		rbmk_steam_inlet = new RBMKInlet(Material.iron).setBlockName("rbmk_steam_inlet").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_steam_inlet");
 		rbmk_steam_outlet = new RBMKOutlet(Material.iron).setBlockName("rbmk_steam_outlet").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_steam_outlet");
-		rbmk_heatex = new RBMKHeatex(Material.iron).setBlockName("rbmk_heatex").setCreativeTab(null).setHardness(50.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":rbmk_heatex");
 		pribris = new RBMKDebris().setBlockName("pribris").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_debris");
 		pribris_burning = new RBMKDebrisBurning().setBlockName("pribris_burning").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_debris_burning");
 		pribris_radiating = new RBMKDebrisRadiating().setBlockName("pribris_radiating").setCreativeTab(MainRegistry.machineTab).setHardness(50.0F).setResistance(600.0F).setBlockTextureName(RefStrings.MODID + ":rbmk/rbmk_debris_radiating");
@@ -2630,6 +2630,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(spotlight_halogen, spotlight_halogen.getUnlocalizedName());
 		GameRegistry.registerBlock(spotlight_halogen_off, spotlight_halogen_off.getUnlocalizedName());
 		GameRegistry.registerBlock(spotlight_beam, spotlight_beam.getUnlocalizedName());
+		register(floodlight);
 
 		//Reinforced Blocks
 		GameRegistry.registerBlock(asphalt, ItemBlockBlastInfo.class, asphalt.getUnlocalizedName());
@@ -3111,7 +3112,6 @@ public class ModBlocks {
 		register(rbmk_loader);
 		register(rbmk_steam_inlet);
 		register(rbmk_steam_outlet);
-		GameRegistry.registerBlock(rbmk_heatex, rbmk_heatex.getUnlocalizedName());
 		GameRegistry.registerBlock(pribris, pribris.getUnlocalizedName());
 		GameRegistry.registerBlock(pribris_burning, pribris_burning.getUnlocalizedName());
 		GameRegistry.registerBlock(pribris_radiating, pribris_radiating.getUnlocalizedName());
@@ -3163,6 +3163,7 @@ public class ModBlocks {
 		register(conveyor_chute);
 		register(conveyor_lift);
 		register(crane_splitter);
+		register(crane_partitioner);
 		register(drone_waypoint);
 		register(drone_crate);
 		register(drone_waypoint_request);

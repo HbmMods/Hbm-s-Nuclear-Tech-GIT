@@ -8,6 +8,7 @@ import com.hbm.inventory.container.ContainerCraneGrabber;
 import com.hbm.inventory.gui.GUICraneGrabber;
 import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.tileentity.IFilterable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.InventoryUtil;
 
@@ -19,6 +20,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -29,7 +31,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
-public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIProvider, IControlReceiver {
+public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIProvider, IFilterable {
 
 	public boolean isWhitelist = false;
 	public ModulePatternMatcher matcher;
@@ -38,7 +40,8 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 		super(11);
 		this.matcher = new ModulePatternMatcher(9);
 	}
-	
+
+	@Override
 	public void nextMode(int i) {
 		this.matcher.nextMode(worldObj, slots[i], i);
 	}
@@ -194,5 +197,17 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 		if(data.hasKey("whitelist")) {
 			this.isWhitelist = !this.isWhitelist;
 		}
+		if(data.hasKey("slot")){
+			setFilterContents(data);
+		}
+	}
+	@Override
+	public void setFilterContents(NBTTagCompound nbt) {
+		int slot = nbt.getInteger("slot");
+		setInventorySlotContents(
+				slot,
+				new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
+		nextMode(slot);
+		markChanged();
 	}
 }

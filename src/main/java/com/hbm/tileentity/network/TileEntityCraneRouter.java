@@ -4,6 +4,7 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneRouter;
 import com.hbm.inventory.gui.GUICraneRouter;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.tileentity.IFilterable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -12,12 +13,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
+public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUIProvider, IFilterable {
 	
 	public ModulePatternMatcher[] patterns = new ModulePatternMatcher[6]; //why did i make six matchers???
 	public int[] modes = new int[6];
@@ -76,7 +78,7 @@ public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUI
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICraneRouter(player.inventory, this);
 	}
-
+	@Override
 	public void nextMode(int index) {
 		
 		int matcher = index / 5;
@@ -123,9 +125,23 @@ public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUI
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		int i = data.getInteger("toggle");
-		modes[i]++;
-		if(modes[i] > 3)
-			modes [i] = 0;
+		if(data.hasKey("toggle")) {
+			int i = data.getInteger("toggle");
+			modes[i]++;
+			if (modes[i] > 3)
+				modes[i] = 0;
+		}
+		if(data.hasKey("slot")){
+			setFilterContents(data);
+		}
+	}
+	@Override
+	public void setFilterContents(NBTTagCompound nbt) {
+		int slot = nbt.getInteger("slot");
+		setInventorySlotContents(
+				slot,
+				new ItemStack(Item.getItemById(nbt.getInteger("id")), 1,  nbt.getInteger("meta")));
+		nextMode(slot);
+		markChanged();
 	}
 }

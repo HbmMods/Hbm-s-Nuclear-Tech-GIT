@@ -217,6 +217,7 @@ public class TileEntityMachineReactorBreeding extends TileEntityMachineBase impl
 	
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "breeding_reactor";
 	}

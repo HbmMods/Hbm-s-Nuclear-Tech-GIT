@@ -148,6 +148,7 @@ public class ModItems {
 	public static Item ingot_cdalloy;
 	public static Item ingot_bismuth_bronze;
 	public static Item ingot_arsenic_bronze;
+	public static Item ingot_bscco;
 	public static Item lithium;
 	public static Item ingot_zirconium;
 	public static Item ingot_hes;
@@ -2568,6 +2569,7 @@ public class ModItems {
 		ingot_cdalloy = new Item().setUnlocalizedName("ingot_cdalloy").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_cdalloy");
 		ingot_bismuth_bronze = new Item().setUnlocalizedName("ingot_bismuth_bronze").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_bismuth_bronze");
 		ingot_arsenic_bronze = new Item().setUnlocalizedName("ingot_arsenic_bronze").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_arsenic_bronze");
+		ingot_bscco = new Item().setUnlocalizedName("ingot_bscco").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_bscco");
 
 		niter = new Item().setUnlocalizedName("niter").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":salpeter");
 		ingot_copper = new Item().setUnlocalizedName("ingot_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_copper");
@@ -5663,6 +5665,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_cdalloy, ingot_cdalloy.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_bismuth_bronze, ingot_bismuth_bronze.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_arsenic_bronze, ingot_arsenic_bronze.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_bscco, ingot_bscco.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_lead, ingot_lead.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_bismuth, ingot_bismuth.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_arsenic, ingot_arsenic.getUnlocalizedName());

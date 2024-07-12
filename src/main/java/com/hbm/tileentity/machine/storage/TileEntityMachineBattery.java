@@ -290,6 +290,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_energy_storage"; //ok if someone else can figure out how to do this that'd be nice (change the component name based on the type of storage block)
 	}

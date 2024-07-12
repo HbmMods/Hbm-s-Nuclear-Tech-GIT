@@ -477,4 +477,62 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		targetQueue.add(Vec3.createVectorHelper(args.checkDouble(0), args.checkDouble(1), args.checkDouble(2)));
 		return new Object[] {true};
 	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() { // :vomit:
+		return new String[] {
+				"setActive",
+				"isActive",
+				"getEnergyInfo",
+				"getWhitelisted",
+				"addWhitelist",
+				"removeWhitelist",
+				"setTargeting",
+				"getTargeting",
+				"hasTarget",
+				"getAngle",
+				"isAligned",
+				"getCurrentTarget",
+				"getTargetDistance",
+				"addCoords"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "setActive":
+				return setActive(context, args);
+			case "isActive":
+				return isActive(context, args);
+			case "getEnergyInfo":
+				return getEnergyInfo(context, args);
+			case "getWhitelisted":
+				return getWhitelisted(context, args);
+			case "addWhitelist":
+				return addWhitelist(context, args);
+			case "removeWhitelist":
+				return removeWhitelist(context, args);
+			case "setTargeting":
+				return setTargeting(context, args);
+			case "getTargeting":
+				return getTargeting(context, args);
+			case "hasTarget":
+				return hasTarget(context, args);
+			case "getAngle":
+				return getAngle(context, args);
+			case "isAligned":
+				return isAligned(context, args);
+			case "getCurrentTarget":
+				return getCurrentTarget(context, args);
+			case "getTargetDistance":
+				return getTargetDistance(context, args);
+			case "addCoords":
+				return addCoords(context, args);
+		}
+		throw new NoSuchMethodException();
+	}
+
 }

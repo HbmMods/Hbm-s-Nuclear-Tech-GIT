@@ -295,6 +295,7 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 	//OC stuff
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_icf_reactor";
 	}
@@ -345,6 +346,8 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 		};
 	}
 
+	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String[] methods() {
 		return new String[] {
 				"getHeat",
@@ -356,6 +359,8 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 		};
 	}
 
+	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch (method) {
 			case ("getHeat"):
