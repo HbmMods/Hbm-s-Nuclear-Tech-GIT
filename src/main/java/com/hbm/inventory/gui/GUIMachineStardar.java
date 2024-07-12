@@ -8,11 +8,15 @@ import com.hbm.dim.SolarSystem;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.container.ContainerStardar;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityElectrolyser;
 import com.hbm.tileentity.machine.TileEntityMachineStardar;
 import com.hbm.util.AstronomyUtil;
+import com.hbm.util.I18nUtil;
+
+import java.util.Arrays;
 
 import org.lwjgl.input.Keyboard;
 import net.minecraft.client.Minecraft;
@@ -49,7 +53,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_) {
+    protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int x, int y) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
@@ -63,28 +67,49 @@ public class GUIMachineStardar extends GuiInfoContainer {
             additive += velocityX;
             additivey += velocityY;
         }
-
         drawTexturedModalRect(guiLeft, guiTop , (int)additive * -1, (int)additivey * -1, xSize, ySize);
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-        	additivey--;
-        }
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+        if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
         	additivey++;
         }
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-        	additive--;
+        if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+        	additivey--;
         }
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
+        if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
         	additive++;
         }
 
-        popScissor();
-    }
+        if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
+        	additive--;
+        }
 
+        popScissor();
+        Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+		
+		int fx = (int) (guiLeft + additive + 20);
+		int fy = (int) (guiTop + additivey + 20);
+		
+		if(checkClick(x, y, 128, 14 + 20, 8, 8)) {
+			System.out.println("ci");
+			this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.clearMap")), x, y);
+		} 
+		//TODO: so this is a test to see if the system well... systems. but anyway im thinking that you can see arrows that point to a planet to look at and then you can "ping"
+		if(fx < 275 && fx > 143 && fy > 6 && fy < 109) {
+	        drawTexturedModalRect(guiLeft +(int)additive + 20, guiTop + (int)additivey + 20 ,  157, 0, 6, 7);
+		}
+	       // drawTexturedModalRect(guiLeft +(int)additive + 20, guiTop + (int)additivey + 20 ,  157, 0, 6, 7);
+		if(checkClick(x, y, fx, fy, 8, 8)) {
+			System.out.println("fufuuf");
+		}
+		
+
+    }
+	protected boolean checkClick(int x, int y, int left, int top, int sizeX, int sizeY) {
+		return guiLeft + left <= x && guiLeft + left + sizeX > x && guiTop + top < y && guiTop + top + sizeY >= y;
+	}
     @Override
     public void handleMouseInput() {
         super.handleMouseInput();
@@ -111,6 +136,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
         additivey += deltaY;
         mX = x;
         mY = y;
+        System.out.println("mx: " + x + " my: " + y);
     }
 
     @Override
