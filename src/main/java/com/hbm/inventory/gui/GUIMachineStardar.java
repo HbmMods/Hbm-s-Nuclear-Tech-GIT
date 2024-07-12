@@ -89,21 +89,22 @@ public class GUIMachineStardar extends GuiInfoContainer {
         popScissor();
         Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		
-		int fx = (int) (guiLeft + additive + 20);
-		int fy = (int) (guiTop + additivey + 20);
-		
-		if(checkClick(x, y, 128, 14 + 20, 8, 8)) {
+        int offsetx = 20;
+        int offsety = 70;
+
+		int fx = (int) (guiLeft + additive + offsetx);
+		int fy = (int) (guiTop + additivey + offsety);
+		if(fx < 275 && fx > 143 && fy > 6 && fy < 109) {
+	        drawTexturedModalRect(guiLeft +(int)additive + offsetx, guiTop + (int)additivey + offsety ,  157, 0, 6, 7);
+		}
+	       System.out.println(fx);
+		if(checkClick(x, y, (int) (additive + offsetx), guiTop + fy, 8,8)) {
 			System.out.println("ci");
-			this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("radar.clearMap")), x, y);
+			this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("POI")), x, y);
 		} 
 		//TODO: so this is a test to see if the system well... systems. but anyway im thinking that you can see arrows that point to a planet to look at and then you can "ping"
-		if(fx < 275 && fx > 143 && fy > 6 && fy < 109) {
-	        drawTexturedModalRect(guiLeft +(int)additive + 20, guiTop + (int)additivey + 20 ,  157, 0, 6, 7);
-		}
-	       // drawTexturedModalRect(guiLeft +(int)additive + 20, guiTop + (int)additivey + 20 ,  157, 0, 6, 7);
-		if(checkClick(x, y, fx, fy, 8, 8)) {
-			System.out.println("fufuuf");
-		}
+// drawTexturedModalRect(guiLeft +(int)additive + 20, guiTop + (int)additivey + 20 ,  157, 0, 6, 7);
+
 		
 
     }
