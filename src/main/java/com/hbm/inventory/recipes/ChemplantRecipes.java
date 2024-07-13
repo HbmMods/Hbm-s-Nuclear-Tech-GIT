@@ -278,13 +278,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 			.outputFluids(
 				new FluidStack(Fluids.DEUTERIUM, 800),
 				new FluidStack(Fluids.OXYGEN, 800)));
-		recipes.add(new ChemRecipe(79, "DUCRETE", 150)
-			.inputItems(
-				new OreDictStack(KEY_SAND, 8),
-				new OreDictStack(U238.billet(), 2),
-				new ComparableStack(Items.clay_ball, 4))
-			.inputFluids(new FluidStack(Fluids.WATER, 2000))
-			.outputItems(new ItemStack(ModBlocks.ducrete_smooth, 8)));
 		recipes.add(new ChemRecipe(80, "EPEARL", 100)
 			.inputItems(new OreDictStack(DIAMOND.dust(), 1))
 			.inputFluids(new FluidStack(Fluids.XPJUICE, 500))
