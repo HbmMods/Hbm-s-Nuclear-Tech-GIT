@@ -1,6 +1,10 @@
 package com.hbm.tileentity.machine;
 
+import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.tile.IInfoProviderEC;
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMachineGasCent;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -10,19 +14,21 @@ import com.hbm.inventory.recipes.GasCentrifugeRecipes;
 import com.hbm.inventory.recipes.GasCentrifugeRecipes.PseudoFluidType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.BufferUtil;
 import com.hbm.util.CompatEnergyControl;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidStandardReceiver;
-import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -34,17 +40,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.List;
+
 //epic!
-public class TileEntityMachineGasCent extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineGasCent extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IInfoProviderEC, IUpgradeInfoProvider{
 	
 	public long power;
 	public int progress;
+	public int progressNeeded = 160;
 	public boolean isProgressing;
 	public static final int maxPower = 100000;
-	public static final int processingSpeed = 150;
+	public static final int processingTime = 160;
 	
 	public FluidTank tank;
 	public PseudoFluidTank inputTank;
@@ -96,7 +106,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	}
 	
 	public int getCentrifugeProgressScaled(int i) {
-		return (progress * i) / getProcessingSpeed();
+		return (progress * i) / progressNeeded;
 	}
 	
 	public long getPowerRemainingScaled(int i) {
@@ -109,7 +119,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			ItemStack[] list = inputTank.getTankType().getOutput();
 			
 			if(this.inputTank.getTankType().getIfHighSpeed())
-				if(!(slots[6] != null && slots[6].getItem() == ModItems.upgrade_gc_speed))
+				if(!this.getProcessingSpeed())
 					return false;
 			
 			if(list == null)
@@ -117,9 +127,8 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			
 			if(list.length < 1)
 				return false;
-			
-			if(InventoryUtil.doesArrayHaveSpace(slots, 0, 3, list))
-				return true;
+
+            return InventoryUtil.doesArrayHaveSpace(slots, 0, 3, list);
 		}
 		
 		return false;
@@ -169,7 +178,7 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		
 		return false;
 	}
-	
+
 	@Override
 	public void updateEntity() {
 		
@@ -183,23 +192,28 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 			if(GasCentrifugeRecipes.fluidConversions.containsValue(inputTank.getTankType())) {
 				attemptConversion();
 			}
-			
+
+			UpgradeManager.eval(slots, 6, 6);
+			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+			int overLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) + 1;
+			if((overLevel == 1) != (slots[6] != null && slots[6].getItem() == ModItems.upgrade_gc_speed)) overLevel = 0;
+
+			this.progressNeeded = processingTime * (4 - speedLevel) / 4;
+			int speed = (int) Math.pow(2 , overLevel);
+			int consumption = 200 * (int)Math.pow(2 , overLevel) * (speedLevel + 1);
+
 			if(canEnrich()) {
-				
+
 				isProgressing = true;
-				this.progress++;
-				
-				if(slots[6] != null && slots[6].getItem() == ModItems.upgrade_gc_speed)
-					this.power -= 300;
-				else
-					this.power -= 200;
+				this.progress += speed;
+				this.power -= consumption;
 				
 				if(this.power < 0) {
 					power = 0;
 					this.progress = 0;
 				}
 				
-				if(progress >= getProcessingSpeed())
+				if(progress >= this.progressNeeded)
 					enrich();
 				
 			} else {
@@ -235,30 +249,32 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		buf.writeLong(power);
 		buf.writeInt(progress);
 		buf.writeBoolean(isProgressing);
+		buf.writeInt(progressNeeded);
 		//pseudofluids can be refactored another day
 		buf.writeInt(inputTank.getFill());
 		buf.writeInt(outputTank.getFill());
 		BufferUtil.writeString(buf, inputTank.getTankType().name); //cough cough
 		BufferUtil.writeString(buf, outputTank.getTankType().name);
-		
+
 		tank.serialize(buf);
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		power = buf.readLong();
 		progress = buf.readInt();
 		isProgressing = buf.readBoolean();
-		
+		progressNeeded = buf.readInt();
+
 		inputTank.setFill(buf.readInt());
 		outputTank.setFill(buf.readInt());
 		inputTank.setTankType(PseudoFluidType.types.get(BufferUtil.readString(buf)));
 		outputTank.setTankType(PseudoFluidType.types.get(BufferUtil.readString(buf)));
-		
+
 		tank.deserialize(buf);
 	}
-	
+
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {
 			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -287,7 +303,6 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	@Override
 	public long getPower() {
 		return power;
-		
 	}
 
 	@Override
@@ -295,12 +310,13 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 		return maxPower;
 	}
 	
-	public int getProcessingSpeed() {
-		if(slots[6] != null && slots[6].getItem() == ModItems.upgrade_gc_speed) {
-			return processingSpeed - 70;
-		}
-		return processingSpeed;
-	}
+	public boolean getProcessingSpeed() {
+        if (slots[6] != null && (slots[6].getItem() == ModItems.upgrade_gc_speed
+                			  || slots[6].getItem() == ModItems.upgrade_overdrive_1
+               			 	  || slots[6].getItem() == ModItems.upgrade_overdrive_2
+							  || slots[6].getItem() == ModItems.upgrade_overdrive_3)) return true;
+        else return false;
+    }
 	
 	public void setTankType(int in) {
 		
@@ -469,5 +485,30 @@ public class TileEntityMachineGasCent extends TileEntityMachineBase implements I
 	public void provideExtraInfo(NBTTagCompound data) {
 		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.progress > 0);
 		data.setInteger(CompatEnergyControl.I_PROGRESS, this.progress);
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.OVERDRIVE;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_gascent));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+			info.add(EnumChatFormatting.YELLOW + "Your centrifuge goes sicko mode");
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		if(type == UpgradeType.OVERDRIVE) return 3;
+		return 0;
 	}
 }

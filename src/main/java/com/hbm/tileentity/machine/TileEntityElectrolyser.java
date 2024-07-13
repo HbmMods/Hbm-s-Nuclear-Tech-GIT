@@ -134,21 +134,24 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			UpgradeManager.eval(slots, 1, 2);
 			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			int amps = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 
 			usageOre = usageOreBase - usageOreBase * powerLevel / 4;
 			usageFluid = usageFluidBase - usageFluidBase * powerLevel / 4;
 
 			for(int i = 0; i < getCycleCount(); i++) {
-				if (this.canProcessFluid()) {
-					this.progressFluid++;
-					this.power -= this.usageFluid;
+        for(int j = 0; j < 2; j++) {
+				  if (this.canProcessFluid()) {
+					  this.progressFluid++;
+					  this.power -= this.usageFluid;
 
-					if (this.progressFluid >= this.getDurationFluid()) {
-						this.processFluids();
-						this.progressFluid = 0;
-						this.markChanged();
-					}
-				}
+					  if (this.progressFluid >= this.getDurationFluid()) {
+						  this.processFluids();
+						  this.progressFluid = 0;
+						  this.markChanged();
+					  }
+				  }
+        }
 
 				if (this.canProcessMetal()) {
 					this.progressOre++;
@@ -169,7 +172,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 				toCast.add(this.leftStack);
 
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.NUGGET.q(3) * Math.max (getCycleCount() * speedLevel, 1), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.INGOT.q(1) * Math.max (getCycleCount() * speedLevel, 1), impact);
 
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();
@@ -192,7 +195,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 				toCast.add(this.rightStack);
 
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.NUGGET.q(3) * Math.max (getCycleCount() * speedLevel, 1), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 5.875D, yCoord + 2D, zCoord + 0.5D + dir.offsetZ * 5.875D, 6, true, toCast, MaterialShapes.INGOT.q(1) * Math.max (getCycleCount() * speedLevel, 1), impact);
 
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();
@@ -382,7 +385,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 	public int getDurationMetal() {
 		ElectrolysisMetalRecipe result = ElectrolyserMetalRecipes.getRecipe(slots[14]);
-		int base = result != null ? result.duration : 600;
+		int base = result != null ? result.duration : 320;
 		int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) - Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 1);
 		return (int) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.2)));
 	}
@@ -396,7 +399,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 	public int getCycleCount() {
 		int speed = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
-		return Math.min(1 + speed * 2, 7);
+		return Math.min(1 + speed, 4);
 	}
 
 	@Override
@@ -534,6 +537,9 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		if(type == UpgradeType.POWER) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 25) + "%"));
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (25) + "%"));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
 		}
 		if(type == UpgradeType.OVERDRIVE) {
 			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");

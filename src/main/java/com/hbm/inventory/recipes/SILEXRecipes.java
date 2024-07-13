@@ -411,28 +411,28 @@ public class SILEXRecipes {
 			// ZFB BI //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_zfb_bismuth, 1, i), new SILEXRecipe(600, 100, 2)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_uranium), 50 - i * 10))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu241), 50 - i * 10))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu240), 50 - i * 10))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 50 + i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_zirconium), 150)) );
 			
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_zfb_bismuth, 1, i + 5), new SILEXRecipe(600, 100, 2)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 3))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_uranium), 50 - i * 10))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu241), 50 - i * 10))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu240), 50 - i * 10))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 50 + i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_zirconium), 147)) );
 			
 			// ZFB PU-241 //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_zfb_pu241, 1, i), new SILEXRecipe(600, 100, 2)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u235), 50 - i * 10))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu240), 50 - i * 10))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu239), 50 - i * 10))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu241), 50 + i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_zirconium), 150)) );
 			
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_zfb_pu241, 1, i + 5), new SILEXRecipe(600, 100, 2)
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 3))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u235), 50 - i * 10))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu240), 50 - i * 10))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu239), 50 - i * 10))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pu241), 50 + i * 20))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_zirconium), 147)) );
 			

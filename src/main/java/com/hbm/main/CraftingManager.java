@@ -323,7 +323,7 @@ public class CraftingManager {
 		addRecipeAuto(DictFrame.fromOne(ModItems.arc_electrode, EnumElectrodeType.DESH), new Object[] { "C", "T", "C", 'C', DESH.ingot(), 'T', TI.ingot() });
 		addRecipeAuto(DictFrame.fromOne(ModItems.arc_electrode, EnumElectrodeType.DESH), new Object[] { "C", "T", "C", 'C', DESH.ingot(), 'T', W.ingot() });
 		addRecipeAuto(DictFrame.fromOne(ModItems.arc_electrode, EnumElectrodeType.SATURNITE), new Object[] { "C", "T", "C", 'C', BIGMT.ingot(), 'T', NB.ingot() });
-		
+
 		addRecipeAuto(new ItemStack(ModItems.detonator, 1), new Object[] { " W", "SC", "CE", 'S', STEEL.plate(), 'W', MINGRADE.wireFine(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'E', STEEL.ingot() });
 		addShapelessAuto(new ItemStack(ModItems.detonator_multi, 1), new Object[] { ModItems.detonator, DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED) });
 		addRecipeAuto(new ItemStack(ModItems.detonator_laser, 1), new Object[] { "RRD", "PIC", "  P", 'P', STEEL.plate(), 'R', REDSTONE.dust(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED), 'D', DIAMOND.gem(), 'I', STEEL.ingot() });
@@ -836,15 +836,21 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModBlocks.hadron_plating_glass, 1), new Object[] { ModBlocks.hadron_plating, KEY_ANYGLASS });
 		addShapelessAuto(new ItemStack(ModBlocks.hadron_plating_voltz, 1), new Object[] { ModBlocks.hadron_plating, KEY_RED });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_power, 1), new Object[] { "SFS", "FTF", "SFS", 'S', BIGMT.ingot(), 'T', ModBlocks.machine_transformer, 'F', ModItems.fuse });
-		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_10m, 1), new Object[] { "HF", 'H', ModBlocks.hadron_power, 'F', ModItems.fuse });
-		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_100m, 1), new Object[] { "HF", 'H', ModBlocks.hadron_power_10m, 'F', ModItems.fuse });
-		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_1g, 1), new Object[] { "HF", 'H', ModBlocks.hadron_power_100m, 'F', ModItems.fuse });
-		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_10g, 1), new Object[] { "HF", 'H', ModBlocks.hadron_power_1g, 'F', ModItems.fuse });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_10m, 1), new Object[] { "F","H", 'H', ModBlocks.hadron_power, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_100m, 1), new Object[] { "F","H", 'H', ModBlocks.hadron_power_10m, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_1g, 1), new Object[] { "F","H", 'H', ModBlocks.hadron_power_100m, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_10g, 1), new Object[] { "F","H", 'H', ModBlocks.hadron_power_1g, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_1g, 1), new Object[] { "H","F", 'H', ModBlocks.hadron_power_10g, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_100m, 1), new Object[] { "H","F", 'H', ModBlocks.hadron_power_1g, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power_10m, 1), new Object[] { "H","F", 'H', ModBlocks.hadron_power_100m, 'F', KEY_TOOL_SCREWDRIVER });
+		addRecipeAuto(new ItemStack(ModBlocks.hadron_power, 1), new Object[] { "H","F", 'H', ModBlocks.hadron_power_10m, 'F', KEY_TOOL_SCREWDRIVER });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_analysis, 1), new Object[] { "IPI", "PCP", "IPI", 'I', TI.ingot(), 'P', getReflector(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ADVANCED) });
 		addShapelessAuto(new ItemStack(ModBlocks.hadron_analysis_glass, 1), new Object[] { ModBlocks.hadron_analysis, KEY_ANYGLASS });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_access, 1), new Object[] { "IGI", "CRC", "IPI", 'I', ModItems.plate_polymer, 'G', KEY_ANYPANE, 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'R', REDSTONE.block(), 'P', ModBlocks.hadron_plating_blue });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_cooler, 1, 0), new Object[] { "PCP", "CHC", "PCP", 'P', ANY_RESISTANTALLOY.plateCast(), 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'H', Fluids.HELIUM4.getDict(16_000) });
 		addRecipeAuto(new ItemStack(ModBlocks.hadron_cooler, 1, 1), new Object[] { "PCP", "CHC", "PCP", 'P', GOLD.plateCast(), 'C', ModItems.motor_bismuth, 'H', new ItemStack(ModBlocks.hadron_cooler, 1, 0) });
+
+		addRecipeAuto(new ItemStack(ModItems.ingot_schrabidium, 8), new Object[] { "UUU", "UPU", "UUU", 'U', U238.ingot(), 'P', new ItemStack(ModItems.particle_higgs)});
 
 		addRecipeAuto(new ItemStack(ModBlocks.fireworks, 1), new Object[] { "PPP", "PPP", "WIW", 'P', Items.paper, 'W', KEY_PLANKS, 'I', IRON.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.safety_fuse, 8), new Object[] { "SSS", "SGS", "SSS", 'S', Items.string, 'G', Items.gunpowder });
@@ -1173,6 +1179,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.cm_heat, 1, 0), "PCP", "PCP", "PCP", 'P', ModItems.plate_polymer, 'C', CU.ingot());
 
 		addShapelessAuto(new ItemStack(ModItems.missile_soyuz), new ItemStack(ModItems.missile_carrier));
+		addRecipeAuto(new ItemStack(ModItems.nothing, 8, 0), "B B", " B ", "B B", 'B', "dyeBlack");
 	}
 	
 	public static void crumple() {

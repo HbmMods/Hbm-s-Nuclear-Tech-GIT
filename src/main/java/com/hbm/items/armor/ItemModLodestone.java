@@ -6,6 +6,7 @@ import com.hbm.handler.ArmorModHandler;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -23,8 +24,9 @@ public class ItemModLodestone extends ItemArmorMod {
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
 
-		list.add(EnumChatFormatting.DARK_GRAY + "Attracts nearby items");
+		list.add(EnumChatFormatting.DARK_GRAY + "Attracts nearby items and Experience Orbs");
 		list.add(EnumChatFormatting.DARK_GRAY + "Item attraction range: " + range);
+		list.add(EnumChatFormatting.DARK_GRAY + "Experience Orb attraction range: " + range * 2);
 		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 	}
@@ -38,7 +40,6 @@ public class ItemModLodestone extends ItemArmorMod {
 	public void modUpdate(EntityLivingBase entity, ItemStack armor) {
 		
 		List<EntityItem> items = entity.worldObj.getEntitiesWithinAABB(EntityItem.class, entity.boundingBox.expand(range, range, range));
-		
 		for(EntityItem item : items) {
 			
 			Vec3 vec = Vec3.createVectorHelper(entity.posX - item.posX, entity.posY - item.posY, entity.posZ - item.posZ);
@@ -50,6 +51,20 @@ public class ItemModLodestone extends ItemArmorMod {
 			
 			if(vec.yCoord > 0 && item.motionY < 0.04)
 				item.motionY += 0.2;
+		}
+
+		List<EntityXPOrb> xpOrbs = entity.worldObj.getEntitiesWithinAABB(EntityXPOrb.class, entity.boundingBox.expand(range, range, range));
+		for(EntityXPOrb xpOrb : xpOrbs) {
+
+			Vec3 vec = Vec3.createVectorHelper(entity.posX - xpOrb.posX, entity.posY - xpOrb.posY, entity.posZ - xpOrb.posZ);
+			vec = vec.normalize();
+
+			xpOrb.motionX += vec.xCoord * 0.05;
+			xpOrb.motionY += vec.yCoord * 0.05;
+			xpOrb.motionZ += vec.zCoord * 0.05;
+
+			if(vec.yCoord > 0 && xpOrb.motionY < 0.04)
+				xpOrb.motionY += 0.2;
 		}
 	}
 }

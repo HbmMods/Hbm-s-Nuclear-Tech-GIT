@@ -8,7 +8,6 @@ import com.hbm.items.IEquipReceiver;
 import com.hbm.items.tool.ItemSwordAbility;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.util.ShadyUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -56,11 +55,7 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver {
 		
 		if(!(entityLiving instanceof EntityPlayerMP))
 			return false;
-		
-		if(entityLiving instanceof EntityPlayer && ((EntityPlayer)entityLiving).getUniqueID().toString().equals(ShadyUtil.Tankish)) {
-			stack.setItemDamage(0);
-		}
-		
+
 		if(stack.getItemDamage() >= stack.getMaxDamage())
 			return false;
 		

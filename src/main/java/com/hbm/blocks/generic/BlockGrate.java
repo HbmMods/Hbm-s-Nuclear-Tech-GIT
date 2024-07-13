@@ -111,7 +111,7 @@ public class BlockGrate extends Block implements ITooltipProvider {
 				// Check that the block below can fit a grate above it
 				Block block = world.getBlock(x, y - 1, z);
 				AxisAlignedBB otherBB = block.getCollisionBoundingBoxFromPool(world, x, y - 1, z);
-				if(!block.isAir(world, x, y + 1, z) && (otherBB == null || otherBB.maxY - (double)y < -0.05)) {
+				if(!block.isAir(world, x, y + 1, z) && (otherBB == null || otherBB.maxY - (double)y < -0.05 || block.getMaterial().isLiquid())) {
 					world.setBlockMetadataWithNotify(x, y, z, 9, 3);
 				}
 			} else if(meta == 7) {
@@ -134,7 +134,7 @@ public class BlockGrate extends Block implements ITooltipProvider {
 
 		if(meta == 9) {
 			AxisAlignedBB otherBB = world.getBlock(x, y - 1, z).getCollisionBoundingBoxFromPool(world, x, y - 1, z);
-			breakIt = !(otherBB == null || otherBB.maxY - (double)y < -0.05);
+			breakIt = !(otherBB == null || otherBB.maxY - (double)y < -0.05 || world.getBlock(x, y - 1, z).getMaterial().isLiquid());
 		} else if(meta == 8) {
 			AxisAlignedBB otherBB = world.getBlock(x, y + 1, z).getCollisionBoundingBoxFromPool(world, x, y + 1, z);
 			breakIt = !(otherBB == null || otherBB.minY - (double)(y + 1) > 0.05);
