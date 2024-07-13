@@ -139,8 +139,8 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			usageOre = usageOreBase - usageOreBase * powerLevel / 4;
 			usageFluid = usageFluidBase - usageFluidBase * powerLevel / 4;
 
-			for(int i = 0; i < getCycleCount(); i++) {
-        for(int j = 0; j < 2; j++) {
+			for(int i = 0; i < getCycleCount(); i++) {    // 2/3/4x speed for metal and 4/6/8x speed for fluid (maybe too fast?)
+              for(int j = 0; j < 2; j++) {
 				  if (this.canProcessFluid()) {
 					  this.progressFluid++;
 					  this.power -= this.usageFluid;
@@ -150,8 +150,10 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 						  this.progressFluid = 0;
 						  this.markChanged();
 					  }
+
+                      if (UpgradeManager.getLevel(UpgradeType.OVERDRIVE) == 0) break;
 				  }
-        }
+             }
 
 				if (this.canProcessMetal()) {
 					this.progressOre++;
