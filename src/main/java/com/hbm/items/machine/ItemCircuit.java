@@ -23,18 +23,22 @@ public class ItemCircuit extends ItemEnumMulti {
 		list.add(new ItemStack(item, 1, EnumCircuitType.VACUUM_TUBE.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CAPACITOR.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CAPACITOR_TANTALIUM.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.ATOMIC_CLOCK.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.PCB.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.SILICON.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CHIP.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CHIP_BISMOID.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.CHIP_QUANTUM.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.ANALOG.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.BASIC.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.ADVANCED.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CAPACITOR_BOARD.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.BISMOID.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.QUANTUM.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER_CHASSIS.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER_ADVANCED.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER_QUANTUM.ordinal()));
 	}
 
 	public static enum EnumCircuitType {
@@ -53,6 +57,10 @@ public class ItemCircuit extends ItemEnumMulti {
 		CONTROLLER_CHASSIS,
 		CONTROLLER,
 		CONTROLLER_ADVANCED,
+		QUANTUM,
+		CHIP_QUANTUM,
+		CONTROLLER_QUANTUM,
+		ATOMIC_CLOCK,
 	}
 	
 	@Override

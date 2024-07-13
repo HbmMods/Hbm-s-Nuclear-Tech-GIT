@@ -98,6 +98,13 @@ public class SILEXRecipes {
 		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.DEATH.getID()), new SILEXRecipe(1000, 1000, 4)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_impure_osmiridium), 1))
 				);
+
+		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.VITRIOL.getID()), new SILEXRecipe(1000, 1000, EnumWavelengths.IR)
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_bromine), 5))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_iodine), 5))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_iron), 5))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.sulfur), 15))
+				);
 		
 		for(int i = 0; i < 5; i++) {
 			

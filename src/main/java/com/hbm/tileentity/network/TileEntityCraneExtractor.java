@@ -7,6 +7,7 @@ import com.hbm.inventory.container.ContainerCraneExtractor;
 import com.hbm.inventory.gui.GUICraneExtractor;
 import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.tileentity.IFilterable;
 import com.hbm.tileentity.IGUIProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,6 +18,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -25,7 +27,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGUIProvider, IControlReceiver {
+public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGUIProvider, IControlReceiver, IFilterable {
 	
 	public boolean isWhitelist = false;
 	public ModulePatternMatcher matcher;
@@ -195,7 +197,8 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 		
 		return false;
 	}
-	
+
+	@Override
 	public void nextMode(int i) {
 		this.matcher.nextMode(worldObj, slots[i], i);
 	}
@@ -250,5 +253,17 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 		if(data.hasKey("whitelist")) {
 			this.isWhitelist = !this.isWhitelist;
 		}
+		if(data.hasKey("slot")){
+			setFilterContents(data);
+		}
+	}
+	@Override
+	public void setFilterContents(NBTTagCompound nbt) {
+		int slot = nbt.getInteger("slot");
+		setInventorySlotContents(
+				slot,
+				new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
+		nextMode(slot);
+		markChanged();
 	}
 }

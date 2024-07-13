@@ -70,10 +70,11 @@ public class RequestNetwork {
 	public static class PathNode {
 		public BlockPos pos;
 		public long lease;
-		public HashedSet<PathNode> reachableNodes = new HashedSet();
+		public boolean active = true;
+		public HashedSet<PathNode> reachableNodes;
 		public PathNode(BlockPos pos, HashedSet<PathNode> reachableNodes) {
 			this.pos = pos;
-			this.reachableNodes = new HashedSet(reachableNodes);
+			this.reachableNodes = new HashedSet<>(reachableNodes);
 			this.lease = System.currentTimeMillis();
 		}
 		

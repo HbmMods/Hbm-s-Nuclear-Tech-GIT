@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine.storage;
 
 import api.hbm.fluid.*;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidContainerRegistry;
@@ -44,7 +45,7 @@ import java.util.List;
 import java.util.Set;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, SimpleComponent, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider {
+public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, SimpleComponent, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -400,6 +401,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_fluid_tank";
 	}
@@ -426,5 +428,32 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+				"getFluidStored",
+				"getMaxStored",
+				"getTypeStored",
+				"getInfo"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "getFluidStored":
+				return getFluidStored(context, args);
+			case "getMaxStored":
+				return getMaxStored(context, args);
+			case "getTypeStored":
+				return getTypeStored(context, args);
+			case "getInfo":
+				return getInfo(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 }

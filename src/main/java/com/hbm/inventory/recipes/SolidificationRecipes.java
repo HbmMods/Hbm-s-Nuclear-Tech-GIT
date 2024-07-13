@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.FluidType;
@@ -69,6 +70,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(WATZ,		1000,			ModItems.ingot_mud);
 		registerRecipe(REDMUD,		1000,			Items.iron_ingot);
 		registerRecipe(SODIUM,		100,			ModItems.powder_sodium);
+		registerRecipe(SLOP,		250,			ModBlocks.ore_oil_sand);
 
 		registerRecipe(OIL,				SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(CRACKOIL,		SF_CRACK,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK));

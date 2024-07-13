@@ -23,8 +23,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class RendererObjTester extends TileEntitySpecialRenderer {
 	
-	//private static final ResourceLocation objTesterModelRL = new ResourceLocation(/*"/assets/" + */RefStrings.MODID, "models/TestObj.obj");
-	
 	private static ResourceLocation extra = new ResourceLocation(RefStrings.MODID, "textures/models/horse/dyx.png");
 	
 	@Override
