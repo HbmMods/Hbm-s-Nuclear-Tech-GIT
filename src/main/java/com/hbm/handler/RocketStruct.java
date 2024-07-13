@@ -123,9 +123,12 @@ public class RocketStruct {
 		
 		if(capsule != null) height += capsule.height;
 
+		boolean isDeployed = true;
+
 		for(RocketStage stage : stages) {
 			if(stage.fuselage != null) height += stage.fuselage.height * stage.getStack();
-			if(stage.thruster != null) height += stage.thruster.height;
+			height += Math.max(stage.thruster != null ? stage.thruster.height : 0, isDeployed && stage.fins != null ? stage.fins.height : 0);
+			isDeployed = false;
 		}
 
 		return height;
@@ -137,7 +140,7 @@ public class RocketStruct {
 		if(stages.size() > 0) {
 			RocketStage stage = stages.get(Math.min(stageNum, stages.size() - 1));
 			if(stage.fuselage != null) height += stage.fuselage.height * stage.getStack();
-			if(stage.thruster != null) height += stage.thruster.height;
+			height += Math.max(stage.thruster != null ? stage.thruster.height : 0, stageNum == 0 && stage.fins != null ? stage.fins.height : 0);
 		}
 
 		if(stages.size() == 0 || stageNum == stages.size() - 1) {
@@ -153,7 +156,7 @@ public class RocketStruct {
 		for(int i = 0; i < Math.min(stageNum, stages.size() - 1); i++) {
 			RocketStage stage = stages.get(i);
 			if(stage.fuselage != null) height += stage.fuselage.height * stage.getStack();
-			if(stage.thruster != null) height += stage.thruster.height;
+			height += Math.max(stage.thruster != null ? stage.thruster.height : 0, i == 0 && stage.fins != null ? stage.fins.height : 0);
 		}
 
 		return height;

@@ -54,6 +54,9 @@ public class MissilePronter {
 			int stack = stage.getStack();
 			int cluster = stage.getCluster();
 
+			if(isDeployed && stage.thruster != null && stage.fins != null && stage.fins.height > stage.thruster.height) {
+				GL11.glTranslated(0, stage.fins.height - stage.thruster.height, 0);
+			}
 			
 			for(int c = 0; c < cluster; c++) {
 				GL11.glPushMatrix();
