@@ -65,7 +65,12 @@ public class MissilePronter {
 					if(c > 0) {
 						float spin = (float)c / (float)(cluster - 1);
 						GL11.glRotatef(360.0F * spin, 0, 1, 0);
-						GL11.glTranslatef(2, 0, 0);
+
+						if(stage.fuselage != null) {
+							GL11.glTranslated(stage.fuselage.part.bottom.radius, 0, 0);
+						} else if(stage.thruster != null) {
+							GL11.glTranslated(stage.thruster.part.top.radius, 0, 0);
+						}
 					}
 
 					if(stage.thruster != null) {

@@ -1,5 +1,7 @@
 package com.hbm.inventory.gui;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.handler.RocketStruct;
@@ -77,6 +79,20 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 			MissilePronter.prontRocket(machine.rocket, Minecraft.getMinecraft().getTextureManager());
 
 			popScissor();
+
+		}
+		GL11.glPopMatrix();
+
+		GL11.glPushMatrix();
+		{
+
+			GL11.glScalef(0.5F, 0.5F, 0.5F);
+
+			List<String> issues = machine.rocket.findIssues();
+			for(int i = 0; i < issues.size(); i++) {
+				String issue = issues.get(i);
+				fontRendererObj.drawStringWithShadow(issue, (guiLeft + 65) * 2, (guiTop + 5) * 2 + i * 8, 0xFFFFFF);
+			}
 
 		}
 		GL11.glPopMatrix();

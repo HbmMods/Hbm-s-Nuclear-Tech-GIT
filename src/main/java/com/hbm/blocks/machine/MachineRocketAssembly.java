@@ -1,18 +1,20 @@
 package com.hbm.blocks.machine;
 
+import com.hbm.blocks.BlockDummyable;
+import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineRocketAssembly;
 import com.hbm.util.ItemStackUtil;
 
-import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineRocketAssembly extends BlockContainer {
+public class MachineRocketAssembly extends BlockDummyable {
 
 	public MachineRocketAssembly(Material mat) {
 		super(mat);
@@ -20,7 +22,8 @@ public class MachineRocketAssembly extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityMachineRocketAssembly();
+		if(meta >= 12) return new TileEntityMachineRocketAssembly();
+		return new TileEntityProxyCombo();
 	}
 
 	@Override
@@ -46,17 +49,48 @@ public class MachineRocketAssembly extends BlockContainer {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote) {
-			return true;
-		} else if(!player.isSneaking()) {
-			TileEntityMachineRocketAssembly entity = (TileEntityMachineRocketAssembly) world.getTileEntity(x, y, z);
-			if(entity != null) {
-				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
-			}
-			return true;
-		} else {
-			return false;
-		}
+		return standardOpenBehavior(world, x, y, z, player, 0);
 	}
-	
+
+	@Override
+	public int[] getDimensions() {
+		// funky behaviour, but the space checking is still done regularly
+		return new int[] {0, 2, 4, 4, 4, 4};
+	}
+
+	@Override
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		MainRegistry.logger.info("placing!!");
+
+		x = x + dir.offsetX * o;
+		y = y + dir.offsetY * o;
+		z = z + dir.offsetZ * o;
+
+		// Top
+		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {0, 0, 4, 4, 4, 4}, this, dir);
+
+		// Leggies
+		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {0, 2, 4, -3, 4, -4}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {0, 2, 4, -4, 4, -3}, this, dir);
+
+		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {0, 2, 4, -3, -4, 4}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {0, 2, 4, -4, -3, 4}, this, dir);
+
+		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {0, 2, -3, 4, -4, 4}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {0, 2, -4, 4, -3, 4}, this, dir);
+
+		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {0, 2, -3, 4, 4, -4}, this, dir);
+		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {0, 2, -4, 4, 4, -3}, this, dir);
+	}
+
+	@Override
+	public int getOffset() {
+		return 4;
+	}
+
+	@Override
+	public int getHeightOffset() {
+		return 2;
+	}
+
 }

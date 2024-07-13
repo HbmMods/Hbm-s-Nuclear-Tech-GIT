@@ -183,7 +183,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		// RocketStruct rocket = ItemCustomRocket.get(slots[0]);
 
 		if(power < maxPower * 0.75) {
-			issues.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "Insufficient power");
+			issues.add(EnumChatFormatting.YELLOW + "Insufficient power");
 		}
 
 		for(FluidTank tank : tanks) {
@@ -191,7 +191,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 			int fill = tank.getFill();
 			int maxFill = tank.getMaxFill();
 			if(fill < maxFill) {
-				issues.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "" + fill + "/" + maxFill + "mB " + tank.getTankType().getLocalizedName());
+				issues.add(EnumChatFormatting.YELLOW + "" + fill + "/" + maxFill + "mB " + tank.getTankType().getLocalizedName());
 			} else {
 				issues.add(EnumChatFormatting.GREEN + "" + fill + "/" + maxFill + "mB " + tank.getTankType().getLocalizedName());
 			}
@@ -199,7 +199,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 
 		if(requiredSolidFuel > 0) {
 			if(solidFuel < requiredSolidFuel) {
-				issues.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "" + solidFuel + "/" + requiredSolidFuel + "kg Solid Fuel");
+				issues.add(EnumChatFormatting.YELLOW + "" + solidFuel + "/" + requiredSolidFuel + "kg Solid Fuel");
 			} else {
 				issues.add(EnumChatFormatting.GREEN + "" + solidFuel + "/" + requiredSolidFuel + "kg Solid Fuel");
 			}

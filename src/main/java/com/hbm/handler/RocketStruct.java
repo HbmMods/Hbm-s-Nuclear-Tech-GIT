@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.weapon.ItemCustomMissilePart;
+import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.render.util.MissilePart;
@@ -17,6 +18,7 @@ import net.minecraft.entity.DataWatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.Constants;
 
@@ -64,6 +66,8 @@ public class RocketStruct {
 			if(stage.thruster == null || stage.thruster.type != PartType.THRUSTER) return false;
 
 			if(stage.thrusterCount > stage.fuselageCount || stage.fuselageCount % stage.thrusterCount != 0) return false;
+
+			if(stage.fuselage.part.attributes[0] != FuelType.ANY && stage.fuselage.part.attributes[0] != stage.thruster.part.attributes[0]) return false;
 		}
 		
 		return true;
@@ -75,6 +79,33 @@ public class RocketStruct {
 
 		// If we have no parts, we have no worries
 		if(capsule == null && stages.size() == 0) return issues;
+
+		if(capsule != null && capsule.part.attributes[0] != WarheadType.APOLLO)
+			issues.add(EnumChatFormatting.RED + "Invalid Capsule");
+
+		for(int i = 0; i < stages.size(); i++) {
+			RocketStage stage = stages.get(i);
+			if(stage.fuselage == null)
+				issues.add(EnumChatFormatting.RED + "Stage " + (i + 1) + " missing fuselage");
+			if(stage.thruster == null)
+				issues.add(EnumChatFormatting.RED + "Stage " + (i + 1) + " missing thruster");
+			
+			if(stage.fuselage == null || stage.thruster == null)
+				continue;
+
+			if(stage.thrusterCount > stage.fuselageCount)
+				issues.add(EnumChatFormatting.YELLOW + "Stage " + (i + 1) + " too many thrusters");
+			if(stage.fuselageCount % stage.thrusterCount != 0)
+				issues.add(EnumChatFormatting.YELLOW + "Stage " + (i + 1) + " uneven thrusters");
+
+			if(stage.fuselage.part.attributes[0] != FuelType.ANY && stage.fuselage.part.attributes[0] != stage.thruster.part.attributes[0])
+				issues.add(EnumChatFormatting.YELLOW + "Stage " + (i + 1) + " fuel mismatch");
+
+			// I was gonna add all sorts of realistic restrictions but then realised
+			// KSP lets you shit any part onto any part, and that's fun
+			// so who am I to kill your creative spirit
+			// put that ant engine on your rhino fuselage
+		}
 
 		return issues;
 	}

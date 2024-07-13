@@ -69,12 +69,22 @@ public class ItemCustomMissilePart extends Item {
 		//for missile tips and thrusters
 		NONE,
 		//regular sizes, 1.0m, 1.5m and 2.0m
-		SIZE_10,
-		SIZE_15,
-		SIZE_20,
+		SIZE_10(1.0),
+		SIZE_15(1.5),
+		SIZE_20(2.0),
 		// Space-grade
-		SIZE_25,
-		SIZE_30,
+		SIZE_25(2.5),
+		SIZE_30(3.0);
+
+		PartSize() {
+			this.radius = 0;
+		}
+
+		PartSize(double radius) {
+			this.radius = radius;
+		}
+
+		public double radius;
 	}
 	
 	public enum WarheadType {
@@ -210,7 +220,7 @@ public class ItemCustomMissilePart extends Item {
 			case FUSELAGE:
 				list.add(EnumChatFormatting.BOLD + "Top size: " + EnumChatFormatting.GRAY + getSize(top));
 				list.add(EnumChatFormatting.BOLD + "Bottom size: " + EnumChatFormatting.GRAY + getSize(bottom));
-				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuel());
+				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuelName());
 				list.add(EnumChatFormatting.BOLD + "Fuel amount: " + EnumChatFormatting.GRAY + getTankSize() + "mB");
 				list.add(EnumChatFormatting.BOLD + "Mass: " + EnumChatFormatting.GRAY + mass + "kg");
 				break;
@@ -220,7 +230,7 @@ public class ItemCustomMissilePart extends Item {
 				break;
 			case THRUSTER:
 				list.add(EnumChatFormatting.BOLD + "Size: " + EnumChatFormatting.GRAY + getSize(top));
-				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuel());
+				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuelName());
 				list.add(EnumChatFormatting.BOLD + "Fuel consumption: " + EnumChatFormatting.GRAY + (Float)attributes[1] + "mB/tick");
 				list.add(EnumChatFormatting.BOLD + "Max. payload: " + EnumChatFormatting.GRAY + (Float)attributes[2] + "t");
 				list.add(EnumChatFormatting.BOLD + "Thrust " + EnumChatFormatting.GRAY + (Integer)attributes[3] + "N");
