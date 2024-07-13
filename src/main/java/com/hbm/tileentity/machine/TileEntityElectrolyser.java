@@ -134,7 +134,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			UpgradeManager.eval(slots, 1, 2);
 			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
-			int amps = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
+			//int amps = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 
 			usageOre = usageOreBase - usageOreBase * powerLevel / 4;
 			usageFluid = usageFluidBase - usageFluidBase * powerLevel / 4;
@@ -539,9 +539,6 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		if(type == UpgradeType.POWER) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 25) + "%"));
 			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (25) + "%"));
-		}
-		if(type == UpgradeType.OVERDRIVE) {
-			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
 		}
 		if(type == UpgradeType.OVERDRIVE) {
 			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
