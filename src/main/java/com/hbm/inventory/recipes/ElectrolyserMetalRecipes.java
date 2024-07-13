@@ -294,7 +294,7 @@ public class ElectrolyserMetalRecipes extends SerializableRecipe {
 			this.output1 = output1;
 			this.output2 = output2;
 			this.byproduct = byproduct;
-			this.duration = 600;
+			this.duration = 320;
 		}
 		public ElectrolysisMetalRecipe(MaterialStack output1, MaterialStack output2, int duration, ItemStack... byproduct) {
 			this.output1 = output1;
