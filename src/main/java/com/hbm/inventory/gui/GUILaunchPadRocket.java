@@ -1,5 +1,7 @@
 package com.hbm.inventory.gui;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerLaunchPadRocket;
@@ -60,6 +62,20 @@ public class GUILaunchPadRocket extends GuiInfoContainer {
     
                 popScissor();
     
+            }
+            GL11.glPopMatrix();
+
+            GL11.glPushMatrix();
+            {
+
+                GL11.glScalef(0.5F, 0.5F, 0.5F);
+
+                List<String> issues = machine.findIssues();
+                for(int i = 0; i < issues.size(); i++) {
+                    String issue = issues.get(i);
+                    fontRendererObj.drawString(issue, (guiLeft + 97) * 2, (guiTop + 10) * 2 + i * 8, 0xFFFFFF);
+                }
+
             }
             GL11.glPopMatrix();
         }

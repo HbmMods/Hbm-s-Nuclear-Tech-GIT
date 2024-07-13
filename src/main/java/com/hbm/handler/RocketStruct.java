@@ -84,17 +84,19 @@ public class RocketStruct {
 		Map<FluidType, Integer> tanks = new HashMap<>();
 
 		for(RocketStage stage : stages) {
+			if(stage.thruster == null || stage.fuselage == null) continue;
+
 			FluidType fuel = stage.thruster.part.getFuel();
 			FluidType oxidizer = stage.thruster.part.getOxidizer();
 
 			if(fuel != null) {
-				int amount = stage.fuselage.part.getTankSize();
+				int amount = stage.fuselage.part.getTankSize() * stage.fuselageCount;
 				if(tanks.containsKey(fuel)) amount += tanks.get(fuel);
 				tanks.put(fuel, amount);
 			}
 
 			if(oxidizer != null) {
-				int amount = stage.fuselage.part.getTankSize();
+				int amount = stage.fuselage.part.getTankSize() * stage.fuselageCount;
 				if(tanks.containsKey(oxidizer)) amount += tanks.get(oxidizer);
 				tanks.put(oxidizer, amount);
 			}
@@ -217,8 +219,8 @@ public class RocketStruct {
 			stage.fuselage = MissilePart.getPart(stageTag.getInteger("fuselage"));
 			stage.fins = MissilePart.getPart(stageTag.getInteger("fins"));
 			stage.thruster = MissilePart.getPart(stageTag.getInteger("thruster"));
-			stage.fuselageCount = stageTag.getInteger("fc");
-			stage.thrusterCount = stageTag.getInteger("tc");
+			stage.fuselageCount = Math.max(stageTag.getInteger("fc"), 1);
+			stage.thrusterCount = Math.max(stageTag.getInteger("tc"), 1);
 			rocket.stages.add(stage);
 		}
 

@@ -1,13 +1,20 @@
 package com.hbm.tileentity.bomb;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.handler.RocketStruct;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerLaunchPadRocket;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUILaunchPadRocket;
 import com.hbm.items.ItemVOTVdrive;
+import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
@@ -24,6 +31,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements IControlReceiver, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider {
@@ -32,6 +40,8 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 	public final long maxPower = 100_000;
 
 	public int solidFuel = 0;
+	public int maxSolidFuel = 100000;
+	public int requiredSolidFuel = 0;
 
 	public FluidTank[] tanks;
 
@@ -52,18 +62,30 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 	@Override
 	public void updateEntity() {
 		if(!worldObj.isRemote) {
+			// Setup tanks required for the current rocket
+			updateTanks();
+
+			// Connections
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				for(DirPos pos : getConPos()) {
 					trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					for(FluidTank tank : tanks) {
-						if(tank.getTankType() == Fluids.NONE) continue;
-						trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+
+					if(hasRocket()) {
+						for(FluidTank tank : tanks) {
+							if(tank.getTankType() == Fluids.NONE) continue;
+							trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+						}
 					}
 				}
 			}
 
+			// Fills, note that the liquid input also takes solid fuel
 			power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 			for(FluidTank tank : tanks) tank.loadTank(3, 4, slots);
+			if(slots[3] != null && slots[3].getItem() == ModItems.rocket_fuel && solidFuel + 250 <= maxSolidFuel) {
+				decrStackSize(3, 1);
+				solidFuel += 250;
+			}
 
 			networkPackNT(250);
 		}
@@ -87,16 +109,108 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 
 		EntityRideableRocket rocket = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 1.0F, zCoord + 0.5F, slots[0]).withPayload(slots[1]);
 		worldObj.spawnEntityInWorld(rocket);
+
+		// Deplete all fills
+		for(int i = 0; i < tanks.length; i++) tanks[i] = new FluidTank(Fluids.NONE, 64_000);
+		solidFuel -= requiredSolidFuel;
 		
 		slots[0] = null;
 		slots[1] = null;
 	}
 
-	public boolean canLaunch() {
-		if(slots[0] == null || !(slots[0].getItem() instanceof ItemCustomRocket)) return false;
-		if(slots[1] == null || !(slots[1].getItem() instanceof ItemVOTVdrive)) return false;
+	private boolean hasRocket() {
+		return slots[0] != null && slots[0].getItem() instanceof ItemCustomRocket;
+	}
 
+	private boolean hasDrive() {
+		return slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive;
+	}
+
+	private boolean areTanksFull() {
+		for(FluidTank tank : tanks) if(tank.getTankType() != Fluids.NONE && tank.getFill() < tank.getMaxFill()) return false;
+		if(solidFuel < requiredSolidFuel) return false;
 		return true;
+	}
+
+	private boolean canLaunch() {
+		return power >= maxPower * 0.75 && areTanksFull() && hasRocket() && hasDrive();
+	}
+
+	private void updateTanks() {
+		if(!hasRocket()) return;
+
+		RocketStruct rocket = ItemCustomRocket.get(slots[0]);
+		Map<FluidType, Integer> fuels = rocket.getFillRequirement();
+
+		// Remove solid fuels (listed as NONE fluid) from tank updates
+		if(fuels.containsKey(Fluids.NONE)) {
+			requiredSolidFuel = fuels.get(Fluids.NONE);
+			fuels.remove(Fluids.NONE);
+		} else {
+			requiredSolidFuel = 0;
+		}
+
+		// Check to see if any of the current tanks already fulfil fuelling requirements
+		List<FluidTank> keepTanks = new ArrayList<FluidTank>();
+		for(FluidTank tank : tanks) {
+			if(fuels.containsKey(tank.getTankType())) {
+				tank.changeTankSize(fuels.get(tank.getTankType()));
+				keepTanks.add(tank);
+				fuels.remove(tank.getTankType());
+			}
+		}
+
+		// Add new tanks
+		for(Entry<FluidType, Integer> entry : fuels.entrySet()) {
+			keepTanks.add(new FluidTank(entry.getKey(), entry.getValue()));
+		}
+
+		// Sort and fill the tank array to place NONE at the end
+		keepTanks.sort((a, b) -> b.getTankType().getID() - a.getTankType().getID());
+		while(keepTanks.size() < RocketStruct.MAX_STAGES * 2) {
+			keepTanks.add(new FluidTank(Fluids.NONE, 64_000));
+		}
+
+		tanks = keepTanks.toArray(new FluidTank[RocketStruct.MAX_STAGES * 2]);
+	}
+
+	public List<String> findIssues() {
+		List<String> issues = new ArrayList<String>();
+
+		if(!hasRocket()) return issues;
+		
+		// Check that the rocket is fully fueled and capable of leaving our starting planet
+		// RocketStruct rocket = ItemCustomRocket.get(slots[0]);
+
+		if(power < maxPower * 0.75) {
+			issues.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "Insufficient power");
+		}
+
+		for(FluidTank tank : tanks) {
+			if(tank.getTankType() == Fluids.NONE) continue;
+			int fill = tank.getFill();
+			int maxFill = tank.getMaxFill();
+			if(fill < maxFill) {
+				issues.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "" + fill + "/" + maxFill + "mB " + tank.getTankType().getLocalizedName());
+			} else {
+				issues.add(EnumChatFormatting.GREEN + "" + fill + "/" + maxFill + "mB " + tank.getTankType().getLocalizedName());
+			}
+		}
+
+		if(requiredSolidFuel > 0) {
+			if(solidFuel < requiredSolidFuel) {
+				issues.add(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "" + solidFuel + "/" + requiredSolidFuel + "kg Solid Fuel");
+			} else {
+				issues.add(EnumChatFormatting.GREEN + "" + solidFuel + "/" + requiredSolidFuel + "kg Solid Fuel");
+			}
+		}
+
+		if(!hasDrive()) return issues;
+
+		// Check that the rocket is actually capable of reaching our destination
+
+
+		return issues;
 	}
 
 	@Override
