@@ -18,6 +18,8 @@ public class TileEntityProxyBase extends TileEntityLoadedBase {
 
 	public TileEntity getTE() {
 		
+		if(worldObj == null) return null;
+		
 		if(cachedPosition != null) {
 			TileEntity te = Compat.getTileStandard(worldObj, cachedPosition.getX(), cachedPosition.getY(), cachedPosition.getZ());
 			if(te != null && !(te instanceof TileEntityProxyBase)) return te;

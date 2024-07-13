@@ -38,14 +38,14 @@ public class GUIAutocrafter extends GuiInfoContainer {
 			for(int i = 0; i < 9; ++i) {
 				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
 	
-				if(this.isMouseOverSlot(slot, x, y) && diFurnace.modes[i] != null) {
+				if(this.isMouseOverSlot(slot, x, y) && diFurnace.matcher.modes[i] != null) {
 					
 					String label = EnumChatFormatting.YELLOW + "";
 					
-					switch(diFurnace.modes[i]) {
+					switch(diFurnace.matcher.modes[i]) {
 					case "exact": label += "Item and meta match"; break;
 					case "wildcard": label += "Item matches"; break;
-					default: label += "Ore dict key matches: " + diFurnace.modes[i]; break;
+					default: label += "Ore dict key matches: " + diFurnace.matcher.modes[i]; break;
 					}
 					
 					this.func_146283_a(Arrays.asList(new String[] { EnumChatFormatting.RED + "Right click to change", label }), x, y - 30);

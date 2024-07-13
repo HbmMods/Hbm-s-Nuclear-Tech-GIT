@@ -14,8 +14,12 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -372,5 +376,12 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUITurretHIMARS(player.inventory, this);
+	}
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] addCoords(Context context, Arguments args) {
+		this.mode = MODE_MANUAL;
+		targetQueue.add(Vec3.createVectorHelper(args.checkDouble(0), args.checkDouble(1), args.checkDouble(2)));
+		return new Object[] {};
 	}
 }

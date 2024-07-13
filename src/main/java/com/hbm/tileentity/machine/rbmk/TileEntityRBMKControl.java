@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
+import com.hbm.handler.CompatHandler;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,7 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase implements SimpleComponent {
+public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase implements SimpleComponent, CompatHandler.OCComponent {
 
 	@SideOnly(Side.CLIENT)
 	public double lastLevel;
@@ -123,6 +124,7 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "rbmk_control_rod";
 	}

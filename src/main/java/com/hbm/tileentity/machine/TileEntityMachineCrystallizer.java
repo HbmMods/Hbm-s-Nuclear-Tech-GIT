@@ -119,7 +119,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.25, yCoord + 1, zCoord + 0.25, xCoord + 0.75, yCoord + 5.875, zCoord + 0.75).offset(rot.offsetX * 1.5, 0, rot.offsetZ * 1.5));
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.25, yCoord + 1, zCoord + 0.25, xCoord + 0.75, yCoord + 6, zCoord + 0.75).offset(rot.offsetX * 1.5, 0, rot.offsetZ * 1.5));
 		
 		for(EntityPlayer player : players) {
 			HbmPlayerProps props = HbmPlayerProps.getData(player);

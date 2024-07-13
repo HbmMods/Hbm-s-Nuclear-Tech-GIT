@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine.rbmk;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
+import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.container.ContainerRBMKHeater;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, SimpleComponent {
+public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, SimpleComponent, CompatHandler.OCComponent {
 
 	public FluidTank feed;
 	public FluidTank steam;
@@ -277,6 +278,7 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 	//opencomputers stuff
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "rbmk_heater";
 	}

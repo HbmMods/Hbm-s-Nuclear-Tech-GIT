@@ -112,6 +112,10 @@ public class CrucibleRecipes extends SerializableRecipe {
 				.inputs(new MaterialStack(Mats.MAT_TUNGSTEN, i), new MaterialStack(Mats.MAT_SCHRABIDIUM, n * 1))
 				.outputs(new MaterialStack(Mats.MAT_MAGTUNG, i)));
 		
+		recipes.add(new CrucibleRecipe(17, "crucible.bscco", 3, new ItemStack(ModItems.ingot_bscco))
+				.inputs(new MaterialStack(Mats.MAT_BISMUTH, n * 2), new MaterialStack(Mats.MAT_STRONTIUM, n * 2), new MaterialStack(Mats.MAT_CALCIUM, n * 2), new MaterialStack(Mats.MAT_COPPER, n * 3))
+				.outputs(new MaterialStack(Mats.MAT_BSCCO, i)));
+		
 		registerMoldsForNEI();
 	}
 

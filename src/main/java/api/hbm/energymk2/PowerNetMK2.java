@@ -123,7 +123,6 @@ public class PowerNetMK2 {
 		if(receiverEntries.isEmpty()) return;
 		
 		long timestamp = System.currentTimeMillis();
-		long transferCap = 100_000_000_000_000_00L;
 		
 		List<Pair<IEnergyProviderMK2, Long>> providers = new ArrayList();
 		long powerAvailable = 0;
@@ -134,10 +133,8 @@ public class PowerNetMK2 {
 			if(timestamp - entry.getValue() > timeout) { provIt.remove(); continue; }
 			long src = Math.min(entry.getKey().getPower(), entry.getKey().getProviderSpeed());
 			providers.add(new Pair(entry.getKey(), src));
-			if(powerAvailable < transferCap) powerAvailable += src;
+			powerAvailable += src;
 		}
-		
-		powerAvailable = Math.min(powerAvailable, transferCap);
 		
 		List<Pair<IEnergyReceiverMK2, Long>>[] receivers = new ArrayList[ConnectionPriority.values().length];
 		for(int i = 0; i < receivers.length; i++) receivers[i] = new ArrayList();

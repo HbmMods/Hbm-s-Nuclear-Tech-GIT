@@ -171,7 +171,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(Blocks.clay, new ItemStack(Items.clay_ball, 4));
 		ShredderRecipes.setRecipe(Blocks.hardened_clay, new ItemStack(Items.clay_ball, 4));
 		ShredderRecipes.setRecipe(Blocks.tnt, new ItemStack(Items.gunpowder, Compat.isModLoaded(Compat.MOD_GT6) ? 4 : 5));
-		ShredderRecipes.setRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), new ItemStack(ModItems.powder_calcium));
+		ShredderRecipes.setRecipe(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.LIMESTONE), new ItemStack(ModItems.powder_limestone, 4));
 		ShredderRecipes.setRecipe(ModBlocks.stone_gneiss, new ItemStack(ModItems.powder_lithium_tiny, 1));
 		ShredderRecipes.setRecipe(ModItems.powder_lapis, new ItemStack(ModItems.powder_cobalt_tiny, 1));
 		ShredderRecipes.setRecipe(ModItems.fragment_neodymium, new ItemStack(ModItems.powder_neodymium_tiny, 1));
@@ -208,6 +208,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.machine_well, new ItemStack(ModItems.powder_steel, 32));
 		ShredderRecipes.setRecipe(DictFrame.fromOne(ModItems.chunk_ore, EnumChunkType.RARE), new ItemStack(ModItems.powder_desh_mix));
 		ShredderRecipes.setRecipe(Blocks.sand, new ItemStack(ModItems.dust, 2));
+		ShredderRecipes.setRecipe(ModBlocks.block_slag, new ItemStack(ModItems.powder_cement, 4));
 		
 		List<ItemStack> logs = OreDictionary.getOres("logWood");
 		List<ItemStack> planks = OreDictionary.getOres("plankWood");
@@ -284,6 +285,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(ModBlocks.steel_grate, new ItemStack(ModItems.powder_steel_tiny, 3));
 		ShredderRecipes.setRecipe(ModItems.pipes_steel, new ItemStack(ModItems.powder_steel, 27));
 		ShredderRecipes.setRecipe(ModBlocks.machine_fluidtank, new ItemStack(ModItems.powder_steel, 16));
+		ShredderRecipes.setRecipe(new ItemStack(ModItems.bedrock_ore, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(Blocks.gravel));
 
 		/* Sellafite scrapping */
 		ShredderRecipes.setRecipe(ModBlocks.sellafield_slaked, new ItemStack(Blocks.gravel));
