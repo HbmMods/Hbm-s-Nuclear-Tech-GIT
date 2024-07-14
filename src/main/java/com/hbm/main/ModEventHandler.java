@@ -1191,14 +1191,24 @@ public class ModEventHandler {
 
 			if(thatmosphere != null)
 			if(!player.isRiding()) {
-				//if(player.motionX > )
-				if(player.motionX > 1 || player.motionY > 1 || player.motionZ > 1) {
+                if (!player.worldObj.isRemote) {
+                	if(player.motionX > 1 || player.motionY > 1 || player.motionZ > 1) {
 					ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
-				}
-				if(player.motionX < -1 || player.motionY < -1 || player.motionZ < -1) {
+                	}
+                	if(player.motionX < -1 || player.motionY < -1 || player.motionZ < -1) {
 					ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
-				}	
-			}
+                }
+               
+            }
+            	else {
+                	if(player.motionX > 1 || player.motionY > 1 || player.motionZ > 1) {
+    					ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
+                    	}
+                    	if(player.motionX < -1 || player.motionY < -1 || player.motionZ < -1) {
+    					ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
+                    }
+            	}
+		}
 
 		}
 		if(player.isPotionActive(HbmPotion.slippery.id) && !player.capabilities.isFlying) {

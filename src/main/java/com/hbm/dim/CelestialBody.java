@@ -145,7 +145,9 @@ public class CelestialBody {
 		return withShader(fragmentShader, 1);
 	}
 	
+	
 	public CelestialBody withShader(ResourceLocation fragmentShader, float scale) {
+		
 		shader = new Shader(fragmentShader);
 		shaderScale = scale;
 		return this;

@@ -32,6 +32,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 	private static final ResourceLocation digammaStar = new ResourceLocation(RefStrings.MODID, "textures/misc/space/star_digamma.png");
 
 	private static final ResourceLocation noise = new ResourceLocation(RefStrings.MODID, "shaders/iChannel1.png");
+	private static final ResourceLocation bholeshader = new ResourceLocation(RefStrings.MODID, "shaders/blackhole.frag");
 
 	private static final Shader planetShader = new Shader(new ResourceLocation(RefStrings.MODID, "shaders/crescent.frag"));
 
@@ -210,13 +211,14 @@ public class SkyProviderCelestial extends IRenderHandler {
 			double sunSize = SolarSystem.calculateSunSize(body);
 			double coronaSize = sunSize * (3 - MathHelper.clamp_float(pressure, 0.0F, 1.0F));
 
-			if(SolarSystem.kerbol.shader != null && !SolarSystem.kerbol.skipShader) {
+			if(!SolarSystem.kerbol.skipShader) {
 				// BLACK HOLE SUN
 				// WON'T YOU COME
 				// AND WASH AWAY THE RAIN
-				
-				Shader shader = SolarSystem.kerbol.shader;
-				double shaderSize = sunSize * SolarSystem.kerbol.shaderScale; 
+				//Shader shader = SolarSystem.kerbol.shader;
+				//SolarSystem.kerbol.shader != null
+				Shader shader = new Shader(bholeshader);
+				double shaderSize = sunSize * 3; 
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 				shader.use();
