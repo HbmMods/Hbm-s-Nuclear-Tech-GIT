@@ -1,5 +1,8 @@
 package com.hbm.tileentity.network;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
@@ -8,10 +11,14 @@ import cofh.api.energy.IEnergyHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEnergyProviderMK2, IEnergyHandler {
+import java.io.IOException;
+
+public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEnergyProviderMK2, IEnergyHandler, IConfigurableMachine {
 
 	public long power;
 	public final long maxPower = 5_000_000;
+	public static long ratio = 5;
+
 	public EnergyStorage storage = new EnergyStorage(1_000_000, 1_000_000, 1_000_000);
 
 	@Override
@@ -19,9 +26,9 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 		
 		if (!worldObj.isRemote) {
 			
-			long rfCreated = Math.min(storage.getEnergyStored(), (maxPower - power) / 5);
+			long rfCreated = Math.min(storage.getEnergyStored(), (maxPower - power) / ratio);
 			storage.setEnergyStored((int) (storage.getEnergyStored() - rfCreated));
-			power += rfCreated * 5;
+			power += rfCreated * ratio;
 			if(storage.getEnergyStored() > 0) storage.extractEnergy((int) Math.ceil(storage.getEnergyStored() * 0.05), false);
 			if(rfCreated > 0) this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 			
@@ -55,5 +62,20 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 		
 		nbt.setLong("power", power);
 		storage.writeToNBT(nbt);
+	}
+
+	@Override
+	public String getConfigName() {
+		return "Rf->HeConverter";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		ratio = IConfigurableMachine.grab(obj, "L:Rf/He ratio", ratio);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("L:Rf/He ratio").value(ratio);
 	}
 }
