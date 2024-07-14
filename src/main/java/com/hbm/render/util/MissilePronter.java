@@ -43,12 +43,13 @@ public class MissilePronter {
 		GL11.glPopMatrix();
 	}
 
-	// Attaches a set of stages together
 	public static void prontRocket(RocketStruct rocket, TextureManager tex) {
-		GL11.glPushMatrix();
+		prontRocket(rocket, tex, true);
+	}
 
-		// first stage is always deployed, ready to be landed on
-		boolean isDeployed = true;
+	// Attaches a set of stages together
+	public static void prontRocket(RocketStruct rocket, TextureManager tex, boolean isDeployed) {
+		GL11.glPushMatrix();
 
 		for(RocketStage stage : rocket.stages) {
 			int stack = stage.getStack();
@@ -100,6 +101,7 @@ public class MissilePronter {
 			if(stage.thruster != null) GL11.glTranslated(0, stage.thruster.height, 0);
 			if(stage.fuselage != null) GL11.glTranslated(0, stage.fuselage.height * stack, 0);
 
+			// Only the bottom-most stage can be deployed
 			isDeployed = false;
 		}
 

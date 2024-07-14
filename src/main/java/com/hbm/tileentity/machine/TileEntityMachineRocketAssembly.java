@@ -18,12 +18,14 @@ import com.hbm.util.BobMathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -33,6 +35,8 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 
 	private int previousHeight = 0;
 	private List<Integer> platforms = new ArrayList<Integer>();
+
+	private boolean platformFailed = false;
 
 	public TileEntityMachineRocketAssembly() {
 		super(1 + RocketStruct.MAX_STAGES * 3 + 1); // capsule + stages + result
@@ -62,33 +66,79 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 				}
 				platforms = new ArrayList<Integer>();
 
-				// Create platforms to stand on
-				int targetHeight = 0;
-				for(int i = 0; i < rocket.stages.size(); i++) {
-					RocketStage stage = rocket.stages.get(i);
-					RocketStage nextStage = i < rocket.stages.size() - 1 ? rocket.stages.get(i + 1) : null;
-
-					if(stage.fuselage != null) targetHeight += stage.fuselage.height * stage.getStack();
-					if(nextStage != null && nextStage.thruster != null) targetHeight += nextStage.thruster.height;
-
-					int platform = Math.round(targetHeight);
-					
-					addPlatform(platform);
-					platforms.add(platform);
+				// Check headroom
+				int maxHeight = Integer.MAX_VALUE;
+				int h = 1;
+				while(h < 256) {
+					Block block = worldObj.getBlock(xCoord, yCoord + h, zCoord);
+					if(!block.isReplaceable(worldObj, xCoord, yCoord + h, zCoord) && block != ModBlocks.machine_rocket_assembly) {
+						maxHeight = h;
+						break;
+					}
+					h++;
 				}
 
-				// Create a central spire (required so the VAB can be broken properly)
-				int meta = ForgeDirection.UP.ordinal();
-				for(int i = 1; i < targetHeight + 1; i++) {
-					if(yCoord + i > 255) break;
-					worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.machine_rocket_assembly, meta, 3);
-				}
-				for(int i = targetHeight + 1; i < 256 && worldObj.getBlock(xCoord, yCoord + i, zCoord) == ModBlocks.machine_rocket_assembly; i++) {
-					worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);
+				double checkHeight = rocket.getHeight();
+				if(rocket.capsule != null) checkHeight -= rocket.capsule.height;
+				if(rocket.stages.size() > 0 && rocket.stages.get(0).thruster != null) checkHeight -= rocket.stages.get(0).thruster.height;
+
+				if(checkHeight < maxHeight) {
+					// Create platforms to stand on
+					int targetHeight = 0;
+					for(int i = 0; i < rocket.stages.size(); i++) {
+						RocketStage stage = rocket.stages.get(i);
+						RocketStage nextStage = i < rocket.stages.size() - 1 ? rocket.stages.get(i + 1) : null;
+
+						if(stage.fuselage != null) targetHeight += stage.fuselage.height * stage.getStack();
+						if(nextStage != null && nextStage.thruster != null) targetHeight += nextStage.thruster.height;
+
+						int platform = Math.round(targetHeight);
+						
+						if(platform > 0) {
+							addPlatform(platform);
+							platforms.add(platform);
+						}
+					}
+
+					// Create a central spire (required so the VAB can be broken properly)
+					int meta = ForgeDirection.UP.ordinal();
+					for(int i = 1; i < targetHeight + 1; i++) {
+						if(yCoord + i > 255) break;
+						worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.machine_rocket_assembly, meta, 3);
+						worldObj.setBlock(xCoord - 4, yCoord + i, zCoord - 4, ModBlocks.machine_rocket_assembly, meta, 3);
+						worldObj.setBlock(xCoord + 4, yCoord + i, zCoord - 4, ModBlocks.machine_rocket_assembly, meta, 3);
+						worldObj.setBlock(xCoord - 4, yCoord + i, zCoord + 4, ModBlocks.machine_rocket_assembly, meta, 3);
+						worldObj.setBlock(xCoord + 4, yCoord + i, zCoord + 4, ModBlocks.machine_rocket_assembly, meta, 3);
+					}
+
+					for(int i = targetHeight + 1; i < 256 && worldObj.getBlock(xCoord, yCoord + i, zCoord) == ModBlocks.machine_rocket_assembly; i++) {
+						worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);
+					}
+
+					for(int i = targetHeight + 1; i < 256 && worldObj.getBlock(xCoord - 4, yCoord + i, zCoord - 4) == ModBlocks.machine_rocket_assembly; i++) {
+						worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);
+					}
+					for(int i = targetHeight + 1; i < 256 && worldObj.getBlock(xCoord + 4, yCoord + i, zCoord - 4) == ModBlocks.machine_rocket_assembly; i++) {
+						worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);
+					}
+					for(int i = targetHeight + 1; i < 256 && worldObj.getBlock(xCoord - 4, yCoord + i, zCoord + 4) == ModBlocks.machine_rocket_assembly; i++) {
+						worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);
+					}
+					for(int i = targetHeight + 1; i < 256 && worldObj.getBlock(xCoord + 4, yCoord + i, zCoord + 4) == ModBlocks.machine_rocket_assembly; i++) {
+						worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);
+					}
+
+					platformFailed = false;
+				} else {
+					platformFailed = true;
 				}
 
 				BlockDummyable.safeRem = false;
 				previousHeight = height;
+			}
+
+			if(platformFailed) {
+				rocket.addIssue(EnumChatFormatting.RED + "VAB ceiling too low");
 			}
 
 			networkPackNT(250);
@@ -96,9 +146,11 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 	}
 
 	public void addPlatform(int height) {
-		for(int x = -4; x < 4; x++) {
-			for(int z = -4; z < 4; z++) {
+		for(int x = -4; x <= 4; x++) {
+			for(int z = -4; z <= 4; z++) {
 				int meta = 0;
+
+				if((x == -4 || x == 4) && (z == -4 || z == 4)) continue;
 					
 				if(x < 0) {
 					meta = ForgeDirection.WEST.ordinal();
@@ -118,9 +170,10 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 	}
 
 	public void deletePlatform(int height) {
-		for(int x = -4; x < 4; x++) {
-			for(int z = -4; z < 4; z++) {
+		for(int x = -4; x <= 4; x++) {
+			for(int z = -4; z <= 4; z++) {
 				if(x == 0 && z == 0) continue;
+				if((x == -4 || x == 4) && (z == -4 || z == 4)) continue;
 
 				worldObj.setBlockToAir(xCoord + x, yCoord + height, zCoord + z);
 			}

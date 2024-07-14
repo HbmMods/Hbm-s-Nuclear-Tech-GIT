@@ -27,6 +27,8 @@ public class RocketStruct {
 	public MissilePart capsule;
 	public ArrayList<RocketStage> stages = new ArrayList<>();
 
+	public List<String> extraIssues = new ArrayList<>();
+
 	public static final int MAX_STAGES = 5;
 
 	public RocketStruct() {}
@@ -54,6 +56,9 @@ public class RocketStruct {
 	}
 
 	public boolean validate() {
+		if(extraIssues.size() > 0)
+			return false;
+
 		if(capsule == null || capsule.type != PartType.WARHEAD || ((ItemCustomMissilePart)capsule.part).attributes[0] != WarheadType.APOLLO)
 			return false;
 		
@@ -71,6 +76,10 @@ public class RocketStruct {
 		}
 		
 		return true;
+	}
+
+	public void addIssue(String issue) {
+		extraIssues.add(issue);
 	}
 
 	// Lists any validation issues so the player can rectify easily
@@ -106,6 +115,8 @@ public class RocketStruct {
 			// so who am I to kill your creative spirit
 			// put that ant engine on your rhino fuselage
 		}
+
+		for(String issue : extraIssues) issues.add(issue);
 
 		return issues;
 	}

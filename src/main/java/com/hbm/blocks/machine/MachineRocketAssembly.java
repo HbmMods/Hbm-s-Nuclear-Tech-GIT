@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.MultiblockHandlerXR;
-import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineRocketAssembly;
 import com.hbm.util.ItemStackUtil;
@@ -60,8 +59,6 @@ public class MachineRocketAssembly extends BlockDummyable {
 
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
-		MainRegistry.logger.info("placing!!");
-
 		x = x + dir.offsetX * o;
 		y = y + dir.offsetY * o;
 		z = z + dir.offsetZ * o;
