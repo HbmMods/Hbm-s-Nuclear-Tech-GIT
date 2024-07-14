@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.hbm.dim.CelestialBody;
+import com.hbm.dim.SolarSystem;
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.trait.FT_Rocket;
 import com.hbm.items.weapon.ItemCustomMissilePart;
 import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
@@ -83,7 +86,7 @@ public class RocketStruct {
 	}
 
 	// Lists any validation issues so the player can rectify easily
-	public List<String> findIssues() {
+	public List<String> findIssues(int stageNum, CelestialBody from, CelestialBody to) {
 		List<String> issues = new ArrayList<String>();
 
 		// If we have no parts, we have no worries
@@ -103,17 +106,28 @@ public class RocketStruct {
 				continue;
 
 			if(stage.thrusterCount > stage.fuselageCount)
-				issues.add(EnumChatFormatting.YELLOW + "Stage " + (i + 1) + " too many thrusters");
+				issues.add(EnumChatFormatting.RED + "Stage " + (i + 1) + " too many thrusters");
 			if(stage.fuselageCount % stage.thrusterCount != 0)
-				issues.add(EnumChatFormatting.YELLOW + "Stage " + (i + 1) + " uneven thrusters");
+				issues.add(EnumChatFormatting.RED + "Stage " + (i + 1) + " uneven thrusters");
 
 			if(stage.fuselage.part.attributes[0] != FuelType.ANY && stage.fuselage.part.attributes[0] != stage.thruster.part.attributes[0])
-				issues.add(EnumChatFormatting.YELLOW + "Stage " + (i + 1) + " fuel mismatch");
+				issues.add(EnumChatFormatting.RED + "Stage " + (i + 1) + " fuel mismatch");
 
 			// I was gonna add all sorts of realistic restrictions but then realised
 			// KSP lets you shit any part onto any part, and that's fun
 			// so who am I to kill your creative spirit
 			// put that ant engine on your rhino fuselage
+		}
+
+		if(from != null && to != null) {
+			int fuelRequirement = getFuelRequired(stageNum, from, to);
+			int fuelCapacity = getFuelCapacity(stageNum);
+
+			if(fuelCapacity < fuelRequirement) {
+				issues.add(EnumChatFormatting.YELLOW + "Insufficient fuel capacity " + fuelCapacity + "/" + fuelRequirement + "mB");
+			} else if(fuelCapacity > 0 && fuelRequirement > 0) {
+				issues.add(EnumChatFormatting.GREEN + "Trip possible! " + fuelCapacity + "/" + fuelRequirement + "mB");
+			}
 		}
 
 		for(String issue : extraIssues) issues.add(issue);
@@ -147,17 +161,56 @@ public class RocketStruct {
 		return tanks;
 	}
 
+	public boolean hasSufficientFuel(CelestialBody from, CelestialBody to) {
+		int fuelRequirement = getFuelRequired(0, from, to);
+		int fuelCapacity = getFuelCapacity(0);
+
+		return fuelCapacity >= fuelRequirement;
+	}
+
+	private int getFuelCapacity(int stageNum) {
+		if(stageNum >= stages.size()) return -1;
+
+		RocketStage stage = stages.get(stageNum);
+
+		if(stage.fuselage == null) return -1;
+
+		return stage.fuselage.part.getTankSize() * stage.fuselageCount;
+	}
+
+	private int getFuelRequired(int stageNum, CelestialBody from, CelestialBody to) {
+		if(stageNum >= stages.size()) return -1;
+
+		RocketStage stage = stages.get(stageNum);
+
+		if(stage.fuselage == null || stage.thruster == null) return -1;
+		
+		int rocketMass = getDryMass(stageNum);
+		FT_Rocket trait = stage.thruster.part.getFuel().getTrait(FT_Rocket.class);
+		if(trait == null) return -1;
+
+		long isp = trait.getISP();
+		long thrust = trait.getThrust();
+
+		return SolarSystem.getCostBetween(from, to, rocketMass, (int)thrust, (int)isp);
+	}
+
 	public int getDryMass() {
+		return getDryMass(0);
+	}
+
+	public int getDryMass(int stageNum) {
 		int mass = 0;
 
 		if(capsule != null) mass += capsule.part.mass;
 
-		for(RocketStage stage : stages) {
+		for(int i = stageNum; i < stages.size(); i++) {
+			RocketStage stage = stages.get(i);
 			if(stage.fuselage != null) mass += stage.fuselage.part.mass * stage.fuselageCount;
 			if(stage.thruster != null) mass += stage.thruster.part.mass * stage.thrusterCount;
 		}
 
-		return MathHelper.ceiling_float_int(mass * 0.01F);
+		return MathHelper.ceiling_float_int(mass * 0.1F);
 	}
 
 	public double getHeight() {

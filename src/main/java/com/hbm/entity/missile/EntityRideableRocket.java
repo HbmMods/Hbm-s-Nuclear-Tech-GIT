@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.dim.CelestialBody;
 import com.hbm.dim.DebugTeleporter;
 import com.hbm.dim.SolarSystem;
 import com.hbm.handler.RocketStruct;
@@ -23,6 +24,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -101,7 +103,15 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 		if(!worldObj.isRemote) {
 			if(state == RocketState.AWAITING && rider != null && rider.isJumping) {
-				setState(RocketState.LAUNCHING);
+				CelestialBody localBody = CelestialBody.getBody(worldObj);
+				CelestialBody destination = getDestination();
+
+				// Check if the stage can make the journey
+				if(destination != null && destination != localBody) {
+					if(getRocket().hasSufficientFuel(localBody, destination)) {
+						setState(RocketState.LAUNCHING);
+					}
+				}
 			}
 
 			if(state == RocketState.LAUNCHING) {
@@ -149,9 +159,9 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 			if(navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
 				ItemVOTVdrive drive = (ItemVOTVdrive) navDrive.getItem();
-				setDestinationName(drive.getDestination(navDrive).body.name);
+				setDestination(drive.getDestination(navDrive).body.getBody());
 			} else {
-				setDestinationName("NO DRIVE PRESENT");
+				setDestination(null);
 			}
 		} else {
 			// ON state transitions
@@ -300,12 +310,14 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		stateTimer = 0;
 	}
 
-	public String getDestinationName() {
-		return dataWatcher.getWatchableObjectString(WATCHABLE_DESTINATION);
+	public CelestialBody getDestination() {
+		int dimensionId = dataWatcher.getWatchableObjectInt(WATCHABLE_DESTINATION);
+		if(dimensionId < 0) return null;
+		return CelestialBody.getBody(dimensionId);
 	}
 
-	public void setDestinationName(String destination) {
-		dataWatcher.updateObject(WATCHABLE_DESTINATION, destination);
+	public void setDestination(CelestialBody destination) {
+		dataWatcher.updateObject(WATCHABLE_DESTINATION, destination != null ? destination.dimensionId : -1);
 	}
 
 	public float getFuel() {
@@ -320,7 +332,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	protected void entityInit() {
 		super.entityInit();
 		dataWatcher.addObject(WATCHABLE_STATE, RocketState.AWAITING.ordinal());
-		dataWatcher.addObject(WATCHABLE_DESTINATION, "NO DRIVE PRESENT");
+		dataWatcher.addObject(WATCHABLE_DESTINATION, 0);
 		dataWatcher.addObject(WATCHABLE_FUEL, 0.0F);
 		RocketStruct.setupDataWatcher(dataWatcher, WATCHABLE_ROCKET); // again, this MUST be the highest int!
 	}
@@ -362,7 +374,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
-		if(getRocket().stages.size() == 0) return;
+		RocketStruct rocket = getRocket();
+		if(rocket.stages.size() == 0) return;
 
 		RocketState state = getState();
 		if(state == RocketState.LAUNCHING || state == RocketState.LANDING)
@@ -372,19 +385,32 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 
+		CelestialBody localBody = CelestialBody.getBody(world);
+		CelestialBody destination = getDestination();
+
+		boolean canLaunch = state == RocketState.AWAITING;
+
+		// Check if the stage can make the journey
+		if(destination != null && destination != localBody) {
+			if(!rocket.hasSufficientFuel(localBody, destination)) {
+				text.add(EnumChatFormatting.RED + "Rocket can't reach destination!");
+				canLaunch = false;
+			}
+		}
+
 		if(riddenByEntity == null) {
 			text.add("Interact to enter");
 		} else if(riddenByEntity != player) {
 			text.add("OCCUPIED");
 		} else {
-			text.add("Destination: " + getDestinationName());
+			text.add("Destination: " + destination.name);
 
-			if(state == RocketState.AWAITING) {
+			if(canLaunch) {
 				text.add("JUMP TO LAUNCH");
 			}
 		}
 
-		ILookOverlay.printGeneric(event, "rokemt", 0xffff00, 0x404000, text);
+		ILookOverlay.printGeneric(event, "Rocket", 0xffff00, 0x404000, text);
 	}
 
 	@Override

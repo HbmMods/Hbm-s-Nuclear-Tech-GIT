@@ -4,6 +4,7 @@ import com.hbm.handler.RocketStruct;
 import com.hbm.inventory.SlotRocket;
 import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.inventory.SlotRocket.SlotCapsule;
+import com.hbm.inventory.SlotRocket.SlotDrive;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,16 +25,21 @@ public class ContainerMachineRocketAssembly extends Container {
 		int slotId = 0;
 
 		// Capsule slot
-		this.addSlotToContainer(new SlotCapsule(machine, slotId++, 18, 13));
+		addSlotToContainer(new SlotCapsule(machine, slotId++, 18, 13));
 
 		// Stages
 		for(int i = 0; i < RocketStruct.MAX_STAGES; i++) {
-			this.addSlotToContainer(new SlotRocket(machine, slotId++, 18, 44, i, PartType.FUSELAGE));
-			this.addSlotToContainer(new SlotRocket(machine, slotId++, 18, 62, i, PartType.FINS));
-			this.addSlotToContainer(new SlotRocket(machine, slotId++, 18, 80, i, PartType.THRUSTER));
+			addSlotToContainer(new SlotRocket(machine, slotId++, 18, 44, i, PartType.FUSELAGE));
+			addSlotToContainer(new SlotRocket(machine, slotId++, 18, 62, i, PartType.FINS));
+			addSlotToContainer(new SlotRocket(machine, slotId++, 18, 80, i, PartType.THRUSTER));
 		}
 
-		this.addSlotToContainer(new SlotTakeOnly(machine, slotId++, 42, 91));
+		// Result
+		addSlotToContainer(new SlotTakeOnly(machine, slotId++, 42, 91));
+
+		// Drives
+		addSlotToContainer(new SlotDrive(machine, slotId++, 165, 54));
+		addSlotToContainer(new SlotDrive(machine, slotId++, 165, 87));
 
 		addSlots(invPlayer, 9, 8, 142, 3, 9); // Player inventory
 		addSlots(invPlayer, 0, 8, 200, 1, 9); // Player hotbar

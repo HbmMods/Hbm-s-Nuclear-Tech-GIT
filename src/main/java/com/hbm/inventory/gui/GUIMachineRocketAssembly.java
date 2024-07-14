@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.dim.CelestialBody;
 import com.hbm.handler.RocketStruct;
 import com.hbm.inventory.container.ContainerMachineRocketAssembly;
+import com.hbm.items.ItemVOTVdrive;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -15,6 +17,7 @@ import com.hbm.tileentity.machine.TileEntityMachineRocketAssembly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
@@ -32,7 +35,7 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 		super(new ContainerMachineRocketAssembly(invPlayer, machine));
 		this.machine = machine;
 		
-		this.xSize = 176;
+		this.xSize = 192;
 		this.ySize = 224;
 	}
 
@@ -50,7 +53,7 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 
 		int stage = Math.max(machine.rocket.stages.size() - 1 - getLayer(), -1);
 
-		drawTexturedModalRect(guiLeft + 47, guiTop + 39, 194 + (stage + 1) * 6, 0, 6, 8);
+		drawTexturedModalRect(guiLeft + 47, guiTop + 39, xSize + 18 + (stage + 1) * 6, 0, 6, 8);
 
 		stage = Math.max(stage, 0);
 
@@ -60,7 +63,7 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 		GL11.glPushMatrix();
 		{
 
-			pushScissor(65, 5, 106, 106);
+			pushScissor(65, 5, 90, 106);
 
 			GL11.glTranslatef(guiLeft + 116, guiTop + 103, 100);
 			GL11.glRotatef(System.currentTimeMillis() / 10 % 360, 0, -1, 0);
@@ -86,13 +89,25 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 		GL11.glPushMatrix();
 		{
 
+			GL11.glTranslatef(0, 0, 150);
 			GL11.glScalef(0.5F, 0.5F, 0.5F);
 
-			List<String> issues = machine.rocket.findIssues();
+			ItemStack fromStack = machine.slots[machine.slots.length - 2];
+			ItemStack toStack = machine.slots[machine.slots.length - 1];
+
+			CelestialBody fromBody = fromStack != null ? ((ItemVOTVdrive)fromStack.getItem()).getDestination(fromStack).body.getBody() : null;
+			CelestialBody toBody = toStack != null ? ((ItemVOTVdrive)toStack.getItem()).getDestination(toStack).body.getBody() : null;
+
+			List<String> issues = machine.rocket.findIssues(stage, fromBody, toBody);
 			for(int i = 0; i < issues.size(); i++) {
 				String issue = issues.get(i);
 				fontRendererObj.drawStringWithShadow(issue, (guiLeft + 65) * 2, (guiTop + 5) * 2 + i * 8, 0xFFFFFF);
 			}
+
+			if(fromBody != null)
+				fontRendererObj.drawString(fromBody.name, (guiLeft + 162) * 2, (guiTop + 75) * 2, 0x00FF00);
+			if(toBody != null)
+				fontRendererObj.drawString(toBody.name, (guiLeft + 162) * 2, (guiTop + 108) * 2, 0x00FF00);
 
 		}
 		GL11.glPopMatrix();
@@ -104,15 +119,15 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 
 		if(checkClick(mouseX, mouseY, 17, 34, 18, 8)) {
-			drawTexturedModalRect(17, 34, 176, 36, 18, 8);
+			drawTexturedModalRect(17, 34, xSize, 36, 18, 8);
 		}
 		
 		if(checkClick(mouseX, mouseY, 17, 98, 18, 8)) {
-			drawTexturedModalRect(17, 98, 176, 44, 18, 8);
+			drawTexturedModalRect(17, 98, xSize, 44, 18, 8);
 		}
 
 		if(machine.rocket.validate()) {
-			drawTexturedModalRect(41, 62, 194, 8, 18, 18);
+			drawTexturedModalRect(41, 62, xSize + 18, 8, 18, 18);
 		}
 	}
 

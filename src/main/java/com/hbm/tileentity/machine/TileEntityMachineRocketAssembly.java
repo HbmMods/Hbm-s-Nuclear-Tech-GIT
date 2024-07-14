@@ -39,7 +39,7 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 	private boolean platformFailed = false;
 
 	public TileEntityMachineRocketAssembly() {
-		super(1 + RocketStruct.MAX_STAGES * 3 + 1); // capsule + stages + result
+		super(1 + RocketStruct.MAX_STAGES * 3 + 1 + 2); // capsule + stages + result + drives
 	}
 
 	@Override
@@ -52,7 +52,19 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 		if(!worldObj.isRemote) {
 			rocket = new RocketStruct(slots[0]);
 			for(int i = 1; i < RocketStruct.MAX_STAGES * 3; i += 3) {
-				if(slots[i] == null && slots[i+1] == null && slots[i+2] == null) break;
+				if(slots[i] == null && slots[i+1] == null && slots[i+2] == null) {
+					// Check for later stages and shift them up into empty stages
+					if(i + 3 < RocketStruct.MAX_STAGES * 3 && (slots[i+3] != null || slots[i+4] != null || slots[i+5] != null)) {
+						slots[i] = slots[i+3];
+						slots[i+1] = slots[i+4];
+						slots[i+2] = slots[i+5];
+						slots[i+3] = null;
+						slots[i+4] = null;
+						slots[i+5] = null;
+					} else {
+						break;
+					}
+				}
 				rocket.addStage(slots[i], slots[i+1], slots[i+2]);
 			}
 
@@ -206,9 +218,9 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 	public void construct() {
 		if(!rocket.validate()) return;
 
-		slots[slots.length - 1] = ItemCustomRocket.build(rocket);
+		slots[slots.length - 3] = ItemCustomRocket.build(rocket);
 
-		for(int i = 0; i < slots.length - 1; i++) {
+		for(int i = 0; i < slots.length - 3; i++) {
 			slots[i] = null;
 		}
 	}

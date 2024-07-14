@@ -1,5 +1,6 @@
 package com.hbm.inventory;
 
+import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.weapon.ItemCustomMissilePart;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
@@ -44,6 +45,20 @@ public class SlotRocket extends SlotLayer {
 			return item.type == PartType.WARHEAD && item.attributes[0] == WarheadType.APOLLO;
 		}
 		
+	}
+
+	public static class SlotDrive extends Slot {
+
+		public SlotDrive(IInventory inventory, int id, int x, int y) {
+			super(inventory, id, x, y);
+		}
+
+		@Override
+		public boolean isItemValid(ItemStack stack) {
+			if(stack == null) return false;
+			return stack.getItem() instanceof ItemVOTVdrive;
+		}
+
 	}
 	
 }

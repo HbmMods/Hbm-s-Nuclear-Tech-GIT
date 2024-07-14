@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.hbm.dim.CelestialBody;
 import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.handler.RocketStruct;
 import com.hbm.interfaces.IControlReceiver;
@@ -132,8 +133,22 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		return true;
 	}
 
+	private boolean canReachDestination() {
+		CelestialBody localBody = CelestialBody.getBody(worldObj);
+		ItemVOTVdrive drive = (ItemVOTVdrive) slots[1].getItem();
+		CelestialBody destination = drive.getDestination(slots[1]).body.getBody();
+
+		// Check if the stage can make the journey
+		if(destination != null && destination != localBody) {
+			RocketStruct rocket = ItemCustomRocket.get(slots[0]);
+			if(rocket.hasSufficientFuel(localBody, destination)) return true;
+		}
+
+		return false;
+	}
+
 	private boolean canLaunch() {
-		return power >= maxPower * 0.75 && areTanksFull() && hasRocket() && hasDrive();
+		return hasRocket() && hasDrive() && power >= maxPower * 0.75 && areTanksFull() && canReachDestination();
 	}
 
 	private void updateTanks() {
@@ -180,10 +195,10 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		if(!hasRocket()) return issues;
 		
 		// Check that the rocket is fully fueled and capable of leaving our starting planet
-		// RocketStruct rocket = ItemCustomRocket.get(slots[0]);
+		RocketStruct rocket = ItemCustomRocket.get(slots[0]);
 
 		if(power < maxPower * 0.75) {
-			issues.add(EnumChatFormatting.YELLOW + "Insufficient power");
+			issues.add(EnumChatFormatting.RED + "Insufficient power");
 		}
 
 		for(FluidTank tank : tanks) {
@@ -205,10 +220,23 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 			}
 		}
 
-		if(!hasDrive()) return issues;
+		if(!hasDrive()) {
+			issues.add(EnumChatFormatting.YELLOW + "No destination drive installed");
+			return issues;
+		}
 
 		// Check that the rocket is actually capable of reaching our destination
+		CelestialBody localBody = CelestialBody.getBody(worldObj);
+		ItemVOTVdrive drive = (ItemVOTVdrive) slots[1].getItem();
+		CelestialBody destination = drive.getDestination(slots[1]).body.getBody();
 
+		if(destination == null || destination == localBody) {
+			issues.add(EnumChatFormatting.RED + "Invalid destination");
+		} else {
+			if(!rocket.hasSufficientFuel(localBody, destination)) {
+				issues.add(EnumChatFormatting.RED + "Rocket can't reach destination");
+			}
+		}
 
 		return issues;
 	}
@@ -302,13 +330,13 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 10,
-					yCoord,
-					zCoord - 10,
-					xCoord + 11,
-					yCoord + 15,
-					zCoord + 11
-					);
+				xCoord - 10,
+				yCoord,
+				zCoord - 10,
+				xCoord + 11,
+				yCoord + 15,
+				zCoord + 11
+			);
 		}
 		
 		return bb;

@@ -64,7 +64,7 @@ public class TEMissileMultipartPacket implements IMessage {
 			if (te != null && te instanceof TileEntityLaunchTable) {
 				
 				TileEntityLaunchTable launcher = (TileEntityLaunchTable) te;
-				launcher.loadMissile = m.missile;
+				launcher.load = m.missile;
 			}
 
 			if (te != null && te instanceof TileEntityMachineMissileAssembly) {

@@ -74,8 +74,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	public PartSize padSize;
 	public int height;
 	
-	public MissileStruct loadMissile;
-	public RocketStruct loadRocket;
+	public MissileStruct load;
 
 	private static final int[] access = new int[] { 0 };
 
@@ -84,8 +83,8 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	public TileEntityLaunchTable() {
 		slots = new ItemStack[8];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.NONE, 128_000, 0);
-		tanks[1] = new FluidTank(Fluids.NONE, 128_000, 1);
+		tanks[0] = new FluidTank(Fluids.NONE, 100000, 0);
+		tanks[1] = new FluidTank(Fluids.NONE, 100000, 1);
 		padSize = PartSize.SIZE_10;
 		height = 10;
 	}
@@ -194,7 +193,6 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		if (!worldObj.isRemote) {
 			
 			updateTypes();
-			checkFuelCapacity();
 			if(worldObj.getTotalWorldTime() % 20 == 0)
 				this.updateConnections();
 
@@ -288,42 +286,27 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				this.launchTo(tX, tZ);
 			}
 		}
-
-		if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive) {
-			launch();
-		}
-	}
-
-	public void launch() {
-		launchTo(0, 0);
 	}
 	
 	public void launchTo(int tX, int tZ) {
 		
-		EntityMissileBaseNT missile;
-		if(slots[1].stackTagCompound.getBoolean("Processed")) {
-			missile = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 2.0F, zCoord + 0.5F, slots[0]).withPayload(slots[1]);
-			slots[1] = null;
-		} else {
-			ItemCustomMissilePart chip = (ItemCustomMissilePart) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "chip"));
-			float c = (Float)chip.attributes[0];
-			float f = 1.0F;
-			
-			if(ItemCustomMissile.getStruct(slots[0]).fins != null) {
-				ItemCustomMissilePart fins = (ItemCustomMissilePart) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "stability"));
-				f = (Float) fins.attributes[0];
-			}
-			
-			Vec3 target = Vec3.createVectorHelper(xCoord - tX, 0, zCoord - tZ);
-			target.xCoord *= c * f;
-			target.zCoord *= c * f;
-			
-			target.rotateAroundY(worldObj.rand.nextFloat() * 360);
-
-			missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX + (int)target.xCoord, tZ + (int)target.zCoord, ItemCustomMissile.getStruct(slots[0]));
-			worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
+		ItemCustomMissilePart chip = (ItemCustomMissilePart) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "chip"));
+		float c = (Float)chip.attributes[0];
+		float f = 1.0F;
+		
+		if(ItemCustomMissile.getStruct(slots[0]).fins != null) {
+			ItemCustomMissilePart fins = (ItemCustomMissilePart) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "stability"));
+			f = (Float) fins.attributes[0];
 		}
+		
+		Vec3 target = Vec3.createVectorHelper(xCoord - tX, 0, zCoord - tZ);
+		target.xCoord *= c * f;
+		target.zCoord *= c * f;
+		
+		target.rotateAroundY(worldObj.rand.nextFloat() * 360);
 
+		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX + (int)target.xCoord, tZ + (int)target.zCoord, ItemCustomMissile.getStruct(slots[0]));
+		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
 		worldObj.spawnEntityInWorld(missile);
 
 		subtractFuel();
@@ -375,37 +358,18 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	}
 	
 	public boolean isMissileValid() {
-		if(slots[0] != null) {
-			if(slots[0].getItem() instanceof ItemCustomMissile) {
-				MissileStruct missile = ItemCustomMissile.getStruct(slots[0]);
+		MissileStruct missile = ItemCustomMissile.getStruct(slots[0]);
 
-				if(missile == null || missile.fuselage == null)
-					return false;
-				
-				ItemCustomMissilePart fuselage = (ItemCustomMissilePart)missile.fuselage;
-				
-				return fuselage.top == padSize;
-			} else if(slots[0].getItem() instanceof ItemCustomRocket) {
-				RocketStruct rocket = ItemCustomRocket.get(slots[0]);
-
-				if(rocket == null || !rocket.validate())
-					return false;
-
-				return padSize == PartSize.SIZE_20;
-			}
-		}
-
-		return false;
+		if(missile == null || missile.fuselage == null)
+			return false;
+		
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)missile.fuselage;
+		
+		return fuselage.top == padSize;
 	}
 	
 	public boolean hasDesignator() {
-		if(slots[1] != null && slots[1].getItem() instanceof IDesignatorItem && ((IDesignatorItem)slots[1].getItem()).isReady(worldObj, slots[1], xCoord, yCoord, zCoord)) {
-			return true;
-		} else if (slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive && slots[1].getItemDamage() != SolarSystem.Body.BLANK.ordinal() && slots[1].stackTagCompound.getBoolean("Processed") == true) {
-			return true;
-		}
-		
-		return false;
+		return slots[1] != null && slots[1].getItem() instanceof IDesignatorItem && ((IDesignatorItem)slots[1].getItem()).isReady(worldObj, slots[1], xCoord, yCoord, zCoord);
 	}
 	
 	public int solidState() {
@@ -426,34 +390,6 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		}
 		
 		return -1;
-	}
-
-	private void checkFuelCapacity() {
-		// If we have a rocket with a greater fuel capacity than the pad allows for, bump it up
-		// once our requirement is dropped, we reduce back down to default, but only if it won't void precious rocket fuel
-		// sets in multiples of 128,000 because yummy squares
-
-		int capacityRequired = 128_000;
-		if(slots[0] != null && slots[0].getItem() instanceof ItemCustomRocket && slots[1] != null && slots[1].getItem() instanceof ItemVOTVdrive) {
-			ItemVOTVdrive drive = (ItemVOTVdrive)slots[1].getItem();
-			SolarSystem.Body destination = drive.getDestination(slots[1]).body;
-	
-			if(destination == SolarSystem.Body.BLANK) return;
-			if(!ItemVOTVdrive.getProcessed(slots[1])) return;
-	
-			int targetCapacity = calfuelV2(destination.getBody());
-			while(capacityRequired < targetCapacity)
-				capacityRequired += 128_000;
-		}
-
-		if(tanks[0].getMaxFill() == capacityRequired && tanks[0].getMaxFill() == capacityRequired)
-			return;
-
-		if(tanks[0].getFill() > capacityRequired || tanks[0].getFill() > capacityRequired)
-			return;
-
-		tanks[0].changeTankSize(capacityRequired);
-		tanks[1].changeTankSize(capacityRequired);	
 	}
 	
 	public int liquidState() {
@@ -538,41 +474,18 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		}
 	}
 
-	private int calfuelV2(CelestialBody targetBody) {
-		RocketStruct rocket = ItemCustomRocket.get(slots[0]);
-		
-		if(rocket == null) return -1;
-		
-		CelestialBody localBody = CelestialBody.getBody(worldObj);
-		
-		int rocketMass = rocket.getDryMass();
-		FT_Rocket trait = tanks[0].getTankType().getTrait(FT_Rocket.class);
-		if(trait == null) return 100;
-
-		long isp = trait.getISP();
-		long thrust = trait.getThrust();
-
-		return SolarSystem.getCostBetween(localBody, targetBody, rocketMass, (int)thrust, (int)isp);
-	}
-
 	@Override
 	public void serialize(ByteBuf buf) {
 		buf.writeInt(solid);
 		buf.writeLong(power);
 		buf.writeInt(padSize.ordinal());
 
-		if(slots[0] != null) {
-			if(slots[0].getItem() instanceof ItemCustomMissile) {
-				buf.writeByte(1);
-				MissileStruct missile = ItemCustomMissile.getStruct(slots[0]);
-				missile.writeToByteBuffer(buf);
-			} else if(slots[0].getItem() instanceof ItemCustomRocket) {
-				buf.writeByte(2);
-				RocketStruct rocket = ItemCustomRocket.get(slots[0]);
-				rocket.writeToByteBuffer(buf);
-			}
+		if(slots[0] != null && slots[0].getItem() instanceof ItemCustomMissile) {
+			buf.writeBoolean(true);
+			MissileStruct missile = ItemCustomMissile.getStruct(slots[0]);
+			missile.writeToByteBuffer(buf);
 		} else {
-			buf.writeByte(0);
+			buf.writeBoolean(false);
 		}
 
 		for(int i = 0; i < tanks.length; i++) tanks[i].serialize(buf);
@@ -584,14 +497,10 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		power = buf.readLong();
 		padSize = PartSize.values()[buf.readInt()];
 
-		loadMissile = null;
-		loadRocket = null;
-
-		byte type = buf.readByte();
-		if(type == 1) {
-			loadMissile = MissileStruct.readFromByteBuffer(buf);
-		} else if(type == 2) {
-			loadRocket = RocketStruct.readFromByteBuffer(buf);
+		if(buf.readBoolean()) {
+			load = MissileStruct.readFromByteBuffer(buf);
+		} else {
+			load = null;
 		}
 
 		for(int i = 0; i < tanks.length; i++) tanks[i].deserialize(buf);
@@ -617,10 +526,6 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
 			}
 		}
-		
-		// migrate default tank size
-		if(tanks[0].getMaxFill() == 100_000) tanks[0].changeTankSize(128_000);
-		if(tanks[1].getMaxFill() == 100_000) tanks[1].changeTankSize(128_000);
 	}
 
 	@Override
