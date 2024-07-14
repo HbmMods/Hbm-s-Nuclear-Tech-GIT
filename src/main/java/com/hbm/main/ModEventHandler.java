@@ -1182,6 +1182,17 @@ public class ModEventHandler {
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		
 		EntityPlayer player = event.player;
+		if(player.posY > 300 && player.posY <1000) {
+			Vec3 vec = Vec3.createVectorHelper(3 * rand.nextDouble(), 0, 0);
+
+			//if(player.motionX > )
+			if(player.motionX > 1 || player.motionY > 1 || player.motionZ > 1) {
+				ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
+			}
+			if(player.motionX < -1 || player.motionY < -1 || player.motionZ < -1) {
+				ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
+			}
+		}
 		if(player.isPotionActive(HbmPotion.slippery.id) && !player.capabilities.isFlying) {
 		    if (player.onGround) {
 		        double slipperiness = 0.6; 
@@ -1408,6 +1419,7 @@ public class ModEventHandler {
 				ParticleUtil.spawnJesusFlame(player.worldObj, player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord);
 
 			}
+
 		}
 	}
 	

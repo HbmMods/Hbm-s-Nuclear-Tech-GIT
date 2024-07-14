@@ -193,7 +193,7 @@ public class ChunkProviderMoho implements IChunkProvider {
 								}
 								else if (k2 * 8 + l2 < b0)
 								{
-									p_147424_3_[j3 += short1] = Blocks.air;
+									p_147424_3_[j3 += short1] = Blocks.lava;
 								}
 								else
 								{
@@ -414,7 +414,7 @@ public class ChunkProviderMoho implements IChunkProvider {
 	 */
 	public void populate(IChunkProvider p_73153_1_, int p_73153_2_, int p_73153_3_)
 	{
-		BlockFalling.fallInstantly = true;
+		BlockFalling.fallInstantly = false;
 		int k = p_73153_2_ * 16;
 		int l = p_73153_3_ * 16;
 		BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(k + 16, l + 16);

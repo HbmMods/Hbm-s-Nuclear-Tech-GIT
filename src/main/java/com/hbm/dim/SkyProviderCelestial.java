@@ -105,10 +105,14 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		Vec3 skyColor = world.getSkyColor(mc.renderViewEntity, partialTicks);
+		Vec3 fogColor = world.getFogColor(partialTicks);
+
 		float skyR = (float) skyColor.xCoord;
 		float skyG = (float) skyColor.yCoord;
 		float skyB = (float) skyColor.zCoord;
-
+		float FR = (float) fogColor.xCoord; //fr?? ong??
+		float FG = (float) fogColor.yCoord;
+		float FB = (float) fogColor.zCoord;
 		// Diminish sky colour when leaving the atmosphere
 		if(mc.renderViewEntity.posY > 300) {
 			double curvature = MathHelper.clamp_float((800.0F - (float)mc.renderViewEntity.posY) / 500.0F, 0.0F, 1.0F);
@@ -194,6 +198,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
+
 		
 		GL11.glPushMatrix();
 		{
@@ -364,6 +369,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 				}
 				GL11.glPopMatrix();
 			}
+			
 
 			GL11.glEnable(GL11.GL_BLEND);
 
@@ -398,6 +404,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 			}
 			GL11.glPopMatrix();
 
+
 			if(visibility > 0.2F) {
 				// JEFF BOZOS WOULD LIKE TO KNOW YOUR LOCATION
 				// ... to send you a pakedge :)))
@@ -420,7 +427,29 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 		}
 		GL11.glPopMatrix();
+		if(mc.renderViewEntity.posY > 300) {
+			
+			double pp = mc.renderViewEntity.posY / 1;
+			double sc = 1 / (pp / 1000);
+			GL11.glPushMatrix();
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_FOG);
 
+			GL11.glColor4f(1.0F, 1.0F, 1.0F, visibility);
+			mc.renderEngine.bindTexture(body.texture);
+			GL11.glRotated( 180, 1, 0, 0);
+			
+		    tessellator.startDrawingQuads();
+		    tessellator.addVertexWithUV(-115 * sc, 100.0D, -115 * sc, 0.0D, 0.0D);
+		    tessellator.addVertexWithUV(115 * sc, 100.0D, -115 * sc, 1.0D, 0.0D);
+		    tessellator.addVertexWithUV(115 * sc, 100.0D, 115 * sc, 1.0D, 1.0D);
+		    tessellator.addVertexWithUV(-115 * sc, 100.0D, 115 * sc, 0.0D, 1.0D);
+		    tessellator.draw();
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_FOG);
+
+			GL11.glPopMatrix();
+			}
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor3f(0.0F, 0.0F, 0.0F);
 		double heightAboveHorizon = mc.thePlayer.getPosition(partialTicks).yCoord - world.getHorizon();
