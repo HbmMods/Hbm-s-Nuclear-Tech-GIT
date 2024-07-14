@@ -14,6 +14,9 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.render.shader.Shader;
 import com.hbm.util.AstronomyUtil;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
@@ -53,7 +56,9 @@ public class CelestialBody {
 	public String stoneTexture = "stone";
 	public SolarSystem.Body type;
 
+	@SideOnly(Side.CLIENT)
 	public Shader shader;
+
 	public float shaderScale = 1; // If the shader renders the item within the quad (not filling it entirely), scale it up from the true size
 	public boolean skipShader = false;
 
@@ -147,7 +152,8 @@ public class CelestialBody {
 	
 	
 	public CelestialBody withShader(ResourceLocation fragmentShader, float scale) {
-		
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) return this;
+
 		shader = new Shader(fragmentShader);
 		shaderScale = scale;
 		return this;

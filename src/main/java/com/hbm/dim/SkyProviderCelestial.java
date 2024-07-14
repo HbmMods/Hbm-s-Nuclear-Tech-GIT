@@ -32,7 +32,6 @@ public class SkyProviderCelestial extends IRenderHandler {
 	private static final ResourceLocation digammaStar = new ResourceLocation(RefStrings.MODID, "textures/misc/space/star_digamma.png");
 
 	private static final ResourceLocation noise = new ResourceLocation(RefStrings.MODID, "shaders/iChannel1.png");
-	private static final ResourceLocation bholeshader = new ResourceLocation(RefStrings.MODID, "shaders/blackhole.frag");
 
 	private static final Shader planetShader = new Shader(new ResourceLocation(RefStrings.MODID, "shaders/crescent.frag"));
 
@@ -106,14 +105,11 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		Vec3 skyColor = world.getSkyColor(mc.renderViewEntity, partialTicks);
-		Vec3 fogColor = world.getFogColor(partialTicks);
 
 		float skyR = (float) skyColor.xCoord;
 		float skyG = (float) skyColor.yCoord;
 		float skyB = (float) skyColor.zCoord;
-		float FR = (float) fogColor.xCoord; //fr?? ong??
-		float FG = (float) fogColor.yCoord;
-		float FB = (float) fogColor.zCoord;
+
 		// Diminish sky colour when leaving the atmosphere
 		if(mc.renderViewEntity.posY > 300) {
 			double curvature = MathHelper.clamp_float((800.0F - (float)mc.renderViewEntity.posY) / 500.0F, 0.0F, 1.0F);
@@ -211,14 +207,14 @@ public class SkyProviderCelestial extends IRenderHandler {
 			double sunSize = SolarSystem.calculateSunSize(body);
 			double coronaSize = sunSize * (3 - MathHelper.clamp_float(pressure, 0.0F, 1.0F));
 
-			if(!SolarSystem.kerbol.skipShader) {
+			if(SolarSystem.kerbol.shader != null && !SolarSystem.kerbol.skipShader) {
 				// BLACK HOLE SUN
 				// WON'T YOU COME
 				// AND WASH AWAY THE RAIN
-				//Shader shader = SolarSystem.kerbol.shader;
-				//SolarSystem.kerbol.shader != null
-				Shader shader = new Shader(bholeshader);
-				double shaderSize = sunSize * 3; 
+
+				Shader shader = SolarSystem.kerbol.shader;
+				double shaderSize = sunSize * SolarSystem.kerbol.shaderScale;
+
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 				shader.use();
@@ -430,26 +426,38 @@ public class SkyProviderCelestial extends IRenderHandler {
 		}
 		GL11.glPopMatrix();
 		
-			double pp = mc.renderViewEntity.posY / 1;
-			double sc = 1 / (pp / 1000);
-			GL11.glPushMatrix();
+		double pp = mc.renderViewEntity.posY;
+		double sc = 1 / (pp / 1000);
+		GL11.glPushMatrix();
+		{
+
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_FOG);
+			GL11.glEnable(GL11.GL_BLEND);
 
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, visibility);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+			float sunBrightness = world.getSunBrightness(partialTicks);
+	
+			GL11.glColor4f(sunBrightness, sunBrightness, sunBrightness, ((float)pp - 200.0F) / 300.0F);
 			mc.renderEngine.bindTexture(body.texture);
-			GL11.glRotated( 180, 1, 0, 0);
+			GL11.glRotated(180, 1, 0, 0);
 			
-		    tessellator.startDrawingQuads();
-		    tessellator.addVertexWithUV(-115 * sc, 100.0D, -115 * sc, 0.0D, 0.0D);
-		    tessellator.addVertexWithUV(115 * sc, 100.0D, -115 * sc, 1.0D, 0.0D);
-		    tessellator.addVertexWithUV(115 * sc, 100.0D, 115 * sc, 1.0D, 1.0D);
-		    tessellator.addVertexWithUV(-115 * sc, 100.0D, 115 * sc, 0.0D, 1.0D);
-		    tessellator.draw();
+			tessellator.startDrawingQuads();
+			tessellator.addVertexWithUV(-115 * sc, 100.0D, -115 * sc, 0.0D, 0.0D);
+			tessellator.addVertexWithUV(115 * sc, 100.0D, -115 * sc, 1.0D, 0.0D);
+			tessellator.addVertexWithUV(115 * sc, 100.0D, 115 * sc, 1.0D, 1.0D);
+			tessellator.addVertexWithUV(-115 * sc, 100.0D, 115 * sc, 0.0D, 1.0D);
+			tessellator.draw();
+
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glEnable(GL11.GL_FOG);
+			GL11.glDisable(GL11.GL_BLEND);
 
-			GL11.glPopMatrix();
+			OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
+
+		}
+		GL11.glPopMatrix();
 			
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor3f(0.0F, 0.0F, 0.0F);

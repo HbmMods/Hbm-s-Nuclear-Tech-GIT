@@ -1,27 +1,21 @@
 package com.hbm.items.tool;
 
 import java.util.List;
-import java.util.Random;
 
-import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.DebugTeleporter;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
-import com.hbm.entity.mob.EntityWarBehemoth;
 import com.hbm.lib.Library;
-import com.hbm.lib.RefStrings;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class ItemWandD extends Item {
@@ -98,16 +92,10 @@ public class ItemWandD extends Item {
 
 		return stack;
 	}
-		
 
-	
-	
-
-
-
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
-	{
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		list.add("Used for debugging purposes.");
 
 		if(stack.stackTagCompound != null) {

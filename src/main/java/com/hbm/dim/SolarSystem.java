@@ -34,7 +34,7 @@ public class SolarSystem {
 			.withMassRadius(1.757e28F, 261_600)
 			.withRotationalPeriod(432_000)
 			.withTexture("textures/environment/sun.png")
-			.disabledTho()
+			.withShader(new ResourceLocation(RefStrings.MODID, "shaders/blackhole.frag"), 3).disabledTho()
 			.withSatellites(
 
 				new CelestialBody("moho", SpaceConfig.mohoDimension, Body.MOHO)
