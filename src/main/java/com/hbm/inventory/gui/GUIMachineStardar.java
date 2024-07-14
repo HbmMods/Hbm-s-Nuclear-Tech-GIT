@@ -55,7 +55,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
 	Random rnd = new Random();
 
     public void init() {
-    	for(CelestialBody rody : CelestialBody.getAllBodies()) {
+    	for(CelestialBody rody : CelestialBody.getLandableBodies()) {
     		CelestialBody body = CelestialBody.getBody(star.getWorldObj());
     		if(rody != body) {
         		int posX = rnd.nextInt(256);

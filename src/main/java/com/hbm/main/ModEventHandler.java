@@ -1189,7 +1189,7 @@ public class ModEventHandler {
 			CBT_Atmosphere thatmosphere = CelestialBody.getTrait(player.worldObj, CBT_Atmosphere.class);
 
 
-			if(thatmosphere.getPressure() > 0)
+			if(thatmosphere != null)
 			if(!player.isRiding()) {
 				//if(player.motionX > )
 				if(player.motionX > 1 || player.motionY > 1 || player.motionZ > 1) {
