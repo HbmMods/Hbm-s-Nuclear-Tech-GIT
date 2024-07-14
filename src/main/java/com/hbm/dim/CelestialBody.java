@@ -77,7 +77,7 @@ public class CelestialBody {
     public static Collection<CelestialBody> getAllBodies() {
         return nameToBodyMap.values();
     }
-    public static Collection<CelestialBody> getMellowsBody() {
+    public static Collection<CelestialBody> getLandableBodies() {
         return dimToBodyMap.values();
     }
 	// Chainables for construction
