@@ -145,7 +145,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
 
 			switch (tier) {
 			case 1:
-		        drawTexturedModalRect(guiLeft +(int)additive + offsetx, guiTop + (int)additivey + offsety ,  157, 0, 6, 7);
+		        drawTexturedModalRect(guiLeft +(int)additive + offsetx, guiTop + (int)additivey + offsety ,  191, 0, 6, 7);
 				break;
 			case 2:
 		        drawTexturedModalRect(guiLeft +(int)additive + offsetx, guiTop + (int)additivey + offsety ,  164, 0, 8, 8);
@@ -224,16 +224,16 @@ public class GUIMachineStardar extends GuiInfoContainer {
         mX = x;
         mY = y;
     }
-    public static class POI{
-    	int offsetX;
-    	int offsetY;
-    	int Tier;
+public static class POI{
+    int offsetX;
+    int offsetY;
+    int Tier;
 
 
-    	public POI(int offsetx, int offsety, int tier) {
-			offsetX = offsetx;
-			offsetY = offsety;
-			Tier = tier;
+    public POI(int offsetx, int offsety, int tier) {
+    	offsetX = offsetx;
+		offsetY = offsety;
+		Tier = tier;
 		}
     }    
 }
