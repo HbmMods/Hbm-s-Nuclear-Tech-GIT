@@ -116,16 +116,16 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 					}
 
 					for(int i = targetHeight + 1; i < 256 && worldObj.getBlock(xCoord - 4, yCoord + i, zCoord - 4) == ModBlocks.machine_rocket_assembly; i++) {
-						worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);
+						worldObj.setBlockToAir(xCoord - 4, yCoord + i, zCoord - 4);
 					}
 					for(int i = targetHeight + 1; i < 256 && worldObj.getBlock(xCoord + 4, yCoord + i, zCoord - 4) == ModBlocks.machine_rocket_assembly; i++) {
-						worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);
+						worldObj.setBlockToAir(xCoord + 4, yCoord + i, zCoord - 4);
 					}
 					for(int i = targetHeight + 1; i < 256 && worldObj.getBlock(xCoord - 4, yCoord + i, zCoord + 4) == ModBlocks.machine_rocket_assembly; i++) {
-						worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);
+						worldObj.setBlockToAir(xCoord - 4, yCoord + i, zCoord + 4);
 					}
 					for(int i = targetHeight + 1; i < 256 && worldObj.getBlock(xCoord + 4, yCoord + i, zCoord + 4) == ModBlocks.machine_rocket_assembly; i++) {
-						worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);
+						worldObj.setBlockToAir(xCoord + 4, yCoord + i, zCoord + 4);
 					}
 
 					platformFailed = false;
@@ -233,6 +233,11 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineRocketAssembly(player.inventory, this);
+	}
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this;
 	}
 
 	@Override
