@@ -185,7 +185,7 @@ public class RocketStruct {
 
 		if(stage.fuselage == null || stage.thruster == null) return -1;
 		
-		int rocketMass = getDryMass(stageNum);
+		int rocketMass = getLaunchMass(stageNum);
 		FT_Rocket trait = stage.thruster.part.getFuel().getTrait(FT_Rocket.class);
 		if(trait == null) return -1;
 
@@ -195,11 +195,13 @@ public class RocketStruct {
 		return SolarSystem.getCostBetween(from, to, rocketMass, (int)thrust, (int)isp);
 	}
 
-	public int getDryMass() {
-		return getDryMass(0);
+	// Gets the dry mass of the active stage + the wet mass of the stages above it
+	public int getLaunchMass() {
+		return getLaunchMass(0);
 	}
 
-	public int getDryMass(int stageNum) {
+	// Gets the dry mass of the current stage + the wet mass of the stages above it
+	public int getLaunchMass(int stageNum) {
 		int mass = 0;
 
 		if(capsule != null) mass += capsule.part.mass;
@@ -208,6 +210,10 @@ public class RocketStruct {
 			RocketStage stage = stages.get(i);
 			if(stage.fuselage != null) mass += stage.fuselage.part.mass * stage.fuselageCount;
 			if(stage.thruster != null) mass += stage.thruster.part.mass * stage.thrusterCount;
+
+			if(stage.fuselage != null && i > stageNum) {
+				mass += stage.fuselage.part.getTankSize() * stage.fuselageCount;
+			}
 		}
 
 		return MathHelper.ceiling_float_int(mass * 0.1F);
