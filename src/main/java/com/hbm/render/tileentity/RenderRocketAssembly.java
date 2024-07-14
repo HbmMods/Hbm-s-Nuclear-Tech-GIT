@@ -37,11 +37,11 @@ public class RenderRocketAssembly extends TileEntitySpecialRenderer {
 		bindTexture(ResourceManager.rocket_assembly_tex);
 		ResourceManager.rocket_assembly.renderPart("Base");
 		
-		if(te.rocket != null) {
+		if(te.rocket != null && te.rocket.extraIssues.size() == 0) {
 			GL11.glPushMatrix();
 			{
 
-				GL11.glTranslatef(0F, 3F, 0F);
+				GL11.glTranslatef(0F, 2.95F, 0F);
 
 				if(te.rocket.stages.size() > 0) {
 					RocketStage stage = te.rocket.stages.get(0);
@@ -50,7 +50,7 @@ public class RenderRocketAssembly extends TileEntitySpecialRenderer {
 					}
 				}
 	
-				MissilePronter.prontRocket(te.rocket, Minecraft.getMinecraft().getTextureManager());
+				MissilePronter.prontRocket(te.rocket, Minecraft.getMinecraft().getTextureManager(), false);
 
 			}
 			GL11.glPopMatrix();
