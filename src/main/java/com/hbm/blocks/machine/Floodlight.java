@@ -7,6 +7,8 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.block.IToolable;
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -19,6 +21,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -265,5 +268,30 @@ public class Floodlight extends BlockContainer implements IToolable {
 		private boolean isLoaded = true;
 		@Override public boolean isLoaded() { return isLoaded; }
 		@Override public void onChunkUnload() { this.isLoaded = false; }
+		
+		AxisAlignedBB bb = null;
+		
+		@Override
+		public AxisAlignedBB getRenderBoundingBox() {
+			
+			if(bb == null) {
+				bb = AxisAlignedBB.getBoundingBox(
+						xCoord - 1,
+						yCoord - 1,
+						zCoord - 1,
+						xCoord + 2,
+						yCoord + 2,
+						zCoord + 2
+						);
+			}
+			
+			return bb;
+		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public double getMaxRenderDistanceSquared() {
+			return 65536.0D;
+		}
 	}
 }

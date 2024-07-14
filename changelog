@@ -1,3 +1,10 @@
+## Added
+* Powered Floodlight
+  * Uses 100HE/t to create light
+  * Casts 15 rays in a wide beam with a maximum length of 64 blocks, each beam creates a spot with light level 15
+  * Floodlight can be mounted on any side and angled in any direction, angles snap to 5° increments
+  * Angles can be adjusted after placing with a screwdriver
+
 ## Changed
 * Changed bedrock ore processing time in the electrolyzer to 60 ticks
 * RF converters have been reworked
@@ -7,9 +14,20 @@
   * The loss only takes effect once the input buffer can no longer empty into the output buffer, i.e. when energy demand is too low for the input
   * The buffer also fixes a bug where the HE to RF converter often behaves weirdly with certain mods, either outright destroying energy ot creating infinite energy
   * HE to RF converters now by default have the connection priority of LOW, only feeding into RF networks when all other energy consumers are sufficiently supplied. This can still be changed by using diodes
+  * Converters now have configurable conversion rates as well as input decay per tick
+* The SILEX is now fully deterministic
+  * Output is no longer random, instead there is now a "recipe index" which is incremented after each operation, choosing a new next output
+  * This means that the order of outputs for any given input is fixed, and outputs are guaranteed to happen based on the recipe's total weight (most recipes have a total output weight of 100 for simplicity's sake, meaning after 100 operations the output pattern repeats, and all outputs are guaranteed to be picked)
+* Simplified the assembler recipes for the SILEX, FEL and all energy storage blocks (no more random wires and single ingots, fewer duplicate materials)
+* Turrets will now only lock onto missiles if they are descending (i.e. negative Y speed), which means that launching a missile close to a turret will not cause the turret to immediately shoot it
+* The fusion reactor's byproducts are now created by delay and not by chance, making the output predictable
+* Tritium-based fusion fuels now have a higher byproduct output rate (900 ticks instead of 1200)
 
 ## Fixed
 * Fixed issue where the NEI universal handler can not correctly display more than 4 outputs (now supports up to 8, which should cover all possible electrolyzer cases too)
 * Fixed the metal electrolysis duration variable not being part of the config
 * Removed the global energy transfer cap (only per-machine caps apply now), fixing issues where FENSUs in buffer mode would not charge past 10THE, and constantly void energy if above that threshold
 * Fixed a bug where the power transfer would sometimes have leftovers due to rounding errors which are send but not used up, effectively creating small amounts of energy out of nothing
+* Fixed ZIRNOX space checks omitting the top portion
+* Fixed RBMK flames and mini nuke flashes being affected by fog, turning them into glowing squares when viewed at a distance
+* Fixed crash caused by brimstone mines being launched from dispensers

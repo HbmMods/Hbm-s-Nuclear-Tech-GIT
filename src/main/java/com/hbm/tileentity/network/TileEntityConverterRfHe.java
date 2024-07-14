@@ -17,7 +17,9 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 
 	public long power;
 	public final long maxPower = 5_000_000;
-	public static long ratio = 5;
+	public static long rfInput = 5;
+	public static long heOutput = 1;
+	public static double inputDecay = 0.05;
 
 	public EnergyStorage storage = new EnergyStorage(1_000_000, 1_000_000, 1_000_000);
 
@@ -26,10 +28,10 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 		
 		if (!worldObj.isRemote) {
 			
-			long rfCreated = Math.min(storage.getEnergyStored(), (maxPower - power) / ratio);
+			long rfCreated = Math.min(storage.getEnergyStored(), (maxPower - power) * heOutput / rfInput);
 			storage.setEnergyStored((int) (storage.getEnergyStored() - rfCreated));
-			power += rfCreated * ratio;
-			if(storage.getEnergyStored() > 0) storage.extractEnergy((int) Math.ceil(storage.getEnergyStored() * 0.05), false);
+			power += rfCreated * rfInput / heOutput;
+			if(storage.getEnergyStored() > 0) storage.extractEnergy((int) Math.ceil(storage.getEnergyStored() * inputDecay), false);
 			if(rfCreated > 0) this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 			
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
@@ -66,16 +68,20 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 
 	@Override
 	public String getConfigName() {
-		return "Rf->HeConverter";
+		return "RFToHEConverter";
 	}
 
 	@Override
 	public void readIfPresent(JsonObject obj) {
-		ratio = IConfigurableMachine.grab(obj, "L:Rf/He ratio", ratio);
+		rfInput = IConfigurableMachine.grab(obj, "L:RFUsed", rfInput);
+		heOutput = IConfigurableMachine.grab(obj, "L:HECreated", heOutput);
+		inputDecay = IConfigurableMachine.grab(obj, "D:inputDecay", inputDecay);
 	}
 
 	@Override
 	public void writeConfig(JsonWriter writer) throws IOException {
-		writer.name("L:Rf/He ratio").value(ratio);
+		writer.name("L:RFUsed").value(rfInput);
+		writer.name("L:HECreated").value(heOutput);
+		writer.name("D:inputDecay").value(inputDecay);
 	}
 }

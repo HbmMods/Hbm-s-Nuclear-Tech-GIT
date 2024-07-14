@@ -5151,6 +5151,7 @@ tile.fireworks.color=Color: %s
 tile.fissure_bomb.name=Fissure Bomb
 tile.flame_war.name=Flame War in a Box
 tile.float_bomb.name=Levitation Bomb
+tile.floodlight.name=Powered Floodlight
 tile.fluid_duct.name=Universal Fluid Duct (Deprecated)
 tile.fluid_duct_box.name=Universal Fluid Duct (Boxduct)
 tile.fluid_duct_exhaust.name=Exhaust Pipe
