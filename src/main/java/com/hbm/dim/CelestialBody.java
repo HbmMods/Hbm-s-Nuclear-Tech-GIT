@@ -77,6 +77,9 @@ public class CelestialBody {
     public static Collection<CelestialBody> getAllBodies() {
         return nameToBodyMap.values();
     }
+    public static Collection<CelestialBody> getMellowsBody() {
+        return dimToBodyMap.values();
+    }
 	// Chainables for construction
 
 	public CelestialBody withMassRadius(float kg, float km) {

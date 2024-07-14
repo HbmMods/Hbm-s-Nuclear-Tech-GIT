@@ -60,7 +60,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
     		if(rody != body) {
         		int posX = rnd.nextInt(256);
         		int posY = rnd.nextInt(256);
-        		pList.add(new POI(posX, posY, rody.processingLevel));	
+        		pList.add(new POI(posX, posY, rody.processingLevel, rody.name));	
     		}
     	}
     }
@@ -82,12 +82,12 @@ public class GUIMachineStardar extends GuiInfoContainer {
 
         pushScissor(9, 10, 137, 108);
         Minecraft.getMinecraft().getTextureManager().bindTexture(nightTexture);
-
         if (!Mouse.isButtonDown(0)) {
             velocityX *= 0.85;
             velocityY *= 0.85;
             additive += velocityX;
             additivey += velocityY;
+        
         }
         drawTexturedModalRect(guiLeft, guiTop , (int)additive * -1, (int)additivey * -1, xSize, ySize);
 
@@ -125,7 +125,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
 
 			
 		for(POI peepee : pList) {
-			RenderPOI(peepee.offsetX, peepee.offsetY, x, y, peepee.Tier);
+			RenderPOI(peepee.offsetX, peepee.offsetY, x, y, peepee.Tier, peepee.Name);
 		}
     }
     
@@ -134,7 +134,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
 	}
     
     
-    protected void RenderPOI(int offsetx, int offsety, int mx, int my, int tier) {
+    protected void RenderPOI(int offsetx, int offsety, int mx, int my, int tier, String name) {
 
 		int x = (int) (guiLeft + additive + offsetx);
 		int y = (int) (guiTop + additivey + offsety);
@@ -166,8 +166,8 @@ public class GUIMachineStardar extends GuiInfoContainer {
 
 		if(checkClick(mx, my, (int) (additive + offsetx), guiTop + y, 8,8)) {
 			//this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("POI Tier: " + tier)), x, y);
-			drawCustomInfoStat(mx, my, x, y, 35, 14, mx, my, "POI");
-			drawCustomInfoStat(mx, my, x, y, 35, 14, mx, my, "POI", "Processing Tier: " + String.format(Locale.US, "%,d", (int)(tier)));
+			//drawCustomInfoStat(mx, my, x, y, 35, 14, mx, my, name);
+			drawCustomInfoStat(mx, my, x, y, 35, 14, mx, my, name, "Processing Tier: " + String.format(Locale.US, "%,d", (int)(tier)));
         }
         if (button == 0 && !Mouse.getEventButtonState()) {
     		if(checkClick(mx, my, (int) (additive + offsetx), guiTop + y, 8,8)) {
@@ -185,6 +185,29 @@ public class GUIMachineStardar extends GuiInfoContainer {
         super.handleMouseInput();
 
         int button = Mouse.getEventButton();
+        if(additive > 400) {
+        	velocityX = 0;
+        	velocityY = 0;
+        	additive = 400;
+        	
+        }
+        if(additive < -400) {
+        	velocityX = 0;
+        	velocityY = 0;
+        	additive = -400;
+        }
+        if(additivey < -400) {
+        	velocityX = 0;
+        	velocityY = 0;
+        	additivey = -400;
+
+        }
+        if(additivey > 400) {
+        	velocityX = 0;
+        	velocityY = 0;
+        	additivey = 400;
+        	
+        }
 
         if (button == 0 && !Mouse.getEventButtonState()) {
             velocityX = (mX - sX) * 0.08f;
@@ -195,6 +218,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
             sX = Mouse.getEventX() * this.width / this.mc.displayWidth;
             sY = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
         }
+        
     }
 
     @Override
@@ -223,17 +247,21 @@ public class GUIMachineStardar extends GuiInfoContainer {
         sY = y;
         mX = x;
         mY = y;
+		//if(checkClick(x, y, (int) (additive + po), guiTop + y, 8,8)) {
+		//	System.out.println("fuck");
+		//}
     }
 public static class POI{
     int offsetX;
     int offsetY;
     int Tier;
+    String Name;
 
-
-    public POI(int offsetx, int offsety, int tier) {
+    public POI(int offsetx, int offsety, int tier, String name) {
     	offsetX = offsetx;
 		offsetY = offsety;
 		Tier = tier;
+		Name = name;
 		}
     }    
 }
