@@ -96,6 +96,7 @@ public class SolarSystem {
 					.withBlockTextures(RefStrings.MODID + ":duna_rock", "", "", "")
 					.withProcessingLevel(1)
 					.withTraits(new CBT_Atmosphere(Fluids.DUNAAIR, 0.1D))
+					.withProcessingLevel(1)
 					.withSatellites(
 
 						new CelestialBody("ike", SpaceConfig.ikeDimension, Body.IKE)
@@ -105,6 +106,7 @@ public class SolarSystem {
 							.withProcessingLevel(1)
 							.withRotationalPeriod(65_518)
 							.withTidalLockingTo("duna")
+							.withProcessingLevel(1)
 
 					),
 
@@ -112,7 +114,9 @@ public class SolarSystem {
 					.withMassRadius(3.219e20F, 138)
 					.withSemiMajorAxis(40_839_348)
 					.withRotationalPeriod(34_800)
-					.withBlockTextures(RefStrings.MODID + ":dresbase", "", "", ""),
+					.withBlockTextures(RefStrings.MODID + ":dresbase", "", "", "")
+					.withProcessingLevel(2),
+					
 
 				new CelestialBody("jool")
 					.withMassRadius(4.233e24F, 6_000)

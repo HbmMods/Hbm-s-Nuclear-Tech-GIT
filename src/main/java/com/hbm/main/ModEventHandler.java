@@ -2,6 +2,7 @@ package com.hbm.main;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -25,6 +26,7 @@ import com.hbm.dim.WorldGeneratorCelestial;
 import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.WorldTypeTeleport;
 import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.missile.EntityRideableRocket;
@@ -552,7 +554,7 @@ public class ModEventHandler {
 	public void onBucketUse(FillBucketEvent event) {
 		if(event.world.isRemote) return;
 		if(event.target.typeOfHit != MovingObjectType.BLOCK) return;
-
+		
 		if(event.current != null && event.current.getItem() == Items.water_bucket) {
 			ForgeDirection dir = ForgeDirection.getOrientation(event.target.sideHit);
 			CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(event.world, event.target.blockX + dir.offsetX, event.target.blockY + dir.offsetY, event.target.blockZ + dir.offsetZ);
@@ -1180,18 +1182,24 @@ public class ModEventHandler {
 	
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		
+
 		EntityPlayer player = event.player;
 		if(player.posY > 300 && player.posY <1000) {
 			Vec3 vec = Vec3.createVectorHelper(3 * rand.nextDouble(), 0, 0);
+			CBT_Atmosphere thatmosphere = CelestialBody.getTrait(player.worldObj, CBT_Atmosphere.class);
 
-			//if(player.motionX > )
-			if(player.motionX > 1 || player.motionY > 1 || player.motionZ > 1) {
-				ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
+
+			if(thatmosphere.getPressure() > 0)
+			if(!player.isRiding()) {
+				//if(player.motionX > )
+				if(player.motionX > 1 || player.motionY > 1 || player.motionZ > 1) {
+					ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
+				}
+				if(player.motionX < -1 || player.motionY < -1 || player.motionZ < -1) {
+					ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
+				}	
 			}
-			if(player.motionX < -1 || player.motionY < -1 || player.motionZ < -1) {
-				ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
-			}
+
 		}
 		if(player.isPotionActive(HbmPotion.slippery.id) && !player.capabilities.isFlying) {
 		    if (player.onGround) {
@@ -1423,6 +1431,8 @@ public class ModEventHandler {
 		}
 	}
 	
+
+
 	@SubscribeEvent
 	public void onServerTick(TickEvent.ServerTickEvent event) {
 		

@@ -427,8 +427,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 		}
 		GL11.glPopMatrix();
-		if(mc.renderViewEntity.posY > 300) {
-			
+		
 			double pp = mc.renderViewEntity.posY / 1;
 			double sc = 1 / (pp / 1000);
 			GL11.glPushMatrix();
@@ -449,7 +448,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 			GL11.glEnable(GL11.GL_FOG);
 
 			GL11.glPopMatrix();
-			}
+			
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor3f(0.0F, 0.0F, 0.0F);
 		double heightAboveHorizon = mc.thePlayer.getPosition(partialTicks).yCoord - world.getHorizon();

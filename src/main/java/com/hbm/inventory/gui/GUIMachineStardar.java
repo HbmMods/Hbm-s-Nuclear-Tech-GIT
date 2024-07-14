@@ -3,8 +3,10 @@ package com.hbm.inventory.gui;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SkyProviderCelestial;
 import com.hbm.dim.SolarSystem;
+import com.hbm.dim.SolarSystem.AstroMetric;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.container.ContainerStardar;
 import com.hbm.lib.RefStrings;
@@ -16,8 +18,11 @@ import com.hbm.tileentity.machine.TileEntityMachineStardar;
 import com.hbm.util.AstronomyUtil;
 import com.hbm.util.I18nUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
 import net.minecraft.client.Minecraft;
@@ -36,6 +41,7 @@ import net.minecraft.util.ResourceLocation;
  */
 
 public class GUIMachineStardar extends GuiInfoContainer {
+	
     public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/machine/gui_stardar.png");
     private static final ResourceLocation nightTexture = new ResourceLocation(RefStrings.MODID, "textures/misc/space/night.png");
     protected boolean clickorus;
@@ -45,13 +51,27 @@ public class GUIMachineStardar extends GuiInfoContainer {
     private int imgoingtojumpoffabuildingbutwithloveandroses, nmass2;
     private float additive = 0, additivey = 0;
     private float velocityX = 0, velocityY = 0;
+    private List<POI> pList = new ArrayList<>();
+	Random rnd = new Random();
 
+    public void init() {
+    	for(CelestialBody rody : CelestialBody.getAllBodies()) {
+    		CelestialBody body = CelestialBody.getBody(star.getWorldObj());
+    		if(rody != body) {
+        		int posX = rnd.nextInt(256);
+        		int posY = rnd.nextInt(256);
+        		pList.add(new POI(posX, posY, rody.processingLevel));	
+    		}
+    	}
+    }
+    
     public GUIMachineStardar(InventoryPlayer iplayer, TileEntityMachineStardar restard) {
         super(new ContainerStardar(iplayer, restard));
         this.star = restard;
 
         this.xSize = 210;
         this.ySize = 256;
+        init();
     }
 
     @Override
@@ -95,14 +115,18 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		//RenderPOI(20, 100, x, y, 3);
 
 		//TODO: so this is a test to see if the system well... systems. but anyway im thinking that you can see arrows that point to a planet to look at and then you can "ping"
+		//RenderPOI(80, 80, x, y, 1);
+		//RenderPOI(60, 100, x, y, 2);
+		//RenderPOI(20, 85, x, y, 3); 
+		//RenderPOI(10, 70, x, y, 2); 
+		//RenderPOI(20, 40, x, y, 4); 
+		//RenderPOI(65, 50, x, y, 1); 
+		
 
-		RenderPOI(80, 80, x, y, 1);
-		RenderPOI(60, 100, x, y, 2);
-		RenderPOI(20, 85, x, y, 3); 
-		RenderPOI(10, 70, x, y, 2); 
-		RenderPOI(20, 40, x, y, 4); 
-		RenderPOI(65, 50, x, y, 1); 
-
+			
+		for(POI peepee : pList) {
+			RenderPOI(peepee.offsetX, peepee.offsetY, x, y, peepee.Tier);
+		}
     }
     
     protected boolean WithinBounds(int x, int y) {
@@ -116,6 +140,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		int y = (int) (guiTop + additivey + offsety);
 		
 		if(WithinBounds(x, y)) {
+
 	        Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 
 			switch (tier) {
@@ -137,13 +162,18 @@ public class GUIMachineStardar extends GuiInfoContainer {
 			}
 			
 		}
+        int button = Mouse.getEventButton();
+
 		if(checkClick(mx, my, (int) (additive + offsetx), guiTop + y, 8,8)) {
 			//this.func_146283_a(Arrays.asList(I18nUtil.resolveKeyArray("POI Tier: " + tier)), x, y);
 			drawCustomInfoStat(mx, my, x, y, 35, 14, mx, my, "POI");
 			drawCustomInfoStat(mx, my, x, y, 35, 14, mx, my, "POI", "Processing Tier: " + String.format(Locale.US, "%,d", (int)(tier)));
-
-
-		} 
+        }
+        if (button == 0 && !Mouse.getEventButtonState()) {
+    		if(checkClick(mx, my, (int) (additive + offsetx), guiTop + y, 8,8)) {
+    			System.out.println("fuck");
+    		}
+        }
 
     
 	}
@@ -176,7 +206,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
         additivey += deltaY;
         mX = x;
         mY = y;
-        System.out.println("mx: " + x + " my: " + y);
+
     }
 
     @Override
@@ -194,4 +224,18 @@ public class GUIMachineStardar extends GuiInfoContainer {
         mX = x;
         mY = y;
     }
+    public static class POI{
+    	int offsetX;
+    	int offsetY;
+    	int Tier;
+
+
+    	public POI(int offsetx, int offsety, int tier) {
+			offsetX = offsetx;
+			offsetY = offsety;
+			Tier = tier;
+		}
+    }    
 }
+
+	

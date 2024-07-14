@@ -22,7 +22,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityMachineStardar extends TileEntityMachineBase implements IGUIProvider {
 
 	public TileEntityMachineStardar() {
-		super(1);
+		super(2);
 		// TODO Auto-generated constructor stub
 	}
 

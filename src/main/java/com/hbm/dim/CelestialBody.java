@@ -1,6 +1,7 @@
 package com.hbm.dim;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +74,9 @@ public class CelestialBody {
 	}
 
 
-
+    public static Collection<CelestialBody> getAllBodies() {
+        return nameToBodyMap.values();
+    }
 	// Chainables for construction
 
 	public CelestialBody withMassRadius(float kg, float km) {
@@ -151,6 +154,7 @@ public class CelestialBody {
 		return this;
 	}
 
+	
 	// /Chainables
 
 
