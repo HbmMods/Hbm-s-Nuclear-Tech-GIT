@@ -48,9 +48,16 @@ public class RenderFloodlight extends TileEntitySpecialRenderer {
 		GL11.glTranslated(0, -0.5, 0);
 		
 		floodlight.renderPart("Lights");
-		RenderArcFurnace.fullbright(true);
-		floodlight.renderPart("Lamps");
-		RenderArcFurnace.fullbright(false);
+		
+		if(floodtile.isOn) {
+			RenderArcFurnace.fullbright(true);
+			floodlight.renderPart("Lamps");
+			RenderArcFurnace.fullbright(false);
+		} else {
+			GL11.glColor4f(0.25F, 0.25F, 0.25F, 1F);
+			floodlight.renderPart("Lamps");
+			GL11.glColor4f(1F, 1F, 1F, 1F);
+		}
 		
 		GL11.glPopMatrix();
 	}

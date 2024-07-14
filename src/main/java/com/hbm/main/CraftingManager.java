@@ -449,6 +449,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.spotlight_incandescent, 8), new Object[] { " G ", " T ", " I ", 'G', KEY_ANYPANE, 'T', W.wireFine(), 'I', IRON.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.spotlight_fluoro, 8), new Object[] { " G ", " M ", " A ", 'G', KEY_ANYPANE, 'M', ModItems.ingot_mercury, 'A', ModItems.plate_aluminium });
 		addRecipeAuto(new ItemStack(ModBlocks.spotlight_halogen, 8), new Object[] { " G ", " B ", " S ", 'G', KEY_ANYPANE, 'B', ModItems.powder_bromine, 'S', STEEL.plate() });
+		addRecipeAuto(new ItemStack(ModBlocks.floodlight, 2), new Object[] { "CSC", "TST", "G G", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CAPACITOR), 'S', STEEL.plate(), 'T', ModItems.coil_tungsten, 'G', KEY_ANYPANE });
 		
 		addRecipeAuto(new ItemStack(ModBlocks.barbed_wire, 16), new Object[] { "AIA", "I I", "AIA", 'A', STEEL.wireFine(), 'I', IRON.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.barbed_wire_fire, 8), new Object[] { "BBB", "BIB", "BBB", 'B', ModBlocks.barbed_wire, 'I', P_RED.dust() });

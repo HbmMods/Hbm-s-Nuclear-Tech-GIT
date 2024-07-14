@@ -12,3 +12,4 @@
 * Fixed issue where the NEI universal handler can not correctly display more than 4 outputs (now supports up to 8, which should cover all possible electrolyzer cases too)
 * Fixed the metal electrolysis duration variable not being part of the config
 * Removed the global energy transfer cap (only per-machine caps apply now), fixing issues where FENSUs in buffer mode would not charge past 10THE, and constantly void energy if above that threshold
+* Fixed a bug where the power transfer would sometimes have leftovers due to rounding errors which are send but not used up, effectively creating small amounts of energy out of nothing

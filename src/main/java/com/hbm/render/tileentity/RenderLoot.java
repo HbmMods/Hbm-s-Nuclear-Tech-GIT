@@ -159,6 +159,7 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 		GL11.glTranslated(0.25, 0, 0.25);
 		GL11.glScaled(0.5, 0.5, 0.5);
 		GL11.glRotated(90, 1, 0, 0);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		
 		bindTexture(TextureMap.locationItemsTexture);
 		
