@@ -7,7 +7,7 @@ import com.hbm.inventory.container.ContainerCraneGrabber;
 import com.hbm.inventory.gui.GUICraneGrabber;
 import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
-import com.hbm.tileentity.IFilterable;
+import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.InventoryUtil;
 
@@ -19,7 +19,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -30,7 +29,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
-public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIProvider, IFilterable {
+public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIProvider, IControlReceiverFilter {
 
 	public boolean isWhitelist = false;
 	public ModulePatternMatcher matcher;
@@ -199,14 +198,5 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 		if(data.hasKey("slot")){
 			setFilterContents(data);
 		}
-	}
-	@Override
-	public void setFilterContents(NBTTagCompound nbt) {
-		int slot = nbt.getInteger("slot");
-		setInventorySlotContents(
-				slot,
-				new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
-		nextMode(slot);
-		markChanged();
 	}
 }
