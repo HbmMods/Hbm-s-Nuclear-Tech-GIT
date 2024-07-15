@@ -4080,6 +4080,7 @@ tile.fireworks.color=Farbe: %s
 tile.fissure_bomb.name=Geofissur-Bombe
 tile.flame_war.name=Flamewar aus der Box
 tile.float_bomb.name=Schwebebombe
+tile.floodlight.name=Elektrischer Scheinwerfer
 tile.fluid_duct.name=Universelles Flüssigkeitsrohr (Veraltet)
 tile.fluid_duct_box.name=Universelles Flüssigkeitsrohr (Boxrohr)
 tile.fluid_duct_exhaust.name=Abgasrohr

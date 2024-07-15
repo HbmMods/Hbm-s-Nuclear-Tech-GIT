@@ -1,6 +1,9 @@
 package com.hbm.tileentity.network;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.calc.Location;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -11,12 +14,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEnergyReceiverMK2, IEnergyHandler {
+import java.io.IOException;
+
+public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEnergyReceiverMK2, IEnergyHandler, IConfigurableMachine {
 	
 	//Thanks to the great people of Fusion Warfare for helping me with the original implementation of the RF energy API
 	
 	public long power;
 	public final long maxPower = 5_000_000;
+	public static long heInput = 1;
+	public static long rfOutput = 5;
+	public static double inputDecay = 0.05;
 	public EnergyStorage storage = new EnergyStorage(1_000_000, 1_000_000, 1_000_000);
 
 	@Override
@@ -24,10 +32,10 @@ public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEn
 		
 		if (!worldObj.isRemote) {
 			
-			long rfCreated = Math.min(storage.getMaxEnergyStored() - storage.getEnergyStored(), power / 5);
-			this.power -= rfCreated * 5;
+			long rfCreated = Math.min(storage.getMaxEnergyStored() - storage.getEnergyStored(), power / rfOutput * heInput);
+			this.power -= rfCreated * rfOutput / heInput;
 			this.storage.setEnergyStored((int) (storage.getEnergyStored() + rfCreated));
-			if(power > 0) this.power *= 0.95;
+			if(power > 0) this.power *= (1D - inputDecay);
 			if(rfCreated > 0) this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 			
 			for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
@@ -74,5 +82,24 @@ public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEn
 		
 		nbt.setLong("power", power);
 		storage.writeToNBT(nbt);
+	}
+
+	@Override
+	public String getConfigName() {
+		return "HEToRFConverter";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		heInput = IConfigurableMachine.grab(obj, "L:HEUsed", heInput);
+		rfOutput = IConfigurableMachine.grab(obj, "L:RFCreated", rfOutput);
+		inputDecay = IConfigurableMachine.grab(obj, "D:inputDecay", inputDecay);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("L:HEUsed").value(heInput);
+		writer.name("L:RFCreated").value(rfOutput);
+		writer.name("D:inputDecay").value(inputDecay);
 	}
 }

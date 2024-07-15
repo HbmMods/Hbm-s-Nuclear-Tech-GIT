@@ -651,8 +651,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		if(targetMachines) {
 
 			if(e instanceof IRadarDetectableNT && !((IRadarDetectableNT)e).canBeSeenBy(this)) return false;
-			if(e instanceof EntityMissileBaseNT) return true;
-			if(e instanceof EntityMissileCustom) return true;
+			if(e instanceof EntityMissileBaseNT) return e.motionY < 0;
+			if(e instanceof EntityMissileCustom) return e.motionY < 0;
 			if(e instanceof EntityMinecart) return true;
 			if(e instanceof EntityRailCarBase) return true;
 			if(e instanceof EntityBomber) return true;

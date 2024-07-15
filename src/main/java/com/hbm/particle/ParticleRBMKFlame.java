@@ -34,6 +34,8 @@ public class ParticleRBMKFlame extends EntityFX {
 	public void renderParticle(Tessellator tess, float interp, float x, float y, float z, float tx, float tz) {
 
 		this.theRenderEngine.bindTexture(getTexture());
+		boolean fog = GL11.glIsEnabled(GL11.GL_FOG);
+		if(fog) GL11.glDisable(GL11.GL_FOG);
 		
 		GL11.glPushMatrix();
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -93,6 +95,7 @@ public class ParticleRBMKFlame extends EntityFX {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
+		if(fog) GL11.glEnable(GL11.GL_FOG);
 	}
 	
 	protected ResourceLocation getTexture() {
