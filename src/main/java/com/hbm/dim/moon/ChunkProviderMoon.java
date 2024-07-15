@@ -2,6 +2,7 @@ package com.hbm.dim.moon;
 
 import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.*;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.ChunkProviderCelestial;
 import com.hbm.dim.ExperimentalCaveGenerator;
 
@@ -14,7 +15,8 @@ public class ChunkProviderMoon extends ChunkProviderCelestial {
 
 	public ChunkProviderMoon(World world, long seed, boolean hasMapFeatures) {
 		super(world, seed, hasMapFeatures);
-		caveGenV2 = (ExperimentalCaveGenerator) TerrainGen.getModdedMapGen(caveGenV2, CUSTOM);	
+		caveGenV2 = (ExperimentalCaveGenerator) TerrainGen.getModdedMapGen(caveGenV2, CUSTOM);
+		stoneBlock = ModBlocks.moon_rock;
 	}
 
 	@Override
