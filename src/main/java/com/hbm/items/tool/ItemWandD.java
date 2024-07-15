@@ -3,13 +3,15 @@ package com.hbm.items.tool;
 import java.util.List;
 
 import com.hbm.lib.Library;
-import com.hbm.world.dungeon.Silo;
+import com.hbm.world.gen.component.Component;
+import com.hbm.world.gen.component.CivilianFeatures.RuralHouse1;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class ItemWandD extends Item {
 
@@ -33,13 +35,13 @@ public class ItemWandD extends Item {
 			
 			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
 			
-			/*int i = pos.blockX >> 4;
+			int i = pos.blockX >> 4;
 			int j = pos.blockZ >> 4;
 			
 			i = (i << 4) + 8;
 			j = (j << 4) + 8;
 			Component comp = new RuralHouse1(world.rand, i, j);
-			comp.addComponentParts(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));*/
+			comp.addComponentParts(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));
 			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
@@ -76,8 +78,6 @@ public class ItemWandD extends Item {
 			} else {
 				EntityNukeTorex.statFac(world, pos.blockX, pos.blockY + 1, pos.blockZ, 150);
 			}*/
-			
-			new Silo().generate(world, world.rand, pos.blockX, pos.blockY + 1, pos.blockZ);
 			
 			/*EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
 			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");

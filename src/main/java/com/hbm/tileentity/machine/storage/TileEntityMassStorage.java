@@ -1,10 +1,9 @@
 package com.hbm.tileentity.machine.storage;
 
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMassStorage;
 import com.hbm.inventory.gui.GUIMassStorage;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.IFilterable;
+import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.INBTPacketReceiver;
 
 import cpw.mods.fml.relauncher.Side;
@@ -12,13 +11,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPacketReceiver, IFilterable {
+public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPacketReceiver, IControlReceiverFilter {
 	
 	private int stack = 0;
 	public boolean output = false;
@@ -165,6 +163,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
+		
 		if(data.hasKey("provide") && slots[1] != null) {
 			
 			if(this.getStockpile() == 0) {
@@ -195,16 +194,6 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 		if(data.hasKey("slot")){
 			setFilterContents(data);
 		}
-	}
-
-	@Override
-	public void setFilterContents(NBTTagCompound nbt) {
-		int slot = nbt.getInteger("slot");
-		setInventorySlotContents(
-				slot,
-				new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
-		nextMode(slot);
-		markDirty();
 	}
 
 	@Override

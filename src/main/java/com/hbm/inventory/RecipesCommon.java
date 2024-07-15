@@ -111,6 +111,11 @@ public class RecipesCommon {
 		public int meta;
 		
 		public ComparableStack(ItemStack stack) {
+			if(stack == null) {
+				this.item = ModItems.nothing;
+				this.stacksize = 1;
+				return;
+			}
 			this.item = stack.getItem();
 			this.stacksize = stack.stackSize;
 			this.meta = stack.getItemDamage();

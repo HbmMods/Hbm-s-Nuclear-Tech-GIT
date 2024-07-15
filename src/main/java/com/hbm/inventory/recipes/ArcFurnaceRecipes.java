@@ -110,13 +110,15 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 			ItemStack input = (ItemStack) entry.getKey();
 			ItemStack output = (ItemStack) entry.getValue();
 			
-			ComparableStack comp = new ComparableStack(input);
-			if(OreDictManager.arcSmeltable.contains(comp) || OreDictManager.arcSmeltable.contains(new ComparableStack(output))) {
-				ArcFurnaceRecipe recipe = recipes.get(comp);
-				if(recipe == null) recipe = new ArcFurnaceRecipe();
-				if(recipe.solidOutput == null) {
-					recipe.solid(output.copy());
-					recipes.put(comp, recipe);
+			if(input != null && output != null) {
+				ComparableStack comp = new ComparableStack(input);
+				if(OreDictManager.arcSmeltable.contains(comp) || OreDictManager.arcSmeltable.contains(new ComparableStack(output))) {
+					ArcFurnaceRecipe recipe = recipes.get(comp);
+					if(recipe == null) recipe = new ArcFurnaceRecipe();
+					if(recipe.solidOutput == null) {
+						recipe.solid(output.copy());
+						recipes.put(comp, recipe);
+					}
 				}
 			}
 		}
