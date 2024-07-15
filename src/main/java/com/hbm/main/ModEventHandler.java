@@ -244,25 +244,6 @@ public class ModEventHandler {
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.beta));
 		}
 	}
-	
-	@SubscribeEvent
-	public void StopSpawninginSpace(EntityJoinWorldEvent event) {
-		
-		if(!(event.entity instanceof EntityPlayer) && event.entity instanceof EntityLivingBase) {
-			EntityLivingBase living = (EntityLivingBase) event.entity;
-			if(event.world.provider.dimensionId == 16) {
-				if( event.entity.ticksExisted < 20 && !(event.entity instanceof EntityWaterMob) && !living.isChild()) {
-					event.setCanceled(true);
-				}
-			}
-			if(event.entity instanceof EntityWaterMob && event.entity.ticksExisted < 20) {
-				Random rand = new Random();
-				if(rand.nextInt(9) != 0) {
-					event.setCanceled(true);
-				}
-			}
-		}
-	}
 
 	@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing event) {
