@@ -17,8 +17,8 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 
 	public long power;
 	public final long maxPower = 5_000_000;
-	public static long rfInput = 5;
-	public static long heOutput = 1;
+	public static long rfInput = 1;
+	public static long heOutput = 5;
 	public static double inputDecay = 0.05;
 
 	public EnergyStorage storage = new EnergyStorage(1_000_000, 1_000_000, 1_000_000);
@@ -28,9 +28,9 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 		
 		if (!worldObj.isRemote) {
 			
-			long rfCreated = Math.min(storage.getEnergyStored(), (maxPower - power) * heOutput / rfInput);
+			long rfCreated = Math.min(storage.getEnergyStored(), (maxPower - power) * rfInput / heOutput);
 			storage.setEnergyStored((int) (storage.getEnergyStored() - rfCreated));
-			power += rfCreated * rfInput / heOutput;
+			power += rfCreated * heOutput / rfInput;
 			if(storage.getEnergyStored() > 0) storage.extractEnergy((int) Math.ceil(storage.getEnergyStored() * inputDecay), false);
 			if(rfCreated > 0) this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 			
@@ -73,15 +73,15 @@ public class TileEntityConverterRfHe extends TileEntityLoadedBase implements IEn
 
 	@Override
 	public void readIfPresent(JsonObject obj) {
-		rfInput = IConfigurableMachine.grab(obj, "L:RFUsed", rfInput);
-		heOutput = IConfigurableMachine.grab(obj, "L:HECreated", heOutput);
+		rfInput = IConfigurableMachine.grab(obj, "L:RF_Used", rfInput);
+		heOutput = IConfigurableMachine.grab(obj, "L:HE_Created", heOutput);
 		inputDecay = IConfigurableMachine.grab(obj, "D:inputDecay", inputDecay);
 	}
 
 	@Override
 	public void writeConfig(JsonWriter writer) throws IOException {
-		writer.name("L:RFUsed").value(rfInput);
-		writer.name("L:HECreated").value(heOutput);
+		writer.name("L:RF_Used").value(rfInput);
+		writer.name("L:HE_Created").value(heOutput);
 		writer.name("D:inputDecay").value(inputDecay);
 	}
 }
