@@ -30,8 +30,6 @@ public class SpaceConfig {
 	public static int laytheBiome = 123;
 	public static int laytheOceanBiome = 124;
 	public static int ikeBiome = 145;
-	public static int ikecfreq = 90;
-	public static int drescfreq = 90;
 
 	
 	public static int dresBiome = 120;
@@ -39,10 +37,13 @@ public class SpaceConfig {
 	
 	public static int mohoBiome = 122;
 	
-	public static int minmusBiome = 146;
-	public static int minmusBasins = 147;
+	public static int minmusBiome = 40;
+	public static int minmusBasins = 41;
 
 	public static boolean allowNetherPortals = false;
+
+	public static int ikecfreq = 90;
+	public static int drescfreq = 90;
 	
 	public static void loadFromConfig(Configuration config) {
 	

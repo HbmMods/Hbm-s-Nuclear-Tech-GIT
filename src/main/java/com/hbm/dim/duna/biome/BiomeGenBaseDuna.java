@@ -1,14 +1,8 @@
 
 package com.hbm.dim.duna.biome;
 
-import java.util.Random;
-
 import com.hbm.config.SpaceConfig;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenBaseDuna extends BiomeGenBase

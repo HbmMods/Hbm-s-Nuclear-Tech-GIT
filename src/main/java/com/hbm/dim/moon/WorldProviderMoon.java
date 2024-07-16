@@ -10,10 +10,10 @@ import net.minecraft.world.chunk.IChunkProvider;
 
 public class WorldProviderMoon extends WorldProviderCelestial {
 
-    @Override
+	@Override
 	public void registerWorldChunkManager() {
 		this.worldChunkMgr = new WorldChunkManagerHell(new BiomeGenMoon(SpaceConfig.moonBiome), dimensionId);
-    }
+	}
 
 	@Override
 	public String getDimensionName() {
@@ -21,9 +21,9 @@ public class WorldProviderMoon extends WorldProviderCelestial {
 	}
 	
 	@Override
-    public IChunkProvider createChunkGenerator() {
-        return new ChunkProviderMoon(this.worldObj, this.getSeed(), false);
-    }
+	public IChunkProvider createChunkGenerator() {
+		return new ChunkProviderMoon(this.worldObj, this.getSeed(), false);
+	}
 
 	@Override
 	public Block getStone() {

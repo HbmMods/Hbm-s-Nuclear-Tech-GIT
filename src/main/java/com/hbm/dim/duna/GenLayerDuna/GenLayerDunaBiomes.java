@@ -6,12 +6,11 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
 
-public class GenLayerDunaBiomes extends GenLayer
-{
+public class GenLayerDunaBiomes extends GenLayer {
+
     private static final BiomeGenBase[] biomes = new BiomeGenBase[] { BiomeGenBaseDuna.dunaPlains, BiomeGenBaseDuna.dunaLowlands, BiomeGenBaseDuna.dunaPolar, BiomeGenBaseDuna.dunaHills, BiomeGenBaseDuna.dunaPolarHills};
 
-    public GenLayerDunaBiomes(long l)
-    {
+    public GenLayerDunaBiomes(long l) {
         super(l);
     }
 

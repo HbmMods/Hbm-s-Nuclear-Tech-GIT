@@ -34,9 +34,7 @@ public class BiomeGenDuna extends BiomeGenBase {
         BiomeDictionary.registerBiomeType(this, BiomeDictionary.Type.COLD, BiomeDictionary.Type.DRY, BiomeDictionary.Type.DEAD);
 	}
 
-    public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
-    {
-        boolean flag = true;
+    public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise) {
         Block block = this.topBlock;
         byte b0 = (byte)(this.field_150604_aj & 255);
         Block block1 = this.fillerBlock;
