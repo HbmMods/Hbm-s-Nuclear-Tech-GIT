@@ -351,6 +351,14 @@ public class CelestialBody {
 		return getBody(world).getTrait(trait);
 	}
 
+	public static boolean hasDefaultTrait(World world, Class<? extends CelestialBodyTrait> trait) {
+		return getBody(world).hasDefaultTrait(trait);
+	}
+	
+	public static <T extends CelestialBodyTrait> T getDefaultTrait(World world, Class<? extends T> trait) {
+		return getBody(world).getDefaultTrait(trait);
+	}
+
 	// /Statics
 
 
@@ -422,6 +430,15 @@ public class CelestialBody {
 			return traits;
 			
 		return this.traits;
+	}
+
+	public boolean hasDefaultTrait(Class<? extends CelestialBodyTrait> trait) {
+		return traits.containsKey(trait);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends CelestialBodyTrait> T getDefaultTrait(Class<? extends T> trait) {
+		return (T) traits.get(trait);
 	}
 
 }

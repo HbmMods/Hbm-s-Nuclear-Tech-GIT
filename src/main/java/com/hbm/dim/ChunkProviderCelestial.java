@@ -9,6 +9,7 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -21,6 +22,24 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 
 public abstract class ChunkProviderCelestial implements IChunkProvider {
 
+	// Default block fills
+	protected Block stoneBlock;
+	protected Block seaBlock; // Doesn't have to be liquid, if you want like, basalt seas
+	protected int seaLevel;
+
+	// Noise frequency
+	protected Vec3 firstOrderFreq = Vec3.createVectorHelper(684.412D, 684.412D, 684.412D);
+	protected Vec3 secondOrderFreq = Vec3.createVectorHelper(684.412D, 684.412D, 684.412D);
+	protected Vec3 thirdOrderFreq = Vec3.createVectorHelper(8.555150000000001D, 4.277575000000001D, 8.555150000000001D);
+	protected Vec3 heightOrderFreq = Vec3.createVectorHelper(200.0D, 200.0D, 0.5D);
+
+	// Embiggenify
+	protected boolean amplified = false;
+
+	// Not sure but it was on some of the bodies
+	protected boolean declamp = true;
+
+
 	protected World worldObj;
 	protected final boolean mapFeaturesEnabled;
 	protected Random rand;
@@ -29,23 +48,17 @@ public abstract class ChunkProviderCelestial implements IChunkProvider {
 	protected NoiseGeneratorOctaves secondOrder;
 	protected NoiseGeneratorOctaves thirdOrder;
 	protected NoiseGeneratorPerlin perlin;
-	protected NoiseGeneratorOctaves fithOrder;
-	protected NoiseGeneratorOctaves sixthOrder;
-	protected NoiseGeneratorOctaves mobSpawnerNoise;
-
-	protected Block stoneBlock;
-	protected Block seaBlock;
-	protected int seaLevel;
+	protected NoiseGeneratorOctaves heightOrder;
 
 	protected BiomeGenBase[] biomesForGeneration;
-	protected final double[] buffer;
+	protected final double[] terrainBuffer;
 	protected final float[] parabolicField;
 	protected double[] stoneNoise = new double[256];
 
-	private double[] thirdOrderBuffer;
-	private double[] firstOrderBuffer;
-	private double[] secondOrderBuffer;
-	private double[] sixthOrderBuffer;
+	protected double[] firstOrderBuffer;
+	protected double[] secondOrderBuffer;
+	protected double[] thirdOrderBuffer;
+	protected double[] heightOrderBuffer;
 
 	public ChunkProviderCelestial(World world, long seed, boolean hasMapFeatures) {
 		this.worldObj = world;
@@ -56,11 +69,9 @@ public abstract class ChunkProviderCelestial implements IChunkProvider {
 		this.secondOrder = new NoiseGeneratorOctaves(this.rand, 16);
 		this.thirdOrder = new NoiseGeneratorOctaves(this.rand, 8);
 		this.perlin = new NoiseGeneratorPerlin(this.rand, 4);
-		this.fithOrder = new NoiseGeneratorOctaves(this.rand, 10);
-		this.sixthOrder = new NoiseGeneratorOctaves(this.rand, 16);
-		this.mobSpawnerNoise = new NoiseGeneratorOctaves(this.rand, 8);
+		this.heightOrder = new NoiseGeneratorOctaves(this.rand, 16);
 
-		this.buffer = new double[825];
+		this.terrainBuffer = new double[825];
 		this.parabolicField = new float[25];
 
 		for(int j = -2; j <= 2; ++j) {
@@ -72,17 +83,15 @@ public abstract class ChunkProviderCelestial implements IChunkProvider {
 
 		stoneBlock = Blocks.stone;
 		seaBlock = Blocks.air;
-		seaLevel = 64;
+		seaLevel = 63;
 
-		NoiseGenerator[] noiseGens = { firstOrder, secondOrder, thirdOrder, perlin, fithOrder, sixthOrder, mobSpawnerNoise };
+		NoiseGenerator[] noiseGens = { firstOrder, secondOrder, thirdOrder, perlin, heightOrder };
 		noiseGens = TerrainGen.getModdedNoiseGenerators(world, this.rand, noiseGens);
 		this.firstOrder = (NoiseGeneratorOctaves) noiseGens[0];
 		this.secondOrder = (NoiseGeneratorOctaves) noiseGens[1];
 		this.thirdOrder = (NoiseGeneratorOctaves) noiseGens[2];
 		this.perlin = (NoiseGeneratorPerlin) noiseGens[3];
-		this.fithOrder = (NoiseGeneratorOctaves) noiseGens[4];
-		this.sixthOrder = (NoiseGeneratorOctaves) noiseGens[5];
-		this.mobSpawnerNoise = (NoiseGeneratorOctaves) noiseGens[6];
+		this.heightOrder = (NoiseGeneratorOctaves) noiseGens[4];
 	}
 
 	/**
@@ -98,7 +107,7 @@ public abstract class ChunkProviderCelestial implements IChunkProvider {
 	}
 
 	// Fills in the chunk with stone, water, and air
-	private void generateBlocks(int x, int z, Block[] blocks) {
+	protected void generateBlocks(int x, int z, Block[] blocks) {
 		this.biomesForGeneration = this.worldObj.getWorldChunkManager().getBiomesForGeneration(this.biomesForGeneration, x * 4 - 2, z * 4 - 2, 10, 10);
 		this.generateNoiseField(x * 4, 0, z * 4);
 
@@ -114,14 +123,14 @@ public abstract class ChunkProviderCelestial implements IChunkProvider {
 
 				for(int k2 = 0; k2 < 32; ++k2) {
 					double d0 = 0.125D;
-					double d1 = this.buffer[k1 + k2];
-					double d2 = this.buffer[l1 + k2];
-					double d3 = this.buffer[i2 + k2];
-					double d4 = this.buffer[j2 + k2];
-					double d5 = (this.buffer[k1 + k2 + 1] - d1) * d0;
-					double d6 = (this.buffer[l1 + k2 + 1] - d2) * d0;
-					double d7 = (this.buffer[i2 + k2 + 1] - d3) * d0;
-					double d8 = (this.buffer[j2 + k2 + 1] - d4) * d0;
+					double d1 = this.terrainBuffer[k1 + k2];
+					double d2 = this.terrainBuffer[l1 + k2];
+					double d3 = this.terrainBuffer[i2 + k2];
+					double d4 = this.terrainBuffer[j2 + k2];
+					double d5 = (this.terrainBuffer[k1 + k2 + 1] - d1) * d0;
+					double d6 = (this.terrainBuffer[l1 + k2 + 1] - d2) * d0;
+					double d7 = (this.terrainBuffer[i2 + k2 + 1] - d3) * d0;
+					double d8 = (this.terrainBuffer[j2 + k2 + 1] - d4) * d0;
 
 					for(int l2 = 0; l2 < 8; ++l2) {
 						double d9 = 0.25D;
@@ -163,11 +172,11 @@ public abstract class ChunkProviderCelestial implements IChunkProvider {
 	}
 
 	// Fills up a buffer with "chances for this block to be stone" using 3D noise and biome specific information
-	private void generateNoiseField(int x, int y, int z) {
-		this.sixthOrderBuffer = this.sixthOrder.generateNoiseOctaves(this.sixthOrderBuffer, x, z, 5, 5, 200.0D, 200.0D, 0.5D);
-		this.thirdOrderBuffer = this.thirdOrder.generateNoiseOctaves(this.thirdOrderBuffer, x, y, z, 5, 33, 5, 8.555150000000001D, 4.277575000000001D, 8.555150000000001D);
-		this.firstOrderBuffer = this.firstOrder.generateNoiseOctaves(this.firstOrderBuffer, x, y, z, 5, 33, 5, 684.412D, 684.412D, 684.412D);
-		this.secondOrderBuffer = this.secondOrder.generateNoiseOctaves(this.secondOrderBuffer, x, y, z, 5, 33, 5, 684.412D, 684.412D, 684.412D);
+	protected void generateNoiseField(int x, int y, int z) {
+		this.firstOrderBuffer = this.firstOrder.generateNoiseOctaves(this.firstOrderBuffer, x, y, z, 5, 33, 5, firstOrderFreq.xCoord, firstOrderFreq.yCoord, firstOrderFreq.zCoord);
+		this.secondOrderBuffer = this.secondOrder.generateNoiseOctaves(this.secondOrderBuffer, x, y, z, 5, 33, 5, secondOrderFreq.xCoord, secondOrderFreq.yCoord, secondOrderFreq.zCoord);
+		this.thirdOrderBuffer = this.thirdOrder.generateNoiseOctaves(this.thirdOrderBuffer, x, y, z, 5, 33, 5, thirdOrderFreq.xCoord, thirdOrderFreq.yCoord, thirdOrderFreq.zCoord);
+		this.heightOrderBuffer = this.heightOrder.generateNoiseOctaves(this.heightOrderBuffer, x, z, 5, 5, heightOrderFreq.xCoord, heightOrderFreq.yCoord, heightOrderFreq.zCoord);
 
 		int l = 0;
 		int i1 = 0;
@@ -186,6 +195,11 @@ public abstract class ChunkProviderCelestial implements IChunkProvider {
 						float f3 = biomegenbase1.rootHeight;
 						float f4 = biomegenbase1.heightVariation;
 
+                        if(amplified && f3 > 0.0F) {
+                            f3 = 1.0F + f3 * 2.0F;
+                            f4 = 1.0F + f4 * 4.0F;
+                        }
+
 						float f5 = this.parabolicField[l1 + 2 + (i2 + 2) * 5] / (f3 + 2.0F);
 
 						if(biomegenbase1.rootHeight > biomegenbase.rootHeight) {
@@ -202,7 +216,7 @@ public abstract class ChunkProviderCelestial implements IChunkProvider {
 				f1 /= f2;
 				f = f * 0.9F + 0.1F;
 				f1 = (f1 * 4.0F - 1.0F) / 8.0F;
-				double d12 = this.sixthOrderBuffer[i1] / 8000.0D;
+				double d12 = this.heightOrderBuffer[i1] / 8000.0D;
 
 				if(d12 < 0.0D) {
 					d12 = -d12 * 0.3D;
@@ -244,14 +258,14 @@ public abstract class ChunkProviderCelestial implements IChunkProvider {
 					double d7 = this.firstOrderBuffer[l] / 512.0D;
 					double d8 = this.secondOrderBuffer[l] / 512.0D;
 					double d9 = (this.thirdOrderBuffer[l] / 10.0D + 1.0D) / 2.0D;
-					double d10 = MathHelper.denormalizeClamp(d7, d8, d9) - d6;
+					double d10 = declamp ? MathHelper.denormalizeClamp(d7, d8, d9) - d6 : d8 - d6;
 
 					if(j2 > 29) {
 						double d11 = (double) ((float) (j2 - 29) / 3.0F);
 						d10 = d10 * (1.0D - d11) + -10.0D * d11;
 					}
 
-					this.buffer[l] = d10;
+					this.terrainBuffer[l] = d10;
 					++l;
 				}
 			}

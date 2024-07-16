@@ -17,6 +17,7 @@ public class ChunkProviderMoon extends ChunkProviderCelestial {
 		super(world, seed, hasMapFeatures);
 		caveGenV2 = (ExperimentalCaveGenerator) TerrainGen.getModdedMapGen(caveGenV2, CUSTOM);
 		stoneBlock = ModBlocks.moon_rock;
+		seaBlock = ModBlocks.basalt;
 	}
 
 	@Override
