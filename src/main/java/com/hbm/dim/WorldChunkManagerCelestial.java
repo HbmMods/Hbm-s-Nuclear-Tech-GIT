@@ -163,9 +163,12 @@ public class WorldChunkManagerCelestial extends WorldChunkManager {
         private GenLayer biomeLayer;
         private GenLayer biomeDetailLayer;
 
-        public BiomeGenLayers(GenLayer biomeLayer, GenLayer biomeDetailLayer) {
+        public BiomeGenLayers(GenLayer biomeLayer, GenLayer biomeDetailLayer, long seed) {
             this.biomeLayer = biomeLayer;
             this.biomeDetailLayer = biomeDetailLayer;
+
+            biomeLayer.initWorldGenSeed(seed);
+            biomeDetailLayer.initWorldGenSeed(seed);
         }
 
     }

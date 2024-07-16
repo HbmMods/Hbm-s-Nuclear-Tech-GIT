@@ -11,7 +11,6 @@ import com.hbm.dim.duna.GenLayerDuna.GenLayerDunaLowlands;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.GenLayerFuzzyZoom;
@@ -25,7 +24,7 @@ public class WorldProviderDuna extends WorldProviderCelestial {
 
 	@Override
 	public void registerWorldChunkManager() {
-		this.worldChunkMgr = new WorldChunkManagerCelestial(createBiomeGenerators(worldObj));
+		this.worldChunkMgr = new WorldChunkManagerCelestial(createBiomeGenerators(worldObj.getSeed()));
 	}
 
 	@Override
@@ -54,8 +53,8 @@ public class WorldProviderDuna extends WorldProviderCelestial {
 		return super.getRespawnDimension(player);
 	}
 
-	public static BiomeGenLayers createBiomeGenerators(World world) {
-		GenLayer biomes = new GenLayerDunaBiomes(world.getSeed());
+	private static BiomeGenLayers createBiomeGenerators(long seed) {
+		GenLayer biomes = new GenLayerDunaBiomes(seed);
 		
 		biomes = new GenLayerFuzzyZoom(2000L, biomes);
 		biomes = new GenLayerZoom(2001L, biomes);
@@ -83,7 +82,7 @@ public class WorldProviderDuna extends WorldProviderCelestial {
 
 		GenLayer genlayerRiverMix = new GenLayerRiverMix(100L, biomes, genlayerRiver);
 
-		return new BiomeGenLayers(genlayerRiverMix, genlayerVoronoiZoom);
+		return new BiomeGenLayers(genlayerRiverMix, genlayerVoronoiZoom, seed);
 	}
 
 }
