@@ -58,7 +58,7 @@ public abstract class ChunkProviderCelestial implements IChunkProvider {
 	private NoiseGeneratorPerlin perlin;
 	private NoiseGeneratorOctaves heightOrder;
 
-	private BiomeGenBase[] biomesForGeneration;
+	protected BiomeGenBase[] biomesForGeneration;
 	private final double[] terrainBuffer;
 	private final float[] parabolicField;
 	private double[] stoneNoise = new double[256];

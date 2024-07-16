@@ -11,7 +11,14 @@ import net.minecraft.world.gen.MapGenBase;
 
 public class ExperimentalCaveGenerator extends MapGenBase {
 
+	public Block lavaBlock;
+
 	PerlinFestival perlinNoise;
+
+	public ExperimentalCaveGenerator() {
+		super();
+		lavaBlock = Blocks.lava;
+	}
 
 	protected void generateLargeCave(long seed, int chunkX, int chunkZ, Block[] blocks, double x, double y, double z) {
 		this.generateCaveNode(seed, chunkX, chunkZ, blocks, x, y, z, 1.0F + this.rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5D);
@@ -287,7 +294,7 @@ public class ExperimentalCaveGenerator extends MapGenBase {
 
 		if (block == Blocks.stone || block == filler || block == top) {
 			if (y < 10) {
-				data[index] = Blocks.lava;
+				data[index] = lavaBlock;
 			} else {
 				data[index] = null;
 
