@@ -37,7 +37,7 @@ public class TileEntityFurnaceCombination extends TileEntityMachinePolluting imp
 	public static int processTime = 20_000;
 	
 	public int heat;
-	public static int maxHeat = 125_000;
+	public static int maxHeat = 100_000;
 	public static double diffusion = 0.25D;
 	
 	public FluidTank tank;
