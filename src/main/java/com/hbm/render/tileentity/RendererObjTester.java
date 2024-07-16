@@ -10,30 +10,71 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.HorsePronter;
+import com.hbm.wiaj.WorldInAJar;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
 public class RendererObjTester extends TileEntitySpecialRenderer {
-	
+
+	private static RenderBlocks renderer;
+	private static WorldInAJar world;
 	private static ResourceLocation extra = new ResourceLocation(RefStrings.MODID, "textures/models/horse/dyx.png");
 	
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
 		GL11.glPushMatrix();
-		GL11.glTranslated(x + 0.5, y, z + 0.5);
-		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glTranslated(x + 0.5, y + 2, z + 0.5);
+		GL11.glRotated(15, 0, 0, 1);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		
 		GL11.glRotated(System.currentTimeMillis() / 5D % 360D, 0, -1, 0);
-		GL11.glTranslated(0, 0.1, 0.5);
+		
+		if(world == null) {
+			world = new WorldInAJar(5, 3, 5);
+			for(int i = 0; i < 25; i++) world.setBlock(i / 5, 1, i % 5, Blocks.brick_block, 0);
+			for(int i = 0; i < 9; i++) world.setBlock(1 + i / 3, 0, 1 + i % 3, Blocks.brick_block, 0);
+		}
+		
+		if(renderer == null) {
+			renderer = new RenderBlocks(world);
+		}
+		renderer.enableAO = true;
+
+		RenderHelper.disableStandardItemLighting();
+		Minecraft.getMinecraft().entityRenderer.disableLightmap(f);
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(-2.5, 0, -2.5);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Tessellator.instance.startDrawingQuads();
+		
+		for(int ix = 0; ix < world.sizeX; ix++) {
+			for(int iy = 0; iy < world.sizeY; iy++) {
+				for(int iz = 0; iz < world.sizeZ; iz++) {
+					renderer.renderBlockByRenderType(world.getBlock(ix, iy, iz), ix, iy, iz);
+				}
+			}
+		}
+		
+		Tessellator.instance.draw();
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glPopMatrix();
+
+		Minecraft.getMinecraft().entityRenderer.enableLightmap(f);
+		RenderHelper.enableStandardItemLighting();
+		GL11.glTranslated(0, 2.1, 0.5);
 		
 		this.bindTexture(extra);
 		HorsePronter.reset();
