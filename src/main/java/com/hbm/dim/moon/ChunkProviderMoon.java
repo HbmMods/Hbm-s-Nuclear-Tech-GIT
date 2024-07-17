@@ -18,7 +18,7 @@ public class ChunkProviderMoon extends ChunkProviderCelestial {
 	public ChunkProviderMoon(World world, long seed, boolean hasMapFeatures) {
 		super(world, seed, hasMapFeatures);
 		caveGenV2 = (ExperimentalCaveGenerator) TerrainGen.getModdedMapGen(caveGenV2, CUSTOM);
-		caveGenV3 = (MapGenGreg) TerrainGen.getModdedMapGen(caveGenV3, CUSTOM);
+		caveGenV3 = (MapGenGreg) TerrainGen.getModdedMapGen(caveGenV3, CAVE);
 
 		stoneBlock = ModBlocks.moon_rock;
 		seaBlock = ModBlocks.basalt;
@@ -29,9 +29,9 @@ public class ChunkProviderMoon extends ChunkProviderCelestial {
 		BlockMetaBuffer buffer = super.getChunkPrimer(x, z);
 
 		// BEEG CAVES
-		this.caveGenV2.func_151539_a(this, worldObj, x, z, buffer.blocks);
+		// this.caveGenV2.func_151539_a(this, worldObj, x, z, buffer.blocks);
 		
-		//do i add octaves here?
+		// NEW CAVES
 		this.caveGenV3.func_151539_a(this, worldObj, x, z, buffer.blocks);
 		return buffer;
 	}
