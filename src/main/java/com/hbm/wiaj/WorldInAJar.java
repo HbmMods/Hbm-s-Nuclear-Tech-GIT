@@ -19,6 +19,8 @@ public class WorldInAJar implements IBlockAccess {
 	public int sizeX;
 	public int sizeY;
 	public int sizeZ;
+	
+	public int lightlevel = 15;
 
 	private Block[][][] blocks;
 	private short[][][] meta;
@@ -87,7 +89,7 @@ public class WorldInAJar implements IBlockAccess {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getLightBrightnessForSkyBlocks(int x, int y, int z, int blockBrightness) {
-		return 15; //always be on fullbright
+		return lightlevel;
 	}
 
 	//redstone could theoretically be implemented, but we will wait for now

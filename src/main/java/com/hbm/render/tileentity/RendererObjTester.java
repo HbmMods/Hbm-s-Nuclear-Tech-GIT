@@ -34,7 +34,7 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
 		GL11.glPushMatrix();
-		GL11.glTranslated(x + 0.5, y + 2, z + 0.5);
+		GL11.glTranslated(x + 0.5, y + 1, z + 0.5);
 		GL11.glRotated(15, 0, 0, 1);
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		
@@ -50,9 +50,9 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 			renderer = new RenderBlocks(world);
 		}
 		renderer.enableAO = true;
+		world.lightlevel = tileEntity.getWorldObj().getLightBrightnessForSkyBlocks(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, 0);
 
 		RenderHelper.disableStandardItemLighting();
-		Minecraft.getMinecraft().entityRenderer.disableLightmap(f);
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(-2.5, 0, -2.5);
@@ -72,7 +72,6 @@ public class RendererObjTester extends TileEntitySpecialRenderer {
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 
-		Minecraft.getMinecraft().entityRenderer.enableLightmap(f);
 		RenderHelper.enableStandardItemLighting();
 		GL11.glTranslated(0, 2.1, 0.5);
 		
