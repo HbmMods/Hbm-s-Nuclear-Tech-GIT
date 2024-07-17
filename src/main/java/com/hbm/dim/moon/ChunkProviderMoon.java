@@ -22,6 +22,7 @@ public class ChunkProviderMoon extends ChunkProviderCelestial {
 
 		stoneBlock = ModBlocks.moon_rock;
 		seaBlock = ModBlocks.basalt;
+		seaLevel = 64;
 	}
 
 	@Override

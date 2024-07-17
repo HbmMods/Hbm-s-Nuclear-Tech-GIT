@@ -5,10 +5,13 @@ import static net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.ExperimentalCaveGenerator;
+import com.hbm.dim.GenCrater;
+import com.hbm.main.MainRegistry;
 import com.hbm.world.generator.DungeonToolbox;
 
 import cpw.mods.fml.common.IWorldGenerator;
@@ -51,5 +54,23 @@ public class WorldGeneratorMoon implements IWorldGenerator {
         DungeonToolbox.generateOre(world, rand, i, j, 10, 13, 5, 64, ModBlocks.ore_quartz, meta, ModBlocks.moon_rock);
 
         DungeonToolbox.generateOre(world, rand, i, j, 1, 12, 8, 32, ModBlocks.ore_shale, meta, ModBlocks.moon_rock);
+		
+		if (rand.nextInt(80) == 0) {
+			
+			for (int a = 0; a < 1; a++) {
+				int x = i + rand.nextInt(16);
+				int z = j + rand.nextInt(16);
+				
+				double r = rand.nextInt(15) + 10;
+				
+				if(rand.nextInt(50) == 0)
+					r = 50;
+
+				new GenCrater(ModBlocks.moon_rock, ModBlocks.basalt).generate(world, x, z, r, r * 0.35D);
+
+				if(GeneralConfig.enableDebugMode)
+					MainRegistry.logger.info("[Debug] Successfully spawned crater at " + x + " " + z);
+			}
+		}
 	}
 }

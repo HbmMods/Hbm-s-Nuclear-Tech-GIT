@@ -1,4 +1,4 @@
-package com.hbm.dim.dres;
+package com.hbm.dim;
 
 import java.util.Random;
 
@@ -7,8 +7,29 @@ import com.hbm.blocks.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
-public class CraterDres {
-//TODO: port to mapgenbase, then generalize it so it can be called on any body if needed.	
+public class GenCrater {
+
+	private final Block regolith;
+	private int regolithMeta = 0;
+
+	private final Block rock;
+
+	public GenCrater(Block rock) {
+		this(rock, ModBlocks.basalt);
+	}
+
+	public GenCrater(Block rock, Block regolith) {
+		this.rock = rock;
+		this.regolith = regolith;
+	}
+
+	public GenCrater(Block rock, Block regolith, int regolithMeta) {
+		this(rock, regolith);
+		this.regolithMeta = regolithMeta;
+	}
+	
+	//TODO: port to mapgenbase
+
 	private double depthFunc(double x, double rad, double depth) {
 		
 		return -Math.pow(x, 4) / Math.pow(rad, 4) * depth + depth;
@@ -35,11 +56,11 @@ public class CraterDres {
 					dig(world, x + a, z + b, dep);
 
 					if(r + rand.nextInt(3) <= radius / 3D) {
-						place(world, x + a, z + b, 3, ModBlocks.basalt, 1);
+						place(world, x + a, z + b, 3, regolith, regolithMeta);
 					} else if(r - rand.nextInt(3) <= radius / 3D * 2D) {
-						place(world, x + a, z + b, 3, ModBlocks.dres_rock);
+						place(world, x + a, z + b, 3, rock);
 					} else {
-						place(world, x + a, z + b, 3, ModBlocks.dres_rock); //at least something happened on this boring fuck of a planet
+						place(world, x + a, z + b, 3, rock); //at least something happened on this boring fuck of a planet
 					}
 				}
 			}

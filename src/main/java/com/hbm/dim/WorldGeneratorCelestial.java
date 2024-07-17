@@ -5,11 +5,15 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
+import com.hbm.dim.laythe.biome.BiomeGenBaseLaythe;
+import com.hbm.main.MainRegistry;
 import com.hbm.util.WeightedRandomGeneric;
 import com.hbm.world.feature.BedrockOre;
 import com.hbm.world.feature.BedrockOre.BedrockOreDefinition;
 import com.hbm.world.feature.DepthDeposit;
+import com.hbm.world.generator.CellularDungeonFactory;
 import com.hbm.world.generator.DungeonToolbox;
 
 import cpw.mods.fml.common.IWorldGenerator;
@@ -18,6 +22,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable;
@@ -33,6 +38,8 @@ public class WorldGeneratorCelestial implements IWorldGenerator {
         Block blockToReplace = celestialProvider.getStone();
         int meta = CelestialBody.getMeta(world);
 
+        generateStructures(world, rand, chunkX * 16, chunkZ * 16);
+
         // Generate vanilla ores too
         if(blockToReplace != Blocks.stone) {
             generateVanillaOres(world, rand, chunkX * 16, chunkZ * 16, blockToReplace, meta);
@@ -42,7 +49,31 @@ public class WorldGeneratorCelestial implements IWorldGenerator {
         generateBedrockOres(world, rand, chunkX * 16, chunkZ * 16, blockToReplace);
     }
 
+    public void generateStructures(World world, Random rand, int x, int z) {
+		BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(x, z);
+
+		if(WorldConfig.meteorStructure > 0 && rand.nextInt(WorldConfig.meteorStructure) == 0 && biome != BiomeGenBase.ocean && biome != BiomeGenBase.deepOcean && biome != BiomeGenBaseLaythe.laytheOcean) {
+			int px = x + rand.nextInt(16) + 8;
+			int pz = z + rand.nextInt(16) + 8;
+			
+			CellularDungeonFactory.meteor.generate(world, px, 10, pz, rand);
+			
+			if(GeneralConfig.enableDebugMode)
+				MainRegistry.logger.info("[Debug] Successfully spawned meteor dungeon at " + px + " 10 " + pz);
+			
+			int y = world.getHeightValue(px, pz);
+			
+			for(int f = 0; f < 3; f++)
+				world.setBlock(px, y + f, pz, ModBlocks.meteor_pillar);
+			world.setBlock(px, y + 3, pz, ModBlocks.meteor_brick_chiseled);
+		}
+    }
+
     public void generateNTMOres(World world, Random rand, int x, int z, Block planetStone, int meta) {
+
+        if(WorldConfig.alexandriteSpawn > 0 && rand.nextInt(WorldConfig.alexandriteSpawn) == 0) {
+			DungeonToolbox.generateOre(world, rand, x, z, 1, 3, 10, 5, ModBlocks.ore_alexandrite, 0, planetStone);
+		}
 
         DepthDeposit.generateCondition(world, x, 0, 3, z, 5, 0.6D, ModBlocks.cluster_depth_iron, rand, 24, planetStone, ModBlocks.stone_depth);
         DepthDeposit.generateCondition(world, x, 0, 3, z, 5, 0.6D, ModBlocks.cluster_depth_titanium, rand, 32, planetStone, ModBlocks.stone_depth);

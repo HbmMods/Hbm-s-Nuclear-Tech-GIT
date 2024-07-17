@@ -89,46 +89,12 @@ public class HbmWorldGen implements IWorldGenerator {
 		
 		BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(i, j);
 
-		/// CELESTIAL EVENTS
+		/// CELESTIAL AND EARTH EVENTS
 		if(WorldConfig.meteoriteSpawn > 0 && rand.nextInt(WorldConfig.meteoriteSpawn) == 0) {
 			int x = i + rand.nextInt(16);
 			int z = j + rand.nextInt(16);
 			int y = world.getHeightValue(x, z) - rand.nextInt(10);
 			if(y > 1) (new Meteorite()).generate(world, rand, x, y, z, false, false, false, false);
-		}
-
-		if (WorldConfig.meteorStructure > 0 && rand.nextInt(WorldConfig.meteorStructure) == 0 && biome != BiomeGenBase.ocean && biome != BiomeGenBase.deepOcean && biome != BiomeGenBaseLaythe.laytheOcean) {
-			int x = i + rand.nextInt(16) + 8;
-			int z = j + rand.nextInt(16) + 8;
-			
-			CellularDungeonFactory.meteor.generate(world, x, 10, z, rand);
-			
-			if(GeneralConfig.enableDebugMode)
-				MainRegistry.logger.info("[Debug] Successfully spawned meteor dungeon at " + x + " 10 " + z);
-			
-			int y = world.getHeightValue(x, z);
-			
-			for(int f = 0; f < 3; f++)
-				world.setBlock(x, y + f, z, ModBlocks.meteor_pillar);
-			world.setBlock(x, y + 3, z, ModBlocks.meteor_brick_chiseled);
-			
-			// Only generate skulls around pillar on Earth
-			if(world.provider.dimensionId == 0) {
-				for(int f = 0; f < 10; f++) {
-	
-					x = i + rand.nextInt(65) - 32;
-					z = j + rand.nextInt(65) - 32;
-					y = world.getHeightValue(x, z);
-					
-					if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
-						world.setBlock(x, y, z, Blocks.skull, 1, 2);
-						TileEntitySkull skull = (TileEntitySkull)world.getTileEntity(x, y, z);
-						
-						if(skull != null)
-							skull.func_145903_a(rand.nextInt(16));
-					}
-				}
-			}
 		}
 		
 		if(WorldConfig.spaceshipStructure > 0 && rand.nextInt(WorldConfig.spaceshipStructure) == 0) {
@@ -137,10 +103,6 @@ public class HbmWorldGen implements IWorldGenerator {
 			int y = world.getHeightValue(x, z);
 
 			new Spaceship().generate(world, rand, x, y, z);
-		}
-
-		if(WorldConfig.alexandriteSpawn > 0 && rand.nextInt(WorldConfig.alexandriteSpawn) == 0) {
-			DungeonToolbox.generateOre(world, rand, i, j, 1, 3, 10, 5, ModBlocks.ore_alexandrite);
 		}
 		/// CELESTIAL EVENTS
 
@@ -169,6 +131,10 @@ public class HbmWorldGen implements IWorldGenerator {
 			if(biome instanceof BiomeGenBeach && rand.nextInt(8) == 0) {
 				DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.reeds, 0);
 			}
+		}
+
+		if(WorldConfig.alexandriteSpawn > 0 && rand.nextInt(WorldConfig.alexandriteSpawn) == 0) {
+			DungeonToolbox.generateOre(world, rand, i, j, 1, 3, 10, 5, ModBlocks.ore_alexandrite);
 		}
 		
 		if(WorldConfig.oilcoalSpawn > 0 && rand.nextInt(WorldConfig.oilcoalSpawn) == 0)

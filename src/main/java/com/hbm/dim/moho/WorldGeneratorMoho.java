@@ -7,6 +7,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.GenCrater;
 import com.hbm.main.MainRegistry;
 import com.hbm.world.generator.DungeonToolbox;
 
@@ -43,7 +44,7 @@ public class WorldGeneratorMoho implements IWorldGenerator {
 				if(rand.nextInt(50) == 0)
 					r = 50;
 
-				new CraterMoho().generate(world, x, z, r, r * 0.35D);
+				new GenCrater(ModBlocks.moho_stone, ModBlocks.moho_regolith, 1).generate(world, x, z, r, r * 0.35D);
 
 				if(GeneralConfig.enableDebugMode)
 					MainRegistry.logger.info("[Debug] Successfully spawned crater at " + x + " " + z);
