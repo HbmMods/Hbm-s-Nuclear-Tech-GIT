@@ -20,10 +20,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -341,5 +343,16 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
 		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
+	}
+
+	@Override
+	public void setFilterContents(NBTTagCompound nbt) {
+		TileEntity tile = (TileEntity) this;
+		IInventory inv = (IInventory) this;
+		int slot = nbt.getInteger("slot");
+		if(slot > 8) return;
+		inv.setInventorySlotContents(slot, new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
+		nextMode(slot);
+		tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
 	}
 }
