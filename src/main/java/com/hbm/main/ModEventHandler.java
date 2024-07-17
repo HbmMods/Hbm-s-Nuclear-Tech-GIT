@@ -2,7 +2,6 @@ package com.hbm.main;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -26,7 +25,6 @@ import com.hbm.dim.WorldGeneratorCelestial;
 import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.WorldTypeTeleport;
 import com.hbm.dim.trait.CBT_Atmosphere;
-import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.missile.EntityRideableRocket;
@@ -95,6 +93,7 @@ import com.hbm.world.generator.TimedGenerator;
 import api.hbm.energymk2.Nodespace;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -121,7 +120,6 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.event.ClickEvent;
@@ -169,6 +167,7 @@ import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.OreGenEvent.GenerateMinable;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
@@ -1422,7 +1421,29 @@ public class ModEventHandler {
 		}
 	}
 	
+	@SubscribeEvent
+	public void preventOrganicSpawn(DecorateBiomeEvent.Decorate event) {
+		// In space, no one can hear you shroom
+		if(!(event.world.provider instanceof WorldProviderCelestial)) return;
 
+		WorldProviderCelestial celestial = (WorldProviderCelestial) event.world.provider;
+		if(celestial.hasLife()) return; // Except on Laythe
+
+		switch(event.type) {
+		case BIG_SHROOM:
+		case CACTUS:
+		case DEAD_BUSH:
+		case LILYPAD:
+		case FLOWERS:
+		case GRASS:
+		case PUMPKIN:
+		case REED:
+		case SHROOM:
+		case TREE:
+			event.setResult(Result.DENY);
+		default:
+		}
+	}
 
 	@SubscribeEvent
 	public void onServerTick(TickEvent.ServerTickEvent event) {

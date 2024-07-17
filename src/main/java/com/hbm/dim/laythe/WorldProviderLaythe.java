@@ -41,6 +41,11 @@ public class WorldProviderLaythe extends WorldProviderCelestial {
 		return new SkyProviderLaytheSunset();
 	}
 
+	@Override
+	public boolean hasLife() {
+		return true;
+	}
+
 	private static BiomeGenLayers createBiomeGenerators(long seed) {
 		GenLayer biomes = new GenLayerLaytheBiomes(seed);
 

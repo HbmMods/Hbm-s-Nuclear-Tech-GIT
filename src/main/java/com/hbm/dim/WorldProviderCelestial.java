@@ -32,6 +32,10 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		return Blocks.stone;
 	}
 
+	public boolean hasLife() {
+		return false;
+	}
+
 	@Override
 	public void updateWeather() {
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
