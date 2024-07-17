@@ -13,15 +13,27 @@ public class ExperimentalCaveGenerator extends MapGenBase {
 
 	public Block lavaBlock;
 
+	private final int carvingScale;
+	private final int depthThreshold;
+	private final float largeCaveSize;
+
 	PerlinFestival perlinNoise;
 
 	public ExperimentalCaveGenerator() {
+		this(3, 30, 6.0F);
+	}
+
+	public ExperimentalCaveGenerator(int carvingScale, int depthThreshold, float largeCaveSize) {
 		super();
-		lavaBlock = Blocks.lava;
+		this.carvingScale = carvingScale;
+		this.depthThreshold = depthThreshold;
+		this.largeCaveSize = largeCaveSize;
+
+		this.lavaBlock = Blocks.lava;
 	}
 
 	protected void generateLargeCave(long seed, int chunkX, int chunkZ, Block[] blocks, double x, double y, double z) {
-		this.generateCaveNode(seed, chunkX, chunkZ, blocks, x, y, z, 1.0F + this.rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5D);
+		this.generateCaveNode(seed, chunkX, chunkZ, blocks, x, y, z, 1.0F + this.rand.nextFloat() * largeCaveSize, 0.0F, 0.0F, -1, -1, 0.5D);
 	}
 
 	protected void generateCaveNode(long seed, int chunkX, int chunkZ, Block[] blocks, double x, double y, double z, float caveSize, float yaw, float pitch, int currentStep, int totalSteps, double caveSizeIncrease) {
@@ -55,7 +67,7 @@ public class ExperimentalCaveGenerator extends MapGenBase {
 			x += (double) (MathHelper.cos(yaw) * f5);
 			y += (double) f6;
 			z += (double) (MathHelper.sin(yaw) * f5);
-			final int depthThreshold = 30;
+
 			this.perlinNoise = new PerlinFestival(seed);
 
 			// double noisefactor1 = perlinNoise.noise(x * d6, y * d7, z * d6);
@@ -102,8 +114,7 @@ public class ExperimentalCaveGenerator extends MapGenBase {
 					return;
 				}
 
-				if (x >= centerX - 16.0D - d6 * 2.0D && z >= centerZ - 16.0D - d6 * 2.0D
-						&& x <= centerX + 16.0D + d6 * 2.0D && z <= centerZ + 16.0D + d6 * 2.0D) {
+				if (x >= centerX - 16.0D - d6 * 2.0D && z >= centerZ - 16.0D - d6 * 2.0D && x <= centerX + 16.0D + d6 * 2.0D && z <= centerZ + 16.0D + d6 * 2.0D) {
 					int i4 = MathHelper.floor_double(x - d6) - chunkX * 16 - 1;
 					int l1 = MathHelper.floor_double(x + d6) - chunkX * 16 + 1;
 					int j4 = MathHelper.floor_double(y - d7) - 1;
@@ -179,10 +190,6 @@ public class ExperimentalCaveGenerator extends MapGenBase {
 										double d12 = ((double) l3 + 0.5D - y) / d7;
 
 										if (d12 > -0.7D && (d13 * d13 + d12 * d12 + d14 * d14) * (1 + noiseFactor) < 1.0D) {
-
-											// Block block1 = blocks[k3];
-											int carvingScale = 3;
-											// int carvingThreshold = 2;
 
 											if (isTopBlock(blocks, k3, k2, l3, j3, chunkX, chunkZ)) {
 												flag1 = true;

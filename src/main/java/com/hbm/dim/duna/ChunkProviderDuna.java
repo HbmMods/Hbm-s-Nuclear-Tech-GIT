@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.terraingen.TerrainGen;
 public class ChunkProviderDuna extends ChunkProviderCelestial {
 
-	private ExperimentalCaveGenerator caveGenV2 = new ExperimentalCaveGenerator();
+	private ExperimentalCaveGenerator caveGenV2 = new ExperimentalCaveGenerator(2, 40, 8.0F);
 
     public ChunkProviderDuna(World world, long seed, boolean hasMapFeatures) {
         super(world, seed, hasMapFeatures);
