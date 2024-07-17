@@ -211,7 +211,7 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		List<Integer> validSlots = new ArrayList();
 		for(int i = 0; i < 9; i++) {
 			ItemStack filter = slots[i];
-			if(filter == null) return true;
+			if(filter == null) continue;
 
 			if(matcher.isValidForFilter(filter, i, stack)) {
 				validSlots.add(i + 10);

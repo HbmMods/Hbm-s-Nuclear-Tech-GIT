@@ -1,8 +1,3 @@
-## Changed
-* Automatic crafting tables will no longer accept stacks with a stack size higher than 1 via automation, items will still accumulate and form stacks inside the crafting table, however inserters/hoppers may not transfer larger stacks in a single operation
-  * This ensures that the items get spread out as intended instead of the inserter just placing the entire stack into one slot and then leaving the other slots empty
-
 ## Fixed
-* Fixed crash caused by null entries in the furnace recipe list being picked up by the arc furnace
-* Fixed crash caused by the automatic crafting table's input when pattern slots are empty
-* Fixed crash caused by the automatic crafting table's output (pattern info was accessed OOB)
+* Fixed automatic crafting table filters being broken
+* Fixed missing localization for black lung death messages

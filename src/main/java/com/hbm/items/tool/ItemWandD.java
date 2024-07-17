@@ -2,16 +2,20 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.lib.Library;
-import com.hbm.world.gen.component.Component;
-import com.hbm.world.gen.component.CivilianFeatures.RuralHouse1;
+import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.PacketDispatcher;
+
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 
 public class ItemWandD extends Item {
 
@@ -35,13 +39,28 @@ public class ItemWandD extends Item {
 			
 			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
 			
-			int i = pos.blockX >> 4;
+			/*int i = pos.blockX >> 4;
 			int j = pos.blockZ >> 4;
 			
 			i = (i << 4) + 8;
 			j = (j << 4) + 8;
 			Component comp = new RuralHouse1(world.rand, i, j);
-			comp.addComponentParts(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));
+			comp.addComponentParts(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));*/
+			
+			ExplosionVNT vnt = new ExplosionVNT(world, pos.blockX + 0.5, pos.blockY + 1, pos.blockZ + 0.5, 25F);
+			vnt.makeStandard();
+			vnt.setSFX();
+			vnt.setBlockAllocator(new BlockAllocatorStandard(32));
+			vnt.explode();
+			
+			for(int i = 0; i < 10; i++) {
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "debris");
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.blockX + world.rand.nextGaussian() * 3, pos.blockY - 2, pos.blockZ + world.rand.nextGaussian() * 3), new TargetPoint(world.provider.dimensionId, pos.blockX, pos.blockY, pos.blockZ, 100));
+			}
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "oomph");
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.blockX, pos.blockY, pos.blockZ), new TargetPoint(world.provider.dimensionId, pos.blockX, pos.blockY, pos.blockZ, 100));
 			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
