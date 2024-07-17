@@ -416,48 +416,13 @@ public class SkyProviderCelestial extends IRenderHandler {
 				}
 			}
 
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-
-			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			GL11.glDisable(GL11.GL_BLEND);
-			GL11.glEnable(GL11.GL_ALPHA_TEST);
-			GL11.glEnable(GL11.GL_FOG);
-
 		}
 		GL11.glPopMatrix();
-		
-		double pp = mc.renderViewEntity.posY;
-		double sc = 1 / (pp / 1000);
-		GL11.glPushMatrix();
-		{
 
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			GL11.glDisable(GL11.GL_FOG);
-			GL11.glEnable(GL11.GL_BLEND);
-
-			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-			float sunBrightness = world.getSunBrightness(partialTicks);
-	
-			GL11.glColor4f(sunBrightness, sunBrightness, sunBrightness, ((float)pp - 200.0F) / 300.0F);
-			mc.renderEngine.bindTexture(body.texture);
-			GL11.glRotated(180, 1, 0, 0);
-			
-			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(-115 * sc, 100.0D, -115 * sc, 0.0D, 0.0D);
-			tessellator.addVertexWithUV(115 * sc, 100.0D, -115 * sc, 1.0D, 0.0D);
-			tessellator.addVertexWithUV(115 * sc, 100.0D, 115 * sc, 1.0D, 1.0D);
-			tessellator.addVertexWithUV(-115 * sc, 100.0D, 115 * sc, 0.0D, 1.0D);
-			tessellator.draw();
-
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glEnable(GL11.GL_FOG);
-			GL11.glDisable(GL11.GL_BLEND);
-
-			OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
-
-		}
-		GL11.glPopMatrix();
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glEnable(GL11.GL_FOG);
 			
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glColor3f(0.0F, 0.0F, 0.0F);
@@ -513,6 +478,41 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 			GL11.glTranslatef(0.0F, -((float) (heightAboveHorizon - 16.0D)), 0.0F);
 			GL11.glCallList(glSkyList2);
+
+		}
+		GL11.glPopMatrix();
+		
+		double pp = mc.renderViewEntity.posY;
+		double sc = 1 / (pp / 1000);
+		GL11.glPushMatrix();
+		{
+
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_ALPHA_TEST);
+			GL11.glDisable(GL11.GL_FOG);
+			GL11.glEnable(GL11.GL_BLEND);
+
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+			float sunBrightness = world.getSunBrightness(partialTicks);
+	
+			GL11.glColor4f(sunBrightness, sunBrightness, sunBrightness, ((float)pp - 200.0F) / 300.0F);
+			mc.renderEngine.bindTexture(body.texture);
+			GL11.glRotated(180, 1, 0, 0);
+			
+			tessellator.startDrawingQuads();
+			tessellator.addVertexWithUV(-115 * sc, 100.0D, -115 * sc, 0.0D, 0.0D);
+			tessellator.addVertexWithUV(115 * sc, 100.0D, -115 * sc, 1.0D, 0.0D);
+			tessellator.addVertexWithUV(115 * sc, 100.0D, 115 * sc, 1.0D, 1.0D);
+			tessellator.addVertexWithUV(-115 * sc, 100.0D, 115 * sc, 0.0D, 1.0D);
+			tessellator.draw();
+
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_ALPHA_TEST);
+			GL11.glEnable(GL11.GL_FOG);
+			GL11.glDisable(GL11.GL_BLEND);
+
+			OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
 
 		}
 		GL11.glPopMatrix();

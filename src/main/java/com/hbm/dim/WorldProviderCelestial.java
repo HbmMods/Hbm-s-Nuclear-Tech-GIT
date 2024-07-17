@@ -326,7 +326,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	public float getCloudHeight() {
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
 
-		if(atmosphere == null || atmosphere.getPressure() < 0.5F) return -100;
+		if(atmosphere == null || atmosphere.getPressure() < 0.5F) return -99999;
 		
 		return super.getCloudHeight();
 	}
