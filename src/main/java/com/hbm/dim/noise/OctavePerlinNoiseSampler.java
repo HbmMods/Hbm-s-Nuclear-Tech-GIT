@@ -1,5 +1,7 @@
 package com.hbm.dim.noise;
 
+import com.hbm.util.Tuple.Pair;
+
 import java.util.*;
 import java.util.function.LongFunction;
 import java.util.stream.Collectors;
@@ -31,7 +33,7 @@ public class OctavePerlinNoiseSampler {
     }
 
     public static OctavePerlinNoiseSampler create(Random random, int offset, List<Double> amplitudes) {
-        return new OctavePerlinNoiseSampler(random, Pair.of(offset, amplitudes));
+        return new OctavePerlinNoiseSampler(random, new Pair<>(offset, amplitudes));
     }
 
     private static Pair<Integer, List<Double>> calculateAmplitudes(SortedSet<Integer> octaves) {
@@ -52,7 +54,7 @@ public class OctavePerlinNoiseSampler {
                     doubleList.set(l + i, 1.0D);
                 }
 
-                return Pair.of(-i, doubleList);
+                return new Pair<>(-i, doubleList);
             }
         }
     }
@@ -70,8 +72,8 @@ public class OctavePerlinNoiseSampler {
     }
 
     protected OctavePerlinNoiseSampler(Random random, Pair<Integer, List<Double>> octaves, LongFunction<Random> randomFunction) {
-        int i = (Integer)octaves.getFirst();
-        this.amplitudes = (List<Double>)octaves.getSecond();
+        int i = octaves.getKey();
+        this.amplitudes = octaves.getValue();
         PerlinNoiseSampler perlinNoiseSampler = new PerlinNoiseSampler(random);
         int j = this.amplitudes.size();
         int k = -i;
