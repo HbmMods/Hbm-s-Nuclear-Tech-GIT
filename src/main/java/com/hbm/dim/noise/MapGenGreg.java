@@ -100,9 +100,7 @@ public class MapGenGreg extends MapGenCaves {
 								if ((density += densityAdd) < 0) {
 									int y = noiseY * 8 + pieceY;
 									if (y > 0) {
-										if (blocks[index] == Blocks.bedrock) {
-											blocks[index] = Blocks.stone;
-										} else {
+										if (blocks[index] != Blocks.bedrock) {
 											blocks[index] = null;
 										}
 									}
