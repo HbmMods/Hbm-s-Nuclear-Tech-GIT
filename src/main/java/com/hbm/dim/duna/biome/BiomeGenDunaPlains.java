@@ -10,18 +10,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeGenDunaPolar extends BiomeGenBaseDuna {
+public class BiomeGenDunaPlains extends BiomeGenBaseDuna {
 
-	public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.425F, 0.05F);
+	public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.125F, 0.05F);
 
-	public BiomeGenDunaPolar(int id) {
+	public BiomeGenDunaPlains(int id) {
 		super(id);
-		this.setBiomeName("Dunaian Ice Sheet");
-
+		this.setBiomeName("Dunaian Plains");
 		this.setHeight(height);
-
-		this.topBlock = Blocks.snow;
-		this.fillerBlock = Blocks.snow;
 	}
 
 	public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise) {
@@ -68,16 +64,16 @@ public class BiomeGenDunaPolar extends BiomeGenBaseDuna {
 							k = l;
 
 							if (l1 >= 62) {
-								if (Math.random() > 0.4) {
-									blocks[i2] = block;
-								} else {
-									blocks[i2] = ModBlocks.dry_ice;
-								}
+								blocks[i2] = block;
 								meta[i2] = b0;
-							} else if (l1 < 56 - l) {
+							} else if (l1 < 62) {
 								block = null;
 								block1 = ModBlocks.duna_rock;
-								blocks[i2] = Blocks.gravel;
+								if (Math.random() > 0.4) {
+									blocks[i2] = ModBlocks.duna_rock;
+								} else {
+									blocks[i2] = ModBlocks.duna_sands;
+								}
 							} else {
 								blocks[i2] = block1;
 							}
