@@ -190,7 +190,7 @@ public class RocketStruct {
 		if(trait == null) return -1;
 
 		long isp = trait.getISP();
-		long thrust = trait.getThrust();
+		long thrust = trait.getThrust() * stage.thrusterCount;
 
 		return SolarSystem.getCostBetween(from, to, rocketMass, (int)thrust, (int)isp);
 	}

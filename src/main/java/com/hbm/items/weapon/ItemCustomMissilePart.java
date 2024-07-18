@@ -52,6 +52,9 @@ public class ItemCustomMissilePart extends Item {
 	 * [0]: type
 	 * [1]: consumption
 	 * [2]: lift strength
+	 * ROCKET SPECIFIC
+	 * [3]: thrust (N)
+	 * [4]: ISP (s)
 	 */
 	public Object[] attributes;
 	
@@ -184,13 +187,13 @@ public class ItemCustomMissilePart extends Item {
 		return this;
 	}
 	
-	public ItemCustomMissilePart makeThruster(FuelType type, float consumption, float lift, PartSize size, int thrust, int mass) {
+	public ItemCustomMissilePart makeThruster(FuelType type, float consumption, float lift, PartSize size, int thrust, int mass, int isp) {
 
 		this.type = PartType.THRUSTER;
 		this.top = size;
 		this.bottom = PartSize.NONE;
 		this.mass = mass;
-		this.attributes = new Object[] { type, consumption, lift, thrust};
+		this.attributes = new Object[] { type, consumption, lift, thrust, isp };
 		setTextureName(RefStrings.MODID + ":mp_thruster");
 		
 		parts.put(this.hashCode(), this);
@@ -234,6 +237,7 @@ public class ItemCustomMissilePart extends Item {
 				list.add(EnumChatFormatting.BOLD + "Fuel consumption: " + EnumChatFormatting.GRAY + (Float)attributes[1] + "mB/tick");
 				list.add(EnumChatFormatting.BOLD + "Max. payload: " + EnumChatFormatting.GRAY + (Float)attributes[2] + "t");
 				list.add(EnumChatFormatting.BOLD + "Thrust " + EnumChatFormatting.GRAY + (Integer)attributes[3] + "N");
+				list.add(EnumChatFormatting.BOLD + "ISP " + EnumChatFormatting.GRAY + (Integer)attributes[4] + "s");
 				list.add(EnumChatFormatting.BOLD + "Mass: " + EnumChatFormatting.GRAY + mass + "kg");
 				break;
 			}
