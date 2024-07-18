@@ -25,7 +25,7 @@ public class MapgenRavineButBased extends MapGenRavine {
         Block filler = (isExceptionBiome(biome) ? Blocks.dirt  : biome.fillerBlock);
         Block block  = data[index];
 
-        if (block == stoneBlock || block == filler || block == top)
+        if (block == ModBlocks.moho_stone || block == filler || block == top)
         {
             if (y < 10)
             {
