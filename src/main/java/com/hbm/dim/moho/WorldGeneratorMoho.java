@@ -2,7 +2,6 @@ package com.hbm.dim.moho;
 
 import java.util.Random;
 
-import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
@@ -13,6 +12,8 @@ import com.hbm.main.MainRegistry;
 import com.hbm.world.generator.DungeonToolbox;
 
 import cpw.mods.fml.common.IWorldGenerator;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 
@@ -36,7 +37,24 @@ public class WorldGeneratorMoho implements IWorldGenerator {
 
         DungeonToolbox.generateOre(world, rand, i, j, 10, 32, 0, 128, ModBlocks.basalt, 0, ModBlocks.moho_stone);
 
-		if (SpaceConfig.ikecfreq > 0 && rand.nextInt(SpaceConfig.ikecfreq) == 0) {
+		for(int k = 0; k < 2; k++){
+			int x = i + rand.nextInt(16);
+			int z = j + rand.nextInt(16);
+			int d = 16 + rand.nextInt(96);
+
+			for(int y = d - 5; y <= d; y++) {
+				Block b = world.getBlock(x, y, z);
+				if(world.getBlock(x, y + 1, z) == Blocks.air && (b == ModBlocks.moho_stone || b == ModBlocks.moho_regolith)) {
+					world.setBlock(x, y, z, ModBlocks.geysir_nether);
+					world.setBlock(x+1, y, z, Blocks.netherrack);
+					world.setBlock(x-1, y, z, Blocks.netherrack);
+					world.setBlock(x, y, z+1, Blocks.netherrack);
+					world.setBlock(x, y, z-1, Blocks.netherrack);
+				}
+			}
+		}
+
+		if(SpaceConfig.ikecfreq > 0 && rand.nextInt(SpaceConfig.ikecfreq) == 0) {
 			
 			for (int a = 0; a < 1; a++) {
 				int x = i + rand.nextInt(16);
