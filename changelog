@@ -1,3 +1,5 @@
 ## Fixed
 * Fixed automatic crafting table filters being broken
 * Fixed missing localization for black lung death messages
+* Fixed disconnect caused by using a filter on the autocrafter's template output slot
+* Fixed sentry turret "Brown" being uncraftable

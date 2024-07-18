@@ -71,7 +71,7 @@ public class ParticleDebris extends EntityFX {
 		this.moveEntity(this.motionX, this.motionY, this.motionZ);
 		
 		this.particleAge++;
-		if(this.onGround) this.setDead();
+		if(this.onGround || this.isInWeb) this.setDead();
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class ParticleDebris extends EntityFX {
 		for(int ix = 0; ix < world.sizeX; ix++) {
 			for(int iy = 0; iy < world.sizeY; iy++) {
 				for(int iz = 0; iz < world.sizeZ; iz++) {
-					renderer.renderBlockByRenderType(world.getBlock(ix, iy, iz), ix, iy, iz);
+					try { renderer.renderBlockByRenderType(world.getBlock(ix, iy, iz), ix, iy, iz); } catch(Exception ex) { }
 				}
 			}
 		}

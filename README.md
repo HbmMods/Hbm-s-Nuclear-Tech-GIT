@@ -106,7 +106,9 @@ One of the most common "performance" mods on 1.7.10, Optifine, achieves an incre
 * Entity "optimization" has a tendency to break chunkloading, this is especially noticeable with missiles which rely heavily on chunkloading to work, causing them to freeze mid-air. It's unclear what setting might fix this, and analysis of Optifine's source code (or rather, lack thereof) has not proven useful either.
 
 ### Angelica
-In older versions, Angelica caused issues regarding model rendering, often times making 3D models transparent. Ever since the switch to VBOs, models work fine. Another issue was blocks with connected textures not rendering at all, but this too was fixed, meaning as of time of writing there are no major incompatibilities known with Angelica.
+In older versions, Angelica caused issues regarding model rendering, often times making 3D models transparent. Ever since the switch to VBOs, models work fine. Another issue was blocks with connected textures not rendering at all, but this too was fixed, meaning as of time of writing there are no major incompatibilities known with Angelica. However there a few minor issues that persist, but those can be fixed:
+* Often times when making a new world, all items appear as white squares. Somehow, scrolling though the NEI pages fixes this permanently
+* Reeds will render weirdly, this is an incompatibility with the "Compact Vertex Format" feature. Disabling it will make reeds look normal
 
 ### Skybox chainloader
 NTM adds a few small things to the skybox using a custom skybox renderer. Minecraft can only have a single skybox renderer loaded, so setting the skybox to the NTM custom one would break compatibility with other mods' skyboxes. To mend this, NTM employs a **chainloader**. This chainloader will detect if a different skybox is loaded, save a reference to that skybox and then use NTM's skybox, which when used will also make sure to run the previous modded skybox renderer. In the event that NTM's skybox were to cause trouble, it can be disabled with the config option `1.31_enableSkyboxes`.
