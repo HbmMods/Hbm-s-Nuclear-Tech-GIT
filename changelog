@@ -1,3 +1,9 @@
+## Changed
+* Removed most legacy boilers
+  * Electric boilers have been completely removed
+  * Fired boilers no longer have an on-state, GUI or functionality
+  * Fired boilers still sometimes spawn in certain structures as loot, they drop 3-6 steel scraps containing 1 ingot worth of steel each
+
 ## Fixed
 * Fixed automatic crafting table filters being broken
 * Fixed missing localization for black lung death messages

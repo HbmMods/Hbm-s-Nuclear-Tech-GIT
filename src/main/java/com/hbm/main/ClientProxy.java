@@ -87,6 +87,8 @@ import com.hbm.items.IAnimatedItem;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.particle.*;
+import com.hbm.particle.helper.ExplosionCreator;
+import com.hbm.particle.helper.IParticleCreator;
 import com.hbm.particle.psys.engine.EventHandlerParticleEngine;
 import com.hbm.render.anim.*;
 import com.hbm.render.anim.HbmAnimations.Animation;
@@ -124,7 +126,6 @@ import com.hbm.tileentity.turret.*;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.ColorUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
-import com.hbm.wiaj.WorldInAJar;
 import com.hbm.wiaj.cannery.Jars;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -985,6 +986,12 @@ public class ClientProxy extends ServerProxy {
 		}
 	}
 	
+	public static HashMap<String, IParticleCreator> particleCreators = new HashMap();
+	
+	static {
+		particleCreators.put("explosionLarge", new ExplosionCreator());
+	}
+	
 	//mk3, only use this one
 	@Override
 	public void effectNT(NBTTagCompound data) {
@@ -1003,60 +1010,9 @@ public class ClientProxy extends ServerProxy {
 		double y = data.getDouble("posY");
 		double z = data.getDouble("posZ");
 		
-		if("oomph".equals(type)) {
-			for(int i = 0; i < 15; i++) {
-				ParticleRocketFlame fx = new ParticleRocketFlame(man, world, x, y, z).setScale(5F);
-				fx.prevPosX = fx.posX;
-				fx.prevPosY = fx.posY;
-				fx.prevPosZ = fx.posZ;
-				fx.motionX = rand.nextGaussian() * 0.5;
-				fx.motionY = rand.nextDouble() * 3;
-				fx.motionZ = rand.nextGaussian() * 0.5;
-				fx.setMaxAge(70 + rand.nextInt(20));
-				fx.noClip = true;
-				Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-			}
-			
-			ParticleMukeWave wave = new ParticleMukeWave(man, world, x, y + 2, z);
-			Minecraft.getMinecraft().effectRenderer.addEffect(wave);
-		}
-		
-		if("debris".equals(type)) {
-			int ix = (int) Math.floor(x);
-			int iy = (int) Math.floor(y);
-			int iz = (int) Math.floor(z);
-			Vec3 motion = Vec3.createVectorHelper(1, 0, 0);
-			motion.rotateAroundZ((float) -Math.toRadians(45 + rand.nextFloat() * 25));
-			motion.rotateAroundY((float) (rand.nextDouble() * Math.PI * 2));
-			ParticleDebris particle = new ParticleDebris(world, x, y, z, motion.xCoord, motion.yCoord, motion.zCoord);
-			WorldInAJar wiaj = new WorldInAJar(16, 16, 16);
-			particle.world = wiaj;
-			
-			int cX = (int) Math.floor(x + 0.5);
-			int cY = (int) Math.floor(y + 0.5);
-			int cZ = (int) Math.floor(z + 0.5);
-			
-			for(int i = 0; i < 2; i++) for(int j = 0; j < 2; j++) for(int k = 0; k < 2; k++)
-				wiaj.setBlock(7 + i, 7 + j, 7 + k, world.getBlock(cX + i, cY + j, cZ + k), world.getBlockMetadata(cX + i, cY+ j, cZ + k));
-			
-			for(int layer = 2; layer <= 8; layer++) {
-				for(int i = 0; i < 50; i++) {
-					int jx = -layer + rand.nextInt(layer * 2 + 1);
-					int jy = -layer + rand.nextInt(layer * 2 + 1);
-					int jz = -layer + rand.nextInt(layer * 2 + 1);
-					
-					if(wiaj.getBlock(7 + jx + 1, 7 + jy, 7 + jz) != Blocks.air || wiaj.getBlock(7 + jx - 1, 7 + jy, 7 + jz) != Blocks.air || 
-							wiaj.getBlock(7 + jx, 7 + jy + 1, 7 + jz) != Blocks.air || wiaj.getBlock(7 + jx, 7 + jy - 1, 7 + jz) != Blocks.air || 
-							wiaj.getBlock(7 + jx, 7 + jy, 7 + jz + 1) != Blocks.air || wiaj.getBlock(7 + jx, 7 + jy, 7 + jz - 1) != Blocks.air) {
-
-						Block b = world.getBlock(cX + jx, cY + jy, cZ + jz);
-						int m = world.getBlockMetadata(cX + jx, cY + jy, cZ + jz);
-						wiaj.setBlock(7 + jx, 7+ jy, 7 + jz, b, m);
-					}
-				}
-			}
-			
-			Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+		if(particleCreators.containsKey(type)) {
+			particleCreators.get(type).makeParticle(world, player, man, rand, x, y, z, data);
+			return;
 		}
 		
 		if("missileContrail".equals(type)) {

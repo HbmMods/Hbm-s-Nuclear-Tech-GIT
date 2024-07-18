@@ -1342,6 +1342,9 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.warhead_mirvlet");
 		ignoreMappings.add("hbm:item.generator_front");
 		ignoreMappings.add("hbm:tile.rbmk_heatex");
+		ignoreMappings.add("hbm:tile.machine_boiler_on");
+		ignoreMappings.add("hbm:tile.machine_boiler_electric_off");
+		ignoreMappings.add("hbm:tile.machine_boiler_electric_on");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

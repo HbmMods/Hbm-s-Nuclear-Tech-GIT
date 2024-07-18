@@ -6,8 +6,6 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.machine.TileEntityMachineArcFurnace;
-import com.hbm.tileentity.machine.TileEntityMachineBoiler;
-import com.hbm.tileentity.machine.TileEntityMachineBoilerElectric;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -67,25 +65,11 @@ public class AuxGaugePacket implements IMessage {
 		public IMessage onMessage(AuxGaugePacket m, MessageContext ctx) {
 			try {
 				TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
-				if (te instanceof TileEntityMachineBoiler) {
-					TileEntityMachineBoiler boiler = (TileEntityMachineBoiler)te;
-					
-					if(m.id == 0)
-						boiler.heat = m.value;
-					if(m.id == 1)
-						boiler.burnTime = m.value;
-				}
 				if (te instanceof TileEntityMachineArcFurnace) {
 					TileEntityMachineArcFurnace furn = (TileEntityMachineArcFurnace)te;
 					
 					if(m.id == 0)
 						furn.dualCookTime = m.value;
-				}
-				if (te instanceof TileEntityMachineBoilerElectric) {
-					TileEntityMachineBoilerElectric boiler = (TileEntityMachineBoilerElectric)te;
-					
-					if(m.id == 0)
-						boiler.heat = m.value;
 				}
 				if (te instanceof TileEntityCompactLauncher) {
 					TileEntityCompactLauncher launcher = (TileEntityCompactLauncher)te;
