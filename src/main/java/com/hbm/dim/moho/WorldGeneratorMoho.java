@@ -2,6 +2,7 @@ package com.hbm.dim.moho;
 
 import java.util.Random;
 
+import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
@@ -32,6 +33,8 @@ public class WorldGeneratorMoho implements IWorldGenerator {
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPlutoniumSpawn, 4, 0, 24, ModBlocks.ore_plutonium, meta, ModBlocks.moho_stone);
 
         DungeonToolbox.generateOre(world, rand, i, j, 1, 12, 8, 32, ModBlocks.ore_shale, meta, ModBlocks.moho_stone);
+
+        DungeonToolbox.generateOre(world, rand, i, j, 10, 32, 0, 128, ModBlocks.basalt, 0, ModBlocks.moho_stone);
 
 		if (SpaceConfig.ikecfreq > 0 && rand.nextInt(SpaceConfig.ikecfreq) == 0) {
 			

@@ -21,7 +21,8 @@ public abstract class BiomeGenBaseDuna extends BiomeGenBase {
         
 		this.setDisableRain();
 
-        this.theBiomeDecorator = new BiomeDecoratorDead();
+        this.theBiomeDecorator = new BiomeDecoratorDead(ModBlocks.duna_rock);
+        this.theBiomeDecorator.generateLakes = false;
 
 		this.spawnableCreatureList.clear();
 		this.spawnableMonsterList.clear();

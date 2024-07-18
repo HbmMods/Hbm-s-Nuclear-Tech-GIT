@@ -2,6 +2,7 @@ package com.hbm.dim.moho;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.dim.BiomeDecoratorDead;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -11,7 +12,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenMoho extends BiomeGenBase {
 	
-    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.325F, 0.05F);
+    public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.275F, 0.666F);
 
 	public BiomeGenMoho(int id) {
 		super(id);
@@ -23,7 +24,9 @@ public class BiomeGenMoho extends BiomeGenBase {
         this.spawnableWaterCreatureList.clear();
         this.spawnableCaveCreatureList.clear();
         
-        this.theBiomeDecorator.generateLakes = false;
+        BiomeDecoratorDead decorator = new BiomeDecoratorDead(ModBlocks.moho_stone);
+        decorator.lavaCount = 50;
+        this.theBiomeDecorator = decorator;
         
         this.setHeight(height);
         
@@ -33,7 +36,6 @@ public class BiomeGenMoho extends BiomeGenBase {
 
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)
     {
-        boolean flag = true;
         Block block = this.topBlock;
         byte b0 = (byte)(this.field_150604_aj & 255);
         Block block1 = this.fillerBlock;

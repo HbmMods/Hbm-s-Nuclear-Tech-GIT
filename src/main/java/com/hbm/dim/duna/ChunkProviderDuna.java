@@ -19,6 +19,7 @@ public class ChunkProviderDuna extends ChunkProviderCelestial {
         
 		caveGenV2 = (ExperimentalCaveGenerator) TerrainGen.getModdedMapGen(caveGenV2, CUSTOM);
         caveGenV2.lavaBlock = ModBlocks.basalt;
+        caveGenV2.stoneBlock = ModBlocks.duna_rock;
     }
 
     @Override

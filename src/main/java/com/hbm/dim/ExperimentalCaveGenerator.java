@@ -12,6 +12,7 @@ import net.minecraft.world.gen.MapGenBase;
 public class ExperimentalCaveGenerator extends MapGenBase {
 
 	public Block lavaBlock;
+	public Block stoneBlock;
 
 	private final int carvingScale;
 	private final int depthThreshold;
@@ -30,6 +31,7 @@ public class ExperimentalCaveGenerator extends MapGenBase {
 		this.largeCaveSize = largeCaveSize;
 
 		this.lavaBlock = Blocks.lava;
+		this.stoneBlock = Blocks.stone;
 	}
 
 	protected void generateLargeCave(long seed, int chunkX, int chunkZ, Block[] blocks, double x, double y, double z) {
@@ -299,7 +301,7 @@ public class ExperimentalCaveGenerator extends MapGenBase {
 		Block filler = (isExceptionBiome(biome) ? Blocks.dirt : biome.fillerBlock);
 		Block block = data[index];
 
-		if (block == Blocks.stone || block == filler || block == top) {
+		if (block == stoneBlock || block == filler || block == top) {
 			if (y < 10) {
 				data[index] = lavaBlock;
 			} else {
