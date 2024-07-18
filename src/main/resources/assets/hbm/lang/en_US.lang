@@ -2201,6 +2201,7 @@ item.bucket_mud.name=Bucket of Poisonous Mud
 item.bucket_schrabidic_acid.name=Bucket of Schrabidic Acid
 item.bucket_sulfuric_acid.name=Bucket of Sulfuric Acid
 item.bucket_toxic.name=Bucket of Stereotypical Green Ooze
+item.bucket_mercury.name=Bucket of Mercury
 item.burnt_bark.name=Burnt Bark
 item.burnt_bark.desc=A piece of bark from an exploded golden oak tree.
 item.can_bepis.name=Bepis
