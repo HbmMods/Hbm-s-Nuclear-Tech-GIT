@@ -67,7 +67,7 @@ public class RadiationConfig {
 		disableFibrosis = CommonConfig.createConfigBool(config, CATEGORY_HAZ, "HAZ_06_disableFibrosis", "When turned off, all fibrosis hazards are disabled", false);
 
 		final String CATEGORY_POL = CommonConfig.CATEGORY_POLLUTION;
-		enablePollution = CommonConfig.createConfigBool(config, CATEGORY_POL, "POL_00_enablePollution", "If disabled, none of the polltuion related things will work", true);
+		enablePollution = CommonConfig.createConfigBool(config, CATEGORY_POL, "POL_00_enablePollution", "If disabled, none of the polltuion related things will work", false);
 		enableLeadFromBlocks = CommonConfig.createConfigBool(config, CATEGORY_POL, "POL_01_enableLeadFromBlocks", "Whether breaking blocks in heavy metal polluted areas will poison the player", true);
 		enableLeadPoisoning = CommonConfig.createConfigBool(config, CATEGORY_POL, "POL_02_enableLeadPoisoning", "Whether being in a heavy metal polluted area will poison the player", true);
 		enableSootFog = CommonConfig.createConfigBool(config, CATEGORY_POL, "POL_03_enableSootFog", "Whether smog should be visible", true);

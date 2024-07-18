@@ -20,6 +20,7 @@ import com.hbm.tileentity.IConditionalInvAccess;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.Tuple.Pair;
@@ -51,7 +52,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	private byte plugs; 
 	
 	public int progress;
-	public static final int duration = 690;
+	public static final int duration = 640;
 	
 	public FluidTank[] tanks;
 
@@ -230,12 +231,13 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 	}
 	
 	public int getSpeed() {
-		return Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) + 1;
+		int red = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) + 1;
+		int black = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) + 1;
+		return red * black;
 	}
 	
 	public int getConsumption() {
 		int efficiency = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
-		
 		return consumption - 100_000 * efficiency;
 	}
 	
@@ -402,7 +404,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 
 	@Override
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
-		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.EFFECT;
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.EFFECT || type == UpgradeType.OVERDRIVE;
 	}
 
 	@Override
@@ -418,6 +420,9 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		if(type == UpgradeType.EFFECT) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_COOLANT_CONSUMPTION, "-" + (100 - 100 / (level + 1)) + "%"));
 		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
 	}
 
 	@Override
@@ -425,6 +430,7 @@ public class TileEntityMachineCyclotron extends TileEntityMachineBase implements
 		if(type == UpgradeType.SPEED) return 3;
 		if(type == UpgradeType.POWER) return 3;
 		if(type == UpgradeType.EFFECT) return 3;
+		if(type == UpgradeType.OVERDRIVE) return 3;
 		return 0;
 	}
 

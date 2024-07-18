@@ -46,7 +46,7 @@ public class GUIMachineExposureChamber extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int p = chamber.progress * 42 / (chamber.processTime + 1);
+		int p = chamber.progress * 42 / chamber.processTime;
 		drawTexturedModalRect(guiLeft + 36, guiTop + 39, 192, 0, p, 10);
 		
 		int c = chamber.savedParticles * 16 / chamber.maxParticles;

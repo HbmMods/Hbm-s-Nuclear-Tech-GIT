@@ -45,9 +45,9 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public static final long maxPower = 1000000;
 	public static final int demand = 1000;
 	public short progress;
-	public short duration = 600;
+	public short duration = 480;
 	public boolean isOn;
-	
+
 	public float angle;
 	public float prevAngle;
 	
@@ -69,7 +69,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		if(!worldObj.isRemote) {
 			
 			this.isOn = false;
-			
+
 			this.updateConnections();
 			
 			power = Library.chargeTEFromItems(slots, 1, power, maxPower);
@@ -85,7 +85,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 					progress++;
 					power -= getPowerRequired();
 					isOn = true;
-					
+
 					if(progress > getDuration()) {
 						progress = 0;
 						processItem();
@@ -104,13 +104,13 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 			prevAngle = angle;
 			
 			if(isOn) {
-				angle += 5F * this.getCycleCount();
+				angle += 5F + this.getCycleCount();
 				
 				if(angle >= 360) {
 					angle -= 360;
 					prevAngle -= 360;
 				}
-				
+
 				if(worldObj.rand.nextInt(20) == 0 && MainRegistry.proxy.me().getDistance(xCoord + 0.5, yCoord + 6, zCoord + 0.5) < 50) {
 					worldObj.spawnParticle("cloud", xCoord + worldObj.rand.nextDouble(), yCoord + 6.5D, zCoord + worldObj.rand.nextDouble(), 0.0, 0.1, 0.0);
 				}
@@ -228,7 +228,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	public int getRequiredAcid(int base) {
 		int efficiency = Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
 		if(efficiency > 0) {
-			return base * (efficiency + 2);
+			return (int) (base * (0.2 * efficiency + 1));
 		}
 		return base;
 	}
@@ -258,7 +258,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 	
 	public float getCycleCount() {
 		int speed = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
-		return Math.min(1 + speed * 2, 7);
+		return (float) speed * speed + 1;
 	}
 	
 	public long getPowerScaled(int i) {
@@ -380,7 +380,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		}
 		if(type == UpgradeType.EFFECT) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_EFFICIENCY, "+" + (level * 5) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_ACID, "+" + (level * 100 + 100) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_ACID, "+" + (level * 20) + "%"));
 		}
 		if(type == UpgradeType.OVERDRIVE) {
 			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");

@@ -71,7 +71,6 @@ import com.hbm.util.ContaminationUtil;
 import com.hbm.util.EnchantmentUtil;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.InventoryUtil;
-import com.hbm.util.ShadyUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.world.generator.TimedGenerator;
 
@@ -114,7 +113,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EntityDamageSource;
@@ -122,6 +120,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -141,9 +140,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
@@ -188,21 +185,6 @@ public class ModEventHandler {
 					props.hasReceivedBook = true;
 				}
 			}
-		}
-	}
-	
-	@SubscribeEvent
-	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
-		
-		EntityPlayer player = event.player;
-		
-		if((player.getUniqueID().toString().equals(ShadyUtil.Dr_Nostalgia) || player.getDisplayName().equals("Dr_Nostalgia")) && !player.worldObj.isRemote) {
-			
-			if(!player.inventory.hasItem(ModItems.hat))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.hat));
-			
-			if(!player.inventory.hasItem(ModItems.beta))
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.beta));
 		}
 	}
 
@@ -283,53 +265,37 @@ public class ModEventHandler {
 	
 	@SubscribeEvent
 	public void onEntityDeath(LivingDeathEvent event) {
-		
 		HbmLivingProps.setRadiation(event.entityLiving, 0);
-		
 		if(event.entity.worldObj.isRemote)
 			return;
-		
 		if(GeneralConfig.enableCataclysm) {
 			EntityBurningFOEQ foeq = new EntityBurningFOEQ(event.entity.worldObj);
 			foeq.setPositionAndRotation(event.entity.posX, 500, event.entity.posZ, 0.0F, 0.0F);
 			event.entity.worldObj.spawnEntityInWorld(foeq);
 		}
-		
-		if(event.entity.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) || event.entity.getCommandSenderName().equals("HbMinecraft")) {
-			event.entity.dropItem(ModItems.book_of_, 1);
-		}
-		
 		if(event.entity instanceof EntityCreeperTainted && event.source == ModDamageSource.boxcar) {
-			
 			for(Object o : event.entity.worldObj.getEntitiesWithinAABB(EntityPlayer.class, event.entity.boundingBox.expand(50, 50, 50))) {
 				EntityPlayer player = (EntityPlayer)o;
 				player.triggerAchievement(MainRegistry.bobHidden);
 			}
 		}
-		
 		if(!event.entityLiving.worldObj.isRemote) {
-			
 			if(event.source instanceof EntityDamageSource && ((EntityDamageSource)event.source).getEntity() instanceof EntityPlayer
 					 && !(((EntityDamageSource)event.source).getEntity() instanceof FakePlayer)) {
-				
 				if(event.entityLiving instanceof EntitySpider && event.entityLiving.getRNG().nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.spider_milk, 1);
 				}
-				
 				if(event.entityLiving instanceof EntityCaveSpider && event.entityLiving.getRNG().nextInt(100) == 0) {
 					event.entityLiving.dropItem(ModItems.serum, 1);
 				}
-				
 				if(event.entityLiving instanceof EntityAnimal && event.entityLiving.getRNG().nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.bandaid, 1);
 				}
-				
 				if(event.entityLiving instanceof IMob) {
 					if(event.entityLiving.getRNG().nextInt(1000) == 0) event.entityLiving.dropItem(ModItems.heart_piece, 1);
 					if(event.entityLiving.getRNG().nextInt(250) == 0) event.entityLiving.dropItem(ModItems.key_red_cracked, 1);
 					if(event.entityLiving.getRNG().nextInt(250) == 0) event.entityLiving.dropItem(ModItems.launch_code_piece, 1);
 				}
-				
 				if(event.entityLiving instanceof EntityCyberCrab && event.entityLiving.getRNG().nextInt(500) == 0) {
 					event.entityLiving.dropItem(ModItems.wd40, 1);
 				}
@@ -339,31 +305,20 @@ public class ModEventHandler {
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onEntityDeathLast(LivingDeathEvent event) {
-		
 		if(event.entityLiving instanceof EntityPlayer) {
-			
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
-			
 			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
-				
 				ItemStack stack = player.inventory.getStackInSlot(i);
-				
 				if(stack != null && stack.getItem() == ModItems.detonator_deadman) {
-					
 					if(stack.stackTagCompound != null) {
-						
 						int x = stack.stackTagCompound.getInteger("x");
 						int y = stack.stackTagCompound.getInteger("y");
 						int z = stack.stackTagCompound.getInteger("z");
-
 						if(!player.worldObj.isRemote && player.worldObj.getBlock(x, y, z) instanceof IBomb) {
-							
 							((IBomb) player.worldObj.getBlock(x, y, z)).explode(player.worldObj, x, y, z);
-							
 							if(GeneralConfig.enableExtendedLogging)
 								MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by dead man's switch from " + player.getDisplayName() + "!");
 						}
-						
 						player.inventory.setInventorySlotContents(i, null);
 					}
 				}
@@ -503,15 +458,11 @@ public class ModEventHandler {
 			}
 			
 			if(armor != null && ArmorModHandler.hasMods(armor)) {
-				
 				for(ItemStack mod : ArmorModHandler.pryMods(armor)) {
-					
 					if(mod != null && mod.getItem() instanceof ItemArmorMod) {
 						((ItemArmorMod)mod.getItem()).modUpdate(event.entityLiving, armor);
 						HazardSystem.applyHazards(mod, event.entityLiving);
-						
 						if(reapply) {
-							
 							Multimap map = ((ItemArmorMod)mod.getItem()).getModifiers(armor);
 							
 							if(map != null)
@@ -536,7 +487,7 @@ public class ModEventHandler {
 	
 	public static boolean didSit = false;
 	public static Field reference = null;
-	
+
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
 		
@@ -551,7 +502,7 @@ public class ModEventHandler {
 					try { reference.setFloat(null, (float) (rand.nextGaussian() * 0.1 + Math.PI)); } catch(Throwable e) { }
 				}
 			}
-			
+
 			int thunder = AuxSavedData.getThunder(event.world);
 			
 			if(thunder > 0)
@@ -750,7 +701,7 @@ public class ModEventHandler {
 		
 		if(HbmLivingProps.getContagion(e) > 0 && event.ammount < 100)
 			event.ammount *= 2F;
-		
+
 		/// ARMOR MODS ///
 		for(int i = 1; i < 5; i++) {
 			
@@ -851,142 +802,7 @@ public class ModEventHandler {
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)
 			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleFall((EntityPlayer)e);
 	}
-	
-	private static final UUID fopSpeed = UUID.fromString("e5a8c95d-c7a0-4ecf-8126-76fb8c949389");
-	
-	@SubscribeEvent
-	public void onWingFlop(TickEvent.PlayerTickEvent event) {
-
-		EntityPlayer player = event.player;
-		
-		if(event.phase == TickEvent.Phase.START) {
-			
-			if(player.getCurrentArmor(2) == null && !player.onGround) {
-				
-				if(player.getUniqueID().toString().equals(ShadyUtil.Barnaby99_x) || player.getDisplayName().equals("pheo7")) {
-
-					ArmorUtil.resetFlightTime(player);
-					HbmPlayerProps props = HbmPlayerProps.getData(player);
-					
-					if(props.isJetpackActive()) {
-						
-						if(player.motionY < 0.4D)
-							player.motionY += 0.1D;
-	
-						Vec3 look = player.getLookVec();
-	
-						if(Vec3.createVectorHelper(player.motionX, player.motionY, player.motionZ).lengthVector() < 2) {
-							player.motionX += look.xCoord * 0.2;
-							player.motionY += look.yCoord * 0.2;
-							player.motionZ += look.zCoord * 0.2;
-	
-							if(look.yCoord > 0)
-								player.fallDistance = 0;
-						}
-					} else if(props.enableBackpack && !player.isSneaking()) {
-						if(player.motionY < -0.2) player.motionY += 0.075D;
-						if(player.fallDistance > 0) player.fallDistance = 0;
-					}
-				}
-				
-				boolean isBob = player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) || player.getDisplayName().equals("HbMinecraft");
-				boolean isOther = player.getUniqueID().toString().equals(ShadyUtil.the_NCR) || player.getDisplayName().equals("the_NCR");
-				
-				if(isBob || isOther) {
-					
-					ArmorUtil.resetFlightTime(player);
-					
-					if(player.fallDistance > 0)
-						player.fallDistance = 0;
-					
-					if(player.motionY < -0.4D)
-						player.motionY = -0.4D;
-					
-					HbmPlayerProps props = HbmPlayerProps.getData(player);
-					
-					if(isBob || player.getFoodStats().getFoodLevel() > 6) {
-						
-						if(props.isJetpackActive()) {
-							
-							double cap = (isBob ? 0.8D : 0.4D);
-							
-							if(player.motionY < cap)
-								player.motionY += 0.15D;
-							else
-								player.motionY = cap + 0.15D;
-							
-							if(isOther) {
-								if(player.getFoodStats().getSaturationLevel() > 0F)
-									player.addExhaustion(4F); //burn up saturation so that super-saturating foods have no effect
-								else
-									player.addExhaustion(0.2F); //4:1 -> 0.05 hunger per tick or 1 per second
-							}
-							
-						} else if(props.enableBackpack && !player.isSneaking()) {
-							
-							if(player.motionY < -1)
-								player.motionY += 0.4D;
-							else if(player.motionY < -0.1)
-								player.motionY += 0.2D;
-							else if(player.motionY < 0)
-								player.motionY = 0;
-
-							if(isOther && !player.onGround) {
-								if(player.getFoodStats().getSaturationLevel() > 0F)
-									player.addExhaustion(4F);
-								else
-									player.addExhaustion(0.04F);
-							}
-							
-						} else if(!props.enableBackpack && player.isSneaking()) {
-							
-							if(player.motionY < -0.08) {
-	
-								double mo = player.motionY * (isBob ? -0.6 : -0.4);
-								player.motionY += mo;
-	
-								Vec3 vec = player.getLookVec();
-								vec.xCoord *= mo;
-								vec.yCoord *= mo;
-								vec.zCoord *= mo;
-	
-								player.motionX += vec.xCoord;
-								player.motionY += vec.yCoord;
-								player.motionZ += vec.zCoord;
-							}
-						}
-					}
-					
-					Vec3 orig = player.getLookVec();
-					Vec3 look = Vec3.createVectorHelper(orig.xCoord, 0, orig.zCoord).normalize();
-					double mod = props.enableBackpack ? (isBob ? 0.5D : 0.25D) : 0.125D;
-					
-					if(player.moveForward != 0) {
-						player.motionX += look.xCoord * 0.35 * player.moveForward * mod;
-						player.motionZ += look.zCoord * 0.35 * player.moveForward * mod;
-					}
-					
-					if(player.moveStrafing != 0) {
-						look.rotateAroundY((float) Math.PI * 0.5F);
-						player.motionX += look.xCoord * 0.15 * player.moveStrafing * mod;
-						player.motionZ += look.zCoord * 0.15 * player.moveStrafing * mod;
-					}
-				}
-			}
-			
-			if(player.getUniqueID().toString().equals(ShadyUtil.LePeeperSauvage) ||	player.getDisplayName().equals("LePeeperSauvage")) {
-				
-				Multimap multimap = HashMultimap.create();
-				multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(fopSpeed, "FOP SPEED", 0.5, 1));
-				player.getAttributeMap().removeAttributeModifiers(multimap);
-				
-				if(player.isSprinting()) {
-					player.getAttributeMap().applyAttributeModifiers(multimap);
-				}
-			}
-		}
-	}
-	
+  
 	@SubscribeEvent
 	public void onPlayerTick(TickEvent.PlayerTickEvent event) {
 		
@@ -1041,22 +857,6 @@ public class ModEventHandler {
 			}
 			/// BETA HEALTH END ///
 
-			/// PU RADIATION START ///
-			
-			if(player.getUniqueID().toString().equals(ShadyUtil.Pu_238)) {
-				
-				List<EntityLivingBase> entities = player.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, player.boundingBox.expand(3, 3, 3));
-				
-				for(EntityLivingBase e : entities) {
-					
-					if(e != player) {
-						e.addPotionEffect(new PotionEffect(HbmPotion.radiation.id, 300, 2));
-					}
-				}
-			}
-			
-			/// PU RADIATION END ///
-			
 			/*if(player instanceof EntityPlayerMP) {
 
 				int x = (int) Math.floor(player.posX);
@@ -1077,40 +877,22 @@ public class ModEventHandler {
 			/// SYNC END ///
 		}
 
-		if(player.worldObj.isRemote && event.phase == event.phase.START && !player.isInvisible() && !player.isSneaking()) {
-			
-			if(player.getUniqueID().toString().equals(ShadyUtil.Pu_238)) {
-				
-				Vec3 vec = Vec3.createVectorHelper(3 * rand.nextDouble(), 0, 0);
-				vec.rotateAroundZ((float) (rand.nextDouble() * Math.PI));
-				vec.rotateAroundY((float) (rand.nextDouble() * Math.PI * 2));
-				player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
-			}
-		}
-		
-		// OREDBG
-		/*if(!event.player.worldObj.isRemote) {
-			for(BedrockOreType type : BedrockOreType.values()) {
-				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(StatCollector.translateToLocalFormatted("item.bedrock_ore.type." + type.suffix + ".name") + ": " + ((int) (ItemBedrockOreBase.getOreLevel((int) Math.floor(player.posX), (int) Math.floor(player.posZ), type) * 100) / 100D), 777 + type.ordinal()), (EntityPlayerMP) player);
-			}
-		}*/
-		
 		// PRISMDBG
 		/*if(!event.player.worldObj.isRemote) {
 			ChunkRadiationHandlerPRISM prism = (ChunkRadiationHandlerPRISM) ChunkRadiationManager.proxy;
-			
+
 			RadPerWorld perWorld = prism.perWorld.get(player.worldObj);
-			
+
 			if(perWorld != null) {
 				SubChunk[] chunk = perWorld.radiation.get(new ChunkCoordIntPair(((int) Math.floor(player.posX)) >> 4, ((int) Math.floor(player.posZ)) >> 4));
-				
+
 				if(chunk != null) {
-					
+
 					int y = ((int) Math.floor(player.posY)) >> 4;
-					
+
 					if(y >= 0 && y <= 15) {
 						SubChunk sub = chunk[y];
-						
+
 						if(sub != null) {
 							float xSum = 0, ySum = 0, zSum = 0;
 							for(int i = 0; i < 16; i++) {
@@ -1243,30 +1025,7 @@ public class ModEventHandler {
 			}
 		}
 	}
-	
-	@SubscribeEvent
-	public void onClickSign(PlayerInteractEvent event) {
 
-		int x = event.x;
-		int y = event.y;
-		int z = event.z;
-		World world = event.world;
-		
-		if(!world.isRemote && event.action == Action.RIGHT_CLICK_BLOCK && world.getTileEntity(x, y, z) instanceof TileEntitySign) {
-			
-			TileEntitySign sign = (TileEntitySign)world.getTileEntity(x, y, z);
-			
-			String result = ShadyUtil.smoosh(sign.signText[0], sign.signText[1], sign.signText[2], sign.signText[3]);
-			
-			if(ShadyUtil.hashes.contains(result)) {
-				world.func_147480_a(x, y, z, false);
-				EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(ModItems.bobmazon_hidden));
-				entityitem.delayBeforeCanPickup = 10;
-				world.spawnEntityInWorld(entityitem);
-			}
-		}
-	}
-	
 	@SubscribeEvent
 	public void chatEvent(ServerChatEvent event) {
 		
@@ -1306,7 +1065,7 @@ public class ModEventHandler {
 		//in any other way except for    |  |                                                |            |  |
 		//the config file: |             |  |                                                |            |  |
 		//                 V             V  V                                                V            V  V
-		if(GeneralConfig.enableDebugMode && player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft) && message.startsWith("!")) {
+		if(GeneralConfig.enableDebugMode && message.startsWith("!")) {
 			
 			String[] msg = message.split(" ");
 			
