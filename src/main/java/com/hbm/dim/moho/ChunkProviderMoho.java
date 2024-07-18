@@ -14,15 +14,15 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 public class ChunkProviderMoho extends ChunkProviderCelestial {
 
 	private ExperimentalCaveGenerator caveGenV2 = new ExperimentalCaveGenerator(1, 52, 10.0F);
-	private MapGenRavine rgen = new MapGenRavine();
+	private MapgenRavineButBased rgen = new MapgenRavineButBased();
 
 	public ChunkProviderMoho(World world, long seed, boolean hasMapFeatures) {
 		super(world, seed, hasMapFeatures);
 		caveGenV2 = (ExperimentalCaveGenerator) TerrainGen.getModdedMapGen(caveGenV2, CUSTOM);
-		rgen = (MapGenRavine) TerrainGen.getModdedMapGen(rgen, RAVINE);
+		rgen = (MapgenRavineButBased) TerrainGen.getModdedMapGen(rgen, RAVINE);
 
 		caveGenV2.stoneBlock = ModBlocks.moho_stone;
-		
+		rgen.stoneBlock = ModBlocks.moho_stone;
 		stoneBlock = ModBlocks.moho_stone;
 		seaBlock = Blocks.lava;
 	}
