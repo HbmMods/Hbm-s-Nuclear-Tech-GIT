@@ -49,7 +49,7 @@ public class ItemWandD extends Item {
 			vnt.setBlockAllocator(new BlockAllocatorStandard(32));
 			vnt.explode();
 			
-			ExplosionCreator.composeEffect(world, pos.blockX + 0.5, pos.blockY + 0.5, pos.blockZ + 0.5, 30, 6.5F, 2F, 65F, 25, 16, 50, 1.25F, 3F, -2F);
+			ExplosionCreator.composeEffectLarge(world, pos.blockX + 0.5, pos.blockY + 0.5, pos.blockZ + 0.5);
 			
 			/*for(int i = 0; i < 10; i++) {
 				NBTTagCompound data = new NBTTagCompound();
