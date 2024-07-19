@@ -469,6 +469,44 @@ public class ChemplantRecipes extends SerializableRecipe {
 			.outputFluids(
 				new FluidStack(700, Fluids.KEROSENE),
 				new FluidStack(300, Fluids.REFORMGAS)));
+
+		//Chemplant fractions for other fluids formerly written in TO-DO list
+		recipes.add(new ChemRecipe(234, "FP_COALOIL", 50)
+			.inputFluids(new FluidStack(1000, Fluids.COALOIL))
+			.outputFluids(
+				new FluidStack(300, Fluids.COALGAS),
+				new FluidStack(700, Fluids.OIL)));
+		recipes.add(new ChemRecipe(235, "FP_EGG", 50)
+			.inputFluids(new FluidStack(1000, Fluids.EGG))
+			.outputFluids(
+				new FluidStack(500, Fluids.CHOLESTEROL),
+				new FluidStack(500, Fluids.RADIOSOLVENT)));
+		recipes.add(new ChemRecipe(236, "FP_OIL_COKER", 50)
+			.inputFluids(new FluidStack(1000, Fluids.OIL_COKER))
+			.outputFluids(
+				new FluidStack(300, Fluids.CRACKOIL),
+				new FluidStack(700, Fluids.HEATINGOIL)));
+		recipes.add(new ChemRecipe(237, "FP_REFORMATE", 50)
+			.inputFluids(new FluidStack(1000, Fluids.REFORMATE))
+			.outputFluids(
+				new FluidStack(400, Fluids.AROMATICS),
+				new FluidStack(600, Fluids.XYLENE)));
+		recipes.add(new ChemRecipe(238, "FP_COALCREOSOTE", 50)
+			.inputFluids(new FluidStack(1000, Fluids.COALCREOSOTE))
+			.outputFluids(
+				new FluidStack(100, Fluids.COALOIL),
+				new FluidStack(900, Fluids.BITUMEN)));
+		recipes.add(new ChemRecipe(239, "FP_GAS_COKER", 50)
+			.inputFluids(new FluidStack(1000, Fluids.GAS_COKER))
+			.outputFluids(
+				new FluidStack(250, Fluids.AROMATICS),
+				new FluidStack(750, Fluids.CARBONDIOXIDE)));
+		recipes.add(new ChemRecipe(240, "FP_NAPHTHA_COKER", 50)
+			.inputFluids(new FluidStack(1000, Fluids.NAPHTHA_COKER))
+			.outputFluids(
+				new FluidStack(750, Fluids.NAPHTHA_CRACK),
+				new FluidStack(250, Fluids.LIGHTOIL_CRACK)));
+
 	}
 	
 	public static class ChemRecipe {
