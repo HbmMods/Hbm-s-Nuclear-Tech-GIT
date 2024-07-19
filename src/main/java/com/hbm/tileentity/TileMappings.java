@@ -127,8 +127,6 @@ public class TileMappings {
 		put(TileEntityBlastDoor.class, "tileentity_blast_door");
 		put(TileEntitySafe.class, "tileentity_safe");
 		put(TileEntityMachineGasCent.class, "tileentity_gas_centrifuge");
-		put(TileEntityMachineBoiler.class, "tileentity_boiler");
-		put(TileEntityMachineBoilerElectric.class, "tileentity_electric_boiler");
 		put(TileEntityGeiger.class, "tileentity_geiger");
 		put(TileEntityFF.class, "tileentity_forcefield");
 		put(TileEntityForceField.class, "tileentity_machine_field");
