@@ -15,16 +15,16 @@ public class ContainerLaunchPadRocket extends Container {
 	public ContainerLaunchPadRocket(InventoryPlayer invPlayer, ISidedInventory machine) {
 		this.machine = machine;
 		
-		addSlotToContainer(new Slot(machine, 0, 8, 7)); // Rocket slot
-		addSlotToContainer(new Slot(machine, 1, 7, 27)); // Drive slot
+		addSlotToContainer(new Slot(machine, 0, 37, 21)); // Rocket slot
+		addSlotToContainer(new Slot(machine, 1, 37, 39)); // Drive slot
 		
-		addSlotToContainer(new Slot(machine, 2, 189, 81)); // Battery slot
+		addSlotToContainer(new Slot(machine, 2, 167, 90)); // Battery slot
 
-		addSlotToContainer(new Slot(machine, 3, 135, 67)); // Input
-		addSlotToContainer(new Slot(machine, 4, 135, 85)); // Output
+		addSlotToContainer(new Slot(machine, 3, 77, 21)); // Input
+		addSlotToContainer(new Slot(machine, 4, 77, 39)); // Output
 
-		addSlots(invPlayer, 9, 8, 142, 3, 9); // Player inventory
-		addSlots(invPlayer, 0, 8, 200, 1, 9); // Player hotbar
+		addSlots(invPlayer, 9, 14, 154, 3, 9); // Player inventory
+		addSlots(invPlayer, 0, 14, 212, 1, 9); // Player hotbar
 	}
 	
 	private void addSlots(IInventory inv, int from, int x, int y, int rows, int cols) {

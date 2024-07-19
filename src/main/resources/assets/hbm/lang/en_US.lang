@@ -5558,6 +5558,7 @@ tile.lantern_behemoth.name=Old Lantern
 tile.launch_pad.name=Silo Launch Pad
 tile.launch_pad_large.name=Launch Pad
 tile.launch_pad_rusted.name=Old Launch Pad
+tile.launch_pad_rocket.name=Rocket Launch Pad
 tile.launch_table.name=Large Launch Pad
 tile.laythe_silt.name=Laythe Silt
 tile.leaves_layer.name=Fallen Leaves

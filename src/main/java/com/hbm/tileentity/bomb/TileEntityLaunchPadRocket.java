@@ -147,7 +147,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		return false;
 	}
 
-	private boolean canLaunch() {
+	public boolean canLaunch() {
 		return hasRocket() && hasDrive() && power >= maxPower * 0.75 && areTanksFull() && canReachDestination();
 	}
 
@@ -205,10 +205,15 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 			if(tank.getTankType() == Fluids.NONE) continue;
 			int fill = tank.getFill();
 			int maxFill = tank.getMaxFill();
+			String tankName = tank.getTankType().getLocalizedName();
+			if(tankName.contains(" ")) {
+				String[] split = tankName.split(" ");
+				tankName = split[split.length - 1];
+			}
 			if(fill < maxFill) {
-				issues.add(EnumChatFormatting.YELLOW + "" + fill + "/" + maxFill + "mB " + tank.getTankType().getLocalizedName());
+				issues.add(EnumChatFormatting.YELLOW + "" + fill + "/" + maxFill + "mB " + tankName);
 			} else {
-				issues.add(EnumChatFormatting.GREEN + "" + fill + "/" + maxFill + "mB " + tank.getTankType().getLocalizedName());
+				issues.add(EnumChatFormatting.GREEN + "" + fill + "/" + maxFill + "mB " + tankName);
 			}
 		}
 
