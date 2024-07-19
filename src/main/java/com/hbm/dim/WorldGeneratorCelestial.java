@@ -58,7 +58,7 @@ public class WorldGeneratorCelestial implements IWorldGenerator {
 			
 			CellularDungeonFactory.meteor.generate(world, px, 10, pz, rand);
 			
-			if(GeneralConfig.enableDebugMode)
+			// if(GeneralConfig.enableDebugMode)
 				MainRegistry.logger.info("[Debug] Successfully spawned meteor dungeon at " + px + " 10 " + pz);
 			
 			int y = world.getHeightValue(px, pz);

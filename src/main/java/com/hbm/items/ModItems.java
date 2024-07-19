@@ -1490,6 +1490,9 @@ public class ModItems {
 	public static Item mp_thruster_20_kerosene;
 	public static Item mp_thruster_20_kerosene_dual;
 	public static Item mp_thruster_20_kerosene_triple;
+	public static Item mp_thruster_20_hydrogen;
+	public static Item mp_thruster_20_hydrogen_dual;
+	public static Item mp_thruster_20_hydrogen_triple;
 	public static Item mp_thruster_20_solid;
 	public static Item mp_thruster_20_solid_multi;
 	public static Item mp_thruster_20_solid_multier;
@@ -1620,6 +1623,7 @@ public class ModItems {
 	public static Item rp_fuselage_20_12;
 	public static Item rp_fuselage_20_6;
 	public static Item rp_fuselage_20_3;
+	public static Item rp_fuselage_20_1;
 	public static Item rp_fuselage_20_12_hydrazine;
 
 	public static Item rp_legs_20;
@@ -4342,6 +4346,9 @@ public class ModItems {
 		mp_thruster_20_kerosene = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 100F, PartSize.SIZE_20, 936_000, 4000, 301).setHealth(30F)					.setUnlocalizedName("mp_thruster_20_kerosene");
 		mp_thruster_20_kerosene_dual = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 100F, PartSize.SIZE_20, 1_234_000, 5600, 301).setHealth(30F)				.setUnlocalizedName("mp_thruster_20_kerosene_dual");
 		mp_thruster_20_kerosene_triple = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 100F, PartSize.SIZE_20, 1_542_000, 7200, 301).setHealth(30F)			.setUnlocalizedName("mp_thruster_20_kerosene_triple");
+		mp_thruster_20_hydrogen = new ItemCustomMissilePart().makeThruster(FuelType.HYDROGEN, 1F, 100F, PartSize.SIZE_20, 734_000, 4200, 380).setHealth(30F)					.setUnlocalizedName("mp_thruster_20_hydrogen");
+		mp_thruster_20_hydrogen_dual = new ItemCustomMissilePart().makeThruster(FuelType.HYDROGEN, 1F, 100F, PartSize.SIZE_20, 986_000, 5900, 380).setHealth(30F)				.setUnlocalizedName("mp_thruster_20_hydrogen_dual");
+		mp_thruster_20_hydrogen_triple = new ItemCustomMissilePart().makeThruster(FuelType.HYDROGEN, 1F, 100F, PartSize.SIZE_20, 1_254_000, 7600, 380).setHealth(30F)			.setUnlocalizedName("mp_thruster_20_hydrogen_triple");
 		mp_thruster_20_solid = new ItemCustomMissilePart().makeThruster(FuelType.SOLID, 1F, 100F, PartSize.SIZE_20, 1_000_000, 2400, 195).setHealth(35F).setWittyText("It's basically just a big hole at the end of the fuel tank.").setUnlocalizedName("mp_thruster_20_solid");
 		mp_thruster_20_solid_multi = new ItemCustomMissilePart().makeThruster(FuelType.SOLID, 1F, 100F, PartSize.SIZE_20, 1_430_000, 3200, 195).setHealth(35F)					.setUnlocalizedName("mp_thruster_20_solid_multi");
 		mp_thruster_20_solid_multier = new ItemCustomMissilePart().makeThruster(FuelType.SOLID, 1F, 100F, PartSize.SIZE_20, 1_720_000, 4000, 195).setHealth(35F).setWittyText("Did I miscount? Hope not.").setUnlocalizedName("mp_thruster_20_solid_multier");
@@ -4467,9 +4474,10 @@ public class ModItems {
 		mp_chip_4 = new ItemCustomMissilePart().makeChip(0.005F)	.setUnlocalizedName("mp_c_4").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mp_c_4");
 		mp_chip_5 = new ItemCustomMissilePart().makeChip(0.0F)	.setUnlocalizedName("mp_c_5").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mp_c_5");
 		
-		rp_fuselage_20_12 = new ItemCustomMissilePart().makeFuselage(FuelType.ANY, 64_000, 1000, PartSize.SIZE_20, PartSize.SIZE_20).setUnlocalizedName("rp_f_20_12").setTextureName(RefStrings.MODID + ":mp_fuselage");
-		rp_fuselage_20_6 = new ItemCustomMissilePart().makeFuselage(FuelType.ANY, 32_000, 1000, PartSize.SIZE_20, PartSize.SIZE_20).setUnlocalizedName("rp_f_20_6").setTextureName(RefStrings.MODID + ":mp_fuselage");
+		rp_fuselage_20_12 = new ItemCustomMissilePart().makeFuselage(FuelType.ANY, 64_000, 4000, PartSize.SIZE_20, PartSize.SIZE_20).setUnlocalizedName("rp_f_20_12").setTextureName(RefStrings.MODID + ":mp_fuselage");
+		rp_fuselage_20_6 = new ItemCustomMissilePart().makeFuselage(FuelType.ANY, 32_000, 2000, PartSize.SIZE_20, PartSize.SIZE_20).setUnlocalizedName("rp_f_20_6").setTextureName(RefStrings.MODID + ":mp_fuselage");
 		rp_fuselage_20_3 = new ItemCustomMissilePart().makeFuselage(FuelType.ANY, 16_000, 1000, PartSize.SIZE_20, PartSize.SIZE_20).setUnlocalizedName("rp_f_20_3").setTextureName(RefStrings.MODID + ":mp_fuselage");
+		rp_fuselage_20_1 = new ItemCustomMissilePart().makeFuselage(FuelType.ANY, 6_000, 300, PartSize.SIZE_20, PartSize.SIZE_20).setUnlocalizedName("rp_f_20_1").setTextureName(RefStrings.MODID + ":mp_fuselage");
 
 		rp_legs_20 = new ItemCustomMissilePart().makeStability(0, PartSize.SIZE_20).setMaxStackSize(1).setUnlocalizedName("rp_l_20").setTextureName(RefStrings.MODID + ":mp_fuselage");
 
@@ -7454,6 +7462,9 @@ public class ModItems {
 		GameRegistry.registerItem(mp_thruster_20_kerosene, mp_thruster_20_kerosene.getUnlocalizedName());
 		GameRegistry.registerItem(mp_thruster_20_kerosene_dual, mp_thruster_20_kerosene_dual.getUnlocalizedName());
 		GameRegistry.registerItem(mp_thruster_20_kerosene_triple, mp_thruster_20_kerosene_triple.getUnlocalizedName());
+		GameRegistry.registerItem(mp_thruster_20_hydrogen, mp_thruster_20_hydrogen.getUnlocalizedName());
+		GameRegistry.registerItem(mp_thruster_20_hydrogen_dual, mp_thruster_20_hydrogen_dual.getUnlocalizedName());
+		GameRegistry.registerItem(mp_thruster_20_hydrogen_triple, mp_thruster_20_hydrogen_triple.getUnlocalizedName());
 		GameRegistry.registerItem(mp_thruster_20_solid, mp_thruster_20_solid.getUnlocalizedName());
 		GameRegistry.registerItem(mp_thruster_20_solid_multi, mp_thruster_20_solid_multi.getUnlocalizedName());
 		GameRegistry.registerItem(mp_thruster_20_solid_multier, mp_thruster_20_solid_multier.getUnlocalizedName());
@@ -7569,6 +7580,7 @@ public class ModItems {
 		GameRegistry.registerItem(rp_fuselage_20_12, rp_fuselage_20_12.getUnlocalizedName());
 		GameRegistry.registerItem(rp_fuselage_20_6, rp_fuselage_20_6.getUnlocalizedName());
 		GameRegistry.registerItem(rp_fuselage_20_3, rp_fuselage_20_3.getUnlocalizedName());
+		GameRegistry.registerItem(rp_fuselage_20_1, rp_fuselage_20_1.getUnlocalizedName());
 		GameRegistry.registerItem(rp_fuselage_20_12_hydrazine, rp_fuselage_20_12_hydrazine.getUnlocalizedName());
 		GameRegistry.registerItem(rp_legs_20, rp_legs_20.getUnlocalizedName());
 		GameRegistry.registerItem(rp_capsule_20, rp_capsule_20.getUnlocalizedName());

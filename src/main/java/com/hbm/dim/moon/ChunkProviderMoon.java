@@ -18,6 +18,8 @@ public class ChunkProviderMoon extends ChunkProviderCelestial {
 	public ChunkProviderMoon(World world, long seed, boolean hasMapFeatures) {
 		super(world, seed, hasMapFeatures);
 		caveGenV3 = (MapGenGreg) TerrainGen.getModdedMapGen(caveGenV3, CAVE);
+		caveGenV3.stoneBlock = ModBlocks.moon_rock;
+		rgen = (MapgenRavineButBased) TerrainGen.getModdedMapGen(rgen, RAVINE);
 		rgen.stoneBlock = ModBlocks.moon_rock;
 
 		stoneBlock = ModBlocks.moon_rock;

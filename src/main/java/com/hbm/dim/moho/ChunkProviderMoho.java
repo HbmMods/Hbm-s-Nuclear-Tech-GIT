@@ -8,7 +8,6 @@ import com.hbm.dim.ExperimentalCaveGenerator;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.MapGenRavine;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class ChunkProviderMoho extends ChunkProviderCelestial {

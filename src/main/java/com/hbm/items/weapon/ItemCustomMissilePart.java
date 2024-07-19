@@ -374,7 +374,20 @@ public class ItemCustomMissilePart extends Item {
 		}
 	}
 
+	public int getThrust() {
+		if(type != PartType.THRUSTER) return 0;
+		if(attributes[3] == null || !(attributes[3] instanceof Integer)) return 0;
+		return (Integer) attributes[3];
+	}
+
+	public int getISP() {
+		if(type != PartType.THRUSTER) return 0;
+		if(attributes[4] == null || !(attributes[4] instanceof Integer)) return 0;
+		return (Integer) attributes[4];
+	}
+
 	public int getTankSize() {
+		if(type != PartType.FUSELAGE) return 0;
 		if(!(attributes[1] instanceof Integer)) return 0;
 		return (Integer) attributes[1];
 	}

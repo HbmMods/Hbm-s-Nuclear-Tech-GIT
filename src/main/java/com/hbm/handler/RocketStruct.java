@@ -186,13 +186,10 @@ public class RocketStruct {
 		if(stage.fuselage == null || stage.thruster == null) return -1;
 		
 		int rocketMass = getLaunchMass(stageNum);
-		FT_Rocket trait = stage.thruster.part.getFuel().getTrait(FT_Rocket.class);
-		if(trait == null) return -1;
+		int thrust = stage.thruster.part.getThrust() * stage.thrusterCount;
+		int isp = stage.thruster.part.getISP();
 
-		long isp = trait.getISP();
-		long thrust = trait.getThrust() * stage.thrusterCount;
-
-		return SolarSystem.getCostBetween(from, to, rocketMass, (int)thrust, (int)isp);
+		return SolarSystem.getCostBetween(from, to, rocketMass, thrust, isp);
 	}
 
 	// Gets the dry mass of the active stage + the wet mass of the stages above it

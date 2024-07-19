@@ -11,6 +11,8 @@ import net.minecraft.world.gen.MapGenCaves;
 import net.minecraft.world.gen.NoiseGeneratorOctaves;
 
 public class MapGenGreg extends MapGenCaves {
+
+	public Block stoneBlock = Blocks.stone;
 	
 	private double[] caveNoise;
 	private float[] biomeWeightTable;
@@ -230,17 +232,13 @@ public class MapGenGreg extends MapGenCaves {
 		}
 	}
 
-	private boolean isExceptionBiome(BiomeGenBase biome) {
-		return biome == BiomeGenBase.desert || biome == BiomeGenBase.beach || biome == BiomeGenBase.mushroomIsland;
-	}
-
 	protected void digBlock(Block[] data, int index, int x, int y, int z, int chunkX, int chunkZ, boolean foundTop) {
 		BiomeGenBase biome = worldObj.getBiomeGenForCoords(x + chunkX * 16, z + chunkZ * 16);
-		Block top = (isExceptionBiome(biome) ? Blocks.grass : biome.topBlock);
-		Block filler = (isExceptionBiome(biome) ? Blocks.dirt : biome.fillerBlock);
+		Block top = biome.topBlock;
+		Block filler = biome.fillerBlock;
 		Block block = data[index];
 
-		if (block == Blocks.stone || block == filler || block == top) {
+		if (block == stoneBlock || block == filler || block == top) {
 			if (y < 2) {
 				data[index] = Blocks.flowing_lava;
 			} else {

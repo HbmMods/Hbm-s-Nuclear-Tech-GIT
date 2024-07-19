@@ -70,6 +70,9 @@ public class MissilePart {
 		MissilePart.registerPart(ModItems.mp_thruster_20_kerosene, PartType.THRUSTER, 2, 2, ResourceManager.mp_t_20_kerosene, ResourceManager.mp_t_20_kerosene_tex);
 		MissilePart.registerPart(ModItems.mp_thruster_20_kerosene_dual, PartType.THRUSTER, 2, 2, ResourceManager.mp_t_20_kerosene_dual, ResourceManager.mp_t_20_kerosene_dual_tex);
 		MissilePart.registerPart(ModItems.mp_thruster_20_kerosene_triple, PartType.THRUSTER, 2, 2, ResourceManager.mp_t_20_kerosene_triple, ResourceManager.mp_t_20_kerosene_dual_tex);
+		MissilePart.registerPart(ModItems.mp_thruster_20_hydrogen, PartType.THRUSTER, 2, 2, ResourceManager.mp_t_20_kerosene, ResourceManager.mp_t_20_hydrogen_tex);
+		MissilePart.registerPart(ModItems.mp_thruster_20_hydrogen_dual, PartType.THRUSTER, 2, 2, ResourceManager.mp_t_20_kerosene_dual, ResourceManager.mp_t_20_hydrogen_dual_tex);
+		MissilePart.registerPart(ModItems.mp_thruster_20_hydrogen_triple, PartType.THRUSTER, 2, 2, ResourceManager.mp_t_20_kerosene_triple, ResourceManager.mp_t_20_hydrogen_dual_tex);
 		MissilePart.registerPart(ModItems.mp_thruster_20_solid, PartType.THRUSTER, 1, 1.75, ResourceManager.mp_t_20_solid, ResourceManager.mp_t_20_solid_tex);
 		MissilePart.registerPart(ModItems.mp_thruster_20_solid_multi, PartType.THRUSTER, 0.5, 1.5, ResourceManager.mp_t_20_solid_multi, ResourceManager.mp_t_20_solid_multi_tex);
 		MissilePart.registerPart(ModItems.mp_thruster_20_solid_multier, PartType.THRUSTER, 0.5, 1.5, ResourceManager.mp_t_20_solid_multi, ResourceManager.mp_t_20_solid_multier_tex);
@@ -173,6 +176,7 @@ public class MissilePart {
 		MissilePart.registerPart(ModItems.rp_fuselage_20_12, PartType.FUSELAGE, 12, 8, ResourceManager.mp_f_20_12_usa, ResourceManager.mp_f_20_kerolox_usa);
 		MissilePart.registerPart(ModItems.rp_fuselage_20_6, PartType.FUSELAGE, 6, 4.5, ResourceManager.mp_f_20_6_usa, ResourceManager.mp_f_20_kerolox_usa);
 		MissilePart.registerPart(ModItems.rp_fuselage_20_3, PartType.FUSELAGE, 3, 2.5, ResourceManager.mp_f_20_3_usa, ResourceManager.mp_f_20_kerolox);
+		MissilePart.registerPart(ModItems.rp_fuselage_20_1, PartType.FUSELAGE, 1, 1.5, ResourceManager.mp_f_20_1_usa, ResourceManager.mp_f_20_kerolox);
 		MissilePart.registerPart(ModItems.rp_fuselage_20_12_hydrazine, PartType.FUSELAGE, 10, 8, ResourceManager.mp_f_20_neo, ResourceManager.mp_f_20_hydrazine_tex);
 
 
