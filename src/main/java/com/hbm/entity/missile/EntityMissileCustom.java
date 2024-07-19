@@ -141,7 +141,7 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 		case SOLID: smoke = "exSolid"; break;
 		case XENON: break;
 		case HYDRAZINE: smoke = "exKerosene"; break;
-		case METHALOX: break;
+		case METHALOX: smoke = "exKerosene"; break;
 		}
 
 		if(!smoke.isEmpty()) for(int i = 0; i < velocity; i++) MainRegistry.proxy.spawnParticle(posX - v.xCoord * i, posY - v.yCoord * i, posZ - v.zCoord * i, smoke, null);
