@@ -75,32 +75,32 @@ public class RenderExposureChamber extends TileEntitySpecialRenderer implements 
 			if(rand.nextInt(chance) == 0) {
 				GL11.glPushMatrix();
 				GL11.glTranslated(0, 3.675, -7.5);
-				BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, 5), EnumWaveType.RANDOM, EnumBeamType.LINE, color, 0xffffff, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.125F, 1, 0);
+				BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, 5), EnumWaveType.RANDOM, EnumBeamType.LINE, color, 0xffffff, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.125F, 1, 0, 0.5F);
 				GL11.glPopMatrix();
 			}
 			if(rand.nextInt(chance) == 0) {
 				GL11.glPushMatrix();
 				GL11.glTranslated(1.1875, 2.5, -7.5);
-				BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, 5), EnumWaveType.RANDOM, EnumBeamType.LINE, color, 0xffffff, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.125F, 1, 0);
+				BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, 5), EnumWaveType.RANDOM, EnumBeamType.LINE, color, 0xffffff, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.125F, 1, 0, 0.5F);
 				GL11.glPopMatrix();
 			}
 			if(rand.nextInt(chance) == 0) {
 				GL11.glPushMatrix();
 				GL11.glTranslated(-1.1875, 2.5, -7.5);
-				BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, 5), EnumWaveType.RANDOM, EnumBeamType.LINE, color, 0xffffff, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.125F, 1, 0);
+				BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, 5), EnumWaveType.RANDOM, EnumBeamType.LINE, color, 0xffffff, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.125F, 1, 0, 0.5F);
 				GL11.glPopMatrix();
 			}
 			
 			GL11.glPushMatrix();
 			GL11.glTranslated(0, 1.75, 0);
-			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 1.5, 0), EnumWaveType.RANDOM, EnumBeamType.LINE, 0x80d0ff, 0xffffff, (int)(System.currentTimeMillis() % 1000) / 50, 10, 0.125F, 1, 0);
-			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 1.5, 0), EnumWaveType.RANDOM, EnumBeamType.LINE, 0x8080ff, 0xffffff, (int)(System.currentTimeMillis() + 5 % 1000) / 50, 10, 0.125F, 1, 0);
+			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 1.5, 0), EnumWaveType.RANDOM, EnumBeamType.LINE, 0x80d0ff, 0xffffff, (int)(System.currentTimeMillis() % 1000) / 50, 10, 0.125F, 1, 0, 0.5F);
+			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 1.5, 0), EnumWaveType.RANDOM, EnumBeamType.LINE, 0x8080ff, 0xffffff, (int)(System.currentTimeMillis() + 5 % 1000) / 50, 10, 0.125F, 1, 0, 0.5F);
 			GL11.glPopMatrix();
 			
 			GL11.glPushMatrix();
 			GL11.glTranslated(0, 2.5, 0);
-			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -1), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xffff80, 0xffffff, (int)(System.currentTimeMillis() % 360), 15, 0.125F, 1, 0);
-			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -1), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xff8080, 0xffffff, (int)(System.currentTimeMillis() % 360) + 180, 15, 0.125F, 1, 0);
+			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -1), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xffff80, 0xffffff, (int)(System.currentTimeMillis() % 360), 15, 0.125F, 1, 0, 0.5F);
+			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -1), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xff8080, 0xffffff, (int)(System.currentTimeMillis() % 360) + 180, 15, 0.125F, 1, 0, 0.5F);
 			GL11.glPopMatrix();
 		}
 		

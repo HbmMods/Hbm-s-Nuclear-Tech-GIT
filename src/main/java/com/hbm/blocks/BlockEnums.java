@@ -28,7 +28,8 @@ public class BlockEnums {
 
 	public static enum EnumStalagmiteType {
 		SULFUR,
-		ASBESTOS
+		ASBESTOS,
+		FLESH
 	}
 
 	public static enum EnumCMMaterials {

@@ -61,9 +61,9 @@ public class RenderOrbus extends TileEntitySpecialRenderer {
 		
 		if(orbus.tank.getFill() > 0) {
 			GL11.glTranslated(0, 1, 0);
-			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 3, 0), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x101020, 0x101020, 0, 1, 0F, 6, (float)scale * 0.5F);
-			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 3, 0), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x202060, 0x202060, (int)(te.getWorldObj().getTotalWorldTime() / 2) % 1000, 6, (float)scale, 2, 0.0625F * (float)scale);
-			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 3, 0), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x202060, 0x202060, (int)(te.getWorldObj().getTotalWorldTime() / 4) % 1000, 6, (float)scale, 2, 0.0625F * (float)scale);
+			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 3, 0), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x101020, 0x101020, 0, 1, 0F, 6, (float)scale * 0.5F, 0.5F);
+			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 3, 0), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x202060, 0x202060, (int)(te.getWorldObj().getTotalWorldTime() / 2) % 1000, 6, (float)scale, 2, 0.0625F * (float)scale, 0.5F);
+			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 3, 0), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x202060, 0x202060, (int)(te.getWorldObj().getTotalWorldTime() / 4) % 1000, 6, (float)scale, 2, 0.0625F * (float)scale, 0.5F);
 		}
 		
 		GL11.glPopMatrix();

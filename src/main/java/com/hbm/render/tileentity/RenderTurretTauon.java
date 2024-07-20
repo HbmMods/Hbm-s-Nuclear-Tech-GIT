@@ -50,7 +50,7 @@ public class RenderTurretTauon extends RenderTurretBase {
 			GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
 			GL11.glTranslated(0, 1.5D, 0);
-			BeamPronter.prontBeam(Vec3.createVectorHelper(turret.lastDist, 0, 0), EnumWaveType.RANDOM, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)te.getWorldObj().getTotalWorldTime() / 5 % 360, (int)turret.lastDist + 1, 0.1F, 0, 0);
+			BeamPronter.prontBeam(Vec3.createVectorHelper(turret.lastDist, 0, 0), EnumWaveType.RANDOM, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)te.getWorldObj().getTotalWorldTime() / 5 % 360, (int)turret.lastDist + 1, 0.1F, 0, 0, 0.5F);
 			GL11.glPopAttrib();
 			GL11.glPopMatrix();
 		}

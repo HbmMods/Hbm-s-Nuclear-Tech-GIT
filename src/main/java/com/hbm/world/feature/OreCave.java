@@ -169,16 +169,28 @@ public class OreCave {
 							}
 							
 						} else {
-							
-							if((genTarget.getMaterial() == Material.air || !genTarget.isNormalCube()) && event.rand.nextInt(5) == 0 && !genTarget.getMaterial().isLiquid()) {
-								
-								if(ModBlocks.stalactite.canPlaceBlockAt(world, x, y, z)) {
-									world.setBlock(x, y, z, ModBlocks.stalactite, BlockStalagmite.getMetaFromResource(ore.meta), 2);
-								} else {
-									if(ModBlocks.stalagmite.canPlaceBlockAt(world, x, y, z)) {
-										world.setBlock(x, y, z, ModBlocks.stalagmite, BlockStalagmite.getMetaFromResource(ore.meta), 2);
+							if(ore.block != ModBlocks.tumor) {
+								if((genTarget.getMaterial() == Material.air || !genTarget.isNormalCube()) && event.rand.nextInt(5) == 0 && !genTarget.getMaterial().isLiquid()) {
+									
+									if(ModBlocks.stalactite.canPlaceBlockAt(world, x, y, z)) {
+										world.setBlock(x, y, z, ModBlocks.stalactite, BlockStalagmite.getMetaFromResource(ore.meta), 2);
+									} else {
+										if(ModBlocks.stalagmite.canPlaceBlockAt(world, x, y, z)) {
+											world.setBlock(x, y, z, ModBlocks.stalagmite, BlockStalagmite.getMetaFromResource(ore.meta), 2);
+										}
 									}
-								}
+								}	
+							}else {
+								if((genTarget.getMaterial() == Material.air || !genTarget.isNormalCube()) && event.rand.nextInt(5) == 0 && !genTarget.getMaterial().isLiquid()) {
+									
+									if(ModBlocks.stalactite.canPlaceBlockAt(world, x, y, z)) {
+										world.setBlock(x, y, z, ModBlocks.stalactite, 2, 2);
+									} else {
+										if(ModBlocks.stalagmite.canPlaceBlockAt(world, x, y, z)) {
+											world.setBlock(x, y, z, ModBlocks.stalagmite, 2, 2);
+										}
+									}
+								}	
 							}
 						}
 					}

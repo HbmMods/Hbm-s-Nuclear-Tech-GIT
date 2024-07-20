@@ -315,7 +315,7 @@ public class RenderBullet extends Render {
 		GL11.glRotated(90, 0, 1, 0);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 5, 0), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0xFF9000, 0xFF9000, 0, 1, 0F, 6, (float)0.2 * 0.2F);
+		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 5, 0), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0xFF9000, 0xFF9000, 0, 1, 0F, 6, (float)0.2 * 0.2F, 256);
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 	

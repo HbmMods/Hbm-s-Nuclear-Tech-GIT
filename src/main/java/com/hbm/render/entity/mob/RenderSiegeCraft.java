@@ -75,7 +75,7 @@ public class RenderSiegeCraft extends Render {
 			if(rand.nextInt(5) == 0 || ufo.getBeam()) {
 				GL11.glPushMatrix();
 				GL11.glTranslated(4, 0, 0);
-				BeamPronter.prontBeam(Vec3.createVectorHelper(-1.125, 0, 2.875), EnumWaveType.RANDOM, EnumBeamType.LINE, 0x80d0ff, 0xffffff, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.125F, 1, 0);
+				BeamPronter.prontBeam(Vec3.createVectorHelper(-1.125, 0, 2.875), EnumWaveType.RANDOM, EnumBeamType.LINE, 0x80d0ff, 0xffffff, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.125F, 1, 0, 256);
 				GL11.glPopMatrix();
 			}
 		}
@@ -87,9 +87,9 @@ public class RenderSiegeCraft extends Render {
 			Vec3 delta = ufo.getLockon().addVector(-ufo.posX, -ufo.posY, -ufo.posZ);
 			double length = delta.lengthVector();
 			double scale = 0.1D;
-			BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x101020, 0x101020, entity.ticksExisted / 6, (int)(length / 2 + 1), (float)scale * 1F, 4, 0.25F);
-			BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x202060, 0x202060, entity.ticksExisted / 2, (int)(length / 2 + 1), (float)scale * 7F, 2, 0.0625F);
-			BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x202060, 0x202060, entity.ticksExisted / 4, (int)(length / 2 + 1), (float)scale * 7F, 2, 0.0625F);
+			BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x101020, 0x101020, entity.ticksExisted / 6, (int)(length / 2 + 1), (float)scale * 1F, 4, 0.25F, 256);
+			BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x202060, 0x202060, entity.ticksExisted / 2, (int)(length / 2 + 1), (float)scale * 7F, 2, 0.0625F, 256);
+			BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x202060, 0x202060, entity.ticksExisted / 4, (int)(length / 2 + 1), (float)scale * 7F, 2, 0.0625F, 256);
 			GL11.glPopMatrix();
 		}
 		

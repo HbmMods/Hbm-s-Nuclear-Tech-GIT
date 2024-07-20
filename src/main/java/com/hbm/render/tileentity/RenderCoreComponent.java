@@ -60,9 +60,9 @@ public class RenderCoreComponent extends TileEntitySpecialRenderer implements II
 	        int range = ((TileEntityCoreEmitter)tileEntity).beam;
 	        
 	        if(range > 0) {
-		        BeamPronter.prontBeamwithDepth(Vec3.createVectorHelper(0, 0, range), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x404000, 0x404000, 0, 1, 0F, 2, 0.0625F);
-		        BeamPronter.prontBeamwithDepth(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x401500, 0x401500, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000, range * 2, 0.125F, 4, 0.0625F);
-		        BeamPronter.prontBeamwithDepth(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x401500, 0x401500, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000 + 1, range * 2, 0.125F, 4, 0.0625F);
+		        BeamPronter.prontBeamwithDepth(Vec3.createVectorHelper(0, 0, range), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x404000, 0x404000, 0, 1, 0F, 2, 0.0625F, 0.5F);
+		        BeamPronter.prontBeamwithDepth(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x401500, 0x401500, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000, range * 2, 0.125F, 4, 0.0625F, 0.5F);
+		        BeamPronter.prontBeamwithDepth(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x401500, 0x401500, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000 + 1, range * 2, 0.125F, 4, 0.0625F, 0.5F);
 	        }
         }
 
@@ -82,9 +82,9 @@ public class RenderCoreComponent extends TileEntitySpecialRenderer implements II
 	        if(range > 0) {
 	        	
 	        	if(injector.tanks[0].getFill() > 0)
-	        		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.LINE, injector.tanks[0].getTankType().getColor(), 0x808080, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000, range, 0.0625F, 0, 0);
+	        		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.LINE, injector.tanks[0].getTankType().getColor(), 0x808080, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000, range, 0.0625F, 0, 0, 0.5F);
 	        	if(injector.tanks[1].getFill() > 0)
-	        		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.LINE, injector.tanks[1].getTankType().getColor(), 0x808080, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000 + 1, range, 0.0625F, 0, 0);
+	        		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.RANDOM, EnumBeamType.LINE, injector.tanks[1].getTankType().getColor(), 0x808080, (int)tileEntity.getWorldObj().getTotalWorldTime() % 1000 + 1, range, 0.0625F, 0, 0, 0.5F);
 	        }
         }
 
@@ -98,9 +98,9 @@ public class RenderCoreComponent extends TileEntitySpecialRenderer implements II
 	        int range = stabilizer.beam;
 
 	        if(range > 0) {
-	    		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)tileEntity.getWorldObj().getTotalWorldTime() * -25 % 360, range * 3, 0.125F, 0, 0);
-	    		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)tileEntity.getWorldObj().getTotalWorldTime() * -15 % 360 + 180, range * 3, 0.125F, 0, 0);
-	    		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)tileEntity.getWorldObj().getTotalWorldTime() * -5 % 360 + 180, range * 3, 0.125F, 0, 0);
+	    		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)tileEntity.getWorldObj().getTotalWorldTime() * -25 % 360, range * 3, 0.125F, 0, 0, 0.5F);
+	    		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)tileEntity.getWorldObj().getTotalWorldTime() * -15 % 360 + 180, range * 3, 0.125F, 0, 0, 0.5F);
+	    		BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, range), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0xffa200, 0xffd000, (int)tileEntity.getWorldObj().getTotalWorldTime() * -5 % 360 + 180, range * 3, 0.125F, 0, 0, 0.5F);
 	        }
         }
         

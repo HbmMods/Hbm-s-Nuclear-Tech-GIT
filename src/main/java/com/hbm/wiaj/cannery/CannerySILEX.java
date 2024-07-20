@@ -269,8 +269,8 @@ public class CannerySILEX extends CanneryBase {
 				if(color == 0)
 					color = Color.HSBtoRGB(Minecraft.getMinecraft().theWorld.getTotalWorldTime() / 50.0F, 0.5F, 0.1F) & 16777215;
 				
-				BeamPronter.prontBeamwithDepth(Vec3.createVectorHelper(0, 0, -length - 1), EnumWaveType.SPIRAL, EnumBeamType.SOLID, color, color, 0, 1, 0F, 2, 0.0625F);
-				BeamPronter.prontBeamwithDepth(Vec3.createVectorHelper(0, 0, -length - 1), EnumWaveType.RANDOM, EnumBeamType.SOLID, color, color, (int)(Minecraft.getMinecraft().theWorld.getTotalWorldTime() % 1000 / 2), (length / 2) + 1, 0.0625F, 2, 0.0625F);
+				BeamPronter.prontBeamwithDepth(Vec3.createVectorHelper(0, 0, -length - 1), EnumWaveType.SPIRAL, EnumBeamType.SOLID, color, color, 0, 1, 0F, 2, 0.0625F, 256);
+				BeamPronter.prontBeamwithDepth(Vec3.createVectorHelper(0, 0, -length - 1), EnumWaveType.RANDOM, EnumBeamType.SOLID, color, color, (int)(Minecraft.getMinecraft().theWorld.getTotalWorldTime() % 1000 / 2), (length / 2) + 1, 0.0625F, 2, 0.0625F, 256);
 			}
 		}
 

@@ -88,7 +88,7 @@ public class RenderTurretMaxwell extends RenderTurretBase {
 			GL11.glShadeModel(GL11.GL_FLAT);
 			
 			for(int i = 0; i < 8; i++)
-				BeamPronter.prontBeam(Vec3.createVectorHelper(length, 0, 0), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x2020ff, 0x2020ff, (int)((te.getWorldObj().getTotalWorldTime() + interp) * -50 + i * 45) % 360, (int)((turret.lastDist + 1)), 0.375F, 2, 0.05F);
+				BeamPronter.prontBeam(Vec3.createVectorHelper(length, 0, 0), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x2020ff, 0x2020ff, (int)((te.getWorldObj().getTotalWorldTime() + interp) * -50 + i * 45) % 360, (int)((turret.lastDist + 1)), 0.375F, 2, 0.05F, 0.5F);
 			
 			//BeamPronter.prontBeam(Vec3.createVectorHelper(length, 0, 0), EnumWaveType.SPIRAL, EnumBeamType.LINE, 0x0000ff, 0x8080ff, (int)((te.getWorldObj().getTotalWorldTime() + interp) * -50) % 360, (int)((turret.lastDist + 1) * 10), 0.4325F, 0, 0);
 			GL11.glPopAttrib();

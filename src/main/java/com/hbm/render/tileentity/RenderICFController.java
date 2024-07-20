@@ -35,7 +35,7 @@ public class RenderICFController extends TileEntitySpecialRenderer {
 			GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
 			GL11.glDisable(GL11.GL_LIGHTING);
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
-			BeamPronter.prontBeam(Vec3.createVectorHelper(controller.laserLength, 0, 0), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x202020, 0x100000, 0, 1, 0F, 10, 0.125F);
+			BeamPronter.prontBeam(Vec3.createVectorHelper(controller.laserLength, 0, 0), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x202020, 0x100000, 0, 1, 0F, 10, 0.125F, 0.5F);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glPopAttrib();
 			
