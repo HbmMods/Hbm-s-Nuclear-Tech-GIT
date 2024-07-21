@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.BiomeDictionary;
 
 public class BiomeGenEveMountains extends BiomeGenBase {
 	
@@ -31,6 +32,8 @@ public class BiomeGenEveMountains extends BiomeGenBase {
         
         this.topBlock = ModBlocks.eve_silt;
         this.fillerBlock = ModBlocks.eve_rock;
+        BiomeDictionary.registerBiomeType(this, BiomeDictionary.Type.HOT, BiomeDictionary.Type.DRY, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.SPOOKY);
+
 	}
 	
     public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise)

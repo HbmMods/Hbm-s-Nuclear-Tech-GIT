@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.common.BiomeDictionary;
 
 public class BiomeGenEveRiver extends BiomeGenBase {
 	
@@ -30,6 +31,8 @@ public class BiomeGenEveRiver extends BiomeGenBase {
         
         this.topBlock = ModBlocks.eve_silt;
         this.fillerBlock = ModBlocks.eve_silt;
+        BiomeDictionary.registerBiomeType(this, BiomeDictionary.Type.HOT, BiomeDictionary.Type.DRY, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.SPOOKY);
+
 	}
 
 	@Override
