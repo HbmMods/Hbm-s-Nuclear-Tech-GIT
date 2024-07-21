@@ -3,8 +3,7 @@ package com.hbm.dim.laythe;
 import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.CAVE;
 
 import com.hbm.dim.ChunkProviderCelestial;
-import com.hbm.dim.ChunkProviderCelestial.BlockMetaBuffer;
-import com.hbm.dim.noise.MapGenGreg;
+import com.hbm.dim.mapgen.MapGenGreg;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;

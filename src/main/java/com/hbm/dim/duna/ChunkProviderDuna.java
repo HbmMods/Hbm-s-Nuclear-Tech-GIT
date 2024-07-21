@@ -4,8 +4,8 @@ import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.*;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.ChunkProviderCelestial;
-import com.hbm.dim.ExperimentalCaveGenerator;
 import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
+import com.hbm.dim.mapgen.ExperimentalCaveGenerator;
 
 import net.minecraft.world.World;
 import net.minecraftforge.event.terraingen.TerrainGen;

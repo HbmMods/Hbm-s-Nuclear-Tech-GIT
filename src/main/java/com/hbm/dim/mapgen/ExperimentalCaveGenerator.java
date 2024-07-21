@@ -1,6 +1,8 @@
-package com.hbm.dim;
+package com.hbm.dim.mapgen;
 
 import java.util.Random;
+
+import com.hbm.dim.noise.PerlinFestival;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

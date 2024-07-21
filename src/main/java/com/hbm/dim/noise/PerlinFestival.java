@@ -1,4 +1,4 @@
-package com.hbm.dim;
+package com.hbm.dim.noise;
 
 import java.util.Random;
 

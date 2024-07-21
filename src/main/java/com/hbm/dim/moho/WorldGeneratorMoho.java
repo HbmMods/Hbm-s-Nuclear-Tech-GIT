@@ -3,12 +3,9 @@ package com.hbm.dim.moho;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.CelestialBody;
-import com.hbm.dim.GenCrater;
-import com.hbm.main.MainRegistry;
 import com.hbm.world.generator.DungeonToolbox;
 
 import cpw.mods.fml.common.IWorldGenerator;
@@ -29,7 +26,7 @@ public class WorldGeneratorMoho implements IWorldGenerator {
 	private void generateMoho(World world, Random rand, int i, int j) {
 		int meta = CelestialBody.getMeta(world);
 
-        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherSulfurSpawn, 12, 5, 30, ModBlocks.ore_glowstone, meta, ModBlocks.moho_stone);
+        DungeonToolbox.generateOre(world, rand, i, j, 14, 12, 5, 30, ModBlocks.ore_glowstone, meta, ModBlocks.moho_stone);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPhosphorusSpawn, 6, 8, 64, ModBlocks.ore_fire, meta, ModBlocks.moho_stone);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPlutoniumSpawn, 4, 0, 24, ModBlocks.ore_plutonium, meta, ModBlocks.moho_stone);
 
@@ -50,25 +47,11 @@ public class WorldGeneratorMoho implements IWorldGenerator {
 					world.setBlock(x-1, y, z, Blocks.netherrack);
 					world.setBlock(x, y, z+1, Blocks.netherrack);
 					world.setBlock(x, y, z-1, Blocks.netherrack);
+					world.setBlock(x+1, y-1, z, Blocks.netherrack);
+					world.setBlock(x-1, y-1, z, Blocks.netherrack);
+					world.setBlock(x, y-1, z+1, Blocks.netherrack);
+					world.setBlock(x, y-1, z-1, Blocks.netherrack);
 				}
-			}
-		}
-
-		if(SpaceConfig.ikecfreq > 0 && rand.nextInt(SpaceConfig.ikecfreq) == 0) {
-			
-			for (int a = 0; a < 1; a++) {
-				int x = i + rand.nextInt(16);
-				int z = j + rand.nextInt(16);
-				
-				double r = rand.nextInt(15) + 10;
-				
-				if(rand.nextInt(50) == 0)
-					r = 50;
-
-				new GenCrater(ModBlocks.moho_stone, ModBlocks.moho_regolith, 1).generate(world, x, z, r, r * 0.35D);
-
-				if(GeneralConfig.enableDebugMode)
-					MainRegistry.logger.info("[Debug] Successfully spawned crater at " + x + " " + z);
 			}
 		}
 	}

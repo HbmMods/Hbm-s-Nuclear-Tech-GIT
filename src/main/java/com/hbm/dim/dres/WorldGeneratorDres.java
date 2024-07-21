@@ -3,12 +3,9 @@ package com.hbm.dim.dres;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.CelestialBody;
-import com.hbm.dim.GenCrater;
-import com.hbm.main.MainRegistry;
 import com.hbm.world.generator.DungeonToolbox;
 
 import cpw.mods.fml.common.IWorldGenerator;
@@ -33,24 +30,5 @@ public class WorldGeneratorDres implements IWorldGenerator {
 		DungeonToolbox.generateOre(world, rand, i, j, 2, 4, 15, 40, ModBlocks.ore_coltan, meta, ModBlocks.dres_rock);
 
         DungeonToolbox.generateOre(world, rand, i, j, 1, 12, 8, 32, ModBlocks.ore_shale, meta, ModBlocks.dres_rock);
-		
-		if (SpaceConfig.drescfreq > 0 && rand.nextInt(SpaceConfig.drescfreq) == 0) {
-			
-			for (int a = 0; a < 1; a++) {
-				int x = i + rand.nextInt(16);
-				int z = j + rand.nextInt(16);
-				
-				double r = rand.nextInt(15) + 10;
-				
-				if(rand.nextInt(50) == 0)
-					r = 50;
-
-				new GenCrater(ModBlocks.dres_rock).generate(world, x, z, r, r * 0.35D);
-
-				if(GeneralConfig.enableDebugMode)
-					MainRegistry.logger.info("[Debug] Successfully spawned crater at " + x + " " + z);
-			}
-		}
-		
 	}
 }

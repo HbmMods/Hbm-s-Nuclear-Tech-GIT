@@ -1,4 +1,6 @@
-package com.hbm.dim.noise;
+package com.hbm.dim.mapgen;
+
+import com.hbm.dim.noise.NoiseCaveGenerator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
