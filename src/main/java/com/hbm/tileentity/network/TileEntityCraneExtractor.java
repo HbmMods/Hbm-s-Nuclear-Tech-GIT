@@ -7,6 +7,7 @@ import com.hbm.inventory.container.ContainerCraneExtractor;
 import com.hbm.inventory.gui.GUICraneExtractor;
 import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,7 +26,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGUIProvider, IControlReceiver {
+public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGUIProvider, IControlReceiver, IControlReceiverFilter {
 	
 	public boolean isWhitelist = false;
 	public ModulePatternMatcher matcher;
@@ -195,7 +196,8 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 		
 		return false;
 	}
-	
+
+	@Override
 	public void nextMode(int i) {
 		this.matcher.nextMode(worldObj, slots[i], i);
 	}
@@ -249,6 +251,9 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 	public void receiveControl(NBTTagCompound data) {
 		if(data.hasKey("whitelist")) {
 			this.isWhitelist = !this.isWhitelist;
+		}
+		if(data.hasKey("slot")){
+			setFilterContents(data);
 		}
 	}
 }

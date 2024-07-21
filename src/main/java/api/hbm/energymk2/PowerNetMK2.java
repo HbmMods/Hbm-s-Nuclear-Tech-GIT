@@ -11,12 +11,14 @@ import java.util.Set;
 import com.hbm.util.Tuple.Pair;
 
 import java.util.Map.Entry;
+import java.util.Random;
 
 import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.energymk2.Nodespace.PowerNode;
 
 public class PowerNetMK2 {
 	
+	public static Random rand = new Random();
 	public boolean valid = true;
 	public Set<PowerNode> links = new HashSet();
 
@@ -123,7 +125,6 @@ public class PowerNetMK2 {
 		if(receiverEntries.isEmpty()) return;
 		
 		long timestamp = System.currentTimeMillis();
-		long transferCap = 100_000_000_000_000_00L;
 		
 		List<Pair<IEnergyProviderMK2, Long>> providers = new ArrayList();
 		long powerAvailable = 0;
@@ -134,10 +135,8 @@ public class PowerNetMK2 {
 			if(timestamp - entry.getValue() > timeout) { provIt.remove(); continue; }
 			long src = Math.min(entry.getKey().getPower(), entry.getKey().getProviderSpeed());
 			providers.add(new Pair(entry.getKey(), src));
-			if(powerAvailable < transferCap) powerAvailable += src;
+			powerAvailable += src;
 		}
-		
-		powerAvailable = Math.min(powerAvailable, transferCap);
 		
 		List<Pair<IEnergyReceiverMK2, Long>>[] receivers = new ArrayList[ConnectionPriority.values().length];
 		for(int i = 0; i < receivers.length; i++) receivers[i] = new ArrayList();
@@ -173,11 +172,26 @@ public class PowerNetMK2 {
 		}
 		
 		this.energyTracker += energyUsed;
+		long leftover = energyUsed;
 
 		for(Pair<IEnergyProviderMK2, Long> entry : providers) {
 			double weight = (double) entry.getValue() / (double) powerAvailable;
 			long toUse = (long) Math.max(energyUsed * weight, 0D);
 			entry.getKey().usePower(toUse);
+			leftover -= toUse;
+		}
+		
+		//rounding error compensation, detects surplus that hasn't been used and removes it from random providers
+		int iterationsLeft = 100; // whiles without emergency brakes are a bad idea
+		while(iterationsLeft > 0 && leftover > 0 && providers.size() > 0) {
+			iterationsLeft--;
+			
+			Pair<IEnergyProviderMK2, Long> selected = providers.get(rand.nextInt(providers.size()));
+			IEnergyProviderMK2 scapegoat = selected.getKey();
+			
+			long toUse = Math.min(leftover, scapegoat.getPower());
+			scapegoat.usePower(toUse);
+			leftover -= toUse;
 		}
 	}
 	

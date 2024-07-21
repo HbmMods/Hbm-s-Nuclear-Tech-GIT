@@ -12,6 +12,7 @@ import com.hbm.inventory.gui.GUIDroneCrate;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -51,7 +52,7 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
+			BlockPos pos = getCoord();
 			this.tank.setType(18, slots);
 			
 			if(sendingMode && !itemType && worldObj.getTotalWorldTime() % 20 == 0) {
@@ -75,7 +76,13 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 						if(!sendingMode && !itemType) unloadFluid(drone);
 					}
 				}
+
+				ParticleUtil.spawnDroneLine(worldObj,
+						pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+						(nextX  - pos.getX()), (nextY - pos.getY()), (nextZ - pos.getZ()), 0x00ffff);
 			}
+
+
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setIntArray("pos", new int[] {nextX, nextY, nextZ});
@@ -217,6 +224,10 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 		this.sendingMode = nbt.getBoolean("mode");
 		this.itemType = nbt.getBoolean("type");
 		tank.readFromNBT(nbt, "t");
+	}
+
+	public BlockPos getCoord() {
+		return new BlockPos(xCoord, yCoord + 1, zCoord);
 	}
 	
 	@Override

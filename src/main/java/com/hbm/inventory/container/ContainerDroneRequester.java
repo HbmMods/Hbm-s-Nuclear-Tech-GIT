@@ -9,10 +9,10 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerDroneRequester extends ContainerCrateBase {
-	
+
 	public ContainerDroneRequester(InventoryPlayer invPlayer, TileEntityDroneRequester tedf) {
-		super(tedf);
-		
+		super(invPlayer,tedf);
+
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 3; j++) {
 				this.addSlotToContainer(new SlotPattern(tedf, j + i * 3, 98 + j * 18, 17 + i * 18));
@@ -25,15 +25,7 @@ public class ContainerDroneRequester extends ContainerCrateBase {
 			}
 		}
 
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 9; j++) {
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 103 + i * 18));
-			}
-		}
-
-		for(int i = 0; i < 9; i++) {
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 161));
-		}
+		this.playerInv(invPlayer, 8, 103, 161);
 	}
 
 	@Override
@@ -44,7 +36,7 @@ public class ContainerDroneRequester extends ContainerCrateBase {
 		if(var4 != null && var4.getHasStack()) {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
-			
+
 			if(par2 < 9) return null; //ignore filters
 
 			if(par2 <= crate.getSizeInventory() - 1) {
@@ -69,18 +61,18 @@ public class ContainerDroneRequester extends ContainerCrateBase {
 
 	@Override
 	public ItemStack slotClick(int index, int button, int mode, EntityPlayer player) {
-		
+
 		//L/R: 0
 		//M3: 3
 		//SHIFT: 1
 		//DRAG: 5
-		
+
 		if(index < 0 || index > 8) {
 			return super.slotClick(index, button, mode, player);
 		}
 
 		Slot slot = this.getSlot(index);
-		
+
 		ItemStack ret = null;
 		ItemStack held = player.inventory.getItemStack();
 		TileEntityDroneRequester requester = (TileEntityDroneRequester) crate;

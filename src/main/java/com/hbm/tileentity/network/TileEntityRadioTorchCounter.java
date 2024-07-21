@@ -1,7 +1,7 @@
 package com.hbm.tileentity.network;
 
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Compat;
 
@@ -12,7 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRadioTorchCounter extends TileEntityMachineBase implements IControlReceiver {
+public class TileEntityRadioTorchCounter extends TileEntityMachineBase implements IControlReceiverFilter {
 	
 	public String[] channel;
 	public int[] lastCount;
@@ -30,6 +30,10 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 	@Override
 	public String getName() {
 		return "container.rttyCounter";
+	}
+	@Override
+	public void nextMode(int i) {
+		this.matcher.nextMode(worldObj, slots[i], i);
 	}
 
 	@Override
@@ -122,6 +126,9 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 				this.channel[i] = data.getString("c" + i);
 			}
 			this.markChanged();
+		}
+		if(data.hasKey("slot")){
+			setFilterContents(data);
 		}
 	}
 }

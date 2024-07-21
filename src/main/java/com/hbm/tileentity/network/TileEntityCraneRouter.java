@@ -1,9 +1,9 @@
 package com.hbm.tileentity.network;
 
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneRouter;
 import com.hbm.inventory.gui.GUICraneRouter;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
+public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUIProvider, IControlReceiverFilter {
 	
 	public ModulePatternMatcher[] patterns = new ModulePatternMatcher[6]; //why did i make six matchers???
 	public int[] modes = new int[6];
@@ -76,7 +76,7 @@ public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUI
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICraneRouter(player.inventory, this);
 	}
-
+	@Override
 	public void nextMode(int index) {
 		
 		int matcher = index / 5;
@@ -123,9 +123,14 @@ public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUI
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		int i = data.getInteger("toggle");
-		modes[i]++;
-		if(modes[i] > 3)
-			modes [i] = 0;
+		if(data.hasKey("toggle")) {
+			int i = data.getInteger("toggle");
+			modes[i]++;
+			if (modes[i] > 3)
+				modes[i] = 0;
+		}
+		if(data.hasKey("slot")){
+			setFilterContents(data);
+		}
 	}
 }

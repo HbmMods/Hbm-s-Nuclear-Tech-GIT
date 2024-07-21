@@ -3,11 +3,11 @@ package com.hbm.tileentity.network;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.network.CraneInserter;
 import com.hbm.entity.item.EntityMovingItem;
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneGrabber;
 import com.hbm.inventory.gui.GUICraneGrabber;
 import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.InventoryUtil;
 
@@ -29,7 +29,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
-public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIProvider, IControlReceiver {
+public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIProvider, IControlReceiverFilter {
 
 	public boolean isWhitelist = false;
 	public ModulePatternMatcher matcher;
@@ -38,7 +38,8 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 		super(11);
 		this.matcher = new ModulePatternMatcher(9);
 	}
-	
+
+	@Override
 	public void nextMode(int i) {
 		this.matcher.nextMode(worldObj, slots[i], i);
 	}
@@ -193,6 +194,9 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	public void receiveControl(NBTTagCompound data) {
 		if(data.hasKey("whitelist")) {
 			this.isWhitelist = !this.isWhitelist;
+		}
+		if(data.hasKey("slot")){
+			setFilterContents(data);
 		}
 	}
 }

@@ -132,6 +132,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 							if(this.progress >= 1F) {
 								this.process();
 								this.progress = 0;
+								this.markDirty();
 								this.delay = (int) (120 / (upgrade * 0.5 + 1));
 								PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, 10F);
 							}

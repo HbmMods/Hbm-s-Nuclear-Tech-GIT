@@ -35,7 +35,7 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 	@SideOnly(Side.CLIENT) public IIcon[] iconCurveTR;
 	@SideOnly(Side.CLIENT) public IIcon[] iconCurveBL;
 	@SideOnly(Side.CLIENT) public IIcon[] iconCurveBR;
-	@SideOnly(Side.CLIENT) public IIcon[] iconJunction;
+	@SideOnly(Side.CLIENT) public IIcon[][] iconJunction;
 	
 	private static final String[] materials = new String[] { "silver", "copper", "white" };
 
@@ -55,7 +55,7 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 		iconCurveTR = new IIcon[count];
 		iconCurveBL = new IIcon[count];
 		iconCurveBR = new IIcon[count];
-		iconJunction = new IIcon[count];
+		iconJunction = new IIcon[count][5];
 
 		for(int i = 0; i < count; i++) {
 			iconStraight[i] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_" + materials[i] + "_straight");
@@ -64,7 +64,7 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 			iconCurveTR[i] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_" + materials[i] + "_curve_tr");
 			iconCurveBL[i] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_" + materials[i] + "_curve_bl");
 			iconCurveBR[i] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_" + materials[i] + "_curve_br");
-			iconJunction[i] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_" + materials[i] + "_junction");
+			for(int j = 0; j < 5; j++) iconJunction[i][j] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_" + materials[i] + "_junction_" + j);
 		}
 	}
 
@@ -83,7 +83,8 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 		int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
 		int count = 0 + (pX ? 1 : 0) + (nX ? 1 : 0) + (pY ? 1 : 0) + (nY ? 1 : 0) + (pZ ? 1 : 0) + (nZ ? 1 : 0);
 		
-		int m = rectify(world.getBlockMetadata(x, y, z));
+		int meta = world.getBlockMetadata(x, y, z);
+		int m = rectify(meta);
 		
 		if((mask & 0b001111) == 0 && mask > 0) {
 			return (side == 4 || side == 5) ? iconEnd[m] : iconStraight[m];
@@ -112,10 +113,10 @@ public class FluidDuctBox extends FluidDuctBase implements IBlockMulti, ILookOve
 			if(nX && nZ) return side == 0 ? iconCurveTL[m] : iconCurveTL[m];
 			if(nX && pZ) return side == 0 ? iconCurveBL[m] : iconCurveBL[m];
 			
-			return iconJunction[m];
+			return iconJunction[m][meta / 3];
 		}
 		
-		return iconJunction[m];
+		return iconJunction[m][meta / 3];
 	}
 	
 	@SideOnly(Side.CLIENT)

@@ -54,7 +54,8 @@ public class ShadyUtil {
 	public static String Alcater = "0b399a4a-8545-45a1-be3d-ece70d7d48e9";
 	public static String ege444 = "42ee978c-442a-4cd8-95b6-29e469b6df10";
 	public static String DUODEC_ = "85d54b8c-1862-4c86-b351-5ef1b998aa32";
-
+	public static String LePeeperSauvage = "433c2bb7-018c-4d51-acfe-27f907432b5e";
+	
 	public static final Set<String> hashes = new HashSet();
 	static {
 		hashes.add("41de5c372b0589bbdb80571e87efa95ea9e34b0d74c6005b8eab495b7afd9994");

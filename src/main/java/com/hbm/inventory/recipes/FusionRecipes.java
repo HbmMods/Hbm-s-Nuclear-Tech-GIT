@@ -11,19 +11,19 @@ import net.minecraft.item.ItemStack;
 
 public class FusionRecipes {
 	
-	public static HashMap<FluidType, Integer> chances = new HashMap();
+	public static HashMap<FluidType, Integer> delays = new HashMap();
 	static {
-		chances.put(Fluids.PLASMA_DT, 1200);
-		chances.put(Fluids.PLASMA_DH3, 600);
-		chances.put(Fluids.PLASMA_HD, 1200);
-		chances.put(Fluids.PLASMA_HT, 1200);
-		chances.put(Fluids.PLASMA_XM, 1200);
-		chances.put(Fluids.PLASMA_BF, 150);
+		delays.put(Fluids.PLASMA_DT, 900);
+		delays.put(Fluids.PLASMA_DH3, 600);
+		delays.put(Fluids.PLASMA_HD, 1200);
+		delays.put(Fluids.PLASMA_HT, 900);
+		delays.put(Fluids.PLASMA_XM, 1200);
+		delays.put(Fluids.PLASMA_BF, 150);
 	}
 	
-	public static int getByproductChance(FluidType plasma) {
-		Integer chance = chances.get(plasma);
-		return chance != null ? chance : 0;
+	public static int getByproductDelay(FluidType plasma) {
+		Integer delay = delays.get(plasma);
+		return delay != null ? delay : 0;
 	}
 	
 	public static HashMap<FluidType, Integer> levels = new HashMap();

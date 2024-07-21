@@ -63,6 +63,14 @@ public class ReactorZirnox extends BlockDummyable {
 	}
 
 	@Override
+	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		return super.checkRequirement(world, x, y, z, dir, o) &&
+				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {4, -2, 1, 1, 1, 1}, x, y, z, dir) &&
+				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {4, -2, 0, 0, 2, -2}, x, y, z, dir) &&
+				MultiblockHandlerXR.checkSpace(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, new int[] {4, -2, 0, 0, -2, 2}, x, y, z, dir);
+	}
+
+	@Override
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 

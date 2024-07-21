@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
 import com.hbm.config.RadiationConfig;
+import com.hbm.handler.CompatHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.type.HazardTypeNeutron;
 import com.hbm.interfaces.IControlReceiver;
@@ -47,7 +48,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 //TODO: fix reactor control;
-public class TileEntityReactorResearch extends TileEntityMachineBase implements IControlReceiver, SimpleComponent, IGUIProvider, IInfoProviderEC {
+public class TileEntityReactorResearch extends TileEntityMachineBase implements IControlReceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
 	
 	@SideOnly(Side.CLIENT)
 	public double lastLevel;
@@ -441,6 +442,7 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "research_reactor";
 	}
@@ -473,6 +475,36 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {heat, level, targetLevel, totalFlux};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+				"getTemp",
+				"getLevel",
+				"getTargetLevel",
+				"getFlux",
+				"getInfo"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case ("getTemp"):
+				return getTemp(context, args);
+			case ("getLevel"):
+				return getLevel(context, args);
+			case ("getTargetLevel"):
+				return getTargetLevel(context, args);
+			case ("getFlux"):
+				return getFlux(context, args);
+			case ("getInfo"):
+				return getInfo(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 
 	@Callback(direct = true, limit = 4)

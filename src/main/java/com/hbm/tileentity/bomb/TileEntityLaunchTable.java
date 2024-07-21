@@ -2,26 +2,19 @@ package com.hbm.tileentity.bomb;
 
 import java.util.List;
 
-import com.hbm.dim.CelestialBody;
-import com.hbm.dim.SolarSystem;
-import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.entity.missile.EntityMissileCustom;
-import com.hbm.entity.missile.EntityRideableRocket;
+import com.hbm.handler.CompatHandler;
 import com.hbm.handler.MissileStruct;
-import com.hbm.handler.RocketStruct;
 import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerLaunchTable;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.fluid.trait.FT_Rocket;
 import com.hbm.inventory.gui.GUIMachineLaunchTable;
-import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomMissile;
 import com.hbm.items.weapon.ItemCustomMissilePart;
-import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.lib.Library;
@@ -61,7 +54,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider, SimpleComponent, IRadarCommandReceiver, IBufPacketReceiver {
+public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider, SimpleComponent, IRadarCommandReceiver, IBufPacketReceiver, CompatHandler.OCComponent {
 
 	public ItemStack slots[];
 	public ItemStack syncStack;
@@ -670,8 +663,9 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
-		return "large_launch_pad";
+		return "ntm_custom_launch_pad";
 	}
 
 	@Callback
@@ -683,7 +677,11 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getContents(Context context, Arguments args) {
-		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[0].getTankType().getName(), tanks[1].getFill(), tanks[1].getMaxFill(), tanks[1].getTankType().getName(), solid, maxSolid};
+		return new Object[] {
+				tanks[0].getFill(), tanks[0].getMaxFill(), tanks[0].getTankType().getUnlocalizedName(),
+				tanks[1].getFill(), tanks[1].getMaxFill(), tanks[1].getTankType().getUnlocalizedName(),
+				solid, maxSolid
+		};
 	}
 
 	@Callback
@@ -703,13 +701,6 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				zCoord2 = slots[1].stackTagCompound.getInteger("zCoord");
 			} else
 				return new Object[] {false};
-
-			// Not sure if i should have this
-			/*
-			if(xCoord2 == xCoord && zCoord2 == zCoord) {
-				xCoord2 += 1;
-			}
-			*/
 
 			return new Object[] {xCoord2, zCoord2};
 		}
@@ -737,6 +728,39 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 		}
 		return new Object[] {false};
 	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+				"getEnergyInfo",
+				"getContents",
+				"getLaunchInfo",
+				"getCoords",
+				"setCoords",
+				"launch"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case ("getEnergyInfo"):
+				return getEnergyInfo(context, args);
+			case ("getContents"):
+				return getContents(context, args);
+			case ("getLaunchInfo"):
+				return getLaunchInfo(context, args);
+			case ("getCoords"):
+				return getCoords(context, args);
+			case ("setCoords"):
+				return setCoords(context, args);
+			case ("launch"):
+				return launch(context, args);
+	}
+	throw new NoSuchMethodException();
+}
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {

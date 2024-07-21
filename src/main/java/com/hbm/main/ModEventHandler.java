@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.hbm.blocks.IStepTickReceiver;
 import com.hbm.blocks.ModBlocks;
@@ -109,6 +111,8 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -1002,6 +1006,8 @@ public class ModEventHandler {
 			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleFall((EntityPlayer)e);
 	}
 	
+	private static final UUID fopSpeed = UUID.fromString("e5a8c95d-c7a0-4ecf-8126-76fb8c949389");
+	
 	@SubscribeEvent
 	public void onWingFlop(TickEvent.PlayerTickEvent event) {
 
@@ -1119,6 +1125,18 @@ public class ModEventHandler {
 						player.motionX += look.xCoord * 0.15 * player.moveStrafing * mod;
 						player.motionZ += look.zCoord * 0.15 * player.moveStrafing * mod;
 					}
+				}
+			}
+			
+			
+			if(player.getUniqueID().toString().equals(ShadyUtil.LePeeperSauvage) ||	player.getDisplayName().equals("LePeeperSauvage")) {
+				
+				Multimap multimap = HashMultimap.create();
+				multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(fopSpeed, "FOP SPEED", 0.5, 1));
+				player.getAttributeMap().removeAttributeModifiers(multimap);
+				
+				if(player.isSprinting()) {
+					player.getAttributeMap().applyAttributeModifiers(multimap);
 				}
 			}
 		}
@@ -1378,31 +1396,13 @@ public class ModEventHandler {
 			/// SYNC END ///
 		}
 
-		//TODO: rewrite this so it doesn't look like shit
 		if(player.worldObj.isRemote && event.phase == event.phase.START && !player.isInvisible() && !player.isSneaking()) {
-			
-			if(player.getUniqueID().toString().equals(ShadyUtil.HbMinecraft)) {
-				
-				int i = player.ticksExisted * 3;
-				
-				Vec3 vec = Vec3.createVectorHelper(3, 0, 0);
-				
-				vec.rotateAroundY((float) (i * Math.PI / 180D));
-				
-				for(int k = 0; k < 5; k++) {
-					
-					vec.rotateAroundY((float) (1F * Math.PI / 180D));
-					//player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + player.worldObj.rand.nextDouble() * 0.05, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
-				}
-			}
 			
 			if(player.getUniqueID().toString().equals(ShadyUtil.Pu_238)) {
 				
 				Vec3 vec = Vec3.createVectorHelper(3 * rand.nextDouble(), 0, 0);
-				
 				vec.rotateAroundZ((float) (rand.nextDouble() * Math.PI));
 				vec.rotateAroundY((float) (rand.nextDouble() * Math.PI * 2));
-				
 				player.worldObj.spawnParticle("townaura", player.posX + vec.xCoord, player.posY + 1 + vec.yCoord, player.posZ + vec.zCoord, 0.0, 0.0, 0.0);
 			}
 			if(player.getUniqueID().toString().equals(ShadyUtil.DUODEC_)) {

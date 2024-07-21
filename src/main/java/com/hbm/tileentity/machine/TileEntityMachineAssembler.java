@@ -6,12 +6,9 @@ import java.util.Random;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.MultiblockHandlerXR;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMachineAssembler;
 import com.hbm.inventory.gui.GUIMachineAssembler;
-import com.hbm.inventory.recipes.AssemblerRecipes;
-import com.hbm.items.machine.ItemAssemblyTemplate;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
@@ -106,11 +103,11 @@ public class TileEntityMachineAssembler extends TileEntityMachineAssemblerBase i
 			speed /= (overLevel + 1);
 			consumption *= (overLevel + 1);
 
-			int rec = -1;
+			/*int rec = -1;
 			if(AssemblerRecipes.getOutputFromTempate(slots[4]) != null) {
 				ComparableStack comp = ItemAssemblyTemplate.readType(slots[4]);
 				rec = AssemblerRecipes.recipeList.indexOf(comp);
-			}
+			}*/
 			
 			this.networkPackNT(150);
 		} else {
