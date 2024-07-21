@@ -7,6 +7,7 @@ import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.eve.GenLayerEve.WorldGenElectricVolcano;
 import com.hbm.dim.eve.GenLayerEve.WorldGenEveSpike;
 import com.hbm.main.MainRegistry;
 import com.hbm.world.generator.DungeonToolbox;
@@ -55,6 +56,6 @@ public class WorldGeneratorIke implements IWorldGenerator {
 		int x = i + rand.nextInt(16);
 		int z = j + rand.nextInt(16);
 		int y = world.getHeightValue(x, z);
-		new WorldGenEveSpike().generate(world, rand, x, y, z);
+		new WorldGenElectricVolcano().generate(world, rand, x, y, z);
 	}
 }
