@@ -7,7 +7,7 @@ import net.minecraft.world.gen.MapGenBase;
 
 public class MapGenCrater extends MapGenBase {
     
-	private int chancePerChunk = 100;
+	private int chancePerChunk = 96;
 	private int minSize = 8;
 	private int maxSize = 64;
 
