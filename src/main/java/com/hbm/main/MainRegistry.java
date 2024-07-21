@@ -1345,6 +1345,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.machine_boiler_on");
 		ignoreMappings.add("hbm:tile.machine_boiler_electric_off");
 		ignoreMappings.add("hbm:tile.machine_boiler_electric_on");
+		ignoreMappings.add("hbm:tile.watz_control");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

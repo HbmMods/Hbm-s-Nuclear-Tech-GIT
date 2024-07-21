@@ -2,6 +2,8 @@ package com.hbm.particle.helper;
 
 import java.util.Random;
 
+import com.hbm.main.ModEventHandlerClient;
+import com.hbm.main.ModEventHandlerClient.DelayedSound;
 import com.hbm.particle.ParticleDebris;
 import com.hbm.particle.ParticleMukeWave;
 import com.hbm.particle.ParticleRocketFlame;
@@ -20,8 +22,10 @@ import net.minecraft.world.World;
 
 public class ExplosionCreator implements IParticleCreator {
 	
+	public static final double speedOfSound = (17.15D) * 0.33;
+	
 	public static void composeEffect(World world, double x, double y, double z, int cloudCount, float cloudScale, float cloudSpeedMult, float waveScale,
-			int debrisCount, int debrisSize, int debrisRetry, float debrisVelocity, float debrisHorizontalDeviation, float debrisVerticalOffset) {
+			int debrisCount, int debrisSize, int debrisRetry, float debrisVelocity, float debrisHorizontalDeviation, float debrisVerticalOffset, float soundRange) {
 		
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "explosionLarge");
@@ -35,17 +39,18 @@ public class ExplosionCreator implements IParticleCreator {
 		data.setFloat("debrisVelocity", debrisVelocity);
 		data.setFloat("debrisHorizontalDeviation", debrisHorizontalDeviation);
 		data.setFloat("debrisVerticalOffset", debrisVerticalOffset);
-		IParticleCreator.sendPacket(world, x, y, z, 200, data);
+		data.setFloat("soundRange", soundRange);
+		IParticleCreator.sendPacket(world, x, y, z, Math.max(200, (int) soundRange), data);
 	}
 	
 	/** Downscaled for small bombs */
-	public static void composeEffectSmall(World world, double x, double y, double z) { composeEffect(world, x, y, z, 10, 2F, 0.5F, 25F, 5, 8, 20, 0.75F, 1F, -2F); }
+	public static void composeEffectSmall(World world, double x, double y, double z) { composeEffect(world, x, y, z, 10, 2F, 0.5F, 25F, 5, 8, 20, 0.75F, 1F, -2F, 150); }
 
 	/** Development version */
-	public static void composeEffectStandard(World world, double x, double y, double z) { composeEffect(world, x, y, z, 15, 5F, 1F, 45F, 10, 16, 50, 1F, 3F, -2F); }
+	public static void composeEffectStandard(World world, double x, double y, double z) { composeEffect(world, x, y, z, 15, 5F, 1F, 45F, 10, 16, 50, 1F, 3F, -2F, 200); }
 	
 	/** Upscaled version, ATACMS go brrt */
-	public static void composeEffectLarge(World world, double x, double y, double z) { composeEffect(world, x, y, z, 30, 6.5F, 2F, 65F, 25, 16, 50, 1.25F, 3F, -2F); }
+	public static void composeEffectLarge(World world, double x, double y, double z) { composeEffect(world, x, y, z, 30, 6.5F, 2F, 65F, 25, 16, 50, 1.25F, 3F, -2F, 350); }
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -61,6 +66,17 @@ public class ExplosionCreator implements IParticleCreator {
 		float debrisVelocity = data.getFloat("debrisVelocity");
 		float debrisHorizontalDeviation = data.getFloat("debrisHorizontalDeviation");
 		float debrisVerticalOffset = data.getFloat("debrisVerticalOffset");
+		float soundRange = data.getFloat("soundRange");
+		
+		float dist = (float) player.getDistance(x, y, z);
+
+		if(dist <= soundRange) {
+			while(ModEventHandlerClient.soundLock);
+			ModEventHandlerClient.soundLock = true;
+			String sound = dist <= soundRange * 0.33 ? "hbm:weapon.explosionLargeNear" : "hbm:weapon.explosionLargeFar";
+			ModEventHandlerClient.delayedSounds.add(new DelayedSound(sound, (int) (dist / speedOfSound), x, y, z, 1000F, 1F));
+			ModEventHandlerClient.soundLock = false;
+		}
 		
 		// WAVE
 		ParticleMukeWave wave = new ParticleMukeWave(man, world, x, y + 2, z);
