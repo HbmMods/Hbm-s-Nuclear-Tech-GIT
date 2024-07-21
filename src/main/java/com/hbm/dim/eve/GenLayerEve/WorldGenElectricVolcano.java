@@ -3,7 +3,6 @@ package com.hbm.dim.eve.GenLayerEve;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.dim.PerlinFestival;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

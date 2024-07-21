@@ -13,14 +13,12 @@ import net.minecraftforge.event.terraingen.InitMapGenEvent.EventType;
 
 public class ChunkProviderEve extends ChunkProviderCelestial {
 
-	MapGenLakes TestGen = new MapGenLakes();
 	
     public ChunkProviderEve(World world, long seed, boolean hasMapFeatures) {
         super(world, seed, hasMapFeatures);
 
         stoneBlock = ModBlocks.eve_rock;
         seaBlock = ModBlocks.mercury_block;
-        TestGen = (MapGenLakes) TerrainGen.getModdedMapGen(TestGen, EventType.CUSTOM);
 
         declamp = false;
     }
@@ -29,7 +27,6 @@ public class ChunkProviderEve extends ChunkProviderCelestial {
 		BlockMetaBuffer buffer = super.getChunkPrimer(x, z);
 
 		// how many times do I gotta say BEEEEG
-		this.TestGen.func_151539_a(this, worldObj, x, z, buffer.blocks);
 		return buffer;
 	}
 }
