@@ -16,7 +16,7 @@ public class ChunkProviderDres extends ChunkProviderCelestial {
 	private MapGenBase caveGenerator = new MapGenCaves();
 
 	private MapGenCrater smallCrater = new MapGenCrater(6);
-	private MapGenCrater largeCrater = new MapGenCrater(32);
+	private MapGenCrater largeCrater = new MapGenCrater(64);
 
 	public ChunkProviderDres(World world, long seed, boolean hasMapFeatures) {
 		super(world, seed, hasMapFeatures);
