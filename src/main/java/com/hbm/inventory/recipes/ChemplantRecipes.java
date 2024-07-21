@@ -183,14 +183,12 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputItems(new ItemStack(ModItems.plate_kevlar, 4)));
 		recipes.add(new ChemRecipe(55, "CONCRETE", 100)
 				.inputItems(
-						new ComparableStack(ModItems.powder_cement, 1),
 						new ComparableStack(Blocks.gravel, 8),
 						new OreDictStack(KEY_SAND, 8))
 				.inputFluids(new FluidStack(Fluids.WATER, 2000))
 				.outputItems(new ItemStack(ModBlocks.concrete_smooth, 16)));
 		recipes.add(new ChemRecipe(56, "CONCRETE_ASBESTOS", 100)
 				.inputItems(
-						new ComparableStack(ModItems.powder_cement, 1),
 						new ComparableStack(Blocks.gravel, 2),
 						new OreDictStack(KEY_SAND, 2),
 						(GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleChemsitry) ?
@@ -200,10 +198,9 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputItems(new ItemStack(ModBlocks.concrete_asbestos, 16)));
 		recipes.add(new ChemRecipe(79, "DUCRETE", 150)
 				.inputItems(
-						new ComparableStack(ModItems.powder_cement, 4),
-						new ComparableStack(Blocks.gravel, 2),
 						new OreDictStack(KEY_SAND, 8),
-						new OreDictStack(U238.billet(), 2))
+						new OreDictStack(U238.billet(), 2),
+						new ComparableStack(Items.clay_ball, 4))
 				.inputFluids(new FluidStack(Fluids.WATER, 2000))
 				.outputItems(new ItemStack(ModBlocks.ducrete_smooth, 8)));
 		recipes.add(new ChemRecipe(57, "SOLID_FUEL", 200)
