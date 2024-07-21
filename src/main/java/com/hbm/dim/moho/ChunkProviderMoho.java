@@ -17,7 +17,7 @@ public class ChunkProviderMoho extends ChunkProviderCelestial {
 	private MapgenRavineButBased rgen = new MapgenRavineButBased();
 
 	private MapGenCrater smallCrater = new MapGenCrater(6);
-	private MapGenCrater largeCrater = new MapGenCrater(32);
+	private MapGenCrater largeCrater = new MapGenCrater(64);
 
 	public ChunkProviderMoho(World world, long seed, boolean hasMapFeatures) {
 		super(world, seed, hasMapFeatures);

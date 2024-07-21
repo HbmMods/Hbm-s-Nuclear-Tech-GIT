@@ -303,7 +303,7 @@ public class ExperimentalCaveGenerator extends MapGenBase {
 		Block filler = (isExceptionBiome(biome) ? Blocks.dirt : biome.fillerBlock);
 		Block block = data[index];
 
-		if (block == stoneBlock || block == filler || block == top) {
+		if (block != null && (block == stoneBlock || block == filler || block == top || block.getMaterial().isLiquid())) {
 			if (y < 10) {
 				data[index] = lavaBlock;
 			} else {
