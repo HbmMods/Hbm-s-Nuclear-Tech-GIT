@@ -2,13 +2,14 @@ package com.hbm.tileentity;
 
 import com.hbm.interfaces.IControlReceiver;
 
+import com.hbm.interfaces.ICopiable;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-public interface IControlReceiverFilter extends IControlReceiver {
+public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 	
 	void nextMode(int i);
 

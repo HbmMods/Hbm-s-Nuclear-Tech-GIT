@@ -1,5 +1,6 @@
 package com.hbm.tileentity.network;
 
+import com.hbm.interfaces.ICopiable;
 import com.hbm.tileentity.TileEntityMachineBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -8,7 +9,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityCraneBase extends TileEntityMachineBase {
+public abstract class TileEntityCraneBase extends TileEntityMachineBase implements ICopiable {
 	
 	public TileEntityCraneBase(int scount) {
 		super(scount);
@@ -100,5 +101,24 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase {
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setByte("CraneOutputOverride", (byte) outputOverride.ordinal());
+	}
+
+	@Override
+	public NBTTagCompound getSettings() {
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setInteger("inputSide", getInputSide().ordinal());
+		nbt.setInteger("outputSide", getOutputSide().ordinal());
+		return nbt;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt) {
+		if(nbt.hasKey("outputSide")){
+			outputOverride = ForgeDirection.getOrientation(nbt.getInteger("outputSide"));
+			onBlockChanged();
+		}
+		if(nbt.hasKey("inputSide")) {
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, nbt.getInteger("inputSide"),  3);
+		}
 	}
 }
