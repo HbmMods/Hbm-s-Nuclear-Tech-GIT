@@ -17,7 +17,6 @@ public class ModelScutter extends ModelBase {
 		super.render(entity, f, f1, f2, f3, f4, f5);
 
 		GL11.glPushMatrix();
-
 		GL11.glRotatef(90, 0, -1, 0);
 		GL11.glRotatef(180, 0, 0, 1);
 		GL11.glTranslatef(0, -1.4F, 0);
@@ -28,15 +27,11 @@ public class ModelScutter extends ModelBase {
 		ResourceManager.scutterfish.renderPart("tail");
 
 
-		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_BLEND);
-		ResourceManager.scutterfish.renderPart("fin1");
-		GL11.glPopMatrix();
 
-		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_BLEND);
+		ResourceManager.scutterfish.renderPart("fin1");
+
 		ResourceManager.scutterfish.renderPart("fin2");
-		GL11.glPopMatrix();
+
 		
 		GL11.glPopMatrix();
 	}
