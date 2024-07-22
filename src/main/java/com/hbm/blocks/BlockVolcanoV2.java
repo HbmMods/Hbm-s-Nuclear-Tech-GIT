@@ -113,7 +113,6 @@ public class BlockVolcanoV2 extends BlockContainer {
 
 				PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(data, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
 			}
-			System.out.println(chargetime);
 		}
 
 

@@ -1,13 +1,22 @@
 package com.hbm.dim.eve;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.dim.CelestialBody;
 import com.hbm.dim.WorldChunkManagerCelestial;
 import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.WorldChunkManagerCelestial.BiomeGenLayers;
 import com.hbm.dim.eve.GenLayerEve.GenLayerEveBiomes;
 import com.hbm.dim.eve.GenLayerEve.GenLayerEveRiverMix;
+import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.dim.trait.CelestialBodyTrait.CBT_SUNEXPLODED;
+import com.hbm.main.ModEventHandlerClient;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.GenLayerRiver;
@@ -31,7 +40,27 @@ public class WorldProviderEve extends WorldProviderCelestial {
 	public IChunkProvider createChunkGenerator() {
 		return new ChunkProviderEve(this.worldObj, this.getSeed(), false);
 	}
+	@Override
+	@SideOnly(Side.CLIENT)
+	public Vec3 getSkyColor(Entity camera, float partialTicks) {
+		Vec3 ohshit = super.getSkyColor(camera, partialTicks);
+		float giggle = ModEventHandlerClient.flashd;
+        float alpha = (giggle <= 0) ? 0.0F : 1.0F - Math.min(1.0F, giggle / 100);
 
+
+		return Vec3.createVectorHelper(ohshit.xCoord + alpha , ohshit.yCoord + alpha, ohshit.zCoord + alpha);
+		
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public float getSunBrightness(float par1) {
+		float imsuper = super.getSunBrightness(par1);
+		float giggle = ModEventHandlerClient.flashd;
+        float alpha = (giggle <= 0) ? 0.0F : 1.0F - Math.min(1.0F, giggle / 100);
+
+		return imsuper + alpha * 0.7F;
+	}
 	@Override
 	public Block getStone() {
 		return ModBlocks.eve_rock;

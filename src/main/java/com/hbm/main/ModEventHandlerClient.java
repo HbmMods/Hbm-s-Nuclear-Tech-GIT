@@ -18,6 +18,7 @@ import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.SkyProviderCelestial;
+import com.hbm.dim.eve.WorldProviderEve;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.entity.train.EntityRailCarRidable;
@@ -135,6 +136,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldProviderEnd;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
@@ -1095,6 +1098,27 @@ public class ModEventHandlerClient {
 				for(int i = 1; i < 4; i++) if(player.stepHeight == i + discriminator) player.stepHeight = defaultStepSize;
 			}
 		}
+		if(event.phase == Phase.START) {
+
+			if(mc.theWorld.provider instanceof WorldProviderEve) {
+				EntityPlayer player = mc.thePlayer;
+				if (chargetime <= 0 || chargetime <= 600) {
+					chargetime += 1;
+					flashd = 0;
+				} else if (chargetime >= 100) {
+					flashd += 0.1f;
+					flashd = Math.min(100.0f, flashd + 0.1f * (100.0f - flashd) * 0.15f);
+
+					if (flashd <= 5) {
+						mc.thePlayer.playSound("hbm:misc.rumble", 10F, 1F);
+					}
+
+					if (flashd >= 100) {
+						chargetime = 0;
+                		}
+            	}
+			}
+		}
 	}
 	
 	public static ItemStack getMouseOverStack() {
@@ -1433,7 +1457,8 @@ public class ModEventHandlerClient {
 			GL11.glEnable(GL11.GL_LIGHTING);
 		}
 	}
-	
+	public int chargetime;
+	public static float flashd;
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
 		
@@ -1465,7 +1490,11 @@ public class ModEventHandlerClient {
 				sound.delay--;
 			}
 			soundLock = false;
+			
 		}
+
+
+            
 	}
 	
 	@SubscribeEvent
