@@ -29,9 +29,6 @@ public class BiomeGenDunaHills extends BiomeGenBaseDuna {
 		super(id);
 		this.setBiomeName("Weathered Dunaian Hills");
 		this.setHeight(height);
-
-		this.topBlock = ModBlocks.duna_sands;
-		this.fillerBlock = ModBlocks.duna_rock;
 	}
 
 	// Ripped from BiomeGenMesa

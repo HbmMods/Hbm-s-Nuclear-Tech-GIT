@@ -1,29 +1,19 @@
 package com.hbm.blocks;
 
-import java.awt.Color;
+import java.util.Random;
 
-import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.NBTPacket;
+import com.hbm.packet.BufPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IBufPacketReceiver;
 
-import api.hbm.block.IToolable.ToolType;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemDye;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -35,7 +25,6 @@ public class BlockVolcanoV2 extends BlockContainer {
 		super(rock);
 	}
 
-
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityLightningVolcano();
@@ -46,52 +35,33 @@ public class BlockVolcanoV2 extends BlockContainer {
 		return false;
 	}
 
-	public static class TileEntityLightningVolcano extends TileEntity implements INBTPacketReceiver {
+	public static class TileEntityLightningVolcano extends TileEntity implements IBufPacketReceiver {
 		
-		public static final int range = 100;
 		public int chargetime;
 		public float flashd;
 
+		public TileEntityLightningVolcano() {
+			// Quick pre-set to prevent it immediately firing on load
+			chargetime = (new Random()).nextInt(400) + 100;
+		}
+
 		@Override
 		public void updateEntity() {
-            if (chargetime <= 0 || chargetime <= 100) {
-                chargetime += 1;
-                flashd = 0;
-            } else if (chargetime >= 100) {
-                flashd += 0.3f;
-                flashd = Math.min(100.0f, flashd + 0.3f * (100.0f - flashd) * 0.15f);
+			// flashd is used locally to render the spike, and on the server for timing
+			if(chargetime > 0) {
+				flashd = 0;
+			} else {
+				flashd += 0.3f;
+				flashd = Math.min(100.0f, flashd + 0.3f * (100.0f - flashd) * 0.15f);
+			}
 
-                if (flashd <= 5) {
-                    //worldObj.playSound("hbm:misc.fireflash", 10F, 1F);
-                }
-
-                if (flashd >= 100) {
-                    chargetime = 0;
-                }
-            }
 			if(!worldObj.isRemote) {
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
-				if(worldObj.getTotalWorldTime() % 20 == 0) {
-					for(int i = 1; i <= range; i++) {
-						
-		
-						int x = xCoord + dir.offsetX * i;
-						int y = yCoord + dir.offsetY * i;
-						int z = zCoord + dir.offsetZ * i;
-						
-						Block b = worldObj.getBlock(x, y, z);
-						if(b.isBlockSolid(worldObj, x, y, z, dir.ordinal())) {
-							break;
-						}
 
-					}
-				}
-				if(chargetime == 100) {
-
+				if(chargetime == 1) {
 					double x = (int) (xCoord + dir.offsetX * (worldObj.getTotalWorldTime() / 5L) % 1) + 0.5;
 					double y = (int) (yCoord + dir.offsetY * (worldObj.getTotalWorldTime() / 5L) % 1) + 20.5;
 					double z = (int) (zCoord + dir.offsetZ * (worldObj.getTotalWorldTime() / 5L) % 1) + 0.5;
-						
 						
 					NBTTagCompound data = new NBTTagCompound();
 					data.setString("type", "plasmablast");
@@ -101,35 +71,31 @@ public class BlockVolcanoV2 extends BlockContainer {
 					data.setFloat("scale", 10 * 4);
 					data.setFloat("yaw", 90);
 						
-					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z),
-								new TargetPoint(worldObj.provider.dimensionId, x, y, z, 150));
-
-				
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(worldObj.provider.dimensionId, x, y, z, 256));
+					worldObj.playSoundEffect(x, y, z, "ambient.weather.thunder", 200, 0.8F + this.worldObj.rand.nextFloat() * 0.2F);
 				}
-				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setInteger("charge", this.chargetime);
-				data.setFloat("flashbang", this.flashd);
 
-				PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(data, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+				// we only want to modify chargetime on the server, since it is synced to clients
+				if(chargetime > 0) chargetime--;
+
+				if(flashd >= 100) {
+					chargetime = worldObj.rand.nextInt(400) + 100;
+				}
+
+				PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 256));
 			}
-			System.out.println(chargetime);
 		}
-
-
 
 		@Override
 		public void readFromNBT(NBTTagCompound nbt) {
 			super.readFromNBT(nbt);
-			nbt.getInteger("charge");
-			nbt.getFloat("flashbang");
+			chargetime = nbt.getInteger("charge");
 		}
 
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
 			super.writeToNBT(nbt);
 			nbt.setInteger("charge", this.chargetime);
-			nbt.setFloat("flashbang", this.flashd);
 		}
 		
 		@Override
@@ -144,8 +110,15 @@ public class BlockVolcanoV2 extends BlockContainer {
 		}
 
 		@Override
-		public void networkUnpack(NBTTagCompound nbt) {
-
+		public void serialize(ByteBuf buf) {
+			buf.writeInt(chargetime);
 		}
+
+		@Override
+		public void deserialize(ByteBuf buf) {
+			chargetime = buf.readInt();
+		}
+
 	}
+
 }

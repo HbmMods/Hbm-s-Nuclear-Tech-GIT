@@ -1,4 +1,4 @@
-package com.hbm.dim.duna.biome;
+package com.hbm.dim.eve.biome;
 
 import java.util.Random;
 
@@ -10,18 +10,20 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeGenDunaLowlands extends BiomeGenBaseDuna {
+public class BiomeGenEvePlains extends BiomeGenBaseEve {
 
-	public static final BiomeGenBase.Height height = new BiomeGenBase.Height(-0.6F, 0.01F);
+	public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.125F, 0.05F);
 
-	public BiomeGenDunaLowlands(int id) {
+	public BiomeGenEvePlains(int id) {
 		super(id);
-		this.setBiomeName("Dunaian Lowland Plains");
+		this.setBiomeName("Eve Plains");
 
 		this.setHeight(height);
+
+		this.topBlock = ModBlocks.eve_silt;
+		this.fillerBlock = ModBlocks.eve_silt;
 	}
 
-	@Override
 	public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise) {
 		Block block = this.topBlock;
 		byte b0 = (byte) (this.field_150604_aj & 255);
@@ -32,29 +34,29 @@ public class BiomeGenDunaLowlands extends BiomeGenBaseDuna {
 		int j1 = z & 15;
 		int k1 = blocks.length / 256;
 
-		for (int l1 = 255; l1 >= 0; --l1) {
+		for(int l1 = 255; l1 >= 0; --l1) {
 			int i2 = (j1 * 16 + i1) * k1 + l1;
 
-			if (l1 <= 0 + rand.nextInt(5)) {
+			if(l1 <= 0 + rand.nextInt(5)) {
 				blocks[i2] = Blocks.bedrock;
 			} else {
 				Block block2 = blocks[i2];
 
-				if (block2 != null && block2.getMaterial() != Material.air) {
-					if (block2 == ModBlocks.duna_rock) {
-						if (k == -1) {
-							if (l <= 0) {
+				if(block2 != null && block2.getMaterial() != Material.air) {
+					if(block2 == ModBlocks.eve_rock) {
+						if(k == -1) {
+							if(l <= 0) {
 								block = null;
 								b0 = 0;
-								block1 = ModBlocks.duna_rock;
-							} else if (l1 >= 59 && l1 <= 64) {
+								block1 = ModBlocks.eve_rock;
+							} else if(l1 >= 59 && l1 <= 64) {
 								block = this.topBlock;
 								b0 = (byte) (this.field_150604_aj & 255);
 								block1 = this.fillerBlock;
 							}
 
-							if (l1 < 63 && (block == null || block.getMaterial() == Material.air)) {
-								if (this.getFloatTemperature(x, l1, z) < 0.15F) {
+							if(l1 < 63 && (block == null || block.getMaterial() == Material.air)) {
+								if(this.getFloatTemperature(x, l1, z) < 0.15F) {
 									block = this.topBlock;
 									b0 = 0;
 								} else {
@@ -65,25 +67,25 @@ public class BiomeGenDunaLowlands extends BiomeGenBaseDuna {
 
 							k = l;
 
-							if (l1 >= 62) {
+							if(l1 >= 62) {
 								blocks[i2] = block;
 								meta[i2] = b0;
-							} else if (l1 < 62) {
+							} else if(l1 < 62) {
 								block = null;
-								block1 = ModBlocks.duna_rock;
-								if (Math.random() > 0.4) {
-									blocks[i2] = ModBlocks.duna_rock;
+								block1 = ModBlocks.eve_rock;
+								if(Math.random() > 0.4) {
+									blocks[i2] = ModBlocks.eve_rock;
 								} else {
-									blocks[i2] = ModBlocks.duna_sands;
+									blocks[i2] = ModBlocks.basalt_smooth;
 								}
 							} else {
 								blocks[i2] = block1;
 							}
-						} else if (k > 0) {
+						} else if(k > 0) {
 							--k;
 							blocks[i2] = block1;
 
-							if (k == 0 && block1 == Blocks.sand) {
+							if(k == 0 && block1 == Blocks.sand) {
 								k = rand.nextInt(4) + Math.max(0, l1 - 63);
 								block1 = Blocks.sandstone;
 							}

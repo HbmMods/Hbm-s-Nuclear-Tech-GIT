@@ -29,6 +29,7 @@ public class BiomeGenMoho extends BiomeGenBase {
         this.theBiomeDecorator = decorator;
         
         this.setHeight(height);
+        this.setTemperatureRainfall(1.0F, 0.0F);
         
         this.topBlock = ModBlocks.moho_regolith;
         this.fillerBlock = ModBlocks.moho_regolith; //thiccer regolith due to uhhhhhh...................
