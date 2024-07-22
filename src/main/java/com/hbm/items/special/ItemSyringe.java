@@ -313,6 +313,8 @@ public class ItemSyringe extends Item {
 						return stack;
 					
 					fillable.tryFill(Fluids.OXYGEN, 1000, tankStack);
+
+					ArmorModHandler.applyMod(player.inventory.armorInventory[3], tankStack);
 					
 					world.playSoundAtEntity(player, "hbm:item.jetpackTank", 1.0F, 1.0F);
 	
