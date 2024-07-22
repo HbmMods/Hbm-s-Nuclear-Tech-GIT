@@ -321,11 +321,13 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		if(recipe == null) return false;
 
 		if(leftStack != null) {
+			if(recipe.output1 == null) return false;
 			if(recipe.output1.material != leftStack.material) return false;
 			if(recipe.output1.amount + leftStack.amount > this.maxMaterial) return false;
 		}
 
 		if(rightStack != null) {
+			if(recipe.output2 == null) return false;
 			if(recipe.output2.material != rightStack.material) return false;
 			if(recipe.output2.amount + rightStack.amount > this.maxMaterial) return false;
 		}
