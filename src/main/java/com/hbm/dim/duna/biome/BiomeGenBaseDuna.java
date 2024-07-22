@@ -30,7 +30,7 @@ public abstract class BiomeGenBaseDuna extends BiomeGenBase {
 		this.spawnableCaveCreatureList.clear();
 		
 		this.topBlock = ModBlocks.duna_sands;
-		this.fillerBlock = ModBlocks.duna_sands;
+		this.fillerBlock = ModBlocks.duna_rock;
 		BiomeDictionary.registerBiomeType(this, BiomeDictionary.Type.COLD, BiomeDictionary.Type.DRY, BiomeDictionary.Type.DEAD);
     }
 }

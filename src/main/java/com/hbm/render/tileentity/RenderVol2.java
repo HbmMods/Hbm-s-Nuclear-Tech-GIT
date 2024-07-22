@@ -1,11 +1,8 @@
 package com.hbm.render.tileentity;
 
-import java.awt.Color;
-
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockVolcanoV2.TileEntityLightningVolcano;
-import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
@@ -47,11 +44,10 @@ public class RenderVol2 extends TileEntitySpecialRenderer {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 		GL11.glColor4f(1, 1, 1, alphad);
-		if(emitter.chargetime == 101) {
+		if(emitter.chargetime == 0) {
 			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -100 - scale), EnumWaveType.SPIRAL, EnumBeamType.SOLID, 0x101020, 0x101020, 0, 8, 0F, 6, (float)3 * alphad, alphad * 2F);
 			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -100 - scale), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x202060, 0x202060, (int)(emitter.getWorldObj().getTotalWorldTime() / 2) % 1000, 26, (float)3, 2, 0.0625F * (float)2, 0.5F *alphad );
 			BeamPronter.prontBeam(Vec3.createVectorHelper(0, 0, -100 - scale), EnumWaveType.RANDOM, EnumBeamType.SOLID, 0x202060, 0x202060, (int)(emitter.getWorldObj().getTotalWorldTime() / 4) % 1000, 26, (float)3, 2, 0.0625F * (float)2, 0.5F*alphad );
-			
 		}
 
 		GL11.glDisable(GL11.GL_BLEND);

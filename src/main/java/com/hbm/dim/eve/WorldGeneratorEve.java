@@ -1,4 +1,4 @@
-package com.hbm.dim.eve.GenLayerEve;
+package com.hbm.dim.eve;
 
 import java.util.Random;
 
@@ -6,6 +6,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.eve.GenLayerEve.WorldGenElectricVolcano;
+import com.hbm.dim.eve.GenLayerEve.WorldGenEveSpike;
 import com.hbm.dim.eve.biome.BiomeGenBaseEve;
 import com.hbm.world.feature.OilBubble;
 
@@ -42,7 +44,7 @@ public class WorldGeneratorEve implements IWorldGenerator {
 		int y = world.getHeightValue(x, z);
 
 		BiomeGenBase biome = world.getBiomeGenForCoords(x, z);
-		if(biome == BiomeGenBaseEve.SeismicPlains) {
+		if(biome == BiomeGenBaseEve.eveSeismicPlains) {
 			new WorldGenEveSpike().generate(world, rand, x, y, z);
 		}
 

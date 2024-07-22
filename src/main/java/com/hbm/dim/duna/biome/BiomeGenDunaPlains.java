@@ -18,6 +18,9 @@ public class BiomeGenDunaPlains extends BiomeGenBaseDuna {
 		super(id);
 		this.setBiomeName("Dunaian Plains");
 		this.setHeight(height);
+
+		this.topBlock = ModBlocks.duna_sands;
+		this.fillerBlock = ModBlocks.duna_sands;
 	}
 
 	public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise) {

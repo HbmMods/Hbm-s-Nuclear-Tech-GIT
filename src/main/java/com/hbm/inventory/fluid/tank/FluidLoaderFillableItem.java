@@ -28,6 +28,7 @@ public class FluidLoaderFillableItem extends FluidLoadingHandler {
 				
 				if(mod != null && mod.getItem() instanceof IFillableItem) {
 					fill(mod, tank);
+					ArmorModHandler.applyMod(stack, mod);
 				}
 			}
 		}
