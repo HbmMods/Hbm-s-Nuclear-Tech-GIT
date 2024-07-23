@@ -384,7 +384,8 @@ public abstract class ChunkProviderCelestial implements IChunkProvider {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List getPossibleCreatures(EnumCreatureType creatureType, int x, int y, int z) {
-		return null; // Barren wasteplanet
+        BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(x, z);
+        return biomegenbase.getSpawnableList(creatureType);
 	}
 
 	/**

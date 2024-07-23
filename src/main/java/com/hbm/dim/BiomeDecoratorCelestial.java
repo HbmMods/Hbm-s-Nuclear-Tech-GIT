@@ -11,16 +11,17 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
-public class BiomeDecoratorDead extends BiomeDecorator {
+public class BiomeDecoratorCelestial extends BiomeDecorator {
 
-	// Same as BiomeDecorator, but skips any plant life and supports different stone types
+	// Same as BiomeDecorator, but skips any vanilla plant life and supports different stone types
+	// TODO: Put Laythe plant gen here
 
 	public WorldGenerator lavaGen;
 	public int lavaCount = 20;
 	
 	private final Block stoneBlock;
 
-	public BiomeDecoratorDead(Block stoneBlock) {
+	public BiomeDecoratorCelestial(Block stoneBlock) {
 		this.stoneBlock = stoneBlock;
 	}
 

@@ -3,7 +3,7 @@ package com.hbm.dim.duna.biome;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.SpaceConfig;
-import com.hbm.dim.BiomeDecoratorDead;
+import com.hbm.dim.BiomeDecoratorCelestial;
 
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
@@ -21,7 +21,7 @@ public abstract class BiomeGenBaseDuna extends BiomeGenBase {
         
 		this.setDisableRain();
 
-        this.theBiomeDecorator = new BiomeDecoratorDead(ModBlocks.duna_rock);
+        this.theBiomeDecorator = new BiomeDecoratorCelestial(ModBlocks.duna_rock);
         this.theBiomeDecorator.generateLakes = false;
 
 		this.spawnableCreatureList.clear();

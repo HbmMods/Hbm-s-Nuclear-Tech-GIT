@@ -2,15 +2,11 @@ package com.hbm.dim.laythe;
 
 import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.CAVE;
 
-import java.util.List;
-
 import com.hbm.dim.ChunkProviderCelestial;
 import com.hbm.dim.mapgen.MapGenGreg;
 
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class ChunkProviderLaythe extends ChunkProviderCelestial {
@@ -30,12 +26,6 @@ public class ChunkProviderLaythe extends ChunkProviderCelestial {
 		this.caveGenV3.func_151539_a(this, worldObj, x, z, buffer.blocks);
 
 		return buffer;
-	}
-	
-	@Override
-	public List getPossibleCreatures(EnumCreatureType creatureType, int x, int y, int z) {
-        BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(x, z);
-        return biomegenbase.getSpawnableList(creatureType);
 	}
 
 }
