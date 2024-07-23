@@ -22,14 +22,14 @@ public class ChunkProviderLaythe extends ChunkProviderCelestial {
 
 	private List<SpawnListEntry> spawnedOfFlesh = new ArrayList<SpawnListEntry>();
 
-    public ChunkProviderLaythe(World world, long seed, boolean hasMapFeatures) {
-        super(world, seed, hasMapFeatures);
+	public ChunkProviderLaythe(World world, long seed, boolean hasMapFeatures) {
+		super(world, seed, hasMapFeatures);
 		caveGenV3 = (MapGenGreg) TerrainGen.getModdedMapGen(caveGenV3, CAVE);
 
-        seaBlock = Blocks.water;
+		seaBlock = Blocks.water;
 
 		spawnedOfFlesh.add(new SpawnListEntry(EntityCreeperFlesh.class, 10, 4, 4));
-    }
+	}
 	@Override
 	public BlockMetaBuffer getChunkPrimer(int x, int z) {
 		BlockMetaBuffer buffer = super.getChunkPrimer(x, z);
@@ -46,7 +46,7 @@ public class ChunkProviderLaythe extends ChunkProviderCelestial {
 		if(creatureType == EnumCreatureType.monster && worldObj.getBlock(x, y - 1, z) == ModBlocks.tumor)
 			return spawnedOfFlesh;
 
-        return super.getPossibleCreatures(creatureType, x, y, z);
+		return super.getPossibleCreatures(creatureType, x, y, z);
 	}
 
 }

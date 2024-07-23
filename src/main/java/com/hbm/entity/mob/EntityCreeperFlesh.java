@@ -18,18 +18,18 @@ import net.minecraft.world.World;
 
 public class EntityCreeperFlesh extends EntityCreeper {
 
-    public EntityCreeperFlesh(World world) {
-        super(world);
-    }
+	public EntityCreeperFlesh(World world) {
+		super(world);
+	}
 
 	@Override
 	public void func_146077_cc() {
 		if(!this.worldObj.isRemote) {
-            NBTTagCompound vdat = new NBTTagCompound();
-            vdat.setString("type", "giblets");
-            vdat.setInteger("ent", getEntityId());
-            vdat.setInteger("cDiv", 2);
-            PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, posX, posY + height * 0.5, posZ), new TargetPoint(dimension, posX, posY + height * 0.5, posZ, 150));
+			NBTTagCompound vdat = new NBTTagCompound();
+			vdat.setString("type", "giblets");
+			vdat.setInteger("ent", getEntityId());
+			vdat.setInteger("cDiv", 2);
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(vdat, posX, posY + height * 0.5, posZ), new TargetPoint(dimension, posX, posY + height * 0.5, posZ, 150));
 
 			this.setDead();
 			
@@ -42,5 +42,5 @@ public class EntityCreeperFlesh extends EntityCreeper {
 			vnt.explode();
 		}
 	}
-    
+	
 }
