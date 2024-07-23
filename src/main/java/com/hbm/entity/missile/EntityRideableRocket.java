@@ -7,7 +7,9 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.DebugTeleporter;
 import com.hbm.dim.SolarSystem;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.RocketStruct;
+import com.hbm.handler.RocketStruct.RocketStage;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemVOTVdrive.Destination;
@@ -15,12 +17,13 @@ import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.ParticleUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -34,6 +37,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOverlay {
 
 	public ItemStack navDrive;
+
+	public EntityRideableRocketDummy capDummy;
 
 	private int stateTimer = 0;
 
@@ -134,6 +139,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				rotationPitch = 0;
 			}
 
+			// velocity = rocketVelocity;
+
 			if(state == RocketState.LAUNCHING) {
 				Vec3 motion = BobMathUtil.getDirectionFromAxisAngle(rotationPitch - 90.0F, 180.0F - rotationYaw, rocketVelocity);
 				motionX = motion.xCoord;
@@ -163,6 +170,16 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 			} else {
 				setDestination(null);
 			}
+
+
+			if(capDummy == null || capDummy.isDead) {
+				capDummy = new EntityRideableRocketDummy(worldObj, this);
+				capDummy.parent = this;
+				worldObj.spawnEntityInWorld(capDummy);
+			}
+
+			double offset = height - 8;
+			capDummy.setPosition(posX, posY + offset, posZ);
 		} else {
 			// ON state transitions
 			if(state != lastState) {
@@ -194,6 +211,13 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		}
 
 		stateTimer++;
+	}
+
+	@Override
+	protected double motionMult() {
+		RocketState state = getState();
+		if(state == RocketState.AWAITING || state == RocketState.LANDED) return 0;
+		return 4;
 	}
 
 	@Override
@@ -287,9 +311,57 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	}
 
 	@Override
+	public void setDead() {
+		super.setDead();
+		if(capDummy != null) {
+			capDummy.setDead();
+		}
+	}
+
+	@Override
 	protected void spawnContrail() {
-		if(getState() == RocketState.LAUNCHING) {
-			super.spawnContrail();
+		RocketState state = getState();
+
+		if(state == RocketState.AWAITING || state == RocketState.LANDED || (state == RocketState.LANDING && motionY <= -0.4)) return;
+
+		RocketStruct rocket = getRocket();
+		if(rocket.stages.size() == 0) {
+			double r = rocket.capsule.part.bottom.radius * 0.5;
+			ParticleUtil.spawnGasFlame(worldObj, posX + r, posY, posZ + r, 0.25, -0.75, 0.25);
+			ParticleUtil.spawnGasFlame(worldObj, posX - r, posY, posZ + r, -0.25, -0.75, 0.25);
+			ParticleUtil.spawnGasFlame(worldObj, posX + r, posY, posZ - r, 0.25, -0.75, -0.25);
+			ParticleUtil.spawnGasFlame(worldObj, posX - r, posY, posZ - r, -0.25, -0.75, -0.25);
+
+			double groundHeight = (double)worldObj.getHeightValue((int)posX, (int)posZ);
+			double distanceToGround = posY - groundHeight;
+			if(distanceToGround < 10) {
+				ExplosionLarge.spawnShock(worldObj, posX, groundHeight + 0.5, posZ, 1 + worldObj.rand.nextInt(3), 1 + worldObj.rand.nextGaussian());
+			}
+
+			return;
+		}
+
+		RocketStage stage = rocket.stages.get(0);
+
+		// the fuck is a contraol bob
+		if(state == RocketState.LANDING) {
+			ParticleUtil.spawnGasFlame(worldObj, posX, posY, posZ, 0.0, -1.0, 0.0);
+
+			double groundHeight = (double)worldObj.getHeightValue((int)posX, (int)posZ);
+			double distanceToGround = posY - groundHeight;
+			if(distanceToGround < 10) {
+				ExplosionLarge.spawnShock(worldObj, posX, groundHeight + 0.5, posZ, 1 + worldObj.rand.nextInt(3), 1 + worldObj.rand.nextGaussian());
+			}
+		} else {
+			spawnContraolWithOffset(0, 0, 0);
+		}
+
+		int cluster = stage.getCluster();
+		for(int c = 1; c < cluster; c++) {
+			float spin = (float)c / (float)(cluster - 1);
+			double ox = Math.cos(spin * Math.PI * 2) * stage.fuselage.part.bottom.radius;
+			double oz = Math.sin(spin * Math.PI * 2) * stage.fuselage.part.bottom.radius;
+			spawnContraolWithOffset(ox, 0, oz);
 		}
 	}
 
@@ -408,9 +480,21 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 			if(canLaunch) {
 				text.add("JUMP TO LAUNCH");
 			}
+
+			ItemStack stack = player.getHeldItem();
+			if(stack != null && stack.getItem() instanceof ItemVOTVdrive) {
+				if(ItemVOTVdrive.getProcessed(stack)) {
+					text.add("Interact to swap drive");
+				}
+			}
 		}
 
 		ILookOverlay.printGeneric(event, "Rocket", 0xffff00, 0x404000, text);
+	}
+
+	@Override
+	public boolean canBePushed() {
+		return true;
 	}
 
 	@Override
@@ -420,19 +504,73 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	@Override
 	public List<ItemStack> getDebris() {
-		List<ItemStack> list = new ArrayList<ItemStack>();
-
-		list.add(new ItemStack(ModItems.plate_steel, 8));
-		list.add(new ItemStack(ModItems.thruster_medium, 2));
-		list.add(new ItemStack(ModItems.canister_empty, 1));
-		list.add(new ItemStack(Blocks.glass_pane, 2));
-
-		return list;
+		return null;
 	}
 
 	@Override
 	public ItemStack getDebrisRareDrop() {
-		return new ItemStack(ModItems.missile_generic);
+		return null;
+	}
+
+	public static class EntityRideableRocketDummy extends Entity implements ILookOverlay {
+
+		public EntityRideableRocket parent;
+
+		private static final int WATCHABLE_PARENT_ID = 3;
+
+		public EntityRideableRocketDummy(World world) {
+			super(world);
+			setSize(4, 8);
+		}
+
+		public EntityRideableRocketDummy(World world, EntityRideableRocket parent) {
+			this(world);
+			this.parent = parent;
+			dataWatcher.updateObject(WATCHABLE_PARENT_ID, parent.getEntityId());
+		}
+
+		@Override
+		protected void entityInit() {
+			dataWatcher.addObject(WATCHABLE_PARENT_ID, 0);
+		}
+
+		@Override
+		public void onUpdate() {
+			if(!worldObj.isRemote) {
+				if(parent == null || parent.isDead) {
+					setDead();
+				}
+			} else {
+				if(parent == null) {
+					Entity entity = worldObj.getEntityByID(dataWatcher.getWatchableObjectInt(WATCHABLE_PARENT_ID));
+					if(entity != null && entity instanceof EntityRideableRocket) {
+						parent = (EntityRideableRocket) entity;
+					}
+				}
+			}
+		}
+
+		@Override protected void writeEntityToNBT(NBTTagCompound nbt) {}
+		@Override public boolean writeToNBTOptional(NBTTagCompound nbt) { return false; }
+		@Override public void readEntityFromNBT(NBTTagCompound nbt) { this.setDead(); }
+
+		@Override
+		public void printHook(Pre event, World world, int x, int y, int z) {
+			if(parent == null) return;
+			parent.printHook(event, world, x, y, z);
+		}
+
+		@Override
+		public boolean interactFirst(EntityPlayer player) {
+			if(parent == null) return false;
+			return parent.interactFirst(player);
+		}
+
+		@Override
+		public boolean canBeCollidedWith() {
+			return true;
+		}
+		
 	}
 
 }
