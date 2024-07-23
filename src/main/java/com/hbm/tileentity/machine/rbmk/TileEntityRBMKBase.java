@@ -128,7 +128,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		double availableWater = this.water;
 		double availableSpace = this.maxSteam - this.steam;
 		
-		int processedWater = (int)Math.floor(Math.min(availableHeat, Math.min(availableWater, availableSpace)) * RBMKDials.getReaSimBoilerSpeed(worldObj));
+		int processedWater = (int) Math.floor(Math.min(availableHeat, Math.min(availableWater, availableSpace)) * RBMKDials.getReaSimBoilerSpeed(worldObj));
 		
 		this.water -= processedWater;
 		this.steam += processedWater;

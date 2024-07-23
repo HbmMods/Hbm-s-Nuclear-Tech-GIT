@@ -9,7 +9,7 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.container.ContainerDroneRequester;
 import com.hbm.inventory.gui.GUIDroneRequester;
 import com.hbm.module.ModulePatternMatcher;
-import com.hbm.tileentity.IFilterable;
+import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.network.RequestNetwork.PathNode;
@@ -21,14 +21,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer implements INBTPacketReceiver, IGUIProvider, IFilterable {
+public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer implements INBTPacketReceiver, IGUIProvider, IControlReceiverFilter {
 	
 	public ModulePatternMatcher matcher;
 
@@ -130,15 +129,5 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
 		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
-	}
-
-	@Override
-	public void setFilterContents(NBTTagCompound nbt) {
-		int slot = nbt.getInteger("slot");
-		setInventorySlotContents(
-				slot,
-				new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
-		nextMode(slot);
-		markChanged();
 	}
 }

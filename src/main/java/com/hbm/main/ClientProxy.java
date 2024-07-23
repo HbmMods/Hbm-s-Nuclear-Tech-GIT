@@ -87,6 +87,8 @@ import com.hbm.items.IAnimatedItem;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.particle.*;
+import com.hbm.particle.helper.ExplosionCreator;
+import com.hbm.particle.helper.IParticleCreator;
 import com.hbm.particle.psys.engine.EventHandlerParticleEngine;
 import com.hbm.render.anim.*;
 import com.hbm.render.anim.HbmAnimations.Animation;
@@ -984,7 +986,14 @@ public class ClientProxy extends ServerProxy {
 		}
 	}
 	
+	public static HashMap<String, IParticleCreator> particleCreators = new HashMap();
+	
+	static {
+		particleCreators.put("explosionLarge", new ExplosionCreator());
+	}
+	
 	//mk3, only use this one
+	@Override
 	public void effectNT(NBTTagCompound data) {
 		
 		World world = Minecraft.getMinecraft().theWorld;
@@ -1000,6 +1009,11 @@ public class ClientProxy extends ServerProxy {
 		double x = data.getDouble("posX");
 		double y = data.getDouble("posY");
 		double z = data.getDouble("posZ");
+		
+		if(particleCreators.containsKey(type)) {
+			particleCreators.get(type).makeParticle(world, player, man, rand, x, y, z, data);
+			return;
+		}
 		
 		if("missileContrail".equals(type)) {
 			

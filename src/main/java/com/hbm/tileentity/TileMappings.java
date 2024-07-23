@@ -18,6 +18,7 @@ import com.hbm.blocks.generic.PartEmitter.TileEntityPartEmitter;
 import com.hbm.blocks.machine.BlockICF.TileEntityBlockICF;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
 import com.hbm.blocks.machine.Floodlight.TileEntityFloodlight;
+import com.hbm.blocks.machine.FloodlightBeam.TileEntityFloodlightBeam;
 import com.hbm.blocks.machine.MachineCapacitor.TileEntityCapacitor;
 import com.hbm.blocks.machine.MachineFan.TileEntityFan;
 import com.hbm.blocks.machine.PistonInserter.TileEntityPistonInserter;
@@ -126,8 +127,6 @@ public class TileMappings {
 		put(TileEntityBlastDoor.class, "tileentity_blast_door");
 		put(TileEntitySafe.class, "tileentity_safe");
 		put(TileEntityMachineGasCent.class, "tileentity_gas_centrifuge");
-		put(TileEntityMachineBoiler.class, "tileentity_boiler");
-		put(TileEntityMachineBoilerElectric.class, "tileentity_electric_boiler");
 		put(TileEntityGeiger.class, "tileentity_geiger");
 		put(TileEntityFF.class, "tileentity_forcefield");
 		put(TileEntityForceField.class, "tileentity_machine_field");
@@ -186,6 +185,7 @@ public class TileMappings {
 		put(TileEntityFEL.class, "tileentity_fel");
 		put(TileEntityDemonLamp.class, "tileentity_demonlamp");
 		put(TileEntityFloodlight.class, "tileentity_floodlight");
+		put(TileEntityFloodlightBeam.class, "tileentity_floodlight_beam");
 		put(TileEntityLantern.class, "tileentity_lantern_ordinary");
 		put(TileEntityLanternBehemoth.class, "tileentity_lantern_behemoth");
 		put(TileEntityStorageDrum.class, "tileentity_waste_storage_drum");

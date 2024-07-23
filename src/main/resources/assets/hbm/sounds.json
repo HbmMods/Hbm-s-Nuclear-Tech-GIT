@@ -210,6 +210,8 @@
     "weapon.44Shoot": {"category": "player", "sounds": [{"name": "weapon/44Shoot", "stream": false}]},
     "weapon.trainImpact": {"category": "player", "sounds": [{"name": "weapon/trainImpact", "stream": false}]},
     "weapon.nuclearExplosion": {"category": "player", "sounds": [{"name": "weapon/nuclearExplosion", "stream": true}]},
+    "weapon.explosionLargeNear": {"category": "player", "sounds": [{"name": "weapon/explosionLargeNear", "stream": false}]},
+    "weapon.explosionLargeFar": {"category": "player", "sounds": [{"name": "weapon/explosionLargeFar", "stream": false}]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 

@@ -7,11 +7,9 @@ import com.hbm.inventory.container.ContainerAutocrafter;
 import com.hbm.inventory.gui.GUIAutocrafter;
 import com.hbm.lib.Library;
 import com.hbm.module.ModulePatternMatcher;
-import com.hbm.tileentity.IFilterable;
+import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
-import com.hbm.util.BufferUtil;
-import com.hbm.util.ItemStackUtil;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
@@ -27,11 +25,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineAutocrafter extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IFilterable {
+public class TileEntityMachineAutocrafter extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IControlReceiverFilter {
 
 	
 	public List<IRecipe> recipes = new ArrayList();
@@ -188,10 +187,8 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		
 		if(i > 9 && i < 19) {
 			ItemStack filter = slots[i - 10];
-
 			if(filter == null) return true;
-
-			return !matcher.isValidForFilter(filter, i, stack);
+			return !matcher.isValidForFilter(filter, i - 10, stack);
 		}
 		
 		return false;
@@ -200,8 +197,8 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 
-		//automatically prohibit any stacked item with a container
-		if(stack.stackSize > 1 && stack.getItem().hasContainerItem(stack))
+		//automatically prohibit any stacked item, items can only be added one by one
+		if(stack.stackSize > 1)
 			return false;
 		
 		//only allow insertion for the nine recipe slots
@@ -216,6 +213,7 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		List<Integer> validSlots = new ArrayList();
 		for(int i = 0; i < 9; i++) {
 			ItemStack filter = slots[i];
+			if(filter == null) continue;
 
 			if(matcher.isValidForFilter(filter, i, stack)) {
 				validSlots.add(i + 10);
@@ -346,13 +344,15 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 	public boolean hasPermission(EntityPlayer player) {
 		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
 	}
+
 	@Override
 	public void setFilterContents(NBTTagCompound nbt) {
+		TileEntity tile = (TileEntity) this;
+		IInventory inv = (IInventory) this;
 		int slot = nbt.getInteger("slot");
-		setInventorySlotContents(
-				slot,
-				new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
+		if(slot > 8) return;
+		inv.setInventorySlotContents(slot, new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
 		nextMode(slot);
-		markChanged();
+		tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
 	}
 }

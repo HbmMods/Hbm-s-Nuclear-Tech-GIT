@@ -32,7 +32,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -237,15 +236,33 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		if(progress >= processTime) {
 
 			currentFill -= recipe.fluidConsumed;
+			
+			int totalWeight = 0;
+			for(WeightedRandomObject weighted : recipe.outputs) totalWeight += weighted.itemWeight;
+			this.recipeIndex %= Math.max(totalWeight, 1);
+			
+			int weight = 0;
+			
+			for(WeightedRandomObject weighted : recipe.outputs) {
+				weight += weighted.itemWeight;
+				
+				if(this.recipeIndex < weight) {
+					slots[4] = weighted.asStack().copy();
+					break;
+				}
+			}
 
-			ItemStack out = ((WeightedRandomObject) WeightedRandom.getRandomItem(worldObj.rand, recipe.outputs)).asStack();
-			slots[4] = out.copy();
 			progress = 0;
 			this.markDirty();
+			
+			this.recipeIndex += PRIME;
 		}
 
 		return true;
 	}
+	
+	public static final int PRIME = 137;
+	public int recipeIndex = 0;
 
 	private void dequeue() {
 
@@ -295,6 +312,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		super.readFromNBT(nbt);
 		this.tank.readFromNBT(nbt, "tank");
 		this.currentFill = nbt.getInteger("fill");
+		this.recipeIndex = nbt.getInteger("recipeIndex");
 		this.mode = EnumWavelengths.valueOf(nbt.getString("mode"));
 
 		if(this.currentFill > 0) {
@@ -307,6 +325,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		super.writeToNBT(nbt);
 		this.tank.writeToNBT(nbt, "tank");
 		nbt.setInteger("fill", this.currentFill);
+		nbt.setInteger("recipeIndex", this.recipeIndex);
 		nbt.setString("mode", mode.toString());
 
 		if(this.current != null) {
