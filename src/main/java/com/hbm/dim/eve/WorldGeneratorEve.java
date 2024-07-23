@@ -48,7 +48,7 @@ public class WorldGeneratorEve implements IWorldGenerator {
 			new WorldGenEveSpike().generate(world, rand, x, y, z);
 		}
 
-		if(rand.nextInt(10) == 0) {
+		if(rand.nextInt(100) == 0) {
 			volcano.generate(world, rand, x, y, z);
 
 		}
