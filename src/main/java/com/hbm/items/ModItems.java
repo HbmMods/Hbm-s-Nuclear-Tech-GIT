@@ -202,6 +202,7 @@ public class ModItems {
 	public static Item nugget_mercury;
 	public static Item ingot_mercury; //It's to prevent any ambiguity, as it was treated as a full ingot in the past anyway
 	public static Item bottle_mercury;
+	public static Item nugget_separated_chicken;
 
 	public static Item ore_byproduct; //byproduct of variable purity and quantity, can be treated as a nugget, might require shredding or acidizing, depends on the type
 	
@@ -471,6 +472,7 @@ public class ModItems {
 	public static Item dust_tiny;
 	public static Item fallout;
 	public static Item powder_power;
+	public static Item powder_chicken;
 
 	public static Item powder_thorium;
 	public static Item powder_iodine;
@@ -1729,6 +1731,7 @@ public class ModItems {
 	public static Item cheese;
 	public static Item quesadilla;
 	public static Item package_crayons;
+	public static Item chicken_nugget;
 	public static Item glyphid_meat;
 	public static Item glyphid_meat_grilled;
 	public static Item egg_glyphid;
@@ -2707,6 +2710,7 @@ public class ModItems {
 		powder_asbestos = new ItemCustomLore().setUnlocalizedName("powder_asbestos").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_asbestos");
 		ingot_electronium = new ItemCustomLore().setUnlocalizedName("ingot_electronium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_electronium");
 		nugget_zirconium = new ItemCustomLore().setUnlocalizedName("nugget_zirconium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_zirconium");
+		nugget_separated_chicken = new Item().setUnlocalizedName("nugget_separated_chicken").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_separated_chicken");
 		nugget_mercury = new Item().setUnlocalizedName("nugget_mercury_tiny").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_mercury_tiny");
 		ingot_mercury = new ItemCustomLore().setUnlocalizedName("nugget_mercury").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_mercury");
 		bottle_mercury = new ItemCustomLore().setUnlocalizedName("bottle_mercury").setContainerItem(Items.glass_bottle).setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bottle_mercury");
@@ -2902,6 +2906,7 @@ public class ModItems {
 		powder_copper = new Item().setUnlocalizedName("powder_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_copper");
 		powder_gold = new Item().setUnlocalizedName("powder_gold").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_gold");
 		powder_iron = new Item().setUnlocalizedName("powder_iron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_iron");
+		powder_chicken = new Item().setUnlocalizedName("powder_chicken").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_chicken");
 		powder_titanium = new Item().setUnlocalizedName("powder_titanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_titanium");
 		powder_tungsten = new Item().setUnlocalizedName("powder_tungsten").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_tungsten");
 		powder_uranium = new Item().setUnlocalizedName("powder_uranium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_uranium");
@@ -4353,6 +4358,7 @@ public class ModItems {
 		cheese = new ItemLemon(5, 0.75F, false).setUnlocalizedName("cheese").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cheese");
 		quesadilla = new ItemLemon(8, 1F, false).setUnlocalizedName("cheese_quesadilla").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":quesadilla");
 		package_crayons = new ItemLemon(8, 0.5F, false).setUnlocalizedName("package_crayons").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":package_crayons");
+		chicken_nugget = new ItemLemon(2, 0.5F, false).setUnlocalizedName("chicken_nugget").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":chicken_nugget");
 		mucho_mango = new ItemMuchoMango(10).setUnlocalizedName("mucho_mango").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":mucho_mango");
 		glyphid_meat = new ItemLemon(3, 0.5F, true).setUnlocalizedName("glyphid_meat").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":glyphid_meat");
 		glyphid_meat_grilled = new ItemLemon(8, 0.75F, true).setPotionEffect(Potion.damageBoost.id, 180, 1, 1F).setUnlocalizedName("glyphid_meat_grilled").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":glyphid_meat_grilled");
@@ -5820,6 +5826,7 @@ public class ModItems {
 		//Dusts & Other
 		GameRegistry.registerItem(cinnebar, cinnebar.getUnlocalizedName());
 		GameRegistry.registerItem(nugget_mercury, nugget_mercury.getUnlocalizedName());
+		GameRegistry.registerItem(nugget_separated_chicken, nugget_separated_chicken.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_mercury, ingot_mercury.getUnlocalizedName());
 		GameRegistry.registerItem(bottle_mercury, bottle_mercury.getUnlocalizedName());
 		GameRegistry.registerItem(coke, coke.getUnlocalizedName());
@@ -5834,6 +5841,7 @@ public class ModItems {
 		GameRegistry.registerItem(powder_coal, powder_coal.getUnlocalizedName());
 		GameRegistry.registerItem(powder_coal_tiny, powder_coal_tiny.getUnlocalizedName());
 		GameRegistry.registerItem(powder_iron, powder_iron.getUnlocalizedName());
+		GameRegistry.registerItem(powder_chicken, powder_chicken.getUnlocalizedName());
 		GameRegistry.registerItem(powder_gold, powder_gold.getUnlocalizedName());
 		GameRegistry.registerItem(powder_lapis, powder_lapis.getUnlocalizedName());
 		GameRegistry.registerItem(powder_quartz, powder_quartz.getUnlocalizedName());
@@ -7512,6 +7520,7 @@ public class ModItems {
 		GameRegistry.registerItem(cheese, cheese.getUnlocalizedName());
 		GameRegistry.registerItem(quesadilla, quesadilla.getUnlocalizedName());
 		GameRegistry.registerItem(package_crayons, package_crayons.getUnlocalizedName());
+		GameRegistry.registerItem(chicken_nugget, chicken_nugget.getUnlocalizedName());
 		GameRegistry.registerItem(glyphid_meat, glyphid_meat.getUnlocalizedName());
 		GameRegistry.registerItem(glyphid_meat_grilled, glyphid_meat_grilled.getUnlocalizedName());
 		GameRegistry.registerItem(egg_glyphid, egg_glyphid.getUnlocalizedName());

@@ -63,7 +63,8 @@ public class ConsumableRecipes {
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.marshmallow), new Object[] { Items.stick, Items.sugar, Items.wheat_seeds });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.quesadilla, 3), new Object[] { ModItems.cheese, ModItems.cheese, Items.bread });
 		CraftingManager.addShapelessAuto(new ItemStack(ModItems.package_crayons, 1), new Object[] {Items.paper, new ItemStack(ModItems.crayon, 1, 0), new ItemStack(ModItems.crayon, 1, 1), new ItemStack(ModItems.crayon, 1, 2), new ItemStack(ModItems.crayon, 1, 3), new ItemStack(ModItems.crayon, 1, 4), new ItemStack(ModItems.crayon, 1, 5), new ItemStack(ModItems.crayon, 1, 11), new ItemStack(ModItems.crayon, 1, 14)});
-		
+		CraftingManager.addRecipeAuto(new ItemStack(ModItems.chicken_nugget, 4), new Object[] {"NN", "NN", 'N', ModItems.nugget_separated_chicken});
+
 		//Peas
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.peas), new Object[] { " S ", "SNS", " S ", 'S', Items.wheat_seeds, 'N', GOLD.nugget() });
 		

@@ -24,9 +24,8 @@ public class TileEntityPylonMedium extends TileEntityPylonBase {
 		double height = 7.5D;
 		
 		return new Vec3[] {
-				Vec3.createVectorHelper(0.5, height, 0.5),
 				Vec3.createVectorHelper(0.5 + dir.offsetX, height, 0.5 + dir.offsetZ),
-				Vec3.createVectorHelper(0.5 + dir.offsetX * 2, height, 0.5 + dir.offsetZ * 2),
+				Vec3.createVectorHelper(0.5 + dir.offsetX * -1, height, 0.5 + dir.offsetZ * -1),
 		};
 	}
 

@@ -398,6 +398,12 @@ public class ChemplantRecipes extends SerializableRecipe {
 						new ItemStack(ModItems.niter, 3))
 				.outputFluids(new FluidStack(Fluids.SALIENT, 250)));
 
+		recipes.add(new ChemRecipe(104, "CHICKEN_PROCESSING", 100)
+				.inputFluids(new FluidStack(Fluids.CHICKEN_SLURRY, 500, 2),
+							 new FluidStack(Fluids.PEROXIDE, 100))
+				.outputItems(new ItemStack(ModItems.nugget_separated_chicken, 2),
+							 new ItemStack(Items.dye, 1, 15)));
+
 	}
 
 	public static void registerOtherOil() {
