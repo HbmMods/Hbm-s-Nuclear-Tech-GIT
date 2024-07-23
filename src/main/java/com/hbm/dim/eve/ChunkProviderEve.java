@@ -13,8 +13,6 @@ public class ChunkProviderEve extends ChunkProviderCelestial {
 
         stoneBlock = ModBlocks.eve_rock;
         seaBlock = ModBlocks.mercury_block;
-
-        declamp = false;
     }
 
 	@Override

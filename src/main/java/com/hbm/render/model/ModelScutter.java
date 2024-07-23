@@ -6,8 +6,6 @@ import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.MathHelper;
 
 public class ModelScutter extends ModelBase {
 
@@ -17,22 +15,19 @@ public class ModelScutter extends ModelBase {
 		super.render(entity, f, f1, f2, f3, f4, f5);
 
 		GL11.glPushMatrix();
-		GL11.glRotatef(90, 0, -1, 0);
-		GL11.glRotatef(180, 0, 0, 1);
-		GL11.glTranslatef(0, -1.4F, 0);
-		GL11.glScalef(2, 2, 2);
-		float rot = -(MathHelper.cos(f * 0.6662F * 2.0F + 0.0F) * 0.4F) * f1 * 57.3F;
-		ResourceManager.scutterfish.renderPart("Body");
-		
-		ResourceManager.scutterfish.renderPart("tail");
+		{
 
+			GL11.glRotatef(180, 1, 0, 0);
+			GL11.glTranslatef(0, -1.4F, 0);
+			GL11.glScalef(2, 2, 2);
 
+			ResourceManager.scutterfish.renderPart("Body");
+			ResourceManager.scutterfish.renderPart("tail");
+	
+			ResourceManager.scutterfish.renderPart("fin1");
+			ResourceManager.scutterfish.renderPart("fin2");
 
-		ResourceManager.scutterfish.renderPart("fin1");
-
-		ResourceManager.scutterfish.renderPart("fin2");
-
-		
+		}
 		GL11.glPopMatrix();
 	}
 }

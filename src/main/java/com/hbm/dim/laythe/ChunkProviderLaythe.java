@@ -18,7 +18,6 @@ public class ChunkProviderLaythe extends ChunkProviderCelestial {
 
     public ChunkProviderLaythe(World world, long seed, boolean hasMapFeatures) {
         super(world, seed, hasMapFeatures);
-        declamp = false;
 		caveGenV3 = (MapGenGreg) TerrainGen.getModdedMapGen(caveGenV3, CAVE);
 
         seaBlock = Blocks.water;
