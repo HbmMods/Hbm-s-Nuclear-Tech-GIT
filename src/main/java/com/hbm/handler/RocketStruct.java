@@ -13,6 +13,7 @@ import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.render.util.MissilePart;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.Tuple.Pair;
 
 import io.netty.buffer.ByteBuf;
@@ -270,6 +271,11 @@ public class RocketStruct {
 			buf.writeByte(stage.fuselageCount);
 			buf.writeByte(stage.thrusterCount);
 		}
+
+		buf.writeInt(extraIssues.size());
+		for(String issue : extraIssues) {
+			BufferUtil.writeString(buf, issue);
+		}
 	}
 	
 	public static RocketStruct readFromByteBuffer(ByteBuf buf) {
@@ -287,6 +293,11 @@ public class RocketStruct {
 			stage.thrusterCount = buf.readByte();
 
 			rocket.stages.add(stage);
+		}
+
+		count = buf.readInt();
+		for(int i = 0; i < count; i++) {
+			rocket.extraIssues.add(BufferUtil.readString(buf));
 		}
 		
 		return rocket;
