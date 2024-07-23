@@ -12,6 +12,7 @@ import com.hbm.config.SpaceConfig;
 import com.hbm.dim.BiomeDecoratorCelestial;
 import com.hbm.entity.mob.EntityScutterfish;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 
@@ -32,7 +33,9 @@ public abstract class BiomeGenBaseLaythe extends BiomeGenBase {
 
         this.spawnableWaterCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityScutterfish.class, 10, 4, 4));
 
-		this.theBiomeDecorator = new BiomeDecoratorCelestial(topBlock);
+		BiomeDecoratorCelestial decorator = new BiomeDecoratorCelestial(Blocks.stone);
+		decorator.waterPlantsPerChunk = 32;
+		this.theBiomeDecorator = decorator;
 		this.theBiomeDecorator.generateLakes = false;
         
         this.topBlock = ModBlocks.laythe_silt;
