@@ -51,6 +51,31 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		this.worldObj.rainingStrength = 0.0F;
 		this.worldObj.thunderingStrength = 0.0F;
 	}
+
+	/**
+	 * Override to modify the lightmap, return true if the lightmap is actually modified
+	 * @param lightmap a 16x16 lightmap stored in a 256 value buffer
+	 * @return whether or not the dynamic lightmap texture needs to be updated
+	 */
+	public boolean updateLightmap(int[] lightmap) {
+		return false;
+	}
+
+	protected final int packColor(final int[] colors) {
+		return packColor(colors[0], colors[1], colors[2]);
+	}
+
+	protected final int packColor(final int r, final int g, final int b) {
+		return 255 << 24 | r << 16 | g << 8 | b;
+	}
+
+	protected final int[] unpackColor(final int color) {
+		final int[] colors = new int[3];
+		colors[0] = color >> 16 & 255;
+		colors[1] = color >> 8 & 255;
+		colors[2] = color & 255;
+		return colors;
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)

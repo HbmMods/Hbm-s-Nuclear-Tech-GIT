@@ -46,6 +46,23 @@ public class WorldProviderLaythe extends WorldProviderCelestial {
 		return true;
 	}
 
+	@Override
+	public boolean updateLightmap(int[] lightmap) {
+		for(int i = 0; i < 256; i++) {
+			float sun = getSunBrightness(1.0F);
+			float sky = lightBrightnessTable[i / 16];
+			float jool = Math.max(sky - sun, 0);
+
+			int[] color = unpackColor(lightmap[i]);
+
+			color[1] += jool * 60;
+			if(color[1] > 255) color[1] = 255;
+
+			lightmap[i] = packColor(color);
+		}
+		return true;
+	}
+
 	private static BiomeGenLayers createBiomeGenerators(long seed) {
 		GenLayer biomes = new GenLayerLaytheBiomes(seed);
 
