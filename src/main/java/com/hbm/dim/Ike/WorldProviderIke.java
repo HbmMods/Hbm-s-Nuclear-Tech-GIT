@@ -30,4 +30,21 @@ public class WorldProviderIke extends WorldProviderCelestial {
 		return ModBlocks.ike_stone;
 	}
 
+	@Override
+	public boolean updateLightmap(int[] lightmap) {
+		for(int i = 0; i < 256; i++) {
+			float sun = getSunBrightness(1.0F) - 0.1F;
+			float sky = lightBrightnessTable[i / 16];
+			float duna = Math.max(sky - sun, 0);
+
+			int[] color = unpackColor(lightmap[i]);
+
+			color[0] += duna * 20;
+			if(color[0] > 255) color[0] = 255;
+
+			lightmap[i] = packColor(color);
+		}
+		return true;
+	}
+
 }
