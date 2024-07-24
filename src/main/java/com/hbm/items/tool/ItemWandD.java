@@ -43,13 +43,13 @@ public class ItemWandD extends Item {
 			Component comp = new RuralHouse1(world.rand, i, j);
 			comp.addComponentParts(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));*/
 			
-			ExplosionVNT vnt = new ExplosionVNT(world, pos.blockX + 0.5, pos.blockY + 1, pos.blockZ + 0.5, 40F);
+			ExplosionVNT vnt = new ExplosionVNT(world, pos.blockX + 0.5, pos.blockY + 1, pos.blockZ + 0.5, 15F);
 			vnt.makeStandard();
 			vnt.setSFX();
 			vnt.setBlockAllocator(new BlockAllocatorStandard(32));
 			vnt.explode();
 			
-			ExplosionCreator.composeEffectLarge(world, pos.blockX + 0.5, pos.blockY + 0.5, pos.blockZ + 0.5);
+			ExplosionCreator.composeEffectStandard(world, pos.blockX + 0.5, pos.blockY + 0.5, pos.blockZ + 0.5);
 			
 			/*for(int i = 0; i < 10; i++) {
 				NBTTagCompound data = new NBTTagCompound();
