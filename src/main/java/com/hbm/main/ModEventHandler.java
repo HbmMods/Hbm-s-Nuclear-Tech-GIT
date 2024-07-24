@@ -635,6 +635,8 @@ public class ModEventHandler {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLoad(WorldEvent.Load event) {
 		BobmazonOfferFactory.init();
+
+		updateWaterOpacity(event.world);
 	}
 	
 	public static boolean didSit = false;
@@ -675,8 +677,8 @@ public class ModEventHandler {
 						//effect for radiation
 						EntityLivingBase entity = (EntityLivingBase) e;
 
-			        	if(entity instanceof EntityPlayer) {
-			        		EntityPlayer player = (EntityPlayer) entity;
+						if(entity instanceof EntityPlayer) {
+							EntityPlayer player = (EntityPlayer) entity;
 
 							int randSlot = rand.nextInt(player.inventory.mainInventory.length);
 							HazardTypeNeutron.decay(player.inventory.getStackInSlot(randSlot), 0.999916F);
@@ -690,7 +692,7 @@ public class ModEventHandler {
 								player.setSneaking(false);
 								ridingEntity.height = prevHeight;
 							}
-			        	}
+						}
 						
 						if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode)
 							continue;
@@ -702,46 +704,46 @@ public class ModEventHandler {
 							if(event.world.rand.nextInt(3) == 0 ) {
 								EntityCreeperNuclear creep = new EntityCreeperNuclear(event.world);
 								creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-				        		
-				        		if(!entity.isDead)
-				        			if(!event.world.isRemote)
-				        				event.world.spawnEntityInWorld(creep);
-				        		entity.setDead();
+								
+								if(!entity.isDead)
+									if(!event.world.isRemote)
+										event.world.spawnEntityInWorld(creep);
+								entity.setDead();
 							} else {
 								entity.attackEntityFrom(ModDamageSource.radiation, 100F);
 							}
 							continue;
-		        		
-			        	} else if(entity instanceof EntityCow && !(entity instanceof EntityMooshroom) && eRad >= 50) {
-			        		EntityMooshroom creep = new EntityMooshroom(event.world);
-			        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+						
+						} else if(entity instanceof EntityCow && !(entity instanceof EntityMooshroom) && eRad >= 50) {
+							EntityMooshroom creep = new EntityMooshroom(event.world);
+							creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
 
-			        		if(!entity.isDead)
-			        			if(!event.world.isRemote)
-			        				event.world.spawnEntityInWorld(creep);
-			        		entity.setDead();
+							if(!entity.isDead)
+								if(!event.world.isRemote)
+									event.world.spawnEntityInWorld(creep);
+							entity.setDead();
 							continue;
-			        		
-			        	} else if(entity instanceof EntityVillager && eRad >= 500) {
-			        		EntityZombie creep = new EntityZombie(event.world);
-			        		creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-			        		
-			        		if(!entity.isDead)
-				        		if(!event.world.isRemote)
-				        			event.world.spawnEntityInWorld(creep);
-			        		entity.setDead();
+							
+						} else if(entity instanceof EntityVillager && eRad >= 500) {
+							EntityZombie creep = new EntityZombie(event.world);
+							creep.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+							
+							if(!entity.isDead)
+								if(!event.world.isRemote)
+									event.world.spawnEntityInWorld(creep);
+							entity.setDead();
 							continue;
-			        	} else if(entity.getClass().equals(EntityDuck.class) && eRad >= 200) {
-			        		
-			        		EntityQuackos quacc = new EntityQuackos(event.world);
-			        		quacc.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
-			        		
-			        		if(!entity.isDead && !event.world.isRemote)
-				        		event.world.spawnEntityInWorld(quacc);
-			        		
-			        		entity.setDead();
+						} else if(entity.getClass().equals(EntityDuck.class) && eRad >= 200) {
+							
+							EntityQuackos quacc = new EntityQuackos(event.world);
+							quacc.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+							
+							if(!entity.isDead && !event.world.isRemote)
+								event.world.spawnEntityInWorld(quacc);
+							
+							entity.setDead();
 							continue;
-			        	}
+						}
 						if(eRad < 200 || ContaminationUtil.isRadImmune(entity))
 							continue;
 						
@@ -754,51 +756,51 @@ public class ModEventHandler {
 							HbmLivingProps.setRadiation(entity, 0);
 							
 							if(entity.getHealth() > 0) {
-					        	entity.setHealth(0);
-					        	entity.onDeath(ModDamageSource.radiation);
+								entity.setHealth(0);
+								entity.onDeath(ModDamageSource.radiation);
 							}
-				        	
-				        	if(entity instanceof EntityPlayer)
-				        		((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadDeath);
-				        	
+							
+							if(entity instanceof EntityPlayer)
+								((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadDeath);
+							
 						} else if(eRad >= 800) {
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 2));
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 10 * 20, 2));
-				        	if(event.world.rand.nextInt(500) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 20, 2));
-				        	if(event.world.rand.nextInt(700) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.wither.id, 3 * 20, 1));
+							if(event.world.rand.nextInt(300) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
+							if(event.world.rand.nextInt(300) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 2));
+							if(event.world.rand.nextInt(300) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 10 * 20, 2));
+							if(event.world.rand.nextInt(500) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 20, 2));
+							if(event.world.rand.nextInt(700) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.wither.id, 3 * 20, 1));
 							
 						} else if(eRad >= 600) {
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 2));
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 10 * 20, 2));
-				        	if(event.world.rand.nextInt(500) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 20, 1));
+							if(event.world.rand.nextInt(300) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
+							if(event.world.rand.nextInt(300) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 10 * 20, 2));
+							if(event.world.rand.nextInt(300) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 10 * 20, 2));
+							if(event.world.rand.nextInt(500) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.poison.id, 3 * 20, 1));
 							
 						} else if(eRad >= 400) {
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
-				        	if(event.world.rand.nextInt(500) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 0));
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 1));
-				        	
+							if(event.world.rand.nextInt(300) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 30, 0));
+							if(event.world.rand.nextInt(500) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 5 * 20, 0));
+							if(event.world.rand.nextInt(300) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 1));
+							
 						} else if(eRad >= 200) {
-				        	if(event.world.rand.nextInt(300) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
-				        	if(event.world.rand.nextInt(500) == 0)
-				            	entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 0));
-				        	
-				        	if(entity instanceof EntityPlayer)
-				        		((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadPoison);
+							if(event.world.rand.nextInt(300) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.confusion.id, 5 * 20, 0));
+							if(event.world.rand.nextInt(500) == 0)
+								entity.addPotionEffect(new PotionEffect(Potion.weakness.id, 5 * 20, 0));
+							
+							if(entity instanceof EntityPlayer)
+								((EntityPlayer)entity).triggerAchievement(MainRegistry.achRadPoison);
 						}
 					}
 					
@@ -831,7 +833,20 @@ public class ModEventHandler {
 		if(event.phase == Phase.START) {
 			BossSpawnHandler.rollTheDice(event.world);
 			TimedGenerator.automaton(event.world, 100);
+
+			updateWaterOpacity(event.world);
 		}
+	}
+
+	private void updateWaterOpacity(World world) {
+		// Per world water opacity!
+		int waterOpacity = 3;
+		if(world.provider instanceof WorldProviderCelestial) {
+			waterOpacity = ((WorldProviderCelestial) world.provider).getWaterOpacity();
+		}
+
+		Blocks.water.setLightOpacity(waterOpacity);
+		Blocks.flowing_water.setLightOpacity(waterOpacity);
 	}
 
 	@SubscribeEvent
@@ -1149,32 +1164,32 @@ public class ModEventHandler {
 		if(e.worldObj.isRemote) return;
 		if(((EntityLivingBase) e).isPotionActive(HbmPotion.slippery.id) && e instanceof EntityLiving) {
 			EntityLiving ent = (EntityLiving) e;
-		    if (ent.onGround) {
-		        double slipperiness = 0.6; 
-		        double inertia = 0.1;
-		        boolean isMoving = ent.moveForward != 0.0 || ent.moveStrafing != 0.0;
-		        double entMotion = Math.sqrt(ent.motionX * ent.motionX + ent.motionZ * ent.motionZ);
+			if (ent.onGround) {
+				double slipperiness = 0.6; 
+				double inertia = 0.1;
+				boolean isMoving = ent.moveForward != 0.0 || ent.moveStrafing != 0.0;
+				double entMotion = Math.sqrt(ent.motionX * ent.motionX + ent.motionZ * ent.motionZ);
 
-		        double angle = Math.atan2(ent.motionZ, ent.motionX);
+				double angle = Math.atan2(ent.motionZ, ent.motionX);
 
-		        double targetXMotion = Math.cos(angle) * slipperiness;
-		        double targetZMotion = Math.sin(angle) * slipperiness;
+				double targetXMotion = Math.cos(angle) * slipperiness;
+				double targetZMotion = Math.sin(angle) * slipperiness;
 
-		        double diffX = targetXMotion - ent.motionX;
-		        double diffZ = targetZMotion - ent.motionZ;
+				double diffX = targetXMotion - ent.motionX;
+				double diffZ = targetZMotion - ent.motionZ;
 
-		        ent.motionX += diffX * inertia; //god weeps
-		        ent.motionZ += diffZ * inertia;
-		        
-		        if (!isMoving) {
-		            ent.motionX *= (1.0 - 0.1);
+				ent.motionX += diffX * inertia; //god weeps
+				ent.motionZ += diffZ * inertia;
+				
+				if (!isMoving) {
+					ent.motionX *= (1.0 - 0.1);
 
-		            double totalVelocity = Math.sqrt(ent.motionX * ent.motionX + ent.motionZ * ent.motionZ);
-		            double smoothingAmount = totalVelocity * 0.02;
-		                ent.motionX -= ent.motionX / totalVelocity * smoothingAmount;
-		                ent.motionZ -= ent.motionZ / totalVelocity * smoothingAmount;
-		        }
-		    }
+					double totalVelocity = Math.sqrt(ent.motionX * ent.motionX + ent.motionZ * ent.motionZ);
+					double smoothingAmount = totalVelocity * 0.02;
+						ent.motionX -= ent.motionX / totalVelocity * smoothingAmount;
+						ent.motionZ -= ent.motionZ / totalVelocity * smoothingAmount;
+				}
+			}
 		}
 	}
 	
@@ -1189,52 +1204,51 @@ public class ModEventHandler {
 
 			if(thatmosphere != null)
 			if(!player.isRiding()) {
-                if (!player.worldObj.isRemote) {
-                	if(player.motionX > 1 || player.motionY > 1 || player.motionZ > 1) {
-					ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
-                	}
-                	if(player.motionX < -1 || player.motionY < -1 || player.motionZ < -1) {
-					ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
-                }
-               
-            }
-            	else {
-                	if(player.motionX > 1 || player.motionY > 1 || player.motionZ > 1) {
-    					ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
-                    	}
-                    	if(player.motionX < -1 || player.motionY < -1 || player.motionZ < -1) {
-    					ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
-                    }
-            	}
+				if (!player.worldObj.isRemote) {
+					if(player.motionX > 1 || player.motionY > 1 || player.motionZ > 1) {
+						ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
+					}
+					if(player.motionX < -1 || player.motionY < -1 || player.motionZ < -1) {
+						ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
+					}
+				
+				} else {
+					if(player.motionX > 1 || player.motionY > 1 || player.motionZ > 1) {
+						ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
+					}
+					if(player.motionX < -1 || player.motionY < -1 || player.motionZ < -1) {
+						ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
+					}
+				}
 		}
 
 		}
 		if(player.isPotionActive(HbmPotion.slippery.id) && !player.capabilities.isFlying) {
-		    if (player.onGround) {
-		        double slipperiness = 0.6; 
-		        double inertia = 0.1;
-		        boolean isMoving = player.moveForward != 0.0 || player.moveStrafing != 0.0;
-		        // double playerMotion = Math.sqrt(player.motionX * player.motionX + player.motionZ * player.motionZ);
+			if (player.onGround) {
+				double slipperiness = 0.6; 
+				double inertia = 0.1;
+				boolean isMoving = player.moveForward != 0.0 || player.moveStrafing != 0.0;
+				// double playerMotion = Math.sqrt(player.motionX * player.motionX + player.motionZ * player.motionZ);
 
-		        double angle = Math.atan2(player.motionZ, player.motionX);
+				double angle = Math.atan2(player.motionZ, player.motionX);
 
-		        double targetXMotion = Math.cos(angle) * slipperiness;
-		        double targetZMotion = Math.sin(angle) * slipperiness;
+				double targetXMotion = Math.cos(angle) * slipperiness;
+				double targetZMotion = Math.sin(angle) * slipperiness;
 
-		        double diffX = targetXMotion - player.motionX;
-		        double diffZ = targetZMotion - player.motionZ;
+				double diffX = targetXMotion - player.motionX;
+				double diffZ = targetZMotion - player.motionZ;
 
-		        player.motionX += diffX * inertia; //god weeps
-		        player.motionZ += diffZ * inertia;
-		        
-		        if (!isMoving) {
-		            player.motionX *= (1.0 - 0.1);
+				player.motionX += diffX * inertia; //god weeps
+				player.motionZ += diffZ * inertia;
+				
+				if (!isMoving) {
+					player.motionX *= (1.0 - 0.1);
 
-		            double totalVelocity = Math.sqrt(player.motionX * player.motionX + player.motionZ * player.motionZ);
-		            double smoothingAmount = totalVelocity * 0.02;
-		                player.motionX -= player.motionX / totalVelocity * smoothingAmount;
-		                player.motionZ -= player.motionZ / totalVelocity * smoothingAmount;
-		        }
+					double totalVelocity = Math.sqrt(player.motionX * player.motionX + player.motionZ * player.motionZ);
+					double smoothingAmount = totalVelocity * 0.02;
+					player.motionX -= player.motionX / totalVelocity * smoothingAmount;
+					player.motionZ -= player.motionZ / totalVelocity * smoothingAmount;
+				}
 			}
 		}
 
@@ -1593,36 +1607,29 @@ public class ModEventHandler {
 		}
 	}
 	
-    @SubscribeEvent
-    public void onEntityHeal(LivingHealEvent event)
-    {
-        if (!event.entity.worldObj.isRemote)
-        {
-            EntityLivingBase entity = event.entityLiving;
+	@SubscribeEvent
+	public void onEntityHeal(LivingHealEvent event) {
+		if (!event.entity.worldObj.isRemote) {
+			EntityLivingBase entity = event.entityLiving;
 
-            if (entity.isEntityAlive())
-            {
-            	if(entity instanceof EntityPlayer)
-            	{
-        			if (((EntityPlayer)entity).getUniqueID().toString().equals(ShadyUtil.Pu_238))
-        			{
-        				return;
-        			}
-            	}
-            	double amount = event.amount;
-                double rad = HbmLivingProps.getRadiation(entity);
-                if (rad > 100 && rad < 800) ///TODO get per entity
-                {
-                	amount *=1-(((rad-100)*(1-0))/(800-100))+0;                	
-                }
-                if (rad > 800) ///TODO get per entity
-                {
-                	amount = 0;
-                	event.setCanceled(true);
-                }
-            }
-        }
-    }
+			if (entity.isEntityAlive()) {
+				if(entity instanceof EntityPlayer) {
+					if (((EntityPlayer)entity).getUniqueID().toString().equals(ShadyUtil.Pu_238)) {
+						return;
+					}
+				}
+				double amount = event.amount;
+				double rad = HbmLivingProps.getRadiation(entity);
+				if (rad > 100 && rad < 800) { ///TODO get per entity
+					amount *=1-(((rad-100)*(1-0))/(800-100))+0;                	
+				}
+				if (rad > 800) { ///TODO get per entity
+					amount = 0;
+					event.setCanceled(true);
+				}
+			}
+		}
+	}
 
 	// PULL THE LEVER KRONK
 	@SubscribeEvent

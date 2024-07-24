@@ -47,6 +47,11 @@ public class WorldProviderLaythe extends WorldProviderCelestial {
 	}
 
 	@Override
+	public int getWaterOpacity() {
+		return 1;
+	}
+
+	@Override
 	public boolean updateLightmap(int[] lightmap) {
 		for(int i = 0; i < 256; i++) {
 			float sun = getSunBrightness(1.0F);

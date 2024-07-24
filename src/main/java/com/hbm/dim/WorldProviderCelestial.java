@@ -36,6 +36,10 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		return false;
 	}
 
+	public int getWaterOpacity() {
+		return 3;
+	}
+
 	@Override
 	public void updateWeather() {
 		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
