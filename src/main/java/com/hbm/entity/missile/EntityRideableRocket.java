@@ -141,7 +141,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				}
 			} else if(state == RocketState.TIPPING) {
 				float tipTime = (float)stateTimer * 0.1F;
-				rotationPitch = MathHelper.clamp_float(tipTime * tipTime, 0, tipTime * 10);
+				rotationPitch = tipTime * tipTime;
 
 				if(rotationPitch > 90) {
 					rotationPitch = 90;
