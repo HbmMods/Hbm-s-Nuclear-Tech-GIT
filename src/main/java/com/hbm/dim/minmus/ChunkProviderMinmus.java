@@ -2,8 +2,11 @@ package com.hbm.dim.minmus;
 
 import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.*;
 
+import java.util.List;
+
 import com.hbm.dim.ChunkProviderCelestial;
 
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.MapGenBase;
@@ -30,6 +33,13 @@ public class ChunkProviderMinmus extends ChunkProviderCelestial {
 		this.caveGenerator.func_151539_a(this, this.worldObj, x, z, buffer.blocks);
 		
 		return buffer;
+	}
+
+	// why the fuck is shit spawning here
+	@SuppressWarnings("rawtypes")
+	@Override
+	public List getPossibleCreatures(EnumCreatureType creatureType, int x, int y, int z) {
+		return null;
 	}
 
 }

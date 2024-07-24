@@ -21,9 +21,11 @@ import com.hbm.util.ParticleUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -57,11 +59,14 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	@SideOnly(Side.CLIENT)
 	private RocketState lastState = RocketState.AWAITING;
 
+	private boolean willExplode = false;
+
 	public enum RocketState {
 		AWAITING,		// Prepped for launch, once mounted will transition to launching
 		LAUNCHING,		// Ascending through the atmosphere up to the target altitude, at which point it'll teleport to the target body
 		LANDING,		// Descending onto the target location
 		LANDED,			// Landed on the target, will not launch until the player activates the rocket, at which point it'll transition back to AWAITING
+		TIPPING,		// tipping culture is a burden on modern society
 	}
 
 	public EntityRideableRocket(World world) {
@@ -134,12 +139,25 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 					posX = destination.x;
 					posZ = destination.z;
 				}
+			} else if(state == RocketState.TIPPING) {
+				float tipTime = (float)stateTimer * 0.1F;
+				rotationPitch = MathHelper.clamp_float(tipTime * tipTime, 0, tipTime * 10);
+
+				if(rotationPitch > 90) {
+					rotationPitch = 90;
+
+					if(willExplode) {
+						dropNDie(null);
+						ExplosionLarge.explode(worldObj, posX, posY, posZ, 5, true, false, true);
+						ExplosionLarge.spawnShrapnelShower(worldObj, posX, posY, posZ, motionX, motionY, motionZ, 15, 0.075);
+					}
+				}
+
+				rocketVelocity = 0;
 			} else {
 				rocketVelocity = 0;
 				rotationPitch = 0;
 			}
-
-			// velocity = rocketVelocity;
 
 			if(state == RocketState.LAUNCHING) {
 				Vec3 motion = BobMathUtil.getDirectionFromAxisAngle(rotationPitch - 90.0F, 180.0F - rotationYaw, rocketVelocity);
@@ -162,6 +180,10 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 						DebugTeleporter.teleport(rider, destination.body.getDimensionId(), destination.x, 800, destination.z, false);
 					}
 				}
+			}
+
+			if(state == RocketState.LANDING && worldObj.getBlock(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)).getMaterial() == Material.water) {
+				setState(RocketState.TIPPING);
 			}
 
 			if(navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
@@ -244,10 +266,17 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
-		if(getState() == RocketState.LAUNCHING)
+		if(getState() != RocketState.LANDING)
 			return;
 
-		setState(RocketState.LANDED);
+		// Check for a landing gear, if we don't have one, topple over catastrophically
+		RocketStruct rocket = getRocket();
+		if(rocket.stages.size() > 0 && rocket.stages.get(0).fins == null) {
+			setState(RocketState.TIPPING);
+			willExplode = true;
+		} else {
+			setState(RocketState.LANDED);
+		}
 
 		posY = (double)worldObj.getHeightValue((int)posX, (int)posZ);
 
@@ -280,8 +309,11 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		if(!worldObj.isRemote && !isDead) {
 			if(isEntityInvulnerable()) {
 				return false;
-			} else if(riddenByEntity == null) {
-				dropNDie(source);
+			} else if(riddenByEntity == null && source.getEntity() instanceof EntityPlayer) {
+				ItemStack stack = ((EntityPlayer) source.getEntity()).getHeldItem();
+				if(stack != null && stack.getItem().canHarvestBlock(Blocks.stone, stack)) {
+					dropNDie(source);
+				}
 			}
 
 			return true;
@@ -290,7 +322,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		}
 	}
 
-	public void dropNDie(DamageSource p_94095_1_) {
+	public void dropNDie(DamageSource source) {
 		setDead();
 
 		// Drop the rocket itself, to be taken to a pad and refueled
@@ -446,12 +478,12 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
+		RocketState state = getState();
+		if(state == RocketState.LAUNCHING || state == RocketState.LANDING || state == RocketState.TIPPING)
+			return;
+
 		RocketStruct rocket = getRocket();
 		if(rocket.stages.size() == 0) return;
-
-		RocketState state = getState();
-		if(state == RocketState.LAUNCHING || state == RocketState.LANDING)
-			return;
 
 		List<String> text = new ArrayList<>();
 

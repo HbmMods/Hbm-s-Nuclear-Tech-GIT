@@ -113,6 +113,9 @@ public class RocketStruct {
 			if(stage.fuselage.part.attributes[0] != FuelType.ANY && stage.fuselage.part.attributes[0] != stage.thruster.part.attributes[0])
 				issues.add(EnumChatFormatting.RED + "Stage " + (i + 1) + " fuel mismatch");
 
+			if(i > 0 && stage.fins == null)
+				issues.add(EnumChatFormatting.YELLOW + "Stage " + (i + 1) + " lacks landing legs");
+
 			// I was gonna add all sorts of realistic restrictions but then realised
 			// KSP lets you shit any part onto any part, and that's fun
 			// so who am I to kill your creative spirit
