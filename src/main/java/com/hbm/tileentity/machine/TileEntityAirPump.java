@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import java.util.Random;
 
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.ThreeInts;
 import com.hbm.handler.atmosphere.AtmosphereBlob;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
@@ -31,6 +32,9 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	public FluidTank tank;
 
 	private Random rand = new Random();
+
+	// Used for synchronizing printable info
+	public CBT_Atmosphere currentAtmosphere;
 
 	public TileEntityAirPump() {
 		super(1);
@@ -121,6 +125,10 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 				}
 	        }
 
+			if(worldObj.getTotalWorldTime() % 5 == 0) {
+				currentAtmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(worldObj, xCoord, yCoord, zCoord);
+			}
+
 			subscribeToAllAround(tank.getTankType(), this);
 
 			this.networkPackNT(100);
@@ -148,6 +156,13 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		buf.writeInt(onTicks);
 		buf.writeInt(blobFillAmount);
 		tank.serialize(buf);
+
+		if(currentAtmosphere != null) {
+			buf.writeBoolean(true);
+			currentAtmosphere.writeToBytes(buf);
+		} else {
+			buf.writeBoolean(false);
+		}
 	}
 	
 	@Override
@@ -156,6 +171,13 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		onTicks = buf.readInt();
 		blobFillAmount = buf.readInt();
 		tank.deserialize(buf);
+
+		if(buf.readBoolean()) {
+			currentAtmosphere = new CBT_Atmosphere();
+			currentAtmosphere.readFromBytes(buf);
+		} else {
+			currentAtmosphere = null;
+		}
 	}
 
 

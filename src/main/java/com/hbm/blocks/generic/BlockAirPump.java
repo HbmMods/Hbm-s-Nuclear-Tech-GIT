@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
-import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.handler.atmosphere.IBlockSealable;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityAirPump;
@@ -62,7 +61,7 @@ public class BlockAirPump extends BlockContainer implements ILookOverlay, IBlock
 		
 		TileEntityAirPump pump = (TileEntityAirPump) tile;
 		
-		CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(world, x, y, z);
+		CBT_Atmosphere atmosphere = pump.currentAtmosphere;
 
 		List<String> text = new ArrayList<>();
 
