@@ -40,7 +40,7 @@ public class ExplosionCreator implements IParticleCreator {
 		data.setFloat("debrisHorizontalDeviation", debrisHorizontalDeviation);
 		data.setFloat("debrisVerticalOffset", debrisVerticalOffset);
 		data.setFloat("soundRange", soundRange);
-		IParticleCreator.sendPacket(world, x, y, z, Math.max(200, (int) soundRange), data);
+		IParticleCreator.sendPacket(world, x, y, z, Math.max(300, (int) soundRange), data);
 	}
 	
 	/** Downscaled for small bombs */
@@ -73,8 +73,8 @@ public class ExplosionCreator implements IParticleCreator {
 		if(dist <= soundRange) {
 			while(ModEventHandlerClient.soundLock);
 			ModEventHandlerClient.soundLock = true;
-			String sound = dist <= soundRange * 0.33 ? "hbm:weapon.explosionLargeNear" : "hbm:weapon.explosionLargeFar";
-			ModEventHandlerClient.delayedSounds.add(new DelayedSound(sound, (int) (dist / speedOfSound), x, y, z, 1000F, 1F));
+			String sound = dist <= soundRange * 0.4 ? "hbm:weapon.explosionLargeNear" : "hbm:weapon.explosionLargeFar";
+			ModEventHandlerClient.delayedSounds.add(new DelayedSound(sound, (int) (dist / speedOfSound), x, y, z, 1000F, 0.9F + rand.nextFloat() * 0.2F));
 			ModEventHandlerClient.soundLock = false;
 		}
 		
@@ -104,9 +104,6 @@ public class ExplosionCreator implements IParticleCreator {
 			double oX = rand.nextGaussian() * debrisHorizontalDeviation;
 			double oY = debrisVerticalOffset;
 			double oZ = rand.nextGaussian() * debrisHorizontalDeviation;
-			int ix = (int) Math.floor(x + oX);
-			int iy = (int) Math.floor(y + oY);
-			int iz = (int) Math.floor(z + oZ);
 			int cX = (int) Math.floor(x + oX + 0.5);
 			int cY = (int) Math.floor(y + oY + 0.5);
 			int cZ = (int) Math.floor(z + oZ + 0.5);
