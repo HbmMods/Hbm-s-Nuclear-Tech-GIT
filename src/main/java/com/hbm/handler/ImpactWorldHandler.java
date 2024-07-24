@@ -133,7 +133,6 @@ public class ImpactWorldHandler {
 		return time;
 	}
 	public static int ctime = 0;
-	public static float ftime = 0;
 	
 	@SideOnly(Side.CLIENT)
 	public static int getCTimeForClient(World world) {

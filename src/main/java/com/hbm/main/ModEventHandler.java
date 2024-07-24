@@ -644,7 +644,6 @@ public class ModEventHandler {
 	public static boolean didSit = false;
 	public static Field reference = null;
 	public static int chargetime;
-	public static float flash;
 
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {

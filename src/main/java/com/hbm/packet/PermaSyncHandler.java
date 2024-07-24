@@ -48,7 +48,6 @@ public class PermaSyncHandler {
 		
 		
 		buf.writeInt(ModEventHandler.chargetime);
-		buf.writeFloat(ModEventHandler.flash);
 
 		
 		/// SHITTY MEMES ///
@@ -130,7 +129,6 @@ public class PermaSyncHandler {
 		/// TOM IMPACT DATA ///
 
 		ImpactWorldHandler.ctime = buf.readInt();
-		ImpactWorldHandler.ftime = buf.readFloat();
 
 		/// SHITTY MEMES ///
 		boykissers.clear();
