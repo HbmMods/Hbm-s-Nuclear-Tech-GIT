@@ -1101,17 +1101,16 @@ public class ModEventHandlerClient {
 		if(event.phase == Phase.START) {
 			int chargetime = ImpactWorldHandler.getCTimeForClient(mc.theWorld);
 			if(mc.theWorld.provider instanceof WorldProviderEve) {
-				if (chargetime >= 100) {
-					flashd += 0.1f;
-					flashd = Math.min(100.0f, flashd + 0.1f * (100.0f - flashd) * 0.15f);
-					if (flashd <= 2) {
-						mc.thePlayer.playSound("hbm:misc.rumble", 10F, 1F);
-					}
-					System.out.println(flashd);
-            	}
-				if (chargetime >= 400) {
-					flashd = 0;
-				}
+		        if (chargetime >= 800) {
+		            flashd = 0;
+		        } else if (chargetime >= 100) {
+		            if (flashd <= 2) {
+		                mc.thePlayer.playSound("hbm:misc.rumble", 10F, 1F);
+		            }
+		            flashd += 0.1f;
+		            flashd = Math.min(100.0f, flashd + 0.1f * (100.0f - flashd) * 0.15f);
+		        }
+
 			}
 		}
 	}

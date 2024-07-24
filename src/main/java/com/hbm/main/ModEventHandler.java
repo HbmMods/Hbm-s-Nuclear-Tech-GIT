@@ -835,12 +835,10 @@ public class ModEventHandler {
 			
 		}
 		if(event.phase == Phase.START && event.world.provider instanceof WorldProviderEve) {
-			float flashd = ImpactWorldHandler.getFTimeForClient(event.world);
-			MainRegistry.logger.log(Level.FATAL, chargetime);
 
-			if (chargetime <= 0 || chargetime <= 400) {
+			if (chargetime <= 0 || chargetime <= 800) {
 				chargetime += 1;
-			} else if (chargetime >= 400) {
+			} else if (chargetime >= 800) {
 				chargetime = 0;
             	
         	}
