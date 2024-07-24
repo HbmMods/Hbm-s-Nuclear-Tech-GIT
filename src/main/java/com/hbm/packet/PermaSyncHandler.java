@@ -14,6 +14,7 @@ import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionData;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.ModEventHandler;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.TomSaveData;
@@ -44,6 +45,11 @@ public class PermaSyncHandler {
 		buf.writeBoolean(data.impact);
 		buf.writeLong(data.time);
 		/// TOM IMPACT DATA ///
+		
+		
+		buf.writeInt(ModEventHandler.chargetime);
+		buf.writeFloat(ModEventHandler.flash);
+
 		
 		/// SHITTY MEMES ///
 		List<Integer> ids = new ArrayList<Integer>();
@@ -122,6 +128,9 @@ public class PermaSyncHandler {
 		ImpactWorldHandler.impact = buf.readBoolean();
 		ImpactWorldHandler.time = buf.readLong();
 		/// TOM IMPACT DATA ///
+
+		ImpactWorldHandler.ctime = buf.readInt();
+		ImpactWorldHandler.ftime = buf.readFloat();
 
 		/// SHITTY MEMES ///
 		boykissers.clear();

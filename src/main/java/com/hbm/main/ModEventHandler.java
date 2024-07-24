@@ -26,6 +26,7 @@ import com.hbm.dim.DebugTeleporter;
 import com.hbm.dim.WorldGeneratorCelestial;
 import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.WorldTypeTeleport;
+import com.hbm.dim.eve.WorldProviderEve;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
@@ -49,6 +50,7 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.hazard.type.HazardTypeNeutron;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
+import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.handler.pollution.PollutionHandler;
@@ -641,7 +643,9 @@ public class ModEventHandler {
 	
 	public static boolean didSit = false;
 	public static Field reference = null;
-	
+	public static int chargetime;
+	public static float flash;
+
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
 		
@@ -828,8 +832,21 @@ public class ModEventHandler {
 					event.world.provider.setWorldTime(event.world.provider.getWorldTime() + 1L);
 				}
 			}
+			
 		}
-		
+		if(event.phase == Phase.START && event.world.provider instanceof WorldProviderEve) {
+			float flashd = ImpactWorldHandler.getFTimeForClient(event.world);
+			MainRegistry.logger.log(Level.FATAL, chargetime);
+
+			if (chargetime <= 0 || chargetime <= 400) {
+				chargetime += 1;
+			} else if (chargetime >= 400) {
+				chargetime = 0;
+            	
+        	}
+		}	
+
+	
 		if(event.phase == Phase.START) {
 			BossSpawnHandler.rollTheDice(event.world);
 			TimedGenerator.automaton(event.world, 100);

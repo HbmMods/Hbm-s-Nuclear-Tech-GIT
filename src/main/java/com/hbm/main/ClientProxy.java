@@ -2211,7 +2211,15 @@ public class ClientProxy extends ServerProxy {
 	public boolean getImpact(World world) {
 		return ImpactWorldHandler.getImpactForClient(world);
 	}
-
+	@Override
+	public int getCTime(World world) {
+		return ImpactWorldHandler.getCTimeForClient(world);
+	}
+	
+	@Override
+	public float getFTime(World world) {
+		return ImpactWorldHandler.getFTimeForClient(world);
+	}
 	@Override
 	public void playSoundClient(double x, double y, double z, String sound, float volume, float pitch) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(new PositionedSoundRecord(new ResourceLocation(sound), volume, pitch, (float) x, (float) y, (float) z));

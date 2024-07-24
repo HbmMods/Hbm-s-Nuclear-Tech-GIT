@@ -43,7 +43,6 @@ public class WorldProviderEve extends WorldProviderCelestial {
 		float giggle = ModEventHandlerClient.flashd;
 		float alpha = (giggle <= 0) ? 0.0F : 1.0F - Math.min(1.0F, giggle / 100);
 
-
 		return Vec3.createVectorHelper(ohshit.xCoord + alpha , ohshit.yCoord + alpha, ohshit.zCoord + alpha);
 		
 	}

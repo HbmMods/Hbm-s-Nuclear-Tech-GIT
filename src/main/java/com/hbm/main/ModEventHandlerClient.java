@@ -1099,24 +1099,19 @@ public class ModEventHandlerClient {
 			}
 		}
 		if(event.phase == Phase.START) {
-
+			int chargetime = ImpactWorldHandler.getCTimeForClient(mc.theWorld);
 			if(mc.theWorld.provider instanceof WorldProviderEve) {
-				EntityPlayer player = mc.thePlayer;
-				if (chargetime <= 0 || chargetime <= 600) {
-					chargetime += 1;
-					flashd = 0;
-				} else if (chargetime >= 100) {
+				if (chargetime >= 100) {
 					flashd += 0.1f;
 					flashd = Math.min(100.0f, flashd + 0.1f * (100.0f - flashd) * 0.15f);
-
-					if (flashd <= 5) {
+					if (flashd <= 2) {
 						mc.thePlayer.playSound("hbm:misc.rumble", 10F, 1F);
 					}
-
-					if (flashd >= 100) {
-						chargetime = 0;
-                		}
+					System.out.println(flashd);
             	}
+				if (chargetime >= 400) {
+					flashd = 0;
+				}
 			}
 		}
 	}
@@ -1457,7 +1452,7 @@ public class ModEventHandlerClient {
 			GL11.glEnable(GL11.GL_LIGHTING);
 		}
 	}
-	public int chargetime;
+	//public int chargetime;
 	public static float flashd;
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {

@@ -82,7 +82,7 @@ public class WorldGenElectricVolcano extends WorldGenerator {
 								block = p_76484_1_.getBlock(p_76484_3_ + l1, p_76484_4_ - j1, p_76484_5_ + i2);
 
 								if(block.getMaterial() == Material.air || block == surBlock || block == stoneBlock) {
-									this.func_150515_a(p_76484_1_, p_76484_3_ + l1, p_76484_4_ - j1, p_76484_5_ + i2, ModBlocks.eve_rock);
+									this.func_150515_a(p_76484_1_, p_76484_3_ + l1, p_76484_4_ - j1, p_76484_5_ + i2, ModBlocks.ore_depth_nether_neodymium);
 								}
 							}
 						}

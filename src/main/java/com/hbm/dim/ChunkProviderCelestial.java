@@ -40,8 +40,10 @@ public abstract class ChunkProviderCelestial implements IChunkProvider {
 
 	// Embiggenify
 	protected boolean amplified = false;
-
-
+	
+	//round
+	protected boolean reclamp = true;
+	
 
 	// Now for the regular stuff, changing these won't change gen, just break things
 	protected World worldObj;
@@ -260,11 +262,12 @@ public abstract class ChunkProviderCelestial implements IChunkProvider {
 						d6 *= 4.0D;
 					}
 
-					double d7 = firstOrderBuffer[l] / 512.0D;
+					double d7 = firstOrderBuffer[l] / 512.0D; 
 					double d8 = secondOrderBuffer[l] / 512.0D;
 					double d9 = (thirdOrderBuffer[l] / 10.0D + 1.0D) / 2.0D;
-					double d10 = MathHelper.denormalizeClamp(d7, d8, d9) - d6;
-
+					//srry, there has to be a better way to smooth out things, we got the perlin tools to do so but i have no idea how to invoke those tools here.
+					//maybe sometime soon...?
+					double d10 = reclamp ? MathHelper.denormalizeClamp(d7, d8, d9) - d6 : d8 - d6;
 					if(j2 > 29) {
 						double d11 = (double) ((float) (j2 - 29) / 3.0F);
 						d10 = d10 * (1.0D - d11) + -10.0D * d11;
