@@ -513,6 +513,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 			if(canLaunch) {
 				text.add("JUMP TO LAUNCH");
+			} else if(state == RocketState.LANDED) {
+				text.add("Insert next drive to continue");
 			}
 
 			ItemStack stack = player.getHeldItem();
