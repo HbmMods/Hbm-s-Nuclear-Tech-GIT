@@ -60,7 +60,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
     		if(rody != body) {
         		int posX = rnd.nextInt(256);
         		int posY = rnd.nextInt(256);
-        		pList.add(new POI(posX, posY, rody.processingLevel, rody.name));	
+        		pList.add(new POI(posX, posY, rody.getBody(rody.dimensionId)));	
     		}
     	}
     }
@@ -125,7 +125,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
 
 			
 		for(POI peepee : pList) {
-			RenderPOI(peepee.offsetX, peepee.offsetY, x, y, peepee.Tier, peepee.Name);
+			RenderPOI(peepee.offsetX, peepee.offsetY, x, y, peepee.getBody().processingLevel, peepee.getBody().name);
 		}
     }
     
@@ -169,11 +169,8 @@ public class GUIMachineStardar extends GuiInfoContainer {
 			//drawCustomInfoStat(mx, my, x, y, 35, 14, mx, my, name);
 			drawCustomInfoStat(mx, my, x, y, 35, 14, mx, my, name, "Processing Tier: " + String.format(Locale.US, "%,d", (int)(tier)));
         }
-        if (button == 0 && !Mouse.getEventButtonState()) {
-    		if(checkClick(mx, my, (int) (additive + offsetx), guiTop + y, 8,8)) {
-    			System.out.println("fuck");
-    		}
-        }
+		
+
 
     
 	}
@@ -250,20 +247,40 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		//if(checkClick(x, y, (int) (additive + po), guiTop + y, 8,8)) {
 		//	System.out.println("fuck");
 		//}
+        for (POI poi : pList) {
+            int poiX = (int) (additive + poi.offsetX);
+            int poiY = (int) (additivey + poi.offsetY);
+            if (checkClick(sX, sY, poiX, poiY, 8, 8)) {
+    			NBTTagCompound data = new NBTTagCompound();
+    			data.setString("Pname", poi.getBody().name);
+    			data.setInteger("tier", poi.getBody().processingLevel);
+    			data.setInteger("id", poi.getBody().dimensionId);
+    			System.out.println(data.getString("Pname"));
+
+    			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, star.xCoord, star.yCoord, star.zCoord));
+                break;
+            }
+        }
+    
     }
 public static class POI{
     int offsetX;
     int offsetY;
-    int Tier;
-    String Name;
 
-    public POI(int offsetx, int offsety, int tier, String name) {
+    CelestialBody body;
+
+    	public POI(int offsetx, int offsety, CelestialBody dbody) {
     	offsetX = offsetx;
 		offsetY = offsety;
-		Tier = tier;
-		Name = name;
-		}
-    }    
+
+		body = dbody;
+    		}
+    
+
+    	public CelestialBody getBody() {
+    		return body;
+    	}
+	}
 }
 
 	
