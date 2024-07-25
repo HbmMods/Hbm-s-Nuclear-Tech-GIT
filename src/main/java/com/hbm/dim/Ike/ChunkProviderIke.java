@@ -14,7 +14,7 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 public class ChunkProviderIke extends ChunkProviderCelestial {
 	
 	private MapGenBase caveGenerator = new MapGenCaves();
-	private MapGenTiltedSpires spires = new MapGenTiltedSpires(6);
+	private MapGenTiltedSpires spires = new MapGenTiltedSpires(6, 6, 0F);
 
 	public ChunkProviderIke(World world, long seed, boolean hasMapFeatures) {
 		super(world, seed, hasMapFeatures);
