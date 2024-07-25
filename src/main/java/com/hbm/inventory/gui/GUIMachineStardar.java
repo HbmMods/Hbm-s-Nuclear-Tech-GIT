@@ -255,7 +255,6 @@ public class GUIMachineStardar extends GuiInfoContainer {
     			data.setString("Pname", poi.getBody().name);
     			data.setInteger("tier", poi.getBody().processingLevel);
     			data.setInteger("id", poi.getBody().dimensionId);
-    			System.out.println(data.getString("Pname"));
 
     			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, star.xCoord, star.yCoord, star.zCoord));
                 break;
