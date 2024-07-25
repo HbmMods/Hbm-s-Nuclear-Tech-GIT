@@ -7,6 +7,7 @@ import com.hbm.entity.item.EntityFallingBlockNT;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -15,8 +16,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
 public class BlockFallingNT extends Block {
-
-	public static boolean fallInstantly;
 
 	public BlockFallingNT() {
 		super(Material.sand);
@@ -49,7 +48,7 @@ public class BlockFallingNT extends Block {
 		if(canFallThrough(world, x, y - 1, z) && y >= 0) {
 			byte range = 32;
 
-			if(!fallInstantly && world.checkChunksExist(x - range, y - range, z - range, x + range, y + range, z + range)) {
+			if(!BlockFalling.fallInstantly && world.checkChunksExist(x - range, y - range, z - range, x + range, y + range, z + range)) {
 				if(!world.isRemote) {
 					EntityFallingBlockNT entityfallingblock = new EntityFallingBlockNT(world, x + 0.5D, y + 0.5D, z + 0.5D, this, world.getBlockMetadata(x, y, z));
 					this.modifyFallingBlock(entityfallingblock);

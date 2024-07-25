@@ -32,6 +32,8 @@ public class ChunkProviderLaythe extends ChunkProviderCelestial {
 		spires.rock = Blocks.stone;
 		spires.regolith = ModBlocks.laythe_silt;
 		spires.curve = true;
+		spires.maxPoint = 6.0F;
+		spires.maxTilt = 3.5F;
 
 		seaBlock = Blocks.water;
 
