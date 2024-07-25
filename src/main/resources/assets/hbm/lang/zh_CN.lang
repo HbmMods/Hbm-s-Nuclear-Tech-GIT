@@ -3230,6 +3230,7 @@ item.n2_charge.name=大型炸药
 item.neutrino_lens.name=中子透镜
 item.neutron_reflector.name=中子反射板
 item.night_vision.name=夜视眼镜
+item.night_vision_mk2.name=自充电夜视眼镜
 item.night_vision.description.item=提供夜视功能（需要全套电动设备）
 item.night_vision.description.in_armor=%s（允许夜视）
 item.niter.name=硝石粉

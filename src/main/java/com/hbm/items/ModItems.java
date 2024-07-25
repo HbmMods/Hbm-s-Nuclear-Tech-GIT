@@ -2202,6 +2202,7 @@ public class ModItems {
 	public static Item defuser_gold;
 	public static Item ballistic_gauntlet;
 	public static Item night_vision;
+	public static Item night_vision_mk2;
 	public static Item card_aos;
 	public static Item card_qos;
 	public static Item australium_iii;
@@ -3450,6 +3451,7 @@ public class ModItems {
 		defuser_gold = new ItemModDefuser().setUnlocalizedName("defuser_gold").setTextureName(RefStrings.MODID + ":defuser_gold");
 		ballistic_gauntlet = new ItemModTwoKick().setUnlocalizedName("ballistic_gauntlet").setTextureName(RefStrings.MODID + ":ballistic_gauntlet");
 		night_vision = new ItemModNightVision().setUnlocalizedName("night_vision").setTextureName(RefStrings.MODID + ":night_vision");
+		night_vision_mk2 = new ItemModNightVisionMK2().setUnlocalizedName("night_vision_mk2").setTextureName(RefStrings.MODID + ":night_vision_mk2");
 		card_aos = new ItemModCard().setUnlocalizedName("card_aos").setTextureName(RefStrings.MODID + ":card_aos");
 		card_qos = new ItemModCard().setUnlocalizedName("card_qos").setTextureName(RefStrings.MODID + ":card_qos");
 		australium_iii = new ItemModShield(25F).setUnlocalizedName("australium_iii").setTextureName(RefStrings.MODID + ":australium_iii");
@@ -7561,6 +7563,7 @@ public class ModItems {
 		GameRegistry.registerItem(defuser_gold, defuser_gold.getUnlocalizedName());
 		GameRegistry.registerItem(ballistic_gauntlet, ballistic_gauntlet.getUnlocalizedName());
 		GameRegistry.registerItem(night_vision, night_vision.getUnlocalizedName());
+		GameRegistry.registerItem(night_vision_mk2, night_vision_mk2.getUnlocalizedName());
 		GameRegistry.registerItem(card_aos, card_aos.getUnlocalizedName());
 		GameRegistry.registerItem(card_qos, card_qos.getUnlocalizedName());
 		GameRegistry.registerItem(australium_iii, australium_iii.getUnlocalizedName());
