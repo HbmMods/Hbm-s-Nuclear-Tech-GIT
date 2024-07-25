@@ -24,7 +24,7 @@ public class TileEntityConverterHeRf extends TileEntityLoadedBase implements IEn
 	public final long maxPower = 5_000_000;
 	public static long heInput = 5;
 	public static long rfOutput = 1;
-	public static double inputDecay = 0.05;
+	public static double inputDecay = 0.0;
 	public EnergyStorage storage = new EnergyStorage(1_000_000, 1_000_000, 1_000_000);
 
 	@Override
