@@ -50,9 +50,9 @@ public class GUIMachineStardar extends GuiInfoContainer {
 	private List<POI> pList = new ArrayList<>();
 	Random rnd = new Random();
 
-    private final DynamicTexture groundTexture;
-    private final ResourceLocation groundMap;
-    private final int[] groundColors;
+	private final DynamicTexture groundTexture;
+	private final ResourceLocation groundMap;
+	private final int[] groundColors;
 
 	public void init() {
 		for(CelestialBody rody : CelestialBody.getLandableBodies()) {
@@ -74,8 +74,8 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		init();
 
 		groundTexture = new DynamicTexture(256, 256);
-        groundMap = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("groundMap", groundTexture);
-        groundColors = groundTexture.getTextureData();
+		groundMap = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("groundMap", groundTexture);
+		groundColors = groundTexture.getTextureData();
 	}
 
 	@Override
