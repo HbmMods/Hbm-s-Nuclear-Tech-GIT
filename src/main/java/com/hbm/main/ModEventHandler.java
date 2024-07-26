@@ -31,6 +31,7 @@ import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.missile.EntityRideableRocket;
+import com.hbm.entity.missile.EntityRideableRocket.RocketState;
 import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.entity.mob.EntityCreeperTainted;
@@ -688,12 +689,19 @@ public class ModEventHandler {
 
 							// handle dismount events, or our players will splat upon leaving tall rockets
 							if(player.ridingEntity != null && player.ridingEntity instanceof EntityRideableRocket && player.isSneaking()) {
-								Entity ridingEntity = player.ridingEntity;
-								float prevHeight = ridingEntity.height;
-								ridingEntity.height = 1.0F;
-								player.mountEntity(null);
+								EntityRideableRocket rocket = (EntityRideableRocket) player.ridingEntity;
+								RocketState state = rocket.getState();
+
+								// Prevent leaving a rocket in motion, for safety
+								if(state != RocketState.LANDING && state != RocketState.LAUNCHING) {
+									Entity ridingEntity = player.ridingEntity;
+									float prevHeight = ridingEntity.height;
+									ridingEntity.height = 1.0F;
+									player.mountEntity(null);
+									ridingEntity.height = prevHeight;
+								}
+								
 								player.setSneaking(false);
-								ridingEntity.height = prevHeight;
 							}
 						}
 						
