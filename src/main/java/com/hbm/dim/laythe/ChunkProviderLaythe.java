@@ -20,7 +20,7 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 public class ChunkProviderLaythe extends ChunkProviderCelestial {
 
 	private MapGenGreg caveGenV3 = new MapGenGreg();
-	private MapGenTiltedSpires spires = new MapGenTiltedSpires(2, 14, 0.6F);
+	private MapGenTiltedSpires spires = new MapGenTiltedSpires(2, 14, 0.8F);
 
 	private List<SpawnListEntry> spawnedOfFlesh = new ArrayList<SpawnListEntry>();
 

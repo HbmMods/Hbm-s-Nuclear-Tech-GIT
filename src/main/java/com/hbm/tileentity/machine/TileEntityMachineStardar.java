@@ -38,7 +38,7 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 		if(!worldObj.isRemote) {
 			for(CelestialBody rody : CelestialBody.getLandableBodies()) {
 				if(slots[1] != null && slots[1].getItem() == ModItems.hard_drive) {
-					if(planetName != null && planetName == rody.name) {
+					if(planetName != null && planetName.equals(rody.name)) {
 						slots[1] = new ItemStack(ModItems.full_drive, 1, rody.getEnum().ordinal());
 						return;
 					}
