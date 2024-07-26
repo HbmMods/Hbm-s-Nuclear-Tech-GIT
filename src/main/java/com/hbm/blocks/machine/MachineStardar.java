@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.TileEntityMachineSolarPanel;
 import com.hbm.tileentity.machine.TileEntityMachineStardar;
 
 import net.minecraft.block.material.Material;
@@ -12,9 +11,8 @@ import net.minecraft.world.World;
 
 public class MachineStardar extends BlockDummyable {
 
-	public MachineStardar(Material p_i45394_1_) {
-		super(p_i45394_1_);
-		// TODO Auto-generated constructor stub
+	public MachineStardar(Material mat) {
+		super(mat);
 	}
 
 	@Override
@@ -36,6 +34,7 @@ public class MachineStardar extends BlockDummyable {
 	public int getOffset() {
 		return 0;
 	}
+	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		return this.standardOpenBehavior(world, x, y, z, player, 0);

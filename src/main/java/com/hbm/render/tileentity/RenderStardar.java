@@ -6,14 +6,10 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.tileentity.machine.TileEntitySolarBoiler;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.client.IItemRenderer;
 
 public class RenderStardar extends TileEntitySpecialRenderer implements IItemRendererProvider {
@@ -48,12 +44,13 @@ public class RenderStardar extends TileEntitySpecialRenderer implements IItemRen
 
 		GL11.glPopMatrix();
 	}
+
 	@Override
 	public IItemRenderer getRenderer() {
 		return new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -5, 0);
-				GL11.glScaled(2.75, 2.75, 2.75);
+				GL11.glScaled(1.0D, 1.0D, 1.0D);
 			}
 			public void renderCommon() {
 				GL11.glScaled(0.55, 0.55, 0.55);
@@ -63,8 +60,10 @@ public class RenderStardar extends TileEntitySpecialRenderer implements IItemRen
 				ResourceManager.stardar.renderAll();
 				GL11.glShadeModel(GL11.GL_FLAT);
 				GL11.glEnable(GL11.GL_CULL_FACE);
-			}};
+			}
+		};
 	}
+
 	@Override
 	public Item getItemForRenderer() {
 		return Item.getItemFromBlock(ModBlocks.machine_stardar);

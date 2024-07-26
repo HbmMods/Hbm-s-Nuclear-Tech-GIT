@@ -13,32 +13,24 @@ public class ContainerStardar extends Container {
 	TileEntityMachineStardar stardar;
 
 	public ContainerStardar(InventoryPlayer player, TileEntityMachineStardar imGonnaThrowUpandShitAllovertheBeduggghhhh) {
-		stardar = imGonnaThrowUpandShitAllovertheBeduggghhhh;
+		stardar = imGonnaThrowUpandShitAllovertheBeduggghhhh; // yummers
 		
-		//0 - battery
-		//1-2 - upgrade slots
-		
-		//3-4 - fluid ID
-		//5-10 - fluid I/O
-		//11-13 - dissolved outputs
-		
-		//14 - crystal input
-		//15 - niter input
-		//16-17 - casting slots
-		//18-23 - other material outputs
+		//0 - load slot
+		//1 - save slot
 		
 		this.addSlotToContainer(new Slot(imGonnaThrowUpandShitAllovertheBeduggghhhh, 0, 129, 124));	
 		this.addSlotToContainer(new Slot(imGonnaThrowUpandShitAllovertheBeduggghhhh, 1, 109, 144));	
+
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
 				this.addSlotToContainer(new Slot(player, j + i * 9 + 9, 8 + j * 18, 174 + i * 18));
 			}
 		}
+
 		for(int i = 0; i < 9; i++) {
 			this.addSlotToContainer(new Slot(player, i, 8 + i * 18, 232));
 		}
-		
-		}
+	}
 	
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
@@ -63,6 +55,7 @@ public class ContainerStardar extends Container {
 
 		return stack;
 	}
+	
 	@Override
 	public boolean canInteractWith(EntityPlayer p_75145_1_) {
 		return stardar.isUseableByPlayer(p_75145_1_);
