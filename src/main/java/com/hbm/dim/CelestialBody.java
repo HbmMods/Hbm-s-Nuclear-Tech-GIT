@@ -315,6 +315,11 @@ public class CelestialBody {
 		return body != null ? body : dimToBodyMap.get(0);
 	}
 
+	// bit of a dumb one but the other function is already used widely
+	public static CelestialBody getBodyOrNull(int id) {
+		return dimToBodyMap.get(id);
+	}
+
 	public static CelestialBody getBody(World world) {
 		return getBody(world.provider.dimensionId);
 	}

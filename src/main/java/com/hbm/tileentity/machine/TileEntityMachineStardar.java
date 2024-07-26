@@ -1,7 +1,6 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.dim.CelestialBody;
-import com.hbm.dim.SolarSystem;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerStardar;
 import com.hbm.inventory.gui.GUIMachineStardar;
@@ -11,6 +10,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -18,32 +18,29 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class TileEntityMachineStardar extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
 
-	public String planetName;
-	public int planetTier;
+	// Used to point the dish on the client
+	private CelestialBody lastProcessedBody;
+
+	public float dishYaw = 0;
+	public float dishPitch = 0;
+
 	public TileEntityMachineStardar() {
 		super(2);
 	}
 
-	public int dimID;
-	
-	public SolarSystem.Body body;
-
 	@Override
 	public void updateEntity() {
+		dishPitch = 30;
+		dishYaw = MathHelper.wrapAngleTo180_float(dishYaw + 1);
+
 		if(!worldObj.isRemote) {
-			for(CelestialBody rody : CelestialBody.getLandableBodies()) {
-				if(slots[1] != null && slots[1].getItem() == ModItems.hard_drive) {
-					if(planetName != null && planetName.equals(rody.name)) {
-						slots[1] = new ItemStack(ModItems.full_drive, 1, rody.getEnum().ordinal());
-						return;
-					}
-				}
-			}
+			networkPackNT(250);
 		}
 	}
 
@@ -71,20 +68,36 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setString("Pname", planetName);
-		nbt.setInteger("tier", planetTier);
-		nbt.setInteger("id", dimID);
 
+		if(lastProcessedBody != null) {
+			nbt.setInteger("pid", lastProcessedBody.dimensionId);
+		}
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.getString("Pname");
-		nbt.getInteger("tier");
-		nbt.getInteger("id");
 
+		if(nbt.hasKey("pid")) {
+			lastProcessedBody = CelestialBody.getBodyOrNull(nbt.getInteger("pid"));
+		}
 	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(lastProcessedBody != null ? lastProcessedBody.dimensionId : -1);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		int dimensionId = buf.readInt();
+		if(dimensionId >= 0) {
+			lastProcessedBody = CelestialBody.getBodyOrNull(dimensionId);
+		}
+	}
+
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
@@ -93,14 +106,23 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 128;
 		}
 	}
+
+	private void processDrive(int targetDimensionId) {
+		lastProcessedBody = CelestialBody.getBodyOrNull(targetDimensionId);
+		if(lastProcessedBody == null) return;
+
+		if(slots[1] == null || slots[1].getItem() != ModItems.hard_drive) return;
+
+		slots[1] = new ItemStack(ModItems.full_drive, 1, lastProcessedBody.getEnum().ordinal());
+
+		this.markDirty();
+	}
 	
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		this.planetName = data.getString("Pname");
-		this.planetTier = data.getInteger("tier");
-		this.dimID = data.getInteger("id");
-
-		this.markDirty();
+		if(data.hasKey("pid")) {
+			processDrive(data.getInteger("pid"));
+		}
 	}
 
 	@Override

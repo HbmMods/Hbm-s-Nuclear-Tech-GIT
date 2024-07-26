@@ -32,7 +32,7 @@ public class MachineStardar extends BlockDummyable {
 
 	@Override
 	public int getOffset() {
-		return 0;
+		return 2;
 	}
 	
 	@Override
