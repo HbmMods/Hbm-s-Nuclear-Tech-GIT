@@ -40,14 +40,17 @@ public class RenderStardar extends TileEntitySpecialRenderer implements IItemRen
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			ResourceManager.stardar.renderPart("base");
 
-			GL11.glRotatef(stardar.dishYaw, 0, 1, 0);
+			float dishYaw = stardar.prevDishYaw + (stardar.dishYaw - stardar.prevDishYaw) * interp;
+			float dishPitch = stardar.prevDishPitch + (stardar.dishPitch - stardar.prevDishPitch) * interp;
+			float dishOffset = 10.6F;
+
+			GL11.glRotatef(dishYaw, 0, 1, 0);
 			ResourceManager.stardar.renderPart("rotation");
 
-			float dishOffset = 10.6F;
 	
 			GL11.glShadeModel(GL11.GL_FLAT);
 			GL11.glTranslatef(0, dishOffset, 0);
-			GL11.glRotatef(stardar.dishPitch, 1, 0, 0);
+			GL11.glRotatef(dishPitch, 1, 0, 0);
 			GL11.glTranslatef(0, -dishOffset, 0);
 			ResourceManager.stardar.renderPart("pitch");
 

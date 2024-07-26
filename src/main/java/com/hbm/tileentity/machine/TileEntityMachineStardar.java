@@ -19,16 +19,23 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class TileEntityMachineStardar extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
 
+	private int timeUntilPoint = 0;
+	
 	// Used to point the dish on the client
-	private CelestialBody lastProcessedBody;
-
 	public float dishYaw = 0;
 	public float dishPitch = 0;
+	public float prevDishYaw = 0;
+	public float prevDishPitch = 0;
+
+	// Sent by the server for the client to smoothly lerp to
+	public float targetYaw = 0;
+	public float targetPitch = 0;
+
+	private float maxSpeed = 0.5F;
 
 	public TileEntityMachineStardar() {
 		super(2);
@@ -36,11 +43,24 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 
 	@Override
 	public void updateEntity() {
-		dishPitch = 30;
-		dishYaw = MathHelper.wrapAngleTo180_float(dishYaw + 1);
-
 		if(!worldObj.isRemote) {
+			timeUntilPoint--;
+			if(timeUntilPoint < 0) {
+				timeUntilPoint = worldObj.rand.nextInt(300) + 300;
+
+				targetYaw = MathHelper.wrapAngleTo180_float(worldObj.rand.nextFloat() * 360);
+				targetPitch = worldObj.rand.nextFloat() * 80;
+			}
+
 			networkPackNT(250);
+		} else {
+			float moveYaw = MathHelper.clamp_float(MathHelper.wrapAngleTo180_float(targetYaw - dishYaw), -maxSpeed, maxSpeed);
+			float movePitch = MathHelper.clamp_float(targetPitch - dishPitch, -maxSpeed, maxSpeed);
+
+			prevDishYaw = dishYaw;
+			prevDishPitch = dishPitch;
+			dishYaw += moveYaw;
+			dishPitch += movePitch;
 		}
 	}
 
@@ -68,52 +88,47 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+		nbt.setInteger("time", timeUntilPoint);
 
-		if(lastProcessedBody != null) {
-			nbt.setInteger("pid", lastProcessedBody.dimensionId);
-		}
+		nbt.setFloat("yaw", targetYaw);
+		nbt.setFloat("pitch", targetPitch);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+		super.readFromNBT(nbt);
+		timeUntilPoint = nbt.getInteger("time");
 
-		if(nbt.hasKey("pid")) {
-			lastProcessedBody = CelestialBody.getBodyOrNull(nbt.getInteger("pid"));
-		}
+		targetYaw = nbt.getFloat("yaw");
+		targetPitch = nbt.getFloat("pitch");
 	}
 
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
-		buf.writeInt(lastProcessedBody != null ? lastProcessedBody.dimensionId : -1);
+		buf.writeFloat(targetYaw);
+		buf.writeFloat(targetPitch);
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
-		int dimensionId = buf.readInt();
-		if(dimensionId >= 0) {
-			lastProcessedBody = CelestialBody.getBodyOrNull(dimensionId);
-		}
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
-			return false;
-		} else {
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 128;
-		}
+		targetYaw = buf.readFloat();
+		targetPitch = buf.readFloat();
 	}
 
 	private void processDrive(int targetDimensionId) {
-		lastProcessedBody = CelestialBody.getBodyOrNull(targetDimensionId);
-		if(lastProcessedBody == null) return;
+		CelestialBody body = CelestialBody.getBodyOrNull(targetDimensionId);
+		if(body == null) return;
 
 		if(slots[1] == null || slots[1].getItem() != ModItems.hard_drive) return;
 
-		slots[1] = new ItemStack(ModItems.full_drive, 1, lastProcessedBody.getEnum().ordinal());
+		slots[1] = new ItemStack(ModItems.full_drive, 1, body.getEnum().ordinal());
+
+		// Now point the dish at the target planet
+		timeUntilPoint = worldObj.rand.nextInt(300) + 300;
+		targetYaw = MathHelper.wrapAngleTo180_float(worldObj.rand.nextFloat() * 360);
+		targetPitch = worldObj.rand.nextFloat() * 80;
 
 		this.markDirty();
 	}
@@ -127,7 +142,7 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
-		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
+		return isUseableByPlayer(player);
 	}
 
 }
