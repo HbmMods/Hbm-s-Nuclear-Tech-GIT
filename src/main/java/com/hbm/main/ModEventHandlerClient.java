@@ -1104,7 +1104,7 @@ public class ModEventHandlerClient {
 		        if (chargetime >= 800) {
 		            flashd = 0;
 		        } else if (chargetime >= 100) {
-		            if (flashd <= 2) {
+		            if (flashd <= 1) {
 		                mc.thePlayer.playSound("hbm:misc.rumble", 10F, 1F);
 		            }
 		            flashd += 0.1f;
@@ -1354,34 +1354,6 @@ public class ModEventHandlerClient {
 		}
 	}
 	
-	@SubscribeEvent
-	public void tintFog(FogColors event) {
-		if (event.entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) event.entity;
-
-			// Get the biome at the player's current location
-			int biomeID = player.worldObj.getBiomeGenForCoords((int) player.posX, (int) player.posZ).biomeID;
-
-			// Check if the current biome matches the one you're interested in
-			if (biomeID == SpaceConfig.dunaPolarBiome || biomeID == SpaceConfig.dunaPolarHillsBiome ) {
-				long time = player.worldObj.getWorldTime();
-
-				// Adjust fog color based on day/night cycle
-				if (time >= 12000 && time < 24000) {
-					// Nighttime
-					event.red = 0.1F;
-					event.green = 0.1F;
-					event.blue = 0.2F;
-				} else {
-					// Daytime
-					event.red = 0.2F;
-					event.green = 0.18F;
-					event.blue = 0.22F;
-				}
-			}
-		}
-	}
-
 
 	public static IIcon particleBase;
 	public static IIcon particleLeaf;
