@@ -35,7 +35,7 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 	public float targetYaw = 0;
 	public float targetPitch = 0;
 
-	private float maxSpeed = 0.5F;
+	private float maxSpeedYaw = 0.5F;
 
 	public TileEntityMachineStardar() {
 		super(2);
@@ -54,8 +54,12 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 
 			networkPackNT(250);
 		} else {
-			float moveYaw = MathHelper.clamp_float(MathHelper.wrapAngleTo180_float(targetYaw - dishYaw), -maxSpeed, maxSpeed);
-			float movePitch = MathHelper.clamp_float(targetPitch - dishPitch, -maxSpeed, maxSpeed);
+			float yawOffset = MathHelper.wrapAngleTo180_float(targetYaw - dishYaw);
+			float moveYaw = MathHelper.clamp_float(yawOffset, -maxSpeedYaw, maxSpeedYaw);
+
+			float pitchOffset = targetPitch - dishPitch;
+			float pitchSpeed = (moveYaw / yawOffset) * Math.abs(pitchOffset);
+			float movePitch = MathHelper.clamp_float(pitchOffset, -pitchSpeed, pitchSpeed);
 
 			prevDishYaw = dishYaw;
 			prevDishPitch = dishPitch;
