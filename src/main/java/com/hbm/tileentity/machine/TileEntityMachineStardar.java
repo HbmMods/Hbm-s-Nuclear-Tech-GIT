@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.SolarSystem;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerStardar;
 import com.hbm.inventory.gui.GUIMachineStardar;
@@ -37,6 +38,8 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 
 	private float maxSpeedYaw = 0.5F;
 
+	public int[] heightmap;
+
 	public TileEntityMachineStardar() {
 		super(2);
 	}
@@ -50,6 +53,30 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 
 				targetYaw = MathHelper.wrapAngleTo180_float(worldObj.rand.nextFloat() * 360);
 				targetPitch = worldObj.rand.nextFloat() * 80;
+			}
+
+			if(slots[1] != null && slots[1].getItem() == ModItems.full_drive) {
+				if(heightmap == null) {
+					CelestialBody body = SolarSystem.Body.values()[slots[1].getItemDamage()].getBody();
+					if(body != null) {
+						heightmap = new int[256*256];
+						for(int cx = 0; cx < 16; cx++) {
+							for(int cz = 0; cz < 16; cz++) {
+								int[] map = body.getHeightmap(cx, cz);
+								int ox = cx * 16;
+								int oz = cz * 16;
+	
+								for(int x = 0; x < 16; x++) {
+									for(int z = 0; z < 16; z++) {
+										heightmap[(z + oz) * 256 + (x + ox)] = map[z * 16 + x];
+									}
+								}
+							}
+						}
+					}
+				}
+			} else {
+				heightmap = null;
 			}
 
 			networkPackNT(250);
@@ -112,6 +139,15 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 		super.serialize(buf);
 		buf.writeFloat(targetYaw);
 		buf.writeFloat(targetPitch);
+
+		if(heightmap != null) {
+			buf.writeInt(heightmap.length);
+			for(int h : heightmap) {
+				buf.writeInt(h);
+			}
+		} else {
+			buf.writeInt(0);
+		}
 	}
 
 	@Override
@@ -119,6 +155,16 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 		super.deserialize(buf);
 		targetYaw = buf.readFloat();
 		targetPitch = buf.readFloat();
+
+		int count = buf.readInt();
+		if(count > 0) {
+			heightmap = new int[count];
+			for(int i = 0; i < count; i++) {
+				heightmap[i] = buf.readInt();
+			}
+		} else {
+			heightmap = null;
+		}
 	}
 
 	private void processDrive(int targetDimensionId) {

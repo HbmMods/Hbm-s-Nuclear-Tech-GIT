@@ -17,6 +17,7 @@ import java.util.Random;
 import org.lwjgl.input.Keyboard;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -49,6 +50,10 @@ public class GUIMachineStardar extends GuiInfoContainer {
 	private List<POI> pList = new ArrayList<>();
 	Random rnd = new Random();
 
+    private final DynamicTexture groundTexture;
+    private final ResourceLocation groundMap;
+    private final int[] groundColors;
+
 	public void init() {
 		for(CelestialBody rody : CelestialBody.getLandableBodies()) {
 			CelestialBody body = CelestialBody.getBody(star.getWorldObj());
@@ -67,6 +72,10 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		this.xSize = 210;
 		this.ySize = 256;
 		init();
+
+		groundTexture = new DynamicTexture(256, 256);
+        groundMap = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("groundMap", groundTexture);
+        groundColors = groundTexture.getTextureData();
 	}
 
 	@Override
@@ -125,6 +134,22 @@ public class GUIMachineStardar extends GuiInfoContainer {
 				drawTexturedModalRect(px, py, 157, 0, 6, 7);
 				break;
 			}
+		}
+
+		if(star.heightmap != null) {
+			for(int i = 0; i < star.heightmap.length; i++) {
+				int r = 0;
+				int g = star.heightmap[i];
+				int b = 0;
+				int a = 255;
+
+				groundColors[i] = a << 24 | r << 16 | g << 8 | b;
+			}
+
+			groundTexture.updateDynamicTexture();
+
+			mc.getTextureManager().bindTexture(groundMap);
+			drawTexturedModalRect(guiLeft, guiTop, (int) additive * -1, (int) additivey * -1, 256, 256);
 		}
 
 		popScissor();
