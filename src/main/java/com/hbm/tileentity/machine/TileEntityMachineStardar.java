@@ -143,7 +143,7 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 		if(heightmap != null) {
 			buf.writeInt(heightmap.length);
 			for(int h : heightmap) {
-				buf.writeInt(h);
+				buf.writeByte(h);
 			}
 		} else {
 			buf.writeInt(0);
@@ -160,7 +160,7 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 		if(count > 0) {
 			heightmap = new int[count];
 			for(int i = 0; i < count; i++) {
-				heightmap[i] = buf.readInt();
+				heightmap[i] = buf.readByte();
 			}
 		} else {
 			heightmap = null;

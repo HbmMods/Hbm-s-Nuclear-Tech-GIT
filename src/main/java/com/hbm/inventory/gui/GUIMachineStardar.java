@@ -138,8 +138,9 @@ public class GUIMachineStardar extends GuiInfoContainer {
 
 		if(star.heightmap != null) {
 			for(int i = 0; i < star.heightmap.length; i++) {
+				int h = Math.min(star.heightmap[i], 127) * 2;
 				int r = 0;
-				int g = star.heightmap[i];
+				int g = h;
 				int b = 0;
 				int a = 255;
 
