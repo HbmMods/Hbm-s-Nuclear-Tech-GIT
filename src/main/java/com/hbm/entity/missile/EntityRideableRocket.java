@@ -195,15 +195,20 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				setDestination(null);
 			}
 
-
-			if(capDummy == null || capDummy.isDead) {
-				capDummy = new EntityRideableRocketDummy(worldObj, this);
-				capDummy.parent = this;
-				worldObj.spawnEntityInWorld(capDummy);
+			if(height > 8) {
+				double offset = height - 8;
+				if(capDummy == null || capDummy.isDead) {
+					capDummy = new EntityRideableRocketDummy(worldObj, this);
+					capDummy.parent = this;
+					capDummy.setPosition(posX, posY + offset, posZ);
+					worldObj.spawnEntityInWorld(capDummy);
+				} else {
+					capDummy.setPosition(posX, posY + offset, posZ);
+				}
+			} else if(capDummy != null) {
+				capDummy.setDead();
+				capDummy = null;
 			}
-
-			double offset = height - 8;
-			capDummy.setPosition(posX, posY + offset, posZ);
 		} else {
 			// ON state transitions
 			if(state != lastState) {
@@ -312,9 +317,14 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 			if(isEntityInvulnerable()) {
 				return false;
 			} else if(riddenByEntity == null && source.getEntity() instanceof EntityPlayer) {
-				ItemStack stack = ((EntityPlayer) source.getEntity()).getHeldItem();
-				if(stack != null && stack.getItem().canHarvestBlock(Blocks.stone, stack)) {
+				// A pickaxe is required to break, unless it's just the capsule
+				if(getRocket().stages.size() == 0) {
 					dropNDie(source);
+				} else {
+					ItemStack stack = ((EntityPlayer) source.getEntity()).getHeldItem();
+					if(stack != null && stack.getItem().canHarvestBlock(Blocks.stone, stack)) {
+						dropNDie(source);
+					}
 				}
 			}
 
@@ -605,6 +615,12 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		@Override
 		public boolean canBeCollidedWith() {
 			return true;
+		}
+
+		@Override
+		public boolean attackEntityFrom(DamageSource source, float amount) {
+			if(parent == null) return false;
+			return parent.attackEntityFrom(source, amount);
 		}
 		
 	}
