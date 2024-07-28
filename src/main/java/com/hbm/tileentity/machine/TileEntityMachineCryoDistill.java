@@ -1,7 +1,6 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerMachineCryoDistill;
 import com.hbm.inventory.fluid.FluidType;
@@ -9,7 +8,6 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineCryoDistill;
 import com.hbm.inventory.recipes.CryoRecipes;
-import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
@@ -18,10 +16,10 @@ import com.hbm.util.Tuple.Quartet;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidConnector;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -30,7 +28,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCryoDistill extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, IFluidConnector{
+public class TileEntityMachineCryoDistill extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -57,15 +55,17 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tanks[0].setType(7, slots);
-			//tanks[0].loadTank();
-			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+			DirPos[] con = getConPos();
+
+			// Subscribe to powernet
+			trySubscribe(worldObj, con[5].getX(), con[5].getY(), con[5].getZ(), con[5].getDir());
+
+			// Subscribe input tank
+			trySubscribe(tanks[0].getTankType(), worldObj, con[0].getX(), con[0].getY(), con[0].getZ(), con[0].getDir());
 			
-			this.trySubscribe(worldObj, xCoord - dir.offsetX * 3 - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 + dir.offsetZ * 2, dir);
-			this.trySubscribe(tanks[0].getTankType(), worldObj, xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 - dir.offsetZ *3, dir);
 			distill();
 
 			tanks[1].unloadTank(1, 2, slots);
@@ -73,26 +73,28 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 			tanks[3].unloadTank(5, 6, slots);
 			tanks[4].unloadTank(8, 9, slots);
 
-
-			for(DirPos pos : getConPos()) {
-				for(int i = 1; i < 5; i++) {
+			for(int i = 1; i < 5; i++) {
+				for(int o = 1; o < 5; o++) {
 					if(tanks[i].getFill() > 0) {
-						this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+						this.sendFluid(tanks[i], worldObj, con[o].getX(), con[o].getY(), con[o].getZ(), con[o].getDir());
 					}
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			for(int i = 0; i < 5; i++) tanks[i].writeToNBT(data, "" + i);
-			this.networkPack(data, 150);
+
+			networkPackNT(15);
 		}
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("power");
-		for(int i = 0; i < 5; i++) tanks[i].readFromNBT(nbt, "" + i);
+	public void serialize(ByteBuf buf) {
+		buf.writeLong(power);
+		for(int i = 0; i < 5; i++) tanks[i].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		power = buf.readLong();
+		for(int i = 0; i < 5; i++) tanks[i].deserialize(buf);
 	}
 	
 	private void distill() {
@@ -130,24 +132,22 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 		power -= 20_000;
 	}
 	
-	private void updateConnections() {
-		for(DirPos pos : getConPos()) {
-			//this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-			this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-		}
-	}
-	
 	public DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		
 		return new DirPos[] {
-				//new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 - dir.offsetZ *3, dir),
-				new DirPos(xCoord + dir.offsetX * 2- rot.offsetX * -3, yCoord, zCoord + rot.offsetZ * -2 - dir.offsetZ *3, dir),
-				new DirPos(xCoord + dir.offsetX * 2 - rot.offsetX * -2, yCoord, zCoord + rot.offsetZ * -1 - dir.offsetZ *3, dir),
-				//new DirPos(xCoord - dir.offsetX * 3 - rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 3 + dir.offsetZ * 2, dir),
-				new DirPos(xCoord - dir.offsetX * 3 - rot.offsetX * -2, yCoord, zCoord + rot.offsetZ * -1 + dir.offsetZ * 2, dir),
-				new DirPos(xCoord - dir.offsetX * 3 - rot.offsetX * -3, yCoord, zCoord + rot.offsetZ * -2 + dir.offsetZ * 2, dir),
+			// Input
+			new DirPos(xCoord + dir.offsetX * -1 + rot.offsetX * -3, yCoord - 2, zCoord + dir.offsetZ * -1 + rot.offsetZ * -3, rot),
+
+			// Outputs
+			new DirPos(xCoord + dir.offsetX * 4 + rot.offsetX * -2, yCoord - 2, zCoord + dir.offsetZ * 4 + rot.offsetZ * -2, dir),
+			new DirPos(xCoord + dir.offsetX * 4 + rot.offsetX * -1, yCoord - 2, zCoord + dir.offsetZ * 4 + rot.offsetZ * -1, dir),
+			new DirPos(xCoord + dir.offsetX * 4 + rot.offsetX * 1, yCoord - 2, zCoord + dir.offsetZ * 4 + rot.offsetZ * 1, dir),
+			new DirPos(xCoord + dir.offsetX * 4 + rot.offsetX * 2, yCoord - 2, zCoord + dir.offsetZ * 4 + rot.offsetZ * 2, dir),
+
+			// Power
+			new DirPos(xCoord + dir.offsetX * -2 + rot.offsetX * -3, yCoord - 2, zCoord + dir.offsetZ * -2 + rot.offsetZ * -3, rot),
 		};
 	}
 	
@@ -179,16 +179,15 @@ public class TileEntityMachineCryoDistill extends TileEntityMachineBase implemen
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 4,
-					yCoord,
-					zCoord - 3,
-					xCoord + 6,
-					yCoord + 5,
-					zCoord + 4
-					);
+				xCoord - 4,
+				yCoord - 2,
+				zCoord - 4,
+				xCoord + 6,
+				yCoord + 5,
+				zCoord + 4
+			);
 		}
 		
 		return bb;

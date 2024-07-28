@@ -152,10 +152,10 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 			bb = AxisAlignedBB.getBoundingBox(
 				xCoord - 3,
 				yCoord,
-				zCoord - 1,
-				xCoord + 2,
+				zCoord - 3,
+				xCoord + 3,
 				yCoord + 3,
-				zCoord + 2
+				zCoord + 3
 			);
 		}
 		
