@@ -320,12 +320,12 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		ElectrolysisMetalRecipe recipe = ElectrolyserMetalRecipes.getRecipe(slots[14]);
 		if(recipe == null) return false;
 
-		if(leftStack != null) {
+		if(leftStack != null && recipe.output1 != null) {
 			if(recipe.output1.material != leftStack.material) return false;
 			if(recipe.output1.amount + leftStack.amount > this.maxMaterial) return false;
 		}
 
-		if(rightStack != null) {
+		if(rightStack != null && recipe.output2 != null) {
 			if(recipe.output2.material != rightStack.material) return false;
 			if(recipe.output2.amount + rightStack.amount > this.maxMaterial) return false;
 		}
