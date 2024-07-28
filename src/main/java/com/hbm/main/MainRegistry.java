@@ -60,7 +60,6 @@ import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.BlockDispenser;
@@ -252,7 +251,6 @@ public class MainRegistry {
 	public static Achievement achBreeding;
 	public static Achievement achFusion;
 	public static Achievement achMeltdown;
-	public static Achievement achRotConsum;
 	
 	public static int generalOverride = 0;
 	public static int polaroidID = 1;
@@ -838,7 +836,6 @@ public class MainRegistry {
 				achMeltdown,
 				achRedBalloons,
 				achManhattan,
-				achRotConsum
 		}));
 
 		// MUST be initialized AFTER achievements!!
