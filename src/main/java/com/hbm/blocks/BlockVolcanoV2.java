@@ -130,7 +130,7 @@ public class BlockVolcanoV2 extends BlockContainer {
 
 			List<Entity> entities = this.worldObj.getEntitiesWithinAABB(Entity.class,
 					AxisAlignedBB.getBoundingBox(this.xCoord - 0.5, this.yCoord + 0.5, this.zCoord - 0.5, this.xCoord + 1.5,
-							this.yCoord + 2, this.zCoord + 1.5));
+							this.yCoord + 60, this.zCoord + 1.5));
 			
 			if (!entities.isEmpty()) {
 				for (Entity e : entities) {
