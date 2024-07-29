@@ -7,6 +7,7 @@ import com.hbm.dim.DebugTeleporter;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
+import com.hbm.dim.trait.CelestialBodyTrait.CBT_Destroyed;
 import com.hbm.lib.Library;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -75,18 +76,29 @@ public class ItemWandD extends Item {
 				if(isVacuum)
 					player.addChatMessage(new ChatComponentText("Atmosphere: NEAR VACUUM"));
 			} else {
-				// TESTING: END OF TIME
-				SolarSystem.kerbol.skipShader = false;
-	
-				// TESTING: END OF LIFE
-				CelestialBody.degas(world);
-	
-				// GOD
-				// DAMN
-				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "GOD"));
-				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "DAMN"));
-				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "THE"));
-				player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "" + EnumChatFormatting.OBFUSCATED + "SUN"));
+				CelestialBody star = CelestialBody.getStar(world);
+
+				if(!star.hasTrait(CBT_Destroyed.class)) {
+
+					// TESTING: END OF TIME
+					star.modifyTraits(new CBT_Destroyed());
+		
+					// TESTING: END OF LIFE
+					CelestialBody.degas(world);
+		
+					// GOD
+					// DAMN
+					player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "GOD"));
+					player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "DAMN"));
+					player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "THE"));
+					player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "" + EnumChatFormatting.OBFUSCATED + "SUN"));
+				} else {
+
+					star.clearTraits();
+					CelestialBody.clearTraits(world);
+					
+					player.addChatMessage(new ChatComponentText("kidding"));
+				}
 			}
 		}
 

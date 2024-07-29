@@ -13,17 +13,11 @@ public abstract class CelestialBodyTrait {
 	// Similarly to fluid traits, we have classes, and instance members.
 	// For the simple traits, we'll just init both here rather than two places.
 
-	public static class CBT_Hot extends CelestialBodyTrait { }
-	public static CBT_Hot HOT = new CBT_Hot();
-	
-	public static class CBT_Cold extends CelestialBodyTrait { }
-	public static CBT_Cold COLD = new CBT_Cold();
-
 	public static class CBT_War extends CelestialBodyTrait { }
 	public static CBT_War WAR = new CBT_War();
 	
-	public static class CBT_SUNEXPLODED extends CelestialBodyTrait { }
-	public static CBT_SUNEXPLODED SPLODE = new CBT_SUNEXPLODED();
+	public static class CBT_Destroyed extends CelestialBodyTrait { }
+	public static CBT_Destroyed SPLODE = new CBT_Destroyed();
 
 	public static class CBT_Water extends CelestialBodyTrait { }
 	public static CBT_Water HAS_WATER = new CBT_Water();
@@ -34,14 +28,11 @@ public abstract class CelestialBodyTrait {
 
 	static {
 		registerTrait("atmosphere", CBT_Atmosphere.class);
-		registerTrait("hot", CBT_Hot.class);
-		registerTrait("cold", CBT_Cold.class);
-		registerTrait("hotter", CBT_Temperature.class);
+		registerTrait("temperature", CBT_Temperature.class);
 		registerTrait("bees", CBT_Bees.class);
 		registerTrait("war", CBT_War.class);
-		registerTrait("sunexploded", CBT_SUNEXPLODED.class);
+		registerTrait("destroyed", CBT_Destroyed.class);
 		registerTrait("water", CBT_Water.class);
-
 	};
 
 	private static void registerTrait(String name, Class<? extends CelestialBodyTrait> clazz) {

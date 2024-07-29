@@ -62,7 +62,6 @@ public class CelestialBody {
 	public Shader shader;
 
 	public float shaderScale = 1; // If the shader renders the item within the quad (not filling it entirely), scale it up from the true size
-	public boolean skipShader = false;
 
 	public CelestialBody(String name) {
 		this.name = name;
@@ -81,12 +80,6 @@ public class CelestialBody {
 	}
 
 
-    public static Collection<CelestialBody> getAllBodies() {
-        return nameToBodyMap.values();
-    }
-    public static Collection<CelestialBody> getLandableBodies() {
-        return dimToBodyMap.values();
-    }
 	// Chainables for construction
 
 	public CelestialBody withMassRadius(float kg, float km) {
@@ -161,12 +154,6 @@ public class CelestialBody {
 		return this;
 	}
 
-	// it's unfinished, the sun will stay damned until you restart the game
-	public CelestialBody disabledTho() {
-		skipShader = true;
-		return this;
-	}
-
 	
 	// /Chainables
 
@@ -175,28 +162,53 @@ public class CelestialBody {
 	// Terraforming - trait overrides
 	// If trait overrides exist, delete existing traits from the world, and replace them with the saved ones
 
-	public static void setTraits(World world, CelestialBodyTrait... traits) {
-		CelestialBodyWorldSavedData traitsData = CelestialBodyWorldSavedData.get(world);
-		
-		traitsData.setTraits(traits);
+	// Prefer statics over instance methods, for performance
+	// but if you need to update a _different_ body (like, blowing up the sun)
+	// instance members are the go
 
-		// Mark the saved data as dirty to ensure changes are saved
-		traitsData.markDirty();
+	public static void setTraits(World world, CelestialBodyTrait... traits) {
+		SolarSystemWorldSavedData traitsData = SolarSystemWorldSavedData.get(world);
+		
+		traitsData.setTraits(getBody(world).name, traits);
 	}
 
 	public static void setTraits(World world, Map<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits) {
-		setTraits(world, traits.values().toArray(new CelestialBodyTrait[0]));
+		setTraits(world, traits.values().toArray(new CelestialBodyTrait[traits.size()]));
+	}
+
+	public void setTraits(CelestialBodyTrait... traits) {
+		SolarSystemWorldSavedData traitsData = SolarSystemWorldSavedData.get();
+
+		traitsData.setTraits(name, traits);
+	}
+
+	public void setTraits(Map<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits) {
+		setTraits(traits.values().toArray(new CelestialBodyTrait[traits.size()]));
 	}
 
 	// Gets a clone of the body traits that are SAFE for modifying
 	public static HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits(World world) {
-		CelestialBodyWorldSavedData traitsData = CelestialBodyWorldSavedData.get(world);
-		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = traitsData.getTraits();
+		SolarSystemWorldSavedData traitsData = SolarSystemWorldSavedData.get(world);
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = traitsData.getTraits(getBody(world).name);
 
 		if(currentTraits == null) {
 			currentTraits = new HashMap<>();
-			CelestialBody body = CelestialBody.getBody(world);
+			CelestialBody body = getBody(world);
 			for(CelestialBodyTrait trait : body.traits.values()) {
+				currentTraits.put(trait.getClass(), trait);
+			}
+		}
+
+		return currentTraits;
+	}
+
+	public HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits() {
+		SolarSystemWorldSavedData traitsData = SolarSystemWorldSavedData.get();
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = traitsData.getTraits(name);
+
+		if(currentTraits == null) {
+			currentTraits = new HashMap<>();
+			for(CelestialBodyTrait trait : traits.values()) {
 				currentTraits.put(trait.getClass(), trait);
 			}
 		}
@@ -211,21 +223,29 @@ public class CelestialBody {
 			currentTraits.put(trait.getClass(), trait);
 		}
 
-		// Sun traits should be set on the sun, ideally
-		// Why? Otherwise we'll get a desync!
-		// Permasync will need to transmit that data too
-		// (Also the implementation that was here was wiping ALL planet terraforming)
-
-		// God Damn The Sun
-
 		setTraits(world, currentTraits);
 	}
 
-	public static void clearTraits(World world) {
-		CelestialBodyWorldSavedData traitsData = CelestialBodyWorldSavedData.get(world);
+	public void modifyTraits(CelestialBodyTrait... traits) {
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> currentTraits = getTraits();
+		
+		for(CelestialBodyTrait trait : traits) {
+			currentTraits.put(trait.getClass(), trait);
+		}
 
-		traitsData.clearTraits();
-		traitsData.markDirty();
+		setTraits(currentTraits);
+	}
+
+	public static void clearTraits(World world) {
+		SolarSystemWorldSavedData traitsData = SolarSystemWorldSavedData.get(world);
+
+		traitsData.clearTraits(getBody(world).name);
+	}
+
+	public void clearTraits() {
+		SolarSystemWorldSavedData traitsData = SolarSystemWorldSavedData.get();
+
+		traitsData.clearTraits(name);
 	}
 
 	// he has ceased to be
@@ -306,6 +326,14 @@ public class CelestialBody {
 
 	private static HashMap<Integer, CelestialBody> dimToBodyMap = new HashMap<Integer, CelestialBody>();
 	private static HashMap<String, CelestialBody> nameToBodyMap = new HashMap<String, CelestialBody>();
+
+	public static Collection<CelestialBody> getAllBodies() {
+		return nameToBodyMap.values();
+	}
+
+	public static Collection<CelestialBody> getLandableBodies() {
+		return dimToBodyMap.values();
+	}
 
 	public static CelestialBody getBody(String name) {
 		CelestialBody body = nameToBodyMap.get(name);
@@ -421,17 +449,23 @@ public class CelestialBody {
 
 	
 	public boolean hasTrait(Class<? extends CelestialBodyTrait> trait) {
-		return getTraits().containsKey(trait);
+		return getTraitsUnsafe().containsKey(trait);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public <T extends CelestialBodyTrait> T getTrait(Class<? extends T> trait) {
-		return (T) getTraits().get(trait);
+		return (T) getTraitsUnsafe().get(trait);
 	}
 
-	private HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits() {
-		World world = DimensionManager.getWorld(dimensionId);
-		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = CelestialBodyWorldSavedData.getTraits(world);
+	// Don't modify traits returned from this!
+	private HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraitsUnsafe() {
+		Side side = FMLCommonHandler.instance().getEffectiveSide();
+		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits;
+		if(side == Side.CLIENT) {
+			traits = SolarSystemWorldSavedData.getClientTraits(name);
+		} else {
+			traits = SolarSystemWorldSavedData.get().getTraits(name);
+		}
 
 		if(traits != null)
 			return traits;

@@ -5,32 +5,30 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class CBT_Temperature extends CelestialBodyTrait {
 	
-	public float gregrees;
+	public float degrees; // In SI units (Celsius)
 
-	public CBT_Temperature() {}
-
-	public CBT_Temperature(float gregrees) {
-		this.gregrees = gregrees;
+	public CBT_Temperature(float degrees) {
+		this.degrees = degrees;
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
-		nbt.setFloat("gregrees", gregrees);
+		nbt.setFloat("c", degrees);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		gregrees = nbt.getFloat("gregrees");
+		degrees = nbt.getFloat("c");
 	}
 
 	@Override
 	public void writeToBytes(ByteBuf buf) {
-		buf.writeFloat(gregrees);
+		buf.writeFloat(degrees);
 	}
 
 	@Override
 	public void readFromBytes(ByteBuf buf) {
-		gregrees = buf.readFloat();
+		degrees = buf.readFloat();
 	}
 
 }

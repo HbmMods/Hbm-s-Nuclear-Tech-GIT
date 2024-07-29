@@ -6,7 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.dim.CelestialBodyWorldSavedData;
+import com.hbm.dim.CelestialBody;
+import com.hbm.dim.SolarSystemWorldSavedData;
 import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.handler.ImpactWorldHandler;
@@ -71,18 +72,27 @@ public class PermaSyncHandler {
 		/// POLLUTION ///
 
 		/// CBT ///
-		HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = CelestialBodyWorldSavedData.getTraits(world);
-		if(traits != null) {
-			buf.writeBoolean(true); // Has traits marker (since we can have an empty list)
-			buf.writeInt(traits.size());
+		if(world.getTotalWorldTime() % 5 == 1) { // update a little less frequently to not blast the players with large packets
+			buf.writeBoolean(true);
 
-			for(int i = 0; i < CelestialBodyTrait.traitList.size(); i++) {
-				Class<? extends CelestialBodyTrait> traitClass = CelestialBodyTrait.traitList.get(i);
-				CelestialBodyTrait trait = traits.get(traitClass);
-	
-				if(trait != null) {
-					buf.writeInt(i); // ID of the trait, in order registered
-					trait.writeToBytes(buf);
+			SolarSystemWorldSavedData solarSystemData = SolarSystemWorldSavedData.get(world);
+			for(CelestialBody body : CelestialBody.getAllBodies()) {
+				HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = solarSystemData.getTraits(body.name);
+				if(traits != null) {
+					buf.writeBoolean(true); // Has traits marker (since we can have an empty list)
+					buf.writeInt(traits.size());
+		
+					for(int i = 0; i < CelestialBodyTrait.traitList.size(); i++) {
+						Class<? extends CelestialBodyTrait> traitClass = CelestialBodyTrait.traitList.get(i);
+						CelestialBodyTrait trait = traits.get(traitClass);
+			
+						if(trait != null) {
+							buf.writeInt(i); // ID of the trait, in order registered
+							trait.writeToBytes(buf);
+						}
+					}
+				} else {
+					buf.writeBoolean(false);
 				}
 			}
 		} else {
@@ -143,31 +153,36 @@ public class PermaSyncHandler {
 		/// POLLUTION ///
 
 		/// CBT ///
-		try {
-			if(buf.readBoolean()) {
-				HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = new HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>();
+		if(buf.readBoolean()) {
+			try {
+				HashMap<String, HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>> traitMap = new HashMap<String, HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>>();
 	
-				int cbtSize = buf.readInt();
-				for(int i = 0; i < cbtSize; i++) {
-					CelestialBodyTrait trait = CelestialBodyTrait.traitList.get(buf.readInt()).newInstance();
-					trait.readFromBytes(buf);
+				for(CelestialBody body : CelestialBody.getAllBodies()) {
+					if(buf.readBoolean()) {
+						HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> traits = new HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>();
 	
-					traits.put(trait.getClass(), trait);
+						int cbtSize = buf.readInt();
+						for(int i = 0; i < cbtSize; i++) {
+							CelestialBodyTrait trait = CelestialBodyTrait.traitList.get(buf.readInt()).newInstance();
+							trait.readFromBytes(buf);
+			
+							traits.put(trait.getClass(), trait);
+						}
+	
+						traitMap.put(body.name, traits);
+					}
 				}
 	
-				CelestialBodyWorldSavedData.updateClientTraits(traits);
-			} else {
-				CelestialBodyWorldSavedData.updateClientTraits(null);
+				SolarSystemWorldSavedData.updateClientTraits(traitMap);
+			} catch (Exception ex) {
+				// If any exception occurs, stop parsing any more bytes, they'll be unaligned
+				// We'll unset the client trait set to prevent any issues
+	
+				MainRegistry.logger.catching(ex);
+				SolarSystemWorldSavedData.updateClientTraits(null);
+	
+				return;
 			}
-
-		} catch (Exception ex) {
-			// If any exception occurs, stop parsing any more bytes, they'll be unaligned
-			// We'll unset the client trait set to prevent any issues
-
-			MainRegistry.logger.catching(ex);
-			CelestialBodyWorldSavedData.updateClientTraits(null);
-
-			return;
 		}
 		/// CBT ///
 

@@ -80,14 +80,12 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 
 				// Check headroom
 				int maxHeight = Integer.MAX_VALUE;
-				int h = 1;
-				while(h < 256) {
+				for(int h = 1; h < 256; h++) {
 					Block block = worldObj.getBlock(xCoord, yCoord + h, zCoord);
 					if(!block.isReplaceable(worldObj, xCoord, yCoord + h, zCoord) && block != ModBlocks.machine_rocket_assembly) {
 						maxHeight = h;
 						break;
 					}
-					h++;
 				}
 
 				double checkHeight = rocket.getHeight();

@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.CelestialBody;
-import com.hbm.dim.trait.CelestialBodyTrait.CBT_Hot;
+import com.hbm.dim.trait.CBT_Temperature;
 import com.hbm.items.ModItems;
 
 import cpw.mods.fml.relauncher.Side;
@@ -68,7 +68,8 @@ public class MeltedFlesh extends Block {
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		super.randomDisplayTick(world, x, y, z, rand);
 
-		if(CelestialBody.hasTrait(world, CBT_Hot.class)) {
+		CBT_Temperature temperature = CelestialBody.getTrait(world, CBT_Temperature.class);
+		if(temperature != null && temperature.degrees > 100) {
 			float f;
             float f1;
             float f2;
@@ -86,7 +87,8 @@ public class MeltedFlesh extends Block {
 	}
 	
     public void updateTick(World world, int x, int y, int z, Random rand) {
-		if(CelestialBody.hasTrait(world, CBT_Hot.class)) {
+		CBT_Temperature temperature = CelestialBody.getTrait(world, CBT_Temperature.class);
+		if(temperature != null && temperature.degrees > 100) {
 			if(this == ModBlocks.flesh_block) {
 				world.setBlock(x, y, z, ModBlocks.charred_flesh_block);    	
 			} else if(this == ModBlocks.charred_flesh_block) {
