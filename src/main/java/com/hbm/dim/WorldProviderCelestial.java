@@ -318,6 +318,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	public void resetRainAndThunder() {
 		super.resetRainAndThunder();
 
+		if(dimensionId == 0) return;
 		if(!worldObj.getGameRules().getGameRuleBooleanValue("doDaylightCycle")) return;
 
 		long dayLength = (long)getDayLength();
@@ -327,6 +328,10 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 	@Override
 	public long getWorldTime() {
+		if(dimensionId == 0) {
+			return super.getWorldTime();
+		}
+
 		if(!worldObj.isRemote) {
 			localTime = CelestialBodyWorldSavedData.get(worldObj).getLocalTime();
 		}
@@ -336,6 +341,11 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 
 	@Override
 	public void setWorldTime(long time) {
+		if(dimensionId == 0) {
+			super.setWorldTime(time);
+			return;
+		}
+
 		if(!worldObj.isRemote) {
 			CelestialBodyWorldSavedData.get(worldObj).setLocalTime(time);
 		}

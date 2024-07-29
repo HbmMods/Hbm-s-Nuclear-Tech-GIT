@@ -105,7 +105,7 @@ public class HbmWorldGen implements IWorldGenerator {
 
 		// Only generate our ores for the overworld and for custom dimensions
 		// We'll handle ore generation on planets separately
-		if(world.provider instanceof WorldProviderCelestial)
+		if(world.provider instanceof WorldProviderCelestial && world.provider.dimensionId != 0)
 			return;
 
 		if(!TomSaveData.forWorld(world).impact) {

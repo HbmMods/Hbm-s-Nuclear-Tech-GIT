@@ -34,6 +34,9 @@ public class WorldGeneratorCelestial implements IWorldGenerator {
         if(!(world.provider instanceof WorldProviderCelestial))
             return;
 
+        if(world.provider.dimensionId == 0)
+            return;
+
         WorldProviderCelestial celestialProvider = (WorldProviderCelestial)world.provider;
         Block blockToReplace = celestialProvider.getStone();
         int meta = CelestialBody.getMeta(world);

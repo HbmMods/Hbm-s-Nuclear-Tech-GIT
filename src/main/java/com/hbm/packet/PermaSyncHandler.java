@@ -111,7 +111,7 @@ public class PermaSyncHandler {
 		/// SATELLITES ///
 
 		/// TIME OF DAY ///
-		if(world.provider instanceof WorldProviderCelestial) {
+		if(world.provider instanceof WorldProviderCelestial && world.provider.dimensionId != 0) {
 			buf.writeBoolean(true);
 			buf.writeLong(world.provider.getWorldTime());
 		} else {

@@ -831,7 +831,7 @@ public class ModEventHandler {
 			}
 
 			// Tick our per celestial body timer
-			if(event.phase == Phase.START && event.world.provider instanceof WorldProviderCelestial) {
+			if(event.phase == Phase.START && event.world.provider instanceof WorldProviderCelestial && event.world.provider.dimensionId != 0) {
 				if(event.world.getGameRules().getGameRuleBooleanValue("doDaylightCycle")) {
 					event.world.provider.setWorldTime(event.world.provider.getWorldTime() + 1L);
 				}
@@ -1620,6 +1620,7 @@ public class ModEventHandler {
 	@SubscribeEvent
 	public void onTrySleep(PlayerInteractEvent event) {
 		if(event.world.isRemote) return;
+		if(event.world.provider.dimensionId == 0) return;
 		if(!(event.world.provider instanceof WorldProviderCelestial)) return;
 
 		if(event.action == Action.RIGHT_CLICK_BLOCK && event.world.getBlock(event.x, event.y, event.z) instanceof BlockBed) {
