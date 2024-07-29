@@ -541,13 +541,13 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 		}
 	}
 
-	public void handleFall(EntityPlayer player) {
+	public void handleFall(EntityPlayer player, float fallDistance) {
 
 		if(ArmorFSB.hasFSBArmor(player)) {
 
 			ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
 
-			if(chestplate.hardLanding && player.fallDistance > 10) {
+			if(chestplate.hardLanding && fallDistance > 10) {
 
 				// player.playSound(Block.soundTypeAnvil.func_150496_b(), 2.0F,
 				// 0.5F);

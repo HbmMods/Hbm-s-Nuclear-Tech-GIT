@@ -668,14 +668,11 @@ public class ModEventHandler {
 			
 			if(!event.world.loadedEntityList.isEmpty()) {
 				
-				List<Object> oList = new ArrayList<Object>();
-				oList.addAll(event.world.loadedEntityList);
-				
 				/**
 				 *  REMOVE THIS V V V
 				 * except the entity dismounting part, it literally can NOT be done elsewhere
 				 */
-				for(Object e : oList) {
+				for(Object e : event.world.loadedEntityList) {
 					if(e instanceof EntityLivingBase) {
 						
 						//effect for radiation
@@ -981,7 +978,7 @@ public class ModEventHandler {
 		EntityPlayer e = event.entityPlayer;
 		
 		if(e.inventory.armorInventory[2] != null && e.inventory.armorInventory[2].getItem() instanceof ArmorFSB)
-			((ArmorFSB)e.inventory.armorInventory[2].getItem()).handleFall(e);
+			((ArmorFSB)e.inventory.armorInventory[2].getItem()).handleFall(e, event.distance);
 	}
 	
 	@SubscribeEvent
@@ -1038,9 +1035,19 @@ public class ModEventHandler {
 	public void onEntityFall(LivingFallEvent event) {
 		
 		EntityLivingBase e = event.entityLiving;
+
+		CelestialBody body = CelestialBody.getBody(event.entity.worldObj);
+		float gravity = body.getSurfaceGravity() * AstronomyUtil.PLAYER_GRAVITY_MODIFIER;
+
+		// Reduce fall damage on low gravity bodies
+		if(gravity < 0.3F) {
+			event.distance = 0;
+		} else if(gravity < 1.5F) {
+			event.distance *= gravity / AstronomyUtil.STANDARD_GRAVITY;
+		}
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)
-			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleFall((EntityPlayer)e);
+			((ArmorFSB)((EntityPlayer)e).inventory.armorInventory[2].getItem()).handleFall((EntityPlayer)e, event.distance);
 	}
 	
 	private static final UUID fopSpeed = UUID.fromString("e5a8c95d-c7a0-4ecf-8126-76fb8c949389");
@@ -1180,37 +1187,53 @@ public class ModEventHandler {
 	}
 	@SubscribeEvent
 	public void onEntityTick(LivingUpdateEvent event) {
-		//because fuck you and your scrubs 
-		//eventually i will condesne this to one eventhandler just give me a minute
-		Entity e = event.entityLiving;
-		if(e.worldObj.isRemote) return;
-		if(((EntityLivingBase) e).isPotionActive(HbmPotion.slippery.id) && e instanceof EntityLiving) {
-			EntityLiving ent = (EntityLiving) e;
-			if (ent.onGround) {
+		if(!event.entity.worldObj.isRemote && event.entityLiving.isPotionActive(HbmPotion.slippery.id)) {
+			if (event.entityLiving.onGround) {
 				double slipperiness = 0.6; 
 				double inertia = 0.1;
-				boolean isMoving = ent.moveForward != 0.0 || ent.moveStrafing != 0.0;
-				double entMotion = Math.sqrt(ent.motionX * ent.motionX + ent.motionZ * ent.motionZ);
+				boolean isMoving = event.entityLiving.moveForward != 0.0 || event.entityLiving.moveStrafing != 0.0;
 
-				double angle = Math.atan2(ent.motionZ, ent.motionX);
+				double angle = Math.atan2(event.entityLiving.motionZ, event.entityLiving.motionX);
 
 				double targetXMotion = Math.cos(angle) * slipperiness;
 				double targetZMotion = Math.sin(angle) * slipperiness;
 
-				double diffX = targetXMotion - ent.motionX;
-				double diffZ = targetZMotion - ent.motionZ;
+				double diffX = targetXMotion - event.entityLiving.motionX;
+				double diffZ = targetZMotion - event.entityLiving.motionZ;
 
-				ent.motionX += diffX * inertia; //god weeps
-				ent.motionZ += diffZ * inertia;
+				event.entityLiving.motionX += diffX * inertia; //god weeps
+				event.entityLiving.motionZ += diffZ * inertia;
 				
 				if (!isMoving) {
-					ent.motionX *= (1.0 - 0.1);
+					event.entityLiving.motionX *= (1.0 - 0.1);
 
-					double totalVelocity = Math.sqrt(ent.motionX * ent.motionX + ent.motionZ * ent.motionZ);
+					double totalVelocity = Math.sqrt(event.entityLiving.motionX * event.entityLiving.motionX + event.entityLiving.motionZ * event.entityLiving.motionZ);
 					double smoothingAmount = totalVelocity * 0.02;
-						ent.motionX -= ent.motionX / totalVelocity * smoothingAmount;
-						ent.motionZ -= ent.motionZ / totalVelocity * smoothingAmount;
+						event.entityLiving.motionX -= event.entityLiving.motionX / totalVelocity * smoothingAmount;
+						event.entityLiving.motionZ -= event.entityLiving.motionZ / totalVelocity * smoothingAmount;
 				}
+			}
+		}
+
+		CelestialBody body = CelestialBody.getBody(event.entity.worldObj);
+		float gravity = body.getSurfaceGravity() * AstronomyUtil.PLAYER_GRAVITY_MODIFIER;
+
+		boolean isFlying = event.entity instanceof EntityPlayer ? ((EntityPlayer) event.entity).capabilities.isFlying : false;
+
+		// If gravity is basically the same as normal, do nothing
+		// Also do nothing in water, or if we've been alive less than a second (so we don't glitch into the ground)
+		if(!isFlying && !event.entityLiving.isInWater() && event.entityLiving.ticksExisted > 20 && (gravity < 1.5F || gravity > 1.7F)) {
+
+			// Minimum gravity to prevent floating bug
+			if(gravity < 0.2F) gravity = 0.2F;
+
+			// Undo falling, and add our intended falling speed
+			// On high gravity planets, only apply falling speed when descending, so we can still jump up single blocks
+			if (gravity < 1.5F || event.entityLiving.motionY < 0) {
+				event.entityLiving.motionY /= 0.98F;
+				event.entityLiving.motionY += (AstronomyUtil.STANDARD_GRAVITY / 20F);
+				event.entityLiving.motionY -= (gravity / 20F);
+				event.entityLiving.motionY *= 0.98F;
 			}
 		}
 	}
@@ -1289,31 +1312,6 @@ public class ModEventHandler {
 			if(b instanceof IStepTickReceiver && !player.capabilities.isFlying) {
 				IStepTickReceiver step = (IStepTickReceiver) b;
 				step.onPlayerStep(player.worldObj, x, y, z, player);
-			}
-		}
-
-		CelestialBody body = CelestialBody.getBody(player.worldObj);
-		if(body != null && event.phase == Phase.END) {
-			float gravity = body.getSurfaceGravity() * AstronomyUtil.PLAYER_GRAVITY_MODIFIER;
-
-			// If gravity is basically the same as normal, do nothing
-			// Also do nothing in water, or if we've been alive less than a second (so we don't glitch into the ground)
-			if(!player.capabilities.isFlying && !player.isInWater() && player.ticksExisted > 20 && (gravity < 1.5F || gravity > 1.7F)) {
-
-				// Minimum gravity to prevent floating bug
-				if(gravity < 0.2F) gravity = 0.2F;
-
-				// Modify fall distance by gravity, so the player has to fall for longer in low gravity to take damage
-				player.fallDistance *= Math.min(gravity / AstronomyUtil.STANDARD_GRAVITY, 1);
-
-				// Undo falling, and add our intended falling speed
-				// On high gravity planets, only apply falling speed when descending, so we can still jump up single blocks
-				if (gravity < 1.5F || player.motionY < 0) {
-					player.motionY /= 0.98F;
-					player.motionY += (AstronomyUtil.STANDARD_GRAVITY / 20F);
-					player.motionY -= (gravity / 20F);
-					player.motionY *= 0.98F;
-				}
 			}
 		}
 		
