@@ -10,13 +10,14 @@ package com.hbm.dim.laythe.biome;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.BiomeDecoratorCelestial;
+import com.hbm.dim.BiomeGenBaseCelestial;
 import com.hbm.entity.mob.EntityScutterfish;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 
-public abstract class BiomeGenBaseLaythe extends BiomeGenBase {
+public abstract class BiomeGenBaseLaythe extends BiomeGenBaseCelestial {
 
 	public static final BiomeGenBase laytheIsland = new BiomeGenLaytheIslands(SpaceConfig.laytheBiome).setTemperatureRainfall(0.2F, 0.2F);
 	public static final BiomeGenBase laytheOcean = new BiomeGenLaytheOcean(SpaceConfig.laytheOceanBiome).setTemperatureRainfall(0.2F, 0.2F);
@@ -24,12 +25,7 @@ public abstract class BiomeGenBaseLaythe extends BiomeGenBase {
 	@SuppressWarnings("unchecked")
 	public BiomeGenBaseLaythe(int id) {
 		super(id);
-		this.waterColorMultiplier=0x5b009a;
-		
-        this.spawnableCreatureList.clear();
-        this.spawnableMonsterList.clear();
-        this.spawnableWaterCreatureList.clear();
-        this.spawnableCaveCreatureList.clear();
+		this.waterColorMultiplier = 0x5b009a;
 
         this.spawnableWaterCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityScutterfish.class, 10, 4, 4));
 

@@ -4,11 +4,12 @@ package com.hbm.dim.duna.biome;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.BiomeDecoratorCelestial;
+import com.hbm.dim.BiomeGenBaseCelestial;
 
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 
-public abstract class BiomeGenBaseDuna extends BiomeGenBase {
+public abstract class BiomeGenBaseDuna extends BiomeGenBaseCelestial {
     
     public static final BiomeGenBase dunaPlains = new BiomeGenDunaPlains(SpaceConfig.dunaBiome).setTemperatureRainfall(-1.0F, 0.0F);
     public static final BiomeGenBase dunaLowlands = new BiomeGenDunaLowlands(SpaceConfig.dunaLowlandsBiome).setTemperatureRainfall(-1.0F, 0.0F);
@@ -23,11 +24,6 @@ public abstract class BiomeGenBaseDuna extends BiomeGenBase {
 
         this.theBiomeDecorator = new BiomeDecoratorCelestial(ModBlocks.duna_rock);
         this.theBiomeDecorator.generateLakes = false;
-
-		this.spawnableCreatureList.clear();
-		this.spawnableMonsterList.clear();
-		this.spawnableWaterCreatureList.clear();
-		this.spawnableCaveCreatureList.clear();
 		
 		this.topBlock = ModBlocks.duna_sands;
 		this.fillerBlock = ModBlocks.duna_rock;

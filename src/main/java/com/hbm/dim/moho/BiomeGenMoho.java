@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.BiomeDecoratorCelestial;
+import com.hbm.dim.BiomeGenBaseCelestial;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -11,7 +12,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeGenMoho extends BiomeGenBase {
+public class BiomeGenMoho extends BiomeGenBaseCelestial {
 
 	public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.275F, 0.666F);
 
@@ -19,11 +20,6 @@ public class BiomeGenMoho extends BiomeGenBase {
 		super(id);
 		this.setBiomeName("Moho");
 		this.setDisableRain();
-
-		this.spawnableCreatureList.clear();
-		this.spawnableMonsterList.clear();
-		this.spawnableWaterCreatureList.clear();
-		this.spawnableCaveCreatureList.clear();
 
 		BiomeDecoratorCelestial decorator = new BiomeDecoratorCelestial(ModBlocks.moho_stone);
 		decorator.lavaCount = 50;

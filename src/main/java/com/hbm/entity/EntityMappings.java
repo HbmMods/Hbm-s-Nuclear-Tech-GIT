@@ -3,6 +3,7 @@ package com.hbm.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.dim.BiomeGenBaseCelestial;
 import com.hbm.entity.cart.*;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.grenade.*;
@@ -305,6 +306,7 @@ public class EntityMappings {
 		for(BiomeGenBase biome : biomes) {
 			
 			if(biome == null) continue;
+			if(biome instanceof BiomeGenBaseCelestial) continue;
 			
 			List<SpawnListEntry> spawns = biome.getSpawnableList(typeOfCreature);
 
