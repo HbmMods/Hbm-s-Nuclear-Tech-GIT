@@ -1,7 +1,9 @@
 package com.hbm.blocks;
 
+import java.util.List;
 import java.util.Random;
 
+import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.BufPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -13,9 +15,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -73,6 +80,7 @@ public class BlockVolcanoV2 extends BlockContainer {
 						
 					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(worldObj.provider.dimensionId, x, y, z, 256));
 					worldObj.playSoundEffect(x, y, z, "ambient.weather.thunder", 200, 0.8F + this.worldObj.rand.nextFloat() * 0.2F);
+					vapor();
 				}
 
 				// we only want to modify chargetime on the server, since it is synced to clients
@@ -118,7 +126,23 @@ public class BlockVolcanoV2 extends BlockContainer {
 		public void deserialize(ByteBuf buf) {
 			chargetime = buf.readInt();
 		}
+		private void vapor() {
 
+			List<Entity> entities = this.worldObj.getEntitiesWithinAABB(Entity.class,
+					AxisAlignedBB.getBoundingBox(this.xCoord - 0.5, this.yCoord + 0.5, this.zCoord - 0.5, this.xCoord + 1.5,
+							this.yCoord + 2, this.zCoord + 1.5));
+			
+			if (!entities.isEmpty()) {
+				for (Entity e : entities) {
+
+					if(e instanceof EntityLivingBase)
+						if(e.attackEntityFrom(ModDamageSource.electricity, MathHelper.clamp_float(((EntityLivingBase) e).getMaxHealth() * 1F, 3, 20)))
+							worldObj.playSoundAtEntity(e, "hbm:weapon.tesla", 1.0F, 1.0F);
+				}
+			}
+		}
+		
 	}
+	
 
 }
