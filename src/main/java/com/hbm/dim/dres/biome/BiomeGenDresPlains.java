@@ -12,7 +12,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenDresPlains extends BiomeGenBaseDres {
 
-	public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.325F, 0.04F);
+	public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.625F, 0.04F);
 
 	public BiomeGenDresPlains(int id) {
 		super(id);
@@ -54,13 +54,8 @@ public class BiomeGenDresPlains extends BiomeGenBaseDres {
 							}
 
 							if(l1 < 63 && (block == null || block.getMaterial() == Material.air)) {
-								if(this.getFloatTemperature(x, l1, z) < 0.15F) {
-									block = this.topBlock;
-									b0 = 0;
-								} else {
-									block = this.topBlock;
-									b0 = 0;
-								}
+								block = this.topBlock;
+								b0 = 0;
 							}
 
 							k = l;

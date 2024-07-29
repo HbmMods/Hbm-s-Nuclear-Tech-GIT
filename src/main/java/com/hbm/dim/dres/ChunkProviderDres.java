@@ -5,15 +5,15 @@ import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.*;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.ChunkProviderCelestial;
 import com.hbm.dim.mapgen.MapGenCrater;
+import com.hbm.dim.mapgen.MapGenVanillaCaves;
 
 import net.minecraft.world.World;
 import net.minecraft.world.gen.MapGenBase;
-import net.minecraft.world.gen.MapGenCaves;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class ChunkProviderDres extends ChunkProviderCelestial {
 	
-	private MapGenBase caveGenerator = new MapGenCaves();
+	private MapGenBase caveGenerator = new MapGenVanillaCaves(ModBlocks.dres_rock);
 
 	private MapGenCrater smallCrater = new MapGenCrater(6);
 	private MapGenCrater largeCrater = new MapGenCrater(64);

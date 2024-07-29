@@ -8,6 +8,7 @@ import java.util.Map;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBedrockOreTE.TileEntityBedrockOre;
+import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.OreDictManager.DictFrame;
@@ -60,24 +61,22 @@ public class BedrockOre {
 		BedrockOreDefinition quartz = new BedrockOreDefinition(new ItemStack(Items.quartz, 4),				1,	0xF0EFDD);
 		
 		// NTM Space Fork ores
-		BedrockOreDefinition nickel = new BedrockOreDefinition(EnumBedrockOre.NICKEL,												2,	new FluidStack(Fluids.PEROXIDE, 500));
+		BedrockOreDefinition nickel = new BedrockOreDefinition(EnumBedrockOre.NICKEL,												2);
+		BedrockOreDefinition cadmium = new BedrockOreDefinition(EnumBedrockOre.CAD, 3, new FluidStack(Fluids.SULFURIC_ACID, 500));
 		BedrockOreDefinition zinc = new BedrockOreDefinition(EnumBedrockOre.ZINC,												2);
 		BedrockOreDefinition lithium = new BedrockOreDefinition(new ItemStack(ModItems.powder_lithium, 4), 1, 0xFFFFFF);
 		BedrockOreDefinition ice = new BedrockOreDefinition(new ItemStack(Blocks.packed_ice, 8), 1, 0xAAFFFF);
-		BedrockOreDefinition coltan = new BedrockOreDefinition(new ItemStack(ModItems.powder_coltan, 4), 1, 0x7C3F00);
-		BedrockOreDefinition schrabidium = new BedrockOreDefinition(new ItemStack(ModItems.powder_schrabidium, 1), 1, 0x00FFFF);
+		BedrockOreDefinition coltan = new BedrockOreDefinition(new ItemStack(ModItems.fragment_coltan), 1, 0xA78D7A);
+		BedrockOreDefinition schrabidium = new BedrockOreDefinition(new ItemStack(ModItems.powder_schrabidium, 1), 4, 0x00FFFF, new FluidStack(Fluids.NITRIC_ACID, 500));
 		BedrockOreDefinition cinnabar = new BedrockOreDefinition(new ItemStack(ModItems.cinnebar, 4), 1, 0xFF0000);
+		BedrockOreDefinition hematite = new BedrockOreDefinition(DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.HEMATITE, 2), 1, 0xEF7213);
 
 
 
 		// Earth ores
 		registerBedrockOre(weightedOres, iron, WorldConfig.bedrockIronSpawn);
 		registerBedrockOre(weightedOres, copper, WorldConfig.bedrockCopperSpawn);
-		registerBedrockOre(weightedOres, nickel, 100);
-		registerBedrockOre(weightedOres, tungsten, WorldConfig.bedrockTungstenSpawn);
-		registerBedrockOre(weightedOres, gold, WorldConfig.bedrockGoldSpawn);
 		registerBedrockOre(weightedOres, coal, WorldConfig.bedrockCoalSpawn);
-		registerBedrockOre(weightedOres, redstone, WorldConfig.bedrockRedstoneSpawn);
 		registerBedrockOre(weightedOres, bauxite, WorldConfig.bedrockBauxiteSpawn);
 		
 		// Nether ores
@@ -94,37 +93,39 @@ public class BedrockOre {
 		registerBedrockOre(Body.MUN, copper, WorldConfig.bedrockCopperSpawn);
 		registerBedrockOre(Body.MUN, quartz, WorldConfig.bedrockQuartzSpawn);
 		registerBedrockOre(Body.MUN, titanium, WorldConfig.bedrockTitaniumSpawn);
-		registerBedrockOre(Body.MUN, tungsten, WorldConfig.bedrockTungstenSpawn);
 		
 		// Minmus ores
 		registerBedrockOre(Body.MINMUS, ice, 100);
 		registerBedrockOre(Body.MINMUS, iron, WorldConfig.bedrockIronSpawn);
 		registerBedrockOre(Body.MINMUS, copper, WorldConfig.bedrockCopperSpawn);
-		registerBedrockOre(Body.MINMUS, niobium, WorldConfig.bedrockNiobiumSpawn);
 		registerBedrockOre(Body.MINMUS, neodymium, WorldConfig.bedrockNeodymiumSpawn);
-		registerBedrockOre(Body.MINMUS, cinnabar, 100);
+		registerBedrockOre(Body.MINMUS, borax, WorldConfig.bedrockBoraxSpawn);
 		
 		// Duna ores
 		registerBedrockOre(Body.DUNA, ice, 100);
 		registerBedrockOre(Body.DUNA, iron, WorldConfig.bedrockIronSpawn);
 		registerBedrockOre(Body.DUNA, copper, WorldConfig.bedrockCopperSpawn);
-		registerBedrockOre(Body.DUNA, borax, WorldConfig.bedrockBoraxSpawn);
-		registerBedrockOre(Body.DUNA, chlorocalcite, WorldConfig.bedrockChlorocalciteSpawn);
-		registerBedrockOre(Body.DUNA, uranium, WorldConfig.bedrockUraniumSpawn);
+		registerBedrockOre(Body.DUNA, neodymium, WorldConfig.bedrockNeodymiumSpawn);
 		registerBedrockOre(Body.DUNA, thorium, WorldConfig.bedrockThoriumSpawn);
 		registerBedrockOre(Body.DUNA, fluorite, WorldConfig.bedrockFluoriteSpawn);
 		registerBedrockOre(Body.DUNA, niter, WorldConfig.bedrockNiterSpawn);
+		registerBedrockOre(Body.DUNA, hematite, 100);
 		
 		// Ike ores
 		registerBedrockOre(Body.IKE, iron, WorldConfig.bedrockIronSpawn);
 		registerBedrockOre(Body.IKE, copper, WorldConfig.bedrockCopperSpawn);
+		registerBedrockOre(Body.IKE, tungsten, WorldConfig.bedrockTungstenSpawn);
+		registerBedrockOre(Body.IKE, nickel, 100);
 		registerBedrockOre(Body.IKE, zinc, 100);
-		registerBedrockOre(Body.IKE, coltan, 100);
+		registerBedrockOre(Body.IKE, quartz, WorldConfig.bedrockQuartzSpawn);
 		
 		// Dres ores
 		registerBedrockOre(Body.DRES, iron, WorldConfig.bedrockIronSpawn);
 		registerBedrockOre(Body.DRES, copper, WorldConfig.bedrockCopperSpawn);
-		registerBedrockOre(Body.DRES, coltan, 100);
+		registerBedrockOre(Body.DRES, cadmium, 100);
+		registerBedrockOre(Body.DRES, coltan, GeneralConfig.bedrockRate);
+		registerBedrockOre(Body.DRES, gold, WorldConfig.bedrockGoldSpawn);
+		registerBedrockOre(Body.DRES, redstone, WorldConfig.bedrockRedstoneSpawn);
 		
 		// Laythe ores
 		registerBedrockOre(Body.LAYTHE, iron, WorldConfig.bedrockIronSpawn);
@@ -132,18 +133,20 @@ public class BedrockOre {
 		registerBedrockOre(Body.LAYTHE, rare, WorldConfig.bedrockRareEarthSpawn);
 		registerBedrockOre(Body.LAYTHE, asbestos, WorldConfig.bedrockAsbestosSpawn);
 		registerBedrockOre(Body.LAYTHE, emerald, WorldConfig.bedrockEmeraldSpawn);
+		registerBedrockOre(Body.LAYTHE, uranium, WorldConfig.bedrockUraniumSpawn);
 
 		// Moho ores
 		registerBedrockOre(Body.MOHO, iron, WorldConfig.bedrockIronSpawn);
 		registerBedrockOre(Body.MOHO, copper, WorldConfig.bedrockCopperSpawn);
 		registerBedrockOre(Body.MOHO, glowstone, WorldConfig.bedrockGlowstoneSpawn);
 		registerBedrockOre(Body.MOHO, phosporous, WorldConfig.bedrockPhosphorusSpawn);
+		registerBedrockOre(Body.MOHO, chlorocalcite, WorldConfig.bedrockChlorocalciteSpawn);
+		registerBedrockOre(Body.MOHO, cinnabar, 100);
 
 		// Eve ores
 		registerBedrockOre(Body.EVE, uranium, WorldConfig.bedrockUraniumSpawn);
 		registerBedrockOre(Body.EVE, thorium, WorldConfig.bedrockThoriumSpawn);
 		registerBedrockOre(Body.EVE, niobium, WorldConfig.bedrockNiobiumSpawn);
-		registerBedrockOre(Body.EVE, neodymium, WorldConfig.bedrockNeodymiumSpawn);
 		registerBedrockOre(Body.EVE, rare, WorldConfig.bedrockRareEarthSpawn);
 		registerBedrockOre(Body.EVE, schrabidium, 100);
 		registerBedrockOre(Body.EVE, cinnabar, 100);

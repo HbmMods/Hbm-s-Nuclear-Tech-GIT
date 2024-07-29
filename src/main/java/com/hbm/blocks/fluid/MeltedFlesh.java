@@ -71,22 +71,22 @@ public class MeltedFlesh extends Block {
 		CBT_Temperature temperature = CelestialBody.getTrait(world, CBT_Temperature.class);
 		if(temperature != null && temperature.degrees > 100) {
 			float f;
-            float f1;
-            float f2;
-        	f = (float)x + rand.nextFloat();
-            f1 = (float)y + rand.nextFloat() * 0.5F + 0.5F;
-            f2 = (float)z + rand.nextFloat();
+			float f1;
+			float f2;
+			f = (float)x + rand.nextFloat();
+			f1 = (float)y + rand.nextFloat() * 0.5F + 0.5F;
+			f2 = (float)z + rand.nextFloat();
 
 			if(this == ModBlocks.flesh_block) {
-	        	world.spawnParticle("smoke", (double)f, (double)f1, (double)f2, 0.0D, 0.0D, 0.0D);
-	        	world.spawnParticle("cloud", (double)f, (double)f1, (double)f2, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle("smoke", (double)f, (double)f1, (double)f2, 0.0D, 0.0D, 0.0D);
+				world.spawnParticle("cloud", (double)f, (double)f1, (double)f2, 0.0D, 0.0D, 0.0D);
 			} else if(this == ModBlocks.charred_flesh_block) {
-	        	world.spawnParticle("largesmoke", (double)f, (double)f1, (double)f2, 0.0D, 0.0D, 0.0D);	        	
+				world.spawnParticle("largesmoke", (double)f, (double)f1, (double)f2, 0.0D, 0.0D, 0.0D);	        	
 			}
 		}		
 	}
 	
-    public void updateTick(World world, int x, int y, int z, Random rand) {
+	public void updateTick(World world, int x, int y, int z, Random rand) {
 		CBT_Temperature temperature = CelestialBody.getTrait(world, CBT_Temperature.class);
 		if(temperature != null && temperature.degrees > 100) {
 			if(this == ModBlocks.flesh_block) {
@@ -94,7 +94,7 @@ public class MeltedFlesh extends Block {
 			} else if(this == ModBlocks.charred_flesh_block) {
 				world.setBlock(x, y, z, ModBlocks.carbonized_flesh_block);    	
 			}  
-        }
-    }
+		}
+	}
 
 }
