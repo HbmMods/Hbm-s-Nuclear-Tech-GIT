@@ -1441,9 +1441,9 @@ public class ModBlocks {
 		block_verticium = new BlockBeaconable(Material.iron).setBlockName("block_verticium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_verticium");
 		
 		//NTMC extra material blocks
-		block_sodium = new BlockBeaconable(Material.rock).setBlockName("block_sodium").setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setResistance(1.0F),setBlockTextureName(RefStrings.MODID + ":block_sodium");
-		block_strontium = new BlockBeaconable(Material.iron).setBlockName("block_strontium").setCreativeTab(MainRegistry.blockTab).setHardness(4.0F).setResistance(8.0F),setBlockTextureName(RefStrings.MODID + ":block_strontium");
-		block_neodymium = new BlockBeaconable(Material.iron).setBlockName("block_neodymium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F),setBlockTextureName(RefStrings.MODID + ":block_neodymium");
+		block_sodium = new BlockBeaconable(Material.rock).setBlockName("block_sodium").setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setResistance(1.0F).setBlockTextureName(RefStrings.MODID + ":block_sodium");
+		block_strontium = new BlockBeaconable(Material.iron).setBlockName("block_strontium").setCreativeTab(MainRegistry.blockTab).setHardness(4.0F).setResistance(8.0F).setBlockTextureName(RefStrings.MODID + ":block_strontium");
+		block_neodymium = new BlockBeaconable(Material.iron).setBlockName("block_neodymium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_neodymium");
 
 		block_cap = new BlockCap().setBlockName("block_cap").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F);
 		
