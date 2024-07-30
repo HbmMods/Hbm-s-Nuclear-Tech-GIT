@@ -439,7 +439,7 @@ public class OreDictManager {
 		 * HAZARDS, MISC
 		 */
 		LI	.hydro(1F)	.ingot(lithium)	.dustSmall(powder_lithium_tiny)	.dust(powder_lithium)	.block(block_lithium)	.ore(ore_gneiss_lithium);
-		NA	.hydro(1F)													.dust(powder_sodium);
+		NA	.hydro(1F)	.ingot(ingot_sodium)							.dust(powder_sodium)	.block(block_sodium);
 
 		/*
 		 * PHOSPHORUS
@@ -462,7 +462,7 @@ public class OreDictManager {
 		 */
 		LA	.nugget(fragment_lanthanium)	.ingot(ingot_lanthanium)										.dustSmall(powder_lanthanium_tiny)	.dust(powder_lanthanium)	.block(block_lanthanium);
 		ZR	.nugget(nugget_zirconium)		.ingot(ingot_zirconium)		.billet(billet_zirconium)												.dust(powder_zirconium)		.block(block_zirconium)		.ore(ore_depth_zirconium);
-		ND	.nugget(fragment_neodymium)																		.dustSmall(powder_neodymium_tiny)	.dust(powder_neodymium)									.ore(ore_depth_nether_neodymium)	.oreNether(ore_depth_nether_neodymium);
+		ND	.nugget(fragment_neodymium)		.ingot(ingot_neodymium)											.dustSmall(powder_neodymium_tiny)	.dust(powder_neodymium)		.block(block_neodymium)							.ore(ore_depth_nether_neodymium)	.oreNether(ore_depth_nether_neodymium);
 		CE	.nugget(fragment_cerium)																		.dustSmall(powder_cerium_tiny)		.dust(powder_cerium);
 		
 		/*
@@ -478,7 +478,7 @@ public class OreDictManager {
 		/*
 		 * FISSION FRAGMENTS
 		 */
-		SR									.hot(1F)	.hydro(1F)									.dust(powder_strontium);
+		SR									.hot(1F)	.hydro(1F)									.dust(powder_strontium).ingot(ingot_strontium).block(block_strontium);
 		SR90	.rad(HazardRegistry.sr90)	.hot(1F)	.hydro(1F)	.dustSmall(powder_sr90_tiny)	.dust(powder_sr90)	.ingot(ingot_sr90)	.billet(billet_sr90)	.nugget(nugget_sr90);
 		I131	.rad(HazardRegistry.i131)	.hot(1F)				.dustSmall(powder_i131_tiny)	.dust(powder_i131);
 		XE135	.rad(HazardRegistry.xe135)	.hot(10F)				.dustSmall(powder_xe135_tiny)	.dust(powder_xe135);

@@ -45,23 +45,26 @@ public class CrucibleRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 
+		int q = MaterialShapes.QUANTUM.q(1);
 		int n = MaterialShapes.NUGGET.q(1);
 		int i = MaterialShapes.INGOT.q(1);
 		
+		/* NTMC special: Units of materials used by most recipes are now changed to quanta, 
+		   this should let crucibles create alloy at any proper time, and should not affect progress time */  
 		recipes.add(new CrucibleRecipe(0, "crucible.steel", 2, new ItemStack(ModItems.ingot_steel))
-				.inputs(new MaterialStack(Mats.MAT_IRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
-				.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
+				.inputs(new MaterialStack(Mats.MAT_IRON, q * 2), new MaterialStack(Mats.MAT_CARBON, q))
+				.outputs(new MaterialStack(Mats.MAT_STEEL, q * 2)));
 		
 		if(Compat.isModLoaded(Compat.MOD_GT6)) {
 			recipes.add(new CrucibleRecipe(9, "crucible.steelWrought", 2, new ItemStack(ModItems.ingot_steel))
-					.inputs(new MaterialStack(Mats.MAT_WROUGHTIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
-					.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
+					.inputs(new MaterialStack(Mats.MAT_WROUGHTIRON, q * 2), new MaterialStack(Mats.MAT_CARBON, q))
+					.outputs(new MaterialStack(Mats.MAT_STEEL, q * 2)));
 			recipes.add(new CrucibleRecipe(10, "crucible.steelPig", 2, new ItemStack(ModItems.ingot_steel))
-					.inputs(new MaterialStack(Mats.MAT_PIGIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
-					.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
+					.inputs(new MaterialStack(Mats.MAT_PIGIRON, q * 2), new MaterialStack(Mats.MAT_CARBON, q))
+					.outputs(new MaterialStack(Mats.MAT_STEEL, q * 2)));
 			recipes.add(new CrucibleRecipe(11, "crucible.steelMeteoric", 2, new ItemStack(ModItems.ingot_steel))
-					.inputs(new MaterialStack(Mats.MAT_METEORICIRON, n * 2), new MaterialStack(Mats.MAT_CARBON, n))
-					.outputs(new MaterialStack(Mats.MAT_STEEL, n * 2)));
+					.inputs(new MaterialStack(Mats.MAT_METEORICIRON, q * 2), new MaterialStack(Mats.MAT_CARBON, q))
+					.outputs(new MaterialStack(Mats.MAT_STEEL, q * 2)));
 		}
 		
 		recipes.add(new CrucibleRecipe(7, "crucible.hematite", 6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.HEMATITE))
@@ -73,48 +76,48 @@ public class CrucibleRecipes extends SerializableRecipe {
 				.outputs(new MaterialStack(Mats.MAT_COPPER, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
 		
 		recipes.add(new CrucibleRecipe(1, "crucible.redcopper", 2, new ItemStack(ModItems.ingot_red_copper))
-				.inputs(new MaterialStack(Mats.MAT_COPPER, n), new MaterialStack(Mats.MAT_REDSTONE, n))
-				.outputs(new MaterialStack(Mats.MAT_MINGRADE, n * 2)));
+				.inputs(new MaterialStack(Mats.MAT_COPPER, q), new MaterialStack(Mats.MAT_REDSTONE, q))
+				.outputs(new MaterialStack(Mats.MAT_MINGRADE, q * 2)));
 		
 		recipes.add(new CrucibleRecipe(2, "crucible.aa", 2, new ItemStack(ModItems.ingot_advanced_alloy))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n), new MaterialStack(Mats.MAT_MINGRADE, n))
-				.outputs(new MaterialStack(Mats.MAT_ALLOY, n * 2)));
+				.inputs(new MaterialStack(Mats.MAT_STEEL, q), new MaterialStack(Mats.MAT_MINGRADE, q))
+				.outputs(new MaterialStack(Mats.MAT_ALLOY, q * 2)));
 		
 		recipes.add(new CrucibleRecipe(3, "crucible.hss", 9, new ItemStack(ModItems.ingot_dura_steel))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 5), new MaterialStack(Mats.MAT_TUNGSTEN, n * 3), new MaterialStack(Mats.MAT_COBALT, n * 1))
-				.outputs(new MaterialStack(Mats.MAT_DURA, n * 9)));
+				.inputs(new MaterialStack(Mats.MAT_STEEL, q * 5), new MaterialStack(Mats.MAT_TUNGSTEN, q * 3), new MaterialStack(Mats.MAT_COBALT, q * 1))
+				.outputs(new MaterialStack(Mats.MAT_DURA, q * 9)));
 		
 		recipes.add(new CrucibleRecipe(4, "crucible.ferro", 3, new ItemStack(ModItems.ingot_ferrouranium))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 2), new MaterialStack(Mats.MAT_U238, n))
-				.outputs(new MaterialStack(Mats.MAT_FERRO, n * 3)));
+				.inputs(new MaterialStack(Mats.MAT_STEEL, q * 2), new MaterialStack(Mats.MAT_U238, q))
+				.outputs(new MaterialStack(Mats.MAT_FERRO, q * 3)));
 		
 		recipes.add(new CrucibleRecipe(5, "crucible.tcalloy", 9, new ItemStack(ModItems.ingot_tcalloy))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_TECHNIETIUM, n))
-				.outputs(new MaterialStack(Mats.MAT_TCALLOY, i)));
+				.inputs(new MaterialStack(Mats.MAT_STEEL, n), new MaterialStack(Mats.MAT_TECHNIETIUM, q))
+				.outputs(new MaterialStack(Mats.MAT_TCALLOY, q * 9)));
 		
 		recipes.add(new CrucibleRecipe(12, "crucible.cdalloy", 9, new ItemStack(ModItems.ingot_cdalloy))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_CADMIUM, n))
-				.outputs(new MaterialStack(Mats.MAT_CDALLOY, i)));
+				.inputs(new MaterialStack(Mats.MAT_STEEL, n), new MaterialStack(Mats.MAT_CADMIUM, q))
+				.outputs(new MaterialStack(Mats.MAT_CDALLOY, q * 9)));
 		
 		recipes.add(new CrucibleRecipe(14, "crucible.bbronze", 9, new ItemStack(ModItems.ingot_bismuth_bronze))
-				.inputs(new MaterialStack(Mats.MAT_COPPER, n * 8), new MaterialStack(Mats.MAT_BISMUTH, n), new MaterialStack(Mats.MAT_FLUX, n * 3))
-				.outputs(new MaterialStack(Mats.MAT_BBRONZE, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
+				.inputs(new MaterialStack(Mats.MAT_COPPER, n), new MaterialStack(Mats.MAT_BISMUTH, q), new MaterialStack(Mats.MAT_FLUX, q * 3))
+				.outputs(new MaterialStack(Mats.MAT_BBRONZE, q * 9), new MaterialStack(Mats.MAT_SLAG, q * 3)));
 		
 		recipes.add(new CrucibleRecipe(15, "crucible.abronze", 9, new ItemStack(ModItems.ingot_arsenic_bronze))
-				.inputs(new MaterialStack(Mats.MAT_COPPER, n * 8), new MaterialStack(Mats.MAT_ARSENIC, n), new MaterialStack(Mats.MAT_FLUX, n * 3))
-				.outputs(new MaterialStack(Mats.MAT_ABRONZE, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
+				.inputs(new MaterialStack(Mats.MAT_COPPER, n), new MaterialStack(Mats.MAT_ARSENIC, q), new MaterialStack(Mats.MAT_FLUX, q * 3))
+				.outputs(new MaterialStack(Mats.MAT_ABRONZE, q * 9), new MaterialStack(Mats.MAT_SLAG, q * 3)));
 		
 		recipes.add(new CrucibleRecipe(13, "crucible.cmb", 3, new ItemStack(ModItems.ingot_combine_steel))
-				.inputs(new MaterialStack(Mats.MAT_MAGTUNG, n * 6), new MaterialStack(Mats.MAT_MUD, n * 3))
-				.outputs(new MaterialStack(Mats.MAT_CMB, i)));
+				.inputs(new MaterialStack(Mats.MAT_MAGTUNG, q * 2), new MaterialStack(Mats.MAT_MUD, q))
+				.outputs(new MaterialStack(Mats.MAT_CMB, 3)));
 		
 		recipes.add(new CrucibleRecipe(16, "crucible.magtung", 3, new ItemStack(ModItems.ingot_magnetized_tungsten))
 				.inputs(new MaterialStack(Mats.MAT_TUNGSTEN, i), new MaterialStack(Mats.MAT_SCHRABIDIUM, n * 1))
 				.outputs(new MaterialStack(Mats.MAT_MAGTUNG, i)));
 		
 		recipes.add(new CrucibleRecipe(17, "crucible.bscco", 3, new ItemStack(ModItems.ingot_bscco))
-				.inputs(new MaterialStack(Mats.MAT_BISMUTH, n * 2), new MaterialStack(Mats.MAT_STRONTIUM, n * 2), new MaterialStack(Mats.MAT_CALCIUM, n * 2), new MaterialStack(Mats.MAT_COPPER, n * 3))
-				.outputs(new MaterialStack(Mats.MAT_BSCCO, i)));
+				.inputs(new MaterialStack(Mats.MAT_BISMUTH, q * 2), new MaterialStack(Mats.MAT_STRONTIUM, q * 2), new MaterialStack(Mats.MAT_CALCIUM, q * 2), new MaterialStack(Mats.MAT_COPPER, q * 3))
+				.outputs(new MaterialStack(Mats.MAT_BSCCO, q * 9)));
 		
 		registerMoldsForNEI();
 	}
