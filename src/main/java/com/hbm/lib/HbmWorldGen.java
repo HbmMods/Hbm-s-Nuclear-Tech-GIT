@@ -53,6 +53,7 @@ import net.minecraft.world.biome.BiomeGenForest;
 import net.minecraft.world.biome.BiomeGenJungle;
 import net.minecraft.world.biome.BiomeGenRiver;
 import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.common.IWorldGenerator;
 
@@ -223,6 +224,41 @@ public class HbmWorldGen implements IWorldGenerator {
 				DungeonToolbox.generateOre(world, rand, i, j, 1, 10, 4, 30, ModBlocks.ore_random);
 			}
 			BlockMotherOfAllOres.resetOverride();
+			
+			if(GeneralConfig.enable528ColtanSpawn) {
+				DungeonToolbox.generateOre(world, rand, i, j, GeneralConfig.coltanRate, 4, 15, 40, ModBlocks.ore_coltan);
+			}
+
+			Random colRand = new Random(world.getSeed() + 5);
+			int colX = (int) (colRand.nextGaussian() * 1500);
+			int colZ = (int) (colRand.nextGaussian() * 1500);
+			int colRange = 750;
+			
+			if((GeneralConfig.enable528BedrockSpawn || GeneralConfig.enable528BedrockDeposit) && rand.nextInt(GeneralConfig.bedrockRate) != 0) {
+				int x = i + rand.nextInt(16) + 8;
+				int z = j + rand.nextInt(16) + 8;
+				
+				if(GeneralConfig.enable528BedrockSpawn || (GeneralConfig.enable528BedrockDeposit && x <= colX + colRange && x >= colX - colRange && z <= colZ + colRange && z >= colZ - colRange)) {
+					BedrockOre.generate(world, x, z, new ItemStack(ModItems.fragment_coltan), null, 0xA78D7A, 1);
+				}
+			}
+			
+			if(GeneralConfig.enable528ColtanDeposit) {
+				for(int k = 0; k < 2; k++) {
+
+					for(int r = 1; r <= 5; r++) {
+						int randPosX = i + rand.nextInt(16);
+						int randPosY = rand.nextInt(25) + 15;
+						int randPosZ = j + rand.nextInt(16);
+
+						int range = colRange / r;
+
+						if(randPosX <= colX + range && randPosX >= colX - range && randPosZ <= colZ + range && randPosZ >= colZ - range) {
+							(new WorldGenMinable(ModBlocks.ore_coltan, 4)).generate(world, rand, randPosX, randPosY, randPosZ);
+						}
+					}
+				}
+			}
 		}
 		
 		boolean enableDungeons = world.getWorldInfo().isMapFeaturesEnabled();
