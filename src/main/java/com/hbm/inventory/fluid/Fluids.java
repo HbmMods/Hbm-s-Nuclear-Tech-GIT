@@ -388,8 +388,8 @@ public class Fluids {
 		
 		//NTMC-only fluids, whose IDs start from 512
 		COLLOID_HOT =			new FluidType(512, "COLLOID_HOT",	0x967878, 0, 0, 0, EnumSymbol.NONE).setTemp(120).addTraits(LIQUID, VISCOUS);
-		CRYOGEL_MOD =			new FluidType(513, "CRYOGEL_MOD",	0x44AACC, 2, 0, 0, EnumSymbol.CROYGENIC).addTraits(LIQUID, VISCOUS);
-		CRYOGEL_MOD_HOT =		new FluidType(514, "CRYOGEL_MOD_HOT",	0x66CCFF, 4, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+		CRYOGEL_MOD =			new FluidType(513, "CRYOGEL_MOD",	0x9683DF, 0, 0, 0, EnumSymbol.NONE).setTemp(15).addTraits(LIQUID, VISCOUS);
+		CRYOGEL_MOD_HOT =		new FluidType(514, "CRYOGEL_MOD_HOT",	0xD7A2FF, 4, 0, 0, EnumSymbol.NONE).setTemp(2000).addTraits(GASEOUS);
 		
 		// ^ ^ ^ ^ ^ ^ ^ ^
 		//ADD NEW FLUIDS HERE

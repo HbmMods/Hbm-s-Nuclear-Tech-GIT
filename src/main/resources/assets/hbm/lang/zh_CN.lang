@@ -6036,9 +6036,22 @@ weapon.elecGun.glass_cannon.uv=紫外线
 weapon.elecGun.glass_cannon.xray=X射线
 weapon.elecGun.glass_cannon.gamma=伽马射线
 
-#Stuffs that Bob doesn't provide translation for
+# Stuffs that Bob doesn't provide translation for
 item.gun_vortex.name=涡流
 tile.crystal_power.name=能量水晶
 tile.crystal_energy.name=能量水晶
 tile.crystal_robust.name=坚固的水晶
 tile.crystal_trixite.name=赛瑞克水晶
+
+# NTMC Addon Strings
+hbmfluid.cryogel_mod=改性冷凝胶
+hbmfluid.cryogel_mod_hot=热改性冷凝胶
+
+item.ingot_neodymium.name=钕锭
+item.ingot_sodium.name=钠锭
+item.ingot_strontium.name=锶锭
+item.night_vision_mk2.name=自充电夜视眼镜
+
+tile.block_neodymium.name=钕块
+tile.block_sodium.name=钠块
+tile.block_strontium.name=锶块

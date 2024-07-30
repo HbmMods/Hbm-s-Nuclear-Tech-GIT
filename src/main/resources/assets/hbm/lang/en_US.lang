@@ -3436,7 +3436,6 @@ item.n2_charge.name=Large Explosive Charge
 item.neutrino_lens.name=Neutrino Lens
 item.neutron_reflector.name=Neutron Reflector
 item.night_vision.name=Night Vision Goggles
-item.night_vision_mk2.name=Self-Charging Night Vision Goggles
 item.night_vision.description.item=Grants you night vision (requires full electric set)
 item.night_vision.description.in_armor=%s (grants night vision)
 item.niter.name=Niter
@@ -6030,3 +6029,16 @@ desc.gui.upgrade.effectiveness= * §aEffectiveness§r: Stacks to level 3
 desc.gui.upgrade.overdrive= * §7Overdrive§r: Stacks to level 3
 desc.gui.upgrade.power= * §1Power-Saving§r: Stacks to level 3
 desc.gui.upgrade.speed= * §4Speed§r: Stacks to level 3
+
+# NTMC Addon Strings
+hbmfluid.cryogel_mod=Modifed Cryogel
+hbmfluid.cryogel_mod_hot=Hot Modified Cryogel
+
+item.ingot_neodymium.name=Neodymium Ingot
+item.ingot_sodium.name=Sodium Ingot
+item.ingot_strontium.name=Strontium Ingot
+item.night_vision_mk2.name=Self-Charging Night Vision Goggles
+
+tile.block_neodymium.name=Block of Neodymium
+tile.block_sodium.name=Block of Sodium
+tile.block_strontium.name=Block of Strontium

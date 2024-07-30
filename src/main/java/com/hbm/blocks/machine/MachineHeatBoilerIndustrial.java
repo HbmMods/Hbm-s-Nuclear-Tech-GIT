@@ -112,9 +112,9 @@ public class MachineHeatBoilerIndustrial extends BlockDummyable implements ILook
 		TileEntityHeatBoilerIndustrial boiler = (TileEntityHeatBoilerIndustrial) te;
 		
 		List<String> text = new ArrayList();
-		text.add(String.format(Locale.US, "%,d", boiler.heat) + "TU");
-		text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + boiler.tanks[0].getTankType().getLocalizedName() + ": " + String.format(Locale.US, "%,d", boiler.tanks[0].getFill()) + " / " + String.format(Locale.US, "%,d", boiler.tanks[0].getMaxFill()) + "mB");
-		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + boiler.tanks[1].getTankType().getLocalizedName() + ": " + String.format(Locale.US, "%,d", boiler.tanks[1].getFill()) + " / " + String.format(Locale.US, "%,d", boiler.tanks[1].getMaxFill()) + "mB");
+		text.add(String.format(Locale.US, "%,d", turbine.power) + " / " + String.format(Locale.US, "%,d", turbine.maxPower) + "HE");
+		text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + turbine.tanks[0].getTankType().getLocalizedName() + ": " + String.format(Locale.US, "%,d", turbine.tanks[0].getFill()) + " / " + String.format(Locale.US, "%,d", turbine.tanks[0].getMaxFill()) + "mB");
+		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + turbine.tanks[1].getTankType().getLocalizedName() + ": " + String.format(Locale.US, "%,d", turbine.tanks[1].getFill()) + " / " + String.format(Locale.US, "%,d", turbine.tanks[1].getMaxFill()) + "mB");
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}

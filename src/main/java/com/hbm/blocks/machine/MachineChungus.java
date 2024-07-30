@@ -78,10 +78,15 @@ public class MachineChungus extends BlockDummyable implements ITooltipProvider {
 							entity.tanks[1].setTankType(Fluids.SUPERHOTSTEAM);
 							entity.tanks[0].setFill(entity.tanks[0].getFill() / 10);
 							entity.tanks[1].setFill(0);
+						} else if(type == Fluids.ULTRAHOTSTEAM) {
+							entity.tanks[0].setTankType(Fluids.CRYOGEL_MOD_HOT);
+							entity.tanks[1].setTankType(Fluids.CRYOGEL);
+							entity.tanks[0].setFill(0);
+							entity.tanks[1].setFill(0);
 						} else {
 							entity.tanks[0].setTankType(Fluids.STEAM);
 							entity.tanks[1].setTankType(Fluids.SPENTSTEAM);
-							entity.tanks[0].setFill(Math.min(entity.tanks[0].getFill() * 1000, entity.tanks[0].getMaxFill()));
+							entity.tanks[0].setFill(0);
 							entity.tanks[1].setFill(0);
 						}
 						entity.markDirty();
