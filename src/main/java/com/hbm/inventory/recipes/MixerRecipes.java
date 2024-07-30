@@ -91,6 +91,7 @@ public class MixerRecipes extends SerializableRecipe {
 		register(Fluids.CHLOROCALCITE_MIX, new MixerRecipe(1000, 50).setStack1(new FluidStack(Fluids.CHLOROCALCITE_SOLUTION, 500)).setStack2(new FluidStack(Fluids.SULFURIC_ACID, 500)).setSolid(new ComparableStack(ModItems.powder_flux)));
 		register(Fluids.PHEROMONE_M, new MixerRecipe(2000, 10).setStack1(new FluidStack(Fluids.PHEROMONE, 1500)).setStack2(new FluidStack(Fluids.BLOOD, 500)).setSolid(new ComparableStack(ModItems.pill_herbal)));
 
+		register(Fluids.CRYOGEL_MOD, new MixerRecipe(20000, 40).setStack1(new FluidStack(Fluids.CRYOGEL, 16000)).setStack2(new FluidStack(Fluids.HELIUM4, 2000)).setSolid(new ComparableStack(ModItems.powder_magic)));
 	}
 	
 	public static void register(FluidType type, MixerRecipe... rec) {
