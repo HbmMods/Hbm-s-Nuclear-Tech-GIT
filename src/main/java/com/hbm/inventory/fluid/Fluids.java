@@ -632,8 +632,8 @@ public class Fluids {
 		COLLOID.addTraits(new FT_Heatable().setEff(HeatingType.BOILER, 1.0D).setEff(HeatingType.HEATEXCHANGER, 1.0D).addStep(101, 1, COLLOID_HOT, 1));
 		COLLOID_HOT.addTraits(new FT_Coolable(COLLOID, 1, 1, 101).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 
-		CRYOGEL_MOD.addTraits(new FT_Heatable().setEff(HeatingType.ICF, 3.0D).addStep(6400, 1, COLLOID_HOT, 2));
-		CRYOGEL_MOD_HOT.addTraits(new FT_Coolable(COLLOID, 2, 1, 3200).setEff(CoolingType.TURBINE, eff_steam_turbine).setEff(CoolingType.HEATEXCHANGER, eff_steam_cool));
+		CRYOGEL_MOD.addTraits(new FT_Heatable().setEff(HeatingType.ICF, 3.0D).addStep(6400, 1, CRYOGEL_MOD_HOT, 2));
+		CRYOGEL_MOD_HOT.addTraits(new FT_Coolable(CRYOGEL_MOD, 2, 1, 3200).setEff(CoolingType.TURBINE, eff_steam_turbine).setEff(CoolingType.HEATEXCHANGER, eff_steam_cool));
 
 		if(idMapping.size() != metaOrder.size()) {
 			throw new IllegalStateException("A severe error has occoured during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size());

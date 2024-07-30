@@ -252,6 +252,11 @@ public class ModBlocks {
 	public static Block block_daffergon;
 	public static Block block_verticium;
 
+	//NTMC extra material blocks
+	public static Block block_sodium;
+	public static Block block_strontium;
+	public static Block block_neodymium;
+
 	public static Block block_cap;
 
 	public static Block deco_titanium;
@@ -1435,6 +1440,11 @@ public class ModBlocks {
 		block_daffergon = new BlockBeaconable(Material.iron).setBlockName("block_daffergon").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_daffergon");
 		block_verticium = new BlockBeaconable(Material.iron).setBlockName("block_verticium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":block_verticium");
 		
+		//NTMC extra material blocks
+		block_sodium = new BlockBeaconable(Material.rock).setBlockName("block_sodium").setCreativeTab(MainRegistry.blockTab).setHardness(1.0F).setResistance(1.0F),setBlockTextureName(RefStrings.MODID + ":block_sodium");
+		block_strontium = new BlockBeaconable(Material.iron).setBlockName("block_strontium").setCreativeTab(MainRegistry.blockTab).setHardness(4.0F).setResistance(8.0F),setBlockTextureName(RefStrings.MODID + ":block_strontium");
+		block_neodymium = new BlockBeaconable(Material.iron).setBlockName("block_neodymium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F),setBlockTextureName(RefStrings.MODID + ":block_neodymium");
+
 		block_cap = new BlockCap().setBlockName("block_cap").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F);
 		
 		deco_titanium = new BlockOre(Material.iron).noFortune().setBlockName("deco_titanium").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":deco_titanium");
@@ -2584,6 +2594,11 @@ public class ModBlocks {
 		GameRegistry.registerBlock(block_c4, block_c4.getUnlocalizedName());
 		GameRegistry.registerBlock(block_smore, block_smore.getUnlocalizedName());
 		GameRegistry.registerBlock(block_slag, block_slag.getUnlocalizedName());
+
+		//NTMC Extra material blocks
+		GameRegistry.registerBlock(block_sodium, block_sodium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_strontium, block_strontium.getUnlocalizedName());
+		GameRegistry.registerBlock(block_neodymium, block_neodymium.getUnlocalizedName());
 		
 		//Deco Blocks
 		GameRegistry.registerBlock(deco_titanium, deco_titanium.getUnlocalizedName());
