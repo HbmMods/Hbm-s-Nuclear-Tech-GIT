@@ -17,7 +17,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineChungus extends BlockDummyable implements ITooltipProvider {
+public class MachineChungus extends BlockDummyable implements ILookOverlay, ITooltipProvider {
 
 	public MachineChungus(Material mat) {
 		super(mat);
@@ -98,6 +98,29 @@ public class MachineChungus extends BlockDummyable implements ITooltipProvider {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		
+		int[] pos = this.findCore(world, x, y, z);
+		
+		if(pos == null)
+			return;
+		
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		
+		if(!(te instanceof TileEntityHeatBoilerIndustrial))
+			return;
+		
+		TileEntityHeatBoilerIndustrial boiler = (TileEntityHeatBoilerIndustrial) te;
+		
+		List<String> text = new ArrayList();
+		text.add(String.format(Locale.US, "%,d", turbine.power) + " / " + String.format(Locale.US, "%,d", turbine.maxPower) + "HE");
+		text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + turbine.tanks[0].getTankType().getLocalizedName() + ": " + String.format(Locale.US, "%,d", turbine.tanks[0].getFill()) + " / " + String.format(Locale.US, "%,d", turbine.tanks[0].getMaxFill()) + "mB");
+		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + turbine.tanks[1].getTankType().getLocalizedName() + ": " + String.format(Locale.US, "%,d", turbine.tanks[1].getFill()) + " / " + String.format(Locale.US, "%,d", turbine.tanks[1].getMaxFill()) + "mB");
+		
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 
 	@Override
