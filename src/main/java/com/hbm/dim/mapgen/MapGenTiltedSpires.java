@@ -62,7 +62,7 @@ public class MapGenTiltedSpires extends MapGenBase {
 		if(rand.nextInt(chance) == Math.abs(offsetX) % chance && rand.nextInt(chance) == Math.abs(offsetZ) % chance) {
 
 			float coneRadius = rand.nextInt(maxSize - minSize) + minSize;
-			float stretch = 1F / (rand.nextFloat() * (maxPoint - minPoint) + minPoint);
+			float stretch = 1F / (rand.nextFloat() * rand.nextFloat() * (maxPoint - minPoint) + minPoint);
 			float direction = rand.nextFloat() * (float)Math.PI * 2F;
 			float tilt = rand.nextFloat() * (maxTilt - minTilt) + minTilt;
 
