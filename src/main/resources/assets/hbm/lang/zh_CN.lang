@@ -5360,7 +5360,7 @@ tile.machine_centrifuge.name=离心机
 tile.machine_chemfac.name=大型化工厂
 tile.machine_chemplant.name=化工厂
 tile.machine_chungus.name=“利维坦”巨型汽轮机
-tile.machine_chungus.desc=效率: 85%%
+tile.machine_chungus.desc=效率: 95%%
 tile.machine_coal_off.name=火力发电机
 tile.machine_coal_on.name=火力发电机
 tile.machine_coker.name=焦化装置
@@ -6044,6 +6044,7 @@ tile.crystal_robust.name=坚固的水晶
 tile.crystal_trixite.name=赛瑞克水晶
 
 # NTMC Addon Strings
+hbmfluid.colloid_hot=热胶体
 hbmfluid.cryogel_mod=改性冷凝胶
 hbmfluid.cryogel_mod_hot=热改性冷凝胶
 
