@@ -59,6 +59,7 @@ public class GUIMachineLargeTurbine extends GuiInfoContainer {
 		if(turbine.tanks[0].getTankType() == Fluids.HOTSTEAM) drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 14, 14, 14);
 		if(turbine.tanks[0].getTankType() == Fluids.SUPERHOTSTEAM)drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 28, 14, 14);
 		if(turbine.tanks[0].getTankType() == Fluids.ULTRAHOTSTEAM)drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 42, 14, 14);
+		if(turbine.tanks[0].getTankType() == Fluids.CRYOGEL_MOD_HOT) drawTexturedModalRect(guiLeft + 99, guiTop + 18, 183, 56, 14, 14);
 
 		int i = (int)turbine.getPowerScaled(34);
 		drawTexturedModalRect(guiLeft + 123, guiTop + 69 - i, 176, 34 - i, 7, i);

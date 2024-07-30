@@ -89,7 +89,7 @@ public class MachineChungus extends BlockDummyable implements ILookOverlay, IToo
 							entity.tanks[1].setFill(0);
 						} else if(type == Fluids.ULTRAHOTSTEAM) {
 							entity.tanks[0].setTankType(Fluids.CRYOGEL_MOD_HOT);
-							entity.tanks[1].setTankType(Fluids.CRYOGEL);
+							entity.tanks[1].setTankType(Fluids.CRYOGEL_MOD);
 							entity.tanks[0].setFill(0);
 							entity.tanks[1].setFill(0);
 						} else {
