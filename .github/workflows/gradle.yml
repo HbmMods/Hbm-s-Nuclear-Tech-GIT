@@ -1,10 +1,10 @@
 name: Java CI with Gradle
 
-on:
+on: 
   push:
-    branches: [ "ntmc" ]
+    branches: [ "ntmc", "master" ]    #"ntmc" is for Crp's repo and "master" is for O4's
   pull_request:
-    branches: [ "ntmc" ]
+    branches: [ "ntmc", "master" ]
 
 jobs:
   build:
