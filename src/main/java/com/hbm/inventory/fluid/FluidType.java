@@ -85,13 +85,26 @@ public class FluidType {
 	}
 	
 	public FluidType(int forcedId, String name, int color, int p, int f, int r, EnumSymbol symbol) {
-		this(name, color, p, f, r, symbol);
+		this.stringId = name;
+		this.color = color;
+		this.unlocalized = "hbmfluid." + name.toLowerCase(Locale.US);
+		this.poison = p;
+		this.flammability = f;
+		this.reactivity = r;
+		this.symbol = symbol;
+		this.texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids/" + name.toLowerCase(Locale.US) + ".png");
 		
+		this.id = forcedId;
+		Fluids.register(this, id);
+	
+	/*
 		if(this.id != forcedId) {
 			throw new IllegalStateException("Howdy! I am a safeguard put into place by Bob to protect you, the player, from Bob's dementia. For whatever reason, Bob decided to either add or remove a fluid in a way that shifts the IDs, despite the entire system being built to prevent just that. Instead of people's fluids getting jumbled for the 500th time, I am here to prevent the game from starting entirely. The expected ID was " + forcedId + ", but turned out to be " + this.id + ".");
 		}
+	*	So Bob, you CAN register fluids correctly with forced IDs, don't you?
+	*/
 	}
-	
+
 	public FluidType setTemp(int temperature) {
 		this.temperature = temperature;
 		return this;
