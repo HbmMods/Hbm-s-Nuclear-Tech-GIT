@@ -35,12 +35,13 @@ public class ItemCircuit extends ItemEnumMulti {
 		list.add(new ItemStack(item, 1, EnumCircuitType.CAPACITOR_BOARD.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.BISMOID.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.AVIONICS.ordinal()));
-		list.add(new ItemStack(item, 1, EnumCircuitType.AREO.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.AERO.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.QUANTUM.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER_CHASSIS.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER_ADVANCED.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER_QUANTUM.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.CAPACITOR_LANTHANIUM.ordinal()));
 	}
 
 	public static enum EnumCircuitType {
@@ -57,7 +58,7 @@ public class ItemCircuit extends ItemEnumMulti {
 		CAPACITOR_BOARD,
 		BISMOID,
 		AVIONICS,
-		AREO,
+		AERO,
 		CONTROLLER_CHASSIS,
 		CONTROLLER,
 		CONTROLLER_ADVANCED,
@@ -65,6 +66,7 @@ public class ItemCircuit extends ItemEnumMulti {
 		CHIP_QUANTUM,
 		CONTROLLER_QUANTUM,
 		ATOMIC_CLOCK,
+		CAPACITOR_LANTHANIUM,
 	}
 	
 	@Override

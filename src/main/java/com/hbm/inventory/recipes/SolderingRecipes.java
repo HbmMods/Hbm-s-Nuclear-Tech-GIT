@@ -100,7 +100,7 @@ public class SolderingRecipes extends SerializableRecipe {
 				new AStack[] {
 						new OreDictStack(PB.wireFine(), 4)}
 		));
-		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.AREO.ordinal()), 300, 1_000,
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.AERO.ordinal()), 300, 1_000,
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 3, EnumCircuitType.CHIP)},
 				new AStack[] {
@@ -144,7 +144,7 @@ public class SolderingRecipes extends SerializableRecipe {
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, lbsm ? 8 : 16, EnumCircuitType.CHIP_BISMOID),
 						new ComparableStack(ModItems.circuit, lbsm ? 16 : 48, EnumCircuitType.CAPACITOR_TANTALIUM),
-						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ATOMIC_CLOCK)},
+						new ComparableStack(ModItems.circuit, lbsm ? 8 : 32, EnumCircuitType.CAPACITOR_LANTHANIUM)},
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CONTROLLER_CHASSIS),
 						new ComparableStack(ModItems.upgrade_speed_3)},

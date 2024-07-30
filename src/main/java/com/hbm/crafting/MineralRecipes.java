@@ -39,7 +39,6 @@ public class MineralRecipes {
 		add1To9Pair(ModBlocks.block_graphite, ModItems.ingot_graphite);
 		add1To9Pair(ModBlocks.block_boron, ModItems.ingot_boron);
 		add1To9Pair(ModBlocks.block_schraranium, ModItems.ingot_schraranium);
-		add1To9Pair(ModBlocks.block_lanthanium, ModItems.ingot_lanthanium);
 		add1To9Pair(ModBlocks.block_ra226, ModItems.ingot_ra226);
 		add1To9Pair(ModBlocks.block_actinium, ModItems.ingot_actinium);
 		add1To9Pair(ModBlocks.block_schrabidate, ModItems.ingot_schrabidate);
@@ -68,6 +67,7 @@ public class MineralRecipes {
 		addMineralSet(ModItems.nugget_zirconium, ModItems.ingot_zirconium, ModBlocks.block_zirconium);
 		addMineralSet(ModItems.nugget_dineutronium, ModItems.ingot_dineutronium, ModBlocks.block_dineutronium);
 		addMineralSet(ModItems.nuclear_waste_vitrified_tiny, ModItems.nuclear_waste_vitrified, ModBlocks.block_waste_vitrified);
+		addMineralSet(ModItems.nugget_lanthanium, ModItems.ingot_lanthanium, ModBlocks.block_lanthanium);
 		
 		add1To9Pair(ModItems.ingot_silicon, ModItems.nugget_silicon);
 
