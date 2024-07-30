@@ -110,10 +110,10 @@ public class MachineChungus extends BlockDummyable implements ILookOverlay, IToo
 		
 		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
 		
-		if(!(te instanceof TileEntityHeatBoilerIndustrial))
+		if(!(te instanceof TileEntityChungus))
 			return;
 		
-		TileEntityHeatBoilerIndustrial boiler = (TileEntityHeatBoilerIndustrial) te;
+		TileEntityChungus turbine = (TileEntityChungus) te;
 		
 		List<String> text = new ArrayList();
 		text.add(String.format(Locale.US, "%,d", turbine.power) + " / " + String.format(Locale.US, "%,d", turbine.maxPower) + "HE");
