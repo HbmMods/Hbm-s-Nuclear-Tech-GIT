@@ -31,11 +31,11 @@ public class RenderLaunchPadRocket extends TileEntitySpecialRenderer {
 
 			TileEntityLaunchPadRocket pad = (TileEntityLaunchPadRocket) tileEntity;
 
-			bindTexture(ResourceManager.missile_erector_tex);
-			ResourceManager.missile_erector.renderPart("Pad");
+			bindTexture(ResourceManager.rocket_pad_tex);
+			ResourceManager.rocket_pad.renderPart("Base");
 
 			if(pad.rocket != null) {
-				GL11.glTranslatef(0.0F, 1.0F, 0.0F);
+				GL11.glTranslatef(0.0F, 3.0F, 0.0F);
 				MissilePronter.prontRocket(pad.rocket, Minecraft.getMinecraft().getTextureManager());
 			}
 
