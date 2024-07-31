@@ -82,7 +82,8 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 				? CelestialBody.getTrait(worldObj, CBT_Atmosphere.class)
 				: null;
 
-			if(atmosphere != null) return;
+			if(atmosphere != null && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001 && atmosphere.getPressure() > 0.001) return;
+			
 			
 			this.power = Library.chargeTEFromItems(slots, 5, this.getPower(), this.getMaxPower());
 			
