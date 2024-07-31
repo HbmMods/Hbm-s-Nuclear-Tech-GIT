@@ -36,6 +36,7 @@ public class ItemCircuit extends ItemEnumMulti {
 		list.add(new ItemStack(item, 1, EnumCircuitType.BISMOID.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.AVIONICS.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.AERO.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.GAAS.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.QUANTUM.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER_CHASSIS.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER.ordinal()));

@@ -3,6 +3,9 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.dim.CelestialBody;
+import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.container.ContainerMachineSolderingStation;
@@ -75,6 +78,11 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
+			CBT_Atmosphere atmosphere = !ChunkAtmosphereManager.proxy.hasAtmosphere(worldObj, xCoord, yCoord, zCoord)
+				? CelestialBody.getTrait(worldObj, CBT_Atmosphere.class)
+				: null;
+
+			if(atmosphere != null) return;
 			
 			this.power = Library.chargeTEFromItems(slots, 5, this.getPower(), this.getMaxPower());
 			
