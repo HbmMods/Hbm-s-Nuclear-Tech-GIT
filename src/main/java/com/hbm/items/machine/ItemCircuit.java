@@ -50,6 +50,7 @@ public class ItemCircuit extends ItemEnumMulti {
 		CAPACITOR_TANTALIUM,
 		PCB,
 		SILICON,
+		GAAS,
 		CHIP,
 		CHIP_BISMOID,
 		ANALOG,
