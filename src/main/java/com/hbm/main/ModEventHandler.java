@@ -667,12 +667,13 @@ public class ModEventHandler {
 				AuxSavedData.setThunder(event.world, thunder - 1);
 			
 			if(!event.world.loadedEntityList.isEmpty()) {
-				
+				List<Object> oList = new ArrayList<Object>();
+				oList.addAll(event.world.loadedEntityList);
 				/**
 				 *  REMOVE THIS V V V
 				 * except the entity dismounting part, it literally can NOT be done elsewhere
 				 */
-				for(Object e : event.world.loadedEntityList) {
+				for(Object e : oList) {
 					if(e instanceof EntityLivingBase) {
 						
 						//effect for radiation
