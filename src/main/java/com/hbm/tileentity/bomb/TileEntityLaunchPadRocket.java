@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.dim.CelestialBody;
 import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.handler.RocketStruct;
@@ -34,6 +35,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements IControlReceiver, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider {
 	
@@ -92,17 +94,26 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		}
 	}
 
+	private DirPos[] conPos;
+	
 	public DirPos[] getConPos() {
-		return new DirPos[] {
-			new DirPos(xCoord + 5, yCoord, zCoord - 2, Library.POS_X),
-			new DirPos(xCoord + 5, yCoord, zCoord + 2, Library.POS_X),
-			new DirPos(xCoord - 5, yCoord, zCoord - 2, Library.NEG_X),
-			new DirPos(xCoord - 5, yCoord, zCoord + 2, Library.NEG_X),
-			new DirPos(xCoord - 2, yCoord, zCoord + 5, Library.POS_Z),
-			new DirPos(xCoord + 2, yCoord, zCoord + 5, Library.POS_Z),
-			new DirPos(xCoord - 2, yCoord, zCoord - 5, Library.NEG_Z),
-			new DirPos(xCoord + 2, yCoord, zCoord - 5, Library.NEG_Z)
-		};
+		if(conPos == null) {
+			conPos = new DirPos[13]; // 12 + 1 inputs
+
+			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+			int i = 0;
+
+			for(int or = 1; or < 5; or++) {
+				for(int oy = 0; oy < 3; oy++) {
+					conPos[i++] = new DirPos(xCoord - rot.offsetX * or - dir.offsetX * 8, yCoord + oy, zCoord - rot.offsetZ * or - dir.offsetZ * 8, dir.getOpposite());
+				}
+			}
+			conPos[i++] = new DirPos(xCoord + rot.offsetX * 3 - dir.offsetX * 8, yCoord, zCoord + rot.offsetZ * 3 - dir.offsetZ * 8, dir.getOpposite());
+		}
+
+		return conPos;
 	}
 
 	public void launch() {

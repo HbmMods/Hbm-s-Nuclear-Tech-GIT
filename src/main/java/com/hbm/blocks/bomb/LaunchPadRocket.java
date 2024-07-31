@@ -64,9 +64,13 @@ public class LaunchPadRocket extends BlockDummyable implements ILookOverlay {
 		MultiblockHandlerXR.fillSpace(world, x + dir.offsetX * 2, y, z + dir.offsetZ * 2, new int[] {2, 0, 0, 4, 6, 6}, this, dir);
 		
 		// Inputs
-		MultiblockHandlerXR.fillSpace(world, x - rot.offsetX, y, z - rot.offsetZ, new int[] {2, 0, 7, -1, 0, 3}, this, dir);
 		BlockDummyable.safeRem = true;
-		world.setBlock(x + rot.offsetX * 3 - dir.offsetX * 7, y, z + rot.offsetZ * 3 - dir.offsetZ * 7, this, dir.getOpposite().ordinal(), 3);
+		for(int or = 1; or < 5; or++) {
+			for(int oy = 0; oy < 3; oy++) {
+				world.setBlock(x - rot.offsetX * or - dir.offsetX * 7, y + oy, z - rot.offsetZ * or - dir.offsetZ * 7, this, dir.getOpposite().ordinal() + extra, 3);
+			}
+		}
+		world.setBlock(x + rot.offsetX * 3 - dir.offsetX * 7, y, z + rot.offsetZ * 3 - dir.offsetZ * 7, this, dir.getOpposite().ordinal() + extra, 3);
 		BlockDummyable.safeRem = false;
 	}
 
