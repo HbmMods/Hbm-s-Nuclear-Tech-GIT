@@ -80,7 +80,7 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 			
 
 			
-			VacuumCircuitRecipe recipe = VacuumCircuitRecipes.getRecipe(new ItemStack[] {slots[0], slots[1], slots[2], slots[3], slots[4], slots[5]});
+			VacuumCircuitRecipe recipe = VacuumCircuitRecipes.getRecipe(new ItemStack[] {slots[0], slots[1], slots[2], slots[3]});
 			long intendedMaxPower;
 			
 			UpgradeManager.eval(slots, 6, 7);

@@ -38,7 +38,8 @@ public class VacuumCircuitRecipes extends SerializableRecipe {
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP)},
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.PCB)}
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.PCB),
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CAPACITOR_LANTHANIUM)}
 		));
 		
 	}
