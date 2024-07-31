@@ -71,6 +71,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new ExposureChamberRecipes());
 		recipeHandlers.add(new AssemblerRecipes());
 		recipeHandlers.add(new AlkylationRecipes());
+		recipeHandlers.add(new VacuumCircuitRecipes());
 
 		recipeHandlers.add(new MatDistribution());
 		recipeHandlers.add(new CryoRecipes());
