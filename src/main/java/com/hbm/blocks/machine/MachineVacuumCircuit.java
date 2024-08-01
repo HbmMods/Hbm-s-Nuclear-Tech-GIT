@@ -30,7 +30,7 @@ public class MachineVacuumCircuit extends BlockDummyable{
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {0, 0, 1, 0, 1, 0};
+		return new int[] {0, 0, 1, 1, 1, 1};
 	}
 
 	@Override

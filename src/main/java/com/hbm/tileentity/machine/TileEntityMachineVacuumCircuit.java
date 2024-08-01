@@ -201,20 +201,16 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 		return new int[] { 0, 1, 2, 3, 4, 5, 6 };
 	}
 	
-	protected DirPos[] getConPos() {
-		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
+	public DirPos[] getConPos() {
 		return new DirPos[] {
-				new DirPos(xCoord + dir.offsetX, yCoord, zCoord + dir.offsetZ, dir),
-				new DirPos(xCoord + dir.offsetX + rot.offsetX, yCoord, zCoord + dir.offsetZ + rot.offsetZ, dir),
-				new DirPos(xCoord - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2, dir.getOpposite()),
-				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite()),
-				new DirPos(xCoord - rot.offsetX, yCoord, zCoord - rot.offsetZ, rot.getOpposite()),
-				new DirPos(xCoord - dir.offsetX - rot.offsetX, yCoord, zCoord - dir.offsetZ - rot.offsetZ, rot.getOpposite()),
-				new DirPos(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
-				new DirPos(xCoord - dir.offsetX + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ + rot.offsetZ * 2, rot),
+				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
+				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
+				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
+				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
+				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
+				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
+				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z)
 		};
 	}
 
