@@ -180,13 +180,10 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 		if(slot < 3) {
 			for(int i = 0; i < 3; i++) if(i != slot && slots[i] != null && slots[i].isItemEqual(stack)) return false;
-			for(AStack t : SolderingRecipes.toppings) if(t.matchesRecipe(stack, true)) return true;
+			for(AStack t : VacuumCircuitRecipes.wafer) if(t.matchesRecipe(stack, true)) return true;
 		} else if(slot < 5) {
 			for(int i = 3; i < 5; i++) if(i != slot && slots[i] != null && slots[i].isItemEqual(stack)) return false;
-			for(AStack t : SolderingRecipes.pcb) if(t.matchesRecipe(stack, true)) return true;
-		} else if(slot < 6) {
-			for(int i = 5; i < 6; i++) if(i != slot && slots[i] != null && slots[i].isItemEqual(stack)) return false;
-			for(AStack t : SolderingRecipes.solder) if(t.matchesRecipe(stack, true)) return true;
+			for(AStack t : VacuumCircuitRecipes.pcb) if(t.matchesRecipe(stack, true)) return true;
 		}
 		return false;
 	}
