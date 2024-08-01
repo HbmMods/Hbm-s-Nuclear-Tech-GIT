@@ -21,6 +21,7 @@ public class RenderLaunchPadRocket extends TileEntitySpecialRenderer {
 			GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glEnable(GL11.GL_CULL_FACE);
+			GL11.glShadeModel(GL11.GL_SMOOTH);
 
 			switch(tileEntity.getBlockMetadata() - BlockDummyable.offset) {
 			case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
@@ -59,6 +60,8 @@ public class RenderLaunchPadRocket extends TileEntitySpecialRenderer {
 				}
 				GL11.glPopMatrix();
 			}
+
+			GL11.glShadeModel(GL11.GL_FLAT);
 
 			if(pad.rocket != null) {
 				GL11.glTranslatef(0.0F, 3.0F, 0.0F);
