@@ -91,6 +91,8 @@ public class LaunchPadRocket extends BlockDummyable implements ILookOverlay {
 
 		if(pad.rocket == null) return;
 
+		if(y - pos[1] > 2) return; // Don't show tooltip on support tower
+
 		List<String> text = new ArrayList<String>();
 		text.add("Required fuels:");
 

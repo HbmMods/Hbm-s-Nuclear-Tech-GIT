@@ -6,8 +6,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.CelestialBody;
 import com.hbm.entity.missile.EntityRideableRocket;
+import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.RocketStruct;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerLaunchPadRocket;
@@ -34,6 +36,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -47,8 +50,9 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 
 	public FluidTank[] tanks;
 
-	@SideOnly(Side.CLIENT)
+	public boolean canSeeSky = true;
 	public RocketStruct rocket;
+	public int height;
 
 	public TileEntityLaunchPadRocket() {
 		super(5); // 0 rocket, 1 drive, 2 battery, 3/4 liquid/solid fuel in/out
@@ -61,8 +65,12 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		return "container.launchPadRocket";
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void updateEntity() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
 		if(!worldObj.isRemote) {
 			// Setup tanks required for the current rocket
 			updateTanks();
@@ -90,8 +98,136 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 				if(solidFuel > maxSolidFuel) solidFuel = maxSolidFuel;
 			}
 
+			if(slots[0] != null && slots[0].getItem() instanceof ItemCustomRocket) {
+				rocket = ItemCustomRocket.get(slots[0]);
+				int newHeight = MathHelper.floor_double(rocket.getHeight() - rocket.capsule.height + 1);
+				if(newHeight <= 8) newHeight = 0;
+
+				if(newHeight != height) {
+					// Check that the pad is entirely unobstructed
+					canSeeSky = !isPadObstructed();
+
+					if(canSeeSky) {
+						// Fill in the tower with structure blocks
+						BlockDummyable.safeRem = true;
+						
+						int meta = ForgeDirection.UP.ordinal();
+
+						// Build tower
+						if(newHeight > height) {
+							for(int oy = height + 3; oy < newHeight + 3; oy++) {
+								if(yCoord + oy > 255) break;
+
+								worldObj.setBlock(xCoord - rot.offsetX * 2 - dir.offsetX * 4, yCoord + oy, zCoord - rot.offsetZ * 2 - dir.offsetZ * 4, ModBlocks.launch_pad_rocket, meta, 3);
+								worldObj.setBlock(xCoord - rot.offsetX * 2 - dir.offsetX * 5, yCoord + oy, zCoord - rot.offsetZ * 2 - dir.offsetZ * 5, ModBlocks.launch_pad_rocket, meta, 3);
+								worldObj.setBlock(xCoord - rot.offsetX * 2 - dir.offsetX * 6, yCoord + oy, zCoord - rot.offsetZ * 2 - dir.offsetZ * 6, ModBlocks.launch_pad_rocket, meta, 3);
+								
+								worldObj.setBlock(xCoord - rot.offsetX * 3 - dir.offsetX * 4, yCoord + oy, zCoord - rot.offsetZ * 3 - dir.offsetZ * 4, ModBlocks.launch_pad_rocket, meta, 3);
+								worldObj.setBlock(xCoord - rot.offsetX * 4 - dir.offsetX * 4, yCoord + oy, zCoord - rot.offsetZ * 4 - dir.offsetZ * 4, ModBlocks.launch_pad_rocket, meta, 3);
+
+								worldObj.setBlock(xCoord - rot.offsetX * 3 - dir.offsetX * 6, yCoord + oy, zCoord - rot.offsetZ * 3 - dir.offsetZ * 6, ModBlocks.launch_pad_rocket, meta, 3);
+								worldObj.setBlock(xCoord - rot.offsetX * 4 - dir.offsetX * 6, yCoord + oy, zCoord - rot.offsetZ * 4 - dir.offsetZ * 6, ModBlocks.launch_pad_rocket, meta, 3);
+							}
+						} else {
+							for(int oy = height + 3; oy >= newHeight + 3; oy--) {
+								if(yCoord + oy > 255) continue;
+
+								worldObj.setBlockToAir(xCoord - rot.offsetX * 2 - dir.offsetX * 4, yCoord + oy, zCoord - rot.offsetZ * 2 - dir.offsetZ * 4);
+								worldObj.setBlockToAir(xCoord - rot.offsetX * 2 - dir.offsetX * 5, yCoord + oy, zCoord - rot.offsetZ * 2 - dir.offsetZ * 5);
+								worldObj.setBlockToAir(xCoord - rot.offsetX * 2 - dir.offsetX * 6, yCoord + oy, zCoord - rot.offsetZ * 2 - dir.offsetZ * 6);
+
+								worldObj.setBlockToAir(xCoord - rot.offsetX * 3 - dir.offsetX * 4, yCoord + oy, zCoord - rot.offsetZ * 3 - dir.offsetZ * 4);
+								worldObj.setBlockToAir(xCoord - rot.offsetX * 4 - dir.offsetX * 4, yCoord + oy, zCoord - rot.offsetZ * 4 - dir.offsetZ * 4);
+
+								worldObj.setBlockToAir(xCoord - rot.offsetX * 3 - dir.offsetX * 6, yCoord + oy, zCoord - rot.offsetZ * 3 - dir.offsetZ * 6);
+								worldObj.setBlockToAir(xCoord - rot.offsetX * 4 - dir.offsetX * 6, yCoord + oy, zCoord - rot.offsetZ * 4 - dir.offsetZ * 6);
+							}
+						}
+
+						// Build standable platform after removing old platform
+						if(height >= 8) {
+							worldObj.setBlockToAir(xCoord - rot.offsetX * 2 - dir.offsetX * 3, yCoord + height + 2, zCoord - rot.offsetZ * 2 - dir.offsetZ * 3);
+
+							worldObj.setBlockToAir(xCoord - rot.offsetX * 1 - dir.offsetX * 1, yCoord + height + 2, zCoord - rot.offsetZ * 1 - dir.offsetZ * 1);
+							worldObj.setBlockToAir(xCoord - rot.offsetX * 1 - dir.offsetX * 2, yCoord + height + 2, zCoord - rot.offsetZ * 1 - dir.offsetZ * 2);
+							worldObj.setBlockToAir(xCoord - rot.offsetX * 1 - dir.offsetX * 3, yCoord + height + 2, zCoord - rot.offsetZ * 1 - dir.offsetZ * 3);
+							worldObj.setBlockToAir(xCoord - rot.offsetX * 1 - dir.offsetX * 4, yCoord + height + 2, zCoord - rot.offsetZ * 1 - dir.offsetZ * 4);
+							worldObj.setBlockToAir(xCoord - rot.offsetX * 1 - dir.offsetX * 5, yCoord + height + 2, zCoord - rot.offsetZ * 1 - dir.offsetZ * 5);
+							worldObj.setBlockToAir(xCoord - rot.offsetX * 1 - dir.offsetX * 6, yCoord + height + 2, zCoord - rot.offsetZ * 1 - dir.offsetZ * 6);
+
+							worldObj.setBlockToAir(xCoord - dir.offsetX * 1, yCoord + height + 2, zCoord - dir.offsetZ * 1);
+							worldObj.setBlockToAir(xCoord - dir.offsetX * 2, yCoord + height + 2, zCoord - dir.offsetZ * 2);
+							worldObj.setBlockToAir(xCoord - dir.offsetX * 3, yCoord + height + 2, zCoord - dir.offsetZ * 3);
+							worldObj.setBlockToAir(xCoord - dir.offsetX * 4, yCoord + height + 2, zCoord - dir.offsetZ * 4);
+							worldObj.setBlockToAir(xCoord - dir.offsetX * 5, yCoord + height + 2, zCoord - dir.offsetZ * 5);
+							worldObj.setBlockToAir(xCoord - dir.offsetX * 6, yCoord + height + 2, zCoord - dir.offsetZ * 6);
+
+							worldObj.setBlockToAir(xCoord + rot.offsetX * 1 - dir.offsetX * 1, yCoord + height + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 1);
+							worldObj.setBlockToAir(xCoord + rot.offsetX * 1 - dir.offsetX * 2, yCoord + height + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 2);
+							worldObj.setBlockToAir(xCoord + rot.offsetX * 1 - dir.offsetX * 3, yCoord + height + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 3);
+							worldObj.setBlockToAir(xCoord + rot.offsetX * 1 - dir.offsetX * 4, yCoord + height + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 4);
+							worldObj.setBlockToAir(xCoord + rot.offsetX * 1 - dir.offsetX * 5, yCoord + height + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 5);
+							worldObj.setBlockToAir(xCoord + rot.offsetX * 1 - dir.offsetX * 6, yCoord + height + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 6);
+						}
+
+						if(newHeight >= 8) {
+							worldObj.setBlock(xCoord - rot.offsetX * 2 - dir.offsetX * 3, yCoord + newHeight + 2, zCoord - rot.offsetZ * 2 - dir.offsetZ * 3, ModBlocks.launch_pad_rocket, dir.ordinal(), 3);
+
+							worldObj.setBlock(xCoord - rot.offsetX * 1 - dir.offsetX * 1, yCoord + newHeight + 2, zCoord - rot.offsetZ * 1 - dir.offsetZ * 1, ModBlocks.launch_pad_rocket, dir.ordinal(), 3);
+							worldObj.setBlock(xCoord - rot.offsetX * 1 - dir.offsetX * 2, yCoord + newHeight + 2, zCoord - rot.offsetZ * 1 - dir.offsetZ * 2, ModBlocks.launch_pad_rocket, dir.ordinal(), 3);
+							worldObj.setBlock(xCoord - rot.offsetX * 1 - dir.offsetX * 3, yCoord + newHeight + 2, zCoord - rot.offsetZ * 1 - dir.offsetZ * 3, ModBlocks.launch_pad_rocket, dir.ordinal(), 3);
+							worldObj.setBlock(xCoord - rot.offsetX * 1 - dir.offsetX * 4, yCoord + newHeight + 2, zCoord - rot.offsetZ * 1 - dir.offsetZ * 4, ModBlocks.launch_pad_rocket, rot.ordinal(), 3);
+							worldObj.setBlock(xCoord - rot.offsetX * 1 - dir.offsetX * 5, yCoord + newHeight + 2, zCoord - rot.offsetZ * 1 - dir.offsetZ * 5, ModBlocks.launch_pad_rocket, rot.ordinal(), 3);
+							worldObj.setBlock(xCoord - rot.offsetX * 1 - dir.offsetX * 6, yCoord + newHeight + 2, zCoord - rot.offsetZ * 1 - dir.offsetZ * 6, ModBlocks.launch_pad_rocket, rot.ordinal(), 3);
+
+							worldObj.setBlock(xCoord - dir.offsetX * 1, yCoord + newHeight + 2, zCoord - dir.offsetZ * 1, ModBlocks.launch_pad_rocket, dir.ordinal(), 3);
+							worldObj.setBlock(xCoord - dir.offsetX * 2, yCoord + newHeight + 2, zCoord - dir.offsetZ * 2, ModBlocks.launch_pad_rocket, dir.ordinal(), 3);
+							worldObj.setBlock(xCoord - dir.offsetX * 3, yCoord + newHeight + 2, zCoord - dir.offsetZ * 3, ModBlocks.launch_pad_rocket, dir.ordinal(), 3);
+							worldObj.setBlock(xCoord - dir.offsetX * 4, yCoord + newHeight + 2, zCoord - dir.offsetZ * 4, ModBlocks.launch_pad_rocket, rot.ordinal(), 3);
+							worldObj.setBlock(xCoord - dir.offsetX * 5, yCoord + newHeight + 2, zCoord - dir.offsetZ * 5, ModBlocks.launch_pad_rocket, rot.ordinal(), 3);
+							worldObj.setBlock(xCoord - dir.offsetX * 6, yCoord + newHeight + 2, zCoord - dir.offsetZ * 6, ModBlocks.launch_pad_rocket, rot.ordinal(), 3);
+
+							worldObj.setBlock(xCoord + rot.offsetX * 1 - dir.offsetX * 1, yCoord + newHeight + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 1, ModBlocks.launch_pad_rocket, dir.ordinal(), 3);
+							worldObj.setBlock(xCoord + rot.offsetX * 1 - dir.offsetX * 2, yCoord + newHeight + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 2, ModBlocks.launch_pad_rocket, dir.ordinal(), 3);
+							worldObj.setBlock(xCoord + rot.offsetX * 1 - dir.offsetX * 3, yCoord + newHeight + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 3, ModBlocks.launch_pad_rocket, dir.ordinal(), 3);
+							worldObj.setBlock(xCoord + rot.offsetX * 1 - dir.offsetX * 4, yCoord + newHeight + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 4, ModBlocks.launch_pad_rocket, rot.ordinal(), 3);
+							worldObj.setBlock(xCoord + rot.offsetX * 1 - dir.offsetX * 5, yCoord + newHeight + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 5, ModBlocks.launch_pad_rocket, rot.ordinal(), 3);
+							worldObj.setBlock(xCoord + rot.offsetX * 1 - dir.offsetX * 6, yCoord + newHeight + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 6, ModBlocks.launch_pad_rocket, rot.ordinal(), 3);
+						}
+	
+						BlockDummyable.safeRem = false;
+					}
+
+					height = newHeight;
+				}
+			} else {
+				rocket = null;
+			}
+
 			networkPackNT(250);
 		}
+
+		List<EntityPlayer> sideLadderPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.25, yCoord, zCoord + 0.25, xCoord + 0.75, yCoord + 3, zCoord + 0.75).offset(-rot.offsetX * 6.5 - dir.offsetX * 5, 0, -rot.offsetZ * 6.5 - dir.offsetZ * 5));
+		for(EntityPlayer player : sideLadderPlayers)
+			HbmPlayerProps.getData(player).isOnLadder = true;
+
+		if(height >= 8) {
+			List<EntityPlayer> mainLadderPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.25, yCoord + 3, zCoord + 0.25, xCoord + 0.75, yCoord + 3 + height, zCoord + 0.75).offset(-rot.offsetX * 2.5 - dir.offsetX * 5, 0, -rot.offsetZ * 2.5 - dir.offsetZ * 5));
+			for(EntityPlayer player : mainLadderPlayers)
+				HbmPlayerProps.getData(player).isOnLadder = true;
+		}
+	}
+
+	private boolean isPadObstructed() {
+		for(int ox = 0; ox <= 0; ox++) {
+			for(int oz = 0; oz <= 0; oz++) {
+				if(!worldObj.canBlockSeeTheSky(xCoord + ox, yCoord + 2, zCoord + oz)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	private DirPos[] conPos;
@@ -125,6 +261,8 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		// Deplete all fills
 		for(int i = 0; i < tanks.length; i++) tanks[i] = new FluidTank(Fluids.NONE, 64_000);
 		solidFuel = maxSolidFuel = 0;
+
+		power -= maxPower * 0.75;
 		
 		slots[0] = null;
 		slots[1] = null;
@@ -208,6 +346,10 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		// Check that the rocket is fully fueled and capable of leaving our starting planet
 		RocketStruct rocket = ItemCustomRocket.get(slots[0]);
 
+		if(!canSeeSky) {
+			issues.add(EnumChatFormatting.RED + "Pad is obstructed");
+		}
+
 		if(power < maxPower * 0.75) {
 			issues.add(EnumChatFormatting.RED + "Insufficient power");
 		}
@@ -265,10 +407,12 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		buf.writeInt(solidFuel);
 		buf.writeInt(maxSolidFuel);
 
-		if(slots[0] != null && slots[0].getItem() instanceof ItemCustomRocket) {
+		buf.writeInt(height);
+		buf.writeBoolean(canSeeSky);
+
+		if(rocket != null) {
 			buf.writeBoolean(true);
-			RocketStruct sendRocket = ItemCustomRocket.get(slots[0]);
-			sendRocket.writeToByteBuffer(buf);
+			rocket.writeToByteBuffer(buf);
 		} else {
 			buf.writeBoolean(false);
 		}
@@ -283,6 +427,9 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		power = buf.readLong();
 		solidFuel = buf.readInt();
 		maxSolidFuel = buf.readInt();
+
+		height = buf.readInt();
+		canSeeSky = buf.readBoolean();
 
 		if(buf.readBoolean()) {
 			rocket = RocketStruct.readFromByteBuffer(buf);
@@ -299,6 +446,8 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		nbt.setLong("power", power);
 		nbt.setInteger("solid", solidFuel);
 		nbt.setInteger("maxSolid", maxSolidFuel);
+		nbt.setInteger("height", height);
+		nbt.setBoolean("sky", canSeeSky);
 		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(nbt, "t" + i);
 	}
 
@@ -308,6 +457,8 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		power = nbt.getLong("power");
 		solidFuel = nbt.getInteger("solid");
 		maxSolidFuel = nbt.getInteger("maxSolid");
+		height = nbt.getInteger("height");
+		canSeeSky = nbt.getBoolean("sky");
 		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
 	}
 
@@ -339,23 +490,9 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		return new GUILaunchPadRocket(player.inventory, this);
 	}
 	
-	AxisAlignedBB bb = null;
-	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
-		if(bb == null) {
-			bb = AxisAlignedBB.getBoundingBox(
-				xCoord - 10,
-				yCoord,
-				zCoord - 10,
-				xCoord + 11,
-				yCoord + 15,
-				zCoord + 11
-			);
-		}
-		
-		return bb;
+		return INFINITE_EXTENT_AABB; // hi martin ;)
 	}
 	
 	@Override

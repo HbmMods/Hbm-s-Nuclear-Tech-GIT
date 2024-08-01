@@ -34,6 +34,32 @@ public class RenderLaunchPadRocket extends TileEntitySpecialRenderer {
 			bindTexture(ResourceManager.rocket_pad_tex);
 			ResourceManager.rocket_pad.renderPart("Base");
 
+			if(pad.canSeeSky && pad.height >= 8) {
+				GL11.glPushMatrix();
+				{
+
+					bindTexture(ResourceManager.rocket_pad_support_tex);
+					ResourceManager.rocket_pad.renderPart("Tower_Base");
+	
+					for(int oy = 8; oy < pad.height - 2; oy += 3) {
+						ResourceManager.rocket_pad.renderPart("Tower_Segment");
+						GL11.glTranslatef(0, 3, 0);
+					}
+
+					GL11.glTranslatef(0, -3, 0);
+
+					for(int oy = 0; oy < (pad.height - 2) % 3; oy++) {
+						ResourceManager.rocket_pad.renderPart("Tower_Segment_Small");
+						GL11.glTranslatef(0, 1, 0);
+					}
+
+					GL11.glTranslatef(0, -1, 0);
+					ResourceManager.rocket_pad.renderPart("Tower_Cap");
+
+				}
+				GL11.glPopMatrix();
+			}
+
 			if(pad.rocket != null) {
 				GL11.glTranslatef(0.0F, 3.0F, 0.0F);
 				MissilePronter.prontRocket(pad.rocket, Minecraft.getMinecraft().getTextureManager());
