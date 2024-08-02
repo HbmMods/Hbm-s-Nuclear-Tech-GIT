@@ -72,6 +72,7 @@ public class ShadyUtil {
 	public static Set<String> contributors = Sets.newHashSet(new String[] {
 			"06ab7c03-55ce-43f8-9d3c-2850e3c652de", //mustang_rudolf
 			"5bf069bc-5b46-4179-aafe-35c0a07dee8b", //JMF781
+			"ccd9aa1c-26b9-4dde-8f37-b96f8d99de22", //kakseao
 			});
 	
 	// simple cryptographic utils
