@@ -20,7 +20,6 @@ public class RenderLaunchPadRocket extends TileEntitySpecialRenderer {
 
 			GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 			GL11.glEnable(GL11.GL_LIGHTING);
-			GL11.glEnable(GL11.GL_CULL_FACE);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 
 			switch(tileEntity.getBlockMetadata() - BlockDummyable.offset) {
@@ -34,6 +33,8 @@ public class RenderLaunchPadRocket extends TileEntitySpecialRenderer {
 
 			bindTexture(ResourceManager.rocket_pad_tex);
 			ResourceManager.rocket_pad.renderPart("Base");
+
+			GL11.glDisable(GL11.GL_CULL_FACE);
 
 			if(pad.canSeeSky && pad.height >= 8) {
 				GL11.glPushMatrix();
@@ -61,6 +62,7 @@ public class RenderLaunchPadRocket extends TileEntitySpecialRenderer {
 				GL11.glPopMatrix();
 			}
 
+			GL11.glEnable(GL11.GL_CULL_FACE);
 			GL11.glShadeModel(GL11.GL_FLAT);
 
 			if(pad.rocket != null) {
