@@ -1077,6 +1077,24 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(ANY_HARDPLASTIC.ingot(), 16),
 				new ComparableStack(ModItems.circuit, 4, EnumCircuitType.ADVANCED)
 			}, 400);
+
+		makeRecipe(new ComparableStack(ModBlocks.launch_pad_rocket, 1), new AStack[] {
+				new OreDictStack(STEEL.plateWelded(), 12),
+				new OreDictStack(AL.pipe(), 24),
+				new OreDictStack(ANY_CONCRETE.any(), 128),
+				new OreDictStack(ANY_PLASTIC.ingot(), 16),
+				new ComparableStack(ModBlocks.steel_scaffold, 64),
+				new ComparableStack(ModItems.circuit, 4, EnumCircuitType.ADVANCED)
+			}, 400);
+
+		makeRecipe(new ComparableStack(ModBlocks.machine_rocket_assembly, 1), new AStack[] {
+				new OreDictStack(STEEL.plateCast(), 8),
+				new OreDictStack(STEEL.pipe(), 12),
+				new OreDictStack(ANY_CONCRETE.any(), 16),
+				new OreDictStack(ANY_PLASTIC.ingot(), 8),
+				new ComparableStack(ModBlocks.steel_scaffold, 64),
+				new ComparableStack(ModItems.circuit, 4, EnumCircuitType.BASIC)
+			}, 400);
 		
 		makeRecipe(new ComparableStack(ModItems.euphemium_capacitor, 1), new AStack[] {
 				new OreDictStack(NB.ingot(), 4),
