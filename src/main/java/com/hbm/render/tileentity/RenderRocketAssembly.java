@@ -2,16 +2,20 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.RocketStruct.RocketStage;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.MissilePronter;
 import com.hbm.tileentity.machine.TileEntityMachineRocketAssembly;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.client.IItemRenderer;
 
-public class RenderRocketAssembly extends TileEntitySpecialRenderer {
+public class RenderRocketAssembly extends TileEntitySpecialRenderer implements IItemRendererProvider {
 	
 	public RenderRocketAssembly() { }
 	
@@ -78,4 +82,29 @@ public class RenderRocketAssembly extends TileEntitySpecialRenderer {
 		
 		GL11.glPopMatrix();
 	}
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, -1, 0);
+				GL11.glScaled(2.0D, 2.0D, 2.0D);
+			}
+			public void renderCommon() {
+				GL11.glScaled(0.55, 0.55, 0.55);
+				GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.rocket_assembly_tex);
+				ResourceManager.rocket_assembly.renderPart("Base");
+				GL11.glShadeModel(GL11.GL_FLAT);
+				GL11.glEnable(GL11.GL_CULL_FACE);
+			}
+		};
+	}
+
+	@Override
+	public Item getItemForRenderer() {
+		return Item.getItemFromBlock(ModBlocks.machine_rocket_assembly);
+	}
+
 }
