@@ -54,7 +54,6 @@ public class LaunchPadRocket extends BlockDummyable implements ILookOverlay {
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
 		x += dir.offsetX * o;
-		y += dir.offsetY * o;
 		z += dir.offsetZ * o;
 
 		// Main body

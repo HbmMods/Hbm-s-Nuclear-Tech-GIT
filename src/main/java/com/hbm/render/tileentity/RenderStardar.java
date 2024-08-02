@@ -23,7 +23,7 @@ public class RenderStardar extends TileEntitySpecialRenderer implements IItemRen
 		GL11.glPushMatrix();
 		{
 
-			GL11.glTranslated(x + 0.5D, y, z + 0.5D);
+			GL11.glTranslated(x + 0.5D, y - 3D, z + 0.5D);
 			GL11.glEnable(GL11.GL_LIGHTING);
 	
 			GL11.glRotatef(180, 0F, 1F, 0F);
