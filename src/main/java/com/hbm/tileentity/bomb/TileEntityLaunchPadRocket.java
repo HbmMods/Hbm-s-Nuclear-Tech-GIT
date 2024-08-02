@@ -284,8 +284,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 
 	private boolean canReachDestination() {
 		CelestialBody localBody = CelestialBody.getBody(worldObj);
-		ItemVOTVdrive drive = (ItemVOTVdrive) slots[1].getItem();
-		CelestialBody destination = drive.getDestination(slots[1]).body.getBody();
+		CelestialBody destination = ItemVOTVdrive.getDestination(slots[1]).body.getBody();
 
 		// Check if the stage can make the journey
 		if(destination != null && destination != localBody) {
@@ -385,8 +384,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 
 		// Check that the rocket is actually capable of reaching our destination
 		CelestialBody localBody = CelestialBody.getBody(worldObj);
-		ItemVOTVdrive drive = (ItemVOTVdrive) slots[1].getItem();
-		CelestialBody destination = drive.getDestination(slots[1]).body.getBody();
+		CelestialBody destination = ItemVOTVdrive.getDestination(slots[1]).body.getBody();
 
 		if(destination == null || destination == localBody) {
 			issues.add(EnumChatFormatting.RED + "Invalid destination");

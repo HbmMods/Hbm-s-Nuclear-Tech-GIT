@@ -135,7 +135,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				rotationPitch = 0;
 
 				if(navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
-					Destination destination = ((ItemVOTVdrive)navDrive.getItem()).getDestination(navDrive);
+					Destination destination = ItemVOTVdrive.getDestination(navDrive);
 					posX = destination.x;
 					posZ = destination.z;
 				}
@@ -176,7 +176,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				beginLandingSequence();
 
 				if(rider != null && navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
-					Destination destination = ((ItemVOTVdrive)navDrive.getItem()).getDestination(navDrive);
+					Destination destination = ItemVOTVdrive.getDestination(navDrive);
 
 					if(destination.body != SolarSystem.Body.BLANK) {
 						DebugTeleporter.teleport(rider, destination.body.getDimensionId(), destination.x, 800, destination.z, false);
@@ -189,8 +189,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 			}
 
 			if(navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
-				ItemVOTVdrive drive = (ItemVOTVdrive) navDrive.getItem();
-				setDestination(drive.getDestination(navDrive).body.getBody());
+				setDestination(ItemVOTVdrive.getDestination(navDrive).body.getBody());
 			} else {
 				setDestination(null);
 			}

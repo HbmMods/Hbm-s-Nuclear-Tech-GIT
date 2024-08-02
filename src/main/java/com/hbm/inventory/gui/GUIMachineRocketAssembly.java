@@ -41,9 +41,9 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 
 	@Override
 	public void initGui() {
-        super.initGui();
+		super.initGui();
 		lastTime = System.nanoTime();
-    }
+	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
@@ -95,8 +95,8 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 			ItemStack fromStack = machine.slots[machine.slots.length - 2];
 			ItemStack toStack = machine.slots[machine.slots.length - 1];
 
-			CelestialBody fromBody = fromStack != null ? ((ItemVOTVdrive)fromStack.getItem()).getDestination(fromStack).body.getBody() : null;
-			CelestialBody toBody = toStack != null ? ((ItemVOTVdrive)toStack.getItem()).getDestination(toStack).body.getBody() : null;
+			CelestialBody fromBody = fromStack != null ? ItemVOTVdrive.getDestination(fromStack).body.getBody() : null;
+			CelestialBody toBody = toStack != null ? ItemVOTVdrive.getDestination(toStack).body.getBody() : null;
 
 			List<String> issues = machine.rocket.findIssues(stage, fromBody, toBody);
 			for(int i = 0; i < issues.size(); i++) {
@@ -133,16 +133,16 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 
 	@Override
 	protected void mouseClicked(int x, int y, int i) {
-    	super.mouseClicked(x, y, i);
+		super.mouseClicked(x, y, i);
 		
 		// Stage up
-    	if(checkClick(x, y, 17, 34, 18, 8)) {
+		if(checkClick(x, y, 17, 34, 18, 8)) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 
 			if(getLayer() > 0) {
 				setLayer(getLayer() - 1);
 			}
-    	}
+		}
 
 		// Stage down
 		if(checkClick(x, y, 17, 98, 18, 8)) {
@@ -151,7 +151,7 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 			if(getLayer() < Math.min(machine.rocket.stages.size(), RocketStruct.MAX_STAGES - 1)) {
 				setLayer(getLayer() + 1);
 			}
-    	}
+		}
 
 		// Construct rocket
 		if(machine.rocket != null && machine.rocket.validate() && checkClick(x, y, 41, 62, 18, 18)) {
@@ -160,6 +160,6 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 			data.setBoolean("construct", true);
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, machine.xCoord, machine.yCoord, machine.zCoord));
 		}
-    }
+	}
 		
 }

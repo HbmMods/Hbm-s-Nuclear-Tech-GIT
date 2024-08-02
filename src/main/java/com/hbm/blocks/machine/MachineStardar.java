@@ -19,11 +19,8 @@ public class MachineStardar extends BlockDummyable {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		if(meta >= 12)
-			return new TileEntityMachineStardar();
-		if(meta >= extra)
-			return new TileEntityProxyCombo(false, false, true);
-		
+		if(meta >= 12) return new TileEntityMachineStardar();
+		if(meta >= extra) return new TileEntityProxyCombo(false, false, true);
 		return null;
 	}
 
@@ -42,7 +39,7 @@ public class MachineStardar extends BlockDummyable {
 		return 3;
 	}
 
-		@Override
+	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		x += dir.offsetX * o;
 		z += dir.offsetZ * o;

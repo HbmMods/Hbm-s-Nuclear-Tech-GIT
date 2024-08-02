@@ -1,11 +1,12 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.dim.CelestialBody;
-import com.hbm.dim.SolarSystem;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerStardar;
 import com.hbm.inventory.gui.GUIMachineStardar;
+import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemVOTVdrive.Destination;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -20,6 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 
 public class TileEntityMachineStardar extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
@@ -57,12 +59,15 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 
 			if(slots[1] != null && slots[1].getItem() == ModItems.full_drive) {
 				if(heightmap == null) {
-					CelestialBody body = SolarSystem.Body.values()[slots[1].getItemDamage()].getBody();
+					Destination destination = ItemVOTVdrive.getApproximateDestination(slots[1]);
+					CelestialBody body = destination.body.getBody();
+					ChunkCoordIntPair chunk = destination.getChunk();
+
 					if(body != null) {
 						heightmap = new int[256*256];
 						for(int cx = 0; cx < 16; cx++) {
 							for(int cz = 0; cz < 16; cz++) {
-								int[] map = body.getHeightmap(cx, cz);
+								int[] map = body.getHeightmap(chunk.chunkXPos + cx - 8, chunk.chunkZPos + cz - 8);
 								int ox = cx * 16;
 								int oz = cz * 16;
 	
@@ -98,6 +103,12 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
 	}
 
 	@Override
