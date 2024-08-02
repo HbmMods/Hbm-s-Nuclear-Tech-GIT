@@ -18,6 +18,7 @@ import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.SkyProviderCelestial;
+import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.eve.WorldProviderEve;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
@@ -105,6 +106,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -678,6 +680,20 @@ public class ModEventHandlerClient {
 				IButtonReceiver rec = (IButtonReceiver) held;
 				rec.handleKeyboardInput(player.getHeldItem(), player);
 			}
+		}
+	}
+
+	private static final ResourceLocation MUSIC_LOCATION = new ResourceLocation("hbm:music.game.space");
+
+	@SubscribeEvent
+	public void onPlayMusic(PlaySoundEvent17 event) {
+		ResourceLocation r = event.sound.getPositionedSoundLocation();
+		if(!r.toString().equals("minecraft:music.game.creative") && !r.toString().equals("minecraft:music.game")) return;
+
+		// Replace the sound if we're not on Earth
+		WorldProvider provider = Minecraft.getMinecraft().theWorld.provider;
+		if(provider instanceof WorldProviderCelestial && provider.dimensionId != 0) {
+			event.result = PositionedSoundRecord.func_147673_a(MUSIC_LOCATION);
 		}
 	}
 
