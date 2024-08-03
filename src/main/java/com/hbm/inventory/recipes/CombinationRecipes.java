@@ -110,7 +110,7 @@ public class CombinationRecipes extends SerializableRecipe {
 				}
 
 				//Dict Stacks
-				OreDictStack dictStack = new OreDictStack(key，getAmountRequired(stack))；
+				OreDictStack dictStack = new OreDictStack(key, getAmountRequired(stack))；
 				if(recipes.containsKey(dictStack)) {
 					Pair<ItemStack, FluidStack> out = recipes.get(dictStack);
 					return new Pair(out.getKey() == null ? null : out.getKey().copy(), out.getValue());
