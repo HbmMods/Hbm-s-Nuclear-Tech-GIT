@@ -210,50 +210,38 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	private void sterilize() {
 		if(slots[12] != null) {
 			if(slots[12].getItem() instanceof ItemFood && !(slots[12].getItem() == ModItems.pancake)) {
-				slots[12].stackSize -= 1;
-				if(slots[12].stackSize <= 0)
-					slots[12] = null;
+				this.decrStackSize(12, 1);
 			}
 			
-			if(!checkIfValid())
-				return;
+			if(!checkIfValid()) return;
 			
 			ItemStack output = slots[12].copy();
 			output.stackSize = 1;
 			
 			if(slots[13] == null) {
-				slots[12].stackSize -= output.stackSize;
-				if(slots[12].stackSize <= 0)
-					slots[12] = null;
+				this.decrStackSize(12, output.stackSize);
 				slots[13] = output;
 				slots[13].stackTagCompound.removeTag("ntmContagion");
 				if(slots[13].stackTagCompound.hasNoTags()) {
 					slots[13].stackTagCompound = null;
 				}
 			} else if(slots[13].isItemEqual(output) && slots[13].stackSize + output.stackSize <= slots[13].getMaxStackSize()) {
-				slots[12].stackSize -= output.stackSize;
-				if(slots[12].stackSize <= 0)
-					slots[12] = null;
-			
+				this.decrStackSize(12, output.stackSize);
 				slots[13].stackSize += output.stackSize;
-				slots[13].stackTagCompound.removeTag("ntmContagion");
-				if(slots[13].stackTagCompound.hasNoTags()) {
-					slots[13].stackTagCompound = null;
+				if(slots[13].hasTagCompound()) { // redundant but just to be sure
+					slots[13].stackTagCompound.removeTag("ntmContagion");
+					if(slots[13].stackTagCompound.hasNoTags()) {
+						slots[13].stackTagCompound = null;
+					}
 				}
 			}
 		}
 	}
 	
 	private boolean checkIfValid() {
-		if(slots[12] == null)
-			return false;
-		
-		if(!slots[12].hasTagCompound())
-			return false;
-		
-		if(!slots[12].getTagCompound().getBoolean("ntmContagion"))
-			return false;
-		
+		if(slots[12] == null) return false;
+		if(!slots[12].hasTagCompound()) return false;
+		if(!slots[12].getTagCompound().getBoolean("ntmContagion")) return false;
 		return true;
 	}
 	

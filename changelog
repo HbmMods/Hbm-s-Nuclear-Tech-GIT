@@ -1,15 +1,3 @@
-## Changed
-* Removed most legacy boilers
-  * Electric boilers have been completely removed
-  * Fired boilers no longer have an on-state, GUI or functionality
-  * Fired boilers still sometimes spawn in certain structures as loot, they drop 3-6 steel scraps containing 1 ingot worth of steel each
-* The rare earth chunk texture is now consistent with the bedrock ores
-* Removed the unused watz control elements
-
 ## Fixed
-* Fixed automatic crafting table filters being broken
-* Fixed missing localization for black lung death messages
-* Fixed disconnect caused by using a filter on the autocrafter's template output slot
-* Fixed sentry turret "Brown" being uncraftable
-* Fixed instant crash caused by processing some bedrock ores in an electrolyzer
-* Disabled unused debug code for reflection testing
+* Fixed crash caused by decontaminating items with the radiolysis machine
+* Fixed ICFs not forming correctly depending on the orientation
