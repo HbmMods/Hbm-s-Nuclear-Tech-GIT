@@ -10,6 +10,11 @@ Stuffs that need to be done:
 	新的基岩矿种类：虚空；在末影龙被击败后的传送门底座上随机生成
 
 	#Written by CrpBnrz
+	添加富勒烯的额外制法：
+		参考：https://dds.sciengine.com/cfs/files/pdfs/view/1001-4381/52FED32FEE9143EE80E7050553300D16.pdf
+		备选1：化工厂，石墨锭+氦气=石墨浆，进silex得粗富勒烯，搅拌得富勒烯溶液
+		备选2：化工厂，4000~8000mB BTX+适量液氧=1细烟灰
+		备选3：化工厂，2石墨锭+1000氦=石墨灰，石墨灰搅拌得富勒烯溶液
 	添加一些蓄电池和电容：
 		容量介于sa电池和Spark蓄电池之间的电池，以及容量介于Spark电池和FEnSU之间的电池
 		容量略低于Sa蓄电池的电容，以及与Spark蓄电池/上面两种蓄电池/FEnSU储能量对标的电容
