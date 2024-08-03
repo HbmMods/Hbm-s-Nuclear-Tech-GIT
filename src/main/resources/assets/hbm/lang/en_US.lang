@@ -6038,6 +6038,8 @@ chem.FP_SMEAR=Industrial Oil Fractionating
 hbmfluid.cryogel_mod=Modifed Cryogel
 hbmfluid.cryogel_mod_hot=Hot Modified Cryogel
 
+item.drillbit_cmb.name=CMB Steel Drillbit
+item.drillbit_cmb_diamond.name=CMB Steel Drillbit (Diamond-tipped)
 item.ingot_neodymium.name=Neodymium Ingot
 item.ingot_sodium.name=Sodium Ingot
 item.ingot_strontium.name=Strontium Ingot
