@@ -642,6 +642,15 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.cordite, 5)
 			}, 60);
 
+		makeRecipe(new ComparableStack(ModItems.spawn_maskman, 1), new AStack[] {
+				new ComparableStack(Items.bone, 128),
+				new ComparableStack(ModItems.gas_mask_m65),
+				new ComparableStack(ModItems.t45_plate),
+				new ComparableStack(ModItems.gun_minigun),
+				new ComparableStack(ModItems.powder_chlorophyte, 8),
+				new OreDictStack(EUPH.nugget(), 3)
+			}, 900);
+
 		makeRecipe(new ComparableStack(ModItems.spawn_worm, 1), new AStack[] {
 				new OreDictStack(TI.block(), 75),
 				new ComparableStack(ModItems.motor, 75),
@@ -650,7 +659,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(GOLD.wireFine(), 75),
 				new OreDictStack(PO210.block(), 10),
 				new ComparableStack(ModItems.plate_armor_titanium, 50),
-				new ComparableStack(ModItems.coin_worm, 1)
+				new ComparableStack(ModItems.coin_maskman, 1)
 			}, 1200);
 
 		makeRecipe(new ComparableStack(ModItems.sat_gerald, 1), new AStack[] {

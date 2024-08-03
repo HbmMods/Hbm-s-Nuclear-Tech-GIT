@@ -6,6 +6,7 @@ import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.mob.EntityUFO;
 import com.hbm.entity.mob.botprime.EntityBOTPrimeHead;
+import com.hbm.entity.mob.EntityMaskMan;
 import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
@@ -119,6 +120,9 @@ public class ItemChopper extends Item {
 		
 		if(this == ModItems.spawn_duck)
 			entity = new EntityDuck(world);
+
+		if(this == ModItems.spawn_maskman) 
+			entity = new EntityMaskMan(world);
 		
 		if(entity != null) {
 
