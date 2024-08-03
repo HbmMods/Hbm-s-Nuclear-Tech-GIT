@@ -92,7 +92,8 @@ public class CombinationRecipes extends SerializableRecipe {
 		
 		} else {
 			ComparableStack comp = new ComparableStack(stack.getItem(), getAmountRequired(stack), stack.getItemDamage());
-		
+			
+			//Normal Stacks
 			if(recipes.containsKey(comp)) {
 				Pair<ItemStack, FluidStack> out = recipes.get(comp);
 				return new Pair(out.getKey() == null ? null : out.getKey().copy(), out.getValue());
@@ -102,8 +103,16 @@ public class CombinationRecipes extends SerializableRecipe {
 		
 			for(String key : dictKeys) {
 
+				//Normal Dicts
 				if(recipes.containsKey(key)) {
 					Pair<ItemStack, FluidStack> out = recipes.get(key);
+					return new Pair(out.getKey() == null ? null : out.getKey().copy(), out.getValue());
+				}
+
+				//Dict Stacks
+				OreDictStack dictStack = new OreDictStack(key，getAmountRequired(stack))；
+				if(recipes.containsKey(dictStack)) {
+					Pair<ItemStack, FluidStack> out = recipes.get(dictStack);
 					return new Pair(out.getKey() == null ? null : out.getKey().copy(), out.getValue());
 				}
 			}
