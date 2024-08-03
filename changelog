@@ -1,3 +1,8 @@
+## Changed
+* The fluid burner, heat exchanging heater and cooling tower now use the single steel pipe items instead of the larger steel pipes
+* Reduced the amount of condensers needed for crafting the cooling towers
+
 ## Fixed
 * Fixed crash caused by decontaminating items with the radiolysis machine
 * Fixed ICFs not forming correctly depending on the orientation
+* Fixed electrolyzer metal recipe config not working
