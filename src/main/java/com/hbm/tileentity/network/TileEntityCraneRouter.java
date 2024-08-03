@@ -120,7 +120,10 @@ public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUI
 	public boolean hasPermission(EntityPlayer player) {
 		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
 	}
-
+	@Override
+	public int[] getFilterSlots() {
+		return new int[]{0, slots.length};
+	}
 	@Override
 	public void receiveControl(NBTTagCompound data) {
 		if(data.hasKey("toggle")) {

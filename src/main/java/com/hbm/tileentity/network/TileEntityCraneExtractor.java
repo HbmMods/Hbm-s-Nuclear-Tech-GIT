@@ -9,6 +9,7 @@ import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.util.ItemStackUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -26,7 +27,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGUIProvider, IControlReceiver, IControlReceiverFilter {
+public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGUIProvider, IControlReceiverFilter {
 	
 	public boolean isWhitelist = false;
 	public ModulePatternMatcher matcher;
@@ -256,4 +257,10 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 			setFilterContents(data);
 		}
 	}
+
+	@Override
+	public int[] getFilterSlots() {
+		return new int[]{0,9};
+	}
 }
+
