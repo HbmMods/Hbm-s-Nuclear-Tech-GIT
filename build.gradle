@@ -6,8 +6,8 @@ import java.nio.file.StandardCopyOption
 
 buildscript {
 	repositories {
-		maven { url = 'https://maven.minecraftforge.net/' }
-		maven { url = 'https://plugins.gradle.org/m2' }
+		maven { url = 'https://bmclapi2.bangbang93.com/maven' }
+		maven { url = 'https://maven.aliyun.com/repository/gradle-plugin' }
 		mavenCentral()
 	}
 	dependencies {
