@@ -79,7 +79,7 @@ public class CombinationRecipes extends SerializableRecipe {
 	}
 	
 	
-	//Written by CrpBnrz: Obviously Bob don't think combination furnaces need to process more than 1 item in one go, so I tried to create one by myself
+	//Written by CrpBnrz: Obviously Bob doesn't think combination furnaces need to process more than 1 item in one go, so I tried to create one by myself
 	//Might be stupid but I've done my best
 	
 	public static Pair<ItemStack, FluidStack> getOutput(ItemStack stack) {
@@ -126,68 +126,16 @@ public class CombinationRecipes extends SerializableRecipe {
 		for(Entry<Object, Pair<ItemStack, FluidStack>> entry : CombinationRecipes.recipes.entrySet()) {
 			Object input = entry.getKey();
 			if (input instanceof ComparableStack) {
-				ComparableStack inputComp = (ComparableStack)input;
+				ComparableStack inputComp = (ComparableStack) input;
 				if (inputComp.matchesRecipe(stack, false)) return inputComp.stacksize;
 			} else if (input instanceof OreDictStack) {
-				OreDictStack inputDict = (OreDictStack)input;
+				OreDictStack inputDict = (OreDictStack) input;
 				if (inputDict.matchesRecipe(stack, false)) return inputDict.stacksize;
 			}
 		}
 
 		return 0;
 	}
-
-	/*
-	public static Pair<ItemStack, FluidStack> getOutput(ItemStack stack) {
-		
-		if(stack == null || stack.getItem() == null)
-			return null;
-		
-		ComparableStack comp = new ComparableStack(stack.getItem(), 1, stack.getItemDamage());
-		
-		if(recipes.containsKey(comp)) {
-			Pair<ItemStack, FluidStack> out = recipes.get(comp);
-			return new Pair(out.getKey() == null ? null : out.getKey().copy(), out.getValue());
-		}
-		
-		String[] dictKeys = comp.getDictKeys();
-		
-		for(String key : dictKeys) {
-
-			if(recipes.containsKey(key)) {
-				Pair<ItemStack, FluidStack> out = recipes.get(key);
-				return new Pair(out.getKey() == null ? null : out.getKey().copy(), out.getValue());
-			}
-		}
-		
-		return null;
-	}
-
-	public static int getAmountRequired(ItemStack stack) {
-		
-		if(stack == null || stack.getItem() == null)
-			return 0;
-
-		for (int i = 1; i <= stack.stackSize; i++) {
-			//Normal Stacks
-			ComparableStack input = new ComparableStack(stack.getItem(), i, stack.getItemDamage());
-			if(recipes.containsKey(input)) return i;
-
-			//Dicts
-			String[] dictKeys = input.getDictKeys();
-			for (String key : dictKeys) {
-				//Normal Dicts
-				if(recipes.containsKey(key)) return 1;
-
-				//Dict Stacks
-				OreDictStack dictStack = new OreDictStack(key, i);
-				if (recipes.containsKey(dictStack)) return i;
-			}
-		}
-
-		return 0;
-	}
-	*/
 
 	public static HashMap getRecipes() {
 		
@@ -233,7 +181,7 @@ public class CombinationRecipes extends SerializableRecipe {
 		if(in instanceof ComparableStack) {
 			recipes.put((ComparableStack) in, new Pair(out, fluid));
 		} else if(in instanceof OreDictStack) {
-			recipes.put(((OreDictStack) in).name, new Pair(out, fluid));
+			recipes.put((OreDictStack) in, new Pair(out, fluid));
 		}
 	}
 
