@@ -15,6 +15,19 @@ public class MachineOreSlopper extends BlockDummyable {
 
 	public MachineOreSlopper() {
 		super(Material.iron);
+		
+		//Base
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-3.5, 0, -1.5, 3.5, 1, 1.5));
+		//Slop bucket
+		this.bounding.add(AxisAlignedBB.getBoundingBox(0.5, 1, -1.5, 3.5, 3.25, 1.5));
+		//Shredder
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-2.25, 1, -1.5, 0.25, 3.25, -0.75));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-2.25, 1, 0.75, 0.25, 3.25, 1.5));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-2.25, 1, -1.5, -2, 3.25, 1.5));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(0, 1, -1.5, 0.25, 3.25, 1.5));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-2, 1, -0.75, 0, 2, 0.75));
+		//Outlet
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-3.25, 1, -1, -2.25, 3, 1));
 	}
 
 	@Override
@@ -36,21 +49,6 @@ public class MachineOreSlopper extends BlockDummyable {
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		
-		this.bounding.clear();
-		//Base
-		this.bounding.add(AxisAlignedBB.getBoundingBox(-3.5, 0, -1.5, 3.5, 1, 1.5));
-		//Slop bucket
-		this.bounding.add(AxisAlignedBB.getBoundingBox(0.5, 1, -1.5, 3.5, 3.25, 1.5));
-		//Shredder
-		this.bounding.add(AxisAlignedBB.getBoundingBox(-2.25, 1, -1.5, 0.25, 3.25, -0.75));
-		this.bounding.add(AxisAlignedBB.getBoundingBox(-2.25, 1, 0.75, 0.25, 3.25, 1.5));
-		this.bounding.add(AxisAlignedBB.getBoundingBox(-2.25, 1, -1.5, -2, 3.25, 1.5));
-		this.bounding.add(AxisAlignedBB.getBoundingBox(0, 1, -1.5, 0.25, 3.25, 1.5));
-		this.bounding.add(AxisAlignedBB.getBoundingBox(-2, 1, -0.75, 0, 2, 0.75));
-		//Outlet
-		this.bounding.add(AxisAlignedBB.getBoundingBox(-3.25, 1, -1, -2.25, 3, 1));
-		
 		return standardOpenBehavior(world, x, y, z, player, side);
 	}
 

@@ -235,15 +235,22 @@ public class ElectrolyserMetalRecipes extends SerializableRecipe {
 		
 		AStack input = this.readAStack(obj.get("input").getAsJsonArray());
 
-		JsonArray out1 = obj.get("output1").getAsJsonArray();
-		String name1 = out1.get(0).getAsString();
-		int amount1 = out1.get(1).getAsInt();
-		MaterialStack output1 = new MaterialStack(Mats.matByName.get(name1), amount1);
+		MaterialStack output1 = null;
+		MaterialStack output2 = null;
 
-		JsonArray out2 = obj.get("output2").getAsJsonArray();
-		String name2 = out2.get(0).getAsString();
-		int amount2 = out2.get(1).getAsInt();
-		MaterialStack output2 = new MaterialStack(Mats.matByName.get(name2), amount2);
+		if(obj.has("output1")) {
+			JsonArray out1 = obj.get("output1").getAsJsonArray();
+			String name1 = out1.get(0).getAsString();
+			int amount1 = out1.get(1).getAsInt();
+			output1 = new MaterialStack(Mats.matByName.get(name1), amount1);
+		}
+
+		if(obj.has("output2")) {
+			JsonArray out2 = obj.get("output2").getAsJsonArray();
+			String name2 = out2.get(0).getAsString();
+			int amount2 = out2.get(1).getAsInt();
+			output2 = new MaterialStack(Mats.matByName.get(name2), amount2);
+		}
 		
 		ItemStack[] byproducts = new ItemStack[0];
 		if(obj.has("byproducts")) byproducts = this.readItemStackArray(obj.get("byproducts").getAsJsonArray());
@@ -260,19 +267,23 @@ public class ElectrolyserMetalRecipes extends SerializableRecipe {
 		
 		writer.name("input"); this.writeAStack(rec.getKey(), writer);
 		
-		writer.name("output1");
-		writer.beginArray();
-		writer.setIndent("");
-		writer.value(rec.getValue().output1.material.names[0]).value(rec.getValue().output1.amount);
-		writer.endArray();
-		writer.setIndent("  ");
-		
-		writer.name("output2");
-		writer.beginArray();
-		writer.setIndent("");
-		writer.value(rec.getValue().output2.material.names[0]).value(rec.getValue().output2.amount);
-		writer.endArray();
-		writer.setIndent("  ");
+		if(rec.getValue().output1 != null) {
+			writer.name("output1");
+			writer.beginArray();
+			writer.setIndent("");
+			writer.value(rec.getValue().output1.material.names[0]).value(rec.getValue().output1.amount);
+			writer.endArray();
+			writer.setIndent("  ");
+		}
+
+		if(rec.getValue().output2 != null) {
+			writer.name("output2");
+			writer.beginArray();
+			writer.setIndent("");
+			writer.value(rec.getValue().output2.material.names[0]).value(rec.getValue().output2.amount);
+			writer.endArray();
+			writer.setIndent("  ");
+		}
 		
 		if(rec.getValue().byproduct != null && rec.getValue().byproduct.length > 0) {
 			writer.name("byproducts").beginArray();

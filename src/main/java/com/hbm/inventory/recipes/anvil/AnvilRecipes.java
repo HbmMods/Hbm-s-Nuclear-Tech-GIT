@@ -277,7 +277,7 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
 						new ComparableStack(ModItems.tank_steel, 4),
-						new ComparableStack(ModItems.pipes_steel, 1),
+						new OreDictStack(STEEL.pipe(), 3),
 						new OreDictStack(TI.ingot(), 12),
 						new OreDictStack(CU.ingot(), 8)
 				}, new AnvilOutput(new ItemStack(ModBlocks.heater_oilburner))).setTier(2));
@@ -296,7 +296,7 @@ public class AnvilRecipes {
 						new OreDictStack(RUBBER.ingot(), 4),
 						new OreDictStack(CU.ingot(), 16),
 						new OreDictStack(STEEL.plate528(), 16),
-						new ComparableStack(ModItems.pipes_steel, 1),
+						new OreDictStack(STEEL.pipe(), 3),
 				}, new AnvilOutput(new ItemStack(ModBlocks.heater_heatex))).setTier(3));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
@@ -415,14 +415,14 @@ public class AnvilRecipes {
 				new AStack[] {
 						new ComparableStack(ModBlocks.brick_concrete, 64),
 						new ComparableStack(Blocks.iron_bars, 128),
-						new ComparableStack(ModBlocks.machine_condenser, 5),
+						new ComparableStack(ModBlocks.machine_condenser, 4),
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_tower_small))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
 						new ComparableStack(ModBlocks.concrete_smooth, 128),
 						new ComparableStack(ModBlocks.steel_scaffold, 32),
-						new ComparableStack(ModBlocks.machine_condenser, 25),
-						new ComparableStack(ModItems.pipes_steel, 2)
+						new ComparableStack(ModBlocks.machine_condenser, 16),
+						new OreDictStack(STEEL.pipe(), 8),
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_tower_large))).setTier(4));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
