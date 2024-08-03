@@ -70,14 +70,74 @@ public class CombinationRecipes extends SerializableRecipe {
 		recipes.put(new ComparableStack(Blocks.clay), new Pair(new ItemStack(Blocks.brick_block, 1), null));
 		
 		for(BedrockOreType type : BedrockOreType.values()) {
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.BASE, type)), new Pair(ItemBedrockOreNew.make(BedrockOreGrade.BASE_ROASTED, type), new FluidStack(Fluids.VITRIOL, 50)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY, type)), new Pair(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_ROASTED, type), new FluidStack(Fluids.VITRIOL, 50)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_BYPRODUCT, type)), new Pair(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ROASTED, type), new FluidStack(Fluids.VITRIOL, 50)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_BYPRODUCT, type)), new Pair(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ROASTED, type), new FluidStack(Fluids.VITRIOL, 50)));
-			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_BYPRODUCT, type)), new Pair(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ROASTED, type), new FluidStack(Fluids.VITRIOL, 50)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.BASE, type, 8)), new Pair(ItemBedrockOreNew.make(BedrockOreGrade.BASE_ROASTED, type, 8), new FluidStack(Fluids.VITRIOL, 400)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY, type, 8)), new Pair(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_ROASTED, type, 8), new FluidStack(Fluids.VITRIOL, 400)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_BYPRODUCT, type, 8)), new Pair(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ROASTED, type, 8), new FluidStack(Fluids.VITRIOL, 400)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_BYPRODUCT, type, 8)), new Pair(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ROASTED, type, 8), new FluidStack(Fluids.VITRIOL, 400)));
+			recipes.put(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_BYPRODUCT, type, 8)), new Pair(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ROASTED, type, 8), new FluidStack(Fluids.VITRIOL, 400)));
 		}
 	}
 	
+	
+	//Written by CrpBnrz: Obviously Bob don't think combination furnaces need to process more than 1 item in one go, so I tried to create one by myself
+	//Might be stupid but I've done my best
+	
+	public static Pair<ItemStack, FluidStack> getOutput(ItemStack stack) {
+		
+		if(stack == null || stack.getItem() == null)
+			return null;
+		
+		if (this.getAmountRequired(stack) == 0) {
+			return null;
+		
+		} else {
+			ComparableStack comp = new ComparableStack(stack.getItem(), this.getAmountRequired(stack), stack.getItemDamage());
+		
+			if(recipes.containsKey(comp)) {
+				Pair<ItemStack, FluidStack> out = recipes.get(comp);
+				return new Pair(out.getKey() == null ? null : out.getKey().copy(), out.getValue());
+			}
+		
+			String[] dictKeys = comp.getDictKeys();
+		
+			for(String key : dictKeys) {
+
+				if(recipes.containsKey(key)) {
+					Pair<ItemStack, FluidStack> out = recipes.get(key);
+					return new Pair(out.getKey() == null ? null : out.getKey().copy(), out.getValue());
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public static int getAmountRequired(ItemStack stack) {
+		ComparableStack comp = new ComparableStack(stack);
+
+		String[] dictKeys = comp.getDictKeys();
+
+		//Normal dicts
+		for(String key : dictKeys) {
+			if(recipes.containsKey(key)) return 1;
+		}
+
+		//Stacks
+		for(Entry<Object, Pair<ItemStack, FluidStack>> entry : CombinationRecipes.recipes.entrySet()) {
+			Object input = entry.getKey();
+			if (input instanceof ComparableStack) {
+				ComparableStack inputComp = (ComparableStack)input;
+				if (inputComp.matchesRecipe(stack, false)) return inputComp.stacksize;
+			} else if (input instanceof OreDictStack) {
+				OreDictStack inputDict = (OreDictStack)input;
+				if (inputDict.matchesRecipe(stack, false)) return inputDict.stacksize;
+			}
+		}
+
+		return 0;
+	}
+
+	/*
 	public static Pair<ItemStack, FluidStack> getOutput(ItemStack stack) {
 		
 		if(stack == null || stack.getItem() == null)
@@ -102,6 +162,32 @@ public class CombinationRecipes extends SerializableRecipe {
 		
 		return null;
 	}
+
+	public static int getAmountRequired(ItemStack stack) {
+		
+		if(stack == null || stack.getItem() == null)
+			return 0;
+
+		for (int i = 1; i <= stack.stackSize; i++) {
+			//Normal Stacks
+			ComparableStack input = new ComparableStack(stack.getItem(), i, stack.getItemDamage());
+			if(recipes.containsKey(input)) return i;
+
+			//Dicts
+			String[] dictKeys = input.getDictKeys();
+			for (String key : dictKeys) {
+				//Normal Dicts
+				if(recipes.containsKey(key)) return 1;
+
+				//Dict Stacks
+				OreDictStack dictStack = new OreDictStack(key, i);
+				if (recipes.containsKey(dictStack)) return i;
+			}
+		}
+
+		return 0;
+	}
+	*/
 
 	public static HashMap getRecipes() {
 		
@@ -145,7 +231,7 @@ public class CombinationRecipes extends SerializableRecipe {
 		if(obj.has("output")) out = this.readItemStack(obj.get("output").getAsJsonArray());
 		
 		if(in instanceof ComparableStack) {
-			recipes.put(((ComparableStack) in).makeSingular(), new Pair(out, fluid));
+			recipes.put((ComparableStack) in, new Pair(out, fluid));
 		} else if(in instanceof OreDictStack) {
 			recipes.put(((OreDictStack) in).name, new Pair(out, fluid));
 		}

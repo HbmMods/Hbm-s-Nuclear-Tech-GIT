@@ -115,7 +115,7 @@ public class TileEntityFurnaceCombination extends TileEntityMachinePolluting imp
 							tank.setFill(tank.getFill() + fluid.fill);
 						}
 						
-						this.decrStackSize(0, 1);
+						this.decrStackSize(0, CombinationRecipes.getAmountRequired(slots[0]));
 					}
 					
 					List<Entity> entities = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord + 2, zCoord - 0.5, xCoord + 1.5, yCoord + 4, zCoord + 1.5));
