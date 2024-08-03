@@ -527,6 +527,16 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(DIAMOND.dust(), 56)
 			}, 100);
 		
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.CMB.ordinal()), new AStack[] {
+				new OreDictStack(CMB.ingot(), 32),
+				new OreDictStack(FERRO.ingot(), 16),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 6),
+			}, 200);
+		makeRecipe(new ComparableStack(ModItems.drillbit, 1, EnumDrillType.CMB.ordinal()), new AStack[] {
+				new ComparableStack(ModItems.drillbit, 1, EnumDrillType.CMB_DIAMOND.ordinal()),
+				new OreDictStack(DIAMOND.dust(), 64)
+			}, 100);
+		
 		makeRecipe(new ComparableStack(ModBlocks.machine_large_turbine, 1), new AStack[] {
 				!exp ? new OreDictStack(STEEL.plate528(), 12) : new OreDictStack(STEEL.heavyComp(), 1),
 				new OreDictStack(RUBBER.ingot(), 4),

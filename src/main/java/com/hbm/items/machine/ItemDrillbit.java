@@ -59,7 +59,9 @@ public class ItemDrillbit extends ItemEnumMulti {
 		TCALLOY			(2.0D, 4, 1, true, true),
 		TCALLOY_DIAMOND	(2.0D, 4, 4, true, true),
 		FERRO			(2.5D, 5, 1, true, true),
-		FERRO_DIAMOND	(2.5D, 5, 4, true, true);
+		FERRO_DIAMOND	(2.5D, 5, 4, true, true),
+		CMB				(3.0D, 6, 2, true, true),
+		CMB_DIAMOND		(3.0D, 6, 5, true, true);
 		
 		public double speed;
 		public int tier;
