@@ -6044,6 +6044,7 @@ item.ingot_neodymium.name=Neodymium Ingot
 item.ingot_sodium.name=Sodium Ingot
 item.ingot_strontium.name=Strontium Ingot
 item.night_vision_mk2.name=Self-Charging Night Vision Goggles
+item.spawn_maskman.name=Mask Man
 
 tile.block_neodymium.name=Block of Neodymium
 tile.block_sodium.name=Block of Sodium
