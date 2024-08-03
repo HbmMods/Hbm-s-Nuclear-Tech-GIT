@@ -87,11 +87,11 @@ public class CombinationRecipes extends SerializableRecipe {
 		if(stack == null || stack.getItem() == null)
 			return null;
 		
-		if (this.getAmountRequired(stack) == 0) {
+		if (getAmountRequired(stack) == 0) {
 			return null;
 		
 		} else {
-			ComparableStack comp = new ComparableStack(stack.getItem(), this.getAmountRequired(stack), stack.getItemDamage());
+			ComparableStack comp = new ComparableStack(stack.getItem(), getAmountRequired(stack), stack.getItemDamage());
 		
 			if(recipes.containsKey(comp)) {
 				Pair<ItemStack, FluidStack> out = recipes.get(comp);
