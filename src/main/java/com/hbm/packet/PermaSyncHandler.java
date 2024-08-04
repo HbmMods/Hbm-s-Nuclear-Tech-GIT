@@ -15,7 +15,6 @@ import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionData;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.main.MainRegistry;
-import com.hbm.main.ModEventHandler;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.TomSaveData;
@@ -46,10 +45,6 @@ public class PermaSyncHandler {
 		buf.writeBoolean(data.impact);
 		buf.writeLong(data.time);
 		/// TOM IMPACT DATA ///
-		
-		
-		buf.writeInt(ModEventHandler.chargetime);
-
 		
 		/// SHITTY MEMES ///
 		List<Integer> ids = new ArrayList<Integer>();
@@ -113,7 +108,7 @@ public class PermaSyncHandler {
 		/// TIME OF DAY ///
 		if(world.provider instanceof WorldProviderCelestial && world.provider.dimensionId != 0) {
 			buf.writeBoolean(true);
-			buf.writeLong(world.provider.getWorldTime());
+			((WorldProviderCelestial) world.provider).serialize(buf);
 		} else {
 			buf.writeBoolean(false);
 		}
@@ -137,8 +132,6 @@ public class PermaSyncHandler {
 		ImpactWorldHandler.impact = buf.readBoolean();
 		ImpactWorldHandler.time = buf.readLong();
 		/// TOM IMPACT DATA ///
-
-		ImpactWorldHandler.ctime = buf.readInt();
 
 		/// SHITTY MEMES ///
 		boykissers.clear();
@@ -196,9 +189,8 @@ public class PermaSyncHandler {
 		/// SATELLITES ///
 
 		/// TIME OF DAY ///
-		if(buf.readBoolean()) {
-			long localTime = buf.readLong();
-			world.provider.setWorldTime(localTime);
+		if(buf.readBoolean() && world.provider instanceof WorldProviderCelestial) {
+			((WorldProviderCelestial) world.provider).deserialize(buf);
 		}
 		/// TIME OF DAY ///
 

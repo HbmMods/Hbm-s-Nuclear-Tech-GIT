@@ -50,7 +50,6 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.BlockVolcanoV2.TileEntityLightningVolcano;
-import com.hbm.blocks.bomb.BlockVolcano.TileEntityVolcanoCore;
 import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.blocks.generic.BlockEmitter.TileEntityEmitter;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
@@ -2212,10 +2211,6 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public boolean getImpact(World world) {
 		return ImpactWorldHandler.getImpactForClient(world);
-	}
-	@Override
-	public int getCTime(World world) {
-		return ImpactWorldHandler.getCTimeForClient(world);
 	}
 	
 	@Override
