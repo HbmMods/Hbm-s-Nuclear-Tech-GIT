@@ -398,7 +398,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 			.inputFluids(
 				new FluidStack(Fluids.XYLENE, 750),
 				new FluidStack(Fluids.OXYGEN, 750))
-			.outputItems(new ComparableStack(ModItems.powder_ash, 1, EnumAshType.SOOT).toStack));
+			.outputItems(new ItemStack(ModItems.powder_ash, 1, 4)));	//fine soot
 
 	}
 
