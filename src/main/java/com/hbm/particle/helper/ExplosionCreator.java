@@ -2,8 +2,6 @@ package com.hbm.particle.helper;
 
 import java.util.Random;
 
-import com.hbm.main.ModEventHandlerClient;
-import com.hbm.main.ModEventHandlerClient.DelayedSound;
 import com.hbm.particle.ParticleDebris;
 import com.hbm.particle.ParticleMukeWave;
 import com.hbm.particle.ParticleRocketFlame;
@@ -13,16 +11,18 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class ExplosionCreator implements IParticleCreator {
 	
-	public static final double speedOfSound = (17.15D) * 0.33;
+	public static final double speedOfSound = (17.15D) * 0.5;
 	
 	public static void composeEffect(World world, double x, double y, double z, int cloudCount, float cloudScale, float cloudSpeedMult, float waveScale,
 			int debrisCount, int debrisSize, int debrisRetry, float debrisVelocity, float debrisHorizontalDeviation, float debrisVerticalOffset, float soundRange) {
@@ -71,11 +71,9 @@ public class ExplosionCreator implements IParticleCreator {
 		float dist = (float) player.getDistance(x, y, z);
 
 		if(dist <= soundRange) {
-			while(ModEventHandlerClient.soundLock);
-			ModEventHandlerClient.soundLock = true;
 			String sound = dist <= soundRange * 0.4 ? "hbm:weapon.explosionLargeNear" : "hbm:weapon.explosionLargeFar";
-			ModEventHandlerClient.delayedSounds.add(new DelayedSound(sound, (int) (dist / speedOfSound), x, y, z, 1000F, 0.9F + rand.nextFloat() * 0.2F));
-			ModEventHandlerClient.soundLock = false;
+			PositionedSoundRecord positionedsoundrecord = new PositionedSoundRecord(new ResourceLocation(sound), 1000F, 0.9F + rand.nextFloat() * 0.2F, (float) x, (float) y, (float) z);
+			Minecraft.getMinecraft().getSoundHandler().playDelayedSound(positionedsoundrecord, (int) (dist / speedOfSound));
 		}
 		
 		// WAVE

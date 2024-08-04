@@ -1,15 +1,16 @@
 ## Changed
-* Removed most legacy boilers
-  * Electric boilers have been completely removed
-  * Fired boilers no longer have an on-state, GUI or functionality
-  * Fired boilers still sometimes spawn in certain structures as loot, they drop 3-6 steel scraps containing 1 ingot worth of steel each
-* The rare earth chunk texture is now consistent with the bedrock ores
-* Removed the unused watz control elements
+* The fluid burner, heat exchanging heater and cooling tower now use the single steel pipe items instead of the larger steel pipes
+* Reduced the amount of condensers needed for crafting the cooling towers
+* Liquefactors and solidifiers now have a base processing time of 5 seconds per operation (instead of 10)
+* Added some info to the coltass about how the coltan deposit works
+* Moced some NEI handlers around, fluid containers are now listed last and radiolysis is now listed right after cracking, since they have the same recipes
+* The autocrafter's inputs are now limited to 4 items per slot
+* Autocrafters can now receive stacked items again (except for items with containers), if they do not exceed the 4 item threshold
 
 ## Fixed
-* Fixed automatic crafting table filters being broken
-* Fixed missing localization for black lung death messages
-* Fixed disconnect caused by using a filter on the autocrafter's template output slot
-* Fixed sentry turret "Brown" being uncraftable
-* Fixed instant crash caused by processing some bedrock ores in an electrolyzer
-* Disabled unused debug code for reflection testing
+* Fixed crash caused by decontaminating items with the radiolysis machine
+* Fixed ICFs not forming correctly depending on the orientation
+* Fixed electrolyzer metal recipe config not working
+* Fixed the meteor charms not working when used on helmets
+* Fixed NEI handler for the ICF's consturction showing inconsistent values
+* Fixed radiolysis recipes not showing up in NEI unless the usage recipes are loaded first

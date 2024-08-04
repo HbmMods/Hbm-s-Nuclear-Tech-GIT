@@ -35,6 +35,7 @@ public class EntityMovingItem extends EntityMovingConveyorObject implements ICon
 	public boolean interactFirst(EntityPlayer player) {
 
 		if(!worldObj.isRemote && player.inventory.addItemStackToInventory(this.getItemStack().copy())) {
+			player.inventoryContainer.detectAndSendChanges();
 			this.setDead();
 		}
 
