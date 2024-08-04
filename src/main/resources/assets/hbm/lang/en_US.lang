@@ -6034,6 +6034,7 @@ chem.FP_NAPHTHA_CRACK=Cracked Naphtha Fractionating
 chem.FP_OIL_COKER=Coker Oil Fractionating
 chem.FP_REFORMATE=Reformate Fractionating
 chem.FP_SMEAR=Industrial Oil Fractionating
+chem.FULLERENE_PRODUCTION=Raw Fullerene Production
 
 hbmfluid.cryogel_mod=Modifed Cryogel
 hbmfluid.cryogel_mod_hot=Hot Modified Cryogel

@@ -396,8 +396,8 @@ public class ChemplantRecipes extends SerializableRecipe {
 		//Alternative fullerene production
 		recipes.add(new ChemRecipe(512, "FULLERENE_PRODUCTION", 600)
 			.inputFluids(
-				new FluidStack(Fluids.XYLENE, 750),
-				new FluidStack(Fluids.OXYGEN, 750))
+				new FluidStack(Fluids.XYLENE, 1000),
+				new FluidStack(Fluids.OXYGEN, 1000))
 			.outputItems(new ComparableStack(ModItems.powder_ash, 1, EnumAshType.SOOT).toStack()));
 
 	}

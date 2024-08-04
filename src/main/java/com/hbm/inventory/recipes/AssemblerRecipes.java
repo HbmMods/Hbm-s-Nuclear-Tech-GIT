@@ -399,7 +399,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.powder_magic, 64),
 				new ComparableStack(ModItems.plate_dineutronium, 24),
 				new ComparableStack(ModItems.ingot_u238m2),
-				new ComparableStack(ModItems.ingot_cft, 128)
+				new ComparableStack(ModItems.ingot_cft, 64)
 			}, 1200);
 		makeRecipe(new ComparableStack(ModBlocks.struct_iter_core, 1), new AStack[] {
 				!exp ? new OreDictStack(ANY_RESISTANTALLOY.plateWelded(), 6) : new OreDictStack(ANY_RESISTANTALLOY.heavyComp(), 2),
@@ -1043,7 +1043,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 			}, 600);
 
 		makeRecipe(new ComparableStack(ModBlocks.icf_laser_component, 1, EnumICFPart.CELL.ordinal()), new AStack[] {
-				new ComparableStack(ModItems.ingot_cft, 2),
+				new ComparableStack(ModItems.ingot_cft, 1),
 				new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4),
 				new ComparableStack(ModBlocks.glass_quartz, 16)
 			}, 200);
@@ -1073,7 +1073,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(ND.wireDense(), 4)
 			}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.icf_controller, 1), new AStack[] {
-				new ComparableStack(ModItems.ingot_cft, 16),
+				new ComparableStack(ModItems.ingot_cft, 8),
 				new OreDictStack(ANY_BISMOIDBRONZE.plateCast(), 4),
 				new OreDictStack(ANY_HARDPLASTIC.ingot(), 16),
 				new ComparableStack(ModItems.circuit, 16, EnumCircuitType.BISMOID)
@@ -1083,11 +1083,11 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(STEEL.plateWelded(), 4),
 				new OreDictStack(TI.plateWelded(), 2),
 			}, 200);
-		makeRecipe(new ComparableStack(ModBlocks.icf_component, 1, 1), new AStack[] {
+		makeRecipe(new ComparableStack(ModBlocks.icf_component, 3, 1), new AStack[] {
 				new ComparableStack(ModItems.ingot_cft, 1),
-				new OreDictStack(CMB.plateCast(), 1),
-				new OreDictStack(W.plateWelded(), 2),
-			}, 200);
+				new OreDictStack(CMB.plateCast(), 3),
+				new OreDictStack(W.plateWelded(), 6),
+			}, 600);
 		makeRecipe(new ComparableStack(ModBlocks.icf_component, 1, 3), new AStack[] {
 				new OreDictStack(STEEL.plateWelded(), 2),
 				new OreDictStack(CU.plateWelded(), 2),

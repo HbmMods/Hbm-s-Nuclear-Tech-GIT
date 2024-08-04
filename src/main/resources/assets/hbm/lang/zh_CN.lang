@@ -6061,6 +6061,7 @@ chem.FP_NAPHTHA_CRACK=裂化石脑油分馏
 chem.FP_OIL_COKER=焦化油分馏
 chem.FP_REFORMATE=重整油分馏
 chem.FP_SMEAR=工业油分馏
+chem.FULLERENE_PRODUCTION=粗富勒烯生产
 
 hbmfluid.colloid_hot=热胶体
 hbmfluid.cryogel_mod=改性冷凝胶
