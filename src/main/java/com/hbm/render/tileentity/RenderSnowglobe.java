@@ -13,7 +13,6 @@ import com.hbm.util.EnumUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -28,7 +27,6 @@ public class RenderSnowglobe extends TileEntitySpecialRenderer implements IItemR
 	public static final ResourceLocation socket = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/snowglobe.png");
 	public static final ResourceLocation glass = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/snowglobe_glass.png");
 	public static final ResourceLocation features = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/snowglobe_features.png");
-	public static RenderBlocks renderer = new RenderBlocks();
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {

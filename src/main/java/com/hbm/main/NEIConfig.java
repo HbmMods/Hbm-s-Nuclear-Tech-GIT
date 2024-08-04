@@ -5,6 +5,7 @@ import java.util.List;
 import codechicken.nei.recipe.*;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
+import com.hbm.blocks.generic.BlockPlushie.TileEntityPlushie;
 import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.handler.nei.CustomMachineHandler;
 import com.hbm.items.ModItems;
@@ -103,6 +104,21 @@ public class NEIConfig implements IConfigureNEI {
 				return currenttip;
 			}
 			
+		});
+		
+		API.registerHighlightIdentifier(ModBlocks.plushie, new IHighlightHandler() {
+			@Override public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {
+				int x = mop.blockX;
+				int y = mop.blockY;
+				int z = mop.blockZ;
+				TileEntity te = world.getTileEntity(x, y, z);
+				if(te instanceof TileEntityPlushie) {
+					TileEntityPlushie plush = (TileEntityPlushie) te;
+					return new ItemStack(ModBlocks.plushie, 1, plush.type.ordinal());
+				}
+				return null;
+			}
+			@Override public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, Layout layout) { return currenttip; }
 		});
 	}
 	

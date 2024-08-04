@@ -276,6 +276,7 @@ public class ModBlocks {
 	public static Block pedestal;
 	public static Block bobblehead;
 	public static Block snowglobe;
+	public static Block plushie;
 
 	public static Block hazmat;
 
@@ -1464,6 +1465,7 @@ public class ModBlocks {
 		pedestal = new BlockPedestal().setBlockName("pedestal").setCreativeTab(null).setHardness(2.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":pedestal_top");
 		bobblehead = new BlockBobble().setBlockName("bobblehead").setCreativeTab(MainRegistry.blockTab).setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		snowglobe = new BlockSnowglobe().setBlockName("snowglobe").setCreativeTab(MainRegistry.blockTab).setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":glass_boron");
+		plushie = new BlockPlushie().setBlockName("plushie").setStepSound(Block.soundTypeCloth).setCreativeTab(MainRegistry.blockTab).setHardness(0.0F).setResistance(0.0F).setBlockTextureName(RefStrings.MODID + ":block_fiberglass_side");
 		hazmat = new BlockGeneric(Material.cloth).setBlockName("hazmat").setStepSound(Block.soundTypeCloth).setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(60.0F).setBlockTextureName(RefStrings.MODID + ":hazmat");
 		
 		gravel_obsidian = new BlockFalling(Material.iron).setBlockName("gravel_obsidian").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeGravel).setHardness(5.0F).setResistance(240.0F).setBlockTextureName(RefStrings.MODID + ":gravel_obsidian");
@@ -2615,6 +2617,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(pedestal, pedestal.getUnlocalizedName());
 		GameRegistry.registerBlock(bobblehead, ItemBlockMeta.class, bobblehead.getUnlocalizedName());
 		GameRegistry.registerBlock(snowglobe, ItemBlockMeta.class, snowglobe.getUnlocalizedName());
+		GameRegistry.registerBlock(plushie, ItemBlockBase.class, plushie.getUnlocalizedName());
 		GameRegistry.registerBlock(hazmat, hazmat.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_rbmk, deco_rbmk.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_rbmk_smooth, deco_rbmk_smooth.getUnlocalizedName());

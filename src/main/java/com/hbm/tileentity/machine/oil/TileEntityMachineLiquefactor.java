@@ -45,7 +45,9 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	public static final int usageBase = 500;
 	public int usage;
 	public int progress;
-	public static final int processTimeBase = 160;
+
+	public static final int processTimeBase = 80;
+
 	public int processTime;
 	
 	public FluidTank tank;

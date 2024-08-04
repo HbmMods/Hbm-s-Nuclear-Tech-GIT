@@ -1,8 +1,16 @@
 ## Changed
 * The fluid burner, heat exchanging heater and cooling tower now use the single steel pipe items instead of the larger steel pipes
 * Reduced the amount of condensers needed for crafting the cooling towers
+* Liquefactors and solidifiers now have a base processing time of 5 seconds per operation (instead of 10)
+* Added some info to the coltass about how the coltan deposit works
+* Moced some NEI handlers around, fluid containers are now listed last and radiolysis is now listed right after cracking, since they have the same recipes
+* The autocrafter's inputs are now limited to 4 items per slot
+* Autocrafters can now receive stacked items again (except for items with containers), if they do not exceed the 4 item threshold
 
 ## Fixed
 * Fixed crash caused by decontaminating items with the radiolysis machine
 * Fixed ICFs not forming correctly depending on the orientation
 * Fixed electrolyzer metal recipe config not working
+* Fixed the meteor charms not working when used on helmets
+* Fixed NEI handler for the ICF's consturction showing inconsistent values
+* Fixed radiolysis recipes not showing up in NEI unless the usage recipes are loaded first
