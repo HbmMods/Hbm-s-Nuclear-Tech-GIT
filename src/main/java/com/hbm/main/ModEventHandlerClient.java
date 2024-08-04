@@ -94,6 +94,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.gameevent.InputEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -104,6 +105,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -680,16 +682,23 @@ public class ModEventHandlerClient {
 	}
 
 	private static final ResourceLocation MUSIC_LOCATION = new ResourceLocation("hbm:music.game.space");
+	private ISound currentSong;
 
 	@SubscribeEvent
 	public void onPlayMusic(PlaySoundEvent17 event) {
 		ResourceLocation r = event.sound.getPositionedSoundLocation();
 		if(!r.toString().equals("minecraft:music.game.creative") && !r.toString().equals("minecraft:music.game")) return;
 
+		// Prevent songs playing over the top of each other
+		if(Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(currentSong)) {
+			event.setResult(Result.DENY);
+			return;
+		}
+
 		// Replace the sound if we're not on Earth
 		WorldProvider provider = Minecraft.getMinecraft().theWorld.provider;
 		if(provider instanceof WorldProviderCelestial && provider.dimensionId != 0) {
-			event.result = PositionedSoundRecord.func_147673_a(MUSIC_LOCATION);
+			event.result = currentSong = PositionedSoundRecord.func_147673_a(MUSIC_LOCATION);
 		}
 	}
 
