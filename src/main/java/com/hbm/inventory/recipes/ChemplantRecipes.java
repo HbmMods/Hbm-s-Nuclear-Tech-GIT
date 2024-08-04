@@ -389,13 +389,15 @@ public class ChemplantRecipes extends SerializableRecipe {
 			.outputItems(
 				new ItemStack(ModItems.nugget_u233, 1),
 				new ItemStack(ModItems.nuclear_waste_tiny, 1)));
-		recipes.add(new ChemRecipe(103, "MEAT_PROCESSING", 200)
-			.inputItems(new OreDictStack(KEY_GLYPHID_MEAT, 3))
-			.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 1000))
-			.outputItems(
-				new ItemStack(ModItems.sulfur, 4),
-				new ItemStack(ModItems.niter, 3))
-			.outputFluids(new FluidStack(Fluids.SALIENT, 250)));
+		
+		//NTMC Extra recipes except fluid fractioning
+		
+		//Alternative fullerene production
+		recipes.add(new ChemRecipe(512, "FULLERENE_PRODUCTION", 600)
+			.inputFluids(
+				new FluidStack(Fluids.XYLENE, 750),
+				new FluidStack(Fluids.OXYGEN, 750))
+			.outputItems(new ItemStack(ModItems.powder_ash, 1, EnumAshType.SOOT.ordinal)));
 
 	}
 
