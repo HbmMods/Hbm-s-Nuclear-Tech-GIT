@@ -692,6 +692,7 @@ public class ModEventHandlerClient {
 		// Prevent songs playing over the top of each other
 		if(Minecraft.getMinecraft().getSoundHandler().isSoundPlaying(currentSong)) {
 			event.setResult(Result.DENY);
+			event.result = null;
 			return;
 		}
 

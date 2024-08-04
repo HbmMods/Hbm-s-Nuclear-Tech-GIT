@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GLContext;
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.config.RadiationConfig;
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
@@ -289,19 +290,26 @@ public class ModEventHandlerRenderer {
 
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void thickenFog(FogDensity event) {
-		float soot = (float) (renderSoot - RadiationConfig.sootFogThreshold);
-		CBT_Atmosphere atmosphere = CelestialBody.getTrait(event.entity.worldObj, CBT_Atmosphere.class);
-		double pressure;
+		if(event.entity.worldObj.provider instanceof WorldProviderCelestial) {
+			WorldProviderCelestial provider = (WorldProviderCelestial) event.entity.worldObj.provider;
+			float fogDensity = provider.fogDensity();
+			
+			if(fogDensity > 0) {
+				if(GLContext.getCapabilities().GL_NV_fog_distance) {
+					GL11.glFogi(34138, 34139);
+				}
+				GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
+	
+				event.density = fogDensity;
+				event.setCanceled(true);
 
-		if (atmosphere != null && (pressure = atmosphere.getPressure()) > 2F) {
-			if(GLContext.getCapabilities().GL_NV_fog_distance) {
-				GL11.glFogi(34138, 34139);
+				return;
 			}
-			GL11.glFogi(GL11.GL_FOG_MODE, GL11.GL_EXP);
+		}
 
-			event.density = (float)(pressure * pressure) * 0.002F;
-			event.setCanceled(true);
-		} else if(soot > 0 && RadiationConfig.enableSootFog) {
+		float soot = (float) (renderSoot - RadiationConfig.sootFogThreshold);
+
+		if(soot > 0 && RadiationConfig.enableSootFog) {
 			
 			float farPlaneDistance = (float) (Minecraft.getMinecraft().gameSettings.renderDistanceChunks * 16);
 			float fogDist = farPlaneDistance / (1 + soot * 5F / (float) RadiationConfig.sootFogDivisor);

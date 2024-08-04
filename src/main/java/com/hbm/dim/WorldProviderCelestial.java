@@ -59,6 +59,18 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		this.worldObj.thunderingStrength = 0.0F;
 	}
 
+	// Can be overridden to provide fog changing events based on weather
+	public float fogDensity() {
+		CBT_Atmosphere atmosphere = CelestialBody.getTrait(worldObj, CBT_Atmosphere.class);
+		if(atmosphere == null) return 0;
+
+		float pressure = (float)atmosphere.getPressure();
+
+		if(pressure <= 2F) return 0;
+
+		return pressure * pressure * 0.002F;
+	}
+
 	/**
 	 * Read/write for weather data and anything else you wanna store that is per planet and not for every body
 	 * the serialization function synchronizes weather data to the player
