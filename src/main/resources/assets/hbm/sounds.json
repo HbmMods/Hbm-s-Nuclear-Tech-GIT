@@ -118,7 +118,7 @@
 	"music.recordGoop": {"category": "record", "sounds": [{"name": "music/recordGoop", "stream": true}]},
 	"music.recordEthereal": {"category": "record", "sounds": [{"name": "music/recordEthereal", "stream": true}]},
 
-	"music.game.space": {"category": "record", "sounds": [
+	"music.game.space": {"category": "music", "sounds": [
 		{"name": "music/recordEthereal", "stream": true},
 		{"name": "music/recordGoop", "stream": true},
 		{"name": "music/recordGodSpeed", "stream": true}
