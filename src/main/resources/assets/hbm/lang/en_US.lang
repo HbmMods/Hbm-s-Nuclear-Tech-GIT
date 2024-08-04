@@ -5614,6 +5614,7 @@ tile.plant_tall.cd4.name=Mustard Willow (Mature)
 tile.plant_tall.weed.name=Hemp
 tile.plasma.name=Plasma
 tile.plasma_heater.name=Plasma Heater
+tile.plushie.name=%s Plushie
 tile.pole_satellite_receiver.name=Satellite Dish
 tile.pole_top.name=Antenna Top
 tile.press_preheater.name=Burner Press Preheater

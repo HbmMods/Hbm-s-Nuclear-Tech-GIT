@@ -4535,6 +4535,7 @@ tile.plant_tall.cd4.name=Senf-Weide (Reif)
 tile.plant_tall.weed.name=Hanf
 tile.plasma.name=Plasma
 tile.plasma_heater.name=Plasmaerhitzer
+tile.plushie.name=%s Plüschfigur
 tile.pole_satellite_receiver.name=Satellitenschüssel
 tile.pole_top.name=Antennenspitze
 tile.press_preheater.name=Presse-Vorheizer

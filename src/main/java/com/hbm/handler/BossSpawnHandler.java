@@ -202,15 +202,17 @@ public class BossSpawnHandler {
 					boolean repell = false;
 					boolean strike = true;
 					
-					if(p.getCurrentArmor(2) != null && ArmorModHandler.hasMods(p.getCurrentArmor(2))) {
-						ItemStack mod = ArmorModHandler.pryMods(p.getCurrentArmor(2))[ArmorModHandler.helmet_only];
-						
-						if(mod != null) {
-							if(mod.getItem() == ModItems.protection_charm) {
-								repell = true;
-							}
-							if(mod.getItem() == ModItems.meteor_charm) {
-								strike = false;
+					for(int i = 0; i < 4; i++) {
+						ItemStack armor = p.getCurrentArmor(i);
+						if(armor != null && ArmorModHandler.hasMods(armor)) {
+							
+							for(int j = 0; j < 8; j++) {
+								ItemStack mod = ArmorModHandler.pryMods(armor)[j];
+								
+								if(mod != null) {
+									if(mod.getItem() == ModItems.protection_charm) repell = true;
+									if(mod.getItem() == ModItems.meteor_charm) strike = false;
+								}
 							}
 						}
 					}

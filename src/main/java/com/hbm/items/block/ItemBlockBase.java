@@ -2,7 +2,6 @@ package com.hbm.items.block;
 
 import java.util.List;
 
-import com.hbm.blocks.BlockMulti;
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.blocks.ITooltipProvider;
@@ -18,6 +17,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.StatCollector;
 
 public class ItemBlockBase extends ItemBlock {
 
@@ -41,13 +41,24 @@ public class ItemBlockBase extends ItemBlock {
 	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		
-		if(field_150939_a instanceof BlockMulti) {
-			return ((BlockMulti)field_150939_a).getUnlocalizedName(stack);
+		if(field_150939_a instanceof IBlockMulti) {
+			return ((IBlockMulti) field_150939_a).getUnlocalizedName(stack);
 		} else if(field_150939_a instanceof BlockMetalFence) {
-			return ((BlockMetalFence)field_150939_a).getUnlocalizedName(stack); // I considered reworking IBlockMulti instead but there are like a bajillion implementers
+			return ((BlockMetalFence) field_150939_a).getUnlocalizedName(stack); // I considered reworking IBlockMulti instead but there are like a bajillion implementers
 		} else {
 			return super.getUnlocalizedName(stack);
 		}
+	}
+
+	@Override
+	public String getItemStackDisplayName(ItemStack stack) {
+		if(field_150939_a instanceof IBlockMulti) {
+			String override = ((IBlockMulti) field_150939_a).getOverrideDisplayName(stack);
+			if(override != null) {
+				return override;
+			}
+		}
+		return ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name")).trim();
 	}
 	
 	@Override

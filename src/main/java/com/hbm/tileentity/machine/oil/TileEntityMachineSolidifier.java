@@ -42,7 +42,7 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	public static final int usageBase = 500;
 	public int usage;
 	public int progress;
-	public static final int processTimeBase = 200;
+	public static final int processTimeBase = 100;
 	public int processTime;
 	
 	public FluidTank tank;
