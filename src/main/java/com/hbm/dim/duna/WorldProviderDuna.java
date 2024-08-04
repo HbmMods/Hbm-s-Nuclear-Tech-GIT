@@ -83,6 +83,12 @@ public class WorldProviderDuna extends WorldProviderCelestial {
 	}
 
 	@Override
+	public boolean isDaytime() {
+		if(dustStormIntensity >= 0.5F) return false;
+		return super.isDaytime();
+	}
+
+	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("dustStormTimer", dustStormTimer);
