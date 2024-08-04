@@ -15,14 +15,14 @@ public class CelestialBodyWorldSavedData extends WorldSavedData {
 	private long localTime;
 	
 	public static CelestialBodyWorldSavedData get(WorldProviderCelestial provider) {
-		
 		CelestialBodyWorldSavedData result = (CelestialBodyWorldSavedData) provider.worldObj.perWorldStorage.loadData(CelestialBodyWorldSavedData.class, DATA_NAME);
 		
 		if(result == null) {
 			provider.worldObj.perWorldStorage.setData(DATA_NAME, new CelestialBodyWorldSavedData(DATA_NAME));
 			result = (CelestialBodyWorldSavedData) provider.worldObj.perWorldStorage.loadData(CelestialBodyWorldSavedData.class, DATA_NAME);
-			result.provider = provider;
 		}
+
+		result.provider = provider;
 		
 		return result;
 	}
