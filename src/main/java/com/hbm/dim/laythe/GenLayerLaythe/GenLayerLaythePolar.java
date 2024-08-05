@@ -36,7 +36,6 @@ public class GenLayerLaythePolar extends GenLayer {
                 this.initChunkSeed((long)(j2 + p_75904_1_), (long)(i2 + p_75904_2_));
                 if (k3 == SpaceConfig.laytheOceanBiome && k2 == SpaceConfig.laytheOceanBiome && l2 == SpaceConfig.laytheOceanBiome && i3 == SpaceConfig.laytheOceanBiome && j3 == SpaceConfig.laytheOceanBiome)
                 {
-                	if( this.nextInt(1) == 0)
                     aint1[j2 + i2 * p_75904_3_] = BiomeGenBaseLaythe.laythePolar.biomeID;
                 }
                 else

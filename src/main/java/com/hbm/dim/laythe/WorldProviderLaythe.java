@@ -73,20 +73,18 @@ public class WorldProviderLaythe extends WorldProviderCelestial {
 		GenLayer biomes = new GenLayerLaytheBiomes(seed);
 		GenLayer polar = new GenLayerLaythePolar(1000L, biomes);
 
+		GenLayer polarmag = GenLayerZoom.magnify(1000L, polar, 0);
+		biomes = new GenLayerLaythePolar(1000L, polarmag);
+		
+		
+		
 		biomes = new GenLayerFuzzyZoom(2000L, biomes);
 
 		biomes = new GenLayerZoom(2001L, biomes);
 		
-
-		GenLayer polarmag = GenLayerZoom.magnify(1000L, polar, 1);
-		polarmag = new GenLayerZoom(1000L, biomes);
-		polarmag = GenLayerZoom.magnify(1000L, biomes, 1);
-		biomes = new GenLayerLaythePolar(1000L, polarmag);
 		
 		
 		biomes = new GenLayerDiversifyLaythe(1000L, biomes);
-		
-		GenLayer diversity = new GenLayerDiversifyLaythe(1000L, biomes);
 		
 		biomes = new GenLayerZoom(1000L, biomes);
 		biomes = new GenLayerZoom(1001L, biomes);
@@ -96,10 +94,8 @@ public class WorldProviderLaythe extends WorldProviderCelestial {
 		biomes = new GenLayerLaytheOceans(4000L, biomes);
 		biomes = new GenLayerLaytheOceans(4000L, biomes);
 		
-		diversity = GenLayerZoom.magnify(1000L, diversity, 0);
-		biomes = new GenLayerDiversifyLaythe(1000L, diversity);
-
-
+		GenLayer oceanGenLayer = new GenLayerLaytheOceans(4000L, biomes);
+		oceanGenLayer = GenLayerZoom.magnify(4000L, biomes, 0);
 		
 		biomes = new GenLayerZoom(1003L, biomes);
 		biomes = new GenLayerSmooth(700L, biomes);
