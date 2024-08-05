@@ -97,6 +97,8 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
+		float fogIntensity = 0;
+
 		if(world.provider instanceof WorldProviderCelestial) {
 			// Without mixins, we have to resort to some very wacky ways of checking that the lightmap needs to be updated
 			// fortunately, thanks to torch flickering, we can just check to see if the brightest pixel has been modified
@@ -107,6 +109,8 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 				lastBrightestPixel = mc.entityRenderer.lightmapColors[255] + mc.entityRenderer.lightmapColors[250];
 			}
+
+			fogIntensity = ((WorldProviderCelestial) world.provider).fogDensity() * 30;
 		}
 
 		CelestialBody body = CelestialBody.getBody(world);
@@ -137,6 +141,17 @@ public class SkyProviderCelestial extends IRenderHandler {
 			skyR = anaglyphColor[0];
 			skyG = anaglyphColor[1];
 			skyB = anaglyphColor[2];
+		}
+
+		float planetR = skyR;
+		float planetG = skyG;
+		float planetB = skyB;
+
+		if(fogIntensity > 0.01F) {
+			Vec3 fogColor = world.getFogColor(partialTicks);
+			planetR = (float)com.hbm.dim.noise.MathHelper.clampedLerp(skyR, fogColor.xCoord, fogIntensity);
+			planetG = (float)com.hbm.dim.noise.MathHelper.clampedLerp(skyG, fogColor.yCoord, fogIntensity);
+			planetB = (float)com.hbm.dim.noise.MathHelper.clampedLerp(skyB, fogColor.zCoord, fogIntensity);
 		}
 
 		GL11.glColor3f(skyR, skyG, skyB);
@@ -365,7 +380,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 						GL11.glDisable(GL11.GL_TEXTURE_2D);
 						
 						// Draw another layer on top to blend with the atmosphere
-						GL11.glColor4f(skyR - blendDarken, skyG - blendDarken, skyB - blendDarken, (1 - blendAmount * visibility));
+						GL11.glColor4f(planetR - blendDarken, planetG - blendDarken, planetB - blendDarken, (1 - blendAmount * visibility));
 						OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
 	
 						tessellator.startDrawingQuads();
