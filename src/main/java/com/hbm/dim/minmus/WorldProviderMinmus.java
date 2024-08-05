@@ -1,6 +1,7 @@
 package com.hbm.dim.minmus;
 
 import com.hbm.dim.WorldChunkManagerCelestial.BiomeGenLayers;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.WorldChunkManagerCelestial;
 import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.minmus.GenLayerMinmus.GenLayerDiversifyMinmus;
@@ -36,7 +37,7 @@ public class WorldProviderMinmus extends WorldProviderCelestial {
 
 	@Override
 	public Block getStone() {
-		return Blocks.snow;
+		return ModBlocks.minmus_stone;
 	}
 
 	private static BiomeGenLayers createBiomeGenerators(long seed) {

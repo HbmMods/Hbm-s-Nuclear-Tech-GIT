@@ -19,7 +19,7 @@ public abstract class BiomeGenBaseMinmus extends BiomeGenBaseCelestial {
         super(id);
 		this.setDisableRain();
         
-        this.theBiomeDecorator = new BiomeDecoratorCelestial(Blocks.snow);
+        this.theBiomeDecorator = new BiomeDecoratorCelestial(ModBlocks.minmus_regolith);
         this.theBiomeDecorator.generateLakes = false;
         
         this.topBlock = ModBlocks.minmus_regolith; //remind me to send roadhog his daily modmail
