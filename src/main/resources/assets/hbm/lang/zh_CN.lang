@@ -5641,6 +5641,7 @@ tile.plant_tall.cd4.name=芥子柳（成熟）
 tile.plant_tall.weed.name=大麻
 tile.plasma.name=等离子
 tile.plasma_heater.name=等离子加热器
+tile.plushie.name=%s布娃娃
 tile.pole_satellite_receiver.name=卫星天线
 tile.pole_top.name=天线顶部
 tile.press_preheater.name=锻压机压力预热器
