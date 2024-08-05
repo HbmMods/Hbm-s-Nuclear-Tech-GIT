@@ -62,7 +62,7 @@ public class TileEntityMachineHydrotreater extends TileEntityMachineBase impleme
 			tanks[0].loadTank(1, 2, slots);
 			tanks[1].loadTank(3, 4, slots);
 			
-			if(worldObj.getTotalWorldTime() % 2 == 0) reform();
+			reform();
 
 			tanks[2].unloadTank(5, 6, slots);
 			tanks[3].unloadTank(7, 8, slots);

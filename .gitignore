@@ -20,6 +20,7 @@ build
 
 # other
 run
+.git
 
 # CurseForge configuration
 /curseforge.properties

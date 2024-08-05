@@ -1,23 +1,32 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityChungus;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineChungus extends BlockDummyable implements ITooltipProvider {
+public class MachineChungus extends BlockDummyable implements ILookOverlay, ITooltipProvider {
 
 	public MachineChungus(Material mat) {
 		super(mat);
@@ -78,10 +87,15 @@ public class MachineChungus extends BlockDummyable implements ITooltipProvider {
 							entity.tanks[1].setTankType(Fluids.SUPERHOTSTEAM);
 							entity.tanks[0].setFill(entity.tanks[0].getFill() / 10);
 							entity.tanks[1].setFill(0);
+						} else if(type == Fluids.ULTRAHOTSTEAM) {
+							entity.tanks[0].setTankType(Fluids.CRYOGEL_MOD_HOT);
+							entity.tanks[1].setTankType(Fluids.CRYOGEL_MOD);
+							entity.tanks[0].setFill(0);
+							entity.tanks[1].setFill(0);
 						} else {
 							entity.tanks[0].setTankType(Fluids.STEAM);
 							entity.tanks[1].setTankType(Fluids.SPENTSTEAM);
-							entity.tanks[0].setFill(Math.min(entity.tanks[0].getFill() * 1000, entity.tanks[0].getMaxFill()));
+							entity.tanks[0].setFill(0);
 							entity.tanks[1].setFill(0);
 						}
 						entity.markDirty();
@@ -93,6 +107,29 @@ public class MachineChungus extends BlockDummyable implements ITooltipProvider {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		
+		int[] pos = this.findCore(world, x, y, z);
+		
+		if(pos == null)
+			return;
+		
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		
+		if(!(te instanceof TileEntityChungus))
+			return;
+		
+		TileEntityChungus turbine = (TileEntityChungus) te;
+		
+		List<String> text = new ArrayList();
+		text.add(String.format(Locale.US, "%,d", turbine.power) + " / " + String.format(Locale.US, "%,d", turbine.maxPower) + "HE");
+		text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + turbine.tanks[0].getTankType().getLocalizedName() + ": " + String.format(Locale.US, "%,d", turbine.tanks[0].getFill()) + " / " + String.format(Locale.US, "%,d", turbine.tanks[0].getMaxFill()) + "mB");
+		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + turbine.tanks[1].getTankType().getLocalizedName() + ": " + String.format(Locale.US, "%,d", turbine.tanks[1].getFill()) + " / " + String.format(Locale.US, "%,d", turbine.tanks[1].getMaxFill()) + "mB");
+		
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 
 	@Override

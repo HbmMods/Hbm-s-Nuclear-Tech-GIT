@@ -57,7 +57,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public boolean hasMaterial;
 	public int delay;
 	public int upgrade;
-	
+
 	public float lid;
 	public float prevLid;
 	public int approachNum;
@@ -75,7 +75,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public int getMaxInputSize() {
 		return upgrade == 0 ? 1 : upgrade == 1 ? 4 : upgrade == 2 ? 8 : 16;
 	}
-	
+
 	public static final int maxLiquid = MaterialShapes.BLOCK.q(128);
 	public List<MaterialStack> liquids = new ArrayList();
 
@@ -102,7 +102,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 		
 		UpgradeManager.eval(slots, 4, 4);
 		this.upgrade = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-		
+
 		if(!worldObj.isRemote) {
 			
 			this.power = Library.chargeTEFromItems(slots, 3, power, maxPower);
@@ -115,17 +115,17 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				boolean ingredients = this.hasIngredients();
 				boolean electrodes = this.hasElectrodes();
 				
-				int consumption = (int) (1_000 * Math.pow(5, upgrade));
+				int consumption = 1000 * (upgrade * upgrade + 1) * (upgrade * upgrade + 1);
 				
 				if(ingredients && electrodes && delay <= 0 && this.liquids.isEmpty()) {
 					if(lid > 0) {
-						lid -= 1F / (60F / (upgrade * 0.5 + 1));
+						lid -= 1F / (60F / (upgrade + 1));
 						if(lid < 0) lid = 0;
 						this.progress = 0;
 					} else {
 						
 						if(power >= consumption) {
-							int duration = 400 / (upgrade * 2 + 1);
+							int duration = 400 / (upgrade * upgrade + 1);
 							this.progress += 1F / duration;
 							this.isProgressing = true;
 							this.power -= consumption;
@@ -133,7 +133,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 								this.process();
 								this.progress = 0;
 								this.markDirty();
-								this.delay = (int) (120 / (upgrade * 0.5 + 1));
+								this.delay = (int) (120 / (upgrade + 1));
 								PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, 10F);
 							}
 						}
@@ -142,7 +142,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 					if(this.delay > 0) delay--;
 					this.progress = 0;
 					if(lid < 1 && this.electrodes[0] != 0 && this.electrodes[1] != 0 && this.electrodes[2] != 0) {
-						lid += 1F / (60F / (upgrade * 0.5 + 1));
+						lid += 1F / (60F / (upgrade + 1));
 						if(lid > 1) lid = 1;
 					}
 				}
@@ -159,7 +159,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 				
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
-				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1.25D, zCoord + 0.5D + dir.offsetZ * 2.875D, 6, true, this.liquids, MaterialShapes.INGOT.q(1), impact);
+				MaterialStack didPour = CrucibleUtil.pourFullStack(worldObj, xCoord + 0.5D + dir.offsetX * 2.875D, yCoord + 1.25D, zCoord + 0.5D + dir.offsetZ * 2.875D, 6, true, this.liquids, MaterialShapes.INGOT.q(3), impact);
 
 				if(didPour != null) {
 					NBTTagCompound data = new NBTTagCompound();
@@ -293,11 +293,11 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			}
 			
 			if(liquidMode && recipe.fluidOutput != null) {
-				
+
 				while(slots[i] != null && slots[i].stackSize > 0) {
 					int liquid = this.getStackAmount(liquids);
 					int toAdd = this.getStackAmount(recipe.fluidOutput);
-					
+
 					if(liquid + toAdd <= this.maxLiquid) {
 						this.decrStackSize(i, 1);
 						for(MaterialStack stack : recipe.fluidOutput) {
@@ -350,10 +350,7 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 			ArcFurnaceRecipe recipe = ArcFurnaceRecipes.getOutput(stack, this.liquidMode);
 			if(recipe == null) return false;
 			if(liquidMode) {
-				if(recipe.fluidOutput == null) return false;
-				int sta = slots[slot] != null ? slots[slot].stackSize : 0;
-				sta += stack.stackSize;
-				return sta <= getMaxInputSize();
+				return recipe.fluidOutput != null;
 			} else {
 				if(recipe.solidOutput == null) return false;
 				int sta = slots[slot] != null ? slots[slot].stackSize : 0;
@@ -575,8 +572,8 @@ public class TileEntityMachineArcFurnaceLarge extends TileEntityMachineBase impl
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
 		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_arc_furnace));
 		if(type == UpgradeType.SPEED) {
-			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level * 2 + 1)) + "%"));
-			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + ((int) Math.pow(5, level) * 100 - 100) + "%"));
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (100 - 100 / (level * level + 1)) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + ((level * level + 1) * 100 - 100) + "%"));
 		}
 	}
 
