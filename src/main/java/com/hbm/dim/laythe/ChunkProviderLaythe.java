@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.SpaceConfig;
 import com.hbm.dim.ChunkProviderCelestial;
+import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
+import com.hbm.dim.laythe.biome.BiomeGenBaseLaythe;
 import com.hbm.dim.mapgen.MapGenGreg;
 import com.hbm.dim.mapgen.MapGenTiltedSpires;
 import com.hbm.entity.mob.EntityCreeperFlesh;
@@ -21,6 +24,7 @@ public class ChunkProviderLaythe extends ChunkProviderCelestial {
 
 	private MapGenGreg caveGenV3 = new MapGenGreg();
 	private MapGenTiltedSpires spires = new MapGenTiltedSpires(2, 14, 0.8F);
+	private MapGenTiltedSpires snowires = new MapGenTiltedSpires(2, 14, 0.8F);
 
 	private List<SpawnListEntry> spawnedOfFlesh = new ArrayList<SpawnListEntry>();
 
@@ -28,7 +32,8 @@ public class ChunkProviderLaythe extends ChunkProviderCelestial {
 		super(world, seed, hasMapFeatures);
 		caveGenV3 = (MapGenGreg) TerrainGen.getModdedMapGen(caveGenV3, CAVE);
 		spires = (MapGenTiltedSpires) TerrainGen.getModdedMapGen(spires, CUSTOM);
-
+		
+		
 		spires.rock = Blocks.stone;
 		spires.regolith = ModBlocks.laythe_silt;
 		spires.curve = true;
@@ -38,6 +43,15 @@ public class ChunkProviderLaythe extends ChunkProviderCelestial {
 		seaBlock = Blocks.water;
 
 		spawnedOfFlesh.add(new SpawnListEntry(EntityCreeperFlesh.class, 10, 4, 4));
+		
+		snowires = (MapGenTiltedSpires) TerrainGen.getModdedMapGen(snowires, CUSTOM);
+		
+		snowires.rock = Blocks.packed_ice;
+		snowires.regolith = Blocks.snow;
+		snowires.curve = true;
+		snowires.maxPoint = 6.0F;
+		snowires.maxTilt = 3.5F;
+
 	}
 
 	@Override
@@ -46,6 +60,9 @@ public class ChunkProviderLaythe extends ChunkProviderCelestial {
 		
 		spires.func_151539_a(this, worldObj, x, z, buffer.blocks);
 		caveGenV3.func_151539_a(this, worldObj, x, z, buffer.blocks);
+        if(biomesForGeneration[0] == BiomeGenBaseLaythe.laythePolar) {
+    	snowires.func_151539_a(this, worldObj, x, z, buffer.blocks);
+        }
 
 		return buffer;
 	}

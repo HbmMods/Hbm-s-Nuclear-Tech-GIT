@@ -2,6 +2,7 @@ package com.hbm.dim.minmus;
 
 import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.*;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.ChunkProviderCelestial;
 
 import net.minecraft.init.Blocks;
@@ -18,8 +19,8 @@ public class ChunkProviderMinmus extends ChunkProviderCelestial {
 		super(world, seed, hasMapFeatures);
 		caveGenerator = TerrainGen.getModdedMapGen(caveGenerator, CAVE);
 		
-		stoneBlock = Blocks.snow;
-		seaBlock = Blocks.packed_ice;
+		stoneBlock = ModBlocks.minmus_stone;
+		seaBlock = ModBlocks.minmus_smooth;
 		seaLevel = 63;
 	}
 

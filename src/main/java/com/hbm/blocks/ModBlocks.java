@@ -434,6 +434,12 @@ public class ModBlocks {
 	public static Block moho_regolith;
 	public static Block moho_stone;
 
+	public static Block minmus_regolith;
+	public static Block minmus_stone;
+	public static Block minmus_smooth;
+
+
+	
 	public static Block brick_jungle;
 	public static Block brick_jungle_cracked;
 	public static Block brick_jungle_fragile;
@@ -1715,6 +1721,11 @@ public class ModBlocks {
 
 		moho_regolith = new BlockGeneric(Material.rock).setBlockName("moho_regolith").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(1.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_regolith");
 		moho_stone = new BlockGeneric(Material.rock).setBlockName("moho_stone").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(1.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":moho_stone");
+		
+		minmus_regolith = new BlockGeneric(Material.rock).setBlockName("minmus_regolith").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(1.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":minmus_regolith");
+		minmus_stone = new BlockGeneric(Material.rock).setBlockName("minmus_stone").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(1.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":minmus_stone");
+		minmus_smooth = new BlockGeneric(Material.rock).setBlockName("minmus_smooth").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(1.5F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":minflat_regolith");
+		
 		
 		brick_jungle = new BlockGeneric(Material.rock).setBlockName("brick_jungle").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(360.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle");
 		brick_jungle_cracked = new BlockGeneric(Material.rock).setBlockName("brick_jungle_cracked").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(360.0F).setBlockTextureName(RefStrings.MODID + ":brick_jungle_cracked");
@@ -3048,6 +3059,12 @@ public class ModBlocks {
 
 		GameRegistry.registerBlock(moho_regolith, moho_regolith.getUnlocalizedName());
 		GameRegistry.registerBlock(moho_stone, moho_stone.getUnlocalizedName());
+		
+		GameRegistry.registerBlock(minmus_regolith, minmus_regolith.getUnlocalizedName());
+		GameRegistry.registerBlock(minmus_stone, minmus_stone.getUnlocalizedName());
+		GameRegistry.registerBlock(minmus_smooth, minmus_smooth.getUnlocalizedName());
+
+
 		//Waste
 		GameRegistry.registerBlock(waste_earth, waste_earth.getUnlocalizedName());
 		GameRegistry.registerBlock(waste_mycelium, waste_mycelium.getUnlocalizedName());

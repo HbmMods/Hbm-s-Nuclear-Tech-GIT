@@ -41,6 +41,8 @@ public class BlockStalagmite extends BlockEnumMulti {
 		switch(meta) {
 		case 0: return ModItems.sulfur;
 		case 1: return ModItems.powder_asbestos;
+		case 2: return ModItems.flesh;
+
 		}
 		
 		return null;

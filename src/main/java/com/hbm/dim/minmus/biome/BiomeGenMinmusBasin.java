@@ -1,5 +1,7 @@
 package com.hbm.dim.minmus.biome;
 
+import com.hbm.blocks.ModBlocks;
+
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeGenMinmusBasin extends BiomeGenBaseMinmus {
@@ -11,6 +13,8 @@ public class BiomeGenMinmusBasin extends BiomeGenBaseMinmus {
 		this.setBiomeName("Minmus Basins");
         
         this.setHeight(height);
+        this.topBlock = ModBlocks.minmus_smooth; 
+        this.fillerBlock = ModBlocks.minmus_regolith;
 	}
 
 }

@@ -72,9 +72,6 @@ public class WorldProviderLaythe extends WorldProviderCelestial {
 	private static BiomeGenLayers createBiomeGenerators(long seed) {
 		GenLayer biomes = new GenLayerLaytheBiomes(seed);
 		GenLayer polar = new GenLayerLaythePolar(1000L, biomes);
-
-		GenLayer polarmag = GenLayerZoom.magnify(1000L, polar, 0);
-		biomes = new GenLayerLaythePolar(1000L, polarmag);
 		
 		
 		
@@ -83,6 +80,9 @@ public class WorldProviderLaythe extends WorldProviderCelestial {
 		biomes = new GenLayerZoom(2001L, biomes);
 		
 		
+		polar = new GenLayerZoom(1000L, polar);
+		GenLayer polarmag = GenLayerZoom.magnify(1000L, polar, 1);
+		biomes = new GenLayerLaythePolar(1000L, polarmag);
 		
 		biomes = new GenLayerDiversifyLaythe(1000L, biomes);
 		
