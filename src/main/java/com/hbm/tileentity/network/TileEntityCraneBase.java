@@ -1,11 +1,16 @@
 package com.hbm.tileentity.network;
 
 import com.hbm.interfaces.ICopiable;
+import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.TileEntityMachineBase;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -108,17 +113,60 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase implemen
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setInteger("inputSide", getInputSide().ordinal());
 		nbt.setInteger("outputSide", getOutputSide().ordinal());
+
+		if(this instanceof IControlReceiverFilter){
+			IControlReceiverFilter filter = ((IControlReceiverFilter) this);
+			IInventory inv = this;
+			NBTTagList tags = new NBTTagList();
+			int count = 0;
+
+			for (int i = filter.getFilterSlots()[0]; i <  filter.getFilterSlots()[1]; i++) {
+				NBTTagCompound slotNBT = new NBTTagCompound();
+				if(inv.getStackInSlot(i) != null) {
+					slotNBT.setByte("slot", (byte) count);
+					inv.getStackInSlot(i).writeToNBT(slotNBT);
+					tags.appendTag(slotNBT);
+				}
+				count++;
+			}
+			nbt.setTag("items", tags);
+		}
+
 		return nbt;
 	}
 
 	@Override
 	public void pasteSettings(NBTTagCompound nbt) {
-		if(nbt.hasKey("outputSide")){
+		if (nbt.hasKey("outputSide")) {
 			outputOverride = ForgeDirection.getOrientation(nbt.getInteger("outputSide"));
 			onBlockChanged();
 		}
-		if(nbt.hasKey("inputSide")) {
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, nbt.getInteger("inputSide"),  3);
+		if (nbt.hasKey("inputSide")) {
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, nbt.getInteger("inputSide"), 3);
+		}
+
+		if (this instanceof IControlReceiverFilter) {
+			IControlReceiverFilter filter = ((IControlReceiverFilter) this);
+			IInventory inv = this;
+
+			NBTTagList items = nbt.getTagList("items", 10);
+			int listSize = items.tagCount();
+			if (listSize > 0) {
+				int count = 0;
+				for (int i = filter.getFilterSlots()[0]; i < filter.getFilterSlots()[1]; i++) {
+					if (i < listSize) {
+						NBTTagCompound slotNBT = items.getCompoundTagAt(count);
+						byte slot = slotNBT.getByte("slot");
+						ItemStack loadedStack = ItemStack.loadItemStackFromNBT(slotNBT);
+						if (loadedStack != null) {
+							inv.setInventorySlotContents(slot + filter.getFilterSlots()[0], ItemStack.loadItemStackFromNBT(slotNBT));
+							filter.nextMode(slot);
+							this.getWorldObj().markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
+						}
+					}
+					count++;
+				}
+			}
 		}
 	}
 }
