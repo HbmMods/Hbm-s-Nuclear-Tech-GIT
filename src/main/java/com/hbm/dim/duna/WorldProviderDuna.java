@@ -127,6 +127,11 @@ public class WorldProviderDuna extends WorldProviderCelestial {
 	}
 
 	@Override
+	public double getHorizon() {
+		return 52;
+	}
+
+	@Override
 	public int getRespawnDimension(EntityPlayerMP player) {
 		// BRING
 		//  HIM
