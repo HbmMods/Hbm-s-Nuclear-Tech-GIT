@@ -1,14 +1,20 @@
 package com.hbm.render.util;
 
+import java.nio.DoubleBuffer;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.handler.RocketStruct;
 import com.hbm.handler.RocketStruct.RocketStage;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
+import com.hbm.main.ResourceManager;
 
+import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.texture.TextureManager;
 
 public class MissilePronter {
+
+	private static DoubleBuffer buffer;
 
 	public static void prontMissile(MissileMultipart missile, TextureManager tex) {
 		
@@ -51,6 +57,11 @@ public class MissilePronter {
 	public static void prontRocket(RocketStruct rocket, TextureManager tex, boolean isDeployed) {
 		GL11.glPushMatrix();
 
+		boolean hasShroud = false;
+
+		if(buffer == null)
+			buffer = GLAllocation.createDirectByteBuffer(8 * 4).asDoubleBuffer(); // four doubles
+
 		for(RocketStage stage : rocket.stages) {
 			int stack = stage.getStack();
 			int cluster = stage.getCluster();
@@ -75,8 +86,18 @@ public class MissilePronter {
 					}
 
 					if(stage.thruster != null) {
-						tex.bindTexture(stage.thruster.texture);
-						stage.thruster.getModel(isDeployed).renderAll();
+						if(hasShroud && stage.fuselage != null) {
+							tex.bindTexture(ResourceManager.universal);
+							buffer.put(new double[] {0, -1, 0, stage.thruster.height});
+							buffer.rewind();
+							GL11.glEnable(GL11.GL_CLIP_PLANE0);
+							GL11.glClipPlane(GL11.GL_CLIP_PLANE0, buffer);
+							stage.fuselage.getModel(isDeployed).renderAll();
+							GL11.glDisable(GL11.GL_CLIP_PLANE0);
+						} else {
+							tex.bindTexture(stage.thruster.texture);
+							stage.thruster.getModel(isDeployed).renderAll();
+						}
 						GL11.glTranslated(0, stage.thruster.height, 0);
 					}
 		
@@ -103,6 +124,7 @@ public class MissilePronter {
 
 			// Only the bottom-most stage can be deployed
 			isDeployed = false;
+			hasShroud = true;
 		}
 
 		if(rocket.capsule != null) {
