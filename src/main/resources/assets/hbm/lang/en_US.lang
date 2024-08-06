@@ -2019,6 +2019,7 @@ item.bedrock_ore.type.light.name=Light Metal
 item.bedrock_ore.type.nonmetal.name=Non-Metal
 item.bedrock_ore.type.rare.name=Rare Earth
 item.bedrock_ore_base.name=Raw Bedrock Ore
+item.bedrock_ore_fragment.name=%s Bedrock Ore Fragment
 item.beta.name=Beta Features
 item.big_sword.name=Great Sword
 item.billet_actinium.name=Actinium-227 Billet

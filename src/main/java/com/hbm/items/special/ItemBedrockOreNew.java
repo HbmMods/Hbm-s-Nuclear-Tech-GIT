@@ -1,6 +1,6 @@
 package com.hbm.items.special;
 
-import static com.hbm.inventory.OreDictManager.*;
+import static com.hbm.inventory.material.Mats.*;
 import static com.hbm.items.special.ItemBedrockOreNew.ProcessingTrait.*;
 
 import java.util.List;
@@ -13,11 +13,10 @@ import com.hbm.util.I18nUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
+import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.material.NTMMaterial.SmeltingBehavior;
-import com.hbm.items.ItemEnums.EnumChunkType;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.icon.RGBMutatorInterpolatedComponentRemap;
 import com.hbm.render.icon.TextureAtlasSpriteMutatable;
@@ -30,7 +29,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemBedrockOreNew extends Item {
 
@@ -115,26 +113,39 @@ public class ItemBedrockOreNew extends Item {
 			list.add(I18nUtil.resolveKey(this.getUnlocalizedNameInefficiently(stack) + ".trait." + trait.name().toLowerCase(Locale.US)));
 		}
 	}
+	
+	public static class BedrockOreOutput {
+		public NTMMaterial mat;
+		public int amount;
+		public BedrockOreOutput(NTMMaterial mat, int amount) {
+			this.mat = mat;
+			this.amount = amount;
+		}
+	}
+	
+	public static BedrockOreOutput o(NTMMaterial mat, int amount) {
+		return new BedrockOreOutput(mat, amount);
+	}
 
 	public static enum BedrockOreType {
-		//												primary						sulfuric						solvent							radsolvent
-		LIGHT_METAL(	0xFFFFFF, 0x353535, "light",	IRON, CU,					TI, AL, AL,						CHLOROCALCITE, LI, NA,			CHLOROCALCITE, LI, NA),
-		HEAVY_METAL(	0x868686, 0x000000, "heavy",	W, PB,						GOLD, GOLD, BE,					W, PB, GOLD,					BI, BI, GOLD),
-		RARE_EARTH(		0xE6E6B6, 0x1C1C00, "rare",		CO, EnumChunkType.RARE,		B, LA, NB,						ND, SR, ZR,						NB, ND, SR),
-		ACTINIDE(		0xC1C7BD, 0x2B3227, "actinide",	U, TH232,					RA226, RA226, PO210,			RA226, RA226, PO210,			TC99, TC99, U238),
-		NON_METAL(		0xAFAFAF, 0x0F0F0F, "nonmetal",	COAL, S,					LIGNITE, KNO, F,				P_RED, F, S,					CHLOROCALCITE, SI, SI),
-		CRYSTALLINE(	0xE2FFFA, 0x1E8A77, "crystal",	REDSTONE, CINNABAR,			SODALITE, ASBESTOS, DIAMOND,	CINNABAR, ASBESTOS, EMERALD,	BORAX, MOLYSITE, SODALITE);
+		//												primary									sulfuric															solvent																		radsolvent
+		LIGHT_METAL(	0xFFFFFF, 0x353535, "light",	o(MAT_IRON, 9),		o(MAT_COPPER, 9),	o(MAT_TITANIUM, 9),	o(MAT_ALUMINIUM, 5),	o(MAT_ALUMINIUM, 4),	o(MAT_CHLOROCALCITE, 5),	o(MAT_LITHIUM, 5),		o(MAT_SODIUM, 3),		o(MAT_CHLOROCALCITE, 6),	o(MAT_LITHIUM, 6),		o(MAT_SODIUM, 6)),
+		HEAVY_METAL(	0x868686, 0x000000, "heavy",	o(MAT_TUNGSTEN, 9),	o(MAT_LEAD, 9),		o(MAT_GOLD, 2),		o(MAT_GOLD, 2),			o(MAT_BERYLLIUM, 3),	o(MAT_TUNGSTEN, 9),			o(MAT_LEAD, 9),			o(MAT_GOLD, 5),			o(MAT_BISMUTH, 1),			o(MAT_BISMUTH, 1),		o(MAT_GOLD, 6)),
+		RARE_EARTH(		0xE6E6B6, 0x1C1C00, "rare",		o(MAT_COBALT, 5),	o(MAT_RAREEARTH, 5),o(MAT_BORON, 5),	o(MAT_LANTHANIUM, 3),	o(MAT_NIOBIUM, 4),		o(MAT_NEODYMIUM, 3),		o(MAT_STRONTIUM, 3),	o(MAT_ZIRCONIUM, 3),	o(MAT_NIOBIUM, 5),			o(MAT_NEODYMIUM, 5),	o(MAT_STRONTIUM, 3)),
+		ACTINIDE(		0xC1C7BD, 0x2B3227, "actinide",	o(MAT_URANIUM, 4),	o(MAT_THORIUM, 4),	o(MAT_RADIUM, 2),	o(MAT_RADIUM, 2),		o(MAT_POLONIUM, 2),		o(MAT_RADIUM, 2),			o(MAT_RADIUM, 2),		o(MAT_POLONIUM, 2),		o(MAT_TECHNETIUM, 1),		o(MAT_TECHNETIUM, 1),	o(MAT_U238, 1)),
+		NON_METAL(		0xAFAFAF, 0x0F0F0F, "nonmetal",	o(MAT_COAL, 9),		o(MAT_SULFUR, 9),	o(MAT_LIGNITE, 9),	o(MAT_KNO, 6),			o(MAT_FLUORITE, 6),		o(MAT_PHOSPHORUS, 5),		o(MAT_FLUORITE, 6),		o(MAT_SULFUR, 6),		o(MAT_CHLOROCALCITE, 6),	o(MAT_SILICON, 2),		o(MAT_SILICON, 2)),
+		CRYSTALLINE(	0xE2FFFA, 0x1E8A77, "crystal",	o(MAT_REDSTONE, 9),	o(MAT_CINNABAR, 4),	o(MAT_SODALITE, 9),	o(MAT_ASBESTOS, 6),		o(MAT_DIAMOND, 3),		o(MAT_CINNABAR, 3),			o(MAT_ASBESTOS, 5),		o(MAT_EMERALD, 3),		o(MAT_BORAX, 3),			o(MAT_MOLYSITE, 3),		o(MAT_SODALITE, 9));
 		//sediment
 		
 		public int light;
 		public int dark;
 		public String suffix;
-		public Object primary1, primary2;
-		public Object byproductAcid1, byproductAcid2, byproductAcid3;
-		public Object byproductSolvent1, byproductSolvent2, byproductSolvent3;
-		public Object byproductRad1, byproductRad2, byproductRad3;
+		public BedrockOreOutput primary1, primary2;
+		public BedrockOreOutput byproductAcid1, byproductAcid2, byproductAcid3;
+		public BedrockOreOutput byproductSolvent1, byproductSolvent2, byproductSolvent3;
+		public BedrockOreOutput byproductRad1, byproductRad2, byproductRad3;
 		
-		private BedrockOreType(int light, int dark, String suffix, Object p1, Object p2, Object bA1, Object bA2, Object bA3, Object bS1, Object bS2, Object bS3, Object bR1, Object bR2, Object bR3) {
+		private BedrockOreType(int light, int dark, String suffix, BedrockOreOutput p1, BedrockOreOutput p2, BedrockOreOutput bA1, BedrockOreOutput bA2, BedrockOreOutput bA3, BedrockOreOutput bS1, BedrockOreOutput bS2, BedrockOreOutput bS3, BedrockOreOutput bR1, BedrockOreOutput bR2, BedrockOreOutput bR3) {
 			this.light = light;
 			this.dark = dark;
 			this.suffix = suffix;
@@ -145,43 +156,15 @@ public class ItemBedrockOreNew extends Item {
 		}
 	}
 	
-	public static MaterialStack toFluid(Object o, int amount) {
-		if(o instanceof DictFrame) {
-			NTMMaterial mat = Mats.matByName.get(((DictFrame) o).mats[0]);
-			if(mat != null && mat.smeltable == SmeltingBehavior.SMELTABLE) {
-				return new MaterialStack(mat, amount);
-			}
+	public static MaterialStack toFluid(BedrockOreOutput o, double amount) {
+		if(o.mat != null && o.mat.smeltable == SmeltingBehavior.SMELTABLE) {
+			return new MaterialStack(o.mat, (int) Math.ceil(MaterialShapes.FRAGMENT.q(o.amount) * amount));
 		}
 		return null;
 	}
-
-	public static ItemStack extract(Object o) {
-		return extract(o, 1);
-	}
 	
-	public static ItemStack extract(Object o, int amount) {
-		if(o instanceof EnumChunkType) return new ItemStack(ModItems.chunk_ore, amount, ((EnumChunkType) o).ordinal());
-		if(o instanceof DictFrame) {
-			DictFrame frame = (DictFrame) o;
-			List<ItemStack> gems = OreDictionary.getOres(frame.gem(), false); if(!gems.isEmpty()) return fromList(gems, amount);
-			List<ItemStack> dusts = OreDictionary.getOres(frame.dust(), false); if(!dusts.isEmpty()) return fromList(dusts, amount);
-			List<ItemStack> crystals = OreDictionary.getOres(frame.crystal(), false); if(!crystals.isEmpty()) return fromList(crystals, amount);
-			List<ItemStack> billets = OreDictionary.getOres(frame.billet(), false); if(!billets.isEmpty()) return fromList(billets, amount);
-			List<ItemStack> ingots = OreDictionary.getOres(frame.ingot(), false); if(!ingots.isEmpty()) return fromList(ingots, amount);
-		}
-		//Solely for recipe handling, to make the code more compact
-		if(o instanceof ItemStack){
-			ItemStack stack = (ItemStack) o;
-			stack.stackSize = amount;
-			return stack;
-		}
-		return new ItemStack(ModItems.nothing);
-	}
-	
-	private static ItemStack fromList(List<ItemStack> list, int amount) {
-		ItemStack first = list.get(0).copy();
-		first.stackSize = amount;
-		return first;
+	public static ItemStack extract(BedrockOreOutput o, double amount) {
+		return new ItemStack(ModItems.bedrock_ore_fragment, Math.min((int) Math.ceil(o.amount * amount), 64), o.mat.id);
 	}
 
 	@Override
