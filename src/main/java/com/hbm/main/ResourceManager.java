@@ -1156,17 +1156,17 @@ public class ResourceManager {
 	public static final IModelCustom rp_s_20_leggy = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/rp_s_20_leggy.obj"));
 	public static final IModelCustom rp_s_20_leggy_deployed = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/rp_s_20_leggy_deployed.obj"));
 
-	public static final IModelCustom mp_f_10_kerosene = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_10_kerosene.obj"));
-	public static final IModelCustom mp_f_10_long_kerosene = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_10_long_kerosene.obj"));
-	public static final IModelCustom mp_f_10_15_kerosene = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_10_15_kerosene.obj"));
-	public static final IModelCustom mp_f_15_kerosene = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_15_kerosene.obj"));
-	public static final IModelCustom mp_f_15_hydrogen = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_15_hydrogen.obj"));
-	public static final IModelCustom mp_f_15_20_kerosene = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_15_20_kerosene.obj"));
-	public static final IModelCustom mp_f_20_12_usa = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_20_usa.obj"));
-	public static final IModelCustom mp_f_20_6_usa = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_20_6_usa.obj"));
-	public static final IModelCustom mp_f_20_3_usa = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_20_3_usa.obj"));
-	public static final IModelCustom mp_f_20_1_usa = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_20_1_usa.obj"));
-	public static final IModelCustom mp_f_20_neo = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_20_neo.obj"));
+	public static final IModelCustom mp_f_10_kerosene = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_10_kerosene.obj"));
+	public static final IModelCustom mp_f_10_long_kerosene = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_10_long_kerosene.obj"));
+	public static final IModelCustom mp_f_10_15_kerosene = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_10_15_kerosene.obj"));
+	public static final IModelCustom mp_f_15_kerosene = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_15_kerosene.obj"));
+	public static final IModelCustom mp_f_15_hydrogen = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_15_hydrogen.obj"));
+	public static final IModelCustom mp_f_15_20_kerosene = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_15_20_kerosene.obj"));
+	public static final IModelCustom mp_f_20_12_usa = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_20_usa.obj"));
+	public static final IModelCustom mp_f_20_6_usa = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_20_6_usa.obj"));
+	public static final IModelCustom mp_f_20_3_usa = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_20_3_usa.obj"));
+	public static final IModelCustom mp_f_20_1_usa = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_20_1_usa.obj"));
+	public static final IModelCustom mp_f_20_neo = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_f_20_neo.obj"));
 
 	public static final IModelCustom mp_w_10_he = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_w_10_he.obj"));
 	public static final IModelCustom mp_w_10_incendiary = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/missile_parts/mp_w_10_incendiary.obj"));

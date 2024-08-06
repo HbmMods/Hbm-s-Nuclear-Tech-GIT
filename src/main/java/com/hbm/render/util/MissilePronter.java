@@ -56,6 +56,8 @@ public class MissilePronter {
 	// Attaches a set of stages together
 	public static void prontRocket(RocketStruct rocket, TextureManager tex, boolean isDeployed) {
 		GL11.glPushMatrix();
+		
+		GL11.glShadeModel(GL11.GL_SMOOTH);
 
 		boolean hasShroud = false;
 
@@ -131,6 +133,8 @@ public class MissilePronter {
 			tex.bindTexture(rocket.capsule.texture);
 			rocket.capsule.model.renderAll();
 		}
+
+		GL11.glShadeModel(GL11.GL_FLAT);
 
 		GL11.glPopMatrix();
 	}
