@@ -92,7 +92,7 @@ public class MissilePronter {
 							buffer.rewind();
 							GL11.glEnable(GL11.GL_CLIP_PLANE0);
 							GL11.glClipPlane(GL11.GL_CLIP_PLANE0, buffer);
-							stage.fuselage.getModel(isDeployed).renderAll();
+							stage.fuselage.getShroud().renderAll();
 							GL11.glDisable(GL11.GL_CLIP_PLANE0);
 						} else {
 							tex.bindTexture(stage.thruster.texture);

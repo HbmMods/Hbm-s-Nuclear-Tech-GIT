@@ -21,6 +21,7 @@ public class MissilePart {
 	public double guiheight;
 	public IModelCustom model;
 	public IModelCustom deployedModel;
+	public IModelCustom shroudModel;
 	public ResourceLocation texture;
 	
 	private MissilePart(Item item, PartType type, double height, double guiheight, IModelCustom model, ResourceLocation texture) {
@@ -31,14 +32,24 @@ public class MissilePart {
 		this.model = model;
 		this.texture = texture;
 	}
-	
-	private MissilePart(Item item, PartType type, double height, double guiheight, IModelCustom model, IModelCustom deployedModel, ResourceLocation texture) {
-		this(item, type, height, guiheight, model, texture);
+
+	private MissilePart withDeployed(IModelCustom deployedModel) {
 		this.deployedModel = deployedModel;
+		return this;
+	}
+
+	private MissilePart withShroud(IModelCustom shroudModel) {
+		this.shroudModel = shroudModel;
+		return this;
 	}
 
 	public IModelCustom getModel(boolean deployed) {
 		if(deployed && deployedModel != null) return deployedModel;
+		return model;
+	}
+
+	public IModelCustom getShroud() {
+		if(shroudModel != null) return shroudModel;
 		return model;
 	}
 	
@@ -93,7 +104,7 @@ public class MissilePart {
 		//
 		MissilePart.registerPart(ModItems.mp_stability_20_flat, PartType.FINS, 0, 3, ResourceManager.mp_s_20, ResourceManager.universal);
 		
-		MissilePart.registerPart(ModItems.rp_legs_20, PartType.FINS, 2.4, 3, ResourceManager.rp_s_20_leggy, ResourceManager.rp_s_20_leggy_deployed, ResourceManager.universal);
+		MissilePart.registerPart(ModItems.rp_legs_20, PartType.FINS, 2.4, 3, ResourceManager.rp_s_20_leggy, ResourceManager.universal).withDeployed(ResourceManager.rp_s_20_leggy_deployed);
 
 		//////
 		
@@ -178,8 +189,8 @@ public class MissilePart {
 		//
 		MissilePart.registerPart(ModItems.rp_fuselage_20_12, PartType.FUSELAGE, 12, 8, ResourceManager.mp_f_20_12_usa, ResourceManager.mp_f_20_kerolox_usa);
 		MissilePart.registerPart(ModItems.rp_fuselage_20_6, PartType.FUSELAGE, 6, 4.5, ResourceManager.mp_f_20_6_usa, ResourceManager.mp_f_20_kerolox_usa);
-		MissilePart.registerPart(ModItems.rp_fuselage_20_3, PartType.FUSELAGE, 3, 2.5, ResourceManager.mp_f_20_3_usa, ResourceManager.mp_f_20_kerolox);
-		MissilePart.registerPart(ModItems.rp_fuselage_20_1, PartType.FUSELAGE, 1, 1.5, ResourceManager.mp_f_20_1_usa, ResourceManager.mp_f_20_kerolox);
+		MissilePart.registerPart(ModItems.rp_fuselage_20_3, PartType.FUSELAGE, 3, 2.5, ResourceManager.mp_f_20_3_usa, ResourceManager.mp_f_20_kerolox).withShroud(ResourceManager.mp_f_20_6_usa);
+		MissilePart.registerPart(ModItems.rp_fuselage_20_1, PartType.FUSELAGE, 1, 1.5, ResourceManager.mp_f_20_1_usa, ResourceManager.mp_f_20_kerolox).withShroud(ResourceManager.mp_f_20_6_usa);
 		MissilePart.registerPart(ModItems.rp_fuselage_20_12_hydrazine, PartType.FUSELAGE, 10, 8, ResourceManager.mp_f_20_neo, ResourceManager.mp_f_20_hydrazine_tex);
 
 
@@ -210,14 +221,10 @@ public class MissilePart {
 		
 	}
 	
-	public static void registerPart(Item item, PartType type, double height, double guiheight, IModelCustom model, ResourceLocation texture) {
+	public static MissilePart registerPart(Item item, PartType type, double height, double guiheight, IModelCustom model, ResourceLocation texture) {
 		MissilePart part = new MissilePart(item, type, height, guiheight, model, texture);
 		parts.put(item.hashCode(), part);
-	}
-	
-	public static void registerPart(Item item, PartType type, double height, double guiheight, IModelCustom model, IModelCustom deployedModel, ResourceLocation texture) {
-		MissilePart part = new MissilePart(item, type, height, guiheight, model, deployedModel, texture);
-		parts.put(item.hashCode(), part);
+		return part;
 	}
 
 	public static MissilePart getPart(ItemStack stack) {
