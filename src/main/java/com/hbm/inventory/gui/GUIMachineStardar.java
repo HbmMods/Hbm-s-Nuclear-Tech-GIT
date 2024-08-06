@@ -20,6 +20,7 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 // Dearest Jam:
@@ -39,13 +40,13 @@ public class GUIMachineStardar extends GuiInfoContainer {
 
 	public static ResourceLocation texture = new ResourceLocation( RefStrings.MODID + ":textures/gui/machine/gui_stardar.png");
 	private static final ResourceLocation nightTexture = new ResourceLocation(RefStrings.MODID, "textures/misc/space/night.png");
-	protected boolean clickorus;
 	private TileEntityMachineStardar star;
 
 	private int mX, mY; // current mouse position
 	private int lX, lY; // mouse position last frame (for flinging)
+	private boolean dragging = false;
 
-	private float additive = 0, additivey = 0;
+	private float starX = 0, starY = 0;
 	private float velocityX = 0, velocityY = 0;
 	private List<POI> pList = new ArrayList<>();
 	Random rnd = new Random();
@@ -58,8 +59,8 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		for(CelestialBody rody : CelestialBody.getLandableBodies()) {
 			CelestialBody body = CelestialBody.getBody(star.getWorldObj());
 			if(rody != body) {
-				int posX = rnd.nextInt(256);
-				int posY = rnd.nextInt(256);
+				int posX = rnd.nextInt(400) - 200;
+				int posY = rnd.nextInt(400) - 200;
 				pList.add(new POI(posX, posY, rody));
 			}
 		}
@@ -69,7 +70,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		super(new ContainerStardar(iplayer, restard));
 		this.star = restard;
 
-		this.xSize = 210;
+		this.xSize = 176;
 		this.ySize = 256;
 		init();
 
@@ -84,73 +85,63 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		pushScissor(9, 10, 137, 108);
-		Minecraft.getMinecraft().getTextureManager().bindTexture(nightTexture);
+		pushScissor(9, 9, 158, 108);
 		if(!Mouse.isButtonDown(0)) {
 			velocityX *= 0.85;
 			velocityY *= 0.85;
-			additive += velocityX;
-			additivey += velocityY;
-
+			starX += velocityX;
+			starY += velocityY;
+			starX = MathHelper.clamp_float(starX, -256 + 158, 256);
+			starY = MathHelper.clamp_float(starY, -256 + 108, 256);
 		}
-		drawTexturedModalRect(guiLeft, guiTop, (int) additive * -1, (int) additivey * -1, xSize, ySize);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(nightTexture);
+		drawTexturedModalRect(guiLeft, guiTop, (int) -starX, (int) -starY, 256, 256);
 
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-			additivey++;
+			starY++;
 		}
 
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-			additivey--;
+			starY--;
 		}
 
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-			additive++;
+			starX++;
 		}
 
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
-			additive--;
+			starX--;
 		}
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 
 		for(POI peepee : pList) {
-			int px = (int) (guiLeft + additive + peepee.offsetX);
-			int py = (int) (guiTop + additivey + peepee.offsetY);
+			int px = (int) (guiLeft + starX + peepee.offsetX);
+			int py = (int) (guiTop + starY + peepee.offsetY);
 
-			switch(peepee.getBody().processingLevel) {
-			case 1:
-				drawTexturedModalRect(px, py, 191, 0, 6, 7);
-				break;
-			case 2:
-				drawTexturedModalRect(px, py, 164, 0, 8, 8);
-				break;
-			case 3:
-				drawTexturedModalRect(px, py, 173, 0, 8, 8);
-				break;
-			case 4:
-				drawTexturedModalRect(px, py, 182, 0, 8, 8);
-				break;
-			default:
-				drawTexturedModalRect(px, py, 157, 0, 6, 7);
-				break;
-			}
+			drawTexturedModalRect(px, py, xSize + peepee.getBody().processingLevel * 8, 0, 8, 8);
 		}
 
 		if(star.heightmap != null) {
-			for(int i = 0; i < star.heightmap.length; i++) {
-				int h = Math.min(star.heightmap[i], 127) * 2;
-				int r = 0;
-				int g = h;
-				int b = 0;
-				int a = 255;
+			if(star.updateHeightmap) {
+				for(int i = 0; i < star.heightmap.length; i++) {
+					int h = Math.min(star.heightmap[i], 127) * 2;
+					int r = 0;
+					int g = h;
+					int b = 0;
+					int a = 255;
+	
+					groundColors[i] = a << 24 | r << 16 | g << 8 | b;
+				}
+	
+				groundTexture.updateDynamicTexture();
 
-				groundColors[i] = a << 24 | r << 16 | g << 8 | b;
+				star.updateHeightmap = false;
 			}
 
-			groundTexture.updateDynamicTexture();
-
 			mc.getTextureManager().bindTexture(groundMap);
-			drawTexturedModalRect(guiLeft, guiTop, (int) additive * -1, (int) additivey * -1, 256, 256);
+			func_146110_a(guiLeft, guiTop, (int) -starX - 256 - 9, (int) -starY - 256 - 9, 256, 256, 512, 512);
 		}
 
 		popScissor();
@@ -158,10 +149,10 @@ public class GUIMachineStardar extends GuiInfoContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mx, int my) {
-		if(checkClick(mx, my, 9, 10, 137, 108)) {
+		if(checkClick(mx, my, 9, 9, 158, 108)) {
 			for(POI poi : pList) {
-				int px = (int) (additive + poi.offsetX);
-				int py = (int) (additivey + poi.offsetY);
+				int px = (int) (starX + poi.offsetX);
+				int py = (int) (starY + poi.offsetY);
 	
 				// Has a small buffer area around the POI to improve click targeting
 				drawCustomInfoStat(mx - guiLeft, my - guiTop, px - 2, py - 2, 12, 12, px + 8, py + 10, poi.body.name, "Processing Tier: " + poi.body.processingLevel);
@@ -174,43 +165,42 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		super.handleMouseInput();
 
 		int button = Mouse.getEventButton();
-		if(additive > 400) {
+		if(starX > 256) {
 			velocityX = 0;
-			velocityY = 0;
-			additive = 400;
+			starX = 256;
 		}
 
-		if(additive < -400) {
+		if(starX < -256 + 158) {
 			velocityX = 0;
-			velocityY = 0;
-			additive = -400;
+			starX = -256 + 158;
 		}
 
-		if(additivey < -400) {
-			velocityX = 0;
+		if(starY < -256 + 108) {
 			velocityY = 0;
-			additivey = -400;
+			starY = -256 + 108;
 		}
 
-		if(additivey > 400) {
-			velocityX = 0;
+		if(starY > 256) {
 			velocityY = 0;
-			additivey = 400;
+			starY = 256;
 		}
 
-		if(button == 0 && !Mouse.getEventButtonState()) {
+		if(dragging && button == 0 && !Mouse.getEventButtonState()) {
 			velocityX = (mX - lX) * 0.8f;
 			velocityY = (mY - lY) * 0.8f;
+			dragging = false;
 		}
 	}
 
 	@Override
 	protected void mouseClickMove(int x, int y, int p_146273_3_, long p_146273_4_) {
 		super.mouseClickMove(x, y, p_146273_3_, p_146273_4_);
+		if(!dragging) return;
+
 		int deltaX = x - mX;
 		int deltaY = y - mY;
-		additive += deltaX;
-		additivey += deltaY;
+		starX += deltaX;
+		starY += deltaY;
 		lX = mX;
 		lY = mY;
 		mX = x;
@@ -220,13 +210,15 @@ public class GUIMachineStardar extends GuiInfoContainer {
 	@Override
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
-		mX = lX = x;
-		mY = lY = y;
+		if(checkClick(x, y, 9, 9, 158, 108)) {
+			dragging = true;
 
-		if(checkClick(x, y, 9, 10, 137, 108)) {
+			mX = lX = x;
+			mY = lY = y;
+
 			for(POI poi : pList) {
-				int poiX = (int) (additive + poi.offsetX);
-				int poiY = (int) (additivey + poi.offsetY);
+				int poiX = (int) (starX + poi.offsetX);
+				int poiY = (int) (starY + poi.offsetY);
 
 				// Again, a small buffer area around
 				if(checkClick(x, y, poiX - 2, poiY - 2, 12, 12)) {
@@ -239,6 +231,8 @@ public class GUIMachineStardar extends GuiInfoContainer {
 					break;
 				}
 			}
+		} else {
+			dragging = false;
 		}
 	}
 

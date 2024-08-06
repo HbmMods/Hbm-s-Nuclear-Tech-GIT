@@ -18,8 +18,8 @@ public class ContainerStardar extends Container {
 		//0 - load slot
 		//1 - save slot
 		
-		this.addSlotToContainer(new Slot(imGonnaThrowUpandShitAllovertheBeduggghhhh, 0, 129, 124));	
-		this.addSlotToContainer(new Slot(imGonnaThrowUpandShitAllovertheBeduggghhhh, 1, 109, 144));	
+		this.addSlotToContainer(new Slot(imGonnaThrowUpandShitAllovertheBeduggghhhh, 0, 150, 124));	
+		this.addSlotToContainer(new Slot(imGonnaThrowUpandShitAllovertheBeduggghhhh, 1, 130, 144));	
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
