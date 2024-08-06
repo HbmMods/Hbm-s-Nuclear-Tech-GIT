@@ -47,10 +47,13 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 
 		list.add("Destination: " + destination.body.name);
 
-		if (!getProcessed(stack)) {
+		if(destination.x == 0 && destination.z == 0) {
+			list.add(EnumChatFormatting.GOLD + "Needs destination coordinates!");
+		} else if(!getProcessed(stack)) {
 			// Display processing level info if not processed
 			list.add("Process requirement: Level " + processingLevel);
 			list.add(EnumChatFormatting.GOLD + "Needs processing!");
+			list.add("Target coordinates: " + destination.x + ", " + destination.z);
 		} else {
 			// Display destination info if processed
 			list.add(EnumChatFormatting.GREEN + "Processed!");
@@ -186,6 +189,7 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 			return false;
 
 		setCoordinates(stack, x, z);
+		setProcessed(stack, true);
 
 		if(!world.isRemote)
 			player.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "Set landing coordinates to: " + x + ", " + z));
