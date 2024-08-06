@@ -1350,17 +1350,6 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(DURA.bolt(), 16),
 				new OreDictStack(KEY_YELLOW, 4)
 			}, 5000);
-		makeRecipe(new ComparableStack(ModBlocks.machine_turbinegas, 1), new AStack[] {
-				//new ComparableStack(ModItems.hull_big_steel, 3),
-				new OreDictStack(STAINLESS.plate(), 16),
-				new OreDictStack(TI.plate(), 6),
-				new ComparableStack(ModItems.turbine_syngas, 2),
-				new ComparableStack(ModItems.flywheel_beryllium, 1),
-				//new ComparableStack(ModItems.generator_steel, 5),
-				//new ComparableStack(ModItems.bolt_compound, 2),
-				new ComparableStack(ModItems.pipes_steel, 3),
-				new ComparableStack(ModItems.circuit_copper, 1)
-			}, 500);
 		makeRecipe(new ComparableStack(ModBlocks.nuke_antimatter, 1), new AStack[] {
 				//new ComparableStack(ModItems.hull_big_steel, 3),
 				new OreDictStack(STAINLESS.plate(), 16),
