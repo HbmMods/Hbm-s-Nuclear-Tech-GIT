@@ -19,6 +19,7 @@ public class SpaceConfig {
 
 	public static int minmusBiome = 40;
 	public static int minmusBasins = 41;
+	// why are we squished into the ceiling
 	public static int moonBiome = 111;
 	public static int dunaBiome = 112;
 	public static int dunaLowlandsBiome = 113;
