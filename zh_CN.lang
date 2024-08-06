@@ -2026,6 +2026,7 @@ item.bedrock_ore.type.light.name=轻金属
 item.bedrock_ore.type.nonmetal.name=非金属
 item.bedrock_ore.type.rare.name=稀土
 item.bedrock_ore_base.name=基岩矿石原矿
+item.bedrock_ore_fragment.name=%s基岩矿石碎片
 item.beta.name=Beta测试版功能
 item.big_sword.name=大剑
 item.billet_actinium.name=锕-227坯料
