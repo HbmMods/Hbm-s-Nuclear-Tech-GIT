@@ -1300,6 +1300,7 @@ item.bedrock_ore.type.light.name=Leichtmetall
 item.bedrock_ore.type.nonmetal.name=Nichtmetall
 item.bedrock_ore.type.rare.name=Seltenerden
 item.bedrock_ore_base.name=Rohes Bedrockerz
+item.bedrock_ore_fragment.name=%s-Bedrockerzfragment
 item.beta.name=Beta-Features
 item.big_sword.name=Großes Schwert
 item.billet_am_mix.name=Reaktorfähiges Americiumbillet

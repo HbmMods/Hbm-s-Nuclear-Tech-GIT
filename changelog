@@ -1,11 +1,18 @@
+## Added
+* Plushies
+
 ## Changed
 * The fluid burner, heat exchanging heater and cooling tower now use the single steel pipe items instead of the larger steel pipes
 * Reduced the amount of condensers needed for crafting the cooling towers
 * Liquefactors and solidifiers now have a base processing time of 5 seconds per operation (instead of 10)
 * Added some info to the coltass about how the coltan deposit works
-* Moced some NEI handlers around, fluid containers are now listed last and radiolysis is now listed right after cracking, since they have the same recipes
+* Moved some NEI handlers around, fluid containers are now listed last and radiolysis is now listed right after cracking, since they have the same recipes
 * The autocrafter's inputs are now limited to 4 items per slot
 * Autocrafters can now receive stacked items again (except for items with containers), if they do not exceed the 4 item threshold
+* Bedrock ores now produce bedrock ore fragments instead of straight outputs, one fragment is equivalent to a nugget
+  * Fragments also differ in stack size when produced, most primary fractions yield 9 (equal to the previous full powder), but things with lower demands/higher value like bismuth now yield substantially less
+* The base speed of the large mining drill when mining bedrock has been reduced by 80%, it is now advisable to either invest in upgrades early on or use multiple drills
+* The bedrock ore processor now has a base speed of 30 seconds
 
 ## Fixed
 * Fixed crash caused by decontaminating items with the radiolysis machine
@@ -14,3 +21,5 @@
 * Fixed the meteor charms not working when used on helmets
 * Fixed NEI handler for the ICF's consturction showing inconsistent values
 * Fixed radiolysis recipes not showing up in NEI unless the usage recipes are loaded first
+* Fixed autocrafter's grid not properly updating when using NEI drag and drop for the filter
+* Fixed all carbon-based crucible materials having the wrong ID, this fix will shift IDs but prevent collisions with silicon

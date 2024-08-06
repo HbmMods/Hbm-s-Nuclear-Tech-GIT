@@ -218,6 +218,7 @@ public class ModItems {
 	public static Item ore_enriched; //final stage
 	public static Item bedrock_ore_base;
 	public static Item bedrock_ore;
+	public static Item bedrock_ore_fragment;
 
 	public static Item billet_uranium;
 	public static Item billet_u233;
@@ -2729,6 +2730,7 @@ public class ModItems {
 		ore_enriched = new ItemBedrockOre().setUnlocalizedName("ore_enriched").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ore_enriched");
 		bedrock_ore_base = new ItemBedrockOreBase().setUnlocalizedName("bedrock_ore_base").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bedrock_ore_new");
 		bedrock_ore = new ItemBedrockOreNew().setUnlocalizedName("bedrock_ore").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bedrock_ore_new");
+		bedrock_ore_fragment = new ItemAutogen(MaterialShapes.FRAGMENT).setUnlocalizedName("bedrock_ore_fragment").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":bedrock_ore_fragment");
 
 		ingot_lanthanium = new ItemCustomLore().setUnlocalizedName("ingot_lanthanium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_lanthanium");
 		ingot_actinium = new ItemCustomLore().setUnlocalizedName("ingot_actinium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_actinium");
@@ -5956,6 +5958,7 @@ public class ModItems {
 		GameRegistry.registerItem(ore_byproduct, ore_byproduct.getUnlocalizedName());
 		GameRegistry.registerItem(bedrock_ore_base, bedrock_ore_base.getUnlocalizedName());
 		GameRegistry.registerItem(bedrock_ore, bedrock_ore.getUnlocalizedName());
+		GameRegistry.registerItem(bedrock_ore_fragment, bedrock_ore_fragment.getUnlocalizedName());
 		
 		//Crystals
 		GameRegistry.registerItem(crystal_coal, crystal_coal.getUnlocalizedName());

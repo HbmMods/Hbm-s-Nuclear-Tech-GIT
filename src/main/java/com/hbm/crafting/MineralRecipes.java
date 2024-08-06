@@ -535,6 +535,10 @@ public class MineralRecipes {
 		addBillet(billet, ingot, nugget);
 	}
 
+	public static void addBilletFragment(ItemStack billet, ItemStack nugget) {
+		GameRegistry.addRecipe(billet.copy(), new Object[] { "###", "###", '#', nugget });
+	}
+
 	public static void addBillet(Item billet, Item nugget) {
 		GameRegistry.addRecipe(new ItemStack(billet), new Object[] { "###", "###", '#', nugget });
 		GameRegistry.addShapelessRecipe(new ItemStack(nugget, 6), new Object[] { billet });
