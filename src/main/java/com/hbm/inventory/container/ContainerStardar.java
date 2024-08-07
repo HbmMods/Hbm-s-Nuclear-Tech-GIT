@@ -57,8 +57,8 @@ public class ContainerStardar extends Container {
 	}
 	
 	@Override
-	public boolean canInteractWith(EntityPlayer p_75145_1_) {
-		return stardar.isUseableByPlayer(p_75145_1_);
+	public boolean canInteractWith(EntityPlayer player) {
+		return stardar.isUseableByPlayer(player);
 	}
 
 }

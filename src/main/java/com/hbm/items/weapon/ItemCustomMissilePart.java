@@ -236,8 +236,8 @@ public class ItemCustomMissilePart extends Item {
 				list.add(EnumChatFormatting.BOLD + "Fuel type: " + EnumChatFormatting.GRAY + getFuelName());
 				list.add(EnumChatFormatting.BOLD + "Fuel consumption: " + EnumChatFormatting.GRAY + (Float)attributes[1] + "mB/tick");
 				list.add(EnumChatFormatting.BOLD + "Max. payload: " + EnumChatFormatting.GRAY + (Float)attributes[2] + "t");
-				list.add(EnumChatFormatting.BOLD + "Thrust " + EnumChatFormatting.GRAY + (Integer)attributes[3] + "N");
-				list.add(EnumChatFormatting.BOLD + "ISP " + EnumChatFormatting.GRAY + (Integer)attributes[4] + "s");
+				list.add(EnumChatFormatting.BOLD + "Thrust: " + EnumChatFormatting.GRAY + (Integer)attributes[3] + "N");
+				list.add(EnumChatFormatting.BOLD + "ISP: " + EnumChatFormatting.GRAY + (Integer)attributes[4] + "s");
 				list.add(EnumChatFormatting.BOLD + "Mass: " + EnumChatFormatting.GRAY + mass + "kg");
 				break;
 			}

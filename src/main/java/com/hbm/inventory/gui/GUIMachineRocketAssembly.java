@@ -13,6 +13,7 @@ import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.MissilePronter;
 import com.hbm.tileentity.machine.TileEntityMachineRocketAssembly;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -105,9 +106,9 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 			}
 
 			if(fromBody != null)
-				fontRendererObj.drawString(fromBody.name, (guiLeft + 162) * 2, (guiTop + 75) * 2, 0x00FF00);
+				fontRendererObj.drawString(I18nUtil.resolveKey("body." + fromBody.name), (guiLeft + 162) * 2, (guiTop + 75) * 2, 0x00FF00);
 			if(toBody != null)
-				fontRendererObj.drawString(toBody.name, (guiLeft + 162) * 2, (guiTop + 108) * 2, 0x00FF00);
+				fontRendererObj.drawString(I18nUtil.resolveKey("body." + toBody.name), (guiLeft + 162) * 2, (guiTop + 108) * 2, 0x00FF00);
 
 		}
 		GL11.glPopMatrix();

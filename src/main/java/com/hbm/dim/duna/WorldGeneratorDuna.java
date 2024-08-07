@@ -35,7 +35,6 @@ public class WorldGeneratorDuna implements IWorldGenerator {
 			OilBubble.spawnOil(world, randPosX, randPosY, randPosZ, 10 + rand.nextInt(7), ModBlocks.ore_oil, meta, ModBlocks.duna_rock);
 		}
 
-        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.asbestosSpawn, 8, 16, 16, ModBlocks.ore_asbestos, meta, ModBlocks.duna_rock);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.nickelSpawn, 8, 1, 43, ModBlocks.ore_iron, meta, ModBlocks.duna_rock);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumSpawn, 9, 4, 27, ModBlocks.ore_zinc, meta, ModBlocks.duna_rock);
 

@@ -10,10 +10,15 @@ public class MapGenVanillaCaves extends MapGenCaves {
 	// Same as vanilla cavegen but supports celestial stone
 	private final Block stoneBlock;
 
-	public Block lavaBlock = Blocks.lava;
+	private Block lavaBlock = Blocks.lava;
 
 	public MapGenVanillaCaves(Block stoneBlock) {
 		this.stoneBlock = stoneBlock;
+	}
+
+	public MapGenVanillaCaves withLava(Block lavaBlock) {
+		this.lavaBlock = lavaBlock;
+		return this;
 	}
 
 	@Override

@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.SpaceConfig;
 import com.hbm.dim.ChunkProviderCelestial;
-import com.hbm.dim.duna.biome.BiomeGenBaseDuna;
 import com.hbm.dim.laythe.biome.BiomeGenBaseLaythe;
 import com.hbm.dim.mapgen.MapGenGreg;
 import com.hbm.dim.mapgen.MapGenTiltedSpires;
@@ -60,9 +58,9 @@ public class ChunkProviderLaythe extends ChunkProviderCelestial {
 		
 		spires.func_151539_a(this, worldObj, x, z, buffer.blocks);
 		caveGenV3.func_151539_a(this, worldObj, x, z, buffer.blocks);
-        if(biomesForGeneration[0] == BiomeGenBaseLaythe.laythePolar) {
-    	snowires.func_151539_a(this, worldObj, x, z, buffer.blocks);
-        }
+		if(biomesForGeneration[0] == BiomeGenBaseLaythe.laythePolar) {
+			snowires.func_151539_a(this, worldObj, x, z, buffer.blocks);
+		}
 
 		return buffer;
 	}

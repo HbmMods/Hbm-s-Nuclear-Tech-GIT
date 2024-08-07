@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.trait.FluidTrait;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
@@ -82,8 +83,23 @@ public class CBT_Atmosphere extends CelestialBodyTrait {
 
 	public boolean hasFluid(FluidType fluid, double abovePressure) {
 		for(FluidEntry entry : fluids) {
-			if(entry.fluid == fluid)
+			if(entry.fluid == fluid) {
 				return entry.pressure >= abovePressure;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean hasTrait(Class<? extends FluidTrait> trait) {
+		return hasTrait(trait, 0.001);
+	}
+
+	public boolean hasTrait(Class<? extends FluidTrait> trait, double abovePressure) {
+		for(FluidEntry entry : fluids) {
+			if(entry.pressure >= abovePressure && entry.fluid.hasTrait(trait)) {
+				return true;
+			}
 		}
 
 		return false;

@@ -87,7 +87,6 @@ public class SolarSystem {
 							.withRotationalPeriod(40_400)
 							.withBlockTextures(RefStrings.MODID + ":minmus_stone", "", "", "")
 
-
 					),
 
 				new CelestialBody("duna", SpaceConfig.dunaDimension, Body.DUNA)

@@ -1,6 +1,9 @@
 package com.hbm.blocks.machine;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineRocketAssembly;
@@ -9,11 +12,12 @@ import com.hbm.util.ItemStackUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class MachineRocketAssembly extends BlockDummyable {
+public class MachineRocketAssembly extends BlockDummyable implements ITooltipProvider {
 
 	public MachineRocketAssembly(Material mat) {
 		super(mat);
@@ -88,6 +92,12 @@ public class MachineRocketAssembly extends BlockDummyable {
 	@Override
 	public int getHeightOffset() {
 		return 2;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		addStandardInfo(stack, player, list, ext);
 	}
 
 }

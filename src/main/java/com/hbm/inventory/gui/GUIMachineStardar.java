@@ -9,6 +9,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineStardar;
+import com.hbm.util.I18nUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
 
 	private int mX, mY; // current mouse position
 	private int lX, lY; // mouse position last frame (for flinging)
+	private int sX, sY; // starting mouse position (for verifying clicks)
 	private boolean dragging = false;
 
 	private float starX = 0, starY = 0;
@@ -94,9 +96,6 @@ public class GUIMachineStardar extends GuiInfoContainer {
 			starX = MathHelper.clamp_float(starX, -256 + 158, 256);
 			starY = MathHelper.clamp_float(starY, -256 + 108, 256);
 		}
-		
-		Minecraft.getMinecraft().getTextureManager().bindTexture(nightTexture);
-		drawTexturedModalRect(guiLeft, guiTop, (int) -starX, (int) -starY, 256, 256);
 
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP)) {
 			starY++;
@@ -113,20 +112,24 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
 			starX--;
 		}
+		
+		if(star.heightmap == null) {
+			Minecraft.getMinecraft().getTextureManager().bindTexture(nightTexture);
+			drawTexturedModalRect(guiLeft, guiTop, (int) starX * -1, (int) starY * -1, 256, 256);
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+			Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 
-		for(POI peepee : pList) {
-			int px = (int) (guiLeft + starX + peepee.offsetX);
-			int py = (int) (guiTop + starY + peepee.offsetY);
+			for(POI peepee : pList) {
+				int px = (int) (guiLeft + starX + peepee.offsetX);
+				int py = (int) (guiTop + starY + peepee.offsetY);
 
-			drawTexturedModalRect(px, py, xSize + peepee.getBody().processingLevel * 8, 0, 8, 8);
-		}
-
-		if(star.heightmap != null) {
+				drawTexturedModalRect(px, py, xSize + peepee.getBody().processingLevel * 8, 0, 8, 8);
+			}
+		} else {
 			if(star.updateHeightmap) {
 				for(int i = 0; i < star.heightmap.length; i++) {
-					int h = Math.min(star.heightmap[i], 127) * 2;
+					int h = star.heightmap[i] % 16 * 16;
+
 					int r = 0;
 					int g = h;
 					int b = 0;
@@ -141,7 +144,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
 			}
 
 			mc.getTextureManager().bindTexture(groundMap);
-			func_146110_a(guiLeft, guiTop, (int) -starX - 256 - 9, (int) -starY - 256 - 9, 256, 256, 512, 512);
+			func_146110_a(guiLeft, guiTop, (int) starX * -1 - 256 - 9, (int) starY * -1 - 256 - 9, 256, 256, 512, 512);
 		}
 
 		popScissor();
@@ -150,14 +153,59 @@ public class GUIMachineStardar extends GuiInfoContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mx, int my) {
 		if(checkClick(mx, my, 9, 9, 158, 108)) {
-			for(POI poi : pList) {
-				int px = (int) (starX + poi.offsetX);
-				int py = (int) (starY + poi.offsetY);
-	
-				// Has a small buffer area around the POI to improve click targeting
-				drawCustomInfoStat(mx - guiLeft, my - guiTop, px - 2, py - 2, 12, 12, px + 8, py + 10, poi.body.name, "Processing Tier: " + poi.body.processingLevel);
+			if(star.heightmap == null) {
+				for(POI poi : pList) {
+					int px = (int) (starX + poi.offsetX);
+					int py = (int) (starY + poi.offsetY);
+		
+					// Has a small buffer area around the POI to improve click targeting
+					drawCustomInfoStat(mx - guiLeft, my - guiTop, px - 2, py - 2, 12, 12, px + 8, py + 10, I18nUtil.resolveKey("body." + poi.body.name), "Processing Tier: " + poi.body.processingLevel);
+				}
+			} else {
+				pushScissor(9, 9, 158, 108);
+
+				Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+
+				// translate from mouse coordinate to heightmap coordinate
+				int hx = (mx - (int)starX - guiLeft - 9 + 256) / 2;
+				int hz = (my - (int)starY - guiTop - 9 + 256) / 2;
+
+				String info = landingInfo(hx, hz);
+				int altitude = altitude(hx, hz);
+				boolean canLand = info == null;
+				
+				int sx = mx - ((mx + (int)starX) % 2);
+				int sy = my - ((my + (int)starY) % 2);
+				drawTexturedModalRect(sx - 6 - guiLeft, sy - 6 - guiTop, xSize + (canLand ? 14 : 0), 28, 14, 14);
+
+				popScissor();
+
+				fontRendererObj.drawString(canLand ? "Valid location" : info, 10, 128, canLand ? 0x00FF00 : 0xFF0000);
+				if(altitude > 0) fontRendererObj.drawString("Target altitude: " + altitude, 10, 149, 0x00FF00);
 			}
 		}
+	}
+	
+	private String landingInfo(int x, int z) {
+		if(star.heightmap == null) return "No heightmap";
+		if(x < 3 || x > 252 || z < 3 || z > 252) return "Outside bounds";
+
+		for(int ox = x - 2; ox <= x + 2; ox++) {
+			for(int oz = z - 2; oz <= z + 2; oz++) {
+				if(star.heightmap[256 * oz + ox] != star.heightmap[256 * z + x]) {
+					return "Area not flat";
+				}
+			}
+		}
+
+		return null;
+	}
+
+	private int altitude(int x, int z) {
+		if(star.heightmap == null) return -1;
+		if(x < 0 || x > 255 || z < 0 || z > 255) return -1;
+
+		return star.heightmap[256 * z + x];
 	}
 
 	@Override
@@ -213,26 +261,65 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		if(checkClick(x, y, 9, 9, 158, 108)) {
 			dragging = true;
 
-			mX = lX = x;
-			mY = lY = y;
-
-			for(POI poi : pList) {
-				int poiX = (int) (starX + poi.offsetX);
-				int poiY = (int) (starY + poi.offsetY);
-
-				// Again, a small buffer area around
-				if(checkClick(x, y, poiX - 2, poiY - 2, 12, 12)) {
-					mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-
-					NBTTagCompound data = new NBTTagCompound();
-					data.setInteger("pid", poi.getBody().dimensionId);
-
-					PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, star.xCoord, star.yCoord, star.zCoord));
-					break;
-				}
-			}
+			sX = mX = lX = x;
+			sY = mY = lY = y;
 		} else {
 			dragging = false;
+		}
+
+		// Clicking LOD will load in the current body, for now
+		if(checkClick(x, y, 129, 123, 18, 18)) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+
+			NBTTagCompound data = new NBTTagCompound();
+			data.setInteger("pid", star.getWorldObj().provider.dimensionId);
+
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, star.xCoord, star.yCoord, star.zCoord));
+		}
+	}
+
+	// which==-1 is mouseMove, which==0 or which==1 is mouseUp
+	@Override
+	protected void mouseMovedOrUp(int x, int y, int which) {
+		super.mouseMovedOrUp(x, y, which);
+		if(which == -1 || which == 1) return;
+
+		if(Math.abs(sX - x) > 2 || Math.abs(sY - y) > 2) return;
+
+		if(checkClick(x, y, 9, 9, 158, 108)) {
+			if(star.heightmap == null) {
+				for(POI poi : pList) {
+					int poiX = (int) (starX + poi.offsetX);
+					int poiY = (int) (starY + poi.offsetY);
+
+					// Again, a small buffer area around
+					if(checkClick(x, y, poiX - 2, poiY - 2, 12, 12)) {
+						mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+
+						NBTTagCompound data = new NBTTagCompound();
+						data.setInteger("pid", poi.getBody().dimensionId);
+
+						PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, star.xCoord, star.yCoord, star.zCoord));
+						break;
+					}
+				}
+			} else {
+				// translate from mouse coordinate to heightmap coordinate
+				int hx = (x - (int)starX - guiLeft - 9 + 256) / 2;
+				int hz = (y - (int)starY - guiTop - 9 + 256) / 2;
+
+				// check landing zone is valid
+				boolean canLand = landingInfo(hx, hz) == null;
+				if(canLand) {
+					mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+					
+					NBTTagCompound data = new NBTTagCompound();
+					data.setInteger("px", hx);
+					data.setInteger("pz", hz);
+
+					PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, star.xCoord, star.yCoord, star.zCoord));
+				}
+			}
 		}
 	}
 

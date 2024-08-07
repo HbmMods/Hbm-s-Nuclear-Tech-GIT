@@ -3,14 +3,19 @@ package com.hbm.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
+import com.hbm.items.armor.ItemModInsert;
 import com.hbm.items.armor.ItemModOxy;
 import com.hbm.lib.Library;
+import com.hbm.main.ServerProxy;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry.HazardClass;
 
@@ -191,6 +196,61 @@ public class ArmorUtil {
 			if(tankMod == null || !(tankMod.getItem() instanceof ItemModOxy)) return null;
 
 			return tankMod;
+		}
+
+		return null;
+	}
+
+	public static boolean checkForCorrosion(EntityLivingBase entity) {
+		if(!ChunkAtmosphereManager.proxy.willCorrode(entity)) return false;
+
+		if(!(entity instanceof EntityPlayer)) return true;
+		EntityPlayer player = (EntityPlayer) entity;
+
+		ItemStack insert = getCorrosionProtection(player);
+		if(insert == null) {
+			boolean isSealed = true; // safe, for now...
+			Random rand = entity.getRNG();
+
+			// if we have a full set of armor, deplete that rapidly first before applying damage
+			for(int i = 0; i < 4; i++) {
+				ItemStack stack = player.getCurrentArmor(i);
+				if(stack == null || !(stack.getItem() instanceof ArmorFSB) || !((ArmorFSB)stack.getItem()).canSeal) {
+					isSealed = false;
+				}
+				
+				if(stack == null) continue;
+
+				if(rand.nextInt(2) == 0) {
+					stack.setItemDamage(stack.getItemDamage() + 1);
+				}
+
+				if(stack.getItemDamage() >= stack.getMaxDamage() || !((ArmorFSB)stack.getItem()).isArmorEnabled(stack)) {
+					stack.stackSize = 0;
+					player.inventory.armorInventory[i] = null;
+					entity.worldObj.playSoundAtEntity(entity, "random.fizz", 0.2F, 1F);
+				}
+			}
+
+			if(isSealed && entity instanceof EntityPlayerMP) {
+				PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation("info.corrosion").color(EnumChatFormatting.RED).flush(), ServerProxy.ID_GAS_HAZARD, 3000), (EntityPlayerMP) entity);
+			}
+
+			return !isSealed;
+		}
+
+		return false;
+	}
+
+	public static ItemStack getCorrosionProtection(EntityPlayer player) {
+		// Check chest piece has a valid insert
+		ItemStack chest = player.getCurrentArmor(2);
+		if(chest != null && ArmorModHandler.hasMods(chest)) {
+			ItemStack insertMod = ArmorModHandler.pryMods(chest)[ArmorModHandler.kevlar];
+			if(insertMod == null || !(insertMod.getItem() instanceof ItemModInsert)) return null;
+			if(!((ItemModInsert)insertMod.getItem()).corrosionProtection) return null;
+
+			return insertMod;
 		}
 
 		return null;

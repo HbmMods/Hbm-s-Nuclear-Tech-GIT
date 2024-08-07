@@ -187,7 +187,7 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 			if(count > 0) {
 				heightmap = new int[count];
 				for(int i = 0; i < count; i++) {
-					heightmap[i] = buf.readByte();
+					heightmap[i] = buf.readUnsignedByte();
 				}
 			} else {
 				heightmap = null;
@@ -210,17 +210,35 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 
 		this.markDirty();
 	}
+
+	private void updateDriveCoords(int x, int z) {
+		if(slots[1] == null || slots[1].getItem() != ModItems.full_drive) return;
+
+		Destination destination = ItemVOTVdrive.getApproximateDestination(slots[1]);
+		ItemVOTVdrive.setCoordinates(slots[1], destination.x + x - 8 * 16, destination.z + z - 8 * 16);
+
+		this.markDirty();
+	}
 	
 	@Override
 	public void receiveControl(NBTTagCompound data) {
 		if(data.hasKey("pid")) {
 			processDrive(data.getInteger("pid"));
 		}
+
+		if(data.hasKey("px") && data.hasKey("pz")) {
+			updateDriveCoords(data.getInteger("px"), data.getInteger("pz"));
+		}
 	}
 
 	@Override
 	public boolean hasPermission(EntityPlayer player) {
 		return isUseableByPlayer(player);
+	}
+
+	@Override
+	public int getInventoryStackLimit() {
+		return 1;
 	}
 
 }

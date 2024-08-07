@@ -10,7 +10,6 @@ import com.hbm.dim.minmus.GenLayerMinmus.GenLayerMinmusBiomes;
 import com.hbm.dim.minmus.GenLayerMinmus.GenLayerMinmusPlains;
 
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.GenLayerFuzzyZoom;
