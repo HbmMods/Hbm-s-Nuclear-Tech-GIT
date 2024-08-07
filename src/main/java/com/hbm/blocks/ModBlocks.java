@@ -3346,7 +3346,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_spp_bottom, machine_spp_bottom.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_spp_top, machine_spp_top.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_solar, machine_solar.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_stardar, machine_stardar.getUnlocalizedName());
+		register(machine_stardar);
 		GameRegistry.registerBlock(machine_alkylation, machine_alkylation.getUnlocalizedName());
 
 		GameRegistry.registerBlock(hadron_plating, hadron_plating.getUnlocalizedName());
@@ -3669,9 +3669,9 @@ public class ModBlocks {
 		
 		//Missile Blocks
 		GameRegistry.registerBlock(machine_missile_assembly, machine_missile_assembly.getUnlocalizedName());
-		GameRegistry.registerBlock(machine_rocket_assembly, machine_rocket_assembly.getUnlocalizedName());
+		register(machine_rocket_assembly);
 		GameRegistry.registerBlock(launch_pad, launch_pad.getUnlocalizedName());
-		GameRegistry.registerBlock(launch_pad_rocket, launch_pad_rocket.getUnlocalizedName());
+		register(launch_pad_rocket);
 		GameRegistry.registerBlock(launch_pad_rusted, launch_pad_rusted.getUnlocalizedName());
 		GameRegistry.registerBlock(launch_pad_large, launch_pad_large.getUnlocalizedName());
 		GameRegistry.registerBlock(compact_launcher, compact_launcher.getUnlocalizedName());

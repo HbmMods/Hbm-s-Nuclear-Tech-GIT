@@ -7,6 +7,7 @@ import com.hbm.dim.SolarSystem;
 import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.entity.missile.EntityRideableRocket.RocketState;
 import com.hbm.lib.RefStrings;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +27,7 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 	private IIcon baseIcon;
 	
 	public ItemVOTVdrive() {
-		super(SolarSystem.Body.class, true, true);
+		super(SolarSystem.Body.class, false, true);
 		this.setMaxStackSize(1);
 		this.canRepair = false;
 	}
@@ -45,7 +46,7 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 
 		int processingLevel = destination.body.getProcessingLevel();
 
-		list.add("Destination: " + destination.body.name);
+		list.add("Destination: " + EnumChatFormatting.AQUA + I18nUtil.resolveKey("body." + destination.body.name));
 
 		if(destination.x == 0 && destination.z == 0) {
 			list.add(EnumChatFormatting.GOLD + "Needs destination coordinates!");

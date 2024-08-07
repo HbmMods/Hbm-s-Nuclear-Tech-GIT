@@ -17,6 +17,7 @@ import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.ParticleUtil;
 
 import cpw.mods.fml.relauncher.Side;
@@ -518,7 +519,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		} else if(riddenByEntity != player) {
 			text.add("OCCUPIED");
 		} else {
-			text.add("Destination: " + destination.name);
+			text.add("Destination: " + I18nUtil.resolveKey("body." + destination.name));
 
 			if(canLaunch) {
 				text.add("JUMP TO LAUNCH");
