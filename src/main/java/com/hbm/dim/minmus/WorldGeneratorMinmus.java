@@ -24,7 +24,7 @@ public class WorldGeneratorMinmus implements IWorldGenerator {
 
 	private void generateMinmus(World world, Random rand, int i, int j) {
 		int meta = CelestialBody.getMeta(world);
-        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.malachiteSpawn, 16, 6, 40, ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal(), ModBlocks.minmus_stone);
+        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.malachiteSpawn , 32, 6, 40, ModBlocks.stone_resource, EnumStoneType.MALACHITE.ordinal(), ModBlocks.minmus_stone);
 
 	}
 

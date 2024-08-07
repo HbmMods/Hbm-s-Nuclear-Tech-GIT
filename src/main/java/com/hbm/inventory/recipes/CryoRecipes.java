@@ -39,7 +39,7 @@ public class CryoRecipes extends SerializableRecipe {
 				new FluidStack(Fluids.HELIUM3, 25),
 				new FluidStack(Fluids.HYDROGEN, 25),
 				new FluidStack(Fluids.CHLORINE, 20),
-				new FluidStack(Fluids.FLUORINE, 12)
+				new FluidStack(Fluids.NEON, 12)
 				));
 		recipes.put(Fluids.NGAS, new Quartet<>(
 				new FluidStack(Fluids.GAS, 35),

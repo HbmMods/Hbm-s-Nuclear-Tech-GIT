@@ -192,7 +192,7 @@ public class TileEntityMachineMilkReformer extends TileEntityMachineBase impleme
 		tanks[2].writeToNBT(nbt, "m2");
 		tanks[3].writeToNBT(nbt, "m3");
 	}
-AxisAlignedBB bb = null;
+	AxisAlignedBB bb = null;
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {

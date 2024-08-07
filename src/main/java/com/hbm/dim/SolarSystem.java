@@ -85,6 +85,8 @@ public class SolarSystem {
 							.withMassRadius(2.646e19F, 60)
 							.withSemiMajorAxis(47_000)
 							.withRotationalPeriod(40_400)
+							.withBlockTextures(RefStrings.MODID + ":minmus_stone", "", "", "")
+
 
 					),
 
