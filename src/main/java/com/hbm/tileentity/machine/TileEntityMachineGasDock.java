@@ -154,7 +154,6 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
 		tanks[1].setFill(tanks[1].getFill() - 100);		
 		tanks[2].setFill(tanks[2].getFill() - 500);
 		tanks[0].setFill(tanks[0].getFill() + 10000);
-		hasRocket = false;
 	}
 	
 	private boolean hasFuel() {
