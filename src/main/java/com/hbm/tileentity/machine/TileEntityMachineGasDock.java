@@ -50,10 +50,11 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
     private AxisAlignedBB renderBoundingBox;
 
     public TileEntityMachineGasDock() {
-    	super(3);
-    	tanks[0].setTankType(Fluids.JOOLGAS);
-    	tanks[1].setTankType(Fluids.OXYGEN);
-    	tanks[2].setTankType(Fluids.HYDROGEN);
+    	super(0);
+		this.tanks = new FluidTank[3];
+		this.tanks[0] = new FluidTank(Fluids.JOOLGAS, 64_000);
+		this.tanks[1] = new FluidTank(Fluids.HYDROGEN, 32_000);
+		this.tanks[2] = new FluidTank(Fluids.OXYGEN, 32_000);
 
     }
 

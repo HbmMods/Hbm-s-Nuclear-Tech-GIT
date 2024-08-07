@@ -140,6 +140,7 @@ public class TileMappings {
 		put(TileEntityWasteDrum.class, "tileentity_waste_drum");
 		put(TileEntityDecon.class, "tileentity_decon");
 		put(TileEntityMachineSatDock.class, "tileentity_miner_dock");
+		put(TileEntityMachineGasDock.class, "tileentity_gas_dock");
 		put(TileEntityMachineEPress.class, "tileentity_electric_press");
 		put(TileEntityConveyorPress.class, "tileentity_conveyor_press");
 		put(TileEntityCoreEmitter.class, "tileentity_v0_emitter");
