@@ -64,7 +64,7 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-
+		nbt.setBoolean("hasRocker", hasRocket);
 		tanks[0].readFromNBT(nbt, "gas");
 		tanks[1].readFromNBT(nbt, "f1");
 		tanks[2].readFromNBT(nbt, "f2");
@@ -73,7 +73,8 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+		nbt.getBoolean("hasRocker");
+
 		tanks[0].writeToNBT(nbt, "gas");
 		tanks[1].writeToNBT(nbt, "f1");
 		tanks[2].writeToNBT(nbt, "f2");
@@ -83,9 +84,14 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
 	@Override
 	public void updateEntity() {
 	    if (!worldObj.isRemote) {
-	        if(worldObj.getTotalWorldTime() % 20 == 0) {
-	            updateConnections();
-	        }
+
+            updateConnections();
+			for(DirPos pos : getConPos()) {
+					if(tanks[0].getFill() > 0) {
+						this.sendFluid(tanks[0], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+					}
+				}
+			
 
 	        CelestialBody cody = CelestialBody.getBody(worldObj);
 
@@ -93,8 +99,13 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
 	            return;
 	        }
 
+			NBTTagCompound data = new NBTTagCompound();
+			data.setBoolean("hasRocker", hasRocket);
+			for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(data, "" + i);
+			this.networkPack(data, 150);
+
 	    }
-        
+        if(!hasFuel()) return;
 	    if (hasRocket) {
 	        if (launchTicks <= 0 || launchTicks <= 100) {
 	            launchTicks++;
@@ -109,6 +120,7 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
 	        	hasRocket = true;
 	        }
 	    }
+	    
 
 		
 	    if(worldObj.isRemote && launchTicks > 0 && launchTicks < 100) {
@@ -119,24 +131,40 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
 	        }
 	    }
 	}
-
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		this.hasRocket = nbt.getBoolean("hasRocker");
+		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "" + i);
+	}
+	
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {
 			for(int i = 0; i < tanks.length; i++) {
 				if(tanks[i].getTankType() != Fluids.NONE) {
 					trySubscribe(tanks[i].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-
 				}
 			}
 		}
 	}
 	
 	private void DoTheFuckingTask() {
-		
-		if(tanks[0].getFill() + 32000 > tanks[0].getMaxFill()) return;
 
-		tanks[0].setFill(tanks[0].getFill() + 32000);
+		if(tanks[1].getFill() < 100) return;
+		if(tanks[2].getFill() < 500) return;
+		if(tanks[0].getFill() + 10000 > tanks[0].getMaxFill()) return;
+
+		
+		tanks[1].setFill(tanks[1].getFill() - 100);		
+		tanks[2].setFill(tanks[2].getFill() - 500);
+		tanks[0].setFill(tanks[0].getFill() + 10000);
+	}
+	
+	private boolean hasFuel() {
+		if(tanks[1].getFill() < 100 || tanks[2].getFill() < 500) {
+			return false;
+			
+		}
+		return true;
 	}
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
