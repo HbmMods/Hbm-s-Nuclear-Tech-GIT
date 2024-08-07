@@ -105,23 +105,20 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
 			this.networkPack(data, 150);
 
 	    }
-        if(!hasFuel()) return;
-	    if (hasRocket) {
-	        if (launchTicks <= 0 || launchTicks <= 100) {
-	            launchTicks++;
-	        } else if (launchTicks >= 100) {
-	            hasRocket = false;
-	        }
-	    } else {
-	        if (launchTicks > 0) {
-	            launchTicks--;
-	        } else if (launchTicks == 0) {
-	        	DoTheFuckingTask();
-	        	hasRocket = true;
-	        }
-	    }
-	    
 
+        if(!hasFuel()) return;
+
+        launchTicks = MathHelper.clamp_int(launchTicks + (hasRocket ? -1 : 1), hasRocket ? -20 : 0, 100);
+        if (launchTicks <= -20) {
+            hasRocket = false;
+        } else if (launchTicks >= 100) {
+            hasRocket = true;
+        }
+        if(launchTicks <= -20) {
+        	DoTheFuckingTask();
+        }
+	    
+		System.out.println(launchTicks);
 		
 	    if(worldObj.isRemote && launchTicks > 0 && launchTicks < 100) {
 	        ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5, yCoord + 0.5 + launchTicks, zCoord + 0.5, 0.0, -1.0, 0.0);
@@ -157,6 +154,7 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
 		tanks[1].setFill(tanks[1].getFill() - 100);		
 		tanks[2].setFill(tanks[2].getFill() - 500);
 		tanks[0].setFill(tanks[0].getFill() + 10000);
+		hasRocket = false;
 	}
 	
 	private boolean hasFuel() {
