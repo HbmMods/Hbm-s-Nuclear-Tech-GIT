@@ -27,7 +27,7 @@ import net.minecraftforge.client.model.obj.Face;
 
 public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 
-	public boolean hasRocket = false;
+	public boolean hasRocket = true;
 	public int launchTicks = 0;
 
 	public int threshold = 0;
@@ -53,7 +53,6 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 				ExplosionLarge.spawnShock(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 1 + worldObj.rand.nextInt(3), 1 + worldObj.rand.nextGaussian());
 			}
 		}
-        System.out.println(launchTicks);
 
 	}
 
