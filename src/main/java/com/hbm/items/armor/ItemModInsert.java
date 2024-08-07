@@ -24,6 +24,8 @@ public class ItemModInsert extends ItemArmorMod {
 	float explosionMod;
 	float speed;
 
+	public boolean corrosionProtection = false;
+
 	public ItemModInsert(int durability, float damageMod, float projectileMod, float explosionMod, float speed) {
 		super(ArmorModHandler.kevlar, false, true, false, false);
 		this.damageMod = damageMod;
@@ -32,10 +34,17 @@ public class ItemModInsert extends ItemArmorMod {
 		this.speed = speed;
 		this.setMaxDamage(durability);
 	}
+
+	public ItemModInsert withCorrosionProtection() {
+		corrosionProtection = true;
+		return this;
+	}
     
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 
+		if(corrosionProtection)
+			list.add(EnumChatFormatting.GOLD + "Corrosive atmosphere protection");
 		if(damageMod != 1F)
 			list.add(EnumChatFormatting.RED + (damageMod < 1 ? "-" : "+") + Math.abs(Math.round((1F - damageMod) * 100)) + "% damage");
 		if(projectileMod != 1F)

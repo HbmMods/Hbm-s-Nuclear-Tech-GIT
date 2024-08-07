@@ -11,6 +11,7 @@ import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.handler.ThreeInts;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.block.Block;
@@ -136,12 +137,20 @@ public class ChunkAtmosphereHandler {
     }
 
 	public boolean canBreathe(CBT_Atmosphere atmosphere) {
-        return atmosphere != null && (atmosphere.hasFluid(Fluids.AIR, 0.21F) || atmosphere.hasFluid(Fluids.OXYGEN, 0.09F));
+        return atmosphere != null && (atmosphere.hasFluid(Fluids.AIR, 0.21) || atmosphere.hasFluid(Fluids.OXYGEN, 0.09));
 	}
 
 	// Is the air pressure high enough to support liquids
 	public boolean hasLiquidPressure(CBT_Atmosphere atmosphere) {
 		return atmosphere != null && atmosphere.getPressure() >= 0.19D;
+	}
+
+	public boolean willCorrode(EntityLivingBase entity) {
+		return willCorrode(getAtmosphere(entity));
+	}
+
+	public boolean willCorrode(CBT_Atmosphere atmosphere) {
+		return atmosphere != null && atmosphere.hasTrait(FT_Corrosive.class, 0.2);
 	}
 
 	/**

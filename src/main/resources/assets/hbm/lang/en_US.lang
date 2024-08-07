@@ -1729,6 +1729,7 @@ icffuel.tritium=Tritium
 
 info.asbestos=My lungs are burning.
 info.coaldust=It's hard to breathe here.
+info.corrosion=My suit is melting.
 info.coil=Coil Strength
 info.templatefolder=Created with %s
 info.template_in=Input:
@@ -3330,6 +3331,7 @@ item.ingot_zinc.name=Zinc Ingot
 item.injector_5htp.name=5-HTP Autoinjector
 item.injector_knife.name=8 Inch Blade Autoinjector
 item.ink.name=林 Ink
+item.insert_cmb.name=CMB Insert
 item.insert_doxium.name=Astolfium-Doped Doxium Insert
 item.insert_du.name=DU Insert
 item.insert_era.name=Explosive Reactive Armor Insert
