@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.dim.CelestialBody;
+import com.hbm.dim.SolarSystem;
 import com.hbm.entity.missile.EntityMinerRocket;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeSmall;
@@ -59,10 +61,6 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
     }
 
 
-    public void setCustomName(String name) {
-        this.customName = name;
-    }
-
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -82,21 +80,45 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
 	}
 
 
-    @Override
-    public void updateEntity() {
-        if (!worldObj.isRemote) {
-    		launchTicks = MathHelper.clamp_int(launchTicks + (hasRocket ? -1 : 1), hasRocket ? -20 : 0, 100);
+	@Override
+	public void updateEntity() {
+	    if (!worldObj.isRemote) {
+	        if(worldObj.getTotalWorldTime() % 20 == 0) {
+	            updateConnections();
+	        }
 
-    		if(worldObj.isRemote && launchTicks > 0 && launchTicks < 100) {
-    			ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5, yCoord + 0.5 + launchTicks, zCoord + 0.5, 0.0, -1.0, 0.0);
+	        CelestialBody cody = CelestialBody.getBody(worldObj);
 
-    			if(launchTicks < 10) {
-    				ExplosionLarge.spawnShock(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 1 + worldObj.rand.nextInt(3), 1 + worldObj.rand.nextGaussian());
-    			}
-    		}
-        }
-    }
+	        if(cody.parent != null && !cody.parent.name.equals("jool")) {
+	            return;
+	        }
 
+	    }
+        
+	    if (hasRocket) {
+	        if (launchTicks <= 0 || launchTicks <= 100) {
+	            launchTicks++;
+	        } else if (launchTicks >= 100) {
+	            hasRocket = false;
+	        }
+	    } else {
+	        if (launchTicks > 0) {
+	            launchTicks--;
+	        } else if (launchTicks == 0) {
+	        	DoTheFuckingTask();
+	        	hasRocket = true;
+	        }
+	    }
+
+		
+	    if(worldObj.isRemote && launchTicks > 0 && launchTicks < 100) {
+	        ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5, yCoord + 0.5 + launchTicks, zCoord + 0.5, 0.0, -1.0, 0.0);
+
+	        if(launchTicks < 10) {
+	            ExplosionLarge.spawnShock(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 1 + worldObj.rand.nextInt(3), 1 + worldObj.rand.nextGaussian());
+	        }
+	    }
+	}
 
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {
@@ -109,7 +131,13 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
 			}
 		}
 	}
+	
+	private void DoTheFuckingTask() {
+		
+		if(tanks[0].getFill() + 32000 > tanks[0].getMaxFill()) return;
 
+		tanks[0].setFill(tanks[0].getFill() + 32000);
+	}
     @Override
     public AxisAlignedBB getRenderBoundingBox() {
         if (renderBoundingBox == null) {

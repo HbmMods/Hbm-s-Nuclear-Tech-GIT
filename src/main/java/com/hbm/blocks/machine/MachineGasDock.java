@@ -1,17 +1,23 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IMultiblock;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
+import com.hbm.tileentity.machine.TileEntityAtmoTower;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityMachineGasCent;
 import com.hbm.tileentity.machine.TileEntityMachineGasDock;
 import com.hbm.tileentity.machine.TileEntityMachineSatDock;
 import com.hbm.tileentity.machine.TileEntityTransporterRocket;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -25,10 +31,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class MachineGasDock extends BlockDummyable {
+public class MachineGasDock extends BlockDummyable implements ILookOverlay {
 
     private final Random field_149933_a = new Random();
 	public MachineGasDock(Material p_i45386_1_) {
@@ -88,6 +96,27 @@ public class MachineGasDock extends BlockDummyable {
 		return 1;
 	}
 
-	
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		int[] pos = this.findCore(world, x, y, z);
+
+		if(pos == null)
+			return;
+
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+
+		if(!(te instanceof TileEntityMachineGasDock))
+			return;
+
+		TileEntityMachineGasDock tower = (TileEntityMachineGasDock) te;
+
+		List<String> text = new ArrayList();
+
+		for(int i = 0; i < tower.tanks.length; i++)
+			text.add((i < 1 ? (EnumChatFormatting.RED + "<- ") : (EnumChatFormatting.GREEN + "-> ")) + EnumChatFormatting.RESET + I18nUtil.resolveKey("hbmfluid." + tower.tanks[i].getTankType().getName().toLowerCase()) + ": " + tower.tanks[i].getFill() + "/" + tower.tanks[i].getMaxFill() + "mB");
+
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+		
+	}
 
 }
