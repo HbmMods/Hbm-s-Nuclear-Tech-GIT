@@ -109,6 +109,11 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 		stack.stackTagCompound.setInteger("z", z);
 	}
 
+	public static int getProcessingTier(ItemStack stack) {
+		SolarSystem.Body body = SolarSystem.Body.values()[stack.getItemDamage()];
+		return body.getProcessingLevel();
+	}
+
 	public static boolean getProcessed(ItemStack stack) {
 		if(!stack.hasTagCompound())
 			stack.stackTagCompound = new NBTTagCompound();

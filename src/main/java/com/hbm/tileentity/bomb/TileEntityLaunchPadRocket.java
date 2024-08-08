@@ -286,6 +286,11 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		CelestialBody localBody = CelestialBody.getBody(worldObj);
 		CelestialBody destination = ItemVOTVdrive.getDestination(slots[1]).body.getBody();
 
+		// Check that the drive is processed
+		if(!ItemVOTVdrive.getProcessed(slots[1])) {
+			return false;
+		}
+
 		// Check if the stage can make the journey
 		if(destination != null && destination != localBody) {
 			RocketStruct rocket = ItemCustomRocket.get(slots[0]);
@@ -379,6 +384,11 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 
 		if(!hasDrive()) {
 			issues.add(EnumChatFormatting.YELLOW + "No destination drive installed");
+			return issues;
+		}
+
+		if(!ItemVOTVdrive.getProcessed(slots[1])) {
+			issues.add(EnumChatFormatting.RED + "Destination drive needs processing");
 			return issues;
 		}
 

@@ -1011,6 +1011,7 @@ public class ModBlocks {
 	public static Block machine_hephaestus;
 	public static Block machine_solar;
 	public static Block machine_stardar;
+	public static Block machine_drive_processor;
 	public static Block machine_alkylation;
 
 	public static Block machine_well;
@@ -2047,6 +2048,7 @@ public class ModBlocks {
 		machine_hephaestus = new MachineHephaestus(Material.iron).setBlockName("machine_hephaestus").setHardness(10.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
 		machine_solar = new MachineSolar(Material.iron).setBlockName("machine_solar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
 		machine_stardar = new MachineStardar(Material.iron).setBlockName("machine_stardar").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
+		machine_drive_processor = new MachineDriveProcessor(Material.iron).setBlockName("machine_drive_processor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
 		machine_alkylation = new MachineAlkylation(Material.iron).setBlockName("machine_alkylation").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
 
 		red_wire_coated = new WireCoated(Material.iron).setBlockName("red_wire_coated").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":red_wire_coated");
@@ -3356,6 +3358,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_spp_top, machine_spp_top.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_solar, machine_solar.getUnlocalizedName());
 		register(machine_stardar);
+		register(machine_drive_processor);
 		GameRegistry.registerBlock(machine_alkylation, machine_alkylation.getUnlocalizedName());
 
 		GameRegistry.registerBlock(hadron_plating, hadron_plating.getUnlocalizedName());
