@@ -140,7 +140,7 @@ public class Fluids {
 	public static FluidType KMnO4;
 	public static FluidType METHANOL; //syngas + methane, or + natgas? or just from cracking natgas? requires an OH hydroxyl group (it's an alcohOL)
 	public static FluidType CHLOROMETHANE; // halogenated natural gas, used in alkylation
-	public static FluidType METHALOX; // pretty much everything requires oxidizer extra so also replaceable
+	public static FluidType BROMINE; // Aklyl Bromide, cokes into bromide powder and natural gas
 	public static FluidType METHYLENE;
 	public static FluidType POLYTHYLENE; //this is so that you wont need to go through microcrafting hell on circuits //idea is that rubber solution makes these casts that can then be imprinted in the assembly machine without needing to go through the resources to make the circuits one by one, it would be gated behind oil though.
 	public static FluidType RADIOSOLVENT;		//DCM-ish made by wacky radio cracking
@@ -428,7 +428,7 @@ public class Fluids {
 		KMnO4 =					new FluidType("KMnO4",				0x560046, 4, 0, 0, EnumSymbol.ACID).addTraits(LIQUID, new FT_Corrosive(15), new FT_Poison(true, 1));	
 		CHLOROMETHANE =			new FluidType("CHLOROMETHANE",		0xD3CF9E, 2, 4, 0, EnumSymbol.NONE).addTraits(GASEOUS, new FT_Corrosive(15)).addTraits(new FT_Flammable(50_000));
 		METHANOL =				new FluidType("METHANOL",			0x88739F, 3, 4, 0, EnumSymbol.NONE).addTraits(GASEOUS).addTraits(new FT_Flammable(400_000)).addTraits(new FT_Combustible(FuelGrade.HIGH, 600_000), LIQUID);	//ethanol but more etha per nol
-		METHALOX =				new FluidType("METHALOX",			0x7EB1BB, 1, 4, 0, EnumSymbol.NONE).addTraits(GASEOUS).addTraits(new FT_Flammable(600_000)).addTraits(new FT_Combustible(FuelGrade.HIGH, 900_000), LIQUID);	 //just realized irl this isnt how this works but idk
+		BROMINE =				new FluidType("BROMINE",			0xAF2214, 2, 0, 1, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, new FT_Corrosive(10));
 		METHYLENE =				new FluidType("METHYLENE",			0xBBA9A0, 2, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
 		POLYTHYLENE =			new FluidType("POLYTHYLENE",		0x35302E, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID).addTraits(new FT_Flammable(50_000));	
 		FLUORINE =				new FluidType("FLUORINE",			0xC5C539, 4, 4, 4, EnumSymbol.OXIDIZER).addTraits(GASEOUS, new FT_Corrosive(40), new FT_Poison(true, 1)).addTraits(new FT_Flammable(10_000));	
@@ -439,7 +439,7 @@ public class Fluids {
 		ELBOWGREASE =			new FluidType("ELBOWGREASE",		0xCBC433, 1, 3, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xCBC433)).addTraits(new FT_Flammable(600_000), LIQUID);
 		NMASSTETRANOL =			new FluidType("NMASSTETRANOL",		0xF1DB0F, 1, 3, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xF1DB0F)).addTraits(new FT_Flammable(1_000_000), LIQUID, new FT_Corrosive(70), new FT_Poison(true, 0), new FT_VentRadiation(0.01F));
 		NMASS =					new FluidType("NMASS",				0x53A9F4, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Corrosive(10), new FT_Poison(true, 0), new FT_VentRadiation(0.04F));
-		SCUTTERBLOOD =			new FluidType("SCUTTERBLOOD",		0x6C166C, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID, new FT_Corrosive(10), new FT_Poison(true, 0));
+		SCUTTERBLOOD =			new FluidType("SCUTTERBLOOD",		0x6C166C, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, DELICIOUS);
 		HTCO4 =					new FluidType("HTCO4",				0x675454, 1, 3, 0, EnumSymbol.RADIATION).addTraits(LIQUID, new FT_Corrosive(10), new FT_VentRadiation(0.5F));
 		OIL_COKER =				new FluidType("OIL_COKER",			0x001802, 2, 1, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, P_OIL);
 		NAPHTHA_COKER =			new FluidType("NAPHTHA_COKER",		0x495944, 2, 1, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS, P_OIL);
@@ -620,8 +620,8 @@ public class Fluids {
 		metaOrder.add(IONGEL);
 		metaOrder.add(PEROXIDE);
 		metaOrder.add(SULFURIC_ACID);
+		metaOrder.add(BROMINE);
 		//meths
-		metaOrder.add(METHALOX);
 		metaOrder.add(CHLOROMETHANE);
 		metaOrder.add(METHANOL);
 		metaOrder.add(POLYTHYLENE);
@@ -867,7 +867,6 @@ public class Fluids {
 
 		registerCalculatedFuel(ETHANOL, 275_000D /* diesel / 2 */, 2.5D, FuelGrade.HIGH);
 		registerCalculatedFuel(METHANOL, 375_000D /* diesel / 2 */, 2.5D, FuelGrade.HIGH);
-		registerCalculatedFuel(METHALOX, 480_000D /* diesel / 2 */, 2.5D, FuelGrade.HIGH);
 
 		registerCalculatedFuel(BIOGAS, 250_000D * flammabilityLow /* biofuel with half compression, terrible flammability */, 1.25, FuelGrade.GAS);
 		registerCalculatedFuel(BIOFUEL, 500_000D /* slightly below diesel */, 2.5D, FuelGrade.HIGH);

@@ -66,6 +66,7 @@ public class CokerRecipes extends SerializableRecipe {
 		registerRecipe(SOURGAS, 250, new ItemStack(ModItems.sulfur), new FluidStack(GAS_COKER, 150));
 		registerRecipe(SLOP, 1000, new ItemStack(ModItems.powder_limestone), new FluidStack(COLLOID, 250));
 		registerRecipe(VITRIOL, 4000, new ItemStack(ModItems.powder_iron), new FluidStack(SULFURIC_ACID, 500));
+		registerRecipe(BROMINE, 1_000, new ItemStack(ModItems.powder_bromine, 1), new FluidStack(GAS, 500));
 	}
 
 	private static void registerAuto(FluidType fluid, FluidType type) {

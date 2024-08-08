@@ -47,9 +47,6 @@ public class SpaceConfig {
 
 	public static boolean allowNetherPortals = false;
 
-	public static int ikecfreq = 90;
-	public static int drescfreq = 90;
-
 	public static int maxProbeDistance = 32_000;
 	
 	public static void loadFromConfig(Configuration config) {
@@ -87,10 +84,6 @@ public class SpaceConfig {
 		laythePolarBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.16_laythePolarBiome", "Laythe Polar Biome ID", 126);
 		minmusBasins = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.17_minmusBasinsBiome", "Minmus Basins Biome ID", 41);
 		minmusBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.18_minmusBiome", "Minmus Biome ID", 40);
-
-		
-		// ikecfreq = CommonConfig.setDefZero(ikecfreq, 90);
-		// drescfreq = CommonConfig.setDefZero(drescfreq, 90);
 	}
 
 }

@@ -1288,6 +1288,9 @@ public class ModBlocks {
 	public static Block mercury_block;
 	public static Fluid mercury_fluid;
 
+	public static Block bromine_block;
+	public static Fluid bromine_fluid;
+
 	public static Block concrete_liquid;
 	
 	public static Block flesh_block;
@@ -2529,6 +2532,10 @@ public class ModBlocks {
 		mercury_fluid = new GenericFluid("mercury_fluid").setDensity(1840).setViscosity(1000).setTemperature(273);
 		FluidRegistry.registerFluid(mercury_fluid);
 		mercury_block = new GenericFluidBlock(mercury_fluid, Material.water, "mercury_still", "mercury_flowing").setDamage(ModDamageSource.lead, 1F).setBlockName("mercury_block").setResistance(500F);
+
+		bromine_fluid = new GenericFluid("bromine_fluid").setDensity(3000).setViscosity(3000).setTemperature(273);
+		FluidRegistry.registerFluid(bromine_fluid);
+		bromine_block = new GenericFluidBlock(bromine_fluid, Material.water, "bromine_still", "bromine_flowing").setDamage(ModDamageSource.acid, 5F).setBlockName("bromine_block").setResistance(500F);
 		
 		Fluid liquidConcrete = new GenericFluid("concrete_liquid").setViscosity(2000);
 		concrete_liquid = new GenericFiniteFluid(liquidConcrete, Material.rock, "concrete_liquid", "concrete_liquid_flowing").setQuantaPerBlock(4).setBlockName("concrete_liquid").setResistance(500F);
@@ -3740,6 +3747,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(rad_lava_block, rad_lava_block.getUnlocalizedName());
 		GameRegistry.registerBlock(sulfuric_acid_block, sulfuric_acid_block.getUnlocalizedName());
 		GameRegistry.registerBlock(mercury_block, mercury_block.getUnlocalizedName());
+		GameRegistry.registerBlock(bromine_block, bromine_block.getUnlocalizedName());
 		GameRegistry.registerBlock(flesh_block, flesh_block.getUnlocalizedName());
 		GameRegistry.registerBlock(charred_flesh_block, charred_flesh_block.getUnlocalizedName());
 		GameRegistry.registerBlock(carbonized_flesh_block, carbonized_flesh_block.getUnlocalizedName());
