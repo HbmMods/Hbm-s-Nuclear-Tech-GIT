@@ -54,7 +54,7 @@ public class SolarSystem {
 					.withRotationalPeriod(80_500)
 					.withColor(0.408F, 0.298F, 0.553F)
 					.withBlockTextures(RefStrings.MODID + ":eve_stone_2", "", "", "")
-					.withProcessingLevel(1)
+					.withProcessingLevel(3)
 					.withTraits(new CBT_Atmosphere(Fluids.EVEAIR, 5D), new CBT_Temperature(400))
 					.withSatellites(
 						
