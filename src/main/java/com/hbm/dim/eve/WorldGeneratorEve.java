@@ -10,6 +10,7 @@ import com.hbm.dim.eve.GenLayerEve.WorldGenElectricVolcano;
 import com.hbm.dim.eve.GenLayerEve.WorldGenEveSpike;
 import com.hbm.dim.eve.biome.BiomeGenBaseEve;
 import com.hbm.world.feature.OilBubble;
+import com.hbm.world.generator.DungeonToolbox;
 
 import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.world.World;
@@ -18,7 +19,7 @@ import net.minecraft.world.chunk.IChunkProvider;
 
 public class WorldGeneratorEve implements IWorldGenerator {
 
-	WorldGenElectricVolcano volcano = new WorldGenElectricVolcano();
+	WorldGenElectricVolcano volcano = new WorldGenElectricVolcano(30, 22, ModBlocks.eve_silt, ModBlocks.eve_rock);
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
@@ -29,8 +30,10 @@ public class WorldGeneratorEve implements IWorldGenerator {
 
 	private void generateEve(World world, Random rand, int i, int j) {
 		int meta = CelestialBody.getMeta(world);
-		volcano.stoneBlock = ModBlocks.eve_rock;
-		volcano.surBlock = ModBlocks.eve_silt;
+
+		DungeonToolbox.generateOre(world, rand, i, j, 12,  8, 1, 33, ModBlocks.ore_niobium, meta, ModBlocks.eve_rock);
+		DungeonToolbox.generateOre(world, rand, i, j, 8,  4, 5, 48, ModBlocks.ore_iodine, meta, ModBlocks.eve_rock);
+
 		if(WorldConfig.eveGasSpawn > 0 && rand.nextInt(WorldConfig.eveGasSpawn) == 0) {
 			int randPosX = i + rand.nextInt(16);
 			int randPosY = rand.nextInt(25);
