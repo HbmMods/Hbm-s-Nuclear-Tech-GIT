@@ -37,17 +37,17 @@ public class VacuumCircuitRecipes extends SerializableRecipe {
 		
 		recipes.add(new VacuumCircuitRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.PROCESST2.ordinal()), 200, 250,
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.GAAS)},
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.GASCHIP)},
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.PCB),
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BASIC),
 						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CAPACITOR)}
 		));
 		
 		recipes.add(new VacuumCircuitRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.PROCESST3.ordinal()), 200, 250,
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CHIP)},
+						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.GASCHIP)},
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.PCB),
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED),
 						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CAPACITOR_LANTHANIUM)}
 		));
 		

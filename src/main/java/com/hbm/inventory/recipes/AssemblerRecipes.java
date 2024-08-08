@@ -722,7 +722,37 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.AVIONICS),
 
 			}, 300);
-		
+		makeRecipe(new ComparableStack(ModBlocks.gas_dock, 1), new AStack[] {
+				new OreDictStack(STEEL.plateWelded(), 5),
+				new OreDictStack(ANY_RUBBER.ingot(), 4),
+				new ComparableStack(ModItems.tank_steel, 2),
+				new ComparableStack(ModItems.thruster_small, 1), 
+				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.AVIONICS),
+			},600);
+		makeRecipe(new ComparableStack(ModBlocks.machine_stardar, 1), new AStack[] {
+				new ComparableStack(ModItems.motor, 4),
+				new ComparableStack(ModItems.sat_head_radar, 4),
+				new OreDictStack(ANY_CONCRETE.block(), 16),
+				new ComparableStack(ModBlocks.steel_scaffold, 8), 
+				new ComparableStack(ModItems.circuit, 4, EnumCircuitType.BASIC),
+			},800);
+		makeRecipe(new ComparableStack(ModBlocks.machine_drive_processor, 1), new AStack[] {
+				new OreDictStack(ANY_RUBBER.ingot(), 2),
+				new OreDictStack(CU.wireFine(), 4),
+				new OreDictStack(IRON.dust(), 3),
+				new ComparableStack(ModItems.crt_display, 2),
+				new ComparableStack(ModItems.thruster_small, 1), 
+				new ComparableStack(ModItems.circuit, 2, EnumCircuitType.BASIC),
+				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ANALOG),
+
+			},700);
+		makeRecipe(new ComparableStack(ModBlocks.machine_vacuum_circuit, 1), new AStack[] {
+				new OreDictStack(STEEL.plateWelded(), 2),
+				new OreDictStack(W.wireFine(), 4),
+				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED),
+				new ComparableStack(ModItems.circuit, 4, EnumCircuitType.VACUUM_TUBE),
+
+			},700);
 		makeRecipe(new ComparableStack(ModBlocks.fire_door, 1), new AStack[] {
 				new OreDictStack(STEEL.ingot(), 8),
 				new OreDictStack(STEEL.plate(), 8),

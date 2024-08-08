@@ -163,6 +163,17 @@ public class SolderingRecipes extends SerializableRecipe {
 						new OreDictStack(PB.wireFine(), 32)}
 		));
 
+		
+		
+		recipes.add(new SolderingRecipe(new ItemStack(ModItems.hard_drive, 1), 200, 250,
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CHIP)},
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 16, EnumCircuitType.PCB)},
+				new AStack[] {
+						new OreDictStack(MINGRADE.wireFine(), 4)}
+		));
+		
 		/*
 		 * UPGRADES
 		 */
@@ -202,6 +213,8 @@ public class SolderingRecipes extends SerializableRecipe {
 				new AStack[] {new ComparableStack(ModItems.upgrade_template), new OreDictStack(LI.dust(), 4)},
 				new AStack[] {}
 		));
+		
+		
 		
 		addFirstUpgrade(ModItems.upgrade_speed_1, ModItems.upgrade_speed_2);
 		addSecondUpgrade(ModItems.upgrade_speed_2, ModItems.upgrade_speed_3);
