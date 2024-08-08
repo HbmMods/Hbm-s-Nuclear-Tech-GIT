@@ -67,7 +67,7 @@ public class RenderDriveProcessor extends TileEntitySpecialRenderer implements I
 				ResourceManager.drive_processor.renderPart("Computer");
 				ResourceManager.drive_processor.renderPart("Wire");
 				
-				bindTexture(computer_tex);
+				bindTexture(tape_tex);
 				ResourceManager.drive_processor.renderPart("Tape");
 
 				GL11.glShadeModel(GL11.GL_FLAT);
