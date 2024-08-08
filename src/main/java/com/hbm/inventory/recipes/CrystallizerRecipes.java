@@ -127,7 +127,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		
 		registerRecipe(new ComparableStack(ModItems.meteorite_sword_treated),	new CrystallizerRecipe(ModItems.meteorite_sword_etched, baseTime));
 		registerRecipe(new ComparableStack(ModItems.powder_impure_osmiridium),	new CrystallizerRecipe(ModItems.crystal_osmiridium, baseTime), new FluidStack(Fluids.SCHRABIDIC, 1_000));
-		registerRecipe(new ComparableStack(ModItems.gem_sodalite),	new CrystallizerRecipe(ModItems.saltleaf, baseTime).setReq(5), new FluidStack(Fluids.SCUTTERBLOOD, 1_000));
+		registerRecipe(new ComparableStack(ModItems.saltleaf),	new CrystallizerRecipe(ModItems.gem_sodalite, baseTime).setReq(5), new FluidStack(Fluids.SCUTTERBLOOD, 1_000));
 
 		
 		for(int i = 0; i < ScrapType.values().length; i++) {
