@@ -45,7 +45,7 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 	private ItemStack previousStack;
 
 	public TileEntityMachineStardar() {
-		super(2);
+		super(1);
 	}
 
 	@Override
@@ -59,11 +59,11 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 				targetPitch = worldObj.rand.nextFloat() * 80;
 			}
 
-			if(slots[1] != null && slots[1].getItem() == ModItems.full_drive) {
-				if(heightmap == null || !slots[1].isItemEqual(previousStack)) {
-					previousStack = slots[1];
+			if(slots[0] != null && slots[0].getItem() == ModItems.full_drive) {
+				if(heightmap == null || !slots[0].isItemEqual(previousStack)) {
+					previousStack = slots[0];
 
-					Destination destination = ItemVOTVdrive.getApproximateDestination(slots[1]);
+					Destination destination = ItemVOTVdrive.getApproximateDestination(slots[0]);
 					CelestialBody body = destination.body.getBody();
 					ChunkCoordIntPair chunk = destination.getChunk();
 
@@ -195,13 +195,20 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 		}
 	}
 
-	private void processDrive(int targetDimensionId) {
+	private void processDrive(int targetDimensionId, int ix, int iz) {
 		CelestialBody body = CelestialBody.getBodyOrNull(targetDimensionId);
 		if(body == null) return;
 
-		if(slots[1] == null || slots[1].getItem() != ModItems.hard_drive) return;
+		if(slots[0] == null || slots[0].getItem() != ModItems.hard_drive) return;
 
-		slots[1] = new ItemStack(ModItems.full_drive, 1, body.getEnum().ordinal());
+		slots[0] = new ItemStack(ModItems.full_drive, 1, body.getEnum().ordinal());
+
+		if(ix != 0 || iz != 0) {
+			slots[0].stackTagCompound = new NBTTagCompound();
+			slots[0].stackTagCompound.setInteger("ax", ix);
+			slots[0].stackTagCompound.setInteger("az", iz);
+			slots[0].stackTagCompound.setBoolean("Processed", true);
+		}
 
 		// Now point the dish at the target planet
 		timeUntilPoint = worldObj.rand.nextInt(300) + 300;
@@ -212,10 +219,10 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 	}
 
 	private void updateDriveCoords(int x, int z) {
-		if(slots[1] == null || slots[1].getItem() != ModItems.full_drive) return;
+		if(slots[0] == null || slots[0].getItem() != ModItems.full_drive) return;
 
-		Destination destination = ItemVOTVdrive.getApproximateDestination(slots[1]);
-		ItemVOTVdrive.setCoordinates(slots[1], destination.x + x - 8 * 16, destination.z + z - 8 * 16);
+		Destination destination = ItemVOTVdrive.getApproximateDestination(slots[0]);
+		ItemVOTVdrive.setCoordinates(slots[0], destination.x + x - 8 * 16, destination.z + z - 8 * 16);
 
 		this.markDirty();
 	}
@@ -223,7 +230,7 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 	@Override
 	public void receiveControl(NBTTagCompound data) {
 		if(data.hasKey("pid")) {
-			processDrive(data.getInteger("pid"));
+			processDrive(data.getInteger("pid"), data.getInteger("ix"), data.getInteger("iz"));
 		}
 
 		if(data.hasKey("px") && data.hasKey("pz")) {
