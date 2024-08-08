@@ -17,15 +17,10 @@ public class ModelScutter extends ModelBase {
 		GL11.glPushMatrix();
 		{
 
-			GL11.glRotatef(180, 1, 0, 0);
-			GL11.glTranslatef(0, -1.4F, 0);
-			GL11.glScalef(2, 2, 2);
+			GL11.glRotatef(0, 0, 0, 0);
+			GL11.glTranslatef(0, 0.5F, 0);
 
-			ResourceManager.scutterfish.renderPart("Body");
-			ResourceManager.scutterfish.renderPart("tail");
-	
-			ResourceManager.scutterfish.renderPart("fin1");
-			ResourceManager.scutterfish.renderPart("fin2");
+			ResourceManager.scutterfish.renderAll(); //remind me to give its individual bits animations
 
 		}
 		GL11.glPopMatrix();

@@ -103,8 +103,7 @@ public class SchrabidicBlock extends BlockFluidClassic {
 		double dy= (double) ((float) y + rand.nextFloat());
 		double dz= (double) ((float) z + rand.nextFloat());
 		if(b.getMaterial() == Material.water && b!=this) {
-			world.createExplosion(null, x, y, z, 4, false);
-			world.setBlock(x, y, z, Blocks.air);
+			world.setBlock(x, y, z, ModBlocks.sellafield_slaked);
 		}
 		else if((b == Blocks.log || b == Blocks.log2) && rand.nextInt(4) == 0) {
 		    world.playSound((double)x,(double)y,(double)z,"random.fizz", 0.2F, 1F,false);

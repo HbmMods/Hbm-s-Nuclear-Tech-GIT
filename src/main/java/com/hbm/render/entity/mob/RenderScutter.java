@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderScutter extends RenderLiving {
 
-	public static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/entity/lob2.png");
+	public static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/entity/scutterfish.png");
 
 	public RenderScutter(ModelBase p_i1252_1_, float p_i1252_2_) {
 		super(p_i1252_1_, p_i1252_2_);
