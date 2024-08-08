@@ -1,7 +1,10 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerCentrifuge;
@@ -11,6 +14,7 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -34,16 +38,36 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCentrifuge extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC {
+public class TileEntityMachineCentrifuge extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IConfigurableMachine{
 	
 	public int progress;
 	public long power;
 	public boolean isProgressing;
-	public static final int maxPower = 100000;
-	public static final int processingSpeed = 200;
 	private int audioDuration = 0;
 	
 	private AudioWrapper audio;
+
+	//configurable values
+	public static int maxPower = 100000;
+	public static int processingSpeed = 200;
+	public static int baseConsumption = 200;
+
+	public String getConfigName() {
+		return "centrifuge";
+	}
+	/* reads the JSON object and sets the machine's parameters, use defaults and ignore if a value is not yet present */
+	public void readIfPresent(JsonObject obj) {
+		maxPower = IConfigurableMachine.grab(obj, "I:powerCap", maxPower);
+		processingSpeed = IConfigurableMachine.grab(obj, "I:timeToProcess", processingSpeed);
+		baseConsumption = IConfigurableMachine.grab(obj, "I:consumption", baseConsumption);
+	}
+	/* writes the entire config for this machine using the relevant values */
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:powerCap").value(maxPower);
+		writer.name("I:timeToProcess").value(processingSpeed);
+		writer.name("I:consumption").value(baseConsumption);
+	}
+
 
 	/*
 	 * So why do we do this now? You have a funny mekanism/thermal/whatever pipe and you want to output stuff from a side
@@ -162,15 +186,15 @@ public class TileEntityMachineCentrifuge extends TileEntityMachineBase implement
 
 			power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			
-			int consumption = 200;
+			int consumption = baseConsumption;
 			int speed = 1;
 			
 			UpgradeManager.eval(slots, 6, 7);
 			speed += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-			consumption += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) * 200;
+			consumption += Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) * baseConsumption;
 			
 			speed *= (1 + Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 5);
-			consumption += Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * 10000;
+			consumption += Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) * baseConsumption * 50;
 			
 			consumption /= (1 + Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3));
 
