@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.render.util.MissilePart;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
 
@@ -42,7 +43,9 @@ public class ServerProxy {
 	
 	public void effectNT(NBTTagCompound data) { }
 
-	public void registerMissileItems() { }
+	public void registerMissileItems() {
+		MissilePart.registerAllPartsServer();
+	}
 
 	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch) { return null; }
 	public AudioWrapper getLoopedSound(String sound, float x, float y, float z, float volume, float range, float pitch, int keepAlive) { return null; }
