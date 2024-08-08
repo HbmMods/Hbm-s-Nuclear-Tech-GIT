@@ -118,7 +118,6 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
         	DoTheFuckingTask();
         }
 	    
-		System.out.println(launchTicks);
 		
 	    if(worldObj.isRemote && launchTicks > 0 && launchTicks < 100) {
 	        ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5, yCoord + 0.5 + launchTicks, zCoord + 0.5, 0.0, -1.0, 0.0);
