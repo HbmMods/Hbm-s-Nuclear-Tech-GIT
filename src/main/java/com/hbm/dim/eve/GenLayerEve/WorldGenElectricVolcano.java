@@ -19,19 +19,15 @@ public class WorldGenElectricVolcano extends WorldGenerator {
 	public int height;
 	public int width;
 
-	public Block surBlock;
+	public Block surfaceBlock;
 	public Block stoneBlock;
 
-	public WorldGenElectricVolcano() {
-		this(30, 22, ModBlocks.eve_rock, ModBlocks.eve_silt);
-	}
-
-	public WorldGenElectricVolcano(int height, int width, Block suBlock, Block stoneBlock) {
+	public WorldGenElectricVolcano(int height, int width, Block surfaceBlock, Block stoneBlock) {
 		super();
 		this.height = height;
 		this.width = width;
-		this.surBlock = suBlock;
-		this.stoneBlock = suBlock;
+		this.surfaceBlock = surfaceBlock;
+		this.stoneBlock = stoneBlock;
 
 		this.volBlock = ModBlocks.basalt;
 		this.mainMat = ModBlocks.geysir_electric;
@@ -46,7 +42,7 @@ public class WorldGenElectricVolcano extends WorldGenerator {
 			--p_76484_4_;
 		}
 
-		if(p_76484_1_.getBlock(p_76484_3_, p_76484_4_, p_76484_5_) != surBlock) {
+		if(p_76484_1_.getBlock(p_76484_3_, p_76484_4_, p_76484_5_) != surfaceBlock) {
 			return false;
 		} else {
 			p_76484_4_ += p_76484_2_.nextInt(1);
@@ -74,14 +70,14 @@ public class WorldGenElectricVolcano extends WorldGenerator {
 						if((l1 == 0 && i2 == 0 || f1 * f1 + f2 * f2 <= f * f) && (l1 != -k1 && l1 != k1 && i2 != -k1 && i2 != k1 || p_76484_2_.nextFloat() <= 0.75F)) {
 							Block block = p_76484_1_.getBlock(p_76484_3_ + l1, p_76484_4_ + j1, p_76484_5_ + i2);
 
-							if(block.getMaterial() == Material.air || block == surBlock || block == stoneBlock) {
+							if(block.getMaterial() == Material.air || block == surfaceBlock || block == stoneBlock) {
 								p_76484_1_.setBlock(p_76484_3_ + l1, p_76484_4_ + j1, p_76484_5_ + i2, ModBlocks.basalt);
 							}
 
 							if(j1 != 0 && k1 > 1) {
 								block = p_76484_1_.getBlock(p_76484_3_ + l1, p_76484_4_ - j1, p_76484_5_ + i2);
 
-								if(block.getMaterial() == Material.air || block == surBlock || block == stoneBlock) {
+								if(block.getMaterial() == Material.air || block == surfaceBlock || block == stoneBlock) {
 									this.func_150515_a(p_76484_1_, p_76484_3_ + l1, p_76484_4_ - j1, p_76484_5_ + i2, ModBlocks.ore_depth_nether_neodymium);
 								}
 							}
@@ -89,14 +85,14 @@ public class WorldGenElectricVolcano extends WorldGenerator {
 						if((l1 == 0 && j1 == 0) || f1 * f1 + f2 * f2 > f * f) {
 							Block block = p_76484_1_.getBlock(p_76484_3_ + l1, p_76484_4_ + j1, p_76484_5_ + i2);
 
-							if(block.getMaterial() == Material.air || block == surBlock || block == stoneBlock) {
+							if(block.getMaterial() == Material.air || block == surfaceBlock || block == stoneBlock) {
 								this.func_150515_a(p_76484_1_, p_76484_3_, p_76484_4_ + j1, p_76484_5_, Blocks.air);
 							}
 						}
 						if((l1 == 0 && j1 == 0) || f1 * f1 + f2 * f2 > f * f) {
 							Block block = p_76484_1_.getBlock(p_76484_3_ + l1, p_76484_4_ + j1, p_76484_5_ + i2);
 
-							if(block.getMaterial() == Material.air || block == surBlock || block == stoneBlock) {
+							if(block.getMaterial() == Material.air || block == surfaceBlock || block == stoneBlock) {
 								this.func_150515_a(p_76484_1_, p_76484_3_, p_76484_4_ + 5, p_76484_5_, ModBlocks.geysir_electric);
 							}
 						}

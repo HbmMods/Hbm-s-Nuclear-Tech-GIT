@@ -521,7 +521,7 @@ public class OreDictManager {
 		/*
 		 * NITAN
 		 */
-		I	.dust(powder_iodine);
+		I	.dust(powder_iodine)	.oreAll(ore_iodine);
 		AT	.dust(powder_astatine);
 		CS	.dust(powder_caesium);
 		ST	.dust(powder_strontium);
