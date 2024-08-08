@@ -96,6 +96,7 @@ public class PressRecipes extends SerializableRecipe {
 		}
 
 		makeRecipe(StampType.CIRCUIT, new OreDictStack(SI.billet()),						DictFrame.fromOne(ModItems.circuit, EnumCircuitType.SILICON));
+		makeRecipe(StampType.CIRCUIT, new OreDictStack(GAAS.billet()),						DictFrame.fromOne(ModItems.circuit, EnumCircuitType.GAAS));
 
 		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_iron),			ModItems.ammo_357.stackFromEnum(24, Ammo357Magnum.IRON));
 		makeRecipe(StampType.C357, new ComparableStack(ModItems.assembly_steel),		ModItems.ammo_357.stackFromEnum(24, Ammo357Magnum.LEAD));

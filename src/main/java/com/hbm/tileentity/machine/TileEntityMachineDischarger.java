@@ -184,7 +184,7 @@ public class TileEntityMachineDischarger extends TileEntityMachineBase implement
 			if (slots[0].stackSize <= 0 && slots[0].getItem() == ModItems.ingot_schrabidium) {
 				power += Gen * 2;
 				slots[0] = null;
-				slots[0] = new ItemStack(ModItems.ingot_lanthanium);
+				slots[0] = new ItemStack(ModItems.ingot_hafnium); //this machine sucks and should be shot
 				//if (slots[0].getItem() == ModItems.ingot_lanthanium && slots[0].stackSize < slots[0].getMaxStackSize()) {
 				//	  slots[0].stackSize++;
 				//}

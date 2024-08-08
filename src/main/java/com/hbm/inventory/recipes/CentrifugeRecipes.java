@@ -542,7 +542,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
 				new ItemStack(ModItems.nugget_gallium, 1),
 				new ItemStack(ModItems.powder_boron, 2),
 				new ItemStack(ModItems.powder_cobalt, 1), //temp
-				new ItemStack(ModItems.powder_lithium, 6) });
+				new ItemStack(ModItems.powder_lithium, 3) });
 		
 		recipes.put(new ComparableStack(ModItems.mineral_fragment, 1, 4), new ItemStack[] {  // chlorine is important mid-lategame. since it makes Plastics
 				new ItemStack(ModItems.powder_neodymium, 1),
