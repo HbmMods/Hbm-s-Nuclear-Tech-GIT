@@ -34,8 +34,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider
-{
+public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider {
+
 	public long power;
 	public long maxPower = 2_000;
 	public long consumption;
@@ -44,6 +44,8 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 	public int processTime = 1;
 	
 	public ItemStack display;
+
+	public boolean canOperate = true;
 	
 	public TileEntityMachineVacuumCircuit() {
 		super(8);
@@ -71,11 +73,9 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 				? CelestialBody.getTrait(worldObj, CBT_Atmosphere.class)
 				: null;
 
-			if(atmosphere != null && atmosphere.getPressure() > 0.001) return;			
-			
-			this.power = Library.chargeTEFromItems(slots, 5, this.getPower(), this.getMaxPower());
-			
+			canOperate = atmosphere == null || atmosphere.getPressure() <= 0.001;
 
+			this.power = Library.chargeTEFromItems(slots, 5, this.getPower(), this.getMaxPower());
 			
 			VacuumCircuitRecipe recipe = VacuumCircuitRecipes.getRecipe(new ItemStack[] {slots[0], slots[1], slots[2], slots[3]});
 			long intendedMaxPower;
@@ -125,6 +125,7 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 			data.setLong("consumption", consumption);
 			data.setInteger("progress", progress);
 			data.setInteger("processTime", processTime);
+			data.setBoolean("canOperate", canOperate);
 			if(recipe != null) {
 				data.setInteger("display", Item.getIdFromItem(recipe.output.getItem()));
 				data.setInteger("displayMeta", recipe.output.getItemDamage());
@@ -134,6 +135,7 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 	}
 	
 	public boolean canProcess(VacuumCircuitRecipe recipe) {
+		if(!canOperate) return false;
 		
 		if(this.power < this.consumption) return false;
 
@@ -209,6 +211,7 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 		this.consumption = nbt.getLong("consumption");
 		this.progress = nbt.getInteger("progress");
 		this.processTime = nbt.getInteger("processTime");
+		this.canOperate = nbt.getBoolean("canOperate");
 		
 		if(nbt.hasKey("display")) {
 			this.display = new ItemStack(Item.getItemById(nbt.getInteger("display")), 1, nbt.getInteger("displayMeta"));

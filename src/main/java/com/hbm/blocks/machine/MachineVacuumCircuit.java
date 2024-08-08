@@ -1,15 +1,26 @@
 package com.hbm.blocks.machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ILookOverlay;
+import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.tileentity.TileEntityProxyCombo;
+import com.hbm.tileentity.machine.TileEntityAirPump;
 import com.hbm.tileentity.machine.TileEntityMachineVacuumCircuit;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class MachineVacuumCircuit extends BlockDummyable{
+public class MachineVacuumCircuit extends BlockDummyable implements ILookOverlay {
 
 	public MachineVacuumCircuit(Material mat) {
 		super(mat);
@@ -35,4 +46,28 @@ public class MachineVacuumCircuit extends BlockDummyable{
 	public int getOffset() {
 		return 0;
 	}
+
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		int[] pos = this.findCore(world, x, y, z);
+		
+		if(pos == null) return;
+		
+		TileEntity tile = world.getTileEntity(pos[0], pos[1], pos[2]);
+		
+		if(!(tile instanceof TileEntityMachineVacuumCircuit)) return;
+		
+		TileEntityMachineVacuumCircuit machine = (TileEntityMachineVacuumCircuit) tile;
+
+		List<String> text = new ArrayList<>();
+
+		if(!machine.canOperate) {
+			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! " + I18nUtil.resolveKey("atmosphere.noAir") + " ! ! !");
+		}
+
+		if(text.isEmpty()) return;
+	
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+	}
+
 }

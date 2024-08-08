@@ -53,7 +53,7 @@ public class RenderVacuumCircuit extends TileEntitySpecialRenderer implements II
 		return new ItemRenderBase( ) {
 			public void renderInventory() {
 				GL11.glTranslated(0, -1, 0);
-				GL11.glScaled(5, 5, 5);
+				GL11.glScaled(3.5, 3.5, 3.5);
 			}
 			public void renderCommon() {
 				bindTexture(ResourceManager.vac_cir_station_tex);
