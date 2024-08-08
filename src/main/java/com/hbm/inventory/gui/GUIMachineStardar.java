@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.dim.CelestialBody;
 import com.hbm.inventory.container.ContainerStardar;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
@@ -20,6 +21,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -79,6 +81,13 @@ public class GUIMachineStardar extends GuiInfoContainer {
 		groundTexture = new DynamicTexture(256, 256);
 		groundMap = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("groundMap", groundTexture);
 		groundColors = groundTexture.getTextureData();
+	}
+
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float f) {
+		super.drawScreen(mouseX, mouseY, f);
+        
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 149, guiTop + 143, 18, 18, mouseX, mouseY, new String[] {"Program current body into drive"} );
 	}
 
 	@Override
@@ -152,6 +161,8 @@ public class GUIMachineStardar extends GuiInfoContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mx, int my) {
+		ItemStack slotStack = inventorySlots.getSlot(0).getStack();
+
 		if(checkClick(mx, my, 9, 9, 158, 108)) {
 			if(star.heightmap == null) {
 				for(POI poi : pList) {
@@ -181,7 +192,23 @@ public class GUIMachineStardar extends GuiInfoContainer {
 				popScissor();
 
 				fontRendererObj.drawString(canLand ? "Valid location" : info, 10, 128, canLand ? 0x00FF00 : 0xFF0000);
-				if(altitude > 0) fontRendererObj.drawString("Target altitude: " + altitude, 10, 149, 0x00FF00);
+				if(altitude > 0) fontRendererObj.drawString("Target altitude: " + altitude, 10, 148, 0x00FF00);
+			}
+		} else if(star.heightmap != null) {
+			fontRendererObj.drawString("Select landing zone", 10, 128, 0x00FF00);
+		}
+
+		if(star.heightmap == null) {
+			if(slotStack == null) {
+				fontRendererObj.drawString("Insert drive", 10, 128, 0x00FF00);
+			} else {
+				if(slotStack.getItem() == ModItems.full_drive) {
+					fontRendererObj.drawString("Loading heightmap...", 10, 128, 0x00FF00);
+					fontRendererObj.drawString("Please wait", 10, 148, 0x00FF00);
+				} else if(slotStack.getItem() == ModItems.hard_drive) {
+					fontRendererObj.drawString("Select body", 10, 128, 0x00FF00);
+					fontRendererObj.drawString("Drag map to pan", 10, 148, 0x00FF00);
+				}
 			}
 		}
 	}
@@ -267,12 +294,14 @@ public class GUIMachineStardar extends GuiInfoContainer {
 			dragging = false;
 		}
 
-		// Clicking LOD will load in the current body, for now
-		if(checkClick(x, y, 129, 123, 18, 18)) {
+		// Clicking SLF will load in the current body
+		if(checkClick(x, y, 149, 143, 18, 18)) {
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("pid", star.getWorldObj().provider.dimensionId);
+			data.setInteger("ix", star.xCoord);
+			data.setInteger("iz", star.zCoord);
 
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, star.xCoord, star.yCoord, star.zCoord));
 		}

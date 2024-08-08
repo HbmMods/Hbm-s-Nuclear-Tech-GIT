@@ -15,11 +15,7 @@ public class ContainerStardar extends Container {
 	public ContainerStardar(InventoryPlayer player, TileEntityMachineStardar imGonnaThrowUpandShitAllovertheBeduggghhhh) {
 		stardar = imGonnaThrowUpandShitAllovertheBeduggghhhh; // yummers
 		
-		//0 - load slot
-		//1 - save slot
-		
-		// this.addSlotToContainer(new Slot(imGonnaThrowUpandShitAllovertheBeduggghhhh, 0, 150, 124));	
-		this.addSlotToContainer(new Slot(imGonnaThrowUpandShitAllovertheBeduggghhhh, 1, 130, 144));	
+		this.addSlotToContainer(new Slot(imGonnaThrowUpandShitAllovertheBeduggghhhh, 0, 150, 124));	
 
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
