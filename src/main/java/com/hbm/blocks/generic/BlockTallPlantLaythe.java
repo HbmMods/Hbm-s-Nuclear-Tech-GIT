@@ -271,7 +271,18 @@ public class BlockTallPlantLaythe extends BlockEnumMulti implements IPlantable, 
 	public int getPlantMetadata(IBlockAccess world, int x, int y, int z) {
 		return world.getBlockMetadata(x, y, z);
 	}
-	
+    @Override
+    public int quantityDropped(int parMetadata, int parFortune, Random parRand)
+    {
+       return (parRand.nextInt(4));	
+    	
+    }
+
+    @Override
+    public Item getItemDropped(int parMetadata, Random parRand, int parFortune)  
+    {
+       return (ModItems.saltleaf);
+    }
 
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {

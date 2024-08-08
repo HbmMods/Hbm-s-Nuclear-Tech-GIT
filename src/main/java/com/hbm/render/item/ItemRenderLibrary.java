@@ -657,7 +657,14 @@ public class ItemRenderLibrary {
 				GL11.glRotated(90, 0, -1, 0);
 				bindTexture(ResourceManager.satdock_tex); ResourceManager.satDock.renderAll();
 			}});
-		
+		renderers.put(Item.getItemFromBlock(ModBlocks.gas_dock), new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glScaled(3, 3, 3);
+			}
+			public void renderCommon() {
+				GL11.glRotated(90, 0, -1, 0);
+				bindTexture(ResourceManager.satdock_tex); ResourceManager.satDock.renderAll();
+			}});
 		renderers.put(Item.getItemFromBlock(ModBlocks.vault_door), new ItemRenderBase() {
 			public void renderInventory() {
 				GL11.glTranslated(0, -5, 0);

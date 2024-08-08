@@ -441,7 +441,7 @@ public class ModItems {
 	public static Item crayon;
 	
 	public static Item scuttertail;
-
+	public static Item saltleaf;
 	
 	public static Item undefined;
 
@@ -3107,6 +3107,7 @@ public class ModItems {
 		plate_combine_steel = new Item().setUnlocalizedName("plate_combine_steel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_combine_steel");
 		ingot_palladium = new ItemCustomLore().setUnlocalizedName("ingot_palladium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_palladium");
 		scuttertail = new Item().setUnlocalizedName("scuttertail").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":scuttertail");
+		saltleaf = new Item().setUnlocalizedName("saltleaf").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":salt_leaf");
 
 		crystal_coal = new Item().setUnlocalizedName("crystal_coal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_coal");
 		crystal_iron = new Item().setUnlocalizedName("crystal_iron").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crystal_iron");
@@ -6703,6 +6704,7 @@ public class ModItems {
 		//Plant Products
 		GameRegistry.registerItem(plant_item, plant_item.getUnlocalizedName());
 		GameRegistry.registerItem(scuttertail, scuttertail.getUnlocalizedName());
+		GameRegistry.registerItem(saltleaf, saltleaf.getUnlocalizedName());
 
 		
 		//Teleporter Parts
