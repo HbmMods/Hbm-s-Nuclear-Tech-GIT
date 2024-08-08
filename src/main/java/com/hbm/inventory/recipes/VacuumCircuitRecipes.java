@@ -6,23 +6,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import static com.hbm.inventory.OreDictManager.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.config.GeneralConfig;
-import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.inventory.RecipesCommon.OreDictStack;
-import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.recipes.SolderingRecipes.SolderingRecipe;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class VacuumCircuitRecipes extends SerializableRecipe {

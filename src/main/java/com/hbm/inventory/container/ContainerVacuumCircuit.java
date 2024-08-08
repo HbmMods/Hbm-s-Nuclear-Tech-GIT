@@ -1,16 +1,12 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.inventory.SlotUpgrade;
-import com.hbm.inventory.RecipesCommon.AStack;
-import com.hbm.inventory.recipes.SolderingRecipes;
 import com.hbm.inventory.recipes.VacuumCircuitRecipes;
-import com.hbm.inventory.recipes.VacuumCircuitRecipes.VacuumCircuitRecipe;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.items.machine.ItemMachineUpgrade;
-import com.hbm.tileentity.machine.TileEntityMachineSolderingStation;
 import com.hbm.tileentity.machine.TileEntityMachineVacuumCircuit;
 
 import api.hbm.energymk2.IBatteryItem;

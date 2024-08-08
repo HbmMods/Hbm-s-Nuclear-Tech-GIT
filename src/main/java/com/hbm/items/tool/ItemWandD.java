@@ -108,7 +108,7 @@ public class ItemWandD extends Item {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-		list.add("Used for debugging purposes.");
+		list.add("Dimension teleporter and atmosphere debugger.");
 
 		if(stack.stackTagCompound != null) {
 			int targetId = stack.stackTagCompound.getInteger("dim");

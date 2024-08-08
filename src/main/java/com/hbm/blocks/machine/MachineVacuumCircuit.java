@@ -2,9 +2,7 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.TileEntityMachineSolderingStation;
 import com.hbm.tileentity.machine.TileEntityMachineVacuumCircuit;
-import com.hbm.tileentity.machine.TileEntityTesla;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
