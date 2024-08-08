@@ -8,6 +8,7 @@ import com.hbm.entity.mob.ai.EntityAISwimAway;
 import com.hbm.entity.mob.ai.EntityAISwimmingConditional;
 import com.hbm.entity.mob.ai.EntityAISwimmingVTwo;
 import com.hbm.entity.mob.ai.EntityAIWanderConditional;
+import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
@@ -22,6 +23,7 @@ import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -149,6 +151,9 @@ public class EntityScutterfish extends EntityWaterMob implements IAnimals {
         return currentRotation + deltaRotation;
     }
 
-
+	@Override
+	protected Item getDropItem() {
+		return ModItems.scuttertail;
+	}
 }
 	

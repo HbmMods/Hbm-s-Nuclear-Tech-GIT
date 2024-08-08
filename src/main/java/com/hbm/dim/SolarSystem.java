@@ -45,7 +45,7 @@ public class SolarSystem {
 					.withColor(0.4863F, 0.4F, 0.3456F)
 					.withBlockTextures(RefStrings.MODID + ":moho_stone", "", "", "")
 					.withAxialTilt(30F)
-					.withProcessingLevel(2)
+					.withProcessingLevel(1)
 					.withTraits(new CBT_Temperature(200)),
 
 				new CelestialBody("eve", SpaceConfig.eveDimension, Body.EVE)
@@ -54,7 +54,7 @@ public class SolarSystem {
 					.withRotationalPeriod(80_500)
 					.withColor(0.408F, 0.298F, 0.553F)
 					.withBlockTextures(RefStrings.MODID + ":eve_stone_2", "", "", "")
-					.withProcessingLevel(1)
+					.withProcessingLevel(2)
 					.withTraits(new CBT_Atmosphere(Fluids.EVEAIR, 5D), new CBT_Temperature(400))
 					.withSatellites(
 						
