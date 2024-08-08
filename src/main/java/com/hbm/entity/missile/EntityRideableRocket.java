@@ -57,7 +57,6 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	private AudioWrapper audio;
 
-	@SideOnly(Side.CLIENT)
 	private RocketState lastState = RocketState.AWAITING;
 
 	private boolean willExplode = false;
@@ -493,6 +492,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		RocketState state = getState();
 		if(state == RocketState.LAUNCHING || state == RocketState.LANDING || state == RocketState.TIPPING)

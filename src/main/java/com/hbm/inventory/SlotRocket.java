@@ -4,7 +4,6 @@ import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.weapon.ItemCustomMissilePart;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
-import com.hbm.render.util.MissilePart;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -24,7 +23,7 @@ public class SlotRocket extends SlotLayer {
 		if(stack == null) return false;
 		if(!(stack.getItem() instanceof ItemCustomMissilePart)) return false;
 
-		MissilePart part = MissilePart.getPart((ItemCustomMissilePart) stack.getItem());
+		ItemCustomMissilePart part = (ItemCustomMissilePart) stack.getItem();
 
 		return part.type == type;
 	}
