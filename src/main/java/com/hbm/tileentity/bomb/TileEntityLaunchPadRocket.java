@@ -492,6 +492,15 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 	public AxisAlignedBB getRenderBoundingBox() {
 		return INFINITE_EXTENT_AABB; // hi martin ;)
 	}
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
+			return false;
+		} else {
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 1024;
+		}
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)

@@ -196,7 +196,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 			}
 
 			if(height > 8) {
-				double offset = height - 8;
+				double offset = height - 4;
 				if(capDummy == null || capDummy.isDead) {
 					capDummy = new EntityRideableRocketDummy(worldObj, this);
 					capDummy.parent = this;
@@ -467,6 +467,10 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		} else {
 			navDrive = null;
 		}
+
+		// weird wacky position offset load fix
+		posX += 0.875;
+		posZ += 0.875;
 	}
 
 	@Override
@@ -566,7 +570,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 		public EntityRideableRocketDummy(World world) {
 			super(world);
-			setSize(4, 8);
+			setSize(4, 4);
 		}
 
 		public EntityRideableRocketDummy(World world, EntityRideableRocket parent) {

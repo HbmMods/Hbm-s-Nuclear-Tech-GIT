@@ -65,6 +65,7 @@ public class NEIRegistry {
 		handlers.add(new AshpitHandler());
 		handlers.add(new ArcWelderHandler());
 		handlers.add(new SolderingStationHandler());
+		handlers.add(new VacuumCircuitHandler());
 		handlers.add(new ExposureChamberHandler());
 		handlers.add(new ArcFurnaceSolidHandler());
 		handlers.add(new ArcFurnaceFluidHandler());
