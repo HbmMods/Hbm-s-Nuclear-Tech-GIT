@@ -741,7 +741,6 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(CU.wireFine(), 4),
 				new OreDictStack(IRON.dust(), 3),
 				new ComparableStack(ModItems.crt_display, 2),
-				new ComparableStack(ModItems.thruster_small, 1), 
 				new ComparableStack(ModItems.circuit, 2, EnumCircuitType.BASIC),
 				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ANALOG),
 
