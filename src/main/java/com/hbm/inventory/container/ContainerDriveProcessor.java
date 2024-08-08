@@ -16,10 +16,10 @@ public class ContainerDriveProcessor extends ContainerBase {
 
 		// 3 - battery slot
 
-		addSlotToContainer(new Slot(machine, 0, 30, 38));
+		addSlotToContainer(new Slot(machine, 0, 30, 18));
 		addSlotToContainer(new Slot(machine, 1, 50, 38));
 
-		addSlotToContainer(new Slot(machine, 2, 73, 23));
+		addSlotToContainer(new Slot(machine, 2, 81, 24));
 
 		addSlotToContainer(new Slot(machine, 3, 134, 72));
 
