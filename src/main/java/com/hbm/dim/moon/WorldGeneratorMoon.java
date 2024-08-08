@@ -23,7 +23,6 @@ public class WorldGeneratorMoon implements IWorldGenerator {
 
 	private void generateMoon(World world, Random rand, int i, int j) {
 		int meta = CelestialBody.getMeta(world);
-        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.mineralSpawn, 10, 12, 32, ModBlocks.ore_mineral, meta, ModBlocks.moon_rock);
 
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.nickelSpawn, 8, 1, 43, ModBlocks.ore_nickel, meta, ModBlocks.moon_rock);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumSpawn, 12, 4, 27, ModBlocks.ore_titanium, meta, ModBlocks.moon_rock);

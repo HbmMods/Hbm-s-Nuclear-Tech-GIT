@@ -26,13 +26,29 @@ public class VacuumCircuitRecipes extends SerializableRecipe {
 	public void registerDefaults() {
 		
 		boolean lbsm = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCrafting;
-		
-		recipes.add(new VacuumCircuitRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BASIC.ordinal()), 200, 250,
+		//t0 you can go to the mun when you got all the shit. :)
+		recipes.add(new VacuumCircuitRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.PROCESST1.ordinal()), 200, 250,
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP)},
 				new AStack[] {
-						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.PCB),
-						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CAPACITOR_LANTHANIUM)}
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.PCB),
+						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CAPACITOR)}
+		));
+		
+		recipes.add(new VacuumCircuitRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.PROCESST2.ordinal()), 200, 250,
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.GAAS)},
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.PCB),
+						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CAPACITOR)}
+		));
+		
+		recipes.add(new VacuumCircuitRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.PROCESST3.ordinal()), 200, 250,
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.CHIP)},
+				new AStack[] {
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.PCB),
+						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CAPACITOR_LANTHANIUM)}
 		));
 		
 	}

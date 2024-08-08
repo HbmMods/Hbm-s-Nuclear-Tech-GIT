@@ -25,6 +25,7 @@ public class WorldGeneratorMoho implements IWorldGenerator {
 
 	private void generateMoho(World world, Random rand, int i, int j) {
 		int meta = CelestialBody.getMeta(world);
+        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.mineralSpawn, 10, 12, 32, ModBlocks.ore_mineral, meta, ModBlocks.moho_stone);
 
         DungeonToolbox.generateOre(world, rand, i, j, 14, 12, 5, 30, ModBlocks.ore_glowstone, meta, ModBlocks.moho_stone);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPhosphorusSpawn, 6, 8, 64, ModBlocks.ore_fire, meta, ModBlocks.moho_stone);

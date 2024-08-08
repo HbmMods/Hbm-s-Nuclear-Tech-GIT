@@ -43,6 +43,10 @@ public class ItemCircuit extends ItemEnumMulti {
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER_ADVANCED.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CONTROLLER_QUANTUM.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.CAPACITOR_LANTHANIUM.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.PROCESST1.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.PROCESST2.ordinal()));
+		list.add(new ItemStack(item, 1, EnumCircuitType.PROCESST3.ordinal()));
+
 	}
 
 	public static enum EnumCircuitType {
@@ -69,6 +73,9 @@ public class ItemCircuit extends ItemEnumMulti {
 		CONTROLLER_QUANTUM,
 		ATOMIC_CLOCK,
 		CAPACITOR_LANTHANIUM,
+		PROCESST1,
+		PROCESST2,
+		PROCESST3
 	}
 	
 	@Override
