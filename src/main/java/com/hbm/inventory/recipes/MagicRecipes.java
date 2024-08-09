@@ -104,13 +104,12 @@ public class MagicRecipes {
 		recipes.add(new MagicRecipe(new ItemStack(ModItems.ammo_dart, 4, ItemAmmoEnums.AmmoDart.NUCLEAR.ordinal()),
 				new OreDictStack(ANY_RUBBER.ingot()),
 				new ComparableStack(ModItems.nugget_pu239),
-				new ComparableStack(ModItems.circuit_aluminium)));
+				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.VACUUM_TUBE)));
 		
 		recipes.add(new MagicRecipe(new ItemStack(Item.getItemFromBlock(ModBlocks.bobblehead), 1, 21),
-				new ComparableStack(ModItems.ingot_gwenium), 
-				new ComparableStack(ModItems.ingot_dineutronium), 
+				new ComparableStack(ModItems.ingot_gwenium),
+				new ComparableStack(ModItems.ingot_dineutronium),
 				new ComparableStack(ModItems.ingot_dineutronium)));
-				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.CHIP);
 	}
 	
 	public static List<MagicRecipe> getRecipes() {

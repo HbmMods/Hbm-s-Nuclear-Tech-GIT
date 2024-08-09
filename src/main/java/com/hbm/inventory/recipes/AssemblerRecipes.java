@@ -148,7 +148,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModBlocks.machine_turbofan, 1), new AStack[] {!exp ? new OreDictStack(STEEL.shell(), 3) : new OreDictStack(STEEL.heavyComp(), 1), new OreDictStack(TI.shell(), 3), new ComparableStack(ModItems.turbine_tungsten, 1), new ComparableStack(ModItems.turbine_titanium, 7), new OreDictStack(DURA.pipe(), 4), new OreDictStack(MINGRADE.ingot(), 12), new OreDictStack(MINGRADE.wireFine(), 24), },500);
 		makeRecipe(new ComparableStack(ModBlocks.machine_turbinegas, 1), new AStack[] {!exp ? new OreDictStack(STEEL.shell(), 10) : new OreDictStack(STEEL.heavyComp(), 2), new OreDictStack(GOLD.wireDense(), 12), new OreDictStack(DURA.pipe(), 4), new ComparableStack(ModBlocks.steel_scaffold, 8), new OreDictStack(STEEL.pipe(), 4), new ComparableStack(ModItems.turbine_tungsten, 3), new ComparableStack(ModItems.motor, 2), new ComparableStack(ModItems.ingot_rubber, 4), new ComparableStack(ModItems.circuit, 3, EnumCircuitType.BASIC.ordinal())}, 600);
 		makeRecipe(new ComparableStack(ModBlocks.machine_teleporter, 1), new AStack[] {new OreDictStack(TI.ingot(), 8), new OreDictStack(ALLOY.plate528(), 12), new OreDictStack(GOLD.wireFine(), 32), new ComparableStack(ModItems.entanglement_kit, 1), new ComparableStack(ModBlocks.machine_battery, 1) },300);
-		makeRecipe(new ComparableStack(ModBlocks.machine_discharger, 1), new AStack[] {new OreDictStack(MAGTUNG.ingot(), 3), new OreDictStack(GALLIUM.ingot(), 1), new OreDictStack(NI.plate(), 24), new OreDictStack(STEEL.plate(), 20), new ComparableStack(ModItems.billet_gaas, 1), new OreDictStack(RUBBER.ingot(), 2), new ComparableStack(ModBlocks.machine_battery, 12), new ComparableStack(ModItems.circuit_gold, 2), },600);
+		makeRecipe(new ComparableStack(ModBlocks.machine_discharger, 1), new AStack[] {new OreDictStack(MAGTUNG.ingot(), 3), new OreDictStack(GALLIUM.ingot(), 1), new OreDictStack(NI.plate(), 24), new OreDictStack(STEEL.plate(), 20), new ComparableStack(ModItems.billet_gaas, 1), new OreDictStack(RUBBER.ingot(), 2), new ComparableStack(ModBlocks.machine_battery, 12), new ComparableStack(ModItems.circuit, 2, EnumCircuitType.ADVANCED), },600);
 		makeRecipe(new ComparableStack(ModBlocks.machine_schrabidium_transmutator, 1), new AStack[] {new OreDictStack(MAGTUNG.ingot(), 1), !exp ? new OreDictStack(TI.ingot(), 24) : new OreDictStack(TI.heavyComp(), 2), !exp ? new OreDictStack(ALLOY.plate(), 18) : new OreDictStack(ALLOY.heavyComp(), 1), new OreDictStack(STEEL.plateWelded(), 12), new ComparableStack(ModItems.plate_desh, 6), new OreDictStack(RUBBER.ingot(), 8), new ComparableStack(ModBlocks.machine_battery, 5), new ComparableStack(ModItems.circuit, 2, EnumCircuitType.ADVANCED.ordinal()), },500);
 		makeRecipe(new ComparableStack(ModBlocks.fusion_conductor, 1), new AStack[] {new ComparableStack(ModItems.coil_advanced_alloy, 5), }, 100);
 		makeRecipe(new ComparableStack(ModBlocks.fusion_center, 1), new AStack[] {new OreDictStack(ANY_HARDPLASTIC.ingot(), 4), new OreDictStack(STEEL.plate528(), 6), new OreDictStack(ALLOY.wireFine(), 24), },200);
@@ -984,15 +984,6 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(STEEL.pipe(), 8),
 				new ComparableStack(ModItems.circuit, 16, EnumCircuitType.BASIC)
 			}, 400);
-		makeRecipe(new ComparableStack(ModBlocks.machine_cryo_distill, 1), new AStack[] {
-				new OreDictStack(STAINLESS.ingot(), 12),
-				new OreDictStack(ANY_CONCRETE.any(), 4),
-				new ComparableStack(ModItems.tank_steel, 3),
-				new ComparableStack(ModItems.circuit_aluminium, 1),
-				new ComparableStack(ModItems.wire_copper, 4),
-				new OreDictStack(ZI.wireFine(), 3),
-				new ComparableStack(ModBlocks.heater_heatex, 1)
-			}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_solar, 1), new AStack[] {
 				new OreDictStack(STAINLESS.plate(), 4),
 				new ComparableStack(ModItems.photo_panel, 4),
@@ -1384,7 +1375,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new OreDictStack(STAINLESS.plate(), 16),
 				new ComparableStack(ModItems.wire_red_copper, 32),
 				new ComparableStack(ModItems.ingot_hafnium, 2),
-				new ComparableStack(ModItems.circuit_copper, 1),
+				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ANALOG),
 				new ComparableStack(ModItems.billet_gaas, 1),
 				new ComparableStack(ModItems.magnetron, 4)
 			}, 1200);
