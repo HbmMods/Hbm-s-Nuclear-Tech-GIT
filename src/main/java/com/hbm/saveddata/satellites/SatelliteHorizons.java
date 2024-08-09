@@ -43,9 +43,6 @@ public class SatelliteHorizons extends Satellite {
 		used = true;
 		SatelliteSavedData.getData(world).markDirty();
 		
-		long finalDecent = (600-world.getHeightValue(x, z));
-
-		SatelliteSavedData.getData(world).markDirty();
 		
 		EntityTom tom = new EntityTom(world);
 		tom.setPosition(x + 0.5, 600, z + 0.5);
