@@ -523,7 +523,11 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		} else if(riddenByEntity != player) {
 			text.add("OCCUPIED");
 		} else {
-			text.add("Destination: " + I18nUtil.resolveKey("body." + destination.name));
+			if(destination != null) {
+				text.add("Destination: " + I18nUtil.resolveKey("body." + destination.name));
+			} else {
+				text.add("Invalid destination!");
+			}
 
 			if(canLaunch) {
 				text.add("JUMP TO LAUNCH");
