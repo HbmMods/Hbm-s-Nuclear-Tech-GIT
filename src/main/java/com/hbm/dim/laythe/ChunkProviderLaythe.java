@@ -1,7 +1,5 @@
 package com.hbm.dim.laythe;
 
-import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +14,6 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
-import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class ChunkProviderLaythe extends ChunkProviderCelestial {
 
@@ -28,9 +25,6 @@ public class ChunkProviderLaythe extends ChunkProviderCelestial {
 
 	public ChunkProviderLaythe(World world, long seed, boolean hasMapFeatures) {
 		super(world, seed, hasMapFeatures);
-		caveGenV3 = (MapGenGreg) TerrainGen.getModdedMapGen(caveGenV3, CAVE);
-		spires = (MapGenTiltedSpires) TerrainGen.getModdedMapGen(spires, CUSTOM);
-		
 		
 		spires.rock = Blocks.stone;
 		spires.regolith = ModBlocks.laythe_silt;
@@ -41,8 +35,6 @@ public class ChunkProviderLaythe extends ChunkProviderCelestial {
 		seaBlock = Blocks.water;
 
 		spawnedOfFlesh.add(new SpawnListEntry(EntityCreeperFlesh.class, 10, 4, 4));
-		
-		snowires = (MapGenTiltedSpires) TerrainGen.getModdedMapGen(snowires, CUSTOM);
 		
 		snowires.rock = Blocks.packed_ice;
 		snowires.regolith = Blocks.snow;
