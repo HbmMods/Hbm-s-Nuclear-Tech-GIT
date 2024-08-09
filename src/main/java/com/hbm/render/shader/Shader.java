@@ -11,12 +11,15 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 
 public class Shader {
+
+    private boolean hasLoaded = false;
 
     private int shaderProgram;
     private int vertexShader;
@@ -31,20 +34,29 @@ public class Shader {
     }
 
     public Shader(ResourceLocation vertex, ResourceLocation fragment) {
-        vertexShader = loadShader(vertex, GL20.GL_VERTEX_SHADER);
-        fragmentShader = loadShader(fragment, GL20.GL_FRAGMENT_SHADER);
+        try {
+            vertexShader = loadShader(vertex, GL20.GL_VERTEX_SHADER);
+            fragmentShader = loadShader(fragment, GL20.GL_FRAGMENT_SHADER);
+    
+            shaderProgram = GL20.glCreateProgram();
+            GL20.glAttachShader(shaderProgram, vertexShader);
+            GL20.glAttachShader(shaderProgram, fragmentShader);
+            GL20.glLinkProgram(shaderProgram);
+    
+            if (GL20.glGetProgrami(shaderProgram, GL20.GL_LINK_STATUS) == GL11.GL_FALSE) {
+                throw new RuntimeException("Failed to link shader program: " + GL20.glGetProgramInfoLog(shaderProgram, 1024));
+            }
+    
+            timeUniform = GL20.glGetUniformLocation(shaderProgram, "iTime");
+            channel1Uniform = GL20.glGetUniformLocation(shaderProgram, "iChannel1");
 
-        shaderProgram = GL20.glCreateProgram();
-        GL20.glAttachShader(shaderProgram, vertexShader);
-        GL20.glAttachShader(shaderProgram, fragmentShader);
-        GL20.glLinkProgram(shaderProgram);
+            hasLoaded = true;
+        } catch(RuntimeException ex) {
+            MainRegistry.logger.error("Shaders failed to load, falling back to default pipeline");
+            MainRegistry.logger.catching(ex);
 
-        if (GL20.glGetProgrami(shaderProgram, GL20.GL_LINK_STATUS) == GL11.GL_FALSE) {
-            throw new RuntimeException("Failed to link shader program: " + GL20.glGetProgramInfoLog(shaderProgram, 1024));
+            hasLoaded = false;
         }
-
-        timeUniform = GL20.glGetUniformLocation(shaderProgram, "iTime");
-        channel1Uniform = GL20.glGetUniformLocation(shaderProgram, "iChannel1");
     }
 
     private int loadShader(ResourceLocation location, int type) {
@@ -77,11 +89,13 @@ public class Shader {
     }
 
     public void use() {
+        if(!hasLoaded) return;
         previousProgram = GL11.glGetInteger(GL20.GL_CURRENT_PROGRAM);
         GL20.glUseProgram(shaderProgram);
     }
 
     public void stop() {
+        if(!hasLoaded) return;
         GL20.glUseProgram(previousProgram);
     }
 
@@ -94,6 +108,7 @@ public class Shader {
     }
 
     public void setUniforms(float time, int textureUnit) {
+        if(!hasLoaded) return;
         GL20.glUniform1f(timeUniform, time);
         GL20.glUniform1i(channel1Uniform, textureUnit);
     }
