@@ -2,7 +2,7 @@
 
 Hi, i am memeing things into existence, dont mind me! im just the bent fork at the end of the table -JamesH_2
 
-[NTM on Modrinth](https://modrinth.com/mod/ntm)
+[NTM Space on Modrinth](https://modrinth.com/mod/ntmspace)
 
 [NTM on CurseForge](https://minecraft.curseforge.com/projects/hbms-nuclear-tech-mod?gameCategorySlug=mc-mods&projectID=235439)
 
