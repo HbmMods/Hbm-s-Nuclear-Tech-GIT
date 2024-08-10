@@ -12,12 +12,12 @@ import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
-import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.potion.HbmPotion;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -148,7 +148,6 @@ public class ItemAmmoHIMARS extends Item {
 	}
 	
 	public static void standardExplosion(EntityArtilleryRocket rocket, MovingObjectPosition mop, float size, float rangeMod, boolean breaksBlocks, Block slag, int slagMeta) {
-		rocket.worldObj.playSoundEffect(rocket.posX, rocket.posY, rocket.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + rocket.worldObj.rand.nextFloat() * 0.2F);
 		Vec3 vec = Vec3.createVectorHelper(rocket.motionX, rocket.motionY, rocket.motionZ).normalize();
 		ExplosionVNT xnt = new ExplosionVNT(rocket.worldObj, mop.hitVec.xCoord - vec.xCoord, mop.hitVec.yCoord - vec.yCoord, mop.hitVec.zCoord - vec.zCoord, size);
 		if(breaksBlocks) {
@@ -157,7 +156,6 @@ public class ItemAmmoHIMARS extends Item {
 		}
 		xnt.setEntityProcessor(new EntityProcessorCross(7.5).withRangeMod(rangeMod));
 		xnt.setPlayerProcessor(new PlayerProcessorStandard());
-		xnt.setSFX(new ExplosionEffectStandard());
 		xnt.explode();
 		rocket.killAndClear();
 	}
@@ -171,10 +169,10 @@ public class ItemAmmoHIMARS extends Item {
 	
 	private void init() {
 		/* STANDARD ROCKETS */
-		this.itemTypes[SMALL] = new HIMARSRocket("standard", "himars_standard",					0) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 20F, 3F, false, ModBlocks.block_slag, 1); }};
-		this.itemTypes[SMALL_HE] = new HIMARSRocket("standard_he", "himars_standard_he",		0) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 20F, 3F, true, ModBlocks.block_slag, 1); }};
+		this.itemTypes[SMALL] = new HIMARSRocket("standard", "himars_standard",					0) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 20F, 3F, false, ModBlocks.block_slag, 1); ExplosionCreator.composeEffect(rocket.worldObj, mop.blockX + 0.5, mop.blockY + 0.5, mop.blockZ + 0.5, 15, 5F, 1F, 45F, 10, 0, 50, 1F, 3F, -2F, 200); }};
+		this.itemTypes[SMALL_HE] = new HIMARSRocket("standard_he", "himars_standard_he",		0) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 20F, 3F, true, ModBlocks.block_slag, 1); ExplosionCreator.composeEffect(rocket.worldObj, mop.blockX + 0.5, mop.blockY + 0.5, mop.blockZ + 0.5, 15, 5F, 1F, 45F, 10, 16, 50, 1F, 3F, -2F, 200); }};
 		this.itemTypes[SMALL_LAVA] = new HIMARSRocket("standard_lava", "himars_standard_lava",	0) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 20F, 3F, true, ModBlocks.volcanic_lava_block, 0); }};
-		this.itemTypes[LARGE] = new HIMARSRocket("single", "himars_single",						1) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 50F, 5F, true, ModBlocks.block_slag, 1); }};
+		this.itemTypes[LARGE] = new HIMARSRocket("single", "himars_single",						1) { public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) { standardExplosion(rocket, mop, 50F, 5F, true, ModBlocks.block_slag, 1); ExplosionCreator.composeEffect(rocket.worldObj, mop.blockX + 0.5, mop.blockY + 0.5, mop.blockZ + 0.5, 30, 6.5F, 2F, 65F, 25, 16, 50, 1.25F, 3F, -2F, 350); }};
 
 		this.itemTypes[SMALL_MINI_NUKE] = new HIMARSRocket("standard_mini_nuke", "himars_standard_mini_nuke", 0) {
 			public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) {
@@ -186,6 +184,7 @@ public class ItemAmmoHIMARS extends Item {
 		
 		this.itemTypes[SMALL_WP] = new HIMARSRocket("standard_wp", "himars_standard_wp", 0) {
 			public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) {
+				rocket.worldObj.playSoundEffect(rocket.posX, rocket.posY, rocket.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + rocket.worldObj.rand.nextFloat() * 0.2F);
 				standardExplosion(rocket, mop, 20F, 3F, false, ModBlocks.block_slag, 1);
 				ExplosionLarge.spawnShrapnels(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 30);
 				ExplosionChaos.burn(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 20);
@@ -209,6 +208,7 @@ public class ItemAmmoHIMARS extends Item {
 			
 		this.itemTypes[SMALL_TB] = new HIMARSRocket("standard_tb", "himars_standard_tb", 0) {
 			public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) {
+				rocket.worldObj.playSoundEffect(rocket.posX, rocket.posY, rocket.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + rocket.worldObj.rand.nextFloat() * 0.2F);
 				standardExplosion(rocket, mop, 20F, 10F, true, ModBlocks.block_slag, 1);
 				ExplosionLarge.spawnShrapnels(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 30);
 				standardMush(rocket, mop, 20);
@@ -216,6 +216,7 @@ public class ItemAmmoHIMARS extends Item {
 			
 		this.itemTypes[LARGE_TB] = new HIMARSRocket("single_tb", "himars_single_tb", 1) {
 			public void onImpact(EntityArtilleryRocket rocket, MovingObjectPosition mop) {
+				rocket.worldObj.playSoundEffect(rocket.posX, rocket.posY, rocket.posZ, "hbm:weapon.explosionMedium", 20.0F, 0.9F + rocket.worldObj.rand.nextFloat() * 0.2F);
 				standardExplosion(rocket, mop, 50F, 12F, true, ModBlocks.block_slag, 1);
 				ExplosionLarge.spawnShrapnels(rocket.worldObj, (int) mop.hitVec.xCoord, (int) mop.hitVec.yCoord, (int) mop.hitVec.zCoord, 30);
 				standardMush(rocket, mop, 35);

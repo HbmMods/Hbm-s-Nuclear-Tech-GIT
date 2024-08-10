@@ -606,26 +606,6 @@ public class ModItems {
 
 	public static Item circuit;
 	
-	public static Item circuit_raw;
-	public static Item circuit_aluminium;
-	public static Item circuit_copper;
-	public static Item circuit_red_copper;
-	public static Item circuit_gold;
-	public static Item circuit_schrabidium;
-	public static Item circuit_bismuth_raw;
-	public static Item circuit_bismuth;
-	public static Item circuit_arsenic_raw;
-	public static Item circuit_arsenic;
-	public static Item circuit_tantalium_raw;
-	public static Item circuit_tantalium;
-
-	public static Item circuit_targeting_tier1;
-	public static Item circuit_targeting_tier2;
-	public static Item circuit_targeting_tier3;
-	public static Item circuit_targeting_tier4;
-	public static Item circuit_targeting_tier5;
-	public static Item circuit_targeting_tier6;
-	
 	public static Item crt_display;
 	public static ItemEnumMulti circuit_star_piece;
 	public static ItemEnumMulti circuit_star_component;
@@ -3099,28 +3079,10 @@ public class ModItems {
 		entanglement_kit = new ItemCustomLore().setUnlocalizedName("entanglement_kit").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":entanglement_kit");
 		
 		circuit = new ItemCircuit().setUnlocalizedName("circuit").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":circuit");
-		circuit_raw = new Item().setUnlocalizedName("circuit_raw").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_raw");
-		circuit_aluminium = new Item().setUnlocalizedName("circuit_aluminium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_aluminium");
-		circuit_copper = new Item().setUnlocalizedName("circuit_copper").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_copper");
-		circuit_red_copper = new Item().setUnlocalizedName("circuit_red_copper").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_red_copper");
-		circuit_gold = new Item().setUnlocalizedName("circuit_gold").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_gold");
-		circuit_schrabidium = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("circuit_schrabidium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_schrabidium");
-		circuit_bismuth_raw = new Item().setUnlocalizedName("circuit_bismuth_raw").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_bismuth_raw");
-		circuit_bismuth = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_bismuth").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_bismuth");
-		circuit_arsenic_raw = new Item().setUnlocalizedName("circuit_arsenic_raw").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_arsenic_raw");
-		circuit_arsenic = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_arsenic").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_arsenic");
-		circuit_tantalium_raw = new Item().setUnlocalizedName("circuit_tantalium_raw").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_tantalium_raw");
-		circuit_tantalium = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_tantalium").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_tantalium");
 		crt_display = new Item().setUnlocalizedName("crt_display").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":crt_display");
 		circuit_star_piece = (ItemEnumMulti) new ItemEnumMulti(ScrapType.class, true, true).setUnlocalizedName("circuit_star_piece").setCreativeTab(null);
 		circuit_star_component = (ItemEnumMulti) new ItemCircuitStarComponent().setUnlocalizedName("circuit_star_component").setCreativeTab(null);
 		circuit_star = new ItemCustomLore().setRarity(EnumRarity.uncommon).setUnlocalizedName("circuit_star").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_star");
-		circuit_targeting_tier1 = new Item().setUnlocalizedName("circuit_targeting_tier1").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_targeting_tier1");
-		circuit_targeting_tier2 = new Item().setUnlocalizedName("circuit_targeting_tier2").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_targeting_tier2");
-		circuit_targeting_tier3 = new Item().setUnlocalizedName("circuit_targeting_tier3").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_targeting_tier3");
-		circuit_targeting_tier4 = new Item().setUnlocalizedName("circuit_targeting_tier4").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_targeting_tier4");
-		circuit_targeting_tier5 = new Item().setUnlocalizedName("circuit_targeting_tier5").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_targeting_tier5");
-		circuit_targeting_tier6 = new Item().setUnlocalizedName("circuit_targeting_tier6").setCreativeTab(null).setTextureName(RefStrings.MODID + ":circuit_targeting_tier6");
 		mechanism_revolver_1 = new Item().setUnlocalizedName("mechanism_revolver_1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_1");
 		mechanism_revolver_2 = new Item().setUnlocalizedName("mechanism_revolver_2").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_3");
 		mechanism_rifle_1 = new Item().setUnlocalizedName("mechanism_rifle_1").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":mechanism_2");
@@ -6252,30 +6214,10 @@ public class ModItems {
 		
 		//Circuits
 		GameRegistry.registerItem(circuit, circuit.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_raw, circuit_raw.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_aluminium, circuit_aluminium.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_copper, circuit_copper.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_red_copper, circuit_red_copper.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_gold, circuit_gold.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_schrabidium, circuit_schrabidium.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_bismuth_raw, circuit_bismuth_raw.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_bismuth, circuit_bismuth.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_arsenic_raw, circuit_arsenic_raw.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_arsenic, circuit_arsenic.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_tantalium_raw, circuit_tantalium_raw.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_tantalium, circuit_tantalium.getUnlocalizedName());
 		GameRegistry.registerItem(crt_display, crt_display.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_star_piece, circuit_star_piece.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_star_component, circuit_star_component.getUnlocalizedName());
 		GameRegistry.registerItem(circuit_star, circuit_star.getUnlocalizedName());
-		
-		//Military Circuits
-		GameRegistry.registerItem(circuit_targeting_tier1, circuit_targeting_tier1.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_targeting_tier2, circuit_targeting_tier2.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_targeting_tier3, circuit_targeting_tier3.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_targeting_tier4, circuit_targeting_tier4.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_targeting_tier5, circuit_targeting_tier5.getUnlocalizedName());
-		GameRegistry.registerItem(circuit_targeting_tier6, circuit_targeting_tier6.getUnlocalizedName());
 		
 		//Gun Mechanisms
 		GameRegistry.registerItem(mechanism_revolver_1, mechanism_revolver_1.getUnlocalizedName());
@@ -6301,7 +6243,6 @@ public class ModItems {
 		GameRegistry.registerItem(assembly_schrabidium, assembly_schrabidium.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_nightmare, assembly_nightmare.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_desh, assembly_desh.getUnlocalizedName());
-		//GameRegistry.registerItem(assembly_pip, assembly_pip.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_nopip, assembly_nopip.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_smg, assembly_smg.getUnlocalizedName());
 		GameRegistry.registerItem(assembly_556, assembly_556.getUnlocalizedName());

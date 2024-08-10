@@ -1346,6 +1346,24 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.machine_boiler_electric_off");
 		ignoreMappings.add("hbm:tile.machine_boiler_electric_on");
 		ignoreMappings.add("hbm:tile.watz_control");
+		ignoreMappings.add("hbm:item.circuit_raw");
+		ignoreMappings.add("hbm:item.circuit_aluminium");
+		ignoreMappings.add("hbm:item.circuit_copper");
+		ignoreMappings.add("hbm:item.circuit_red_copper");
+		ignoreMappings.add("hbm:item.circuit_gold");
+		ignoreMappings.add("hbm:item.circuit_schrabidium");
+		ignoreMappings.add("hbm:item.circuit_bismuth_raw");
+		ignoreMappings.add("hbm:item.circuit_bismuth");
+		ignoreMappings.add("hbm:item.circuit_arsenic_raw");
+		ignoreMappings.add("hbm:item.circuit_arsenic");
+		ignoreMappings.add("hbm:item.circuit_tantalium_raw");
+		ignoreMappings.add("hbm:item.circuit_tantalium");
+		ignoreMappings.add("hbm:item.circuit_targeting_tier1");
+		ignoreMappings.add("hbm:item.circuit_targeting_tier2");
+		ignoreMappings.add("hbm:item.circuit_targeting_tier3");
+		ignoreMappings.add("hbm:item.circuit_targeting_tier4");
+		ignoreMappings.add("hbm:item.circuit_targeting_tier5");
+		ignoreMappings.add("hbm:item.circuit_targeting_tier6");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

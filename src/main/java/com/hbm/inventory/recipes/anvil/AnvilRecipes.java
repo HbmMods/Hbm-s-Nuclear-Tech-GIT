@@ -1098,18 +1098,6 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(Items.bone, 1), 0.75F),
 						new AnvilOutput(new ItemStack(Items.experience_bottle, 1), 0.5F)
 				}).setTier(1));
-
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_aluminium), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.VACUUM_TUBE.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_copper), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.ANALOG.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_red_copper), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.BASIC.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_gold), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.ADVANCED.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_schrabidium), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.BISMOID.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_targeting_tier1), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BASIC.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_targeting_tier2), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 2, EnumCircuitType.BASIC.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_targeting_tier3), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.BASIC.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_targeting_tier4), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 2, EnumCircuitType.ADVANCED.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_targeting_tier5), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.ADVANCED.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_targeting_tier6), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 2, EnumCircuitType.BISMOID.ordinal()))}).setTier(1));
 	}
 	
 	public static void pullFromAssembler(ComparableStack result, int tier) {

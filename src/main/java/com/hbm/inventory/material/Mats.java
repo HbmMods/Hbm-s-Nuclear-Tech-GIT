@@ -55,7 +55,7 @@ public class Mats {
 	public static final NTMMaterial MAT_PETCOKE			= make(			611, 		PETCOKE)	.setConversion(MAT_CARBON,  4, 3).n();
 	public static final NTMMaterial MAT_LIGCOKE			= make(			612, 		LIGCOKE)	.setConversion(MAT_CARBON,  4, 3).n();
 	public static final NTMMaterial MAT_GRAPHITE		= make(			620, 		GRAPHITE)	.setConversion(MAT_CARBON,  1, 1).n();
-	public static final NTMMaterial MAT_DIAMOND			= makeSmeltable(1430, 		DIAMOND,	0xFFFFFF, 0x1B7B6B, 0x8CF4E2).setConversion(MAT_CARBON,  1, 1).setShapes(FRAGMENT).n();
+	public static final NTMMaterial MAT_DIAMOND			= makeNonSmeltable(1430, 	DIAMOND,	0xFFFFFF, 0x1B7B6B, 0x8CF4E2).setConversion(MAT_CARBON,  1, 1).setShapes(FRAGMENT).n();
 	public static final NTMMaterial MAT_IRON			= makeSmeltable(2600,		IRON,		0xFFFFFF, 0x353535, 0xFFA259).setShapes(FRAGMENT, INGOT, DUST, PIPE, CASTPLATE, WELDEDPLATE, BLOCK).m();
 	public static final NTMMaterial MAT_GOLD			= makeSmeltable(7900,		GOLD,		0xFFFF8B, 0xC26E00, 0xE8D754).setShapes(FRAGMENT, WIRE, NUGGET, INGOT, DUST, DENSEWIRE, CASTPLATE, BLOCK).m();
 	public static final NTMMaterial MAT_REDSTONE		= makeSmeltable(_VS + 01,	REDSTONE,	0xE3260C, 0x700E06, 0xFF1000).setShapes(FRAGMENT).n();
