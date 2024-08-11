@@ -1,5 +1,9 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerMachineTurbine;
@@ -12,6 +16,7 @@ import com.hbm.inventory.gui.GUIMachineTurbine;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxElectricityPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.CompatEnergyControl;
@@ -39,12 +44,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineTurbine extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityMachineTurbine extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IConfigurableMachine {
 
 	private ItemStack slots[];
 
 	public long power;
-	public static final long maxPower = 1000000;
 	public int age = 0;
 	public FluidTank[] tanks;
 	
@@ -55,11 +59,40 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	private String customName;
 	protected double[] info = new double[3];
 	
+	//Configurable values
+	public static long maxPower = 1_000_000;
+	public static int inputTankSize = 64_000;
+	public static int outputTankSize = 128_000;
+	public static int maxSteamPerTick = 6_000;
+	public static double efficiency = 0.85D;
+
 	public TileEntityMachineTurbine() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.STEAM, 64000, 0);
-		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.STEAM, inputTankSize, 0);
+		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, outputTankSize, 1);
+	}
+	@Override
+	public String getConfigName() {
+		return "steamturbine";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		maxPower = IConfigurableMachine.grab(obj, "L:maxPower", maxPower);
+		inputTankSize = IConfigurableMachine.grab(obj, "I:inputTankSize", inputTankSize);
+		outputTankSize = IConfigurableMachine.grab(obj, "I:outputTankSize", outputTankSize);
+		maxSteamPerTick = IConfigurableMachine.grab(obj, "I:maxSteamPerTick", maxSteamPerTick);
+		efficiency = IConfigurableMachine.grab(obj, "D:efficiency", efficiency);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("L:maxPower").value(maxPower);
+		writer.name("I:inputTankSize").value(inputTankSize);
+		writer.name("I:outputTankSize").value(outputTankSize);
+		writer.name("I:maxSteamPerTick").value(maxSteamPerTick);
+		writer.name("D:efficiency").value(efficiency);
 	}
 
 	@Override
@@ -249,12 +282,12 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			boolean valid = false;
 			if(in.hasTrait(FT_Coolable.class)) {
 				FT_Coolable trait = in.getTrait(FT_Coolable.class);
-				double eff = trait.getEfficiency(CoolingType.TURBINE) * 0.85D; //small turbine is only 85% efficient
+				double eff = trait.getEfficiency(CoolingType.TURBINE) * efficiency; //small turbine is only 85% efficient by default
 				if(eff > 0) {
 					tanks[1].setTankType(trait.coolsTo);
 					int inputOps = tanks[0].getFill() / trait.amountReq;
 					int outputOps = (tanks[1].getMaxFill() - tanks[1].getFill()) / trait.amountProduced;
-					int cap = 6_000 / trait.amountReq;
+					int cap = maxSteamPerTick / trait.amountReq;
 					int ops = Math.min(inputOps, Math.min(outputOps, cap));
 					tanks[0].setFill(tanks[0].getFill() - ops * trait.amountReq);
 					tanks[1].setFill(tanks[1].getFill() + ops * trait.amountProduced);
