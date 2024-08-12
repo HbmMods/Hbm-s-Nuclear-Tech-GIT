@@ -687,6 +687,7 @@ public class ModEventHandlerClient {
 	@SubscribeEvent
 	public void onPlayMusic(PlaySoundEvent17 event) {
 		ResourceLocation r = event.sound.getPositionedSoundLocation();
+		if(Minecraft.getMinecraft().theWorld == null) return;
 		if(!r.toString().equals("minecraft:music.game.creative") && !r.toString().equals("minecraft:music.game")) return;
 
 		// Prevent songs playing over the top of each other
