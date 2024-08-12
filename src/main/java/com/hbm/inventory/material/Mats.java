@@ -107,7 +107,7 @@ public class Mats {
 	public static final NTMMaterial MAT_NEODYMIUM		= makeSmeltable(6000,		ND,			0xE6E6B6, 0x1C1C00, 0x8F8F5F).setShapes(FRAGMENT, NUGGET, DUSTTINY, INGOT, DUST, DENSEWIRE, BLOCK).m();
 	public static final NTMMaterial MAT_NIOBIUM			= makeSmeltable(4100,		NB,			0xB76EC9, 0x2F2D42, 0xD576B1).setShapes(FRAGMENT, NUGGET, DUSTTINY, INGOT, DUST, BLOCK).m();
 	public static final NTMMaterial MAT_BERYLLIUM		= makeSmeltable(400,		BE,			0xB2B2A6, 0x0F0F03, 0xAE9572).setShapes(FRAGMENT, NUGGET, INGOT, DUST, BLOCK).m();
-	public static final NTMMaterial MAT_EMERALD			= make(			401,		EMERALD)	.setConversion(MAT_BERYLLIUM, 4, 3).n();
+	public static final NTMMaterial MAT_EMERALD			= makeNonSmeltable(401,		EMERALD,	0x82F6AD, 0x00AA2C, 0x17DD62).setShapes(FRAGMENT, DUST, GEM).setConversion(MAT_BERYLLIUM, 4, 3).n();
 	public static final NTMMaterial MAT_COBALT			= makeSmeltable(2700,		CO,			0xC2D1EE, 0x353554, 0x8F72AE).setShapes(FRAGMENT, NUGGET, DUSTTINY, BILLET, INGOT, DUST, BLOCK).m();
 	public static final NTMMaterial MAT_BORON			= makeSmeltable(500,		B,			0xBDC8D2, 0x29343E, 0xAD72AE).setShapes(FRAGMENT, DUSTTINY, INGOT, DUST, BLOCK).m();
 	public static final NTMMaterial MAT_BORAX			= makeSmeltable(501,		BORAX,		0xFFFFFF, 0x946E23, 0xFFECC6).setShapes(FRAGMENT, DUST).n();
