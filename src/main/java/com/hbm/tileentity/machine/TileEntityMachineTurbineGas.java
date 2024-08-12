@@ -620,15 +620,14 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] start(Context context, Arguments args) {
-		stopIfNotReady();
-		startup();
+		state = -1;
 		return new Object[] {};
 	}
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] stop(Context context, Arguments args) {
-		shutdown();
+		state = 0;
 		return new Object[] {};
 	}
 
