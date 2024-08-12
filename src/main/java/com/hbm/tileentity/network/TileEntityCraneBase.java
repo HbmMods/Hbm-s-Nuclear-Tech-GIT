@@ -136,35 +136,37 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public void pasteSettings(NBTTagCompound nbt) {
-		if (nbt.hasKey("outputSide")) {
-			outputOverride = ForgeDirection.getOrientation(nbt.getInteger("outputSide"));
-			onBlockChanged();
-		}
-		if (nbt.hasKey("inputSide")) {
-			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, nbt.getInteger("inputSide"), 3);
-		}
+	public void pasteSettings(NBTTagCompound nbt, boolean alt) {
+		if(alt) {
+			if (nbt.hasKey("outputSide")) {
+				outputOverride = ForgeDirection.getOrientation(nbt.getInteger("outputSide"));
+				onBlockChanged();
+			}
+			if (nbt.hasKey("inputSide")) {
+				worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, nbt.getInteger("inputSide"), 3);
+			}
+		} else {
+			if (this instanceof IControlReceiverFilter) {
+				IControlReceiverFilter filter = ((IControlReceiverFilter) this);
+				IInventory inv = this;
 
-		if (this instanceof IControlReceiverFilter) {
-			IControlReceiverFilter filter = ((IControlReceiverFilter) this);
-			IInventory inv = this;
-
-			NBTTagList items = nbt.getTagList("items", 10);
-			int listSize = items.tagCount();
-			if (listSize > 0) {
-				int count = 0;
-				for (int i = filter.getFilterSlots()[0]; i < filter.getFilterSlots()[1]; i++) {
-					if (i < listSize) {
-						NBTTagCompound slotNBT = items.getCompoundTagAt(count);
-						byte slot = slotNBT.getByte("slot");
-						ItemStack loadedStack = ItemStack.loadItemStackFromNBT(slotNBT);
-						if (loadedStack != null) {
-							inv.setInventorySlotContents(slot + filter.getFilterSlots()[0], ItemStack.loadItemStackFromNBT(slotNBT));
-							filter.nextMode(slot);
-							this.getWorldObj().markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
+				NBTTagList items = nbt.getTagList("items", 10);
+				int listSize = items.tagCount();
+				if (listSize > 0) {
+					int count = 0;
+					for (int i = filter.getFilterSlots()[0]; i < filter.getFilterSlots()[1]; i++) {
+						if (i < listSize) {
+							NBTTagCompound slotNBT = items.getCompoundTagAt(count);
+							byte slot = slotNBT.getByte("slot");
+							ItemStack loadedStack = ItemStack.loadItemStackFromNBT(slotNBT);
+							if (loadedStack != null) {
+								inv.setInventorySlotContents(slot + filter.getFilterSlots()[0], ItemStack.loadItemStackFromNBT(slotNBT));
+								filter.nextMode(slot);
+								this.getWorldObj().markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
+							}
 						}
+						count++;
 					}
-					count++;
 				}
 			}
 		}

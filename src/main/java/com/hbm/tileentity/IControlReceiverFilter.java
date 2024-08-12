@@ -67,7 +67,7 @@ public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 	}
 
 	@Override
-	default void pasteSettings(NBTTagCompound nbt) {
+	default void pasteSettings(NBTTagCompound nbt, boolean alt) {
 		TileEntity tile = (TileEntity) this;
 		IInventory inv = (IInventory) this;
 		NBTTagList items = nbt.getTagList("items", 10);

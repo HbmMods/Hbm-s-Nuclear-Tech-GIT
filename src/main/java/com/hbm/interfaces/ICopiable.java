@@ -6,5 +6,5 @@ public interface ICopiable {
 
     NBTTagCompound getSettings();
 
-    void pasteSettings(NBTTagCompound nbt);
+    void pasteSettings(NBTTagCompound nbt, boolean alt);
 }

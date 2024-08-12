@@ -1,7 +1,10 @@
 package com.hbm.items.tool;
 
+import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.HbmKeybinds;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityProxyBase;
 import com.hbm.tileentity.network.IDroneLinkable;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -33,29 +36,28 @@ public class ItemSettingsTool extends Item {
 	}
 	@Override
 	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fX, float fY, float fZ) {
-		if (!world.isRemote) {
-			TileEntity tile = world.getTileEntity(x, y, z);
-
-			if (tile instanceof ICopiable) {
-				ICopiable te = ((ICopiable) tile);
-
-					if (player.isSneaking()) {
-						stack.stackTagCompound = ((ICopiable) tile).getSettings();
-						stack.stackTagCompound.setString("tileName", tile.getBlockType().getLocalizedName());
-
-						player.addChatMessage(ChatBuilder.start("[").color(EnumChatFormatting.DARK_AQUA)
-								.nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)
-								.next("] ").color(EnumChatFormatting.DARK_AQUA)
-								.next("Copied settings of " + tile.getBlockType().getLocalizedName()).color(EnumChatFormatting.AQUA).flush());
-
-					} else if (stack.hasTagCompound()) {
-						te.pasteSettings(stack.stackTagCompound);
-					}
-
-
-				return true;
-			}
+		TileEntity tile = world.getTileEntity(x, y, z);
+		if(tile instanceof TileEntityProxyBase){
+			tile = ((TileEntityProxyBase) tile).getTE();
 		}
-		return false;
+		if (tile instanceof ICopiable) {
+			ICopiable te = ((ICopiable) tile);
+
+			if (player.isSneaking()) {
+				stack.stackTagCompound = ((ICopiable) tile).getSettings();
+				stack.stackTagCompound.setString("tileName", tile.getBlockType().getLocalizedName());
+
+				player.addChatMessage(ChatBuilder.start("[").color(EnumChatFormatting.DARK_AQUA)
+						.nextTranslation(this.getUnlocalizedName() + ".name").color(EnumChatFormatting.DARK_AQUA)
+						.next("] ").color(EnumChatFormatting.DARK_AQUA)
+						.next("Copied settings of " + tile.getBlockType().getLocalizedName()).color(EnumChatFormatting.AQUA).flush());
+
+			} else if (stack.hasTagCompound()) {
+				boolean alt = HbmPlayerProps.getData(player).getKeyPressed(HbmKeybinds.EnumKeybind.COPY_TOOL);
+				te.pasteSettings(stack.stackTagCompound, alt);
+			}
+
+		}
+		return true;
 	}
 }

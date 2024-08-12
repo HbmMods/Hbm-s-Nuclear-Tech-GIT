@@ -24,11 +24,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.IOverpressurable;
-import com.hbm.tileentity.IPersistentNBT;
-import com.hbm.tileentity.IRepairable;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.*;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
@@ -56,7 +52,7 @@ import java.util.List;
 import java.util.Random;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineFluidTank extends TileEntityMachineBase implements IFluidContainer, SimpleComponent, OCComponent, IFluidSource, IFluidAcceptor, IFluidStandardTransceiver, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable {
+public class TileEntityMachineFluidTank extends TileEntityMachineBase implements IFluidContainer, SimpleComponent, OCComponent, IFluidSource, IFluidAcceptor, IFluidStandardTransceiver, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable, IFluidCopiable {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -452,6 +448,16 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	public FluidTank[] getReceivingTanks() {
 		if(this.hasExploded || this.sendingBrake) return new FluidTank[0];
 		return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : new FluidTank[0];
+	}
+
+	@Override
+	public int[] getFluidIDToCopy() {
+		return new int[] {tank.getTankType().getID()};
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tank;
 	}
 
 	@Override

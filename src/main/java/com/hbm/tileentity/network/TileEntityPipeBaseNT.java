@@ -6,6 +6,8 @@ import com.hbm.inventory.fluid.Fluids;
 import api.hbm.fluid.IFluidConductor;
 import api.hbm.fluid.IPipeNet;
 import api.hbm.fluid.PipeNet;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.tileentity.IFluidCopiable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -14,7 +16,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor {
+public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor, IFluidCopiable {
 	
 	protected IPipeNet network;
 	protected FluidType type = Fluids.NONE;
@@ -165,5 +167,24 @@ public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor 
 	public void onChunkUnload() {
 		super.onChunkUnload();
 		this.isLoaded = false;
+	}
+
+	@Override
+	public int[] getFluidIDToCopy() {
+		return new int[]{ type.getID() };
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, boolean alt) {
+		int[] ids = nbt.getIntArray("fluidID");
+		if(ids.length > 0) {
+			int id = ids[alt ? 1 : 0];
+			this.setType(Fluids.fromID(id));
+		}
 	}
 }

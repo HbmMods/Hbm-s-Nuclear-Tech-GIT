@@ -8,8 +8,10 @@ import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIOilburner;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -24,7 +26,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implements IGUIProvider, IFluidStandardTransceiver, IHeatSource, IControlReceiver {
+import java.util.Arrays;
+
+public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implements IGUIProvider, IFluidStandardTransceiver, IHeatSource, IControlReceiver, IFluidCopiable {
 	
 	public boolean isOn = false;
 	public FluidTank tank;
@@ -216,5 +220,20 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 	@Override
 	public FluidTank[] getSendingTanks() {
 		return this.getSmokeTanks();
+	}
+
+	@Override
+	public NBTTagCompound getSettings() {
+		NBTTagCompound tag = new NBTTagCompound();
+		tag.setIntArray("fluidID", new int[]{tank.getTankType().getID()});
+		tag.setInteger("burnRate", setting);
+		return tag;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, boolean alt) {
+		int id = nbt.getIntArray("fluidID")[alt ? 1 : 0];
+		tank.setTankType(Fluids.fromID(id));
+		setting = nbt.getInteger("burnRate");
 	}
 }
