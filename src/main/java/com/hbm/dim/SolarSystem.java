@@ -357,10 +357,12 @@ public class SolarSystem {
 
 	// Get a number of buckets of fuel required to travel somewhere, (halved, since we're assuming bipropellant)
 	public static int getCostBetween(CelestialBody from, CelestialBody to, int mass, int thrust, int isp) {
+		double fromDrag = getAtmosphericDrag(from.getTrait(CBT_Atmosphere.class));
+		double toDrag = getAtmosphericDrag(to.getTrait(CBT_Atmosphere.class));
 
-		double launchDV = SolarSystem.getLiftoffDeltaV(from, mass, thrust);
+		double launchDV = SolarSystem.getLiftoffDeltaV(from, mass, thrust, fromDrag);
 		double travelDV = SolarSystem.getDeltaVBetween(from, to);
-		double landerDV = SolarSystem.getLandingDeltaV(to, mass, thrust, to.hasTrait(CBT_Atmosphere.class));
+		double landerDV = SolarSystem.getLandingDeltaV(to, mass, thrust, toDrag);
 		
 		double totalDV = launchDV + travelDV + landerDV;
 
@@ -373,18 +375,24 @@ public class SolarSystem {
 		return MathHelper.ceiling_double_int(propellantMass * 5) * 10;
 	}
 
+	private static double getAtmosphericDrag(CBT_Atmosphere atmosphere) {
+		if(atmosphere == null) return 0;
+		double pressure = atmosphere.getPressure();
+		return pressure * 0.01F;
+	}
+
 	// Provides the deltaV required to get into orbit, ignoring losses due to atmospheric friction
 	// Make sure to convert from kN to N (kilonewtons to newtons) before calling these two functions
-	public static double getLiftoffDeltaV(CelestialBody body, float craftMassKg, float craftThrustN) {
-		return calculateSurfaceToOrbitDeltaV(body, craftMassKg, craftThrustN, false);
+	public static double getLiftoffDeltaV(CelestialBody body, float craftMassKg, float craftThrustN, double atmosphericDrag) {
+		return calculateSurfaceToOrbitDeltaV(body, craftMassKg, craftThrustN, atmosphericDrag, false);
 	}
 
 	// Uses aerobraking if an atmosphere is present
-	public static double getLandingDeltaV(CelestialBody body, float craftMassKg, float craftThrustN, boolean hasAtmosphere) {
-		return calculateSurfaceToOrbitDeltaV(body, craftMassKg, craftThrustN, hasAtmosphere);
+	public static double getLandingDeltaV(CelestialBody body, float craftMassKg, float craftThrustN, double atmosphericDrag) {
+		return calculateSurfaceToOrbitDeltaV(body, craftMassKg, craftThrustN, atmosphericDrag, atmosphericDrag > 0.0005);
 	}
 
-	private static double calculateSurfaceToOrbitDeltaV(CelestialBody body, float craftMassKg, float craftThrustN, boolean lossesOnly) {
+	private static double calculateSurfaceToOrbitDeltaV(CelestialBody body, float craftMassKg, float craftThrustN, double atmosphericDrag, boolean lossesOnly) {
 		double orbitalDeltaV = Math.sqrt((AstronomyUtil.GRAVITATIONAL_CONSTANT * body.massKg) / (body.radiusKm * 1_000));
 		double thrustToWeightRatio = craftThrustN / (craftMassKg * body.getSurfaceGravity());
 
@@ -398,9 +406,9 @@ public class SolarSystem {
 		double gravityLosses = body.getSurfaceGravity() * timeToOrbit;
 
 		if(lossesOnly)
-			return gravityLosses;
+			return gravityLosses * (1 - atmosphericDrag); // drag helps on the way down
 
-		return orbitalDeltaV + gravityLosses;
+		return orbitalDeltaV + gravityLosses * (1 + atmosphericDrag); // and hinders on the way up
 	}
 
 	// Provides the deltaV required to transfer from the orbit of one body to the orbit of another
@@ -546,12 +554,12 @@ public class SolarSystem {
 		float deltaIVMass = 500_000;
 		float RD180RocketThrust = 7_887 * 1_000;
 
-		MainRegistry.logger.info("Kerbin launch cost: " + getLiftoffDeltaV(kerbin, deltaIVMass, RD180RocketThrust));
-		MainRegistry.logger.info("Eve launch cost: " + getLiftoffDeltaV(eve, deltaIVMass, RD180RocketThrust));
-		MainRegistry.logger.info("Duna launch cost: " + getLiftoffDeltaV(duna, deltaIVMass, RD180RocketThrust));
-		MainRegistry.logger.info("Mun launch cost: " + getLiftoffDeltaV(mun, deltaIVMass, RD180RocketThrust));
-		MainRegistry.logger.info("Minmus launch cost: " + getLiftoffDeltaV(minmus, deltaIVMass, RD180RocketThrust));
-		MainRegistry.logger.info("Ike launch cost: " + getLiftoffDeltaV(ike, deltaIVMass, RD180RocketThrust));
+		MainRegistry.logger.info("Kerbin launch cost: " + getLiftoffDeltaV(kerbin, deltaIVMass, RD180RocketThrust, 0));
+		MainRegistry.logger.info("Eve launch cost: " + getLiftoffDeltaV(eve, deltaIVMass, RD180RocketThrust, 0));
+		MainRegistry.logger.info("Duna launch cost: " + getLiftoffDeltaV(duna, deltaIVMass, RD180RocketThrust, 0));
+		MainRegistry.logger.info("Mun launch cost: " + getLiftoffDeltaV(mun, deltaIVMass, RD180RocketThrust, 0));
+		MainRegistry.logger.info("Minmus launch cost: " + getLiftoffDeltaV(minmus, deltaIVMass, RD180RocketThrust, 0));
+		MainRegistry.logger.info("Ike launch cost: " + getLiftoffDeltaV(ike, deltaIVMass, RD180RocketThrust, 0));
 
 		MainRegistry.logger.info("Kerbin -> Eve cost: " + getDeltaVBetween(kerbin, eve) + " - should be: " + (950+90+80+1330));
 		MainRegistry.logger.info("Kerbin -> Duna cost: " + getDeltaVBetween(kerbin, duna) + " - should be: " + (950+130+250+360));
