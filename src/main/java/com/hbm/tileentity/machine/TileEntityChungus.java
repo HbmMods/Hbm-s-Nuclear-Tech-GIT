@@ -3,7 +3,10 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.io.IOException;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IFluidAcceptor;
@@ -18,6 +21,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.CompatEnergyControl;
@@ -41,10 +45,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IEnergyProviderMK2, INBTPacketReceiver, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcceptor, IFluidSource, IEnergyProviderMK2, INBTPacketReceiver, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IConfigurableMachine {
 
 	public long power;
-	public static final long maxPower = 100000000000L;
 	private int turnTimer;
 	public float rotor;
 	public float lastRotor;
@@ -57,15 +60,45 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 	
 	private AudioWrapper audio;
 	private float audioDesync;
+
+	//Configurable values
+	public static long maxPower = 100000000000L;
+	public static int inputTankSize = 1_000_000_000;
+	public static int outputTankSize = 1_000_000_000;
+	public static double efficiency = 0.85D;
 	
 	public TileEntityChungus() {
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.STEAM, 1000000000, 0);
-		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 1000000000, 1);
+		tanks[0] = new FluidTank(Fluids.STEAM, inputTankSize, 0);
+		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, outputTankSize, 1);
 
 		Random rand = new Random();
 		audioDesync = rand.nextFloat() * 0.05F;
 	}
+
+	@Override
+	public String getConfigName() {
+		return "steamturbineLeviathan";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		maxPower = IConfigurableMachine.grab(obj, "L:maxPower", maxPower);
+		inputTankSize = IConfigurableMachine.grab(obj, "I:inputTankSize", inputTankSize);
+		outputTankSize = IConfigurableMachine.grab(obj, "I:outputTankSize", outputTankSize);
+		efficiency = IConfigurableMachine.grab(obj, "D:efficiency", efficiency);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("L:maxPower").value(maxPower);
+		writer.name("INFO").value("leviathan steam turbine consumes all availible steam per tick");
+		writer.name("I:inputTankSize").value(inputTankSize);
+		writer.name("I:outputTankSize").value(outputTankSize);
+		writer.name("D:efficiency").value(efficiency);
+	}
+
+
 
 	@Override
 	public void updateEntity() {
@@ -79,7 +112,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IFluidAcc
 			boolean valid = false;
 			if(in.hasTrait(FT_Coolable.class)) {
 				FT_Coolable trait = in.getTrait(FT_Coolable.class);
-				double eff = trait.getEfficiency(CoolingType.TURBINE) * 0.85D; //85% efficiency
+				double eff = trait.getEfficiency(CoolingType.TURBINE) * efficiency; //85% efficiency by default
 				if(eff > 0) {
 					tanks[1].setTankType(trait.coolsTo);
 					int inputOps = tanks[0].getFill() / trait.amountReq;
