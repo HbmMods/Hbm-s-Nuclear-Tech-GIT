@@ -715,10 +715,10 @@ public class AssemblerRecipes extends SerializableRecipe {
 			}, 300);
 		
 		makeRecipe(new ComparableStack(ModBlocks.transporter_rocket, 1), new AStack[] {
-				new OreDictStack(TI.plateWelded(), 10),
+				new OreDictStack(TI.plateWelded(), 4),
 				new ComparableStack(ModBlocks.crate_iron, 2), 
 				//new ComparableStack(ModItems.circuit, 1, EnumCircuitType.AREO), //gate,
-				new ComparableStack(ModItems.tank_steel, 10),
+				new ComparableStack(ModItems.tank_steel, 8),
 				new ComparableStack(ModItems.thruster_small, 1), 
 				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.AVIONICS),
 
