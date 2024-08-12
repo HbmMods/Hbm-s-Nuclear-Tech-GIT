@@ -606,7 +606,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setThrottle(Context context, Arguments args) {
-		throttle = args.checkInteger(0);
+		powerSliderPos = (int) (args.checkInteger(0) * 60D / 100D);
 		return new Object[] {};
 	}
 

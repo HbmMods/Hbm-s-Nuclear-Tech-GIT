@@ -300,7 +300,7 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 			// this also checks if it's even a string at all
 			if(args.checkAny(i) == null || args.checkString(i).equals(""))
 				this.txBuffer[i] = "";
-			if(args.checkString(i).equals("")) { // if it isn't an empty string
+			if(!args.checkString(i).equals("")) { // if it isn't an empty string
 				if(args.checkString(i).length() > TileEntityRadioTelex.lineWidth) { // line longer than allowed
 					this.txBuffer[i] = args.checkString(i).substring(0, TileEntityRadioTelex.lineWidth); // truncate it
 				} else
