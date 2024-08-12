@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import java.util.HashMap;
 
-import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerSILEX;
 import com.hbm.inventory.fluid.FluidType;
@@ -35,7 +34,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcceptor, IFluidStandardReceiver, IGUIProvider, IInfoProviderEC {
+public class TileEntitySILEX extends TileEntityMachineBase implements IFluidStandardReceiver, IGUIProvider, IInfoProviderEC {
 
 	public EnumWavelengths mode = EnumWavelengths.NULL;
 	public boolean hasLaser;
@@ -54,7 +53,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 
 	public TileEntitySILEX() {
 		super(11);
-		tank = new FluidTank(Fluids.PEROXIDE, 16000, 0);
+		tank = new FluidTank(Fluids.PEROXIDE, 16000);
 	}
 
 	@Override
@@ -343,41 +342,6 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-
-		if(type == tank.getTankType())
-			tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-
-		if(type == tank.getTankType())
-			return tank.getFill();
-
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-
-		if(type == tank.getTankType())
-			return tank.getMaxFill();
-
-		return 0;
 	}
 
 	@Override

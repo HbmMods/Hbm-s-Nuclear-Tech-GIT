@@ -73,13 +73,11 @@ public class EntityMappings {
 		addEntity(EntityMissileDrill.class, "entity_missile_drill", 1000);
 		addEntity(EntityMissileMirv.class, "entity_missile_mirv", 1000);
 		addEntity(EntityMIRV.class, "entity_mirvlet", 1000);
-		addEntity(EntitySmokeFX.class, "entity_smoke_fx", 1000);
 		addEntity(EntityGrenadeNuclear.class, "entity_grenade_nuclear", 1000);
 		addEntity(EntityBSmokeFX.class, "entity_b_smoke_fx", 1000);
 		addEntity(EntityGrenadePlasma.class, "entity_grenade_plasma", 500);
 		addEntity(EntityGrenadeTau.class, "entity_grenade_tau", 500);
 		addEntity(EntityChopperMine.class, "entity_chopper_mine", 1000);
-		addEntity(EntityCombineBall.class, "entity_combine_ball", 1000);
 		addEntity(EntityRainbow.class, "entity_rainbow", 1000);
 		addEntity(EntityGrenadeLemon.class, "entity_grenade_lemon", 500);
 		addEntity(EntityCloudFleija.class, "entity_cloud_fleija", 500);
@@ -96,8 +94,6 @@ public class EntityMappings {
 		addEntity(EntityLaserBeam.class, "entity_laser_beam", 1000);
 		addEntity(EntityMinerBeam.class, "entity_miner_beam", 1000);
 		addEntity(EntityRubble.class, "entity_rubble", 1000);
-		addEntity(EntityDSmokeFX.class, "entity_d_smoke_fx", 1000);
-		addEntity(EntitySSmokeFX.class, "entity_s_smoke_fx", 1000);
 		addEntity(EntityShrapnel.class, "entity_shrapnel", 1000);
 		addEntity(EntityGrenadeShrapnel.class, "entity_grenade_shrapnel", 250);
 		addEntity(EntityBlackHole.class, "entity_black_hole", 250);
@@ -109,7 +105,6 @@ public class EntityMappings {
 		addEntity(EntitySparkBeam.class, "entity_spark_beam", 1000);
 		addEntity(EntityMissileDoomsday.class, "entity_missile_doomsday", 1000);
 		addEntity(EntityMissileDoomsdayRusted.class, "entity_missile_doomsday_rusted", 1000);
-		addEntity(EntityTSmokeFX.class, "entity_t_smoke_fx", 1000);
 		addEntity(EntityNukeExplosionMK3.class, "entity_nuke_mk3", 1000);
 		addEntity(EntityVortex.class, "entity_vortex", 250);
 		addEntity(EntityMeteor.class, "entity_meteor", 250);

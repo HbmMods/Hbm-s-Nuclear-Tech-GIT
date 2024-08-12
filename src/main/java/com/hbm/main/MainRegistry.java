@@ -1364,6 +1364,34 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.circuit_targeting_tier4");
 		ignoreMappings.add("hbm:item.circuit_targeting_tier5");
 		ignoreMappings.add("hbm:item.circuit_targeting_tier6");
+		ignoreMappings.add("hbm:tile.fluid_duct");
+		ignoreMappings.add("hbm:tile.fluid_duct_solid");
+		ignoreMappings.add("hbm:item.void_anim");
+		ignoreMappings.add("hbm:item.pellet_mercury");
+		ignoreMappings.add("hbm:item.pellet_meteorite");
+		ignoreMappings.add("hbm:item.d_smoke1");
+		ignoreMappings.add("hbm:item.d_smoke2");
+		ignoreMappings.add("hbm:item.d_smoke3");
+		ignoreMappings.add("hbm:item.d_smoke4");
+		ignoreMappings.add("hbm:item.d_smoke5");
+		ignoreMappings.add("hbm:item.d_smoke6");
+		ignoreMappings.add("hbm:item.d_smoke7");
+		ignoreMappings.add("hbm:item.d_smoke8");
+		ignoreMappings.add("hbm:item.smoke1");
+		ignoreMappings.add("hbm:item.smoke2");
+		ignoreMappings.add("hbm:item.smoke3");
+		ignoreMappings.add("hbm:item.smoke4");
+		ignoreMappings.add("hbm:item.smoke5");
+		ignoreMappings.add("hbm:item.smoke6");
+		ignoreMappings.add("hbm:item.smoke7");
+		ignoreMappings.add("hbm:item.smoke8");
+		ignoreMappings.add("hbm:item.battery_su");
+		ignoreMappings.add("hbm:item.battery_su_l");
+		ignoreMappings.add("hbm:item.redstone_depleted");
+		ignoreMappings.add("hbm:item.euphemium_stopper");
+		ignoreMappings.add("hbm:item.energy_ball");
+		ignoreMappings.add("hbm:item.discharge");
+		ignoreMappings.add("hbm:item.empblast");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

@@ -1,14 +1,9 @@
 package com.hbm.tileentity.machine.oil;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.UpgradeManager;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.ItemMachineUpgrade;
@@ -35,21 +30,19 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidSource, IFluidStandardTransceiver, IConfigurableMachine, IPersistentNBT, IGUIProvider, IUpgradeInfoProvider {
+public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IConfigurableMachine, IPersistentNBT, IGUIProvider, IUpgradeInfoProvider {
 
 	public int indicator = 0;
 	
 	public long power;
 	
-	public List<IFluidAcceptor> list1 = new ArrayList();
-	public List<IFluidAcceptor> list2 = new ArrayList();
 	public FluidTank[] tanks;
 
 	public TileEntityOilDrillBase() {
 		super(8);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.OIL, 64_000, 0);
-		tanks[1] = new FluidTank(Fluids.GAS, 64_000, 1);
+		tanks[0] = new FluidTank(Fluids.OIL, 64_000);
+		tanks[1] = new FluidTank(Fluids.GAS, 64_000);
 	}
 	
 	@Override
@@ -127,11 +120,6 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 			
 			power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 
-			if(this.worldObj.getTotalWorldTime() % 10 == 0)
-				this.fillFluidInit(tanks[0].getTankType());
-			if(this.worldObj.getTotalWorldTime() % 10 == 5)
-				this.fillFluidInit(tanks[1].getTankType());
-			
 			for(DirPos pos : getConPos()) {
 				if(tanks[0].getFill() > 0) this.sendFluid(tanks[0], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -285,62 +273,6 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 	}
 	
 	public abstract void onSuck(int x, int y, int z);
-
-	@Override
-	public boolean getTact() {
-		return this.worldObj.getTotalWorldTime() % 20 < 10;
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		for(FluidTank tank : tanks) {
-			if(type == tank.getTankType()) {
-				return tank.getFill();
-			}
-		}
-		
-		return 0;
-	}
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		for(FluidTank tank : tanks) {
-			if(type == tank.getTankType()) {
-				tank.setFill(i);
-				return;
-			}
-		}
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		if(type == tanks[0].getTankType()) return this.list1;
-		if(type == tanks[1].getTankType()) return this.list2;
-		return new ArrayList<IFluidAcceptor>();
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		if(type == tanks[0].getTankType()) list1.clear();
-		if(type == tanks[1].getTankType()) list2.clear();
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if(index < tanks.length && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if(index < tanks.length && tanks[index] != null)
-			tanks[index].setTankType(type);
-	}
 
 	@Override
 	public void setPower(long i) {

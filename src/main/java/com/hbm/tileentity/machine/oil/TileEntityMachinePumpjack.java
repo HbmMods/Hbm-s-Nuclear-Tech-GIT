@@ -8,7 +8,6 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.container.ContainerMachineOilWell;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.gui.GUIMachineOilWell;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.tileentity.IConfigurableMachine;
@@ -141,25 +140,6 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 		}
 	}
 
-	@Override
-	public void fillFluidInit(FluidType type) {
-		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-
-		int pX2 = xCoord + rot.offsetX * 2;
-		int pZ2 = zCoord + rot.offsetZ * 2;
-		int pX4 = xCoord + rot.offsetX * 4;
-		int pZ4 = zCoord + rot.offsetZ * 4;
-		int oX = Math.abs(dir.offsetX) * 2;
-		int oZ = Math.abs(dir.offsetZ) * 2;
-		
-		fillFluid(pX2 + oX, this.yCoord, pZ2 + oZ, getTact(), type);
-		fillFluid(pX2 - oX, this.yCoord, pZ2 - oZ, getTact(), type);
-		fillFluid(pX4 + oX, this.yCoord, pZ4 + oZ, getTact(), type);
-		fillFluid(pX4 - oX, this.yCoord, pZ4 - oZ, getTact(), type);
-	}
-	
 	AxisAlignedBB bb = null;
 	
 	@Override

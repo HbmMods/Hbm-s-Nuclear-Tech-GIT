@@ -425,12 +425,9 @@ public class AnvilRecipes {
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
-						new ComparableStack(ModItems.sulfur, 8),
-						new OreDictStack(STEEL.plate528(), 4),
-						new OreDictStack(AL.plate528(), 2),
+						new ComparableStack(ModItems.sulfur, 12),
 						new OreDictStack(STEEL.shell(), 4),
-						new OreDictStack(CU.plateCast(), 4),
-						new ComparableStack(ModItems.turbine_titanium, 1),
+						new OreDictStack(CU.plateCast(), 6),
 						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.BASIC.ordinal())
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_deuterium_extractor))).setTier(2));
