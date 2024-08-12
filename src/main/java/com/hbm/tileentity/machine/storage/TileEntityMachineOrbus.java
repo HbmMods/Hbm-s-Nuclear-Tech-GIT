@@ -1,7 +1,6 @@
 package com.hbm.tileentity.machine.storage;
 
 import com.hbm.blocks.BlockDummyable;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
@@ -23,20 +22,6 @@ public class TileEntityMachineOrbus extends TileEntityBarrel {
 	@Override
 	public void checkFluidInteraction() { } //NO!
 
-	@Override
-	public void fillFluidInit(FluidType type) {
-		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
-		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-
-		for(int i = -1; i < 6; i += 6) {
-			this.fillFluid(xCoord, yCoord + i, zCoord, this.getTact(), this.tank.getTankType());
-			this.fillFluid(xCoord + dir.offsetX, yCoord + i, zCoord + dir.offsetZ, this.getTact(), this.tank.getTankType());
-			this.fillFluid(xCoord + rot.offsetX, yCoord + i, zCoord + rot.offsetZ, this.getTact(), this.tank.getTankType());
-			this.fillFluid(xCoord + dir.offsetX + rot.offsetX, yCoord + i, zCoord + dir.offsetZ + rot.offsetZ, this.getTact(), this.tank.getTankType());
-		}
-	}
-	
 	protected DirPos[] conPos;
 	
 	@Override

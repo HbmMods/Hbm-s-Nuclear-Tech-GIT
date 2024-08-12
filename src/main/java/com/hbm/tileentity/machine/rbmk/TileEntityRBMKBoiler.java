@@ -9,8 +9,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
+import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerRBMKGeneric;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -34,15 +33,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidContainer, IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
 	
 	public FluidTank feed;
 	public FluidTank steam;
-	public List<IFluidAcceptor> list = new ArrayList();
 	protected int consumption;
 	protected int output;
 	
@@ -103,8 +98,6 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 				this.heat -= waterUsed * HEAT_PER_MB_WATER;
 			}
 			
-			fillFluidInit(steam.getTankType());
-			
 			this.trySubscribe(feed.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			for(DirPos pos : getOutputPos()) {
 				if(this.steam.getFill() > 0) this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -128,31 +121,6 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		if(type == Fluids.SUPERHOTSTEAM) return 100D;
 		if(type == Fluids.ULTRAHOTSTEAM) return 1000D;
 		return 0D;
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-
-		fillFluid(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, getTact(), type);
-		
-		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
-
-			fillFluid(this.xCoord + 1, this.yCoord - 1, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord - 1, this.yCoord - 1, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord + 1, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord - 1, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord, getTact(), type);
-		}
-		
-		if(worldObj.getBlock(xCoord, yCoord - 2, zCoord) == ModBlocks.rbmk_loader) {
-
-			fillFluid(this.xCoord + 1, this.yCoord - 2, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord - 1, this.yCoord - 2, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord + 1, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord - 1, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 3, this.zCoord, getTact(), type);
-		}
 	}
 	
 	protected DirPos[] getOutputPos() {
@@ -183,46 +151,6 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	}
 
 	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-	
-	@Override
-	@Deprecated //why are we still doing this?
-	public boolean getTact() { return worldObj.getTotalWorldTime() % 2 == 0; }
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		
-		if(type == feed.getTankType())
-			feed.setFill(i);
-		else if(type == steam.getTankType())
-			steam.setFill(i);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		
-		if(type == feed.getTankType())
-			return feed.getFill();
-		else if(type == steam.getTankType())
-			return steam.getFill();
-		
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		
-		if(type == feed.getTankType())
-			return feed.getMaxFill();
-		else if(type == steam.getTankType())
-			return steam.getMaxFill();
-		
-		return 0;
-	}
-
-	@Override
 	public void setFillForSync(int fill, int index) {
 
 		if(index == 0)
@@ -238,16 +166,6 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 			feed.setTankType(type);
 		else if(index == 1)
 			steam.setTankType(type);
-	}
-	
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return list;
-	}
-	
-	@Override
-	public void clearFluidList(FluidType type) {
-		list.clear();
 	}
 	
 	@Override

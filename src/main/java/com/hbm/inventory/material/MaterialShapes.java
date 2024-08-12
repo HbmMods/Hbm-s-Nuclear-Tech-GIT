@@ -11,6 +11,7 @@ public class MaterialShapes {
 	
 	public static final MaterialShapes QUANTUM = new MaterialShapes(1); // 1/72 of an ingot, allows the ingot to be divisible through 2, 4, 6, 8, 9, 12, 24 and 36
 	public static final MaterialShapes NUGGET = new MaterialShapes(8, "nugget");
+	public static final MaterialShapes FRAGMENT = new MaterialShapes(8, "bedrockorefragment");
 	public static final MaterialShapes DUSTTINY = new MaterialShapes(NUGGET.quantity, "dustTiny");
 	public static final MaterialShapes WIRE = new MaterialShapes(9, "wireFine");
 	public static final MaterialShapes BOLT = new MaterialShapes(9, "bolt");

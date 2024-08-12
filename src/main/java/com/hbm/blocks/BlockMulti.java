@@ -31,8 +31,4 @@ public abstract class BlockMulti extends BlockBase implements IBlockMulti {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
-	
-	public String getUnlocalizedName(ItemStack stack) {
-		return this.getUnlocalizedName();
-	}
 }

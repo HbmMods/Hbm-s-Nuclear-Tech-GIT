@@ -1,8 +1,6 @@
 package com.hbm.items.machine;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -12,7 +10,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PlayerInformPacket;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.conductor.TileEntityFluidDuctSimple;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.I18nUtil;
 
@@ -26,10 +23,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IItemControlReceiver, IGUIProvider {
 
@@ -146,80 +141,6 @@ public class ItemFluidIDMulti extends Item implements IItemFluidIdentifier, IIte
 		
 		int type = stack.stackTagCompound.getInteger("fluid" + (primary ? 1 : 2));
 		return Fluids.fromID(type);
-	}
-	
-	/*
-	 * CRAPPY COMPAT SECTION
-	 */
-
-	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f1, float f2, float f3) {
-		TileEntity te = world.getTileEntity(x, y, z);
-		if(te instanceof TileEntityFluidDuctSimple) {
-
-			TileEntityFluidDuctSimple duct = (TileEntityFluidDuctSimple) te;
-			
-			if(!world.isRemote) {
-				FluidType type = getType(world, x, y ,z, stack);
-				
-				if (player.isSneaking()) {
-					markDuctsRecursively(world, x, y, z, type);
-				} else {
-					duct.setType(type);
-				}
-			}
-			
-			world.markBlockForUpdate(x, y, z);
-
-			player.swingItem();
-			return true;
-		}
-		return false;
-	}
-
-	private void markDuctsRecursively(World world, int x, int y, int z, FluidType type) {
-		markDuctsRecursively(world, x, y, z, type, 64);
-	}
-
-	@Deprecated
-	private void markDuctsRecursively(World world, int x, int y, int z, FluidType type, int maxRecursion) {
-		TileEntity start = world.getTileEntity(x, y, z);
-		
-		if (!(start instanceof TileEntityFluidDuctSimple))
-			return;
-		
-		TileEntityFluidDuctSimple startDuct = (TileEntityFluidDuctSimple) start;
-		FluidType oldType = startDuct.getType();
-		
-		if (oldType == type)
-			return; // prevent infinite loops
-		
-		startDuct.setType(type);
-
-		directionLoop: for (ForgeDirection direction : ForgeDirection.values()) {
-			for (int currentRecursion = 1; currentRecursion <= maxRecursion; currentRecursion++) {
-				
-				int nextX = x + direction.offsetX * currentRecursion;
-				int nextY = y + direction.offsetY * currentRecursion;
-				int nextZ = z + direction.offsetZ * currentRecursion;
-
-				TileEntity te = world.getTileEntity(nextX, nextY, nextZ);
-				if (te instanceof TileEntityFluidDuctSimple && ((TileEntityFluidDuctSimple) te).getType() == oldType) {
-					
-					TileEntityFluidDuctSimple nextDuct = (TileEntityFluidDuctSimple) te;
-					long connectionsCount = Arrays.stream(nextDuct.connections).filter(Objects::nonNull).count(); // (o -> Objects.nonNull(o))
-					
-					if (connectionsCount > 1) {
-						markDuctsRecursively(world, nextX, nextY, nextZ, type, maxRecursion - currentRecursion);
-						continue directionLoop;
-					} else {
-						nextDuct.setType(type);
-					}
-				} else {
-					break;
-				}
-			}
-		}
 	}
 
 	@Override

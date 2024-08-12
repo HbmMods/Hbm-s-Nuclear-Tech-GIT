@@ -6,9 +6,7 @@ import java.util.List;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.container.ContainerMachineOilWell;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineOilWell;
@@ -30,7 +28,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase implements IFluidAcceptor {
+public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase {
 
 	protected static int maxPower = 5_000_000;
 	protected static int consumption = 5000;
@@ -48,9 +46,9 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 	public TileEntityMachineFrackingTower() {
 		super();
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(Fluids.OIL, 64_000, 0);
-		tanks[1] = new FluidTank(Fluids.GAS, 64_000, 1);
-		tanks[2] = new FluidTank(Fluids.FRACKSOL, 64_000, 2);
+		tanks[0] = new FluidTank(Fluids.OIL, 64_000);
+		tanks[1] = new FluidTank(Fluids.GAS, 64_000);
+		tanks[2] = new FluidTank(Fluids.FRACKSOL, 64_000);
 	}
 
 	@Override
@@ -132,19 +130,6 @@ public class TileEntityMachineFrackingTower extends TileEntityOilDrillBase imple
 		this.tanks[2].setFill(tanks[2].getFill() - solutionRequired);
 
 		OilSpot.generateOilSpot(worldObj, xCoord, zCoord, destructionRange, 10, false);
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord - 1, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord + 1, getTact(), type);
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		return type == tanks[2].getTankType() ? tanks[2].getMaxFill() : 0;
 	}
 
 	@Override

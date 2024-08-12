@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ItemEnums.EnumAshType;
+import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.items.ModItems;
 
 import net.minecraft.item.ItemStack;
@@ -26,7 +27,7 @@ public class EntityMissileStealth extends EntityMissileBaseNT {
 	@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_stealth); }
 	@Override public boolean canBeSeenBy(Object radar) { return false; }
 	
-	@Override public void onImpact() { this.explodeStandard(20F, 24, false, true); }
+	@Override public void onImpact() { this.explodeStandard(20F, 24, false); ExplosionCreator.composeEffectStandard(worldObj, posX, posY, posZ); }
 	@Override public ItemStack getDebrisRareDrop() { return DictFrame.fromOne(ModItems.powder_ash, EnumAshType.MISC); }
 
 }

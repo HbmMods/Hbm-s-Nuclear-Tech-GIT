@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine.storage;
 
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -42,18 +41,6 @@ public class TileEntityMachineBAT9000 extends TileEntityBarrel {
 		};
 	}
 
-	@Override
-	public void fillFluidInit(FluidType type) {
-		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord + 3, getTact(), type);
-		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord + 3, getTact(), type);
-		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord - 3, getTact(), type);
-		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord - 3, getTact(), type);
-		fillFluid(this.xCoord + 3, this.yCoord, this.zCoord + 1, getTact(), type);
-		fillFluid(this.xCoord - 3, this.yCoord, this.zCoord + 1, getTact(), type);
-		fillFluid(this.xCoord + 3, this.yCoord, this.zCoord - 1, getTact(), type);
-		fillFluid(this.xCoord - 3, this.yCoord, this.zCoord - 1, getTact(), type);
-	}
-	
 	AxisAlignedBB bb = null;
 	
 	@Override

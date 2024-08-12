@@ -7,13 +7,9 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidDuct;
-import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
-import com.hbm.tileentity.TileEntityProxyInventory;
 
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyConnectorBlock;
@@ -106,26 +102,6 @@ public class Library {
 			if(con.canConnect(type, dir.getOpposite() /* machine's connecting side */))
 				return true;
 		}
-		
-		return false;
-	}
-	
-	public static boolean checkFluidConnectables(World world, int x, int y, int z, FluidType type)
-	{
-		TileEntity tileentity = world.getTileEntity(x, y, z);
-		if(tileentity != null && tileentity instanceof IFluidDuct && ((IFluidDuct)tileentity).getType() == type)
-			return true;
-		if((tileentity != null && (tileentity instanceof IFluidAcceptor || 
-				tileentity instanceof IFluidSource)) || 
-				world.getBlock(x, y, z) == ModBlocks.fusion_hatch ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_compact_launcher ||
-				world.getBlock(x, y, z) == ModBlocks.dummy_port_launch_table ||
-				world.getBlock(x, y, z) == ModBlocks.rbmk_loader) {
-			return true;
-		}
-		
-		if(world.getBlock(x, y, z) == ModBlocks.machine_mining_laser && tileentity instanceof TileEntityProxyInventory)
-			return true;
 		
 		return false;
 	}
@@ -318,8 +294,6 @@ public class Library {
 		 * You won't be missed.
 		 */
 	}
-	
-	public static void transmitFluid(int x, int y, int z, boolean newTact, IFluidSource that, World worldObj, FluidType type) { }
 	
 	public static boolean isArrayEmpty(Object[] array) {
 		if(array == null)

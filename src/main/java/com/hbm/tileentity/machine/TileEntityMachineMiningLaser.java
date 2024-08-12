@@ -1,13 +1,11 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
+import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMiningLaser;
 import com.hbm.inventory.fluid.FluidType;
@@ -54,14 +52,13 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidSource, IMiningDrill, IFluidStandardSender, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidContainer, IMiningDrill, IFluidStandardSender, IGUIProvider, IUpgradeInfoProvider {
 	
 	public long power;
 	public int age = 0;
 	public static final long maxPower = 100000000;
 	public static final int consumption = 10000;
 	public FluidTank tank;
-	public List<IFluidAcceptor> list = new ArrayList();
 
 	public boolean isOn;
 	public int targetX;
@@ -94,14 +91,6 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		if(!worldObj.isRemote) {
 			
 			this.updateConnections();
-
-			age++;
-			if (age >= 20) {
-				age = 0;
-			}
-
-			if (age == 9 || age == 19)
-				fillFluidInit(tank.getTankType());
 
 			this.sendFluid(tank, worldObj, xCoord + 2, yCoord, zCoord, Library.POS_X);
 			this.sendFluid(tank, worldObj, xCoord - 2, yCoord, zCoord, Library.NEG_X);
@@ -623,54 +612,8 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		if(type == Fluids.OIL)
-			tank.setFill(fill);
-	}
-
-	@Override
 	public void setTypeForSync(FluidType type, int index) {
 		tank.setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		if(type == Fluids.OIL)
-			return tank.getFill();
-		return 0;
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-
-		fillFluid(xCoord + 2, yCoord, zCoord, this.getTact(), type);
-		fillFluid(xCoord - 2, yCoord, zCoord, this.getTact(), type);
-		fillFluid(xCoord, yCoord, zCoord + 2, this.getTact(), type);
-		fillFluid(xCoord, yCoord, zCoord - 2, this.getTact(), type);
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		if (age >= 0 && age < 10) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return list;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		list.clear();
 	}
 
 	@Override

@@ -13,19 +13,14 @@ import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.handler.CompatHandler;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerReactorZirnox;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIReactorZirnox;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemZirnoxRod;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
-import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -53,16 +48,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityReactorZirnox extends TileEntityMachineBase implements IFluidContainer, IFluidAcceptor, IFluidSource, IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityReactorZirnox extends TileEntityMachineBase implements IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
 
 	public int heat;
 	public static final int maxHeat = 100000;
 	public int pressure;
 	public static final int maxPressure = 100000;
 	public boolean isOn = false;
-
-	public List<IFluidAcceptor> list = new ArrayList<IFluidAcceptor>();
-	public byte age;
 
 	public FluidTank steam;
 	public FluidTank carbonDioxide;
@@ -88,9 +80,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 
 	public TileEntityReactorZirnox() {
 		super(28);
-		steam = new FluidTank(Fluids.SUPERHOTSTEAM, 8000, 0);
-		carbonDioxide = new FluidTank(Fluids.CARBONDIOXIDE, 16000, 1);
-		water = new FluidTank(Fluids.WATER, 32000, 2);
+		steam = new FluidTank(Fluids.SUPERHOTSTEAM, 8000);
+		carbonDioxide = new FluidTank(Fluids.CARBONDIOXIDE, 16000);
+		water = new FluidTank(Fluids.WATER, 32000);
 	}
 
 	@Override
@@ -193,15 +185,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		if(!worldObj.isRemote) {
 
 			this.output = 0;
-			age++;
-
-			if (age >= 20) {
-				age = 0;
-			}
-
-			if(age == 9 || age == 19) {
-				fillFluidInit(steam.getTankType());
-			}
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				this.updateConnections();
@@ -395,23 +378,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		}
 	}
 
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		fillFluid(this.xCoord + rot.offsetX * 3, this.yCoord + 1, this.zCoord + rot.offsetZ * 3, getTact(), type);
-		fillFluid(this.xCoord + rot.offsetX * 3, this.yCoord + 3, this.zCoord + rot.offsetZ * 3, getTact(), type);
-
-		fillFluid(this.xCoord + rot.offsetX * -3, this.yCoord + 1, this.zCoord + rot.offsetZ * -3, getTact(), type);
-		fillFluid(this.xCoord + rot.offsetX * -3, this.yCoord + 3, this.zCoord + rot.offsetZ * -3, getTact(), type);
-	}
-	
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {
 			this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -431,59 +397,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		};
 	}
 
-	public boolean getTact() {
-		if(age >= 0 && age < 10) {
-			return true;
-		}
-
-		return false;
-	}
-
-	public int getMaxFluidFill(FluidType type) {
-		if(type == Fluids.SUPERHOTSTEAM) return 0;
-		if(type == Fluids.CARBONDIOXIDE) return carbonDioxide.getMaxFill();
-		if(type == Fluids.WATER) return water.getMaxFill();
-		
-		return 0;
-	}
-
-	public void setFluidFill(int i, FluidType type) {
-		if(type == Fluids.SUPERHOTSTEAM) steam.setFill(i);
-		if(type == Fluids.CARBONDIOXIDE) carbonDioxide.setFill(i);
-		if(type == Fluids.WATER) water.setFill(i);
-	}
-
-	public int getFluidFill(FluidType type) {
-		if(type == Fluids.SUPERHOTSTEAM) return steam.getFill();
-		if(type == Fluids.CARBONDIOXIDE) return carbonDioxide.getFill();
-		if(type == Fluids.WATER) return water.getFill();
-		return 0;
-	}
-
-	public void setFillForSync(int fill, int index) {
-		switch (index) {
-		case 0: steam.setFill(fill);
-			break;
-		case 1: carbonDioxide.setFill(fill);
-			break;
-		case 2: water.setFill(fill);
-			break;
-		default: break;
-		}
-	}
-
-	public void setTypeForSync(FluidType type, int index) {
-		switch (index) {
-		case 0: steam.setTankType(type);
-			break;
-		case 1: carbonDioxide.setTankType(type);
-			break;
-		case 2: water.setTankType(type);
-			break;
-		default: break;
-		}
-	}
-
 	public List<FluidTank> getTanks() {
 		List<FluidTank> list = new ArrayList<FluidTank>();
 		list.add(steam);
@@ -491,14 +404,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IF
 		list.add(water);
 
 		return list;
-	}
-
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return list;
-	}
-
-	public void clearFluidList(FluidType type) {
-		list.clear();
 	}
 
 	public AxisAlignedBB getRenderBoundingBox() {

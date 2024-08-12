@@ -64,6 +64,7 @@
     "block.fusionReactorRunning": {"category": "block", "sounds": [{"name": "block/fusionReactorSpin", "stream": false}]},
     "block.fel": {"category":  "block", "sounds":  [{"name": "block/fel", "stream":  false}]},
     "block.hephaestusRunning": {"category": "block", "sounds": [{"name": "block/hephaestusRunning", "stream": false}]},
+    "block.squeakyToy": {"category": "block", "sounds": [{"name": "block/squeakyToy", "stream": false}]},
     
     "door.TransitionSealOpen": {"category": "block", "sounds": [{"name": "block/door/transition_seal_open", "stream": true}]},
     "door.wghStart": {"category": "block", "sounds": [{"name": "block/door/wgh_start", "stream": true}]},
