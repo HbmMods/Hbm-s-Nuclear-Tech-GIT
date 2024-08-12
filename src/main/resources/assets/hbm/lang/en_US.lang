@@ -3637,6 +3637,7 @@ item.mp_thruster_20_methalox_triple.name=Size 20 Methalox Triple Thrusters
 item.mp_thruster_20_solid.name=Size 20 Solid Fuel Thruster
 item.mp_thruster_20_solid_multi.name=Size 20 Solid Fuel 30-Fold Thrusters
 item.mp_thruster_20_solid_multier.name=Size 20 Solid Fuel 47-Fold Thrusters
+item.mp_thruster_20_hydrazine.name=Size 20 Hydrazine Thruster
 item.mp_warhead_10_buster.name=Size 10 Bunker Buster Warhead
 item.mp_warhead_10_cloud.name=Size 10 Pink Cloud Warhead
 item.mp_warhead_10_he.name=Size 10 HE Warhead
