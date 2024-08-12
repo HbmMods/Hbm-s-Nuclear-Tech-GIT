@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
@@ -167,16 +168,16 @@ public class ArmorUtil {
 		return false;
 	}
 
-	public static boolean checkForOxy(EntityLivingBase entity) {
-		if(!(entity instanceof EntityPlayer)) return ChunkAtmosphereManager.proxy.canBreathe(entity);
+	public static boolean checkForOxy(EntityLivingBase entity, CBT_Atmosphere atmosphere) {
+		if(!(entity instanceof EntityPlayer)) return ChunkAtmosphereManager.proxy.canBreathe(atmosphere);
 
 		ItemStack tank = getOxygenTank((EntityPlayer)entity);
-		if(tank == null) return ChunkAtmosphereManager.proxy.canBreathe(entity);
+		if(tank == null) return ChunkAtmosphereManager.proxy.canBreathe(atmosphere);
 
 		// If we have an oxygen tank, block drowning
 		entity.setAir(300);
 
-		return ((ItemModOxy)tank.getItem()).attemptBreathing(entity, tank);
+		return ((ItemModOxy)tank.getItem()).attemptBreathing(entity, tank, atmosphere);
 	}
 
 	public static ItemStack getOxygenTank(EntityPlayer player) {
@@ -201,8 +202,8 @@ public class ArmorUtil {
 		return null;
 	}
 
-	public static boolean checkForCorrosion(EntityLivingBase entity) {
-		if(!ChunkAtmosphereManager.proxy.willCorrode(entity)) return false;
+	public static boolean checkForCorrosion(EntityLivingBase entity, CBT_Atmosphere atmosphere) {
+		if(!ChunkAtmosphereManager.proxy.willCorrode(atmosphere)) return false;
 
 		if(!(entity instanceof EntityPlayer)) return true;
 		EntityPlayer player = (EntityPlayer) entity;

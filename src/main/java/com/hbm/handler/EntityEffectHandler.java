@@ -8,6 +8,7 @@ import com.hbm.config.BombConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.config.WorldConfig;
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.glyphid.EntityGlyphid;
@@ -16,6 +17,7 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.extprop.HbmLivingProps.ContaminationEffect;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -118,6 +120,11 @@ public class EntityEffectHandler {
 			if(radiation > 0) {
 				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, radiation / 20F);
 			}
+			
+			CBT_Atmosphere atmosphere = getAtmosphereCached(entity);
+
+			handleOxy(entity, atmosphere);
+			handleCorrosion(entity, atmosphere);
 		}
 
 		handleContamination(entity);
@@ -128,8 +135,6 @@ public class EntityEffectHandler {
 		handleOil(entity);
 		handlePollution(entity);
 		handleTemperature(entity);
-		handleOxy(entity);
-		handleCorrosion(entity);
 		handleDashing(entity);
 		handlePlinking(entity);
 		
@@ -177,6 +182,17 @@ public class EntityEffectHandler {
 			
 			if(!player.worldObj.isRemote) ArmorUtil.resetFlightTime(player);
 		}
+	}
+
+	private static CBT_Atmosphere getAtmosphereCached(EntityLivingBase entity) {
+		// Update non-player entities once per second
+		if(entity instanceof EntityPlayerMP || entity.ticksExisted % 20 == 0) {
+			CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(entity);
+			HbmLivingProps.setAtmosphere(entity, atmosphere);
+			return atmosphere;
+		}
+
+		return HbmLivingProps.getAtmosphere(entity);
 	}
 	
 	private static void handleContamination(EntityLivingBase entity) {
@@ -296,13 +312,13 @@ public class EntityEffectHandler {
 		}
 	}
 
-	private static void handleOxy(EntityLivingBase entity) {
+	private static void handleOxy(EntityLivingBase entity, CBT_Atmosphere atmosphere) {
 		if(entity.worldObj.isRemote) return;
 		if(entity instanceof EntityGlyphid) return; // can't suffocate the bastards
 		if(entity instanceof EntityCyberCrab) return; // machines
 		if(entity.ridingEntity != null && entity.ridingEntity instanceof EntityRideableRocket) return; // breathe easy in your ship
 
-		if (!ArmorUtil.checkForOxy(entity)) {
+		if (!ArmorUtil.checkForOxy(entity, atmosphere)) {
 			HbmLivingProps.setOxy(entity, HbmLivingProps.getOxy(entity) - 1);
 		} else {
 			HbmLivingProps.setOxy(entity, 100); // 5 seconds until vacuum damage
@@ -310,7 +326,7 @@ public class EntityEffectHandler {
 	}
 
 	// Corrosive atmospheres melt your suit, without appropriate protection
-	private static void handleCorrosion(EntityLivingBase entity) {
+	private static void handleCorrosion(EntityLivingBase entity, CBT_Atmosphere atmosphere) {
 		if(entity.worldObj.isRemote) return;
 		if(entity instanceof EntityGlyphid) return;
 		if(entity instanceof EntityCyberCrab) return;
@@ -318,7 +334,7 @@ public class EntityEffectHandler {
 
 		// If we should corrode but we have armor, damage it heavily
 		// once it runs out of juice, fizzle it and start damaging the player
-		if(ArmorUtil.checkForCorrosion(entity)) {
+		if(ArmorUtil.checkForCorrosion(entity, atmosphere)) {
 			entity.attackEntityFrom(ModDamageSource.acid, 1);
 		}
 	}
