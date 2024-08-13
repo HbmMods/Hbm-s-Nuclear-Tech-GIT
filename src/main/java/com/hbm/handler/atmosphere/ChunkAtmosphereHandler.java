@@ -41,7 +41,7 @@ public class ChunkAtmosphereHandler {
 	 * Methods to get information about the current atmosphere
 	 */
 	public CBT_Atmosphere getAtmosphere(Entity entity) {
-		return getAtmosphere(entity.worldObj, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ), null);
+		return getAtmosphere(entity.worldObj, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY + entity.getEyeHeight()), MathHelper.floor_double(entity.posZ), null);
 	}
 
 	public CBT_Atmosphere getAtmosphere(World world, int x, int y, int z) {
