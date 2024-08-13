@@ -698,6 +698,9 @@ public class OreDictManager {
 		OreDictionary.registerOre(KEY_COBBLESTONE, moho_regolith);
 		OreDictionary.registerOre(KEY_STONE, moho_stone);
 		OreDictionary.registerOre(KEY_COBBLESTONE, moon_rock);
+		OreDictionary.registerOre(KEY_COBBLESTONE, minmus_regolith);
+		OreDictionary.registerOre(KEY_STONE, minmus_smooth);
+		OreDictionary.registerOre(KEY_STONE, minmus_stone);
 		
 		//Legacy wires
 		OreDictionary.registerOre(AL.wireFine(), wire_aluminium);
