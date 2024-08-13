@@ -297,18 +297,22 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(nbt, "t" + i);
 	}
 
+	public void unlinkTransporter() {
+		if(linkedTransporter != null) {
+			linkedTransporter.linkedTransporter = null;
+			linkedTransporter.linkedTransporterInfo = null;
+		}
+
+		linkedTransporter = null;
+		linkedTransporterInfo = null;
+	}
+
 	// Is commutative, will automatically link and unlink its pair
 	@Override
 	public void receiveControl(NBTTagCompound nbt) {
 		if(nbt.hasKey("name")) name = nbt.getString("name");
 		if(nbt.hasKey("unlink")) {
-			if(linkedTransporter != null) {
-				linkedTransporter.linkedTransporter = null;
-				linkedTransporter.linkedTransporterInfo = null;
-			}
-
-			linkedTransporter = null;
-			linkedTransporterInfo = null;
+			unlinkTransporter();
 		}
 		if(nbt.hasKey("linkedTo")) {
 			// If already linked, unlink the target
