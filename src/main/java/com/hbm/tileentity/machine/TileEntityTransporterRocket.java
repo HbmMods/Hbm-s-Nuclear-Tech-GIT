@@ -16,6 +16,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -23,7 +24,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.obj.Face;
 
 public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 
@@ -126,17 +126,17 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 	}
 
 	@Override
-	public void networkPack(NBTTagCompound nbt, int range) {
-		nbt.setBoolean("rocket", hasRocket);
-		nbt.setInteger("threshold", threshold);
-		super.networkPack(nbt, range);
+	public void serialize(ByteBuf buf) {
+		buf.writeBoolean(hasRocket);
+		buf.writeInt(threshold);
+		super.serialize(buf);
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		hasRocket = nbt.getBoolean("rocket");
-		threshold = nbt.getInteger("threshold");
+	public void deserialize(ByteBuf buf) {
+		hasRocket = buf.readBoolean();
+		threshold = buf.readInt();
+		super.deserialize(buf);
 	}
 
 	@Override

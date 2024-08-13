@@ -10,14 +10,15 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.tool.ItemTransporterLinker.TransporterInfo;
 import com.hbm.packet.NBTControlPacket;
-import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -153,8 +154,7 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 			}
 		}
 
-		NBTTagCompound data = new NBTTagCompound();
-		this.networkPack(data, 250);
+		this.networkPackNT(250);
 	}
 
 	private void updateConnections() {
@@ -187,29 +187,42 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 	}
 
 	@Override
-	public void networkPack(NBTTagCompound nbt, int range) {
-		nbt.setString("name", name);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
 		if(linkedTransporterInfo != null) {
-			nbt.setInteger("dimensionId", linkedTransporterInfo.dimensionId);
-			nbt.setIntArray("linkedTo", new int[] { linkedTransporterInfo.x, linkedTransporterInfo.y, linkedTransporterInfo.z });
+			buf.writeBoolean(true);
+			buf.writeInt(linkedTransporterInfo.dimensionId);
+			buf.writeInt(linkedTransporterInfo.x);
+			buf.writeInt(linkedTransporterInfo.y);
+			buf.writeInt(linkedTransporterInfo.z);
+		} else {
+			buf.writeBoolean(false);
 		}
-		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(nbt, "t" + i);
-		super.networkPack(nbt, range);
+
+		for(int i = 0; i < tanks.length; i++) tanks[i].serialize(buf);
+
+		BufferUtil.writeString(buf, name);
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		name = nbt.getString("name");
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
 		linkedTransporter = null;
-		int dimensionId = nbt.getInteger("dimensionId");
-		int[] coords = nbt.getIntArray("linkedTo");
-		if(coords.length > 0) {
-			linkedTransporterInfo = new TransporterInfo("Linked Transporter", dimensionId, coords[0], coords[1], coords[2]);
+		if(buf.readBoolean()) {
+			int id = buf.readInt();
+			int x = buf.readInt();
+			int y = buf.readInt();
+			int z = buf.readInt();
+			linkedTransporterInfo = new TransporterInfo("Linked Transporter", id, x, y, z);
 		} else {
 			linkedTransporterInfo = null;
 		}
-		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
+
+		for(int i = 0; i < tanks.length; i++) tanks[i].deserialize(buf);
+
+		name = BufferUtil.readString(buf);
 	}
 
 	protected abstract DirPos[] getConPos();
