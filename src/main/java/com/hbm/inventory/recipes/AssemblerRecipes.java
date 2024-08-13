@@ -714,12 +714,12 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.motor, 1),
 			}, 300);
 		
-		makeRecipe(new ComparableStack(ModBlocks.transporter_rocket, 1), new AStack[] {
+		makeRecipe(new ComparableStack(ModBlocks.transporter_rocket, 2), new AStack[] {
 				new OreDictStack(TI.plateWelded(), 4),
-				new ComparableStack(ModBlocks.crate_iron, 2), 
+				new ComparableStack(ModBlocks.crate_iron, 2),
 				//new ComparableStack(ModItems.circuit, 1, EnumCircuitType.AREO), //gate,
 				new ComparableStack(ModItems.tank_steel, 8),
-				new ComparableStack(ModItems.thruster_small, 1), 
+				new ComparableStack(ModItems.thruster_small, 1),
 				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.AVIONICS),
 
 			}, 300);
