@@ -68,7 +68,7 @@ public class BlockDirt extends Block {
 				world.setBlock(x, y, z, Blocks.grass);
 				if(world.getBlock(x, y-1, z)==Blocks.dirt)
 				{
-					world.setBlock(x, y-1, z, ModBlocks.qq_dirt);
+					world.setBlock(x, y-1, z, ModBlocks.impact_dirt);
 				}
 			}
 		}
