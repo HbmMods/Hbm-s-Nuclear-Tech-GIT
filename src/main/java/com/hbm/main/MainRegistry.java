@@ -1392,6 +1392,12 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.energy_ball");
 		ignoreMappings.add("hbm:item.discharge");
 		ignoreMappings.add("hbm:item.empblast");
+		ignoreMappings.add("hbm:tile.crystal_power");
+		ignoreMappings.add("hbm:tile.crystal_energy");
+		ignoreMappings.add("hbm:tile.crystal_robust");
+		ignoreMappings.add("hbm:tile.crystal_trixite");
+		ignoreMappings.add("hbm:tile.hazmat");
+		ignoreMappings.add("hbm:item.pellet_coal");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

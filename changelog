@@ -2,6 +2,7 @@
 * Plushies
 
 ## Changed
+* Updated chinese localization
 * The fluid burner, heat exchanging heater and cooling tower now use the single steel pipe items instead of the larger steel pipes
 * Reduced the amount of condensers needed for crafting the cooling towers
 * Liquefactors and solidifiers now have a base processing time of 5 seconds per operation (instead of 10)
@@ -17,6 +18,7 @@
 * Decreased hardness of slag blocks
 * Removed legacy circuits
 * Removed a bunch of random unused items
+* Centrifuges are now configurable via `hbmMachines.json`
 
 ## Fixed
 * Fixed crash caused by decontaminating items with the radiolysis machine
@@ -27,6 +29,7 @@
 * Fixed radiolysis recipes not showing up in NEI unless the usage recipes are loaded first
 * Fixed autocrafter's grid not properly updating when using NEI drag and drop for the filter
 * Fixed all carbon-based crucible materials having the wrong ID, this fix will shift IDs but prevent collisions with silicon
-* Fixed primary bedrock ore fraction roasing yielding one extra pile of crumbs
+* Fixed primary bedrock ore fraction roasting yielding one extra pile of crumbs
 * Fixed filing cabinets being unreasonably laggy due to the old packet code
 * Fixed the secure access door taking way longer to craft than any other door
+* Fixed issues with the spotlight crafting recipes
