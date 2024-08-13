@@ -170,8 +170,11 @@ public class ArmorUtil {
 
 	public static boolean checkForOxy(EntityLivingBase entity, CBT_Atmosphere atmosphere) {
 		if(!(entity instanceof EntityPlayer)) return ChunkAtmosphereManager.proxy.canBreathe(atmosphere);
+		EntityPlayer player = (EntityPlayer) entity;
 
-		ItemStack tank = getOxygenTank((EntityPlayer)entity);
+		if(player.capabilities.isCreativeMode) return true;
+
+		ItemStack tank = getOxygenTank(player);
 		if(tank == null) return ChunkAtmosphereManager.proxy.canBreathe(atmosphere);
 
 		// If we have an oxygen tank, block drowning
