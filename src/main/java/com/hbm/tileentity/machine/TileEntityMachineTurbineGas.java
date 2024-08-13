@@ -606,7 +606,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setThrottle(Context context, Arguments args) {
-		throttle = args.checkInteger(0);
+		powerSliderPos = (int) (args.checkInteger(0) * 60D / 100D);
 		return new Object[] {};
 	}
 
@@ -620,15 +620,14 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] start(Context context, Arguments args) {
-		stopIfNotReady();
-		startup();
+		state = -1;
 		return new Object[] {};
 	}
 
 	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] stop(Context context, Arguments args) {
-		shutdown();
+		state = 0;
 		return new Object[] {};
 	}
 
@@ -665,41 +664,27 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
 		switch(method) {
 			case ("getFluid"):
-				return new Object[] {
-						tanks[0].getFill(), tanks[0].getMaxFill(),
-						tanks[1].getFill(), tanks[1].getMaxFill(),
-						tanks[2].getFill(), tanks[2].getMaxFill(),
-						tanks[3].getFill(), tanks[3].getMaxFill()
-				};
+				return getFluid(context, args);
 			case ("getType"):
-				return new Object[] {tanks[0].getTankType().getName()};
+				return getType(context, args);
 			case ("getPower"):
-				return new Object[] {power};
+				return getPower(context, args);
 			case ("getThrottle"):
-				return new Object[] {throttle};
+				return getThrottle(context, args);
 			case ("getState"):
-				return new Object[] {state};
+				return getState(context, args);
 			case ("getAuto"):
-				return new Object[] {autoMode};
+				return getAuto(context, args);
 			case ("setThrottle"):
-				throttle = args.checkInteger(0);
-				return new Object[] {};
+				return setThrottle(context, args);
 			case ("setAuto"):
-				autoMode = args.checkBoolean(0);
-				return new Object[] {};
+				return setAuto(context, args);
 			case ("start"):
-				stopIfNotReady();
-				startup();
-				return new Object[] {};
+				return start(context, args);
 			case ("stop"):
-				shutdown();
-				return new Object[] {};
+				return stop(context, args);
 			case ("getInfo"):
-				return new Object[] {throttle, state,
-						tanks[0].getFill(), tanks[0].getMaxFill(),
-						tanks[1].getFill(), tanks[1].getMaxFill(),
-						tanks[2].getFill(), tanks[2].getMaxFill(),
-						tanks[3].getFill(), tanks[3].getMaxFill()};
+				return getInfo(context, args);
 		}
 		throw new NoSuchMethodException();
 	}
