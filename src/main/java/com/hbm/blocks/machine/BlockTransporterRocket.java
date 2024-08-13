@@ -4,6 +4,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.items.ModItems;
 import com.hbm.main.ChunkLoaderManager;
 import com.hbm.tileentity.TileEntityProxyCombo;
+import com.hbm.tileentity.machine.TileEntityTransporterBase;
 import com.hbm.tileentity.machine.TileEntityTransporterRocket;
 
 import net.minecraft.block.Block;
@@ -54,6 +55,11 @@ public class BlockTransporterRocket extends BlockDummyable {
 	public void breakBlock(World world, int x, int y, int z, Block b, int meta) {
 		if(meta >= 12) {
 			ChunkLoaderManager.unforceChunk(world, x, y, z);
+
+			TileEntity te = world.getTileEntity(x, y, z);
+			if(te != null && te instanceof TileEntityTransporterBase) {
+				((TileEntityTransporterBase) te).unlinkTransporter();
+			}
 		}
 
 		super.breakBlock(world, x, y, z, b, meta);

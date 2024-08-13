@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.hbm.config.RadiationConfig;
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
@@ -50,10 +51,11 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 	private int oil;
 	private float activation;
 	private int temperature;
-	private int oxygen;
+	private int oxygen = 100;
 	private boolean frozen = false;
 	private boolean burning = false;
 	private List<ContaminationEffect> contamination = new ArrayList();
+	private CBT_Atmosphere atmosphere;
 	
 	public HbmLivingProps(EntityLivingBase entity) {
 		this.entity = entity;
@@ -343,6 +345,15 @@ public class HbmLivingProps implements IExtendedEntityProperties {
 
 	public static boolean isFrozen(EntityLivingBase entity) { return getData(entity).frozen; };
 	public static boolean isBurning(EntityLivingBase entity) { return getData(entity).burning; };
+
+	/// ATMOSPHERE ///
+	public static CBT_Atmosphere getAtmosphere(EntityLivingBase entity) {
+		return getData(entity).atmosphere;
+	}
+
+	public static void setAtmosphere(EntityLivingBase entity, CBT_Atmosphere atmosphere) {
+		getData(entity).atmosphere = atmosphere;
+	}
 
 	@Override
 	public void init(Entity entity, World world) { }

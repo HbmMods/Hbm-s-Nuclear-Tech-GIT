@@ -17,7 +17,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 public abstract class BiomeGenBaseDres extends BiomeGenBaseCelestial {
 
     public static final BiomeGenBase dresPlains = new BiomeGenDresPlains(SpaceConfig.dresBiome).setTemperatureRainfall(-1.0F, 0.0F);
-    public static final BiomeGenBase dresCanyon = new BiomeGenDresCanyon(SpaceConfig.dreBasins).setTemperatureRainfall(-1.0F, 0.0F);
+    public static final BiomeGenBase dresCanyon = new BiomeGenDresCanyon(SpaceConfig.dresBasins).setTemperatureRainfall(-1.0F, 0.0F);
     
     public BiomeGenBaseDres(int id) {
         super(id);

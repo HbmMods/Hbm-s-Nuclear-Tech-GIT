@@ -12,7 +12,9 @@ import com.hbm.util.I18nUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
@@ -89,6 +91,21 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 
 		// Default to the base icon for unprocessed drives
 		return baseIcon;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item item, CreativeTabs tab, List list) {
+		NBTTagCompound stackTag = new NBTTagCompound();
+		stackTag.setInteger("x", 1);
+		stackTag.setInteger("ax", 1);
+		stackTag.setBoolean("Processed", true);
+		for(int i = 0; i < theEnum.getEnumConstants().length; i++) {
+			ItemStack stack = new ItemStack(item, 1, i);
+			stack.stackTagCompound = stackTag;
+			list.add(stack);
+		}
 	}
 
 	public static Destination getDestination(ItemStack stack) {

@@ -6,6 +6,10 @@ import net.minecraft.nbt.NBTTagCompound;
 public class CBT_Temperature extends CelestialBodyTrait {
 	
 	public float degrees; // In SI units (Celsius)
+	
+	public CBT_Temperature() {
+		this.degrees = 20;
+	}
 
 	public CBT_Temperature(float degrees) {
 		this.degrees = degrees;

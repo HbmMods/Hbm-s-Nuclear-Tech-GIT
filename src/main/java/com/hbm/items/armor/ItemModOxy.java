@@ -2,6 +2,7 @@ package com.hbm.items.armor;
 
 import java.util.List;
 
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.inventory.fluid.FluidType;
@@ -72,8 +73,8 @@ public class ItemModOxy extends ItemArmorMod implements IFillableItem {
 
     // returns true if the entity can breathe, either via the contained air, or via the atmosphere itself
     // if contained air is used, it'll be decremented here, this saves on multiple atmosphere checks
-    public boolean attemptBreathing(EntityLivingBase entity, ItemStack stack) {
-        if(ChunkAtmosphereManager.proxy.canBreathe(entity)) {
+    public boolean attemptBreathing(EntityLivingBase entity, ItemStack stack, CBT_Atmosphere atmosphere) {
+        if(ChunkAtmosphereManager.proxy.canBreathe(atmosphere)) {
             setInUse(stack, false);
             return true;
         }
