@@ -732,7 +732,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 			},600);
 		makeRecipe(new ComparableStack(ModBlocks.machine_stardar, 1), new AStack[] {
 				new ComparableStack(ModItems.motor, 4),
-				new ComparableStack(ModItems.sat_head_radar, 4),
+				new ComparableStack(ModItems.sat_head_radar, 2),
 				new OreDictStack(ANY_CONCRETE.any(), 16),
 				new ComparableStack(ModBlocks.steel_scaffold, 8), 
 				new ComparableStack(ModItems.circuit, 4, EnumCircuitType.BASIC),
