@@ -74,7 +74,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(92, "NITRIC_ACID", 50)
 				.inputItems(new OreDictStack(KNO.dust()))
 				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 500))
-				.outputFluids(new FluidStack(Fluids.NITRIC_ACID, 500)));
+				.outputFluids(new FluidStack(Fluids.NITRIC_ACID, 1_000)));
 		recipes.add(new ChemRecipe(93, "SOLVENT", 50)
 				.inputFluids(new FluidStack(Fluids.NAPHTHA, 500), new FluidStack(Fluids.AROMATICS, 500))
 				.outputFluids(new FluidStack(Fluids.SOLVENT, 1000)));
@@ -208,11 +208,10 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.inputFluids(new FluidStack(Fluids.WATER, 2000))
 				.outputItems(new ItemStack(ModBlocks.ducrete_smooth, 8)));
 		recipes.add(new ChemRecipe(57, "SOLID_FUEL", 200)
-				.inputItems(
-						new ComparableStack(ModItems.solid_fuel, 2),
-						new OreDictStack(KNO.dust()),
-						new OreDictStack(REDSTONE.dust()))
-				.inputFluids(new FluidStack(Fluids.PETROLEUM, 200, GeneralConfig.enable528 ? 1 : 0))
+				.inputItems(new ComparableStack(ModItems.solid_fuel, 2))
+				.inputFluids(
+						new FluidStack(Fluids.PETROLEUM, 200, GeneralConfig.enable528 ? 1 : 0),
+						new FluidStack(Fluids.NITRIC_ACID, 100))
 				.outputItems(new ItemStack(ModItems.rocket_fuel, 4)));
 		recipes.add(new ChemRecipe(58, "ELECTROLYSIS", 150)
 				.inputFluids(new FluidStack(Fluids.WATER, 4000))

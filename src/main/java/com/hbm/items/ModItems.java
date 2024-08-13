@@ -6289,14 +6289,6 @@ public class ModItems {
 		GameRegistry.registerItem(pipette_laboratory, pipette_laboratory.getUnlocalizedName());
 
 		//Siphon
-		GameRegistry.registerItem(siphon, siphon.getUnlocalizedName());
-
-		//Disperser Canister
-		GameRegistry.registerItem(disperser_canister_empty, disperser_canister_empty.getUnlocalizedName());
-		GameRegistry.registerItem(disperser_canister, disperser_canister.getUnlocalizedName());
-
-		GameRegistry.registerItem(glyphid_gland_empty, glyphid_gland_empty.getUnlocalizedName());
-		GameRegistry.registerItem(glyphid_gland, glyphid_gland.getUnlocalizedName());
 
 		//Batteries
 		GameRegistry.registerItem(battery_generic, battery_generic.getUnlocalizedName());
@@ -7160,6 +7152,12 @@ public class ModItems {
 		GameRegistry.registerItem(grenade_if_hopwire, grenade_if_hopwire.getUnlocalizedName());
 		GameRegistry.registerItem(grenade_if_null, grenade_if_null.getUnlocalizedName());
 		GameRegistry.registerItem(nuclear_waste_pearl, nuclear_waste_pearl.getUnlocalizedName());
+
+		//Disperser Canister
+		GameRegistry.registerItem(disperser_canister_empty, disperser_canister_empty.getUnlocalizedName());
+		GameRegistry.registerItem(disperser_canister, disperser_canister.getUnlocalizedName());
+		GameRegistry.registerItem(glyphid_gland_empty, glyphid_gland_empty.getUnlocalizedName());
+		GameRegistry.registerItem(glyphid_gland, glyphid_gland.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ullapool_caber, ullapool_caber.getUnlocalizedName());
 		GameRegistry.registerItem(weaponized_starblaster_cell, weaponized_starblaster_cell.getUnlocalizedName());

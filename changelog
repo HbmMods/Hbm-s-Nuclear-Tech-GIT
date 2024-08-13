@@ -18,10 +18,17 @@
 * Decreased hardness of slag blocks
 * Removed legacy circuits
 * Removed a bunch of random unused items
+* UF6 and PuF6 tanks are being phased out, the blocks will remain for now but functionality and recipes have been removed
 * Centrifuges are now configurable via `hbmMachines.json`
 * Updated refinery GUI
 * Crayons now require paper to craft, fixing an issue where some recipes conflict with the dye mixing ones
 * Halved energy consumption for night vision goggles
+* Solid rocket fuel now uses 100mB of nitric acid instead of redstone and niter
+* The nitric acid from sulfuric acid recipe in the chemical plant now yields 1,000mB instead of 500
+* Liquefacting niter now yields 750mB instead of 250
+* Increased demand for coking sour gas to 1,000mB instead of 250
+  * This means that sour gas now has a lower concentration of sulfur, making reforming competitive again compared to the previously buffed coking + mixing
+* Disperser canisters are now listed below grenades in the creative tab
 
 ## Fixed
 * Fixed crash caused by decontaminating items with the radiolysis machine
