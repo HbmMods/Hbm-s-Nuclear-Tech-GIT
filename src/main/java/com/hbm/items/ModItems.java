@@ -75,11 +75,6 @@ public class ModItems {
 	public static Item redstone_sword;
 	public static Item big_sword;
 
-	public static Item test_helmet;
-	public static Item test_chestplate;
-	public static Item test_leggings;
-	public static Item test_boots;
-
 	public static Item ingot_th232;
 	public static Item ingot_uranium;
 	public static Item ingot_u233;
@@ -2215,18 +2210,10 @@ public class ModItems {
 
 	public static Item rod_of_discord;
 
-	public static Item cape_test;
 	public static Item cape_radiation;
 	public static Item cape_gasmask;
 	public static Item cape_schrabidium;
 	public static Item cape_hidden;
-	/*public static Item cape_hbm;
-	public static Item cape_dafnik;
-	public static Item cape_lpkukin;
-	public static Item cape_vertice;
-	public static Item cape_codered_;
-	public static Item cape_ayy;
-	public static Item cape_nostalgia;*/
 
 	public static Item nuke_starter_kit;
 	public static Item nuke_advanced_kit;
@@ -2456,11 +2443,6 @@ public class ModItems {
 	{			
 		redstone_sword = new RedstoneSword(ToolMaterial.STONE).setUnlocalizedName("redstone_sword").setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":redstone_sword");
 		big_sword = new BigSword(ToolMaterial.EMERALD).setUnlocalizedName("big_sword").setCreativeTab(CreativeTabs.tabCombat).setTextureName(RefStrings.MODID + ":big_sword");
-
-		test_helmet = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 0).setUnlocalizedName("test_helmet").setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_helmet");
-		test_chestplate = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 1).setUnlocalizedName("test_chestplate").setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_chestplate");
-		test_leggings = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 2).setUnlocalizedName("test_leggings").setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_leggings");
-		test_boots = new ArmorTest(MainRegistry.enumArmorMaterialEmerald, 3).setUnlocalizedName("test_boots").setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_boots");
 		
 		test_nuke_igniter = new Item().setUnlocalizedName("test_nuke_igniter").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_igniter");
 		test_nuke_propellant = new Item().setUnlocalizedName("test_nuke_propellant").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":test_nuke_propellant");
@@ -5330,7 +5312,6 @@ public class ModItems {
 		wings_murk = new WingsMurk(MainRegistry.aMatCobalt).setUnlocalizedName("wings_murk").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wings_murk");
 		wings_limp = new WingsMurk(MainRegistry.aMatCobalt).setUnlocalizedName("wings_limp").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wings_limp");
 
-		cape_test = new ArmorModel(MainRegistry.enumArmorMaterialEmerald, 1).setUnlocalizedName("cape_test").setCreativeTab(null).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_test");
 		cape_radiation = new ArmorModel(ArmorMaterial.CHAIN, 1).setUnlocalizedName("cape_radiation").setCreativeTab(MainRegistry.consumableTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_radiation");
 		cape_gasmask = new ArmorModel(ArmorMaterial.CHAIN, 1).setUnlocalizedName("cape_gasmask").setCreativeTab(MainRegistry.consumableTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_gasmask");
 		cape_schrabidium = new ArmorModel(MainRegistry.aMatSchrab, 1).setUnlocalizedName("cape_schrabidium").setCreativeTab(MainRegistry.consumableTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_schrabidium");
@@ -5521,13 +5502,6 @@ public class ModItems {
 		//Weapons
 		GameRegistry.registerItem(redstone_sword, redstone_sword.getUnlocalizedName());
 		GameRegistry.registerItem(big_sword, big_sword.getUnlocalizedName());
-		
-		//Test Armor
-		GameRegistry.registerItem(test_helmet, test_helmet.getUnlocalizedName());
-		GameRegistry.registerItem(test_chestplate, test_chestplate.getUnlocalizedName());
-		GameRegistry.registerItem(test_leggings, test_leggings.getUnlocalizedName());
-		GameRegistry.registerItem(test_boots, test_boots.getUnlocalizedName());
-		GameRegistry.registerItem(cape_test, cape_test.getUnlocalizedName());
 		
 		//Test Nuke
 		GameRegistry.registerItem(test_nuke_igniter, test_nuke_igniter.getUnlocalizedName());

@@ -137,7 +137,6 @@ public class MainRegistry {
 	public static ToolMaterial enumToolMaterialMultitool = EnumHelper.addToolMaterial("MULTITOOL", 3, 5000, 25F, 5.5F, 25);
 
 	// Armor Materials
-	public static ArmorMaterial enumArmorMaterialEmerald = EnumHelper.addArmorMaterial("HBM_TEST", 2500, new int[] { 3, 8, 6, 3 }, 30);
 	public static ArmorMaterial aMatSchrab = EnumHelper.addArmorMaterial("HBM_SCHRABIDIUM", 100, new int[] { 3, 8, 6, 3 }, 50);
 	public static ArmorMaterial aMatEuph = EnumHelper.addArmorMaterial("HBM_EUPHEMIUM", 15000000, new int[] { 3, 8, 6, 3 }, 100);
 	public static ArmorMaterial aMatHaz = EnumHelper.addArmorMaterial("HBM_HAZMAT", 60, new int[] { 2, 5, 4, 1 }, 5);
@@ -1398,6 +1397,11 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.crystal_trixite");
 		ignoreMappings.add("hbm:tile.hazmat");
 		ignoreMappings.add("hbm:item.pellet_coal");
+		ignoreMappings.add("hbm:item.test_helmet");
+		ignoreMappings.add("hbm:item.test_chestplate");
+		ignoreMappings.add("hbm:item.test_leggings");
+		ignoreMappings.add("hbm:item.test_boots");
+		ignoreMappings.add("hbm:item.cape_test");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

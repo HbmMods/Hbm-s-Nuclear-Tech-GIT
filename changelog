@@ -19,6 +19,9 @@
 * Removed legacy circuits
 * Removed a bunch of random unused items
 * Centrifuges are now configurable via `hbmMachines.json`
+* Updated refinery GUI
+* Crayons now require paper to craft, fixing an issue where some recipes conflict with the dye mixing ones
+* Halved energy consumption for night vision goggles
 
 ## Fixed
 * Fixed crash caused by decontaminating items with the radiolysis machine
@@ -33,3 +36,5 @@
 * Fixed filing cabinets being unreasonably laggy due to the old packet code
 * Fixed the secure access door taking way longer to craft than any other door
 * Fixed issues with the spotlight crafting recipes
+* Fixed various issues with opencomputers integration
+* Fixed incorrect armor mod descriptions being shown for cards

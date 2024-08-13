@@ -101,7 +101,7 @@ public class PowderRecipes {
 		CraftingManager.addShapelessAuto(DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.PINK, 2),			new Object[] { DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.RED),		DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.WHITE) });
 		CraftingManager.addShapelessAuto(DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.GREEN, 2),		new Object[] { DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.BLUE),		DictFrame.fromOne(ModItems.chemical_dye, EnumChemDye.YELLOW) });
 		
-		for(int i = 0; i < 15; i++) CraftingManager.addShapelessAuto(new ItemStack(ModItems.crayon, 4, i), new Object[] { new ItemStack(ModItems.chemical_dye, 1, i), ANY_TAR.any() });
+		for(int i = 0; i < 15; i++) CraftingManager.addShapelessAuto(new ItemStack(ModItems.crayon, 4, i), new Object[] { new ItemStack(ModItems.chemical_dye, 1, i), ANY_TAR.any(), Items.paper });
 
 	}
 }
