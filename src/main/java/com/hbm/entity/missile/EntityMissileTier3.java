@@ -8,6 +8,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
 import com.hbm.items.ModItems;
+import com.hbm.particle.helper.ExplosionCreator;
 
 import api.hbm.entity.IRadarDetectableNT;
 import net.minecraft.item.ItemStack;
@@ -58,7 +59,8 @@ public abstract class EntityMissileTier3 extends EntityMissileBaseNT {
 		public EntityMissileBurst(World world) { super(world); }
 		public EntityMissileBurst(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
 		@Override public void onImpact() {
-			this.explodeStandard(50F, 48, false, true);
+			this.explodeStandard(50F, 48, false);
+			ExplosionCreator.composeEffectLarge(worldObj, posX, posY, posZ);
 		}
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_generic_large); }
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_burst); }
@@ -68,7 +70,8 @@ public abstract class EntityMissileTier3 extends EntityMissileBaseNT {
 		public EntityMissileInferno(World world) { super(world); }
 		public EntityMissileInferno(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
 		@Override public void onImpact() {
-			this.explodeStandard(50F, 48, true, true);
+			this.explodeStandard(50F, 48, true);
+			ExplosionCreator.composeEffectLarge(worldObj, posX, posY, posZ);
 			ExplosionChaos.burn(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 10);
 			ExplosionChaos.flameDeath(this.worldObj, (int)this.posX, (int)this.posY, (int)this.posZ, 25);
 		}

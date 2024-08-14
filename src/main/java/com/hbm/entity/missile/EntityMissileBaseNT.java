@@ -11,7 +11,6 @@ import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
-import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.items.weapon.ItemMissile;
 import com.hbm.main.MainRegistry;
@@ -355,14 +354,12 @@ public abstract class EntityMissileBaseNT extends EntityThrowableInterp implemen
 		}
 	}
 	
-	public void explodeStandard(float strength, int resolution, boolean fire, boolean largeSmoke) {
+	public void explodeStandard(float strength, int resolution, boolean fire) {
 		ExplosionVNT xnt = new ExplosionVNT(worldObj, posX, posY, posZ, strength);
 		xnt.setBlockAllocator(new BlockAllocatorStandard(resolution));
 		xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop().withBlockEffect(fire ? new BlockMutatorFire() : null));
 		xnt.setEntityProcessor(new EntityProcessorCross(7.5D).withRangeMod(2));
 		xnt.setPlayerProcessor(new PlayerProcessorStandard());
-		xnt.setSFX(new ExplosionEffectStandard());
-		if(largeSmoke) ExplosionLarge.spawnParticles(worldObj, posX, posY, posZ, ExplosionLarge.cloudFunction((int) strength));
 		xnt.explode();
 	}
 	

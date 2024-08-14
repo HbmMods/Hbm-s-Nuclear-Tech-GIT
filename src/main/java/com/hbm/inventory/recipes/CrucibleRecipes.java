@@ -93,7 +93,7 @@ public class CrucibleRecipes extends SerializableRecipe {
 				.outputs(new MaterialStack(Mats.MAT_FERRO, n * 3)));
 		
 		recipes.add(new CrucibleRecipe(5, "crucible.tcalloy", 9, new ItemStack(ModItems.ingot_tcalloy))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_TECHNIETIUM, n))
+				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_TECHNETIUM, n))
 				.outputs(new MaterialStack(Mats.MAT_TCALLOY, i)));
 				
 		recipes.add(new CrucibleRecipe(12, "crucible.conglomerate", 6, DictFrame.fromOne(ModBlocks.stone_resource, EnumStoneType.CONGLOMERATE))
@@ -268,7 +268,7 @@ public class CrucibleRecipes extends SerializableRecipe {
 			int in = material.convIn;
 			int out = material.convOut;
 			NTMMaterial convert = material.smeltsInto;
-			for(MaterialShapes shape : MaterialShapes.allShapes) {
+			if(convert.smeltable == SmeltingBehavior.SMELTABLE || convert.smeltable == SmeltingBehavior.ADDITIVE) for(MaterialShapes shape : MaterialShapes.allShapes) {
 				//TODO: buffer these
 				
 				String name = shape.name() + material.names[0];

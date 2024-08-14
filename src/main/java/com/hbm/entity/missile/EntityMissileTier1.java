@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
+import com.hbm.particle.helper.ExplosionCreator;
 
 import api.hbm.entity.IRadarDetectableNT;
 import net.minecraft.item.ItemStack;
@@ -32,7 +33,7 @@ public abstract class EntityMissileTier1 extends EntityMissileBaseNT {
 	public static class EntityMissileGeneric extends EntityMissileTier1 {
 		public EntityMissileGeneric(World world) { super(world); }
 		public EntityMissileGeneric(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
-		@Override public void onImpact() { this.explodeStandard(15F, 24, false, true); }
+		@Override public void onImpact() { this.explodeStandard(15F, 24, false); ExplosionCreator.composeEffectSmall(worldObj, posX, posY, posZ); }
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_generic_small); }
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_generic); }
 	}
@@ -50,7 +51,7 @@ public abstract class EntityMissileTier1 extends EntityMissileBaseNT {
 	public static class EntityMissileIncendiary extends EntityMissileTier1 {
 		public EntityMissileIncendiary(World world) { super(world); }
 		public EntityMissileIncendiary(World world, float x, float y, float z, int a, int b) { super(world, x, y, z, a, b); }
-		@Override public void onImpact() { this.explodeStandard(15F, 24, true, true); }
+		@Override public void onImpact() { this.explodeStandard(15F, 24, true); ExplosionCreator.composeEffectSmall(worldObj, posX, posY, posZ); }
 		@Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.warhead_incendiary_small); }
 		@Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.missile_incendiary); }
 	}

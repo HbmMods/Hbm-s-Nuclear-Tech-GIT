@@ -2,24 +2,24 @@ package com.hbm.tileentity.machine.storage;
 
 import com.hbm.inventory.container.ContainerFileCabinet;
 import com.hbm.inventory.gui.GUIFileCabinet;
-import com.hbm.packet.NBTPacket;
+import com.hbm.packet.BufPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.INBTPacketReceiver;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class TileEntityFileCabinet extends TileEntityCrateBase implements IGUIProvider, INBTPacketReceiver {
+public class TileEntityFileCabinet extends TileEntityCrateBase implements IGUIProvider, IBufPacketReceiver {
 	
 	private int timer = 0;
 	private int playersUsing = 0;
@@ -47,6 +47,16 @@ public class TileEntityFileCabinet extends TileEntityCrateBase implements IGUIPr
 	public void closeInventory() {
 		if(!worldObj.isRemote) this.playersUsing--;
 	}
+
+	@Override public void serialize(ByteBuf buf) {
+		buf.writeInt(timer);
+		buf.writeInt(playersUsing);
+	}
+	
+	@Override public void deserialize(ByteBuf buf) {
+		timer = buf.readInt();
+		playersUsing = buf.readInt();
+	}
 	
 	@Override
 	public void updateEntity() {
@@ -60,10 +70,7 @@ public class TileEntityFileCabinet extends TileEntityCrateBase implements IGUIPr
 			} else
 				timer = 0;
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("timer", timer);
-			data.setInteger("playersUsing", this.playersUsing);
-			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(data, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
+			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
 		} else {
 			this.prevLowerExtent = lowerExtent;
 			this.prevUpperExtent = upperExtent;
@@ -101,12 +108,6 @@ public class TileEntityFileCabinet extends TileEntityCrateBase implements IGUIPr
 		
 		this.lowerExtent = MathHelper.clamp_float(lowerExtent, 0F, maxExtent);
 		this.upperExtent = MathHelper.clamp_float(upperExtent, 0F, maxExtent);
-	}
-	
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.timer = nbt.getInteger("timer");
-		this.playersUsing = nbt.getInteger("playersUsing");
 	}
 	
 	@Override

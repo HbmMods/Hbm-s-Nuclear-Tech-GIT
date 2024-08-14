@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.entity.missile.EntitySoyuz;
 import com.hbm.handler.MissileStruct;
-import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerSoyuzLauncher;
 import com.hbm.inventory.fluid.FluidType;
@@ -38,7 +37,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider {
+public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IFluidContainer, IFluidStandardReceiver, IGUIProvider {
 
 	public long power;
 	public static final long maxPower = 1000000;
@@ -401,27 +400,9 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getMaxFill();
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getMaxFill();
-		else
-			return 0;
-	}
-
-	@Override
 	public void setFillForSync(int fill, int index) {
 		if (index < 2 && tanks[index] != null)
 			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			tanks[0].setFill(fill);
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			tanks[1].setFill(fill);
 	}
 
 	@Override
@@ -430,16 +411,6 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			tanks[index].setTankType(type);
 	}
 
-	@Override
-	public int getFluidFill(FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getFill();
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getFill();
-		else
-			return 0;
-	}
-	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;

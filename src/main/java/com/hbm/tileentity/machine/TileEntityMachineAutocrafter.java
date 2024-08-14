@@ -197,9 +197,8 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
 
-		//automatically prohibit any stacked item, items can only be added one by one
-		if(stack.stackSize > 1)
-			return false;
+		//automatically prohibit stacked container items
+		if(stack.stackSize > 1 && stack.getItem().hasContainerItem(stack)) return false;
 		
 		//only allow insertion for the nine recipe slots
 		if(slot < 10 || slot > 18)
@@ -208,6 +207,10 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		//is the filter at this space null? no input.
 		if(slots[slot - 10] == null)
 			return false;
+		
+		//do not permit total stacking beyond 4 items
+		if(slots[slot] != null && slots[slot].stackSize + stack.stackSize > 4) return false;
+		if(stack.stackSize > 4) return false;
 		
 		//let's find all slots that this item could potentially go in
 		List<Integer> validSlots = new ArrayList();
@@ -354,5 +357,6 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		inv.setInventorySlotContents(slot, new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
 		nextMode(slot);
 		tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
+		updateTemplateGrid();
 	}
 }

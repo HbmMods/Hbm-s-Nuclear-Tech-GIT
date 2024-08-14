@@ -58,7 +58,7 @@ public class ParticleDebris extends EntityFX {
 
 		if(this.getEntityId() % 3 == 0) {
 			TextureManager man = Minecraft.getMinecraft().renderEngine;
-			ParticleRocketFlame fx = new ParticleRocketFlame(man, worldObj, posX, posY, posZ).setScale(1F * world.sizeY / 16F);
+			ParticleRocketFlame fx = new ParticleRocketFlame(man, worldObj, posX, posY, posZ).setScale(1F * Math.max(world.sizeY, 6) / 16F);
 			fx.prevPosX = fx.posX;
 			fx.prevPosY = fx.posY;
 			fx.prevPosZ = fx.posZ;

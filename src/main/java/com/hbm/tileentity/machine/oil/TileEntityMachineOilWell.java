@@ -151,16 +151,6 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 		}
 	}
 	
-	
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		fillFluid(this.xCoord - 2, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord + 2, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord - 2, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord + 2, getTact(), type);
-	}
-	
 	AxisAlignedBB bb = null;
 	
 	@Override

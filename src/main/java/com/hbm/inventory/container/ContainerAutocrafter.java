@@ -1,8 +1,10 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotPattern;
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.machine.TileEntityMachineAutocrafter;
 
+import api.hbm.energymk2.IBatteryItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -88,6 +90,33 @@ public class ContainerAutocrafter extends ContainerBase {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		return null;
+		ItemStack rStack = null;
+		Slot slot = (Slot) this.inventorySlots.get(index);
+
+		if(slot != null && slot.getHasStack()) {
+			ItemStack stack = slot.getStack();
+			rStack = stack.copy();
+
+			if(index <= 20 && index >= 10) {
+				if(!this.mergeItemStack(stack, 21, this.inventorySlots.size(), true)) {
+					return null;
+				}
+			} else if(index > 20){
+				
+				if(rStack.getItem() instanceof IBatteryItem || rStack.getItem() == ModItems.battery_creative) {
+					if(!this.mergeItemStack(stack, 20, 21, false)) return null;
+				} else {
+					return null;
+				}
+			}
+
+			if(stack.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
+			}
+		}
+
+		return rStack;
 	}
 }

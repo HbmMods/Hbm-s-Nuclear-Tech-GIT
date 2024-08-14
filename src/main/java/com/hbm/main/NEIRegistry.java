@@ -16,6 +16,8 @@ public class NEIRegistry {
 		
 		if(!handlers.isEmpty()) return handlers;
 
+		handlers.add(new AnvilRecipeHandler());
+		handlers.add(new SmithingRecipeHandler());
 		handlers.add(new AlloyFurnaceRecipeHandler());
 		handlers.add(new ShredderRecipeHandler());
 		handlers.add(new PressRecipeHandler());
@@ -29,6 +31,7 @@ public class NEIRegistry {
 		handlers.add(new CrackingHandler());
 		handlers.add(new AlkylationHandler());
 		handlers.add(new CryoHandler());
+		handlers.add(new RadiolysisRecipeHandler());
 		handlers.add(new ReformingHandler());
 		handlers.add(new HydrotreatingHandler());
 		handlers.add(new ChemplantRecipeHandler());
@@ -37,11 +40,7 @@ public class NEIRegistry {
 		handlers.add(new FusionRecipeHandler());
 		handlers.add(new HadronRecipeHandler());
 		handlers.add(new SILEXRecipeHandler());
-		handlers.add(new SmithingRecipeHandler());
-		handlers.add(new AnvilRecipeHandler());
 		handlers.add(new FuelPoolHandler());
-		handlers.add(new FluidRecipeHandler());
-		handlers.add(new RadiolysisRecipeHandler());
 		handlers.add(new CrucibleSmeltingHandler());
 		handlers.add(new CrucibleAlloyingHandler());
 		handlers.add(new CrucibleCastingHandler());
@@ -69,6 +68,9 @@ public class NEIRegistry {
 		handlers.add(new ExposureChamberHandler());
 		handlers.add(new ArcFurnaceSolidHandler());
 		handlers.add(new ArcFurnaceFluidHandler());
+
+		//this shit comes last
+		handlers.add(new FluidRecipeHandler());
 		
 		return handlers;
 	}

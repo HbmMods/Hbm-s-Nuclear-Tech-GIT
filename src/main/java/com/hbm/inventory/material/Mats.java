@@ -48,20 +48,20 @@ public class Mats {
 	public static final int _EX = 24_000;
 	
 	//Vanilla and vanilla-like
-	public static final NTMMaterial MAT_STONE			= makeSmeltable(_VS + 00,	df("Stone"), 0x7F7F7F, 0x353535, 0x4D2F23).n();
-	public static final NTMMaterial MAT_CARBON			= makeAdditive(	1499, 		CARBON,		0x363636, 0x030303, 0x404040).setShapes(WIRE, INGOT, BLOCK).n();
-	public static final NTMMaterial MAT_COAL			= make(			1400, 		COAL)		.setConversion(MAT_CARBON,  2, 1).n();
-	public static final NTMMaterial MAT_LIGNITE			= make(			1401, 		LIGNITE)	.setConversion(MAT_CARBON,  3, 1).n();
-	public static final NTMMaterial MAT_COALCOKE		= make(			1410, 		COALCOKE)	.setConversion(MAT_CARBON,  4, 3).n();
-	public static final NTMMaterial MAT_PETCOKE			= make(			1411, 		PETCOKE)	.setConversion(MAT_CARBON,  4, 3).n();
-	public static final NTMMaterial MAT_LIGCOKE			= make(			1412, 		LIGCOKE)	.setConversion(MAT_CARBON,  4, 3).n();
-	public static final NTMMaterial MAT_GRAPHITE		= make(			1420, 		GRAPHITE)	.setConversion(MAT_CARBON,  1, 1).n();
-	public static final NTMMaterial MAT_DIAMOND			= make(			1430, 		DIAMOND)	.setConversion(MAT_CARBON,  1, 1).n();
-	public static final NTMMaterial MAT_IRON			= makeSmeltable(2600,		IRON,		0xFFFFFF, 0x353535, 0xFFA259).setShapes(INGOT, DUST, PIPE, CASTPLATE, WELDEDPLATE, BLOCK).m();
-	public static final NTMMaterial MAT_GOLD			= makeSmeltable(7900,		GOLD,		0xFFFF8B, 0xC26E00, 0xE8D754).setShapes(WIRE, NUGGET, INGOT, DUST, DENSEWIRE, CASTPLATE, BLOCK).m();
-	public static final NTMMaterial MAT_REDSTONE		= makeSmeltable(_VS + 01,	REDSTONE,	0xE3260C, 0x700E06, 0xFF1000).n();
-	public static final NTMMaterial MAT_OBSIDIAN		= makeSmeltable(_VS + 02,	df("Obsidian"), 0x3D234D).n();
-	public static final NTMMaterial MAT_HEMATITE		= makeAdditive(	2601, 		HEMATITE,	0xDFB7AE, 0x5F372E, 0x6E463D).m();
+	public static final NTMMaterial MAT_STONE			= makeSmeltable(_VS + 00,	df("Stone"),		0x7F7F7F, 0x353535, 0x4D2F23).n();
+	public static final NTMMaterial MAT_CARBON			= makeAdditive(	699,		CARBON,				0x363636, 0x030303, 0x404040).setShapes(WIRE, INGOT, BLOCK).n();
+	public static final NTMMaterial MAT_COAL			= makeNonSmeltable(600,		COAL, 				0x363636, 0x030303, 0x404040).setConversion(MAT_CARBON,  2, 1).setShapes(FRAGMENT).n();
+	public static final NTMMaterial MAT_LIGNITE			= makeNonSmeltable(601,		LIGNITE,			0x542D0F, 0x261508, 0x472913).setConversion(MAT_CARBON,  3, 1).setShapes(FRAGMENT).n();
+	public static final NTMMaterial MAT_COALCOKE		= make(			610,		COALCOKE)			.setConversion(MAT_CARBON,  4, 3).n();
+	public static final NTMMaterial MAT_PETCOKE			= make(			611,		PETCOKE)			.setConversion(MAT_CARBON,  4, 3).n();
+	public static final NTMMaterial MAT_LIGCOKE			= make(			612,		LIGCOKE)			.setConversion(MAT_CARBON,  4, 3).n();
+	public static final NTMMaterial MAT_GRAPHITE		= make(			620,		GRAPHITE)			.setConversion(MAT_CARBON,  1, 1).n();
+	public static final NTMMaterial MAT_DIAMOND			= makeNonSmeltable(1430,	DIAMOND,			0xFFFFFF, 0x1B7B6B, 0x8CF4E2).setConversion(MAT_CARBON,  1, 1).setShapes(FRAGMENT).n();
+	public static final NTMMaterial MAT_IRON			= makeSmeltable(2600,		IRON,				0xFFFFFF, 0x353535, 0xFFA259).setShapes(FRAGMENT, INGOT, DUST, PIPE, CASTPLATE, WELDEDPLATE, BLOCK).m();
+	public static final NTMMaterial MAT_GOLD			= makeSmeltable(7900,		GOLD,				0xFFFF8B, 0xC26E00, 0xE8D754).setShapes(FRAGMENT, WIRE, NUGGET, INGOT, DUST, DENSEWIRE, CASTPLATE, BLOCK).m();
+	public static final NTMMaterial MAT_REDSTONE		= makeSmeltable(_VS + 01,	REDSTONE,			0xE3260C, 0x700E06, 0xFF1000).setShapes(FRAGMENT).n();
+	public static final NTMMaterial MAT_OBSIDIAN		= makeSmeltable(_VS + 02,	df("Obsidian"),		0x3D234D).n();
+	public static final NTMMaterial MAT_HEMATITE		= makeAdditive(	2601,		HEMATITE,			0xDFB7AE, 0x5F372E, 0x6E463D).m();
 	public static final NTMMaterial MAT_WROUGHTIRON		= makeSmeltable(2602,		df("WroughtIron"),	0xFAAB89).m();
 	public static final NTMMaterial MAT_PIGIRON			= makeSmeltable(2603,		df("PigIron"),		0xFF8B59).m();
 	public static final NTMMaterial MAT_METEORICIRON	= makeSmeltable(2604,		df("MeteoricIron"),	0x715347).m();
@@ -69,28 +69,28 @@ public class Mats {
 	public static final NTMMaterial MAT_CONGLOMERATE	= makeAdditive(	2993, 		CONGLOMERATE,	0x797979).m();
 
 	//Radioactive
-	public static final NTMMaterial MAT_URANIUM		= makeSmeltable(9200,		U,			0xC1C7BD, 0x2B3227, 0x9AA196).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK).m();
+	public static final NTMMaterial MAT_URANIUM		= makeSmeltable(9200,		U,			0xC1C7BD, 0x2B3227, 0x9AA196).setShapes(FRAGMENT, NUGGET, BILLET, INGOT, DUST, BLOCK).m();
 	public static final NTMMaterial MAT_U233		= makeSmeltable(9233,		U233,		0xC1C7BD, 0x2B3227, 0x9AA196).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK).m();
 	public static final NTMMaterial MAT_U235		= makeSmeltable(9235,		U235,		0xC1C7BD, 0x2B3227, 0x9AA196).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK).m();
-	public static final NTMMaterial MAT_U238		= makeSmeltable(9238,		U238,		0xC1C7BD, 0x2B3227, 0x9AA196).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK).m();
-	public static final NTMMaterial MAT_THORIUM		= makeSmeltable(9032,		TH232,		0xBF825F, 0x1C0000, 0xBF825F).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK).m();
+	public static final NTMMaterial MAT_U238		= makeSmeltable(9238,		U238,		0xC1C7BD, 0x2B3227, 0x9AA196).setShapes(FRAGMENT, NUGGET, BILLET, INGOT, DUST, BLOCK).m();
+	public static final NTMMaterial MAT_THORIUM		= makeSmeltable(9032,		TH232,		0xBF825F, 0x1C0000, 0xBF825F).setShapes(FRAGMENT, NUGGET, BILLET, INGOT, DUST, BLOCK).m();
 	public static final NTMMaterial MAT_PLUTONIUM	= makeSmeltable(9400,		PU,			0x9AA3A0, 0x111A17, 0x78817E).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK).m();
 	public static final NTMMaterial MAT_RGP			= makeSmeltable(9401,		PURG,		0x9AA3A0, 0x111A17, 0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
 	public static final NTMMaterial MAT_PU238		= makeSmeltable(9438,		PU238,		0xFFBC59, 0xFF8E2B, 0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
 	public static final NTMMaterial MAT_PU239		= makeSmeltable(9439,		PU239,		0x9AA3A0, 0x111A17, 0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
 	public static final NTMMaterial MAT_PU240		= makeSmeltable(9440,		PU240,		0x9AA3A0, 0x111A17, 0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
 	public static final NTMMaterial MAT_PU241		= makeSmeltable(9441,		PU241,		0x9AA3A0, 0x111A17, 0x78817E).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
-	public static final NTMMaterial MAT_RGA			= makeSmeltable(9501,		AMRG,		0x93767B).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
-	public static final NTMMaterial MAT_AM241		= makeSmeltable(9541,		AM241,		0x93767B).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
-	public static final NTMMaterial MAT_AM242		= makeSmeltable(9542,		AM242,		0x93767B).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
-	public static final NTMMaterial MAT_NEPTUNIUM	= makeSmeltable(9337,		NP237,		0x647064).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK).m();
-	public static final NTMMaterial MAT_POLONIUM	= makeSmeltable(8410,		PO210,		0x563A26).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK).m();
-	public static final NTMMaterial MAT_TECHNIETIUM	= makeSmeltable(4399,		TC99,		0xFAFFFF, 0x576C6C, 0xCADFDF).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
-	public static final NTMMaterial MAT_RADIUM		= makeSmeltable(8826,		RA226,		0xE9FAF6).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK).m();
-	public static final NTMMaterial MAT_ACTINIUM	= makeSmeltable(8927,		AC227,		0x958989).setShapes(NUGGET, BILLET, INGOT).m();
+	public static final NTMMaterial MAT_RGA			= makeSmeltable(9501,		AMRG,		0xCEB3B9, 0x3A1C21, 0x93767B).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
+	public static final NTMMaterial MAT_AM241		= makeSmeltable(9541,		AM241,		0xCEB3B9, 0x3A1C21, 0x93767B).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
+	public static final NTMMaterial MAT_AM242		= makeSmeltable(9542,		AM242,		0xCEB3B9, 0x3A1C21, 0x93767B).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
+	public static final NTMMaterial MAT_NEPTUNIUM	= makeSmeltable(9337,		NP237,		0xA6B2A6, 0x030F03, 0x647064).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK).m();
+	public static final NTMMaterial MAT_POLONIUM	= makeSmeltable(8410,		PO210,		0x968779, 0x3D1509, 0x715E4A).setShapes(FRAGMENT, NUGGET, BILLET, INGOT, DUST, BLOCK).m();
+	public static final NTMMaterial MAT_TECHNETIUM	= makeSmeltable(4399,		TC99,		0xFAFFFF, 0x576C6C, 0xCADFDF).setShapes(FRAGMENT, NUGGET, BILLET, INGOT, BLOCK).m();
+	public static final NTMMaterial MAT_RADIUM		= makeSmeltable(8826,		RA226,		0xFCFCFC, 0xADBFBA, 0xE9FAF6).setShapes(FRAGMENT, NUGGET, BILLET, INGOT, DUST, BLOCK).m();
+	public static final NTMMaterial MAT_ACTINIUM	= makeSmeltable(8927,		AC227,		0xECE0E0, 0x221616, 0x958989).setShapes(NUGGET, BILLET, INGOT).m();
 	public static final NTMMaterial MAT_CO60		= makeSmeltable(2760,		CO60,		0xC2D1EE, 0x353554, 0x8F72AE).setShapes(NUGGET, BILLET, INGOT, DUST).m();
 	public static final NTMMaterial MAT_AU198		= makeSmeltable(7998,		AU198,		0xFFFF8B, 0xC26E00, 0xE8D754).setShapes(NUGGET, BILLET, INGOT, DUST).m();
-	public static final NTMMaterial MAT_PB209		= makeSmeltable(8209,		PB209,		0x7B535D).setShapes(NUGGET, BILLET, INGOT, DUST).m();
+	public static final NTMMaterial MAT_PB209		= makeSmeltable(8209,		PB209,		0xB38A94, 0x12020E, 0x7B535D).setShapes(NUGGET, BILLET, INGOT, DUST).m();
 	public static final NTMMaterial MAT_SCHRABIDIUM	= makeSmeltable(12626,		SA326,		0x32FFFF, 0x005C5C, 0x32FFFF).setShapes(NUGGET, WIRE, BILLET, INGOT, DUST, DENSEWIRE, PLATE, CASTPLATE, BLOCK).m();
 	public static final NTMMaterial MAT_SOLINIUM	= makeSmeltable(12627,		SA327,		0xA2E6E0, 0x00433D, 0x72B6B0).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
 	public static final NTMMaterial MAT_SCHRABIDATE	= makeSmeltable(12600,		SBD,		0x77C0D7, 0x39005E, 0x6589B4).setShapes(INGOT, DUST, DENSEWIRE, CASTPLATE, BLOCK).m();
@@ -147,13 +147,15 @@ public class Mats {
 	public static final NTMMaterial MAT_SLAG		= makeSmeltable(_AS + 11,	SLAG,		0x554940, 0x34281F, 0x6C6562).setShapes(BLOCK).n();
 	public static final NTMMaterial MAT_MUD			= makeSmeltable(_AS + 14,	MUD,		0xBCB5A9, 0x481213, 0x96783B).setShapes(INGOT).n();
 	
+
 	//Space extension alloys
 	public static final NTMMaterial MAT_GAAS		= makeSmeltable(_EX + 0,	GAAS,		0x6F4A57, 0x6F4A57, 0x6F4A57).setShapes(NUGGET, INGOT, BILLET).m();
 	public static final NTMMaterial MAT_STAINLESS	= makeSmeltable(_EX + 1,	STAINLESS,	0x4A4A4A, 0x4A4A4A, 0x4A4A4A).setShapes(INGOT, PLATE).m();
+	public static final NTMMaterial MAT_RAREEARTH	= makeNonSmeltable(_ES + 00, 		RAREEARTH,		0xC1BDBD, 0x384646, 0x7B7F7F).setShapes(FRAGMENT, INGOT).n();
 
-	
-	@Deprecated public static NTMMaterial makeSmeltable(int id, DictFrame dict, int color) { return makeSmeltable(id, dict, color, color, color); }
-	@Deprecated public static NTMMaterial makeAdditive(int id, DictFrame dict, int color) { return makeAdditive(id, dict, color, color, color); }
+
+	public static NTMMaterial makeSmeltable(int id, DictFrame dict, int color) { return makeSmeltable(id, dict, color, color, color); }
+
 
 	public static NTMMaterial make(int id, DictFrame dict) {
 		return new NTMMaterial(id, dict);
@@ -165,6 +167,10 @@ public class Mats {
 	
 	public static NTMMaterial makeAdditive(int id, DictFrame dict, int solidColorLight, int solidColorDark, int moltenColor) {
 		return new NTMMaterial(id, dict).smeltable(SmeltingBehavior.ADDITIVE).setSolidColor(solidColorLight, solidColorDark).setMoltenColor(moltenColor);
+	}
+	
+	public static NTMMaterial makeNonSmeltable(int id, DictFrame dict, int solidColorLight, int solidColorDark, int moltenColor) {
+		return new NTMMaterial(id, dict).smeltable(SmeltingBehavior.NOT_SMELTABLE).setSolidColor(solidColorLight, solidColorDark).setMoltenColor(moltenColor);
 	}
 	
 	public static DictFrame df(String string) {
@@ -240,9 +246,7 @@ public class Mats {
 	
 	public static String formatAmount(int amount, boolean showInMb) {
 		
-		if(showInMb) {
-			return (amount * 2) + "mB";
-		}
+		if(showInMb) return (amount * 2) + "mB";
 		
 		String format = "";
 		

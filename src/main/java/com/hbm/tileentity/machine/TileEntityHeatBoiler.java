@@ -1,8 +1,6 @@
 package com.hbm.tileentity.machine;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
@@ -11,9 +9,6 @@ import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
@@ -38,11 +33,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluidSource, IFluidAcceptor, INBTPacketReceiver, IFluidStandardTransceiver, IConfigurableMachine {
+public class TileEntityHeatBoiler extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardTransceiver, IConfigurableMachine {
 
 	public int heat;
 	public FluidTank[] tanks;
-	public List<IFluidAcceptor> list = new ArrayList();
 	public boolean isOn;
 	public boolean hasExploded = false;
 	
@@ -88,7 +82,6 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 				
 				if(this.tanks[1].getFill() > 0) {
 					this.sendFluid();
-					fillFluidInit(tanks[1].getTankType());
 				}
 			}
 
@@ -287,62 +280,6 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IFluid
 		tanks[1].writeToNBT(nbt, "steam");
 		nbt.setInteger("heat", heat);
 		nbt.setBoolean("exploded", hasExploded);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				tank.setFill(fill);
-				return;
-			}
-		}
-	}
-
-	@Override public void setFillForSync(int fill, int index) { }
-	@Override public void setTypeForSync(FluidType type, int index) { }
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				return tank.getFill();
-			}
-		}
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		return type == tanks[0].getTankType() ? tanks[0].getMaxFill() : 0;
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getRotation(ForgeDirection.UP);
-		this.fillFluid(xCoord + dir.offsetX * 2, yCoord, zCoord + dir.offsetZ * 2, this.getTact(), type);
-		this.fillFluid(xCoord - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2, this.getTact(), type);
-		this.fillFluid(xCoord, yCoord + 4, zCoord, this.getTact(), type);
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 2 == 0;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return this.list;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		this.list.clear();
 	}
 
 	@Override

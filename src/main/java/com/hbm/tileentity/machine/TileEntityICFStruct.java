@@ -41,12 +41,12 @@ public class TileEntityICFStruct extends TileEntity {
 	}
 	
 	/** check block at relative position */
-	public boolean cbarp(Block block, int meta, int x, int y, int z, ForgeDirection dir) {
+	public boolean cbarp(Block block, int meta, int widthwiseOffset, int y, int lengthwiseOffset, ForgeDirection dir) {
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
-		int ix = xCoord + dir.offsetX * z + rot.offsetX * z;
+		int ix = xCoord + rot.offsetX * lengthwiseOffset + dir.offsetX * widthwiseOffset;
 		int iy = yCoord + y;
-		int iz = zCoord + dir.offsetZ * x + rot.offsetZ * x;
+		int iz = zCoord + rot.offsetZ * lengthwiseOffset + dir.offsetZ * widthwiseOffset;
 		
 		return worldObj.getBlock(ix, iy, iz) == block && worldObj.getBlockMetadata(ix, iy, iz) == meta;
 	}

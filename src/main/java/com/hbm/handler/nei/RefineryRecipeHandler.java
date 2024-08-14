@@ -161,8 +161,8 @@ public class RefineryRecipeHandler extends TemplateRecipeHandler implements ICom
 		transferRectsGui = new LinkedList<RecipeTransferRect>();
 		guiGui = new LinkedList<Class<? extends GuiContainer>>();
 
-		transferRects.add(new RecipeTransferRect(new Rectangle(138 - 1 - 36 - 27, 23, 36, 18), "refinery"));
-		transferRectsGui.add(new RecipeTransferRect(new Rectangle(18 * 2 + 2 + 36, 89 - 7 - 11 - 11, 18 * 4, 18), "refinery"));
+		transferRects.add(new RecipeTransferRect(new Rectangle(48, 5, 31, 101), "refinery"));
+		transferRectsGui.add(new RecipeTransferRect(new Rectangle(48, 5, 31, 101), "refinery"));
 		guiGui.add(GUIMachineRefinery.class);
 		RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
 		RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);

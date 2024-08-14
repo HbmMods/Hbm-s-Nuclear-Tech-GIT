@@ -1,10 +1,7 @@
 package com.hbm.tileentity;
 
-
 import api.hbm.block.ICrucibleAcceptor;
 import com.hbm.handler.CompatHandler.OCComponent;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.fluid.FluidType;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -27,7 +24,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 		@Optional.Interface(iface = "com.hbm.handler.CompatHandler.OCComponent", modid = "opencomputers"),
 		@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
 })
-public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, IFluidAcceptor, ISidedInventory, IFluidConnector, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent {
+public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, ISidedInventory, IFluidConnector, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent {
 	
 	TileEntity tile;
 	boolean inventory;
@@ -75,101 +72,6 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		}
 		
 		return tile;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		
-		if(!fluid)
-			return;
-		
-		if(getTile() instanceof IFluidContainer) {
-			((IFluidContainer)getTile()).setFillForSync(fill, index);
-		}
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		
-		if(!fluid)
-			return;
-		
-		if(getTile() instanceof IFluidContainer) {
-			((IFluidContainer)getTile()).setFluidFill(fill, type);
-		}
-	}
-
-	@Override
-	public int getFluidFillForReceive(FluidType type) {
-		
-		if(!fluid)
-			return 0;
-		
-		if(getTile() instanceof IFluidAcceptor) {
-			return ((IFluidAcceptor)getTile()).getFluidFillForReceive(type);
-		}
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFillForReceive(FluidType type) {
-		
-		if(!fluid)
-			return 0;
-		
-		if(getTile() instanceof IFluidAcceptor) {
-			return ((IFluidAcceptor)getTile()).getMaxFluidFillForReceive(type);
-		}
-		
-		return 0;
-	}
-
-	@Override
-	public void receiveFluid(int amount, FluidType type) {
-		
-		if(!fluid)
-			return;
-		
-		if(getTile() instanceof IFluidAcceptor) {
-			((IFluidAcceptor)getTile()).receiveFluid(amount, type);
-		}
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		
-		if(!fluid)
-			return;
-		
-		if(getTile() instanceof IFluidContainer) {
-			((IFluidContainer)getTile()).setTypeForSync(type, index);
-		}
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		
-		if(!fluid)
-			return 0;
-		
-		if(getTile() instanceof IFluidContainer) {
-			return ((IFluidContainer)getTile()).getFluidFill(type);
-		}
-		
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		
-		if(!fluid)
-			return 0;
-		
-		if(getTile() instanceof IFluidAcceptor) {
-			return ((IFluidAcceptor)getTile()).getMaxFluidFill(type);
-		}
-		
-		return 0;
 	}
 
 	@Override

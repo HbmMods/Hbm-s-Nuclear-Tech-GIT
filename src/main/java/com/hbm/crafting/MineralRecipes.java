@@ -463,8 +463,6 @@ public class MineralRecipes {
 		add1To9Pair(ModItems.powder_paleogenite, ModItems.powder_paleogenite_tiny);
 		add1To9Pair(ModItems.ingot_osmiridium, ModItems.nugget_osmiridium);
 
-		GameRegistry.addRecipe(new ItemStack(ModBlocks.hazmat, 8), new Object[] { "###", "# #", "###", '#', ModItems.hazmat_cloth });
-		GameRegistry.addRecipe(new ItemStack(ModItems.hazmat_cloth, 1), new Object[] { "#", '#', ModBlocks.hazmat });
 		GameRegistry.addRecipe(new ItemStack(ModItems.egg_balefire_shard, 1), new Object[] { "##", "##", '#', ModItems.powder_balefire });
 		add9To1(ModItems.cell_balefire, ModItems.egg_balefire_shard);
 		
@@ -574,6 +572,10 @@ public class MineralRecipes {
 	public static void addBillet(Item billet, Item ingot, Item nugget, String... ore) {
 		for(String o : ore) GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(billet), new Object[] { "###", "###", '#', o }));
 		addBillet(billet, ingot, nugget);
+	}
+
+	public static void addBilletFragment(ItemStack billet, ItemStack nugget) {
+		GameRegistry.addRecipe(billet.copy(), new Object[] { "###", "###", '#', nugget });
 	}
 
 	public static void addBillet(Item billet, Item nugget) {

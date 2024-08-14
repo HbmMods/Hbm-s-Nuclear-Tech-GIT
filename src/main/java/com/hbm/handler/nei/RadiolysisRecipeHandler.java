@@ -14,7 +14,6 @@ import com.hbm.inventory.gui.GUIRadiolysis;
 import com.hbm.inventory.recipes.RadiolysisRecipes;
 import com.hbm.lib.RefStrings;
 
-import codechicken.nei.NEIServerUtils;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -95,7 +94,7 @@ public class RadiolysisRecipeHandler extends TemplateRecipeHandler implements IC
 		HashMap<Object, Object[]> recipes = (HashMap<Object, Object[]>) RadiolysisRecipes.getRecipesForNEI();
 		
 		for(Entry<Object, Object[]> recipe : recipes.entrySet()) {
-			if(NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[0], result) || NEIServerUtils.areStacksSameType((ItemStack)recipe.getValue()[1], result))
+			if(compareFluidStacks((ItemStack)recipe.getValue()[0], result) || compareFluidStacks((ItemStack)recipe.getValue()[1], result))
 				this.arecipes.add(new RecipeSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1]));
 		}
 	}
@@ -115,9 +114,13 @@ public class RadiolysisRecipeHandler extends TemplateRecipeHandler implements IC
 		HashMap<Object, Object[]> recipes = (HashMap<Object, Object[]>) RadiolysisRecipes.getRecipesForNEI();
 		
 		for(Entry<Object, Object[]> recipe : recipes.entrySet()) {
-			if(NEIServerUtils.areStacksSameType((ItemStack)recipe.getKey(), ingredient))
+			if(compareFluidStacks((ItemStack)recipe.getKey(), ingredient))
 				this.arecipes.add(new RecipeSet((ItemStack)recipe.getKey(), (ItemStack)recipe.getValue()[0], (ItemStack)recipe.getValue()[1]));
 		}
+	}
+
+	private boolean compareFluidStacks(ItemStack sta1, ItemStack sta2) {
+		return sta1.getItem() == sta2.getItem() && sta1.getItemDamage() == sta2.getItemDamage();
 	}
 	
 	@Override

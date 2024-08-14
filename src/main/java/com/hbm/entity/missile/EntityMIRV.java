@@ -3,7 +3,6 @@ package com.hbm.entity.missile;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
-import com.hbm.entity.particle.EntitySmokeFX;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -41,8 +40,6 @@ public class EntityMIRV extends EntityThrowable {
 			}
 			this.setDead();
 		}
-
-		this.worldObj.spawnEntityInWorld(new EntitySmokeFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0, 0.0, 0.0));
 	}
 
 	protected void rotation() {

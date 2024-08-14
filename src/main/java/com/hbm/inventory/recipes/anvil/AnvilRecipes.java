@@ -274,7 +274,7 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
 						new ComparableStack(ModItems.tank_steel, 4),
-						new ComparableStack(ModItems.pipes_steel, 1),
+						new OreDictStack(STEEL.pipe(), 3),
 						new OreDictStack(TI.ingot(), 12),
 						new OreDictStack(CU.ingot(), 8)
 				}, new AnvilOutput(new ItemStack(ModBlocks.heater_oilburner))).setTier(2));
@@ -293,7 +293,7 @@ public class AnvilRecipes {
 						new OreDictStack(RUBBER.ingot(), 4),
 						new OreDictStack(CU.ingot(), 16),
 						new OreDictStack(STEEL.plate528(), 16),
-						new ComparableStack(ModItems.pipes_steel, 1),
+						new OreDictStack(STEEL.pipe(), 3),
 				}, new AnvilOutput(new ItemStack(ModBlocks.heater_heatex))).setTier(3));
 
 		constructionRecipes.add(new AnvilConstructionRecipe(
@@ -412,14 +412,14 @@ public class AnvilRecipes {
 				new AStack[] {
 						new ComparableStack(ModBlocks.brick_concrete, 64),
 						new ComparableStack(Blocks.iron_bars, 128),
-						new ComparableStack(ModBlocks.machine_condenser, 5),
+						new ComparableStack(ModBlocks.machine_condenser, 4),
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_tower_small))).setTier(3));
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
 						new ComparableStack(ModBlocks.concrete_smooth, 128),
 						new ComparableStack(ModBlocks.steel_scaffold, 32),
-						new ComparableStack(ModBlocks.machine_condenser, 25),
-						new ComparableStack(ModItems.pipes_steel, 2)
+						new ComparableStack(ModBlocks.machine_condenser, 16),
+						new OreDictStack(STEEL.pipe(), 8),
 				}, new AnvilOutput(new ItemStack(ModBlocks.machine_tower_large))).setTier(4));
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
@@ -431,12 +431,9 @@ public class AnvilRecipes {
 		
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
-						new ComparableStack(ModItems.sulfur, 8),
-						new OreDictStack(STEEL.plate528(), 4),
-						new OreDictStack(AL.plate528(), 2),
+						new ComparableStack(ModItems.sulfur, 12),
 						new OreDictStack(STEEL.shell(), 4),
-						new OreDictStack(CU.plateCast(), 4),
-						new ComparableStack(ModItems.turbine_titanium, 1),
+						new OreDictStack(CU.plateCast(), 6),
 						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.BASIC.ordinal())
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.machine_deuterium_extractor))).setTier(2));
@@ -1129,18 +1126,6 @@ public class AnvilRecipes {
 						new AnvilOutput(new ItemStack(Items.bone, 1), 0.75F),
 						new AnvilOutput(new ItemStack(Items.experience_bottle, 1), 0.5F)
 				}).setTier(1));
-
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_aluminium), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.VACUUM_TUBE.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_copper), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.ANALOG.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_red_copper), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.BASIC.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_gold), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.ADVANCED.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_schrabidium), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.BISMOID.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_targeting_tier1), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 1, EnumCircuitType.BASIC.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_targeting_tier2), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 2, EnumCircuitType.BASIC.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_targeting_tier3), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.BASIC.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_targeting_tier4), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 2, EnumCircuitType.ADVANCED.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_targeting_tier5), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 4, EnumCircuitType.ADVANCED.ordinal()))}).setTier(1));
-		constructionRecipes.add(new AnvilConstructionRecipe(new ComparableStack(ModItems.circuit_targeting_tier6), new AnvilOutput[] {new AnvilOutput(new ItemStack(ModItems.circuit, 2, EnumCircuitType.BISMOID.ordinal()))}).setTier(1));
 	}
 	
 	public static void pullFromAssembler(ComparableStack result, int tier) {

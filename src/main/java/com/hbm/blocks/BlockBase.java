@@ -4,6 +4,7 @@ import com.hbm.lib.RefStrings;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
@@ -12,6 +13,7 @@ import net.minecraft.world.World;
 public class BlockBase extends Block {
 	
 	private boolean beaconable = false;
+	private boolean canSpawn = true;
 
 	public BlockBase() {
 		super(Material.rock);
@@ -35,6 +37,16 @@ public class BlockBase extends Block {
 	public BlockBase setBeaconable() {
 		this.beaconable = true;
 		return this;
+	}
+	
+	public BlockBase noMobSpawn() {
+		this.canSpawn = false;
+		return this;
+	}
+
+	@Override
+	public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z) {
+		return this.canSpawn ? super.canCreatureSpawn(type, world, x, y, z) : false;
 	}
 
 	@Override
