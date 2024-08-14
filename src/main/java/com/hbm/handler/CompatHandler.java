@@ -35,6 +35,8 @@ public class CompatHandler {
         }
     }
 
+    public static final String nullComponent = "ntm_null";
+
     /**
      * This is an interface made specifically for adding OC compatibility to NTM machines. The {@link li.cil.oc.api.network.SimpleComponent} interface must also be implemented in the TE.
      * <br>
@@ -60,7 +62,7 @@ public class CompatHandler {
         @Override
         @Optional.Method(modid = "OpenComputers")
         default String getComponentName() {
-            return "ntm_null";
+            return nullComponent;
         }
 
         /**

@@ -1,6 +1,7 @@
 package com.hbm.tileentity;
 
 import api.hbm.block.ICrucibleAcceptor;
+import com.hbm.handler.CompatHandler;
 import com.hbm.handler.CompatHandler.OCComponent;
 import com.hbm.inventory.fluid.FluidType;
 
@@ -36,7 +37,7 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 
 	// due to some issues with OC deciding that it's gonna call the component name function before the worldObj is loaded
 	// the component name must be cached to prevent it from shitting itself
-	String componentName = OCComponent.super.getComponentName();
+	String componentName = CompatHandler.nullComponent;
 
 	public TileEntityProxyCombo() { }
 	
