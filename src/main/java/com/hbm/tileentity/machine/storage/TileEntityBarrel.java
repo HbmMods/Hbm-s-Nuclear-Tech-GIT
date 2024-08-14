@@ -377,9 +377,10 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 
 	@Override
 	public void explode(World world, int x, int y, int z) {
+		if(tank.getTankType() == Fluids.AMAT || tank.getTankType() == Fluids.ASCHRAB) {
 		//if(this.hasExploded) return;
-	    	float amat = Math.min(this.getFluidFill(Fluids.AMAT)/100,90);
-	    	float aschrab = Math.min(this.getFluidFill(Fluids.ASCHRAB)/100,90);
+	    	float amat = Math.min(tank.getFill()/100,90);
+	    	float aschrab = Math.min(tank.getFill()/100,90);
 	    	if(this.hasExploded && !worldObj.isRemote) {
 	    		if(amat>0)
 	    		{
@@ -411,7 +412,9 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 	    			return;			
 	    		}	
 	    	}
+		}
 	    	this.markChanged();
+	    	
 	    }
 
 	@Override

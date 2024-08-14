@@ -3,7 +3,6 @@ package com.hbm.tileentity.machine.rbmk;
 import java.util.List;
 
 import api.hbm.fluid.IFluidStandardReceiver;
-import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -18,7 +17,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-public class TileEntityRBMKBurner extends TileEntityRBMKBase implements IFluidAcceptor, IFluidStandardReceiver {
+public class TileEntityRBMKBurner extends TileEntityRBMKBase implements IFluidStandardReceiver {
 	
 	public FluidTank tank;
 	private int lastHot;
@@ -120,31 +119,6 @@ public class TileEntityRBMKBurner extends TileEntityRBMKBase implements IFluidAc
 		return ColumnType.BURNER;
 	}
 
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		if(type == tank.getTankType())
-			tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		return type == tank.getTankType() ? tank.getFill() : 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		return type == tank.getTankType() ? tank.getMaxFill() : 0;
-	}
 
 	@Override
 	public FluidTank[] getAllTanks() {

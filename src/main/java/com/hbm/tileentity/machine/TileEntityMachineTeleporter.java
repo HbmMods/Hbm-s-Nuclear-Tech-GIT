@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.WorldConfig;
-import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.INBTPacketReceiver;

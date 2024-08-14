@@ -1444,24 +1444,7 @@ public class ModEventHandlerClient {
 				client.sendQueue.addToSendQueue(new C0CPacketInput(client.moveStrafing, client.moveForward, client.movementInput.jump, client.movementInput.sneak));
 			}
 		}
-		
-		if(event.phase == event.phase.START) {
-			
-			while(soundLock);
-			soundLock = true;
-			Iterator<DelayedSound> it = delayedSounds.iterator();
-			
-			while(it.hasNext()) {
-				DelayedSound sound = it.next();
-				if(sound.delay == 0) {
-					MainRegistry.proxy.playSoundClient(sound.x, sound.y, sound.z, sound.sound, sound.volume, sound.pitch);
-					it.remove();
-				}
-				sound.delay--;
-			}
-			soundLock = false;
-			
-		}
+
 
 
             

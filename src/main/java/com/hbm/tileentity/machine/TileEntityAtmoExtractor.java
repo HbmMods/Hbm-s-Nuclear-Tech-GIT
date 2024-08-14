@@ -6,8 +6,7 @@ import java.util.List;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
+
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -16,18 +15,19 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.fluid.IFluidStandardSender;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IFluidSource, IEnergyReceiverMK2, IFluidStandardSender {
+public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardSender {
 
 	int consumption = 200;
 	public float rot;
 	public float prevRot;
 	public long power = 0;
 	public FluidTank tank;
-	public List<IFluidAcceptor> list = new ArrayList();
+	public List<IFluidStandardReceiver> list = new ArrayList();
 
 	public TileEntityAtmoExtractor() {
 		super(0);
@@ -67,7 +67,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 			markDirty();
 			
 			this.sendFluidToAll(tank, this);
-			fillFluidInit(tank.getTankType());
+			
 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
@@ -111,60 +111,6 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IF
 	}
 
 
-	@Override
-	public void fillFluidInit(FluidType type) {
-
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			fillFluid(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, getTact(), type);
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-	
-	@Override
-	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 20 < 10;
-	}
-	
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type == tank.getTankType())
-			tank.setFill(i);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		if(type == tank.getTankType())
-			return tank.getFill();
-
-		return 0;
-	}
-
-	//@Override
-	//public int getMaxFluidFill(FluidType type) {
-	//	if(type == tanks.getTankType())
-	//		return tanks.getMaxFill();
-
-	//	return 0;
-	//}
-
-	@Override
-	public void setFillForSync(int fill, int index) { }
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) { }
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return list;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		list.clear();
-	}
 
 	@Override
 	public void setPower(long i) {

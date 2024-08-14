@@ -6,8 +6,6 @@ import com.hbm.config.VersatileConfig;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.hazard.type.HazardTypeNeutron;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
 import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerStorageDrum;
 import com.hbm.inventory.fluid.FluidType;

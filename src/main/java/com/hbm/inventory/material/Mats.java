@@ -66,7 +66,7 @@ public class Mats {
 	public static final NTMMaterial MAT_PIGIRON			= makeSmeltable(2603,		df("PigIron"),		0xFF8B59).m();
 	public static final NTMMaterial MAT_METEORICIRON	= makeSmeltable(2604,		df("MeteoricIron"),	0x715347).m();
 	public static final NTMMaterial MAT_MALACHITE		= makeAdditive(	2901, 		MALACHITE,	0xA2F0C8, 0x227048, 0x61AF87).m();
-	public static final NTMMaterial MAT_CONGLOMERATE	= makeAdditive(	2993, 		CONGLOMERATE,	0x797979).m();
+	public static final NTMMaterial MAT_CONGLOMERATE	= makeAdditive(	2993, 		CONGLOMERATE,	0x797979, 0x797979, 0x797979).m();
 
 	//Radioactive
 	public static final NTMMaterial MAT_URANIUM		= makeSmeltable(9200,		U,			0xC1C7BD, 0x2B3227, 0x9AA196).setShapes(FRAGMENT, NUGGET, BILLET, INGOT, DUST, BLOCK).m();
@@ -98,28 +98,39 @@ public class Mats {
 	public static final NTMMaterial MAT_GHIORSIUM	= makeSmeltable(12836,		GH336,		0xF4EFE1, 0x2A3306, 0xC6C6A1).setShapes(NUGGET, BILLET, INGOT, BLOCK).m();
 
 	//Base metals
-	public static final NTMMaterial MAT_TITANIUM	= makeSmeltable(2200,		TI,			0xF7F3F2, 0x4F4C4B, 0xA99E79).setShapes(INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, SHELL, BLOCK, HEAVY_COMPONENT).m();
-	public static final NTMMaterial MAT_COPPER		= makeSmeltable(2900,		CU,			0xFDCA88, 0x601E0D, 0xC18336).setShapes(WIRE, INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, SHELL, PIPE, BLOCK, HEAVY_COMPONENT).m();
-	public static final NTMMaterial MAT_TUNGSTEN	= makeSmeltable(7400,		W,			0x868686, 0x000000, 0x977474).setShapes(WIRE, BOLT, INGOT, DUST, DENSEWIRE, CASTPLATE, WELDEDPLATE, BLOCK, HEAVY_COMPONENT).m();
-	public static final NTMMaterial MAT_ALUMINIUM	= makeSmeltable(1300,		AL,			0xFFFFFF, 0x344550, 0xD0B8EB).setShapes(WIRE, INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, SHELL, PIPE, BLOCK, HEAVY_COMPONENT).m();
-	public static final NTMMaterial MAT_LEAD		= makeSmeltable(8200,		PB,			0xA6A6B2, 0x03030F, 0x646470).setShapes(NUGGET, WIRE, INGOT, DUST, PLATE, CASTPLATE, PIPE, BLOCK, HEAVY_COMPONENT).m();
-	public static final NTMMaterial MAT_BISMUTH		= makeSmeltable(8300,		BI, 		0xB200FF).setShapes(NUGGET, BILLET, INGOT, DUST, BLOCK).m();
-	public static final NTMMaterial MAT_ARSENIC		= makeSmeltable(3300,		AS,			0x6CBABA, 0x242525, 0x558080).setShapes(NUGGET, INGOT).m();
-	public static final NTMMaterial MAT_TANTALIUM	= makeSmeltable(7300,		TA,			0xFFFFFF, 0x1D1D36, 0xA89B74).setShapes(NUGGET, INGOT, DUST, BLOCK).m();
-	public static final NTMMaterial MAT_NEODYMIUM	= makeSmeltable(6000,		ND,			0xE6E6B6, 0x1C1C00, 0x8F8F5F).setShapes(NUGGET, DUSTTINY, INGOT, DUST, DENSEWIRE, BLOCK).m();
-	public static final NTMMaterial MAT_NIOBIUM		= makeSmeltable(4100,		NB,			0xB76EC9, 0x2F2D42, 0xD576B1).setShapes(NUGGET, DUSTTINY, INGOT, DUST, BLOCK).m();
-	public static final NTMMaterial MAT_BERYLLIUM	= makeSmeltable(400,		BE,			0xB2B2A6, 0x0F0F03, 0xAE9572).setShapes(NUGGET, INGOT, DUST, BLOCK).m();
-	public static final NTMMaterial MAT_EMERALD		= make(			401,		EMERALD)	.setConversion(MAT_BERYLLIUM, 4, 3).n();
-	public static final NTMMaterial MAT_COBALT		= makeSmeltable(2700,		CO,			0xC2D1EE, 0x353554, 0x8F72AE).setShapes(NUGGET, DUSTTINY, BILLET, INGOT, DUST, BLOCK).m();
-	public static final NTMMaterial MAT_BORON		= makeSmeltable(500,		B,			0xBDC8D2, 0x29343E, 0xAD72AE).setShapes(DUSTTINY, INGOT, DUST, BLOCK).m();
-	public static final NTMMaterial MAT_ZIRCONIUM	= makeSmeltable(4000,		ZR,			0xE3DCBE, 0x3E3719, 0xADA688).setShapes(NUGGET, WIRE, DUSTTINY, BILLET, INGOT, DUST, CASTPLATE, WELDEDPLATE, BLOCK).m();
-	public static final NTMMaterial MAT_SODIUM		= makeSmeltable(1100,		NA,			0xD3BF9E, 0x3A5A6B, 0x7E9493).setShapes(DUST).m();
-	public static final NTMMaterial MAT_STRONTIUM	= makeSmeltable(3800,		SR,			0xF1E8BA, 0x271E00, 0xCAC193).setShapes(DUST).m();
-	public static final NTMMaterial MAT_CALCIUM		= makeSmeltable(2000,		CA,			0xCFCFA6, 0x747F6E, 0xB7B784).setShapes(INGOT, DUST).m();
-	public static final NTMMaterial MAT_LITHIUM		= makeSmeltable(300,		LI,			0xFFFFFF, 0x818181, 0xD6D6D6).setShapes(INGOT, DUST, BLOCK).m();
-	public static final NTMMaterial MAT_CADMIUM		= makeSmeltable(4800,		CD,			0xFFFADE, 0x350000, 0xA85600).setShapes(INGOT, DUST).m();
-	public static final NTMMaterial MAT_SILICON		= makeSmeltable(1400,		SI,			0xD1D7DF, 0x1A1A3D, 0x878B9E).setShapes(NUGGET, BILLET, INGOT).m();
-	public static final NTMMaterial MAT_OSMIRIDIUM	= makeSmeltable(7699,		OSMIRIDIUM, 0xDBE3EF, 0x7891BE, 0xACBDD9).setShapes(NUGGET, INGOT, CASTPLATE, WELDEDPLATE).m();
+	public static final NTMMaterial MAT_TITANIUM		= makeSmeltable(2200,		TI,				0xF7F3F2, 0x4F4C4B, 0xA99E79).setShapes(FRAGMENT, INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, SHELL, BLOCK, HEAVY_COMPONENT).m();
+	public static final NTMMaterial MAT_COPPER			= makeSmeltable(2900,		CU,				0xFDCA88, 0x601E0D, 0xC18336).setShapes(FRAGMENT, WIRE, INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, SHELL, PIPE, BLOCK, HEAVY_COMPONENT).m();
+	public static final NTMMaterial MAT_TUNGSTEN		= makeSmeltable(7400,		W,				0x868686, 0x000000, 0x977474).setShapes(FRAGMENT, WIRE, BOLT, INGOT, DUST, DENSEWIRE, CASTPLATE, WELDEDPLATE, BLOCK, HEAVY_COMPONENT).m();
+	public static final NTMMaterial MAT_ALUMINIUM		= makeSmeltable(1300,		AL,				0xFFFFFF, 0x344550, 0xD0B8EB).setShapes(FRAGMENT, WIRE, INGOT, DUST, PLATE, CASTPLATE, WELDEDPLATE, SHELL, PIPE, BLOCK, HEAVY_COMPONENT).m();
+	public static final NTMMaterial MAT_LEAD			= makeSmeltable(8200,		PB,				0xA6A6B2, 0x03030F, 0x646470).setShapes(FRAGMENT, NUGGET, WIRE, INGOT, DUST, PLATE, CASTPLATE, PIPE, BLOCK, HEAVY_COMPONENT).m();
+	public static final NTMMaterial MAT_BISMUTH			= makeSmeltable(8300,		BI, 			0xB200FF, 0xB200FF, 0xB200FF).setShapes(FRAGMENT, NUGGET, BILLET, INGOT, DUST, BLOCK).m();
+	public static final NTMMaterial MAT_ARSENIC			= makeSmeltable(3300,		AS,				0x6CBABA, 0x242525, 0x558080).setShapes(NUGGET, INGOT).m();
+	public static final NTMMaterial MAT_TANTALIUM		= makeSmeltable(7300,		TA,				0xFFFFFF, 0x1D1D36, 0xA89B74).setShapes(NUGGET, INGOT, DUST, BLOCK).m();
+	public static final NTMMaterial MAT_NEODYMIUM		= makeSmeltable(6000,		ND,				0xE6E6B6, 0x1C1C00, 0x8F8F5F).setShapes(FRAGMENT, NUGGET, DUSTTINY, INGOT, DUST, DENSEWIRE, BLOCK).m();
+	public static final NTMMaterial MAT_NIOBIUM			= makeSmeltable(4100,		NB,				0xB76EC9, 0x2F2D42, 0xD576B1).setShapes(FRAGMENT, NUGGET, DUSTTINY, INGOT, DUST, BLOCK).m();
+	public static final NTMMaterial MAT_BERYLLIUM		= makeSmeltable(400,		BE,				0xB2B2A6, 0x0F0F03, 0xAE9572).setShapes(FRAGMENT, NUGGET, INGOT, DUST, BLOCK).m();
+	public static final NTMMaterial MAT_EMERALD			= makeNonSmeltable(401,		EMERALD,		0xBAFFD4, 0x003900, 0x17DD62).setConversion(MAT_BERYLLIUM, 4, 3).setShapes(FRAGMENT, DUST, GEM, BLOCK).n();
+	public static final NTMMaterial MAT_COBALT			= makeSmeltable(2700,		CO,				0xC2D1EE, 0x353554, 0x8F72AE).setShapes(FRAGMENT, NUGGET, DUSTTINY, BILLET, INGOT, DUST, BLOCK).m();
+	public static final NTMMaterial MAT_BORON			= makeSmeltable(500,		B,				0xBDC8D2, 0x29343E, 0xAD72AE).setShapes(FRAGMENT, DUSTTINY, INGOT, DUST, BLOCK).m();
+	public static final NTMMaterial MAT_BORAX			= makeSmeltable(501,		BORAX,			0xFFFFFF, 0x946E23, 0xFFECC6).setShapes(FRAGMENT, DUST).n();
+	public static final NTMMaterial MAT_LANTHANIUM		= makeSmeltable(5700,		LA,				0xC8E0E0, 0x3B5353, 0xA1B9B9).setShapes(FRAGMENT, INGOT, BLOCK).m();
+	public static final NTMMaterial MAT_ZIRCONIUM		= makeSmeltable(4000,		ZR,				0xE3DCBE, 0x3E3719, 0xADA688).setShapes(FRAGMENT, NUGGET, WIRE, DUSTTINY, BILLET, INGOT, DUST, CASTPLATE, WELDEDPLATE, BLOCK).m();
+	public static final NTMMaterial MAT_SODIUM			= makeSmeltable(1100,		NA,				0xD3BF9E, 0x3A5A6B, 0x7E9493).setShapes(FRAGMENT, DUST).m();
+	public static final NTMMaterial MAT_SODALITE		= makeNonSmeltable(1101,	SODALITE,		0xDCE5F6, 0x4927B4, 0x96A7E6).setShapes(FRAGMENT, GEM).n();
+	public static final NTMMaterial MAT_STRONTIUM		= makeSmeltable(3800,		SR,				0xF1E8BA, 0x271E00, 0xCAC193).setShapes(FRAGMENT, DUST).m();
+	public static final NTMMaterial MAT_CALCIUM			= makeSmeltable(2000,		CA,				0xCFCFA6, 0x747F6E, 0xB7B784).setShapes(INGOT, DUST).m();
+	public static final NTMMaterial MAT_LITHIUM			= makeSmeltable(300,		LI,				0xFFFFFF, 0x818181, 0xD6D6D6).setShapes(FRAGMENT, INGOT, DUST, BLOCK).m();
+	public static final NTMMaterial MAT_SULFUR			= makeNonSmeltable(1600,	S,				0xFCEE80, 0xBDA022, 0xF1DF68).setShapes(FRAGMENT, DUST, BLOCK).n();
+	public static final NTMMaterial MAT_KNO				= makeNonSmeltable(700,		KNO,			0xD4D4D4, 0x969696, 0xC9C9C9).setShapes(FRAGMENT, DUST, BLOCK).n();
+	public static final NTMMaterial MAT_FLUORITE		= makeNonSmeltable(900,		F,				0xFFFFFF, 0xB0A192, 0xE1DBD4).setShapes(FRAGMENT, DUST, BLOCK).n();
+	public static final NTMMaterial MAT_PHOSPHORUS		= makeNonSmeltable(1500,	P_RED,			0xCB0213, 0x600006, 0xBA0615).setShapes(FRAGMENT, DUST, BLOCK).n();
+	public static final NTMMaterial MAT_CHLOROCALCITE	= makeNonSmeltable(1701, 	CHLOROCALCITE,	0xF7E761, 0x475B46, 0xB8B963).setShapes(FRAGMENT, DUST).n();
+	public static final NTMMaterial MAT_MOLYSITE		= makeNonSmeltable(1702, 	MOLYSITE, 		0xF9E97B, 0x216E00, 0xD0D264).setShapes(FRAGMENT, DUST).n();
+	public static final NTMMaterial MAT_CINNABAR		= makeNonSmeltable(8001,	CINNABAR,		0xD87070, 0x993030, 0xBF4E4E).setShapes(FRAGMENT, GEM).n();
+	public static final NTMMaterial MAT_CADMIUM			= makeSmeltable(4800,		CD,				0xFFFADE, 0x350000, 0xA85600).setShapes(INGOT, DUST).m();
+	public static final NTMMaterial MAT_SILICON			= makeSmeltable(1400,		SI,				0xD1D7DF, 0x1A1A3D, 0x878B9E).setShapes(FRAGMENT, NUGGET, BILLET, INGOT).m();
+	public static final NTMMaterial MAT_ASBESTOS		= makeSmeltable(1401,		ASBESTOS,		0xD8D9CF, 0x616258, 0xB0B3A8).setShapes(FRAGMENT, INGOT, BLOCK).n();
+	public static final NTMMaterial MAT_OSMIRIDIUM		= makeSmeltable(7699,		OSMIRIDIUM, 	0xDBE3EF, 0x7891BE, 0xACBDD9).setShapes(NUGGET, INGOT, CASTPLATE, WELDEDPLATE).m();
 	public static final NTMMaterial MAT_NICKEL		= makeSmeltable(2800,		NI,			0xAE9572, 0xAE9572, 0xAE9572).setShapes(NUGGET, INGOT, DUST, BLOCK).m();
 	public static final NTMMaterial MAT_GALLIUM		= makeSmeltable(3100,		GALLIUM,	0x52687F, 0x52687F, 0x52687F).setShapes(NUGGET, INGOT, DUST, DUSTTINY).m();
 	public static final NTMMaterial MAT_ZINC		= makeSmeltable(3000,		ZI,			0xA79DA8, 0xA79DA8, 0xA79DA8).setShapes(NUGGET, INGOT, DUST, WIRE).m(); //TODO: give this shit colors
@@ -151,7 +162,7 @@ public class Mats {
 	//Space extension alloys
 	public static final NTMMaterial MAT_GAAS		= makeSmeltable(_EX + 0,	GAAS,		0x6F4A57, 0x6F4A57, 0x6F4A57).setShapes(NUGGET, INGOT, BILLET).m();
 	public static final NTMMaterial MAT_STAINLESS	= makeSmeltable(_EX + 1,	STAINLESS,	0x4A4A4A, 0x4A4A4A, 0x4A4A4A).setShapes(INGOT, PLATE).m();
-	public static final NTMMaterial MAT_RAREEARTH	= makeNonSmeltable(_ES + 00, 		RAREEARTH,		0xC1BDBD, 0x384646, 0x7B7F7F).setShapes(FRAGMENT, INGOT).n();
+	public static final NTMMaterial MAT_RAREEARTH	= makeNonSmeltable(_EX + 00, 		RAREEARTH,		0xC1BDBD, 0x384646, 0x7B7F7F).setShapes(FRAGMENT, INGOT).n();
 
 
 	public static NTMMaterial makeSmeltable(int id, DictFrame dict, int color) { return makeSmeltable(id, dict, color, color, color); }

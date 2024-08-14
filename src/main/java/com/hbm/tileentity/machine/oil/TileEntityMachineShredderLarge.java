@@ -3,8 +3,6 @@ package com.hbm.tileentity.machine.oil;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.fluid.FluidType;
@@ -30,7 +28,7 @@ import net.minecraft.world.World;
 
 
  
-public class TileEntityMachineShredderLarge extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidSource, IFluidStandardSender {
+public class TileEntityMachineShredderLarge extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardSender {
 
 
 
@@ -75,9 +73,6 @@ public class TileEntityMachineShredderLarge extends TileEntityMachineBase implem
 			else
 				this.progress = 0;
 			
-			if(worldObj.getTotalWorldTime() % 10 == 0) {
-				this.fillFluidInit(tank.getTankType());
-			}
 			
 			this.sendFluid();
 			
@@ -202,58 +197,7 @@ public class TileEntityMachineShredderLarge extends TileEntityMachineBase implem
 		return maxPower;
 	}
 
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
 
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		if(type == tank.getTankType())
-			tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		return type == tank.getTankType() ? tank.getFill() : 0;
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		fillFluid(xCoord, yCoord - 1, zCoord, getTact(), type);
-		fillFluid(xCoord, yCoord + 4, zCoord, getTact(), type);
-		fillFluid(xCoord + 2, yCoord + 1, zCoord, getTact(), type);
-		fillFluid(xCoord - 2, yCoord + 1, zCoord, getTact(), type);
-		fillFluid(xCoord, yCoord + 1, zCoord + 2, getTact(), type);
-		fillFluid(xCoord, yCoord + 1, zCoord - 2, getTact(), type);
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 20 < 10;
-	}
-
-	private List<IFluidAcceptor> consumers = new ArrayList();
-	
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return consumers;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		consumers.clear();
-	}
 	
 	AxisAlignedBB bb = null;
 	

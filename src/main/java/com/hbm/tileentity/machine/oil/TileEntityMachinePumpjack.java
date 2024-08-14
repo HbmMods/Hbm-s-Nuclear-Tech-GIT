@@ -9,6 +9,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.SolarSystem;
 import com.hbm.inventory.container.ContainerMachineOilWell;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GUIMachineOilWell;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.tileentity.IConfigurableMachine;
