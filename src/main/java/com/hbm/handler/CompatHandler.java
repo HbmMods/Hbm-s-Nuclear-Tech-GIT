@@ -2,19 +2,11 @@ package com.hbm.handler;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.tileentity.TileEntityProxyCombo;
 import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.*;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import java.lang.reflect.Array;
 
 
 /**
@@ -54,11 +46,10 @@ public class CompatHandler {
     @Optional.InterfaceList({
             @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers"),
             @Optional.Interface(iface = "li.cil.oc.api.network.SidedComponent", modid = "OpenComputers"),
-            @Optional.Interface(iface = "li.cil.oc.api.network.Analyzable", modid = "OpenComputers"),
             @Optional.Interface(iface = "li.cil.oc.api.network.ManagedPeripheral", modid = "OpenComputers"),
     })
     @SimpleComponent.SkipInjection // make sure OC doesn't inject this shit into the interface and crash
-    public interface OCComponent extends SimpleComponent, SidedComponent, Analyzable, ManagedPeripheral {
+    public interface OCComponent extends SimpleComponent, SidedComponent, ManagedPeripheral {
 
         /**
          * Must be overridden in the implemented TE, or it will default to "ntm_null".
@@ -81,31 +72,6 @@ public class CompatHandler {
         @Optional.Method(modid = "OpenComputers")
         default boolean canConnectNode(ForgeDirection side) {
             return true;
-        }
-
-        /**
-         * Function to give more information when analyzing the block. Multiple entries in the array will be sent to the user in the order of the array.
-         * @return Additional text to add in the form of lang entries (ex: "analyze.basic2").
-         */
-        @Optional.Method(modid = "OpenComputers")
-        default String[] getExtraInfo() {return new String[] {"analyze.noInfo"};}
-
-        @Override
-        @Optional.Method(modid = "OpenComputers")
-        default Node[] onAnalyze(EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-            player.addChatComponentMessage(new ChatComponentTranslation("analyze.basic1").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)));
-            player.addChatComponentMessage(new ChatComponentTranslation("analyze.basic2").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
-            player.addChatComponentMessage(new ChatComponentTranslation("analyze.basic3").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)));
-            player.addChatComponentMessage(new ChatComponentTranslation("analyze.name", this.getComponentName()).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.GOLD)));
-            String[] extraInfo = getExtraInfo();
-            for (String info : extraInfo) {
-                if(!info.equals(""))
-                    player.addChatComponentMessage(new ChatComponentTranslation(info).setChatStyle(new ChatStyle().setColor(EnumChatFormatting.YELLOW)));
-            }
-            TileEntity te = (TileEntity) this;
-            if((Array.getLength(this.methods()) == 0 && te instanceof TileEntityProxyCombo) || this.getComponentName().equals("ntm_null"))
-                player.addChatComponentMessage(new ChatComponentTranslation("analyze.error").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
-            return null;
         }
 
         /**
