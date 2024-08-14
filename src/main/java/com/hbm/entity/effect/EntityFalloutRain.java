@@ -64,8 +64,8 @@ public class EntityFalloutRain extends EntityExplosionChunkloading {
 						int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
 						int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
 						boolean biomeModified = false;
-						for(int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) {
-							for(int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
+						for(int x = chunkPosX << 4; x < (chunkPosX << 4) + 16; x++) {
+							for(int z = chunkPosZ << 4; z < (chunkPosZ << 4) + 16; z++) {
 								double percent = Math.hypot(x - posX, z - posZ) * 100 / getScale();
 								stomp(x, z, percent);
 								BiomeGenBase biome = getBiomeChange(percent, getScale(), worldObj.getBiomeGenForCoords(x, z));
@@ -82,8 +82,8 @@ public class EntityFalloutRain extends EntityExplosionChunkloading {
 						int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
 						int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
 						boolean biomeModified = false;
-						for(int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) {
-							for(int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
+						for(int x = chunkPosX << 4; x < (chunkPosX << 4) + 16; x++) {
+							for(int z = chunkPosZ << 4; z < (chunkPosZ << 4) + 16; z++) {
 								double distance = Math.hypot(x - posX, z - posZ);
 								if(distance <= getScale()) {
 									double percent = distance * 100 / getScale();

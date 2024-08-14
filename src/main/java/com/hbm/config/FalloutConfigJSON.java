@@ -228,6 +228,7 @@ public class FalloutConfigJSON {
 		}
 		
 		private MetaBlock chooseRandomOutcome(Triplet<Block, Integer, Integer>[] blocks) {
+			if(blocks == null) return null;
 			
 			int weight = 0;
 			
