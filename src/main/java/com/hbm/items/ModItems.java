@@ -1391,6 +1391,8 @@ public class ModItems {
 	public static Item pellet_buckshot;
 	public static Item pellet_flechette;
 	public static Item pellet_chlorophyte;
+	public static Item pellet_mercury;
+	public static Item pellet_meteorite;
 	public static Item pellet_canister;
 	public static Item pellet_claws;
 	public static Item pellet_charged;
@@ -2551,8 +2553,30 @@ public class ModItems {
 	public static Item book_lemegeton;
 	public static Item burnt_bark;
 
-
-
+	public static Item smoke1;
+	public static Item smoke2;
+	public static Item smoke3;
+	public static Item smoke4;
+	public static Item smoke5;
+	public static Item smoke6;
+	public static Item smoke7;
+	public static Item smoke8;
+	public static Item b_smoke1;
+	public static Item b_smoke2;
+	public static Item b_smoke3;
+	public static Item b_smoke4;
+	public static Item b_smoke5;
+	public static Item b_smoke6;
+	public static Item b_smoke7;
+	public static Item b_smoke8;
+	public static Item d_smoke1;
+	public static Item d_smoke2;
+	public static Item d_smoke3;
+	public static Item d_smoke4;
+	public static Item d_smoke5;
+	public static Item d_smoke6;
+	public static Item d_smoke7;
+	public static Item d_smoke8;
 	public static Item spill1;
 	public static Item spill2;
 	public static Item spill3;
@@ -2609,6 +2633,9 @@ public class ModItems {
 	public static Item gasflame6;
 	public static Item gasflame7;
 	public static Item gasflame8;*/
+	public static Item energy_ball;
+	public static Item discharge;
+	public static Item empblast;
 	public static Item flame_1;
 	public static Item flame_2;
 	public static Item flame_3;
@@ -4251,6 +4278,8 @@ public class ModItems {
 		pellet_buckshot = new Item().setUnlocalizedName("pellet_buckshot").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_lead");
 		pellet_flechette = new Item().setUnlocalizedName("pellet_flechette").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_flechette");
 		pellet_chlorophyte = new Item().setUnlocalizedName("pellet_chlorophyte").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_chlorophyte");
+		pellet_mercury = new Item().setUnlocalizedName("pellet_mercury").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_mercury");
+		pellet_meteorite = new Item().setUnlocalizedName("pellet_meteorite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_meteorite");
 		pellet_canister = new Item().setUnlocalizedName("pellet_canister").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_canister");
 		pellet_claws = new Item().setUnlocalizedName("pellet_claws").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_claws");
 		pellet_charged = new Item().setUnlocalizedName("pellet_charged").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":pellets_charged");
@@ -5878,6 +5907,30 @@ public class ModItems {
 		book_lemegeton = new ItemBookLemegeton().setUnlocalizedName("book_lemegeton").setMaxStackSize(1).setCreativeTab(null).setTextureName(RefStrings.MODID + ":book_lemegeton");
 		burnt_bark = new ItemCustomLore().setUnlocalizedName("burnt_bark").setCreativeTab(null).setTextureName(RefStrings.MODID + ":burnt_bark");
 
+		smoke1 = new Item().setUnlocalizedName("smoke1").setTextureName(RefStrings.MODID + ":smoke1");
+		smoke2 = new Item().setUnlocalizedName("smoke2").setTextureName(RefStrings.MODID + ":smoke2");
+		smoke3 = new Item().setUnlocalizedName("smoke3").setTextureName(RefStrings.MODID + ":smoke3");
+		smoke4 = new Item().setUnlocalizedName("smoke4").setTextureName(RefStrings.MODID + ":smoke4");
+		smoke5 = new Item().setUnlocalizedName("smoke5").setTextureName(RefStrings.MODID + ":smoke5");
+		smoke6 = new Item().setUnlocalizedName("smoke6").setTextureName(RefStrings.MODID + ":smoke6");
+		smoke7 = new Item().setUnlocalizedName("smoke7").setTextureName(RefStrings.MODID + ":smoke7");
+		smoke8 = new Item().setUnlocalizedName("smoke8").setTextureName(RefStrings.MODID + ":smoke8");
+		b_smoke1 = new Item().setUnlocalizedName("b_smoke1").setTextureName(RefStrings.MODID + ":b_smoke1");
+		b_smoke2 = new Item().setUnlocalizedName("b_smoke2").setTextureName(RefStrings.MODID + ":b_smoke2");
+		b_smoke3 = new Item().setUnlocalizedName("b_smoke3").setTextureName(RefStrings.MODID + ":b_smoke3");
+		b_smoke4 = new Item().setUnlocalizedName("b_smoke4").setTextureName(RefStrings.MODID + ":b_smoke4");
+		b_smoke5 = new Item().setUnlocalizedName("b_smoke5").setTextureName(RefStrings.MODID + ":b_smoke5");
+		b_smoke6 = new Item().setUnlocalizedName("b_smoke6").setTextureName(RefStrings.MODID + ":b_smoke6");
+		b_smoke7 = new Item().setUnlocalizedName("b_smoke7").setTextureName(RefStrings.MODID + ":b_smoke7");
+		b_smoke8 = new Item().setUnlocalizedName("b_smoke8").setTextureName(RefStrings.MODID + ":b_smoke8");
+		d_smoke1 = new Item().setUnlocalizedName("d_smoke1").setTextureName(RefStrings.MODID + ":d_smoke1");
+		d_smoke2 = new Item().setUnlocalizedName("d_smoke2").setTextureName(RefStrings.MODID + ":d_smoke2");
+		d_smoke3 = new Item().setUnlocalizedName("d_smoke3").setTextureName(RefStrings.MODID + ":d_smoke3");
+		d_smoke4 = new Item().setUnlocalizedName("d_smoke4").setTextureName(RefStrings.MODID + ":d_smoke4");
+		d_smoke5 = new Item().setUnlocalizedName("d_smoke5").setTextureName(RefStrings.MODID + ":d_smoke5");
+		d_smoke6 = new Item().setUnlocalizedName("d_smoke6").setTextureName(RefStrings.MODID + ":d_smoke6");
+		d_smoke7 = new Item().setUnlocalizedName("d_smoke7").setTextureName(RefStrings.MODID + ":d_smoke7");
+		d_smoke8 = new Item().setUnlocalizedName("d_smoke8").setTextureName(RefStrings.MODID + ":d_smoke8");
 		spill1 = new Item().setUnlocalizedName("spill1").setTextureName(RefStrings.MODID + ":spill1");
 		spill2 = new Item().setUnlocalizedName("spill2").setTextureName(RefStrings.MODID + ":spill2");
 		spill3 = new Item().setUnlocalizedName("spill3").setTextureName(RefStrings.MODID + ":spill3");
@@ -5926,6 +5979,9 @@ public class ModItems {
 		orange6 = new Item().setUnlocalizedName("orange6").setTextureName(RefStrings.MODID + ":orange6");
 		orange7 = new Item().setUnlocalizedName("orange7").setTextureName(RefStrings.MODID + ":orange7");
 		orange8 = new Item().setUnlocalizedName("orange8").setTextureName(RefStrings.MODID + ":orange8");
+		energy_ball = new Item().setUnlocalizedName("energy_ball").setTextureName(RefStrings.MODID + ":energy_ball");
+		discharge = new Item().setUnlocalizedName("discharge").setTextureName(RefStrings.MODID + ":discharge");
+		empblast = new Item().setUnlocalizedName("empblast").setTextureName(RefStrings.MODID + ":empblast");
 		flame_1 = new Item().setUnlocalizedName("flame_1").setTextureName(RefStrings.MODID + ":flame_1");
 		flame_2 = new Item().setUnlocalizedName("flame_2").setTextureName(RefStrings.MODID + ":flame_2");
 		flame_3 = new Item().setUnlocalizedName("flame_3").setTextureName(RefStrings.MODID + ":flame_3");
@@ -6808,6 +6864,8 @@ public class ModItems {
 		GameRegistry.registerItem(pellet_buckshot, pellet_buckshot.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_flechette, pellet_flechette.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_chlorophyte, pellet_chlorophyte.getUnlocalizedName());
+		GameRegistry.registerItem(pellet_mercury, pellet_mercury.getUnlocalizedName());
+		GameRegistry.registerItem(pellet_meteorite, pellet_meteorite.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_canister, pellet_canister.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_claws, pellet_claws.getUnlocalizedName());
 		GameRegistry.registerItem(pellet_charged, pellet_charged.getUnlocalizedName());
@@ -8465,6 +8523,30 @@ public class ModItems {
 		GameRegistry.registerItem(holotape_damaged, holotape_damaged.getUnlocalizedName());
 		
 		//Technical Items
+		GameRegistry.registerItem(smoke1, smoke1.getUnlocalizedName());
+		GameRegistry.registerItem(smoke2, smoke2.getUnlocalizedName());
+		GameRegistry.registerItem(smoke3, smoke3.getUnlocalizedName());
+		GameRegistry.registerItem(smoke4, smoke4.getUnlocalizedName());
+		GameRegistry.registerItem(smoke5, smoke5.getUnlocalizedName());
+		GameRegistry.registerItem(smoke6, smoke6.getUnlocalizedName());
+		GameRegistry.registerItem(smoke7, smoke7.getUnlocalizedName());
+		GameRegistry.registerItem(smoke8, smoke8.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke1, b_smoke1.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke2, b_smoke2.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke3, b_smoke3.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke4, b_smoke4.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke5, b_smoke5.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke6, b_smoke6.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke7, b_smoke7.getUnlocalizedName());
+		GameRegistry.registerItem(b_smoke8, b_smoke8.getUnlocalizedName());
+		GameRegistry.registerItem(d_smoke1, d_smoke1.getUnlocalizedName());
+		GameRegistry.registerItem(d_smoke2, d_smoke2.getUnlocalizedName());
+		GameRegistry.registerItem(d_smoke3, d_smoke3.getUnlocalizedName());
+		GameRegistry.registerItem(d_smoke4, d_smoke4.getUnlocalizedName());
+		GameRegistry.registerItem(d_smoke5, d_smoke5.getUnlocalizedName());
+		GameRegistry.registerItem(d_smoke6, d_smoke6.getUnlocalizedName());
+		GameRegistry.registerItem(d_smoke7, d_smoke7.getUnlocalizedName());
+		GameRegistry.registerItem(d_smoke8, d_smoke8.getUnlocalizedName());
 		GameRegistry.registerItem(spill1, spill1.getUnlocalizedName());
 		GameRegistry.registerItem(spill2, spill2.getUnlocalizedName());
 		GameRegistry.registerItem(spill3, spill3.getUnlocalizedName());
@@ -8513,6 +8595,9 @@ public class ModItems {
 		GameRegistry.registerItem(orange6, orange6.getUnlocalizedName());
 		GameRegistry.registerItem(orange7, orange7.getUnlocalizedName());
 		GameRegistry.registerItem(orange8, orange8.getUnlocalizedName());
+		GameRegistry.registerItem(energy_ball, energy_ball.getUnlocalizedName());
+		GameRegistry.registerItem(discharge, discharge.getUnlocalizedName());
+		GameRegistry.registerItem(empblast, empblast.getUnlocalizedName());
 		GameRegistry.registerItem(flame_1, flame_1.getUnlocalizedName());
 		GameRegistry.registerItem(flame_2, flame_2.getUnlocalizedName());
 		GameRegistry.registerItem(flame_3, flame_3.getUnlocalizedName());
