@@ -494,6 +494,7 @@ public class ModBlocks {
 	public static Block oil_spill;
 
 	public static Block sellafield_slaked;
+	public static Block sellafield_bedrock;
 	public static Block sellafield;
 	public static Block ore_sellafield_diamond;
 	public static Block ore_sellafield_emerald;
@@ -1319,7 +1320,7 @@ public class ModBlocks {
 		ore_oil = new BlockOre(Material.rock).setBlockName("ore_oil").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil");
 		ore_oil_empty = new BlockGeneric(Material.rock).setBlockName("ore_oil_empty").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil_empty");
 		ore_oil_sand = new BlockFalling(Material.sand).setBlockName("ore_oil_sand").setCreativeTab(MainRegistry.blockTab).setStepSound(Block.soundTypeSand).setHardness(0.5F).setResistance(1.0F).setBlockTextureName(RefStrings.MODID + ":ore_oil_sand_alt");
-		ore_bedrock_oil = new BlockGeneric(Material.rock).setBlockName("ore_bedrock_oil").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(1_000_000).setBlockTextureName(RefStrings.MODID + ":ore_bedrock_oil");
+		ore_bedrock_oil = new BlockGeneric(Material.rock).noMobSpawn().setBlockName("ore_bedrock_oil").setCreativeTab(MainRegistry.blockTab).setBlockUnbreakable().setResistance(1_000_000).setBlockTextureName(RefStrings.MODID + ":ore_bedrock_oil");
 		
 		ore_tikite = new BlockDragonProof(Material.rock).setBlockName("ore_tikite").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_tikite_alt");
 		
@@ -1665,6 +1666,7 @@ public class ModBlocks {
 		stone_cracked = new BlockFalling(Material.rock).setBlockName("stone_cracked").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":stone_cracked");
 		
 		sellafield_slaked = new BlockSellafieldSlaked(Material.rock).setBlockName("sellafield_slaked").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_slaked");
+		sellafield_bedrock = new BlockSellafieldSlaked(Material.rock).setBlockName("sellafield_bedrock").setBlockUnbreakable().setResistance(6000000.0F).setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":sellafield_slaked");
 		sellafield = new BlockSellafield(Material.rock).setBlockName("sellafield").setStepSound(Block.soundTypeStone).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":sellafield_0");
 		ore_sellafield_diamond = new BlockSellafieldOre(Material.rock).setBlockName("ore_sellafield_diamond").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":ore_overlay_diamond");
 		ore_sellafield_emerald = new BlockSellafieldOre(Material.rock).setBlockName("ore_sellafield_emerald").setStepSound(Block.soundTypeStone).setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setBlockTextureName(RefStrings.MODID + ":ore_overlay_emerald");
@@ -2798,6 +2800,7 @@ public class ModBlocks {
 		
 		//RAD
 		register(sellafield_slaked);
+		register(sellafield_bedrock);
 		register(ore_sellafield_diamond);
 		register(ore_sellafield_emerald);
 		register(ore_sellafield_uranium_scorched);

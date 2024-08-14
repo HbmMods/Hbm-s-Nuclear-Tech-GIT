@@ -36,10 +36,7 @@ public class Library {
 	static Random rand = new Random();
 	
 	public static boolean checkForHeld(EntityPlayer player, Item item) {
-		
-		if(player.getHeldItem() == null)
-			return false;
-		
+		if(player.getHeldItem() == null) return false;
 		return player.getHeldItem().getItem() == item;
 	}
 
@@ -294,22 +291,6 @@ public class Library {
 		 * You won't be missed.
 		 */
 	}
-	
-	public static boolean isArrayEmpty(Object[] array) {
-		if(array == null)
-			return true;
-		if(array.length == 0)
-			return true;
-		
-		boolean flag = true;
-		
-		for(int i = 0; i < array.length; i++) {
-			if(array[i] != null)
-				flag = false;
-		}
-		
-		return flag;
-	}
 
 	// Added for sake of doors
 	// Original: Drillgon200: https://thebookofshaders.com/glossary/?search=smoothstep
@@ -332,24 +313,11 @@ public class Library {
 		return pos != null;
 	}
 	
-	public static int getFirstNullIndex(int start, Object[] array) {
-		for(int i = start; i < array.length; i++) {
-			if(array[i] == null)
-				return i;
-		}
-		return -1;
-	}
-	
 	public static Block getRandomConcrete() {
 		int i = rand.nextInt(20);
-
-		if(i <= 1)
-			return ModBlocks.brick_concrete_broken;
-		if(i <= 4)
-			return ModBlocks.brick_concrete_cracked;
-		if(i <= 10)
-			return ModBlocks.brick_concrete_mossy;
-		
+		if(i <= 1) return ModBlocks.brick_concrete_broken;
+		if(i <= 4) return ModBlocks.brick_concrete_cracked;
+		if(i <= 10) return ModBlocks.brick_concrete_mossy;
 		return ModBlocks.brick_concrete;
 	}
 }

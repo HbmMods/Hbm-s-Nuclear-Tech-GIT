@@ -5770,6 +5770,7 @@ tile.sellafield.2.name=Boiling Sellafite
 tile.sellafield.3.name=Blazing Sellafite
 tile.sellafield.4.name=Infernal Sellafite
 tile.sellafield.5.name=Sellafite-Corium
+tile.sellafield_bedrock.name=Bedrock Sellafite
 tile.sellafield_slaked.name=Slaked Sellafite
 tile.semtex.name=Semtex
 tile.silo_hatch.name=Silo Hatch

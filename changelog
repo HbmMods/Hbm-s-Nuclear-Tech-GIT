@@ -1,5 +1,9 @@
 ## Added
 * Plushies
+* Bedrock sellafite
+  * Replaces bedrock in the bottom of craters
+  * Looks exactly like slaked sellafite while inheriting all other traits from bedrock (unbreakable, high blast resistance, no mob spawning)
+  * Overall large craters no longer have the unsightly weird bedrock layer at the bottom
 
 ## Changed
 * Updated chinese localization
@@ -45,3 +49,4 @@
 * Fixed issues with the spotlight crafting recipes
 * Fixed various issues with opencomputers integration
 * Fixed incorrect armor mod descriptions being shown for cards
+* Fixed mobs being able to spawn on bedrock ore and bedrock oil

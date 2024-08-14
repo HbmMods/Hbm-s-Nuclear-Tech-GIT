@@ -4683,6 +4683,7 @@ tile.sellafield_2.name=Kochendes Sellafit
 tile.sellafield_3.name=Flammendes Sellafit
 tile.sellafield_4.name=Infernales Sellafit
 tile.sellafield_core.name=Sellafit-Corium
+tile.sellafield_bedrock.name=Bedrock-Sellafit
 tile.sellafield_slaked.name=Gelöschtes Sellafit
 tile.semtex.name=Semtex
 tile.silo_hatch.name=Siloluke

@@ -6289,6 +6289,7 @@ public class ModItems {
 		GameRegistry.registerItem(pipette_laboratory, pipette_laboratory.getUnlocalizedName());
 
 		//Siphon
+		GameRegistry.registerItem(siphon, siphon.getUnlocalizedName());
 
 		//Batteries
 		GameRegistry.registerItem(battery_generic, battery_generic.getUnlocalizedName());
