@@ -36,6 +36,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
 public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOverlay {
 
@@ -71,6 +72,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	public EntityRideableRocket(World world) {
 		super(world);
+		setSize(2, 8);
+		sizeSet = false;
 	}
 
 	public EntityRideableRocket(World world, float x, float y, float z, ItemStack stack) {
@@ -466,10 +469,6 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		} else {
 			navDrive = null;
 		}
-
-		// weird wacky position offset load fix
-		posX += 0.875;
-		posZ += 0.875;
 	}
 
 	@Override
@@ -565,6 +564,11 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	public ItemStack getDebrisRareDrop() {
 		return null;
 	}
+
+	// Don't chunkload rockets, they are only useful in the presence of players anyway
+	@Override public void init(Ticket ticket) { }
+	@Override public void loadNeighboringChunks(int newChunkX, int newChunkZ) { }
+	@Override public void clearChunkLoader() { }
 
 	public static class EntityRideableRocketDummy extends Entity implements ILookOverlay {
 
