@@ -980,7 +980,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModBlocks.machine_solar, 1), new AStack[] {
 				new OreDictStack(STAINLESS.plate(), 4),
 				new ComparableStack(ModItems.photo_panel, 4),
-				new OreDictStack(POLYMER.ingot(), 2),
+				new OreDictStack(ANY_PLASTIC.ingot(), 2),
 				new OreDictStack(MINGRADE.wireFine(), 8),
 			}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_chemfac, 1), new AStack[] {
