@@ -46,17 +46,9 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			if(this.worldObj.getTotalWorldTime() % 20 == 0) this.updateConnections();
+			if(this.worldObj.getTotalWorldTime() % 10 == 0) this.updateConnections();
 			
-			if(worldObj.getTotalWorldTime() % 2 == 0) reform();
-	
-			for(DirPos pos : getConPos()) {
-				for(int i = 2; i < 4; i++) {
-					if(tanks[i].getFill() > 0) {
-						this.sendFluid(tanks[i], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-					}
-				}
-			}
+			if(worldObj.getTotalWorldTime() % 2 == 0) alkylate();
 			
 			this.networkPackNT(25);
 		}
@@ -76,7 +68,7 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 		for(int i = 0; i < tanks.length; i++) tanks[i].deserialize(buf);
 	}
 	
-	private void reform() {
+	private void alkylate() {
 		
 		Triplet<FluidStack, FluidStack, FluidStack> out = AlkylationRecipes.getOutput(tanks[0].getTankType());
 		if(out == null) {
@@ -109,6 +101,8 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			if(tanks[3].getFill() > 0) this.sendFluid(tanks[3], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
 	
@@ -117,16 +111,17 @@ public class TileEntityMachineAlkylation extends TileEntityMachineBase implement
 		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 		
 		return new DirPos[] {
-			new DirPos(xCoord - dir.offsetX * 2  - rot.offsetX * 2,  yCoord, zCoord - dir.offsetZ * 2  - rot.offsetZ * -2, dir),
-			new DirPos(xCoord - dir.offsetX * 2  - rot.offsetX * -2, yCoord, zCoord - dir.offsetZ * 2  - rot.offsetZ * 2,  dir),
-			new DirPos(xCoord - dir.offsetX * 3  - rot.offsetX * -1, yCoord, zCoord - dir.offsetZ * 3  - rot.offsetZ * -1, dir),
-			new DirPos(xCoord - dir.offsetX * 3  - rot.offsetX * 1,  yCoord, zCoord - dir.offsetZ * 3  - rot.offsetZ * 1,  dir),
-			new DirPos(xCoord - dir.offsetX * -0 - rot.offsetX * 2,  yCoord, zCoord - dir.offsetZ * -0 - rot.offsetZ * 2,  dir),
-			new DirPos(xCoord - dir.offsetX * 0  - rot.offsetX * -2, yCoord, zCoord - dir.offsetZ * -0 - rot.offsetZ * -2, dir),
-			new DirPos(xCoord - dir.offsetX * -2 - rot.offsetX * 2,  yCoord, zCoord - dir.offsetZ * -2 - rot.offsetZ * 2,  dir),
-			new DirPos(xCoord - dir.offsetX * -3 - rot.offsetX * 1,  yCoord, zCoord - dir.offsetZ * -3 - rot.offsetZ * 1,  dir),
-			new DirPos(xCoord - dir.offsetX * -3 - rot.offsetX * -1, yCoord, zCoord - dir.offsetZ * -3 - rot.offsetZ * -1, dir),
-			new DirPos(xCoord - dir.offsetX * -2 - rot.offsetX * -2, yCoord, zCoord - dir.offsetZ * -2 - rot.offsetZ * -2, dir)
+			new DirPos(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, dir),
+			new DirPos(xCoord + rot.offsetX * 2 + dir.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2 + dir.offsetZ * 2, dir),
+			new DirPos(xCoord + rot.offsetX * 1 + dir.offsetX * 3, yCoord, zCoord + rot.offsetZ * 1 + dir.offsetZ * 3, dir),
+			new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2 - dir.offsetZ * 2, dir),
+			new DirPos(xCoord + rot.offsetX * 1 - dir.offsetX * 3, yCoord, zCoord + rot.offsetZ * 1 - dir.offsetZ * 3, dir),
+
+			new DirPos(xCoord - rot.offsetX * 2, yCoord, zCoord - rot.offsetZ * 2, dir),
+			new DirPos(xCoord - rot.offsetX * 2 + dir.offsetX * 2, yCoord, zCoord - rot.offsetZ * 2 + dir.offsetZ * 2, dir),
+			new DirPos(xCoord - rot.offsetX * 1 + dir.offsetX * 3, yCoord, zCoord - rot.offsetZ * 1 + dir.offsetZ * 3, dir),
+			new DirPos(xCoord - rot.offsetX * 2 - dir.offsetX * 2, yCoord, zCoord - rot.offsetZ * 2 - dir.offsetZ * 2, dir),
+			new DirPos(xCoord - rot.offsetX * 1 - dir.offsetX * 3, yCoord, zCoord - rot.offsetZ * 1 - dir.offsetZ * 3, dir),
 		};
 	}
 	

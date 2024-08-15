@@ -53,14 +53,18 @@ public class MachineAlkylation extends BlockDummyable implements ILookOverlay {
 	@Override
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
+
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
-		this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ + 1);
-		this.makeExtra(world, x - dir.offsetX + 1, y, z - dir.offsetZ - 1);
-		this.makeExtra(world, x - dir.offsetX - 1, y, z - dir.offsetZ + 1);
-		this.makeExtra(world, x - dir.offsetX - 1, y, z - dir.offsetZ - 1);
-		this.makeExtra(world, x - dir.offsetX * -2 - rot.offsetX * 1, y, z - dir.offsetZ * -2 - rot.offsetZ * 1);
-		this.makeExtra(world, x - dir.offsetX * -2 - rot.offsetX * -1, y, z - dir.offsetZ * -2 - rot.offsetZ * -1);
+
+		x += dir.offsetX * o;
+		z += dir.offsetZ * o;
+
+		makeExtra(world, x + rot.offsetX, y, z + rot.offsetZ);
+		makeExtra(world, x + rot.offsetX + dir.offsetX * 2, y, z + rot.offsetZ + dir.offsetZ * 2);
+		makeExtra(world, x + rot.offsetX - dir.offsetX * 2, y, z + rot.offsetZ - dir.offsetZ * 2);
+		makeExtra(world, x - rot.offsetX, y, z - rot.offsetZ);
+		makeExtra(world, x - rot.offsetX + dir.offsetX * 2, y, z - rot.offsetZ + dir.offsetZ * 2);
+		makeExtra(world, x - rot.offsetX - dir.offsetX * 2, y, z - rot.offsetZ - dir.offsetZ * 2);
 	}
 	
 	@Override
