@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineITER;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerPlasmaHeater;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -29,7 +28,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase implements IFluidContainer, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider {
+public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 100000000;
@@ -40,9 +39,9 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 	public TileEntityMachinePlasmaHeater() {
 		super(5);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 16000, 0);
-		tanks[1] = new FluidTank(Fluids.TRITIUM, 16000, 1);
-		plasma = new FluidTank(Fluids.PLASMA_DT, 64000, 2);
+		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 16_000);
+		tanks[1] = new FluidTank(Fluids.TRITIUM, 16_000);
+		plasma = new FluidTank(Fluids.PLASMA_DT, 64_000);
 	}
 
 	@Override
@@ -123,12 +122,12 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 			/// END Loading plasma into the ITER ///
 
 			/// START Notif packets ///
-			for(int i = 0; i < tanks.length; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			plasma.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
+			tanks[0].writeToNBT(data, "t0");
+			tanks[1].writeToNBT(data, "t1");
+			plasma.writeToNBT(data, "t2");
 			this.networkPack(data, 50);
 			/// END Notif packets ///
 		}
@@ -154,6 +153,9 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 		super.networkUnpack(nbt);
 		
 		this.power = nbt.getLong("power");
+		tanks[0].readFromNBT(nbt, "t0");
+		tanks[1].readFromNBT(nbt, "t1");
+		plasma.readFromNBT(nbt, "t2");
 	}
 	
 	private void updateType() {
@@ -210,24 +212,6 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 		tanks[0].writeToNBT(nbt, "fuel_1");
 		tanks[1].writeToNBT(nbt, "fuel_2");
 		plasma.writeToNBT(nbt, "plasma");
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
-		
-		if(index == 2)
-			plasma.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
-		
-		if(index == 2)
-			plasma.setTankType(type);
 	}
 
 	@Override

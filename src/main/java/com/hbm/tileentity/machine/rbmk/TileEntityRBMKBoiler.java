@@ -9,7 +9,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerRBMKGeneric;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -34,7 +33,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IFluidContainer, IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements IControlReceiver, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
 	
 	public FluidTank feed;
 	public FluidTank steam;
@@ -44,8 +43,8 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	public TileEntityRBMKBoiler() {
 		super(0);
 
-		feed = new FluidTank(Fluids.WATER, 10000, 0);
-		steam = new FluidTank(Fluids.STEAM, 1000000, 1);
+		feed = new FluidTank(Fluids.WATER, 10000);
+		steam = new FluidTank(Fluids.STEAM, 1000000);
 	}
 
 	@Override
@@ -57,8 +56,6 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			feed.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			steam.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 
 			this.consumption = 0;
 			this.output = 0;
@@ -148,24 +145,6 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y)
 			};
 		}
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-
-		if(index == 0)
-			feed.setFill(fill);
-		else if(index == 1)
-			steam.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-
-		if(index == 0)
-			feed.setTankType(type);
-		else if(index == 1)
-			steam.setTankType(type);
 	}
 	
 	@Override

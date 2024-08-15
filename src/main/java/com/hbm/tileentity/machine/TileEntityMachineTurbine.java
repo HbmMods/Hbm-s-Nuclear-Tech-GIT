@@ -1,7 +1,6 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.handler.CompatHandler;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerMachineTurbine;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -10,8 +9,7 @@ import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.inventory.gui.GUIMachineTurbine;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.CompatEnergyControl;
@@ -21,9 +19,9 @@ import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -39,7 +37,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineTurbine extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityMachineTurbine extends TileEntityLoadedBase implements ISidedInventory, IEnergyProviderMK2, IFluidStandardTransceiver, IBufPacketReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
 
 	private ItemStack slots[];
 
@@ -58,8 +56,8 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	public TileEntityMachineTurbine() {
 		slots = new ItemStack[7];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.STEAM, 64000, 0);
-		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.STEAM, 64_000);
+		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 128_000);
 	}
 
 	@Override
@@ -272,23 +270,20 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			
 			tanks[1].unloadTank(5, 6, slots);
 			
-			for(int i = 0; i < 2; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			this.sendStandard(25);
 		}
 	}
 
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if(index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
+	@Override public void serialize(ByteBuf buf) {
+		buf.writeLong(power);
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
 	}
 
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if(index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
+	@Override public void deserialize(ByteBuf buf) {
+		this.power = buf.readLong();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
 	}
 	
 	@Override

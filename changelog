@@ -1,52 +1,11 @@
-## Added
-* Plushies
-* Bedrock sellafite
-  * Replaces bedrock in the bottom of craters
-  * Looks exactly like slaked sellafite while inheriting all other traits from bedrock (unbreakable, high blast resistance, no mob spawning)
-  * Overall large craters no longer have the unsightly weird bedrock layer at the bottom
-
 ## Changed
-* Updated chinese localization
-* The fluid burner, heat exchanging heater and cooling tower now use the single steel pipe items instead of the larger steel pipes
-* Reduced the amount of condensers needed for crafting the cooling towers
-* Liquefactors and solidifiers now have a base processing time of 5 seconds per operation (instead of 10)
-* Added some info to the coltass about how the coltan deposit works
-* Moved some NEI handlers around, fluid containers are now listed last and radiolysis is now listed right after cracking, since they have the same recipes
-* The autocrafter's inputs are now limited to 4 items per slot
-* Autocrafters can now receive stacked items again (except for items with containers), if they do not exceed the 4 item threshold
-* Bedrock ores now produce bedrock ore fragments instead of straight outputs, one fragment is equivalent to a nugget
-  * Fragments also differ in stack size when produced, most primary fractions yield 9 (equal to the previous full powder), but things with lower demands/higher value like bismuth now yield substantially less
-* The base speed of the large mining drill when mining bedrock has been reduced by 80%, it is now advisable to either invest in upgrades early on or use multiple drills
-* The bedrock ore processor now has a base speed of 30 seconds
-* Standard, special, HE artillery shells and most missiles now use updated explosion animations
-* Decreased hardness of slag blocks
-* Removed legacy circuits
-* Removed a bunch of random unused items
-* UF6 and PuF6 tanks are being phased out, the blocks will remain for now but functionality and recipes have been removed
-* Centrifuges are now configurable via `hbmMachines.json`
-* Updated refinery GUI
-* Crayons now require paper to craft, fixing an issue where some recipes conflict with the dye mixing ones
-* Halved energy consumption for night vision goggles
-* Solid rocket fuel now uses 100mB of nitric acid instead of redstone and niter
-* The nitric acid from sulfuric acid recipe in the chemical plant now yields 1,000mB instead of 500
-* Liquefacting niter now yields 750mB instead of 250
-* Increased demand for coking sour gas to 1,000mB instead of 250
-  * This means that sour gas now has a lower concentration of sulfur, making reforming competitive again compared to the previously buffed coking + mixing
-* Disperser canisters are now listed below grenades in the creative tab
+* To address certain balancing concerns, the RF to HE conversion rate is now 2:5. The HE to RF rate however is still 5:1
+  * Because of this, using chains of converters as batteries becomes exponentially lossy with size, therefore the input decay has been removed
+  * Input decay can still be configured if desired
+  * No input decay also means that converters are no longer infinite energy sinks
+* Power converter recipes have been updated
+* Soldering stations will no longer work if the recipe requires no input fluid while fluid is present
+  * While this does complicate using the soldering station manually, as switching from milgrade to standard ICs requires emptying the solderer with a siphon, it does make automating easier, since soldering stations will no longer treat incomplete milgrade circuits as ICs
 
 ## Fixed
-* Fixed crash caused by decontaminating items with the radiolysis machine
-* Fixed ICFs not forming correctly depending on the orientation
-* Fixed electrolyzer metal recipe config not working
-* Fixed the meteor charms not working when used on helmets
-* Fixed NEI handler for the ICF's consturction showing inconsistent values
-* Fixed radiolysis recipes not showing up in NEI unless the usage recipes are loaded first
-* Fixed autocrafter's grid not properly updating when using NEI drag and drop for the filter
-* Fixed all carbon-based crucible materials having the wrong ID, this fix will shift IDs but prevent collisions with silicon
-* Fixed primary bedrock ore fraction roasting yielding one extra pile of crumbs
-* Fixed filing cabinets being unreasonably laggy due to the old packet code
-* Fixed the secure access door taking way longer to craft than any other door
-* Fixed issues with the spotlight crafting recipes
-* Fixed various issues with opencomputers integration
-* Fixed incorrect armor mod descriptions being shown for cards
-* Fixed mobs being able to spawn on bedrock ore and bedrock oil
+* Fixed some machines not sending fluid gauge syncs properly

@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.entity.missile.EntitySoyuz;
 import com.hbm.handler.MissileStruct;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerSoyuzLauncher;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -37,7 +36,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IFluidContainer, IFluidStandardReceiver, IGUIProvider {
+public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider {
 
 	public long power;
 	public static final long maxPower = 1000000;
@@ -56,8 +55,8 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	public TileEntitySoyuzLauncher() {
 		super(27);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.KEROSENE, 128000, 0);
-		tanks[1] = new FluidTank(Fluids.OXYGEN, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.KEROSENE, 128_000);
+		tanks[1] = new FluidTank(Fluids.OXYGEN, 128_000);
 	}
 
 	@Override
@@ -80,9 +79,6 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			
 			tanks[0].loadTank(4, 5, slots);
 			tanks[1].loadTank(6, 7, slots);
-
-			for (int i = 0; i < 2; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			power = Library.chargeTEFromItems(slots, 8, power, maxPower);
 			
@@ -104,6 +100,8 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			data.setByte("mode", mode);
 			data.setBoolean("starting", starting);
 			data.setByte("type", this.getType());
+			tanks[0].writeToNBT(data, "t0");
+			tanks[1].writeToNBT(data, "t1");
 			networkPack(data, 250);
 		}
 		
@@ -172,24 +170,25 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	public AudioWrapper createAudioLoop() {
 		return MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", xCoord, yCoord, zCoord, 2.0F, 100F, 1.0F);
 	}
-	
-    public void onChunkUnload() {
-    	
-    	if(audio != null) {
+
+	@Override
+	public void onChunkUnload() {
+
+		if(audio != null) {
 			audio.stopSound();
 			audio = null;
-    	}
-    }
-	
-    public void invalidate() {
-    	
-    	super.invalidate();
-    	
-    	if(audio != null) {
+		}
+	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(audio != null) {
 			audio.stopSound();
 			audio = null;
-    	}
-    }
+		}
+	}
 	
 	public void networkUnpack(NBTTagCompound data) {
 		super.networkUnpack(data);
@@ -198,6 +197,8 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 		mode = data.getByte("mode");
 		starting = data.getBoolean("starting");
 		rocketType = data.getByte("type");
+		tanks[0].readFromNBT(data, "t0");
+		tanks[1].readFromNBT(data, "t1");
 	}
 	
 	public void startCountdown() {
@@ -397,18 +398,6 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			}
 		}
 		nbt.setTag("items", list);
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
 	}
 
 	@Override

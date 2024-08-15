@@ -104,10 +104,6 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 			this.overLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) + 1;
 			int abLevel = Math.min(UpgradeManager.getLevel(UpgradeType.AFTERBURN), 3);
 			
-			for(int i = 0; i < tanks.length; i++) {
-				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			}
-			
 			int toBurn = Math.min(tanks[1].getFill(), abLevel * 10);
 			
 			if(toBurn > 0) {
@@ -161,6 +157,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 		NBTTagCompound data = new NBTTagCompound();
 		data.setLong("power", power);
 		data.setInteger("indicator", this.indicator);
+		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(data, "t" + i);
 		this.networkPack(data, 25);
 	}
 	
@@ -169,6 +166,7 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 		
 		this.power = nbt.getLong("power");
 		this.indicator = nbt.getInteger("indicator");
+		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
 	}
 	
 	public boolean canPump() {

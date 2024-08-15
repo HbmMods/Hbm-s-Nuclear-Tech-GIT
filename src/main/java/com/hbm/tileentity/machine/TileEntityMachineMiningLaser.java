@@ -5,10 +5,8 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMiningLaser;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMiningLaser;
@@ -52,7 +50,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidContainer, IMiningDrill, IFluidStandardSender, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityMachineMiningLaser extends TileEntityMachineBase implements IEnergyReceiverMK2, IMiningDrill, IFluidStandardSender, IGUIProvider, IUpgradeInfoProvider {
 	
 	public long power;
 	public int age = 0;
@@ -77,7 +75,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		//slots 1 - 8: upgrades
 		//slots 9 - 29: output
 		super(30);
-		tank = new FluidTank(Fluids.OIL, 64000, 0);
+		tank = new FluidTank(Fluids.OIL, 64_000);
 	}
 
 	@Override
@@ -98,7 +96,6 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			this.sendFluid(tank, worldObj, xCoord, yCoord - 2, zCoord, Library.NEG_Z);
 			
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
-			tank.updateTank(xCoord, yCoord, zCoord, this.worldObj.provider.dimensionId);
 			
 			//reset progress if the position changes
 			if(lastTargetX != targetX ||
@@ -181,6 +178,7 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			data.setBoolean("beam", beam);
 			data.setBoolean("isOn", isOn);
 			data.setDouble("progress", clientBreakProgress);
+			tank.writeToNBT(data, "t");
 			
 			this.networkPack(data, 250);
 		}
@@ -203,18 +201,15 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		this.beam = data.getBoolean("beam");
 		this.isOn = data.getBoolean("isOn");
 		this.breakProgress = data.getDouble("progress");
+		tank.readFromNBT(data, "t");
 	}
 	
 	private void buildDam() {
 
-		if(worldObj.getBlock(targetX + 1, targetY, targetZ).getMaterial().isLiquid())
-			worldObj.setBlock(targetX + 1, targetY, targetZ, ModBlocks.barricade);
-		if(worldObj.getBlock(targetX - 1, targetY, targetZ).getMaterial().isLiquid())
-			worldObj.setBlock(targetX - 1, targetY, targetZ, ModBlocks.barricade);
-		if(worldObj.getBlock(targetX, targetY, targetZ + 1).getMaterial().isLiquid())
-			worldObj.setBlock(targetX, targetY, targetZ + 1, ModBlocks.barricade);
-		if(worldObj.getBlock(targetX, targetY, targetZ - 1).getMaterial().isLiquid())
-			worldObj.setBlock(targetX, targetY, targetZ - 1, ModBlocks.barricade);
+		if(worldObj.getBlock(targetX + 1, targetY, targetZ).getMaterial().isLiquid()) worldObj.setBlock(targetX + 1, targetY, targetZ, ModBlocks.barricade);
+		if(worldObj.getBlock(targetX - 1, targetY, targetZ).getMaterial().isLiquid()) worldObj.setBlock(targetX - 1, targetY, targetZ, ModBlocks.barricade);
+		if(worldObj.getBlock(targetX, targetY, targetZ + 1).getMaterial().isLiquid()) worldObj.setBlock(targetX, targetY, targetZ + 1, ModBlocks.barricade);
+		if(worldObj.getBlock(targetX, targetY, targetZ - 1).getMaterial().isLiquid()) worldObj.setBlock(targetX, targetY, targetZ - 1, ModBlocks.barricade);
 	}
 	
 	private void tryFillContainer(int x, int y, int z) {
@@ -604,16 +599,6 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	@Override
 	public long getMaxPower() {
 		return maxPower;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
 	}
 
 	@Override
