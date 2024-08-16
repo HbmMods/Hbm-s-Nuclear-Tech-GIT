@@ -101,6 +101,7 @@ public class BedrockOre {
 		registerBedrockOre(Body.MINMUS, copper, WorldConfig.bedrockCopperSpawn);
 		registerBedrockOre(Body.MINMUS, neodymium, WorldConfig.bedrockNeodymiumSpawn);
 		registerBedrockOre(Body.MINMUS, borax, WorldConfig.bedrockBoraxSpawn);
+		registerBedrockOre(Body.MINMUS, tungsten, WorldConfig.bedrockTungstenSpawn);
 		
 		// Duna ores
 		registerBedrockOre(Body.DUNA, ice, 100);
@@ -115,10 +116,11 @@ public class BedrockOre {
 		// Ike ores
 		registerBedrockOre(Body.IKE, iron, WorldConfig.bedrockIronSpawn);
 		registerBedrockOre(Body.IKE, copper, WorldConfig.bedrockCopperSpawn);
-		registerBedrockOre(Body.IKE, tungsten, WorldConfig.bedrockTungstenSpawn);
 		registerBedrockOre(Body.IKE, nickel, 100);
 		registerBedrockOre(Body.IKE, zinc, 100);
 		registerBedrockOre(Body.IKE, quartz, WorldConfig.bedrockQuartzSpawn);
+		registerBedrockOre(Body.IKE, titanium, WorldConfig.bedrockTitaniumSpawn);
+		registerBedrockOre(Body.IKE, redstone, WorldConfig.bedrockRedstoneSpawn);
 		
 		// Dres ores
 		registerBedrockOre(Body.DRES, iron, WorldConfig.bedrockIronSpawn);
