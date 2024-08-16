@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.config.GeneralConfig;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.ThreeInts;
 import com.hbm.inventory.fluid.FluidType;
@@ -129,10 +130,14 @@ public class AtmosphereBlob implements Runnable {
 				this.blockPos = blockPos;
 				executing = true;
 				
-				try {
-					pool.execute(this);
-				} catch (RejectedExecutionException e) {
-					MainRegistry.logger.warn("Atmosphere calculation at " + this.getRootPosition() + " aborted due to oversize queue!");
+				if(GeneralConfig.enableThreadedAtmospheres) {
+					try {
+						pool.execute(this);
+					} catch (RejectedExecutionException e) {
+						MainRegistry.logger.warn("Atmosphere calculation at " + this.getRootPosition() + " aborted due to oversize queue!");
+					}
+				} else {
+					this.run();
 				}
 			}
 		}
