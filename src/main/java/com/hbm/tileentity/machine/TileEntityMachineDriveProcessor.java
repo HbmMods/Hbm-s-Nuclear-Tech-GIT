@@ -35,6 +35,7 @@ public class TileEntityMachineDriveProcessor extends TileEntityMachineBase imple
 	public int maxProgress = 100; // 5 seconds
 
 	public String status = "";
+	public boolean hasDrive = false;
 
 	private int lastTier;
 
@@ -82,6 +83,7 @@ public class TileEntityMachineDriveProcessor extends TileEntityMachineBase imple
 			}
 
 			lastTier = getProcessingTier();
+			hasDrive = slots[0] != null && slots[0].getItem() == ModItems.full_drive;
 
 			networkPackNT(15);
 		}
@@ -94,6 +96,7 @@ public class TileEntityMachineDriveProcessor extends TileEntityMachineBase imple
 		buf.writeLong(power);
 		buf.writeBoolean(isProcessing);
 		buf.writeInt(progress);
+		buf.writeBoolean(hasDrive);
 
 		BufferUtil.writeString(buf, status);
 	}
@@ -105,6 +108,7 @@ public class TileEntityMachineDriveProcessor extends TileEntityMachineBase imple
 		power = buf.readLong();
 		isProcessing = buf.readBoolean();
 		progress = buf.readInt();
+		hasDrive = buf.readBoolean();
 
 		status = BufferUtil.readString(buf);
 	}

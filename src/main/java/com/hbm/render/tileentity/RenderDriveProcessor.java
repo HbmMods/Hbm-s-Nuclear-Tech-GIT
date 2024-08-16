@@ -7,6 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.tileentity.machine.TileEntityMachineDriveProcessor;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -16,11 +17,13 @@ import net.minecraftforge.client.IItemRenderer;
 
 public class RenderDriveProcessor extends TileEntitySpecialRenderer implements IItemRendererProvider {
 
-	private static final ResourceLocation computer_tex = new ResourceLocation(RefStrings.MODID, "textures/blocks/deco_computer.png");
-	private static final ResourceLocation tape_tex = new ResourceLocation(RefStrings.MODID, "textures/blocks/deco_tape_recorder.png");
+	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/models/machines/drive_processor.png");
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
+		if(!(te instanceof TileEntityMachineDriveProcessor)) return;
+		TileEntityMachineDriveProcessor processor = (TileEntityMachineDriveProcessor) te;
+
 		GL11.glPushMatrix();
 		{
 
@@ -28,7 +31,7 @@ public class RenderDriveProcessor extends TileEntitySpecialRenderer implements I
 			GL11.glEnable(GL11.GL_LIGHTING);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 
-			GL11.glRotatef(180, 0, 1, 0);
+			GL11.glRotatef(90, 0, 1, 0);
 	
 			switch(te.getBlockMetadata() - BlockDummyable.offset) {
 			case 2: GL11.glRotatef(0, 0F, 1F, 0F); break;
@@ -36,15 +39,12 @@ public class RenderDriveProcessor extends TileEntitySpecialRenderer implements I
 			case 3: GL11.glRotatef(180, 0F, 1F, 0F); break;
 			case 5: GL11.glRotatef(270, 0F, 1F, 0F); break;
 			}
-
-			GL11.glTranslated(0.5, 0, 0);
 	
-			bindTexture(computer_tex);
-			ResourceManager.drive_processor.renderPart("Computer");
-			ResourceManager.drive_processor.renderPart("Wire");
-			
-			bindTexture(tape_tex);
-			ResourceManager.drive_processor.renderPart("Tape");
+			bindTexture(texture);
+			ResourceManager.drive_processor.renderPart("Base");
+
+			if(processor.hasDrive)
+				ResourceManager.drive_processor.renderPart("Drive");
 
 			GL11.glShadeModel(GL11.GL_FLAT);
 
@@ -56,19 +56,16 @@ public class RenderDriveProcessor extends TileEntitySpecialRenderer implements I
 	public IItemRenderer getRenderer() {
 		return new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glTranslated(0, -0.5, 0);
+				// GL11.glTranslated(0, -0.5, 0);
 				GL11.glScaled(7D, 7D, 7D);
 			}
 			public void renderCommon() {
-				GL11.glRotated(180, 0, 1, 0);
+				GL11.glTranslated(0.5, 0, 0);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 	
-				bindTexture(computer_tex);
-				ResourceManager.drive_processor.renderPart("Computer");
-				ResourceManager.drive_processor.renderPart("Wire");
-				
-				bindTexture(tape_tex);
-				ResourceManager.drive_processor.renderPart("Tape");
+				bindTexture(texture);
+				ResourceManager.drive_processor.renderPart("Base");
+				ResourceManager.drive_processor.renderPart("Drive");
 
 				GL11.glShadeModel(GL11.GL_FLAT);
 			}

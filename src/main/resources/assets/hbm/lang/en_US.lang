@@ -907,6 +907,7 @@ container.watzPowerplant=Watz Power Plant
 container.zirnox=ZIRNOX Nuclear Reactor
 
 crucible.aa=Advanced Alloy Production
+crucible.arse=Gallium Arsenide Production
 crucible.abronze=Arsenic Bronze Production
 crucible.bbronze=Bismuth Bronze Production
 crucible.bscco=BSCCO Production
@@ -915,6 +916,8 @@ crucible.cmb=CMB Steel Production
 crucible.ferro=Ferrouranium Production
 crucible.hematite=Iron Production from Hematite
 crucible.hss=High-Speed Steel Production
+crucible.hsss=Boosted High-Speed Steel Production
+crucible.stainless=Stainless Steel Production
 crucible.malachite=Copper Production from Malachite
 crucible.magtung=Magnetized Tungsten Production
 crucible.redcopper=Red Copper Production
