@@ -2113,6 +2113,7 @@ public class ClientProxy extends ServerProxy {
 		case CRANE_LEFT:		return HbmKeybinds.craneLeftKey.getIsKeyPressed();
 		case CRANE_RIGHT:		return HbmKeybinds.craneRightKey.getIsKeyPressed();
 		case CRANE_LOAD:		return HbmKeybinds.craneLoadKey.getIsKeyPressed();
+		case COPY_TOOL: 	    return HbmKeybinds.copyToolAlt.getIsKeyPressed();
 		}
 		
 		return false;

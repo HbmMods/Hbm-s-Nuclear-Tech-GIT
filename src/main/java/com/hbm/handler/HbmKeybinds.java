@@ -39,13 +39,12 @@ public class HbmKeybinds {
 		ClientRegistry.registerKeyBinding(reloadKey);
 		ClientRegistry.registerKeyBinding(dashKey);
 		ClientRegistry.registerKeyBinding(trainKey);
-		ClientRegistry.registerKeyBinding(copyToolAlt);
-
 		ClientRegistry.registerKeyBinding(craneUpKey);
 		ClientRegistry.registerKeyBinding(craneDownKey);
 		ClientRegistry.registerKeyBinding(craneLeftKey);
 		ClientRegistry.registerKeyBinding(craneRightKey);
 		ClientRegistry.registerKeyBinding(craneLoadKey);
+		ClientRegistry.registerKeyBinding(copyToolAlt);
 	}
 	
 	@SubscribeEvent
@@ -74,11 +73,11 @@ public class HbmKeybinds {
 		RELOAD,
 		DASH,
 		TRAIN,
-		COPY_TOOL,
 		CRANE_UP,
 		CRANE_DOWN,
 		CRANE_LEFT,
 		CRANE_RIGHT,
-		CRANE_LOAD
+		CRANE_LOAD,
+		COPY_TOOL
 	}
 }

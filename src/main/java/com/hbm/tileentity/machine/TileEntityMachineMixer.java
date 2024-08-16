@@ -378,8 +378,4 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 		return this.tanks[2];
 	}
 
-	@Override
-	public int[] getFluidIDToCopy() {
-		return new int[]{tanks[2].getTankType().getID()};
-	}
 }

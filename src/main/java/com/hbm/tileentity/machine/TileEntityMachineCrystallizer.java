@@ -395,4 +395,14 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		if(type == UpgradeType.OVERDRIVE) return 3;
 		return 0;
 	}
+
+	@Override
+	public int[] getFluidIDToCopy() {
+		return new int[]{ tank.getTankType().getID()};
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tank;
+	}
 }

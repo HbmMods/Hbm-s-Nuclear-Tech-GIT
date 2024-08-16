@@ -6,9 +6,9 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.util.BobMathUtil;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public interface IFluidCopiable extends ICopiable {
     /**
@@ -18,11 +18,10 @@ public interface IFluidCopiable extends ICopiable {
         IFluidStandardTransceiver tile = (IFluidStandardTransceiver) this;
         ArrayList<Integer> types = new ArrayList<>();
 
-        if(tile.getReceivingTanks() != null && !tile.getReceivingTanks()[0].getTankType().hasNoID())
-            types.add(tile.getReceivingTanks()[0].getTankType().getID());
-
-        if(tile.getSendingTanks() != null && !tile.getSendingTanks()[0].getTankType().hasNoID())
-            types.add(tile.getSendingTanks()[0].getTankType().getID());
+        for (FluidTank tank : tile.getAllTanks()) {
+            if (!tank.getTankType().hasNoID())
+                types.add(tank.getTankType().getID());
+        }
 
         return BobMathUtil.intCollectionToArray(types);
     }
@@ -33,7 +32,7 @@ public interface IFluidCopiable extends ICopiable {
     }
 
     @Override
-    default NBTTagCompound getSettings(){
+    default NBTTagCompound getSettings(World world, int x, int y, int z){
         NBTTagCompound tag = new NBTTagCompound();
         if(getFluidIDToCopy().length > 0)
             tag.setIntArray("fluidID", getFluidIDToCopy());
@@ -41,14 +40,23 @@ public interface IFluidCopiable extends ICopiable {
     }
 
     @Override
-    default void pasteSettings(NBTTagCompound nbt, boolean alt) {
+    default void pasteSettings(NBTTagCompound nbt, int index, World world, int x, int y, int z) {
         if(getTankToPaste() != null) {
             int[] ids = nbt.getIntArray("fluidID");
             if(ids.length > 0) {
-                int id = ids[alt ? 1 : 0];
+                int id = ids[index];
                 getTankToPaste().setTankType(Fluids.fromID(id));
             }
         }
     }
 
+    @Override
+    default String[] infoForDisplay(World world, int x, int y, int z) {
+        int[] ids = getFluidIDToCopy();
+        String[] names = new String[ids.length];
+        for (int i = 0; i < ids.length; i++) {
+            names[i] = Fluids.fromID(ids[i]).getUnlocalizedName();
+        }
+        return names;
+    }
 }

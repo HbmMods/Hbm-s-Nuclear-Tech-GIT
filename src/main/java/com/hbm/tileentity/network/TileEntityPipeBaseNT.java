@@ -13,6 +13,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -180,10 +181,14 @@ public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor,
 	}
 
 	@Override
-	public void pasteSettings(NBTTagCompound nbt, boolean alt) {
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, int x, int y, int z) {
 		int[] ids = nbt.getIntArray("fluidID");
 		if(ids.length > 0) {
-			int id = ids[alt ? 1 : 0];
+			int id;
+			if (index < ids.length)
+				id = ids[index];
+			else
+				id = 0;
 			this.setType(Fluids.fromID(id));
 		}
 	}

@@ -11,7 +11,6 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
-import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
@@ -25,8 +24,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-
-import java.util.Arrays;
 
 public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implements IGUIProvider, IFluidStandardTransceiver, IHeatSource, IControlReceiver, IFluidCopiable {
 	
@@ -223,7 +220,7 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 	}
 
 	@Override
-	public NBTTagCompound getSettings() {
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
 		NBTTagCompound tag = new NBTTagCompound();
 		tag.setIntArray("fluidID", new int[]{tank.getTankType().getID()});
 		tag.setInteger("burnRate", setting);
@@ -231,8 +228,8 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 	}
 
 	@Override
-	public void pasteSettings(NBTTagCompound nbt, boolean alt) {
-		int id = nbt.getIntArray("fluidID")[alt ? 1 : 0];
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, int x, int y, int z) {
+		int id = nbt.getIntArray("fluidID")[index];
 		tank.setTankType(Fluids.fromID(id));
 		setting = nbt.getInteger("burnRate");
 	}

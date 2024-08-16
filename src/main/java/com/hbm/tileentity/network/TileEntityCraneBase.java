@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -109,7 +109,7 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public NBTTagCompound getSettings() {
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setInteger("inputSide", getInputSide().ordinal());
 		nbt.setInteger("outputSide", getOutputSide().ordinal());
@@ -136,8 +136,8 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public void pasteSettings(NBTTagCompound nbt, boolean alt) {
-		if(alt) {
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, int x, int y, int z) {
+		if(index == 1) {
 			if (nbt.hasKey("outputSide")) {
 				outputOverride = ForgeDirection.getOrientation(nbt.getInteger("outputSide"));
 				onBlockChanged();
@@ -170,5 +170,10 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase implemen
 				}
 			}
 		}
+	}
+
+	@Override
+	public String[] infoForDisplay(World world, int x, int y, int z) {
+		return new String[]{"Filter", "Orientation"};
 	}
 }
