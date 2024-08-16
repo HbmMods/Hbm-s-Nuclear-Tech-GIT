@@ -904,6 +904,9 @@ public class MainRegistry {
 		proxy.registerMissileItems();
 		
 		BlockMotherOfAllOres.init();
+
+		// Init floppy disks.
+		CompatHandler.init();
 		
 		//expand for the largest entity we have (currently Quackos who is 17.5m in diameter, that's one fat duck)
 		World.MAX_ENTITY_RADIUS = Math.max(World.MAX_ENTITY_RADIUS, 8.75);

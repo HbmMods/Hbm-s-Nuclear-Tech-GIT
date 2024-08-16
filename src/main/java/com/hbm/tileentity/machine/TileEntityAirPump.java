@@ -1,8 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.dim.trait.CBT_Atmosphere;
+import com.hbm.handler.CompatHandler;
 import com.hbm.handler.ThreeInts;
 import com.hbm.handler.atmosphere.AtmosphereBlob;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
@@ -14,11 +17,17 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import api.hbm.fluid.IFluidStandardReceiver;
+import cpw.mods.fml.common.Optional;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class TileEntityAirPump extends TileEntityMachineBase implements IFluidStandardReceiver, IAtmosphereProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityAirPump extends TileEntityMachineBase implements IFluidStandardReceiver, IAtmosphereProvider, SimpleComponent, CompatHandler.OCComponent {
 
 	private int onTicks = 0;
 	private boolean registered = false;
@@ -40,12 +49,12 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		super(1);
 		tank = new FluidTank(Fluids.OXYGEN, 16000);
 	}
-	
+
 	@Override
 	public World getWorld() {
 		return worldObj;
 	}
-	
+
 	public void spawnParticles() {
 
 		if(worldObj.getTotalWorldTime() % 2 == 0) {
@@ -60,7 +69,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 			data.setDouble("posX", xCoord + 0.5 + worldObj.rand.nextDouble() - 0.5);
 			data.setDouble("posZ", zCoord + 0.5 + worldObj.rand.nextDouble() -0.5);
 			data.setDouble("posY", yCoord + 1);
-			
+
 			MainRegistry.proxy.effectNT(data);
 
 		}
@@ -69,11 +78,11 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	@Override
 	public void updateEntity() {
 		if (!worldObj.isRemote) {
-	        if (worldObj.getBlock(xCoord, yCoord + 1, zCoord).isAir(worldObj, xCoord, yCoord + 1, zCoord)) {
-	            if (onTicks > 0) onTicks--;
+			if (worldObj.getBlock(xCoord, yCoord + 1, zCoord).isAir(worldObj, xCoord, yCoord + 1, zCoord)) {
+				if (onTicks > 0) onTicks--;
 
-	            if (tank.getFill() >= 20) {
-	                onTicks = 20;
+				if (tank.getFill() >= 20) {
+					onTicks = 20;
 
 					if(!registered) {
 						ChunkAtmosphereManager.proxy.registerAtmosphere(this);
@@ -93,11 +102,11 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 							if(size != 0) {
 								if(blobFillAmount > size)
 									blobFillAmount = size;
-	
+
 								// Fill the blob from the tank, 1mB per block
 								int toFill = Math.min(size - blobFillAmount, 20);
 								blobFillAmount += toFill;
-	
+
 								// Fill to the brim, and then trickle randomly afterwards
 								if(toFill > 0) {
 									tank.setFill(tank.getFill() - toFill);
@@ -108,14 +117,14 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 								currentBlob = null;
 							}
 						}
-						
+
 						if(currentBlob == null) {
 							// Venting to vacuum
 							tank.setFill(tank.getFill() - 20);
 							blobFillAmount = 0;
 						}
 					}
-	            } else {
+				} else {
 					if(registered) {
 						ChunkAtmosphereManager.proxy.unregisterAtmosphere(this);
 						registered = false;
@@ -123,7 +132,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 						blobFillAmount = 0;
 					}
 				}
-	        }
+			}
 
 			if(worldObj.getTotalWorldTime() % 5 == 0) {
 				currentAtmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(worldObj, xCoord, yCoord, zCoord);
@@ -132,7 +141,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 			subscribeToAllAround(tank.getTankType(), this);
 
 			this.networkPackNT(100);
-			
+
 		} else {
 			if(onTicks > 0) {
 				this.spawnParticles();
@@ -164,7 +173,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 			buf.writeBoolean(false);
 		}
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
@@ -180,6 +189,46 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 		}
 	}
 
+	// I WILL GET THAT ART :contempt:
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_atmospheric_vent";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getAtmosphereDetails(Context context, Arguments args) {
+		List<Object[]> fluids = new ArrayList<>();
+		if(currentAtmosphere != null && currentAtmosphere.fluids != null && currentAtmosphere.fluids.size() != 0) {
+			for (CBT_Atmosphere.FluidEntry fluid : currentAtmosphere.fluids) {
+				fluids.add(new Object[]{fluid.fluid.getName(), fluid.pressure});
+			}
+		} else {
+			// If there is no atmosphere, return that it's a vacuum.
+			return new Object[] {"VACUUM"};
+		}
+		/* the return format should look something like the following:
+			{{fluid_1_name, fluid_1_pressure},
+			{fluid_2_name, fluid_2_pressure}}
+		 */
+		return fluids.toArray();
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluid(Context context, Arguments args) {
+		return new Object[] {tank.getFill(), tank.getMaxFill()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isSealed(Context context, Arguments args) {
+		return new Object[] {hasSeal()};
+	}
+
+	// alright so I'm NOT going to define the `methods()` and `invoke()` functions
+	// (they are reserved for blocks with proxies)
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
