@@ -74,35 +74,30 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 	public void updateEntity() {
 		if(worldObj.isRemote) return;
 
-		// Set tank types
+		// Set tank types and split fills
 		for(int i = 0; i < inputTankMax; i++) {
 			tanks[i].setType(outputSlotMax + i, slots);
 
-			// Evenly distribute fluids between sending tanks and extra tanks
+			// Evenly distribute fluids between all matching tanks
 			// this is so that if you are sending oxygen and are fueled by oxygen
 			// it doesn't only fill one tank
 			for(int o = outputTankMax; o < tanks.length; o++) {
-				if(tanks[i].getTankType() == tanks[o].getTankType()) {
-					int fill = tanks[i].getFill() + tanks[o].getFill();
-
-					float iFill = tanks[i].getMaxFill();
-					float oFill = tanks[o].getMaxFill();
-					float total = iFill + oFill;
-					float iFrac = iFill / total;
-					float oFrac = oFill / total;
-
-					tanks[i].setFill(MathHelper.ceiling_float_int(iFrac * (float)fill));
-					tanks[o].setFill(MathHelper.floor_double(oFrac * (float)fill));
-
-					break;
-				}
+				splitFill(tanks[i], tanks[o]);
+			}
+			for(int o = i + 1; o < inputTankMax; o++) {
+				splitFill(tanks[i], tanks[o]);
+			}
+		}
+		for(int i = inputTankMax; i < outputTankMax; i++) {
+			for(int o = i + 1; o < outputTankMax; o++) {
+				splitFill(tanks[i], tanks[o]);
 			}
 		}
 		for(int i = outputTankMax; i < tanks.length; i++) {
 			tanks[i].setType(outputSlotMax + inputTankMax + i - outputTankMax, slots);
 		}
 			
-		if(worldObj.getTotalWorldTime() % 20 == 0) {
+		if(worldObj.getTotalWorldTime() % 10 == 0) {
 			updateConnections();
 		}
 
@@ -166,6 +161,25 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 
 				}
 			}
+		}
+	}
+
+	// splitting is commutative, order don't matter
+	private void splitFill(FluidTank in, FluidTank out) {
+		if(in.getTankType() == out.getTankType()) {
+			int fill = in.getFill() + out.getFill();
+
+			float iFill = in.getMaxFill();
+			float oFill = out.getMaxFill();
+			float total = iFill + oFill;
+			float iFrac = iFill / total;
+			float oFrac = oFill / total;
+
+			in.setFill(MathHelper.ceiling_float_int(iFrac * (float)fill));
+			out.setFill(MathHelper.floor_double(oFrac * (float)fill));
+
+			// cap filling (this will generate 1mB of fluid in rare cases)
+			if(out.getFill() == out.getMaxFill() - 1) out.setFill(out.getMaxFill());
 		}
 	}
 

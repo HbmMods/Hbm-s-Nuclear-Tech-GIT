@@ -99,7 +99,7 @@ public class GUITransporterRocket extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
-		drawTexturedModalRect(guiLeft + 100 + (int)(transporter.threshold * 7.4), guiTop + 122, xSize, 0, 4, 15);
+		drawTexturedModalRect(guiLeft + 100 + (int)(transporter.threshold * 6.78), guiTop + 122, xSize, 0, 4, 15);
 
 		int threshold = transporter.getThreshold();
 		int width = fontRendererObj.getStringWidth("x" + threshold);
@@ -122,7 +122,7 @@ public class GUITransporterRocket extends GuiInfoContainer {
 		int slidPos = transporter.threshold;
 
 		if(isInAABB(mouseX, mouseY, guiLeft + 98, guiTop + 120, 74, 20)) {
-			slidPos = (int)((mouseX - (guiLeft + 98)) / 7.4);
+			slidPos = (int)((mouseX - (guiLeft + 98)) / 6.78);
 			slidPos = MathHelper.clamp_int(slidPos, 0, 10); // 2^0 - 2^9 | 0 - 512
 			
 			NBTTagCompound data = new NBTTagCompound();
