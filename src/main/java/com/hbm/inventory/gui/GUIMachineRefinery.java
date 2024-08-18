@@ -28,7 +28,7 @@ public class GUIMachineRefinery extends GuiInfoContainer {
 		super(new ContainerMachineRefinery(invPlayer, tedf));
 		refinery = tedf;
 		
-		this.xSize = 209;
+		this.xSize = 210;
 		this.ySize = 231;
 	}
 	
