@@ -371,7 +371,9 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		if(state == RocketState.AWAITING || state == RocketState.LANDED || (state == RocketState.LANDING && motionY <= -0.4)) return;
 
 		RocketStruct rocket = getRocket();
-		if(rocket.stages.size() == 0 && state != RocketState.TIPPING) {
+		if(rocket.stages.size() == 0) {
+			if(state == RocketState.TIPPING) return;
+
 			double r = rocket.capsule.part.bottom.radius * 0.5;
 			ParticleUtil.spawnGasFlame(worldObj, posX + r, posY, posZ + r, 0.25, -0.75, 0.25);
 			ParticleUtil.spawnGasFlame(worldObj, posX - r, posY, posZ + r, -0.25, -0.75, 0.25);
