@@ -314,7 +314,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 	
 	public void getDiagData(NBTTagCompound nbt) {
 		diag = true;
-		this.readFromNBT(nbt);
+		this.writeToNBT(nbt);
 		diag = false;
 	}
 	

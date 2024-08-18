@@ -57,7 +57,7 @@ public class RBMKDials {
 			rules.setOrCreateGameRule(KEY_REASIM_BOILER_SPEED, "0.05");
 			rules.setOrCreateGameRule(KEY_DISABLE_MELTDOWNS, "false");
 			rules.setOrCreateGameRule(KEY_ENABLE_MELTDOWN_OVERPRESSURE, "false");
-			rules.setOrCreateGameRule(KEY_MODERATOR_EFFICIENCY, "1");
+			rules.setOrCreateGameRule(KEY_MODERATOR_EFFICIENCY, "1.0");
 		}
 	}
 	
