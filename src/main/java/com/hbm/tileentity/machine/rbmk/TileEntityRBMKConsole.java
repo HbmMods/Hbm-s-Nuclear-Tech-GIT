@@ -103,7 +103,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 					
 					if(te instanceof TileEntityRBMKRod) {
 						TileEntityRBMKRod fuel = (TileEntityRBMKRod) te;
-						flux += fuel.fluxFast + fuel.fluxSlow;
+						flux += fuel.fluxQuantity;
 					}
 					
 				} else {
@@ -556,8 +556,8 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 
 			if(te instanceof TileEntityRBMKRod){
 				TileEntityRBMKRod fuelChannel = (TileEntityRBMKRod)te;
-				data_table.put("fluxSlow", fuelChannel.fluxSlow);
-				data_table.put("fluxFast", fuelChannel.fluxFast);
+				data_table.put("fluxQuantity", fuelChannel.fluxQuantity);
+				data_table.put("fluxRatio", fuelChannel.fluxRatio);
 			}
 
 			if(te instanceof TileEntityRBMKBoiler){

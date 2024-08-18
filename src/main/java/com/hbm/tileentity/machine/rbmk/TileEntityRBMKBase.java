@@ -8,20 +8,26 @@ import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.entity.effect.EntitySpear;
 import com.hbm.entity.projectile.EntityRBMKDebris;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
+import com.hbm.handler.rbmkmk2.RBMKHandler;
+import com.hbm.handler.rbmkmk2.RBMKHandler.RBMKType;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.BufPacket;
 import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.Compat;
 import com.hbm.util.I18nUtil;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -45,7 +51,7 @@ import java.util.*;
  * @author hbm
  *
  */
-public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements INBTPacketReceiver {
+public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements INBTPacketReceiver, IBufPacketReceiver {
 	
 	public double heat;
 	
@@ -111,7 +117,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 			
 			NBTTagCompound data = new NBTTagCompound();
 			this.writeToNBT(data);
-			this.networkPack(data, trackingRange());
+			this.networkPackNT(trackingRange());
 		}
 	}
 	
@@ -211,6 +217,13 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 			this.markDirty();
 		}
 	}
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		RBMKHandler.removeNode(new BlockPos(this)); // woo-fucking-hoo!!!
+	}
 	
 	@Override
 	public void markDirty() {
@@ -234,6 +247,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		if(heat < 20)
 			heat = 20D;
 	}
+
+	public abstract RBMKType getRBMKType();
 	
 	protected static boolean diag = false;
 	
@@ -260,25 +275,46 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		nbt.setInteger("water", this.water);
 		nbt.setInteger("steam", this.steam);
 	}
-	
-	public void networkPack(NBTTagCompound nbt, int range) {
 
+	@Deprecated
+	public void networkPack(NBTTagCompound nbt, int range) {
 		diag = true;
 		if(!worldObj.isRemote)
 			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 		diag = false;
 	}
-	
+
+	@Deprecated
 	public void networkUnpack(NBTTagCompound nbt) {
-		
+
 		diag = true;
 		this.readFromNBT(nbt);
 		diag = false;
 	}
+
+	public void networkPackNT(int range) {
+		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		buf.writeBoolean(this.muffled);
+		buf.writeDouble(this.heat);
+		buf.writeInt(this.water);
+		buf.writeInt(this.steam);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.muffled = buf.readBoolean();
+		this.heat = buf.readDouble();
+		this.water = buf.readInt();
+		this.steam = buf.readInt();
+	}
 	
 	public void getDiagData(NBTTagCompound nbt) {
 		diag = true;
-		this.writeToNBT(nbt);
+		this.readFromNBT(nbt);
 		diag = false;
 	}
 	

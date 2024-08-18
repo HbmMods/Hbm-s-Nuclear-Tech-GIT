@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import com.hbm.handler.rbmkmk2.RBMKHandler;
+import net.minecraft.server.MinecraftServer;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
 
@@ -1143,6 +1145,10 @@ public class ModEventHandler {
 			RequestNetwork.updateEntries();
 			TileEntityMachineRadarNT.updateSystem();
 			Nodespace.updateNodespace();
+			// RBMK!!!!
+			MinecraftServer.getServer().theProfiler.startSection("rbmkHandler_flux_interaction");
+			RBMKHandler.runAllInteractions();
+			MinecraftServer.getServer().theProfiler.endSection();
 		}
 	}
 	

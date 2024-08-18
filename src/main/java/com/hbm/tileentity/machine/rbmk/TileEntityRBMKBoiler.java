@@ -8,6 +8,7 @@ import api.hbm.tile.IInfoProviderEC;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
+import com.hbm.handler.rbmkmk2.RBMKHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerRBMKGeneric;
 import com.hbm.inventory.fluid.FluidType;
@@ -21,6 +22,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -164,6 +166,20 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	}
 
 	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		steam.serialize(buf);
+		feed.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.steam.deserialize(buf);
+		this.feed.deserialize(buf);
+	}
+
+	@Override
 	public boolean hasPermission(EntityPlayer player) {
 		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
 	}
@@ -206,6 +222,11 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		}
 		
 		super.onMelt(reduce);
+	}
+
+	@Override
+	public RBMKHandler.RBMKType getRBMKType() {
+		return RBMKHandler.RBMKType.OTHER;
 	}
 
 	@Override
