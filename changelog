@@ -7,6 +7,10 @@
 * Soldering stations will no longer work if the recipe requires no input fluid while fluid is present
   * While this does complicate using the soldering station manually, as switching from milgrade to standard ICs requires emptying the solderer with a siphon, it does make automating easier, since soldering stations will no longer treat incomplete milgrade circuits as ICs
 * Cement is now edible
+* Derricks have been remodeled, the port configuration has changed so existing derricks need to be replaced
+* Derricks no longer spawn oil spills
+* Metal deco blocks are now crafted in batches of 4, as well as recycled in batches of 4. Each block is therefore still worth 25% of an ingot, but recycling your own deco blocks is no longer lossy
 
 ## Fixed
 * Fixed some machines not sending fluid gauge syncs properly
+* Fixed refinery GUI crashing when invalid input is used
