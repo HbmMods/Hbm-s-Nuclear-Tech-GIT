@@ -53,7 +53,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 
 	public TileEntityCoreEmitter() {
 		super(0);
-		tank = new FluidTank(Fluids.CRYOGEL, 64000, 0);
+		tank = new FluidTank(Fluids.CRYOGEL, 64000);
 	}
 
 	@Override

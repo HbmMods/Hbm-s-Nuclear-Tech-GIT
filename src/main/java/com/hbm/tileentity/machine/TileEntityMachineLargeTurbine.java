@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.CompatHandler;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerMachineLargeTurbine;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -40,7 +39,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IFluidContainer, IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityMachineLargeTurbine extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
 
 	public long power;
 	public static final long maxPower = 100000000;
@@ -59,8 +58,8 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		super(7);
 		
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.STEAM, 512000, 0);
-		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 10240000, 1);
+		tanks[0] = new FluidTank(Fluids.STEAM, 512000);
+		tanks[1] = new FluidTank(Fluids.SPENTSTEAM, 10240000);
 
 		Random rand = new Random();
 		audioDesync = rand.nextFloat() * 0.05F;
@@ -115,12 +114,11 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 			
 			tanks[1].unloadTank(5, 6, slots);
 			
-			for(int i = 0; i < 2; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setBoolean("operational", operational);
+			tanks[0].writeToNBT(data, "t0");
+			tanks[1].writeToNBT(data, "t1");
 			this.networkPack(data, 50);
 		} else {
 			this.lastRotor = this.rotor;
@@ -175,6 +173,8 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		
 		this.power = data.getLong("power");
 		this.shouldTurn = data.getBoolean("operational");
+		tanks[0].readFromNBT(data, "t0");
+		tanks[1].readFromNBT(data, "t1");
 	}
 	
 	public long getPowerScaled(int i) {
@@ -195,18 +195,6 @@ public class TileEntityMachineLargeTurbine extends TileEntityMachineBase impleme
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "steam");
 		nbt.setLong("power", power);
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if(index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if(index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
 	}
 
 	@Override

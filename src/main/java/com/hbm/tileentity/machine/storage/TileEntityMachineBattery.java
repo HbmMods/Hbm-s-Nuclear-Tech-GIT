@@ -21,10 +21,10 @@ import com.hbm.util.CompatEnergyControl;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -35,7 +35,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyConductorMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IPersistentNBT, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityMachineBattery extends TileEntityMachineBase implements IEnergyConductorMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IPersistentNBT, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
 	
 	public long[] log = new long[20];
 	public long delta = 0;
@@ -214,13 +214,7 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 			
 			prevPowerState = power;
 			
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setLong("power", avg);
-			nbt.setLong("delta", delta);
-			nbt.setShort("redLow", redLow);
-			nbt.setShort("redHigh", redHigh);
-			nbt.setByte("priority", (byte) this.priority.ordinal());
-			this.networkPack(nbt, 20);
+			this.networkPackNT(20);
 		}
 	}
 	
@@ -250,14 +244,25 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
 
-		this.power = nbt.getLong("power");
-		this.delta = nbt.getLong("delta");
-		this.redLow = nbt.getShort("redLow");
-		this.redHigh = nbt.getShort("redHigh");
-		this.priority = ConnectionPriority.values()[nbt.getByte("priority")];
+		buf.writeLong(power);
+		buf.writeLong(delta);
+		buf.writeShort(redLow);
+		buf.writeShort(redHigh);
+		buf.writeByte(priority.ordinal());
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		power = buf.readLong();
+		delta = buf.readLong();
+		redLow = buf.readShort();
+		redHigh = buf.readShort();
+		priority = ConnectionPriority.values()[buf.readByte()];
 	}
 
 	@Override

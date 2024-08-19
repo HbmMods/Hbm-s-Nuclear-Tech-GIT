@@ -12,17 +12,13 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.gui.GuiInfoContainer;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEFluidPacket;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 
@@ -40,7 +36,6 @@ public class FluidTank {
 	FluidType type;
 	int fluid;
 	int maxFluid;
-	@Deprecated public int index = 0;
 	int pressure = 0;
 	
 	public FluidTank(FluidType type, int maxFluid) {
@@ -54,13 +49,6 @@ public class FluidTank {
 		
 		this.pressure = pressure;
 		return this;
-	}
-	
-	@Deprecated // indices are no longer needed
-	public FluidTank(FluidType type, int maxFluid, int index) {
-		this.type = type;
-		this.maxFluid = maxFluid;
-		this.index = index;
 	}
 	
 	public void setFill(int i) {
@@ -106,20 +94,6 @@ public class FluidTank {
 		}
 			
 		return 0;
-	}
-	
-	//Called on TE update
-	@Deprecated public void updateTank(TileEntity te) {
-		updateTank(te, 100);
-	}
-	@Deprecated public void updateTank(TileEntity te, int range) {
-		updateTank(te.xCoord, te.yCoord, te.zCoord, te.getWorldObj().provider.dimensionId, range);
-	}
-	@Deprecated public void updateTank(int x, int y, int z, int dim) {
-		updateTank(x, y, z, dim, 100);
-	}
-	@Deprecated public void updateTank(int x, int y, int z, int dim, int range) {
-		PacketDispatcher.wrapper.sendToAllAround(new TEFluidPacket(x, y, z, fluid, index, type), new TargetPoint(dim, x, y, z, range));
 	}
 	
 	//Fills tank from canisters

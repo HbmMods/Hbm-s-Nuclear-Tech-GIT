@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerRadiolysis;
 import com.hbm.inventory.fluid.FluidType;
@@ -34,7 +33,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidContainer, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC {
 	
 	public long power;
 	public static final int maxPower = 1000000;
@@ -48,9 +47,9 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	public TileEntityMachineRadiolysis() {
 		super(15); //10 rtg slots, 2 fluid ID slots (io), 2 irradiation slots (io), battery slot
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(Fluids.NONE, 2000, 0);
-		tanks[1] = new FluidTank(Fluids.NONE, 2000, 1);
-		tanks[2] = new FluidTank(Fluids.NONE, 2000, 2);
+		tanks[0] = new FluidTank(Fluids.NONE, 2_000);
+		tanks[1] = new FluidTank(Fluids.NONE, 2_000);
+		tanks[2] = new FluidTank(Fluids.NONE, 2_000);
 	}
 	
 	@Override
@@ -104,6 +103,9 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		
 		this.power = data.getLong("power");
 		this.heat = data.getInteger("heat");
+		tanks[0].readFromNBT(data, "t0");
+		tanks[1].readFromNBT(data, "t1");
+		tanks[2].readFromNBT(data, "t2");
 	}
 	
 	@Override
@@ -141,10 +143,10 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("heat", heat);
+			tanks[0].writeToNBT(data, "t0");
+			tanks[1].writeToNBT(data, "t1");
+			tanks[2].writeToNBT(data, "t2");
 			this.networkPack(data, 50);
-			
-			for(byte i = 0; i < 3; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 		}
 	}
 	
@@ -249,18 +251,6 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		return maxPower;
 	}
 	
-	/* Fluid Methods */
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if(index < 3 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		this.tanks[index].setTankType(type);
-	}
-
 	@Override
 	public FluidTank[] getAllTanks() {
 		return tanks;

@@ -4,7 +4,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 
-//@invtweaks.api.container.ChestContainer
+@invtweaks.api.container.ChestContainer(rowSize = 9, isLargeChest = false)
 public class ContainerCrateSteel extends ContainerCrateBase {
 
 	public ContainerCrateSteel(InventoryPlayer invPlayer, IInventory tedf) {
@@ -16,6 +16,6 @@ public class ContainerCrateSteel extends ContainerCrateBase {
 			}
 		}
 
-		this.playerInv(invPlayer,8, 84 + (18 * 3) + 2, 142 + (18 * 3) + 2);
+		this.playerInv(invPlayer, 8, 84 + (18 * 3) + 2, 142 + (18 * 3) + 2);
 	}
 }

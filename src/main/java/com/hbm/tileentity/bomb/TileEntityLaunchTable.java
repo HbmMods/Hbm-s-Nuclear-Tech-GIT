@@ -5,7 +5,6 @@ import java.util.List;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.handler.CompatHandler;
 import com.hbm.handler.MissileStruct;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerLaunchTable;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -18,10 +17,10 @@ import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.AuxGaugePacket;
+import com.hbm.packet.BufPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -33,10 +32,10 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -53,7 +52,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2, IFluidContainer, IFluidStandardReceiver, IGUIProvider, SimpleComponent, IRadarCommandReceiver, CompatHandler.OCComponent {
+public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IBufPacketReceiver, IRadarCommandReceiver, CompatHandler.OCComponent {
 
 	private ItemStack slots[];
 
@@ -74,8 +73,8 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	public TileEntityLaunchTable() {
 		slots = new ItemStack[8];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.NONE, 100000, 0);
-		tanks[1] = new FluidTank(Fluids.NONE, 100000, 1);
+		tanks[0] = new FluidTank(Fluids.NONE, 100000);
+		tanks[1] = new FluidTank(Fluids.NONE, 100000);
 		padSize = PartSize.SIZE_10;
 		height = 10;
 	}
@@ -190,9 +189,6 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 
 			tanks[0].loadTank(2, 6, slots);
 			tanks[1].loadTank(3, 7, slots);
-
-			for (int i = 0; i < 2; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			power = Library.chargeTEFromItems(slots, 5, power, maxPower);
 			
@@ -202,9 +198,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				solid += 250;
 			}
 			
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, solid, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, padSize.ordinal(), 1), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
+			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
 			
 			MissileStruct multipart = getStruct(slots[0]);
 			
@@ -238,6 +232,22 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				}
 			}
 		}
+	}
+
+	@Override public void serialize(ByteBuf buf) {
+		buf.writeLong(power);
+		buf.writeInt(solid);
+		buf.writeByte((byte) padSize.ordinal());
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+	}
+	
+	@Override public void deserialize(ByteBuf buf) {
+		this.power = buf.readLong();
+		this.solid = buf.readInt();
+		this.padSize = PartSize.values()[buf.readByte()];
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
 	}
 	
 	private void updateConnections() {
@@ -542,18 +552,6 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return false;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
 	}
 	
 	@Override

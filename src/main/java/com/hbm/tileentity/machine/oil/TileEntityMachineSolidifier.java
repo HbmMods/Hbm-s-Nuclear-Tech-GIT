@@ -3,10 +3,8 @@ package com.hbm.tileentity.machine.oil;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerSolidifier;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUISolidifier;
@@ -35,7 +33,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineSolidifier extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidContainer, IFluidStandardReceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC {
+public class TileEntityMachineSolidifier extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -49,7 +47,7 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 
 	public TileEntityMachineSolidifier() {
 		super(5);
-		tank = new FluidTank(Fluids.NONE, 24000, 0);
+		tank = new FluidTank(Fluids.NONE, 24_000);
 	}
 
 	@Override
@@ -63,7 +61,6 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 		if(!worldObj.isRemote) {
 			this.power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			tank.setType(4, slots);
-			tank.updateTank(this);
 
 			this.updateConnections();
 
@@ -84,6 +81,7 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 			data.setInteger("progress", this.progress);
 			data.setInteger("usage", this.usage);
 			data.setInteger("processTime", this.processTime);
+			tank.writeToNBT(data, "t");
 			this.networkPack(data, 50);
 		}
 	}
@@ -180,6 +178,7 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 		this.progress = nbt.getInteger("progress");
 		this.usage = nbt.getInteger("usage");
 		this.processTime = nbt.getInteger("processTime");
+		tank.readFromNBT(nbt, "t");
 	}
 	
 	@Override
@@ -207,16 +206,6 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	@Override
 	public long getMaxPower() {
 		return maxPower;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
 	}
 	
 	AxisAlignedBB bb = null;
