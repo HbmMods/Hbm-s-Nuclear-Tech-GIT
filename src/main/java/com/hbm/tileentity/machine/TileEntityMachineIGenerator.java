@@ -62,9 +62,9 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 	public TileEntityMachineIGenerator() {
 		super(21);
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(Fluids.WATER, waterCap, 0);
-		tanks[1] = new FluidTank(Fluids.HEATINGOIL, oilCap, 1);
-		tanks[2] = new FluidTank(Fluids.LUBRICANT, lubeCap, 2);
+		tanks[0] = new FluidTank(Fluids.WATER, waterCap);
+		tanks[1] = new FluidTank(Fluids.HEATINGOIL, oilCap);
+		tanks[2] = new FluidTank(Fluids.LUBRICANT, lubeCap);
 	}
 
 	@Override

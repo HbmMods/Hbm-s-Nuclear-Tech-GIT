@@ -134,6 +134,9 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 		this.heat = data.getInteger("heat");
 		this.pressure = data.getInteger("pressure");
 		this.isOn = data.getBoolean("isOn");
+		steam.readFromNBT(data, "t0");
+		carbonDioxide.readFromNBT(data, "t1");
+		water.readFromNBT(data, "t2");
 	}
 
 	public int getGaugeScaled(int i, int type) {
@@ -229,11 +232,10 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 			data.setInteger("heat", heat);
 			data.setInteger("pressure", pressure);
 			data.setBoolean("isOn", isOn);
+			steam.writeToNBT(data, "t0");
+			carbonDioxide.writeToNBT(data, "t1");
+			water.writeToNBT(data, "t2");
 			this.networkPack(data, 150);
-			
-			steam.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			carbonDioxide.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			water.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 		}
 	}
 

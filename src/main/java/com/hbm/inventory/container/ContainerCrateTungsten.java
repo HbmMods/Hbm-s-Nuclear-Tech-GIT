@@ -5,7 +5,7 @@ import com.hbm.tileentity.machine.storage.TileEntityCrateTungsten;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
-//@invtweaks.api.container.ChestContainer
+@invtweaks.api.container.ChestContainer(rowSize = 9, isLargeChest = false)
 public class ContainerCrateTungsten extends ContainerCrateBase {
 
 	public ContainerCrateTungsten(InventoryPlayer invPlayer, TileEntityCrateTungsten te) {
@@ -17,6 +17,6 @@ public class ContainerCrateTungsten extends ContainerCrateBase {
 			}
 		}
 
-		this.playerInv(invPlayer,8, 32 + 18 * 3, 90 + (18 * 3));
+		this.playerInv(invPlayer, 8, 32 + 18 * 3, 90 + (18 * 3));
 	}
 }

@@ -158,6 +158,8 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 			if(this.tank.getFill() < recipe.fluid.fill) return false;
 		}
 		
+		if(recipe.fluid == null && this.tank.getFill() > 0) return false;
+		
 		if(slots[6] != null) {
 			if(slots[6].getItem() != recipe.output.getItem()) return false;
 			if(slots[6].getItemDamage() != recipe.output.getItemDamage()) return false;

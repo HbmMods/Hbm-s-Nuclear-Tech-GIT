@@ -49,8 +49,8 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 	public TileEntityCore() {
 		super(3);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 128000, 0);
-		tanks[1] = new FluidTank(Fluids.TRITIUM, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 128000);
+		tanks[1] = new FluidTank(Fluids.TRITIUM, 128000);
 	}
 
 	@Override
@@ -140,10 +140,8 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 				radiation();
 			
 			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("tank0", tanks[0].getTankType().ordinal());
-			data.setInteger("tank1", tanks[1].getTankType().ordinal());
-			data.setInteger("fill0", tanks[0].getFill());
-			data.setInteger("fill1", tanks[1].getFill());
+			tanks[0].writeToNBT(data, "t0");
+			tanks[1].writeToNBT(data, "t1");
 			data.setInteger("field", field);
 			data.setInteger("heat", heat);
 			data.setInteger("color", color);
@@ -167,10 +165,8 @@ public class TileEntityCore extends TileEntityMachineBase implements IGUIProvide
 	public void networkUnpack(NBTTagCompound data) {
 		super.networkUnpack(data);
 
-		tanks[0].setTankType(Fluids.fromID(data.getInteger("tank0")));
-		tanks[1].setTankType(Fluids.fromID(data.getInteger("tank1")));
-		tanks[0].setFill(data.getInteger("fill0"));
-		tanks[1].setFill(data.getInteger("fill1"));
+		tanks[0].readFromNBT(data, "t0");
+		tanks[1].readFromNBT(data, "t1");
 		field = data.getInteger("field");
 		heat = data.getInteger("heat");
 		color = data.getInteger("color");

@@ -31,7 +31,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IE
 
 	public TileEntityAtmoExtractor() {
 		super(0);
-		tank = new FluidTank(Fluids.AIR, 50000, 0);
+		tank = new FluidTank(Fluids.AIR, 50000);
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IE
 
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
-			tank.writeToNBT(data, "water");
+			tank.writeToNBT(data, "t0");
 			
 			this.networkPack(data, 50);
 		}
@@ -89,7 +89,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IE
 
 	public void networkUnpack(NBTTagCompound data) {
 		this.power = data.getLong("power");
-		tank.readFromNBT(data, "water");
+		tank.readFromNBT(data, "t0");
 	}
 
 	public boolean hasPower() {

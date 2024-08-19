@@ -1495,6 +1495,22 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.energy_ball");
 		ignoreMappings.add("hbm:item.discharge");
 		ignoreMappings.add("hbm:item.empblast");
+		ignoreMappings.add("hbm:item.spill1");
+		ignoreMappings.add("hbm:item.spill2");
+		ignoreMappings.add("hbm:item.spill3");
+		ignoreMappings.add("hbm:item.spill4");
+		ignoreMappings.add("hbm:item.spill5");
+		ignoreMappings.add("hbm:item.spill6");
+		ignoreMappings.add("hbm:item.spill7");
+		ignoreMappings.add("hbm:item.spill8");
+		ignoreMappings.add("hbm:item.gas1");
+		ignoreMappings.add("hbm:item.gas2");
+		ignoreMappings.add("hbm:item.gas3");
+		ignoreMappings.add("hbm:item.gas4");
+		ignoreMappings.add("hbm:item.gas5");
+		ignoreMappings.add("hbm:item.gas6");
+		ignoreMappings.add("hbm:item.gas7");
+		ignoreMappings.add("hbm:item.gas8");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

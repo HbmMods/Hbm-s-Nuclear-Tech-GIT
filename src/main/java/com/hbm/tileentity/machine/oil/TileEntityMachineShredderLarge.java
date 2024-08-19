@@ -44,7 +44,7 @@ public class TileEntityMachineShredderLarge extends TileEntityMachineBase implem
 	
 	public TileEntityMachineShredderLarge() {
 		super(4);
-		tank = new FluidTank(Fluids.BLOOD, 24000, 0);
+		tank = new FluidTank(Fluids.BLOOD, 24000);
 	}
 
 	@Override
@@ -57,7 +57,6 @@ public class TileEntityMachineShredderLarge extends TileEntityMachineBase implem
 		
 		if(!worldObj.isRemote) {
 			this.power = Library.chargeTEFromItems(slots, 1, power, maxPower);
-			tank.updateTank(this);
 			
 			this.updateConnections();
 
@@ -81,6 +80,7 @@ public class TileEntityMachineShredderLarge extends TileEntityMachineBase implem
 			data.setInteger("progress", this.progress);
 			data.setInteger("usage", this.usage);
 			data.setInteger("processTime", this.processTime);
+			tank.writeToNBT(data, "t0");
 			this.networkPack(data, 50);
 		}
 	}
@@ -165,6 +165,7 @@ public class TileEntityMachineShredderLarge extends TileEntityMachineBase implem
 		this.progress = nbt.getInteger("progress");
 		this.usage = nbt.getInteger("usage");
 		this.processTime = nbt.getInteger("processTime");
+		this.tank.readFromNBT(nbt, "t0");
 	}
 	
 	@Override
