@@ -119,14 +119,12 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 			}
 		}
 	}
-	
+
 	@Override
-	public void sendUpdate() {
-		NBTTagCompound data = new NBTTagCompound();
-		data.setLong("power", power);
-		data.setInteger("indicator", this.indicator);
-		data.setFloat("speed", this.indicator == 0 ? (5F + (2F * this.speedLevel)) + (this.overLevel - 1F) * 10: 0F);
-		this.networkPack(data, 25);
+	public void networkPack(NBTTagCompound nbt, int range) {
+		nbt.setFloat("speed", speed);
+
+		super.networkPack(nbt, range);
 	}
 	
 	@Override
