@@ -28,7 +28,7 @@ public class GUIMachineRefinery extends GuiInfoContainer {
 		super(new ContainerMachineRefinery(invPlayer, tedf));
 		refinery = tedf;
 		
-		this.xSize = 209;
+		this.xSize = 210;
 		this.ySize = 231;
 	}
 	
@@ -84,35 +84,39 @@ public class GUIMachineRefinery extends GuiInfoContainer {
 		// pipes
 
 		Tuple.Quintet<FluidStack, FluidStack, FluidStack, FluidStack, ItemStack> recipe = RefineryRecipes.getRefinery(inputOil.getTankType());
-		
-		if(recipe != null) {
-	
-			GL11.glEnable(GL11.GL_BLEND);
-	
+
+		if(recipe == null) {
+			func_146110_a(guiLeft + 52, guiTop + 63, 247, 1, 33, 48, 350, 256);
+			func_146110_a(guiLeft + 52, guiTop + 32, 247, 50, 66, 52, 350, 256);
+			func_146110_a(guiLeft + 52, guiTop + 24, 247, 145, 86, 35, 350, 256);
+			func_146110_a(guiLeft + 36, guiTop + 16, 211, 119, 122, 25, 350, 256);
+		} else {
+
 			// Heavy Oil Products
 			Color color = new Color(recipe.getV().type.getColor());
+
+			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
 			func_146110_a(guiLeft + 52, guiTop + 63, 247, 1, 33, 48, 350, 256);
-	
+
 			// Naphtha Oil Products
 			color = new Color(recipe.getW().type.getColor());
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
 			func_146110_a(guiLeft + 52, guiTop + 32, 247, 50, 66, 52, 350, 256);
-	
+
 			// Light Oil Products
 			color = new Color(recipe.getX().type.getColor());
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
 			func_146110_a(guiLeft + 52, guiTop + 24, 247, 145, 86, 35, 350, 256);
-	
+
 			// Gaseous Products
 			color = new Color(recipe.getY().type.getColor());
 			GL11.glColor4f(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
 			func_146110_a(guiLeft + 36, guiTop + 16, 211, 119, 122, 25, 350, 256);
-			
-			GL11.glColor4f(1F, 1F, 1F, 1F);
+      
 			GL11.glDisable(GL11.GL_BLEND);
+			GL11.glColor4f(1F, 1F, 1F, 1F);
 		}
-		
 
 		// output tanks
 		refinery.tanks[1].renderTank(guiLeft + 86, guiTop + 95, this.zLevel, 16, 52);
