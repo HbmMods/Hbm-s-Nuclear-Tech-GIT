@@ -122,7 +122,7 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 
 	@Override
 	public void networkPack(NBTTagCompound nbt, int range) {
-		nbt.setFloat("speed", speed);
+		nbt.setFloat("speed", this.indicator == 0 ? (5F + (2F * this.speedLevel)) + (this.overLevel - 1F) * 10: 0F);
 
 		super.networkPack(nbt, range);
 	}
