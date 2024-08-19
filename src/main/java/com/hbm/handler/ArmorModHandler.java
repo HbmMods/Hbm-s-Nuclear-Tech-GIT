@@ -18,6 +18,9 @@ public class ArmorModHandler {
 	public static final int cladding = 5;
 	public static final int kevlar = 6;
 	public static final int extra = 7;
+	public static final int battery = 8;
+	
+	public static final int MOD_SLOTS = 9;
 	
 	public static final UUID[] UUIDs = new UUID[] {
 			UUID.fromString("8d6e5c77-133e-4056-9c80-a9e42a1a0b65"),
@@ -146,7 +149,7 @@ public class ArmorModHandler {
 	
 	public static ItemStack[] pryMods(ItemStack armor) {
 		
-		ItemStack[] slots = new ItemStack[8];
+		ItemStack[] slots = new ItemStack[MOD_SLOTS];
 
 		if(!hasMods(armor))
 			return slots;
@@ -154,7 +157,7 @@ public class ArmorModHandler {
 		NBTTagCompound nbt = armor.getTagCompound();
 		NBTTagCompound mods = nbt.getCompoundTag(MOD_COMPOUND_KEY);
 		
-		for(int i = 0; i < 8; i++) {
+		for(int i = 0; i < MOD_SLOTS; i++) {
 			
 			NBTTagCompound cmp = mods.getCompoundTag(MOD_SLOT_KEY + i);
 			
