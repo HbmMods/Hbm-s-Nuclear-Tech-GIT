@@ -19,6 +19,7 @@ import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.Compat;
+import com.hbm.util.GameRuleHelper;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

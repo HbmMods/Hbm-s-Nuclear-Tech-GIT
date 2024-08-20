@@ -17,6 +17,7 @@ import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.ParticleUtil;
 
 import api.hbm.tile.IInfoProviderEC;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -139,7 +140,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 		switch(type) {
 		case SLOW: return (this.fluxQuantity * (1 - this.fluxRatio) + Math.min(this.fluxRatio * 0.5, 1));
-		case FAST: return (this.fluxQuantity * this.fluxRatio + Math.min((1 - this.fluxRatio) * 0.3, 1));
+		case FAST: return (this.fluxQuantity * this.fluxRatio + Math.min(1 - this.fluxRatio * 0.3, 1));
 		case ANY: return this.fluxQuantity;
 		}
 
@@ -153,16 +154,24 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			ForgeDirection.WEST
 	};
 
-	protected static NType stream;
-
 	public void spreadFlux(double flux, double ratio) {
+
+		BlockPos pos = new BlockPos(this);
+
+		RBMKHandler.RBMKNode node;
+
+		if(getNode(pos) == null) {
+			node = RBMKHandler.makeNode(this);
+			addNode(node);
+		} else
+			node = getNode(pos);
 
 		for(ForgeDirection dir : fluxDirs) {
 
 			Vec3 neutronVector = Vec3.createVectorHelper(dir.offsetX, dir.offsetY, dir.offsetZ);
-
-			new NeutronStream(RBMKNeutronHandler.makeNode(this), neutronVector, flux, ratio);
+			
 			// Create new neutron streams
+			new RBMKNeutronStream(node, neutronVector, flux, ratio);
 		}
 	}
 	

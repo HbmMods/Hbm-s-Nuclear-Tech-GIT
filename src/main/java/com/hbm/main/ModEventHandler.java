@@ -535,6 +535,12 @@ public class ModEventHandler {
 	public void onLoad(WorldEvent.Load event) {
 		BobmazonOfferFactory.init();
 	}
+
+	@SubscribeEvent
+	public void onUnload(WorldEvent.Unload event) {
+		RBMKHandler.removeAllWorlds(); // Remove world from worlds when unloaded to avoid world issues.
+		RBMKHandler.removeAllNodes(); // Remove all nodes.
+	}
 	
 	public static boolean didSit = false;
 	public static Field reference = null;
@@ -1146,9 +1152,7 @@ public class ModEventHandler {
 			TileEntityMachineRadarNT.updateSystem();
 			Nodespace.updateNodespace();
 			// RBMK!!!!
-			MinecraftServer.getServer().theProfiler.startSection("rbmkHandler_flux_interaction");
 			RBMKHandler.runAllInteractions();
-			MinecraftServer.getServer().theProfiler.endSection();
 		}
 	}
 	
