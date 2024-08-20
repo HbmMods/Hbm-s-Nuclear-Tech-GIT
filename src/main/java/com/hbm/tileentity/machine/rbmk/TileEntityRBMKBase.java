@@ -22,6 +22,7 @@ import com.hbm.tileentity.IOverpressurable;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import com.hbm.util.Compat;
+import com.hbm.util.GameRuleHelper;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -51,7 +52,7 @@ import java.util.*;
  * @author hbm
  *
  */
-public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements INBTPacketReceiver, IBufPacketReceiver {
+public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements IBufPacketReceiver {
 	
 	public double heat;
 	
@@ -274,22 +275,6 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		nbt.setDouble("heat", this.heat);
 		nbt.setInteger("water", this.water);
 		nbt.setInteger("steam", this.steam);
-	}
-
-	@Deprecated
-	public void networkPack(NBTTagCompound nbt, int range) {
-		diag = true;
-		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
-		diag = false;
-	}
-
-	@Deprecated
-	public void networkUnpack(NBTTagCompound nbt) {
-
-		diag = true;
-		this.readFromNBT(nbt);
-		diag = false;
 	}
 
 	public void networkPackNT(int range) {

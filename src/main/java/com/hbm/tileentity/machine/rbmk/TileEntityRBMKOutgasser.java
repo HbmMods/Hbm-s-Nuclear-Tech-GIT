@@ -96,7 +96,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 		
 		if(canProcess()) {
 
-			double efficiency = Math.min((1 - stream.fluxRatio) * 0.8, 1);
+			double efficiency = Math.min(1 - stream.fluxRatio * 0.8, 1);
 
 			progress += stream.fluxQuantity * efficiency * RBMKDials.getOutgasserMod(worldObj);
 			

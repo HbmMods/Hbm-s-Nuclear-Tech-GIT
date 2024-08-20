@@ -17,6 +17,7 @@ import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.ParticleUtil;
 
 import api.hbm.tile.IInfoProviderEC;
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -37,6 +38,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.hbm.handler.rbmkmk2.RBMKHandler.addNode;
+import static com.hbm.handler.rbmkmk2.RBMKHandler.getNode;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IRBMKLoadable, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
@@ -116,6 +120,8 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 				if(this.heat > 10_000) this.heat = 10_000;
 
+				this.markDirty();
+
 				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
 				this.fluxQuantity = 0;
 				spreadFlux(fluxQuantityOut, fluxRatioOut);
@@ -139,7 +145,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 		switch(type) {
 		case SLOW: return (this.fluxQuantity * (1 - this.fluxRatio) + Math.min(this.fluxRatio * 0.5, 1));
-		case FAST: return (this.fluxQuantity * this.fluxRatio + Math.min((1 - this.fluxRatio) * 0.3, 1));
+		case FAST: return (this.fluxQuantity * this.fluxRatio + Math.min(1 - this.fluxRatio * 0.3, 1));
 		case ANY: return this.fluxQuantity;
 		}
 
@@ -153,16 +159,24 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			ForgeDirection.WEST
 	};
 
-	protected static NType stream;
-
 	public void spreadFlux(double flux, double ratio) {
+
+		BlockPos pos = new BlockPos(this);
+
+		RBMKHandler.RBMKNode node;
+
+		if(getNode(pos) == null) {
+			node = RBMKHandler.makeNode(this);
+			addNode(node);
+		} else
+			node = getNode(pos);
 
 		for(ForgeDirection dir : fluxDirs) {
 
 			Vec3 neutronVector = Vec3.createVectorHelper(dir.offsetX, dir.offsetY, dir.offsetZ);
 
-			new NeutronStream(RBMKHandler.makeNode(this), neutronVector, flux, ratio);
 			// Create new neutron streams
+			new NeutronStream(node, neutronVector, flux, ratio);
 		}
 	}
 	
