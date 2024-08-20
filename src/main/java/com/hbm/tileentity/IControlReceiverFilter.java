@@ -3,6 +3,7 @@ package com.hbm.tileentity;
 import com.hbm.interfaces.IControlReceiver;
 
 import com.hbm.interfaces.ICopiable;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -66,7 +67,7 @@ public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 	}
 
 	@Override
-	default void pasteSettings(NBTTagCompound nbt, int index, World world, int x, int y, int z) {
+	default void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
 		TileEntity tile = (TileEntity) this;
 		IInventory inv = (IInventory) this;
 		NBTTagList items = nbt.getTagList("items", 10);

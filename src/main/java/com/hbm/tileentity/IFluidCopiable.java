@@ -5,6 +5,7 @@ import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.util.BobMathUtil;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
@@ -40,7 +41,7 @@ public interface IFluidCopiable extends ICopiable {
     }
 
     @Override
-    default void pasteSettings(NBTTagCompound nbt, int index, World world, int x, int y, int z) {
+    default void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
         if(getTankToPaste() != null) {
             int[] ids = nbt.getIntArray("fluidID");
             if(ids.length > 0) {

@@ -20,7 +20,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ItemSettingsTool extends Item {
@@ -32,14 +31,18 @@ public class ItemSettingsTool extends Item {
 
 		if(((EntityPlayer) entity).getHeldItem() == stack && stack.hasTagCompound()) {
 			EntityPlayer player = ((EntityPlayer) entity);
+			int delay = stack.stackTagCompound.getInteger("inputDelay");
+			delay++;
 			displayInfo = stack.stackTagCompound.getTagList("displayInfo", 10);
 
-			if (HbmPlayerProps.getData(player).getKeyPressed(HbmKeybinds.EnumKeybind.COPY_TOOL)) {
+			if (HbmPlayerProps.getData(player).getKeyPressed(HbmKeybinds.EnumKeybind.TOOL_ALT) && delay > 4) {
 				int index = stack.stackTagCompound.getInteger("copyIndex") + 1;
 				if(index > displayInfo.tagCount() - 1) index = 0;
 				stack.stackTagCompound.setInteger("copyIndex", index);
+				delay = 0;
 			}
 
+			stack.stackTagCompound.setInteger("inputDelay", delay);
 			if(world.getTotalWorldTime() % 5 != 0) return;
 
 			if(displayInfo.tagCount() > 0){
@@ -75,6 +78,7 @@ public class ItemSettingsTool extends Item {
 			stack.stackTagCompound = copiable.getSettings(world, x, y, z);
 			stack.stackTagCompound.setString("tileName", copiable.getSettingsSourceID(schrodinger));
 			stack.stackTagCompound.setInteger("copyIndex", 0);
+			stack.stackTagCompound.setInteger("inputDelay", 0);
 			String[] info = copiable.infoForDisplay(world, x, y, z);
 			if(info != null) {
 				NBTTagList displayInfo = new NBTTagList();
@@ -95,7 +99,7 @@ public class ItemSettingsTool extends Item {
 
 		} else if(stack.hasTagCompound()) {
 			int index = stack.stackTagCompound.getInteger("copyIndex");
-			copiable.pasteSettings(stack.stackTagCompound, index, world, x, y, z);
+			copiable.pasteSettings(stack.stackTagCompound, index, world, player, x, y, z);
 		}
 
 		return !world.isRemote;
