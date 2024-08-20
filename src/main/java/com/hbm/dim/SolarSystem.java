@@ -256,6 +256,34 @@ public class SolarSystem {
 		return metrics;
 	}
 
+	public static List<AstroMetric> calculateMetricsFromPosition(World world, float partialTicks, CelestialBody orbiting, double altitude) {
+		List<AstroMetric> metrics = new ArrayList<AstroMetric>();
+
+		double ticks = ((double)world.getTotalWorldTime() + partialTicks) * (double)AstronomyUtil.TIME_MULTIPLIER;
+		
+		// Get our XYZ coordinates of all bodies
+		calculatePositionsRecursive(metrics, null, orbiting.getStar(), ticks);
+
+		// Add our orbiting satellite position
+		Vec3 position = calculatePosition(orbiting, altitude, ticks);
+		for(AstroMetric metric : metrics) {
+			if(metric.body == orbiting) {
+				position = position.addVector(metric.position.xCoord, metric.position.yCoord, metric.position.zCoord);
+				break;
+			}
+		}
+
+		// Get the metrics from the orbiting position
+		calculateMetricsFromPosition(metrics, position);
+
+		// Sort by increasing distance
+		metrics.sort((a, b) -> {
+			return (int)(b.distance - a.distance);
+		});
+
+		return metrics;
+	}
+
 	// Recursively calculate the XYZ position of all planets from polar coordinates + time
 	private static void calculatePositionsRecursive(List<AstroMetric> metrics, AstroMetric parentMetric, CelestialBody body, double ticks) {
 		Vec3 parentPosition = parentMetric != null ? parentMetric.position : Vec3.createVectorHelper(0, 0, 0);
@@ -273,11 +301,24 @@ public class SolarSystem {
 	// Calculates the position of the body around its parent
 	private static Vec3 calculatePosition(CelestialBody body, double ticks) {
 		// Get how far (in radians) a planet has gone around its parent
-		double yearTicks = (double)body.getOrbitalPeriod() * (double)AstronomyUtil.TICKS_IN_DAY;
+		double yearTicks = body.getOrbitalPeriod() * (double)AstronomyUtil.TICKS_IN_DAY;
 		double angleRadians = 2 * Math.PI * (ticks / yearTicks);
 
 		double x = body.semiMajorAxisKm * Math.cos(angleRadians);
 		double y = body.semiMajorAxisKm * Math.sin(angleRadians);
+
+		return Vec3.createVectorHelper(x, y, 0);
+	}
+
+	// Same but for an arbitrary satellite around a body
+	private static Vec3 calculatePosition(CelestialBody body, double altitude, double ticks) {
+		double orbitalPeriod = 2 * Math.PI * Math.sqrt((altitude * altitude * altitude) / (AstronomyUtil.GRAVITATIONAL_CONSTANT * body.massKg));
+		orbitalPeriod /= (double)AstronomyUtil.SECONDS_IN_KSP_DAY;
+		double orbitTicks = orbitalPeriod * (double)AstronomyUtil.TICKS_IN_DAY;
+		double angleRadians = 2 * Math.PI * (ticks / orbitTicks);
+
+		double x = altitude / 1000 * Math.cos(angleRadians);
+		double y = altitude / 1000 * Math.sin(angleRadians);
 
 		return Vec3.createVectorHelper(x, y, 0);
 	}
@@ -296,17 +337,27 @@ public class SolarSystem {
 			if(from == to)
 				continue;
 
-			// Calculate distance between bodies, for sorting
-			to.distance = from.position.distanceTo(to.position);
-			
-			// Calculate apparent size, for scaling in render
-			to.apparentSize = getApparentSize(to.body.radiusKm, to.distance);
-
-			// Get angle in relation to 0, 0 (sun position, origin)
-			to.angle = getApparentAngleDegrees(from.position, to.position);
-
-			to.phase = getApparentAngleDegrees(to.position, from.position) / 180.0;
+			calculateMetric(to, from.position);
 		}
+	}
+
+	private static void calculateMetricsFromPosition(List<AstroMetric> metrics, Vec3 position) {
+		for(AstroMetric to : metrics) {
+			calculateMetric(to, position);
+		}
+	}
+
+	private static void calculateMetric(AstroMetric metric, Vec3 position) {
+		// Calculate distance between bodies, for sorting
+		metric.distance = position.distanceTo(metric.position);
+		
+		// Calculate apparent size, for scaling in render
+		metric.apparentSize = getApparentSize(metric.body.radiusKm, metric.distance);
+
+		// Get angle in relation to 0, 0 (sun position, origin)
+		metric.angle = getApparentAngleDegrees(position, metric.position);
+
+		metric.phase = getApparentAngleDegrees(metric.position, position) / 180.0;
 	}
 
 	private static double getApparentSize(double radius, double distance) {
@@ -348,6 +399,28 @@ public class SolarSystem {
 		}
 
 		return getApparentAngleDegrees(metricFrom.position, metricTo.position);
+	}
+
+	public static double calculateSingleAngle(World world, float partialTicks, CelestialBody orbiting, double altitude) {
+		List<AstroMetric> metrics = new ArrayList<AstroMetric>();
+
+		double ticks = ((double)world.getTotalWorldTime() + partialTicks) * (double)AstronomyUtil.TIME_MULTIPLIER;
+		
+		// Get our XYZ coordinates of all bodies
+		calculatePositionsRecursive(metrics, null, orbiting.getStar(), ticks);
+
+		// Add our orbiting satellite position
+		Vec3 from = calculatePosition(orbiting, altitude, ticks);
+		Vec3 to = Vec3.createVectorHelper(0, 0, 0);
+		for(AstroMetric metric : metrics) {
+			if(metric.body == orbiting) {
+				to = metric.position;
+				from = from.addVector(to.xCoord, to.yCoord, to.zCoord);
+				break;
+			}
+		}
+
+		return getApparentAngleDegrees(from, to);
 	}
 
 

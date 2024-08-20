@@ -32,6 +32,7 @@ public class BiomeGenDunaHills extends BiomeGenBaseDuna {
 	}
 
 	// Ripped from BiomeGenMesa
+	@Override
 	public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] metas, int x, int z, double noise) {
 		if (this.field_150621_aC == null || this.seed != world.getSeed()) {
 			this.generateBuffers(world.getSeed());

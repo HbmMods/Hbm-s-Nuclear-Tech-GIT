@@ -16,9 +16,11 @@ public class SpaceConfig {
 	public static int mohoDimension = 20;
 	public static int minmusDimension = 21;
 	public static int laytheDimension = 22;
+	public static int orbitDimension = 23;
 
 	public static int minmusBiome = 40;
 	public static int minmusBasins = 41;
+	public static int orbitBiome = 42; // I wish we didn't have to, but alas
 	// why are we squished into the ceiling
 	public static int moonBiome = 111;
 	public static int dunaBiome = 112;
@@ -62,6 +64,7 @@ public class SpaceConfig {
 		mohoDimension = CommonConfig.createConfigInt(config, CATEGORY_DIM, "17.06_mohoDimension", "Moho dimension ID", mohoDimension);
 		minmusDimension = CommonConfig.createConfigInt(config, CATEGORY_DIM, "17.07_minmusDimension", "Minmus dimension ID", minmusDimension);
 		laytheDimension = CommonConfig.createConfigInt(config, CATEGORY_DIM, "17.08_laytheDimension", "Laythe dimension ID", laytheDimension);
+		orbitDimension = CommonConfig.createConfigInt(config, CATEGORY_DIM, "17.09_orbitDimension", "Orbital dimension ID", orbitDimension);
 		
 		final String CATEGORY_GENERAL = CommonConfig.CATEGORY_GENERAL;
 		maxProbeDistance = CommonConfig.createConfigInt(config, CATEGORY_GENERAL, "1.90_maxProbeDistance", "How far from the center of the dimension can probes generate landing coordinates", maxProbeDistance);

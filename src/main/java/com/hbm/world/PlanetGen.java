@@ -18,6 +18,7 @@ import com.hbm.dim.moho.WorldGeneratorMoho;
 import com.hbm.dim.moho.WorldProviderMoho;
 import com.hbm.dim.moon.WorldGeneratorMoon;
 import com.hbm.dim.moon.WorldProviderMoon;
+import com.hbm.dim.orbit.WorldProviderOrbit;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.world.WorldProvider;
@@ -47,6 +48,7 @@ public class PlanetGen {
 		registerDimension(SpaceConfig.mohoDimension, WorldProviderMoho.class);
 		registerDimension(SpaceConfig.minmusDimension, WorldProviderMinmus.class);
 		registerDimension(SpaceConfig.laytheDimension, WorldProviderLaythe.class);
+		registerDimension(SpaceConfig.orbitDimension, WorldProviderOrbit.class);
     }
 
 	private static void registerDimension(int dimensionId, Class<? extends WorldProvider> clazz) {

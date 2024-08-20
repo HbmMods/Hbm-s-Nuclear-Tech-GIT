@@ -17,7 +17,7 @@ public class SkyProviderLaytheSunset extends SkyProviderCelestial {
 	}
 
 	@Override
-	public void renderSunset(float partialTicks, WorldClient world, Minecraft mc) {
+	protected void renderSunset(float partialTicks, WorldClient world, Minecraft mc) {
 		Tessellator tessellator = Tessellator.instance;
 
 		float[] sunsetColor = world.provider.calcSunriseSunsetColors(world.getCelestialAngle(partialTicks), partialTicks);

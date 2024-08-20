@@ -2,8 +2,6 @@ package com.hbm.dim.laythe.biome;
 
 import java.util.Random;
 
-import com.hbm.blocks.ModBlocks;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -17,13 +15,14 @@ public class BiomeGenLaythePolar extends BiomeGenBaseLaythe {
 	public BiomeGenLaythePolar(int id) {
 		super(id);
 		this.setBiomeName("Laythe Poles");
-		this.waterColorMultiplier=0xC1F4FF;
+		this.waterColorMultiplier = 0xC1F4FF;
         
         this.setHeight(height);
         
         this.topBlock = Blocks.snow;
         this.fillerBlock = Blocks.ice;
 	}
+
 	@Override
 	public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise) {
 		Block block = this.topBlock;

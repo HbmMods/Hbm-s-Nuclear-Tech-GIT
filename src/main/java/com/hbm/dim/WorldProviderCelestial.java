@@ -295,10 +295,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		float semiMajorAxisKm = CelestialBody.getSemiMajorAxis(worldObj);
 		float distanceFactor = MathHelper.clamp_float((semiMajorAxisKm - distanceStart) / (distanceEnd - distanceStart), 0F, 1F);
 
-		// Vacuum still increases star brightness tho
 		float starBrightness = super.getStarBrightness(par1);
-		if (!CelestialBody.hasTrait(worldObj, CBT_Atmosphere.class))
-			starBrightness *= 2F;
 
 		return MathHelper.clamp_float(starBrightness, distanceFactor, 1F);
 	}

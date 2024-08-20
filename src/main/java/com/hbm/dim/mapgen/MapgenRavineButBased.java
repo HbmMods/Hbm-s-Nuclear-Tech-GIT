@@ -1,4 +1,4 @@
-package com.hbm.dim.moho;
+package com.hbm.dim.mapgen;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

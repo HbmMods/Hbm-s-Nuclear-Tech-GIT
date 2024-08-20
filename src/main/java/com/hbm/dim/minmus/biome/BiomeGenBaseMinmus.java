@@ -7,7 +7,6 @@ import com.hbm.config.SpaceConfig;
 import com.hbm.dim.BiomeDecoratorCelestial;
 import com.hbm.dim.BiomeGenBaseCelestial;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public abstract class BiomeGenBaseMinmus extends BiomeGenBaseCelestial {

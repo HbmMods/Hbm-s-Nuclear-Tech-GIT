@@ -27,6 +27,7 @@ import com.hbm.dim.WorldGeneratorCelestial;
 import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.WorldTypeTeleport;
 import com.hbm.dim.eve.WorldProviderEve;
+import com.hbm.dim.orbit.WorldProviderOrbit;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
@@ -1204,26 +1205,43 @@ public class ModEventHandler {
 				}
 			}
 		}
-
-		CelestialBody body = CelestialBody.getBody(event.entity.worldObj);
-		float gravity = body.getSurfaceGravity() * AstronomyUtil.PLAYER_GRAVITY_MODIFIER;
-
+	
 		boolean isFlying = event.entity instanceof EntityPlayer ? ((EntityPlayer) event.entity).capabilities.isFlying : false;
 
-		// If gravity is basically the same as normal, do nothing
-		// Also do nothing in water, or if we've been alive less than a second (so we don't glitch into the ground)
-		if(!isFlying && !event.entityLiving.isInWater() && event.entityLiving.ticksExisted > 20 && (gravity < 1.5F || gravity > 1.7F)) {
-
-			// Minimum gravity to prevent floating bug
-			if(gravity < 0.2F) gravity = 0.2F;
-
-			// Undo falling, and add our intended falling speed
-			// On high gravity planets, only apply falling speed when descending, so we can still jump up single blocks
-			if (gravity < 1.5F || event.entityLiving.motionY < 0) {
+		if(!isFlying) {
+			if(event.entity.worldObj.provider instanceof WorldProviderOrbit) {
 				event.entityLiving.motionY /= 0.98F;
 				event.entityLiving.motionY += (AstronomyUtil.STANDARD_GRAVITY / 20F);
-				event.entityLiving.motionY -= (gravity / 20F);
-				event.entityLiving.motionY *= 0.98F;
+				if(event.entity instanceof EntityPlayer) {
+					EntityPlayer player = (EntityPlayer) event.entity;
+					if(player.isSneaking()) {
+						event.entityLiving.motionY -= 0.01F;
+					}
+					if(player.isJumping) {
+						event.entityLiving.motionY += 0.01F;
+					}
+				}
+				event.entityLiving.motionY *= 0.91F;
+			} else {
+				CelestialBody body = CelestialBody.getBody(event.entity.worldObj);
+				float gravity = body.getSurfaceGravity() * AstronomyUtil.PLAYER_GRAVITY_MODIFIER;
+		
+				// If gravity is basically the same as normal, do nothing
+				// Also do nothing in water, or if we've been alive less than a second (so we don't glitch into the ground)
+				if(!event.entityLiving.isInWater() && event.entityLiving.ticksExisted > 20 && (gravity < 1.5F || gravity > 1.7F)) {
+		
+					// Minimum gravity to prevent floating bug
+					if(gravity < 0.2F) gravity = 0.2F;
+		
+					// Undo falling, and add our intended falling speed
+					// On high gravity planets, only apply falling speed when descending, so we can still jump up single blocks
+					if (gravity < 1.5F || event.entityLiving.motionY < 0) {
+						event.entityLiving.motionY /= 0.98F;
+						event.entityLiving.motionY += (AstronomyUtil.STANDARD_GRAVITY / 20F);
+						event.entityLiving.motionY -= (gravity / 20F);
+						event.entityLiving.motionY *= 0.98F;
+					}
+				}
 			}
 		}
 	}

@@ -74,10 +74,12 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		super(world);
 		setSize(2, 8);
 		sizeSet = false;
+		targetX = (int)posX + 10000;
+		targetZ = (int)posZ;
 	}
 
 	public EntityRideableRocket(World world, float x, float y, float z, ItemStack stack) {
-		super(world, x, y, z, (int) x, (int) z);
+		super(world, x, y, z, (int)x + 10000, (int)z);
 		RocketStruct rocket = ItemCustomRocket.get(stack);
 
 		setRocket(rocket);

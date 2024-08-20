@@ -4,7 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.ChunkProviderCelestial;
 import com.hbm.dim.mapgen.MapGenCrater;
 import com.hbm.dim.mapgen.MapGenGreg;
-import com.hbm.dim.moho.MapgenRavineButBased;
+import com.hbm.dim.mapgen.MapgenRavineButBased;
 
 import net.minecraft.world.World;
 

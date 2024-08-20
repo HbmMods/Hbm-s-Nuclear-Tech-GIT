@@ -22,8 +22,9 @@ public class BiomeGenMinmusHills extends BiomeGenBaseMinmus {
         this.topBlock = ModBlocks.minmus_regolith; 
         this.fillerBlock = ModBlocks.minmus_regolith;
 	}
+
+	@Override
 	public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise) {
-		// boolean flag = true;
 		Block block = this.topBlock;
 		byte b0 = (byte) (this.field_150604_aj & 255);
 		Block block1 = this.fillerBlock;
