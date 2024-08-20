@@ -134,7 +134,7 @@ public class ArmorModHandler {
 	}
 	
 	/**
-	 * Does what the name implies
+	 * Does what the name implies. Returns true if the stack has NBT and that NBT has the MOD_COMPOUND_KEY tag.
 	 * @param armor
 	 * @return
 	 */
@@ -170,5 +170,23 @@ public class ArmorModHandler {
 		}
 		
 		return slots;
+	}
+	
+	public static ItemStack pryMod(ItemStack armor, int slot) {
+		
+		if(!hasMods(armor))
+			return null;
+		
+		NBTTagCompound nbt = armor.getTagCompound();
+		NBTTagCompound mods = nbt.getCompoundTag(MOD_COMPOUND_KEY);
+		NBTTagCompound cmp = mods.getCompoundTag(MOD_SLOT_KEY + slot);
+		ItemStack stack = ItemStack.loadItemStackFromNBT(cmp);
+		
+		if(stack != null)
+			return stack;
+		
+		removeMod(armor, slot);
+		
+		return null;
 	}
 }

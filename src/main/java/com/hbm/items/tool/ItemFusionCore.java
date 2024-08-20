@@ -33,7 +33,7 @@ public class ItemFusionCore extends Item {
 
 				if(st.getItem() instanceof IBatteryItem) {
 
-					long maxcharge = ((IBatteryItem) st.getItem()).getMaxCharge();
+					long maxcharge = ((IBatteryItem) st.getItem()).getMaxCharge(st);
 					long charge = ((IBatteryItem) st.getItem()).getCharge(st);
 					long newcharge = Math.min(charge + this.charge, maxcharge);
 
