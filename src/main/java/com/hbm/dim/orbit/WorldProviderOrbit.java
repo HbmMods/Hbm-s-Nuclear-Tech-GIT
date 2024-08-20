@@ -4,6 +4,7 @@ import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.trait.CelestialBodyTrait.CBT_Destroyed;
+import com.hbm.lib.Library;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -76,14 +77,17 @@ public class WorldProviderOrbit extends WorldProvider {
 		return MathHelper.clamp_float(starBrightness, distanceFactor, 1F);
 	}
 
-	// TODO: only dim when occluded by a celestial body
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float getSunBrightness(float par1) {
 		if(SolarSystem.kerbol.hasTrait(CBT_Destroyed.class))
 			return 0;
 
-		return super.getSunBrightness(par1);
+		float celestialAngle = worldObj.getCelestialAngle(par1);
+		celestialAngle -= (float)SolarSystem.calculateSingleAngle(worldObj, par1, getOrbitingBody(), 1_000_000) / 360.0F;
+		float celestialPhase = (1 - (celestialAngle + 0.5F) % 1) * 2 - 1;
+
+		return 1 - (float)Library.smoothstep(Math.abs(celestialPhase), 0.6, 0.8);
 	}
 
 	@Override

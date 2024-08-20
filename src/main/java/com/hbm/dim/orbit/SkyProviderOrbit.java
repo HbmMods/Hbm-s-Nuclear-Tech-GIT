@@ -8,6 +8,7 @@ import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SkyProviderCelestial;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.SolarSystem.AstroMetric;
+import com.hbm.lib.Library;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -22,7 +23,7 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
 		Tessellator tessellator = Tessellator.instance;
 		CelestialBody orbiting = ((WorldProviderOrbit)world.provider).getOrbitingBody();
-		double altitude = 800_000; // higher than actual to visually slow down orbiting
+		double altitude = 1_000_000; // higher than actual altitude to visually slow down orbiting
 		float orbitalTilt = 80;
 
 		GL11.glDepthMask(false);
@@ -35,12 +36,14 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 
 		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 
-		float starBrightness = world.getStarBrightness(partialTicks);
+		
 		float celestialAngle = world.getCelestialAngle(partialTicks);
-
 		celestialAngle -= (float)SolarSystem.calculateSingleAngle(world, partialTicks, orbiting, altitude) / 360.0F;
+		float celestialPhase = (1 - (celestialAngle + 0.5F) % 1) * 2 - 1;
 
-		renderStars(partialTicks, world, mc, starBrightness, celestialAngle, 0);
+		float starBrightness = (float)Library.smoothstep(Math.abs(celestialPhase), 0.6, 0.75);
+
+		renderStars(partialTicks, world, mc, starBrightness, celestialAngle, orbitalTilt);
 
 		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
 
@@ -52,8 +55,9 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 			GL11.glRotatef(celestialAngle * 360.0F, 1.0F, 0.0F, 0.0F);
 
 			double sunSize = SolarSystem.calculateSunSize(orbiting);
+			double coronaSize = sunSize * (3 - Library.smoothstep(Math.abs(celestialPhase), 0.7, 0.8));
 
-			renderSun(partialTicks, world, mc, sunSize, sunSize * 3, 1, 0);
+			renderSun(partialTicks, world, mc, sunSize, coronaSize, 1, 0);
 
 			List<AstroMetric> metrics = SolarSystem.calculateMetricsFromPosition(world, partialTicks, orbiting, altitude);
 
@@ -99,7 +103,7 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 			// GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 			planetShader.use();
-			planetShader.setUniforms((1 - (celestialAngle + 0.5F) % 1) * 2 - 1, 0);
+			planetShader.setUniforms(celestialPhase, 0);
 			
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV(-160, 100.0D, -160, 0.0D, 0.0D);
