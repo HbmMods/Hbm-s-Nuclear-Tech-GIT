@@ -9,19 +9,19 @@ import net.minecraft.world.World;
 
 public class BiomeGenOrbit extends BiomeGenBaseCelestial {
 
-    public BiomeGenOrbit(int id) {
-        super(id);
-        this.setBiomeName("Space");
-        this.setDisableRain();
-    }
+	public BiomeGenOrbit(int id) {
+		super(id);
+		this.setBiomeName("Space");
+		this.setDisableRain();
+	}
 
 	@Override
-    public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise) {
-        // NOTHING
-    }
+	public void genTerrainBlocks(World world, Random rand, Block[] blocks, byte[] meta, int x, int z, double noise) {
+		// NOTHING
+	}
 
-    public void decorate(World world, Random rand, int x, int z) {
-        // EVEN LESS
-    }
-    
+	public void decorate(World world, Random rand, int x, int z) {
+		// EVEN LESS
+	}
+	
 }

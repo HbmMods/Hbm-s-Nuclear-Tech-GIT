@@ -18,12 +18,12 @@ import net.minecraft.util.Vec3;
 
 public class SkyProviderOrbit extends SkyProviderCelestial {
 
-    @Override
-    public void render(float partialTicks, WorldClient world, Minecraft mc) {
-        Tessellator tessellator = Tessellator.instance;
-        CelestialBody orbiting = ((WorldProviderOrbit)world.provider).getOrbitingBody();
-        double altitude = 800_000; // higher than actual to visually slow down orbiting
-        float orbitalTilt = 80;
+	@Override
+	public void render(float partialTicks, WorldClient world, Minecraft mc) {
+		Tessellator tessellator = Tessellator.instance;
+		CelestialBody orbiting = ((WorldProviderOrbit)world.provider).getOrbitingBody();
+		double altitude = 800_000; // higher than actual to visually slow down orbiting
+		float orbitalTilt = 80;
 
 		GL11.glDepthMask(false);
 		GL11.glDisable(GL11.GL_FOG);
@@ -38,40 +38,40 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 		float starBrightness = world.getStarBrightness(partialTicks);
 		float celestialAngle = world.getCelestialAngle(partialTicks);
 
-        celestialAngle -= (float)SolarSystem.calculateSingleAngle(world, partialTicks, orbiting, altitude) / 360.0F;
+		celestialAngle -= (float)SolarSystem.calculateSingleAngle(world, partialTicks, orbiting, altitude) / 360.0F;
 
-        renderStars(partialTicks, world, mc, starBrightness, celestialAngle, 0);
+		renderStars(partialTicks, world, mc, starBrightness, celestialAngle, 0);
 
 		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
 
-        GL11.glPushMatrix();
+		GL11.glPushMatrix();
 		{
 
-            GL11.glRotatef(orbitalTilt, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(orbitalTilt, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(celestialAngle * 360.0F, 1.0F, 0.0F, 0.0F);
 
 			double sunSize = SolarSystem.calculateSunSize(orbiting);
 
-            renderSun(partialTicks, world, mc, sunSize, sunSize * 3, 1, 0);
+			renderSun(partialTicks, world, mc, sunSize, sunSize * 3, 1, 0);
 
 			List<AstroMetric> metrics = SolarSystem.calculateMetricsFromPosition(world, partialTicks, orbiting, altitude);
 
-            renderCelestials(partialTicks, world, mc, metrics, celestialAngle, orbiting, Vec3.createVectorHelper(0, 0, 0), 1, 1, true);
-            
+			renderCelestials(partialTicks, world, mc, metrics, celestialAngle, orbiting, Vec3.createVectorHelper(0, 0, 0), 1, 1, true);
+			
 			GL11.glEnable(GL11.GL_BLEND);
 
-            // digma balls
-            renderDigamma(partialTicks, world, mc, celestialAngle);
+			// digma balls
+			renderDigamma(partialTicks, world, mc, celestialAngle);
 
-        }
-        GL11.glPopMatrix();
+		}
+		GL11.glPopMatrix();
 
 		double uvOffset = (((double)world.getWorldTime() + partialTicks) / 512) % 1;
 		GL11.glPushMatrix();
 		{
 
-            GL11.glRotatef(orbitalTilt, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(orbitalTilt, 1.0F, 0.0F, 0.0F);
 
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -127,6 +127,6 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDepthMask(true);
-    }
-    
+	}
+	
 }

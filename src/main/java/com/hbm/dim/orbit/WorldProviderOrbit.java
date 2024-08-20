@@ -18,49 +18,49 @@ import net.minecraftforge.client.IRenderHandler;
 
 public class WorldProviderOrbit extends WorldProvider {
 
-    protected CelestialBody getOrbitingBody() {
-        return CelestialBody.getBody("kerbin");
-    }
+	protected CelestialBody getOrbitingBody() {
+		return CelestialBody.getBody("kerbin");
+	}
 
-    @Override
-    public void registerWorldChunkManager() {
-        this.worldChunkMgr = new WorldChunkManagerHell(new BiomeGenOrbit(SpaceConfig.orbitBiome), dimensionId);
-    }
+	@Override
+	public void registerWorldChunkManager() {
+		this.worldChunkMgr = new WorldChunkManagerHell(new BiomeGenOrbit(SpaceConfig.orbitBiome), dimensionId);
+	}
 
-    @Override
-    public String getDimensionName() {
-        return "Orbit";
-    }
+	@Override
+	public String getDimensionName() {
+		return "Orbit";
+	}
 	
 	@Override
 	public IChunkProvider createChunkGenerator() {
 		return new ChunkProviderOrbit(this.worldObj);
 	}
 
-    @Override
-    public void updateWeather() {
-        
-    }
+	@Override
+	public void updateWeather() {
+		
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public Vec3 getFogColor(float x, float y) {
-        return Vec3.createVectorHelper(0, 0, 0);
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public Vec3 getFogColor(float x, float y) {
+		return Vec3.createVectorHelper(0, 0, 0);
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public Vec3 getSkyColor(Entity camera, float partialTicks) {
-        return Vec3.createVectorHelper(0, 0, 0);
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public Vec3 getSkyColor(Entity camera, float partialTicks) {
+		return Vec3.createVectorHelper(0, 0, 0);
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public float[] calcSunriseSunsetColors(float celestialAngle, float partialTicks) {
-        return null;
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public float[] calcSunriseSunsetColors(float celestialAngle, float partialTicks) {
+		return null;
+	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
 	public float getStarBrightness(float par1) {
 		// Stars become visible during the day beyond the orbit of Duna
@@ -76,15 +76,15 @@ public class WorldProviderOrbit extends WorldProvider {
 		return MathHelper.clamp_float(starBrightness, distanceFactor, 1F);
 	}
 
-    // TODO: only dim when occluded by a celestial body
+	// TODO: only dim when occluded by a celestial body
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float getSunBrightness(float par1) {
 		if(SolarSystem.kerbol.hasTrait(CBT_Destroyed.class))
 			return 0;
 
-        return super.getSunBrightness(par1);
-    }
+		return super.getSunBrightness(par1);
+	}
 
 	@Override
 	public boolean canDoLightning(Chunk chunk) {
@@ -107,5 +107,5 @@ public class WorldProviderOrbit extends WorldProvider {
 	public IRenderHandler getSkyRenderer() {
 		return new SkyProviderOrbit();
 	}
-    
+	
 }

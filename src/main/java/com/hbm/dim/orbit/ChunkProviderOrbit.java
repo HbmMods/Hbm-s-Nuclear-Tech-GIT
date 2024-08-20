@@ -14,12 +14,12 @@ import net.minecraft.world.chunk.IChunkProvider;
 
 public class ChunkProviderOrbit implements IChunkProvider {
 
-    protected World worldObj;
+	protected World worldObj;
 
-    public ChunkProviderOrbit(World world) {
-        this.worldObj = world;
-    }
-    
+	public ChunkProviderOrbit(World world) {
+		this.worldObj = world;
+	}
+	
 	/**
 	 * Checks to see if a chunk exists at x, z
 	 */
@@ -55,7 +55,7 @@ public class ChunkProviderOrbit implements IChunkProvider {
 	 */
 	@Override
 	public void populate(IChunkProvider provider, int x, int z) {
-        
+		
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class ChunkProviderOrbit implements IChunkProvider {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public List getPossibleCreatures(EnumCreatureType creatureType, int x, int y, int z) {
-        return null;
+		return null;
 	}
 
 	/**
