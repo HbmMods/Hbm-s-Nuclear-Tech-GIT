@@ -1213,7 +1213,7 @@ public class ModEventHandler {
 		boolean isFlying = event.entity instanceof EntityPlayer ? ((EntityPlayer) event.entity).capabilities.isFlying : false;
 
 		if(!isFlying) {
-			if(event.entity.worldObj.provider instanceof WorldProviderOrbit) {
+			if(event.entity.worldObj.provider instanceof WorldProviderOrbit && HbmLivingProps.getAtmosphere(event.entityLiving) == null) {
 				event.entityLiving.motionY /= 0.98F;
 				event.entityLiving.motionY += (AstronomyUtil.STANDARD_GRAVITY / 20F);
 				if(event.entity instanceof EntityPlayer) {

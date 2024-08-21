@@ -120,12 +120,12 @@ public class EntityEffectHandler {
 			if(radiation > 0) {
 				ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, radiation / 20F);
 			}
-			
-			CBT_Atmosphere atmosphere = getAtmosphereCached(entity);
-
-			handleOxy(entity, atmosphere);
-			handleCorrosion(entity, atmosphere);
 		}
+			
+		CBT_Atmosphere atmosphere = getAtmosphereCached(entity);
+
+		handleOxy(entity, atmosphere);
+		handleCorrosion(entity, atmosphere);
 
 		handleContamination(entity);
 		handleContagion(entity);
