@@ -164,7 +164,7 @@ public class SolarSystem {
 
 	// Simple enum used for blocks and items
 	public enum Body {
-		BLANK(""),
+		ORBIT(""),
 		KERBIN("kerbin"),
 		MUN("mun"),
 		MINMUS("minmus"),
@@ -184,7 +184,7 @@ public class SolarSystem {
 		// memoising, since ore rendering would be horrendous otherwise
 		private CelestialBody body;
 		public CelestialBody getBody() {
-			if(this == BLANK)
+			if(this == ORBIT)
 				return null;
 
 			if(body == null)
@@ -194,17 +194,17 @@ public class SolarSystem {
 		}
 
 		public int getProcessingLevel() {
-			if(this == BLANK) return 0;
+			if(this == ORBIT) return 0;
 			return getBody().processingLevel;
 		}
 
 		public String getStoneTexture() {
-			if(this == BLANK) return null;
+			if(this == ORBIT) return null;
 			return getBody().stoneTexture;
 		}
 
 		public int getDimensionId() {
-			if(this == BLANK) return -1;
+			if(this == ORBIT) return SpaceConfig.orbitDimension;
 			return getBody().dimensionId;
 		}
 	}
@@ -429,13 +429,13 @@ public class SolarSystem {
 	 */
 
 	// Get a number of buckets of fuel required to travel somewhere, (halved, since we're assuming bipropellant)
-	public static int getCostBetween(CelestialBody from, CelestialBody to, int mass, int thrust, int isp) {
+	public static int getCostBetween(CelestialBody from, CelestialBody to, int mass, int thrust, int isp, boolean fromOrbit, boolean toOrbit) {
 		double fromDrag = getAtmosphericDrag(from.getTrait(CBT_Atmosphere.class));
 		double toDrag = getAtmosphericDrag(to.getTrait(CBT_Atmosphere.class));
 
-		double launchDV = SolarSystem.getLiftoffDeltaV(from, mass, thrust, fromDrag);
+		double launchDV = fromOrbit ? 0 : SolarSystem.getLiftoffDeltaV(from, mass, thrust, fromDrag);
 		double travelDV = SolarSystem.getDeltaVBetween(from, to);
-		double landerDV = SolarSystem.getLandingDeltaV(to, mass, thrust, toDrag);
+		double landerDV = toOrbit ? 0 : SolarSystem.getLandingDeltaV(to, mass, thrust, toDrag);
 		
 		double totalDV = launchDV + travelDV + landerDV;
 

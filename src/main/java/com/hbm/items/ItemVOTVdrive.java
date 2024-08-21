@@ -41,8 +41,8 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 		
 		Destination destination = getDestination(stack);
 
-		if(destination.body == SolarSystem.Body.BLANK) {
-			list.add("Destination: DRIVE IS BLANK");
+		if(destination.body == SolarSystem.Body.ORBIT) {
+			list.add("Destination: ORBITAL STATION");
 			return;
 		}
 
@@ -81,7 +81,7 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 	public IIcon getIconFromDamage(int metadata) {
 		SolarSystem.Body destinationType = SolarSystem.Body.values()[metadata];
 
-		if(destinationType == SolarSystem.Body.BLANK)
+		if(destinationType == SolarSystem.Body.ORBIT)
 			return baseIcon;
 
 		int processingLevel = destinationType.getProcessingLevel();

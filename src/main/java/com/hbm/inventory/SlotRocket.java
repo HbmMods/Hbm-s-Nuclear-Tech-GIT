@@ -41,7 +41,7 @@ public class SlotRocket extends SlotLayer {
 	
 			ItemCustomMissilePart item = (ItemCustomMissilePart) stack.getItem();
 	
-			return item.type == PartType.WARHEAD && item.attributes[0] == WarheadType.APOLLO;
+			return item.type == PartType.WARHEAD && (item.attributes[0] == WarheadType.APOLLO || item.attributes[0] == WarheadType.SATELLITE);
 		}
 		
 	}

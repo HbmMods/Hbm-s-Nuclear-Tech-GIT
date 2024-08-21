@@ -183,9 +183,12 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				if(rider != null && navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
 					Destination destination = ItemVOTVdrive.getDestination(navDrive);
 
-					if(destination.body != SolarSystem.Body.BLANK) {
-						DebugTeleporter.teleport(rider, destination.body.getDimensionId(), destination.x, 800, destination.z, false);
-					}
+					int yLevel = destination.body == SolarSystem.Body.ORBIT ? 128 : 800;
+					int targetDimensionId = destination.body.getDimensionId();
+
+					if(worldObj.provider.dimensionId != targetDimensionId) {
+						DebugTeleporter.teleport(rider, targetDimensionId, destination.x, yLevel, destination.z, false);
+					} // landing state will automatically set the correct X/Z for same-planet launches, so no need to teleport
 				}
 			}
 

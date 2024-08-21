@@ -292,7 +292,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		}
 
 		// Check if the stage can make the journey
-		if(destination != null && destination != localBody) {
+		if(destination != null) {
 			RocketStruct rocket = ItemCustomRocket.get(slots[0]);
 			if(rocket.hasSufficientFuel(localBody, destination)) return true;
 		}

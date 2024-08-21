@@ -78,7 +78,7 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 		CelestialBody from = CelestialBody.getBody(worldObj);
 		CelestialBody to = CelestialBody.getBody(linkedTransporter.getWorldObj());
 
-		int sendCost = Math.min(64_000, SolarSystem.getCostBetween(from, to, mass, (int)fuelStats.getThrust(), (int)fuelStats.getISP()));
+		int sendCost = Math.min(64_000, SolarSystem.getCostBetween(from, to, mass, (int)fuelStats.getThrust(), (int)fuelStats.getISP(), CelestialBody.inOrbit(worldObj), CelestialBody.inOrbit(linkedTransporter.getWorldObj())));
 
 		return tanks[8].getFill() >= sendCost && tanks[9].getFill() >= sendCost;
 	}
@@ -92,7 +92,7 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 		CelestialBody from = CelestialBody.getBody(worldObj);
 		CelestialBody to = CelestialBody.getBody(linkedTransporter.getWorldObj());
 
-		int sendCost = Math.min(64_000, SolarSystem.getCostBetween(from, to, quantitySent, (int)fuelStats.getThrust(), (int)fuelStats.getISP()));
+		int sendCost = Math.min(64_000, SolarSystem.getCostBetween(from, to, quantitySent, (int)fuelStats.getThrust(), (int)fuelStats.getISP(), CelestialBody.inOrbit(worldObj), CelestialBody.inOrbit(linkedTransporter.getWorldObj())));
 
 		tanks[8].setFill(tanks[8].getFill() - sendCost);
 		tanks[9].setFill(tanks[9].getFill() - sendCost);

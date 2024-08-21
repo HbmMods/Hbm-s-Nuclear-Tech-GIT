@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.hbm.config.SpaceConfig;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CelestialBodyTrait;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
@@ -360,6 +361,10 @@ public class CelestialBody {
 	
 	public static CelestialBody getPlanet(World world) {
 		return getBody(world).getPlanet();
+	}
+
+	public static boolean inOrbit(World world) {
+		return world.provider.dimensionId == SpaceConfig.orbitDimension;
 	}
 
 	public static SolarSystem.Body getEnum(World world) {

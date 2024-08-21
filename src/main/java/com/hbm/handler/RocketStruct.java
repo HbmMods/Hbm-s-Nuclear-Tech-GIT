@@ -92,8 +92,8 @@ public class RocketStruct {
 		// If we have no parts, we have no worries
 		if(capsule == null && stages.size() == 0) return issues;
 
-		if(capsule != null && capsule.part.attributes[0] != WarheadType.APOLLO)
-			issues.add(EnumChatFormatting.RED + "Invalid Capsule");
+		if(capsule != null && capsule.part.attributes[0] != WarheadType.APOLLO && capsule.part.attributes[0] != WarheadType.SATELLITE)
+			issues.add(EnumChatFormatting.RED + "Invalid Capsule/Satellite");
 
 		for(int i = 0; i < stages.size(); i++) {
 			RocketStage stage = stages.get(i);
@@ -123,7 +123,7 @@ public class RocketStruct {
 		}
 
 		if(from != null && to != null) {
-			int fuelRequirement = getFuelRequired(stageNum, from, to);
+			int fuelRequirement = getFuelRequired(stageNum, from, to, false, false);
 			int fuelCapacity = getFuelCapacity(stageNum);
 
 			if(fuelCapacity < fuelRequirement) {
@@ -165,7 +165,7 @@ public class RocketStruct {
 	}
 
 	public boolean hasSufficientFuel(CelestialBody from, CelestialBody to) {
-		int fuelRequirement = getFuelRequired(0, from, to);
+		int fuelRequirement = getFuelRequired(0, from, to, false, false);
 		int fuelCapacity = getFuelCapacity(0);
 
 		return fuelCapacity >= fuelRequirement;
@@ -181,7 +181,7 @@ public class RocketStruct {
 		return stage.fuselage.part.getTankSize() * stage.fuselageCount;
 	}
 
-	private int getFuelRequired(int stageNum, CelestialBody from, CelestialBody to) {
+	private int getFuelRequired(int stageNum, CelestialBody from, CelestialBody to, boolean fromOrbit, boolean toOrbit) {
 		if(stageNum >= stages.size()) return -1;
 
 		RocketStage stage = stages.get(stageNum);
@@ -192,7 +192,7 @@ public class RocketStruct {
 		int thrust = stage.thruster.part.getThrust() * stage.thrusterCount;
 		int isp = stage.thruster.part.getISP();
 
-		return SolarSystem.getCostBetween(from, to, rocketMass, thrust, isp);
+		return SolarSystem.getCostBetween(from, to, rocketMass, thrust, isp, fromOrbit, toOrbit);
 	}
 
 	// Gets the dry mass of the active stage + the wet mass of the stages above it

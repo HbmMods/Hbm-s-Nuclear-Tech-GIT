@@ -104,6 +104,7 @@ public class ItemCustomMissilePart extends Item {
 		CLOUD,
 		TURBINE,
 		APOLLO,
+		SATELLITE,
 	}
 	
 	public enum FuelType {
