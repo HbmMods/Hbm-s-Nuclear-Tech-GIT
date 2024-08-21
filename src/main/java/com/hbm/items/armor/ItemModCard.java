@@ -6,7 +6,6 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
 
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -35,7 +34,7 @@ public class ItemModCard extends ItemArmorMod {
 
 	@Override
 	public void addDesc(List list, ItemStack stack, ItemStack armor) {
-		list.add(EnumChatFormatting.YELLOW + I18n.format("item.night_vision.description.in_armor", stack.getDisplayName()));
+		list.add(EnumChatFormatting.RED + stack.getDisplayName());
 	}
 	
 	@Override

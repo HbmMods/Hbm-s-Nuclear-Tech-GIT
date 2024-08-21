@@ -33,6 +33,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IRBMKLoadable, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
 	
@@ -464,25 +467,21 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		Object OC_enrich_buf;
-		Object OC_poison_buf;
-		Object OC_hull_buf;
-		Object OC_core_buf;
-		String OC_type;
+		List<Object> returnValues = new ArrayList<>();
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
-			OC_enrich_buf = ItemRBMKRod.getEnrichment(slots[0]);
-			OC_poison_buf = ItemRBMKRod.getPoison(slots[0]);
-			OC_hull_buf = ItemRBMKRod.getHullHeat(slots[0]);
-			OC_core_buf = ItemRBMKRod.getCoreHeat(slots[0]);
-			OC_type = slots[0].getItem().getUnlocalizedName();
-		} else {
-			OC_enrich_buf = "N/A";
-			OC_poison_buf = "N/A";
-			OC_hull_buf = "N/A";
-			OC_core_buf = "N/A";
-			OC_type = "N/A";
-		}
-		return new Object[] {heat, OC_hull_buf, OC_core_buf, fluxSlow, fluxFast, OC_enrich_buf, OC_poison_buf, OC_type, ((RBMKRod)this.getBlockType()).moderated, xCoord, yCoord, zCoord};
+			returnValues.add(ItemRBMKRod.getHullHeat(slots[0]));
+			returnValues.add(ItemRBMKRod.getCoreHeat(slots[0]));
+			returnValues.add(ItemRBMKRod.getEnrichment(slots[0]));
+			returnValues.add(ItemRBMKRod.getPoison(slots[0]));
+			returnValues.add(slots[0].getItem().getUnlocalizedName());
+		} else
+			for (int i = 0; i < 5; i++)
+				returnValues.add("N/A");
+
+		return new Object[] {
+				heat, returnValues.get(0), returnValues.get(1),
+				fluxSlow, fluxFast, returnValues.get(2), returnValues.get(3), returnValues.get(4),
+				((RBMKRod)this.getBlockType()).moderated, xCoord, yCoord, zCoord};
 	}
 
 	@Callback(direct = true)

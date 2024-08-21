@@ -4,10 +4,7 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.container.ContainerRBMKHeater;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Heatable;
@@ -30,20 +27,16 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements IFluidStandardTransceiver, SimpleComponent, CompatHandler.OCComponent {
 
 	public FluidTank feed;
 	public FluidTank steam;
-	public List<IFluidAcceptor> list = new ArrayList();
 	
 	public TileEntityRBMKHeater() {
 		super(1);
-		this.feed = new FluidTank(Fluids.COOLANT, 16_000, 0);
-		this.steam = new FluidTank(Fluids.COOLANT_HOT, 16_000, 1);
+		this.feed = new FluidTank(Fluids.COOLANT, 16_000);
+		this.steam = new FluidTank(Fluids.COOLANT_HOT, 16_000);
 	}
 
 	@Override
@@ -57,9 +50,6 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 		if(!worldObj.isRemote) {
 			
 			feed.setType(0, slots);
-			
-			feed.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			steam.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			if(feed.getTankType().hasTrait(FT_Heatable.class)) {
 				FT_Heatable trait = feed.getTankType().getTrait(FT_Heatable.class);
@@ -83,8 +73,6 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 			} else {
 				steam.setTankType(Fluids.NONE);
 			}
-			
-			fillFluidInit(steam.getTankType());
 			
 			this.trySubscribe(feed.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
 			for(DirPos pos : getOutputPos()) {
@@ -120,99 +108,6 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 					new DirPos(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, Library.POS_Y)
 			};
 		}
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-
-		fillFluid(this.xCoord, this.yCoord + RBMKDials.getColumnHeight(worldObj) + 1, this.zCoord, getTact(), type);
-		
-		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
-
-			fillFluid(this.xCoord + 1, this.yCoord - 1, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord - 1, this.yCoord - 1, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord + 1, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord - 1, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord, getTact(), type);
-		}
-		
-		if(worldObj.getBlock(xCoord, yCoord - 2, zCoord) == ModBlocks.rbmk_loader) {
-
-			fillFluid(this.xCoord + 1, this.yCoord - 2, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord - 1, this.yCoord - 2, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord + 1, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 2, this.zCoord - 1, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 1, this.zCoord, getTact(), type);
-			fillFluid(this.xCoord, this.yCoord - 3, this.zCoord, getTact(), type);
-		}
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-	
-	@Override
-	@Deprecated //why are we still doing this?
-	public boolean getTact() { return worldObj.getTotalWorldTime() % 2 == 0; }
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		
-		if(type == feed.getTankType())
-			feed.setFill(i);
-		else if(type == steam.getTankType())
-			steam.setFill(i);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		
-		if(type == feed.getTankType())
-			return feed.getFill();
-		else if(type == steam.getTankType())
-			return steam.getFill();
-		
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		
-		if(type == feed.getTankType())
-			return feed.getMaxFill();
-		else if(type == steam.getTankType())
-			return steam.getMaxFill();
-		
-		return 0;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-
-		if(index == 0)
-			feed.setFill(fill);
-		else if(index == 1)
-			steam.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-
-		if(index == 0)
-			feed.setTankType(type);
-		else if(index == 1)
-			steam.setTankType(type);
-	}
-	
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return list;
-	}
-	
-	@Override
-	public void clearFluidList(FluidType type) {
-		list.clear();
 	}
 	
 	@Override

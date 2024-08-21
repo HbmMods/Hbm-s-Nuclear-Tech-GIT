@@ -181,7 +181,7 @@ public class ItemEnergyGunBase extends ItemGunBase implements IBatteryItem {
 	}
 
 	public double getDurabilityForDisplay(ItemStack stack) {
-		return 1D - (double) getCharge(stack) / (double) getMaxCharge();
+		return 1D - (double) getCharge(stack) / (double) getMaxCharge(stack);
 	}
 
 	@Override
@@ -236,7 +236,7 @@ public class ItemEnergyGunBase extends ItemGunBase implements IBatteryItem {
 	}
 
 	@Override
-	public long getMaxCharge() {
+	public long getMaxCharge(ItemStack stack) {
 		return mainConfig.maxCharge;
 	}
 
@@ -266,7 +266,7 @@ public class ItemEnergyGunBase extends ItemGunBase implements IBatteryItem {
 
 		ItemStack stack = new ItemStack(item);
 		stack.stackTagCompound = new NBTTagCompound();
-		stack.stackTagCompound.setLong("charge", ((ItemEnergyGunBase) item).getMaxCharge());
+		stack.stackTagCompound.setLong("charge", ((ItemEnergyGunBase) item).getMaxCharge(stack));
 
 		list.add(stack);
 	}

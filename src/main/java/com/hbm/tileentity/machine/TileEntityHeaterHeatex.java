@@ -37,8 +37,8 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 	public TileEntityHeaterHeatex() {
 		super(1);
 		this.tanks = new FluidTank[2];
-		this.tanks[0] = new FluidTank(Fluids.COOLANT_HOT, 24_000, 0);
-		this.tanks[1] = new FluidTank(Fluids.COOLANT, 24_000, 1);
+		this.tanks[0] = new FluidTank(Fluids.COOLANT_HOT, 24_000);
+		this.tanks[1] = new FluidTank(Fluids.COOLANT, 24_000);
 	}
 
 	@Override

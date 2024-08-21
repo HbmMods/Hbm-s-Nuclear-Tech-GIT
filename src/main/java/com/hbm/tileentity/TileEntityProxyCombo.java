@@ -1,16 +1,15 @@
 package com.hbm.tileentity;
 
-
 import api.hbm.block.ICrucibleAcceptor;
+import com.hbm.handler.CompatHandler;
 import com.hbm.handler.CompatHandler.OCComponent;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.fluid.FluidType;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidConnector;
 import api.hbm.tile.IHeatSource;
 import com.hbm.inventory.material.Mats;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Context;
@@ -27,7 +26,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 		@Optional.Interface(iface = "com.hbm.handler.CompatHandler.OCComponent", modid = "opencomputers"),
 		@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
 })
-public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, IFluidAcceptor, ISidedInventory, IFluidConnector, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent {
+public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergyReceiverMK2, ISidedInventory, IFluidConnector, IHeatSource, ICrucibleAcceptor, SimpleComponent, OCComponent {
 	
 	TileEntity tile;
 	boolean inventory;
@@ -35,7 +34,11 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	boolean fluid;
 	boolean heat;
 	public boolean moltenMetal;
-	
+
+	// due to some issues with OC deciding that it's gonna call the component name function before the worldObj is loaded
+	// the component name must be cached to prevent it from shitting itself
+	String componentName = CompatHandler.nullComponent;
+
 	public TileEntityProxyCombo() { }
 	
 	public TileEntityProxyCombo(boolean inventory, boolean power, boolean fluid) {
@@ -75,101 +78,6 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		}
 		
 		return tile;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		
-		if(!fluid)
-			return;
-		
-		if(getTile() instanceof IFluidContainer) {
-			((IFluidContainer)getTile()).setFillForSync(fill, index);
-		}
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		
-		if(!fluid)
-			return;
-		
-		if(getTile() instanceof IFluidContainer) {
-			((IFluidContainer)getTile()).setFluidFill(fill, type);
-		}
-	}
-
-	@Override
-	public int getFluidFillForReceive(FluidType type) {
-		
-		if(!fluid)
-			return 0;
-		
-		if(getTile() instanceof IFluidAcceptor) {
-			return ((IFluidAcceptor)getTile()).getFluidFillForReceive(type);
-		}
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFillForReceive(FluidType type) {
-		
-		if(!fluid)
-			return 0;
-		
-		if(getTile() instanceof IFluidAcceptor) {
-			return ((IFluidAcceptor)getTile()).getMaxFluidFillForReceive(type);
-		}
-		
-		return 0;
-	}
-
-	@Override
-	public void receiveFluid(int amount, FluidType type) {
-		
-		if(!fluid)
-			return;
-		
-		if(getTile() instanceof IFluidAcceptor) {
-			((IFluidAcceptor)getTile()).receiveFluid(amount, type);
-		}
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		
-		if(!fluid)
-			return;
-		
-		if(getTile() instanceof IFluidContainer) {
-			((IFluidContainer)getTile()).setTypeForSync(type, index);
-		}
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		
-		if(!fluid)
-			return 0;
-		
-		if(getTile() instanceof IFluidContainer) {
-			return ((IFluidContainer)getTile()).getFluidFill(type);
-		}
-		
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		
-		if(!fluid)
-			return 0;
-		
-		if(getTile() instanceof IFluidAcceptor) {
-			return ((IFluidAcceptor)getTile()).getMaxFluidFill(type);
-		}
-		
-		return 0;
 	}
 
 	@Override
@@ -442,6 +350,9 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		this.fluid = nbt.getBoolean("fluid");
 		this.moltenMetal = nbt.getBoolean("metal");
 		this.heat = nbt.getBoolean("heat");
+		if(Loader.isModLoaded("OpenComputers"))
+			this.componentName = nbt.getString("ocname");
+
 	}
 	
 	@Override
@@ -453,6 +364,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		nbt.setBoolean("fluid", fluid);
 		nbt.setBoolean("metal", moltenMetal);
 		nbt.setBoolean("heat", heat);
+		if(Loader.isModLoaded("OpenComputers"))
+			nbt.setString("ocname", componentName);
 	}
 
 	@Override
@@ -550,25 +463,25 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	@Override // please work
 	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
-		if(this.getTile() instanceof OCComponent)
-			return ((OCComponent) this.getTile()).getComponentName();
+		if(this.worldObj == null) // OC is going too fast, grab from NBT!
+			return componentName;
+		if(this.getTile() instanceof OCComponent) {
+			if (componentName == null || componentName.equals(OCComponent.super.getComponentName())) {
+				componentName = ((OCComponent) this.getTile()).getComponentName();
+			}
+			return componentName;
+		}
 		return OCComponent.super.getComponentName();
 	}
 
 	@Override
 	@Optional.Method(modid = "OpenComputers")
-	public boolean canConnectNode(ForgeDirection side) { //thank you vaer
+	public boolean canConnectNode(ForgeDirection side) {
 		if(this.getTile() instanceof OCComponent)
-			return (this.getTile().getBlockMetadata() & 6) == 6 && ((OCComponent) this.getTile()).canConnectNode(side);
+			return (this.getBlockMetadata() >= 6 && this.getBlockMetadata() <= 11)
+					&& (power || fluid) &&
+					((OCComponent) this.getTile()).canConnectNode(side);
 		return OCComponent.super.canConnectNode(null);
-	}
-
-	@Override
-	@Optional.Method(modid = "OpenComputers")
-	public String[] getExtraInfo() {
-		if(this.getTile() instanceof OCComponent)
-			return new String[] {"analyze.dummy"};
-		return OCComponent.super.getExtraInfo();
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public class ItemModNightVision extends ItemArmorMod {
 		if(!entity.worldObj.isRemote && entity instanceof EntityPlayer && armor.getItem() instanceof ArmorFSBPowered && ArmorFSBPowered.hasFSBArmor((EntityPlayer) entity)) {
 			entity.addPotionEffect(new PotionEffect(Potion.nightVision.id, 15 * 20, 0));
 
-			if(entity.getRNG().nextInt(50) == 0) {
+			if(entity.getRNG().nextInt(100) == 0) {
 				armor.damageItem(1, entity);
 			}
 		}

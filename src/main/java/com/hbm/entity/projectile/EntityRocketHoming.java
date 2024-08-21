@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.hbm.entity.particle.EntityTSmokeFX;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -445,16 +444,6 @@ public class EntityRocketHoming extends Entity implements IProjectile
                     {
                         this.field_145790_g.onEntityCollidedWithBlock(this.worldObj, this.field_145791_d, this.field_145792_e, this.field_145789_f, this);
                     }
-                }
-            }
-
-            if (true)
-            {
-                //for (i = 0; i < 4; ++i)
-                {
-                	//this.worldObj.spawnParticle("cloud", this.posX, this.posY, this.posZ, /*0, 0, 0 this.posX + this.motionX * (double)i / 4.0D, this.posY + this.motionY * (double)i / 4.0D, this.posZ + this.motionZ * (double)i / 4.0D,*/ -this.motionX/4, -this.motionY/4, -this.motionZ/4);
-                	if(!worldObj.isRemote && this.ticksExisted > 1)
-                		this.worldObj.spawnEntityInWorld(new EntityTSmokeFX(worldObj, this.posX, this.posY, this.posZ, 0, 0, 0));
                 }
             }
 

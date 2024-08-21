@@ -3,8 +3,6 @@ package com.hbm.tileentity.machine.storage;
 import api.hbm.fluid.*;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.CompatHandler;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.container.ContainerBarrel;
 import com.hbm.inventory.fluid.FluidType;
@@ -45,24 +43,23 @@ import java.util.List;
 import java.util.Set;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcceptor, IFluidSource, SimpleComponent, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent {
+public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent {
 	
 	public FluidTank tank;
 	public short mode = 0;
 	public static final short modes = 4;
 	public int age = 0;
-	public List<IFluidAcceptor> list = new ArrayList();
 	protected boolean sendingBrake = false;
 	public byte lastRedstone = 0;
 
 	public TileEntityBarrel() {
 		super(6);
-		tank = new FluidTank(Fluids.NONE, 0, 0);
+		tank = new FluidTank(Fluids.NONE, 0);
 	}
 
 	public TileEntityBarrel(int capacity) {
 		super(6);
-		tank = new FluidTank(Fluids.NONE, capacity, 0);
+		tank = new FluidTank(Fluids.NONE, capacity);
 	}
 
 	@Override
@@ -114,9 +111,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 			this.sendingBrake = true;
 			tank.setFill(transmitFluidFairly(worldObj, tank, this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
 			this.sendingBrake = false;
-			
-			if((mode == 1 || mode == 2) && (age == 9 || age == 19))
-				fillFluidInit(tank.getTankType());
 			
 			if(tank.getFill() > 0) {
 				checkFluidInteraction();
@@ -277,69 +271,6 @@ public class TileEntityBarrel extends TileEntityMachineBase implements IFluidAcc
 				worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 			}
 		}
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		
-		if(mode == 2 || mode == 3)
-			return 0;
-		
-		return type == this.tank.getTankType() ? tank.getMaxFill() : 0;
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord + 1, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord - 1, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord + 1, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord - 1, getTact(), type);
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		if (age >= 0 && age < 10) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		return type == this.tank.getTankType() ? tank.getFill() : 0;
-	}
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type == tank.getTankType()) tank.setFill(i);
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return this.list;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		this.list.clear();
 	}
 	
 	@Override

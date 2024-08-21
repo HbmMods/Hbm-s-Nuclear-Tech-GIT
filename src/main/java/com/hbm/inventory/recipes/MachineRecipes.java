@@ -59,8 +59,6 @@ public class MachineRecipes {
 		ArrayList<ItemStack> fuels = new ArrayList<ItemStack>();
 		fuels.add(new ItemStack(ModItems.battery_potato));
 		fuels.add(new ItemStack(ModItems.battery_potatos));
-		fuels.add(new ItemStack(ModItems.battery_su));
-		fuels.add(new ItemStack(ModItems.battery_su_l));
 		fuels.add(new ItemStack(ModItems.battery_generic));
 		fuels.add(new ItemStack(ModItems.battery_red_cell));
 		fuels.add(new ItemStack(ModItems.battery_red_cell_6));

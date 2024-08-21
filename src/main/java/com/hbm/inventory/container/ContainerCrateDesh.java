@@ -4,6 +4,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 
+@invtweaks.api.container.ChestContainer(rowSize = 13, isLargeChest = false)
 public class ContainerCrateDesh extends ContainerCrateBase {
 
 	public ContainerCrateDesh(InventoryPlayer invPlayer, IInventory tedf) {
@@ -15,7 +16,7 @@ public class ContainerCrateDesh extends ContainerCrateBase {
 			}
 		}
 
-		this.playerInv(invPlayer,44, 174, 232);
+		this.playerInv(invPlayer, 44, 174, 232);
 
 	}
 }

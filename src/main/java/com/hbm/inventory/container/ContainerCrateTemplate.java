@@ -5,6 +5,7 @@ import com.hbm.tileentity.machine.storage.TileEntityCrateTemplate;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
+@invtweaks.api.container.ChestContainer(rowSize = 9, isLargeChest = false)
 public class ContainerCrateTemplate extends ContainerCrateBase {
 	
 	public ContainerCrateTemplate(InventoryPlayer invPlayer, TileEntityCrateTemplate tedf) {
@@ -16,6 +17,6 @@ public class ContainerCrateTemplate extends ContainerCrateBase {
 			}
 		}
 
-		this.playerInv(invPlayer,8, 86, 144);
+		this.playerInv(invPlayer, 8, 86, 144);
 	}
 }

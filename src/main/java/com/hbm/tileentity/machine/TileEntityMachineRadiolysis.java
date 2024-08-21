@@ -1,11 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerRadiolysis;
 import com.hbm.inventory.fluid.FluidType;
@@ -39,15 +33,13 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidAcceptor, IFluidSource, IFluidContainer, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineRadiolysis extends TileEntityMachineBase implements IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC {
 	
 	public long power;
 	public static final int maxPower = 1000000;
 	public int heat;
 
 	public FluidTank[] tanks;
-	public List<IFluidAcceptor> list1 = new ArrayList();
-	public List<IFluidAcceptor> list2 = new ArrayList();
 	
 	private static final int[] slot_io = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13 };
 	private static final int[] slot_rtg = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -55,9 +47,9 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 	public TileEntityMachineRadiolysis() {
 		super(15); //10 rtg slots, 2 fluid ID slots (io), 2 irradiation slots (io), battery slot
 		tanks = new FluidTank[3];
-		tanks[0] = new FluidTank(Fluids.NONE, 2000, 0);
-		tanks[1] = new FluidTank(Fluids.NONE, 2000, 1);
-		tanks[2] = new FluidTank(Fluids.NONE, 2000, 2);
+		tanks[0] = new FluidTank(Fluids.NONE, 2_000);
+		tanks[1] = new FluidTank(Fluids.NONE, 2_000);
+		tanks[2] = new FluidTank(Fluids.NONE, 2_000);
 	}
 	
 	@Override
@@ -111,6 +103,9 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		
 		this.power = data.getLong("power");
 		this.heat = data.getInteger("heat");
+		tanks[0].readFromNBT(data, "t0");
+		tanks[1].readFromNBT(data, "t1");
+		tanks[2].readFromNBT(data, "t2");
 	}
 	
 	@Override
@@ -138,11 +133,6 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 					sterilize();
 			}
 			
-			if(worldObj.getTotalWorldTime() % 10 == 0) {
-					fillFluidInit(tanks[1].getTankType());
-					fillFluidInit(tanks[2].getTankType());
-			}
-			
 			for(DirPos pos : getConPos()) {
 				this.tryProvide(worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
@@ -153,10 +143,10 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("heat", heat);
+			tanks[0].writeToNBT(data, "t0");
+			tanks[1].writeToNBT(data, "t1");
+			tanks[2].writeToNBT(data, "t2");
 			this.networkPack(data, 50);
-			
-			for(byte i = 0; i < 3; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 		}
 	}
 	
@@ -261,80 +251,6 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		return maxPower;
 	}
 	
-	/* Fluid Methods */
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if(index < 3 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				tank.setFill(fill);
-			}
-		}
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		this.tanks[index].setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		for(FluidTank tank : tanks) {
-			if(tank.getTankType() == type) {
-				return tank.getFill();
-			}
-		}
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if(tanks[0].getTankType() == type) {
-			return tanks[0].getMaxFill();
-		}
-		return 0;
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		fillFluid(this.xCoord + 2, this.yCoord, this.zCoord, this.getTact(), type);
-		fillFluid(this.xCoord - 2, this.yCoord, this.zCoord, this.getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord + 2, this.getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord - 2, this.getTact(), type);
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		return worldObj.getTotalWorldTime() % 20 < 10;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		if(type == tanks[1].getTankType())
-			return list1;
-		if(type == tanks[2].getTankType())
-			return list2;
-		return new ArrayList<IFluidAcceptor>();
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		if(type == tanks[1].getTankType())
-			list1.clear();
-		if(type == tanks[2].getTankType())
-			list2.clear();
-	}
-
 	@Override
 	public FluidTank[] getAllTanks() {
 		return tanks;

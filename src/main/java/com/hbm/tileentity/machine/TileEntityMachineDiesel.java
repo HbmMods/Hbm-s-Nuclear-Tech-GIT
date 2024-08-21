@@ -6,8 +6,6 @@ import java.util.HashMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.container.ContainerMachineDiesel;
 import com.hbm.inventory.fluid.FluidType;
@@ -38,7 +36,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidContainer, IFluidAcceptor, IFluidStandardTransceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC {
 
 	public long power;
 	public int soundCycle = 0;
@@ -62,7 +60,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 
 	public TileEntityMachineDiesel() {
 		super(5, 100);
-		tank = new FluidTank(Fluids.DIESEL, 4_000, 0);
+		tank = new FluidTank(Fluids.DIESEL, 4_000);
 	}
 
 	@Override
@@ -113,7 +111,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 			}
 		}
 		if(i == 2) {
-			if(stack.getItem() instanceof IBatteryItem && ((IBatteryItem) stack.getItem()).getCharge(stack) == ((IBatteryItem) stack.getItem()).getMaxCharge()) {
+			if(stack.getItem() instanceof IBatteryItem && ((IBatteryItem) stack.getItem()).getCharge(stack) == ((IBatteryItem) stack.getItem()).getMaxCharge(stack)) {
 				return true;
 			}
 		}
@@ -139,7 +137,6 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 			FluidType last = tank.getTankType();
 			if(tank.setType(3, 4, slots)) this.unsubscribeToAllAround(last, this);
 			tank.loadTank(0, 1, slots);
-			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			this.subscribeToAllAround(tank.getTankType(), this);
 
@@ -157,6 +154,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("power", (int) power);
 			data.setInteger("powerCap", (int) powerCap);
+			tank.writeToNBT(data, "t");
 			this.networkPack(data, 50);
 		}
 	}
@@ -166,6 +164,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 
 		power = data.getInteger("power");
 		powerCap = data.getInteger("powerCap");
+		tank.readFromNBT(data, "t");
 	}
 	
 	public boolean hasAcceptableFuel() {
@@ -236,32 +235,6 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 	@Override
 	public long getMaxPower() {
 		return this.maxPower;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		return type == this.tank.getTankType() ? tank.getMaxFill() : 0;
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		return type == this.tank.getTankType() ? tank.getFill() : 0;
-	}
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type == tank.getTankType())
-			tank.setFill(i);
 	}
 
 	@Override

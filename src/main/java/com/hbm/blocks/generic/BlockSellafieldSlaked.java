@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.awt.Color;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
@@ -9,6 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
@@ -49,5 +51,10 @@ public class BlockSellafieldSlaked extends Block {
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
 		return Color.HSBtoRGB(0F, 0F, 1F - meta / 15F);
+	}
+	
+	@Override
+	public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z) {
+		return this == ModBlocks.sellafield_bedrock ? false : super.canCreatureSpawn(type, world, x, y, z);
 	}
 }
