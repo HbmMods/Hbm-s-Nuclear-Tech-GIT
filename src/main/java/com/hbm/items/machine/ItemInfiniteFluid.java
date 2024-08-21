@@ -3,6 +3,7 @@ package com.hbm.items.machine;
 import java.util.List;
 
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.orbit.WorldProviderOrbit;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
@@ -45,6 +46,11 @@ public class ItemInfiniteFluid extends Item {
 
 		if(stack.stackTagCompound == null)
 			stack.stackTagCompound = new NBTTagCompound();
+
+		if(world.provider instanceof WorldProviderOrbit) {
+			stack.stackTagCompound.setBoolean("noAtmo", true);
+			return;
+		}
 		
 		// Check that the world we're currently in has a strong enough atmosphere to enable this barrel to function
 		// Below the limit, the fluid immediately boils away, forcing the player to find alternative sources
@@ -58,6 +64,7 @@ public class ItemInfiniteFluid extends Item {
 		stack.stackTagCompound.setBoolean("noAtmo", atmosphere.getPressure() < minimumAtmosphere);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		if(canOperate(stack))

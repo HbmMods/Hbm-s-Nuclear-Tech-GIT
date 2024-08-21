@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.orbit.WorldProviderOrbit;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -55,6 +56,8 @@ public class BlockAtmosphereEditor extends BlockContainer implements IToolable, 
 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
+		if(world.provider instanceof WorldProviderOrbit) return;
+
 		TileEntity te = world.getTileEntity(x, y, z);
 		
 		if(!(te instanceof TileEntityAtmosphereEditor))

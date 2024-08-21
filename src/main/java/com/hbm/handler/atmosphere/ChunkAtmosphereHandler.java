@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.hbm.config.GeneralConfig;
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.orbit.WorldProviderOrbit;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.handler.ThreeInts;
@@ -52,13 +53,7 @@ public class ChunkAtmosphereHandler {
 		ThreeInts pos = new ThreeInts(x, y, z);
 		HashMap<IAtmosphereProvider, AtmosphereBlob> blobs = worldBlobs.get(world.provider.dimensionId);
 
-		CBT_Atmosphere atmosphere = CelestialBody.getTrait(world, CBT_Atmosphere.class);
-		if(atmosphere == null) {
-			atmosphere = new CBT_Atmosphere();
-		} else {
-			// Don't modify the trait directly
-			atmosphere = atmosphere.clone();
-		}
+		CBT_Atmosphere atmosphere = getCelestialAtmosphere(world);
 
 		for(AtmosphereBlob blob : blobs.values()) {
 			if(blob == excludeBlob) continue;
@@ -76,6 +71,16 @@ public class ChunkAtmosphereHandler {
 		if(atmosphere.fluids.size() == 0) return null;
 
 		return atmosphere;
+	}
+
+	// returns a atmosphere that is safe for modification
+	private CBT_Atmosphere getCelestialAtmosphere(World world) {
+		if(world.provider instanceof WorldProviderOrbit) return new CBT_Atmosphere();
+		CBT_Atmosphere atmosphere = CelestialBody.getTrait(world, CBT_Atmosphere.class);
+		if(atmosphere == null)
+			return new CBT_Atmosphere();
+
+		return atmosphere.clone();
 	}
 
 	public List<AtmosphereBlob> getBlobs(World world, int x, int y, int z) {

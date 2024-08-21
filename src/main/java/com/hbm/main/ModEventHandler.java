@@ -1027,14 +1027,18 @@ public class ModEventHandler {
 		
 		EntityLivingBase e = event.entityLiving;
 
-		CelestialBody body = CelestialBody.getBody(event.entity.worldObj);
-		float gravity = body.getSurfaceGravity() * AstronomyUtil.PLAYER_GRAVITY_MODIFIER;
-
-		// Reduce fall damage on low gravity bodies
-		if(gravity < 0.3F) {
+		if(event.entity.worldObj.provider instanceof WorldProviderOrbit) {
 			event.distance = 0;
-		} else if(gravity < 1.5F) {
-			event.distance *= gravity / AstronomyUtil.STANDARD_GRAVITY;
+		} else {
+			CelestialBody body = CelestialBody.getBody(event.entity.worldObj);
+			float gravity = body.getSurfaceGravity() * AstronomyUtil.PLAYER_GRAVITY_MODIFIER;
+	
+			// Reduce fall damage on low gravity bodies
+			if(gravity < 0.3F) {
+				event.distance = 0;
+			} else if(gravity < 1.5F) {
+				event.distance *= gravity / AstronomyUtil.STANDARD_GRAVITY;
+			}
 		}
 		
 		if(e instanceof EntityPlayer && ((EntityPlayer)e).inventory.armorInventory[2] != null && ((EntityPlayer)e).inventory.armorInventory[2].getItem() instanceof ArmorFSB)
@@ -1254,28 +1258,13 @@ public class ModEventHandler {
 			Vec3 vec = Vec3.createVectorHelper(3 * rand.nextDouble(), 0, 0);
 			CBT_Atmosphere thatmosphere = CelestialBody.getTrait(player.worldObj, CBT_Atmosphere.class);
 
-
-			if(thatmosphere != null)
-			if(!player.isRiding()) {
-				if (!player.worldObj.isRemote) {
-					if(player.motionX > 1 || player.motionY > 1 || player.motionZ > 1) {
-						ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
-					}
-					if(player.motionX < -1 || player.motionY < -1 || player.motionZ < -1) {
-						ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
-					}
-				
-				} else {
-					if(player.motionX > 1 || player.motionY > 1 || player.motionZ > 1) {
-						ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
-					}
-					if(player.motionX < -1 || player.motionY < -1 || player.motionZ < -1) {
-						ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1+ vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
-					}
+			if(thatmosphere != null && thatmosphere.getPressure() > 0.05 && !player.isRiding()) {
+				if(Math.abs(player.motionX) > 1 || Math.abs(player.motionY) > 1 || Math.abs(player.motionZ) > 1) {
+					ParticleUtil.spawnGasFlame(player.worldObj, player.posX - 1 + vec.xCoord, player.posY + vec.yCoord, player.posZ + vec.zCoord, 0, 0, 0);
 				}
+			}
 		}
 
-		}
 		if(player.isPotionActive(HbmPotion.slippery.id) && !player.capabilities.isFlying) {
 			if (player.onGround) {
 				double slipperiness = 0.6; 
