@@ -33,7 +33,7 @@ public class BobmazonOfferFactory {
 		tools.clear();
 		special.clear();
 
-		int inflation = 5;
+		int inflation = 6;
 		materials.add(new Offer(new ItemStack(ModItems.ingot_uranium), Requirement.NUCLEAR, 6 * inflation));
 		materials.add(new Offer(new ItemStack(ModItems.ingot_u233), Requirement.NUCLEAR, 20 * inflation));
 		materials.add(new Offer(new ItemStack(ModItems.ingot_u238), Requirement.NUCLEAR, 15 * inflation));
