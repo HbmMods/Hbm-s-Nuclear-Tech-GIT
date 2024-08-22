@@ -2842,7 +2842,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(pedestal, pedestal.getUnlocalizedName());
 		GameRegistry.registerBlock(bobblehead, ItemBlockMeta.class, bobblehead.getUnlocalizedName());
 		GameRegistry.registerBlock(snowglobe, ItemBlockMeta.class, snowglobe.getUnlocalizedName());
-		GameRegistry.registerBlock(plushie, ItemBlockMeta.class, plushie.getUnlocalizedName());
+		GameRegistry.registerBlock(plushie, ItemBlockBase.class, plushie.getUnlocalizedName());
 		GameRegistry.registerBlock(hazmat, hazmat.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_rbmk, deco_rbmk.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_rbmk_smooth, deco_rbmk_smooth.getUnlocalizedName());
