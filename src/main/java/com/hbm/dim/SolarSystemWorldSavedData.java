@@ -1,16 +1,22 @@
 package com.hbm.dim;
 
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Map.Entry;
 
+import com.hbm.config.SpaceConfig;
+import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.dim.trait.CelestialBodyTrait;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.util.Constants.NBT;
 
 public class SolarSystemWorldSavedData extends WorldSavedData {
 
@@ -25,7 +31,10 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 		super(name);
 	}
 
+	private Random rand = new Random();
+
 	private HashMap<String, HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>> traitMap = new HashMap<String, HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>>();
+	private static HashMap<ChunkCoordIntPair, OrbitalStation> stations = new HashMap<>();
 	
 	public static SolarSystemWorldSavedData get() {
 		return get(DimensionManager.getWorld(0));
@@ -62,6 +71,17 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 				traitMap.put(body.name, traits);
 			}
 		}
+
+		NBTTagList stationList = nbt.getTagList("stations", NBT.TAG_COMPOUND);
+		for(int i = 0; i < stationList.tagCount(); i++) {
+			NBTTagCompound stationTag = stationList.getCompoundTagAt(i);
+			int x = stationTag.getInteger("x");
+			int z = stationTag.getInteger("z");
+			CelestialBody orbiting = CelestialBody.getBody(stationTag.getInteger("orbiting"));
+
+			ChunkCoordIntPair pos = new ChunkCoordIntPair(x, z);
+			stations.put(pos, new OrbitalStation(orbiting, x, z));
+		}
 	}
 
 	@Override
@@ -78,6 +98,17 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 	
 			nbt.setTag("b_" + entry.getKey(), data);
 		}
+
+		NBTTagList stationList = new NBTTagList();
+		for(OrbitalStation station : stations.values()) {
+			NBTTagCompound stationTag = new NBTTagCompound();
+			stationTag.setInteger("x", station.x);
+			stationTag.setInteger("z", station.z);
+			stationTag.setInteger("orbiting", station.orbiting.dimensionId);
+
+			stationList.appendTag(stationTag);
+		}
+		nbt.setTag("stations", stationList);
 	}
 
 	public void setTraits(String bodyName, CelestialBodyTrait... traits) {
@@ -104,6 +135,42 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 
 	public HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getTraits(String bodyName) {
 		return traitMap.get(bodyName);
+	}
+
+	// Grabs an existing station
+	public OrbitalStation getStation(int x, int z) {
+		ChunkCoordIntPair pos = new ChunkCoordIntPair(x / OrbitalStation.STATION_SIZE, z / OrbitalStation.STATION_SIZE);
+		return stations.get(pos);
+	}
+
+	// Finds an unoccupied space and adds a new station
+	public OrbitalStation addStation(CelestialBody orbiting) {
+		int size = SpaceConfig.maxProbeDistance / OrbitalStation.STATION_SIZE;
+
+		// Has a guard so it doesn't loop forever on a spammed out world
+		ChunkCoordIntPair pos = new ChunkCoordIntPair(rand.nextInt(size * 2) - size, rand.nextInt(size * 2) - size);
+		for(int i = 0; stations.containsKey(pos) && i < 128; i++) {
+			pos = new ChunkCoordIntPair(rand.nextInt(size * 2) - size, rand.nextInt(size * 2) - size);
+		}
+
+		return addStation(pos.chunkXPos, pos.chunkZPos, orbiting);
+	}
+
+	// Adds a station at a given set of coordinates (used for debug stations)
+	// Won't overwrite existing stations
+	public OrbitalStation addStation(int x, int z, CelestialBody orbiting) {
+		ChunkCoordIntPair pos = new ChunkCoordIntPair(x / OrbitalStation.STATION_SIZE, z / OrbitalStation.STATION_SIZE);
+
+		OrbitalStation station = stations.get(pos);
+
+		if(station == null) {
+			station = new OrbitalStation(orbiting, x, z);
+			stations.put(pos, station);
+		}
+
+		markDirty();
+
+		return station;
 	}
 
 

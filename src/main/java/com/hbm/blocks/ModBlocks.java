@@ -1325,6 +1325,7 @@ public class ModBlocks {
 	public static Block atmosphere_editor;
 
 	public static Block transporter_rocket;
+	public static Block orbital_station;
 	
 	public static Material materialGas = new MaterialGas();
 		
@@ -2563,7 +2564,8 @@ public class ModBlocks {
 
 		atmosphere_editor = new BlockAtmosphereEditor(Material.iron).setBlockName("atmosphere_editor").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":atmosphere_editor");
 
-		transporter_rocket = new BlockTransporterRocket(Material.iron).setBlockName("transporter_rocket").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":transporter_rocket");
+		transporter_rocket = new BlockTransporterRocket(Material.iron).setBlockName("transporter_rocket").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		orbital_station = new BlockOrbitalStation(Material.iron).setBlockName("orbital_station").setHardness(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 	}
 
 	private static void registerBlock() {
@@ -3788,6 +3790,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(atmosphere_editor, ItemBlockBase.class, atmosphere_editor.getUnlocalizedName());
 
 		register(transporter_rocket);
+		register(orbital_station);
 	}
 	
 	private static void register(Block b) {

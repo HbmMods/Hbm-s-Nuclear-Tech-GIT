@@ -19,8 +19,9 @@ import net.minecraftforge.client.IRenderHandler;
 
 public class WorldProviderOrbit extends WorldProvider {
 
+	@SideOnly(Side.CLIENT)
 	protected CelestialBody getOrbitingBody() {
-		return CelestialBody.getBody("kerbin");
+		return OrbitalStation.clientStation.orbiting;
 	}
 
 	@Override
@@ -110,6 +111,11 @@ public class WorldProviderOrbit extends WorldProvider {
 	@SideOnly(Side.CLIENT)
 	public IRenderHandler getSkyRenderer() {
 		return new SkyProviderOrbit();
+	}
+
+	@Override
+	public boolean canRespawnHere() {
+		return false;
 	}
 	
 }
