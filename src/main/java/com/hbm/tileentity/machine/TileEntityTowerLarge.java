@@ -1,10 +1,15 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IConfigurableMachine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,12 +20,33 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityTowerLarge extends TileEntityCondenser {
 	
+	//Configurable values
+	public static int inputTankSizeTL = 10_000;
+	public static int outputTankSizeTL = 10_000;
+	
 	public TileEntityTowerLarge() {
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, 10000);
-		tanks[1] = new FluidTank(Fluids.WATER, 10000);
+		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, inputTankSizeTL);
+		tanks[1] = new FluidTank(Fluids.WATER, outputTankSizeTL);
 	}
 	
+	@Override
+	public String getConfigName() {
+		return "condenserTowerLarge";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		inputTankSizeTL = IConfigurableMachine.grab(obj, "I:inputTankSize", inputTankSizeTL);
+		outputTankSizeTL = IConfigurableMachine.grab(obj, "I:outputTankSize", outputTankSizeTL);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:inputTankSize").value(inputTankSizeTL);
+		writer.name("I:outputTankSize").value(outputTankSizeTL);
+	}
+
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
