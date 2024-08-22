@@ -1,3 +1,6 @@
+## Changed
+* Changed the multi fluid ID recipe, they now use analog circuits instead of silicon based ones, no longer requiring plastic to make
+
 ## Fixed
 * Fixed pumpjack gauges not syncing properly
 * Fixed some concrete variants not being revertable into uncolored concrete
