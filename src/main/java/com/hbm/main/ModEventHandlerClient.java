@@ -862,16 +862,15 @@ public class ModEventHandlerClient {
 				level += stack.stackTagCompound.getFloat(HazardTypeNeutron.NEUTRON_KEY);
 			}
 			
-			if(level < 1e-5)
-				return;
-			
-			list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey("trait.radioactive") + "]");
-			String rads2 = "" + (Math.floor(level* 1000) / 1000);
-			list.add(EnumChatFormatting.YELLOW + (rads2 + "RAD/s"));
-			
-			if(stack.stackSize > 1) {
-				list.add(EnumChatFormatting.YELLOW + "Stack: " + ((Math.floor(level * 1000 * stack.stackSize) / 1000) + "RAD/s"));
-			}	
+			if(level >= 1e-5) {
+				list.add(EnumChatFormatting.GREEN + "[" + I18nUtil.resolveKey("trait.radioactive") + "]");
+				String rads2 = "" + (Math.floor(level* 1000) / 1000);
+				list.add(EnumChatFormatting.YELLOW + (rads2 + "RAD/s"));
+				
+				if(stack.stackSize > 1) {
+					list.add(EnumChatFormatting.YELLOW + "Stack: " + ((Math.floor(level * 1000 * stack.stackSize) / 1000) + "RAD/s"));
+				}	
+			}
 		}
 		
 		/// NUCLEAR FURNACE FUELS ///
