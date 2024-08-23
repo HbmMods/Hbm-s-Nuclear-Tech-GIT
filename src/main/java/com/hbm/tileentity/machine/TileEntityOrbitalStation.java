@@ -25,7 +25,11 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
             // Station TEs handle syncing information about the current orbital parameters to players on the station
             station = OrbitalStation.getStation(xCoord, zCoord);
 
+            station.update(worldObj);
+
             this.networkPackNT(OrbitalStation.STATION_SIZE / 2);
+        } else if(station != null) {
+            station.update(worldObj);
         }
     }
 
@@ -35,7 +39,7 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
         target++;
         if(target >= SolarSystem.Body.values().length) target = 1;
 
-        station.orbiting = SolarSystem.Body.values()[target].getBody();
+        station.travelTo(SolarSystem.Body.values()[target].getBody());
     }
 
     @Override

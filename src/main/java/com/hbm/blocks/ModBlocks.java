@@ -2565,7 +2565,7 @@ public class ModBlocks {
 		atmosphere_editor = new BlockAtmosphereEditor(Material.iron).setBlockName("atmosphere_editor").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":atmosphere_editor");
 
 		transporter_rocket = new BlockTransporterRocket(Material.iron).setBlockName("transporter_rocket").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		orbital_station = new BlockOrbitalStation(Material.iron).setBlockName("orbital_station").setHardness(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		orbital_station = new BlockOrbitalStation(Material.iron).setBlockName("orbital_station").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 	}
 
 	private static void registerBlock() {

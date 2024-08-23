@@ -25,13 +25,8 @@ public class WorldProviderOrbit extends WorldProvider {
 	private static final float ORBITAL_PERIOD = 3600;
 
 	@SideOnly(Side.CLIENT)
-	protected CelestialBody getOrbitingBody() {
-		return OrbitalStation.clientStation.orbiting;
-	}
-
-	@SideOnly(Side.CLIENT)
-	protected float getOrbitalAltitude() {
-		return getAltitudeForPeriod(getOrbitingBody().massKg, ORBITAL_PERIOD);
+	protected float getOrbitalAltitude(CelestialBody body) {
+		return getAltitudeForPeriod(body.massKg, ORBITAL_PERIOD);
 	}
 	
 	// r = ∛[(G x Me x T2) / (4π2)]
@@ -85,7 +80,7 @@ public class WorldProviderOrbit extends WorldProvider {
 		float distanceStart = 20_000_000;
 		float distanceEnd = 80_000_000;
 
-		float semiMajorAxisKm = getOrbitingBody().semiMajorAxisKm;
+		float semiMajorAxisKm = OrbitalStation.clientStation.orbiting.semiMajorAxisKm;
 		float distanceFactor = MathHelper.clamp_float((semiMajorAxisKm - distanceStart) / (distanceEnd - distanceStart), 0F, 1F);
 
 		float starBrightness = super.getStarBrightness(par1);
@@ -134,7 +129,7 @@ public class WorldProviderOrbit extends WorldProvider {
 
 	@Override
 	public float calculateCelestialAngle(long worldTime, float partialTicks) {
-		return 0.5F - ((float)SolarSystem.calculateSingleAngle(worldObj, partialTicks, getOrbitingBody(), getOrbitalAltitude()) / 360.0F);
+		return 0.5F - ((float)SolarSystem.calculateSingleAngle(worldObj, partialTicks, OrbitalStation.clientStation.orbiting, getOrbitalAltitude(OrbitalStation.clientStation.orbiting)) / 360.0F);
 	}
 	
 }

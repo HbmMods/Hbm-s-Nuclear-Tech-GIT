@@ -102,8 +102,8 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 		NBTTagList stationList = new NBTTagList();
 		for(OrbitalStation station : stations.values()) {
 			NBTTagCompound stationTag = new NBTTagCompound();
-			stationTag.setInteger("x", station.x);
-			stationTag.setInteger("z", station.z);
+			stationTag.setInteger("x", station.dX);
+			stationTag.setInteger("z", station.dZ);
 			stationTag.setInteger("orbiting", station.orbiting.dimensionId);
 
 			stationList.appendTag(stationTag);

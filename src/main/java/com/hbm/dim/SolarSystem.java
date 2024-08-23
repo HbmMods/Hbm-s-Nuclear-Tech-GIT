@@ -284,6 +284,48 @@ public class SolarSystem {
 		return metrics;
 	}
 
+	public static List<AstroMetric> calculateMetricsBetweenSatelliteOrbits(World world, float partialTicks, CelestialBody from, CelestialBody to, double fromAltitude, double toAltitude, double t) {
+		List<AstroMetric> metrics = new ArrayList<AstroMetric>();
+
+		double ticks = ((double)world.getTotalWorldTime() + partialTicks) * (double)AstronomyUtil.TIME_MULTIPLIER;
+		
+		// Get our XYZ coordinates of all bodies
+		calculatePositionsRecursive(metrics, null, from.getStar(), ticks);
+
+		// Add our orbiting satellite position
+		Vec3 fromPos = calculatePosition(from, fromAltitude, ticks);
+		Vec3 toPos = calculatePosition(to, toAltitude, ticks);
+		for(AstroMetric metric : metrics) {
+			if(metric.body == from) {
+				fromPos = fromPos.addVector(metric.position.xCoord, metric.position.yCoord, metric.position.zCoord);
+			}
+			if(metric.body == to) {
+				toPos = toPos.addVector(metric.position.xCoord, metric.position.yCoord, metric.position.zCoord);
+			}
+		}
+
+		// Lerp smoothly between the two positions (maybe a fancy circular lerp somehow?)
+		Vec3 position = lerp(fromPos, toPos, t);
+
+		// Get the metrics from the orbiting position
+		calculateMetricsFromPosition(metrics, position);
+
+		// Sort by increasing distance
+		metrics.sort((a, b) -> {
+			return (int)(b.distance - a.distance);
+		});
+
+		return metrics;
+	}
+
+	private static Vec3 lerp(Vec3 from, Vec3 to, double t) {
+		double x = com.hbm.dim.noise.MathHelper.clampedLerp(from.xCoord, to.xCoord, t);
+		double y = com.hbm.dim.noise.MathHelper.clampedLerp(from.yCoord, to.yCoord, t);
+		double z = com.hbm.dim.noise.MathHelper.clampedLerp(from.zCoord, to.zCoord, t);
+
+		return Vec3.createVectorHelper(x, y, z);
+	}
+
 	// Recursively calculate the XYZ position of all planets from polar coordinates + time
 	private static void calculatePositionsRecursive(List<AstroMetric> metrics, AstroMetric parentMetric, CelestialBody body, double ticks) {
 		Vec3 parentPosition = parentMetric != null ? parentMetric.position : Vec3.createVectorHelper(0, 0, 0);
