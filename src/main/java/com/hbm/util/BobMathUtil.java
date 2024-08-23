@@ -206,4 +206,15 @@ public class BobMathUtil {
 		double delta = (beta - alpha + 180) % 360 - 180;
 		return delta < -180 ? delta + 360 : delta;
 	}
+	
+	/** Soft peak sine */
+	public static double sps(double x) {
+		return Math.sin(Math.PI / 2D * Math.cos(x));
+	}
+	
+	/** Square wave sine, make sure squarination is [0;1] */
+	public static double sws(double x, double squarination) {
+		double s = Math.sin(x);
+		return Math.pow(Math.abs(s), 2 - squarination) / s;
+	}
 }

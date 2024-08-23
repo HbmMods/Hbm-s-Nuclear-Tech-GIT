@@ -2174,6 +2174,9 @@ public class ModItems {
 	public static Item card_aos;
 	public static Item card_qos;
 	public static Item australium_iii;
+	public static Item armor_battery;
+	public static Item armor_battery_mk2;
+	public static Item armor_battery_mk3;
 
 	public static Item hazmat_helmet;
 	public static Item hazmat_plate;
@@ -3353,6 +3356,9 @@ public class ModItems {
 		card_aos = new ItemModCard().setUnlocalizedName("card_aos").setTextureName(RefStrings.MODID + ":card_aos");
 		card_qos = new ItemModCard().setUnlocalizedName("card_qos").setTextureName(RefStrings.MODID + ":card_qos");
 		australium_iii = new ItemModShield(25F).setUnlocalizedName("australium_iii").setTextureName(RefStrings.MODID + ":australium_iii");
+		armor_battery = new ItemModBattery(1.25D).setUnlocalizedName("armor_battery").setTextureName(RefStrings.MODID + ":armor_battery");
+		armor_battery_mk2 = new ItemModBattery(1.5D).setUnlocalizedName("armor_battery_mk2").setTextureName(RefStrings.MODID + ":armor_battery_mk2");
+		armor_battery_mk3 = new ItemModBattery(2D).setUnlocalizedName("armor_battery_mk3").setTextureName(RefStrings.MODID + ":armor_battery_mk3");
 
 		cap_nuka = new Item().setUnlocalizedName("cap_nuka").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_nuka");
 		cap_quantum = new Item().setUnlocalizedName("cap_quantum").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_quantum");
@@ -7388,6 +7394,9 @@ public class ModItems {
 		GameRegistry.registerItem(card_aos, card_aos.getUnlocalizedName());
 		GameRegistry.registerItem(card_qos, card_qos.getUnlocalizedName());
 		GameRegistry.registerItem(australium_iii, australium_iii.getUnlocalizedName());
+		GameRegistry.registerItem(armor_battery, armor_battery.getUnlocalizedName());
+		GameRegistry.registerItem(armor_battery_mk2, armor_battery_mk2.getUnlocalizedName());
+		GameRegistry.registerItem(armor_battery_mk3, armor_battery_mk3.getUnlocalizedName());
 
 		//Chaos
 		GameRegistry.registerItem(chocolate_milk, chocolate_milk.getUnlocalizedName());
