@@ -256,7 +256,7 @@ public class SolarSystem {
 		return metrics;
 	}
 
-	public static List<AstroMetric> calculateMetricsFromPosition(World world, float partialTicks, CelestialBody orbiting, double altitude) {
+	public static List<AstroMetric> calculateMetricsFromSatellite(World world, float partialTicks, CelestialBody orbiting, double altitude) {
 		List<AstroMetric> metrics = new ArrayList<AstroMetric>();
 
 		double ticks = ((double)world.getTotalWorldTime() + partialTicks) * (double)AstronomyUtil.TIME_MULTIPLIER;

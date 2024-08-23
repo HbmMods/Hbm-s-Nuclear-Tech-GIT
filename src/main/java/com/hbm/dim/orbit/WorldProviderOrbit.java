@@ -100,7 +100,6 @@ public class WorldProviderOrbit extends WorldProvider {
 			return 0;
 
 		float celestialAngle = worldObj.getCelestialAngle(par1);
-		celestialAngle -= (float)SolarSystem.calculateSingleAngle(worldObj, par1, getOrbitingBody(), getOrbitalAltitude()) / 360.0F;
 		float celestialPhase = (1 - (celestialAngle + 0.5F) % 1) * 2 - 1;
 
 		return 1 - (float)Library.smoothstep(Math.abs(celestialPhase), 0.6, 0.8);
@@ -131,6 +130,11 @@ public class WorldProviderOrbit extends WorldProvider {
 	@Override
 	public boolean canRespawnHere() {
 		return false;
+	}
+
+	@Override
+	public float calculateCelestialAngle(long worldTime, float partialTicks) {
+		return 0.5F - ((float)SolarSystem.calculateSingleAngle(worldObj, partialTicks, getOrbitingBody(), getOrbitalAltitude()) / 360.0F);
 	}
 	
 }

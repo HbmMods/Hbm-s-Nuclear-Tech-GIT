@@ -190,6 +190,9 @@ public class SkyProviderCelestial extends IRenderHandler {
 			GL11.glRotatef(-90.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(celestialAngle * 360.0F, 1.0F, 0.0F, 0.0F);
 
+			// Draw DIGAMMA STAR
+			renderDigamma(partialTicks, world, mc, celestialAngle);
+
 			double sunSize = SolarSystem.calculateSunSize(body);
 			double coronaSize = sunSize * (3 - MathHelper.clamp_float(pressure, 0.0F, 1.0F));
 
@@ -207,13 +210,9 @@ public class SkyProviderCelestial extends IRenderHandler {
 			// Get our orrery of bodies
 			List<AstroMetric> metrics = SolarSystem.calculateMetricsFromBody(world, partialTicks, longitude, body);
 			
-			renderCelestials(partialTicks, world, mc, metrics, celestialAngle, tidalLockedBody, planetTint, visibility, blendAmount, false);
+			renderCelestials(partialTicks, world, mc, metrics, celestialAngle, tidalLockedBody, planetTint, visibility, blendAmount, null);
 
 			GL11.glEnable(GL11.GL_BLEND);
-
-
-			// Draw DIGAMMA STAR
-			renderDigamma(partialTicks, world, mc, celestialAngle);
 
 			if(visibility > 0.2F) {
 				// JEFF BOZOS WOULD LIKE TO KNOW YOUR LOCATION
@@ -496,7 +495,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 		}
 	}
 
-	protected void renderCelestials(float partialTicks, WorldClient world, Minecraft mc, List<AstroMetric> metrics, float celestialAngle, CelestialBody tidalLockedBody, Vec3 planetTint, float visibility, float blendAmount, boolean skipTidalLocked) {
+	protected void renderCelestials(float partialTicks, WorldClient world, Minecraft mc, List<AstroMetric> metrics, float celestialAngle, CelestialBody tidalLockedBody, Vec3 planetTint, float visibility, float blendAmount, CelestialBody orbiting) {
 		Tessellator tessellator = Tessellator.instance;
 		double minSize = 1D;
 		float blendDarken = 0.1F;
@@ -506,14 +505,16 @@ public class SkyProviderCelestial extends IRenderHandler {
 			// Ignore self
 			if(metric.distance == 0)
 				continue;
+			
+			boolean orbitingThis = metric.body == orbiting;
 
-			if(skipTidalLocked && metric.body == tidalLockedBody)
-				continue;
+			double uvOffset = orbitingThis ? 1 - ((((double)world.getWorldTime() + partialTicks) / 512) % 1) : 0;
+			float axialTilt = orbitingThis ? 0 : metric.body.axialTilt;
 
 			GL11.glPushMatrix();
 			{
 
-				double size = MathHelper.clamp_double(metric.apparentSize, 0, 24);
+				double size = MathHelper.clamp_double(metric.apparentSize, 0, orbitingThis ? 160 : 24);
 				boolean renderAsPoint = size < minSize;
 
 				if(renderAsPoint) {
@@ -533,13 +534,13 @@ public class SkyProviderCelestial extends IRenderHandler {
 				} else {
 					GL11.glRotated(metric.angle, 1.0, 0.0, 0.0);
 				}
-				GL11.glRotatef(metric.body.axialTilt + 90.0F, 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef(axialTilt + 90.0F, 0.0F, 1.0F, 0.0F);
 
 				tessellator.startDrawingQuads();
-				tessellator.addVertexWithUV(-size, 100.0D, -size, 0.0D, 0.0D);
-				tessellator.addVertexWithUV(size, 100.0D, -size, 1.0D, 0.0D);
-				tessellator.addVertexWithUV(size, 100.0D, size, 1.0D, 1.0D);
-				tessellator.addVertexWithUV(-size, 100.0D, size, 0.0D, 1.0D);
+				tessellator.addVertexWithUV(-size, 100.0D, -size, 0.0D + uvOffset, 0.0D);
+				tessellator.addVertexWithUV(size, 100.0D, -size, 1.0D + uvOffset, 0.0D);
+				tessellator.addVertexWithUV(size, 100.0D, size, 1.0D + uvOffset, 1.0D);
+				tessellator.addVertexWithUV(-size, 100.0D, size, 0.0D + uvOffset, 1.0D);
 				tessellator.draw();
 
 				if(!renderAsPoint) {
