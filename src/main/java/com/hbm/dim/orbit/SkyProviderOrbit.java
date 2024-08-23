@@ -9,8 +9,6 @@ import com.hbm.dim.SkyProviderCelestial;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.SolarSystem.AstroMetric;
 import com.hbm.lib.Library;
-import com.hbm.main.MainRegistry;
-import com.hbm.util.AstronomyUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
