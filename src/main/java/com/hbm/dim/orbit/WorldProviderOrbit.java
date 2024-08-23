@@ -5,6 +5,7 @@ import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.trait.CelestialBodyTrait.CBT_Destroyed;
 import com.hbm.lib.Library;
+import com.hbm.util.AstronomyUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -19,9 +20,23 @@ import net.minecraftforge.client.IRenderHandler;
 
 public class WorldProviderOrbit extends WorldProvider {
 
+	// Orbit at an altitude that provides an hour-long realtime orbit (game time is fast so we go slow)
+	// We want a consistent orbital period to prevent orbiting too slow or fast (both for player comfort and feel)
+	private static final float ORBITAL_PERIOD = 3600;
+
 	@SideOnly(Side.CLIENT)
 	protected CelestialBody getOrbitingBody() {
 		return OrbitalStation.clientStation.orbiting;
+	}
+
+	@SideOnly(Side.CLIENT)
+	protected float getOrbitalAltitude() {
+		return getAltitudeForPeriod(getOrbitingBody().massKg, ORBITAL_PERIOD);
+	}
+	
+	// r = ∛[(G x Me x T2) / (4π2)]
+	private float getAltitudeForPeriod(float massKg, float period) {
+		return (float)Math.cbrt((AstronomyUtil.GRAVITATIONAL_CONSTANT * massKg * (period * period)) / (4 * Math.PI * Math.PI));
 	}
 
 	@Override
@@ -85,7 +100,7 @@ public class WorldProviderOrbit extends WorldProvider {
 			return 0;
 
 		float celestialAngle = worldObj.getCelestialAngle(par1);
-		celestialAngle -= (float)SolarSystem.calculateSingleAngle(worldObj, par1, getOrbitingBody(), 1_000_000) / 360.0F;
+		celestialAngle -= (float)SolarSystem.calculateSingleAngle(worldObj, par1, getOrbitingBody(), getOrbitalAltitude()) / 360.0F;
 		float celestialPhase = (1 - (celestialAngle + 0.5F) % 1) * 2 - 1;
 
 		return 1 - (float)Library.smoothstep(Math.abs(celestialPhase), 0.6, 0.8);

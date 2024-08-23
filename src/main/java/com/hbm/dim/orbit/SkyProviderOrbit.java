@@ -9,6 +9,8 @@ import com.hbm.dim.SkyProviderCelestial;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.SolarSystem.AstroMetric;
 import com.hbm.lib.Library;
+import com.hbm.main.MainRegistry;
+import com.hbm.util.AstronomyUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -22,8 +24,9 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
 		Tessellator tessellator = Tessellator.instance;
-		CelestialBody orbiting = ((WorldProviderOrbit)world.provider).getOrbitingBody();
-		double altitude = 1_000_000; // higher than actual altitude to visually slow down orbiting
+		WorldProviderOrbit provider = (WorldProviderOrbit) world.provider;
+		CelestialBody orbiting = provider.getOrbitingBody();
+		double altitude = provider.getOrbitalAltitude();
 		float orbitalTilt = 80;
 
 		GL11.glDepthMask(false);
