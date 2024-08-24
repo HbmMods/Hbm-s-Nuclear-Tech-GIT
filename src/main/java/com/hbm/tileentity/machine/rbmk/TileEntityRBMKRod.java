@@ -8,6 +8,7 @@ import com.hbm.handler.CompatHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.handler.rbmkmk2.RBMKHandler;
 import com.hbm.handler.rbmkmk2.RBMKHandler.NeutronStream;
+import com.hbm.handler.rbmkmk2.ItemRBMKRodFluxCurve;
 import com.hbm.inventory.container.ContainerRBMKRod;
 import com.hbm.inventory.gui.GUIRBMKRod;
 import com.hbm.items.ModItems;
@@ -39,8 +40,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.hbm.handler.rbmkmk2.RBMKHandler.addNode;
-import static com.hbm.handler.rbmkmk2.RBMKHandler.getNode;
+import static com.hbm.handler.rbmkmk2.RBMKHandler.*;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IRBMKLoadable, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
@@ -49,6 +49,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	// Used for receiving flux (calculating outbound flux/burning rods)
 	public double fluxRatio;
 	public double fluxQuantity;
+	public double lastFluxQuantity;
 
 	public boolean hasRod;
 
@@ -89,14 +90,29 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 				ItemRBMKRod rod = ((ItemRBMKRod)slots[0].getItem());
 
-				double fluxIn = fluxFromType(rod.nType);
-				double fluxQuantityOut = rod.burn(worldObj, slots[0], fluxIn);
 				double fluxRatioOut;
-				NType rType = rod.rType;
-				if(rType == NType.SLOW)
-					fluxRatioOut = 0;
-				else
-					fluxRatioOut = 1;
+				double fluxQuantityOut;
+
+				if (rod instanceof ItemRBMKRodFluxCurve) { // Experimental flux ratio curve rods!
+					ItemRBMKRodFluxCurve rodCurve = (ItemRBMKRodFluxCurve) rod;
+
+					fluxRatioOut = rodCurve.fluxRatioOut(this.fluxRatio, ItemRBMKRod.getEnrichment(slots[0]));
+
+					double fluxIn;
+
+					fluxIn = rodCurve.fluxFromRatio(this.fluxQuantity, this.fluxRatio);
+
+					fluxQuantityOut = rod.burn(worldObj, slots[0], fluxIn);
+				} else {
+					NType rType = rod.rType;
+					if (rType == NType.SLOW)
+						fluxRatioOut = 0;
+					else
+						fluxRatioOut = 1;
+
+					double fluxIn = fluxFromType(rod.nType);
+					fluxQuantityOut = rod.burn(worldObj, slots[0], fluxIn);
+				}
 
 				rod.updateHeat(worldObj, slots[0], 1.0D);
 				this.heat += rod.provideHeat(worldObj, slots[0], heat, 1.0D);
@@ -114,15 +130,14 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 					} else {
 						this.meltdown();
 					}
+					this.lastFluxQuantity = 0;
 					this.fluxQuantity = 0;
 					return;
 				}
 
 				if(this.heat > 10_000) this.heat = 10_000;
 
-				this.markDirty();
-
-				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
+				this.lastFluxQuantity = this.fluxQuantity;
 				this.fluxQuantity = 0;
 				spreadFlux(fluxQuantityOut, fluxRatioOut);
 
@@ -130,6 +145,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 			} else {
 
+				this.lastFluxQuantity = 0;
 				this.fluxQuantity = 0;
 				this.fluxRatio = 0;
 
@@ -142,10 +158,9 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 	private double fluxFromType(NType type) {
 
-
 		switch(type) {
 		case SLOW: return (this.fluxQuantity * (1 - this.fluxRatio) + Math.min(this.fluxRatio * 0.5, 1));
-		case FAST: return (this.fluxQuantity * this.fluxRatio + Math.min(1 - this.fluxRatio * 0.3, 1));
+		case FAST: return (this.fluxQuantity * (1 - this.fluxRatio) + Math.min(this.fluxRatio * 0.3, 1));
 		case ANY: return this.fluxQuantity;
 		}
 
@@ -184,10 +199,10 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
-		if(nbt.hasKey("fluxFast") || nbt.hasKey("fluxSlow")) {
+		if (nbt.hasKey("fluxFast") || nbt.hasKey("fluxSlow")) {
 			// recalculate new values to keep stable operations
 			this.fluxQuantity = nbt.getDouble("fluxFast") + nbt.getDouble("fluxSlow");
-			if(this.fluxQuantity > 0)
+			if (this.fluxQuantity > 0)
 				this.fluxRatio = nbt.getDouble("fluxFast") / fluxQuantity;
 			else
 				this.fluxRatio = 0;
@@ -201,8 +216,16 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		this.hasRod = nbt.getBoolean("hasRod");
 	}
 
-	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setDouble("fluxQuantity", this.lastFluxQuantity);
+		nbt.setDouble("fluxRatio", this.fluxRatio);
+		nbt.setBoolean("hasRod", this.hasRod);
+	}
+
+	// aaaaaaa
+	public void writeToNBTDiag(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
 		nbt.setDouble("fluxQuantity", this.fluxQuantity);
@@ -227,7 +250,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	}
 
 	public void getDiagData(NBTTagCompound nbt) {
-		this.writeToNBT(nbt);
+		this.writeToNBTDiag(nbt);
 
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
 
