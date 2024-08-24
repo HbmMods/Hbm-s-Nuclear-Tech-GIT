@@ -20,6 +20,7 @@ import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 
 import api.hbm.fluid.IFluidStandardReceiver;
+import com.hbm.tileentity.IFluidCopiable;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,7 +32,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFluidContainer, IFluidStandardReceiver {
+public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFluidContainer, IFluidStandardReceiver, IFluidCopiable {
 	
 	public FluidTank tank;
 	
@@ -226,5 +227,10 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUITurretFritz(player.inventory, this);
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tank;
 	}
 }

@@ -224,13 +224,15 @@ public class TileEntityHeaterOilburner extends TileEntityMachinePolluting implem
 		NBTTagCompound tag = new NBTTagCompound();
 		tag.setIntArray("fluidID", new int[]{tank.getTankType().getID()});
 		tag.setInteger("burnRate", setting);
+		tag.setBoolean("isOn", isOn);
 		return tag;
 	}
 
 	@Override
-	public void pasteSettings(NBTTagCompound nbt, int index, World world, int x, int y, int z) {
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
 		int id = nbt.getIntArray("fluidID")[index];
 		tank.setTankType(Fluids.fromID(id));
-		setting = nbt.getInteger("burnRate");
+		if(nbt.hasKey("isOn")) isOn = nbt.getBoolean("isOn");
+		if(nbt.hasKey("burnRate")) setting = nbt.getInteger("burnRate");
 	}
 }

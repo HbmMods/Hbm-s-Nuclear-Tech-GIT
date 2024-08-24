@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.CompatEnergyControl;
@@ -12,7 +13,7 @@ import api.hbm.tile.IInfoProviderEC;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.EnumSkyBlock;
 
-public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidStandardTransceiver, INBTPacketReceiver, IInfoProviderEC {
+public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidStandardTransceiver, INBTPacketReceiver, IInfoProviderEC, IFluidCopiable {
 
 	public int age = 0;
 	public FluidTank[] tanks;
@@ -117,5 +118,10 @@ public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidS
 	public void provideExtraInfo(NBTTagCompound data) {
 		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, throughput);
 		data.setDouble(CompatEnergyControl.D_OUTPUT_MB, throughput);
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
 	}
 }

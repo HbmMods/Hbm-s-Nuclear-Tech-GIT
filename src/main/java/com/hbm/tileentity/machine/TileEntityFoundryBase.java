@@ -1,10 +1,12 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.material.Mats.MaterialStack;
 
 import api.hbm.block.ICrucibleAcceptor;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -19,7 +21,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * @author hbm
  *
  */
-public abstract class TileEntityFoundryBase extends TileEntity implements ICrucibleAcceptor {
+public abstract class TileEntityFoundryBase extends TileEntity implements ICrucibleAcceptor, ICopiable {
 	
 	public NTMMaterial type;
 	protected NTMMaterial lastType;
@@ -141,5 +143,17 @@ public abstract class TileEntityFoundryBase extends TileEntity implements ICruci
 	@Override
 	public MaterialStack pour(World world, int x, int y, int z, double dX, double dY, double dZ, ForgeDirection side, MaterialStack stack) {
 		return standardAdd(world, x, y, z, side, stack);
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		NBTTagCompound nbt = new NBTTagCompound();
+		if(type != null) nbt.setIntArray("matFilter", new int[]{ type.id });
+		return nbt;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+
 	}
 }

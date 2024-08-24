@@ -3,6 +3,7 @@ package com.hbm.tileentity.network;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.TileEntityMachineBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -136,7 +137,7 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public void pasteSettings(NBTTagCompound nbt, int index, World world, int x, int y, int z) {
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
 		if(index == 1) {
 			if (nbt.hasKey("outputSide")) {
 				outputOverride = ForgeDirection.getOrientation(nbt.getInteger("outputSide"));
