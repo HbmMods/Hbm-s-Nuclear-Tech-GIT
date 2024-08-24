@@ -49,6 +49,12 @@ public class RBMKHandler {
 			this.hasLid = tile.hasLid();
 		}
 
+		public RBMKNode(TileEntityRBMKBase tile, RBMKType type, boolean hasLid) {
+			this.type = type;
+			this.tile = tile;
+			this.hasLid = hasLid;
+		}
+
 		public void addLid() {
 			this.hasLid = true;
 		}
@@ -57,13 +63,19 @@ public class RBMKHandler {
 			this.hasLid = false;
 		}
 
-		public void checkNode(BlockPos pos) {
+		public List<BlockPos> checkNode(BlockPos pos) {
 
-			if (tile == null)
-				removeNode(pos); // what the fuck???
+			List<BlockPos> list = new ArrayList<>();
 
-			if (tile.isInvalid())
-				removeNode(pos);
+			if (tile == null) {
+				list.add(pos); // what the fuck???
+				return list;
+			}
+
+			if (tile.isInvalid()) {
+				list.add(pos);
+				return list;
+			}
 
 			if (tile instanceof TileEntityRBMKRod && !(tile instanceof TileEntityRBMKRodReaSim)) {
 				TileEntityRBMKRod rod = (TileEntityRBMKRod) tile;
@@ -76,11 +88,13 @@ public class RBMKHandler {
 
 						List<RBMKNode> nodes = stream.getNodes(false);
 						for (RBMKNode nodeToRemove : nodes)
-							removeNode(new BlockPos(nodeToRemove.tile));
+							list.add(new BlockPos(nodeToRemove.tile));
 					}
+					return list;
 				}
 			}
 
+			return list;
 			// TODO: Implement `hasRodInRange` for non-rod tile uncaching.
 		}
 	}
@@ -89,6 +103,8 @@ public class RBMKHandler {
 		BlockPos pos = new BlockPos(tile);
 		if (nodeCache.containsKey(pos))
 			return getNode(pos);
+		if (!tile.hasWorldObj())
+			return new RBMKNode(tile, tile.getRBMKType(), true);
 		return new RBMKNode(tile, tile.getRBMKType());
 	}
 
@@ -326,7 +342,7 @@ public class RBMKHandler {
 				// holy fucking shit
 				// I have had this one line cause me like tens of problems
 				// I FUCKING HATE THIS
-				// total count of bugs fixed attributed to this function: 10
+				// total count of bugs fixed attributed to this function: 11
 				if (origin.tile.getWorldObj().getBlock(pos.getX(), pos.getY() + h, pos.getZ()).isOpaqueCube())
 					hits += 1;
 			}
@@ -373,8 +389,7 @@ public class RBMKHandler {
 		nodeCache.clear();
 	}
 
-	static int cacheTime = 40;
-	static int ticks = 0;
+	private static int ticks = 0;
 
 	// The big one!! Runs all interactions for neutrons.
 	public static void runAllInteractions() {
@@ -400,11 +415,15 @@ public class RBMKHandler {
 		}
 
 		// Freshen the node cache every `cacheTime` ticks to prevent huge RAM usage.
+		int cacheTime = 40;
 		if (ticks >= cacheTime) {
 			ticks = 0;
-			for(Entry<BlockPos, RBMKNode> cachedNode : nodeCache.entrySet()) {
-				cachedNode.getValue().checkNode(cachedNode.getKey());
-			}
+			List<BlockPos> toRemove = new ArrayList<>();
+			for(Entry<BlockPos, RBMKNode> cachedNode : nodeCache.entrySet())
+				toRemove.addAll(cachedNode.getValue().checkNode(cachedNode.getKey()));
+
+			for(BlockPos pos : toRemove)
+				removeNode(pos);
 		}
 		ticks++;
 	}
