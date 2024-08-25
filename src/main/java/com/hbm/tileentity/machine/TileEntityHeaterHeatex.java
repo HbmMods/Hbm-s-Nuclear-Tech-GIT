@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.container.ContainerHeaterHeatex;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -9,6 +10,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.inventory.gui.GUIHeaterHeatex;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -27,7 +29,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHeatSource, INBTPacketReceiver, IFluidStandardTransceiver, IGUIProvider, IControlReceiver {
+public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHeatSource, INBTPacketReceiver, IFluidStandardTransceiver, IGUIProvider, IControlReceiver, IFluidCopiable {
 	
 	public FluidTank[] tanks;
 	public int amountToCool = 1;
@@ -232,5 +234,24 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 		if(data.hasKey("delay")) this.tickDelay = Math.max(data.getInteger("delay"), 1);
 		
 		this.markChanged();
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setInteger("toCool", amountToCool);
+		if(getFluidIDToCopy().length > 0)
+			nbt.setIntArray("fluidID", getFluidIDToCopy());
+		return nbt;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+		int[] ids = nbt.getIntArray("fluidID");
+		if(ids.length > 0) {
+			int id = ids[index];
+			tanks[0].setTankType(Fluids.fromID(id));
+		}
+		if(nbt.hasKey("toCool")) amountToCool = nbt.getInteger("toCool");
 	}
 }
