@@ -70,6 +70,8 @@ public class OrbitalStation {
 					orbiting = target;
 				}
 			}
+
+			SolarSystemWorldSavedData.get().markDirty();
 		}
 
 		stateTimer++;
@@ -89,13 +91,12 @@ public class OrbitalStation {
 
 	// Finds a space station for a given set of coordinates
 	public static OrbitalStation getStation(int x, int z) {
-		// yeah they aren't exactly chunks but this is a nice little hashable that already exists
 		SolarSystemWorldSavedData data = SolarSystemWorldSavedData.get();
 		OrbitalStation station = data.getStation(x, z);
 
 		// Fallback for when a station doesn't exist (should only occur when using debug wand!)
 		if(station == null) {
-			station = data.addStation(x, z, CelestialBody.getBody(0));
+			station = data.addStation(x / STATION_SIZE, z / STATION_SIZE, CelestialBody.getBody(0));
 		}
 
 		return station;

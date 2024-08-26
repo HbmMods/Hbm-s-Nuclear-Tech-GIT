@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.orbit.OrbitalStation;
+import com.hbm.dim.orbit.OrbitalStation.StationState;
 import com.hbm.dim.trait.CelestialBodyTrait;
 
 import cpw.mods.fml.relauncher.Side;
@@ -34,7 +35,7 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 	private Random rand = new Random();
 
 	private HashMap<String, HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>> traitMap = new HashMap<String, HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>>();
-	private static HashMap<ChunkCoordIntPair, OrbitalStation> stations = new HashMap<>();
+	private HashMap<ChunkCoordIntPair, OrbitalStation> stations = new HashMap<>();
 	
 	public static SolarSystemWorldSavedData get() {
 		return get(DimensionManager.getWorld(0));
@@ -77,10 +78,18 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 			NBTTagCompound stationTag = stationList.getCompoundTagAt(i);
 			int x = stationTag.getInteger("x");
 			int z = stationTag.getInteger("z");
-			CelestialBody orbiting = CelestialBody.getBody(stationTag.getInteger("orbiting"));
+			CelestialBody orbiting = CelestialBody.getBody(stationTag.getString("orbiting"));
+			CelestialBody target = CelestialBody.getBody(stationTag.getString("target"));
+			StationState state = StationState.values()[stationTag.getInteger("state")];
+			int stateTimer = stationTag.getInteger("stateTimer");
 
 			ChunkCoordIntPair pos = new ChunkCoordIntPair(x, z);
-			stations.put(pos, new OrbitalStation(orbiting, x, z));
+			OrbitalStation station = new OrbitalStation(orbiting, x, z);
+			station.target = target;
+			station.state = state;
+			station.stateTimer = stateTimer;
+
+			stations.put(pos, station);
 		}
 	}
 
@@ -104,7 +113,10 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 			NBTTagCompound stationTag = new NBTTagCompound();
 			stationTag.setInteger("x", station.dX);
 			stationTag.setInteger("z", station.dZ);
-			stationTag.setInteger("orbiting", station.orbiting.dimensionId);
+			stationTag.setString("orbiting", station.orbiting.name);
+			stationTag.setString("target", station.target.name);
+			stationTag.setInteger("state", station.state.ordinal());
+			stationTag.setInteger("stateTimer", station.stateTimer);
 
 			stationList.appendTag(stationTag);
 		}
@@ -139,6 +151,7 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 
 	// Grabs an existing station
 	public OrbitalStation getStation(int x, int z) {
+		// yeah they aren't exactly chunks but this is a nice little hashable that already exists
 		ChunkCoordIntPair pos = new ChunkCoordIntPair(x / OrbitalStation.STATION_SIZE, z / OrbitalStation.STATION_SIZE);
 		return stations.get(pos);
 	}
@@ -159,7 +172,7 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 	// Adds a station at a given set of coordinates (used for debug stations)
 	// Won't overwrite existing stations
 	public OrbitalStation addStation(int x, int z, CelestialBody orbiting) {
-		ChunkCoordIntPair pos = new ChunkCoordIntPair(x / OrbitalStation.STATION_SIZE, z / OrbitalStation.STATION_SIZE);
+		ChunkCoordIntPair pos = new ChunkCoordIntPair(x, z);
 
 		OrbitalStation station = stations.get(pos);
 
