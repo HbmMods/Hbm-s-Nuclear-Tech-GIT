@@ -24,7 +24,6 @@ public class WorldProviderOrbit extends WorldProvider {
 	// We want a consistent orbital period to prevent orbiting too slow or fast (both for player comfort and feel)
 	private static final float ORBITAL_PERIOD = 3600;
 
-	@SideOnly(Side.CLIENT)
 	protected float getOrbitalAltitude(CelestialBody body) {
 		return getAltitudeForPeriod(body.massKg, ORBITAL_PERIOD);
 	}
