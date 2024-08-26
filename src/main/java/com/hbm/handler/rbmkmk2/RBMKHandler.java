@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
@@ -63,39 +64,72 @@ public class RBMKHandler {
 			this.hasLid = false;
 		}
 
+		public List<BlockPos> getReaSimNodes(TileEntityRBMKRodReaSim rod) {
+			List<BlockPos> list = new ArrayList<>();
+			for (int x = rod.xCoord - fluxRange; x <= rod.xCoord + fluxRange; x++)
+				for (int z = rod.zCoord - fluxRange; z <= rod.zCoord + fluxRange; z++)
+					if ((x - rod.xCoord) * (x - rod.xCoord) + (z - rod.zCoord) * (z - rod.zCoord) <= fluxRange * fluxRange)
+						list.add(new BlockPos(rod));
+			return list;
+		}
+
 		public List<BlockPos> checkNode(BlockPos pos) {
 
 			List<BlockPos> list = new ArrayList<>();
 
-			if (tile == null) {
-				list.add(pos); // what the fuck???
-				return list;
-			}
-
-			if (tile.isInvalid()) {
+			// Check if the tile no longer exists/is invalid.
+			if (tile == null || tile.isInvalid()) {
 				list.add(pos);
 				return list;
 			}
 
+			List<NeutronStream> streams = new ArrayList<>();
+
+			// Simulate streams coming out of the RBMK rod.
+			for (ForgeDirection dir : TileEntityRBMKRod.fluxDirs) {
+				streams.add(new NeutronStream(this, Vec3.createVectorHelper(dir.offsetX, 0, dir.offsetZ)));
+			}
+
+			// Check if the rod should uncache nodes.
 			if (tile instanceof TileEntityRBMKRod && !(tile instanceof TileEntityRBMKRodReaSim)) {
 				TileEntityRBMKRod rod = (TileEntityRBMKRod) tile;
-				if (!rod.hasRod) {
+				if (!rod.hasRod || rod.fluxQuantity == 0) {
 
-					// Simulate streams coming out of the RBMK rod find nodes to uncache.
-
-					for (ForgeDirection dir : TileEntityRBMKRod.fluxDirs) {
-						NeutronStream stream = new NeutronStream(this, Vec3.createVectorHelper(dir.offsetX, 0, dir.offsetZ));
-
-						List<RBMKNode> nodes = stream.getNodes(false);
-						for (RBMKNode nodeToRemove : nodes)
-							list.add(new BlockPos(nodeToRemove.tile));
+					for (NeutronStream stream : streams) {
+						stream.getNodes(false).forEach(node -> list.add(new BlockPos(node.tile)));
 					}
+
 					return list;
 				}
 			}
 
+			if (tile instanceof TileEntityRBMKRodReaSim) { // fuckkkkkkk
+				TileEntityRBMKRodReaSim rod = (TileEntityRBMKRodReaSim) tile;
+				if (!rod.hasRod || rod.fluxQuantity == 0) {
+					list.addAll(getReaSimNodes(rod));
+				}
+			}
+
+			// TODO: implement ReaSim node culling on the non-rod side.
+
+			// Check if non-rod nodes should be uncached due to no rod in range.
+			for (NeutronStream stream : streams) {
+
+				List<RBMKNode> nodes = stream.getNodes(false);
+
+				for (RBMKNode node : nodes) {
+					if (node.tile instanceof TileEntityRBMKRod)
+						return list;
+				}
+
+				// If we get here, then no rods were found along this stream's path!
+				// This, most of the time, means we can just uncache all off the nodes inside the stream's path.
+				// That other part of the time, streams will be crossing paths.
+				// This is fine though, we can just uncache them anyway and the streams later on (next tick) will recache them.
+				nodes.forEach(node -> list.add(new BlockPos(node.tile)));
+			}
+
 			return list;
-			// TODO: Implement `hasRodInRange` for non-rod tile uncaching.
 		}
 	}
 
@@ -160,6 +194,7 @@ public class RBMKHandler {
 			}
 		}
 
+		// USES THE CACHE!!!
 		public List<BlockPos> getBlocks() {
 			List<BlockPos> positions = new ArrayList<>();
 
@@ -173,10 +208,9 @@ public class RBMKHandler {
 			return positions;
 		}
 
-		// This, however, is used for actual RBMK flux calculations.
 		// Does NOT include the origin node
 		// USES THE CACHE!!!
-		public List<RBMKNode> getNodes(boolean cache) {
+		public List<RBMKNode> getNodes(boolean addNode) {
 			List<RBMKNode> positions = new ArrayList<>();
 
 			for (int i = 1; i <= fluxRange; i++) {
@@ -185,7 +219,7 @@ public class RBMKHandler {
 
 				BlockPos pos = new BlockPos(origin.tile).add(x, 0, z);
 
-				if (nodeCache.containsKey(pos) && cache)
+				if (nodeCache.containsKey(pos))
 					positions.add(getNode(pos));
 
 				else if (this.origin.tile.getBlockType() instanceof RBMKBase) {
@@ -194,7 +228,7 @@ public class RBMKHandler {
 						TileEntityRBMKBase rbmkBase = (TileEntityRBMKBase)te;
 						RBMKNode node = makeNode(rbmkBase);
 						positions.add(node);
-						if (cache)
+						if (addNode)
 							addNode(node);
 					}
 				}
@@ -223,7 +257,6 @@ public class RBMKHandler {
 			}
 
 			int moderatedCount = 0;
-			double totalFluxMod = 1;
 
 			for(BlockPos nodePos : getBlocks()) {
 
@@ -262,23 +295,25 @@ public class RBMKHandler {
 				if(!node.hasLid)
 					ChunkRadiationManager.proxy.incrementRad(worldObj, nodePos.getX(), nodePos.getY(), nodePos.getZ(), (float) (this.fluxQuantity * 0.05F));
 
-				if (node.type == RBMKHandler.RBMKType.MODERATOR) {
+				if (node.type == RBMKHandler.RBMKType.MODERATOR || nodeTE.isModerated()) {
 					moderatedCount++;
 					moderateStream();
 				}
 
 				if (nodeTE instanceof IRBMKFluxReceiver) {
 					IRBMKFluxReceiver column = (IRBMKFluxReceiver)nodeTE;
+
 					if (node.type == RBMKHandler.RBMKType.ROD) {
 						TileEntityRBMKRod rod = (TileEntityRBMKRod)column;
+
 						if (rod.hasRod) {
-							if (rod.isModerated())
-								moderateStream();
 							rod.receiveFlux(this);
 							return;
 						}
+
 					} else if(node.type == RBMKType.OUTGASSER) {
 						TileEntityRBMKOutgasser outgasser = ((TileEntityRBMKOutgasser) column);
+
 						if(outgasser.canProcess()) {
 							column.receiveFlux(this);
 							return;
@@ -286,33 +321,34 @@ public class RBMKHandler {
 					}
 
 				} else if (node.type == RBMKHandler.RBMKType.CONTROL_ROD) {
-					TileEntityRBMKControl rod = (TileEntityRBMKControl)nodeTE;
+					TileEntityRBMKControl rod = (TileEntityRBMKControl) nodeTE;
+
 					if (rod.level > 0.0D) {
+
 						this.fluxQuantity *= rod.getMult();
-						totalFluxMod *= rod.getMult();
 						continue;
 					}
 					return;
-				}
+				} else if (node.type == RBMKHandler.RBMKType.REFLECTOR) {
 
-				if (node.type == RBMKHandler.RBMKType.REFLECTOR) {
 					if (this.origin.tile.isModerated())
 						moderatedCount++;
+
 					if (this.fluxRatio > 0 && moderatedCount > 0)
 						for (int i = 0; i < moderatedCount; i++)
 							moderateStream();
-					if (totalFluxMod < 1)
-						this.fluxQuantity *= totalFluxMod;
+
 					if (RBMKHandler.reflectorEfficiency != 1.0D) {
 						this.fluxQuantity *= RBMKHandler.reflectorEfficiency;
 						continue;
 					}
+
 					((TileEntityRBMKRod)originTE).receiveFlux(this);
 					return;
-				}
-				if (node.type == RBMKHandler.RBMKType.ABSORBER) {
+				} else if (node.type == RBMKHandler.RBMKType.ABSORBER) {
 					if (RBMKHandler.absorberEfficiency == 1)
 						return;
+
 					this.fluxQuantity *= RBMKHandler.absorberEfficiency;
 				}
 			}
@@ -398,8 +434,8 @@ public class RBMKHandler {
 
 			// Gamerule caching because this apparently is kinda slow?
 			// meh, good enough
-			reflectorEfficiency = 1; //RBMKDials.getReflectorEfficiency(world.worldObj);
-			absorberEfficiency = 1; //RBMKDials.getAbsorberEfficiency(world.worldObj);
+			reflectorEfficiency = RBMKDials.getReflectorEfficiency(world.getKey());
+			absorberEfficiency = RBMKDials.getAbsorberEfficiency(world.getKey());
 			moderatorEfficiency = RBMKDials.getModeratorEfficiency(world.getKey());
 
 			// I hate this.

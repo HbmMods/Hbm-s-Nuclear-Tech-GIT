@@ -32,6 +32,8 @@ public class RBMKDials {
 	public static final String KEY_ENABLE_MELTDOWN_OVERPRESSURE = "dialEnableMeltdownOverpressure";
 
 	public static final String KEY_MODERATOR_EFFICIENCY = "dialModeratorEfficiency";
+	public static final String KEY_ABSORBER_EFFICIENCY = "dialAbsorberEfficiency";
+	public static final String KEY_REFLECTOR_EFFICIENCY = "dialReflectorEfficiency";
 	
 	public static void createDials(World world) {
 		GameRules rules = world.getGameRules();
@@ -58,6 +60,8 @@ public class RBMKDials {
 			rules.setOrCreateGameRule(KEY_DISABLE_MELTDOWNS, "false");
 			rules.setOrCreateGameRule(KEY_ENABLE_MELTDOWN_OVERPRESSURE, "false");
 			rules.setOrCreateGameRule(KEY_MODERATOR_EFFICIENCY, "1.0");
+			rules.setOrCreateGameRule(KEY_ABSORBER_EFFICIENCY, "1.0");
+			rules.setOrCreateGameRule(KEY_REFLECTOR_EFFICIENCY, "1.0");
 		}
 	}
 	
@@ -234,11 +238,29 @@ public class RBMKDials {
 	}
 
 	/**
-	 * The percentage of neutron to moderate from fast to slow when they pass through a moderator.
+	 * The percentage of neutrons to moderate from fast to slow when they pass through a moderator.
 	 * @param world
 	 * @return
 	 */
 	public static double getModeratorEfficiency(World world) {
+		return MathHelper.clamp_double(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_MODERATOR_EFFICIENCY), 1D), 0.0D, 1.0D);
+	}
+
+	/**
+	 * The percentage of neutrons to be absorbed when a stream hits an absorber column.
+	 * @param world
+	 * @return
+	 */
+	public static double getAbsorberEfficiency(World world) {
+		return MathHelper.clamp_double(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_MODERATOR_EFFICIENCY), 1D), 0.0D, 1.0D);
+	}
+
+	/**
+	 * The percentage of neutron to reflect when a stream hits a reflector column.
+	 * @param world
+	 * @return
+	 */
+	public static double getReflectorEfficiency(World world) {
 		return MathHelper.clamp_double(GameRuleHelper.parseDouble(world.getGameRules().getGameRuleStringValue(KEY_MODERATOR_EFFICIENCY), 1D), 0.0D, 1.0D);
 	}
 }

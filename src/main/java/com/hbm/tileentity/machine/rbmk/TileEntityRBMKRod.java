@@ -137,7 +137,9 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				this.lastFluxQuantity = this.fluxQuantity;
 
 				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
+
 				this.fluxQuantity = 0;
+
 				spreadFlux(fluxQuantityOut, fluxRatioOut);
 
 				hasRod = true;
@@ -177,13 +179,18 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 		BlockPos pos = new BlockPos(this);
 
-		RBMKHandler.RBMKNode node;
+		if (flux == 0) {
+			// simple way to remove the node from the cache when no flux is going into it!
+			removeNode(pos);
+			return;
+		}
 
-		if(getNode(pos) == null) {
+		RBMKHandler.RBMKNode node = getNode(pos);
+
+		if(node == null) {
 			node = RBMKHandler.makeNode(this);
 			addNode(node);
-		} else
-			node = getNode(pos);
+		}
 
 		for(ForgeDirection dir : fluxDirs) {
 
