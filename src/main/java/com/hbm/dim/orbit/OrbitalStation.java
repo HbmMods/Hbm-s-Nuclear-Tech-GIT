@@ -4,6 +4,7 @@ import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystemWorldSavedData;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class OrbitalStation {
@@ -72,6 +73,18 @@ public class OrbitalStation {
 		}
 
 		stateTimer++;
+	}
+
+	public double getProgress(float partialTicks) {
+		if(state != StationState.TRANSFER) return 0;
+		double t = MathHelper.clamp_double(((double)stateTimer + partialTicks) * 0.0025D, 0, 1);
+		return easeInOutCirc(t);
+	}
+
+	private double easeInOutCirc(double t) {
+		return t < 0.5
+			? (1 - Math.sqrt(1 - Math.pow(2 * t, 4))) / 2
+			: (Math.sqrt(1 - Math.pow(-2 * t + 2, 4)) + 1) / 2;
 	}
 
 	// Finds a space station for a given set of coordinates

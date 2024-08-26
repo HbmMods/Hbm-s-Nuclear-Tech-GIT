@@ -15,7 +15,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
 public class SkyProviderOrbit extends SkyProviderCelestial {
@@ -24,6 +23,7 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
 		WorldProviderOrbit provider = (WorldProviderOrbit) world.provider;
 		OrbitalStation station = OrbitalStation.clientStation;
+		double progress = station.getProgress(partialTicks);
 		float orbitalTilt = 80;
 
 		GL11.glDepthMask(false);
@@ -57,6 +57,10 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 			renderDigamma(partialTicks, world, mc, celestialAngle);
 
 			double sunSize = SolarSystem.calculateSunSize(station.orbiting);
+			if(station.state != StationState.ORBIT) {
+				double sunTargetSize = SolarSystem.calculateSunSize(station.target);
+				sunSize = com.hbm.dim.noise.MathHelper.lerp(progress, sunSize, sunTargetSize);
+			}
 			double coronaSize = sunSize * (3 - Library.smoothstep(Math.abs(celestialPhase), 0.7, 0.8));
 
 			renderSun(partialTicks, world, mc, sunSize, coronaSize, 1, 0);
@@ -68,14 +72,11 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 				double altitude = provider.getOrbitalAltitude(station.orbiting);
 				metrics = SolarSystem.calculateMetricsFromSatellite(world, partialTicks, station.orbiting, altitude);
 			} else {
-				double t = MathHelper.clamp_double(((double)station.stateTimer + partialTicks) * 0.0025D, 0, 1);
-				t = easeInOutCirc(t);
-
 				double fromAlt = provider.getOrbitalAltitude(station.orbiting);
 				double toAlt = provider.getOrbitalAltitude(station.target);
-				metrics = SolarSystem.calculateMetricsBetweenSatelliteOrbits(world, partialTicks, station.orbiting, station.target, fromAlt, toAlt, t);
+				metrics = SolarSystem.calculateMetricsBetweenSatelliteOrbits(world, partialTicks, station.orbiting, station.target, fromAlt, toAlt, progress);
 
-				if(t > 0.5) orbiting = station.target;
+				if(progress > 0.5) orbiting = station.target;
 			}
 
 			renderCelestials(partialTicks, world, mc, metrics, celestialAngle, null, Vec3.createVectorHelper(0, 0, 0), 1, 1, orbiting);
@@ -92,11 +93,5 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDepthMask(true);
 	}
-
-	private double easeInOutCirc(double t) {
-		return t < 0.5
-			? (1 - Math.sqrt(1 - Math.pow(2 * t, 4))) / 2
-			: (Math.sqrt(1 - Math.pow(-2 * t + 2, 4)) + 1) / 2;
-		}
 	
 }
