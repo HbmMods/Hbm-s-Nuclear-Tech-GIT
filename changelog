@@ -1,5 +1,9 @@
 ## Changed
 * Changed the multi fluid ID recipe, they now use analog circuits instead of silicon based ones, no longer requiring plastic to make
+* Decreased the connection speed for all battery blocks, a full discharge now takes 30 seconds instead of 1 second, and charging now takes 10 seconds
+  * Capacitors have also been nerfed but they are twice as fast as battery blocks, 5 seconds for charging and 15 seconds for discharging
+* Removed forgotten bricks
+* Updated CMB brick texture
 
 ## Fixed
 * Fixed pumpjack gauges not syncing properly

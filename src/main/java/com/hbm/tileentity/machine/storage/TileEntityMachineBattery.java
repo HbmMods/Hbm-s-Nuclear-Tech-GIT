@@ -235,12 +235,12 @@ public class TileEntityMachineBattery extends TileEntityMachineBase implements I
 
 	@Override public long getProviderSpeed() {
 		int mode = this.getRelevantMode(true);
-		return mode == mode_output || mode == mode_buffer ? this.getMaxPower() / 20 : 0;
+		return mode == mode_output || mode == mode_buffer ? this.getMaxPower() / 600 : 0;
 	}
 	
 	@Override public long getReceiverSpeed() {
 		int mode = this.getRelevantMode(true);
-		return mode == mode_input || mode == mode_buffer ? this.getMaxPower() / 20 : 0;
+		return mode == mode_input || mode == mode_buffer ? this.getMaxPower() / 200 : 0;
 	}
 
 	@Override
