@@ -1,10 +1,12 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import com.hbm.handler.rbmkmk2.RBMKHandler;
+import com.hbm.handler.rbmkmk2.RBMKHandler.RBMKNode;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import net.minecraft.util.Vec3;
+
+import static com.hbm.handler.rbmkmk2.RBMKHandler.*;
 
 public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 	
@@ -20,6 +22,21 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 	@Override
 	public void spreadFlux(double flux, double ratio) {
 
+		BlockPos pos = new BlockPos(this);
+
+		if (flux == 0) {
+			// simple way to remove the node from the cache when no flux is going into it!
+			removeNode(pos);
+			return;
+		}
+
+		RBMKNode node = getNode(pos);
+
+		if(node == null) {
+			node = makeNode(this);
+			addNode(node);
+		}
+
 		int count = RBMKDials.getReaSimCount(worldObj);
 
 		for (int i = 0; i < count; i++) {
@@ -27,7 +44,7 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 
 			neutronVector.rotateAroundY((float)(Math.PI * 2D * worldObj.rand.nextDouble()));
 
-			new RBMKHandler.NeutronStream(RBMKHandler.makeNode(this), neutronVector, flux, ratio);
+			new NeutronStream(makeNode(this), neutronVector, flux, ratio);
 			// Create new neutron streams
 		}
 	}
