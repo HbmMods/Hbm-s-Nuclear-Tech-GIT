@@ -107,6 +107,7 @@ public class RBMKHandler {
 				TileEntityRBMKRodReaSim rod = (TileEntityRBMKRodReaSim) tile;
 				if (!rod.hasRod || rod.fluxQuantity == 0) {
 					list.addAll(getReaSimNodes(rod));
+					return list;
 				}
 			}
 
