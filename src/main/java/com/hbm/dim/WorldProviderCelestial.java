@@ -90,7 +90,12 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 	}
 
 	public void deserialize(ByteBuf buf) {
-		setWorldTime(buf.readLong());
+		long time = buf.readLong();
+
+		// Allow a half second desync for smoothness
+		if(Math.abs(time - getWorldTime()) > 10) {
+			setWorldTime(time);
+		}
 	}
 
 

@@ -10,6 +10,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.CelestialBody;
 import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.CompatHandler;
 import com.hbm.handler.RocketStruct;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerLaunchPadRocket;
@@ -20,6 +21,7 @@ import com.hbm.inventory.gui.GUILaunchPadRocket;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomRocket;
+import com.hbm.items.weapon.ItemMissile;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -27,9 +29,14 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -40,8 +47,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements IControlReceiver, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider {
-	
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements IControlReceiver, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
+
 	public long power;
 	public final long maxPower = 100_000;
 
@@ -110,7 +118,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 					if(canSeeSky) {
 						// Fill in the tower with structure blocks
 						BlockDummyable.safeRem = true;
-						
+
 						int meta = ForgeDirection.UP.ordinal();
 
 						// Build tower
@@ -121,7 +129,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 								worldObj.setBlock(xCoord - rot.offsetX * 2 - dir.offsetX * 4, yCoord + oy, zCoord - rot.offsetZ * 2 - dir.offsetZ * 4, ModBlocks.launch_pad_rocket, meta, 3);
 								worldObj.setBlock(xCoord - rot.offsetX * 2 - dir.offsetX * 5, yCoord + oy, zCoord - rot.offsetZ * 2 - dir.offsetZ * 5, ModBlocks.launch_pad_rocket, meta, 3);
 								worldObj.setBlock(xCoord - rot.offsetX * 2 - dir.offsetX * 6, yCoord + oy, zCoord - rot.offsetZ * 2 - dir.offsetZ * 6, ModBlocks.launch_pad_rocket, meta, 3);
-								
+
 								worldObj.setBlock(xCoord - rot.offsetX * 3 - dir.offsetX * 4, yCoord + oy, zCoord - rot.offsetZ * 3 - dir.offsetZ * 4, ModBlocks.launch_pad_rocket, meta, 3);
 								worldObj.setBlock(xCoord - rot.offsetX * 4 - dir.offsetX * 4, yCoord + oy, zCoord - rot.offsetZ * 4 - dir.offsetZ * 4, ModBlocks.launch_pad_rocket, meta, 3);
 
@@ -194,7 +202,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 							worldObj.setBlock(xCoord + rot.offsetX * 1 - dir.offsetX * 5, yCoord + newHeight + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 5, ModBlocks.launch_pad_rocket, rot.ordinal(), 3);
 							worldObj.setBlock(xCoord + rot.offsetX * 1 - dir.offsetX * 6, yCoord + newHeight + 2, zCoord + rot.offsetZ * 1 - dir.offsetZ * 6, ModBlocks.launch_pad_rocket, rot.ordinal(), 3);
 						}
-	
+
 						BlockDummyable.safeRem = false;
 					}
 
@@ -231,7 +239,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 	}
 
 	private DirPos[] conPos;
-	
+
 	public DirPos[] getConPos() {
 		if(conPos == null) {
 			conPos = new DirPos[13]; // 12 + 1 inputs
@@ -263,7 +271,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		solidFuel = maxSolidFuel = 0;
 
 		power -= maxPower * 0.75;
-		
+
 		slots[0] = null;
 		slots[1] = null;
 	}
@@ -346,7 +354,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		List<String> issues = new ArrayList<String>();
 
 		if(!hasRocket()) return issues;
-		
+
 		// Check that the rocket is fully fueled and capable of leaving our starting planet
 		RocketStruct rocket = ItemCustomRocket.get(slots[0]);
 
@@ -482,6 +490,131 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		}
 	}
 
+	// yo i was promised some crazy things if i did this so here you go
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_rocket_pad";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
+	}
+
+	@Callback(direct = true) // this doesn't return a set amount of tanks sadly.
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFuel(Context context, Arguments args) {
+		List<Object[]> returnValues = new ArrayList<>();
+		for (FluidTank tank : tanks) {
+			if(tank.getTankType() != Fluids.NONE) {
+				returnValues.add(new Object[] {
+						tank.getFill(),
+						tank.getMaxFill(),
+						tank.getTankType().getName()
+				});
+			}
+		}
+		/* the return format should look something like the following:
+			{{tank_1_fill, tank_1_max, tank_1_type},
+			{tank_2_fill, tank_2_max, tank_2_type}}
+		 */
+		return returnValues.toArray();
+	}
+
+	@Callback(direct = true) // this doesn't return a set amount of tanks sadly
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getSolidFuel(Context context, Arguments args) {
+		return new Object[] {solidFuel, maxSolidFuel};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] canLaunch(Context context, Arguments args) {
+		return new Object[] {canLaunch()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getRocketStats(Context context, Arguments args) {
+		if(hasRocket()) {
+			return new Object[] {
+					rocket.stages.size(),
+					rocket.getLaunchMass(),
+					rocket.getHeight()
+			};
+		}
+		return new Object[] {null, ""};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] launch(Context context, Arguments args) {
+		// doesn't really "launch" it per-say, just spawns the rocket, so I guess this works
+		launch();
+		// update: it so worked!
+		return new Object[] {};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getDestination(Context context, Arguments args) {
+		if(hasDrive()) { // ok maybe I should actually check if there's an item there first
+			return new Object[] {null, "No destination drive."};
+		}
+		CelestialBody destination = ItemVOTVdrive.getDestination(slots[1]).body.getBody();
+		if(destination != null) {
+			return new Object[] {destination.name.toLowerCase()};
+		}
+		return new Object[] {null, "Drive has no destination."};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public boolean canConnectNode(ForgeDirection side) {
+		// Get direction of ports.
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		// Only connect if port is facing outwards, mainly to prevent component clutter with the ports connecting to eachother.
+		return side == dir;
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+				"getEnergyInfo",
+				"getFuel",
+				"getSolidFuel",
+				"canLaunch",
+				"getRocketStats",
+				"getDestination",
+				"launch"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case ("getEnergyInfo"):
+				return getEnergyInfo(context, args);
+			case ("getFuel"):
+				return getFuel(context, args);
+			case ("getSolidFuel"):
+				return getSolidFuel(context, args);
+			case ("canLaunch"):
+				return canLaunch(context, args);
+			case ("getRocketStats"):
+				return getRocketStats(context, args);
+			case ("getDestination"):
+				return getDestination(context, args);
+			case ("launch"):
+				return launch(context, args);
+		}
+		throw new NoSuchMethodException();
+	}
+
 	@Override public long getPower() { return power; }
 	@Override public void setPower(long power) { this.power = power; }
 	@Override public long getMaxPower() { return maxPower; }
@@ -498,7 +631,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUILaunchPadRocket(player.inventory, this);
 	}
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return INFINITE_EXTENT_AABB; // hi martin ;)
@@ -512,11 +645,11 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 1024;
 		}
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
-	
+
 }
