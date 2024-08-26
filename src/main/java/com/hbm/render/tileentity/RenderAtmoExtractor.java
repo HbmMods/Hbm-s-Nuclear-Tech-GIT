@@ -8,7 +8,7 @@ import com.hbm.tileentity.machine.TileEntityAtmoExtractor;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
-public class RenderAtmoVent extends TileEntitySpecialRenderer {
+public class RenderAtmoExtractor extends TileEntitySpecialRenderer {
 	
 	@Override
 	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
@@ -46,7 +46,7 @@ public class RenderAtmoVent extends TileEntitySpecialRenderer {
 		float rot = atmo.prevRot + (atmo.rot - atmo.prevRot) * f;
 		//this somehow fucking works
 		GL11.glTranslated(-0.19, 0, 0.19);
-		GL11.glRotated(rot, 0, -0.5, 0);
+		GL11.glRotated(rot, 0, -1, 0);
 		GL11.glTranslated(0.19, 0, -0.19);
 		ResourceManager.atmo_vent.renderPart("Fan_Cylinder.001");
 

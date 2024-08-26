@@ -3,21 +3,24 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.blocks.BlockDummyable;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
-
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Gaseous;
-import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.fluid.IFluidStandardSender;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardSender {
@@ -25,9 +28,10 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IE
 	int consumption = 200;
 	public float rot;
 	public float prevRot;
+	private float rotSpeed;
 	public long power = 0;
 	public FluidTank tank;
-	public List<IFluidStandardReceiver> list = new ArrayList();
+	public List<IFluidStandardReceiver> list = new ArrayList<>();
 
 	public TileEntityAtmoExtractor() {
 		super(0);
@@ -66,30 +70,48 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IE
 
 			markDirty();
 			
-			this.sendFluidToAll(tank, this);
+			this.networkPackNT(50);
+		} else {
+			float maxSpeed = 30F;
 			
-
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			tank.writeToNBT(data, "t0");
+			if(hasPower()) {
+				rotSpeed += 0.2;
+				if(rotSpeed > maxSpeed) rotSpeed = maxSpeed;
+			} else {
+				rotSpeed -= 0.1;
+				if(rotSpeed < 0) rotSpeed = 0;
+			}
 			
-			this.networkPack(data, 50);
+			prevRot = rot;
+			
+			rot += rotSpeed;
+			
+			if(rot >= 360) {
+				rot -= 360;
+				prevRot -= 360;
+			}
 		}
 	}
-	
-
-
-
 
 	protected void updateConnections() {
-		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+		for(DirPos pos : getConPos()) {
+			trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			sendFluid(tank, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+		}
 	}
 
-	public void networkUnpack(NBTTagCompound data) {
-		this.power = data.getLong("power");
-		tank.readFromNBT(data, "t0");
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		tank.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		tank.deserialize(buf);
 	}
 
 	public boolean hasPower() {
@@ -124,7 +146,7 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IE
 
 	@Override
 	public long getMaxPower() {
-		return 10000;
+		return 1000000;
 	}
 
 	@Override
@@ -132,13 +154,52 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IE
 		return new FluidTank[] { tank };
 	}
 
-	//@Override
-	//public FluidTank[] getReceivingTanks() {
-	//	return new FluidTank[] { tanks };
-	//}
-
 	@Override
 	public FluidTank[] getAllTanks() {
 		return new FluidTank[] { tank };
 	}
+	
+	private DirPos[] getConPos() {
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+
+		return new DirPos[] {
+				new DirPos(this.xCoord - dir.offsetX * 2, this.yCoord, this.zCoord - dir.offsetZ * 2, dir.getOpposite()),
+				new DirPos(this.xCoord - dir.offsetX * 2 + rot.offsetX, this.yCoord, this.zCoord - dir.offsetZ * 2 + rot.offsetZ, dir.getOpposite()),
+				
+				new DirPos(this.xCoord + dir.offsetX, this.yCoord, this.zCoord + dir.offsetZ, dir),
+				new DirPos(this.xCoord + dir.offsetX + rot.offsetX, this.yCoord, this.zCoord + dir.offsetZ  + rot.offsetZ, dir),
+				
+				new DirPos(this.xCoord - rot.offsetX, this.yCoord, this.zCoord - rot.offsetZ, rot.getOpposite()),
+				new DirPos(this.xCoord - dir.offsetX - rot.offsetX, this.yCoord, this.zCoord - dir.offsetZ - rot.offsetZ, rot.getOpposite()),
+				
+				new DirPos(this.xCoord + rot.offsetX * 2, this.yCoord, this.zCoord + rot.offsetZ * 2, rot),
+				new DirPos(this.xCoord - dir.offsetX + rot.offsetX * 2, this.yCoord, this.zCoord - dir.offsetZ + rot.offsetZ * 2, rot),
+		};
+	}
+
+	AxisAlignedBB bb = null;
+
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+				xCoord - 1,
+				yCoord,
+				zCoord - 1,
+				xCoord + 2,
+				yCoord + 10,
+				zCoord + 2
+			);
+		}
+
+		return bb;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
+
 }
