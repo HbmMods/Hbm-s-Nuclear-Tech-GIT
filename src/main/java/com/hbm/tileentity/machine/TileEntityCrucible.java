@@ -270,12 +270,16 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 
 		int[] rec = nbt.getIntArray("rec");
 		for(int i = 0; i < rec.length / 2; i++) {
-			recipeStack.add(new MaterialStack(Mats.matById.get(rec[i * 2]), rec[i * 2 + 1]));
+			NTMMaterial mat = Mats.matById.get(rec[i * 2]);
+			if(mat == null) continue;
+			recipeStack.add(new MaterialStack(mat, rec[i * 2 + 1]));
 		}
 		
 		int[] was = nbt.getIntArray("was");
 		for(int i = 0; i < was.length / 2; i++) {
-			wasteStack.add(new MaterialStack(Mats.matById.get(was[i * 2]), was[i * 2 + 1]));
+			NTMMaterial mat = Mats.matById.get(was[i * 2]);
+			if(mat == null) continue;
+			wasteStack.add(new MaterialStack(mat, was[i * 2 + 1]));
 		}
 		
 		this.progress = nbt.getInteger("progress");
