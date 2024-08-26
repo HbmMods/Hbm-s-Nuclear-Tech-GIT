@@ -22,12 +22,11 @@ import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityAirPump extends TileEntityMachineBase implements IFluidStandardReceiver, IAtmosphereProvider, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityAirPump extends TileEntityMachineBase implements IFluidStandardReceiver, IAtmosphereProvider, CompatHandler.OCComponent {
 
 	private int onTicks = 0;
 	private boolean registered = false;
@@ -44,6 +43,8 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 
 	// Used for synchronizing printable info
 	public CBT_Atmosphere currentAtmosphere;
+
+	private TileEntityAirScrubber scrubber;
 
 	public TileEntityAirPump() {
 		super(1);
@@ -89,7 +90,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 						registered = true;
 
 						if(blobFillAmount > 1) {
-							recovering = 20;
+							recovering = 100;
 						}
 					} else if(recovering > 0) {
 						recovering--;
@@ -112,6 +113,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 									tank.setFill(tank.getFill() - toFill);
 								} else if(rand.nextBoolean()) {
 									tank.setFill(tank.getFill() - 1);
+									scrub(1);
 								}
 							} else {
 								currentBlob = null;
@@ -294,6 +296,21 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	public void consume(int amount) {
 		blobFillAmount -= amount;
 		if(blobFillAmount < 1) blobFillAmount = 1;
+		scrub(amount);
+	}
+
+	public boolean registerScrubber(TileEntityAirScrubber scrubber) {
+		if(!this.isLoaded || this.isInvalid()) return false;
+		if(this.scrubber == scrubber) return true;
+		if(this.scrubber != null && this.scrubber.isLoaded && !this.scrubber.isInvalid()) return false;
+		this.scrubber = scrubber;
+		return true;
+	}
+
+	private void scrub(int amount) {
+		if(scrubber != null && scrubber.isLoaded && !scrubber.isInvalid()) {
+			scrubber.scrub(amount);
+		}
 	}
 
 }

@@ -229,7 +229,10 @@ public class TileMappings {
 
 		put(TileEntityRandomOre.class, "tileentity_mother_of_all_ores");
 		put(TileEntityBedrockOre.class, "tileentity_bedrock_ore");
+
 		put(TileEntityAirPump.class, "tileentity_air_vent");
+		put(TileEntityAirScrubber.class, "tileentity_air_scrubber");
+		put(TileEntityAlgaeFilm.class, "tileentity_algae_film");
 
 		put(TileEntityBlockPWR.class, "tileentity_block_pwr");
 		put(TileEntityPWRController.class, "tileentity_pwr_controller");

@@ -192,6 +192,7 @@ atmosphere.noSeal=ROOM UNSEALED
 atmosphere.noTank=EMPTY TANK
 atmosphere.vacuum=Near Vacuum
 atmosphere.noAir=REQUIRES VACUUM
+atmosphere.noGravity=REQUIRES ZERO-G
 
 battery.mode.buffer=Input/Output Mode
 battery.mode.input=Input Mode

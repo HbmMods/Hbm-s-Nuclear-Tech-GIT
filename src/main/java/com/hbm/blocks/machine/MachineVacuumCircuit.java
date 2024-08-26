@@ -5,10 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
-import com.hbm.dim.trait.CBT_Atmosphere;
-import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.tileentity.TileEntityProxyCombo;
-import com.hbm.tileentity.machine.TileEntityAirPump;
 import com.hbm.tileentity.machine.TileEntityMachineVacuumCircuit;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
@@ -16,7 +13,6 @@ import com.hbm.util.I18nUtil;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
