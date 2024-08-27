@@ -2465,7 +2465,7 @@ public class ModBlocks {
 	
 		air_vent = new BlockAirPump(Material.iron).setBlockName("air_vent").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
 		air_scrubber = new BlockAirScrubber(Material.iron).setBlockName("air_scrubber").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
-		algae_film = new BlockAlgaeFilm(Material.iron).setBlockName("algae_film").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel_machine");
+		algae_film = new BlockAlgaeFilm(Material.iron).setBlockName("algae_film").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":algae_film");
 		
 		gas_radon = new BlockGasRadon().setBlockName("gas_radon").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_radon");
 		gas_radon_dense = new BlockGasRadonDense().setBlockName("gas_radon_dense").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":gas_radon_dense");
@@ -3775,8 +3775,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(gas_explosive, gas_explosive.getUnlocalizedName());
 		GameRegistry.registerBlock(vacuum, vacuum.getUnlocalizedName());
 		GameRegistry.registerBlock(air_vent, air_vent.getUnlocalizedName());
-		GameRegistry.registerBlock(air_scrubber, air_scrubber.getUnlocalizedName());
-		GameRegistry.registerBlock(algae_film, algae_film.getUnlocalizedName());
+		register(air_scrubber);
+		register(algae_film);
 		
 		//???
 		GameRegistry.registerBlock(crystal_virus, crystal_virus.getUnlocalizedName());

@@ -39,7 +39,10 @@ public class TileEntityAlgaeFilm extends TileEntityMachineBase implements IFluid
 				}
 			}
 
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+			ForgeDirection d = ForgeDirection.getOrientation(this.getBlockMetadata()).getRotation(ForgeDirection.UP);
+			ForgeDirection[] dirs = new ForgeDirection[] { d, d.getOpposite() };
+
+			for(ForgeDirection dir : dirs) {
 				trySubscribe(tanks[0].getTankType(), worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 				sendFluid(tanks[1], worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			}

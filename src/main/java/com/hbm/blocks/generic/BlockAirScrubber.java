@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.handler.atmosphere.IBlockSealable;
 import com.hbm.tileentity.machine.TileEntityAirScrubber;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class BlockAirScrubber extends BlockContainer implements ILookOverlay, IBlockSealable {
+public class BlockAirScrubber extends BlockContainer implements ILookOverlay, IBlockSealable, ITooltipProvider {
 
 	public BlockAirScrubber(Material mat) {
 		super(mat);
@@ -45,6 +48,12 @@ public class BlockAirScrubber extends BlockContainer implements ILookOverlay, IB
 		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + scrubber.tank.getTankType().getLocalizedName() + ": " + scrubber.tank.getFill() + "/" + scrubber.tank.getMaxFill() + "mB");
 	
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		addStandardInfo(stack, player, list, ext);
 	}
 	
 }
