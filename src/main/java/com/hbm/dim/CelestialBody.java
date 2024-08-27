@@ -379,10 +379,6 @@ public class CelestialBody {
 		return getBody(world).getRotationalPeriod();
 	}
 
-	public static float getSemiMajorAxis(World world) {
-		return getBody(world).semiMajorAxisKm;
-	}
-
 	public static boolean hasTrait(World world, Class<? extends CelestialBodyTrait> trait) {
 		return getBody(world).hasTrait(trait);
 	}

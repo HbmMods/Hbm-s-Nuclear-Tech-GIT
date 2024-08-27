@@ -24,6 +24,7 @@ import com.hbm.lib.RefStrings;
 import com.hbm.render.shader.Shader;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
+import com.hbm.util.BobMathUtil;
 
 public class SkyProviderCelestial extends IRenderHandler {
 	
@@ -149,9 +150,9 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 		if(fogIntensity > 0.01F) {
 			Vec3 fogColor = world.getFogColor(partialTicks);
-			planetR = (float)com.hbm.dim.noise.MathHelper.clampedLerp(skyR, fogColor.xCoord, fogIntensity);
-			planetG = (float)com.hbm.dim.noise.MathHelper.clampedLerp(skyG, fogColor.yCoord, fogIntensity);
-			planetB = (float)com.hbm.dim.noise.MathHelper.clampedLerp(skyB, fogColor.zCoord, fogIntensity);
+			planetR = (float)BobMathUtil.clampedLerp(skyR, fogColor.xCoord, fogIntensity);
+			planetG = (float)BobMathUtil.clampedLerp(skyG, fogColor.yCoord, fogIntensity);
+			planetB = (float)BobMathUtil.clampedLerp(skyB, fogColor.zCoord, fogIntensity);
 		}
 
 		Vec3 planetTint = Vec3.createVectorHelper(planetR, planetG, planetB);

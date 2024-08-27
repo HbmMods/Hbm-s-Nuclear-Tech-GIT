@@ -10,6 +10,7 @@ import com.hbm.dim.SolarSystem;
 import com.hbm.dim.SolarSystem.AstroMetric;
 import com.hbm.dim.orbit.OrbitalStation.StationState;
 import com.hbm.lib.Library;
+import com.hbm.util.BobMathUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -40,7 +41,7 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 		float celestialAngle = world.getCelestialAngle(partialTicks);
 		float celestialPhase = (1 - (celestialAngle + 0.5F) % 1) * 2 - 1;
 
-		float starBrightness = (float)Library.smoothstep(Math.abs(celestialPhase), 0.6, 0.75);
+		float starBrightness = world.getStarBrightness(partialTicks);
 
 		renderStars(partialTicks, world, mc, starBrightness, celestialAngle, orbitalTilt);
 
@@ -59,7 +60,7 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 			double sunSize = SolarSystem.calculateSunSize(station.orbiting);
 			if(station.state != StationState.ORBIT) {
 				double sunTargetSize = SolarSystem.calculateSunSize(station.target);
-				sunSize = com.hbm.dim.noise.MathHelper.lerp(progress, sunSize, sunTargetSize);
+				sunSize = BobMathUtil.lerp(progress, sunSize, sunTargetSize);
 			}
 			double coronaSize = sunSize * (3 - Library.smoothstep(Math.abs(celestialPhase), 0.7, 0.8));
 

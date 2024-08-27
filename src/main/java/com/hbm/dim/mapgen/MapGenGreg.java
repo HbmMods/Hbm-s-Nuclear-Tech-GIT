@@ -1,6 +1,7 @@
 package com.hbm.dim.mapgen;
 
 import com.hbm.dim.noise.NoiseCaveGenerator;
+import com.hbm.util.BobMathUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
@@ -225,7 +226,7 @@ public class MapGenGreg extends MapGenCaves {
 					double caveNoise = this.noiseCaves.sample(noise, y * 8, chunkZ * 16 + (z * 4), chunkX * 16 + (x * 4));
 
 					// Reduce so we don't break the surface
-					caveNoise = com.hbm.dim.noise.MathHelper.clampedLerp(caveNoise, (lowestScaledDepth * -30) + 20, (y - sub + 2) / 2.0);
+					caveNoise = BobMathUtil.clampedLerp(caveNoise, (lowestScaledDepth * -30) + 20, (y - sub + 2) / 2.0);
 
 					this.caveNoise[i] = caveNoise;
 					i++;

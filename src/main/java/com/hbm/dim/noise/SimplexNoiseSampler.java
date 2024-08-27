@@ -2,6 +2,8 @@ package com.hbm.dim.noise;
 
 import java.util.Random;
 
+import com.hbm.util.BobMathUtil;
+
 public class SimplexNoiseSampler {
 	protected static final int[][] GRADIENTS = new int[][]{{1, 1, 0}, {-1, 1, 0}, {1, -1, 0}, {-1, -1, 0}, {1, 0, 1}, {-1, 0, 1}, {1, 0, -1}, {-1, 0, -1}, {0, 1, 1}, {0, -1, 1}, {0, 1, -1}, {0, -1, -1}, {1, 1, 0}, {0, -1, 1}, {-1, 1, 0}, {0, -1, -1}};
 	private static final double SQRT_3 = Math.sqrt(3.0D);
@@ -53,8 +55,8 @@ public class SimplexNoiseSampler {
 
 	public double sample(double x, double y) {
 		double d = (x + y) * SKEW_FACTOR_2D;
-		int i = MathHelper.floor(x + d);
-		int j = MathHelper.floor(y + d);
+		int i = BobMathUtil.floor(x + d);
+		int j = BobMathUtil.floor(y + d);
 		double e = (double)(i + j) * UNSKEW_FACTOR_2D;
 		double f = (double)i - e;
 		double g = (double)j - e;
@@ -87,9 +89,9 @@ public class SimplexNoiseSampler {
 
 	public double sample(double x, double y, double z) {
 		double e = (x + y + z) * 0.3333333333333333D;
-		int i = MathHelper.floor(x + e);
-		int j = MathHelper.floor(y + e);
-		int k = MathHelper.floor(z + e);
+		int i = BobMathUtil.floor(x + e);
+		int j = BobMathUtil.floor(y + e);
+		int k = BobMathUtil.floor(z + e);
 		double g = (double)(i + j + k) * 0.16666666666666666D;
 		double h = (double)i - g;
 		double l = (double)j - g;

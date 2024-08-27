@@ -6,6 +6,7 @@ import com.hbm.dim.SolarSystem;
 import com.hbm.dim.trait.CelestialBodyTrait.CBT_Destroyed;
 import com.hbm.lib.Library;
 import com.hbm.util.AstronomyUtil;
+import com.hbm.util.BobMathUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,6 +32,15 @@ public class WorldProviderOrbit extends WorldProvider {
 	// r = ∛[(G x Me x T2) / (4π2)]
 	private float getAltitudeForPeriod(float massKg, float period) {
 		return (float)Math.cbrt((AstronomyUtil.GRAVITATIONAL_CONSTANT * massKg * (period * period)) / (4 * Math.PI * Math.PI));
+	}
+
+	public float getSunPower() {
+		double progress = OrbitalStation.clientStation.getProgress(0);
+		float sunPower = OrbitalStation.clientStation.orbiting.getSunPower();
+		if(progress > 0) {
+			return (float)BobMathUtil.lerp(progress, sunPower, OrbitalStation.clientStation.target.getSunPower());
+		}
+		return sunPower;
 	}
 
 	@Override
@@ -74,15 +84,23 @@ public class WorldProviderOrbit extends WorldProvider {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float getStarBrightness(float par1) {
-		// Stars become visible during the day beyond the orbit of Duna
-		// And are fully visible during the day beyond the orbit of Jool
-		float distanceStart = 20_000_000;
-		float distanceEnd = 80_000_000;
+		// Stars look cool in orbit, but obvs at Moho we don't want the big fuckoff sun to not extinguish
+		// Stars become visible during the day part of orbit just before Earth
+		// And are fully visible during the day beyond the orbit of Duna
+		float distanceStart = 9_000_000;
+		float distanceEnd = 30_000_000;
 
-		float semiMajorAxisKm = OrbitalStation.clientStation.orbiting.semiMajorAxisKm;
+		double progress = OrbitalStation.clientStation.getProgress(par1);
+		float semiMajorAxisKm = OrbitalStation.clientStation.orbiting.getPlanet().semiMajorAxisKm;
+		if(progress > 0) {
+			semiMajorAxisKm = (float)BobMathUtil.lerp(progress, semiMajorAxisKm, OrbitalStation.clientStation.target.getPlanet().semiMajorAxisKm);
+		}
+
 		float distanceFactor = MathHelper.clamp_float((semiMajorAxisKm - distanceStart) / (distanceEnd - distanceStart), 0F, 1F);
 
-		float starBrightness = super.getStarBrightness(par1);
+		float celestialAngle = worldObj.getCelestialAngle(par1);
+		float celestialPhase = (1 - (celestialAngle + 0.5F) % 1) * 2 - 1;
+		float starBrightness = (float)Library.smoothstep(Math.abs(celestialPhase), 0.6, 0.75);
 
 		return MathHelper.clamp_float(starBrightness, distanceFactor, 1F);
 	}
@@ -128,7 +146,14 @@ public class WorldProviderOrbit extends WorldProvider {
 
 	@Override
 	public float calculateCelestialAngle(long worldTime, float partialTicks) {
-		return 0.5F - ((float)SolarSystem.calculateSingleAngle(worldObj, partialTicks, OrbitalStation.clientStation.orbiting, getOrbitalAltitude(OrbitalStation.clientStation.orbiting)) / 360.0F);
+		CelestialBody orbiting = OrbitalStation.clientStation.orbiting;
+		CelestialBody target = OrbitalStation.clientStation.target;
+		double progress = OrbitalStation.clientStation.getProgress(partialTicks);
+		float angle = (float)SolarSystem.calculateSingleAngle(worldObj, partialTicks, orbiting, getOrbitalAltitude(orbiting));
+		if(progress > 0) {
+			angle = (float)BobMathUtil.lerp(progress, angle, (float)SolarSystem.calculateSingleAngle(worldObj, partialTicks, target, getOrbitalAltitude(target)));
+		}
+		return 0.5F - (angle / 360.0F);
 	}
 	
 }

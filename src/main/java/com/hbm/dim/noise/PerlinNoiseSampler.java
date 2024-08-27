@@ -2,6 +2,8 @@ package com.hbm.dim.noise;
 
 import java.util.Random;
 
+import com.hbm.util.BobMathUtil;
+
 public final class PerlinNoiseSampler {
 
 	private final byte[] permutations;
@@ -38,9 +40,9 @@ public final class PerlinNoiseSampler {
 		double d = x + this.originX;
 		double e = y + this.originY;
 		double f = z + this.originZ;
-		int i = MathHelper.floor(d);
-		int j = MathHelper.floor(e);
-		int k = MathHelper.floor(f);
+		int i = BobMathUtil.floor(d);
+		int j = BobMathUtil.floor(e);
+		int k = BobMathUtil.floor(f);
 		double g = d - (double)i;
 		double h = e - (double)j;
 		double l = f - (double)k;
@@ -53,7 +55,7 @@ public final class PerlinNoiseSampler {
 				n = h;
 			}
 
-			p = (double)MathHelper.floor(n / yScale + 1.0000000116860974E-7D) * yScale;
+			p = (double)BobMathUtil.floor(n / yScale + 1.0000000116860974E-7D) * yScale;
 		} else {
 			p = 0.0D;
 		}
@@ -65,9 +67,9 @@ public final class PerlinNoiseSampler {
 		double d = x + this.originX;
 		double e = y + this.originY;
 		double f = z + this.originZ;
-		int i = MathHelper.floor(d);
-		int j = MathHelper.floor(e);
-		int k = MathHelper.floor(f);
+		int i = BobMathUtil.floor(d);
+		int j = BobMathUtil.floor(e);
+		int k = BobMathUtil.floor(f);
 		double g = d - (double)i;
 		double h = e - (double)j;
 		double l = f - (double)k;
@@ -97,10 +99,10 @@ public final class PerlinNoiseSampler {
 		double o = grad(this.getGradient(m + sectionZ + 1), localX - 1.0D, localY, localZ - 1.0D);
 		double p = grad(this.getGradient(l + sectionZ + 1), localX, localY - 1.0D, localZ - 1.0D);
 		double q = grad(this.getGradient(n + sectionZ + 1), localX - 1.0D, localY - 1.0D, localZ - 1.0D);
-		double r = MathHelper.perlinFade(localX);
-		double s = MathHelper.perlinFade(fadeLocalX);
-		double t = MathHelper.perlinFade(localZ);
-		return MathHelper.lerp3(r, s, t, d, e, f, g, h, o, p, q);
+		double r = BobMathUtil.perlinFade(localX);
+		double s = BobMathUtil.perlinFade(fadeLocalX);
+		double t = BobMathUtil.perlinFade(localZ);
+		return BobMathUtil.lerp3(r, s, t, d, e, f, g, h, o, p, q);
 	}
 
 	private double sampleDerivative(int sectionX, int sectionY, int sectionZ, double localX, double localY, double localZ, double[] ds) {
@@ -134,24 +136,24 @@ public final class PerlinNoiseSampler {
 		double w = SimplexNoiseSampler.dot(ns, localX - 1.0D, localY, localZ - 1.0D);
 		double x = SimplexNoiseSampler.dot(os, localX, localY - 1.0D, localZ - 1.0D);
 		double y = SimplexNoiseSampler.dot(ps, localX - 1.0D, localY - 1.0D, localZ - 1.0D);
-		double z = MathHelper.perlinFade(localX);
-		double aa = MathHelper.perlinFade(localY);
-		double ab = MathHelper.perlinFade(localZ);
-		double ac = MathHelper.lerp3(z, aa, ab, (double)is[0], (double)js[0], (double)ks[0], (double)ls[0], (double)ms[0], (double)ns[0], (double)os[0], (double)ps[0]);
-		double ad = MathHelper.lerp3(z, aa, ab, (double)is[1], (double)js[1], (double)ks[1], (double)ls[1], (double)ms[1], (double)ns[1], (double)os[1], (double)ps[1]);
-		double ae = MathHelper.lerp3(z, aa, ab, (double)is[2], (double)js[2], (double)ks[2], (double)ls[2], (double)ms[2], (double)ns[2], (double)os[2], (double)ps[2]);
-		double af = MathHelper.lerp2(aa, ab, e - d, g - f, w - h, y - x);
-		double ag = MathHelper.lerp2(ab, z, f - d, x - h, g - e, y - w);
-		double ah = MathHelper.lerp2(z, aa, h - d, w - e, x - f, y - g);
-		double ai = MathHelper.perlinFadeDerivative(localX);
-		double aj = MathHelper.perlinFadeDerivative(localY);
-		double ak = MathHelper.perlinFadeDerivative(localZ);
+		double z = BobMathUtil.perlinFade(localX);
+		double aa = BobMathUtil.perlinFade(localY);
+		double ab = BobMathUtil.perlinFade(localZ);
+		double ac = BobMathUtil.lerp3(z, aa, ab, (double)is[0], (double)js[0], (double)ks[0], (double)ls[0], (double)ms[0], (double)ns[0], (double)os[0], (double)ps[0]);
+		double ad = BobMathUtil.lerp3(z, aa, ab, (double)is[1], (double)js[1], (double)ks[1], (double)ls[1], (double)ms[1], (double)ns[1], (double)os[1], (double)ps[1]);
+		double ae = BobMathUtil.lerp3(z, aa, ab, (double)is[2], (double)js[2], (double)ks[2], (double)ls[2], (double)ms[2], (double)ns[2], (double)os[2], (double)ps[2]);
+		double af = BobMathUtil.lerp2(aa, ab, e - d, g - f, w - h, y - x);
+		double ag = BobMathUtil.lerp2(ab, z, f - d, x - h, g - e, y - w);
+		double ah = BobMathUtil.lerp2(z, aa, h - d, w - e, x - f, y - g);
+		double ai = BobMathUtil.perlinFadeDerivative(localX);
+		double aj = BobMathUtil.perlinFadeDerivative(localY);
+		double ak = BobMathUtil.perlinFadeDerivative(localZ);
 		double al = ac + ai * af;
 		double am = ad + aj * ag;
 		double an = ae + ak * ah;
 		ds[0] += al;
 		ds[1] += am;
 		ds[2] += an;
-		return MathHelper.lerp3(z, aa, ab, d, e, f, g, h, w, x, y);
+		return BobMathUtil.lerp3(z, aa, ab, d, e, f, g, h, w, x, y);
 	}
 }

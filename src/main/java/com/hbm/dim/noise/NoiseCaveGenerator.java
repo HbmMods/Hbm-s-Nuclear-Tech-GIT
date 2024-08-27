@@ -2,6 +2,8 @@ package com.hbm.dim.noise;
 
 import java.util.Random;
 
+import com.hbm.util.BobMathUtil;
+
 public final class NoiseCaveGenerator {
 
 	private final DoublePerlinNoiseSampler terrainAdditionNoise;
@@ -48,9 +50,9 @@ public final class NoiseCaveGenerator {
 		} else {
 			double caveDensity = this.caveDensityNoise.sample((double) x, (double) y / 1.5D, (double) z);
 
-			double scaledCaveDensity = MathHelper.clamp(caveDensity + 0.25D, -1.0D, 1.0D);
+			double scaledCaveDensity = BobMathUtil.clamp(caveDensity + 0.25D, -1.0D, 1.0D);
 			double yScale = (float)(30 - y) / 8.0F;
-			double caveOffset = scaledCaveDensity + MathHelper.clampedLerp(0.5D, 0.0D, yScale);
+			double caveOffset = scaledCaveDensity + BobMathUtil.clampedLerp(0.5D, 0.0D, yScale);
 
 			double terrainAddition = this.getTerrainAdditionNoise(x, y, z);
 			double caveNoise = this.getCaveNoise(x, y, z);
@@ -59,7 +61,7 @@ public final class NoiseCaveGenerator {
 			double smallerNoise = Math.min(offset, Math.min(tunnel, caveNoise) + tunnelOffset);
 			double finalNoise = Math.max(smallerNoise, this.getPillarNoise(x, y, z));
 
-			return 128.0D * MathHelper.clamp(finalNoise, -1.0D, 1.0D);
+			return 128.0D * BobMathUtil.clamp(finalNoise, -1.0D, 1.0D);
 		}
 	}
 
@@ -123,7 +125,7 @@ public final class NoiseCaveGenerator {
 	}
 
 	private static double clamp(double value) {
-		return MathHelper.clamp(value, -1.0D, 1.0D);
+		return BobMathUtil.clamp(value, -1.0D, 1.0D);
 	}
 
 	private static double sample(DoublePerlinNoiseSampler sampler, double x, double y, double z, double scale) {
@@ -132,7 +134,7 @@ public final class NoiseCaveGenerator {
 
 	public static double lerpFromProgress(DoublePerlinNoiseSampler sampler, double x, double y, double z, double start, double end) {
 		double value = sampler.sample(x, y, z);
-		return MathHelper.lerpFromProgress(value, -1.0D, 1.0D, start, end);
+		return BobMathUtil.lerpFromProgress(value, -1.0D, 1.0D, start, end);
 	}
 
 	private static double scaleCaves(double value) {

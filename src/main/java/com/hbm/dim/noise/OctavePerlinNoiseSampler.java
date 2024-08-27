@@ -1,5 +1,6 @@
 package com.hbm.dim.noise;
 
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple.Pair;
 
 import java.util.*;
@@ -138,7 +139,7 @@ public class OctavePerlinNoiseSampler {
 	}
 
 	public static double maintainPrecision(double value) {
-		return value - (double) MathHelper.lfloor(value / 3.3554432E7D + 0.5D) * 3.3554432E7D;
+		return value - (double) BobMathUtil.lfloor(value / 3.3554432E7D + 0.5D) * 3.3554432E7D;
 	}
 
 	public double sample(double x, double y, double yScale, double yMax) {

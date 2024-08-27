@@ -14,6 +14,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.util.AstronomyUtil;
+import com.hbm.util.BobMathUtil;
 
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -319,9 +320,9 @@ public class SolarSystem {
 	}
 
 	private static Vec3 lerp(Vec3 from, Vec3 to, double t) {
-		double x = com.hbm.dim.noise.MathHelper.clampedLerp(from.xCoord, to.xCoord, t);
-		double y = com.hbm.dim.noise.MathHelper.clampedLerp(from.yCoord, to.yCoord, t);
-		double z = com.hbm.dim.noise.MathHelper.clampedLerp(from.zCoord, to.zCoord, t);
+		double x = BobMathUtil.clampedLerp(from.xCoord, to.xCoord, t);
+		double y = BobMathUtil.clampedLerp(from.yCoord, to.yCoord, t);
+		double z = BobMathUtil.clampedLerp(from.zCoord, to.zCoord, t);
 
 		return Vec3.createVectorHelper(x, y, z);
 	}

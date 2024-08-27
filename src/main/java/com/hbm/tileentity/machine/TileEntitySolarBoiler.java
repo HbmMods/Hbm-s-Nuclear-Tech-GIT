@@ -3,7 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.HashSet;
 
 import com.hbm.dim.CelestialBody;
-import com.hbm.inventory.fluid.FluidType;
+import com.hbm.dim.orbit.WorldProviderOrbit;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
@@ -27,8 +27,8 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 	private FluidTank steam;
 	public int heat;
 
-	public HashSet<ChunkCoordinates> primary = new HashSet();
-	public HashSet<ChunkCoordinates> secondary = new HashSet();
+	public HashSet<ChunkCoordinates> primary = new HashSet<>();
+	public HashSet<ChunkCoordinates> secondary = new HashSet<>();
 	
 	public TileEntitySolarBoiler() {
 		water = new FluidTank(Fluids.WATER, 100);
@@ -42,8 +42,12 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 
 			this.trySubscribe(water.getTankType(), worldObj, xCoord, yCoord + 3, zCoord, Library.POS_Y);
 			this.trySubscribe(water.getTankType(), worldObj, xCoord, yCoord - 1, zCoord, Library.NEG_Y);
+
+			float sunPower = worldObj.provider instanceof WorldProviderOrbit
+				? ((WorldProviderOrbit)worldObj.provider).getSunPower()
+				: CelestialBody.getBody(worldObj).getSunPower();
 			
-			int process = (int)(heat * CelestialBody.getBody(worldObj).getSunPower()) / 50;
+			int process = (int)(heat * sunPower) / 50;
 			process = Math.min(process, water.getFill());
 			process = Math.min(process, (steam.getMaxFill() - steam.getFill()) / 100);
 			
