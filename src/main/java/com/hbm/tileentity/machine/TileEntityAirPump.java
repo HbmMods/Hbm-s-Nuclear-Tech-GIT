@@ -302,7 +302,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	public boolean registerScrubber(TileEntityAirScrubber scrubber) {
 		if(!this.isLoaded || this.isInvalid()) return false;
 		if(this.scrubber == scrubber) return true;
-		if(this.scrubber != null && this.scrubber.isLoaded && !this.scrubber.isInvalid()) return false;
+		if(this.scrubber != null && this.scrubber.isLoaded && !this.scrubber.isInvalid() && this.scrubber.canOperate()) return false;
 		this.scrubber = scrubber;
 		return true;
 	}
