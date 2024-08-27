@@ -4273,6 +4273,7 @@ item.seg_20.name=Size 20 Connector
 item.serum.name=Serum
 item.servo_set.name=Servo Set
 item.servo_set_desh.name=Desh Servo Set
+item.settings_tool.name=Settings Tool
 item.shackles.name=Shackles
 item.shellntm.name=%s Shell
 item.shimmer_axe.name=Shimmer Axe

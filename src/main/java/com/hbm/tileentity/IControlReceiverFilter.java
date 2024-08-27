@@ -79,7 +79,7 @@ public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 					NBTTagCompound slotNBT = items.getCompoundTagAt(count);
 					byte slot = slotNBT.getByte("slot");
 					ItemStack loadedStack = ItemStack.loadItemStackFromNBT(slotNBT);
-					if (loadedStack != null) {
+					if (loadedStack != null && slot < getFilterSlots()[1]) {
 						inv.setInventorySlotContents(slot + getFilterSlots()[0], ItemStack.loadItemStackFromNBT(slotNBT));
 						nextMode(slot);
 						tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
@@ -89,5 +89,10 @@ public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 			}
 
 		}
+	}
+
+	@Override
+	default String[] infoForDisplay(World world, int x, int y, int z) {
+		return new String[] { "copytool.filter" };
 	}
 }

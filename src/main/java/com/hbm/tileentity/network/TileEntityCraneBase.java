@@ -160,7 +160,7 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase implemen
 							NBTTagCompound slotNBT = items.getCompoundTagAt(count);
 							byte slot = slotNBT.getByte("slot");
 							ItemStack loadedStack = ItemStack.loadItemStackFromNBT(slotNBT);
-							if (loadedStack != null) {
+							if (loadedStack != null && slot < filter.getFilterSlots()[1]) {
 								inv.setInventorySlotContents(slot + filter.getFilterSlots()[0], ItemStack.loadItemStackFromNBT(slotNBT));
 								filter.nextMode(slot);
 								this.getWorldObj().markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
@@ -175,6 +175,6 @@ public abstract class TileEntityCraneBase extends TileEntityMachineBase implemen
 
 	@Override
 	public String[] infoForDisplay(World world, int x, int y, int z) {
-		return new String[]{"Filter", "Orientation"};
+		return new String[]{"copytool.filter", "copytool.orientation"};
 	}
 }
