@@ -84,6 +84,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		//registerRecipe(STAR.ore(),		new CrystallizerRecipe(ModItems.crystal_starmetal, baseTime), sulfur);
 		registerRecipe(CO.ore(),		new CrystallizerRecipe(ModItems.crystal_cobalt, baseTime), sulfur);
 		registerRecipe(NI.ore(),		new CrystallizerRecipe(ModItems.crystal_nickel, baseTime), nitric);
+		registerRecipe(NB.ore(),		new CrystallizerRecipe(ModItems.crystal_niobium, baseTime), sulfur);
 		registerRecipe((new ComparableStack(ModBlocks.ore_mineral, 1, OreDictionary.WILDCARD_VALUE)),		new CrystallizerRecipe(ModItems.crystal_mineral, baseTime)); //temp
 		
 		registerRecipe("oreRareEarth",	new CrystallizerRecipe(ModItems.crystal_rare, baseTime), sulfur);
