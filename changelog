@@ -4,7 +4,9 @@
   * Capacitors have also been nerfed but they are twice as fast as battery blocks, 5 seconds for charging and 15 seconds for discharging
 * Removed forgotten bricks
 * Updated CMB brick texture
+* The ICF machine block now renders with its 3d model in the creative inventory
 
 ## Fixed
 * Fixed pumpjack gauges not syncing properly
 * Fixed some concrete variants not being revertable into uncolored concrete
+* Fixed the ore density scanner not using proper translations for the HUD
