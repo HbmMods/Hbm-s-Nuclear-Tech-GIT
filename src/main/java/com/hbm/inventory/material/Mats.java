@@ -115,7 +115,7 @@ public class Mats {
 	public static final NTMMaterial MAT_COBALT			= makeSmeltable(2700,		CO,				0xC2D1EE, 0x353554, 0x8F72AE).setShapes(FRAGMENT, NUGGET, DUSTTINY, BILLET, INGOT, DUST, BLOCK).m();
 	public static final NTMMaterial MAT_BORON			= makeSmeltable(500,		B,				0xBDC8D2, 0x29343E, 0xAD72AE).setShapes(FRAGMENT, DUSTTINY, INGOT, DUST, BLOCK).m();
 	public static final NTMMaterial MAT_BORAX			= makeSmeltable(501,		BORAX,			0xFFFFFF, 0x946E23, 0xFFECC6).setShapes(FRAGMENT, DUST).n();
-	public static final NTMMaterial MAT_LANTHANIUM		= makeSmeltable(5700,		LA,				0xC8E0E0, 0x3B5353, 0xA1B9B9).setShapes(FRAGMENT, INGOT, BLOCK).m();
+	public static final NTMMaterial MAT_LANTHANIUM		= makeSmeltable(5700,		LA,				0xC8E0E0, 0x3B5353, 0xA1B9B9).setShapes(FRAGMENT, NUGGET, INGOT, BLOCK).m();
 	public static final NTMMaterial MAT_ZIRCONIUM		= makeSmeltable(4000,		ZR,				0xE3DCBE, 0x3E3719, 0xADA688).setShapes(FRAGMENT, NUGGET, WIRE, DUSTTINY, BILLET, INGOT, DUST, CASTPLATE, WELDEDPLATE, BLOCK).m();
 	public static final NTMMaterial MAT_SODIUM			= makeSmeltable(1100,		NA,				0xD3BF9E, 0x3A5A6B, 0x7E9493).setShapes(FRAGMENT, DUST).m();
 	public static final NTMMaterial MAT_SODALITE		= makeNonSmeltable(1101,	SODALITE,		0xDCE5F6, 0x4927B4, 0x96A7E6).setShapes(FRAGMENT, GEM).n();
