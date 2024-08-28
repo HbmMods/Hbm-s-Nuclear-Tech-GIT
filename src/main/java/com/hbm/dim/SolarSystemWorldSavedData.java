@@ -156,15 +156,21 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 		return stations.get(pos);
 	}
 
-	// Finds an unoccupied space and adds a new station
-	public OrbitalStation addStation(CelestialBody orbiting) {
+	public ChunkCoordIntPair findFreeSpace() {
 		int size = SpaceConfig.maxProbeDistance / OrbitalStation.STATION_SIZE;
 
 		// Has a guard so it doesn't loop forever on a spammed out world
 		ChunkCoordIntPair pos = new ChunkCoordIntPair(rand.nextInt(size * 2) - size, rand.nextInt(size * 2) - size);
-		for(int i = 0; stations.containsKey(pos) && i < 128; i++) {
+		for(int i = 0; stations.containsKey(pos) && i < 512; i++) {
 			pos = new ChunkCoordIntPair(rand.nextInt(size * 2) - size, rand.nextInt(size * 2) - size);
 		}
+
+		return pos;
+	}
+
+	// Finds an unoccupied space and adds a new station
+	public OrbitalStation addStation(CelestialBody orbiting) {
+		ChunkCoordIntPair pos = findFreeSpace();
 
 		return addStation(pos.chunkXPos, pos.chunkZPos, orbiting);
 	}

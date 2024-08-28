@@ -42,7 +42,9 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 		Destination destination = getDestination(stack);
 
 		if(destination.body == SolarSystem.Body.ORBIT) {
+			ChunkCoordIntPair pos = new ChunkCoordIntPair(destination.x, destination.z);
 			list.add("Destination: ORBITAL STATION");
+			list.add("Station ID: 0x" + Integer.toHexString(pos.hashCode()).toUpperCase());
 			return;
 		}
 

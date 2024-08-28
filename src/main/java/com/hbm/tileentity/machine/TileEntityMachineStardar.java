@@ -1,15 +1,18 @@
 package com.hbm.tileentity.machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.SolarSystemWorldSavedData;
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerStardar;
-import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineStardar;
 import com.hbm.items.ItemVOTVdrive;
-import com.hbm.items.ModItems;
 import com.hbm.items.ItemVOTVdrive.Destination;
+import com.hbm.items.ModItems;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -20,7 +23,6 @@ import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -32,11 +34,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineStardar extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityMachineStardar extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, CompatHandler.OCComponent {
 
 	private int timeUntilPoint = 0;
 
@@ -209,16 +208,24 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 
 	private void processDrive(int targetDimensionId, int ix, int iz) {
 		CelestialBody body = CelestialBody.getBodyOrNull(targetDimensionId);
-		if(body == null) return;
+		if(body == null && targetDimensionId != SpaceConfig.orbitDimension) return;
 
 		if(slots[0] == null || slots[0].getItem() != ModItems.hard_drive) return;
+		int meta = body != null ? body.getEnum().ordinal() : 0;
 
-		slots[0] = new ItemStack(ModItems.full_drive, 1, body.getEnum().ordinal());
+		slots[0] = new ItemStack(ModItems.full_drive, 1, meta);
 
 		if(ix != 0 || iz != 0) {
 			slots[0].stackTagCompound = new NBTTagCompound();
 			slots[0].stackTagCompound.setInteger("ax", ix);
 			slots[0].stackTagCompound.setInteger("az", iz);
+			slots[0].stackTagCompound.setBoolean("Processed", true);
+		} else if(targetDimensionId == SpaceConfig.orbitDimension) {
+			ChunkCoordIntPair pos = SolarSystemWorldSavedData.get(worldObj).findFreeSpace();
+
+			slots[0].stackTagCompound = new NBTTagCompound();
+			slots[0].stackTagCompound.setInteger("x", pos.chunkXPos);
+			slots[0].stackTagCompound.setInteger("z", pos.chunkZPos);
 			slots[0].stackTagCompound.setBoolean("Processed", true);
 		}
 

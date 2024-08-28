@@ -3,8 +3,11 @@ package com.hbm.inventory.gui;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.SolarSystem;
 import com.hbm.inventory.container.ContainerStardar;
+import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.NBTControlPacket;
@@ -87,6 +90,7 @@ public class GUIMachineStardar extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
         
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 129, guiTop + 143, 18, 18, mouseX, mouseY, new String[] {"Program new orbital station into drive"} );
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 149, guiTop + 143, 18, 18, mouseX, mouseY, new String[] {"Program current body into drive"} );
 	}
 
@@ -203,8 +207,12 @@ public class GUIMachineStardar extends GuiInfoContainer {
 				fontRendererObj.drawString("Insert drive", 10, 128, 0x00FF00);
 			} else {
 				if(slotStack.getItem() == ModItems.full_drive) {
-					fontRendererObj.drawString("Loading heightmap...", 10, 128, 0x00FF00);
-					fontRendererObj.drawString("Please wait", 10, 148, 0x00FF00);
+					if(ItemVOTVdrive.getDestination(slotStack).body == SolarSystem.Body.ORBIT) {
+						fontRendererObj.drawString("Orbital station ready", 10, 128, 0x00FF00);
+					} else {
+						fontRendererObj.drawString("Loading heightmap...", 10, 128, 0x00FF00);
+						fontRendererObj.drawString("Please wait", 10, 148, 0x00FF00);
+					}
 				} else if(slotStack.getItem() == ModItems.hard_drive) {
 					fontRendererObj.drawString("Select body", 10, 128, 0x00FF00);
 					fontRendererObj.drawString("Drag map to pan", 10, 148, 0x00FF00);
@@ -292,6 +300,16 @@ public class GUIMachineStardar extends GuiInfoContainer {
 			sY = mY = lY = y;
 		} else {
 			dragging = false;
+		}
+
+		// Clicking ORB will generate a new orbital station
+		if(checkClick(x, y, 129, 143, 18, 18)) {
+			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+
+			NBTTagCompound data = new NBTTagCompound();
+			data.setInteger("pid", SpaceConfig.orbitDimension);
+
+			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, star.xCoord, star.yCoord, star.zCoord));
 		}
 
 		// Clicking SLF will load in the current body
