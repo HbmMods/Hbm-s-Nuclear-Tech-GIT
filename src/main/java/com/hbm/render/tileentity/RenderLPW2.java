@@ -183,15 +183,10 @@ public class RenderLPW2 extends TileEntitySpecialRenderer {
 		GL11.glTranslated(0, 0, piston * 0.375D + 0.375D);
 		ResourceManager.lpw2.renderPart("Piston");
 		GL11.glPopMatrix();
-		//main assembly
-		//turbine rotors
-		//pump rotor
-		//pump piston
-		//engine bell
-		//suspension
 		
 		renderBell(h, v);
 		GL11.glPopMatrix();
+		
 		renderShroud(h, v);
 	}
 	
@@ -204,7 +199,6 @@ public class RenderLPW2 extends TileEntitySpecialRenderer {
 		GL11.glTranslated(0, -3.5, -2.75);
 		ResourceManager.lpw2.renderPart("Engine");
 		GL11.glPopMatrix();
-		//bell with rotations
 	}
 	
 	public static void renderShroud(double h, double v) {
@@ -264,16 +258,19 @@ public class RenderLPW2 extends TileEntitySpecialRenderer {
 		GL11.glTranslated(0, -0.875D, 0);
 		ResourceManager.lpw2.renderPart("SuspensionBottom");
 		GL11.glPopMatrix();
-		
-		//shrouds
-		//flaps
-		//suspension
 	}
 	
 	public static void renderFlap(double position, double rotation) {
 		GL11.glPushMatrix();
-		GL11.glTranslated(0, 3.5D, 0); GL11.glRotated(position, 0, 0, 1); GL11.glTranslated(0, -3.5D, 0);
-		GL11.glTranslated(0, 6.96875D, 8.5D); GL11.glRotated(rotation, 1, 0, 0); GL11.glTranslated(0, -6.96875D, -8.5D);
+		
+		GL11.glTranslated(0, 3.5D, 0);
+		GL11.glRotated(position, 0, 0, 1);
+		GL11.glTranslated(0, -3.5D, 0);
+		
+		GL11.glTranslated(0, 6.96875D, 8.5D);
+		GL11.glRotated(rotation, 1, 0, 0);
+		GL11.glTranslated(0, -6.96875D, -8.5D);
+		
 		ResourceManager.lpw2.renderPart("Flap");
 		GL11.glPopMatrix();
 	}
