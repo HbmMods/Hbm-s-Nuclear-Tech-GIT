@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.DebugTeleporter;
 import com.hbm.dim.SolarSystem;
+import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.RocketStruct;
 import com.hbm.handler.RocketStruct.RocketStage;
@@ -35,7 +37,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
 public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOverlay {
@@ -68,6 +72,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		LANDING,		// Descending onto the target location
 		LANDED,			// Landed on the target, will not launch until the player activates the rocket, at which point it'll transition back to AWAITING
 		TIPPING,		// tipping culture is a burden on modern society
+		DOCKING,		// Arriving at an orbital station
+		UNDOCKING,		// Leaving an orbital station
 	}
 
 	public EntityRideableRocket(World world) {
@@ -92,17 +98,19 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	}
 
 	public void beginLandingSequence() {
-		setState(RocketState.LANDING);
-
 		motionX = 0;
 		motionY = 0;
 		motionZ = 0;
 
-		RocketStruct rocket = getRocket();
-		rocket.stages.remove(0);
-		setRocket(rocket);
+		if(getState() == RocketState.LAUNCHING) {
+			RocketStruct rocket = getRocket();
+			rocket.stages.remove(0);
 
-		setSize(2, (float)rocket.getHeight() + 1);
+			setRocket(rocket);
+			setSize(2, (float)rocket.getHeight() + 1);
+		}
+
+		setState(RocketState.LANDING);
 	}
 
 	@Override
@@ -121,11 +129,17 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				CelestialBody localBody = CelestialBody.getBody(worldObj);
 				CelestialBody destination = getDestination();
 
+				RocketState transitionTo = worldObj.provider.dimensionId == SpaceConfig.orbitDimension ? RocketState.UNDOCKING : RocketState.LAUNCHING;
+
 				// Check if the stage can make the journey
-				if(destination != null && destination != localBody) {
+				if(destination != null) {
+					// To another body
 					if(getRocket().hasSufficientFuel(localBody, destination)) {
-						setState(RocketState.LAUNCHING);
+						setState(transitionTo);
 					}
+				} else {
+					// To an orbital station
+					setState(transitionTo);
 				}
 			}
 
@@ -161,6 +175,17 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				}
 
 				rocketVelocity = 0;
+			} else if(state == RocketState.DOCKING) {
+				rocketVelocity = 0.1;
+				rotationPitch = 0;
+
+				if(posY + height > 128) {
+					setState(RocketState.LANDED);
+					posY = 128 - height;
+				}
+			} else if(state == RocketState.UNDOCKING) {
+				rocketVelocity = -0.1;
+				rotationPitch = 0;
 			} else {
 				rocketVelocity = 0;
 				rotationPitch = 0;
@@ -177,18 +202,36 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				motionZ = 0;
 			}
 
-			if(state == RocketState.LAUNCHING && posY > 900) {
+			if((state == RocketState.LAUNCHING && posY > 900) || (state == RocketState.UNDOCKING && posY < 32)) {
 				beginLandingSequence();
 
 				if(rider != null && navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
 					Destination destination = ItemVOTVdrive.getDestination(navDrive);
 
-					int yLevel = destination.body == SolarSystem.Body.ORBIT ? 128 : 800;
+					int x = destination.x;
+					int y = 800;
+					int z = destination.z;
+
 					int targetDimensionId = destination.body.getDimensionId();
 
+					if(destination.body == SolarSystem.Body.ORBIT) {
+						setState(RocketState.DOCKING);
+
+						// Place the station in the middle of the zone, where the docking ring will always be
+						x = x * OrbitalStation.STATION_SIZE + (OrbitalStation.STATION_SIZE / 2);
+						y = 0;
+						z = z * OrbitalStation.STATION_SIZE + (OrbitalStation.STATION_SIZE / 2);
+					}
+
 					if(worldObj.provider.dimensionId != targetDimensionId) {
-						DebugTeleporter.teleport(rider, targetDimensionId, destination.x, yLevel, destination.z, false);
+						DebugTeleporter.teleport(rider, targetDimensionId, x, y, z, false);
 					} // landing state will automatically set the correct X/Z for same-planet launches, so no need to teleport
+
+					// After a successful warp, spawn in a station core if one doesn't yet exist
+					if(destination.body == SolarSystem.Body.ORBIT) {
+						WorldServer targetWorld = DimensionManager.getWorld(targetDimensionId);
+						OrbitalStation.spawn(targetWorld, x, z);
+					}
 				}
 			}
 
@@ -280,8 +323,17 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
-		if(getState() != RocketState.LANDING)
+		RocketState state = getState();
+		if(state != RocketState.LANDING && state != RocketState.DOCKING)
 			return;
+
+		motionX = 0;
+		motionY = 0;
+		motionZ = 0;
+
+		if(state == RocketState.DOCKING) {
+			return;
+		}
 
 		// Check for a landing gear, if we don't have one, topple over catastrophically
 		RocketStruct rocket = getRocket();
@@ -293,10 +345,6 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		}
 
 		posY = (double)worldObj.getHeightValue((int)posX, (int)posZ);
-
-		motionX = 0;
-		motionY = 0;
-		motionZ = 0;
 	}
 
 	@Override
@@ -505,7 +553,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 			return;
 
 		RocketStruct rocket = getRocket();
-		if(rocket.stages.size() == 0) return;
+		if(rocket.stages.size() == 0 && worldObj.provider.dimensionId != SpaceConfig.orbitDimension) return;
 
 		List<String> text = new ArrayList<>();
 
@@ -517,7 +565,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		boolean canLaunch = state == RocketState.AWAITING;
 
 		// Check if the stage can make the journey
-		if(destination != null && destination != localBody) {
+		if(destination != null) {
 			if(!rocket.hasSufficientFuel(localBody, destination)) {
 				text.add(EnumChatFormatting.RED + "Rocket can't reach destination!");
 				canLaunch = false;
@@ -532,7 +580,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 			if(destination != null) {
 				text.add("Destination: " + I18nUtil.resolveKey("body." + destination.name));
 			} else {
-				text.add("Invalid destination!");
+				text.add("Destination: ORBITAL STATION");
 			}
 
 			if(canLaunch) {
