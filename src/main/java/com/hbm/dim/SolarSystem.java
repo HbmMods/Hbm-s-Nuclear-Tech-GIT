@@ -9,7 +9,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Temperature;
-import com.hbm.dim.trait.CelestialBodyTrait;
+import com.hbm.dim.trait.CBT_Water;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -56,7 +56,7 @@ public class SolarSystem {
 					.withColor(0.408F, 0.298F, 0.553F)
 					.withBlockTextures(RefStrings.MODID + ":eve_stone_2", "", "", "")
 					.withProcessingLevel(2)
-					.withTraits(new CBT_Atmosphere(Fluids.EVEAIR, 5D), new CBT_Temperature(400))
+					.withTraits(new CBT_Atmosphere(Fluids.EVEAIR, 5D), new CBT_Temperature(400), new CBT_Water(Fluids.MERCURY))
 					.withSatellites(
 						
 						new CelestialBody("gilly")
@@ -72,7 +72,7 @@ public class SolarSystem {
 					.withSemiMajorAxis(13_599_840)
 					.withRotationalPeriod(21_549)
 					.withColor(0.608F, 0.914F, 1.0F)
-					.withTraits(new CBT_Atmosphere(Fluids.AIR, 1D), CelestialBodyTrait.HAS_WATER)
+					.withTraits(new CBT_Atmosphere(Fluids.AIR, 1D), new CBT_Water())
 					.withSatellites(
 
 						new CelestialBody("mun", SpaceConfig.moonDimension, Body.MUN)
@@ -87,6 +87,7 @@ public class SolarSystem {
 							.withSemiMajorAxis(47_000)
 							.withRotationalPeriod(40_400)
 							.withBlockTextures(RefStrings.MODID + ":minmus_stone", "", "", "")
+							.withTraits(new CBT_Water(Fluids.MILK))
 
 					),
 
@@ -110,6 +111,7 @@ public class SolarSystem {
 							.withRotationalPeriod(65_518)
 							.withTidalLockingTo("duna")
 							.withProcessingLevel(1)
+							.withTraits(new CBT_Water(Fluids.BROMINE))
 
 					),
 
@@ -134,7 +136,7 @@ public class SolarSystem {
 							.withRotationalPeriod(52_981)
 							.withTidalLockingTo("jool")
 							.withProcessingLevel(3)
-							.withTraits(new CBT_Atmosphere(Fluids.AIR, 0.45D).and(Fluids.XENON, 0.15D), CelestialBodyTrait.HAS_WATER),
+							.withTraits(new CBT_Atmosphere(Fluids.AIR, 0.45D).and(Fluids.XENON, 0.15D), new CBT_Water()),
 
 						new CelestialBody("vall")
 							.withMassRadius(3.109e21F, 300)

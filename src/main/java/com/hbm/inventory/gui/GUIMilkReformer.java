@@ -2,7 +2,6 @@ package com.hbm.inventory.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.inventory.container.ContainerMachineCatalyticReformer;
 import com.hbm.inventory.container.ContainerMachineMilkReformer;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineMilkReformer;
@@ -33,7 +32,7 @@ public class GUIMilkReformer extends GuiInfoContainer {
 		refinery.tanks[1].renderTankInfo(this, mouseX, mouseY, guiLeft + 90, guiTop + 70 - 15, 21, 10);
 		refinery.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 117, guiTop + 70 - 15, 21, 10);
 		refinery.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 143, guiTop + 70 - 15, 21, 10);
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 98,  guiTop + 60 - 52, 70, 20, refinery.power, refinery.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 98,  guiTop + 60 - 52, 70, 20, refinery.power, TileEntityMachineMilkReformer.maxPower);
 	}
 	
 	@Override
@@ -47,9 +46,8 @@ public class GUIMilkReformer extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int j = (int) (refinery.power * 63 / refinery.maxPower);
+		int j = (int) (refinery.power * 63 / TileEntityMachineMilkReformer.maxPower);
 		drawTexturedModalRect(guiLeft + 98, guiTop + 13, 176, 6, j, 6);
-		//System.out.println(j);
 		
 		refinery.tanks[0].renderTank(guiLeft + 50, guiTop + 62, this.zLevel, 5, 30);
 		refinery.tanks[1].renderTank(guiLeft + 101, guiTop + 63, this.zLevel, 3, 10);
