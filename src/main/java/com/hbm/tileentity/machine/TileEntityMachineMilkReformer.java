@@ -1,23 +1,12 @@
-/**
- * 
- */
 package com.hbm.tileentity.machine;
 
-import org.lwjgl.PointerWrapper;
-
-import com.hbm.inventory.container.ContainerMachineCatalyticReformer;
 import com.hbm.inventory.container.ContainerMachineMilkReformer;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.inventory.gui.GUIMachineCatalyticReformer;
 import com.hbm.inventory.gui.GUIMilkReformer;
-import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
-import com.hbm.main.MainRegistry;
-import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -25,6 +14,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -34,12 +24,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 
-public class TileEntityMachineMilkReformer extends TileEntityMachineBase implements IPersistentNBT, IGUIProvider, IFluidStandardTransceiver, IEnergyReceiverMK2 {
-	public boolean isOn;
+public class TileEntityMachineMilkReformer extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver, IEnergyReceiverMK2 {
 
 	public FluidTank tanks[];
 	public long power;
 	public static final long maxPower = 100_000_000;
+	
 	public TileEntityMachineMilkReformer() {
 		super(11);
 		
@@ -101,8 +91,6 @@ public class TileEntityMachineMilkReformer extends TileEntityMachineBase impleme
 		
 		if(!worldObj.isRemote) {
 			
-			this.isOn = false;
-			
 			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tanks[0].loadTank(1, 2, slots);
@@ -121,19 +109,22 @@ public class TileEntityMachineMilkReformer extends TileEntityMachineBase impleme
 				}
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			data.setBoolean("isOn", this.isOn);
-			for(int i = 0; i < 4; i++) tanks[i].writeToNBT(data, "" + i);
-			this.networkPack(data, 150);
+			this.networkPackNT(150);
 		}
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("power");
-		this.isOn = nbt.getBoolean("isOn");
-		for(int i = 0; i < 4; i++) tanks[i].readFromNBT(nbt, "" + i);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		for(int i = 0; i < 4; i++) tanks[i].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		for(int i = 0; i < 4; i++) tanks[i].deserialize(buf);
 	}
 	
 	private void refine() {
@@ -144,7 +135,6 @@ public class TileEntityMachineMilkReformer extends TileEntityMachineBase impleme
 		if(tanks[2].getFill() + 35 > tanks[2].getMaxFill()) return;
 		if(tanks[3].getFill() + 15 > tanks[3].getMaxFill()) return;
 
-		this.isOn = true;
 		power -= 10_000;
 		tanks[0].setFill(tanks[0].getFill() - 100);
 		tanks[1].setFill(tanks[1].getFill() + 50);
@@ -161,14 +151,14 @@ public class TileEntityMachineMilkReformer extends TileEntityMachineBase impleme
 	
 	public DirPos[] getConPos() {
 		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
-				new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
-				new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
-				new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
-				new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z)
+			new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
+			new DirPos(xCoord + 2, yCoord, zCoord - 1, Library.POS_X),
+			new DirPos(xCoord - 2, yCoord, zCoord + 1, Library.NEG_X),
+			new DirPos(xCoord - 2, yCoord, zCoord - 1, Library.NEG_X),
+			new DirPos(xCoord + 1, yCoord, zCoord + 2, Library.POS_Z),
+			new DirPos(xCoord - 1, yCoord, zCoord + 2, Library.POS_Z),
+			new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z),
+			new DirPos(xCoord - 1, yCoord, zCoord - 2, Library.NEG_Z)
 		};
 	}
 	@Override
@@ -199,13 +189,13 @@ public class TileEntityMachineMilkReformer extends TileEntityMachineBase impleme
 		
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
-					xCoord - 2,
-					yCoord,
-					zCoord - 2,
-					xCoord + 3,
-					yCoord + 7,
-					zCoord + 3
-					);
+				xCoord - 2,
+				yCoord,
+				zCoord - 2,
+				xCoord + 3,
+				yCoord + 7,
+				zCoord + 3
+			);
 		}
 		
 		return bb;
@@ -226,20 +216,5 @@ public class TileEntityMachineMilkReformer extends TileEntityMachineBase impleme
 	public boolean canConnect(FluidType type, ForgeDirection dir) {
 		return dir != ForgeDirection.UNKNOWN && dir != ForgeDirection.DOWN;
 	}
-
-	@Override
-	public void writeNBT(NBTTagCompound nbt) {
-		if(tanks[0].getFill() == 0 && tanks[1].getFill() == 0 && tanks[2].getFill() == 0 && tanks[3].getFill() == 0) return;
-		NBTTagCompound data = new NBTTagCompound();
-		for(int i = 0; i < 4; i++) this.tanks[i].writeToNBT(data, "" + i);
-		nbt.setTag(NBT_PERSISTENT_KEY, data);
-	}
-
-	@Override
-	public void readNBT(NBTTagCompound nbt) {
-		NBTTagCompound data = nbt.getCompoundTag(NBT_PERSISTENT_KEY);
-		for(int i = 0; i < 4; i++)this.tanks[i].readFromNBT(nbt, " " + i);
-	}
-
 
 }
