@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.CelestialBody;
-import com.hbm.dim.trait.CelestialBodyTrait.CBT_Water;
+import com.hbm.dim.trait.CBT_Water;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -38,6 +38,15 @@ public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase imp
 		validBlocks.add(ModBlocks.dirt_oily);
 		validBlocks.add(ModBlocks.sand_dirty);
 		validBlocks.add(ModBlocks.sand_dirty_red);
+		validBlocks.add(ModBlocks.eve_silt);
+		validBlocks.add(ModBlocks.eve_rock);
+		validBlocks.add(ModBlocks.ike_regolith);
+		validBlocks.add(ModBlocks.ike_stone);
+		validBlocks.add(ModBlocks.duna_sands);
+		validBlocks.add(ModBlocks.moon_turf);
+		validBlocks.add(ModBlocks.laythe_silt);
+		validBlocks.add(ModBlocks.moho_regolith);
+		validBlocks.add(ModBlocks.minmus_smooth);
 	}
 	
 	public FluidTank water;
@@ -52,6 +61,7 @@ public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase imp
 	public static int groundDepth = 4;
 	public static int steamSpeed = 1_000;
 	public static int electricSpeed = 10_000;
+	public static int nonWaterDebuff = 100;
 	
 	@Override
 	public String getConfigName() {
@@ -115,7 +125,10 @@ public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase imp
 	protected boolean checkGround() {
 		
 		if(worldObj.provider.hasNoSky) return false;
-		if(!CelestialBody.hasTrait(worldObj, CBT_Water.class)) return false;
+		CBT_Water table = CelestialBody.getTrait(worldObj, CBT_Water.class);
+		if(table == null) return false;
+
+		water.setTankType(table.fluid);
 		
 		int validBlocks = 0;
 		int invalidBlocks = 0;
