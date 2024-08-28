@@ -110,13 +110,11 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 	// Client sync
 	private static HashMap<String, HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>> clientTraits = new HashMap<>();
 
-	@SideOnly(Side.CLIENT)
 	public static void updateClientTraits(HashMap<String, HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait>> traits) {
 		clientTraits = traits;
 		if(clientTraits == null) clientTraits = new HashMap<>();
 	}
 
-	@SideOnly(Side.CLIENT)
 	public static HashMap<Class<? extends CelestialBodyTrait>, CelestialBodyTrait> getClientTraits(String bodyName) {
 		return clientTraits.get(bodyName);
 	}
