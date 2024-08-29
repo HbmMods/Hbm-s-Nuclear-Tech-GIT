@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -8,12 +9,14 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockDeadPlant.EnumDeadPlantType;
 import com.hbm.blocks.generic.BlockTallPlant.EnumTallFlower;
+import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
@@ -34,7 +37,8 @@ public class BlockNTMFlower extends BlockEnumMulti implements IPlantable, IGrowa
 		NIGHTSHADE(false),
 		WEED(false),
 		CD0(true),
-		CD1(true);
+		CD1(true),
+		STRAWBERRY(false);
 		
 		public boolean needsOil;
 		private EnumFlowerType(boolean needsOil) {
@@ -106,7 +110,6 @@ public class BlockNTMFlower extends BlockEnumMulti implements IPlantable, IGrowa
 
 	@Override
 	public int damageDropped(int meta) {
-		
 		if(meta == EnumFlowerType.CD1.ordinal()) {
 			return EnumFlowerType.CD0.ordinal();
 		}
@@ -201,4 +204,20 @@ public class BlockNTMFlower extends BlockEnumMulti implements IPlantable, IGrowa
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) { }
+
+	@Override
+	public Item getItemDropped(int meta, Random rand, int j) {
+		if(meta == EnumFlowerType.STRAWBERRY.ordinal()) {
+			return ModItems.strawberry;
+		}
+
+		return super.getItemDropped(meta, rand, j);
+	}
+
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		if(metadata == EnumFlowerType.STRAWBERRY.ordinal()) return ModBlocks.getDropsWithoutDamage(world, this, metadata, fortune);
+		return super.getDrops(world, x, y, z, metadata, fortune);
+	}
+
 }
