@@ -1345,9 +1345,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModBlocks.machine_alkylation), new AStack[] {
 				new OreDictStack(ANY_CONCRETE.any(), 12),
 				new OreDictStack(STAINLESS.plate(), 12),
-				new OreDictStack(BIGMT.ingot(), 4),
-				new OreDictStack(STEEL.shell(), 3),
-				new OreDictStack(STEEL.pipe(), 4),
+				new OreDictStack(STEEL.shell(), 6),
 				new ComparableStack(ModItems.circuit, 8, EnumCircuitType.CAPACITOR),
 				new ComparableStack(ModItems.catalyst_clay, 12),
 				new ComparableStack(ModItems.coil_tungsten, 4)
