@@ -21,7 +21,6 @@ import com.hbm.inventory.gui.GUILaunchPadRocket;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomRocket;
-import com.hbm.items.weapon.ItemMissile;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -36,7 +35,6 @@ import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -48,7 +46,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements IControlReceiver, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements IControlReceiver, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, CompatHandler.OCComponent {
 
 	public long power;
 	public final long maxPower = 100_000;
@@ -301,8 +299,12 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 
 		// Check if the stage can make the journey
 		if(destination != null) {
+			// To another body (or self)
 			RocketStruct rocket = ItemCustomRocket.get(slots[0]);
 			if(rocket.hasSufficientFuel(localBody, destination)) return true;
+		} else {
+			// To an orbital station
+			return true;
 		}
 
 		return false;
@@ -404,9 +406,12 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		CelestialBody localBody = CelestialBody.getBody(worldObj);
 		CelestialBody destination = ItemVOTVdrive.getDestination(slots[1]).body.getBody();
 
-		if(destination == null || destination == localBody) {
-			issues.add(EnumChatFormatting.RED + "Invalid destination");
+		if(destination == null) {
+			// Check travelling to orbital station
+		} else if(destination == localBody) {
+			// Check sending to orbit
 		} else {
+			// Check transfer
 			if(!rocket.hasSufficientFuel(localBody, destination)) {
 				issues.add(EnumChatFormatting.RED + "Rocket can't reach destination");
 			}

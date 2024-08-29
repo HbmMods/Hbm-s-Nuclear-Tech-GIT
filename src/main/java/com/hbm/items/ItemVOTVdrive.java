@@ -181,25 +181,23 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 		if(isProcessed && player.ridingEntity != null && player.ridingEntity instanceof EntityRideableRocket) {
 			EntityRideableRocket rocket = (EntityRideableRocket) player.ridingEntity;
 
-			if(rocket.getRocket().stages.size() > 0 && (rocket.getState() == RocketState.LANDED || rocket.getState() == RocketState.AWAITING)) {
-				// Replace our held stack with the rocket drive and place our held drive into the rocket
-				if(rocket.navDrive != null) {
-					newStack = rocket.navDrive;
-				} else {
-					newStack.stackSize = 0;
-				}
-	
-				rocket.navDrive = stack;
-	
-				if(!world.isRemote) {
-					if(onDestination) {
-						rocket.setState(RocketState.LANDED);
+			if(rocket.getRocket().stages.size() > 0 || world.provider.dimensionId == SpaceConfig.orbitDimension) {
+				if(rocket.getState() == RocketState.LANDED || rocket.getState() == RocketState.AWAITING) {
+					// Replace our held stack with the rocket drive and place our held drive into the rocket
+					if(rocket.navDrive != null) {
+						newStack = rocket.navDrive;
 					} else {
+						newStack.stackSize = 0;
+					}
+		
+					rocket.navDrive = stack;
+		
+					if(!world.isRemote) {
 						rocket.setState(RocketState.AWAITING);
 					}
-				}
 
-				world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:item.upgradePlug", 1.0F, 1.0F);
+					world.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:item.upgradePlug", 1.0F, 1.0F);
+				}
 			}
 		}
 	
@@ -209,7 +207,11 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 	
 	@Override
 	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fx, float fy, float fz) {
-		boolean onDestination = world.provider.dimensionId == getDestination(stack).body.getDimensionId();
+		Destination destination = getDestination(stack);
+		if(destination.body == SolarSystem.Body.ORBIT)
+			return false;
+
+		boolean onDestination = world.provider.dimensionId == destination.body.getDimensionId();
 		if(!onDestination)
 			return false;
 

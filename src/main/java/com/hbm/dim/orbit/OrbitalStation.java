@@ -1,5 +1,7 @@
 package com.hbm.dim.orbit;
 
+import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystemWorldSavedData;
 
@@ -115,6 +117,14 @@ public class OrbitalStation {
 		station.state = StationState.values()[buf.readInt()];
 		station.stateTimer = buf.readInt();
 		return station;
+	}
+
+	public static void spawn(World world, int x, int z) {
+		if(world.getBlock(x, 128, z) == ModBlocks.orbital_station) return;
+
+		BlockDummyable.safeRem = true;
+		world.setBlock(x, 128, z, ModBlocks.orbital_station, 12, 3);
+		BlockDummyable.safeRem = false;
 	}
 
 }
