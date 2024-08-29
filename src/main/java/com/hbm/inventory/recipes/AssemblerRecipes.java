@@ -636,7 +636,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.plate_paa, 14),
 				new OreDictStack(FERRO.ingot(), 8),
 				//new ComparableStack(ModItems.hull_small_steel, 4),
-				new ComparableStack(ModItems.wire_magnetized_tungsten, 8),
+				new OreDictStack(MAGTUNG.wireFine(), 8),
 				new OreDictStack(STEEL.plate(), 3),
 				new ComparableStack(ModBlocks.glass_quartz, 4),
 
@@ -1366,7 +1366,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModBlocks.nuke_antimatter, 1), new AStack[] {
 				//new ComparableStack(ModItems.hull_big_steel, 3),
 				new OreDictStack(STAINLESS.plate(), 16),
-				new ComparableStack(ModItems.wire_red_copper, 32),
+				new OreDictStack(MINGRADE.wireFine(), 32),
 				new ComparableStack(ModItems.ingot_hafnium, 2),
 				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ANALOG),
 				new ComparableStack(ModItems.billet_gaas, 1),
