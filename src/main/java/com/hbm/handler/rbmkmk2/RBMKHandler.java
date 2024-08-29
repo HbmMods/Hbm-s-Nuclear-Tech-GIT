@@ -5,11 +5,8 @@ import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import java.util.HashMap;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
@@ -64,12 +61,12 @@ public class RBMKHandler {
 			this.hasLid = false;
 		}
 
-		public List<BlockPos> getReaSimNodes(TileEntityRBMKRodReaSim rod) {
+		public List<BlockPos> getReaSimNodes() {
 			List<BlockPos> list = new ArrayList<>();
-			for (int x = rod.xCoord - fluxRange; x <= rod.xCoord + fluxRange; x++)
-				for (int z = rod.zCoord - fluxRange; z <= rod.zCoord + fluxRange; z++)
-					if ((x - rod.xCoord) * (x - rod.xCoord) + (z - rod.zCoord) * (z - rod.zCoord) <= fluxRange * fluxRange)
-						list.add(new BlockPos(rod));
+			for (int x = this.tile.xCoord - fluxRange; x <= this.tile.xCoord + fluxRange; x++)
+				for (int z = this.tile.zCoord - fluxRange; z <= this.tile.zCoord + fluxRange; z++)
+					if ((x - this.tile.xCoord) * (x - this.tile.xCoord) + (z - this.tile.zCoord) * (z - this.tile.zCoord) <= fluxRange * fluxRange)
+						list.add(new BlockPos(this.tile).add(x, 0, z));
 			return list;
 		}
 
@@ -103,15 +100,46 @@ public class RBMKHandler {
 				}
 			}
 
+			List<BlockPos> points = getReaSimNodes();
+
+			// Check if the ReaSim rod should be culled from the cache due to no rod or no flux.
 			if (tile instanceof TileEntityRBMKRodReaSim) { // fuckkkkkkk
 				TileEntityRBMKRodReaSim rod = (TileEntityRBMKRodReaSim) tile;
 				if (!rod.hasRod || rod.fluxQuantity == 0) {
-					list.addAll(getReaSimNodes(rod));
+					list.addAll(points);
 					return list;
 				}
 			}
 
-			// TODO: implement ReaSim node culling on the non-rod side.
+			// Check if non-rod nodes should be uncached... but now with ReaSim!
+			{ //  Yeah, I don't want to contaminate the surrounding scope.
+				List<RBMKNode> nodes = new ArrayList<>();
+				points.forEach(nodePos -> {
+					RBMKNode node = getNode(nodePos);
+					if (node != null)
+						nodes.add(node);
+				});
+
+				boolean hasRod = false;
+
+				for (RBMKNode node : nodes) {
+
+					if (node.tile instanceof TileEntityRBMKRod) {
+
+						TileEntityRBMKRod rod = (TileEntityRBMKRod) node.tile;
+
+						if (rod.hasRod && rod.fluxQuantity > 0) {
+							hasRod = true;
+							break;
+						}
+					}
+				}
+
+				if (nodes.isEmpty() || !hasRod) {
+					list.add(pos);
+					return list;
+				}
+			}
 
 			// Check if non-rod nodes should be uncached due to no rod in range.
 			for (NeutronStream stream : streams) {
