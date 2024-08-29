@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
@@ -12,6 +13,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -48,11 +50,6 @@ public class BlockOreBasalt extends BlockEnumMulti {
 	}
 
 	@Override
-	public int damageDropped(int meta) {
-		return 0;
-	}
-
-	@Override
 	public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
 		int meta = world.getBlockMetadata(x, y, z);
 		if(meta == EnumBasaltOreType.ASBESTOS.ordinal() && world.getBlock(x, y + 1, z) == Blocks.air) {
@@ -76,4 +73,10 @@ public class BlockOreBasalt extends BlockEnumMulti {
 		if(meta == EnumBasaltOreType.ASBESTOS.ordinal()) world.setBlock(x, y, z, ModBlocks.gas_asbestos);
 		super.dropBlockAsItemWithChance(world, x, y, z, meta, chance, fortune);
 	}
+
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		return ModBlocks.getDropsWithoutDamage(world, this, metadata, fortune);
+	}
+
 }

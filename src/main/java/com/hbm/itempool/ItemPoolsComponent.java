@@ -95,6 +95,8 @@ public class ItemPoolsComponent {
 					weighted(Items.book, 0, 1, 3, 4),
 					weighted(ModItems.twinkie, 0, 1, 2, 6),
 					weighted(ModItems.coffee, 0, 1, 1, 4),
+					weighted(ModItems.bean_raw, 0, 1, 4, 4),
+					weighted(ModItems.teaseeds, 0, 1, 4, 3),
 					weighted(ModItems.flame_politics, 0, 1, 1, 2),
 					weighted(ModItems.ring_pull, 0, 1, 1, 4),
 					weighted(ModItems.can_empty, 0, 1, 1, 2),
