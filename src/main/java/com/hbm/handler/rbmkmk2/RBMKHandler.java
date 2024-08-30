@@ -5,7 +5,9 @@ import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.tileentity.machine.rbmk.*;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import net.minecraft.tileentity.TileEntity;
@@ -63,22 +65,18 @@ public class RBMKHandler {
 
 		public List<BlockPos> getReaSimNodes() {
 			List<BlockPos> list = new ArrayList<>();
-			for (int x = this.tile.xCoord - fluxRange; x <= this.tile.xCoord + fluxRange; x++)
-				for (int z = this.tile.zCoord - fluxRange; z <= this.tile.zCoord + fluxRange; z++)
-					if ((x - this.tile.xCoord) * (x - this.tile.xCoord) + (z - this.tile.zCoord) * (z - this.tile.zCoord) <= fluxRange * fluxRange)
-						list.add(new BlockPos(this.tile).add(x, 0, z));
+			for (int x = -fluxRange; x <= fluxRange; x++)
+				for (int z = -fluxRange; z <= fluxRange; z++)
+					if (Math.pow(x, 2) + Math.pow(z, 2) <= fluxRange * fluxRange)
+						list.add(new BlockPos(tile).add(x, 0, z));
 			return list;
 		}
 
-		public List<BlockPos> checkNode(BlockPos pos) {
+		public List<BlockPos> checkNode() {
 
 			List<BlockPos> list = new ArrayList<>();
 
-			// Check if the tile no longer exists/is invalid.
-			if (tile == null || tile.isInvalid()) {
-				list.add(pos);
-				return list;
-			}
+			BlockPos pos = new BlockPos(this.tile);
 
 			List<NeutronStream> streams = new ArrayList<>();
 
@@ -90,7 +88,7 @@ public class RBMKHandler {
 			// Check if the rod should uncache nodes.
 			if (tile instanceof TileEntityRBMKRod && !(tile instanceof TileEntityRBMKRodReaSim)) {
 				TileEntityRBMKRod rod = (TileEntityRBMKRod) tile;
-				if (!rod.hasRod || rod.fluxQuantity == 0) {
+				if (!rod.hasRod || rod.lastFluxQuantity == 0) {
 
 					for (NeutronStream stream : streams) {
 						stream.getNodes(false).forEach(node -> list.add(new BlockPos(node.tile)));
@@ -105,7 +103,7 @@ public class RBMKHandler {
 			// Check if the ReaSim rod should be culled from the cache due to no rod or no flux.
 			if (tile instanceof TileEntityRBMKRodReaSim) { // fuckkkkkkk
 				TileEntityRBMKRodReaSim rod = (TileEntityRBMKRodReaSim) tile;
-				if (!rod.hasRod || rod.fluxQuantity == 0) {
+				if (!rod.hasRod || rod.lastFluxQuantity == 0) {
 					list.addAll(points);
 					return list;
 				}
@@ -128,7 +126,7 @@ public class RBMKHandler {
 
 						TileEntityRBMKRod rod = (TileEntityRBMKRod) node.tile;
 
-						if (rod.hasRod && rod.fluxQuantity > 0) {
+						if (rod.hasRod && rod.lastFluxQuantity > 0) {
 							hasRod = true;
 							break;
 						}
@@ -150,13 +148,14 @@ public class RBMKHandler {
 					if (node.tile instanceof TileEntityRBMKRod)
 						return list;
 				}
-
-				// If we get here, then no rods were found along this stream's path!
-				// This, most of the time, means we can just uncache all off the nodes inside the stream's path.
-				// That other part of the time, streams will be crossing paths.
-				// This is fine though, we can just uncache them anyway and the streams later on (next tick) will recache them.
-				nodes.forEach(node -> list.add(new BlockPos(node.tile)));
 			}
+
+			// If we get here, then no rods were found along this stream's path!
+			// This, most of the time, means we can just uncache all the nodes inside the stream's path.
+			// That other part of the time, streams will be crossing paths.
+			// This is fine though, we can just uncache them anyway and the streams later on (next tick) will recache them.
+			//  /\ idk what this guy was on about but this is just plain wrong. /\
+			list.add(pos);
 
 			return list;
 		}
@@ -214,13 +213,12 @@ public class RBMKHandler {
 			this.fluxQuantity = flux;
 			this.fluxRatio = ratio;
 			World worldObj = origin.tile.getWorldObj();
-			if (streamWorlds.get(worldObj) != null)
-				streamWorlds.get(worldObj).addStream(this);
-			else {
+			if (streamWorlds.get(worldObj) == null) {
 				StreamWorld world = new StreamWorld();
 				world.addStream(this);
 				streamWorlds.put(worldObj, world);
-			}
+			} else
+				streamWorlds.get(worldObj).addStream(this);
 		}
 
 		// USES THE CACHE!!!
@@ -459,6 +457,19 @@ public class RBMKHandler {
 	// The big one!! Runs all interactions for neutrons.
 	public static void runAllInteractions() {
 
+		// Remove `StreamWorld` objects if they have no streams.
+		{ // aflghdkljghlkbhfjkghgilurbhlkfjghkffdjgn
+			List<World> toRemove = new ArrayList<>();
+			streamWorlds.forEach((world, streamWorld) -> {
+				if (streamWorld.streams.isEmpty())
+					toRemove.add(world);
+			});
+
+			for (World world : toRemove) {
+				streamWorlds.remove(world);
+			}
+		}
+
 		for (Entry<World, StreamWorld> world : streamWorlds.entrySet()) {
 
 			// Gamerule caching because this apparently is kinda slow?
@@ -484,8 +495,8 @@ public class RBMKHandler {
 		if (ticks >= cacheTime) {
 			ticks = 0;
 			List<BlockPos> toRemove = new ArrayList<>();
-			for(Entry<BlockPos, RBMKNode> cachedNode : nodeCache.entrySet())
-				toRemove.addAll(cachedNode.getValue().checkNode(cachedNode.getKey()));
+			for(RBMKNode cachedNode : nodeCache.values())
+				toRemove.addAll(cachedNode.checkNode());
 
 			for(BlockPos pos : toRemove)
 				removeNode(pos);
