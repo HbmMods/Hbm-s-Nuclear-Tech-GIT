@@ -5,7 +5,7 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
+import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.util.ChatBuilder;
 
 import net.minecraft.client.resources.I18n;

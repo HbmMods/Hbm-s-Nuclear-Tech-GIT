@@ -38,7 +38,7 @@ public class RenderSolarBoiler extends TileEntitySpecialRenderer {
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 		
-		if(te instanceof TileEntitySolarBoiler && !Minecraft.getMinecraft().gameSettings.fancyGraphics) {
+		if(te instanceof TileEntitySolarBoiler && Minecraft.getMinecraft().gameSettings.fancyGraphics) {
 			TileEntitySolarBoiler boiler = (TileEntitySolarBoiler) te;
 
 			Tessellator tess = Tessellator.instance;

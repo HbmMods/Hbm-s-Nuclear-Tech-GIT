@@ -2,8 +2,8 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.util.CrucibleUtil;
 

@@ -11,8 +11,8 @@ import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.neutron.NeutronNodeWorld;
 import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKType;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IOverpressurable;
@@ -224,7 +224,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 
 		NeutronNodeWorld.removeNode(new BlockPos(this)); // woo-fucking-hoo!!!
 	}
-	
+
 	@Override
 	public void markDirty() {
 		
@@ -251,7 +251,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 	public RBMKType getRBMKType() {
 		return RBMKType.OTHER;
 	}
-	
+
 	protected static boolean diag = false;
 	
 	@Override

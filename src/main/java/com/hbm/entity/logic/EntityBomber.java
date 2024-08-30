@@ -11,8 +11,8 @@ import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.LoopedEntitySoundPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.LoopedEntitySoundPacket;
 import com.hbm.util.ParticleUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

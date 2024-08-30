@@ -8,9 +8,9 @@ import com.hbm.config.RadiationConfig;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.util.ChatBuilder;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

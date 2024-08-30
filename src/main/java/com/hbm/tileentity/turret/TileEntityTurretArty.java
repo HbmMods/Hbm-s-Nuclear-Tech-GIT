@@ -11,8 +11,8 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemAmmoArty;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.Optional;

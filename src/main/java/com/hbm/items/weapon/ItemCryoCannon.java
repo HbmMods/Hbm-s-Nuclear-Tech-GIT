@@ -5,8 +5,8 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.GunAnimationPacket;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.enchantment.Enchantment;

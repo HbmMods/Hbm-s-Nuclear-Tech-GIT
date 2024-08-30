@@ -104,6 +104,7 @@ import com.hbm.render.item.*;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.render.item.block.*;
 import com.hbm.render.item.weapon.*;
+import com.hbm.render.item.weapon.sedna.*;
 import com.hbm.render.loader.HmfModelLoader;
 import com.hbm.render.model.ModelPigeon;
 import com.hbm.render.tileentity.*;
@@ -602,6 +603,8 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_coilgun, new ItemRenderWeaponCoilgun());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_cryocannon, new ItemRenderWeaponCryoCannon());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_congolake, new ItemRenderWeaponCongo());
+		//SEDNA
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_debug, new ItemRenderDebug());
 		//multitool
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_dig, new ItemRenderMultitool());
 		MinecraftForgeClient.registerItemRenderer(ModItems.multitool_silk, new ItemRenderMultitool());
@@ -2110,6 +2113,9 @@ public class ClientProxy extends ServerProxy {
 		case CRANE_LEFT:		return HbmKeybinds.craneLeftKey.getIsKeyPressed();
 		case CRANE_RIGHT:		return HbmKeybinds.craneRightKey.getIsKeyPressed();
 		case CRANE_LOAD:		return HbmKeybinds.craneLoadKey.getIsKeyPressed();
+		case GUN_PRIMARY:		return HbmKeybinds.gunPrimaryKey.getIsKeyPressed();
+		case GUN_SECONDARY:		return HbmKeybinds.gunSecondaryKey.getIsKeyPressed();
+		case GUN_TERTIARY:		return HbmKeybinds.gunTertiaryKey.getIsKeyPressed();
 		}
 		
 		return false;

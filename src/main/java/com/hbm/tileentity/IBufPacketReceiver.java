@@ -1,7 +1,7 @@
 package com.hbm.tileentity;
 
-import com.hbm.packet.BufPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.BufPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import io.netty.buffer.ByteBuf;

@@ -1,11 +1,8 @@
 package com.hbm.tileentity.bomb;
 
 import com.hbm.blocks.bomb.BlockChargeBase;
-import com.hbm.packet.BufPacket;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IBufPacketReceiver;
 
-import cpw.mods.fml.common.network.NetworkRegistry;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 

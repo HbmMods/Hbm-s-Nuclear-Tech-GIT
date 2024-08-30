@@ -1,7 +1,7 @@
 package api.hbm.energymk2;
 
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.Compat;
 
 import api.hbm.energymk2.Nodespace.PowerNode;

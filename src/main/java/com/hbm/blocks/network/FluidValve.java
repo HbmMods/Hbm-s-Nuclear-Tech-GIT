@@ -54,6 +54,7 @@ public class FluidValve extends FluidDuctBase implements ILookOverlay {
 		
 		if(!player.isSneaking()) {
 			int meta = world.getBlockMetadata(x, y, z);
+			TileEntityFluidValve te = (TileEntityFluidValve) world.getTileEntity(x, y, z);
 			if(meta == 0) {
 				world.setBlockMetadataWithNotify(x, y, z, 1, 2);
 				world.playSoundEffect(x, y, z, "hbm:block.reactorStart", 1.0F, 1.0F);
@@ -62,7 +63,6 @@ public class FluidValve extends FluidDuctBase implements ILookOverlay {
 				world.playSoundEffect(x, y, z, "hbm:block.reactorStart", 1.0F, 0.85F);
 			}
 			
-			TileEntityFluidValve te = (TileEntityFluidValve) world.getTileEntity(x, y, z);
 			te.updateState();
 			
 			return true;

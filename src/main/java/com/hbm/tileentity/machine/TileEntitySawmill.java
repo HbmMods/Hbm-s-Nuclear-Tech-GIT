@@ -8,8 +8,8 @@ import com.hbm.entity.projectile.EntitySawblade;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityMachineAutocrafter.InventoryCraftingAuto;
 import com.hbm.util.BufferUtil;
@@ -148,7 +148,7 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 			}
 
 			networkPackNT(150);
-			
+
 			this.heat = 0;
 			
 		} else {

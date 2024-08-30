@@ -109,6 +109,7 @@ public class EntityFallingBlockNT extends Entity {
 				int x = MathHelper.floor_double(this.posX);
 				int y = MathHelper.floor_double(this.posY);
 				int z = MathHelper.floor_double(this.posZ);
+				int meta = this.getMeta();
 
 				if(this.fallingTicks == 1) {
 					if(this.worldObj.getBlock(x, y, z) != this.getBlock()) {
@@ -127,10 +128,10 @@ public class EntityFallingBlockNT extends Entity {
 					if(this.worldObj.getBlock(x, y, z) != Blocks.piston_extension) {
 						this.setDead();
 
-						if(!this.destroyOnLand && replacementCheck(x, y, z) && this.worldObj.setBlock(x, y, z, this.getBlock(), this.getMeta(), 3)) {
+						if(!this.destroyOnLand && replacementCheck(x, y, z) && this.worldObj.setBlock(x, y, z, this.getBlock(), meta, 3)) {
 
-							if(this.getBlock() instanceof BlockFalling) ((BlockFalling) this.getBlock()).func_149828_a(this.worldObj, x, y, z, this.getMeta());
-							if(this.getBlock() instanceof BlockFallingNT) ((BlockFallingNT) this.getBlock()).onLand(this.worldObj, x, y, z, this.getMeta());
+							if(this.getBlock() instanceof BlockFalling) ((BlockFalling) this.getBlock()).func_149828_a(this.worldObj, x, y, z, meta);
+							if(this.getBlock() instanceof BlockFallingNT) ((BlockFallingNT) this.getBlock()).onLand(this.worldObj, x, y, z, meta);
 
 							if(this.tileNBT != null && this.getBlock() instanceof ITileEntityProvider) {
 								TileEntity tileentity = this.worldObj.getTileEntity(x, y, z);
@@ -153,13 +154,13 @@ public class EntityFallingBlockNT extends Entity {
 									tileentity.markDirty();
 								}
 							}
-						} else if(this.canDrop && !this.destroyOnLand) {
-							this.entityDropItem(new ItemStack(this.getBlock(), 1, this.getBlock().damageDropped(this.getMeta())), 0.0F);
+						} else if(this.canDrop && !this.destroyOnLand && this.getBlock().getItemDropped(meta, rand, 0) != null) {
+							this.entityDropItem(new ItemStack(this.getBlock().getItemDropped(meta, rand, 0), 1, this.getBlock().damageDropped(meta)), 0.0F);
 						}
 					}
 				} else if(this.fallingTicks > 100 && !this.worldObj.isRemote && (y < 1 || y > 256) || this.fallingTicks > 600) {
-					if(this.canDrop) {
-						this.entityDropItem(new ItemStack(this.getBlock(), 1, this.getBlock().damageDropped(this.getMeta())), 0.0F);
+					if(this.canDrop && this.getBlock().getItemDropped(meta, rand, 0) != null) {
+						this.entityDropItem(new ItemStack(this.getBlock().getItemDropped(meta, rand, 0), 1, this.getBlock().damageDropped(meta)), 0.0F);
 					}
 
 					this.setDead();

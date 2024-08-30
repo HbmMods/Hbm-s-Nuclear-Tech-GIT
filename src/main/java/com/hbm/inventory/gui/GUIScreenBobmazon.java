@@ -9,8 +9,8 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.ItemBobmazonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.ItemBobmazonPacket;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

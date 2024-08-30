@@ -70,29 +70,6 @@ public class ExplosionChaos {
 		}
 	}
 
-	public static void antiCheat(World world, int x, int y, int z, int bombStartStrength) {
-
-		int r = bombStartStrength;
-		int r2 = r * r;
-		int r22 = r2 / 2;
-		for (int xx = -r; xx < r; xx++) {
-			int X = xx + x;
-			int XX = xx * xx;
-			for (int yy = -r; yy < r; yy++) {
-				int Y = yy + y;
-				int YY = XX + yy * yy;
-				for (int zz = -r; zz < r; zz++) {
-					int Z = zz + z;
-					int ZZ = YY + zz * zz;
-					if (ZZ < r22) {
-						if (rand.nextInt(15) == 0 && world.getBlock(X, Y, Z) != Blocks.air)
-							world.setBlock(X, Y, Z, ModBlocks.cheater_virus);
-					}
-				}
-			}
-		}
-	}
-
 	public static void hardenVirus(World world, int x, int y, int z, int bombStartStrength) {
 
 		int r = bombStartStrength;
@@ -405,7 +382,6 @@ public class ExplosionChaos {
 	}
 
 	public static void pDestruction(World world, int x, int y, int z) {
-
 		EntityFallingBlockNT entityfallingblock = new EntityFallingBlockNT(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
 		world.spawnEntityInWorld(entityfallingblock);
 	}

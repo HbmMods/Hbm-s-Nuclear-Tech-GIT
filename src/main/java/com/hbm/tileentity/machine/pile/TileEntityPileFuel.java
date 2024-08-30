@@ -3,8 +3,8 @@ package com.hbm.tileentity.machine.pile;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import api.hbm.block.IPileNeutronReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

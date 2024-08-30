@@ -2,7 +2,7 @@ package com.hbm.entity.projectile;
 
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.ParticleBurstPacket;
+import com.hbm.packet.toclient.ParticleBurstPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;

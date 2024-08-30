@@ -3,7 +3,7 @@ package com.hbm.render.item.weapon;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.items.weapon.gununified.ItemEnergyGunBase;
+import com.hbm.items.weapon.ItemEnergyGunBase;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.client.Minecraft;
