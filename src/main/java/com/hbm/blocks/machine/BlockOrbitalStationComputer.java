@@ -10,34 +10,34 @@ import net.minecraft.world.World;
 
 public class BlockOrbitalStationComputer extends BlockDummyable {
 
-    public BlockOrbitalStationComputer(Material mat) {
-        super(mat);
-    }
+	public BlockOrbitalStationComputer(Material mat) {
+		super(mat);
+	}
 
-    @Override
-    public TileEntity createNewTileEntity(World world, int meta) {
-        return new TileEntityOrbitalStationComputer();
-    }
+	@Override
+	public TileEntity createNewTileEntity(World world, int meta) {
+		return new TileEntityOrbitalStationComputer();
+	}
 
-    @Override
-    public int[] getDimensions() {
-        return new int[] {0, 0, 0, 0, 0, 0};
-    }
+	@Override
+	public int[] getDimensions() {
+		return new int[] {0, 0, 0, 0, 0, 0};
+	}
 
-    @Override
-    public int getOffset() {
-        return 0;
-    }
+	@Override
+	public int getOffset() {
+		return 0;
+	}
 
-    @Override
+	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote) {
 			return true;
 		} else {
-            int[] pos = this.findCore(world, x, y, z);
-    
-            if(pos == null)
-                return false;
+			int[] pos = this.findCore(world, x, y, z);
+	
+			if(pos == null)
+				return false;
 
 			TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
 
@@ -49,5 +49,5 @@ public class BlockOrbitalStationComputer extends BlockDummyable {
 			return true;
 		}
 	}
-    
+	
 }
