@@ -65,6 +65,7 @@ public class ItemSettingsTool extends Item {
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		list.add("Can copy the settings (filters, fluid ID, etc) of machines");
 		list.add("Shift right-click to copy, right click to paste");
+		list.add("Ctrl click on pipes to paste settings to multiple pipes");
 		/*if(stack.stackTagCompound != null) {
 			NBTTagCompound nbt = stack.stackTagCompound;
 			if (nbt.hasKey("tileName")){
