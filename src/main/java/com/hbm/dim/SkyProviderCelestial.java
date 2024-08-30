@@ -159,7 +159,6 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 		Tessellator tessellator = Tessellator.instance;
 
-		GL11.glColor3f(skyR, skyG, skyB);
 		GL11.glDepthMask(false);
 		GL11.glEnable(GL11.GL_FOG);
 		GL11.glColor3f(skyR, skyG, skyB);
@@ -181,8 +180,6 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 		renderStars(partialTicks, world, mc, starBrightness, celestialAngle, body.axialTilt);
 
-		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
-
 		
 		GL11.glPushMatrix();
 		{
@@ -193,6 +190,8 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 			// Draw DIGAMMA STAR
 			renderDigamma(partialTicks, world, mc, celestialAngle);
+
+			OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
 
 			double sunSize = SolarSystem.calculateSunSize(body);
 			double coronaSize = sunSize * (3 - MathHelper.clamp_float(pressure, 0.0F, 1.0F));

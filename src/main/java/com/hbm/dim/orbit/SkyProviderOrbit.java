@@ -45,8 +45,6 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 
 		renderStars(partialTicks, world, mc, starBrightness, celestialAngle, orbitalTilt);
 
-		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
-
 		GL11.glPushMatrix();
 		{
 
@@ -56,6 +54,8 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 
 			// digma balls
 			renderDigamma(partialTicks, world, mc, celestialAngle);
+
+			OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ONE, GL11.GL_ZERO);
 
 			double sunSize = SolarSystem.calculateSunSize(station.orbiting);
 			if(station.state != StationState.ORBIT) {
