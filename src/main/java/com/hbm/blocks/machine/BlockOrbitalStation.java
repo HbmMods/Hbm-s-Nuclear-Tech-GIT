@@ -38,20 +38,24 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 		if(player.isSneaking())
 			return false;
 
+		int[] pos = this.findCore(world, x, y, z);
+
+		if(pos == null)
+			return false;
+
+		// If activating the side blocks, ignore, to allow placing
+		if(Math.abs(pos[0] - x) >= 2 || Math.abs(pos[2] - z) >= 2)
+			return false;
+
 		if(world.isRemote) {
 			return true;
 		} else {
-			int[] pos = this.findCore(world, x, y, z);
-
-			if(pos == null)
-				return false;
-
 			TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
 
 			if(!(te instanceof TileEntityOrbitalStation))
 				return false;
 
-			((TileEntityOrbitalStation)te).toggleOrbiting();
+			((TileEntityOrbitalStation)te).enterCapsule(player);
 			
 			return true;
 		}

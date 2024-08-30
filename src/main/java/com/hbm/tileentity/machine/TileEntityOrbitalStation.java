@@ -1,12 +1,16 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.dim.SolarSystem;
+import java.util.List;
+
 import com.hbm.dim.orbit.OrbitalStation;
+import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityOrbitalStation extends TileEntityMachineBase {
@@ -36,13 +40,12 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
         }
     }
 
-    // debug
-    public void toggleOrbiting() {
-        int target = station.orbiting.getEnum().ordinal();
-        target++;
-        if(target >= SolarSystem.Body.values().length) target = 1;
-
-        station.travelTo(SolarSystem.Body.values()[target].getBody());
+    @SuppressWarnings("unchecked")
+    public void enterCapsule(EntityPlayer player) {
+        List<Entity> capsules = worldObj.getEntitiesWithinAABB(EntityRideableRocket.class, AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord - 128, zCoord - 1, xCoord + 2, yCoord + 1, zCoord + 2));
+        if(capsules.size() > 0) {
+            capsules.get(0).interactFirst(player);
+        }
     }
 
     @Override
