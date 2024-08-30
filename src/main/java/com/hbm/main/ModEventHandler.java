@@ -26,7 +26,7 @@ import com.hbm.dim.DebugTeleporter;
 import com.hbm.dim.WorldGeneratorCelestial;
 import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.dim.WorldTypeTeleport;
-import com.hbm.dim.eve.WorldProviderEve;
+import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.dim.orbit.WorldProviderOrbit;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.entity.mob.EntityCyberCrab;
@@ -52,7 +52,6 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.hazard.type.HazardTypeNeutron;
 import com.hbm.interfaces.IBomb;
 import com.hbm.handler.HTTPHandler;
-import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.handler.pollution.PollutionHandler;
@@ -80,19 +79,9 @@ import com.hbm.saveddata.AuxSavedData;
 import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.tileentity.network.RequestNetwork;
-import com.hbm.util.AchievementHandler;
-import com.hbm.util.ArmorRegistry;
-import com.hbm.util.ArmorUtil;
-import com.hbm.util.AstronomyUtil;
-import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
-import com.hbm.util.EnchantmentUtil;
-import com.hbm.util.EntityDamageUtil;
-import com.hbm.util.EnumUtil;
-import com.hbm.util.InventoryUtil;
-import com.hbm.util.ParticleUtil;
-import com.hbm.util.ShadyUtil;
+import com.hbm.util.*;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.world.generator.TimedGenerator;
 
@@ -113,7 +102,6 @@ import net.minecraft.block.BlockFire;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -1317,6 +1305,26 @@ public class ModEventHandler {
 	
 		
 		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.START) {
+			// Check for players attempting to cross over to another orbital grid
+			if(!player.worldObj.isRemote && player.worldObj.provider instanceof WorldProviderOrbit) {
+				double rx = Math.abs(player.posX) % OrbitalStation.STATION_SIZE;
+				double rz = Math.abs(player.posZ) % OrbitalStation.STATION_SIZE;
+
+				int minBuffer = OrbitalStation.BUFFER_SIZE;
+				int maxBuffer = OrbitalStation.STATION_SIZE - minBuffer;
+
+				int minWarning = OrbitalStation.BUFFER_SIZE + OrbitalStation.WARNING_SIZE;
+				int maxWarning = OrbitalStation.STATION_SIZE - minWarning;
+
+				if(player instanceof EntityPlayerMP && (rx < minWarning || rx > maxWarning || rz < minWarning || rz > maxWarning)) {
+					PacketDispatcher.wrapper.sendTo(new PlayerInformPacket(ChatBuilder.start("").nextTranslation("info.orbitfall").color(EnumChatFormatting.RED).flush(), ServerProxy.ID_GAS_HAZARD, 3000), (EntityPlayerMP) player);
+				}
+
+				if(rx < minBuffer || rx > maxBuffer || rz < minBuffer || rz > maxBuffer) {
+					OrbitalStation station = OrbitalStation.getStation((int)player.posX, (int)player.posZ);
+					DebugTeleporter.teleport(player, station.orbiting.dimensionId, rand.nextInt(SpaceConfig.maxProbeDistance * 2) - SpaceConfig.maxProbeDistance, 800, rand.nextInt(SpaceConfig.maxProbeDistance * 2) - SpaceConfig.maxProbeDistance, false);
+				}
+			}
 
 			// keep Nether teleports localized
 			// this effectively turns the Nether into a shared pocket dimension, but disallows using it to travel between celestial bodies

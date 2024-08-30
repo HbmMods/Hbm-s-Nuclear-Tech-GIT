@@ -1760,6 +1760,7 @@ icffuel.tritium=Tritium
 info.asbestos=My lungs are burning.
 info.coaldust=It's hard to breathe here.
 info.corrosion=My suit is melting.
+info.orbitfall=I'm going to fall.
 info.coil=Coil Strength
 info.templatefolder=Created with %s
 info.template_in=Input:

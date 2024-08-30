@@ -34,6 +34,7 @@ public class OrbitalStation {
 
 	public static final int STATION_SIZE = 1024; // total area for each station
 	public static final int BUFFER_SIZE = 256; // size of the buffer region that drops you out of orbit (preventing seeing other stations)
+	public static final int WARNING_SIZE = 32; // size of the region that warns the player about falling out of orbit
 
 
 	
