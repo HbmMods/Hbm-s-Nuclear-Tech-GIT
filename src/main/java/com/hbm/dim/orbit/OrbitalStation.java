@@ -4,10 +4,12 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystemWorldSavedData;
+import com.hbm.handler.MultiblockHandlerXR;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class OrbitalStation {
 
@@ -120,10 +122,14 @@ public class OrbitalStation {
 	}
 
 	public static void spawn(World world, int x, int z) {
-		if(world.getBlock(x, 128, z) == ModBlocks.orbital_station) return;
+		int y = 127;
+		if(world.getBlock(x, y, z) == ModBlocks.orbital_station) return;
+
+		int[] dimensions = ((BlockDummyable)ModBlocks.orbital_station).getDimensions();
 
 		BlockDummyable.safeRem = true;
-		world.setBlock(x, 128, z, ModBlocks.orbital_station, 12, 3);
+		world.setBlock(x, y, z, ModBlocks.orbital_station, 12, 3);
+		MultiblockHandlerXR.fillSpace(world, x, y, z, dimensions, ModBlocks.orbital_station, ForgeDirection.NORTH);
 		BlockDummyable.safeRem = false;
 	}
 

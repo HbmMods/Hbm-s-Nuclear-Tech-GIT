@@ -4,7 +4,10 @@ import com.hbm.dim.SolarSystem;
 import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityOrbitalStation extends TileEntityMachineBase {
 
@@ -54,6 +57,30 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
         super.deserialize(buf);
 
         OrbitalStation.clientStation = station = OrbitalStation.deserialize(buf);
+    }
+
+    AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+                xCoord - 2,
+                yCoord - 2,
+                zCoord - 2,
+                xCoord + 3,
+                yCoord + 2,
+                zCoord + 3
+            );
+		}
+		
+		return bb;
+	}
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public double getMaxRenderDistanceSquared() {
+        return 65536.0D;
     }
     
 }

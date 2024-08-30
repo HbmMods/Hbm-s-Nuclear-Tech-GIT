@@ -692,9 +692,11 @@ public class ModEventHandler {
 
 								// Prevent leaving a rocket in motion, for safety
 								if(state != RocketState.LANDING && state != RocketState.LAUNCHING) {
+									boolean inOrbit = event.world.provider instanceof WorldProviderOrbit;
 									Entity ridingEntity = player.ridingEntity;
 									float prevHeight = ridingEntity.height;
-									ridingEntity.height = 1.0F;
+									
+									ridingEntity.height = inOrbit ? ridingEntity.height + 1.0F : 1.0F;
 									player.mountEntity(null);
 									ridingEntity.height = prevHeight;
 								}

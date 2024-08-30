@@ -15,7 +15,7 @@ public class RenderOrbitalStation extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		{
 
-			GL11.glTranslated(x + 0.5D, y, z + 0.5D);
+			GL11.glTranslated(x + 0.5D, y + 1.0D, z + 0.5D);
 			GL11.glEnable(GL11.GL_LIGHTING);
 	
 			switch(te.getBlockMetadata() - BlockDummyable.offset) {
@@ -24,9 +24,13 @@ public class RenderOrbitalStation extends TileEntitySpecialRenderer {
 			case 3: GL11.glRotatef(180, 0F, 1F, 0F); break;
 			case 5: GL11.glRotatef(270, 0F, 1F, 0F); break;
 			}
+
+			GL11.glShadeModel(GL11.GL_SMOOTH);
 	
-			bindTexture(ResourceManager.missile_assembly_tex);
-			ResourceManager.missile_assembly.renderAll();
+			bindTexture(ResourceManager.docking_port_tex);
+			ResourceManager.docking_port.renderAll();
+
+			GL11.glShadeModel(GL11.GL_FLAT);
 
 		}
 		GL11.glPopMatrix();

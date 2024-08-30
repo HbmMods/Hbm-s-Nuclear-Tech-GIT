@@ -155,8 +155,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 				if(navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
 					Destination destination = ItemVOTVdrive.getDestination(navDrive);
-					posX = destination.x;
-					posZ = destination.z;
+					posX = destination.x + 0.5D;
+					posZ = destination.z + 0.5D;
 				}
 			} else if(state == RocketState.TIPPING) {
 				float tipTime = (float)stateTimer * 0.1F;
@@ -179,9 +179,9 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				rocketVelocity = 0.1;
 				rotationPitch = 0;
 
-				if(posY + height > 128) {
+				if(posY + height > 128.5D) {
 					setState(RocketState.LANDED);
-					posY = 128 - height;
+					posY = 128.5D - height;
 				}
 			} else if(state == RocketState.UNDOCKING) {
 				rocketVelocity = -0.1;
@@ -224,7 +224,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 					}
 
 					if(worldObj.provider.dimensionId != targetDimensionId) {
-						DebugTeleporter.teleport(rider, targetDimensionId, x, y, z, false);
+						DebugTeleporter.teleport(rider, targetDimensionId, x + 0.5D, y, z + 0.5D, false);
 					} // landing state will automatically set the correct X/Z for same-planet launches, so no need to teleport
 
 					// After a successful warp, spawn in a station core if one doesn't yet exist
@@ -301,6 +301,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	@Override
 	public boolean interactFirst(EntityPlayer player) {
+		if(!canRide()) return false;
+
 		if(super.interactFirst(player)) {
 			return true;
 		} else if(!this.worldObj.isRemote && (this.riddenByEntity == null || this.riddenByEntity == player)) {
@@ -309,6 +311,10 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		} else {
 			return false;
 		}
+	}
+
+	public boolean canRide() {
+		return true;
 	}
 
 	@Override
@@ -421,7 +427,12 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	protected void spawnContrail() {
 		RocketState state = getState();
 
-		if(state == RocketState.AWAITING || state == RocketState.LANDED || (state == RocketState.LANDING && motionY <= -0.4)) return;
+		if(state == RocketState.AWAITING
+		|| state == RocketState.LANDED
+		|| (state == RocketState.LANDING && motionY <= -0.4)
+		|| state == RocketState.DOCKING
+		|| state == RocketState.UNDOCKING)
+			return;
 
 		RocketStruct rocket = getRocket();
 		if(rocket.stages.size() == 0) {
@@ -549,7 +560,11 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	@SideOnly(Side.CLIENT)
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		RocketState state = getState();
-		if(state == RocketState.LAUNCHING || state == RocketState.LANDING || state == RocketState.TIPPING)
+		if(state == RocketState.LAUNCHING
+		|| state == RocketState.LANDING
+		|| state == RocketState.TIPPING
+		|| state == RocketState.DOCKING
+		|| state == RocketState.UNDOCKING)
 			return;
 
 		RocketStruct rocket = getRocket();
