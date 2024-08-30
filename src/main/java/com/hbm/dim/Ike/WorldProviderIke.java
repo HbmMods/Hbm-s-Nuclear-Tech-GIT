@@ -1,10 +1,14 @@
 package com.hbm.dim.Ike;
 
+import java.util.ArrayList;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.WorldProviderCelestial;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.WeightedRandomFishable;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.IChunkProvider;
 
@@ -46,5 +50,30 @@ public class WorldProviderIke extends WorldProviderCelestial {
 		}
 		return true;
 	}
+
+	private static ArrayList<WeightedRandomFishable> plushie;
+
+	private ArrayList<WeightedRandomFishable> getPlushie() {
+		if(plushie == null) {
+			plushie = new ArrayList<>();
+			plushie.add(new WeightedRandomFishable(new ItemStack(ModBlocks.plushie, 1, 1), 100));
+		}
+
+		return plushie;
+	}
+
+	/// FISH ///
+	public ArrayList<WeightedRandomFishable> getFish() {
+		return getPlushie();
+	}
+
+	public ArrayList<WeightedRandomFishable> getJunk() {
+		return getPlushie();
+	}
+
+	public ArrayList<WeightedRandomFishable> getTreasure() {
+		return getPlushie();
+	}
+	/// FISH ///
 
 }

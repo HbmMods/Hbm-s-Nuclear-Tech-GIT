@@ -1,5 +1,7 @@
 package com.hbm.dim;
 
+import java.util.ArrayList;
+
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Atmosphere.FluidEntry;
 import com.hbm.dim.trait.CelestialBodyTrait.CBT_Destroyed;
@@ -14,10 +16,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.WeightedRandomFishable;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.IRenderHandler;
@@ -433,5 +438,40 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		f1 = 0.5F - Math.cos(f1 * Math.PI) / 2.0F;
 		return (float)(f2 + (f1 - f2) / 3.0D);
 	}
+
+	// This is the vanilla junk table, for replacing fish on dead worlds
+	private static ArrayList<WeightedRandomFishable> junk;
+
+	// you know what that means
+	/// FISH ///
+
+	// returning null from any of these methods will revert to overworld loot tables
+	public ArrayList<WeightedRandomFishable> getFish() {
+		if(junk == null) {
+			junk = new ArrayList<>();
+			// junk.add((new WeightedRandomFishable(new ItemStack(Items.leather_boots), 10)).func_150709_a(0.9F));
+			// junk.add(new WeightedRandomFishable(new ItemStack(Items.leather), 10));
+			// junk.add(new WeightedRandomFishable(new ItemStack(Items.bone), 10));
+			junk.add(new WeightedRandomFishable(new ItemStack(Items.potionitem), 10));
+			junk.add(new WeightedRandomFishable(new ItemStack(Items.string), 5));
+			junk.add((new WeightedRandomFishable(new ItemStack(Items.fishing_rod), 2)).func_150709_a(0.9F));
+			junk.add(new WeightedRandomFishable(new ItemStack(Items.bowl), 10));
+			junk.add(new WeightedRandomFishable(new ItemStack(Items.stick), 5));
+			junk.add(new WeightedRandomFishable(new ItemStack(Items.dye, 10, 0), 1));
+			junk.add(new WeightedRandomFishable(new ItemStack(Blocks.tripwire_hook), 10));
+			// junk.add(new WeightedRandomFishable(new ItemStack(Items.rotten_flesh), 10));
+		}
+
+		return junk;
+	}
+
+	public ArrayList<WeightedRandomFishable> getJunk() {
+		return null;
+	}
+
+	public ArrayList<WeightedRandomFishable> getTreasure() {
+		return null;
+	}
+	/// FISH ///
 
 }

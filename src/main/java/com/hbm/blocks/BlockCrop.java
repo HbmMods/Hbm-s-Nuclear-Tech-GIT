@@ -156,7 +156,7 @@ public class BlockCrop extends BlockBush implements IGrowable {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister parIIconRegister) {
-		blockIcons = new IIcon[maxGrowthStage+1];
+		blockIcons = new IIcon[maxGrowthStage+2];
 		// seems that crops like to have 8 growth icons, but okay to repeat actual texture if you want
 		// to make generic should loop to maxGrowthStage
 		blockIcons[0] = parIIconRegister.registerIcon(getTextureName() + "_1");
@@ -167,6 +167,7 @@ public class BlockCrop extends BlockBush implements IGrowable {
 		blockIcons[5] = parIIconRegister.registerIcon(getTextureName() + "_3");
 		blockIcons[6] = parIIconRegister.registerIcon(getTextureName() + "_4");
 		blockIcons[7] = parIIconRegister.registerIcon(getTextureName() + "_5");
+		blockIcons[8] = parIIconRegister.registerIcon(getTextureName() + "_5");
 	}
 
 }
