@@ -12,14 +12,16 @@ import com.hbm.tileentity.machine.TileEntityAtmoExtractor;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
+import api.hbm.block.IToolable;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class AtmoVent extends BlockDummyable implements ILookOverlay {
+public class AtmoVent extends BlockDummyable implements ILookOverlay, IToolable {
 
 	public AtmoVent(Material mat) {
 		super(mat);
@@ -80,5 +82,28 @@ public class AtmoVent extends BlockDummyable implements ILookOverlay {
 		}
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+	}
+
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		
+		if(tool != ToolType.SCREWDRIVER)
+			return false;
+		
+		if(world.isRemote) return true;
+		
+		int[] pos = this.findCore(world, x, y, z);
+		
+		if(pos == null) return false;
+		
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		
+		if(!(te instanceof TileEntityAtmoExtractor)) return false;
+		
+		TileEntityAtmoExtractor tile = (TileEntityAtmoExtractor) te;
+		tile.cycleGas();
+		tile.markDirty();
+		
+		return true;
 	}
 }

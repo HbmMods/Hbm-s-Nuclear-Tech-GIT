@@ -7,6 +7,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Gaseous;
@@ -56,7 +57,10 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IE
 				: null;
 
 			if(atmosphere != null) {
-				tank.setTankType(atmosphere.getMainFluid());
+				// If the atmosphere doesn't contain the fluid we're sucking up, pick a new one
+				if(!atmosphere.hasFluid(tank.getTankType())) {
+					tank.setTankType(atmosphere.getMainFluid());
+				}
 			} else {
 				tank.setTankType(Fluids.NONE);
 			}
@@ -89,6 +93,26 @@ public class TileEntityAtmoExtractor extends TileEntityMachineBase implements IE
 			if(rot >= 360) {
 				rot -= 360;
 				prevRot -= 360;
+			}
+		}
+	}
+
+	public void cycleGas() {
+		CBT_Atmosphere atmosphere = !ChunkAtmosphereManager.proxy.hasAtmosphere(worldObj, xCoord, yCoord, zCoord)
+			? CelestialBody.getTrait(worldObj, CBT_Atmosphere.class)
+			: null;
+
+		if(atmosphere == null) return;
+
+		FluidType currentFluid = tank.getTankType();
+
+		for(int i = 0; i < atmosphere.fluids.size(); i++) {
+			if(atmosphere.fluids.get(i).fluid == currentFluid) {
+				int targetIndex = i + 1;
+				if(targetIndex >= atmosphere.fluids.size()) targetIndex = 0;
+
+				tank.setTankType(atmosphere.fluids.get(targetIndex).fluid);
+				break;
 			}
 		}
 	}

@@ -1,9 +1,12 @@
 package com.hbm.dim.Ike;
 
+import java.util.List;
+
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.ChunkProviderCelestial;
 import com.hbm.dim.mapgen.MapGenTiltedSpires;
 
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.MapGenBase;
 import net.minecraft.world.gen.MapGenCaves;
@@ -31,6 +34,13 @@ public class ChunkProviderIke extends ChunkProviderCelestial {
 		caveGenerator.func_151539_a(this, worldObj, x, z, buffer.blocks);
 		
 		return buffer;
+	}
+
+	// man fuck Ike, why you gotta be spawning shit again
+	@SuppressWarnings("rawtypes")
+	@Override
+	public List getPossibleCreatures(EnumCreatureType creatureType, int x, int y, int z) {
+        return null;
 	}
 
 }

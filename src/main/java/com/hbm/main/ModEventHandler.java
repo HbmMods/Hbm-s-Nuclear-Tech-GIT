@@ -118,6 +118,7 @@ import net.minecraft.entity.passive.EntityMooshroom;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -137,9 +138,11 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.FoodStats;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.WeightedRandomFishable;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.FishingHooks;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -1786,6 +1789,51 @@ public class ModEventHandler {
 					event.entityPlayer.attackEntityFrom(rand.nextBoolean() ? ModDamageSource.euthanizedSelf : ModDamageSource.euthanizedSelf2, 1000);
 				}
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public void setFish(EntityJoinWorldEvent event) {
+		if(!(event.entity instanceof EntityFishHook)) return;
+
+		updateFish(event.world);
+	}
+
+	private static ArrayList<WeightedRandomFishable> overworldFish;
+	private static ArrayList<WeightedRandomFishable> overworldJunk;
+	private static ArrayList<WeightedRandomFishable> overworldTreasure;
+
+	// Removes all the existing values from the fishing loot tables and replaces them per dimension
+	public static void updateFish(World world) {
+		if(overworldFish == null) {
+			overworldFish = new ArrayList<>();
+			overworldJunk = new ArrayList<>();
+			overworldTreasure = new ArrayList<>();
+
+			FishingHooks.removeFish((fishable) -> { overworldFish.add(fishable); return false; });
+			FishingHooks.removeJunk((fishable) -> { overworldJunk.add(fishable); return false; });
+			FishingHooks.removeTreasure((fishable) -> { overworldTreasure.add(fishable); return false; });
+		} else {
+			FishingHooks.removeFish((fishable) -> { return false; });
+			FishingHooks.removeJunk((fishable) -> { return false; });
+			FishingHooks.removeTreasure((fishable) -> { return false; });
+		}
+
+		if(world.provider instanceof WorldProviderCelestial && world.provider.dimensionId != 0) {
+			WorldProviderCelestial provider = (WorldProviderCelestial) world.provider;
+			ArrayList<WeightedRandomFishable> fish = provider.getFish();
+			ArrayList<WeightedRandomFishable> junk = provider.getJunk();
+			ArrayList<WeightedRandomFishable> treasure = provider.getTreasure();
+			if(fish == null) fish = overworldFish;
+			if(junk == null) junk = overworldJunk;
+			if(treasure == null) treasure = overworldTreasure;
+			for(WeightedRandomFishable fishable : fish) FishingHooks.addFish(fishable);
+			for(WeightedRandomFishable fishable : junk) FishingHooks.addJunk(fishable);
+			for(WeightedRandomFishable fishable : treasure) FishingHooks.addTreasure(fishable);
+		} else {
+			for(WeightedRandomFishable fishable : overworldFish) FishingHooks.addFish(fishable);
+			for(WeightedRandomFishable fishable : overworldJunk) FishingHooks.addJunk(fishable);
+			for(WeightedRandomFishable fishable : overworldTreasure) FishingHooks.addTreasure(fishable);
 		}
 	}
 	
