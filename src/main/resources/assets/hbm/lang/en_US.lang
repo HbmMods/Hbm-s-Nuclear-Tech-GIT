@@ -858,6 +858,17 @@ container.wasteDrum=Spent Fuel Pool Drum
 container.watzPowerplant=Watz Power Plant
 container.zirnox=ZIRNOX Nuclear Reactor
 
+copytool.filter=Filter
+copytool.invertRedstone=Redstone Inverted
+copytool.invertFilter=Filter Inverted
+copytool.orientation=Orientation
+copytool.pattern0=Red Side
+copytool.pattern1=Orange Side
+copytool.pattern2=Yellow Side
+copytool.pattern3=Green Side
+copytool.pattern4=Blue Side
+copytool.pattern5=Purple Side
+
 crucible.aa=Advanced Alloy Production
 crucible.abronze=Arsenic Bronze Production
 crucible.bbronze=Bismuth Bronze Production

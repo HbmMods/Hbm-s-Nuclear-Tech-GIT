@@ -181,6 +181,7 @@ public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUI
 					this.getWorldObj().markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 				}
 			}
+			modes = nbt.getIntArray("modes");
 		} else {
 			IControlReceiverFilter.super.pasteSettings(nbt, index, world, player, x, y, z);
 		}

@@ -74,12 +74,16 @@ public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 		int listSize = items.tagCount();
 		if(listSize > 0) {
 			int count = 0;
+
 			for (int i = getFilterSlots()[0]; i < getFilterSlots()[1]; i++) {
 				if (i < listSize) {
 					NBTTagCompound slotNBT = items.getCompoundTagAt(count);
 					byte slot = slotNBT.getByte("slot");
 					ItemStack loadedStack = ItemStack.loadItemStackFromNBT(slotNBT);
-					if (loadedStack != null && slot < getFilterSlots()[1]) {
+					//whether the filter info came from a router
+					boolean router = nbt.hasKey("modes") && slot > index * 5 && slot < index * + 5;
+
+					if (loadedStack != null && index < listSize && (slot < getFilterSlots()[1] || router)) {
 						inv.setInventorySlotContents(slot + getFilterSlots()[0], ItemStack.loadItemStackFromNBT(slotNBT));
 						nextMode(slot);
 						tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
@@ -87,7 +91,6 @@ public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 				}
 				count++;
 			}
-
 		}
 	}
 

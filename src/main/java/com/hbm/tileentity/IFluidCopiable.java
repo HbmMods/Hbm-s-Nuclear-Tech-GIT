@@ -50,7 +50,7 @@ public interface IFluidCopiable extends ICopiable {
     default void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
         if(getTankToPaste() != null) {
             int[] ids = nbt.getIntArray("fluidID");
-            if(ids.length > 0) {
+            if(ids.length > 0 && index < ids.length) {
                 int id = ids[index];
                 getTankToPaste().setTankType(Fluids.fromID(id));
             }
