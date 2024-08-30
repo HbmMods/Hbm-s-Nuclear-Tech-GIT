@@ -224,7 +224,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 
 		NeutronNodeWorld.removeNode(new BlockPos(this)); // woo-fucking-hoo!!!
 	}
-	
+
 	@Override
 	public void markDirty() {
 		
