@@ -2,6 +2,7 @@ package com.hbm.items.armor;
 
 import java.util.List;
 
+import com.hbm.handler.ArmorModHandler;
 import com.hbm.util.BobMathUtil;
 
 import api.hbm.energymk2.IBatteryItem;
@@ -30,9 +31,7 @@ public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
 
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-
-		list.add("Charge: " + BobMathUtil.getShortNumber(getCharge(stack)) + " / " + BobMathUtil.getShortNumber(maxPower));
-
+		list.add("Charge: " + BobMathUtil.getShortNumber(getCharge(stack)) + " / " + BobMathUtil.getShortNumber(getMaxCharge(stack)));
 		super.addInformation(stack, player, list, ext);
 	}
 
@@ -72,7 +71,7 @@ public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
 				stack.stackTagCompound.setLong("charge", stack.stackTagCompound.getLong("charge") - i);
 			} else {
 				stack.stackTagCompound = new NBTTagCompound();
-				stack.stackTagCompound.setLong("charge", this.maxPower - i);
+				stack.stackTagCompound.setLong("charge", getMaxCharge(stack) - i);
 			}
 
 			if(stack.stackTagCompound.getLong("charge") < 0)
@@ -84,10 +83,10 @@ public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
 	public long getCharge(ItemStack stack) {
 		if(stack.getItem() instanceof ArmorFSBPowered) {
 			if(stack.hasTagCompound()) {
-				return stack.stackTagCompound.getLong("charge");
+				return Math.min(stack.stackTagCompound.getLong("charge"), getMaxCharge(stack));
 			} else {
 				stack.stackTagCompound = new NBTTagCompound();
-				stack.stackTagCompound.setLong("charge", ((ArmorFSBPowered) stack.getItem()).maxPower);
+				stack.stackTagCompound.setLong("charge", getMaxCharge(stack));
 				return stack.stackTagCompound.getLong("charge");
 			}
 		}
@@ -97,18 +96,23 @@ public class ArmorFSBPowered extends ArmorFSB implements IBatteryItem {
 
 	@Override
 	public boolean showDurabilityBar(ItemStack stack) {
-
-		return getCharge(stack) < maxPower;
+		return getCharge(stack) < getMaxCharge(stack);
 	}
 
 	@Override
 	public double getDurabilityForDisplay(ItemStack stack) {
 
-		return 1 - (double) getCharge(stack) / (double) maxPower;
+		return 1 - (double) getCharge(stack) / (double) getMaxCharge(stack);
 	}
 
 	@Override
-	public long getMaxCharge() {
+	public long getMaxCharge(ItemStack stack) {
+		if(ArmorModHandler.hasMods(stack)) {
+			ItemStack mod = ArmorModHandler.pryMod(stack, ArmorModHandler.battery);
+			if(mod != null && mod.getItem() instanceof ItemModBattery) {
+				return (long) (maxPower * ((ItemModBattery) mod.getItem()).mod);
+			}
+		}
 		return maxPower;
 	}
 

@@ -71,6 +71,10 @@ repositories {
 		name = 'ModMaven'
 		url = 'https://modmaven.dev'
 	}
+	maven {
+		name = "gt"
+		url = "https://gregtech.mechaenetia.com/"
+	}
 	//maven {
 	//	name = "CurseForge"
 	//	url = "https://minecraft.curseforge.com/api/maven/"
@@ -87,7 +91,8 @@ dependencies {
 	implementation 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:dev'
 	compileOnly 'codechicken:NotEnoughItems:1.7.10-1.0.3.74:src'
 
-	//compileOnly 'inventory-tweaks:InventoryTweaks:1.62+beta.84:api'
+	compileOnly "inventorytweaks:InventoryTweaks:1.59-dev:deobf"
+
 	implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
 }
 

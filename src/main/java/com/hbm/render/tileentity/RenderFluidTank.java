@@ -119,7 +119,7 @@ public class RenderFluidTank extends TileEntitySpecialRenderer implements IItemR
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				GL11.glDisable(GL11.GL_CULL_FACE);
 				
-				FluidTank tank = new FluidTank(Fluids.NONE, 0, 0);
+				FluidTank tank = new FluidTank(Fluids.NONE, 0);
 				boolean exploded = false;
 				if(item.hasTagCompound() && item.getTagCompound().hasKey(IPersistentNBT.NBT_PERSISTENT_KEY)) {
 					tank.readFromNBT(item.getTagCompound().getCompoundTag(IPersistentNBT.NBT_PERSISTENT_KEY), "tank");

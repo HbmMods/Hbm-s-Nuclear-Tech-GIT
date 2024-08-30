@@ -8,7 +8,6 @@ import api.hbm.energymk2.Nodespace;
 import api.hbm.energymk2.Nodespace.PowerNode;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -79,13 +78,7 @@ public class TileEntityMachineFENSU extends TileEntityMachineBattery {
 			
 			this.log[19] = avg;
 			
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setLong("power", avg);
-			nbt.setLong("delta", delta);
-			nbt.setShort("redLow", redLow);
-			nbt.setShort("redHigh", redHigh);
-			nbt.setByte("priority", (byte) this.priority.ordinal());
-			this.networkPack(nbt, 20);
+			this.networkPackNT(20);
 		}
 		
 		if(worldObj.isRemote) {

@@ -98,9 +98,6 @@ public class EntityMappings {
 		addEntity(EntityGrenadeShrapnel.class, "entity_grenade_shrapnel", 250);
 		addEntity(EntityBlackHole.class, "entity_black_hole", 250);
 		addEntity(EntityGrenadeBlackHole.class, "entity_grenade_black_hole", 250);
-		addEntity(EntityOilSpillFX.class, "entity_spill_fx", 1000);
-		addEntity(EntityOilSpill.class, "entity_oil_spill", 1000);
-		addEntity(EntityGasFX.class, "entity_spill_fx", 1000);
 		addEntity(EntityMinecartTest.class, "entity_minecart_test", 1000);
 		addEntity(EntitySparkBeam.class, "entity_spark_beam", 1000);
 		addEntity(EntityMissileDoomsday.class, "entity_missile_doomsday", 1000);

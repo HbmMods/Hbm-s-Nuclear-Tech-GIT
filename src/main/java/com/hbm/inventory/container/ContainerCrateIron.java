@@ -5,7 +5,7 @@ import com.hbm.tileentity.machine.storage.TileEntityCrateIron;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
-//@invtweaks.api.container.ChestContainer
+@invtweaks.api.container.ChestContainer(rowSize = 9, isLargeChest = false)
 public class ContainerCrateIron extends ContainerCrateBase {
 	
 	public ContainerCrateIron(InventoryPlayer invPlayer, TileEntityCrateIron tedf) {

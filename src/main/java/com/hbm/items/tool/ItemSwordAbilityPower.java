@@ -106,7 +106,7 @@ public class ItemSwordAbilityPower extends ItemSwordAbility implements IBatteryI
     }
 
 	@Override
-    public long getMaxCharge() {
+    public long getMaxCharge(ItemStack stack) {
     	return maxPower;
     }
 

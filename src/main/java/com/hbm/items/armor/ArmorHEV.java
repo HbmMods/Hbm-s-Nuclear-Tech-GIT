@@ -108,7 +108,7 @@ public class ArmorHEV extends ArmorFSBPowered {
 			ItemStack armor = player.inventory.armorInventory[i];
 			ArmorFSBPowered item = ((ArmorFSBPowered) player.inventory.armorInventory[i].getItem());
 
-			c += (double) item.getCharge(armor) / (double) item.getMaxCharge();
+			c += (double) item.getCharge(armor) / (double) item.getMaxCharge(armor);
 		}
 
 		int aX = (int) (70 / scale);

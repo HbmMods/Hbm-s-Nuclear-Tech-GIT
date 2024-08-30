@@ -64,8 +64,8 @@ public class EntityFalloutRain extends EntityExplosionChunkloading {
 						int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
 						int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
 						boolean biomeModified = false;
-						for(int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) {
-							for(int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
+						for(int x = chunkPosX << 4; x < (chunkPosX << 4) + 16; x++) {
+							for(int z = chunkPosZ << 4; z < (chunkPosZ << 4) + 16; z++) {
 								double percent = Math.hypot(x - posX, z - posZ) * 100 / getScale();
 								stomp(x, z, percent);
 								BiomeGenBase biome = getBiomeChange(percent, getScale(), worldObj.getBiomeGenForCoords(x, z));
@@ -82,8 +82,8 @@ public class EntityFalloutRain extends EntityExplosionChunkloading {
 						int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
 						int chunkPosZ = (int) (chunkPos >> 32 & Integer.MAX_VALUE);
 						boolean biomeModified = false;
-						for(int x = chunkPosX << 4; x <= (chunkPosX << 4) + 16; x++) {
-							for(int z = chunkPosZ << 4; z <= (chunkPosZ << 4) + 16; z++) {
+						for(int x = chunkPosX << 4; x < (chunkPosX << 4) + 16; x++) {
+							for(int z = chunkPosZ << 4; z < (chunkPosZ << 4) + 16; z++) {
 								double distance = Math.hypot(x - posX, z - posZ);
 								if(distance <= getScale()) {
 									double percent = distance * 100 / getScale();
@@ -165,14 +165,13 @@ public class EntityFalloutRain extends EntityExplosionChunkloading {
 
 		int depth = 0;
 
-		for(int y = 255; y >= 1; y--) {
+		for(int y = 255; y >= 0; y--) {
 			
 			if(depth >= 3) return;
 
 			Block b = worldObj.getBlock(x, y, z);
 
 			if(b.getMaterial() == Material.air || b == ModBlocks.fallout) continue;
-			if(b == Blocks.bedrock) return;
 			
 			if(b == ModBlocks.volcano_core) {
 				worldObj.setBlock(x, y, z, ModBlocks.volcano_rad_core, worldObj.getBlockMetadata(x, y, z), 3);
@@ -211,7 +210,7 @@ public class EntityFalloutRain extends EntityExplosionChunkloading {
 			}
 			
 			float hardness = b.getBlockHardness(worldObj, x, y, z);
-			if(dist < 65 && hardness <= Blocks.stonebrick.getExplosionResistance(null) && hardness >= 0/* && !b.hasTileEntity(worldObj.getBlockMetadata(x, y, z))*/) {
+			if(y > 0 && dist < 65 && hardness <= Blocks.stonebrick.getExplosionResistance(null) && hardness >= 0/* && !b.hasTileEntity(worldObj.getBlockMetadata(x, y, z))*/) {
 				
 				if(worldObj.getBlock(x, y - 1, z) == Blocks.air) {
 					for(int i = 0; i <= depth; i++) {

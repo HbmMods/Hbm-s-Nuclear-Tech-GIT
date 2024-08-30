@@ -30,11 +30,9 @@ This ties together with the previous point - there's no guarantees that your PR 
 
 ## I want to help but don't know where to start
 
-If you want to help the project, consider getting involved with the [wiki](ntm.fandom.com) first. Writing an article is the easiest and quickest way of helping, and requires no programming knowledge. If you do know Java and want to help, consider these places first:
+If you want to help the project, consider getting involved with the [wiki](https://nucleartech.wiki/) first. Writing an article is the easiest and quickest way of helping, and requires no programming knowledge. If you do know Java and want to help, consider these places first:
 
 * Localization, i.e. translations in different language are always accepted.
 * `IConfigurableMachine`, an interface that allows machines to be added to the `hbmMachines.json` config, is still not used by many machines.
 * F1 Presentations, also known as "Stare" or "Jar Presentations", is a neat system of creating a short movie explaining functionality. All the relevant code can be found in `com.hbm.wiaj`.
-* Some guns still use the old "bow-style" systems and not `ItemGunBase`.
-* Many guns don't have any animations whatsoever, just adding a minor recoil would already improve them by a lot.
 * Adding tooltips to more machines, explaining some of the basics.

@@ -7,7 +7,6 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -32,13 +31,13 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFluidContainer, IFluidStandardReceiver, IFluidCopiable {
+public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFluidStandardReceiver, IFluidCopiable {
 	
 	public FluidTank tank;
 	
 	public TileEntityTurretFritz() {
 		super();
-		this.tank = new FluidTank(Fluids.DIESEL, 16000, 0);
+		this.tank = new FluidTank(Fluids.DIESEL, 16000);
 	}
 	
 	@Override
@@ -143,7 +142,6 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 		if(!worldObj.isRemote) {
 			tank.setType(9, 9, slots);
 			tank.loadTank(0, 1, slots);
-			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			for(int i = 1; i < 10; i++) {
 				
@@ -155,6 +153,19 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 				}
 			}
 		}
+	}
+	
+	@Override
+	protected NBTTagCompound writePacket() {
+		NBTTagCompound data = super.writePacket();
+		tank.writeToNBT(data, "t");
+		return data;
+	}
+
+	@Override
+	public void networkUnpack(NBTTagCompound nbt) {
+		super.networkUnpack(nbt);
+		tank.readFromNBT(nbt, "t");
 	}
 
 	@Override //TODO: clean this shit up
@@ -196,16 +207,6 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return new int[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
 	}
 
 	@Override

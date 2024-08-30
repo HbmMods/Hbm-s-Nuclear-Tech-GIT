@@ -1,6 +1,7 @@
 package com.hbm.tileentity;
 
 import api.hbm.block.ICrucibleAcceptor;
+import com.hbm.handler.CompatHandler;
 import com.hbm.handler.CompatHandler.OCComponent;
 import com.hbm.inventory.fluid.FluidType;
 
@@ -8,6 +9,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidConnector;
 import api.hbm.tile.IHeatSource;
 import com.hbm.inventory.material.Mats;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Context;
@@ -32,7 +34,11 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	boolean fluid;
 	boolean heat;
 	public boolean moltenMetal;
-	
+
+	// due to some issues with OC deciding that it's gonna call the component name function before the worldObj is loaded
+	// the component name must be cached to prevent it from shitting itself
+	String componentName = CompatHandler.nullComponent;
+
 	public TileEntityProxyCombo() { }
 	
 	public TileEntityProxyCombo(boolean inventory, boolean power, boolean fluid) {
@@ -344,6 +350,9 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		this.fluid = nbt.getBoolean("fluid");
 		this.moltenMetal = nbt.getBoolean("metal");
 		this.heat = nbt.getBoolean("heat");
+		if(Loader.isModLoaded("OpenComputers"))
+			this.componentName = nbt.getString("ocname");
+
 	}
 	
 	@Override
@@ -355,6 +364,8 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 		nbt.setBoolean("fluid", fluid);
 		nbt.setBoolean("metal", moltenMetal);
 		nbt.setBoolean("heat", heat);
+		if(Loader.isModLoaded("OpenComputers"))
+			nbt.setString("ocname", componentName);
 	}
 
 	@Override
@@ -452,25 +463,25 @@ public class TileEntityProxyCombo extends TileEntityProxyBase implements IEnergy
 	@Override // please work
 	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
-		if(this.getTile() instanceof OCComponent)
-			return ((OCComponent) this.getTile()).getComponentName();
+		if(this.worldObj == null) // OC is going too fast, grab from NBT!
+			return componentName;
+		if(this.getTile() instanceof OCComponent) {
+			if (componentName == null || componentName.equals(OCComponent.super.getComponentName())) {
+				componentName = ((OCComponent) this.getTile()).getComponentName();
+			}
+			return componentName;
+		}
 		return OCComponent.super.getComponentName();
 	}
 
 	@Override
 	@Optional.Method(modid = "OpenComputers")
-	public boolean canConnectNode(ForgeDirection side) { //thank you vaer
+	public boolean canConnectNode(ForgeDirection side) {
 		if(this.getTile() instanceof OCComponent)
-			return (this.getTile().getBlockMetadata() & 6) == 6 && ((OCComponent) this.getTile()).canConnectNode(side);
+			return (this.getBlockMetadata() >= 6 && this.getBlockMetadata() <= 11)
+					&& (power || fluid) &&
+					((OCComponent) this.getTile()).canConnectNode(side);
 		return OCComponent.super.canConnectNode(null);
-	}
-
-	@Override
-	@Optional.Method(modid = "OpenComputers")
-	public String[] getExtraInfo() {
-		if(this.getTile() instanceof OCComponent)
-			return new String[] {"analyze.dummy"};
-		return OCComponent.super.getExtraInfo();
 	}
 
 	@Override

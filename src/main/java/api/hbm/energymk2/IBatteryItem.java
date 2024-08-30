@@ -10,7 +10,7 @@ public interface IBatteryItem {
 	public void setCharge(ItemStack stack, long i);
 	public void dischargeBattery(ItemStack stack, long i);
 	public long getCharge(ItemStack stack);
-	public long getMaxCharge();
+	public long getMaxCharge(ItemStack stack);
 	public long getChargeRate();
 	public long getDischargeRate();
 	
