@@ -19,20 +19,21 @@ import net.minecraft.util.IIcon;
 
 public class ContainerArmorTable extends Container {
 	
-	public InventoryBasic upgrades = new InventoryBasic("Upgrades", false, 8);
+	public InventoryBasic upgrades = new InventoryBasic("Upgrades", false, ArmorModHandler.MOD_SLOTS);
 	public IInventory armor = new InventoryCraftResult();
 
 	public ContainerArmorTable(InventoryPlayer inventory) {
 		EntityPlayer player = inventory.player;
 		
 		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.helmet_only, 26 + 22, 27));	// helmet only
-		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.plate_only, 62 + 22, 27));		// chestplate only
+		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.plate_only, 62 + 22, 27));	// chestplate only
 		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.legs_only, 98 + 22, 27));		// leggins only
 		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.boots_only, 134 + 22, 45));	// boots only
 		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.servos, 134 + 22, 81));		//servos/frame
 		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.cladding, 98 + 22, 99));		//radiation cladding
-		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.kevlar, 62 + 22, 99));			//kevlar/sapi/(ERA? :) )
+		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.kevlar, 62 + 22, 99));		//kevlar/sapi/(ERA? :) )
 		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.extra, 26 + 22, 99));			//special parts
+		this.addSlotToContainer(new UpgradeSlot(upgrades, ArmorModHandler.battery, 8 + 22, 63));		//special parts
 
 		this.addSlotToContainer(new Slot(armor, 0, 44 + 22, 63) {
 
@@ -48,7 +49,7 @@ public class ContainerArmorTable extends Container {
 				if(stack != null) {
 					ItemStack[] mods = ArmorModHandler.pryMods(stack);
 					
-					for(int i = 0; i < 8; i++) {
+					for(int i = 0; i < ArmorModHandler.MOD_SLOTS; i++) {
 						
 						if(mods != null)
 							upgrades.setInventorySlotContents(i, mods[i]);
@@ -65,7 +66,7 @@ public class ContainerArmorTable extends Container {
 				
 				//if the armor piece is taken, absorb all armor pieces
 				
-				for(int i = 0; i < 8; i++) {
+				for(int i = 0; i < ArmorModHandler.MOD_SLOTS; i++) {
 					
 					ItemStack mod = upgrades.getStackInSlot(i);
 					
@@ -126,19 +127,19 @@ public class ContainerArmorTable extends Container {
 			ItemStack var5 = var4.getStack();
 			var3 = var5.copy();
 
-			if(par2 <= 8) {
-				if(par2 != 8 || !InventoryUtil.mergeItemStack(this.inventorySlots, var5, 9, 13, false))
-					if(!this.mergeItemStack(var5, 13, this.inventorySlots.size(), true))
+			if(par2 <= ArmorModHandler.MOD_SLOTS) {
+				if(par2 != ArmorModHandler.MOD_SLOTS || !InventoryUtil.mergeItemStack(this.inventorySlots, var5, ArmorModHandler.MOD_SLOTS + 1, ArmorModHandler.MOD_SLOTS + 5, false))
+					if(!this.mergeItemStack(var5, ArmorModHandler.MOD_SLOTS + 5, this.inventorySlots.size(), true))
 						return null;
 					
 				var4.onPickupFromSlot(p_82846_1_, var5);
 			} else {
 				
 				if(var5.getItem() instanceof ItemArmor) {
-					if(!this.mergeItemStack(var5, 8, 9, false))
+					if(!this.mergeItemStack(var5, ArmorModHandler.MOD_SLOTS, ArmorModHandler.MOD_SLOTS + 1, false))
 						return null;
 					
-				} else if(this.inventorySlots.get(8) != null && var5.getItem() instanceof ItemArmorMod) {
+				} else if(this.inventorySlots.get(ArmorModHandler.MOD_SLOTS) != null && var5.getItem() instanceof ItemArmorMod) {
 					
 					ItemArmorMod mod = (ItemArmorMod)var5.getItem();
 					int slot = mod.type;

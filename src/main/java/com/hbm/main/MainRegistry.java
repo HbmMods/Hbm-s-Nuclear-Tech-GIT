@@ -877,7 +877,10 @@ public class MainRegistry {
 		proxy.registerMissileItems();
 		
 		BlockMotherOfAllOres.init();
-		
+
+		// Load compatibility for OC.
+		CompatHandler.init();
+
 		//expand for the largest entity we have (currently Quackos who is 17.5m in diameter, that's one fat duck)
 		World.MAX_ENTITY_RADIUS = Math.max(World.MAX_ENTITY_RADIUS, 8.75);
 
@@ -1418,6 +1421,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.gas6");
 		ignoreMappings.add("hbm:item.gas7");
 		ignoreMappings.add("hbm:item.gas8");
+		ignoreMappings.add("hbm:tile.brick_forgotten");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

@@ -26,8 +26,8 @@ public class ChatBuilder {
 		return builder;
 	}
 	
-	public static ChatBuilder startTranslation(String text) {
-		ChatBuilder builder = new ChatBuilder("").nextTranslation(text);
+	public static ChatBuilder startTranslation(String text, Object... o) {
+		ChatBuilder builder = new ChatBuilder("").nextTranslation(text, o);
 		return builder;
 	}
 	
@@ -38,8 +38,8 @@ public class ChatBuilder {
 		return this;
 	}
 	
-	public ChatBuilder nextTranslation(String text) {
-		ChatComponentTranslation append = new ChatComponentTranslation(text);
+	public ChatBuilder nextTranslation(String text, Object... o) {
+		ChatComponentTranslation append = new ChatComponentTranslation(text, o);
 		this.last.appendSibling(append);
 		this.last = append;
 		return this;

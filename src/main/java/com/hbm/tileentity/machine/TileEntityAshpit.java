@@ -1,10 +1,15 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.container.ContainerAshpit;
 import com.hbm.inventory.gui.GUIAshpit;
 import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -19,7 +24,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class TileEntityAshpit extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityAshpit extends TileEntityMachineBase implements IGUIProvider, IConfigurableMachine {
 	
 	private int playersUsing = 0;
 	public float doorAngle = 0;
@@ -32,8 +37,38 @@ public class TileEntityAshpit extends TileEntityMachineBase implements IGUIProvi
 	public int ashLevelFly;
 	public int ashLevelSoot;
 	
+	//Configurable values
+	public static int thresholdWood = 2000;
+	public static int thresholdCoal = 2000;
+	public static int thresholdMisc = 2000;
+	public static int thresholdFly = 2000;
+	public static int thresholdSoot = 8000;
+
 	public TileEntityAshpit() {
 		super(5);
+	}
+	
+	@Override
+	public String getConfigName() {
+		return "ashpit";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		thresholdWood = IConfigurableMachine.grab(obj, "I:thresholdWood", thresholdWood);
+		thresholdCoal = IConfigurableMachine.grab(obj, "I:thresholdCoal", thresholdCoal);
+		thresholdMisc = IConfigurableMachine.grab(obj, "I:thresholdMisc", thresholdMisc);
+		thresholdFly = IConfigurableMachine.grab(obj, "I:thresholdFly", thresholdFly);
+		thresholdSoot = IConfigurableMachine.grab(obj, "I:thresholdSoot", thresholdSoot);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:thresholdWood").value(thresholdWood);
+		writer.name("I:thresholdCoal").value(thresholdCoal);
+		writer.name("I:thresholdMisc").value(thresholdMisc);
+		writer.name("I:thresholdFly").value(thresholdFly);
+		writer.name("I:thresholdSoot").value(thresholdSoot);
 	}
 	
 	@Override
@@ -56,13 +91,12 @@ public class TileEntityAshpit extends TileEntityMachineBase implements IGUIProvi
 		
 		if(!worldObj.isRemote) {
 
-			int threshold = 2000;
 
-			if(processAsh(ashLevelWood, EnumAshType.WOOD, threshold)) ashLevelWood -= threshold;
-			if(processAsh(ashLevelCoal, EnumAshType.COAL, threshold)) ashLevelCoal -= threshold;
-			if(processAsh(ashLevelMisc, EnumAshType.MISC, threshold)) ashLevelMisc -= threshold;
-			if(processAsh(ashLevelFly, EnumAshType.FLY, threshold)) ashLevelFly -= threshold;
-			if(processAsh(ashLevelSoot, EnumAshType.SOOT, threshold * 4)) ashLevelSoot -= threshold * 4;
+			if(processAsh(ashLevelWood, EnumAshType.WOOD, thresholdWood)) ashLevelWood -= thresholdWood;
+			if(processAsh(ashLevelCoal, EnumAshType.COAL, thresholdCoal)) ashLevelCoal -= thresholdCoal;
+			if(processAsh(ashLevelMisc, EnumAshType.MISC, thresholdMisc)) ashLevelMisc -= thresholdMisc;
+			if(processAsh(ashLevelFly, EnumAshType.FLY, thresholdFly)) ashLevelFly -= thresholdFly;
+			if(processAsh(ashLevelSoot, EnumAshType.SOOT, thresholdSoot)) ashLevelSoot -= thresholdSoot;
 			
 			isFull = false;
 			

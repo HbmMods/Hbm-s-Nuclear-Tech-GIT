@@ -46,15 +46,16 @@ public class GUIArmorTable extends GuiInfoContainer {
 					"armorMod.type.cladding",
 					"armorMod.type.insert",
 					"armorMod.type.special",
+					"armorMod.type.battery",
 					"armorMod.insertHere"
 			};
 			
-			for(int i = 0; i < 9; ++i) {
+			for(int i = 0; i < ArmorModHandler.MOD_SLOTS + 1; ++i) {
 				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
 				
 				if(this.isMouseOverSlot(slot, x, y) && !slot.getHasStack()) {
 					
-					this.drawCreativeTabHoveringText((i < 8 ? EnumChatFormatting.LIGHT_PURPLE : EnumChatFormatting.YELLOW) + I18nUtil.resolveKey(unloc[i]), x, y);
+					this.drawCreativeTabHoveringText((i < ArmorModHandler.MOD_SLOTS ? EnumChatFormatting.LIGHT_PURPLE : EnumChatFormatting.YELLOW) + I18nUtil.resolveKey(unloc[i]), x, y);
 				}
 			}
 		}
@@ -75,7 +76,7 @@ public class GUIArmorTable extends GuiInfoContainer {
 		this.drawTexturedModalRect(guiLeft + 22, guiTop, 0, 0, this.xSize - 22, this.ySize);
 		this.drawTexturedModalRect(guiLeft, guiTop + 31, 176, 96, 22, 100);
 
-		ItemStack armor = this.inventorySlots.getSlot(8).getStack();
+		ItemStack armor = this.inventorySlots.getSlot(ArmorModHandler.MOD_SLOTS).getStack();
 
 		if(armor != null) {
 
@@ -89,7 +90,7 @@ public class GUIArmorTable extends GuiInfoContainer {
 				this.drawTexturedModalRect(guiLeft + 41 + 22, guiTop + 60, 176, 52, 22, 22);
 		}
 		
-		for(int i = 0; i < 8; i++) {
+		for(int i = 0; i < ArmorModHandler.MOD_SLOTS; i++) {
 			Slot slot = this.inventorySlots.getSlot(i);
 			drawIndicator(i, slot.xDisplayPosition - 1, slot.yDisplayPosition - 1);
 		}
@@ -98,7 +99,7 @@ public class GUIArmorTable extends GuiInfoContainer {
 	private void drawIndicator(int index, int x, int y) {
 
 		ItemStack mod = this.inventorySlots.getSlot(index).getStack();
-		ItemStack armor = this.inventorySlots.getSlot(8).getStack();
+		ItemStack armor = this.inventorySlots.getSlot(ArmorModHandler.MOD_SLOTS).getStack();
 
 		if(mod == null)
 			return;
