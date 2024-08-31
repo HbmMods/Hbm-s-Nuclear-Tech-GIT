@@ -530,6 +530,7 @@ public class ModEventHandler {
 
 	@SubscribeEvent
 	public void onBlockPlaced(PlaceEvent event) {
+		if(event.world.isRemote) return;
 		boolean placeCancelled = ChunkAtmosphereManager.proxy.runEffectsOnBlock(event.world, event.block, event.x, event.y, event.z);
 
 		if(SpaceConfig.allowNetherPortals && !placeCancelled && event.world.provider.dimensionId > 1 && event.block instanceof BlockFire) {
