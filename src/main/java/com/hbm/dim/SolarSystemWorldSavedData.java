@@ -9,8 +9,6 @@ import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.dim.orbit.OrbitalStation.StationState;
 import com.hbm.dim.trait.CelestialBodyTrait;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.ChunkCoordIntPair;
