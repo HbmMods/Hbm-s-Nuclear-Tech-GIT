@@ -11,6 +11,7 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachineRocketAssembly;
 import com.hbm.inventory.gui.GUIMachineRocketAssembly;
 import com.hbm.items.ISatChip;
+import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -23,6 +24,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -51,6 +53,13 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 	@Override
 	public void updateEntity() {
 		if(!worldObj.isRemote) {
+			ItemStack fromStack = slots[slots.length - 2];
+			ItemStack toStack = slots[slots.length - 1];
+
+			// updates the orbital station information and syncs it to the client, if necessary
+			ItemVOTVdrive.getTarget(fromStack, worldObj);
+			ItemVOTVdrive.getTarget(toStack, worldObj);
+
 			rocket = new RocketStruct(slots[0]);
 			if(slots[0] != null && slots[0].getItem() instanceof ISatChip) {
 				rocket.satFreq = ISatChip.getFreqS(slots[0]);

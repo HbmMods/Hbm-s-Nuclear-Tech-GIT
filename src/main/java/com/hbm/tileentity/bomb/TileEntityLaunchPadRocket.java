@@ -80,6 +80,8 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 
 		if(!worldObj.isRemote) {
+			ItemVOTVdrive.getTarget(slots[1], worldObj);
+
 			// Setup tanks required for the current rocket
 			updateTanks();
 
@@ -297,7 +299,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		}
 
 		Target from = CelestialBody.getTarget(worldObj, xCoord, zCoord);
-		Target to = ItemVOTVdrive.getTarget(slots[1], from.body);
+		Target to = ItemVOTVdrive.getTarget(slots[1], worldObj);
 
 		RocketStruct rocket = ItemCustomRocket.get(slots[0]);
 
@@ -402,7 +404,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 
 		// Check that the rocket is actually capable of reaching our destination
 		Target from = CelestialBody.getTarget(worldObj, xCoord, zCoord);
-		Target to = ItemVOTVdrive.getTarget(slots[1], from.body);
+		Target to = ItemVOTVdrive.getTarget(slots[1], worldObj);
 
 		if(to.inOrbit && !to.isValid && rocket.capsule.part != ModItems.rp_station_core_20) {
 			issues.add(EnumChatFormatting.RED + "Station not yet launched");

@@ -137,6 +137,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 		if(!worldObj.isRemote) {
 			if(navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
+				ItemVOTVdrive.getTarget(navDrive, worldObj);
 				setDrive(navDrive);
 			}
 
@@ -516,7 +517,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	public Target getTarget() {
 		ItemStack drive = dataWatcher.getWatchableObjectItemStack(WATCHABLE_DRIVE);
-		return ItemVOTVdrive.getTarget(drive, CelestialBody.getBody(worldObj));
+		return ItemVOTVdrive.getTarget(drive, worldObj);
 	}
 
 	public void setDrive(ItemStack drive) {

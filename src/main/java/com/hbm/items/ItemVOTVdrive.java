@@ -122,7 +122,7 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 		return new Destination(body, x, z);
 	}
 
-	public static Target getTarget(ItemStack stack, CelestialBody defaultStationBody) {
+	public static Target getTarget(ItemStack stack, World world) {
 		if(stack == null) {
 			return new Target(null, false, false);
 		}
@@ -133,8 +133,20 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 		Destination destination = getDestination(stack);
 
 		if(destination.body == SolarSystem.Body.ORBIT) {
+			if(world.isRemote) {
+				CelestialBody body = CelestialBody.getBody(stack.stackTagCompound.getInteger("sDim"));
+				boolean hasStation = stack.stackTagCompound.getBoolean("sHas");
+
+				return new Target(body, true, hasStation);
+			}
+			
 			OrbitalStation station = OrbitalStation.getStation(destination.x, destination.z);
-			if(!station.hasStation && defaultStationBody != null) station.orbiting = defaultStationBody;
+			if(!station.hasStation) station.orbiting = CelestialBody.getBody(world);
+
+			// The client can't get this information, so any time the server grabs it, serialize it to the itemstack
+			stack.stackTagCompound.setInteger("sDim", station.orbiting.dimensionId);
+			stack.stackTagCompound.setBoolean("sHas", station.hasStation);
+
 			return new Target(station.orbiting, true, station.hasStation);
 		} else {
 			return new Target(destination.body.getBody(), false, true);

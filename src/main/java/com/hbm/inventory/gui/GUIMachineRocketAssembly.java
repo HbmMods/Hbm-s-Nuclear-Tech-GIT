@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.dim.CelestialBody;
 import com.hbm.handler.RocketStruct;
 import com.hbm.inventory.container.ContainerMachineRocketAssembly;
 import com.hbm.items.ItemVOTVdrive;
@@ -97,10 +96,8 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 			ItemStack fromStack = machine.slots[machine.slots.length - 2];
 			ItemStack toStack = machine.slots[machine.slots.length - 1];
 
-			CelestialBody defaultBody = CelestialBody.getBody(machine.getWorldObj());
-
-			Target from = ItemVOTVdrive.getTarget(fromStack, defaultBody);
-			Target to = ItemVOTVdrive.getTarget(toStack, defaultBody);
+			Target from = ItemVOTVdrive.getTarget(fromStack, machine.getWorldObj());
+			Target to = ItemVOTVdrive.getTarget(toStack, machine.getWorldObj());
 
 			List<String> issues = machine.rocket.findIssues(stage, from.body, to.body, from.inOrbit, to.inOrbit);
 			for(int i = 0; i < issues.size(); i++) {
@@ -108,14 +105,8 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 				fontRendererObj.drawStringWithShadow(issue, (guiLeft + 65) * 2, (guiTop + 5) * 2 + i * 8, 0xFFFFFF);
 			}
 
-			if(from.body != null) {
-				String name = from.inOrbit ? "Station" : I18nUtil.resolveKey("body." + from.body.name);
-				fontRendererObj.drawString(name, (guiLeft + 162) * 2, (guiTop + 75) * 2, 0x00FF00);
-			}
-			if(to.body != null) {
-				String name = to.inOrbit ? "Station" : I18nUtil.resolveKey("body." + to.body.name);
-				fontRendererObj.drawString(name, (guiLeft + 162) * 2, (guiTop + 108) * 2, 0x00FF00);
-			}
+			if(from.body != null) fontRendererObj.drawString(I18nUtil.resolveKey("body." + from.body.name), (guiLeft + 162) * 2, (guiTop + 75) * 2, 0x00FF00);
+			if(to.body != null) fontRendererObj.drawString(I18nUtil.resolveKey("body." + to.body.name), (guiLeft + 162) * 2, (guiTop + 108) * 2, 0x00FF00);
 
 		}
 		GL11.glPopMatrix();
