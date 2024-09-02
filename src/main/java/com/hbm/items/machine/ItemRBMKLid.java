@@ -2,7 +2,8 @@ package com.hbm.items.machine;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
-import com.hbm.handler.rbmkmk2.RBMKHandler;
+import com.hbm.handler.neutron.NeutronNodeWorld;
+import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKNeutronNode;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 
@@ -14,8 +15,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-
-import static com.hbm.handler.rbmkmk2.RBMKHandler.getNode;
 
 public class ItemRBMKLid extends Item {
 
@@ -42,7 +41,7 @@ public class ItemRBMKLid extends Item {
 			if(tile.hasLid())
 				return false;
 
-			RBMKHandler.RBMKNode node = getNode(new BlockPos(te));
+			RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(new BlockPos(te));
 			if (node != null)
 				node.addLid();
 

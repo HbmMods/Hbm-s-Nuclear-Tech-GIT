@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import com.hbm.handler.rbmkmk2.RBMKHandler;
+import com.hbm.handler.neutron.NeutronStream;
 
 public interface IRBMKFluxReceiver {
 	
@@ -16,5 +16,5 @@ public interface IRBMKFluxReceiver {
 		}
 	}
 	
-	public void receiveFlux(RBMKHandler.NeutronStream stream);
+	public void receiveFlux(NeutronStream stream);
 }

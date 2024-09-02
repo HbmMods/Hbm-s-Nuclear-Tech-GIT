@@ -1,6 +1,6 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import com.hbm.handler.rbmkmk2.RBMKHandler;
+import com.hbm.handler.neutron.RBMKNeutronHandler;
 import com.hbm.inventory.container.ContainerRBMKStorage;
 import com.hbm.inventory.gui.GUIRBMKStorage;
 import com.hbm.items.machine.ItemRBMKRod;
@@ -42,8 +42,8 @@ public class TileEntityRBMKStorage extends TileEntityRBMKSlottedBase implements 
 	}
 
 	@Override
-	public RBMKHandler.RBMKType getRBMKType() {
-		return RBMKHandler.RBMKType.OTHER;
+	public RBMKNeutronHandler.RBMKType getRBMKType() {
+		return RBMKNeutronHandler.RBMKType.OTHER;
 	}
 
 	@Override

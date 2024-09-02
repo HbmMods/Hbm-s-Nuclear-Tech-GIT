@@ -1,12 +1,13 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import com.hbm.handler.rbmkmk2.RBMKHandler.RBMKNode;
+import com.hbm.handler.neutron.NeutronNodeWorld;
+import com.hbm.handler.neutron.RBMKNeutronHandler;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import net.minecraft.util.Vec3;
 
-import static com.hbm.handler.rbmkmk2.RBMKHandler.*;
+import static com.hbm.handler.neutron.RBMKNeutronHandler.*;
 
 public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 	
@@ -26,15 +27,15 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 
 		if (flux == 0) {
 			// simple way to remove the node from the cache when no flux is going into it!
-			removeNode(pos);
+			NeutronNodeWorld.removeNode(pos);
 			return;
 		}
 
-		RBMKNode node = getNode(pos);
+		RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(pos);
 
 		if(node == null) {
 			node = makeNode(this);
-			addNode(node);
+			NeutronNodeWorld.addNode(node);
 		}
 
 		int count = RBMKDials.getReaSimCount(worldObj);
@@ -44,7 +45,7 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 
 			neutronVector.rotateAroundY((float)(Math.PI * 2D * worldObj.rand.nextDouble()));
 
-			new NeutronStream(makeNode(this), neutronVector, flux, ratio);
+			new RBMKNeutronHandler.RBMKNeutronStream(makeNode(this), neutronVector, flux, ratio);
 			// Create new neutron streams
 		}
 	}

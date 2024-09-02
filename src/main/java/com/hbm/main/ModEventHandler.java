@@ -9,7 +9,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-import com.hbm.handler.rbmkmk2.RBMKHandler;
+import com.hbm.handler.neutron.NeutronNodeWorld;
+import com.hbm.handler.neutron.PileNeutronHandler;
+import com.hbm.handler.neutron.RBMKNeutronHandler;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
 
@@ -537,8 +539,8 @@ public class ModEventHandler {
 
 	@SubscribeEvent
 	public void onUnload(WorldEvent.Unload event) {
-		RBMKHandler.removeAllWorlds(); // Remove world from worlds when unloaded to avoid world issues.
-		RBMKHandler.removeAllNodes(); // Remove all nodes.
+		NeutronNodeWorld.StreamWorld.removeAllWorlds(); // Remove world from worlds when unloaded to avoid world issues.
+		NeutronNodeWorld.removeAllNodes(); // Remove all nodes.
 	}
 	
 	public static boolean didSit = false;
@@ -1151,7 +1153,9 @@ public class ModEventHandler {
 			TileEntityMachineRadarNT.updateSystem();
 			Nodespace.updateNodespace();
 			// RBMK!!!!
-			RBMKHandler.runAllInteractions();
+			RBMKNeutronHandler.runAllInteractions();
+			// Chicago Pile!!!!
+			PileNeutronHandler.runAllInteractions();
 		}
 	}
 	

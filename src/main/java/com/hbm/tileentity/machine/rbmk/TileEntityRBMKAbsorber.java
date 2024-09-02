@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
-import com.hbm.handler.rbmkmk2.RBMKHandler;
+import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKType;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
 public class TileEntityRBMKAbsorber extends TileEntityRBMKBase {
@@ -19,8 +19,8 @@ public class TileEntityRBMKAbsorber extends TileEntityRBMKBase {
 	}
 
 	@Override
-	public RBMKHandler.RBMKType getRBMKType() {
-		return RBMKHandler.RBMKType.ABSORBER;
+	public RBMKType getRBMKType() {
+		return RBMKType.ABSORBER;
 	}
 
 	@Override

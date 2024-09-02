@@ -4,7 +4,6 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
-import com.hbm.handler.rbmkmk2.RBMKHandler;
 import com.hbm.inventory.container.ContainerRBMKHeater;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -152,11 +151,6 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 		}
 		
 		super.onMelt(reduce);
-	}
-
-	@Override
-	public RBMKHandler.RBMKType getRBMKType() {
-		return RBMKHandler.RBMKType.OTHER;
 	}
 
 	@Override

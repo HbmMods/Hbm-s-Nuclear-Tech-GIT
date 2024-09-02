@@ -5,10 +5,11 @@ import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.blocks.machine.rbmk.RBMKRod;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
+import com.hbm.handler.neutron.NeutronNodeWorld;
+import com.hbm.handler.neutron.NeutronStream;
+import com.hbm.handler.neutron.RBMKNeutronHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.handler.rbmkmk2.RBMKHandler;
-import com.hbm.handler.rbmkmk2.RBMKHandler.NeutronStream;
-import com.hbm.handler.rbmkmk2.ItemRBMKRodFluxCurve;
+import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKNeutronNode;
 import com.hbm.inventory.container.ContainerRBMKRod;
 import com.hbm.inventory.gui.GUIRBMKRod;
 import com.hbm.items.ModItems;
@@ -39,8 +40,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.hbm.handler.rbmkmk2.RBMKHandler.*;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBMKFluxReceiver, IRBMKLoadable, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
@@ -93,14 +92,15 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				double fluxRatioOut;
 				double fluxQuantityOut;
 
-				if (rod instanceof ItemRBMKRodFluxCurve) { // Experimental flux ratio curve rods!
-					ItemRBMKRodFluxCurve rodCurve = (ItemRBMKRodFluxCurve) rod;
+				// Experimental flux ratio curve rods!
+				// Again, nothing really uses this so its just idle code at the moment.
+				if (rod.specialFluxCurve) {
 
-					fluxRatioOut = rodCurve.fluxRatioOut(this.fluxRatio, ItemRBMKRod.getEnrichment(slots[0]));
+					fluxRatioOut = rod.fluxRatioOut(this.fluxRatio, ItemRBMKRod.getEnrichment(slots[0]));
 
 					double fluxIn;
 
-					fluxIn = rodCurve.fluxFromRatio(this.fluxQuantity, this.fluxRatio);
+					fluxIn = rod.fluxFromRatio(this.fluxQuantity, this.fluxRatio);
 
 					fluxQuantityOut = rod.burn(worldObj, slots[0], fluxIn);
 				} else {
@@ -182,15 +182,15 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 		if (flux == 0) {
 			// simple way to remove the node from the cache when no flux is going into it!
-			removeNode(pos);
+			NeutronNodeWorld.removeNode(pos);
 			return;
 		}
 
-		RBMKHandler.RBMKNode node = getNode(pos);
+		RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(pos);
 
 		if(node == null) {
-			node = RBMKHandler.makeNode(this);
-			addNode(node);
+			node = RBMKNeutronHandler.makeNode(this);
+			NeutronNodeWorld.addNode(node);
 		}
 
 		for(ForgeDirection dir : fluxDirs) {
@@ -198,7 +198,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			Vec3 neutronVector = Vec3.createVectorHelper(dir.offsetX, dir.offsetY, dir.offsetZ);
 
 			// Create new neutron streams
-			new NeutronStream(node, neutronVector, flux, ratio);
+			new RBMKNeutronHandler.RBMKNeutronStream(node, neutronVector, flux, ratio);
 		}
 	}
 	
@@ -215,7 +215,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				this.fluxRatio = 0;
 		} else {
 			this.fluxQuantity = nbt.getDouble("fluxQuantity");
-			this.fluxRatio = nbt.getDouble("fluxRatio");
+			this.fluxRatio = nbt.getDouble("fluxMod");
 		}
 		this.hasRod = nbt.getBoolean("hasRod");
 	}
@@ -223,8 +223,17 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setDouble("fluxSlow", this.lastFluxQuantity * (1 - fluxRatio));
-		nbt.setDouble("fluxFast", this.lastFluxQuantity * fluxRatio);
+		nbt.setDouble("fluxQuantity", this.fluxQuantity);
+		nbt.setDouble("fluxMod", this.fluxRatio);
+		nbt.setBoolean("hasRod", this.hasRod);
+	}
+
+	// aaaaaaaa
+	public void writeToNBTDiag(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+
+		nbt.setDouble("fluxSlow", this.fluxQuantity * (1 - fluxRatio));
+		nbt.setDouble("fluxFast", this.fluxQuantity * fluxRatio);
 		nbt.setBoolean("hasRod", this.hasRod);
 	}
 
@@ -246,7 +255,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 	public void getDiagData(NBTTagCompound nbt) {
 		diag = true;
-		this.writeToNBT(nbt);
+		this.writeToNBTDiag(nbt);
 		diag = false;
 
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
@@ -308,8 +317,8 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	}
 
 	@Override
-	public RBMKHandler.RBMKType getRBMKType() {
-		return RBMKHandler.RBMKType.ROD;
+	public RBMKNeutronHandler.RBMKType getRBMKType() {
+		return RBMKNeutronHandler.RBMKType.ROD;
 	}
 
 	@Override

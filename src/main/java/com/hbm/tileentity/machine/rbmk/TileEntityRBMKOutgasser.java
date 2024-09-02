@@ -4,7 +4,8 @@ import api.hbm.fluid.IFluidStandardSender;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
-import com.hbm.handler.rbmkmk2.RBMKHandler;
+import com.hbm.handler.neutron.NeutronStream;
+import com.hbm.handler.neutron.RBMKNeutronHandler;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerRBMKOutgasser;
 import com.hbm.inventory.fluid.Fluids;
@@ -92,7 +93,7 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	}
 
 	@Override
-	public void receiveFlux(RBMKHandler.NeutronStream stream) {
+	public void receiveFlux(NeutronStream stream) {
 		
 		if(canProcess()) {
 
@@ -167,8 +168,8 @@ public class TileEntityRBMKOutgasser extends TileEntityRBMKSlottedBase implement
 	}
 
 	@Override
-	public RBMKHandler.RBMKType getRBMKType() {
-		return RBMKHandler.RBMKType.OUTGASSER;
+	public RBMKNeutronHandler.RBMKType getRBMKType() {
+		return RBMKNeutronHandler.RBMKType.OUTGASSER;
 	}
 
 	@Override
