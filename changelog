@@ -10,3 +10,7 @@
 * Fixed pumpjack gauges not syncing properly
 * Fixed some concrete variants not being revertable into uncolored concrete
 * Fixed the ore density scanner not using proper translations for the HUD
+* Fixed the solar boiler's rays rendering on fast graphics instead of on fancy graphics
+* Fixed hydroreactive items not exploding when submerged in water
+* Fixed fluid valves visually disconnecting when switching state
+* Fixed fluid valves no visually connecting when type is set
