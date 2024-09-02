@@ -321,6 +321,24 @@ public class SolarSystem {
 		return metrics;
 	}
 
+	public static double calculateDistanceBetweenTwoBodies(World world, CelestialBody from, CelestialBody to) {
+		List<AstroMetric> metrics = new ArrayList<AstroMetric>();
+
+		double ticks = (double)world.getTotalWorldTime() * (double)AstronomyUtil.TIME_MULTIPLIER;
+		
+		// Get our XYZ coordinates of all bodies
+		calculatePositionsRecursive(metrics, null, from.getStar(), ticks);
+
+		Vec3 fromPos = Vec3.createVectorHelper(0, 0, 0);
+		Vec3 toPos = Vec3.createVectorHelper(0, 0, 0);
+		for(AstroMetric metric : metrics) {
+			if(metric.body == from) fromPos = metric.position;
+			if(metric.body == to) toPos = metric.position;
+		}
+
+		return fromPos.distanceTo(toPos);
+	}
+
 	private static Vec3 lerp(Vec3 from, Vec3 to, double t) {
 		double x = BobMathUtil.clampedLerp(from.xCoord, to.xCoord, t);
 		double y = BobMathUtil.clampedLerp(from.yCoord, to.yCoord, t);

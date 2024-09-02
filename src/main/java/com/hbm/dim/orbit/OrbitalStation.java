@@ -3,6 +3,7 @@ package com.hbm.dim.orbit;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.SolarSystem;
 import com.hbm.dim.SolarSystemWorldSavedData;
 import com.hbm.handler.MultiblockHandlerXR;
 
@@ -18,6 +19,7 @@ public class OrbitalStation {
 
 	public StationState state = StationState.ORBIT;
 	public int stateTimer;
+	public int maxStateTimer = 100;
 
 	public boolean hasStation = false;
 
@@ -61,18 +63,21 @@ public class OrbitalStation {
 		this.dZ = z;
 	}
 
-	public void travelTo(CelestialBody target) {
+	public void travelTo(World world, CelestialBody target) {
 		if(state != StationState.ORBIT) return; // only when at rest can we start a new journey
+
+		double distance = SolarSystem.calculateDistanceBetweenTwoBodies(world, orbiting, target);
 
 		state = StationState.TRANSFER;
 		stateTimer = 0;
+		maxStateTimer = (int)(Math.log(1 + (distance / 1000)) * 125);
 		this.target = target;
 	}
 
 	public void update(World world) {
 		if(!world.isRemote) {
 			if(state == StationState.TRANSFER) {
-				if(stateTimer > 400) {
+				if(stateTimer > maxStateTimer) {
 					state = StationState.ORBIT;
 					orbiting = target;
 				}
@@ -84,16 +89,19 @@ public class OrbitalStation {
 		stateTimer++;
 	}
 
-	public double getProgress(float partialTicks) {
+	public double getUnscaledProgress(float partialTicks) {
 		if(state != StationState.TRANSFER) return 0;
-		double t = MathHelper.clamp_double(((double)stateTimer + partialTicks) * 0.0025D, 0, 1);
-		return easeInOutCirc(t);
+		return MathHelper.clamp_double(((double)stateTimer + partialTicks) / (double)maxStateTimer, 0, 1);
+	}
+
+	public double getProgress(float partialTicks) {
+		return easeInOutCirc(getUnscaledProgress(partialTicks));
 	}
 
 	private double easeInOutCirc(double t) {
 		return t < 0.5
-			? (1 - Math.sqrt(1 - Math.pow(2 * t, 4))) / 2
-			: (Math.sqrt(1 - Math.pow(-2 * t + 2, 4)) + 1) / 2;
+			? (1 - Math.sqrt(1 - Math.pow(2 * t, 3))) / 2
+			: (Math.sqrt(1 - Math.pow(-2 * t + 2, 3)) + 1) / 2;
 	}
 
 	// Finds a space station for a given set of coordinates
@@ -118,6 +126,7 @@ public class OrbitalStation {
 		buf.writeInt(target.dimensionId);
 		buf.writeInt(state.ordinal());
 		buf.writeInt(stateTimer);
+		buf.writeInt(maxStateTimer);
 	}
 
 	public static OrbitalStation deserialize(ByteBuf buf) {
@@ -125,6 +134,7 @@ public class OrbitalStation {
 		station.target = CelestialBody.getBody(buf.readInt());
 		station.state = StationState.values()[buf.readInt()];
 		station.stateTimer = buf.readInt();
+		station.maxStateTimer = buf.readInt();
 		return station;
 	}
 

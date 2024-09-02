@@ -13,7 +13,7 @@ public class TileEntityOrbitalStationComputer extends TileEntity {
 
 		if(station.orbiting == body) return;
 
-		station.travelTo(body);
+		station.travelTo(worldObj, body);
 	}
 
 }
