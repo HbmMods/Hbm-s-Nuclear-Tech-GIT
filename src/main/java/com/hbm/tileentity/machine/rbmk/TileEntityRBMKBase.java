@@ -325,6 +325,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		exceptions.add("z");
 		exceptions.add("items");
 		exceptions.add("id");
+		exceptions.add("muffled");
 
 		String title = "Dump of Ordered Data Diagnostic (DODD)";
 		mc.fontRenderer.drawString(title, pX + 1, pZ - 19, 0x006000);

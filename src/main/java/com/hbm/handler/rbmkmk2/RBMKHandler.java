@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -322,7 +323,7 @@ public class RBMKHandler {
 				if(!node.hasLid)
 					ChunkRadiationManager.proxy.incrementRad(worldObj, nodePos.getX(), nodePos.getY(), nodePos.getZ(), (float) (this.fluxQuantity * 0.05F));
 
-				if (node.type == RBMKHandler.RBMKType.MODERATOR || nodeTE.isModerated()) {
+				if (node.type == RBMKType.MODERATOR || nodeTE.isModerated()) {
 					moderatedCount++;
 					moderateStream();
 				}
@@ -330,7 +331,7 @@ public class RBMKHandler {
 				if (nodeTE instanceof IRBMKFluxReceiver) {
 					IRBMKFluxReceiver column = (IRBMKFluxReceiver)nodeTE;
 
-					if (node.type == RBMKHandler.RBMKType.ROD) {
+					if (node.type == RBMKType.ROD) {
 						TileEntityRBMKRod rod = (TileEntityRBMKRod)column;
 
 						if (rod.hasRod) {
@@ -347,7 +348,7 @@ public class RBMKHandler {
 						}
 					}
 
-				} else if (node.type == RBMKHandler.RBMKType.CONTROL_ROD) {
+				} else if (node.type == RBMKType.CONTROL_ROD) {
 					TileEntityRBMKControl rod = (TileEntityRBMKControl) nodeTE;
 
 					if (rod.level > 0.0D) {
@@ -356,7 +357,7 @@ public class RBMKHandler {
 						continue;
 					}
 					return;
-				} else if (node.type == RBMKHandler.RBMKType.REFLECTOR) {
+				} else if (node.type == RBMKType.REFLECTOR) {
 
 					if (this.origin.tile.isModerated())
 						moderatedCount++;
@@ -372,7 +373,7 @@ public class RBMKHandler {
 
 					((TileEntityRBMKRod)originTE).receiveFlux(this);
 					return;
-				} else if (node.type == RBMKHandler.RBMKType.ABSORBER) {
+				} else if (node.type == RBMKType.ABSORBER) {
 					if (RBMKHandler.absorberEfficiency == 1)
 						return;
 
@@ -380,16 +381,16 @@ public class RBMKHandler {
 				}
 			}
 
-			List<RBMKHandler.RBMKNode> nodes = getNodes(true);
+			List<RBMKNode> nodes = getNodes(true);
 			if (nodes.isEmpty())
 				return;
 
-			RBMKHandler.RBMKNode lastNode = nodes.get(nodes.size() - 1);
+			RBMKNode lastNode = nodes.get(nodes.size() - 1);
 
-			if (lastNode.type != RBMKHandler.RBMKType.REFLECTOR && lastNode.type != RBMKHandler.RBMKType.ABSORBER && lastNode.type != RBMKHandler.RBMKType.CONTROL_ROD)
+			if (lastNode.type != RBMKType.REFLECTOR && lastNode.type != RBMKType.ABSORBER && lastNode.type != RBMKType.CONTROL_ROD)
 				irradiateFromFlux((new BlockPos(lastNode.tile)).add(this.vector.xCoord, 0.0D, this.vector.zCoord));
 
-			if (lastNode.type == RBMKHandler.RBMKType.CONTROL_ROD) {
+			if (lastNode.type == RBMKType.CONTROL_ROD) {
 				TileEntityRBMKControl rod = (TileEntityRBMKControl)lastNode.tile;
 				if (rod.getMult() > 0.0D) {
 					this.fluxQuantity *= rod.getMult();
@@ -405,8 +406,9 @@ public class RBMKHandler {
 				// holy fucking shit
 				// I have had this one line cause me like tens of problems
 				// I FUCKING HATE THIS
-				// total count of bugs fixed attributed to this function: 11
-				if (origin.tile.getWorldObj().getBlock(pos.getX(), pos.getY() + h, pos.getZ()).isOpaqueCube())
+				// total count of bugs fixed attributed to this function: 13
+				Block block = origin.tile.getWorldObj().getBlock(pos.getX(), pos.getY() + h, pos.getZ());
+				if (block.isOpaqueCube())
 					hits += 1;
 			}
 
