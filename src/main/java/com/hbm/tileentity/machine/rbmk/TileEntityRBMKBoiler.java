@@ -8,7 +8,6 @@ import api.hbm.tile.IInfoProviderEC;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
-import com.hbm.handler.rbmkmk2.RBMKHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerRBMKGeneric;
 import com.hbm.inventory.fluid.FluidType;
@@ -222,11 +221,6 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		}
 		
 		super.onMelt(reduce);
-	}
-
-	@Override
-	public RBMKHandler.RBMKType getRBMKType() {
-		return RBMKHandler.RBMKType.OTHER;
 	}
 
 	@Override

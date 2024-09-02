@@ -10,6 +10,7 @@ import com.hbm.entity.projectile.EntityRBMKDebris;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.neutron.NeutronNodeWorld;
 import com.hbm.handler.neutron.RBMKNeutronHandler;
+import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKType;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -41,7 +42,12 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
-import java.util.*;
+import java.util.List;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * Base class for all RBMK components, active or passive. Handles heat and the explosion sequence
@@ -243,13 +249,15 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 			heat = 20D;
 	}
 
-	public abstract RBMKNeutronHandler.RBMKType getRBMKType();
-	
+	public RBMKType getRBMKType() {
+		return RBMKType.OTHER;
+	}
+
 	protected static boolean diag = false;
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
-		
+
 		if(!diag) {
 			super.readFromNBT(nbt);
 		}

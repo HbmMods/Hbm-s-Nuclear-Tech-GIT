@@ -2,7 +2,7 @@ package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
-import com.hbm.handler.rbmkmk2.RBMKHandler;
+import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKType;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -132,8 +132,8 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	}
 
 	@Override
-	public RBMKHandler.RBMKType getRBMKType() {
-		return RBMKHandler.RBMKType.CONTROL_ROD;
+	public RBMKType getRBMKType() {
+		return RBMKType.CONTROL_ROD;
 	}
 
 	@Override

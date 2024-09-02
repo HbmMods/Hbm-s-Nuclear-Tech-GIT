@@ -3,7 +3,8 @@ package com.hbm.blocks.machine.rbmk;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.handler.MultiblockHandlerXR;
-import com.hbm.handler.rbmkmk2.RBMKHandler;
+import com.hbm.handler.neutron.NeutronNodeWorld;
+import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKNeutronNode;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemRBMKLid;
 import com.hbm.lib.RefStrings;
@@ -28,8 +29,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
-
-import static com.hbm.handler.rbmkmk2.RBMKHandler.getNode;
 
 public abstract class RBMKBase extends BlockDummyable implements IToolable, ILookOverlay {
 
@@ -175,7 +174,7 @@ public abstract class RBMKBase extends BlockDummyable implements IToolable, ILoo
 				
 				if(rbmk.hasLid() && rbmk.isLidRemovable()) {
 
-					RBMKHandler.RBMKNode node = getNode(new BlockPos(te));
+					RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(new BlockPos(te));
 					if (node != null)
 						node.removeLid();
 					

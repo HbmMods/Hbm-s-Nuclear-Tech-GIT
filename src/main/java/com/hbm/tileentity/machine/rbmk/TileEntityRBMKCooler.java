@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine.rbmk;
 
 import api.hbm.fluid.IFluidStandardReceiver;
 import com.hbm.handler.CompatHandler;
-import com.hbm.handler.rbmkmk2.RBMKHandler;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
@@ -17,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 
 import java.util.List;
 
@@ -116,11 +114,6 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidSt
 		super.deserialize(buf);
 		this.tank.deserialize(buf);
 		this.lastCooled = buf.readInt();
-	}
-
-	@Override
-	public RBMKHandler.RBMKType getRBMKType() {
-		return RBMKHandler.RBMKType.OTHER;
 	}
 
 	@Override
