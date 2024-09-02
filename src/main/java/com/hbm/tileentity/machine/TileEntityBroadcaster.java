@@ -3,8 +3,8 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 
 import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.LoopedSoundPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.LoopedSoundPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;

@@ -14,3 +14,4 @@
 * Fixed hydroreactive items not exploding when submerged in water
 * Fixed fluid valves visually disconnecting when switching state
 * Fixed fluid valves no visually connecting when type is set
+* Fixed falling blocks spawned by nukes or impulse grenades dropping blocks that don't have drops

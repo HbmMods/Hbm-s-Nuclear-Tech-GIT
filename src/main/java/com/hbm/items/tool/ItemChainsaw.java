@@ -2,8 +2,8 @@ package com.hbm.items.tool;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.IHeldSoundProvider;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;

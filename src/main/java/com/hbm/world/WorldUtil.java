@@ -1,7 +1,8 @@
 package com.hbm.world;
 
-import com.hbm.packet.BiomeSyncPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.BiomeSyncPacket;
+
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;

@@ -8,7 +8,7 @@ import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemCassette.SoundType;
 import com.hbm.items.machine.ItemCassette.TrackType;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TESirenPacket;
+import com.hbm.packet.toclient.TESirenPacket;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

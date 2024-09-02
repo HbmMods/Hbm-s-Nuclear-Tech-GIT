@@ -1,8 +1,8 @@
 package com.hbm.tileentity.bomb;
 
 import com.hbm.blocks.bomb.BlockChargeBase;
-import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.NBTPacket;
 import com.hbm.tileentity.INBTPacketReceiver;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

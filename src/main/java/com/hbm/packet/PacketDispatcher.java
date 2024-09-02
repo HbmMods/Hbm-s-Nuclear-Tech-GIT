@@ -1,6 +1,8 @@
 package com.hbm.packet;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.toclient.*;
+import com.hbm.packet.toserver.*;
 
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -11,8 +13,7 @@ public class PacketDispatcher {
 	//Mark 1 Packet Sending Device
 	public static final SimpleNetworkWrapper wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(RefStrings.MODID);
 
-	public static final void registerPackets()
-	{
+	public static final void registerPackets() {
 		int i = 0;
 		
 		//Sound packet that keeps client and server separated
@@ -71,8 +72,6 @@ public class PacketDispatcher {
 		wrapper.registerMessage(ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket.Handler.class, ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket.class, i++, Side.CLIENT);
 		//Packet to send NBT data from clients to the serverside held item
 		wrapper.registerMessage(NBTItemControlPacket.Handler.class, NBTItemControlPacket.class, i++, Side.SERVER);
-		//sends a button press to the held item, assuming it is an ISyncButtons
-		wrapper.registerMessage(SyncButtonsPacket.Handler.class, SyncButtonsPacket.class, i++, Side.SERVER);
 		//General syncing for global values
 		wrapper.registerMessage(PermaSyncPacket.Handler.class, PermaSyncPacket.class, i++, Side.CLIENT);
 		//Syncs biome information for single positions or entire chunks

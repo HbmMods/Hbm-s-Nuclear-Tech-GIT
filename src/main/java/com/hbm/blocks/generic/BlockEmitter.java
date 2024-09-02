@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.util.List;
 
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.packet.toclient.NBTPacket;
 import com.hbm.tileentity.INBTPacketReceiver;
 
 import api.hbm.block.IToolable;

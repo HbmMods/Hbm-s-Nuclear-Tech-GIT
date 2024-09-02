@@ -1,18 +1,22 @@
 package com.hbm.handler;
 
 import com.hbm.inventory.gui.GUICalculator;
+import com.hbm.items.IKeybindReceiver;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import org.lwjgl.input.Keyboard;
 
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.KeybindPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.KeybindPacket;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 public class HbmKeybinds {
 
@@ -62,6 +66,19 @@ public class HbmKeybinds {
 				PacketDispatcher.wrapper.sendToServer(new KeybindPacket(key, current));
 				props.setKeyPressed(key, current);
 			}
+		}
+	}
+	
+	public static void onPressedServer(EntityPlayer player, EnumKeybind key, boolean state) {
+		
+		// EXTPROP HANDLING
+		HbmPlayerProps props = HbmPlayerProps.getData(player);
+		props.setKeyPressed(key, state);
+		
+		// ITEM HANDLING
+		ItemStack held = player.getHeldItem();
+		if(held != null && held.getItem() instanceof IKeybindReceiver) {
+			((IKeybindReceiver) held.getItem()).handleKeybind(player, held, key, state);
 		}
 	}
 

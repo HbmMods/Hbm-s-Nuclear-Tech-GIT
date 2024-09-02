@@ -11,8 +11,8 @@ import com.hbm.inventory.container.ContainerMachineArcFurnaceLarge;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.TileEntityMachineArcFurnaceLarge;
 import com.hbm.util.I18nUtil;
 

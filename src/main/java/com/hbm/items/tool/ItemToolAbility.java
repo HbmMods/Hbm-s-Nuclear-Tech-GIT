@@ -13,7 +13,7 @@ import com.hbm.handler.ToolAbility;
 import com.hbm.handler.ToolAbility.*;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
+import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.util.ChatBuilder;
 import com.hbm.handler.WeaponAbility;
 
