@@ -213,9 +213,6 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 				this.fluxRatio = nbt.getDouble("fluxFast") / fluxQuantity;
 			else
 				this.fluxRatio = 0;
-			nbt.removeTag("fluxSlow");
-			nbt.removeTag("fluxFast");
-			writeToNBT(nbt);
 		} else {
 			this.fluxQuantity = nbt.getDouble("fluxQuantity");
 			this.fluxRatio = nbt.getDouble("fluxRatio");
@@ -226,17 +223,8 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setDouble("fluxQuantity", this.lastFluxQuantity);
-		nbt.setDouble("fluxRatio", this.fluxRatio);
-		nbt.setBoolean("hasRod", this.hasRod);
-	}
-
-	// aaaaaaa
-	public void writeToNBTDiag(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-
-		nbt.setDouble("fluxQuantity", this.fluxQuantity);
-		nbt.setDouble("fluxRatio", this.fluxRatio);
+		nbt.setDouble("fluxSlow", this.lastFluxQuantity * (1 - fluxRatio));
+		nbt.setDouble("fluxFast", this.lastFluxQuantity * fluxRatio);
 		nbt.setBoolean("hasRod", this.hasRod);
 	}
 
@@ -257,7 +245,9 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	}
 
 	public void getDiagData(NBTTagCompound nbt) {
-		this.writeToNBTDiag(nbt);
+		diag = true;
+		this.writeToNBT(nbt);
+		diag = false;
 
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {
 
