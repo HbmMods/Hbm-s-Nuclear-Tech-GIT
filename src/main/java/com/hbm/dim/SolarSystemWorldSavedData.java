@@ -80,12 +80,14 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 			CelestialBody target = CelestialBody.getBody(stationTag.getString("target"));
 			StationState state = StationState.values()[stationTag.getInteger("state")];
 			int stateTimer = stationTag.getInteger("stateTimer");
+			boolean hasStation = stationTag.getBoolean("hasStation");
 
 			ChunkCoordIntPair pos = new ChunkCoordIntPair(x, z);
 			OrbitalStation station = new OrbitalStation(orbiting, x, z);
 			station.target = target;
 			station.state = state;
 			station.stateTimer = stateTimer;
+			station.hasStation = hasStation;
 
 			stations.put(pos, station);
 		}
@@ -115,6 +117,7 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 			stationTag.setString("target", station.target.name);
 			stationTag.setInteger("state", station.state.ordinal());
 			stationTag.setInteger("stateTimer", station.stateTimer);
+			stationTag.setBoolean("hasStation", station.hasStation);
 
 			stationList.appendTag(stationTag);
 		}

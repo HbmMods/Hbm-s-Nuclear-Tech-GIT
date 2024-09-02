@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.CelestialBody;
+import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.CompatHandler;
@@ -18,8 +19,10 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUILaunchPadRocket;
+import com.hbm.items.ISatChip;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
+import com.hbm.items.ItemVOTVdrive.Destination;
 import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
@@ -261,7 +264,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 	public void launch() {
 		if(!canLaunch()) return;
 
-		EntityRideableRocket rocket = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 3.0F, zCoord + 0.5F, slots[0]).withPayload(slots[1]);
+		EntityRideableRocket rocket = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 3.0F, zCoord + 0.5F, slots[0]).withPayload(slots[1]).withFreq(ISatChip.getFreqS(slots[0]));
 		worldObj.spawnEntityInWorld(rocket);
 
 		// Deplete all fills
@@ -290,21 +293,24 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 
 	private boolean canReachDestination() {
 		CelestialBody localBody = CelestialBody.getBody(worldObj);
-		CelestialBody destination = ItemVOTVdrive.getDestination(slots[1]).body.getBody();
+		Destination destination = ItemVOTVdrive.getDestination(slots[1]);
 
 		// Check that the drive is processed
 		if(!ItemVOTVdrive.getProcessed(slots[1])) {
 			return false;
 		}
 
+		RocketStruct rocket = ItemCustomRocket.get(slots[0]);
+
 		// Check if the stage can make the journey
-		if(destination != null) {
+		if(destination.body.getBody() != null) {
 			// To another body (or self)
-			RocketStruct rocket = ItemCustomRocket.get(slots[0]);
-			if(rocket.hasSufficientFuel(localBody, destination)) return true;
+			if(rocket.hasSufficientFuel(localBody, destination.body.getBody())) return true;
 		} else {
 			// To an orbital station
-			return true;
+			if(rocket.capsule.part == ModItems.rp_station_core_20) return true;
+			OrbitalStation station = OrbitalStation.getStation(destination.x * OrbitalStation.STATION_SIZE, destination.z * OrbitalStation.STATION_SIZE);
+			return station.hasStation;
 		}
 
 		return false;
@@ -404,15 +410,22 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 
 		// Check that the rocket is actually capable of reaching our destination
 		CelestialBody localBody = CelestialBody.getBody(worldObj);
-		CelestialBody destination = ItemVOTVdrive.getDestination(slots[1]).body.getBody();
+		Destination destination = ItemVOTVdrive.getDestination(slots[1]);
+		CelestialBody destinationBody = destination.body.getBody();
 
-		if(destination == null) {
+		if(destinationBody == null) {
 			// Check travelling to orbital station
-		} else if(destination == localBody) {
+			if(rocket.capsule.part != ModItems.rp_station_core_20) {
+				OrbitalStation station = OrbitalStation.getStation(destination.x * OrbitalStation.STATION_SIZE, destination.z * OrbitalStation.STATION_SIZE);
+				if(!station.hasStation) {
+					issues.add(EnumChatFormatting.RED + "Station not yet launched");
+				}
+			}
+		} else if(destinationBody == localBody) {
 			// Check sending to orbit
 		} else {
 			// Check transfer
-			if(!rocket.hasSufficientFuel(localBody, destination)) {
+			if(!rocket.hasSufficientFuel(localBody, destinationBody)) {
 				issues.add(EnumChatFormatting.RED + "Rocket can't reach destination");
 			}
 		}

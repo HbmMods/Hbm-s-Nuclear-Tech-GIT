@@ -3,6 +3,7 @@ package com.hbm.items.weapon;
 import java.util.List;
 
 import com.hbm.handler.RocketStruct;
+import com.hbm.items.ISatChip;
 import com.hbm.items.ModItems;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 
-public class ItemCustomRocket extends Item {
+public class ItemCustomRocket extends Item implements ISatChip {
 
 	public static ItemStack build(RocketStruct rocket) {
 		ItemStack stack = new ItemStack(ModItems.rocket_custom);
@@ -28,6 +29,11 @@ public class ItemCustomRocket extends Item {
 
 		return RocketStruct.readFromNBT(stack.stackTagCompound);
 	}
+
+	public static boolean hasFuel(ItemStack stack) {
+		if(stack == null || stack.stackTagCompound == null) return false;
+		return stack.stackTagCompound.getBoolean("hasFuel");
+	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -37,6 +43,14 @@ public class ItemCustomRocket extends Item {
 		if(rocket == null) return;
 
 		list.add(EnumChatFormatting.BOLD + "Stages: " + EnumChatFormatting.GRAY + rocket.stages.size());
+
+		if(hasFuel(stack)) {
+			list.add(EnumChatFormatting.BOLD + "" + EnumChatFormatting.GRAY + "Has fuel");
+		}
+
+		if(getFreq(stack) != 0) {
+			list.add(EnumChatFormatting.BOLD + "Satellite Frequency: " + getFreq(stack));
+		}
 	}
 
 }

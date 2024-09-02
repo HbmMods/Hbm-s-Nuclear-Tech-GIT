@@ -307,6 +307,8 @@ public class ItemCustomMissilePart extends Item {
 			return (System.currentTimeMillis() % 1000 < 500 ? EnumChatFormatting.RED : EnumChatFormatting.LIGHT_PURPLE) + "Turbine";
 		case APOLLO:
 			return (System.currentTimeMillis() % 1000 < 500 ? EnumChatFormatting.GOLD : EnumChatFormatting.RED) + "Capsule";
+		case SATELLITE:
+			return (System.currentTimeMillis() % 1000 < 500 ? EnumChatFormatting.GOLD : EnumChatFormatting.RED) + "Satellite";
 		default:
 			return EnumChatFormatting.BOLD + "N/A";
 		}

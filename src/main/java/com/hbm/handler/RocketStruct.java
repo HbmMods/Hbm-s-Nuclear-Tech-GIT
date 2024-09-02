@@ -29,6 +29,7 @@ public class RocketStruct {
 	
 	public MissilePart capsule;
 	public ArrayList<RocketStage> stages = new ArrayList<>();
+	public int satFreq = 0;
 
 	public List<String> extraIssues = new ArrayList<>();
 
@@ -62,7 +63,10 @@ public class RocketStruct {
 		if(extraIssues.size() > 0)
 			return false;
 
-		if(capsule == null || capsule.type != PartType.WARHEAD || ((ItemCustomMissilePart)capsule.part).attributes[0] != WarheadType.APOLLO)
+		if(capsule == null || capsule.type != PartType.WARHEAD)
+			return false;
+
+		if(capsule.part.attributes[0] != WarheadType.APOLLO && capsule.part.attributes[0] != WarheadType.SATELLITE)
 			return false;
 		
 		if(stages.size() == 0)
@@ -320,6 +324,8 @@ public class RocketStruct {
 			stagesTag.appendTag(stageTag);
 		}
 		nbt.setTag("stages", stagesTag);
+
+		nbt.setInteger("freq", satFreq);
 	}
 
 	public static RocketStruct readFromNBT(NBTTagCompound nbt) {

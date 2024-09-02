@@ -21,6 +21,8 @@ public class ItemRenderMissilePart implements IItemRenderer {
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
+		if(part == null || !part.renderModel) return false;
+
 		switch(type) {
 		case EQUIPPED:
 		case EQUIPPED_FIRST_PERSON:

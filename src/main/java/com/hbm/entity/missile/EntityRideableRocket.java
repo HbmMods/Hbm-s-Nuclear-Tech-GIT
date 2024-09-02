@@ -12,11 +12,14 @@ import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.handler.RocketStruct;
 import com.hbm.handler.RocketStruct.RocketStage;
+import com.hbm.items.ISatChip;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemVOTVdrive.Destination;
 import com.hbm.items.weapon.ItemCustomRocket;
+import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.main.MainRegistry;
+import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
@@ -66,6 +69,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	private boolean willExplode = false;
 
+	private int satFreq = 0;
+
 	public enum RocketState {
 		AWAITING,		// Prepped for launch, once mounted will transition to launching
 		LAUNCHING,		// Ascending through the atmosphere up to the target altitude, at which point it'll teleport to the target body
@@ -97,6 +102,11 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		return this;
 	}
 
+	public EntityRideableRocket withFreq(int frequency) {
+		this.satFreq = frequency;
+		return this;
+	}
+
 	public void beginLandingSequence() {
 		motionX = 0;
 		motionY = 0;
@@ -125,7 +135,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		RocketState state = getState();
 
 		if(!worldObj.isRemote) {
-			if(state == RocketState.AWAITING && rider != null && rider.isJumping) {
+			// If it's a satellite launcher, launch immediately
+			if(state == RocketState.AWAITING && ((rider != null && rider.isJumping) || !canRide())) {
 				CelestialBody localBody = CelestialBody.getBody(worldObj);
 				CelestialBody destination = getDestination();
 
@@ -204,8 +215,9 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 			if((state == RocketState.LAUNCHING && posY > 900) || (state == RocketState.UNDOCKING && posY < 32)) {
 				beginLandingSequence();
+				RocketStruct rocket = getRocket();
 
-				if(rider != null && navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
+				if(navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
 					Destination destination = ItemVOTVdrive.getDestination(navDrive);
 
 					int x = destination.x;
@@ -214,23 +226,35 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 					int targetDimensionId = destination.body.getDimensionId();
 
-					if(destination.body == SolarSystem.Body.ORBIT) {
-						setState(RocketState.DOCKING);
-
-						// Place the station in the middle of the zone, where the docking ring will always be
-						x = x * OrbitalStation.STATION_SIZE + (OrbitalStation.STATION_SIZE / 2);
-						y = 0;
-						z = z * OrbitalStation.STATION_SIZE + (OrbitalStation.STATION_SIZE / 2);
-					}
-
-					if(worldObj.provider.dimensionId != targetDimensionId) {
-						DebugTeleporter.teleport(rider, targetDimensionId, x + 0.5D, y, z + 0.5D, false);
-					} // landing state will automatically set the correct X/Z for same-planet launches, so no need to teleport
-
-					// After a successful warp, spawn in a station core if one doesn't yet exist
-					if(destination.body == SolarSystem.Body.ORBIT) {
-						WorldServer targetWorld = DimensionManager.getWorld(targetDimensionId);
-						OrbitalStation.spawn(targetWorld, x, z);
+					if(rider != null) {
+						if(destination.body == SolarSystem.Body.ORBIT) {
+							setState(RocketState.DOCKING);
+	
+							// Place the station in the middle of the zone, where the docking ring will always be
+							x = x * OrbitalStation.STATION_SIZE + (OrbitalStation.STATION_SIZE / 2);
+							y = 0;
+							z = z * OrbitalStation.STATION_SIZE + (OrbitalStation.STATION_SIZE / 2);
+						}
+	
+						if(worldObj.provider.dimensionId != targetDimensionId) {
+							DebugTeleporter.teleport(rider, targetDimensionId, x + 0.5D, y, z + 0.5D, false);
+						} // landing state will automatically set the correct X/Z for same-planet launches, so no need to teleport
+	
+						// After a successful warp, spawn in a station core if one doesn't yet exist
+						if(destination.body == SolarSystem.Body.ORBIT) {
+							WorldServer targetWorld = DimensionManager.getWorld(targetDimensionId);
+							OrbitalStation.spawn(targetWorld, x, z);
+						}
+					} else if(!canRide()) {
+						if(rocket.capsule.part instanceof ISatChip && destination.body != SolarSystem.Body.ORBIT) {
+							WorldServer targetWorld = DimensionManager.getWorld(targetDimensionId);
+							Satellite.orbit(targetWorld, Satellite.getIDFromItem(rocket.capsule.part), satFreq, posX, posY, posZ);
+						} else if(rocket.capsule.part == ModItems.rp_station_core_20) {
+							// We mark the station as travellable, but we don't actually add the station until the player travels to it
+							OrbitalStation.addStation(x, z, CelestialBody.getBody(worldObj));
+						}
+	
+						setDead();
 					}
 				}
 			}
@@ -314,7 +338,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	}
 
 	public boolean canRide() {
-		return true;
+		return getRocket().capsule.part.attributes[0] == WarheadType.APOLLO;
 	}
 
 	@Override
@@ -535,6 +559,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		} else {
 			navDrive = null;
 		}
+
+		satFreq = nbt.getInteger("freq");
 	}
 
 	@Override
@@ -554,6 +580,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	
 			nbt.setTag("drive", driveData);
 		}
+
+		nbt.setInteger("freq", satFreq);
 	}
 
 	@Override
@@ -635,10 +663,23 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		return null;
 	}
 
-	// Don't chunkload rockets, they are only useful in the presence of players anyway
-	@Override public void init(Ticket ticket) { }
-	@Override public void loadNeighboringChunks(int newChunkX, int newChunkZ) { }
-	@Override public void clearChunkLoader() { }
+	// Don't chunkload rideable rockets, they are only useful in the presence of players anyway
+	@Override
+	public void init(Ticket ticket) {
+		super.init(ticket);
+	}
+
+	@Override
+	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
+		if(canRide()) return;
+		super.loadNeighboringChunks(newChunkX, newChunkZ);
+	}
+
+	@Override
+	public void clearChunkLoader() {
+		if(canRide()) return;
+		super.clearChunkLoader();
+	}
 
 	public static class EntityRideableRocketDummy extends Entity implements ILookOverlay {
 

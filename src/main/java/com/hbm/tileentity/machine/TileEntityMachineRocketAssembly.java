@@ -10,6 +10,7 @@ import com.hbm.handler.RocketStruct.RocketStage;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerMachineRocketAssembly;
 import com.hbm.inventory.gui.GUIMachineRocketAssembly;
+import com.hbm.items.ISatChip;
 import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -51,6 +52,9 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 	public void updateEntity() {
 		if(!worldObj.isRemote) {
 			rocket = new RocketStruct(slots[0]);
+			if(slots[0] != null && slots[0].getItem() instanceof ISatChip) {
+				rocket.satFreq = ISatChip.getFreqS(slots[0]);
+			}
 			for(int i = 1; i < RocketStruct.MAX_STAGES * 3; i += 3) {
 				if(slots[i] == null && slots[i+1] == null && slots[i+2] == null) {
 					// Check for later stages and shift them up into empty stages

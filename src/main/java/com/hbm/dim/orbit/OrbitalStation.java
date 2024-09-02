@@ -19,6 +19,8 @@ public class OrbitalStation {
 	public StationState state = StationState.ORBIT;
 	public int stateTimer;
 
+	public boolean hasStation = false;
+
 	// the coordinates of the station within the dimension
 	public int dX;
 	public int dZ;
@@ -132,6 +134,18 @@ public class OrbitalStation {
 		world.setBlock(x, y, z, ModBlocks.orbital_station, 12, 3);
 		MultiblockHandlerXR.fillSpace(world, x, y, z, dimensions, ModBlocks.orbital_station, ForgeDirection.NORTH);
 		BlockDummyable.safeRem = false;
+	}
+
+	// Mark the station as travelable
+	public static void addStation(int x, int z, CelestialBody body) {
+		SolarSystemWorldSavedData data = SolarSystemWorldSavedData.get();
+		OrbitalStation station = data.getStation(x * STATION_SIZE, z * STATION_SIZE);
+
+		if(station == null) {
+			station = data.addStation(x, z, body);
+		}
+
+		station.hasStation = true;
 	}
 
 }

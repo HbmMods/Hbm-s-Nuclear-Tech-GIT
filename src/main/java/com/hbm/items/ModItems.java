@@ -1638,6 +1638,7 @@ public class ModItems {
 	public static Item rp_legs_20;
 
 	public static Item rp_capsule_20;
+	public static Item rp_station_core_20;
 
 	public static Item missile_skin_camo;
 	public static Item missile_skin_desert;
@@ -1665,8 +1666,6 @@ public class ModItems {
 	public static Item sat_lunar_miner;
 	public static Item sat_gerald;
 	public static Item sat_chip;
-
-	public static Item space_station;
 
 	public static Item sat_interface;
 	public static Item sat_coord;
@@ -4308,8 +4307,6 @@ public class ModItems {
 		sat_gerald = new ItemSatellite(50_000).setUnlocalizedName("sat_gerald").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_gerald");
 		sat_chip = new ItemSatChip().setUnlocalizedName("sat_chip").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_chip");
 
-		space_station = new ItemSatellite(4_000).setUnlocalizedName("space_station").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_base");
-
 		sat_interface = new ItemSatInterface().setUnlocalizedName("sat_interface").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_interface");
 		sat_coord = new ItemSatInterface().setUnlocalizedName("sat_coord").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_coord");
 		sat_designator = new ItemSatDesignator().setUnlocalizedName("sat_designator").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_designator");
@@ -4473,6 +4470,7 @@ public class ModItems {
 		rp_legs_20 = new ItemCustomMissilePart().makeStability(0, PartSize.SIZE_20).setMaxStackSize(1).setUnlocalizedName("rp_l_20").setTextureName(RefStrings.MODID + ":mp_fuselage");
 
 		rp_capsule_20 = new ItemCustomMissilePart().makeWarhead(WarheadType.APOLLO, 15F, 1000, PartSize.SIZE_20).setUnlocalizedName("rp_c_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
+		rp_station_core_20 = new ItemCustomMissilePart().makeWarhead(WarheadType.SATELLITE, 15F, 4000, PartSize.SIZE_20).setUnlocalizedName("rp_sc_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
 
 		missile_skin_camo = new ItemCustomLore().setUnlocalizedName("missile_skin_camo").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_camo");
 		missile_skin_desert = new ItemCustomLore().setUnlocalizedName("missile_skin_desert").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_desert");
@@ -7548,6 +7546,7 @@ public class ModItems {
 		GameRegistry.registerItem(rp_fuselage_20_12_hydrazine, rp_fuselage_20_12_hydrazine.getUnlocalizedName());
 		GameRegistry.registerItem(rp_legs_20, rp_legs_20.getUnlocalizedName());
 		GameRegistry.registerItem(rp_capsule_20, rp_capsule_20.getUnlocalizedName());
+		GameRegistry.registerItem(rp_station_core_20, rp_station_core_20.getUnlocalizedName());
 
 		/*GameRegistry.registerItem(missile_skin_camo, missile_skin_camo.getUnlocalizedName());
 		GameRegistry.registerItem(missile_skin_desert, missile_skin_desert.getUnlocalizedName());

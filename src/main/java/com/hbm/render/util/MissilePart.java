@@ -23,6 +23,7 @@ public class MissilePart {
 	public IModelCustom deployedModel;
 	public IModelCustom shroudModel;
 	public ResourceLocation texture;
+	public boolean renderModel = true;
 	
 	private MissilePart(Item item, PartType type, double height, double guiheight, IModelCustom model, ResourceLocation texture) {
 		this.part = (ItemCustomMissilePart)item;
@@ -40,6 +41,11 @@ public class MissilePart {
 
 	private MissilePart withShroud(IModelCustom shroudModel) {
 		this.shroudModel = shroudModel;
+		return this;
+	}
+
+	private MissilePart hideModel() {
+		this.renderModel = false;
 		return this;
 	}
 
@@ -219,18 +225,17 @@ public class MissilePart {
 
 		// SPACE
 		MissilePart.registerPart(ModItems.rp_capsule_20, PartType.WARHEAD, 3.5, 2.25, ResourceManager.soyuz_lander_neo, ResourceManager.module_lander_tex);
+		MissilePart.registerPart(ModItems.rp_station_core_20, PartType.WARHEAD, 7, 6, ResourceManager.mp_w_fairing, ResourceManager.mp_w_fairing_tex);
 
-		MissilePart.registerPart(ModItems.sat_mapper, PartType.WARHEAD, 13, 10, ResourceManager.sat_mapper, ResourceManager.sat_mapper_tex);
-		MissilePart.registerPart(ModItems.sat_scanner, PartType.WARHEAD, 13, 10, ResourceManager.sat_scanner, ResourceManager.sat_scanner_tex);
-		MissilePart.registerPart(ModItems.sat_radar, PartType.WARHEAD, 13, 10, ResourceManager.sat_radar, ResourceManager.sat_radar_tex);
-		MissilePart.registerPart(ModItems.sat_laser, PartType.WARHEAD, 13, 10, ResourceManager.sat_laser, ResourceManager.sat_laser_tex);
-		MissilePart.registerPart(ModItems.sat_foeq, PartType.WARHEAD, 13, 10, ResourceManager.sat_foeq, ResourceManager.sat_foeq_tex);
-		MissilePart.registerPart(ModItems.sat_resonator, PartType.WARHEAD, 13, 10, ResourceManager.sat_resonator, ResourceManager.sat_resonator_tex);
-		MissilePart.registerPart(ModItems.sat_miner, PartType.WARHEAD, 13, 10, ResourceManager.sat_foeq, ResourceManager.sat_foeq_tex);
-		MissilePart.registerPart(ModItems.sat_lunar_miner, PartType.WARHEAD, 13, 10, ResourceManager.sat_foeq, ResourceManager.sat_foeq_tex);
-		MissilePart.registerPart(ModItems.sat_gerald, PartType.WARHEAD, 13, 10, ResourceManager.sat_foeq, ResourceManager.sat_foeq_tex);
-
-		MissilePart.registerPart(ModItems.space_station, PartType.WARHEAD, 1, 2, ResourceManager.blast_door_base, ResourceManager.universal);
+		MissilePart.registerPart(ModItems.sat_mapper, PartType.WARHEAD, 13, 10, ResourceManager.sat_mapper, ResourceManager.sat_mapper_tex).hideModel();
+		MissilePart.registerPart(ModItems.sat_scanner, PartType.WARHEAD, 13, 10, ResourceManager.sat_scanner, ResourceManager.sat_scanner_tex).hideModel();
+		MissilePart.registerPart(ModItems.sat_radar, PartType.WARHEAD, 13, 10, ResourceManager.sat_radar, ResourceManager.sat_radar_tex).hideModel();
+		MissilePart.registerPart(ModItems.sat_laser, PartType.WARHEAD, 13, 10, ResourceManager.sat_laser, ResourceManager.sat_laser_tex).hideModel();
+		MissilePart.registerPart(ModItems.sat_foeq, PartType.WARHEAD, 13, 10, ResourceManager.sat_foeq, ResourceManager.sat_foeq_tex).hideModel();
+		MissilePart.registerPart(ModItems.sat_resonator, PartType.WARHEAD, 13, 10, ResourceManager.sat_resonator, ResourceManager.sat_resonator_tex).hideModel();
+		MissilePart.registerPart(ModItems.sat_miner, PartType.WARHEAD, 13, 10, ResourceManager.sat_foeq, ResourceManager.sat_foeq_tex).hideModel();
+		MissilePart.registerPart(ModItems.sat_lunar_miner, PartType.WARHEAD, 13, 10, ResourceManager.sat_foeq, ResourceManager.sat_foeq_tex).hideModel();
+		MissilePart.registerPart(ModItems.sat_gerald, PartType.WARHEAD, 13, 10, ResourceManager.sat_foeq, ResourceManager.sat_foeq_tex).hideModel();
 		
 	}
 
@@ -401,6 +406,7 @@ public class MissilePart {
 
 		// SPACE
 		MissilePart.registerPart(ModItems.rp_capsule_20, PartType.WARHEAD, 3.5, 2.25);
+		MissilePart.registerPart(ModItems.rp_station_core_20, PartType.WARHEAD, 7, 6);
 
 		MissilePart.registerPart(ModItems.sat_mapper, PartType.WARHEAD, 13, 10);
 		MissilePart.registerPart(ModItems.sat_scanner, PartType.WARHEAD, 13, 10);
@@ -411,8 +417,6 @@ public class MissilePart {
 		MissilePart.registerPart(ModItems.sat_miner, PartType.WARHEAD, 13, 10);
 		MissilePart.registerPart(ModItems.sat_lunar_miner, PartType.WARHEAD, 13, 10);
 		MissilePart.registerPart(ModItems.sat_gerald, PartType.WARHEAD, 13, 10);
-
-		MissilePart.registerPart(ModItems.space_station, PartType.WARHEAD, 1, 2);
 		
 	}
 	
