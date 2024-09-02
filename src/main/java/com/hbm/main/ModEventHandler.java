@@ -1309,7 +1309,7 @@ public class ModEventHandler {
 		
 		if(!player.worldObj.isRemote && event.phase == TickEvent.Phase.START) {
 			// Check for players attempting to cross over to another orbital grid
-			if(!player.worldObj.isRemote && player.worldObj.provider instanceof WorldProviderOrbit) {
+			if(player.worldObj.provider instanceof WorldProviderOrbit) {
 				double rx = Math.abs(player.posX) % OrbitalStation.STATION_SIZE;
 				double rz = Math.abs(player.posZ) % OrbitalStation.STATION_SIZE;
 
@@ -1324,7 +1324,7 @@ public class ModEventHandler {
 				}
 
 				if(rx < minBuffer || rx > maxBuffer || rz < minBuffer || rz > maxBuffer) {
-					OrbitalStation station = OrbitalStation.getStation((int)player.posX, (int)player.posZ);
+					OrbitalStation station = OrbitalStation.getStationFromPosition((int)player.posX, (int)player.posZ);
 					DebugTeleporter.teleport(player, station.orbiting.dimensionId, rand.nextInt(SpaceConfig.maxProbeDistance * 2) - SpaceConfig.maxProbeDistance, 800, rand.nextInt(SpaceConfig.maxProbeDistance * 2) - SpaceConfig.maxProbeDistance, false);
 				}
 			}

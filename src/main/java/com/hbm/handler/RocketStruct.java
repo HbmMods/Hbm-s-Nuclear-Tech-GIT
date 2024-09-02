@@ -8,7 +8,6 @@ import java.util.Map;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.items.weapon.ItemCustomMissilePart;
 import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
@@ -90,7 +89,7 @@ public class RocketStruct {
 	}
 
 	// Lists any validation issues so the player can rectify easily
-	public List<String> findIssues(int stageNum, CelestialBody from, CelestialBody to) {
+	public List<String> findIssues(int stageNum, CelestialBody from, CelestialBody to, boolean fromOrbit, boolean toOrbit) {
 		List<String> issues = new ArrayList<String>();
 
 		// If we have no parts, we have no worries
@@ -127,7 +126,7 @@ public class RocketStruct {
 		}
 
 		if(from != null && to != null) {
-			int fuelRequirement = getFuelRequired(stageNum, from, to, false, false);
+			int fuelRequirement = getFuelRequired(stageNum, from, to, fromOrbit, toOrbit);
 			int fuelCapacity = getFuelCapacity(stageNum);
 
 			if(fuelCapacity < fuelRequirement) {
@@ -168,8 +167,12 @@ public class RocketStruct {
 		return tanks;
 	}
 
-	public boolean hasSufficientFuel(CelestialBody from, CelestialBody to) {
-		int fuelRequirement = getFuelRequired(0, from, to, false, false);
+	public boolean hasSufficientFuel(CelestialBody from, CelestialBody to, boolean fromOrbit, boolean toOrbit) {
+		if(stages.size() == 0) {
+			return from == to && fromOrbit;
+		}
+
+		int fuelRequirement = getFuelRequired(0, from, to, fromOrbit, toOrbit);
 		int fuelCapacity = getFuelCapacity(0);
 
 		return fuelCapacity >= fuelRequirement;

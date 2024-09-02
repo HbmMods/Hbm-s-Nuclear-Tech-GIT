@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.CelestialBody;
-import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.CompatHandler;
@@ -21,8 +20,8 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUILaunchPadRocket;
 import com.hbm.items.ISatChip;
 import com.hbm.items.ItemVOTVdrive;
+import com.hbm.items.ItemVOTVdrive.Target;
 import com.hbm.items.ModItems;
-import com.hbm.items.ItemVOTVdrive.Destination;
 import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
@@ -292,28 +291,21 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 	}
 
 	private boolean canReachDestination() {
-		CelestialBody localBody = CelestialBody.getBody(worldObj);
-		Destination destination = ItemVOTVdrive.getDestination(slots[1]);
-
 		// Check that the drive is processed
 		if(!ItemVOTVdrive.getProcessed(slots[1])) {
 			return false;
 		}
 
+		Target from = CelestialBody.getTarget(worldObj, xCoord, zCoord);
+		Target to = ItemVOTVdrive.getTarget(slots[1], from.body);
+
 		RocketStruct rocket = ItemCustomRocket.get(slots[0]);
 
-		// Check if the stage can make the journey
-		if(destination.body.getBody() != null) {
-			// To another body (or self)
-			if(rocket.hasSufficientFuel(localBody, destination.body.getBody())) return true;
-		} else {
-			// To an orbital station
-			if(rocket.capsule.part == ModItems.rp_station_core_20) return true;
-			OrbitalStation station = OrbitalStation.getStation(destination.x * OrbitalStation.STATION_SIZE, destination.z * OrbitalStation.STATION_SIZE);
-			return station.hasStation;
-		}
+		if(!to.isValid && rocket.capsule.part != ModItems.rp_station_core_20) return false;
+		if(to.isValid && rocket.capsule.part == ModItems.rp_station_core_20) return false;
 
-		return false;
+		// Check if the stage can make the journey
+		return rocket.hasSufficientFuel(from.body, to.body, from.inOrbit, to.inOrbit);
 	}
 
 	public boolean canLaunch() {
@@ -409,25 +401,19 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		}
 
 		// Check that the rocket is actually capable of reaching our destination
-		CelestialBody localBody = CelestialBody.getBody(worldObj);
-		Destination destination = ItemVOTVdrive.getDestination(slots[1]);
-		CelestialBody destinationBody = destination.body.getBody();
+		Target from = CelestialBody.getTarget(worldObj, xCoord, zCoord);
+		Target to = ItemVOTVdrive.getTarget(slots[1], from.body);
 
-		if(destinationBody == null) {
-			// Check travelling to orbital station
-			if(rocket.capsule.part != ModItems.rp_station_core_20) {
-				OrbitalStation station = OrbitalStation.getStation(destination.x * OrbitalStation.STATION_SIZE, destination.z * OrbitalStation.STATION_SIZE);
-				if(!station.hasStation) {
-					issues.add(EnumChatFormatting.RED + "Station not yet launched");
-				}
-			}
-		} else if(destinationBody == localBody) {
-			// Check sending to orbit
-		} else {
-			// Check transfer
-			if(!rocket.hasSufficientFuel(localBody, destinationBody)) {
-				issues.add(EnumChatFormatting.RED + "Rocket can't reach destination");
-			}
+		if(to.inOrbit && !to.isValid && rocket.capsule.part != ModItems.rp_station_core_20) {
+			issues.add(EnumChatFormatting.RED + "Station not yet launched");
+		}
+
+		if(to.inOrbit && to.isValid && rocket.capsule.part == ModItems.rp_station_core_20) {
+			issues.add(EnumChatFormatting.RED + "Station already launched");
+		}
+
+		if(!rocket.hasSufficientFuel(from.body, to.body, from.inOrbit, to.inOrbit)) {
+			issues.add(EnumChatFormatting.RED + "Rocket can't reach destination");
 		}
 
 		return issues;
@@ -581,9 +567,9 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		if(hasDrive()) { // ok maybe I should actually check if there's an item there first
 			return new Object[] {null, "No destination drive."};
 		}
-		CelestialBody destination = ItemVOTVdrive.getDestination(slots[1]).body.getBody();
-		if(destination != null) {
-			return new Object[] {destination.name.toLowerCase()};
+		Target target = ItemVOTVdrive.getTarget(slots[1], null);
+		if(target.body != null) {
+			return new Object[] {target.body.name.toLowerCase()};
 		}
 		return new Object[] {null, "Drive has no destination."};
 	}

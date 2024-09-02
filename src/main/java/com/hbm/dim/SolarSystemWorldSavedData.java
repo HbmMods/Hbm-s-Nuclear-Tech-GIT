@@ -151,7 +151,7 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 	}
 
 	// Grabs an existing station
-	public OrbitalStation getStation(int x, int z) {
+	public OrbitalStation getStationFromPosition(int x, int z) {
 		// yeah they aren't exactly chunks but this is a nice little hashable that already exists
 		ChunkCoordIntPair pos = new ChunkCoordIntPair(x / OrbitalStation.STATION_SIZE, z / OrbitalStation.STATION_SIZE);
 		return stations.get(pos);

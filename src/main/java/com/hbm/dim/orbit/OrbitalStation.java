@@ -97,9 +97,9 @@ public class OrbitalStation {
 	}
 
 	// Finds a space station for a given set of coordinates
-	public static OrbitalStation getStation(int x, int z) {
+	public static OrbitalStation getStationFromPosition(int x, int z) {
 		SolarSystemWorldSavedData data = SolarSystemWorldSavedData.get();
-		OrbitalStation station = data.getStation(x, z);
+		OrbitalStation station = data.getStationFromPosition(x, z);
 
 		// Fallback for when a station doesn't exist (should only occur when using debug wand!)
 		if(station == null) {
@@ -107,6 +107,10 @@ public class OrbitalStation {
 		}
 
 		return station;
+	}
+
+	public static OrbitalStation getStation(int x, int z) {
+		return getStationFromPosition(x * STATION_SIZE, z * STATION_SIZE);
 	}
 
 	public void serialize(ByteBuf buf) {
@@ -139,12 +143,13 @@ public class OrbitalStation {
 	// Mark the station as travelable
 	public static void addStation(int x, int z, CelestialBody body) {
 		SolarSystemWorldSavedData data = SolarSystemWorldSavedData.get();
-		OrbitalStation station = data.getStation(x * STATION_SIZE, z * STATION_SIZE);
+		OrbitalStation station = data.getStationFromPosition(x * STATION_SIZE, z * STATION_SIZE);
 
 		if(station == null) {
 			station = data.addStation(x, z, body);
 		}
 
+		station.orbiting = station.target = body;
 		station.hasStation = true;
 	}
 

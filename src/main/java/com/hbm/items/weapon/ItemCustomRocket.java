@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.handler.RocketStruct;
 import com.hbm.items.ISatChip;
 import com.hbm.items.ModItems;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -42,6 +43,7 @@ public class ItemCustomRocket extends Item implements ISatChip {
 
 		if(rocket == null) return;
 
+		list.add(EnumChatFormatting.BOLD + "Payload: " + EnumChatFormatting.GRAY + I18nUtil.resolveKey(rocket.capsule.part.getUnlocalizedName() + ".name"));
 		list.add(EnumChatFormatting.BOLD + "Stages: " + EnumChatFormatting.GRAY + rocket.stages.size());
 
 		if(hasFuel(stack)) {
@@ -49,7 +51,7 @@ public class ItemCustomRocket extends Item implements ISatChip {
 		}
 
 		if(getFreq(stack) != 0) {
-			list.add(EnumChatFormatting.BOLD + "Satellite Frequency: " + getFreq(stack));
+			list.add(EnumChatFormatting.BOLD + "Satellite Frequency: " + EnumChatFormatting.GRAY + getFreq(stack));
 		}
 	}
 

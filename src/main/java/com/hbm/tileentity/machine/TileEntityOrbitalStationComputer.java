@@ -9,7 +9,7 @@ public class TileEntityOrbitalStationComputer extends TileEntity {
 	
 	// debug
 	public void travelTo(CelestialBody body) {
-		OrbitalStation station = OrbitalStation.getStation(xCoord, zCoord);
+		OrbitalStation station = OrbitalStation.getStationFromPosition(xCoord, zCoord);
 
 		if(station.orbiting == body) return;
 

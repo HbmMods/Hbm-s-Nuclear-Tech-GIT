@@ -3,7 +3,9 @@ package com.hbm.items;
 import java.util.List;
 
 import com.hbm.config.SpaceConfig;
+import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
+import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.entity.missile.EntityRideableRocket.RocketState;
 import com.hbm.lib.RefStrings;
@@ -118,6 +120,25 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 		int x = stack.stackTagCompound.getInteger("x");
 		int z = stack.stackTagCompound.getInteger("z");
 		return new Destination(body, x, z);
+	}
+
+	public static Target getTarget(ItemStack stack, CelestialBody defaultStationBody) {
+		if(stack == null) {
+			return new Target(null, false, false);
+		}
+
+		if(!stack.hasTagCompound())
+			stack.stackTagCompound = new NBTTagCompound();
+
+		Destination destination = getDestination(stack);
+
+		if(destination.body == SolarSystem.Body.ORBIT) {
+			OrbitalStation station = OrbitalStation.getStation(destination.x, destination.z);
+			if(!station.hasStation && defaultStationBody != null) station.orbiting = defaultStationBody;
+			return new Target(station.orbiting, true, station.hasStation);
+		} else {
+			return new Target(destination.body.getBody(), false, true);
+		}
 	}
 
 	public static void setCoordinates(ItemStack stack, int x, int z) {
@@ -238,6 +259,20 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 		
 		public ChunkCoordIntPair getChunk() {
 			return new ChunkCoordIntPair(x >> 4, z >> 4);
+		}
+
+	}
+
+	public static class Target {
+
+		public CelestialBody body;
+		public boolean inOrbit;
+		public boolean isValid;
+
+		public Target(CelestialBody body, boolean inOrbit, boolean isValid) {
+			this.body = body;
+			this.inOrbit = inOrbit;
+			this.isValid = isValid;
 		}
 
 	}

@@ -30,7 +30,7 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
     public void updateEntity() {
         if(!worldObj.isRemote) {
             // Station TEs handle syncing information about the current orbital parameters to players on the station
-            station = OrbitalStation.getStation(xCoord, zCoord);
+            station = OrbitalStation.getStationFromPosition(xCoord, zCoord);
 
             station.update(worldObj);
 

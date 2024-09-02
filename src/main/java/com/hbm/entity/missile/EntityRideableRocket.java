@@ -16,6 +16,7 @@ import com.hbm.items.ISatChip;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemVOTVdrive.Destination;
+import com.hbm.items.ItemVOTVdrive.Target;
 import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.main.MainRegistry;
@@ -54,7 +55,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	private int stateTimer = 0;
 
 	private static final int WATCHABLE_STATE = 8;
-	private static final int WATCHABLE_DESTINATION = 9;
+	private static final int WATCHABLE_DRIVE = 9;
 	private static final int WATCHABLE_TIMER = 10;
 
 	private static final int WATCHABLE_ROCKET = 11; // Variable size, must always be last!
@@ -135,21 +136,19 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		RocketState state = getState();
 
 		if(!worldObj.isRemote) {
+			if(navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
+				setDrive(navDrive);
+			}
+
 			// If it's a satellite launcher, launch immediately
 			if(state == RocketState.AWAITING && ((rider != null && rider.isJumping) || !canRide())) {
-				CelestialBody localBody = CelestialBody.getBody(worldObj);
-				CelestialBody destination = getDestination();
+				Target from = CelestialBody.getTarget(worldObj, (int)posX, (int)posZ);
+				Target to = getTarget();
 
-				RocketState transitionTo = worldObj.provider.dimensionId == SpaceConfig.orbitDimension ? RocketState.UNDOCKING : RocketState.LAUNCHING;
+				RocketState transitionTo = from.inOrbit ? RocketState.UNDOCKING : RocketState.LAUNCHING;
 
-				// Check if the stage can make the journey
-				if(destination != null) {
-					// To another body
-					if(getRocket().hasSufficientFuel(localBody, destination)) {
-						setState(transitionTo);
-					}
-				} else {
-					// To an orbital station
+				// To another body
+				if(getRocket().hasSufficientFuel(from.body, to.body, from.inOrbit, to.inOrbit)) {
 					setState(transitionTo);
 				}
 			}
@@ -238,7 +237,10 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	
 						if(worldObj.provider.dimensionId != targetDimensionId) {
 							DebugTeleporter.teleport(rider, targetDimensionId, x + 0.5D, y, z + 0.5D, false);
-						} // landing state will automatically set the correct X/Z for same-planet launches, so no need to teleport
+						} else {
+							posX = x + 0.5D;
+							posZ = z + 0.5D;
+						}
 	
 						// After a successful warp, spawn in a station core if one doesn't yet exist
 						if(destination.body == SolarSystem.Body.ORBIT) {
@@ -261,12 +263,6 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 			if(state == RocketState.LANDING && worldObj.getBlock(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ)).getMaterial() == Material.water) {
 				setState(RocketState.TIPPING);
-			}
-
-			if(navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
-				setDestination(ItemVOTVdrive.getDestination(navDrive).body.getBody());
-			} else {
-				setDestination(null);
 			}
 
 			if(height > 8) {
@@ -518,14 +514,13 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		stateTimer = 0;
 	}
 
-	public CelestialBody getDestination() {
-		int dimensionId = dataWatcher.getWatchableObjectInt(WATCHABLE_DESTINATION);
-		if(dimensionId < 0) return null;
-		return CelestialBody.getBody(dimensionId);
+	public Target getTarget() {
+		ItemStack drive = dataWatcher.getWatchableObjectItemStack(WATCHABLE_DRIVE);
+		return ItemVOTVdrive.getTarget(drive, CelestialBody.getBody(worldObj));
 	}
 
-	public void setDestination(CelestialBody destination) {
-		dataWatcher.updateObject(WATCHABLE_DESTINATION, destination != null ? destination.dimensionId : -1);
+	public void setDrive(ItemStack drive) {
+		dataWatcher.updateObject(WATCHABLE_DRIVE, drive);
 	}
 
 	public int getStateTimer() {
@@ -540,7 +535,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	protected void entityInit() {
 		super.entityInit();
 		dataWatcher.addObject(WATCHABLE_STATE, RocketState.AWAITING.ordinal());
-		dataWatcher.addObject(WATCHABLE_DESTINATION, 0);
+		dataWatcher.addObjectByDataType(WATCHABLE_DRIVE, 5);
 		dataWatcher.addObject(WATCHABLE_TIMER, 0);
 		RocketStruct.setupDataWatcher(dataWatcher, WATCHABLE_ROCKET); // again, this MUST be the highest int!
 	}
@@ -602,17 +597,15 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 
-		CelestialBody localBody = CelestialBody.getBody(world);
-		CelestialBody destination = getDestination();
+		Target from = CelestialBody.getTarget(world, (int)posX, (int)posZ);
+		Target to = getTarget();
 
 		boolean canLaunch = state == RocketState.AWAITING;
 
 		// Check if the stage can make the journey
-		if(destination != null) {
-			if(!rocket.hasSufficientFuel(localBody, destination)) {
-				text.add(EnumChatFormatting.RED + "Rocket can't reach destination!");
-				canLaunch = false;
-			}
+		if(!rocket.hasSufficientFuel(from.body, to.body, from.inOrbit, to.inOrbit)) {
+			text.add(EnumChatFormatting.RED + "Rocket can't reach destination!");
+			canLaunch = false;
 		}
 
 		if(riddenByEntity == null) {
@@ -620,10 +613,10 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		} else if(riddenByEntity != player) {
 			text.add("OCCUPIED");
 		} else {
-			if(destination != null) {
-				text.add("Destination: " + I18nUtil.resolveKey("body." + destination.name));
-			} else {
+			if(to.inOrbit) {
 				text.add("Destination: ORBITAL STATION");
+			} else {
+				text.add("Destination: " + I18nUtil.resolveKey("body." + to.body.name));
 			}
 
 			if(canLaunch) {
