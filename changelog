@@ -5,6 +5,7 @@
 * Removed forgotten bricks
 * Updated CMB brick texture
 * The ICF machine block now renders with its 3d model in the creative inventory
+* "Toggle backpack" keybind is now called "toggle jetpack" to reduce confusion
 
 ## Fixed
 * Fixed pumpjack gauges not syncing properly
