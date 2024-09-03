@@ -633,7 +633,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 	protected void renderSatellite(float partialTicks, WorldClient world, Minecraft mc, float celestialAngle, long seed, float[] color) {
 		Tessellator tessellator = Tessellator.instance;
 
-		float ticks = world.getWorldTime() + partialTicks;
+		double ticks = (double)(System.currentTimeMillis() % (600 * 50)) / 50;
 
 		GL11.glPushMatrix();
 		{
@@ -642,7 +642,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 			GL11.glRotatef(-40.0F + (float)(seed % 800) * 0.1F - 5.0F, 1.0F, 0.0F, 0.0F);
 			GL11.glRotatef((float)(seed % 50) * 0.1F - 20.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef((float)(seed % 80) * 0.1F - 2.5F, 0.0F, 0.0F, 1.0F);
-			GL11.glRotatef((ticks / 600.0F) * 360.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotated((ticks / 600.0D) * 360.0D, 1.0F, 0.0F, 0.0F);
 			
 			GL11.glColor4f(color[0], color[1], color[2], 1F);
 			
