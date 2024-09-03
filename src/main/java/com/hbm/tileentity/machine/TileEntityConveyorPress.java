@@ -7,13 +7,16 @@ import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.machine.ItemStamp;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -84,16 +87,7 @@ public class TileEntityConveyorPress extends TileEntityMachineBase implements IE
 				delay--;
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setDouble("press", press);
-			if(slots[0] != null) {
-				NBTTagCompound stack = new NBTTagCompound();
-				slots[0].writeToNBT(stack);
-				data.setTag("stack", stack);
-			}
-			
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		} else {
 			
 			// approach-based interpolation, GO!
@@ -174,23 +168,26 @@ public class TileEntityConveyorPress extends TileEntityMachineBase implements IE
 	}
 	
 	public boolean canRetract() {
-		if(this.power < usage) return false;
-		return true;
+		return this.power >= usage;
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		this.power = nbt.getLong("power");
-		this.syncPress = nbt.getInteger("press");
-		
-		if(nbt.hasKey("stack")) {
-			NBTTagCompound stack = nbt.getCompoundTag("stack");
-			this.syncStack = ItemStack.loadItemStackFromNBT(stack);
-		} else {
-			this.syncStack = null;
-		}
-		
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeLong(this.power);
+		buf.writeDouble(this.syncPress);
+		BufferUtil.writeItemStack(buf, syncStack);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		this.power = buf.readLong();
+		this.syncPress = buf.readDouble();
+		this.syncStack = BufferUtil.readItemStack(buf);
+
 		this.turnProgress = 2;
 	}
 
