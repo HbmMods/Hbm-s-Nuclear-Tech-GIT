@@ -9,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockOrbitalStation extends BlockDummyable implements IBlockSealable {
 
@@ -19,7 +20,7 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityOrbitalStation();
-		if(meta >= 6) return new TileEntityProxyCombo(true, false, false);
+		if(meta >= 6) return new TileEntityProxyCombo(true, false, true);
 		return null;
 	}
 
@@ -64,6 +65,27 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 	@Override
 	public boolean isSealed(World world, int x, int y, int z) {
 		return true;
+	}
+
+	@Override
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		super.fillSpace(world, x, y, z, dir, o);
+
+		x += dir.offsetX * o;
+		z += dir.offsetZ * o;
+
+		this.makeExtra(world, x + 2, y + 1, z - 1);
+		this.makeExtra(world, x + 2, y + 1, z + 0);
+		this.makeExtra(world, x + 2, y + 1, z + 1);
+		this.makeExtra(world, x - 2, y + 1, z - 1);
+		this.makeExtra(world, x - 2, y + 1, z + 0);
+		this.makeExtra(world, x - 2, y + 1, z + 1);
+		this.makeExtra(world, x - 1, y + 1, z + 2);
+		this.makeExtra(world, x + 0, y + 1, z + 2);
+		this.makeExtra(world, x + 1, y + 1, z + 2);
+		this.makeExtra(world, x - 1, y + 1, z - 2);
+		this.makeExtra(world, x + 0, y + 1, z - 2);
+		this.makeExtra(world, x + 1, y + 1, z - 2);
 	}
 	
 }

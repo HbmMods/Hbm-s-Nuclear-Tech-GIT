@@ -24,6 +24,14 @@ public class ItemCustomRocket extends Item implements ISatChip {
 		return stack;
 	}
 
+	public static ItemStack build(RocketStruct rocket, boolean hasFuel) {
+		ItemStack stack = build(rocket);
+
+		setFuel(stack, hasFuel);
+		
+		return stack;
+	}
+
 	public static RocketStruct get(ItemStack stack) {
 		if(stack == null || !(stack.getItem() instanceof ItemCustomRocket) || stack.stackTagCompound == null)
 			return null;
@@ -34,6 +42,12 @@ public class ItemCustomRocket extends Item implements ISatChip {
 	public static boolean hasFuel(ItemStack stack) {
 		if(stack == null || stack.stackTagCompound == null) return false;
 		return stack.stackTagCompound.getBoolean("hasFuel");
+	}
+
+	public static void setFuel(ItemStack stack, boolean hasFuel) {
+		if(stack == null) return;
+		if(stack.stackTagCompound == null) stack.stackTagCompound = new NBTTagCompound();
+		stack.stackTagCompound.setBoolean("hasFuel", hasFuel);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -47,7 +61,7 @@ public class ItemCustomRocket extends Item implements ISatChip {
 		list.add(EnumChatFormatting.BOLD + "Stages: " + EnumChatFormatting.GRAY + rocket.stages.size());
 
 		if(hasFuel(stack)) {
-			list.add(EnumChatFormatting.BOLD + "" + EnumChatFormatting.GRAY + "Has fuel");
+			list.add(EnumChatFormatting.GRAY + "Is fully fueled");
 		}
 
 		if(getFreq(stack) != 0) {

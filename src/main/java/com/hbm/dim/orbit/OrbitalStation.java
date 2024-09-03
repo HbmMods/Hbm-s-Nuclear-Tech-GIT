@@ -2,10 +2,10 @@ package com.hbm.dim.orbit;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.machine.BlockOrbitalStation;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.SolarSystemWorldSavedData;
-import com.hbm.handler.MultiblockHandlerXR;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.MathHelper;
@@ -142,11 +142,11 @@ public class OrbitalStation {
 		int y = 127;
 		if(world.getBlock(x, y, z) == ModBlocks.orbital_station) return;
 
-		int[] dimensions = ((BlockDummyable)ModBlocks.orbital_station).getDimensions();
+		BlockOrbitalStation block = (BlockOrbitalStation) ModBlocks.orbital_station;
 
 		BlockDummyable.safeRem = true;
-		world.setBlock(x, y, z, ModBlocks.orbital_station, 12, 3);
-		MultiblockHandlerXR.fillSpace(world, x, y, z, dimensions, ModBlocks.orbital_station, ForgeDirection.NORTH);
+		world.setBlock(x, y, z, block, 12, 3);
+		block.fillSpace(world, x, y, z, ForgeDirection.NORTH, 0);
 		BlockDummyable.safeRem = false;
 	}
 

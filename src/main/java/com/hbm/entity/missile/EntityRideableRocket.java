@@ -22,7 +22,9 @@ import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.machine.TileEntityOrbitalStation;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.CompatExternal;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.ParticleUtil;
 
@@ -35,6 +37,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
@@ -130,6 +133,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 		if(!sizeSet) {
 			setSize(2, (float)getRocket().getHeight() + 1);
+			if(!worldObj.isRemote) dock();
 		}
 
 		EntityPlayer rider = (EntityPlayer) this.riddenByEntity;
@@ -193,6 +197,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				if(posY + height > 128.5D) {
 					setState(RocketState.LANDED);
 					posY = 128.5D - height;
+
+					dock();
 				}
 			} else if(state == RocketState.UNDOCKING) {
 				rocketVelocity = -0.1;
@@ -313,6 +319,15 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		setStateTimer(++stateTimer);
 	}
 
+	private void dock() {
+		// Find the dock we should have attached to and link to it
+		TileEntity te = CompatExternal.getCoreFromPos(worldObj, MathHelper.floor_double(posX), MathHelper.floor_double(posY + height - 0.5D), MathHelper.floor_double(posZ));
+
+		if(te instanceof TileEntityOrbitalStation) {
+			((TileEntityOrbitalStation)te).dockRocket(this);
+		}
+	}
+
 	@Override
 	protected double motionMult() {
 		RocketState state = getState();
@@ -426,7 +441,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 			ItemStack stack = new ItemStack(rocket.capsule.part);
 			entityDropItem(stack, 0.0F);
 		} else {
-			ItemStack stack = ItemCustomRocket.build(rocket);
+			ItemStack stack = ItemCustomRocket.build(rocket, true);
 			entityDropItem(stack, 0.0F);
 		}
 

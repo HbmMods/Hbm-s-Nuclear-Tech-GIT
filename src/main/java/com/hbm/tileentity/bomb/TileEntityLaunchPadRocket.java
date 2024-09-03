@@ -320,9 +320,14 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		RocketStruct rocket = ItemCustomRocket.get(slots[0]);
 		Map<FluidType, Integer> fuels = rocket.getFillRequirement();
 
+		// If the rocket is already fueled, unmark it and fill the tanks
+		boolean hasFuel = ItemCustomRocket.hasFuel(slots[0]);
+		if(hasFuel) ItemCustomRocket.setFuel(slots[0], false);
+
 		// Remove solid fuels (listed as NONE fluid) from tank updates
 		if(fuels.containsKey(Fluids.NONE)) {
 			maxSolidFuel = fuels.get(Fluids.NONE);
+			if(hasFuel) solidFuel = maxSolidFuel;
 			fuels.remove(Fluids.NONE);
 		} else {
 			maxSolidFuel = 0;
@@ -341,6 +346,13 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		// Add new tanks
 		for(Entry<FluidType, Integer> entry : fuels.entrySet()) {
 			keepTanks.add(new FluidTank(entry.getKey(), entry.getValue()));
+		}
+
+		// Fill tanks if rocket had fuel
+		if(hasFuel) {
+			for(FluidTank tank : keepTanks) {
+				tank.setFill(tank.getMaxFill());
+			}
 		}
 
 		// Sort and fill the tank array to place NONE at the end

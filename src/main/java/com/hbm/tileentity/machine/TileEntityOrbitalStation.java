@@ -1,9 +1,11 @@
 package com.hbm.tileentity.machine;
 
 import java.util.List;
+import java.util.Stack;
 
 import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.entity.missile.EntityRideableRocket;
+import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
@@ -11,14 +13,22 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityOrbitalStation extends TileEntityMachineBase {
 
     private OrbitalStation station;
+    private EntityRideableRocket docked;
+
+    public boolean hasDocked = false;
+
+    public float rot;
+    public float prevRot;
 
     public TileEntityOrbitalStation() {
-        super(0);
+        super(27);
     }
 
     @Override
@@ -34,9 +44,22 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
 
             station.update(worldObj);
 
+            if(docked != null && docked.isDead) {
+                undockRocket();
+            }
+
             this.networkPackNT(OrbitalStation.STATION_SIZE / 2);
-        } else if(station != null) {
-            station.update(worldObj);
+        } else {
+            if(station != null) station.update(worldObj);
+
+            prevRot = rot;
+            if(hasDocked) {
+                rot += 2.25F;
+                if(rot > 90) rot = 90;
+            } else {
+                rot -= 2.25F;
+                if(rot < 0) rot = 0;
+            }
         }
     }
 
@@ -48,11 +71,38 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
         }
     }
 
+    public void dockRocket(EntityRideableRocket rocket) {
+        if(docked != null) {
+            Stack<ItemStack> itemsToStuff = new Stack<ItemStack>();
+            itemsToStuff.push(ItemCustomRocket.build(docked.getRocket(), true));
+            itemsToStuff.push(docked.navDrive);
+
+            for(int i = 0; i < slots.length; i++) {
+                if(slots[i] == null) {
+                    slots[i] = itemsToStuff.pop();
+                    if(itemsToStuff.empty()) break;
+                }
+            }
+
+            docked.setDead();
+        }
+
+        docked = rocket;
+        hasDocked = true;
+    }
+
+    public void undockRocket() {
+        docked = null;
+        hasDocked = false;
+    }
+
     @Override
     public void serialize(ByteBuf buf) {
         super.serialize(buf);
 
         station.serialize(buf);
+
+        buf.writeBoolean(hasDocked);
     }
 
     @Override
@@ -60,7 +110,19 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
         super.deserialize(buf);
 
         OrbitalStation.clientStation = station = OrbitalStation.deserialize(buf);
+
+        hasDocked = buf.readBoolean();
     }
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+	}
 
     AxisAlignedBB bb = null;
 	
