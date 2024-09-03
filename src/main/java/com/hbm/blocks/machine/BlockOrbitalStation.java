@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.handler.RocketStruct;
 import com.hbm.handler.atmosphere.IBlockSealable;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomRocket;
@@ -82,6 +83,10 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 						station.spawnRocket(held);
 						held.stackSize--;
 					}
+					if(held.getItem() == ModItems.rp_capsule_20) {
+						station.spawnRocket(ItemCustomRocket.build(new RocketStruct(held)));
+						held.stackSize--;
+					}
 				}
 			}
 			
@@ -157,6 +162,9 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 				if(held != null) {
 					if(held.getItem() == ModItems.rocket_custom && ItemCustomRocket.hasFuel(held)) {
 						text.add("Interact to place held rocket");
+					}
+					if(held.getItem() == ModItems.rp_capsule_20) {
+						text.add("Interact to place held capsule");
 					}
 				}
 			}

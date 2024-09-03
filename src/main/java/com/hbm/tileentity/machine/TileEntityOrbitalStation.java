@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.entity.missile.EntityRideableRocket.RocketState;
+import com.hbm.handler.RocketStruct;
 import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -89,7 +90,14 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
     public void despawnRocket() {
         if(docked != null) {
             Stack<ItemStack> itemsToStuff = new Stack<ItemStack>();
-            itemsToStuff.push(ItemCustomRocket.build(docked.getRocket(), true));
+
+            RocketStruct rocket = docked.getRocket();
+            if(rocket.stages.size() > 0) {
+                itemsToStuff.push(ItemCustomRocket.build(docked.getRocket(), true));
+            } else {
+                itemsToStuff.push(new ItemStack(rocket.capsule.part));
+            }
+
             if(docked.navDrive != null) itemsToStuff.push(docked.navDrive.copy());
 
             for(int i = 0; i < slots.length; i++) {
