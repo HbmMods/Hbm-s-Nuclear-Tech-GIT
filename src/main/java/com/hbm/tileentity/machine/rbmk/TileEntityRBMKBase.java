@@ -118,9 +118,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 			this.worldObj.theProfiler.endStartSection("rbmkBase_rpassive_cooling");
 			coolPassively();
 			this.worldObj.theProfiler.endSection();
-			
-			NBTTagCompound data = new NBTTagCompound();
-			this.writeToNBT(data);
+
 			this.networkPackNT(trackingRange());
 		}
 	}

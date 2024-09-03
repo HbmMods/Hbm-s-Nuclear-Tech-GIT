@@ -23,6 +23,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -90,83 +91,87 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 
 	@Override
 	public void updateEntity() {
-		
-		if(!worldObj.isRemote) {
-			
+
+		if (!worldObj.isRemote) {
+
 			this.updateConnections();
-			
+
 			this.tanks[0].unloadTank(1, 2, slots);
 			this.tanks[1].unloadTank(3, 4, slots);
-			
+
 			UpgradeManager.eval(slots, 5, 7);
 			this.speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			this.energyLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
 			this.overLevel = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3) + 1;
 			int abLevel = Math.min(UpgradeManager.getLevel(UpgradeType.AFTERBURN), 3);
-			
+
 			int toBurn = Math.min(tanks[1].getFill(), abLevel * 10);
-			
-			if(toBurn > 0) {
+
+			if (toBurn > 0) {
 				tanks[1].setFill(tanks[1].getFill() - toBurn);
 				this.power += toBurn * 5;
-				
-				if(this.power > this.getMaxPower())
+
+				if (this.power > this.getMaxPower())
 					this.power = this.getMaxPower();
 			}
-			
+
 			power = Library.chargeTEFromItems(slots, 0, power, this.getMaxPower());
 
-			for(DirPos pos : getConPos()) {
-				if(tanks[0].getFill() > 0) this.sendFluid(tanks[0], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
-				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+			for (DirPos pos : getConPos()) {
+				if (tanks[0].getFill() > 0)
+					this.sendFluid(tanks[0], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+				if (tanks[1].getFill() > 0)
+					this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
-			
-			if(this.power >= this.getPowerReqEff() && this.tanks[0].getFill() < this.tanks[0].getMaxFill() && this.tanks[1].getFill() < this.tanks[1].getMaxFill()) {
-				
+
+			if (this.power >= this.getPowerReqEff() && this.tanks[0].getFill() < this.tanks[0].getMaxFill() && this.tanks[1].getFill() < this.tanks[1].getMaxFill()) {
+
 				this.power -= this.getPowerReqEff();
-				
-				if(worldObj.getTotalWorldTime() % getDelayEff() == 0) {
+
+				if (worldObj.getTotalWorldTime() % getDelayEff() == 0) {
 					this.indicator = 0;
-					
-					for(int y = yCoord - 1; y >= getDrillDepth(); y--) {
-						
-						if(worldObj.getBlock(xCoord, y, zCoord) != ModBlocks.oil_pipe) {
-						
-							if(trySuck(y)) {
+
+					for (int y = yCoord - 1; y >= getDrillDepth(); y--) {
+
+						if (worldObj.getBlock(xCoord, y, zCoord) != ModBlocks.oil_pipe) {
+
+							if (trySuck(y)) {
 								break;
 							} else {
 								tryDrill(y);
 								break;
 							}
 						}
-						
-						if(y == getDrillDepth())
+
+						if (y == getDrillDepth())
 							this.indicator = 1;
 					}
 				}
-				
+
 			} else {
 				this.indicator = 2;
 			}
-			
-			this.sendUpdate();
+
+			this.networkPackNT(25);
 		}
 	}
-	
-	public void sendUpdate() {
-		NBTTagCompound data = new NBTTagCompound();
-		data.setLong("power", power);
-		data.setInteger("indicator", this.indicator);
-		for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(data, "t" + i);
-		this.networkPack(data, 25);
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeLong(this.power);
+		buf.writeInt(this.indicator);
+		for (FluidTank tank : tanks) tank.serialize(buf);
 	}
-	
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.indicator = nbt.getInteger("indicator");
-		for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		this.power = buf.readLong();
+		this.indicator = buf.readInt();
+		for (FluidTank tank : tanks) tank.deserialize(buf);
 	}
 	
 	public boolean canPump() {
