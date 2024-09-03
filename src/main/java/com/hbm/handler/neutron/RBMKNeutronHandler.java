@@ -410,8 +410,10 @@ public class RBMKNeutronHandler {
 			ticks = 0;
 			List<BlockPos> toRemove = new ArrayList<>();
 			for(NeutronNode cachedNode : NeutronNodeWorld.nodeCache.values()) {
-				RBMKNeutronNode node = (RBMKNeutronNode) cachedNode;
-				toRemove.addAll(node.checkNode());
+				if (cachedNode.type == NeutronStream.NeutronType.RBMK) {
+					RBMKNeutronNode node = (RBMKNeutronNode) cachedNode;
+					toRemove.addAll(node.checkNode());
+				}
 			}
 
 			for(BlockPos pos : toRemove)
