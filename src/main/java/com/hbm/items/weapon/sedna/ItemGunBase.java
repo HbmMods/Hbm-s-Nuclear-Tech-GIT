@@ -12,8 +12,6 @@ public class ItemGunBase implements IKeybindReceiver {
 
 	public static final String KEY_TIMER = "timer";
 	public static final String KEY_STATE = "state";
-	public static final String KEY_MAG_COUNT = "magcount";
-	public static final String KEY_MAG_TYPE = "magtype";
 
 	public static enum GunState {
 		IDLE,		//gun can be fired or reloaded
@@ -26,15 +24,6 @@ public class ItemGunBase implements IKeybindReceiver {
 	public void handleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind, boolean state) {
 		
 	}
-
-	//TODO: move into the IMagazine impl
-	/*// MAG TYPE //
-	public static int getMagType(ItemStack stack, int index) { return getValueInt(stack, KEY_MAG_TYPE + index); }
-	public static void setMagType(ItemStack stack, int index, int value) { setValueInt(stack, KEY_MAG_TYPE + index, value); }
-
-	// MAG COUNT //
-	public static int getMagCount(ItemStack stack, int index) { return getValueInt(stack, KEY_MAG_COUNT + index); }
-	public static void setMagCount(ItemStack stack, int index, int value) { setValueInt(stack, KEY_MAG_COUNT + index, value); }*/
 
 	// GUN STATE TIMER //
 	public static int getTimer(ItemStack stack) { return getValueInt(stack, KEY_TIMER); }
