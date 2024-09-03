@@ -372,6 +372,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 			GL11.glPopMatrix();
 
 			GL11.glShadeModel(GL11.GL_FLAT);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
 		}
 	}
 
@@ -418,6 +419,8 @@ public class SkyProviderCelestial extends IRenderHandler {
 				
 				GL11.glRotatef(90.0F, 0.0F, 0.0F, 1.0F);
 				renderSkyboxSide(tessellator, 3);
+
+				OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 
 			}
 			GL11.glPopMatrix();

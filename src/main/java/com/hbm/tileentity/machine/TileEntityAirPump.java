@@ -23,7 +23,6 @@ import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
@@ -281,7 +280,7 @@ public class TileEntityAirPump extends TileEntityMachineBase implements IFluidSt
 	public double getFluidPressure() {
 		if(currentBlob == null || currentBlob.getBlobSize() == 0) return 0;
 
-		return MathHelper.clamp_double(((double)blobFillAmount / (double)currentBlob.getBlobSize()) * 0.2, 0, 0.2D);
+		return ((double)blobFillAmount / (double)currentBlob.getBlobSize()) * 0.2;
 	}
 
 	public boolean hasSeal() {

@@ -2,9 +2,11 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 import java.util.Stack;
+import java.util.stream.IntStream;
 
 import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.entity.missile.EntityRideableRocket;
+import com.hbm.entity.missile.EntityRideableRocket.RocketState;
 import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -13,6 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -28,7 +31,7 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
     public float prevRot;
 
     public TileEntityOrbitalStation() {
-        super(27);
+        super(16);
     }
 
     @Override
@@ -72,20 +75,7 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
     }
 
     public void dockRocket(EntityRideableRocket rocket) {
-        if(docked != null) {
-            Stack<ItemStack> itemsToStuff = new Stack<ItemStack>();
-            itemsToStuff.push(ItemCustomRocket.build(docked.getRocket(), true));
-            itemsToStuff.push(docked.navDrive);
-
-            for(int i = 0; i < slots.length; i++) {
-                if(slots[i] == null) {
-                    slots[i] = itemsToStuff.pop();
-                    if(itemsToStuff.empty()) break;
-                }
-            }
-
-            docked.setDead();
-        }
+        despawnRocket();
 
         docked = rocket;
         hasDocked = true;
@@ -96,6 +86,65 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
         hasDocked = false;
     }
 
+    public void despawnRocket() {
+        if(docked != null) {
+            Stack<ItemStack> itemsToStuff = new Stack<ItemStack>();
+            itemsToStuff.push(ItemCustomRocket.build(docked.getRocket(), true));
+            if(docked.navDrive != null) itemsToStuff.push(docked.navDrive.copy());
+
+            for(int i = 0; i < slots.length; i++) {
+                if(slots[i] == null) {
+                    slots[i] = itemsToStuff.pop();
+                    if(itemsToStuff.empty()) break;
+                }
+            }
+
+            docked.setDead();
+            docked = null;
+            hasDocked = false;
+        }
+    }
+
+    public void spawnRocket(ItemStack stack) {
+        EntityRideableRocket rocket = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 1.5F, zCoord + 0.5F, stack);
+        rocket.posY -= rocket.height;
+        rocket.setState(RocketState.LANDED);
+		worldObj.spawnEntityInWorld(rocket);
+
+        dockRocket(rocket);
+    }
+
+    public boolean hasStoredItems() {
+        for(ItemStack stack : slots) {
+            if(stack != null) return true;
+        }
+        
+        return false;
+    }
+
+    public void giveStoredItems(EntityPlayer player) {
+        for(int i = 0; i < slots.length; i++) {
+            if(slots[i] != null) {
+                if(!player.inventory.addItemStackToInventory(slots[i].copy())) {
+                    player.dropPlayerItemWithRandomChoice(slots[i].copy(), false);
+                }
+                slots[i] = null;
+            }
+        }
+        player.inventoryContainer.detectAndSendChanges();
+        markDirty();
+    }
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+		return true;
+	}
+    
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return IntStream.range(0, slots.length).toArray();
+	}
+
     @Override
     public void serialize(ByteBuf buf) {
         super.serialize(buf);
@@ -103,6 +152,14 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
         station.serialize(buf);
 
         buf.writeBoolean(hasDocked);
+
+        for(int i = 0; i < slots.length; i++) {
+            if(slots[i] != null) {
+                buf.writeShort(Item.getIdFromItem(slots[i].getItem()));
+            } else {
+                buf.writeShort(-1);
+            }
+        }
     }
 
     @Override
@@ -112,6 +169,15 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
         OrbitalStation.clientStation = station = OrbitalStation.deserialize(buf);
 
         hasDocked = buf.readBoolean();
+
+        for(int i = 0; i < slots.length; i++) {
+            short id = buf.readShort();
+            if(id > 0) {
+                slots[i] = new ItemStack(Item.getItemById(id));
+            } else {
+                slots[i] = null;
+            }
+        }
     }
 
 	@Override

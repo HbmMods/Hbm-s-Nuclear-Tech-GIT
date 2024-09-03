@@ -104,6 +104,7 @@ public class SkyProviderLaytheSunset extends SkyProviderCelestial {
 			GL11.glPopMatrix();
 
 			GL11.glShadeModel(GL11.GL_FLAT);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
 		}
 	}
 

@@ -197,9 +197,6 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		if(player.isUsingItem())
-			return stack;
-
 		boolean isProcessed = getProcessed(stack);
 		boolean onDestination = world.provider.dimensionId == getDestination(stack).body.getDimensionId();
 
@@ -223,7 +220,8 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 						newStack.stackSize = 0;
 					}
 		
-					rocket.navDrive = stack;
+					rocket.navDrive = stack.copy();
+					rocket.navDrive.stackSize = 1;
 		
 					if(!world.isRemote) {
 						rocket.setState(RocketState.AWAITING);

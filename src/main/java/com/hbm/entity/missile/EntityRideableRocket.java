@@ -96,6 +96,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	public EntityRideableRocket(World world, float x, float y, float z, ItemStack stack) {
 		super(world, x, y, z, (int)x + 10000, (int)z);
 		RocketStruct rocket = ItemCustomRocket.get(stack);
+		satFreq = ISatChip.getFreqS(stack);
 
 		setRocket(rocket);
 		setSize(2, (float)rocket.getHeight() + 1);
@@ -103,11 +104,6 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	public EntityRideableRocket withPayload(ItemStack stack) {
 		this.navDrive = stack.copy();
-		return this;
-	}
-
-	public EntityRideableRocket withFreq(int frequency) {
-		this.satFreq = frequency;
 		return this;
 	}
 
@@ -130,14 +126,14 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+		RocketState state = getState();
 
 		if(!sizeSet) {
 			setSize(2, (float)getRocket().getHeight() + 1);
-			if(!worldObj.isRemote) dock();
+			if(!worldObj.isRemote && getState() == RocketState.LANDED) dock();
 		}
 
 		EntityPlayer rider = (EntityPlayer) this.riddenByEntity;
-		RocketState state = getState();
 
 		if(!worldObj.isRemote) {
 			if(navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
@@ -193,6 +189,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 			} else if(state == RocketState.DOCKING) {
 				rocketVelocity = 0.1;
 				rotationPitch = 0;
+
+				preDock();
 
 				if(posY + height > 128.5D) {
 					setState(RocketState.LANDED);
@@ -321,10 +319,19 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	private void dock() {
 		// Find the dock we should have attached to and link to it
-		TileEntity te = CompatExternal.getCoreFromPos(worldObj, MathHelper.floor_double(posX), MathHelper.floor_double(posY + height - 0.5D), MathHelper.floor_double(posZ));
+		TileEntity te = CompatExternal.getCoreFromPos(worldObj, MathHelper.floor_double(posX), 128, MathHelper.floor_double(posZ));
 
 		if(te instanceof TileEntityOrbitalStation) {
 			((TileEntityOrbitalStation)te).dockRocket(this);
+		}
+	}
+
+	private void preDock() {
+		// Boot out anyone already in the port
+		TileEntity te = CompatExternal.getCoreFromPos(worldObj, MathHelper.floor_double(posX), 128, MathHelper.floor_double(posZ));
+
+		if(te instanceof TileEntityOrbitalStation) {
+			((TileEntityOrbitalStation)te).despawnRocket();
 		}
 	}
 
@@ -619,8 +626,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		boolean canLaunch = state == RocketState.AWAITING;
 
 		// Check if the stage can make the journey
-		if(!rocket.hasSufficientFuel(from.body, to.body, from.inOrbit, to.inOrbit)) {
-			text.add(EnumChatFormatting.RED + "Rocket can't reach destination!");
+		if(!rocket.hasSufficientFuel(from.body, to.body, from.inOrbit, to.inOrbit) || to.body == null) {
+			if(to.body != null) text.add(EnumChatFormatting.RED + "Rocket can't reach destination!");
 			canLaunch = false;
 		}
 
@@ -631,8 +638,10 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		} else {
 			if(to.inOrbit) {
 				text.add("Destination: ORBITAL STATION");
-			} else {
+			} else if(to.body != null) {
 				text.add("Destination: " + I18nUtil.resolveKey("body." + to.body.name));
+			} else {
+				text.add("Destination: NO DRIVE INSTALLED");
 			}
 
 			if(canLaunch) {

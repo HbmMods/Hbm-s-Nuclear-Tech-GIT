@@ -18,7 +18,6 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUILaunchPadRocket;
-import com.hbm.items.ISatChip;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ItemVOTVdrive.Target;
 import com.hbm.items.ModItems;
@@ -265,7 +264,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 	public void launch() {
 		if(!canLaunch()) return;
 
-		EntityRideableRocket rocket = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 3.0F, zCoord + 0.5F, slots[0]).withPayload(slots[1]).withFreq(ISatChip.getFreqS(slots[0]));
+		EntityRideableRocket rocket = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 3.0F, zCoord + 0.5F, slots[0]).withPayload(slots[1]);
 		worldObj.spawnEntityInWorld(rocket);
 
 		// Deplete all fills

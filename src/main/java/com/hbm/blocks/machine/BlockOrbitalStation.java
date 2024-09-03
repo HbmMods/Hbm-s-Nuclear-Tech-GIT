@@ -1,17 +1,28 @@
 package com.hbm.blocks.machine;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.handler.atmosphere.IBlockSealable;
+import com.hbm.items.ModItems;
+import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityOrbitalStation;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockOrbitalStation extends BlockDummyable implements IBlockSealable {
+public class BlockOrbitalStation extends BlockDummyable implements IBlockSealable, ILookOverlay {
 
 	public BlockOrbitalStation(Material mat) {
 		super(mat);
@@ -36,9 +47,6 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(player.isSneaking())
-			return false;
-
 		int[] pos = this.findCore(world, x, y, z);
 
 		if(pos == null)
@@ -56,7 +64,26 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 			if(!(te instanceof TileEntityOrbitalStation))
 				return false;
 
-			((TileEntityOrbitalStation)te).enterCapsule(player);
+			TileEntityOrbitalStation station = (TileEntityOrbitalStation) te;
+
+			if(station.hasStoredItems()) {
+				station.giveStoredItems(player);
+			} else if(station.hasDocked) {
+				if(player.isSneaking() && player.getHeldItem() == null) {
+					station.despawnRocket();
+					station.giveStoredItems(player);
+				} else {
+					station.enterCapsule(player);
+				}
+			} else {
+				ItemStack held = player.getHeldItem();
+				if(held != null) {
+					if(held.getItem() == ModItems.rocket_custom && ItemCustomRocket.hasFuel(held)) {
+						station.spawnRocket(held);
+						held.stackSize--;
+					}
+				}
+			}
 			
 			return true;
 		}
@@ -86,6 +113,59 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 		this.makeExtra(world, x - 1, y + 1, z - 2);
 		this.makeExtra(world, x + 0, y + 1, z - 2);
 		this.makeExtra(world, x + 1, y + 1, z - 2);
+	}
+
+	@Override
+	public void printHook(Pre event, World world, int x, int y, int z) {
+		int[] pos = this.findCore(world, x, y, z);
+		
+		if(pos == null)
+			return;
+
+		if(Math.abs(pos[0] - x) >= 2 || Math.abs(pos[2] - z) >= 2)
+			return;
+		
+		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
+		
+		if(!(te instanceof TileEntityOrbitalStation))
+			return;
+		
+		TileEntityOrbitalStation station = (TileEntityOrbitalStation) te;
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+
+		List<String> text = new ArrayList<String>();
+
+		for(int i = 0; i < station.slots.length; i++) {
+			if(station.slots[i] != null) {
+				text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + station.slots[i].getDisplayName());
+			}
+		}
+
+		if(!text.isEmpty()) {
+			text.add("Interact to retrieve stored rockets");
+		} else {
+			if(station.hasDocked) {
+				if(player.isSneaking()) {
+					if(player.getHeldItem() == null) {
+						text.add("Interact to remove docked rocket");
+					}
+				} else {
+					text.add("Interact to enter docked rocket");
+				}
+			} else {
+				ItemStack held = player.getHeldItem();
+				if(held != null) {
+					if(held.getItem() == ModItems.rocket_custom && ItemCustomRocket.hasFuel(held)) {
+						text.add("Interact to place held rocket");
+					}
+				}
+			}
+		}
+
+		if(text.isEmpty())
+			return;
+		
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 	
 }
