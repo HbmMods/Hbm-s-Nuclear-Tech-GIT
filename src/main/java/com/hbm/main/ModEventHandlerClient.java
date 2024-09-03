@@ -15,6 +15,7 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
+import com.hbm.config.SpaceConfig;
 import com.hbm.dim.SkyProviderCelestial;
 import com.hbm.dim.WorldProviderCelestial;
 import com.hbm.entity.mob.EntityHunterChopper;
@@ -118,6 +119,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -1115,6 +1117,17 @@ public class ModEventHandlerClient {
 				player.stepHeight = newStepSize + discriminator;
 			} else {
 				for(int i = 1; i < 4; i++) if(player.stepHeight == i + discriminator) player.stepHeight = defaultStepSize;
+			}
+		}
+
+		if(event.phase == Phase.START && mc.theWorld.provider.dimensionId == SpaceConfig.orbitDimension) {
+			for(Object o : mc.theWorld.loadedEntityList) {
+				if(o instanceof EntityItem) {
+					EntityItem item = (EntityItem) o;
+					item.motionX *= 0.81D; // applies twice on server it seems? 0.9 * 0.9
+					item.motionY = 0.03999999910593033D;
+					item.motionZ *= 0.81D;
+				}
 			}
 		}
 	}

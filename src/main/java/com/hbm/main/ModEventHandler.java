@@ -99,6 +99,7 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockFire;
+import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -838,6 +839,17 @@ public class ModEventHandler {
 			TimedGenerator.automaton(event.world, 100);
 
 			updateWaterOpacity(event.world);
+		}
+
+		if(event.phase == Phase.START && event.world.provider.dimensionId == SpaceConfig.orbitDimension) {
+			for(Object o : event.world.loadedEntityList) {
+				if(o instanceof EntityItem) {
+					EntityItem item = (EntityItem) o;
+					item.motionX *= 0.9D;
+					item.motionY = 0.03999999910593033D; // when entity gravity is applied, this becomes exactly 0
+					item.motionZ *= 0.9D;
+				}
+			}
 		}
 	}
 
