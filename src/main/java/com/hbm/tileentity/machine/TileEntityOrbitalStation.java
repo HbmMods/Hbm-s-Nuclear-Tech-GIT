@@ -48,7 +48,7 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
 
             station.update(worldObj);
 
-            if(docked != null && docked.isDead) {
+            if(docked != null && (docked.isDead || docked.getState() == RocketState.UNDOCKING)) {
                 undockRocket();
             }
 
