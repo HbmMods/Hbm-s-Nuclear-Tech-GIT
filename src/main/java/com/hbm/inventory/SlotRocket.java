@@ -20,6 +20,7 @@ public class SlotRocket extends SlotLayer {
 
 	@Override
 	public boolean isItemValid(ItemStack stack) {
+		if(!super.isItemValid(stack)) return false;
 		if(stack == null) return false;
 		if(!(stack.getItem() instanceof ItemCustomMissilePart)) return false;
 

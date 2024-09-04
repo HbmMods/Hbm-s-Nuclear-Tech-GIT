@@ -147,7 +147,7 @@ public class ShredderRecipes extends SerializableRecipe {
 		ShredderRecipes.setRecipe(Items.quartz, new ItemStack(ModItems.powder_quartz));
 		ShredderRecipes.setRecipe(Blocks.quartz_ore, new ItemStack(ModItems.powder_quartz, 2));
 		ShredderRecipes.setRecipe(ModBlocks.ore_quartz, new ItemStack(ModItems.powder_quartz, 2));
-		ShredderRecipes.setRecipe(ModBlocks.ore_nether_fire, new ItemStack(ModItems.powder_fire, 6));
+		ShredderRecipes.setRecipe(new ItemStack(ModBlocks.ore_fire, 1, OreDictionary.WILDCARD_VALUE), new ItemStack(ModItems.powder_fire, 6));
 		ShredderRecipes.setRecipe(ModBlocks.ore_fire, new ItemStack(ModItems.powder_fire, 6));
 		ShredderRecipes.setRecipe(Blocks.packed_ice, new ItemStack(ModItems.powder_ice, 1));
 		ShredderRecipes.setRecipe(ModBlocks.brick_light, new ItemStack(Items.clay_ball, 4));

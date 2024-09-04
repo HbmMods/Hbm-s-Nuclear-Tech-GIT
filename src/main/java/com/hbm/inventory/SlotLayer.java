@@ -2,6 +2,7 @@ package com.hbm.inventory;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 public class SlotLayer extends Slot {
 
@@ -44,6 +45,11 @@ public class SlotLayer extends Slot {
 	private void show() {
 		isVisible = true;
 		yDisplayPosition = originalYPosition;
+	}
+
+	@Override
+	public boolean isItemValid(ItemStack stack) {
+		return isVisible;
 	}
 	
 }

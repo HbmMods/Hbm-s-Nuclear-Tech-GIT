@@ -60,7 +60,7 @@ public class ItemCustomMissilePart extends Item {
 	
 	public enum PartType {
 		CHIP,
-		WARHEAD,
+		WARHEAD, // aka payload
 		FUSELAGE,
 		FINS,
 		THRUSTER,

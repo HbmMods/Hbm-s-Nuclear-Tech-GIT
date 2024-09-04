@@ -79,6 +79,7 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe(F.ore(),			new CrystallizerRecipe(ModItems.crystal_fluorite, baseTime));
 		registerRecipe(BE.ore(),		new CrystallizerRecipe(ModItems.crystal_beryllium, baseTime));
 		registerRecipe(PB.ore(),		new CrystallizerRecipe(ModItems.crystal_lead, baseTime));
+		registerRecipe(P_RED.ore(),		new CrystallizerRecipe(ModItems.crystal_phosphorus, baseTime));
 		registerRecipe(SA326.ore(),		new CrystallizerRecipe(ModItems.crystal_schrabidium, baseTime), sulfur);
 		registerRecipe(LI.ore(),		new CrystallizerRecipe(ModItems.crystal_lithium, baseTime), sulfur);
 		//registerRecipe(STAR.ore(),		new CrystallizerRecipe(ModItems.crystal_starmetal, baseTime), sulfur);
@@ -91,7 +92,6 @@ public class CrystallizerRecipes extends SerializableRecipe {
 		registerRecipe("oreCinnabar",	new CrystallizerRecipe(ModItems.crystal_cinnebar, baseTime));
 		
 		registerRecipe(new ComparableStack(ModBlocks.ore_nether_fire),	new CrystallizerRecipe(ModItems.crystal_phosphorus, baseTime));
-		registerRecipe(new ComparableStack(ModBlocks.ore_fire),			new CrystallizerRecipe(ModItems.crystal_phosphorus, baseTime));
 		registerRecipe(new ComparableStack(ModBlocks.ore_tikite),		new CrystallizerRecipe(ModItems.crystal_trixite, baseTime), sulfur);
 		registerRecipe(new ComparableStack(ModBlocks.gravel_diamond),	new CrystallizerRecipe(ModItems.crystal_diamond, baseTime));
 		registerRecipe(new ComparableStack(ModItems.crystal_mineral),	new CrystallizerRecipe(ModItems.crystal_diamond, baseTime));

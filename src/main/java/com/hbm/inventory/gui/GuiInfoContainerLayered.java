@@ -1,6 +1,8 @@
 package com.hbm.inventory.gui;
 
 import com.hbm.inventory.SlotLayer;
+import com.hbm.packet.GuiLayerPacket;
+import com.hbm.packet.PacketDispatcher;
 
 import net.minecraft.inventory.Container;
 
@@ -20,6 +22,8 @@ public abstract class GuiInfoContainerLayered extends GuiInfoContainer {
 
             slot.setLayer(layer);
         }
+        
+        PacketDispatcher.wrapper.sendToServer(new GuiLayerPacket(layer));
     }
 
     public int getLayer() {
