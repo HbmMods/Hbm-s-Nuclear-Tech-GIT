@@ -1,7 +1,7 @@
 package com.hbm.packet.toserver;
 
-import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.handler.HbmKeybindsServer;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -39,7 +39,7 @@ public class KeybindPacket implements IMessage {
 		public IMessage onMessage(KeybindPacket m, MessageContext ctx) {
 			
 			EntityPlayer p = ctx.getServerHandler().playerEntity;
-			HbmKeybinds.onPressedServer(p, EnumKeybind.values()[m.key], m.pressed);
+			HbmKeybindsServer.onPressedServer(p, EnumKeybind.values()[m.key], m.pressed);
 			
 			return null;
 		}

@@ -893,7 +893,6 @@ public class ModBlocks {
 	public static Block watz_element;
 	public static Block watz_cooler;
 	public static Block watz_end;
-	public static Block watz_conductor;
 
 	public static Block balefire;
 	public static Block fire_digamma;
@@ -1997,7 +1996,6 @@ public class ModBlocks {
 		watz_element = new BlockPillar(Material.iron, RefStrings.MODID + ":watz_element_top").setBlockName("watz_element").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_element_side");
 		watz_cooler = new BlockPillar(Material.iron, RefStrings.MODID + ":watz_cooler_top").setBlockName("watz_cooler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_cooler_side");
 		watz_end = new BlockToolConversion(Material.iron).addVariant("_bolted").setBlockName("watz_end").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":watz_casing");
-		watz_conductor = new BlockCableConnect(Material.iron).setBlockName("watz_conductor").setHardness(5.0F).setResistance(10.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":watz_conductor_top");
 		watz = new Watz().setBlockName("watz").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		watz_pump = new WatzPump().setBlockName("watz_pump").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
@@ -3310,6 +3308,12 @@ public class ModBlocks {
 		GameRegistry.registerBlock(plasma, ItemBlockLore.class, plasma.getUnlocalizedName());
 		GameRegistry.registerBlock(iter, iter.getUnlocalizedName());
 		GameRegistry.registerBlock(plasma_heater, plasma_heater.getUnlocalizedName());
+
+		register(watz_element);
+		register(watz_cooler);
+		register(watz_end);
+		register(watz);
+		register(watz_pump);
 		
 		register(machine_icf_press);
 		register(icf_laser_component);
@@ -3317,13 +3321,6 @@ public class ModBlocks {
 		register(icf_block);
 		register(icf_component);
 		register(icf);
-
-		GameRegistry.registerBlock(watz_element, watz_element.getUnlocalizedName());
-		GameRegistry.registerBlock(watz_cooler, watz_cooler.getUnlocalizedName());
-		register(watz_end);
-		GameRegistry.registerBlock(watz_conductor, watz_conductor.getUnlocalizedName());
-		GameRegistry.registerBlock(watz, watz.getUnlocalizedName());
-		GameRegistry.registerBlock(watz_pump, watz_pump.getUnlocalizedName());
 		
 		//E
 		GameRegistry.registerBlock(balefire, balefire.getUnlocalizedName());

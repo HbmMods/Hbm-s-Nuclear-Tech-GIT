@@ -1422,6 +1422,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.gas7");
 		ignoreMappings.add("hbm:item.gas8");
 		ignoreMappings.add("hbm:tile.brick_forgotten");
+		ignoreMappings.add("hbm:tile.watz_conductor");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
