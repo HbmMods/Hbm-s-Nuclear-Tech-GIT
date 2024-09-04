@@ -89,6 +89,9 @@ public class PacketDispatcher {
 
 		// Sends info about currently linked transporters to player
 		wrapper.registerMessage(TransporterLinkerPacket.Handler.class, TransporterLinkerPacket.class, i++, Side.CLIENT);
+
+		// Sync current GUI layer to server
+		wrapper.registerMessage(GuiLayerPacket.Handler.class, GuiLayerPacket.class, i++, Side.SERVER);
 	}
 	
 }
