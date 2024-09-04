@@ -83,7 +83,7 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 						station.spawnRocket(held);
 						held.stackSize--;
 					}
-					if(held.getItem() == ModItems.rp_capsule_20) {
+					if(held.getItem() == ModItems.rp_capsule_20 || held.getItem() == ModItems.rp_pod_20) {
 						station.spawnRocket(ItemCustomRocket.build(new RocketStruct(held)));
 						held.stackSize--;
 					}
@@ -157,13 +157,13 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 				} else {
 					text.add("Interact to enter docked rocket");
 				}
-			} else {
+			} else if(!player.isSneaking()) {
 				ItemStack held = player.getHeldItem();
 				if(held != null) {
 					if(held.getItem() == ModItems.rocket_custom && ItemCustomRocket.hasFuel(held)) {
 						text.add("Interact to place held rocket");
 					}
-					if(held.getItem() == ModItems.rp_capsule_20) {
+					if(held.getItem() == ModItems.rp_capsule_20 || held.getItem() == ModItems.rp_pod_20) {
 						text.add("Interact to place held capsule");
 					}
 				}

@@ -226,6 +226,7 @@ public class MissilePart {
 		// SPACE
 		MissilePart.registerPart(ModItems.rp_capsule_20, PartType.WARHEAD, 3.5, 2.25, ResourceManager.soyuz_lander_neo, ResourceManager.module_lander_tex);
 		MissilePart.registerPart(ModItems.rp_station_core_20, PartType.WARHEAD, 7, 6, ResourceManager.mp_w_fairing, ResourceManager.mp_w_fairing_tex);
+		MissilePart.registerPart(ModItems.rp_pod_20, PartType.WARHEAD, 3.5, 2.25, ResourceManager.soyuz_lander_neo, ResourceManager.universal_bright);
 
 		MissilePart.registerPart(ModItems.sat_mapper, PartType.WARHEAD, 13, 10, ResourceManager.sat_mapper, ResourceManager.sat_mapper_tex).hideModel();
 		MissilePart.registerPart(ModItems.sat_scanner, PartType.WARHEAD, 13, 10, ResourceManager.sat_scanner, ResourceManager.sat_scanner_tex).hideModel();
@@ -407,6 +408,7 @@ public class MissilePart {
 		// SPACE
 		MissilePart.registerPart(ModItems.rp_capsule_20, PartType.WARHEAD, 3.5, 2.25);
 		MissilePart.registerPart(ModItems.rp_station_core_20, PartType.WARHEAD, 7, 6);
+		MissilePart.registerPart(ModItems.rp_pod_20, PartType.WARHEAD, 3.5, 2.25);
 
 		MissilePart.registerPart(ModItems.sat_mapper, PartType.WARHEAD, 13, 10);
 		MissilePart.registerPart(ModItems.sat_scanner, PartType.WARHEAD, 13, 10);

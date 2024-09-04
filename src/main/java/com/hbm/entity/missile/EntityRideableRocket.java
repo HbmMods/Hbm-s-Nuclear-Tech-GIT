@@ -102,7 +102,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		setSize(2, (float)rocket.getHeight() + 1);
 	}
 
-	public EntityRideableRocket withPayload(ItemStack stack) {
+	public EntityRideableRocket withProgram(ItemStack stack) {
 		this.navDrive = stack.copy();
 		return this;
 	}
@@ -111,9 +111,10 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		motionX = 0;
 		motionY = 0;
 		motionZ = 0;
+		
+		RocketStruct rocket = getRocket();
 
-		if(getState() == RocketState.LAUNCHING) {
-			RocketStruct rocket = getRocket();
+		if(getState() == RocketState.LAUNCHING && rocket.stages.size() > 0) {
 			rocket.stages.remove(0);
 
 			setRocket(rocket);
@@ -356,8 +357,13 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		}
 	}
 
+	// Does this rocket accept passengers (is a capsule)
 	public boolean canRide() {
 		return getRocket().capsule.part.attributes[0] == WarheadType.APOLLO;
+	}
+
+	public boolean isReusable() {
+		return getRocket().capsule.part == ModItems.rp_pod_20;
 	}
 
 	@Override
@@ -422,7 +428,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				return false;
 			} else if(riddenByEntity == null && source.getEntity() instanceof EntityPlayer) {
 				// A pickaxe is required to break, unless it's just the capsule (or it has tipped over)
-				if(getRocket().stages.size() == 0 || getState() == RocketState.TIPPING) {
+				if((getRocket().stages.size() == 0 && getRocket().capsule.part != ModItems.rp_pod_20) || getState() == RocketState.TIPPING) {
 					dropNDie(source);
 				} else {
 					ItemStack stack = ((EntityPlayer) source.getEntity()).getHeldItem();
@@ -614,7 +620,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 			return;
 
 		RocketStruct rocket = getRocket();
-		if(rocket.stages.size() == 0 && worldObj.provider.dimensionId != SpaceConfig.orbitDimension) return;
+		if(rocket.stages.size() == 0 && worldObj.provider.dimensionId != SpaceConfig.orbitDimension && !isReusable()) return;
 
 		List<String> text = new ArrayList<>();
 

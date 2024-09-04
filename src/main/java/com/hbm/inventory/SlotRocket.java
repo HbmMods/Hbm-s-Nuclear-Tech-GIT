@@ -1,6 +1,7 @@
 package com.hbm.inventory;
 
 import com.hbm.items.ItemVOTVdrive;
+import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomMissilePart;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
@@ -41,8 +42,11 @@ public class SlotRocket extends SlotLayer {
 			if(!(stack.getItem() instanceof ItemCustomMissilePart)) return false;
 	
 			ItemCustomMissilePart item = (ItemCustomMissilePart) stack.getItem();
+
+			if(item.type != PartType.WARHEAD) return false;
+			if(item == ModItems.rp_pod_20) return false;
 	
-			return item.type == PartType.WARHEAD && (item.attributes[0] == WarheadType.APOLLO || item.attributes[0] == WarheadType.SATELLITE);
+			return item.attributes[0] == WarheadType.APOLLO || item.attributes[0] == WarheadType.SATELLITE;
 		}
 		
 	}
