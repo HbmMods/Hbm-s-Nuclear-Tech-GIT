@@ -4,12 +4,16 @@ import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.util.EnumUtil;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
-public class ItemGunBase implements IKeybindReceiver {
+public class ItemGunBase extends Item implements IKeybindReceiver {
 
+	public static final String KEY_DRAWN = "drawn";
 	public static final String KEY_TIMER = "timer";
 	public static final String KEY_STATE = "state";
 	public static final String KEY_PRIMARY = "mouse1";
@@ -25,6 +29,7 @@ public class ItemGunBase implements IKeybindReceiver {
 	}
 
 	public static enum GunState {
+		DRAWING,	//initial delay after selecting
 		IDLE,		//gun can be fired or reloaded
 		WINDUP,		//fire button is down, added delay before fire
 		JUST_FIRED,	//gun has been fired, cooldown
@@ -36,15 +41,40 @@ public class ItemGunBase implements IKeybindReceiver {
 		
 		GunConfig config = getConfig(stack);
 
-		if(keybind == EnumKeybind.GUN_PRIMARY &&	state && !getPrimary(stack)) {		if(config.onPressPrimary != null)		config.onPressPrimary.accept(stack, config); return; }
-		if(keybind == EnumKeybind.GUN_PRIMARY &&	!state && getPrimary(stack)) {		if(config.onReleasePrimary != null)		config.onReleasePrimary.accept(stack, config); return; }
-		if(keybind == EnumKeybind.GUN_SECONDARY &&	state && !getSecondary(stack)) {	if(config.onPressSecondary != null)		config.onPressSecondary.accept(stack, config); return; }
-		if(keybind == EnumKeybind.GUN_SECONDARY &&	!state && getSecondary(stack)) {	if(config.onReleaseSecondary != null)	config.onReleaseSecondary.accept(stack, config); return; }
-		if(keybind == EnumKeybind.GUN_TERTIARY &&	state && !getTertiary(stack)) {		if(config.onPressTertiary != null)		config.onPressTertiary.accept(stack, config); return; }
-		if(keybind == EnumKeybind.GUN_TERTIARY &&	!state && getTertiary(stack)) {		if(config.onReleaseTertiary != null)	config.onReleaseTertiary.accept(stack, config); return; }
-		if(keybind == EnumKeybind.RELOAD &&			state && !getReloadKey(stack)) {	if(config.onPressReload != null)		config.onPressReload.accept(stack, config); return; }
-		if(keybind == EnumKeybind.RELOAD &&			!state && getReloadKey(stack)) {	if(config.onReleaseReload != null)		config.onReleaseReload.accept(stack, config); return; }
+		if(keybind == EnumKeybind.GUN_PRIMARY &&	state && !getPrimary(stack)) {		if(config.onPressPrimary != null)		config.onPressPrimary.accept(stack, config);		return; }
+		if(keybind == EnumKeybind.GUN_PRIMARY &&	!state && getPrimary(stack)) {		if(config.onReleasePrimary != null)		config.onReleasePrimary.accept(stack, config);		return; }
+		if(keybind == EnumKeybind.GUN_SECONDARY &&	state && !getSecondary(stack)) {	if(config.onPressSecondary != null)		config.onPressSecondary.accept(stack, config);		return; }
+		if(keybind == EnumKeybind.GUN_SECONDARY &&	!state && getSecondary(stack)) {	if(config.onReleaseSecondary != null)	config.onReleaseSecondary.accept(stack, config);	return; }
+		if(keybind == EnumKeybind.GUN_TERTIARY &&	state && !getTertiary(stack)) {		if(config.onPressTertiary != null)		config.onPressTertiary.accept(stack, config);		return; }
+		if(keybind == EnumKeybind.GUN_TERTIARY &&	!state && getTertiary(stack)) {		if(config.onReleaseTertiary != null)	config.onReleaseTertiary.accept(stack, config);		return; }
+		if(keybind == EnumKeybind.RELOAD &&			state && !getReloadKey(stack)) {	if(config.onPressReload != null)		config.onPressReload.accept(stack, config);			return; }
+		if(keybind == EnumKeybind.RELOAD &&			!state && getReloadKey(stack)) {	if(config.onReleaseReload != null)		config.onReleaseReload.accept(stack, config);		return; }
 	}
+
+	@Override
+	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isHeld) {
+		if(world.isRemote) return;
+		
+		GunConfig config = this.getConfig(stack);
+		
+		if(!isHeld) {
+			this.setState(stack, GunState.DRAWING);
+			this.setTimer(stack, config.drawDuration);
+			return;
+		}
+		
+		int timer = this.getTimer(stack);
+		if(timer > 0) this.setTimer(stack, timer - 1);
+		if(timer <= 1) nextState();
+	}
+	
+	public void nextState() {
+		// run the decider
+	}
+
+	// GUN DRAWN //
+	public static boolean getIsDrawn(ItemStack stack) { return getValueBool(stack, KEY_DRAWN); }
+	public static void setIsDrawn(ItemStack stack, boolean value) { setValueBool(stack, KEY_DRAWN, value); }
 
 	// GUN STATE TIMER //
 	public static int getTimer(ItemStack stack) { return getValueInt(stack, KEY_TIMER); }
