@@ -44,8 +44,8 @@ public class RenderOrbitalComputer extends TileEntitySpecialRenderer implements 
 	public IItemRenderer getRenderer() {
 		return new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glTranslated(0, -2, 0);
-				GL11.glScaled(4, 4, 4);
+				GL11.glTranslated(0, -2.5, 0);
+				GL11.glScaled(6, 6, 6);
 			}
 			public void renderCommon() {
 				GL11.glDisable(GL11.GL_CULL_FACE);

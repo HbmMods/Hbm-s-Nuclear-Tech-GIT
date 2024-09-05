@@ -75,6 +75,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	private int satFreq = 0;
 
+	private TileEntityOrbitalStation targetPort;
+
 	public enum RocketState {
 		AWAITING,		// Prepped for launch, once mounted will transition to launching
 		LAUNCHING,		// Ascending through the atmosphere up to the target altitude, at which point it'll teleport to the target body
@@ -132,7 +134,13 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 		if(!sizeSet) {
 			setSize(2, (float)getRocket().getHeight() + 1);
-			if(!worldObj.isRemote && (state == RocketState.LANDED || state == RocketState.AWAITING || state == RocketState.NEEDSFUEL)) dock();
+			if(!worldObj.isRemote && (state == RocketState.LANDED || state == RocketState.AWAITING || state == RocketState.NEEDSFUEL)) {
+				TileEntity te = CompatExternal.getCoreFromPos(worldObj, MathHelper.floor_double(posX), MathHelper.floor_double(posY + height - 1.0D), MathHelper.floor_double(posZ));
+
+				if(te instanceof TileEntityOrbitalStation) {
+					((TileEntityOrbitalStation)te).dockRocket(this);
+				}
+			}
 		}
 
 		EntityPlayer rider = (EntityPlayer) this.riddenByEntity;
@@ -192,16 +200,34 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 				rocketVelocity = 0;
 			} else if(state == RocketState.DOCKING) {
-				rocketVelocity = 0.1;
-				rotationPitch = 0;
-
-				preDock();
-
-				if(posY + height > 128.5D) {
-					setState(isReusable() ? RocketState.NEEDSFUEL : RocketState.LANDED);
-					posY = 128.5D - height;
-
-					dock();
+				// we have to wait for docking ports and their associated entities to load
+				// waiting for loading using timers is bad, so maybe refactor this
+				if(stateTimer > 20) { 
+					rocketVelocity = 0.1;
+					rotationPitch = 0;
+	
+					if(targetPort == null) targetPort = OrbitalStation.getPort((int)posX, (int)posZ);
+	
+					// Just in case no ports have loaded in time, do nothing until they have
+					if(targetPort != null) {
+						posX = targetPort.xCoord + 0.5D;
+						posZ = targetPort.zCoord + 0.5D;
+		
+						targetPort.despawnRocket();
+		
+						if(posY + height > targetPort.yCoord + 1.5D) {
+							setState(isReusable() ? RocketState.NEEDSFUEL : RocketState.LANDED);
+							posY = targetPort.yCoord + 1.5D - height;
+							
+							targetPort.dockRocket(this);
+							targetPort = null;
+						}
+					} else {
+						rocketVelocity = 0;
+					}
+				} else {
+					rocketVelocity = 0;
+					rotationPitch = 0;
 				}
 			} else if(state == RocketState.UNDOCKING) {
 				rocketVelocity = -0.1;
@@ -320,24 +346,6 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		}
 
 		setStateTimer(++stateTimer);
-	}
-
-	private void dock() {
-		// Find the dock we should have attached to and link to it
-		TileEntity te = CompatExternal.getCoreFromPos(worldObj, MathHelper.floor_double(posX), 128, MathHelper.floor_double(posZ));
-
-		if(te instanceof TileEntityOrbitalStation) {
-			((TileEntityOrbitalStation)te).dockRocket(this);
-		}
-	}
-
-	private void preDock() {
-		// Boot out anyone already in the port
-		TileEntity te = CompatExternal.getCoreFromPos(worldObj, MathHelper.floor_double(posX), 128, MathHelper.floor_double(posZ));
-
-		if(te instanceof TileEntityOrbitalStation) {
-			((TileEntityOrbitalStation)te).despawnRocket();
-		}
 	}
 
 	@Override

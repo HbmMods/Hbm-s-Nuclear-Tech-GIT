@@ -3,13 +3,17 @@ package com.hbm.render.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.tileentity.machine.TileEntityOrbitalStation;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.client.IItemRenderer;
 
-public class RenderOrbitalStation extends TileEntitySpecialRenderer {
+public class RenderOrbitalStation extends TileEntitySpecialRenderer implements IItemRendererProvider {
 	
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
@@ -63,6 +67,37 @@ public class RenderOrbitalStation extends TileEntitySpecialRenderer {
 
 		}
 		GL11.glPopMatrix();
+	}
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(0, 2, 0);
+				GL11.glScaled(2, 2, 2);
+			}
+			public void renderCommon() {
+				GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.docking_port_tex);
+				ResourceManager.docking_port.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+				GL11.glEnable(GL11.GL_CULL_FACE);
+			}
+		};
+	}
+
+	@Override
+	public Item getItemForRenderer() {
+		return Item.getItemFromBlock(ModBlocks.orbital_station_port);
+	}
+
+	@Override
+	public Item[] getItemsForRenderer() {
+		return new Item[] {
+			Item.getItemFromBlock(ModBlocks.orbital_station),
+			Item.getItemFromBlock(ModBlocks.orbital_station_port)
+		};
 	}
 
 }

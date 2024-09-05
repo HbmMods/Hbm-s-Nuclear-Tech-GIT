@@ -1,11 +1,15 @@
 package com.hbm.dim.orbit;
 
+import java.util.HashMap;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.BlockOrbitalStation;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.SolarSystemWorldSavedData;
+import com.hbm.handler.ThreeInts;
+import com.hbm.tileentity.machine.TileEntityOrbitalStation;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.MathHelper;
@@ -33,6 +37,9 @@ public class OrbitalStation {
 		TRANSFER, // going from A to B
 		ARRIVING, // we got there
 	}
+
+	private HashMap<ThreeInts, TileEntityOrbitalStation> ports = new HashMap<>();
+	private int portIndex = 0;
 
 	public static OrbitalStation clientStation = new OrbitalStation(CelestialBody.getBody(0));
 
@@ -87,6 +94,34 @@ public class OrbitalStation {
 		}
 
 		stateTimer++;
+	}
+
+	public void addPort(int x, int y, int z, TileEntityOrbitalStation port) {
+		ports.put(new ThreeInts(x, y, z), port);
+	}
+
+	public TileEntityOrbitalStation getPort() {
+		if(ports.size() == 0) return null;
+
+		// First, find any port that's available
+		int index = 0;
+		for(TileEntityOrbitalStation port : ports.values()) {
+			if(!port.hasDocked) {
+				portIndex = index;
+				return port;
+			}
+			index++;
+		}
+
+		// Failing that, round robin on the occupied ports
+		portIndex++;
+		if(portIndex >= ports.size()) portIndex = 0;
+
+		return ports.values().toArray(new TileEntityOrbitalStation[ports.size()])[portIndex];
+	}
+
+	public static TileEntityOrbitalStation getPort(int x, int z) {
+		return getStationFromPosition(x, z).getPort();
 	}
 
 	public double getUnscaledProgress(float partialTicks) {

@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.Stack;
 import java.util.stream.IntStream;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.entity.missile.EntityRideableRocket;
@@ -59,11 +60,11 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase implements I
 			// Station TEs handle syncing information about the current orbital parameters to players on the station
 			station = OrbitalStation.getStationFromPosition(xCoord, zCoord);
 
-			station.update(worldObj);
-
+			if(isCore()) station.update(worldObj);
+			station.addPort(xCoord, yCoord, zCoord, this);
 
 			if(docked != null && docked.isReusable()) {
-				int fillRequirement = getFillRequirement(docked.getTarget().inOrbit);
+				int fillRequirement = getFillRequirement(false); // Use higher fill requirement for tank sizing
 
 				// Update tank sizes based on fuel requirement, preserving existing fills
 				for(FluidTank tank : tanks) {
@@ -83,7 +84,7 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase implements I
 				// Drain tanks only upon successful undocking, just in case the pod gets stashed before the player can launch (in multi-player stations)
 				if(!docked.isDead && docked.isReusable()) {
 					boolean toOrbit = docked.getTarget().inOrbit;
-					for(FluidTank tank : tanks) tank.setFill(Math.max(0, tank.getFill() - getFillRequirement(toOrbit)));
+					for(FluidTank tank : tanks) tank.changeTankSize(Math.max(0, tank.getFill() - getFillRequirement(toOrbit)));
 				}
 				
 				undockRocket();
@@ -107,7 +108,7 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase implements I
 
 			this.networkPackNT(OrbitalStation.STATION_SIZE / 2);
 		} else {
-			if(station != null) station.update(worldObj);
+			if(isCore() && station != null) station.update(worldObj);
 
 			prevRot = rot;
 			if(hasDocked) {
@@ -118,6 +119,10 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase implements I
 				if(rot < 0) rot = 0;
 			}
 		}
+	}
+
+	public boolean isCore() {
+		return getBlockType() == ModBlocks.orbital_station;
 	}
 
 	public DirPos[] getConPos() {
@@ -239,7 +244,7 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase implements I
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 
-		station.serialize(buf);
+		if(isCore()) station.serialize(buf);
 
 		buf.writeBoolean(hasDocked);
 		buf.writeBoolean(hasRider);
@@ -261,7 +266,7 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase implements I
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 
-		OrbitalStation.clientStation = station = OrbitalStation.deserialize(buf);
+		if(isCore()) OrbitalStation.clientStation = station = OrbitalStation.deserialize(buf);
 
 		hasDocked = buf.readBoolean();
 		hasRider = buf.readBoolean();
