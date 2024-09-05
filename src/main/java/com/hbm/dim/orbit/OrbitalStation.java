@@ -111,7 +111,7 @@ public class OrbitalStation {
 
 		// Fallback for when a station doesn't exist (should only occur when using debug wand!)
 		if(station == null) {
-			station = data.addStation(x / STATION_SIZE, z / STATION_SIZE, CelestialBody.getBody(0));
+			station = data.addStation(MathHelper.floor_float((float)x / STATION_SIZE), MathHelper.floor_float((float)z / STATION_SIZE), CelestialBody.getBody(0));
 		}
 
 		return station;

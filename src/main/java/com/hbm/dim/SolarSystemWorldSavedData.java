@@ -11,6 +11,7 @@ import com.hbm.dim.trait.CelestialBodyTrait;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
@@ -156,7 +157,7 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 	// Grabs an existing station
 	public OrbitalStation getStationFromPosition(int x, int z) {
 		// yeah they aren't exactly chunks but this is a nice little hashable that already exists
-		ChunkCoordIntPair pos = new ChunkCoordIntPair(x / OrbitalStation.STATION_SIZE, z / OrbitalStation.STATION_SIZE);
+		ChunkCoordIntPair pos = new ChunkCoordIntPair(MathHelper.floor_float((float)x / OrbitalStation.STATION_SIZE), MathHelper.floor_float((float)z / OrbitalStation.STATION_SIZE));
 		return stations.get(pos);
 	}
 
