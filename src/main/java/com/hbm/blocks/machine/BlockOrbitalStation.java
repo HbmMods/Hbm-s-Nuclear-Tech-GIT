@@ -172,7 +172,7 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 						text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + tank.getTankType().getLocalizedName() + ": " + tank.getFill() + "/" + tank.getMaxFill() + "mB");
 					}
 
-					if(!station.hasSufficientFuel()) {
+					if(!station.hasFuel) {
 						text.add(EnumChatFormatting.RED + "Rocket needs fuel");
 					}
 				}
