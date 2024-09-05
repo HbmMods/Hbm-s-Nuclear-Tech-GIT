@@ -154,12 +154,7 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, val, id), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
 	@Deprecated public void processGauge(int val, int id) { }
-	
-	@Deprecated public void networkPack(NBTTagCompound nbt, int range) {
-		nbt.setBoolean("muffled", muffled);
-		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
-	}
-	
+
 	@Deprecated
 	public void networkUnpack(NBTTagCompound nbt) {
 		this.muffled = nbt.getBoolean("muffled");

@@ -34,6 +34,7 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -228,9 +229,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			}
 			
 			this.power = Library.chargeTEFromItems(slots, 10, this.power, this.getMaxPower());
-			
-			NBTTagCompound data = this.writePacket();
-			this.networkPack(data, 250);
+
+			this.networkPackNT(250);
 			
 			if(usesCasings() && this.casingDelay() > 0) {
 				if(casingDelay > 0) {
@@ -252,26 +252,45 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 			}
 		}
 	}
-	
-	protected NBTTagCompound writePacket() {
-		
-		NBTTagCompound data = new NBTTagCompound();
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(this.tPos != null);
 		if(this.tPos != null) {
-			data.setDouble("tX", this.tPos.xCoord);
-			data.setDouble("tY", this.tPos.yCoord);
-			data.setDouble("tZ", this.tPos.zCoord);
+			buf.writeDouble(this.tPos.xCoord);
+			buf.writeDouble(this.tPos.yCoord);
+			buf.writeDouble(this.tPos.zCoord);
 		}
-		data.setDouble("pitch", this.rotationPitch);
-		data.setDouble("yaw", this.rotationYaw);
-		data.setLong("power", this.power);
-		data.setBoolean("isOn", this.isOn);
-		data.setBoolean("targetPlayers", this.targetPlayers);
-		data.setBoolean("targetAnimals", this.targetAnimals);
-		data.setBoolean("targetMobs", this.targetMobs);
-		data.setBoolean("targetMachines", this.targetMachines);
-		data.setInteger("stattrak", this.stattrak);
-		
-		return data;
+		buf.writeDouble(this.rotationPitch);
+		buf.writeDouble(this.rotationYaw);
+		buf.writeLong(this.power);
+		buf.writeBoolean(this.isOn);
+		buf.writeBoolean(this.targetPlayers);
+		buf.writeBoolean(this.targetAnimals);
+		buf.writeBoolean(this.targetMobs);
+		buf.writeBoolean(this.targetMachines);
+		buf.writeInt(this.stattrak);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		boolean hasTPos = buf.readBoolean();
+		if(hasTPos) {
+			this.tPos.xCoord = buf.readDouble();
+			this.tPos.yCoord = buf.readDouble();
+			this.tPos.zCoord = buf.readDouble();
+		}
+		this.rotationPitch = buf.readDouble();
+		this.rotationYaw = buf.readDouble();
+		this.power = buf.readLong();
+		this.isOn = buf.readBoolean();
+		this.targetPlayers = buf.readBoolean();
+		this.targetAnimals = buf.readBoolean();
+		this.targetMobs = buf.readBoolean();
+		this.targetMachines = buf.readBoolean();
+		this.stattrak = buf.readInt();
 	}
 	
 	protected void updateConnections() {

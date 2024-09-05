@@ -34,6 +34,7 @@ import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -284,15 +285,8 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 			if(this.power > this.maxPower) {
 				this.power = this.maxPower;
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setByte("after", (byte) afterburner);
-			data.setBoolean("wasOn", wasOn);
-			data.setBoolean("showBlood", showBlood);
-			tank.writeToNBT(data, "tank");
-			blood.writeToNBT(data, "blood");
-			this.networkPack(data, 150);
+
+			this.networkPackNT(150);
 			
 		} else {
 			
@@ -385,16 +379,27 @@ public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implem
 			}
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.afterburner = nbt.getByte("after");
-		this.wasOn = nbt.getBoolean("wasOn");
-		this.showBlood = nbt.getBoolean("showBlood");
-		tank.readFromNBT(nbt, "tank");
-		blood.readFromNBT(nbt, "blood");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeByte((byte) afterburner);
+		buf.writeBoolean(wasOn);
+		buf.writeBoolean(showBlood);
+		tank.serialize(buf);
+		blood.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.afterburner = buf.readByte();
+		this.wasOn = buf.readBoolean();
+		this.showBlood = buf.readBoolean();
+		tank.deserialize(buf);
+		blood.deserialize(buf);
 	}
 	
 	public AudioWrapper createAudioLoop() {

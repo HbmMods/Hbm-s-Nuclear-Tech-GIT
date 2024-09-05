@@ -27,6 +27,7 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -69,6 +70,8 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 		}
 	}
 
+	private SolderingRecipe recipe;
+
 	@Override
 	public void updateEntity() {
 		
@@ -84,7 +87,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 				}
 			}
 			
-			SolderingRecipe recipe = SolderingRecipes.getRecipe(new ItemStack[] {slots[0], slots[1], slots[2], slots[3], slots[4], slots[5]});
+			recipe = SolderingRecipes.getRecipe(new ItemStack[] {slots[0], slots[1], slots[2], slots[3], slots[4], slots[5]});
 			long intendedMaxPower;
 			
 			UpgradeManager.eval(slots, 9, 10);
@@ -133,19 +136,8 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 			}
 			
 			this.maxPower = Math.max(intendedMaxPower, power);
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setLong("maxPower", maxPower);
-			data.setLong("consumption", consumption);
-			data.setInteger("progress", progress);
-			data.setInteger("processTime", processTime);
-			if(recipe != null) {
-				data.setInteger("display", Item.getIdFromItem(recipe.output.getItem()));
-				data.setInteger("displayMeta", recipe.output.getItemDamage());
-			}
-			this.tank.writeToNBT(data, "t");
-			this.networkPack(data, 25);
+
+			this.networkPackNT(25);
 		}
 	}
 	
@@ -240,22 +232,38 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.maxPower = nbt.getLong("maxPower");
-		this.consumption = nbt.getLong("consumption");
-		this.progress = nbt.getInteger("progress");
-		this.processTime = nbt.getInteger("processTime");
-		
-		if(nbt.hasKey("display")) {
-			this.display = new ItemStack(Item.getItemById(nbt.getInteger("display")), 1, nbt.getInteger("displayMeta"));
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		buf.writeLong(this.maxPower);
+		buf.writeLong(this.consumption);
+		buf.writeInt(this.progress);
+		buf.writeInt(this.processTime);
+		buf.writeBoolean(recipe != null);
+		if(recipe != null) {
+			buf.writeInt(Item.getIdFromItem(recipe.output.getItem()));
+			buf.writeInt(recipe.output.getItemDamage());
+		}
+		this.tank.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.maxPower = buf.readLong();
+		this.consumption = buf.readLong();
+		this.progress = buf.readInt();
+		this.processTime = buf.readInt();
+
+		if(buf.readBoolean()) {
+			int id = buf.readInt();
+			this.display = new ItemStack(Item.getItemById(id), 1, buf.readInt());
 		} else {
 			this.display = null;
 		}
-		
-		this.tank.readFromNBT(nbt, "t");
+
+		this.tank.deserialize(buf);
 	}
 	
 	@Override

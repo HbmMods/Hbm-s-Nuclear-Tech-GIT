@@ -13,6 +13,7 @@ import com.hbm.util.InventoryUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -130,21 +131,23 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 					}
 				}
 			}
-			
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("isWhitelist", isWhitelist);
-			this.matcher.writeToNBT(data);
-			this.networkPack(data, 15);
+
+			this.networkPackNT(15);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.isWhitelist = nbt.getBoolean("isWhitelist");
-		this.matcher.modes = new String[this.matcher.modes.length];
-		this.matcher.readFromNBT(nbt);
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(this.isWhitelist);
+		this.matcher.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.isWhitelist = buf.readBoolean();
+		this.matcher.deserialize(buf);
 	}
 	
 	public boolean matchesFilter(ItemStack stack) {

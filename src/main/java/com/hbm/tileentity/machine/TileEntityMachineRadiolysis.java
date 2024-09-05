@@ -23,6 +23,7 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -98,16 +99,6 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 		tanks[2].writeToNBT(nbt, "output2");
 	}
 	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		this.power = data.getLong("power");
-		this.heat = data.getInteger("heat");
-		tanks[0].readFromNBT(data, "t0");
-		tanks[1].readFromNBT(data, "t1");
-		tanks[2].readFromNBT(data, "t2");
-	}
-	
 	@Override
 	public void updateEntity() {
 		
@@ -139,15 +130,29 @@ public class TileEntityMachineRadiolysis extends TileEntityMachineBase implement
 				if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
 				if(tanks[2].getFill() > 0) this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(),pos.getZ(), pos.getDir());
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("heat", heat);
-			tanks[0].writeToNBT(data, "t0");
-			tanks[1].writeToNBT(data, "t1");
-			tanks[2].writeToNBT(data, "t2");
-			this.networkPack(data, 50);
+
+			this.networkPackNT(50);
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		buf.writeInt(this.heat);
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+		tanks[2].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.heat = buf.readInt();
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+		tanks[2].serialize(buf);
 	}
 	
 	protected DirPos[] getConPos() {

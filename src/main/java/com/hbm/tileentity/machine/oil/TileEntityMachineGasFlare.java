@@ -30,6 +30,7 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -178,13 +179,8 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 			}
 
 			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			data.setBoolean("isOn", isOn);
-			data.setBoolean("doesBurn", doesBurn);
-			tank.writeToNBT(data, "t");
-			this.networkPack(data, 50);
+
+			this.networkPackNT(50);
 
 		} else {
 			
@@ -240,15 +236,23 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z)
 		};
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.isOn = nbt.getBoolean("isOn");
-		this.doesBurn = nbt.getBoolean("doesBurn");
-		tank.readFromNBT(nbt, "t");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		buf.writeBoolean(this.isOn);
+		buf.writeBoolean(this.doesBurn);
+		tank.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.isOn = buf.readBoolean();
+		this.doesBurn = buf.readBoolean();
+		tank.serialize(buf);
 	}
 
 	@Override
