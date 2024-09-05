@@ -22,6 +22,7 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -153,18 +154,17 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 			}
 		}
 	}
-	
+
 	@Override
-	protected NBTTagCompound writePacket() {
-		NBTTagCompound data = super.writePacket();
-		tank.writeToNBT(data, "t");
-		return data;
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		tank.serialize(buf);
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		tank.readFromNBT(nbt, "t");
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		tank.deserialize(buf);
 	}
 
 	@Override //TODO: clean this shit up

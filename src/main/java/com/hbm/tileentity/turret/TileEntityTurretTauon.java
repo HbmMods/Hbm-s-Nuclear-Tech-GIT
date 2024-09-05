@@ -13,6 +13,7 @@ import com.hbm.packet.PacketDispatcher;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -130,10 +131,8 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 				this.target.attackEntityFrom(ModDamageSource.electricity, 30F + worldObj.rand.nextInt(11));
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.tauShoot", 4.0F, 0.9F + worldObj.rand.nextFloat() * 0.3F);
-				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setBoolean("shot", true);
-				this.networkPack(data, 250);
+
+				this.networkPackNT(250);
 				
 				Vec3 pos = this.getTurretPos();
 				Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
@@ -149,12 +148,15 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		
-		if(nbt.hasKey("shot"))
-			beam = 3;
-		else
-			super.networkUnpack(nbt);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(true);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.beam = buf.readBoolean() ? 3 : 0;
 	}
 
 	@Override

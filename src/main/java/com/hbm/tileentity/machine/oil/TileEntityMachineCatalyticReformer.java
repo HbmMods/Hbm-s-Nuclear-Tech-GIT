@@ -20,6 +20,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -73,12 +74,23 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 					}
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			for(int i = 0; i < 4; i++) tanks[i].writeToNBT(data, "" + i);
-			this.networkPack(data, 150);
+
+			this.networkPackNT(150);
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		for(int i = 0; i < 4; i++) tanks[i].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		for(int i = 0; i < 4; i++) tanks[i].deserialize(buf);
 	}
 	
 	@Override

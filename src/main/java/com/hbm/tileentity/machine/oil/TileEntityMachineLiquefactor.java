@@ -24,6 +24,7 @@ import api.hbm.fluid.IFluidStandardSender;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -76,14 +77,8 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 				this.progress = 0;
 			
 			this.sendFluid();
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			data.setInteger("progress", this.progress);
-			data.setInteger("usage", this.usage);
-			data.setInteger("processTime", this.processTime);
-			tank.writeToNBT(data, "t");
-			this.networkPack(data, 50);
+
+			this.networkPackNT(50);
 		}
 	}
 	
@@ -154,14 +149,23 @@ public class TileEntityMachineLiquefactor extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.progress = nbt.getInteger("progress");
-		this.usage = nbt.getInteger("usage");
-		this.processTime = nbt.getInteger("processTime");
-		tank.readFromNBT(nbt, "t");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		buf.writeInt(this.progress);
+		buf.writeInt(this.usage);
+		buf.writeInt(this.processTime);
+		tank.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.progress = buf.readInt();
+		this.usage = buf.readInt();
+		this.processTime = buf.readInt();
+		tank.deserialize(buf);
 	}
 	
 	@Override

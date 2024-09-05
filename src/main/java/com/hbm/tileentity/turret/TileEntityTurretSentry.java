@@ -15,6 +15,7 @@ import com.hbm.tileentity.IGUIProvider;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -229,20 +230,19 @@ public class TileEntityTurretSentry extends TileEntityTurretBaseNT implements IG
 	}
 
 	@Override
-	protected NBTTagCompound writePacket() {
-		NBTTagCompound data = super.writePacket();
-		if(didJustShootLeft) data.setBoolean("justShotLeft", didJustShootLeft);
-		if(didJustShootRight) data.setBoolean("justShotRight", didJustShootRight);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		if(didJustShootLeft) buf.writeBoolean(didJustShootLeft);
+		if(didJustShootRight) buf.writeBoolean(didJustShootRight);
 		didJustShootLeft = false;
 		didJustShootRight = false;
-		return data;
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		if(nbt.getBoolean("justShotLeft")) this.retractingLeft = true;
-		if(nbt.getBoolean("justShotRight")) this.retractingRight = true;
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		if(buf.readBoolean()) this.retractingLeft = true;
+		if(buf.readBoolean()) this.retractingRight = true;
 	}
 	
 	protected void updateConnections() {

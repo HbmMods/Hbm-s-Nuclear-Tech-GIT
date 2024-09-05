@@ -17,6 +17,7 @@ import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -115,14 +116,8 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 			} else {
 				this.progress = 0;
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("maxBurnTime", this.maxBurnTime);
-			data.setInteger("burnTime", this.burnTime);
-			data.setInteger("progress", this.progress);
-			data.setInteger("processingTime", this.processingTime);
-			data.setBoolean("wasOn", this.wasOn);
-			this.networkPack(data, 50);
+
+			this.networkPackNT(50);
 		} else {
 			
 			if(this.progress > 0) {
@@ -141,16 +136,25 @@ public class TileEntityFurnaceIron extends TileEntityMachineBase implements IGUI
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.maxBurnTime = nbt.getInteger("maxBurnTime");
-		this.burnTime = nbt.getInteger("burnTime");
-		this.progress = nbt.getInteger("progress");
-		this.processingTime = nbt.getInteger("processingTime");
-		this.wasOn = nbt.getBoolean("wasOn");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(this.maxBurnTime);
+		buf.writeInt(this.burnTime);
+		buf.writeInt(this.progress);
+		buf.writeInt(this.processingTime);
+		buf.writeBoolean(this.wasOn);
 	}
-	
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.maxBurnTime = buf.readInt();
+		this.burnTime = buf.readInt();
+		this.progress = buf.readInt();
+		this.processingTime = buf.readInt();
+		this.wasOn = buf.readBoolean();
+	}
+
 	public boolean canSmelt() {
 		
 		if(this.burnTime <= 0) return false;

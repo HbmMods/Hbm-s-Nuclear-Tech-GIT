@@ -28,6 +28,7 @@ import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -85,7 +86,9 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 		tanks[2] = new FluidTank(Fluids.WATER, 16000);
 		tanks[3] = new FluidTank(Fluids.HOTSTEAM, 160000);
 	}
-	
+
+	private long powerBeforeNet;
+
 	@Override
 	public void updateEntity() {
 		
@@ -131,10 +134,9 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", Math.min(this.power, this.maxPower)); //set first to get an unmodified view of how much power was generated before deductions from the net
-			
+
+			powerBeforeNet = Math.min(this.power, maxPower);
+
 			//do net/battery deductions first...
 			power = Library.chargeItemsFromTE(slots, 0, power, maxPower);
 			this.tryProvide(worldObj, xCoord - dir.offsetZ * 5, yCoord + 1, zCoord + dir.offsetX * 5, rot); //sends out power
@@ -152,26 +154,8 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 			this.trySubscribe(tanks[2].getTankType(), worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * -4, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * -4, dir);
 			//steam
 			this.sendFluid(tanks[3], worldObj, xCoord + dir.offsetZ * 6, yCoord + 1, zCoord - dir.offsetX * 6, rot.getOpposite());
-			
-			data.setInteger("rpm",  this.rpm);
-			data.setInteger("temp",  this.temp);
-			data.setInteger("state", this.state);
-			data.setBoolean("automode", this.autoMode);
-			data.setInteger("throttle",  this.throttle);
-			data.setInteger("slidpos",  this.powerSliderPos);
-			
-			if(state != 1) {
-				data.setInteger("counter", this.counter); //sent during startup and shutdown
-			} else {
-				data.setInteger("instantPow", this.instantPowerOutput); //sent while running
-			}
-			
-			tanks[0].writeToNBT(data, "fuel");
-			tanks[1].writeToNBT(data, "lube");
-			tanks[2].writeToNBT(data, "water");
-			tanks[3].writeToNBT(data, "steam");
 				
-			this.networkPack(data, 150);
+			this.networkPackNT(150);
 			
 		} else { //client side, for sounds n shit
 			
@@ -199,6 +183,51 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 				}
 			}
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.powerBeforeNet);
+		buf.writeInt(this.rpm);
+		buf.writeInt(this.temp);
+		buf.writeInt(this.state);
+		buf.writeBoolean(this.autoMode);
+		buf.writeInt(this.throttle);
+		buf.writeInt(this.powerSliderPos);
+
+		if(state != 1) {
+			buf.writeInt(this.counter); //sent during startup and shutdown
+		} else {
+			buf.writeInt(this.instantPowerOutput); //sent while running
+		}
+
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+		tanks[2].serialize(buf);
+		tanks[3].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.rpm = buf.readInt();
+		this.temp = buf.readInt();
+		this.state = buf.readInt();
+		this.autoMode = buf.readBoolean();
+		this.powerSliderPos = buf.readInt();
+		this.throttle = buf.readInt();
+
+		if(state != 1)
+			this.counter = buf.readInt();
+		else
+			this.instantPowerOutput = buf.readInt(); //state 1
+
+		this.tanks[0].deserialize(buf);
+		this.tanks[1].deserialize(buf);
+		this.tanks[2].deserialize(buf);
+		this.tanks[3].deserialize(buf);
 	}
 	
 	private void stopIfNotReady() {
@@ -378,30 +407,7 @@ public class TileEntityMachineTurbineGas extends TileEntityMachineBase implement
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.rpm = nbt.getInteger("rpm");
-		this.temp = nbt.getInteger("temp");
-		this.state = nbt.getInteger("state");
-		this.autoMode = nbt.getBoolean("automode");
-		this.powerSliderPos = nbt.getInteger("slidpos");
-		this.throttle = nbt.getInteger("throttle");			
-		
-		if(nbt.hasKey("counter"))
-			this.counter = nbt.getInteger("counter"); //state 0 and -1
-		else
-			this.instantPowerOutput = nbt.getInteger("instantPow"); //state 1
-		
-		this.tanks[0].readFromNBT(nbt, "fuel");
-		this.tanks[1].readFromNBT(nbt, "lube");
-		this.tanks[2].readFromNBT(nbt, "water");
-		this.tanks[3].readFromNBT(nbt, "steam");
-	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);

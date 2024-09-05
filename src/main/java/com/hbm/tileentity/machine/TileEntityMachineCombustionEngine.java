@@ -23,6 +23,7 @@ import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -111,13 +112,8 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 			
 			if(power > maxPower)
 				power = maxPower;
-			
-			data.setInteger("playersUsing", playersUsing);
-			data.setInteger("setting", setting);
-			data.setBoolean("isOn", isOn);
-			data.setBoolean("wasOn", wasOn);
-			tank.writeToNBT(data, "tank");
-			this.networkPack(data, 50);
+
+			this.networkPackNT(50);
 			
 		} else {
 			this.prevDoorAngle = this.doorAngle;
@@ -200,14 +196,23 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		this.playersUsing = nbt.getInteger("playersUsing");
-		this.setting = nbt.getInteger("setting");
-		this.power = nbt.getLong("power");
-		this.isOn = nbt.getBoolean("isOn");
-		this.wasOn = nbt.getBoolean("wasOn");
-		this.tank.readFromNBT(nbt, "tank");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(this.playersUsing);
+		buf.writeInt(this.setting);
+		buf.writeBoolean(this.isOn);
+		buf.writeBoolean(this.wasOn);
+		tank.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.playersUsing = buf.readInt();
+		this.setting = buf.readInt();
+		this.isOn = buf.readBoolean();
+		this.wasOn = buf.readBoolean();
+		tank.deserialize(buf);
 	}
 
 	@Override

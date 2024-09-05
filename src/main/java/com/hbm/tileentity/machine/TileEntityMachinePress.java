@@ -8,8 +8,10 @@ import com.hbm.items.machine.ItemStamp;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import com.hbm.util.BufferUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -133,17 +135,7 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 				this.markChanged();
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("speed", speed);
-			data.setInteger("burnTime", burnTime);
-			data.setInteger("press", press);
-			if(slots[2] != null) {
-				NBTTagCompound stack = new NBTTagCompound();
-				slots[2].writeToNBT(stack);
-				data.setTag("stack", stack);
-			}
-			
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 			
 		} else {
 			
@@ -157,6 +149,30 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 				this.renderPress = this.syncPress;
 			}
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(this.speed);
+		buf.writeInt(this.burnTime);
+		buf.writeInt(this.press);
+		if (slots[2] == null)
+			buf.writeShort(-1); // indicate that the NBT doesn't actually exist to avoid null pointer errors.
+		else
+			BufferUtil.writeNBT(buf, slots[2].stackTagCompound);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.speed = buf.readInt();
+		this.burnTime = buf.readInt();
+		this.press = buf.readInt();
+		NBTTagCompound stack = BufferUtil.readNBT(buf);
+		this.syncStack = ItemStack.loadItemStackFromNBT(stack);
+
+		this.turnProgress = 2;
 	}
 	
 	@Override

@@ -27,6 +27,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -119,16 +120,8 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 			for(DirPos pos : getConPos()) {
 				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("progress", progress);
-			data.setInteger("processTime", processTime);
-			data.setInteger("powerRequirement", powerRequirement);
-			data.setLong("power", power);
-			tanks[0].writeToNBT(data, "0");
-			tanks[1].writeToNBT(data, "1");
-			data.setBoolean("isOn", isOn);
-			this.networkPack(data, 100);
+
+			this.networkPackNT(100);
 			
 		} else {
 			
@@ -163,17 +156,29 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 	}
 	
 	private float randSpeed = 0.1F;
-	
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.progress = nbt.getInteger("progress");
-		this.processTime = nbt.getInteger("processTime");
-		this.powerRequirement = nbt.getInteger("powerRequirement");
-		this.power = nbt.getLong("power");
-		tanks[0].readFromNBT(nbt, "0");
-		tanks[1].readFromNBT(nbt, "1");
-		this.isOn = nbt.getBoolean("isOn");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(this.progress);
+		buf.writeInt(this.processTime);
+		buf.writeInt(this.powerRequirement);
+		buf.writeLong(this.power);
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+		buf.writeBoolean(this.isOn);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.progress = buf.readInt();
+		this.processTime = buf.readInt();
+		this.powerRequirement = buf.readInt();
+		this.power = buf.readLong();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
+		this.isOn = buf.readBoolean();
 	}
 	
 	private void updateConnections() {

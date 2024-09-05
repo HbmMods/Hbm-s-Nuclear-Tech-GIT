@@ -29,6 +29,7 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -270,22 +271,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					this.coreHeat = 0;
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			tanks[0].writeToNBT(data, "t0");
-			tanks[1].writeToNBT(data, "t1");
-			data.setInteger("rodCount", rodCount);
-			data.setInteger("coreHeat", coreHeat);
-			data.setInteger("hullHeat", hullHeat);
-			data.setDouble("flux", flux);
-			data.setDouble("processTime", processTime);
-			data.setDouble("progress", progress);
-			data.setInteger("typeLoaded", typeLoaded);
-			data.setInteger("amountLoaded", amountLoaded);
-			data.setDouble("rodLevel", rodLevel);
-			data.setDouble("rodTarget", rodTarget);
-			data.setInteger("coreHeatCapacity", coreHeatCapacity);
-			this.networkPack(data, 150);
+
+			this.networkPackNT(150);
 		} else {
 			
 			if(amountLoaded > 0) {
@@ -383,23 +370,41 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	protected int getRodCountForCoolant() {
 		return this.rodCount + (int) Math.ceil(this.heatsinkCount / 4D);
 	}
-	
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		tanks[0].readFromNBT(nbt, "t0");
-		tanks[1].readFromNBT(nbt, "t1");
-		rodCount = nbt.getInteger("rodCount");
-		coreHeat = nbt.getInteger("coreHeat");
-		hullHeat = nbt.getInteger("hullHeat");
-		flux = nbt.getDouble("flux");
-		processTime = nbt.getDouble("processTime");
-		progress = nbt.getDouble("progress");
-		typeLoaded = nbt.getInteger("typeLoaded");
-		amountLoaded = nbt.getInteger("amountLoaded");
-		rodLevel = nbt.getDouble("rodLevel");
-		rodTarget = nbt.getInteger("rodTarget");
-		coreHeatCapacity = nbt.getInteger("coreHeatCapacity");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(this.rodCount);
+		buf.writeInt(this.coreHeat);
+		buf.writeInt(this.hullHeat);
+		buf.writeDouble(this.flux);
+		buf.writeDouble(this.processTime);
+		buf.writeDouble(this.progress);
+		buf.writeInt(this.typeLoaded);
+		buf.writeInt(this.amountLoaded);
+		buf.writeDouble(this.rodLevel);
+		buf.writeDouble(this.rodTarget);
+		buf.writeInt(this.coreHeatCapacity);
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.rodCount = buf.readInt();
+		this.coreHeat = buf.readInt();
+		this.hullHeat = buf.readInt();
+		this.flux = buf.readDouble();
+		this.processTime = buf.readDouble();
+		this.progress = buf.readDouble();
+		this.typeLoaded = buf.readInt();
+		this.amountLoaded = buf.readInt();
+		this.rodLevel = buf.readDouble();
+		this.rodTarget = buf.readInt();
+		this.coreHeatCapacity = buf.readInt();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
 	}
 	
 	protected void setupTanks() {

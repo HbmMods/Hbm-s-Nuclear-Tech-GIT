@@ -19,6 +19,7 @@ import com.hbm.util.I18nUtil;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -261,20 +262,21 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT implements I
 			}
 			
 			this.power -= demand;
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("shot", true);
-			this.networkPack(data, 250);
+
+			this.networkPackNT(250);
 		}
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		
-		if(nbt.hasKey("shot"))
-			beam = 5;
-		else
-			super.networkUnpack(nbt);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(true);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.beam = buf.readBoolean() ? 5 : 0;
 	}
 
 	@Override

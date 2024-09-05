@@ -13,6 +13,7 @@ import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.I18nUtil;
 
@@ -20,6 +21,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -117,16 +119,7 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 				}
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("press", press);
-			if(slots[2] != null) {
-				NBTTagCompound stack = new NBTTagCompound();
-				slots[2].writeToNBT(stack);
-				data.setTag("stack", stack);
-			}
-			
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 			
 		} else {
 			
@@ -141,21 +134,27 @@ public class TileEntityMachineEPress extends TileEntityMachineBase implements IE
 			}
 		}
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.syncPress = nbt.getInteger("press");
-		
-		if(nbt.hasKey("stack")) {
-			NBTTagCompound stack = nbt.getCompoundTag("stack");
-			this.syncStack = ItemStack.loadItemStackFromNBT(stack);
-		} else {
-			this.syncStack = null;
-		}
-		
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeInt(press);
+		if (slots[2] == null)
+			buf.writeShort(-1); // indicate that the NBT doesn't actually exist to avoid null pointer errors.
+		else
+			BufferUtil.writeNBT(buf, slots[2].stackTagCompound);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.syncPress = buf.readInt();
+
+		NBTTagCompound stack = BufferUtil.readNBT(buf);
+		this.syncStack = ItemStack.loadItemStackFromNBT(stack);
+
 		this.turnProgress = 2;
 	}
 	

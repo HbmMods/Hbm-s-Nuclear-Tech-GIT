@@ -14,7 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 public class BufferUtil {
 
 	private static final Charset CHARSET = StandardCharsets.UTF_8;
-	
+
 	// Writes a string to a byte buffer by encoding the length and raw bytes
 	public static void writeString(ByteBuf buf, String value) {
 		if(value == null) {
@@ -22,7 +22,7 @@ public class BufferUtil {
 			return;
 		}
 
-		buf.writeInt(value.length());
+		buf.writeInt(value.getBytes(CHARSET).length);
 		buf.writeBytes(value.getBytes(CHARSET));
 	}
 
@@ -35,6 +35,66 @@ public class BufferUtil {
 		buf.readBytes(bytes);
 
 		return new String(bytes, CHARSET);
+	}
+
+	/**
+	 * Writes an integer array to a buffer.
+	 */
+	public static void writeIntArray(ByteBuf buf, int[] array) {
+		buf.writeInt(array.length);
+		for (int value : array) {
+			buf.writeInt(value);
+		}
+	}
+
+	/**
+	 * Reads an integer array from a buffer.
+	 */
+	public static int[] readIntArray(ByteBuf buf) {
+		int length = buf.readInt();
+
+		int[] array = new int[length];
+
+		for (int i = 0; i < length; i++) {
+			array[i] = buf.readInt();
+		}
+
+		return array;
+	}
+
+	/**
+	 * Writes a NBTTagCompound to a buffer.
+	 */
+	public static void writeNBT(ByteBuf buf, NBTTagCompound compound) {
+		if(compound != null) {
+			byte[] nbtData = new byte[0];
+			try {
+				nbtData = CompressedStreamTools.compress(compound);
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+			buf.writeShort((short) nbtData.length);
+			buf.writeBytes(nbtData);
+		} else
+			buf.writeShort(-1);
+	}
+
+	/**
+	 * Reads a NBTTagCompound from a buffer.
+	 */
+	public static NBTTagCompound readNBT(ByteBuf buf) {
+		short nbtLength = buf.readShort();
+
+		if (nbtLength == -1) // check if no compound was even given.
+			return new NBTTagCompound();
+		byte[] tags = new byte[nbtLength];
+		buf.readBytes(tags);
+		try {
+			return CompressedStreamTools.func_152457_a(tags, new NBTSizeTracker(2097152L));
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		return new NBTTagCompound();
 	}
 
 	/**
@@ -52,23 +112,12 @@ public class BufferUtil {
 			if (item.getItem().isDamageable() || item.getItem().getShareTag())
 				nbtTagCompound = item.stackTagCompound;
 
-			if(nbtTagCompound != null) {
-				byte[] nbtData = new byte[0];
-				try {
-					nbtData = CompressedStreamTools.compress(nbtTagCompound);
-				} catch(IOException e) {
-					e.printStackTrace();
-				}
-				buf.writeShort((short) nbtData.length);
-				buf.writeBytes(nbtData);
-			} else {
-				buf.writeShort(-1);
-			}
+			writeNBT(buf, nbtTagCompound);
 		}
 	}
 
 	/**
-	 * Reads an ItemStack from a buffer
+	 * Reads an ItemStack from a buffer.
 	 */
 	public static ItemStack readItemStack(ByteBuf buf) {
 		ItemStack item = null;
@@ -78,16 +127,7 @@ public class BufferUtil {
 			byte quantity = buf.readByte();
 			short meta = buf.readShort();
 			item = new ItemStack(Item.getItemById(id), quantity, meta);
-
-			short nbtLength = buf.readByte();
-
-			byte[] tags = new byte[nbtLength];
-			buf.readBytes(tags);
-			try {
-				item.stackTagCompound = CompressedStreamTools.func_152457_a(tags, new NBTSizeTracker(2097152L));
-			} catch(IOException e) {
-				e.printStackTrace();
-			}
+			item.stackTagCompound = readNBT(buf);
 		}
 		return item;
 	}

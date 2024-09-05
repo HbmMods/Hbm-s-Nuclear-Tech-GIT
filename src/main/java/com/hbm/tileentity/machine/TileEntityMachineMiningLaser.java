@@ -31,6 +31,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardSender;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.EntityLivingBase;
@@ -83,6 +84,8 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 		return "container.miningLaser";
 	}
 
+	private double clientBreakProgress;
+
 	@Override
 	public void updateEntity() {
 		
@@ -107,8 +110,6 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			lastTargetX = targetX;
 			lastTargetY = targetY;
 			lastTargetZ = targetZ;
-			
-			double clientBreakProgress = 0;
 			
 			if(isOn) {
 				
@@ -167,43 +168,45 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 			this.tryFillContainer(xCoord, yCoord, zCoord + 2);
 			this.tryFillContainer(xCoord, yCoord, zCoord - 2);
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("lastX", lastTargetX);
-			data.setInteger("lastY", lastTargetY);
-			data.setInteger("lastZ", lastTargetZ);
-			data.setInteger("x", targetX);
-			data.setInteger("y", targetY);
-			data.setInteger("z", targetZ);
-			data.setBoolean("beam", beam);
-			data.setBoolean("isOn", isOn);
-			data.setDouble("progress", clientBreakProgress);
-			tank.writeToNBT(data, "t");
-			
-			this.networkPack(data, 250);
+			this.networkPackNT(250);
 		}
 	}
 	
 	private void updateConnections() {
 		this.trySubscribe(worldObj, xCoord, yCoord + 2, zCoord, ForgeDirection.UP);
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
 
-		this.power = data.getLong("power");
-		this.lastTargetX = data.getInteger("lastX");
-		this.lastTargetY = data.getInteger("lastY");
-		this.lastTargetZ = data.getInteger("lastZ");
-		this.targetX = data.getInteger("x");
-		this.targetY = data.getInteger("y");
-		this.targetZ = data.getInteger("z");
-		this.beam = data.getBoolean("beam");
-		this.isOn = data.getBoolean("isOn");
-		this.breakProgress = data.getDouble("progress");
-		tank.readFromNBT(data, "t");
+	@Override
+	public void serialize(ByteBuf buf) {
+		buf.writeLong(this.power);
+		buf.writeInt(this.lastTargetX);
+		buf.writeInt(this.lastTargetY);
+		buf.writeInt(this.lastTargetZ);
+		buf.writeInt(this.targetX);
+		buf.writeInt(this.targetY);
+		buf.writeInt(this.targetZ);
+		buf.writeBoolean(this.beam);
+		buf.writeBoolean(this.isOn);
+		buf.writeDouble(this.clientBreakProgress);
+		tank.serialize(buf);
 	}
-	
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.lastTargetX = buf.readInt();
+		this.lastTargetY = buf.readInt();
+		this.lastTargetZ = buf.readInt();
+		this.targetX = buf.readInt();
+		this.targetY = buf.readInt();
+		this.targetZ = buf.readInt();
+		this.beam = buf.readBoolean();
+		this.isOn = buf.readBoolean();
+		this.breakProgress = buf.readDouble();
+		tank.deserialize(buf);
+	}
+
 	private void buildDam() {
 
 		if(worldObj.getBlock(targetX + 1, targetY, targetZ).getMaterial().isLiquid()) worldObj.setBlock(targetX + 1, targetY, targetZ, ModBlocks.barricade);
