@@ -271,6 +271,7 @@ public class MainRegistry {
 		
 		/* For whichever fucking reason, replacing the bolt items with a bolt autogen broke all autogen items, most likely due to the load order.
 		 * This "fix" just makes sure that the material system is loaded first no matter what. */
+		Mats.init();
 		Mats.MAT_STONE.getUnlocalizedName();
 		Fluids.init();
 		ModBlocks.mainRegistry();
