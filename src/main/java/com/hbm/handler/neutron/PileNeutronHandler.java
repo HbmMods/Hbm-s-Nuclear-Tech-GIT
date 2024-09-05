@@ -62,13 +62,16 @@ public class PileNeutronHandler {
 			TileEntityPileBase originTE = (TileEntityPileBase) origin.tile;
 			BlockPos pos = new BlockPos(originTE);
 
-			for(float i = 1; i <= range; i += 0.5F) {
+			for(float i = 1; i <= range; i += 1F) {
 
 				BlockPos node = new BlockPos(
 						(int)Math.floor(pos.getX() + 0.5 + vector.xCoord * i),
 						(int)Math.floor(pos.getY() + 0.5 + vector.yCoord * i),
 						(int)Math.floor(pos.getZ() + 0.5 + vector.zCoord * i)
 				);
+
+				if(node.equals(pos))
+					continue; // don't interact with itself!
 
 				TileEntity tile;
 
@@ -77,7 +80,7 @@ public class PileNeutronHandler {
 				else {
 					tile = blockPosToTE(worldObj, node);
 					if (tile == null)
-						return; // Doesn't exist anymore!
+						return; // Doesn't exist!
 					if (tile instanceof TileEntityPileBase)
 						NeutronNodeWorld.addNode(new PileNeutronNode((TileEntityPileBase) tile));
 				}
