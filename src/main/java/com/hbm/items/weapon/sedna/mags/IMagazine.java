@@ -1,5 +1,6 @@
 package com.hbm.items.weapon.sedna.mags;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public interface IMagazine {
@@ -13,7 +14,7 @@ public interface IMagazine {
 	/** Sets the mag's ammo level */
 	public void setAmount(ItemStack stack, int amount);
 	/** The action done at the end of one reload cycle, either loading one shell or replacing the whole mag */
-	public void reloadAction(ItemStack stack);
+	public void reloadAction(ItemStack stack, EntityPlayer player);
 	/** The stack that should be displayed for the ammo HUD */
 	public ItemStack getIcon(ItemStack stack);
 }

@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 
+import net.minecraft.item.Item;
+
 public class BulletConfig {
 	
 	public static List<BulletConfig> configs = new ArrayList();
@@ -12,7 +14,7 @@ public class BulletConfig {
 	public final int id;
 	
 	public ComparableStack ammo;
-	public int ammoCount = 1;
+	public int ammoReloadCount = 1;
 	public float velocity = 5F;
 	public float spread = 0F;
 	public float wear = 1F;
@@ -29,4 +31,6 @@ public class BulletConfig {
 		this.id = configs.size();
 		configs.add(this);
 	}
+	
+	public BulletConfig setItem(Item ammo) { this.ammo = new ComparableStack(ammo); return this; }
 }

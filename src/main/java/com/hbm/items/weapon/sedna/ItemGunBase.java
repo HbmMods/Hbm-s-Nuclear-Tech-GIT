@@ -27,6 +27,11 @@ public class ItemGunBase extends Item implements IKeybindReceiver {
 	public GunConfig getConfig(ItemStack stack) {
 		return config_DNA;
 	}
+	
+	public ItemGunBase(GunConfig cfg) {
+		this.setMaxStackSize(1);
+		this.config_DNA = cfg;
+	}
 
 	public static enum GunState {
 		DRAWING,	//initial delay after selecting
@@ -37,18 +42,18 @@ public class ItemGunBase extends Item implements IKeybindReceiver {
 	}
 	
 	@Override
-	public void handleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind, boolean state) {
+	public void handleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind, boolean newState) {
 		
 		GunConfig config = getConfig(stack);
 
-		if(keybind == EnumKeybind.GUN_PRIMARY &&	state && !getPrimary(stack)) {		if(config.onPressPrimary != null)		config.onPressPrimary.accept(stack, config);		return; }
-		if(keybind == EnumKeybind.GUN_PRIMARY &&	!state && getPrimary(stack)) {		if(config.onReleasePrimary != null)		config.onReleasePrimary.accept(stack, config);		return; }
-		if(keybind == EnumKeybind.GUN_SECONDARY &&	state && !getSecondary(stack)) {	if(config.onPressSecondary != null)		config.onPressSecondary.accept(stack, config);		return; }
-		if(keybind == EnumKeybind.GUN_SECONDARY &&	!state && getSecondary(stack)) {	if(config.onReleaseSecondary != null)	config.onReleaseSecondary.accept(stack, config);	return; }
-		if(keybind == EnumKeybind.GUN_TERTIARY &&	state && !getTertiary(stack)) {		if(config.onPressTertiary != null)		config.onPressTertiary.accept(stack, config);		return; }
-		if(keybind == EnumKeybind.GUN_TERTIARY &&	!state && getTertiary(stack)) {		if(config.onReleaseTertiary != null)	config.onReleaseTertiary.accept(stack, config);		return; }
-		if(keybind == EnumKeybind.RELOAD &&			state && !getReloadKey(stack)) {	if(config.onPressReload != null)		config.onPressReload.accept(stack, config);			return; }
-		if(keybind == EnumKeybind.RELOAD &&			!state && getReloadKey(stack)) {	if(config.onReleaseReload != null)		config.onReleaseReload.accept(stack, config);		return; }
+		if(keybind == EnumKeybind.GUN_PRIMARY &&	newState && !getPrimary(stack)) {	if(config.getPressPrimary(stack) != null)		config.getPressPrimary(stack).accept(stack, config);		return; }
+		if(keybind == EnumKeybind.GUN_PRIMARY &&	!newState && getPrimary(stack)) {	if(config.getReleasePrimary(stack) != null)		config.getReleasePrimary(stack).accept(stack, config);		return; }
+		if(keybind == EnumKeybind.GUN_SECONDARY &&	newState && !getSecondary(stack)) {	if(config.getPressSecondary(stack) != null)		config.getPressSecondary(stack).accept(stack, config);		return; }
+		if(keybind == EnumKeybind.GUN_SECONDARY &&	!newState && getSecondary(stack)) {	if(config.getReleaseSecondary(stack) != null)	config.getReleaseSecondary(stack).accept(stack, config);	return; }
+		if(keybind == EnumKeybind.GUN_TERTIARY &&	newState && !getTertiary(stack)) {	if(config.getPressTertiary(stack) != null)		config.getPressTertiary(stack).accept(stack, config);		return; }
+		if(keybind == EnumKeybind.GUN_TERTIARY &&	!newState && getTertiary(stack)) {	if(config.getReleaseTertiary(stack) != null)	config.getReleaseTertiary(stack).accept(stack, config);		return; }
+		if(keybind == EnumKeybind.RELOAD &&			newState && !getReloadKey(stack)) {	if(config.getPressReload(stack) != null)		config.getPressReload(stack).accept(stack, config);			return; }
+		if(keybind == EnumKeybind.RELOAD &&			!newState && getReloadKey(stack)) {	if(config.getReleaseReload(stack) != null)		config.getReleaseReload(stack).accept(stack, config);		return; }
 	}
 
 	@Override
@@ -59,7 +64,7 @@ public class ItemGunBase extends Item implements IKeybindReceiver {
 		
 		if(!isHeld) {
 			this.setState(stack, GunState.DRAWING);
-			this.setTimer(stack, config.drawDuration);
+			this.setTimer(stack, config.getDrawDuration(stack));
 			return;
 		}
 		

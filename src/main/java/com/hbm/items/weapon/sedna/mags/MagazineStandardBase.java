@@ -27,6 +27,8 @@ public abstract class MagazineStandardBase implements IMagazine {
 		this.index = index;
 		this.capacity = capacity;
 	}
+	
+	public MagazineStandardBase addConfigs(BulletConfig... cfgs) { for(BulletConfig cfg : cfgs) acceptedBullets.add(cfg); return this; }
 
 	@Override
 	public Object getType(ItemStack stack) {
