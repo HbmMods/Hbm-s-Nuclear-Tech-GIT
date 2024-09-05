@@ -7,6 +7,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.handler.RocketStruct;
 import com.hbm.handler.atmosphere.IBlockSealable;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.tileentity.TileEntityProxyCombo;
@@ -70,11 +71,15 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 			if(station.hasStoredItems()) {
 				station.giveStoredItems(player);
 			} else if(station.hasDocked) {
-				if(player.isSneaking() && player.getHeldItem() == null) {
-					station.despawnRocket();
-					station.giveStoredItems(player);
-				} else {
-					station.enterCapsule(player);
+				if(!station.hasRider) {
+					if(player.isSneaking()) {
+						if(player.getHeldItem() == null) {
+							station.despawnRocket();
+							station.giveStoredItems(player);
+						}
+					} else {
+						station.enterCapsule(player);
+					}
 				}
 			} else {
 				ItemStack held = player.getHeldItem();
@@ -150,12 +155,26 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 			text.add("Interact to retrieve stored rockets");
 		} else {
 			if(station.hasDocked) {
-				if(player.isSneaking()) {
-					if(player.getHeldItem() == null) {
-						text.add("Interact to remove docked rocket");
+				if(!station.hasRider) {
+					if(player.isSneaking()) {
+						if(player.getHeldItem() == null) {
+							text.add("Interact to remove docked rocket");
+						}
+					} else {
+						text.add("Interact to enter docked rocket");
 					}
 				} else {
-					text.add("Interact to enter docked rocket");
+					text.add(EnumChatFormatting.YELLOW + "Rocket is occupied");
+				}
+
+				if(station.needsFuel) {
+					for(FluidTank tank : station.getReceivingTanks()) {
+						text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + tank.getTankType().getLocalizedName() + ": " + tank.getFill() + "/" + tank.getMaxFill() + "mB");
+					}
+
+					if(!station.hasSufficientFuel()) {
+						text.add(EnumChatFormatting.RED + "Rocket needs fuel");
+					}
 				}
 			} else if(!player.isSneaking()) {
 				ItemStack held = player.getHeldItem();

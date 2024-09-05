@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import java.util.List;
 import java.util.Stack;
 import java.util.stream.IntStream;
 
@@ -8,31 +7,43 @@ import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.entity.missile.EntityRideableRocket.RocketState;
 import com.hbm.handler.RocketStruct;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityOrbitalStation extends TileEntityMachineBase {
+public class TileEntityOrbitalStation extends TileEntityMachineBase implements IFluidStandardReceiver {
 
     private OrbitalStation station;
     private EntityRideableRocket docked;
 
+    private FluidTank[] tanks;
+
+    // Client synced state information
     public boolean hasDocked = false;
+    public boolean hasRider = false;
+    public boolean needsFuel = false;
 
     public float rot;
     public float prevRot;
 
     public TileEntityOrbitalStation() {
         super(16);
+        tanks = new FluidTank[2];
+        tanks[0] = new FluidTank(Fluids.HYDROGEN, 16_000);
+        tanks[1] = new FluidTank(Fluids.OXYGEN, 16_000);
     }
 
     @Override
@@ -48,9 +59,38 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
 
             station.update(worldObj);
 
+			// Connections
+			if(docked != null && docked.isReusable() && worldObj.getTotalWorldTime() % 20 == 0) {
+				for(DirPos pos : getConPos()) {
+                    for(FluidTank tank : tanks) {
+                        if(tank.getTankType() == Fluids.NONE) continue;
+                        trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
+                    }
+				}
+			}
+
             if(docked != null && (docked.isDead || docked.getState() == RocketState.UNDOCKING)) {
+                // Drain tanks only upon successful undocking, just in case the pod gets stashed before the player can launch (in multi-player stations)
+                if(!docked.isDead && docked.isReusable()) {
+                    for(FluidTank tank : tanks) tank.setFill(0);
+                }
                 undockRocket();
             }
+
+            // if we have enough fuel, transition to ready to launch
+            if(docked != null && docked.isReusable()) {
+                boolean hasFuel = hasSufficientFuel();
+                
+                if(hasFuel && docked.getState() == RocketState.NEEDSFUEL) {
+                    docked.setState(docked.navDrive != null ? RocketState.AWAITING : RocketState.LANDED);
+                } else if (!hasFuel && docked.getState() != RocketState.NEEDSFUEL) {
+                    docked.setState(RocketState.NEEDSFUEL);
+                }
+            }
+
+            hasDocked = docked != null;
+            hasRider = hasDocked && docked.riddenByEntity != null;
+            needsFuel = hasDocked && docked.isReusable();
 
             this.networkPackNT(OrbitalStation.STATION_SIZE / 2);
         } else {
@@ -67,24 +107,39 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
         }
     }
 
-    @SuppressWarnings("unchecked")
+	public DirPos[] getConPos() {
+		return new DirPos[] {
+            new DirPos(xCoord - 1, yCoord + 1, zCoord + 3, ForgeDirection.NORTH),
+            new DirPos(xCoord + 0, yCoord + 1, zCoord + 3, ForgeDirection.NORTH),
+            new DirPos(xCoord + 1, yCoord + 1, zCoord + 3, ForgeDirection.NORTH),
+
+            new DirPos(xCoord - 1, yCoord + 1, zCoord - 3, ForgeDirection.SOUTH),
+            new DirPos(xCoord + 0, yCoord + 1, zCoord - 3, ForgeDirection.SOUTH),
+            new DirPos(xCoord + 1, yCoord + 1, zCoord - 3, ForgeDirection.SOUTH),
+
+            new DirPos(xCoord + 3, yCoord + 1, zCoord - 1, ForgeDirection.EAST),
+            new DirPos(xCoord + 3, yCoord + 1, zCoord + 0, ForgeDirection.EAST),
+            new DirPos(xCoord + 3, yCoord + 1, zCoord + 1, ForgeDirection.EAST),
+
+            new DirPos(xCoord - 3, yCoord + 1, zCoord - 1, ForgeDirection.WEST),
+            new DirPos(xCoord - 3, yCoord + 1, zCoord + 0, ForgeDirection.WEST),
+            new DirPos(xCoord - 3, yCoord + 1, zCoord + 1, ForgeDirection.WEST),
+        };
+	}
+
     public void enterCapsule(EntityPlayer player) {
-        List<Entity> capsules = worldObj.getEntitiesWithinAABB(EntityRideableRocket.class, AxisAlignedBB.getBoundingBox(xCoord - 1, yCoord - 128, zCoord - 1, xCoord + 2, yCoord + 1, zCoord + 2));
-        if(capsules.size() > 0) {
-            capsules.get(0).interactFirst(player);
-        }
+        if(docked == null || docked.riddenByEntity != null) return;
+        docked.interactFirst(player);
     }
 
     public void dockRocket(EntityRideableRocket rocket) {
         despawnRocket();
 
         docked = rocket;
-        hasDocked = true;
     }
 
     public void undockRocket() {
         docked = null;
-        hasDocked = false;
     }
 
     public void despawnRocket() {
@@ -109,14 +164,13 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
 
             docked.setDead();
             docked = null;
-            hasDocked = false;
         }
     }
 
     public void spawnRocket(ItemStack stack) {
         EntityRideableRocket rocket = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 1.5F, zCoord + 0.5F, stack);
         rocket.posY -= rocket.height;
-        rocket.setState(RocketState.LANDED);
+        rocket.setState(rocket.isReusable() ? RocketState.NEEDSFUEL : RocketState.LANDED);
 		worldObj.spawnEntityInWorld(rocket);
 
         dockRocket(rocket);
@@ -143,6 +197,19 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
         markDirty();
     }
 
+    public boolean hasSufficientFuel() {
+        int fillRequirement = getFillRequirement();
+        for(FluidTank tank : tanks) {
+            if(tank.getFill() < fillRequirement) return false;
+        }
+
+        return true;
+    }
+
+    public int getFillRequirement() {
+        return 16_000;
+    }
+
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return true;
@@ -160,6 +227,8 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
         station.serialize(buf);
 
         buf.writeBoolean(hasDocked);
+        buf.writeBoolean(hasRider);
+        buf.writeBoolean(needsFuel);
 
         for(int i = 0; i < slots.length; i++) {
             if(slots[i] != null) {
@@ -168,6 +237,8 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
                 buf.writeShort(-1);
             }
         }
+
+        for(int i = 0; i < tanks.length; i++) tanks[i].serialize(buf);
     }
 
     @Override
@@ -177,6 +248,8 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
         OrbitalStation.clientStation = station = OrbitalStation.deserialize(buf);
 
         hasDocked = buf.readBoolean();
+        hasRider = buf.readBoolean();
+        needsFuel = buf.readBoolean();
 
         for(int i = 0; i < slots.length; i++) {
             short id = buf.readShort();
@@ -186,16 +259,20 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
                 slots[i] = null;
             }
         }
+
+        for(int i = 0; i < tanks.length; i++) tanks[i].deserialize(buf);
     }
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
+        for(int i = 0; i < tanks.length; i++) tanks[i].writeToNBT(nbt, "t" + i);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+        for(int i = 0; i < tanks.length; i++) tanks[i].readFromNBT(nbt, "t" + i);
 	}
 
     AxisAlignedBB bb = null;
@@ -220,6 +297,16 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase {
     @SideOnly(Side.CLIENT)
     public double getMaxRenderDistanceSquared() {
         return 65536.0D;
+    }
+
+    @Override
+    public FluidTank[] getAllTanks() {
+        return tanks;
+    }
+
+    @Override
+    public FluidTank[] getReceivingTanks() {
+        return tanks;
     }
     
 }

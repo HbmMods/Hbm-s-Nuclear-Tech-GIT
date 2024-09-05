@@ -12,7 +12,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -173,12 +172,7 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		color.xCoord *= pressureFactor;
 		color.yCoord *= pressureFactor;
 		color.zCoord *= pressureFactor;
-		if(Minecraft.getMinecraft().renderViewEntity.posY > 300) {
-			double curvature = MathHelper.clamp_float((800.0F - (float)Minecraft.getMinecraft().renderViewEntity.posY) / 500.0F, 0.0F, 1.0F);
-			color.xCoord *= curvature;
-			color.zCoord *= curvature;
-			color.yCoord *= curvature;
-		}
+
 		return color;
 	}
 
@@ -434,6 +428,15 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		double f2 = f1;
 		f1 = 0.5F - Math.cos(f1 * Math.PI) / 2.0F;
 		return (float)(f2 + (f1 - f2) / 3.0D);
+	}
+
+	@Override
+	public float getCurrentMoonPhaseFactor() {
+		// Closest satellite determines monster spawning
+		CelestialBody body = CelestialBody.getBody(worldObj);
+		if(body.satellites.size() == 0) return 0.5F;
+		// SolarSystem.calculateSingleAngle(worldObj, 0, body, body.satellites.get(0));
+		return 0.5F;
 	}
 
 	// This is the vanilla junk table, for replacing fish on dead worlds

@@ -169,8 +169,12 @@ public class RocketStruct {
 	}
 
 	public boolean hasSufficientFuel(CelestialBody from, CelestialBody to, boolean fromOrbit, boolean toOrbit) {
+		if(capsule.part == ModItems.rp_pod_20) {
+			return from == to && (fromOrbit || toOrbit); // Pods can transfer, fall to orbited body, and return to station, but NOT hop on the surface
+		}
+
 		if(stages.size() == 0) {
-			return from == to && (fromOrbit || capsule.part == ModItems.rp_pod_20);
+			return from == to && fromOrbit && !toOrbit; // Capsules can return to orbited body from orbit only
 		}
 
 		int fuelRequirement = getFuelRequired(0, from, to, fromOrbit, toOrbit);

@@ -83,6 +83,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		TIPPING,		// tipping culture is a burden on modern society
 		DOCKING,		// Arriving at an orbital station
 		UNDOCKING,		// Leaving an orbital station
+		NEEDSFUEL,		// Needs fuel, once fueled it will transition to AWAITING
 	}
 
 	public EntityRideableRocket(World world) {
@@ -131,7 +132,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 		if(!sizeSet) {
 			setSize(2, (float)getRocket().getHeight() + 1);
-			if(!worldObj.isRemote && getState() == RocketState.LANDED) dock();
+			if(!worldObj.isRemote && (state == RocketState.LANDED || state == RocketState.AWAITING || state == RocketState.NEEDSFUEL)) dock();
 		}
 
 		EntityPlayer rider = (EntityPlayer) this.riddenByEntity;
@@ -148,6 +149,9 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				Target to = getTarget();
 
 				RocketState transitionTo = from.inOrbit ? RocketState.UNDOCKING : RocketState.LAUNCHING;
+
+				targetX = (int)posX + 10000;
+				targetZ = (int)posZ;
 
 				// To another body
 				if(getRocket().hasSufficientFuel(from.body, to.body, from.inOrbit, to.inOrbit)) {
@@ -194,7 +198,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				preDock();
 
 				if(posY + height > 128.5D) {
-					setState(RocketState.LANDED);
+					setState(isReusable() ? RocketState.NEEDSFUEL : RocketState.LANDED);
 					posY = 128.5D - height;
 
 					dock();
@@ -339,7 +343,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 	@Override
 	protected double motionMult() {
 		RocketState state = getState();
-		if(state == RocketState.AWAITING || state == RocketState.LANDED) return 0;
+		if(state == RocketState.AWAITING || state == RocketState.LANDED || state == RocketState.NEEDSFUEL) return 0;
 		return 4;
 	}
 
@@ -480,7 +484,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		|| state == RocketState.LANDED
 		|| (state == RocketState.LANDING && motionY <= -0.4)
 		|| state == RocketState.DOCKING
-		|| state == RocketState.UNDOCKING)
+		|| state == RocketState.UNDOCKING
+		|| state == RocketState.NEEDSFUEL)
 			return;
 
 		RocketStruct rocket = getRocket();
@@ -632,7 +637,9 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		boolean canLaunch = state == RocketState.AWAITING;
 
 		// Check if the stage can make the journey
-		if(!rocket.hasSufficientFuel(from.body, to.body, from.inOrbit, to.inOrbit) || to.body == null) {
+		if(state == RocketState.NEEDSFUEL) {
+			text.add(EnumChatFormatting.RED + "Rocket has no fuel!");
+		} else if(!rocket.hasSufficientFuel(from.body, to.body, from.inOrbit, to.inOrbit) || to.body == null) {
 			if(to.body != null) text.add(EnumChatFormatting.RED + "Rocket can't reach destination!");
 			canLaunch = false;
 		}
@@ -657,7 +664,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 			}
 
 			ItemStack stack = player.getHeldItem();
-			if(stack != null && stack.getItem() instanceof ItemVOTVdrive) {
+			if((state == RocketState.LANDED || state == RocketState.AWAITING) && stack != null && stack.getItem() instanceof ItemVOTVdrive) {
 				if(ItemVOTVdrive.getProcessed(stack)) {
 					text.add("Interact to swap drive");
 				}
