@@ -214,6 +214,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 						posZ = targetPort.zCoord + 0.5D;
 		
 						targetPort.despawnRocket();
+						targetPort.reservePort();
 		
 						if(posY + height > targetPort.yCoord + 1.5D) {
 							setState(isReusable() ? RocketState.NEEDSFUEL : RocketState.LANDED);

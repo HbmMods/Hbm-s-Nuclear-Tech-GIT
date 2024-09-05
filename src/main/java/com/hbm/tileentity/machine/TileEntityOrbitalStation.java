@@ -33,6 +33,8 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase implements I
 
 	private FluidTank[] tanks;
 
+	public boolean isReserved = false;
+
 	// Client synced state information
 	public boolean hasDocked = false;
 	public boolean hasRider = false;
@@ -105,6 +107,8 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase implements I
 			hasRider = hasDocked && docked.riddenByEntity != null;
 			needsFuel = hasDocked && docked.isReusable();
 			hasFuel = needsFuel && hasSufficientFuel(docked.getTarget().inOrbit);
+
+			if(hasDocked) isReserved = false;
 
 			this.networkPackNT(OrbitalStation.STATION_SIZE / 2);
 		} else {
@@ -183,6 +187,10 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase implements I
 			docked.setDead();
 			docked = null;
 		}
+	}
+
+	public void reservePort() {
+		isReserved = true;
 	}
 
 	public void spawnRocket(ItemStack stack) {

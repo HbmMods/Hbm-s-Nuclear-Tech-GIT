@@ -106,7 +106,7 @@ public class OrbitalStation {
 		// First, find any port that's available
 		int index = 0;
 		for(TileEntityOrbitalStation port : ports.values()) {
-			if(!port.hasDocked) {
+			if(!port.hasDocked && !port.isReserved) {
 				portIndex = index;
 				return port;
 			}
