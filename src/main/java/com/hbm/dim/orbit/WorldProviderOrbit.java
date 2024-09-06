@@ -35,7 +35,7 @@ public class WorldProviderOrbit extends WorldProvider {
 	}
 
 	public float getSunPower() {
-		double progress = OrbitalStation.clientStation.getProgress(0);
+		double progress = OrbitalStation.clientStation.getTransferProgress(0);
 		float sunPower = OrbitalStation.clientStation.orbiting.getSunPower();
 		if(progress > 0) {
 			return (float)BobMathUtil.lerp(progress, sunPower, OrbitalStation.clientStation.target.getSunPower());
@@ -90,7 +90,7 @@ public class WorldProviderOrbit extends WorldProvider {
 		float distanceStart = 9_000_000;
 		float distanceEnd = 30_000_000;
 
-		double progress = OrbitalStation.clientStation.getProgress(par1);
+		double progress = OrbitalStation.clientStation.getTransferProgress(par1);
 		float semiMajorAxisKm = OrbitalStation.clientStation.orbiting.getPlanet().semiMajorAxisKm;
 		if(progress > 0) {
 			semiMajorAxisKm = (float)BobMathUtil.lerp(progress, semiMajorAxisKm, OrbitalStation.clientStation.target.getPlanet().semiMajorAxisKm);
@@ -148,7 +148,7 @@ public class WorldProviderOrbit extends WorldProvider {
 	public float calculateCelestialAngle(long worldTime, float partialTicks) {
 		CelestialBody orbiting = OrbitalStation.clientStation.orbiting;
 		CelestialBody target = OrbitalStation.clientStation.target;
-		double progress = OrbitalStation.clientStation.getProgress(partialTicks);
+		double progress = OrbitalStation.clientStation.getTransferProgress(partialTicks);
 		float angle = (float)SolarSystem.calculateSingleAngle(worldObj, partialTicks, orbiting, getOrbitalAltitude(orbiting));
 		if(progress > 0) {
 			angle = (float)BobMathUtil.lerp(progress, angle, (float)SolarSystem.calculateSingleAngle(worldObj, partialTicks, target, getOrbitalAltitude(target)));

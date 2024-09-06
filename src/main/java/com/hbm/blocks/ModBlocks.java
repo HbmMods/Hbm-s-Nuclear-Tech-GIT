@@ -1335,6 +1335,7 @@ public class ModBlocks {
 	public static Block orbital_station;
 	public static Block orbital_station_port;
 	public static Block orbital_station_computer;
+	public static Block propulsion_creative;
 	
 	public static Material materialGas = new MaterialGas();
 		
@@ -2579,6 +2580,7 @@ public class ModBlocks {
 		orbital_station = new BlockOrbitalStation(Material.iron).setBlockName("orbital_station").setBlockUnbreakable().setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		orbital_station_port = new BlockOrbitalStation(Material.iron).setBlockName("orbital_station_port").setHardness(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		orbital_station_computer = new BlockOrbitalStationComputer(Material.iron).setBlockName("orbital_station_computer").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		propulsion_creative = new BlockStationPropulsionCreative(Material.iron).setBlockName("propulsion_creative").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 	}
 
 	private static void registerBlock() {
@@ -3808,6 +3810,7 @@ public class ModBlocks {
 		register(orbital_station);
 		register(orbital_station_port);
 		register(orbital_station_computer);
+		register(propulsion_creative);
 	}
 	
 	private static void register(Block b) {

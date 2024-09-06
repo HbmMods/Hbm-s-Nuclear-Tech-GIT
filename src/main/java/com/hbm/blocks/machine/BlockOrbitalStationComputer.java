@@ -8,9 +8,11 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.orbit.OrbitalStation;
+import com.hbm.dim.orbit.OrbitalStation.StationState;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ItemVOTVdrive.Destination;
 import com.hbm.tileentity.machine.TileEntityOrbitalStationComputer;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.material.Material;
@@ -76,16 +78,33 @@ public class BlockOrbitalStationComputer extends BlockDummyable implements ILook
 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
-		if(!CelestialBody.inOrbit(world)) return;
-
-		List<String> text = new ArrayList<>();
+		if(!CelestialBody.inOrbit(world)) {
+			List<String> text = new ArrayList<String>();
+			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! MUST BE IN ORBIT ! ! !");
+			ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+			return;
+		}
 
 		OrbitalStation station = OrbitalStation.clientStation;
 		double progress = station.getUnscaledProgress(0);
-		if(progress == 0) return;
+		List<String> text = new ArrayList<>();
 
-		text.add(EnumChatFormatting.AQUA + "Travelling to: " + EnumChatFormatting.RESET + I18nUtil.resolveKey("body." + station.target.name));
-		text.add(EnumChatFormatting.AQUA + "Progress: " + EnumChatFormatting.RESET + "" + Math.round(progress * 100) + "%");
+		if(station.error != null) {
+			text.add(EnumChatFormatting.RED + station.error);
+		} else if(progress > 0) {
+			if(station.state == StationState.LEAVING) {
+				text.add(EnumChatFormatting.AQUA + "Engaging engines for burn to: " + EnumChatFormatting.RESET + I18nUtil.resolveKey("body." + station.target.name));
+			} else if(station.state == StationState.ARRIVING) {
+				text.add(EnumChatFormatting.AQUA + "Disengaging engines");
+			} else {
+				text.add(EnumChatFormatting.AQUA + "Travelling to: " + EnumChatFormatting.RESET + I18nUtil.resolveKey("body." + station.target.name));
+			}
+			text.add(EnumChatFormatting.AQUA + "Progress: " + EnumChatFormatting.RESET + "" + Math.round(progress * 100) + "%");
+		}
+
+		if(text.isEmpty()) {
+			text.add("Insert a drive to begin journey");
+		}
 	
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}

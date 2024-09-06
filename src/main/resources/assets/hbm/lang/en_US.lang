@@ -6069,6 +6069,7 @@ tile.pribris.name=RBMK Debris
 tile.pribris_burning.name=Flaming RBMK Debris
 tile.pribris_digamma.name=Blackened RBMK Debris
 tile.pribris_radiating.name=Smoldering RBMK Debris
+tile.propulsion_creative.name=Creative Station Propulsion
 tile.pump_electric.name=Electric Groundwater Pump
 tile.pump_electric.desc=Uses electricity to pump up groundwater$Generates up to 10,000mB/t$Needs to be placed below Y:70
 tile.pump_steam.name=Steam-Powered Groundwater Pump

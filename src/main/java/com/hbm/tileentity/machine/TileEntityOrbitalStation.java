@@ -4,6 +4,7 @@ import java.util.Stack;
 import java.util.stream.IntStream;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.entity.missile.EntityRideableRocket;
@@ -58,12 +59,14 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase implements I
 
 	@Override
 	public void updateEntity() {
+		if(!CelestialBody.inOrbit(worldObj)) return;
+
 		if(!worldObj.isRemote) {
 			// Station TEs handle syncing information about the current orbital parameters to players on the station
 			station = OrbitalStation.getStationFromPosition(xCoord, zCoord);
 
 			if(isCore()) station.update(worldObj);
-			station.addPort(xCoord, yCoord, zCoord, this);
+			station.addPort(this);
 
 			if(docked != null && docked.isReusable()) {
 				int fillRequirement = getFillRequirement(false); // Use higher fill requirement for tank sizing

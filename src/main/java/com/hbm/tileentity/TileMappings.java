@@ -377,6 +377,7 @@ public class TileMappings {
 		put(TileEntityTransporterRocket.class, "tileentity_transporter");
 		put(TileEntityOrbitalStation.class, "tileentity_orbital_station");
 		put(TileEntityOrbitalStationComputer.class, "tileentity_orbital_station_computer");
+		put(TileEntityStationPropulsionCreative.class, "tileentity_propulsion_creative");
 	}
 	
 	private static void putPile() {

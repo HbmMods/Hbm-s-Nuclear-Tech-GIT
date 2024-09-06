@@ -24,7 +24,7 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
 		WorldProviderOrbit provider = (WorldProviderOrbit) world.provider;
 		OrbitalStation station = OrbitalStation.clientStation;
-		double progress = station.getProgress(partialTicks);
+		double progress = station.getTransferProgress(partialTicks);
 		float orbitalTilt = 80;
 
 		GL11.glDepthMask(false);

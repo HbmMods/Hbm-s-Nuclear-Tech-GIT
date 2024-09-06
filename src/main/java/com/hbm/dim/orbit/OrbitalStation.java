@@ -1,5 +1,6 @@
 package com.hbm.dim.orbit;
 
+import java.util.HashSet;
 import java.util.HashMap;
 
 import com.hbm.blocks.BlockDummyable;
@@ -10,8 +11,11 @@ import com.hbm.dim.SolarSystem;
 import com.hbm.dim.SolarSystemWorldSavedData;
 import com.hbm.handler.ThreeInts;
 import com.hbm.tileentity.machine.TileEntityOrbitalStation;
+import com.hbm.util.BufferUtil;
 
+import api.hbm.tile.IPropulsion;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -31,15 +35,20 @@ public class OrbitalStation {
 	public int dX;
 	public int dZ;
 
+	public String error;
+	public int errorTimer;
+
 	public enum StationState {
 		ORBIT, // big chillin
-		LEAVING, // leaving orbit
+		LEAVING, // prepare engines for transfer
 		TRANSFER, // going from A to B
-		ARRIVING, // we got there
+		ARRIVING, // spool down engines
 	}
 
 	private HashMap<ThreeInts, TileEntityOrbitalStation> ports = new HashMap<>();
 	private int portIndex = 0;
+
+	private HashSet<IPropulsion> engines = new HashSet<>();
 
 	public static OrbitalStation clientStation = new OrbitalStation(CelestialBody.getBody(0));
 
@@ -72,32 +81,109 @@ public class OrbitalStation {
 
 	public void travelTo(World world, CelestialBody target) {
 		if(state != StationState.ORBIT) return; // only when at rest can we start a new journey
+		if(!canTravel()) return;
 
-		double distance = SolarSystem.calculateDistanceBetweenTwoBodies(world, orbiting, target);
-
-		state = StationState.TRANSFER;
-		stateTimer = 0;
-		maxStateTimer = (int)(Math.log(1 + (distance / 1000)) * 125);
+		setState(StationState.LEAVING, getLeaveTime());
 		this.target = target;
 	}
 
 	public void update(World world) {
 		if(!world.isRemote) {
-			if(state == StationState.TRANSFER) {
+			if(state == StationState.LEAVING) {
 				if(stateTimer > maxStateTimer) {
-					state = StationState.ORBIT;
+					setState(StationState.TRANSFER, getTransferTime(world));
+				}
+			} else if(state == StationState.TRANSFER) {
+				if(stateTimer > maxStateTimer) {
+					setState(StationState.ARRIVING, getArriveTime());
 					orbiting = target;
+				}
+			} else if(state == StationState.ARRIVING) {
+				if(stateTimer > maxStateTimer) {
+					setState(StationState.ORBIT, 0);
 				}
 			}
 
 			SolarSystemWorldSavedData.get().markDirty();
+
+			if(engines.size() == 0) {
+				setError("No engines available");
+				errorTimer = 2;
+			}
+
+			errorTimer--;
+			if(errorTimer <= 0) {
+				error = null;
+				errorTimer = 0;
+			}
 		}
 
 		stateTimer++;
 	}
 
-	public void addPort(int x, int y, int z, TileEntityOrbitalStation port) {
-		ports.put(new ThreeInts(x, y, z), port);
+	private boolean canTravel() {
+		if(engines.size() == 0) return false;
+
+		for(IPropulsion engine : engines) {
+			if(!engine.canPerformBurn(100_000, 5_000)) {
+				setError("Engines require fuel");
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	// Has the side effect of beginning engine burns
+	private int getLeaveTime() {
+		int leaveTime = 0;
+		for(IPropulsion engine : engines) {
+			int time = engine.startBurn();
+			if(time > leaveTime) leaveTime = time;
+		}
+		return leaveTime;
+	}
+
+	// And this one will end engine burns
+	private int getArriveTime() {
+		int arriveTime = 0;
+		for(IPropulsion engine : engines) {
+			int time = engine.endBurn();
+			if(time > arriveTime) arriveTime = time;
+		}
+		return arriveTime;
+	}
+
+	private int getTransferTime(World world) {
+		double distance = SolarSystem.calculateDistanceBetweenTwoBodies(world, orbiting, target);
+		return (int)(Math.log(1 + (distance / 1000)) * 125);
+	}
+
+	private void setState(StationState state, int timeUntilNext) {
+		this.state = state;
+		stateTimer = 0;
+		maxStateTimer = timeUntilNext;
+	}
+
+	private void setError(String error) {
+		this.error = error;
+		errorTimer = 100;
+	}
+	
+	public static void addPropulsion(IPropulsion propulsion) {
+		TileEntity te = propulsion.getTileEntity();
+		OrbitalStation station = getStationFromPosition(te.xCoord, te.zCoord);
+		station.engines.add(propulsion);
+	}
+
+	public static void removePropulsion(IPropulsion propulsion) {
+		TileEntity te = propulsion.getTileEntity();
+		OrbitalStation station = getStationFromPosition(te.xCoord, te.zCoord);
+		station.engines.remove(propulsion);
+	}
+
+	public void addPort(TileEntityOrbitalStation port) {
+		ports.put(new ThreeInts(port.xCoord, port.yCoord, port.zCoord), port);
 	}
 
 	public TileEntityOrbitalStation getPort() {
@@ -125,11 +211,12 @@ public class OrbitalStation {
 	}
 
 	public double getUnscaledProgress(float partialTicks) {
-		if(state != StationState.TRANSFER) return 0;
+		if(state == StationState.ORBIT) return 0;
 		return MathHelper.clamp_double(((double)stateTimer + partialTicks) / (double)maxStateTimer, 0, 1);
 	}
 
-	public double getProgress(float partialTicks) {
+	public double getTransferProgress(float partialTicks) {
+		if(state != StationState.TRANSFER) return 0;
 		return easeInOutCirc(getUnscaledProgress(partialTicks));
 	}
 
@@ -162,6 +249,7 @@ public class OrbitalStation {
 		buf.writeInt(state.ordinal());
 		buf.writeInt(stateTimer);
 		buf.writeInt(maxStateTimer);
+		BufferUtil.writeString(buf, error);
 	}
 
 	public static OrbitalStation deserialize(ByteBuf buf) {
@@ -170,6 +258,7 @@ public class OrbitalStation {
 		station.state = StationState.values()[buf.readInt()];
 		station.stateTimer = buf.readInt();
 		station.maxStateTimer = buf.readInt();
+		station.error = BufferUtil.readString(buf);
 		return station;
 	}
 

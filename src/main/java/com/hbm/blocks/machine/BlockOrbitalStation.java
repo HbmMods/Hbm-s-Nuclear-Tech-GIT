@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.dim.CelestialBody;
 import com.hbm.handler.RocketStruct;
 import com.hbm.handler.atmosphere.IBlockSealable;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -12,6 +13,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomRocket;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityOrbitalStation;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.material.Material;
@@ -127,6 +129,13 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
+		if(!CelestialBody.inOrbit(world)) {
+			List<String> text = new ArrayList<String>();
+			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! MUST BE IN ORBIT ! ! !");
+			ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+			return;
+		}
+
 		int[] pos = this.findCore(world, x, y, z);
 		
 		if(pos == null)
