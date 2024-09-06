@@ -83,6 +83,7 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 			int stateTimer = stationTag.getInteger("stateTimer");
 			int maxStateTimer = stationTag.getInteger("maxStateTimer");
 			boolean hasStation = stationTag.getBoolean("hasStation");
+			String name = stationTag.getString("name");
 
 			ChunkCoordIntPair pos = new ChunkCoordIntPair(x, z);
 			OrbitalStation station = new OrbitalStation(orbiting, x, z);
@@ -91,6 +92,7 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 			station.stateTimer = stateTimer;
 			station.maxStateTimer = maxStateTimer;
 			station.hasStation = hasStation;
+			station.name = name;
 
 			stations.put(pos, station);
 		}
@@ -122,6 +124,7 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 			stationTag.setInteger("stateTimer", station.stateTimer);
 			stationTag.setInteger("maxStateTimer", station.maxStateTimer);
 			stationTag.setBoolean("hasStation", station.hasStation);
+			stationTag.setString("name", station.name);
 
 			stationList.appendTag(stationTag);
 		}

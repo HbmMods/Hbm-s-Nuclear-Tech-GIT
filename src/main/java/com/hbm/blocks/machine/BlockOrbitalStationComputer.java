@@ -11,10 +11,12 @@ import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.dim.orbit.OrbitalStation.StationState;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ItemVOTVdrive.Destination;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityOrbitalStationComputer;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -69,7 +71,10 @@ public class BlockOrbitalStationComputer extends BlockDummyable implements ILook
 
 			ItemStack heldStack = player.getHeldItem();
 
-			if(heldStack != null && heldStack.getItem() instanceof ItemVOTVdrive && computer.slots[0] == null) {
+			if(heldStack != null && heldStack.getItem() instanceof ItemVOTVdrive) {
+				if(computer.slots[0] != null)
+					return false;
+
 				Destination destination = ItemVOTVdrive.getDestination(heldStack);
 		
 				if(destination.body == SolarSystem.Body.ORBIT)
@@ -86,6 +91,8 @@ public class BlockOrbitalStationComputer extends BlockDummyable implements ILook
 					player.dropPlayerItemWithRandomChoice(computer.slots[0].copy(), false);
 				}
 				computer.slots[0] = null;
+			} else {
+				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			}
 
 			

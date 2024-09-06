@@ -3,12 +3,23 @@ package com.hbm.tileentity.machine;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.dim.orbit.OrbitalStation.StationState;
+import com.hbm.interfaces.IControlReceiver;
+import com.hbm.inventory.container.ContainerOrbitalStationComputer;
+import com.hbm.inventory.gui.GUIOrbitalStationComputer;
+import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
-public class TileEntityOrbitalStationComputer extends TileEntityMachineBase {
+public class TileEntityOrbitalStationComputer extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
 
 	public boolean hasDrive;
 	
@@ -56,6 +67,30 @@ public class TileEntityOrbitalStationComputer extends TileEntityMachineBase {
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		hasDrive = buf.readBoolean();
+	}
+
+	@Override
+	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerOrbitalStationComputer();
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GUIOrbitalStationComputer(this);
+	}
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return true;
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		if(data.hasKey("name")) {
+			OrbitalStation station = OrbitalStation.getStationFromPosition(xCoord, zCoord);
+			station.name = data.getString("name");
+		}
 	}
 
 }

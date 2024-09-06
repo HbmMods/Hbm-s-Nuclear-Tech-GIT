@@ -22,6 +22,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class OrbitalStation {
 
+	public String name; // I dub thee
+
 	public CelestialBody orbiting;
 	public CelestialBody target;
 
@@ -249,6 +251,7 @@ public class OrbitalStation {
 		buf.writeInt(state.ordinal());
 		buf.writeInt(stateTimer);
 		buf.writeInt(maxStateTimer);
+		BufferUtil.writeString(buf, name);
 		BufferUtil.writeString(buf, error);
 	}
 
@@ -258,6 +261,7 @@ public class OrbitalStation {
 		station.state = StationState.values()[buf.readInt()];
 		station.stateTimer = buf.readInt();
 		station.maxStateTimer = buf.readInt();
+		station.name = BufferUtil.readString(buf);
 		station.error = BufferUtil.readString(buf);
 		return station;
 	}
