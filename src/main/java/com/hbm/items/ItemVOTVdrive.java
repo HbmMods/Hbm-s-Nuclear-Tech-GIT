@@ -44,11 +44,9 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 		Destination destination = getDestination(stack);
 
 		if(destination.body == SolarSystem.Body.ORBIT) {
-			String identifier = "0x" + Integer.toHexString(new ChunkCoordIntPair(destination.x, destination.z).hashCode()).toUpperCase();
-
-			if(stack.stackTagCompound.hasKey("stationName")) {
-				identifier = stack.stackTagCompound.getString("stationName");
-			}
+			String identifier = stack.stackTagCompound.getString("stationName");
+			
+			if(identifier.equals("")) identifier = "0x" + Integer.toHexString(new ChunkCoordIntPair(destination.x, destination.z).hashCode()).toUpperCase();
 			
 			list.add("Destination: ORBITAL STATION");
 			list.add("Station: " + identifier);
@@ -149,7 +147,7 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 			if(!station.hasStation) station.orbiting = CelestialBody.getBody(world);
 
 			// The client can't get this information, so any time the server grabs it, serialize it to the itemstack
-			stack.stackTagCompound.setString("stationName", station.name);
+			if(station.name != null) stack.stackTagCompound.setString("stationName", station.name);
 			stack.stackTagCompound.setInteger("sDim", station.orbiting.dimensionId);
 			stack.stackTagCompound.setBoolean("sHas", station.hasStation);
 
