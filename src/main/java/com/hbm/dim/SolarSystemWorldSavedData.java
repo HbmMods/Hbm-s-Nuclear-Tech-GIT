@@ -124,7 +124,7 @@ public class SolarSystemWorldSavedData extends WorldSavedData {
 			stationTag.setInteger("stateTimer", station.stateTimer);
 			stationTag.setInteger("maxStateTimer", station.maxStateTimer);
 			stationTag.setBoolean("hasStation", station.hasStation);
-			if(station.name != null) stationTag.setString("name", station.name);
+			stationTag.setString("name", station.name);
 
 			stationList.appendTag(stationTag);
 		}

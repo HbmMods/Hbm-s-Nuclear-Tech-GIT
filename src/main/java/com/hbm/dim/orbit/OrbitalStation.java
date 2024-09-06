@@ -22,7 +22,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class OrbitalStation {
 
-	public String name; // I dub thee
+	public String name = ""; // I dub thee
 
 	public CelestialBody orbiting;
 	public CelestialBody target;

@@ -147,7 +147,7 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 			if(!station.hasStation) station.orbiting = CelestialBody.getBody(world);
 
 			// The client can't get this information, so any time the server grabs it, serialize it to the itemstack
-			if(station.name != null) stack.stackTagCompound.setString("stationName", station.name);
+			stack.stackTagCompound.setString("stationName", station.name);
 			stack.stackTagCompound.setInteger("sDim", station.orbiting.dimensionId);
 			stack.stackTagCompound.setBoolean("sHas", station.hasStation);
 
