@@ -499,6 +499,7 @@ public class ResourceManager {
 	//Space
 	public static final ResourceLocation solarp_tex = new ResourceLocation(RefStrings.MODID, "textures/models/solar_panel.png"); //haha... "larp"
 	public static final ResourceLocation stardar_tex = new ResourceLocation(RefStrings.MODID, "textures/models/antenna.png");
+	public static final ResourceLocation drive_processor_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/drive_processor.png");
 	public static final ResourceLocation air_scrubber_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/air_scrubber.png");
 	public static final ResourceLocation orbital_computer_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/spaceship_computer.png");
 

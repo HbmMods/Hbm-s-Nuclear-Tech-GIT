@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.tileentity.machine.TileEntityOrbitalStationComputer;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -16,6 +17,9 @@ public class RenderOrbitalComputer extends TileEntitySpecialRenderer implements 
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
+		if(!(te instanceof TileEntityOrbitalStationComputer)) return;
+		TileEntityOrbitalStationComputer computer = (TileEntityOrbitalStationComputer) te;
+
 		GL11.glPushMatrix();
 		{
 
@@ -32,7 +36,12 @@ public class RenderOrbitalComputer extends TileEntitySpecialRenderer implements 
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			
 			bindTexture(ResourceManager.orbital_computer_tex);
-			ResourceManager.orbital_computer.renderAll();
+			ResourceManager.orbital_computer.renderAllExcept("Drive");
+
+			if(computer.hasDrive) {
+				bindTexture(ResourceManager.drive_processor_tex);
+				ResourceManager.orbital_computer.renderPart("Drive");
+			}
 
 			GL11.glShadeModel(GL11.GL_FLAT);
 
@@ -51,7 +60,7 @@ public class RenderOrbitalComputer extends TileEntitySpecialRenderer implements 
 				GL11.glDisable(GL11.GL_CULL_FACE);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				bindTexture(ResourceManager.orbital_computer_tex);
-				ResourceManager.orbital_computer.renderAll();
+				ResourceManager.orbital_computer.renderAllExcept("Drive");
 				GL11.glShadeModel(GL11.GL_FLAT);
 				GL11.glEnable(GL11.GL_CULL_FACE);
 			}

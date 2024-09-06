@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.tileentity.machine.TileEntityMachineDriveProcessor;
@@ -12,12 +11,9 @@ import com.hbm.tileentity.machine.TileEntityMachineDriveProcessor;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 public class RenderDriveProcessor extends TileEntitySpecialRenderer implements IItemRendererProvider {
-
-	private static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/models/machines/drive_processor.png");
 
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
@@ -40,7 +36,7 @@ public class RenderDriveProcessor extends TileEntitySpecialRenderer implements I
 			case 5: GL11.glRotatef(270, 0F, 1F, 0F); break;
 			}
 	
-			bindTexture(texture);
+			bindTexture(ResourceManager.drive_processor_tex);
 			ResourceManager.drive_processor.renderPart("Base");
 
 			if(processor.hasDrive)
@@ -63,7 +59,7 @@ public class RenderDriveProcessor extends TileEntitySpecialRenderer implements I
 				GL11.glTranslated(0.5, 0, 0);
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 	
-				bindTexture(texture);
+				bindTexture(ResourceManager.drive_processor_tex);
 				ResourceManager.drive_processor.renderPart("Base");
 				ResourceManager.drive_processor.renderPart("Drive");
 
