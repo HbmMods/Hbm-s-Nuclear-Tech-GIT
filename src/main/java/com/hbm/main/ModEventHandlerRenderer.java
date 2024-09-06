@@ -8,7 +8,6 @@ import com.hbm.config.RadiationConfig;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
-import com.hbm.items.weapon.sedna.ItemGunBase;
 import com.hbm.packet.PermaSyncHandler;
 import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
 import com.hbm.render.model.ModelMan;
@@ -418,16 +417,14 @@ public class ModEventHandlerRenderer {
 	@SubscribeEvent
 	public void onRenderHand(RenderHandEvent event) {
 		
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		ItemStack held = player.getHeldItem();
+		//can't use plaxer.getHeldItem() here because the item rendering persists for a few frames after hitting the switch key
+		ItemStack toRender = Minecraft.getMinecraft().entityRenderer.itemRenderer.itemToRender;
 		
-		if(held != null) {
-			IItemRenderer renderer = MinecraftForgeClient.getItemRenderer(held, ItemRenderType.EQUIPPED_FIRST_PERSON);
+		if(toRender != null) {
+			IItemRenderer renderer = MinecraftForgeClient.getItemRenderer(toRender, ItemRenderType.EQUIPPED_FIRST_PERSON);
 			
 			if(renderer instanceof ItemRenderWeaponBase) {
-				renderer.renderItem(ItemRenderType.FIRST_PERSON_MAP, held, null /*RenderBlocks*/, player);
-				//Minecraft.getMinecraft().entityRenderer.itemRenderer.renderItemInFirstPerson(event.partialTicks);
-				
+				((ItemRenderWeaponBase) renderer).setPerspectiveAndRender(toRender, event.partialTicks);
 				event.setCanceled(true);
 			}
 		}
