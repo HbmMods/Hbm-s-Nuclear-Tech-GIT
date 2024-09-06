@@ -16,3 +16,4 @@
 * Fixed fluid valves visually disconnecting when switching state
 * Fixed fluid valves no visually connecting when type is set
 * Fixed falling blocks spawned by nukes or impulse grenades dropping blocks that don't have drops
+* Added even more exception handling to CompStacks, hopefully fixing an incompatibility with Mana Metal

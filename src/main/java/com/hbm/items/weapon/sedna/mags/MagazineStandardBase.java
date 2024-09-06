@@ -9,7 +9,7 @@ import com.hbm.items.weapon.sedna.Receiver;
 
 import net.minecraft.item.ItemStack;
 
-/** Base class for typical magazines, i.e. ones that hold bullets, shells, grenades, etc, any ammo item */
+/** Base class for typical magazines, i.e. ones that hold bullets, shells, grenades, etc, any ammo item. Type methods deal with BulletConfigs */
 public abstract class MagazineStandardBase implements IMagazine {
 	
 	public static final String KEY_MAG_COUNT = "magcount";
@@ -33,10 +33,17 @@ public abstract class MagazineStandardBase implements IMagazine {
 	@Override
 	public Object getType(ItemStack stack) {
 		int type = getMagType(stack, index);
-		if(type >= 0 && type < BulletConfig.configs.size()) {
-			return BulletConfig.configs.get(type);
+		if(type >= 0 && type < acceptedBullets.size()) {
+			return acceptedBullets.get(type);
 		}
 		return null;
+	}
+
+	@Override
+	public void setType(ItemStack stack, Object type) {
+		if(!(type instanceof BulletConfig)) return;
+		int i = acceptedBullets.indexOf(type);
+		if(i >= 0) setMagType(stack, index, i);
 	}
 
 	@Override public int getCapacity(ItemStack stack) { return capacity; }

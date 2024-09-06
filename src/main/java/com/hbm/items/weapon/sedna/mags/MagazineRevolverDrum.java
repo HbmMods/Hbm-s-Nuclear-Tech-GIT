@@ -12,9 +12,63 @@ public class MagazineRevolverDrum extends MagazineStandardBase {
 		super(index, capacity);
 	}
 
+	/** Returns true if the player has the same ammo if partially loaded, or any valid ammo if not */
+	@Override
+	public boolean canReload(ItemStack stack, EntityPlayer player) {
+		
+		for(ItemStack slot : player.inventory.mainInventory) {
+			
+			if(slot != null) {
+				if(this.getAmount(stack) == 0) {
+					for(BulletConfig config : this.acceptedBullets) {
+						if(config.ammo.matchesRecipe(slot, true)) return true;
+					}
+				} else {
+					BulletConfig config = (BulletConfig) this.getType(stack);
+					if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); }
+					if(config.ammo.matchesRecipe(slot, true)) return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	/** Reloads all rounds at once. If the mag is empty, the mag's type will change to the first valid ammo type */
 	@Override
 	public void reloadAction(ItemStack stack, EntityPlayer player) {
 		
+		for(int i = 0; i < player.inventory.mainInventory.length; i++) {
+			ItemStack slot = player.inventory.mainInventory[i];
+			
+			if(slot != null) {
+				
+				//mag is empty, assume next best type
+				if(this.getAmount(stack) == 0) {
+					
+					for(BulletConfig config : this.acceptedBullets) {
+						if(config.ammo.matchesRecipe(slot, true)) {
+							this.setType(stack, config);
+							int toLoad = Math.min(this.getCapacity(stack), slot.stackSize);
+							this.setAmount(stack, toLoad);
+							player.inventory.decrStackSize(i, toLoad);
+							break;
+						}
+					}
+				//mag has a type set, only load that
+				} else {
+					BulletConfig config = (BulletConfig) this.getType(stack);
+					if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); } //fixing broken NBT
+
+					if(config.ammo.matchesRecipe(slot, true)) {
+						int alreadyLoaded = this.getAmount(stack);
+						int toLoad = Math.min(this.getCapacity(stack) - alreadyLoaded, slot.stackSize);
+						this.setAmount(stack, toLoad + alreadyLoaded);
+						player.inventory.decrStackSize(i, toLoad);
+					}
+				}
+			}
+		}
 	}
 
 	@Override

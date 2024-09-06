@@ -8,7 +8,9 @@ import com.hbm.config.RadiationConfig;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
+import com.hbm.items.weapon.sedna.ItemGunBase;
 import com.hbm.packet.PermaSyncHandler;
+import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
 import com.hbm.render.model.ModelMan;
 import com.hbm.world.biome.BiomeGenCraterBase;
 
@@ -33,11 +35,15 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.IItemRenderer.ItemRenderType;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.common.ForgeModContainer;
 
@@ -406,6 +412,24 @@ public class ModEventHandlerRenderer {
 			double horizontal = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.02), -0.7, 0.7) * 15;
 			double vertical = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 3;
 			GL11.glTranslated(horizontal * mult, vertical * mult, 0);
+		}
+	}
+
+	@SubscribeEvent
+	public void onRenderHand(RenderHandEvent event) {
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		ItemStack held = player.getHeldItem();
+		
+		if(held != null) {
+			IItemRenderer renderer = MinecraftForgeClient.getItemRenderer(held, ItemRenderType.EQUIPPED_FIRST_PERSON);
+			
+			if(renderer instanceof ItemRenderWeaponBase) {
+				renderer.renderItem(ItemRenderType.FIRST_PERSON_MAP, held, null /*RenderBlocks*/, player);
+				//Minecraft.getMinecraft().entityRenderer.itemRenderer.renderItemInFirstPerson(event.partialTicks);
+				
+				event.setCanceled(true);
+			}
 		}
 	}
 

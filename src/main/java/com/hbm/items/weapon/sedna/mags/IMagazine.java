@@ -7,12 +7,16 @@ public interface IMagazine {
 
 	/** What ammo is loaded currently */
 	public Object getType(ItemStack stack);
+	/** Sets the mag's ammo type */
+	public void setType(ItemStack stack, Object type);
 	/** How much ammo this mag can carry */
 	public int getCapacity(ItemStack stack);
 	/** How much ammo is currently loaded */
 	public int getAmount(ItemStack stack);
 	/** Sets the mag's ammo level */
 	public void setAmount(ItemStack stack, int amount);
+	/** If a reload can even be initiated, i.e. the player even has bullets to load */
+	public boolean canReload(ItemStack stack, EntityPlayer player);
 	/** The action done at the end of one reload cycle, either loading one shell or replacing the whole mag */
 	public void reloadAction(ItemStack stack, EntityPlayer player);
 	/** The stack that should be displayed for the ammo HUD */
