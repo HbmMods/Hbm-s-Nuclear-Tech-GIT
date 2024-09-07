@@ -3,7 +3,6 @@ package com.hbm.handler.neutron;
 import api.hbm.block.IPileNeutronReceiver;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.tileentity.machine.pile.TileEntityPileBase;
-import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import net.minecraft.block.Block;

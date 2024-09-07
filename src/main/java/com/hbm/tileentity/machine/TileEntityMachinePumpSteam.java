@@ -5,7 +5,6 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityMachinePumpSteam extends TileEntityMachinePumpBase {
 

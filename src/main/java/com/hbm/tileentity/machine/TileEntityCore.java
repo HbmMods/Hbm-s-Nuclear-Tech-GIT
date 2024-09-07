@@ -21,7 +21,6 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ArmorUtil;
-import com.hbm.util.BufferUtil;
 import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.tile.IInfoProviderEC;
