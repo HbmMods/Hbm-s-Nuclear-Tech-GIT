@@ -11,8 +11,6 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.BufPacket;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.block.RenderBlockMultipass;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
@@ -20,7 +18,6 @@ import com.hbm.util.I18nUtil;
 
 import api.hbm.fluid.IPipeNet;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;

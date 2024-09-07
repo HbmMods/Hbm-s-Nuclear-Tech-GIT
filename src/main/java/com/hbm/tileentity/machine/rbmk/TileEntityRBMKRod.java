@@ -234,8 +234,8 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	public void writeToNBTDiag(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setDouble("fluxSlow", this.fluxQuantity * (1 - fluxRatio));
-		nbt.setDouble("fluxFast", this.fluxQuantity * fluxRatio);
+		nbt.setDouble("fluxSlow", this.lastFluxQuantity * (1 - fluxRatio));
+		nbt.setDouble("fluxFast", this.lastFluxQuantity * fluxRatio);
 		nbt.setBoolean("hasRod", this.hasRod);
 	}
 
