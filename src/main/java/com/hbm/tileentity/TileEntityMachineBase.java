@@ -153,7 +153,7 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, val, id), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
 	@Deprecated public void processGauge(int val, int id) { }
-	
+
 	/** Sends a sync packet that uses ByteBuf for efficient information-cramming */
 	public void networkPackNT(int range) {
 		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));

@@ -200,7 +200,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			Vec3 neutronVector = Vec3.createVectorHelper(dir.offsetX, dir.offsetY, dir.offsetZ);
 
 			// Create new neutron streams
-			new RBMKNeutronStream(node, neutronVector, flux, ratio);
+			new RBMKNeutronHandler.RBMKNeutronStream(node, neutronVector, flux, ratio);
 		}
 	}
 	
