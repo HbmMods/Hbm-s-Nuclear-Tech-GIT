@@ -199,8 +199,8 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 				
 				this.trySubscribe(worldObj, xCoord + opp.offsetX, yCoord + opp.offsetY, zCoord + opp.offsetZ, opp);
 
-				PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 15));
-				
+				sendStandard(15);
+
 				this.powerSent = 0;
 				this.powerReceived = 0;
 			}

@@ -10,7 +10,6 @@ import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.inventory.gui.GUIHeaterHeatex;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -18,6 +17,7 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -27,7 +27,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHeatSource, INBTPacketReceiver, IFluidStandardTransceiver, IGUIProvider, IControlReceiver {
+public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHeatSource, IFluidStandardTransceiver, IGUIProvider, IControlReceiver {
 	
 	public FluidTank[] tanks;
 	public int amountToCool = 1;
@@ -56,28 +56,30 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 			
 			this.heatEnergy *= 0.999;
 			
-			NBTTagCompound data = new NBTTagCompound();
-			tanks[0].writeToNBT(data, "0");
-			this.tryConvert();
-			tanks[1].writeToNBT(data, "1");
-			data.setInteger("heat", heatEnergy);
-			data.setInteger("toCool", amountToCool);
-			data.setInteger("delay", tickDelay);
-			INBTPacketReceiver.networkPack(this, data, 25);
+			networkPackNT(25);
 			
 			for(DirPos pos : getConPos()) {
 				if(this.tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 		}
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		tanks[0].readFromNBT(nbt, "0");
-		tanks[1].readFromNBT(nbt, "1");
-		this.heatEnergy = nbt.getInteger("heat");
-		this.amountToCool = nbt.getInteger("toCool");
-		this.tickDelay = nbt.getInteger("delay");
+	public void serialize(ByteBuf buf) {
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+		buf.writeInt(this.heatEnergy);
+		buf.writeInt(this.amountToCool);
+		buf.writeInt(this.tickDelay);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
+		this.heatEnergy = buf.readInt();
+		this.amountToCool = buf.readInt();
+		this.tickDelay = buf.readInt();
 	}
 	
 	protected void setupTanks() {

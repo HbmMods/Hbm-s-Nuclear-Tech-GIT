@@ -133,19 +133,6 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 		steam.deserialize(buf);
 	}
 	
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.progress = nbt.getIntArray("progress");
-		this.maxProgress = nbt.getIntArray("maxProgress");
-		this.isProgressing = nbt.getBoolean("isProgressing");
-		
-		water.readFromNBT(nbt, "w");
-		steam.readFromNBT(nbt, "s");
-	}
-	
 	private int getWaterRequired() {
 		return 1000 / this.speed;
 	}

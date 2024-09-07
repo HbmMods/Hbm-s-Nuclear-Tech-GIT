@@ -3,11 +3,13 @@ package com.hbm.tileentity.machine.storage;
 import com.hbm.inventory.container.ContainerMassStorage;
 import com.hbm.inventory.gui.GUIMassStorage;
 import com.hbm.items.ModItems;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IControlReceiverFilter;
-import com.hbm.tileentity.INBTPacketReceiver;
 
+import com.hbm.util.BufferUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -16,7 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPacketReceiver, IControlReceiverFilter {
+public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPacketReceiver, IControlReceiverFilter {
 	
 	private int stack = 0;
 	public boolean output = false;
@@ -79,28 +81,30 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 					if(slots[2] == null) {
 						slots[2] = slots[1].copy();
 						slots[2].stackSize = amount;
-						this.stack -= amount;
 					} else {
 						amount = Math.min(amount, slots[2].getMaxStackSize() - slots[2].stackSize);
 						slots[2].stackSize += amount;
-						this.stack -= amount;
 					}
+					this.stack -= amount;
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("stack", getStockpile());
-			data.setBoolean("output", output);
-			if(slots[1] != null) slots[1].writeToNBT(data);
-			INBTPacketReceiver.networkPack(this, data, 15);
+
+			sendStandard(15);
 		}
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.stack = nbt.getInteger("stack");
-		this.output = nbt.getBoolean("output");
-		this.type = ItemStack.loadItemStackFromNBT(nbt);
+	public void serialize(ByteBuf buf) {
+		buf.writeInt(this.stack);
+		buf.writeBoolean(this.output);
+		BufferUtil.writeItemStack(buf, this.type);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.stack = buf.readInt();
+		this.output = buf.readBoolean();
+		this.type = BufferUtil.readItemStack(buf);
 	}
 	
 	public int getCapacity() {
@@ -180,12 +184,11 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 			if(slots[2] == null) {
 				slots[2] = slots[1].copy();
 				slots[2].stackSize = amount;
-				this.stack -= amount;
 			} else {
 				amount = Math.min(amount, slots[2].getMaxStackSize() - slots[2].stackSize);
 				slots[2].stackSize += amount;
-				this.stack -= amount;
 			}
+			this.stack -= amount;
 		}
 		
 		if(data.hasKey("toggle")) {

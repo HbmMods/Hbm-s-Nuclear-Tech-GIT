@@ -1,9 +1,5 @@
 package com.hbm.tileentity.network;
 
-import com.hbm.packet.NBTPacket;
-import com.hbm.packet.PacketDispatcher;
-
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -105,10 +101,6 @@ public abstract class TileEntityRequestNetworkContainer extends TileEntityReques
 		} else {
 			return null;
 		}
-	}
-	
-	public void networkPack(NBTTagCompound nbt, int range) {
-		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
 	
 	@Override

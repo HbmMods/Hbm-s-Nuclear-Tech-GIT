@@ -3,19 +3,16 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.packet.BufPacket;
-import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IBufPacketReceiver;
 
 import api.hbm.entity.RadarEntry;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
-public class TileEntityMachineRadarScreen extends TileEntity implements IBufPacketReceiver {
+public class TileEntityMachineRadarScreen extends TileEntityLoadedBase implements IBufPacketReceiver {
 	
 	public List<RadarEntry> entries = new ArrayList();
 	public int refX;
@@ -28,14 +25,10 @@ public class TileEntityMachineRadarScreen extends TileEntity implements IBufPack
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			this.networkPackNT(100);
+			this.sendStandard(100);
 			entries.clear();
 			this.linked = false;
 		}
-	}
-	
-	public void networkPackNT(int range) {
-		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
 	
 	@Override

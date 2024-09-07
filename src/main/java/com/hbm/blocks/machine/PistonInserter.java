@@ -4,11 +4,14 @@ import java.util.List;
 
 import com.hbm.blocks.BlockContainerBase;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.tileentity.INBTPacketReceiver;
 
 import api.hbm.block.IInsertable;
+import com.hbm.tileentity.IBufPacketReceiver;
+import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.util.BufferUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.material.Material;
@@ -206,7 +209,7 @@ public class PistonInserter extends BlockContainerBase implements ITooltipProvid
 	//		|___..---'			   _|____`-----..-----'\		
 	//		|_____________________|	@	|			    )
 	// average coding session involving tile entities
-	public static class TileEntityPistonInserter extends TileEntity implements IInventory, INBTPacketReceiver {
+	public static class TileEntityPistonInserter extends TileEntityLoadedBase implements IInventory, IBufPacketReceiver {
 		
 		public ItemStack slot;
 		
@@ -257,15 +260,7 @@ public class PistonInserter extends BlockContainerBase implements ITooltipProvid
 					delay--;
 				}
 				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setInteger("extend", extend);
-				if(this.slot != null) {
-					NBTTagCompound stack = new NBTTagCompound();
-					slot.writeToNBT(stack);
-					data.setTag("stack", stack);
-				}
-				
-				INBTPacketReceiver.networkPack(this, data, 25);
+				sendStandard(25);
 				
 			} else {
 				this.lastExtend = this.renderExtend;
@@ -279,22 +274,32 @@ public class PistonInserter extends BlockContainerBase implements ITooltipProvid
 			}
 			
 		}
-		
+
 		@Override
-		public void networkUnpack(NBTTagCompound nbt) {
-			this.syncExtend = nbt.getInteger("extend");
-			
-			if(nbt.hasKey("stack")) {
-				NBTTagCompound stack = nbt.getCompoundTag("stack");
+		public void serialize(ByteBuf buf) {
+			buf.writeInt(extend);
+
+			buf.writeBoolean(this.slot != null);
+			if(this.slot != null) {
+				BufferUtil.writeNBT(buf, slot.stackTagCompound);
+			}
+
+			this.turnProgress = 2;
+		}
+
+		@Override
+		public void deserialize(ByteBuf buf) {
+			this.syncExtend = buf.readInt();
+
+			if(buf.readBoolean()) {
+				NBTTagCompound stack = BufferUtil.readNBT(buf);
 				this.slot = ItemStack.loadItemStackFromNBT(stack);
 			} else
 				this.slot = null;
-			
+
 			this.turnProgress = 2;
 		}
-		
-		/* :3 NBT stuff */
-		
+
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
 			super.writeToNBT(nbt);

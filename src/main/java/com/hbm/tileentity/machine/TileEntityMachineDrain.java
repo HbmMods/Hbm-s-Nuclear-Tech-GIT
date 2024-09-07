@@ -46,9 +46,9 @@ public class TileEntityMachineDrain extends TileEntityLoadedBase implements IFlu
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				for(DirPos pos : getConPos()) this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
-			
-			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			
+
+			sendStandard(50);
+
 			if(tank.getFill() > 0) {
 				if(tank.getTankType().hasTrait(FT_Amat.class)) {
 					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 10F, true, true);

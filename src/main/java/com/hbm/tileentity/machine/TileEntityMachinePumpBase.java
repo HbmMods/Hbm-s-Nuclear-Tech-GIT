@@ -9,20 +9,19 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.IConfigurableMachine;
-import com.hbm.tileentity.INBTPacketReceiver;
-import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.*;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
-public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase implements IFluidStandardTransceiver, INBTPacketReceiver, IConfigurableMachine {
+public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase implements IFluidStandardTransceiver, IBufPacketReceiver, IConfigurableMachine {
 
 	public static final HashSet<Block> validBlocks = new HashSet();
 	
@@ -50,7 +49,7 @@ public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase imp
 	public static int groundDepth = 4;
 	public static int steamSpeed = 1_000;
 	public static int electricSpeed = 10_000;
-	
+
 	@Override
 	public String getConfigName() {
 		return "waterpump";
@@ -91,9 +90,8 @@ public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase imp
 				this.isOn = true;
 				this.operate();
 			}
-			
-			NBTTagCompound data = this.getSync();
-			INBTPacketReceiver.networkPack(this, data, 150);
+
+			sendStandard(150);
 			
 		} else {
 			
@@ -133,20 +131,19 @@ public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase imp
 		
 		return validBlocks >= invalidBlocks; // valid block count has to be at least 50%
 	}
-	
-	protected NBTTagCompound getSync() {
-		NBTTagCompound data = new NBTTagCompound();
-		data.setBoolean("isOn", isOn);
-		data.setBoolean("onGround", onGround);
-		water.writeToNBT(data, "w");
-		return data;
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		buf.writeBoolean(this.isOn);
+		buf.writeBoolean(this.onGround);
+		water.serialize(buf);
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.isOn = nbt.getBoolean("isOn");
-		this.onGround = nbt.getBoolean("onGround");
-		water.readFromNBT(nbt, "w");
+	public void deserialize(ByteBuf buf) {
+		this.isOn = buf.readBoolean();
+		this.onGround = buf.readBoolean();
+		water.deserialize(buf);
 	}
 
 	protected abstract boolean canOperate();

@@ -312,28 +312,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-
-		this.turnProgress = 2;
-		this.syncRotationPitch = nbt.getDouble("pitch");
-		this.syncRotationYaw = nbt.getDouble("yaw");
-		this.power = nbt.getLong("power");
-		this.isOn = nbt.getBoolean("isOn");
-		this.targetPlayers = nbt.getBoolean("targetPlayers");
-		this.targetAnimals = nbt.getBoolean("targetAnimals");
-		this.targetMobs = nbt.getBoolean("targetMobs");
-		this.targetMachines = nbt.getBoolean("targetMachines");
-		this.stattrak = nbt.getInteger("stattrak");
-		
-		if(nbt.hasKey("tX")) {
-			this.tPos = Vec3.createVectorHelper(nbt.getDouble("tX"), nbt.getDouble("tY"), nbt.getDouble("tZ"));
-		} else {
-			this.tPos = null;
-		}
-	}
-
-	@Override
 	public void handleButtonPacket(int value, int meta) {
 		
 		switch(meta) {

@@ -10,15 +10,17 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.TileEntityMachineAutocrafter.InventoryCraftingAuto;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.ItemStackUtil;
 
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -27,7 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
@@ -144,24 +146,8 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 				this.overspeed = 0;
 				this.warnCooldown = 0;
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("heat", heat);
-			data.setInteger("progress", progress);
-			data.setBoolean("hasBlade", hasBlade);
 
-			NBTTagList list = new NBTTagList();
-			for(int i = 0; i < slots.length; i++) {
-				if(slots[i] != null) {
-					NBTTagCompound nbt1 = new NBTTagCompound();
-					nbt1.setByte("slot", (byte) i);
-					slots[i].writeToNBT(nbt1);
-					list.appendTag(nbt1);
-				}
-			}
-			data.setTag("items", list);
-			
-			INBTPacketReceiver.networkPack(this, data, 150);
+			networkPackNT(150);
 			
 			this.heat = 0;
 			
@@ -180,20 +166,28 @@ public class TileEntitySawmill extends TileEntityMachineBase {
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.heat = nbt.getInteger("heat");
-		this.progress = nbt.getInteger("progress");
-		this.hasBlade = nbt.getBoolean("hasBlade");
-		
-		NBTTagList list = nbt.getTagList("items", 10);
+	public void serialize(ByteBuf buf) {
+		buf.writeInt(heat);
+		buf.writeInt(progress);
+		buf.writeBoolean(hasBlade);
 
-		slots = new ItemStack[3];
-		for(int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
-			byte b0 = nbt1.getByte("slot");
-			if(b0 >= 0 && b0 < slots.length) {
-				slots[b0] = ItemStack.loadItemStackFromNBT(nbt1);
-			}
+		ByteBuf itemBuf = new PacketBuffer(Unpooled.buffer());
+
+		for (ItemStack slot : slots) {
+			BufferUtil.writeItemStack(buf, slot);
+		}
+
+		buf.writeBytes(itemBuf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.heat = buf.readInt();
+		this.progress = buf.readInt();
+		this.hasBlade = buf.readBoolean();
+
+		for(int i = 0; i < slots.length; i++) {
+			slots[i] = BufferUtil.readItemStack(buf);
 		}
 	}
 	

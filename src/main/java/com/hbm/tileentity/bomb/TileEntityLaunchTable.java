@@ -197,9 +197,9 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ISide
 				this.decrStackSize(4, 1);
 				solid += 250;
 			}
-			
-			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			
+
+			sendStandard(50);
+
 			MissileStruct multipart = getStruct(slots[0]);
 			
 			if(multipart != null)

@@ -56,14 +56,6 @@ public class TileEntityDeuteriumExtractor extends TileEntityMachineBase implemen
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
 
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		this.power = data.getLong("power");
-		tanks[0].readFromNBT(data, "water");
-		tanks[1].readFromNBT(data, "heavyWater");
-	}
-
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);

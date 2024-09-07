@@ -62,7 +62,7 @@ public class PileNeutronHandler {
 			TileEntityPileBase originTE = (TileEntityPileBase) origin.tile;
 			BlockPos pos = new BlockPos(originTE);
 
-			for(float i = 1; i <= range; i += 1F) {
+			for(float i = 1; i <= range; i += 0.5F) {
 
 				BlockPos node = new BlockPos(
 						(int)Math.floor(pos.getX() + 0.5 + vector.xCoord * i),
@@ -72,6 +72,8 @@ public class PileNeutronHandler {
 
 				if(node.equals(pos))
 					continue; // don't interact with itself!
+
+				pos.mutate(node.getX(), node.getY(), node.getZ());
 
 				TileEntity tile;
 
@@ -108,7 +110,7 @@ public class PileNeutronHandler {
 				if(te instanceof IPileNeutronReceiver) {
 
 					IPileNeutronReceiver rec = (IPileNeutronReceiver) te;
-					rec.receiveNeutrons((int) fluxQuantity);
+					rec.receiveNeutrons((int) Math.floor(fluxQuantity));
 
 					if(block != ModBlocks.block_graphite_detector || (meta & 8) == 0)
 						return;

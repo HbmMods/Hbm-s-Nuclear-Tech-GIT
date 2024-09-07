@@ -11,15 +11,19 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
+import com.hbm.packet.BufPacket;
+import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.block.RenderBlockMultipass;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 import com.hbm.util.I18nUtil;
 
 import api.hbm.fluid.IPipeNet;
 import cpw.mods.fml.common.Optional;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -30,7 +34,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -109,7 +112,7 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 	}
 
 	@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-	public static class TileEntityPipeGauge extends TileEntityPipeBaseNT implements INBTPacketReceiver, SimpleComponent, CompatHandler.OCComponent {
+	public static class TileEntityPipeGauge extends TileEntityPipeBaseNT implements IBufPacketReceiver, SimpleComponent, CompatHandler.OCComponent {
 
 		private BigInteger lastMeasurement = BigInteger.valueOf(10);
 		private long deltaTick = 0;
@@ -139,18 +142,21 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 						
 					} catch(Exception ex) { }
 				}
-				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setLong("deltaT", deltaTick);
-				data.setLong("deltaS", deltaLastSecond);
-				INBTPacketReceiver.networkPack(this, data, 25);
+
+				sendStandard(25);
 			}
 		}
 
 		@Override
-		public void networkUnpack(NBTTagCompound nbt) {
-			this.deltaTick = Math.max(nbt.getLong("deltaT"), 0);
-			this.deltaLastSecond = Math.max(nbt.getLong("deltaS"), 0);
+		public void serialize(ByteBuf buf) {
+			buf.writeLong(deltaTick);
+			buf.writeLong(deltaLastSecond);
+		}
+
+		@Override
+		public void deserialize(ByteBuf buf) {
+			this.deltaTick = Math.max(buf.readLong(), 0);
+			this.deltaLastSecond = Math.max(buf.readLong(), 0);
 		}
 
 		@Optional.Method(modid = "OpenComputers")

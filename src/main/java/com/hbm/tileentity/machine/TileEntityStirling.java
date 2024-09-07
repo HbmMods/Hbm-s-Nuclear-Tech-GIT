@@ -8,8 +8,8 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.projectile.EntityCog;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IConfigurableMachine;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -17,12 +17,13 @@ import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityStirling extends TileEntityLoadedBase implements INBTPacketReceiver, IEnergyProviderMK2, IConfigurableMachine {
+public class TileEntityStirling extends TileEntityLoadedBase implements IBufPacketReceiver, IEnergyProviderMK2, IConfigurableMachine {
 	
 	public long powerBuffer;
 	public int heat;
@@ -88,11 +89,7 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 				this.warnCooldown = 0;
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", powerBuffer);
-			data.setInteger("heat", heat);
-			data.setBoolean("hasCog", hasCog);
-			INBTPacketReceiver.networkPack(this, data, 150);
+			sendStandard(150);
 			
 			if(hasCog) {
 				for(DirPos pos : getConPos()) {
@@ -143,10 +140,17 @@ public class TileEntityStirling extends TileEntityLoadedBase implements INBTPack
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.powerBuffer = nbt.getLong("power");
-		this.heat = nbt.getInteger("heat");
-		this.hasCog = nbt.getBoolean("hasCog");
+	public void serialize(ByteBuf buf) {
+		buf.writeLong(this.powerBuffer);
+		buf.writeInt(this.heat);
+		buf.writeBoolean(this.hasCog);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.powerBuffer = buf.readLong();
+		this.heat = buf.readInt();
+		this.hasCog = buf.readBoolean();
 	}
 	
 	protected void tryPullHeat() {

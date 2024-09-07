@@ -18,8 +18,8 @@ import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IConfigurableMachine;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -27,13 +27,16 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeatBoiler extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardTransceiver, IConfigurableMachine {
+public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiver, IConfigurableMachine {
 
 	public int heat;
 	public FluidTank[] tanks;
@@ -54,13 +57,13 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements INBTPa
 		this.tanks[0] = new FluidTank(Fluids.WATER, 16_000);
 		this.tanks[1] = new FluidTank(Fluids.STEAM, 16_000 * 100);
 	}
+
+	ByteBuf buf = new PacketBuffer(Unpooled.buffer());
 	
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			
-			NBTTagCompound data = new NBTTagCompound();
 			
 			if(!this.hasExploded) {
 				this.setupTanks();
@@ -72,23 +75,23 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements INBTPa
 				if(light > 7 && TomSaveData.forWorld(worldObj).fire > 1e-5) {
 					this.heat += ((maxHeat - heat) * 0.000005D); //constantly heat up 0.0005% of the remaining heat buffer for rampant but diminishing heating
 				}
-				
-				data.setInteger("heat", lastHeat);
 
-				tanks[0].writeToNBT(data, "0");
+				buf.writeInt(lastHeat);
+
+				tanks[0].serialize(buf);
 				this.isOn = false;
 				this.tryConvert();
-				tanks[1].writeToNBT(data, "1");
+				tanks[1].serialize(buf);
 				
 				if(this.tanks[1].getFill() > 0) {
 					this.sendFluid();
 				}
 			}
 
-			data.setBoolean("exploded", this.hasExploded);
-			data.setBoolean("isOn", this.isOn);
-			data.setBoolean("muffled", this.muffled);
-			INBTPacketReceiver.networkPack(this, data, 25);
+			buf.writeBoolean(this.hasExploded);
+			buf.writeBoolean(this.muffled);
+			buf.writeBoolean(this.isOn);
+			sendStandard(25);
 		} else {
 			
 			if(this.isOn) audioTime = 20;
@@ -143,13 +146,19 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements INBTPa
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.hasExploded = nbt.getBoolean("exploded");
-		this.muffled = nbt.getBoolean("muffled");
-		this.heat = nbt.getInteger("heat");
-		this.tanks[0].readFromNBT(nbt, "0");
-		this.tanks[1].readFromNBT(nbt, "1");
-		this.isOn = nbt.getBoolean("isOn");
+	public void serialize(ByteBuf buf) {
+		buf.writeBytes(this.buf);
+		this.buf = new PacketBuffer(Unpooled.buffer());
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.heat = buf.readInt();
+		this.tanks[0].deserialize(buf);
+		this.tanks[1].deserialize(buf);
+		this.hasExploded = buf.readBoolean();
+		this.muffled = buf.readBoolean();
+		this.isOn = buf.readBoolean();
 	}
 	
 	protected void tryPullHeat() {

@@ -7,17 +7,16 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.saveddata.TomSaveData;
-import com.hbm.tileentity.IConfigurableMachine;
-import com.hbm.tileentity.INBTPacketReceiver;
-import com.hbm.tileentity.TileEntityLoadedBase;
+import com.hbm.tileentity.*;
 import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IInfoProviderEC;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.EnumSkyBlock;
 
-public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidStandardTransceiver, INBTPacketReceiver, IInfoProviderEC, IConfigurableMachine {
+public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidStandardTransceiver, IInfoProviderEC, IConfigurableMachine, IBufPacketReceiver {
 
 	public int age = 0;
 	public FluidTank[] tanks;
@@ -52,8 +51,6 @@ public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidS
 		writer.name("I:outputTankSize").value(outputTankSize);
 	}
 
-
-	
 	@Override
 	public void updateEntity() {
 		
@@ -95,9 +92,7 @@ public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidS
 			this.subscribeToAllAround(tanks[0].getTankType(), this);
 			this.sendFluidToAll(tanks[1], this);
 			
-			data.setByte("timer", (byte) this.waterTimer);
-			packExtra(data);
-			INBTPacketReceiver.networkPack(this, data, 150);
+			sendStandard(150);
 		}
 	}
 	
@@ -106,10 +101,17 @@ public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidS
 	public void postConvert(int convert) { }
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.tanks[0].readFromNBT(nbt, "0");
-		this.tanks[1].readFromNBT(nbt, "1");
-		this.waterTimer = nbt.getByte("timer");
+	public void serialize(ByteBuf buf) {
+		this.tanks[0].serialize(buf);
+		this.tanks[1].serialize(buf);
+		buf.writeByte(this.waterTimer);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.tanks[0].deserialize(buf);
+		this.tanks[1].deserialize(buf);
+		this.waterTimer = buf.readByte();
 	}
 	
 	@Override

@@ -6,14 +6,16 @@ import java.util.List;
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GuiScreenRadioTelex;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.ItemStackUtil;
 
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -30,7 +32,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiver, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityRadioTelex extends TileEntity implements IBufPacketReceiver, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
 
 	public static final int lineWidth = 33;
 	public String txChannel = "";
@@ -130,28 +132,32 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 				}
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			for(int i = 0; i < 5; i++) {
-				data.setString("tx" + i, txBuffer[i]);
-				data.setString("rx" + i, rxBuffer[i]);
-			}
-			data.setString("txChan", txChannel);
-			data.setString("rxChan", rxChannel);
-			data.setInteger("sending", sendingChar);
-			INBTPacketReceiver.networkPack(this, data, 16);
+			sendStandard(16);
 		}
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-
+	public void serialize(ByteBuf buf) {
 		for(int i = 0; i < 5; i++) {
-			txBuffer[i] = nbt.getString("tx" + i);
-			rxBuffer[i] = nbt.getString("rx" + i);
+			BufferUtil.writeString(buf, txBuffer[i]);
+			BufferUtil.writeString(buf, rxBuffer[i]);
 		}
-		this.txChannel = nbt.getString("txChan");
-		this.rxChannel = nbt.getString("rxChan");
-		this.sendingChar = (char) nbt.getInteger("sending");
+
+		BufferUtil.writeString(buf, this.txChannel);
+		BufferUtil.writeString(buf, this.rxChannel);
+		buf.writeChar(this.sendingChar);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		for(int i = 0; i < 5; i++) {
+			txBuffer[i] = BufferUtil.readString(buf);
+			rxBuffer[i] = BufferUtil.readString(buf);
+		}
+
+		this.txChannel = BufferUtil.readString(buf);
+		this.rxChannel = BufferUtil.readString(buf);
+		this.sendingChar = buf.readChar();
 	}
 
 	@Override

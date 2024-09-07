@@ -80,7 +80,8 @@ public class PacketDispatcher {
 
 		//Tile sync
 		wrapper.registerMessage(AuxGaugePacket.Handler.class, AuxGaugePacket.class, i++, Side.CLIENT);	//The horrid one
-		wrapper.registerMessage(NBTPacket.Handler.class, NBTPacket.class, i++, Side.CLIENT);			//The convenient but laggy one
+		// fucking DIE
+		//wrapper.registerMessage(NBTPacket.Handler.class, NBTPacket.class, i++, Side.CLIENT);			//The convenient but laggy one
 		wrapper.registerMessage(BufPacket.Handler.class, BufPacket.class, i++, Side.CLIENT);			//The not-so-convenient but not laggy one
 	}
 	

@@ -248,13 +248,6 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyRe
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-
-	}
-
-	@Override
 	public void handleButtonPacket(int value, int meta) {
 		
 		if(meta == 0)

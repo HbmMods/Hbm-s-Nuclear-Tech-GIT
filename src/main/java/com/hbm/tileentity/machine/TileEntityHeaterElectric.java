@@ -3,7 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.CompatEnergyControl;
 
@@ -12,12 +12,13 @@ import api.hbm.tile.IHeatSource;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IHeatSource, IEnergyReceiverMK2, INBTPacketReceiver, IInfoProviderEC {
+public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IHeatSource, IEnergyReceiverMK2, IBufPacketReceiver, IInfoProviderEC {
 	
 	public long power;
 	public int heatEnergy;
@@ -47,12 +48,7 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 				this.isOn = true;
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setByte("s", (byte) this.setting);
-			data.setInteger("h", this.heatEnergy);
-			data.setBoolean("o", isOn);
-			data.setBoolean("muffled", muffled);
-			INBTPacketReceiver.networkPack(this, data, 25);
+			sendStandard(25);
 		} else {
 			
 			if(isOn) {
@@ -103,11 +99,19 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.setting = nbt.getByte("s");
-		this.heatEnergy = nbt.getInteger("h");
-		this.isOn = nbt.getBoolean("o");
-		this.muffled = nbt.getBoolean("muffled");
+	public void serialize(ByteBuf buf) {
+		buf.writeBoolean(this.muffled);
+		buf.writeByte(this.setting);
+		buf.writeInt(this.heatEnergy);
+		buf.writeBoolean(this.isOn);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.muffled = buf.readBoolean();
+		this.setting = buf.readByte();
+		this.heatEnergy = buf.readInt();
+		this.isOn = buf.readBoolean();
 	}
 	
 	@Override

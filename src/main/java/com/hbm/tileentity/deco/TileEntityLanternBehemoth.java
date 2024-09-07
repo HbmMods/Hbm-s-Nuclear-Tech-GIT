@@ -13,11 +13,12 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.special.ItemKitCustom;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IRepairable;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -27,7 +28,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketReceiver, IRepairable {
+public class TileEntityLanternBehemoth extends TileEntity implements IBufPacketReceiver, IRepairable {
 	
 	public boolean isBroken = false;
 	public int comTimer = -1;
@@ -63,10 +64,8 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 			if(comTimer >= 0) {
 				comTimer--;
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("isBroken", isBroken);
-			INBTPacketReceiver.networkPack(this, data, 250);
+
+			sendStandard(250);
 		}
 	}
 	
@@ -81,8 +80,13 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.isBroken = nbt.getBoolean("isBroken");
+	public void serialize(ByteBuf buf) {
+		buf.writeBoolean(this.isBroken);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.isBroken = buf.readBoolean();
 	}
 	
 	@Override

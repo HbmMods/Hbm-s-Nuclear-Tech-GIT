@@ -29,8 +29,8 @@ public class TileEntityHadronPower extends TileEntityLoadedBase implements IEner
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			}
-			
-			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 15));
+
+			sendStandard(15);
 		}
 	}
 

@@ -39,7 +39,7 @@ public class TileEntityDroneWaypoint extends TileEntity implements IBufPacketRec
 				}
 			}
 
-			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 15));
+			sendStandard(15);
 		} else {
 			BlockPos pos = getCoord(dir);
 			if(nextY != -1 && worldObj.getTotalWorldTime() % 2 == 0) {
