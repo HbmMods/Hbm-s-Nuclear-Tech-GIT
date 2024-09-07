@@ -11,14 +11,12 @@ import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMold;
 import com.hbm.items.machine.ItemScraps;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.NBTPacket;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.util.fauxpointtwelve.DirPos;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,7 +30,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 //god thank you bob for this base class
-public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase implements IGUIProvider, ICrucibleAcceptor, ISidedInventory, IFluidStandardTransceiver, INBTPacketReceiver, IInventory {
+public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase implements IGUIProvider, ICrucibleAcceptor, ISidedInventory, IFluidStandardTransceiver, IBufPacketReceiver, IInventory {
 
 	public FluidTank water;
 	public FluidTank steam;
@@ -110,12 +108,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 			}
 		}
 
-		NBTTagCompound data = new NBTTagCompound();
-
-		water.writeToNBT(data, "w");
-		steam.writeToNBT(data, "s");
-
-		this.networkPack(data, 150);
+		sendStandard(150);
 
 	}
 
@@ -254,16 +247,14 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		return new GUIMachineStrandCaster(player.inventory, this);
 	}
 
-	public void networkPack(NBTTagCompound nbt, int range) {
-		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new NetworkRegistry.TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+	@Override public void serialize(ByteBuf buf) {
+		water.serialize(buf);
+		steam.serialize(buf);
 	}
 
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		water.readFromNBT(nbt, "w");
-		steam.readFromNBT(nbt, "s");
-
+	@Override public void deserialize(ByteBuf buf) {
+		water.deserialize(buf);
+		steam.deserialize(buf);
 	}
 
 	@Override

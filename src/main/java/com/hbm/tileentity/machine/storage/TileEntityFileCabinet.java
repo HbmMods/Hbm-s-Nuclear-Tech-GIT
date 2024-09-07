@@ -70,7 +70,7 @@ public class TileEntityFileCabinet extends TileEntityCrateBase implements IGUIPr
 			} else
 				timer = 0;
 			
-			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
+			sendStandard(25);
 		} else {
 			this.prevLowerExtent = lowerExtent;
 			this.prevUpperExtent = upperExtent;

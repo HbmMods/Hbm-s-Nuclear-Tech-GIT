@@ -1,9 +1,11 @@
 package com.hbm.tileentity.network;
 
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
 
+import com.hbm.util.BufferUtil;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -11,7 +13,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityRadioTorchLogic extends TileEntity implements INBTPacketReceiver, IControlReceiver {
+public class TileEntityRadioTorchLogic extends TileEntity implements IBufPacketReceiver, IControlReceiver {
 	
 	/** channel we're broadcasting on/listening to */
 	public String channel = "";
@@ -80,13 +82,7 @@ public class TileEntityRadioTorchLogic extends TileEntity implements INBTPacketR
 				}
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("p", polling);
-			data.setBoolean("d", descending);
-			if(channel != null) data.setString("c", channel);
-			for(int i = 0; i < 16; i++) if(!mapping[i].equals("")) data.setString("m" + i, mapping[i]);
-			for(int i = 0; i < 16; i++) if(conditions[i] > 0) data.setInteger("c" + i, conditions[i]);
-			INBTPacketReceiver.networkPack(this, data, 50);
+			sendStandard(50);
 		}
 	}
 	
@@ -150,12 +146,22 @@ public class TileEntityRadioTorchLogic extends TileEntity implements INBTPacketR
 		for(int i = 0; i < 16; i++) if(conditions[i] > 0) nbt.setInteger("c" + i, conditions[i]);
 	}
 
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.polling = nbt.getBoolean("p");
-		this.channel = nbt.getString("c");
-		this.descending = nbt.getBoolean("d");
-		for(int i = 0; i < 16; i++) this.mapping[i] = nbt.getString("m" + i);
-		for(int i = 0; i < 16; i++) this.conditions[i] = nbt.getInteger("c" + i);
+	@Override
+	public void serialize(ByteBuf buf) {
+		buf.writeBoolean(this.polling);
+		BufferUtil.writeString(buf, this.channel);
+		buf.writeBoolean(this.descending);
+		for(int i = 0; i < 16; i++) BufferUtil.writeString(buf, this.mapping[i]);
+		for(int i = 0; i < 16; i++) buf.writeInt(this.conditions[i]);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.polling = buf.readBoolean();
+		this.channel = BufferUtil.readString(buf);
+		this.descending = buf.readBoolean();
+		for(int i = 0; i < 16; i++) this.mapping[i] = BufferUtil.readString(buf);
+		for(int i = 0; i < 16; i++) this.conditions[i] = buf.readInt();
 	}
 
 	@Override

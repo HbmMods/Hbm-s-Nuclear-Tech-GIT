@@ -14,7 +14,6 @@ import com.hbm.inventory.recipes.MixerRecipes.MixerRecipe;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
@@ -35,7 +34,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineMixer extends TileEntityMachineBase implements INBTPacketReceiver, IControlReceiver, IGUIProvider, IEnergyReceiverMK2, IFluidStandardTransceiver, IUpgradeInfoProvider {
+public class TileEntityMachineMixer extends TileEntityMachineBase implements IControlReceiver, IGUIProvider, IEnergyReceiverMK2, IFluidStandardTransceiver, IUpgradeInfoProvider {
 	
 	public long power;
 	public static final long maxPower = 10_000;
@@ -161,20 +160,6 @@ public class TileEntityMachineMixer extends TileEntityMachineBase implements INB
 		wasOn = buf.readBoolean();
 		
 		for(int i = 0; i < tanks.length; i++) tanks[i].deserialize(buf);
-	}
-
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.processTime = nbt.getInteger("processTime");
-		this.progress = nbt.getInteger("progress");
-		this.recipeIndex = nbt.getInteger("recipe");
-		this.wasOn = nbt.getBoolean("wasOn");
-		for(int i = 0; i < 3; i++) {
-			tanks[i].readFromNBT(nbt, i + "");
-		}
 	}
 	
 	public boolean canProcess() {

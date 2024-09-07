@@ -215,7 +215,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 						screen.refZ = zCoord;
 						screen.range = this.getRange();
 						screen.linked = true;
-						PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, pos.getX(), pos.getY(), pos.getZ(), 25));
+						sendStandard(25);
 					}
 				}
 			}

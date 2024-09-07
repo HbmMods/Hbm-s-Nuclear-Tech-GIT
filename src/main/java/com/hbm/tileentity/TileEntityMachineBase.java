@@ -1,9 +1,9 @@
 package com.hbm.tileentity;
 
+import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxGaugePacket;
 import com.hbm.packet.toclient.BufPacket;
-import com.hbm.packet.toclient.NBTPacket;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTank;
 
-public abstract class TileEntityMachineBase extends TileEntityLoadedBase implements ISidedInventory, INBTPacketReceiver, IBufPacketReceiver {
+public abstract class TileEntityMachineBase extends TileEntityLoadedBase implements ISidedInventory, IBufPacketReceiver {
 
 	public ItemStack slots[];
 	
@@ -154,11 +154,6 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, val, id), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
 	@Deprecated public void processGauge(int val, int id) { }
-
-	@Deprecated
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.muffled = nbt.getBoolean("muffled");
-	}
 	
 	/** Sends a sync packet that uses ByteBuf for efficient information-cramming */
 	public void networkPackNT(int range) {

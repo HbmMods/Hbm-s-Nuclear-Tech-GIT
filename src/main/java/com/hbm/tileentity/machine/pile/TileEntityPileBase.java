@@ -40,9 +40,9 @@ public abstract class TileEntityPileBase extends TileEntity {
 
 		Vec3 neutronVector = Vec3.createVectorHelper(1, 0, 0);
 
-		neutronVector.rotateAroundX((float)(Math.PI * 2D * worldObj.rand.nextDouble()));
-		neutronVector.rotateAroundY((float)(Math.PI * 2D * worldObj.rand.nextDouble()));
 		neutronVector.rotateAroundZ((float)(Math.PI * 2D * worldObj.rand.nextDouble()));
+		neutronVector.rotateAroundY((float)(Math.PI * 2D * worldObj.rand.nextDouble()));
+		neutronVector.rotateAroundX((float)(Math.PI * 2D * worldObj.rand.nextDouble()));
 
 		new PileNeutronStream(node, neutronVector, flux);
 	}

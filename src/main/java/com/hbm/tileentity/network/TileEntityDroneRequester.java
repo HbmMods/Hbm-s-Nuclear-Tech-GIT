@@ -9,15 +9,16 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.container.ContainerDroneRequester;
 import com.hbm.inventory.gui.GUIDroneRequester;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.network.RequestNetwork.PathNode;
 import com.hbm.tileentity.network.RequestNetwork.RequestNode;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -27,7 +28,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer implements INBTPacketReceiver, IGUIProvider, IControlReceiverFilter {
+public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer implements IBufPacketReceiver, IGUIProvider, IControlReceiverFilter {
 	
 	public ModulePatternMatcher matcher;
 
@@ -46,16 +47,17 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 		super.updateEntity();
 		
 		if(!worldObj.isRemote) {
-			
-			NBTTagCompound data = new NBTTagCompound();
-			this.matcher.writeToNBT(data);
-			INBTPacketReceiver.networkPack(this, data, 15);
+
+			sendStandard(15);
 		}
 	}
 
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.matcher.readFromNBT(nbt);
+	@Override public void serialize(ByteBuf buf) {
+		this.matcher.serialize(buf);
+	}
+
+	@Override public void deserialize(ByteBuf buf) {
+		this.matcher.deserialize(buf);
 	}
 
 	@Override

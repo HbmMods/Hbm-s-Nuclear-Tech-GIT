@@ -13,11 +13,9 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.NBTPacket;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IConfigurableMachine;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -27,9 +25,9 @@ import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -40,7 +38,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyProviderMK2, INBTPacketReceiver, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IConfigurableMachine {
+public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IConfigurableMachine, IBufPacketReceiver {
 
 	public long power;
 	private int turnTimer;
@@ -139,12 +137,8 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 			turnTimer--;
 			
 			if(operational) turnTimer = 25;
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("type", tanks[0].getTankType().getID());
-			data.setInteger("operational", turnTimer);
-			this.networkPack(data, 150);
+
+			sendStandard(150);
 			
 		} else {
 			
@@ -213,16 +207,19 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 				new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, rot.getOpposite())
 		};
 	}
-	
-	public void networkPack(NBTTagCompound nbt, int range) {
-		PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		buf.writeLong(this.power);
+		buf.writeInt(this.turnTimer);
+		this.tanks[0].serialize(buf);
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound data) {
-		this.power = data.getLong("power");
-		this.turnTimer = data.getInteger("operational");
-		this.tanks[0].setTankType(Fluids.fromID(data.getInteger("type")));
+	public void deserialize(ByteBuf buf) {
+		this.power = buf.readLong();
+		this.turnTimer = buf.readInt();
+		this.tanks[0].deserialize(buf);
 	}
 	
 	@Override

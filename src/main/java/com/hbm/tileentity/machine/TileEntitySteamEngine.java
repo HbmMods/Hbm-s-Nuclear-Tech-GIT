@@ -9,8 +9,8 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IConfigurableMachine;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -18,13 +18,16 @@ import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiver, INBTPacketReceiver, IConfigurableMachine {
+public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiver, IBufPacketReceiver, IConfigurableMachine {
 
 	public long powerBuffer;
 
@@ -66,7 +69,9 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 		writer.name("I:ldsCap").value(ldsCap);
 		writer.name("D:efficiency").value(efficiency);
 	}
-	
+
+	ByteBuf buf = new PacketBuffer(Unpooled.buffer());
+
 	@Override
 	public void updateEntity() {
 		
@@ -76,9 +81,8 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 
 			tanks[0].setTankType(Fluids.STEAM);
 			tanks[1].setTankType(Fluids.SPENTSTEAM);
-			
-			NBTTagCompound data = new NBTTagCompound();
-			tanks[0].writeToNBT(data, "s");
+
+			tanks[0].serialize(buf);
 
 			FT_Coolable trait = tanks[0].getTankType().getTrait(FT_Coolable.class);
 			double eff = trait.getEfficiency(CoolingType.TURBINE) * efficiency;
@@ -105,9 +109,9 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.steamEngineOperate", getVolume(1.0F), 0.5F + (acceleration / 80F));
 			}
 			
-			data.setLong("power", this.powerBuffer);
-			data.setFloat("rotor", this.rotor);
-			tanks[1].writeToNBT(data, "w");
+			buf.writeLong(this.powerBuffer);
+			buf.writeFloat(this.rotor);
+			tanks[1].serialize(buf);
 
 			for(DirPos pos : getConPos()) {
 				if(this.powerBuffer > 0) this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
@@ -115,7 +119,7 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 			
-			INBTPacketReceiver.networkPack(this, data, 150);
+			sendStandard(150);
 		} else {
 			this.lastRotor = this.rotor;
 			
@@ -139,7 +143,7 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 				new DirPos(xCoord + rot.offsetX * 2 - dir.offsetX, yCoord + 1, zCoord + rot.offsetZ * 2 - dir.offsetZ, rot)
 		};
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -207,11 +211,17 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.powerBuffer = nbt.getLong("power");
-		this.syncRotor = nbt.getFloat("rotor");
+	public void serialize(ByteBuf buf) {
+		buf.writeBytes(this.buf);
+		this.buf = new PacketBuffer(Unpooled.buffer());
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.powerBuffer = buf.readLong();
+		this.syncRotor = buf.readFloat();
 		this.turnProgress = 3; //use 3-ply for extra smoothness
-		this.tanks[0].readFromNBT(nbt, "s");
-		this.tanks[1].readFromNBT(nbt, "w");
+		this.tanks[0].deserialize(buf);
+		this.tanks[1].deserialize(buf);
 	}
 }

@@ -93,14 +93,6 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 		for(int i = 0; i < 4; i++) tanks[i].deserialize(buf);
 	}
 	
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		for(int i = 0; i < 4; i++) tanks[i].readFromNBT(nbt, "" + i);
-	}
-	
 	private void reform() {
 		
 		Triplet<FluidStack, FluidStack, FluidStack> out = ReformingRecipes.getOutput(tanks[0].getTankType());

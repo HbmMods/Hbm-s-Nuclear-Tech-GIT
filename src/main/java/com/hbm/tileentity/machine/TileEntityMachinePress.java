@@ -175,24 +175,6 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 		this.turnProgress = 2;
 	}
 	
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.speed = nbt.getInteger("speed");
-		this.burnTime = nbt.getInteger("burnTime");
-		this.syncPress = nbt.getInteger("press");
-		
-		if(nbt.hasKey("stack")) {
-			NBTTagCompound stack = nbt.getCompoundTag("stack");
-			this.syncStack = ItemStack.loadItemStackFromNBT(stack);
-		} else {
-			this.syncStack = null;
-		}
-		
-		this.turnProgress = 2;
-	}
-	
 	public boolean canProcess() {
 		if(burnTime < 200) return false;
 		if(slots[1] == null || slots[2] == null) return false;

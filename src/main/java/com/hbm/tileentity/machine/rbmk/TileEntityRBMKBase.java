@@ -9,7 +9,6 @@ import com.hbm.entity.effect.EntitySpear;
 import com.hbm.entity.projectile.EntityRBMKDebris;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.neutron.NeutronNodeWorld;
-import com.hbm.handler.neutron.RBMKNeutronHandler;
 import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKType;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
@@ -118,7 +117,7 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 			coolPassively();
 			this.worldObj.theProfiler.endSection();
 
-			this.networkPackNT(trackingRange());
+			this.sendStandard(trackingRange());
 		}
 	}
 	
@@ -279,13 +278,8 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 		nbt.setInteger("steam", this.steam);
 	}
 
-	public void networkPackNT(int range) {
-		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
-	}
-
 	@Override
 	public void serialize(ByteBuf buf) {
-		buf.writeBoolean(this.muffled);
 		buf.writeDouble(this.heat);
 		buf.writeInt(this.water);
 		buf.writeInt(this.steam);
@@ -293,7 +287,6 @@ public abstract class TileEntityRBMKBase extends TileEntityLoadedBase implements
 
 	@Override
 	public void deserialize(ByteBuf buf) {
-		this.muffled = buf.readBoolean();
 		this.heat = buf.readDouble();
 		this.water = buf.readInt();
 		this.steam = buf.readInt();

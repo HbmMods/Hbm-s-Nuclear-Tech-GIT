@@ -69,7 +69,7 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 			
 			this.sendFluid();
 
-			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			sendStandard(50);
 		}
 	}
 

@@ -4,18 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.hbm.tileentity.INBTPacketReceiver;
-import com.hbm.tileentity.TileEntityLoadedBase;
-
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import com.hbm.tileentity.IBufPacketReceiver;
+import com.hbm.tileentity.TileEntityLoadedBase;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyReceiverMK2, INBTPacketReceiver {
+public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyReceiverMK2, IBufPacketReceiver {
 	
 	private List<EntityPlayer> players = new ArrayList();
 	private long charge = 0;
@@ -62,10 +61,7 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyRe
 					worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 0.2F, 0.5F);
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("c", charge);
-			data.setBoolean("p", particles);
-			INBTPacketReceiver.networkPack(this, data, 50);
+			sendStandard(50);
 		}
 		
 		lastUsingTicks = usingTicks;
@@ -94,9 +90,15 @@ public class TileEntityCharger extends TileEntityLoadedBase implements IEnergyRe
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.charge = nbt.getLong("c");
-		this.particles = nbt.getBoolean("p");
+	public void serialize(ByteBuf buf) {
+		buf.writeLong(this.charge);
+		buf.writeBoolean(this.particles);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.charge = buf.readLong();
+		this.particles = buf.readBoolean();
 	}
 
 	@Override

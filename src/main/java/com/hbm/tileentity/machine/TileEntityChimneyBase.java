@@ -6,15 +6,15 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.fluid.IFluidUser;
-import net.minecraft.nbt.NBTTagCompound;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityChimneyBase extends TileEntityLoadedBase implements IFluidUser, INBTPacketReceiver {
+public abstract class TileEntityChimneyBase extends TileEntityLoadedBase implements IFluidUser, IBufPacketReceiver {
 
 	public long ashTick = 0;
 	public long sootTick = 0;
@@ -49,9 +49,7 @@ public abstract class TileEntityChimneyBase extends TileEntityLoadedBase impleme
 				this.sootTick = 0;
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("onTicks", onTicks);
-			INBTPacketReceiver.networkPack(this, data, 150);
+			sendStandard(150);
 			
 			if(onTicks > 0) onTicks--;
 			
@@ -72,9 +70,15 @@ public abstract class TileEntityChimneyBase extends TileEntityLoadedBase impleme
 	}
 	
 	public void spawnParticles() { }
-	
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.onTicks = nbt.getInteger("onTicks");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		buf.writeInt(this.onTicks);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.onTicks = buf.readInt();
 	}
 
 	@Override

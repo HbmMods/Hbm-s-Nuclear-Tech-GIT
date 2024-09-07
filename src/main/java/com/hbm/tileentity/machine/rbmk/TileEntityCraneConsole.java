@@ -6,11 +6,11 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.CompatHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.machine.ItemRBMKRod;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IBufPacketReceiver;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -27,7 +27,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCraneConsole extends TileEntity implements INBTPacketReceiver, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityCraneConsole extends TileEntity implements IBufPacketReceiver, SimpleComponent, CompatHandler.OCComponent {
 	
 	public int centerX;
 	public int centerY;
@@ -162,26 +162,8 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 				this.loadedHeat = 0;
 				this.loadedEnrichment = 0;
 			}
-			
-			NBTTagCompound nbt = new NBTTagCompound();
-			nbt.setBoolean("crane", setUpCrane);
-			
-			if(setUpCrane) { //no need to send any of this if there's NO FUCKING CRANE THERE
-				nbt.setInteger("centerX", centerX);
-				nbt.setInteger("centerY", centerY);
-				nbt.setInteger("centerZ", centerZ);
-				nbt.setInteger("spanF", spanF);
-				nbt.setInteger("spanB", spanB);
-				nbt.setInteger("spanL", spanL);
-				nbt.setInteger("spanR", spanR);
-				nbt.setInteger("height", height);
-				nbt.setDouble("posFront", posFront);
-				nbt.setDouble("posLeft", posLeft);
-				nbt.setBoolean("loaded", this.hasItemLoaded());
-				nbt.setDouble("loadedHeat", loadedHeat);
-				nbt.setDouble("loadedEnrichment", loadedEnrichment);
-			}
-			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
+
+			sendStandard(250);
 		}
 	}
 	
@@ -241,27 +223,49 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		
+	public void serialize(ByteBuf buf) {
+		buf.writeBoolean(this.setUpCrane);
+
+		if(this.setUpCrane) { //no need to send any of this if there's NO FUCKING CRANE THERE
+			buf.writeInt(this.centerX);
+			buf.writeInt(this.centerY);
+			buf.writeInt(this.centerZ);
+			buf.writeInt(this.spanF);
+			buf.writeInt(this.spanB);
+			buf.writeInt(this.spanL);
+			buf.writeInt(this.spanR);
+			buf.writeInt(this.height);
+			buf.writeDouble(this.posFront);
+			buf.writeDouble(this.posLeft);
+			buf.writeBoolean(this.hasItemLoaded());
+			buf.writeDouble(this.loadedHeat);
+			buf.writeDouble(this.loadedEnrichment);
+		}
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
 		lastPosFront = posFront;
 		lastPosLeft = posLeft;
 		lastProgress = progress;
-		
-		this.setUpCrane = nbt.getBoolean("crane");
-		this.centerX = nbt.getInteger("centerX");
-		this.centerY = nbt.getInteger("centerY");
-		this.centerZ = nbt.getInteger("centerZ");
-		this.spanF = nbt.getInteger("spanF");
-		this.spanB = nbt.getInteger("spanB");
-		this.spanL = nbt.getInteger("spanL");
-		this.spanR = nbt.getInteger("spanR");
-		this.height = nbt.getInteger("height");
-		this.posFront = nbt.getDouble("posFront");
-		this.posLeft = nbt.getDouble("posLeft");
-		this.hasLoaded = nbt.getBoolean("loaded");
-		this.posLeft = nbt.getDouble("posLeft");
-		this.loadedHeat = nbt.getDouble("loadedHeat");
-		this.loadedEnrichment = nbt.getDouble("loadedEnrichment");
+
+		this.setUpCrane = buf.readBoolean();
+		if (this.setUpCrane) {
+			this.centerX = buf.readInt();
+			this.centerY = buf.readInt();
+			this.centerZ = buf.readInt();
+			this.spanF = buf.readInt();
+			this.spanB = buf.readInt();
+			this.spanL = buf.readInt();
+			this.spanR = buf.readInt();
+			this.height = buf.readInt();
+			this.posFront = buf.readDouble();
+			this.posLeft = buf.readDouble();
+			this.hasLoaded = buf.readBoolean();
+			this.posLeft = buf.readDouble();
+			this.loadedHeat = buf.readDouble();
+			this.loadedEnrichment = buf.readDouble();
+		}
 	}
 	
 	public void setTarget(int x, int y, int z) {

@@ -1,15 +1,13 @@
 package com.hbm.tileentity.bomb;
 
 import com.hbm.blocks.bomb.BlockChargeBase;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.NBTPacket;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IBufPacketReceiver;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraft.nbt.NBTTagCompound;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityCharge extends TileEntity implements INBTPacketReceiver {
+public class TileEntityCharge extends TileEntity implements IBufPacketReceiver {
 	
 	public boolean started;
 	public int timer;
@@ -29,18 +27,21 @@ public class TileEntityCharge extends TileEntity implements INBTPacketReceiver {
 					((BlockChargeBase)this.getBlockType()).explode(worldObj, xCoord, yCoord, zCoord);
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("timer", timer);
-			data.setBoolean("started", started);
-			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(data, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 100));
+
+			sendStandard(100);
 		}
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound data) {
-		timer = data.getInteger("timer");
-		started = data.getBoolean("started");
+	public void serialize(ByteBuf buf) {
+		buf.writeLong(this.timer);
+		buf.writeBoolean(this.started);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.timer = buf.readInt();
+		this.started = buf.readBoolean();
 	}
 	
 	public String getMinutes() {

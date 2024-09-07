@@ -10,20 +10,23 @@ import com.hbm.inventory.fluid.trait.FT_Heatable.HeatingType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardTransceiver {
+public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiver {
 
 	public FluidTank input;
 	public FluidTank output;
@@ -41,7 +44,9 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 	private long fissureScanTime;
 
 	private AudioWrapper audio;
-	
+
+	ByteBuf buf = new PacketBuffer(Unpooled.buffer());
+
 	@Override
 	public void updateEntity() {
 
@@ -66,21 +71,20 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 					}
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			input.writeToNBT(data, "i");
+
+			input.serialize(buf);
 			
 			heatFluid();
 			
-			output.writeToNBT(data, "o");
+			output.serialize(buf);
 			
 			if(output.getFill() > 0) {
 				for(DirPos pos : getConPos()) {
 					this.sendFluid(output, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
-			data.setInteger("heat", this.getTotalHeat());
-			INBTPacketReceiver.networkPack(this, data, 150);
+			buf.writeInt(this.getTotalHeat());
+			sendStandard(150);
 			
 		} else {
 			
@@ -182,11 +186,17 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		input.readFromNBT(nbt, "i");
-		output.readFromNBT(nbt, "o");
-		
-		this.bufferedHeat = nbt.getInteger("heat");
+	public void serialize(ByteBuf buf) {
+		buf.writeBytes(this.buf);
+		this.buf = new PacketBuffer(Unpooled.buffer());
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		input.deserialize(buf);
+		output.deserialize(buf);
+
+		this.bufferedHeat = buf.readInt();
 	}
 	
 	private void updateConnections() {

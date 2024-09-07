@@ -11,13 +11,14 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.material.Material;
@@ -29,7 +30,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
-public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardReceiver {
+public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardReceiver {
 	
 	public static final HashSet<FluidType> acceptedFuels = new HashSet();
 	
@@ -174,12 +175,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IN
 				}
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("isOn", isOn);
-			data.setFloat("yaw", this.rotationYaw);
-			data.setFloat("pitch", this.rotationPitch);
-			tank.writeToNBT(data, "t");
-			INBTPacketReceiver.networkPack(this, data, 100);
+			sendStandard(100);
 		} else {
 			
 			this.lastSpin = this.spin;
@@ -280,12 +276,20 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IN
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.isOn = nbt.getBoolean("isOn");
-		this.syncYaw = nbt.getFloat("yaw");
-		this.syncPitch = nbt.getFloat("pitch");
+	public void serialize(ByteBuf buf) {
+		buf.writeBoolean(this.isOn);
+		buf.writeFloat(this.syncYaw);
+		buf.writeFloat(this.syncPitch);
+		this.tank.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.isOn = buf.readBoolean();
+		this.syncYaw = buf.readFloat();
+		this.syncPitch = buf.readFloat();
 		this.turnProgress = 3; //use 3-ply for extra smoothness
-		this.tank.readFromNBT(nbt, "t");
+		this.tank.deserialize(buf);
 	}
 	
 	@Override
