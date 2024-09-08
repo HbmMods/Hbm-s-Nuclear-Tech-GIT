@@ -2,6 +2,7 @@ package com.hbm.items.weapon.sedna;
 
 import java.util.function.BiConsumer;
 
+import com.hbm.items.weapon.sedna.ItemGunBase.LambdaContext;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.item.ItemStack;
@@ -16,15 +17,17 @@ public class GunConfig {
 	protected int drawDuration = 0;
 	protected Crosshair crosshair;
 	/** Lambda functions for clicking shit */
-	protected BiConsumer<ItemStack, GunConfig> onPressPrimary;
-	protected BiConsumer<ItemStack, GunConfig> onPressSecondary;
-	protected BiConsumer<ItemStack, GunConfig> onPressTertiary;
-	protected BiConsumer<ItemStack, GunConfig> onPressReload;
+	protected BiConsumer<ItemStack, LambdaContext> onPressPrimary;
+	protected BiConsumer<ItemStack, LambdaContext> onPressSecondary;
+	protected BiConsumer<ItemStack, LambdaContext> onPressTertiary;
+	protected BiConsumer<ItemStack, LambdaContext> onPressReload;
 	/** Lambda functions for releasing the aforementioned shit */
-	protected BiConsumer<ItemStack, GunConfig> onReleasePrimary;
-	protected BiConsumer<ItemStack, GunConfig> onReleaseSecondary;
-	protected BiConsumer<ItemStack, GunConfig> onReleaseTertiary;
-	protected BiConsumer<ItemStack, GunConfig> onReleaseReload;
+	protected BiConsumer<ItemStack, LambdaContext> onReleasePrimary;
+	protected BiConsumer<ItemStack, LambdaContext> onReleaseSecondary;
+	protected BiConsumer<ItemStack, LambdaContext> onReleaseTertiary;
+	protected BiConsumer<ItemStack, LambdaContext> onReleaseReload;
+	/** The engine for the state machine that determines the gun's overall behavior */
+	protected BiConsumer<ItemStack, LambdaContext> decider;
 	
 	/* GETTERS */
 
@@ -33,15 +36,17 @@ public class GunConfig {
 	public int getDrawDuration(ItemStack stack) {		return drawDuration; }
 	public Crosshair getCrosshair(ItemStack stack) {	return crosshair; }
 
-	public BiConsumer<ItemStack, GunConfig> getPressPrimary(ItemStack stack) {		return this.onPressPrimary; }
-	public BiConsumer<ItemStack, GunConfig> getPressSecondary(ItemStack stack) {	return this.onPressSecondary; }
-	public BiConsumer<ItemStack, GunConfig> getPressTertiary(ItemStack stack) {		return this.onPressTertiary; }
-	public BiConsumer<ItemStack, GunConfig> getPressReload(ItemStack stack) {		return this.onPressReload; }
+	public BiConsumer<ItemStack, LambdaContext> getPressPrimary(ItemStack stack) {		return this.onPressPrimary; }
+	public BiConsumer<ItemStack, LambdaContext> getPressSecondary(ItemStack stack) {	return this.onPressSecondary; }
+	public BiConsumer<ItemStack, LambdaContext> getPressTertiary(ItemStack stack) {		return this.onPressTertiary; }
+	public BiConsumer<ItemStack, LambdaContext> getPressReload(ItemStack stack) {		return this.onPressReload; }
 
-	public BiConsumer<ItemStack, GunConfig> getReleasePrimary(ItemStack stack) {	return this.onReleasePrimary; }
-	public BiConsumer<ItemStack, GunConfig> getReleaseSecondary(ItemStack stack) {	return this.onReleaseSecondary; }
-	public BiConsumer<ItemStack, GunConfig> getReleaseTertiary(ItemStack stack) {	return this.onReleaseTertiary; }
-	public BiConsumer<ItemStack, GunConfig> getReleaseReload(ItemStack stack) {		return this.onReleaseReload; }
+	public BiConsumer<ItemStack, LambdaContext> getReleasePrimary(ItemStack stack) {	return this.onReleasePrimary; }
+	public BiConsumer<ItemStack, LambdaContext> getReleaseSecondary(ItemStack stack) {	return this.onReleaseSecondary; }
+	public BiConsumer<ItemStack, LambdaContext> getReleaseTertiary(ItemStack stack) {	return this.onReleaseTertiary; }
+	public BiConsumer<ItemStack, LambdaContext> getReleaseReload(ItemStack stack) {		return this.onReleaseReload; }
+	
+	public BiConsumer<ItemStack, LambdaContext> getDecider(ItemStack stack) {			return this.decider; }
 	
 	/* SETTERS */
 	
@@ -50,13 +55,18 @@ public class GunConfig {
 	public GunConfig draw(int draw) {					this.drawDuration = draw; return this; }
 	public GunConfig crosshair(Crosshair crosshair) {	this.crosshair = crosshair; return this; }
 	
-	public GunConfig pp(BiConsumer<ItemStack, GunConfig> lambda) { this.onPressPrimary = lambda;	return this; }
-	public GunConfig ps(BiConsumer<ItemStack, GunConfig> lambda) { this.onPressSecondary = lambda;	return this; }
-	public GunConfig pt(BiConsumer<ItemStack, GunConfig> lambda) { this.onPressTertiary = lambda;	return this; }
-	public GunConfig pr(BiConsumer<ItemStack, GunConfig> lambda) { this.onPressReload = lambda;		return this; }
+	//press
+	public GunConfig pp(BiConsumer<ItemStack, LambdaContext> lambda) { this.onPressPrimary = lambda;	return this; }
+	public GunConfig ps(BiConsumer<ItemStack, LambdaContext> lambda) { this.onPressSecondary = lambda;	return this; }
+	public GunConfig pt(BiConsumer<ItemStack, LambdaContext> lambda) { this.onPressTertiary = lambda;	return this; }
+	public GunConfig pr(BiConsumer<ItemStack, LambdaContext> lambda) { this.onPressReload = lambda;		return this; }
 
-	public GunConfig rp(BiConsumer<ItemStack, GunConfig> lambda) { this.onReleasePrimary = lambda;		return this; }
-	public GunConfig rs(BiConsumer<ItemStack, GunConfig> lambda) { this.onReleaseSecondary = lambda;	return this; }
-	public GunConfig rt(BiConsumer<ItemStack, GunConfig> lambda) { this.onReleaseTertiary = lambda;		return this; }
-	public GunConfig rr(BiConsumer<ItemStack, GunConfig> lambda) { this.onReleaseReload = lambda;		return this; }
+	//release
+	public GunConfig rp(BiConsumer<ItemStack, LambdaContext> lambda) { this.onReleasePrimary = lambda;		return this; }
+	public GunConfig rs(BiConsumer<ItemStack, LambdaContext> lambda) { this.onReleaseSecondary = lambda;	return this; }
+	public GunConfig rt(BiConsumer<ItemStack, LambdaContext> lambda) { this.onReleaseTertiary = lambda;		return this; }
+	public GunConfig rr(BiConsumer<ItemStack, LambdaContext> lambda) { this.onReleaseReload = lambda;		return this; }
+	
+	//decider
+	public GunConfig decider(BiConsumer<ItemStack, LambdaContext> lambda) { this.decider = lambda;	return this; }
 }

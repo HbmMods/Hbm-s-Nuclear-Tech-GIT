@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.ItemGunBase;
-import com.hbm.items.weapon.sedna.Receiver;
 
 import net.minecraft.item.ItemStack;
 
@@ -21,7 +20,6 @@ public abstract class MagazineStandardBase implements IMagazine {
 	public int index;
 	/** How much ammo this mag can hold */
 	public int capacity;
-	public Receiver parent;
 	
 	public MagazineStandardBase(int index, int capacity) {
 		this.index = index;

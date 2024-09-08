@@ -13,6 +13,7 @@ import com.hbm.packet.toserver.KeybindPacket;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
+import cpw.mods.fml.common.gameevent.InputEvent.MouseInputEvent;
 import net.minecraft.client.settings.KeyBinding;
 
 public class HbmKeybinds {
@@ -53,6 +54,21 @@ public class HbmKeybinds {
 		ClientRegistry.registerKeyBinding(craneLeftKey);
 		ClientRegistry.registerKeyBinding(craneRightKey);
 		ClientRegistry.registerKeyBinding(craneLoadKey);
+	}
+	
+	@SubscribeEvent
+	public void mouseEvent(MouseInputEvent event) {
+		HbmPlayerProps props = HbmPlayerProps.getData(MainRegistry.proxy.me());
+		
+		for(EnumKeybind key : EnumKeybind.values()) {
+			boolean last = props.getKeyPressed(key);
+			boolean current = MainRegistry.proxy.getIsKeyPressed(key);
+			
+			if(last != current) {
+				PacketDispatcher.wrapper.sendToServer(new KeybindPacket(key, current));
+				props.setKeyPressed(key, current);
+			}
+		}
 	}
 	
 	@SubscribeEvent
