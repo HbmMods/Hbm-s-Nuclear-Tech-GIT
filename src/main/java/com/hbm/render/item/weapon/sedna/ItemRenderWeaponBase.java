@@ -4,6 +4,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.glu.Project;
 
+import com.hbm.items.weapon.sedna.ItemGunBase;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -14,7 +16,6 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.IItemRenderer;
@@ -96,62 +97,81 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 
 		return fov;
 	}
+
+	protected float getSwayMagnitude(ItemStack stack) { return 0.5F; }
+	protected float getSwayPeriod(ItemStack stack) { return 0.75F; }
+	protected float getTurnMagnitude(ItemStack stack) { return 2.75F; }
 	
-	protected void setupTransformsAndRender(ItemStack itemstack) {
+	protected void setupTransformsAndRender(ItemStack stack) {
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityPlayer player = mc.thePlayer;
 
+		float swayMagnitude = getSwayMagnitude(stack);
+		float swayPeriod = getSwayPeriod(stack);
+		float turnMagnitude = getTurnMagnitude(stack);
+
+		//lighting setup (item lighting changes based on player rotation)
 		float pitch = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * interp;
+		float yaw = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * interp;
+		
 		GL11.glPushMatrix();
 		GL11.glRotatef(pitch, 1.0F, 0.0F, 0.0F);
-		GL11.glRotatef(player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * interp, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(yaw, 0.0F, 1.0F, 0.0F);
 		RenderHelper.enableStandardItemLighting();
 		GL11.glPopMatrix();
+		
+		//floppyness
 		EntityPlayerSP entityplayersp = (EntityPlayerSP) player;
 		float armPitch = entityplayersp.prevRenderArmPitch + (entityplayersp.renderArmPitch - entityplayersp.prevRenderArmPitch) * interp;
 		float armYaw = entityplayersp.prevRenderArmYaw + (entityplayersp.renderArmYaw - entityplayersp.prevRenderArmYaw) * interp;
-		GL11.glRotatef((player.rotationPitch - armPitch) * 0.1F, 1.0F, 0.0F, 0.0F);
-		GL11.glRotatef((player.rotationYaw - armYaw) * 0.1F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef((player.rotationPitch - armPitch) * 0.1F * turnMagnitude, 1.0F, 0.0F, 0.0F);
+		GL11.glRotatef((player.rotationYaw - armYaw) * 0.1F * turnMagnitude, 0.0F, 1.0F, 0.0F);
 
-		int i = mc.theWorld.getLightBrightnessForSkyBlocks(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ), 0);
-		int j = i % 65536;
-		int k = i / 65536;
+		//brightness setup
+		int brightness = mc.theWorld.getLightBrightnessForSkyBlocks(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ), 0);
+		int j = brightness % 65536;
+		int k = brightness / 65536;
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) j / 1.0F, (float) k / 1.0F);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-		if(itemstack != null) {
-			int l = itemstack.getItem().getColorFromItemStack(itemstack, 0);
-			float r = (float) (l >> 16 & 255) / 255.0F;
-			float g = (float) (l >> 8 & 255) / 255.0F;
-			float b = (float) (l & 255) / 255.0F;
-			GL11.glColor4f(r, g, b, 1.0F);
-		}
-
-		float f8;
-		float f13;
+		//color setup
+		int color = stack.getItem().getColorFromItemStack(stack, 0);
+		float r = (float) (color >> 16 & 255) / 255.0F;
+		float g = (float) (color >> 8 & 255) / 255.0F;
+		float b = (float) (color & 255) / 255.0F;
+		GL11.glColor4f(r, g, b, 1.0F);
 
 		GL11.glPushMatrix();
 		
-		f13 = 0.8F;
-
+		//swing
 		float swing = player.getSwingProgress(interp);
 		float swingZ = MathHelper.sin(swing * (float) Math.PI);
 		float swingX = MathHelper.sin(MathHelper.sqrt_float(swing) * (float) Math.PI);
 		GL11.glTranslatef(-swingX * 0.4F, MathHelper.sin(MathHelper.sqrt_float(swing) * (float) Math.PI * 2.0F) * 0.2F, -swingZ * 0.2F);
 
-		GL11.glTranslatef(0.7F * f13, -0.65F * f13 - (1.0F - 1/* raiseprogress */) * 0.6F, -0.9F * f13);
-		GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		float swingYaw = MathHelper.sin(swing * swing * (float) Math.PI);
 		float swingPitchRoll = MathHelper.sin(MathHelper.sqrt_float(swing) * (float) Math.PI);
 		GL11.glRotatef(-swingYaw * 20.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(-swingPitchRoll * 20.0F, 0.0F, 0.0F, 1.0F);
 		GL11.glRotatef(-swingPitchRoll * 80.0F, 1.0F, 0.0F, 0.0F);
-		
-		f8 = 0.4F;
-		GL11.glScalef(f8, f8, f8);
 
-		this.renderItem(ItemRenderType.EQUIPPED_FIRST_PERSON, itemstack, null, player);
+		GL11.glRotated(180, 0, 1, 0);
+
+		//viewbob
+		if(mc.renderViewEntity instanceof EntityPlayer) {
+			EntityPlayer entityplayer = (EntityPlayer) mc.renderViewEntity;
+			float distanceDelta = entityplayer.distanceWalkedModified - entityplayer.prevDistanceWalkedModified;
+			float distanceInterp = -(entityplayer.distanceWalkedModified + distanceDelta * interp);
+			float camYaw = entityplayer.prevCameraYaw + (entityplayer.cameraYaw - entityplayer.prevCameraYaw) * interp;
+			float camPitch = entityplayer.prevCameraPitch + (entityplayer.cameraPitch - entityplayer.prevCameraPitch) * interp;
+			GL11.glTranslatef(MathHelper.sin(distanceInterp * (float) Math.PI * swayPeriod) * camYaw * 0.5F * swayMagnitude, -Math.abs(MathHelper.cos(distanceInterp * (float) Math.PI * swayPeriod) * camYaw) * swayMagnitude, 0.0F);
+			GL11.glRotatef(MathHelper.sin(distanceInterp * (float) Math.PI * swayPeriod) * camYaw * 3.0F, 0.0F, 0.0F, 1.0F);
+			GL11.glRotatef(Math.abs(MathHelper.cos(distanceInterp * (float) Math.PI * swayPeriod - 0.2F) * camYaw) * 5.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(camPitch, 1.0F, 0.0F, 0.0F);
+		}
+		
+		this.renderItem(ItemRenderType.EQUIPPED_FIRST_PERSON, stack, null, player);
 
 		GL11.glPopMatrix();
 
@@ -160,13 +180,28 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 	}
 	
 	protected void setupFirstPerson(ItemStack stack) {
-		//GL11.glRotated(90, 0, 1, 0);
-		//GL11.glRotated(40, -1, 0, 0);
+		GL11.glTranslated(0, 0, 1);
+		
+		if(Minecraft.getMinecraft().thePlayer.isSneaking()) {
+			GL11.glTranslated(0, -3.875 / 8D, 0);
+		} else {
+			float offset = 0.8F;
+			GL11.glRotated(180, 0, 1, 0);
+			GL11.glTranslatef(1.0F * offset, -0.75F * offset, -0.5F * offset);
+			GL11.glRotated(180, 0, 1, 0);
+		}
 	}
 	
 	protected void setupThirdPerson(ItemStack stack) {
 		double scale = 0.125D;
 		GL11.glScaled(scale, scale, scale);
+		
+		GL11.glRotatef(15.0F, 0.0F, 0.0F, 1.0F);
+		GL11.glRotatef(12.5F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(10.0F, 1.0F, 0.0F, 0.0F);
+		
+		GL11.glTranslated(3.5, 0, 0);
+
 	}
 	
 	protected void setupInv(ItemStack stack) {
@@ -177,9 +212,18 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 	}
 	
 	protected void setupEntity(ItemStack stack) {
-		
+		double scale = 0.125D;
+		GL11.glScaled(scale, scale, scale);
 	}
 
 	public abstract void renderFirstPerson(ItemStack stack);
 	public abstract void renderOther(ItemStack stack, ItemRenderType type);
+	
+	public static void standardAimingTransform(ItemStack stack, double sX, double sY, double sZ, double aX, double aY, double aZ) {
+		float aimingProgress = ItemGunBase.prevAimingProgress + (ItemGunBase.aimingProgress - ItemGunBase.prevAimingProgress) * interp;
+		double x = sX + (aX - sX) * aimingProgress;
+		double y = sY + (aY - sY) * aimingProgress;
+		double z = sZ + (aZ - sZ) * aimingProgress;
+		GL11.glTranslated(x, y, z);
+	}
 }

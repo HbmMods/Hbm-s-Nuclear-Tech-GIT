@@ -19,7 +19,8 @@ public class HbmKeybindsServer {
 		// ITEM HANDLING
 		ItemStack held = player.getHeldItem();
 		if(held != null && held.getItem() instanceof IKeybindReceiver) {
-			((IKeybindReceiver) held.getItem()).handleKeybind(player, held, key, state);
+			IKeybindReceiver rec = (IKeybindReceiver) held.getItem();
+			if(rec.canHandleKeybind(player, held, key)) rec.handleKeybind(player, held, key, state);
 		}
 	}
 }

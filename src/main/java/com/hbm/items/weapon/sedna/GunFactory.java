@@ -1,6 +1,8 @@
 package com.hbm.items.weapon.sedna;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.factory.GunStateDecider;
+import com.hbm.items.weapon.sedna.factory.Lego;
 import com.hbm.items.weapon.sedna.mags.MagazineRevolverDrum;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -19,7 +21,12 @@ public class GunFactory {
 		ModItems.gun_debug = new ItemGunBase(new GunConfig()
 				.dura(600).draw(15).crosshair(Crosshair.L_CLASSIC)
 				.rec(new Receiver()
-						.dmg(10F).delay(10).mag(new MagazineRevolverDrum(0, 6).addConfigs(ammo_debug)))
+						.dmg(10F).delay(10).mag(new MagazineRevolverDrum(0, 6).addConfigs(ammo_debug))
+						.canFire(Lego.LAMBDA_DEBUG_CAN_FIRE).fire(Lego.LAMBDA_DEBUG_FIRE))
+				.pr(Lego.LAMBDA_STANDARD_RELOAD)
+				.pp(Lego.LAMBDA_STANDARD_FIRE)
+				.pt(Lego.LAMBDA_TOGGLE_AIM)
+				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				).setUnlocalizedName("gun_debug").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_darter");
 	}
 }

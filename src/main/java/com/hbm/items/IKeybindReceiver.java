@@ -7,5 +7,6 @@ import net.minecraft.item.ItemStack;
 
 public interface IKeybindReceiver {
 
+	public boolean canHandleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind);
 	public void handleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind, boolean state);
 }
