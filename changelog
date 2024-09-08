@@ -6,6 +6,8 @@
 * Updated CMB brick texture
 * The ICF machine block now renders with its 3d model in the creative inventory
 * "Toggle backpack" keybind is now called "toggle jetpack" to reduce confusion
+* The xenium resonator can now teleport players using the radar linker
+* Inserters now have a toggleable destroyer mode which will delete items that cannot be inserted or cached instead of spilling them
 
 ## Fixed
 * Fixed pumpjack gauges not syncing properly
