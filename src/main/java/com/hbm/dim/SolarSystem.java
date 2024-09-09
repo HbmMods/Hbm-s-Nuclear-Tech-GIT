@@ -10,6 +10,7 @@ import com.hbm.config.SpaceConfig;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Temperature;
 import com.hbm.dim.trait.CBT_Water;
+import com.hbm.handler.RocketStruct;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -499,22 +500,27 @@ public class SolarSystem {
 		double launchDV = fromOrbit ? 0 : SolarSystem.getLiftoffDeltaV(from, mass, thrust, fromDrag);
 		double travelDV = SolarSystem.getDeltaVBetween(from, to);
 		double landerDV = toOrbit ? 0 : SolarSystem.getLandingDeltaV(to, mass, thrust, toDrag);
+
 		
 		double totalDV = launchDV + travelDV + landerDV;
 
+		// Get the fraction of the rocket that must be fuel in order to achieve the deltaV
 		double g0 = 9.81;
 		double exhaustVelocity = isp * g0;
-		double propellantMass = mass * (1 - Math.exp(-(totalDV / exhaustVelocity)));
+		double massFraction = 1 - Math.exp(-(totalDV / exhaustVelocity));
 
-		// You can do some fuckery here to get the propellant mass into some reasonable number of buckets
+		// Get the mass of a rocket that has that fraction, and the mass of the propellant
+		double totalMass = mass / (1 - massFraction);
+		double propellantMass = totalMass - mass;
+		double propellantVolume = propellantMass / RocketStruct.PROPELLANT_VOLUME;
 
-		return MathHelper.ceiling_double_int(propellantMass * 5) * 10;
+		return propellantVolume + 100 > Integer.MAX_VALUE ? Integer.MAX_VALUE : MathHelper.ceiling_double_int(propellantVolume * 0.01D) * 100;
 	}
 
 	private static double getAtmosphericDrag(CBT_Atmosphere atmosphere) {
 		if(atmosphere == null) return 0;
 		double pressure = atmosphere.getPressure();
-		return pressure * 0.01F;
+		return Math.log(pressure + 1.0D) / 10.0D;
 	}
 
 	// Provides the deltaV required to get into orbit, ignoring losses due to atmospheric friction
@@ -525,21 +531,22 @@ public class SolarSystem {
 
 	// Uses aerobraking if an atmosphere is present
 	public static double getLandingDeltaV(CelestialBody body, float craftMassKg, float craftThrustN, double atmosphericDrag) {
-		return calculateSurfaceToOrbitDeltaV(body, craftMassKg, craftThrustN, atmosphericDrag, atmosphericDrag > 0.0005);
+		return calculateSurfaceToOrbitDeltaV(body, craftMassKg, craftThrustN, atmosphericDrag, atmosphericDrag > 0.006);
 	}
 
 	private static double calculateSurfaceToOrbitDeltaV(CelestialBody body, float craftMassKg, float craftThrustN, double atmosphericDrag, boolean lossesOnly) {
+		float gravity = body.getSurfaceGravity();
 		double orbitalDeltaV = Math.sqrt((AstronomyUtil.GRAVITATIONAL_CONSTANT * body.massKg) / (body.radiusKm * 1_000));
-		double thrustToWeightRatio = craftThrustN / (craftMassKg * body.getSurfaceGravity());
+		double thrustToWeightRatio = craftThrustN / (craftMassKg * gravity);
 
 		if(thrustToWeightRatio < 1)
 			return Double.MAX_VALUE;
 
 		// We have to find out how long the burn will take to get our "gravity tax"
 		// Shorter burns have less gravity losses, meaning higher thrust is desirable
-		double acceleration = thrustToWeightRatio * body.getSurfaceGravity();
+		double acceleration = (thrustToWeightRatio - 1) * gravity;
 		double timeToOrbit = orbitalDeltaV / acceleration;
-		double gravityLosses = body.getSurfaceGravity() * timeToOrbit;
+		double gravityLosses = gravity * timeToOrbit * 2; // No perfect burns
 
 		if(lossesOnly)
 			return gravityLosses * (1 - atmosphericDrag); // drag helps on the way down

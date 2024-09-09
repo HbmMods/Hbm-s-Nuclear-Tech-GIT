@@ -4313,10 +4313,10 @@ public class ModItems {
 		sat_designator = new ItemSatDesignator().setUnlocalizedName("sat_designator").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_designator");
 		sat_relay = new ItemSatRelay().setUnlocalizedName("sat_relay").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_relay");
 																														//in kg
-		mp_thruster_10_kerosene = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 1.5F, PartSize.SIZE_10, 16_000, 15_000, 301).setHealth(10F)					.setUnlocalizedName("mp_thruster_10_kerosene");
-		mp_thruster_10_kerosene_tec = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 1.5F, PartSize.SIZE_10, 20_000, 90, 301).setHealth(15F).setRarity(Rarity.COMMON).setUnlocalizedName("mp_thruster_10_kerosene_tec");
-		mp_thruster_10_solid = new ItemCustomMissilePart().makeThruster(FuelType.SOLID, 1F, 1.5F, PartSize.SIZE_10, 24_000, 12_000, 195).setHealth(15F)						.setUnlocalizedName("mp_thruster_10_solid");
-		mp_thruster_10_xenon = new ItemCustomMissilePart().makeThruster(FuelType.XENON, 1F, 1.5F, PartSize.SIZE_10, 100, 10_000, 4200).setHealth(5F)							.setUnlocalizedName("mp_thruster_10_xenon");
+		mp_thruster_10_kerosene = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 1.5F, PartSize.SIZE_10, 16_000, 400, 301).setHealth(10F)					.setUnlocalizedName("mp_thruster_10_kerosene");
+		mp_thruster_10_kerosene_tec = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 1.5F, PartSize.SIZE_10, 20_000, 600, 301).setHealth(15F).setRarity(Rarity.COMMON).setUnlocalizedName("mp_thruster_10_kerosene_tec");
+		mp_thruster_10_solid = new ItemCustomMissilePart().makeThruster(FuelType.SOLID, 1F, 1.5F, PartSize.SIZE_10, 24_000, 800, 195).setHealth(15F)						.setUnlocalizedName("mp_thruster_10_solid");
+		mp_thruster_10_xenon = new ItemCustomMissilePart().makeThruster(FuelType.XENON, 1F, 1.5F, PartSize.SIZE_10, 200, 800, 4200).setHealth(5F)							.setUnlocalizedName("mp_thruster_10_xenon");
 		mp_thruster_15_kerosene = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 7.5F, PartSize.SIZE_15, 120_000, 900, 301).setHealth(15F)					.setUnlocalizedName("mp_thruster_15_kerosene");
 		mp_thruster_15_kerosene_tec = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 7.5F, PartSize.SIZE_15, 140_000, 1000, 301).setHealth(20F).setRarity(Rarity.COMMON).setUnlocalizedName("mp_thruster_15_kerosene_tec");
 		mp_thruster_15_kerosene_dual = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 2.5F, PartSize.SIZE_15, 200_000, 1600, 301).setHealth(15F)				.setUnlocalizedName("mp_thruster_15_kerosene_dual");
@@ -4325,10 +4325,10 @@ public class ModItems {
 		mp_thruster_15_solid_hexdecuple = new ItemCustomMissilePart().makeThruster(FuelType.SOLID, 1F, 5F, PartSize.SIZE_15, 260_000, 1200, 195).setHealth(25F).setRarity(Rarity.UNCOMMON).setUnlocalizedName("mp_thruster_15_solid_hexdecuple");
 		mp_thruster_15_hydrogen = new ItemCustomMissilePart().makeThruster(FuelType.HYDROGEN, 1F, 7.5F, PartSize.SIZE_15, 100_000, 800, 380).setHealth(20F)					.setUnlocalizedName("mp_thruster_15_hydrogen");
 		mp_thruster_15_hydrogen_dual = new ItemCustomMissilePart().makeThruster(FuelType.HYDROGEN, 1F, 2.5F, PartSize.SIZE_15, 200_000, 1400, 380).setHealth(15F)				.setUnlocalizedName("mp_thruster_15_hydrogen_dual");
-		mp_thruster_15_balefire_short = new ItemCustomMissilePart().makeThruster(FuelType.BALEFIRE, 1F, 5F, PartSize.SIZE_15, 240_000, 1600, 350).setHealth(25F)				.setUnlocalizedName("mp_thruster_15_balefire_short");
-		mp_thruster_15_balefire = new ItemCustomMissilePart().makeThruster(FuelType.BALEFIRE, 1F, 5F, PartSize.SIZE_15, 310_000, 2000, 350).setHealth(25F)					.setUnlocalizedName("mp_thruster_15_balefire");
-		mp_thruster_15_balefire_large = new ItemCustomMissilePart().makeThruster(FuelType.BALEFIRE, 1F, 7.5F, PartSize.SIZE_15, 400_000, 2400, 350).setHealth(35F)			.setUnlocalizedName("mp_thruster_15_balefire_large");
-		mp_thruster_15_balefire_large_rad = new ItemCustomMissilePart().makeThruster(FuelType.BALEFIRE, 1F, 7.5F, PartSize.SIZE_15, 400_000, 2400, 350).setAuthor("The Master").setHealth(35F).setRarity(Rarity.UNCOMMON).setUnlocalizedName("mp_thruster_15_balefire_large_rad");
+		mp_thruster_15_balefire_short = new ItemCustomMissilePart().makeThruster(FuelType.BALEFIRE, 1F, 5F, PartSize.SIZE_15, 800_000, 1600, 666).setHealth(25F)				.setUnlocalizedName("mp_thruster_15_balefire_short");
+		mp_thruster_15_balefire = new ItemCustomMissilePart().makeThruster(FuelType.BALEFIRE, 1F, 5F, PartSize.SIZE_15, 1_000_000, 2000, 666).setHealth(25F)					.setUnlocalizedName("mp_thruster_15_balefire");
+		mp_thruster_15_balefire_large = new ItemCustomMissilePart().makeThruster(FuelType.BALEFIRE, 1F, 7.5F, PartSize.SIZE_15, 1_200_000, 2400, 666).setHealth(35F)			.setUnlocalizedName("mp_thruster_15_balefire_large");
+		mp_thruster_15_balefire_large_rad = new ItemCustomMissilePart().makeThruster(FuelType.BALEFIRE, 1F, 7.5F, PartSize.SIZE_15, 1_200_000, 2400, 666).setAuthor("The Master").setHealth(35F).setRarity(Rarity.UNCOMMON).setUnlocalizedName("mp_thruster_15_balefire_large_rad");
 		mp_thruster_20_kerosene = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 100F, PartSize.SIZE_20, 936_000, 4000, 301).setHealth(30F)					.setUnlocalizedName("mp_thruster_20_kerosene");
 		mp_thruster_20_kerosene_dual = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 100F, PartSize.SIZE_20, 1_234_000, 5600, 301).setHealth(30F)				.setUnlocalizedName("mp_thruster_20_kerosene_dual");
 		mp_thruster_20_kerosene_triple = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 100F, PartSize.SIZE_20, 1_542_000, 7200, 301).setHealth(30F)			.setUnlocalizedName("mp_thruster_20_kerosene_triple");
@@ -4338,11 +4338,11 @@ public class ModItems {
 		mp_thruster_20_hydrogen = new ItemCustomMissilePart().makeThruster(FuelType.HYDROGEN, 1F, 100F, PartSize.SIZE_20, 734_000, 4200, 380).setHealth(30F)					.setUnlocalizedName("mp_thruster_20_hydrogen");
 		mp_thruster_20_hydrogen_dual = new ItemCustomMissilePart().makeThruster(FuelType.HYDROGEN, 1F, 100F, PartSize.SIZE_20, 986_000, 5900, 380).setHealth(30F)				.setUnlocalizedName("mp_thruster_20_hydrogen_dual");
 		mp_thruster_20_hydrogen_triple = new ItemCustomMissilePart().makeThruster(FuelType.HYDROGEN, 1F, 100F, PartSize.SIZE_20, 1_254_000, 7600, 380).setHealth(30F)			.setUnlocalizedName("mp_thruster_20_hydrogen_triple");
-		mp_thruster_20_solid = new ItemCustomMissilePart().makeThruster(FuelType.SOLID, 1F, 100F, PartSize.SIZE_20, 1_000_000, 2400, 195).setHealth(35F).setWittyText("It's basically just a big hole at the end of the fuel tank.").setUnlocalizedName("mp_thruster_20_solid");
-		mp_thruster_20_solid_multi = new ItemCustomMissilePart().makeThruster(FuelType.SOLID, 1F, 100F, PartSize.SIZE_20, 1_430_000, 3200, 195).setHealth(35F)					.setUnlocalizedName("mp_thruster_20_solid_multi");
-		mp_thruster_20_solid_multier = new ItemCustomMissilePart().makeThruster(FuelType.SOLID, 1F, 100F, PartSize.SIZE_20, 1_720_000, 4000, 195).setHealth(35F).setWittyText("Did I miscount? Hope not.").setUnlocalizedName("mp_thruster_20_solid_multier");
+		mp_thruster_20_solid = new ItemCustomMissilePart().makeThruster(FuelType.SOLID, 1F, 100F, PartSize.SIZE_20, 1_400_000, 2400, 195).setHealth(35F).setWittyText("It's basically just a big hole at the end of the fuel tank.").setUnlocalizedName("mp_thruster_20_solid");
+		mp_thruster_20_solid_multi = new ItemCustomMissilePart().makeThruster(FuelType.SOLID, 1F, 100F, PartSize.SIZE_20, 1_830_000, 3200, 195).setHealth(35F)					.setUnlocalizedName("mp_thruster_20_solid_multi");
+		mp_thruster_20_solid_multier = new ItemCustomMissilePart().makeThruster(FuelType.SOLID, 1F, 100F, PartSize.SIZE_20, 2_320_000, 4000, 195).setHealth(35F).setWittyText("Did I miscount? Hope not.").setUnlocalizedName("mp_thruster_20_solid_multier");
 		mp_thruster_20_hydrazine = new ItemCustomMissilePart().makeThruster(FuelType.HYDRAZINE, 1F, 100F, PartSize.SIZE_20, 600_000, 1200, 220).setHealth(35F).setUnlocalizedName("mp_thruster_20_hydrazine");
-		mp_thruster_10_hydrazine = new ItemCustomMissilePart().makeThruster(FuelType.HYDRAZINE, 1F, 1.5F, PartSize.SIZE_10, 14_000, 80, 220).setHealth(15F)						.setUnlocalizedName("mp_thruster_10_hydrazine");
+		mp_thruster_10_hydrazine = new ItemCustomMissilePart().makeThruster(FuelType.HYDRAZINE, 1F, 1.5F, PartSize.SIZE_10, 14_000, 120, 220).setHealth(15F)						.setUnlocalizedName("mp_thruster_10_hydrazine");
 
 		mp_stability_10_flat = new ItemCustomMissilePart().makeStability(0.5F, PartSize.SIZE_10).setHealth(10F).setMaxStackSize(1).setUnlocalizedName("mp_stability_10_flat");
 		mp_stability_10_cruise = new ItemCustomMissilePart().makeStability(0.25F, PartSize.SIZE_10).setHealth(5F).setMaxStackSize(1).setUnlocalizedName("mp_stability_10_cruise");
@@ -4464,14 +4464,14 @@ public class ModItems {
 		mp_chip_5 = new ItemCustomMissilePart().makeChip(0.0F)	.setUnlocalizedName("mp_c_5").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mp_c_5");
 		
 		rp_fuselage_20_12 = new ItemCustomMissilePart().makeFuselage(FuelType.ANY, 64_000, 4000, PartSize.SIZE_20, PartSize.SIZE_20).setUnlocalizedName("rp_f_20_12").setTextureName(RefStrings.MODID + ":mp_fuselage");
-		rp_fuselage_20_6 = new ItemCustomMissilePart().makeFuselage(FuelType.ANY, 32_000, 2000, PartSize.SIZE_20, PartSize.SIZE_20).setUnlocalizedName("rp_f_20_6").setTextureName(RefStrings.MODID + ":mp_fuselage");
-		rp_fuselage_20_3 = new ItemCustomMissilePart().makeFuselage(FuelType.ANY, 16_000, 1000, PartSize.SIZE_20, PartSize.SIZE_20).setUnlocalizedName("rp_f_20_3").setTextureName(RefStrings.MODID + ":mp_fuselage");
-		rp_fuselage_20_1 = new ItemCustomMissilePart().makeFuselage(FuelType.ANY, 6_000, 300, PartSize.SIZE_20, PartSize.SIZE_20).setUnlocalizedName("rp_f_20_1").setTextureName(RefStrings.MODID + ":mp_fuselage");
+		rp_fuselage_20_6 = new ItemCustomMissilePart().makeFuselage(FuelType.ANY, 32_000, 2100, PartSize.SIZE_20, PartSize.SIZE_20).setUnlocalizedName("rp_f_20_6").setTextureName(RefStrings.MODID + ":mp_fuselage");
+		rp_fuselage_20_3 = new ItemCustomMissilePart().makeFuselage(FuelType.ANY, 16_000, 1200, PartSize.SIZE_20, PartSize.SIZE_20).setUnlocalizedName("rp_f_20_3").setTextureName(RefStrings.MODID + ":mp_fuselage");
+		rp_fuselage_20_1 = new ItemCustomMissilePart().makeFuselage(FuelType.ANY, 6_000, 500, PartSize.SIZE_20, PartSize.SIZE_20).setUnlocalizedName("rp_f_20_1").setTextureName(RefStrings.MODID + ":mp_fuselage");
 
 		rp_legs_20 = new ItemCustomMissilePart().makeStability(0, PartSize.SIZE_20).setMaxStackSize(1).setUnlocalizedName("rp_l_20").setTextureName(RefStrings.MODID + ":mp_fuselage");
 
 		rp_capsule_20 = new ItemCustomMissilePart().makeWarhead(WarheadType.APOLLO, 15F, 1000, PartSize.SIZE_20).setUnlocalizedName("rp_c_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
-		rp_station_core_20 = new ItemCustomMissilePart().makeWarhead(WarheadType.SATELLITE, 15F, 4000, PartSize.SIZE_20).setUnlocalizedName("rp_sc_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
+		rp_station_core_20 = new ItemCustomMissilePart().makeWarhead(WarheadType.SATELLITE, 15F, 8000, PartSize.SIZE_20).setUnlocalizedName("rp_sc_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
 		rp_pod_20 = new ItemCustomMissilePart().makeWarhead(WarheadType.APOLLO, 15F, 1000, PartSize.SIZE_20).setUnlocalizedName("rp_pod_20").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":mp_warhead");
 
 		missile_skin_camo = new ItemCustomLore().setUnlocalizedName("missile_skin_camo").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":missile_skin_camo");
