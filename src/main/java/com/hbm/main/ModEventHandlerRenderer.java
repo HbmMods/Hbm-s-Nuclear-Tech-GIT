@@ -344,6 +344,22 @@ public class ModEventHandlerRenderer {
 	}
 	
 	@SubscribeEvent
+	public void onRenderHand(RenderHandEvent event) {
+		
+		//can't use plaxer.getHeldItem() here because the item rendering persists for a few frames after hitting the switch key
+		ItemStack toRender = Minecraft.getMinecraft().entityRenderer.itemRenderer.itemToRender;
+		
+		if(toRender != null) {
+			IItemRenderer renderer = MinecraftForgeClient.getItemRenderer(toRender, ItemRenderType.EQUIPPED_FIRST_PERSON);
+			
+			if(renderer instanceof ItemRenderWeaponBase) {
+				((ItemRenderWeaponBase) renderer).setPerspectiveAndRender(toRender, event.partialTicks);
+				event.setCanceled(true);
+			}
+		}
+	}
+
+	@SubscribeEvent
 	public void onRenderHUD(RenderGameOverlayEvent.Pre event) {
 		Tessellator tess = Tessellator.instance;
 		
