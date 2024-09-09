@@ -87,7 +87,10 @@ public class AtmosphereBlob implements Runnable {
 
 		AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(world, x, y, z);
 
-		if(bb == null) return false; // No collision, can't seal (like lamps)
+		if(bb == null) {
+			fullBounds.put(block, false);
+			return false; // No collision, can't seal (like lamps)
+		}
 
 		// size * 100 to correct rounding errors
 		int minX = (int) ((bb.minX - x) * 100);
