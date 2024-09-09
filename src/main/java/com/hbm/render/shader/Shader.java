@@ -26,6 +26,7 @@ public class Shader {
     private int fragmentShader;
     private int timeUniform;
     private int channel1Uniform;
+    private int offsetUniform;
 
     private int previousProgram;
 
@@ -49,6 +50,7 @@ public class Shader {
     
             timeUniform = GL20.glGetUniformLocation(shaderProgram, "iTime");
             channel1Uniform = GL20.glGetUniformLocation(shaderProgram, "iChannel1");
+            offsetUniform = GL20.glGetUniformLocation(shaderProgram, "iOffset");
 
             hasLoaded = true;
         } catch(RuntimeException ex) {
@@ -107,10 +109,19 @@ public class Shader {
         GL20.glDeleteProgram(shaderProgram);
     }
 
-    public void setUniforms(float time, int textureUnit) {
+    public void setTime(float time) {
         if(!hasLoaded) return;
         GL20.glUniform1f(timeUniform, time);
-        GL20.glUniform1i(channel1Uniform, textureUnit);
+    }
+    
+    public void setTextureUnit(int unit) {
+        if(!hasLoaded) return;
+        GL20.glUniform1i(channel1Uniform, unit);
+    }
+
+    public void setOffset(float offset) {
+        if(!hasLoaded) return;
+        GL20.glUniform1f(offsetUniform, offset);
     }
 
 }

@@ -447,7 +447,8 @@ public class SkyProviderCelestial extends IRenderHandler {
 
 			mc.renderEngine.bindTexture(noise);
 	
-			shader.setUniforms(time, textureUnit);
+			shader.setTime(time);
+			shader.setTextureUnit(textureUnit);
 			
 			tessellator.startDrawingQuads();
 			tessellator.addVertexWithUV(-shaderSize, 100.0D, -shaderSize, 0.0D, 0.0D);
@@ -511,7 +512,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 			
 			boolean orbitingThis = metric.body == orbiting;
 
-			double uvOffset = orbitingThis ? 1 - ((((double)world.getWorldTime() + partialTicks) / 512) % 1) : 0;
+			double uvOffset = orbitingThis ? 1 - ((((double)world.getWorldTime() + partialTicks) / 1024) % 1) : 0;
 			float axialTilt = orbitingThis ? 0 : metric.body.axialTilt;
 
 			GL11.glPushMatrix();
@@ -555,7 +556,8 @@ public class SkyProviderCelestial extends IRenderHandler {
 					GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 					planetShader.use();
-					planetShader.setUniforms((float)-metric.phase, 0);
+					planetShader.setTime((float)-metric.phase);
+					planetShader.setOffset((float)uvOffset);
 					
 					tessellator.startDrawingQuads();
 					tessellator.addVertexWithUV(-size, 100.0D, -size, 0.0D, 0.0D);

@@ -2,6 +2,7 @@
 
 uniform float iTime;
 uniform sampler2D iChannel1;
+uniform float iOffset;
 
 varying vec3 vPosition;
 
@@ -12,7 +13,7 @@ vec2 quantize(vec2 inp, vec2 period) {
 }
 
 void main() {
-	vec2 fragCoord = quantize(gl_TexCoord[0].xy, vec2(0.0625, 0.0625));
+	vec2 fragCoord = quantize(gl_TexCoord[0].xy + vec2(iOffset, 0), vec2(0.0625, 0.0625)) - vec2(iOffset, 0);
     float angle = iTime;
     vec2 uv = (2.25 * fragCoord - 1.1);
     vec2 suv = (2.0 * fragCoord - 1.0);

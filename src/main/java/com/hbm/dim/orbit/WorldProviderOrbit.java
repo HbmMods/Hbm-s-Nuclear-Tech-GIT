@@ -23,7 +23,7 @@ public class WorldProviderOrbit extends WorldProvider {
 
 	// Orbit at an altitude that provides an hour-long realtime orbit (game time is fast so we go slow)
 	// We want a consistent orbital period to prevent orbiting too slow or fast (both for player comfort and feel)
-	private static final float ORBITAL_PERIOD = 3600;
+	private static final float ORBITAL_PERIOD = 7200;
 
 	protected float getOrbitalAltitude(CelestialBody body) {
 		return getAltitudeForPeriod(body.massKg, ORBITAL_PERIOD);
