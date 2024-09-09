@@ -44,6 +44,13 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 	public void updateEntity() {
 		super.updateEntity();
 
+		// If our transporter state sync is incorrect, fix whichever one gets updated first
+		if(!worldObj.isRemote && linkedTransporter != null && linkedTransporter instanceof TileEntityTransporterRocket) {
+			if(hasRocket == ((TileEntityTransporterRocket) linkedTransporter).hasRocket) {
+				hasRocket = !hasRocket;
+			}
+		}
+
 		launchTicks = MathHelper.clamp_int(launchTicks + (hasRocket ? -1 : 1), hasRocket ? -20 : 0, 100);
 
 		if(worldObj.isRemote && launchTicks > 0 && launchTicks < 100) {

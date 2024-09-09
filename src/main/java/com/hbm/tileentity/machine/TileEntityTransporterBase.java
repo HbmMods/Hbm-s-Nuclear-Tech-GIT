@@ -56,7 +56,7 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 	}
 
 	// The transporter we're sending our contents to
-	private TileEntityTransporterBase linkedTransporter;
+	protected TileEntityTransporterBase linkedTransporter;
 	private TransporterInfo linkedTransporterInfo;
 
 	private int inputSlotMax;
@@ -146,6 +146,7 @@ public abstract class TileEntityTransporterBase extends TileEntityMachineBase im
 
 			if(isDirty) {
 				markChanged();
+				linkedTransporter.markChanged();
 			}
 		}
 
