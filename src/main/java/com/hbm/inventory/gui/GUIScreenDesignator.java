@@ -8,8 +8,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.ItemDesignatorPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.ItemDesignatorPacket;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

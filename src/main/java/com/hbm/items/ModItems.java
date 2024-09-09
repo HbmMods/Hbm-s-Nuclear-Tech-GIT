@@ -36,7 +36,7 @@ import com.hbm.items.weapon.ItemCustomMissilePart.*;
 import com.hbm.items.weapon.ItemMissile.MissileFormFactor;
 import com.hbm.items.weapon.ItemMissile.MissileFuel;
 import com.hbm.items.weapon.ItemMissile.MissileTier;
-import com.hbm.items.weapon.gununified.ItemEnergyGunBase;
+import com.hbm.items.weapon.sedna.GunFactory;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
@@ -1804,11 +1804,9 @@ public class ModItems {
 	public static Item gun_m2;
 	public static Item gun_lunatic_marksman;
 	public static Item gun_uac_pistol;
-	
-	// We'll figure this part out later
-	//public static Item gun_llr, gun_mlr, gun_hlr, gun_twr, gun_lunatic, gun_lunatic_shotty;
-	//public static Item gun_uac_pistol, gun_uac_dmr, gun_uac_carbine, gun_uac_lmg;
-	//public static Item gun_benelli, gun_benelli_mod, gun_g36, spear_bishamonten, pagoda;
+
+	public static Item gun_debug;
+	public static Item ammo_debug;
 	
 	public static Item crucible;
 
@@ -2373,6 +2371,9 @@ public class ModItems {
 	public static Item card_aos;
 	public static Item card_qos;
 	public static Item australium_iii;
+	public static Item armor_battery;
+	public static Item armor_battery_mk2;
+	public static Item armor_battery_mk3;
 
 	public static Item hazmat_helmet;
 	public static Item hazmat_plate;
@@ -3702,6 +3703,9 @@ public class ModItems {
 		card_aos = new ItemModCard().setUnlocalizedName("card_aos").setTextureName(RefStrings.MODID + ":card_aos");
 		card_qos = new ItemModCard().setUnlocalizedName("card_qos").setTextureName(RefStrings.MODID + ":card_qos");
 		australium_iii = new ItemModShield(25F).setUnlocalizedName("australium_iii").setTextureName(RefStrings.MODID + ":australium_iii");
+		armor_battery = new ItemModBattery(1.25D).setUnlocalizedName("armor_battery").setTextureName(RefStrings.MODID + ":armor_battery");
+		armor_battery_mk2 = new ItemModBattery(1.5D).setUnlocalizedName("armor_battery_mk2").setTextureName(RefStrings.MODID + ":armor_battery_mk2");
+		armor_battery_mk3 = new ItemModBattery(2D).setUnlocalizedName("armor_battery_mk3").setTextureName(RefStrings.MODID + ":armor_battery_mk3");
 
 		cap_nuka = new Item().setUnlocalizedName("cap_nuka").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_nuka");
 		cap_quantum = new Item().setUnlocalizedName("cap_quantum").setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":cap_quantum");
@@ -5948,6 +5952,8 @@ public class ModItems {
 		mysteryshovel = new ItemMS().setUnlocalizedName("mysteryshovel").setFull3D().setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cursed_shovel");
 		memory = new ItemBattery(Long.MAX_VALUE / 100L, 100000000000000L, 100000000000000L).setUnlocalizedName("memory").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mo8_anim");
 
+		GunFactory.init();
+		
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.mud_fluid, 1000), new ItemStack(ModItems.bucket_mud), new ItemStack(Items.bucket));
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.acid_fluid, 1000), new ItemStack(ModItems.bucket_acid), new ItemStack(Items.bucket));
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.toxic_fluid, 1000), new ItemStack(ModItems.bucket_toxic), new ItemStack(Items.bucket));
@@ -7654,6 +7660,9 @@ public class ModItems {
 		GameRegistry.registerItem(gun_glass_cannon, gun_glass_cannon.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lunatic_marksman, gun_lunatic_marksman.getUnlocalizedName());
 		
+		GameRegistry.registerItem(gun_debug, gun_debug.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_debug, ammo_debug.getUnlocalizedName());
+		
 		//Ammo
 		GameRegistry.registerItem(gun_b92_ammo, gun_b92_ammo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_xvl1456_ammo, gun_xvl1456_ammo.getUnlocalizedName());
@@ -8053,6 +8062,9 @@ public class ModItems {
 		GameRegistry.registerItem(card_aos, card_aos.getUnlocalizedName());
 		GameRegistry.registerItem(card_qos, card_qos.getUnlocalizedName());
 		GameRegistry.registerItem(australium_iii, australium_iii.getUnlocalizedName());
+		GameRegistry.registerItem(armor_battery, armor_battery.getUnlocalizedName());
+		GameRegistry.registerItem(armor_battery_mk2, armor_battery_mk2.getUnlocalizedName());
+		GameRegistry.registerItem(armor_battery_mk3, armor_battery_mk3.getUnlocalizedName());
 
 		//Chaos
 		GameRegistry.registerItem(chocolate_milk, chocolate_milk.getUnlocalizedName());

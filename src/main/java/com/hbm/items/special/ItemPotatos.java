@@ -28,7 +28,7 @@ public class ItemPotatos extends ItemBattery {
     			
     			if(p.getHeldItem() == stack) {
     				
-    		    	float pitch = (float)getCharge(stack) / (float)this.getMaxCharge() * 0.5F + 0.5F;
+    		    	float pitch = (float)getCharge(stack) / (float)this.getMaxCharge(stack) * 0.5F + 0.5F;
     		    	
     				world.playSoundAtEntity(p, "hbm:potatos.random", 1.0F, pitch);
     				setTimer(stack, 200 + itemRand.nextInt(100));

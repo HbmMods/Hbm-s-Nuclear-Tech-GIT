@@ -116,10 +116,17 @@ public class RecipesCommon {
 				this.stacksize = 1;
 				return;
 			}
-			this.item = stack.getItem();
-			if(this.item == null) this.item = ModItems.nothing; //i'm going to bash some fuckard's head in
-			this.stacksize = stack.stackSize;
-			this.meta = stack.getItemDamage();
+			try {
+				this.item = stack.getItem();
+				if(this.item == null) this.item = ModItems.nothing; //i'm going to bash some fuckard's head in
+				this.stacksize = stack.stackSize;
+				this.meta = stack.getItemDamage();
+			} catch(Exception ex) {
+				this.item = ModItems.nothing;
+				if(!GeneralConfig.enableSilentCompStackErrors) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		public ComparableStack makeSingular() {

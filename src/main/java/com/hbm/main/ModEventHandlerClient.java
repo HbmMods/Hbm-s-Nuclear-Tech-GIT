@@ -37,7 +37,6 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIArmorTable;
 import com.hbm.inventory.gui.GUIScreenPreview;
 import com.hbm.inventory.gui.GUIScreenWikiRender;
-import com.hbm.items.ISyncButtons;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
@@ -50,11 +49,11 @@ import com.hbm.items.machine.ItemRBMKPellet;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AuxButtonPacket;
-import com.hbm.packet.GunButtonPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.SyncButtonsPacket;
 import com.hbm.potion.HbmPotion;
+import com.hbm.packet.toserver.AuxButtonPacket;
+import com.hbm.packet.toserver.GunButtonPacket;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
@@ -83,9 +82,6 @@ import com.hbm.util.ArmorUtil;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
-import api.hbm.item.IButtonReceiver;
-import api.hbm.item.IClickReceiver;
-
 import com.hbm.sound.MovingSoundPlayerLoop.EnumHbmSound;
 
 import cpw.mods.fml.client.FMLClientHandler;
@@ -95,7 +91,6 @@ import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.gameevent.InputEvent;
-import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
@@ -624,15 +619,6 @@ public class ModEventHandlerClient {
 			
 			Item held = player.getHeldItem().getItem();
 			
-			if(held instanceof IClickReceiver) {
-				IClickReceiver rec = (IClickReceiver) held;
-				
-				if(rec.handleMouseInput(player.getHeldItem(), player, event.button, event.buttonstate)) {
-					event.setCanceled(true);
-					return;
-				}
-			}
-			
 			if(held instanceof ItemGunBase) {
 				
 				if(event.button == 0)
@@ -650,30 +636,6 @@ public class ModEventHandlerClient {
 					PacketDispatcher.wrapper.sendToServer(new GunButtonPacket(true, (byte) 1));
 					item.startActionClient(player.getHeldItem(), player.worldObj, player, false);
 				}
-			}
-			
-			if(held instanceof ISyncButtons) {
-				ISyncButtons rec = (ISyncButtons) held;
-				
-				if(rec.canReceiveMouse(player, player.getHeldItem(), event, event.button, event.buttonstate)) {
-					PacketDispatcher.wrapper.sendToServer(new SyncButtonsPacket(event.buttonstate, event.button));
-				}
-			}
-		}
-	}
-	
-	@SubscribeEvent
-	public void keyEvent(KeyInputEvent event) {
-		
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		
-		if(player.getHeldItem() != null) {
-			
-			Item held = player.getHeldItem().getItem();
-			
-			if(held instanceof IButtonReceiver) {
-				IButtonReceiver rec = (IButtonReceiver) held;
-				rec.handleKeyboardInput(player.getHeldItem(), player);
 			}
 		}
 	}
@@ -1181,8 +1143,8 @@ public class ModEventHandlerClient {
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public void onMouseClicked(InputEvent.KeyInputEvent event) {
-
+	public void onMouseClicked(InputEvent.MouseInputEvent event) {
+		
 		Minecraft mc = Minecraft.getMinecraft();
 		if(GeneralConfig.enableKeybindOverlap && (mc.currentScreen == null || mc.currentScreen.allowUserInput)) {
 			boolean state = Mouse.getEventButtonState();
@@ -1193,7 +1155,7 @@ public class ModEventHandlerClient {
 				KeyBinding key = (KeyBinding) o;
 				
 				if(key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
-					
+
 					key.pressed = state;
 					if(state) {
 						key.pressTime++;

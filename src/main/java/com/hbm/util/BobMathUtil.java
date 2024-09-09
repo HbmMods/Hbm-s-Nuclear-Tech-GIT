@@ -232,4 +232,15 @@ public class BobMathUtil {
 		return Arrays.stream(in.toArray()).mapToInt(mapper).toArray();
 	}
 
+	
+	/** Soft peak sine */
+	public static double sps(double x) {
+		return Math.sin(Math.PI / 2D * Math.cos(x));
+	}
+	
+	/** Square wave sine, make sure squarination is [0;1] */
+	public static double sws(double x, double squarination) {
+		double s = Math.sin(x);
+		return Math.pow(Math.abs(s), 2 - squarination) / s;
+	}
 }

@@ -82,10 +82,13 @@ public class CraneInserter extends BlockCraneBase implements IEnterableBlock {
 			addToInventory(inv, access, toAdd, outputDirection.getOpposite().ordinal());
 		}
 		
+		TileEntityCraneInserter inserter = null;
+		
 		if(toAdd.stackSize > 0) {
-			addToInventory((TileEntityCraneInserter) world.getTileEntity(x, y, z), null, toAdd, outputDirection.getOpposite().ordinal());
+			inserter = (TileEntityCraneInserter) world.getTileEntity(x, y, z);
+			addToInventory(inserter, null, toAdd, outputDirection.getOpposite().ordinal());
 		}
-		if(toAdd.stackSize > 0) {
+		if(toAdd.stackSize > 0 && inserter != null && !inserter.destroyer) {
 			EntityItem drop = new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, toAdd.copy());
 			world.spawnEntityInWorld(drop);
 		}

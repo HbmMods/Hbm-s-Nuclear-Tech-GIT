@@ -10,8 +10,8 @@ import com.hbm.inventory.recipes.SILEXRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.AuxButtonPacket;
 import com.hbm.tileentity.machine.TileEntitySILEX;
 import com.hbm.util.I18nUtil;
 

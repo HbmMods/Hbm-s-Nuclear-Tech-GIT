@@ -38,7 +38,7 @@ public class ItemSelfcharger extends Item implements IBatteryItem {
 	}
 
 	@Override
-	public long getMaxCharge() {
+	public long getMaxCharge(ItemStack stack) {
 		return charge;
 	}
 

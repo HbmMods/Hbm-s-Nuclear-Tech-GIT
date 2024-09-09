@@ -14,6 +14,7 @@ import com.hbm.items.armor.IArmorDisableModel;
 import com.hbm.items.armor.IArmorDisableModel.EnumPlayerPart;
 import com.hbm.items.armor.ItemModOxy;
 import com.hbm.packet.PermaSyncHandler;
+import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
 import com.hbm.render.model.ModelMan;
 import com.hbm.util.ArmorUtil;
 
@@ -37,11 +38,15 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraftforge.client.GuiIngameForge;
+import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.IItemRenderer.ItemRenderType;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogColors;
 import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
 public class ModEventHandlerRenderer {
@@ -374,37 +379,38 @@ public class ModEventHandlerRenderer {
 				// Prevent regular bubbles rendering
 				event.setCanceled(true);
 			}
-			
-			ItemStack tankStack = ArmorUtil.getOxygenTank(player);
-			if(tankStack != null) {
-				ItemModOxy tank = (ItemModOxy)tankStack.getItem();
-				
-				float tot = (float)ItemModOxy.getFuel(tankStack) / (float)tank.getMaxFuel();
-				
-				GL11.glDisable(GL11.GL_TEXTURE_2D);
-				int right = width / 2 + 91;
-				int top = height - GuiIngameForge.right_height + 3;
-
-				tess.startDrawingQuads();
-				tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
-				tess.addVertex(right - 81.5, top - 0.5, 0);
-				tess.addVertex(right - 81.5, top + 4.5, 0);
-				tess.addVertex(right + 0.5, top + 4.5, 0);
-				tess.addVertex(right + 0.5, top - 0.5, 0);
-
-				tess.setColorOpaque_F(1F - tot, tot, tot);
-				tess.addVertex(right - 81 * tot, top, 0);
-				tess.addVertex(right - 81 * tot, top + 4, 0);
-				tess.addVertex(right, top + 4, 0);
-				tess.addVertex(right, top, 0);
-				tess.draw();
-
-				GL11.glEnable(GL11.GL_TEXTURE_2D);
-				
-				GuiIngameForge.right_height += 6;
-
-				event.setCanceled(true);
-			}
 		}
+
+		fogX = playerX;
+		fogZ = playerZ;
+		
+		if(doesBiomeApply) {
+			fogRGBMultiplier = Vec3.createVectorHelper(r / divider, g / divider, b / divider);
+		} else {
+			fogRGBMultiplier = null;
+		}
+
+		return fogRGBMultiplier;
+	}
+	
+	/** Returns the current biome's fog color adjusted for brightness if in a crater, or the world's cached fog color if not */
+	public static Vec3 getBiomeFogColors(World world, BiomeGenBase biome, float r, float g, float b, double partialTicks) {
+		
+		if(biome instanceof BiomeGenCraterBase) {
+			int color = biome.getSkyColorByTemp(biome.temperature);
+			r = ((color & 0xff0000) >> 16) / 255F;
+			g = ((color & 0x00ff00) >> 8) / 255F;
+			b = (color & 0x0000ff) / 255F;
+			
+			float celestialAngle = world.getCelestialAngle((float) partialTicks);
+			float skyBrightness = MathHelper.clamp_float(MathHelper.cos(celestialAngle * (float) Math.PI * 2.0F) * 2.0F + 0.5F, 0F, 1F);
+			r *= skyBrightness;
+			g *= skyBrightness;
+			b *= skyBrightness;
+			
+			doesBiomeApply = true;
+		}
+		
+		return Vec3.createVectorHelper(r, g, b);
 	}
 }

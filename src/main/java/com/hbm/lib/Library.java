@@ -243,7 +243,7 @@ public class Library {
 			
 			IBatteryItem battery = (IBatteryItem) slots[index].getItem();
 
-			long batMax = battery.getMaxCharge();
+			long batMax = battery.getMaxCharge(slots[index]);
 			long batCharge = battery.getCharge(slots[index]);
 			long batRate = battery.getChargeRate();
 			long toCharge = Math.min(Math.min(power, batRate), batMax - batCharge);

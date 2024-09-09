@@ -2,8 +2,8 @@ package com.hbm.tileentity.machine.storage;
 
 import com.hbm.inventory.container.ContainerFileCabinet;
 import com.hbm.inventory.gui.GUIFileCabinet;
-import com.hbm.packet.BufPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.BufPacket;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
 

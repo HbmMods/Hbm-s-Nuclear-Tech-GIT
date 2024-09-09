@@ -1,7 +1,7 @@
 package com.hbm.tileentity.network;
 
-import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.NBTPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;

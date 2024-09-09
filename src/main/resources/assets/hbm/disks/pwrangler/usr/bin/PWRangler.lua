@@ -21,37 +21,37 @@ gpu.fill(1,1,160,160," ")
 
 -- Button Bullshit
 function newButton(x, y, width, height, colorUp, colorDown, func)
-  local button = {xpos = 0, ypos = 0, width = 0, height = 0, colorUp = 0, colorDown = 0, func = nil}
-  button.xpos = x
-  button.ypos = y
-  button.width = width
-  button.height = height
-  button.colorUp = colorUp
-  button.colorDown = colorDown
-  button.func = func
-  return button
+    local button = {xpos = 0, ypos = 0, width = 0, height = 0, colorUp = 0, colorDown = 0, func = nil}
+    button.xpos = x
+    button.ypos = y
+    button.width = width
+    button.height = height
+    button.colorUp = colorUp
+    button.colorDown = colorDown
+    button.func = func
+    return button
 end
 
 function drawButton(button, color)
-  component.gpu.setBackground(color)
-  component.gpu.fill(button.xpos, button.ypos, button.width, button.height, " ")
-  component.gpu.setBackground(0x000000)
+    component.gpu.setBackground(color)
+    component.gpu.fill(button.xpos, button.ypos, button.width, button.height, " ")
+    component.gpu.setBackground(0x000000)
 end
 
 pressedButton = nil
 function buttonPress(_, _, x, y, _, _)
-  for _, b in pairs(buttons) do
-    if((x>=b.xpos) and (x<(b.xpos+b.width)) and (y>=b.ypos) and (y<(b.ypos+b.height)) ) then
-      drawButton(b, b.colorDown)
-      pressedButton = b
+    for _, b in pairs(buttons) do
+        if((x>=b.xpos) and (x<(b.xpos+b.width)) and (y>=b.ypos) and (y<(b.ypos+b.height)) ) then
+            drawButton(b, b.colorDown)
+            pressedButton = b
+        end
     end
-  end
 end
 
 function buttonRelease(_, _, x, y, _, _)
-  drawButton(pressedButton, pressedButton.colorUp)
-  pressedButton.func()
-  pressedButton = nil
+    drawButton(pressedButton, pressedButton.colorUp)
+    pressedButton.func()
+    pressedButton = nil
 end
 --Button bullshit ends
 
@@ -72,7 +72,7 @@ buttons[9] = newButton(94, 9, 12, 2, 0x00FF00, 0x00AA00, function() coolantLossE
 buttons[10] = newButton(107, 8, 5, 3, 0xFF0000, 0xAA0000, function() runSig = false end)
 
 for address, _ in component.list("ntm_pwr_control") do
-  pwrController = address
+    pwrController = address
 end
 
 gpu.setForeground(0xAAAAAA)
@@ -185,87 +185,87 @@ event.listen("touch", buttonPress)
 event.listen("drop", buttonRelease)
 
 while (runSig == true) do
-  rodLevel = call(pwrController, "getLevel")
-  
-  coreHeat, _ = call(pwrController, "getHeat")
-  coreHeat = coreHeat//1000000
-  
-  for _, b in pairs(buttons) do
-    drawButton(b, b.colorUp)
-  end
-  
-  for j=rodLevel//10,10 do
-    gpu.fill(64+(j*2), 33, 1, 10, " ")
-  end
-  
-  for j=1,rodLevel//10 do
-    gpu.fill(64+(j*2), 33, 1, 10, "┃")
-  end
-  
-  gpu.fill(64+(math.ceil(rodLevel/10)*2), 33, 1, math.fmod(rodLevel,10), "┃")
-  
-  for j=0,20,2 do
-    gpu.setForeground(colorGradient[coreHeat+1])
-    gpu.fill(65+j, 33, 1, 9, "█")
-    gpu.setForeground(0xAAAAAA)
-  end
-  
-  gpu.setBackground(0xFFFFFF)
-  
-  gpu.setForeground(0xFFFFFF)
-  gpu.fill(66,22,19,1,"█")
-  gpu.fill(66,24,19,1,"█")
-  gpu.fill(66,26,19,1,"█")
-  gpu.fill(66,28,19,1,"█")
-  gpu.fill(66,30,19,1,"█")
-  
-  gpu.fill(92,15,6,5,"█")
-  gpu.fill(92,32,6,5,"█")
-  
-  gpu.fill(99,15,7,1,"█")
-  gpu.fill(99,32,7,1,"█")
-  
-  prevCoolantFlow = coldCoolantLevel
-  prevHotCoolantFlow = hotCoolantLevel
-  
-  fullCoreHeat, fullHullHeat = call(pwrController, "getHeat")
-  coldCoolantLevel, _, hotCoolantLevel, _ = call(pwrController, "getCoolantInfo")
-  
-  coldCoolantOutflow = coldCoolantLevel - prevCoolantFlow
-  hotCoolantOutflow = hotCoolantLevel - prevHotCoolantFlow
-  
-  gpu.setForeground(0xFF0099)
-  gpu.fill(92,15+(5-hotCoolantLevel//25600),6,hotCoolantLevel//25600, "█")
-  gpu.setForeground(0x000000)
-  
-  gpu.setForeground(0x00FFFF)
-  gpu.fill(92,32+(5-coldCoolantLevel//25600),6,coldCoolantLevel//25600, "█")
-  gpu.setForeground(0x000000)
-  
-  gpu.set(66,22,tostring(fullCoreHeat))
-  gpu.set(66,24,tostring(fullHullHeat))
-  gpu.set(66,26,tostring(call(pwrController, "getFlux")))
-  gpu.set(66,28,tostring(coldCoolantLevel))
-  gpu.set(66,30,tostring(hotCoolantLevel))
-  
-  gpu.set(99,15,tostring(hotCoolantOutflow))
-  gpu.set(99,32,tostring(coldCoolantOutflow))
-  
-  gpu.set(107,6,"   ")
-  gpu.set(107,6,tostring(call(pwrController, "getLevel")))
-  
-  gpu.setBackground(0x000000)
-  gpu.setForeground(0xFFFFFF)
-  
-  if (coreHeatESTOP == true) and (fullCoreHeat) > 9000000 then
-    component.proxy(pwrController).setLevel(100)
-  end
-  
-  if (coolantLossESTOP == true) and (coldCoolantLevel) < 10000 then
-    component.proxy(pwrController).setLevel(100)
-  end
-  
-  os.sleep(0.25)
+    rodLevel = call(pwrController, "getLevel")
+
+    coreHeat, _ = call(pwrController, "getHeat")
+    coreHeat = coreHeat//1000000
+
+    for _, b in pairs(buttons) do
+        drawButton(b, b.colorUp)
+    end
+
+    for j=rodLevel//10,10 do
+        gpu.fill(64+(j*2), 33, 1, 10, " ")
+    end
+
+    for j=1,rodLevel//10 do
+        gpu.fill(64+(j*2), 33, 1, 10, "┃")
+    end
+
+    gpu.fill(64+(math.ceil(rodLevel/10)*2), 33, 1, math.fmod(rodLevel,10), "┃")
+
+    for j=0,20,2 do
+        gpu.setForeground(colorGradient[coreHeat+1])
+        gpu.fill(65+j, 33, 1, 9, "█")
+        gpu.setForeground(0xAAAAAA)
+    end
+
+    gpu.setBackground(0xFFFFFF)
+
+    gpu.setForeground(0xFFFFFF)
+    gpu.fill(66,22,19,1,"█")
+    gpu.fill(66,24,19,1,"█")
+    gpu.fill(66,26,19,1,"█")
+    gpu.fill(66,28,19,1,"█")
+    gpu.fill(66,30,19,1,"█")
+
+    gpu.fill(92,15,6,5,"█")
+    gpu.fill(92,32,6,5,"█")
+
+    gpu.fill(99,15,7,1,"█")
+    gpu.fill(99,32,7,1,"█")
+
+    prevCoolantFlow = coldCoolantLevel
+    prevHotCoolantFlow = hotCoolantLevel
+
+    fullCoreHeat, fullHullHeat = call(pwrController, "getHeat")
+    coldCoolantLevel, _, hotCoolantLevel, _ = call(pwrController, "getCoolantInfo")
+    
+    coldCoolantOutflow = coldCoolantLevel - prevCoolantFlow
+    hotCoolantOutflow = hotCoolantLevel - prevHotCoolantFlow
+
+    gpu.setForeground(0xFF0099)
+    gpu.fill(92,15+(5-hotCoolantLevel//25600),6,hotCoolantLevel//25600, "█")
+    gpu.setForeground(0x000000)
+
+    gpu.setForeground(0x00FFFF)
+    gpu.fill(92,32+(5-coldCoolantLevel//25600),6,coldCoolantLevel//25600, "█")
+    gpu.setForeground(0x000000)
+
+    gpu.set(66,22,tostring(fullCoreHeat))
+    gpu.set(66,24,tostring(fullHullHeat))
+    gpu.set(66,26,tostring(call(pwrController, "getFlux")))
+    gpu.set(66,28,tostring(coldCoolantLevel))
+    gpu.set(66,30,tostring(hotCoolantLevel))
+
+    gpu.set(99,15,tostring(hotCoolantOutflow))
+    gpu.set(99,32,tostring(coldCoolantOutflow))
+
+    gpu.set(107,6,"   ")
+    gpu.set(107,6,tostring(call(pwrController, "getLevel")))
+
+    gpu.setBackground(0x000000)
+    gpu.setForeground(0xFFFFFF)
+
+    if (coreHeatESTOP == true) and (fullCoreHeat) > 9000000 then
+        component.proxy(pwrController).setLevel(100)
+    end
+
+    if (coolantLossESTOP == true) and (coldCoolantLevel) < 10000 then
+        component.proxy(pwrController).setLevel(100)
+    end
+
+    os.sleep(0.25)
 end
 
 event.ignore("touch", buttonPress)

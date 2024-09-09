@@ -5,8 +5,8 @@ import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import api.hbm.entity.IRadiationImmune;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

@@ -11,7 +11,7 @@ import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
+import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 import com.hbm.util.ChatBuilder;
 
