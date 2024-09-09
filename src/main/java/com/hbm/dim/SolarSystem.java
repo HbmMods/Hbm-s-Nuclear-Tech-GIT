@@ -10,7 +10,6 @@ import com.hbm.config.SpaceConfig;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CBT_Temperature;
 import com.hbm.dim.trait.CBT_Water;
-import com.hbm.handler.RocketStruct;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -512,7 +511,7 @@ public class SolarSystem {
 		// Get the mass of a rocket that has that fraction, and the mass of the propellant
 		double totalMass = mass / (1 - massFraction);
 		double propellantMass = totalMass - mass;
-		double propellantVolume = propellantMass / RocketStruct.PROPELLANT_VOLUME;
+		double propellantVolume = propellantMass / 2; // two propellants
 
 		return propellantVolume + 100 > Integer.MAX_VALUE ? Integer.MAX_VALUE : MathHelper.ceiling_double_int(propellantVolume * 0.01D) * 100;
 	}

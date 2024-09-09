@@ -26,9 +26,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.Constants;
 
 public class RocketStruct {
-
-	// how many mB in a kg
-	public static final int PROPELLANT_VOLUME = 2;
 	
 	public MissilePart capsule;
 	public ArrayList<RocketStage> stages = new ArrayList<>();
@@ -256,7 +253,7 @@ public class RocketStruct {
 			if(stage.thruster != null) mass += stage.thruster.part.mass * stage.thrusterCount;
 
 			if(stage.fuselage != null && (i > stageNum || wet)) {
-				mass += stage.fuselage.part.getTankSize() * stage.fuselageCount / PROPELLANT_VOLUME;
+				mass += stage.fuselage.part.getTankSize() * stage.fuselageCount / 4; // Reduced fuel weight to improve multi-stages
 			}
 		}
 
