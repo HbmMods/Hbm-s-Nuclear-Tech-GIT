@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
-import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;

@@ -9,7 +9,7 @@ import com.hbm.handler.RocketStruct;
 import com.hbm.inventory.container.ContainerMachineRocketAssembly;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.NBTControlPacket;
+import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.util.MissilePronter;
 import com.hbm.tileentity.machine.TileEntityMachineRocketAssembly;

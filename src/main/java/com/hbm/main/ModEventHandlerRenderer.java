@@ -17,6 +17,7 @@ import com.hbm.packet.PermaSyncHandler;
 import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
 import com.hbm.render.model.ModelMan;
 import com.hbm.util.ArmorUtil;
+import com.hbm.world.biome.BiomeGenCraterBase;
 
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -29,6 +30,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -37,6 +39,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
@@ -48,6 +53,7 @@ import net.minecraftforge.client.event.EntityViewRenderEvent.FogDensity;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.common.ForgeModContainer;
 
 public class ModEventHandlerRenderer {
 
@@ -394,6 +400,49 @@ public class ModEventHandlerRenderer {
 	
 				// Prevent regular bubbles rendering
 				event.setCanceled(true);
+			}
+		}
+
+	}
+	
+	private static boolean fogInit = false;
+	private static int fogX;
+	private static int fogZ;
+	private static Vec3 fogRGBMultiplier;
+	private static boolean doesBiomeApply = false;
+	private static long fogTimer = 0;
+	
+	/** Same procedure as getting the blended sky color but for fog */
+	public static Vec3 getFogBlendColor(World world, int playerX, int playerZ, float red, float green, float blue, double partialTicks) {
+		
+		long millis = System.currentTimeMillis() - fogTimer;
+		if(playerX == fogX && playerZ == fogZ && fogInit && millis < 3000) return fogRGBMultiplier;
+
+		fogInit = true;
+		fogTimer = System.currentTimeMillis();
+		GameSettings settings = Minecraft.getMinecraft().gameSettings;
+		int[] ranges = ForgeModContainer.blendRanges;
+		int distance = 0;
+		
+		if(settings.fancyGraphics && settings.renderDistanceChunks >= 0) {
+			distance = ranges[Math.min(settings.renderDistanceChunks, ranges.length - 1)];
+		}
+
+		float r = 0F;
+		float g = 0F;
+		float b = 0F;
+		
+		int divider = 0;
+		doesBiomeApply = false;
+		
+		for(int x = -distance; x <= distance; x++) {
+			for(int z = -distance; z <= distance; z++) {
+				BiomeGenBase biome = world.getBiomeGenForCoords(playerX + x,  playerZ + z);
+				Vec3 color = getBiomeFogColors(world, biome, red, green, blue, partialTicks);
+				r += color.xCoord;
+				g += color.yCoord;
+				b += color.zCoord;
+				divider++;
 			}
 		}
 
