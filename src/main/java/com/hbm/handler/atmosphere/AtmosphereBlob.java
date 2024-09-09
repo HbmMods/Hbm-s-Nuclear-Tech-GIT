@@ -1,6 +1,7 @@
 package com.hbm.handler.atmosphere;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
@@ -40,6 +41,8 @@ public class AtmosphereBlob implements Runnable {
 
 
 	private static ThreadPoolExecutor pool = new ThreadPoolExecutor(2, 16, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<>(32));
+	
+	private static HashMap<Block, Boolean> fullBounds = new HashMap<Block, Boolean>();
 
 	
 	private boolean executing;
@@ -79,6 +82,9 @@ public class AtmosphereBlob implements Runnable {
 		if(material.isLiquid() || !material.isSolid()) return false; // Liquids need to know what pressurized atmosphere they're in to determine evaporation
 		if(material == Material.leaves) return false; // Leaves never block air
 
+		Boolean isFull = fullBounds.get(block);
+		if(isFull != null) return isFull;
+
 		AxisAlignedBB bb = block.getCollisionBoundingBoxFromPool(world, x, y, z);
 
 		if(bb == null) return false; // No collision, can't seal (like lamps)
@@ -91,7 +97,11 @@ public class AtmosphereBlob implements Runnable {
 		int maxY = (int) ((bb.maxY - y) * 100);
 		int maxZ = (int) ((bb.maxZ - z) * 100);
 
-		return minX == 0 && minY == 0 && minZ == 0 && maxX == 100 && maxY == 100 && maxZ == 100;
+		isFull = minX == 0 && minY == 0 && minZ == 0 && maxX == 100 && maxY == 100 && maxZ == 100;
+
+		fullBounds.put(block, isFull);
+
+		return isFull;
 	}
 	
 	public int getBlobMaxRadius() {
