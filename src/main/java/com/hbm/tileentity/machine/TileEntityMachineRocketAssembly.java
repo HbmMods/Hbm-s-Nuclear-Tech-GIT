@@ -235,6 +235,35 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 			slots[i] = null;
 		}
 	}
+
+	public boolean canDeconstruct() {
+		RocketStruct rocket = ItemCustomRocket.get(slots[slots.length - 3]);
+		if(rocket == null) return false;
+		for(int i = 0; i < slots.length - 3; i++) {
+			if(slots[i] != null) return false;
+		}
+
+		return true;
+	}
+
+	public void deconstruct() {
+		if(!canDeconstruct()) return;
+		RocketStruct rocket = ItemCustomRocket.get(slots[slots.length - 3]);
+
+		slots[0] = new ItemStack(rocket.capsule.part);
+		if(slots[0].getItem() instanceof ISatChip) {
+			ISatChip.setFreqS(slots[0], rocket.satFreq);
+		}
+		for(int i = 0; i < rocket.stages.size(); i++) {
+			int o = i * 3;
+			RocketStage stage = rocket.stages.get(rocket.stages.size() - 1 - i);
+			slots[o + 1] = new ItemStack(stage.fuselage.part, stage.fuselageCount);
+			if(stage.fins != null) slots[o + 2] = new ItemStack(stage.fins.part);
+			slots[o + 3] = new ItemStack(stage.thruster.part, stage.thrusterCount);
+		}
+
+		slots[slots.length - 3] = null;
+	}
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
@@ -272,6 +301,9 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 	public void receiveControl(NBTTagCompound data) {
 		if(data.getBoolean("construct")) {
 			construct();
+		}
+		if(data.getBoolean("deconstruct")) {
+			deconstruct();
 		}
 	}
 

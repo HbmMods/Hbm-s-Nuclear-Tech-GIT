@@ -4,7 +4,7 @@ import com.hbm.handler.RocketStruct;
 import com.hbm.inventory.SlotRocket;
 import com.hbm.inventory.SlotRocket.SlotCapsule;
 import com.hbm.inventory.SlotRocket.SlotDrive;
-import com.hbm.inventory.SlotTakeOnly;
+import com.hbm.inventory.SlotRocket.SlotRocketPart;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 
 import net.minecraft.entity.player.InventoryPlayer;
@@ -22,13 +22,13 @@ public class ContainerMachineRocketAssembly extends ContainerBase {
 
 		// Stages
 		for(int i = 0; i < RocketStruct.MAX_STAGES; i++) {
-			addSlotToContainer(new SlotRocket(machine, slotId++, 18, 44, i, PartType.FUSELAGE));
-			addSlotToContainer(new SlotRocket(machine, slotId++, 18, 62, i, PartType.FINS));
-			addSlotToContainer(new SlotRocket(machine, slotId++, 18, 80, i, PartType.THRUSTER));
+			addSlotToContainer(new SlotRocketPart(machine, slotId++, 18, 44, i, PartType.FUSELAGE));
+			addSlotToContainer(new SlotRocketPart(machine, slotId++, 18, 62, i, PartType.FINS));
+			addSlotToContainer(new SlotRocketPart(machine, slotId++, 18, 80, i, PartType.THRUSTER));
 		}
 
 		// Result
-		addSlotToContainer(new SlotTakeOnly(machine, slotId++, 42, 91));
+		addSlotToContainer(new SlotRocket(machine, slotId++, 42, 91));
 
 		// Drives
 		addSlotToContainer(new SlotDrive(machine, slotId++, 165, 54));

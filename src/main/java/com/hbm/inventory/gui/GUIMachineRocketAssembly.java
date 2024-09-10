@@ -128,6 +128,10 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 		if(machine.rocket.validate()) {
 			drawTexturedModalRect(41, 62, xSize + 18, 8, 18, 18);
 		}
+
+		if(machine.canDeconstruct()) {
+			drawTexturedModalRect(39, 52, xSize + 36, 8, 20, 38);
+		}
 	}
 
 	@Override
@@ -153,11 +157,18 @@ public class GUIMachineRocketAssembly extends GuiInfoContainerLayered {
 		}
 
 		// Construct rocket
-		if(machine.rocket != null && machine.rocket.validate() && checkClick(x, y, 41, 62, 18, 18)) {
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("construct", true);
-			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, machine.xCoord, machine.yCoord, machine.zCoord));
+		if(checkClick(x, y, 41, 62, 18, 18)) {
+			if(machine.rocket.validate()) {
+				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+				NBTTagCompound data = new NBTTagCompound();
+				data.setBoolean("construct", true);
+				PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, machine.xCoord, machine.yCoord, machine.zCoord));
+			} else if(machine.canDeconstruct()) {
+				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+				NBTTagCompound data = new NBTTagCompound();
+				data.setBoolean("deconstruct", true);
+				PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, machine.xCoord, machine.yCoord, machine.zCoord));
+			}
 		}
 	}
 		
