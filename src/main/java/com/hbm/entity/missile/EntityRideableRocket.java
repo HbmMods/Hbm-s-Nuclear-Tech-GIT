@@ -116,9 +116,14 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		motionY = 0;
 		motionZ = 0;
 		
+		Target from = CelestialBody.getTarget(worldObj, (int)posX, (int)posZ);
+		Target to = getTarget();
+		
 		RocketStruct rocket = getRocket();
+		boolean expendStage = rocket.stages.size() > 0;
+		if(getState() == RocketState.UNDOCKING && from.body == to.body) expendStage = false;
 
-		if(getState() == RocketState.LAUNCHING && rocket.stages.size() > 0) {
+		if(expendStage) {
 			rocket.stages.remove(0);
 
 			setRocket(rocket);
