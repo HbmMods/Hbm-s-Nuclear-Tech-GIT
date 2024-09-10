@@ -55,8 +55,6 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	public EntityRideableRocketDummy capDummy;
 
-	public double lastMotionY;
-
 	private int stateTimer = 0;
 
 	private static final int WATCHABLE_STATE = 8;
@@ -131,8 +129,6 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	@Override
 	public void onUpdate() {
-		lastMotionY = motionY;
-
 		super.onUpdate();
 		RocketState state = getState();
 

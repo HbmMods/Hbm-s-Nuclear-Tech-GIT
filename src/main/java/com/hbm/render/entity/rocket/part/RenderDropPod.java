@@ -12,6 +12,9 @@ import net.minecraft.util.MathHelper;
 
 public class RenderDropPod extends RenderRocketPart {
 
+	private boolean brakes;
+	private long brakeStart;
+
 	@Override
 	public void render(TextureManager tex, EntityRideableRocket rocket, float interp) {
 		tex.bindTexture(ResourceManager.drop_pod_tex);
@@ -22,8 +25,8 @@ public class RenderDropPod extends RenderRocketPart {
 		}
 
 		RocketState state = rocket.getState();
-		float timer = (float)rocket.getStateTimer() + interp;
-		double lerpMotionY = rocket.lastMotionY + (rocket.motionY - rocket.lastMotionY) * interp;
+		int timer = rocket.getStateTimer();
+		float lerpTimer = (float)timer + interp;
 		
 		ResourceManager.drop_pod.renderPart("DropPod");
 
@@ -33,9 +36,9 @@ public class RenderDropPod extends RenderRocketPart {
 
 			float doorRotation = 0;
 			if(state == RocketState.LANDED) {
-				doorRotation = MathHelper.clamp_float(timer * 2, 0, 90);
+				doorRotation = MathHelper.clamp_float(lerpTimer * 2, 0, 90);
 			} else if(state == RocketState.AWAITING) {
-				doorRotation = MathHelper.clamp_float(90 - timer * 2, 0, 90);
+				doorRotation = MathHelper.clamp_float(90 - lerpTimer * 2, 0, 90);
 			}
 
 			GL11.glTranslatef(0.69291F, 2.8333F, 0);
@@ -52,7 +55,21 @@ public class RenderDropPod extends RenderRocketPart {
 
 			float brakeRotation = 0;
 			if(state == RocketState.LANDING) {
-				brakeRotation = MathHelper.clamp_float((float)-lerpMotionY * 200 - 20, 0, 65);
+				if(rocket.motionY > -0.4F) {
+					if(brakes) {
+						brakes = false;
+						brakeStart = System.currentTimeMillis();
+					}
+				} else {
+					brakes = true;
+				}
+
+				if(!brakes) {
+					float t = MathHelper.clamp_float((float)(System.currentTimeMillis() - brakeStart) / 1000, 0, 1);
+					brakeRotation = (1 - t) * 65;
+				} else {
+					brakeRotation = 65;
+				}
 			}
 
 			for(int i = 0; i < 4; i++) {
@@ -77,12 +94,10 @@ public class RenderDropPod extends RenderRocketPart {
 		GL11.glPushMatrix();
 		{
 
-			double legExtension = 0.5;
-			if(state == RocketState.LANDING || state == RocketState.LAUNCHING) {
-				legExtension = MathHelper.clamp_double(0.5 - Math.abs(lerpMotionY * 2), 0, 0.5);
-			}
+			double legExtension = 1;
+			if(state == RocketState.LAUNCHING) legExtension = 0;
 
-			GL11.glTranslated(0, -legExtension, 0);
+			GL11.glTranslated(0, -legExtension * 0.5, 0);
 			ResourceManager.drop_pod.renderPart("Legs");
 
 		}
