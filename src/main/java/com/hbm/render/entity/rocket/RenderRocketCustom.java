@@ -17,7 +17,8 @@ public class RenderRocketCustom extends Render {
     @Override
     public void doRender(Entity entity, double x, double y, double z, float f, float interp) {
         if(!(entity instanceof EntityRideableRocket)) return;
-        RocketStruct rocket = ((EntityRideableRocket) entity).getRocket();
+        EntityRideableRocket rocketEntity = (EntityRideableRocket) entity;
+        RocketStruct rocket = rocketEntity.getRocket();
 
         GL11.glPushMatrix();
         {
@@ -27,7 +28,7 @@ public class RenderRocketCustom extends Render {
             GL11.glRotatef(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * interp, 0.0F, 0.0F, 1.0F);
             GL11.glRotatef(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * interp - 90.0F, 0.0F, -1.0F, 0.0F);
 
-            MissilePronter.prontRocket(rocket, Minecraft.getMinecraft().getTextureManager());
+            MissilePronter.prontRocket(rocket, rocketEntity, Minecraft.getMinecraft().getTextureManager(), true, interp);
 
         }
         GL11.glPopMatrix();

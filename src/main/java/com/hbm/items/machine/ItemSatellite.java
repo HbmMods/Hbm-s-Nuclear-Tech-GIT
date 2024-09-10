@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 public class ItemSatellite extends ItemCustomMissilePart implements ISatChip {
     
 	public ItemSatellite() {
-		makeWarhead(WarheadType.SATELLITE, 15F, 800, PartSize.SIZE_20);
+		makeWarhead(WarheadType.SATELLITE, 15F, 16_000, PartSize.SIZE_20);
 	}
 
 	public ItemSatellite(int mass) {

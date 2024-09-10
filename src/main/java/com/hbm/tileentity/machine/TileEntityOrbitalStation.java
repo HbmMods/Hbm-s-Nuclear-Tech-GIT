@@ -237,8 +237,8 @@ public class TileEntityOrbitalStation extends TileEntityMachineBase implements I
 
 	public int getFillRequirement(boolean toOrbit) {
 		if(toOrbit) return 500; // Transferring between stations is much cheaper
-		int mass = docked != null ? docked.getRocket().getLaunchMass() : 1_000;
-		return SolarSystem.getCostBetween(station.orbiting, station.orbiting, mass, 60_000, 380, false, true);
+		int mass = docked != null ? docked.getRocket().getLaunchMass() : 4_000;
+		return SolarSystem.getCostBetween(station.orbiting, station.orbiting, mass, 600_000, 350, false, true);
 	}
 
 	@Override

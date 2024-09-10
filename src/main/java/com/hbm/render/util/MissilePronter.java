@@ -4,6 +4,7 @@ import java.nio.DoubleBuffer;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.entity.missile.EntityRideableRocket;
 import com.hbm.handler.RocketStruct;
 import com.hbm.handler.RocketStruct.RocketStage;
 import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
@@ -50,11 +51,15 @@ public class MissilePronter {
 	}
 
 	public static void prontRocket(RocketStruct rocket, TextureManager tex) {
-		prontRocket(rocket, tex, true);
+		prontRocket(rocket, null, tex, true, 0);
+	}
+
+	public static void prontRocket(RocketStruct rocket, TextureManager tex, boolean isDeployed) {
+		prontRocket(rocket, null, tex, isDeployed, 0);
 	}
 
 	// Attaches a set of stages together
-	public static void prontRocket(RocketStruct rocket, TextureManager tex, boolean isDeployed) {
+	public static void prontRocket(RocketStruct rocket, EntityRideableRocket entity, TextureManager tex, boolean isDeployed, float interp) {
 		GL11.glPushMatrix();
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
@@ -130,8 +135,12 @@ public class MissilePronter {
 		}
 
 		if(rocket.capsule != null) {
-			tex.bindTexture(rocket.capsule.texture);
-			rocket.capsule.model.renderAll();
+			if(entity != null && rocket.capsule.renderer != null) {
+				rocket.capsule.renderer.render(tex, entity, interp);
+			} else {
+				tex.bindTexture(rocket.capsule.texture);
+				rocket.capsule.model.renderAll();
+			}
 		}
 
 		GL11.glShadeModel(GL11.GL_FLAT);

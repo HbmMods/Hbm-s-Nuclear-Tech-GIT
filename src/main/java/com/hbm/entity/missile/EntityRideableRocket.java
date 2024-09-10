@@ -55,6 +55,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	public EntityRideableRocketDummy capDummy;
 
+	public double lastMotionY;
+
 	private int stateTimer = 0;
 
 	private static final int WATCHABLE_STATE = 8;
@@ -129,6 +131,8 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	@Override
 	public void onUpdate() {
+		lastMotionY = motionY;
+
 		super.onUpdate();
 		RocketState state = getState();
 
@@ -326,6 +330,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 				}
 
 				lastState = state;
+				stateTimer = 0;
 			} else {
 				// We can't start audio loops at the same time as playing a sound, for some reason
 				if(state == RocketState.LAUNCHING || (state == RocketState.LANDING && motionY > -0.4)) {
@@ -422,6 +427,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	@Override
 	public double getMountedYOffset() {
+		if(isReusable()) return height - 2.5;
 		return height - 3.0;
 	}
 	
@@ -501,11 +507,18 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		if(rocket.stages.size() == 0) {
 			if(state == RocketState.TIPPING) return;
 
-			double r = rocket.capsule.part.bottom.radius * 0.5;
-			ParticleUtil.spawnGasFlame(worldObj, posX + r, posY, posZ + r, 0.25, -0.75, 0.25);
-			ParticleUtil.spawnGasFlame(worldObj, posX - r, posY, posZ + r, -0.25, -0.75, 0.25);
-			ParticleUtil.spawnGasFlame(worldObj, posX + r, posY, posZ - r, 0.25, -0.75, -0.25);
-			ParticleUtil.spawnGasFlame(worldObj, posX - r, posY, posZ - r, -0.25, -0.75, -0.25);
+			if(isReusable()) {
+				ParticleUtil.spawnGasFlame(worldObj, posX + 0.5, posY, posZ, 0, -1, 0);
+				ParticleUtil.spawnGasFlame(worldObj, posX - 0.5, posY, posZ, 0, -1, 0);
+				ParticleUtil.spawnGasFlame(worldObj, posX, posY, posZ + 0.5, 0, -1, 0);
+				ParticleUtil.spawnGasFlame(worldObj, posX, posY, posZ - 0.5, 0, -1, 0);
+			} else {
+				double r = rocket.capsule.part.bottom.radius * 0.5;
+				ParticleUtil.spawnGasFlame(worldObj, posX + r, posY, posZ + r, 0.25, -0.75, 0.25);
+				ParticleUtil.spawnGasFlame(worldObj, posX - r, posY, posZ + r, -0.25, -0.75, 0.25);
+				ParticleUtil.spawnGasFlame(worldObj, posX + r, posY, posZ - r, 0.25, -0.75, -0.25);
+				ParticleUtil.spawnGasFlame(worldObj, posX - r, posY, posZ - r, -0.25, -0.75, -0.25);
+			}
 
 			double groundHeight = (double)worldObj.getHeightValue((int)posX, (int)posZ);
 			double distanceToGround = posY - groundHeight;
@@ -554,6 +567,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	public void setState(RocketState state) {
 		dataWatcher.updateObject(WATCHABLE_STATE, state.ordinal());
+		dataWatcher.updateObject(WATCHABLE_TIMER, 0);
 		stateTimer = 0;
 	}
 
