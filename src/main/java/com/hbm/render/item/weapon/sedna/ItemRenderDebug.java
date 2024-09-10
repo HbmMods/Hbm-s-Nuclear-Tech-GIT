@@ -2,8 +2,9 @@ package com.hbm.render.item.weapon.sedna;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.items.weapon.sedna.ItemGunBase;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -11,7 +12,7 @@ import net.minecraft.item.ItemStack;
 public class ItemRenderDebug extends ItemRenderWeaponBase {
 
 	@Override
-	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBase.getIsAiming(stack) ? 2.5F : -0.25F; }
+	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.25F; }
 
 	@Override
 	protected void setupFirstPerson(ItemStack stack) {
@@ -30,14 +31,34 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 		GL11.glScaled(scale, scale, scale);
 		GL11.glRotated(90, 0, 1, 0);
 		
+		double[] equipSpin = HbmAnimations.getRelevantTransformation("ROTATE");
+		GL11.glRotated(equipSpin[0], 0, 0, 1);
+
+		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
+		GL11.glTranslated(recoil[0], recoil[1], recoil[2]);
+		GL11.glRotated(recoil[2] * 10, 0, 0, 1);
+		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.debug_gun_tex);
 		ResourceManager.lilmac.renderPart("Gun");
+
+		GL11.glPushMatrix();
+		ResourceManager.lilmac.renderPart("Pivot");
+		GL11.glTranslated(0, 1.75, 0);
+		GL11.glRotated(HbmAnimations.getRelevantTransformation("DRUM")[2] * -60, 1, 0, 0);
+		GL11.glTranslated(0, -1.75, 0);
 		ResourceManager.lilmac.renderPart("Cylinder");
 		ResourceManager.lilmac.renderPart("Bullets");
 		ResourceManager.lilmac.renderPart("Casings");
-		ResourceManager.lilmac.renderPart("Pivot");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix(); /// HAMMER ///
+		GL11.glTranslated(4, 1.25, 0);
+		GL11.glRotated(-30 + 30 * HbmAnimations.getRelevantTransformation("HAMMER")[2], 0, 0, 1);
+		GL11.glTranslated(-4, -1.25, 0);
 		ResourceManager.lilmac.renderPart("Hammer");
+		GL11.glPopMatrix();
+		
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 

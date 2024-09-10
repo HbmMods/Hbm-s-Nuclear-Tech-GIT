@@ -1,19 +1,29 @@
 package com.hbm.items.weapon.sedna;
 
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.interfaces.IItemHUD;
+import com.hbm.items.IEquipReceiver;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.GunAnimationPacket;
+import com.hbm.render.anim.HbmAnimations.AnimType;
+import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.EnumUtil;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
-public class ItemGunBase extends Item implements IKeybindReceiver {
+public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipReceiver, IItemHUD {
 
 	public static final String KEY_DRAWN = "drawn";
 	public static final String KEY_AIMING = "aiming";
@@ -34,7 +44,7 @@ public class ItemGunBase extends Item implements IKeybindReceiver {
 		return config_DNA;
 	}
 	
-	public ItemGunBase(GunConfig cfg) {
+	public ItemGunBaseNT(GunConfig cfg) {
 		this.setMaxStackSize(1);
 		this.config_DNA = cfg;
 	}
@@ -66,6 +76,11 @@ public class ItemGunBase extends Item implements IKeybindReceiver {
 		if(keybind == EnumKeybind.GUN_TERTIARY &&	!newState && getTertiary(stack)) {	if(config.getReleaseTertiary(stack) != null)	config.getReleaseTertiary(stack).accept(stack, ctx);	this.setTertiary(stack, newState);	return; }
 		if(keybind == EnumKeybind.RELOAD &&			newState && !getReloadKey(stack)) {	if(config.getPressReload(stack) != null)		config.getPressReload(stack).accept(stack, ctx);		this.setReloadKey(stack, newState);	return; }
 		if(keybind == EnumKeybind.RELOAD &&			!newState && getReloadKey(stack)) {	if(config.getReleaseReload(stack) != null)		config.getReleaseReload(stack).accept(stack, ctx);		this.setReloadKey(stack, newState);	return; }
+	}
+
+	@Override
+	public void onEquip(EntityPlayer player, ItemStack stack) {
+		if(player instanceof EntityPlayerMP) PacketDispatcher.wrapper.sendTo(new GunAnimationPacket(AnimType.EQUIP.ordinal()), (EntityPlayerMP) player);
 	}
 
 	@Override
@@ -150,6 +165,16 @@ public class ItemGunBase extends Item implements IKeybindReceiver {
 		public LambdaContext(GunConfig config, EntityPlayer player) {
 			this.config = config;
 			this.player = player;
+		}
+	}
+
+	@Override
+	public void renderHUD(Pre event, ElementType type, EntityPlayer player, ItemStack stack) {
+		if(type == ElementType.CROSSHAIRS) {
+			event.setCanceled(true);
+			if(aimingProgress >= 1F) return;
+			ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+			RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, gun.getConfig(stack).getCrosshair(stack));
 		}
 	}
 }

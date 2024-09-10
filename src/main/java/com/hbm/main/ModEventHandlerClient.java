@@ -24,6 +24,7 @@ import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.handler.HbmKeybinds;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
@@ -43,6 +44,7 @@ import com.hbm.items.machine.ItemDepletedFuel;
 import com.hbm.items.machine.ItemFluidDuct;
 import com.hbm.items.machine.ItemRBMKPellet;
 import com.hbm.items.weapon.ItemGunBase;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
@@ -103,6 +105,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -1074,6 +1077,24 @@ public class ModEventHandlerClient {
 					if(state) {
 						key.pressTime++;
 					}
+				}
+			}
+			
+			boolean gunKey = keyCode == HbmKeybinds.gunPrimaryKey.getKeyCode() || keyCode == HbmKeybinds.gunSecondaryKey.getKeyCode() ||
+					keyCode == HbmKeybinds.gunTertiaryKey.getKeyCode() || keyCode == HbmKeybinds.reloadKey.getKeyCode();
+			
+			/* Shoot in favor of attacking */
+			if(gunKey && keyCode == mc.gameSettings.keyBindAttack.getKeyCode()) {
+				mc.gameSettings.keyBindAttack.pressed = false;
+				mc.gameSettings.keyBindAttack.pressTime = 0;
+			}
+			
+			EntityPlayer player = mc.thePlayer;
+			
+			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT) {
+				if(gunKey && keyCode == mc.gameSettings.keyBindPickBlock.getKeyCode()) {
+					mc.gameSettings.keyBindPickBlock.pressed = false;
+					mc.gameSettings.keyBindPickBlock.pressTime = 0;
 				}
 			}
 		}
