@@ -7,8 +7,9 @@ import codechicken.nei.api.INEIGuiHandler;
 import codechicken.nei.api.TaggedInventoryArea;
 import com.hbm.inventory.SlotPattern;
 import com.hbm.inventory.container.ContainerBase;
-import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.NBTControlPacket;
+
 import cpw.mods.fml.common.Optional;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;

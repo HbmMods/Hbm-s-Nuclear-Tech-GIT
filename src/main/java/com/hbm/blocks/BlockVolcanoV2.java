@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.AuxParticlePacketNT;
-import com.hbm.packet.BufPacket;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.packet.toclient.BufPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.IBufPacketReceiver;
 

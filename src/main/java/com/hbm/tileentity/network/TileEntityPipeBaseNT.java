@@ -28,7 +28,7 @@ public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor 
 			lastType = type;
 		}
 		
-		if(!worldObj.isRemote && canUpdate()) {
+		if(!worldObj.isRemote && shouldConnect()) {
 			
 			//we got here either because the net doesn't exist or because it's not valid, so that's safe to assume
 			this.setPipeNet(type, null);
@@ -101,8 +101,7 @@ public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor 
 	/**
 	 * Only update until a power net is formed, in >99% of the cases it should be the first tick. Everything else is handled by neighbors and the net itself.
 	 */
-	@Override
-	public boolean canUpdate() {
+	public boolean shouldConnect() {
 		return (this.network == null || !this.network.isValid()) && !this.isInvalid();
 	}
 

@@ -8,10 +8,13 @@ import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.atmosphere.AtmosphereBlob;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.packet.AuxGaugePacket;
-import com.hbm.packet.BufPacket;
-import com.hbm.packet.NBTPacket;
+import com.hbm.packet.toclient.AuxGaugePacket;
+import com.hbm.packet.toclient.BufPacket;
+import com.hbm.packet.toclient.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxGaugePacket;
+import com.hbm.packet.toclient.BufPacket;
+import com.hbm.packet.toclient.NBTPacket;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

@@ -30,7 +30,7 @@ public class ItemPancake extends ItemFood {
     			continue;
     		
     		if(st.getItem() instanceof IBatteryItem) {
-    			((IBatteryItem)st.getItem()).setCharge(st, ((IBatteryItem)st.getItem()).getMaxCharge());
+    			((IBatteryItem)st.getItem()).setCharge(st, ((IBatteryItem)st.getItem()).getMaxCharge(st));
     		}
     	}
     }

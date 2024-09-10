@@ -5,8 +5,8 @@ import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.RadiationConfig;
-import com.hbm.packet.AuxParticlePacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.material.Material;

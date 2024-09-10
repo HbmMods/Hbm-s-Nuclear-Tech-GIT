@@ -6,8 +6,8 @@ import com.hbm.handler.ArmorModHandler;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.render.model.ModelArmorDiesel;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

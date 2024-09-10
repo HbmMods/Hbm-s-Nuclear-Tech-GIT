@@ -8,7 +8,7 @@ import com.hbm.inventory.gui.GUIScreenFluid;
 import com.hbm.items.IItemControlReceiver;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
+import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.I18nUtil;

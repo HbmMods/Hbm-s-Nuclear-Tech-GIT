@@ -6,8 +6,8 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.tool.ItemSwordAbility;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ShadyUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

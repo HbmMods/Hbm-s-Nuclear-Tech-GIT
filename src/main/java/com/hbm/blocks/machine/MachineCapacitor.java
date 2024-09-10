@@ -10,8 +10,8 @@ import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.BufPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.BufPacket;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -109,6 +109,9 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 
 	@Override
 	public void addInformation(ItemStack stack, NBTTagCompound persistentTag, EntityPlayer player, List list, boolean ext) {
+		list.add(EnumChatFormatting.GOLD + "Stores up to "+ BobMathUtil.getShortNumber(this.power) + "HE");
+		list.add(EnumChatFormatting.GOLD + "Charge speed: "+ BobMathUtil.getShortNumber(this.power / 200) + "HE");
+		list.add(EnumChatFormatting.GOLD + "Discharge speed: "+ BobMathUtil.getShortNumber(this.power / 600) + "HE");
 		list.add(EnumChatFormatting.YELLOW + "" + BobMathUtil.getShortNumber(persistentTag.getLong("power")) + "/" + BobMathUtil.getShortNumber(persistentTag.getLong("maxPower")) + "HE");
 	}
 
@@ -254,6 +257,14 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 		@Override
 		public long getMaxPower() {
 			return maxPower;
+		}
+
+		@Override public long getProviderSpeed() {
+			return this.getMaxPower() / 300;
+		}
+		
+		@Override public long getReceiverSpeed() {
+			return this.getMaxPower() / 100;
 		}
 
 		@Override

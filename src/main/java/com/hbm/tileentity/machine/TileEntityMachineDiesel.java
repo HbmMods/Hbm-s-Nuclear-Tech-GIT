@@ -112,7 +112,7 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 			}
 		}
 		if(i == 2) {
-			if(stack.getItem() instanceof IBatteryItem && ((IBatteryItem) stack.getItem()).getCharge(stack) == ((IBatteryItem) stack.getItem()).getMaxCharge()) {
+			if(stack.getItem() instanceof IBatteryItem && ((IBatteryItem) stack.getItem()).getCharge(stack) == ((IBatteryItem) stack.getItem()).getMaxCharge(stack)) {
 				return true;
 			}
 		}

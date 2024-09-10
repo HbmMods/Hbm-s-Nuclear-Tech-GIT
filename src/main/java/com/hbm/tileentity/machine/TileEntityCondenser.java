@@ -1,8 +1,13 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.CompatEnergyControl;
@@ -12,7 +17,7 @@ import api.hbm.tile.IInfoProviderEC;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.EnumSkyBlock;
 
-public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidStandardTransceiver, INBTPacketReceiver, IInfoProviderEC {
+public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidStandardTransceiver, INBTPacketReceiver, IInfoProviderEC, IConfigurableMachine {
 
 	public int age = 0;
 	public FluidTank[] tanks;
@@ -20,11 +25,34 @@ public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidS
 	public int waterTimer = 0;
 	protected int throughput;
 	
+	//Configurable values
+	public static int inputTankSize = 100;
+	public static int outputTankSize = 100;
+
 	public TileEntityCondenser() {
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, 100);
-		tanks[1] = new FluidTank(Fluids.WATER, 100);
+		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, inputTankSize);
+		tanks[1] = new FluidTank(Fluids.WATER, outputTankSize);
 	}
+
+	@Override
+	public String getConfigName() {
+		return "condenser";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		inputTankSize = IConfigurableMachine.grab(obj, "I:inputTankSize", inputTankSize);
+		outputTankSize = IConfigurableMachine.grab(obj, "I:outputTankSize", outputTankSize);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:inputTankSize").value(inputTankSize);
+		writer.name("I:outputTankSize").value(outputTankSize);
+	}
+
+
 	
 	@Override
 	public void updateEntity() {

@@ -6,8 +6,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerNukeFstbmb;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.AuxButtonPacket;
 import com.hbm.tileentity.bomb.TileEntityNukeBalefire;
 
 import net.minecraft.client.Minecraft;

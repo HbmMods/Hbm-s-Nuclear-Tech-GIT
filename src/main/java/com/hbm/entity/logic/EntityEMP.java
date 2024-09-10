@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.ParticleBurstPacket;
+import com.hbm.packet.toclient.ParticleBurstPacket;
 
 import api.hbm.energymk2.IEnergyHandlerMK2;
 import cofh.api.energy.IEnergyProvider;

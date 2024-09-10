@@ -1,8 +1,8 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.machine.BlockHadronPower;
-import com.hbm.packet.BufPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.BufPacket;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 

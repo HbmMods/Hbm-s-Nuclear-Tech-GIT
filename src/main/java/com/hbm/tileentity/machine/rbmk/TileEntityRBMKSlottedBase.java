@@ -1,7 +1,7 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import com.hbm.packet.NBTPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.NBTPacket;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

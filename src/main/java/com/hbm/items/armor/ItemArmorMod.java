@@ -64,6 +64,7 @@ public class ItemArmorMod extends Item {
 		case ArmorModHandler.cladding: list.add("  " + I18nUtil.resolveKey("armorMod.type.cladding")); break;
 		case ArmorModHandler.kevlar: list.add("  " + I18nUtil.resolveKey("armorMod.type.insert")); break;
 		case ArmorModHandler.extra: list.add("  " + I18nUtil.resolveKey("armorMod.type.special")); break;
+		case ArmorModHandler.battery: list.add("  " + I18nUtil.resolveKey("armorMod.type.battery")); break;
 		}
 	}
 

@@ -10,7 +10,7 @@ import com.hbm.inventory.container.ContainerStardar;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.NBTControlPacket;
+import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.tileentity.machine.TileEntityMachineStardar;
 import com.hbm.util.I18nUtil;

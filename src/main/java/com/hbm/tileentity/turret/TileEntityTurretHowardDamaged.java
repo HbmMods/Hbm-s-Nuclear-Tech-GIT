@@ -3,8 +3,8 @@ package com.hbm.tileentity.turret;
 import com.hbm.config.WeaponConfig;
 import com.hbm.handler.guncfg.GunDGKFactory;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.EntityDamageUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

@@ -5,8 +5,8 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.GunAnimationPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.GunAnimationPacket;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.sound.AudioWrapper;
 

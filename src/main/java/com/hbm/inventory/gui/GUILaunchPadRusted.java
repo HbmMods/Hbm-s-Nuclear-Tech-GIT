@@ -10,8 +10,8 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerLaunchPadRusted;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.tileentity.bomb.TileEntityLaunchPadRusted;
 

@@ -12,8 +12,8 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.NBTItemControlPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.NBTItemControlPacket;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;

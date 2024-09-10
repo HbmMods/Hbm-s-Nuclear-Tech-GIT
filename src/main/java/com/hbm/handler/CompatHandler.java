@@ -39,14 +39,14 @@ public class CompatHandler {
      */
     public static Object[] steamTypeToInt(FluidType type) {
         switch(type.getID()) {
+            default:
+                return new Object[] {0};
             case(4): // Fluids.HOTSTEAM
                 return new Object[] {1};
             case(5): // Fluids.SUPERHOTSTEAM
                 return new Object[] {2};
             case(6): // Fluids.ULTRAHOTSTEAM
                 return new Object[] {3};
-            default:
-                return new Object[] {0};
         }
     }
 
@@ -152,7 +152,7 @@ public class CompatHandler {
             // begin registering disks
             Logger logger = LogManager.getLogger("HBM");
             logger.info("Loading OpenComputers disks...");
-            if(disks.isEmpty()) {
+            if(disks.size() == 0) {
                 logger.info("No disks registered; see com.hbm.handler.CompatHandler.disks");
                 return;
             }
@@ -178,7 +178,7 @@ public class CompatHandler {
             // OC disk recipes!
             List<ItemStack> floppyDisks = new RecipesCommon.OreDictStack("oc:floppy").toStacks();
 
-            if(!floppyDisks.isEmpty()) { //check that floppy disks even exist in oredict.
+            if(floppyDisks.size() > 0) { //check that floppy disks even exist in oredict.
 
                 // Recipes must be initialized here, since if they were initialized in `CraftingManager` then the disk item would not be created yet.
                 addShapelessAuto(disks.get("PWRangler").item, new Object[] {"oc:floppy", new ItemStack(ModBlocks.pwr_casing)});

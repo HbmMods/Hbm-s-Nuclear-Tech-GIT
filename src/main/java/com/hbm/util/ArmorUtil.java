@@ -16,7 +16,7 @@ import com.hbm.items.armor.ItemModOxy;
 import com.hbm.lib.Library;
 import com.hbm.main.ServerProxy;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
+import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ArmorRegistry.HazardClass;
 
