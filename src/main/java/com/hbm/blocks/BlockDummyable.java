@@ -93,6 +93,22 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 		super.updateTick(world, x, y, z, rand);
 
+		if(!internalPlayers.isEmpty()) {
+			boolean anyStillInside = false;
+			for(EntityPlayer player : internalPlayers) {
+				if(isPlayerInside(world, player)) {
+					anyStillInside = true;
+					break;
+				}
+			}
+
+			if(anyStillInside) {
+				world.scheduleBlockUpdate(x, y, z, this, 1);
+			} else {
+				internalPlayers.clear();
+			}
+		}
+
 		if(world.isRemote)
 			return;
 
@@ -149,10 +165,17 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 	}
 
 	@Override
+	public int onBlockPlaced(World world, int x, int y, int z, int side, float fX, float fY, float fZ, int meta) {
+		return side;
+	}
+
+	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
 
 		if(!(player instanceof EntityPlayer))
 			return;
+
+		ForgeDirection placedSide = ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
 
 		safeRem = true;
 		world.setBlockToAir(x, y, z);
@@ -166,20 +189,33 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 		ForgeDirection dir = ForgeDirection.NORTH;
 
-		if(i == 0) {
-			dir = ForgeDirection.getOrientation(2);
-		}
-		if(i == 1) {
-			dir = ForgeDirection.getOrientation(5);
-		}
-		if(i == 2) {
-			dir = ForgeDirection.getOrientation(3);
-		}
-		if(i == 3) {
-			dir = ForgeDirection.getOrientation(4);
+		if(placedSide == ForgeDirection.UP || placedSide == ForgeDirection.DOWN) {
+			if(i == 0) {
+				dir = ForgeDirection.getOrientation(2);
+			}
+			if(i == 1) {
+				dir = ForgeDirection.getOrientation(5);
+			}
+			if(i == 2) {
+				dir = ForgeDirection.getOrientation(3);
+			}
+			if(i == 3) {
+				dir = ForgeDirection.getOrientation(4);
+			}
+		} else {
+			dir = placedSide;
 		}
 		
 		dir = getDirModified(dir);
+
+		if(placedSide != ForgeDirection.UP && placedSide != ForgeDirection.DOWN) {
+			int[] rotDim = MultiblockHandlerXR.rotate(getDimensions(), dir);
+			if(rotDim != null) {
+				o = 0;
+				x += placedSide.offsetX * rotDim[placedSide.getOpposite().ordinal()];
+				z += placedSide.offsetZ * rotDim[placedSide.getOpposite().ordinal()];
+			}
+		}
 
 		if(!checkRequirement(world, x, y, z, dir, o)) {
 
@@ -209,6 +245,10 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			IPersistentNBT.restoreData(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, itemStack);
 			fillSpace(world, x, y, z, dir, o);
 		}
+
+		// Check if the placing player is inside the placed multiblock
+		if(isPlayerInside(world, pl)) internalPlayers.add(pl);
+
 		y -= getHeightOffset();
 		world.scheduleBlockUpdate(x, y, z, this, 1);
 		world.scheduleBlockUpdate(x, y, z, this, 2);
@@ -216,10 +256,12 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		super.onBlockPlacedBy(world, x, y, z, player, itemStack);
 	}
 
-	/*@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		lastBlockSet = new BlockPos(x, y, z);
-	}*/
+	private boolean isPlayerInside(World world, EntityPlayer player) {
+		int x = MathHelper.floor_double(player.posX);
+		int y = MathHelper.floor_double(player.posY + 0.1D);
+		int z = MathHelper.floor_double(player.posZ);
+		return world.getBlock(x, y, z) == this || world.getBlock(x, y + 1, z) == this;
+	}
 	
 	/**
 	 * A bit more advanced than the dir modifier, but it is important that the resulting direction meta is in the core range.
@@ -423,10 +465,15 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		return !bounding.isEmpty();
 	}
 	
-	public List<AxisAlignedBB> bounding = new ArrayList();
+	public List<AxisAlignedBB> bounding = new ArrayList<>();
+
+	// players currently inside instances of this block
+	private List<EntityPlayer> internalPlayers = new ArrayList<>();
 
 	@Override
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
+		if(!internalPlayers.isEmpty() && internalPlayers.contains(entity))
+			return;
 		
 		if(!this.useDetailedHitbox()) {
 			super.addCollisionBoxesToList(world, x, y, z, entityBounding, list, entity);
