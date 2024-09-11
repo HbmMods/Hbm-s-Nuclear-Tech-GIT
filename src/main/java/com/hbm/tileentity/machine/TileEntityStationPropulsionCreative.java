@@ -22,6 +22,16 @@ public class TileEntityStationPropulsionCreative extends TileEntity implements I
 	}
 
 	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(hasRegistered) {
+			unregisterPropulsion();
+			hasRegistered = false;
+		}
+	}
+
+	@Override
 	public TileEntity getTileEntity() {
 		return this;
 	}
