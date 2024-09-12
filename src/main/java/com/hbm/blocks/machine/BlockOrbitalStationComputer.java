@@ -17,6 +17,8 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -101,6 +103,7 @@ public class BlockOrbitalStationComputer extends BlockDummyable implements ILook
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		if(!CelestialBody.inOrbit(world)) {
 			List<String> text = new ArrayList<String>();
