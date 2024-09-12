@@ -99,8 +99,8 @@ public class EntityEffectHandler {
 					ExplosionNukeSmall.explode(entity.worldObj, entity.posX, entity.posY, entity.posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
 				}
 			}
-	
-			if(GeneralConfig.enable528 && entity instanceof EntityLivingBase && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
+			//only sets players on fire so mod compatibility doesnt die
+			if((GeneralConfig.enable528 && GeneralConfig.enable528NetherBurn) && entity instanceof EntityPlayer && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
 				entity.setFire(5);
 			}
 			
