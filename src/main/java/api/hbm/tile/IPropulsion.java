@@ -25,7 +25,7 @@ public interface IPropulsion {
 	public TileEntity getTileEntity();
 	
 	// Is the engine sufficiently fueled to perform a burn changing the velocity of a given mass by deltaV
-	public boolean canPerformBurn(int shipMass, int deltaV);
+	public boolean canPerformBurn(int shipMass, double deltaV);
 	
 	// How much thrust does this engine produce? Higher = faster travel
 	public float getThrust();

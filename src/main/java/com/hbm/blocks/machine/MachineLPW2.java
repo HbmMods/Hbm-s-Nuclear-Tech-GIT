@@ -6,12 +6,15 @@ import java.util.List;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.dim.CelestialBody;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineLPW2;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -25,6 +28,7 @@ public class MachineLPW2 extends BlockDummyable implements ILookOverlay {
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityMachineLPW2();
+		if(meta >= 6) return new TileEntityProxyCombo(false, false, true);
 		return null;
 	}
 
@@ -44,6 +48,19 @@ public class MachineLPW2 extends BlockDummyable implements ILookOverlay {
 	}
 
 	@Override
+	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		super.fillSpace(world, x, y, z, dir, o);
+
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+
+		x += dir.offsetX * o;
+		z += dir.offsetZ * o;
+
+		this.makeExtra(world, x + dir.offsetX * 3 - rot.offsetX, y + 3, z + dir.offsetZ * 3 - rot.offsetZ);
+		this.makeExtra(world, x - dir.offsetX * 3 - rot.offsetX, y + 3, z - dir.offsetZ * 3 - rot.offsetZ);
+	}
+
+	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		if(!CelestialBody.inOrbit(world)) return;
 
@@ -58,10 +75,18 @@ public class MachineLPW2 extends BlockDummyable implements ILookOverlay {
 		
 		TileEntityMachineLPW2 thruster = (TileEntityMachineLPW2) te;
 
+		List<String> text = new ArrayList<String>();
+
 		if(!thruster.isFacingPrograde()) {
-			List<String> text = new ArrayList<String>();
 			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! WRONG DIRECTION ! ! !");
-			ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
+		} else {
+			for(int i = 0; i < thruster.tanks.length; i++) {
+				FluidTank tank = thruster.tanks[i];
+				text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + tank.getTankType().getLocalizedName() + ": " + tank.getFill() + "/" + tank.getMaxFill() + "mB");
+			}
 		}
+
+		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
+
 }

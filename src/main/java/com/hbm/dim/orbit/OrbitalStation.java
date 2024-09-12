@@ -83,7 +83,7 @@ public class OrbitalStation {
 
 	public void travelTo(World world, CelestialBody target) {
 		if(state != StationState.ORBIT) return; // only when at rest can we start a new journey
-		if(!canTravel()) return;
+		if(!canTravel(orbiting, target)) return;
 
 		setState(StationState.LEAVING, getLeaveTime());
 		this.target = target;
@@ -123,17 +123,30 @@ public class OrbitalStation {
 		stateTimer++;
 	}
 
-	private boolean canTravel() {
+	private boolean canTravel(CelestialBody from, CelestialBody to) {
 		if(engines.size() == 0) return false;
 
+		double deltaV = SolarSystem.getDeltaVBetween(from, to);
+		int shipMass = 200_000;
+		float totalThrust = getTotalThrust();
+
 		for(IPropulsion engine : engines) {
-			if(!engine.canPerformBurn(100_000, 5_000)) {
+			float massPortion = engine.getThrust() / totalThrust;
+			if(!engine.canPerformBurn(Math.round(shipMass * massPortion), deltaV)) {
 				setError("Engines require fuel");
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+	private float getTotalThrust() {
+		float thrust = 0;
+		for(IPropulsion engine : engines) {
+			thrust += engine.getThrust();
+		}
+		return thrust;
 	}
 
 	// Has the side effect of beginning engine burns

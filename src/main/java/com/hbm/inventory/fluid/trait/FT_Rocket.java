@@ -13,6 +13,7 @@ public class FT_Rocket extends FluidTrait {
 
 	/**
 	 * this is only for the transporter pads, and probably won't remain forever
+	 * well now it's also used for station engines, but just the ISP value
 	 * 
 	 * A rockets effectiveness and efficiency is defined within two flight regimes:
 	 * When escaping gravity and entering orbit (To Orbit)
@@ -26,20 +27,20 @@ public class FT_Rocket extends FluidTrait {
 	 */
 	
 	// The ISP of the fuel (aka how long it can go)
-	private long isp;
+	private int isp;
 
 	//The thrust of the fuel (aka how much it can carry)
 	private long thrust;
 	
-	public FT_Rocket(long isp, long twr) {
+	public FT_Rocket(int isp, long twr) {
 		this.isp = isp;
 		this.thrust = twr;
-
 	}
 	
-	public long getISP() {
+	public int getISP() {
 		return this.isp;
 	}
+
 	public long getThrust() {
 		return this.thrust;
 	}
@@ -67,8 +68,8 @@ public class FT_Rocket extends FluidTrait {
 	
 	@Override
 	public void deserializeJSON(JsonObject obj) {
-		this.isp = obj.get("isp").getAsLong();
+		this.isp = obj.get("isp").getAsInt();
 		this.thrust = obj.get("thrust").getAsLong();
-
 	}
+
 }

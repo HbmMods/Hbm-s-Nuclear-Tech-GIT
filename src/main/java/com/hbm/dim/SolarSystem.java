@@ -499,14 +499,17 @@ public class SolarSystem {
 		double launchDV = fromOrbit ? 0 : SolarSystem.getLiftoffDeltaV(from, mass, thrust, fromDrag);
 		double travelDV = SolarSystem.getDeltaVBetween(from, to);
 		double landerDV = toOrbit ? 0 : SolarSystem.getLandingDeltaV(to, mass, thrust, toDrag);
-
 		
 		double totalDV = launchDV + travelDV + landerDV;
 
+		return getFuelCost(totalDV, mass, isp);
+	}
+
+	public static int getFuelCost(double deltaV, int mass, int isp) {
 		// Get the fraction of the rocket that must be fuel in order to achieve the deltaV
 		double g0 = 9.81;
 		double exhaustVelocity = isp * g0;
-		double massFraction = 1 - Math.exp(-(totalDV / exhaustVelocity));
+		double massFraction = 1 - Math.exp(-(deltaV / exhaustVelocity));
 
 		// Get the mass of a rocket that has that fraction, and the mass of the propellant
 		double totalMass = mass / (1 - massFraction);

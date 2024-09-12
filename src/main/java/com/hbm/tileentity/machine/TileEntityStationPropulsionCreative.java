@@ -37,7 +37,7 @@ public class TileEntityStationPropulsionCreative extends TileEntity implements I
 	}
 
 	@Override
-	public boolean canPerformBurn(int shipMass, int deltaV) {
+	public boolean canPerformBurn(int shipMass, double deltaV) {
 		return true;
 	}
 
