@@ -1,2 +1,6 @@
+## Changed
+* Most loot piles now have configurable loot pools
+
 ## Fixed
 * Fixed some things not using variable max charge for armor mods, like static pads and DNT nanosuit tooltips
+* Fixed arc furnace recipe config parser breaking when reading fluid recipes

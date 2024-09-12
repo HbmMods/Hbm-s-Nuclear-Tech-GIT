@@ -233,7 +233,7 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 			List<MaterialStack> mats = new ArrayList();
 			for(JsonElement fluid : fluids) {
 				JsonArray matStack = fluid.getAsJsonArray();
-				MaterialStack stack = new MaterialStack(Mats.matById.get(matStack.get(0).getAsInt()), matStack.get(1).getAsInt());
+				MaterialStack stack = new MaterialStack(Mats.matByName.get(matStack.get(0).getAsString()), matStack.get(1).getAsInt());
 				if(stack.material.smeltable == SmeltingBehavior.SMELTABLE) {
 					mats.add(stack);
 				}
