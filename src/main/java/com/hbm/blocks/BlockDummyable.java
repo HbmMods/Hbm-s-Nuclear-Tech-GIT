@@ -184,40 +184,41 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		EntityPlayer pl = (EntityPlayer) player;
 
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		int o = -getOffset();
-		y += getHeightOffset();
 
-		ForgeDirection dir = ForgeDirection.NORTH;
+		// The direction the player is facing, for offsetting the block away from the player
+		ForgeDirection facingDir = ForgeDirection.NORTH;
 
 		if(placedSide == ForgeDirection.UP || placedSide == ForgeDirection.DOWN) {
-			if(i == 0) {
-				dir = ForgeDirection.getOrientation(2);
-			}
-			if(i == 1) {
-				dir = ForgeDirection.getOrientation(5);
-			}
-			if(i == 2) {
-				dir = ForgeDirection.getOrientation(3);
-			}
-			if(i == 3) {
-				dir = ForgeDirection.getOrientation(4);
-			}
+			if(i == 0) facingDir = ForgeDirection.getOrientation(2);
+			if(i == 1) facingDir = ForgeDirection.getOrientation(5);
+			if(i == 2) facingDir = ForgeDirection.getOrientation(3);
+			if(i == 3) facingDir = ForgeDirection.getOrientation(4);
 		} else {
-			dir = placedSide;
+			facingDir = placedSide;
 		}
 		
-		dir = getDirModified(dir);
+		// The direction the final multiblock will be facing
+		ForgeDirection dir = getDirModified(facingDir);
 
-		if(placedSide != ForgeDirection.UP && placedSide != ForgeDirection.DOWN) {
+		int o = -getOffset();
+
+		int ox = x + facingDir.offsetX * o;
+		int oy = y + getHeightOffset();
+		int oz = z + facingDir.offsetZ * o;
+
+		// Modify offsets to handle differing rotations and placing blocks on walls
+		if(placedSide == ForgeDirection.DOWN) {
+			int[] dim = getDimensions();
+			oy -= dim[0] + dim[1];
+		} else if(placedSide != ForgeDirection.UP) {
 			int[] rotDim = MultiblockHandlerXR.rotate(getDimensions(), dir);
 			if(rotDim != null) {
-				o = 0;
-				x += placedSide.offsetX * rotDim[placedSide.getOpposite().ordinal()];
-				z += placedSide.offsetZ * rotDim[placedSide.getOpposite().ordinal()];
+				ox = x + placedSide.offsetX * rotDim[placedSide.getOpposite().ordinal()];
+				oz = z + placedSide.offsetZ * rotDim[placedSide.getOpposite().ordinal()];
 			}
 		}
 
-		if(!checkRequirement(world, x, y, z, dir, o)) {
+		if(!checkRequirement(world, ox, oy, oz, dir, 0)) {
 
 			if(!pl.capabilities.isCreativeMode) {
 				ItemStack stack = pl.inventory.mainInventory[pl.inventory.currentItem];
@@ -239,17 +240,16 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 		if(!world.isRemote) {
 			//this is separate because the multiblock rotation and the final meta might not be the same
-			int meta = getMetaForCore(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, (EntityPlayer) player, dir.ordinal() + offset);
-			//lastCore = new BlockPos(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o);
-			world.setBlock(x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, this, meta, 3);
-			IPersistentNBT.restoreData(world, x + dir.offsetX * o, y + dir.offsetY * o, z + dir.offsetZ * o, itemStack);
-			fillSpace(world, x, y, z, dir, o);
+			int meta = getMetaForCore(world, ox, oy, oz, pl, dir.ordinal() + offset);
+
+			world.setBlock(ox, oy, oz, this, meta, 3);
+			IPersistentNBT.restoreData(world, ox, oy, oz, itemStack);
+			fillSpace(world, ox, oy, oz, dir, 0);
 		}
 
 		// Check if the placing player is inside the placed multiblock
 		if(isPlayerInside(world, pl)) internalPlayers.add(pl);
 
-		y -= getHeightOffset();
 		world.scheduleBlockUpdate(x, y, z, this, 1);
 		world.scheduleBlockUpdate(x, y, z, this, 2);
 

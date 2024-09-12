@@ -14,6 +14,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class MachineLPW2 extends BlockDummyable implements ILookOverlay {
 
@@ -34,7 +35,12 @@ public class MachineLPW2 extends BlockDummyable implements ILookOverlay {
 
 	@Override
 	public int getOffset() {
-		return 3;
+		return 9;
+	}
+
+	@Override
+	public ForgeDirection getDirModified(ForgeDirection dir) {
+		return dir.getRotation(ForgeDirection.DOWN);
 	}
 
 	@Override
