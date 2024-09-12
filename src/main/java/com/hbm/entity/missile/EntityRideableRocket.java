@@ -187,6 +187,18 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 					Destination destination = ItemVOTVdrive.getDestination(navDrive);
 					posX = destination.x + 0.5D;
 					posZ = destination.z + 0.5D;
+
+					// Check if we're about to land on top of another rocket and adjust accordingly
+					AxisAlignedBB bb = boundingBox.copy();
+					bb.minY = targetHeight;
+					if(!worldObj.getEntitiesWithinAABBExcludingEntity(this, bb, entity -> entity instanceof EntityRideableRocket).isEmpty()) {
+						int distance = worldObj.rand.nextBoolean() ? -5 : 5;
+						if(worldObj.rand.nextBoolean()) {
+							navDrive.stackTagCompound.setInteger("x", destination.x + distance);
+						} else {
+							navDrive.stackTagCompound.setInteger("z", destination.z + distance);
+						}
+					}
 				}
 			} else if(state == RocketState.TIPPING) {
 				float tipTime = (float)stateTimer * 0.1F;
