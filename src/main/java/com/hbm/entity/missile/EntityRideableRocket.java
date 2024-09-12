@@ -358,6 +358,7 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	@Override
     public AxisAlignedBB getBoundingBox() {
+		if(motionMult() > 0) return null;
         return this.boundingBox;
     }
 
@@ -510,27 +511,38 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		|| state == RocketState.NEEDSFUEL)
 			return;
 
+		double x = posX;
+		double y = posY;
+		double z = posZ;
+
+		// Offset particles when travelling upwards, preventing them spawning inside the capsule at high speeds
+		if(motionY > 0) {
+			x = lastTickPosX;
+			y = lastTickPosY;
+			z = lastTickPosZ;
+		}
+
 		RocketStruct rocket = getRocket();
 		if(rocket.stages.size() == 0) {
 			if(state == RocketState.TIPPING) return;
 
 			if(isReusable()) {
-				ParticleUtil.spawnGasFlame(worldObj, posX + 0.5, posY, posZ, 0, -1, 0);
-				ParticleUtil.spawnGasFlame(worldObj, posX - 0.5, posY, posZ, 0, -1, 0);
-				ParticleUtil.spawnGasFlame(worldObj, posX, posY, posZ + 0.5, 0, -1, 0);
-				ParticleUtil.spawnGasFlame(worldObj, posX, posY, posZ - 0.5, 0, -1, 0);
+				ParticleUtil.spawnGasFlame(worldObj, x + 0.5, y, z, 0, -1, 0);
+				ParticleUtil.spawnGasFlame(worldObj, x - 0.5, y, z, 0, -1, 0);
+				ParticleUtil.spawnGasFlame(worldObj, x, y, z + 0.5, 0, -1, 0);
+				ParticleUtil.spawnGasFlame(worldObj, x, y, z - 0.5, 0, -1, 0);
 			} else {
 				double r = rocket.capsule.part.bottom.radius * 0.5;
-				ParticleUtil.spawnGasFlame(worldObj, posX + r, posY, posZ + r, 0.25, -0.75, 0.25);
-				ParticleUtil.spawnGasFlame(worldObj, posX - r, posY, posZ + r, -0.25, -0.75, 0.25);
-				ParticleUtil.spawnGasFlame(worldObj, posX + r, posY, posZ - r, 0.25, -0.75, -0.25);
-				ParticleUtil.spawnGasFlame(worldObj, posX - r, posY, posZ - r, -0.25, -0.75, -0.25);
+				ParticleUtil.spawnGasFlame(worldObj, x + r, y, z + r, 0.25, -0.75, 0.25);
+				ParticleUtil.spawnGasFlame(worldObj, x - r, y, z + r, -0.25, -0.75, 0.25);
+				ParticleUtil.spawnGasFlame(worldObj, x + r, y, z - r, 0.25, -0.75, -0.25);
+				ParticleUtil.spawnGasFlame(worldObj, x - r, y, z - r, -0.25, -0.75, -0.25);
 			}
 
-			double groundHeight = (double)worldObj.getHeightValue((int)posX, (int)posZ);
-			double distanceToGround = posY - groundHeight;
+			double groundHeight = (double)worldObj.getHeightValue((int)x, (int)z);
+			double distanceToGround = y - groundHeight;
 			if(distanceToGround < 10) {
-				ExplosionLarge.spawnShock(worldObj, posX, groundHeight + 0.5, posZ, 1 + worldObj.rand.nextInt(3), 1 + worldObj.rand.nextGaussian());
+				ExplosionLarge.spawnShock(worldObj, x, groundHeight + 0.5, z, 1 + worldObj.rand.nextInt(3), 1 + worldObj.rand.nextGaussian());
 			}
 
 			return;
@@ -540,12 +552,12 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 		// the fuck is a contraol bob
 		if(state == RocketState.LANDING) {
-			ParticleUtil.spawnGasFlame(worldObj, posX, posY, posZ, 0.0, -1.0, 0.0);
+			ParticleUtil.spawnGasFlame(worldObj, x, y, z, 0.0, -1.0, 0.0);
 
-			double groundHeight = (double)worldObj.getHeightValue((int)posX, (int)posZ);
-			double distanceToGround = posY - groundHeight;
+			double groundHeight = (double)worldObj.getHeightValue((int)x, (int)z);
+			double distanceToGround = y - groundHeight;
 			if(distanceToGround < 10) {
-				ExplosionLarge.spawnShock(worldObj, posX, groundHeight + 0.5, posZ, 1 + worldObj.rand.nextInt(3), 1 + worldObj.rand.nextGaussian());
+				ExplosionLarge.spawnShock(worldObj, x, groundHeight + 0.5, z, 1 + worldObj.rand.nextInt(3), 1 + worldObj.rand.nextGaussian());
 			}
 		} else if(state == RocketState.LAUNCHING || getStateTimer() < 200) {
 			spawnContraolWithOffset(0, 0, 0);
