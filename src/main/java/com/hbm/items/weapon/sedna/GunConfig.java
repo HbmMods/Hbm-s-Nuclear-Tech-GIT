@@ -1,8 +1,11 @@
 package com.hbm.items.weapon.sedna;
 
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
-import com.hbm.items.weapon.sedna.ItemGunBase.LambdaContext;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
+import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.item.ItemStack;
@@ -16,6 +19,7 @@ public class GunConfig {
 	protected float durability;
 	protected int drawDuration = 0;
 	protected Crosshair crosshair;
+	protected boolean reloadAnimationsSequential;
 	/** Lambda functions for clicking shit */
 	protected BiConsumer<ItemStack, LambdaContext> onPressPrimary;
 	protected BiConsumer<ItemStack, LambdaContext> onPressSecondary;
@@ -28,13 +32,16 @@ public class GunConfig {
 	protected BiConsumer<ItemStack, LambdaContext> onReleaseReload;
 	/** The engine for the state machine that determines the gun's overall behavior */
 	protected BiConsumer<ItemStack, LambdaContext> decider;
+	/** Lambda that returns the relevant animation for the given params */
+	protected BiFunction<ItemStack, AnimType, BusAnimation> animations;
 	
 	/* GETTERS */
 
-	public Receiver[] getReceivers(ItemStack stack) {	return receivers; }
-	public float getDurability(ItemStack stack) {		return durability; }
-	public int getDrawDuration(ItemStack stack) {		return drawDuration; }
-	public Crosshair getCrosshair(ItemStack stack) {	return crosshair; }
+	public Receiver[] getReceivers(ItemStack stack) {			return receivers; }
+	public float getDurability(ItemStack stack) {				return durability; }
+	public int getDrawDuration(ItemStack stack) {				return drawDuration; }
+	public Crosshair getCrosshair(ItemStack stack) {			return crosshair; }
+	public boolean getReloadAnimSequential(ItemStack stack) {	return reloadAnimationsSequential; }
 
 	public BiConsumer<ItemStack, LambdaContext> getPressPrimary(ItemStack stack) {		return this.onPressPrimary; }
 	public BiConsumer<ItemStack, LambdaContext> getPressSecondary(ItemStack stack) {	return this.onPressSecondary; }
@@ -47,6 +54,8 @@ public class GunConfig {
 	public BiConsumer<ItemStack, LambdaContext> getReleaseReload(ItemStack stack) {		return this.onReleaseReload; }
 	
 	public BiConsumer<ItemStack, LambdaContext> getDecider(ItemStack stack) {			return this.decider; }
+	
+	public BiFunction<ItemStack, AnimType, BusAnimation> getAnims(ItemStack stack) {	return this.animations; }
 	
 	/* SETTERS */
 	
@@ -69,4 +78,7 @@ public class GunConfig {
 	
 	//decider
 	public GunConfig decider(BiConsumer<ItemStack, LambdaContext> lambda) { this.decider = lambda;	return this; }
+	
+	//anims
+	public GunConfig anim(BiFunction<ItemStack, AnimType, BusAnimation> lambda) { this.animations = lambda;	return this; }
 }

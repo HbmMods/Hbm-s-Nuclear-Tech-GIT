@@ -65,6 +65,10 @@ public class ItemPool {
 		return pool.pool;
 	}
 	
+	public static ItemStack getStack(String pool, Random rand) {
+		return getStack(ItemPool.getPool(pool), rand);
+	}
+	
 	public static ItemStack getStack(WeightedRandomChestContent[] pool, Random rand) {
 		WeightedRandomChestContent weighted = (WeightedRandomChestContent) WeightedRandom.getRandomItem(rand, pool);
 		ItemStack stack = weighted.theItemId.copy();

@@ -1,8 +1,10 @@
-package com.hbm.items.weapon.sedna;
+package com.hbm.items.weapon.sedna.factory;
 
 import com.hbm.items.ModItems;
-import com.hbm.items.weapon.sedna.factory.GunStateDecider;
-import com.hbm.items.weapon.sedna.factory.Lego;
+import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.GunConfig;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.mags.MagazineRevolverDrum;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -18,7 +20,7 @@ public class GunFactory {
 		
 		BulletConfig ammo_debug = new BulletConfig().setItem(ModItems.ammo_debug);
 		
-		ModItems.gun_debug = new ItemGunBase(new GunConfig()
+		ModItems.gun_debug = new ItemGunBaseNT(new GunConfig()
 				.dura(600).draw(15).crosshair(Crosshair.L_CLASSIC)
 				.rec(new Receiver()
 						.dmg(10F).delay(10).mag(new MagazineRevolverDrum(0, 6).addConfigs(ammo_debug))
@@ -27,6 +29,7 @@ public class GunFactory {
 				.pp(Lego.LAMBDA_STANDARD_FIRE)
 				.pt(Lego.LAMBDA_TOGGLE_AIM)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
+				.anim(Lego.LAMBDA_DEBUG_ANIMS)
 				).setUnlocalizedName("gun_debug").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_darter");
 	}
 }

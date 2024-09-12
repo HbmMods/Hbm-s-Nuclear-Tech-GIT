@@ -675,6 +675,7 @@ chem.XENON=Linde Xenon Cycle
 chem.XENON_OXY=Boosted Linde Xenon Cycle
 chem.YELLOWCAKE=Yellowcake Production
 
+commands.satellite.no_active_satellites=No active satellites found!
 commands.satellite.no_satellite=No satellite using this frequency found!
 commands.satellite.not_a_satellite=The held item is not a satellite!
 commands.satellite.satellite_descended=Satellite successfully descended.
