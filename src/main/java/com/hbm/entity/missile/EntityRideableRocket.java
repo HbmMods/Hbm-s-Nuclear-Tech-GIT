@@ -185,8 +185,6 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 				if(navDrive != null && navDrive.getItem() instanceof ItemVOTVdrive) {
 					Destination destination = ItemVOTVdrive.getDestination(navDrive);
-					posX = destination.x + 0.5D;
-					posZ = destination.z + 0.5D;
 
 					// Check if we're about to land on top of another rocket and adjust accordingly
 					AxisAlignedBB bb = boundingBox.copy();
@@ -194,11 +192,16 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 					if(!worldObj.getEntitiesWithinAABBExcludingEntity(this, bb, entity -> entity instanceof EntityRideableRocket).isEmpty()) {
 						int distance = worldObj.rand.nextBoolean() ? -5 : 5;
 						if(worldObj.rand.nextBoolean()) {
-							navDrive.stackTagCompound.setInteger("x", destination.x + distance);
+							destination.x += distance;
+							navDrive.stackTagCompound.setInteger("x", destination.x);
 						} else {
-							navDrive.stackTagCompound.setInteger("z", destination.z + distance);
+							destination.z += distance;
+							navDrive.stackTagCompound.setInteger("z", destination.z);
 						}
 					}
+
+					posX = destination.x + 0.5D;
+					posZ = destination.z + 0.5D;
 				}
 			} else if(state == RocketState.TIPPING) {
 				float tipTime = (float)stateTimer * 0.1F;
