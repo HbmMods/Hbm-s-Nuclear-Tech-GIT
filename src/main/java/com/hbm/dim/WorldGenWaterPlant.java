@@ -28,20 +28,19 @@ public class WorldGenWaterPlant extends WorldGenerator {
 
 	        if (submerged && (!world.provider.hasNoSky || py < 254) && world.getBlock(px, py - 1, pz) == ModBlocks.laythe_silt) {
 	            
-	            // Randomly choose between spawning the tall plant or kelp
 	            if (rand.nextBoolean()) {
-	                // Spawn the tall plant
 	                world.setBlock(px, py, pz, ModBlocks.plant_tall_laythe, 0, 2);
 	                world.setBlock(px, py + 1, pz, ModBlocks.plant_tall_laythe, 8, 2);
 	            } else {
-	                // Spawn the kelp
-	                int height = 2 + rand.nextInt(4); // Random kelp height
-	                for (int h = 0; h < height; ++h) {
-	                    world.setBlock(px, py + h, pz, ModBlocks.laythe_kelp, 0, 1);
+	                int height = 2 + rand.nextInt(4); 
+	                if(py <= 57) {
+		                for (int h = 0; h < height; ++h) {
+		                    world.setBlock(px, py + h, pz, ModBlocks.laythe_kelp, 0, 1);
+		                }	                	
 	                }
+
 	            }
 
-	            // Separate block for short plant to avoid overlap
 	            int px2 = x + rand.nextInt(8) - rand.nextInt(8);
 	            int py2 = y + rand.nextInt(4) - rand.nextInt(4);
 	            int pz2 = z + rand.nextInt(8) - rand.nextInt(8);
