@@ -26,6 +26,9 @@ public class RenderXenonThruster extends TileEntitySpecialRenderer {
 				case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
 				case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
 			}
+
+			float trailStretch = te.getWorldObj().rand.nextFloat();
+			trailStretch = 1.2F - (trailStretch * trailStretch * 0.2F);
 	
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			
@@ -40,6 +43,10 @@ public class RenderXenonThruster extends TileEntitySpecialRenderer {
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
 			GL11.glDepthMask(false);
 			
+			GL11.glTranslatef(0, 0, -0.5F);
+			GL11.glScalef(1, 1, trailStretch);
+			GL11.glTranslatef(0, 0, 0.5F);
+
 			bindTexture(ResourceManager.xenon_exhaust_tex);
 			ResourceManager.xenon_thruster.renderPart("Exhaust");
 			
