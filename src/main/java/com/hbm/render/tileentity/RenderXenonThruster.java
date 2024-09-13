@@ -16,15 +16,19 @@ public class RenderXenonThruster extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		{
 
-			GL11.glTranslated(x + 1.0, y - 1.0, z + 1.0);
+			GL11.glTranslated(x + 0.5, y - 1.0, z + 0.5);
 	
 			GL11.glRotatef(-90, 0, 1, 0);
 	
 			switch(te.getBlockMetadata() - BlockDummyable.offset) {
-				case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
-				case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
-				case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
-				case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
+				case 2: GL11.glRotatef(90, 0F, 1F, 0F); 
+				GL11.glTranslated(0, 0, -0.5); break;
+				case 4: GL11.glRotatef(180, 0F, 1F, 0F); 
+				GL11.glTranslated(0, 0, -0.5); break;
+				case 3: GL11.glRotatef(270, 0F, 1F, 0F); 
+				GL11.glTranslated(0, 0, -0.5); break;
+				case 5: GL11.glRotatef(0, 0F, 1F, 0F);
+				GL11.glTranslated(0, 0, -0.5);break;
 			}
 
 			float trailStretch = te.getWorldObj().rand.nextFloat();
