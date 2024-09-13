@@ -218,7 +218,8 @@ public class ItemCustomMissilePart extends Item {
 			case WARHEAD:
 				list.add(EnumChatFormatting.BOLD + "Size: " + EnumChatFormatting.GRAY + getSize(bottom));
 				list.add(EnumChatFormatting.BOLD + "Type: " + EnumChatFormatting.GRAY + getWarhead());
-				list.add(EnumChatFormatting.BOLD + "Strength: " + EnumChatFormatting.GRAY + (Float)attributes[1]);
+				if(attributes[0] != WarheadType.APOLLO && attributes[0] != WarheadType.SATELLITE)
+					list.add(EnumChatFormatting.BOLD + "Strength: " + EnumChatFormatting.GRAY + (Float)attributes[1]);
 				list.add(EnumChatFormatting.BOLD + "Mass: " + EnumChatFormatting.GRAY + mass + "kg");
 				break;
 			case FUSELAGE:

@@ -107,7 +107,7 @@ public class BlockOrbitalStationComputer extends BlockDummyable implements ILook
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		if(!CelestialBody.inOrbit(world)) {
 			List<String> text = new ArrayList<String>();
-			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! MUST BE IN ORBIT ! ! !");
+			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! " + I18nUtil.resolveKey("atmosphere.noOrbit") + " ! ! !");
 			ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 			return;
 		}
@@ -130,21 +130,21 @@ public class BlockOrbitalStationComputer extends BlockDummyable implements ILook
 			text.add(EnumChatFormatting.RED + station.error);
 		} else if(progress > 0) {
 			if(station.state == StationState.LEAVING) {
-				text.add(EnumChatFormatting.AQUA + "Engaging engines for burn to: " + EnumChatFormatting.RESET + I18nUtil.resolveKey("body." + station.target.name));
+				text.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("station.engage") + ": " + EnumChatFormatting.RESET + I18nUtil.resolveKey("body." + station.target.name));
 			} else if(station.state == StationState.ARRIVING) {
-				text.add(EnumChatFormatting.AQUA + "Disengaging engines");
+				text.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("station.disengage"));
 			} else {
-				text.add(EnumChatFormatting.AQUA + "Travelling to: " + EnumChatFormatting.RESET + I18nUtil.resolveKey("body." + station.target.name));
+				text.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("station.travelling") + ": " + EnumChatFormatting.RESET + I18nUtil.resolveKey("body." + station.target.name));
 			}
-			text.add(EnumChatFormatting.AQUA + "Progress: " + EnumChatFormatting.RESET + "" + Math.round(progress * 100) + "%");
+			text.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("station.progress") + ": " + EnumChatFormatting.RESET + "" + Math.round(progress * 100) + "%");
 		} else if(computer.hasDrive) {
 			if(Minecraft.getMinecraft().thePlayer.getHeldItem() != null) {
-				text.add("Remove drive to continue");
+				text.add(I18nUtil.resolveKey("station.removeDrive"));
 			} else {
-				text.add("Interact to remove drive");
+				text.add(I18nUtil.resolveKey("station.interactDrive"));
 			}
 		} else {
-			text.add("Insert a drive to begin journey");
+			text.add(I18nUtil.resolveKey("station.insertDrive"));
 		}
 	
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);

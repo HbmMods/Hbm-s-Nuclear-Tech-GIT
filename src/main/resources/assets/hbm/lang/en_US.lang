@@ -194,6 +194,8 @@ atmosphere.noTank=EMPTY TANK
 atmosphere.vacuum=Near Vacuum
 atmosphere.noAir=REQUIRES VACUUM
 atmosphere.noGravity=REQUIRES ZERO-G
+atmosphere.noOrbit=MUST BE IN ORBIT
+atmosphere.engineFacing=WRONG DIRECTION
 
 battery.mode.buffer=Input/Output Mode
 battery.mode.input=Input Mode
@@ -5070,6 +5072,20 @@ shape.wiresDense=Dense Wires
 
 soundCategory.ntmMachines=NTM Machines
 
+station.retrieveRocket=Interact to retrieve stored rockets
+station.removeRocket=Interact to remove docked rocket
+station.enterRocket=Interact to enter docked rocket
+station.occupiedRocket=Rocket is occupied
+station.emptyRocket=Rocket needs fuel
+station.placeRocket=Interact to place held rocket
+station.engage=Engaging engines for burn to
+station.disengage=Disengaging engines
+station.travelling=Travelling to
+station.progress=Progress
+station.removeDrive=Remove drive to continue
+station.interactDrive=Interact to remove drive
+station.insertDrive=Insert a drive to begin journey
+
 tile.absorber.name=Radiation Absorber
 tile.absorber_green.name=Advanced Radiation Absorber
 tile.absorber_pink.name=Elite Radiation Absorber
@@ -5812,6 +5828,7 @@ tile.machine_large_turbine.desc=Efficiency: 100%%
 tile.machine_liquefactor.name=Industrial Liquefaction Machine
 tile.machine_liquefactor.desc=Powerful universal machine to turn items into fluids.$Comes with versatile catalytic components, heating elements$and a built-in hydrator for petrochemical liquefaction.
 tile.machine_lithium_battery.name=Li-Ion Energy Storage Block
+tile.machine_lpw2.name=LPW-2 Station Thruster
 tile.machine_microwave.name=Microwave
 tile.machine_mining_laser.name=Mining Laser
 tile.machine_minirtg.name=Radio Isotope Cell

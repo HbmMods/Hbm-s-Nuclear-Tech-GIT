@@ -134,7 +134,7 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		if(!CelestialBody.inOrbit(world)) {
 			List<String> text = new ArrayList<String>();
-			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! MUST BE IN ORBIT ! ! !");
+			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! " + I18nUtil.resolveKey("atmosphere.noOrbit") + " ! ! !");
 			ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 			return;
 		}
@@ -164,19 +164,19 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 		}
 
 		if(!text.isEmpty()) {
-			text.add("Interact to retrieve stored rockets");
+			text.add(I18nUtil.resolveKey("station.retrieveRocket"));
 		} else {
 			if(station.hasDocked) {
 				if(!station.hasRider) {
 					if(player.isSneaking()) {
 						if(player.getHeldItem() == null) {
-							text.add("Interact to remove docked rocket");
+							text.add(I18nUtil.resolveKey("station.removeRocket"));
 						}
 					} else {
-						text.add("Interact to enter docked rocket");
+						text.add(I18nUtil.resolveKey("station.enterRocket"));
 					}
 				} else {
-					text.add(EnumChatFormatting.YELLOW + "Rocket is occupied");
+					text.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("station.occupiedRocket"));
 				}
 
 				if(station.needsFuel) {
@@ -185,17 +185,17 @@ public class BlockOrbitalStation extends BlockDummyable implements IBlockSealabl
 					}
 
 					if(!station.hasFuel) {
-						text.add(EnumChatFormatting.RED + "Rocket needs fuel");
+						text.add(EnumChatFormatting.RED + I18nUtil.resolveKey("station.emptyRocket"));
 					}
 				}
 			} else if(!player.isSneaking()) {
 				ItemStack held = player.getHeldItem();
 				if(held != null) {
 					if(held.getItem() == ModItems.rocket_custom && ItemCustomRocket.hasFuel(held)) {
-						text.add("Interact to place held rocket");
+						text.add(I18nUtil.resolveKey("station.placeRocket"));
 					}
 					if(held.getItem() == ModItems.rp_capsule_20 || held.getItem() == ModItems.rp_pod_20) {
-						text.add("Interact to place held capsule");
+						text.add(I18nUtil.resolveKey("station.placeRocket"));
 					}
 				}
 			}

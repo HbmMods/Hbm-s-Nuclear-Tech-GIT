@@ -78,7 +78,7 @@ public class MachineLPW2 extends BlockDummyable implements ILookOverlay {
 		List<String> text = new ArrayList<String>();
 
 		if(!thruster.isFacingPrograde()) {
-			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! WRONG DIRECTION ! ! !");
+			text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! " + I18nUtil.resolveKey("atmosphere.engineFacing") + " ! ! !");
 		} else {
 			for(int i = 0; i < thruster.tanks.length; i++) {
 				FluidTank tank = thruster.tanks[i];
