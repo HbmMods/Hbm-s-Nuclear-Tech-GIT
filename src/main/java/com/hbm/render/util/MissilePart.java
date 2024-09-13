@@ -233,18 +233,18 @@ public class MissilePart {
 
 		// SPACE
 		MissilePart.registerPart(ModItems.rp_capsule_20, PartType.WARHEAD, 3.5, 2.25, ResourceManager.soyuz_lander_neo, ResourceManager.module_lander_tex);
-		MissilePart.registerPart(ModItems.rp_station_core_20, PartType.WARHEAD, 7, 6, ResourceManager.mp_w_fairing, ResourceManager.mp_w_fairing_tex);
+		MissilePart.registerPart(ModItems.rp_station_core_20, PartType.WARHEAD, 7, 5, ResourceManager.mp_w_fairing, ResourceManager.mp_w_fairing_tex);
 		MissilePart.registerPart(ModItems.rp_pod_20, PartType.WARHEAD, 3.0, 2.25, ResourceManager.drop_pod, ResourceManager.drop_pod_tex).withRenderer(new RenderDropPod());
 
-		MissilePart.registerPart(ModItems.sat_mapper, PartType.WARHEAD, 13, 10, ResourceManager.sat_mapper, ResourceManager.sat_mapper_tex).hideInventoryModel();
-		MissilePart.registerPart(ModItems.sat_scanner, PartType.WARHEAD, 13, 10, ResourceManager.sat_scanner, ResourceManager.sat_scanner_tex).hideInventoryModel();
-		MissilePart.registerPart(ModItems.sat_radar, PartType.WARHEAD, 13, 10, ResourceManager.sat_radar, ResourceManager.sat_radar_tex).hideInventoryModel();
-		MissilePart.registerPart(ModItems.sat_laser, PartType.WARHEAD, 13, 10, ResourceManager.sat_laser, ResourceManager.sat_laser_tex).hideInventoryModel();
-		MissilePart.registerPart(ModItems.sat_foeq, PartType.WARHEAD, 13, 10, ResourceManager.sat_foeq, ResourceManager.sat_foeq_tex).hideInventoryModel();
-		MissilePart.registerPart(ModItems.sat_resonator, PartType.WARHEAD, 13, 10, ResourceManager.sat_resonator, ResourceManager.sat_resonator_tex).hideInventoryModel();
-		MissilePart.registerPart(ModItems.sat_miner, PartType.WARHEAD, 13, 10, ResourceManager.sat_foeq, ResourceManager.sat_foeq_tex).hideInventoryModel();
-		MissilePart.registerPart(ModItems.sat_lunar_miner, PartType.WARHEAD, 13, 10, ResourceManager.sat_foeq, ResourceManager.sat_foeq_tex).hideInventoryModel();
-		MissilePart.registerPart(ModItems.sat_gerald, PartType.WARHEAD, 13, 10, ResourceManager.sat_foeq, ResourceManager.sat_foeq_tex).hideInventoryModel();
+		MissilePart.registerPart(ModItems.sat_mapper, PartType.WARHEAD, 7, 5, ResourceManager.mp_w_fairing, ResourceManager.mp_w_fairing_tex).hideInventoryModel();
+		MissilePart.registerPart(ModItems.sat_scanner, PartType.WARHEAD, 7, 5, ResourceManager.mp_w_fairing, ResourceManager.mp_w_fairing_tex).hideInventoryModel();
+		MissilePart.registerPart(ModItems.sat_radar, PartType.WARHEAD, 7, 5, ResourceManager.mp_w_fairing, ResourceManager.mp_w_fairing_tex).hideInventoryModel();
+		MissilePart.registerPart(ModItems.sat_laser, PartType.WARHEAD, 7, 5, ResourceManager.mp_w_fairing, ResourceManager.mp_w_fairing_tex).hideInventoryModel();
+		MissilePart.registerPart(ModItems.sat_foeq, PartType.WARHEAD, 7, 5, ResourceManager.mp_w_fairing, ResourceManager.mp_w_fairing_tex).hideInventoryModel();
+		MissilePart.registerPart(ModItems.sat_resonator, PartType.WARHEAD, 7, 5, ResourceManager.mp_w_fairing, ResourceManager.mp_w_fairing_tex).hideInventoryModel();
+		MissilePart.registerPart(ModItems.sat_miner, PartType.WARHEAD, 7, 5, ResourceManager.mp_w_fairing, ResourceManager.mp_w_fairing_tex).hideInventoryModel();
+		MissilePart.registerPart(ModItems.sat_lunar_miner, PartType.WARHEAD, 7, 5, ResourceManager.mp_w_fairing, ResourceManager.mp_w_fairing_tex).hideInventoryModel();
+		MissilePart.registerPart(ModItems.sat_gerald, PartType.WARHEAD, 7, 5, ResourceManager.mp_w_fairing, ResourceManager.mp_w_fairing_tex).hideInventoryModel();
 		
 	}
 
@@ -415,18 +415,18 @@ public class MissilePart {
 
 		// SPACE
 		MissilePart.registerPart(ModItems.rp_capsule_20, PartType.WARHEAD, 3.5, 2.25);
-		MissilePart.registerPart(ModItems.rp_station_core_20, PartType.WARHEAD, 7, 6);
-		MissilePart.registerPart(ModItems.rp_pod_20, PartType.WARHEAD, 3.5, 2.25);
+		MissilePart.registerPart(ModItems.rp_station_core_20, PartType.WARHEAD, 7, 5);
+		MissilePart.registerPart(ModItems.rp_pod_20, PartType.WARHEAD, 3.0, 2.25);
 
-		MissilePart.registerPart(ModItems.sat_mapper, PartType.WARHEAD, 13, 10);
-		MissilePart.registerPart(ModItems.sat_scanner, PartType.WARHEAD, 13, 10);
-		MissilePart.registerPart(ModItems.sat_radar, PartType.WARHEAD, 13, 10);
-		MissilePart.registerPart(ModItems.sat_laser, PartType.WARHEAD, 13, 10);
-		MissilePart.registerPart(ModItems.sat_foeq, PartType.WARHEAD, 13, 10);
-		MissilePart.registerPart(ModItems.sat_resonator, PartType.WARHEAD, 13, 10);
-		MissilePart.registerPart(ModItems.sat_miner, PartType.WARHEAD, 13, 10);
-		MissilePart.registerPart(ModItems.sat_lunar_miner, PartType.WARHEAD, 13, 10);
-		MissilePart.registerPart(ModItems.sat_gerald, PartType.WARHEAD, 13, 10);
+		MissilePart.registerPart(ModItems.sat_mapper, PartType.WARHEAD, 7, 5);
+		MissilePart.registerPart(ModItems.sat_scanner, PartType.WARHEAD, 7, 5);
+		MissilePart.registerPart(ModItems.sat_radar, PartType.WARHEAD, 7, 5);
+		MissilePart.registerPart(ModItems.sat_laser, PartType.WARHEAD, 7, 5);
+		MissilePart.registerPart(ModItems.sat_foeq, PartType.WARHEAD, 7, 5);
+		MissilePart.registerPart(ModItems.sat_resonator, PartType.WARHEAD, 7, 5);
+		MissilePart.registerPart(ModItems.sat_miner, PartType.WARHEAD, 7, 5);
+		MissilePart.registerPart(ModItems.sat_lunar_miner, PartType.WARHEAD, 7, 5);
+		MissilePart.registerPart(ModItems.sat_gerald, PartType.WARHEAD, 7, 5);
 		
 	}
 	
