@@ -14,6 +14,7 @@ import com.hbm.items.machine.ItemPistons.EnumPistonType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.EnumUtil;
@@ -32,7 +33,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCombustionEngine extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IControlReceiver, IGUIProvider {
+public class TileEntityMachineCombustionEngine extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IFluidCopiable {
 	
 	public boolean isOn = false;
 	public static long maxPower = 2_500_000;
@@ -317,5 +318,22 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 		if(data.hasKey("setting")) this.setting = data.getInteger("setting");
 		
 		this.markChanged();
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		NBTTagCompound tag = new NBTTagCompound();
+		tag.setIntArray("fluidID", new int[]{tank.getTankType().getID()});
+		tag.setBoolean("isOn", isOn);
+		tag.setInteger("burnRate", setting);
+		return tag;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+		int id = nbt.getIntArray("fluidID")[index];
+		tank.setTankType(Fluids.fromID(id));
+		if(nbt.hasKey("isOn")) isOn = nbt.getBoolean("isOn");
+		if(nbt.hasKey("burnRate")) setting = nbt.getInteger("burnRate");
 	}
 }

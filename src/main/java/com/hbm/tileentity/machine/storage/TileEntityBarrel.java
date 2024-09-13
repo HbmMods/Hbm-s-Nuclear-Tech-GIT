@@ -14,6 +14,7 @@ import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIBarrel;
 import com.hbm.lib.Library;
 import com.hbm.saveddata.TomSaveData;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -43,7 +44,7 @@ import java.util.List;
 import java.util.Set;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent {
+public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent, IFluidCopiable {
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -302,6 +303,16 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 	@Override
 	public FluidTank[] getAllTanks() {
 		return new FluidTank[] { tank };
+	}
+
+	@Override
+	public int[] getFluidIDToCopy() {
+		return new int[] {tank.getTankType().getID()};
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tank;
 	}
 
 	@Override

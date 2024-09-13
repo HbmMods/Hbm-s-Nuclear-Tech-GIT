@@ -15,6 +15,7 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
@@ -38,7 +39,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineSolderingStation extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityMachineSolderingStation extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
 
 	public long power;
 	public long maxPower = 2_000;
@@ -364,5 +365,10 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 		if(type == UpgradeType.SPEED) return 3;
 		if(type == UpgradeType.POWER) return 3;
 		return 0;
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tank;
 	}
 }

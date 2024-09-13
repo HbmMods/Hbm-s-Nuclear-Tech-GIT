@@ -12,6 +12,7 @@ import com.hbm.inventory.gui.GUILiquefactor;
 import com.hbm.inventory.recipes.LiquefactionRecipes;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -33,7 +34,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineLiquefactor extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardSender, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC {
+public class TileEntityMachineLiquefactor extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardSender, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
+
 
 	public long power;
 	public static final long maxPower = 100000;

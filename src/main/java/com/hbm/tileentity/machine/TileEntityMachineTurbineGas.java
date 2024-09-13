@@ -18,6 +18,7 @@ import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatEnergyControl;
@@ -42,7 +43,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyProviderMK2, IControlReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityMachineTurbineGas extends TileEntityMachineBase implements IFluidStandardTransceiver, IEnergyProviderMK2, IControlReceiver, IGUIProvider, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IFluidCopiable {
 	
 	public long power;
 	public static final long maxPower = 1000000L;

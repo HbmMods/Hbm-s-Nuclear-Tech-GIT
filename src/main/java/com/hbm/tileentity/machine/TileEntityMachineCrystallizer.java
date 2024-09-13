@@ -15,6 +15,7 @@ import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -39,7 +40,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityMachineCrystallizer extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
 	
 	public long power;
 	public static final long maxPower = 1000000;
@@ -393,5 +394,15 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		if(type == UpgradeType.EFFECT) return 3;
 		if(type == UpgradeType.OVERDRIVE) return 3;
 		return 0;
+	}
+
+	@Override
+	public int[] getFluidIDToCopy() {
+		return new int[]{ tank.getTankType().getID()};
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tank;
 	}
 }

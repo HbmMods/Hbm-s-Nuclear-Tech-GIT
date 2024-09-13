@@ -18,6 +18,7 @@ import com.hbm.inventory.gui.GUIMachineDiesel;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.CompatEnergyControl;
@@ -36,7 +37,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC, IFluidCopiable {
 
 	public long power;
 	public int soundCycle = 0;

@@ -14,6 +14,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.lib.Library;
 import com.hbm.module.ModuleBurnTime;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatEnergyControl;
@@ -34,7 +35,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineWoodBurner extends TileEntityMachineBase implements IFluidStandardReceiver, IControlReceiver, IEnergyProviderMK2, IGUIProvider, IInfoProviderEC {
+public class TileEntityMachineWoodBurner extends TileEntityMachineBase implements IFluidStandardReceiver, IControlReceiver, IEnergyProviderMK2, IGUIProvider, IInfoProviderEC, IFluidCopiable {
 	
 	public long power;
 	public static final long maxPower = 100_000;
@@ -320,5 +321,10 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 		data.setBoolean(CompatEnergyControl.B_ACTIVE, isOn);
 		if(this.liquidBurn) data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, 1D);
 		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, power);
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tank;
 	}
 }

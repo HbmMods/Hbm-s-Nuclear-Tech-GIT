@@ -12,6 +12,7 @@ import com.hbm.inventory.gui.GUIStorageDrum;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -34,7 +35,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityStorageDrum extends TileEntityMachineBase implements IFluidStandardSender, IBufPacketReceiver, IGUIProvider {
+public class TileEntityStorageDrum extends TileEntityMachineBase implements IFluidStandardSender, IBufPacketReceiver, IGUIProvider, IFluidCopiable {
+
 
 	public FluidTank[] tanks;
 	private static final int[] slots_arr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 };
@@ -276,5 +278,10 @@ public class TileEntityStorageDrum extends TileEntityMachineBase implements IFlu
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIStorageDrum(player.inventory, this);
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
 	}
 }

@@ -19,6 +19,7 @@ import com.hbm.items.machine.ItemWatzPellet;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -44,7 +45,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IControlReceiver, IGUIProvider {
+public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IFluidCopiable {
 	
 	public FluidTank[] tanks;
 	public int heat;
@@ -548,5 +549,10 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { tanks[0] };
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
 	}
 }

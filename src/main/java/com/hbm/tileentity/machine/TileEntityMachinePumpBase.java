@@ -10,6 +10,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IConfigurableMachine;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -22,7 +23,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 
-public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase implements IFluidStandardTransceiver, INBTPacketReceiver, IConfigurableMachine {
+public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase implements IFluidStandardTransceiver, INBTPacketReceiver, IConfigurableMachine, IFluidCopiable {
 
 	public static final HashSet<Block> validBlocks = new HashSet();
 	
@@ -199,5 +200,10 @@ public abstract class TileEntityMachinePumpBase extends TileEntityLoadedBase imp
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
 	}
 }

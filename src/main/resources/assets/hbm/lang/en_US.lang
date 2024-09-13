@@ -860,6 +860,17 @@ container.wasteDrum=Spent Fuel Pool Drum
 container.watzPowerplant=Watz Power Plant
 container.zirnox=ZIRNOX Nuclear Reactor
 
+copytool.filter=Filter
+copytool.invertRedstone=Redstone Inverted
+copytool.invertFilter=Filter Inverted
+copytool.orientation=Orientation
+copytool.pattern0=Red Side
+copytool.pattern1=Orange Side
+copytool.pattern2=Yellow Side
+copytool.pattern3=Green Side
+copytool.pattern4=Blue Side
+copytool.pattern5=Purple Side
+
 crucible.aa=Advanced Alloy Production
 crucible.abronze=Arsenic Bronze Production
 crucible.bbronze=Bismuth Bronze Production
@@ -1354,6 +1365,8 @@ hbm.key.dash=Dash (Unbind from Crouch in config)
 hbm.key.toggleBack=Toggle Jetpack
 hbm.key.toggleHUD=Toggle HUD
 hbm.key.reload=Reload
+hbm.key.copyToolAlt=Copy Tool: Switch Paste
+hbm.key.copyToolCtrl=Copy Tool: Paste to Pipes
 
 hbmfluid.amat=Antimatter
 hbmfluid.aromatics=Aromatic Hydrocarbons
@@ -4285,6 +4298,7 @@ item.seg_20.name=Size 20 Connector
 item.serum.name=Serum
 item.servo_set.name=Servo Set
 item.servo_set_desh.name=Desh Servo Set
+item.settings_tool.name=Settings Tool
 item.shackles.name=Shackles
 item.shellntm.name=%s Shell
 item.shimmer_axe.name=Shimmer Axe

@@ -1,6 +1,7 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.handler.CompatHandler;
+import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.container.ContainerMicrowave;
 import com.hbm.inventory.gui.GUIMicrowave;
 import com.hbm.lib.Library;
@@ -29,7 +30,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityMicrowave extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityMicrowave extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, SimpleComponent, CompatHandler.OCComponent, ICopiable {
 	
 	public long power;
 	public static final long maxPower = 50000;
@@ -253,5 +254,22 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMicrowave(player.inventory, this);
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setInteger("microSpeed", speed);
+		return null;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+		if(nbt.hasKey("microSpeed")) speed = nbt.getInteger("microSpeed");
+	}
+
+	@Override
+	public String[] infoForDisplay(World world, int x, int y, int z) {
+		return new String[]{ "copyTool.speed"};
 	}
 }

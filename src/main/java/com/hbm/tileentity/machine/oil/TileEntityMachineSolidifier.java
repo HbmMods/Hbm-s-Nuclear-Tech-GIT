@@ -11,6 +11,7 @@ import com.hbm.inventory.gui.GUISolidifier;
 import com.hbm.inventory.recipes.SolidificationRecipes;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -33,7 +34,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-public class TileEntityMachineSolidifier extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC {
+public class TileEntityMachineSolidifier extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
 
 	public long power;
 	public static final long maxPower = 100000;
@@ -282,5 +283,10 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	public void provideExtraInfo(NBTTagCompound data) {
 		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.progress > 0);
 		data.setDouble(CompatEnergyControl.D_CONSUMPTION_HE, this.usage);
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tank;
 	}
 }

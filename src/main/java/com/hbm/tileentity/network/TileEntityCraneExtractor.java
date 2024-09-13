@@ -8,6 +8,7 @@ import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.util.ItemStackUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -255,4 +256,10 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 			setFilterContents(data);
 		}
 	}
+
+	@Override
+	public int[] getFilterSlots() {
+		return new int[]{0,9};
+	}
 }
+

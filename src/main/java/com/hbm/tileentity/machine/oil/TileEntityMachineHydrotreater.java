@@ -9,6 +9,7 @@ import com.hbm.inventory.gui.GUIMachineHydrotreater;
 import com.hbm.inventory.recipes.HydrotreatingRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -28,7 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineHydrotreater extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider {
+public class TileEntityMachineHydrotreater extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, IFluidCopiable {
 	
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -221,5 +222,10 @@ public class TileEntityMachineHydrotreater extends TileEntityMachineBase impleme
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineHydrotreater(player.inventory, this);
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tanks[0];
 	}
 }

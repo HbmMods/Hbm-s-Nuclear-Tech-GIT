@@ -24,10 +24,8 @@ import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.*;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
-import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.IUpgradeInfoProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.CrucibleUtil;
 import com.hbm.util.I18nUtil;
@@ -50,7 +48,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable, IMetalCopiable {
 	
 	public long power;
 	public static final long maxPower = 20000000;
@@ -546,5 +544,51 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 		if(type == UpgradeType.POWER) return 3;
 		if(type == UpgradeType.OVERDRIVE) return 3;
 		return 0;
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tanks[0];
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		NBTTagCompound tag = new NBTTagCompound();
+		if(getFluidIDToCopy().length > 0)
+			tag.setIntArray("fluidID", getFluidIDToCopy());
+		if(getMatsToCopy().length > 0)
+			tag.setIntArray("matFilter", getMatsToCopy());
+		return tag;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+		IFluidCopiable.super.pasteSettings(nbt, index, world, player, x, y, z);
+	}
+
+	@Override
+	public String[] infoForDisplay(World world, int x, int y, int z) {
+		ArrayList<String> names = new ArrayList<>();
+		int[] fluidIDs = getFluidIDToCopy();
+		int[] matIDs = getMatsToCopy();
+
+		for (int fluidID : fluidIDs) {
+			names.add(Fluids.fromID(fluidID).getUnlocalizedName());
+		}
+		for (int matID : matIDs) {
+			names.add(Mats.matById.get(matID).getUnlocalizedName());
+		}
+
+		return names.toArray(new String[0]);
+	}
+
+	@Override
+	public int[] getMatsToCopy() {
+		ArrayList<Integer> types = new ArrayList<>();
+		if(leftStack != null)	types.add(leftStack.material.id);
+
+		if(rightStack != null)	types.add(rightStack.material.id);
+
+		return BobMathUtil.intCollectionToArray(types);
 	}
 }

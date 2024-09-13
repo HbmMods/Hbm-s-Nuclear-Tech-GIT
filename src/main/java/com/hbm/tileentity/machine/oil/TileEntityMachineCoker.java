@@ -10,6 +10,7 @@ import com.hbm.inventory.gui.GUIMachineCoker;
 import com.hbm.inventory.recipes.CokerRecipes;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Triplet;
@@ -28,7 +29,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityMachineCoker extends TileEntityMachineBase implements IFluidStandardTransceiver, IGUIProvider {
+public class TileEntityMachineCoker extends TileEntityMachineBase implements IFluidStandardTransceiver, IGUIProvider, IFluidCopiable {
 
 	public boolean wasOn;
 	public int progress;

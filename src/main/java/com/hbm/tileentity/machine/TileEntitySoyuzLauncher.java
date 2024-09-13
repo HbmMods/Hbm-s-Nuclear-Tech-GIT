@@ -14,6 +14,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -36,7 +37,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider {
+public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IFluidCopiable {
 
 	public long power;
 	public static final long maxPower = 1000000;
@@ -451,5 +452,10 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	@SideOnly(Side.CLIENT)
 	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUISoyuzLauncher(player.inventory, this);
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
 	}
 }

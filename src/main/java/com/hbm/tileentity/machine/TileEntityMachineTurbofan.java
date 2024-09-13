@@ -21,6 +21,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
@@ -47,7 +48,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC {
+public class TileEntityMachineTurbofan extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IGUIProvider, IUpgradeInfoProvider, IInfoProviderEC, IFluidCopiable {
 
 	public long power;
 	public static final long maxPower = 1_000_000;

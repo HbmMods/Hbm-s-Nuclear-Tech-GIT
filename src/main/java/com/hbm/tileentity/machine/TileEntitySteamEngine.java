@@ -10,6 +10,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.tileentity.IConfigurableMachine;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -24,7 +25,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiver, INBTPacketReceiver, IConfigurableMachine {
+public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiver, INBTPacketReceiver, IConfigurableMachine, IFluidCopiable {
 
 	public long powerBuffer;
 
@@ -213,5 +214,10 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 		this.turnProgress = 3; //use 3-ply for extra smoothness
 		this.tanks[0].readFromNBT(nbt, "s");
 		this.tanks[1].readFromNBT(nbt, "w");
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
 	}
 }
