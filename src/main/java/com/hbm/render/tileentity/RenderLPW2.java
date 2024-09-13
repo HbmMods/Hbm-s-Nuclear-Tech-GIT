@@ -139,7 +139,7 @@ public class RenderLPW2 extends TileEntitySpecialRenderer {
 		
 		GL11.glMatrixMode(GL11.GL_TEXTURE);
 		GL11.glLoadIdentity();
-		GL11.glTranslated(0, BobMathUtil.sps(errorTimer) + errorTimer / 2D - 1, 0);
+		GL11.glTranslated(0, (BobMathUtil.sps(errorTimer) + errorTimer / 2D) % 1, 0);
 		ResourceManager.lpw2.renderPart("Screen");
 		GL11.glMatrixMode(GL11.GL_TEXTURE);
 		GL11.glLoadIdentity();

@@ -8,8 +8,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityZirnoxDestroyed;
 

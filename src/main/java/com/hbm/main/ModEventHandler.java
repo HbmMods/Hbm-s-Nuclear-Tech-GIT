@@ -57,8 +57,8 @@ import com.hbm.lib.HbmCollection;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PermaSyncPacket;
-import com.hbm.packet.PlayerInformPacket;
+import com.hbm.packet.toclient.PermaSyncPacket;
+import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
@@ -475,7 +475,7 @@ public class ModEventHandler {
 				&& (prevArmor[0] == null || prevArmor[0].getItem() != event.entityLiving.getHeldItem().getItem())
 				&& event.entityLiving.getHeldItem().getItem() instanceof IEquipReceiver) {
 
-			((IEquipReceiver)event.entityLiving.getHeldItem().getItem()).onEquip((EntityPlayer) event.entityLiving);
+			((IEquipReceiver)event.entityLiving.getHeldItem().getItem()).onEquip((EntityPlayer) event.entityLiving, event.entityLiving.getHeldItem());
 		}
 		
 		for(int i = 1; i < 5; i++) {

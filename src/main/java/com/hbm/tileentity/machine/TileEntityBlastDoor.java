@@ -3,7 +3,7 @@ package com.hbm.tileentity.machine;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.DummyBlockBlast;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEVaultPacket;
+import com.hbm.packet.toclient.TEVaultPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;

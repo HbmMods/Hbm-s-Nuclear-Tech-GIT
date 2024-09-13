@@ -1,8 +1,8 @@
 package api.hbm.fluid;
 
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.Compat;
 
 import api.hbm.tile.ILoadedTile;

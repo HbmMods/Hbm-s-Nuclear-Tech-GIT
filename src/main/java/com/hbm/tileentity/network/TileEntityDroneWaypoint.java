@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.hbm.entity.item.EntityDeliveryDrone;
 import com.hbm.util.ParticleUtil;
-import com.hbm.packet.BufPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.BufPacket;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 

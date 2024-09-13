@@ -6,8 +6,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerWatz;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.render.util.GaugeUtil;
 import com.hbm.render.util.GaugeUtil.Gauge;
 import com.hbm.tileentity.machine.TileEntityWatz;

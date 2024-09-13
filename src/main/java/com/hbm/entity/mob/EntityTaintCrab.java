@@ -6,8 +6,8 @@ import java.util.List;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.items.ModItems;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.potion.HbmPotion;
 import com.hbm.tileentity.machine.TileEntityTesla;
 

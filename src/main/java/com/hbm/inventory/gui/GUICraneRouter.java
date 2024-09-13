@@ -8,8 +8,8 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.inventory.container.ContainerCraneRouter;
 import com.hbm.lib.RefStrings;
 import com.hbm.module.ModulePatternMatcher;
-import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.network.TileEntityCraneRouter;
 
 import net.minecraft.client.Minecraft;

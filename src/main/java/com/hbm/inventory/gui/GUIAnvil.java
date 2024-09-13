@@ -17,8 +17,8 @@ import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilConstructionRecipe;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes.AnvilOutput;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AnvilCraftPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.AnvilCraftPacket;
 
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;

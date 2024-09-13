@@ -675,6 +675,7 @@ chem.XENON=Linde Xenon Cycle
 chem.XENON_OXY=Boosted Linde Xenon Cycle
 chem.YELLOWCAKE=Yellowcake Production
 
+commands.satellite.no_active_satellites=No active satellites found!
 commands.satellite.no_satellite=No satellite using this frequency found!
 commands.satellite.not_a_satellite=The held item is not a satellite!
 commands.satellite.satellite_descended=Satellite successfully descended.
@@ -1361,7 +1362,7 @@ hbm.key.craneMoveLeft=Move Crane Left
 hbm.key.craneMoveRight=Move Crane Right
 hbm.key.craneMoveUp=Move Crane Forward
 hbm.key.dash=Dash (Unbind from Crouch in config)
-hbm.key.toggleBack=Toggle Backpack
+hbm.key.toggleBack=Toggle Jetpack
 hbm.key.toggleHUD=Toggle HUD
 hbm.key.reload=Reload
 hbm.key.copyToolAlt=Copy Tool: Switch Paste

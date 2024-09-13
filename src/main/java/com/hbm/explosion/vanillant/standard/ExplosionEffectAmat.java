@@ -2,8 +2,8 @@ package com.hbm.explosion.vanillant.standard;
 
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.interfaces.IExplosionSFX;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;

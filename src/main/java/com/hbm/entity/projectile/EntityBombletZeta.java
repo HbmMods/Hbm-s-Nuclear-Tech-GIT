@@ -4,8 +4,8 @@ import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;

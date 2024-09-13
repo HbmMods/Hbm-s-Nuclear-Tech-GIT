@@ -20,10 +20,10 @@ import com.hbm.interfaces.IArmorModDash;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.packet.toclient.ExtPropPacket;
 import com.hbm.potion.HbmPotion;
-import com.hbm.packet.ExtPropPacket;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
@@ -99,8 +99,8 @@ public class EntityEffectHandler {
 					ExplosionNukeSmall.explode(entity.worldObj, entity.posX, entity.posY, entity.posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
 				}
 			}
-	
-			if(GeneralConfig.enable528 && entity instanceof EntityLivingBase && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
+			//only sets players on fire so mod compatibility doesnt die
+			if((GeneralConfig.enable528 && GeneralConfig.enable528NetherBurn) && entity instanceof EntityPlayer && !entity.isImmuneToFire() && entity.worldObj.provider.isHellWorld) {
 				entity.setFire(5);
 			}
 			

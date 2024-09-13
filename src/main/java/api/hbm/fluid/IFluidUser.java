@@ -2,8 +2,8 @@ package api.hbm.fluid;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.Compat;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

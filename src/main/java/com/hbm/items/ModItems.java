@@ -36,7 +36,7 @@ import com.hbm.items.weapon.ItemCustomMissilePart.*;
 import com.hbm.items.weapon.ItemMissile.MissileFormFactor;
 import com.hbm.items.weapon.ItemMissile.MissileFuel;
 import com.hbm.items.weapon.ItemMissile.MissileTier;
-import com.hbm.items.weapon.gununified.ItemEnergyGunBase;
+import com.hbm.items.weapon.sedna.factory.GunFactory;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
@@ -1597,10 +1597,6 @@ public class ModItems {
 	public static Item gun_hp_ammo;
 	public static Item gun_euthanasia;
 	public static Item gun_euthanasia_ammo;
-	public static Item gun_dash;
-	public static Item gun_dash_ammo;
-	public static Item gun_twigun;
-	public static Item gun_twigun_ammo;
 	public static Item gun_defabricator;
 	public static Item gun_defabricator_ammo;
 	public static Item gun_vortex;
@@ -1610,11 +1606,9 @@ public class ModItems {
 	public static Item gun_m2;
 	public static Item gun_lunatic_marksman;
 	public static Item gun_uac_pistol;
-	
-	// We'll figure this part out later
-	//public static Item gun_llr, gun_mlr, gun_hlr, gun_twr, gun_lunatic, gun_lunatic_shotty;
-	//public static Item gun_uac_pistol, gun_uac_dmr, gun_uac_carbine, gun_uac_lmg;
-	//public static Item gun_benelli, gun_benelli_mod, gun_g36, spear_bishamonten, pagoda;
+
+	public static Item gun_debug;
+	public static Item ammo_debug;
 	
 	public static Item crucible;
 
@@ -3869,7 +3863,7 @@ public class ModItems {
 		sat_interface = new ItemSatInterface().setUnlocalizedName("sat_interface").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_interface");
 		sat_coord = new ItemSatInterface().setUnlocalizedName("sat_coord").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_coord");
 		sat_designator = new ItemSatDesignator().setUnlocalizedName("sat_designator").setFull3D().setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_designator");
-		sat_relay = new ItemSatRelay().setUnlocalizedName("sat_relay").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_relay");
+		sat_relay = new ItemSatChip().setUnlocalizedName("sat_relay").setMaxStackSize(1).setCreativeTab(MainRegistry.missileTab).setTextureName(RefStrings.MODID + ":sat_relay");
 
 		mp_thruster_10_kerosene = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 1.5F, PartSize.SIZE_10).setHealth(10F)					.setUnlocalizedName("mp_thruster_10_kerosene");
 		mp_thruster_10_kerosene_tec = new ItemCustomMissilePart().makeThruster(FuelType.KEROSENE, 1F, 1.5F, PartSize.SIZE_10).setHealth(15F).setRarity(Rarity.COMMON).setUnlocalizedName("mp_thruster_10_kerosene_tec");
@@ -4140,10 +4134,6 @@ public class ModItems {
 		gun_hp = new GunHP().setUnlocalizedName("gun_hp").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_hp");
 		gun_euthanasia_ammo = new Item().setUnlocalizedName("gun_euthanasia_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_euthanasia_ammo");
 		gun_euthanasia = new GunEuthanasia().setUnlocalizedName("gun_euthanasia").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_euthanasia");
-		gun_dash_ammo = new Item().setUnlocalizedName("gun_dash_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_dash_ammo");
-		gun_dash = new GunDash().setUnlocalizedName("gun_dash").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_dash");
-		gun_twigun_ammo = new Item().setUnlocalizedName("gun_twigun_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_twigun_ammo");
-		gun_twigun = new GunEuthanasia().setUnlocalizedName("gun_twigun").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_twigun");
 		gun_defabricator_ammo = new Item().setUnlocalizedName("gun_defabricator_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_defabricator_ammo");
 		gun_defabricator = new GunDefabricator().setUnlocalizedName("gun_defabricator").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_defabricator");
 		gun_vortex = new ItemGunBase(Gun556mmFactory.getEuphieConfig()).setUnlocalizedName("gun_vortex").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_vortex");
@@ -5461,6 +5451,8 @@ public class ModItems {
 		mysteryshovel = new ItemMS().setUnlocalizedName("mysteryshovel").setFull3D().setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cursed_shovel");
 		memory = new ItemBattery(Long.MAX_VALUE / 100L, 100000000000000L, 100000000000000L).setUnlocalizedName("memory").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mo8_anim");
 
+		GunFactory.init();
+		
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.mud_fluid, 1000), new ItemStack(ModItems.bucket_mud), new ItemStack(Items.bucket));
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.acid_fluid, 1000), new ItemStack(ModItems.bucket_acid), new ItemStack(Items.bucket));
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(ModBlocks.toxic_fluid, 1000), new ItemStack(ModItems.bucket_toxic), new ItemStack(Items.bucket));
@@ -6998,6 +6990,9 @@ public class ModItems {
 		GameRegistry.registerItem(crucible, crucible.getUnlocalizedName());
 		GameRegistry.registerItem(gun_glass_cannon, gun_glass_cannon.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lunatic_marksman, gun_lunatic_marksman.getUnlocalizedName());
+		
+		GameRegistry.registerItem(gun_debug, gun_debug.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_debug, ammo_debug.getUnlocalizedName());
 		
 		//Ammo
 		GameRegistry.registerItem(gun_b92_ammo, gun_b92_ammo.getUnlocalizedName());

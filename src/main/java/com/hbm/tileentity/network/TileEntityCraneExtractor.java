@@ -2,7 +2,6 @@ package com.hbm.tileentity.network;
 
 import api.hbm.conveyor.IConveyorBelt;
 import com.hbm.entity.item.EntityMovingItem;
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneExtractor;
 import com.hbm.inventory.gui.GUICraneExtractor;
 import com.hbm.items.ModItems;

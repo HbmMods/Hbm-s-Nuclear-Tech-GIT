@@ -4,8 +4,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockBobble.BobbleType;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.IItemAbility;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.ContaminationUtil;
 

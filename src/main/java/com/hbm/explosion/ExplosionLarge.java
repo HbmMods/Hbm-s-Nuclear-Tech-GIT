@@ -5,8 +5,8 @@ import java.util.Random;
 
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ParticleUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;

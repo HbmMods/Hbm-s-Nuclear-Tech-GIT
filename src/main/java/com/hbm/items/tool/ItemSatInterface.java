@@ -6,7 +6,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemSatChip;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.SatPanelPacket;
+import com.hbm.packet.toclient.SatPanelPacket;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.tileentity.IGUIProvider;
