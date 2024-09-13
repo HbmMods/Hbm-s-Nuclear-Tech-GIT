@@ -23,12 +23,12 @@ public class MachineXenonThruster extends BlockDummyable {
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {1, 1, 0, 0, 1, 1};
+		return new int[] {1, 1, 0, 1, 1, 1};
 	}
 
 	@Override
 	public int getOffset() {
-		return 0;
+		return 1;
 	}
 
 	@Override

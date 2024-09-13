@@ -692,6 +692,7 @@ public class ResourceManager {
 	public static final ResourceLocation lpw2_error_tex = new ResourceLocation(RefStrings.MODID, "textures/models/machines/lpw2_term_error.png");
 
 	//Xenon
+	public static final ResourceLocation xenon_thruster_tex = new ResourceLocation(RefStrings.MODID, "textures/models/xenon_thruster.png");
 	public static final ResourceLocation xenon_exhaust_tex = new ResourceLocation(RefStrings.MODID, "textures/models/xenon_trail.png");
 	
 	//Watz

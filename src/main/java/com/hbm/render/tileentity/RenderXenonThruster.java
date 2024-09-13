@@ -16,7 +16,7 @@ public class RenderXenonThruster extends TileEntitySpecialRenderer {
 		GL11.glPushMatrix();
 		{
 
-			GL11.glTranslated(x + 0.5, y - 1.0, z + 0.5);
+			GL11.glTranslated(x + 0.5, y - 1.0, z + 1.0);
 	
 			GL11.glRotatef(-90, 0, 1, 0);
 	
@@ -32,7 +32,7 @@ public class RenderXenonThruster extends TileEntitySpecialRenderer {
 	
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			
-			bindTexture(ResourceManager.mp_t_10_xenon_tex);
+			bindTexture(ResourceManager.xenon_thruster_tex);
 			ResourceManager.xenon_thruster.renderPart("Thruster");
 			
 			GL11.glDisable(GL11.GL_CULL_FACE);
@@ -43,9 +43,9 @@ public class RenderXenonThruster extends TileEntitySpecialRenderer {
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
 			GL11.glDepthMask(false);
 			
-			GL11.glTranslatef(0, 0, -0.5F);
+			GL11.glTranslatef(0, 0, -1F);
 			GL11.glScalef(1, 1, trailStretch);
-			GL11.glTranslatef(0, 0, 0.5F);
+			GL11.glTranslatef(0, 0, 1F);
 
 			bindTexture(ResourceManager.xenon_exhaust_tex);
 			ResourceManager.xenon_thruster.renderPart("Exhaust");
