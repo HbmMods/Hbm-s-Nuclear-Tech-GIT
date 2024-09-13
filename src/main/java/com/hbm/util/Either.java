@@ -8,6 +8,7 @@ import java.util.function.Function;
  */
 @SuppressWarnings("unchecked")
 public final class Either<L, R> {
+	
 	public static <L, R> Either<L, R> left(L value) {
 		return new Either<>(value, true);
 	}

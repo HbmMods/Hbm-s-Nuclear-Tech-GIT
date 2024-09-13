@@ -9,9 +9,9 @@ import net.minecraft.world.World;
 
 public interface ICopiable {
 
-    NBTTagCompound getSettings(World world, int x, int y, int z);
+	NBTTagCompound getSettings(World world, int x, int y, int z);
 
-    void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z);
+	void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z);
 
 	default String getSettingsSourceID(Either<TileEntity, Block> self) {
 		Block block = self.isLeft() ? self.left().getBlockType() : self.right();

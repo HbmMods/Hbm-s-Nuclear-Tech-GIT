@@ -4,9 +4,11 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.HbmKeybinds;
 import com.hbm.interfaces.ICopiable;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.PlayerInformPacket;
+import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.Either;
+import com.hbm.util.I18nUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +19,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -66,16 +67,15 @@ public class ItemSettingsTool extends Item {
 		list.add("Can copy the settings (filters, fluid ID, etc) of machines");
 		list.add("Shift right-click to copy, right click to paste");
 		list.add("Ctrl click on pipes to paste settings to multiple pipes");
-		/*if(stack.stackTagCompound != null) {
+		if(stack.stackTagCompound != null) {
 			NBTTagCompound nbt = stack.stackTagCompound;
 			if (nbt.hasKey("tileName")){
-				list.add(ChatBuilder.startTranslation(nbt.getString("tileName")).color(EnumChatFormatting.BLUE).flush().getFormattedText());
+				list.add(EnumChatFormatting.BLUE + I18nUtil.resolveKey(nbt.getString("tileName") + ".name"));
 			} else {
 				list.add(EnumChatFormatting.RED + " None ");
 			}
 
-		}*/
-		//the translation wont fucking work I swear to allah
+		}
 	}
 	@Override
 	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float fX, float fY, float fZ) {

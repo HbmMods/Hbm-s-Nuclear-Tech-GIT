@@ -1,5 +1,12 @@
+## Added
+* Settings tool
+  * Allows settings of blocks and machines to be copied
+  * Uses settings such as conveyor item filters, fluid types and liquid metal types
+
 ## Changed
 * Most loot piles now have configurable loot pools
+* The ntmsatellites command now has the "list" parameter which shows all active satellites in orbit
+* Burning in the nether in 528 mode now has a config option, and it no longer affects NPCs
 
 ## Fixed
 * Fixed some things not using variable max charge for armor mods, like static pads and DNT nanosuit tooltips
