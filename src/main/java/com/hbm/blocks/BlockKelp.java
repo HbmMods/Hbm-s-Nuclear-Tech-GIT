@@ -8,6 +8,7 @@ import com.hbm.lib.RefStrings;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.AxisAlignedBB;
@@ -19,7 +20,6 @@ public class BlockKelp extends Block {
     private IIcon[] icons = new IIcon[2]; 
 
     
-    //weird issue where this block specifically sucks you in, idk what to do...
     public BlockKelp() {
         super(Material.water);
     }
@@ -80,7 +80,10 @@ public class BlockKelp extends Block {
 
         }
     }
-
+    @Override
+    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+    	//fixes the issue
+    }
 
     @Override
     public Item getItemDropped(int parMetadata, Random parRand, int parFortune)  
