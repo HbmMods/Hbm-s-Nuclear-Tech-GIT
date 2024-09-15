@@ -166,6 +166,7 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 		};
 	}
 	
+	@Override
 	public AudioWrapper createAudioLoop() {
 		return MainRegistry.proxy.getLoopedSound("hbm:block.igeneratorOperate", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F, 20);
 	}
@@ -181,7 +182,6 @@ public class TileEntityMachineCombustionEngine extends TileEntityMachinePollutin
 
 	@Override
 	public void invalidate() {
-
 		super.invalidate();
 
 		if(audio != null) {

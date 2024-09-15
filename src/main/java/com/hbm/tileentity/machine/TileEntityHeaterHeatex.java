@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.container.ContainerHeaterHeatex;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;

@@ -6,7 +6,6 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerMixer;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMixer;

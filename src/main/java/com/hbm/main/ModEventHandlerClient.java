@@ -105,7 +105,6 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -1083,15 +1082,16 @@ public class ModEventHandlerClient {
 			boolean gunKey = keyCode == HbmKeybinds.gunPrimaryKey.getKeyCode() || keyCode == HbmKeybinds.gunSecondaryKey.getKeyCode() ||
 					keyCode == HbmKeybinds.gunTertiaryKey.getKeyCode() || keyCode == HbmKeybinds.reloadKey.getKeyCode();
 			
-			/* Shoot in favor of attacking */
-			if(gunKey && keyCode == mc.gameSettings.keyBindAttack.getKeyCode()) {
-				mc.gameSettings.keyBindAttack.pressed = false;
-				mc.gameSettings.keyBindAttack.pressTime = 0;
-			}
-			
 			EntityPlayer player = mc.thePlayer;
 			
 			if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT) {
+				
+				/* Shoot in favor of attacking */
+				if(gunKey && keyCode == mc.gameSettings.keyBindAttack.getKeyCode()) {
+					mc.gameSettings.keyBindAttack.pressed = false;
+					mc.gameSettings.keyBindAttack.pressTime = 0;
+				}
+				
 				if(gunKey && keyCode == mc.gameSettings.keyBindPickBlock.getKeyCode()) {
 					mc.gameSettings.keyBindPickBlock.pressed = false;
 					mc.gameSettings.keyBindPickBlock.pressTime = 0;

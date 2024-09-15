@@ -32,7 +32,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityHeatBoiler extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardTransceiver, IConfigurableMachine, IFluidCopiable {

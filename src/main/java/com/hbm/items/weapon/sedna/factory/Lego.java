@@ -66,8 +66,8 @@ public class Lego {
 		case CYCLE: 
 			return new BusAnimation()
 					.addBus("RECOIL", new BusAnimationSequence().addKeyframePosition(0, 0, 0, 50).addKeyframePosition(0, 0, -3, 50).addKeyframePosition(0, 0, 0, 250))
-					.addBus("HAMMER", new BusAnimationSequence().addKeyframePosition(0, 0, 1, 50).addKeyframePosition(0, 0, 1, 300).addKeyframePosition(0, 0, 0, 200))
-					.addBus("DRUM", new BusAnimationSequence().addKeyframePosition(0, 0, 1, 50));
+					.addBus("HAMMER", new BusAnimationSequence().addKeyframePosition(0, 0, 1, 50).addKeyframePosition(0, 0, 1, 300 + 200).addKeyframePosition(0, 0, 0, 200))
+					.addBus("DRUM", new BusAnimationSequence().addKeyframePosition(0, 0, 0, 350 + 200).addKeyframePosition(0, 0, 1, 200));
 		case CYCLE_EMPTY: break;
 		case ALT_CYCLE: break;
 		case EQUIP: return new BusAnimation().addBus("ROTATE", new BusAnimationSequence().addKeyframePosition(-360, 0, 0, 350));

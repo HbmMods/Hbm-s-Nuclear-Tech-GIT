@@ -27,7 +27,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.World;
 
 public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardTransceiver, IConfigurableMachine, IFluidCopiable {
 

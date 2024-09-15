@@ -1,6 +1,5 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.packet.PacketDispatcher;

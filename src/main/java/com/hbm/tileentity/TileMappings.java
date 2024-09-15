@@ -340,6 +340,7 @@ public class TileMappings {
 		put(TileEntityMachineCatalyticReformer.class, "tileentity_catalytic_reformer");
 		put(TileEntityMachineHydrotreater.class, "tileentity_hydrotreater");
 		put(TileEntityMachineCoker.class, "tileentity_coker");
+		put(TileEntityMachinePyroOven.class, "tileentity_pyrooven");
 		put(TileEntityChimneyBrick.class, "tileentity_chimney_brick");
 		put(TileEntityChimneyIndustrial.class, "tileentity_chimney_industrial");
 		

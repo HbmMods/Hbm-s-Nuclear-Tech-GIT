@@ -8,7 +8,6 @@ import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.util.ItemStackUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;

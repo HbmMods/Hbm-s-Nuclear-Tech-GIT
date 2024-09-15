@@ -1,6 +1,5 @@
 package com.hbm.tileentity.network;
 
-import com.hbm.blocks.network.FluidDuctBase;
 import com.hbm.blocks.network.IBlockFluidDuct;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.HbmKeybinds;
