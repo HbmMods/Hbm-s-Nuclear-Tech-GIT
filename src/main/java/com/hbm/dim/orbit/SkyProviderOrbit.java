@@ -16,9 +16,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
 public class SkyProviderOrbit extends SkyProviderCelestial {
+
+	private static CelestialBody lastBody;
 
 	@Override
 	public void render(float partialTicks, WorldClient world, Minecraft mc) {
@@ -37,8 +40,7 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 
 		OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_ONE, GL11.GL_ZERO);
 
-		
-		float celestialAngle = world.getCelestialAngle(partialTicks);
+		float celestialAngle = getCelestialAngle(world, partialTicks, station);
 		float celestialPhase = (1 - (celestialAngle + 0.5F) % 1) * 2 - 1;
 
 		float starBrightness = world.getStarBrightness(partialTicks);
@@ -80,7 +82,7 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 				if(progress > 0.5) orbiting = station.target;
 			}
 
-			renderCelestials(partialTicks, world, mc, metrics, celestialAngle, null, Vec3.createVectorHelper(0, 0, 0), 1, 1, orbiting);
+			renderCelestials(partialTicks, world, mc, metrics, celestialAngle, null, Vec3.createVectorHelper(0, 0, 0), 1, 1, orbiting, 160);
 
 		}
 		GL11.glPopMatrix();
@@ -93,6 +95,28 @@ public class SkyProviderOrbit extends SkyProviderCelestial {
 
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDepthMask(true);
+	}
+
+	// All angles within are normalized to -180/180
+	private float getCelestialAngle(WorldClient world, float partialTicks, OrbitalStation station) {
+		float celestialAngle = world.getCelestialAngle(partialTicks);
+		if(station.state == StationState.ORBIT) return celestialAngle;
+
+		celestialAngle = celestialAngle * 360.0F - 180.0F;
+
+		if(station.state != StationState.ARRIVING) lastBody = station.orbiting;
+
+		double progress = station.getUnscaledProgress(partialTicks);
+		float travelAngle = -(float)SolarSystem.calculateSingleAngle(world, partialTicks, lastBody, station.target);
+		travelAngle = MathHelper.wrapAngleTo180_float(travelAngle + 90.0F);
+
+		if(station.state == StationState.TRANSFER) {
+			return (travelAngle + 180.0F) / 360.0F;
+		} else if(station.state == StationState.LEAVING) {
+			return ((float)BobMathUtil.clerp(progress, celestialAngle, travelAngle) + 180.0F) / 360.0F;
+		} else {
+			return ((float)BobMathUtil.clerp(progress, travelAngle, celestialAngle) + 180.0F) / 360.0F;
+		}
 	}
 	
 }

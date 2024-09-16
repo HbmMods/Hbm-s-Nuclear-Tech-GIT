@@ -124,7 +124,7 @@ public class SolarSystem {
 					
 
 				new CelestialBody("jool")
-					.withMassRadius(4.233e24F, 6_000)
+					.withMassRadius(4.233e24F, 3_000) // was radius 6_000 but that just rendered too large, so density is currently incorrect
 					.withSemiMajorAxis(68_773_560)
 					.withRotationalPeriod(36_000)
 					.withColor(0.4588f, 0.6784f, 0.3059f)

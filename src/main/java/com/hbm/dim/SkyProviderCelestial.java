@@ -210,7 +210,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 			// Get our orrery of bodies
 			List<AstroMetric> metrics = SolarSystem.calculateMetricsFromBody(world, partialTicks, longitude, body);
 			
-			renderCelestials(partialTicks, world, mc, metrics, celestialAngle, tidalLockedBody, planetTint, visibility, blendAmount, null);
+			renderCelestials(partialTicks, world, mc, metrics, celestialAngle, tidalLockedBody, planetTint, visibility, blendAmount, null, 24);
 
 			GL11.glEnable(GL11.GL_BLEND);
 
@@ -499,7 +499,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 		}
 	}
 
-	protected void renderCelestials(float partialTicks, WorldClient world, Minecraft mc, List<AstroMetric> metrics, float celestialAngle, CelestialBody tidalLockedBody, Vec3 planetTint, float visibility, float blendAmount, CelestialBody orbiting) {
+	protected void renderCelestials(float partialTicks, WorldClient world, Minecraft mc, List<AstroMetric> metrics, float celestialAngle, CelestialBody tidalLockedBody, Vec3 planetTint, float visibility, float blendAmount, CelestialBody orbiting, float maxSize) {
 		Tessellator tessellator = Tessellator.instance;
 		double minSize = 1D;
 		float blendDarken = 0.1F;
@@ -518,7 +518,7 @@ public class SkyProviderCelestial extends IRenderHandler {
 			GL11.glPushMatrix();
 			{
 
-				double size = MathHelper.clamp_double(metric.apparentSize, 0, orbitingThis ? 160 : 24);
+				double size = MathHelper.clamp_double(metric.apparentSize, 0, maxSize);
 				boolean renderAsPoint = size < minSize;
 
 				if(renderAsPoint) {

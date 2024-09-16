@@ -254,6 +254,11 @@ public class BobMathUtil {
 		return start + delta * (end - start);
 	}
 
+	public static double clerp(double delta, double start, double end) {
+		double angle = ((((end - start) % 360) + 540) % 360) - 180;
+		return start + angle * delta;
+	}
+
 	public static double lerp2(double deltaX, double deltaY, double x0y0, double x1y0, double x0y1, double x1y1) {
 		return lerp(deltaY, lerp(deltaX, x0y0, x1y0), lerp(deltaX, x0y1, x1y1));
 	}
