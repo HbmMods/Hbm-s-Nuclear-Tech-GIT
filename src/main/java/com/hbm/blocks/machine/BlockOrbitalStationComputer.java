@@ -126,8 +126,10 @@ public class BlockOrbitalStationComputer extends BlockDummyable implements ILook
 		double progress = station.getUnscaledProgress(0);
 		List<String> text = new ArrayList<>();
 
-		if(station.error != null) {
-			text.add(EnumChatFormatting.RED + station.error);
+		if(station.errors.size() > 0) {
+			for(String error : station.errors) {
+				text.add(EnumChatFormatting.RED + error);
+			}
 		} else if(progress > 0) {
 			if(station.state == StationState.LEAVING) {
 				text.add(EnumChatFormatting.AQUA + I18nUtil.resolveKey("station.engage") + ": " + EnumChatFormatting.RESET + I18nUtil.resolveKey("body." + station.target.name));

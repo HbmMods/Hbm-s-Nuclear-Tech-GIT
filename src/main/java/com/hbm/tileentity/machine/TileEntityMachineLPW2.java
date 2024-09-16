@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
@@ -7,6 +9,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Rocket;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardReceiver;
@@ -35,8 +38,8 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 	public TileEntityMachineLPW2() {
 		super(0);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.KEROSENE_REFORM, 256_000);
-		tanks[1] = new FluidTank(Fluids.OXYGEN, 256_000);
+		tanks[0] = new FluidTank(Fluids.KEROSENE_REFORM, 128_000);
+		tanks[1] = new FluidTank(Fluids.OXYGEN, 128_000);
 	}
 
 	@Override
@@ -151,6 +154,15 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 		}
 
 		return true;
+	}
+
+	@Override
+	public void addErrors(List<String> errors) {
+		for(FluidTank tank : tanks) {
+			if(tank.getFill() < fuelCost) {
+				errors.add(I18nUtil.resolveKey(getBlockType().getUnlocalizedName() + ".name") + " - Insufficient fuel: needs " + fuelCost + "mB");
+			}
+		}
 	}
 
 	@Override

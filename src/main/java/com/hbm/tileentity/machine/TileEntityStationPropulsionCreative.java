@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
 import com.hbm.dim.CelestialBody;
 
 import api.hbm.tile.IPropulsion;
@@ -39,6 +41,11 @@ public class TileEntityStationPropulsionCreative extends TileEntity implements I
 	@Override
 	public boolean canPerformBurn(int shipMass, double deltaV) {
 		return true;
+	}
+
+	@Override
+	public void addErrors(List<String> errors) {
+		
 	}
 
 	@Override

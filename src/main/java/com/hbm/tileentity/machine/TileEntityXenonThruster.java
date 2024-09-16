@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
@@ -7,6 +9,8 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Rocket;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -25,9 +29,9 @@ public class TileEntityXenonThruster extends TileEntityMachineBase implements IP
 	public FluidTank[] tanks;
 
 	public long power;
-	public static long maxPower = 10_000_000;
+	public static long maxPower = 20_000_000;
 
-	private static final int POWER_COST_MULTIPLIER = 1_000;
+	private static final int POWER_COST_MULTIPLIER = 5_000;
 
 	private boolean isOn;
 	public float thrustAmount;
@@ -39,7 +43,7 @@ public class TileEntityXenonThruster extends TileEntityMachineBase implements IP
 	public TileEntityXenonThruster() {
 		super(0);
 		tanks = new FluidTank[1];
-		tanks[0] = new FluidTank(Fluids.XENON, 16_000);
+		tanks[0] = new FluidTank(Fluids.XENON, 4_000);
 	}
 
 	@Override
@@ -164,6 +168,19 @@ public class TileEntityXenonThruster extends TileEntityMachineBase implements IP
 		}
 
 		return true;
+	}
+
+	@Override
+	public void addErrors(List<String> errors) {
+		if(power < fuelCost * POWER_COST_MULTIPLIER) {
+			errors.add(I18nUtil.resolveKey(getBlockType().getUnlocalizedName() + ".name") + " - Insufficient power: needs " + BobMathUtil.getShortNumber(fuelCost * POWER_COST_MULTIPLIER) + "HE");
+		}
+
+		for(FluidTank tank : tanks) {
+			if(tank.getFill() < fuelCost) {
+				errors.add(I18nUtil.resolveKey(getBlockType().getUnlocalizedName() + ".name") + " - Insufficient fuel: needs " + fuelCost + "mB");
+			}
+		}
 	}
 
 	@Override

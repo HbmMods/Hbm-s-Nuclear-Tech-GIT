@@ -1,6 +1,8 @@
 package com.hbm.dim.orbit;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.hbm.blocks.BlockDummyable;
@@ -37,7 +39,7 @@ public class OrbitalStation {
 	public int dX;
 	public int dZ;
 
-	public String error;
+	public List<String> errors = new ArrayList<String>();
 	public int errorTimer;
 
 	public enum StationState {
@@ -83,7 +85,10 @@ public class OrbitalStation {
 
 	public void travelTo(World world, CelestialBody target) {
 		if(state != StationState.ORBIT) return; // only when at rest can we start a new journey
-		if(!canTravel(orbiting, target)) return;
+		if(!canTravel(orbiting, target)) {
+			collectErrors();
+			return;
+		}
 
 		setState(StationState.LEAVING, getLeaveTime());
 		this.target = target;
@@ -109,13 +114,14 @@ public class OrbitalStation {
 			SolarSystemWorldSavedData.get().markDirty();
 
 			if(engines.size() == 0) {
-				setError("No engines available");
+				errors = new ArrayList<String>();
+				errors.add("No engines available");
 				errorTimer = 2;
 			}
 
 			errorTimer--;
 			if(errorTimer <= 0) {
-				error = null;
+				errors = new ArrayList<String>();
 				errorTimer = 0;
 			}
 		}
@@ -133,12 +139,19 @@ public class OrbitalStation {
 		for(IPropulsion engine : engines) {
 			float massPortion = engine.getThrust() / totalThrust;
 			if(!engine.canPerformBurn(Math.round(shipMass * massPortion), deltaV)) {
-				setError("Engines require fuel");
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+	private void collectErrors() {
+		errors = new ArrayList<String>();
+		for(IPropulsion engine : engines) {
+			engine.addErrors(errors);
+		}
+		errorTimer = 100;
 	}
 
 	private float getTotalThrust() {
@@ -178,11 +191,6 @@ public class OrbitalStation {
 		this.state = state;
 		stateTimer = 0;
 		maxStateTimer = timeUntilNext;
-	}
-
-	private void setError(String error) {
-		this.error = error;
-		errorTimer = 100;
 	}
 	
 	public static void addPropulsion(IPropulsion propulsion) {
@@ -265,7 +273,11 @@ public class OrbitalStation {
 		buf.writeInt(stateTimer);
 		buf.writeInt(maxStateTimer);
 		BufferUtil.writeString(buf, name);
-		BufferUtil.writeString(buf, error);
+
+		buf.writeInt(errors.size());
+		for(String error : errors) {
+			BufferUtil.writeString(buf, error);
+		}
 	}
 
 	public static OrbitalStation deserialize(ByteBuf buf) {
@@ -275,7 +287,12 @@ public class OrbitalStation {
 		station.stateTimer = buf.readInt();
 		station.maxStateTimer = buf.readInt();
 		station.name = BufferUtil.readString(buf);
-		station.error = BufferUtil.readString(buf);
+
+		station.errors = new ArrayList<String>();
+		int count = buf.readInt();
+		for(int i = 0; i < count; i++) {
+			station.errors.add(BufferUtil.readString(buf));
+		}
 		return station;
 	}
 
