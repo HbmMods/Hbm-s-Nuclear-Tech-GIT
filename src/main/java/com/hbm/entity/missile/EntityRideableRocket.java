@@ -308,7 +308,13 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 					} else if(!canRide()) {
 						if(rocket.capsule.part instanceof ISatChip && destination.body != SolarSystem.Body.ORBIT) {
 							WorldServer targetWorld = DimensionManager.getWorld(targetDimensionId);
-							Satellite.orbit(targetWorld, Satellite.getIDFromItem(rocket.capsule.part), satFreq, posX, posY, posZ);
+							if(targetWorld == null) {
+								DimensionManager.initDimension(targetDimensionId);
+								targetWorld = DimensionManager.getWorld(targetDimensionId);
+							}
+							if(targetWorld != null) {
+								Satellite.orbit(targetWorld, Satellite.getIDFromItem(rocket.capsule.part), satFreq, posX, posY, posZ);
+							}
 						} else if(rocket.capsule.part == ModItems.rp_station_core_20) {
 							// We mark the station as travellable, but we don't actually add the station until the player travels to it
 							OrbitalStation.addStation(x, z, CelestialBody.getBody(worldObj));

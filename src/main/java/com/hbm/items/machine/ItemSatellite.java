@@ -2,12 +2,19 @@ package com.hbm.items.machine;
 
 import java.util.List;
 
+import com.hbm.dim.CelestialBody;
 import com.hbm.items.ISatChip;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomMissilePart;
+import com.hbm.saveddata.satellites.Satellite;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.DimensionManager;
 
 public class ItemSatellite extends ItemCustomMissilePart implements ISatChip {
     
@@ -55,5 +62,33 @@ public class ItemSatellite extends ItemCustomMissilePart implements ISatChip {
 		
 		if(this == ModItems.sat_scanner)
 			list.add("Creates a topdown map of underground ores.");
+
+		if(CelestialBody.inOrbit(player.worldObj))
+			list.add(EnumChatFormatting.BOLD + "Interact to deploy into orbit");
 	}
+
+	@Override
+	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+		if(!CelestialBody.inOrbit(world)) return stack;
+
+		if(!world.isRemote) {
+			int targetDimensionId = CelestialBody.getTarget(world, (int)player.posX, (int)player.posZ).body.dimensionId;
+			WorldServer targetWorld = DimensionManager.getWorld(targetDimensionId);
+			if(targetWorld == null) {
+				DimensionManager.initDimension(targetDimensionId);
+				targetWorld = DimensionManager.getWorld(targetDimensionId);
+	
+				if(targetWorld == null) return stack;
+			}
+
+			Satellite.orbit(targetWorld, Satellite.getIDFromItem(stack.getItem()), getFreq(stack), player.posX, player.posY, player.posZ);
+
+			player.addChatMessage(new ChatComponentText("Satellite launched successfully!"));
+		}
+
+		stack.stackSize--;
+
+		return stack;
+	}
+
 }
