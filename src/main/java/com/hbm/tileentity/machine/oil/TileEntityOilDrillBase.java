@@ -9,11 +9,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
-import com.hbm.tileentity.IConfigurableMachine;
-import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.IPersistentNBT;
-import com.hbm.tileentity.IUpgradeInfoProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.*;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple;
 import com.hbm.util.Tuple.Triplet;
@@ -30,7 +26,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IConfigurableMachine, IPersistentNBT, IGUIProvider, IUpgradeInfoProvider {
+public abstract class TileEntityOilDrillBase extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IConfigurableMachine, IPersistentNBT, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
 
 	public int indicator = 0;
 	
@@ -328,5 +324,10 @@ public abstract class TileEntityOilDrillBase extends TileEntityMachineBase imple
 		if(type == UpgradeType.AFTERBURN) return 3;
 		if(type == UpgradeType.OVERDRIVE) return 3;
 		return 0;
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
 	}
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.items.weapon.sedna.BulletConfig;
-import com.hbm.items.weapon.sedna.ItemGunBase;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 
 import net.minecraft.item.ItemStack;
 
@@ -49,10 +49,10 @@ public abstract class MagazineStandardBase implements IMagazine {
 	@Override public void setAmount(ItemStack stack, int amount) { setMagCount(stack, index, amount); }
 
 	// MAG TYPE //
-	public static int getMagType(ItemStack stack, int index) { return ItemGunBase.getValueInt(stack, KEY_MAG_TYPE + index); }
-	public static void setMagType(ItemStack stack, int index, int value) { ItemGunBase.setValueInt(stack, KEY_MAG_TYPE + index, value); }
+	public static int getMagType(ItemStack stack, int index) { return ItemGunBaseNT.getValueInt(stack, KEY_MAG_TYPE + index); }
+	public static void setMagType(ItemStack stack, int index, int value) { ItemGunBaseNT.setValueInt(stack, KEY_MAG_TYPE + index, value); }
 
 	// MAG COUNT //
-	public static int getMagCount(ItemStack stack, int index) { return ItemGunBase.getValueInt(stack, KEY_MAG_COUNT + index); }
-	public static void setMagCount(ItemStack stack, int index, int value) { ItemGunBase.setValueInt(stack, KEY_MAG_COUNT + index, value); }
+	public static int getMagCount(ItemStack stack, int index) { return ItemGunBaseNT.getValueInt(stack, KEY_MAG_COUNT + index); }
+	public static void setMagCount(ItemStack stack, int index, int value) { ItemGunBaseNT.setValueInt(stack, KEY_MAG_COUNT + index, value); }
 }

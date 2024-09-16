@@ -957,6 +957,14 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.motor_desh, 2),
 				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BISMOID)
 			}, 200);
+		makeRecipe(new ComparableStack(ModBlocks.machine_pyrooven, 1), new AStack[] {
+				!exp ? new OreDictStack(STEEL.plateWelded(), 16) : new OreDictStack(STEEL.heavyComp(), 4),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 16),
+				new ComparableStack(ModItems.ingot_cft, 4),
+				new OreDictStack(CU.pipe(), 12),
+				new ComparableStack(ModItems.motor_desh, 1),
+				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BISMOID)
+			}, 200);
 
 		makeRecipe(new ComparableStack(ModBlocks.machine_compressor, 1), new AStack[] {
 				new OreDictStack(STEEL.plateCast(), 8),

@@ -34,6 +34,7 @@ import com.hbm.util.ArmorUtil;
 import api.hbm.energymk2.IEnergyHandlerMK2;
 import cofh.api.energy.IEnergyProvider;
 
+@Spaghetti("this sucks ass")
 public class ExplosionNukeGeneric {
 
 	private final static Random random = new Random();

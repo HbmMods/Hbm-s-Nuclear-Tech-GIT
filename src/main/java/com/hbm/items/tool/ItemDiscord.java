@@ -20,7 +20,7 @@ public class ItemDiscord extends Item {
 
 		MovingObjectPosition pos = Library.rayTrace(player, 100, 1);
 
-		if(pos.typeOfHit == MovingObjectType.BLOCK) {
+		if(pos != null && pos.typeOfHit == MovingObjectType.BLOCK) {
 
 			if(!world.isRemote) {
 

@@ -801,7 +801,7 @@ public class ItemGunBase extends Item implements IHoldableWeapon, IItemHUD, IEqu
 	}
 	
 	@Override
-	public void onEquip(EntityPlayer player) {
+	public void onEquip(EntityPlayer player, ItemStack stack) {
 		if(!mainConfig.equipSound.isEmpty() && !player.worldObj.isRemote) {
 			player.worldObj.playSoundAtEntity(player, mainConfig.equipSound, 1, 1);
 		}

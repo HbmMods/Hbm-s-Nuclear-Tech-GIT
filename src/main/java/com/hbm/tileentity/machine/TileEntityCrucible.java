@@ -22,7 +22,9 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IMetalCopiable;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.CrucibleUtil;
 
 import api.hbm.block.ICrucibleAcceptor;
@@ -45,7 +47,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCrucible extends TileEntityMachineBase implements IGUIProvider, ICrucibleAcceptor, IConfigurableMachine {
+public class TileEntityCrucible extends TileEntityMachineBase implements IGUIProvider, ICrucibleAcceptor, IConfigurableMachine, IMetalCopiable {
 
 	public int heat;
 	public int progress;
@@ -417,7 +419,6 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 		//if there's no materials in there at all, don't smelt
 		if(materials.isEmpty())
 			return false;
-		
 		CrucibleRecipe recipe = getLoadedRecipe();
 		
 		//needs to be true, will always be true if there's no recipe loaded
@@ -601,4 +602,18 @@ public class TileEntityCrucible extends TileEntityMachineBase implements IGUIPro
 
 	@Override public boolean canAcceptPartialFlow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) { return false; }
 	@Override public MaterialStack flow(World world, int x, int y, int z, ForgeDirection side, MaterialStack stack) { return null; }
+
+	@Override
+	public int[] getMatsToCopy() {
+		ArrayList<Integer> types = new ArrayList<>();
+
+		for (MaterialStack stack : recipeStack) {
+			types.add(stack.material.id);
+		}
+		for (MaterialStack stack : wasteStack) {
+			types.add(stack.material.id);
+		}
+		return BobMathUtil.intCollectionToArray(types);
+	}
+
 }

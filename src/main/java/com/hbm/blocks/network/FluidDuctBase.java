@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.blocks.IAnalyzable;
+import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.HbmKeybinds;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 
 import api.hbm.fluid.IPipeNet;
@@ -14,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -36,13 +40,24 @@ public class FluidDuctBase extends BlockContainer implements IBlockFluidDuct, IA
 			IItemFluidIdentifier id = (IItemFluidIdentifier) player.getHeldItem().getItem();
 			FluidType type = id.getType(world, x, y, z, player.getHeldItem());
 			
-			if(!player.isSneaking()) {
+			if(!HbmPlayerProps.getData(player).getKeyPressed(HbmKeybinds.EnumKeybind.TOOL_CTRL) && !player.isSneaking()) {
 				
 				TileEntity te = world.getTileEntity(x, y, z);
 				
 				if(te instanceof TileEntityPipeBaseNT) {
 					TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
-					
+
+					if(HbmPlayerProps.getData(player).getKeyPressed(HbmKeybinds.EnumKeybind.TOOL_ALT)) {
+						Item item = player.getHeldItem().getItem();
+						if (item instanceof ItemFluidIDMulti) {
+							if (id.getType(world, x, y, z, player.getHeldItem()) != pipe.getType()) {
+								ItemFluidIDMulti.setType(player.getHeldItem(), pipe.getType(), true);
+								world.playSoundAtEntity(player, "random.orb", 0.25F, 0.75F);
+								return true;
+							}
+						}
+					}
+
 					if(pipe.getType() != type) {
 						pipe.setType(type);
 						return true;
@@ -51,9 +66,21 @@ public class FluidDuctBase extends BlockContainer implements IBlockFluidDuct, IA
 			} else {
 				
 				TileEntity te = world.getTileEntity(x, y, z);
-				
+
 				if(te instanceof TileEntityPipeBaseNT) {
 					TileEntityPipeBaseNT pipe = (TileEntityPipeBaseNT) te;
+
+					if(HbmPlayerProps.getData(player).getKeyPressed(HbmKeybinds.EnumKeybind.TOOL_ALT)) {
+						Item item = player.getHeldItem().getItem();
+						if (item instanceof ItemFluidIDMulti) {
+							if (id.getType(world, x, y, z, player.getHeldItem()) != pipe.getType()) {
+								ItemFluidIDMulti.setType(player.getHeldItem(), pipe.getType(), true);
+								world.playSoundAtEntity(player, "random.orb", 0.25F, 0.75F);
+								return true;
+							}
+						}
+					}
+
 					changeTypeRecursively(world, x, y, z, pipe.getType(), type, 64);
 					return true;
 				}

@@ -130,4 +130,9 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 	public boolean hasPermission(EntityPlayer player) {
 		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
 	}
+
+	@Override
+	public int[] getFilterSlots() {
+		return new int[]{0,9};
+	}
 }

@@ -9,6 +9,7 @@ import com.hbm.inventory.container.ContainerDroneCrate;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIDroneCrate;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -27,7 +28,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIProvider, INBTPacketReceiver, IControlReceiver, IDroneLinkable, IFluidStandardTransceiver {
+public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIProvider, INBTPacketReceiver, IControlReceiver, IDroneLinkable, IFluidStandardTransceiver, IFluidCopiable {
 	
 	public FluidTank tank;
 	

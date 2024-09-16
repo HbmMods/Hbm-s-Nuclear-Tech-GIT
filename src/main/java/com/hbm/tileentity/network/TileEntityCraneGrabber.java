@@ -191,6 +191,11 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	}
 
 	@Override
+	public int[] getFilterSlots() {
+		return new int[]{0,9};
+	}
+
+	@Override
 	public void receiveControl(NBTTagCompound data) {
 		if(data.hasKey("whitelist")) {
 			this.isWhitelist = !this.isWhitelist;

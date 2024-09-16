@@ -187,7 +187,7 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		
 		if(i > 9 && i < 19) {
 			ItemStack filter = slots[i - 10];
-			if(filter == null) return true;
+			if(filter == null || matcher.modes[i - 10] == null || matcher.modes[i - 10].isEmpty()) return true;
 			return !matcher.isValidForFilter(filter, i - 10, stack);
 		}
 		
@@ -216,7 +216,7 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		List<Integer> validSlots = new ArrayList();
 		for(int i = 0; i < 9; i++) {
 			ItemStack filter = slots[i];
-			if(filter == null) continue;
+			if(filter == null || matcher.modes[i] == null || matcher.modes[i].isEmpty()) continue;
 
 			if(matcher.isValidForFilter(filter, i, stack)) {
 				validSlots.add(i + 10);
@@ -350,13 +350,20 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 
 	@Override
 	public void setFilterContents(NBTTagCompound nbt) {
-		TileEntity tile = (TileEntity) this;
-		IInventory inv = (IInventory) this;
+		TileEntity tile = this;
+		IInventory inv = this;
 		int slot = nbt.getInteger("slot");
 		if(slot > 8) return;
-		inv.setInventorySlotContents(slot, new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
+		ItemStack item = new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta"));
+		inv.setInventorySlotContents(slot, item);
+		matcher.initPatternSmart(getWorldObj(), item, slot);
+		updateTemplateGrid();
 		nextMode(slot);
 		tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
 		updateTemplateGrid();
+	}
+	@Override
+	public int[] getFilterSlots() {
+		return new int[]{0,9};
 	}
 }

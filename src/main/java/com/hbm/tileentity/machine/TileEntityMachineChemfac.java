@@ -14,6 +14,7 @@ import com.hbm.inventory.gui.GUIChemfac;
 import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
@@ -32,7 +33,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase implements IUpgradeInfoProvider {
+public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase implements IUpgradeInfoProvider, IFluidCopiable {
 	
 	float rotSpeed;
 	public float rot;
@@ -388,5 +389,10 @@ public class TileEntityMachineChemfac extends TileEntityMachineChemplantBase imp
 		if(type == UpgradeType.POWER) return 3;
 		if(type == UpgradeType.OVERDRIVE) return 12;
 		return 0;
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
 	}
 }

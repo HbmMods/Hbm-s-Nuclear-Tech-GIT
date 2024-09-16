@@ -6,16 +6,13 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.GunFolly;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.lib.RefStrings;
-import com.hbm.render.model.ModelDash;
 import com.hbm.render.model.ModelDefabricator;
 import com.hbm.render.model.ModelEuthanasia;
 import com.hbm.render.model.ModelFolly;
 import com.hbm.render.model.ModelHP;
 import com.hbm.render.model.ModelJack;
 import com.hbm.render.model.ModelLacunae;
-import com.hbm.render.model.ModelPip;
 import com.hbm.render.model.ModelSpark;
-import com.hbm.render.model.ModelTwiGun;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -31,9 +28,6 @@ public class ItemRenderOverkill implements IItemRenderer {
 	protected ModelHP hppLaserjet;
 	protected ModelEuthanasia euthanasia;
 	protected ModelDefabricator defab;
-	protected ModelDash dasher;
-	protected ModelTwiGun rgottp;
-	protected ModelPip pip;
 	protected ModelLacunae lacunae;
 	protected ModelFolly folly;
 
@@ -43,9 +37,6 @@ public class ItemRenderOverkill implements IItemRenderer {
 		hppLaserjet = new ModelHP();
 		euthanasia = new ModelEuthanasia();
 		defab = new ModelDefabricator();
-		dasher = new ModelDash();
-		rgottp = new ModelTwiGun();
-		pip = new ModelPip();
 		lacunae = new ModelLacunae();
 		folly = new ModelFolly();
 	}
@@ -88,10 +79,6 @@ public class ItemRenderOverkill implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelEuthanasia.png"));
 				if(item.getItem() == ModItems.gun_defabricator)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDefabricator.png"));
-				if(item.getItem() == ModItems.gun_dash)
-					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDash.png"));
-				if(item.getItem() == ModItems.gun_twigun)
-					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelTwiGun.png"));
 				if(item.getItem() == ModItems.gun_revolver_pip)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPip.png"));
 				if(item.getItem() == ModItems.gun_revolver_nopip)
@@ -154,16 +141,6 @@ public class ItemRenderOverkill implements IItemRenderer {
 					euthanasia.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				if(item.getItem() == ModItems.gun_defabricator)
 					defab.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item.getItem() == ModItems.gun_dash)
-					dasher.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item.getItem() == ModItems.gun_twigun)
-					rgottp.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item.getItem() == ModItems.gun_revolver_pip ||
-						item.getItem() == ModItems.gun_revolver_nopip ||
-						item.getItem() == ModItems.gun_revolver_blackjack ||
-						item.getItem() == ModItems.gun_revolver_silver ||
-						item.getItem() == ModItems.gun_revolver_red)
-					pip.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				
 				if(item.getItem() == ModItems.gun_lacunae ||
 						item.getItem() == ModItems.gun_minigun)
@@ -190,10 +167,6 @@ public class ItemRenderOverkill implements IItemRenderer {
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelEuthanasia.png"));
 			if(item.getItem() == ModItems.gun_defabricator)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDefabricator.png"));
-			if(item.getItem() == ModItems.gun_dash)
-				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDash.png"));
-			if(item.getItem() == ModItems.gun_twigun)
-				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelTwiGun.png"));
 			if(item.getItem() == ModItems.gun_revolver_pip)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPip.png"));
 			if(item.getItem() == ModItems.gun_revolver_nopip)
@@ -256,16 +229,6 @@ public class ItemRenderOverkill implements IItemRenderer {
 				euthanasia.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			if(item.getItem() == ModItems.gun_defabricator)
 				defab.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-			if(item.getItem() == ModItems.gun_dash)
-				dasher.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-			if(item.getItem() == ModItems.gun_twigun)
-				rgottp.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-			if(item.getItem() == ModItems.gun_revolver_pip ||
-					item.getItem() == ModItems.gun_revolver_nopip ||
-					item.getItem() == ModItems.gun_revolver_blackjack ||
-					item.getItem() == ModItems.gun_revolver_silver ||
-					item.getItem() == ModItems.gun_revolver_red)
-				pip.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			
 			if(item.getItem() == ModItems.gun_lacunae ||
 					item.getItem() == ModItems.gun_minigun)
@@ -291,10 +254,6 @@ public class ItemRenderOverkill implements IItemRenderer {
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelEuthanasia.png"));
 			if(item.getItem() == ModItems.gun_defabricator)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDefabricator.png"));
-			if(item.getItem() == ModItems.gun_dash)
-				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelDash.png"));
-			if(item.getItem() == ModItems.gun_twigun)
-				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelTwiGun.png"));
 			if(item.getItem() == ModItems.gun_revolver_pip)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPip.png"));
 			if(item.getItem() == ModItems.gun_revolver_nopip)
@@ -341,16 +300,6 @@ public class ItemRenderOverkill implements IItemRenderer {
 				euthanasia.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			if(item.getItem() == ModItems.gun_defabricator)
 				defab.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-			if(item.getItem() == ModItems.gun_dash)
-				dasher.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-			if(item.getItem() == ModItems.gun_twigun)
-				rgottp.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-			if(item.getItem() == ModItems.gun_revolver_pip ||
-					item.getItem() == ModItems.gun_revolver_nopip ||
-					item.getItem() == ModItems.gun_revolver_blackjack ||
-					item.getItem() == ModItems.gun_revolver_silver ||
-					item.getItem() == ModItems.gun_revolver_red)
-				pip.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			
 			if(item.getItem() == ModItems.gun_lacunae ||
 					item.getItem() == ModItems.gun_minigun)

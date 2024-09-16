@@ -1,19 +1,22 @@
+## Added
+* Settings tool
+  * Allows settings of blocks and machines to be copied
+  * Uses settings such as conveyor item filters, fluid types and liquid metal types
+* Pyrolysis oven
+  * An oil 3 machine with multiple applications
+  * Can solidify most oils like a solidifier, but is way more efficient
+  * Can create syngas with high efficiency from coal, coke and biomass
+  * Large amounts of tar can be processed into fine soot, the base ingredient for fullerene
+  * Upgrades are not implemented yet
+  * Has a very short "chimney", exhaust pipes have to be connected there to work
+  * If no exhaust pipes are connected, the chimney will spawn particles
+
 ## Changed
-* Changed the multi fluid ID recipe, they now use analog circuits instead of silicon based ones, no longer requiring plastic to make
-* Decreased the connection speed for all battery blocks, a full discharge now takes 30 seconds instead of 1 second, and charging now takes 10 seconds
-  * Capacitors have also been nerfed but they are twice as fast as battery blocks, 5 seconds for charging and 15 seconds for discharging
-* Removed forgotten bricks
-* Updated CMB brick texture
-* The ICF machine block now renders with its 3d model in the creative inventory
-* "Toggle backpack" keybind is now called "toggle jetpack" to reduce confusion
+* Most loot piles now have configurable loot pools
+* The ntmsatellites command now has the "list" parameter which shows all active satellites in orbit
+* Burning in the nether in 528 mode now has a config option, and it no longer affects NPCs
+* Jet fuel can now be solidified
 
 ## Fixed
-* Fixed pumpjack gauges not syncing properly
-* Fixed some concrete variants not being revertable into uncolored concrete
-* Fixed the ore density scanner not using proper translations for the HUD
-* Fixed the solar boiler's rays rendering on fast graphics instead of on fancy graphics
-* Fixed hydroreactive items not exploding when submerged in water
-* Fixed fluid valves visually disconnecting when switching state
-* Fixed fluid valves no visually connecting when type is set
-* Fixed falling blocks spawned by nukes or impulse grenades dropping blocks that don't have drops
-* Added even more exception handling to CompStacks, hopefully fixing an incompatibility with Mana Metal
+* Fixed some things not using variable max charge for armor mods, like static pads and DNT nanosuit tooltips
+* Fixed arc furnace recipe config parser breaking when reading fluid recipes

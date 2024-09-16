@@ -1,6 +1,10 @@
 package com.hbm.packet.toclient;
 
+import java.util.function.BiFunction;
+
 import com.hbm.items.weapon.ItemGunBase;
+import com.hbm.items.weapon.sedna.GunConfig;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.AnimType;
@@ -51,6 +55,10 @@ public class GunAnimationPacket implements IMessage {
 				if(stack == null)
 					return null;
 				
+				if(stack.getItem() instanceof com.hbm.items.weapon.sedna.ItemGunBaseNT) {
+					handleSedna(player, stack, slot, AnimType.values()[m.type]);
+				}
+				
 				if(!(stack.getItem() instanceof ItemGunBase))
 					return null;
 				
@@ -80,6 +88,28 @@ public class GunAnimationPacket implements IMessage {
 			} catch(Exception x) { }
 			
 			return null;
+		}
+		
+		public static void handleSedna(EntityPlayer player, ItemStack stack, int slot, AnimType type) {
+			ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+			GunConfig config = gun.getConfig(stack);
+			
+			BiFunction<ItemStack, AnimType, BusAnimation> anims = config.getAnims(stack);
+			BusAnimation animation = anims.apply(stack, type);
+			
+			if(animation == null && type == AnimType.RELOAD_EMPTY) {
+				animation = anims.apply(stack, AnimType.RELOAD);
+			}
+			if(animation == null && (type == AnimType.ALT_CYCLE || type == AnimType.CYCLE_EMPTY)) {
+				animation = anims.apply(stack, AnimType.CYCLE);
+			}
+			
+			if(animation != null) {
+				Minecraft.getMinecraft().entityRenderer.itemRenderer.resetEquippedProgress();
+				Minecraft.getMinecraft().entityRenderer.itemRenderer.itemToRender = stack;
+				boolean isReloadAnimation = type == AnimType.RELOAD || type == AnimType.RELOAD_CYCLE || type == AnimType.RELOAD_EMPTY;
+				HbmAnimations.hotbar[slot] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, isReloadAnimation && config.getReloadAnimSequential(stack));
+			}
 		}
 	}
 }
