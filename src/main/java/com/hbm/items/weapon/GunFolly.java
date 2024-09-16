@@ -4,7 +4,7 @@ import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.items.ModItems;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.items.weapon.sedna.Crosshair;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

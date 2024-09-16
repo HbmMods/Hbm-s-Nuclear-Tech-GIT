@@ -1,22 +1,11 @@
-## Added
-* Settings tool
-  * Allows settings of blocks and machines to be copied
-  * Uses settings such as conveyor item filters, fluid types and liquid metal types
-* Pyrolysis oven
-  * An oil 3 machine with multiple applications
-  * Can solidify most oils like a solidifier, but is way more efficient
-  * Can create syngas with high efficiency from coal, coke and biomass
-  * Large amounts of tar can be processed into fine soot, the base ingredient for fullerene
-  * Upgrades are not implemented yet
-  * Has a very short "chimney", exhaust pipes have to be connected there to work
-  * If no exhaust pipes are connected, the chimney will spawn particles
-
 ## Changed
-* Most loot piles now have configurable loot pools
-* The ntmsatellites command now has the "list" parameter which shows all active satellites in orbit
-* Burning in the nether in 528 mode now has a config option, and it no longer affects NPCs
-* Jet fuel can now be solidified
+* Pyrolysis recipes have been added
+  * Bedrock ores can be roasted at much higher speeds
+  * Pyrolysis ovens can now turn 4,000mB of coker gas into 500mB refgas
+  * Hydrogen + coal can be turned into heavy oil, heavy oil + coal turns into coalgas directly
+* The CCGT startup and shutdown sounds are now affected by mufflers
+* Armor battery packs now have recipes
 
 ## Fixed
-* Fixed some things not using variable max charge for armor mods, like static pads and DNT nanosuit tooltips
-* Fixed arc furnace recipe config parser breaking when reading fluid recipes
+* Crash caused by new system gun init on servers
+* Fixed chemfac output slots not being marked as outputs, not granting achievements and allowing items to be inserted

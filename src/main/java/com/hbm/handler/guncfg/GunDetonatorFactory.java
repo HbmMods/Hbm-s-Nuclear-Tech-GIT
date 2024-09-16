@@ -9,10 +9,10 @@ import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.main.MainRegistry;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.PlayerInformPacket;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 import com.hbm.util.ChatBuilder;
 
 import net.minecraft.block.Block;

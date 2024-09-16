@@ -11,6 +11,8 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.EnumUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -169,6 +171,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void renderHUD(Pre event, ElementType type, EntityPlayer player, ItemStack stack) {
 		if(type == ElementType.CROSSHAIRS) {
 			event.setCanceled(true);
