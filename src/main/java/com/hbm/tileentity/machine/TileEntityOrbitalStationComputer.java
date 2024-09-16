@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 public class TileEntityOrbitalStationComputer extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
@@ -91,6 +92,24 @@ public class TileEntityOrbitalStationComputer extends TileEntityMachineBase impl
 			OrbitalStation station = OrbitalStation.getStationFromPosition(xCoord, zCoord);
 			station.name = data.getString("name");
 		}
+	}
+
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+				xCoord,
+				yCoord,
+				zCoord,
+				xCoord + 1,
+				yCoord + 2,
+				zCoord + 1
+			);
+		}
+		
+		return bb;
 	}
 
 }

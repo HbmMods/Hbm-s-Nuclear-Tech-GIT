@@ -34,6 +34,7 @@ public class TileEntityCondenserPowered extends TileEntityCondenser implements I
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, inputTankSizeP);
 		tanks[1] = new FluidTank(Fluids.WATER, outputTankSizeP);
+		vacuumOptimised = true;
 	}
 	
 	@Override
@@ -188,6 +189,6 @@ public class TileEntityCondenserPowered extends TileEntityCondenser implements I
 
 	@Override
 	public long getMaxPower() {
-		return this.maxPower;
+		return maxPower;
 	}
 }

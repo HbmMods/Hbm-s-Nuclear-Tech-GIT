@@ -5,8 +5,11 @@ import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.dim.CelestialBody;
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityTowerSmall;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.material.Material;
@@ -71,7 +74,14 @@ public class MachineTowerSmall extends BlockDummyable implements ILookOverlay {
 
 		TileEntityTowerSmall tower = (TileEntityTowerSmall) te;
 
-		List<String> text = new ArrayList();
+		List<String> text = new ArrayList<>();
+
+		if(!tower.vacuumOptimised) {
+			CBT_Atmosphere atmosphere = CelestialBody.getTrait(world, CBT_Atmosphere.class);
+			if(CelestialBody.inOrbit(world) || atmosphere == null || atmosphere.getPressure() < 0.01) {
+				text.add("&[" + (BobMathUtil.getBlink() ? 0xff0000 : 0xffff00) + "&]! ! ! " + I18nUtil.resolveKey("atmosphere.noVacuum") + " ! ! !");
+			}
+		}
 
 		for(int i = 0; i < tower.tanks.length; i++)
 			text.add((i < 1 ? (EnumChatFormatting.GREEN + "-> ") : (EnumChatFormatting.RED + "<- ")) + EnumChatFormatting.RESET + tower.tanks[i].getTankType().getLocalizedName() + ": " + tower.tanks[i].getFill() + "/" + tower.tanks[i].getMaxFill() + "mB");
