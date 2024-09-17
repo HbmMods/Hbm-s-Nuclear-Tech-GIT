@@ -15,12 +15,10 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
@@ -339,7 +337,7 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIAutocrafter(player.inventory, this);
 	}
 
@@ -354,11 +352,10 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		IInventory inv = this;
 		int slot = nbt.getInteger("slot");
 		if(slot > 8) return;
-		ItemStack item = new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta"));
+		NBTTagCompound stack = nbt.getCompoundTag("stack");
+		ItemStack item = ItemStack.loadItemStackFromNBT(stack);
 		inv.setInventorySlotContents(slot, item);
 		matcher.initPatternSmart(getWorldObj(), item, slot);
-		updateTemplateGrid();
-		nextMode(slot);
 		tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
 		updateTemplateGrid();
 	}

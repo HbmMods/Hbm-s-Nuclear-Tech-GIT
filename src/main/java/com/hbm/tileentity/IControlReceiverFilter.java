@@ -5,7 +5,6 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.interfaces.ICopiable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -36,7 +35,9 @@ public interface IControlReceiverFilter extends IControlReceiver, ICopiable {
 		TileEntity tile = (TileEntity) this;
 		IInventory inv = (IInventory) this;
 		int slot = nbt.getInteger("slot");
-		inv.setInventorySlotContents(slot, new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
+		NBTTagCompound stack = nbt.getCompoundTag("stack");
+		ItemStack item = ItemStack.loadItemStackFromNBT(stack);
+		inv.setInventorySlotContents(slot, item);
 		nextMode(slot);
 		tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
 	}

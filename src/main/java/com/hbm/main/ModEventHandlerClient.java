@@ -1058,7 +1058,7 @@ public class ModEventHandlerClient {
 	}
 
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOW)
 	public void onMouseClicked(InputEvent.MouseInputEvent event) {
 		
 		Minecraft mc = Minecraft.getMinecraft();
@@ -1073,8 +1073,8 @@ public class ModEventHandlerClient {
 				if(key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
 
 					key.pressed = state;
-					if(state) {
-						key.pressTime++;
+					if(state && key.pressTime == 0) {
+						key.pressTime = 1;
 					}
 				}
 			}
@@ -1101,7 +1101,7 @@ public class ModEventHandlerClient {
 	}
 
 	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOW)
 	public void onKeyTyped(InputEvent.KeyInputEvent event) {
 
 		Minecraft mc = Minecraft.getMinecraft();
@@ -1116,8 +1116,8 @@ public class ModEventHandlerClient {
 				if(keyCode != 0 && key.getKeyCode() == keyCode && KeyBinding.hash.lookup(key.getKeyCode()) != key) {
 					
 					key.pressed = state;
-					if(state) {
-						key.pressTime++;
+					if(state && key.pressTime == 0) {
+						key.pressTime = 1;
 					}
 				}
 			}

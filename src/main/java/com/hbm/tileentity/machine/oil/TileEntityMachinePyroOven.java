@@ -20,6 +20,7 @@ import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -28,7 +29,6 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -87,13 +87,14 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 			UpgradeManager.eval(slots, 4, 5);
 			int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			int powerSaving = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			int overdrive = Math.min(UpgradeManager.getLevel(UpgradeType.OVERDRIVE), 3);
 			
 			this.isProgressing = false;
 			this.isVenting = false;
 			
 			if(this.canProcess()) {
 				PyroOvenRecipe recipe = getMatchingRecipe();
-				this.progress += 1F / (recipe.duration - speed * (recipe.duration / 4));
+				this.progress += 1F / Math.max((recipe.duration - speed * (recipe.duration / 4)) / (overdrive * 2 + 1), 1);
 				this.isProgressing = true;
 				this.power -= this.getConsumption(speed, powerSaving);
 				
@@ -207,7 +208,7 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 		if(recipe == null) return false; // no matching recipe
 		if(recipe.inputFluid != null && tanks[0].getFill() < recipe.inputFluid.fill) return false; // not enough input fluid
 		if(recipe.inputItem != null && slots[1].stackSize < recipe.inputItem.stacksize) return false; // not enough input item
-		if(recipe.outputFluid != null && recipe.outputFluid.fill + tanks[1].getFill() > tanks[1].getMaxFill()) return false; // too much output fluid
+		if(recipe.outputFluid != null && recipe.outputFluid.fill + tanks[1].getFill() > tanks[1].getMaxFill() && recipe.outputFluid.type == tanks[1].getTankType()) return false; // too much output fluid
 		if(recipe.outputItem != null && slots[2] != null && recipe.outputItem.stackSize + slots[2].stackSize > slots[2].getMaxStackSize()) return false; // too much output item
 		if(recipe.outputItem != null && slots[2] != null && recipe.outputItem.getItem() != slots[2].getItem()) return false; // output item doesn't match
 		if(recipe.outputItem != null && slots[2] != null && recipe.outputItem.getItemDamage() != slots[2].getItemDamage()) return false; // output meta doesn't match
@@ -341,7 +342,7 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 	@Override public FluidTank[] getReceivingTanks() { return new FluidTank[] { tanks[0] }; }
 
 	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerPyroOven(player.inventory, this); }
-	@Override public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIPyroOven(player.inventory, this); }
+	@Override public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIPyroOven(player.inventory, this); }
 
 	@Override
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
@@ -358,12 +359,16 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 		if(type == UpgradeType.POWER) {
 			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (100 - 100 / (level + 1)) + "%"));
 		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
 	}
 
 	@Override
 	public int getMaxLevel(UpgradeType type) {
 		if(type == UpgradeType.SPEED) return 3;
 		if(type == UpgradeType.POWER) return 3;
+		if(type == UpgradeType.OVERDRIVE) return 3;
 		return 0;
 	}
 }

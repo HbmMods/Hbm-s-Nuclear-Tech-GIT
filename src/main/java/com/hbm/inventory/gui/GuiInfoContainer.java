@@ -11,7 +11,6 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
 
 import cpw.mods.fml.common.Optional;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -302,10 +301,10 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 				if(inventorySlots instanceof ContainerBase) {
 					NBTTagCompound tag = new NBTTagCompound();
 					tag.setInteger("slot", slot.slotNumber);
-					//Item IDs are usually dangerous, but this is only getting called from clientside, while ingame anyway
-					//if someone somehow gets an ID shift with this i will eat my shoe - 70k
-					tag.setInteger("id", Item.getIdFromItem(stack.getItem()));
-					tag.setInteger("meta", stack.getItemDamage());
+					
+					NBTTagCompound item = new NBTTagCompound();
+					stack.writeToNBT(item);
+					tag.setTag("stack", item);
 
 					TileEntity te = (TileEntity) ((ContainerBase) inventorySlots).tile;
 					PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(tag, te.xCoord, te.yCoord, te.zCoord));

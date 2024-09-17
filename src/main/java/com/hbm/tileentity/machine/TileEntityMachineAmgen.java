@@ -1,7 +1,6 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.CompatEnergyControl;
 
@@ -27,12 +26,7 @@ public class TileEntityMachineAmgen extends TileEntityLoadedBase implements IEne
 
 			Block block = worldObj.getBlock(xCoord, yCoord, zCoord);
 			
-			if(block == ModBlocks.machine_amgen) {
-				float rad = ChunkRadiationManager.proxy.getRadiation(worldObj, xCoord, yCoord, zCoord);
-				this.output += rad;
-				ChunkRadiationManager.proxy.decrementRad(worldObj, xCoord, yCoord, zCoord, 5F);
-				
-			} else if(block == ModBlocks.machine_geo) {
+			if(block == ModBlocks.machine_geo) {
 				this.checkGeoInteraction(xCoord, yCoord + 1, zCoord);
 				this.checkGeoInteraction(xCoord, yCoord - 1, zCoord);
 			}
