@@ -1,19 +1,26 @@
 package com.hbm.tileentity.machine.oil;
 
+import java.util.List;
+
+import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.container.ContainerPyroOven;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIPyroOven;
 import com.hbm.inventory.recipes.PyroOvenRecipes;
 import com.hbm.inventory.recipes.PyroOvenRecipes.PyroOvenRecipe;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
@@ -27,17 +34,18 @@ import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implements IEnergyReceiverMK2, IFluidStandardTransceiver, IGUIProvider, IFluidCopiable {
+public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implements IEnergyReceiverMK2, IFluidStandardTransceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
 	
 	public long power;
 	public static final long maxPower = 1_000_000;
 	public boolean isVenting;
 	public boolean isProgressing;
 	public float progress;
-	public int consumption = 10_000;
+	public static int consumption = 10_000;
 	
 	public int prevAnim;
 	public int anim = 0;
@@ -76,16 +84,18 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 			ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
 			if(smoke.getFill() > 0) this.sendFluid(smoke, worldObj, xCoord - rot.offsetX, yCoord + 3, zCoord - rot.offsetZ, Library.POS_Y);
 			
-			//UpgradeManager.eval(slots, 4, 5);
+			UpgradeManager.eval(slots, 4, 5);
+			int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+			int powerSaving = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
 			
 			this.isProgressing = false;
 			this.isVenting = false;
 			
 			if(this.canProcess()) {
 				PyroOvenRecipe recipe = getMatchingRecipe();
-				this.progress += 1F / recipe.duration;
+				this.progress += 1F / (recipe.duration - speed * (recipe.duration / 4));
 				this.isProgressing = true;
-				this.power -= this.consumption;
+				this.power -= this.getConsumption(speed, powerSaving);
 				
 				if(progress >= 1F) {
 					this.progress = 0F;
@@ -153,6 +163,10 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 		}
 	}
 	
+	public static int getConsumption(int speed, int powerSaving) {
+		return (int) (consumption * Math.pow(speed + 1, 2)) / (powerSaving + 1);
+	}
+	
 	protected PyroOvenRecipe lastValidRecipe;
 	
 	public PyroOvenRecipe getMatchingRecipe() {
@@ -185,7 +199,10 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 	}
 	
 	public boolean canProcess() {
-		if(power < consumption) return false; // not enough power
+		int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
+		int powerSaving = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+		if(power < this.getConsumption(speed, powerSaving)) return false; // not enough power
+		
 		PyroOvenRecipe recipe = this.getMatchingRecipe();
 		if(recipe == null) return false; // no matching recipe
 		if(recipe.inputFluid != null && tanks[0].getFill() < recipe.inputFluid.fill) return false; // not enough input fluid
@@ -325,4 +342,28 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 
 	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerPyroOven(player.inventory, this); }
 	@Override public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIPyroOven(player.inventory, this); }
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_pyrooven));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (Math.pow(level + 1, 2) * 100 - 100) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (100 - 100 / (level + 1)) + "%"));
+		}
+	}
+
+	@Override
+	public int getMaxLevel(UpgradeType type) {
+		if(type == UpgradeType.SPEED) return 3;
+		if(type == UpgradeType.POWER) return 3;
+		return 0;
+	}
 }

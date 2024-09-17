@@ -6,7 +6,6 @@ import java.util.function.BiFunction;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.item.ItemStack;
 

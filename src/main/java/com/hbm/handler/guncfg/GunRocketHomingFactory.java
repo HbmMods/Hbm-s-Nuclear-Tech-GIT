@@ -9,9 +9,8 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.AmmoStinger;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
-
 import net.minecraft.entity.player.EntityPlayer;
 
 public class GunRocketHomingFactory {

@@ -2,13 +2,13 @@ package com.hbm.items.weapon.sedna.factory;
 
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.mags.MagazineRevolverDrum;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.item.Item;
 

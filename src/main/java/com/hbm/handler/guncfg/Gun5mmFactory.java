@@ -6,11 +6,11 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo5mm;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 public class Gun5mmFactory {
 	

@@ -22,6 +22,9 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
+import com.hbm.items.special.ItemBedrockOreNew;
+import com.hbm.items.special.ItemBedrockOreNew.BedrockOreGrade;
+import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -63,7 +66,17 @@ public class PyroOvenRecipes extends SerializableRecipe {
 		registerSFAuto(XYLENE);
 		registerSFAuto(BALEFIRE, 24_000_000L, ModItems.solid_fuel_bf);
 		
-		//other
+		//bedrock ores
+		
+		for(BedrockOreType type : BedrockOreType.values()) {
+			recipes.add(new PyroOvenRecipe(10).in(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.BASE, type))).out(new FluidStack(Fluids.VITRIOL, 50)).out(ItemBedrockOreNew.make(BedrockOreGrade.BASE_ROASTED, type)));
+			recipes.add(new PyroOvenRecipe(10).in(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY, type))).out(new FluidStack(Fluids.VITRIOL, 50)).out(ItemBedrockOreNew.make(BedrockOreGrade.PRIMARY_ROASTED, type)));
+			recipes.add(new PyroOvenRecipe(10).in(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_BYPRODUCT, type))).out(new FluidStack(Fluids.VITRIOL, 50)).out(ItemBedrockOreNew.make(BedrockOreGrade.SULFURIC_ROASTED, type)));
+			recipes.add(new PyroOvenRecipe(10).in(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_BYPRODUCT, type))).out(new FluidStack(Fluids.VITRIOL, 50)).out(ItemBedrockOreNew.make(BedrockOreGrade.SOLVENT_ROASTED, type)));
+			recipes.add(new PyroOvenRecipe(10).in(new ComparableStack(ItemBedrockOreNew.make(BedrockOreGrade.RAD_BYPRODUCT, type))).out(new FluidStack(Fluids.VITRIOL, 50)).out(ItemBedrockOreNew.make(BedrockOreGrade.RAD_ROASTED, type)));
+		}
+		
+		//syngas from coal
 		recipes.add(new PyroOvenRecipe(100)
 				.in(new FluidStack(Fluids.STEAM, 500)).in(new OreDictStack(COAL.gem()))
 				.out(new FluidStack(Fluids.SYNGAS, 1_000)));
@@ -73,12 +86,38 @@ public class PyroOvenRecipes extends SerializableRecipe {
 		recipes.add(new PyroOvenRecipe(100)
 				.in(new FluidStack(Fluids.STEAM, 250)).in(new OreDictStack(ANY_COKE.gem()))
 				.out(new FluidStack(Fluids.SYNGAS, 1_000)));
+		//syngas from biomass
 		recipes.add(new PyroOvenRecipe(100)
 				.in(new ComparableStack(ModItems.biomass, 4))
 				.out(new FluidStack(Fluids.SYNGAS, 1_000)).out(new ItemStack(Items.coal, 1, 1)));
+		//soot from tar
 		recipes.add(new PyroOvenRecipe(40)
 				.out(new FluidStack(Fluids.HYDROGEN, 250)).in(new OreDictStack(ANY_TAR.any(), 8))
 				.out(new FluidStack(Fluids.CARBONDIOXIDE, 1_000)).out(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.SOOT)));
+		//heavyoil from coal
+		recipes.add(new PyroOvenRecipe(100)
+				.in(new FluidStack(Fluids.HYDROGEN, 500)).in(new OreDictStack(COAL.gem()))
+				.out(new FluidStack(Fluids.HEAVYOIL, 1_000)));
+		recipes.add(new PyroOvenRecipe(100)
+				.in(new FluidStack(Fluids.HYDROGEN, 500)).in(new OreDictStack(COAL.dust()))
+				.out(new FluidStack(Fluids.HEAVYOIL, 1_000)));
+		recipes.add(new PyroOvenRecipe(100)
+				.in(new FluidStack(Fluids.HYDROGEN, 250)).in(new OreDictStack(ANY_COKE.gem()))
+				.out(new FluidStack(Fluids.HEAVYOIL, 1_000)));
+		//coalgas from coal
+		recipes.add(new PyroOvenRecipe(50)
+				.in(new FluidStack(Fluids.HEAVYOIL, 500)).in(new OreDictStack(COAL.gem()))
+				.out(new FluidStack(Fluids.COALGAS, 1_000)));
+		recipes.add(new PyroOvenRecipe(50)
+				.in(new FluidStack(Fluids.HEAVYOIL, 500)).in(new OreDictStack(COAL.dust()))
+				.out(new FluidStack(Fluids.COALGAS, 1_000)));
+		recipes.add(new PyroOvenRecipe(50)
+				.in(new FluidStack(Fluids.HEAVYOIL, 500)).in(new OreDictStack(ANY_COKE.gem()))
+				.out(new FluidStack(Fluids.COALGAS, 1_000)));
+		//refgas from coker gas
+		recipes.add(new PyroOvenRecipe(60)
+				.in(new FluidStack(GAS_COKER, 4_000))
+				.out(new FluidStack(Fluids.REFORMGAS, 100)));
 	}
 
 	private static void registerSFAuto(FluidType fluid) {
