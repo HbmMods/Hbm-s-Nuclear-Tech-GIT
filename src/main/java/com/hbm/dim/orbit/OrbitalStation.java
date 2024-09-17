@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
@@ -49,6 +50,7 @@ public class OrbitalStation {
 		ARRIVING, // spool down engines
 	}
 
+	private TileEntityOrbitalStation mainPort;
 	private HashMap<ThreeInts, TileEntityOrbitalStation> ports = new HashMap<>();
 	private int portIndex = 0;
 
@@ -98,7 +100,7 @@ public class OrbitalStation {
 		if(!world.isRemote) {
 			if(state == StationState.LEAVING) {
 				if(stateTimer > maxStateTimer) {
-					setState(StationState.TRANSFER, getTransferTime(world));
+					setState(StationState.TRANSFER, getTransferTime());
 				}
 			} else if(state == StationState.TRANSFER) {
 				if(stateTimer > maxStateTimer) {
@@ -133,7 +135,7 @@ public class OrbitalStation {
 		if(engines.size() == 0) return false;
 
 		double deltaV = SolarSystem.getDeltaVBetween(from, to);
-		int shipMass = 200_000;
+		int shipMass = 200_000; // Always static, to not punish building big cool stations
 		float totalThrust = getTotalThrust();
 
 		for(IPropulsion engine : engines) {
@@ -164,7 +166,7 @@ public class OrbitalStation {
 
 	// Has the side effect of beginning engine burns
 	private int getLeaveTime() {
-		int leaveTime = 0;
+		int leaveTime = 20;
 		for(IPropulsion engine : engines) {
 			int time = engine.startBurn();
 			if(time > leaveTime) leaveTime = time;
@@ -174,7 +176,7 @@ public class OrbitalStation {
 
 	// And this one will end engine burns
 	private int getArriveTime() {
-		int arriveTime = 0;
+		int arriveTime = 20;
 		for(IPropulsion engine : engines) {
 			int time = engine.endBurn();
 			if(time > arriveTime) arriveTime = time;
@@ -182,9 +184,14 @@ public class OrbitalStation {
 		return arriveTime;
 	}
 
-	private int getTransferTime(World world) {
-		double distance = SolarSystem.calculateDistanceBetweenTwoBodies(world, orbiting, target);
-		return (int)(Math.log(1 + (distance / 1000)) * 125);
+	private int getTransferTime() {
+		if(mainPort == null) return -1;
+
+		int size = calculateSize();
+		double distance = SolarSystem.calculateDistanceBetweenTwoBodies(mainPort.getWorldObj(), orbiting, target);
+		float thrust = getTotalThrust();
+
+		return (int)(Math.log(1 + (distance * size / thrust * 100)) * 150);
 	}
 
 	private void setState(StationState state, int timeUntilNext) {
@@ -207,6 +214,7 @@ public class OrbitalStation {
 
 	public void addPort(TileEntityOrbitalStation port) {
 		ports.put(new ThreeInts(port.xCoord, port.yCoord, port.zCoord), port);
+		if(port.getBlockType() == ModBlocks.orbital_station) mainPort = port;
 	}
 
 	public TileEntityOrbitalStation getPort() {
@@ -231,6 +239,46 @@ public class OrbitalStation {
 
 	public static TileEntityOrbitalStation getPort(int x, int z) {
 		return getStationFromPosition(x, z).getPort();
+	}
+
+	// I can't stop pronouncing this as hors d'oeuvre
+	private static final ForgeDirection[] horDir = new ForgeDirection[] { ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.EAST };
+
+	// calculates the top down area of the station
+	// super fucking fast but like, don't call it every frame
+	public int calculateSize() {
+		if(mainPort == null) return 0;
+		World world = mainPort.getWorldObj();
+
+		int minX, maxX;
+		int minZ, maxZ;
+		minX = maxX = mainPort.xCoord;
+		minZ = maxZ = mainPort.zCoord;
+
+		Stack<ThreeInts> stack = new Stack<ThreeInts>();
+		stack.push(new ThreeInts(mainPort.xCoord, mainPort.yCoord, mainPort.zCoord));
+
+		HashSet<ThreeInts> visited = new HashSet<ThreeInts>();
+
+		while(!stack.isEmpty()) {
+			ThreeInts pos = stack.pop();
+			visited.add(pos);
+
+			if(pos.x < minX) minX = pos.x;
+			if(pos.x > maxX) maxX = pos.x;
+			if(pos.z < minZ) minZ = pos.z;
+			if(pos.z > maxZ) maxZ = pos.z;
+
+			for(ForgeDirection dir : horDir) {
+				ThreeInts nextPos = pos.getPositionAtOffset(dir);
+
+				if(!visited.contains(nextPos) && world.getHeightValue(nextPos.x, nextPos.z) > 1) {
+					stack.push(nextPos);
+				}
+			}
+		}
+
+		return (maxX - minX + 1) * (maxZ - minZ + 1);
 	}
 
 	public double getUnscaledProgress(float partialTicks) {

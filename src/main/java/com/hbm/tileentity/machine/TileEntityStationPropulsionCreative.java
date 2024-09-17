@@ -50,7 +50,7 @@ public class TileEntityStationPropulsionCreative extends TileEntity implements I
 
 	@Override
 	public float getThrust() {
-		return 1_000_000;
+		return 10_000_000;
 	}
 
 	@Override

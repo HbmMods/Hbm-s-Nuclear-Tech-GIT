@@ -167,7 +167,7 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 
 	@Override
 	public float getThrust() {
-		return 12_000_000_000.0F; // double the F1
+		return 6_000_000_000.0F; // F1 thrust
 	}
 
 	@Override
