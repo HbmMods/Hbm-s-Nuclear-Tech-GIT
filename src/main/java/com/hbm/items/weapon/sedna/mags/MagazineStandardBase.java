@@ -31,8 +31,8 @@ public abstract class MagazineStandardBase implements IMagazine {
 	@Override
 	public Object getType(ItemStack stack) {
 		int type = getMagType(stack, index);
-		if(type >= 0 && type < acceptedBullets.size()) {
-			return acceptedBullets.get(type);
+		if(type >= 0 && type < BulletConfig.configs.size()) {
+			return BulletConfig.configs.get(type);
 		}
 		return null;
 	}
@@ -40,7 +40,7 @@ public abstract class MagazineStandardBase implements IMagazine {
 	@Override
 	public void setType(ItemStack stack, Object type) {
 		if(!(type instanceof BulletConfig)) return;
-		int i = acceptedBullets.indexOf(type);
+		int i = BulletConfig.configs.indexOf(type);
 		if(i >= 0) setMagType(stack, index, i);
 	}
 
@@ -49,7 +49,7 @@ public abstract class MagazineStandardBase implements IMagazine {
 	@Override public void setAmount(ItemStack stack, int amount) { setMagCount(stack, index, amount); }
 
 	// MAG TYPE //
-	public static int getMagType(ItemStack stack, int index) { return ItemGunBaseNT.getValueInt(stack, KEY_MAG_TYPE + index); }
+	public static int getMagType(ItemStack stack, int index) { return ItemGunBaseNT.getValueInt(stack, KEY_MAG_TYPE + index); } //TODO: replace with named tags to avoid ID shifting
 	public static void setMagType(ItemStack stack, int index, int value) { ItemGunBaseNT.setValueInt(stack, KEY_MAG_TYPE + index, value); }
 
 	// MAG COUNT //

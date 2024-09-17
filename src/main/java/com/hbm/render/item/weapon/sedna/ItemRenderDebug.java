@@ -35,8 +35,8 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 		GL11.glRotated(equipSpin[0], 0, 0, 1);
 
 		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
-		//GL11.glTranslated(-recoil[2], 0, 0);
-		GL11.glTranslated(0, 0, recoil[2]);
+		standardAimingTransform(stack, 0, 0, recoil[2], -recoil[2], 0, 0);
+		
 		GL11.glRotated(recoil[2] * 10, 0, 0, 1);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
