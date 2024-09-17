@@ -1,53 +1,86 @@
 package com.hbm.commands;
 
+import com.hbm.saveddata.CasteSavedData;
 import com.hbm.saveddata.caste.Caste;
-import com.hbm.saveddata.caste.CasteManager;
 import com.hbm.saveddata.caste.PlayerData;
 import com.hbm.saveddata.caste.Role;
-import java.util.UUID;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.world.World;
+import net.minecraft.server.MinecraftServer;
+
+import java.util.UUID;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.ArrayList;
 
 public class CommandCaste extends CommandBase {
-    private CasteManager casteManager;
 
-    public CommandCaste(CasteManager casteManager) {
-        this.casteManager = casteManager;
-    }
+	private CasteSavedData casteSavedData;
 
-    @Override
-    public String getCommandName() {
-        return "ntmcaste";
-    }
+	public CommandCaste() {
+		// We will initialize casteSavedData in the processCommand method
+	}
 
-    @Override
-    public String getCommandUsage(ICommandSender sender) {
-        return "/ntmcaste <subcommand> [arguments]";
-    }
+	@Override
+	public String getCommandName() {
+		return "ntmcaste";
+	}
 
-    @Override
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-        if (!(sender instanceof EntityPlayer)) {
-            sender.addChatMessage(new ChatComponentText("This command can only be used by a player."));
-            return;
-        }
+	@Override
+	public String getCommandUsage(ICommandSender sender) {
+		return "/ntmcaste help";
+	}
 
-        EntityPlayer player = (EntityPlayer) sender;
-        UUID playerUUID = player.getUniqueID();
-        Caste playerCaste = null;
-        PlayerData playerData = null;
+	@Override
+	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+		if (!(sender instanceof EntityPlayer)) {
+			sender.addChatMessage(new ChatComponentText("This command can only be used by a player."));
+			return;
+		}
 
-        if (args.length < 1) {
-            sender.addChatMessage(new ChatComponentText("Invalid usage. Use /ntmcaste <subcommand> [arguments]"));
-            return;
-        }
+		EntityPlayer player = (EntityPlayer) sender;
+		UUID playerUUID = player.getUniqueID();
+		Caste playerCaste = null;
+		PlayerData playerData = null;
+		String playerName = player.getDisplayName();
 
-        String subcommand = args[0];
+		// Initialize casteSavedData
+		World world = player.getEntityWorld();
+		this.casteSavedData = CasteSavedData.getData(world);
+
+		if (args.length < 1) {
+			sender.addChatMessage(new ChatComponentText("Invalid usage. Use /ntmcaste <subcommand> [arguments]"));
+			return;
+		}
+
+		String subcommand = args[0];
 
         switch (subcommand) {
+
+			case "help":
+				String[] helpMessages = new String[]{
+					"§aNTM Castes are like guilds, they offer basic association and management features.",
+					"§aAvailable subcommands for /ntmcaste:",
+					"§a- create <caste name>: Creates a new caste with the given name.",
+					"§a- leave: Leaves your current caste.",
+					"§a- delete: Deletes your current caste. Only the leader can do this.",
+					"§a- invite <player name>: Invites a player to your caste. Only the leader can do this.",
+					"§a- accept <caste name>: Accepts an invitation to join a caste.",
+					"§a- promote <player name>: Promotes a member to manager. Only the leader can do this.",
+					"§a- demote <player name>: Demotes a manager to member. Only the leader can do this.",
+					"§a- kick <player name>: Kicks a member from the caste. Only the leader can do this.",
+					"§a- list <caste name>: Lists all members of a caste."
+				};
+				for (String helpMessage : helpMessages) {
+					sender.addChatMessage(new ChatComponentText(helpMessage));
+				}
+				break;
+
             case "create":
                 if (args.length < 2) {
                     sender.addChatMessage(new ChatComponentText("Invalid usage. Use /ntmcaste create <caste name>"));
@@ -57,7 +90,7 @@ public class CommandCaste extends CommandBase {
                 String casteName = args[1];
 
                 // Check if the player is already in a caste
-                for (Caste tempCaste : casteManager.getCastes()) {
+                for (Caste tempCaste : casteSavedData.getCastes()) {
                     for (PlayerData playerDataTemp : tempCaste.getMembers()) {
                         if (playerDataTemp.getPlayerUUID().equals(playerUUID)) {
                             sender.addChatMessage(new ChatComponentText("You are already in a caste."));
@@ -67,7 +100,7 @@ public class CommandCaste extends CommandBase {
                 }
 
                 // Check if a caste with the given name already exists
-                for (Caste tempCaste : casteManager.getCastes()) {
+                for (Caste tempCaste : casteSavedData.getCastes()) {
                     if (tempCaste.getName().equals(casteName)) {
                         sender.addChatMessage(new ChatComponentText("A caste with this name already exists."));
                         return;
@@ -76,15 +109,16 @@ public class CommandCaste extends CommandBase {
 
                 // Create the new caste and add the player as the leader
                 Caste newCaste = new Caste(casteName);
-                newCaste.addMember(new PlayerData(playerUUID, Role.LEADER, newCaste.getId()));
-                casteManager.getCastes().add(newCaste);
+                newCaste.addMember(new PlayerData(playerUUID, Role.LEADER, newCaste.getId(),playerName));
+                casteSavedData.getCastes().add(newCaste);
 
                 sender.addChatMessage(new ChatComponentText("Caste '" + casteName + "' created successfully."));
+				this.casteSavedData.markDirty();
                 break;
 
             case "leave":
                 // Find the player's caste and player data
-                for (Caste tempCaste : casteManager.getCastes()) {
+                for (Caste tempCaste : casteSavedData.getCastes()) {
                     for (PlayerData member : tempCaste.getMembers()) {
                         if (member.getPlayerUUID().equals(playerUUID)) {
                             playerCaste = tempCaste;
@@ -107,15 +141,16 @@ public class CommandCaste extends CommandBase {
 
                 // If the caste is now empty, delete it
                 if (playerCaste.getMembers().isEmpty()) {
-                    casteManager.getCastes().remove(playerCaste);
+                    casteSavedData.getCastes().remove(playerCaste);
                 }
 
                 sender.addChatMessage(new ChatComponentText("You have left the caste '" + playerCaste.getName() + "'."));
+				this.casteSavedData.markDirty();
                 break;
 
             case "delete":
                 // Find the player's caste and player data
-                for (Caste tempCaste : casteManager.getCastes()) {
+                for (Caste tempCaste : casteSavedData.getCastes()) {
                     for (PlayerData member : tempCaste.getMembers()) {
                         if (member.getPlayerUUID().equals(playerUUID)) {
                             playerCaste = tempCaste;
@@ -140,52 +175,60 @@ public class CommandCaste extends CommandBase {
                 }
 
                 // Delete the caste
-                casteManager.getCastes().remove(playerCaste);
+                casteSavedData.getCastes().remove(playerCaste);
 
                 sender.addChatMessage(new ChatComponentText("You have deleted the caste '" + playerCaste.getName() + "'."));
+				this.casteSavedData.markDirty();
                 break;
 
-            case "invite":
-                if (args.length < 2) {
-                    sender.addChatMessage(new ChatComponentText("Invalid usage. Use /ntmcaste invite <player name>"));
-                    return;
-                }
+			case "invite":
+				if (args.length < 2) {
+					sender.addChatMessage(new ChatComponentText("Invalid usage. Use /ntmcaste invite <player name>"));
+					return;
+				}
 
-                String invitedPlayerName = args[1];
-                // Find the player's caste and player data
-                for (Caste tempCaste : casteManager.getCastes()) {
-                    for (PlayerData member : tempCaste.getMembers()) {
-                        if (member.getPlayerUUID().equals(playerUUID)) {
-                            playerCaste = tempCaste;
-                            playerData = member;
-                            break;
-                        }
-                    }
-                    if (playerCaste != null) {
-                        break;
-                    }
-                }
+				String invitedPlayerName = args[1];
 
-                if (playerCaste == null) {
-                    sender.addChatMessage(new ChatComponentText("You are not in a caste."));
-                    return;
-                }
+				// Find the player's caste and player data
+				for (Caste tempCaste : casteSavedData.getCastes()) {
+					for (PlayerData member : tempCaste.getMembers()) {
+						if (member.getPlayerUUID().equals(playerUUID)) {
+							playerCaste = tempCaste;
+							playerData = member;
+							break;
+						}
+					}
+					if (playerCaste != null) {
+						break;
+					}
+				}
 
-                // Check if the invited player is already in a caste
-                for (Caste tempCaste : casteManager.getCastes()) {
-                    for (PlayerData member : tempCaste.getMembers()) {
-                        if (member.getPlayerUUID().toString().equals(invitedPlayerName)) {
-                            sender.addChatMessage(new ChatComponentText("The player is already in a caste."));
-                            return;
-                        }
-                    }
-                }
+				if (playerCaste == null) {
+					sender.addChatMessage(new ChatComponentText("You are not in a caste."));
+					return;
+				}
 
-                // Invite the player to the caste
-                playerCaste.getInvitedPlayers().add(invitedPlayerName);
+				// Check if the invited player is already in a caste
+				for (Caste tempCaste : casteSavedData.getCastes()) {
+					for (PlayerData member : tempCaste.getMembers()) {
+						if (member.getPlayerName().equals(invitedPlayerName)) {
+							sender.addChatMessage(new ChatComponentText("The player is already in a caste."));
+							return;
+						}
+					}
+				}
 
-                sender.addChatMessage(new ChatComponentText("You have invited '" + invitedPlayerName + "' to your caste."));
-                break;
+				// Check if the player is already invited
+				if (playerCaste.getInvitedPlayers().contains(invitedPlayerName)) {
+					sender.addChatMessage(new ChatComponentText("The player is already invited to your caste."));
+					return;
+				}
+
+				// Invite the player to the caste
+				playerCaste.getInvitedPlayers().add(invitedPlayerName);
+
+				sender.addChatMessage(new ChatComponentText("You have invited '" + invitedPlayerName + "' to your caste."));
+				break;
 
             case "accept":
                 if (args.length < 2) {
@@ -197,7 +240,7 @@ public class CommandCaste extends CommandBase {
                 playerCaste = null;
 
                 // Find the caste with the given name
-                for (Caste tempCaste : casteManager.getCastes()) {
+                for (Caste tempCaste : casteSavedData.getCastes()) {
                     if (tempCaste.getName().equals(casteName)) {
                         playerCaste = tempCaste;
                         break;
@@ -210,16 +253,17 @@ public class CommandCaste extends CommandBase {
                 }
 
                 // Check if the player is invited to the caste
-                if (!playerCaste.getInvitedPlayers().contains(playerUUID.toString())) {
+                if (!playerCaste.getInvitedPlayers().contains(playerName)) {
                     sender.addChatMessage(new ChatComponentText("You are not invited to this caste."));
                     return;
                 }
 
                 // Add the player to the caste
-                playerCaste.getMembers().add(new PlayerData(playerUUID, Role.MEMBER, playerCaste.getId()));
-                playerCaste.getInvitedPlayers().remove(playerUUID.toString());
+                playerCaste.getMembers().add(new PlayerData(playerUUID, Role.MEMBER, playerCaste.getId(),playerName));
+                playerCaste.getInvitedPlayers().remove(playerName);
 
                 sender.addChatMessage(new ChatComponentText("You have joined the caste '" + playerCaste.getName() + "'."));
+				this.casteSavedData.markDirty();
                 break;
 
             case "promote":
@@ -231,7 +275,7 @@ public class CommandCaste extends CommandBase {
                 String promotedPlayerName = args[1];
 
                 // Find the player's caste and player data
-                for (Caste tempCaste : casteManager.getCastes()) {
+                for (Caste tempCaste : casteSavedData.getCastes()) {
                     for (PlayerData member : tempCaste.getMembers()) {
                         if (member.getPlayerUUID().equals(playerUUID)) {
                             playerCaste = tempCaste;
@@ -258,7 +302,7 @@ public class CommandCaste extends CommandBase {
                 // Find the member to be promoted
                 PlayerData promotedPlayerData = null;
                 for (PlayerData member : playerCaste.getMembers()) {
-                    if (member.getPlayerUUID().toString().equals(promotedPlayerName)) {
+                    if (member.getPlayerName().equals(promotedPlayerName)) {
                         promotedPlayerData = member;
                         break;
                     }
@@ -276,6 +320,7 @@ public class CommandCaste extends CommandBase {
                 } else if (promotedPlayerData.getRole() == Role.MANAGER) {
                     sender.addChatMessage(new ChatComponentText("The player is already a Manager."));
                 }
+				this.casteSavedData.markDirty();
                 break;
 
             case "demote":
@@ -287,7 +332,7 @@ public class CommandCaste extends CommandBase {
                 String demotedPlayerName = args[1];
 
                 // Find the player's caste and player data
-                for (Caste tempCaste : casteManager.getCastes()) {
+                for (Caste tempCaste : casteSavedData.getCastes()) {
                     for (PlayerData member : tempCaste.getMembers()) {
                         if (member.getPlayerUUID().equals(playerUUID)) {
                             playerCaste = tempCaste;
@@ -314,7 +359,7 @@ public class CommandCaste extends CommandBase {
                 // Find the manager  to be demoted
                 PlayerData demotedPlayerData = null;
                 for (PlayerData member : playerCaste.getMembers()) {
-                    if (member.getPlayerUUID().toString().equals(demotedPlayerName)) {
+                    if (member.getPlayerName().equals(demotedPlayerName)) {
                         demotedPlayerData = member;
                         break;
                     }
@@ -332,6 +377,7 @@ public class CommandCaste extends CommandBase {
                 } else if (demotedPlayerData.getRole() == Role.MEMBER) {
                     sender.addChatMessage(new ChatComponentText("The player is already a Member."));
                 }
+				this.casteSavedData.markDirty();
                 break;
             case "kick":
                 if (args.length < 2) {
@@ -342,7 +388,7 @@ public class CommandCaste extends CommandBase {
                 String kickedPlayerName = args[1];
 
                 // Find the player's caste and player data
-                for (Caste tempCaste : casteManager.getCastes()) {
+                for (Caste tempCaste : casteSavedData.getCastes()) {
                     for (PlayerData member : tempCaste.getMembers()) {
                         if (member.getPlayerUUID().equals(playerUUID)) {
                             playerCaste = tempCaste;
@@ -369,7 +415,7 @@ public class CommandCaste extends CommandBase {
                 // Find the member to be kicked
                 PlayerData kickedPlayerData = null;
                 for (PlayerData member : playerCaste.getMembers()) {
-                    if (member.getPlayerUUID().toString().equals(kickedPlayerName)) {
+                    if (member.getPlayerName().toString().equals(kickedPlayerName)) {
                         kickedPlayerData = member;
                         break;
                     }
@@ -384,46 +430,74 @@ public class CommandCaste extends CommandBase {
                 playerCaste.getMembers().remove(kickedPlayerData);
 
                 sender.addChatMessage(new ChatComponentText("You have kicked '" + kickedPlayerName + "' from your caste."));
+				this.casteSavedData.markDirty();
                 break;
 
-            case "list":
-                if (args.length < 2) {
-                    sender.addChatMessage(new ChatComponentText("Invalid usage. Use /ntmcaste list <caste name>"));
-                    return;
-                }
+			case "list":
+				if (args.length < 2) {
+					sender.addChatMessage(new ChatComponentText("Invalid usage. Use /ntmcaste list <caste name>"));
+					return;
+				}
 
-                casteName = args[1];
-                Caste listedCaste = null;
+				casteName = args[1];
+				Caste listedCaste = null;
 
-                // Find the caste with the given name
-                for (Caste tempCaste : casteManager.getCastes()) {
-                    if (tempCaste.getName().equals(casteName)) {
-                        listedCaste = tempCaste;
-                        break;
-                    }
-                }
+				// Find the caste with the given name
+				for (Caste tempCaste : casteSavedData.getCastes()) {
+					if (tempCaste.getName().equals(casteName)) {
+						listedCaste = tempCaste;
+						break;
+					}
+				}
 
-                if (listedCaste == null) {
-                    sender.addChatMessage(new ChatComponentText("The caste does not exist."));
-                    return;
-                }
+				if (listedCaste == null) {
+					sender.addChatMessage(new ChatComponentText("The caste does not exist."));
+					return;
+				}
 
-                // List the members of the caste in hierarchical order
-                StringBuilder casteMembers = new StringBuilder("Members of caste '" + casteName + "':\n");
-                for (Role role : Role.values()) {
-                    for (PlayerData member : listedCaste.getMembers()) {
-                        if (member.getRole() == role) {
-                            casteMembers.append("- ").append(member.getPlayerUUID().toString()).append(" (").append(role.name()).append(")\n");
-                        }
-                    }
-                }
+				// List the members of the caste in hierarchical order
+				List<String> casteMembers = new ArrayList<>();
+				casteMembers.add("Members of Caste '" + casteName + "':");
+				for (Role role : Role.values()) {
+					for (PlayerData member : listedCaste.getMembers()) {
+						if (member.getRole() == role) {
+							String tempPlayerName = member.getPlayerName();
+							casteMembers.add(String.format(Locale.US, "- §a%s (§b%s§a)", tempPlayerName, role.name()));
+						}
+					}
+				}
 
-                sender.addChatMessage(new ChatComponentText(casteMembers.toString()));
-                break;
-
-            default:
-                sender.addChatMessage(new ChatComponentText("Invalid subcommand. Use /ntmcaste <subcommand> [arguments]"));
-                break;
+				for (String member : casteMembers) {
+					sender.addChatMessage(new ChatComponentText(member));
+				}
+				break;
         }
     }
+
+	@Override
+	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
+		if (!(sender instanceof EntityPlayer)) {
+			return Collections.emptyList();
+		}
+
+		if (args.length < 1) {
+			return getListOfStringsMatchingLastWord(args, "help","create", "leave", "delete", "invite", "accept", "promote", "demote", "kick", "list");
+		}
+
+		if (args.length == 1) {
+			return getListOfStringsMatchingLastWord(args, "help","create", "leave", "delete", "invite", "accept", "promote", "demote", "kick", "list");
+		}
+
+		if (args.length == 2) {
+			switch (args[0]) {
+				case "invite":
+				case "promote":
+				case "demote":
+				case "kick":
+					return getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
+			}
+		}
+
+		return Collections.emptyList();
+	}
 }

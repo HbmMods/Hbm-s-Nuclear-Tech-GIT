@@ -4,14 +4,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import java.util.UUID;
 
 public class PlayerData {
-    private final UUID playerUUID;
+    private UUID playerUUID;
     private Role role;
     private UUID casteId;
+	private String playerName;
 
-    public PlayerData(UUID playerUUID, Role role, UUID casteId) {
+    public PlayerData(UUID playerUUID, Role role, UUID casteId, String playerName) {
         this.playerUUID = playerUUID;
         this.role = role;
         this.casteId = casteId;
+		this.playerName = playerName;
     }
 
     public UUID getPlayerUUID() {
@@ -34,15 +36,22 @@ public class PlayerData {
         this.casteId = casteId;
     }
 
-    public NBTTagCompound writeToNBT() {
-        NBTTagCompound compound = new NBTTagCompound();
-        compound.setString("Role", role.name());
-        compound.setString("CasteId", casteId.toString());
-        return compound;
-    }
+	public String getPlayerName() {
+		return playerName;
+	}
 
-    public void readFromNBT(NBTTagCompound compound) {
-        this.role = Role.valueOf(compound.getString("Role"));
-        this.casteId = UUID.fromString(compound.getString("CasteId"));
-    }
+
+	public void readFromNBT(NBTTagCompound nbt) {
+		this.playerUUID = UUID.fromString(nbt.getString("playerUUID"));
+		this.role = Role.valueOf(nbt.getString("role"));
+		this.casteId = UUID.fromString(nbt.getString("casteId"));
+		this.playerName = nbt.getString("playerName");
+	}
+
+	public void writeToNBT(NBTTagCompound nbt) {
+		nbt.setString("playerUUID", this.playerUUID.toString());
+		nbt.setString("role", this.role.name());
+		nbt.setString("casteId", this.casteId.toString());
+		nbt.setString("playerName", this.playerName);
+	}
 }
