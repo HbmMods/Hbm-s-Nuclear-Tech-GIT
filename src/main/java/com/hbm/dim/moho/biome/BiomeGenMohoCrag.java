@@ -1,10 +1,8 @@
-package com.hbm.dim.moho;
+package com.hbm.dim.moho.biome;
 
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.dim.BiomeDecoratorCelestial;
-import com.hbm.dim.BiomeGenBaseCelestial;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -12,21 +10,15 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 
-public class BiomeGenMoho extends BiomeGenBaseCelestial {
+public class BiomeGenMohoCrag extends BiomeGenBaseMoho {
 
 	public static final BiomeGenBase.Height height = new BiomeGenBase.Height(0.275F, 0.666F);
 
-	public BiomeGenMoho(int id) {
+	public BiomeGenMohoCrag(int id) {
 		super(id);
-		this.setBiomeName("Moho");
-		this.setDisableRain();
-
-		BiomeDecoratorCelestial decorator = new BiomeDecoratorCelestial(ModBlocks.moho_stone);
-		decorator.lavaCount = 50;
-		this.theBiomeDecorator = decorator;
+		this.setBiomeName("Moho Crag");
 
 		this.setHeight(height);
-		this.setTemperatureRainfall(1.0F, 0.0F);
 
 		this.topBlock = ModBlocks.moho_regolith;
 		this.fillerBlock = ModBlocks.moho_regolith; // thiccer regolith due to uhhhhhh...................

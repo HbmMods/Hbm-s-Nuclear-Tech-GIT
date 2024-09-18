@@ -25,15 +25,22 @@ public class WorldGeneratorMoho implements IWorldGenerator {
 
 	private void generateMoho(World world, Random rand, int i, int j) {
 		int meta = CelestialBody.getMeta(world);
-        DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.mineralSpawn, 10, 12, 32, ModBlocks.ore_mineral, meta, ModBlocks.moho_stone);
+		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.mineralSpawn, 10, 12, 32, ModBlocks.ore_mineral, meta, ModBlocks.moho_stone);
 
-        DungeonToolbox.generateOre(world, rand, i, j, 14, 12, 5, 30, ModBlocks.ore_glowstone, meta, ModBlocks.moho_stone);
+		DungeonToolbox.generateOre(world, rand, i, j, 14, 12, 5, 30, ModBlocks.ore_glowstone, meta, ModBlocks.moho_stone);
 		DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPhosphorusSpawn, 6, 8, 64, ModBlocks.ore_fire, meta, ModBlocks.moho_stone);
 		DungeonToolbox.generateOre(world, rand, i, j, 8, 4, 0, 24, ModBlocks.ore_australium, meta, ModBlocks.moho_stone);
 
-        DungeonToolbox.generateOre(world, rand, i, j, 1, 12, 8, 32, ModBlocks.ore_shale, meta, ModBlocks.moho_stone);
+		DungeonToolbox.generateOre(world, rand, i, j, 1, 12, 8, 32, ModBlocks.ore_shale, meta, ModBlocks.moho_stone);
 
-        DungeonToolbox.generateOre(world, rand, i, j, 10, 32, 0, 128, ModBlocks.basalt, 0, ModBlocks.moho_stone);
+		DungeonToolbox.generateOre(world, rand, i, j, 10, 32, 0, 128, ModBlocks.basalt, 0, ModBlocks.moho_stone);
+		
+		// More basalt ores!
+		DungeonToolbox.generateOre(world, rand, i, j, 16, 6, 16, 64, ModBlocks.ore_basalt, 0, ModBlocks.basalt);
+		DungeonToolbox.generateOre(world, rand, i, j, 12, 8, 8, 32, ModBlocks.ore_basalt, 1, ModBlocks.basalt);
+		DungeonToolbox.generateOre(world, rand, i, j, 8, 9, 8, 48, ModBlocks.ore_basalt, 2, ModBlocks.basalt);
+		DungeonToolbox.generateOre(world, rand, i, j, 2, 4, 0, 24, ModBlocks.ore_basalt, 3, ModBlocks.basalt);
+		DungeonToolbox.generateOre(world, rand, i, j, 8, 10, 16, 64, ModBlocks.ore_basalt, 4, ModBlocks.basalt);
 
 		for(int k = 0; k < 2; k++){
 			int x = i + rand.nextInt(16);

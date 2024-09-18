@@ -39,6 +39,7 @@ public class SpaceConfig {
 	public static int eveSeismicBiome = 125;
 	public static int laythePolarBiome = 126; //fuck my stupid chungus life
 	public static int ikeBiome = 127;
+	public static int mohoBasaltBiome = 43;
 
 	
 
@@ -89,6 +90,7 @@ public class SpaceConfig {
 		mohoBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.19_mohoBiome", "Moho Biome ID", mohoBiome);
 		dresBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.20_dresBiome", "Dres Biome ID", dresBiome);
 		dresBasins = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.21_dresBasinsBiome", "Dres Basins Biome ID", dresBasins);
+		mohoBasaltBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.22_mohoBasaltBiome", "Moho Basalt Biome ID", mohoBasaltBiome);
 	}
 
 }
