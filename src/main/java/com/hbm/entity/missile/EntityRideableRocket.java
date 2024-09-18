@@ -710,13 +710,13 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 		Target from = CelestialBody.getTarget(world, (int)posX, (int)posZ);
 		Target to = getTarget();
 
-		boolean canLaunch = state == RocketState.AWAITING;
+		boolean canLaunch = to.body != null && state == RocketState.AWAITING;
 
 		// Check if the stage can make the journey
 		if(state == RocketState.NEEDSFUEL) {
 			text.add(EnumChatFormatting.RED + "Rocket has no fuel!");
-		} else if(to.body == null || !rocket.hasSufficientFuel(from.body, to.body, from.inOrbit, to.inOrbit)) {
-			if(to.body != null) text.add(EnumChatFormatting.RED + "Rocket can't reach destination!");
+		} else if(canLaunch && !rocket.hasSufficientFuel(from.body, to.body, from.inOrbit, to.inOrbit)) {
+			text.add(EnumChatFormatting.RED + "Rocket can't reach destination!");
 			canLaunch = false;
 		}
 

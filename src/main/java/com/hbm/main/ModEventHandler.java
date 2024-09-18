@@ -691,7 +691,7 @@ public class ModEventHandler {
 									
 									ridingEntity.height = inOrbit ? ridingEntity.height + 1.0F : 1.0F;
 									player.mountEntity(null);
-									player.setPositionAndUpdate(player.posX + 2, player.posY, player.posZ);
+									if(!inOrbit) player.setPositionAndUpdate(player.posX + 2, player.posY, player.posZ);
 									ridingEntity.height = prevHeight;
 								}
 								
