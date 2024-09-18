@@ -10,6 +10,7 @@ import com.hbm.inventory.container.ContainerTransporterRocket;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.trait.FT_Rocket;
 import com.hbm.inventory.gui.GUITransporterRocket;
+import com.hbm.items.ItemVOTVdrive.Target;
 import com.hbm.lib.Library;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -67,6 +68,8 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 		return threshold == 0 ? 0 : (int)Math.pow(2, threshold - 1);
 	}
 
+	private final int MASS_MULT = 100;
+
 	// Check that we have enough fuel to send to our destination
 	@Override
 	protected boolean canSend(TileEntityTransporterBase linkedTransporter) {
@@ -82,10 +85,10 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 
 		if(fuelStats == null) return false;
 
-		CelestialBody from = CelestialBody.getBody(worldObj);
-		CelestialBody to = CelestialBody.getBody(linkedTransporter.getWorldObj());
+		Target from = CelestialBody.getTarget(worldObj, xCoord, zCoord);
+		Target to = CelestialBody.getTarget(linkedTransporter.getWorldObj(), linkedTransporter.xCoord, linkedTransporter.zCoord);
 
-		int sendCost = Math.min(64_000, SolarSystem.getCostBetween(from, to, mass, (int)fuelStats.getThrust(), (int)fuelStats.getISP(), CelestialBody.inOrbit(worldObj), CelestialBody.inOrbit(linkedTransporter.getWorldObj())));
+		int sendCost = Math.min(64_000, SolarSystem.getCostBetween(from.body, to.body, mass * MASS_MULT, (int)fuelStats.getThrust(), fuelStats.getISP(), from.inOrbit, to.inOrbit));
 
 		return tanks[8].getFill() >= sendCost && tanks[9].getFill() >= sendCost;
 	}
@@ -96,10 +99,10 @@ public class TileEntityTransporterRocket extends TileEntityTransporterBase {
 		FT_Rocket fuelStats = tanks[8].getTankType().getTrait(FT_Rocket.class);
 		if(fuelStats == null) fuelStats = tanks[9].getTankType().getTrait(FT_Rocket.class);
 
-		CelestialBody from = CelestialBody.getBody(worldObj);
-		CelestialBody to = CelestialBody.getBody(linkedTransporter.getWorldObj());
+		Target from = CelestialBody.getTarget(worldObj, xCoord, zCoord);
+		Target to = CelestialBody.getTarget(linkedTransporter.getWorldObj(), linkedTransporter.xCoord, linkedTransporter.zCoord);
 
-		int sendCost = Math.min(64_000, SolarSystem.getCostBetween(from, to, quantitySent, (int)fuelStats.getThrust(), (int)fuelStats.getISP(), CelestialBody.inOrbit(worldObj), CelestialBody.inOrbit(linkedTransporter.getWorldObj())));
+		int sendCost = Math.min(64_000, SolarSystem.getCostBetween(from.body, to.body, quantitySent * MASS_MULT, (int)fuelStats.getThrust(), fuelStats.getISP(), from.inOrbit, to.inOrbit));
 
 		tanks[8].setFill(tanks[8].getFill() - sendCost);
 		tanks[9].setFill(tanks[9].getFill() - sendCost);
