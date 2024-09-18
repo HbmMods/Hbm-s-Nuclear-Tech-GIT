@@ -9,12 +9,12 @@ import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.interfaces.IHoldableWeapon;
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.GunAnimationPacket;
 import com.hbm.packet.toserver.GunButtonPacket;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.ChatBuilder;
 

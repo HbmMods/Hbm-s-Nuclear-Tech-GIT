@@ -5,6 +5,7 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.CrackingRecipes;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.Tuple.Pair;
@@ -17,7 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardTransceiver {
+public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardTransceiver, IFluidCopiable {
 	
 	public FluidTank[] tanks;
 	
@@ -192,5 +193,10 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 	@Override
 	public FluidTank[] getAllTanks() {
 		return tanks;
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tanks[0];
 	}
 }

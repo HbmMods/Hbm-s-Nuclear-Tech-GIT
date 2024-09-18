@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineChemfac;
 
@@ -35,7 +36,7 @@ public class ContainerChemfac extends Container {
 
 				for(int k = 0; k < 2; k++) {
 					for(int l = 0; l < 2; l++) {
-						this.addSlotToContainer(new Slot(tile, this.inventorySlots.size(), 69 + j * 110 + l * 16, 14  + i * 38 + k * 16));
+						this.addSlotToContainer(new SlotCraftingOutput(playerInv.player, tile, this.inventorySlots.size(), 69 + j * 110 + l * 16, 14  + i * 38 + k * 16));
 					}
 				}
 				

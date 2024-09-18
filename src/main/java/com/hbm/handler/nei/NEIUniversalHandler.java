@@ -139,7 +139,7 @@ public abstract class NEIUniversalHandler extends TemplateRecipeHandler implemen
 			drawTexturedModalRect(pos[0] - 1, pos[1] - 1, 5, 87, 18, 18);
 		}
 		
-		drawTexturedModalRect(74, 14, 59, 87, 18, 38);
+		drawTexturedModalRect(74, 14, 59, 87, 18, 36);
 	}
 	
 	public static int[][] getInputCoords(int count) {

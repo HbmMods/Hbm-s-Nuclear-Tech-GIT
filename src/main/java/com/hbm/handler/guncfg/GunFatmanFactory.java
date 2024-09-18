@@ -15,11 +15,11 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.init.Blocks;

@@ -26,6 +26,9 @@ public class HbmKeybinds {
 	public static KeyBinding dashKey = new KeyBinding(category + ".dash", Keyboard.KEY_LSHIFT, category);
 	public static KeyBinding trainKey = new KeyBinding(category + ".trainInv", Keyboard.KEY_R, category);
 	public static KeyBinding slamKey = new KeyBinding(category + ".slamkey", Keyboard.KEY_LCONTROL, category);
+	public static KeyBinding copyToolAlt = new KeyBinding(category + ".copyToolAlt", Keyboard.KEY_LMENU, category);
+
+	public static KeyBinding copyToolCtrl = new KeyBinding(category + ".copyToolCtrl", Keyboard.KEY_LCONTROL, category);
 
 	public static KeyBinding reloadKey = new KeyBinding(category + ".reload", Keyboard.KEY_R, category);
 	public static KeyBinding gunPrimaryKey = new KeyBinding(category + ".gunPrimary", -100, category);
@@ -56,6 +59,8 @@ public class HbmKeybinds {
 		ClientRegistry.registerKeyBinding(craneLeftKey);
 		ClientRegistry.registerKeyBinding(craneRightKey);
 		ClientRegistry.registerKeyBinding(craneLoadKey);
+		ClientRegistry.registerKeyBinding(copyToolAlt);
+		ClientRegistry.registerKeyBinding(copyToolCtrl);
 	}
 	
 	@SubscribeEvent
@@ -104,10 +109,11 @@ public class HbmKeybinds {
 		CRANE_LEFT,
 		CRANE_RIGHT,
 		CRANE_LOAD,
-
+		TOOL_ALT,
+		TOOL_CTRL,
 		GUN_PRIMARY,
 		GUN_SECONDARY,
 		GUN_TERTIARY,
-		RELOAD,
+		RELOAD
 	}
 }

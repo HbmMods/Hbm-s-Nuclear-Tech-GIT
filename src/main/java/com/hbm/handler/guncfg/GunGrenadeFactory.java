@@ -8,6 +8,7 @@ import com.hbm.handler.CasingEjector;
 import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.ItemAmmoEnums.AmmoGrenade;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
@@ -17,8 +18,6 @@ import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
-
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;

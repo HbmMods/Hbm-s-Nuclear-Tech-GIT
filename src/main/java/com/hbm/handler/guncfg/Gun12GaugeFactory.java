@@ -8,6 +8,7 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.Ammo12Gauge;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.ResourceManager;
@@ -19,7 +20,6 @@ import com.hbm.potion.HbmPotion;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;

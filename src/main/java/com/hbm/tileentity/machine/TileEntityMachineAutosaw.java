@@ -10,6 +10,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
@@ -29,7 +30,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
-public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardReceiver {
+public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements INBTPacketReceiver, IFluidStandardReceiver, IFluidCopiable {
 	
 	public static final HashSet<FluidType> acceptedFuels = new HashSet();
 	
@@ -341,5 +342,9 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IN
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+	@Override
+	public FluidTank getTankToPaste() {
+		return tank;
 	}
 }

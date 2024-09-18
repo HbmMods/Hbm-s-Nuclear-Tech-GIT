@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.glu.Project;
 
-import com.hbm.items.weapon.sedna.ItemGunBase;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -220,7 +220,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 	public abstract void renderOther(ItemStack stack, ItemRenderType type);
 	
 	public static void standardAimingTransform(ItemStack stack, double sX, double sY, double sZ, double aX, double aY, double aZ) {
-		float aimingProgress = ItemGunBase.prevAimingProgress + (ItemGunBase.aimingProgress - ItemGunBase.prevAimingProgress) * interp;
+		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
 		double x = sX + (aX - sX) * aimingProgress;
 		double y = sY + (aY - sY) * aimingProgress;
 		double z = sZ + (aZ - sZ) * aimingProgress;

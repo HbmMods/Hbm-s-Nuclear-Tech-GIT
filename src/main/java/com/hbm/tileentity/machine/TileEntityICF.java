@@ -12,6 +12,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemICFPellet;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -29,7 +30,6 @@ import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -39,7 +39,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver, IInfoProviderEC, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider, IFluidStandardTransceiver, IInfoProviderEC, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable {
 	
 	public long laser;
 	public long maxLaser;
@@ -279,7 +279,7 @@ public class TileEntityICF extends TileEntityMachineBase implements IGUIProvider
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIICF(player.inventory, this);
 	}
 	

@@ -58,6 +58,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new LiquefactionRecipes());
 		recipeHandlers.add(new SolidificationRecipes());
 		recipeHandlers.add(new CokerRecipes());
+		recipeHandlers.add(new PyroOvenRecipes());
 		recipeHandlers.add(new BreederRecipes());
 		recipeHandlers.add(new CyclotronRecipes());
 		recipeHandlers.add(new HadronRecipes());

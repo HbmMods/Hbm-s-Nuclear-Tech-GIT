@@ -34,7 +34,7 @@ public class ItemCrucible extends ItemSwordAbility implements IEquipReceiver {
 	}
 
 	@Override
-	public void onEquip(EntityPlayer player) {
+	public void onEquip(EntityPlayer player, ItemStack stack) {
 		
 		if(!(player instanceof EntityPlayerMP))
 			return;

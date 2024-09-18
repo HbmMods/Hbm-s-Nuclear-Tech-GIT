@@ -283,7 +283,7 @@ public class TileEntityMachineRocketAssembly extends TileEntityMachineBase imple
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineRocketAssembly(player.inventory, this);
 	}
 

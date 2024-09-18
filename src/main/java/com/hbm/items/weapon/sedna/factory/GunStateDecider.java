@@ -4,10 +4,10 @@ import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 
 import com.hbm.items.weapon.sedna.GunConfig;
-import com.hbm.items.weapon.sedna.ItemGunBase;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
-import com.hbm.items.weapon.sedna.ItemGunBase.GunState;
-import com.hbm.items.weapon.sedna.ItemGunBase.LambdaContext;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -20,10 +20,10 @@ public class GunStateDecider {
 	 * It supports draw delays as well as semi and auto fire
 	 */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_DECIDER = (stack, ctx) -> {
-		GunState lastState = ItemGunBase.getState(stack);
+		GunState lastState = ItemGunBaseNT.getState(stack);
 		deciderStandardFinishDraw(stack, lastState);
 		deciderStandardReload(stack, ctx, lastState, 0);
-		deciderAutoRefire(stack, ctx, lastState, 0, () -> { return ItemGunBase.getPrimary(stack); });
+		deciderAutoRefire(stack, ctx, lastState, 0, () -> { return ItemGunBaseNT.getPrimary(stack); });
 	};
 	
 	/** Transitions the gun from DRAWING to IDLE */
@@ -31,8 +31,8 @@ public class GunStateDecider {
 		
 		//transition to idle
 		if(lastState == GunState.DRAWING) {
-			ItemGunBase.setState(stack, GunState.IDLE);
-			ItemGunBase.setTimer(stack, 0);
+			ItemGunBaseNT.setState(stack, GunState.IDLE);
+			ItemGunBaseNT.setTimer(stack, 0);
 		}
 	}
 	
@@ -49,12 +49,12 @@ public class GunStateDecider {
 			
 			//if after reloading the gun can still reload, assume a tube mag and resume reloading
 			if(cfg.getReceivers(stack)[recIndex].getMagazine(stack).canReload(stack, player)) {
-				ItemGunBase.setState(stack, GunState.RELOADING);
-				ItemGunBase.setTimer(stack, cfg.getReceivers(stack)[recIndex].getReloadDuration(stack));
+				ItemGunBaseNT.setState(stack, GunState.RELOADING);
+				ItemGunBaseNT.setTimer(stack, cfg.getReceivers(stack)[recIndex].getReloadDuration(stack));
 			//if no more reloading can be done, go idle
 			} else {
-				ItemGunBase.setState(stack, GunState.IDLE);
-				ItemGunBase.setTimer(stack, 0);
+				ItemGunBaseNT.setState(stack, GunState.IDLE);
+				ItemGunBaseNT.setTimer(stack, 0);
 			}
 		}
 	}
@@ -72,17 +72,17 @@ public class GunStateDecider {
 				//if there's a bullet loaded, fire again
 				if(rec.getCanFire(stack).apply(stack, ctx)) {
 					rec.getOnFire(stack).accept(stack, ctx);
-					ItemGunBase.setState(stack, GunState.JUST_FIRED);
-					ItemGunBase.setTimer(stack, rec.getDelayAfterFire(stack));
+					ItemGunBaseNT.setState(stack, GunState.JUST_FIRED);
+					ItemGunBaseNT.setTimer(stack, rec.getDelayAfterFire(stack));
 				//if not, revert to idle
 				} else {
-					ItemGunBase.setState(stack, GunState.IDLE);
-					ItemGunBase.setTimer(stack, 0);
+					ItemGunBaseNT.setState(stack, GunState.IDLE);
+					ItemGunBaseNT.setTimer(stack, 0);
 				}
 			//if not, go idle
 			} else {
-				ItemGunBase.setState(stack, GunState.IDLE);
-				ItemGunBase.setTimer(stack, 0);
+				ItemGunBaseNT.setState(stack, GunState.IDLE);
+				ItemGunBaseNT.setTimer(stack, 0);
 			}
 		}
 	}

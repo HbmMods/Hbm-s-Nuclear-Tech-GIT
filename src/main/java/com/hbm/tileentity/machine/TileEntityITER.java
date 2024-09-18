@@ -26,6 +26,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.CompatEnergyControl;
@@ -41,7 +42,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
-import net.minecraft.client.gui.GuiScreen;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.inventory.Container;
@@ -53,7 +54,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityITER extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
+public class TileEntityITER extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable {
 	
 	public long power;
 	public static final long maxPower = 10000000;
@@ -591,7 +592,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIITER(player.inventory, this);
 	}
 
@@ -697,5 +698,8 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 		throw new NoSuchMethodException();
 	}
 
-
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
+	}
 }

@@ -8,6 +8,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -25,8 +26,10 @@ public class CommandSatellites extends CommandBase {
     @Override
     public String getCommandUsage(ICommandSender iCommandSender) {
         return String.format(Locale.US, 
-                "%s/%s orbit %s- Launch the held satellite\n" +
-                "%s/%s descend <frequency> %s- Deletes satellite by frequency.",
+                "%s/%s orbit %s- Launch the held satellite.\n" +
+                "%s/%s descend <frequency> %s- Deletes satellite by frequency.\n"+
+                "%s/%s list %s- Lists all active satellites.",
+                EnumChatFormatting.GREEN, getCommandName(), EnumChatFormatting.LIGHT_PURPLE,
                 EnumChatFormatting.GREEN, getCommandName(), EnumChatFormatting.LIGHT_PURPLE,
                 EnumChatFormatting.GREEN, getCommandName(), EnumChatFormatting.LIGHT_PURPLE
         );
@@ -65,6 +68,22 @@ public class CommandSatellites extends CommandBase {
                     sender.addChatMessage(new ChatComponentTranslation( "commands.satellite.no_satellite").setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED)));
                 }
                 break;
+            case "list":
+                data = SatelliteSavedData.getData(sender.getEntityWorld());
+                if (data.sats.isEmpty()) {
+                    ChatComponentTranslation message = new ChatComponentTranslation("commands.satellite.no_active_satellites");
+                    message.getChatStyle().setColor(EnumChatFormatting.RED);
+                    sender.addChatMessage(message);
+                } else {
+                    data.sats.forEach((listFreq, sat) -> {
+                        String messageText = String.valueOf(listFreq) + " - " + sat.getClass().getSimpleName();
+                        ChatComponentText message = new ChatComponentText(messageText);
+                        message.getChatStyle().setColor(EnumChatFormatting.GREEN);
+                        sender.addChatMessage(message);
+                    });
+                }
+                break;
+
         }
     }
 
@@ -78,7 +97,7 @@ public class CommandSatellites extends CommandBase {
             return Collections.emptyList();
         }
         if(args.length == 1) {
-            return getListOfStringsMatchingLastWord(args, "orbit", "descend");
+            return getListOfStringsMatchingLastWord(args, "orbit", "descend","list");
         }
         if (args[0].equals("descend")) {
             return getListOfStringsFromIterableMatchingLastWord(args, SatelliteSavedData.getData(sender.getEntityWorld()).sats.keySet().stream().map(String::valueOf).collect(Collectors.toList()));
