@@ -199,6 +199,18 @@ public class ItemVOTVdrive extends ItemEnumMulti {
 		return new Destination(body, ax, az);
 	}
 
+	public static void markCopied(ItemStack stack) {
+		if(!stack.hasTagCompound())
+			stack.stackTagCompound = new NBTTagCompound();
+		
+		stack.stackTagCompound.setBoolean("copied", true);
+	}
+
+	public static boolean wasCopied(ItemStack stack) {
+		if(!stack.hasTagCompound()) return false;
+		return stack.stackTagCompound.getBoolean("copied");
+	}
+
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		boolean isProcessed = getProcessed(stack);

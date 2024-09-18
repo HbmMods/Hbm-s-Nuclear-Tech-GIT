@@ -261,10 +261,10 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 		return conPos;
 	}
 
-	public void launch() {
+	public void launch(EntityPlayer player) {
 		if(!canLaunch()) return;
 
-		EntityRideableRocket rocket = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 3.0F, zCoord + 0.5F, slots[0]).withProgram(slots[1]);
+		EntityRideableRocket rocket = new EntityRideableRocket(worldObj, xCoord + 0.5F, yCoord + 3.0F, zCoord + 0.5F, slots[0]).withProgram(slots[1]).launchedBy(player);
 		worldObj.spawnEntityInWorld(rocket);
 
 		// Deplete all fills
@@ -502,8 +502,12 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
+	}
+
+	@Override
+	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 		if(data.getBoolean("launch")) {
-			launch();
+			launch(player);
 		}
 	}
 
@@ -569,7 +573,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] launch(Context context, Arguments args) {
 		// doesn't really "launch" it per-say, just spawns the rocket, so I guess this works
-		launch();
+		launch(null);
 		// update: it so worked!
 		return new Object[] {};
 	}

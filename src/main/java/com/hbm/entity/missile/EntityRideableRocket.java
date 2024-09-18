@@ -33,6 +33,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -108,6 +109,11 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 
 	public EntityRideableRocket withProgram(ItemStack stack) {
 		this.navDrive = stack.copy();
+		return this;
+	}
+
+	public EntityRideableRocket launchedBy(EntityLivingBase entity) {
+		this.thrower = entity;
 		return this;
 	}
 
@@ -318,6 +324,13 @@ public class EntityRideableRocket extends EntityMissileBaseNT implements ILookOv
 						} else if(rocket.capsule.part == ModItems.rp_station_core_20) {
 							// We mark the station as travellable, but we don't actually add the station until the player travels to it
 							OrbitalStation.addStation(x, z, CelestialBody.getBody(worldObj));
+
+							if(thrower != null && thrower instanceof EntityPlayer) {
+								EntityPlayer player = (EntityPlayer) thrower;
+								if(!player.capabilities.isCreativeMode && !ItemVOTVdrive.wasCopied(navDrive)) {
+									player.triggerAchievement(MainRegistry.achDriveFail);
+								}
+							}
 						}
 	
 						setDead();

@@ -177,6 +177,7 @@ public class TileEntityMachineDriveProcessor extends TileEntityMachineBase imple
 			return;
 		}
 
+		ItemVOTVdrive.markCopied(slots[0]);
 		slots[1] = slots[0].copy();
 
 		status = EnumChatFormatting.GREEN + "Drive cloned ";
