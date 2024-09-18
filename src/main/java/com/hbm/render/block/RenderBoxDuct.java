@@ -6,6 +6,7 @@ import com.hbm.blocks.network.FluidDuctBox;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
+import com.hbm.render.util.RenderBlocksNT;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 import com.hbm.util.ColorUtil;
 
@@ -59,6 +60,8 @@ public class RenderBoxDuct implements ISimpleBlockRenderingHandler {
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 		FluidType type = Fluids.NONE;
+		
+		renderer = RenderBlocksNT.INSTANCE.setWorld(world);
 		
 		TileEntity te = world.getTileEntity(x, y, z);
 		Tessellator tessellator = Tessellator.instance;

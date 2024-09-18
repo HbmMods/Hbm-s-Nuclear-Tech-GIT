@@ -15,12 +15,10 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
@@ -187,7 +185,7 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		
 		if(i > 9 && i < 19) {
 			ItemStack filter = slots[i - 10];
-			if(filter == null) return true;
+			if(filter == null || matcher.modes[i - 10] == null || matcher.modes[i - 10].isEmpty()) return true;
 			return !matcher.isValidForFilter(filter, i - 10, stack);
 		}
 		
@@ -216,7 +214,7 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 		List<Integer> validSlots = new ArrayList();
 		for(int i = 0; i < 9; i++) {
 			ItemStack filter = slots[i];
-			if(filter == null) continue;
+			if(filter == null || matcher.modes[i] == null || matcher.modes[i].isEmpty()) continue;
 
 			if(matcher.isValidForFilter(filter, i, stack)) {
 				validSlots.add(i + 10);
@@ -339,7 +337,7 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIAutocrafter(player.inventory, this);
 	}
 
@@ -350,13 +348,19 @@ public class TileEntityMachineAutocrafter extends TileEntityMachineBase implemen
 
 	@Override
 	public void setFilterContents(NBTTagCompound nbt) {
-		TileEntity tile = (TileEntity) this;
-		IInventory inv = (IInventory) this;
+		TileEntity tile = this;
+		IInventory inv = this;
 		int slot = nbt.getInteger("slot");
 		if(slot > 8) return;
-		inv.setInventorySlotContents(slot, new ItemStack(Item.getItemById(nbt.getInteger("id")), 1, nbt.getInteger("meta")));
-		nextMode(slot);
+		NBTTagCompound stack = nbt.getCompoundTag("stack");
+		ItemStack item = ItemStack.loadItemStackFromNBT(stack);
+		inv.setInventorySlotContents(slot, item);
+		matcher.initPatternSmart(getWorldObj(), item, slot);
 		tile.getWorldObj().markTileEntityChunkModified(tile.xCoord, tile.yCoord, tile.zCoord, tile);
 		updateTemplateGrid();
+	}
+	@Override
+	public int[] getFilterSlots() {
+		return new int[]{0,9};
 	}
 }

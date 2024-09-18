@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.handler.ThreeInts;
+import com.hbm.interfaces.ICopiable;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IPersistentNBT;
 
@@ -32,7 +33,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class BlockDummyable extends BlockContainer implements ICustomBlockHighlight {
+public abstract class BlockDummyable extends BlockContainer implements ICustomBlockHighlight, ICopiable {
 
 	public BlockDummyable(Material mat) {
 		super(mat);
@@ -506,5 +507,32 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		ICustomBlockHighlight.setup();
 		for(AxisAlignedBB aabb : this.bounding) event.context.drawOutlinedBoundingBox(getAABBRotationOffset(aabb.expand(exp, exp, exp), 0, 0, 0, ForgeDirection.getOrientation(meta - offset).getRotation(ForgeDirection.UP)).getOffsetBoundingBox(x - dX + 0.5, y - dY, z - dZ + 0.5), -1);
 		ICustomBlockHighlight.cleanup();
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		int[] pos = findCore(world, x, y, z);
+		TileEntity tile = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if (tile instanceof ICopiable)
+			return ((ICopiable) tile).getSettings(world, pos[0], pos[1], pos[2]);
+		else
+			return null;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+		int[] pos = findCore(world, x, y, z);
+		TileEntity tile = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if (tile instanceof ICopiable)
+			((ICopiable) tile).pasteSettings(nbt, index, world, player, pos[0], pos[1], pos[2]);
+	}
+
+	@Override
+	public String[] infoForDisplay(World world, int x, int y, int z) {
+		int[] pos = findCore(world, x, y, z);
+		TileEntity tile = world.getTileEntity(pos[0], pos[1], pos[2]);
+		if (tile instanceof ICopiable)
+			return ((ICopiable) tile).infoForDisplay(world, x, y, z);
+		return null;
 	}
 }

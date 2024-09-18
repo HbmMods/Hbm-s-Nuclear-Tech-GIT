@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;

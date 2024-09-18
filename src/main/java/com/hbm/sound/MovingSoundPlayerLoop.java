@@ -7,6 +7,7 @@ import net.minecraft.client.audio.MovingSound;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
+@Deprecated //wtf is this horseshit
 public abstract class MovingSoundPlayerLoop extends MovingSound {
 
 	public static List<MovingSoundPlayerLoop> globalSoundList = new ArrayList<MovingSoundPlayerLoop>();

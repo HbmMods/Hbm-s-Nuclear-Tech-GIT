@@ -4,7 +4,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.handler.CasingEjector;
-import com.hbm.items.weapon.sedna.ItemGunBase.LambdaContext;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 
 import net.minecraft.item.ItemStack;

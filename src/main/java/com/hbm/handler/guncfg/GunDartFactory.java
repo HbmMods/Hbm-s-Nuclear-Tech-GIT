@@ -10,9 +10,9 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.AmmoDart;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGunDart;
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.MainRegistry;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

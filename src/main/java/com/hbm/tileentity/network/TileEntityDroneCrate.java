@@ -9,6 +9,7 @@ import com.hbm.inventory.container.ContainerDroneCrate;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIDroneCrate;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -18,7 +19,6 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -27,7 +27,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIProvider, INBTPacketReceiver, IControlReceiver, IDroneLinkable, IFluidStandardTransceiver {
+public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIProvider, INBTPacketReceiver, IControlReceiver, IDroneLinkable, IFluidStandardTransceiver, IFluidCopiable {
 	
 	public FluidTank tank;
 	
@@ -247,7 +247,7 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIDroneCrate(player.inventory, this);
 	}
 

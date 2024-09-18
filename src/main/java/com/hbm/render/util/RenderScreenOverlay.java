@@ -1,6 +1,5 @@
 package com.hbm.render.util;
 
-import com.hbm.items.ModItems;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -8,6 +7,7 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.interfaces.Untested;
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.Minecraft;
@@ -109,19 +109,19 @@ public class RenderScreenOverlay {
 
 		GL11.glPushMatrix();
 			Minecraft.getMinecraft().renderEngine.bindTexture(misc);
-	        GL11.glEnable(GL11.GL_BLEND);
-	        OpenGlHelper.glBlendFunc(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR, 1, 0);
-	        gui.drawTexturedModalRect(resolution.getScaledWidth() / 2 - (size / 2), resolution.getScaledHeight() / 2 - (size / 2), cross.x, cross.y, size, size);
-	        OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-	        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glPopMatrix();
+			GL11.glEnable(GL11.GL_BLEND);
+			OpenGlHelper.glBlendFunc(GL11.GL_ONE_MINUS_DST_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR, 1, 0);
+			gui.drawTexturedModalRect(resolution.getScaledWidth() / 2 - (size / 2), resolution.getScaledHeight() / 2 - (size / 2), cross.x, cross.y, size, size);
+			OpenGlHelper.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+			GL11.glDisable(GL11.GL_BLEND);
+		GL11.glPopMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
 	public static void renderAmmo(ScaledResolution resolution, Gui gui, ItemStack ammo, int count, int max, int dura, boolean renderCount) {
 		
 		GL11.glPushMatrix();
-        
+		
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		int pX = resolution.getScaledWidth() / 2 + 62 + 36;
@@ -150,7 +150,7 @@ public class RenderScreenOverlay {
 	public static void renderAmmoAlt(ScaledResolution resolution, Gui gui, ItemStack ammo, int count) {
 		
 		GL11.glPushMatrix();
-        
+		
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		int pX = resolution.getScaledWidth() / 2 + 62 + 36 + 18;
@@ -160,14 +160,14 @@ public class RenderScreenOverlay {
 		
 		Minecraft.getMinecraft().fontRenderer.drawString(count + "x", pX + 16, pZ + 6, 0xFFFFFF);
 
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        RenderHelper.enableGUIStandardItemLighting();
-        	itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), ammo, pX, pZ);
-        RenderHelper.disableStandardItemLighting();
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        
-        GL11.glPopMatrix();
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		RenderHelper.enableGUIStandardItemLighting();
+			itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), ammo, pX, pZ);
+		RenderHelper.disableStandardItemLighting();
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		
+		GL11.glPopMatrix();
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
@@ -178,11 +178,11 @@ public class RenderScreenOverlay {
 		GL11.glPushMatrix();
 		
 		GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(false);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_ALPHA_TEST);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		
 		Minecraft mc = Minecraft.getMinecraft();
 		
@@ -280,8 +280,8 @@ public class RenderScreenOverlay {
 		
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glDepthMask(true);
-        GL11.glPopMatrix();
+		GL11.glDepthMask(true);
+		GL11.glPopMatrix();
 		mc.renderEngine.bindTexture(Gui.icons);
 	}
 	
@@ -359,80 +359,59 @@ public class RenderScreenOverlay {
 	
 
 	public static void renderCountdown(ScaledResolution resolution, Gui gui, World world) {
-        GL11.glPushMatrix();
-        GL11.glTranslatef(0, 0, 0.0F);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glDisable(GL11.GL_BLEND);
+		GL11.glPushMatrix();
+		GL11.glTranslatef(0, 0, 0.0F);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glDisable(GL11.GL_BLEND);
 
-        int left = 5;
-        int top = 5;
+		int left = 5;
+		int top = 5;
 
-        final long ticks = ImpactWorldHandler.getTimeForClient(world);
-        final int seconds = (int)(ticks/20) % 60;
-        final int minutes = (int) Math.floor(ticks / (60 * 20)) % 60; 
-        final int hours = (int) Math.floor(ticks / (60 * 60 * 20));
-        
-        int color = 0x000000;
-        if(hours>=10)
-        {
-        	color=0x55FF55;
-        }
-        if(hours<10)
-        {
-        	color=0xFFFFFF;
-        }
-        if(hours<5)
-        {
-        	color=0xFFFF55;
-        }
-        if(hours<1)
-        {
-        	color=0xFFAA00;
-        }
-        if(minutes<20)
-        {
-        	color=0xFF5555;
-        }
-        if(minutes<2)
-        {
-        	color=0xAA0000;
-        }
-        
-        if(minutes<10)
-        {
-            if(seconds<10)
-            {
-            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":0"+minutes+":0"+seconds, left, top, color);	
-            }
-            else
-            {
-            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":0"+minutes+":"+seconds, left, top, color);
-            }
-        }        
-        else
-        {
-            if(seconds<10)
-            {
-            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":"+minutes+":0"+seconds, left, top, color);	
-            }
-            else
-            {
-            	Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: "+hours + ":"+minutes+":"+seconds, left, top, color);
-            }
-        }
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glPopMatrix();
-    }	
+		final long ticks = ImpactWorldHandler.getTimeForClient(world);
+		final int seconds = (int)(ticks/20) % 60;
+		final int minutes = (int) Math.floor(ticks / (60 * 20)) % 60; 
+		final int hours = (int) Math.floor(ticks / (60 * 60 * 20));
+		
+		int color = 0x000000;
+		if(hours >= 10) {
+			color = 0x55FF55;
+		}
+		if(hours < 10) {
+			color = 0xFFFFFF;
+		}
+		if(hours < 5) {
+			color = 0xFFFF55;
+		}
+		if(hours < 1) {
+			color = 0xFFAA00;
+		}
+		if(minutes < 20) {
+			color = 0xFF5555;
+		}
+		if(minutes < 2) {
+			color = 0xAA0000;
+		}
+		
+		if(minutes < 10) {
+			if(seconds < 10) {
+				Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: " + hours + ":0" + minutes + ":0" + seconds, left, top, color);	
+			} else {
+				Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: " + hours + ":0" + minutes + ":" + seconds, left, top, color);
+			}
+		} else {
+			if(seconds < 10) {
+				Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: " + hours + ":" + minutes + ":0" + seconds, left, top, color);	
+			} else {
+				Minecraft.getMinecraft().fontRenderer.drawString("Remaining time to impact: " + hours + ":" + minutes + ":" + seconds, left, top, color);
+			}
+		}
+
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glPopMatrix();
+	}	
 	
-
-
-    public static void renderTaintBar(ScaledResolution resolution, Gui gui) {
-		
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		HbmPlayerProps props = HbmPlayerProps.getData(player);
-		
-
+	public static void renderTaintBar(ScaledResolution resolution, Gui gui) {
 		int width = resolution.getScaledWidth();
 		int height = resolution.getScaledHeight();
 		int left = width / 2 - 92;
@@ -444,9 +423,8 @@ public class RenderScreenOverlay {
 	
 		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
-	public static void renderFlashbangOverlay(ScaledResolution resolution) {
 
-      
+	public static void renderFlashbangOverlay(ScaledResolution resolution) {
 		ResourceLocation tex = new ResourceLocation (RefStrings.MODID + ":textures/misc/overlay_flashbang.png");
 
 		Minecraft.getMinecraft().getTextureManager().bindTexture(tex);
@@ -469,37 +447,6 @@ public class RenderScreenOverlay {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-	}
-	public enum Crosshair {
-
-		NONE(0, 0, 0),
-		CROSS(1, 55, 16),
-		CIRCLE(19, 55, 16),
-		SEMI(37, 55, 16),
-		KRUCK(55, 55, 16),
-		DUAL(1, 73, 16),
-		SPLIT(19, 73, 16),
-		CLASSIC(37, 73, 16),
-		BOX(55, 73, 16),
-		L_CROSS(0, 90, 32),
-		L_KRUCK(32, 90, 32),
-		L_CLASSIC(64, 90, 32),
-		L_CIRCLE(96, 90, 32),
-		L_SPLIT(0, 122, 32),
-		L_ARROWS(32, 122, 32),
-		L_BOX(64, 122, 32),
-		L_CIRCUMFLEX(96, 122, 32),
-		L_RAD(0, 154, 32);
-		
-		public int x;
-		public int y;
-		public int size;
-		
-		private Crosshair(int x, int y, int size) {
-			this.x = x;
-			this.y = y;
-			this.size = size;
-		}
 	}
 
 }

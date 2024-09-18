@@ -4,11 +4,7 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.ToIntFunction;
 
 import javax.annotation.Nonnegative;
@@ -220,6 +216,7 @@ public class BobMathUtil {
 
 	// I am sick of trying to remember the ridiculous quirks of Java 8
 	// so I wrote this thing that can shit any int-ish list-ish into a regular fucking int[]
+	// made by mellow, thrown here by 70k
 	public static int[] intCollectionToArray(Collection<Integer> in) {
 		return intCollectionToArray(in, i -> (int)i);
 	}
@@ -232,7 +229,6 @@ public class BobMathUtil {
 		return Arrays.stream(in.toArray()).mapToInt(mapper).toArray();
 	}
 
-	
 	/** Soft peak sine */
 	public static double sps(double x) {
 		return Math.sin(Math.PI / 2D * Math.cos(x));

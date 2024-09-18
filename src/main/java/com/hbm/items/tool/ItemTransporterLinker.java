@@ -97,7 +97,7 @@ public class ItemTransporterLinker extends Item implements IGUIProvider {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int i, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int i, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUITransporterLinker(player, currentTransporters, lastTransporter);
 	}
 
