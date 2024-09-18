@@ -407,6 +407,7 @@ public class ModBlocks {
 	public static Block steel_scaffold;
 	public static Block steel_grate;
 	public static Block steel_grate_wide;
+	public static Block scaffold_dynamic;
 
 	public static Block deco_pipe;
 	public static Block deco_pipe_rusted;
@@ -1580,6 +1581,7 @@ public class ModBlocks {
 		steel_scaffold = new BlockScaffold().setBlockName("steel_scaffold").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":deco_steel_orig");
 		steel_grate = new BlockGrate(Material.iron).setBlockName("steel_grate").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F);
 		steel_grate_wide = new BlockGrate(Material.iron).setBlockName("steel_grate_wide").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F);
+		scaffold_dynamic = new BlockScaffoldDynamic().setBlockName("scaffold_dynamic").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(15.0F).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		
 		deco_pipe = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side", 0).setBlockName("deco_pipe").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top");
 		deco_pipe_rusted = new BlockPipe(Material.iron, RefStrings.MODID + ":pipe_side_rusty", 0).setBlockName("deco_pipe_rusted").setStepSound(ModSoundTypes.grate).setCreativeTab(MainRegistry.blockTab).setHardness(2.0F).setResistance(5.0F).setBlockTextureName(RefStrings.MODID + ":pipe_top_rusty");
@@ -2081,7 +2083,6 @@ public class ModBlocks {
 		turret_howard_damaged = new TurretHowardDamaged(Material.iron).setBlockName("turret_howard_damaged").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_rust");
 		turret_maxwell = new TurretMaxwell(Material.iron).setBlockName("turret_maxwell").setHardness(5.0F).setResistance(60.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_fritz = new TurretFritz(Material.iron).setBlockName("turret_fritz").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		//turret_brandon = new TurretBrandon(Material.iron).setBlockName("turret_brandon").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_arty = new TurretArty(Material.iron).setBlockName("turret_arty").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_himars = new TurretHIMARS(Material.iron).setBlockName("turret_himars").setHardness(5.0F).setResistance(600.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		turret_sentry = new TurretSentry().setBlockName("turret_sentry").setHardness(5.0F).setResistance(5.0F).setCreativeTab(MainRegistry.weaponTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -2735,6 +2736,7 @@ public class ModBlocks {
 		register(steel_scaffold);
 		GameRegistry.registerBlock(steel_grate, steel_grate.getUnlocalizedName());
 		register(steel_grate_wide);
+		register(scaffold_dynamic);
 		GameRegistry.registerBlock(deco_pipe, ItemBlockBase.class, deco_pipe.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_pipe_rusted, ItemBlockBase.class, deco_pipe_rusted.getUnlocalizedName());
 		GameRegistry.registerBlock(deco_pipe_green, ItemBlockBase.class, deco_pipe_green.getUnlocalizedName());
