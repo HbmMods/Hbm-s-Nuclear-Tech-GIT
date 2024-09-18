@@ -3,6 +3,7 @@ package com.hbm.dim.moho;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.BlockVolcano;
 import com.hbm.config.SpaceConfig;
 import com.hbm.config.WorldConfig;
 import com.hbm.dim.CelestialBody;
@@ -59,6 +60,18 @@ public class WorldGeneratorMoho implements IWorldGenerator {
 					world.setBlock(x-1, y-1, z, Blocks.netherrack);
 					world.setBlock(x, y-1, z+1, Blocks.netherrack);
 					world.setBlock(x, y-1, z-1, Blocks.netherrack);
+				}
+			}
+		}
+
+		// Kick the volcanoes into action
+		for(int x = 0; x < 16; x++) {
+			for(int z = 0; z < 16; z++) {
+				for(int y = 32; y < 96; y++) {
+					if(world.getBlock(i + x, y, j + z) == ModBlocks.volcano_core) {
+						world.setBlock(i + x, y, j + z, ModBlocks.volcano_core, BlockVolcano.META_STATIC_EXTINGUISHING, 0);
+						world.markBlockForUpdate(i + x, y, j + z);
+					}
 				}
 			}
 		}
