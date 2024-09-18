@@ -16,6 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -133,7 +134,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		return findCoreRec(world, x, y, z);
 	}
 
-	List<ThreeInts> positions = new ArrayList();
+	List<ThreeInts> positions = new ArrayList<>();
 
 	public int[] findCoreRec(World world, int x, int y, int z) {
 
@@ -245,7 +246,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 
 			world.setBlock(ox, oy, oz, this, meta, 3);
 			IPersistentNBT.restoreData(world, ox, oy, oz, itemStack);
-			fillSpace(world, ox, oy, oz, dir, 0);
+			fillSpace(world, ox - dir.offsetX * o, oy, oz - dir.offsetZ * o, dir, o);
 		}
 
 		// Check if the placing player is inside the placed multiblock
@@ -310,9 +311,9 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			return;
 
 		// world.setBlockMetadataWithNotify(x, y, z, meta + extra, 3);
-		this.safeRem = true;
+		safeRem = true;
 		world.setBlock(x, y, z, this, meta + extra, 3);
-		this.safeRem = false;
+		safeRem = false;
 	}
 	
 	public void removeExtra(World world, int x, int y, int z) {
@@ -326,9 +327,9 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 			return;
 
 		// world.setBlockMetadataWithNotify(x, y, z, meta + extra, 3);
-		this.safeRem = true;
+		safeRem = true;
 		world.setBlock(x, y, z, this, meta - extra, 3);
-		this.safeRem = false;
+		safeRem = false;
 	}
 
 	// checks if the dummy metadata is within the extra range
@@ -471,6 +472,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 	// players currently inside instances of this block
 	private List<EntityPlayer> internalPlayers = new ArrayList<>();
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
 		if(!internalPlayers.isEmpty() && internalPlayers.contains(entity))
@@ -491,7 +493,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		z = pos[2];
 		
 		for(AxisAlignedBB aabb :this.bounding) {
-			AxisAlignedBB boxlet = getAABBRotationOffset(aabb, x + 0.5, y, z + 0.5, ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - this.offset).getRotation(ForgeDirection.UP));
+			AxisAlignedBB boxlet = getAABBRotationOffset(aabb, x + 0.5, y, z + 0.5, ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z) - offset).getRotation(ForgeDirection.UP));
 			
 			if(entityBounding.intersectsWith(boxlet)) {
 				list.add(boxlet);
@@ -552,7 +554,7 @@ public abstract class BlockDummyable extends BlockContainer implements ICustomBl
 		int meta = world.getBlockMetadata(x, y, z);
 
 		ICustomBlockHighlight.setup();
-		for(AxisAlignedBB aabb : this.bounding) event.context.drawOutlinedBoundingBox(getAABBRotationOffset(aabb.expand(exp, exp, exp), 0, 0, 0, ForgeDirection.getOrientation(meta - offset).getRotation(ForgeDirection.UP)).getOffsetBoundingBox(x - dX + 0.5, y - dY, z - dZ + 0.5), -1);
+		for(AxisAlignedBB aabb : this.bounding) RenderGlobal.drawOutlinedBoundingBox(getAABBRotationOffset(aabb.expand(exp, exp, exp), 0, 0, 0, ForgeDirection.getOrientation(meta - offset).getRotation(ForgeDirection.UP)).getOffsetBoundingBox(x - dX + 0.5, y - dY, z - dZ + 0.5), -1);
 		ICustomBlockHighlight.cleanup();
 	}
 
