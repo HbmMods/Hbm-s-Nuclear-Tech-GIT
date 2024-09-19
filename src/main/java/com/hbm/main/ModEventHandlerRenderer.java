@@ -5,9 +5,7 @@ import org.lwjgl.opengl.GLContext;
 
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.config.RadiationConfig;
-import com.hbm.dim.CelestialBody;
 import com.hbm.dim.WorldProviderCelestial;
-import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.armor.IArmorDisableModel;
@@ -399,6 +397,33 @@ public class ModEventHandlerRenderer {
 				GL11.glDisable(GL11.GL_BLEND);
 	
 				// Prevent regular bubbles rendering
+				event.setCanceled(true);
+			}
+
+			ItemStack tankStack = ArmorUtil.getOxygenTank(player);
+			if(tankStack != null) {
+				ItemModOxy tank = (ItemModOxy)tankStack.getItem();
+				
+				float tot = (float)ItemModOxy.getFuel(tankStack) / (float)tank.getMaxFuel();
+				
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				int right = width / 2 + 91;
+				int top = height - GuiIngameForge.right_height + 3;
+				tess.startDrawingQuads();
+				tess.setColorOpaque_F(0.25F, 0.25F, 0.25F);
+				tess.addVertex(right - 81.5, top - 0.5, 0);
+				tess.addVertex(right - 81.5, top + 4.5, 0);
+				tess.addVertex(right + 0.5, top + 4.5, 0);
+				tess.addVertex(right + 0.5, top - 0.5, 0);
+				tess.setColorOpaque_F(1F - tot, tot, tot);
+				tess.addVertex(right - 81 * tot, top, 0);
+				tess.addVertex(right - 81 * tot, top + 4, 0);
+				tess.addVertex(right, top + 4, 0);
+				tess.addVertex(right, top, 0);
+				tess.draw();
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+				
+				GuiIngameForge.right_height += 6;
 				event.setCanceled(true);
 			}
 		}
