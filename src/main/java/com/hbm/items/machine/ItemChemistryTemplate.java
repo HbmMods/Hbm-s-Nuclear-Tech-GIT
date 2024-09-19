@@ -96,6 +96,10 @@ public class ItemChemistryTemplate extends Item {
 
 			list.add(EnumChatFormatting.BOLD + I18nUtil.resolveKey("info.template_time"));
 			list.add(Math.floor((float) (recipe.getDuration()) / 20 * 100) / 100 + " " + I18nUtil.resolveKey("info.template_seconds"));
+
+			if(recipe.oxygenConsumption > 0) {
+				list.add(EnumChatFormatting.BOLD +  I18nUtil.resolveKey("info.template_oxy"));
+			}
 		} catch(Exception e) {
 			list.add("###INVALID###");
 			list.add("0x334077-0x6A298F-0xDF3795-0x334077");

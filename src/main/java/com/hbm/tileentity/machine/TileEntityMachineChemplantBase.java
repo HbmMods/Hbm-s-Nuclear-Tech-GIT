@@ -104,6 +104,10 @@ public abstract class TileEntityMachineChemplantBase extends TileEntityMachineBa
 		if(!hasSpaceForFluids(recipe, index)) return false;
 		if(!hasRequiredItems(recipe, index)) return false;
 		if(!hasSpaceForItems(recipe, index)) return false;
+
+		if(recipe.oxygenConsumption > 0) {
+			return breatheAir(recipe.oxygenConsumption);
+		}
 		
 		return true;
 	}

@@ -1790,6 +1790,7 @@ info.template_out=Output:
 info.template_out_p=Outputs:
 info.template_seconds=seconds
 info.template_time=Production Time:
+info.template_oxy=Requires oxygen atmosphere
 
 item.acetylene_torch.name=Acetylene Welding Torch
 item.ajr_boots.name=Steel Ranger Boots

@@ -217,7 +217,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 				.outputFluids(
 						new FluidStack(Fluids.HYDROGEN, 400),
 						new FluidStack(Fluids.OXYGEN, 400)));
-		recipes.add(new ChemRecipe(59, "XENON", 300)
+		recipes.add(new ChemRecipe(59, "XENON", 250, 1)
 				.inputFluids(new FluidStack(Fluids.NONE, 0))
 				.outputFluids(new FluidStack(Fluids.XENON, 50)));
 		recipes.add(new ChemRecipe(60, "XENON_OXY", 20)
@@ -537,6 +537,7 @@ public class ChemplantRecipes extends SerializableRecipe {
 		public ItemStack[] outputs;
 		public FluidStack[] outputFluids;
 		private int duration;
+		public int oxygenConsumption = 0; // How much oxygen the recipe consumes from the atmosphere per tick while processing
 		
 		public ChemRecipe(int index, String name, int duration) {
 			this.id = index;
@@ -554,6 +555,11 @@ public class ChemplantRecipes extends SerializableRecipe {
 			} else {
 				throw new IllegalStateException("Chemical plant recipe " + name + " has been registered with duplicate id " + id + " used by " + indexMapping.get(id).name + "!");
 			}
+		}
+
+		public ChemRecipe(int index, String name, int duration, int oxygenConsumption) {
+			this(index, name, duration);
+			this.oxygenConsumption = oxygenConsumption;
 		}
 		
 		public ChemRecipe inputItems(AStack... in) {
