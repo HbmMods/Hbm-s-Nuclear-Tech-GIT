@@ -11,6 +11,8 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.EnumUtil;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -25,6 +27,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
 public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipReceiver, IItemHUD {
 
+	public static final String O_GUNCONFIG = "O_GUNCONFIG";
+	
 	public static final String KEY_DRAWN = "drawn";
 	public static final String KEY_AIMING = "aiming";
 	public static final String KEY_TIMER = "timer";
@@ -41,7 +45,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	private GunConfig config_DNA;
 	
 	public GunConfig getConfig(ItemStack stack) {
-		return config_DNA;
+		return WeaponUpgradeManager.eval(config_DNA, stack, O_GUNCONFIG, this);
 	}
 	
 	public ItemGunBaseNT(GunConfig cfg) {
@@ -53,7 +57,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		DRAWING,	//initial delay after selecting
 		IDLE,		//gun can be fired or reloaded
 		WINDUP,		//fire button is down, added delay before fire
-		JUST_FIRED,	//gun has been fired, cooldown
+		COOLDOWN,	//gun has been fired, cooldown
 		RELOADING	//gun is currently reloading
 	}
 	
@@ -90,7 +94,15 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		EntityPlayer player = (EntityPlayer) entity;
 		
 		if(world.isRemote) {
+			
 			if(isHeld && player == MainRegistry.proxy.me()) {
+				
+				/// DEBUG ///
+				/*Vec3 offset = Vec3.createVectorHelper(-0.2, -0.1, 0.75);
+				offset.rotateAroundX(-entity.rotationPitch / 180F * (float) Math.PI);
+				offset.rotateAroundY(-entity.rotationYaw / 180F * (float) Math.PI);
+				world.spawnParticle("flame", entity.posX + offset.xCoord, entity.posY + entity.getEyeHeight() + offset.yCoord, entity.posZ + offset.zCoord, 0, 0, 0);*/
+				
 				prevAimingProgress = aimingProgress;
 				boolean aiming = this.getIsAiming(stack);
 				float aimSpeed = 0.25F;
@@ -169,6 +181,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void renderHUD(Pre event, ElementType type, EntityPlayer player, ItemStack stack) {
 		if(type == ElementType.CROSSHAIRS) {
 			event.setCanceled(true);

@@ -62,7 +62,7 @@ public class GunStateDecider {
 	/** Triggers a re-fire of the primary if the fire delay has expired, the left mouse button is down and re-firing is enabled, otherwise switches to IDLE */
 	public static void deciderAutoRefire(ItemStack stack, LambdaContext ctx, GunState lastState, int recIndex, BooleanSupplier refireCondition) {
 		
-		if(lastState == GunState.JUST_FIRED) {
+		if(lastState == GunState.COOLDOWN) {
 
 			GunConfig cfg = ctx.config;
 			Receiver rec = cfg.getReceivers(stack)[recIndex];
@@ -72,7 +72,7 @@ public class GunStateDecider {
 				//if there's a bullet loaded, fire again
 				if(rec.getCanFire(stack).apply(stack, ctx)) {
 					rec.getOnFire(stack).accept(stack, ctx);
-					ItemGunBaseNT.setState(stack, GunState.JUST_FIRED);
+					ItemGunBaseNT.setState(stack, GunState.COOLDOWN);
 					ItemGunBaseNT.setTimer(stack, rec.getDelayAfterFire(stack));
 				//if not, revert to idle
 				} else {

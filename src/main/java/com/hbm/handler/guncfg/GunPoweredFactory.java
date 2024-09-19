@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.GunConfiguration;
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
-
 import net.minecraft.util.EnumChatFormatting;
 
 public class GunPoweredFactory {

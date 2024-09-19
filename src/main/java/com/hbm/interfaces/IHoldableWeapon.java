@@ -1,6 +1,6 @@
 package com.hbm.interfaces;
 
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
+import com.hbm.items.weapon.sedna.Crosshair;
 
 public interface IHoldableWeapon {
 	

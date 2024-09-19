@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
-import com.hbm.render.util.RenderScreenOverlay.Crosshair;
 
 import net.minecraft.util.ResourceLocation;
 

@@ -136,4 +136,9 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 			setFilterContents(data);
 		}
 	}
+
+	@Override
+	public int[] getFilterSlots() {
+		return new int[]{0, slots.length};
+	}
 }

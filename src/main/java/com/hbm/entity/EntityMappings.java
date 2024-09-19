@@ -151,6 +151,7 @@ public class EntityMappings {
 		addEntity(EntityGrenadeIFNull.class, "entity_grenade_ironshod_null", 250);
 		addEntity(EntityFallingNuke.class, "entity_falling_bomb", 1000);
 		addEntity(EntityBulletBaseNT.class, "entity_bullet_mk3", 250, false);
+		addEntity(EntityBulletBaseMK4.class, "entity_bullet_mk4", 250, false);
 		addEntity(EntityMinerRocket.class, "entity_miner_lander", 1000);
 		addEntity(EntityFogFX.class, "entity_nuclear_fog", 1000);
 		addEntity(EntityDuchessGambit.class, "entity_duchessgambit", 1000);

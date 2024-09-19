@@ -3,6 +3,12 @@ package com.hbm.items.weapon.sedna.mags;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
+/**
+ * The magazine simply provides the receiver it's attached to with ammo, the receiver does not care where it comes from.
+ * Therefore it is the mag's responsibility to handle reloading, any type restrictions as well as belt-like action from "magless" guns.
+ * 
+ * @author hbm
+ */
 public interface IMagazine {
 
 	/** What ammo is loaded currently */

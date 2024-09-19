@@ -31,6 +31,15 @@ public class BulletConfig {
 		this.id = configs.size();
 		configs.add(this);
 	}
-	
-	public BulletConfig setItem(Item ammo) { this.ammo = new ComparableStack(ammo); return this; }
+
+	public BulletConfig setItem(Item ammo) {					this.ammo = new ComparableStack(ammo); return this; }
+	public BulletConfig setReloadCount(int ammoReloadCount) {	this.ammoReloadCount = ammoReloadCount; return this; }
+	public BulletConfig setVel(float velocity) {				this.velocity = velocity; return this; }
+	public BulletConfig setSpread(float spread) {				this.spread = spread; return this; }
+	public BulletConfig setWear(float wear) {					this.wear = wear; return this; }
+	public BulletConfig setProjectiles(int min, int max) {		this.projectilesMin = min; this.projectilesMax = max; return this; }
+	public BulletConfig setDamage(float damageMult) {			this.damageMult = damageMult; return this; }
+	public BulletConfig setHeadshot(float headshotMult) {		this.headshotMult = headshotMult; return this; }
+	public BulletConfig setGrav(double gravity) {				this.gravity = gravity; return this; }
+	public BulletConfig setLife(int expires) {					this.expires = expires; return this; }
 }

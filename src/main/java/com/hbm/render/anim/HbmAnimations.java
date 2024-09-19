@@ -27,7 +27,8 @@ public class HbmAnimations {
 		ALT_CYCLE,		//animation for alt fire cycles
 		SPINUP,			//animation for actionstart
 		SPINDOWN,		//animation for actionend
-		EQUIP			//animation for drawing the weapon
+		EQUIP,			//animation for drawing the weapon
+		INSPECT			//animation for inspecting the weapon
 	}
 
 	// A NOTE ON SHOTGUN STYLE RELOADS

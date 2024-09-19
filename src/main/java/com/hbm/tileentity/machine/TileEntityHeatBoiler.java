@@ -20,6 +20,7 @@ import com.hbm.saveddata.TomSaveData;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IConfigurableMachine;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -36,7 +37,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiver, IConfigurableMachine {
+public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiver, IConfigurableMachine, IFluidCopiable {
 
 	public int heat;
 	public FluidTank[] tanks;
@@ -59,12 +60,12 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 	}
 
 	ByteBuf buf = new PacketBuffer(Unpooled.buffer());
-	
+
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			
+
 			if(!this.hasExploded) {
 				this.setupTanks();
 				this.updateConnections();

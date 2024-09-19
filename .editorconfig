@@ -1,0 +1,16 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+indent_style = tab
+indent_size = tab
+insert_final_newline = true
+trim_trailing_whitespace = true
+max_line_length = off
+
+[{*.info,*.json,*.mcmeta,*.md,*.cfg,*.yml,*.toml}]
+tab_width = 2
+
+[{*.info,*.mcmeta,*.cfg}]
+end_of_line = lf
