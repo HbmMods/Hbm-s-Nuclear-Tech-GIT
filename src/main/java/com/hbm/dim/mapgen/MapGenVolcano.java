@@ -26,8 +26,8 @@ public class MapGenVolcano extends MapGenBase {
 	}
 
 	private double heightFunc(double x, double rad, double depth) {
-		double xs = x / (rad * 2.1);
-		double inner = (x * x * x) / (rad / 4) - 16;
+		double xs = x / (rad * 2);
+		double inner = (x * x * x) / (rad / 4) + 32;
 		double outer = 1 / (xs * xs);
 		return Math.min(inner, outer) * depth;
 	}
@@ -57,15 +57,15 @@ public class MapGenVolcano extends MapGenBase {
 							// y is at the current height now
 							double r = Math.sqrt(x * x + z * z);
 
-							if(r - rand.nextInt(3) <= radius) {
+							if(r - rand.nextInt(16) <= radius) {
 								// Carve out to intended depth
 								int height = (int)MathHelper.clamp_double(heightFunc(r, radius, depth), 0, y - 1);
 								if(height > 0) {
-									for(int i = 0; i < height; i++) {
+									for(int i = 0; i < height && i + y < 255; i++) {
 										blocks[index + i] = ModBlocks.basalt;
 									}
 								} else {
-									for(int i = 0; i > height; i--) {
+									for(int i = 0; i > height && i + y > 1; i--) {
 										blocks[index + i + 1] = null;
 									}
 								}
