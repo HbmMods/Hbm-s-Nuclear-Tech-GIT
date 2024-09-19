@@ -67,7 +67,7 @@ public class WorldGeneratorMoho implements IWorldGenerator {
 		// Kick the volcanoes into action
 		for(int x = 0; x < 16; x++) {
 			for(int z = 0; z < 16; z++) {
-				for(int y = 32; y < 96; y++) {
+				for(int y = 32; y < 128; y++) {
 					if(world.getBlock(i + x, y, j + z) == ModBlocks.volcano_core) {
 						world.setBlock(i + x, y, j + z, ModBlocks.volcano_core, BlockVolcano.META_STATIC_EXTINGUISHING, 0);
 						world.markBlockForUpdate(i + x, y, j + z);
