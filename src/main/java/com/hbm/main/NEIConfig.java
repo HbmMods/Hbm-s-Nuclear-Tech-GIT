@@ -82,6 +82,8 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.spotlight_halogen_off));
 		API.hideItem(new ItemStack(ModBlocks.spotlight_beam));
 
+		API.hideItem(new ItemStack(ModItems.rocket_custom));
+
 		// Until we do the new BRO shit, hide it from NEI
 		API.hideItem(new ItemStack(ModItems.bedrock_ore, 1, OreDictionary.WILDCARD_VALUE));
 		API.hideItem(new ItemStack(ModItems.bedrock_ore_base));
