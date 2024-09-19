@@ -24,6 +24,7 @@ import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.machine.ItemFluidIcon;
+import com.hbm.items.machine.ItemArcElectrode.EnumElectrodeType;
 
 import net.minecraft.item.ItemStack;
 
@@ -123,6 +124,9 @@ public class ArcWelderRecipes extends SerializableRecipe {
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.sat_radar), 600, 10_000L, new ComparableStack(ModItems.sat_base), new ComparableStack(ModItems.sat_head_radar)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.sat_laser), 600, 50_000L, new ComparableStack(ModItems.sat_base), new ComparableStack(ModItems.sat_head_laser)));
 		recipes.add(new ArcWelderRecipe(new ItemStack(ModItems.sat_resonator), 600, 50_000L, new ComparableStack(ModItems.sat_base), new ComparableStack(ModItems.sat_head_resonator)));
+		
+		recipes.add(new ArcWelderRecipe(new ItemStack(ModBlocks.machine_xenon_thruster), 200, 50_000L, new FluidStack(Fluids.ARGON, 1_000), new OreDictStack(W.plateWelded(), 2), new ComparableStack(ModItems.plate_stainless, 6), new ComparableStack(ModItems.arc_electrode, 1, EnumElectrodeType.GRAPHITE)));
+
 	}
 	
 	public static HashMap getRecipes() {
