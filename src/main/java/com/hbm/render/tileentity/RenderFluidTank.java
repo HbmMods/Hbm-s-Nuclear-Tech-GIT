@@ -75,7 +75,8 @@ public class RenderFluidTank extends TileEntitySpecialRenderer implements IItemR
 			DiamondPronter.pront(type.poison, type.flammability, type.reactivity, type.symbol);
 			GL11.glPopMatrix();
 		}
-		
+
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 		RenderHelper.enableStandardItemLighting();
 	}
