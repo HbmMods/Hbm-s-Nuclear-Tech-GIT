@@ -36,7 +36,6 @@ import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -107,8 +106,8 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 				if(solidFuel > maxSolidFuel) solidFuel = maxSolidFuel;
 			}
 
-			if(slots[0] != null && slots[0].getItem() instanceof ItemCustomRocket) {
-				rocket = ItemCustomRocket.get(slots[0]);
+			rocket = ItemCustomRocket.get(slots[0]);
+			if(rocket != null) {
 				int newHeight = MathHelper.floor_double(rocket.getHeight() - rocket.capsule.height + 1);
 				if(newHeight <= 8) newHeight = 0;
 
@@ -209,8 +208,6 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 
 					height = newHeight;
 				}
-			} else {
-				rocket = null;
 			}
 
 			networkPackNT(250);
@@ -278,7 +275,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 	}
 
 	private boolean hasRocket() {
-		return slots[0] != null && slots[0].getItem() instanceof ItemCustomRocket;
+		return ItemCustomRocket.get(slots[0]) != null;
 	}
 
 	private boolean hasDrive() {
