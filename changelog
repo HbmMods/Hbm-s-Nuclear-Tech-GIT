@@ -1,16 +1,3 @@
 ## Changed
-* The ambient radiation generator's functionality and recipe have been disabled as it is being deprecated
-* The pyrolysis oven is now compatible with overdrive upgrades
-* Steel walls and corners no longer use TESRs for rendering, making them more performant at large scale and fixing any oddities regarding their rendering
-* Steel walls and corners can now be rotated using the screwdriver (right click for clockwise, shift click for counter-clockwise)
-* Steel walls and corners now use new textures as well as slightly cleaner models
-* Steel corner bounding boxes now closely match their model
-
-## Fixed
-* Fixed crash caused by the pyrolysis oven on servers
-  * Due this type of issue happening constantly, the GUI provider system no longer uses any client-only code
-* Fixed small black bar rendering under the arrow box of NEI universal handlers when using the NH NEI fork
-* Fixed desh screwdrivers not being usable for picking locks
-* Possibly fixed an issue caused by MouseTweaks (in combination with other mods) duplicating click input (I can't replicate the issue so I can at best guess)
-* Fixed pyrolysis ovens not being able to operate due to the output buffer being full, despite the buffer being a different type
-* Fixed a vanilla bug in the standard block renderer causing boxduct bends to have incorrect UV on the -Z and +X sides
+* The fine soot recipe in the pyrolysis oven now only needs 4 tar
+* Overdrive upgrades now use fullerite instead of lithium crystals

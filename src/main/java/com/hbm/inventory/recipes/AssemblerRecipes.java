@@ -363,7 +363,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.upgrade_speed_3, 1),
 				new ComparableStack(ModItems.upgrade_effect_3, 1),
 				new OreDictStack(DESH.ingot(), 16),
-				new ComparableStack(ModItems.crystal_lithium, 4),
+				new ComparableStack(ModItems.ingot_cft, 2),
 				new ComparableStack(ModItems.circuit, 16, EnumCircuitType.ADVANCED),
 			}, 200);
 		makeRecipe(new ComparableStack(ModItems.upgrade_overdrive_2, 1), new AStack[] {
@@ -371,7 +371,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.upgrade_speed_3, 1),
 				new ComparableStack(ModItems.upgrade_effect_3, 1),
 				new OreDictStack(BIGMT.ingot(), 16),
-				new ComparableStack(ModItems.crystal_lithium, 8),
+				new ComparableStack(ModItems.ingot_cft, 6),
 				new ComparableStack(ModItems.circuit, 16, EnumCircuitType.CAPACITOR_BOARD),
 			}, 300);
 		makeRecipe(new ComparableStack(ModItems.upgrade_overdrive_3, 1), new AStack[] {
@@ -379,7 +379,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.upgrade_speed_3, 1),
 				new ComparableStack(ModItems.upgrade_effect_3, 1),
 				new OreDictStack(STAR.ingot(), 16),
-				new ComparableStack(ModItems.crystal_lithium, 16),
+				new ComparableStack(ModItems.ingot_cft, 8),
 				new ComparableStack(ModItems.circuit, 16, EnumCircuitType.BISMOID),
 			}, 500);
 		
