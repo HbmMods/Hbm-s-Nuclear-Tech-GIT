@@ -26,7 +26,7 @@ if(Files.exists(Paths.get("curseforge.properties"))) {
 
 def version_name = version = mod_version
 if(!mod_build_number.isEmpty()) {
-	version_name = mod_version + "_X" + mod_build_number
+	version_name = mod_version + "_X" + mod_build_number + "_H261"
 	version = "[${version_name}]"
 }
 group = "com.hbm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
