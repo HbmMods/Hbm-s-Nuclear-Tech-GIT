@@ -2,10 +2,12 @@ package com.hbm.items.armor;
 
 import java.util.List;
 
+import com.hbm.dim.CelestialBody;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.util.AstronomyUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -45,9 +47,10 @@ public class JetpackBooster extends JetpackBase {
 		}
 
 		if(getFuel(stack) > 0 && props.isJetpackActive()) {
+			float gravity = Math.min(CelestialBody.getBody(world).getSurfaceGravity(), AstronomyUtil.STANDARD_GRAVITY);
 
 			if(player.motionY < 0.6D)
-				player.motionY += 0.1D;
+				player.motionY += 0.1D * (gravity * AstronomyUtil.PLAYER_GRAVITY_MODIFIER);
 
 			Vec3 look = player.getLookVec();
 
