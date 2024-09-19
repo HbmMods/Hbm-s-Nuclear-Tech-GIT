@@ -1388,12 +1388,20 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.motor, 2)
 		}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.machine_milk_reformer, 1), new AStack[] {
-			new OreDictStack(STEEL.plateCast(), 14),
-			new ComparableStack(ModItems.ingot_steel, 2),
-			new ComparableStack(ModItems.motor, 2),
-			//new ComparableStack(ModItems.hull_big_steel, 3),
-			new ComparableStack(ModItems.pipes_steel, 2)
-	}, 300);
+				new OreDictStack(STEEL.plateCast(), 14),
+				new ComparableStack(ModItems.ingot_steel, 2),
+				new ComparableStack(ModItems.motor, 2),
+				new OreDictStack(STEEL.pipe(), 8)
+		}, 300);
+
+		makeRecipe(new ComparableStack(ModBlocks.algae_film, 1), new AStack[] {
+				new OreDictStack(AL.plate(), 8),
+				new ComparableStack(ModItems.saltleaf, 16),
+				new ComparableStack(ModBlocks.fan, 1),
+				new ComparableStack(ModBlocks.steel_beam, 4),
+				new ComparableStack(ModBlocks.fence_metal, 2)
+		}, 100);
+
 		makeRecipe(new ComparableStack(ModBlocks.large_vehicle_door, 1), new AStack[]{new OreDictStack(STEEL.plateCast(), 16), new ComparableStack(ModItems.plate_polymer, 4), new ComparableStack(ModItems.motor, 4), new OreDictStack(DURA.bolt(), 16), new OreDictStack("dyeGreen", 4)}, 400);
 		makeRecipe(new ComparableStack(ModBlocks.water_door, 1), new AStack[]{new OreDictStack(STEEL.plate(), 16), new OreDictStack(DURA.bolt(), 4), new OreDictStack("dyeRed", 1)}, 200);
 		makeRecipe(new ComparableStack(ModBlocks.qe_containment, 1), new AStack[]{new OreDictStack(STEEL.plateCast(), 4), new OreDictStack(ALLOY.plate(), 4), new ComparableStack(ModItems.plate_polymer, 8), new ComparableStack(ModItems.motor, 2), new OreDictStack(DURA.bolt(), 32), new OreDictStack("dyeBlack", 4)}, 400);
