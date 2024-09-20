@@ -1,6 +1,7 @@
 package com.hbm.dim.mapgen;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.SpaceConfig;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.MathHelper;
@@ -73,7 +74,7 @@ public class MapGenVolcano extends MapGenBase {
 								index += height;
 								y += height;
 
-								if(x == 0 && z == 0) blocks[index + 1] = ModBlocks.volcano_core;
+								if(x == 0 && z == 0 && SpaceConfig.enableVolcanoGen) blocks[index + 1] = ModBlocks.volcano_core;
 							}
 							
 							break;

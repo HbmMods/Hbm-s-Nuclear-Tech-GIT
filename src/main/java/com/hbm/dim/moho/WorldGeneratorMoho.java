@@ -64,13 +64,21 @@ public class WorldGeneratorMoho implements IWorldGenerator {
 			}
 		}
 
-		// Kick the volcanoes into action
+		// Kick the volcanoes into action, and fix SOME floating lava
+		// a full fix for floating lava would cause infinite cascades so we uh, don't
 		for(int x = 0; x < 16; x++) {
 			for(int z = 0; z < 16; z++) {
 				for(int y = 32; y < 128; y++) {
-					if(world.getBlock(i + x, y, j + z) == ModBlocks.volcano_core) {
-						world.setBlock(i + x, y, j + z, ModBlocks.volcano_core, BlockVolcano.META_STATIC_EXTINGUISHING, 0);
-						world.markBlockForUpdate(i + x, y, j + z);
+					int ox = i + x;
+					int oz = j + z;
+					Block b = world.getBlock(ox, y, oz);
+
+					if(b == Blocks.lava && world.getBlock(ox, y - 1, oz) == Blocks.air) {
+						world.setBlock(ox, y - 1, oz, Blocks.flowing_lava, 0, 0);
+						world.markBlockForUpdate(ox, y - 1, oz);
+					} else if(b == ModBlocks.volcano_core) {
+						world.setBlock(ox, y, oz, ModBlocks.volcano_core, BlockVolcano.META_STATIC_EXTINGUISHING, 0);
+						world.markBlockForUpdate(ox, y, oz);
 					}
 				}
 			}

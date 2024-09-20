@@ -48,9 +48,7 @@ public class ItemCircuit extends ItemEnumMulti {
 		list.add(new ItemStack(item, 1, EnumCircuitType.PROCESST3.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.GASCHIP.ordinal()));
 		list.add(new ItemStack(item, 1, EnumCircuitType.HFCHIP.ordinal()));
-
-
-
+		list.add(new ItemStack(item, 1, EnumCircuitType.MOLYCHIP.ordinal()));
 	}
 
 	public static enum EnumCircuitType {
@@ -81,7 +79,8 @@ public class ItemCircuit extends ItemEnumMulti {
 		PROCESST2,
 		PROCESST3,
 		GASCHIP,
-		HFCHIP
+		HFCHIP,
+		MOLYCHIP,
 	}
 	
 	@Override

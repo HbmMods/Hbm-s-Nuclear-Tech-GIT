@@ -9,7 +9,6 @@ import java.util.List;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
@@ -25,7 +24,6 @@ public class VacuumCircuitRecipes extends SerializableRecipe {
 	@Override
 	public void registerDefaults() {
 		
-		boolean lbsm = GeneralConfig.enableLBSM && GeneralConfig.enableLBSMSimpleCrafting;
 		//t0 you can go to the mun when you got all the shit. :)
 		recipes.add(new VacuumCircuitRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.PROCESST1.ordinal()), 200, 250,
 				new AStack[] {
@@ -35,7 +33,7 @@ public class VacuumCircuitRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CAPACITOR)}
 		));
 		
-		recipes.add(new VacuumCircuitRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.PROCESST2.ordinal()), 200, 250,
+		recipes.add(new VacuumCircuitRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.PROCESST2.ordinal()), 400, 1_000,
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.GASCHIP)},
 				new AStack[] {
@@ -43,7 +41,7 @@ public class VacuumCircuitRecipes extends SerializableRecipe {
 						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.CAPACITOR)}
 		));
 		
-		recipes.add(new VacuumCircuitRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.PROCESST3.ordinal()), 200, 250,
+		recipes.add(new VacuumCircuitRecipe(new ItemStack(ModItems.circuit, 1, EnumCircuitType.PROCESST3.ordinal()), 800, 25_000,
 				new AStack[] {
 						new ComparableStack(ModItems.circuit, 2, EnumCircuitType.GASCHIP),
 						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.HFCHIP)},

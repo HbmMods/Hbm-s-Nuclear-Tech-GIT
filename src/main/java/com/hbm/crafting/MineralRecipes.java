@@ -262,6 +262,7 @@ public class MineralRecipes {
 		addBilletToIngot(ModItems.ingot_schrabidium_fuel, ModItems.billet_schrabidium_fuel);
 		addBilletToIngot(ModItems.ingot_hes, ModItems.billet_hes);
 		addBilletToIngot(ModItems.ingot_australium, ModItems.billet_australium);*/
+		addBilletToIngot(ModItems.billet_red_copper,	ModItems.ingot_red_copper);
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_balefire_gold, 1), new Object[] { ModItems.billet_au198, ModItems.cell_antimatter, ModItems.pellet_charged });
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.billet_flashlead, 2), new Object[] { ModItems.billet_balefire_gold, ModItems.billet_pb209, ModItems.cell_antimatter });
