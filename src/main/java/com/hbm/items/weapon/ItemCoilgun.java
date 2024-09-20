@@ -22,16 +22,16 @@ public class ItemCoilgun extends ItemGunBase {
 		if(type == AnimType.CYCLE) {
 			return new BusAnimation()
 					.addBus("RECOIL", new BusAnimationSequence()
-							.addKeyframePosition(1, 0, 0, 100)
-							.addKeyframePosition(0, 0, 0, 200));
+							.addPos(1, 0, 0, 100)
+							.addPos(0, 0, 0, 200));
 		}
 		
 		if(type == AnimType.RELOAD) {
 			return new BusAnimation()
 					.addBus("RELOAD", new BusAnimationSequence()
-							.addKeyframePosition(1, 0, 0, 250)
-							.addKeyframePosition(1, 0, 0, 500)
-							.addKeyframePosition(0, 0, 0, 250));
+							.addPos(1, 0, 0, 250)
+							.addPos(1, 0, 0, 500)
+							.addPos(0, 0, 0, 250));
 		}
 		
 		GunConfiguration config = ((ItemGunBase) stack.getItem()).mainConfig;

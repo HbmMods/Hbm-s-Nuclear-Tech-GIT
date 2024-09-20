@@ -70,13 +70,13 @@ public class Gun12GaugeFactory {
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("RECOIL_TRANSLATE", new BusAnimationSequence()
-					.addKeyframePosition(0, 0, -2, 100)
-					.addKeyframePosition(0, 0, 0, 200)
+					.addPos(0, 0, -2, 100)
+					.addPos(0, 0, 0, 200)
 					)
 				.addBus("PUMP", new BusAnimationSequence()
-					.addKeyframePosition(0, 0, 0, 450)
-					.addKeyframePosition(0, 0, -1.8, 200)
-					.addKeyframePosition(0, 0, 0, 200)
+					.addPos(0, 0, 0, 450)
+					.addPos(0, 0, -1.8, 200)
+					.addPos(0, 0, 0, 200)
 					)
 				);
 		

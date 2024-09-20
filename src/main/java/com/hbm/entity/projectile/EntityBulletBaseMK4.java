@@ -11,6 +11,8 @@ import net.minecraft.world.World;
 public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 	
 	public BulletConfig config;
+	public double velocity;
+	public double prevVelocity;
 
 	public EntityBulletBaseMK4(World world) {
 		super(world);
@@ -69,16 +71,25 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 			return;
 		}
 
-		this.prevPosX = posX;
-		this.prevPosY = posY;
-		this.prevPosZ = posZ;
+		this.prevPosX = this.posX;
+		this.prevPosY = this.posY;
+		this.prevPosZ = this.posZ;
 		
 		super.onUpdate();
+
+		double dX = this.posX - this.prevPosX;
+		double dY = this.posY - this.prevPosY;
+		double dZ = this.posZ - this.prevPosZ;
+		
+		this.prevVelocity = this.velocity;
+		this.velocity = Math.sqrt(dX * dX + dY * dY + dZ * dZ);
 	}
 
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
-		this.setDead();
+		if(!worldObj.isRemote) {
+			this.setDead();
+		}
 	}
 
 	@Override protected double headingForceMult() { return 1D; }

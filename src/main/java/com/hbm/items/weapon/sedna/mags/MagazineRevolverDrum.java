@@ -16,6 +16,8 @@ public class MagazineRevolverDrum extends MagazineStandardBase {
 	@Override
 	public boolean canReload(ItemStack stack, EntityPlayer player) {
 		
+		if(this.getAmount(stack) >= this.getCapacity(stack)) return false;
+		
 		for(ItemStack slot : player.inventory.mainInventory) {
 			
 			if(slot != null) {

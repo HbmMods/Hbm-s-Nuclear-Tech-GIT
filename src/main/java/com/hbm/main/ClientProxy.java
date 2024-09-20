@@ -86,6 +86,7 @@ import com.hbm.handler.ImpactWorldHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.IAnimatedItem;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.factory.GunFactoryClient;
 import com.hbm.lib.RefStrings;
 import com.hbm.particle.*;
 import com.hbm.particle.helper.ExplosionCreator;
@@ -169,6 +170,11 @@ public class ClientProxy extends ServerProxy {
 	@Override
 	public void handleNHNEICompat(){
 		IMCHandlerNHNEI.IMCSender();
+	}
+	
+	@Override
+	public void registerGunCfg() {
+		GunFactoryClient.init();
 	}
 
 	@Override
@@ -626,6 +632,7 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntitySchrab.class, new RenderFlare());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderRocket());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBulletBaseNT.class, new RenderBullet());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBulletBaseMK4.class, new RenderBulletMK4());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRainbow.class, new RenderRainbow());
 		RenderingRegistry.registerEntityRenderingHandler(EntityNightmareBlast.class, new RenderOminousBullet());
 		RenderingRegistry.registerEntityRenderingHandler(EntityFire.class, new RenderFireball(ModItems.nothing));
@@ -1815,9 +1822,9 @@ public class ClientProxy extends ServerProxy {
 				
 				BusAnimation animation = new BusAnimation()
 						.addBus("GUARD_ROT", new BusAnimationSequence()
-								.addKeyframePosition(90, 0, 1, 0)
-								.addKeyframePosition(90, 0, 1, 800)
-								.addKeyframePosition(0, 0, 1, 50));
+								.addPos(90, 0, 1, 0)
+								.addPos(90, 0, 1, 800)
+								.addPos(0, 0, 1, 50));
 				
 				HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
 			}
@@ -1831,13 +1838,13 @@ public class ClientProxy extends ServerProxy {
 					
 					BusAnimation animation = new BusAnimation()
 							.addBus("SWING_ROT", new BusAnimationSequence()
-									.addKeyframePosition(90 - offset, 90 - offset, 35, 75)
-									.addKeyframePosition(90 + offset, 90 - offset, -45, 150)
-									.addKeyframePosition(0, 0, 0, 500))
+									.addPos(90 - offset, 90 - offset, 35, 75)
+									.addPos(90 + offset, 90 - offset, -45, 150)
+									.addPos(0, 0, 0, 500))
 							.addBus("SWING_TRANS", new BusAnimationSequence()
-									.addKeyframePosition(-3, 0, 0, 75)
-									.addKeyframePosition(8, 0, 0, 150)
-									.addKeyframePosition(0, 0, 0, 500));
+									.addPos(-3, 0, 0, 75)
+									.addPos(8, 0, 0, 150)
+									.addPos(0, 0, 0, 500));
 
 					Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("hbm:weapon.cSwing"), 0.8F + player.getRNG().nextFloat() * 0.2F));
 					
@@ -1856,13 +1863,13 @@ public class ClientProxy extends ServerProxy {
 					
 					BusAnimation animation = new BusAnimation()
 							.addBus("SWING_ROT", new BusAnimationSequence()
-									.addKeyframePosition(0, 0, 90, forward)
-									.addKeyframePosition(45, 0, 90, sideways)
-									.addKeyframePosition(0, 0, 0, retire))
+									.addPos(0, 0, 90, forward)
+									.addPos(45, 0, 90, sideways)
+									.addPos(0, 0, 0, retire))
 							.addBus("SWING_TRANS", new BusAnimationSequence()
-									.addKeyframePosition(0, 0, 3, forward)
-									.addKeyframePosition(2, 0, 2, sideways)
-									.addKeyframePosition(0, 0, 0, retire));
+									.addPos(0, 0, 3, forward)
+									.addPos(2, 0, 2, sideways)
+									.addPos(0, 0, 0, retire));
 
 					
 					HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
@@ -1876,15 +1883,15 @@ public class ClientProxy extends ServerProxy {
 					
 					BusAnimation animation = new BusAnimation()
 							.addBus("SWING_ROT", new BusAnimationSequence()
-									.addKeyframePosition(rot[0], rot[1], rot[2], 0)
-									.addKeyframePosition(0, 0, 90, forward)
-									.addKeyframePosition(45, 0, 90, sideways)
-									.addKeyframePosition(0, 0, 0, retire))
+									.addPos(rot[0], rot[1], rot[2], 0)
+									.addPos(0, 0, 90, forward)
+									.addPos(45, 0, 90, sideways)
+									.addPos(0, 0, 0, retire))
 							.addBus("SWING_TRANS", new BusAnimationSequence()
-									.addKeyframePosition(trans[0], trans[1], trans[2], 0)
-									.addKeyframePosition(0, 0, 3, forward)
-									.addKeyframePosition(2, 0, 2, sideways)
-									.addKeyframePosition(0, 0, 0, retire));
+									.addPos(trans[0], trans[1], trans[2], 0)
+									.addPos(0, 0, 3, forward)
+									.addPos(2, 0, 2, sideways)
+									.addPos(0, 0, 0, retire));
 					
 					HbmAnimations.hotbar[player.inventory.currentItem] = new Animation(player.getHeldItem().getItem().getUnlocalizedName(), System.currentTimeMillis(), animation);
 				}

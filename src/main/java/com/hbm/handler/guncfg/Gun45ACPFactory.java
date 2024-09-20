@@ -80,12 +80,12 @@ public class Gun45ACPFactory {
 
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("SLIDE", new BusAnimationSequence()
-						.addKeyframePosition(0, 0, 0, 10)// Wait for hammer
-						.addKeyframePosition(0, 0, -3.5, 40)// Slide back
-						.addKeyframePosition(0, 0, 0, 40))// Return
+						.addPos(0, 0, 0, 10)// Wait for hammer
+						.addPos(0, 0, -3.5, 40)// Slide back
+						.addPos(0, 0, 0, 40))// Return
 				.addBus("HAMMER", new BusAnimationSequence()
-						.addKeyframePosition(15, 0, 0, 10)
-						.addKeyframePosition(0, 0, 0, 40)));
+						.addPos(15, 0, 0, 10)
+						.addPos(0, 0, 0, 40)));
 
 		return config;
 	}

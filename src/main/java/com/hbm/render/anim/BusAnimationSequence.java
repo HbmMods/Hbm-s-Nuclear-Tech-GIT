@@ -49,7 +49,7 @@ public class BusAnimationSequence {
 
 
 	// Two helper methods for the old hard-coded animations
-	public BusAnimationSequence addKeyframePosition(double x, double y, double z, int duration) {
+	public BusAnimationSequence addPos(double x, double y, double z, int duration) {
 		addKeyframe(Dimension.TX, new BusAnimationKeyframe(x, duration));
 		addKeyframe(Dimension.TY, new BusAnimationKeyframe(y, duration));
 		addKeyframe(Dimension.TZ, new BusAnimationKeyframe(z, duration));
@@ -57,7 +57,7 @@ public class BusAnimationSequence {
 		return this;
 	}
 
-	public BusAnimationSequence addKeyframeRotation(double x, double y, double z, int duration) {
+	public BusAnimationSequence addRot(double x, double y, double z, int duration) {
 		addKeyframe(Dimension.RX, new BusAnimationKeyframe(x, duration));
 		addKeyframe(Dimension.RY, new BusAnimationKeyframe(y, duration));
 		addKeyframe(Dimension.RZ, new BusAnimationKeyframe(z, duration));

@@ -127,7 +127,7 @@ public class ItemBoltgun extends Item implements IAnimatedItem {
 	public BusAnimation getAnimation(NBTTagCompound data, ItemStack stack) {
 		return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframePosition(1, 0, 1, 50)
-						.addKeyframePosition(0, 0, 1, 100));
+						.addPos(1, 0, 1, 50)
+						.addPos(0, 0, 1, 100));
 	}
 }

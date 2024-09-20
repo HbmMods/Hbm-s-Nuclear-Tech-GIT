@@ -51,6 +51,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	public ItemGunBaseNT(GunConfig cfg) {
 		this.setMaxStackSize(1);
 		this.config_DNA = cfg;
+		this.setCreativeTab(MainRegistry.weaponTab);
 	}
 
 	public static enum GunState {

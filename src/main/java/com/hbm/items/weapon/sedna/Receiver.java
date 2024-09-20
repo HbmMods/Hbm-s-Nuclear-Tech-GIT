@@ -24,6 +24,9 @@ public class Receiver {
 	public static final String B_REFIREONHOLD =		"B_REFIREONHOLD";
 	public static final String O_EJECTOR =			"O_EJECTOR";
 	public static final String I_RELOADDURATION =	"I_RELOADDURATION";
+	public static final String S_FIRESOUND =		"S_FIRESOUND";
+	public static final String F_FIREVOLUME =		"F_FIREVOLUME";
+	public static final String F_FIREPITCH =		"F_FIREPITCH";
 	public static final String O_MAGAZINE =			"O_MAGAZINE";
 	public static final String FUN_CANFIRE =		"FUN_CANFIRE";
 	public static final String CON_ONFIRE =			"CON_ONFIRE";
@@ -40,6 +43,9 @@ public class Receiver {
 	protected boolean refireOnHold_DNA = false;
 	protected CasingEjector ejector_DNA = null;
 	protected int reloadDuration_DNA;
+	protected String fireSound_DNA;
+	protected float fireVolume_DNA = 1.0F;
+	protected float firePitch_DNA = 1.0F;
 	protected IMagazine magazine_DNA;
 	protected BiFunction<ItemStack, LambdaContext, Boolean> canFire_DNA;
 	protected BiConsumer<ItemStack, LambdaContext> onFire_DNA;
@@ -52,6 +58,9 @@ public class Receiver {
 	public boolean getRefireOnHold(ItemStack stack) {	return WeaponUpgradeManager.eval(this.refireOnHold_DNA, stack, B_REFIREONHOLD, this); }
 	public CasingEjector getEjector(ItemStack stack) {	return WeaponUpgradeManager.eval(this.ejector_DNA, stack, O_EJECTOR, this); }
 	public int getReloadDuration(ItemStack stack) {		return WeaponUpgradeManager.eval(this.reloadDuration_DNA, stack, I_RELOADDURATION, this); }
+	public String getFireSound(ItemStack stack) {		return WeaponUpgradeManager.eval(this.fireSound_DNA, stack, S_FIRESOUND, this); }
+	public float getFireVolume(ItemStack stack) {		return WeaponUpgradeManager.eval(this.fireVolume_DNA, stack, F_FIREVOLUME, this); }
+	public float getFirePitch(ItemStack stack) {		return WeaponUpgradeManager.eval(this.firePitch_DNA, stack, F_FIREPITCH, this); }
 	public IMagazine getMagazine(ItemStack stack) {		return WeaponUpgradeManager.eval(this.magazine_DNA, stack, O_MAGAZINE, this); }
 	
 	public BiFunction<ItemStack, LambdaContext, Boolean> getCanFire(ItemStack stack) {	return WeaponUpgradeManager.eval(this.canFire_DNA, stack, FUN_CANFIRE, this); }
@@ -69,4 +78,11 @@ public class Receiver {
 	
 	public Receiver canFire(BiFunction<ItemStack, LambdaContext, Boolean> lambda) {	this.canFire_DNA = lambda;	return this; }
 	public Receiver fire(BiConsumer<ItemStack, LambdaContext> lambda) {				this.onFire_DNA = lambda;	return this; }
+
+	public Receiver sound(String sound, float volume, float pitch) {
+		this.fireSound_DNA = sound;
+		this.fireVolume_DNA = volume;
+		this.firePitch_DNA = pitch;
+		return this;
+	}
 }

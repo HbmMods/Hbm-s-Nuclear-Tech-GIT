@@ -10,6 +10,9 @@ import net.minecraft.item.ItemStack;
  */
 public class WeaponUpgradeManager {
 	
+	//TODO: add caching so this doesn't have to run 15 times per single action
+	
+	
 	public static ItemStack[] getUpgrades(ItemStack stack) {
 		return null; // TBI
 	}
