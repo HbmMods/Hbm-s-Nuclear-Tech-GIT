@@ -1871,7 +1871,7 @@ public class ModBlocks {
 		geysir_vapor = new BlockGeysir(Material.rock).setBlockName("geysir_vapor").setStepSound(Block.soundTypeStone).setHardness(5.0F);
 		geysir_nether = new BlockGeysir(Material.rock).setBlockName("geysir_nether").setLightLevel(1.0F).setStepSound(Block.soundTypeStone).setHardness(2.0F);
 		geysir_volcanic = new BlockGeysir(Material.rock).setBlockName("geysir_volcanic").setLightLevel(1.0F).setStepSound(Block.soundTypeStone).setHardness(2.0F);
-		geysir_electric = new BlockVolcanoV2(Material.rock).setBlockName("geysir_electric").setLightLevel(1.0F).setStepSound(Block.soundTypeStone).setHardness(2.0F);
+		geysir_electric = new BlockVolcanoV2(Material.rock).setBlockName("geysir_electric").setLightLevel(1.0F).setStepSound(Block.soundTypeStone).setHardness(2.0F).setBlockTextureName(RefStrings.MODID + ":basalt");
 
 		nuke_gadget = new NukeGadget(Material.iron).setBlockName("nuke_gadget").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":theGadget");
 		nuke_boy = new NukeBoy(Material.iron).setBlockName("nuke_boy").setCreativeTab(MainRegistry.nukeTab).setHardness(5.0F).setResistance(200.0F).setBlockTextureName(RefStrings.MODID + ":lilBoy");

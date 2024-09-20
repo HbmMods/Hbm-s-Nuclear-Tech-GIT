@@ -417,7 +417,7 @@ public class OreDictManager {
 		NI																	.ingot(ingot_nickel)												.dust(powder_nickel)            .plate(plate_nickel) 			.block(block_nickel)		.oreAll(ore_nickel) 												.nugget(nugget_nickel);
 		TI																	.ingot(ingot_titanium)												.dust(powder_titanium)			.plate(plate_titanium)			.block(block_titanium)		.oreAll(ore_titanium);
 		CU																	.ingot(ingot_copper)												.dust(powder_copper)			.plate(plate_copper)			.block(block_copper)		.ore(ore_gneiss_copper) .oreAll(ore_copper);
-		MINGRADE															.ingot(ingot_red_copper)											.dust(powder_red_copper)										.block(block_red_copper);
+		MINGRADE															.ingot(ingot_red_copper)											.dust(powder_red_copper)		.billet(billet_red_copper)		.block(block_red_copper);
 		ALLOY																.ingot(ingot_advanced_alloy)										.dust(powder_advanced_alloy)	.plate(plate_advanced_alloy)	.block(block_advanced_alloy);
 		W																	.ingot(ingot_tungsten)												.dust(powder_tungsten)											.block(block_tungsten)		.ore(ore_nether_tungsten)	.oreNether(ore_nether_tungsten) .oreAll(ore_tungsten);
 		AL																	.ingot(ingot_aluminium)												.dust(powder_aluminium)			.plate(plate_aluminium)			.block(block_aluminium)		.oreAll(ore_aluminium);

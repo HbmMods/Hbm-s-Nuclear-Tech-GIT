@@ -330,6 +330,7 @@ public class ModItems {
 	public static Item billet_zirconium;
 	public static Item billet_gaas;
 	public static Item billet_nuclear_waste;
+	public static Item billet_red_copper;
 
 	public static Item nugget_th232;
 	public static Item nugget_uranium;
@@ -2725,6 +2726,7 @@ public class ModItems {
 		niter = new Item().setUnlocalizedName("niter").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":salpeter");
 		ingot_copper = new Item().setUnlocalizedName("ingot_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_copper");
 		ingot_red_copper = new Item().setUnlocalizedName("ingot_red_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_red_copper");
+		billet_red_copper = new Item().setUnlocalizedName("billet_red_copper").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":billet_red_copper");
 		ingot_tungsten = new Item().setUnlocalizedName("ingot_tungsten").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_tungsten");
 		ingot_aluminium = new Item().setUnlocalizedName("ingot_aluminium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_aluminium");
 		fluorite = new Item().setUnlocalizedName("fluorite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":fluorite");
@@ -6032,6 +6034,7 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_nickel, ingot_nickel.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_copper, ingot_copper.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_red_copper, ingot_red_copper.getUnlocalizedName());
+		GameRegistry.registerItem(billet_red_copper, billet_red_copper.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_advanced_alloy, ingot_advanced_alloy.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_zinc, ingot_zinc.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_tungsten, ingot_tungsten.getUnlocalizedName());
