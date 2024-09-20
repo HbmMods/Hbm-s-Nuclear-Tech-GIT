@@ -8,16 +8,22 @@ import com.hbm.blocks.BlockEnumMulti;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockOreBasalt extends BlockEnumMulti {
+	
+	protected IIcon[] topIcons;
 
 	public BlockOreBasalt() {
 		super(Material.rock, EnumBasaltOreType.class, true, true);
@@ -77,6 +83,27 @@ public class BlockOreBasalt extends BlockEnumMulti {
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		return ModBlocks.getDropsWithoutDamage(world, this, metadata, fortune);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister reg) {
+		super.registerBlockIcons(reg);
+
+		Enum[] enums = theEnum.getEnumConstants();
+		this.topIcons = new IIcon[enums.length];
+		
+		for(int i = 0; i < topIcons.length; i++) {
+			Enum num = enums[i];
+			this.topIcons[i] = reg.registerIcon(this.getTextureMultiName(num) + "_top");
+		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta) {
+		if(side <= 1) return this.topIcons[meta % this.topIcons.length];
+		return super.getIcon(side, meta);
 	}
 
 }
