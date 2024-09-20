@@ -4,6 +4,9 @@
 	"misc.nullMine": {"category": "player", "sounds": [{"name": "misc/null", "stream": false}]},
 	"misc.rumble": {"category": "player", "sounds": [{"name": "misc/rumble", "stream": false}]},
 	"misc.flesh": {"category": "player", "sounds": [{"name": "misc/flesh", "stream": false}]},
+	"misc.lpwstart": {"category": "player", "sounds": [{"name": "misc/lpw2start", "stream": false}]},
+	"misc.lpwstop": {"category": "player", "sounds": [{"name": "misc/lpwstop", "stream": false}]},
+	"misc.lpwloop": {"category": "player", "sounds": [{"name": "misc/lpwloop", "stream": false}]},
 
 	"block.crateBreak": {"category": "block", "sounds": ["block/crateBreak1", "block/crateBreak2", "block/crateBreak3", "block/crateBreak4", "block/crateBreak5"]},
 	"block.shutdown": {"category": "block", "sounds": [{"name": "block/shutdown", "stream": true}]},

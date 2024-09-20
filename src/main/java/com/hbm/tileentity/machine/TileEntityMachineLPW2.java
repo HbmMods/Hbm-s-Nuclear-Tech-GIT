@@ -8,6 +8,9 @@ import com.hbm.dim.SolarSystem;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Rocket;
+import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
+import com.hbm.sound.SoundLoopTurbofan;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -30,6 +33,8 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 	private float speed;
 	public double lastTime;
 	public double time;
+	private float soundtime;
+	private AudioWrapper audio;
 
 	private boolean hasRegistered;
 
@@ -56,20 +61,78 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 				}
 			}
 
+			if(isOn) {
+				soundtime++;
+				if(soundtime == 1) {
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:misc.lpwstart", 1.5F, 1F);
+				}
+				if(soundtime > 20) {
+					soundtime = 20;
+				}
+			}else {
+				soundtime--;
+
+				if(soundtime == 19) {
+					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:misc.lpwstop", 2.0F, 1F);
+
+				}
+				if(soundtime <= 0) {
+					soundtime = 0;
+
+				}
+			}
+			System.out.println(soundtime);
+
+
 			networkPackNT(250);
 		} else {
 			if(isOn) {
 				speed += 0.05D;
 				if(speed > 1) speed = 1;
+
+				if(soundtime > 18) {
+					if(audio == null) {
+						audio = createAudioLoop();
+						audio.startSound();
+					} else if(!audio.isPlaying()) {
+						audio = rebootAudio(audio);
+					}
+
+					audio.updateVolume(getVolume(1F));
+					audio.keepAlive();
+						
+				}
 			} else {
 				speed -= 0.05D;
 				if(speed < 0) speed = 0;
+				
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
 			}
+
+		}
 
 			lastTime = time;
 			time += speed;
+	}
+	
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:misc.lpwloop", xCoord, yCoord, zCoord, 0.25F, 27.5F, 1.0F, 20);
+	}
+
+	public void onChunkUnload() {
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
 		}
 	}
+
+	
 
 	private DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
@@ -89,12 +152,17 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 			unregisterPropulsion();
 			hasRegistered = false;
 		}
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
 	}
 
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeBoolean(isOn);
+		buf.writeFloat(soundtime);
 		for(int i = 0; i < tanks.length; i++) tanks[i].serialize(buf);
 	}
 	
@@ -102,6 +170,7 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		isOn = buf.readBoolean();
+		soundtime = buf.readFloat();
 		for(int i = 0; i < tanks.length; i++) tanks[i].deserialize(buf);
 	}
 
@@ -176,13 +245,13 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 		for(FluidTank tank : tanks) {
 			tank.setFill(tank.getFill() - fuelCost);
 		}
-		return 50; // 2-3 seconds
+		return 10; // 2-3 seconds
 	}
 
 	@Override
 	public int endBurn() {
 		isOn = false;
-		return 200; // Cooldown
+		return 10; // Cooldown
 	}
 
 	@Override
