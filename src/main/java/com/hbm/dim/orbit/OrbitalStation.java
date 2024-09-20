@@ -272,13 +272,18 @@ public class OrbitalStation {
 			for(ForgeDirection dir : horDir) {
 				ThreeInts nextPos = pos.getPositionAtOffset(dir);
 
-				if(!visited.contains(nextPos) && world.getHeightValue(nextPos.x, nextPos.z) > 1) {
+				if(!visited.contains(nextPos) && isInStation(world, nextPos)) {
 					stack.push(nextPos);
 				}
 			}
 		}
 
 		return (maxX - minX + 1) * (maxZ - minZ + 1);
+	}
+
+	private boolean isInStation(World world, ThreeInts pos) {
+		if(world.getHeightValue(pos.x, pos.z) > 1) return true;
+		return Math.abs(pos.x - mainPort.xCoord) < 5 && Math.abs(pos.z - mainPort.zCoord) < 5; // minimum station size
 	}
 
 	public double getUnscaledProgress(float partialTicks) {
