@@ -143,15 +143,15 @@ public class CrystallizerRecipes extends SerializableRecipe {
 			int i = ore.ordinal();
 			FluidStack fluidStack = technetic;
 			FluidStack hcl = chloric;
-		    if (i == 8) {
-		    	registerRecipe(new ComparableStack(ModItems.ore_centrifuged, 1, 8),			new CrystallizerRecipe(new ItemStack(ModItems.ore_cleaned, 1, 8), oreTime), fluidStack);
-		    	registerRecipe(new ComparableStack(ModItems.ore_separated, 1, 8),			new CrystallizerRecipe(new ItemStack(ModItems.ore_purified, 1, 8), oreTime), hcl);
-				registerRecipe(new ComparableStack(ModItems.ore_separated, 1, 8),			new CrystallizerRecipe(new ItemStack(ModItems.ore_nitrated, 1, 8), oreTime), nitric); //theoretically
-				registerRecipe(new ComparableStack(ModItems.ore_nitrocrystalline, 1, 8),	new CrystallizerRecipe(new ItemStack(ModItems.ore_deepcleaned, 1, 8), oreTime), organic);
-				registerRecipe(new ComparableStack(ModItems.ore_nitrocrystalline, 1, 8),	new CrystallizerRecipe(new ItemStack(ModItems.ore_seared, 1, 8), oreTime), hiperf);
-		    } else if(i == 9) {
-		    	registerRecipe(new ComparableStack(ModItems.ore_centrifuged, 1, 9),			new CrystallizerRecipe(new ItemStack(ModItems.ore_cleaned, 1, 9), oreTime), fluidStack);
-		    	registerRecipe(new ComparableStack(ModItems.ore_separated, 1, 9),			new CrystallizerRecipe(new ItemStack(ModItems.ore_purified, 1, 9), oreTime), hcl);
+		    if (i == 11) {
+		    	registerRecipe(new ComparableStack(ModItems.ore_centrifuged, 1, 11),			new CrystallizerRecipe(new ItemStack(ModItems.ore_cleaned, 1, 11), oreTime), fluidStack);
+		    	registerRecipe(new ComparableStack(ModItems.ore_separated, 1, 11),			new CrystallizerRecipe(new ItemStack(ModItems.ore_purified, 1, 11), oreTime), hcl);
+				registerRecipe(new ComparableStack(ModItems.ore_separated, 1, 11),			new CrystallizerRecipe(new ItemStack(ModItems.ore_nitrated, 1, 11), oreTime), nitric); //theoretically
+				registerRecipe(new ComparableStack(ModItems.ore_nitrocrystalline, 1, 11),	new CrystallizerRecipe(new ItemStack(ModItems.ore_deepcleaned, 1, 11), oreTime), organic);
+				registerRecipe(new ComparableStack(ModItems.ore_nitrocrystalline, 1, 11),	new CrystallizerRecipe(new ItemStack(ModItems.ore_seared, 1, 11), oreTime), hiperf);
+		    } else if(i == 10) {
+		    	registerRecipe(new ComparableStack(ModItems.ore_centrifuged, 1, 10),			new CrystallizerRecipe(new ItemStack(ModItems.ore_cleaned, 1, 10), oreTime), fluidStack);
+		    	registerRecipe(new ComparableStack(ModItems.ore_separated, 1, 10),			new CrystallizerRecipe(new ItemStack(ModItems.ore_purified, 1, 10), oreTime), hcl);
 		    	
 				registerRecipe(new ComparableStack(ModItems.ore_separated, 1, 9),			new CrystallizerRecipe(new ItemStack(ModItems.ore_nitrated, 1, 9), oreTime), nitric); //theoretically
 				registerRecipe(new ComparableStack(ModItems.ore_nitrocrystalline, 1, 9),	new CrystallizerRecipe(new ItemStack(ModItems.ore_deepcleaned, 1, 9), oreTime), organic);

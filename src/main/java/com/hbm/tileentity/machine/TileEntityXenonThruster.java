@@ -187,7 +187,7 @@ public class TileEntityXenonThruster extends TileEntityMachineBase implements IP
 	public float getThrust() {
 		// but le realisme :((((
 		// do not speak to me of realisme, mr I can carry 2,880,000kg of dirt in my fucking pocket
-		return 2_000_000;
+		return 1_400_000;
 	}
 
 	@Override
