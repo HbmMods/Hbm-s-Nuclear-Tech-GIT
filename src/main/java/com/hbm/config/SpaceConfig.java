@@ -50,6 +50,8 @@ public class SpaceConfig {
 
 	public static boolean allowNetherPortals = false;
 
+	public static boolean enableVolcanoGen = true;
+
 	public static int maxProbeDistance = 32_000;
 	
 	public static void loadFromConfig(Configuration config) {
@@ -69,6 +71,7 @@ public class SpaceConfig {
 		
 		final String CATEGORY_GENERAL = CommonConfig.CATEGORY_GENERAL;
 		maxProbeDistance = CommonConfig.createConfigInt(config, CATEGORY_GENERAL, "1.90_maxProbeDistance", "How far from the center of the dimension can probes generate landing coordinates", maxProbeDistance);
+		enableVolcanoGen = CommonConfig.createConfigBool(config, CATEGORY_GENERAL, "1.91_enableVolcanoGen", "Should volcanoes be active when spawning, disabling will prevent natural volcanoes from spewing lava and growing", enableVolcanoGen);
 
 		final String CATEGORY_BIOME = CommonConfig.CATEGORY_BIOMES;
 		moonBiome = CommonConfig.createConfigInt(config, CATEGORY_BIOME, "16.02_moonBiome", "Mun Biome ID", moonBiome);
