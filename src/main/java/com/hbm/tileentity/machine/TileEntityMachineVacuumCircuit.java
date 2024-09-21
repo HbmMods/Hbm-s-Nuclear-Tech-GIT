@@ -137,14 +137,14 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 	public void consumeItems(VacuumCircuitRecipe recipe) {
 		
 		for(AStack aStack : recipe.wafer) {
-			for(int i = 0; i < 3; i++) {
+			for(int i = 0; i < 2; i++) {
 				ItemStack stack = slots[i];
 				if(aStack.matchesRecipe(stack, true) && stack.stackSize >= aStack.stacksize) { this.decrStackSize(i, aStack.stacksize); break; }
 			}
 		}
 		
 		for(AStack aStack : recipe.pcb) {
-			for(int i = 3; i < 5; i++) {
+			for(int i = 2; i < 4; i++) {
 				ItemStack stack = slots[i];
 				if(aStack.matchesRecipe(stack, true) && stack.stackSize >= aStack.stacksize) { this.decrStackSize(i, aStack.stacksize); break; }
 			}
@@ -166,12 +166,12 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		return i == 6;
+		return i == 4;
 	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		return new int[] { 0, 1, 2, 3, 4, 5, 6 };
+		return new int[] { 0, 1, 2, 3, 4 };
 	}
 	
 	public DirPos[] getConPos() {
