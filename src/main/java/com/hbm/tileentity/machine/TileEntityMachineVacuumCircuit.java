@@ -24,7 +24,6 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
@@ -126,10 +125,10 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 		
 		if(this.power < this.consumption) return false;
 
-		if(slots[6] != null) {
-			if(slots[6].getItem() != recipe.output.getItem()) return false;
-			if(slots[6].getItemDamage() != recipe.output.getItemDamage()) return false;
-			if(slots[6].stackSize + recipe.output.stackSize > slots[6].getMaxStackSize()) return false;
+		if(slots[4] != null) {
+			if(slots[4].getItem() != recipe.output.getItem()) return false;
+			if(slots[4].getItemDamage() != recipe.output.getItemDamage()) return false;
+			if(slots[4].stackSize + recipe.output.stackSize > slots[4].getMaxStackSize()) return false;
 		}
 		
 		return true;
@@ -155,11 +154,11 @@ public class TileEntityMachineVacuumCircuit extends TileEntityMachineBase implem
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		if(slot < 3) {
-			for(int i = 0; i < 3; i++) if(i != slot && slots[i] != null && slots[i].isItemEqual(stack)) return false;
+		if(slot < 2) {
+			for(int i = 0; i < 2; i++) if(i != slot && slots[i] != null && slots[i].isItemEqual(stack)) return false;
 			for(AStack t : VacuumCircuitRecipes.wafer) if(t.matchesRecipe(stack, true)) return true;
-		} else if(slot < 5) {
-			for(int i = 3; i < 5; i++) if(i != slot && slots[i] != null && slots[i].isItemEqual(stack)) return false;
+		} else if(slot < 4) {
+			for(int i = 2; i < 4; i++) if(i != slot && slots[i] != null && slots[i].isItemEqual(stack)) return false;
 			for(AStack t : VacuumCircuitRecipes.pcb) if(t.matchesRecipe(stack, true)) return true;
 		}
 		return false;
