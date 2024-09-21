@@ -1,10 +1,14 @@
 package com.hbm.render.item.weapon.sedna;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.glu.Project;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.SmokeNode;
+import com.hbm.lib.RefStrings;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -14,13 +18,17 @@ import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 public abstract class ItemRenderWeaponBase implements IItemRenderer {
+	
+	public static final ResourceLocation flash_plume = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lilmac_plume.png");
 	
 	public static float interp;
 
@@ -225,5 +233,145 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		double y = sY + (aY - sY) * aimingProgress;
 		double z = sZ + (aZ - sZ) * aimingProgress;
 		GL11.glTranslated(x, y, z);
+	}
+	
+	public static void renderSmokeNodes(List<SmokeNode> nodes, double scale) {
+		Tessellator tess = Tessellator.instance;
+		
+		if(nodes.size() > 1) {
+
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_CULL_FACE);
+			GL11.glAlphaFunc(GL11.GL_GREATER, 0F);
+			GL11.glDepthMask(false);
+
+			tess.startDrawingQuads();
+			tess.setNormal(0F, 1F, 0F);
+			
+			for(int i = 0; i < nodes.size() - 1; i++) {
+				SmokeNode node = nodes.get(i);
+				SmokeNode past = nodes.get(i + 1);
+				
+				tess.setColorRGBA_F(1F, 1F, 1F, (float) node.alpha);
+				tess.addVertex(node.forward, node.lift, node.side);
+				tess.setColorRGBA_F(1F, 1F, 1F, 0F);
+				tess.addVertex(node.forward, node.lift, node.side + node.width * scale);
+				tess.setColorRGBA_F(1F, 1F, 1F, 0F);
+				tess.addVertex(past.forward, past.lift, past.side + past.width * scale);
+				tess.setColorRGBA_F(1F, 1F, 1F, (float) past.alpha);
+				tess.addVertex(past.forward, past.lift, past.side);
+				
+				tess.setColorRGBA_F(1F, 1F, 1F, (float) node.alpha);
+				tess.addVertex(node.forward, node.lift, node.side);
+				tess.setColorRGBA_F(1F, 1F, 1F, 0F);
+				tess.addVertex(node.forward, node.lift, node.side - node.width * scale);
+				tess.setColorRGBA_F(1F, 1F, 1F, 0F);
+				tess.addVertex(past.forward, past.lift, past.side - past.width * scale);
+				tess.setColorRGBA_F(1F, 1F, 1F, (float) past.alpha);
+				tess.addVertex(past.forward, past.lift, past.side);
+			}
+			tess.draw();
+			
+			GL11.glDepthMask(true);
+			GL11.glAlphaFunc(GL11.GL_GEQUAL, 0.1F);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+			GL11.glEnable(GL11.GL_CULL_FACE);
+			GL11.glDisable(GL11.GL_BLEND);
+		}
+	}
+	
+	public static void renderMuzzleFlash(long lastShot) {
+		Tessellator tess = Tessellator.instance;
+		
+		int flash = 75;
+		
+		if(System.currentTimeMillis() - lastShot < flash) {
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+			GL11.glPushMatrix();
+			
+			double fire = (System.currentTimeMillis() - lastShot) / (double) flash;
+			
+			double width = 6 * fire;
+			double length = 15 * fire;
+			double inset = 2;
+			Minecraft.getMinecraft().renderEngine.bindTexture(flash_plume);
+			tess.startDrawingQuads();
+			tess.setNormal(0F, 1F, 0F);
+			tess.setColorRGBA_F(1F, 1F, 1F, 1F);
+			
+			tess.addVertexWithUV(0, -width, - inset, 1, 1);
+			tess.addVertexWithUV(0, width, - inset, 0, 1);
+			tess.addVertexWithUV(0.1, width, length - inset, 0 ,0);
+			tess.addVertexWithUV(0.1, -width, length - inset, 1, 0);
+
+			tess.addVertexWithUV(0, width, inset, 0, 1);
+			tess.addVertexWithUV(0, -width, inset, 1, 1);
+			tess.addVertexWithUV(0.1, -width, -length + inset, 1, 0);
+			tess.addVertexWithUV(0.1, width, -length + inset, 0 ,0);
+
+			tess.addVertexWithUV(0, - inset, width, 0, 1);
+			tess.addVertexWithUV(0, - inset, -width, 1, 1);
+			tess.addVertexWithUV(0.1, length - inset, -width, 1, 0);
+			tess.addVertexWithUV(0.1, length - inset, width, 0 ,0);
+
+			tess.addVertexWithUV(0, inset, -width, 1, 1);
+			tess.addVertexWithUV(0, inset, width, 0, 1);
+			tess.addVertexWithUV(0.1, -length + inset, width, 0 ,0);
+			tess.addVertexWithUV(0.1, -length + inset, -width, 1, 0);
+			
+			tess.draw();
+			GL11.glPopMatrix();
+			GL11.glDisable(GL11.GL_BLEND);
+		}
+	}
+	
+	public static void renderGapFlash(long lastShot) {
+		Tessellator tess = Tessellator.instance;
+		
+		int flash = 75;
+		
+		if(System.currentTimeMillis() - lastShot < flash) {
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+			GL11.glPushMatrix();
+			
+			double fire = (System.currentTimeMillis() - lastShot) / (double) flash;
+			
+			double height = 4 * fire;
+			double length = 15 * fire;
+			double lift = 3 * fire;
+			double offset = 1 * fire;
+			double lengthOffset = 0.125;
+			Minecraft.getMinecraft().renderEngine.bindTexture(flash_plume);
+			tess.startDrawingQuads();
+			tess.setNormal(0F, 1F, 0F);
+			tess.setColorRGBA_F(1F, 1F, 1F, 1F);
+			
+			tess.addVertexWithUV(0, -height, -offset, 1, 1);
+			tess.addVertexWithUV(0, height, -offset, 0, 1);
+			tess.addVertexWithUV(0, height + lift, length - offset, 0 ,0);
+			tess.addVertexWithUV(0, -height + lift, length - offset, 1, 0);
+
+			tess.addVertexWithUV(0, height, offset, 0, 1);
+			tess.addVertexWithUV(0, -height, offset, 1, 1);
+			tess.addVertexWithUV(0, -height + lift, -length + offset, 1, 0);
+			tess.addVertexWithUV(0, height + lift, -length + offset, 0 ,0);
+			
+			tess.addVertexWithUV(0, -height, -offset, 1, 1);
+			tess.addVertexWithUV(0, height, -offset, 0, 1);
+			tess.addVertexWithUV(lengthOffset, height, length - offset, 0 ,0);
+			tess.addVertexWithUV(lengthOffset, -height, length - offset, 1, 0);
+
+			tess.addVertexWithUV(0, height, offset, 0, 1);
+			tess.addVertexWithUV(0, -height, offset, 1, 1);
+			tess.addVertexWithUV(lengthOffset, -height, -length + offset, 1, 0);
+			tess.addVertexWithUV(lengthOffset, height, -length + offset, 0 ,0);
+			
+			tess.draw();
+			GL11.glPopMatrix();
+			GL11.glDisable(GL11.GL_BLEND);
+		}
 	}
 }

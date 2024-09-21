@@ -1,8 +1,13 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.lib.ModDamageSource;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -88,7 +93,21 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		if(!worldObj.isRemote) {
+			if(mop.typeOfHit == mop.typeOfHit.ENTITY && !mop.entityHit.isEntityAlive()) return;
+			
 			this.setDead();
+			
+			if(mop.typeOfHit == mop.typeOfHit.ENTITY && mop.entityHit.isEntityAlive()) {
+				mop.entityHit.attackEntityFrom(ModDamageSource.turbofan, 1_000F);
+				
+				NBTTagCompound vdat = new NBTTagCompound();
+				vdat.setString("type", "giblets");
+				vdat.setInteger("ent", mop.entityHit.getEntityId());
+				vdat.setInteger("cDiv", 2);
+				PacketDispatcher.wrapper.sendToAllAround(
+						new AuxParticlePacketNT(vdat, mop.entityHit.posX, mop.entityHit.posY + mop.entityHit.height * 0.5, mop.entityHit.posZ),
+						new TargetPoint(this.dimension, mop.entityHit.posX, mop.entityHit.posY + mop.entityHit.height * 0.5, mop.entityHit.posZ, 150));
+			}
 		}
 	}
 

@@ -14,6 +14,7 @@ public class GunFactoryClient {
 
 	public static void init() {
 		ammo_debug.setRenderer(RENDER_STANDARD_BULLET);
+		ammo_debug_buckshot.setRenderer(RENDER_STANDARD_BULLET);
 	}
 	
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_STANDARD_BULLET = (bullet, interp) -> {

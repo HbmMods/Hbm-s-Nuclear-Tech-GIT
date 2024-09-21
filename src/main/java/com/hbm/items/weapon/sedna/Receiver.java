@@ -39,7 +39,7 @@ public class Receiver {
 	protected float baseDamage_DNA;
 	protected int delayAfterFire_DNA;
 	protected int roundsPerCycle_DNA = 1;
-	protected float spreadMod_DNA = 1F;
+	protected float spreadModExtra_DNA = 0F;
 	protected boolean refireOnHold_DNA = false;
 	protected CasingEjector ejector_DNA = null;
 	protected int reloadDuration_DNA;
@@ -54,7 +54,7 @@ public class Receiver {
 	public float getBaseDamage(ItemStack stack) {		return WeaponUpgradeManager.eval(this.baseDamage_DNA, stack, F_BASEDAMAGE, this); }
 	public int getDelayAfterFire(ItemStack stack) {		return WeaponUpgradeManager.eval(this.delayAfterFire_DNA, stack, I_DELAYAFTERFIRE, this); }
 	public int getRoundsPerCycle(ItemStack stack) {		return WeaponUpgradeManager.eval(this.roundsPerCycle_DNA, stack, I_ROUNDSPERCYCLE, this); }
-	public float getSpreadMod(ItemStack stack) {		return WeaponUpgradeManager.eval(this.spreadMod_DNA, stack, F_SPREADMOD, this); }
+	public float getSpreadMod(ItemStack stack) {		return WeaponUpgradeManager.eval(this.spreadModExtra_DNA, stack, F_SPREADMOD, this); }
 	public boolean getRefireOnHold(ItemStack stack) {	return WeaponUpgradeManager.eval(this.refireOnHold_DNA, stack, B_REFIREONHOLD, this); }
 	public CasingEjector getEjector(ItemStack stack) {	return WeaponUpgradeManager.eval(this.ejector_DNA, stack, O_EJECTOR, this); }
 	public int getReloadDuration(ItemStack stack) {		return WeaponUpgradeManager.eval(this.reloadDuration_DNA, stack, I_RELOADDURATION, this); }
@@ -70,7 +70,7 @@ public class Receiver {
 	public Receiver dmg(float dmg) {				this.baseDamage_DNA = dmg;									return this; }
 	public Receiver delay(int delay) {				this.delayAfterFire_DNA = delay;							return this; }
 	public Receiver rounds(int rounds) {			this.roundsPerCycle_DNA = rounds;							return this; }
-	public Receiver spread(int spread) {			this.spreadMod_DNA = spread;								return this; }
+	public Receiver spread(int spread) {			this.spreadModExtra_DNA = spread;								return this; }
 	public Receiver auto(boolean auto) {			this.refireOnHold_DNA = auto;								return this; }
 	public Receiver burst(CasingEjector ejector) {	this.ejector_DNA = ejector;									return this; }
 	public Receiver reload(int delay) {				this.reloadDuration_DNA = delay;							return this; }

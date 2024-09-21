@@ -64,6 +64,7 @@ public class GunStateDecider {
 		
 		if(lastState == GunState.COOLDOWN) {
 
+			EntityPlayer player = ctx.player;
 			GunConfig cfg = ctx.config;
 			Receiver rec = cfg.getReceivers(stack)[recIndex];
 			
@@ -74,6 +75,11 @@ public class GunStateDecider {
 					rec.getOnFire(stack).accept(stack, ctx);
 					ItemGunBaseNT.setState(stack, GunState.COOLDOWN);
 					ItemGunBaseNT.setTimer(stack, rec.getDelayAfterFire(stack));
+					
+					player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack));
+					
+					int remaining = rec.getRoundsPerCycle(stack) - 1;
+					for(int i = 0; i < remaining; i++) if(rec.getCanFire(stack).apply(stack, ctx)) rec.getOnFire(stack).accept(stack, ctx);
 				//if not, revert to idle
 				} else {
 					ItemGunBaseNT.setState(stack, GunState.IDLE);

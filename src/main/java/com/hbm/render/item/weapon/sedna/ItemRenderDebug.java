@@ -27,6 +27,8 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 	@Override
 	public void renderFirstPerson(ItemStack stack) {
 		
+		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+		
 		double scale = 0.125D;
 		GL11.glScaled(scale, scale, scale);
 		GL11.glRotated(90, 0, 1, 0);
@@ -44,11 +46,18 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 		standardAimingTransform(stack, 0, 0, recoil[2], -recoil[2], 0, 0);
 		GL11.glRotated(recoil[2] * 10, 0, 0, 1);
 		
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(-9, 2.5, 0);
+		GL11.glRotated(recoil[2] * -10, 0, 0, 1);
+		this.renderSmokeNodes(gun.smokeNodes, 0.5D);
+		GL11.glPopMatrix();
+		
 		GL11.glRotated(reloadLift[0], 0, 0, 1);
 		GL11.glTranslated(reloadJolt[0], 0, 0);
 		GL11.glRotated(reloadTilt[0], 1, 0, 0);
 		
-		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.debug_gun_tex);
 		ResourceManager.lilmac.renderPart("Gun");
 
@@ -73,6 +82,17 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(0.125, 2.5, 0);
+		this.renderGapFlash(gun.lastShot);
+		GL11.glPopMatrix();
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(-9.5, 2.5, 0);
+		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
+		//this.renderMuzzleFlash(gun.lastShot);
+		GL11.glPopMatrix();
 	}
 
 	@Override

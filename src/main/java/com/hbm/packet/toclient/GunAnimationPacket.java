@@ -55,7 +55,7 @@ public class GunAnimationPacket implements IMessage {
 				if(stack == null)
 					return null;
 				
-				if(stack.getItem() instanceof com.hbm.items.weapon.sedna.ItemGunBaseNT) {
+				if(stack.getItem() instanceof ItemGunBaseNT) {
 					handleSedna(player, stack, slot, AnimType.values()[m.type]);
 				}
 				
@@ -93,6 +93,11 @@ public class GunAnimationPacket implements IMessage {
 		public static void handleSedna(EntityPlayer player, ItemStack stack, int slot, AnimType type) {
 			ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 			GunConfig config = gun.getConfig(stack);
+			
+			if(type == AnimType.CYCLE) {
+				gun.lastShot = System.currentTimeMillis();
+				gun.shotRand = player.worldObj.rand.nextDouble();
+			}
 			
 			BiFunction<ItemStack, AnimType, BusAnimation> anims = config.getAnims(stack);
 			BusAnimation animation = anims.apply(stack, type);

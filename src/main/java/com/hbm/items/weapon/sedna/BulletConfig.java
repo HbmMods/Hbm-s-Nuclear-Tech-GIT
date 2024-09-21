@@ -17,7 +17,7 @@ public class BulletConfig {
 	
 	public ComparableStack ammo;
 	public int ammoReloadCount = 1;
-	public float velocity = 5F;
+	public float velocity = 10F;
 	public float spread = 0F;
 	public float wear = 1F;
 	public int projectilesMin = 1;

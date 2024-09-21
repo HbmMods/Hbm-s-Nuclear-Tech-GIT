@@ -8,8 +8,8 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 
 import net.minecraft.item.ItemStack;
 
-/** Base class for typical magazines, i.e. ones that hold bullets, shells, grenades, etc, any ammo item. Type methods deal with BulletConfigs */
-public abstract class MagazineStandardBase implements IMagazine {
+/** Base class for typical magazines, i.e. ones that hold bullets, shells, grenades, etc, any ammo item. Stores a single type of BulletConfigs */
+public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> {
 	
 	public static final String KEY_MAG_COUNT = "magcount";
 	public static final String KEY_MAG_TYPE = "magtype";
@@ -21,15 +21,15 @@ public abstract class MagazineStandardBase implements IMagazine {
 	/** How much ammo this mag can hold */
 	public int capacity;
 	
-	public MagazineStandardBase(int index, int capacity) {
+	public MagazineSingleTypeBase(int index, int capacity) {
 		this.index = index;
 		this.capacity = capacity;
 	}
 	
-	public MagazineStandardBase addConfigs(BulletConfig... cfgs) { for(BulletConfig cfg : cfgs) acceptedBullets.add(cfg); return this; }
+	public MagazineSingleTypeBase addConfigs(BulletConfig... cfgs) { for(BulletConfig cfg : cfgs) acceptedBullets.add(cfg); return this; }
 
 	@Override
-	public Object getType(ItemStack stack) {
+	public BulletConfig getType(ItemStack stack) {
 		int type = getMagType(stack, index);
 		if(type >= 0 && type < BulletConfig.configs.size()) {
 			return BulletConfig.configs.get(type);
@@ -38,10 +38,21 @@ public abstract class MagazineStandardBase implements IMagazine {
 	}
 
 	@Override
-	public void setType(ItemStack stack, Object type) {
-		if(!(type instanceof BulletConfig)) return;
+	public void setType(ItemStack stack, BulletConfig type) {
 		int i = BulletConfig.configs.indexOf(type);
 		if(i >= 0) setMagType(stack, index, i);
+	}
+
+	@Override
+	public ItemStack getIconForHUD(ItemStack stack) {
+		BulletConfig config = this.getType(stack);
+		if(config != null) return config.ammo.toStack();
+		return null;
+	}
+
+	@Override
+	public String reportAmmoStateForHUD(ItemStack stack) {
+		return getAmount(stack) + " / " + getCapacity(stack);
 	}
 
 	@Override public int getCapacity(ItemStack stack) { return capacity; }

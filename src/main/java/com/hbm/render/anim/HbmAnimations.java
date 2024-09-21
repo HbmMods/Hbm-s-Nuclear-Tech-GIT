@@ -28,7 +28,8 @@ public class HbmAnimations {
 		SPINUP,			//animation for actionstart
 		SPINDOWN,		//animation for actionend
 		EQUIP,			//animation for drawing the weapon
-		INSPECT			//animation for inspecting the weapon
+		INSPECT,		//animation for inspecting the weapon
+		JAMMED			//animation for jammed weapons
 	}
 
 	// A NOTE ON SHOTGUN STYLE RELOADS

@@ -4,6 +4,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
+import com.hbm.items.weapon.sedna.hud.IHUDComponent;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
@@ -20,8 +21,11 @@ public class GunConfig {
 	public static final String O_RECEIVERS =					"O_RECEIVERS";
 	public static final String F_DURABILITY =					"F_DURABILITY";
 	public static final String I_DRAWDURATION =					"I_DRAWDURATION";
+	public static final String I_INSPECTDURATION =				"I_INSPECTDURATION";
 	public static final String O_CROSSHAIR =					"O_CROSSHAIR";
+	public static final String B_DOESSMOKE =					"B_DOESSMOKE";
 	public static final String B_RELOADANIMATIONSEQUENTIAL =	"B_RELOADANIMATIONSEQUENTIAL";
+	public static final String CON_ORCHESTRA =					"CON_ORCHESTRA";
 	public static final String CON_ONPRESSPRIMARY =				"CON_ONPRESSPRIMARY";
 	public static final String CON_ONPRESSSECONDARY =			"CON_ONPRESSSECONDARY";
 	public static final String CON_ONPRESSTERTIARY =			"CON_ONPRESSTERTIARY";
@@ -32,6 +36,7 @@ public class GunConfig {
 	public static final String CON_ONRELEASERELOAD =			"CON_ONRELEASERELOAD";
 	public static final String CON_DECIDER =					"CON_DECIDER";
 	public static final String FUN_ANIMNATIONS =				"FUN_ANIMNATIONS";
+	public static final String O_HUDCOMPONENTS =				"O_HUDCOMPONENTS";
 	
 	/* FIELDS */
 	
@@ -39,8 +44,12 @@ public class GunConfig {
 	protected Receiver[] receivers_DNA;
 	protected float durability_DNA;
 	protected int drawDuration_DNA = 0;
+	protected int inspectDuration_DNA = 0;
 	protected Crosshair crosshair_DNA;
+	protected boolean doesSmoke_DNA;
 	protected boolean reloadAnimationsSequential_DNA;
+	/** This piece only triggers during reloads, playing sounds depending on the reload's progress making reload sounds easier and synced to animations */
+	protected BiConsumer<ItemStack, LambdaContext> orchestra_DNA;
 	/** Lambda functions for clicking shit */
 	protected BiConsumer<ItemStack, LambdaContext> onPressPrimary_DNA;
 	protected BiConsumer<ItemStack, LambdaContext> onPressSecondary_DNA;
@@ -55,14 +64,18 @@ public class GunConfig {
 	protected BiConsumer<ItemStack, LambdaContext> decider_DNA;
 	/** Lambda that returns the relevant animation for the given params */
 	protected BiFunction<ItemStack, AnimType, BusAnimation> animations_DNA;
+	protected IHUDComponent[] hudComponents_DNA;
 	
 	/* GETTERS */
 
 	public Receiver[] getReceivers(ItemStack stack) {			return WeaponUpgradeManager.eval(receivers_DNA, stack, O_RECEIVERS, this); }
 	public float getDurability(ItemStack stack) {				return WeaponUpgradeManager.eval(durability_DNA, stack, F_DURABILITY, this); }
 	public int getDrawDuration(ItemStack stack) {				return WeaponUpgradeManager.eval(drawDuration_DNA, stack, I_DRAWDURATION, this); }
+	public int getInspectDuration(ItemStack stack) {			return WeaponUpgradeManager.eval(inspectDuration_DNA, stack, I_INSPECTDURATION, this); }
 	public Crosshair getCrosshair(ItemStack stack) {			return WeaponUpgradeManager.eval(crosshair_DNA, stack, O_CROSSHAIR, this); }
+	public boolean getDoesSmoke(ItemStack stack) {				return WeaponUpgradeManager.eval(doesSmoke_DNA, stack, B_DOESSMOKE, this); }
 	public boolean getReloadAnimSequential(ItemStack stack) {	return WeaponUpgradeManager.eval(reloadAnimationsSequential_DNA, stack, B_RELOADANIMATIONSEQUENTIAL, this); }
+	public BiConsumer<ItemStack, LambdaContext> getOrchestra(ItemStack stack) {	return WeaponUpgradeManager.eval(this.orchestra_DNA, stack, CON_ORCHESTRA, this); }
 
 	public BiConsumer<ItemStack, LambdaContext> getPressPrimary(ItemStack stack) {		return WeaponUpgradeManager.eval(this.onPressPrimary_DNA, stack, CON_ONPRESSPRIMARY, this); }
 	public BiConsumer<ItemStack, LambdaContext> getPressSecondary(ItemStack stack) {	return WeaponUpgradeManager.eval(this.onPressSecondary_DNA, stack, CON_ONPRESSSECONDARY, this); }
@@ -77,13 +90,18 @@ public class GunConfig {
 	public BiConsumer<ItemStack, LambdaContext> getDecider(ItemStack stack) {			return WeaponUpgradeManager.eval(this.decider_DNA, stack, CON_DECIDER, this); }
 	
 	public BiFunction<ItemStack, AnimType, BusAnimation> getAnims(ItemStack stack) {	return WeaponUpgradeManager.eval(this.animations_DNA, stack, FUN_ANIMNATIONS, this); }
+	public IHUDComponent[] getHUDComponents(ItemStack stack) {							return WeaponUpgradeManager.eval(this.hudComponents_DNA, stack, O_HUDCOMPONENTS, this); }
 	
 	/* SETTERS */
 	
 	public GunConfig rec(Receiver... receivers) {		this.receivers_DNA = receivers; return this; }
 	public GunConfig dura(float dura) {					this.durability_DNA = dura; return this; }
 	public GunConfig draw(int draw) {					this.drawDuration_DNA = draw; return this; }
+	public GunConfig inspect(int inspect) {				this.inspectDuration_DNA = inspect; return this; }
 	public GunConfig crosshair(Crosshair crosshair) {	this.crosshair_DNA = crosshair; return this; }
+	public GunConfig smoke(boolean doesSmoke) {			this.doesSmoke_DNA = doesSmoke; return this; }
+	
+	public GunConfig orchestra(BiConsumer<ItemStack, LambdaContext> orchestra) {	this.orchestra_DNA = orchestra; return this; }
 	
 	//press
 	public GunConfig pp(BiConsumer<ItemStack, LambdaContext> lambda) { this.onPressPrimary_DNA = lambda;	return this; }
@@ -100,6 +118,7 @@ public class GunConfig {
 	//decider
 	public GunConfig decider(BiConsumer<ItemStack, LambdaContext> lambda) { this.decider_DNA = lambda;	return this; }
 	
-	//anims
-	public GunConfig anim(BiFunction<ItemStack, AnimType, BusAnimation> lambda) { this.animations_DNA = lambda;	return this; }
+	//client
+	public GunConfig anim(BiFunction<ItemStack, AnimType, BusAnimation> lambda) {	this.animations_DNA = lambda;			return this; }
+	public GunConfig hud(IHUDComponent... components) {								this.hudComponents_DNA = components;	return this; }
 }
