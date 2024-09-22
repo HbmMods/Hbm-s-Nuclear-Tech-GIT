@@ -36,7 +36,7 @@ public class GunFactory {
 		ModItems.gun_debug = new ItemGunBaseNT(new GunConfig()
 				.dura(600F).draw(15).inspect(23).crosshair(Crosshair.L_CLASSIC).hud(Lego.HUD_COMPONENT_DURABILITY, Lego.HUD_COMPONENT_AMMO).smoke(true).orchestra(DEBUG_ORCHESTRA)
 				.rec(new Receiver(0)
-						.dmg(10F).delay(12).reload(46).sound("hbm:weapon.44Shoot", 1.0F, 1.0F)
+						.dmg(10F).delay(14).reload(46).sound("hbm:weapon.44Shoot", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 12).addConfigs(ammo_debug, ammo_debug_buckshot))
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY) .pr(Lego.LAMBDA_STANDARD_RELOAD) .pt(Lego.LAMBDA_TOGGLE_AIM)
@@ -54,7 +54,7 @@ public class GunFactory {
 		int timer = ItemGunBaseNT.getAnimTimer(stack);
 		
 		if(type == AnimType.RELOAD) {
-			if(timer == 3) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+			if(timer == 3) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
 			if(timer == 10) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallRemove", 1F, 1F);
 			if(timer == 34) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
 			if(timer == 40) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverClose", 1F, 1F);
@@ -62,8 +62,12 @@ public class GunFactory {
 		if(type == AnimType.CYCLE) {
 			if(timer == 11) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
 		}
-		if(type == AnimType.INSPECT) {
+		if(type == AnimType.CYCLE_DRY) {
 			if(timer == 3) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+			if(timer == 11) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
+		}
+		if(type == AnimType.INSPECT) {
+			if(timer == 3) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
 			if(timer == 16) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverClose", 1F, 1F);
 		}
 	};

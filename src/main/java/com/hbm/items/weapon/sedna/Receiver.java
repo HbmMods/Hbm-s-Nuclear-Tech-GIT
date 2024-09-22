@@ -22,6 +22,7 @@ public class Receiver {
 	public static final String I_ROUNDSPERCYCLE =	"I_ROUNDSPERCYCLE";
 	public static final String F_SPREADMOD =		"F_SPREADMOD";
 	public static final String B_REFIREONHOLD =		"B_REFIREONHOLD";
+	public static final String B_DOESDRYFIRE =		"B_DOESDRYFIRE";
 	public static final String O_EJECTOR =			"O_EJECTOR";
 	public static final String I_RELOADDURATION =	"I_RELOADDURATION";
 	public static final String S_FIRESOUND =		"S_FIRESOUND";
@@ -41,6 +42,7 @@ public class Receiver {
 	protected int roundsPerCycle_DNA = 1;
 	protected float spreadModExtra_DNA = 0F;
 	protected boolean refireOnHold_DNA = false;
+	protected boolean doesDryFire_DNA = true;
 	protected CasingEjector ejector_DNA = null;
 	protected int reloadDuration_DNA;
 	protected String fireSound_DNA;
@@ -56,6 +58,7 @@ public class Receiver {
 	public int getRoundsPerCycle(ItemStack stack) {		return WeaponUpgradeManager.eval(this.roundsPerCycle_DNA, stack, I_ROUNDSPERCYCLE, this); }
 	public float getSpreadMod(ItemStack stack) {		return WeaponUpgradeManager.eval(this.spreadModExtra_DNA, stack, F_SPREADMOD, this); }
 	public boolean getRefireOnHold(ItemStack stack) {	return WeaponUpgradeManager.eval(this.refireOnHold_DNA, stack, B_REFIREONHOLD, this); }
+	public boolean getDoesDryFire(ItemStack stack) {	return WeaponUpgradeManager.eval(this.doesDryFire_DNA, stack, B_DOESDRYFIRE, this); }
 	public CasingEjector getEjector(ItemStack stack) {	return WeaponUpgradeManager.eval(this.ejector_DNA, stack, O_EJECTOR, this); }
 	public int getReloadDuration(ItemStack stack) {		return WeaponUpgradeManager.eval(this.reloadDuration_DNA, stack, I_RELOADDURATION, this); }
 	public String getFireSound(ItemStack stack) {		return WeaponUpgradeManager.eval(this.fireSound_DNA, stack, S_FIRESOUND, this); }
@@ -70,8 +73,9 @@ public class Receiver {
 	public Receiver dmg(float dmg) {				this.baseDamage_DNA = dmg;									return this; }
 	public Receiver delay(int delay) {				this.delayAfterFire_DNA = delay;							return this; }
 	public Receiver rounds(int rounds) {			this.roundsPerCycle_DNA = rounds;							return this; }
-	public Receiver spread(int spread) {			this.spreadModExtra_DNA = spread;								return this; }
+	public Receiver spread(int spread) {			this.spreadModExtra_DNA = spread;							return this; }
 	public Receiver auto(boolean auto) {			this.refireOnHold_DNA = auto;								return this; }
+	public Receiver dryfire(boolean dryfire) {		this.doesDryFire_DNA = dryfire;								return this; }
 	public Receiver burst(CasingEjector ejector) {	this.ejector_DNA = ejector;									return this; }
 	public Receiver reload(int delay) {				this.reloadDuration_DNA = delay;							return this; }
 	public Receiver mag(IMagazine magazine) {		this.magazine_DNA = magazine;								return this; }

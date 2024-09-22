@@ -62,15 +62,26 @@ public class Lego {
 		Receiver rec = ctx.config.getReceivers(stack)[0];
 		GunState state = ItemGunBaseNT.getState(stack);
 		
-		if(state == GunState.IDLE && rec.getCanFire(stack).apply(stack, ctx)) {
-			ItemGunBaseNT.setState(stack, GunState.COOLDOWN);
-			ItemGunBaseNT.setTimer(stack, rec.getDelayAfterFire(stack));
-			rec.getOnFire(stack).accept(stack, ctx);
+		if(state == GunState.IDLE) {
 			
-			player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack));
-			
-			int remaining = rec.getRoundsPerCycle(stack) - 1;
-			for(int i = 0; i < remaining; i++) if(rec.getCanFire(stack).apply(stack, ctx)) rec.getOnFire(stack).accept(stack, ctx);
+			if(rec.getCanFire(stack).apply(stack, ctx)) {
+				rec.getOnFire(stack).accept(stack, ctx);
+				
+				player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack));
+				
+				int remaining = rec.getRoundsPerCycle(stack) - 1;
+				for(int i = 0; i < remaining; i++) if(rec.getCanFire(stack).apply(stack, ctx)) rec.getOnFire(stack).accept(stack, ctx);
+				
+				ItemGunBaseNT.setState(stack, GunState.COOLDOWN);
+				ItemGunBaseNT.setTimer(stack, rec.getDelayAfterFire(stack));
+			} else {
+				ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE_DRY);
+				
+				if(rec.getDoesDryFire(stack)) {
+					ItemGunBaseNT.setState(stack, GunState.COOLDOWN);
+					ItemGunBaseNT.setTimer(stack, rec.getDelayAfterFire(stack));
+				}
+			}
 		}
 	};
 	
@@ -113,9 +124,12 @@ public class Lego {
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_DEBUG_ANIMS = (stack, type) -> {
 		switch(type) {
 		case CYCLE: return new BusAnimation()
-					.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, 0, 50).addPos(0, 0, -3, 50).addPos(0, 0, 0, 250))
-					.addBus("HAMMER", new BusAnimationSequence().addPos(0, 0, 1, 50).addPos(0, 0, 1, 300 + 100).addPos(0, 0, 0, 200))
-					.addBus("DRUM", new BusAnimationSequence().addPos(0, 0, 0, 350 + 100).addPos(0, 0, 1, 200));
+				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, 0, 50).addPos(0, 0, -3, 50).addPos(0, 0, 0, 250))
+				.addBus("HAMMER", new BusAnimationSequence().addPos(0, 0, 1, 50).addPos(0, 0, 1, 400).addPos(0, 0, 0, 200))
+				.addBus("DRUM", new BusAnimationSequence().addPos(0, 0, 0, 450).addPos(0, 0, 1, 200));
+		case CYCLE_DRY: return new BusAnimation()
+				.addBus("HAMMER", new BusAnimationSequence().addPos(0, 0, 1, 50).addPos(0, 0, 1, 300 + 100).addPos(0, 0, 0, 200))
+				.addBus("DRUM", new BusAnimationSequence().addPos(0, 0, 0, 450).addPos(0, 0, 1, 200));
 		case EQUIP: return new BusAnimation().addBus("ROTATE", new BusAnimationSequence().addPos(-360, 0, 0, 350));
 		case RELOAD: return new BusAnimation()
 					.addBus("RELAOD_TILT", new BusAnimationSequence().addPos(-15, 0, 0, 100).addPos(65, 0, 0, 100).addPos(45, 0, 0, 50).addPos(0, 0, 0, 200).addPos(0, 0, 0, 1450).addPos(-80, 0, 0, 100).addPos(-80, 0, 0, 100).addPos(0, 0, 0, 200))
