@@ -10,7 +10,6 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Rocket;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
-import com.hbm.sound.SoundLoopTurbofan;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -63,10 +62,10 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 
 			if(isOn) {
 				soundtime++;
+
 				if(soundtime == 1) {
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:misc.lpwstart", 1.5F, 1F);
-				}
-				if(soundtime > 20) {
+				} else if(soundtime > 20) {
 					soundtime = 20;
 				}
 			}else {
@@ -74,15 +73,10 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 
 				if(soundtime == 19) {
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:misc.lpwstop", 2.0F, 1F);
-
-				}
-				if(soundtime <= 0) {
+				} else if(soundtime <= 0) {
 					soundtime = 0;
-
 				}
 			}
-			System.out.println(soundtime);
-
 
 			networkPackNT(250);
 		} else {
@@ -100,7 +94,20 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 
 					audio.updateVolume(getVolume(1F));
 					audio.keepAlive();
-						
+
+					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getRotation(ForgeDirection.UP);
+
+					NBTTagCompound data = new NBTTagCompound();
+					data.setDouble("posX", xCoord + dir.offsetX * 8);
+					data.setDouble("posY", yCoord + 4);
+					data.setDouble("posZ", zCoord + dir.offsetZ * 8);
+					data.setString("type", "missileContrail");
+					data.setFloat("scale", 3);
+					data.setDouble("moX", dir.offsetX * 10);
+					data.setDouble("moY", 0);
+					data.setDouble("moZ", dir.offsetZ * 10);
+					data.setInteger("maxAge", 20 + worldObj.rand.nextInt(20));
+					MainRegistry.proxy.effectNT(data);
 				}
 			} else {
 				speed -= 0.05D;
@@ -114,8 +121,8 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 
 		}
 
-			lastTime = time;
-			time += speed;
+		lastTime = time;
+		time += speed;
 	}
 	
 	
@@ -124,15 +131,14 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 		return MainRegistry.proxy.getLoopedSound("hbm:misc.lpwloop", xCoord, yCoord, zCoord, 0.25F, 27.5F, 1.0F, 20);
 	}
 
+	@Override
 	public void onChunkUnload() {
-
 		if(audio != null) {
 			audio.stopSound();
 			audio = null;
 		}
 	}
 
-	
 
 	private DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
@@ -245,13 +251,13 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 		for(FluidTank tank : tanks) {
 			tank.setFill(tank.getFill() - fuelCost);
 		}
-		return 10; // 2-3 seconds
+		return 20;
 	}
 
 	@Override
 	public int endBurn() {
 		isOn = false;
-		return 10; // Cooldown
+		return 20; // Cooldown
 	}
 
 	@Override

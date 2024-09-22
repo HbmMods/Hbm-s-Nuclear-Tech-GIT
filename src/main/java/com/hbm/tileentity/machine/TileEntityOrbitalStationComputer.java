@@ -12,7 +12,6 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -35,6 +34,7 @@ public class TileEntityOrbitalStationComputer extends TileEntityMachineBase impl
 
 		station.travelTo(worldObj, body);
 		slots[0] = drive;
+		markChanged();
 
 		return true;
 	}

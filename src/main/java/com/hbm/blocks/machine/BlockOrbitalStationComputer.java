@@ -93,6 +93,7 @@ public class BlockOrbitalStationComputer extends BlockDummyable implements ILook
 					player.dropPlayerItemWithRandomChoice(computer.slots[0].copy(), false);
 				}
 				computer.slots[0] = null;
+				computer.markChanged();
 			} else {
 				FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, pos[0], pos[1], pos[2]);
 			}

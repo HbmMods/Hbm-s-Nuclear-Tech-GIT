@@ -1429,7 +1429,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 		
 		// Station components are only lightly gated behind space, _propulsion_ is hard gated
 		makeRecipe(new ComparableStack(ModBlocks.orbital_station_port, 1), new AStack[] {
-				new OreDictStack(TI.plateWelded(), 8),
+				new OreDictStack(TI.plateWelded(), 6),
 				new ComparableStack(ModItems.motor, 4),
 				new OreDictStack(KEY_CLEARGLASS, 8),
 				new OreDictStack(ANY_PLASTIC.ingot(), 8),
@@ -1450,6 +1450,18 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.AVIONICS),
 				new ComparableStack(ModItems.thruster_small, 4),
 		}, 100);
+
+		// LPW
+		makeRecipe(new ComparableStack(ModBlocks.machine_lpw2, 1), new AStack[] {
+				new OreDictStack(STEEL.plateWelded(), 16),
+				new OreDictStack(STEEL.bolt(), 32),
+				new OreDictStack(TI.shell(), 8),
+				new ComparableStack(ModItems.motor_desh, 2),
+				new ComparableStack(ModItems.coil_advanced_alloy, 8),
+				new OreDictStack(ANY_HARDPLASTIC.ingot(), 8),
+				new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED),
+				new OreDictStack(CU.pipe(), 4),
+		}, 400);
 
 		makeRecipe(new ComparableStack(ModBlocks.large_vehicle_door, 1), new AStack[]{new OreDictStack(STEEL.plateCast(), 16), new ComparableStack(ModItems.plate_polymer, 4), new ComparableStack(ModItems.motor, 4), new OreDictStack(DURA.bolt(), 16), new OreDictStack("dyeGreen", 4)}, 400);
 		makeRecipe(new ComparableStack(ModBlocks.water_door, 1), new AStack[]{new OreDictStack(STEEL.plate(), 16), new OreDictStack(DURA.bolt(), 4), new OreDictStack("dyeRed", 1)}, 200);
