@@ -30,9 +30,9 @@ public class CasingEjector implements Cloneable {
 	private static int nextId = 0;
 	private Vec3 posOffset = Vec3.createVectorHelper(0, 0, 0);
 	private Vec3 initialMotion = Vec3.createVectorHelper(0, 0, 0);
-	private int casingAmount = 1;
-	private boolean afterReload = false;
-	private int delay = 0;
+	@Deprecated private int casingAmount = 1;
+	@Deprecated private boolean afterReload = false;
+	@Deprecated private int delay = 0;
 	private float randomYaw = 0F;
 	private float randomPitch = 0F;
 	
@@ -61,17 +61,17 @@ public class CasingEjector implements Cloneable {
 		return this;
 	}
 	
-	public CasingEjector setAmount(int am) {
+	@Deprecated public CasingEjector setAmount(int am) {
 		this.casingAmount = am;
 		return this;
 	}
 	
-	public CasingEjector setAfterReload() {
+	@Deprecated public CasingEjector setAfterReload() {
 		this.afterReload = true;
 		return this;
 	}
 	
-	public CasingEjector setDelay(int delay) {
+	@Deprecated public CasingEjector setDelay(int delay) {
 		this.delay = delay;
 		return this;
 	}

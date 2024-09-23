@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 
+import com.hbm.handler.CasingEjector;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.items.IEquipReceiver;
@@ -11,11 +12,13 @@ import com.hbm.items.IKeybindReceiver;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.packet.toclient.GunAnimationPacket;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.EnumUtil;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -191,6 +194,22 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		int timer = this.getTimer(stack);
 		if(timer > 0) this.setTimer(stack, timer - 1);
 		if(timer <= 1) config.getDecider(stack).accept(stack, ctx);
+	}
+	
+	public static void trySpawnCasing(Entity entity, CasingEjector ejector, BulletConfig bullet, ItemStack stack) {
+		
+		if(ejector == null) return; //abort if the gun can't eject bullets at all
+		if(bullet == null) return; //abort if there's no valid bullet cfg
+		if(bullet.casing == null) return; //abort if the bullet is caseless
+		
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "casing");
+		data.setFloat("pitch", (float) Math.toRadians(entity.rotationPitch));
+		data.setFloat("yaw", (float) Math.toRadians(entity.rotationYaw));
+		data.setBoolean("crouched", entity.isSneaking());
+		data.setString("name", bullet.casing.getName());
+		data.setInteger("ej", ejector.getId());
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 50));
 	}
 
 	// GUN DRAWN //

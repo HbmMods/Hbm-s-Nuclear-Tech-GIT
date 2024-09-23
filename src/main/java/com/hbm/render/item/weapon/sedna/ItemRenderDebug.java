@@ -96,6 +96,14 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 	}
 
 	@Override
+	protected void setupThirdPerson(ItemStack stack) {
+		super.setupThirdPerson(stack);
+		GL11.glScaled(0.75, 0.75, 0.75);
+		GL11.glTranslated(0, 1, 3);
+
+	}
+
+	@Override
 	protected void setupInv(ItemStack stack) {
 		super.setupInv(stack);
 		double scale = 1.25D;

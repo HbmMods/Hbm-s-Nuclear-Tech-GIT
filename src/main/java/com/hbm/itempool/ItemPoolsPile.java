@@ -98,7 +98,7 @@ public class ItemPoolsPile {
 		//makeshift gun
 		new ItemPool(POOL_PILE_MAKESHIFT_GUN) {{ this.pool = new WeightedRandomChestContent[] { weighted(ModItems.gun_lever_action, 0, 1, 1, 10) }; }};
 		new ItemPool(POOL_PILE_MAKESHIFT_WRENCH) {{ this.pool = new WeightedRandomChestContent[] { weighted(ModItems.wrench, 0, 1, 1, 10) }; }};
-		new ItemPool(POOL_PILE_MAKESHIFT_PLATES) {{ this.pool = new WeightedRandomChestContent[] { weighted(ModItems.plate_combine_steel, 0, 1, 1, 10) }; }};
+		new ItemPool(POOL_PILE_MAKESHIFT_PLATES) {{ this.pool = new WeightedRandomChestContent[] { weighted(ModItems.plate_steel, 0, 1, 1, 10) }; }};
 		new ItemPool(POOL_PILE_MAKESHIFT_WIRE) {{ this.pool = new WeightedRandomChestContent[] { weighted(ModItems.wire_fine, Mats.MAT_ALUMINIUM.id, 1, 1, 10) }; }};
 		
 		new ItemPool(POOL_PILE_NUKE_STORAGE) {{

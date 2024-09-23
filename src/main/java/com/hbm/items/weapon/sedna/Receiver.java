@@ -24,6 +24,7 @@ public class Receiver {
 	public static final String B_REFIREONHOLD =		"B_REFIREONHOLD";
 	public static final String B_DOESDRYFIRE =		"B_DOESDRYFIRE";
 	public static final String O_EJECTOR =			"O_EJECTOR";
+	public static final String B_EJECTONFIRE =		"B_EJECTONFIRE";
 	public static final String I_RELOADDURATION =	"I_RELOADDURATION";
 	public static final String S_FIRESOUND =		"S_FIRESOUND";
 	public static final String F_FIREVOLUME =		"F_FIREVOLUME";
@@ -44,6 +45,7 @@ public class Receiver {
 	protected boolean refireOnHold_DNA = false;
 	protected boolean doesDryFire_DNA = true;
 	protected CasingEjector ejector_DNA = null;
+	protected boolean ejectOnFire_DNA = true;
 	protected int reloadDuration_DNA;
 	protected String fireSound_DNA;
 	protected float fireVolume_DNA = 1.0F;
@@ -60,6 +62,7 @@ public class Receiver {
 	public boolean getRefireOnHold(ItemStack stack) {	return WeaponUpgradeManager.eval(this.refireOnHold_DNA, stack, B_REFIREONHOLD, this); }
 	public boolean getDoesDryFire(ItemStack stack) {	return WeaponUpgradeManager.eval(this.doesDryFire_DNA, stack, B_DOESDRYFIRE, this); }
 	public CasingEjector getEjector(ItemStack stack) {	return WeaponUpgradeManager.eval(this.ejector_DNA, stack, O_EJECTOR, this); }
+	public boolean getEjectOnFire(ItemStack stack) {	return WeaponUpgradeManager.eval(this.ejectOnFire_DNA, stack, B_EJECTONFIRE, this); }
 	public int getReloadDuration(ItemStack stack) {		return WeaponUpgradeManager.eval(this.reloadDuration_DNA, stack, I_RELOADDURATION, this); }
 	public String getFireSound(ItemStack stack) {		return WeaponUpgradeManager.eval(this.fireSound_DNA, stack, S_FIRESOUND, this); }
 	public float getFireVolume(ItemStack stack) {		return WeaponUpgradeManager.eval(this.fireVolume_DNA, stack, F_FIREVOLUME, this); }
@@ -70,15 +73,16 @@ public class Receiver {
 	public BiConsumer<ItemStack, LambdaContext> getOnFire(ItemStack stack) {			return WeaponUpgradeManager.eval(this.onFire_DNA, stack, CON_ONFIRE, this); }
 
 	/* SETTERS */
-	public Receiver dmg(float dmg) {				this.baseDamage_DNA = dmg;									return this; }
-	public Receiver delay(int delay) {				this.delayAfterFire_DNA = delay;							return this; }
-	public Receiver rounds(int rounds) {			this.roundsPerCycle_DNA = rounds;							return this; }
-	public Receiver spread(int spread) {			this.spreadModExtra_DNA = spread;							return this; }
-	public Receiver auto(boolean auto) {			this.refireOnHold_DNA = auto;								return this; }
-	public Receiver dryfire(boolean dryfire) {		this.doesDryFire_DNA = dryfire;								return this; }
-	public Receiver burst(CasingEjector ejector) {	this.ejector_DNA = ejector;									return this; }
-	public Receiver reload(int delay) {				this.reloadDuration_DNA = delay;							return this; }
-	public Receiver mag(IMagazine magazine) {		this.magazine_DNA = magazine;								return this; }
+	public Receiver dmg(float dmg) {					this.baseDamage_DNA = dmg;									return this; }
+	public Receiver delay(int delay) {					this.delayAfterFire_DNA = delay;							return this; }
+	public Receiver rounds(int rounds) {				this.roundsPerCycle_DNA = rounds;							return this; }
+	public Receiver spread(int spread) {				this.spreadModExtra_DNA = spread;							return this; }
+	public Receiver auto(boolean auto) {				this.refireOnHold_DNA = auto;								return this; }
+	public Receiver dryfire(boolean dryfire) {			this.doesDryFire_DNA = dryfire;								return this; }
+	public Receiver ejector(CasingEjector ejector) {	this.ejector_DNA = ejector;									return this; }
+	public Receiver ejectOnFire(boolean eject) {		this.ejectOnFire_DNA = eject;								return this; }
+	public Receiver reload(int delay) {					this.reloadDuration_DNA = delay;							return this; }
+	public Receiver mag(IMagazine magazine) {			this.magazine_DNA = magazine;								return this; }
 	
 	public Receiver canFire(BiFunction<ItemStack, LambdaContext, Boolean> lambda) {	this.canFire_DNA = lambda;	return this; }
 	public Receiver fire(BiConsumer<ItemStack, LambdaContext> lambda) {				this.onFire_DNA = lambda;	return this; }
