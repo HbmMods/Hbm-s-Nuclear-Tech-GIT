@@ -167,7 +167,8 @@ public class BlockScaffoldDynamic extends BlockContainer implements IToolable, I
 		}
 	}
 	
-	public static class TileEntityScaffoldDynamic extends TileEntity {
+	// Full class name needed because otherwise there's some conflict with the static import * from this class
+	public static class TileEntityScaffoldDynamic extends net.minecraft.tileentity.TileEntity {
 
 		public int composite;
 		public int prevComposite;
