@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemLootCrate;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -204,8 +205,9 @@ public class ItemCustomMissilePart extends Item {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
-	{
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
+
+		if(this == ModItems.rp_pod_20) return;
 
 		if(title != null)
 			list.add(EnumChatFormatting.DARK_PURPLE + "\"" + title + "\"");

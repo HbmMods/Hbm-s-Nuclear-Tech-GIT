@@ -124,21 +124,6 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 		lastTime = time;
 		time += speed;
 	}
-	
-	
-	@Override
-	public AudioWrapper createAudioLoop() {
-		return MainRegistry.proxy.getLoopedSound("hbm:misc.lpwloop", xCoord, yCoord, zCoord, 0.25F, 27.5F, 1.0F, 20);
-	}
-
-	@Override
-	public void onChunkUnload() {
-		if(audio != null) {
-			audio.stopSound();
-			audio = null;
-		}
-	}
-
 
 	private DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
@@ -149,6 +134,11 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 			new DirPos(xCoord - dir.offsetX * 4 - rot.offsetX, yCoord + 3, zCoord - dir.offsetZ * 4 - rot.offsetZ, rot.getOpposite())
 		};
 	}
+	
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:misc.lpwloop", xCoord, yCoord, zCoord, 0.25F, 27.5F, 1.0F, 20);
+	}
 
 	@Override
 	public void invalidate() {
@@ -158,6 +148,22 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 			unregisterPropulsion();
 			hasRegistered = false;
 		}
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(hasRegistered) {
+			unregisterPropulsion();
+			hasRegistered = false;
+		}
+
 		if(audio != null) {
 			audio.stopSound();
 			audio = null;

@@ -3,7 +3,10 @@ package com.hbm.dim.orbit;
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
+import com.hbm.dim.WorldProviderCelestial;
+import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.dim.trait.CelestialBodyTrait.CBT_Destroyed;
+import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.lib.Library;
 import com.hbm.util.AstronomyUtil;
 import com.hbm.util.BobMathUtil;
@@ -11,6 +14,8 @@ import com.hbm.util.BobMathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProvider;
@@ -140,11 +145,6 @@ public class WorldProviderOrbit extends WorldProvider {
 	}
 
 	@Override
-	public boolean canRespawnHere() {
-		return false;
-	}
-
-	@Override
 	public float calculateCelestialAngle(long worldTime, float partialTicks) {
 		CelestialBody orbiting = OrbitalStation.clientStation.orbiting;
 		CelestialBody target = OrbitalStation.clientStation.target;
@@ -154,6 +154,33 @@ public class WorldProviderOrbit extends WorldProvider {
 			angle = (float)BobMathUtil.lerp(progress, angle, (float)SolarSystem.calculateSingleAngle(worldObj, partialTicks, target, getOrbitalAltitude(target)));
 		}
 		return 0.5F - (angle / 360.0F);
+	}
+
+	// Same shit as in Celestial
+	@Override
+	public int getRespawnDimension(EntityPlayerMP player) {
+		ChunkCoordinates coords = player.getBedLocation(dimensionId);
+
+		// If no bed, respawn in overworld
+		if(coords == null)
+			return 0;
+
+		// If the bed location has no breathable atmosphere, respawn in overworld
+		CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(worldObj, coords.posX, coords.posY, coords.posZ);
+		if(!ChunkAtmosphereManager.proxy.canBreathe(atmosphere))
+			return 0;
+
+		return dimensionId;
+	}
+
+	@Override
+	public boolean canRespawnHere() {
+		if(WorldProviderCelestial.attemptingSleep) {
+			WorldProviderCelestial.attemptingSleep = false;
+			return true;
+		}
+
+		return false;
 	}
 	
 }

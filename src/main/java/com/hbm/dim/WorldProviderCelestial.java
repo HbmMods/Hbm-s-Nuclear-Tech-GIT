@@ -12,6 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -173,6 +174,13 @@ public abstract class WorldProviderCelestial extends WorldProvider {
 		color.yCoord *= pressureFactor;
 		color.zCoord *= pressureFactor;
 
+		if(Minecraft.getMinecraft().renderViewEntity.posY > 600) {
+			double curvature = MathHelper.clamp_float((1000.0F - (float)Minecraft.getMinecraft().renderViewEntity.posY) / 400.0F, 0.0F, 1.0F);
+			color.xCoord *= curvature;
+			color.zCoord *= curvature;
+			color.yCoord *= curvature;
+		}
+		
 		return color;
 	}
 

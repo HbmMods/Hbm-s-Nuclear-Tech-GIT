@@ -2586,7 +2586,7 @@ public class ModBlocks {
 
 		transporter_rocket = new BlockTransporterRocket(Material.iron).setBlockName("transporter_rocket").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		orbital_station = new BlockOrbitalStation(Material.iron).setBlockName("orbital_station").setBlockUnbreakable().setResistance(Float.POSITIVE_INFINITY).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
-		orbital_station_port = new BlockOrbitalStation(Material.iron).setBlockName("orbital_station_port").setHardness(1.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		orbital_station_port = new BlockOrbitalStation(Material.iron).setBlockName("orbital_station_port").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		orbital_station_computer = new BlockOrbitalStationComputer(Material.iron).setBlockName("orbital_station_computer").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		propulsion_creative = new BlockStationPropulsionCreative(Material.iron).setBlockName("propulsion_creative").setHardness(1.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 	}

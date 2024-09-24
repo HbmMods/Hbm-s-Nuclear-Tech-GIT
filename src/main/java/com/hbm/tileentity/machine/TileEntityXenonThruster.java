@@ -100,6 +100,16 @@ public class TileEntityXenonThruster extends TileEntityMachineBase implements IP
 	}
 
 	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(hasRegistered) {
+			unregisterPropulsion();
+			hasRegistered = false;
+		}
+	}
+
+	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeBoolean(isOn);

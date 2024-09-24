@@ -34,6 +34,16 @@ public class TileEntityStationPropulsionCreative extends TileEntity implements I
 	}
 
 	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(hasRegistered) {
+			unregisterPropulsion();
+			hasRegistered = false;
+		}
+	}
+
+	@Override
 	public TileEntity getTileEntity() {
 		return this;
 	}

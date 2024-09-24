@@ -1645,7 +1645,7 @@ public class ModEventHandler {
 	public void onTrySleep(PlayerInteractEvent event) {
 		if(event.world.isRemote) return;
 		if(event.world.provider.dimensionId == 0) return;
-		if(!(event.world.provider instanceof WorldProviderCelestial)) return;
+		if(!(event.world.provider instanceof WorldProviderCelestial) && !(event.world.provider instanceof WorldProviderOrbit)) return;
 
 		if(event.action == Action.RIGHT_CLICK_BLOCK && event.world.getBlock(event.x, event.y, event.z) instanceof BlockBed) {
 			WorldProviderCelestial.attemptingSleep = true;

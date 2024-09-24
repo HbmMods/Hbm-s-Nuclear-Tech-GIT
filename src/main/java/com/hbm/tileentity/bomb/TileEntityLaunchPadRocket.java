@@ -27,6 +27,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
+import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.Optional;
@@ -38,6 +39,7 @@ import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
@@ -430,6 +432,15 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 	}
 
 	@Override
+	public boolean isItemValidForSlot(int index, ItemStack stack) {
+		if(stack == null) return true;
+		if(index == 0 && !(stack.getItem() instanceof ItemCustomRocket)) return false;
+		if(index == 1 && !(stack.getItem() instanceof ItemVOTVdrive)) return false;
+		if(index == 2 && !(stack.getItem() instanceof IBatteryItem) && stack.getItem() != ModItems.battery_creative) return false;
+		return true;
+	}
+
+	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 
@@ -498,8 +509,7 @@ public class TileEntityLaunchPadRocket extends TileEntityMachineBase implements 
 	}
 
 	@Override
-	public void receiveControl(NBTTagCompound data) {
-	}
+	public void receiveControl(NBTTagCompound data) { }
 
 	@Override
 	public void receiveControl(EntityPlayer player, NBTTagCompound data) {

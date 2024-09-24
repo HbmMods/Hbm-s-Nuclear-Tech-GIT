@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.config.SpaceConfig;
 import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystemWorldSavedData;
+import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerStardar;
@@ -23,7 +24,6 @@ import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -215,14 +215,21 @@ public class TileEntityMachineStardar extends TileEntityMachineBase implements I
 
 		slots[0] = new ItemStack(ModItems.full_drive, 1, meta);
 
-		if(ix != 0 || iz != 0) {
+		if((ix != 0 || iz != 0) && worldObj.provider.dimensionId != SpaceConfig.orbitDimension) {
 			slots[0].stackTagCompound = new NBTTagCompound();
 			slots[0].stackTagCompound.setInteger("ax", ix);
 			slots[0].stackTagCompound.setInteger("az", iz);
 			slots[0].stackTagCompound.setBoolean("Processed", true);
 		} else if(targetDimensionId == SpaceConfig.orbitDimension) {
-			ChunkCoordIntPair pos = SolarSystemWorldSavedData.get(worldObj).findFreeSpace();
+			ChunkCoordIntPair pos;
 
+			// if we're on a station, return our current station as a drive
+			if(worldObj.provider.dimensionId == SpaceConfig.orbitDimension) {
+				pos = new ChunkCoordIntPair(MathHelper.floor_float((float)xCoord / OrbitalStation.STATION_SIZE), MathHelper.floor_float((float)zCoord / OrbitalStation.STATION_SIZE));
+			} else {
+				pos = SolarSystemWorldSavedData.get(worldObj).findFreeSpace();
+			}
+	
 			slots[0].stackTagCompound = new NBTTagCompound();
 			slots[0].stackTagCompound.setInteger("x", pos.chunkXPos);
 			slots[0].stackTagCompound.setInteger("z", pos.chunkZPos);

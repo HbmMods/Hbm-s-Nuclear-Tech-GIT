@@ -59,43 +59,39 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
 
 	@Override
 	public void updateEntity() {
-		if (!worldObj.isRemote) {
-
+		if(!worldObj.isRemote) {
 			updateConnections();
+
 			for(DirPos pos : getConPos()) {
 				if(tanks[0].getFill() > 0) {
 					this.sendFluid(tanks[0], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
 
-			CelestialBody cody = CelestialBody.getBody(worldObj);
+			CelestialBody body = CelestialBody.getTarget(worldObj, xCoord, zCoord).body.getPlanet();
 
-			if(cody.parent != null && !cody.parent.name.equals("jool")) {
-				return;
+			launchTicks = MathHelper.clamp_int(launchTicks + (hasRocket ? -1 : 1), hasRocket ? -20 : 0, 100);
+			if(body == CelestialBody.getBody("jool") && hasFuel()) {
+				if(launchTicks <= -20) {
+					hasRocket = false;
+				} else if(launchTicks >= 100) {
+					hasRocket = true;
+				}
+				
+				if(launchTicks <= -20) {
+					collectGas();
+				}
 			}
 
 			this.networkPackNT(150);
-		}
-
-		if(!hasFuel()) return;
-
-		launchTicks = MathHelper.clamp_int(launchTicks + (hasRocket ? -1 : 1), hasRocket ? -20 : 0, 100);
-		if(launchTicks <= -20) {
-			hasRocket = false;
-		} else if(launchTicks >= 100) {
-			hasRocket = true;
-		}
-
-		if(launchTicks <= -20) {
-			DoTheFuckingTask();
-		}
-		
-		
-		if(worldObj.isRemote && launchTicks > 0 && launchTicks < 100) {
-			ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5, yCoord + 0.5 + launchTicks, zCoord + 0.5, 0.0, -1.0, 0.0);
-
-			if(launchTicks < 10) {
-				ExplosionLarge.spawnShock(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 1 + worldObj.rand.nextInt(3), 1 + worldObj.rand.nextGaussian());
+		} else {
+			launchTicks = MathHelper.clamp_int(launchTicks + (hasRocket ? -1 : 1), hasRocket ? -20 : 0, 100);
+			if(launchTicks > 0 && launchTicks < 100) {
+				ParticleUtil.spawnGasFlame(worldObj, xCoord + 0.5, yCoord + 0.5 + launchTicks, zCoord + 0.5, 0.0, -1.0, 0.0);
+	
+				if(launchTicks < 10) {
+					ExplosionLarge.spawnShock(worldObj, xCoord + 0.5, yCoord, zCoord + 0.5, 1 + worldObj.rand.nextInt(3), 1 + worldObj.rand.nextGaussian());
+				}
 			}
 		}
 	}
@@ -124,14 +120,14 @@ public class TileEntityMachineGasDock extends TileEntityMachineBase implements I
 		}
 	}
 	
-	private void DoTheFuckingTask() {
+	private void collectGas() {
 		if(tanks[1].getFill() < 100) return;
 		if(tanks[2].getFill() < 500) return;
-		if(tanks[0].getFill() + 10000 > tanks[0].getMaxFill()) return;
+		if(tanks[0].getFill() + 8000 > tanks[0].getMaxFill()) return;
 
 		tanks[1].setFill(tanks[1].getFill() - 100);		
 		tanks[2].setFill(tanks[2].getFill() - 500);
-		tanks[0].setFill(tanks[0].getFill() + 10000);
+		tanks[0].setFill(tanks[0].getFill() + 8000);
 	}
 	
 	private boolean hasFuel() {
