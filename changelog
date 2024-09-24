@@ -1,3 +1,9 @@
 ## Changed
+* Updated russian and chinese localization
 * The fine soot recipe in the pyrolysis oven now only needs 4 tar
 * Overdrive upgrades now use fullerite instead of lithium crystals
+* Machines now only send their sync packets once a second instead of once per tick if the values haven't changed, reducing network traffic by a considerable amount
+* Tom's explosion no longer causes any block updates on the millions of blocks it deletes which hopefully fixes a majority of the lag caused by the crater
+
+## Fixed
+* The conveyor grabber should no longer skip over items when used in long lines

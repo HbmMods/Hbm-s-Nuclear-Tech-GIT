@@ -7,6 +7,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
@@ -104,8 +105,8 @@ public class EntityDamageUtil {
 					if(entity instanceof EntityPlayer) {
 						living.recentlyHit = 100;
 						living.attackingPlayer = (EntityPlayer) entity;
-					} else if(entity instanceof net.minecraft.entity.passive.EntityTameable) {
-						net.minecraft.entity.passive.EntityTameable entitywolf = (net.minecraft.entity.passive.EntityTameable) entity;
+					} else if(entity instanceof EntityTameable) {
+						EntityTameable entitywolf = (EntityTameable) entity;
 
 						if(entitywolf.isTamed()) {
 							living.recentlyHit = 100;

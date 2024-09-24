@@ -135,15 +135,17 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 			
 			
 			NBTTagCompound data = new NBTTagCompound();
-			this.writeToNBT(data);
+			data.setBoolean("isWhitelist", isWhitelist);
+			this.matcher.writeToNBT(data);
 			this.networkPack(data, 15);
 		}
 	}
 	
 	public void networkUnpack(NBTTagCompound nbt) {
 		super.networkUnpack(nbt);
-		
-		this.readFromNBT(nbt);
+		this.isWhitelist = nbt.getBoolean("isWhitelist");
+		this.matcher.modes = new String[matcher.modes.length];
+		this.matcher.readFromNBT(nbt);
 	}
 	
 	public boolean matchesFilter(ItemStack stack) {
