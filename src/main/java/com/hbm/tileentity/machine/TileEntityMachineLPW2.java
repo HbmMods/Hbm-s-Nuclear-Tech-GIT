@@ -42,8 +42,8 @@ public class TileEntityMachineLPW2 extends TileEntityMachineBase implements IPro
 	public TileEntityMachineLPW2() {
 		super(0);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.KEROSENE_REFORM, 128_000);
-		tanks[1] = new FluidTank(Fluids.OXYGEN, 128_000);
+		tanks[0] = new FluidTank(Fluids.KEROSENE_REFORM, 256_000);
+		tanks[1] = new FluidTank(Fluids.OXYGEN, 256_000);
 	}
 
 	@Override
