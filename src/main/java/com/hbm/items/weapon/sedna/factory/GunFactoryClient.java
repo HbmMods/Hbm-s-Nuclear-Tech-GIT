@@ -7,12 +7,20 @@ import java.util.function.BiConsumer;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.items.ModItems;
+import com.hbm.render.item.weapon.sedna.ItemRenderDebug;
+import com.hbm.render.item.weapon.sedna.ItemRenderPepperbox;
 
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 public class GunFactoryClient {
 
 	public static void init() {
+		//GUNS
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_debug, new ItemRenderDebug());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_pepperbox, new ItemRenderPepperbox());
+		//PROJECTILES
 		ammo_debug.setRenderer(RENDER_STANDARD_BULLET);
 		ammo_debug_buckshot.setRenderer(RENDER_STANDARD_BULLET);
 	}

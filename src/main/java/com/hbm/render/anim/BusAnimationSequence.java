@@ -3,7 +3,7 @@ package com.hbm.render.anim;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.render.anim.BusAnimationKeyframe.InterpolationType;
+import com.hbm.render.anim.BusAnimationKeyframe.IType;
 
 //the actual bus, a sequence of keyframes with their own behavior and such
 public class BusAnimationSequence {
@@ -50,10 +50,12 @@ public class BusAnimationSequence {
 
 	// Two helper methods for the old hard-coded animations
 	public BusAnimationSequence addPos(double x, double y, double z, int duration) {
-		addKeyframe(Dimension.TX, new BusAnimationKeyframe(x, duration));
-		addKeyframe(Dimension.TY, new BusAnimationKeyframe(y, duration));
-		addKeyframe(Dimension.TZ, new BusAnimationKeyframe(z, duration));
-
+		return addPos(x, y, z, duration, IType.LINEAR);
+	}
+	public BusAnimationSequence addPos(double x, double y, double z, int duration, IType type) {
+		addKeyframe(Dimension.TX, new BusAnimationKeyframe(x, duration, type));
+		addKeyframe(Dimension.TY, new BusAnimationKeyframe(y, duration, type));
+		addKeyframe(Dimension.TZ, new BusAnimationKeyframe(z, duration, type));
 		return this;
 	}
 
@@ -61,7 +63,6 @@ public class BusAnimationSequence {
 		addKeyframe(Dimension.RX, new BusAnimationKeyframe(x, duration));
 		addKeyframe(Dimension.RY, new BusAnimationKeyframe(y, duration));
 		addKeyframe(Dimension.RZ, new BusAnimationKeyframe(z, duration));
-
 		return this;
 	}
 	
@@ -77,33 +78,33 @@ public class BusAnimationSequence {
 
 			int startTime = 0;
 			int endTime = 0;
-			for (BusAnimationKeyframe keyframe: keyframes) {
+			for(BusAnimationKeyframe keyframe : keyframes) {
 				startTime = endTime;
 				endTime += keyframe.duration;
 				previousFrame = currentFrame;
 				currentFrame = keyframe;
-				if (millis < endTime) break;
+				if(millis < endTime) break;
 			}
 
-			if (currentFrame == null) {
+			if(currentFrame == null) {
 				// Scale defaults to 1, others are 0
 				transform[i] = i >= 6 ? 1 : 0;
 				continue;
 			}
 
-			if (millis >= endTime) {
+			if(millis >= endTime) {
 				transform[i] = currentFrame.value;
 				continue;
 			}
 
-			if (previousFrame != null && previousFrame.interpolationType == InterpolationType.CONSTANT) {
+			if(previousFrame != null && previousFrame.interpolationType == IType.CONSTANT) {
 				transform[i] = previousFrame.value;
 				continue;
 			}
 
 			double a = currentFrame.value;
 			double b = previousFrame != null ? previousFrame.value : 0;
-			double t = (double)(millis - startTime) / (double)currentFrame.duration;
+			double t = interpolate(startTime, millis, currentFrame.duration, currentFrame.interpolationType);
 
 			transform[i] = (a - b) * t + b;
 		}
@@ -113,6 +114,14 @@ public class BusAnimationSequence {
 		transform[11] = offset[2];
 
 		return transform;
+	}
+	
+	public double interpolate(double start, double end, double duration, IType interp) {
+		if(interp == IType.LINEAR) return (end - start) / duration;
+		if(interp == IType.SIN_UP) return -Math.sin(((end - start) / duration * Math.PI + Math.PI) / 2) + 1;
+		if(interp == IType.SIN_DOWN) return Math.sin((end - start) / duration * Math.PI / 2);
+		if(interp == IType.SIN_FULL) return (-Math.cos((end - start) / duration * Math.PI) + 1) / 2D;
+		return end - start;
 	}
 	
 	public int getTotalTime() {

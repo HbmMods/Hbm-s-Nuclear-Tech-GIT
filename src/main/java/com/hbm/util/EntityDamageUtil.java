@@ -53,6 +53,24 @@ public class EntityDamageUtil {
 		}
 	}
 	
+	public static float getDamageAfterTax(EntityLivingBase living, DamageSource source, float amount) {
+		amount = ForgeHooks.onLivingHurt(living, source, amount);
+		if(amount <= 0) return 0;
+		amount = applyArmorCalculations(living, source, amount);
+		return amount;
+	}
+	
+	public static boolean attackArmorPiercing(EntityLivingBase living, DamageSource sourceDamageCalc, DamageSource sourceArmorPiercing, float amount, float piercing) {
+		if(piercing <= 0) return living.attackEntityFrom(sourceDamageCalc, amount);
+		//damage intended to pass the armor
+		float afterTax = getDamageAfterTax(living, sourceDamageCalc, amount);
+		//damage removed by the calculation
+		float reduced = Math.max(amount - afterTax, 0F);
+		//damage that would pass + damage tthat wouldn't pass * AP percentage
+		return living.attackEntityFrom(sourceArmorPiercing, Math.max(afterTax + (reduced * piercing), 0F));
+		
+	}
+	
 	/** Currently just a copy of the vanilla damage code */
 	public static boolean attackEntityFromNT(EntityLivingBase living, DamageSource source, float amount) {
 		

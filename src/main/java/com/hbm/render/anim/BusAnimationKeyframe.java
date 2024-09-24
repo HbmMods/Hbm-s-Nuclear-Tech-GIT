@@ -6,20 +6,23 @@ public class BusAnimationKeyframe {
 	//whether the next frame "snaps" to the intended value or has interpolation
 	//it's an enum so stuff like accelerated animations between just
 	//two frames could be implemented
-	public static enum InterpolationType {
+	public static enum IType {
 		CONSTANT,
-		LINEAR
+		LINEAR,
+		SIN_UP,
+		SIN_DOWN,
+		SIN_FULL,
 	}
 
 	public double value;
-	public InterpolationType interpolationType;
+	public IType interpolationType;
 	public int duration;
 	
 	//this one can be used for "reset" type keyframes
 	public BusAnimationKeyframe() {
 		this.value = 0;
 		this.duration = 1;
-		this.interpolationType = InterpolationType.LINEAR;
+		this.interpolationType = IType.LINEAR;
 	}
 
 	public BusAnimationKeyframe(double value, int duration) {
@@ -28,7 +31,7 @@ public class BusAnimationKeyframe {
 		this.duration = duration;
 	}
 
-	public BusAnimationKeyframe(double value, int duration, InterpolationType interpolation) {
+	public BusAnimationKeyframe(double value, int duration, IType interpolation) {
 		this(value, duration);
 		this.interpolationType = interpolation;
 	}

@@ -220,6 +220,8 @@
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},
     "weapon.switchmode2": {"category": "player", "sounds": [{"name": "weapon/switchmode2", "stream": false}]},
     
+    "weapon.fire.blackPowder": {"category": "player", "sounds": [{"name": "weapon/fire/blackPowder", "stream": false}]},
+    
     "weapon.reload.boltClose": {"category": "player", "sounds": ["weapon/reload/boltClose"]},
     "weapon.reload.boltOpen": {"category": "player", "sounds": ["weapon/reload/boltOpen"]},
     "weapon.reload.closeClick": {"category": "player", "sounds": ["weapon/reload/closeClick"]},

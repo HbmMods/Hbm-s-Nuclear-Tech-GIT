@@ -1610,6 +1610,10 @@ public class ModItems {
 	public static Item gun_debug;
 	public static Item ammo_debug;
 	
+	public static Item gun_pepperbox;
+	
+	public static Item ammo_standard;
+	
 	public static Item crucible;
 
 	public static Item stick_dynamite;
@@ -6993,6 +6997,9 @@ public class ModItems {
 		
 		GameRegistry.registerItem(gun_debug, gun_debug.getUnlocalizedName());
 		GameRegistry.registerItem(ammo_debug, ammo_debug.getUnlocalizedName());
+		
+		GameRegistry.registerItem(gun_pepperbox, gun_pepperbox.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		
 		//Ammo
 		GameRegistry.registerItem(gun_b92_ammo, gun_b92_ammo.getUnlocalizedName());
