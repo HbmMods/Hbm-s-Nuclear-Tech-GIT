@@ -295,10 +295,6 @@
     
     "potatos.random": {"category": "player", "sounds": ["potatos/randResponse0", "potatos/randResponse1", "potatos/randResponse2", "potatos/randResponse3", "potatos/randResponse4", "potatos/randResponse5", "potatos/randResponse6", "potatos/randResponse7"]},
     
-    "fm.clap":  {"category": "block", "sounds": [{"name": "clap", "stream": false}]},
-    "fm.mug":  {"category": "block", "sounds": [{"name": "mug", "stream": false}]},
-    "fm.sample":  {"category": "block", "sounds": [{"name": "sample", "stream": false}]},
-    
     "alarm.amsSiren": {"category": "record", "sounds": [{"name": "alarm/amsSiren", "stream": false}]},
     "alarm.apcLoop": {"category": "record", "sounds": [{"name": "alarm/apcLoop", "stream": false}]},
     "alarm.apcPass": {"category": "record", "sounds": [{"name": "alarm/apcPass", "stream": false}]},

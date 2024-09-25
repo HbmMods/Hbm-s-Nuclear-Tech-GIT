@@ -6,6 +6,7 @@ import java.util.function.BiFunction;
 
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
@@ -112,13 +113,27 @@ public class Lego {
 		if(config.projectilesMax > config.projectilesMin) projectiles += player.getRNG().nextInt(config.projectilesMax - config.projectilesMin + 1);
 		
 		for(int i = 0; i < projectiles; i++) {
-			EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(player, config, primary.getBaseDamage(stack), primary.getSpreadMod(stack) * aim + 1F, sideOffset, -0.0625, 0.75);
+			float damage = primary.getBaseDamage(stack) * getStandardWearDamage(stack, ctx.config);
+			float spread = primary.getGunSpread(stack) * aim + getStandardWearSpread(stack, ctx.config) * 0.125F;
+			EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(player, config, damage, spread, sideOffset, -0.0625, 0.75);
 			player.worldObj.spawnEntityInWorld(mk4);
 		}
 		
 		mag.setAmount(stack, mag.getAmount(stack) - 1);
-		ItemGunBaseNT.setWear(stack, ItemGunBaseNT.getWear(stack) + config.wear);
+		ItemGunBaseNT.setWear(stack, Math.min(ItemGunBaseNT.getWear(stack) + config.wear, ctx.config.getDurability(stack)));
 	};
+	
+	public static float getStandardWearSpread(ItemStack stack, GunConfig config) {
+		float percent = (float) ItemGunBaseNT.getWear(stack) / config.getDurability(stack);
+		if(percent < 0.5F) return 0F;
+		return (percent - 0.5F) * 2F;
+	}
+	
+	public static float getStandardWearDamage(ItemStack stack, GunConfig config) {
+		float percent = (float) ItemGunBaseNT.getWear(stack) / config.getDurability(stack);
+		if(percent < 0.75F) return 1F;
+		return 1F - (percent - 0.75F) * 2F;
+	}
 	
 	/** anims for the DEBUG revolver, mostly a copy of the li'lpip but with some fixes regarding the cylinder movement */
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_DEBUG_ANIMS = (stack, type) -> {

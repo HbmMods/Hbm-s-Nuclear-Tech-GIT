@@ -67,7 +67,7 @@ public class EntityDamageUtil {
 		//damage removed by the calculation
 		float reduced = Math.max(amount - afterTax, 0F);
 		//damage that would pass + damage tthat wouldn't pass * AP percentage
-		return living.attackEntityFrom(sourceArmorPiercing, Math.max(afterTax + (reduced * piercing), 0F));
+		return attackEntityFromIgnoreIFrame(living, sourceArmorPiercing, Math.max(afterTax + (reduced * piercing), 0F));
 		
 	}
 	

@@ -1,15 +1,13 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.items.weapon.sedna.BulletConfig;
-import com.hbm.lib.ModDamageSource;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.TrackerUtil;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -20,8 +18,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 	
 	public BulletConfig config;
+	//used for rendering tracers
 	public double velocity;
 	public double prevVelocity;
+	public float damage;
 	public int ricochets = 0;
 
 	public EntityBulletBaseMK4(World world) {
@@ -30,11 +30,13 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		this.setSize(0.5F, 0.5F);
 	}
 	
-	public EntityBulletBaseMK4(EntityLivingBase entity, BulletConfig config, float baseDamage, float spreadMod, double sideOffset, double heightOffset, double frontOffset) {
+	public EntityBulletBaseMK4(EntityLivingBase entity, BulletConfig config, float baseDamage, float gunSpread, double sideOffset, double heightOffset, double frontOffset) {
 		this(entity.worldObj);
 		
 		this.thrower = entity;
 		this.config = config;
+		
+		this.damage = baseDamage * this.config.damageMult;
 		
 		this.setLocationAndAngles(thrower.posX, thrower.posY + thrower.getEyeHeight(), thrower.posZ, thrower.rotationYaw, thrower.rotationPitch);
 		
@@ -52,7 +54,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
 		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
 		
-		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread * spreadMod);
+		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread + gunSpread);
 	}
 
 	@Override
@@ -155,18 +157,32 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 			}
 			
 			if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
-				if(!mop.entityHit.isEntityAlive()) return;
+				Entity entity = mop.entityHit;
+				if(!entity.isEntityAlive()) return;
 				
-				if(mop.entityHit.isEntityAlive()) {
-					mop.entityHit.attackEntityFrom(ModDamageSource.turbofan, 1_000F);
-					
-					NBTTagCompound vdat = new NBTTagCompound();
-					vdat.setString("type", "giblets");
-					vdat.setInteger("ent", mop.entityHit.getEntityId());
-					vdat.setInteger("cDiv", 2);
-					PacketDispatcher.wrapper.sendToAllAround(
-							new AuxParticlePacketNT(vdat, mop.entityHit.posX, mop.entityHit.posY + mop.entityHit.height * 0.5, mop.entityHit.posZ),
-							new TargetPoint(this.dimension, mop.entityHit.posX, mop.entityHit.posY + mop.entityHit.height * 0.5, mop.entityHit.posZ, 150));
+				DamageSource damageCalc = this.config.getDamage(this, getThrower(), false);
+				
+				if(!(entity instanceof EntityLivingBase)) {
+					entity.attackEntityFrom(damageCalc, this.damage);
+					return;
+				}
+				
+				EntityLivingBase living = (EntityLivingBase) entity;
+				float prevHealth = living.getHealth();
+				
+				if(this.config.armorPiercingPercent == 0) {
+					EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, damageCalc, this.damage);
+				} else {
+					DamageSource damagePiercing = this.config.getDamage(this, getThrower(), true);
+					EntityDamageUtil.attackArmorPiercing(living, damageCalc, damagePiercing, this.damage, this.config.armorPiercingPercent);
+				}
+				
+				float newHealth = living.getHealth();
+				
+				if(this.config.damageFalloffByPen) this.damage -= Math.max(prevHealth - newHealth, 0);
+				if(!this.doesPenetrate() || this.damage < 0) {
+					this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+					this.setDead();
 				}
 			}
 		}
@@ -177,4 +193,9 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 	@Override protected double motionMult() { return this.config.velocity; }
 	@Override protected float getAirDrag() { return 1F; }
 	@Override protected float getWaterDrag() { return 1F; }
+	
+	@Override public boolean doesImpactEntities() { return this.config.impactsEntities; }
+	@Override public boolean doesPenetrate() { return this.config.doesPenetrate; }
+	@Override public boolean isSpectral() { return this.config.isSpectral; }
+	@Override public int selfDamageDelay() { return this.config.selfDamageDelay; }
 }

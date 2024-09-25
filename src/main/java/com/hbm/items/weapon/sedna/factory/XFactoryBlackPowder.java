@@ -23,7 +23,7 @@ public class XFactoryBlackPowder {
 	public static void init() {
 
 		BulletConfig stone = new BulletConfig().setItem(EnumAmmo.STONE).setSpread(0.025F).setRicochetAngle(15);
-		BulletConfig flint = new BulletConfig().setItem(EnumAmmo.STONE_AP).setSpread(0.01F).setRicochetAngle(5);
+		BulletConfig flint = new BulletConfig().setItem(EnumAmmo.STONE_AP).setSpread(0.01F).setRicochetAngle(5).setDoesPenetrate(true).setDamage(1.5F);
 		BulletConfig shot = new BulletConfig().setItem(EnumAmmo.STONE_SHOT).setSpread(0.1F).setRicochetAngle(45).setProjectiles(6, 6).setDamage(0.2F);
 		
 		ModItems.gun_pepperbox = new ItemGunBaseNT(new GunConfig()

@@ -211,7 +211,7 @@ public class Mats {
 		List<MaterialStack> entries = materialEntries.get(new ComparableStack(stack).makeSingular());
 		
 		if(entries != null) {
-			list.addAll(entries);
+			entries.forEach(x -> { if(x != null) list.add(x); });
 		}
 		
 		if(stack.getItem() == ModItems.scraps) {

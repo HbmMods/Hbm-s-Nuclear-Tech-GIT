@@ -7,3 +7,4 @@
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines
+* Fixed a potential crash regarding crucibles
