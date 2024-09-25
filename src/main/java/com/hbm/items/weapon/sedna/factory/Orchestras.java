@@ -53,18 +53,22 @@ public class Orchestras {
 		int timer = ItemGunBaseNT.getAnimTimer(stack);
 
 		if(type == AnimType.RELOAD) {
-			if(timer == 20) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
+			if(timer == 24) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
 			if(timer == 55) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverSpin", 1F, 1F);
 		}
 		if(type == AnimType.CYCLE) {
-			if(timer == 21) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
+			if(timer == 21) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.6F);
 		}
 		if(type == AnimType.CYCLE_DRY) {
-			if(timer == 3) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 1F);
-			if(timer == 11) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 0.8F);
+			if(timer == 11) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.6F);
 		}
 		if(type == AnimType.INSPECT) {
 			if(timer == 3) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverSpin", 1F, 1F);
+		}
+		if(type == AnimType.JAMMED) {
+			if(timer == 28) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 0.75F);
+			if(timer == 45) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 0.6F);
 		}
 	};
 }

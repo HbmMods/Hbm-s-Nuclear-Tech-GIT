@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 public class ItemRenderPepperbox extends ItemRenderWeaponBase {
 
 	@Override
-	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.25F; }
+	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.5F; }
 
 	@Override
 	protected void setupFirstPerson(ItemStack stack) {

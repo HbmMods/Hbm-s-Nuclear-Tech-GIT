@@ -23,14 +23,15 @@ public class XFactoryBlackPowder {
 	public static void init() {
 
 		BulletConfig stone = new BulletConfig().setItem(EnumAmmo.STONE).setSpread(0.025F).setRicochetAngle(15);
-		BulletConfig flint = new BulletConfig().setItem(EnumAmmo.STONE_AP).setSpread(0.01F).setRicochetAngle(5).setDoesPenetrate(true).setDamage(1.5F);
-		BulletConfig shot = new BulletConfig().setItem(EnumAmmo.STONE_SHOT).setSpread(0.1F).setRicochetAngle(45).setProjectiles(6, 6).setDamage(0.2F);
+		BulletConfig flint = new BulletConfig().setItem(EnumAmmo.STONE_AP).setSpread(0.01F).setRicochetAngle(5).setDoesPenetrate(true).setDamage(1.75F);
+		BulletConfig iron = new BulletConfig().setItem(EnumAmmo.STONE_IRON).setSpread(0F).setRicochetAngle(90).setRicochetCount(5).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(2F);
+		BulletConfig shot = new BulletConfig().setItem(EnumAmmo.STONE_SHOT).setSpread(0.1F).setRicochetAngle(45).setProjectiles(6, 6).setDamage(0.5F);
 		
 		ModItems.gun_pepperbox = new ItemGunBaseNT(new GunConfig()
-				.dura(300).draw(4).inspect(23).crosshair(Crosshair.L_CLASSIC).hud(Lego.HUD_COMPONENT_DURABILITY, Lego.HUD_COMPONENT_AMMO).smoke(true).orchestra(Orchestras.ORCHESTRA_PEPPERBOX)
+				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).hud(Lego.HUD_COMPONENT_DURABILITY, Lego.HUD_COMPONENT_AMMO).smoke(true).orchestra(Orchestras.ORCHESTRA_PEPPERBOX)
 				.rec(new Receiver(0)
 						.dmg(5F).delay(27).reload(67).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 6).addConfigs(stone, flint, shot))
+						.mag(new MagazineFullReload(0, 6).addConfigs(stone, flint, iron, shot))
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY) .pr(Lego.LAMBDA_STANDARD_RELOAD) .pt(Lego.LAMBDA_TOGGLE_AIM)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
@@ -60,7 +61,10 @@ public class XFactoryBlackPowder {
 		case INSPECT: return new BusAnimation()
 				.addBus("ROTATE", new BusAnimationSequence().addPos(-360 * 1, 0, 0, 750, IType.SIN_FULL))
 				.addBus("RECOIL", new BusAnimationSequence().addPos(-5, 0, 0, 200, IType.SIN_UP).addPos(0, 0, 0, 200, IType.SIN_DOWN));
-		case JAMMED: break;
+		case JAMMED: return new BusAnimation()
+				.addBus("ROTATE", new BusAnimationSequence().addPos(0, 0, 0, 1300).addPos(60, 0, 0, 500, IType.SIN_FULL).addPos(60, 0, 0, 400).addPos(0, 0, 0, 500, IType.SIN_FULL))
+				.addBus("TRANSLATE", new BusAnimationSequence().addPos(0, 0, 0, 500).addPos(0, -6, 0, 400, IType.SIN_FULL).addPos(0, -6, 0, 2000).addPos(0, 0, 0, 400, IType.SIN_FULL))
+				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, 0, 500).addPos(45, 0, 0, 400, IType.SIN_FULL).addPos(45, 0, 0, 2000).addPos(0, 0, 0, 400, IType.SIN_FULL));
 		}
 		
 		return null;

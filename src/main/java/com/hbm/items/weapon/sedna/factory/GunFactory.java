@@ -55,6 +55,7 @@ public class GunFactory {
 	public static enum EnumAmmo {
 		STONE,
 		STONE_AP,
+		STONE_IRON,
 		STONE_SHOT,
 	}
 }
