@@ -32,6 +32,7 @@ public class Receiver {
 	public static final String O_MAGAZINE =			"O_MAGAZINE";
 	public static final String FUN_CANFIRE =		"FUN_CANFIRE";
 	public static final String CON_ONFIRE =			"CON_ONFIRE";
+	public static final String CON_ONRECOIL =		"CON_ONRECOIL";
 	
 	public Receiver(int index) {
 		this.index = index;
@@ -53,6 +54,7 @@ public class Receiver {
 	protected IMagazine magazine_DNA;
 	protected BiFunction<ItemStack, LambdaContext, Boolean> canFire_DNA;
 	protected BiConsumer<ItemStack, LambdaContext> onFire_DNA;
+	protected BiConsumer<ItemStack, LambdaContext> onRecoil_DNA;
 	
 	/* GETTERS */
 	public float getBaseDamage(ItemStack stack) {		return WeaponUpgradeManager.eval(this.baseDamage_DNA, stack, F_BASEDAMAGE, this); }
@@ -71,6 +73,7 @@ public class Receiver {
 	
 	public BiFunction<ItemStack, LambdaContext, Boolean> getCanFire(ItemStack stack) {	return WeaponUpgradeManager.eval(this.canFire_DNA, stack, FUN_CANFIRE, this); }
 	public BiConsumer<ItemStack, LambdaContext> getOnFire(ItemStack stack) {			return WeaponUpgradeManager.eval(this.onFire_DNA, stack, CON_ONFIRE, this); }
+	public BiConsumer<ItemStack, LambdaContext> getRecoil(ItemStack stack) {			return WeaponUpgradeManager.eval(this.onRecoil_DNA, stack, CON_ONRECOIL, this); }
 
 	/* SETTERS */
 	public Receiver dmg(float dmg) {					this.baseDamage_DNA = dmg;									return this; }
@@ -86,6 +89,7 @@ public class Receiver {
 	
 	public Receiver canFire(BiFunction<ItemStack, LambdaContext, Boolean> lambda) {	this.canFire_DNA = lambda;	return this; }
 	public Receiver fire(BiConsumer<ItemStack, LambdaContext> lambda) {				this.onFire_DNA = lambda;	return this; }
+	public Receiver recoil(BiConsumer<ItemStack, LambdaContext> lambda) {			this.onRecoil_DNA = lambda;	return this; }
 
 	public Receiver sound(String sound, float volume, float pitch) {
 		this.fireSound_DNA = sound;

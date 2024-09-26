@@ -149,11 +149,6 @@ public class ModEventHandlerClient {
 	public static long flashTimestamp;
 	public static final int shakeDuration = 1_500;
 	public static long shakeTimestamp;
-
-	public static float recoilVertical = 0;
-	public static float recoilHorizontal = 0;
-	public static float offsetVertical = 0;
-	public static float offsetHorizontal = 0;
 	
 	@SubscribeEvent
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
@@ -1000,19 +995,20 @@ public class ModEventHandlerClient {
 		
 		if(event.phase == Phase.END) {
 			
-			this.offsetVertical += this.recoilVertical;
-			this.offsetHorizontal += this.recoilHorizontal;
-			player.rotationPitch += this.recoilVertical;
-			player.rotationYaw += this.recoilHorizontal;
+			ItemGunBaseNT.offsetVertical += ItemGunBaseNT.recoilVertical;
+			ItemGunBaseNT.offsetHorizontal += ItemGunBaseNT.recoilHorizontal;
+			player.rotationPitch -= ItemGunBaseNT.recoilVertical;
+			player.rotationYaw -= ItemGunBaseNT.recoilHorizontal;
+
+			float decay = 0.75F;
+			float rebound = 0.25F;
+			ItemGunBaseNT.recoilVertical *= decay;
+			ItemGunBaseNT.recoilHorizontal *= decay;
+			float dV = ItemGunBaseNT.offsetVertical * rebound;
+			float dH = ItemGunBaseNT.offsetHorizontal * rebound;
 			
-			float decay = 0.8F;
-			this.recoilVertical *= decay;
-			this.offsetHorizontal *= decay;
-			float dV = this.offsetVertical * 0.2F;
-			float dH = this.offsetHorizontal * 0.2F;
-			
-			this.offsetVertical -= dV;
-			this.offsetHorizontal -= dH;
+			ItemGunBaseNT.offsetVertical -= dV;
+			ItemGunBaseNT.offsetHorizontal -= dH;
 			player.rotationPitch += dV;
 			player.rotationYaw += dH;
 		}

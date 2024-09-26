@@ -32,7 +32,9 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
 	public BulletConfig getType(ItemStack stack) {
 		int type = getMagType(stack, index);
 		if(type >= 0 && type < BulletConfig.configs.size()) {
-			return BulletConfig.configs.get(type);
+			BulletConfig cfg = BulletConfig.configs.get(type);
+			if(acceptedBullets.contains(cfg)) return cfg;
+			return acceptedBullets.get(0);
 		}
 		return null;
 	}

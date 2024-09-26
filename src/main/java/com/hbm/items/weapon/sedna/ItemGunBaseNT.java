@@ -42,6 +42,11 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	public double shotRand = 0D;
 	public List<SmokeNode> smokeNodes = new ArrayList();
 
+	public static float recoilVertical = 0;
+	public static float recoilHorizontal = 0;
+	public static float offsetVertical = 0;
+	public static float offsetHorizontal = 0;
+
 	public static final String O_GUNCONFIG = "O_GUNCONFIG";
 	
 	public static final String KEY_DRAWN = "drawn";

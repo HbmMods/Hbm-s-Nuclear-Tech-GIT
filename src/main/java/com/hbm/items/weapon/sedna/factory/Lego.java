@@ -87,6 +87,12 @@ public class Lego {
 	};
 	
 	/** Toggles isAiming. Used by keybinds. */
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_RECOIL = (stack, ctx) -> {
+		ItemGunBaseNT.recoilVertical += 10;
+		ItemGunBaseNT.recoilHorizontal += ctx.player.getRNG().nextGaussian() * 1.5;
+	};
+	
+	/** Toggles isAiming. Used by keybinds. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_TOGGLE_AIM = (stack, ctx) -> { ItemGunBaseNT.setIsAiming(stack, !ItemGunBaseNT.getIsAiming(stack)); };
 	
 	/** Returns true if the mag has ammo in it. Used by keybind functions on whether to fire, and deciders on whether to trigger a refire, */

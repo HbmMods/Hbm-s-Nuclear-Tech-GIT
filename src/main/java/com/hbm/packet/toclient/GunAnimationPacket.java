@@ -1,11 +1,13 @@
 package com.hbm.packet.toclient;
 
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
-import com.hbm.main.ModEventHandlerClient;
+import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.AnimType;
@@ -23,22 +25,31 @@ import net.minecraft.item.ItemStack;
 
 public class GunAnimationPacket implements IMessage {
 
-	int type;
+	public short type;
+	public int meta;
 
 	public GunAnimationPacket() { }
 
 	public GunAnimationPacket(int type) {
-		this.type = type;
+		this.type = (short) type;
+		this.meta = 0;
+	}
+
+	public GunAnimationPacket(int type, int meta) {
+		this.type = (short) type;
+		this.meta = meta;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		type = buf.readInt();
+		type = buf.readShort();
+		meta = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(type);
+		buf.writeShort(type);
+		buf.writeInt(meta);
 	}
 
 	public static class Handler implements IMessageHandler<GunAnimationPacket, IMessage> {
@@ -57,7 +68,7 @@ public class GunAnimationPacket implements IMessage {
 					return null;
 				
 				if(stack.getItem() instanceof ItemGunBaseNT) {
-					handleSedna(player, stack, slot, AnimType.values()[m.type]);
+					handleSedna(player, stack, slot, AnimType.values()[m.type], m.meta);
 				}
 				
 				if(!(stack.getItem() instanceof ItemGunBase))
@@ -91,7 +102,7 @@ public class GunAnimationPacket implements IMessage {
 			return null;
 		}
 		
-		public static void handleSedna(EntityPlayer player, ItemStack stack, int slot, AnimType type) {
+		public static void handleSedna(EntityPlayer player, ItemStack stack, int slot, AnimType type, int meta) {
 			ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 			GunConfig config = gun.getConfig(stack);
 			
@@ -99,8 +110,12 @@ public class GunAnimationPacket implements IMessage {
 				gun.lastShot = System.currentTimeMillis();
 				gun.shotRand = player.worldObj.rand.nextDouble();
 
-				ModEventHandlerClient.recoilVertical += 1;
-				ModEventHandlerClient.recoilHorizontal += player.getRNG().nextGaussian();
+				Receiver[] receivers = config.getReceivers(stack);
+				if(meta >= 0 && meta < receivers.length) {
+					Receiver rec = receivers[meta];
+					BiConsumer<ItemStack, LambdaContext> onRecoil= rec.getRecoil(stack);
+					if(onRecoil != null) onRecoil.accept(stack, new LambdaContext(config, player));
+				}
 			}
 			
 			BiFunction<ItemStack, AnimType, BusAnimation> anims = config.getAnims(stack);
