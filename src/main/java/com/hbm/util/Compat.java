@@ -35,6 +35,7 @@ public class Compat {
 	public static final String MOD_TIC = "TConstruct";
 	public static final String MOD_RC = "Railcraft";
 	public static final String MOD_TC = "tc";
+	public static final String MOD_EIDS = "endlessids";
 
 	public static Item tryLoadItem(String domain, String name) {
 		return (Item) Item.itemRegistry.getObject(getReg(domain, name));

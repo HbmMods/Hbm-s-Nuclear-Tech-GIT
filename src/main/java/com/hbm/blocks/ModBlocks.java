@@ -1,5 +1,7 @@
 package com.hbm.blocks;
 
+import java.util.ArrayList;
+
 import com.hbm.blocks.BlockEnums.*;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.fluid.*;
@@ -29,7 +31,10 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
@@ -1305,7 +1310,7 @@ public class ModBlocks {
 		stalactite = new BlockStalagmite().setBlockName("stalactite").setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.0F);
 		stone_biome = new BlockBiomeStone().setBlockName("stone_biome").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F);
 
-		basalt = new BlockGeneric(Material.rock).setBlockName("basalt").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt");
+		basalt = new BlockPillar(Material.rock, RefStrings.MODID + ":basalt_top").setBlockName("basalt").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt");
 		ore_basalt = new BlockOreBasalt().setBlockName("ore_basalt").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":ore_basalt");
 		basalt_smooth = new BlockGeneric(Material.rock).setBlockName("basalt_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_smooth");
 		basalt_brick = new BlockGeneric(Material.rock).setBlockName("basalt_brick").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F).setBlockTextureName(RefStrings.MODID + ":basalt_brick");
@@ -3465,5 +3470,21 @@ public class ModBlocks {
 	public static void addRemap(String unloc, Block block, int meta) {
 		Block remap = new BlockRemap(block, meta).setBlockName(unloc);
 		register(remap, ItemBlockRemap.class);
+	}
+
+	// Pretty much the default getDrops function but with no damage set on the item (fucks with recipes)
+	// but setting the meta via damageDropped breaks creative middle-click and any WAILA-like overlays
+	public static ArrayList<ItemStack> getDropsWithoutDamage(World world, Block block, int metadata, int fortune) {
+		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+
+		int count = block.quantityDropped(metadata, fortune, world.rand);
+		for(int i = 0; i < count; i++) {
+			Item item = block.getItemDropped(metadata, world.rand, fortune);
+			if(item != null) {
+				ret.add(new ItemStack(item, 1, 0));
+			}
+		}
+
+		return ret;
 	}
 }
