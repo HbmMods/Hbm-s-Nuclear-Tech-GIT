@@ -32,7 +32,6 @@ if(!mod_build_number.isEmpty()) {
 group = "com.hbm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HBM-NTM"
 compileJava.options.encoding = 'UTF-8'
-compileJava.options.compilerArgs += '-proc:none'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
