@@ -5,6 +5,7 @@ import java.util.function.BiFunction;
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.main.ModEventHandlerClient;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.AnimType;
@@ -97,6 +98,9 @@ public class GunAnimationPacket implements IMessage {
 			if(type == AnimType.CYCLE) {
 				gun.lastShot = System.currentTimeMillis();
 				gun.shotRand = player.worldObj.rand.nextDouble();
+
+				ModEventHandlerClient.recoilVertical += 1;
+				ModEventHandlerClient.recoilHorizontal += player.getRNG().nextGaussian();
 			}
 			
 			BiFunction<ItemStack, AnimType, BusAnimation> anims = config.getAnims(stack);
