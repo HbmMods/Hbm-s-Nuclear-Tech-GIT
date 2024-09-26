@@ -668,11 +668,11 @@ public class ModBlocks {
 	
 	public static Block machine_fel;
 	public static Block machine_silex;
-	
+
+	public static Block machine_rotary_furnace;
 	public static Block machine_crystallizer;
 	
 	public static Block machine_uf6_tank;
-	
 	public static Block machine_puf6_tank;
 
 	public static Block machine_reactor_breeding;
@@ -1768,6 +1768,7 @@ public class ModBlocks {
 		machine_gascent = new MachineGasCent(Material.iron).setBlockName("machine_gascent").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_fel = new MachineFEL(Material.iron).setBlockName("machine_fel").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		machine_silex = new MachineSILEX(Material.iron).setBlockName("machine_silex").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		machine_rotary_furnace = new MachineRotaryFurnace(Material.iron).setBlockName("machine_rotary_furnace").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_firebrick");
 		machine_crystallizer = new MachineCrystallizer(Material.iron).setBlockName("machine_crystallizer").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_crystallizer");
 		
 		machine_uf6_tank = new MachineUF6Tank(Material.iron).setBlockName("machine_uf6_tank").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
@@ -3014,6 +3015,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_gascent, machine_gascent.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_fel, machine_fel.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_silex, machine_silex.getUnlocalizedName());
+		register(machine_rotary_furnace);
 		GameRegistry.registerBlock(machine_crystallizer, machine_crystallizer.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_uf6_tank, machine_uf6_tank.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_puf6_tank, machine_puf6_tank.getUnlocalizedName());
