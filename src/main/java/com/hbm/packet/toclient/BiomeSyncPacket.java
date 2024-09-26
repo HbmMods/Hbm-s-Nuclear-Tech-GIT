@@ -104,17 +104,17 @@ public class BiomeSyncPacket implements IMessage {
 			chunk.isModified = true;
 
 			if(Loader.isModLoaded(Compat.MOD_EIDS)) {
-                if (m.biomeArray == null) {
-                    ChunkBiomeHook hook = (ChunkBiomeHook) chunk;
-                    hook.getBiomeShortArray()[(m.blockZ & 15) << 4 | m.blockX & 15] = m.biome;
-                    world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, m.chunkX << 4, 255, m.chunkZ << 4);
-                } else {
-                    for (int i = 0; i < 255; ++i) {
-                        ChunkBiomeHook hook = (ChunkBiomeHook) chunk;
-                        hook.getBiomeShortArray()[i] = m.biomeArray[i];
-                        world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, (m.chunkX << 4) + 15, 255, (m.chunkZ << 4) + 15);
-                    }
-                }
+				if (m.biomeArray == null) {
+					ChunkBiomeHook hook = (ChunkBiomeHook) chunk;
+					hook.getBiomeShortArray()[(m.blockZ & 15) << 4 | m.blockX & 15] = m.biome;
+					world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, m.chunkX << 4, 255, m.chunkZ << 4);
+				} else {
+					for (int i = 0; i < 255; ++i) {
+						ChunkBiomeHook hook = (ChunkBiomeHook) chunk;
+						hook.getBiomeShortArray()[i] = m.biomeArray[i];
+						world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, (m.chunkX << 4) + 15, 255, (m.chunkZ << 4) + 15);
+					}
+				}
 			} else {
 				if(m.biomeArray == null) {
 					chunk.getBiomeArray()[(m.blockZ & 15) << 4 | (m.blockX & 15)] = (byte) m.biome;
