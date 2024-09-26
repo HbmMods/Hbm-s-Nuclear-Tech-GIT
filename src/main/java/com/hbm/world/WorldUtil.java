@@ -3,7 +3,6 @@ package com.hbm.world;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.BiomeSyncPacket;
 import com.hbm.util.Compat;
-import com.falsepattern.endlessids.mixin.helpers.ChunkBiomeHook;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
@@ -24,8 +23,8 @@ public class WorldUtil {
 	public static void setBiome(World world, int x, int z, BiomeGenBase biome) {
 		Chunk chunk = world.getChunkFromBlockCoords(x, z);
 		if(Loader.isModLoaded(Compat.MOD_EIDS)) {
-			short[] array = ((ChunkBiomeHook) chunk).getBiomeShortArray();
-			array[(z & 15) << 4 | x & 15] = (short) biome.biomeID;
+			short[] array = Compat.getBiomeShortArray(chunk);
+			if(array != null) array[(z & 15) << 4 | x & 15] = (short) biome.biomeID;
 		} else {
 			chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)] = (byte)(biome.biomeID & 255);
 		}
@@ -35,7 +34,8 @@ public class WorldUtil {
 	public static void syncBiomeChange(World world, int x, int z) {
 		Chunk chunk = world.getChunkFromBlockCoords(x, z);
 		if(Loader.isModLoaded(Compat.MOD_EIDS)) {
-			PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x >> 4, z >> 4, ((ChunkBiomeHook) chunk).getBiomeShortArray()), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
+			short[] array = Compat.getBiomeShortArray(chunk);
+			if(array != null) PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x >> 4, z >> 4, array), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
 		} else {
 			PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x >> 4, z >> 4, chunk.getBiomeArray()), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
 		}
@@ -44,8 +44,8 @@ public class WorldUtil {
 	public static void syncBiomeChangeBlock(World world, int x, int z) {
 		Chunk chunk = world.getChunkFromBlockCoords(x, z);
 		if(Loader.isModLoaded(Compat.MOD_EIDS)) {
-			short biome = ((ChunkBiomeHook) chunk).getBiomeShortArray()[(z & 15) << 4 | (x & 15)];
-			PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x, z, biome), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
+			short[] array = Compat.getBiomeShortArray(chunk);
+			if(array != null) PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x, z, array[(z & 15) << 4 | (x & 15)]), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
 		} else {
 			byte biome = chunk.getBiomeArray()[(z & 15) << 4 | (x & 15)];
 			PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(x, z, biome), new TargetPoint(world.provider.dimensionId, x, 128, z, 1024D));
@@ -65,7 +65,8 @@ public class WorldUtil {
 		/* this sucks ass */
 		ChunkCoordIntPair coord = chunk.getChunkCoordIntPair();
 		if(Loader.isModLoaded(Compat.MOD_EIDS)) {
-			PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(coord.chunkXPos, coord.chunkZPos, ((ChunkBiomeHook) chunk).getBiomeShortArray()), new TargetPoint(world.provider.dimensionId, coord.getCenterXPos(), 128, coord.getCenterZPosition() /* who named you? */, 1024D));
+			short[] array = Compat.getBiomeShortArray(chunk);
+			if(array != null) PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(coord.chunkXPos, coord.chunkZPos, array), new TargetPoint(world.provider.dimensionId, coord.getCenterXPos(), 128, coord.getCenterZPosition() /* who named you? */, 1024D));
 		} else {
 			PacketDispatcher.wrapper.sendToAllAround(new BiomeSyncPacket(coord.chunkXPos, coord.chunkZPos, chunk.getBiomeArray()), new TargetPoint(world.provider.dimensionId, coord.getCenterXPos(), 128, coord.getCenterZPosition() /* who named you? */, 1024D));
 		}

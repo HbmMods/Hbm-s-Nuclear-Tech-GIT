@@ -149,6 +149,11 @@ public class ModEventHandlerClient {
 	public static long flashTimestamp;
 	public static final int shakeDuration = 1_500;
 	public static long shakeTimestamp;
+
+	public static float recoilVertical = 0;
+	public static float recoilHorizontal = 0;
+	public static float offsetVertical = 0;
+	public static float offsetHorizontal = 0;
 	
 	@SubscribeEvent
 	public void onOverlayRender(RenderGameOverlayEvent.Pre event) {
@@ -972,9 +977,10 @@ public class ModEventHandlerClient {
 		} else {
 			isRenderingItems = false;
 		}
+
+		EntityPlayer player = mc.thePlayer;
 		
 		if(event.phase == Phase.START) {
-			EntityPlayer player = mc.thePlayer;
 			
 			float discriminator = 0.003F;
 			float defaultStepSize = 0.5F;
@@ -990,6 +996,25 @@ public class ModEventHandlerClient {
 			} else {
 				for(int i = 1; i < 4; i++) if(player.stepHeight == i + discriminator) player.stepHeight = defaultStepSize;
 			}
+		}
+		
+		if(event.phase == Phase.END) {
+			
+			this.offsetVertical += this.recoilVertical;
+			this.offsetHorizontal += this.recoilHorizontal;
+			player.rotationPitch += this.recoilVertical;
+			player.rotationYaw += this.recoilHorizontal;
+			
+			float decay = 0.8F;
+			this.recoilVertical *= decay;
+			this.offsetHorizontal *= decay;
+			float dV = this.offsetVertical * 0.2F;
+			float dH = this.offsetHorizontal * 0.2F;
+			
+			this.offsetVertical -= dV;
+			this.offsetHorizontal -= dH;
+			player.rotationPitch += dV;
+			player.rotationYaw += dH;
 		}
 	}
 	

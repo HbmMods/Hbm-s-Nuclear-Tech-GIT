@@ -1,5 +1,6 @@
 package com.hbm.util;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -198,6 +199,37 @@ public class Compat {
 			MainRegistry.logger.error("| Tried to remove Railcraft block but failed due to " + x.getMessage());
 		}
 		MainRegistry.logger.info("#######################################################");
+	}
+	
+	public static Class getChunkBiomeHook() {
+		try {
+			return Class.forName("com.falsepattern.endlessids.mixin.helpers.ChunkBiomeHook");
+		} catch(ClassNotFoundException e) {
+			return null;
+		}
+	}
+	
+	public static Method getBiomeShortArray;
+	
+	public static Method getBiomeShortArray() {
+		if(getBiomeShortArray != null) return getBiomeShortArray;
+		try {
+			Method m = getChunkBiomeHook().getDeclaredMethod("getBiomeShortArray");
+			getBiomeShortArray = m;
+			return m;
+		} catch(Exception e) {
+			return null;
+		}
+	}
+	
+	public static short[] getBiomeShortArray(Object instance) {
+		Method m = getBiomeShortArray();
+		if(m != null) {
+			try {
+				return (short[]) m.invoke(instance);
+			} catch(Exception e) { }
+		}
+		return null;
 	}
 	
 	/** A standard implementation of safely grabbing a tile entity without loading chunks, might have more fluff added to it later on. */

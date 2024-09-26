@@ -76,14 +76,6 @@ repositories {
 		name = "gt"
 		url = "https://gregtech.mechaenetia.com/"
 	}
-	maven {
-		name = 'FalsePattern'
-		url = "https://mvn.falsepattern.com/releases/"
-	}
-	maven {
-		name = "GitHub"
-		url = "https://jitpack.io"
-	}
 	//maven {
 	//	name = "CurseForge"
 	//	url = "https://minecraft.curseforge.com/api/maven/"
@@ -103,8 +95,6 @@ dependencies {
 	compileOnly "inventorytweaks:InventoryTweaks:1.59-dev:deobf"
 
 	implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
-
-	compileOnly 'com.falsepattern:endlessids-mc1.7.10:1.5.4:dev'
 }
 
 processResources {

@@ -1,7 +1,6 @@
 package com.hbm.packet.toclient;
 
 import cpw.mods.fml.common.Loader;
-import com.falsepattern.endlessids.mixin.helpers.ChunkBiomeHook;
 import com.hbm.util.Compat;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -105,13 +104,13 @@ public class BiomeSyncPacket implements IMessage {
 
 			if(Loader.isModLoaded(Compat.MOD_EIDS)) {
 				if (m.biomeArray == null) {
-					ChunkBiomeHook hook = (ChunkBiomeHook) chunk;
-					hook.getBiomeShortArray()[(m.blockZ & 15) << 4 | m.blockX & 15] = m.biome;
+					short[] array = Compat.getBiomeShortArray(chunk);
+					if(array != null) array[(m.blockZ & 15) << 4 | m.blockX & 15] = m.biome;
 					world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, m.chunkX << 4, 255, m.chunkZ << 4);
 				} else {
 					for (int i = 0; i < 255; ++i) {
-						ChunkBiomeHook hook = (ChunkBiomeHook) chunk;
-						hook.getBiomeShortArray()[i] = m.biomeArray[i];
+						short[] array = Compat.getBiomeShortArray(chunk);
+						if(array != null) array[i] = m.biomeArray[i];
 						world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, (m.chunkX << 4) + 15, 255, (m.chunkZ << 4) + 15);
 					}
 				}
