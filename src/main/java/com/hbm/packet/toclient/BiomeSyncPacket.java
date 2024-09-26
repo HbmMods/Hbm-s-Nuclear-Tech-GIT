@@ -1,8 +1,8 @@
 package com.hbm.packet.toclient;
 
 import cpw.mods.fml.common.Loader;
-import com.falsepattern.endlessids.mixin.helpers.ChunkBiomeHook;
 import com.hbm.util.Compat;
+import com.hbm.world.WorldUtil;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -104,24 +104,24 @@ public class BiomeSyncPacket implements IMessage {
 			chunk.isModified = true;
 
 			if(Loader.isModLoaded(Compat.MOD_EIDS)) {
-				if (m.biomeArray == null) {
-					ChunkBiomeHook hook = (ChunkBiomeHook) chunk;
-					hook.getBiomeShortArray()[(m.blockZ & 15) << 4 | m.blockX & 15] = m.biome;
+				short[] target = WorldUtil.getBiomeShortArray(chunk);
+				if(m.biomeArray == null) {
+					target[(m.blockZ & 15) << 4 | m.blockX & 15] = m.biome;
 					world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, m.chunkX << 4, 255, m.chunkZ << 4);
 				} else {
-					for (int i = 0; i < 255; ++i) {
-						ChunkBiomeHook hook = (ChunkBiomeHook) chunk;
-						hook.getBiomeShortArray()[i] = m.biomeArray[i];
+					for(int i = 0; i < 255; ++i) {
+						target[i] = m.biomeArray[i];
 						world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, (m.chunkX << 4) + 15, 255, (m.chunkZ << 4) + 15);
 					}
 				}
 			} else {
+				byte[] target = chunk.getBiomeArray();
 				if(m.biomeArray == null) {
-					chunk.getBiomeArray()[(m.blockZ & 15) << 4 | (m.blockX & 15)] = (byte) m.biome;
+					target[(m.blockZ & 15) << 4 | (m.blockX & 15)] = (byte) m.biome;
 					world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, m.chunkX << 4, 255, m.chunkZ << 4);
 				} else {
 					for(int i = 0; i < 256; i++) {
-						chunk.getBiomeArray()[i] = (byte) m.biomeArray[i];
+						target[i] = (byte) m.biomeArray[i];
 						world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, (m.chunkX << 4) + 15, 255, (m.chunkZ << 4) + 15);
 					}
 				}

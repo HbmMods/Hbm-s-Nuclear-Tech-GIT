@@ -32,7 +32,6 @@ if(!mod_build_number.isEmpty()) {
 group = "com.hbm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "HBM-NTM"
 compileJava.options.encoding = 'UTF-8'
-compileJava.options.compilerArgs += '-proc:none'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
@@ -76,14 +75,6 @@ repositories {
 		name = "gt"
 		url = "https://gregtech.mechaenetia.com/"
 	}
-	maven {
-		name = 'FalsePattern'
-		url = "https://mvn.falsepattern.com/releases/"
-	}
-	maven {
-		name = "GitHub"
-		url = "https://jitpack.io"
-	}
 	//maven {
 	//	name = "CurseForge"
 	//	url = "https://minecraft.curseforge.com/api/maven/"
@@ -103,8 +94,6 @@ dependencies {
 	compileOnly "inventorytweaks:InventoryTweaks:1.59-dev:deobf"
 
 	implementation "li.cil.oc:OpenComputers:MC1.7.10-1.5.+:api"
-
-	compileOnly 'com.falsepattern:endlessids-mc1.7.10:1.5.4:dev'
 }
 
 processResources {
