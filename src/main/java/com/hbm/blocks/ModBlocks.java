@@ -1103,6 +1103,7 @@ public class ModBlocks {
 	public static Block machine_turbofan;
 	public static Block machine_turbinegas;
 	public static Block machine_lpw2;
+	public static Block machine_htr3;
 	public static Block machine_xenon_thruster;
 
 	public static Block press_preheater;
@@ -3584,6 +3585,7 @@ public class ModBlocks {
 		register(machine_turbofan);
 		register(machine_turbinegas);
 		register(machine_lpw2);
+		register(machine_htr3);
 		register(machine_xenon_thruster);
 		GameRegistry.registerBlock(machine_schrabidium_transmutator, machine_schrabidium_transmutator.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_discharger, machine_discharger.getUnlocalizedName());
