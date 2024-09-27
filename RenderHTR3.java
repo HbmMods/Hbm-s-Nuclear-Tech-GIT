@@ -1,0 +1,304 @@
+package com.hbm.render.tileentity;
+
+import org.lwjgl.opengl.GL11;
+
+import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
+import com.hbm.tileentity.machine.TileEntityMachineHTR3;
+import com.hbm.util.BobMathUtil;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.client.IItemRenderer;
+
+public class RenderHTR3 extends TileEntitySpecialRenderer implements IItemRendererProvider {
+
+	@Override
+	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float interp) {
+		if(!(te instanceof TileEntityMachineHTR3)) return;
+		TileEntityMachineHTR3 rocket = (TileEntityMachineHTR3) te;
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(x + 0.5, y, z + 0.5);
+
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+
+		switch(te.getBlockMetadata() - BlockDummyable.offset) {
+		case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
+		case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
+		case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
+		case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
+		}
+
+		long time = te.getWorldObj().getTotalWorldTime();
+
+		double t = rocket.lastTime + (rocket.time - rocket.lastTime) * interp;
+
+		double bellTimer = (t / 5D) % (Math.PI * 4);
+		double h = (Math.sin(bellTimer + Math.PI) + Math.sin(bellTimer * 1.5D)) / 1.90596D;
+		double v = (Math.sin(bellTimer) + Math.sin(bellTimer * 1.5D)) / 1.90596D;
+
+		double pistonTimer = (t / 5D) % (Math.PI * 2);
+		double piston = BobMathUtil.sps(pistonTimer);
+		double rotorTimer = (t / 5D) % (Math.PI * 16);
+		double rotor = (BobMathUtil.sps(rotorTimer) + rotorTimer / 2D - 1) / 25.1327412287D;
+		double turbine = (t % 100) / 100D;
+
+		bindTexture(ResourceManager.lpw2_tex);
+		ResourceManager.htr3.renderPart("Frame");
+		
+		renderMainAssembly( h, v, piston, rotor, turbine);
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(-2.9375, 0, 2.375);
+		GL11.glRotated(10, 0, 1, 0);
+		GL11.glTranslated(2.9375, 0, -2.375);
+		ResourceManager.htr3.renderPart("WireLeft");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(2.9375, 0, 2.375);
+		GL11.glRotated(-10, 0, 1, 0);
+		GL11.glTranslated(-2.9375, 0, -2.375);
+		ResourceManager.htr3.renderPart("WireRight");
+		GL11.glPopMatrix();
+
+		double coverTimer = (t / 5D) % (Math.PI * 4);
+		double cover = (Math.sin(coverTimer) + Math.sin(coverTimer * 2) + Math.sin(coverTimer * 4)) * 0.5;
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0, -cover * 0.125);
+		ResourceManager.htr3.renderPart("Cover");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0, 3.5);
+		GL11.glScaled(1, 1, (3 + cover * 0.125) / 3);
+		GL11.glTranslated(0, 0, -3.5);
+		ResourceManager.htr3.renderPart("SuspensionCoverFront");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0, -5.5);
+		GL11.glScaled(1, 1, (1.5 - cover * 0.125) / 1.5);
+		GL11.glTranslated(0, 0, 5.5);
+		ResourceManager.htr3.renderPart("SuspensionCoverBack");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0, -9);
+		GL11.glScaled(1, 1, (1.25 - 0.125) / 1.25);
+		GL11.glTranslated(0, 0, 9);
+		ResourceManager.htr3.renderPart("SuspensionBackOuter");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0, -9.5);
+		GL11.glScaled(1, 1, (1.75 - 0.125) / 1.75);
+		GL11.glTranslated(0, 0, 9.5);
+		ResourceManager.htr3.renderPart("SuspensionBackCenter");
+		GL11.glPopMatrix();
+
+		double serverTimer = (t / 2D) % (Math.PI * 4);
+		double sx = (Math.sin(serverTimer + Math.PI) + Math.sin(serverTimer * 1.5D)) / 1.90596D;
+		double sy = (Math.sin(serverTimer) + Math.sin(serverTimer * 1.5D)) / 1.90596D;
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(sx, 0, sy);
+		ResourceManager.htr3.renderPart("Server1");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(-sy, 0, sx);
+		ResourceManager.htr3.renderPart("Server2");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(sy, 0, -sx);
+		ResourceManager.htr3.renderPart("Server3");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(-sx, 0, -sy);
+		ResourceManager.htr3.renderPart("Server4");
+		GL11.glPopMatrix();
+
+		double errorTimer = ((time + interp) / 3D);
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(sy, 0, sx);
+		
+		ResourceManager.htr3.renderPart("Monitor");
+
+		/*Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.lpw2_term_tex);
+		ResourceManager.htr3.renderPart("Screen");*/
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.lpw2_error_tex);
+		
+		GL11.glMatrixMode(GL11.GL_TEXTURE);
+		GL11.glLoadIdentity();
+		GL11.glTranslated(0, (BobMathUtil.sps(errorTimer) + errorTimer / 2D) % 1, 0);
+		ResourceManager.htr3.renderPart("Screen");
+		GL11.glMatrixMode(GL11.GL_TEXTURE);
+		GL11.glLoadIdentity();
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		
+		GL11.glPopMatrix();
+
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glPopMatrix();
+	}
+	
+	public static void renderMainAssembly(double h, double v, double piston, double rotor, double turbine) {
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0, 0.125);
+		ResourceManager.htr3.renderPart("Center");
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 3.5, 0);
+		
+		GL11.glPushMatrix();
+		GL11.glRotated(rotor * 360, 0, 0, -1);
+		GL11.glTranslated(0, -3.5, 0);
+		ResourceManager.htr3.renderPart("Rotor");
+		GL11.glPopMatrix();
+
+		GL11.glPushMatrix();
+		GL11.glRotated(turbine * 360, 0, 0, 1);
+		GL11.glTranslated(0, -3.5, 0);
+		ResourceManager.htr3.renderPart("TurbineFront");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glRotated(turbine * 360, 0, 0, -1);
+		GL11.glTranslated(0, -3.5, 0);
+		ResourceManager.htr3.renderPart("TurbineBack");
+		GL11.glPopMatrix();
+
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0, piston * 0.375D + 0.375D);
+		ResourceManager.htr3.renderPart("Piston");
+		GL11.glPopMatrix();
+		
+		renderBell(h, v);
+		GL11.glPopMatrix();
+		
+		renderShroud(h, v);
+	}
+	
+	public static void renderBell(double h, double v) {
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 3.5, 2.75);
+		double magnitude = 2D;
+		GL11.glRotated(v * magnitude, 0, 1, 0);
+		GL11.glRotated(h * magnitude, 1, 0, 0);
+		GL11.glTranslated(0, -3.5, -2.75);
+		ResourceManager.htr3.renderPart("Engine");
+		GL11.glPopMatrix();
+	}
+	
+	public static void renderShroud(double h, double v) {
+
+		double magnitude = 0.125D;
+		double rotation = 5D;
+		double offset = 10D;
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, -h * magnitude, 0);
+		ResourceManager.htr3.renderPart("ShroudH");
+
+		renderFlap(90 + 22.5D, rotation * v + offset);
+		renderFlap(90 - 22.5D, rotation * v + offset);
+		renderFlap(270 + 22.5D, rotation * -v + offset);
+		renderFlap(270 - 22.5D, rotation * -v + offset);
+		
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(v * magnitude, 0, 0);
+		ResourceManager.htr3.renderPart("ShroudV");
+
+		renderFlap(22.5D, rotation * h + offset);
+		renderFlap(-22.5D, rotation * h + offset);
+		renderFlap(180 + 22.5D, rotation * -h + offset);
+		renderFlap(180 - 22.5D, rotation * -h + offset);
+		
+		GL11.glPopMatrix();
+		
+		double length = 0.6875D;
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(-2.625D, 0, 0);
+		GL11.glScaled((length + v * magnitude) / length, 1, 1);
+		GL11.glTranslated(2.625D, 0, 0);
+		ResourceManager.htr3.renderPart("SuspensionLeft");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(2.625D, 0, 0);
+		GL11.glScaled((length - v * magnitude) / length, 1, 1);
+		GL11.glTranslated(-2.625D, 0, 0);
+		ResourceManager.htr3.renderPart("SuspensionRight");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 6.125D, 0);
+		GL11.glScaled(1, (length + h * magnitude) / length, 1);
+		GL11.glTranslated(0, -6.125D, 0);
+		ResourceManager.htr3.renderPart("SuspensionTop");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0.875D, 0);
+		GL11.glScaled(1, (length - h * magnitude) / length, 1);
+		GL11.glTranslated(0, -0.875D, 0);
+		ResourceManager.htr3.renderPart("SuspensionBottom");
+		GL11.glPopMatrix();
+	}
+	
+	public static void renderFlap(double position, double rotation) {
+		GL11.glPushMatrix();
+		
+		GL11.glTranslated(0, 3.5D, 0);
+		GL11.glRotated(position, 0, 0, 1);
+		GL11.glTranslated(0, -3.5D, 0);
+		
+		GL11.glTranslated(0, 6.96875D, 8.5D);
+		GL11.glRotated(rotation, 1, 0, 0);
+		GL11.glTranslated(0, -6.96875D, -8.5D);
+		
+		ResourceManager.htr3.renderPart("Flap");
+		GL11.glPopMatrix();
+	}
+
+	@Override
+	public Item getItemForRenderer() {
+		return Item.getItemFromBlock(ModBlocks.machine_htr3);
+	}
+
+	@Override
+	public IItemRenderer getRenderer() {
+		return new ItemRenderBase() {
+			public void renderInventory() {
+				GL11.glTranslated(1, -1, 0);
+				GL11.glScaled(1.6, 1.6, 1.6);
+			}
+			public void renderCommon() {
+				GL11.glScaled(0.5, 0.5, 0.5);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.lpw2_tex);
+				ResourceManager.htr3.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+			}
+		};
+	}
+
+}
