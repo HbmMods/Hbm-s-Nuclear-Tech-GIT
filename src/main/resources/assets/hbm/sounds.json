@@ -7,6 +7,9 @@
 	"misc.lpwstart": {"category": "player", "sounds": [{"name": "misc/lpw2start", "stream": false}]},
 	"misc.lpwstop": {"category": "player", "sounds": [{"name": "misc/lpwstop", "stream": false}]},
 	"misc.lpwloop": {"category": "player", "sounds": [{"name": "misc/lpwloop", "stream": false}]},
+	"misc.htrstart": {"category": "player", "sounds": [{"name": "misc/htr3start", "stream": false}]},
+	"misc.htrstop": {"category": "player", "sounds": [{"name": "misc/htrstop", "stream": false}]},
+	"misc.htrloop": {"category": "player", "sounds": [{"name": "misc/htrloop", "stream": false}]},
 
 	"block.crateBreak": {"category": "block", "sounds": ["block/crateBreak1", "block/crateBreak2", "block/crateBreak3", "block/crateBreak4", "block/crateBreak5"]},
 	"block.shutdown": {"category": "block", "sounds": [{"name": "block/shutdown", "stream": true}]},
