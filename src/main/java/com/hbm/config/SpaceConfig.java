@@ -17,6 +17,7 @@ public class SpaceConfig {
 	public static int minmusDimension = 21;
 	public static int laytheDimension = 22;
 	public static int orbitDimension = 23;
+	public static int tektoDimension = 24;
 
 	public static int minmusBiome = 40;
 	public static int minmusBasins = 41;
@@ -39,6 +40,10 @@ public class SpaceConfig {
 	public static int eveSeismicBiome = 125;
 	public static int laythePolarBiome = 126; //fuck my stupid chungus life
 	public static int ikeBiome = 127;
+	public static int tektoPolyvinyl = 100; //time is running out i pray i pray i pray
+	public static int HalogenHill = 101;
+	public static int TektoRiver = 102;
+
 	public static int mohoBasaltBiome = 43;
 
 	
@@ -68,6 +73,7 @@ public class SpaceConfig {
 		minmusDimension = CommonConfig.createConfigInt(config, CATEGORY_DIM, "17.07_minmusDimension", "Minmus dimension ID", minmusDimension);
 		laytheDimension = CommonConfig.createConfigInt(config, CATEGORY_DIM, "17.08_laytheDimension", "Laythe dimension ID", laytheDimension);
 		orbitDimension = CommonConfig.createConfigInt(config, CATEGORY_DIM, "17.09_orbitDimension", "Orbital dimension ID", orbitDimension);
+		tektoDimension = CommonConfig.createConfigInt(config, CATEGORY_DIM, "17.10_tektoDimension", "Tekto dimension ID", tektoDimension);
 		
 		final String CATEGORY_GENERAL = CommonConfig.CATEGORY_GENERAL;
 		maxProbeDistance = CommonConfig.createConfigInt(config, CATEGORY_GENERAL, "1.90_maxProbeDistance", "How far from the center of the dimension can probes generate landing coordinates", maxProbeDistance);

@@ -138,12 +138,12 @@ public class SolarSystem {
 							.withProcessingLevel(3)
 							.withTraits(new CBT_Atmosphere(Fluids.AIR, 0.45D).and(Fluids.XENON, 0.15D), new CBT_Water()),
 
-						new CelestialBody("vall")
+						new CelestialBody("vall") //probably
 							.withMassRadius(3.109e21F, 300)
 							.withSemiMajorAxis(43_152)
 							.withRotationalPeriod(105_962),
 
-						new CelestialBody("tylo")
+						new CelestialBody("tylo") // what value is this planet gonna add???
 							.withMassRadius(4.233e22F, 600)
 							.withSemiMajorAxis(68_500)
 							.withRotationalPeriod(211_926),
@@ -158,8 +158,43 @@ public class SolarSystem {
 							.withSemiMajorAxis(179_890)
 							.withRotationalPeriod(901_902)
 
-					)
+					),
+					
+				new CelestialBody("sarnus")
+					.withMassRadius(1.223e24F, 5_300)
+					.withSemiMajorAxis(125_798_522)
+					.withRotationalPeriod(28_500)
+					.withColor(1f, 0.6862f, 0.5882f)
+					.withSatellites(
+							
+					new CelestialBody("hale") //no
+						.withMassRadius(1.2166e16F, 6)
+						.withSemiMajorAxis(10_488)
+						.withRotationalPeriod(23_555),
 
+					new CelestialBody("ovok") //nah
+						.withMassRadius(4.233e17F, 26)
+						.withSemiMajorAxis(12_169)
+						.withRotationalPeriod(29_440),
+
+					new CelestialBody("eeloo") //will add
+						.withMassRadius(1.115e21F, 210)
+						.withSemiMajorAxis(19_106)
+						.withRotationalPeriod(57_915),
+
+					new CelestialBody("slate") //not you tho
+						.withMassRadius(2.965e22F, 540)
+						.withSemiMajorAxis(42_593)
+						.withRotationalPeriod(192_771),
+
+					new CelestialBody("tekto", SpaceConfig.tektoDimension, Body.TEKTO)
+						.withMassRadius(2.883e21F, 480)
+						.withSemiMajorAxis(67_355)
+						.withRotationalPeriod(57_915)
+						.withAxialTilt(25F)
+						.withTraits(new CBT_Atmosphere(Fluids.TEKTOAIR, 1.5F))
+
+				)
 			);
 
 		runTests();
@@ -176,7 +211,8 @@ public class SolarSystem {
 		DRES("dres"),
 		EVE("eve"),
 		IKE("ike"),
-		LAYTHE("laythe");
+		LAYTHE("laythe"),
+		TEKTO("tekto");
 
 		public String name;
 
