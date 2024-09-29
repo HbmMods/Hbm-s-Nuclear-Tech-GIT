@@ -1,12 +1,6 @@
-## Changed
-* Fans no longer work in a vacuum
-* Drop pods no longer look like valid rocket parts (they're standalone)
-* Stardar SLF button now produces a drive for the station you're currently on if in orbit
-* Atmosphere fog fades with altitude again, but higher than the sky color
+## Added
+* HTR-3 Hydrogen Thermal Rocket propulsion
 
 ## Fixed
-* Rocket pad crash on unexpected items
-* Beds can be used in orbit (doesn't currently skip time)
-* Gas giant harvesters now work in Laythe orbit
-* Fix missing Alkyl Bromide fluid and tank texture
-* Attempt at fixing thruster deregistration issue
+* Crash on servers when making an orbital transfer with insufficient fuel
+* Monsters spawning in nuclear craters in space
