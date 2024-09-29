@@ -6,6 +6,7 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.util.BobMathUtil;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -31,7 +32,11 @@ public class RenderRotaryFurnace extends TileEntitySpecialRenderer implements II
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.rotary_furnace_tex);
-		ResourceManager.rotary_furnace.renderAll();
+		ResourceManager.rotary_furnace.renderPart("Furnace");
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, BobMathUtil.sps((tile.getWorldObj().getTotalWorldTime() + f) * 0.125) * 0.5 - 0.5, 0);
+		ResourceManager.rotary_furnace.renderPart("Piston");
+		GL11.glPopMatrix();
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		GL11.glPopMatrix();

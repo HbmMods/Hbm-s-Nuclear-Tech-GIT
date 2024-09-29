@@ -12,6 +12,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIPyroOven;
 import com.hbm.inventory.recipes.PyroOvenRecipes;
 import com.hbm.inventory.recipes.PyroOvenRecipes.PyroOvenRecipe;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
@@ -41,7 +42,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implements IEnergyReceiverMK2, IFluidStandardTransceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
 	
 	public long power;
-	public static final long maxPower = 1_000_000;
+	public static final long maxPower = 10_000_000;
 	public boolean isVenting;
 	public boolean isProgressing;
 	public float progress;
@@ -59,6 +60,15 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.NONE, 24_000);
 		tanks[1] = new FluidTank(Fluids.NONE, 24_000);
+	}
+
+	@Override
+	public void setInventorySlotContents(int i, ItemStack stack) {
+		super.setInventorySlotContents(i, stack);
+		
+		if(stack != null && stack.getItem() instanceof ItemMachineUpgrade && i >= 4 && i <= 5) {
+			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
+		}
 	}
 
 	@Override
@@ -96,7 +106,7 @@ public class TileEntityMachinePyroOven extends TileEntityMachinePolluting implem
 				PyroOvenRecipe recipe = getMatchingRecipe();
 				this.progress += 1F / Math.max((recipe.duration - speed * (recipe.duration / 4)) / (overdrive * 2 + 1), 1);
 				this.isProgressing = true;
-				this.power -= this.getConsumption(speed, powerSaving);
+				this.power -= this.getConsumption(speed + overdrive * 2, powerSaving);
 				
 				if(progress >= 1F) {
 					this.progress = 0F;

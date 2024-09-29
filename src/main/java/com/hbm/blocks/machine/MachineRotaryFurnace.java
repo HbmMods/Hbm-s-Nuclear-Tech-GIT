@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class MachineRotaryFurnace extends BlockDummyable {
 
@@ -29,11 +30,31 @@ public class MachineRotaryFurnace extends BlockDummyable {
 
 	@Override
 	public int[] getDimensions() {
-		return new int[] {3, 0, 1, 1, 2, 2};
+		return new int[] {4, 0, 1, 1, 2, 2};
 	}
 
 	@Override
 	public int getOffset() {
 		return 1;
+	}
+
+	@Override
+	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
+		super.fillSpace(world, x, y, z, dir, o);
+		x += dir.offsetX * o;
+		z += dir.offsetZ * o;
+		
+		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
+
+		//back
+		for(int i = -2; i <= 2; i++) {
+			this.makeExtra(world, x - dir.offsetX + rot.offsetX * i, y, z - dir.offsetZ + rot.offsetZ * i);
+		}
+		//side fluid
+		this.makeExtra(world, x + dir.offsetX - rot.offsetX * 2, y, z + dir.offsetZ - rot.offsetZ * 2);
+		//exhaust
+		this.makeExtra(world, x + rot.offsetX, y + 4, z + rot.offsetZ);
+		//solid fuel
+		this.makeExtra(world, x + dir.offsetX + rot.offsetX, y, z + dir.offsetZ + rot.offsetZ);
 	}
 }

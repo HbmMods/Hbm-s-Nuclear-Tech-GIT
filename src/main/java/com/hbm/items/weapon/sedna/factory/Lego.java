@@ -11,8 +11,6 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.Receiver;
-import com.hbm.items.weapon.sedna.hud.HUDComponentAmmoCounter;
-import com.hbm.items.weapon.sedna.hud.HUDComponentDurabilityBar;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -29,9 +27,6 @@ import net.minecraft.item.ItemStack;
 public class Lego {
 	
 	public static final Random ANIM_RAND = new Random();
-
-	public static HUDComponentDurabilityBar HUD_COMPONENT_DURABILITY = new HUDComponentDurabilityBar();
-	public static HUDComponentAmmoCounter HUD_COMPONENT_AMMO = new HUDComponentAmmoCounter(0);
 	
 	/**
 	 * If IDLE and the mag of receiver 0 can be loaded, set state to RELOADING. Used by keybinds. */

@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 public interface IConditionalInvAccess {
 
 	public boolean isItemValidForSlot(int x, int y, int z, int slot, ItemStack stack);
-	public boolean canInsertItem(int x, int y, int z, int slot, ItemStack stack, int side);
+	public default boolean canInsertItem(int x, int y, int z, int slot, ItemStack stack, int side) { return isItemValidForSlot(x, y, z, slot, stack); }
 	public boolean canExtractItem(int x, int y, int z, int slot, ItemStack stack, int side);
 	public int[] getAccessibleSlotsFromSide(int x, int y, int z, int side);
 }
