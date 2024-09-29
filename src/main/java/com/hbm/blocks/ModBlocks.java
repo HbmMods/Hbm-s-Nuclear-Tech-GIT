@@ -27,6 +27,8 @@ import com.hbm.tileentity.machine.storage.TileEntityFileCabinet;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
+import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
@@ -556,6 +558,8 @@ public class ModBlocks {
 	public static Block tektite;
 	public static Block ore_tektite_osmiridium;
 	public static Block impact_dirt;
+	public static Block rubber_leaves;
+
 	
 	public static Block fallout;
 	public static Block salted_fallout;
@@ -1332,6 +1336,9 @@ public class ModBlocks {
 	public static Block primed_log;
 	public static Block eu_log;
 	
+	
+	public static Block pvc_log;
+
 	public static Block ff;
 
 	public static Block atmosphere_editor;
@@ -2577,6 +2584,10 @@ public class ModBlocks {
 		pink_double_slab = new BlockPinkSlab(true, Material.wood).setBlockName("pink_double_slab").setStepSound(Block.soundTypeWood).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pink_planks");
 		pink_stairs = new BlockGenericStairs(pink_planks, 0).setBlockName("pink_stairs").setStepSound(Block.soundTypeWood).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":pink_planks");
 		
+		pvc_log = new BlockLogTest().setBlockName("pvc_log").setStepSound(Block.soundTypeWood).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F);
+		rubber_leaves = new BlockRubberLeaves(Material.leaves).setBlockName("rubber_leaves").setStepSound(Block.soundTypeGrass).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F).setBlockTextureName(RefStrings.MODID + ":rubber_leaves");
+
+		//I MADE A NEW CLASS FOR FUCKING EACH OF THESE??? WHAT THE FUCK IS WRONG WITH YOU
 		lattice_log = new BlockLatticeLog().setBlockName("lattice_log").setStepSound(Block.soundTypeWood).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F);
 		bf_log = new BlockBfLog().setBlockName("bf_log").setStepSound(Block.soundTypeWood).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F);
 		primed_log = new BlockPrimedLog().setBlockName("primed_log").setStepSound(Block.soundTypeWood).setCreativeTab(MainRegistry.blockTab).setHardness(0.5F).setResistance(2.5F);
@@ -3121,12 +3132,16 @@ public class ModBlocks {
 		GameRegistry.registerBlock(tumor, tumor.getUnlocalizedName());
 
 		
-		
+		//todo: get rid of this
 		//oops
 		GameRegistry.registerBlock(primed_log, primed_log.getUnlocalizedName());
 		GameRegistry.registerBlock(eu_log, eu_log.getUnlocalizedName());
 		GameRegistry.registerBlock(bf_log, bf_log.getUnlocalizedName());
 		GameRegistry.registerBlock(lattice_log, lattice_log.getUnlocalizedName());
+		
+		GameRegistry.registerBlock(pvc_log, pvc_log.getUnlocalizedName());
+		GameRegistry.registerBlock(rubber_leaves, rubber_leaves.getUnlocalizedName());
+
 		//RAD
 		register(sellafield_slaked);
 		register(ore_sellafield_diamond);
