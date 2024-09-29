@@ -6,11 +6,13 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.dim.trait.CBT_Atmosphere;
 import com.hbm.handler.atmosphere.ChunkAtmosphereManager;
 import com.hbm.handler.atmosphere.IBlockSealable;
+import com.hbm.tileentity.IBufPacketReceiver;
 
 import api.hbm.block.IBlowable;
 import api.hbm.block.IToolable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockPistonBase;
@@ -68,10 +70,12 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 		return false;
 	}
 	
-	public static class TileEntityFan extends TileEntity {
+	public static class TileEntityFan extends TileEntity implements IBufPacketReceiver {
 
 		public float spin;
 		public float prevSpin;
+
+		private boolean hasAtmosphere;
 
 		@Override
 		public void updateEntity() {
@@ -79,8 +83,19 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 			this.prevSpin = this.spin;
 			
 			if(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-				CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(worldObj, xCoord, yCoord, zCoord);
-				if(atmosphere != null && atmosphere.getPressure() > 0.01D) {
+				if(!worldObj.isRemote) {
+					boolean prevHasAtmosphere = hasAtmosphere;
+
+					CBT_Atmosphere atmosphere = ChunkAtmosphereManager.proxy.getAtmosphere(worldObj, xCoord, yCoord, zCoord);
+					hasAtmosphere = atmosphere != null&& atmosphere.getPressure() > 0.01D;
+
+					// update when changing and every 3 seconds
+					if(prevHasAtmosphere != hasAtmosphere || worldObj.getTotalWorldTime() % 60 == 0) {
+						sendStandard(150);
+					}
+				}
+
+				if(hasAtmosphere) {
 					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 					
 					int range = 10;
@@ -133,6 +148,16 @@ public class MachineFan extends BlockContainer implements IToolable, ITooltipPro
 		@SideOnly(Side.CLIENT)
 		public double getMaxRenderDistanceSquared() {
 			return 65536.0D;
+		}
+
+		@Override
+		public void serialize(ByteBuf buf) {
+			buf.writeBoolean(hasAtmosphere);
+		}
+
+		@Override
+		public void deserialize(ByteBuf buf) {
+			hasAtmosphere = buf.readBoolean();
 		}
 	}
 
