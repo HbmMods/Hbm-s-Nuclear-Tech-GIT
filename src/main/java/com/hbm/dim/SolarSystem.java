@@ -187,7 +187,7 @@ public class SolarSystem {
 						.withSemiMajorAxis(42_593)
 						.withRotationalPeriod(192_771),
 
-					new CelestialBody("tekto")
+					new CelestialBody("tekto", SpaceConfig.tektoDimension, Body.TEKTO)
 						.withMassRadius(2.883e21F, 480)
 						.withSemiMajorAxis(67_355)
 						.withRotationalPeriod(57_915)
@@ -211,8 +211,8 @@ public class SolarSystem {
 		DRES("dres"),
 		EVE("eve"),
 		IKE("ike"),
-		LAYTHE("laythe");
-		// TEKTO("tekto");
+		LAYTHE("laythe"),
+		TEKTO("tekto");
 
 		public String name;
 
