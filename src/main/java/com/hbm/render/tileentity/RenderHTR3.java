@@ -288,8 +288,8 @@ public class RenderHTR3 extends TileEntitySpecialRenderer implements IItemRender
 	public IItemRenderer getRenderer() {
 		return new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glTranslated(1, -1, 0);
-				GL11.glScaled(1.6, 1.6, 1.6);
+				GL11.glTranslated(0, -1, 0);
+				GL11.glScaled(2, 2, 2);
 			}
 			public void renderCommon() {
 				GL11.glScaled(0.5, 0.5, 0.5);
