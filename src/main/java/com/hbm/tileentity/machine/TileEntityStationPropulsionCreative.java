@@ -54,9 +54,7 @@ public class TileEntityStationPropulsionCreative extends TileEntity implements I
 	}
 
 	@Override
-	public void addErrors(List<String> errors) {
-		
-	}
+	public void addErrors(List<String> errors) { }
 
 	@Override
 	public float getThrust() {

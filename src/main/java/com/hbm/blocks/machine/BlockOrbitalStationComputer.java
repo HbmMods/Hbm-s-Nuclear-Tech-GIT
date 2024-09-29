@@ -9,6 +9,7 @@ import com.hbm.dim.CelestialBody;
 import com.hbm.dim.SolarSystem;
 import com.hbm.dim.orbit.OrbitalStation;
 import com.hbm.dim.orbit.OrbitalStation.StationState;
+import com.hbm.handler.ThreeInts;
 import com.hbm.items.ItemVOTVdrive;
 import com.hbm.items.ItemVOTVdrive.Destination;
 import com.hbm.main.MainRegistry;
@@ -16,6 +17,7 @@ import com.hbm.tileentity.machine.TileEntityOrbitalStationComputer;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
+import api.hbm.tile.IPropulsion;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -127,9 +129,13 @@ public class BlockOrbitalStationComputer extends BlockDummyable implements ILook
 		double progress = station.getUnscaledProgress(0);
 		List<String> text = new ArrayList<>();
 
-		if(station.errors.size() > 0) {
-			for(String error : station.errors) {
-				text.add(EnumChatFormatting.RED + error);
+		if(!station.hasEngines) {
+			text.add(EnumChatFormatting.RED + "No engines available");
+		} else if(station.errorsAt.size() > 0) {
+			for(ThreeInts errorAt : station.errorsAt) {
+				TileEntity error = world.getTileEntity(errorAt.x, errorAt.y, errorAt.z);
+				if(error == null || !(error instanceof IPropulsion)) continue;
+				((IPropulsion) error).addErrors(text);
 			}
 		} else if(progress > 0) {
 			if(station.state == StationState.LEAVING) {

@@ -40,7 +40,8 @@ public class OrbitalStation {
 	public int dX;
 	public int dZ;
 
-	public List<String> errors = new ArrayList<String>();
+	public boolean hasEngines = true;
+	public List<ThreeInts> errorsAt = new ArrayList<ThreeInts>();
 	public int errorTimer;
 
 	public enum StationState {
@@ -87,10 +88,7 @@ public class OrbitalStation {
 
 	public void travelTo(World world, CelestialBody target) {
 		if(state != StationState.ORBIT) return; // only when at rest can we start a new journey
-		if(!canTravel(orbiting, target)) {
-			collectErrors();
-			return;
-		}
+		if(!canTravel(orbiting, target)) return;
 
 		setState(StationState.LEAVING, getLeaveTime());
 		this.target = target;
@@ -115,15 +113,11 @@ public class OrbitalStation {
 
 			SolarSystemWorldSavedData.get().markDirty();
 
-			if(engines.size() == 0) {
-				errors = new ArrayList<String>();
-				errors.add("No engines available");
-				errorTimer = 2;
-			}
+			hasEngines = engines.size() > 0;
 
 			errorTimer--;
 			if(errorTimer <= 0) {
-				errors = new ArrayList<String>();
+				errorsAt = new ArrayList<ThreeInts>();
 				errorTimer = 0;
 			}
 		}
@@ -138,22 +132,20 @@ public class OrbitalStation {
 		int shipMass = 200_000; // Always static, to not punish building big cool stations
 		float totalThrust = getTotalThrust();
 
+		boolean canTravel = true;
+		errorsAt = new ArrayList<ThreeInts>();
+
 		for(IPropulsion engine : engines) {
 			float massPortion = engine.getThrust() / totalThrust;
 			if(!engine.canPerformBurn(Math.round(shipMass * massPortion), deltaV)) {
-				return false;
+				TileEntity te = engine.getTileEntity();
+				canTravel = false;
+				errorsAt.add(new ThreeInts(te.xCoord, te.yCoord, te.zCoord));
+				errorTimer = 100;
 			}
 		}
 
-		return true;
-	}
-
-	private void collectErrors() {
-		errors = new ArrayList<String>();
-		for(IPropulsion engine : engines) {
-			engine.addErrors(errors);
-		}
-		errorTimer = 100;
+		return canTravel;
 	}
 
 	private float getTotalThrust() {
@@ -325,11 +317,15 @@ public class OrbitalStation {
 		buf.writeInt(state.ordinal());
 		buf.writeInt(stateTimer);
 		buf.writeInt(maxStateTimer);
+		buf.writeBoolean(hasEngines);
+
 		BufferUtil.writeString(buf, name);
 
-		buf.writeInt(errors.size());
-		for(String error : errors) {
-			BufferUtil.writeString(buf, error);
+		buf.writeInt(errorsAt.size());
+		for(ThreeInts error : errorsAt) {
+			buf.writeInt(error.x);
+			buf.writeInt(error.y);
+			buf.writeInt(error.z);
 		}
 	}
 
@@ -339,12 +335,18 @@ public class OrbitalStation {
 		station.state = StationState.values()[buf.readInt()];
 		station.stateTimer = buf.readInt();
 		station.maxStateTimer = buf.readInt();
+		station.hasEngines = buf.readBoolean();
+
 		station.name = BufferUtil.readString(buf);
 
-		station.errors = new ArrayList<String>();
+		station.errorsAt = new ArrayList<ThreeInts>();
 		int count = buf.readInt();
 		for(int i = 0; i < count; i++) {
-			station.errors.add(BufferUtil.readString(buf));
+			int x = buf.readInt();
+			int y = buf.readInt();
+			int z = buf.readInt();
+			
+			station.errorsAt.add(new ThreeInts(x, y, z));
 		}
 		return station;
 	}

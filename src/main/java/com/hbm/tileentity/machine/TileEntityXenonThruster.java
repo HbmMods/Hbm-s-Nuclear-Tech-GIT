@@ -22,6 +22,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityXenonThruster extends TileEntityMachineBase implements IPropulsion, IFluidStandardReceiver, IEnergyReceiverMK2 {
@@ -114,6 +115,7 @@ public class TileEntityXenonThruster extends TileEntityMachineBase implements IP
 		super.serialize(buf);
 		buf.writeBoolean(isOn);
 		buf.writeLong(power);
+		buf.writeInt(fuelCost);
 		for(int i = 0; i < tanks.length; i++) tanks[i].serialize(buf);
 	}
 	
@@ -122,6 +124,7 @@ public class TileEntityXenonThruster extends TileEntityMachineBase implements IP
 		super.deserialize(buf);
 		isOn = buf.readBoolean();
 		power = buf.readLong();
+		fuelCost = buf.readInt();
 		for(int i = 0; i < tanks.length; i++) tanks[i].deserialize(buf);
 	}
 
@@ -183,12 +186,12 @@ public class TileEntityXenonThruster extends TileEntityMachineBase implements IP
 	@Override
 	public void addErrors(List<String> errors) {
 		if(power < fuelCost * POWER_COST_MULTIPLIER) {
-			errors.add(I18nUtil.resolveKey(getBlockType().getUnlocalizedName() + ".name") + " - Insufficient power: needs " + BobMathUtil.getShortNumber(fuelCost * POWER_COST_MULTIPLIER) + "HE");
+			errors.add(EnumChatFormatting.RED + I18nUtil.resolveKey(getBlockType().getUnlocalizedName() + ".name") + " - Insufficient power: needs " + BobMathUtil.getShortNumber(fuelCost * POWER_COST_MULTIPLIER) + "HE");
 		}
 
 		for(FluidTank tank : tanks) {
 			if(tank.getFill() < fuelCost) {
-				errors.add(I18nUtil.resolveKey(getBlockType().getUnlocalizedName() + ".name") + " - Insufficient fuel: needs " + fuelCost + "mB");
+				errors.add(EnumChatFormatting.RED + I18nUtil.resolveKey(getBlockType().getUnlocalizedName() + ".name") + " - Insufficient fuel: needs " + fuelCost + "mB");
 			}
 		}
 	}

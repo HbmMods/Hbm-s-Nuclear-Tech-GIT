@@ -22,6 +22,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineHTR3 extends TileEntityMachineBase implements IPropulsion, IFluidStandardReceiver {
@@ -174,6 +175,7 @@ public class TileEntityMachineHTR3 extends TileEntityMachineBase implements IPro
 		super.serialize(buf);
 		buf.writeBoolean(isOn);
 		buf.writeFloat(soundtime);
+		buf.writeInt(fuelCost);
 		for(int i = 0; i < tanks.length; i++) tanks[i].serialize(buf);
 	}
 	
@@ -182,6 +184,7 @@ public class TileEntityMachineHTR3 extends TileEntityMachineBase implements IPro
 		super.deserialize(buf);
 		isOn = buf.readBoolean();
 		soundtime = buf.readFloat();
+		fuelCost = buf.readInt();
 		for(int i = 0; i < tanks.length; i++) tanks[i].deserialize(buf);
 	}
 
@@ -240,14 +243,14 @@ public class TileEntityMachineHTR3 extends TileEntityMachineBase implements IPro
 	public void addErrors(List<String> errors) {
 		for(FluidTank tank : tanks) {
 			if(tank.getFill() < fuelCost) {
-				errors.add(I18nUtil.resolveKey(getBlockType().getUnlocalizedName() + ".name") + " - Insufficient fuel: needs " + fuelCost + "mB");
+				errors.add(EnumChatFormatting.RED + I18nUtil.resolveKey(getBlockType().getUnlocalizedName() + ".name") + " - Insufficient fuel: needs " + fuelCost + "mB");
 			}
 		}
 	}
 
 	@Override
 	public float getThrust() {
-		return 12_000_000_000.0F; // F1 thrust
+		return 800_000_000.0F;
 	}
 
 	@Override
