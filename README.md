@@ -106,6 +106,7 @@ One of the most common "performance" mods on 1.7.10, Optifine, achieves an incre
 * Get rid of Optifine and use one of the many [other, less intrusive performance mods](https://gist.github.com/makamys/7cb74cd71d93a4332d2891db2624e17c).
 * Blocks with connected textures may become invisible. This can be fixed by toggling triangulation (I do not know what or where this setting is, I just have been told that it exists and that it can fix the problem) or multicore chunk rendering (same here).
 * Entity "optimization" has a tendency to break chunkloading, this is especially noticeable with missiles which rely heavily on chunkloading to work, causing them to freeze mid-air. It's unclear what setting might fix this, and analysis of Optifine's source code (or rather, lack thereof) has not proven useful either.
+   * This issue will also cause orbital stations to never reach orbit, I can't emphasize enough how much pain and misery this "performance" mod will cause you, use Angelica instead.
 
 ### Angelica
 In older versions, Angelica caused issues regarding model rendering, often times making 3D models transparent. Ever since the switch to VBOs, models work fine. Another issue was blocks with connected textures not rendering at all, but this too was fixed, meaning as of time of writing there are no major incompatibilities known with Angelica. However there a few minor issues that persist, but those can be fixed:
