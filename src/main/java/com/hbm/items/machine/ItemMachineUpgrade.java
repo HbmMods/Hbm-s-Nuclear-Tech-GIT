@@ -107,12 +107,6 @@ public class ItemMachineUpgrade extends Item {
 			list.add("Allows for total isotopic separation of HEUF6");
 			list.add(EnumChatFormatting.YELLOW + "also your centrifuge goes sicko mode");
 		}
-
-		if(this == ModItems.upgrade_unclog) {
-			list.add(EnumChatFormatting.RED + "Strand Caster Upgrade");
-			list.add("Stops the buffer from constantly clogging up");
-			list.add("by allowing to periodically drain its contents");
-		}
 	}
 	
 	public static enum UpgradeType {
