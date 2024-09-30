@@ -4407,6 +4407,7 @@ item.upgrade_speed_3=三级红色机器升级
 item.upgrade_stack_1=一级堆叠弹出升级
 item.upgrade_stack_2=二级堆叠弹出升级
 item.upgrade_stack_3=三级堆叠弹出升级
+item.upgrade_unclog.name=Unclogging upgrade
 item.upgrade_template=机器升级模板
 item.volcanic_axe=熔岩斧
 item.volcanic_pickaxe=熔岩镐

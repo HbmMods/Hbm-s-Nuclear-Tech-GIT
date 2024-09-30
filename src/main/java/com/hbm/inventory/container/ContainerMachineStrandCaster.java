@@ -2,6 +2,9 @@ package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotNonRetarded;
+import com.hbm.inventory.SlotUpgrade;
+import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemMachineUpgrade;
 import com.hbm.tileentity.machine.TileEntityMachineStrandCaster;
 import com.hbm.util.InventoryUtil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +30,9 @@ public class ContainerMachineStrandCaster extends Container {
             }
         }
 
+        //unstacking upgrade
+        this.addSlotToContainer(new SlotUpgrade(this.caster, 7, 57, 25));
+
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
@@ -48,13 +54,17 @@ public class ContainerMachineStrandCaster extends Container {
             ItemStack originalStack = slot.getStack();
             stack = originalStack.copy();
 
-            if (index <= 6) {
-                if (!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 7, this.inventorySlots.size(), true)) {
+            if (index <= 7) {
+                if (!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 8, this.inventorySlots.size(), true)) {
                     return null;
                 }
 
                 slot.onSlotChange(originalStack, stack);
 
+            } else if (stack.getItem() == ModItems.upgrade_unclog) {
+                // Doesn't matter if it suceeds
+                this.mergeItemStack(originalStack, 7, 8, false);
+                return null;
             } else if (!InventoryUtil.mergeItemStack(this.inventorySlots, originalStack, 1, 2, false)) {
                 return null;
             }

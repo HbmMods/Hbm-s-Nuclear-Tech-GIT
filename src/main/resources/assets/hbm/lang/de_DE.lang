@@ -3515,6 +3515,7 @@ item.upgrade_speed_3.name=Geschwindigkeitsupgrade Mk.III
 item.upgrade_stack_1.name=Stapelupgrade Mk.I
 item.upgrade_stack_2.name=Stapelupgrade Mk.II
 item.upgrade_stack_3.name=Stapelupgrade Mk.III
+item.upgrade_unclog.name=Unclogging Upgrade
 item.upgrade_template.name=Maschinenupgrade-Vorlage
 item.volcanic_pickaxe.name=Geschmolzene Spitzhacke
 item.wand_d.name=Debug-Zauberstab

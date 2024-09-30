@@ -4137,6 +4137,7 @@ item.upgrade_speed_3.name=Speed Upgrade Mk.III
 item.upgrade_stack_1.name=Stack Ejection Upgrade Mk.I
 item.upgrade_stack_2.name=Stack Ejection Upgrade Mk.II
 item.upgrade_stack_3.name=Stack Ejection Upgrade Mk.III
+item.upgrade_unclog.name=Unclogging Upgrade
 item.upgrade_template.name=Machine Upgrade Template
 item.v1.name=V1
 item.volcanic_pickaxe.name=Molten Pickaxe

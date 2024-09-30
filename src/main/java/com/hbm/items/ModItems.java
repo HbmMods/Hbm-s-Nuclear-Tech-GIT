@@ -1849,6 +1849,7 @@ public class ModItems {
 	public static Item upgrade_gc_speed;
 	public static Item upgrade_5g;
 	public static Item upgrade_stack;
+	public static Item upgrade_unclog;
 	public static Item upgrade_ejector;
 
 	public static Item ingot_euphemium;
@@ -4401,6 +4402,7 @@ public class ModItems {
 		upgrade_gc_speed = new ItemMachineUpgrade().setUnlocalizedName("upgrade_gc_speed").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_gc_speed");
 		upgrade_5g = new ItemMachineUpgrade().setUnlocalizedName("upgrade_5g").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_5g");
 		upgrade_stack = new ItemMetaUpgrade(3).setUnlocalizedName("upgrade_stack").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_stack");
+		upgrade_unclog = new ItemMachineUpgrade().setUnlocalizedName("upgrade_unclog").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_unclog");
 		upgrade_ejector = new ItemMetaUpgrade(3).setUnlocalizedName("upgrade_ejector").setCreativeTab(MainRegistry.controlTab).setTextureName(RefStrings.MODID + ":upgrade_ejector");
 		
 		wand = new ItemWand().setUnlocalizedName("wand_k").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setFull3D().setTextureName(RefStrings.MODID + ":wand");
@@ -6389,6 +6391,7 @@ public class ModItems {
 		GameRegistry.registerItem(upgrade_gc_speed, upgrade_gc_speed.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_5g, upgrade_5g.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_stack, upgrade_stack.getUnlocalizedName());
+		GameRegistry.registerItem(upgrade_unclog, upgrade_unclog.getUnlocalizedName());
 		GameRegistry.registerItem(upgrade_ejector, upgrade_ejector.getUnlocalizedName());
 		
 		//Machine Templates
