@@ -13,7 +13,7 @@ import com.hbm.items.machine.ItemFluidIcon;
 public class BoilingHandler extends NEIUniversalHandler {
 
 	public BoilingHandler() {
-		super("Boiler", ModBlocks.machine_boiler, generateRecipes());
+		super(ModBlocks.machine_boiler.getLocalizedName(), ModBlocks.machine_boiler, generateRecipes());
 	}
 
 	@Override

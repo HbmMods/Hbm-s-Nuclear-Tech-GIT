@@ -314,16 +314,15 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
 		BlockPos core = new BlockPos(xCoord, yCoord, zCoord);
-		core.offset(dir, -1);
 		
 		//Red
-		if(pos.equals(core.clone().offset(rot, -2))) return new int[] {0};
+		if(side == dir.getOpposite().ordinal() && pos.equals(core.clone().offset(dir, -1).offset(rot, -2))) return new int[] {0};
 		//Yellow
-		if(pos.equals(core.clone().offset(rot, -1))) return new int[] {1};
+		if(side == dir.getOpposite().ordinal() && pos.equals(core.clone().offset(dir, -1).offset(rot, -1))) return new int[] {1};
 		//Green
-		if(pos.equals(core)) return new int[] {2};
+		if(side == dir.getOpposite().ordinal() && pos.equals(core.clone().offset(dir, -1))) return new int[] {2};
 		//Fuel
-		if(pos.equals(new BlockPos(xCoord, yCoord, zCoord).offset(dir).offset(rot, -1))) return new int[] {4};
+		if(side == dir.ordinal() && pos.equals(core.clone().offset(dir, 1).offset(rot, -1))) return new int[] {4};
 		
 		return new int[] { };
 	}

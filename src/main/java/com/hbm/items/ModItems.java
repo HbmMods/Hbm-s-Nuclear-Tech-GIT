@@ -189,6 +189,8 @@ public class ModItems {
 	public static Item nugget_tetraneutronium;
 	public static Item powder_tetraneutronium;
 	public static Item ingot_starmetal;
+	public static Item ingot_gunmetal;
+	public static Item ingot_weaponsteel;
 	public static Item ingot_saturnite;
 	public static Item plate_saturnite;
 	public static Item ingot_ferrouranium;
@@ -2617,6 +2619,8 @@ public class ModItems {
 		nugget_dineutronium = new ItemCustomLore().setUnlocalizedName("nugget_dineutronium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":nugget_dineutronium");
 		powder_dineutronium = new ItemCustomLore().setUnlocalizedName("powder_dineutronium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":powder_dineutronium");
 		ingot_starmetal = new ItemStarmetal().setUnlocalizedName("ingot_starmetal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_starmetal");
+		ingot_gunmetal = new Item().setUnlocalizedName("ingot_gunmetal").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_gunmetal");
+		ingot_weaponsteel = new Item().setUnlocalizedName("ingot_weaponsteel").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_gunsteel");
 		ingot_saturnite = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("ingot_saturnite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_saturnite");
 		plate_saturnite = new ItemCustomLore().setRarity(EnumRarity.rare).setUnlocalizedName("plate_saturnite").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":plate_saturnite");
 		ingot_ferrouranium = new ItemCustomLore().setUnlocalizedName("ingot_ferrouranium").setCreativeTab(MainRegistry.partsTab).setTextureName(RefStrings.MODID + ":ingot_ferrouranium");
@@ -5570,6 +5574,8 @@ public class ModItems {
 		GameRegistry.registerItem(ingot_desh, ingot_desh.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_ferrouranium, ingot_ferrouranium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_starmetal, ingot_starmetal.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_gunmetal, ingot_gunmetal.getUnlocalizedName());
+		GameRegistry.registerItem(ingot_weaponsteel, ingot_weaponsteel.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_saturnite, ingot_saturnite.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_euphemium, ingot_euphemium.getUnlocalizedName());
 		GameRegistry.registerItem(ingot_dineutronium, ingot_dineutronium.getUnlocalizedName());

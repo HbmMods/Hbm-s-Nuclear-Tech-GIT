@@ -4,30 +4,33 @@ import java.awt.Rectangle;
 import java.util.Locale;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.gui.GUIMachineArcWelder;
-import com.hbm.inventory.recipes.ArcWelderRecipes;
-import com.hbm.inventory.recipes.ArcWelderRecipes.ArcWelderRecipe;
+import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.gui.GUIMachineRotaryFurnace;
+import com.hbm.inventory.recipes.RotaryFurnaceRecipes;
+import com.hbm.inventory.recipes.RotaryFurnaceRecipes.RotaryFurnaceRecipe;
+import com.hbm.items.machine.ItemScraps;
+import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 
-public class ArcWelderHandler extends NEIUniversalHandler {
+public class RotaryFurnaceHandler extends NEIUniversalHandler {
 
-	public ArcWelderHandler() {
-		super(ModBlocks.machine_arc_welder.getLocalizedName(), ModBlocks.machine_arc_welder, ArcWelderRecipes.getRecipes());
+	public RotaryFurnaceHandler() {
+		super(ModBlocks.machine_rotary_furnace.getLocalizedName(), ModBlocks.machine_rotary_furnace, RotaryFurnaceRecipes.getRecipes());
 	}
 
 	@Override
 	public String getKey() {
-		return "ntmArcWelder";
+		return "ntmRotaryFurnace";
 	}
 	
 	@Override
 	public void loadTransferRects() {
 		super.loadTransferRects();
-		transferRectsGui.add(new RecipeTransferRect(new Rectangle(67, 26, 32, 14), "ntmArcWelder"));
-		guiGui.add(GUIMachineArcWelder.class);
+		transferRectsGui.add(new RecipeTransferRect(new Rectangle(58, 19, 32, 10), "ntmRotaryFurnace"));
+		guiGui.add(GUIMachineRotaryFurnace.class);
 		RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);
 	}
 
@@ -38,10 +41,9 @@ public class ArcWelderHandler extends NEIUniversalHandler {
 		Object[] original = (Object[]) rec.originalInputInstance;
 		ItemStack output = rec.output[0].item;
 		
-		outer: for(ArcWelderRecipe arc : ArcWelderRecipes.recipes) {
+		outer: for(RotaryFurnaceRecipe arc : RotaryFurnaceRecipes.recipes) {
 			
-			//checks do not include the fluid, will break of there's two recipes with identical input and output but with fluids
-			if(ItemStack.areItemStacksEqual(arc.output, output) && arc.ingredients.length == original.length - (arc.fluid == null ? 0 : 1)) {
+			if(ItemStack.areItemStacksEqual(ItemScraps.create(arc.output, true), output) && arc.ingredients.length == original.length - (arc.fluid == null ? 0 : 1)) {
 				
 				for(int i = 0; i < rec.input.length - (arc.fluid == null ? 0 : 1); i++) {
 					if(arc.ingredients[i] != original[i]) continue outer;
@@ -49,7 +51,7 @@ public class ArcWelderHandler extends NEIUniversalHandler {
 
 				FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 				String duration = String.format(Locale.US, "%,d", arc.duration) + " ticks";
-				String consumption = String.format(Locale.US, "%,d", arc.consumption) + " HE/t";
+				String consumption = I18nUtil.resolveKey(Fluids.STEAM.getUnlocalizedName()) + ": " + String.format(Locale.US, "%,d", arc.steam) + " mB/t";
 				int side = 160;
 				fontRenderer.drawString(duration, side - fontRenderer.getStringWidth(duration), 43, 0x404040);
 				fontRenderer.drawString(consumption, side - fontRenderer.getStringWidth(consumption), 55, 0x404040);

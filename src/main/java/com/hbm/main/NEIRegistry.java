@@ -66,6 +66,7 @@ public class NEIRegistry {
 		handlers.add(new ExposureChamberHandler());
 		handlers.add(new ArcFurnaceSolidHandler());
 		handlers.add(new ArcFurnaceFluidHandler());
+		handlers.add(new RotaryFurnaceHandler());
 
 		//this shit comes last
 		handlers.add(new FluidRecipeHandler());
