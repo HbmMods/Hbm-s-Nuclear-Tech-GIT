@@ -35,7 +35,7 @@ public class GunFactory {
 
 		/// GUNS ///
 		ModItems.gun_debug = new ItemGunBaseNT(new GunConfig()
-				.dura(600F).draw(15).jam(23).inspect(23).crosshair(Crosshair.L_CLASSIC).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO).smoke(true).orchestra(Orchestras.DEBUG_ORCHESTRA)
+				.dura(600F).draw(15).jam(23).inspect(23).crosshair(Crosshair.L_CLASSIC).smoke(true).orchestra(Orchestras.DEBUG_ORCHESTRA)
 				.rec(new Receiver(0)
 						.dmg(10F).delay(14).reload(46).sound("hbm:weapon.44Shoot", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 12).addConfigs(ammo_debug, ammo_debug_buckshot))

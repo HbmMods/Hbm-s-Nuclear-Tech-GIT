@@ -28,7 +28,7 @@ public class XFactoryBlackPowder {
 		BulletConfig shot = new BulletConfig().setItem(EnumAmmo.STONE_SHOT).setSpread(0.1F).setRicochetAngle(45).setProjectiles(6, 6).setDamage(0.5F);
 		
 		ModItems.gun_pepperbox = new ItemGunBaseNT(new GunConfig()
-				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO).smoke(true).orchestra(Orchestras.ORCHESTRA_PEPPERBOX)
+				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(true).orchestra(Orchestras.ORCHESTRA_PEPPERBOX)
 				.rec(new Receiver(0)
 						.dmg(5F).delay(27).reload(67).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(stone, flint, iron, shot))

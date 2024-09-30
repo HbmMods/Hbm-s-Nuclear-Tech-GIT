@@ -7,10 +7,15 @@ public class BusAnimationKeyframe {
 	//it's an enum so stuff like accelerated animations between just
 	//two frames could be implemented
 	public static enum IType {
+		/** Teleport */
 		CONSTANT,
+		/** Linear interpolation */
 		LINEAR,
+		/** "Sine wave up", quarter of a sine peak that goes from neutral to rising */
 		SIN_UP,
+		/** "Sine wave down", quarter of a sine peak that goes from rising back to neutral */
 		SIN_DOWN,
+		/** "Sine wave", first half of a sine peak, accelerating up and then decelerating, makes for smooth movement */
 		SIN_FULL,
 	}
 

@@ -65,7 +65,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	public static float aimingProgress;
 	
 	/** NEVER ACCESS DIRECTLY - USE GETTER */
-	private GunConfig config_DNA;
+	public GunConfig config_DNA;
 	
 	public GunConfig getConfig(ItemStack stack) {
 		return WeaponUpgradeManager.eval(config_DNA, stack, O_GUNCONFIG, this);
