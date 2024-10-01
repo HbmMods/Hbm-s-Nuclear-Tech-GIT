@@ -6,7 +6,6 @@ import java.util.List;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.OreDictManager;
-import com.hbm.inventory.OreNames;
 import com.hbm.inventory.OreDictManager.DictFrame;
 
 import static com.hbm.inventory.OreDictManager.*;
@@ -110,8 +109,8 @@ public class AnvilRecipes {
 				new ItemStack(ModItems.stamp_titanium_flat),
 				new ItemStack(ModItems.stamp_obsidian_flat)
 				}));
-		smithingRecipes.add(new AnvilSmithingMold(8, new OreDictStack(STEEL.shell()), new OreDictStack(OreNames.SHELL)));
-		smithingRecipes.add(new AnvilSmithingMold(9, new OreDictStack(STEEL.pipe()), new OreDictStack(OreNames.PIPE)));
+		smithingRecipes.add(new AnvilSmithingMold(8, new OreDictStack(STEEL.shell()), new OreDictStack(MaterialShapes.SHELL.name())));
+		smithingRecipes.add(new AnvilSmithingMold(9, new OreDictStack(STEEL.pipe()), new OreDictStack(MaterialShapes.PIPE.name())));
 		smithingRecipes.add(new AnvilSmithingMold(10, new OreDictStack(IRON.ingot(), 9), new OreDictStack("ingot", 9)));
 		smithingRecipes.add(new AnvilSmithingMold(11, new OreDictStack(IRON.plate(), 9), new OreDictStack("plate", 9)));
 		smithingRecipes.add(new AnvilSmithingMold(12, new OreDictStack(IRON.block()), new OreDictStack("block")));
@@ -152,7 +151,7 @@ public class AnvilRecipes {
 
 		for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.shapes.contains(MaterialShapes.WIRE) && mat.shapes.contains(MaterialShapes.INGOT)) {
-				constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(OreNames.INGOT + mat.names[0]), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, mat.id))).setTier(4));
+				constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(MaterialShapes.INGOT.name() + mat.names[0]), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, mat.id))).setTier(4));
 			}
 		}
 

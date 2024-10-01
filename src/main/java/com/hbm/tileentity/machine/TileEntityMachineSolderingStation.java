@@ -3,6 +3,7 @@ package com.hbm.tileentity.machine;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManager;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.container.ContainerMachineSolderingStation;
@@ -38,11 +39,12 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineSolderingStation extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
+public class TileEntityMachineSolderingStation extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardReceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable {
 
 	public long power;
 	public long maxPower = 2_000;
 	public long consumption;
+	public boolean collisionPrevention = false;
 	
 	public int progress;
 	public int processTime = 1;
@@ -140,6 +142,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 			data.setLong("consumption", consumption);
 			data.setInteger("progress", progress);
 			data.setInteger("processTime", processTime);
+			data.setBoolean("collisionPrevention", collisionPrevention);
 			if(recipe != null) {
 				data.setInteger("display", Item.getIdFromItem(recipe.output.getItem()));
 				data.setInteger("displayMeta", recipe.output.getItemDamage());
@@ -158,7 +161,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 			if(this.tank.getFill() < recipe.fluid.fill) return false;
 		}
 		
-		if(recipe.fluid == null && this.tank.getFill() > 0) return false;
+		if(collisionPrevention && recipe.fluid == null && this.tank.getFill() > 0) return false;
 		
 		if(slots[6] != null) {
 			if(slots[6].getItem() != recipe.output.getItem()) return false;
@@ -248,6 +251,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 		this.consumption = nbt.getLong("consumption");
 		this.progress = nbt.getInteger("progress");
 		this.processTime = nbt.getInteger("processTime");
+		this.collisionPrevention = nbt.getBoolean("collisionPrevention");
 		
 		if(nbt.hasKey("display")) {
 			this.display = new ItemStack(Item.getItemById(nbt.getInteger("display")), 1, nbt.getInteger("displayMeta"));
@@ -266,6 +270,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 		this.maxPower = nbt.getLong("maxPower");
 		this.progress = nbt.getInteger("progress");
 		this.processTime = nbt.getInteger("processTime");
+		this.collisionPrevention = nbt.getBoolean("collisionPrevention");
 		tank.readFromNBT(nbt, "t");
 	}
 	
@@ -277,6 +282,7 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 		nbt.setLong("maxPower", maxPower);
 		nbt.setInteger("progress", progress);
 		nbt.setInteger("processTime", processTime);
+		nbt.setBoolean("collisionPrevention", collisionPrevention);
 		tank.writeToNBT(nbt, "t");
 	}
 
@@ -369,5 +375,16 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 	@Override
 	public FluidTank getTankToPaste() {
 		return tank;
+	}
+
+	@Override
+	public boolean hasPermission(EntityPlayer player) {
+		return this.isUseableByPlayer(player);
+	}
+
+	@Override
+	public void receiveControl(NBTTagCompound data) {
+		this.collisionPrevention = !this.collisionPrevention;
+		this.markDirty();
 	}
 }

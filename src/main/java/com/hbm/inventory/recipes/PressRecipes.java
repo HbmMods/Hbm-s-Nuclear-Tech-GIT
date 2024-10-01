@@ -10,7 +10,6 @@ import static com.hbm.inventory.OreDictManager.*;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.inventory.OreNames;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
@@ -88,7 +87,7 @@ public class PressRecipes extends SerializableRecipe {
 
 		for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.shapes.contains(MaterialShapes.WIRE) && mat.shapes.contains(MaterialShapes.INGOT)) {
-				makeRecipe(StampType.WIRE, new OreDictStack(OreNames.INGOT + mat.names[0]), new ItemStack(ModItems.wire_fine, 8, mat.id));
+				makeRecipe(StampType.WIRE, new OreDictStack(MaterialShapes.INGOT.make(mat)), new ItemStack(ModItems.wire_fine, 8, mat.id));
 			}
 		}
 
