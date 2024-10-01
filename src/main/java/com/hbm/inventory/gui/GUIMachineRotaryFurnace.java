@@ -60,7 +60,7 @@ public class GUIMachineRotaryFurnace extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int p = (int) (furnace.progress * 33);
+		int p = (int) Math.ceil(furnace.progress * 33);
 		drawTexturedModalRect(guiLeft + 63, guiTop + 30, 176, 0, p, 10);
 		
 		if(furnace.maxBurnTime > 0) {

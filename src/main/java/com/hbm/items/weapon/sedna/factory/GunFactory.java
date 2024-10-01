@@ -47,6 +47,7 @@ public class GunFactory {
 				).setUnlocalizedName("gun_debug").setTextureName(RefStrings.MODID + ":gun_darter");
 		
 		XFactoryBlackPowder.init();
+		XFactory357.init();
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
@@ -57,5 +58,10 @@ public class GunFactory {
 		STONE_AP,
 		STONE_IRON,
 		STONE_SHOT,
+		M357_SP,
+		M357_FMJ,
+		M357_JHP,
+		M357_AP,
+		M357_EXPRESS,
 	}
 }

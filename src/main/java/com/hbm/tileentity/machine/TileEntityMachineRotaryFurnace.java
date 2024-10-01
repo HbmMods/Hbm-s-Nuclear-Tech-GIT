@@ -48,6 +48,9 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 	public boolean isVenting;
 	public MaterialStack output;
 	public static final int maxOutput = MaterialShapes.BLOCK.q(16);
+	
+	public int anim;
+	public int lastAnim;
 
 	public TileEntityMachineRotaryFurnace() {
 		super(5, 50);
@@ -103,6 +106,7 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 			}
 			
 			RotaryFurnaceRecipe recipe = RotaryFurnaceRecipes.getRecipe(slots[0], slots[1], slots[2]);
+			this.isProgressing = false;
 			
 			if(recipe != null) {
 				
@@ -116,6 +120,7 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 					this.progress += 1F / recipe.duration;
 					tanks[1].setFill(tanks[1].getFill() - recipe.steam);
 					tanks[2].setFill(tanks[2].getFill() + recipe.steam / 100);
+					this.isProgressing = true;
 					
 					if(this.progress >= 1F) {
 						this.progress -= 1F;
@@ -164,6 +169,10 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 				fx.setDouble("posY", yCoord + 5);
 				fx.setDouble("posZ", zCoord + 0.5 + rot.offsetZ);
 				MainRegistry.proxy.effectNT(fx);
+			}
+			this.lastAnim = this.anim;
+			if(this.isProgressing) {
+				this.anim++;
 			}
 		}
 	}

@@ -80,6 +80,14 @@ public class ItemMold extends Item {
 		registerMold(new MoldSingle(	16, S, "c9", new ItemStack(ModItems.casing_9), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
 		registerMold(new MoldSingle(	17, S, "c50", new ItemStack(ModItems.casing_50), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
 		registerMold(new MoldSingle(	18, S, "cbuckshot", new ItemStack(ModItems.casing_buckshot), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
+
+		registerMold(new MoldShape(		22, S, "barrel_light", MaterialShapes.LIGHTBARREL));
+		registerMold(new MoldShape(		23, S, "barrel_heavy", MaterialShapes.HEAVYBARREL));
+		registerMold(new MoldShape(		24, S, "receiver_light", MaterialShapes.LIGHTRECEIVER));
+		registerMold(new MoldShape(		25, S, "receiver_heavy", MaterialShapes.HEAVYRECEIVER));
+		registerMold(new MoldShape(		26, S, "mechanism", MaterialShapes.MECHANISM));
+		registerMold(new MoldShape(		27, S, "stock", MaterialShapes.STOCK));
+		registerMold(new MoldShape(		28, S, "grip", MaterialShapes.GRIP));
 	}
 	
 	public void registerMold(Mold mold) {

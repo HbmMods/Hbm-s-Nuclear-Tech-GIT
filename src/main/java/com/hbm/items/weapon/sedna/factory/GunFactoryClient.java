@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.render.item.weapon.sedna.ItemRenderAtlas;
 import com.hbm.render.item.weapon.sedna.ItemRenderDebug;
 import com.hbm.render.item.weapon.sedna.ItemRenderPepperbox;
 
@@ -21,12 +22,14 @@ public class GunFactoryClient {
 		//GUNS
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_debug, new ItemRenderDebug());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_pepperbox, new ItemRenderPepperbox());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_atlas, new ItemRenderAtlas());
 		//PROJECTILES
 		ammo_debug.setRenderer(RENDER_STANDARD_BULLET);
 		ammo_debug_buckshot.setRenderer(RENDER_STANDARD_BULLET);
 		//HUDS
 		((ItemGunBaseNT) ModItems.gun_debug).config_DNA.hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_pepperbox).config_DNA.hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_atlas).config_DNA.hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 	}
 	
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_STANDARD_BULLET = (bullet, interp) -> {

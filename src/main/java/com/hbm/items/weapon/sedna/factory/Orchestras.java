@@ -38,7 +38,7 @@ public class Orchestras {
 			if(timer == 11) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
 		}
 		if(type == AnimType.CYCLE_DRY) {
-			if(timer == 3) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 1F);
 			if(timer == 11) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
 		}
 		if(type == AnimType.INSPECT) {
@@ -69,6 +69,33 @@ public class Orchestras {
 		if(type == AnimType.JAMMED) {
 			if(timer == 28) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 0.75F);
 			if(timer == 45) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 0.6F);
+		}
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_ATLAS = (stack, ctx) -> {
+		EntityPlayer player = ctx.player;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack);
+		int timer = ItemGunBaseNT.getAnimTimer(stack);
+
+		if(type == AnimType.RELOAD) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallRemove", 1F, 1F);
+			if(timer == 36) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
+			if(timer == 44) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverClose", 1F, 1F);
+		}
+		if(type == AnimType.CYCLE) {
+			if(timer == 14) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.9F);
+		}
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+			if(timer == 14) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.9F);
+		}
+		if(type == AnimType.INSPECT) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallRemove", 1F, 1F);
+			if(timer == 24) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverClose", 1F, 1F);
+		}
+		if(type == AnimType.JAMMED) {
+			if(timer == 12) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallRemove", 1F, 1F);
+			if(timer == 34) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverClose", 1F, 1F);
 		}
 	};
 }

@@ -16,10 +16,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIcon;
 import com.hbm.items.machine.ItemScraps;
 
@@ -31,10 +34,16 @@ public class RotaryFurnaceRecipes extends SerializableRecipe {
 
 	@Override
 	public void registerDefaults() {
+
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_STEEL, INGOT.q(1)), 100, 100, new OreDictStack(IRON.ingot()), new OreDictStack(COAL.gem())));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_STEEL, INGOT.q(1)), 100, 100, new OreDictStack(IRON.ingot()), new OreDictStack(ANY_COKE.gem())));
 		
-		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_STEEL, INGOT.q(1)), 200, 100,
-				new OreDictStack(IRON.ingot()), new OreDictStack(ANY_COKE.gem())
-			));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_STEEL, INGOT.q(2)), 100, 100, new OreDictStack(IRON.fragment(), 9), new OreDictStack(COAL.gem())));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_STEEL, INGOT.q(3)), 100, 100, new OreDictStack(IRON.fragment(), 9), new OreDictStack(ANY_COKE.gem())));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_STEEL, INGOT.q(4)), 200, 100, new OreDictStack(IRON.fragment(), 9), new OreDictStack(ANY_COKE.gem()), new ComparableStack(ModItems.powder_flux)));
+
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_GUNMETAL, INGOT.q(4)), 200, 100, new OreDictStack(CU.ingot(), 3), new OreDictStack(AL.ingot(), 1)));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_WEAPONSTEEL, INGOT.q(1)), 200, 400, new FluidStack(Fluids.GAS_COKER, 100), new OreDictStack(STEEL.ingot(), 1), new ComparableStack(ModItems.powder_flux, 2)));
 	}
 	
 	public static HashMap getRecipes() {
