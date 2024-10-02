@@ -108,6 +108,8 @@ public class OreDictManager {
 	/*
 	 * VANILLA
 	 */
+	public static final DictFrame WOOD = new DictFrame("Wood");
+	public static final DictFrame BONE = new DictFrame("Bone");
 	public static final DictFrame COAL = new DictFrame("Coal");
 	public static final DictFrame IRON = new DictFrame("Iron");
 	public static final DictFrame GOLD = new DictFrame("Gold");
@@ -411,8 +413,8 @@ public class OreDictManager {
 		CMB																	.ingot(ingot_combine_steel)											.dust(powder_combine_steel)		.plate(plate_combine_steel)		.block(block_combine_steel);
 		DESH		.nugget(nugget_desh)									.ingot(ingot_desh)													.dust(powder_desh)												.block(block_desh);
 		STAR																.ingot(ingot_starmetal)																												.block(block_starmetal);
-		GUNMETAL															.ingot(ingot_gunmetal);
-		WEAPONSTEEL															.ingot(ingot_weaponsteel);
+		GUNMETAL															.ingot(ingot_gunmetal)																				.plate(plate_gunmetal);
+		WEAPONSTEEL															.ingot(ingot_weaponsteel)																			.plate(plate_weaponsteel);
 		BIGMT																.ingot(ingot_saturnite)																				.plate(plate_saturnite);
 		FERRO																.ingot(ingot_ferrouranium);
 		EUPH		.nugget(nugget_euphemium)								.ingot(ingot_euphemium)												.dust(powder_euphemium)											.block(block_euphemium);
@@ -770,6 +772,13 @@ public class OreDictManager {
 		public String block() {			return BLOCK.name()				+ mats[0]; }
 		public String ore() {			return ORE.name()				+ mats[0]; }
 		public String fragment() {		return FRAGMENT.name()			+ mats[0]; }
+		public String lightBarrel() {	return LIGHTBARREL.name()		+ mats[0]; }
+		public String heavyBarrel() {	return HEAVYBARREL.name()		+ mats[0]; }
+		public String lightReceiver() {	return LIGHTRECEIVER.name()		+ mats[0]; }
+		public String heavyReceiver() {	return HEAVYRECEIVER.name()		+ mats[0]; }
+		public String mechanism() {		return MECHANISM.name()			+ mats[0]; }
+		public String stock() {			return STOCK.name()				+ mats[0]; }
+		public String grip() {			return GRIP.name()				+ mats[0]; }
 		public String[] all(MaterialShapes shape) {				return appendToAll(shape.prefixes); }
 		
 		/** Returns cast (triple) plates if 528 mode is enabled or normal plates if not */

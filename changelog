@@ -10,6 +10,7 @@
 * Scaffold blocks can now be placed horizontally
 * Updated the shredder's textures
 * The strand caster will now cast its remaining buffer after 10 seconds of inactivity, even if the buffer is not full enough for a batch of 9
+* The soldering station now has a toggle for the "refuse to do recipes with no fluid if fluid is present" behavior
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines

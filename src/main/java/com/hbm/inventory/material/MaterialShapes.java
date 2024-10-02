@@ -35,13 +35,13 @@ public class MaterialShapes {
 	public static final MaterialShapes BLOCK = new MaterialShapes(INGOT.quantity * 9, "block");
 	public static final MaterialShapes HEAVY_COMPONENT = new MaterialShapes(CASTPLATE.quantity * 256, "componentHeavy");
 
-	public static final MaterialShapes LIGHTBARREL = new MaterialShapes(INGOT.quantity * 3, "barrelLight");
-	public static final MaterialShapes HEAVYBARREL = new MaterialShapes(INGOT.quantity * 6, "barrelHeavy");
-	public static final MaterialShapes LIGHTRECEIVER = new MaterialShapes(INGOT.quantity * 4, "receiverLight");
-	public static final MaterialShapes HEAVYRECEIVER = new MaterialShapes(INGOT.quantity * 9, "receiverHeavy");
-	public static final MaterialShapes MECHANISM = new MaterialShapes(INGOT.quantity * 4, "gunMechanism");
-	public static final MaterialShapes STOCK = new MaterialShapes(INGOT.quantity * 4, "stock");
-	public static final MaterialShapes GRIP = new MaterialShapes(INGOT.quantity * 2, "grip");
+	public static final MaterialShapes LIGHTBARREL =	new MaterialShapes(INGOT.quantity * 3, "barrelLight");
+	public static final MaterialShapes HEAVYBARREL =	new MaterialShapes(INGOT.quantity * 6, "barrelHeavy");
+	public static final MaterialShapes LIGHTRECEIVER =	new MaterialShapes(INGOT.quantity * 4, "receiverLight");
+	public static final MaterialShapes HEAVYRECEIVER =	new MaterialShapes(INGOT.quantity * 9, "receiverHeavy");
+	public static final MaterialShapes MECHANISM =		new MaterialShapes(INGOT.quantity * 4, "gunMechanism");
+	public static final MaterialShapes STOCK =			new MaterialShapes(INGOT.quantity * 4, "stock");
+	public static final MaterialShapes GRIP =			new MaterialShapes(INGOT.quantity * 2, "grip");
 	
 	public static void registerCompatShapes() {
 
