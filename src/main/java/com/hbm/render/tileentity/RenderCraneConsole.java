@@ -99,12 +99,7 @@ public class RenderCraneConsole extends TileEntitySpecialRenderer {
 			double cranePosZ = (-te.zCoord + console.centerZ);
 			
 			GL11.glTranslated(cranePosX, cranePosY, cranePosZ);
-			switch(te.getBlockMetadata() - BlockDummyable.offset) {
-			case 2: GL11.glRotatef(90, 0F, 1F, 0F); break;
-			case 4: GL11.glRotatef(180, 0F, 1F, 0F); break;
-			case 3: GL11.glRotatef(270, 0F, 1F, 0F); break;
-			case 5: GL11.glRotatef(0, 0F, 1F, 0F); break;
-			}
+			GL11.glRotatef(((TileEntityCraneConsole)te).getCraneRotation(), 0F, 1F, 0F);
 
 			double posX = (console.lastPosFront + (console.posFront - console.lastPosFront) * interp);
 			double posZ = (console.lastPosLeft + (console.posLeft - console.lastPosLeft) * interp);
