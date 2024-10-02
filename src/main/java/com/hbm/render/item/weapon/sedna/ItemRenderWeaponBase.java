@@ -282,9 +282,13 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 	}
 	
 	public static void renderMuzzleFlash(long lastShot) {
+		renderMuzzleFlash(lastShot, 75, 15);
+	}
+	
+	public static void renderMuzzleFlash(long lastShot, int duration, double l) {
 		Tessellator tess = Tessellator.instance;
 		
-		int flash = 75;
+		int flash = duration;
 		
 		if(System.currentTimeMillis() - lastShot < flash) {
 			GL11.glEnable(GL11.GL_BLEND);
@@ -294,7 +298,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 			double fire = (System.currentTimeMillis() - lastShot) / (double) flash;
 			
 			double width = 6 * fire;
-			double length = 15 * fire;
+			double length = l * fire;
 			double inset = 2;
 			Minecraft.getMinecraft().renderEngine.bindTexture(flash_plume);
 			tess.startDrawingQuads();

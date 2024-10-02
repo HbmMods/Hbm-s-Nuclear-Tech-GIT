@@ -83,8 +83,8 @@ public class Lego {
 	
 	/** Toggles isAiming. Used by keybinds. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_RECOIL = (stack, ctx) -> {
-		ItemGunBaseNT.recoilVertical += 10;
-		ItemGunBaseNT.recoilHorizontal += ctx.player.getRNG().nextGaussian() * 1.5;
+		//ItemGunBaseNT.recoilVertical += 10;
+		//ItemGunBaseNT.recoilHorizontal += ctx.player.getRNG().nextGaussian() * 1.5;
 	};
 	
 	/** Toggles isAiming. Used by keybinds. */

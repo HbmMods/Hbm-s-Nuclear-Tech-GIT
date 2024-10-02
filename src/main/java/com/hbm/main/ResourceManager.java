@@ -838,7 +838,6 @@ public class ResourceManager {
 	public static final IModelCustom spas_12 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/spas-12.obj"));
 	public static final IModelCustom nightmare_dark = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/nightmare_dark.obj"));
 	public static final IModelCustom glass_cannon = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/glass_cannon.obj"));
-	public static final IModelCustom bio_revolver = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/bio_revolver.obj"));
 	public static final IModelCustom chemthrower = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/chemthrower.obj")).asVBO();
 	public static final IModelCustom novac = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/novac.obj"));
 	public static final IModelCustom m2 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/m2_browning.obj")).asVBO(); //large fella should be a display list
@@ -852,6 +851,8 @@ public class ResourceManager {
 	public static final IModelCustom lilmac = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/lilmac.obj")).asVBO();
 
 	public static final IModelCustom pepperbox = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/pepperbox.obj")).asVBO();
+	public static final IModelCustom bio_revolver = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/bio_revolver.obj")).asVBO();
+	public static final IModelCustom henry = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/henry.obj")).asVBO();
 
 	public static final HashMap<String, BusAnimation> python_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/python.json"));
 	public static final HashMap<String, BusAnimation> cursed_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/cursed.json"));
@@ -943,7 +944,6 @@ public class ResourceManager {
 	public static final ResourceLocation remington_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/remington.png");
 	public static final ResourceLocation spas_12_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/spas-12.png");
 	public static final ResourceLocation glass_cannon_panel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/glass_cannon_panel.png");
-	public static final ResourceLocation bio_revolver_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/bio_revolver.png");
 	public static final ResourceLocation chemthrower_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/chemthrower.png");
 	public static final ResourceLocation novac_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/novac.png");
 	public static final ResourceLocation novac_scope_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/novac_scope.png");
@@ -964,6 +964,8 @@ public class ResourceManager {
 
 	public static final ResourceLocation debug_gun_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/debug_gun.png");
 	public static final ResourceLocation pepperbox_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/pepperbox.png");
+	public static final ResourceLocation bio_revolver_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/bio_revolver.png");
+	public static final ResourceLocation henry_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/henry.png");
 	
 	public static final ResourceLocation lance_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lance.png");
 

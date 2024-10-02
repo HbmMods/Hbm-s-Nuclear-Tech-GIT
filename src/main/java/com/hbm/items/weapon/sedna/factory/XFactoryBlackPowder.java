@@ -33,9 +33,7 @@ public class XFactoryBlackPowder {
 						.dmg(5F).delay(27).reload(67).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(stone, flint, iron, shot))
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
-				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY) .pr(Lego.LAMBDA_STANDARD_RELOAD) .pt(Lego.LAMBDA_TOGGLE_AIM)
-				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
-				.anim(LAMBDA_PEPPERBOX_ANIMS)
+				.setupStandardConfiguration().anim(LAMBDA_PEPPERBOX_ANIMS)
 				).setUnlocalizedName("gun_pepperbox").setTextureName(RefStrings.MODID + ":gun_darter");
 	}
 

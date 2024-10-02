@@ -4,6 +4,8 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
+import com.hbm.items.weapon.sedna.factory.GunStateDecider;
+import com.hbm.items.weapon.sedna.factory.Lego;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
@@ -125,4 +127,14 @@ public class GunConfig {
 	//client
 	public GunConfig anim(BiFunction<ItemStack, AnimType, BusAnimation> lambda) {	this.animations_DNA = lambda;			return this; }
 	public GunConfig hud(IHUDComponent... components) {								this.hudComponents_DNA = components;	return this; }
+	
+	/** Standard package for keybind handling and decider using LEGO prefabs: Primary fire on LMB,
+	 * reload on R, aiming on MMB and the standard decider which includes jamming and auto fire handling*/
+	public GunConfig setupStandardConfiguration() {
+		this.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY);
+		this.pr(Lego.LAMBDA_STANDARD_RELOAD);
+		this.pt(Lego.LAMBDA_TOGGLE_AIM);
+		this.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER);
+		return this;
+	}
 }

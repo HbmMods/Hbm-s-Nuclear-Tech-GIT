@@ -90,7 +90,7 @@ public class ItemRenderAtlas extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 1.5, 9.25);
 		GL11.glRotated(90, 0, 1, 0);
-		this.renderGapFlash(gun.lastShot);
+		this.renderMuzzleFlash(gun.lastShot, 75, 7.5);
 		GL11.glPopMatrix();
 	}
 

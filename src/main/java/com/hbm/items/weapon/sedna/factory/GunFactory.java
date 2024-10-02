@@ -48,6 +48,7 @@ public class GunFactory {
 		
 		XFactoryBlackPowder.init();
 		XFactory357.init();
+		XFactory44.init();
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();

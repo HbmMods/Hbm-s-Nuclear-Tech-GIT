@@ -287,7 +287,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		
 		IHUDComponent[] components = gun.getConfig(stack).getHUDComponents(stack);
 		
-		for(IHUDComponent component : components) {
+		if(components != null) for(IHUDComponent component : components) {
 			int bottomOffset = 0;
 			component.renderHUDComponent(event, type, player, stack, bottomOffset);
 			bottomOffset += component.getComponentHeight(player, stack);

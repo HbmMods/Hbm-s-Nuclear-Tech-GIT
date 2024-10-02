@@ -34,7 +34,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		this(entity.worldObj);
 		
 		this.thrower = entity;
-		this.config = config;
+		this.setBulletConfig(config);
 		
 		this.damage = baseDamage * this.config.damageMult;
 		
@@ -64,6 +64,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 	}
 	
 	public void setBulletConfig(BulletConfig config) {
+		this.config = config;
 		this.dataWatcher.updateObject(3, config.id);
 	}
 	
