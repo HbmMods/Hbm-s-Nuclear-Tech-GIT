@@ -289,17 +289,6 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		this.markDirty();
 	}
 
-	public int getCraneRotation() {
-		int result = craneRotationOffset;
-		switch(this.getBlockMetadata() - BlockDummyable.offset) {
-		case 2: result += 90; break;
-		case 4: result += 180; break;
-		case 3: result += 270; break;
-		case 5: result += 0; break;
-		}
-		return result % 360;
-	}
-
 	public void cycleCraneRotation() {
 		this.craneRotationOffset = (this.craneRotationOffset + 90) % 360;
 	}

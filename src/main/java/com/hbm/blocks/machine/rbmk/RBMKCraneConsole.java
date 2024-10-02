@@ -81,8 +81,9 @@ public class RBMKCraneConsole extends BlockDummyable implements IToolable {
 		
 		if(tool == ToolType.SCREWDRIVER) {
 			if(world.isRemote) return true;
-
-			TileEntityCraneConsole tile = (TileEntityCraneConsole) world.getTileEntity(x, y, z);
+			
+			int[] pos = findCore(world, x, y, z);
+			TileEntityCraneConsole tile = (TileEntityCraneConsole) world.getTileEntity(pos[0], pos[1], pos[2]);
 			tile.cycleCraneRotation();
 			tile.markDirty();
 			return true;
