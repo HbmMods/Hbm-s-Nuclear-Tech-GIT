@@ -62,7 +62,7 @@ public class GunStateDecider {
 			//if after reloading the gun can still reload, assume a tube mag and resume reloading
 			if(cfg.getReceivers(stack)[recIndex].getMagazine(stack).canReload(stack, player)) {
 				ItemGunBaseNT.setState(stack, GunState.RELOADING);
-				ItemGunBaseNT.setTimer(stack, cfg.getReceivers(stack)[recIndex].getReloadDuration(stack));
+				ItemGunBaseNT.setTimer(stack, rec.getReloadCycleDuration(stack));
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD_CYCLE);
 			//if no more reloading can be done, go idle
 			} else {
@@ -72,8 +72,8 @@ public class GunStateDecider {
 					ItemGunBaseNT.setTimer(stack, cfg.getJamDuration(stack));
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.JAMMED);
 				} else {
-					ItemGunBaseNT.setState(stack, GunState.IDLE);
-					ItemGunBaseNT.setTimer(stack, 0);
+					ItemGunBaseNT.setState(stack, GunState.DRAWING);
+					ItemGunBaseNT.setTimer(stack, rec.getReloadEndDuration(stack));
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD_END);
 				}
 			}

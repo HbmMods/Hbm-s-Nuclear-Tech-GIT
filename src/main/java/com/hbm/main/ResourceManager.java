@@ -853,6 +853,7 @@ public class ResourceManager {
 	public static final IModelCustom pepperbox = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/pepperbox.obj")).asVBO();
 	public static final IModelCustom bio_revolver = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/bio_revolver.obj")).asVBO();
 	public static final IModelCustom henry = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/henry.obj")).asVBO();
+	public static final IModelCustom greasegun = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/greasegun.obj")).asVBO();
 
 	public static final HashMap<String, BusAnimation> python_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/python.json"));
 	public static final HashMap<String, BusAnimation> cursed_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/cursed.json"));
@@ -966,6 +967,7 @@ public class ResourceManager {
 	public static final ResourceLocation pepperbox_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/pepperbox.png");
 	public static final ResourceLocation bio_revolver_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/bio_revolver.png");
 	public static final ResourceLocation henry_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/henry.png");
+	public static final ResourceLocation greasegun_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/greasegun.png");
 	
 	public static final ResourceLocation lance_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lance.png");
 

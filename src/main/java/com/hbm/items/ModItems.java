@@ -1626,6 +1626,7 @@ public class ModItems {
 	public static Item gun_pepperbox;
 	public static Item gun_atlas;
 	public static Item gun_henry;
+	public static Item gun_greasegun;
 	
 	public static Item ammo_standard;
 	
@@ -7036,6 +7037,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_pepperbox, gun_pepperbox.getUnlocalizedName());
 		GameRegistry.registerItem(gun_atlas, gun_atlas.getUnlocalizedName());
 		GameRegistry.registerItem(gun_henry, gun_henry.getUnlocalizedName());
+		GameRegistry.registerItem(gun_greasegun, gun_greasegun.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		

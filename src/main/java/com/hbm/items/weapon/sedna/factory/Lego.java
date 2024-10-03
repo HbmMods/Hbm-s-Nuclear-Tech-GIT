@@ -44,7 +44,7 @@ public class Lego {
 			
 			if(mag.canReload(stack, ctx.player)) {
 				ItemGunBaseNT.setState(stack, GunState.RELOADING);
-				ItemGunBaseNT.setTimer(stack, rec.getReloadDuration(stack));
+				ItemGunBaseNT.setTimer(stack, rec.getReloadBeginDuration(stack));
 				ItemGunBaseNT.playAnimation(player, stack, mag.getAmount(stack) == 0 ? AnimType.RELOAD_EMPTY : AnimType.RELOAD);
 			} else {
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.INSPECT);

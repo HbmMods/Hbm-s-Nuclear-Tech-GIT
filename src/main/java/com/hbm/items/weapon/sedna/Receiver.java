@@ -18,23 +18,25 @@ import net.minecraft.util.Vec3;
  */
 public class Receiver {
 
-	public static final String F_BASEDAMAGE =		"F_BASEDAMAGE";
-	public static final String I_DELAYAFTERFIRE =	"I_DELAYAFTERFIRE";
-	public static final String I_ROUNDSPERCYCLE =	"I_ROUNDSPERCYCLE";
-	public static final String F_SPREADMOD =		"F_SPREADMOD";
-	public static final String B_REFIREONHOLD =		"B_REFIREONHOLD";
-	public static final String B_DOESDRYFIRE =		"B_DOESDRYFIRE";
-	public static final String O_EJECTOR =			"O_EJECTOR";
-	public static final String B_EJECTONFIRE =		"B_EJECTONFIRE";
-	public static final String I_RELOADDURATION =	"I_RELOADDURATION";
-	public static final String S_FIRESOUND =		"S_FIRESOUND";
-	public static final String F_FIREVOLUME =		"F_FIREVOLUME";
-	public static final String F_FIREPITCH =		"F_FIREPITCH";
-	public static final String O_MAGAZINE =			"O_MAGAZINE";
-	public static final String O_PROJECTILEOFFSET =	"O_PROJECTILEOFFSET";
-	public static final String FUN_CANFIRE =		"FUN_CANFIRE";
-	public static final String CON_ONFIRE =			"CON_ONFIRE";
-	public static final String CON_ONRECOIL =		"CON_ONRECOIL";
+	public static final String F_BASEDAMAGE =			"F_BASEDAMAGE";
+	public static final String I_DELAYAFTERFIRE =		"I_DELAYAFTERFIRE";
+	public static final String I_ROUNDSPERCYCLE =		"I_ROUNDSPERCYCLE";
+	public static final String F_SPREADMOD =			"F_SPREADMOD";
+	public static final String B_REFIREONHOLD =			"B_REFIREONHOLD";
+	public static final String B_DOESDRYFIRE =			"B_DOESDRYFIRE";
+	public static final String O_EJECTOR =				"O_EJECTOR";
+	public static final String B_EJECTONFIRE =			"B_EJECTONFIRE";
+	public static final String I_RELOADBEGINDURATION =	"I_RELOADBEGINDURATION";
+	public static final String I_RELOADCYCLEDURATION =	"I_RELOADCYCLEDURATION";
+	public static final String I_RELOADENDDURATION =	"I_RELOADENDDURATION";
+	public static final String S_FIRESOUND =			"S_FIRESOUND";
+	public static final String F_FIREVOLUME =			"F_FIREVOLUME";
+	public static final String F_FIREPITCH =			"F_FIREPITCH";
+	public static final String O_MAGAZINE =				"O_MAGAZINE";
+	public static final String O_PROJECTILEOFFSET =		"O_PROJECTILEOFFSET";
+	public static final String FUN_CANFIRE =			"FUN_CANFIRE";
+	public static final String CON_ONFIRE =				"CON_ONFIRE";
+	public static final String CON_ONRECOIL =			"CON_ONRECOIL";
 	
 	public Receiver(int index) {
 		this.index = index;
@@ -49,7 +51,9 @@ public class Receiver {
 	protected boolean doesDryFire_DNA = true;
 	protected CasingEjector ejector_DNA = null;
 	protected boolean ejectOnFire_DNA = true;
-	protected int reloadDuration_DNA;
+	protected int reloadBeginDuration_DNA;
+	protected int reloadCycleDuration_DNA;
+	protected int reloadEndDuration_DNA;
 	protected String fireSound_DNA;
 	protected float fireVolume_DNA = 1.0F;
 	protected float firePitch_DNA = 1.0F;
@@ -68,7 +72,9 @@ public class Receiver {
 	public boolean getDoesDryFire(ItemStack stack) {		return WeaponUpgradeManager.eval(this.doesDryFire_DNA, stack, B_DOESDRYFIRE, this); }
 	public CasingEjector getEjector(ItemStack stack) {		return WeaponUpgradeManager.eval(this.ejector_DNA, stack, O_EJECTOR, this); }
 	public boolean getEjectOnFire(ItemStack stack) {		return WeaponUpgradeManager.eval(this.ejectOnFire_DNA, stack, B_EJECTONFIRE, this); }
-	public int getReloadDuration(ItemStack stack) {			return WeaponUpgradeManager.eval(this.reloadDuration_DNA, stack, I_RELOADDURATION, this); }
+	public int getReloadBeginDuration(ItemStack stack) {	return WeaponUpgradeManager.eval(this.reloadBeginDuration_DNA, stack, I_RELOADBEGINDURATION, this); }
+	public int getReloadCycleDuration(ItemStack stack) {	return WeaponUpgradeManager.eval(this.reloadCycleDuration_DNA, stack, I_RELOADCYCLEDURATION, this); }
+	public int getReloadEndDuration(ItemStack stack) {		return WeaponUpgradeManager.eval(this.reloadEndDuration_DNA, stack, I_RELOADENDDURATION, this); }
 	public String getFireSound(ItemStack stack) {			return WeaponUpgradeManager.eval(this.fireSound_DNA, stack, S_FIRESOUND, this); }
 	public float getFireVolume(ItemStack stack) {			return WeaponUpgradeManager.eval(this.fireVolume_DNA, stack, F_FIREVOLUME, this); }
 	public float getFirePitch(ItemStack stack) {			return WeaponUpgradeManager.eval(this.firePitch_DNA, stack, F_FIREPITCH, this); }
@@ -83,15 +89,24 @@ public class Receiver {
 	public Receiver dmg(float dmg) {						this.baseDamage_DNA = dmg;										return this; }
 	public Receiver delay(int delay) {						this.delayAfterFire_DNA = delay;								return this; }
 	public Receiver rounds(int rounds) {					this.roundsPerCycle_DNA = rounds;								return this; }
-	public Receiver spread(int spread) {					this.spreadModExtra_DNA = spread;								return this; }
+	public Receiver spread(float spread) {					this.spreadModExtra_DNA = spread;								return this; }
 	public Receiver auto(boolean auto) {					this.refireOnHold_DNA = auto;									return this; }
 	public Receiver dryfire(boolean dryfire) {				this.doesDryFire_DNA = dryfire;									return this; }
 	public Receiver ejector(CasingEjector ejector) {		this.ejector_DNA = ejector;										return this; }
 	public Receiver ejectOnFire(boolean eject) {			this.ejectOnFire_DNA = eject;									return this; }
-	public Receiver reload(int delay) {						this.reloadDuration_DNA = delay;								return this; }
 	public Receiver mag(IMagazine magazine) {				this.magazine_DNA = magazine;									return this; }
 	public Receiver offset(double f, double u, double s) {	this.projectileOffset_DNA = Vec3.createVectorHelper(f, u, s);	return this; }
 	
+	public Receiver reload(int delay) {
+		return reload(delay, delay, 0);
+	}
+	public Receiver reload(int a, int b, int c) {
+		this.reloadBeginDuration_DNA = a;
+		this.reloadCycleDuration_DNA = b;
+		this.reloadEndDuration_DNA = c;
+		return this;
+	}
+
 	public Receiver canFire(BiFunction<ItemStack, LambdaContext, Boolean> lambda) {	this.canFire_DNA = lambda;	return this; }
 	public Receiver fire(BiConsumer<ItemStack, LambdaContext> lambda) {				this.onFire_DNA = lambda;	return this; }
 	public Receiver recoil(BiConsumer<ItemStack, LambdaContext> lambda) {			this.onRecoil_DNA = lambda;	return this; }

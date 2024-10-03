@@ -38,7 +38,7 @@ public class ItemBedrockOreBase extends Item {
 		for(BedrockOreType type : BedrockOreType.values()) {
 			double amount = this.getOreAmount(stack, type);
 			String typeName = StatCollector.translateToLocalFormatted("item.bedrock_ore.type." + type.suffix + ".name");
-			list.add(typeName + ": " + ((int) (amount * 100)) / 100D + " (" + ItemOreDensityScanner.translateDensity(amount) + EnumChatFormatting.RESET + ")");
+			list.add(typeName + ": " + ((int) (amount * 100)) / 100D + " (" + StatCollector.translateToLocalFormatted(ItemOreDensityScanner.translateDensity(amount)) + EnumChatFormatting.RESET + ")");
 		}
 	}
 

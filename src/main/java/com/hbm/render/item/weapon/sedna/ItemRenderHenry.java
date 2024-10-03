@@ -42,12 +42,27 @@ public class ItemRenderHenry extends ItemRenderWeaponBase {
 		double[] hammer = HbmAnimations.getRelevantTransformation("HAMMER");
 		double[] lever = HbmAnimations.getRelevantTransformation("LEVER");
 		double[] turn = HbmAnimations.getRelevantTransformation("TURN");
+		double[] lift = HbmAnimations.getRelevantTransformation("LIFT");
+		double[] twist = HbmAnimations.getRelevantTransformation("TWIST");
+		double[] bullet = HbmAnimations.getRelevantTransformation("BULLET");
+		double[] yeet = HbmAnimations.getRelevantTransformation("YEET");
+		double[] roll = HbmAnimations.getRelevantTransformation("ROLL");
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
 		GL11.glTranslated(recoil[0] * 2, recoil[1], recoil[2]);
 		GL11.glRotated(recoil[2] * 5, 1, 0, 0);
 		GL11.glRotated(turn[2], 0, 0, 1);
+		
+		GL11.glTranslated(yeet[0], yeet[1], yeet[2]);
+		
+		GL11.glTranslated(0, 1, 0);
+		GL11.glRotated(roll[2], 0, 0, 1);
+		GL11.glTranslated(0, -1, 0);
+
+		GL11.glTranslated(0, -4, 4);
+		GL11.glRotated(lift[0], 1, 0, 0);
+		GL11.glTranslated(0, 4, -4);
 
 		GL11.glTranslated(0, 2, -4);
 		GL11.glRotated(equip[0], -1, 0, 0);
@@ -82,9 +97,18 @@ public class ItemRenderHenry extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, -0.25, 2.3125);
 		ResourceManager.henry.renderPart("Lever");
 		GL11.glPopMatrix();
-		
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 1, 0);
+		GL11.glRotated(twist[2], 0, 0, 1);
+		GL11.glTranslated(0, -1, 0);
 		ResourceManager.henry.renderPart("Front");
+		GL11.glPopMatrix();
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(bullet[0], bullet[1], bullet[2] - 1);
 		ResourceManager.henry.renderPart("Bullet");
+		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 
@@ -99,7 +123,9 @@ public class ItemRenderHenry extends ItemRenderWeaponBase {
 	@Override
 	protected void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
-		GL11.glTranslated(0, 1, 3);
+		double scale = 1.75D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glTranslated(0, 0.25, 3);
 
 	}
 
