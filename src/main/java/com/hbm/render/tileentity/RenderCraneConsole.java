@@ -108,18 +108,40 @@ public class RenderCraneConsole extends TileEntitySpecialRenderer {
 
 			double posX = (console.lastPosFront + (console.posFront - console.lastPosFront) * interp);
 			double posZ = (console.lastPosLeft + (console.posLeft - console.lastPosLeft) * interp);
-			GL11.glTranslated(0, 0, posZ);
+			GL11.glTranslated(-posX, 0, posZ);
+
+			int craneRotationOffset = ((TileEntityCraneConsole)te).craneRotationOffset;
+			GL11.glRotatef(craneRotationOffset, 0F, 1F, 0F);
 			
 			GL11.glPushMatrix();
-			GL11.glTranslated(-console.spanL, height - 1, 0);
+			int girderSpan = 0;
+			GL11.glRotatef(-craneRotationOffset, 0F, 1F, 0F);
+			switch(craneRotationOffset) {
+			case 0:
+				girderSpan = console.spanL + console.spanR + 1;
+				GL11.glTranslated(posX - console.spanL, 0, 0);
+				break;
+			case 90:
+				girderSpan = console.spanF + console.spanB + 1;
+				GL11.glTranslated(0, 0, -posZ + console.spanB);
+				break;
+			case 180:
+				girderSpan = console.spanL + console.spanR + 1;
+				GL11.glTranslated(posX + console.spanR, 0, 0);
+				break;
+			case 270:
+				girderSpan = console.spanF + console.spanB + 1;
+				GL11.glTranslated(0, 0, -posZ - console.spanF);
+				break;
+			}
+			GL11.glRotatef(craneRotationOffset, 0F, 1F, 0F);
 			
-			for(int i = -console.spanL; i <= console.spanR; i++) {
+			for(int i = 0; i < girderSpan; i++) {
 				ResourceManager.rbmk_crane.renderPart("Girder");
 				GL11.glTranslated(1, 0, 0);
 			}
 			GL11.glPopMatrix();
 			
-			GL11.glTranslated(-posX, 0, 0);
 			ResourceManager.rbmk_crane.renderPart("Main");
 			
 			GL11.glPushMatrix();

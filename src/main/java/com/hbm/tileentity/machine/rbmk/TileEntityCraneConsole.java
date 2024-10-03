@@ -28,6 +28,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityCraneConsole extends TileEntity implements INBTPacketReceiver, SimpleComponent, CompatHandler.OCComponent {
 	
@@ -43,6 +45,8 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 	public int height;
 	
 	public boolean setUpCrane = false;
+
+	public int craneRotationOffset = 0;
 
 	public double lastTiltFront = 0;
 	public double lastTiltLeft = 0;
@@ -169,6 +173,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 			nbt.setBoolean("crane", setUpCrane);
 			
 			if(setUpCrane) { //no need to send any of this if there's NO FUCKING CRANE THERE
+				nbt.setInteger("craneRotationOffset", craneRotationOffset);
 				nbt.setInteger("centerX", centerX);
 				nbt.setInteger("centerY", centerY);
 				nbt.setInteger("centerZ", centerZ);
@@ -250,6 +255,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		lastProgress = progress;
 		
 		this.setUpCrane = nbt.getBoolean("crane");
+		this.craneRotationOffset = nbt.getInteger("craneRotationOffset");
 		this.centerX = nbt.getInteger("centerX");
 		this.centerY = nbt.getInteger("centerY");
 		this.centerZ = nbt.getInteger("centerZ");
@@ -277,9 +283,14 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		this.spanR = 7;
 		
 		this.height = 7;
+
 		this.setUpCrane = true;
 		
 		this.markDirty();
+	}
+
+	public void cycleCraneRotation() {
+		this.craneRotationOffset = (this.craneRotationOffset + 90) % 360;
 	}
 	
 	@Override
@@ -287,6 +298,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		super.readFromNBT(nbt);
 
 		this.setUpCrane = nbt.getBoolean("crane");
+		this.craneRotationOffset = nbt.getInteger("craneRotationOffset");
 		this.centerX = nbt.getInteger("centerX");
 		this.centerY = nbt.getInteger("centerY");
 		this.centerZ = nbt.getInteger("centerZ");
@@ -307,6 +319,7 @@ public class TileEntityCraneConsole extends TileEntity implements INBTPacketRece
 		super.writeToNBT(nbt);
 
 		nbt.setBoolean("crane", setUpCrane);
+		nbt.setInteger("craneRotationOffset", craneRotationOffset);
 		nbt.setInteger("centerX", centerX);
 		nbt.setInteger("centerY", centerY);
 		nbt.setInteger("centerZ", centerZ);
