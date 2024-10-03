@@ -53,6 +53,13 @@ public class ItemRenderHenry extends ItemRenderWeaponBase {
 		GL11.glRotated(equip[0], -1, 0, 0);
 		GL11.glTranslated(0, -2, 4);
 		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 1, 8);
+		GL11.glRotated(turn[2], 0, 0, -1);
+		GL11.glRotated(90, 0, 1, 0);
+		this.renderSmokeNodes(gun.smokeNodes, 0.25D);
+		GL11.glPopMatrix();
+		
 		ResourceManager.henry.renderPart("Gun");
 		
 		GL11.glPushMatrix();

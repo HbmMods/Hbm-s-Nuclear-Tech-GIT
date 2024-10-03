@@ -18,8 +18,8 @@ public class HbmAnimations {
 	public static final Animation[] hotbar = new Animation[9];
 	
 	public static enum AnimType {
-		RELOAD,			//animation for reloading the weapon
-		RELOAD_EMPTY,	//animation for reloading from empty
+		RELOAD,			//either a full reload or start of a reload
+		RELOAD_EMPTY,	//same as reload, but the mag is completely empty
 		RELOAD_CYCLE,	//animation that plays for every individual round (for shotguns and similar single round loading weapons)
 		RELOAD_END,		//animation for transitioning from our RELOAD_CYCLE to idle
 		CYCLE,			//animation for every firing cycle

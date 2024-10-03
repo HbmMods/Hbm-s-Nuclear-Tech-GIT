@@ -9,8 +9,10 @@ import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
-import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
+import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.lib.RefStrings;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
@@ -27,17 +29,24 @@ public class XFactory44 {
 	public static BulletConfig m44_express;
 
 	public static void init() {
-		m44_sp = new BulletConfig().setItem(EnumAmmo.M357_SP);
-		m44_fmj = new BulletConfig().setItem(EnumAmmo.M357_FMJ).setDamage(0.8F).setArmorPiercing(0.1F);
-		m44_jhp = new BulletConfig().setItem(EnumAmmo.M357_JHP).setDamage(1.5F).setArmorPiercing(-0.25F);
-		m44_ap = new BulletConfig().setItem(EnumAmmo.M357_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F);
-		m44_express = new BulletConfig().setItem(EnumAmmo.M357_EXPRESS).setDoesPenetrate(true).setDamage(1.5F).setArmorPiercing(0.1F).setWear(1.5F);
+		SpentCasing casing44 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(1F, 0.5D, 60, 20);
+		m44_sp = new BulletConfig().setItem(EnumAmmo.M44_SP)
+				.setCasing(casing44.clone().register("m44"));
+		m44_fmj = new BulletConfig().setItem(EnumAmmo.M44_FMJ).setDamage(0.8F).setArmorPiercing(0.1F)
+				.setCasing(casing44.clone().register("m44fmj"));
+		m44_jhp = new BulletConfig().setItem(EnumAmmo.M44_JHP).setDamage(1.5F).setArmorPiercing(-0.25F)
+				.setCasing(casing44.clone().register("m44jhp"));
+		m44_ap = new BulletConfig().setItem(EnumAmmo.M44_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F)
+				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_44).register("m44ap"));
+		m44_express = new BulletConfig().setItem(EnumAmmo.M44_EXPRESS).setDoesPenetrate(true).setDamage(1.5F).setArmorPiercing(0.1F).setWear(1.5F)
+				.setCasing(casing44.clone().register("m44express"));
 
 		ModItems.gun_henry = new ItemGunBaseNT(new GunConfig()
-				.dura(300).draw(15).inspect(23).jam(45).crosshair(Crosshair.CIRCLE).smoke(true).orchestra(Orchestras.ORCHESTRA_HENRY)
+				.dura(300).draw(15).inspect(23).jam(45).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(true).orchestra(Orchestras.ORCHESTRA_HENRY)
 				.rec(new Receiver(0)
-						.dmg(12F).delay(16).reload(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 6).addConfigs(m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
+						.dmg(12F).delay(16).reload(10).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.mag(new MagazineSingleReload(0, 14).addConfigs(m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
+						.offset(0.75, -0.0625, -0.3125D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration().anim(LAMBDA_HENRY_ANIMS)
 				).setUnlocalizedName("gun_henry").setTextureName(RefStrings.MODID + ":gun_darter");
@@ -54,8 +63,13 @@ public class XFactory44 {
 				.addBus("LEVER", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(-90, 0, 0, 200).addPos(0, 0, 0, 200))
 				.addBus("TURN", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(0, 0, 45, 200, IType.SIN_DOWN).addPos(0, 0, 0, 200, IType.SIN_UP))
 				.addBus("HAMMER", new BusAnimationSequence().addPos(30, 0, 0, 50).addPos(30, 0, 0, 550).addPos(0, 0, 0, 200));
-		case CYCLE_DRY: return new BusAnimation();
+		case CYCLE_DRY: return new BusAnimation()
+				.addBus("LEVER", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(-90, 0, 0, 200).addPos(0, 0, 0, 200))
+				.addBus("TURN", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(0, 0, 45, 200, IType.SIN_DOWN).addPos(0, 0, 0, 200, IType.SIN_UP))
+				.addBus("HAMMER", new BusAnimationSequence().addPos(30, 0, 0, 50).addPos(30, 0, 0, 550).addPos(0, 0, 0, 200));
 		case RELOAD: return new BusAnimation();
+		case RELOAD_CYCLE: return new BusAnimation();
+		case RELOAD_END: return new BusAnimation();
 		case INSPECT: return new BusAnimation();
 		case JAMMED: return new BusAnimation();
 		}

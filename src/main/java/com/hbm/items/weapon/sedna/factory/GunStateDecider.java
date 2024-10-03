@@ -63,6 +63,7 @@ public class GunStateDecider {
 			if(cfg.getReceivers(stack)[recIndex].getMagazine(stack).canReload(stack, player)) {
 				ItemGunBaseNT.setState(stack, GunState.RELOADING);
 				ItemGunBaseNT.setTimer(stack, cfg.getReceivers(stack)[recIndex].getReloadDuration(stack));
+				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD_CYCLE);
 			//if no more reloading can be done, go idle
 			} else {
 				
@@ -73,6 +74,7 @@ public class GunStateDecider {
 				} else {
 					ItemGunBaseNT.setState(stack, GunState.IDLE);
 					ItemGunBaseNT.setTimer(stack, 0);
+					ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD_END);
 				}
 			}
 		}

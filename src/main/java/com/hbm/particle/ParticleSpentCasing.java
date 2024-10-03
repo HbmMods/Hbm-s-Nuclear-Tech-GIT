@@ -42,8 +42,6 @@ public class ParticleSpentCasing extends EntityFX {
 	private boolean isSmoking;
 
 	private float momentumPitch, momentumYaw;
-	private boolean onGroundPreviously = false;
-	private double maxHeight;
 
 	public ParticleSpentCasing(TextureManager textureManager, World world, double x, double y, double z, double mx, double my, double mz, float momentumPitch, float momentumYaw, SpentCasing config) {
 		super(world, x, y, z, 0, 0, 0);
@@ -66,9 +64,7 @@ public class ParticleSpentCasing extends EntityFX {
 		this.motionY = my;
 		this.motionZ = mz;
 
-		particleGravity = 8F;
-
-		maxHeight = y;
+		particleGravity = 1F;
 	}
 
 	@Override
@@ -78,24 +74,34 @@ public class ParticleSpentCasing extends EntityFX {
 
 	@Override
 	public void onUpdate() {
-		super.onUpdate();
+		
+		this.prevPosX = this.posX;
+		this.prevPosY = this.posY;
+		this.prevPosZ = this.posZ;
 
-		if(motionY > 0 && posY > maxHeight)
-			maxHeight = posY;
+		if(this.particleAge++ >= this.particleMaxAge) {
+			this.setDead();
+		}
 
-		if(!onGroundPreviously && onGround)
-			tryPlayBounceSound();
+		this.motionY -= 0.04D * (double) this.particleGravity;
+		double prevMotionY = this.motionY;
+		this.moveEntity(this.motionX, this.motionY, this.motionZ);
+		this.motionX *= 0.98D;
+		this.motionY *= 0.98D;
+		this.motionZ *= 0.98D;
 
-		if(!onGroundPreviously && onGround) {
+		if(this.onGround) {
+			this.motionX *= 0.7D;
+			this.motionZ *= 0.7D;
+		}
+
+		if(onGround) {
+			this.onGround = false;
+			motionY = prevMotionY * -0.5;
+			this.rotationPitch = 0;
+			//momentumPitch = (float) rand.nextGaussian() * config.getBouncePitch();
+			//momentumYaw = (float) rand.nextGaussian() * config.getBounceYaw();
 			
-			onGroundPreviously = true;
-			motionY = Math.log10(maxHeight - posY + 2);
-			momentumPitch = (float) rand.nextGaussian() * config.getBouncePitch();
-			momentumYaw = (float) rand.nextGaussian() * config.getBounceYaw();
-			maxHeight = posY;
-			
-		} else if(onGroundPreviously && !onGround) {
-			onGroundPreviously = false;
 		}
 
 		if(particleAge > maxSmokeGen && !smokeNodes.isEmpty())
@@ -193,8 +199,6 @@ public class ParticleSpentCasing extends EntityFX {
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(pX - dX, pY - dY - this.height / 4, pZ - dZ);
-		//GL11.glScalef(dScale, dScale, dScale);
-		//GL11.glScalef(config.getScaleX(), config.getScaleY(), config.getScaleZ());
 
 		if(!smokeNodes.isEmpty()) {
 			tessellator.startDrawingQuads();
@@ -271,17 +275,17 @@ public class ParticleSpentCasing extends EntityFX {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getBrightnessForRender(float p_70070_1_) {
-		int i = MathHelper.floor_double(this.posX);
-		int j = MathHelper.floor_double(this.posZ);
+		int x = MathHelper.floor_double(this.posX);
+		int z = MathHelper.floor_double(this.posZ);
 
-		if(this.worldObj.blockExists(i, 0, j)) {
+		if(this.worldObj.blockExists(x, 0, z)) {
 			double d0 = (this.boundingBox.maxY - this.boundingBox.minY) * 0.66D;
-			int k = MathHelper.floor_double(this.posY - (double) this.yOffset + d0);
-			return this.worldObj.getLightBrightnessForSkyBlocks(i, k, j, 0);
+			int y = MathHelper.floor_double(this.posY - (double) this.yOffset + d0);
+			return this.worldObj.getLightBrightnessForSkyBlocks(x, y, z, 0);
 		} else {
 			return 0;
-		  }
-    }
+		}
+	}
 
 	private void tryPlayBounceSound() {
 

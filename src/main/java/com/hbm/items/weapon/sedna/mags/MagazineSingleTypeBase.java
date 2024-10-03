@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.particle.SpentCasing;
 
 import net.minecraft.item.ItemStack;
 
@@ -55,6 +56,11 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
 	@Override
 	public String reportAmmoStateForHUD(ItemStack stack) {
 		return getAmount(stack) + " / " + getCapacity(stack);
+	}
+
+	@Override
+	public SpentCasing getCasing(ItemStack stack) {
+		return this.getType(stack).casing;
 	}
 
 	@Override public int getCapacity(ItemStack stack) { return capacity; }

@@ -5,7 +5,6 @@ import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.tileentity.machine.rbmk.TileEntityCraneConsole;
 
 import api.hbm.block.IToolable;
-import api.hbm.block.IToolable.ToolType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

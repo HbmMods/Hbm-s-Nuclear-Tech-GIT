@@ -28,8 +28,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
-
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityCraneConsole extends TileEntity implements INBTPacketReceiver, SimpleComponent, CompatHandler.OCComponent {
 	

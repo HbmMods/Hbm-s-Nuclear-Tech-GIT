@@ -42,7 +42,7 @@ public class RotaryFurnaceRecipes extends SerializableRecipe {
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_STEEL, INGOT.q(3)), 100, 100, new OreDictStack(IRON.fragment(), 9), new OreDictStack(ANY_COKE.gem())));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_STEEL, INGOT.q(4)), 200, 100, new OreDictStack(IRON.fragment(), 9), new OreDictStack(ANY_COKE.gem()), new ComparableStack(ModItems.powder_flux)));
 
-		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_DESH, INGOT.q(1)), 100, 200, new FluidStack(Fluids.MERCURY, 100), new ComparableStack(ModItems.powder_desh_mix), new OreDictStack(COAL.dust())));
+		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_DESH, INGOT.q(1)), 100, 200, new FluidStack(Fluids.LIGHTOIL, 100), new ComparableStack(ModItems.powder_desh_ready)));
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_SATURN, INGOT.q(2)), 200, 400, new FluidStack(Fluids.HEATINGOIL, 250), new OreDictStack(DURA.dust(), 2), new OreDictStack(CU.dust())));
 
 		recipes.add(new RotaryFurnaceRecipe(new MaterialStack(MAT_GUNMETAL, INGOT.q(4)), 200, 100, new OreDictStack(CU.ingot(), 3), new OreDictStack(AL.ingot(), 1)));

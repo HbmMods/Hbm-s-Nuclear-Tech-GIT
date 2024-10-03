@@ -1,5 +1,7 @@
 package com.hbm.items.weapon.sedna.mags;
 
+import com.hbm.particle.SpentCasing;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -29,4 +31,6 @@ public interface IMagazine<T> {
 	public ItemStack getIconForHUD(ItemStack stack);
 	/** It explains itself */
 	public String reportAmmoStateForHUD(ItemStack stack);
+	/** Casing config to use then ejecting */
+	public SpentCasing getCasing(ItemStack stack);
 }

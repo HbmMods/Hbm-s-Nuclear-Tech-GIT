@@ -106,6 +106,7 @@ public class GunConfig {
 	public GunConfig jam(int jam) {						this.jamDuration_DNA = jam; return this; }
 	public GunConfig crosshair(Crosshair crosshair) {	this.crosshair_DNA = crosshair; return this; }
 	public GunConfig smoke(boolean doesSmoke) {			this.doesSmoke_DNA = doesSmoke; return this; }
+	public GunConfig reloadSequential(boolean flag) {	this.reloadAnimationsSequential_DNA = flag; return this; }
 	
 	public GunConfig orchestra(BiConsumer<ItemStack, LambdaContext> orchestra) {	this.orchestra_DNA = orchestra; return this; }
 	

@@ -18,6 +18,7 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Vec3;
 
 /**
  * "LEGO" - i.e. standardized building blocks which can be used to set up gun configs easily.
@@ -39,11 +40,12 @@ public class Lego {
 		if(state == GunState.IDLE) {
 			
 			ItemGunBaseNT.setIsAiming(stack, false);
+			IMagazine mag = rec.getMagazine(stack);
 			
-			if(rec.getMagazine(stack).canReload(stack, ctx.player)) {
+			if(mag.canReload(stack, ctx.player)) {
 				ItemGunBaseNT.setState(stack, GunState.RELOADING);
 				ItemGunBaseNT.setTimer(stack, rec.getReloadDuration(stack));
-				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD);
+				ItemGunBaseNT.playAnimation(player, stack, mag.getAmount(stack) == 0 ? AnimType.RELOAD_EMPTY : AnimType.RELOAD);
 			} else {
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.INSPECT);
 			}
@@ -104,11 +106,15 @@ public class Lego {
 		EntityPlayer player = ctx.player;
 		ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE);
 		
-		double sideOffset = ItemGunBaseNT.getIsAiming(stack) ? 0 : -0.3125D;
 		float aim = ItemGunBaseNT.getIsAiming(stack) ? 0.25F : 1F;
 		Receiver primary = ctx.config.getReceivers(stack)[0];
 		IMagazine mag = primary.getMagazine(stack);
 		BulletConfig config = (BulletConfig) mag.getType(stack);
+		
+		Vec3 offset = primary.getProjectileOffset(stack);
+		double forwardOffset = offset.xCoord;
+		double heightOffset = offset.yCoord;
+		double sideOffset = ItemGunBaseNT.getIsAiming(stack) ? 0 : offset.zCoord;
 		
 		int projectiles = config.projectilesMin;
 		if(config.projectilesMax > config.projectilesMin) projectiles += player.getRNG().nextInt(config.projectilesMax - config.projectilesMin + 1);
@@ -116,7 +122,7 @@ public class Lego {
 		for(int i = 0; i < projectiles; i++) {
 			float damage = primary.getBaseDamage(stack) * getStandardWearDamage(stack, ctx.config);
 			float spread = primary.getGunSpread(stack) * aim + getStandardWearSpread(stack, ctx.config) * 0.125F;
-			EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(player, config, damage, spread, sideOffset, -0.0625, 0.75);
+			EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(player, config, damage, spread, sideOffset, heightOffset, forwardOffset);
 			player.worldObj.spawnEntityInWorld(mk4);
 		}
 		

@@ -38,6 +38,7 @@ public class XFactory357 {
 				.rec(new Receiver(0)
 						.dmg(10F).delay(16).reload(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
+						.offset(0.75, -0.0625, -0.3125D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration().anim(LAMBDA_ATLAS_ANIMS)
 				).setUnlocalizedName("gun_atlas").setTextureName(RefStrings.MODID + ":gun_darter");

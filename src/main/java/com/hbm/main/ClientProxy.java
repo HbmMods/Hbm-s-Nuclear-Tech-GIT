@@ -89,8 +89,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.GunFactoryClient;
 import com.hbm.lib.RefStrings;
 import com.hbm.particle.*;
-import com.hbm.particle.helper.ExplosionCreator;
-import com.hbm.particle.helper.IParticleCreator;
+import com.hbm.particle.helper.*;
 import com.hbm.particle.psys.engine.EventHandlerParticleEngine;
 import com.hbm.render.anim.*;
 import com.hbm.render.anim.HbmAnimations.Animation;
@@ -989,6 +988,7 @@ public class ClientProxy extends ServerProxy {
 	
 	static {
 		particleCreators.put("explosionLarge", new ExplosionCreator());
+		particleCreators.put("casingNT", new CasingCreator());
 	}
 	
 	//mk3, only use this one
