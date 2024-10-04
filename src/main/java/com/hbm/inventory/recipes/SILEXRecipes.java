@@ -15,11 +15,13 @@ import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
+import com.hbm.util.ItemStackUtil;
 import com.hbm.util.WeightedRandomObject;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class SILEXRecipes {
@@ -642,6 +644,15 @@ public class SILEXRecipes {
 		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.FULLERENE.getID()),
 				new SILEXRecipe(1_000, 1_000, EnumWavelengths.UV).addOut(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.FULLERENE), 1));
 	}
+
+	private static final HashMap<Item, Item> tinyWasteTranslation = new HashMap();
+
+	static {
+		tinyWasteTranslation.put(ModItems.nuclear_waste_short_tiny, ModItems.nuclear_waste_short);
+		tinyWasteTranslation.put(ModItems.nuclear_waste_long_tiny, ModItems.nuclear_waste_long);
+		tinyWasteTranslation.put(ModItems.nuclear_waste_short_depleted_tiny, ModItems.nuclear_waste_short_depleted);
+		tinyWasteTranslation.put(ModItems.nuclear_waste_long_depleted_tiny, ModItems.nuclear_waste_long_depleted);
+	}
 	
 	public static SILEXRecipe getOutput(ItemStack stack) {
 		
@@ -656,10 +667,26 @@ public class SILEXRecipes {
 		String[] dictKeys = comp.getDictKeys();
 		
 		for(String key : dictKeys) {
-			
 			String translation = translateDict(key);
 			if(recipes.containsKey(translation))
 				return recipes.get(translation);
+		}
+
+		if(tinyWasteTranslation.containsKey(comp.item)) {
+			SILEXRecipe result = getOutput(new ItemStack(tinyWasteTranslation.get(comp.item), comp.stacksize, comp.meta));
+
+			if(result != null) {
+				// This way it rounds down if somehow the recipe's fluid produced is not divisible by 900
+				int fluidProduced = (result.fluidProduced / 900) * 100;
+				SILEXRecipe tinyVersion = new SILEXRecipe(fluidProduced, result.fluidConsumed, result.laserStrength);
+				// Shared ownership shouldn't be an issue since the resulting recipe isn't modified by the caller
+				tinyVersion.outputs = result.outputs;
+				
+				// TODO: Cache? Might break saving recipes, IDK
+				// recipes.put(comp, tinyVersion);
+
+				return tinyVersion;
+			}
 		}
 		
 		return null;
