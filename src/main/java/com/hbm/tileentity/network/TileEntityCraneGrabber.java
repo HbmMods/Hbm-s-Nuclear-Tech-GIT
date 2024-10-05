@@ -30,7 +30,13 @@ import java.util.List;
 
 public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIProvider, IControlReceiverFilter {
 
-	public boolean isWhitelist = false;
+	public static enum FilterMode {
+		WHITELIST,
+		BLACKLIST,
+		MATCH_CONTAINER,
+	}
+
+	public FilterMode filterMode = FilterMode.WHITELIST;
 	public ModulePatternMatcher matcher;
 	public long lastGrabbedTick = 0;
 
@@ -109,8 +115,8 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 					
 					for(EntityMovingItem item : items) {
 						ItemStack stack = item.getItemStack();
-						boolean match = this.matchesFilter(stack);
-						if(this.isWhitelist && !match || !this.isWhitelist && match) continue;
+						boolean match = this.matchesFilter(stack, (IInventory)te);
+						if(!match) continue;
 						
 						lastGrabbedTick = worldObj.getTotalWorldTime();
 						
@@ -135,7 +141,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 			
 			
 			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("isWhitelist", isWhitelist);
+			data.setInteger("filterMode", this.filterMode.ordinal());
 			this.matcher.writeToNBT(data);
 			this.networkPack(data, 15);
 		}
@@ -143,22 +149,48 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	
 	public void networkUnpack(NBTTagCompound nbt) {
 		super.networkUnpack(nbt);
-		this.isWhitelist = nbt.getBoolean("isWhitelist");
+		this.filterMode = FilterMode.values()[nbt.getInteger("filterMode")];
 		this.matcher.modes = new String[matcher.modes.length];
 		this.matcher.readFromNBT(nbt);
 	}
 	
-	public boolean matchesFilter(ItemStack stack) {
+	public boolean matchesFilter(ItemStack stack, IInventory dest) {
+
+		if(this.filterMode == FilterMode.MATCH_CONTAINER) {
+			String filterMode = ModulePatternMatcher.MODE_WILDCARD;
+
+			// If at least one filter is set, use the mode from it, but not the item
+			for(int i = 0; i < 9; i++) {
+				ItemStack filter = slots[i];
+				
+				if(filter != null) {
+					filterMode = matcher.modes[i];
+					break;
+				}
+			}
+
+			for(int i = 0; i < dest.getSizeInventory(); i++) {
+				ItemStack existing = dest.getStackInSlot(i);
+				
+				if(existing != null && ModulePatternMatcher.isValidForFilter(existing, filterMode, stack)) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		boolean matchPositive = this.filterMode == FilterMode.WHITELIST;
 		
 		for(int i = 0; i < 9; i++) {
 			ItemStack filter = slots[i];
 			
 			if(filter != null && this.matcher.isValidForFilter(filter, i, stack)) {
-				return true;
+				return matchPositive;
 			}
 		}
 		
-		return false;
+		return !matchPositive;
 	}
 
 	@Override
@@ -175,7 +207,11 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		this.isWhitelist = nbt.getBoolean("isWhitelist");
+		// Temporary backwards-compatibility solution
+		if(nbt.hasKey("isWhitelist")) {
+			this.filterMode = nbt.getBoolean("isWhitelist") ? FilterMode.WHITELIST : FilterMode.BLACKLIST;
+		}
+		this.filterMode = FilterMode.values()[nbt.getInteger("filterMode")];
 		this.matcher.readFromNBT(nbt);
 		this.lastGrabbedTick = nbt.getLong("lastGrabbedTick");
 	}
@@ -183,7 +219,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setBoolean("isWhitelist", this.isWhitelist);
+		nbt.setInteger("filterMode", this.filterMode.ordinal());
 		this.matcher.writeToNBT(nbt);
 		nbt.setLong("lastGrabbedTick", lastGrabbedTick);
 	}
@@ -200,8 +236,8 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		if(data.hasKey("whitelist")) {
-			this.isWhitelist = !this.isWhitelist;
+		if(data.hasKey("filterMode")) {
+			this.filterMode = FilterMode.values()[(this.filterMode.ordinal() + 1) % FilterMode.values().length];
 		}
 		if(data.hasKey("slot")){
 			setFilterContents(data);

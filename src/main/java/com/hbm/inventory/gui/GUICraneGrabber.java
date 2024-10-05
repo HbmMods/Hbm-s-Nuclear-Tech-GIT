@@ -60,11 +60,11 @@ public class GUICraneGrabber extends GuiInfoContainer {
 	protected void mouseClicked(int x, int y, int i) {
 		super.mouseClicked(x, y, i);
 
-		if(guiLeft + 97 <= x && guiLeft + 97 + 14 > x && guiTop + 30 < y && guiTop + 30 + 26 >= y) {
+		if(guiLeft + 97 <= x && guiLeft + 97 + 14 > x && guiTop + 23 < y && guiTop + 30 + 40 >= y) {
 
 			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("whitelist", true);
+			data.setBoolean("filterMode", true);
 			PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, grabber.xCoord, grabber.yCoord, grabber.zCoord));
 		}
 	}
@@ -82,10 +82,7 @@ public class GUICraneGrabber extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		if(grabber.isWhitelist) {
-			drawTexturedModalRect(guiLeft + 108, guiTop + 33, 176, 0, 3, 6);
-		} else {
-			drawTexturedModalRect(guiLeft + 108, guiTop + 47, 176, 0, 3, 6);
-		}
+		int selectedMode = grabber.filterMode.ordinal();
+		drawTexturedModalRect(guiLeft + 108, guiTop + 26 + 14 * selectedMode, 176, 0, 3, 6);
 	}
 }
