@@ -169,6 +169,11 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 				}
 			}
 
+			if(filterMode != ModulePatternMatcher.MODE_WILDCARD && filterMode != ModulePatternMatcher.MODE_EXACT) {
+				// OreDict filtering cannot be done in MATCH_CONTAINER mode, so we'll treat it as MODE_WILDCARD
+				filterMode = ModulePatternMatcher.MODE_WILDCARD;
+			}
+
 			for(int i = 0; i < dest.getSizeInventory(); i++) {
 				ItemStack existing = dest.getStackInSlot(i);
 				
