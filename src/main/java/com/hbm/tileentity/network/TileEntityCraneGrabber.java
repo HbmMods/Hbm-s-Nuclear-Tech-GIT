@@ -33,7 +33,15 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	public static enum FilterMode {
 		WHITELIST,
 		BLACKLIST,
-		MATCH_CONTAINER,
+		MATCH_CONTAINER;
+
+		void writeToNBT(NBTTagCompound nbt) {
+			nbt.setInteger("filterMode", ordinal());
+		}
+
+		static FilterMode readFromNBT(NBTTagCompound nbt) {
+			return values()[nbt.getInteger("filterMode")];
+		}
 	}
 
 	public FilterMode filterMode = FilterMode.WHITELIST;
@@ -141,7 +149,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 			
 			
 			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("filterMode", this.filterMode.ordinal());
+			this.filterMode.writeToNBT(data);
 			this.matcher.writeToNBT(data);
 			this.networkPack(data, 15);
 		}
@@ -149,7 +157,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	
 	public void networkUnpack(NBTTagCompound nbt) {
 		super.networkUnpack(nbt);
-		this.filterMode = FilterMode.values()[nbt.getInteger("filterMode")];
+		this.filterMode = FilterMode.readFromNBT(nbt);
 		this.matcher.modes = new String[matcher.modes.length];
 		this.matcher.readFromNBT(nbt);
 	}
@@ -216,7 +224,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 		if(nbt.hasKey("isWhitelist")) {
 			this.filterMode = nbt.getBoolean("isWhitelist") ? FilterMode.WHITELIST : FilterMode.BLACKLIST;
 		}
-		this.filterMode = FilterMode.values()[nbt.getInteger("filterMode")];
+		this.filterMode = FilterMode.readFromNBT(nbt);
 		this.matcher.readFromNBT(nbt);
 		this.lastGrabbedTick = nbt.getLong("lastGrabbedTick");
 	}
@@ -224,7 +232,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setInteger("filterMode", this.filterMode.ordinal());
+		this.filterMode.writeToNBT(nbt);
 		this.matcher.writeToNBT(nbt);
 		nbt.setLong("lastGrabbedTick", lastGrabbedTick);
 	}
@@ -246,6 +254,21 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 		}
 		if(data.hasKey("slot")){
 			setFilterContents(data);
+		}
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		NBTTagCompound nbt = super.getSettings(world, x, y, z);
+		this.filterMode.writeToNBT(nbt);
+		return nbt;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+		super.pasteSettings(nbt, index, world, player, x, y, z);
+		if(index == 0) {
+			this.filterMode = FilterMode.readFromNBT(nbt);
 		}
 	}
 }
