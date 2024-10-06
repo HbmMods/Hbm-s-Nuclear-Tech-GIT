@@ -6,6 +6,7 @@ import java.util.function.BooleanSupplier;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.render.anim.HbmAnimations.AnimType;
@@ -56,11 +57,12 @@ public class GunStateDecider {
 			EntityPlayer player = ctx.player;
 			GunConfig cfg = ctx.config;
 			Receiver rec = cfg.getReceivers(stack)[recIndex];
+			IMagazine mag = rec.getMagazine(stack);
 			
-			rec.getMagazine(stack).reloadAction(stack, player);
+			mag.reloadAction(stack, player);
 			
 			//if after reloading the gun can still reload, assume a tube mag and resume reloading
-			if(cfg.getReceivers(stack)[recIndex].getMagazine(stack).canReload(stack, player)) {
+			if(mag.canReload(stack, player)) {
 				ItemGunBaseNT.setState(stack, GunState.RELOADING);
 				ItemGunBaseNT.setTimer(stack, rec.getReloadCycleDuration(stack));
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD_CYCLE);
@@ -73,7 +75,8 @@ public class GunStateDecider {
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.JAMMED);
 				} else {
 					ItemGunBaseNT.setState(stack, GunState.DRAWING);
-					ItemGunBaseNT.setTimer(stack, rec.getReloadEndDuration(stack));
+					int duration = rec.getReloadEndDuration(stack) + (mag.getAmountBeforeReload(stack) <= 0 ? rec.getReloadCockOnEmpty(stack) : 0);
+					ItemGunBaseNT.setTimer(stack, duration);
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD_END);
 				}
 			}
@@ -108,6 +111,10 @@ public class GunStateDecider {
 					int remaining = rec.getRoundsPerCycle(stack) - 1;
 					for(int i = 0; i < remaining; i++) if(rec.getCanFire(stack).apply(stack, ctx)) rec.getOnFire(stack).accept(stack, ctx);
 				//if not, revert to idle
+				} else if(rec.getDoesDryFire(stack)) {
+					ItemGunBaseNT.setState(stack, GunState.DRAWING);
+					ItemGunBaseNT.setTimer(stack, rec.getDelayAfterDryFire(stack));
+					ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE_DRY);
 				} else {
 					ItemGunBaseNT.setState(stack, GunState.IDLE);
 					ItemGunBaseNT.setTimer(stack, 0);

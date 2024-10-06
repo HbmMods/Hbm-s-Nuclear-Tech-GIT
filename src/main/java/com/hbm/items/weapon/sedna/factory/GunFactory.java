@@ -35,7 +35,7 @@ public class GunFactory {
 
 		/// GUNS ///
 		ModItems.gun_debug = new ItemGunBaseNT(new GunConfig()
-				.dura(600F).draw(15).jam(23).inspect(23).crosshair(Crosshair.L_CLASSIC).smoke(true).orchestra(Orchestras.DEBUG_ORCHESTRA)
+				.dura(600F).draw(15).jam(23).inspect(23).crosshair(Crosshair.L_CLASSIC).smoke(Lego.LAMBDA_STANDARD_SMOKE).orchestra(Orchestras.DEBUG_ORCHESTRA)
 				.rec(new Receiver(0)
 						.dmg(10F).delay(14).reload(46).sound("hbm:weapon.44Shoot", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 12).addConfigs(ammo_debug, ammo_debug_buckshot))
@@ -51,6 +51,9 @@ public class GunFactory {
 		XFactory357.init();
 		XFactory44.init();
 		XFactory9mm.init();
+		XFactory12ga.init();
+		XFactory40mm.init();
+		XFactory762mm.init();
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
@@ -61,5 +64,8 @@ public class GunFactory {
 		M357_SP, M357_FMJ, M357_JHP, M357_AP, M357_EXPRESS,
 		M44_SP, M44_FMJ, M44_JHP, M44_AP, M44_EXPRESS,
 		P9_SP, P9_FMJ, P9_JHP, P9_AP,
+		G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12,
+		R762_SP, R762_FMJ, R762_JHP, R762_AP, R762_DU,
+		G40_FLARE, G40,
 	}
 }

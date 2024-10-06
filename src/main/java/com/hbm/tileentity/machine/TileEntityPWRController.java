@@ -149,7 +149,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		connections = connectionsDouble / 2;
 		connectionsControlled = connectionsControlledDouble / 2;
 		
-		this.coreHeatCapacity = this.coreHeatCapacityBase + this.heatsinkCount * this.coreHeatCapacityBase / 20;
+		this.coreHeatCapacity = this.coreHeatCapacityBase + this.heatsinkCount / 20 * this.coreHeatCapacityBase;
 	}
 
 	@Override

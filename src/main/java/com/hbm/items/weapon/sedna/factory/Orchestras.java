@@ -119,7 +119,7 @@ public class Orchestras {
 		}
 		if(type == AnimType.RELOAD_END) {
 			if(timer == 0) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallRemove", 1F, 0.9F);
-			if(timer == 12) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.leverCock", 1F, 1F);
+			if(timer == 12 && ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmountBeforeReload(stack) <= 0) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.leverCock", 1F, 1F);
 		}
 		if(type == AnimType.JAMMED) {
 			if(timer == 0) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallRemove", 1F, 0.9F);
@@ -146,5 +146,161 @@ public class Orchestras {
 		AnimType type = ItemGunBaseNT.getLastAnim(stack);
 		int timer = ItemGunBaseNT.getAnimTimer(stack);
 		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
+
+		if(type == AnimType.EQUIP) {
+			if(timer == 5) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.openLatch", 1F, 1F);
+		}
+		if(type == AnimType.CYCLE) {
+			if(timer == 2) {
+				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack);
+				CasingCreator.composeEffect(player.worldObj, player, 0.55, aiming ? 0 : -0.125, aiming ? 0 : -0.25D, 0, 0.18, -0.12, casing.getName());
+			}
+		}
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 0) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 0.8F);
+			if(timer == 11) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 0.8F);
+			
+		}
+		if(type == AnimType.RELOAD) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magRemove", 1F, 1F);
+			if(timer == 24) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magInsert", 1F, 1F);
+			if(timer == 36) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 0.8F);
+		}
+		if(type == AnimType.INSPECT) {
+			if(timer == 5) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.8F);
+			if(timer == 26) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallInsert", 1F, 1.25F);
+		}
+		if(type == AnimType.JAMMED) {
+			if(timer == 11) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 0.8F);
+			if(timer == 26) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 0.8F);
+		}
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_MARESLEG = (stack, ctx) -> {
+		EntityPlayer player = ctx.player;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack);
+		int timer = ItemGunBaseNT.getAnimTimer(stack);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
+
+		if(type == AnimType.RELOAD) {
+			if(timer == 8) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.8F);
+			if(timer == 16) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.shotgunReload", 1F, 1F);
+		}
+		if(type == AnimType.RELOAD_CYCLE) {
+			if(timer == 0) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.shotgunReload", 1F, 1F);
+		}
+		if(type == AnimType.RELOAD_END) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.7F);
+		}
+		if(type == AnimType.JAMMED) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.7F);
+			if(timer == 17) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.leverCock", 1F, 0.8F);
+			if(timer == 29) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.leverCock", 1F, 0.8F);
+		}
+		if(type == AnimType.CYCLE) {
+			if(timer == 14) {
+				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack);
+				casing.setupSmoke(1F, 0.5D, 60, 20);
+				CasingCreator.composeEffect(player.worldObj, player, 0.3125, -0.125, aiming ? -0.125 : -0.375D, 0, 0.18, -0.12, casing.getName());
+			}
+			if(timer == 8) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.leverCock", 1F, 0.8F);
+		}
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+			if(timer == 8) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.leverCock", 1F, 0.8F);
+		}
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_FLAREGUN = (stack, ctx) -> {
+		EntityPlayer player = ctx.player;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack);
+		int timer = ItemGunBaseNT.getAnimTimer(stack);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
+
+		if(type == AnimType.RELOAD) {
+			if(timer == 0) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallRemove", 1F, 0.8F);
+			if(timer == 4) {
+				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack);
+				casing.setupSmoke(1F, 0.5D, 60, 20);
+				CasingCreator.composeEffect(player.worldObj, player, 0.625, -0.125, aiming ? -0.125 : -0.375D, -0.12, 0.18, 0, casing.getName());
+			}
+			if(timer == 16) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.insertCanister", 1F, 1F);
+			if(timer == 24) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
+		}
+		if(type == AnimType.JAMMED) {
+			if(timer == 10) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallRemove", 1F, 0.8F);
+			if(timer == 29) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
+		}
+		if(type == AnimType.CYCLE) {
+			if(timer == 12) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
+		}
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+			if(timer == 12) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
+		}
+	};
+
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_NOPIP = (stack, ctx) -> {
+		EntityPlayer player = ctx.player;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack);
+		int timer = ItemGunBaseNT.getAnimTimer(stack);
+		
+		if(type == AnimType.RELOAD) {
+			if(timer == 3) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
+			if(timer == 10) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallRemove", 1F, 1F);
+			if(timer == 34) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
+			if(timer == 40) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverClose", 1F, 1F);
+			
+			if(timer == 16) {
+				Receiver rec = ctx.config.getReceivers(stack)[0];
+				IMagazine mag = rec.getMagazine(stack);
+				SpentCasing casing = mag.getCasing(stack);
+				for(int i = 0; i < mag.getCapacity(stack); i++) CasingCreator.composeEffect(player.worldObj, player, 0.25, -0.125, -0.125, player.getRNG().nextGaussian() * 0.01 - 0.05, player.getRNG().nextGaussian() * 0.01, player.getRNG().nextGaussian() * 0.01, casing.getName());
+			}
+		}
+		if(type == AnimType.CYCLE) {
+			if(timer == 11) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
+		}
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+			if(timer == 11) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
+		}
+		if(type == AnimType.INSPECT) {
+			if(timer == 3) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 1F);
+			if(timer == 16) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverClose", 1F, 1F);
+		}
+	};
+
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_CARBIBE = (stack, ctx) -> {
+		EntityPlayer player = ctx.player;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack);
+		int timer = ItemGunBaseNT.getAnimTimer(stack);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
+		
+		if(type == AnimType.CYCLE) {
+			if(timer == 2) {
+				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack);
+				CasingCreator.composeEffect(player.worldObj, player, 0.3125, aiming ? 0 : -0.125, aiming ? 0 : -0.25D, 0, 0.18, -0.06, casing.getName());
+			}
+		}
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+			if(timer == 8) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 0.8F);
+		}
+		if(type == AnimType.RELOAD) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magRemove", 1F, 1F);
+			if(timer == 26) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magInsert", 1F, 1F);
+		}
+		if(type == AnimType.RELOAD_END) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 0.8F);
+		}
+		if(type == AnimType.JAMMED) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 0.8F);
+			if(timer == 31) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 0.8F);
+		}
+		if(type == AnimType.INSPECT) {
+			if(timer == 6) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverClose", 1F, 1F);
+			if(timer == 30) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverClose", 1F, 0.9F);
+		}
 	};
 }

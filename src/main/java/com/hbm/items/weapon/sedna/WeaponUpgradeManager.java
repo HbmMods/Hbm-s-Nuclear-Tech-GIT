@@ -18,8 +18,10 @@ public class WeaponUpgradeManager {
 	}
 	
 	/** Scrapes all upgrades, iterates over them and evaluates the given value. The parent (i.e. holder of the base value)
-	 * is passed for context (so upgrades can differentiate primary and secondary receivers for example) */
+	 * is passed for context (so upgrades can differentiate primary and secondary receivers for example). Passing a null
+	 * stack causes the base value to be returned. */
 	public static <T> T eval(T base, ItemStack stack, String key, Object parent) {
+		if(stack == null) return base;
 		
 		ItemStack[] upgrades = getUpgrades(stack);
 		if(upgrades != null) for(ItemStack upgradeStack : upgrades) {

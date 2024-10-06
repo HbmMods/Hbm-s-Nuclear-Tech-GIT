@@ -17,3 +17,4 @@
 * Fixed a potential crash regarding crucibles
 * Fixed compatibility with EndlessIDs, biome changes should no longer crash the game
 * Fixed GL state leak caused by fluid tanks, causing some tile entities to be rendered without face culling
+* Fixed a bug where using too many PWR heatsinks would cause an overflow, making the heat capacity negative

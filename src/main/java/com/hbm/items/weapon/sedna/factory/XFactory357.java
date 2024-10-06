@@ -30,11 +30,11 @@ public class XFactory357 {
 		m357_sp = new BulletConfig().setItem(EnumAmmo.M357_SP);
 		m357_fmj = new BulletConfig().setItem(EnumAmmo.M357_FMJ).setDamage(0.8F).setArmorPiercing(0.1F);
 		m357_jhp = new BulletConfig().setItem(EnumAmmo.M357_JHP).setDamage(1.5F).setArmorPiercing(-0.25F);
-		m357_ap = new BulletConfig().setItem(EnumAmmo.M357_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F);
+		m357_ap = new BulletConfig().setItem(EnumAmmo.M357_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setArmorPiercing(0.15F);
 		m357_express = new BulletConfig().setItem(EnumAmmo.M357_EXPRESS).setDoesPenetrate(true).setDamage(1.5F).setArmorPiercing(0.1F).setWear(1.5F);
 		
 		ModItems.gun_atlas = new ItemGunBaseNT(new GunConfig()
-				.dura(300).draw(4).inspect(23).jam(45).crosshair(Crosshair.CIRCLE).smoke(true).orchestra(Orchestras.ORCHESTRA_ATLAS)
+				.dura(300).draw(4).inspect(23).jam(45).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE).orchestra(Orchestras.ORCHESTRA_ATLAS)
 				.rec(new Receiver(0)
 						.dmg(10F).delay(16).reload(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
@@ -47,14 +47,14 @@ public class XFactory357 {
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_ATLAS_ANIMS = (stack, type) -> {
 		switch(type) {
 		case EQUIP: return new BusAnimation()
-					.addBus("EQUIP", new BusAnimationSequence().addPos(-90, 0, 0, 0).addPos(0, 0, -3, 350, IType.SIN_DOWN));
+				.addBus("EQUIP", new BusAnimationSequence().addPos(-90, 0, 0, 0).addPos(0, 0, 0, 350, IType.SIN_DOWN));
 		case CYCLE: return new BusAnimation()
-					.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, 0, 50).addPos(0, 0, -3, 50).addPos(0, 0, 0, 250))
-					.addBus("HAMMER", new BusAnimationSequence().addPos(0, 0, 1, 50).addPos(0, 0, 1, 550).addPos(0, 0, 0, 200))
-					.addBus("DRUM", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(0, 0, 1, 200));
+				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, 0, 50).addPos(0, 0, -3, 50).addPos(0, 0, 0, 250))
+				.addBus("HAMMER", new BusAnimationSequence().addPos(0, 0, 1, 50).addPos(0, 0, 1, 550).addPos(0, 0, 0, 200))
+				.addBus("DRUM", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(0, 0, 1, 200));
 		case CYCLE_DRY: return new BusAnimation()
-					.addBus("HAMMER", new BusAnimationSequence().addPos(0, 0, 1, 50).addPos(0, 0, 1, 550).addPos(0, 0, 0, 200))
-					.addBus("DRUM", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(0, 0, 1, 200));
+				.addBus("HAMMER", new BusAnimationSequence().addPos(0, 0, 1, 50).addPos(0, 0, 1, 550).addPos(0, 0, 0, 200))
+				.addBus("DRUM", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(0, 0, 1, 200));
 		case RELOAD: return new BusAnimation()
 				.addBus("LATCH", new BusAnimationSequence().addPos(0, 0, 90, 300).addPos(0, 0, 90, 2000).addPos(0, 0, 0, 150))
 				.addBus("FRONT", new BusAnimationSequence().addPos(0, 0, 0, 200).addPos(0, 0, 45, 150).addPos(0, 0, 45, 2000).addPos(0, 0, 0, 75))

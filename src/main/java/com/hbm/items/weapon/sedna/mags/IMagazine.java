@@ -33,4 +33,9 @@ public interface IMagazine<T> {
 	public String reportAmmoStateForHUD(ItemStack stack);
 	/** Casing config to use then ejecting */
 	public SpentCasing getCasing(ItemStack stack);
+	/** When reloading, remember the amount before reload is initiated */
+	public void setAmountBeforeReload(ItemStack stack, int amount);
+	/** Amount of rouns before reload has started. Do note that the NBT stack sync likely arrives
+	 * after the animation packets, so for RELOAD type anims, use the live ammo count instead! */
+	public int getAmountBeforeReload(ItemStack stack);
 }

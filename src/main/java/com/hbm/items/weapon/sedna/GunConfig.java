@@ -26,8 +26,8 @@ public class GunConfig {
 	public static final String I_INSPECTDURATION =				"I_INSPECTDURATION";
 	public static final String I_JAMDURATION =					"I_JAMDURATION";
 	public static final String O_CROSSHAIR =					"O_CROSSHAIR";
-	public static final String B_DOESSMOKE =					"B_DOESSMOKE";
 	public static final String B_RELOADANIMATIONSEQUENTIAL =	"B_RELOADANIMATIONSEQUENTIAL";
+	public static final String CON_SMOKE =						"CON_SMOKE";
 	public static final String CON_ORCHESTRA =					"CON_ORCHESTRA";
 	public static final String CON_ONPRESSPRIMARY =				"CON_ONPRESSPRIMARY";
 	public static final String CON_ONPRESSSECONDARY =			"CON_ONPRESSSECONDARY";
@@ -50,8 +50,9 @@ public class GunConfig {
 	protected int inspectDuration_DNA = 0;
 	protected int jamDuration_DNA = 0;
 	protected Crosshair crosshair_DNA;
-	protected boolean doesSmoke_DNA;
 	protected boolean reloadAnimationsSequential_DNA;
+	/** Handles smoke clientside */
+	protected BiConsumer<ItemStack, LambdaContext> smokeHandler_DNA;
 	/** This piece only triggers during reloads, playing sounds depending on the reload's progress making reload sounds easier and synced to animations */
 	protected BiConsumer<ItemStack, LambdaContext> orchestra_DNA;
 	/** Lambda functions for clicking shit */
@@ -72,15 +73,15 @@ public class GunConfig {
 	
 	/* GETTERS */
 
-	public Receiver[] getReceivers(ItemStack stack) {			return WeaponUpgradeManager.eval(receivers_DNA, stack, O_RECEIVERS, this); }
-	public float getDurability(ItemStack stack) {				return WeaponUpgradeManager.eval(durability_DNA, stack, F_DURABILITY, this); }
-	public int getDrawDuration(ItemStack stack) {				return WeaponUpgradeManager.eval(drawDuration_DNA, stack, I_DRAWDURATION, this); }
-	public int getInspectDuration(ItemStack stack) {			return WeaponUpgradeManager.eval(inspectDuration_DNA, stack, I_INSPECTDURATION, this); }
-	public int getJamDuration(ItemStack stack) {				return WeaponUpgradeManager.eval(jamDuration_DNA, stack, I_JAMDURATION, this); }
-	public Crosshair getCrosshair(ItemStack stack) {			return WeaponUpgradeManager.eval(crosshair_DNA, stack, O_CROSSHAIR, this); }
-	public boolean getDoesSmoke(ItemStack stack) {				return WeaponUpgradeManager.eval(doesSmoke_DNA, stack, B_DOESSMOKE, this); }
-	public boolean getReloadAnimSequential(ItemStack stack) {	return WeaponUpgradeManager.eval(reloadAnimationsSequential_DNA, stack, B_RELOADANIMATIONSEQUENTIAL, this); }
-	public BiConsumer<ItemStack, LambdaContext> getOrchestra(ItemStack stack) {	return WeaponUpgradeManager.eval(this.orchestra_DNA, stack, CON_ORCHESTRA, this); }
+	public Receiver[] getReceivers(ItemStack stack) {								return WeaponUpgradeManager.eval(receivers_DNA, stack, O_RECEIVERS, this); }
+	public float getDurability(ItemStack stack) {									return WeaponUpgradeManager.eval(durability_DNA, stack, F_DURABILITY, this); }
+	public int getDrawDuration(ItemStack stack) {									return WeaponUpgradeManager.eval(drawDuration_DNA, stack, I_DRAWDURATION, this); }
+	public int getInspectDuration(ItemStack stack) {								return WeaponUpgradeManager.eval(inspectDuration_DNA, stack, I_INSPECTDURATION, this); }
+	public int getJamDuration(ItemStack stack) {									return WeaponUpgradeManager.eval(jamDuration_DNA, stack, I_JAMDURATION, this); }
+	public Crosshair getCrosshair(ItemStack stack) {								return WeaponUpgradeManager.eval(crosshair_DNA, stack, O_CROSSHAIR, this); }
+	public boolean getReloadAnimSequential(ItemStack stack) {						return WeaponUpgradeManager.eval(reloadAnimationsSequential_DNA, stack, B_RELOADANIMATIONSEQUENTIAL, this); }
+	public BiConsumer<ItemStack, LambdaContext> getSmokeHandler(ItemStack stack) {	return WeaponUpgradeManager.eval(smokeHandler_DNA, stack, CON_SMOKE, this); }
+	public BiConsumer<ItemStack, LambdaContext> getOrchestra(ItemStack stack) {		return WeaponUpgradeManager.eval(this.orchestra_DNA, stack, CON_ORCHESTRA, this); }
 
 	public BiConsumer<ItemStack, LambdaContext> getPressPrimary(ItemStack stack) {		return WeaponUpgradeManager.eval(this.onPressPrimary_DNA, stack, CON_ONPRESSPRIMARY, this); }
 	public BiConsumer<ItemStack, LambdaContext> getPressSecondary(ItemStack stack) {	return WeaponUpgradeManager.eval(this.onPressSecondary_DNA, stack, CON_ONPRESSSECONDARY, this); }
@@ -105,9 +106,9 @@ public class GunConfig {
 	public GunConfig inspect(int inspect) {				this.inspectDuration_DNA = inspect; return this; }
 	public GunConfig jam(int jam) {						this.jamDuration_DNA = jam; return this; }
 	public GunConfig crosshair(Crosshair crosshair) {	this.crosshair_DNA = crosshair; return this; }
-	public GunConfig smoke(boolean doesSmoke) {			this.doesSmoke_DNA = doesSmoke; return this; }
 	public GunConfig reloadSequential(boolean flag) {	this.reloadAnimationsSequential_DNA = flag; return this; }
-	
+
+	public GunConfig smoke(BiConsumer<ItemStack, LambdaContext> smoke) {			this.smokeHandler_DNA = smoke; return this; }
 	public GunConfig orchestra(BiConsumer<ItemStack, LambdaContext> orchestra) {	this.orchestra_DNA = orchestra; return this; }
 	
 	//press

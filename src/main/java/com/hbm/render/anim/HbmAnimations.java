@@ -19,7 +19,7 @@ public class HbmAnimations {
 	
 	public static enum AnimType {
 		RELOAD,			//either a full reload or start of a reload
-		RELOAD_EMPTY,	//same as reload, but the mag is completely empty
+		@Deprecated RELOAD_EMPTY,	//same as reload, but the mag is completely empty
 		RELOAD_CYCLE,	//animation that plays for every individual round (for shotguns and similar single round loading weapons)
 		RELOAD_END,		//animation for transitioning from our RELOAD_CYCLE to idle
 		CYCLE,			//animation for every firing cycle

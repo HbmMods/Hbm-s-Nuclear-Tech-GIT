@@ -1,5 +1,6 @@
 package com.hbm.items.weapon.sedna.factory;
 
+import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -10,6 +11,7 @@ import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.SmokeNode;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.render.anim.BusAnimation;
@@ -43,9 +45,10 @@ public class Lego {
 			IMagazine mag = rec.getMagazine(stack);
 			
 			if(mag.canReload(stack, ctx.player)) {
+				mag.setAmountBeforeReload(stack, mag.getAmount(stack));
 				ItemGunBaseNT.setState(stack, GunState.RELOADING);
 				ItemGunBaseNT.setTimer(stack, rec.getReloadBeginDuration(stack));
-				ItemGunBaseNT.playAnimation(player, stack, mag.getAmount(stack) == 0 ? AnimType.RELOAD_EMPTY : AnimType.RELOAD);
+				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD);
 			} else {
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.INSPECT);
 			}
@@ -73,11 +76,11 @@ public class Lego {
 				ItemGunBaseNT.setState(stack, GunState.COOLDOWN);
 				ItemGunBaseNT.setTimer(stack, rec.getDelayAfterFire(stack));
 			} else {
-				ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE_DRY);
 				
 				if(rec.getDoesDryFire(stack)) {
-					ItemGunBaseNT.setState(stack, GunState.COOLDOWN);
-					ItemGunBaseNT.setTimer(stack, rec.getDelayAfterFire(stack));
+					ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE_DRY);
+					ItemGunBaseNT.setState(stack, GunState.DRAWING);
+					ItemGunBaseNT.setTimer(stack, rec.getDelayAfterDryFire(stack));
 				}
 			}
 		}
@@ -88,6 +91,42 @@ public class Lego {
 		//ItemGunBaseNT.recoilVertical += 10;
 		//ItemGunBaseNT.recoilHorizontal += ctx.player.getRNG().nextGaussian() * 1.5;
 	};
+	
+	/** Default smoke. */
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_SMOKE = (stack, ctx) -> {
+		handleStandardSmoke(ctx.player, stack, 2000, 0.025D, 1.15D);
+	};
+	
+	public static void handleStandardSmoke(EntityPlayer player, ItemStack stack, int smokeDuration, double alphaDecay, double widthGrowth) {
+		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
+		long lastShot = gun.lastShot;
+		List<SmokeNode> smokeNodes = gun.smokeNodes;
+
+		boolean smoking = lastShot + smokeDuration > System.currentTimeMillis();
+		if(!smoking && !smokeNodes.isEmpty()) smokeNodes.clear();
+		
+		if(smoking) {
+			Vec3 prev = Vec3.createVectorHelper(-player.motionX, -player.motionY, -player.motionZ);
+			prev.rotateAroundY((float) (player.rotationYaw * Math.PI / 180D));
+			double accel = 15D;
+			double side = (player.rotationYaw - player.prevRotationYawHead) * 0.1D;
+			double waggle = 0.025D;
+			
+			for(SmokeNode node : smokeNodes) {
+				node.forward += -prev.zCoord * accel + player.worldObj.rand.nextGaussian() * waggle;
+				node.lift += prev.yCoord + 1.5D;
+				node.side += prev.xCoord * accel + player.worldObj.rand.nextGaussian() * waggle + side;
+				if(node.alpha > 0) node.alpha -= alphaDecay;
+				node.width *= widthGrowth;
+			}
+			
+			double alpha = (System.currentTimeMillis() - lastShot) / (double) smokeDuration;
+			alpha = (1 - alpha) * 0.5D;
+			
+			if(gun.getState(stack) == GunState.RELOADING || smokeNodes.size() == 0) alpha = 0;
+			smokeNodes.add(new SmokeNode(alpha));
+		}
+	}
 	
 	/** Toggles isAiming. Used by keybinds. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_TOGGLE_AIM = (stack, ctx) -> { ItemGunBaseNT.setIsAiming(stack, !ItemGunBaseNT.getIsAiming(stack)); };
@@ -115,6 +154,10 @@ public class Lego {
 		double forwardOffset = offset.xCoord;
 		double heightOffset = offset.yCoord;
 		double sideOffset = ItemGunBaseNT.getIsAiming(stack) ? 0 : offset.zCoord;
+		
+		/*forwardOffset = 0.75;
+		heightOffset = -0.0625;
+		sideOffset = -0.1875D;*/
 		
 		int projectiles = config.projectilesMin;
 		if(config.projectilesMax > config.projectilesMin) projectiles += player.getRNG().nextInt(config.projectilesMax - config.projectilesMin + 1);
