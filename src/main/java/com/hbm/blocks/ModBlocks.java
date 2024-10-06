@@ -1,6 +1,8 @@
 package com.hbm.blocks;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import com.hbm.blocks.BlockEnums.*;
 import com.hbm.blocks.bomb.*;
@@ -341,6 +343,8 @@ public class ModBlocks {
 
 	public static Block concrete_smooth_stairs;
 	public static Block concrete_stairs;
+	public static List<Block> concrete_colored_stairs;
+	public static List<Block> concrete_colored_ext_stairs;
 	public static Block concrete_asbestos_stairs;
 	public static Block ducrete_smooth_stairs;
 	public static Block ducrete_stairs;
@@ -1519,6 +1523,14 @@ public class ModBlocks {
 		
 		concrete_smooth_stairs = new BlockGenericStairs(concrete_smooth, 0).setBlockName("concrete_smooth_stairs").setCreativeTab(MainRegistry.blockTab);
 		concrete_stairs = new BlockGenericStairs(concrete, 0).setBlockName("concrete_stairs").setCreativeTab(MainRegistry.blockTab);
+		concrete_colored_stairs = new ArrayList<Block>();
+		for (BlockConcreteColored.EnumConcreteType type : BlockConcreteColored.EnumConcreteType.values()) {
+			concrete_colored_stairs.add(new BlockGenericStairs(concrete_colored, type.ordinal()).setBlockName("concrete_colored_stairs_" + type.name().toLowerCase(Locale.US)).setCreativeTab(MainRegistry.blockTab));
+		}
+		concrete_colored_ext_stairs = new ArrayList<Block>();
+		for (BlockConcreteColoredExt.EnumConcreteType type : BlockConcreteColoredExt.EnumConcreteType.values()) {
+			concrete_colored_ext_stairs.add(new BlockGenericStairs(concrete_colored_ext, type.ordinal()).setBlockName("concrete_colored_ext_stairs_" + type.name().toLowerCase(Locale.US)).setCreativeTab(MainRegistry.blockTab));
+		}
 		concrete_asbestos_stairs = new BlockGenericStairs(concrete_asbestos, 0).setBlockName("concrete_asbestos_stairs").setCreativeTab(MainRegistry.blockTab);
 		ducrete_smooth_stairs = new BlockGenericStairs(ducrete_smooth, 0).setBlockName("ducrete_smooth_stairs").setCreativeTab(MainRegistry.blockTab);
 		ducrete_stairs = new BlockGenericStairs(ducrete, 0).setBlockName("ducrete_stairs").setCreativeTab(MainRegistry.blockTab);
@@ -2629,7 +2641,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(reinforced_stone, ItemBlockBlastInfo.class, reinforced_stone.getUnlocalizedName());
 		GameRegistry.registerBlock(reinforced_ducrete, ItemBlockBlastInfo.class, reinforced_ducrete.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_smooth, ItemBlockBlastInfo.class, concrete_smooth.getUnlocalizedName());
-		GameRegistry.registerBlock(concrete_colored, ItemBlockColoredConcrete.class, concrete_colored.getUnlocalizedName());
+		GameRegistry.registerBlock(concrete_colored, ItemBlockBlastInfo.class, concrete_colored.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_colored_ext, ItemBlockBlastInfo.class, concrete_colored_ext.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete, ItemBlockBlastInfo.class, concrete.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_asbestos, ItemBlockBlastInfo.class, concrete_asbestos.getUnlocalizedName());
@@ -2660,6 +2672,12 @@ public class ModBlocks {
 		GameRegistry.registerBlock(concrete_smooth_stairs, concrete_smooth_stairs.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_stairs, concrete_stairs.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_asbestos_stairs, concrete_asbestos_stairs.getUnlocalizedName());
+		for (Block block : concrete_colored_stairs) {
+			GameRegistry.registerBlock(block, block.getUnlocalizedName());
+		}
+		for (Block block : concrete_colored_ext_stairs) {
+			GameRegistry.registerBlock(block, block.getUnlocalizedName());
+		}
 		GameRegistry.registerBlock(ducrete_smooth_stairs, ducrete_smooth_stairs.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_concrete_stairs, brick_concrete_stairs.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_concrete_mossy_stairs, brick_concrete_mossy_stairs.getUnlocalizedName());
