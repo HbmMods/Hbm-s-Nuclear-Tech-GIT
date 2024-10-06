@@ -6,6 +6,7 @@ import java.util.List;
 import com.hbm.blocks.BlockEnums.DecoCabinetEnum;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockConcreteColoredExt.EnumConcreteType;
+import com.hbm.blocks.generic.BlockColoredMultiSlab;
 import com.hbm.blocks.generic.BlockGenericStairs;
 import com.hbm.blocks.generic.BlockMultiSlab;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
@@ -86,6 +87,9 @@ public class CraftingManager {
 
 		for(Object[] array : BlockMultiSlab.recipeGen) {
 			addRecipeAuto(new ItemStack((Block) array[1], 6, (int) array[2]), new Object[] { "###", '#', (Block) array[0] });
+		}
+		for(Object[] array : BlockColoredMultiSlab.recipeGen) {
+			addRecipeAuto(new ItemStack((Block) array[2], 6, (int) array[3]), new Object[] { "###", '#', new ItemStack((Block) array[0], 1, (int) array[1]) });
 		}
 		for(Object[] array : BlockGenericStairs.recipeGen) {
 			addRecipeAuto(new ItemStack((Block) array[2], 4), new Object[] { "#  ",  "## ",  "###", '#', new ItemStack((Block) array[0], 1, (int) array[1]) });
