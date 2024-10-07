@@ -1631,6 +1631,7 @@ public class ModItems {
 	public static Item gun_flaregun;
 	public static Item gun_heavy_revolver;
 	public static Item gun_carbine;
+	public static Item gun_am180;
 	
 	public static Item ammo_standard;
 	
@@ -7046,6 +7047,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_flaregun, gun_flaregun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_heavy_revolver, gun_heavy_revolver.getUnlocalizedName());
 		GameRegistry.registerItem(gun_carbine, gun_carbine.getUnlocalizedName());
+		GameRegistry.registerItem(gun_am180, gun_am180.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		

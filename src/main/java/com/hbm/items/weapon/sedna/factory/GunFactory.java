@@ -54,6 +54,7 @@ public class GunFactory {
 		XFactory12ga.init();
 		XFactory40mm.init();
 		XFactory762mm.init();
+		XFactory22lr.init();
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
@@ -63,6 +64,7 @@ public class GunFactory {
 		STONE, STONE_AP, STONE_IRON, STONE_SHOT,
 		M357_SP, M357_FMJ, M357_JHP, M357_AP, M357_EXPRESS,
 		M44_SP, M44_FMJ, M44_JHP, M44_AP, M44_EXPRESS,
+		P22_SP, P22_FMJ, P22_JHP, P22_AP,
 		P9_SP, P9_FMJ, P9_JHP, P9_AP,
 		G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12,
 		R762_SP, R762_FMJ, R762_JHP, R762_AP, R762_DU,

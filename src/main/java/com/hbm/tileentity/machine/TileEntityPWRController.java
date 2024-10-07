@@ -391,8 +391,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		tanks[0].readFromNBT(nbt, "t0");
 		tanks[1].readFromNBT(nbt, "t1");
 		rodCount = nbt.getInteger("rodCount");
-		coreHeat = nbt.getInteger("coreHeat");
-		hullHeat = nbt.getInteger("hullHeat");
+		coreHeat = nbt.getLong("coreHeat");
+		hullHeat = nbt.getLong("hullHeat");
 		flux = nbt.getDouble("flux");
 		processTime = nbt.getDouble("processTime");
 		progress = nbt.getDouble("progress");
@@ -400,7 +400,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		amountLoaded = nbt.getInteger("amountLoaded");
 		rodLevel = nbt.getDouble("rodLevel");
 		rodTarget = nbt.getInteger("rodTarget");
-		coreHeatCapacity = nbt.getInteger("coreHeatCapacity");
+		coreHeatCapacity = nbt.getLong("coreHeatCapacity");
 	}
 	
 	protected void setupTanks() {

@@ -2,6 +2,7 @@ package com.hbm.items.weapon.sedna.factory;
 
 import static com.hbm.items.weapon.sedna.factory.GunFactory.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory12ga.*;
+import static com.hbm.items.weapon.sedna.factory.XFactory22lr.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory357.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory40mm.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory44.*;
@@ -38,6 +39,7 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_flaregun, new ItemRenderFlaregun());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_heavy_revolver, new ItemRenderHeavyRevolver());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_carbine, new ItemRenderCarbine());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_am180, new ItemRenderAm180());
 		//PROJECTILES
 		ammo_debug.setRenderer(RENDER_STANDARD_BULLET);
 		ammo_debug_buckshot.setRenderer(RENDER_STANDARD_BULLET);
@@ -65,6 +67,10 @@ public class GunFactoryClient {
 		r762_jhp.setRenderer(RENDER_STANDARD_BULLET);
 		r762_ap.setRenderer(RENDER_AP_BULLET);
 		r762_du.setRenderer(RENDER_DU_BULLET);
+		p22_sp.setRenderer(RENDER_STANDARD_BULLET);
+		p22_fmj.setRenderer(RENDER_STANDARD_BULLET);
+		p22_jhp.setRenderer(RENDER_STANDARD_BULLET);
+		p22_ap.setRenderer(RENDER_AP_BULLET);
 		//HUDS
 		((ItemGunBaseNT) ModItems.gun_debug).config_DNA.hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_pepperbox).config_DNA.hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
@@ -75,6 +81,7 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_flaregun).config_DNA.hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_heavy_revolver).config_DNA.hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_carbine).config_DNA.hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_am180).config_DNA.hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 	}
 	
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_STANDARD_BULLET = (bullet, interp) -> {
