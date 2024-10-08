@@ -35,7 +35,11 @@ public interface IMagazine<T> {
 	public SpentCasing getCasing(ItemStack stack);
 	/** When reloading, remember the amount before reload is initiated */
 	public void setAmountBeforeReload(ItemStack stack, int amount);
-	/** Amount of rouns before reload has started. Do note that the NBT stack sync likely arrives
+	/** Amount of rounds before reload has started. Do note that the NBT stack sync likely arrives
 	 * after the animation packets, so for RELOAD type anims, use the live ammo count instead! */
 	public int getAmountBeforeReload(ItemStack stack);
+	/** Sets amount of ammo after each reload operation */
+	public void setAmountAfterReload(ItemStack stack, int amount);
+	/** Cached amount of ammo after the most recent reload */
+	public int getAmountAfterReload(ItemStack stack);
 }

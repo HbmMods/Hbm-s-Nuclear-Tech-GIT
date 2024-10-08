@@ -40,6 +40,7 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_heavy_revolver, new ItemRenderHeavyRevolver());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_carbine, new ItemRenderCarbine());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_am180, new ItemRenderAm180());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_liberator, new ItemRenderLiberator());
 		//PROJECTILES
 		ammo_debug.setRenderer(RENDER_STANDARD_BULLET);
 		ammo_debug_buckshot.setRenderer(RENDER_STANDARD_BULLET);
@@ -82,6 +83,7 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_heavy_revolver).config_DNA.hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_carbine).config_DNA.hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_am180).config_DNA.hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_liberator).config_DNA.hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 	}
 	
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_STANDARD_BULLET = (bullet, interp) -> {

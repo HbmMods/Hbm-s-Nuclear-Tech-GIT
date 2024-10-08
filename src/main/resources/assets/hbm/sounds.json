@@ -245,6 +245,7 @@
     "weapon.reload.shotgunCock": {"category": "player", "sounds": ["weapon/reload/shotgunCock"]},
     "weapon.reload.shotgunReload": {"category": "player", "sounds": ["weapon/reload/shotgunReload1", "weapon/reload/shotgunReload2", "weapon/reload/shotgunReload3"]},
     "weapon.reload.tubeFwoomp": {"category": "player", "sounds": ["weapon/reload/tubeFwoomp"]},
+    "weapon.reload.impact": {"category": "player", "sounds": ["weapon/reload/impact1", "weapon/reload/impact2", "weapon/reload/impact3"]},
     
     "turret.chekhov_fire": {"category": "block", "sounds": [{"name": "turret/chekhov_fire", "stream": false}]},
     "turret.jeremy_fire": {"category": "block", "sounds": ["turret/jeremy_fire1", "turret/jeremy_fire2", "turret/jeremy_fire3", "turret/jeremy_fire4", "turret/jeremy_fire5"]},

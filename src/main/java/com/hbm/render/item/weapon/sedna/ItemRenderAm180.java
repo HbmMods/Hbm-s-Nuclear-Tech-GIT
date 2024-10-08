@@ -84,6 +84,7 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 1.875, 17);
+		GL11.glRotated(turn[2], 0, 0, -1);
 		GL11.glRotated(90, 0, 1, 0);
 		this.renderSmokeNodes(gun.smokeNodes, 0.25D);
 		GL11.glPopMatrix();

@@ -80,6 +80,8 @@ public class GunStateDecider {
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD_END);
 				}
 			}
+			
+			mag.setAmountAfterReload(stack, mag.getAmount(stack));
 		}
 	}
 	

@@ -15,6 +15,7 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
 	public static final String KEY_MAG_COUNT = "magcount";
 	public static final String KEY_MAG_TYPE = "magtype";
 	public static final String KEY_MAG_PREV = "magprev";
+	public static final String KEY_MAG_AFTER = "magafter";
 
 	protected List<BulletConfig> acceptedBullets = new ArrayList();
 	
@@ -70,6 +71,8 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
 	
 	@Override public void setAmountBeforeReload(ItemStack stack, int amount) { ItemGunBaseNT.setValueInt(stack, KEY_MAG_PREV + index, amount); }
 	@Override public int getAmountBeforeReload(ItemStack stack) { return ItemGunBaseNT.getValueInt(stack, KEY_MAG_PREV + index); }
+	@Override public void setAmountAfterReload(ItemStack stack, int amount) { ItemGunBaseNT.setValueInt(stack, KEY_MAG_AFTER + index, amount); }
+	@Override public int getAmountAfterReload(ItemStack stack) { return ItemGunBaseNT.getValueInt(stack, KEY_MAG_AFTER + index); }
 
 	// MAG TYPE //
 	public static int getMagType(ItemStack stack, int index) { return ItemGunBaseNT.getValueInt(stack, KEY_MAG_TYPE + index); } //TODO: replace with named tags to avoid ID shifting
