@@ -165,27 +165,10 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	public boolean matchesFilter(ItemStack stack, IInventory dest) {
 
 		if(this.filterMode == FilterMode.MATCH_CONTAINER) {
-			String filterMode = ModulePatternMatcher.MODE_WILDCARD;
-
-			// If at least one filter is set, use the mode from it, but not the item
-			for(int i = 0; i < 9; i++) {
-				ItemStack filter = slots[i];
-				
-				if(filter != null) {
-					filterMode = matcher.modes[i];
-					break;
-				}
-			}
-
-			if(filterMode != ModulePatternMatcher.MODE_WILDCARD && filterMode != ModulePatternMatcher.MODE_EXACT) {
-				// OreDict filtering cannot be done in MATCH_CONTAINER mode, so we'll treat it as MODE_WILDCARD
-				filterMode = ModulePatternMatcher.MODE_WILDCARD;
-			}
-
 			for(int i = 0; i < dest.getSizeInventory(); i++) {
 				ItemStack existing = dest.getStackInSlot(i);
 				
-				if(existing != null && ModulePatternMatcher.isValidForFilter(existing, filterMode, stack)) {
+				if(existing != null && ModulePatternMatcher.isValidForFilter(existing, ModulePatternMatcher.MODE_WILDCARD, stack)) {
 					return true;
 				}
 			}
