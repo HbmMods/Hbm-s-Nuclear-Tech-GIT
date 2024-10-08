@@ -1,7 +1,7 @@
 ## Changed
 * Updated russian and chinese localization
 * The fine soot recipe in the pyrolysis oven now only needs 4 tar
-* Overdrive upgrades now use fullerite instead of lithium crystals
+* Overdrive upgrades now use hard plastic/fullerite instead of lithium crystals
 * Machines now only send their sync packets once a second instead of once per tick if the values haven't changed, reducing network traffic by a considerable amount
 * Tom's explosion no longer causes any block updates on the millions of blocks it deletes which hopefully fixes a majority of the lag caused by the crater
 * Overdrive upgrades now increase power usage in pyrolysis ovens (equivalent to 2 speed upgrades per level)
@@ -11,6 +11,7 @@
 * Updated the shredder's textures
 * The strand caster will now cast its remaining buffer after 10 seconds of inactivity, even if the buffer is not full enough for a batch of 9
 * The soldering station now has a toggle for the "refuse to do recipes with no fluid if fluid is present" behavior
+* Recipes using the ore dictionary "oreThorium232" are now also generated for "oreThorium"
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines
@@ -18,3 +19,4 @@
 * Fixed compatibility with EndlessIDs, biome changes should no longer crash the game
 * Fixed GL state leak caused by fluid tanks, causing some tile entities to be rendered without face culling
 * Fixed a bug where using too many PWR heatsinks would cause an overflow, making the heat capacity negative
+* Fixed landmines generating into the floor on superflat worlds
