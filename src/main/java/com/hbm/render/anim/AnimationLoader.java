@@ -15,6 +15,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
+import com.hbm.render.anim.BusAnimationKeyframe.EType;
+import com.hbm.render.anim.BusAnimationKeyframe.HType;
 import com.hbm.render.anim.BusAnimationSequence.Dimension;
 
 public class AnimationLoader {
@@ -49,10 +51,10 @@ public class AnimationLoader {
         // The offsets are only required when sequences are played for an object, which is why we don't globally offset! The obj rendering handles the non-animated case fine
         // Effectively, this removes double translation AND ensures that rotations occur around the individual object origin, rather than the weapon origin
         HashMap<String, double[]> offsets = new HashMap<String, double[]>();
-        for (Map.Entry<String, JsonElement> root : json.getAsJsonObject("offset").entrySet()) {
+        for(Map.Entry<String, JsonElement> root : json.getAsJsonObject("offset").entrySet()) {
             double[] offset = new double[3];
 
-            for (int i = 0; i < 3; i++) {
+            for(int i = 0; i < 3; i++) {
                 offset[i] = root.getValue().getAsJsonArray().get(i).getAsDouble();
             }
 
@@ -61,12 +63,12 @@ public class AnimationLoader {
 
 
         // Top level parsing, this is for the animation name as set in Blender
-        for (Map.Entry<String, JsonElement> root : json.getAsJsonObject("anim").entrySet()) {
+        for(Map.Entry<String, JsonElement> root : json.getAsJsonObject("anim").entrySet()) {
             BusAnimation animation = new BusAnimation();
 
             // Loading the buses for this animation
             JsonObject entryObject = root.getValue().getAsJsonObject();
-            for (Map.Entry<String, JsonElement> model : entryObject.entrySet()) {
+            for(Map.Entry<String, JsonElement> model : entryObject.entrySet()) {
                 String modelName = model.getKey();
                 double[] offset = new double[3];
                 if (offsets.containsKey(modelName)) offset = offsets.get(modelName);
@@ -83,46 +85,46 @@ public class AnimationLoader {
         BusAnimationSequence sequence = new BusAnimationSequence();
 
         // Location fcurves
-        if (json.has("location")) {
+        if(json.has("location")) {
             JsonObject location = json.getAsJsonObject("location");
 
-            if (location.has("x")) {
+            if(location.has("x")) {
                 addToSequence(sequence, Dimension.TX, location.getAsJsonArray("x"));
             }
-            if (location.has("y")) {
+            if(location.has("y")) {
                 addToSequence(sequence, Dimension.TY, location.getAsJsonArray("y"));
             }
-            if (location.has("z")) {
+            if(location.has("z")) {
                 addToSequence(sequence, Dimension.TZ, location.getAsJsonArray("z"));
             }
         }
 
         // Rotation fcurves, only euler at the moment
-        if (json.has("rotation_euler")) {
+        if(json.has("rotation_euler")) {
             JsonObject rotation = json.getAsJsonObject("rotation_euler");
 
-            if (rotation.has("x")) {
+            if(rotation.has("x")) {
                 addToSequence(sequence, Dimension.RX, rotation.getAsJsonArray("x"));
             }
-            if (rotation.has("y")) {
+            if(rotation.has("y")) {
                 addToSequence(sequence, Dimension.RY, rotation.getAsJsonArray("y"));
             }
-            if (rotation.has("z")) {
+            if(rotation.has("z")) {
                 addToSequence(sequence, Dimension.RZ, rotation.getAsJsonArray("z"));
             }
         }
 
         // Scale fcurves
-        if (json.has("scale")) {
+        if(json.has("scale")) {
             JsonObject scale = json.getAsJsonObject("scale");
 
-            if (scale.has("x")) {
+            if(scale.has("x")) {
                 addToSequence(sequence, Dimension.SX, scale.getAsJsonArray("x"));
             }
-            if (scale.has("y")) {
+            if(scale.has("y")) {
                 addToSequence(sequence, Dimension.SY, scale.getAsJsonArray("y"));
             }
-            if (scale.has("z")) {
+            if(scale.has("z")) {
                 addToSequence(sequence, Dimension.SZ, scale.getAsJsonArray("z"));
             }
         }
@@ -133,19 +135,49 @@ public class AnimationLoader {
     }
 
     private static void addToSequence(BusAnimationSequence sequence, Dimension dimension, JsonArray array) {
-        for (JsonElement element : array) {
-            sequence.addKeyframe(dimension, loadKeyframe(element));
+        IType prevInterp = null;
+        for(JsonElement element : array) {
+            BusAnimationKeyframe keyframe = loadKeyframe(element, prevInterp);
+            prevInterp = keyframe.interpolationType;
+            sequence.addKeyframe(dimension, keyframe);
         }
     }
 
-    private static BusAnimationKeyframe loadKeyframe(JsonElement element) {
+    private static BusAnimationKeyframe loadKeyframe(JsonElement element, IType prevInterp) {
         JsonArray array = element.getAsJsonArray();
 
         double value = array.get(0).getAsDouble();
         int duration = array.get(1).getAsInt();
         IType interpolation = array.size() >= 3 ? IType.valueOf(array.get(2).getAsString()) : IType.LINEAR;
+        EType easing = array.size() >= 4 ? EType.valueOf(array.get(3).getAsString()) : EType.AUTO;
 
-        return new BusAnimationKeyframe(value, duration, interpolation);
+        BusAnimationKeyframe keyframe = new BusAnimationKeyframe(value, duration, interpolation, easing);
+
+        int i = 4;
+
+        if(prevInterp == IType.BEZIER) {
+            keyframe.leftX = array.get(i++).getAsDouble();
+            keyframe.leftY = array.get(i++).getAsDouble();
+            keyframe.leftType = HType.valueOf(array.get(i++).getAsString());
+        }
+
+        if(interpolation == IType.LINEAR || interpolation == IType.CONSTANT)
+            return keyframe;
+
+        if(interpolation == IType.BEZIER) {
+            keyframe.rightX = array.get(i++).getAsDouble();
+            keyframe.rightY = array.get(i++).getAsDouble();
+            keyframe.rightType = HType.valueOf(array.get(i++).getAsString());
+        }
+
+        if(interpolation == IType.ELASTIC) {
+            keyframe.amplitude = array.get(i++).getAsDouble();
+            keyframe.period = array.get(i++).getAsDouble();
+        } else if(interpolation == IType.BACK) {
+            keyframe.back = array.get(i++).getAsDouble();
+        }
+
+        return keyframe;
     }
 
 }
