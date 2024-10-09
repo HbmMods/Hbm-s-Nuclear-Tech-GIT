@@ -341,9 +341,7 @@ public class Orchestras {
 			if(timer == 0) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.75F);
 			if(timer == 4) {
 				IMagazine mag = ctx.config.getReceivers(stack)[0].getMagazine(stack);
-				int ammo = mag.getAmount(stack);
-				int prev = mag.getAmountAfterReload(stack);
-				int toEject = prev - ammo;
+				int toEject = mag.getAmountAfterReload(stack) - mag.getAmount(stack);
 				SpentCasing casing = mag.getCasing(stack);
 				for(int i = 0; i < toEject; i++) CasingCreator.composeEffect(player.worldObj, player, 0.625, -0.1875, -0.375D, -0.12, 0.18, 0, 0.01, casing.getName(), true, 60, 0.5D, 20);
 			}
@@ -366,9 +364,7 @@ public class Orchestras {
 		if(type == AnimType.INSPECT) {
 			if(timer == 0) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.75F);
 			IMagazine mag = ctx.config.getReceivers(stack)[0].getMagazine(stack);
-			int ammo = mag.getAmount(stack);
-			int prev = mag.getAmountAfterReload(stack);
-			int toEject = prev - ammo;
+			int toEject = mag.getAmountAfterReload(stack) - mag.getAmount(stack);
 			if(timer == 4 && toEject <= 0) {
 				SpentCasing casing = mag.getCasing(stack);
 				for(int i = 0; i < toEject; i++) CasingCreator.composeEffect(player.worldObj, player, 0.625, -0.1875, -0.375D, -0.12, 0.18, 0, 0.01, casing.getName(), true, 60, 0.5D, 20);
