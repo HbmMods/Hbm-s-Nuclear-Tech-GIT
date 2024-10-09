@@ -35,23 +35,25 @@ public class XFactory12ga {
 		g12 = new BulletConfig().setItem(EnumAmmo.G12).setProjectiles(8, 8).setSpread(0.05F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA"));
 
 		ModItems.gun_maresleg = new ItemGunBaseNT(new GunConfig()
-				.dura(600).draw(20).inspect(39).jam(24).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE).orchestra(Orchestras.ORCHESTRA_MARESLEG)
+				.dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(12F).delay(20).reload(22, 10, 13, 39).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(12F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 6).addConfigs(g12_bp, g12_bp_magnum, g12_bp_slug, g12))
 						.offset(0.75, -0.0625, -0.1875D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
-				.setupStandardConfiguration().anim(LAMBDA_MARESLEG_ANIMS)
+				.setupStandardConfiguration()
+				.anim(LAMBDA_MARESLEG_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG)
 				).setUnlocalizedName("gun_maresleg").setTextureName(RefStrings.MODID + ":gun_darter");
 		
 		ModItems.gun_liberator = new ItemGunBaseNT(new GunConfig()
-				.dura(200).draw(20).inspect(21).jam(45).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE).orchestra(Orchestras.ORCHESTRA_LIBERATOR)
+				.dura(200).draw(20).inspect(21).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(12F).delay(20).rounds(4).reload(25, 15, 7, 0).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(12F).delay(20).rounds(4).reload(25, 15, 7, 0).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 4).addConfigs(g12_bp, g12_bp_magnum, g12_bp_slug, g12))
 						.offset(0.75, -0.0625, -0.1875D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
-				.setupStandardConfiguration().anim(LAMBDA_LIBERATOR_ANIMS)
+				.setupStandardConfiguration()
+				.anim(LAMBDA_LIBERATOR_ANIMS).orchestra(Orchestras.ORCHESTRA_LIBERATOR)
 				).setUnlocalizedName("gun_liberator").setTextureName(RefStrings.MODID + ":gun_darter");
 	}
 
@@ -70,7 +72,7 @@ public class XFactory12ga {
 				.addBus("TURN", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(0, 0, 45, 200, IType.SIN_DOWN).addPos(0, 0, 0, 200, IType.SIN_UP))
 				.addBus("HAMMER", new BusAnimationSequence().addPos(30, 0, 0, 50).addPos(30, 0, 0, 550).addPos(0, 0, 0, 200));
 		case RELOAD:
-			boolean empty = ((ItemGunBaseNT) stack.getItem()).getConfig(stack).getReceivers(stack)[0].getMagazine(stack).getAmount(stack) <= 0;
+			boolean empty = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack) <= 0;
 			return new BusAnimation()
 				.addBus("LIFT", new BusAnimationSequence().addPos(30, 0, 0, 400, IType.SIN_FULL))
 				.addBus("LEVER", new BusAnimationSequence().addPos(0, 0, 0, 400).addPos(-85, 0, 0, 200))
@@ -100,7 +102,7 @@ public class XFactory12ga {
 
 	/** This fucking sucks */
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_LIBERATOR_ANIMS = (stack, type) -> {
-		int ammo = ((ItemGunBaseNT) stack.getItem()).getConfig(stack).getReceivers(stack)[0].getMagazine(stack).getAmount(stack);
+		int ammo = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack);
 		switch(type) {
 		case EQUIP: return new BusAnimation()
 				.addBus("EQUIP", new BusAnimationSequence().addPos(60, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_DOWN));

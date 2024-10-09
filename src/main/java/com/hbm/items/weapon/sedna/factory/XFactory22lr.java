@@ -41,18 +41,19 @@ public class XFactory22lr {
 				.setCasing(casing22.clone().setColor(SpentCasing.COLOR_CASE_44).register("p22ap"));
 
 		ModItems.gun_am180 = new ItemGunBaseNT(new GunConfig()
-				.dura(177 * 25).draw(15).inspect(38).jam(55).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE).orchestra(Orchestras.ORCHESTRA_AM180)
+				.dura(177 * 25).draw(15).inspect(38).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(5F).delay(1).dry(10).auto(true).spread(0.02F).reload(53).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(5F).delay(1).dry(10).auto(true).spread(0.02F).reload(53).jam(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 177).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
-				.setupStandardConfiguration().anim(LAMBDA_AM180_ANIMS)
+				.setupStandardConfiguration()
+				.anim(LAMBDA_AM180_ANIMS).orchestra(Orchestras.ORCHESTRA_AM180)
 				).setUnlocalizedName("gun_am180").setTextureName(RefStrings.MODID + ":gun_darter");
 	}
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
-		Lego.handleStandardSmoke(ctx.player, stack, 3000, 0.05D, 1.1D);
+		Lego.handleStandardSmoke(ctx.player, stack, 3000, 0.05D, 1.1D, 0);
 	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_AM180_ANIMS = (stack, type) -> {

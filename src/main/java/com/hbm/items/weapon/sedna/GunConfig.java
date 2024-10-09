@@ -1,9 +1,12 @@
 package com.hbm.items.weapon.sedna;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.SmokeNode;
 import com.hbm.items.weapon.sedna.factory.GunStateDecider;
 import com.hbm.items.weapon.sedna.factory.Lego;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
@@ -20,11 +23,12 @@ import net.minecraft.item.ItemStack;
  * */
 public class GunConfig {
 
+	public List<SmokeNode> smokeNodes = new ArrayList();
+	
 	public static final String O_RECEIVERS =					"O_RECEIVERS";
 	public static final String F_DURABILITY =					"F_DURABILITY";
 	public static final String I_DRAWDURATION =					"I_DRAWDURATION";
 	public static final String I_INSPECTDURATION =				"I_INSPECTDURATION";
-	public static final String I_JAMDURATION =					"I_JAMDURATION";
 	public static final String O_CROSSHAIR =					"O_CROSSHAIR";
 	public static final String B_RELOADANIMATIONSEQUENTIAL =	"B_RELOADANIMATIONSEQUENTIAL";
 	public static final String CON_SMOKE =						"CON_SMOKE";
@@ -48,7 +52,6 @@ public class GunConfig {
 	protected float durability_DNA;
 	protected int drawDuration_DNA = 0;
 	protected int inspectDuration_DNA = 0;
-	protected int jamDuration_DNA = 0;
 	protected Crosshair crosshair_DNA;
 	protected boolean reloadAnimationsSequential_DNA;
 	/** Handles smoke clientside */
@@ -77,7 +80,6 @@ public class GunConfig {
 	public float getDurability(ItemStack stack) {									return WeaponUpgradeManager.eval(durability_DNA, stack, F_DURABILITY, this); }
 	public int getDrawDuration(ItemStack stack) {									return WeaponUpgradeManager.eval(drawDuration_DNA, stack, I_DRAWDURATION, this); }
 	public int getInspectDuration(ItemStack stack) {								return WeaponUpgradeManager.eval(inspectDuration_DNA, stack, I_INSPECTDURATION, this); }
-	public int getJamDuration(ItemStack stack) {									return WeaponUpgradeManager.eval(jamDuration_DNA, stack, I_JAMDURATION, this); }
 	public Crosshair getCrosshair(ItemStack stack) {								return WeaponUpgradeManager.eval(crosshair_DNA, stack, O_CROSSHAIR, this); }
 	public boolean getReloadAnimSequential(ItemStack stack) {						return WeaponUpgradeManager.eval(reloadAnimationsSequential_DNA, stack, B_RELOADANIMATIONSEQUENTIAL, this); }
 	public BiConsumer<ItemStack, LambdaContext> getSmokeHandler(ItemStack stack) {	return WeaponUpgradeManager.eval(smokeHandler_DNA, stack, CON_SMOKE, this); }
@@ -104,7 +106,6 @@ public class GunConfig {
 	public GunConfig dura(float dura) {					this.durability_DNA = dura; return this; }
 	public GunConfig draw(int draw) {					this.drawDuration_DNA = draw; return this; }
 	public GunConfig inspect(int inspect) {				this.inspectDuration_DNA = inspect; return this; }
-	public GunConfig jam(int jam) {						this.jamDuration_DNA = jam; return this; }
 	public GunConfig crosshair(Crosshair crosshair) {	this.crosshair_DNA = crosshair; return this; }
 	public GunConfig reloadSequential(boolean flag) {	this.reloadAnimationsSequential_DNA = flag; return this; }
 

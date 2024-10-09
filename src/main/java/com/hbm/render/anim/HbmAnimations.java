@@ -15,7 +15,7 @@ public class HbmAnimations {
 	//my approach adds 9 timers, one for every inventory slot. you can still
 	//"trick" the system by putting a weapon into a different slot while an
 	//animation is playing, though this will cancel the animation entirely.
-	public static final Animation[] hotbar = new Animation[9];
+	public static final Animation[][] hotbar = new Animation[9][8]; //now with 8 parallel rails per slot! time to get railed!
 	
 	public static enum AnimType {
 		RELOAD,			//either a full reload or start of a reload
@@ -61,8 +61,9 @@ public class HbmAnimations {
 			this.holdLastFrame = holdLastFrame;
 		}
 	}
-	
-	public static Animation getRelevantAnim() {
+
+	public static Animation getRelevantAnim() { return getRelevantAnim(0); }
+	public static Animation getRelevantAnim(int index) {
 		
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		int slot = player.inventory.currentItem;
@@ -75,19 +76,20 @@ public class HbmAnimations {
 			slot = Math.abs(slot) % 9;
 		}
 		
-		if(hotbar[slot] == null)
+		if(hotbar[slot][index] == null)
 			return null;
 		
-		if(hotbar[slot].key.equals(stack.getItem().getUnlocalizedName())) {
-			return hotbar[slot];
+		if(hotbar[slot][index].key.equals(stack.getItem().getUnlocalizedName())) {
+			return hotbar[slot][index];
 		}
 		
 		return null;
 	}
-	
-	public static double[] getRelevantTransformation(String bus) {
+
+	public static double[] getRelevantTransformation(String bus) { return getRelevantTransformation(bus, 0); }
+	public static double[] getRelevantTransformation(String bus, int index) {
 		
-		Animation anim = HbmAnimations.getRelevantAnim();
+		Animation anim = HbmAnimations.getRelevantAnim(index);
 		
 		if(anim != null) {
 			
@@ -112,8 +114,9 @@ public class HbmAnimations {
 		};
 	}
 
-	public static void applyRelevantTransformation(String bus) {
-		double[] transform = getRelevantTransformation(bus);
+	public static void applyRelevantTransformation(String bus) { applyRelevantTransformation(bus, 0); }
+	public static void applyRelevantTransformation(String bus, int index) {
+		double[] transform = getRelevantTransformation(bus, index);
 		
 		GL11.glTranslated(transform[0], transform[1], transform[2]);
 		GL11.glRotated(transform[3], 1, 0, 0);

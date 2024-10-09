@@ -19,9 +19,15 @@ public class HUDComponentAmmoCounter implements IHUDComponent {
 
 	protected static final RenderItem itemRenderer = RenderItem.getInstance();
 	protected int receiver;
+	protected boolean mirrored;
 	
 	public HUDComponentAmmoCounter(int receiver) {
+		this(receiver, false);
+	}
+	
+	public HUDComponentAmmoCounter(int receiver, boolean mirror) {
 		this.receiver = receiver;
+		this.mirrored = mirror;
 	}
 
 	@Override
@@ -30,15 +36,15 @@ public class HUDComponentAmmoCounter implements IHUDComponent {
 	}
 
 	@Override
-	public void renderHUDComponent(Pre event, ElementType type, EntityPlayer player, ItemStack stack, int bottomOffset) {
+	public void renderHUDComponent(Pre event, ElementType type, EntityPlayer player, ItemStack stack, int bottomOffset, int gunIndex) {
 
 		ScaledResolution resolution = event.resolution;
 		Minecraft mc = Minecraft.getMinecraft();
 		
-		int pX = resolution.getScaledWidth() / 2 + 62 + 36;
+		int pX = resolution.getScaledWidth() / 2 + (mirrored ? -(62 + 36 + 52) : (62 + 36));
 		int pZ = resolution.getScaledHeight() - bottomOffset - 21;
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-		IMagazine mag = gun.getConfig(stack).getReceivers(stack)[this.receiver].getMagazine(stack);
+		IMagazine mag = gun.getConfig(stack, gunIndex).getReceivers(stack)[this.receiver].getMagazine(stack);
 		
 		mc.fontRenderer.drawString(mag.reportAmmoStateForHUD(stack), pX + 17, pZ + 6, 0xFFFFFF);
 		
@@ -47,6 +53,7 @@ public class HUDComponentAmmoCounter implements IHUDComponent {
 		RenderHelper.enableGUIStandardItemLighting();
 		itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), mag.getIconForHUD(stack), pX, pZ);
 		RenderHelper.disableStandardItemLighting();
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 	}
 }

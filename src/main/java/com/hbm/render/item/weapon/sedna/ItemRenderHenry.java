@@ -72,7 +72,7 @@ public class ItemRenderHenry extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, 1, 8);
 		GL11.glRotated(turn[2], 0, 0, -1);
 		GL11.glRotated(90, 0, 1, 0);
-		this.renderSmokeNodes(gun.smokeNodes, 0.25D);
+		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.25D);
 		GL11.glPopMatrix();
 		
 		ResourceManager.henry.renderPart("Gun");
@@ -116,7 +116,7 @@ public class ItemRenderHenry extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, 1, 8);
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
-		this.renderMuzzleFlash(gun.lastShot, 75, 5);
+		this.renderMuzzleFlash(gun.lastShot[0], 75, 5);
 		GL11.glPopMatrix();
 	}
 

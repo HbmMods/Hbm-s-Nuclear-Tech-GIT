@@ -72,7 +72,7 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, -2.3125, -1.5);
 		
 		GL11.glPushMatrix();
-		int mag = gun.getConfig(stack).getReceivers(stack)[0].getMagazine(stack).getAmount(stack);
+		int mag = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack);
 		GL11.glTranslated(0, 0, 1.5);
 		GL11.glRotated(mag / 59D * 360D, 0, -1, 0);
 		GL11.glTranslated(0, 0, -1.5);
@@ -86,7 +86,7 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, 1.875, 17);
 		GL11.glRotated(turn[2], 0, 0, -1);
 		GL11.glRotated(90, 0, 1, 0);
-		this.renderSmokeNodes(gun.smokeNodes, 0.25D);
+		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.25D);
 		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
@@ -96,7 +96,7 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
 		GL11.glScaled(0.5, 0.5, 0.5);
-		this.renderMuzzleFlash(gun.lastShot, 75, 5);
+		this.renderMuzzleFlash(gun.lastShot[0], 75, 5);
 		GL11.glPopMatrix();
 	}
 

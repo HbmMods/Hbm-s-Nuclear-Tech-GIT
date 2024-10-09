@@ -47,8 +47,9 @@ public class ItemRenderAtlas extends ItemRenderWeaponBase {
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 1.5, 9.25);
+		GL11.glRotated(-recoil[2] * 10, 1, 0, 0);
 		GL11.glRotated(90, 0, 1, 0);
-		this.renderSmokeNodes(gun.smokeNodes, 0.5D);
+		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.5D);
 		GL11.glPopMatrix();
 		
 		GL11.glTranslated(reloadMove[0], reloadMove[1], reloadMove[2]);
@@ -90,7 +91,7 @@ public class ItemRenderAtlas extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 1.5, 9.25);
 		GL11.glRotated(90, 0, 1, 0);
-		this.renderMuzzleFlash(gun.lastShot, 75, 7.5);
+		this.renderMuzzleFlash(gun.lastShot[0], 75, 7.5);
 		GL11.glPopMatrix();
 	}
 

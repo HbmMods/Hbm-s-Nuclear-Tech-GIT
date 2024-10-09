@@ -89,7 +89,7 @@ public class ItemRenderGreasegun extends ItemRenderWeaponBase {
 		GL11.glRotated(turn[2], 0, 0, -1);
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glScaled(smokeScale, smokeScale, smokeScale);
-		this.renderSmokeNodes(gun.smokeNodes, 1D);
+		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 1D);
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
@@ -97,7 +97,7 @@ public class ItemRenderGreasegun extends ItemRenderWeaponBase {
 		GL11.glRotated(turn[2], 0, 0, -1);
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glScaled(smokeScale, smokeScale, smokeScale);
-		this.renderSmokeNodes(gun.smokeNodes, 1D);
+		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 1D);
 		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
@@ -107,7 +107,7 @@ public class ItemRenderGreasegun extends ItemRenderWeaponBase {
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
 		GL11.glScaled(0.5, 0.5, 0.5);
-		this.renderMuzzleFlash(gun.lastShot, 75, 7.5);
+		this.renderMuzzleFlash(gun.lastShot[0], 75, 7.5);
 		GL11.glPopMatrix();
 	}
 

@@ -28,12 +28,13 @@ public class XFactoryBlackPowder {
 		BulletConfig shot = new BulletConfig().setItem(EnumAmmo.STONE_SHOT).setSpread(0.1F).setRicochetAngle(45).setProjectiles(6, 6).setDamage(0.5F);
 		
 		ModItems.gun_pepperbox = new ItemGunBaseNT(new GunConfig()
-				.dura(300).draw(4).inspect(23).jam(58).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE).orchestra(Orchestras.ORCHESTRA_PEPPERBOX)
+				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(5F).delay(27).reload(67).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(5F).delay(27).reload(67).jam(58).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(stone, flint, iron, shot))
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
-				.setupStandardConfiguration().anim(LAMBDA_PEPPERBOX_ANIMS)
+				.setupStandardConfiguration()
+				.anim(LAMBDA_PEPPERBOX_ANIMS).orchestra(Orchestras.ORCHESTRA_PEPPERBOX)
 				).setUnlocalizedName("gun_pepperbox").setTextureName(RefStrings.MODID + ":gun_darter");
 	}
 

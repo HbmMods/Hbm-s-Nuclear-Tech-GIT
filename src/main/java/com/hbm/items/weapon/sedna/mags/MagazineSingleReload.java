@@ -5,7 +5,7 @@ import com.hbm.items.weapon.sedna.BulletConfig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
-/** Uses individual bullets which are loaded all at once */
+/** Uses individual bullets which are loaded one by one */
 public class MagazineSingleReload extends MagazineSingleTypeBase {
 
 	public MagazineSingleReload(int index, int capacity) {

@@ -321,19 +321,21 @@ public class ModEventHandlerClient {
 		/// HANLDE ANIMATION BUSES ///
 		
 		for(int i = 0; i < HbmAnimations.hotbar.length; i++) {
-			
-			Animation animation = HbmAnimations.hotbar[i];
-			
-			if(animation == null)
-				continue;
-
-			if(animation.holdLastFrame)
-				continue;
-			
-			long time = System.currentTimeMillis() - animation.startMillis;
-			
-			if(time > animation.animation.getDuration())
-				HbmAnimations.hotbar[i] = null;
+			for(int j = 0; j < HbmAnimations.hotbar[i].length; j++) {
+				
+				Animation animation = HbmAnimations.hotbar[i][j];
+				
+				if(animation == null)
+					continue;
+	
+				if(animation.holdLastFrame)
+					continue;
+				
+				long time = System.currentTimeMillis() - animation.startMillis;
+				
+				if(time > animation.animation.getDuration())
+					HbmAnimations.hotbar[i][j] = null;
+			}
 		}
 			
 		if(!ducked && Keyboard.isKeyDown(Keyboard.KEY_O) && Minecraft.getMinecraft().currentScreen == null) {

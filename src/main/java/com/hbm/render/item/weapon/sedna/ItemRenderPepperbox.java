@@ -51,7 +51,7 @@ public class ItemRenderPepperbox extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 0.5, 7);
 		GL11.glRotated(90, 0, 1, 0);
-		this.renderSmokeNodes(gun.smokeNodes, 0.5D);
+		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.5D);
 		GL11.glPopMatrix();
 		
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.pepperbox_tex);
@@ -90,9 +90,9 @@ public class ItemRenderPepperbox extends ItemRenderWeaponBase {
 		GL11.glScaled(0.5, 0.5, 0.5);
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
-		this.renderMuzzleFlash(gun.lastShot);
+		this.renderMuzzleFlash(gun.lastShot[0]);
 		GL11.glRotated(45, 1, 0, 0);
-		this.renderMuzzleFlash(gun.lastShot);
+		this.renderMuzzleFlash(gun.lastShot[0]);
 		GL11.glPopMatrix();
 	}
 

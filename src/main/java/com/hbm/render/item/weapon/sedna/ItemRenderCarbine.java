@@ -69,7 +69,7 @@ public class ItemRenderCarbine extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 1, 8);
 		GL11.glRotated(90, 0, 1, 0);
-		this.renderSmokeNodes(gun.smokeNodes, 0.25D);
+		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.25D);
 		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
@@ -79,7 +79,7 @@ public class ItemRenderCarbine extends ItemRenderWeaponBase {
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
 		GL11.glScaled(0.5, 0.5, 0.5);
-		this.renderMuzzleFlash(gun.lastShot, 75, 7.5);
+		this.renderMuzzleFlash(gun.lastShot[0], 75, 7.5);
 		GL11.glPopMatrix();
 	}
 

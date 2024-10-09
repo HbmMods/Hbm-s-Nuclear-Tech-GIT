@@ -72,9 +72,9 @@ public class ItemRenderFlaregun extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, 4, 9);
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glScaled(smokeScale, smokeScale, smokeScale);
-		this.renderSmokeNodes(gun.smokeNodes, 2.5D);
+		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 2.5D);
 		GL11.glTranslated(0, 0, 0.1);
-		this.renderSmokeNodes(gun.smokeNodes, 2D);
+		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 2D);
 		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);

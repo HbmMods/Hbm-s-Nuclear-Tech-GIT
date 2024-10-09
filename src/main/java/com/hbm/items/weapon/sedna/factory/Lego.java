@@ -37,7 +37,7 @@ public class Lego {
 		
 		EntityPlayer player = ctx.player;
 		Receiver rec = ctx.config.getReceivers(stack)[0];
-		GunState state = ItemGunBaseNT.getState(stack);
+		GunState state = ItemGunBaseNT.getState(stack, ctx.configIndex);
 		
 		if(state == GunState.IDLE) {
 			
@@ -46,11 +46,11 @@ public class Lego {
 			
 			if(mag.canReload(stack, ctx.player)) {
 				mag.setAmountBeforeReload(stack, mag.getAmount(stack));
-				ItemGunBaseNT.setState(stack, GunState.RELOADING);
-				ItemGunBaseNT.setTimer(stack, rec.getReloadBeginDuration(stack));
-				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD);
+				ItemGunBaseNT.setState(stack, ctx.configIndex, GunState.RELOADING);
+				ItemGunBaseNT.setTimer(stack, ctx.configIndex, rec.getReloadBeginDuration(stack));
+				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD, ctx.configIndex);
 			} else {
-				ItemGunBaseNT.playAnimation(player, stack, AnimType.INSPECT);
+				ItemGunBaseNT.playAnimation(player, stack, AnimType.INSPECT, ctx.configIndex);
 			}
 		}
 	};
@@ -61,7 +61,8 @@ public class Lego {
 
 		EntityPlayer player = ctx.player;
 		Receiver rec = ctx.config.getReceivers(stack)[0];
-		GunState state = ItemGunBaseNT.getState(stack);
+		int index = ctx.configIndex;
+		GunState state = ItemGunBaseNT.getState(stack, index);
 		
 		if(state == GunState.IDLE) {
 			
@@ -73,14 +74,14 @@ public class Lego {
 				int remaining = rec.getRoundsPerCycle(stack) - 1;
 				for(int i = 0; i < remaining; i++) if(rec.getCanFire(stack).apply(stack, ctx)) rec.getOnFire(stack).accept(stack, ctx);
 				
-				ItemGunBaseNT.setState(stack, GunState.COOLDOWN);
-				ItemGunBaseNT.setTimer(stack, rec.getDelayAfterFire(stack));
+				ItemGunBaseNT.setState(stack, index, GunState.COOLDOWN);
+				ItemGunBaseNT.setTimer(stack, index, rec.getDelayAfterFire(stack));
 			} else {
 				
 				if(rec.getDoesDryFire(stack)) {
-					ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE_DRY);
-					ItemGunBaseNT.setState(stack, GunState.DRAWING);
-					ItemGunBaseNT.setTimer(stack, rec.getDelayAfterDryFire(stack));
+					ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE_DRY, index);
+					ItemGunBaseNT.setState(stack, index, GunState.DRAWING);
+					ItemGunBaseNT.setTimer(stack, index, rec.getDelayAfterDryFire(stack));
 				}
 			}
 		}
@@ -94,13 +95,13 @@ public class Lego {
 	
 	/** Default smoke. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_SMOKE = (stack, ctx) -> {
-		handleStandardSmoke(ctx.player, stack, 2000, 0.025D, 1.15D);
+		handleStandardSmoke(ctx.player, stack, 2000, 0.025D, 1.15D, ctx.configIndex);
 	};
 	
-	public static void handleStandardSmoke(EntityPlayer player, ItemStack stack, int smokeDuration, double alphaDecay, double widthGrowth) {
+	public static void handleStandardSmoke(EntityPlayer player, ItemStack stack, int smokeDuration, double alphaDecay, double widthGrowth, int index) {
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-		long lastShot = gun.lastShot;
-		List<SmokeNode> smokeNodes = gun.smokeNodes;
+		long lastShot = gun.lastShot[index];
+		List<SmokeNode> smokeNodes = gun.getConfig(stack, index).smokeNodes;
 
 		boolean smoking = lastShot + smokeDuration > System.currentTimeMillis();
 		if(!smoking && !smokeNodes.isEmpty()) smokeNodes.clear();
@@ -123,7 +124,7 @@ public class Lego {
 			double alpha = (System.currentTimeMillis() - lastShot) / (double) smokeDuration;
 			alpha = (1 - alpha) * 0.5D;
 			
-			if(gun.getState(stack) == GunState.RELOADING || smokeNodes.size() == 0) alpha = 0;
+			if(gun.getState(stack, index) == GunState.RELOADING || smokeNodes.size() == 0) alpha = 0;
 			smokeNodes.add(new SmokeNode(alpha));
 		}
 	}
@@ -143,7 +144,8 @@ public class Lego {
 	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_FIRE = (stack, ctx) -> {
 		EntityPlayer player = ctx.player;
-		ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE);
+		int index = ctx.configIndex;
+		ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE, ctx.configIndex);
 		
 		float aim = ItemGunBaseNT.getIsAiming(stack) ? 0.25F : 1F;
 		Receiver primary = ctx.config.getReceivers(stack)[0];
@@ -163,24 +165,24 @@ public class Lego {
 		if(config.projectilesMax > config.projectilesMin) projectiles += player.getRNG().nextInt(config.projectilesMax - config.projectilesMin + 1);
 		
 		for(int i = 0; i < projectiles; i++) {
-			float damage = primary.getBaseDamage(stack) * getStandardWearDamage(stack, ctx.config);
-			float spread = primary.getGunSpread(stack) * aim + getStandardWearSpread(stack, ctx.config) * 0.125F;
+			float damage = primary.getBaseDamage(stack) * getStandardWearDamage(stack, ctx.config, index);
+			float spread = primary.getGunSpread(stack) * aim + getStandardWearSpread(stack, ctx.config, index) * 0.125F;
 			EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(player, config, damage, spread, sideOffset, heightOffset, forwardOffset);
 			player.worldObj.spawnEntityInWorld(mk4);
 		}
 		
 		mag.setAmount(stack, mag.getAmount(stack) - 1);
-		ItemGunBaseNT.setWear(stack, Math.min(ItemGunBaseNT.getWear(stack) + config.wear, ctx.config.getDurability(stack)));
+		ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
 	};
 	
-	public static float getStandardWearSpread(ItemStack stack, GunConfig config) {
-		float percent = (float) ItemGunBaseNT.getWear(stack) / config.getDurability(stack);
+	public static float getStandardWearSpread(ItemStack stack, GunConfig config, int index) {
+		float percent = (float) ItemGunBaseNT.getWear(stack, index) / config.getDurability(stack);
 		if(percent < 0.5F) return 0F;
 		return (percent - 0.5F) * 2F;
 	}
 	
-	public static float getStandardWearDamage(ItemStack stack, GunConfig config) {
-		float percent = (float) ItemGunBaseNT.getWear(stack) / config.getDurability(stack);
+	public static float getStandardWearDamage(ItemStack stack, GunConfig config, int index) {
+		float percent = (float) ItemGunBaseNT.getWear(stack, index) / config.getDurability(stack);
 		if(percent < 0.75F) return 1F;
 		return 1F - (percent - 0.75F) * 2F;
 	}

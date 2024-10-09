@@ -51,7 +51,7 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		GL11.glTranslated(-9, 2.5, 0);
 		GL11.glRotated(recoil[2] * -10, 0, 0, 1);
-		this.renderSmokeNodes(gun.smokeNodes, 0.5D);
+		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.5D);
 		GL11.glPopMatrix();
 		
 		GL11.glRotated(reloadLift[0], 0, 0, 1);
@@ -85,7 +85,7 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 
 		GL11.glPushMatrix();
 		GL11.glTranslated(0.125, 2.5, 0);
-		this.renderGapFlash(gun.lastShot);
+		this.renderGapFlash(gun.lastShot[0]);
 		GL11.glPopMatrix();
 
 		GL11.glPushMatrix();
