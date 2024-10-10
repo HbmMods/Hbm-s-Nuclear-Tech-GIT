@@ -387,5 +387,9 @@ public class Orchestras {
 		if(type == AnimType.RELOAD || type == AnimType.RELOAD_CYCLE) {
 			if(timer == 0) player.worldObj.playSoundAtEntity(player, "hbm:weapon.glReload", 1F, 1F);
 		}
+		if(type == AnimType.INSPECT) {
+			if(timer == 9) player.worldObj.playSoundAtEntity(player, "hbm:weapon.glOpen", 1F, 1F);
+			if(timer == 27) player.worldObj.playSoundAtEntity(player, "hbm:weapon.glClose", 1F, 1F);
+		}
 	};
 }

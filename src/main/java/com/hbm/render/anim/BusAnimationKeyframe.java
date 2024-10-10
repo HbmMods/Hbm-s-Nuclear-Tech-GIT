@@ -109,6 +109,9 @@ public class BusAnimationKeyframe {
 		double change = value - previous.value;
 		double time = currentTime - startTime;
 
+		// Constant value optimisation
+		if(Math.abs(previous.value - value) < 0.000001) return value;
+
 		if(previous.interpolationType == IType.BEZIER) {
 			double v1x = startTime;
 			double v1y = previous.value;
@@ -213,7 +216,13 @@ public class BusAnimationKeyframe {
 	}
 
 	private double sqrt3(double d) {
-		return Math.exp(Math.log(d) / 3.0);
+		if(d > 0.000001) {
+			return Math.exp(Math.log(d) / 3.0);
+		} else if(d > -0.000001) {
+			return 0;
+		} else {
+			return -Math.exp(Math.log(-d) / 3.0);
+		}
 	}
 
 	private double time(double start, double end, double duration) {
@@ -235,12 +244,10 @@ public class BusAnimationKeyframe {
 			double q = (2 * a * a * a - a * b + c) / 2;
 			double d = q * q + p * p * p;
 
-			if(d > 0) {
+			if(d > 0.000001) {
 				double t = Math.sqrt(d);
 				return sqrt3(-q + t) + sqrt3(-q - t) - a;
-			}
-
-			if(d == 0) {
+			} else if(d > -0.000001) {
 				double t = sqrt3(-q);
 				double result = 2 * t - a;
 				if(result < 0.000001 || result > 1.000001) {
@@ -277,9 +284,7 @@ public class BusAnimationKeyframe {
 					result = (-b + p) / (2 * a);
 				}
 				return result;
-			}
-
-			if(p == 0) {
+			} else if(p > -0.000001) {
 				return -b / (2 * a);
 			}
 		}
