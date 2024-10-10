@@ -132,7 +132,9 @@ public class ItemRenderCongoLake extends ItemRenderWeaponBase {
 	@Override
 	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
-		GL11.glTranslated(0, 1, 3);
+		GL11.glTranslated(0, -2.5, 4);
+		double scale = 2.5D;
+		GL11.glScaled(scale, scale, scale);
 
 	}
 

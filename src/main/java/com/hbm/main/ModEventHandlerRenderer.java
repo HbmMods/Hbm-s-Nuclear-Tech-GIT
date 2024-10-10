@@ -21,6 +21,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -135,6 +136,8 @@ public class ModEventHandlerRenderer {
 			ModelBiped biped = renderer.modelBipedMain;
 			biped.bipedLeftArm.rotateAngleY = 0.1F + biped.bipedHead.rotateAngleY;
 			if(!isManly) {
+				AbstractClientPlayer acp = (AbstractClientPlayer) player;
+				Minecraft.getMinecraft().getTextureManager().bindTexture(acp.getLocationSkin());
 				biped.bipedLeftArm.isHidden = false;
 				biped.bipedLeftArm.render(0.0625F);
 			}
