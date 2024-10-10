@@ -86,14 +86,13 @@ public class XFactory40mm {
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_CONGOLAKE_ANIMS = (stack, type) -> {
 		int ammo = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack);
 		switch(type) {
-		case EQUIP: return new BusAnimation();
+		case EQUIP: return ResourceManager.congolake_anim.get("Equip");
 		case CYCLE: return ResourceManager.congolake_anim.get(ammo <= 1 ? "FireEmpty" : "Fire");
-		case RELOAD: 
-			return ResourceManager.congolake_anim.get(ammo == 0 ? "ReloadEmpty": "ReloadStart");
+		case RELOAD: return ResourceManager.congolake_anim.get(ammo == 0 ? "ReloadEmpty": "ReloadStart");
 		case RELOAD_CYCLE: return ResourceManager.congolake_anim.get("Reload");
 		case RELOAD_END: return ResourceManager.congolake_anim.get("ReloadEnd");
-		case JAMMED: return new BusAnimation();
-		case INSPECT: return new BusAnimation();
+		case JAMMED: return ResourceManager.congolake_anim.get("Jammed");
+		case INSPECT: return ResourceManager.congolake_anim.get("Inspect");
 		}
 		
 		return null;
