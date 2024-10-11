@@ -7,6 +7,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
@@ -50,6 +51,24 @@ public class EntityDamageUtil {
 		} else {
 			return true;
 		}
+	}
+	
+	public static float getDamageAfterTax(EntityLivingBase living, DamageSource source, float amount) {
+		amount = ForgeHooks.onLivingHurt(living, source, amount);
+		if(amount <= 0) return 0;
+		amount = applyArmorCalculations(living, source, amount);
+		return amount;
+	}
+	
+	public static boolean attackArmorPiercing(EntityLivingBase living, DamageSource sourceDamageCalc, DamageSource sourceArmorPiercing, float amount, float piercing) {
+		if(piercing <= 0) return living.attackEntityFrom(sourceDamageCalc, amount);
+		//damage intended to pass the armor
+		float afterTax = getDamageAfterTax(living, sourceDamageCalc, amount);
+		//damage removed by the calculation
+		float reduced = Math.max(amount - afterTax, 0F);
+		//damage that would pass + damage tthat wouldn't pass * AP percentage
+		return attackEntityFromIgnoreIFrame(living, sourceArmorPiercing, Math.max(afterTax + (reduced * piercing), 0F));
+		
 	}
 	
 	/** Currently just a copy of the vanilla damage code */
@@ -104,8 +123,8 @@ public class EntityDamageUtil {
 					if(entity instanceof EntityPlayer) {
 						living.recentlyHit = 100;
 						living.attackingPlayer = (EntityPlayer) entity;
-					} else if(entity instanceof net.minecraft.entity.passive.EntityTameable) {
-						net.minecraft.entity.passive.EntityTameable entitywolf = (net.minecraft.entity.passive.EntityTameable) entity;
+					} else if(entity instanceof EntityTameable) {
+						EntityTameable entitywolf = (EntityTameable) entity;
 
 						if(entitywolf.isTamed()) {
 							living.recentlyHit = 100;

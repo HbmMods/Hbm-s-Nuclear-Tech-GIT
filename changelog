@@ -1,16 +1,25 @@
 ## Changed
-* The ambient radiation generator's functionality and recipe have been disabled as it is being deprecated
-* The pyrolysis oven is now compatible with overdrive upgrades
-* Steel walls and corners no longer use TESRs for rendering, making them more performant at large scale and fixing any oddities regarding their rendering
-* Steel walls and corners can now be rotated using the screwdriver (right click for clockwise, shift click for counter-clockwise)
-* Steel walls and corners now use new textures as well as slightly cleaner models
-* Steel corner bounding boxes now closely match their model
+* Updated russian and chinese localization
+* The fine soot recipe in the pyrolysis oven now only needs 4 tar
+* Overdrive upgrades now use hard plastic/fullerite instead of lithium crystals
+* Machines now only send their sync packets once a second instead of once per tick if the values haven't changed, reducing network traffic by a considerable amount
+* Tom's explosion no longer causes any block updates on the millions of blocks it deletes which hopefully fixes a majority of the lag caused by the crater
+* Overdrive upgrades now increase power usage in pyrolysis ovens (equivalent to 2 speed upgrades per level)
+* Due to the increased maximum demand with overdrives + speed upgrades, the energy buffer for the pyrolysis oven has been increased tenfold
+* Updated basalt textures
+* Scaffold blocks can now be placed horizontally
+* Updated the shredder's textures
+* The strand caster will now cast its remaining buffer after 10 seconds of inactivity, even if the buffer is not full enough for a batch of 9
+* The soldering station now has a toggle for the "refuse to do recipes with no fluid if fluid is present" behavior
+* Recipes using the ore dictionary "oreThorium232" are now also generated for "oreThorium"
 
 ## Fixed
-* Fixed crash caused by the pyrolysis oven on servers
-  * Due this type of issue happening constantly, the GUI provider system no longer uses any client-only code
-* Fixed small black bar rendering under the arrow box of NEI universal handlers when using the NH NEI fork
-* Fixed desh screwdrivers not being usable for picking locks
-* Possibly fixed an issue caused by MouseTweaks (in combination with other mods) duplicating click input (I can't replicate the issue so I can at best guess)
-* Fixed pyrolysis ovens not being able to operate due to the output buffer being full, despite the buffer being a different type
-* Fixed a vanilla bug in the standard block renderer causing boxduct bends to have incorrect UV on the -Z and +X sides
+* The conveyor grabber should no longer skip over items when used in long lines
+* Fixed a potential crash regarding crucibles
+* Fixed compatibility with EndlessIDs, biome changes should no longer crash the game
+* Fixed GL state leak caused by fluid tanks, causing some tile entities to be rendered without face culling
+* Fixed a bug where using too many PWR heatsinks would cause an overflow, making the heat capacity negative
+* Fixed landmines generating into the floor on superflat worlds
+* All NTM type explosions are no longer affected by difficulty setting, preventing them from dealing damage in peaceful mode
+  * There are a few instances of vanilla explosions still being used, those will be phased out in the future
+* Fixed tutorial presentations triggering when hitting F1 not just in the inventory but also when looking at the block in question

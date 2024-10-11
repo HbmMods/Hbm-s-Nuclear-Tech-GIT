@@ -45,23 +45,23 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, SimpleComponent, IFluidStandardTransceiver, CompatHandler.OCComponent {
-	
+
 	public FluidTank[] tanks;
-	public int coreHeat;
-	public static final int coreHeatCapacityBase = 10_000_000;
-	public int coreHeatCapacity = 10_000_000;
-	public int hullHeat;
-	public static final int hullHeatCapacityBase = 10_000_000;
+	public long coreHeat;
+	public static final long coreHeatCapacityBase = 10_000_000;
+	public long coreHeatCapacity = 10_000_000;
+	public long hullHeat;
+	public static final long hullHeatCapacityBase = 10_000_000;
 	public double flux;
-	
+
 	public double rodLevel = 100;
 	public double rodTarget = 100;
-	
+
 	public int typeLoaded;
 	public int amountLoaded;
 	public double progress;
 	public double processTime;
-	
+
 	public int rodCount;
 	public int connections;
 	public int connectionsControlled;
@@ -69,10 +69,10 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public int heatsinkCount;
 	public int channelCount;
 	public int sourceCount;
-	
+
 	public int unloadDelay = 0;
 	public boolean assembled;
-	
+
 	private AudioWrapper audio;
 
 	protected List<BlockPos> ports = new ArrayList();
@@ -80,15 +80,15 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 	public TileEntityPWRController() {
 		super(3);
-		
+
 		this.tanks = new FluidTank[2];
 		this.tanks[0] = new FluidTank(Fluids.COOLANT, 128_000);
 		this.tanks[1] = new FluidTank(Fluids.COOLANT_HOT, 128_000);
 	}
-	
+
 	/** The initial creation of the reactor, does all the pre-calculation and whatnot */
 	public void setup(HashMap<BlockPos, Block> partMap, HashMap<BlockPos, Block> rodMap) {
-		
+
 		rodCount = 0;
 		connections = 0;
 		connectionsControlled = 0;
@@ -101,7 +101,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 		int connectionsDouble = 0;
 		int connectionsControlledDouble = 0;
-		
+
 		for(Entry<BlockPos, Block> entry : partMap.entrySet()) {
 			Block block = entry.getValue();
 
@@ -112,16 +112,16 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			if(block == ModBlocks.pwr_neutron_source) sourceCount++;
 			if(block == ModBlocks.pwr_port) ports.add(entry.getKey());
 		}
-		
+
 		for(Entry<BlockPos, Block> entry : rodMap.entrySet()) {
 			BlockPos fuelPos = entry.getKey();
-			
+
 			rods.add(fuelPos);
-			
+
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-				
+
 				boolean controlled = false;
-				
+
 				for(int i = 1; i < 16; i++) {
 					BlockPos checkPos = fuelPos.offset(dir, i);
 					Block atPos = partMap.get(checkPos);
@@ -149,8 +149,9 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 		connections = connectionsDouble / 2;
 		connectionsControlled = connectionsControlledDouble / 2;
-		
-		this.coreHeatCapacity = this.coreHeatCapacityBase + this.heatsinkCount * this.coreHeatCapacityBase / 20;
+
+		//switching this to int64 because after 2127 heatsinks the capacity exceeds the int32 which is well within the 4000+ threshold we are working with. oops!
+		this.coreHeatCapacity = this.coreHeatCapacityBase + this.heatsinkCount * (this.coreHeatCapacityBase / 20);
 	}
 
 	@Override
@@ -160,17 +161,17 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			this.tanks[0].setType(2, slots);
 			setupTanks();
-			
+
 			if(unloadDelay > 0) unloadDelay--;
-			
+
 			int chunkX = xCoord >> 4;
 			int chunkZ = zCoord >> 4;
-			
+
 			//since fluid sources are often not within 1 chunk, we just do 2 chunks distance and call it a day
 			if(!worldObj.getChunkProvider().chunkExists(chunkX, chunkZ) ||
 					!worldObj.getChunkProvider().chunkExists(chunkX + 2, chunkZ + 2) ||
@@ -179,20 +180,20 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					!worldObj.getChunkProvider().chunkExists(chunkX - 2, chunkZ - 2)) {
 				this.unloadDelay = 60;
 			}
-			
+
 			if(this.assembled) {
 				for(BlockPos pos : ports) {
 					for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 						BlockPos portPos = pos.offset(dir);
-						
+
 						if(tanks[1].getFill() > 0) this.sendFluid(tanks[1], worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
 						if(worldObj.getTotalWorldTime() % 20 == 0) this.trySubscribe(tanks[0].getTankType(), worldObj, portPos.getX(), portPos.getY(), portPos.getZ(), dir);
 					}
 				}
-				
+
 				//only perform fission if the area has been loaded for 40 ticks or more
 				if(this.unloadDelay <= 0) {
-					
+
 					if((typeLoaded == -1 || amountLoaded <= 0) && slots[0] != null && slots[0].getItem() == ModItems.pwr_fuel) {
 						typeLoaded = slots[0].getItemDamage();
 						amountLoaded++;
@@ -207,61 +208,61 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					if(diff < 1 && diff > -1) this.rodLevel = this.rodTarget;
 					if(this.rodTarget > this.rodLevel) this.rodLevel++;
 					if(this.rodTarget < this.rodLevel) this.rodLevel--;
-					
+
 					int newFlux = this.sourceCount * 20;
-					
+
 					if(typeLoaded != -1 && amountLoaded > 0) {
-						
+
 						EnumPWRFuel fuel = EnumUtil.grabEnumSafely(EnumPWRFuel.class, typeLoaded);
 						double usedRods = getTotalProcessMultiplier();
 						double fluxPerRod = this.flux / this.rodCount;
 						double outputPerRod = fuel.function.effonix(fluxPerRod);
 						double totalOutput = outputPerRod * amountLoaded * usedRods;
 						double totalHeatOutput = totalOutput * fuel.heatEmission;
-						
+
 						this.coreHeat += totalHeatOutput;
 						newFlux += totalOutput;
-						
+
 						this.processTime = (int) fuel.yield;
 						this.progress += totalOutput;
-						
+
 						if(this.progress >= this.processTime) {
 							this.progress -= this.processTime;
-							
+
 							if(slots[1] == null) {
 								slots[1] = new ItemStack(ModItems.pwr_fuel_hot, 1, typeLoaded);
 							} else if(slots[1].getItem() == ModItems.pwr_fuel_hot && slots[1].getItemDamage() == typeLoaded && slots[1].stackSize < slots[1].getMaxStackSize()) {
 								slots[1].stackSize++;
 							}
-							
+
 							this.amountLoaded--;
 							this.markChanged();
 						}
 					}
-					
+
 					if(this.amountLoaded <= 0) {
 						this.typeLoaded = -1;
 					}
-					
+
 					if(amountLoaded > rodCount) amountLoaded = rodCount;
-					
+
 					/* CORE COOLING */
 					double coreCoolingApproachNum = getXOverE((double) this.heatexCount * 5 / (double) getRodCountForCoolant(), 2) / 2D;
-					int averageCoreHeat = (this.coreHeat + this.hullHeat) / 2;
+					long averageCoreHeat = (this.coreHeat + this.hullHeat) / 2;
 					this.coreHeat -= (coreHeat - averageCoreHeat) * coreCoolingApproachNum;
 					this.hullHeat -= (hullHeat - averageCoreHeat) * coreCoolingApproachNum;
-					
+
 					updateCoolant();
-		
+
 					this.coreHeat *= 0.999D;
 					this.hullHeat *= 0.999D;
-					
+
 					this.flux = newFlux;
-					
+
 					if(tanks[0].getTankType().hasTrait(FT_PWRModerator.class) && tanks[0].getFill() > 0) {
 						this.flux *= tanks[0].getTankType().getTrait(FT_PWRModerator.class).getMultiplier();
 					}
-					
+
 					if(this.coreHeat > this.coreHeatCapacity) {
 						meltDown();
 					}
@@ -273,9 +274,9 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 			this.networkPackNT(150);
 		} else {
-			
+
 			if(amountLoaded > 0) {
-				
+
 				if(audio == null) {
 					audio = createAudioLoop();
 					audio.startSound();
@@ -285,9 +286,9 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 				audio.updateVolume(getVolume(1F));
 				audio.keepAlive();
-				
+
 			} else {
-				
+
 				if(audio != null) {
 					audio.stopSound();
 					audio = null;
@@ -295,15 +296,15 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			}
 		}
 	}
-	
+
 	protected void meltDown() {
-		
+
 		worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 
 		double x = 0;
 		double y = 0;
 		double z = 0;
-		
+
 		for(BlockPos pos : this.rods) {
 			Block b = worldObj.getBlock(pos.getX(), pos.getY(), pos.getZ());
 			b.breakBlock(worldObj, pos.getX(), pos.getY(), pos.getZ(), b, worldObj.getBlockMetadata(pos.getX(), pos.getY(), pos.getZ()));
@@ -317,10 +318,10 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		x /= rods.size();
 		y /= rods.size();
 		z /= rods.size();
-		
+
 		worldObj.newExplosion(null, x, y, z, 15F, true, true);
 	}
-	
+
 	@Override
 	public AudioWrapper createAudioLoop() {
 		return MainRegistry.proxy.getLoopedSound("hbm:block.reactorLoop", xCoord, yCoord, zCoord, 1F, 10F, 1.0F, 20);
@@ -345,27 +346,28 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			audio = null;
 		}
 	}
-	
+
 	protected void updateCoolant() {
-		
+
 		FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
 		if(trait == null || trait.getEfficiency(HeatingType.PWR) <= 0) return;
-		
+
 		double coolingEff = (double) this.channelCount / (double) getRodCountForCoolant() * 0.1D; //10% cooling if numbers match
 		if(coolingEff > 1D) coolingEff = 1D;
-		
-		int heatToUse = Math.min(this.hullHeat, (int) (this.hullHeat * coolingEff * trait.getEfficiency(HeatingType.PWR)));
+
+		//no use in trying to convert everythin to long since the internal tanks would never even support operation like that, just cap the heat cycle count to prevent overflows in the math
+		int heatToUse = (int) Math.min(Math.min(this.hullHeat, (long) (this.hullHeat * coolingEff * trait.getEfficiency(HeatingType.PWR))), 2_000_000_000);
 		HeatingStep step = trait.getFirstStep();
 		int coolCycles = tanks[0].getFill() / step.amountReq;
 		int hotCycles = (tanks[1].getMaxFill() - tanks[1].getFill()) / step.amountProduced;
 		int heatCycles = heatToUse / step.heatReq;
 		int cycles = Math.min(coolCycles, Math.min(hotCycles, heatCycles));
-		
+
 		this.hullHeat -= step.heatReq * cycles;
 		this.tanks[0].setFill(tanks[0].getFill() - step.amountReq * cycles);
 		this.tanks[1].setFill(tanks[1].getFill() + step.amountProduced * cycles);
 	}
-	
+
 	protected int getRodCountForCoolant() {
 		return this.rodCount + (int) Math.ceil(this.heatsinkCount / 4D);
 	}
@@ -374,8 +376,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeInt(this.rodCount);
-		buf.writeInt(this.coreHeat);
-		buf.writeInt(this.hullHeat);
+		buf.writeLong(this.coreHeat);
+		buf.writeLong(this.hullHeat);
 		buf.writeDouble(this.flux);
 		buf.writeDouble(this.processTime);
 		buf.writeDouble(this.progress);
@@ -383,7 +385,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		buf.writeInt(this.amountLoaded);
 		buf.writeDouble(this.rodLevel);
 		buf.writeDouble(this.rodTarget);
-		buf.writeInt(this.coreHeatCapacity);
+		buf.writeLong(this.coreHeatCapacity);
 		tanks[0].serialize(buf);
 		tanks[1].serialize(buf);
 	}
@@ -392,8 +394,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		this.rodCount = buf.readInt();
-		this.coreHeat = buf.readInt();
-		this.hullHeat = buf.readInt();
+		this.coreHeat = buf.readLong();
+		this.hullHeat = buf.readLong();
 		this.flux = buf.readDouble();
 		this.processTime = buf.readDouble();
 		this.progress = buf.readDouble();
@@ -401,34 +403,34 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		this.amountLoaded = buf.readInt();
 		this.rodLevel = buf.readDouble();
 		this.rodTarget = buf.readInt();
-		this.coreHeatCapacity = buf.readInt();
+		this.coreHeatCapacity = buf.readLong();
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
 	}
-	
+
 	protected void setupTanks() {
-		
+
 		FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
-		
+
 		if(trait == null || trait.getEfficiency(HeatingType.PWR) <= 0) {
 			tanks[0].setTankType(Fluids.NONE);
 			tanks[1].setTankType(Fluids.NONE);
 			return;
 		}
-		
+
 		tanks[1].setTankType(trait.getFirstStep().typeProduced);
 	}
-	
+
 	public double getTotalProcessMultiplier() {
 		double totalConnections = this.connections + this.connectionsControlled * (1D - (this.rodLevel / 100D));
 		double connectionsEff = connectinFunc(totalConnections);
 		return connectionsEff;
 	}
-	
+
 	public double connectinFunc(double connections) {
 		return connections / 10D * (1D - getXOverE(connections, 300D)) + connections / 150D * getXOverE(connections, 300D);
 	}
-	
+
 	public double getXOverE(double x, double d) {
 		return 1 - Math.pow(Math.E, -x / d);
 	}
@@ -448,17 +450,17 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
 		return slot == 1;
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
 		tanks[0].readFromNBT(nbt, "t0");
 		tanks[1].readFromNBT(nbt, "t1");
-		
+
 		this.assembled = nbt.getBoolean("assembled");
-		this.coreHeat = nbt.getInteger("coreHeat");
-		this.hullHeat = nbt.getInteger("hullHeat");
+		this.coreHeat = Math.max(nbt.getInteger("coreHeat"), nbt.getLong("coreHeatL"));
+		this.hullHeat = Math.max(nbt.getInteger("hullHeat"), nbt.getLong("hullHeatL"));
 		this.flux = nbt.getDouble("flux");
 		this.rodLevel = nbt.getDouble("rodLevel");
 		this.rodTarget = nbt.getDouble("rodTarget");
@@ -466,7 +468,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		this.amountLoaded = nbt.getInteger("amountLoaded");
 		this.progress = nbt.getDouble("progress");
 		this.processTime = nbt.getDouble("processTime");
-		this.coreHeatCapacity = nbt.getInteger("coreHeatCapacity");
+		this.coreHeatCapacity = Math.max(nbt.getInteger("coreHeatCapacity"), nbt.getLong("coreHeatCapacityL"));
 		if(this.coreHeatCapacity < this.coreHeatCapacityBase) this.coreHeatCapacity = this.coreHeatCapacityBase;
 
 		this.rodCount = nbt.getInteger("rodCount");
@@ -476,14 +478,14 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		this.channelCount = nbt.getInteger("channelCount");
 		this.sourceCount = nbt.getInteger("sourceCount");
 		this.heatsinkCount = nbt.getInteger("heatsinkCount");
-		
+
 		ports.clear();
 		int portCount = nbt.getInteger("portCount");
 		for(int i = 0; i < portCount; i++) {
 			int[] port = nbt.getIntArray("p" + i);
 			ports.add(new BlockPos(port[0], port[1], port[2]));
 		}
-		
+
 		rods.clear();
 		int rodCount = nbt.getInteger("rodCount");
 		for(int i = 0; i < rodCount; i++) {
@@ -493,17 +495,17 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			}
 		}
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
 		tanks[0].writeToNBT(nbt, "t0");
 		tanks[1].writeToNBT(nbt, "t1");
-		
+
 		nbt.setBoolean("assembled", assembled);
-		nbt.setInteger("coreHeat", coreHeat);
-		nbt.setInteger("hullHeat", hullHeat);
+		nbt.setLong("coreHeatL", coreHeat);
+		nbt.setLong("hullHeatL", hullHeat);
 		nbt.setDouble("flux", flux);
 		nbt.setDouble("rodLevel", rodLevel);
 		nbt.setDouble("rodTarget", rodTarget);
@@ -511,7 +513,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		nbt.setInteger("amountLoaded", amountLoaded);
 		nbt.setDouble("progress", progress);
 		nbt.setDouble("processTime", processTime);
-		nbt.setInteger("coreHeatCapacity", coreHeatCapacity);
+		nbt.setLong("coreHeatCapacityL", coreHeatCapacity);
 
 		nbt.setInteger("rodCount", rodCount);
 		nbt.setInteger("connections", connections);
@@ -520,13 +522,13 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		nbt.setInteger("channelCount", channelCount);
 		nbt.setInteger("sourceCount", sourceCount);
 		nbt.setInteger("heatsinkCount", heatsinkCount);
-		
+
 		nbt.setInteger("portCount", ports.size());
 		for(int i = 0; i < ports.size(); i++) {
 			BlockPos pos = ports.get(i);
 			nbt.setIntArray("p" + i, new int[] { pos.getX(), pos.getY(), pos.getZ() });
 		}
-		
+
 		nbt.setInteger("rodCount", rods.size());
 		for(int i = 0; i < rods.size(); i++) {
 			BlockPos pos = rods.get(i);
@@ -541,7 +543,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		
+
 		if(data.hasKey("control")) {
 			this.rodTarget = MathHelper.clamp_int(data.getInteger("control"), 0, 100);
 			this.markChanged();
@@ -573,13 +575,13 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 	public Object[] getLevel(Context context, Arguments args) {
 		return new Object[] {rodTarget, rodLevel};
 	}
-	
+
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoolantInfo(Context context, Arguments args) {
 		return new Object[] {tanks[0].getFill(), tanks[0].getMaxFill(), tanks[1].getFill(), tanks[1].getMaxFill()};
 	}
-	
+
 	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFuelInfo(Context context, Arguments args) {

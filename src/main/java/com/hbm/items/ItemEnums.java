@@ -79,4 +79,8 @@ public class ItemEnums {
 	public static enum EnumSecretType {
 		CANISTER, CONTROLLER
 	}
+
+	public static enum EnumCasingType {
+		SMALL, LARGE, SMALL_STEEL, LARGE_STEEL, SHOTSHELL, BUCKSHOT
+	}
 }

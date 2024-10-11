@@ -37,6 +37,8 @@ public abstract class SerializableRecipe {
 	public static final Gson gson = new Gson();
 	public static List<SerializableRecipe> recipeHandlers = new ArrayList();
 	
+	public boolean modified = false;
+	
 	/*
 	 * INIT
 	 */
@@ -69,6 +71,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new ElectrolyserFluidRecipes());
 		recipeHandlers.add(new ElectrolyserMetalRecipes());
 		recipeHandlers.add(new ArcWelderRecipes());
+		recipeHandlers.add(new RotaryFurnaceRecipes());
 		recipeHandlers.add(new ExposureChamberRecipes());
 		recipeHandlers.add(new AssemblerRecipes());
 		
@@ -100,6 +103,7 @@ public abstract class SerializableRecipe {
 			if(recFile.exists() && recFile.isFile()) {
 				MainRegistry.logger.info("Reading recipe file " + recFile.getName());
 				recipe.readRecipeFile(recFile);
+				recipe.modified = true;
 			} else {
 				MainRegistry.logger.info("No recipe file found, registering defaults for " + recipe.getFileName());
 				recipe.registerDefaults();
@@ -107,6 +111,7 @@ public abstract class SerializableRecipe {
 				File recTemplate = new File(recDir.getAbsolutePath() + File.separatorChar + "_" + recipe.getFileName());
 				MainRegistry.logger.info("Writing template file " + recTemplate.getName());
 				recipe.writeTemplateFile(recTemplate);
+				recipe.modified = false;
 			}
 			
 			recipe.registerPost();

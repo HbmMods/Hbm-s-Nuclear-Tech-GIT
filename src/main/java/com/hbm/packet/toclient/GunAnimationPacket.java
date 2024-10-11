@@ -1,10 +1,13 @@
 package com.hbm.packet.toclient;
 
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.items.weapon.ItemGunBase;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.AnimType;
@@ -22,22 +25,42 @@ import net.minecraft.item.ItemStack;
 
 public class GunAnimationPacket implements IMessage {
 
-	int type;
+	public short type;
+	public int receiverIndex;
+	public int gunIndex;
 
 	public GunAnimationPacket() { }
 
 	public GunAnimationPacket(int type) {
-		this.type = type;
+		this.type = (short) type;
+		this.receiverIndex = 0;
+		this.gunIndex = 0;
+	}
+
+	public GunAnimationPacket(int type, int rec) {
+		this.type = (short) type;
+		this.receiverIndex = rec;
+		this.gunIndex = 0;
+	}
+
+	public GunAnimationPacket(int type, int rec, int gun) {
+		this.type = (short) type;
+		this.receiverIndex = rec;
+		this.gunIndex = gun;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		type = buf.readInt();
+		type = buf.readShort();
+		receiverIndex = buf.readInt();
+		gunIndex = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		buf.writeInt(type);
+		buf.writeShort(type);
+		buf.writeInt(receiverIndex);
+		buf.writeInt(gunIndex);
 	}
 
 	public static class Handler implements IMessageHandler<GunAnimationPacket, IMessage> {
@@ -55,8 +78,8 @@ public class GunAnimationPacket implements IMessage {
 				if(stack == null)
 					return null;
 				
-				if(stack.getItem() instanceof com.hbm.items.weapon.sedna.ItemGunBaseNT) {
-					handleSedna(player, stack, slot, AnimType.values()[m.type]);
+				if(stack.getItem() instanceof ItemGunBaseNT) {
+					handleSedna(player, stack, slot, AnimType.values()[m.type], m.receiverIndex, m.gunIndex);
 				}
 				
 				if(!(stack.getItem() instanceof ItemGunBase))
@@ -82,7 +105,7 @@ public class GunAnimationPacket implements IMessage {
 				
 				if(animation != null) {
 					boolean isReloadAnimation = type == AnimType.RELOAD || type == AnimType.RELOAD_CYCLE || type == AnimType.RELOAD_EMPTY;
-					HbmAnimations.hotbar[slot] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, isReloadAnimation && base.mainConfig.reloadAnimationsSequential);
+					HbmAnimations.hotbar[slot][0] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, isReloadAnimation && base.mainConfig.reloadAnimationsSequential);
 				}
 				
 			} catch(Exception x) { }
@@ -90,9 +113,21 @@ public class GunAnimationPacket implements IMessage {
 			return null;
 		}
 		
-		public static void handleSedna(EntityPlayer player, ItemStack stack, int slot, AnimType type) {
+		public static void handleSedna(EntityPlayer player, ItemStack stack, int slot, AnimType type, int receiverIndex, int gunIndex) {
 			ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-			GunConfig config = gun.getConfig(stack);
+			GunConfig config = gun.getConfig(stack, gunIndex);
+			
+			if(type == AnimType.CYCLE) {
+				if(gunIndex < gun.lastShot.length) gun.lastShot[gunIndex] = System.currentTimeMillis();
+				gun.shotRand = player.worldObj.rand.nextDouble();
+
+				Receiver[] receivers = config.getReceivers(stack);
+				if(receiverIndex >= 0 && receiverIndex < receivers.length) {
+					Receiver rec = receivers[receiverIndex];
+					BiConsumer<ItemStack, LambdaContext> onRecoil= rec.getRecoil(stack);
+					if(onRecoil != null) onRecoil.accept(stack, new LambdaContext(config, player, receiverIndex));
+				}
+			}
 			
 			BiFunction<ItemStack, AnimType, BusAnimation> anims = config.getAnims(stack);
 			BusAnimation animation = anims.apply(stack, type);
@@ -108,7 +143,7 @@ public class GunAnimationPacket implements IMessage {
 				Minecraft.getMinecraft().entityRenderer.itemRenderer.resetEquippedProgress();
 				Minecraft.getMinecraft().entityRenderer.itemRenderer.itemToRender = stack;
 				boolean isReloadAnimation = type == AnimType.RELOAD || type == AnimType.RELOAD_CYCLE || type == AnimType.RELOAD_EMPTY;
-				HbmAnimations.hotbar[slot] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, isReloadAnimation && config.getReloadAnimSequential(stack));
+				HbmAnimations.hotbar[slot][gunIndex] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, isReloadAnimation && config.getReloadAnimSequential(stack));
 			}
 		}
 	}

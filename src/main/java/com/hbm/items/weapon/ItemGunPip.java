@@ -64,7 +64,7 @@ public class ItemGunPip extends ItemGunBase {
 		if(type == AnimType.EQUIP) {
 				return new BusAnimation()
 						.addBus("ROTATE", new BusAnimationSequence()
-								.addKeyframePosition(-360, 0, 0, 350)
+								.addPos(-360, 0, 0, 350)
 								);
 		}
 		
@@ -73,17 +73,17 @@ public class ItemGunPip extends ItemGunBase {
 			int s = 1;
 			return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframePosition(0, 0, 0, 50 * s)
-						.addKeyframePosition(0, 0, -3, 50 * s)
-						.addKeyframePosition(0, 0, 0, 250 * s)
+						.addPos(0, 0, 0, 50 * s)
+						.addPos(0, 0, -3, 50 * s)
+						.addPos(0, 0, 0, 250 * s)
 						)
 				.addBus("HAMMER", new BusAnimationSequence()
-						.addKeyframePosition(0, 0, 1, 50 * s)
-						.addKeyframePosition(0, 0, 1, 300 * s)
-						.addKeyframePosition(0, 0, 0, 200 * s)
+						.addPos(0, 0, 1, 50 * s)
+						.addPos(0, 0, 1, 300 * s)
+						.addPos(0, 0, 0, 200 * s)
 						)
 				.addBus("DRUM", new BusAnimationSequence()
-						.addKeyframePosition(0, 0, 1, 50 * s)
+						.addPos(0, 0, 1, 50 * s)
 						);
 		 }
 		
@@ -91,44 +91,44 @@ public class ItemGunPip extends ItemGunBase {
 			int s = 1;
 				return new BusAnimation()
 						.addBus("RELAOD_TILT", new BusAnimationSequence()
-								.addKeyframePosition(-15, 0, 0, 100 * s)
-								.addKeyframePosition(65, 0, 0, 100 * s) //200
-								.addKeyframePosition(45, 0, 0, 50 * s) //250
-								.addKeyframePosition(0, 0, 0, 200 * s) //450
-								.addKeyframePosition(0, 0, 0, 1450 * s) //1900
-								.addKeyframePosition(-80, 0, 0, 100 * s) //2000
-								.addKeyframePosition(-80, 0, 0, 100 * s) //2100
-								.addKeyframePosition(0, 0, 0, 200 * s) //2300
+								.addPos(-15, 0, 0, 100 * s)
+								.addPos(65, 0, 0, 100 * s) //200
+								.addPos(45, 0, 0, 50 * s) //250
+								.addPos(0, 0, 0, 200 * s) //450
+								.addPos(0, 0, 0, 1450 * s) //1900
+								.addPos(-80, 0, 0, 100 * s) //2000
+								.addPos(-80, 0, 0, 100 * s) //2100
+								.addPos(0, 0, 0, 200 * s) //2300
 								)
 						.addBus("RELOAD_CYLINDER", new BusAnimationSequence()
-								.addKeyframePosition(0, 0, 0, 200 * s)
-								.addKeyframePosition(90, 0, 0, 100 * s) //300
-								.addKeyframePosition(90, 0, 0, 1700 * s) //2000
-								.addKeyframePosition(0, 0, 0, 70 * s) //2100
+								.addPos(0, 0, 0, 200 * s)
+								.addPos(90, 0, 0, 100 * s) //300
+								.addPos(90, 0, 0, 1700 * s) //2000
+								.addPos(0, 0, 0, 70 * s) //2100
 								)
 						.addBus("RELOAD_LIFT", new BusAnimationSequence()
-								.addKeyframePosition(0, 0, 0, 350 * s)
-								.addKeyframePosition(-45, 0, 0, 250 * s) //600
-								.addKeyframePosition(-45, 0, 0, 350 * s) //950
-								.addKeyframePosition(-15, 0, 0, 200 * s) //1150
-								.addKeyframePosition(-15, 0, 0, 1050 * s) //2200
-								.addKeyframePosition(0, 0, 0, 100 * s) //2300
+								.addPos(0, 0, 0, 350 * s)
+								.addPos(-45, 0, 0, 250 * s) //600
+								.addPos(-45, 0, 0, 350 * s) //950
+								.addPos(-15, 0, 0, 200 * s) //1150
+								.addPos(-15, 0, 0, 1050 * s) //2200
+								.addPos(0, 0, 0, 100 * s) //2300
 								)
 						.addBus("RELOAD_JOLT", new BusAnimationSequence()
-								.addKeyframePosition(0, 0, 0, 600 * s)
-								.addKeyframePosition(2, 0, 0, 50 * s) //650
-								.addKeyframePosition(0, 0, 0, 100 * s) //750
+								.addPos(0, 0, 0, 600 * s)
+								.addPos(2, 0, 0, 50 * s) //650
+								.addPos(0, 0, 0, 100 * s) //750
 								)
 						.addBus("RELOAD_BULLETS", new BusAnimationSequence()
-								.addKeyframePosition(0, 0, 0, 650 * s)
-								.addKeyframePosition(10, 0, 0, 300 * s) //950
-								.addKeyframePosition(10, 0, 0, 200 * s) //1150
-								.addKeyframePosition(0, 0, 0, 700 * s) //1850
+								.addPos(0, 0, 0, 650 * s)
+								.addPos(10, 0, 0, 300 * s) //950
+								.addPos(10, 0, 0, 200 * s) //1150
+								.addPos(0, 0, 0, 700 * s) //1850
 								)
 						.addBus("RELOAD_BULLETS_CON", new BusAnimationSequence()
-								.addKeyframePosition(1, 0, 0, 0 * s)
-								.addKeyframePosition(1, 0, 0, 950 * s)
-								.addKeyframePosition(0, 0, 0, 1 * s)
+								.addPos(1, 0, 0, 0 * s)
+								.addPos(1, 0, 0, 950 * s)
+								.addPos(0, 0, 0, 1 * s)
 								);
 		}
 		

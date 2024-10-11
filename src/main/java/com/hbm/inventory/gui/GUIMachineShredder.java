@@ -21,7 +21,7 @@ public class GUIMachineShredder extends GuiInfoContainer {
 		diFurnace = tedf;
 		
 		this.xSize = 176;
-		this.ySize = 222;
+		this.ySize = 233;
 	}
 	
 	@Override

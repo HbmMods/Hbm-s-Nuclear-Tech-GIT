@@ -41,8 +41,8 @@ public class GunGaussFactory {
 		
 		config.animations.put(AnimType.CYCLE, new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence()
-						.addKeyframePosition(1, 0, 0, 25)
-						.addKeyframePosition(0, 0, 0, 75)
+						.addPos(1, 0, 0, 25)
+						.addPos(0, 0, 0, 75)
 						)
 				);
 		

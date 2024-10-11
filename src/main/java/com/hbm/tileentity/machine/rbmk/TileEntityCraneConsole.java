@@ -28,19 +28,21 @@ import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityCraneConsole extends TileEntity implements IBufPacketReceiver, SimpleComponent, CompatHandler.OCComponent {
-	
+
 	public int centerX;
 	public int centerY;
 	public int centerZ;
-	
+
 	public int spanF;
 	public int spanB;
 	public int spanL;
 	public int spanR;
-	
+
 	public int height;
-	
+
 	public boolean setUpCrane = false;
+
+	public int craneRotationOffset = 0;
 
 	public double lastTiltFront = 0;
 	public double lastTiltLeft = 0;
@@ -52,11 +54,11 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 	public double posFront = 0;
 	public double posLeft = 0;
 	private static final double speed = 0.05D;
-	
+
 	private boolean goesDown = false;
 	public double lastProgress = 1D;
 	public double progress = 1D;
-	
+
 	private ItemStack loadedItem;
 	private boolean hasLoaded = false;
 	public double loadedHeat;
@@ -69,15 +71,15 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 			lastTiltFront = tiltFront;
 			lastTiltLeft = tiltLeft;
 		}
-		
+
 		if(goesDown) {
-			
+
 			if(progress > 0) {
 				progress -= 0.04D;
 			} else {
 				progress = 0;
 				goesDown = false;
-				
+
 				if(!worldObj.isRemote && this.canTargetInteract()) {
 					IRBMKLoadable column = getColumnAtPos();
 					if(column != null) { // canTargetInteract already assumes this, but there seems to be some freak race conditions that cause the column to be null anyway
@@ -88,16 +90,16 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 							this.loadedItem = column.provideNext();
 							column.unload();
 						}
-						
+
 						this.markDirty();
 					}
 				}
-					
+
 			}
 		} else if(progress != 1) {
-			
+
 			progress += 0.04D;
-			
+
 			if(progress > 1D) {
 				progress = 1D;
 			}
@@ -109,7 +111,7 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 		double maxX = xCoord + 0.5 + side.offsetX * 1.5 + dir.offsetX * 2;
 		double minZ = zCoord + 0.5 - side.offsetZ * 1.5;
 		double maxZ = zCoord + 0.5 + side.offsetZ * 1.5 + dir.offsetZ * 2;
-		
+
 		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(
 				Math.min(minX, maxX),
 				yCoord,
@@ -119,7 +121,7 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 				Math.max(minZ, maxZ)));
 		tiltFront = 0;
 		tiltLeft = 0;
-		
+
 		if(players.size() > 0 && !isCraneLoading()) {
 			EntityPlayer player = players.get(0);
 			HbmPlayerProps props = HbmPlayerProps.getData(player);
@@ -127,7 +129,7 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 			boolean down = props.getKeyPressed(EnumKeybind.CRANE_DOWN);
 			boolean left = props.getKeyPressed(EnumKeybind.CRANE_LEFT);
 			boolean right = props.getKeyPressed(EnumKeybind.CRANE_RIGHT);
-			
+
 			if(up && !down) {
 				tiltFront = 30;
 				if(!worldObj.isRemote) posFront += speed;
@@ -144,17 +146,17 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 				tiltLeft = -30;
 				if(!worldObj.isRemote) posLeft -= speed;
 			}
-			
+
 			if(props.getKeyPressed(EnumKeybind.CRANE_LOAD)) {
 				goesDown = true;
 			}
 		}
-		
+
 		posFront = MathHelper.clamp_double(posFront, -spanB, spanF);
 		posLeft = MathHelper.clamp_double(posLeft, -spanR, spanL);
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			if(loadedItem != null && loadedItem.getItem() instanceof ItemRBMKRod) {
 				this.loadedHeat = ItemRBMKRod.getHullHeat(loadedItem);
 				this.loadedEnrichment = ItemRBMKRod.getEnrichment(loadedItem);
@@ -166,50 +168,50 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 			sendStandard(250);
 		}
 	}
-	
+
 	public boolean hasItemLoaded() {
-		
+
 		if(!worldObj.isRemote)
 			return this.loadedItem != null;
 		else
 			return this.hasLoaded;
 	}
-	
+
 	public boolean isCraneLoading() {
 		return this.progress != 1D;
 	}
-	
+
 	public boolean isAboveValidTarget() {
 		return getColumnAtPos() != null;
 	}
-	
+
 	public boolean canTargetInteract() {
-		
+
 		IRBMKLoadable column = getColumnAtPos();
-		
+
 		if(column == null)
 			return false;
-		
+
 		if(this.hasItemLoaded()) {
 			return column.canLoad(loadedItem);
 		} else {
 			return column.canUnload();
 		}
 	}
-	
+
 	public IRBMKLoadable getColumnAtPos() {
-		
+
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection left = dir.getRotation(ForgeDirection.DOWN);
 
 		int x = (int)Math.floor(this.centerX - dir.offsetX * this.posFront - left.offsetX * this.posLeft + 0.5D);
 		int y = this.centerY - 1;
 		int z = (int)Math.floor(this.centerZ - dir.offsetZ * this.posFront - left.offsetZ * this.posLeft + 0.5D);
-				
+
 		Block b = worldObj.getBlock(x, y, z);
-		
+
 		if(b instanceof RBMKBase) {
-			
+
 			int[] pos = ((BlockDummyable)b).findCore(worldObj, x, y, z);
 			if(pos != null) {
 				TileEntityRBMKBase column = (TileEntityRBMKBase)worldObj.getTileEntity(pos[0], pos[1], pos[2]);
@@ -218,7 +220,7 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 				}
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -227,6 +229,7 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 		buf.writeBoolean(this.setUpCrane);
 
 		if(this.setUpCrane) { //no need to send any of this if there's NO FUCKING CRANE THERE
+			buf.writeInt(this.craneRotationOffset);
 			buf.writeInt(this.centerX);
 			buf.writeInt(this.centerY);
 			buf.writeInt(this.centerZ);
@@ -251,6 +254,7 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 
 		this.setUpCrane = buf.readBoolean();
 		if (this.setUpCrane) {
+			this.craneRotationOffset = buf.readInt();
 			this.centerX = buf.readInt();
 			this.centerY = buf.readInt();
 			this.centerZ = buf.readInt();
@@ -267,7 +271,7 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 			this.loadedEnrichment = buf.readDouble();
 		}
 	}
-	
+
 	public void setTarget(int x, int y, int z) {
 		this.centerX = x;
 		this.centerY = y + RBMKDials.getColumnHeight(worldObj) + 1;
@@ -277,18 +281,24 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 		this.spanB = 7;
 		this.spanL = 7;
 		this.spanR = 7;
-		
+
 		this.height = 7;
+
 		this.setUpCrane = true;
-		
+
 		this.markDirty();
 	}
-	
+
+	public void cycleCraneRotation() {
+		this.craneRotationOffset = (this.craneRotationOffset + 90) % 360;
+	}
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
 		this.setUpCrane = nbt.getBoolean("crane");
+		this.craneRotationOffset = nbt.getInteger("craneRotationOffset");
 		this.centerX = nbt.getInteger("centerX");
 		this.centerY = nbt.getInteger("centerY");
 		this.centerZ = nbt.getInteger("centerZ");
@@ -299,16 +309,17 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 		this.height = nbt.getInteger("height");
 		this.posFront = nbt.getDouble("posFront");
 		this.posLeft = nbt.getDouble("posLeft");
-		
+
 		NBTTagCompound held = nbt.getCompoundTag("held");
 		this.loadedItem = ItemStack.loadItemStackFromNBT(held);
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
 		nbt.setBoolean("crane", setUpCrane);
+		nbt.setInteger("craneRotationOffset", craneRotationOffset);
 		nbt.setInteger("centerX", centerX);
 		nbt.setInteger("centerY", centerY);
 		nbt.setInteger("centerZ", centerZ);
@@ -319,25 +330,25 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 		nbt.setInteger("height", height);
 		nbt.setDouble("posFront", posFront);
 		nbt.setDouble("posLeft", posLeft);
-		
+
 		if(this.loadedItem != null) {
 			NBTTagCompound held = new NBTTagCompound();
 			this.loadedItem.writeToNBT(held);
 			nbt.setTag("held", held);
 		}
 	}
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return this.INFINITE_EXTENT_AABB;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
-	
+
 	// do some opencomputer stuff
 	@Override
 	@Optional.Method(modid = "OpenComputers")
@@ -369,12 +380,12 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 					if(!worldObj.isRemote) posLeft -= speed;
 					break;
 			}
-			
+
 			return new Object[] {};
 		}
 		return new Object[] {"Crane not found"};
 	}
-	
+
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] load(Context context, Arguments args) {

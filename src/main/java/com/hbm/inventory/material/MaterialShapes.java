@@ -9,8 +9,13 @@ public class MaterialShapes {
 	
 	public static final List<MaterialShapes> allShapes = new ArrayList();
 	
+	public static final MaterialShapes ANY = new MaterialShapes(0).noAutogen();
+	public static final MaterialShapes ORE = new MaterialShapes(0, "ore", "oreNether").noAutogen();
+	public static final MaterialShapes ORENETHER = new MaterialShapes(0, "oreNether").noAutogen();
+	
 	public static final MaterialShapes QUANTUM = new MaterialShapes(1); // 1/72 of an ingot, allows the ingot to be divisible through 2, 4, 6, 8, 9, 12, 24 and 36
-	public static final MaterialShapes NUGGET = new MaterialShapes(8, "nugget");
+	public static final MaterialShapes NUGGET = new MaterialShapes(8, "nugget", "tiny");
+	public static final MaterialShapes TINY = new MaterialShapes(8, "tiny").noAutogen();
 	public static final MaterialShapes FRAGMENT = new MaterialShapes(8, "bedrockorefragment");
 	public static final MaterialShapes DUSTTINY = new MaterialShapes(NUGGET.quantity, "dustTiny");
 	public static final MaterialShapes WIRE = new MaterialShapes(9, "wireFine");
@@ -29,28 +34,37 @@ public class MaterialShapes {
 	public static final MaterialShapes QUART = new MaterialShapes(162);
 	public static final MaterialShapes BLOCK = new MaterialShapes(INGOT.quantity * 9, "block");
 	public static final MaterialShapes HEAVY_COMPONENT = new MaterialShapes(CASTPLATE.quantity * 256, "componentHeavy");
+
+	public static final MaterialShapes LIGHTBARREL =	new MaterialShapes(INGOT.quantity * 3, "barrelLight");
+	public static final MaterialShapes HEAVYBARREL =	new MaterialShapes(INGOT.quantity * 6, "barrelHeavy");
+	public static final MaterialShapes LIGHTRECEIVER =	new MaterialShapes(INGOT.quantity * 4, "receiverLight");
+	public static final MaterialShapes HEAVYRECEIVER =	new MaterialShapes(INGOT.quantity * 9, "receiverHeavy");
+	public static final MaterialShapes MECHANISM =		new MaterialShapes(INGOT.quantity * 4, "gunMechanism");
+	public static final MaterialShapes STOCK =			new MaterialShapes(INGOT.quantity * 4, "stock");
+	public static final MaterialShapes GRIP =			new MaterialShapes(INGOT.quantity * 2, "grip");
 	
 	public static void registerCompatShapes() {
 
 		if(Compat.isModLoaded(Compat.MOD_GT6)) {
-			new MaterialShapes(BLOCK.q(1), "blockDust");
-			new MaterialShapes(BLOCK.q(1), "blockGem");
-			new MaterialShapes(BLOCK.q(1), "blockIngot");
-			new MaterialShapes(BLOCK.q(1), "blockSolid");
-			new MaterialShapes(INGOT.q(9, 8), "crushed");
-			new MaterialShapes(INGOT.q(9, 72), "crushedTiny");
-			new MaterialShapes(INGOT.q(10, 8), "crushedPurified");
-			new MaterialShapes(INGOT.q(10, 72), "crushedPurifiedTiny");
-			new MaterialShapes(INGOT.q(11, 8), "crushedCentrifuged");
-			new MaterialShapes(INGOT.q(11, 72), "crushedCentrifugedTiny");
-			new MaterialShapes(INGOT.q(1, 4), "dustSmall");
-			new MaterialShapes(INGOT.q(1, 72), "dustDiv72");
-			new MaterialShapes(INGOT.q(10, 9), "dustImpure");
-			new MaterialShapes(INGOT.q(11, 9), "dustPure");
-			new MaterialShapes(INGOT.q(12, 9), "dustRefined");
+			new MaterialShapes(BLOCK.q(1), "blockDust").noAutogen();
+			new MaterialShapes(BLOCK.q(1), "blockGem").noAutogen();
+			new MaterialShapes(BLOCK.q(1), "blockIngot").noAutogen();
+			new MaterialShapes(BLOCK.q(1), "blockSolid").noAutogen();
+			new MaterialShapes(INGOT.q(9, 8), "crushed").noAutogen();
+			new MaterialShapes(INGOT.q(9, 72), "crushedTiny").noAutogen();
+			new MaterialShapes(INGOT.q(10, 8), "crushedPurified").noAutogen();
+			new MaterialShapes(INGOT.q(10, 72), "crushedPurifiedTiny").noAutogen();
+			new MaterialShapes(INGOT.q(11, 8), "crushedCentrifuged").noAutogen();
+			new MaterialShapes(INGOT.q(11, 72), "crushedCentrifugedTiny").noAutogen();
+			new MaterialShapes(INGOT.q(1, 4), "dustSmall").noAutogen();
+			new MaterialShapes(INGOT.q(1, 72), "dustDiv72").noAutogen();
+			new MaterialShapes(INGOT.q(10, 9), "dustImpure").noAutogen();
+			new MaterialShapes(INGOT.q(11, 9), "dustPure").noAutogen();
+			new MaterialShapes(INGOT.q(12, 9), "dustRefined").noAutogen();
 		}
 	}
 	
+	public boolean noAutogen = false;
 	private int quantity;
 	public final String[] prefixes;
 	
@@ -65,6 +79,12 @@ public class MaterialShapes {
 		allShapes.add(this);
 	}
 	
+	/** Disables recipe autogen for special cases like compatibility prefixes (TINY, ORENETHER), technical prefixes (ANY) or prefixes that have to be handled manually (ORE) */
+	public MaterialShapes noAutogen() {
+		this.noAutogen = true;
+		return this;
+	}
+	
 	public int q(int amount) {
 		return this.quantity * amount;
 	}
@@ -75,5 +95,9 @@ public class MaterialShapes {
 
 	public String name() {
 		return (prefixes != null && prefixes.length > 0) ? prefixes[0] : "unknown";
+	}
+	
+	public String make(NTMMaterial mat) {
+		return this.name() + mat.names[0];
 	}
 }

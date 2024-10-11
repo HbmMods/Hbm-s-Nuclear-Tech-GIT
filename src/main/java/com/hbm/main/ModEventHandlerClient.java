@@ -321,19 +321,21 @@ public class ModEventHandlerClient {
 		/// HANLDE ANIMATION BUSES ///
 		
 		for(int i = 0; i < HbmAnimations.hotbar.length; i++) {
-			
-			Animation animation = HbmAnimations.hotbar[i];
-			
-			if(animation == null)
-				continue;
-
-			if(animation.holdLastFrame)
-				continue;
-			
-			long time = System.currentTimeMillis() - animation.startMillis;
-			
-			if(time > animation.animation.getDuration())
-				HbmAnimations.hotbar[i] = null;
+			for(int j = 0; j < HbmAnimations.hotbar[i].length; j++) {
+				
+				Animation animation = HbmAnimations.hotbar[i][j];
+				
+				if(animation == null)
+					continue;
+	
+				if(animation.holdLastFrame)
+					continue;
+				
+				long time = System.currentTimeMillis() - animation.startMillis;
+				
+				if(time > animation.animation.getDuration())
+					HbmAnimations.hotbar[i][j] = null;
+			}
 		}
 			
 		if(!ducked && Keyboard.isKeyDown(Keyboard.KEY_O) && Minecraft.getMinecraft().currentScreen == null) {
@@ -907,7 +909,7 @@ public class ModEventHandlerClient {
 			}
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_F1)) {
+		if(Keyboard.isKeyDown(Keyboard.KEY_F1) && Minecraft.getMinecraft().currentScreen != null) {
 			
 			ComparableStack comp = canneryTimestamp > System.currentTimeMillis() - 100 ? lastCannery : null;
 			
@@ -972,9 +974,10 @@ public class ModEventHandlerClient {
 		} else {
 			isRenderingItems = false;
 		}
+
+		EntityPlayer player = mc.thePlayer;
 		
 		if(event.phase == Phase.START) {
-			EntityPlayer player = mc.thePlayer;
 			
 			float discriminator = 0.003F;
 			float defaultStepSize = 0.5F;
@@ -990,6 +993,26 @@ public class ModEventHandlerClient {
 			} else {
 				for(int i = 1; i < 4; i++) if(player.stepHeight == i + discriminator) player.stepHeight = defaultStepSize;
 			}
+		}
+		
+		if(event.phase == Phase.END) {
+			
+			ItemGunBaseNT.offsetVertical += ItemGunBaseNT.recoilVertical;
+			ItemGunBaseNT.offsetHorizontal += ItemGunBaseNT.recoilHorizontal;
+			player.rotationPitch -= ItemGunBaseNT.recoilVertical;
+			player.rotationYaw -= ItemGunBaseNT.recoilHorizontal;
+
+			float decay = 0.75F;
+			float rebound = 0.25F;
+			ItemGunBaseNT.recoilVertical *= decay;
+			ItemGunBaseNT.recoilHorizontal *= decay;
+			float dV = ItemGunBaseNT.offsetVertical * rebound;
+			float dH = ItemGunBaseNT.offsetHorizontal * rebound;
+			
+			ItemGunBaseNT.offsetVertical -= dV;
+			ItemGunBaseNT.offsetHorizontal -= dH;
+			player.rotationPitch += dV;
+			player.rotationYaw += dH;
 		}
 	}
 	

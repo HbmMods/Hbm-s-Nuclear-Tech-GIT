@@ -1,5 +1,9 @@
 package com.hbm.packet.toclient;
 
+import cpw.mods.fml.common.Loader;
+import com.hbm.util.Compat;
+import com.hbm.world.WorldUtil;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -16,18 +20,26 @@ public class BiomeSyncPacket implements IMessage {
 	int chunkZ;
 	byte blockX;
 	byte blockZ;
-	byte biome;
-	byte[] biomeArray;
+	short biome;
+	short[] biomeArray;
 	
 	public BiomeSyncPacket() { }
-	
+
 	public BiomeSyncPacket(int chunkX, int chunkZ, byte[] biomeArray) {
+		this(chunkX, chunkZ, bytesToShorts(biomeArray));
+	}
+
+	public BiomeSyncPacket(int blockX, int blockZ, byte biome) {
+		this(blockX, blockZ, (short) biome);
+	}
+	
+	public BiomeSyncPacket(int chunkX, int chunkZ, short[] biomeArray) {
 		this.chunkX = chunkX;
 		this.chunkZ = chunkZ;
 		this.biomeArray = biomeArray;
 	}
 	
-	public BiomeSyncPacket(int blockX, int blockZ, byte biome) {
+	public BiomeSyncPacket(int blockX, int blockZ, short biome) {
 		this.chunkX = blockX >> 4;
 		this.chunkZ = blockZ >> 4;
 		this.blockX = (byte) (blockX & 15);
@@ -42,13 +54,13 @@ public class BiomeSyncPacket implements IMessage {
 		
 		if(this.biomeArray == null) {
 			buf.writeBoolean(false);
-			buf.writeByte(this.biome);
+			buf.writeShort(this.biome);
 			buf.writeByte(this.blockX);
 			buf.writeByte(this.blockZ);
 		} else {
 			buf.writeBoolean(true);
 			for(int i = 0; i < 256; i++) {
-				buf.writeByte(this.biomeArray[i]);
+				buf.writeShort(this.biomeArray[i]);
 			}
 		}
 	}
@@ -59,15 +71,25 @@ public class BiomeSyncPacket implements IMessage {
 		this.chunkZ = buf.readInt();
 		
 		if(!buf.readBoolean()) {
-			this.biome = buf.readByte();
+			this.biome = buf.readShort();
 			this.blockX = buf.readByte();
 			this.blockZ = buf.readByte();
 		} else {
-			this.biomeArray = new byte[256];
+			this.biomeArray = new short[256];
 			for(int i = 0; i < 256; i++) {
-				this.biomeArray[i] = buf.readByte();
+				this.biomeArray[i] = buf.readShort();
 			}
 		}
+	}
+
+	private final static short[] bytesToShorts(byte[] byteArray) {
+		int size = byteArray.length;
+		short[] shortArray = new short[size];
+
+		for(int index = 0; index < size; index++)
+			shortArray[index] = (short) byteArray[index];
+
+		return shortArray;
 	}
 
 	public static class Handler implements IMessageHandler<BiomeSyncPacket, IMessage> {
@@ -80,14 +102,28 @@ public class BiomeSyncPacket implements IMessage {
 			if(!world.getChunkProvider().chunkExists(m.chunkX, m.chunkZ)) return null;
 			Chunk chunk = world.getChunkFromChunkCoords(m.chunkX, m.chunkZ);
 			chunk.isModified = true;
-			
-			if(m.biomeArray == null) {
-				chunk.getBiomeArray()[(m.blockZ & 15) << 4 | (m.blockX & 15)] = m.biome;
-				world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, m.chunkX << 4, 255, m.chunkZ << 4);
+
+			if(Loader.isModLoaded(Compat.MOD_EIDS)) {
+				short[] target = WorldUtil.getBiomeShortArray(chunk);
+				if(m.biomeArray == null) {
+					target[(m.blockZ & 15) << 4 | m.blockX & 15] = m.biome;
+					world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, m.chunkX << 4, 255, m.chunkZ << 4);
+				} else {
+					for(int i = 0; i < 255; ++i) {
+						target[i] = m.biomeArray[i];
+						world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, (m.chunkX << 4) + 15, 255, (m.chunkZ << 4) + 15);
+					}
+				}
 			} else {
-				for(int i = 0; i < 256; i++) {
-					chunk.getBiomeArray()[i] = m.biomeArray[i];
-					world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, (m.chunkX << 4) + 15, 255, (m.chunkZ << 4) + 15);
+				byte[] target = chunk.getBiomeArray();
+				if(m.biomeArray == null) {
+					target[(m.blockZ & 15) << 4 | (m.blockX & 15)] = (byte) m.biome;
+					world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, m.chunkX << 4, 255, m.chunkZ << 4);
+				} else {
+					for(int i = 0; i < 256; i++) {
+						target[i] = (byte) m.biomeArray[i];
+						world.markBlockRangeForRenderUpdate(m.chunkX << 4, 0, m.chunkZ << 4, (m.chunkX << 4) + 15, 255, (m.chunkZ << 4) + 15);
+					}
 				}
 			}
 			

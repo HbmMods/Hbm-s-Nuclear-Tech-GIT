@@ -17,7 +17,7 @@ import net.minecraft.item.ItemStack;
 public class AshpitHandler extends NEIUniversalHandler {
 
 	public AshpitHandler() {
-		super("Ashpit", ModBlocks.machine_ashpit, getRecipes());
+		super(ModBlocks.machine_ashpit.getLocalizedName(), ModBlocks.machine_ashpit, getRecipes());
 	}
 
 	@Override

@@ -82,14 +82,16 @@ public class ArcFurnaceRecipes extends SerializableRecipe {
 			NTMMaterial convert = material.smeltsInto;
 			if(convert.smeltable == SmeltingBehavior.SMELTABLE) {
 				for(MaterialShapes shape : MaterialShapes.allShapes) {
-					String name = shape.name() + material.names[0];
-					if(!OreDictionary.getOres(name).isEmpty()) {
-						OreDictStack dict = new OreDictStack(name);
-						ArcFurnaceRecipe recipe = recipes.get(dict);
-						if(recipe == null) recipe = new ArcFurnaceRecipe();
-						if(recipe.fluidOutput == null) {
-							recipe.fluid(new MaterialStack(convert, (int) (shape.q(1) * out / in)));
-							recipes.put(dict, recipe);
+					if(!shape.noAutogen) {
+						String name = shape.name() + material.names[0];
+						if(!OreDictionary.getOres(name).isEmpty()) {
+							OreDictStack dict = new OreDictStack(name);
+							ArcFurnaceRecipe recipe = recipes.get(dict);
+							if(recipe == null) recipe = new ArcFurnaceRecipe();
+							if(recipe.fluidOutput == null) {
+								recipe.fluid(new MaterialStack(convert, (int) (shape.q(1) * out / in)));
+								recipes.put(dict, recipe);
+							}
 						}
 					}
 				}

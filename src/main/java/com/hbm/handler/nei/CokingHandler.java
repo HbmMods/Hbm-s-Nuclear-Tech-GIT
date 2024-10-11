@@ -9,7 +9,7 @@ import com.hbm.inventory.recipes.CokerRecipes;
 public class CokingHandler extends NEIUniversalHandler {
 
 	public CokingHandler() {
-		super("Coking", ModBlocks.machine_coker, CokerRecipes.getRecipes());
+		super(ModBlocks.machine_coker.getLocalizedName(), ModBlocks.machine_coker, CokerRecipes.getRecipes());
 	}
 
 	@Override

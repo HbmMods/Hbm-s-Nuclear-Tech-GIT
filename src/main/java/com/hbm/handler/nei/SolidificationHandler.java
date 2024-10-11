@@ -6,7 +6,7 @@ import com.hbm.inventory.recipes.SolidificationRecipes;
 public class SolidificationHandler extends NEIUniversalHandler {
 
 	public SolidificationHandler() {
-		super("Solidification", ModBlocks.machine_solidifier, SolidificationRecipes.getRecipes());
+		super(ModBlocks.machine_solidifier.getLocalizedName(), ModBlocks.machine_solidifier, SolidificationRecipes.getRecipes());
 	}
 
 	@Override

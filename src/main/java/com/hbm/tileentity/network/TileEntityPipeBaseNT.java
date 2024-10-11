@@ -11,6 +11,8 @@ import api.hbm.fluid.IPipeNet;
 import api.hbm.fluid.PipeNet;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.tileentity.IFluidCopiable;
+import com.hbm.util.Compat;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -74,7 +76,7 @@ public class TileEntityPipeBaseNT extends TileEntity implements IFluidConductor,
 		
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 			
-			TileEntity te = worldObj.getTileEntity(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+			TileEntity te = Compat.getTileStandard(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
 			
 			if(te instanceof IFluidConductor) {
 				
