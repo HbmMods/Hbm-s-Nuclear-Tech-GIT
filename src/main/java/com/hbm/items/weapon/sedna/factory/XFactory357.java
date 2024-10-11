@@ -45,24 +45,24 @@ public class XFactory357 {
 				).setUnlocalizedName("gun_light_revolver").setTextureName(RefStrings.MODID + ":gun_darter");
 		
 		ModItems.gun_light_revolver_dani = new ItemGunBaseNT(
-				new GunConfig().dura(30_000).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(10F).delay(16).reload(55).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(10F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, 0.3125D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
-				.anim(LAMBDA_ATLAS_ANIMS).orchestra(Orchestras.ORCHESTRA_ATLAS),
-				new GunConfig().dura(30_000).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.anim(LAMBDA_DANI_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI),
+				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(10F).delay(16).reload(55).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(10F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(1, 6).addConfigs(m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
-				.anim(LAMBDA_ATLAS_ANIMS).orchestra(Orchestras.ORCHESTRA_ATLAS)
+				.anim(LAMBDA_DANI_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI)
 				).setUnlocalizedName("gun_light_revolver_dani").setTextureName(RefStrings.MODID + ":gun_darter");
 	}
 
@@ -96,5 +96,20 @@ public class XFactory357 {
 		}
 		
 		return null;
+	};
+
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_DANI_ANIMS = (stack, type) -> {
+		switch(type) {
+		case EQUIP: return new BusAnimation().addBus("EQUIP", new BusAnimationSequence().addPos(360 * 3, 0, 0, 1000, IType.SIN_DOWN));
+		case CYCLE: return new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, 0, 50).addPos(0, 0, -3, 50).addPos(0, 0, 0, 250))
+				.addBus("HAMMER", new BusAnimationSequence().addPos(0, 0, 1, 50).addPos(0, 0, 1, 300).addPos(0, 0, 0, 200))
+				.addBus("DRUM", new BusAnimationSequence().addPos(0, 0, 0, 350).addPos(0, 0, 1, 200));
+		case CYCLE_DRY: return new BusAnimation()
+				.addBus("HAMMER", new BusAnimationSequence().addPos(0, 0, 1, 50).addPos(0, 0, 1, 200).addPos(0, 0, 0, 200))
+				.addBus("DRUM", new BusAnimationSequence().addPos(0, 0, 0, 350).addPos(0, 0, 1, 200));
+		}
+		
+		return LAMBDA_ATLAS_ANIMS.apply(stack, type);
 	};
 }

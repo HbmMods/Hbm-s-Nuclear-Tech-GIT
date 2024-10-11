@@ -909,7 +909,7 @@ public class ModEventHandlerClient {
 			}
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_F1)) {
+		if(Keyboard.isKeyDown(Keyboard.KEY_F1) && Minecraft.getMinecraft().currentScreen != null) {
 			
 			ComparableStack comp = canneryTimestamp > System.currentTimeMillis() - 100 ? lastCannery : null;
 			

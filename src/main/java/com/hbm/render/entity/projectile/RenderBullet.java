@@ -178,21 +178,6 @@ public class RenderBullet extends Render {
 		GL11.glScalef(0.25F, 0.25F, 0.25F);
 		GL11.glRotated(90, 0, 0, 1);
 		GL11.glRotated(90, 0, 1, 0);
-		
-		switch(type) {
-		case 0:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenade.png")); break;
-		case 1:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenadeHE.png")); break;
-		case 2:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenadeIncendiary.png")); break;
-		case 3:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenadeToxic.png")); break;
-		case 4:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenadeSleek.png")); break;
-		case 5:
-			bindTexture(new ResourceLocation(RefStrings.MODID + ":textures/entity/ModelGrenadeTraining.png")); break;
-		}
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		bindTexture(ResourceManager.grenade_tex);

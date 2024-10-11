@@ -5,9 +5,11 @@ import java.awt.Color;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.render.anim.HbmAnimations;
+import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -18,7 +20,7 @@ public class ItemRenderCongoLake extends ItemRenderWeaponBase {
 	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.25F; }
 
 	@Override
-	protected void setupFirstPerson(ItemStack stack) {
+	public void setupFirstPerson(ItemStack stack) {
 		GL11.glTranslated(0, 0, 0.875);
 		
 		float offset = 0.8F;
@@ -80,22 +82,26 @@ public class ItemRenderCongoLake extends ItemRenderWeaponBase {
 
 		GL11.glPushMatrix();
 		{
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.casings_tex);
-
-			HbmAnimations.applyRelevantTransformation("Shell");
-
-			SpentCasing casing = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getCasing(stack);
-			int[] colors = casing != null ? casing.getColors() : new int[] { SpentCasing.COLOR_CASE_40MM };
-
-			Color shellColor = new Color(colors[0]);
-			GL11.glColor3f(shellColor.getRed() / 255F, shellColor.getGreen() / 255F, shellColor.getBlue() / 255F);
-			ResourceManager.congolake.renderPart("Shell");
-			
-			Color shellForeColor = new Color(colors.length > 1 ? colors[1] : colors[0]);
-			GL11.glColor3f(shellForeColor.getRed() / 255F, shellForeColor.getGreen() / 255F, shellForeColor.getBlue() / 255F);
-			ResourceManager.congolake.renderPart("ShellFore");
-
-			GL11.glColor3f(1F, 1F, 1F);
+			IMagazine mag = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
+			if(gun.getLastAnim(stack, 0) != AnimType.INSPECT || mag.getAmount(stack) > 0) { //omit when inspecting and no shell is loaded
+				
+				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.casings_tex);
+	
+				HbmAnimations.applyRelevantTransformation("Shell");
+	
+				SpentCasing casing = mag.getCasing(stack);
+				int[] colors = casing != null ? casing.getColors() : new int[] { SpentCasing.COLOR_CASE_40MM };
+	
+				Color shellColor = new Color(colors[0]);
+				GL11.glColor3f(shellColor.getRed() / 255F, shellColor.getGreen() / 255F, shellColor.getBlue() / 255F);
+				ResourceManager.congolake.renderPart("Shell");
+				
+				Color shellForeColor = new Color(colors.length > 1 ? colors[1] : colors[0]);
+				GL11.glColor3f(shellForeColor.getRed() / 255F, shellForeColor.getGreen() / 255F, shellForeColor.getBlue() / 255F);
+				ResourceManager.congolake.renderPart("ShellFore");
+	
+				GL11.glColor3f(1F, 1F, 1F);
+			}
 		}
 		GL11.glPopMatrix();
 
@@ -124,14 +130,16 @@ public class ItemRenderCongoLake extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	protected void setupThirdPerson(ItemStack stack) {
+	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
-		GL11.glTranslated(0, 1, 3);
+		GL11.glTranslated(0, -2.5, 4);
+		double scale = 2.5D;
+		GL11.glScaled(scale, scale, scale);
 
 	}
 
 	@Override
-	protected void setupInv(ItemStack stack) {
+	public void setupInv(ItemStack stack) {
 		super.setupInv(stack);
 		double scale = 2.5D;
 		GL11.glScaled(scale, scale, scale);

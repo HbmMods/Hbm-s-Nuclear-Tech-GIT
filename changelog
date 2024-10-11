@@ -20,3 +20,6 @@
 * Fixed GL state leak caused by fluid tanks, causing some tile entities to be rendered without face culling
 * Fixed a bug where using too many PWR heatsinks would cause an overflow, making the heat capacity negative
 * Fixed landmines generating into the floor on superflat worlds
+* All NTM type explosions are no longer affected by difficulty setting, preventing them from dealing damage in peaceful mode
+  * There are a few instances of vanilla explosions still being used, those will be phased out in the future
+* Fixed tutorial presentations triggering when hitting F1 not just in the inventory but also when looking at the block in question

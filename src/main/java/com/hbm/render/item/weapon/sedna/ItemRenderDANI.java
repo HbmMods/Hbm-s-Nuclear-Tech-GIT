@@ -10,12 +10,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 
 public class ItemRenderDANI extends ItemRenderWeaponBase {
+	
+	@Override public boolean isAkimbo() { return true; }
 
 	@Override
 	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.25F; }
 
 	@Override
-	protected void setupFirstPerson(ItemStack stack) {
+	public void setupFirstPerson(ItemStack stack) {
 		GL11.glTranslated(0, 0, 0.875);
 	}
 
@@ -48,9 +50,9 @@ public class ItemRenderDANI extends ItemRenderWeaponBase {
 			GL11.glTranslated(recoil[0], recoil[1], recoil[2]);
 			GL11.glRotated(recoil[2] * 10, 1, 0, 0);
 	
-			GL11.glTranslated(0, 0, -7);
+			GL11.glTranslated(0, -2, -2);
 			GL11.glRotated(equip[0], -1, 0, 0);
-			GL11.glTranslated(0, 0, 7);
+			GL11.glTranslated(0, 2, 2);
 			
 			GL11.glPushMatrix();
 			GL11.glTranslated(0, 1.5, 9.25);
@@ -106,19 +108,27 @@ public class ItemRenderDANI extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	protected void setupThirdPerson(ItemStack stack) {
+	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
 		GL11.glTranslated(0, 1, 3);
-
 	}
 
 	@Override
-	protected void setupInv(ItemStack stack) {
+	public void setupThirdPersonAkimbo(ItemStack stack) {
+		super.setupThirdPersonAkimbo(stack);
+		GL11.glTranslated(0, 1, 3);
+	}
+
+	@Override
+	public void setupInv(ItemStack stack) {
 		GL11.glScaled(1, 1, -1);
 		GL11.glTranslated(8, 6, 0);
-		
 		double scale = 1.125D;
 		GL11.glScaled(scale, scale, scale);
+	}
+
+	@Override
+	public void renderInv(ItemStack stack) {
 		
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glShadeModel(GL11.GL_SMOOTH);
@@ -149,5 +159,29 @@ public class ItemRenderDANI extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	public void renderOther(ItemStack stack, ItemRenderType type) { }
+	public void renderEquipped(ItemStack stack) {
+
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.dani_lunar_tex);
+		ResourceManager.bio_revolver.renderAll();
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+
+	@Override
+	public void renderEquippedAkimbo(ItemStack stack) {
+
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.dani_celestial_tex);
+		ResourceManager.bio_revolver.renderAll();
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+
+	@Override
+	public void renderOther(ItemStack stack, ItemRenderType type) {
+
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.dani_celestial_tex);
+		ResourceManager.bio_revolver.renderAll();
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
 }

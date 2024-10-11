@@ -6,6 +6,10 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
@@ -20,6 +24,7 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 /**
@@ -185,6 +190,14 @@ public class Lego {
 		float percent = (float) ItemGunBaseNT.getWear(stack, index) / config.getDurability(stack);
 		if(percent < 0.75F) return 1F;
 		return 1F - (percent - 0.75F) * 2F;
+	}
+	
+	public static void standardExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range) {
+		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, range);
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage));
+		vnt.setPlayerProcessor(new PlayerProcessorStandard());
+		vnt.setSFX(new ExplosionEffectStandard());
+		vnt.explode();
 	}
 	
 	/** anims for the DEBUG revolver, mostly a copy of the li'lpip but with some fixes regarding the cylinder movement */

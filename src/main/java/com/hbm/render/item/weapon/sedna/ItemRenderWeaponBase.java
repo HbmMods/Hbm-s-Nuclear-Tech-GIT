@@ -31,6 +31,8 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 	public static final ResourceLocation flash_plume = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lilmac_plume.png");
 	
 	public static float interp;
+	
+	public boolean isAkimbo() { return false; }
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -48,12 +50,17 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		GL11.glPushMatrix();
 		switch(type) {
 		case EQUIPPED_FIRST_PERSON:	setupFirstPerson(item);	renderFirstPerson(item); break;
-		case EQUIPPED:				setupThirdPerson(item);	renderOther(item, type); break;
-		case INVENTORY:				setupInv(item);			renderOther(item, type); break;
-		case ENTITY:				setupEntity(item);		renderOther(item, type); break;
+		case EQUIPPED:				setupThirdPerson(item);	renderEquipped(item); break;
+		case INVENTORY:				setupInv(item);			renderInv(item); break;
+		case ENTITY:				setupEntity(item);		renderEntity(item); break;
 		}
 		GL11.glPopMatrix();
 	}
+
+	public void renderEquipped(ItemStack stack) { renderOther(stack, ItemRenderType.EQUIPPED); }
+	public void renderEquippedAkimbo(ItemStack stack) { renderOther(stack, ItemRenderType.EQUIPPED); }
+	public void renderInv(ItemStack stack) { renderOther(stack, ItemRenderType.INVENTORY); }
+	public void renderEntity(ItemStack stack) { renderOther(stack, ItemRenderType.ENTITY); }
 
 	public void setPerspectiveAndRender(ItemStack stack, float interp) {
 		
@@ -187,7 +194,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		RenderHelper.disableStandardItemLighting();
 	}
 	
-	protected void setupFirstPerson(ItemStack stack) {
+	public void setupFirstPerson(ItemStack stack) {
 		GL11.glTranslated(0, 0, 1);
 		
 		if(Minecraft.getMinecraft().thePlayer.isSneaking()) {
@@ -200,7 +207,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		}
 	}
 	
-	protected void setupThirdPerson(ItemStack stack) {
+	public void setupThirdPerson(ItemStack stack) {
 		double scale = 0.125D;
 		GL11.glScaled(scale, scale, scale);
 		
@@ -212,20 +219,32 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 
 	}
 	
-	protected void setupInv(ItemStack stack) {
+	public void setupThirdPersonAkimbo(ItemStack stack) {
+		double scale = 0.125D;
+		GL11.glScaled(scale, scale, scale);
+		
+		GL11.glRotatef(15.0F, 0.0F, 0.0F, 1.0F);
+		GL11.glRotatef(12.5F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(10.0F, 1.0F, 0.0F, 0.0F);
+		
+		GL11.glTranslated(5, 0, 0);
+
+	}
+	
+	public void setupInv(ItemStack stack) {
 		GL11.glScaled(1, 1, -1);
 		GL11.glTranslated(8, 8, 0);
 		GL11.glRotated(225, 0, 0, 1);
 		GL11.glRotated(90, 0, 1, 0);
 	}
 	
-	protected void setupEntity(ItemStack stack) {
+	public void setupEntity(ItemStack stack) {
 		double scale = 0.125D;
 		GL11.glScaled(scale, scale, scale);
 	}
 
 	public abstract void renderFirstPerson(ItemStack stack);
-	public abstract void renderOther(ItemStack stack, ItemRenderType type);
+	public void renderOther(ItemStack stack, ItemRenderType type) { }
 	
 	public static void standardAimingTransform(ItemStack stack, double sX, double sY, double sZ, double aX, double aY, double aZ) {
 		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;

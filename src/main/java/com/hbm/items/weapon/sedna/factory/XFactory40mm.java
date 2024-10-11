@@ -3,6 +3,7 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -22,21 +23,26 @@ import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 
 public class XFactory40mm {
 
 	public static BulletConfig g40_flare;
 	public static BulletConfig g40;
 	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE = (bullet, mop) -> {
+		Lego.standardExplode(bullet, mop, 5F); bullet.setDead();
+	};
+	
 	public static void init() {
 		
-		g40_flare = new BulletConfig().setItem(EnumAmmo.G40_FLARE).setVel(2F).setGrav(0.035D).setRenderRotations(false).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x9E1616).setScale(2F).register("G40Flare"));
-		g40 = new BulletConfig().setItem(EnumAmmo.G40).setVel(2F).setGrav(0.035D).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_40MM).setScale(2, 2F, 1.5F).register("G40"));
+		g40_flare = new BulletConfig().setItem(EnumAmmo.G40_FLARE).setLife(100).setVel(2F).setGrav(0.035D).setRenderRotations(false).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x9E1616).setScale(2F).register("G40Flare"));
+		g40 = new BulletConfig().setItem(EnumAmmo.G40).setLife(200).setOnImpact(LAMBDA_STANDARD_EXPLODE).setVel(2F).setGrav(0.035D).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_40MM).setScale(2, 2F, 1.5F).register("G40"));
 
 		ModItems.gun_flaregun = new ItemGunBaseNT(new GunConfig()
 				.dura(100).draw(7).inspect(39).crosshair(Crosshair.L_CIRCUMFLEX).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(12F).delay(20).reload(28).jam(33).sound("hbm:weapon.hkShoot", 1.0F, 1.0F)
+						.dmg(15F).delay(20).reload(28).jam(33).sound("hbm:weapon.hkShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(g40_flare))
 						.offset(0.75, -0.0625, -0.1875D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
@@ -47,8 +53,8 @@ public class XFactory40mm {
 		ModItems.gun_congolake = new ItemGunBaseNT(new GunConfig()
 				.dura(400).draw(7).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCUMFLEX).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(12F).delay(24).reload(16, 16, 16, 0).jam(0).sound("hbm:weapon.glShoot", 1.0F, 1.0F)
-						.mag(new MagazineSingleReload(0, 4).addConfigs(g40_flare))
+						.dmg(30F).delay(24).reload(16, 16, 16, 0).jam(0).sound("hbm:weapon.glShoot", 1.0F, 1.0F)
+						.mag(new MagazineSingleReload(0, 4).addConfigs(g40, g40_flare))
 						.offset(0.75, -0.0625, -0.1875D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
