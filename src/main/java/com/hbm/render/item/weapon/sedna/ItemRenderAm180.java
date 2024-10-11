@@ -50,12 +50,18 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 		
 		GL11.glTranslated(0, 0, recoil[2]);
 
+		HbmAnimations.applyRelevantTransformation("Gun");
 		ResourceManager.am180.renderPart("Gun");
 		ResourceManager.am180.renderPart("Silencer");
+
+		GL11.glPushMatrix();
+		HbmAnimations.applyRelevantTransformation("Trigger");
 		ResourceManager.am180.renderPart("Trigger");
+		GL11.glPopMatrix();
 
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 0, bolt[2]);
+		HbmAnimations.applyRelevantTransformation("Bolt");
 		ResourceManager.am180.renderPart("Bolt");
 		GL11.glPopMatrix();
 
@@ -70,6 +76,8 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, 2.3125, 1.5);
 		GL11.glRotated(magSpin[0], 1, 0, 0);
 		GL11.glTranslated(0, -2.3125, -1.5);
+
+		HbmAnimations.applyRelevantTransformation("Mag");
 		
 		GL11.glPushMatrix();
 		int mag = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack);
