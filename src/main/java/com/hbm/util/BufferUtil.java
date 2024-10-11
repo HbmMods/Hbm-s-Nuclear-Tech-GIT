@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Vec3;
 
 public class BufferUtil {
 
@@ -60,6 +61,32 @@ public class BufferUtil {
 		}
 
 		return array;
+	}
+
+	/**
+	 * Writes a vector to a buffer.
+	 */
+	public static void writeVec3(ByteBuf buf, Vec3 vector) {
+		buf.writeBoolean(vector != null);
+		if(vector == null) return;
+		buf.writeDouble(vector.xCoord);
+		buf.writeDouble(vector.yCoord);
+		buf.writeDouble(vector.zCoord);
+	}
+
+	/**
+	 * Reads a vector from a buffer.
+	 */
+	public static Vec3 readVec3(ByteBuf buf) {
+		boolean vectorExists = buf.readBoolean();
+		if(!vectorExists) {
+			return null;
+		}
+		double x = buf.readDouble();
+		double y = buf.readDouble();
+		double z = buf.readDouble();
+
+		return Vec3.createVectorHelper(x, y, z);
 	}
 
 	/**

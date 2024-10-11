@@ -81,7 +81,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 
 			if(canProcess()) {
 				int minAmount = mold.getCost() * 9;
-	
+
 				// Makes it flush the buffers after 10 seconds of inactivity
 				if(worldObj.getWorldTime() >= lastCastTick + 200) {
 					minAmount = mold.getCost();
@@ -116,9 +116,10 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 					lastCastTick = worldObj.getWorldTime();
 				}
 			}
-		}
 
-		sendStandard(150);
+			sendStandard(150);
+
+	}
 
 	}
 
@@ -190,7 +191,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		}
 		return false;
 
-	}
+		}
 
 	@Override
 	public boolean standardCheck(World world, int x, int y, int z, ForgeDirection side, Mats.MaterialStack stack) {
@@ -257,12 +258,14 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 		return new GUIMachineStrandCaster(player.inventory, this);
 	}
 
-	@Override public void serialize(ByteBuf buf) {
+	@Override
+	public void serialize(ByteBuf buf) {
 		water.serialize(buf);
 		steam.serialize(buf);
 	}
 
-	@Override public void deserialize(ByteBuf buf) {
+	@Override
+	public void deserialize(ByteBuf buf) {
 		water.deserialize(buf);
 		steam.deserialize(buf);
 	}
@@ -341,7 +344,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 	}
 
 	public boolean isLoaded = true;
-	
+
 	@Override
 	public boolean isLoaded() {
 		return isLoaded;

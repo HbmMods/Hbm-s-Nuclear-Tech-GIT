@@ -18,18 +18,18 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPacketReceiver, IControlReceiverFilter {
-	
+
 	private int stack = 0;
 	public boolean output = false;
 	private int capacity;
 	public int redstone = 0;
-	
+
 	@SideOnly(Side.CLIENT) public ItemStack type;
-	
+
 	public TileEntityMassStorage() {
 		super(3);
 	}
-	
+
 	public TileEntityMassStorage(int capacity) {
 		this();
 		this.capacity = capacity;
@@ -39,43 +39,43 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 	public String getInventoryName() {
 		return "container.massStorage";
 	}
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			int newRed = this.getStockpile() * 15 / this.capacity;
-			
+
 			if(newRed != this.redstone) {
 				this.redstone = newRed;
 				this.markDirty();
 			}
-			
+
 			if(slots[0] != null && slots[0].getItem() == ModItems.fluid_barrel_infinite) {
 				this.stack = this.getCapacity();
 			}
-			
+
 			if(this.getType() == null)
 				this.stack = 0;
-			
+
 			if(getType() != null && getStockpile() < getCapacity() && slots[0] != null && slots[0].isItemEqual(getType()) && ItemStack.areItemStackTagsEqual(slots[0], getType())) {
-				
+
 				int remaining = getCapacity() - getStockpile();
 				int toRemove = Math.min(remaining, slots[0].stackSize);
 				this.decrStackSize(0, toRemove);
 				this.stack += toRemove;
 				this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
 			}
-			
+
 			if(output && getType() != null) {
-				
+
 				if(slots[2] != null && !(slots[2].isItemEqual(getType()) && ItemStack.areItemStackTagsEqual(slots[2], getType()))) {
 					return;
 				}
-				
+
 				int amount = Math.min(getStockpile(), getType().getMaxStackSize());
-				
+
 				if(amount > 0) {
 					if(slots[2] == null) {
 						slots[2] = slots[1].copy();
@@ -96,7 +96,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 	public void serialize(ByteBuf buf) {
 		buf.writeInt(this.stack);
 		buf.writeBoolean(this.output);
-		BufferUtil.writeItemStack(buf, this.type);
+		BufferUtil.writeItemStack(buf, this.slots[1]);
 	}
 
 	@Override
@@ -105,19 +105,19 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 		this.output = buf.readBoolean();
 		this.type = BufferUtil.readItemStack(buf);
 	}
-	
+
 	public int getCapacity() {
 		return capacity;
 	}
-	
+
 	public ItemStack getType() {
 		return slots[1] == null ? null : slots[1].copy();
 	}
-	
+
 	public int getStockpile() {
 		return stack;
 	}
-	
+
 	public void setStockpile(int stack) {
 		this.stack = stack;
 	}
@@ -144,7 +144,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 		this.output = nbt.getBoolean("output");
 		this.capacity = nbt.getInteger("capacity");
 		this.redstone = nbt.getByte("redstone");
-		
+
 		if(this.capacity <= 0) {
 			this.capacity = 10_000;
 		}
@@ -166,20 +166,20 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		
+
 		if(data.hasKey("provide") && slots[1] != null) {
-			
+
 			if(this.getStockpile() == 0) {
 				return;
 			}
-			
+
 			int amount = data.getBoolean("provide") ? slots[1].getMaxStackSize() : 1;
 			amount = Math.min(amount, getStockpile());
-			
+
 			if(slots[2] != null && !(slots[2].isItemEqual(getType()) && ItemStack.areItemStackTagsEqual(slots[2], getType()))) {
 				return;
 			}
-			
+
 			if(slots[2] == null) {
 				slots[2] = slots[1].copy();
 				slots[2].stackSize = amount;
@@ -189,7 +189,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 			}
 			this.stack -= amount;
 		}
-		
+
 		if(data.hasKey("toggle")) {
 			this.output = !output;
 		}
