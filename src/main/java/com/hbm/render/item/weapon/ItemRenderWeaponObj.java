@@ -24,7 +24,7 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 			return true;
 		case INVENTORY:
 			return item.getItem() == ModItems.gun_hk69
-					|| item.getItem() == ModItems.gun_flamer || item.getItem() == ModItems.gun_deagle
+					|| item.getItem() == ModItems.gun_deagle
 					|| item.getItem() == ModItems.gun_flechette || item.getItem() == ModItems.gun_quadro; 
 		default: return false;
 		}
@@ -49,9 +49,6 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 
 		if(item.getItem() == ModItems.gun_deagle)
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.universal_bright);
-
-		if(item.getItem() == ModItems.gun_flamer)
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.flamer_tex);
 
 		if(item.getItem() == ModItems.gun_quadro)
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.quadro_tex);
@@ -84,18 +81,6 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 				if(player.isSneaking()) {
 					GL11.glTranslatef(3.7F, 1.7F, 0F);
 					GL11.glRotatef(-5F, 0.0F, 1.0F, 0.0F);
-				}
-			}
-
-			if(item.getItem() == ModItems.gun_flamer) {
-				GL11.glTranslatef(1.0F, 0.0F, -0.15F);
-				GL11.glRotatef(90F, 0.0F, 1.0F, 0.0F);
-				GL11.glRotatef(-25F, 1.0F, 0.0F, 0.0F);
-				GL11.glRotatef(-10F, 0.0F, 1.0F, 0.0F);
-				GL11.glScaled(0.5, 0.5, 0.5);
-				
-				if(player.isSneaking()) {
-					GL11.glTranslatef(0.75F, 0.2F, 0.3F);
 				}
 			}
 
@@ -153,13 +138,6 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 				GL11.glScaled(0.15, 0.15, 0.15);
 			}
 
-			if(item.getItem() == ModItems.gun_flamer) {
-				GL11.glRotatef(20F, 1.0F, 0.0F, 1.0F);
-				GL11.glRotatef(10F, 0.0F, 1.0F, 0.0F);
-				GL11.glTranslatef(0.4F, -0.25F, 0.2F);
-				GL11.glScaled(0.35, 0.35, 0.35);
-			}
-
 			if(item.getItem() == ModItems.gun_flechette) {
 				GL11.glRotatef(35F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
@@ -186,12 +164,6 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 
 			if(item.getItem() == ModItems.gun_deagle) {
 				GL11.glTranslatef(0.0F, 0.2F, 0.0F);
-				GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
-				GL11.glScaled(0.25, 0.25, 0.25);
-			}
-			
-			if(item.getItem() == ModItems.gun_flamer) {
-				GL11.glTranslatef(0.25F, 0.2F, 0.0F);
 				GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
 				GL11.glScaled(0.25, 0.25, 0.25);
 			}
@@ -229,14 +201,6 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 				GL11.glRotatef(-45F, 1.0F, 0.0F, 0.0F);
 			}
 			
-			if(item.getItem() == ModItems.gun_flamer) {
-				GL11.glScaled(2.0, 2.0, -2.0);
-				GL11.glTranslatef(4.0F, 5.0F, 0.0F);
-				GL11.glRotatef(180F, 1.0F, 0.0F, 0.0F);
-				GL11.glRotatef(-90F, 0.0F, 1.0F, 0.0F);
-				GL11.glRotatef(-45F, 1.0F, 0.0F, 0.0F);
-			}
-			
 			if(item.getItem() == ModItems.gun_flechette) {
 				GL11.glScaled(1.2, 1.2, -1.2);
 				GL11.glTranslatef(2.5F, 8.0F, 0.0F);
@@ -268,13 +232,7 @@ public class ItemRenderWeaponObj implements IItemRenderer {
 			ResourceManager.deagle.renderAll();
 			GL11.glShadeModel(GL11.GL_FLAT);
 		}
-
-		if(item.getItem() == ModItems.gun_flamer) {
-			GL11.glShadeModel(GL11.GL_SMOOTH);
-			ResourceManager.flamer.renderAll();
-			GL11.glShadeModel(GL11.GL_FLAT);
-		}
-
+		
 		if(item.getItem() == ModItems.gun_flechette) {
 			renderFlechette();
 		}

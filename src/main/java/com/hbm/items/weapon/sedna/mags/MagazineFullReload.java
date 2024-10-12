@@ -51,8 +51,9 @@ public class MagazineFullReload extends MagazineSingleTypeBase {
 					for(BulletConfig config : this.acceptedBullets) {
 						if(config.ammo.matchesRecipe(slot, true)) {
 							this.setType(stack, config);
-							int toLoad = Math.min(this.getCapacity(stack), slot.stackSize);
-							this.setAmount(stack, toLoad);
+							int wantsToLoad = (int) Math.ceil((double) this.getCapacity(stack) / (double) config.ammoReloadCount);
+							int toLoad = Math.min(wantsToLoad, slot.stackSize);
+							this.setAmount(stack, Math.min(toLoad * config.ammoReloadCount, this.capacity));
 							player.inventory.decrStackSize(i, toLoad);
 							break;
 						}
@@ -64,8 +65,9 @@ public class MagazineFullReload extends MagazineSingleTypeBase {
 
 					if(config.ammo.matchesRecipe(slot, true)) {
 						int alreadyLoaded = this.getAmount(stack);
-						int toLoad = Math.min(this.getCapacity(stack) - alreadyLoaded, slot.stackSize);
-						this.setAmount(stack, toLoad + alreadyLoaded);
+						int wantsToLoad = (int) Math.ceil((double) this.getCapacity(stack) / (double) config.ammoReloadCount) - (alreadyLoaded / config.ammoReloadCount);
+						int toLoad = Math.min(wantsToLoad, slot.stackSize);
+						this.setAmount(stack, Math.min((toLoad * config.ammoReloadCount) + alreadyLoaded, this.capacity));
 						player.inventory.decrStackSize(i, toLoad);
 					}
 				}

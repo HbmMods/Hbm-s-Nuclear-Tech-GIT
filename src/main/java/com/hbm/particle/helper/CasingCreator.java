@@ -74,5 +74,4 @@ public class CasingCreator implements IParticleCreator {
 		casing.prevRotationPitch = casing.rotationPitch = pitch;
 		Minecraft.getMinecraft().effectRenderer.addEffect(casing);
 	}
-
 }
