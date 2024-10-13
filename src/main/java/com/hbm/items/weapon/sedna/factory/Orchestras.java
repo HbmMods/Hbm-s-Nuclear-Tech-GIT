@@ -342,17 +342,18 @@ public class Orchestras {
 			if(timer == 6) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 0.9F);
 		}
 		if(type == AnimType.RELOAD) {
-			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magRemove", 1F, 1F);
-			if(timer == 20) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.impact", 0.25F, 1F);
-			if(timer == 32) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magInsert", 1F, 1F);
-			if(timer == 40) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 0.9F);
+			if(timer == 6) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magRemove", 1F, 1F);
+			if(timer == 26) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.impact", 0.25F, 1F);
+			if(timer == 48) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magInsert", 1F, 1F);
+			if(timer == 54) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 0.9F);
 		}
 		if(type == AnimType.JAMMED) {
-			if(timer == 15) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 0.8F);
+			if(timer == 6) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 0.8F);
+			if(timer == 20) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pistolCock", 1F, 1.0F);
 		}
 		if(type == AnimType.INSPECT) {
-			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magRemove", 1F, 1F);
-			if(timer == 35) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magInsert", 1F, 1F);
+			if(timer == 6) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magRemove", 1F, 1F);
+			if(timer == 53) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magInsert", 1F, 1F);
 		}
 	};
 	
