@@ -1,5 +1,6 @@
 package com.hbm.items.weapon.sedna;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
 import com.hbm.handler.CasingEjector;
@@ -14,6 +15,7 @@ import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.packet.toclient.GunAnimationPacket;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.util.EnumUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -56,6 +58,8 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	public static final String KEY_RELOAD = "reload_";
 	public static final String KEY_LASTANIM = "lastanim_";
 	public static final String KEY_ANIMTIMER = "animtimer_";
+	
+	public static ConcurrentHashMap<EntityPlayer, AudioWrapper> loopedSounds = new ConcurrentHashMap();
 
 	public static float prevAimingProgress;
 	public static float aimingProgress;
@@ -156,6 +160,11 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 				/// SMOKE NODES ///
 				for(int i = 0; i < confNo; i++) if(configs[i].getSmokeHandler(stack) != null) {
 					configs[i].getSmokeHandler(stack).accept(stack, ctx[i]);
+				}
+				
+				for(int i = 0; i < confNo; i++) {
+					BiConsumer<ItemStack, LambdaContext> orchestra = configs[i].getOrchestra(stack);
+					if(orchestra != null) orchestra.accept(stack, ctx[i]);
 				}
 			}
 			return;

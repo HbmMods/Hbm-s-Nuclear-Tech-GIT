@@ -2,6 +2,7 @@ package com.hbm.explosion.vanillant.standard;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.interfaces.ICustomDamageHandler;
@@ -59,6 +60,8 @@ public class EntityProcessorCross implements IEntityProcessor {
 			ForgeDirection dir = ForgeDirection.getOrientation(i);
 			nodes[i] = Vec3.createVectorHelper(x + dir.offsetX * nodeDist, y + dir.offsetY * nodeDist, z + dir.offsetZ * nodeDist);
 		}
+		
+		HashMap<Entity, Float> damageMap = new HashMap();
 
 		for(int index = 0; index < list.size(); ++index) {
 			
@@ -89,7 +92,8 @@ public class EntityProcessorCross implements IEntityProcessor {
 					
 					double knockback = (1.0D - distanceScaled) * density;
 
-					entity.attackEntityFrom(setExplosionSource(explosion.compat), calculateDamage(distanceScaled, density, knockback, size));
+					float dmg = calculateDamage(distanceScaled, density, knockback, size);
+					if(!damageMap.containsKey(entity) || damageMap.get(entity) < dmg) damageMap.put(entity, dmg);
 					double enchKnockback = EnchantmentProtection.func_92092_a(entity, knockback);
 					
 					entity.motionX += deltaX * enchKnockback;
@@ -99,11 +103,19 @@ public class EntityProcessorCross implements IEntityProcessor {
 					if(entity instanceof EntityPlayer) {
 						affectedPlayers.put((EntityPlayer) entity, Vec3.createVectorHelper(deltaX * knockback, deltaY * knockback, deltaZ * knockback));
 					}
-					
-					if(damage != null) {
-						damage.handleAttack(explosion, entity, distanceScaled);
-					}
 				}
+			}
+		}
+		
+		for(Entry<Entity, Float> entry : damageMap.entrySet()) {
+			
+			Entity entity = entry.getKey();
+			entity.attackEntityFrom(setExplosionSource(explosion.compat), entry.getValue());
+			System.out.println(entity + " " + entry.getValue());
+			
+			if(damage != null) {
+				double distanceScaled = entity.getDistance(x, y, z) / size;
+				damage.handleAttack(explosion, entity, distanceScaled);
 			}
 		}
 		

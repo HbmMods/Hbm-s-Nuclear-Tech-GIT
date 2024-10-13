@@ -165,12 +165,15 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 			
 			if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
 				Entity entity = mop.entityHit;
-				if(!entity.isEntityAlive()) return;
+				
+				if(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0) {
+					return;
+				}
 				
 				DamageSource damageCalc = this.config.getDamage(this, getThrower(), false);
 				
 				if(!(entity instanceof EntityLivingBase)) {
-					entity.attackEntityFrom(damageCalc, this.damage);
+					EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, damageCalc, this.damage);
 					return;
 				}
 				

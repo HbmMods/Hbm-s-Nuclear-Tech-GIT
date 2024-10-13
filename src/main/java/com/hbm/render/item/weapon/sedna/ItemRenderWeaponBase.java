@@ -213,7 +213,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		
 		GL11.glRotatef(15.0F, 0.0F, 0.0F, 1.0F);
 		GL11.glRotatef(12.5F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(10.0F, 1.0F, 0.0F, 0.0F);
+		GL11.glRotatef(15.0F, 1.0F, 0.0F, 0.0F);
 		
 		GL11.glTranslated(3.5, 0, 0);
 

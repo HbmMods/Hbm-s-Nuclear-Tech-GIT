@@ -980,14 +980,6 @@ public class ClientProxy extends ServerProxy {
 		}
 	}
 	
-	public static HashMap<String, IParticleCreator> particleCreators = new HashMap();
-	
-	static {
-		particleCreators.put("explosionLarge", new ExplosionCreator());
-		particleCreators.put("casingNT", new CasingCreator());
-		particleCreators.put("flamethrower", new FlameCreator());
-	}
-	
 	//mk3, only use this one
 	@Override
 	public void effectNT(NBTTagCompound data) {
@@ -1006,8 +998,8 @@ public class ClientProxy extends ServerProxy {
 		double y = data.getDouble("posY");
 		double z = data.getDouble("posZ");
 		
-		if(particleCreators.containsKey(type)) {
-			particleCreators.get(type).makeParticle(world, player, man, rand, x, y, z, data);
+		if(ParticleCreators.particleCreators.containsKey(type)) {
+			ParticleCreators.particleCreators.get(type).makeParticle(world, player, man, rand, x, y, z, data);
 			return;
 		}
 		

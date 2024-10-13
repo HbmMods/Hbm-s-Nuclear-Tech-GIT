@@ -34,16 +34,31 @@ public class ItemRenderFlamer extends ItemRenderWeaponBase {
 		GL11.glScaled(scale, scale, scale);
 
 		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
+		double[] rotate = HbmAnimations.getRelevantTransformation("ROTATE");
 		
-		GL11.glTranslated(0, -1, -3);
-		GL11.glRotated(equip[0], 1, 0, 0);
-		GL11.glTranslated(0, 1, 3);
+		GL11.glTranslated(0, 2, -6);
+		GL11.glRotated(-equip[0], 1, 0, 0);
+		GL11.glTranslated(0, -2, 6);
+
+		GL11.glTranslated(0, 1, 0);
+		GL11.glRotated(rotate[2], 0, 0, 1);
+		GL11.glTranslated(0, -1, 0);
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		ResourceManager.flamethrower.renderPart("Gun");
-		ResourceManager.flamethrower.renderPart("Tank");
 		
 		GL11.glPushMatrix();
+		HbmAnimations.applyRelevantTransformation("Gun");
+		ResourceManager.flamethrower.renderPart("Gun");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		HbmAnimations.applyRelevantTransformation("Tank");
+		ResourceManager.flamethrower.renderPart("Tank");
+		GL11.glPopMatrix();
+		
+		
+		GL11.glPushMatrix();
+		HbmAnimations.applyRelevantTransformation("Gauge");
 		GL11.glTranslated(1.25, 1.25, 0);
 		IMagazine mag = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
 		GL11.glRotated(-135 + (mag.getAmount(stack) * 270D / mag.getCapacity(stack)), 0, 0, 1);
@@ -57,7 +72,9 @@ public class ItemRenderFlamer extends ItemRenderWeaponBase {
 	@Override
 	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
-		GL11.glTranslated(0, 1, 3);
+		double scale = 1.75D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glTranslated(0, -3, 4);
 
 	}
 

@@ -3,6 +3,7 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.config.ClientConfig;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -13,6 +14,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.anim.BusAnimation;
@@ -43,7 +45,7 @@ public class XFactory22lr {
 		ModItems.gun_am180 = new ItemGunBaseNT(new GunConfig()
 				.dura(177 * 25).draw(15).inspect(38).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(5F).delay(1).dry(10).auto(true).spread(0.02F).reload(53).jam(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(5F).delay(1).dry(10).auto(true).spread(0.02F).reload(66).jam(30).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 177).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
@@ -57,27 +59,39 @@ public class XFactory22lr {
 	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_AM180_ANIMS = (stack, type) -> {
-		switch(type) {
-		case EQUIP: return new BusAnimation()
-				.addBus("EQUIP", new BusAnimationSequence().addPos(45, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_FULL));
-		case CYCLE: return new BusAnimation()
-				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, ItemGunBaseNT.getIsAiming(stack) ? -0.125 : -0.25, 15, IType.SIN_DOWN).addPos(0, 0, 0, 35, IType.SIN_FULL));
-		case CYCLE_DRY: return new BusAnimation()
-				.addBus("BOLT", new BusAnimationSequence().addPos(0, 0, 0, 550).addPos(0, 0, -1.5, 100, IType.SIN_UP).addPos(0, 0, 0, 100, IType.SIN_UP))
-				.addBus("TURN", new BusAnimationSequence().addPos(0, 0, 0, 300).addPos(0, 0, 15, 250, IType.SIN_FULL).addPos(0, 0, 15, 400).addPos(0, 0, 0, 250, IType.SIN_FULL));
-		case RELOAD:
-			return new BusAnimation()
-				.addBus("MAGTURN", new BusAnimationSequence().addPos(15, 0, 0, 250, IType.SIN_FULL).addPos(15, 0, 0, 250).addPos(15, 0, 70, 300, IType.SIN_FULL).addPos(15, 0, 0, 0).addPos(15, 0, 0, 750).addPos(0, 0, 0, 250, IType.SIN_FULL))
-				.addBus("MAG", new BusAnimationSequence().addPos(0, 0, 0, 250).addPos(2, 0, -4, 250, IType.SIN_FULL).addPos(-10, 2, -4, 300, IType.SIN_UP).addPos(3, -6, -4, 0).addPos(2, 0, -4, 500, IType.SIN_FULL).addPos(0, 0, 0, 250, IType.SIN_FULL))
-				.addBus("BOLT", new BusAnimationSequence().addPos(0, 0, 0, 2250).addPos(0, 0, -1.5, 100, IType.SIN_UP).addPos(0, 0, 0, 100, IType.SIN_UP))
-				.addBus("TURN", new BusAnimationSequence().addPos(0, 0, 0, 2000).addPos(0, 0, 15, 250, IType.SIN_FULL).addPos(0, 0, 15, 400).addPos(0, 0, 0, 250, IType.SIN_FULL));
-		case JAMMED: return new BusAnimation()
-				.addBus("BOLT", new BusAnimationSequence().addPos(0, 0, 0, 750).addPos(0, 0, -1.5, 100, IType.SIN_UP).addPos(0, 0, 0, 100, IType.SIN_UP))
-				.addBus("TURN", new BusAnimationSequence().addPos(0, 0, 0, 500).addPos(0, 0, 45, 250, IType.SIN_FULL).addPos(0, 0, 45, 400).addPos(0, 0, 0, 250, IType.SIN_FULL));
-		case INSPECT: return new BusAnimation()
-				.addBus("MAGTURN", new BusAnimationSequence().addPos(15, 0, 0, 250, IType.SIN_FULL).addPos(15, 0, 0, 1400).addPos(0, 0, 0, 250, IType.SIN_FULL))
-				.addBus("MAG", new BusAnimationSequence().addPos(0, 0, 0, 200).addPos(4, -1, -4, 200, IType.SIN_FULL).addPos(4, -1.5, -4, 50).addPos(4, 0, -4, 100).addPos(4, 6, -4, 250, IType.SIN_DOWN).addPos(4, 0, -4, 150, IType.SIN_UP).addPos(4, -1, -4, 100, IType.SIN_DOWN).addPos(4, -1, -4, 250).addPos(0, 0, 0, 250, IType.SIN_FULL))
-				.addBus("MAGSPIN", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(-400, 0, 0, 500, IType.SIN_FULL).addPos(-400, 0, 0, 250).addPos(-360, 0, 0, 250));
+		if(ClientConfig.GUN_ANIMS_LEGACY.get()) {
+			switch(type) {
+			case EQUIP: return new BusAnimation()
+					.addBus("EQUIP", new BusAnimationSequence().addPos(45, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_FULL));
+			case CYCLE: return new BusAnimation()
+					.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, ItemGunBaseNT.getIsAiming(stack) ? -0.125 : -0.25, 15, IType.SIN_DOWN).addPos(0, 0, 0, 35, IType.SIN_FULL));
+			case CYCLE_DRY: return new BusAnimation()
+					.addBus("BOLT", new BusAnimationSequence().addPos(0, 0, 0, 550).addPos(0, 0, -1.5, 100, IType.SIN_UP).addPos(0, 0, 0, 100, IType.SIN_UP))
+					.addBus("TURN", new BusAnimationSequence().addPos(0, 0, 0, 300).addPos(0, 0, 15, 250, IType.SIN_FULL).addPos(0, 0, 15, 400).addPos(0, 0, 0, 250, IType.SIN_FULL));
+			case RELOAD:
+				return new BusAnimation()
+					.addBus("MAGTURN", new BusAnimationSequence().addPos(15, 0, 0, 250, IType.SIN_FULL).addPos(15, 0, 0, 250).addPos(15, 0, 70, 300, IType.SIN_FULL).addPos(15, 0, 0, 0).addPos(15, 0, 0, 750).addPos(0, 0, 0, 250, IType.SIN_FULL))
+					.addBus("MAG", new BusAnimationSequence().addPos(0, 0, 0, 250).addPos(2, 0, -4, 250, IType.SIN_FULL).addPos(-10, 2, -4, 300, IType.SIN_UP).addPos(3, -6, -4, 0).addPos(2, 0, -4, 500, IType.SIN_FULL).addPos(0, 0, 0, 250, IType.SIN_FULL))
+					.addBus("BOLT", new BusAnimationSequence().addPos(0, 0, 0, 2250).addPos(0, 0, -1.5, 100, IType.SIN_UP).addPos(0, 0, 0, 100, IType.SIN_UP))
+					.addBus("TURN", new BusAnimationSequence().addPos(0, 0, 0, 2000).addPos(0, 0, 15, 250, IType.SIN_FULL).addPos(0, 0, 15, 400).addPos(0, 0, 0, 250, IType.SIN_FULL));
+			case JAMMED: return new BusAnimation()
+					.addBus("BOLT", new BusAnimationSequence().addPos(0, 0, 0, 750).addPos(0, 0, -1.5, 100, IType.SIN_UP).addPos(0, 0, 0, 100, IType.SIN_UP))
+					.addBus("TURN", new BusAnimationSequence().addPos(0, 0, 0, 500).addPos(0, 0, 45, 250, IType.SIN_FULL).addPos(0, 0, 45, 400).addPos(0, 0, 0, 250, IType.SIN_FULL));
+			case INSPECT: return new BusAnimation()
+					.addBus("MAGTURN", new BusAnimationSequence().addPos(15, 0, 0, 250, IType.SIN_FULL).addPos(15, 0, 0, 1400).addPos(0, 0, 0, 250, IType.SIN_FULL))
+					.addBus("MAG", new BusAnimationSequence().addPos(0, 0, 0, 200).addPos(4, -1, -4, 200, IType.SIN_FULL).addPos(4, -1.5, -4, 50).addPos(4, 0, -4, 100).addPos(4, 6, -4, 250, IType.SIN_DOWN).addPos(4, 0, -4, 150, IType.SIN_UP).addPos(4, -1, -4, 100, IType.SIN_DOWN).addPos(4, -1, -4, 250).addPos(0, 0, 0, 250, IType.SIN_FULL))
+					.addBus("MAGSPIN", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(-400, 0, 0, 500, IType.SIN_FULL).addPos(-400, 0, 0, 250).addPos(-360, 0, 0, 250));
+			}
+		} else {
+			switch(type) {
+			case EQUIP: return new BusAnimation()
+					.addBus("EQUIP", new BusAnimationSequence().addPos(45, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_FULL));
+			case CYCLE: return ResourceManager.am180_anim.get("Fire");
+			case CYCLE_DRY: return ResourceManager.am180_anim.get("FireDry");
+			case RELOAD: return ResourceManager.am180_anim.get("Reload");
+			case JAMMED: return ResourceManager.am180_anim.get("Jammed");
+			case INSPECT: return ResourceManager.am180_anim.get("Inspect");
+			}
 		}
 		
 		return null;

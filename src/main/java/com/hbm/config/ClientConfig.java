@@ -25,9 +25,12 @@ public class ClientConfig {
 	public static ConfigWrapper<Integer> GEIGER_OFFSET_HORIZONTAL = new ConfigWrapper(0);
 	public static ConfigWrapper<Integer> GEIGER_OFFSET_VERTICAL = new ConfigWrapper(0);
 	
+	public static ConfigWrapper<Boolean> GUN_ANIMS_LEGACY = new ConfigWrapper(false);
+	
 	private static void initDefaults() {
 		configMap.put("GEIGER_OFFSET_HORIZONTAL", GEIGER_OFFSET_HORIZONTAL);
 		configMap.put("GEIGER_OFFSET_VERTICAL", GEIGER_OFFSET_VERTICAL);
+		configMap.put("GUN_ANIMS_LEGACY", GUN_ANIMS_LEGACY);
 	}
 	
 	public static void initConfig() {
