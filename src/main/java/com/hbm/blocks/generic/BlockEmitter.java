@@ -42,7 +42,7 @@ public class BlockEmitter extends BlockContainer implements IToolable, ITooltipP
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityEmitter();
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
@@ -57,12 +57,12 @@ public class BlockEmitter extends BlockContainer implements IToolable, ITooltipP
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int i, float fx, float fy, float fz) {
-		
+
 		if(world.isRemote)
 			return true;
-		
+
 		TileEntityEmitter te = (TileEntityEmitter)world.getTileEntity(x, y, z);
-		
+
 		if(player.getHeldItem() != null) {
 
 			if(player.getHeldItem().getItem() instanceof ItemDye) {
@@ -73,7 +73,7 @@ public class BlockEmitter extends BlockContainer implements IToolable, ITooltipP
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -81,31 +81,31 @@ public class BlockEmitter extends BlockContainer implements IToolable, ITooltipP
 	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
 
 		TileEntityEmitter te = (TileEntityEmitter)world.getTileEntity(x, y, z);
-		
+
 		if(tool == ToolType.SCREWDRIVER) {
 			te.girth += 0.125F;
 			te.markDirty();
 			return true;
 		}
-		
+
 		if(tool == ToolType.DEFUSER) {
 			te.girth -= 0.125F;
 			if(te.girth < 0.125F) te.girth = 0.125F;
 			te.markDirty();
 			return true;
 		}
-		
+
 		if(tool == ToolType.HAND_DRILL) {
 			te.effect = (te.effect + 1) % te.effectCount;
 			te.markDirty();
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	public static class TileEntityEmitter extends TileEntityLoadedBase implements IBufPacketReceiver {
-		
+
 		public static final int range = 100;
 		public int color;
 		public int beam;
@@ -115,34 +115,34 @@ public class BlockEmitter extends BlockContainer implements IToolable, ITooltipP
 
 		@Override
 		public void updateEntity() {
-			
+
 			if(!worldObj.isRemote) {
-				
+
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
-				
+
 				if(worldObj.getTotalWorldTime() % 20 == 0) {
 					for(int i = 1; i <= range; i++) {
-						
+
 						beam = i;
-		
+
 						int x = xCoord + dir.offsetX * i;
 						int y = yCoord + dir.offsetY * i;
 						int z = zCoord + dir.offsetZ * i;
-						
+
 						Block b = worldObj.getBlock(x, y, z);
 						if(b.isBlockSolid(worldObj, x, y, z, dir.ordinal())) {
 							break;
 						}
 					}
 				}
-				
+
 				if(effect == 4 && beam > 0) {
 
 					if(worldObj.getTotalWorldTime() % 5 == 0) {
 						double x = (int) (xCoord + dir.offsetX * (worldObj.getTotalWorldTime() / 5L) % beam) + 0.5;
 						double y = (int) (yCoord + dir.offsetY * (worldObj.getTotalWorldTime() / 5L) % beam) + 0.5;
 						double z = (int) (zCoord + dir.offsetZ * (worldObj.getTotalWorldTime() / 5L) % beam) + 0.5;
-						
+
 						int prevColor = color;
 						if(color == 0) {
 							color = Color.HSBtoRGB(worldObj.getTotalWorldTime() / 50.0F, 0.5F, 0.25F) & 16777215;
@@ -172,7 +172,7 @@ public class BlockEmitter extends BlockContainer implements IToolable, ITooltipP
 
 						PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z),
 								new TargetPoint(worldObj.provider.dimensionId, x, y, z, 100));
-						
+
 						color = prevColor;
 					}
 				}
@@ -188,7 +188,7 @@ public class BlockEmitter extends BlockContainer implements IToolable, ITooltipP
 			this.writeToNBT(nbt);
 			return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbt);
 		}
-		
+
 		@Override
 		public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 			this.readFromNBT(pkt.func_148857_g());
@@ -209,7 +209,7 @@ public class BlockEmitter extends BlockContainer implements IToolable, ITooltipP
 			nbt.setFloat("girth", this.girth);
 			nbt.setInteger("effect", this.effect);
 		}
-		
+
 		@Override
 		public AxisAlignedBB getRenderBoundingBox() {
 			return TileEntity.INFINITE_EXTENT_AABB;

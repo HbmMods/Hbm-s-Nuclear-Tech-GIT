@@ -174,7 +174,7 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		// In my testing, this can be reliably reproduced with a full fluid barrel, for instance.
 		// I think it might be fixable by doing something with getDescriptionPacket() and onDataPacket(),
 		// but this sidesteps the problem for the mean time.
-		if (lastPackedBuf != null && buf.equals(lastPackedBuf) && worldObj.getWorldTime() % 20 != 0) {
+		if (buf.equals(lastPackedBuf) && worldObj.getWorldTime() % 20 != 0) {
 			return;
 		}
 		this.lastPackedBuf = buf;
