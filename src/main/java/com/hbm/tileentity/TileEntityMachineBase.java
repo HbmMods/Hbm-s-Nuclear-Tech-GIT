@@ -23,7 +23,6 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 
 	private String customName;
 
-	private NBTTagCompound lastPackedNBT = null;
 	private ByteBuf lastPackedBuf = null;
 
 	public TileEntityMachineBase(int slotCount) {

@@ -256,7 +256,6 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 
 	@Override
 	public void serialize(ByteBuf buf) {
-		super.serialize(buf);
 		BufferUtil.writeVec3(buf, this.tPos);
 		buf.writeDouble(this.rotationPitch);
 		buf.writeDouble(this.rotationYaw);
@@ -271,11 +270,10 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 
 	@Override
 	public void deserialize(ByteBuf buf) {
-		super.deserialize(buf);
 		this.turnProgress = 2;
 		this.tPos = BufferUtil.readVec3(buf);
-		this.rotationPitch = buf.readDouble();
-		this.rotationYaw = buf.readDouble();
+		this.syncRotationPitch = buf.readDouble();
+		this.syncRotationYaw = buf.readDouble();
 		this.power = buf.readLong();
 		this.isOn = buf.readBoolean();
 		this.targetPlayers = buf.readBoolean();

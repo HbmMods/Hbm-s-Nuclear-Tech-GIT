@@ -282,7 +282,8 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT implements I
 
 	@Override
 	public void deserialize(ByteBuf buf) {
-		if(buf.readBoolean())
+		boolean shot = buf.readBoolean();
+		if(shot)
 			this.beam = 5;
 		else
 			super.deserialize(buf);
