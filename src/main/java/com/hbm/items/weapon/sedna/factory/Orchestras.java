@@ -419,4 +419,11 @@ public class Orchestras {
 			if(timer == 27) player.worldObj.playSoundAtEntity(player, "hbm:weapon.glClose", 1F, 1F);
 		}
 	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_FLAMER = (stack, ctx) -> {
+		EntityPlayer player = ctx.player;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
+	};
 }
