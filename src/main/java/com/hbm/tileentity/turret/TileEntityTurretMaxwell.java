@@ -262,19 +262,30 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT implements I
 
 			this.power -= demand;
 
+			this.shot = true;
 			this.networkPackNT(250);
+			this.shot = false;
 		}
 	}
 
+	private boolean shot = false;
+
+	@Override
 	public void serialize(ByteBuf buf) {
-		buf.writeBoolean(true);
+		if (this.shot)
+			buf.writeBoolean(true);
+		else {
+			buf.writeBoolean(false);
+			super.serialize(buf);
+		}
 	}
 
+	@Override
 	public void deserialize(ByteBuf buf) {
 		if(buf.readBoolean())
 			this.beam = 5;
 		else
-			this.beam = 0;
+			super.deserialize(buf);
 	}
 
 	@Override

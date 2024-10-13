@@ -272,6 +272,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
+		this.turnProgress = 2;
 		this.tPos = BufferUtil.readVec3(buf);
 		this.rotationPitch = buf.readDouble();
 		this.rotationYaw = buf.readDouble();

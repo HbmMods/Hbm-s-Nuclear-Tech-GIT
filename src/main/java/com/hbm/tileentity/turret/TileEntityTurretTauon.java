@@ -22,11 +22,11 @@ import net.minecraft.world.World;
 public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 
 	static List<Integer> configs = new ArrayList();
-	
+
 	static {
 		configs.add(BulletConfigSyncingUtil.SPECIAL_GAUSS);
 	}
-	
+
 	@Override
 	protected List<Integer> getAmmoList() {
 		return configs;
@@ -81,63 +81,65 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 	public long getConsumption() {
 		return 1000;
 	}
-	
+
 	int timer;
 	public int beam;
 	public float spin;
 	public float lastSpin;
 	public double lastDist;
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		if(worldObj.isRemote) {
-			
+
 			if(this.tPos != null) {
 				Vec3 pos = this.getTurretPos();
 				double length = Vec3.createVectorHelper(tPos.xCoord - pos.xCoord, tPos.yCoord - pos.yCoord, tPos.zCoord - pos.zCoord).lengthVector();
 				this.lastDist = length;
 			}
-			
+
 			if(beam > 0)
 				beam--;
-			
+
 			this.lastSpin = this.spin;
-			
+
 			if(this.tPos != null) {
 				this.spin += 45;
 			}
-			
+
 			if(this.spin >= 360F) {
 				this.spin -= 360F;
 				this.lastSpin -= 360F;
 			}
 		}
-		
+
 		super.updateEntity();
 	}
 
 	@Override
 	public void updateFiringTick() {
-		
+
 		timer++;
-		
+
 		if(timer % 5 == 0) {
-			
+
 			BulletConfiguration conf = this.getFirstConfigLoaded();
-			
+
 			if(conf != null && this.target != null) {
 				this.target.attackEntityFrom(ModDamageSource.electricity, 30F + worldObj.rand.nextInt(11));
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.tauShoot", 4.0F, 0.9F + worldObj.rand.nextFloat() * 0.3F);
 
+				this.shot = true;
 				this.networkPackNT(250);
-				
+				this.shot = false;
+
 				Vec3 pos = this.getTurretPos();
 				Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 				vec.rotateAroundZ((float) -this.rotationPitch);
 				vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
-				
+
 				NBTTagCompound dPart = new NBTTagCompound();
 				dPart.setString("type", "tau");
 				dPart.setByte("count", (byte)5);
@@ -146,16 +148,24 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 		}
 	}
 
+	private boolean shot = false;
+
 	@Override
 	public void serialize(ByteBuf buf) {
-		super.serialize(buf);
-		buf.writeBoolean(true);
+		if (this.shot)
+			buf.writeBoolean(true);
+		else {
+			buf.writeBoolean(false);
+			super.serialize(buf);
+		}
 	}
 
 	@Override
 	public void deserialize(ByteBuf buf) {
-		super.deserialize(buf);
-		this.beam = buf.readBoolean() ? 3 : 0;
+		if(buf.readBoolean())
+			this.beam = 3;
+		else
+			super.deserialize(buf);
 	}
 
 	@Override

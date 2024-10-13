@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 
 	static List<Integer> configs = new ArrayList();
-	
+
 	static {
 		configs.add(BulletConfigSyncingUtil.ROCKET_NORMAL);
 		configs.add(BulletConfigSyncingUtil.ROCKET_HE);
@@ -39,7 +39,7 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 		configs.add(BulletConfigSyncingUtil.ROCKET_PHOSPHORUS);
 		configs.add(BulletConfigSyncingUtil.ROCKET_CANISTER);
 	}
-	
+
 	@Override
 	protected List<Integer> getAmmoList() {
 		return configs;
@@ -69,7 +69,7 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 	public long getMaxPower() {
 		return 10000;
 	}
-	
+
 	@Override
 	public double getDecetorGrace() {
 		return 8D;
@@ -79,69 +79,81 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 	public double getDecetorRange() {
 		return 64D;
 	}
-	
+
 	int timer;
 	public int loaded;
 	int reload;
-	
+
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			if(reload > 0) {
 				reload--;
-				
+
 				if(reload == 0)
 					this.loaded = 17;
 			}
-			
+
 			if(loaded <= 0 && reload <= 0 && this.getFirstConfigLoaded() != null) {
 				reload = 100;
 			}
-			
+
 			if(this.getFirstConfigLoaded() == null) {
 				this.loaded = 0;
 			}
 
+			this.isTurretPacket = true;
 			this.networkPackNT(250);
+			this.isTurretPacket = false;
+		}
+	}
+
+	// wow so descriptive, i dont wanna hear it; it solves the problem
+	private boolean isTurretPacket = false;
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		if (this.isTurretPacket) {
+			buf.writeBoolean(true);
+			buf.writeInt(this.loaded);
+		} else {
+			buf.writeBoolean(false);
+			super.serialize(buf);
 		}
 	}
 
 	@Override
-	public void serialize(ByteBuf buf) {
-		super.serialize(buf);
-		buf.writeInt(this.loaded);
-	}
-
-	@Override
 	public void deserialize(ByteBuf buf) {
-		super.deserialize(buf);
-		this.loaded = buf.readInt();
+		if(buf.readBoolean()) {
+			this.loaded = buf.readInt();
+		} else
+			super.deserialize(buf);
 	}
 
 	@Override
 	public void updateFiringTick() {
-		
+
 		if(reload > 0)
 			return;
-		
+
 		timer++;
-		
+
 		if(timer > 0 && timer % 10 == 0) {
-			
+
 			BulletConfiguration conf = this.getFirstConfigLoaded();
-			
+
 			if(conf != null) {
 				this.spawnBullet(conf);
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.richard_fire", 2.0F, 1.0F);
 				this.loaded--;
-				
+
 				if(conf.ammo.equals(new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.NUCLEAR))))
 					timer = -50;
-				
+
 			} else {
 				this.loaded = 0;
 			}
@@ -150,25 +162,25 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 
 	@Override
 	public void spawnBullet(BulletConfiguration bullet) {
-		
+
 		Vec3 pos = this.getTurretPos();
 		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 		vec.rotateAroundZ((float) -this.rotationPitch);
 		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
-		
+
 		EntityBulletBaseNT proj = new EntityBulletBaseNT(worldObj, BulletConfigSyncingUtil.getKey(bullet));
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
-		
+
 		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, bullet.velocity * 0.75F, bullet.spread);
 		worldObj.spawnEntityInWorld(proj);
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.loaded = nbt.getInteger("loaded");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
