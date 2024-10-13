@@ -146,14 +146,6 @@ public class PileNeutronHandler {
 		for (Map.Entry<World, NeutronNodeWorld.StreamWorld> world : NeutronNodeWorld.streamWorlds.entrySet()) {
 
 			for (NeutronStream stream : world.getValue().streams) {
-				stream.runStreamInteraction(world.getKey());
-			}
-			world.getValue().removeAllStreams();
-		}
-
-		for (Map.Entry<World, NeutronNodeWorld.StreamWorld> world : NeutronNodeWorld.streamWorlds.entrySet()) {
-
-			for (NeutronStream stream : world.getValue().streams) {
 				if (stream.type == NeutronStream.NeutronType.PILE)
 					stream.runStreamInteraction(world.getKey());
 			}

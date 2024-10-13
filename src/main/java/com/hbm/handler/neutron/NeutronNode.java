@@ -11,6 +11,7 @@ public abstract class NeutronNode {
 	protected NeutronType type;
 	protected TileEntity tile;
 	// like NBT but less fucking CANCER
+	// Holds things like cached RBMK lid values.
 	protected Map<String, Object> data = new HashMap<>();
 
 	public NeutronNode(TileEntity tile, NeutronType type) {

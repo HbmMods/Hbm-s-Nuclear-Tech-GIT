@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class NeutronNodeWorld {
-	// HashMap of all RBMK nodes and their positions.
+	// HashMap of all neutron nodes and their positions.
 	protected static HashMap<BlockPos, NeutronNode> nodeCache = new HashMap<>();
 
 	public static void addNode(NeutronNode node) {
