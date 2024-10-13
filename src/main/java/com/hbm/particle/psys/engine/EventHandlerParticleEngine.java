@@ -21,7 +21,7 @@ public class EventHandlerParticleEngine {
 
 	@SubscribeEvent
 	public void onRenderWorldLast(RenderWorldLastEvent event) {
-		float interp = event.partialTicks;
+		//float interp = event.partialTicks;
 	}
 
 	@SubscribeEvent

@@ -109,7 +109,7 @@ public class GunStateDecider {
 					ItemGunBaseNT.setState(stack, gunIndex, GunState.COOLDOWN);
 					ItemGunBaseNT.setTimer(stack, gunIndex, rec.getDelayAfterFire(stack));
 					
-					player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack));
+					if(rec.getFireSound(stack) != null) player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack));
 					
 					int remaining = rec.getRoundsPerCycle(stack) - 1;
 					for(int i = 0; i < remaining; i++) if(rec.getCanFire(stack).apply(stack, ctx)) rec.getOnFire(stack).accept(stack, ctx);

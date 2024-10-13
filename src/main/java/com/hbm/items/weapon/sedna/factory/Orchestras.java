@@ -420,4 +420,18 @@ public class Orchestras {
 			if(timer == 27) player.worldObj.playSoundAtEntity(player, "hbm:weapon.glClose", 1F, 1F);
 		}
 	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_FLAMER = (stack, ctx) -> {
+		EntityPlayer player = ctx.player;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		
+		if(type == AnimType.RELOAD) {
+			if(timer == 15) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.openLatch", 1F, 1F);
+			if(timer == 35) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.impact", 0.5F, 1F);
+			if(timer == 60) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverClose", 1F, 0.75F);
+			if(timer == 70) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.insertCanister", 1F, 1F);
+			if(timer == 85) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pressureValve", 1F, 1F);
+		}
+	};
 }

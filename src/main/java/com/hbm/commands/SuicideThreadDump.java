@@ -1,4 +1,4 @@
-package com.hbm.util;
+package com.hbm.commands;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MonitorInfo;
@@ -21,8 +21,7 @@ public class SuicideThreadDump extends CommandBase {
 
 	public static void register() {
 		if(FMLLaunchHandler.side() != Side.CLIENT) return;
-		ClientCommandHandler handler = ClientCommandHandler.instance;
-		handler.registerCommand(new SuicideThreadDump());
+		ClientCommandHandler.instance.registerCommand(new SuicideThreadDump());
 	}
 
 	@Override

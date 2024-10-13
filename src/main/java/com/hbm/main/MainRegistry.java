@@ -867,6 +867,7 @@ public class MainRegistry {
 		
 		FalloutConfigJSON.initialize();
 		ItemPoolConfigJSON.initialize();
+		ClientConfig.initConfig();
 
 		TileEntityNukeCustom.registerBombItems();
 		ArmorUtil.register();
@@ -898,6 +899,7 @@ public class MainRegistry {
 		
 		Compat.handleRailcraftNonsense();
 		SuicideThreadDump.register();
+		CommandReloadClient.register();
 		
 		//ExplosionTests.runTest();
 	}
@@ -1424,6 +1426,17 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.gas8");
 		ignoreMappings.add("hbm:tile.brick_forgotten");
 		ignoreMappings.add("hbm:tile.watz_conductor");
+		ignoreMappings.add("hbm:item.flame_1");
+		ignoreMappings.add("hbm:item.flame_2");
+		ignoreMappings.add("hbm:item.flame_3");
+		ignoreMappings.add("hbm:item.flame_3");
+		ignoreMappings.add("hbm:item.flame_4");
+		ignoreMappings.add("hbm:item.flame_5");
+		ignoreMappings.add("hbm:item.flame_6");
+		ignoreMappings.add("hbm:item.flame_7");
+		ignoreMappings.add("hbm:item.flame_8");
+		ignoreMappings.add("hbm:item.flame_9");
+		ignoreMappings.add("hbm:item.flame_10");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

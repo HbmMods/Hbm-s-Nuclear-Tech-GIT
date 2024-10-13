@@ -23,3 +23,4 @@
 * All NTM type explosions are no longer affected by difficulty setting, preventing them from dealing damage in peaceful mode
   * There are a few instances of vanilla explosions still being used, those will be phased out in the future
 * Fixed tutorial presentations triggering when hitting F1 not just in the inventory but also when looking at the block in question
+* Fixed a bug regarding shift clicking in the breeding reactor
