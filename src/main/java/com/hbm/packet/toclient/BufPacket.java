@@ -9,6 +9,8 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 
+import java.nio.BufferOverflowException;
+
 public class BufPacket implements IMessage {
 
 	int x;
@@ -16,7 +18,7 @@ public class BufPacket implements IMessage {
 	int z;
 	IBufPacketReceiver rec;
 	ByteBuf buf;
-	
+
 	public BufPacket() { }
 
 	public BufPacket(int x, int y, int z, IBufPacketReceiver rec) {
@@ -43,19 +45,19 @@ public class BufPacket implements IMessage {
 	}
 
 	public static class Handler implements IMessageHandler<BufPacket, IMessage> {
-		
+
 		@Override
 		public IMessage onMessage(BufPacket m, MessageContext ctx) {
-			
+
 			if(Minecraft.getMinecraft().theWorld == null)
 				return null;
-			
+
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
-			
-			if(te instanceof IBufPacketReceiver) {
+
+			if (te instanceof IBufPacketReceiver) {
 				((IBufPacketReceiver) te).deserialize(m.buf);
 			}
-			
+
 			return null;
 		}
 	}

@@ -402,7 +402,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		this.typeLoaded = buf.readInt();
 		this.amountLoaded = buf.readInt();
 		this.rodLevel = buf.readDouble();
-		this.rodTarget = buf.readInt();
+		this.rodTarget = buf.readDouble();
 		this.coreHeatCapacity = buf.readLong();
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
