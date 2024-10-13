@@ -8,8 +8,8 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
-
-import java.nio.BufferOverflowException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class BufPacket implements IMessage {
 
@@ -55,7 +55,15 @@ public class BufPacket implements IMessage {
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
 
 			if (te instanceof IBufPacketReceiver) {
-				((IBufPacketReceiver) te).deserialize(m.buf);
+				try {
+					((IBufPacketReceiver) te).deserialize(m.buf);
+				} catch(Exception e) { // just in case I fucked up
+					Logger logger = LogManager.getLogger("HBM");
+					logger.warn("A ByteBuf packet failed to be read and has thrown an error. This normally means that there was a buffer underflow and more data was read than was actually in the packet.");
+					logger.warn("Tile: {}", te.getBlockType().getUnlocalizedName());
+					logger.warn(e.getMessage());
+
+				}
 			}
 
 			return null;
