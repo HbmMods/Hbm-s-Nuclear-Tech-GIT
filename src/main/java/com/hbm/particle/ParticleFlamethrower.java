@@ -62,7 +62,7 @@ public class ParticleFlamethrower extends EntityFXRotating {
 		tess.setNormal(0.0F, 1.0F, 0.0F);
 		tess.setBrightness(240);
 
-		double scale = (ageScaled * 0.75 + 0.5) * particleScale;
+		double scale = (ageScaled * 1.25 + 0.25) * particleScale;
 		renderParticleRotated(tess, interp, sX, sY, sZ, dX, dZ, scale);
 	}
 	

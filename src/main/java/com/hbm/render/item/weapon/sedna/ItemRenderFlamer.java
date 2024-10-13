@@ -72,7 +72,9 @@ public class ItemRenderFlamer extends ItemRenderWeaponBase {
 	@Override
 	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
-		GL11.glTranslated(0, 1, 3);
+		double scale = 1.75D;
+		GL11.glScaled(scale, scale, scale);
+		GL11.glTranslated(0, -3, 4);
 
 	}
 
