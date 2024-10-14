@@ -113,7 +113,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 					
 					for(EntityMovingItem item : items) {
 						ItemStack stack = item.getItemStack();
-						boolean match = this.matchesFilter(stack, (IInventory)te);
+						boolean match = this.matchesFilter(stack, null);
 						if(!match) continue;
 						
 						lastGrabbedTick = worldObj.getTotalWorldTime();
@@ -158,8 +158,8 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 						
 						for(EntityMovingItem item : items) {
 							ItemStack stack = item.getItemStack();
-							boolean match = this.matchesFilter(stack);
-							if(this.isWhitelist && !match || !this.isWhitelist && match) continue;
+							boolean match = this.matchesFilter(stack, (IInventory)te);
+							if(!match) continue;
 							
 							lastGrabbedTick = worldObj.getTotalWorldTime();
 							
@@ -201,6 +201,10 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	public boolean matchesFilter(ItemStack stack, IInventory dest) {
 
 		if(this.filterMode == FilterMode.MATCH_CONTAINER) {
+			if(dest == null) {
+				return true;
+			}
+			
 			for(int i = 0; i < dest.getSizeInventory(); i++) {
 				ItemStack existing = dest.getStackInSlot(i);
 				
