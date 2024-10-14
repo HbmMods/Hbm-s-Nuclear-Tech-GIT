@@ -26,30 +26,41 @@ import net.minecraft.item.ItemStack;
 public class GunAnimationPacket implements IMessage {
 
 	public short type;
-	public int meta;
+	public int receiverIndex;
+	public int gunIndex;
 
 	public GunAnimationPacket() { }
 
 	public GunAnimationPacket(int type) {
 		this.type = (short) type;
-		this.meta = 0;
+		this.receiverIndex = 0;
+		this.gunIndex = 0;
 	}
 
-	public GunAnimationPacket(int type, int meta) {
+	public GunAnimationPacket(int type, int rec) {
 		this.type = (short) type;
-		this.meta = meta;
+		this.receiverIndex = rec;
+		this.gunIndex = 0;
+	}
+
+	public GunAnimationPacket(int type, int rec, int gun) {
+		this.type = (short) type;
+		this.receiverIndex = rec;
+		this.gunIndex = gun;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
 		type = buf.readShort();
-		meta = buf.readInt();
+		receiverIndex = buf.readInt();
+		gunIndex = buf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
 		buf.writeShort(type);
-		buf.writeInt(meta);
+		buf.writeInt(receiverIndex);
+		buf.writeInt(gunIndex);
 	}
 
 	public static class Handler implements IMessageHandler<GunAnimationPacket, IMessage> {
@@ -68,7 +79,7 @@ public class GunAnimationPacket implements IMessage {
 					return null;
 				
 				if(stack.getItem() instanceof ItemGunBaseNT) {
-					handleSedna(player, stack, slot, AnimType.values()[m.type], m.meta);
+					handleSedna(player, stack, slot, AnimType.values()[m.type], m.receiverIndex, m.gunIndex);
 				}
 				
 				if(!(stack.getItem() instanceof ItemGunBase))
@@ -94,7 +105,7 @@ public class GunAnimationPacket implements IMessage {
 				
 				if(animation != null) {
 					boolean isReloadAnimation = type == AnimType.RELOAD || type == AnimType.RELOAD_CYCLE || type == AnimType.RELOAD_EMPTY;
-					HbmAnimations.hotbar[slot] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, isReloadAnimation && base.mainConfig.reloadAnimationsSequential);
+					HbmAnimations.hotbar[slot][0] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, isReloadAnimation && base.mainConfig.reloadAnimationsSequential);
 				}
 				
 			} catch(Exception x) { }
@@ -102,19 +113,19 @@ public class GunAnimationPacket implements IMessage {
 			return null;
 		}
 		
-		public static void handleSedna(EntityPlayer player, ItemStack stack, int slot, AnimType type, int meta) {
+		public static void handleSedna(EntityPlayer player, ItemStack stack, int slot, AnimType type, int receiverIndex, int gunIndex) {
 			ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-			GunConfig config = gun.getConfig(stack);
+			GunConfig config = gun.getConfig(stack, gunIndex);
 			
 			if(type == AnimType.CYCLE) {
-				gun.lastShot = System.currentTimeMillis();
+				if(gunIndex < gun.lastShot.length) gun.lastShot[gunIndex] = System.currentTimeMillis();
 				gun.shotRand = player.worldObj.rand.nextDouble();
 
 				Receiver[] receivers = config.getReceivers(stack);
-				if(meta >= 0 && meta < receivers.length) {
-					Receiver rec = receivers[meta];
+				if(receiverIndex >= 0 && receiverIndex < receivers.length) {
+					Receiver rec = receivers[receiverIndex];
 					BiConsumer<ItemStack, LambdaContext> onRecoil= rec.getRecoil(stack);
-					if(onRecoil != null) onRecoil.accept(stack, new LambdaContext(config, player));
+					if(onRecoil != null) onRecoil.accept(stack, new LambdaContext(config, player, receiverIndex));
 				}
 			}
 			
@@ -132,7 +143,7 @@ public class GunAnimationPacket implements IMessage {
 				Minecraft.getMinecraft().entityRenderer.itemRenderer.resetEquippedProgress();
 				Minecraft.getMinecraft().entityRenderer.itemRenderer.itemToRender = stack;
 				boolean isReloadAnimation = type == AnimType.RELOAD || type == AnimType.RELOAD_CYCLE || type == AnimType.RELOAD_EMPTY;
-				HbmAnimations.hotbar[slot] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, isReloadAnimation && config.getReloadAnimSequential(stack));
+				HbmAnimations.hotbar[slot][gunIndex] = new Animation(stack.getItem().getUnlocalizedName(), System.currentTimeMillis(), animation, isReloadAnimation && config.getReloadAnimSequential(stack));
 			}
 		}
 	}

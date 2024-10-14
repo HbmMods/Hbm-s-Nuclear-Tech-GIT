@@ -110,6 +110,8 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		}
 		
 		if(!worldObj.isRemote && this.ticksExisted > config.expires) this.setDead();
+		
+		if(this.config.onUpdate != null) this.config.onUpdate.accept(this);
 	}
 	
 	@Override
@@ -123,6 +125,10 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		if(!worldObj.isRemote) {
+			
+			if(this.config.onImpact != null) this.config.onImpact.accept(this, mop);
+			
+			if(this.isDead) return;
 			
 			if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
 
@@ -159,12 +165,15 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 			
 			if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
 				Entity entity = mop.entityHit;
-				if(!entity.isEntityAlive()) return;
+				
+				if(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0) {
+					return;
+				}
 				
 				DamageSource damageCalc = this.config.getDamage(this, getThrower(), false);
 				
 				if(!(entity instanceof EntityLivingBase)) {
-					entity.attackEntityFrom(damageCalc, this.damage);
+					EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, damageCalc, this.damage);
 					return;
 				}
 				

@@ -3,6 +3,7 @@ package com.hbm.render.util;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import com.hbm.config.ClientConfig;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.interfaces.Untested;
@@ -58,8 +59,8 @@ public class RenderScreenOverlay {
 
 		int bar = getScaled(in, maxRad, 74);
 
-		int posX = 16;
-		int posY = resolution.getScaledHeight() - 18 - 2;
+		int posX = 16 + ClientConfig.GEIGER_OFFSET_HORIZONTAL.get();
+		int posY = resolution.getScaledHeight() - 20 - ClientConfig.GEIGER_OFFSET_VERTICAL.get();
 
 		Minecraft.getMinecraft().renderEngine.bindTexture(misc);
 		gui.drawTexturedModalRect(posX, posY, 0, 0, 94, 18);

@@ -5,6 +5,9 @@ import java.util.List;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.particle.helper.ExplosionCreator;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,10 +25,13 @@ public class BlockChargeC4 extends BlockChargeBase {
 			world.setBlockToAir(x, y, z);
 			safe = false;
 			
-			ExplosionVNT xnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 15F).makeStandard();
+			ExplosionVNT xnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 15F);
 			xnt.setBlockAllocator(new BlockAllocatorStandard(32));
 			xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
+			xnt.setEntityProcessor(new EntityProcessorStandard());
+			xnt.setPlayerProcessor(new PlayerProcessorStandard());
 			xnt.explode();
+			ExplosionCreator.composeEffectSmall(world, x + 0.5, y + 1, z + 0.5);
 			
 			return BombReturnCode.DETONATED;
 		}

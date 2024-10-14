@@ -3,6 +3,7 @@ package com.hbm.items.weapon.sedna;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -15,6 +16,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
+import net.minecraft.util.MovingObjectPosition;
 
 public class BulletConfig {
 	
@@ -45,6 +47,9 @@ public class BulletConfig {
 	public int maxRicochetCount = 2;
 	/** Whether damage dealt to an entity is subtracted from the projectile's damage on penetration */
 	public boolean damageFalloffByPen = true;
+
+	public Consumer<EntityBulletBaseMK4> onUpdate;
+	public BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> onImpact;
 	
 	public double gravity = 0;
 	public int expires = 30;
@@ -87,6 +92,9 @@ public class BulletConfig {
 	public BulletConfig setRenderRotations(boolean rot) {								this.renderRotations = rot; return this; }
 	public BulletConfig setCasing(SpentCasing casing) {									this.casing = casing; return this; }
 	public BulletConfig setRenderer(BiConsumer<EntityBulletBaseMK4, Float> renderer) {	this.renderer = renderer; return this; }
+	
+	public BulletConfig setOnUpdate(Consumer<EntityBulletBaseMK4> lambda) {							this.onUpdate = lambda; return this; }
+	public BulletConfig setOnImpact(BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> lambda) {	this.onImpact = lambda; return this; }
 	
 	public DamageSource getDamage(EntityBulletBaseMK4 bullet, EntityLivingBase shooter, boolean bypass) {
 		

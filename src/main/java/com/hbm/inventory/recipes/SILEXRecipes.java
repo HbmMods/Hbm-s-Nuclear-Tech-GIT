@@ -15,7 +15,6 @@ import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.items.special.ItemWasteLong;
 import com.hbm.items.special.ItemWasteShort;
-import com.hbm.util.ItemStackUtil;
 import com.hbm.util.WeightedRandomObject;
 
 import net.minecraft.init.Blocks;

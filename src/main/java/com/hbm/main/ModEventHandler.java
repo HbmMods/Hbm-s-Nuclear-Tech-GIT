@@ -1073,7 +1073,7 @@ public class ModEventHandler {
 			/// NEW ITEM SYS END ///
 			
 			/// SYNC START ///
-			if(player instanceof EntityPlayerMP) PacketDispatcher.wrapper.sendTo(new PermaSyncPacket((EntityPlayerMP) player), (EntityPlayerMP) player);
+			if(!player.worldObj.isRemote && player instanceof EntityPlayerMP) PacketDispatcher.wrapper.sendTo(new PermaSyncPacket((EntityPlayerMP) player), (EntityPlayerMP) player);
 			/// SYNC END ///
 		}
 

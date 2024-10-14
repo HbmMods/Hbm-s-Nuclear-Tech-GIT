@@ -43,8 +43,8 @@ public class ContainerMachineReactorBreeding extends Container {
 			ItemStack stack = slot.getStack();
 			var3 = stack.copy();
 
-			if(index <= 2) {
-				if(!this.mergeItemStack(stack, 2, this.inventorySlots.size(), true)) {
+			if(index <= 1) {
+				if(!this.mergeItemStack(stack, 1, this.inventorySlots.size(), true)) {
 					return null;
 				}
 

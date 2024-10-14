@@ -95,10 +95,6 @@ public class ModDamageSource extends DamageSource {
 		return (new EntityDamageSourceIndirect(s_euthanized, ent, hit)).setDamageBypassesArmor();
 	}
 
-	public static DamageSource causeFireDamage(EntityFire ent, Entity hit) {
-		return (new EntityDamageSourceIndirect(s_flamethrower, ent, hit)).setFireDamage().setDamageBypassesArmor();
-	}
-
 	public static DamageSource causePlasmaDamage(EntityPlasmaBeam ent, Entity hit) {
 		return (new EntityDamageSourceIndirect(s_immolator, ent, hit)).setDamageBypassesArmor();
 	}

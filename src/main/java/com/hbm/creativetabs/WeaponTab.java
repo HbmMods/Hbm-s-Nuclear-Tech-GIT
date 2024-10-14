@@ -8,18 +8,16 @@ import net.minecraft.item.Item;
 
 public class WeaponTab extends CreativeTabs {
 
-	public WeaponTab(int p_i1853_1_, String p_i1853_2_) {
-		super(p_i1853_1_, p_i1853_2_);
+	public WeaponTab(int index, String name) {
+		super(index, name);
 	}
 
 	@Override
 	public Item getTabIconItem() {
-		
-		if(ModItems.gun_lever_action != null)
-		{
-			return ModItems.gun_lever_action;
+
+		if(ModItems.gun_maresleg != null) {
+			return ModItems.gun_maresleg;
 		}
-		
 		return Items.iron_pickaxe;
 	}
 }

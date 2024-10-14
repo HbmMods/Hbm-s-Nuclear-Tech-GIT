@@ -15,7 +15,7 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.25F; }
 
 	@Override
-	protected void setupFirstPerson(ItemStack stack) {
+	public void setupFirstPerson(ItemStack stack) {
 		GL11.glTranslated(0, 0, 1);
 		
 		float offset = 0.8F;
@@ -51,7 +51,7 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		GL11.glTranslated(-9, 2.5, 0);
 		GL11.glRotated(recoil[2] * -10, 0, 0, 1);
-		this.renderSmokeNodes(gun.smokeNodes, 0.5D);
+		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.5D);
 		GL11.glPopMatrix();
 		
 		GL11.glRotated(reloadLift[0], 0, 0, 1);
@@ -85,7 +85,7 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 
 		GL11.glPushMatrix();
 		GL11.glTranslated(0.125, 2.5, 0);
-		this.renderGapFlash(gun.lastShot);
+		this.renderGapFlash(gun.lastShot[0]);
 		GL11.glPopMatrix();
 
 		GL11.glPushMatrix();
@@ -96,7 +96,7 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	protected void setupThirdPerson(ItemStack stack) {
+	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
 		GL11.glScaled(0.75, 0.75, 0.75);
 		GL11.glTranslated(0, 1, 3);
@@ -104,7 +104,7 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 	}
 
 	@Override
-	protected void setupInv(ItemStack stack) {
+	public void setupInv(ItemStack stack) {
 		super.setupInv(stack);
 		double scale = 1.25D;
 		GL11.glScaled(scale, scale, scale);

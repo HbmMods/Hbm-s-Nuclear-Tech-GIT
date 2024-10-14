@@ -16,6 +16,15 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 public class HUDComponentDurabilityBar implements IHUDComponent {
 	
 	private static final ResourceLocation misc = new ResourceLocation(RefStrings.MODID + ":textures/misc/overlay_misc.png");
+	
+	protected boolean mirrored = false;
+
+	public HUDComponentDurabilityBar() {
+		this(false);
+	}
+	public HUDComponentDurabilityBar(boolean mirror) {
+		this.mirrored = mirror;
+	}
 
 	@Override
 	public int getComponentHeight(EntityPlayer player, ItemStack stack) {
@@ -23,16 +32,16 @@ public class HUDComponentDurabilityBar implements IHUDComponent {
 	}
 
 	@Override
-	public void renderHUDComponent(Pre event, ElementType type, EntityPlayer player, ItemStack stack, int bottomOffset) {
+	public void renderHUDComponent(Pre event, ElementType type, EntityPlayer player, ItemStack stack, int bottomOffset, int gunIndex) {
 		
 		ScaledResolution resolution = event.resolution;
 		Minecraft mc = Minecraft.getMinecraft();
 
-		int pX = resolution.getScaledWidth() / 2 + 62 + 36;
+		int pX = resolution.getScaledWidth() / 2 + (mirrored ? -(62 + 36 + 52) : (62 + 36));
 		int pZ = resolution.getScaledHeight() - 21;
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-		int dura = (int) (50 * gun.getWear(stack) / gun.getConfig(stack).getDurability(stack));
+		int dura = (int) (50 * gun.getWear(stack, gunIndex) / gun.getConfig(stack, gunIndex).getDurability(stack));
 		
 		GL11.glColor4f(1F, 1F, 1F, 1F);
 

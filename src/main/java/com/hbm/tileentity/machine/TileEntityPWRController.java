@@ -46,11 +46,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityPWRController extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, SimpleComponent, IFluidStandardTransceiver, CompatHandler.OCComponent {
 	
 	public FluidTank[] tanks;
-	public int coreHeat;
-	public static final int coreHeatCapacityBase = 10_000_000;
-	public int coreHeatCapacity = 10_000_000;
-	public int hullHeat;
-	public static final int hullHeatCapacityBase = 10_000_000;
+	public long coreHeat;
+	public static final long coreHeatCapacityBase = 10_000_000;
+	public long coreHeatCapacity = 10_000_000;
+	public long hullHeat;
+	public static final long hullHeatCapacityBase = 10_000_000;
 	public double flux;
 	
 	public double rodLevel = 100;
@@ -149,7 +149,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		connections = connectionsDouble / 2;
 		connectionsControlled = connectionsControlledDouble / 2;
 		
-		this.coreHeatCapacity = this.coreHeatCapacityBase + this.heatsinkCount * this.coreHeatCapacityBase / 20;
+		//switching this to int64 because after 2127 heatsinks the capacity exceeds the int32 which is well within the 4000+ threshold we are working with. oops!
+		this.coreHeatCapacity = this.coreHeatCapacityBase + this.heatsinkCount * (this.coreHeatCapacityBase / 20);
 	}
 
 	@Override
@@ -246,7 +247,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 					
 					/* CORE COOLING */
 					double coreCoolingApproachNum = getXOverE((double) this.heatexCount * 5 / (double) getRodCountForCoolant(), 2) / 2D;
-					int averageCoreHeat = (this.coreHeat + this.hullHeat) / 2;
+					long averageCoreHeat = (this.coreHeat + this.hullHeat) / 2;
 					this.coreHeat -= (coreHeat - averageCoreHeat) * coreCoolingApproachNum;
 					this.hullHeat -= (hullHeat - averageCoreHeat) * coreCoolingApproachNum;
 					
@@ -274,8 +275,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			tanks[0].writeToNBT(data, "t0");
 			tanks[1].writeToNBT(data, "t1");
 			data.setInteger("rodCount", rodCount);
-			data.setInteger("coreHeat", coreHeat);
-			data.setInteger("hullHeat", hullHeat);
+			data.setLong("coreHeat", coreHeat);
+			data.setLong("hullHeat", hullHeat);
 			data.setDouble("flux", flux);
 			data.setDouble("processTime", processTime);
 			data.setDouble("progress", progress);
@@ -283,7 +284,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 			data.setInteger("amountLoaded", amountLoaded);
 			data.setDouble("rodLevel", rodLevel);
 			data.setDouble("rodTarget", rodTarget);
-			data.setInteger("coreHeatCapacity", coreHeatCapacity);
+			data.setLong("coreHeatCapacity", coreHeatCapacity);
 			this.networkPack(data, 150);
 		} else {
 			
@@ -367,7 +368,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		double coolingEff = (double) this.channelCount / (double) getRodCountForCoolant() * 0.1D; //10% cooling if numbers match
 		if(coolingEff > 1D) coolingEff = 1D;
 		
-		int heatToUse = Math.min(this.hullHeat, (int) (this.hullHeat * coolingEff * trait.getEfficiency(HeatingType.PWR)));
+		//no use in trying to convert everythin to long since the internal tanks would never even support operation like that, just cap the heat cycle count to prevent overflows in the math
+		int heatToUse = (int) Math.min(Math.min(this.hullHeat, (long) (this.hullHeat * coolingEff * trait.getEfficiency(HeatingType.PWR))), 2_000_000_000);
 		HeatingStep step = trait.getFirstStep();
 		int coolCycles = tanks[0].getFill() / step.amountReq;
 		int hotCycles = (tanks[1].getMaxFill() - tanks[1].getFill()) / step.amountProduced;
@@ -389,8 +391,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		tanks[0].readFromNBT(nbt, "t0");
 		tanks[1].readFromNBT(nbt, "t1");
 		rodCount = nbt.getInteger("rodCount");
-		coreHeat = nbt.getInteger("coreHeat");
-		hullHeat = nbt.getInteger("hullHeat");
+		coreHeat = nbt.getLong("coreHeat");
+		hullHeat = nbt.getLong("hullHeat");
 		flux = nbt.getDouble("flux");
 		processTime = nbt.getDouble("processTime");
 		progress = nbt.getDouble("progress");
@@ -398,7 +400,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		amountLoaded = nbt.getInteger("amountLoaded");
 		rodLevel = nbt.getDouble("rodLevel");
 		rodTarget = nbt.getInteger("rodTarget");
-		coreHeatCapacity = nbt.getInteger("coreHeatCapacity");
+		coreHeatCapacity = nbt.getLong("coreHeatCapacity");
 	}
 	
 	protected void setupTanks() {
@@ -452,8 +454,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		tanks[1].readFromNBT(nbt, "t1");
 		
 		this.assembled = nbt.getBoolean("assembled");
-		this.coreHeat = nbt.getInteger("coreHeat");
-		this.hullHeat = nbt.getInteger("hullHeat");
+		this.coreHeat = Math.max(nbt.getInteger("coreHeat"), nbt.getLong("coreHeatL"));
+		this.hullHeat = Math.max(nbt.getInteger("hullHeat"), nbt.getLong("hullHeatL"));
 		this.flux = nbt.getDouble("flux");
 		this.rodLevel = nbt.getDouble("rodLevel");
 		this.rodTarget = nbt.getDouble("rodTarget");
@@ -461,7 +463,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		this.amountLoaded = nbt.getInteger("amountLoaded");
 		this.progress = nbt.getDouble("progress");
 		this.processTime = nbt.getDouble("processTime");
-		this.coreHeatCapacity = nbt.getInteger("coreHeatCapacity");
+		this.coreHeatCapacity = Math.max(nbt.getInteger("coreHeatCapacity"), nbt.getLong("coreHeatCapacityL"));
 		if(this.coreHeatCapacity < this.coreHeatCapacityBase) this.coreHeatCapacity = this.coreHeatCapacityBase;
 
 		this.rodCount = nbt.getInteger("rodCount");
@@ -497,8 +499,8 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		tanks[1].writeToNBT(nbt, "t1");
 		
 		nbt.setBoolean("assembled", assembled);
-		nbt.setInteger("coreHeat", coreHeat);
-		nbt.setInteger("hullHeat", hullHeat);
+		nbt.setLong("coreHeatL", coreHeat);
+		nbt.setLong("hullHeatL", hullHeat);
 		nbt.setDouble("flux", flux);
 		nbt.setDouble("rodLevel", rodLevel);
 		nbt.setDouble("rodTarget", rodTarget);
@@ -506,7 +508,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 		nbt.setInteger("amountLoaded", amountLoaded);
 		nbt.setDouble("progress", progress);
 		nbt.setDouble("processTime", processTime);
-		nbt.setInteger("coreHeatCapacity", coreHeatCapacity);
+		nbt.setLong("coreHeatCapacityL", coreHeatCapacity);
 
 		nbt.setInteger("rodCount", rodCount);
 		nbt.setInteger("connections", connections);

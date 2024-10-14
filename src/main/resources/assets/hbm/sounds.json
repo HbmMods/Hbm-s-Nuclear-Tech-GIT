@@ -208,6 +208,8 @@
     "weapon.coilgunShoot": {"category": "player", "sounds": [{"name": "weapon/coilgunShoot", "stream": false}]},
     "weapon.glReload": {"category": "player", "sounds": [{"name": "weapon/glReload", "stream": false}]},
     "weapon.glShoot": {"category": "player", "sounds": [{"name": "weapon/glShoot", "stream": false}]},
+    "weapon.glOpen": {"category": "player", "sounds": [{"name": "weapon/glOpen", "stream": false}]},
+    "weapon.glClose": {"category": "player", "sounds": [{"name": "weapon/glClose", "stream": false}]},
     "weapon.44Shoot": {"category": "player", "sounds": [{"name": "weapon/44Shoot", "stream": false}]},
     "weapon.trainImpact": {"category": "player", "sounds": [{"name": "weapon/trainImpact", "stream": false}]},
     "weapon.nuclearExplosion": {"category": "player", "sounds": [{"name": "weapon/nuclearExplosion", "stream": true}]},
@@ -221,6 +223,7 @@
     "weapon.switchmode2": {"category": "player", "sounds": [{"name": "weapon/switchmode2", "stream": false}]},
     
     "weapon.fire.blackPowder": {"category": "player", "sounds": [{"name": "weapon/fire/blackPowder", "stream": false}]},
+    "weapon.fire.flameLoop": {"category": "player", "sounds": [{"name": "weapon/fire/flameLoop", "stream": false}]},
     
     "weapon.reload.boltClose": {"category": "player", "sounds": ["weapon/reload/boltClose"]},
     "weapon.reload.boltOpen": {"category": "player", "sounds": ["weapon/reload/boltOpen"]},
@@ -245,6 +248,7 @@
     "weapon.reload.shotgunCock": {"category": "player", "sounds": ["weapon/reload/shotgunCock"]},
     "weapon.reload.shotgunReload": {"category": "player", "sounds": ["weapon/reload/shotgunReload1", "weapon/reload/shotgunReload2", "weapon/reload/shotgunReload3"]},
     "weapon.reload.tubeFwoomp": {"category": "player", "sounds": ["weapon/reload/tubeFwoomp"]},
+    "weapon.reload.impact": {"category": "player", "sounds": ["weapon/reload/impact1", "weapon/reload/impact2", "weapon/reload/impact3"]},
     
     "turret.chekhov_fire": {"category": "block", "sounds": [{"name": "turret/chekhov_fire", "stream": false}]},
     "turret.jeremy_fire": {"category": "block", "sounds": ["turret/jeremy_fire1", "turret/jeremy_fire2", "turret/jeremy_fire3", "turret/jeremy_fire4", "turret/jeremy_fire5"]},
