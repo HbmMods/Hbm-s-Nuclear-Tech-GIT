@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.config.GeneralConfig;
+import com.hbm.config.ClientConfig;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -72,10 +72,13 @@ public class RenderInfoSystem {
 				longest = length;
 		}
 		
-		int mode = GeneralConfig.hintPos;
+		int mode = ClientConfig.INFO_POSITION.get();
 		
 		int pX = mode == 0 ? 15 : mode == 1 ? (resolution.getScaledWidth() - longest - 15) : mode == 2 ? (resolution.getScaledWidth() / 2 + 7) : (resolution.getScaledWidth() / 2 - longest - 6);
 		int pZ = mode == 0 ? 15 : mode == 1 ? 15 : resolution.getScaledHeight() / 2 + 7;
+
+		pX += ClientConfig.INFO_OFFSET_HORIZONTAL.get();
+		pZ += ClientConfig.INFO_OFFSET_VERTICAL.get();
 		
 		int side = pX + 5 + longest;
 		int height = messages.size() * 10 + pZ + 2;

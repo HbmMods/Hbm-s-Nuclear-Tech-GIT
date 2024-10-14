@@ -1,3 +1,14 @@
+## Gun rework
+* Place holder place holder place hooooooooooldeeeeeeeer
+
+## Added
+* `/ntmclient`
+  * Allows some client-only config options to be edited while ingame
+  * Config is stored in `hbmClient.json` in the `hbmConfig` folder
+  * Configs can be edited ingame via `/ntmclient set <name> <value>` or in the file and then `/ntmclient reload`
+  * Available configs include geiger counter HUD position, info system position and orientation, custom main menu splash texts, ore dict display and custom nuke item info
+  * Check the config file or `/ntmclient list` for a full list of values, the name should make them self-explanatory!
+
 ## Changed
 * Updated russian and chinese localization
 * The fine soot recipe in the pyrolysis oven now only needs 4 tar
@@ -12,6 +23,11 @@
 * The strand caster will now cast its remaining buffer after 10 seconds of inactivity, even if the buffer is not full enough for a batch of 9
 * The soldering station now has a toggle for the "refuse to do recipes with no fluid if fluid is present" behavior
 * Recipes using the ore dictionary "oreThorium232" are now also generated for "oreThorium"
+* Conveyor grabbers can now output onto belts directly
+  * I could have just made grabbers delete the input and spawn an identical item on the output but simply changing the position makes it look like the item is sucked in and it looks hilarious
+* Cable connections (connectors, pylons, substations) now render about 10x faster and no longer have weird inaccuracies where the segments meet
+* Cables can be made even faster by setting `RENDER_CABLE_HANG` in the config to `false`
+  * This causes cable connections to render taut, eliminating the need for multiple segments per pylon side
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines

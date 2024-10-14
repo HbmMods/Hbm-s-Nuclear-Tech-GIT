@@ -111,7 +111,6 @@ public class EntityProcessorCross implements IEntityProcessor {
 			
 			Entity entity = entry.getKey();
 			entity.attackEntityFrom(setExplosionSource(explosion.compat), entry.getValue());
-			System.out.println(entity + " " + entry.getValue());
 			
 			if(damage != null) {
 				double distanceScaled = entity.getDistance(x, y, z) / size;
