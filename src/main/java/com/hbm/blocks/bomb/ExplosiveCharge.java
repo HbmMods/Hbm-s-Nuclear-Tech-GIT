@@ -5,10 +5,10 @@ import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
-import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.RefStrings;
+import com.hbm.particle.helper.ExplosionCreator;
 
 import net.minecraft.util.MathHelper;
 import cpw.mods.fml.relauncher.Side;
@@ -65,7 +65,7 @@ public class ExplosiveCharge extends BlockDetonatable implements IBomb, IDetConn
 			}
 			if(this == ModBlocks.det_charge) {
 				new ExplosionNT(world, null, x + 0.5, y + 0.5, z + 0.5, 15).overrideResolution(64).explode();
-				ExplosionLarge.spawnParticles(world, x, y, z, ExplosionLarge.cloudFunction(15));
+				ExplosionCreator.composeEffectStandard(world, x + 0.5, y + 1, z + 0.5);
 			}
 			if(this == ModBlocks.det_nuke) {
 				world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, BombConfig.missileRadius, x + 0.5, y + 0.5, z + 0.5));

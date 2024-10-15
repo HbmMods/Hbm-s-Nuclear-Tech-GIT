@@ -253,8 +253,12 @@ public class Orchestras {
 		if(type == AnimType.RELOAD) {
 			if(timer == 0) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallRemove", 1F, 0.8F);
 			if(timer == 4) {
-				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack);
-				CasingCreator.composeEffect(player.worldObj, player, 0.625, -0.125, aiming ? -0.125 : -0.375D, -0.12, 0.18, 0, 0.01, casing.getName(), true, 60, 0.5D, 20);
+				IMagazine mag = ctx.config.getReceivers(stack)[0].getMagazine(stack);
+				if(mag.getAmountAfterReload(stack) > 0) {
+					SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack);
+					CasingCreator.composeEffect(player.worldObj, player, 0.625, -0.125, aiming ? -0.125 : -0.375D, -0.12, 0.18, 0, 0.01, casing.getName(), true, 60, 0.5D, 20);
+					mag.setAmountBeforeReload(stack, 0);
+				}
 			}
 			if(timer == 16) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.insertCanister", 1F, 1F);
 			if(timer == 24) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
@@ -431,7 +435,7 @@ public class Orchestras {
 			if(timer == 0) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.75F);
 			IMagazine mag = ctx.config.getReceivers(stack)[0].getMagazine(stack);
 			int toEject = mag.getAmountAfterReload(stack) - mag.getAmount(stack);
-			if(timer == 4 && toEject <= 0) {
+			if(timer == 4 && toEject > 0) {
 				SpentCasing casing = mag.getCasing(stack);
 				for(int i = 0; i < toEject; i++) CasingCreator.composeEffect(player.worldObj, player, 0.625, -0.1875, -0.375D, -0.12, 0.18, 0, 0.01, casing.getName(), true, 60, 0.5D, 20);
 				mag.setAmountAfterReload(stack, 0);
@@ -502,5 +506,13 @@ public class Orchestras {
 			if(timer == 70) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.insertCanister", 1F, 1F);
 			if(timer == 85) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.pressureValve", 1F, 1F);
 		}
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_LAG = (stack, ctx) -> {
+		EntityPlayer player = ctx.player;
+		if(player.worldObj.isRemote) return;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
 	};
 }

@@ -2,6 +2,7 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.config.ClientConfig;
 import com.hbm.main.ResourceManager;
 import com.hbm.tileentity.network.TileEntityPylonBase;
 
@@ -105,37 +106,58 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		tess.startDrawingQuads();
 		Vec3 delta = Vec3.createVectorHelper(x0 - x1, y0 - y1, z0 - z1);
-		double hang = Math.min(delta.lengthVector() / 15D, 2.5D);
 		
-		for(float j = 0; j < count; j++) {
-			
-			float k = j + 1;
+		double girth = 0.03125D;
+		double hyp = Math.sqrt(delta.xCoord * delta.xCoord + delta.zCoord * delta.zCoord);
+		double yaw = Math.atan2(delta.xCoord, delta.zCoord);
+		double pitch = Math.atan2(delta.yCoord, hyp);
+		double rotator = Math.PI * 0.5D;
+		double newPitch = pitch + rotator;
+		double newYaw = yaw + rotator;
+		double iZ = Math.cos(yaw) * Math.cos(newPitch) * girth;
+		double iX = Math.sin(yaw) * Math.cos(newPitch) * girth;
+		double iY = Math.sin(newPitch) * girth;
+		double jZ = Math.cos(newYaw) * girth;
+		double jX = Math.sin(newYaw) * girth;
 
-			double sagJ = Math.sin(j / count * Math.PI * 0.5) * hang;
-			double sagK = Math.sin(k / count * Math.PI * 0.5) * hang;
-			double sagMean = (sagJ + sagK) / 2D;
-			
-			double deltaX = x1 - x0;
-			double deltaY = y1 - y0;
-			double deltaZ = z1 - z0;
-			
-			double ja = j + 0.5D;
-			double ix = pyl.xCoord + x0 + deltaX / (double)(count) * ja;
-			double iy = pyl.yCoord + y0 + deltaY / (double)(count) * ja - sagMean;
-			double iz = pyl.zCoord + z0 + deltaZ / (double)(count) * ja;
-			
-			int brightness = world.getLightBrightnessForSkyBlocks(MathHelper.floor_double(ix), MathHelper.floor_double(iy), MathHelper.floor_double(iz), 0);
-			tess.setBrightness(brightness);
-			
+		if(!ClientConfig.RENDER_CABLE_HANG.get()) {
 			tess.setColorOpaque_I(pyl.color == 0 ? 0xffffff : pyl.color);
+			drawLineSegment(tess, x0, y0, z0, x1, y1, z1, iX, iY, iZ, jX, jZ);
+		} else {
 			
-			drawLineSegment(tess,
-					x0 + (deltaX * j / count),
-					y0 + (deltaY * j / count) - sagJ,
-					z0 + (deltaZ * j / count),
-					x0 + (deltaX * k / count),
-					y0 + (deltaY * k / count) - sagK,
-					z0 + (deltaZ * k / count));
+			double hang = Math.min(delta.lengthVector() / 15D, 2.5D);
+			
+			for(float j = 0; j < count; j++) {
+				
+				float k = j + 1;
+	
+				double sagJ = Math.sin(j / count * Math.PI * 0.5) * hang;
+				double sagK = Math.sin(k / count * Math.PI * 0.5) * hang;
+				double sagMean = (sagJ + sagK) / 2D;
+				
+				double deltaX = x1 - x0;
+				double deltaY = y1 - y0;
+				double deltaZ = z1 - z0;
+				
+				double ja = j + 0.5D;
+				double ix = pyl.xCoord + x0 + deltaX / (double)(count) * ja;
+				double iy = pyl.yCoord + y0 + deltaY / (double)(count) * ja - sagMean;
+				double iz = pyl.zCoord + z0 + deltaZ / (double)(count) * ja;
+				
+				int brightness = world.getLightBrightnessForSkyBlocks(MathHelper.floor_double(ix), MathHelper.floor_double(iy), MathHelper.floor_double(iz), 0);
+				tess.setBrightness(brightness);
+				
+				tess.setColorOpaque_I(pyl.color == 0 ? 0xffffff : pyl.color);
+				
+				drawLineSegment(tess,
+						x0 + (deltaX * j / count),
+						y0 + (deltaY * j / count) - sagJ,
+						z0 + (deltaZ * j / count),
+						x0 + (deltaX * k / count),
+						y0 + (deltaY * k / count) - sagK,
+						z0 + (deltaZ * k / count),
+						iX, iY, iZ, jX, jZ);
+			}
 		}
 		tess.draw();
 		GL11.glEnable(GL11.GL_LIGHTING);
@@ -155,24 +177,11 @@ public abstract class RenderPylonBase extends TileEntitySpecialRenderer {
 	 * @param b
 	 * @param c
 	 */
-	public void drawLineSegment(Tessellator tessellator, double x, double y, double z, double a, double b, double c) {
-		
-		double girth = 0.03125D;
+	public void drawLineSegment(Tessellator tessellator, double x, double y, double z, double a, double b, double c, double iX, double iY, double iZ, double jX, double jZ) {
 		
 		double deltaX = a - x;
 		double deltaY = b - y;
 		double deltaZ = c - z;
-		double hyp = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
-		double yaw = Math.atan2(deltaX, deltaZ);
-		double pitch = Math.atan2(deltaY, hyp);
-		double rotator = Math.PI * 0.5D;
-		double newPitch = pitch + rotator;
-		double newYaw = yaw + rotator;
-		double iZ = Math.cos(yaw) * Math.cos(newPitch) * girth;
-		double iX = Math.sin(yaw) * Math.cos(newPitch) * girth;
-		double iY = Math.sin(newPitch) * girth;
-		double jZ = Math.cos(newYaw) * girth;
-		double jX = Math.sin(newYaw) * girth;
 		double length = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 		int wrap = (int) Math.ceil(length * 8);
 		

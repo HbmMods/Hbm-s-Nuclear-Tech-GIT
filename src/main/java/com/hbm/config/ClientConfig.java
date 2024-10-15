@@ -22,40 +22,60 @@ public class ClientConfig {
 	public static final Gson gson = new Gson();
 	public static HashMap<String, ConfigWrapper> configMap = new HashMap();
 
-	public static ConfigWrapper<Integer> GEIGER_OFFSET_HORIZONTAL = new ConfigWrapper(0);
-	public static ConfigWrapper<Integer> GEIGER_OFFSET_VERTICAL = new ConfigWrapper(0);
-	
-	public static ConfigWrapper<Boolean> GUN_ANIMS_LEGACY = new ConfigWrapper(false);
+	//separate fields because they are a tad faster than using a hashmap and also because using them is less verbose
+	public static ConfigWrapper<Integer> GEIGER_OFFSET_HORIZONTAL =			new ConfigWrapper(0);
+	public static ConfigWrapper<Integer> GEIGER_OFFSET_VERTICAL =			new ConfigWrapper(0);
+	public static ConfigWrapper<Integer> INFO_OFFSET_HORIZONTAL =			new ConfigWrapper(0);
+	public static ConfigWrapper<Integer> INFO_OFFSET_VERTICAL =				new ConfigWrapper(0);
+	public static ConfigWrapper<Integer> INFO_POSITION =					new ConfigWrapper(0);
+	public static ConfigWrapper<Boolean> GUN_ANIMS_LEGACY =					new ConfigWrapper(false);
+	public static ConfigWrapper<Boolean> ITEM_TOOLTIP_SHOW_OREDICT =		new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> ITEM_TOOLTIP_SHOW_CUSTOM_NUKE =	new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> MAIN_MENU_WACKY_SPLASHES =			new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> DODD_RBMK_DIAGNOSTIC =				new ConfigWrapper(true);
+	public static ConfigWrapper<Boolean> RENDER_CABLE_HANG =				new ConfigWrapper(true);
 	
 	private static void initDefaults() {
 		configMap.put("GEIGER_OFFSET_HORIZONTAL", GEIGER_OFFSET_HORIZONTAL);
 		configMap.put("GEIGER_OFFSET_VERTICAL", GEIGER_OFFSET_VERTICAL);
+		configMap.put("INFO_OFFSET_HORIZONTAL", INFO_OFFSET_HORIZONTAL);
+		configMap.put("INFO_OFFSET_VERTICAL", INFO_OFFSET_VERTICAL);
+		configMap.put("INFO_POSITION", INFO_POSITION);
 		configMap.put("GUN_ANIMS_LEGACY", GUN_ANIMS_LEGACY);
+		configMap.put("ITEM_TOOLTIP_SHOW_OREDICT", ITEM_TOOLTIP_SHOW_OREDICT);
+		configMap.put("ITEM_TOOLTIP_SHOW_OREDICT", ITEM_TOOLTIP_SHOW_CUSTOM_NUKE);
+		configMap.put("MAIN_MENU_WACKY_SPLASHES", MAIN_MENU_WACKY_SPLASHES);
+		configMap.put("DODD_RBMK_DIAGNOSTIC", DODD_RBMK_DIAGNOSTIC);
+		configMap.put("RENDER_CABLE_HANG", RENDER_CABLE_HANG);
 	}
 	
+	/** Initializes defaults, then reads the config file if it exists, then writes the config file. */
 	public static void initConfig() {
 		initDefaults();
-
 		File folder = MainRegistry.configHbmDir;
 		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmClient.json");
 		if(config.exists()) readConfig(config);
-		
 		refresh();
 	}
 	
+	/** Writes over the config file using the running config. */
 	public static void refresh() {
-
 		File folder = MainRegistry.configHbmDir;
 		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmClient.json");
-		
 		writeConfig(config);
+	}
+	
+	/** Writes over the running config using the config file. */
+	public static void reload() {
+		File folder = MainRegistry.configHbmDir;
+		File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmClient.json");
+		if(config.exists()) readConfig(config);
 	}
 	
 	private static void readConfig(File config) {
 		
 		try {
 			JsonObject json = gson.fromJson(new FileReader(config), JsonObject.class);
-			HashMap<String, ConfigWrapper> newValues = new HashMap();
 			
 			for(Entry<String, ConfigWrapper> line : configMap.entrySet()) {
 				
@@ -65,11 +85,13 @@ public class ClientConfig {
 					try {
 
 						//world's shittiest dynamic type parser
-						if(line.getValue().value instanceof String) newValues.put(line.getKey(), new ConfigWrapper(value.getAsString()));
-						if(line.getValue().value instanceof Float) newValues.put(line.getKey(), new ConfigWrapper(value.getAsFloat()));
-						if(line.getValue().value instanceof Double) newValues.put(line.getKey(), new ConfigWrapper(value.getAsDouble()));
-						if(line.getValue().value instanceof Integer) newValues.put(line.getKey(), new ConfigWrapper(value.getAsInt()));
-						if(line.getValue().value instanceof Boolean) newValues.put(line.getKey(), new ConfigWrapper(value.getAsBoolean()));
+						if(configMap.containsKey(line.getKey())) {
+							if(line.getValue().value instanceof String) configMap.get(line.getKey()).set(value.getAsString());
+							if(line.getValue().value instanceof Float) configMap.get(line.getKey()).set(value.getAsFloat());
+							if(line.getValue().value instanceof Double) configMap.get(line.getKey()).set(value.getAsDouble());
+							if(line.getValue().value instanceof Integer) configMap.get(line.getKey()).set(value.getAsInt());
+							if(line.getValue().value instanceof Boolean) configMap.get(line.getKey()).set(value.getAsBoolean());
+						}
 						
 						//gson doesn't give me the option to read the raw value of a JsonPrimitive so we have to this shit effectively twice
 						//once to make sure that the parsed data matches with what's determined by the default,
@@ -80,8 +102,6 @@ public class ClientConfig {
 					}
 				}
 			}
-			
-			configMap.putAll(newValues);
 			
 		} catch(Exception ex) {
 			ex.printStackTrace();
@@ -99,7 +119,7 @@ public class ClientConfig {
 			
 			List<String> keys = new ArrayList();
 			keys.addAll(configMap.keySet());
-			Collections.sort(keys);
+			Collections.sort(keys); //readability is cool
 			
 			for(String key : keys) {
 				
@@ -126,8 +146,9 @@ public class ClientConfig {
 		public ConfigWrapper(T o) {
 			this.value = o;
 		}
-		
+
 		public T get() { return value; }
+		public void set(T value) { this.value = value; }
 		
 		public void update(String param) {
 			Object stupidBufferObject = null; // wahh wahh can't cast Float to T wahh wahh shut the fuck up

@@ -1637,6 +1637,7 @@ public class ModItems {
 	public static Item gun_liberator;
 	public static Item gun_congolake;
 	public static Item gun_flamer;
+	public static Item gun_lag;
 	
 	public static Item ammo_standard;
 	
@@ -7039,6 +7040,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_liberator, gun_liberator.getUnlocalizedName());
 		GameRegistry.registerItem(gun_congolake, gun_congolake.getUnlocalizedName());
 		GameRegistry.registerItem(gun_flamer, gun_flamer.getUnlocalizedName());
+		GameRegistry.registerItem(gun_lag, gun_lag.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		

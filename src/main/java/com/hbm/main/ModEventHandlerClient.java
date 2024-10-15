@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockAshes;
+import com.hbm.config.ClientConfig;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
@@ -200,7 +201,7 @@ public class ModEventHandlerClient {
 		}
 
 		/// DODD DIAG HOOK FOR RBMK
-		if(event.type == ElementType.CROSSHAIRS) {
+		if(event.type == ElementType.CROSSHAIRS && ClientConfig.DODD_RBMK_DIAGNOSTIC.get()) {
 			Minecraft mc = Minecraft.getMinecraft();
 			World world = mc.theWorld;
 			MovingObjectPosition mop = mc.objectMouseOver;
@@ -736,7 +737,7 @@ public class ModEventHandlerClient {
 		/// HAZARDS ///
 		HazardSystem.addFullTooltip(stack, event.entityPlayer, list);
 		
-		if(event.showAdvancedItemTooltips) {
+		if(event.showAdvancedItemTooltips && ClientConfig.ITEM_TOOLTIP_SHOW_OREDICT.get()) {
 			List<String> names = ItemStackUtil.getOreDictNames(stack);
 			
 			if(names.size() > 0) {
@@ -758,18 +759,21 @@ public class ModEventHandlerClient {
 		
 		/// CUSTOM NUKE ///
 		ComparableStack comp = new ComparableStack(stack).makeSingular();
-		CustomNukeEntry entry = TileEntityNukeCustom.entries.get(comp);
 		
-		if(entry != null) {
+		if(ClientConfig.ITEM_TOOLTIP_SHOW_CUSTOM_NUKE.get()) {
+			CustomNukeEntry entry = TileEntityNukeCustom.entries.get(comp);
 			
-			if(!list.isEmpty())
-				list.add("");
-			
-			if(entry.entry == EnumEntryType.ADD)
-				list.add(EnumChatFormatting.GOLD + "Adds " + entry.value + " to the custom nuke stage " + entry.type);
-
-			if(entry.entry == EnumEntryType.MULT)
-				list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
+			if(entry != null) {
+				
+				if(!list.isEmpty())
+					list.add("");
+				
+				if(entry.entry == EnumEntryType.ADD)
+					list.add(EnumChatFormatting.GOLD + "Adds " + entry.value + " to the custom nuke stage " + entry.type);
+	
+				if(entry.entry == EnumEntryType.MULT)
+					list.add(EnumChatFormatting.GOLD + "Adds multiplier " + entry.value + " to the custom nuke stage " + entry.type);
+			}
 		}
 		
 		try {
@@ -1277,24 +1281,6 @@ public class ModEventHandlerClient {
 			}
 		}
 	}
-	
-	/*@SubscribeEvent
-	public void setupFog(RenderFogEvent event) {
-		event.setResult(Result.DENY);
-	}
-	
-	@SubscribeEvent
-	public void thickenFog(FogDensity event) {
-		event.density = 0.05F;
-		event.setCanceled(true);
-	}
-	
-	@SubscribeEvent
-	public void tintFog(FogColors event) {
-		event.red = 0.5F;
-		event.green = 0.0F;
-		event.blue = 0.0F;
-	}*/
 
 	public static IIcon particleBase;
 	public static IIcon particleLeaf;
@@ -1378,7 +1364,7 @@ public class ModEventHandlerClient {
 	@SubscribeEvent
 	public void onOpenGUI(GuiOpenEvent event) {
 		
-		if(event.gui instanceof GuiMainMenu) {
+		if(event.gui instanceof GuiMainMenu && ClientConfig.MAIN_MENU_WACKY_SPLASHES.get()) {
 			GuiMainMenu main = (GuiMainMenu) event.gui;
 			int rand = (int)(Math.random() * 150);
 			
