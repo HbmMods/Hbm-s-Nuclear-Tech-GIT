@@ -22,6 +22,7 @@ public class BlockGlyphid extends Block implements IBlockMulti {
 
 	public IIcon[] iconsStandard = new IIcon[2];
 	public IIcon[] iconsInfested = new IIcon[2];
+	public IIcon[] iconsRad = new IIcon[2];
 
 	public BlockGlyphid(Material mat) {
 		super(mat);
@@ -57,16 +58,19 @@ public class BlockGlyphid extends Block implements IBlockMulti {
 		iconsStandard[1] = reg.registerIcon(RefStrings.MODID + ":glyphid_base_alt");
 		iconsInfested[0] = reg.registerIcon(RefStrings.MODID + ":glyphid_base_infested");
 		iconsInfested[1] = reg.registerIcon(RefStrings.MODID + ":glyphid_base_infested_alt");
+		iconsRad[0] = reg.registerIcon(RefStrings.MODID + ":glyphid_base_rad");
+		iconsRad[1] = reg.registerIcon(RefStrings.MODID + ":glyphid_base_rad_alt");
 	}
 
 	protected IIcon[] getIconArray(int meta) {
 		if(meta == 1) return this.iconsInfested;
+		if(meta == 2) return this.iconsRad;
 		return this.iconsStandard;
 	}
 
 	@Override
 	public int getSubCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override

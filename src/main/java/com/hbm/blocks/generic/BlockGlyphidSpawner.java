@@ -38,7 +38,7 @@ import net.minecraft.world.World;
 
 public class BlockGlyphidSpawner extends BlockContainer implements IBlockMulti {
 	
-	public IIcon[] icons = new IIcon[2];
+	public IIcon[] icons = new IIcon[3];
 
 	public BlockGlyphidSpawner(Material mat) {
 		super(mat);
@@ -61,11 +61,12 @@ public class BlockGlyphidSpawner extends BlockContainer implements IBlockMulti {
 	public void registerBlockIcons(IIconRegister reg) {
 		icons[0] = reg.registerIcon(RefStrings.MODID + ":glyphid_eggs_alt");
 		icons[1] = reg.registerIcon(RefStrings.MODID + ":glyphid_eggs_infested");
+		icons[2] = reg.registerIcon(RefStrings.MODID + ":glyphid_eggs_rad");
 	}
 
 	@Override
 	public int getSubCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -168,6 +169,7 @@ public class BlockGlyphidSpawner extends BlockContainer implements IBlockMulti {
 					if(soot >= chance[2] && rand.nextInt(100) <= adjustedChance) {
 						EntityGlyphid entity = glyphid.getKey().apply(worldObj);
 						if(meta == 1) entity.getDataWatcher().updateObject(EntityGlyphid.DW_SUBTYPE, (byte) EntityGlyphid.TYPE_INFECTED);
+						if(meta == 2) entity.getDataWatcher().updateObject(EntityGlyphid.DW_SUBTYPE, (byte) EntityGlyphid.TYPE_RADIOACTIVE);
 						currentSpawns.add(entity);
 					}
 				}
