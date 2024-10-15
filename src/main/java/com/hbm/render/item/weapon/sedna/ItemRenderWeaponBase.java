@@ -113,7 +113,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		return fov;
 	}
 
-	protected float getSwayMagnitude(ItemStack stack) { return 0.5F; }
+	protected float getSwayMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 0.1F : 0.5F; }
 	protected float getSwayPeriod(ItemStack stack) { return 0.75F; }
 	protected float getTurnMagnitude(ItemStack stack) { return 2.75F; }
 	

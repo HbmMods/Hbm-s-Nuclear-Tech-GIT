@@ -114,11 +114,11 @@ public class GunStateDecider {
 					int remaining = rec.getRoundsPerCycle(stack) - 1;
 					for(int i = 0; i < remaining; i++) if(rec.getCanFire(stack).apply(stack, ctx)) rec.getOnFire(stack).accept(stack, ctx);
 				//if not, revert to idle
-				} else if(rec.getDoesDryFire(stack)) {
+				} else /*if(rec.getDoesDryFire(stack)) {
 					ItemGunBaseNT.setState(stack, gunIndex, GunState.DRAWING);
 					ItemGunBaseNT.setTimer(stack, gunIndex, rec.getDelayAfterDryFire(stack));
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE_DRY, gunIndex);
-				} else {
+				} else*/ {
 					ItemGunBaseNT.setState(stack, gunIndex, GunState.IDLE);
 					ItemGunBaseNT.setTimer(stack, gunIndex, 0);
 				}
