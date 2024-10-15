@@ -1,6 +1,7 @@
 package com.hbm.tileentity.turret;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
@@ -97,13 +98,14 @@ public class TileEntityTurretMaxwell extends TileEntityTurretBaseNT implements I
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 27;
-		if(type == UpgradeType.POWER) return 27;
-		if(type == UpgradeType.EFFECT) return 27;
-		if(type == UpgradeType.AFTERBURN) return 27;
-		if(type == UpgradeType.OVERDRIVE) return 27;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 27);
+		upgrades.put(UpgradeType.POWER, 27);
+		upgrades.put(UpgradeType.EFFECT, 27);
+		upgrades.put(UpgradeType.AFTERBURN, 27);
+		upgrades.put(UpgradeType.OVERDRIVE, 27);
+		return upgrades;
 	}
 
 	@Override

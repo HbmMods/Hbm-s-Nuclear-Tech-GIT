@@ -1,11 +1,12 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMiningLaser;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -69,6 +70,8 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	boolean lock = false;
 	double breakProgress;
 
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+
 	public TileEntityMachineMiningLaser() {
 
 		//slot 0: battery
@@ -112,14 +115,14 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 
 			if(isOn) {
 
-				UpgradeManager.eval(slots, 1, 8);
-				int cycles = 1 + UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
-				int speed = 1 + Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 12);
-				int range = 1 + Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT) * 2, 24);
-				int fortune = Math.min(UpgradeManager.getLevel(UpgradeType.FORTUNE), 3);
+				upgradeManager.checkSlots(this, slots, 1, 8);
+				int cycles = 1 + upgradeManager.getLevel(UpgradeType.OVERDRIVE);
+				int speed = 1 + upgradeManager.getLevel(UpgradeType.SPEED);
+				int range = 1 + upgradeManager.getLevel(UpgradeType.EFFECT) * 2;
+				int fortune = upgradeManager.getLevel(UpgradeType.FORTUNE);
 				int consumption = this.consumption
-						- (this.consumption * Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 12) / 16)
-						+ (this.consumption * Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 12) / 16);
+						- (this.consumption * upgradeManager.getLevel(UpgradeType.POWER) / 16)
+						+ (this.consumption * upgradeManager.getLevel(UpgradeType.SPEED) / 16);
 
 				for(int i = 0; i < cycles; i++) {
 
@@ -678,12 +681,13 @@ public class TileEntityMachineMiningLaser extends TileEntityMachineBase implemen
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 12;
-		if(type == UpgradeType.POWER) return 12;
-		if(type == UpgradeType.EFFECT) return 12;
-		if(type == UpgradeType.FORTUNE) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 9;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 12);
+		upgrades.put(UpgradeType.POWER, 12);
+		upgrades.put(UpgradeType.EFFECT, 12);
+		upgrades.put(UpgradeType.FORTUNE, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 9);
+		return upgrades;
 	}
 }

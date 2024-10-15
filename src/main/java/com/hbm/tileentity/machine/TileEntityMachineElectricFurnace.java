@@ -1,12 +1,13 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineElectricFurnace;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerElectricFurnace;
 import com.hbm.inventory.gui.GUIMachineElectricFurnace;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
@@ -44,6 +45,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 	private static final int[] slots_io = new int[] { 0, 1, 2 };
 
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+
 	public TileEntityMachineElectricFurnace() {
 		super(4);
 	}
@@ -69,7 +72,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");
 	}
@@ -114,7 +117,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	}
 
 	public boolean canProcess() {
-		
+
 		if(slots[1] == null || cooldown > 0) {
 			return false;
 		}
@@ -167,7 +170,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 		boolean markDirty = false;
 
 		if(!worldObj.isRemote) {
-			
+
 			if(cooldown > 0) {
 				cooldown--;
 			}
@@ -179,16 +182,16 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			this.consumption = 50;
 			this.maxProgress = 100;
 
-			UpgradeManager.eval(slots, 3, 3);
+			upgradeManager.checkSlots(this, slots, 3, 3);
 
-			int speedLevel = UpgradeManager.getLevel(UpgradeType.SPEED);
-			int powerLevel = UpgradeManager.getLevel(UpgradeType.POWER);
+			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
 
 			maxProgress -= speedLevel * 25;
 			consumption += speedLevel * 50;
 			maxProgress += powerLevel * 10;
 			consumption -= powerLevel * 15;
-			
+
 			if(!hasPower()) {
 				cooldown = 20;
 			}
@@ -197,7 +200,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 				progress++;
 
 				power -= consumption;
-				
+
 				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND);
 
 				if(this.progress >= maxProgress) {
@@ -219,7 +222,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 				markDirty = true;
 				MachineElectricFurnace.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
-			
+
 			this.networkPackNT(50);
 
 
@@ -228,7 +231,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			}
 		}
 	}
-	
+
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
@@ -236,7 +239,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 		buf.writeInt(maxProgress);
 		buf.writeInt(progress);
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
@@ -244,7 +247,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 		maxProgress = buf.readInt();
 		progress = buf.readInt();
 	}
-	
+
 	private void updateConnections() {
 
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
@@ -298,9 +301,10 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.POWER) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.POWER, 3);
+		return upgrades;
 	}
 }

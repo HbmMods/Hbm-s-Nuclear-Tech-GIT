@@ -1,10 +1,11 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.container.ContainerMachineSolderingStation;
 import com.hbm.inventory.fluid.Fluids;
@@ -53,6 +54,8 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 	public FluidTank tank;
 	public ItemStack display;
 
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+
 	public TileEntityMachineSolderingStation() {
 		super(11);
 		this.tank = new FluidTank(Fluids.NONE, 8_000);
@@ -92,9 +95,9 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 			recipe = SolderingRecipes.getRecipe(new ItemStack[] {slots[0], slots[1], slots[2], slots[3], slots[4], slots[5]});
 			long intendedMaxPower;
 
-			UpgradeManager.eval(slots, 9, 10);
-			int redLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-			int blueLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			upgradeManager.checkSlots(this, slots, 9, 10);
+			int redLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+			int blueLevel = upgradeManager.getLevel(UpgradeType.POWER);
 
 			if(recipe != null) {
 				this.processTime = recipe.duration - (recipe.duration * redLevel / 6) + (recipe.duration * blueLevel / 3);
@@ -374,10 +377,11 @@ public class TileEntityMachineSolderingStation extends TileEntityMachineBase imp
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.POWER) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.POWER, 3);
+		return upgrades;
 	}
 
 	@Override

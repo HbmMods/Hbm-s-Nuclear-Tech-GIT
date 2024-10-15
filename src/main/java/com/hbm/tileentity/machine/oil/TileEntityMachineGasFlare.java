@@ -1,10 +1,11 @@
 package com.hbm.tileentity.machine.oil;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerMachineGasFlare;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -51,6 +52,8 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 	public boolean doesBurn = false;
 	protected int fluidUsed = 0;
 	protected int output = 0;
+
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
 
 	public TileEntityMachineGasFlare() {
 		super(6);
@@ -117,9 +120,9 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 
 			if(isOn && tank.getFill() > 0) {
 
-				UpgradeManager.eval(slots, 4, 5);
-				int burn = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-				int yield = Math.min(UpgradeManager.getLevel(UpgradeType.EFFECT), 3);
+				upgradeManager.checkSlots(this, slots, 4, 5);
+				int burn = upgradeManager.getLevel(UpgradeType.SPEED);
+				int yield = upgradeManager.getLevel(UpgradeType.EFFECT);
 
 				maxVent += maxVent * burn;
 				maxBurn += maxBurn * burn;
@@ -319,10 +322,11 @@ public class TileEntityMachineGasFlare extends TileEntityMachineBase implements 
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.EFFECT) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.EFFECT, 3);
+		return upgrades;
 	}
 
 	@Override

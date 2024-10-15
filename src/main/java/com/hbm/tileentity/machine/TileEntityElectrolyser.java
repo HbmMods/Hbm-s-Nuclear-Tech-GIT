@@ -1,12 +1,13 @@
 package com.hbm.tileentity.machine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerElectrolyserFluid;
 import com.hbm.inventory.container.ContainerElectrolyserMetal;
 import com.hbm.inventory.fluid.Fluids;
@@ -49,14 +50,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityElectrolyser extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IUpgradeInfoProvider, IFluidCopiable, IMetalCopiable {
-	
+
 	public long power;
 	public static final long maxPower = 20000000;
 	public static final int usageOreBase = 10_000;
 	public static final int usageFluidBase = 10_000;
 	public int usageOre;
 	public int usageFluid;
-	
+
 	public int progressFluid;
 	public int processFluidTime = 100;
 	public int progressOre;
@@ -67,6 +68,8 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public int maxMaterial = MaterialShapes.BLOCK.q(16);
 
 	public FluidTank[] tanks;
+
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
 
 	public TileEntityElectrolyser() {
 		//0: Battery
@@ -129,9 +132,9 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 				}
 			}
 
-			UpgradeManager.eval(slots, 1, 2);
-			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			upgradeManager.checkSlots(this, slots, 1, 2);
+			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
 
 			usageOre = usageOreBase - usageOreBase * powerLevel / 4;
 			usageFluid = usageFluidBase - usageFluidBase * powerLevel / 4;
@@ -390,19 +393,19 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public int getDurationMetal() {
 		ElectrolysisMetalRecipe result = ElectrolyserMetalRecipes.getRecipe(slots[14]);
 		int base = result != null ? result.duration : 600;
-		int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) - Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 1);
+		int speed = upgradeManager.getLevel(UpgradeType.SPEED) - upgradeManager.getLevel(UpgradeType.POWER);
 		return (int) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.2)));
 	}
 	public int getDurationFluid() {
 		ElectrolysisRecipe result = ElectrolyserFluidRecipes.getRecipe(tanks[0].getTankType());
 		int base = result != null ? result.duration : 100;
-		int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3) - Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 1);
+		int speed = upgradeManager.getLevel(UpgradeType.SPEED) - upgradeManager.getLevel(UpgradeType.POWER);
 		return (int) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.2)));
 
 	}
 
 	public int getCycleCount() {
-		int speed = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
+		int speed = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
 		return Math.min(1 + speed * 2, 7);
 	}
 
@@ -513,7 +516,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 
 	@Override
 	public void receiveControl(NBTTagCompound data) { }
-	
+
 	@Override
 	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
 
@@ -548,11 +551,12 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.POWER) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.POWER, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 3);
+		return upgrades;
 	}
 
 	@Override

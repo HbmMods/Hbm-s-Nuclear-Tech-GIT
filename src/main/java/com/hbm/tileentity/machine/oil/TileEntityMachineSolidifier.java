@@ -1,9 +1,10 @@
 package com.hbm.tileentity.machine.oil;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerSolidifier;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -43,8 +44,10 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	public int progress;
 	public static final int processTimeBase = 100;
 	public int processTime;
-	
+
 	public FluidTank tank;
+
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
 
 	public TileEntityMachineSolidifier() {
 		super(5);
@@ -58,20 +61,20 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 			this.power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			tank.setType(4, slots);
 
 			this.updateConnections();
 
-			UpgradeManager.eval(slots, 2, 3);
-			int speed = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
-			int power = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
+			upgradeManager.checkSlots(this, slots, 2, 3);
+			int speed = upgradeManager.getLevel(UpgradeType.SPEED);
+			int power = upgradeManager.getLevel(UpgradeType.POWER);
 
 			this.processTime = processTimeBase - (processTimeBase / 4) * speed;
 			this.usage = (usageBase + (usageBase * speed))  / (power + 1);
-			
+
 			if(this.canProcess())
 				this.process();
 			else
@@ -80,14 +83,14 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 			this.networkPackNT(50);
 		}
 	}
-	
+
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {
 			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			this.trySubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
-	
+
 	private DirPos[] getConPos() {
 		return new DirPos[] {
 			new DirPos(xCoord, yCoord + 4, zCoord, Library.POS_Y),
@@ -108,59 +111,59 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return new int[] { 0 };
 	}
-	
+
 	public boolean canProcess() {
-		
+
 		if(this.power < usage)
 			return false;
-		
+
 		Pair<Integer, ItemStack> out = SolidificationRecipes.getOutput(tank.getTankType());
-		
+
 		if(out == null)
 			return false;
-		
+
 		int req = out.getKey();
 		ItemStack stack = out.getValue();
-		
+
 		if(req > tank.getFill())
 			return false;
-		
+
 		if(slots[0] != null) {
-			
+
 			if(slots[0].getItem() != stack.getItem())
 				return false;
-			
+
 			if(slots[0].getItemDamage() != stack.getItemDamage())
 				return false;
-			
+
 			if(slots[0].stackSize + stack.stackSize > slots[0].getMaxStackSize())
 				return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	public void process() {
-		
+
 		this.power -= usage;
-		
+
 		progress++;
-		
+
 		if(progress >= processTime) {
-			
+
 			Pair<Integer, ItemStack> out = SolidificationRecipes.getOutput(tank.getTankType());
 			int req = out.getKey();
 			ItemStack stack = out.getValue();
 			tank.setFill(tank.getFill() - req);
-			
+
 			if(slots[0] == null) {
 				slots[0] = stack.copy();
 			} else {
 				slots[0].stackSize += stack.stackSize;
 			}
-			
+
 			progress = 0;
-			
+
 			this.markDirty();
 		}
 	}
@@ -184,13 +187,13 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 		this.processTime = buf.readInt();
 		tank.deserialize(buf);
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		tank.readFromNBT(nbt, "tank");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -211,12 +214,12 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	public long getMaxPower() {
 		return maxPower;
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 1,
@@ -227,10 +230,10 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 					zCoord + 2
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -276,10 +279,11 @@ public class TileEntityMachineSolidifier extends TileEntityMachineBase implement
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 3;
-		if(type == UpgradeType.POWER) return 3;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.POWER, 3);
+		return upgrades;
 	}
 
 	@Override
