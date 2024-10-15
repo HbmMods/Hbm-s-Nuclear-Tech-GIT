@@ -1,7 +1,7 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
+import com.hbm.particle.helper.ExplosionSmallCreator;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.world.World;
@@ -17,7 +17,7 @@ public class BlockChargeDynamite extends BlockChargeBase {
 			safe = false;
 			ExplosionNT exp = new ExplosionNT(world, null, x + 0.5, y + 0.5, z + 0.5, 4F);
 			exp.explode();
-			ExplosionLarge.spawnParticles(world, x + 0.5, y + 0.5, z + 0.5, 20);
+			ExplosionSmallCreator.composeEffect(world, x + 0.5, y + 0.5, z + 0.5, 15, 3F, 1.25F);
 			
 			return BombReturnCode.DETONATED;
 		}

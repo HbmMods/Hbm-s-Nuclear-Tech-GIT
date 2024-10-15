@@ -43,7 +43,7 @@ public class ParticleSpentCasing extends EntityFX {
 
 	private float momentumPitch, momentumYaw;
 
-	public ParticleSpentCasing(TextureManager textureManager, World world, double x, double y, double z, double mx, double my, double mz, float momentumPitch, float momentumYaw, SpentCasing config) {
+	public ParticleSpentCasing(TextureManager textureManager, World world, double x, double y, double z, double mx, double my, double mz, float momentumPitch, float momentumYaw, SpentCasing config, boolean smoking, int smokeLife, double smokeLift, int nodeLife) {
 		super(world, x, y, z, 0, 0, 0);
 		this.textureManager = textureManager;
 		this.momentumPitch = momentumPitch;
@@ -51,10 +51,11 @@ public class ParticleSpentCasing extends EntityFX {
 		this.config = config;
 
 		this.particleMaxAge = config.getMaxAge();
-		this.isSmoking = rand.nextFloat() < config.getSmokeChance();
-		this.maxSmokeGen = config.getSmokeDuration();
-		this.smokeLift = config.getSmokeLift();
-		this.nodeLife = config.getSmokeNodeLife();
+		
+		this.isSmoking = smoking;
+		this.maxSmokeGen = smokeLife;
+		this.smokeLift = smokeLift;
+		this.nodeLife = nodeLife;
 		
 		this.prevPosX = x;
 		this.prevPosY = y;
@@ -284,15 +285,6 @@ public class ParticleSpentCasing extends EntityFX {
 			return this.worldObj.getLightBrightnessForSkyBlocks(x, y, z, 0);
 		} else {
 			return 0;
-		}
-	}
-
-	private void tryPlayBounceSound() {
-
-		String sound = config.getSound();
-		
-		if(sound != null && !sound.isEmpty()) {
-			worldObj.playSoundAtEntity(this, sound, 2, 1);
 		}
 	}
 }

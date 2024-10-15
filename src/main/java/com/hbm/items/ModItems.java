@@ -1529,7 +1529,6 @@ public class ModItems {
 	public static Item gun_panzerschreck;
 	public static Item gun_quadro;
 	public static Item gun_hk69;
-	public static Item gun_congolake;
 	public static Item gun_stinger;
 	public static Item gun_skystinger;
 	public static Item gun_revolver;
@@ -1588,7 +1587,6 @@ public class ModItems {
 	public static Item gun_osipr_ammo2;
 	public static Item gun_immolator;
 	public static Item gun_immolator_ammo;
-	public static Item gun_flamer;
 	public static Item gun_cryolator;
 	public static Item gun_cryocannon;
 	public static Item gun_cryolator_ammo;
@@ -1624,9 +1622,19 @@ public class ModItems {
 	public static Item ammo_debug;
 
 	public static Item gun_pepperbox;
-	public static Item gun_atlas;
+	public static Item gun_light_revolver;
+	public static Item gun_light_revolver_dani;
 	public static Item gun_henry;
 	public static Item gun_greasegun;
+	public static Item gun_maresleg;
+	public static Item gun_flaregun;
+	public static Item gun_heavy_revolver;
+	public static Item gun_carbine;
+	public static Item gun_am180;
+	public static Item gun_liberator;
+	public static Item gun_congolake;
+	public static Item gun_flamer;
+	public static Item gun_lag;
 	
 	public static Item ammo_standard;
 	
@@ -2401,24 +2409,6 @@ public class ModItems {
 	public static Item orange6;
 	public static Item orange7;
 	public static Item orange8;
-	/*public static Item gasflame1;
-	public static Item gasflame2;
-	public static Item gasflame3;
-	public static Item gasflame4;
-	public static Item gasflame5;
-	public static Item gasflame6;
-	public static Item gasflame7;
-	public static Item gasflame8;*/
-	public static Item flame_1;
-	public static Item flame_2;
-	public static Item flame_3;
-	public static Item flame_4;
-	public static Item flame_5;
-	public static Item flame_6;
-	public static Item flame_7;
-	public static Item flame_8;
-	public static Item flame_9;
-	public static Item flame_10;
 	public static Item ln2_1;
 	public static Item ln2_2;
 	public static Item ln2_3;
@@ -4088,7 +4078,7 @@ public class ModItems {
 		gun_panzerschreck = new ItemGunBase(GunRocketFactory.getPanzConfig()).setUnlocalizedName("gun_panzerschreck").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_panzerschreck");
 		gun_quadro = new ItemGunBase(GunRocketFactory.getQuadroConfig()).setUnlocalizedName("gun_quadro").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_quadro");
 		gun_hk69 = new ItemGunBase(GunGrenadeFactory.getHK69Config()).setUnlocalizedName("gun_hk69").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_hk69");
-		gun_congolake = new ItemGunBase(GunGrenadeFactory.getCongoConfig()).setUnlocalizedName("gun_congolake").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_congolake");
+		//gun_congolake = new ItemGunBase(GunGrenadeFactory.getCongoConfig()).setUnlocalizedName("gun_congolake").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_congolake");
 		gun_stinger = new ItemGunBase(GunRocketHomingFactory.getStingerConfig()).setUnlocalizedName("gun_stinger").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_stinger");
 		gun_skystinger = new ItemGunBase(GunRocketHomingFactory.getSkyStingerConfig()).setUnlocalizedName("gun_skystinger").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_skystinger");
 		gun_revolver = new ItemGunBase(Gun357MagnumFactory.getRevolverConfig()).setUnlocalizedName("gun_revolver").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_revolver");
@@ -4146,8 +4136,7 @@ public class ModItems {
 		gun_osipr_ammo2 = new Item().setUnlocalizedName("gun_osipr_ammo2").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_osipr_ammo2");
 		gun_osipr = new ItemGunOSIPR(GunOSIPRFactory.getOSIPRConfig(), GunOSIPRFactory.getAltConfig()).setUnlocalizedName("gun_osipr").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_osipr");
 		gun_immolator_ammo = new Item().setUnlocalizedName("gun_immolator_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_immolator_ammo");
-		gun_immolator = new GunImmolator().setUnlocalizedName("gun_immolator").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_immolator");
-		gun_flamer = new ItemGunBase(GunEnergyFactory.getFlamerConfig()).setUnlocalizedName("gun_flamer").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_flamer");
+		gun_immolator = new Item().setUnlocalizedName("gun_immolator").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_immolator");
 		gun_cryolator_ammo = new Item().setUnlocalizedName("gun_cryolator_ammo").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_cryolator_ammo");
 		gun_cryolator = new GunCryolator().setUnlocalizedName("gun_cryolator").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_cryolator");
 		gun_cryocannon = new ItemCryoCannon(GunEnergyFactory.getCryoCannonConfig()).setUnlocalizedName("gun_cryocannon").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_cryocannon");
@@ -5451,16 +5440,6 @@ public class ModItems {
 		orange6 = new Item().setUnlocalizedName("orange6").setTextureName(RefStrings.MODID + ":orange6");
 		orange7 = new Item().setUnlocalizedName("orange7").setTextureName(RefStrings.MODID + ":orange7");
 		orange8 = new Item().setUnlocalizedName("orange8").setTextureName(RefStrings.MODID + ":orange8");
-		flame_1 = new Item().setUnlocalizedName("flame_1").setTextureName(RefStrings.MODID + ":flame_1");
-		flame_2 = new Item().setUnlocalizedName("flame_2").setTextureName(RefStrings.MODID + ":flame_2");
-		flame_3 = new Item().setUnlocalizedName("flame_3").setTextureName(RefStrings.MODID + ":flame_3");
-		flame_4 = new Item().setUnlocalizedName("flame_4").setTextureName(RefStrings.MODID + ":flame_4");
-		flame_5 = new Item().setUnlocalizedName("flame_5").setTextureName(RefStrings.MODID + ":flame_5");
-		flame_6 = new Item().setUnlocalizedName("flame_6").setTextureName(RefStrings.MODID + ":flame_6");
-		flame_7 = new Item().setUnlocalizedName("flame_7").setTextureName(RefStrings.MODID + ":flame_7");
-		flame_8 = new Item().setUnlocalizedName("flame_8").setTextureName(RefStrings.MODID + ":flame_8");
-		flame_9 = new Item().setUnlocalizedName("flame_9").setTextureName(RefStrings.MODID + ":flame_9");
-		flame_10 = new Item().setUnlocalizedName("flame_10").setTextureName(RefStrings.MODID + ":flame_10");
 		ln2_1 = new Item().setUnlocalizedName("ln2_1").setTextureName(RefStrings.MODID + ":ln2_1");
 		ln2_2 = new Item().setUnlocalizedName("ln2_2").setTextureName(RefStrings.MODID + ":ln2_2");
 		ln2_3 = new Item().setUnlocalizedName("ln2_3").setTextureName(RefStrings.MODID + ":ln2_3");
@@ -6974,7 +6953,6 @@ public class ModItems {
 		GameRegistry.registerItem(gun_panzerschreck, gun_panzerschreck.getUnlocalizedName());
 		GameRegistry.registerItem(gun_quadro, gun_quadro.getUnlocalizedName());
 		GameRegistry.registerItem(gun_hk69, gun_hk69.getUnlocalizedName());
-		GameRegistry.registerItem(gun_congolake, gun_congolake.getUnlocalizedName());
 		GameRegistry.registerItem(gun_stinger, gun_stinger.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fatman, gun_fatman.getUnlocalizedName());
 		GameRegistry.registerItem(gun_proto, gun_proto.getUnlocalizedName());
@@ -7005,7 +6983,6 @@ public class ModItems {
 		GameRegistry.registerItem(gun_xvl1456, gun_xvl1456.getUnlocalizedName());
 		GameRegistry.registerItem(gun_osipr, gun_osipr.getUnlocalizedName());
 		GameRegistry.registerItem(gun_immolator, gun_immolator.getUnlocalizedName());
-		GameRegistry.registerItem(gun_flamer, gun_flamer.getUnlocalizedName());
 		GameRegistry.registerItem(gun_cryolator, gun_cryolator.getUnlocalizedName());
 		GameRegistry.registerItem(gun_cryocannon, gun_cryocannon.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fireext, gun_fireext.getUnlocalizedName());
@@ -7035,9 +7012,19 @@ public class ModItems {
 		GameRegistry.registerItem(ammo_debug, ammo_debug.getUnlocalizedName());
 		
 		GameRegistry.registerItem(gun_pepperbox, gun_pepperbox.getUnlocalizedName());
-		GameRegistry.registerItem(gun_atlas, gun_atlas.getUnlocalizedName());
+		GameRegistry.registerItem(gun_light_revolver, gun_light_revolver.getUnlocalizedName());
+		GameRegistry.registerItem(gun_light_revolver_dani, gun_light_revolver_dani.getUnlocalizedName());
 		GameRegistry.registerItem(gun_henry, gun_henry.getUnlocalizedName());
 		GameRegistry.registerItem(gun_greasegun, gun_greasegun.getUnlocalizedName());
+		GameRegistry.registerItem(gun_maresleg, gun_maresleg.getUnlocalizedName());
+		GameRegistry.registerItem(gun_flaregun, gun_flaregun.getUnlocalizedName());
+		GameRegistry.registerItem(gun_heavy_revolver, gun_heavy_revolver.getUnlocalizedName());
+		GameRegistry.registerItem(gun_carbine, gun_carbine.getUnlocalizedName());
+		GameRegistry.registerItem(gun_am180, gun_am180.getUnlocalizedName());
+		GameRegistry.registerItem(gun_liberator, gun_liberator.getUnlocalizedName());
+		GameRegistry.registerItem(gun_congolake, gun_congolake.getUnlocalizedName());
+		GameRegistry.registerItem(gun_flamer, gun_flamer.getUnlocalizedName());
+		GameRegistry.registerItem(gun_lag, gun_lag.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		
@@ -7858,16 +7845,6 @@ public class ModItems {
 		GameRegistry.registerItem(orange6, orange6.getUnlocalizedName());
 		GameRegistry.registerItem(orange7, orange7.getUnlocalizedName());
 		GameRegistry.registerItem(orange8, orange8.getUnlocalizedName());
-		GameRegistry.registerItem(flame_1, flame_1.getUnlocalizedName());
-		GameRegistry.registerItem(flame_2, flame_2.getUnlocalizedName());
-		GameRegistry.registerItem(flame_3, flame_3.getUnlocalizedName());
-		GameRegistry.registerItem(flame_4, flame_4.getUnlocalizedName());
-		GameRegistry.registerItem(flame_5, flame_5.getUnlocalizedName());
-		GameRegistry.registerItem(flame_6, flame_6.getUnlocalizedName());
-		GameRegistry.registerItem(flame_7, flame_7.getUnlocalizedName());
-		GameRegistry.registerItem(flame_8, flame_8.getUnlocalizedName());
-		GameRegistry.registerItem(flame_9, flame_9.getUnlocalizedName());
-		GameRegistry.registerItem(flame_10, flame_10.getUnlocalizedName());
 		GameRegistry.registerItem(ln2_1, ln2_1.getUnlocalizedName());
 		GameRegistry.registerItem(ln2_2, ln2_2.getUnlocalizedName());
 		GameRegistry.registerItem(ln2_3, ln2_3.getUnlocalizedName());

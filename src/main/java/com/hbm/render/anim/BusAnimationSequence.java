@@ -29,7 +29,7 @@ public class BusAnimationSequence {
 
 	public BusAnimationSequence() {
 		// Initialise our keyframe storage, since it's multidimensional
-		for (int i = 0; i < 9; i++) {
+		for(int i = 0; i < 9; i++) {
 			transformKeyframes.add(new ArrayList<BusAnimationKeyframe>());
 		}
 	}
@@ -70,7 +70,7 @@ public class BusAnimationSequence {
 	public double[] getTransformation(int millis) {
 		double[] transform = new double[12];
 
-		for (int i = 0; i < 9; i++) {
+		for(int i = 0; i < 9; i++) {
 			List<BusAnimationKeyframe> keyframes = transformKeyframes.get(i);
 
 			BusAnimationKeyframe currentFrame = null;
@@ -102,11 +102,7 @@ public class BusAnimationSequence {
 				continue;
 			}
 
-			double a = currentFrame.value;
-			double b = previousFrame != null ? previousFrame.value : 0;
-			double t = interpolate(startTime, millis, currentFrame.duration, currentFrame.interpolationType);
-
-			transform[i] = (a - b) * t + b;
+			transform[i] = currentFrame.interpolate(startTime, millis, previousFrame);
 		}
 
 		transform[9] = offset[0];
@@ -116,20 +112,12 @@ public class BusAnimationSequence {
 		return transform;
 	}
 	
-	public double interpolate(double start, double end, double duration, IType interp) {
-		if(interp == IType.LINEAR) return (end - start) / duration;
-		if(interp == IType.SIN_UP) return -Math.sin(((end - start) / duration * Math.PI + Math.PI) / 2) + 1;
-		if(interp == IType.SIN_DOWN) return Math.sin((end - start) / duration * Math.PI / 2);
-		if(interp == IType.SIN_FULL) return (-Math.cos((end - start) / duration * Math.PI) + 1) / 2D;
-		return end - start;
-	}
-	
 	public int getTotalTime() {
 		int highestTime = 0;
 		
-		for (List<BusAnimationKeyframe> keyframes: transformKeyframes) {
+		for(List<BusAnimationKeyframe> keyframes : transformKeyframes) {
 			int time = 0;
-			for (BusAnimationKeyframe frame: keyframes) {
+			for(BusAnimationKeyframe frame : keyframes) {
 				time += frame.duration;
 			}
 

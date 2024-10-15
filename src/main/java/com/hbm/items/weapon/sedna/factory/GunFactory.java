@@ -1,6 +1,5 @@
 package com.hbm.items.weapon.sedna.factory;
 
-import com.hbm.handler.CasingEjector;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
@@ -35,11 +34,10 @@ public class GunFactory {
 
 		/// GUNS ///
 		ModItems.gun_debug = new ItemGunBaseNT(new GunConfig()
-				.dura(600F).draw(15).jam(23).inspect(23).crosshair(Crosshair.L_CLASSIC).smoke(true).orchestra(Orchestras.DEBUG_ORCHESTRA)
+				.dura(600F).draw(15).inspect(23).crosshair(Crosshair.L_CLASSIC).smoke(Lego.LAMBDA_STANDARD_SMOKE).orchestra(Orchestras.DEBUG_ORCHESTRA)
 				.rec(new Receiver(0)
-						.dmg(10F).delay(14).reload(46).sound("hbm:weapon.44Shoot", 1.0F, 1.0F)
+						.dmg(10F).delay(14).reload(46).jam(23).sound("hbm:weapon.44Shoot", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 12).addConfigs(ammo_debug, ammo_debug_buckshot))
-						.ejector(new CasingEjector().setMotion(0, -0.1, 0).setAngleRange(0.01F, 0.025F))
 						.offset(0.75, -0.0625, -0.3125D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY) .pr(Lego.LAMBDA_STANDARD_RELOAD) .pt(Lego.LAMBDA_TOGGLE_AIM)
@@ -51,6 +49,11 @@ public class GunFactory {
 		XFactory357.init();
 		XFactory44.init();
 		XFactory9mm.init();
+		XFactory12ga.init();
+		XFactory40mm.init();
+		XFactory762mm.init();
+		XFactory22lr.init();
+		XFactoryFlamer.init();
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
@@ -60,6 +63,11 @@ public class GunFactory {
 		STONE, STONE_AP, STONE_IRON, STONE_SHOT,
 		M357_SP, M357_FMJ, M357_JHP, M357_AP, M357_EXPRESS,
 		M44_SP, M44_FMJ, M44_JHP, M44_AP, M44_EXPRESS,
+		P22_SP, P22_FMJ, P22_JHP, P22_AP,
 		P9_SP, P9_FMJ, P9_JHP, P9_AP,
+		G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12,
+		R762_SP, R762_FMJ, R762_JHP, R762_AP, R762_DU,
+		G40_FLARE, G40,
+		FLAME_DIESEL,
 	}
 }

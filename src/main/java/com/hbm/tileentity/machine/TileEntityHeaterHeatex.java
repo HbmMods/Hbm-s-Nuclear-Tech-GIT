@@ -30,7 +30,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHeatSource, INBTPacketReceiver, IFluidStandardTransceiver, IGUIProvider, IControlReceiver, IFluidCopiable {
 	
 	public FluidTank[] tanks;
-	public int amountToCool = 1;
+	public int amountToCool = 24_000;
 	public int tickDelay = 1;
 	public int heatEnergy;
 	

@@ -15,7 +15,7 @@ public class ItemRenderPepperbox extends ItemRenderWeaponBase {
 	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.5F; }
 
 	@Override
-	protected void setupFirstPerson(ItemStack stack) {
+	public void setupFirstPerson(ItemStack stack) {
 		GL11.glTranslated(0, 0, 1.5);
 		
 		float offset = 0.8F;
@@ -51,7 +51,7 @@ public class ItemRenderPepperbox extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, 0.5, 7);
 		GL11.glRotated(90, 0, 1, 0);
-		this.renderSmokeNodes(gun.smokeNodes, 0.5D);
+		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.5D);
 		GL11.glPopMatrix();
 		
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.pepperbox_tex);
@@ -90,21 +90,21 @@ public class ItemRenderPepperbox extends ItemRenderWeaponBase {
 		GL11.glScaled(0.5, 0.5, 0.5);
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
-		this.renderMuzzleFlash(gun.lastShot);
+		this.renderMuzzleFlash(gun.lastShot[0]);
 		GL11.glRotated(45, 1, 0, 0);
-		this.renderMuzzleFlash(gun.lastShot);
+		this.renderMuzzleFlash(gun.lastShot[0]);
 		GL11.glPopMatrix();
 	}
 
 	@Override
-	protected void setupThirdPerson(ItemStack stack) {
+	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
 		GL11.glTranslated(0, 1, 3);
 
 	}
 
 	@Override
-	protected void setupInv(ItemStack stack) {
+	public void setupInv(ItemStack stack) {
 		super.setupInv(stack);
 		double scale = 1.5D;
 		GL11.glScaled(scale, scale, scale);

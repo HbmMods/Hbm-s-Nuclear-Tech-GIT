@@ -86,6 +86,7 @@ public class EntityGlyphid extends EntityMob {
 	//subtypes
 	public static final int TYPE_NORMAL = 0;
 	public static final int TYPE_INFECTED = 1;
+	public static final int TYPE_RADIOACTIVE = 2;
 
 	//data watcher keys
 	public static final int DW_WALL = 16;
@@ -116,9 +117,10 @@ public class EntityGlyphid extends EntityMob {
 	@Override
 	protected void applyEntityAttributes() {
 		super.applyEntityAttributes();
+		int variant = this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE);
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(GlyphidStats.getStats().getGrunt().health);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getGrunt().speed);
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getGrunt().damage);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getGrunt().speed * (variant == TYPE_RADIOACTIVE ? 2D : 1D));
+		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getGrunt().damage * (variant == TYPE_RADIOACTIVE ? 5D : 1D));
 	}
 	
 	public float getDivisorPerArmorPoint() {

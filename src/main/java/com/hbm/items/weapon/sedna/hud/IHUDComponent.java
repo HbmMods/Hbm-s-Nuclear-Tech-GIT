@@ -8,5 +8,5 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 public interface IHUDComponent {
 
 	public int getComponentHeight(EntityPlayer player, ItemStack stack);
-	public void renderHUDComponent(Pre event, ElementType type, EntityPlayer player, ItemStack stack, int bottomOffset);
+	public void renderHUDComponent(Pre event, ElementType type, EntityPlayer player, ItemStack stack, int bottomOffset, int gunIndex);
 }
