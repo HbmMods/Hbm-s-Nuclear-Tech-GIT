@@ -137,6 +137,7 @@ public abstract class GlyphidStats {
 			
 			// If damage is fire damage, reduce damage above 5 then ignore armor
 			if(source.isFireDamage()) {
+				if(glyphid.getDataWatcher().getWatchableObjectByte(glyphid.DW_SUBTYPE) == glyphid.TYPE_RADIOACTIVE) return false;
 				float dmg = Math.min(amount, 5F);
 				if(amount > 5) dmg += (amount - 5F) * 0.1F;
 				return glyphid.attackSuperclass(source, dmg);

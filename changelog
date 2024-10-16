@@ -28,6 +28,11 @@
 * Cable connections (connectors, pylons, substations) now render about 10x faster and no longer have weird inaccuracies where the segments meet
 * Cables can be made even faster by setting `RENDER_CABLE_HANG` in the config to `false`
   * This causes cable connections to render taut, eliminating the need for multiple segments per pylon side
+* Heat exchanging heaters are now set to 24,000mB/t by default
+* The ICF GUI now lists the laser input as "per tick"
+* Glpyhid hives caught in a fallout zone now turn radioactive
+  * Glyphids spawned by radioactive hives are immune to fire, twice as fast and five times as strong
+  * Radioactive glpyhids however are NOT immune to radiation, and typically die quickly
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines
