@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.NotableComments;
 import com.hbm.inventory.RecipesCommon.MetaBlock;
 import com.hbm.world.generator.TimedGenerator.ITimedJob;
 
 import net.minecraft.world.World;
 
+@NotableComments
 public class JungleDungeon extends CellularDungeon {
 	
 	public boolean hasHole = false;
@@ -70,6 +72,7 @@ public class JungleDungeon extends CellularDungeon {
 		
 		//since all the building is timed jobs, this has to be as well. timed jobs are ordered so this works!
 		//is it shitty coding? is it not? who knows?
+		//future bob here: yes it is, go fuck yourself
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.hbm.interfaces.NotableComments;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
@@ -147,7 +148,8 @@ public class Nodespace {
 			if(node != null) popNode(node);
 		}
 	}
-	
+
+	@NotableComments
 	public static class PowerNode {
 		
 		public BlockPos[] positions;

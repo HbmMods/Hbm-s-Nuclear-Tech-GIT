@@ -52,7 +52,7 @@ public class XFactory9mm {
 				).setUnlocalizedName("gun_greasegun").setTextureName(RefStrings.MODID + ":gun_darter");
 
 		ModItems.gun_lag = new ItemGunBaseNT(new GunConfig()
-				.dura(1_700).draw(15).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
+				.dura(1_700).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(15F).delay(4).dry(40).spread(0.005F).reload(60).jam(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 17).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap))
@@ -63,7 +63,7 @@ public class XFactory9mm {
 				).setUnlocalizedName("gun_lag").setTextureName(RefStrings.MODID + ":gun_darter");
 
 		ModItems.gun_uzi = new ItemGunBaseNT(new GunConfig()
-				.dura(3_000).draw(15).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
+				.dura(3_000).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(7.5F).delay(2).dry(25).auto(true).spread(0.005F).reload(55).jam(50).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap))
@@ -114,7 +114,7 @@ public class XFactory9mm {
 		return null;
 	};
 
-	public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_UZI_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_UZI_ANIMS = (stack, type) -> {
 		switch(type) {
 		case EQUIP: return new BusAnimation()
 				.addBus("EQUIP", new BusAnimationSequence().addPos(80, 0, 0, 0).addPos(80, 0, 0, 500).addPos(0, 0, 0, 500, IType.SIN_FULL))

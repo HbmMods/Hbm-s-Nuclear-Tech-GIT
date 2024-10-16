@@ -3,6 +3,8 @@ package com.hbm.util;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.hbm.interfaces.NotableComments;
+
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -14,6 +16,7 @@ import net.minecraft.stats.StatCrafting;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ChatComponentTranslation;
 
+@NotableComments
 public class StatHelper {
 	
 	/*

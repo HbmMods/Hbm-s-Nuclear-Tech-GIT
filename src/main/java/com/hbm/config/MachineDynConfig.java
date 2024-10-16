@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.interfaces.NotableComments;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.TileMappings;
@@ -20,6 +21,7 @@ import com.hbm.tileentity.TileMappings;
  * tile entities from the registry automatically and generate config options.
  * @author hbm
  */
+@NotableComments
 public class MachineDynConfig {
 
 	public static final Gson gson = new Gson();

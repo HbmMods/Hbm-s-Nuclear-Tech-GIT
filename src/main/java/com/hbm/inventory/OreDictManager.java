@@ -20,6 +20,7 @@ import com.hbm.hazard.HazardData;
 import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.interfaces.NotableComments;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
@@ -45,6 +46,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.OreDictionary.OreRegisterEvent;
 
 //the more i optimize this, the more it starts looking like gregtech
+@NotableComments
 public class OreDictManager {
 	
 	/** Alternate, additional names for ore dict registration. Used mostly for DictGroups */

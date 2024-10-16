@@ -3,6 +3,7 @@ package com.hbm.tileentity.network;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.hbm.interfaces.NotableComments;
 import com.hbm.tileentity.network.RequestNetwork.PathNode;
 import com.hbm.util.HashedSet;
 import com.hbm.util.ParticleUtil;
@@ -24,6 +25,7 @@ import net.minecraft.world.World;
  * @author hbm
  *
  */
+@NotableComments
 public abstract class TileEntityRequestNetwork extends TileEntity {
 
 	public HashedSet<PathNode> reachableNodes = new HashedSet();
