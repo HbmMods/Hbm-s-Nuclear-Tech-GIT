@@ -1,5 +1,6 @@
 package com.hbm.items.weapon.sedna.factory;
 
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.items.ModItems;
@@ -8,9 +9,12 @@ import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.anim.BusAnimation;
@@ -18,6 +22,7 @@ import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public class XFactory12ga {
@@ -55,7 +60,47 @@ public class XFactory12ga {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LIBERATOR_ANIMS).orchestra(Orchestras.ORCHESTRA_LIBERATOR)
 				).setUnlocalizedName("gun_liberator").setTextureName(RefStrings.MODID + ":gun_darter");
+
+		ModItems.gun_spas12 = new ItemGunBaseNT(new GunConfig()
+				.dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(12F).delay(20).reload(5, 10, 10, 10, 0).jam(24).sound("hbm:weapon.shotgunShoot", 1.0F, 1.0F)
+						.mag(new MagazineSingleReload(0, 8).addConfigs(g12_bp, g12_bp_magnum, g12_bp_slug, g12))
+						.offset(0.75, -0.0625, -0.1875D)
+						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
+				.setupStandardConfiguration().ps(LAMBDA_SPAS_SECONDARY).pt(null)
+				.anim(LAMBDA_SPAS_ANIMS).orchestra(Orchestras.ORCHESTRA_SPAS)
+				).setUnlocalizedName("gun_spas12").setTextureName(RefStrings.MODID + ":gun_darter");
 	}
+	//TODO: make generic code for this crap
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SPAS_SECONDARY = (stack, ctx) -> {
+		EntityPlayer player = ctx.player;
+		Receiver rec = ctx.config.getReceivers(stack)[0];
+		int index = ctx.configIndex;
+		GunState state = ItemGunBaseNT.getState(stack, index);
+		if(state == GunState.IDLE) {
+			if(rec.getCanFire(stack).apply(stack, ctx)) {
+				rec.getOnFire(stack).accept(stack, ctx);
+				int remaining = rec.getRoundsPerCycle(stack);
+				int timeFired = 1;
+				for(int i = 0; i < remaining; i++) {
+					if(rec.getCanFire(stack).apply(stack, ctx)) {
+						rec.getOnFire(stack).accept(stack, ctx);
+						timeFired++;
+					}
+				}
+				if(rec.getFireSound(stack) != null) player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack) * (timeFired > 1 ? 0.9F : 1F));
+				ItemGunBaseNT.setState(stack, index, GunState.COOLDOWN);
+				ItemGunBaseNT.setTimer(stack, index, 10);
+			} else {
+				if(rec.getDoesDryFire(stack)) {
+					ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE_DRY, index);
+					ItemGunBaseNT.setState(stack, index, GunState.DRAWING);
+					ItemGunBaseNT.setTimer(stack, index, rec.getDelayAfterDryFire(stack));
+				}
+			}
+		}
+	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_MARESLEG_ANIMS = (stack, type) -> {
 		switch(type) {
@@ -193,6 +238,24 @@ public class XFactory12ga {
 				.addBus(ammo < 2 ? "SHELL2" : "NULL", new BusAnimationSequence().addPos(2, -8, -2, 0))
 				.addBus(ammo < 3 ? "SHELL3" : "NULL", new BusAnimationSequence().addPos(2, -8, -2, 0))
 				.addBus(ammo < 4 ? "SHELL4" : "NULL", new BusAnimationSequence().addPos(2, -8, -2, 0));
+		}
+		
+		return null;
+	};
+
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_SPAS_ANIMS = (stack, type) -> {
+		switch(type) {
+		case EQUIP: return new BusAnimation()
+				.addBus("EQUIP", new BusAnimationSequence().addPos(-60, 0, 0, 0).addPos(0, 0, -3, 500, IType.SIN_DOWN));
+		case CYCLE: return ResourceManager.spas_12_anim.get("Fire");
+		case CYCLE_DRY: return new BusAnimation();
+		case RELOAD:
+			boolean empty = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack) <= 0;
+			return ResourceManager.spas_12_anim.get(empty ? "ReloadEmptyStart" : "ReloadStart");
+		case RELOAD_CYCLE: return ResourceManager.spas_12_anim.get("Reload");
+		case RELOAD_END: return ResourceManager.spas_12_anim.get("ReloadEnd");
+		case JAMMED: return new BusAnimation();
+		case INSPECT: return new BusAnimation();
 		}
 		
 		return null;

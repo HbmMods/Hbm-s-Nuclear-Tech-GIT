@@ -50,9 +50,10 @@ public class Lego {
 			IMagazine mag = rec.getMagazine(stack);
 			
 			if(mag.canReload(stack, ctx.player)) {
-				mag.setAmountBeforeReload(stack, mag.getAmount(stack));
+				int loaded = mag.getAmount(stack);
+				mag.setAmountBeforeReload(stack, loaded);
 				ItemGunBaseNT.setState(stack, ctx.configIndex, GunState.RELOADING);
-				ItemGunBaseNT.setTimer(stack, ctx.configIndex, rec.getReloadBeginDuration(stack));
+				ItemGunBaseNT.setTimer(stack, ctx.configIndex, rec.getReloadBeginDuration(stack) + (loaded <= 0 ? rec.getReloadCockOnEmptyPre(stack) : 0));
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD, ctx.configIndex);
 			} else {
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.INSPECT, ctx.configIndex);
@@ -149,9 +150,13 @@ public class Lego {
 	
 	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_FIRE = (stack, ctx) -> {
+		doStandardFire(stack, ctx, AnimType.CYCLE);
+	};
+	
+	public static void doStandardFire(ItemStack stack, LambdaContext ctx, AnimType anim) {
 		EntityPlayer player = ctx.player;
 		int index = ctx.configIndex;
-		ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE, ctx.configIndex);
+		if(anim != null) ItemGunBaseNT.playAnimation(player, stack, anim, ctx.configIndex);
 		
 		float aim = ItemGunBaseNT.getIsAiming(stack) ? 0.25F : 1F;
 		Receiver primary = ctx.config.getReceivers(stack)[0];
@@ -179,7 +184,7 @@ public class Lego {
 		
 		mag.setAmount(stack, mag.getAmount(stack) - 1);
 		ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
-	};
+	}
 	
 	public static float getStandardWearSpread(ItemStack stack, GunConfig config, int index) {
 		float percent = (float) ItemGunBaseNT.getWear(stack, index) / config.getDurability(stack);

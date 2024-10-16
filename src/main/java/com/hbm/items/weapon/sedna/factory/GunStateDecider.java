@@ -76,7 +76,7 @@ public class GunStateDecider {
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.JAMMED, gunIndex);
 				} else {
 					ItemGunBaseNT.setState(stack, gunIndex, GunState.DRAWING);
-					int duration = rec.getReloadEndDuration(stack) + (mag.getAmountBeforeReload(stack) <= 0 ? rec.getReloadCockOnEmpty(stack) : 0);
+					int duration = rec.getReloadEndDuration(stack) + (mag.getAmountBeforeReload(stack) <= 0 ? rec.getReloadCockOnEmptyPost(stack) : 0);
 					ItemGunBaseNT.setTimer(stack, gunIndex, duration);
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD_END, gunIndex);
 				}
