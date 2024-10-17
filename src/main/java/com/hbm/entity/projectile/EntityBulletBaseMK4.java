@@ -21,6 +21,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 	//used for rendering tracers
 	public double velocity;
 	public double prevVelocity;
+	public double accel;
 	public float damage;
 	public int ricochets = 0;
 
@@ -166,6 +167,8 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 			if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
 				Entity entity = mop.entityHit;
 				
+				if(entity == this.thrower && this.ticksExisted < this.selfDamageDelay()) return;
+				
 				if(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0) {
 					return;
 				}
@@ -200,7 +203,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 
 	@Override protected double headingForceMult() { return 1D; }
 	@Override public double getGravityVelocity() { return this.config.gravity; }
-	@Override protected double motionMult() { return this.config.velocity; }
+	@Override protected double motionMult() { return this.config.velocity + this.accel; }
 	@Override protected float getAirDrag() { return 1F; }
 	@Override protected float getWaterDrag() { return 1F; }
 	

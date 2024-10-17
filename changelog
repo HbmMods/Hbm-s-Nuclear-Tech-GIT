@@ -8,6 +8,11 @@
   * Configs can be edited ingame via `/ntmclient set <name> <value>` or in the file and then `/ntmclient reload`
   * Available configs include geiger counter HUD position, info system position and orientation, custom main menu splash texts, ore dict display and custom nuke item info
   * Check the config file or `/ntmclient list` for a full list of values, the name should make them self-explanatory!
+* Liquid lead
+  * A valid coolant for both PWRs and ICFs
+  * Has an immense heat transfer speed bonus, allowing ICFs to be cooled even when using higher tier pellets
+  * Cools quite effectively in PWRs, but has a negative neutron modifier and a small penalty of how much heat ends up usable
+  * Overall a cheap and very good coolant, just not as efficient as sodium
 
 ## Changed
 * Updated russian and chinese localization

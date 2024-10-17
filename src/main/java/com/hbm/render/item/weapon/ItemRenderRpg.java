@@ -5,7 +5,6 @@ import org.lwjgl.opengl.GL11;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.model.ModelGustav;
-import com.hbm.render.model.ModelPanzerschreck;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -15,11 +14,9 @@ import net.minecraftforge.client.IItemRenderer;
 public class ItemRenderRpg implements IItemRenderer {
 
 	protected ModelGustav swordModel;
-	protected ModelPanzerschreck panz;
 	
 	public ItemRenderRpg() {
 		swordModel = new ModelGustav();
-		panz = new ModelPanzerschreck();
 	}
 
 	@Override
@@ -47,8 +44,6 @@ public class ItemRenderRpg implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelGustav.png"));
 				if(item.getItem() == ModItems.gun_karl)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelGustavYellow.png"));
-				if(item.getItem() == ModItems.gun_panzerschreck)
-					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPanzerschreck.png"));
 				
 				GL11.glRotatef(-135.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
@@ -73,8 +68,6 @@ public class ItemRenderRpg implements IItemRenderer {
 					swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				if(item.getItem() == ModItems.gun_karl)
 					swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item.getItem() == ModItems.gun_panzerschreck)
-					panz.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 			break;
 		case EQUIPPED:
@@ -84,8 +77,6 @@ public class ItemRenderRpg implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelGustav.png"));
 				if(item.getItem() == ModItems.gun_karl)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelGustavYellow.png"));
-				if(item.getItem() == ModItems.gun_panzerschreck)
-					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPanzerschreck.png"));
 				
 				GL11.glRotatef(-200.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(75.0F, 0.0F, 1.0F, 0.0F);
@@ -103,8 +94,6 @@ public class ItemRenderRpg implements IItemRenderer {
 					swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				if(item.getItem() == ModItems.gun_karl)
 					swordModel.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
-				if(item.getItem() == ModItems.gun_panzerschreck)
-					panz.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			GL11.glPopMatrix();
 		default: break;
 		}

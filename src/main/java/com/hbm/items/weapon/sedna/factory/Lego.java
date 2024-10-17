@@ -198,9 +198,10 @@ public class Lego {
 		return 1F - (percent - 0.75F) * 2F;
 	}
 	
-	public static void standardExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range) {
+	public static void standardExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range) { standardExplode(bullet, mop, range, 1F); }
+	public static void standardExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range, float damageMod) {
 		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, range);
-		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage));
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage * damageMod));
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
 		vnt.explode();
