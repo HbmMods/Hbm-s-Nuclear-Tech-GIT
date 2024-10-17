@@ -151,7 +151,6 @@ public class Mats {
 	public static NTMMaterial MAT_MINGRADE;
 	public static NTMMaterial MAT_ALLOY ;
 	public static NTMMaterial MAT_DURA ;
-	public static NTMMaterial MAT_SATURN ;
 	public static NTMMaterial MAT_DESH ;
 	public static NTMMaterial MAT_STAR ;
 	public static NTMMaterial MAT_FERRO;
@@ -168,6 +167,7 @@ public class Mats {
 	public static NTMMaterial MAT_MUD;
 	public static NTMMaterial MAT_GUNMETAL;
 	public static NTMMaterial MAT_WEAPONSTEEL;
+	public static NTMMaterial MAT_SATURN;
 
 	//Extension
 	public static NTMMaterial MAT_RAREEARTH;
@@ -175,21 +175,20 @@ public class Mats {
 		//Vanilla and vanilla-like
 		MAT_WOOD			= makeNonSmeltable(_VS + 03,	WOOD,				0x896727, 0x281E0B, 0x896727).setShapes(STOCK, GRIP).n();
 		MAT_IVORY			= makeNonSmeltable(_VS + 04,	BONE,				0xFFFEEE, 0x797870, 0xEDEBCA).setShapes(GRIP).n();
-		MAT_STONE = makeSmeltable(_VS + 00, df("Stone"), 0x7F7F7F, 0x353535, 0x4D2F23).n();
-		MAT_CARBON = makeAdditive(1499, CARBON, 0x363636, 0x030303, 0x404040).setShapes(WIRE, INGOT, BLOCK).n();
-		MAT_COAL = make(1400, COAL).setConversion(MAT_CARBON, 2, 1).n();
-		MAT_LIGNITE = make(1401, LIGNITE).setConversion(MAT_CARBON, 3, 1).n();
-		MAT_COALCOKE = make(1410, COALCOKE).setConversion(MAT_CARBON, 4, 3).n();
-		MAT_PETCOKE = make(1411, PETCOKE).setConversion(MAT_CARBON, 4, 3).n();
-		MAT_LIGCOKE = make(1412, LIGCOKE).setConversion(MAT_CARBON, 4, 3).n();
-		MAT_GRAPHITE = make(1420, GRAPHITE).setConversion(MAT_CARBON, 1, 1).n();
-		MAT_DIAMOND = make(1430, DIAMOND).setConversion(MAT_CARBON, 1, 1).n();
-		MAT_IRON = makeSmeltable(2600, IRON, 0xFFFFFF, 0x353535, 0xFFA259).setShapes(INGOT, DUST, PIPE, CASTPLATE, WELDEDPLATE, BLOCK).m();
-		MAT_GOLD = makeSmeltable(7900, GOLD, 0xFFFF8B, 0xC26E00, 0xE8D754).setShapes(WIRE, NUGGET, INGOT, DUST, DENSEWIRE, CASTPLATE, BLOCK).m();
-		MAT_REDSTONE = makeSmeltable(_VS + 01, REDSTONE, 0xE3260C, 0x700E06, 0xFF1000).n();
-		MAT_OBSIDIAN = makeSmeltable(_VS + 02, df("Obsidian"), 0x3D234D).n();
-		MAT_HEMATITE = makeAdditive(2601, HEMATITE, 0xDFB7AE, 0x5F372E, 0x6E463D).m();
-
+		MAT_STONE			= makeSmeltable(_VS + 00,	df("Stone"),		0x7F7F7F, 0x353535, 0x4D2F23).n();
+		MAT_CARBON			= makeAdditive(	699,		CARBON,				0x363636, 0x030303, 0x404040).setShapes(WIRE, INGOT, BLOCK).n();
+		MAT_COAL			= makeNonSmeltable(600,		COAL, 				0x363636, 0x030303, 0x404040).setConversion(MAT_CARBON,  2, 1).setShapes(FRAGMENT).n();
+		MAT_LIGNITE			= makeNonSmeltable(601,		LIGNITE,			0x542D0F, 0x261508, 0x472913).setConversion(MAT_CARBON,  3, 1).setShapes(FRAGMENT).n();
+		MAT_COALCOKE		= make(			610,		COALCOKE)			.setConversion(MAT_CARBON,  4, 3).n();
+		MAT_PETCOKE			= make(			611,		PETCOKE)			.setConversion(MAT_CARBON,  4, 3).n();
+		MAT_LIGCOKE			= make(			612,		LIGCOKE)			.setConversion(MAT_CARBON,  4, 3).n();
+		MAT_GRAPHITE		= make(			620,		GRAPHITE)			.setConversion(MAT_CARBON,  1, 1).n();
+		MAT_DIAMOND			= makeNonSmeltable(1430,	DIAMOND,			0xFFFFFF, 0x1B7B6B, 0x8CF4E2).setConversion(MAT_CARBON,  1, 1).setShapes(FRAGMENT).n();
+		MAT_IRON			= makeSmeltable(2600,		IRON,				0xFFFFFF, 0x353535, 0xFFA259).setShapes(FRAGMENT, INGOT, DUST, PIPE, CASTPLATE, WELDEDPLATE, BLOCK).m();
+		MAT_GOLD			= makeSmeltable(7900,		GOLD,				0xFFFF8B, 0xC26E00, 0xE8D754).setShapes(FRAGMENT, WIRE, NUGGET, INGOT, DUST, DENSEWIRE, CASTPLATE, BLOCK).m();
+		MAT_REDSTONE		= makeSmeltable(_VS + 01,	REDSTONE,			0xE3260C, 0x700E06, 0xFF1000).setShapes(FRAGMENT).n();
+		MAT_OBSIDIAN		= makeSmeltable(_VS + 02,	df("Obsidian"),		0x3D234D).n();
+		MAT_HEMATITE		= makeAdditive(	2601,		HEMATITE,			0xDFB7AE, 0x5F372E, 0x6E463D).m();
 		MAT_WROUGHTIRON = makeSmeltable(2602, df("WroughtIron"), 0xFAAB89).m();
 		MAT_PIGIRON = makeSmeltable(2603, df("PigIron"), 0xFF8B59).m();
 		MAT_METEORICIRON = makeSmeltable(2604, df("MeteoricIron"), 0x715347).m();
@@ -263,7 +262,6 @@ public class Mats {
 		MAT_MINGRADE = makeSmeltable(_AS + 1, MINGRADE, 0xFFBA7D, 0xAF1700, 0xE44C0F).setShapes(WIRE, INGOT, DUST, BLOCK).m();
 		MAT_ALLOY = makeSmeltable(_AS + 2, ALLOY, 0xFF8330, 0x700000, 0xFF7318).setShapes(WIRE, INGOT, DUST, DENSEWIRE, PLATE, CASTPLATE, BLOCK, HEAVY_COMPONENT).m();
 		MAT_DURA = makeSmeltable(_AS + 3, DURA, 0x183039, 0x030B0B, 0x376373).setShapes(BOLT, INGOT, DUST, PIPE, BLOCK).m();
-		MAT_SATURN = makeSmeltable(_AS + 4,	BIGMT,			0x3AC4DA, 0x09282C, 0x30A4B7).setShapes(INGOT, PLATE, CASTPLATE, BLOCK, LIGHTBARREL, HEAVYBARREL, LIGHTRECEIVER, HEAVYRECEIVER, MECHANISM, STOCK, GRIP).m();
 		MAT_DESH = makeSmeltable(_AS + 12, DESH, 0xFF6D6D, 0x720000, 0xF22929).setShapes(INGOT, DUST, CASTPLATE, BLOCK, HEAVY_COMPONENT).m();
 		MAT_STAR = makeSmeltable(_AS + 5, STAR, 0xCCCCEA, 0x11111A, 0xA5A5D3).setShapes(INGOT, DUST, DENSEWIRE, BLOCK).m();
 		MAT_FERRO = makeSmeltable(_AS + 7, FERRO, 0xB7B7C9, 0x101022, 0x6B6B8B).setShapes(INGOT).m();
@@ -280,9 +278,7 @@ public class Mats {
 		MAT_MUD = makeSmeltable(_AS + 14, MUD, 0xBCB5A9, 0x481213, 0x96783B).setShapes(INGOT).n();
 		MAT_GUNMETAL	= makeSmeltable(_AS + 19,	GUNMETAL,		0xFFEF3F, 0xAD3600, 0xF9C62C).setShapes(INGOT, LIGHTBARREL, HEAVYBARREL, LIGHTRECEIVER, HEAVYRECEIVER, MECHANISM, STOCK, GRIP).n();
 		MAT_WEAPONSTEEL	= makeSmeltable(_AS + 20,	WEAPONSTEEL,	0xA0A0A0, 0x000000, 0x808080).setShapes(INGOT, LIGHTBARREL, HEAVYBARREL, LIGHTRECEIVER, HEAVYRECEIVER, MECHANISM, STOCK, GRIP).n();
-
-		//Extension
-		MAT_RAREEARTH	= makeNonSmeltable(_ES + 00, 		RAREEARTH,		0xC1BDBD, 0x384646, 0x7B7F7F).setShapes(FRAGMENT, INGOT).n();
+		MAT_SATURN		= makeSmeltable(_AS + 4,	BIGMT,			0x3AC4DA, 0x09282C, 0x30A4B7).setShapes(INGOT, PLATE, CASTPLATE, BLOCK, LIGHTBARREL, HEAVYBARREL, LIGHTRECEIVER, HEAVYRECEIVER, MECHANISM, STOCK, GRIP).m();
 
 		//Extension
 		MAT_RAREEARTH	= makeNonSmeltable(_ES + 00, 		RAREEARTH,		0xC1BDBD, 0x384646, 0x7B7F7F).setShapes(FRAGMENT, INGOT).n();
