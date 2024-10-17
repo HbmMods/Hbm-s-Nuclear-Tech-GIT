@@ -14,6 +14,7 @@ import com.hbm.util.InventoryUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -54,9 +55,9 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	public void updateEntity() {
 		super.updateEntity();
 		if(!worldObj.isRemote) {
-			
+
 			int delay = 20;
-			
+
 			if(slots[10] != null && slots[10].getItem() == ModItems.upgrade_ejector) {
 				switch(slots[10].getItemDamage()) {
 				case 0: delay = 10; break;
@@ -64,10 +65,10 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 				case 2: delay = 2; break;
 				}
 			}
-			
+
 			if(worldObj.getTotalWorldTime() >= lastGrabbedTick + delay && !this.worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
 				int amount = 1;
-				
+
 				if(slots[9] != null && slots[9].getItem() == ModItems.upgrade_stack) {
 					switch(slots[9].getItemDamage()) {
 					case 0: amount = 4; break;
@@ -75,15 +76,15 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 					case 2: amount = 64; break;
 					}
 				}
-	
+
 				ForgeDirection inputSide = getInputSide();
 				ForgeDirection outputSide = getOutputSide();
 				Block beltBlock = worldObj.getBlock(xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ);
-				
+
 				//unholy copy paste bullshit because i can't be assed to rework the entire thing
 				if(beltBlock instanceof IConveyorBelt) {
 					IConveyorBelt belt = (IConveyorBelt) beltBlock;
-					
+
 					double reach = 1D;
 					if(this.getBlockMetadata() > 1) { //ignore if pointing up or down
 						Block b = worldObj.getBlock(xCoord + inputSide.offsetX, yCoord + inputSide.offsetY, zCoord + inputSide.offsetZ);
@@ -94,14 +95,14 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 					double x = xCoord + inputSide.offsetX * reach;
 					double y = yCoord + inputSide.offsetY * reach;
 					double z = zCoord + inputSide.offsetZ * reach;
-					
+
 					List<EntityMovingItem> items = worldObj.getEntitiesWithinAABB(EntityMovingItem.class, AxisAlignedBB.getBoundingBox(x + 0.1875D, y + 0.1875D, z + 0.1875D, x + 0.8125D, y + 0.8125D, z + 0.8125D));
-					
+
 					for(EntityMovingItem item : items) {
 						ItemStack stack = item.getItemStack();
 						boolean match = this.matchesFilter(stack);
 						if(this.isWhitelist && !match || !this.isWhitelist && match) continue;
-						
+
 						lastGrabbedTick = worldObj.getTotalWorldTime();
 
 						Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + outputSide.offsetX * 0.55, yCoord + 0.5 + outputSide.offsetY * 0.55, zCoord + 0.5 + outputSide.offsetZ * 0.55);
@@ -109,21 +110,21 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 						item.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
 						break;
 					}
-					
+
 				} else {
-					
+
 					TileEntity te = worldObj.getTileEntity(xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ);
-					
+
 					int[] access = null;
 					ISidedInventory sided = null;
-					
+
 					if(te instanceof ISidedInventory) {
 						sided = (ISidedInventory) te;
 						access = InventoryUtil.masquerade(sided, outputSide.getOpposite().ordinal());
 					}
-					
+
 					if(te instanceof IInventory) {
-						
+
 						/*
 						 * due to this really primitive way of just offsetting the AABB instead of contracting it, there's a wacky
 						 * edge-case where it's possible to feed the grabber by inserting items from the side if there's a triple
@@ -136,30 +137,30 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 							if(b == ModBlocks.conveyor_double) reach = 0.5D;
 							if(b == ModBlocks.conveyor_triple) reach = 0.33D;
 						}
-	
+
 						double x = xCoord + inputSide.offsetX * reach;
 						double y = yCoord + inputSide.offsetY * reach;
 						double z = zCoord + inputSide.offsetZ * reach;
 						List<EntityMovingItem> items = worldObj.getEntitiesWithinAABB(EntityMovingItem.class, AxisAlignedBB.getBoundingBox(x + 0.1875D, y + 0.1875D, z + 0.1875D, x + 0.8125D, y + 0.8125D, z + 0.8125D));
-						
+
 						for(EntityMovingItem item : items) {
 							ItemStack stack = item.getItemStack();
 							boolean match = this.matchesFilter(stack);
 							if(this.isWhitelist && !match || !this.isWhitelist && match) continue;
-							
+
 							lastGrabbedTick = worldObj.getTotalWorldTime();
-							
+
 							ItemStack copy = stack.copy();
 							int toAdd = Math.min(stack.stackSize, amount);
 							copy.stackSize = toAdd;
 							ItemStack ret = CraneInserter.addToInventory((IInventory) te, access, copy, outputSide.getOpposite().ordinal());
 							int didAdd = toAdd - (ret != null ? ret.stackSize : 0);
 							stack.stackSize -= didAdd;
-							
+
 							if(stack.stackSize <= 0) {
 								item.setDead();
 							}
-							
+
 							amount -= didAdd;
 							if(amount <= 0) {
 								break;
@@ -168,32 +169,35 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 					}
 				}
 			}
-			
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("isWhitelist", isWhitelist);
-			this.matcher.writeToNBT(data);
-			this.networkPack(data, 15);
+
+			this.networkPackNT(15);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		this.isWhitelist = nbt.getBoolean("isWhitelist");
-		this.matcher.modes = new String[matcher.modes.length];
-		this.matcher.readFromNBT(nbt);
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(this.isWhitelist);
+		this.matcher.serialize(buf);
 	}
-	
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.isWhitelist = buf.readBoolean();
+		this.matcher.deserialize(buf);
+	}
+
 	public boolean matchesFilter(ItemStack stack) {
-		
+
 		for(int i = 0; i < 9; i++) {
 			ItemStack filter = slots[i];
-			
+
 			if(filter != null && this.matcher.isValidForFilter(filter, i, stack)) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -207,7 +211,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICraneGrabber(player.inventory, this);
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -215,7 +219,7 @@ public class TileEntityCraneGrabber extends TileEntityCraneBase implements IGUIP
 		this.matcher.readFromNBT(nbt);
 		this.lastGrabbedTick = nbt.getLong("lastGrabbedTick");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);

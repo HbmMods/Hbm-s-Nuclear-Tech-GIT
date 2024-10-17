@@ -1,8 +1,10 @@
 package com.hbm.tileentity.network;
 
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IBufPacketReceiver;
 
+import com.hbm.util.BufferUtil;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -10,7 +12,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityRadioTorchBase extends TileEntity implements INBTPacketReceiver, IControlReceiver {
+public class TileEntityRadioTorchBase extends TileEntity implements IBufPacketReceiver, IControlReceiver {
 
 	/** channel we're broadcasting on/listening to */
 	public String channel = "";
@@ -30,12 +32,7 @@ public class TileEntityRadioTorchBase extends TileEntity implements INBTPacketRe
 
 		if(!worldObj.isRemote) {
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("p", polling);
-			data.setBoolean("m", customMap);
-			if(channel != null) data.setString("c", channel);
-			for(int i = 0; i < 16; i++) if(mapping[i] != null) data.setString("m" + i, mapping[i]);
-			INBTPacketReceiver.networkPack(this, data, 50);
+			sendStandard(50);
 		}
 	}
 
@@ -62,11 +59,19 @@ public class TileEntityRadioTorchBase extends TileEntity implements INBTPacketRe
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.polling = nbt.getBoolean("p");
-		this.customMap = nbt.getBoolean("m");
-		this.channel = nbt.getString("c");
-		for(int i = 0; i < 16; i++) this.mapping[i] = nbt.getString("m" + i);
+	public void serialize(ByteBuf buf) {
+		buf.writeBoolean(this.polling);
+		buf.writeBoolean(this.customMap);
+		BufferUtil.writeString(buf, this.channel);
+		for(int i = 0; i < 16; i++) BufferUtil.writeString(buf, this.mapping[i]);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.polling = buf.readBoolean();
+		this.customMap = buf.readBoolean();
+		this.channel = BufferUtil.readString(buf);
+		for(int i = 0; i < 16; i++) this.mapping[i] = BufferUtil.readString(buf);
 	}
 
 	@Override

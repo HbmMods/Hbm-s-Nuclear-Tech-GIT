@@ -9,6 +9,7 @@ import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -90,7 +91,7 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 
 		if(nbt.hasKey("startingLevel"))
 			this.startingLevel = nbt.getDouble("startingLevel");
-		
+
 		if(nbt.hasKey("color"))
 			this.color = RBMKColor.values()[nbt.getInteger("color")];
 		else
@@ -106,6 +107,24 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 		
 		if(color != null)
 			nbt.setInteger("color", color.ordinal());
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeDouble(this.startingLevel);
+		if(this.color != null)
+			buf.writeInt(this.color.ordinal());
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.startingLevel = buf.readDouble();
+		if(buf.isReadable(1)) {
+			int color = buf.readInt();
+			this.color = RBMKColor.values()[MathHelper.clamp_int(color, 0, RBMKColor.values().length)];
+		}
 	}
 	
 	public static enum RBMKColor {

@@ -4,12 +4,9 @@ import java.util.List;
 
 import com.hbm.entity.item.EntityDeliveryDrone;
 import com.hbm.util.ParticleUtil;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.BufPacket;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -39,7 +36,7 @@ public class TileEntityDroneWaypoint extends TileEntity implements IBufPacketRec
 				}
 			}
 
-			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 15));
+			sendStandard(15);
 		} else {
 			BlockPos pos = getCoord(dir);
 			if(nextY != -1 && worldObj.getTotalWorldTime() % 2 == 0) {

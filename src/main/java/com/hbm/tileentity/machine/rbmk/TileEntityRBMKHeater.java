@@ -17,6 +17,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -49,7 +50,7 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 		if(!worldObj.isRemote) {
 			
 			feed.setType(0, slots);
-			
+
 			if(feed.getTankType().hasTrait(FT_Heatable.class)) {
 				FT_Heatable trait = feed.getTankType().getTrait(FT_Heatable.class);
 				HeatingStep step = trait.getFirstStep();
@@ -81,7 +82,7 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 		
 		super.updateEntity();
 	}
-	
+
 	protected DirPos[] getOutputPos() {
 		
 		if(worldObj.getBlock(xCoord, yCoord - 1, zCoord) == ModBlocks.rbmk_loader) {
@@ -124,7 +125,21 @@ public class TileEntityRBMKHeater extends TileEntityRBMKSlottedBase implements I
 		feed.writeToNBT(nbt, "feed");
 		steam.writeToNBT(nbt, "steam");
 	}
-	
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		this.feed.serialize(buf);
+		this.steam.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.feed.deserialize(buf);
+		this.steam.deserialize(buf);
+	}
+
 	@Override
 	public void onMelt(int reduce) {
 		

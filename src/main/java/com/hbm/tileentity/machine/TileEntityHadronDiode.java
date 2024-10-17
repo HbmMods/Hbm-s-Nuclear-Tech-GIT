@@ -2,6 +2,7 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.tileentity.TileEntityTickingBase;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -25,7 +26,7 @@ public class TileEntityHadronDiode extends TileEntityTickingBase {
 			
 			if(age >= 20) {
 				age = 0;
-				sendSides();
+				this.networkPackNT(250);
 			}
 		} else {
 			
@@ -35,27 +36,18 @@ public class TileEntityHadronDiode extends TileEntityTickingBase {
 			}
 		}
 	}
-	
-	public void sendSides() {
-		
-		NBTTagCompound data = new NBTTagCompound();
-		
+
+	@Override public void serialize(ByteBuf buf) {
 		for(int i = 0; i < 6; i++) {
-			
-			if(sides[i] != null)
-				data.setInteger("" + i, sides[i].ordinal());
+			buf.writeByte(sides[i].ordinal());
 		}
-		
-		this.networkPack(data, 250);
 	}
 
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		
+	@Override public void deserialize(ByteBuf buf) {
 		for(int i = 0; i < 6; i++) {
-			sides[i] = DiodeConfig.values()[nbt.getInteger("" + i)];
+			sides[i] = DiodeConfig.values()[buf.readByte()];
 		}
-		
+
 		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
@@ -75,7 +67,7 @@ public class TileEntityHadronDiode extends TileEntityTickingBase {
 	public void setConfig(int side, int config) {
 		sides[side] = DiodeConfig.values()[config];
 		this.markDirty();
-		sendSides();
+		this.networkPackNT(250);
 	}
 	
 	public static enum DiodeConfig {

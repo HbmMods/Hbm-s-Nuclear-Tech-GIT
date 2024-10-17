@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import com.hbm.handler.neutron.NeutronNodeWorld;
+import com.hbm.handler.neutron.PileNeutronHandler;
+import com.hbm.handler.neutron.RBMKNeutronHandler;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
 
@@ -532,6 +535,12 @@ public class ModEventHandler {
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLoad(WorldEvent.Load event) {
 		BobmazonOfferFactory.init();
+	}
+
+	@SubscribeEvent
+	public void onUnload(WorldEvent.Unload event) {
+		NeutronNodeWorld.StreamWorld.removeAllWorlds(); // Remove world from worlds when unloaded to avoid world issues.
+		NeutronNodeWorld.removeAllNodes(); // Remove all nodes.
 	}
 	
 	public static boolean didSit = false;
@@ -1143,6 +1152,10 @@ public class ModEventHandler {
 			RequestNetwork.updateEntries();
 			TileEntityMachineRadarNT.updateSystem();
 			Nodespace.updateNodespace();
+			// RBMK!!!!
+			RBMKNeutronHandler.runAllInteractions();
+			// Chicago Pile!!!!
+			PileNeutronHandler.runAllInteractions();
 		}
 	}
 	
