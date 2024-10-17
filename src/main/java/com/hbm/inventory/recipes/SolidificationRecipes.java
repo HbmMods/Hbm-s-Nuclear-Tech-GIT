@@ -70,6 +70,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(WATZ,		1000,			ModItems.ingot_mud);
 		registerRecipe(REDMUD,		1000,			Items.iron_ingot);
 		registerRecipe(SODIUM,		100,			ModItems.powder_sodium);
+		registerRecipe(LEAD,		100,			ModItems.ingot_lead);
 		registerRecipe(SLOP,		250,			ModBlocks.ore_oil_sand);
 
 		registerRecipe(OIL,				SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
