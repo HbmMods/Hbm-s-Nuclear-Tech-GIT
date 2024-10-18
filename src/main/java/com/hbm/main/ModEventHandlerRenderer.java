@@ -134,7 +134,8 @@ public class ModEventHandlerRenderer {
 		
 		if(akimbo) {
 			ModelBiped biped = renderer.modelBipedMain;
-			biped.bipedLeftArm.rotateAngleY = 0.1F + biped.bipedHead.rotateAngleY;
+			renderer.modelArmorChestplate.bipedLeftArm.rotateAngleY = renderer.modelArmor.bipedLeftArm.rotateAngleY = biped.bipedLeftArm.rotateAngleY =
+					0.1F + biped.bipedHead.rotateAngleY;
 			if(!isManly) {
 				AbstractClientPlayer acp = (AbstractClientPlayer) player;
 				Minecraft.getMinecraft().getTextureManager().bindTexture(acp.getLocationSkin());
@@ -180,11 +181,22 @@ public class ModEventHandlerRenderer {
 
 		EntityPlayer player = event.entityPlayer;
 		RenderPlayer renderer = event.renderer;
+		ItemStack held = player.getHeldItem();
 		
-		if(player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT) {
+		if(held != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT) {
 			renderer.modelBipedMain.aimedBow = true;
 			renderer.modelArmor.aimedBow = true;
 			renderer.modelArmorChestplate.aimedBow = true;
+
+			//technically not necessary but it probably fixes some issues with mods that implement their armor weirdly
+			IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(held, IItemRenderer.ItemRenderType.EQUIPPED);
+			if(customRenderer instanceof ItemRenderWeaponBase) {
+				ItemRenderWeaponBase renderGun = (ItemRenderWeaponBase) customRenderer;
+				if(renderGun.isAkimbo()) {
+					ModelBiped biped = renderer.modelBipedMain;
+					renderer.modelArmorChestplate.bipedLeftArm.rotateAngleY = renderer.modelArmor.bipedLeftArm.rotateAngleY = biped.bipedLeftArm.rotateAngleY = 0.1F + biped.bipedHead.rotateAngleY;
+				}
+			}
 		}
 	}
 

@@ -4,6 +4,13 @@ import com.hbm.config.BombConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
@@ -45,18 +52,25 @@ public class EntityBombletZeta extends EntityThrowable {
         {
     		if(!this.worldObj.isRemote)
     		{
-    			if(type == 0) {
-    				ExplosionLarge.explode(worldObj, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 5.0F, true, false, false, this);
-    	        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "hbm:entity.bombDet", 25.0F, 0.8F + rand.nextFloat() * 0.4F);
+				if(type == 0) {
+					ExplosionVNT vnt = new ExplosionVNT(worldObj, this.posX + 0.5F, this.posY + 1.5F, this.posZ + 0.5F, 4F);
+					vnt.setBlockAllocator(new BlockAllocatorStandard());
+					vnt.setBlockProcessor(new BlockProcessorStandard());
+					vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, 100));
+					vnt.setPlayerProcessor(new PlayerProcessorStandard());
+					vnt.setSFX(new ExplosionEffectWeapon(15, 3.5F, 1.25F));
+					vnt.explode();
     			}
     			if(type == 1) {
-    				ExplosionLarge.explode(worldObj, this.posX + 0.5F, this.posY + 0.5F, this.posZ + 0.5F, 2.5F, false, false, false, this);
-    				ExplosionChaos.burn(worldObj, (int)posX, (int)posY, (int)posZ, 9);
-    				ExplosionChaos.flameDeath(worldObj, (int)posX, (int)posY, (int)posZ, 14);
-    	        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "hbm:entity.bombDet", 25.0F, 1.0F);
-    	        	
-    	        	for(int i = 0; i < 5; i++)
-    	        		ExplosionLarge.spawnBurst(worldObj, this.posX + 0.5F, this.posY + 1.0F, this.posZ + 0.5F, rand.nextInt(10) + 15, rand.nextFloat() * 2 + 2);
+
+					ExplosionVNT vnt = new ExplosionVNT(worldObj, this.posX + 0.5F, this.posY + 1.5F, this.posZ + 0.5F, 4F);
+					vnt.setBlockAllocator(new BlockAllocatorStandard());
+					vnt.setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorFire()));
+					vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, 100));
+					vnt.setPlayerProcessor(new PlayerProcessorStandard());
+					vnt.setSFX(new ExplosionEffectWeapon(15, 5F, 1.75F));
+					vnt.explode();
+					
     			}
     			if(type == 2) {
     	        	worldObj.playSoundEffect((double)(posX + 0.5F), (double)(posY + 0.5F), (double)(posZ + 0.5F), "random.fizz", 5.0F, 2.6F + (rand.nextFloat() - rand.nextFloat()) * 0.8F);

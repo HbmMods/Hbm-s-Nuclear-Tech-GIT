@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -30,11 +31,28 @@ public class ItemRenderPanzerschreck extends ItemRenderWeaponBase {
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.panzerschreck_tex);
 		double scale = 1.25D;
 		GL11.glScaled(scale, scale, scale);
+
+		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
+		double[] reload = HbmAnimations.getRelevantTransformation("RELOAD");
+		double[] rocket = HbmAnimations.getRelevantTransformation("ROCKET");
+		
+		GL11.glTranslated(0, -1, -1);
+		GL11.glRotated(equip[0], 1, 0, 0);
+		GL11.glTranslated(0, 1, 1);
+		
+		GL11.glTranslated(0, -4, -3);
+		GL11.glRotated(reload[0], 1, 0, 0);
+		GL11.glTranslated(0, 4, 3);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
 		ResourceManager.panzerschreck.renderPart("Tube");
 		ResourceManager.panzerschreck.renderPart("Shield");
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(rocket[0], rocket[1], rocket[2]);
+		ResourceManager.panzerschreck.renderPart("Rocket");
+		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 
@@ -43,7 +61,7 @@ public class ItemRenderPanzerschreck extends ItemRenderWeaponBase {
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
 		GL11.glScaled(0.75, 0.75, 0.75);
-		this.renderMuzzleFlash(gun.lastShot[0], 75, 5);
+		this.renderMuzzleFlash(gun.lastShot[0], 150, 7.5);
 		GL11.glPopMatrix();
 	}
 

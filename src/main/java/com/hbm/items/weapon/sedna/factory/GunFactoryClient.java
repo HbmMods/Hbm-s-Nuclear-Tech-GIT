@@ -27,6 +27,7 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_henry, new ItemRenderHenry());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_greasegun, new ItemRenderGreasegun());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_maresleg, new ItemRenderMaresleg());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_maresleg_akimbo, new ItemRenderMareslegAkimbo());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_flaregun, new ItemRenderFlaregun());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_heavy_revolver, new ItemRenderHeavyRevolver());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_carbine, new ItemRenderCarbine());
@@ -93,5 +94,7 @@ public class GunFactoryClient {
 		
 		((ItemGunBaseNT) ModItems.gun_light_revolver_dani).getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY_MIRROR, LegoClient.HUD_COMPONENT_AMMO_MIRROR);
 		((ItemGunBaseNT) ModItems.gun_light_revolver_dani).getConfig(null, 1).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_maresleg_akimbo).getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY_MIRROR, LegoClient.HUD_COMPONENT_AMMO_MIRROR);
+		((ItemGunBaseNT) ModItems.gun_maresleg_akimbo).getConfig(null, 1).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 	}
 }

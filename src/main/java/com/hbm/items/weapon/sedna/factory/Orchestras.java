@@ -243,6 +243,42 @@ public class Orchestras {
 		}
 	};
 	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_MARESLEG_AKIMBO = (stack, ctx) -> {
+		EntityPlayer player = ctx.player;
+		if(player.worldObj.isRemote) return;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
+
+		if(type == AnimType.RELOAD) {
+			if(timer == 8) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.8F);
+			if(timer == 16) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.shotgunReload", 1F, 1F);
+		}
+		if(type == AnimType.RELOAD_CYCLE) {
+			if(timer == 0) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.shotgunReload", 1F, 1F);
+		}
+		if(type == AnimType.RELOAD_END) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.7F);
+		}
+		if(type == AnimType.JAMMED) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.revolverCock", 1F, 0.7F);
+			if(timer == 17) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.leverCock", 1F, 0.8F);
+			if(timer == 29) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.leverCock", 1F, 0.8F);
+		}
+		if(type == AnimType.CYCLE) {
+			if(timer == 14) {
+				int offset = ctx.configIndex == 0 ? -1 : 1;
+				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack);
+				if(casing != null) CasingCreator.composeEffect(player.worldObj, player, 0.3125, -0.125, aiming ? -0.125 * offset : -0.375D * offset, 0, -0.08, 0, 0.01, casing.getName(), true, 60, 0.5D, 20);
+			}
+			if(timer == 8) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.leverCock", 1F, 0.8F);
+		}
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 2) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+			if(timer == 8) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.leverCock", 1F, 0.8F);
+		}
+	};
+	
 	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_FLAREGUN = (stack, ctx) -> {
 		EntityPlayer player = ctx.player;
 		if(player.worldObj.isRemote) return;
@@ -580,5 +616,9 @@ public class Orchestras {
 		if(player.worldObj.isRemote) return;
 		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		
+		if(type == AnimType.RELOAD) {
+			if(timer == 30) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.insertCanister", 1F, 1F);
+		}
 	};
 }

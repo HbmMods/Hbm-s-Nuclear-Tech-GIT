@@ -49,6 +49,26 @@ public class XFactory12ga {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_MARESLEG_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG)
 				).setUnlocalizedName("gun_maresleg").setTextureName(RefStrings.MODID + ":gun_darter");
+		ModItems.gun_maresleg_akimbo = new ItemGunBaseNT(
+				new GunConfig().dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(12F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.mag(new MagazineSingleReload(0, 6).addConfigs(g12_bp, g12_bp_magnum, g12_bp_slug, g12))
+						.offset(0.75, -0.0625, 0.1875D)
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
+				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
+				.anim(LAMBDA_MARESLEG_SHORT_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG_AKIMBO),
+				new GunConfig().dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(12F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.mag(new MagazineSingleReload(1, 6).addConfigs(g12_bp, g12_bp_magnum, g12_bp_slug, g12))
+						.offset(0.75, -0.0625, -0.1875D)
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
+				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
+				.anim(LAMBDA_MARESLEG_SHORT_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG_AKIMBO)
+				).setUnlocalizedName("gun_maresleg_akimbo").setTextureName(RefStrings.MODID + ":gun_darter");
 		
 		ModItems.gun_liberator = new ItemGunBaseNT(new GunConfig()
 				.dura(200).draw(20).inspect(21).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
@@ -143,6 +163,29 @@ public class XFactory12ga {
 		}
 		
 		return null;
+	};
+
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_MARESLEG_SHORT_ANIMS = (stack, type) -> {
+		switch(type) {
+		case EQUIP: return new BusAnimation()
+				.addBus("EQUIP", new BusAnimationSequence().addPos(-60, 0, 0, 0).addPos(0, 0, -3, 250, IType.SIN_DOWN));
+		case CYCLE: return new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, 0, 50).addPos(0, 0, -1, 50).addPos(0, 0, 0, 250))
+				.addBus("SIGHT", new BusAnimationSequence().addPos(35, 0, 0, 100, IType.SIN_DOWN).addPos(0, 0, 0, 100, IType.SIN_FULL))
+				.addBus("LEVER", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(-85, 0, 0, 200).addPos(0, 0, 0, 200))
+				.addBus("HAMMER", new BusAnimationSequence().addPos(30, 0, 0, 50).addPos(30, 0, 0, 550).addPos(0, 0, 0, 200))
+				.addBus("FLIP", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(360, 0, 0, 400));
+		case CYCLE_DRY: return new BusAnimation()
+				.addBus("LEVER", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(-90, 0, 0, 200).addPos(0, 0, 0, 200))
+				.addBus("HAMMER", new BusAnimationSequence().addPos(30, 0, 0, 50).addPos(30, 0, 0, 550).addPos(0, 0, 0, 200))
+				.addBus("FLIP", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(360, 0, 0, 400));
+		case JAMMED: return new BusAnimation()
+				.addBus("LIFT", new BusAnimationSequence().addPos(30, 0, 0, 0).addPos(30, 0, 0, 250).addPos(0, 0, 0, 400, IType.SIN_FULL))
+				.addBus("LEVER", new BusAnimationSequence().addPos(-85, 0, 0, 0).addPos(-15, 0, 0, 200).addPos(-15, 0, 0, 650).addPos(-85, 0, 0, 200).addPos(-15, 0, 0, 200).addPos(-15, 0, 0, 200).addPos(-85, 0, 0, 200).addPos(0, 0, 0, 200))
+				.addBus("FLAG", new BusAnimationSequence().addPos(1, 1, 1, 0));
+		}
+		
+		return LAMBDA_MARESLEG_ANIMS.apply(stack, type);
 	};
 
 	/** This fucking sucks */

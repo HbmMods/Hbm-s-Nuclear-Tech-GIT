@@ -15,6 +15,8 @@ import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.anim.BusAnimation;
+import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.item.ItemStack;
@@ -45,9 +47,9 @@ public class XFactoryRocket {
 				.setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STANDARD_ACCELERATE);
 
 		ModItems.gun_panzerschreck = new ItemGunBaseNT(new GunConfig()
-				.dura(300).draw(7).inspect(39).crosshair(Crosshair.L_CIRCUMFLEX)
+				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
-						.dmg(15F).delay(20).reload(28).jam(33).sound("hbm:weapon.hkShoot", 1.0F, 1.0F)
+						.dmg(25F).delay(5).reload(50).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_rpzb_he, rocket_rpzb_heat))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
@@ -56,7 +58,20 @@ public class XFactoryRocket {
 				).setUnlocalizedName("gun_panzerschreck").setTextureName(RefStrings.MODID + ":gun_darter");
 	}
 
-	public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_PANZERSCHRECK_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_PANZERSCHRECK_ANIMS = (stack, type) -> {
+		boolean empty = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack) <= 0;
+		switch(type) {
+		case EQUIP: return new BusAnimation()
+				.addBus("EQUIP", new BusAnimationSequence().addPos(60, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_DOWN));
+		case RELOAD: return new BusAnimation()
+				.addBus("RELOAD", new BusAnimationSequence().addPos(90, 0, 0, 750, IType.SIN_FULL).addPos(90, 0, 0, 1000).addPos(0, 0, 0, 750, IType.SIN_FULL))
+				.addBus("ROCKET", new BusAnimationSequence().addPos(0, -3, -6, 0).addPos(0, -3, -6, 750).addPos(0, 0, -6.5, 500, IType.SIN_DOWN).addPos(0, 0, 0, 350, IType.SIN_UP));
+		case JAMMED: empty = false;
+		case INSPECT:
+			return new BusAnimation()
+				.addBus("RELOAD", new BusAnimationSequence().addPos(90, 0, 0, 750, IType.SIN_FULL).addPos(90, 0, 0, 500).addPos(0, 0, 0, 750, IType.SIN_FULL))
+				.addBus("ROCKET", new BusAnimationSequence().addPos(0, empty ? -3 : 0, 0, 0));
+		}
 		return null;
 	};
 }

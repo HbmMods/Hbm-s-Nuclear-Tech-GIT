@@ -7,16 +7,20 @@ import com.hbm.particle.ParticleExplosionSmall;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.particle.EntityBlockDustFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ExplosionSmallCreator implements IParticleCreator {
+	
+	public static final double speedOfSound = (17.15D) * 0.5;
 	
 	public static void composeEffect(World world, double x, double y, double z, int cloudCount, float cloudScale, float cloudSpeedMult) {
 		
@@ -26,7 +30,7 @@ public class ExplosionSmallCreator implements IParticleCreator {
 		data.setFloat("cloudScale", cloudScale);
 		data.setFloat("cloudSpeedMult", cloudSpeedMult);
 		data.setInteger("debris", 15);
-		IParticleCreator.sendPacket(world, x, y, z, 150, data);
+		IParticleCreator.sendPacket(world, x, y, z, 200, data);
 	}
 
 	@Override
@@ -36,6 +40,15 @@ public class ExplosionSmallCreator implements IParticleCreator {
 		float cloudScale = data.getFloat("cloudScale");
 		float cloudSpeedMult = data.getFloat("cloudSpeedMult");
 		int debris = data.getInteger("debris");
+		
+		float dist = (float) player.getDistance(x, y, z);
+		float soundRange = 200F;
+
+		if(dist <= soundRange) {
+			String sound = dist <= soundRange * 0.4 ? "hbm:weapon.explosionSmallNear" : "hbm:weapon.explosionSmallFar";
+			PositionedSoundRecord positionedsoundrecord = new PositionedSoundRecord(new ResourceLocation(sound), 100F, 0.9F + rand.nextFloat() * 0.2F, (float) x, (float) y, (float) z);
+			Minecraft.getMinecraft().getSoundHandler().playDelayedSound(positionedsoundrecord, (int) (dist / speedOfSound));
+		}
 		
 		for(int i = 0; i < cloudCount; i++) {
 			ParticleExplosionSmall particle = new ParticleExplosionSmall(world, x, y, z, cloudScale, cloudSpeedMult);
