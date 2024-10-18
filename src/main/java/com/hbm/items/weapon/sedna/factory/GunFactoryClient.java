@@ -71,6 +71,7 @@ public class GunFactoryClient {
 		g40_flare.setRenderer(LegoClient.RENDER_FLARE);
 		g40.setRenderer(LegoClient.RENDER_GRENADE);
 		rocket_rpzb_he.setRenderer(LegoClient.RENDER_RPZB);
+		rocket_rpzb_heat.setRenderer(LegoClient.RENDER_RPZB);
 		//HUDS
 		((ItemGunBaseNT) ModItems.gun_debug)			.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_pepperbox)		.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);

@@ -1,19 +1,14 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.items.weapon.sedna.BulletConfig;
-import com.hbm.util.BobMathUtil;
-import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.TrackerUtil;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 	
@@ -123,81 +118,15 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		if(worldObj instanceof WorldServer) TrackerUtil.sendTeleport((WorldServer) worldObj, this);
 	}
 
+	
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		if(!worldObj.isRemote) {
 			
 			if(this.config.onImpact != null) this.config.onImpact.accept(this, mop);
-			
 			if(this.isDead) return;
-			
-			if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
-
-				ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
-				Vec3 face = Vec3.createVectorHelper(dir.offsetX, dir.offsetY, dir.offsetZ);
-				Vec3 vel = Vec3.createVectorHelper(motionX, motionY, motionZ).normalize();
-
-				double angle = Math.abs(BobMathUtil.getCrossAngle(vel, face) - 90);
-
-				if(angle <= config.ricochetAngle) {
-					
-					this.ricochets++;
-					if(this.ricochets > this.config.maxRicochetCount) {
-						this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-						this.setDead();
-					}
-					
-					switch(mop.sideHit) {
-					case 0: case 1: motionY *= -1; break;
-					case 2: case 3: motionZ *= -1; break;
-					case 4: case 5: motionX *= -1; break;
-					}
-					worldObj.playSoundAtEntity(this, "hbm:weapon.ricochet", 0.25F, 1.0F);
-					this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-					//send a teleport so the ricochet is more accurate instead of the interp smoothing fucking everything up
-					if(worldObj instanceof WorldServer) TrackerUtil.sendTeleport((WorldServer) worldObj, this);
-					return;
-
-				} else {
-					this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-					this.setDead();
-				}
-			}
-			
-			if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
-				Entity entity = mop.entityHit;
-				
-				if(entity == this.thrower && this.ticksExisted < this.selfDamageDelay()) return;
-				
-				if(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0) {
-					return;
-				}
-				
-				DamageSource damageCalc = this.config.getDamage(this, getThrower(), false);
-				
-				if(!(entity instanceof EntityLivingBase)) {
-					EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, damageCalc, this.damage);
-					return;
-				}
-				
-				EntityLivingBase living = (EntityLivingBase) entity;
-				float prevHealth = living.getHealth();
-				
-				if(this.config.armorPiercingPercent == 0) {
-					EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, damageCalc, this.damage);
-				} else {
-					DamageSource damagePiercing = this.config.getDamage(this, getThrower(), true);
-					EntityDamageUtil.attackArmorPiercing(living, damageCalc, damagePiercing, this.damage, this.config.armorPiercingPercent);
-				}
-				
-				float newHealth = living.getHealth();
-				
-				if(this.config.damageFalloffByPen) this.damage -= Math.max(prevHealth - newHealth, 0);
-				if(!this.doesPenetrate() || this.damage < 0) {
-					this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-					this.setDead();
-				}
-			}
+			if(this.config.onRicochet != null) this.config.onRicochet.accept(this, mop);
+			if(this.config.onEntityHit != null) this.config.onEntityHit.accept(this, mop);
 		}
 	}
 

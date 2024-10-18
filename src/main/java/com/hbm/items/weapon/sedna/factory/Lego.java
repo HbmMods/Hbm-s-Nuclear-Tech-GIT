@@ -225,7 +225,7 @@ public class Lego {
 					.addBus("RELOAD_JOLT", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(2, 0, 0, 50).addPos(0, 0, 0, 100))
 					.addBus("RELOAD_BULLETS", new BusAnimationSequence().addPos(0, 0, 0, 650).addPos(10, 0, 0, 300).addPos(10, 0, 0, 200).addPos(0, 0, 0, 700))
 					.addBus("RELOAD_BULLETS_CON", new BusAnimationSequence().addPos(1, 0, 0, 0).addPos(1, 0, 0, 950).addPos(0, 0, 0, 1 ) );
-		case INSPECT: //if(ANIM_RAND.nextBoolean())  return new BusAnimation().addBus("ROTATE", new BusAnimationSequence().addPos(-360 * 5, 0, 0, 350 * 5));
+		case INSPECT:
 		case JAMMED: return new BusAnimation()
 					.addBus("RELAOD_TILT", new BusAnimationSequence().addPos(-15, 0, 0, 100).addPos(65, 0, 0, 100).addPos(45, 0, 0, 50).addPos(0, 0, 0, 200).addPos(0, 0, 0, 200).addPos(-80, 0, 0, 100).addPos(-80, 0, 0, 100).addPos(0, 0, 0, 200))
 					.addBus("RELOAD_CYLINDER", new BusAnimationSequence().addPos(0, 0, 0, 200).addPos(90, 0, 0, 100).addPos(90, 0, 0, 450).addPos(0, 0, 0, 70));
@@ -233,4 +233,12 @@ public class Lego {
 		
 		return null;
 	};
+	
+	/*
+	 * Be honest. Do you genuinely think posting a random screenshot of your game with absolutely ZERO context of what modpack, what
+	 * Shaders if any or literally any context at all would come to a magic solution?
+	 * For all we know you accidentally rubbed Vaseline all over your monitor and jizzed in the hdmi socket of your pc
+	 * 
+	 * ~ u/Wolfyy47_, 2024
+	 */
 }

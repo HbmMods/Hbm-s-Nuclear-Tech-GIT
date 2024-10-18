@@ -1430,6 +1430,8 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.flame_8");
 		ignoreMappings.add("hbm:item.flame_9");
 		ignoreMappings.add("hbm:item.flame_10");
+		ignoreMappings.add("hbm:tile.dummy_block_uf6");
+		ignoreMappings.add("hbm:tile.dummy_block_puf6");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

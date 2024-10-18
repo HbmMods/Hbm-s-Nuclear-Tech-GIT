@@ -38,6 +38,7 @@
 * Glpyhid hives caught in a fallout zone now turn radioactive
   * Glyphids spawned by radioactive hives are immune to fire, twice as fast and five times as strong
   * Radioactive glpyhids however are NOT immune to radiation, and typically die quickly
+  * Radioactive hives are sterile, they will not spawn scouts
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines
