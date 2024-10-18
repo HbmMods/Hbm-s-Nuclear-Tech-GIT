@@ -5,14 +5,11 @@ import java.util.HashSet;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.BufPacket;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -57,7 +54,7 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 			
 			heat = 0;
 
-			networkPackNT(15);
+			sendStandard(15);
 		} else {
 			
 			//a delayed queue of mirror positions because we can't expect the boiler to always tick first
@@ -121,10 +118,6 @@ public class TileEntitySolarBoiler extends TileEntityLoadedBase implements IFlui
 	@Override
 	public FluidTank[] getAllTanks() {
 		return new FluidTank[] { water, steam };
-	}
-	
-	public void networkPackNT(int range) {
-		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
 
 	@Override

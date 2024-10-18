@@ -18,8 +18,6 @@ import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemCoordinateBase;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.BufPacket;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.saveddata.satellites.SatelliteHorizons;
@@ -40,7 +38,6 @@ import api.hbm.entity.IRadarDetectableNT;
 import api.hbm.entity.IRadarDetectableNT.RadarScanParams;
 import api.hbm.entity.RadarEntry;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -215,7 +212,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 						screen.refZ = zCoord;
 						screen.range = this.getRange();
 						screen.linked = true;
-						PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, pos.getX(), pos.getY(), pos.getZ(), 25));
+						sendStandard(25);
 					}
 				}
 			}

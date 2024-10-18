@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import cpw.mods.fml.common.Optional;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -99,6 +100,20 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidSt
 
 		tank.writeToNBT(nbt, "cryo");
 		nbt.setInteger("cooled", this.lastCooled);
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		this.tank.serialize(buf);
+		buf.writeInt(this.lastCooled);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.tank.deserialize(buf);
+		this.lastCooled = buf.readInt();
 	}
 
 	@Override

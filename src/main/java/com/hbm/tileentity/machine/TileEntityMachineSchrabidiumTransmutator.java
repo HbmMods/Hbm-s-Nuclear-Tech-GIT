@@ -16,6 +16,7 @@ import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -166,11 +167,8 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 			} else {
 				process = 0;
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("progress", process);
-			this.networkPack(data, 50);
+
+			this.networkPackNT(50);
 			
 		} else {
 
@@ -192,7 +190,21 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 			}
 		}
 	}
-	
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		buf.writeInt(this.process);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.process = buf.readInt();
+	}
+
 	@Override
 	public AudioWrapper createAudioLoop() {
 		return MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
@@ -222,14 +234,6 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 			audio.stopSound();
 			audio = null;
 		}
-	}
-	
-	@Override
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-
-		this.power = data.getLong("power");
-		this.process = data.getInteger("progress");
 	}
 
 	@Override

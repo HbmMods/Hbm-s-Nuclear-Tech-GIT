@@ -17,7 +17,6 @@ import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.BufPacket;
 import com.hbm.packet.toclient.TEMissileMultipartPacket;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
@@ -187,9 +186,9 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 
 			if(worldObj.getTotalWorldTime() % 20 == 0)
 				this.updateConnections();
-			
-			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			
+
+			sendStandard(50);
+
 			MissileStruct multipart = getStruct(slots[0]);
 			
 			if(multipart != null)

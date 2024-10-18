@@ -5,7 +5,7 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
-import net.minecraft.nbt.NBTTagCompound;
+import io.netty.buffer.ByteBuf;
 
 public class TileEntityMachinePumpElectric extends TileEntityMachinePumpBase implements IEnergyReceiverMK2 {
 	
@@ -28,17 +28,17 @@ public class TileEntityMachinePumpElectric extends TileEntityMachinePumpBase imp
 		
 		super.updateEntity();
 	}
-	
-	protected NBTTagCompound getSync() {
-		NBTTagCompound data = super.getSync();
-		data.setLong("power", power);
-		return data;
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		this.power = nbt.getLong("power");
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
 	}
 
 	@Override

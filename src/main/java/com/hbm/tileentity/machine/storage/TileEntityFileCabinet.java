@@ -2,12 +2,9 @@ package com.hbm.tileentity.machine.storage;
 
 import com.hbm.inventory.container.ContainerFileCabinet;
 import com.hbm.inventory.gui.GUIFileCabinet;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.BufPacket;
 import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -69,7 +66,7 @@ public class TileEntityFileCabinet extends TileEntityCrateBase implements IGUIPr
 			} else
 				timer = 0;
 			
-			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 25));
+			sendStandard(25);
 		} else {
 			this.prevLowerExtent = lowerExtent;
 			this.prevUpperExtent = upperExtent;
