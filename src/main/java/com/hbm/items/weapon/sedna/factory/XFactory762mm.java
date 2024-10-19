@@ -31,17 +31,17 @@ public class XFactory762mm {
 	public static BulletConfig r762_du;
 
 	public static void init() {
-		SpentCasing casing9 = new SpentCasing(CasingType.BOTTLENECK).setColor(SpentCasing.COLOR_CASE_BRASS);
+		SpentCasing casing762 = new SpentCasing(CasingType.BOTTLENECK).setColor(SpentCasing.COLOR_CASE_BRASS);
 		r762_sp = new BulletConfig().setItem(EnumAmmo.R762_SP)
-				.setCasing(casing9.clone().register("r762"));
+				.setCasing(casing762.clone().register("r762"));
 		r762_fmj = new BulletConfig().setItem(EnumAmmo.R762_FMJ).setDamage(0.8F).setArmorPiercing(0.1F)
-				.setCasing(casing9.clone().register("r762fmj"));
+				.setCasing(casing762.clone().register("r762fmj"));
 		r762_jhp = new BulletConfig().setItem(EnumAmmo.R762_JHP).setDamage(1.5F).setArmorPiercing(-0.25F)
-				.setCasing(casing9.clone().register("r762jhp"));
+				.setCasing(casing762.clone().register("r762jhp"));
 		r762_ap = new BulletConfig().setItem(EnumAmmo.R762_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setArmorPiercing(0.15F)
-				.setCasing(casing9.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762ap"));
+				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762ap"));
 		r762_du = new BulletConfig().setItem(EnumAmmo.R762_DU).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(2.5F).setArmorPiercing(0.25F)
-				.setCasing(casing9.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762du"));
+				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762du"));
 
 		ModItems.gun_carbine = new ItemGunBaseNT(new GunConfig()
 				.dura(3_000).draw(10).inspect(31).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)

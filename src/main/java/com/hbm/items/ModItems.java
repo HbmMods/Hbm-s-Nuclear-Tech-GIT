@@ -1636,6 +1636,7 @@ public class ModItems {
 	public static Item gun_uzi;
 	public static Item gun_spas12;
 	public static Item gun_panzerschreck;
+	public static Item gun_g3;
 	
 	public static Item ammo_standard;
 	
@@ -7025,6 +7026,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_uzi, gun_uzi.getUnlocalizedName());
 		GameRegistry.registerItem(gun_spas12, gun_spas12.getUnlocalizedName());
 		GameRegistry.registerItem(gun_panzerschreck, gun_panzerschreck.getUnlocalizedName());
+		GameRegistry.registerItem(gun_g3, gun_g3.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		

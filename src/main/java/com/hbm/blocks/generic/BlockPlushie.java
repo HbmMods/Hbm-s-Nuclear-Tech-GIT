@@ -140,9 +140,10 @@ public class BlockPlushie extends BlockContainer implements IBlockMulti, IToolti
 	}
 	
 	public static enum PlushieType {
-		NONE(		"NONE",			null),
-		YOMI(		"Yomi",			"Hi! Can I be your rabbit friend?"),
-		NUMBERNINE(	"Number Nine",	"None of y'all deserve coal.");
+		NONE(		"NONE",				null),
+		YOMI(		"Yomi",				"Hi! Can I be your rabbit friend?"),
+		NUMBERNINE(	"Number Nine",		"None of y'all deserve coal."),
+		POOH(		"Winnie the Pooh",	"Beloved children's character with no malicious intent.");
 
 		public String label;
 		public String inscription;

@@ -27,7 +27,7 @@ public class GunStateDecider {
 		deciderStandardFinishDraw(stack, lastState, index);
 		deciderStandardClearJam(stack, lastState, index);
 		deciderStandardReload(stack, ctx, lastState, 0, index);
-		deciderAutoRefire(stack, ctx, lastState, 0, index, () -> { return ItemGunBaseNT.getPrimary(stack, index); });
+		deciderAutoRefire(stack, ctx, lastState, 0, index, () -> { return ItemGunBaseNT.getPrimary(stack, index) && ItemGunBaseNT.getMode(stack, ctx.configIndex) == 0; });
 	};
 	
 	/** Transitions the gun from DRAWING to IDLE */

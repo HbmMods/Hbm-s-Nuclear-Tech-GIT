@@ -55,6 +55,7 @@ public class GunFactory {
 		XFactory22lr.init();
 		XFactoryFlamer.init();
 		XFactoryRocket.init();
+		XFactory556mm.init();
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
@@ -66,8 +67,9 @@ public class GunFactory {
 		M44_SP, M44_FMJ, M44_JHP, M44_AP, M44_EXPRESS,
 		P22_SP, P22_FMJ, P22_JHP, P22_AP,
 		P9_SP, P9_FMJ, P9_JHP, P9_AP,
-		G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12,
+		R556_SP, R556_FMJ, R556_JHP, R556_AP,
 		R762_SP, R762_FMJ, R762_JHP, R762_AP, R762_DU,
+		G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12,
 		G40_FLARE, G40,
 		ROCKET_HE, ROCKET_HEAT,
 		FLAME_DIESEL,

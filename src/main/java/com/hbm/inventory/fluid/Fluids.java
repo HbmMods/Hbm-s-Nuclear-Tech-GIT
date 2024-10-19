@@ -618,8 +618,8 @@ public class Fluids {
 
 		SODIUM.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 2.5D).setEff(HeatingType.ICF, 3D).addStep(400, 1, SODIUM_HOT, 1));
 		SODIUM_HOT.addTraits(new FT_Coolable(SODIUM, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));
-		LEAD.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 3.5D).setEff(HeatingType.ICF, 10D).addStep(600, 1, LEAD_HOT, 1), new FT_PWRModerator(0.5D));
-		LEAD_HOT.addTraits(new FT_Coolable(LEAD, 1, 1, 510 /* -15% is not a huge nerf but it will piss off the PWRmaxxers hard, lead should not be the end-all-be-all, especially given the cost */).setEff(CoolingType.HEATEXCHANGER, 1.0D));
+		LEAD.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 0.75D).setEff(HeatingType.ICF, 4D).addStep(800, 1, LEAD_HOT, 1), new FT_PWRModerator(0.75D));
+		LEAD_HOT.addTraits(new FT_Coolable(LEAD, 1, 1, 680 /* -15% is not a huge nerf but it will piss off the PWRmaxxers hard, lead should not be the end-all-be-all, especially given the cost */).setEff(CoolingType.HEATEXCHANGER, 1.0D));
 		
 		THORIUM_SALT.addTraits(new FT_Heatable().setEff(HeatingType.PWR, 1.0D).addStep(400, 1, THORIUM_SALT_HOT, 1), new FT_PWRModerator(2.5D));
 		THORIUM_SALT_HOT.addTraits(new FT_Coolable(THORIUM_SALT_DEPLETED, 1, 1, 400).setEff(CoolingType.HEATEXCHANGER, 1.0D));

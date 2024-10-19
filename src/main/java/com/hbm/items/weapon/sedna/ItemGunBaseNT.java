@@ -49,6 +49,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	
 	public static final String KEY_DRAWN = "drawn";
 	public static final String KEY_AIMING = "aiming";
+	public static final String KEY_MODE = "mode_";
 	public static final String KEY_WEAR = "wear_";
 	public static final String KEY_TIMER = "timer_";
 	public static final String KEY_STATE = "state_";
@@ -221,6 +222,9 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	// GUN STATE //
 	public static GunState getState(ItemStack stack, int index) { return EnumUtil.grabEnumSafely(GunState.class, getValueByte(stack, KEY_STATE + index)); }
 	public static void setState(ItemStack stack, int index, GunState value) { setValueByte(stack, KEY_STATE + index, (byte) value.ordinal()); }
+	// GUN MODE //
+	public static int getMode(ItemStack stack, int index) { return getValueInt(stack, KEY_MODE + index); }
+	public static void setMode(ItemStack stack, int index, int value) { setValueInt(stack, KEY_MODE + index, value); }
 	// GUN AIMING //
 	public static boolean getIsAiming(ItemStack stack) { return getValueBool(stack, KEY_AIMING); }
 	public static void setIsAiming(ItemStack stack, boolean value) { setValueBool(stack, KEY_AIMING, value); }

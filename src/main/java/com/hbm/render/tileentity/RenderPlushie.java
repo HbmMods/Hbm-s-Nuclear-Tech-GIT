@@ -28,10 +28,12 @@ import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.model.IModelCustom;
 
 public class RenderPlushie extends TileEntitySpecialRenderer implements IItemRendererProvider {
-	
+
 	public static final IModelCustom yomiModel = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/trinkets/yomi.obj"), false).asVBO();
+	public static final IModelCustom poohModel = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/trinkets/pooh.obj"), false).asVBO();
 	public static final ResourceLocation yomiTex = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/yomi.png");
 	public static final ResourceLocation numbernineTex = new ResourceLocation(RefStrings.MODID, "textures/models/horse/numbernine.png");
+	public static final ResourceLocation poohTex = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/pooh.png");
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float interp) {
@@ -51,6 +53,7 @@ public class RenderPlushie extends TileEntitySpecialRenderer implements IItemRen
 		case NONE: break;
 		case YOMI: GL11.glScaled(0.5, 0.5, 0.5); break;
 		case NUMBERNINE: GL11.glScaled(0.75, 0.75, 0.75); break;
+		case POOH: GL11.glScaled(0.75, 0.75, 0.75); break;
 		}
 		renderPlushie(te.type);
 		
@@ -107,6 +110,10 @@ public class RenderPlushie extends TileEntitySpecialRenderer implements IItemRen
 			IIcon icon = stack.getIconIndex();
 			ItemRenderer.renderItemIn2D(Tessellator.instance, icon.getMaxU(), icon.getMinV(), icon.getMinU(), icon.getMaxV(), icon.getIconWidth(), icon.getIconHeight(), 0.0625F);
 			break;
+		case POOH:
+			Minecraft.getMinecraft().getTextureManager().bindTexture(poohTex);
+			poohModel.renderAll();
+			break;
 		}
 	}
 
@@ -131,6 +138,7 @@ public class RenderPlushie extends TileEntitySpecialRenderer implements IItemRen
 				case NONE: break;
 				case YOMI: GL11.glScaled(1.25, 1.25, 1.25); break;
 				case NUMBERNINE: GL11.glTranslated(0, 0.25, 0.25); GL11.glScaled(1.25, 1.25, 1.25); break;
+				case POOH: GL11.glTranslated(0, 0.25, 0); GL11.glScaled(1.5, 1.5, 1.5); break;
 				}
 				renderPlushie(type);
 			}};

@@ -61,8 +61,7 @@ public class Lego {
 		}
 	};
 	
-	/**
-	 * If IDLE and ammo is loaded, fire and set to JUST_FIRED. */
+	/** If IDLE and ammo is loaded, fire and set to JUST_FIRED. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_CLICK_PRIMARY = (stack, ctx) -> {
 
 		EntityPlayer player = ctx.player;
@@ -91,6 +90,23 @@ public class Lego {
 					ItemGunBaseNT.setTimer(stack, index, rec.getDelayAfterDryFire(stack));
 				}
 			}
+		}
+	};
+	
+	/** If IDLE, switch mode between 0 and 1. */
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_CLICK_SECONDARY = (stack, ctx) -> {
+
+		EntityPlayer player = ctx.player;
+		int index = ctx.configIndex;
+		GunState state = ItemGunBaseNT.getState(stack, index);
+		
+		if(state == GunState.IDLE) {
+			int mode = ItemGunBaseNT.getMode(stack, 0);
+			ItemGunBaseNT.setMode(stack, index, 1 - mode);
+			if(mode == 0)
+				player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.switchmode1", 1F, 1F);
+			else
+				player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.switchmode2", 1F, 1F);
 		}
 	};
 	
