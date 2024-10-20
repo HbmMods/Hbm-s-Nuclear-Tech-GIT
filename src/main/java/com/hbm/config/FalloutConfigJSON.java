@@ -72,6 +72,9 @@ public class FalloutConfigJSON {
 		entries.add(new FalloutEntry()	.mB(ModBlocks.waste_leaves)	.prim(new Triplet(Blocks.air, 0, 1))				.max(woodEffectRange));
 		entries.add(new FalloutEntry()	.mB(Blocks.leaves)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange - 5D));
 		entries.add(new FalloutEntry()	.mB(Blocks.leaves2)			.prim(new Triplet(ModBlocks.waste_leaves, 0, 1))	.min(woodEffectRange - 5D));
+		
+		entries.add(new FalloutEntry()	.mB(ModBlocks.glyphid_base)		.prim(new Triplet(ModBlocks.glyphid_base, 2, 1)));
+		entries.add(new FalloutEntry()	.mB(ModBlocks.glyphid_spawner)	.prim(new Triplet(ModBlocks.glyphid_spawner, 2, 1)));
 
 		entries.add(new FalloutEntry().mB(Blocks.mossy_cobblestone).prim(new Triplet(Blocks.coal_ore, 0, 1)));
 		entries.add(new FalloutEntry().mB(ModBlocks.ore_nether_uranium).prim(new Triplet(ModBlocks.ore_nether_schrabidium, 0, 1), new Triplet(ModBlocks.ore_nether_uranium_scorched, 0, 99)));

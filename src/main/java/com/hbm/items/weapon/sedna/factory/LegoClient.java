@@ -151,13 +151,28 @@ public class LegoClient {
 	};
 	
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_GRENADE = (bullet, interp) -> {
-
 		GL11.glScalef(0.25F, 0.25F, 0.25F);
 		GL11.glRotated(90, 0, 0, 1);
-		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.grenade_tex);
 		ResourceManager.projectiles.renderPart("Grenade");
 		GL11.glShadeModel(GL11.GL_FLAT);
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_RPZB = (bullet, interp) -> {
+
+		GL11.glPushMatrix();
+		GL11.glScalef(0.125F, 0.125F, 0.125F);
+		GL11.glRotated(90, 0, -1, 0);
+		GL11.glTranslatef(0, 0, 3.5F);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.panzerschreck_tex);
+		ResourceManager.panzerschreck.renderPart("Rocket");
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glPopMatrix();
+		
+		GL11.glTranslatef(0.375F, 0, 0);
+		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
+		if(length > 0) renderBulletStandard(Tessellator.instance, 0x808080, 0xFFF2A7, length * 2, true);
 	};
 }

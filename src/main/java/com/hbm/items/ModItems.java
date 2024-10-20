@@ -1529,7 +1529,6 @@ public class ModItems {
 	
 	public static Item gun_rpg;
 	public static Item gun_karl;
-	public static Item gun_panzerschreck;
 	public static Item gun_quadro;
 	public static Item gun_hk69;
 	public static Item gun_stinger;
@@ -1561,13 +1560,11 @@ public class ModItems {
 	public static Item gun_chemthrower;
 	public static Item gun_mp40;
 	public static Item gun_thompson;
-	public static Item gun_uzi;
 	public static Item gun_uzi_silencer;
 	public static Item gun_uzi_saturnite;
 	public static Item gun_uzi_saturnite_silencer;
 	public static Item gun_uboinik;
 	public static Item gun_remington;
-	public static Item gun_spas12;
 	public static Item gun_supershotgun;
 	public static Item gun_benelli;
 	public static Item gun_ks23;
@@ -1630,6 +1627,7 @@ public class ModItems {
 	public static Item gun_henry;
 	public static Item gun_greasegun;
 	public static Item gun_maresleg;
+	public static Item gun_maresleg_akimbo;
 	public static Item gun_flaregun;
 	public static Item gun_heavy_revolver;
 	public static Item gun_carbine;
@@ -1638,6 +1636,10 @@ public class ModItems {
 	public static Item gun_congolake;
 	public static Item gun_flamer;
 	public static Item gun_lag;
+	public static Item gun_uzi;
+	public static Item gun_spas12;
+	public static Item gun_panzerschreck;
+	public static Item gun_g3;
 	
 	public static Item ammo_standard;
 	
@@ -4123,13 +4125,11 @@ public class ModItems {
 		gun_chemthrower = new ItemGunChemthrower().setUnlocalizedName("gun_chemthrower").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman");
 		gun_mp40 = new ItemGunBase(Gun9mmFactory.getMP40Config()).setUnlocalizedName("gun_mp40").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_mp40");
 		gun_thompson = new ItemGunBase(Gun45ACPFactory.getThompsonConfig()).setUnlocalizedName("gun_thompson").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_thompson");
-		gun_uzi = new ItemGunBase(Gun22LRFactory.getUziConfig()).setUnlocalizedName("gun_uzi").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_uzi");
 		gun_uzi_silencer = new ItemGunBase(Gun22LRFactory.getUziConfig().silenced()).setUnlocalizedName("gun_uzi_silencer").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_uzi_silencer");
 		gun_uzi_saturnite = new ItemGunBase(Gun22LRFactory.getSaturniteConfig()).setUnlocalizedName("gun_uzi_saturnite").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_uzi_saturnite");
 		gun_uzi_saturnite_silencer = new ItemGunBase(Gun22LRFactory.getSaturniteConfig().silenced()).setUnlocalizedName("gun_uzi_saturnite_silencer").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_uzi_saturnite_silencer");
 		gun_uboinik = new ItemGunBase(Gun12GaugeFactory.getUboinikConfig()).setUnlocalizedName("gun_uboinik").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_uboinik");
 		gun_remington = new ItemGunBase(Gun12GaugeFactory.getRemington870Config()).setUnlocalizedName("gun_remington").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_spas12");
-		gun_spas12 = new ItemGunBase(Gun12GaugeFactory.getSpas12Config(), Gun12GaugeFactory.getSpas12AltConfig()).setUnlocalizedName("gun_spas12").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_spas12");
 		gun_benelli = new ItemGunBase(Gun12GaugeFactory.getBenelliModConfig()).setUnlocalizedName("gun_benelli").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_spas12");
 		gun_supershotgun = new ItemGunShotty(Gun12GaugeFactory.getShottyConfig()).setUnlocalizedName("gun_supershotgun").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_uboinik");
 		gun_ks23 = new ItemGunBase(Gun4GaugeFactory.getKS23Config()).setUnlocalizedName("gun_ks23").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_uboinik");
@@ -6966,7 +6966,6 @@ public class ModItems {
 		GameRegistry.registerItem(gun_b93, gun_b93.getUnlocalizedName());
 		GameRegistry.registerItem(gun_rpg, gun_rpg.getUnlocalizedName());
 		GameRegistry.registerItem(gun_karl, gun_karl.getUnlocalizedName());
-		GameRegistry.registerItem(gun_panzerschreck, gun_panzerschreck.getUnlocalizedName());
 		GameRegistry.registerItem(gun_quadro, gun_quadro.getUnlocalizedName());
 		GameRegistry.registerItem(gun_hk69, gun_hk69.getUnlocalizedName());
 		GameRegistry.registerItem(gun_stinger, gun_stinger.getUnlocalizedName());
@@ -6977,13 +6976,11 @@ public class ModItems {
 		GameRegistry.registerItem(gun_chemthrower, gun_chemthrower.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mp40, gun_mp40.getUnlocalizedName());
 		GameRegistry.registerItem(gun_thompson, gun_thompson.getUnlocalizedName());
-		GameRegistry.registerItem(gun_uzi, gun_uzi.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uzi_silencer,gun_uzi_silencer.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uzi_saturnite, gun_uzi_saturnite.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uzi_saturnite_silencer,gun_uzi_saturnite_silencer.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uboinik, gun_uboinik.getUnlocalizedName());
 		GameRegistry.registerItem(gun_remington, gun_remington.getUnlocalizedName());
-		GameRegistry.registerItem(gun_spas12, gun_spas12.getUnlocalizedName());
 		GameRegistry.registerItem(gun_benelli, gun_benelli.getUnlocalizedName());
 		GameRegistry.registerItem(gun_supershotgun, gun_supershotgun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_ks23, gun_ks23.getUnlocalizedName());
@@ -7033,6 +7030,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_henry, gun_henry.getUnlocalizedName());
 		GameRegistry.registerItem(gun_greasegun, gun_greasegun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_maresleg, gun_maresleg.getUnlocalizedName());
+		GameRegistry.registerItem(gun_maresleg_akimbo, gun_maresleg_akimbo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_flaregun, gun_flaregun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_heavy_revolver, gun_heavy_revolver.getUnlocalizedName());
 		GameRegistry.registerItem(gun_carbine, gun_carbine.getUnlocalizedName());
@@ -7041,6 +7039,10 @@ public class ModItems {
 		GameRegistry.registerItem(gun_congolake, gun_congolake.getUnlocalizedName());
 		GameRegistry.registerItem(gun_flamer, gun_flamer.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lag, gun_lag.getUnlocalizedName());
+		GameRegistry.registerItem(gun_uzi, gun_uzi.getUnlocalizedName());
+		GameRegistry.registerItem(gun_spas12, gun_spas12.getUnlocalizedName());
+		GameRegistry.registerItem(gun_panzerschreck, gun_panzerschreck.getUnlocalizedName());
+		GameRegistry.registerItem(gun_g3, gun_g3.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		

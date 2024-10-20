@@ -45,7 +45,7 @@ public class XFactory40mm {
 						.dmg(15F).delay(20).reload(28).jam(33).sound("hbm:weapon.hkShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(g40_flare))
 						.offset(0.75, -0.0625, -0.1875D)
-						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_FLAREGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAREGUN)
 				).setUnlocalizedName("gun_flaregun").setTextureName(RefStrings.MODID + ":gun_darter");
@@ -56,7 +56,7 @@ public class XFactory40mm {
 						.dmg(30F).delay(24).reload(16, 16, 16, 0).jam(0).sound("hbm:weapon.glShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 4).addConfigs(g40, g40_flare))
 						.offset(0.75, -0.0625, -0.1875D)
-						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_CONGOLAKE_ANIMS).orchestra(Orchestras.ORCHESTRA_CONGOLAKE)
 				).setUnlocalizedName("gun_congolake").setTextureName(RefStrings.MODID + ":gun_darter");

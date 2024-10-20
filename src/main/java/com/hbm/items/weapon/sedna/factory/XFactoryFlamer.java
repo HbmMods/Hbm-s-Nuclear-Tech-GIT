@@ -44,7 +44,7 @@ public class XFactoryFlamer {
 						.dmg(10F).delay(1).auto(true).reload(90).jam(0)
 						.mag(new MagazineFullReload(0, 300).addConfigs(flame_diesel))
 						.offset(0.75, -0.0625, -0.25D)
-						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_FLAMER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER)
 				).setUnlocalizedName("gun_flamer").setTextureName(RefStrings.MODID + ":gun_darter");

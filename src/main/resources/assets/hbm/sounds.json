@@ -215,6 +215,8 @@
     "weapon.nuclearExplosion": {"category": "player", "sounds": [{"name": "weapon/nuclearExplosion", "stream": true}]},
     "weapon.explosionLargeNear": {"category": "player", "sounds": [{"name": "weapon/explosionLargeNear", "stream": false}]},
     "weapon.explosionLargeFar": {"category": "player", "sounds": [{"name": "weapon/explosionLargeFar", "stream": false}]},
+    "weapon.explosionSmallNear": {"category": "player", "sounds": ["weapon/explosionSmallNear1", "weapon/explosionSmallNear2", "weapon/explosionSmallNear3"]},
+    "weapon.explosionSmallFar": {"category": "player", "sounds": ["weapon/explosionSmallFar1", "weapon/explosionSmallFar2"]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 

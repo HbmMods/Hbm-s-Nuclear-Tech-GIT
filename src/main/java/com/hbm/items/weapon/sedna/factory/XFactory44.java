@@ -48,7 +48,7 @@ public class XFactory44 {
 						.dmg(12F).delay(20).reload(25, 11, 14, 8).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 14).addConfigs(m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
 						.offset(0.75, -0.0625, -0.1875D)
-						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_HENRY_ANIMS).orchestra(Orchestras.ORCHESTRA_HENRY)
 				).setUnlocalizedName("gun_henry").setTextureName(RefStrings.MODID + ":gun_darter");
@@ -59,7 +59,7 @@ public class XFactory44 {
 						.dmg(10F).delay(14).reload(46).jam(23).sound("hbm:weapon.44Shoot", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
 						.offset(0.75, -0.0625, -0.3125D)
-						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE))
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY) .pr(Lego.LAMBDA_STANDARD_RELOAD) .pt(Lego.LAMBDA_TOGGLE_AIM)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(LAMBDA_NOPIP_ANIMS).orchestra(Orchestras.ORCHESTRA_NOPIP)

@@ -11,12 +11,19 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.particle.SpentCasing;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.EntityDamageUtil;
+import com.hbm.util.TrackerUtil;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BulletConfig {
 	
@@ -50,6 +57,8 @@ public class BulletConfig {
 
 	public Consumer<EntityBulletBaseMK4> onUpdate;
 	public BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> onImpact;
+	public BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> onRicochet = LAMBDA_STANDARD_RICOCHET;
+	public BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> onEntityHit = LAMBDA_STANDARD_ENTITY_HIT;
 	
 	public double gravity = 0;
 	public int expires = 30;
@@ -92,9 +101,11 @@ public class BulletConfig {
 	public BulletConfig setRenderRotations(boolean rot) {								this.renderRotations = rot; return this; }
 	public BulletConfig setCasing(SpentCasing casing) {									this.casing = casing; return this; }
 	public BulletConfig setRenderer(BiConsumer<EntityBulletBaseMK4, Float> renderer) {	this.renderer = renderer; return this; }
-	
-	public BulletConfig setOnUpdate(Consumer<EntityBulletBaseMK4> lambda) {							this.onUpdate = lambda; return this; }
-	public BulletConfig setOnImpact(BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> lambda) {	this.onImpact = lambda; return this; }
+
+	public BulletConfig setOnUpdate(Consumer<EntityBulletBaseMK4> lambda) {								this.onUpdate = lambda; return this; }
+	public BulletConfig setOnRicochet(BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> lambda) {	this.onRicochet = lambda; return this; }
+	public BulletConfig setOnImpact(BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> lambda) {		this.onImpact = lambda; return this; }
+	public BulletConfig setOnEntityHit(BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> lambda) {	this.onEntityHit = lambda; return this; }
 	
 	public DamageSource getDamage(EntityBulletBaseMK4 bullet, EntityLivingBase shooter, boolean bypass) {
 		
@@ -110,4 +121,75 @@ public class BulletConfig {
 		
 		return dmg;
 	}
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_RICOCHET = (bullet, mop) -> {
+		
+		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+
+			ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
+			Vec3 face = Vec3.createVectorHelper(dir.offsetX, dir.offsetY, dir.offsetZ);
+			Vec3 vel = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).normalize();
+
+			double angle = Math.abs(BobMathUtil.getCrossAngle(vel, face) - 90);
+
+			if(angle <= bullet.config.ricochetAngle) {
+				
+				bullet.ricochets++;
+				if(bullet.ricochets > bullet.config.maxRicochetCount) {
+					bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+					bullet.setDead();
+				}
+				
+				switch(mop.sideHit) {
+				case 0: case 1: bullet.motionY *= -1; break;
+				case 2: case 3: bullet.motionZ *= -1; break;
+				case 4: case 5: bullet.motionX *= -1; break;
+				}
+				bullet.worldObj.playSoundAtEntity(bullet, "hbm:weapon.ricochet", 0.25F, 1.0F);
+				bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+				//send a teleport so the ricochet is more accurate instead of the interp smoothing fucking everything up
+				if(bullet.worldObj instanceof WorldServer) TrackerUtil.sendTeleport((WorldServer) bullet.worldObj, bullet);
+				return;
+
+			} else {
+				bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+				bullet.setDead();
+			}
+		}
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_ENTITY_HIT = (bullet, mop) -> {
+		
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
+			Entity entity = mop.entityHit;
+			
+			if(entity == bullet.getThrower() && bullet.ticksExisted < bullet.selfDamageDelay()) return;
+			if(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0) return;
+			
+			DamageSource damageCalc = bullet.config.getDamage(bullet, bullet.getThrower(), false);
+			
+			if(!(entity instanceof EntityLivingBase)) {
+				EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, damageCalc, bullet.damage);
+				return;
+			}
+			
+			EntityLivingBase living = (EntityLivingBase) entity;
+			float prevHealth = living.getHealth();
+			
+			if(bullet.config.armorPiercingPercent == 0) {
+				EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, damageCalc, bullet.damage);
+			} else {
+				DamageSource damagePiercing = bullet.config.getDamage(bullet, bullet.getThrower(), true);
+				EntityDamageUtil.attackArmorPiercing(living, damageCalc, damagePiercing, bullet.damage, bullet.config.armorPiercingPercent);
+			}
+			
+			float newHealth = living.getHealth();
+			
+			if(bullet.config.damageFalloffByPen) bullet.damage -= Math.max(prevHealth - newHealth, 0);
+			if(!bullet.doesPenetrate() || bullet.damage < 0) {
+				bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+				bullet.setDead();
+			}
+		}
+	};
 }

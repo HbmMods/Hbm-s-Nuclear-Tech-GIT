@@ -50,9 +50,10 @@ public class Lego {
 			IMagazine mag = rec.getMagazine(stack);
 			
 			if(mag.canReload(stack, ctx.player)) {
-				mag.setAmountBeforeReload(stack, mag.getAmount(stack));
+				int loaded = mag.getAmount(stack);
+				mag.setAmountBeforeReload(stack, loaded);
 				ItemGunBaseNT.setState(stack, ctx.configIndex, GunState.RELOADING);
-				ItemGunBaseNT.setTimer(stack, ctx.configIndex, rec.getReloadBeginDuration(stack));
+				ItemGunBaseNT.setTimer(stack, ctx.configIndex, rec.getReloadBeginDuration(stack) + (loaded <= 0 ? rec.getReloadCockOnEmptyPre(stack) : 0));
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD, ctx.configIndex);
 			} else {
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.INSPECT, ctx.configIndex);
@@ -60,8 +61,7 @@ public class Lego {
 		}
 	};
 	
-	/**
-	 * If IDLE and ammo is loaded, fire and set to JUST_FIRED. */
+	/** If IDLE and ammo is loaded, fire and set to JUST_FIRED. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_CLICK_PRIMARY = (stack, ctx) -> {
 
 		EntityPlayer player = ctx.player;
@@ -90,6 +90,23 @@ public class Lego {
 					ItemGunBaseNT.setTimer(stack, index, rec.getDelayAfterDryFire(stack));
 				}
 			}
+		}
+	};
+	
+	/** If IDLE, switch mode between 0 and 1. */
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_CLICK_SECONDARY = (stack, ctx) -> {
+
+		EntityPlayer player = ctx.player;
+		int index = ctx.configIndex;
+		GunState state = ItemGunBaseNT.getState(stack, index);
+		
+		if(state == GunState.IDLE) {
+			int mode = ItemGunBaseNT.getMode(stack, 0);
+			ItemGunBaseNT.setMode(stack, index, 1 - mode);
+			if(mode == 0)
+				player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.switchmode1", 1F, 1F);
+			else
+				player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.switchmode2", 1F, 1F);
 		}
 	};
 	
@@ -149,9 +166,13 @@ public class Lego {
 	
 	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_FIRE = (stack, ctx) -> {
+		doStandardFire(stack, ctx, AnimType.CYCLE);
+	};
+	
+	public static void doStandardFire(ItemStack stack, LambdaContext ctx, AnimType anim) {
 		EntityPlayer player = ctx.player;
 		int index = ctx.configIndex;
-		ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE, ctx.configIndex);
+		if(anim != null) ItemGunBaseNT.playAnimation(player, stack, anim, ctx.configIndex);
 		
 		float aim = ItemGunBaseNT.getIsAiming(stack) ? 0.25F : 1F;
 		Receiver primary = ctx.config.getReceivers(stack)[0];
@@ -179,7 +200,7 @@ public class Lego {
 		
 		mag.setAmount(stack, mag.getAmount(stack) - 1);
 		ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
-	};
+	}
 	
 	public static float getStandardWearSpread(ItemStack stack, GunConfig config, int index) {
 		float percent = (float) ItemGunBaseNT.getWear(stack, index) / config.getDurability(stack);
@@ -193,9 +214,10 @@ public class Lego {
 		return 1F - (percent - 0.75F) * 2F;
 	}
 	
-	public static void standardExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range) {
+	public static void standardExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range) { standardExplode(bullet, mop, range, 1F); }
+	public static void standardExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range, float damageMod) {
 		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, range);
-		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage));
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage * damageMod));
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
 		vnt.explode();
@@ -219,7 +241,7 @@ public class Lego {
 					.addBus("RELOAD_JOLT", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(2, 0, 0, 50).addPos(0, 0, 0, 100))
 					.addBus("RELOAD_BULLETS", new BusAnimationSequence().addPos(0, 0, 0, 650).addPos(10, 0, 0, 300).addPos(10, 0, 0, 200).addPos(0, 0, 0, 700))
 					.addBus("RELOAD_BULLETS_CON", new BusAnimationSequence().addPos(1, 0, 0, 0).addPos(1, 0, 0, 950).addPos(0, 0, 0, 1 ) );
-		case INSPECT: //if(ANIM_RAND.nextBoolean())  return new BusAnimation().addBus("ROTATE", new BusAnimationSequence().addPos(-360 * 5, 0, 0, 350 * 5));
+		case INSPECT:
 		case JAMMED: return new BusAnimation()
 					.addBus("RELAOD_TILT", new BusAnimationSequence().addPos(-15, 0, 0, 100).addPos(65, 0, 0, 100).addPos(45, 0, 0, 50).addPos(0, 0, 0, 200).addPos(0, 0, 0, 200).addPos(-80, 0, 0, 100).addPos(-80, 0, 0, 100).addPos(0, 0, 0, 200))
 					.addBus("RELOAD_CYLINDER", new BusAnimationSequence().addPos(0, 0, 0, 200).addPos(90, 0, 0, 100).addPos(90, 0, 0, 450).addPos(0, 0, 0, 70));
@@ -227,4 +249,12 @@ public class Lego {
 		
 		return null;
 	};
+	
+	/*
+	 * Be honest. Do you genuinely think posting a random screenshot of your game with absolutely ZERO context of what modpack, what
+	 * Shaders if any or literally any context at all would come to a magic solution?
+	 * For all we know you accidentally rubbed Vaseline all over your monitor and jizzed in the hdmi socket of your pc
+	 * 
+	 * ~ u/Wolfyy47_, 2024
+	 */
 }

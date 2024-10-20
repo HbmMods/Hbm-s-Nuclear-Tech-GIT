@@ -27,7 +27,7 @@ public class GunStateDecider {
 		deciderStandardFinishDraw(stack, lastState, index);
 		deciderStandardClearJam(stack, lastState, index);
 		deciderStandardReload(stack, ctx, lastState, 0, index);
-		deciderAutoRefire(stack, ctx, lastState, 0, index, () -> { return ItemGunBaseNT.getPrimary(stack, index); });
+		deciderAutoRefire(stack, ctx, lastState, 0, index, () -> { return ItemGunBaseNT.getPrimary(stack, index) && ItemGunBaseNT.getMode(stack, ctx.configIndex) == 0; });
 	};
 	
 	/** Transitions the gun from DRAWING to IDLE */
@@ -76,7 +76,7 @@ public class GunStateDecider {
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.JAMMED, gunIndex);
 				} else {
 					ItemGunBaseNT.setState(stack, gunIndex, GunState.DRAWING);
-					int duration = rec.getReloadEndDuration(stack) + (mag.getAmountBeforeReload(stack) <= 0 ? rec.getReloadCockOnEmpty(stack) : 0);
+					int duration = rec.getReloadEndDuration(stack) + (mag.getAmountBeforeReload(stack) <= 0 ? rec.getReloadCockOnEmptyPost(stack) : 0);
 					ItemGunBaseNT.setTimer(stack, gunIndex, duration);
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD_END, gunIndex);
 				}
@@ -114,11 +114,11 @@ public class GunStateDecider {
 					int remaining = rec.getRoundsPerCycle(stack) - 1;
 					for(int i = 0; i < remaining; i++) if(rec.getCanFire(stack).apply(stack, ctx)) rec.getOnFire(stack).accept(stack, ctx);
 				//if not, revert to idle
-				} else if(rec.getDoesDryFire(stack)) {
+				} else /*if(rec.getDoesDryFire(stack)) {
 					ItemGunBaseNT.setState(stack, gunIndex, GunState.DRAWING);
 					ItemGunBaseNT.setTimer(stack, gunIndex, rec.getDelayAfterDryFire(stack));
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE_DRY, gunIndex);
-				} else {
+				} else*/ {
 					ItemGunBaseNT.setState(stack, gunIndex, GunState.IDLE);
 					ItemGunBaseNT.setTimer(stack, gunIndex, 0);
 				}

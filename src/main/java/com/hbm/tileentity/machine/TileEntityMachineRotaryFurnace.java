@@ -28,12 +28,15 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -316,6 +319,31 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 
 	@Override public boolean isItemValidForSlot(int x, int y, int z, int slot, ItemStack stack) { return slot < 3 || slot == 4; }
 	@Override public boolean canExtractItem(int x, int y, int z, int slot, ItemStack stack, int side) { return false; }
+	
+	AxisAlignedBB bb = null;
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord - 2,
+					yCoord,
+					zCoord - 2,
+					xCoord + 3,
+					yCoord + 5,
+					zCoord + 3
+					);
+		}
+		
+		return bb;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int x, int y, int z, int side) {

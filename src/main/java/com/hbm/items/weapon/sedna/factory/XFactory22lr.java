@@ -48,7 +48,7 @@ public class XFactory22lr {
 						.dmg(5F).delay(1).dry(10).auto(true).spread(0.02F).reload(66).jam(30).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 177).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
-						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_AM180_ANIMS).orchestra(Orchestras.ORCHESTRA_AM180)
 				).setUnlocalizedName("gun_am180").setTextureName(RefStrings.MODID + ":gun_darter");

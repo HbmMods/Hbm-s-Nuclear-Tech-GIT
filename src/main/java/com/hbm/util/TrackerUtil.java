@@ -1,5 +1,7 @@
 package com.hbm.util;
 
+import com.hbm.interfaces.NotableComments;
+
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityTracker;
@@ -15,6 +17,7 @@ import net.minecraft.world.WorldServer;
  * 
  * @author hbm
  */
+@NotableComments
 public class TrackerUtil {
 
 	/** Grabs the tracker entry from the given entity */

@@ -39,7 +39,7 @@ public class XFactory357 {
 						.dmg(10F).delay(16).reload(55).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
-						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_ATLAS_ANIMS).orchestra(Orchestras.ORCHESTRA_ATLAS)
 				).setUnlocalizedName("gun_light_revolver").setTextureName(RefStrings.MODID + ":gun_darter");
@@ -50,7 +50,7 @@ public class XFactory357 {
 						.dmg(10F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, 0.3125D)
-						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(LAMBDA_DANI_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI),
@@ -59,7 +59,7 @@ public class XFactory357 {
 						.dmg(10F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(1, 6).addConfigs(m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
-						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(LAMBDA_DANI_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI)
