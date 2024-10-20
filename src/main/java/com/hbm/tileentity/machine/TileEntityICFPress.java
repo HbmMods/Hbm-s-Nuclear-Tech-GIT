@@ -156,7 +156,7 @@ public class TileEntityICFPress extends TileEntityMachineBase implements IFluidS
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
-		return slot == 1;
+		return slot == 1 || slot == 3;
 	}
 	
 	@Override
