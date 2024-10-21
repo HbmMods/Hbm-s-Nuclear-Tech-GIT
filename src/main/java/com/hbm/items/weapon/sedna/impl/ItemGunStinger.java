@@ -16,8 +16,11 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
 public class ItemGunStinger extends ItemGunBaseNT {
-	
+
 	public static final String KEY_LOCKINGON = "lockingon";
+	public static final String KEY_LOCKEDON = "lockedon";
+	public static final String KEY_LOCKONTARGET = "lockontarget";
+	public static final String KEY_LOCKONPROGRESS = "lockonprogress";
 
 	public static float prevLockon;
 	public static float lockon;
@@ -30,16 +33,44 @@ public class ItemGunStinger extends ItemGunBaseNT {
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isHeld) {
 		super.onUpdate(stack, world, entity, slot, isHeld);
 		
-		if(!world.isRemote && !isHeld && this.getIsLockingOn(stack)) {
-			this.setIsLockingOn(stack, false);
+		if(entity instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) entity;
+			if(!world.isRemote && !isHeld && this.getIsLockingOn(stack)) {
+				this.setIsLockingOn(stack, false);
+			}
+			
+			this.prevLockon = this.lockon;
+			int prevTarget = this.getLockonTarget(stack);
+			if(isHeld && this.getIsLockingOn(stack) && this.getIsAiming(stack)) {
+				int newLockonTarget = this.getLockonTarget(player);
+				
+				if(newLockonTarget == -1) {
+					resetLockon(world, stack);
+				} else {
+					if(newLockonTarget != prevTarget) {
+						resetLockon(world, stack);
+						this.setLockonTarget(stack, newLockonTarget);
+					}
+					progressLockon(world, stack);
+				}
+			} else {
+				resetLockon(world, stack);
+			}
 		}
-		
-		this.prevLockon = this.lockon;
-		if(isHeld && this.getIsLockingOn(stack)) {
-			this.lockon += (1F / 100F);
-		} else {
-			this.lockon = 0F;
-		}
+	}
+	
+	public void resetLockon(World world, ItemStack stack) {
+		if(world.isRemote) this.lockon = 0F;
+		if(!world.isRemote) this.setLockonProgress(stack, 0);
+	}
+	
+	public void progressLockon(World world, ItemStack stack) {
+		if(world.isRemote) this.lockon += (1F / 100F);
+		if(!world.isRemote) this.setLockonProgress(stack, this.getLockonProgress(stack) + 1);
+	}
+	
+	public static int getLockonTarget(EntityPlayer player) {
+		return -1;
 	}
 
 	@Override
@@ -67,7 +98,13 @@ public class ItemGunStinger extends ItemGunBaseNT {
 			}
 		}
 	}
-	
+
 	public static boolean getIsLockingOn(ItemStack stack) { return getValueBool(stack, KEY_LOCKINGON); }
 	public static void setIsLockingOn(ItemStack stack, boolean value) { setValueBool(stack, KEY_LOCKINGON, value); }
+	public static boolean getIsLockedOn(ItemStack stack) { return getValueBool(stack, KEY_LOCKEDON); }
+	public static void setIsLockedOn(ItemStack stack, boolean value) { setValueBool(stack, KEY_LOCKEDON, value); }
+	public static int getLockonTarget(ItemStack stack) { return getValueInt(stack, KEY_LOCKONTARGET); }
+	public static void setLockonTarget(ItemStack stack, int value) { setValueInt(stack, KEY_LOCKONTARGET, value); }
+	public static int getLockonProgress(ItemStack stack) { return getValueInt(stack, KEY_LOCKONPROGRESS); }
+	public static void setLockonProgress(ItemStack stack, int value) { setValueInt(stack, KEY_LOCKONPROGRESS, value); }
 }
