@@ -221,15 +221,18 @@ public class TileEntityMachineIGenerator extends TileEntityMachineBase implement
 		return new int[] { 3, 4, 5, 6 };
 	}
 
+	// o7
+	/*
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		super.networkUnpack(nbt);
-		
+
 		this.power = nbt.getLong("power");
 		this.spin = nbt.getInteger("spin");
 		this.burn = nbt.getIntArray("burn");
 		this.hasRTG = nbt.getBoolean("hasRTG");
 	}
+	*/
 	
 	public int getPowerFromFuel(boolean con) {
 		FluidType type = tanks[1].getTankType();

@@ -4,7 +4,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import net.minecraft.nbt.NBTTagCompound;
+import io.netty.buffer.ByteBuf;
 
 public class TileEntityMachinePumpSteam extends TileEntityMachinePumpBase {
 
@@ -47,19 +47,19 @@ public class TileEntityMachinePumpSteam extends TileEntityMachinePumpBase {
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {steam};
 	}
-	
-	protected NBTTagCompound getSync() {
-		NBTTagCompound data = super.getSync();
-		steam.writeToNBT(data, "s");
-		lps.writeToNBT(data, "l");
-		return data;
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		steam.serialize(buf);
+		lps.serialize(buf);
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		steam.readFromNBT(nbt, "s");
-		lps.readFromNBT(nbt, "l");
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		steam.deserialize(buf);
+		lps.deserialize(buf);
 	}
 
 	@Override

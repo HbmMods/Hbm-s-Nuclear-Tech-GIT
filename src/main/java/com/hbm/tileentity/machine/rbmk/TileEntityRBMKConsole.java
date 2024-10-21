@@ -14,6 +14,7 @@ import com.hbm.inventory.gui.GUIRBMKConsole;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.Compat;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.I18nUtil;
@@ -21,6 +22,7 @@ import com.hbm.util.I18nUtil;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -76,8 +78,8 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 				this.worldObj.theProfiler.endSection();
 				prepareScreenInfo();
 			}
-			
-			prepareNetworkPack();
+
+			this.networkPackNT(50);
 		}
 	}
 	
@@ -102,7 +104,7 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 					
 					if(te instanceof TileEntityRBMKRod) {
 						TileEntityRBMKRod fuel = (TileEntityRBMKRod) te;
-						flux += fuel.fluxFast + fuel.fluxSlow;
+						flux += fuel.lastFluxQuantity;
 					}
 					
 				} else {
@@ -184,66 +186,65 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 			screen.display = text;
 		}
 	}
-	
-	private void prepareNetworkPack() {
-		
-		NBTTagCompound data = new NBTTagCompound();
 
-		
-		if(this.worldObj.getTotalWorldTime() % 10 == 0) {
-			
-			data.setBoolean("full", true);
-			
-			for(int i = 0; i < columns.length; i++) {
-				
-				if(this.columns[i] != null) {
-					data.setTag("column_" + i, this.columns[i].data);
-					data.setShort("type_" + i, (short)this.columns[i].type.ordinal());
-				}
-			}
-			
-			data.setIntArray("flux", this.fluxBuffer);
-			
-			for(int i = 0; i < this.screens.length; i++) {
-				RBMKScreen screen = screens[i];
-				if(screen.display != null) {
-					data.setString("t" + i, screen.display);
-				}
-			}
-		}
-		
-		for(int i = 0; i < this.screens.length; i++) {
-			RBMKScreen screen = screens[i];
-			data.setByte("s" + i, (byte) screen.type.ordinal());
-		}
-		
-		this.networkPack(data, 50);
-	}
-	
 	@Override
-	public void networkUnpack(NBTTagCompound data) {
-		
-		if(data.getBoolean("full")) {
-			this.columns = new RBMKColumn[15 * 15];
-			
-			for(int i = 0; i < columns.length; i++) {
-				
-				if(data.hasKey("type_" + i)) {
-					this.columns[i] = new RBMKColumn(ColumnType.values()[data.getShort("type_" + i)], (NBTTagCompound)data.getTag("column_" + i));
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		if (this.worldObj.getTotalWorldTime() % 10 == 0) {
+			buf.writeBoolean(true);
+
+			for (RBMKColumn column : this.columns) {
+				if (column == null || column.type == null)
+					buf.writeByte(-1);
+				else {
+					buf.writeByte((byte) column.type.ordinal());
+					BufferUtil.writeNBT(buf, column.data);
 				}
 			}
-			
-			this.fluxBuffer = data.getIntArray("flux");
-			
-			for(int i = 0; i < this.screens.length; i++) {
-				RBMKScreen screen = screens[i];
-				screen.display = data.getString("t" + i);
+
+			BufferUtil.writeIntArray(buf, fluxBuffer);
+
+			for (RBMKScreen screen : this.screens) {
+				BufferUtil.writeString(buf, screen.display);
+			}
+
+		} else {
+
+			buf.writeBoolean(false);
+
+			for (RBMKScreen screen : screens) {
+				buf.writeByte((byte) screen.type.ordinal());
 			}
 		}
-		
-		for(int i = 0; i < this.screens.length; i++) {
-			RBMKScreen screen = screens[i];
-			screen.type = ScreenType.values()[data.getByte("s" + i)];
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		if (buf.readBoolean()) { // check if it should be a full packet
+
+			for(int i = 0; i < this.columns.length; i++) {
+				byte ordinal = buf.readByte();
+				if (ordinal == -1)
+					this.columns[i] = null;
+				else
+					this.columns[i] = new RBMKColumn(ColumnType.values()[ordinal], BufferUtil.readNBT(buf));
+			}
+
+			this.fluxBuffer = BufferUtil.readIntArray(buf);
+
+			for (RBMKScreen screen : this.screens) {
+				screen.display = BufferUtil.readString(buf);
+			}
+
+		} else {
+
+			for (RBMKScreen screen : this.screens) {
+				screen.type = ScreenType.values()[buf.readByte()];
+			}
+
 		}
 	}
 
@@ -555,8 +556,8 @@ public class TileEntityRBMKConsole extends TileEntityMachineBase implements ICon
 
 			if(te instanceof TileEntityRBMKRod){
 				TileEntityRBMKRod fuelChannel = (TileEntityRBMKRod)te;
-				data_table.put("fluxSlow", fuelChannel.fluxSlow);
-				data_table.put("fluxFast", fuelChannel.fluxFast);
+				data_table.put("fluxQuantity", fuelChannel.lastFluxQuantity);
+				data_table.put("fluxRatio", fuelChannel.fluxRatio);
 			}
 
 			if(te instanceof TileEntityRBMKBoiler){

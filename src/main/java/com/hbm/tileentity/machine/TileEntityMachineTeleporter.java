@@ -3,12 +3,14 @@ package com.hbm.tileentity.machine;
 import java.util.Iterator;
 import java.util.List;
 
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import com.hbm.util.BufferUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityTracker;
@@ -29,7 +31,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements IEnergyReceiverMK2, INBTPacketReceiver {
+public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements IEnergyReceiverMK2, IBufPacketReceiver {
 
 	public long power = 0;
 	public int targetX = -1;
@@ -55,10 +57,7 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 				}
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setIntArray("target", new int[] {targetX, targetY, targetZ, targetDim});
-			INBTPacketReceiver.networkPack(this, data, 15);
+			sendStandard(15);
 			
 		} else {
 
@@ -72,9 +71,15 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("power");
-		int[] target = nbt.getIntArray("target");
+	public void serialize(ByteBuf buf) {
+		buf.writeLong(power);
+		BufferUtil.writeIntArray(buf, new int[] {targetX, targetY, targetZ, targetDim});
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.power = buf.readLong();
+		int[] target = BufferUtil.readIntArray(buf);
 		this.targetX = target[0];
 		this.targetY = target[1];
 		this.targetZ = target[2];

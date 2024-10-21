@@ -1,11 +1,12 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerAssemfac;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -25,22 +26,23 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase implements IFluidStandardTransceiver, IUpgradeInfoProvider, IFluidCopiable {
-	
+
 	public AssemblerArm[] arms;
 
 	public FluidTank water;
 	public FluidTank steam;
 
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
+
 	public TileEntityMachineAssemfac() {
 		super(14 * 8 + 4 + 1); //8 assembler groups with 14 slots, 4 upgrade slots, 1 battery slot
-		
+
 		arms = new AssemblerArm[6];
 		for(int i = 0; i < arms.length; i++) {
 			arms[i] = new AssemblerArm(i % 3 == 1 ? 1 : 0); //the second of every group of three becomes a welder
@@ -58,7 +60,7 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 	@Override
 	public void setInventorySlotContents(int i, ItemStack stack) {
 		super.setInventorySlotContents(i, stack);
-		
+
 		if(stack != null && i >= 1 && i <= 4 && stack.getItem() instanceof ItemMachineUpgrade) {
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "hbm:item.upgradePlug", 1.0F, 1.0F);
 		}
@@ -67,37 +69,37 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				this.updateConnections();
 			}
-			
+
 			this.speed = 100;
 			this.consumption = 100;
-			
-			UpgradeManager.eval(slots, 1, 4);
 
-			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 6);
-			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
-			int overLevel = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
-			
+			upgradeManager.checkSlots(this, slots, 1, 4);
+
+			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
+			int overLevel = upgradeManager.getLevel(UpgradeType.OVERDRIVE);
+
 			this.speed -= speedLevel * 15;
 			this.consumption += speedLevel * 300;
 			this.speed += powerLevel * 5;
 			this.consumption -= powerLevel * 30;
 			this.speed /= (overLevel + 1);
 			this.consumption *= (overLevel + 1);
-			
+
 			for(DirPos pos : getConPos()) {
 				this.sendFluid(steam, worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
-			
+
 			this.networkPackNT(150);
-			
+
 		} else {
-			
+
 			for(AssemblerArm arm : arms) {
 				arm.updateInterp();
 				if(isProgressing) {
@@ -106,7 +108,7 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 			}
 		}
 	}
-	
+
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
@@ -119,7 +121,7 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 		water.serialize(buf);
 		steam.serialize(buf);
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
@@ -132,20 +134,7 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 		water.deserialize(buf);
 		steam.deserialize(buf);
 	}
-	
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.power = nbt.getLong("power");
-		this.progress = nbt.getIntArray("progress");
-		this.maxProgress = nbt.getIntArray("maxProgress");
-		this.isProgressing = nbt.getBoolean("isProgressing");
-		
-		water.readFromNBT(nbt, "w");
-		steam.readFromNBT(nbt, "s");
-	}
-	
+
 	private int getWaterRequired() {
 		return 1000 / this.speed;
 	}
@@ -161,19 +150,19 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 		this.water.setFill(this.water.getFill() - getWaterRequired());
 		this.steam.setFill(this.steam.getFill() + getWaterRequired());
 	}
-	
+
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {
 			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			this.trySubscribe(water.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
-	
+
 	public DirPos[] getConPos() {
-		
+
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
+
 		return new DirPos[] {
 				new DirPos(xCoord - dir.offsetX * 3 + rot.offsetX * 5, yCoord, zCoord - dir.offsetZ * 3 + rot.offsetZ * 5, rot),
 				new DirPos(xCoord + dir.offsetX * 2 + rot.offsetX * 5, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * 5, rot),
@@ -185,22 +174,22 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 				new DirPos(xCoord + dir.offsetX * 4 - rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 2, dir)
 		};
 	}
-	
+
 	public static class AssemblerArm {
 		public double[] angles = new double[4];
 		public double[] prevAngles = new double[4];
 		public double[] targetAngles = new double[4];
 		public double[] speed = new double[4];
-		
+
 		Random rand = new Random();
-		
+
 		int actionMode;
 		ArmActionState state;
 		int actionDelay = 0;
-		
+
 		public AssemblerArm(int actionMode) {
 			this.actionMode = actionMode;
-			
+
 			if(this.actionMode == 0) {
 				speed[0] = 15;	//Pivot
 				speed[1] = 15;	//Arm
@@ -212,19 +201,19 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 				speed[2] = 1;		//Piston
 				speed[3] = 0.125;	//Striker
 			}
-			
+
 			state = ArmActionState.ASSUME_POSITION;
 			chooseNewArmPoistion();
 			actionDelay = rand.nextInt(20);
 		}
-		
+
 		public void updateArm() {
-			
+
 			if(actionDelay > 0) {
 				actionDelay--;
 				return;
 			}
-			
+
 			switch(state) {
 			//Move. If done moving, set a delay and progress to EXTEND
 			case ASSUME_POSITION:
@@ -268,12 +257,12 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 					state = ArmActionState.ASSUME_POSITION;
 				}
 				break;
-			
+
 			}
 		}
-		
+
 		public void chooseNewArmPoistion() {
-			
+
 			if(this.actionMode == 0) {
 				targetAngles[0] = -rand.nextInt(50);		//Pivot
 				targetAngles[1] = -targetAngles[0];			//Arm
@@ -284,45 +273,45 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 				targetAngles[2] = rand.nextInt(10) + 10;	//Piston
 			}
 		}
-		
+
 		private void updateInterp() {
 			for(int i = 0; i < angles.length; i++) {
 				prevAngles[i] = angles[i];
 			}
 		}
-		
+
 		/**
 		 * @return True when it has finished moving
 		 */
 		private boolean move() {
 			boolean didMove = false;
-			
+
 			for(int i = 0; i < angles.length; i++) {
 				if(angles[i] == targetAngles[i])
 					continue;
-				
+
 				didMove = true;
-				
+
 				double angle = angles[i];
 				double target = targetAngles[i];
 				double turn = speed[i];
 				double delta = Math.abs(angle - target);
-				
+
 				if(delta <= turn) {
 					angles[i] = targetAngles[i];
 					continue;
 				}
-				
+
 				if(angle < target) {
 					angles[i] += turn;
 				} else {
 					angles[i] -= turn;
 				}
 			}
-			
+
 			return !didMove;
 		}
-		
+
 		public static enum ArmActionState {
 			ASSUME_POSITION,
 			EXTEND_STRIKER,
@@ -330,12 +319,12 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 			RETRACT_STRIKER
 		}
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 5,
@@ -346,10 +335,10 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 					zCoord + 5
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -378,42 +367,42 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 
 	DirPos[] inpos;
 	DirPos[] outpos;
-	
+
 	@Override
 	public DirPos[] getInputPositions() {
-		
+
 		if(inpos != null)
 			return inpos;
-		
+
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
+
 		inpos = new DirPos[] {
 				new DirPos(xCoord + dir.offsetX * 4 - rot.offsetX * 1, yCoord, zCoord + dir.offsetZ * 4 - rot.offsetZ * 1, dir),
 				new DirPos(xCoord - dir.offsetX * 5 + rot.offsetX * 2, yCoord, zCoord - dir.offsetZ * 5 + rot.offsetZ * 2, dir.getOpposite()),
 				new DirPos(xCoord - dir.offsetX * 2 - rot.offsetX * 4, yCoord, zCoord - dir.offsetZ * 2 - rot.offsetZ * 4, rot.getOpposite()),
 				new DirPos(xCoord + dir.offsetX * 1 + rot.offsetX * 5, yCoord, zCoord + dir.offsetZ * 1 + rot.offsetZ * 5, rot)
 		};
-		
+
 		return inpos;
 	}
 
 	@Override
 	public DirPos[] getOutputPositions() {
-		
+
 		if(outpos != null)
 			return outpos;
-		
+
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
+
 		outpos = new DirPos[] {
 				new DirPos(xCoord + dir.offsetX * 4 + rot.offsetX * 2, yCoord, zCoord + dir.offsetZ * 4 + rot.offsetZ * 2, dir),
 				new DirPos(xCoord - dir.offsetX * 5 - rot.offsetX * 1, yCoord, zCoord - dir.offsetZ * 5 - rot.offsetZ * 1, dir.getOpposite()),
 				new DirPos(xCoord + dir.offsetX * 1 - rot.offsetX * 4, yCoord, zCoord + dir.offsetZ * 1 - rot.offsetZ * 4, rot.getOpposite()),
 				new DirPos(xCoord - dir.offsetX * 2 + rot.offsetX * 5, yCoord, zCoord - dir.offsetZ * 2 + rot.offsetZ * 5, rot)
 		};
-		
+
 		return outpos;
 	}
 
@@ -470,11 +459,12 @@ public class TileEntityMachineAssemfac extends TileEntityMachineAssemblerBase im
 	}
 
 	@Override
-	public int getMaxLevel(UpgradeType type) {
-		if(type == UpgradeType.SPEED) return 6;
-		if(type == UpgradeType.POWER) return 3;
-		if(type == UpgradeType.OVERDRIVE) return 12;
-		return 0;
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 6);
+		upgrades.put(UpgradeType.POWER, 3);
+		upgrades.put(UpgradeType.OVERDRIVE, 12);
+		return upgrades;
 	}
 
 	@Override
