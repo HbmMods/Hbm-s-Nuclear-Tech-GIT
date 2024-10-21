@@ -5,6 +5,8 @@ import java.util.Random;
 import com.hbm.particle.ParticleSpentCasing;
 import com.hbm.particle.SpentCasing;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,6 +58,7 @@ public class CasingCreator implements IParticleCreator {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void makeParticle(World world, EntityPlayer player, TextureManager texman, Random rand, double x, double y, double z, NBTTagCompound data) {
 
 		String name = data.getString("name");

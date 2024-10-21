@@ -59,6 +59,8 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	public static final String KEY_RELOAD = "reload_";
 	public static final String KEY_LASTANIM = "lastanim_";
 	public static final String KEY_ANIMTIMER = "animtimer_";
+	public static final String KEY_LOCKONTARGET = "lockontarget";
+	public static final String KEY_LOCKEDON = "lockedon";
 	
 	public static ConcurrentHashMap<EntityPlayer, AudioWrapper> loopedSounds = new ConcurrentHashMap();
 
@@ -231,6 +233,11 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	// GUN AIMING //
 	public static float getWear(ItemStack stack, int index) { return getValueFloat(stack, KEY_WEAR + index); }
 	public static void setWear(ItemStack stack, int index, float value) { setValueFloat(stack, KEY_WEAR + index, value); }
+	// LOCKON //
+	public static int getLockonTarget(ItemStack stack) { return getValueInt(stack, KEY_LOCKONTARGET); }
+	public static void setLockonTarget(ItemStack stack, int value) { setValueInt(stack, KEY_LOCKONTARGET, value); }
+	public static boolean getIsLockedOn(ItemStack stack) { return getValueBool(stack, KEY_LOCKEDON); }
+	public static void setIsLockedOn(ItemStack stack, boolean value) { setValueBool(stack, KEY_LOCKEDON, value); }
 	// ANIM TRACKING //
 	public static AnimType getLastAnim(ItemStack stack, int index) { return EnumUtil.grabEnumSafely(AnimType.class, getValueInt(stack, KEY_LASTANIM + index)); }
 	public static void setLastAnim(ItemStack stack, int index, AnimType value) { setValueInt(stack, KEY_LASTANIM + index, value.ordinal()); }

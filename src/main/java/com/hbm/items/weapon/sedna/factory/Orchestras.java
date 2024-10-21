@@ -5,6 +5,7 @@ import java.util.function.BiConsumer;
 import com.hbm.config.ClientConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.impl.ItemGunStinger;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.main.MainRegistry;
@@ -664,6 +665,24 @@ public class Orchestras {
 		if(player.worldObj.isRemote) return;
 		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+
+		AudioWrapper runningAudio = ItemGunBaseNT.loopedSounds.get(player);
+		if(ItemGunStinger.getLockonProgress(stack) > 0 && !ItemGunStinger.getIsLockedOn(stack)) {
+			//start sound
+			if(runningAudio == null || !runningAudio.isPlaying()) {
+				AudioWrapper audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.fire.lockon", (float) player.posX, (float) player.posY, (float) player.posZ, 1F, 15F, 1F, 10);
+				ItemGunBaseNT.loopedSounds.put(player, audio);
+				audio.startSound();
+			}
+			//keepalive
+			if(runningAudio != null && runningAudio.isPlaying()) {
+				runningAudio.keepAlive();
+				runningAudio.updatePosition((float) player.posX, (float) player.posY, (float) player.posZ);
+			}
+		} else {
+			//stop sound due to timeout
+			if(runningAudio != null && runningAudio.isPlaying()) runningAudio.stopSound();
+		}
 		
 		if(type == AnimType.RELOAD) {
 			if(timer == 30) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.insertCanister", 1F, 1F);

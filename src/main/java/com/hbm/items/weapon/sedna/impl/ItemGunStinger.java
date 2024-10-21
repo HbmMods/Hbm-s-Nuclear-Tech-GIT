@@ -1,9 +1,12 @@
 package com.hbm.items.weapon.sedna.impl;
 
+import java.util.List;
+
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
 import com.hbm.render.util.RenderScreenOverlay;
+import com.hbm.util.Vec3NT;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -11,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
@@ -18,8 +22,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 public class ItemGunStinger extends ItemGunBaseNT {
 
 	public static final String KEY_LOCKINGON = "lockingon";
-	public static final String KEY_LOCKEDON = "lockedon";
-	public static final String KEY_LOCKONTARGET = "lockontarget";
 	public static final String KEY_LOCKONPROGRESS = "lockonprogress";
 
 	public static float prevLockon;
@@ -40,37 +42,81 @@ public class ItemGunStinger extends ItemGunBaseNT {
 			}
 			
 			this.prevLockon = this.lockon;
-			int prevTarget = this.getLockonTarget(stack);
-			if(isHeld && this.getIsLockingOn(stack) && this.getIsAiming(stack)) {
-				int newLockonTarget = this.getLockonTarget(player);
-				
-				if(newLockonTarget == -1) {
-					resetLockon(world, stack);
-				} else {
-					if(newLockonTarget != prevTarget) {
-						resetLockon(world, stack);
-						this.setLockonTarget(stack, newLockonTarget);
+			
+			if(!world.isRemote) {
+				int prevTarget = this.getLockonTarget(stack);
+				if(isHeld && this.getIsLockingOn(stack) && this.getIsAiming(stack) && this.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack) > 0) {
+					int newLockonTarget = this.getLockonTarget(player);
+					
+					if(newLockonTarget == -1) {
+						if(!this.getIsLockedOn(stack)) resetLockon(world, stack);
+					} else {
+						if(!this.getIsLockedOn(stack) && newLockonTarget != prevTarget) {
+							resetLockon(world, stack);
+							this.setLockonTarget(stack, newLockonTarget);
+						}
+						progressLockon(world, stack);
+						
+						if(this.getLockonProgress(stack) >= 60 && !this.getIsLockedOn(stack)) {
+							player.worldObj.playSoundAtEntity(player, "hbm:item.techBleep", 1F, 1F);
+							this.setIsLockedOn(stack, true);
+						}
 					}
-					progressLockon(world, stack);
+				} else {
+					resetLockon(world, stack);
 				}
 			} else {
-				resetLockon(world, stack);
+				if(this.getLockonProgress(stack) > 1) {
+					this.lockon += (1F / 60F);
+				} else {
+					this.lockon = 0;
+				}
 			}
 		}
 	}
 	
 	public void resetLockon(World world, ItemStack stack) {
-		if(world.isRemote) this.lockon = 0F;
-		if(!world.isRemote) this.setLockonProgress(stack, 0);
+		this.setLockonProgress(stack, 0);
+		this.setIsLockedOn(stack, false);
 	}
 	
 	public void progressLockon(World world, ItemStack stack) {
-		if(world.isRemote) this.lockon += (1F / 100F);
-		if(!world.isRemote) this.setLockonProgress(stack, this.getLockonProgress(stack) + 1);
+		this.setLockonProgress(stack, this.getLockonProgress(stack) + 1);
 	}
 	
 	public static int getLockonTarget(EntityPlayer player) {
-		return -1;
+
+		double x = player.posX;
+		double y = player.posY + player.getEyeHeight();
+		double z = player.posZ;
+		
+		Vec3NT delta = new Vec3NT(player.getLook(1F)).multiply(150);
+		Vec3NT look = new Vec3NT(delta).add(x, y, z);
+		Vec3NT pos = new Vec3NT(x, y, z);
+		
+		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(Vec3NT.getMinX(look, pos), Vec3NT.getMinY(look, pos), Vec3NT.getMinZ(look, pos),
+				Vec3NT.getMaxX(look, pos), Vec3NT.getMaxY(look, pos), Vec3NT.getMaxZ(look, pos));
+		List<Entity> entities = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, aabb);
+		Entity closestEntity = null;
+		double closestAngle = 360D;
+		
+		Vec3NT toEntity = new Vec3NT(0, 0, 0);
+		
+		for(Entity entity : entities) {
+			if(entity.height < 0.5F) continue;
+			toEntity.setComponents(entity.posX - x, entity.posY + entity.height / 2D - y, entity.posZ - z);
+			
+			double vecProd = toEntity.xCoord * delta.xCoord + toEntity.yCoord * delta.yCoord + toEntity.zCoord * delta.zCoord;
+			double bot = toEntity.lengthVector() * delta.lengthVector();
+			double angle = Math.abs(Math.acos(vecProd / bot) * 180 / Math.PI);
+			
+			if(angle < closestAngle && angle < 10) {
+				closestAngle = angle;
+				closestEntity = entity;
+			}
+		}
+		
+		return closestEntity == null ? - 1 : closestEntity.getEntityId();
 	}
 
 	@Override
@@ -101,10 +147,6 @@ public class ItemGunStinger extends ItemGunBaseNT {
 
 	public static boolean getIsLockingOn(ItemStack stack) { return getValueBool(stack, KEY_LOCKINGON); }
 	public static void setIsLockingOn(ItemStack stack, boolean value) { setValueBool(stack, KEY_LOCKINGON, value); }
-	public static boolean getIsLockedOn(ItemStack stack) { return getValueBool(stack, KEY_LOCKEDON); }
-	public static void setIsLockedOn(ItemStack stack, boolean value) { setValueBool(stack, KEY_LOCKEDON, value); }
-	public static int getLockonTarget(ItemStack stack) { return getValueInt(stack, KEY_LOCKONTARGET); }
-	public static void setLockonTarget(ItemStack stack, int value) { setValueInt(stack, KEY_LOCKONTARGET, value); }
 	public static int getLockonProgress(ItemStack stack) { return getValueInt(stack, KEY_LOCKONPROGRESS); }
 	public static void setLockonProgress(ItemStack stack, int value) { setValueInt(stack, KEY_LOCKONPROGRESS, value); }
 }

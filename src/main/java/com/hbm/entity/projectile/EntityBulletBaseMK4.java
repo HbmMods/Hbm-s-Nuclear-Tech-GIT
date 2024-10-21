@@ -1,9 +1,13 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.TrackerUtil;
+import com.hbm.util.Vec3NT;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityTrackerEntry;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -19,6 +23,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 	public double accel;
 	public float damage;
 	public int ricochets = 0;
+	public Entity lockonTarget = null;
 
 	public EntityBulletBaseMK4(World world) {
 		super(world);
@@ -49,6 +54,10 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
 		this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
 		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
+
+		motionX += entity.motionX;
+		motionY += entity.motionY;
+		motionZ += entity.motionZ;
 		
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread + gunSpread);
 	}
@@ -89,6 +98,22 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		double dX = this.posX - this.prevPosX;
 		double dY = this.posY - this.prevPosY;
 		double dZ = this.posZ - this.prevPosZ;
+		
+		if(this.lockonTarget != null && !this.lockonTarget.isDead) {
+			Vec3NT motion = new Vec3NT(motionX, motionY, motionZ);
+			double vel = motion.lengthVector();
+			Vec3NT delta = new Vec3NT(lockonTarget.posX - posX, lockonTarget.posY + lockonTarget.height / 2D - posY, lockonTarget.posZ - posZ);
+			float turn = Math.min(0.005F * this.ticksExisted, 1F);
+			Vec3NT newVec = new Vec3NT(
+					BobMathUtil.interp(motion.xCoord, delta.xCoord, turn),
+					BobMathUtil.interp(motion.yCoord, delta.yCoord, turn),
+					BobMathUtil.interp(motion.zCoord, delta.zCoord, turn)).normalizeSelf().multiply(vel);
+			this.motionX = newVec.xCoord;
+			this.motionY = newVec.yCoord;
+			this.motionZ = newVec.zCoord;
+			EntityTrackerEntry entry = TrackerUtil.getTrackerEntry((WorldServer) worldObj, this.getEntityId());
+			entry.lastYaw = MathHelper.floor_float(this.rotationYaw * 256.0F / 360.0F) + 10; //force-trigger rotation update
+		}
 		
 		this.prevVelocity = this.velocity;
 		this.velocity = Math.sqrt(dX * dX + dY * dY + dZ * dZ);

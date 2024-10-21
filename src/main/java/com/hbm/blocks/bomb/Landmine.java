@@ -5,6 +5,13 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.bomb.TileEntityLandmine;
@@ -147,10 +154,19 @@ public class Landmine extends BlockContainer implements IBomb {
 			Landmine.safeMode = false;
 
 			if(this == ModBlocks.mine_ap) {
-				world.newExplosion(null, x + 0.5, y + 0.5, z + 0.5, 2.5F, false, false);
+				ExplosionVNT vnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 3F);
+				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, 10F));
+				vnt.setPlayerProcessor(new PlayerProcessorStandard());
+				vnt.setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
+				vnt.explode();
 			} else if(this == ModBlocks.mine_he) {
-				ExplosionLarge.explode(world, x + 0.5, y + 0.5, z + 0.5, 3F, true, false, false);
-				world.newExplosion(null, x + 0.5, y + 2, z + 0.5, 15F, false, false);
+				ExplosionVNT vnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 4F);
+				vnt.setBlockAllocator(new BlockAllocatorStandard());
+				vnt.setBlockProcessor(new BlockProcessorStandard());
+				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, 35));
+				vnt.setPlayerProcessor(new PlayerProcessorStandard());
+				vnt.setSFX(new ExplosionEffectWeapon(15, 3.5F, 1.25F));
+				vnt.explode();
 			} else if(this == ModBlocks.mine_shrap) {
 				ExplosionLarge.explode(world, x + 0.5, y + 0.5, z + 0.5, 1, true, false, false);
 				ExplosionLarge.spawnShrapnelShower(world, x + 0.5, y + 0.5, z + 0.5, 0, 1D, 0, 45, 0.2D);

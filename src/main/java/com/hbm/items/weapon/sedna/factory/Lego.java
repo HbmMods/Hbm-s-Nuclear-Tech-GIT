@@ -154,19 +154,27 @@ public class Lego {
 	
 	/** Toggles isAiming. Used by keybinds. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_TOGGLE_AIM = (stack, ctx) -> { ItemGunBaseNT.setIsAiming(stack, !ItemGunBaseNT.getIsAiming(stack)); };
-	
-	/** Returns true if the mag has ammo in it. Used by keybind functions on whether to fire, and deciders on whether to trigger a refire, */
+
+	/** Returns true if the mag has ammo in it. Used by keybind functions on whether to fire, and deciders on whether to trigger a refire. */
 	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_STANDARD_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack) > 0; };
+	
+	/** Returns true if the mag has ammo in it, and the gun is in the locked on state */
+	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_LOCKON_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack) > 0 && ItemGunBaseNT.getIsLockedOn(stack); };
 
 	
 	
 	
 	/** JUMPER - bypasses mag testing and just allows constant fire */
 	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_DEBUG_CAN_FIRE = (stack, ctx) -> { return true; };
-	
+
 	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_FIRE = (stack, ctx) -> {
 		doStandardFire(stack, ctx, AnimType.CYCLE);
+	};
+	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg, then resets lockon progress */
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_LOCKON_FIRE = (stack, ctx) -> {
+		doStandardFire(stack, ctx, AnimType.CYCLE);
+		ItemGunBaseNT.setIsLockedOn(stack, false);
 	};
 	
 	public static void doStandardFire(ItemStack stack, LambdaContext ctx, AnimType anim) {
@@ -195,6 +203,7 @@ public class Lego {
 			float damage = primary.getBaseDamage(stack) * getStandardWearDamage(stack, ctx.config, index);
 			float spread = primary.getGunSpread(stack) * aim + getStandardWearSpread(stack, ctx.config, index) * 0.125F;
 			EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(player, config, damage, spread, sideOffset, heightOffset, forwardOffset);
+			if(ItemGunBaseNT.getIsLockedOn(stack)) mk4.lockonTarget = player.worldObj.getEntityByID(ItemGunBaseNT.getLockonTarget(stack));
 			player.worldObj.spawnEntityInWorld(mk4);
 		}
 		
