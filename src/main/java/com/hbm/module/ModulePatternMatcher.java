@@ -125,6 +125,10 @@ public class ModulePatternMatcher {
 			modes[index] = mode = MODE_EXACT;
 		}
 		
+		return isValidForFilter(filter, mode, input);
+	}
+
+	public static boolean isValidForFilter(ItemStack filter, String mode, ItemStack input) {
 		switch(mode) {
 		case MODE_EXACT: return input.isItemEqual(filter) && ItemStack.areItemStackTagsEqual(input, filter);
 		case MODE_WILDCARD: return input.getItem() == filter.getItem() && ItemStack.areItemStackTagsEqual(input, filter);
