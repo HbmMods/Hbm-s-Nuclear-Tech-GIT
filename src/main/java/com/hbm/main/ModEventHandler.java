@@ -24,6 +24,7 @@ import com.hbm.entity.mob.EntityCyberCrab;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.entity.mob.EntityQuackos;
+import com.hbm.entity.mob.ai.EntityAIFireGun;
 import com.hbm.entity.mob.EntityCreeperTainted;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
@@ -422,6 +423,12 @@ public class ModEventHandler {
 			}
 			if(rand.nextInt(64) == 0)
 				entity.setCurrentItemOrArmor(3, new ItemStack(ModItems.steel_plate, 1, world.rand.nextInt(ModItems.steel_plate.getMaxDamage())));
+			
+			// Give them a gun and the AI task to fire it
+			entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_am180));
+
+			EntitySkeleton skeleton = (EntitySkeleton) entity;
+			skeleton.tasks.addTask(3, new EntityAIFireGun(skeleton));
 		}
 	}
 	
