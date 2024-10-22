@@ -55,11 +55,11 @@ public class XFactoryFlamer {
 				.dura(90_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.delay(1).auto(true)
-						.mag(new MagazineFluid(0, 300))
+						.mag(new MagazineFluid(0, 3_000))
 						.offset(0.75, -0.0625, -0.25D)
 						.canFire(ItemGunChemthrower.LAMBDA_CAN_FIRE).fire(ItemGunChemthrower.LAMBDA_FIRE))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
-				.anim(LAMBDA_CHEMTHROWER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER)
+				.anim(LAMBDA_CHEMTHROWER_ANIMS).orchestra(Orchestras.ORCHESTRA_CHEMTHROWER)
 				).setUnlocalizedName("gun_chemthrower").setTextureName(RefStrings.MODID + ":gun_darter");
 	}
 

@@ -6,7 +6,6 @@ import java.util.function.BiFunction;
 import com.hbm.entity.projectile.EntityChemical;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
@@ -84,18 +83,17 @@ public class ItemGunChemthrower extends ItemGunBaseNT implements IFillableItem {
 		
 		Receiver primary = ctx.config.getReceivers(stack)[0];
 		IMagazine mag = primary.getMagazine(stack);
-		BulletConfig config = (BulletConfig) mag.getType(stack);
 		
 		Vec3 offset = primary.getProjectileOffset(stack);
 		double forwardOffset = offset.xCoord;
 		double heightOffset = offset.yCoord;
 		double sideOffset = offset.zCoord;
 		
-		EntityChemical chem = new EntityChemical(player.worldObj, player);
+		EntityChemical chem = new EntityChemical(player.worldObj, player, sideOffset, heightOffset, forwardOffset);
 		chem.setFluid((FluidType) mag.getType(stack));
 		player.worldObj.spawnEntityInWorld(chem);
 		
 		mag.setAmount(stack, mag.getAmount(stack) - CONSUMPTION);
-		ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
+		ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + 1F, ctx.config.getDurability(stack)));
 	};
 }

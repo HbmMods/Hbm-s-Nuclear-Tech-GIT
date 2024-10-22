@@ -50,7 +50,7 @@ public class MagazineFluid implements IMagazine<FluidType> {
 	@Override public SpentCasing getCasing(ItemStack stack) { return null; }
 
 	@Override public ItemStack getIconForHUD(ItemStack stack) { return new ItemStack(ModItems.fluid_icon, 1, this.getMagType(stack, index)); }
-	@Override public String reportAmmoStateForHUD(ItemStack stack) { return getAmount(stack) + " / " + getCapacity(stack) + "mB"; }
+	@Override public String reportAmmoStateForHUD(ItemStack stack) { return getIconForHUD(stack).getDisplayName(); }
 	
 	@Override public void setAmountBeforeReload(ItemStack stack, int amount) { ItemGunBaseNT.setValueInt(stack, KEY_MAG_PREV + index, amount); }
 	@Override public int getAmountBeforeReload(ItemStack stack) { return ItemGunBaseNT.getValueInt(stack, KEY_MAG_PREV + index); }

@@ -688,4 +688,51 @@ public class Orchestras {
 			if(timer == 30) player.worldObj.playSoundAtEntity(player, "hbm:weapon.reload.insertCanister", 1F, 1F);
 		}
 	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_CHEMTHROWER = (stack, ctx) -> {
+		EntityPlayer player = ctx.player;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		
+		if(type == AnimType.CYCLE && player.worldObj.isRemote) {
+			AudioWrapper runningAudio = ItemGunBaseNT.loopedSounds.get(player);
+			
+			if(timer < 5) {
+				//start sound
+				if(runningAudio == null || !runningAudio.isPlaying()) {
+					AudioWrapper audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.fire.flameLoop", (float) player.posX, (float) player.posY, (float) player.posZ, 1F, 15F, 1F, 10);
+					ItemGunBaseNT.loopedSounds.put(player, audio);
+					audio.startSound();
+				}
+				//keepalive
+				if(runningAudio != null && runningAudio.isPlaying()) {
+					runningAudio.keepAlive();
+					runningAudio.updatePosition((float) player.posX, (float) player.posY, (float) player.posZ);
+				}
+			} else {
+				//stop sound due to timeout
+				if(runningAudio != null && runningAudio.isPlaying()) runningAudio.stopSound();
+			}
+		}
+		//stop sound due to state change
+		if(type != AnimType.CYCLE && player.worldObj.isRemote) {
+			AudioWrapper runningAudio = ItemGunBaseNT.loopedSounds.get(player);
+			if(runningAudio != null && runningAudio.isPlaying()) runningAudio.stopSound();
+		}
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_M2 = (stack, ctx) -> {
+		EntityPlayer player = ctx.player;
+		if(player.worldObj.isRemote) return;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
+
+		if(type == AnimType.CYCLE) {
+			if(timer == 0) {
+				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack);
+				if(casing != null) CasingCreator.composeEffect(player.worldObj, player, 0.375, aiming ? 0 : -0.125, aiming ? 0 : -0.3125D, 0, 0.06, -0.18, 0.01, casing.getName());
+			}
+		}
+	};
 }

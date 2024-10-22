@@ -55,9 +55,9 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
 		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
 
-		motionX += entity.motionX;
+		/*motionX += entity.motionX;
 		motionY += entity.motionY;
-		motionZ += entity.motionZ;
+		motionZ += entity.motionZ;*/
 		
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread + gunSpread);
 	}
