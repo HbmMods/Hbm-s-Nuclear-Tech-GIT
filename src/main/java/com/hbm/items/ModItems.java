@@ -1614,6 +1614,7 @@ public class ModItems {
 	public static Item gun_stinger;
 	public static Item gun_chemthrower;
 	public static Item gun_m2;
+	public static Item gun_autoshotgun;
 	
 	public static Item ammo_standard;
 	
@@ -6957,6 +6958,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_stinger, gun_stinger.getUnlocalizedName());
 		GameRegistry.registerItem(gun_chemthrower, gun_chemthrower.getUnlocalizedName());
 		GameRegistry.registerItem(gun_m2, gun_m2.getUnlocalizedName());
+		GameRegistry.registerItem(gun_autoshotgun, gun_autoshotgun.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		

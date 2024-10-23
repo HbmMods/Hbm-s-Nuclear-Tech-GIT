@@ -735,4 +735,11 @@ public class Orchestras {
 			}
 		}
 	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_SHREDDER = (stack, ctx) -> {
+		EntityPlayer player = ctx.player;
+		if(player.worldObj.isRemote) return;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+	};
 }

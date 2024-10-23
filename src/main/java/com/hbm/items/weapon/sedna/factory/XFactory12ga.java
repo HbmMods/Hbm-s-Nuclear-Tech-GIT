@@ -12,6 +12,7 @@ import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
+import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
@@ -39,11 +40,13 @@ public class XFactory12ga {
 		g12_bp_slug = new BulletConfig().setItem(EnumAmmo.G12_BP_SLUG).setSpread(0.01F).setRicochetAngle(5).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setScale(1.5F).register("12GA_BP_SLUG"));
 		g12 = new BulletConfig().setItem(EnumAmmo.G12).setProjectiles(8, 8).setSpread(0.05F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA"));
 
+		BulletConfig[] all = new BulletConfig[] {g12_bp, g12_bp_magnum, g12_bp_slug, g12};
+		
 		ModItems.gun_maresleg = new ItemGunBaseNT(new GunConfig()
 				.dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
-						.mag(new MagazineSingleReload(0, 6).addConfigs(g12_bp, g12_bp_magnum, g12_bp_slug, g12))
+						.mag(new MagazineSingleReload(0, 6).addConfigs(all))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
@@ -53,7 +56,7 @@ public class XFactory12ga {
 				new GunConfig().dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
-						.mag(new MagazineSingleReload(0, 6).addConfigs(g12_bp, g12_bp_magnum, g12_bp_slug, g12))
+						.mag(new MagazineSingleReload(0, 6).addConfigs(all))
 						.offset(0.75, -0.0625, 0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
@@ -62,7 +65,7 @@ public class XFactory12ga {
 				new GunConfig().dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
-						.mag(new MagazineSingleReload(1, 6).addConfigs(g12_bp, g12_bp_magnum, g12_bp_slug, g12))
+						.mag(new MagazineSingleReload(1, 6).addConfigs(all))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
@@ -74,7 +77,7 @@ public class XFactory12ga {
 				.dura(200).draw(20).inspect(21).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12F).delay(20).rounds(4).reload(25, 15, 7, 0).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
-						.mag(new MagazineSingleReload(0, 4).addConfigs(g12_bp, g12_bp_magnum, g12_bp_slug, g12))
+						.mag(new MagazineSingleReload(0, 4).addConfigs(all))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
@@ -85,12 +88,23 @@ public class XFactory12ga {
 				.dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12F).delay(20).reload(5, 10, 10, 10, 0).jam(24).sound("hbm:weapon.shotgunShoot", 1.0F, 1.0F)
-						.mag(new MagazineSingleReload(0, 8).addConfigs(g12_bp, g12_bp_magnum, g12_bp_slug, g12))
+						.mag(new MagazineSingleReload(0, 8).addConfigs(all))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration().ps(LAMBDA_SPAS_SECONDARY).pt(null)
 				.anim(LAMBDA_SPAS_ANIMS).orchestra(Orchestras.ORCHESTRA_SPAS)
 				).setUnlocalizedName("gun_spas12").setTextureName(RefStrings.MODID + ":gun_darter");
+		
+		ModItems.gun_autoshotgun = new ItemGunBaseNT(new GunConfig()
+				.dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(15F).delay(10).auto(true).reload(20).jam(24).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(0, 20).addConfigs(all))
+						.offset(0.75, -0.0625, -0.1875D)
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+				.setupStandardConfiguration()
+				.anim(LAMBDA_SHREDDER_ANIMS).orchestra(Orchestras.ORCHESTRA_SHREDDER)
+				).setUnlocalizedName("gun_autoshotgun").setTextureName(RefStrings.MODID + ":gun_darter");
 	}
 	//TODO: make generic code for this crap
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SPAS_SECONDARY = (stack, ctx) -> {
@@ -299,6 +313,15 @@ public class XFactory12ga {
 		case RELOAD_END: return ResourceManager.spas_12_anim.get("ReloadEnd");
 		case JAMMED: return new BusAnimation();
 		case INSPECT: return new BusAnimation();
+		}
+		
+		return null;
+	};
+
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_SHREDDER_ANIMS = (stack, type) -> {
+		switch(type) {
+		case EQUIP: return new BusAnimation()
+				.addBus("EQUIP", new BusAnimationSequence().addPos(60, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_DOWN));
 		}
 		
 		return null;
