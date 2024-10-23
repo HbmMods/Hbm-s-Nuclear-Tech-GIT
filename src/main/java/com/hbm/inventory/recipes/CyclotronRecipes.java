@@ -44,7 +44,6 @@ public class CyclotronRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack("dustActinium"), new ItemStack(ModItems.powder_thorium), liA);
 		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack(U.dust()), new ItemStack(ModItems.powder_neptunium), liA);
 		makeRecipe(new ComparableStack(ModItems.part_lithium), new OreDictStack(NP237.dust()), new ItemStack(ModItems.powder_plutonium), liA);
-		makeRecipe(new ComparableStack(ModItems.part_lithium), new ComparableStack(ModItems.powder_reiium), new ItemStack(ModItems.powder_weidanium), liA);
 		/// LITHIUM END ///
 
 		/// BERYLLIUM START ///
@@ -57,7 +56,6 @@ public class CyclotronRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModItems.part_beryllium), new ComparableStack(ModItems.powder_strontium), new ItemStack(ModItems.powder_niobium), beA);
 		makeRecipe(new ComparableStack(ModItems.part_beryllium), new ComparableStack(ModItems.powder_cerium), new ItemStack(ModItems.powder_neodymium), beA);
 		makeRecipe(new ComparableStack(ModItems.part_beryllium), new OreDictStack("dustThorium"), new ItemStack(ModItems.powder_uranium), beA);
-		makeRecipe(new ComparableStack(ModItems.part_beryllium), new ComparableStack(ModItems.powder_weidanium), new ItemStack(ModItems.powder_australium), beA);
 		/// BERYLLIUM END ///
 		
 		/// CARBON START ///
@@ -71,7 +69,6 @@ public class CyclotronRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModItems.part_carbon), new ComparableStack(ModItems.ingot_mercury), new ItemStack(ModItems.powder_polonium), caA);
 		makeRecipe(new ComparableStack(ModItems.part_carbon), new OreDictStack(PB.dust()), new ItemStack(ModItems.powder_ra226),caA);
 		makeRecipe(new ComparableStack(ModItems.part_carbon), new ComparableStack(ModItems.powder_astatine), new ItemStack(ModItems.powder_actinium), caA);
-		makeRecipe(new ComparableStack(ModItems.part_carbon), new ComparableStack(ModItems.powder_australium), new ItemStack(ModItems.powder_verticium), caA);
 		/// CARBON END ///
 		
 		/// COPPER START ///
@@ -87,7 +84,6 @@ public class CyclotronRecipes extends SerializableRecipe {
 		makeRecipe(new ComparableStack(ModItems.part_copper), new ComparableStack(ModItems.powder_iodine), new ItemStack(ModItems.powder_polonium), coA);
 		makeRecipe(new ComparableStack(ModItems.part_copper), new ComparableStack(ModItems.powder_caesium), new ItemStack(ModItems.powder_actinium), coA);
 		makeRecipe(new ComparableStack(ModItems.part_copper), new OreDictStack("dustGold"), new ItemStack(ModItems.powder_uranium), coA);
-		makeRecipe(new ComparableStack(ModItems.part_copper), new ComparableStack(ModItems.powder_verticium), new ItemStack(ModItems.powder_unobtainium), coA);
 		/// COPPER END ///
 
 		/// PLUTONIUM START ///
@@ -95,13 +91,10 @@ public class CyclotronRecipes extends SerializableRecipe {
 		
 		makeRecipe(new ComparableStack(ModItems.part_plutonium), new OreDictStack("dustPhosphorus"), new ItemStack(ModItems.powder_tennessine), plA);
 		makeRecipe(new ComparableStack(ModItems.part_plutonium), new OreDictStack(PU.dust()), new ItemStack(ModItems.powder_tennessine), plA);
-		makeRecipe(new ComparableStack(ModItems.part_plutonium), new ComparableStack(ModItems.powder_tennessine), new ItemStack(ModItems.powder_reiium), plA);
+		makeRecipe(new ComparableStack(ModItems.part_plutonium), new ComparableStack(ModItems.powder_tennessine), new ItemStack(ModItems.powder_australium), plA);
 		makeRecipe(new ComparableStack(ModItems.part_plutonium), new ComparableStack(ModItems.pellet_charged), new ItemStack(ModItems.nugget_schrabidium), 1000);
-		makeRecipe(new ComparableStack(ModItems.part_plutonium), new ComparableStack(ModItems.powder_unobtainium), new ItemStack(ModItems.powder_daffergon), plA);
 		makeRecipe(new ComparableStack(ModItems.part_plutonium), new ComparableStack(ModItems.cell_antimatter), new ItemStack(ModItems.cell_anti_schrabidium), 0);
 		/// PLUTONIUM END ///
-		
-		///TODO: fictional elements
 	}
 	
 	private static void makeRecipe(ComparableStack part, AStack in, ItemStack out, int amat) {
@@ -123,23 +116,6 @@ public class CyclotronRecipes extends SerializableRecipe {
 				return new Object[] { entry.getValue().getKey().copy(), entry.getValue().getValue() };
 			}
 		}
-		
-		//there's literally 0 reason why this doesn't work yet it refuses, fuck this
-		
-		/*Pair<ItemStack, Integer> output = recipes.get(new Pair(boxStack, comp));
-		
-		if(output != null) {
-			return new Object[] { output.getKey().copy(), output.getValue() };
-		}
-		
-		for(String name : ItemStackUtil.getOreDictNames(stack)) {
-			OreDictStack ods = new OreDictStack(name);
-			output = recipes.get(new Pair(new ComparableStack(ModItems.part_beryllium), new OreDictStack("dustCobalt")));
-			
-			if(output != null) {
-				return new Object[] { output.getKey().copy(), output.getValue() };
-			}
-		}*/
 		
 		return null;
 	}

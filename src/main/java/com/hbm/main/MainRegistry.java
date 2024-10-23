@@ -1432,6 +1432,29 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.flame_10");
 		ignoreMappings.add("hbm:tile.dummy_block_uf6");
 		ignoreMappings.add("hbm:tile.dummy_block_puf6");
+		ignoreMappings.add("hbm:item.wire_aluminium");
+		ignoreMappings.add("hbm:item.wire_copper");
+		ignoreMappings.add("hbm:item.wire_red_copper");
+		ignoreMappings.add("hbm:item.wire_tungsten");
+		ignoreMappings.add("hbm:item.wire_gold");
+		ignoreMappings.add("hbm:item.wire_schrabidium");
+		ignoreMappings.add("hbm:item.wire_advanced_alloy");
+		ignoreMappings.add("hbm:item.wire_magnetized_tungsten");
+		ignoreMappings.add("hbm:item.nugget_weidanium");
+		ignoreMappings.add("hbm:item.nugget_reiium");
+		ignoreMappings.add("hbm:item.nugget_unobtainium");
+		ignoreMappings.add("hbm:item.nugget_daffergon");
+		ignoreMappings.add("hbm:item.nugget_verticium");
+		ignoreMappings.add("hbm:item.ingot_weidanium");
+		ignoreMappings.add("hbm:item.ingot_reiium");
+		ignoreMappings.add("hbm:item.ingot_unobtainium");
+		ignoreMappings.add("hbm:item.ingot_daffergon");
+		ignoreMappings.add("hbm:item.ingot_verticium");
+		ignoreMappings.add("hbm:item.powder_weidanium");
+		ignoreMappings.add("hbm:item.powder_reiium");
+		ignoreMappings.add("hbm:item.powder_unobtainium");
+		ignoreMappings.add("hbm:item.powder_daffergon");
+		ignoreMappings.add("hbm:item.powder_verticium");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
