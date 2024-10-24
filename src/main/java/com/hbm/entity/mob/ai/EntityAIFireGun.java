@@ -13,72 +13,124 @@ import net.minecraft.item.ItemStack;
 
 public class EntityAIFireGun extends EntityAIBase {
 
-    private final EntityLiving host;
+	private final EntityLiving host;
 
-    private double attackMoveSpeed = 1.0D;
+	private double attackMoveSpeed = 1.0D; // how fast we move while in this state
+	private double maxRange = 20; // how far our target can be before we stop shooting
+	private int burstTime = 6; // maximum number of ticks in a burst (for automatic weapons)
+	private int minWait = 10; // minimum number of ticks to wait between bursts/shots
+	private int maxWait = 60; // maximum number of ticks to wait between bursts/shots
+	private float inaccuracy = 30; // how many degrees of inaccuracy does the AI have
 
-    private int attackTimer = 0;
-    private double maxRange = 20;
-    
-    public EntityAIFireGun(EntityLiving host) {
-        this.host = host;
-    }
+	// state timers
+	private int attackTimer = 0;
+	private FireState state = FireState.IDLE;
+	private int stateTimer = 0;
 
-    @Override
-    public boolean shouldExecute() {
-        return host.getAttackTarget() != null && getYerGun() != null;
-    }
+	private static enum FireState {
+		IDLE,
+		WAIT,
+		FIRING,
+		RELOADING,
+	}
+	
+	public EntityAIFireGun(EntityLiving host) {
+		this.host = host;
+	}
 
-    @Override
-    public void updateTask() {
-        EntityLivingBase target = host.getAttackTarget();
-        ItemStack stack = host.getHeldItem();
-        ItemGunBaseNT gun = getYerGun();
+	@Override
+	public boolean shouldExecute() {
+		return host.getAttackTarget() != null && getYerGun() != null;
+	}
 
-        gun.onUpdate(stack, host.worldObj, host, 0, true);
+	@Override
+	public void updateTask() {
+		EntityLivingBase target = host.getAttackTarget();
+		ItemStack stack = host.getHeldItem();
+		ItemGunBaseNT gun = getYerGun();
 
-        double distanceToTargetSquared = host.getDistanceSq(target.posX, target.posY, target.posZ);
-        boolean canSeeTarget = host.getEntitySenses().canSee(target);
+		gun.onUpdate(stack, host.worldObj, host, 0, true);
 
-        if(canSeeTarget) {
-            attackTimer++;
-        } else {
-            attackTimer = 0;
-        }
+		double distanceToTargetSquared = host.getDistanceSq(target.posX, target.posY, target.posZ);
+		boolean canSeeTarget = host.getEntitySenses().canSee(target);
 
-        if(distanceToTargetSquared < maxRange * maxRange && attackTimer > 20) {
-            host.getNavigator().clearPathEntity();
-        } else {
-            host.getNavigator().tryMoveToEntityLiving(target, attackMoveSpeed);
-        }
+		if(canSeeTarget) {
+			attackTimer++;
+		} else {
+			attackTimer = 0;
+		}
 
-        host.getLookHelper().setLookPositionWithEntity(target, 30.0F, 30.0F);
+		if(distanceToTargetSquared < maxRange * maxRange && attackTimer > 20) {
+			host.getNavigator().clearPathEntity();
+		} else {
+			host.getNavigator().tryMoveToEntityLiving(target, attackMoveSpeed);
+		}
 
-        if(canSeeTarget && distanceToTargetSquared < maxRange * maxRange) {
-            GunConfig config = gun.getConfig(stack, 0);
-            Receiver rec = config.getReceivers(stack)[0];
-            if(rec.getMagazine(stack).getAmount(stack) <= 0) {
-                gun.handleKeybind(host, null, stack, EnumKeybind.GUN_PRIMARY, false);
-                gun.handleKeybind(host, null, stack, EnumKeybind.RELOAD, true);
-            } else if(ItemGunBaseNT.getState(stack, 0) == GunState.IDLE) {
-                gun.handleKeybind(host, null, stack, EnumKeybind.GUN_PRIMARY, true);
-                gun.handleKeybind(host, null, stack, EnumKeybind.RELOAD, false);
-            } else {
-                gun.handleKeybind(host, null, stack, EnumKeybind.GUN_PRIMARY, false);
-                gun.handleKeybind(host, null, stack, EnumKeybind.RELOAD, false);
-            }
-        } else {
-            gun.handleKeybind(host, null, stack, EnumKeybind.GUN_PRIMARY, false);
-            gun.handleKeybind(host, null, stack, EnumKeybind.RELOAD, false);
-        }
-    }
+		host.getLookHelper().setLookPositionWithEntity(target, 30.0F, 30.0F);
 
-    public ItemGunBaseNT getYerGun() {
-        ItemStack stack = host.getHeldItem();
+		stateTimer--;
+		if(stateTimer < 0) {
+			stateTimer = 0;
 
-        if(stack == null || !(stack.getItem() instanceof ItemGunBaseNT)) return null;
+			if(state == FireState.WAIT) {
+				updateState(FireState.IDLE, 0, gun, stack);
+			} else if(state != FireState.IDLE) {
+				updateState(FireState.WAIT, host.worldObj.rand.nextInt(maxWait - minWait) + minWait, gun, stack);
+			}
+		} else if(state == FireState.FIRING) {
+			// Keep the trigger held throughout the duration of firing
+			updateKeybind(gun, stack, EnumKeybind.GUN_PRIMARY);
+		}
 
-        return (ItemGunBaseNT) stack.getItem();
-    }
-    
+		if(canSeeTarget && distanceToTargetSquared < maxRange * maxRange) {
+			if(state == FireState.IDLE) {
+				GunConfig config = gun.getConfig(stack, 0);
+				Receiver rec = config.getReceivers(stack)[0];
+				if(rec.getMagazine(stack).getAmount(stack) <= 0) {
+					updateState(FireState.RELOADING, 40, gun, stack);
+				} else if(ItemGunBaseNT.getState(stack, 0) == GunState.IDLE) {
+					updateState(FireState.FIRING, host.worldObj.rand.nextInt(burstTime), gun, stack);
+				}
+			}
+		}
+	}
+
+	private void updateState(FireState toState, int time, ItemGunBaseNT gun, ItemStack stack) {
+		state = toState;
+		stateTimer = time;
+
+		switch(state) {
+		case FIRING: updateKeybind(gun, stack, EnumKeybind.GUN_PRIMARY);
+		case RELOADING: updateKeybind(gun, stack, EnumKeybind.RELOAD);
+		default: clearKeybinds(gun, stack); break;
+		}
+	}
+
+	private void clearKeybinds(ItemGunBaseNT gun, ItemStack stack) {
+		updateKeybind(gun, stack, null);
+	}
+
+	private void updateKeybind(ItemGunBaseNT gun, ItemStack stack, EnumKeybind bind) {
+		// Turn body to face firing direction, since the gun is attached to that, not the head
+		// Also apply accuracy debuff just before firing
+		if(bind != null && bind != EnumKeybind.RELOAD) {
+			host.rotationYawHead += (host.worldObj.rand.nextFloat() - 0.5F) * 2 * inaccuracy;
+			host.rotationPitch += (host.worldObj.rand.nextFloat() - 0.5F) * 2 * inaccuracy;
+			host.rotationYaw = host.rotationYawHead;
+		}
+
+		gun.handleKeybind(host, null, stack, EnumKeybind.GUN_PRIMARY, bind == EnumKeybind.GUN_PRIMARY);
+		gun.handleKeybind(host, null, stack, EnumKeybind.GUN_SECONDARY, bind == EnumKeybind.GUN_SECONDARY);
+		gun.handleKeybind(host, null, stack, EnumKeybind.GUN_TERTIARY, bind == EnumKeybind.GUN_TERTIARY);
+		gun.handleKeybind(host, null, stack, EnumKeybind.RELOAD, bind == EnumKeybind.RELOAD);
+	}
+
+	public ItemGunBaseNT getYerGun() {
+		ItemStack stack = host.getHeldItem();
+
+		if(stack == null || !(stack.getItem() instanceof ItemGunBaseNT)) return null;
+
+		return (ItemGunBaseNT) stack.getItem();
+	}
+	
 }

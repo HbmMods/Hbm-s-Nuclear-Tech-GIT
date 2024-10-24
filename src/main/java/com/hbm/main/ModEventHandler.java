@@ -54,6 +54,7 @@ import com.hbm.items.armor.ItemModShackles;
 import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.ItemGunBase;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.lib.HbmCollection;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
@@ -65,14 +66,7 @@ import com.hbm.saveddata.AuxSavedData;
 import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.tileentity.network.RequestNetwork;
-import com.hbm.util.AchievementHandler;
-import com.hbm.util.ArmorRegistry;
-import com.hbm.util.ArmorUtil;
-import com.hbm.util.ContaminationUtil;
-import com.hbm.util.EnchantmentUtil;
-import com.hbm.util.EnumUtil;
-import com.hbm.util.InventoryUtil;
-import com.hbm.util.ShadyUtil;
+import com.hbm.util.*;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.world.generator.TimedGenerator;
 
@@ -89,8 +83,10 @@ import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCaveSpider;
@@ -116,13 +112,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.FoodStats;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -423,12 +413,48 @@ public class ModEventHandler {
 			}
 			if(rand.nextInt(64) == 0)
 				entity.setCurrentItemOrArmor(3, new ItemStack(ModItems.steel_plate, 1, world.rand.nextInt(ModItems.steel_plate.getMaxDamage())));
-			
-			// Give them a gun and the AI task to fire it
-			entity.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_am180));
+				
+			float soot = PollutionHandler.getPollution(entity.worldObj, MathHelper.floor_double(event.x), MathHelper.floor_double(event.y), MathHelper.floor_double(event.z), PollutionType.SOOT);
+			ItemStack bowReplacement = getSkelegun(soot, entity.worldObj.rand);
+			if(bowReplacement != null) {
+				entity.setCurrentItemOrArmor(0, bowReplacement);
+				addFireTask((EntityLiving) entity);
+			}
+		}
+	}
 
-			EntitySkeleton skeleton = (EntitySkeleton) entity;
-			skeleton.tasks.addTask(3, new EntityAIFireGun(skeleton));
+	private static ItemStack getSkelegun(float soot, Random rand) {
+		if(rand.nextDouble() > Math.log(soot) * 0.25) return null;
+
+		ArrayList<WeightedRandomObject> pool = new ArrayList<WeightedRandomObject>();
+		pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_heavy_revolver), 12));
+
+		if(soot > 8) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_am180), 4));
+
+		WeightedRandomObject selected = (WeightedRandomObject) WeightedRandom.getRandomItem(rand, pool);
+
+		return selected.asStack();
+	}
+
+	// these fucking tasks keep stacking on top of themselves
+	private static void addFireTask(EntityLiving entity) {
+		for(Object entry : entity.tasks.taskEntries) {
+			EntityAITasks.EntityAITaskEntry task = (EntityAITasks.EntityAITaskEntry) entry;
+			if(task.action instanceof EntityAIFireGun) return;
+		}
+
+		entity.tasks.addTask(3, new EntityAIFireGun(entity));
+	}
+	
+	@SubscribeEvent
+	public void addAITasks(EntityJoinWorldEvent event) {
+		if(event.world.isRemote || !(event.entity instanceof EntityLiving)) return;
+
+		EntityLiving living = (EntityLiving) event.entity;
+		ItemStack held = living.getHeldItem();
+
+		if(held != null && held.getItem() instanceof ItemGunBaseNT) {
+			addFireTask(living);
 		}
 	}
 	
