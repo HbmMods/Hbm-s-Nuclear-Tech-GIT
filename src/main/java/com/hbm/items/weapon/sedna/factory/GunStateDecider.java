@@ -100,6 +100,7 @@ public class GunStateDecider {
 		if(lastState == GunState.COOLDOWN) {
 
 			EntityLivingBase entity = ctx.entity;
+			EntityPlayer player = ctx.getPlayer();
 			GunConfig cfg = ctx.config;
 			Receiver rec = cfg.getReceivers(stack)[recIndex];
 			
@@ -115,12 +116,14 @@ public class GunStateDecider {
 					
 					int remaining = rec.getRoundsPerCycle(stack) - 1;
 					for(int i = 0; i < remaining; i++) if(rec.getCanFire(stack).apply(stack, ctx)) rec.getOnFire(stack).accept(stack, ctx);
-				//if not, revert to idle
-				} else /*if(rec.getDoesDryFire(stack)) {
-					ItemGunBaseNT.setState(stack, gunIndex, GunState.DRAWING);
+				//if not, check if dry firing is allowed for refires
+				} else if(rec.getDoesDryFireAfterAuto(stack)) {
+					//if refire after dry is allowed, switch to COOLDOWN which will trigger a refire, otherwise switch to DRAWING
+					ItemGunBaseNT.setState(stack, gunIndex, rec.getRefireAfterDry(stack) ? GunState.COOLDOWN : GunState.DRAWING);
 					ItemGunBaseNT.setTimer(stack, gunIndex, rec.getDelayAfterDryFire(stack));
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE_DRY, gunIndex);
-				} else*/ {
+				//if not, revert to idle
+				} else {
 					ItemGunBaseNT.setState(stack, gunIndex, GunState.IDLE);
 					ItemGunBaseNT.setTimer(stack, gunIndex, 0);
 				}

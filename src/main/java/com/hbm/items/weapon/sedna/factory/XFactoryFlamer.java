@@ -43,7 +43,7 @@ public class XFactoryFlamer {
 		ModItems.gun_flamer = new ItemGunBaseNT(new GunConfig()
 				.dura(20_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(10F).delay(1).auto(true).reload(90).jam(0)
+						.dmg(10F).delay(1).auto(true).reload(90).jam(17)
 						.mag(new MagazineFullReload(0, 300).addConfigs(flame_diesel))
 						.offset(0.75, -0.0625, -0.25D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
@@ -68,9 +68,9 @@ public class XFactoryFlamer {
 		case EQUIP: return new BusAnimation()
 				.addBus("EQUIP", new BusAnimationSequence().addPos(-45, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_DOWN));
 		case RELOAD: return ResourceManager.flamethrower_anim.get("Reload");
-		case INSPECT: return new BusAnimation()
+		case INSPECT:
+		case JAMMED: return new BusAnimation()
 				.addBus("ROTATE", new BusAnimationSequence().addPos(0, 0, 45, 250, IType.SIN_FULL).addPos(0, 0, 45, 350).addPos(0, 0, -15, 150, IType.SIN_FULL).addPos(0, 0, 0, 100, IType.SIN_FULL));
-		case JAMMED: return new BusAnimation();
 		}
 		
 		return null;

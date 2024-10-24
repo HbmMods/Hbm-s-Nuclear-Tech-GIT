@@ -111,7 +111,7 @@ public class XFactory12ga {
 		ModItems.gun_autoshotgun = new ItemGunBaseNT(new GunConfig()
 				.dura(2_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(15F).delay(10).auto(true).reload(44).jam(19).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(15F).delay(10).auto(true).autoAfterDry(true).dryfireAfterAuto(true).reload(44).jam(19).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 20).addConfigs(all))
 						.offset(0.75, -0.125, -0.25)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
@@ -338,6 +338,8 @@ public class XFactory12ga {
 				.addBus("EQUIP", new BusAnimationSequence().addPos(60, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_DOWN));
 		case CYCLE: return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, -1, 50, IType.SIN_DOWN).addPos(0, 0, 0, 150, IType.SIN_FULL))
+				.addBus("CYCLE", new BusAnimationSequence().addPos(0, 0, 0, 150).addPos(0, 0, 18, 100));
+		case CYCLE_DRY: return new BusAnimation()
 				.addBus("CYCLE", new BusAnimationSequence().addPos(0, 0, 0, 150).addPos(0, 0, 18, 100));
 		case RELOAD: return new BusAnimation()
 				.addBus("MAG", new BusAnimationSequence().addPos(0, -8, 0, 250, IType.SIN_UP).addPos(0, -8, 0, 1000).addPos(0, 0, 0, 300))

@@ -301,8 +301,9 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		
 		if(type == ElementType.CROSSHAIRS) {
 			event.setCanceled(true);
-			if(aimingProgress >= 1F) return;
-			RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, gun.getConfig(stack, 0).getCrosshair(stack));
+			GunConfig config = gun.getConfig(stack, 0);
+			if(config.getHideCrosshair(stack) && aimingProgress >= 1F) return;
+			RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, config.getCrosshair(stack));
 		}
 		
 		int confNo = this.configs_DNA.length;

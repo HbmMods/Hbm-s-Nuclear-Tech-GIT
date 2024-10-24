@@ -227,6 +227,7 @@
     "weapon.fire.blackPowder": {"category": "player", "sounds": [{"name": "weapon/fire/blackPowder", "stream": false}]},
     "weapon.fire.flameLoop": {"category": "player", "sounds": [{"name": "weapon/fire/flameLoop", "stream": false}]},
     "weapon.fire.lockon": {"category": "player", "sounds": [{"name": "weapon/fire/lockon", "stream": false}]},
+    "weapon.fire.shredderCycle": {"category": "player", "sounds": [{"name": "weapon/fire/shredderCycle", "stream": false}]},
     
     "weapon.reload.boltClose": {"category": "player", "sounds": ["weapon/reload/boltClose"]},
     "weapon.reload.boltOpen": {"category": "player", "sounds": ["weapon/reload/boltOpen"]},
