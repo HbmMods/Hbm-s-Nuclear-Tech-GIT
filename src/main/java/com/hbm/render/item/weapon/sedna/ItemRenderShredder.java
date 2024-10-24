@@ -43,6 +43,9 @@ public class ItemRenderShredder extends ItemRenderWeaponBase {
 		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
 		double[] lift = HbmAnimations.getRelevantTransformation("LIFT");
 		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
+		double[] mag = HbmAnimations.getRelevantTransformation("MAG");
+		double[] speen = HbmAnimations.getRelevantTransformation("SPEEN");
+		double[] cycle = HbmAnimations.getRelevantTransformation("CYCLE");
 		
 		GL11.glTranslated(0, -2, -6);
 		GL11.glRotated(equip[0], 1, 0, 0);
@@ -87,13 +90,23 @@ public class ItemRenderShredder extends ItemRenderWeaponBase {
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.shredder_tex);
 
 		ResourceManager.shredder.renderPart("Gun");
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(mag[0], mag[1], mag[2]);
+		GL11.glTranslated(0, -1, -0.5);
+		GL11.glRotated(speen[0], 1, 0, 0);
+		GL11.glTranslated(0, 1, 0.5);
 		ResourceManager.shredder.renderPart("Magazine");
+		GL11.glTranslated(0, -1, -0.5);
+		GL11.glRotated(cycle[2], 0, 0, 1);
+		GL11.glTranslated(0, 1, 0.5);
 		ResourceManager.shredder.renderPart("Shells");
+		GL11.glPopMatrix();
 
 		double smokeScale = 0.75;
 		
 		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0, 13);
+		GL11.glTranslated(0, 1, 7.5);
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glScaled(smokeScale, smokeScale, smokeScale);
 		this.renderSmokeNodes(gun.getConfig(stack, 0).smokeNodes, 0.5D);
@@ -102,11 +115,11 @@ public class ItemRenderShredder extends ItemRenderWeaponBase {
 		GL11.glShadeModel(GL11.GL_FLAT);
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(0, 0, 12);
+		GL11.glTranslated(0, 1, 7.5);
 		GL11.glRotated(90, 0, 1, 0);
 		GL11.glRotated(-25 + gun.shotRand * 10, 1, 0, 0);
 		GL11.glScaled(0.75, 0.75, 0.75);
-		this.renderMuzzleFlash(gun.lastShot[0], 75, 10);
+		this.renderMuzzleFlash(gun.lastShot[0], 75, 7.5);
 		GL11.glPopMatrix();
 	}
 
