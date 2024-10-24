@@ -114,8 +114,8 @@ public class EntityAIFireGun extends EntityAIBase {
 		// Turn body to face firing direction, since the gun is attached to that, not the head
 		// Also apply accuracy debuff just before firing
 		if(bind != null && bind != EnumKeybind.RELOAD) {
-			host.rotationYawHead += (host.worldObj.rand.nextFloat() - 0.5F) * 2 * inaccuracy;
-			host.rotationPitch += (host.worldObj.rand.nextFloat() - 0.5F) * 2 * inaccuracy;
+			host.rotationYawHead += (host.worldObj.rand.nextFloat() - 0.5F) * inaccuracy;
+			host.rotationPitch += (host.worldObj.rand.nextFloat() - 0.5F) * inaccuracy;
 			host.rotationYaw = host.rotationYawHead;
 		}
 
