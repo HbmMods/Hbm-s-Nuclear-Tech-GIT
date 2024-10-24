@@ -3130,6 +3130,7 @@ item.ingot_pu240.name=Plutonium-240 Ingot
 item.ingot_pu241.name=Plutonium-241 Ingot
 item.ingot_pvc.name=PVC Bar
 item.ingot_ra226.name=Radium-226 Ingot
+item.ingot_raw.name=%s Ingot
 item.ingot_red_copper.name=Minecraft Grade Copper
 item.ingot_reiium.name=Reiium Ingot
 item.ingot_rubber.name=Rubber Bar

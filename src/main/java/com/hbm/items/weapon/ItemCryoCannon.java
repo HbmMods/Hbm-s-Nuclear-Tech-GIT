@@ -69,7 +69,7 @@ public class ItemCryoCannon extends ItemGunBase {
 
 	@Override
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
-		EntityChemical chem = new EntityChemical(world, player);
+		EntityChemical chem = new EntityChemical(world, player, 0, 0, 0);
 		chem.setFluid(Fluids.OXYGEN);
 		world.spawnEntityInWorld(chem);
 

@@ -87,7 +87,7 @@ public class ItemGunChemthrower extends ItemGunBase implements IFillableItem {
 	@Override
 	protected void spawnProjectile(World world, EntityPlayer player, ItemStack stack, int config) {
 		//spawn fluid projectile
-		EntityChemical chem = new EntityChemical(world, player);
+		EntityChemical chem = new EntityChemical(world, player, 0, 0, 0);
 		chem.setFluid(this.getFluidType(stack));
 		world.spawnEntityInWorld(chem);
 	}

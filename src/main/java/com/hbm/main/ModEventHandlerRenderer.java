@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GLContext;
 
 import com.hbm.blocks.ICustomBlockHighlight;
+import com.hbm.config.ClientConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.armor.IArmorDisableModel;
@@ -511,7 +512,7 @@ public class ModEventHandlerRenderer {
 	@SubscribeEvent
 	public void onRenderHUD(RenderGameOverlayEvent.Pre event) {
 		
-		if(event.type == ElementType.HOTBAR && (ModEventHandlerClient.shakeTimestamp + ModEventHandlerClient.shakeDuration - System.currentTimeMillis()) > 0) {
+		if(event.type == ElementType.HOTBAR && (ModEventHandlerClient.shakeTimestamp + ModEventHandlerClient.shakeDuration - System.currentTimeMillis()) > 0 && ClientConfig.NUKE_HUD_SHAKE.get()) {
 			double mult = (ModEventHandlerClient.shakeTimestamp + ModEventHandlerClient.shakeDuration - System.currentTimeMillis()) / (double) ModEventHandlerClient.shakeDuration * 2;
 			double horizontal = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.02), -0.7, 0.7) * 15;
 			double vertical = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 3;

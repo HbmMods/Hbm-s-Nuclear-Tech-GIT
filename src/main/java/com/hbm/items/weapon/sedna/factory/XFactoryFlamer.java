@@ -9,6 +9,8 @@ import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
+import com.hbm.items.weapon.sedna.impl.ItemGunChemthrower;
+import com.hbm.items.weapon.sedna.mags.MagazineFluid;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -48,6 +50,17 @@ public class XFactoryFlamer {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_FLAMER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER)
 				).setUnlocalizedName("gun_flamer").setTextureName(RefStrings.MODID + ":gun_darter");
+		
+		ModItems.gun_chemthrower = new ItemGunChemthrower(new GunConfig()
+				.dura(90_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.rec(new Receiver(0)
+						.delay(1).auto(true)
+						.mag(new MagazineFluid(0, 3_000))
+						.offset(0.75, -0.0625, -0.25D)
+						.canFire(ItemGunChemthrower.LAMBDA_CAN_FIRE).fire(ItemGunChemthrower.LAMBDA_FIRE))
+				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
+				.anim(LAMBDA_CHEMTHROWER_ANIMS).orchestra(Orchestras.ORCHESTRA_CHEMTHROWER)
+				).setUnlocalizedName("gun_chemthrower").setTextureName(RefStrings.MODID + ":gun_darter");
 	}
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_FLAMER_ANIMS = (stack, type) -> {
@@ -58,6 +71,15 @@ public class XFactoryFlamer {
 		case INSPECT: return new BusAnimation()
 				.addBus("ROTATE", new BusAnimationSequence().addPos(0, 0, 45, 250, IType.SIN_FULL).addPos(0, 0, 45, 350).addPos(0, 0, -15, 150, IType.SIN_FULL).addPos(0, 0, 0, 100, IType.SIN_FULL));
 		case JAMMED: return new BusAnimation();
+		}
+		
+		return null;
+	};
+
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_CHEMTHROWER_ANIMS = (stack, type) -> {
+		switch(type) {
+		case EQUIP: return new BusAnimation()
+				.addBus("EQUIP", new BusAnimationSequence().addPos(-45, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_DOWN));
 		}
 		
 		return null;

@@ -7,7 +7,6 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
-import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
@@ -168,7 +167,12 @@ public class Landmine extends BlockContainer implements IBomb {
 				vnt.setSFX(new ExplosionEffectWeapon(15, 3.5F, 1.25F));
 				vnt.explode();
 			} else if(this == ModBlocks.mine_shrap) {
-				ExplosionLarge.explode(world, x + 0.5, y + 0.5, z + 0.5, 1, true, false, false);
+				ExplosionVNT vnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 3F);
+				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, 7.5F));
+				vnt.setPlayerProcessor(new PlayerProcessorStandard());
+				vnt.setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
+				vnt.explode();
+				
 				ExplosionLarge.spawnShrapnelShower(world, x + 0.5, y + 0.5, z + 0.5, 0, 1D, 0, 45, 0.2D);
 				ExplosionLarge.spawnShrapnels(world, x + 0.5, y + 0.5, z + 0.5, 5);
 			} else if(this == ModBlocks.mine_fat) {

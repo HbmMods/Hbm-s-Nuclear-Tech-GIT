@@ -114,8 +114,6 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 			tanks[3].setTankType(quart.getValue().type);
 			tanks[4].setTankType(Fluids.SPENTSTEAM);
 		} else {
-			tanks[0].setTankType(Fluids.NONE);
-			tanks[1].setTankType(Fluids.NONE);
 			tanks[2].setTankType(Fluids.NONE);
 			tanks[3].setTankType(Fluids.NONE);
 			tanks[4].setTankType(Fluids.NONE);

@@ -157,7 +157,7 @@ public class ModEventHandlerClient {
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
 		/// NUKE FLASH ///
-		if(event.type == ElementType.CROSSHAIRS && (flashTimestamp + flashDuration - System.currentTimeMillis()) > 0) {
+		if(event.type == ElementType.CROSSHAIRS && (flashTimestamp + flashDuration - System.currentTimeMillis()) > 0 && ClientConfig.NUKE_HUD_FLASH.get()) {
 			int width = event.resolution.getScaledWidth();
 			int height = event.resolution.getScaledHeight();
 			Tessellator tess = Tessellator.instance;

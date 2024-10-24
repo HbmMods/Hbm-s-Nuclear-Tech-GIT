@@ -182,6 +182,15 @@ public class ItemMold extends Item {
 				String od = shape.name() + name;
 				List<ItemStack> ores = OreDictionary.getOres(od);
 				if(!ores.isEmpty()) {
+					//prioritize NTM items
+					for(ItemStack ore : ores) {
+						if(Item.itemRegistry.getNameForObject(ore.getItem()).startsWith(RefStrings.MODID)) {
+							ItemStack copy = ore.copy();
+							copy.stackSize = this.amount;
+							return copy;
+						}
+					}
+					//...then try whatever comes first
 					ItemStack copy = ores.get(0).copy();
 					copy.stackSize = this.amount;
 					return copy;
