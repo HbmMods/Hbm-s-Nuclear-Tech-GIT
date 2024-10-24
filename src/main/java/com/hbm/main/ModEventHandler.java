@@ -428,9 +428,20 @@ public class ModEventHandler {
 		if(rand.nextDouble() > Math.log(soot) * 0.25) return null;
 
 		ArrayList<WeightedRandomObject> pool = new ArrayList<WeightedRandomObject>();
-		pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_heavy_revolver), 12));
+		pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_light_revolver), 12));
+		pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_heavy_revolver), 8));
 
+		if(soot > 2) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_pepperbox), 10));
+		if(soot > 2) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_henry), 8));
+		if(soot > 2) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_greasegun), 6));
+
+		if(soot > 4) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_maresleg), 4));
+		if(soot > 4) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_uzi), 6));
+
+		if(soot > 8) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_spas12), 3));
 		if(soot > 8) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_am180), 4));
+
+		if(soot > 12) pool.add(new WeightedRandomObject(new ItemStack(ModItems.gun_congolake), 1));
 
 		WeightedRandomObject selected = (WeightedRandomObject) WeightedRandom.getRandomItem(rand, pool);
 
@@ -439,6 +450,8 @@ public class ModEventHandler {
 
 	// these fucking tasks keep stacking on top of themselves
 	private static void addFireTask(EntityLiving entity) {
+		entity.setEquipmentDropChance(0, 0); // Prevent dropping guns
+
 		for(Object entry : entity.tasks.taskEntries) {
 			EntityAITasks.EntityAITaskEntry task = (EntityAITasks.EntityAITaskEntry) entry;
 			if(task.action instanceof EntityAIFireGun) return;
