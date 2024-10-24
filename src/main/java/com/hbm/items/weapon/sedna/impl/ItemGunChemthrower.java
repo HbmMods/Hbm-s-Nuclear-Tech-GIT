@@ -14,6 +14,7 @@ import com.hbm.items.weapon.sedna.mags.MagazineFluid;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import api.hbm.fluid.IFillableItem;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
@@ -77,7 +78,8 @@ public class ItemGunChemthrower extends ItemGunBaseNT implements IFillableItem {
 	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack) >= CONSUMPTION; };
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_FIRE = (stack, ctx) -> {
-		EntityPlayer player = ctx.player;
+		EntityLivingBase entity = ctx.entity;
+		EntityPlayer player = ctx.getPlayer();
 		int index = ctx.configIndex;
 		ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE, ctx.configIndex);
 		
@@ -89,9 +91,9 @@ public class ItemGunChemthrower extends ItemGunBaseNT implements IFillableItem {
 		double heightOffset = offset.yCoord;
 		double sideOffset = offset.zCoord;
 		
-		EntityChemical chem = new EntityChemical(player.worldObj, player, sideOffset, heightOffset, forwardOffset);
+		EntityChemical chem = new EntityChemical(entity.worldObj, entity, sideOffset, heightOffset, forwardOffset);
 		chem.setFluid((FluidType) mag.getType(stack));
-		player.worldObj.spawnEntityInWorld(chem);
+		entity.worldObj.spawnEntityInWorld(chem);
 		
 		mag.setAmount(stack, mag.getAmount(stack) - CONSUMPTION);
 		ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + 1F, ctx.config.getDurability(stack)));

@@ -11,6 +11,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -55,22 +56,23 @@ public class GunStateDecider {
 		
 		if(lastState == GunState.RELOADING) {
 			
-			EntityPlayer player = ctx.player;
+			EntityLivingBase entity = ctx.entity;
+			EntityPlayer player = ctx.getPlayer();
 			GunConfig cfg = ctx.config;
 			Receiver rec = cfg.getReceivers(stack)[recIndex];
 			IMagazine mag = rec.getMagazine(stack);
 			
-			mag.reloadAction(stack, player);
+			mag.reloadAction(stack, ctx.inventory);
 			
 			//if after reloading the gun can still reload, assume a tube mag and resume reloading
-			if(mag.canReload(stack, player)) {
+			if(mag.canReload(stack, ctx.inventory)) {
 				ItemGunBaseNT.setState(stack, gunIndex, GunState.RELOADING);
 				ItemGunBaseNT.setTimer(stack, gunIndex, rec.getReloadCycleDuration(stack));
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD_CYCLE, gunIndex);
 			//if no more reloading can be done, go idle
 			} else {
 				
-				if(getStandardJamChance(stack, cfg, gunIndex) > player.getRNG().nextFloat()) {
+				if(getStandardJamChance(stack, cfg, gunIndex) > entity.getRNG().nextFloat()) {
 					ItemGunBaseNT.setState(stack, gunIndex, GunState.JAMMED);
 					ItemGunBaseNT.setTimer(stack, gunIndex, rec.getJamDuration(stack));
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.JAMMED, gunIndex);
@@ -97,7 +99,7 @@ public class GunStateDecider {
 		
 		if(lastState == GunState.COOLDOWN) {
 
-			EntityPlayer player = ctx.player;
+			EntityLivingBase entity = ctx.entity;
 			GunConfig cfg = ctx.config;
 			Receiver rec = cfg.getReceivers(stack)[recIndex];
 			
@@ -109,7 +111,7 @@ public class GunStateDecider {
 					ItemGunBaseNT.setState(stack, gunIndex, GunState.COOLDOWN);
 					ItemGunBaseNT.setTimer(stack, gunIndex, rec.getDelayAfterFire(stack));
 					
-					if(rec.getFireSound(stack) != null) player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack));
+					if(rec.getFireSound(stack) != null) entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack));
 					
 					int remaining = rec.getRoundsPerCycle(stack) - 1;
 					for(int i = 0; i < remaining; i++) if(rec.getCanFire(stack).apply(stack, ctx)) rec.getOnFire(stack).accept(stack, ctx);

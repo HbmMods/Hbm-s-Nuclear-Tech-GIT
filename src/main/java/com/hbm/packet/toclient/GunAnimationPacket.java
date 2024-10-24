@@ -125,7 +125,7 @@ public class GunAnimationPacket implements IMessage {
 				if(receiverIndex >= 0 && receiverIndex < receivers.length) {
 					Receiver rec = receivers[receiverIndex];
 					BiConsumer<ItemStack, LambdaContext> onRecoil= rec.getRecoil(stack);
-					if(onRecoil != null) onRecoil.accept(stack, new LambdaContext(config, player, receiverIndex));
+					if(onRecoil != null) onRecoil.accept(stack, new LambdaContext(config, player, player.inventory, receiverIndex));
 				}
 			}
 			

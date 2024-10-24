@@ -23,8 +23,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -62,7 +64,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	public static final String KEY_LOCKONTARGET = "lockontarget";
 	public static final String KEY_LOCKEDON = "lockedon";
 	
-	public static ConcurrentHashMap<EntityPlayer, AudioWrapper> loopedSounds = new ConcurrentHashMap();
+	public static ConcurrentHashMap<EntityLivingBase, AudioWrapper> loopedSounds = new ConcurrentHashMap();
 
 	public static float prevAimingProgress;
 	public static float aimingProgress;
@@ -98,12 +100,15 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	
 	@Override
 	public void handleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind, boolean newState) {
-		
+		handleKeybind(player, player.inventory, stack, keybind, newState);
+	}
+
+	public void handleKeybind(EntityLivingBase entity, IInventory inventory, ItemStack stack, EnumKeybind keybind, boolean newState) {
 		int configs = this.configs_DNA.length;
 		
 		for(int i = 0; i < configs; i++) {
 			GunConfig config = getConfig(stack, i);
-			LambdaContext ctx = new LambdaContext(config, player, i);
+			LambdaContext ctx = new LambdaContext(config, entity, inventory, i);
 	
 			if(keybind == EnumKeybind.GUN_PRIMARY &&	newState && !getPrimary(stack, i)) {	if(config.getPressPrimary(stack) != null)		config.getPressPrimary(stack).accept(stack, ctx);		this.setPrimary(stack, i, newState);	continue; }
 			if(keybind == EnumKeybind.GUN_PRIMARY &&	!newState && getPrimary(stack, i)) {	if(config.getReleasePrimary(stack) != null)		config.getReleasePrimary(stack).accept(stack, ctx);		this.setPrimary(stack, i, newState);	continue; }
@@ -132,14 +137,14 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isHeld) {
 		
-		if(!(entity instanceof EntityPlayer)) return;
+		if(!(entity instanceof EntityLivingBase)) return;
 		EntityPlayer player = entity instanceof EntityPlayer ? (EntityPlayer) entity : null;
 		int confNo = this.configs_DNA.length;
 		GunConfig[] configs = new GunConfig[confNo];
 		LambdaContext[] ctx = new LambdaContext[confNo];
 		for(int i = 0; i < confNo; i++) {
 			configs[i] = this.getConfig(stack, i);
-			ctx[i] = new LambdaContext(configs[i], player, i);
+			ctx[i] = new LambdaContext(configs[i], (EntityLivingBase) entity, player != null ? player.inventory : null, i);
 		}
 		
 		if(world.isRemote) {
@@ -271,13 +276,20 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	/** Wrapper for extra context used in most Consumer lambdas which are part of the guncfg */
 	public static class LambdaContext {
 		public final GunConfig config;
-		public final EntityPlayer player;
+		public final EntityLivingBase entity;
+		public final IInventory inventory;
 		public final int configIndex;
 		
-		public LambdaContext(GunConfig config, EntityPlayer player, int configIndex) {
+		public LambdaContext(GunConfig config, EntityLivingBase player, IInventory inventory, int configIndex) {
 			this.config = config;
-			this.player = player;
+			this.entity = player;
+			this.inventory = inventory;
 			this.configIndex = configIndex;
+		}
+
+		public EntityPlayer getPlayer() {
+			if(!(entity instanceof EntityPlayer)) return null;
+			return (EntityPlayer) entity;
 		}
 	}
 

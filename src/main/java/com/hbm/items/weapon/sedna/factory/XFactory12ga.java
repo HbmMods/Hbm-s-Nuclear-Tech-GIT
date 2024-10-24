@@ -23,6 +23,7 @@ import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -108,7 +109,8 @@ public class XFactory12ga {
 	}
 	//TODO: make generic code for this crap
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SPAS_SECONDARY = (stack, ctx) -> {
-		EntityPlayer player = ctx.player;
+		EntityLivingBase entity = ctx.entity;
+		EntityPlayer player = ctx.getPlayer();
 		Receiver rec = ctx.config.getReceivers(stack)[0];
 		int index = ctx.configIndex;
 		GunState state = ItemGunBaseNT.getState(stack, index);
@@ -123,7 +125,7 @@ public class XFactory12ga {
 						timeFired++;
 					}
 				}
-				if(rec.getFireSound(stack) != null) player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack) * (timeFired > 1 ? 0.9F : 1F));
+				if(rec.getFireSound(stack) != null) entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack) * (timeFired > 1 ? 0.9F : 1F));
 				ItemGunBaseNT.setState(stack, index, GunState.COOLDOWN);
 				ItemGunBaseNT.setTimer(stack, index, 10);
 			} else {

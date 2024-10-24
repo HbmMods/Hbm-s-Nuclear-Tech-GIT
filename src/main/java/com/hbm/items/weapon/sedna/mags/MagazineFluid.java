@@ -6,7 +6,9 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.particle.SpentCasing;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
 public class MagazineFluid implements IMagazine<FluidType> {
@@ -45,8 +47,8 @@ public class MagazineFluid implements IMagazine<FluidType> {
 	@Override public int getAmount(ItemStack stack) { return getMagCount(stack, index); }
 	@Override public void setAmount(ItemStack stack, int amount) { setMagCount(stack, index, amount); }
 
-	@Override public boolean canReload(ItemStack stack, EntityPlayer player) { return false; }
-	@Override public void reloadAction(ItemStack stack, EntityPlayer player) { }
+	@Override public boolean canReload(ItemStack stack, IInventory inventory) { return false; }
+	@Override public void reloadAction(ItemStack stack, IInventory inventory) { }
 	@Override public SpentCasing getCasing(ItemStack stack) { return null; }
 
 	@Override public ItemStack getIconForHUD(ItemStack stack) { return new ItemStack(ModItems.fluid_icon, 1, this.getMagType(stack, index)); }

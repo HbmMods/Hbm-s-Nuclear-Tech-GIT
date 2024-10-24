@@ -2,7 +2,7 @@ package com.hbm.items.weapon.sedna.mags;
 
 import com.hbm.particle.SpentCasing;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -23,10 +23,10 @@ public interface IMagazine<T> {
 	public int getAmount(ItemStack stack);
 	/** Sets the mag's ammo level */
 	public void setAmount(ItemStack stack, int amount);
-	/** If a reload can even be initiated, i.e. the player even has bullets to load */
-	public boolean canReload(ItemStack stack, EntityPlayer player);
-	/** The action done at the end of one reload cycle, either loading one shell or replacing the whole mag */
-	public void reloadAction(ItemStack stack, EntityPlayer player);
+	/** If a reload can even be initiated, i.e. the player even has bullets to load, inventory can be null */
+	public boolean canReload(ItemStack stack, IInventory inventory);
+	/** The action done at the end of one reload cycle, either loading one shell or replacing the whole mag, inventory can be null */
+	public void reloadAction(ItemStack stack, IInventory inventory);
 	/** The stack that should be displayed for the ammo HUD */
 	public ItemStack getIconForHUD(ItemStack stack);
 	/** It explains itself */
