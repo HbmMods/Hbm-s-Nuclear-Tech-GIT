@@ -7,6 +7,7 @@ import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
@@ -33,7 +34,7 @@ public class GunFactory {
 		ammo_debug_buckshot = new BulletConfig().setItem(ModItems.ammo_12gauge).setSpread(0.1F).setRicochetAngle(45).setProjectiles(6, 6).setCasing(CASING44.clone().register("DEBUG1"));
 
 		/// GUNS ///
-		ModItems.gun_debug = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_debug = new ItemGunBaseNT(WeaponQuality.DEBUG, new GunConfig()
 				.dura(600F).draw(15).inspect(23).crosshair(Crosshair.L_CLASSIC).smoke(Lego.LAMBDA_STANDARD_SMOKE).orchestra(Orchestras.DEBUG_ORCHESTRA)
 				.rec(new Receiver(0)
 						.dmg(10F).delay(14).reload(46).jam(23).sound("hbm:weapon.44Shoot", 1.0F, 1.0F)
@@ -43,7 +44,7 @@ public class GunFactory {
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY) .pr(Lego.LAMBDA_STANDARD_RELOAD) .pt(Lego.LAMBDA_TOGGLE_AIM)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(Lego.LAMBDA_DEBUG_ANIMS)
-				).setUnlocalizedName("gun_debug").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_debug");
 		
 		XFactoryBlackPowder.init();
 		XFactory357.init();
@@ -75,5 +76,6 @@ public class GunFactory {
 		G40_FLARE, G40,
 		ROCKET_HE, ROCKET_HEAT,
 		FLAME_DIESEL,
+		M44_EQUESTRIAN, G12_EQUESTRIAN, BMG50_EQUESTRIAN
 	}
 }

@@ -28,7 +28,8 @@ public class ServerProxy {
 	public static final int ID_TOOLABILITY = 9;
 	public static final int ID_GUN_MODE = 10;
 	public static final int ID_GAS_HAZARD = 11;
-	
+
+	public void registerPreRenderInfo() { }
 	public void registerRenderInfo() { }
 	public void registerTileEntitySpecialRenderer() { }
 	public void registerItemRenderer() { }

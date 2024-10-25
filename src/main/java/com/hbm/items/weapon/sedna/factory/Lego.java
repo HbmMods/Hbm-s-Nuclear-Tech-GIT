@@ -171,15 +171,19 @@ public class Lego {
 
 	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_FIRE = (stack, ctx) -> {
-		doStandardFire(stack, ctx, AnimType.CYCLE);
+		doStandardFire(stack, ctx, AnimType.CYCLE, true);
+	};
+	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg, ignores wear */
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_NOWEAR_FIRE = (stack, ctx) -> {
+		doStandardFire(stack, ctx, AnimType.CYCLE, false);
 	};
 	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg, then resets lockon progress */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_LOCKON_FIRE = (stack, ctx) -> {
-		doStandardFire(stack, ctx, AnimType.CYCLE);
+		doStandardFire(stack, ctx, AnimType.CYCLE, true);
 		ItemGunBaseNT.setIsLockedOn(stack, false);
 	};
 	
-	public static void doStandardFire(ItemStack stack, LambdaContext ctx, AnimType anim) {
+	public static void doStandardFire(ItemStack stack, LambdaContext ctx, AnimType anim, boolean calcWear) {
 		EntityLivingBase entity = ctx.entity;
 		EntityPlayer player = ctx.getPlayer();
 		int index = ctx.configIndex;
@@ -203,15 +207,15 @@ public class Lego {
 		if(config.projectilesMax > config.projectilesMin) projectiles += entity.getRNG().nextInt(config.projectilesMax - config.projectilesMin + 1);
 		
 		for(int i = 0; i < projectiles; i++) {
-			float damage = primary.getBaseDamage(stack) * getStandardWearDamage(stack, ctx.config, index);
-			float spread = primary.getGunSpread(stack) * aim + getStandardWearSpread(stack, ctx.config, index) * 0.125F;
+			float damage = primary.getBaseDamage(stack) * (calcWear ? getStandardWearDamage(stack, ctx.config, index) : 1);
+			float spread = primary.getGunSpread(stack) * aim + (calcWear ? getStandardWearSpread(stack, ctx.config, index) * 0.125F : 0F);
 			EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
 			if(ItemGunBaseNT.getIsLockedOn(stack)) mk4.lockonTarget = entity.worldObj.getEntityByID(ItemGunBaseNT.getLockonTarget(stack));
 			entity.worldObj.spawnEntityInWorld(mk4);
 		}
 		
 		mag.setAmount(stack, mag.getAmount(stack) - 1);
-		ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
+		if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
 	}
 	
 	public static float getStandardWearSpread(ItemStack stack, GunConfig config, int index) {

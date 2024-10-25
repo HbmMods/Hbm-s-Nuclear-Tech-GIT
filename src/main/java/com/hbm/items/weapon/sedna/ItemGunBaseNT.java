@@ -1,5 +1,6 @@
 package com.hbm.items.weapon.sedna;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
@@ -9,6 +10,8 @@ import com.hbm.interfaces.IItemHUD;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
+import com.hbm.items.weapon.sedna.mags.IMagazine;
+import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -16,6 +19,7 @@ import com.hbm.packet.toclient.GunAnimationPacket;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -30,6 +34,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -72,16 +77,29 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	/** NEVER ACCESS DIRECTLY - USE GETTER */
 	protected GunConfig[] configs_DNA;
 	
+	public WeaponQuality quality;
+	
 	public GunConfig getConfig(ItemStack stack, int index) {
 		GunConfig cfg = configs_DNA[index];
 		return WeaponUpgradeManager.eval(cfg, stack, O_GUNCONFIG + index, this);
 	}
 	
-	public ItemGunBaseNT(GunConfig... cfg) {
+	public ItemGunBaseNT(WeaponQuality quality, GunConfig... cfg) {
 		this.setMaxStackSize(1);
 		this.configs_DNA = cfg;
+		this.quality = quality;
 		this.lastShot = new long[cfg.length];
 		this.setCreativeTab(MainRegistry.weaponTab);
+		this.setTextureName(RefStrings.MODID + ":gun_darter");
+	}
+	
+	public static enum WeaponQuality {
+		A_SIDE,
+		B_SIDE,
+		LEGENDARY,
+		SEPCIAL,
+		SECRET,
+		DEBUG
 	}
 
 	public static enum GunState {
@@ -91,6 +109,29 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		COOLDOWN,	//gun has been fired, cooldown
 		RELOADING,	//gun is currently reloading
 		JAMMED,		//gun is jammed, either after reloading or while firing
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		
+		int configs = this.configs_DNA.length;
+		for(int i = 0; i < configs; i++) {
+			GunConfig config = getConfig(stack, i);
+			for(Receiver rec : config.getReceivers(stack)) {
+				IMagazine mag = rec.getMagazine(stack);
+				list.add("Ammo: " + mag.getIconForHUD(stack).getDisplayName() + " " + mag.reportAmmoStateForHUD(stack));
+				list.add("Base Damage: " + rec.getBaseDamage(stack));
+			}
+		}
+		
+		switch(this.quality) {
+		case A_SIDE: list.add(EnumChatFormatting.YELLOW + "Standard Arsenal"); break;
+		case B_SIDE: list.add(EnumChatFormatting.GOLD + "B-Side"); break;
+		case LEGENDARY: list.add(EnumChatFormatting.RED + "Legendary Weapon"); break;
+		case SEPCIAL: list.add(EnumChatFormatting.AQUA + "Special Weapon"); break;
+		case SECRET: list.add(EnumChatFormatting.DARK_RED + "SECRET"); break;
+		case DEBUG: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.YELLOW : EnumChatFormatting.GOLD) + "DEBUG"); break;
+		}
 	}
 	
 	@Override

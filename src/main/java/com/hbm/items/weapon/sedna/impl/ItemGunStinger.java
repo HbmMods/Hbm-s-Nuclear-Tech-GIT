@@ -27,8 +27,8 @@ public class ItemGunStinger extends ItemGunBaseNT {
 	public static float prevLockon;
 	public static float lockon;
 	
-	public ItemGunStinger(GunConfig... cfg) {
-		super(cfg);
+	public ItemGunStinger(WeaponQuality quality, GunConfig... cfg) {
+		super(quality, cfg);
 	}
 
 	@Override

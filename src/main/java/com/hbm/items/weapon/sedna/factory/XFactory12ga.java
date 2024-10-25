@@ -11,10 +11,10 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
-import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
@@ -55,7 +55,7 @@ public class XFactory12ga {
 
 		BulletConfig[] all = new BulletConfig[] {g12_bp, g12_bp_magnum, g12_bp_slug, g12, g12_slug, g12_flechette, g12_magnum, g12_explosive, g12_phosphorus, g12_anthrax};
 		
-		ModItems.gun_maresleg = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_maresleg = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
@@ -64,8 +64,8 @@ public class XFactory12ga {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_MARESLEG_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG)
-				).setUnlocalizedName("gun_maresleg").setTextureName(RefStrings.MODID + ":gun_darter");
-		ModItems.gun_maresleg_akimbo = new ItemGunBaseNT(
+				).setUnlocalizedName("gun_maresleg");
+		ModItems.gun_maresleg_akimbo = new ItemGunBaseNT(WeaponQuality.B_SIDE,
 				new GunConfig().dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
@@ -84,9 +84,19 @@ public class XFactory12ga {
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(LAMBDA_MARESLEG_SHORT_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG_AKIMBO)
-				).setUnlocalizedName("gun_maresleg_akimbo").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_maresleg_akimbo");
+		ModItems.gun_maresleg_broken = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
+				.dura(0).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(12F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.mag(new MagazineSingleReload(0, 6).addConfigs(all))
+						.offset(0.75, -0.0625, -0.1875)
+						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
+				.setupStandardConfiguration()
+				.anim(LAMBDA_MARESLEG_SHORT_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG_SHORT)
+				).setUnlocalizedName("gun_maresleg_broken");
 		
-		ModItems.gun_liberator = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_liberator = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(200).draw(20).inspect(21).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12F).delay(20).rounds(4).reload(25, 15, 7, 0).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
@@ -95,9 +105,9 @@ public class XFactory12ga {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LIBERATOR_ANIMS).orchestra(Orchestras.ORCHESTRA_LIBERATOR)
-				).setUnlocalizedName("gun_liberator").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_liberator");
 
-		ModItems.gun_spas12 = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_spas12 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12F).delay(20).reload(5, 10, 10, 10, 0).jam(24).sound("hbm:weapon.shotgunShoot", 1.0F, 1.0F)
@@ -106,9 +116,9 @@ public class XFactory12ga {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration().ps(LAMBDA_SPAS_SECONDARY).pt(null)
 				.anim(LAMBDA_SPAS_ANIMS).orchestra(Orchestras.ORCHESTRA_SPAS)
-				).setUnlocalizedName("gun_spas12").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_spas12");
 		
-		ModItems.gun_autoshotgun = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_autoshotgun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(2_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(15F).delay(10).auto(true).autoAfterDry(true).dryfireAfterAuto(true).reload(44).jam(19).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
@@ -117,7 +127,7 @@ public class XFactory12ga {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_SHREDDER_ANIMS).orchestra(Orchestras.ORCHESTRA_SHREDDER)
-				).setUnlocalizedName("gun_autoshotgun").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_autoshotgun");
 	}
 	//TODO: make generic code for this crap
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SPAS_SECONDARY = (stack, ctx) -> {

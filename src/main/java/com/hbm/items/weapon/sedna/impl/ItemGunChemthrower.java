@@ -23,8 +23,8 @@ public class ItemGunChemthrower extends ItemGunBaseNT implements IFillableItem {
 	
 	public static final int CONSUMPTION = 3;
 
-	public ItemGunChemthrower(GunConfig... cfg) {
-		super(cfg);
+	public ItemGunChemthrower(WeaponQuality quality, GunConfig... cfg) {
+		super(quality, cfg);
 	}
 	
 	@Override

@@ -11,9 +11,9 @@ import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
-import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
@@ -42,7 +42,7 @@ public class XFactory22lr {
 		p22_ap = new BulletConfig().setItem(EnumAmmo.P22_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setArmorPiercing(0.15F)
 				.setCasing(casing22.clone().setColor(SpentCasing.COLOR_CASE_44).register("p22ap"));
 
-		ModItems.gun_am180 = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_am180 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(177 * 25).draw(15).inspect(38).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(5F).delay(1).dry(10).auto(true).spread(0.02F).reload(66).jam(30).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
@@ -51,7 +51,7 @@ public class XFactory22lr {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_AM180_ANIMS).orchestra(Orchestras.ORCHESTRA_AM180)
-				).setUnlocalizedName("gun_am180").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_am180");
 	}
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {

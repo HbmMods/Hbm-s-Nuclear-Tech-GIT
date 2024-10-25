@@ -1598,6 +1598,7 @@ public class ModItems {
 	public static Item gun_greasegun;
 	public static Item gun_maresleg;
 	public static Item gun_maresleg_akimbo;
+	public static Item gun_maresleg_broken;
 	public static Item gun_flaregun;
 	public static Item gun_heavy_revolver;
 	public static Item gun_carbine;
@@ -6941,6 +6942,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_greasegun, gun_greasegun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_maresleg, gun_maresleg.getUnlocalizedName());
 		GameRegistry.registerItem(gun_maresleg_akimbo, gun_maresleg_akimbo.getUnlocalizedName());
+		GameRegistry.registerItem(gun_maresleg_broken, gun_maresleg_broken.getUnlocalizedName());
 		GameRegistry.registerItem(gun_flaregun, gun_flaregun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_heavy_revolver, gun_heavy_revolver.getUnlocalizedName());
 		GameRegistry.registerItem(gun_carbine, gun_carbine.getUnlocalizedName());

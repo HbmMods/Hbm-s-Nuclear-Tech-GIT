@@ -10,9 +10,9 @@ import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
-import com.hbm.lib.RefStrings;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.anim.BusAnimation;
@@ -40,7 +40,7 @@ public class XFactory9mm {
 		p9_ap = new BulletConfig().setItem(EnumAmmo.P9_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setArmorPiercing(0.15F)
 				.setCasing(casing9.clone().setColor(SpentCasing.COLOR_CASE_44).register("p9ap"));
 
-		ModItems.gun_greasegun = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_greasegun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(15).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(5F).delay(4).dry(40).auto(true).spread(0.015F).reload(60).jam(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
@@ -49,9 +49,9 @@ public class XFactory9mm {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_GREASEGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_GREASEGUN)
-				).setUnlocalizedName("gun_greasegun").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_greasegun");
 
-		ModItems.gun_lag = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_lag = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(1_700).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(15F).delay(4).dry(40).spread(0.005F).reload(60).jam(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
@@ -60,9 +60,9 @@ public class XFactory9mm {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LAG_ANIMS).orchestra(Orchestras.ORCHESTRA_LAG)
-				).setUnlocalizedName("gun_lag").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_lag");
 
-		ModItems.gun_uzi = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_uzi = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(7.5F).delay(2).dry(25).auto(true).spread(0.005F).reload(55).jam(50).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
@@ -71,7 +71,7 @@ public class XFactory9mm {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_UZI_ANIMS).orchestra(Orchestras.ORCHESTRA_UZI)
-				).setUnlocalizedName("gun_uzi").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_uzi");
 	}
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {

@@ -12,12 +12,12 @@ import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.impl.ItemGunStinger;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.lib.Library;
-import com.hbm.lib.RefStrings;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
@@ -80,7 +80,7 @@ public class XFactoryRocket {
 		rocket_qd_heat = new BulletConfig().setItem(EnumAmmo.ROCKET_HEAT).setLife(400).setDamage(1.5F).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
 				.setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STEERING_ACCELERATE);
 
-		ModItems.gun_panzerschreck = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_panzerschreck = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
 						.dmg(25F).delay(5).reload(50).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
@@ -89,9 +89,9 @@ public class XFactoryRocket {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_PANZERSCHRECK_ANIMS).orchestra(Orchestras.ORCHESTRA_PANERSCHRECK)
-				).setUnlocalizedName("gun_panzerschreck").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_panzerschreck");
 
-		ModItems.gun_stinger = new ItemGunStinger(new GunConfig()
+		ModItems.gun_stinger = new ItemGunStinger(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_BOX_OUTLINE)
 				.rec(new Receiver(0)
 						.dmg(25F).delay(5).reload(50).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
@@ -100,9 +100,9 @@ public class XFactoryRocket {
 						.setupLockonFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration().ps(LAMBDA_STINGER_SECONDARY_PRESS).rs(LAMBDA_STINGER_SECONDARY_RELEASE)
 				.anim(LAMBDA_PANZERSCHRECK_ANIMS).orchestra(Orchestras.ORCHESTRA_STINGER)
-				).setUnlocalizedName("gun_stinger").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_stinger");
 
-		ModItems.gun_quadro = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_quadro = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
 						.dmg(25F).delay(10).reload(55).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
@@ -111,7 +111,7 @@ public class XFactoryRocket {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_QUADRO_ANIMS).orchestra(Orchestras.ORCHESTRA_QUADRO)
-				).setUnlocalizedName("gun_quadro").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_quadro");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STINGER_SECONDARY_PRESS = (stack, ctx) -> { ItemGunStinger.setIsLockingOn(stack, true); };

@@ -137,6 +137,13 @@ public class ClientProxy extends ServerProxy {
 	
 	public RenderInfoSystem theInfoSystem = new RenderInfoSystem();
 	
+	/** Runs just before item an block init */
+	@Override
+	public void registerPreRenderInfo() {
+		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
+	}
+	
+	/** Runs right after item and block init */
 	@Override
 	public void registerRenderInfo() {
 
@@ -144,8 +151,6 @@ public class ClientProxy extends ServerProxy {
 		registerClientEventHandler(new ModEventHandlerRenderer());
 		registerClientEventHandler(new EventHandlerParticleEngine());
 		registerClientEventHandler(theInfoSystem);
-
-		AdvancedModelLoader.registerModelHandler(new HmfModelLoader());
 
 		registerTileEntitySpecialRenderer();
 		registerItemRenderer();

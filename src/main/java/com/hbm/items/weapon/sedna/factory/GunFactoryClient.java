@@ -14,6 +14,7 @@ import static com.hbm.items.weapon.sedna.factory.XFactoryRocket.*;
 
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.main.ResourceManager;
 import com.hbm.render.item.weapon.sedna.*;
 
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -28,8 +29,9 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_light_revolver_dani, new ItemRenderDANI());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_henry, new ItemRenderHenry());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_greasegun, new ItemRenderGreasegun());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_maresleg, new ItemRenderMaresleg());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_maresleg, new ItemRenderMaresleg(ResourceManager.maresleg_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_maresleg_akimbo, new ItemRenderMareslegAkimbo());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_maresleg_broken, new ItemRenderMaresleg(ResourceManager.maresleg_broken_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_flaregun, new ItemRenderFlaregun());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_heavy_revolver, new ItemRenderHeavyRevolver());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_carbine, new ItemRenderCarbine());
@@ -105,6 +107,7 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_henry)			.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_greasegun)		.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_maresleg)			.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_maresleg_broken)	.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_flaregun)			.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_heavy_revolver)	.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_carbine)			.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);

@@ -10,9 +10,9 @@ import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
-import com.hbm.lib.RefStrings;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.anim.BusAnimation;
@@ -43,7 +43,7 @@ public class XFactory50 {
 		bmg50_du = new BulletConfig().setItem(EnumAmmo.BMG50_DU).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(2.5F).setArmorPiercing(0.25F)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("bmg50du"));
 
-		ModItems.gun_m2 = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_m2 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(10).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(5F).delay(2).dry(10).auto(true).spread(0.005F).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
@@ -52,7 +52,7 @@ public class XFactory50 {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_M2_ANIMS).orchestra(Orchestras.ORCHESTRA_M2)
-				).setUnlocalizedName("gun_m2").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_m2");
 	}
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
