@@ -18,6 +18,7 @@ import com.hbm.blocks.network.*;
 import com.hbm.blocks.rail.*;
 import com.hbm.blocks.test.*;
 import com.hbm.blocks.turret.*;
+import com.hbm.config.GeneralConfig;
 import com.hbm.items.block.*;
 import com.hbm.items.bomb.ItemPrototypeBlock;
 import com.hbm.items.special.ItemOreBlock;
@@ -336,10 +337,10 @@ public class ModBlocks {
 
 	public static Block concrete_slab;
 	public static Block concrete_double_slab;
-	public static List<Block> concrete_colored_slabs;
-	public static List<Block> concrete_colored_double_slabs;
-	public static List<Block> concrete_colored_ext_slabs;
-	public static List<Block> concrete_colored_ext_double_slabs;
+	public static List<Block> concrete_colored_slabs;  // null if disabled
+	public static List<Block> concrete_colored_double_slabs;  // null if disabled
+	public static List<Block> concrete_colored_ext_slabs;  // null if disabled
+	public static List<Block> concrete_colored_ext_double_slabs;  // null if disabled
 	public static Block concrete_brick_slab;
 	public static Block concrete_brick_double_slab;
 	public static Block brick_slab;
@@ -347,8 +348,8 @@ public class ModBlocks {
 
 	public static Block concrete_smooth_stairs;
 	public static Block concrete_stairs;
-	public static List<Block> concrete_colored_stairs;
-	public static List<Block> concrete_colored_ext_stairs;
+	public static List<Block> concrete_colored_stairs;  // null if disabled
+	public static List<Block> concrete_colored_ext_stairs;  // null if disabled
 	public static Block concrete_asbestos_stairs;
 	public static Block ducrete_smooth_stairs;
 	public static Block ducrete_stairs;
@@ -1515,25 +1516,27 @@ public class ModBlocks {
 
 		concrete_slab = new BlockMultiSlab(null, Material.rock, concrete_smooth, concrete, concrete_asbestos, ducrete_smooth, ducrete, asphalt).setBlockName("concrete_slab").setCreativeTab(MainRegistry.blockTab);
 		concrete_double_slab = new BlockMultiSlab(concrete_slab, Material.rock, concrete_smooth, concrete, concrete_asbestos, ducrete_smooth, ducrete, asphalt).setBlockName("concrete_double_slab").setCreativeTab(MainRegistry.blockTab);
-		concrete_colored_slabs = new ArrayList<Block>();
-		concrete_colored_double_slabs = new ArrayList<Block>();
-		for (int i = 0; 8 * i < ((IBlockMulti)concrete_colored).getSubCount(); i++) {
-			int metaOffset = 8 * i;
-			int metaCount = Math.min(8, ((IBlockMulti)concrete_colored).getSubCount() - metaOffset);
-			Block singleSlab = new BlockColoredMultiSlab(null, Material.rock, concrete_colored, metaOffset, metaCount).setBlockName("concrete_colored_slab_" + String.valueOf(i)).setCreativeTab(MainRegistry.blockTab);
-			Block doubleSlab = new BlockColoredMultiSlab(singleSlab, Material.rock, concrete_colored, metaOffset, metaCount).setBlockName("concrete_colored_double_slab_" + String.valueOf(i)).setCreativeTab(MainRegistry.blockTab);
-			concrete_colored_slabs.add(singleSlab);
-			concrete_colored_double_slabs.add(doubleSlab);
-		}
-		concrete_colored_ext_slabs = new ArrayList<Block>();
-		concrete_colored_ext_double_slabs = new ArrayList<Block>();
-		for (int i = 0; 8 * i < ((IBlockMulti)concrete_colored_ext).getSubCount(); i++) {
-			int metaOffset = 8 * i;
-			int metaCount = Math.min(8, ((IBlockMulti)concrete_colored_ext).getSubCount() - metaOffset);
-			Block singleSlab = new BlockColoredMultiSlab(null, Material.rock, concrete_colored_ext, metaOffset, metaCount).setBlockName("concrete_colored_ext_slab_" + String.valueOf(i)).setCreativeTab(MainRegistry.blockTab);
-			Block doubleSlab = new BlockColoredMultiSlab(singleSlab, Material.rock, concrete_colored_ext, metaOffset, metaCount).setBlockName("concrete_colored_ext_double_slab_" + String.valueOf(i)).setCreativeTab(MainRegistry.blockTab);
-			concrete_colored_slabs.add(singleSlab);
-			concrete_colored_double_slabs.add(doubleSlab);
+		if (GeneralConfig.enableColoredStairsSlabs) {
+			concrete_colored_slabs = new ArrayList<Block>();
+			concrete_colored_double_slabs = new ArrayList<Block>();
+			for (int i = 0; 8 * i < ((IBlockMulti)concrete_colored).getSubCount(); i++) {
+				int metaOffset = 8 * i;
+				int metaCount = Math.min(8, ((IBlockMulti)concrete_colored).getSubCount() - metaOffset);
+				Block singleSlab = new BlockColoredMultiSlab(null, Material.rock, concrete_colored, metaOffset, metaCount).setBlockName("concrete_colored_slab_" + String.valueOf(i)).setCreativeTab(MainRegistry.blockTab);
+				Block doubleSlab = new BlockColoredMultiSlab(singleSlab, Material.rock, concrete_colored, metaOffset, metaCount).setBlockName("concrete_colored_double_slab_" + String.valueOf(i)).setCreativeTab(MainRegistry.blockTab);
+				concrete_colored_slabs.add(singleSlab);
+				concrete_colored_double_slabs.add(doubleSlab);
+			}
+			concrete_colored_ext_slabs = new ArrayList<Block>();
+			concrete_colored_ext_double_slabs = new ArrayList<Block>();
+			for (int i = 0; 8 * i < ((IBlockMulti)concrete_colored_ext).getSubCount(); i++) {
+				int metaOffset = 8 * i;
+				int metaCount = Math.min(8, ((IBlockMulti)concrete_colored_ext).getSubCount() - metaOffset);
+				Block singleSlab = new BlockColoredMultiSlab(null, Material.rock, concrete_colored_ext, metaOffset, metaCount).setBlockName("concrete_colored_ext_slab_" + String.valueOf(i)).setCreativeTab(MainRegistry.blockTab);
+				Block doubleSlab = new BlockColoredMultiSlab(singleSlab, Material.rock, concrete_colored_ext, metaOffset, metaCount).setBlockName("concrete_colored_ext_double_slab_" + String.valueOf(i)).setCreativeTab(MainRegistry.blockTab);
+				concrete_colored_slabs.add(singleSlab);
+				concrete_colored_double_slabs.add(doubleSlab);
+			}
 		}
 		concrete_brick_slab = new BlockMultiSlab(null, Material.rock, brick_concrete, brick_concrete_mossy, brick_concrete_cracked, brick_concrete_broken, brick_ducrete).setBlockName("concrete_brick_slab").setCreativeTab(MainRegistry.blockTab);
 		concrete_brick_double_slab = new BlockMultiSlab(concrete_brick_slab, Material.rock, brick_concrete, brick_concrete_mossy, brick_concrete_cracked, brick_concrete_broken, brick_ducrete).setBlockName("concrete_brick_double_slab").setCreativeTab(MainRegistry.blockTab);
@@ -1542,13 +1545,15 @@ public class ModBlocks {
 		
 		concrete_smooth_stairs = new BlockGenericStairs(concrete_smooth, 0).setBlockName("concrete_smooth_stairs").setCreativeTab(MainRegistry.blockTab);
 		concrete_stairs = new BlockGenericStairs(concrete, 0).setBlockName("concrete_stairs").setCreativeTab(MainRegistry.blockTab);
-		concrete_colored_stairs = new ArrayList<Block>();
-		for (BlockConcreteColored.EnumConcreteType type : BlockConcreteColored.EnumConcreteType.values()) {
-			concrete_colored_stairs.add(new BlockGenericStairs(concrete_colored, type.ordinal()).setBlockName("concrete_colored_stairs_" + type.name().toLowerCase(Locale.US)).setCreativeTab(MainRegistry.blockTab));
-		}
-		concrete_colored_ext_stairs = new ArrayList<Block>();
-		for (BlockConcreteColoredExt.EnumConcreteType type : BlockConcreteColoredExt.EnumConcreteType.values()) {
-			concrete_colored_ext_stairs.add(new BlockGenericStairs(concrete_colored_ext, type.ordinal()).setBlockName("concrete_colored_ext_stairs_" + type.name().toLowerCase(Locale.US)).setCreativeTab(MainRegistry.blockTab));
+		if (GeneralConfig.enableColoredStairsSlabs) {
+			concrete_colored_stairs = new ArrayList<Block>();
+			for (BlockConcreteColored.EnumConcreteType type : BlockConcreteColored.EnumConcreteType.values()) {
+				concrete_colored_stairs.add(new BlockGenericStairs(concrete_colored, type.ordinal()).setBlockName("concrete_colored_stairs_" + type.name().toLowerCase(Locale.US)).setCreativeTab(MainRegistry.blockTab));
+			}
+			concrete_colored_ext_stairs = new ArrayList<Block>();
+			for (BlockConcreteColoredExt.EnumConcreteType type : BlockConcreteColoredExt.EnumConcreteType.values()) {
+				concrete_colored_ext_stairs.add(new BlockGenericStairs(concrete_colored_ext, type.ordinal()).setBlockName("concrete_colored_ext_stairs_" + type.name().toLowerCase(Locale.US)).setCreativeTab(MainRegistry.blockTab));
+			}
 		}
 		concrete_asbestos_stairs = new BlockGenericStairs(concrete_asbestos, 0).setBlockName("concrete_asbestos_stairs").setCreativeTab(MainRegistry.blockTab);
 		ducrete_smooth_stairs = new BlockGenericStairs(ducrete_smooth, 0).setBlockName("ducrete_smooth_stairs").setCreativeTab(MainRegistry.blockTab);
@@ -2679,17 +2684,19 @@ public class ModBlocks {
 
 		GameRegistry.registerBlock(concrete_slab, ItemModSlab.class, concrete_slab.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_double_slab, ItemModSlab.class, concrete_double_slab.getUnlocalizedName());
-		for (Block block : concrete_colored_slabs) {
-			GameRegistry.registerBlock(block, ItemModSlab.class, block.getUnlocalizedName());
-		}
-		for (Block block : concrete_colored_double_slabs) {
-			GameRegistry.registerBlock(block, ItemModSlab.class, block.getUnlocalizedName());
-		}
-		for (Block block : concrete_colored_ext_slabs) {
-			GameRegistry.registerBlock(block, ItemModSlab.class, block.getUnlocalizedName());
-		}
-		for (Block block : concrete_colored_ext_double_slabs) {
-			GameRegistry.registerBlock(block, ItemModSlab.class, block.getUnlocalizedName());
+		if (GeneralConfig.enableColoredStairsSlabs) {
+			for (Block block : concrete_colored_slabs) {
+				GameRegistry.registerBlock(block, ItemModSlab.class, block.getUnlocalizedName());
+			}
+			for (Block block : concrete_colored_double_slabs) {
+				GameRegistry.registerBlock(block, ItemModSlab.class, block.getUnlocalizedName());
+			}
+			for (Block block : concrete_colored_ext_slabs) {
+				GameRegistry.registerBlock(block, ItemModSlab.class, block.getUnlocalizedName());
+			}
+			for (Block block : concrete_colored_ext_double_slabs) {
+				GameRegistry.registerBlock(block, ItemModSlab.class, block.getUnlocalizedName());
+			}
 		}
 		GameRegistry.registerBlock(concrete_brick_slab, ItemModSlab.class, concrete_brick_slab.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_brick_double_slab, ItemModSlab.class, concrete_brick_double_slab.getUnlocalizedName());
@@ -2699,11 +2706,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(concrete_smooth_stairs, concrete_smooth_stairs.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_stairs, concrete_stairs.getUnlocalizedName());
 		GameRegistry.registerBlock(concrete_asbestos_stairs, concrete_asbestos_stairs.getUnlocalizedName());
-		for (Block block : concrete_colored_stairs) {
-			GameRegistry.registerBlock(block, block.getUnlocalizedName());
-		}
-		for (Block block : concrete_colored_ext_stairs) {
-			GameRegistry.registerBlock(block, block.getUnlocalizedName());
+		if (GeneralConfig.enableColoredStairsSlabs) {
+			for (Block block : concrete_colored_stairs) {
+				GameRegistry.registerBlock(block, block.getUnlocalizedName());
+			}
+			for (Block block : concrete_colored_ext_stairs) {
+				GameRegistry.registerBlock(block, block.getUnlocalizedName());
+			}
 		}
 		GameRegistry.registerBlock(ducrete_smooth_stairs, ducrete_smooth_stairs.getUnlocalizedName());
 		GameRegistry.registerBlock(brick_concrete_stairs, brick_concrete_stairs.getUnlocalizedName());
