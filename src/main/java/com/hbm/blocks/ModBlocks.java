@@ -1517,9 +1517,9 @@ public class ModBlocks {
 		concrete_double_slab = new BlockMultiSlab(concrete_slab, Material.rock, concrete_smooth, concrete, concrete_asbestos, ducrete_smooth, ducrete, asphalt).setBlockName("concrete_double_slab").setCreativeTab(MainRegistry.blockTab);
 		concrete_colored_slabs = new ArrayList<Block>();
 		concrete_colored_double_slabs = new ArrayList<Block>();
-		for (int i = 0; 6 * i < ((IBlockMulti)concrete_colored).getSubCount(); i++) {
-			int metaOffset = 6 * i;
-			int metaCount = Math.min(6, ((IBlockMulti)concrete_colored).getSubCount() - metaOffset);
+		for (int i = 0; 8 * i < ((IBlockMulti)concrete_colored).getSubCount(); i++) {
+			int metaOffset = 8 * i;
+			int metaCount = Math.min(8, ((IBlockMulti)concrete_colored).getSubCount() - metaOffset);
 			Block singleSlab = new BlockColoredMultiSlab(null, Material.rock, concrete_colored, metaOffset, metaCount).setBlockName("concrete_colored_slab_" + String.valueOf(i)).setCreativeTab(MainRegistry.blockTab);
 			Block doubleSlab = new BlockColoredMultiSlab(singleSlab, Material.rock, concrete_colored, metaOffset, metaCount).setBlockName("concrete_colored_double_slab_" + String.valueOf(i)).setCreativeTab(MainRegistry.blockTab);
 			concrete_colored_slabs.add(singleSlab);
@@ -1527,9 +1527,9 @@ public class ModBlocks {
 		}
 		concrete_colored_ext_slabs = new ArrayList<Block>();
 		concrete_colored_ext_double_slabs = new ArrayList<Block>();
-		for (int i = 0; 6 * i < ((IBlockMulti)concrete_colored_ext).getSubCount(); i++) {
-			int metaOffset = 6 * i;
-			int metaCount = Math.min(6, ((IBlockMulti)concrete_colored_ext).getSubCount() - metaOffset);
+		for (int i = 0; 8 * i < ((IBlockMulti)concrete_colored_ext).getSubCount(); i++) {
+			int metaOffset = 8 * i;
+			int metaCount = Math.min(8, ((IBlockMulti)concrete_colored_ext).getSubCount() - metaOffset);
 			Block singleSlab = new BlockColoredMultiSlab(null, Material.rock, concrete_colored_ext, metaOffset, metaCount).setBlockName("concrete_colored_ext_slab_" + String.valueOf(i)).setCreativeTab(MainRegistry.blockTab);
 			Block doubleSlab = new BlockColoredMultiSlab(singleSlab, Material.rock, concrete_colored_ext, metaOffset, metaCount).setBlockName("concrete_colored_ext_double_slab_" + String.valueOf(i)).setCreativeTab(MainRegistry.blockTab);
 			concrete_colored_slabs.add(singleSlab);
