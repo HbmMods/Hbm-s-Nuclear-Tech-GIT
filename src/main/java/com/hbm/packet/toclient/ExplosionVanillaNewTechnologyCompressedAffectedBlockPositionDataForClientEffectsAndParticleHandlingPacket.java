@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import com.hbm.interfaces.NotableComments;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -20,6 +21,7 @@ import net.minecraft.world.ChunkPosition;
  * @author hbm
  *
  */
+@NotableComments
 public class ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket implements IMessage {
 
 	private double posX;

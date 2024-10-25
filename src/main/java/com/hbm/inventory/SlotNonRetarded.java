@@ -1,5 +1,7 @@
 package com.hbm.inventory;
 
+import com.hbm.interfaces.NotableComments;
+
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -8,6 +10,7 @@ import net.minecraft.item.ItemStack;
  * Because vanilla slots have severe mental disabilities that prevent them from working as expected.
  * @author hbm
  */
+@NotableComments
 public class SlotNonRetarded extends Slot {
 
 	public SlotNonRetarded(IInventory inventory, int id, int x, int y) {

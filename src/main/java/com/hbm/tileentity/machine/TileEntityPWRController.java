@@ -148,6 +148,7 @@ public class TileEntityPWRController extends TileEntityMachineBase implements IG
 
 		connections = connectionsDouble / 2;
 		connectionsControlled = connectionsControlledDouble / 2;
+		heatsinkCount = Math.min(heatsinkCount, 80);
 		
 		//switching this to int64 because after 2127 heatsinks the capacity exceeds the int32 which is well within the 4000+ threshold we are working with. oops!
 		this.coreHeatCapacity = this.coreHeatCapacityBase + this.heatsinkCount * (this.coreHeatCapacityBase / 20);

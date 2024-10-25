@@ -215,6 +215,8 @@
     "weapon.nuclearExplosion": {"category": "player", "sounds": [{"name": "weapon/nuclearExplosion", "stream": true}]},
     "weapon.explosionLargeNear": {"category": "player", "sounds": [{"name": "weapon/explosionLargeNear", "stream": false}]},
     "weapon.explosionLargeFar": {"category": "player", "sounds": [{"name": "weapon/explosionLargeFar", "stream": false}]},
+    "weapon.explosionSmallNear": {"category": "player", "sounds": ["weapon/explosionSmallNear1", "weapon/explosionSmallNear2", "weapon/explosionSmallNear3"]},
+    "weapon.explosionSmallFar": {"category": "player", "sounds": ["weapon/explosionSmallFar1", "weapon/explosionSmallFar2"]},
     
     "weapon.dFlash": {"category": "player", "sounds": [{"name": "weapon/dFlash", "stream": false}]},
 
@@ -224,6 +226,8 @@
     
     "weapon.fire.blackPowder": {"category": "player", "sounds": [{"name": "weapon/fire/blackPowder", "stream": false}]},
     "weapon.fire.flameLoop": {"category": "player", "sounds": [{"name": "weapon/fire/flameLoop", "stream": false}]},
+    "weapon.fire.lockon": {"category": "player", "sounds": [{"name": "weapon/fire/lockon", "stream": false}]},
+    "weapon.fire.shredderCycle": {"category": "player", "sounds": [{"name": "weapon/fire/shredderCycle", "stream": false}]},
     
     "weapon.reload.boltClose": {"category": "player", "sounds": ["weapon/reload/boltClose"]},
     "weapon.reload.boltOpen": {"category": "player", "sounds": ["weapon/reload/boltOpen"]},

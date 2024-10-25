@@ -5,6 +5,8 @@ import com.hbm.render.loader.ModelRendererObj;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -163,6 +165,15 @@ public class ModelArmorBase extends ModelBiped {
 			leftArm.rotateAngleZ -= MathHelper.cos(idleCycle * 0.09F) * 0.05F + 0.05F;
 			rightArm.rotateAngleX += MathHelper.sin(idleCycle * 0.067F) * 0.05F;
 			leftArm.rotateAngleX -= MathHelper.sin(idleCycle * 0.067F) * 0.05F;
+		}
+
+		if(entity instanceof EntityPlayer) {
+			Object o = RenderManager.instance.entityRenderMap.get(EntityPlayer.class);
+			if(o instanceof RenderPlayer) {
+				RenderPlayer render = (RenderPlayer) o;
+				leftArm.copyRotationFrom(render.modelBipedMain.bipedLeftArm);
+				rightArm.copyRotationFrom(render.modelBipedMain.bipedRightArm);
+			}
 		}
 	}
 

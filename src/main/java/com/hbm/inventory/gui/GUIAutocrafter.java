@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.interfaces.NotableComments;
 import com.hbm.inventory.container.ContainerAutocrafter;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineAutocrafter;
@@ -15,6 +16,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 
+@NotableComments
 public class GUIAutocrafter extends GuiInfoContainer {
 	
 	private static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/processing/gui_autocrafter.png");

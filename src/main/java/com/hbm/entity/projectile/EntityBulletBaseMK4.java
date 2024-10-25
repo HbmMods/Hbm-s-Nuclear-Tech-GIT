@@ -2,18 +2,17 @@ package com.hbm.entity.projectile;
 
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.TrackerUtil;
+import com.hbm.util.Vec3NT;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.DamageSource;
+import net.minecraft.entity.EntityTrackerEntry;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 	
@@ -21,8 +20,10 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 	//used for rendering tracers
 	public double velocity;
 	public double prevVelocity;
+	public double accel;
 	public float damage;
 	public int ricochets = 0;
+	public Entity lockonTarget = null;
 
 	public EntityBulletBaseMK4(World world) {
 		super(world);
@@ -53,6 +54,10 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
 		this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
 		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
+
+		/*motionX += entity.motionX;
+		motionY += entity.motionY;
+		motionZ += entity.motionZ;*/
 		
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread + gunSpread);
 	}
@@ -94,6 +99,22 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		double dY = this.posY - this.prevPosY;
 		double dZ = this.posZ - this.prevPosZ;
 		
+		if(this.lockonTarget != null && !this.lockonTarget.isDead) {
+			Vec3NT motion = new Vec3NT(motionX, motionY, motionZ);
+			double vel = motion.lengthVector();
+			Vec3NT delta = new Vec3NT(lockonTarget.posX - posX, lockonTarget.posY + lockonTarget.height / 2D - posY, lockonTarget.posZ - posZ);
+			float turn = Math.min(0.005F * this.ticksExisted, 1F);
+			Vec3NT newVec = new Vec3NT(
+					BobMathUtil.interp(motion.xCoord, delta.xCoord, turn),
+					BobMathUtil.interp(motion.yCoord, delta.yCoord, turn),
+					BobMathUtil.interp(motion.zCoord, delta.zCoord, turn)).normalizeSelf().multiply(vel);
+			this.motionX = newVec.xCoord;
+			this.motionY = newVec.yCoord;
+			this.motionZ = newVec.zCoord;
+			EntityTrackerEntry entry = TrackerUtil.getTrackerEntry((WorldServer) worldObj, this.getEntityId());
+			entry.lastYaw = MathHelper.floor_float(this.rotationYaw * 256.0F / 360.0F) + 10; //force-trigger rotation update
+		}
+		
 		this.prevVelocity = this.velocity;
 		this.velocity = Math.sqrt(dX * dX + dY * dY + dZ * dZ);
 		
@@ -122,85 +143,21 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		if(worldObj instanceof WorldServer) TrackerUtil.sendTeleport((WorldServer) worldObj, this);
 	}
 
+	
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		if(!worldObj.isRemote) {
 			
 			if(this.config.onImpact != null) this.config.onImpact.accept(this, mop);
-			
 			if(this.isDead) return;
-			
-			if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
-
-				ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
-				Vec3 face = Vec3.createVectorHelper(dir.offsetX, dir.offsetY, dir.offsetZ);
-				Vec3 vel = Vec3.createVectorHelper(motionX, motionY, motionZ).normalize();
-
-				double angle = Math.abs(BobMathUtil.getCrossAngle(vel, face) - 90);
-
-				if(angle <= config.ricochetAngle) {
-					
-					this.ricochets++;
-					if(this.ricochets > this.config.maxRicochetCount) {
-						this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-						this.setDead();
-					}
-					
-					switch(mop.sideHit) {
-					case 0: case 1: motionY *= -1; break;
-					case 2: case 3: motionZ *= -1; break;
-					case 4: case 5: motionX *= -1; break;
-					}
-					worldObj.playSoundAtEntity(this, "hbm:weapon.ricochet", 0.25F, 1.0F);
-					this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-					//send a teleport so the ricochet is more accurate instead of the interp smoothing fucking everything up
-					if(worldObj instanceof WorldServer) TrackerUtil.sendTeleport((WorldServer) worldObj, this);
-					return;
-
-				} else {
-					this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-					this.setDead();
-				}
-			}
-			
-			if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
-				Entity entity = mop.entityHit;
-				
-				if(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0) {
-					return;
-				}
-				
-				DamageSource damageCalc = this.config.getDamage(this, getThrower(), false);
-				
-				if(!(entity instanceof EntityLivingBase)) {
-					EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, damageCalc, this.damage);
-					return;
-				}
-				
-				EntityLivingBase living = (EntityLivingBase) entity;
-				float prevHealth = living.getHealth();
-				
-				if(this.config.armorPiercingPercent == 0) {
-					EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, damageCalc, this.damage);
-				} else {
-					DamageSource damagePiercing = this.config.getDamage(this, getThrower(), true);
-					EntityDamageUtil.attackArmorPiercing(living, damageCalc, damagePiercing, this.damage, this.config.armorPiercingPercent);
-				}
-				
-				float newHealth = living.getHealth();
-				
-				if(this.config.damageFalloffByPen) this.damage -= Math.max(prevHealth - newHealth, 0);
-				if(!this.doesPenetrate() || this.damage < 0) {
-					this.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-					this.setDead();
-				}
-			}
+			if(this.config.onRicochet != null) this.config.onRicochet.accept(this, mop);
+			if(this.config.onEntityHit != null) this.config.onEntityHit.accept(this, mop);
 		}
 	}
 
 	@Override protected double headingForceMult() { return 1D; }
 	@Override public double getGravityVelocity() { return this.config.gravity; }
-	@Override protected double motionMult() { return this.config.velocity; }
+	@Override protected double motionMult() { return this.config.velocity + this.accel; }
 	@Override protected float getAirDrag() { return 1F; }
 	@Override protected float getWaterDrag() { return 1F; }
 	

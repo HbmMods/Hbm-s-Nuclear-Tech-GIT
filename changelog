@@ -8,6 +8,11 @@
   * Configs can be edited ingame via `/ntmclient set <name> <value>` or in the file and then `/ntmclient reload`
   * Available configs include geiger counter HUD position, info system position and orientation, custom main menu splash texts, ore dict display and custom nuke item info
   * Check the config file or `/ntmclient list` for a full list of values, the name should make them self-explanatory!
+* Liquid lead
+  * A valid coolant for both PWRs and ICFs
+  * Has an immense heat transfer speed bonus, allowing ICFs to be cooled even when using higher tier pellets
+  * Cools quite effectively in PWRs, but has a negative neutron modifier and a small penalty of how much heat ends up usable
+  * Overall a cheap and very good coolant, just not as efficient as sodium
 
 ## Changed
 * Updated russian and chinese localization
@@ -33,6 +38,13 @@
 * Glpyhid hives caught in a fallout zone now turn radioactive
   * Glyphids spawned by radioactive hives are immune to fire, twice as fast and five times as strong
   * Radioactive glpyhids however are NOT immune to radiation, and typically die quickly
+  * Radioactive hives are sterile, they will not spawn scouts
+* PWR core capacity is now limited to 500%, meaning the maximum amount of heatsinks usable is 80
+* Item autogen now generates ingot forms for items that are castable but don't have an ingot form, preventing cases where a material is completely uncastable
+  * This change makes sodium and strontium castable
+* Ore dict recipe autogen for crucible molds now prioritizes NTM's own items over any other ore dict compatible item
+* If a cracking tower's input is set to an incorrect type, the input and steam tanks are now preserved instead of being set to NONE
+* Removed legacy wire items
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines
@@ -45,3 +57,4 @@
   * There are a few instances of vanilla explosions still being used, those will be phased out in the future
 * Fixed tutorial presentations triggering when hitting F1 not just in the inventory but also when looking at the block in question
 * Fixed a bug regarding shift clicking in the breeding reactor
+* Fixed empty particle capsules not being extractable from the ICF pellet maker
