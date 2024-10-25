@@ -23,6 +23,7 @@ import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemEnums.EnumAshType;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.util.Compat;
 
 import net.minecraft.block.Block;
@@ -56,6 +57,11 @@ public class MatDistribution extends SerializableRecipe {
 		registerEntry(ModItems.stamp_titanium_flat,			MAT_TITANIUM,		INGOT.q(3));
 		registerEntry(ModItems.stamp_obsidian_flat,			MAT_OBSIDIAN,		INGOT.q(3));
 		registerEntry(ModItems.pipes_steel,					MAT_STEEL,			BLOCK.q(3));
+
+		registerEntry(DictFrame.fromOne(ModItems.casing, EnumCasingType.SMALL),			MAT_GUNMETAL,		PLATE.q(1, 4));
+		registerEntry(DictFrame.fromOne(ModItems.casing, EnumCasingType.SMALL_STEEL),	MAT_WEAPONSTEEL,	PLATE.q(1, 4));
+		registerEntry(DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE),			MAT_GUNMETAL,		PLATE.q(1, 2));
+		registerEntry(DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE_STEEL),	MAT_WEAPONSTEEL,	PLATE.q(1, 2));
 
 		//actual ores
 		if(!Compat.isModLoaded(Compat.MOD_GT6)) {
@@ -93,6 +99,7 @@ public class MatDistribution extends SerializableRecipe {
 		if(key instanceof Item) comp = new ComparableStack((Item) key);
 		if(key instanceof Block) comp = new ComparableStack((Block) key);
 		if(key instanceof ItemStack) comp = new ComparableStack((ItemStack) key);
+		if(key instanceof ComparableStack) comp = (ComparableStack) key;
 		
 		if(comp == null) return;
 		if(matDef.length % 2 == 1) return;

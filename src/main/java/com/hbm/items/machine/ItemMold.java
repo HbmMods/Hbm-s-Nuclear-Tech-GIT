@@ -6,8 +6,10 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.material.Mats;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.NTMMaterial;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.I18nUtil;
@@ -75,11 +77,12 @@ public class ItemMold extends Item {
 		registerMold(new MoldBlock(		12, L, "block", MaterialShapes.BLOCK));
 		registerMold(new MoldSingle(	13, L, "pipes", new ItemStack(ModItems.pipes_steel), Mats.MAT_STEEL, MaterialShapes.BLOCK.q(3)));
 
-		registerMold(new MoldSingle(	14, S, "c357", new ItemStack(ModItems.casing_357), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
-		registerMold(new MoldSingle(	15, S, "c44", new ItemStack(ModItems.casing_44), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
-		registerMold(new MoldSingle(	16, S, "c9", new ItemStack(ModItems.casing_9), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
-		registerMold(new MoldSingle(	17, S, "c50", new ItemStack(ModItems.casing_50), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
-		registerMold(new MoldSingle(	18, S, "cbuckshot", new ItemStack(ModItems.casing_buckshot), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
+		registerMold(new MoldMulti(		16, S, "c9", MaterialShapes.PLATE.q(1, 4),
+				Mats.MAT_GUNMETAL,		DictFrame.fromOne(ModItems.casing, EnumCasingType.SMALL),
+				Mats.MAT_WEAPONSTEEL,	DictFrame.fromOne(ModItems.casing, EnumCasingType.SMALL_STEEL)));
+		registerMold(new MoldMulti(		17, S, "c50", MaterialShapes.PLATE.q(1, 2),
+				Mats.MAT_GUNMETAL,		DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE),
+				Mats.MAT_WEAPONSTEEL,	DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE_STEEL)));
 
 		registerMold(new MoldShape(		22, S, "barrel_light", MaterialShapes.LIGHTBARREL));
 		registerMold(new MoldShape(		23, S, "barrel_heavy", MaterialShapes.HEAVYBARREL));

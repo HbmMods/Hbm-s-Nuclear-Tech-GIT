@@ -45,7 +45,7 @@ public class ItemGunStinger extends ItemGunBaseNT {
 			
 			if(!world.isRemote) {
 				int prevTarget = this.getLockonTarget(stack);
-				if(isHeld && this.getIsLockingOn(stack) && this.getIsAiming(stack) && this.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack) > 0) {
+				if(isHeld && this.getIsLockingOn(stack) && this.getIsAiming(stack) && this.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, player.inventory) > 0) {
 					int newLockonTarget = this.getLockonTarget(player);
 					
 					if(newLockonTarget == -1) {

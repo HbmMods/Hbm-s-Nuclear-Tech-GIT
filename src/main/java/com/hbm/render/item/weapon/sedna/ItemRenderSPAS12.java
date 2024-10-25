@@ -5,6 +5,7 @@ import java.awt.Color;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.render.anim.HbmAnimations;
@@ -55,7 +56,7 @@ public class ItemRenderSPAS12 extends ItemRenderWeaponBase {
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.casings_tex);
 
 		HbmAnimations.applyRelevantTransformation("Shell");
-		SpentCasing casing = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getCasing(stack);
+		SpentCasing casing = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getCasing(stack, MainRegistry.proxy.me().inventory);
 		int color0 = SpentCasing.COLOR_CASE_BRASS;
 		int color1 = SpentCasing.COLOR_CASE_BRASS;
 		

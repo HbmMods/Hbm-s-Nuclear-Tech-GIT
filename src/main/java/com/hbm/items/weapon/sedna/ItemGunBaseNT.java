@@ -119,7 +119,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 			GunConfig config = getConfig(stack, i);
 			for(Receiver rec : config.getReceivers(stack)) {
 				IMagazine mag = rec.getMagazine(stack);
-				list.add("Ammo: " + mag.getIconForHUD(stack).getDisplayName() + " " + mag.reportAmmoStateForHUD(stack));
+				list.add("Ammo: " + mag.getIconForHUD(stack, player).getDisplayName() + " " + mag.reportAmmoStateForHUD(stack, player));
 				list.add("Base Damage: " + rec.getBaseDamage(stack));
 			}
 		}
