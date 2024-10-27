@@ -7,6 +7,8 @@ import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.particle.SpentCasing;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 
 /** Base class for typical magazines, i.e. ones that hold bullets, shells, grenades, etc, any ammo item. Stores a single type of BulletConfigs */
@@ -32,7 +34,7 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
 	public MagazineSingleTypeBase addConfigs(BulletConfig... cfgs) { for(BulletConfig cfg : cfgs) acceptedBullets.add(cfg); return this; }
 
 	@Override
-	public BulletConfig getType(ItemStack stack) {
+	public BulletConfig getType(ItemStack stack, IInventory inventory) {
 		int type = getMagType(stack, index);
 		if(type >= 0 && type < BulletConfig.configs.size()) {
 			BulletConfig cfg = BulletConfig.configs.get(type);
@@ -49,24 +51,29 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
 	}
 
 	@Override
-	public ItemStack getIconForHUD(ItemStack stack) {
-		BulletConfig config = this.getType(stack);
+	public ItemStack getIconForHUD(ItemStack stack, EntityPlayer player) {
+		BulletConfig config = this.getType(stack, player.inventory);
 		if(config != null) return config.ammo.toStack();
 		return null;
 	}
 
 	@Override
-	public String reportAmmoStateForHUD(ItemStack stack) {
-		return getAmount(stack) + " / " + getCapacity(stack);
+	public String reportAmmoStateForHUD(ItemStack stack, EntityPlayer player) {
+		return getAmount(stack, player.inventory) + " / " + getCapacity(stack);
 	}
 
 	@Override
-	public SpentCasing getCasing(ItemStack stack) {
-		return this.getType(stack).casing;
+	public SpentCasing getCasing(ItemStack stack, IInventory inventory) {
+		return this.getType(stack, inventory).casing;
+	}
+
+	@Override
+	public void useUpAmmo(ItemStack stack, IInventory inventory, int amount) {
+		this.setAmount(stack, this.getAmount(stack, inventory) - amount);
 	}
 
 	@Override public int getCapacity(ItemStack stack) { return capacity; }
-	@Override public int getAmount(ItemStack stack) { return getMagCount(stack, index); }
+	@Override public int getAmount(ItemStack stack, IInventory inventory) { return getMagCount(stack, index); }
 	@Override public void setAmount(ItemStack stack, int amount) { setMagCount(stack, index, amount); }
 	
 	@Override public void setAmountBeforeReload(ItemStack stack, int amount) { ItemGunBaseNT.setValueInt(stack, KEY_MAG_PREV + index, amount); }

@@ -50,7 +50,7 @@ public class ItemRenderGreasegun extends ItemRenderWeaponBase {
 		GL11.glRotated(lift[0], 1, 0, 0);
 		GL11.glTranslated(0, 3, 3);
 
-		GL11.glRotated(turn[2], 0, 0, 1);
+		if(gun.aimingProgress < 1F) GL11.glRotated(turn[2], 0, 0, 1);
 		
 		GL11.glTranslated(0, 0, recoil[2]);
 

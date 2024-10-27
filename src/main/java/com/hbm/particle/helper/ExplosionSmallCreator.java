@@ -5,6 +5,8 @@ import java.util.Random;
 import com.hbm.particle.ParticleExplosionSmall;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -34,6 +36,7 @@ public class ExplosionSmallCreator implements IParticleCreator {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void makeParticle(World world, EntityPlayer player, TextureManager texman, Random rand, double x, double y, double z, NBTTagCompound data) {
 
 		int cloudCount = data.getInteger("cloudCount");

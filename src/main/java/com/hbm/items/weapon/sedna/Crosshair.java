@@ -20,7 +20,9 @@ public enum Crosshair {
 	L_ARROWS(32, 122, 32),
 	L_BOX(64, 122, 32),
 	L_CIRCUMFLEX(96, 122, 32),
-	L_RAD(0, 154, 32);
+	L_RAD(0, 154, 32),
+	L_MODERN(32, 154, 32),
+	L_BOX_OUTLINE(64, 154, 32);
 	
 	public int x;
 	public int y;

@@ -62,7 +62,7 @@ public class EntityChemical extends EntityThrowableNT {
 		this.isImmuneToFire = true;
 	}
 
-	public EntityChemical(World world, EntityLivingBase thrower) {
+	public EntityChemical(World world, EntityLivingBase thrower, double sideOffset, double heightOffset, double frontOffset) {
 		super(world, thrower);
 		this.ignoreFrustumCheck = true;
 		this.isImmuneToFire = true;

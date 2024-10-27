@@ -11,9 +11,10 @@ import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
-import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
@@ -39,7 +40,7 @@ public class XFactory40mm {
 		g40_flare = new BulletConfig().setItem(EnumAmmo.G40_FLARE).setLife(100).setVel(2F).setGrav(0.035D).setRenderRotations(false).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x9E1616).setScale(2F).register("G40Flare"));
 		g40 = new BulletConfig().setItem(EnumAmmo.G40).setLife(200).setOnImpact(LAMBDA_STANDARD_EXPLODE).setVel(2F).setGrav(0.035D).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_40MM).setScale(2, 2F, 1.5F).register("G40"));
 
-		ModItems.gun_flaregun = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_flaregun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(100).draw(7).inspect(39).crosshair(Crosshair.L_CIRCUMFLEX).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(15F).delay(20).reload(28).jam(33).sound("hbm:weapon.hkShoot", 1.0F, 1.0F)
@@ -48,9 +49,9 @@ public class XFactory40mm {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_FLAREGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAREGUN)
-				).setUnlocalizedName("gun_flaregun").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_flaregun");
 		
-		ModItems.gun_congolake = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_congolake = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(400).draw(7).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCUMFLEX).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(30F).delay(24).reload(16, 16, 16, 0).jam(0).sound("hbm:weapon.glShoot", 1.0F, 1.0F)
@@ -59,11 +60,11 @@ public class XFactory40mm {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_CONGOLAKE_ANIMS).orchestra(Orchestras.ORCHESTRA_CONGOLAKE)
-				).setUnlocalizedName("gun_congolake").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_congolake");
 	}
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
-		Lego.handleStandardSmoke(ctx.player, stack, 1500, 0.025D, 1.05D, 0);
+		Lego.handleStandardSmoke(ctx.entity, stack, 1500, 0.025D, 1.05D, 0);
 	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_FLAREGUN_ANIMS = (stack, type) -> {
@@ -90,7 +91,7 @@ public class XFactory40mm {
 	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_CONGOLAKE_ANIMS = (stack, type) -> {
-		int ammo = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack);
+		int ammo = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, MainRegistry.proxy.me().inventory);
 		switch(type) {
 		case EQUIP: return ResourceManager.congolake_anim.get("Equip");
 		case CYCLE: return ResourceManager.congolake_anim.get(ammo <= 1 ? "FireEmpty" : "Fire");

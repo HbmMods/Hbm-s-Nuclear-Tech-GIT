@@ -8,9 +8,9 @@ import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
-import com.hbm.lib.RefStrings;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
@@ -27,7 +27,7 @@ public class XFactoryBlackPowder {
 		BulletConfig iron = new BulletConfig().setItem(EnumAmmo.STONE_IRON).setSpread(0F).setRicochetAngle(90).setRicochetCount(5).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(2F);
 		BulletConfig shot = new BulletConfig().setItem(EnumAmmo.STONE_SHOT).setSpread(0.1F).setRicochetAngle(45).setProjectiles(6, 6).setDamage(0.5F);
 		
-		ModItems.gun_pepperbox = new ItemGunBaseNT(new GunConfig()
+		ModItems.gun_pepperbox = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(5F).delay(27).reload(67).jam(58).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
@@ -35,7 +35,7 @@ public class XFactoryBlackPowder {
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_PEPPERBOX_ANIMS).orchestra(Orchestras.ORCHESTRA_PEPPERBOX)
-				).setUnlocalizedName("gun_pepperbox").setTextureName(RefStrings.MODID + ":gun_darter");
+				).setUnlocalizedName("gun_pepperbox");
 	}
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_PEPPERBOX_ANIMS = (stack, type) -> {

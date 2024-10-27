@@ -30,6 +30,7 @@ public class GunConfig {
 	public static final String I_DRAWDURATION =					"I_DRAWDURATION";
 	public static final String I_INSPECTDURATION =				"I_INSPECTDURATION";
 	public static final String O_CROSSHAIR =					"O_CROSSHAIR";
+	public static final String B_HIDECROSSHAIR =				"B_HIDECROSSHAIR";
 	public static final String B_RELOADANIMATIONSEQUENTIAL =	"B_RELOADANIMATIONSEQUENTIAL";
 	public static final String CON_SMOKE =						"CON_SMOKE";
 	public static final String CON_ORCHESTRA =					"CON_ORCHESTRA";
@@ -53,6 +54,7 @@ public class GunConfig {
 	protected int drawDuration_DNA = 0;
 	protected int inspectDuration_DNA = 0;
 	protected Crosshair crosshair_DNA;
+	protected boolean hideCrosshair_DNA = true;
 	protected boolean reloadAnimationsSequential_DNA;
 	/** Handles smoke clientside */
 	protected BiConsumer<ItemStack, LambdaContext> smokeHandler_DNA;
@@ -81,6 +83,7 @@ public class GunConfig {
 	public int getDrawDuration(ItemStack stack) {									return WeaponUpgradeManager.eval(drawDuration_DNA, stack, I_DRAWDURATION, this); }
 	public int getInspectDuration(ItemStack stack) {								return WeaponUpgradeManager.eval(inspectDuration_DNA, stack, I_INSPECTDURATION, this); }
 	public Crosshair getCrosshair(ItemStack stack) {								return WeaponUpgradeManager.eval(crosshair_DNA, stack, O_CROSSHAIR, this); }
+	public boolean getHideCrosshair(ItemStack stack) {								return WeaponUpgradeManager.eval(hideCrosshair_DNA, stack, B_HIDECROSSHAIR, this); }
 	public boolean getReloadAnimSequential(ItemStack stack) {						return WeaponUpgradeManager.eval(reloadAnimationsSequential_DNA, stack, B_RELOADANIMATIONSEQUENTIAL, this); }
 	public BiConsumer<ItemStack, LambdaContext> getSmokeHandler(ItemStack stack) {	return WeaponUpgradeManager.eval(smokeHandler_DNA, stack, CON_SMOKE, this); }
 	public BiConsumer<ItemStack, LambdaContext> getOrchestra(ItemStack stack) {		return WeaponUpgradeManager.eval(this.orchestra_DNA, stack, CON_ORCHESTRA, this); }
@@ -107,6 +110,7 @@ public class GunConfig {
 	public GunConfig draw(int draw) {					this.drawDuration_DNA = draw; return this; }
 	public GunConfig inspect(int inspect) {				this.inspectDuration_DNA = inspect; return this; }
 	public GunConfig crosshair(Crosshair crosshair) {	this.crosshair_DNA = crosshair; return this; }
+	public GunConfig hideCrosshair(boolean flag) {		this.hideCrosshair_DNA = flag; return this; }
 	public GunConfig reloadSequential(boolean flag) {	this.reloadAnimationsSequential_DNA = flag; return this; }
 
 	public GunConfig smoke(BiConsumer<ItemStack, LambdaContext> smoke) {			this.smokeHandler_DNA = smoke; return this; }

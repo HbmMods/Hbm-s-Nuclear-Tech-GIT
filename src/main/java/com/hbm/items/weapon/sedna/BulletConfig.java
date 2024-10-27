@@ -83,6 +83,7 @@ public class BulletConfig {
 	public BulletConfig setVel(float velocity) {										this.velocity = velocity; return this; }
 	public BulletConfig setSpread(float spread) {										this.spread = spread; return this; }
 	public BulletConfig setWear(float wear) {											this.wear = wear; return this; }
+	public BulletConfig setProjectiles(int amount) {									this.projectilesMin = this.projectilesMax = amount; return this; }
 	public BulletConfig setProjectiles(int min, int max) {								this.projectilesMin = min; this.projectilesMax = max; return this; }
 	public BulletConfig setDamage(float damageMult) {									this.damageMult = damageMult; return this; }
 	public BulletConfig setArmorPiercing(float armorPiercingPercent) {					this.armorPiercingPercent = armorPiercingPercent; return this; }

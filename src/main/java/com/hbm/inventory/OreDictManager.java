@@ -310,7 +310,7 @@ public class OreDictManager {
 	public static final DictGroup ANY_HARDPLASTIC = new DictGroup("AnyHardPlastic", PC, PVC);
 	/** Any post nuclear steel like TCA or CDA */
 	public static final DictGroup ANY_RESISTANTALLOY = new DictGroup("AnyResistantAlloy", TCALLOY, CDALLOY);
-	/** Any post nuclear steel like TCA or CDA */
+	/** Any post RBMK bronze like BB or AB */
 	public static final DictGroup ANY_BISMOIDBRONZE = new DictGroup("AnyBismoidBronze", BBRONZE, ABRONZE);
 	/** Any "powder" propellant like gunpowder, ballistite and cordite */
 	public static final DictFrame ANY_GUNPOWDER = new DictFrame("AnyPropellant");
@@ -462,11 +462,11 @@ public class OreDictManager {
 		 * RARE METALS
 		 */
 		AUSTRALIUM	.nugget(nugget_australium)	.billet(billet_australium)	.ingot(ingot_australium)	.dust(powder_australium)	.block(block_australium)	.ore(ore_australium);
-		REIIUM		.nugget(nugget_reiium)									.ingot(ingot_reiium)		.dust(powder_reiium)		.block(block_reiium);
-		WEIDANIUM	.nugget(nugget_weidanium)								.ingot(ingot_weidanium)		.dust(powder_weidanium)		.block(block_weidanium);
-		UNOBTAINIUM	.nugget(nugget_unobtainium)								.ingot(ingot_unobtainium)	.dust(powder_unobtainium)	.block(block_unobtainium);
-		VERTICIUM	.nugget(nugget_verticium)								.ingot(ingot_verticium)		.dust(powder_verticium)		.block(block_verticium);
-		DAFFERGON	.nugget(nugget_daffergon)								.ingot(ingot_daffergon)		.dust(powder_daffergon)		.block(block_daffergon);
+		REIIUM		.block(block_reiium);
+		WEIDANIUM	.block(block_weidanium);
+		UNOBTAINIUM	.block(block_unobtainium);
+		VERTICIUM	.block(block_verticium);
+		DAFFERGON	.block(block_daffergon);
 
 		/*
 		 * RARE EARTHS
@@ -547,6 +547,7 @@ public class OreDictManager {
 		for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.smeltable == SmeltingBehavior.SMELTABLE) {
 				if(mat.shapes.contains(MaterialShapes.BOLT)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.BOLT.name() + name, new ItemStack(ModItems.bolt, 1, mat.id));
+				if(mat.shapes.contains(MaterialShapes.INGOT)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.INGOT.name() + name, new ItemStack(ModItems.ingot_raw, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.CASTPLATE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.CASTPLATE.name() + name, new ItemStack(ModItems.plate_cast, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.WELDEDPLATE)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.WELDEDPLATE.name() + name, new ItemStack(ModItems.plate_welded, 1, mat.id));
 				if(mat.shapes.contains(MaterialShapes.HEAVY_COMPONENT)) for(String name : mat.names) OreDictionary.registerOre(MaterialShapes.HEAVY_COMPONENT.name() + name, new ItemStack(ModItems.heavy_component, 1, mat.id));
@@ -650,16 +651,6 @@ public class OreDictManager {
 
 		OreDictionary.registerOre("container1000lubricant", bdcl);
 		OreDictionary.registerOre("itemSilicon", billet_silicon);
-		
-		//Legacy wires
-		OreDictionary.registerOre(AL.wireFine(), wire_aluminium);
-		OreDictionary.registerOre(CU.wireFine(), wire_copper);
-		OreDictionary.registerOre(MINGRADE.wireFine(), wire_red_copper);
-		OreDictionary.registerOre(GOLD.wireFine(), wire_gold);
-		OreDictionary.registerOre(W.wireFine(), wire_tungsten);
-		OreDictionary.registerOre(ALLOY.wireFine(), wire_advanced_alloy);
-		OreDictionary.registerOre(MAGTUNG.wireFine(), wire_magnetized_tungsten);
-		OreDictionary.registerOre(SA326.wireFine(), wire_schrabidium);
 		
 		for(NTMMaterial mat : Mats.orderedList) {
 			if(mat.shapes.contains(MaterialShapes.FRAGMENT)) {

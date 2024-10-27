@@ -22,6 +22,7 @@ import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
@@ -40,7 +41,7 @@ public class Lego {
 	 * If IDLE and the mag of receiver 0 can be loaded, set state to RELOADING. Used by keybinds. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_RELOAD = (stack, ctx) -> {
 		
-		EntityPlayer player = ctx.player;
+		EntityPlayer player = ctx.getPlayer();
 		Receiver rec = ctx.config.getReceivers(stack)[0];
 		GunState state = ItemGunBaseNT.getState(stack, ctx.configIndex);
 		
@@ -49,8 +50,8 @@ public class Lego {
 			ItemGunBaseNT.setIsAiming(stack, false);
 			IMagazine mag = rec.getMagazine(stack);
 			
-			if(mag.canReload(stack, ctx.player)) {
-				int loaded = mag.getAmount(stack);
+			if(mag.canReload(stack, ctx.inventory)) {
+				int loaded = mag.getAmount(stack, ctx.inventory);
 				mag.setAmountBeforeReload(stack, loaded);
 				ItemGunBaseNT.setState(stack, ctx.configIndex, GunState.RELOADING);
 				ItemGunBaseNT.setTimer(stack, ctx.configIndex, rec.getReloadBeginDuration(stack) + (loaded <= 0 ? rec.getReloadCockOnEmptyPre(stack) : 0));
@@ -64,7 +65,8 @@ public class Lego {
 	/** If IDLE and ammo is loaded, fire and set to JUST_FIRED. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_CLICK_PRIMARY = (stack, ctx) -> {
 
-		EntityPlayer player = ctx.player;
+		EntityLivingBase entity = ctx.entity;
+		EntityPlayer player = ctx.getPlayer();
 		Receiver rec = ctx.config.getReceivers(stack)[0];
 		int index = ctx.configIndex;
 		GunState state = ItemGunBaseNT.getState(stack, index);
@@ -75,7 +77,7 @@ public class Lego {
 				rec.getOnFire(stack).accept(stack, ctx);
 				
 				if(rec.getFireSound(stack) != null)
-					player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack));
+					entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack));
 				
 				int remaining = rec.getRoundsPerCycle(stack) - 1;
 				for(int i = 0; i < remaining; i++) if(rec.getCanFire(stack).apply(stack, ctx)) rec.getOnFire(stack).accept(stack, ctx);
@@ -86,7 +88,7 @@ public class Lego {
 				
 				if(rec.getDoesDryFire(stack)) {
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE_DRY, index);
-					ItemGunBaseNT.setState(stack, index, GunState.DRAWING);
+					ItemGunBaseNT.setState(stack, index, rec.getDoesDryFireAfterAuto(stack) ? GunState.COOLDOWN : GunState.DRAWING);
 					ItemGunBaseNT.setTimer(stack, index, rec.getDelayAfterDryFire(stack));
 				}
 			}
@@ -96,7 +98,7 @@ public class Lego {
 	/** If IDLE, switch mode between 0 and 1. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_CLICK_SECONDARY = (stack, ctx) -> {
 
-		EntityPlayer player = ctx.player;
+		EntityLivingBase entity = ctx.entity;
 		int index = ctx.configIndex;
 		GunState state = ItemGunBaseNT.getState(stack, index);
 		
@@ -104,9 +106,9 @@ public class Lego {
 			int mode = ItemGunBaseNT.getMode(stack, 0);
 			ItemGunBaseNT.setMode(stack, index, 1 - mode);
 			if(mode == 0)
-				player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.switchmode1", 1F, 1F);
+				entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:weapon.switchmode1", 1F, 1F);
 			else
-				player.worldObj.playSoundEffect(player.posX, player.posY, player.posZ, "hbm:weapon.switchmode2", 1F, 1F);
+				entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:weapon.switchmode2", 1F, 1F);
 		}
 	};
 	
@@ -118,10 +120,10 @@ public class Lego {
 	
 	/** Default smoke. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_SMOKE = (stack, ctx) -> {
-		handleStandardSmoke(ctx.player, stack, 2000, 0.025D, 1.15D, ctx.configIndex);
+		handleStandardSmoke(ctx.entity, stack, 2000, 0.025D, 1.15D, ctx.configIndex);
 	};
 	
-	public static void handleStandardSmoke(EntityPlayer player, ItemStack stack, int smokeDuration, double alphaDecay, double widthGrowth, int index) {
+	public static void handleStandardSmoke(EntityLivingBase entity, ItemStack stack, int smokeDuration, double alphaDecay, double widthGrowth, int index) {
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		long lastShot = gun.lastShot[index];
 		List<SmokeNode> smokeNodes = gun.getConfig(stack, index).smokeNodes;
@@ -130,16 +132,16 @@ public class Lego {
 		if(!smoking && !smokeNodes.isEmpty()) smokeNodes.clear();
 		
 		if(smoking) {
-			Vec3 prev = Vec3.createVectorHelper(-player.motionX, -player.motionY, -player.motionZ);
-			prev.rotateAroundY((float) (player.rotationYaw * Math.PI / 180D));
+			Vec3 prev = Vec3.createVectorHelper(-entity.motionX, -entity.motionY, -entity.motionZ);
+			prev.rotateAroundY((float) (entity.rotationYaw * Math.PI / 180D));
 			double accel = 15D;
-			double side = (player.rotationYaw - player.prevRotationYawHead) * 0.1D;
+			double side = (entity.rotationYaw - entity.prevRotationYawHead) * 0.1D;
 			double waggle = 0.025D;
 			
 			for(SmokeNode node : smokeNodes) {
-				node.forward += -prev.zCoord * accel + player.worldObj.rand.nextGaussian() * waggle;
+				node.forward += -prev.zCoord * accel + entity.worldObj.rand.nextGaussian() * waggle;
 				node.lift += prev.yCoord + 1.5D;
-				node.side += prev.xCoord * accel + player.worldObj.rand.nextGaussian() * waggle + side;
+				node.side += prev.xCoord * accel + entity.worldObj.rand.nextGaussian() * waggle + side;
 				if(node.alpha > 0) node.alpha -= alphaDecay;
 				node.width *= widthGrowth;
 			}
@@ -154,52 +156,66 @@ public class Lego {
 	
 	/** Toggles isAiming. Used by keybinds. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_TOGGLE_AIM = (stack, ctx) -> { ItemGunBaseNT.setIsAiming(stack, !ItemGunBaseNT.getIsAiming(stack)); };
+
+	/** Returns true if the mag has ammo in it. Used by keybind functions on whether to fire, and deciders on whether to trigger a refire. */
+	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_STANDARD_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack, ctx.inventory) > 0; };
 	
-	/** Returns true if the mag has ammo in it. Used by keybind functions on whether to fire, and deciders on whether to trigger a refire, */
-	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_STANDARD_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack) > 0; };
+	/** Returns true if the mag has ammo in it, and the gun is in the locked on state */
+	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_LOCKON_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack, ctx.inventory) > 0 && ItemGunBaseNT.getIsLockedOn(stack); };
 
 	
 	
 	
 	/** JUMPER - bypasses mag testing and just allows constant fire */
 	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_DEBUG_CAN_FIRE = (stack, ctx) -> { return true; };
-	
+
 	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_FIRE = (stack, ctx) -> {
-		doStandardFire(stack, ctx, AnimType.CYCLE);
+		doStandardFire(stack, ctx, AnimType.CYCLE, true);
+	};
+	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg, ignores wear */
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_NOWEAR_FIRE = (stack, ctx) -> {
+		doStandardFire(stack, ctx, AnimType.CYCLE, false);
+	};
+	/** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg, then resets lockon progress */
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_LOCKON_FIRE = (stack, ctx) -> {
+		doStandardFire(stack, ctx, AnimType.CYCLE, true);
+		ItemGunBaseNT.setIsLockedOn(stack, false);
 	};
 	
-	public static void doStandardFire(ItemStack stack, LambdaContext ctx, AnimType anim) {
-		EntityPlayer player = ctx.player;
+	public static void doStandardFire(ItemStack stack, LambdaContext ctx, AnimType anim, boolean calcWear) {
+		EntityLivingBase entity = ctx.entity;
+		EntityPlayer player = ctx.getPlayer();
 		int index = ctx.configIndex;
 		if(anim != null) ItemGunBaseNT.playAnimation(player, stack, anim, ctx.configIndex);
 		
 		float aim = ItemGunBaseNT.getIsAiming(stack) ? 0.25F : 1F;
 		Receiver primary = ctx.config.getReceivers(stack)[0];
 		IMagazine mag = primary.getMagazine(stack);
-		BulletConfig config = (BulletConfig) mag.getType(stack);
+		BulletConfig config = (BulletConfig) mag.getType(stack, ctx.inventory);
 		
 		Vec3 offset = primary.getProjectileOffset(stack);
 		double forwardOffset = offset.xCoord;
 		double heightOffset = offset.yCoord;
 		double sideOffset = ItemGunBaseNT.getIsAiming(stack) ? 0 : offset.zCoord;
 		
-		/*forwardOffset = 1;
-		heightOffset = -0.0625 * 1.5;
-		sideOffset = -0.1875D;*/
+		/*forwardOffset = 0.75;
+		heightOffset = -0.125;
+		sideOffset = -0.25D;*/
 		
 		int projectiles = config.projectilesMin;
-		if(config.projectilesMax > config.projectilesMin) projectiles += player.getRNG().nextInt(config.projectilesMax - config.projectilesMin + 1);
+		if(config.projectilesMax > config.projectilesMin) projectiles += entity.getRNG().nextInt(config.projectilesMax - config.projectilesMin + 1);
 		
 		for(int i = 0; i < projectiles; i++) {
-			float damage = primary.getBaseDamage(stack) * getStandardWearDamage(stack, ctx.config, index);
-			float spread = primary.getGunSpread(stack) * aim + getStandardWearSpread(stack, ctx.config, index) * 0.125F;
-			EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(player, config, damage, spread, sideOffset, heightOffset, forwardOffset);
-			player.worldObj.spawnEntityInWorld(mk4);
+			float damage = primary.getBaseDamage(stack) * (calcWear ? getStandardWearDamage(stack, ctx.config, index) : 1);
+			float spread = primary.getGunSpread(stack) * aim + (calcWear ? getStandardWearSpread(stack, ctx.config, index) * 0.125F : 0F);
+			EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
+			if(ItemGunBaseNT.getIsLockedOn(stack)) mk4.lockonTarget = entity.worldObj.getEntityByID(ItemGunBaseNT.getLockonTarget(stack));
+			entity.worldObj.spawnEntityInWorld(mk4);
 		}
 		
-		mag.setAmount(stack, mag.getAmount(stack) - 1);
-		ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
+		mag.useUpAmmo(stack, ctx.inventory, 1);
+		if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
 	}
 	
 	public static float getStandardWearSpread(ItemStack stack, GunConfig config, int index) {

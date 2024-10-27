@@ -1,5 +1,6 @@
 package com.hbm.items.weapon.sedna;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
@@ -9,6 +10,8 @@ import com.hbm.interfaces.IItemHUD;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
+import com.hbm.items.weapon.sedna.mags.IMagazine;
+import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -16,6 +19,7 @@ import com.hbm.packet.toclient.GunAnimationPacket;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -23,11 +27,14 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -59,25 +66,40 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	public static final String KEY_RELOAD = "reload_";
 	public static final String KEY_LASTANIM = "lastanim_";
 	public static final String KEY_ANIMTIMER = "animtimer_";
+	public static final String KEY_LOCKONTARGET = "lockontarget";
+	public static final String KEY_LOCKEDON = "lockedon";
 	
-	public static ConcurrentHashMap<EntityPlayer, AudioWrapper> loopedSounds = new ConcurrentHashMap();
+	public static ConcurrentHashMap<EntityLivingBase, AudioWrapper> loopedSounds = new ConcurrentHashMap();
 
 	public static float prevAimingProgress;
 	public static float aimingProgress;
 	
 	/** NEVER ACCESS DIRECTLY - USE GETTER */
-	private GunConfig[] configs_DNA;
+	protected GunConfig[] configs_DNA;
+	
+	public WeaponQuality quality;
 	
 	public GunConfig getConfig(ItemStack stack, int index) {
 		GunConfig cfg = configs_DNA[index];
 		return WeaponUpgradeManager.eval(cfg, stack, O_GUNCONFIG + index, this);
 	}
 	
-	public ItemGunBaseNT(GunConfig... cfg) {
+	public ItemGunBaseNT(WeaponQuality quality, GunConfig... cfg) {
 		this.setMaxStackSize(1);
 		this.configs_DNA = cfg;
+		this.quality = quality;
 		this.lastShot = new long[cfg.length];
 		this.setCreativeTab(MainRegistry.weaponTab);
+		this.setTextureName(RefStrings.MODID + ":gun_darter");
+	}
+	
+	public static enum WeaponQuality {
+		A_SIDE,
+		B_SIDE,
+		LEGENDARY,
+		SEPCIAL,
+		SECRET,
+		DEBUG
 	}
 
 	public static enum GunState {
@@ -89,6 +111,29 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		JAMMED,		//gun is jammed, either after reloading or while firing
 	}
 	
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		
+		int configs = this.configs_DNA.length;
+		for(int i = 0; i < configs; i++) {
+			GunConfig config = getConfig(stack, i);
+			for(Receiver rec : config.getReceivers(stack)) {
+				IMagazine mag = rec.getMagazine(stack);
+				list.add("Ammo: " + mag.getIconForHUD(stack, player).getDisplayName() + " " + mag.reportAmmoStateForHUD(stack, player));
+				list.add("Base Damage: " + rec.getBaseDamage(stack));
+			}
+		}
+		
+		switch(this.quality) {
+		case A_SIDE: list.add(EnumChatFormatting.YELLOW + "Standard Arsenal"); break;
+		case B_SIDE: list.add(EnumChatFormatting.GOLD + "B-Side"); break;
+		case LEGENDARY: list.add(EnumChatFormatting.RED + "Legendary Weapon"); break;
+		case SEPCIAL: list.add(EnumChatFormatting.AQUA + "Special Weapon"); break;
+		case SECRET: list.add(EnumChatFormatting.DARK_RED + "SECRET"); break;
+		case DEBUG: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.YELLOW : EnumChatFormatting.GOLD) + "DEBUG"); break;
+		}
+	}
+	
 	@Override
 	public boolean canHandleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind) {
 		return keybind == EnumKeybind.GUN_PRIMARY || keybind == EnumKeybind.GUN_SECONDARY || keybind == EnumKeybind.GUN_TERTIARY || keybind == EnumKeybind.RELOAD;
@@ -96,12 +141,15 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	
 	@Override
 	public void handleKeybind(EntityPlayer player, ItemStack stack, EnumKeybind keybind, boolean newState) {
-		
+		handleKeybind(player, player.inventory, stack, keybind, newState);
+	}
+
+	public void handleKeybind(EntityLivingBase entity, IInventory inventory, ItemStack stack, EnumKeybind keybind, boolean newState) {
 		int configs = this.configs_DNA.length;
 		
 		for(int i = 0; i < configs; i++) {
 			GunConfig config = getConfig(stack, i);
-			LambdaContext ctx = new LambdaContext(config, player, i);
+			LambdaContext ctx = new LambdaContext(config, entity, inventory, i);
 	
 			if(keybind == EnumKeybind.GUN_PRIMARY &&	newState && !getPrimary(stack, i)) {	if(config.getPressPrimary(stack) != null)		config.getPressPrimary(stack).accept(stack, ctx);		this.setPrimary(stack, i, newState);	continue; }
 			if(keybind == EnumKeybind.GUN_PRIMARY &&	!newState && getPrimary(stack, i)) {	if(config.getReleasePrimary(stack) != null)		config.getReleasePrimary(stack).accept(stack, ctx);		this.setPrimary(stack, i, newState);	continue; }
@@ -130,14 +178,14 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean isHeld) {
 		
-		if(!(entity instanceof EntityPlayer)) return;
+		if(!(entity instanceof EntityLivingBase)) return;
 		EntityPlayer player = entity instanceof EntityPlayer ? (EntityPlayer) entity : null;
 		int confNo = this.configs_DNA.length;
 		GunConfig[] configs = new GunConfig[confNo];
 		LambdaContext[] ctx = new LambdaContext[confNo];
 		for(int i = 0; i < confNo; i++) {
 			configs[i] = this.getConfig(stack, i);
-			ctx[i] = new LambdaContext(configs[i], player, i);
+			ctx[i] = new LambdaContext(configs[i], (EntityLivingBase) entity, player != null ? player.inventory : null, i);
 		}
 		
 		if(world.isRemote) {
@@ -231,6 +279,11 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	// GUN AIMING //
 	public static float getWear(ItemStack stack, int index) { return getValueFloat(stack, KEY_WEAR + index); }
 	public static void setWear(ItemStack stack, int index, float value) { setValueFloat(stack, KEY_WEAR + index, value); }
+	// LOCKON //
+	public static int getLockonTarget(ItemStack stack) { return getValueInt(stack, KEY_LOCKONTARGET); }
+	public static void setLockonTarget(ItemStack stack, int value) { setValueInt(stack, KEY_LOCKONTARGET, value); }
+	public static boolean getIsLockedOn(ItemStack stack) { return getValueBool(stack, KEY_LOCKEDON); }
+	public static void setIsLockedOn(ItemStack stack, boolean value) { setValueBool(stack, KEY_LOCKEDON, value); }
 	// ANIM TRACKING //
 	public static AnimType getLastAnim(ItemStack stack, int index) { return EnumUtil.grabEnumSafely(AnimType.class, getValueInt(stack, KEY_LASTANIM + index)); }
 	public static void setLastAnim(ItemStack stack, int index, AnimType value) { setValueInt(stack, KEY_LASTANIM + index, value.ordinal()); }
@@ -264,13 +317,20 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	/** Wrapper for extra context used in most Consumer lambdas which are part of the guncfg */
 	public static class LambdaContext {
 		public final GunConfig config;
-		public final EntityPlayer player;
+		public final EntityLivingBase entity;
+		public final IInventory inventory;
 		public final int configIndex;
 		
-		public LambdaContext(GunConfig config, EntityPlayer player, int configIndex) {
+		public LambdaContext(GunConfig config, EntityLivingBase player, IInventory inventory, int configIndex) {
 			this.config = config;
-			this.player = player;
+			this.entity = player;
+			this.inventory = inventory;
 			this.configIndex = configIndex;
+		}
+
+		public EntityPlayer getPlayer() {
+			if(!(entity instanceof EntityPlayer)) return null;
+			return (EntityPlayer) entity;
 		}
 	}
 
@@ -282,8 +342,9 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		
 		if(type == ElementType.CROSSHAIRS) {
 			event.setCanceled(true);
-			if(aimingProgress >= 1F) return;
-			RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, gun.getConfig(stack, 0).getCrosshair(stack));
+			GunConfig config = gun.getConfig(stack, 0);
+			if(config.getHideCrosshair(stack) && aimingProgress >= 1F) return;
+			RenderScreenOverlay.renderCustomCrosshairs(event.resolution, Minecraft.getMinecraft().ingameGUI, config.getCrosshair(stack));
 		}
 		
 		int confNo = this.configs_DNA.length;

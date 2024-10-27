@@ -5,6 +5,7 @@ import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GLContext;
 
 import com.hbm.blocks.ICustomBlockHighlight;
+import com.hbm.config.ClientConfig;
 import com.hbm.config.RadiationConfig;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.items.armor.IArmorDisableModel;
@@ -115,11 +116,11 @@ public class ModEventHandlerRenderer {
 
 		EntityPlayer player = event.entityPlayer;
 		RenderPlayer renderer = event.renderer;
-
+		
 		boolean akimbo = false;
 
 		ItemStack held = player.getHeldItem();
-
+		
 		if(held != null) {
 			IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(held, IItemRenderer.ItemRenderType.EQUIPPED);
 			if(customRenderer instanceof ItemRenderWeaponBase) {
@@ -131,7 +132,7 @@ public class ModEventHandlerRenderer {
 		}
 
 		boolean isManly = PermaSyncHandler.boykissers.contains(player.getEntityId());
-
+		
 		if(akimbo) {
 			ModelBiped biped = renderer.modelBipedMain;
 			renderer.modelArmorChestplate.bipedLeftArm.rotateAngleY = renderer.modelArmor.bipedLeftArm.rotateAngleY = biped.bipedLeftArm.rotateAngleY =
@@ -158,7 +159,7 @@ public class ModEventHandlerRenderer {
 			if(f6 > 1.0F) {
 				f6 = 1.0F;
 			}
-
+			
 			manlyModel.render(event.entityPlayer, f7, f6, yawWrapped, yaw, pitch, 0.0625F, renderer);
 		}
 	}
@@ -175,14 +176,14 @@ public class ModEventHandlerRenderer {
 			}
 		}
 	}
-
+	
 	@SubscribeEvent
 	public void onRenderHeldGun(RenderPlayerEvent.Pre event) {
 
 		EntityPlayer player = event.entityPlayer;
 		RenderPlayer renderer = event.renderer;
 		ItemStack held = player.getHeldItem();
-
+		
 		if(held != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT) {
 			renderer.modelBipedMain.aimedBow = true;
 			renderer.modelArmor.aimedBow = true;
@@ -209,7 +210,7 @@ public class ModEventHandlerRenderer {
 		if(held == null) return;
 
 		IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(held, IItemRenderer.ItemRenderType.EQUIPPED);
-
+		
 		if(customRenderer instanceof ItemRenderWeaponBase) {
 			ItemRenderWeaponBase renderWeapon = (ItemRenderWeaponBase) customRenderer;
 			if(renderWeapon.isAkimbo()) {
@@ -250,16 +251,16 @@ public class ModEventHandlerRenderer {
 
 		if(manlyModel == null)
 			manlyModel = new ModelMan();
-
+		
 		event.renderItem = false;
 
 		float f2 = 1.3333334F;
 
 		ItemStack held = player.getHeldItem();
-
+		
 		if(held == null)
 			return;
-
+		
 		GL11.glPushMatrix();
 		manlyModel.rightArm.postRender(0.0625F);
 		GL11.glTranslatef(-0.0625F, 0.4375F, 0.0625F);
@@ -357,16 +358,16 @@ public class ModEventHandlerRenderer {
 		default: return null;
 		}
 	}
-
+	
 	@SubscribeEvent
 	public void onDrawHighlight(DrawBlockHighlightEvent event) {
 		MovingObjectPosition mop = event.target;
-
+		
 		if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
 			Block b = event.player.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
 			if(b instanceof ICustomBlockHighlight) {
 				ICustomBlockHighlight cus = (ICustomBlockHighlight) b;
-
+				
 				if(cus.shouldDrawHighlight(event.player.worldObj, mop.blockX, mop.blockY, mop.blockZ)) {
 					cus.drawHighlight(event, event.player.worldObj, mop.blockX, mop.blockY, mop.blockZ);
 					event.setCanceled(true);
@@ -444,17 +445,17 @@ public class ModEventHandlerRenderer {
 			GL11.glPopMatrix();
 		}
 	}*/
-
+	
 	float renderSoot = 0;
-
+	
 	@SubscribeEvent
 	public void worldTick(WorldTickEvent event) {
-
+		
 		if(event.phase == event.phase.START && RadiationConfig.enableSootFog) {
 
 			float step = 0.05F;
 			float soot = PermaSyncHandler.pollution[PollutionType.SOOT.ordinal()];
-
+			
 			if(Math.abs(renderSoot - soot) < step) {
 				renderSoot = soot;
 			} else if(renderSoot < soot) {
@@ -469,7 +470,7 @@ public class ModEventHandlerRenderer {
 	public void thickenFog(FogDensity event) {
 		float soot = (float) (renderSoot - RadiationConfig.sootFogThreshold);
 		if(soot > 0 && RadiationConfig.enableSootFog) {
-
+			
 			float farPlaneDistance = (float) (Minecraft.getMinecraft().gameSettings.renderDistanceChunks * 16);
 			float fogDist = farPlaneDistance / (1 + soot * 5F / (float) RadiationConfig.sootFogDivisor);
 			GL11.glFogf(GL11.GL_FOG_START, 0);
@@ -483,10 +484,10 @@ public class ModEventHandlerRenderer {
 			event.setCanceled(true);
 		}
 	}
-
+	
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void tintFog(FogColors event) {
-
+		
 		EntityPlayer player = MainRegistry.proxy.me();
 		if(player.worldObj.getBlock((int) Math.floor(player.posX), (int) Math.floor(player.posY), (int) Math.floor(player.posZ)).getMaterial() != Material.water) {
 			Vec3 color = getFogBlendColor(player.worldObj, (int) Math.floor(player.posX), (int) Math.floor(player.posZ), event.red, event.green, event.blue, event.renderPartialTicks);
@@ -496,7 +497,7 @@ public class ModEventHandlerRenderer {
 				event.blue = (float) color.zCoord;
 			}
 		}
-
+		
 		float soot = (float) (renderSoot - RadiationConfig.sootFogThreshold);
 		float sootColor = 0.15F;
 		float sootReq = (float) RadiationConfig.sootFogDivisor;
@@ -507,11 +508,11 @@ public class ModEventHandlerRenderer {
 			event.blue = event.blue * (1 - interp) + sootColor * interp;
 		}
 	}
-
+	
 	@SubscribeEvent
 	public void onRenderHUD(RenderGameOverlayEvent.Pre event) {
-
-		if(event.type == ElementType.HOTBAR && (ModEventHandlerClient.shakeTimestamp + ModEventHandlerClient.shakeDuration - System.currentTimeMillis()) > 0) {
+		
+		if(event.type == ElementType.HOTBAR && (ModEventHandlerClient.shakeTimestamp + ModEventHandlerClient.shakeDuration - System.currentTimeMillis()) > 0 && ClientConfig.NUKE_HUD_SHAKE.get()) {
 			double mult = (ModEventHandlerClient.shakeTimestamp + ModEventHandlerClient.shakeDuration - System.currentTimeMillis()) / (double) ModEventHandlerClient.shakeDuration * 2;
 			double horizontal = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.02), -0.7, 0.7) * 15;
 			double vertical = MathHelper.clamp_double(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 3;
@@ -521,13 +522,13 @@ public class ModEventHandlerRenderer {
 
 	@SubscribeEvent
 	public void onRenderHand(RenderHandEvent event) {
-
+		
 		//can't use plaxer.getHeldItem() here because the item rendering persists for a few frames after hitting the switch key
 		ItemStack toRender = Minecraft.getMinecraft().entityRenderer.itemRenderer.itemToRender;
-
+		
 		if(toRender != null) {
 			IItemRenderer renderer = MinecraftForgeClient.getItemRenderer(toRender, ItemRenderType.EQUIPPED_FIRST_PERSON);
-
+			
 			if(renderer instanceof ItemRenderWeaponBase) {
 				((ItemRenderWeaponBase) renderer).setPerspectiveAndRender(toRender, event.partialTicks);
 				event.setCanceled(true);
@@ -541,10 +542,10 @@ public class ModEventHandlerRenderer {
 	private static Vec3 fogRGBMultiplier;
 	private static boolean doesBiomeApply = false;
 	private static long fogTimer = 0;
-
+	
 	/** Same procedure as getting the blended sky color but for fog */
 	public static Vec3 getFogBlendColor(World world, int playerX, int playerZ, float red, float green, float blue, double partialTicks) {
-
+		
 		long millis = System.currentTimeMillis() - fogTimer;
 		if(playerX == fogX && playerZ == fogZ && fogInit && millis < 3000) return fogRGBMultiplier;
 
@@ -553,7 +554,7 @@ public class ModEventHandlerRenderer {
 		GameSettings settings = Minecraft.getMinecraft().gameSettings;
 		int[] ranges = ForgeModContainer.blendRanges;
 		int distance = 0;
-
+		
 		if(settings.fancyGraphics && settings.renderDistanceChunks >= 0) {
 			distance = ranges[Math.min(settings.renderDistanceChunks, ranges.length - 1)];
 		}
@@ -561,10 +562,10 @@ public class ModEventHandlerRenderer {
 		float r = 0F;
 		float g = 0F;
 		float b = 0F;
-
+		
 		int divider = 0;
 		doesBiomeApply = false;
-
+		
 		for(int x = -distance; x <= distance; x++) {
 			for(int z = -distance; z <= distance; z++) {
 				BiomeGenBase biome = world.getBiomeGenForCoords(playerX + x,  playerZ + z);
@@ -578,7 +579,7 @@ public class ModEventHandlerRenderer {
 
 		fogX = playerX;
 		fogZ = playerZ;
-
+		
 		if(doesBiomeApply) {
 			fogRGBMultiplier = Vec3.createVectorHelper(r / divider, g / divider, b / divider);
 		} else {
@@ -587,25 +588,25 @@ public class ModEventHandlerRenderer {
 
 		return fogRGBMultiplier;
 	}
-
+	
 	/** Returns the current biome's fog color adjusted for brightness if in a crater, or the world's cached fog color if not */
 	public static Vec3 getBiomeFogColors(World world, BiomeGenBase biome, float r, float g, float b, double partialTicks) {
-
+		
 		if(biome instanceof BiomeGenCraterBase) {
 			int color = biome.getSkyColorByTemp(biome.temperature);
 			r = ((color & 0xff0000) >> 16) / 255F;
 			g = ((color & 0x00ff00) >> 8) / 255F;
 			b = (color & 0x0000ff) / 255F;
-
+			
 			float celestialAngle = world.getCelestialAngle((float) partialTicks);
 			float skyBrightness = MathHelper.clamp_float(MathHelper.cos(celestialAngle * (float) Math.PI * 2.0F) * 2.0F + 0.5F, 0F, 1F);
 			r *= skyBrightness;
 			g *= skyBrightness;
 			b *= skyBrightness;
-
+			
 			doesBiomeApply = true;
 		}
-
+		
 		return Vec3.createVectorHelper(r, g, b);
 	}
 }
