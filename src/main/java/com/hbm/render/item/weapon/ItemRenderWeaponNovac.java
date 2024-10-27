@@ -44,7 +44,6 @@ public class ItemRenderWeaponNovac implements IItemRenderer {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 
 		if(item.getItem() == ModItems.gun_revolver_nopip) Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.novac_tex);
-		if(item.getItem() == ModItems.gun_revolver_pip) Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.lil_pip_tex);
 		if(item.getItem() == ModItems.gun_revolver_blackjack) Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.blackjack_tex);
 		if(item.getItem() == ModItems.gun_revolver_silver) Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.lent_gun_tex);
 		if(item.getItem() == ModItems.gun_revolver_red) Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.red_key_tex);
@@ -79,11 +78,6 @@ public class ItemRenderWeaponNovac implements IItemRenderer {
 			HbmAnimations.applyRelevantTransformation("Trigger");
 			ResourceManager.novac.renderPart("Trigger");
 			GL11.glPopMatrix();
-
-			if (item.getItem() == ModItems.gun_revolver_pip) {
-				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.novac_scope_tex);
-				ResourceManager.novac.renderPart("Scope");
-			}
 
 			GL11.glShadeModel(GL11.GL_FLAT);
 			
@@ -128,11 +122,6 @@ public class ItemRenderWeaponNovac implements IItemRenderer {
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		ResourceManager.novac.renderAllExcept("Scope");
-
-		if(item.getItem() == ModItems.gun_revolver_pip) {
-			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.novac_scope_tex);
-			ResourceManager.novac.renderPart("Scope");
-		}
 
 		GL11.glShadeModel(GL11.GL_FLAT);
 		

@@ -88,7 +88,7 @@ public class Lego {
 				
 				if(rec.getDoesDryFire(stack)) {
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE_DRY, index);
-					ItemGunBaseNT.setState(stack, index, rec.getDoesDryFireAfterAuto(stack) ? GunState.COOLDOWN : GunState.DRAWING);
+					ItemGunBaseNT.setState(stack, index, rec.getRefireAfterDry(stack) ? GunState.COOLDOWN : GunState.DRAWING);
 					ItemGunBaseNT.setTimer(stack, index, rec.getDelayAfterDryFire(stack));
 				}
 			}

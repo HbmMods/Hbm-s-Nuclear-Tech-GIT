@@ -60,6 +60,12 @@ public class LegoClient {
 		renderBulletStandard(Tessellator.instance, 0x9E082E, 0xFF8A79, length, true);
 	};
 	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_LEGENDARY_BULLET = (bullet, interp) -> {
+		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
+		if(length <= 0) return;
+		renderBulletStandard(Tessellator.instance, 0x7F006E, 0xFF7FED, length, true);
+	};
+	
 	public static void renderBulletStandard(Tessellator tess, int dark, int light, double length, boolean fullbright) { renderBulletStandard(tess, dark, light, length, 0.03125D, 0.03125D * 0.25D, fullbright); }
 	
 	public static void renderBulletStandard(Tessellator tess, int dark, int light, double length, double widthF, double widthB, boolean fullbright) {
@@ -189,6 +195,23 @@ public class LegoClient {
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.rocket_tex);
 		ResourceManager.projectiles.renderPart("Rocket");
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glPopMatrix();
+		
+		GL11.glTranslatef(0.375F, 0, 0);
+		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
+		if(length > 0) renderBulletStandard(Tessellator.instance, 0x808080, 0xFFF2A7, length * 2, true);
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_ML = (bullet, interp) -> {
+
+		GL11.glPushMatrix();
+		GL11.glScalef(0.25F, 0.25F, 0.25F);
+		GL11.glRotated(-90, 0, 1, 0);
+		GL11.glTranslatef(0, -1, -4.5F);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.missile_launcher_tex);
+		ResourceManager.missile_launcher.renderPart("Missile");
 		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 		

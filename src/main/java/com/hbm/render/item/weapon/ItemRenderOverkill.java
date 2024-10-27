@@ -89,8 +89,6 @@ public class ItemRenderOverkill implements IItemRenderer {
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipSilver.png"));
 				if(item.getItem() == ModItems.gun_revolver_red)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipRed.png"));
-				if(item.getItem() == ModItems.gun_minigun)
-					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLacunae.png"));
 				if(item.getItem() == ModItems.gun_lacunae)
 					Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLacunaeReal.png"));
 				if(item.getItem() == ModItems.gun_folly)
@@ -118,8 +116,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 					GL11.glTranslatef(-0.2F, 0.0F, -0.2F);
 				}
 				
-				if(item.getItem() == ModItems.gun_lacunae ||
-						item.getItem() == ModItems.gun_minigun) {
+				if(item.getItem() == ModItems.gun_lacunae) {
 					GL11.glRotatef(-15.0F, 0.0F, 0.0F, 1.0F);
 					GL11.glRotatef(180, 0, 1, 0);
 					GL11.glTranslatef(0.5F, 0.3F, -0.2F);
@@ -142,8 +139,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 				if(item.getItem() == ModItems.gun_defabricator)
 					defab.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 				
-				if(item.getItem() == ModItems.gun_lacunae ||
-						item.getItem() == ModItems.gun_minigun)
+				if(item.getItem() == ModItems.gun_lacunae)
 					lacunae.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, ItemGunBase.readNBT(item, "rot"));
 				
 				if(item.getItem() == ModItems.gun_folly) {
@@ -177,8 +173,6 @@ public class ItemRenderOverkill implements IItemRenderer {
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipSilver.png"));
 			if(item.getItem() == ModItems.gun_revolver_red)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipRed.png"));
-			if(item.getItem() == ModItems.gun_minigun)
-				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLacunae.png"));
 			if(item.getItem() == ModItems.gun_lacunae)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLacunaeReal.png"));
 			if(item.getItem() == ModItems.gun_folly)
@@ -209,8 +203,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 				GL11.glScalef(0.60F, 0.60F, 0.60F);
 				GL11.glTranslatef(0.7F, 0.3F, 0.0F);
 			}
-			if(item.getItem() == ModItems.gun_lacunae ||
-					item.getItem() == ModItems.gun_minigun) {
+			if(item.getItem() == ModItems.gun_lacunae) {
 				GL11.glRotatef(5.0F, 0.0F, 0.0F, 1.0F);
 				GL11.glRotatef(185, 0, 1, 0);
 				GL11.glTranslatef(0.5F, 0.6F, 0.2F);
@@ -230,8 +223,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 			if(item.getItem() == ModItems.gun_defabricator)
 				defab.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			
-			if(item.getItem() == ModItems.gun_lacunae ||
-					item.getItem() == ModItems.gun_minigun)
+			if(item.getItem() == ModItems.gun_lacunae)
 				lacunae.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, f);
 			
 			if(item.getItem() == ModItems.gun_folly) {
@@ -264,8 +256,6 @@ public class ItemRenderOverkill implements IItemRenderer {
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipSilver.png"));
 			if(item.getItem() == ModItems.gun_revolver_red)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelPipRed.png"));
-			if(item.getItem() == ModItems.gun_minigun)
-				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLacunae.png"));
 			if(item.getItem() == ModItems.gun_lacunae)
 				Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/ModelLacunaeReal.png"));
 			if(item.getItem() == ModItems.gun_folly)
@@ -284,8 +274,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 			if(item.getItem() == ModItems.gun_calamity) {
 				GL11.glScalef(0.75F, 0.75F, 0.75F);
 			}
-			if(item.getItem() == ModItems.gun_lacunae ||
-					item.getItem() == ModItems.gun_minigun) {
+			if(item.getItem() == ModItems.gun_lacunae) {
 				GL11.glTranslatef(0, -1, 0);
 				GL11.glRotatef(180.0F, 0.0F, 1.0F, 0.0F);
 			}
@@ -301,8 +290,7 @@ public class ItemRenderOverkill implements IItemRenderer {
 			if(item.getItem() == ModItems.gun_defabricator)
 				defab.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 			
-			if(item.getItem() == ModItems.gun_lacunae ||
-					item.getItem() == ModItems.gun_minigun)
+			if(item.getItem() == ModItems.gun_lacunae)
 				lacunae.render((Entity)data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, f);
 			
 			if(item.getItem() == ModItems.gun_folly) {
