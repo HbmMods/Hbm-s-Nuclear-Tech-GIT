@@ -58,3 +58,4 @@
 * Fixed tutorial presentations triggering when hitting F1 not just in the inventory but also when looking at the block in question
 * Fixed a bug regarding shift clicking in the breeding reactor
 * Fixed empty particle capsules not being extractable from the ICF pellet maker
+* Fixed issue regarding mass storage filters when using GTNH-NEI

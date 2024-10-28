@@ -46,7 +46,7 @@ public class ItemGunStinger extends ItemGunBaseNT {
 			if(!world.isRemote) {
 				int prevTarget = this.getLockonTarget(stack);
 				if(isHeld && this.getIsLockingOn(stack) && this.getIsAiming(stack) && this.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, player.inventory) > 0) {
-					int newLockonTarget = this.getLockonTarget(player);
+					int newLockonTarget = this.getLockonTarget(player, 150D, 10D);
 					
 					if(newLockonTarget == -1) {
 						if(!this.getIsLockedOn(stack)) resetLockon(world, stack);
@@ -84,18 +84,22 @@ public class ItemGunStinger extends ItemGunBaseNT {
 		this.setLockonProgress(stack, this.getLockonProgress(stack) + 1);
 	}
 	
-	public static int getLockonTarget(EntityPlayer player) {
+	public static int getLockonTarget(EntityPlayer player, double distance, double angleThreshold) {
+		
+		if(player == null) return -1;
 
 		double x = player.posX;
 		double y = player.posY + player.getEyeHeight();
 		double z = player.posZ;
-		
-		Vec3NT delta = new Vec3NT(player.getLook(1F)).multiply(150);
+
+		Vec3NT delta = new Vec3NT(player.getLook(1F)).multiply(distance);
 		Vec3NT look = new Vec3NT(delta).add(x, y, z);
+		Vec3NT left = new Vec3NT(delta).add(x, y, z).rotateAroundYDeg(-angleThreshold).add(0, 10, 0);
+		Vec3NT right = new Vec3NT(delta).add(x, y, z).rotateAroundYDeg(angleThreshold).add(0, -10, 0);
 		Vec3NT pos = new Vec3NT(x, y, z);
 		
-		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(Vec3NT.getMinX(look, pos), Vec3NT.getMinY(look, pos), Vec3NT.getMinZ(look, pos),
-				Vec3NT.getMaxX(look, pos), Vec3NT.getMaxY(look, pos), Vec3NT.getMaxZ(look, pos));
+		AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(Vec3NT.getMinX(look, left, right, pos), Vec3NT.getMinY(look, left, right, pos), Vec3NT.getMinZ(look, left, right, pos),
+				Vec3NT.getMaxX(look, left, right, pos), Vec3NT.getMaxY(look, left, right, pos), Vec3NT.getMaxZ(look, left, right, pos));
 		List<Entity> entities = player.worldObj.getEntitiesWithinAABBExcludingEntity(player, aabb);
 		Entity closestEntity = null;
 		double closestAngle = 360D;
@@ -110,7 +114,7 @@ public class ItemGunStinger extends ItemGunBaseNT {
 			double bot = toEntity.lengthVector() * delta.lengthVector();
 			double angle = Math.abs(Math.acos(vecProd / bot) * 180 / Math.PI);
 			
-			if(angle < closestAngle && angle < 10) {
+			if(angle < closestAngle && angle < angleThreshold) {
 				closestAngle = angle;
 				closestEntity = entity;
 			}

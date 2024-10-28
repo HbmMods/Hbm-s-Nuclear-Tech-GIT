@@ -42,6 +42,7 @@ public class XFactory12ga {
 	public static BulletConfig g12_explosive;
 	public static BulletConfig g12_phosphorus;
 	public static BulletConfig g12_anthrax;
+	public static BulletConfig g12_equestrian;
 	
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE = (bullet, mop) -> {
 		Lego.standardExplode(bullet, mop, 2F); bullet.setDead();
@@ -59,6 +60,7 @@ public class XFactory12ga {
 		g12_explosive = new BulletConfig().setItem(EnumAmmo.G12_EXPLOSIVE).setOnImpact(LAMBDA_STANDARD_EXPLODE).setSpread(0F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xDA4127, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_EXPLOSIVE"));
 		g12_phosphorus = new BulletConfig().setItem(EnumAmmo.G12_PHOSPHORUS).setProjectiles(8).setSpread(0.015F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x910001, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_PHOSPHORUS"));
 		g12_anthrax = new BulletConfig().setItem(EnumAmmo.G12_ANTHRAX).setProjectiles(8).setSpread(0.015F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x749300, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_ANTHRAX"));
+		g12_equestrian = new BulletConfig().setItem(EnumAmmo.G12_EQUESTRIAN).setDamage(0F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_EQUESTRIAN, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12gaEquestrian"));
 
 		BulletConfig[] all = new BulletConfig[] {g12_bp, g12_bp_magnum, g12_bp_slug, g12, g12_slug, g12_flechette, g12_magnum, g12_explosive, g12_phosphorus, g12_anthrax};
 		
@@ -124,7 +126,7 @@ public class XFactory12ga {
 				.setupStandardConfiguration().ps(LAMBDA_SPAS_SECONDARY).pt(null)
 				.anim(LAMBDA_SPAS_ANIMS).orchestra(Orchestras.ORCHESTRA_SPAS)
 				).setUnlocalizedName("gun_spas12");
-		
+
 		ModItems.gun_autoshotgun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(2_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
@@ -135,6 +137,16 @@ public class XFactory12ga {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_SHREDDER_ANIMS).orchestra(Orchestras.ORCHESTRA_SHREDDER)
 				).setUnlocalizedName("gun_autoshotgun");
+		ModItems.gun_autoshotgun_sexy = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
+				.dura(5_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(15F).delay(1).auto(true).dryfireAfterAuto(true).reload(44).jam(19).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(0, 100).addConfigs(g12_equestrian, g12_bp, g12_bp_magnum, g12_bp_slug, g12, g12_slug, g12_flechette, g12_magnum, g12_explosive, g12_phosphorus, g12_anthrax))
+						.offset(0.75, -0.125, -0.25)
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+				.setupStandardConfiguration()
+				.anim(LAMBDA_SEXY_ANIMS).orchestra(Orchestras.ORCHESTRA_SHREDDER_SEXY)
+				).setUnlocalizedName("gun_autoshotgun_sexy");
 	}
 	//TODO: make generic code for this crap
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SPAS_SECONDARY = (stack, ctx) -> {
@@ -373,5 +385,17 @@ public class XFactory12ga {
 		}
 		
 		return null;
+	};
+
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_SEXY_ANIMS = (stack, type) -> {
+		switch(type) {
+		case CYCLE: return new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, -1, 50, IType.SIN_DOWN).addPos(0, 0, 0, 150, IType.SIN_FULL))
+				.addBus("CYCLE", new BusAnimationSequence().addPos(0, 0, 18, 50));
+		case CYCLE_DRY: return new BusAnimation()
+				.addBus("CYCLE", new BusAnimationSequence().addPos(0, 0, 18, 50));
+		}
+		
+		return LAMBDA_SHREDDER_ANIMS.apply(stack, type);
 	};
 }

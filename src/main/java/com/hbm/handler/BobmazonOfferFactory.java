@@ -250,7 +250,6 @@ public class BobmazonOfferFactory {
 				ModItems.ammo_12gauge.stackFromEnum(64, Ammo12Gauge.SHRAPNEL),
 				ModItems.ammo_12gauge.stackFromEnum(64, Ammo12Gauge.SHRAPNEL),
 				ModItems.ammo_12gauge.stackFromEnum(4, Ammo12Gauge.MARAUDER),
-				new ItemStack(ModItems.gun_sauer),
 				new ItemStack(ModItems.ammo_4gauge, 64),
 				ModItems.ammo_4gauge.stackFromEnum(64, Ammo4Gauge.CLAW),
 				ModItems.ammo_4gauge.stackFromEnum(64, Ammo4Gauge.KAMPF),

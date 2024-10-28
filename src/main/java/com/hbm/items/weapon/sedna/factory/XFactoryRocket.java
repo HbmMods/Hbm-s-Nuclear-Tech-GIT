@@ -35,6 +35,8 @@ public class XFactoryRocket {
 	public static BulletConfig rocket_rpzb_heat;
 	public static BulletConfig rocket_qd_he;
 	public static BulletConfig rocket_qd_heat;
+	public static BulletConfig rocket_ml_he;
+	public static BulletConfig rocket_ml_heat;
 
 	public static Consumer<EntityBulletBaseMK4> LAMBDA_STANDARD_ACCELERATE = (bullet) -> {
 		if(bullet.accel < 7) bullet.accel += 0.4D;
@@ -80,6 +82,10 @@ public class XFactoryRocket {
 				.setOnImpact(LAMBDA_STANDARD_EXPLODE).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STEERING_ACCELERATE);
 		rocket_qd_heat = new BulletConfig().setItem(EnumAmmo.ROCKET_HEAT).setLife(400).setDamage(1.5F).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
 				.setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STEERING_ACCELERATE);
+		rocket_ml_he = new BulletConfig().setItem(EnumAmmo.ROCKET_HE).setLife(300).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
+				.setOnImpact(LAMBDA_STANDARD_EXPLODE).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STANDARD_ACCELERATE);
+		rocket_ml_heat = new BulletConfig().setItem(EnumAmmo.ROCKET_HEAT).setLife(300).setDamage(1.5F).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
+				.setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STANDARD_ACCELERATE);
 
 		ModItems.gun_panzerschreck = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)
@@ -104,7 +110,7 @@ public class XFactoryRocket {
 				).setUnlocalizedName("gun_stinger");
 
 		ModItems.gun_quadro = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
-				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
+				.dura(400).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
 						.dmg(25F).delay(10).reload(55).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 4).addConfigs(rocket_qd_he, rocket_qd_heat))
@@ -113,10 +119,33 @@ public class XFactoryRocket {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_QUADRO_ANIMS).orchestra(Orchestras.ORCHESTRA_QUADRO)
 				).setUnlocalizedName("gun_quadro");
+
+		ModItems.gun_missile_launcher = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
+				.dura(500).draw(20).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
+				.rec(new Receiver(0)
+						.dmg(25F).delay(5).reload(48).jam(33).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
+						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_ml_he, rocket_ml_heat))
+						.offset(1, -0.0625 * 1.5, -0.1875D)
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+				.setupStandardConfiguration().pp(LAMBDA_MISSILE_LAUNCHER_PRIMARY_PRESS)
+				.anim(LAMBDA_MISSILE_LAUNCHER_ANIMS).orchestra(Orchestras.ORCHESTRA_MISSILE_LAUNCHER)
+				).setUnlocalizedName("gun_missile_launcher");
 	}
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STINGER_SECONDARY_PRESS = (stack, ctx) -> { ItemGunStinger.setIsLockingOn(stack, true); };
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STINGER_SECONDARY_RELEASE = (stack, ctx) -> { ItemGunStinger.setIsLockingOn(stack, false); };
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_MISSILE_LAUNCHER_PRIMARY_PRESS = (stack, ctx) -> {
+		if(ItemGunBaseNT.getIsAiming(stack)) {
+			int target = ItemGunStinger.getLockonTarget(ctx.getPlayer(), 150D, 20D);
+			if(target != -1) {
+				ItemGunBaseNT.setLockonTarget(stack, target);
+				ItemGunBaseNT.setIsLockedOn(stack, true);
+			}
+		}
+		Lego.LAMBDA_STANDARD_CLICK_PRIMARY.accept(stack, ctx);
+		ItemGunBaseNT.setIsLockedOn(stack, false);
+	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_PANZERSCHRECK_ANIMS = (stack, type) -> {
 		boolean empty = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, MainRegistry.proxy.me().inventory) <= 0;
@@ -147,6 +176,24 @@ public class XFactoryRocket {
 		case JAMMED:
 		case INSPECT: return new BusAnimation()
 				.addBus("RELOAD_ROTATE", new BusAnimationSequence().addPos(0, 0, 60, 750, IType.SIN_FULL).addPos(0, 0, 60, 500).addPos(0, 0, 0, 750, IType.SIN_FULL));
+		}
+		return null;
+	};
+
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_MISSILE_LAUNCHER_ANIMS = (stack, type) -> {
+		switch(type) {
+		case EQUIP: return new BusAnimation()
+				.addBus("EQUIP", new BusAnimationSequence().addPos(60, 0, 0, 0).addPos(0, 0, 0, 1000, IType.SIN_DOWN));
+		case RELOAD: return new BusAnimation()
+				.addBus("BARREL", new BusAnimationSequence().addPos(0, 0, 1.5, 150).addPos(0, 0, 1.5, 2100).addPos(0, 0, 0, 150))
+				.addBus("OPEN", new BusAnimationSequence().addPos(0, 0, 0, 250).addPos(90, 0, 0, 500, IType.SIN_FULL).addPos(90, 0, 0, 1000).addPos(0, 0, 0, 500, IType.SIN_FULL))
+				.addBus("EQUIP", new BusAnimationSequence().addPos(0, 0, 0, 2250).addPos(-1, 0, 0, 150, IType.SIN_DOWN).addPos(0, 0, 0, 150, IType.SIN_UP))
+				.addBus("MISSILE", new BusAnimationSequence().addPos(-10, 0, 0, 0).addPos(-10, 0, 0, 750).addPos(3, 0, 2, 0).addPos(0, 0, -6, 350, IType.SIN_FULL).addPos(0, 0, 0, 350, IType.SIN_UP));
+		case JAMMED:
+		case INSPECT: return new BusAnimation()
+				.addBus("BARREL", new BusAnimationSequence().addPos(0, 0, 1.5, 150).addPos(0, 0, 1.5, 1350).addPos(0, 0, 0, 150))
+				.addBus("OPEN", new BusAnimationSequence().addPos(0, 0, 0, 250).addPos(90, 0, 0, 500, IType.SIN_FULL).addPos(90, 0, 0, 250).addPos(0, 0, 0, 500, IType.SIN_FULL))
+				.addBus("EQUIP", new BusAnimationSequence().addPos(0, 0, 0, 1500).addPos(-1, 0, 0, 150, IType.SIN_DOWN).addPos(0, 0, 0, 150, IType.SIN_UP));
 		}
 		return null;
 	};
