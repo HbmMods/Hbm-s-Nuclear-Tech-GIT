@@ -15,28 +15,24 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ExtPropPacket implements IMessage {
-	
-	PacketBuffer buffer;
+
+	ByteBuf buffer;
 
 	public ExtPropPacket() { }
 
-	public ExtPropPacket(NBTTagCompound nbt) {
-		
-		this.buffer = new PacketBuffer(Unpooled.buffer());
-		
-		try {
-			buffer.writeNBTTagCompoundToBuffer(nbt);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public ExtPropPacket(ByteBuf buf) {
+
+		this.buffer = Unpooled.buffer();
+		buffer.writeBytes(buf);
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		
+
 		if (buffer == null) {
 			buffer = new PacketBuffer(Unpooled.buffer());
 		}
@@ -45,7 +41,7 @@ public class ExtPropPacket implements IMessage {
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		
+
 		if (buffer == null) {
 			buffer = new PacketBuffer(Unpooled.buffer());
 		}
@@ -53,26 +49,22 @@ public class ExtPropPacket implements IMessage {
 	}
 
 	public static class Handler implements IMessageHandler<ExtPropPacket, IMessage> {
-		
+
 		@Override
 		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(ExtPropPacket m, MessageContext ctx) {
-			
+
 			if(Minecraft.getMinecraft().theWorld == null)
 				return null;
-			
-			try {
-				
-				NBTTagCompound nbt = m.buffer.readNBTTagCompoundFromBuffer();
-				HbmLivingProps props = HbmLivingProps.getData(Minecraft.getMinecraft().thePlayer);
-				HbmPlayerProps pprps = HbmPlayerProps.getData(Minecraft.getMinecraft().thePlayer);
-				props.loadNBTData(nbt);
-				pprps.loadNBTData(nbt);
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
+
+			ByteBuf buf = Unpooled.buffer();
+
+			HbmLivingProps props = HbmLivingProps.getData(Minecraft.getMinecraft().thePlayer);
+			HbmPlayerProps pprps = HbmPlayerProps.getData(Minecraft.getMinecraft().thePlayer);
+
+			props.deserialize(buf);
+			pprps.deserialize(buf);
+
 			return null;
 		}
 	}

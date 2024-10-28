@@ -64,9 +64,6 @@ public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidS
 				age = 0;
 			}
 
-			NBTTagCompound data = new NBTTagCompound();
-			this.tanks[0].writeToNBT(data, "0");
-
 			if(this.waterTimer > 0)
 				this.waterTimer--;
 
@@ -89,8 +86,6 @@ public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidS
 
 				postConvert(convert);
 			}
-
-			this.tanks[1].writeToNBT(data, "1");
 
 			this.subscribeToAllAround(tanks[0].getTankType(), this);
 			this.sendFluidToAll(tanks[1], this);
