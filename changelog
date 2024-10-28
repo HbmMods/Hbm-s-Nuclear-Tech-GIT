@@ -45,6 +45,8 @@
 * Ore dict recipe autogen for crucible molds now prioritizes NTM's own items over any other ore dict compatible item
 * If a cracking tower's input is set to an incorrect type, the input and steam tanks are now preserved instead of being set to NONE
 * Removed legacy wire items
+* Removed random ore, along with its configs
+* DFC emitters are now only 95% efficient instead of 98%
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines
@@ -59,3 +61,4 @@
 * Fixed a bug regarding shift clicking in the breeding reactor
 * Fixed empty particle capsules not being extractable from the ICF pellet maker
 * Fixed issue regarding mass storage filters when using GTNH-NEI
+* Fixed DFC emitters calculating their original 98% inefficiency twice when hitting another emitter or tungsten crate

@@ -3,7 +3,6 @@ package com.hbm.main;
 import com.google.common.collect.ImmutableList;
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockToolConversion;
 import com.hbm.commands.*;
 import com.hbm.config.*;
@@ -871,8 +870,6 @@ public class MainRegistry {
 		AchievementHandler.register();
 
 		proxy.registerMissileItems();
-		
-		BlockMotherOfAllOres.init();
 
 		// Load compatibility for OC.
 		CompatHandler.init();
@@ -1456,6 +1453,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.powder_unobtainium");
 		ignoreMappings.add("hbm:item.powder_daffergon");
 		ignoreMappings.add("hbm:item.powder_verticium");
+		ignoreMappings.add("hbm:tile.ore_random");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

@@ -3,6 +3,7 @@ package com.hbm.particle;
 import java.awt.Color;
 
 import com.hbm.main.ModEventHandlerClient;
+import com.hbm.particle.helper.FlameCreator;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,7 +13,7 @@ import net.minecraft.world.World;
 @SideOnly(Side.CLIENT)
 public class ParticleFlamethrower extends EntityFXRotating {
 
-	public ParticleFlamethrower(World world, double x, double y, double z) {
+	public ParticleFlamethrower(World world, double x, double y, double z, int type) {
 		super(world, x, y, z);
 		particleIcon = ModEventHandlerClient.particleBase;
 		this.particleMaxAge = 20 + rand.nextInt(10);
@@ -20,8 +21,13 @@ public class ParticleFlamethrower extends EntityFXRotating {
 
 		this.motionX = world.rand.nextGaussian() * 0.02;
 		this.motionZ = world.rand.nextGaussian() * 0.02;
+		
+		float initialColor = 15F + rand.nextFloat() * 25F;
 
-		Color color = Color.getHSBColor((15F + rand.nextFloat() * 25F) / 255F, 1F, 1F);
+		if(type == FlameCreator.META_BALEFIRE) initialColor = 65F + rand.nextFloat() * 35F;
+		if(type == FlameCreator.META_DIGAMMA) initialColor = 0F - rand.nextFloat() * 15F;
+
+		Color color = Color.getHSBColor(initialColor / 255F, 1F, 1F);
 		this.particleRed = color.getRed() / 255F;
 		this.particleGreen = color.getGreen() / 255F;
 		this.particleBlue = color.getBlue() / 255F;

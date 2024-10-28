@@ -96,7 +96,7 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 				
 				if(joules > 0) {
 					
-					long out = joules * 98 / 100;
+					long out = joules * 95 / 100;
 					
 					ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
 					for(int i = 1; i <= range; i++) {
@@ -110,20 +110,9 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 						Block block = worldObj.getBlock(x, y, z);
 						TileEntity te = worldObj.getTileEntity(x, y, z);
 						
-						if(block instanceof ILaserable) {
-							((ILaserable)block).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
-							break;
-						}
-						
-						if(te instanceof ILaserable) {
-							((ILaserable)te).addEnergy(worldObj, x, y, z, out * 98 / 100, dir);
-							break;
-						}
-						
-						if(te instanceof TileEntityCore) {
-							out = ((TileEntityCore)te).burn(out);
-							continue;
-						}
+						if(block instanceof ILaserable) { ((ILaserable)block).addEnergy(worldObj, x, y, z, out, dir); break; }
+						if(te instanceof ILaserable) { ((ILaserable)te).addEnergy(worldObj, x, y, z, out, dir); break; }
+						if(te instanceof TileEntityCore) { out = ((TileEntityCore)te).burn(out); continue; }
 						
 						Block b = worldObj.getBlock(x, y, z);
 						
