@@ -119,16 +119,13 @@ public class GunFactoryClient {
 		g12_anthrax.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		g12_equestrian.setRenderer(LegoClient.RENDER_LEGENDARY_BULLET);
 		
-		g40_flare.setRenderer(LegoClient.RENDER_FLARE);
+		g26_flare.setRenderer(LegoClient.RENDER_FLARE);
 		
-		setRendererBulk(LegoClient.RENDER_GRENADE,
-				g40_he);
-		setRendererBulk(LegoClient.RENDER_RPZB,
-				rocket_rpzb_he, rocket_rpzb_heat);
-		setRendererBulk(LegoClient.RENDER_QD,
-				rocket_qd_he, rocket_qd_heat);
-		setRendererBulk(LegoClient.RENDER_ML,
-				rocket_ml_he, rocket_ml_heat);
+		setRendererBulk(LegoClient.RENDER_GRENADE, g40_he, g40_heat, g40_demo, g40_inc);
+		
+		setRendererBulk(LegoClient.RENDER_RPZB, rocket_rpzb);
+		setRendererBulk(LegoClient.RENDER_QD, rocket_qd);
+		setRendererBulk(LegoClient.RENDER_ML, rocket_ml);
 		//HUDS
 		((ItemGunBaseNT) ModItems.gun_debug)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_pepperbox)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);

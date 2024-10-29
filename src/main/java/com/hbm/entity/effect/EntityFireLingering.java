@@ -79,15 +79,17 @@ public class EntityFireLingering extends Entity {
 			}
 		} else {
 
-			double x = posX - width / 2 + rand.nextDouble() * width;
-			double z = posZ - width / 2 + rand.nextDouble() * width;
-
-			Vec3 up = Vec3.createVectorHelper(x, posY + height, z);
-			Vec3 down = Vec3.createVectorHelper(x, posY - height, z);
-			MovingObjectPosition mop = worldObj.func_147447_a(up, down, false, true, true);
-			if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) down = mop.hitVec;
-			if(this.getType() == this.TYPE_DIESEL) FlameCreator.composeEffectClient(worldObj, x, down.yCoord, z, FlameCreator.META_FIRE);
-			if(this.getType() == this.TYPE_BALEFIRE) FlameCreator.composeEffectClient(worldObj, x, down.yCoord, z, FlameCreator.META_BALEFIRE);
+			for(int i = 0; i < (width >= 5 ? 2 : 1); i++) {
+				double x = posX - width / 2 + rand.nextDouble() * width;
+				double z = posZ - width / 2 + rand.nextDouble() * width;
+	
+				Vec3 up = Vec3.createVectorHelper(x, posY + height, z);
+				Vec3 down = Vec3.createVectorHelper(x, posY - height, z);
+				MovingObjectPosition mop = worldObj.func_147447_a(up, down, false, true, true);
+				if(mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) down = mop.hitVec;
+				if(this.getType() == this.TYPE_DIESEL) FlameCreator.composeEffectClient(worldObj, x, down.yCoord, z, FlameCreator.META_FIRE);
+				if(this.getType() == this.TYPE_BALEFIRE) FlameCreator.composeEffectClient(worldObj, x, down.yCoord, z, FlameCreator.META_BALEFIRE);
+			}
 		}
 	}
 

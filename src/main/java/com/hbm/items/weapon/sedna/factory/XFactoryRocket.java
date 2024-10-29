@@ -4,7 +4,14 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
+import com.hbm.entity.effect.EntityFireLingering;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -31,15 +38,11 @@ import net.minecraft.util.Vec3;
 
 public class XFactoryRocket {
 
-	public static BulletConfig rocket_he; //TODO: just make this a fucking array you moron
-	public static BulletConfig rocket_heat; //TODO: so the amount of lines increases linearly instead of exponentially
+	public static BulletConfig[] rocket_template;
 	
-	public static BulletConfig rocket_rpzb_he;
-	public static BulletConfig rocket_rpzb_heat;
-	public static BulletConfig rocket_qd_he;
-	public static BulletConfig rocket_qd_heat;
-	public static BulletConfig rocket_ml_he;
-	public static BulletConfig rocket_ml_heat;
+	public static BulletConfig[] rocket_rpzb;
+	public static BulletConfig[] rocket_qd;
+	public static BulletConfig[] rocket_ml;
 
 	// FLYING
 	public static Consumer<EntityBulletBaseMK4> LAMBDA_STANDARD_ACCELERATE = (bullet) -> {
@@ -75,6 +78,25 @@ public class XFactoryRocket {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
 		Lego.standardExplode(bullet, mop, 2.5F); bullet.setDead();
 	};
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE_DEMO = (bullet, mop) -> {
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
+		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 5F);
+		vnt.setBlockAllocator(new BlockAllocatorStandard());
+		vnt.setBlockProcessor(new BlockProcessorStandard());
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage));
+		vnt.setPlayerProcessor(new PlayerProcessorStandard());
+		vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
+		vnt.explode();
+		bullet.setDead();
+	};
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE_INC = (bullet, mop) -> {
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
+		Lego.standardExplode(bullet, mop, 3F);
+		EntityFireLingering fire = new EntityFireLingering(bullet.worldObj).setArea(6, 2).setDuration(300).setType(EntityFireLingering.TYPE_DIESEL);
+		fire.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+		bullet.worldObj.spawnEntityInWorld(fire);
+		bullet.setDead();
+	};
 	
 	public static BulletConfig makeRPZB(BulletConfig original) { return original.clone(); }
 	public static BulletConfig makeQD(BulletConfig original) { return original.clone().setLife(400).setOnUpdate(LAMBDA_STEERING_ACCELERATE); }
@@ -83,26 +105,30 @@ public class XFactoryRocket {
 	//this is starting to get messy but we need to put this crap *somewhere* and fragmenting it into a billion classes with two methods each just isn't gonna help
 	public static void init() {
 
-		rocket_he = new BulletConfig().setItem(EnumAmmo.ROCKET_HE).setLife(300).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
-				.setOnImpact(LAMBDA_STANDARD_EXPLODE).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STANDARD_ACCELERATE);
-		rocket_heat = new BulletConfig().setItem(EnumAmmo.ROCKET_HEAT).setLife(300).setDamage(1.5F).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
-				.setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STANDARD_ACCELERATE);
+		rocket_template = new BulletConfig[4];
 		
-		//not a great solution but it makes the entire ordeal a lot more bearable
-		rocket_rpzb_he =	makeRPZB(rocket_he);
-		rocket_rpzb_heat =	makeRPZB(rocket_heat);
+		BulletConfig baseRocket = new BulletConfig().setLife(300).setSelfDamageDelay(10).setVel(0F).setGrav(0D).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STANDARD_ACCELERATE);
 		
-		rocket_qd_he =		makeQD(rocket_he);
-		rocket_qd_heat =	makeQD(rocket_heat);
+		rocket_template[0] = baseRocket.clone().setItem(EnumAmmo.ROCKET_HE).setOnImpact(LAMBDA_STANDARD_EXPLODE);
+		rocket_template[1] = baseRocket.clone().setItem(EnumAmmo.ROCKET_HEAT).setDamage(1.5F).setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT);
+		rocket_template[2] = baseRocket.clone().setItem(EnumAmmo.ROCKET_DEMO).setDamage(0.5F).setOnImpact(LAMBDA_STANDARD_EXPLODE_DEMO);
+		rocket_template[3] = baseRocket.clone().setItem(EnumAmmo.ROCKET_INC).setDamage(0.75F).setOnImpact(LAMBDA_STANDARD_EXPLODE_INC);
+
+		rocket_rpzb = new BulletConfig[rocket_template.length];
+		rocket_qd = new BulletConfig[rocket_template.length];
+		rocket_ml = new BulletConfig[rocket_template.length];
 		
-		rocket_ml_he =		makeML(rocket_he);
-		rocket_ml_heat =	makeML(rocket_heat);
+		for(int i = 0; i < rocket_template.length; i++) {
+			rocket_rpzb[i] = makeRPZB(rocket_template[i]);
+			rocket_qd[i] = makeQD(rocket_template[i]);
+			rocket_ml[i] = makeML(rocket_template[i]);
+		}
 
 		ModItems.gun_panzerschreck = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
 						.dmg(25F).delay(5).reload(50).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
-						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_rpzb_he, rocket_rpzb_heat))
+						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_rpzb))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
@@ -113,7 +139,7 @@ public class XFactoryRocket {
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_BOX_OUTLINE)
 				.rec(new Receiver(0)
 						.dmg(25F).delay(5).reload(50).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
-						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_rpzb_he, rocket_rpzb_heat))
+						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_rpzb))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupLockonFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration().ps(LAMBDA_STINGER_SECONDARY_PRESS).rs(LAMBDA_STINGER_SECONDARY_RELEASE)
@@ -124,7 +150,7 @@ public class XFactoryRocket {
 				.dura(400).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
 						.dmg(25F).delay(10).reload(55).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 4).addConfigs(rocket_qd_he, rocket_qd_heat))
+						.mag(new MagazineFullReload(0, 4).addConfigs(rocket_qd))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
@@ -135,7 +161,7 @@ public class XFactoryRocket {
 				.dura(500).draw(20).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
 						.dmg(25F).delay(5).reload(48).jam(33).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
-						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_ml_he, rocket_ml_heat))
+						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_ml))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration().pp(LAMBDA_MISSILE_LAUNCHER_PRIMARY_PRESS)
