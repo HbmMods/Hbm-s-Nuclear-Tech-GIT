@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 
-import com.hbm.handler.CasingEjector;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.interfaces.IItemHUD;
 import com.hbm.items.IEquipReceiver;
@@ -14,7 +13,6 @@ import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.packet.toclient.GunAnimationPacket;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -22,7 +20,6 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -97,7 +94,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		A_SIDE,
 		B_SIDE,
 		LEGENDARY,
-		SEPCIAL,
+		SPECIAL,
 		SECRET,
 		DEBUG
 	}
@@ -128,7 +125,7 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		case A_SIDE: list.add(EnumChatFormatting.YELLOW + "Standard Arsenal"); break;
 		case B_SIDE: list.add(EnumChatFormatting.GOLD + "B-Side"); break;
 		case LEGENDARY: list.add(EnumChatFormatting.RED + "Legendary Weapon"); break;
-		case SEPCIAL: list.add(EnumChatFormatting.AQUA + "Special Weapon"); break;
+		case SPECIAL: list.add(EnumChatFormatting.AQUA + "Special Weapon"); break;
 		case SECRET: list.add(EnumChatFormatting.DARK_RED + "SECRET"); break;
 		case DEBUG: list.add((BobMathUtil.getBlink() ? EnumChatFormatting.YELLOW : EnumChatFormatting.GOLD) + "DEBUG"); break;
 		}
@@ -243,22 +240,6 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 			if(timer > 0) this.setTimer(stack, i, timer - 1);
 			if(timer <= 1) configs[i].getDecider(stack).accept(stack, ctx[i]);
 		}
-	}
-	
-	public static void trySpawnCasing(Entity entity, CasingEjector ejector, BulletConfig bullet, ItemStack stack) {
-		
-		if(ejector == null) return; //abort if the gun can't eject bullets at all
-		if(bullet == null) return; //abort if there's no valid bullet cfg
-		if(bullet.casing == null) return; //abort if the bullet is caseless
-		
-		NBTTagCompound data = new NBTTagCompound();
-		data.setString("type", "casing");
-		data.setFloat("pitch", (float) Math.toRadians(entity.rotationPitch));
-		data.setFloat("yaw", (float) Math.toRadians(entity.rotationYaw));
-		data.setBoolean("crouched", entity.isSneaking());
-		data.setString("name", bullet.casing.getName());
-		data.setInteger("ej", ejector.getId());
-		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ), new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 50));
 	}
 
 	// GUN DRAWN //

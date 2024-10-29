@@ -31,6 +31,9 @@ import net.minecraft.util.Vec3;
 
 public class XFactoryRocket {
 
+	public static BulletConfig rocket_he; //TODO: just make this a fucking array you moron
+	public static BulletConfig rocket_heat; //TODO: so the amount of lines increases linearly instead of exponentially
+	
 	public static BulletConfig rocket_rpzb_he;
 	public static BulletConfig rocket_rpzb_heat;
 	public static BulletConfig rocket_qd_he;
@@ -38,16 +41,16 @@ public class XFactoryRocket {
 	public static BulletConfig rocket_ml_he;
 	public static BulletConfig rocket_ml_heat;
 
+	// FLYING
 	public static Consumer<EntityBulletBaseMK4> LAMBDA_STANDARD_ACCELERATE = (bullet) -> {
 		if(bullet.accel < 7) bullet.accel += 0.4D;
 	};
 	public static Consumer<EntityBulletBaseMK4> LAMBDA_STEERING_ACCELERATE = (bullet) -> {
 		if(bullet.accel < 4) bullet.accel += 0.4D;
-		
 		if(bullet.getThrower() == null || !(bullet.getThrower() instanceof EntityPlayer)) return;
+		
 		EntityPlayer player = (EntityPlayer) bullet.getThrower();
 		if(Vec3.createVectorHelper(bullet.posX - player.posX, bullet.posY - player.posY, bullet.posZ - player.posZ).lengthVector() > 100) return;
-		
 		if(player.getHeldItem() == null || !(player.getHeldItem().getItem() instanceof ItemGunBaseNT) || !ItemGunBaseNT.getIsAiming(player.getHeldItem())) return;
 		
 		MovingObjectPosition mop = Library.rayTrace(player, 200, 1);
@@ -58,34 +61,42 @@ public class XFactoryRocket {
 		vec = vec.normalize();
 		
 		double speed = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).lengthVector();
-
 		bullet.motionX = vec.xCoord * speed;
 		bullet.motionY = vec.yCoord * speed;
 		bullet.motionZ = vec.zCoord * speed;
 	};
+	
+	// IMPACT
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
 		Lego.standardExplode(bullet, mop, 5F); bullet.setDead();
 	};
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE_HEAT = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
-		Lego.standardExplode(bullet, mop, 3F, 0.25F); bullet.setDead();
+		Lego.standardExplode(bullet, mop, 2.5F); bullet.setDead();
 	};
 	
+	public static BulletConfig makeRPZB(BulletConfig original) { return original.clone(); }
+	public static BulletConfig makeQD(BulletConfig original) { return original.clone().setLife(400).setOnUpdate(LAMBDA_STEERING_ACCELERATE); }
+	public static BulletConfig makeML(BulletConfig original) { return original.clone(); }
+	
+	//this is starting to get messy but we need to put this crap *somewhere* and fragmenting it into a billion classes with two methods each just isn't gonna help
 	public static void init() {
 
-		rocket_rpzb_he = new BulletConfig().setItem(EnumAmmo.ROCKET_HE).setLife(300).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
+		rocket_he = new BulletConfig().setItem(EnumAmmo.ROCKET_HE).setLife(300).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
 				.setOnImpact(LAMBDA_STANDARD_EXPLODE).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STANDARD_ACCELERATE);
-		rocket_rpzb_heat = new BulletConfig().setItem(EnumAmmo.ROCKET_HEAT).setLife(300).setDamage(1.5F).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
+		rocket_heat = new BulletConfig().setItem(EnumAmmo.ROCKET_HEAT).setLife(300).setDamage(1.5F).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
 				.setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STANDARD_ACCELERATE);
-		rocket_qd_he = new BulletConfig().setItem(EnumAmmo.ROCKET_HE).setLife(400).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
-				.setOnImpact(LAMBDA_STANDARD_EXPLODE).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STEERING_ACCELERATE);
-		rocket_qd_heat = new BulletConfig().setItem(EnumAmmo.ROCKET_HEAT).setLife(400).setDamage(1.5F).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
-				.setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STEERING_ACCELERATE);
-		rocket_ml_he = new BulletConfig().setItem(EnumAmmo.ROCKET_HE).setLife(300).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
-				.setOnImpact(LAMBDA_STANDARD_EXPLODE).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STANDARD_ACCELERATE);
-		rocket_ml_heat = new BulletConfig().setItem(EnumAmmo.ROCKET_HEAT).setLife(300).setDamage(1.5F).setSelfDamageDelay(10).setVel(0F).setGrav(0D)
-				.setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT).setOnEntityHit(null).setOnRicochet(null).setOnUpdate(LAMBDA_STANDARD_ACCELERATE);
+		
+		//not a great solution but it makes the entire ordeal a lot more bearable
+		rocket_rpzb_he =	makeRPZB(rocket_he);
+		rocket_rpzb_heat =	makeRPZB(rocket_heat);
+		
+		rocket_qd_he =		makeQD(rocket_he);
+		rocket_qd_heat =	makeQD(rocket_heat);
+		
+		rocket_ml_he =		makeML(rocket_he);
+		rocket_ml_heat =	makeML(rocket_heat);
 
 		ModItems.gun_panzerschreck = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)
