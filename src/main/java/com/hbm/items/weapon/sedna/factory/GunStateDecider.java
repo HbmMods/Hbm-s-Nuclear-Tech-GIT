@@ -84,7 +84,7 @@ public class GunStateDecider {
 				}
 			}
 			
-			mag.setAmountAfterReload(stack, mag.getAmount(stack));
+			mag.setAmountAfterReload(stack, mag.getAmount(stack, ctx.inventory));
 		}
 	}
 	

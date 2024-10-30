@@ -86,7 +86,7 @@ public class EntityAIFireGun extends EntityAIBase {
 			if(state == FireState.IDLE) {
 				GunConfig config = gun.getConfig(stack, 0);
 				Receiver rec = config.getReceivers(stack)[0];
-				if(rec.getMagazine(stack).getAmount(stack) <= 0) {
+				if(rec.getMagazine(stack).getAmount(stack, null) <= 0) {
 					updateState(FireState.RELOADING, 20, gun, stack);
 				} else if(ItemGunBaseNT.getState(stack, 0) == GunState.IDLE) {
 					updateState(FireState.FIRING, host.worldObj.rand.nextInt(burstTime), gun, stack);

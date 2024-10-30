@@ -16,7 +16,7 @@ public class MagazineFullReload extends MagazineSingleTypeBase {
 	@Override
 	public boolean canReload(ItemStack stack, IInventory inventory) {
 		
-		if(this.getAmount(stack) >= this.getCapacity(stack)) return false;
+		if(this.getAmount(stack, inventory) >= this.getCapacity(stack)) return false;
 
 		if(inventory == null) return true;
 		
@@ -24,12 +24,12 @@ public class MagazineFullReload extends MagazineSingleTypeBase {
 			ItemStack slot = inventory.getStackInSlot(i);
 			
 			if(slot != null) {
-				if(this.getAmount(stack) == 0) {
+				if(this.getAmount(stack, inventory) == 0) {
 					for(BulletConfig config : this.acceptedBullets) {
 						if(config.ammo.matchesRecipe(slot, true)) return true;
 					}
 				} else {
-					BulletConfig config = this.getType(stack);
+					BulletConfig config = this.getType(stack, inventory);
 					if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); }
 					if(config.ammo.matchesRecipe(slot, true)) return true;
 				}
@@ -44,9 +44,8 @@ public class MagazineFullReload extends MagazineSingleTypeBase {
 	public void reloadAction(ItemStack stack, IInventory inventory) {
 
 		if(inventory == null) {
-			BulletConfig config = this.getType(stack);
+			BulletConfig config = this.getType(stack, inventory);
 			if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); } //fixing broken NBT
-
 			this.setAmount(stack, this.capacity);
 			return;
 		}
@@ -57,7 +56,7 @@ public class MagazineFullReload extends MagazineSingleTypeBase {
 			if(slot != null) {
 				
 				//mag is empty, assume next best type
-				if(this.getAmount(stack) == 0) {
+				if(this.getAmount(stack, inventory) == 0) {
 					
 					for(BulletConfig config : this.acceptedBullets) {
 						if(config.ammo.matchesRecipe(slot, true)) {
@@ -71,11 +70,11 @@ public class MagazineFullReload extends MagazineSingleTypeBase {
 					}
 				//mag has a type set, only load that
 				} else {
-					BulletConfig config = this.getType(stack);
+					BulletConfig config = this.getType(stack, inventory);
 					if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); } //fixing broken NBT
 
 					if(config.ammo.matchesRecipe(slot, true)) {
-						int alreadyLoaded = this.getAmount(stack);
+						int alreadyLoaded = this.getAmount(stack, inventory);
 						int wantsToLoad = (int) Math.ceil((double) this.getCapacity(stack) / (double) config.ammoReloadCount) - (alreadyLoaded / config.ammoReloadCount);
 						int toLoad = Math.min(wantsToLoad, slot.stackSize);
 						this.setAmount(stack, Math.min((toLoad * config.ammoReloadCount) + alreadyLoaded, this.capacity));

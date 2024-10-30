@@ -9,6 +9,7 @@ import java.util.HashMap;
 public class SpentCasing implements Cloneable {
 
 	public static final int COLOR_CASE_BRASS = 0xEBC35E;
+	public static final int COLOR_CASE_EQUESTRIAN = 0x957BA0;
 	public static final int COLOR_CASE_12GA = 0x757575;
 	public static final int COLOR_CASE_4GA = 0xD8D8D8;
 	public static final int COLOR_CASE_44 = 0x3E3E3E;

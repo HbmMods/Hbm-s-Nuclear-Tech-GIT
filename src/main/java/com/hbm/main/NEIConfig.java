@@ -4,7 +4,6 @@ import java.util.List;
 
 import codechicken.nei.recipe.*;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockMotherOfAllOres.TileEntityRandomOre;
 import com.hbm.blocks.generic.BlockPlushie.TileEntityPlushie;
 import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.handler.nei.CustomMachineHandler;
@@ -78,31 +77,6 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.spotlight_fluoro_off));
 		API.hideItem(new ItemStack(ModBlocks.spotlight_halogen_off));
 		API.hideItem(new ItemStack(ModBlocks.spotlight_beam));
-		
-		API.registerHighlightIdentifier(ModBlocks.ore_random, new IHighlightHandler() {
-
-			@Override
-			public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {
-				int x = mop.blockX;
-				int y = mop.blockY;
-				int z = mop.blockZ;
-				
-				TileEntity te = world.getTileEntity(x, y, z);
-				
-				if(te instanceof TileEntityRandomOre) {
-					TileEntityRandomOre ore = (TileEntityRandomOre) te;
-					return new ItemStack(ModBlocks.ore_random, 1, ore.getStackId());
-				}
-				
-				return null;
-			}
-
-			@Override
-			public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, Layout layout) {
-				return currenttip;
-			}
-			
-		});
 		
 		API.registerHighlightIdentifier(ModBlocks.plushie, new IHighlightHandler() {
 			@Override public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {

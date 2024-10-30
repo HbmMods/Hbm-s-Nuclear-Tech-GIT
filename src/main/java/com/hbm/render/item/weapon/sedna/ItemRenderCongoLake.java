@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
+import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.render.anim.HbmAnimations;
@@ -83,13 +84,13 @@ public class ItemRenderCongoLake extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		{
 			IMagazine mag = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
-			if(gun.getLastAnim(stack, 0) != AnimType.INSPECT || mag.getAmount(stack) > 0) { //omit when inspecting and no shell is loaded
+			if(gun.getLastAnim(stack, 0) != AnimType.INSPECT || mag.getAmount(stack, MainRegistry.proxy.me().inventory) > 0) { //omit when inspecting and no shell is loaded
 				
 				Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.casings_tex);
 	
 				HbmAnimations.applyRelevantTransformation("Shell");
 	
-				SpentCasing casing = mag.getCasing(stack);
+				SpentCasing casing = mag.getCasing(stack, MainRegistry.proxy.me().inventory);
 				int[] colors = casing != null ? casing.getColors() : new int[] { SpentCasing.COLOR_CASE_40MM };
 	
 				Color shellColor = new Color(colors[0]);

@@ -55,12 +55,12 @@ public class HUDComponentAmmoCounter implements IHUDComponent {
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		IMagazine mag = gun.getConfig(stack, gunIndex).getReceivers(stack)[this.receiver].getMagazine(stack);
 		
-		if(!noCounter) mc.fontRenderer.drawString(mag.reportAmmoStateForHUD(stack), pX + 17, pZ + 6, 0xFFFFFF);
+		if(!noCounter) mc.fontRenderer.drawString(mag.reportAmmoStateForHUD(stack, player), pX + 17, pZ + 6, 0xFFFFFF);
 		
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		RenderHelper.enableGUIStandardItemLighting();
-		itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), mag.getIconForHUD(stack), pX, pZ);
+		itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), mag.getIconForHUD(stack, player), pX, pZ);
 		RenderHelper.disableStandardItemLighting();
 		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);

@@ -25,11 +25,11 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BulletConfig {
+public class BulletConfig implements Cloneable {
 	
 	public static List<BulletConfig> configs = new ArrayList();
 	
-	public final int id;
+	public int id;
 	
 	public ComparableStack ammo;
 	/** How much ammo is added to a standard mag when loading one item */
@@ -75,6 +75,13 @@ public class BulletConfig {
 	public BulletConfig() {
 		this.id = configs.size();
 		configs.add(this);
+	}
+	
+	/** Required for the clone() operation to reset the ID, otherwise the ID and config entry will be the same as the original */
+	public BulletConfig forceReRegister() {
+		this.id = configs.size();
+		configs.add(this);
+		return this;
 	}
 
 	public BulletConfig setItem(Item ammo) {											this.ammo = new ComparableStack(ammo); return this; }
@@ -193,4 +200,14 @@ public class BulletConfig {
 			}
 		}
 	};
+	
+	@Override
+	public BulletConfig clone() {
+		try {
+			BulletConfig clone = (BulletConfig) super.clone();
+			clone.forceReRegister();
+			return clone;
+		} catch(CloneNotSupportedException e) { }
+		return null;
+	}
 }

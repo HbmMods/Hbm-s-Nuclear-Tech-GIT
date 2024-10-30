@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
+import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -48,7 +49,7 @@ public class ItemRenderChemthrower extends ItemRenderWeaponBase {
 		
 		GL11.glTranslated(0, 0.875, 1.75);
 		IMagazine mag = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
-		double d = (double) mag.getAmount(stack) / (double) mag.getCapacity(stack);
+		double d = (double) mag.getAmount(stack, MainRegistry.proxy.me().inventory) / (double) mag.getCapacity(stack);
 		GL11.glRotated(135 - d * 270, 1, 0, 0);
 		GL11.glTranslated(0, -0.875, -1.75);
 		

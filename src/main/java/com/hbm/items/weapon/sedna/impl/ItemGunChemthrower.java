@@ -75,7 +75,7 @@ public class ItemGunChemthrower extends ItemGunBaseNT implements IFillableItem {
 	public static int getMagCount(ItemStack stack) { return ItemGunBaseNT.getValueInt(stack, MagazineFluid.KEY_MAG_COUNT + 0); }
 	public static void setMagCount(ItemStack stack, int value) { ItemGunBaseNT.setValueInt(stack, MagazineFluid.KEY_MAG_COUNT + 0, value); }
 	
-	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack) >= CONSUMPTION; };
+	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack, ctx.inventory) >= CONSUMPTION; };
 
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_FIRE = (stack, ctx) -> {
 		EntityLivingBase entity = ctx.entity;
@@ -92,10 +92,10 @@ public class ItemGunChemthrower extends ItemGunBaseNT implements IFillableItem {
 		double sideOffset = offset.zCoord;
 		
 		EntityChemical chem = new EntityChemical(entity.worldObj, entity, sideOffset, heightOffset, forwardOffset);
-		chem.setFluid((FluidType) mag.getType(stack));
+		chem.setFluid((FluidType) mag.getType(stack, ctx.inventory));
 		entity.worldObj.spawnEntityInWorld(chem);
 		
-		mag.setAmount(stack, mag.getAmount(stack) - CONSUMPTION);
+		mag.useUpAmmo(stack, ctx.inventory, CONSUMPTION);
 		ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + 1F, ctx.config.getDurability(stack)));
 	};
 }

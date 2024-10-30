@@ -190,8 +190,9 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements INBTPa
 		if(data.hasKey("toggle")) {
 			this.output = !output;
 		}
-		if(data.hasKey("slot")){
+		if(data.hasKey("slot") && this.getStockpile() <= 0){
 			setFilterContents(data);
+			if(slots[1] != null) slots[1].stackSize = 1;
 		}
 	}
 

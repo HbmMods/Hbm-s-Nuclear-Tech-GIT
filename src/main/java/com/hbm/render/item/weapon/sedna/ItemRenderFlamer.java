@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
+import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -61,7 +62,7 @@ public class ItemRenderFlamer extends ItemRenderWeaponBase {
 		HbmAnimations.applyRelevantTransformation("Gauge");
 		GL11.glTranslated(1.25, 1.25, 0);
 		IMagazine mag = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack);
-		GL11.glRotated(-135 + (mag.getAmount(stack) * 270D / mag.getCapacity(stack)), 0, 0, 1);
+		GL11.glRotated(-135 + (mag.getAmount(stack, MainRegistry.proxy.me().inventory) * 270D / mag.getCapacity(stack)), 0, 0, 1);
 		GL11.glTranslated(-1.25, -1.25, 0);
 		ResourceManager.flamethrower.renderPart("Gauge");
 		GL11.glPopMatrix();

@@ -3,6 +3,7 @@ package com.hbm.render.item.weapon.sedna;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
@@ -80,7 +81,7 @@ public class ItemRenderAm180 extends ItemRenderWeaponBase {
 		HbmAnimations.applyRelevantTransformation("Mag");
 		
 		GL11.glPushMatrix();
-		int mag = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack);
+		int mag = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, MainRegistry.proxy.me().inventory);
 		GL11.glTranslated(0, 0, 1.5);
 		GL11.glRotated(mag / 59D * 360D, 0, -1, 0);
 		GL11.glTranslated(0, 0, -1.5);

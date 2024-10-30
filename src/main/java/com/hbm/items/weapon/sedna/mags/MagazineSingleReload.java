@@ -16,7 +16,7 @@ public class MagazineSingleReload extends MagazineSingleTypeBase {
 	@Override
 	public boolean canReload(ItemStack stack, IInventory inventory) {
 		
-		if(this.getAmount(stack) >= this.getCapacity(stack)) return false;
+		if(this.getAmount(stack, inventory) >= this.getCapacity(stack)) return false;
 
 		if(inventory == null) return true;
 		
@@ -24,12 +24,12 @@ public class MagazineSingleReload extends MagazineSingleTypeBase {
 			ItemStack slot = inventory.getStackInSlot(i);
 			
 			if(slot != null) {
-				if(this.getAmount(stack) == 0) {
+				if(this.getAmount(stack, inventory) == 0) {
 					for(BulletConfig config : this.acceptedBullets) {
 						if(config.ammo.matchesRecipe(slot, true)) return true;
 					}
 				} else {
-					BulletConfig config = this.getType(stack);
+					BulletConfig config = this.getType(stack, inventory);
 					if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); }
 					if(config.ammo.matchesRecipe(slot, true)) return true;
 				}
@@ -44,10 +44,9 @@ public class MagazineSingleReload extends MagazineSingleTypeBase {
 	public void reloadAction(ItemStack stack, IInventory inventory) {
 
 		if(inventory == null) {
-			BulletConfig config = this.getType(stack);
-			if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); } //fixing broken 
-
-			this.setAmount(stack, this.getAmount(stack) + 1);
+			BulletConfig config = this.getType(stack, inventory);
+			if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); } //fixing broken NBT
+			this.setAmount(stack, this.getAmount(stack, inventory) + 1);
 			return;
 		}
 		
@@ -57,7 +56,7 @@ public class MagazineSingleReload extends MagazineSingleTypeBase {
 			if(slot != null) {
 				
 				//mag is empty, assume next best type
-				if(this.getAmount(stack) == 0) {
+				if(this.getAmount(stack, inventory) == 0) {
 					
 					for(BulletConfig config : this.acceptedBullets) {
 						if(config.ammo.matchesRecipe(slot, true)) {
@@ -69,11 +68,11 @@ public class MagazineSingleReload extends MagazineSingleTypeBase {
 					}
 				//mag has a type set, only load that
 				} else {
-					BulletConfig config = this.getType(stack);
+					BulletConfig config = this.getType(stack, inventory);
 					if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); } //fixing broken NBT
 
 					if(config.ammo.matchesRecipe(slot, true)) {
-						int alreadyLoaded = this.getAmount(stack);
+						int alreadyLoaded = this.getAmount(stack, inventory);
 						this.setAmount(stack, alreadyLoaded + 1);
 						inventory.decrStackSize(i, 1);
 						return;
