@@ -18,7 +18,7 @@ public class NTMMaterial {
 
 	public final int id;
 	public String[] names;
-	public Set<MaterialShapes> shapes = new HashSet();
+	public Set<MaterialShapes> autogen = new HashSet();
 	public Set<MatTraits> traits = new HashSet();
 	public SmeltingBehavior smeltable = SmeltingBehavior.NOT_SMELTABLE;
 	public int solidColorLight = 0xFF4A00;
@@ -58,8 +58,8 @@ public class NTMMaterial {
 	}
 	
 	/** Shapes for autogen */
-	public NTMMaterial setShapes(MaterialShapes... shapes) {
-		for(MaterialShapes shape : shapes) this.shapes.add(shape);
+	public NTMMaterial setAutogen(MaterialShapes... shapes) {
+		for(MaterialShapes shape : shapes) this.autogen.add(shape);
 		return this;
 	}
 	

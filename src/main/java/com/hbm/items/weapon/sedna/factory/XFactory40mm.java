@@ -30,8 +30,11 @@ import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class XFactory40mm {
 
@@ -61,11 +64,27 @@ public class XFactory40mm {
 	};
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE_INC = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
+		World world = bullet.worldObj;
 		Lego.standardExplode(bullet, mop, 3F);
-		EntityFireLingering fire = new EntityFireLingering(bullet.worldObj).setArea(5, 2).setDuration(200).setType(EntityFireLingering.TYPE_DIESEL);
+		EntityFireLingering fire = new EntityFireLingering(world).setArea(5, 2).setDuration(200).setType(EntityFireLingering.TYPE_DIESEL);
 		fire.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
-		bullet.worldObj.spawnEntityInWorld(fire);
+		world.spawnEntityInWorld(fire);
 		bullet.setDead();
+		for(int dx = -1; dx <= 1; dx++) {
+			for(int dy = -1; dy <= 1; dy++) {
+				for(int dz = -2; dz <= 2; dz++) {
+					int x = (int) Math.floor(mop.hitVec.xCoord) + dx;
+					int y = (int) Math.floor(mop.hitVec.yCoord) + dy;
+					int z = (int) Math.floor(mop.hitVec.zCoord) + dz;
+					if(world.getBlock(x, y, z).isAir(bullet.worldObj, x, y, z)) for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+						if(world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ).isFlammable(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir.getOpposite())) {
+							world.setBlock(x, y, z, Blocks.fire);
+							break;
+						}
+					}
+				}
+			}
+		}
 	};
 	
 	public static void init() {

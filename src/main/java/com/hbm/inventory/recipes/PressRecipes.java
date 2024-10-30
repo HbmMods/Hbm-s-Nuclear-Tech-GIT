@@ -33,6 +33,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class PressRecipes extends SerializableRecipe {
 
@@ -94,7 +95,7 @@ public class PressRecipes extends SerializableRecipe {
 		makeRecipe(StampType.C50, 	new OreDictStack(WEAPONSTEEL.plate()),	DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE_STEEL, 2));
 
 		for(NTMMaterial mat : Mats.orderedList) {
-			if(mat.shapes.contains(MaterialShapes.WIRE) && mat.shapes.contains(MaterialShapes.INGOT)) {
+			if(mat.autogen.contains(MaterialShapes.WIRE) && OreDictionary.doesOreNameExist(MaterialShapes.INGOT.make(mat))) {
 				makeRecipe(StampType.WIRE, new OreDictStack(MaterialShapes.INGOT.make(mat)), new ItemStack(ModItems.wire_fine, 8, mat.id));
 			}
 		}
