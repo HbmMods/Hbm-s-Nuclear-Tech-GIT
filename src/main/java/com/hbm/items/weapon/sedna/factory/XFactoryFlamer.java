@@ -72,7 +72,7 @@ public class XFactoryFlamer {
 			World world = bullet.worldObj;
 			Block b = world.getBlock(mop.blockX, mop.blockY, mop.blockZ);
 			ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
-			if(b.isFlammable(world, mop.blockX, mop.blockY, mop.blockZ, dir)) {
+			if(b.isFlammable(world, mop.blockX, mop.blockY, mop.blockZ, dir.getOpposite())) {
 				if(world.getBlock(mop.blockX + dir.offsetX, mop.blockY + dir.offsetY, mop.blockZ + dir.offsetZ).isAir(world, mop.blockX + dir.offsetX, mop.blockY + dir.offsetY, mop.blockZ + dir.offsetZ)) {
 					world.setBlock(mop.blockX + dir.offsetX, mop.blockY + dir.offsetY, mop.blockZ + dir.offsetZ, Blocks.fire);
 					return true;

@@ -1285,7 +1285,7 @@ public class AssemblerRecipes extends SerializableRecipe {
 		}
 		
 		for(NTMMaterial mat : Mats.orderedList) {
-			if(mat.shapes.contains(MaterialShapes.CASTPLATE) && mat.shapes.contains(MaterialShapes.HEAVY_COMPONENT)) {
+			if(mat.autogen.contains(MaterialShapes.CASTPLATE) && mat.autogen.contains(MaterialShapes.HEAVY_COMPONENT)) {
 				makeRecipe(new ComparableStack(ModItems.heavy_component, 1, mat.id), new AStack[] { new OreDictStack(MaterialShapes.CASTPLATE.name() + mat.names[0], 256) }, 12_000);
 			}
 		}

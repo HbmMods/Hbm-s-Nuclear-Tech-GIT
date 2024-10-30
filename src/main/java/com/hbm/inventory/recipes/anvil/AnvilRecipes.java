@@ -150,7 +150,7 @@ public class AnvilRecipes {
 		constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(DURA.ingot()), new AnvilOutput(new ItemStack(ModItems.plate_dura_steel))).setTier(3));
 
 		for(NTMMaterial mat : Mats.orderedList) {
-			if(mat.shapes.contains(MaterialShapes.WIRE) && mat.shapes.contains(MaterialShapes.INGOT)) {
+			if(mat.autogen.contains(MaterialShapes.WIRE) && OreDictionary.doesOreNameExist(MaterialShapes.INGOT.make(mat))) {
 				constructionRecipes.add(new AnvilConstructionRecipe(new OreDictStack(MaterialShapes.INGOT.name() + mat.names[0]), new AnvilOutput(new ItemStack(ModItems.wire_fine, 8, mat.id))).setTier(4));
 			}
 		}
@@ -181,10 +181,10 @@ public class AnvilRecipes {
 				new AStack[] {new OreDictStack(DNT.ingot(), 4), new ComparableStack(ModBlocks.depth_brick)},
 				new AnvilOutput(new ItemStack(ModBlocks.depth_dnt))).setTier(1916169));
 
-		for(NTMMaterial mat : Mats.orderedList) if(mat.shapes.contains(MaterialShapes.SHELL)) constructionRecipes.add(new AnvilConstructionRecipe(
+		for(NTMMaterial mat : Mats.orderedList) if(mat.autogen.contains(MaterialShapes.SHELL)) constructionRecipes.add(new AnvilConstructionRecipe(
 				new OreDictStack(MaterialShapes.PLATE.name() + mat.names[0], 4),
 				new AnvilOutput(new ItemStack(ModItems.shell, 1, mat.id))).setTier(1));
-		for(NTMMaterial mat : Mats.orderedList) if(mat.shapes.contains(MaterialShapes.PIPE)) constructionRecipes.add(new AnvilConstructionRecipe(
+		for(NTMMaterial mat : Mats.orderedList) if(mat.autogen.contains(MaterialShapes.PIPE)) constructionRecipes.add(new AnvilConstructionRecipe(
 				new OreDictStack(MaterialShapes.PLATE.name() + mat.names[0], 3),
 				new AnvilOutput(new ItemStack(ModItems.pipe, 1, mat.id))).setTier(1));
 		
