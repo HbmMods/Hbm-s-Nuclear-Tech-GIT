@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
@@ -51,11 +52,20 @@ public class DecoBlockAlt extends BlockContainer {
 		return null;
 	}
 
-    @Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
-    {
-        return Item.getItemFromBlock(ModBlocks.statue_elb);
-    }
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
+	{
+		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
+		drops.add(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb)));
+		if (this == ModBlocks.statue_elb_g || this == ModBlocks.statue_elb_f)
+		{
+			drops.add(new ItemStack(ModItems.gun_revolver_cursed, 1, 0));
+		}
+		if (this == ModBlocks.statue_elb_w || this == ModBlocks.statue_elb_f) {
+			drops.add(new ItemStack(ModItems.watch, 1, 0));
+		}
+		return drops;
+	}
 	
 	@Override
 	public int getRenderType(){
