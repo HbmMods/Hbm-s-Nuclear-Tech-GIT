@@ -153,6 +153,13 @@ public class DecoBlockAlt extends BlockContainer {
 						return true;
 					}
 				}
+				boolean cracked = player.getHeldItem().getItem() == ModItems.key_red_cracked;
+				if((player.getHeldItem().getItem() == ModItems.key_red || cracked)) {
+					if(cracked) player.getHeldItem().stackSize--;
+					world.func_147480_a(x, y, z, false);
+					this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+					return true;
+				}
 			}
 		}
 		return false;
