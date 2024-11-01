@@ -38,7 +38,7 @@ public class GunB92Cell extends Item {
 
 		list.add("Draws energy from the B92, allowing you to");
 		list.add("reload it an additional 25 times.");
-		list.add("The cell will permanently hold it's charge,");
+		list.add("The cell will permanently hold its charge,");
 		list.add("it is not meant to be used as a battery enhancement");
 		list.add("for the B92, but rather as a bomb.");
 		list.add("");
