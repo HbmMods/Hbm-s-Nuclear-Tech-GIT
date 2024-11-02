@@ -578,6 +578,8 @@ public class EntityEffectHandler {
 		double y = living.posY;
 		double z = living.posZ;
 		
+		if(living.isInWater() || living.isWet()) props.fire = 0;
+		
 		if(props.fire > 0) {
 			props.fire--;
 			if((living.ticksExisted + living.getEntityId()) % 15 == 0) living.worldObj.playSoundEffect(living.posX, living.posY + living.height / 2, living.posZ, "random.fizz", 1F, 1.5F + rand.nextFloat() * 0.5F);
