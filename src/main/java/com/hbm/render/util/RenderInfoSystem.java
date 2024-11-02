@@ -50,6 +50,8 @@ public class RenderInfoSystem {
 		if(event.type != ElementType.CROSSHAIRS)
 			return;
 		
+		//this.messages.put(-666, new InfoEntry("Halloween Preview", 666_666));
+		
 		if(this.messages.isEmpty()) 
 			return;
 		
@@ -167,13 +169,8 @@ public class RenderInfoSystem {
 
 		@Override
 		public int compareTo(Object o) {
-			
-			if(!(o instanceof InfoEntry)) {
-				return 0;
-			}
-			
+			if(!(o instanceof InfoEntry)) { return 0; }
 			InfoEntry other = (InfoEntry) o;
-			
 			return this.millis < other.millis ? -1 : this.millis > other.millis ? 1 : 0;
 		}
 	}

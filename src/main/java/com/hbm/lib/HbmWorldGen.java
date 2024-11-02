@@ -4,7 +4,6 @@ import java.util.Random;
 
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockMotherOfAllOres;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
@@ -179,12 +178,6 @@ public class HbmWorldGen implements IWorldGenerator {
 					BedrockOre.generate(world, randPosX, randPosZ, def.stack, def.acid, def.color, def.tier);
 				}
 			}
-
-			for(int k = 0; k < WorldConfig.randomSpawn; k++) {
-				BlockMotherOfAllOres.shuffleOverride(rand);
-				DungeonToolbox.generateOre(world, rand, i, j, 1, 10, 4, 30, ModBlocks.ore_random);
-			}
-			BlockMotherOfAllOres.resetOverride();
 			
 			if(GeneralConfig.enable528ColtanSpawn) {
 				DungeonToolbox.generateOre(world, rand, i, j, GeneralConfig.coltanRate, 4, 15, 40, ModBlocks.ore_coltan);

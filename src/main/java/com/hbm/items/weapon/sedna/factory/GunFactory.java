@@ -27,7 +27,7 @@ public class GunFactory {
 		
 		/// AMMO ITEMS ///
 		ModItems.ammo_debug = new Item().setUnlocalizedName("ammo_debug").setTextureName(RefStrings.MODID + ":ammo_45");
-		ModItems.ammo_standard = new ItemEnumMulti(EnumAmmo.class, true, true).setUnlocalizedName("ammo_standard").setTextureName(RefStrings.MODID + ":ammo_standard");
+		ModItems.ammo_standard = new ItemEnumMulti(EnumAmmo.class, true, true).setUnlocalizedName("ammo_standard").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_standard");
 
 		/// BULLLET CFGS ///
 		ammo_debug = new BulletConfig().setItem(ModItems.ammo_debug).setSpread(0.01F).setRicochetAngle(45).setCasing(CASING44.clone().register("DEBUG0"));
@@ -58,6 +58,7 @@ public class GunFactory {
 		XFactoryRocket.init();
 		XFactory556mm.init();
 		XFactory50.init();
+		XFactoryEnergy.init();
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
@@ -73,9 +74,10 @@ public class GunFactory {
 		R762_SP, R762_FMJ, R762_JHP, R762_AP, R762_DU,
 		BMG50_SP, BMG50_FMJ, BMG50_JHP, BMG50_AP, BMG50_DU,
 		G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12, G12_SLUG, G12_FLECHETTE, G12_MAGNUM, G12_EXPLOSIVE, G12_PHOSPHORUS, G12_ANTHRAX,
-		G40_FLARE, G40,
-		ROCKET_HE, ROCKET_HEAT,
-		FLAME_DIESEL,
+		G26_FLARE,
+		G40_HE, G40_HEAT, G40_DEMO, G40_INC, G40_PHOSPHORUS,
+		ROCKET_HE, ROCKET_HEAT, ROCKET_DEMO, ROCKET_INC, ROCKET_PHOSPHORUS,
+		FLAME_DIESEL, FLAME_GAS, FLAME_NAPALM, FLAME_BALEFIRE,
 		M44_EQUESTRIAN, G12_EQUESTRIAN, BMG50_EQUESTRIAN
 	}
 }
