@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class JetpackRegular extends JetpackBase {
+public class JetpackRegular extends JetpackFueledBase {
 
 	public JetpackRegular(FluidType fuel, int maxFuel) {
 		super(fuel, maxFuel);
