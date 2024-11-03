@@ -6,6 +6,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
+import com.hbm.render.tileentity.RenderPlushie;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -36,26 +37,41 @@ public class ItemRenderTeslaCannon extends ItemRenderWeaponBase {
 		GL11.glScaled(scale, scale, scale);
 
 		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
+		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
+		double[] cycle = HbmAnimations.getRelevantTransformation("CYCLE");
+		double[] count = HbmAnimations.getRelevantTransformation("COUNT");
+		double[] yomi = HbmAnimations.getRelevantTransformation("YOMI");
+		double[] squeeze = HbmAnimations.getRelevantTransformation("SQUEEZE");
 		
 		GL11.glTranslated(0, -2, -2);
 		GL11.glRotated(equip[0], 1, 0, 0);
 		GL11.glTranslated(0, 2, 2);
+
+		GL11.glTranslated(0, 0, recoil[2]);
+		GL11.glRotated(recoil[2] * 2, 1, 0, 0);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
-		int amount = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, MainRegistry.proxy.me().inventory);
+		int amount = Math.max((int) count[0], gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, MainRegistry.proxy.me().inventory));
 		
 		ResourceManager.tesla_cannon.renderPart("Gun");
 		ResourceManager.tesla_cannon.renderPart("Extension");
 		
+		double cogAngle = cycle[2];
+		
 		GL11.glPushMatrix();
-		GL11.glTranslated(0, -1.875, 0);
-		GL11.glRotated(-22.5, 0, 0, 1);
-		GL11.glTranslated(0, 1.875, 0);
+		GL11.glTranslated(0, -1.625, 0);
+		GL11.glRotated(cogAngle, 0, 0, 1);
+		GL11.glTranslated(0, 1.625, 0);
 		ResourceManager.tesla_cannon.renderPart("Cog");
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
+		
+		GL11.glTranslated(0, -1.625, 0);
+		GL11.glRotated(cogAngle, 0, 0, 1);
+		GL11.glTranslated(0, 1.625, 0);
+		
 		for(int i = 0; i < Math.min(amount, 8); i++) {
 			ResourceManager.tesla_cannon.renderPart("Capacitor");
 			
@@ -64,12 +80,26 @@ public class ItemRenderTeslaCannon extends ItemRenderWeaponBase {
 				GL11.glRotated(-22.5, 0, 0, 1);
 				GL11.glTranslated(0, 1.625, 0);
 			} else {
+				if(i == 4) {
+					GL11.glTranslated(0, -1.625, 0);
+					GL11.glRotated(-cogAngle, 0, 0, 1);
+					GL11.glTranslated(0, 1.625, 0);
+					GL11.glTranslated(-cogAngle * 0.5 / 22.5, 0, 0);
+				}
 				GL11.glTranslated(0.5, 0, 0);
 			}
 		}
 		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(yomi[0], yomi[1], yomi[2]);
+		GL11.glRotated(135, 0, 1, 0);
+		GL11.glScaled(squeeze[0], squeeze[1], squeeze[2]);
+		Minecraft.getMinecraft().renderEngine.bindTexture(RenderPlushie.yomiTex);
+		RenderPlushie.yomiModel.renderAll();
+		GL11.glPopMatrix();
 	}
 
 	@Override

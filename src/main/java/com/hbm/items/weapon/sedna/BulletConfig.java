@@ -6,6 +6,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.entity.projectile.EntityBulletBeamBase;
+import com.hbm.interfaces.NotableComments;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
@@ -25,6 +27,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.ForgeDirection;
 
+@NotableComments
 public class BulletConfig implements Cloneable {
 	
 	public static List<BulletConfig> configs = new ArrayList();
@@ -55,8 +58,9 @@ public class BulletConfig implements Cloneable {
 	/** Whether damage dealt to an entity is subtracted from the projectile's damage on penetration */
 	public boolean damageFalloffByPen = true;
 
-	public Consumer<EntityBulletBaseMK4> onUpdate;
+	public Consumer<Entity> onUpdate;
 	public BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> onImpact;
+	public BiConsumer<EntityBulletBeamBase, MovingObjectPosition> onImpactBeam; //fuck fuck fuck fuck i should have used a better base class here god dammit
 	public BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> onRicochet = LAMBDA_STANDARD_RICOCHET;
 	public BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> onEntityHit = LAMBDA_STANDARD_ENTITY_HIT;
 	
@@ -71,6 +75,7 @@ public class BulletConfig implements Cloneable {
 	public boolean renderRotations = true;
 	public SpentCasing casing;
 	public BiConsumer<EntityBulletBaseMK4, Float> renderer;
+	public BiConsumer<EntityBulletBeamBase, Float> rendererBeam;
 	
 	public BulletConfig() {
 		this.id = configs.size();
@@ -108,18 +113,21 @@ public class BulletConfig implements Cloneable {
 	public BulletConfig setSelfDamageDelay(int delay) {									this.selfDamageDelay = delay; return this; }
 	public BulletConfig setRenderRotations(boolean rot) {								this.renderRotations = rot; return this; }
 	public BulletConfig setCasing(SpentCasing casing) {									this.casing = casing; return this; }
-	public BulletConfig setRenderer(BiConsumer<EntityBulletBaseMK4, Float> renderer) {	this.renderer = renderer; return this; }
-
-	public BulletConfig setOnUpdate(Consumer<EntityBulletBaseMK4> lambda) {								this.onUpdate = lambda; return this; }
-	public BulletConfig setOnRicochet(BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> lambda) {	this.onRicochet = lambda; return this; }
-	public BulletConfig setOnImpact(BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> lambda) {		this.onImpact = lambda; return this; }
-	public BulletConfig setOnEntityHit(BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> lambda) {	this.onEntityHit = lambda; return this; }
 	
-	public DamageSource getDamage(EntityBulletBaseMK4 bullet, EntityLivingBase shooter, boolean bypass) {
+	public BulletConfig setRenderer(BiConsumer<EntityBulletBaseMK4, Float> renderer) {		this.renderer = renderer; return this; }
+	public BulletConfig setRendererBeam(BiConsumer<EntityBulletBeamBase, Float> renderer) {	this.rendererBeam = renderer; return this; }
+
+	public BulletConfig setOnUpdate(Consumer<Entity> lambda) {												this.onUpdate = lambda; return this; }
+	public BulletConfig setOnRicochet(BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> lambda) {		this.onRicochet = lambda; return this; }
+	public BulletConfig setOnImpact(BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> lambda) {			this.onImpact = lambda; return this; }
+	public BulletConfig setOnBeamImpact(BiConsumer<EntityBulletBeamBase, MovingObjectPosition> lambda) {	this.onImpactBeam = lambda; return this; }
+	public BulletConfig setOnEntityHit(BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> lambda) {		this.onEntityHit = lambda; return this; }
+	
+	public DamageSource getDamage(Entity projectile, EntityLivingBase shooter, boolean bypass) {
 		
 		DamageSource dmg;
 		
-		if(shooter != null) dmg = new EntityDamageSourceIndirect(damageType, bullet, shooter);
+		if(shooter != null) dmg = new EntityDamageSourceIndirect(damageType, projectile, shooter);
 		else dmg = new DamageSource(damageType);
 		
 		if(this.dmgProj) dmg.setProjectile();

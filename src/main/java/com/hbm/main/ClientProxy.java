@@ -624,9 +624,8 @@ public class ClientProxy extends ServerProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityBullet.class, new RenderRocket());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBulletBaseNT.class, new RenderBullet());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBulletBaseMK4.class, new RenderBulletMK4());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBulletBeamBase.class, new RenderBeam());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRainbow.class, new RenderRainbow());
-		RenderingRegistry.registerEntityRenderingHandler(EntityNightmareBlast.class, new RenderOminousBullet());
-		RenderingRegistry.registerEntityRenderingHandler(EntityPlasmaBeam.class, new RenderBeam());
 		RenderingRegistry.registerEntityRenderingHandler(EntityLaserBeam.class, new RenderBeam2());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinerBeam.class, new RenderBeam3());
 		RenderingRegistry.registerEntityRenderingHandler(EntitySparkBeam.class, new RenderBeam4());

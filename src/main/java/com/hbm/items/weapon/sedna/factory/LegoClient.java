@@ -5,16 +5,22 @@ import java.util.function.BiConsumer;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.items.weapon.sedna.hud.HUDComponentAmmoCounter;
 import com.hbm.items.weapon.sedna.hud.HUDComponentDurabilityBar;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.util.BeamPronter;
+import com.hbm.render.util.BeamPronter.EnumBeamType;
+import com.hbm.render.util.BeamPronter.EnumWaveType;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 
 public class LegoClient {
 
@@ -218,5 +224,22 @@ public class LegoClient {
 		GL11.glTranslatef(0.375F, 0, 0);
 		double length = bullet.prevVelocity + (bullet.velocity - bullet.prevVelocity) * interp;
 		if(length > 0) renderBulletStandard(Tessellator.instance, 0x808080, 0xFFF2A7, length * 2, true);
+	};
+	
+	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LIGHTNING = (bullet, interp) -> {
+		
+		GL11.glPushMatrix();
+		GL11.glRotatef(180 - bullet.rotationYaw, 0, 1F, 0);
+		GL11.glRotatef(-bullet.rotationPitch - 90, 1F, 0, 0);
+		Vec3 delta = Vec3.createVectorHelper(0, bullet.beamLength, 0);
+		double age = MathHelper.clamp_double(1D - ((double) bullet.ticksExisted - 2 + interp) / (double) bullet.getBulletConfig().expires, 0, 1);
+		GL11.glScaled(age / 2 + 0.5, 1, age / 2 + 0.5);
+		double scale = 0.075D;
+		int colorInner = ((int)(0x20 * age) << 16) | ((int)(0x20 * age) << 8) | (int) (0x40 * age);
+		int colorOuter = ((int)(0x40 * age) << 16) | ((int)(0x40 * age) << 8) | (int) (0x80 * age);
+		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorInner, colorInner, bullet.ticksExisted / 3, (int)(bullet.beamLength / 2 + 1), (float)scale * 1F, 4, 0.25F);
+		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorOuter, colorOuter, bullet.ticksExisted, (int)(bullet.beamLength / 2 + 1), (float)scale * 7F, 2, 0.0625F);
+		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorOuter, colorOuter, bullet.ticksExisted / 2, (int)(bullet.beamLength / 2 + 1), (float)scale * 7F, 2, 0.0625F);
+		GL11.glPopMatrix();
 	};
 }
