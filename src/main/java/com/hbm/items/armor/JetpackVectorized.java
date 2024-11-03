@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class JetpackVectorized extends JetpackBase {
+public class JetpackVectorized extends JetpackFueledBase {
 
 	public JetpackVectorized(FluidType fuel, int maxFuel) {
 		super(fuel, maxFuel);

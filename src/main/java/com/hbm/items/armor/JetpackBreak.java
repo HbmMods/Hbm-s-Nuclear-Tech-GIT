@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class JetpackBreak extends JetpackBase {
+public class JetpackBreak extends JetpackFueledBase {
 
 	public static int maxFuel = 1200;
 

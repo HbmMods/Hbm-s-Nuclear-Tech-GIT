@@ -3,11 +3,9 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.handler.ArmorModHandler;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.render.model.ModelJetPack;
 import com.hbm.util.ArmorUtil;
 
-import api.hbm.fluid.IFillableItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -17,28 +15,21 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
-public abstract class JetpackBase extends ItemArmorMod implements IFillableItem {
+public abstract class JetpackBase extends ItemArmorMod {
 
-	private ModelJetPack model;
-	public FluidType fuel;
-	public int maxFuel;
+	protected ModelBiped cachedModel;
 
-	public JetpackBase(FluidType fuel, int maxFuel) {
+	public JetpackBase() {
 		super(ArmorModHandler.plate_only, false, true, false, false);
-		this.fuel = fuel;
-		this.maxFuel = maxFuel;
 	}
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
-		list.add(EnumChatFormatting.LIGHT_PURPLE + fuel.getLocalizedName() + ": " + this.getFuel(itemstack) + "mB / " + this.maxFuel + "mB");
-		list.add("");
 		super.addInformation(itemstack, player, list, bool);
 		list.add(EnumChatFormatting.GOLD + "Can be worn on its own!");
 	}
@@ -51,7 +42,7 @@ public abstract class JetpackBase extends ItemArmorMod implements IFillableItem 
 		if(jetpack == null)
 			return;
 		
-		list.add(EnumChatFormatting.RED + "  " + stack.getDisplayName() + " (" + fuel.getLocalizedName() + ": " + this.getFuel(jetpack) + "mB / " + this.maxFuel + "mB");
+		list.add(EnumChatFormatting.RED + "  " + stack.getDisplayName());
 	}
 	
 	@Override
@@ -103,87 +94,12 @@ public abstract class JetpackBase extends ItemArmorMod implements IFillableItem 
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
 		if (armorSlot == 1) {
-			if (model == null) {
-				this.model = new ModelJetPack();
+			if (cachedModel == null) {
+				this.cachedModel = new ModelJetPack();
 			}
-			return this.model;
+			return this.cachedModel;
 		}
 		
 		return null;
-	}
-	
-	protected void useUpFuel(EntityPlayer player, ItemStack stack, int rate) {
-
-		if(player.ticksExisted % rate == 0)
-			this.setFuel(stack, this.getFuel(stack) - 1);
-	}
-	
-    public static int getFuel(ItemStack stack) {
-		if(stack.stackTagCompound == null) {
-			stack.stackTagCompound = new NBTTagCompound();
-			return 0;
-		}
-		
-		return stack.stackTagCompound.getInteger("fuel");
-		
-	}
-	
-	public static void setFuel(ItemStack stack, int i) {
-		if(stack.stackTagCompound == null) {
-			stack.stackTagCompound = new NBTTagCompound();
-		}
-		
-		stack.stackTagCompound.setInteger("fuel", i);
-		
-	}
-
-	public int getMaxFill(ItemStack stack) {
-		return this.maxFuel;
-	}
-
-	public int getLoadSpeed(ItemStack stack) {
-		return 10;
-	}
-
-	@Override
-	public boolean acceptsFluid(FluidType type, ItemStack stack) {
-		return type == this.fuel;
-	}
-
-	@Override
-	public int tryFill(FluidType type, int amount, ItemStack stack) {
-		
-		if(!acceptsFluid(type, stack))
-			return amount;
-		
-		int fill = this.getFuel(stack);
-		int req = maxFuel - fill;
-		
-		int toFill = Math.min(amount, req);
-		//toFill = Math.min(toFill, getLoadSpeed(stack));
-		
-		this.setFuel(stack, fill + toFill);
-		
-		return amount - toFill;
-	}
-
-	@Override
-	public boolean providesFluid(FluidType type, ItemStack stack) {
-		return false;
-	}
-
-	@Override
-	public int tryEmpty(FluidType type, int amount, ItemStack stack) {
-		return 0;
-	}
-
-	@Override
-	public FluidType getFirstFluidType(ItemStack stack) {
-		return null;
-	}
-
-	@Override
-	public int getFill(ItemStack stack) {
-		return 0;
 	}
 }
