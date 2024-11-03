@@ -2,7 +2,6 @@ package com.hbm.items.armor;
 
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.items.ModItems;
-import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.model.ModelArmorWings;
 import com.hbm.util.ArmorUtil;
@@ -25,7 +24,6 @@ public class WingsMurk extends JetpackBase {
 
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
-		MainRegistry.logger.info("[ABEL] Wings texture: " + ResourceManager.wings_murk.toString());
 		return ResourceManager.wings_murk.toString();
 	}
 
