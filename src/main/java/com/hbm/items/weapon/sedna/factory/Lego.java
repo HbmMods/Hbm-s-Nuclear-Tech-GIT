@@ -68,11 +68,13 @@ public class Lego {
 	};
 	
 	/** If IDLE and ammo is loaded, fire and set to JUST_FIRED. */
-	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_CLICK_PRIMARY = (stack, ctx) -> {
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_CLICK_PRIMARY = (stack, ctx) -> { clickReceiver(stack, ctx, 0); };
+	
+	public static void clickReceiver(ItemStack stack, LambdaContext ctx, int receiver) {
 
 		EntityLivingBase entity = ctx.entity;
 		EntityPlayer player = ctx.getPlayer();
-		Receiver rec = ctx.config.getReceivers(stack)[0];
+		Receiver rec = ctx.config.getReceivers(stack)[receiver];
 		int index = ctx.configIndex;
 		GunState state = ItemGunBaseNT.getState(stack, index);
 		
@@ -98,7 +100,7 @@ public class Lego {
 				}
 			}
 		}
-	};
+	}
 	
 	/** If IDLE, switch mode between 0 and 1. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_CLICK_SECONDARY = (stack, ctx) -> {

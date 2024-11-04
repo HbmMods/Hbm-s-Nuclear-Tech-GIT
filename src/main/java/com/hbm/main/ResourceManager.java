@@ -861,6 +861,7 @@ public class ResourceManager {
 	public static final IModelCustom minigun = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/minigun.obj")).asVBO();
 	public static final IModelCustom missile_launcher = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/missile_launcher.obj")).asVBO();
 	public static final IModelCustom tesla_cannon = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/tesla_cannon.obj")).asVBO();
+	public static final IModelCustom stg77 = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/weapons/stg77.obj")).asVBO();
 
 	public static final HashMap<String, BusAnimation> python_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/python.json"));
 	public static final HashMap<String, BusAnimation> cursed_anim = AnimationLoader.load(new ResourceLocation(RefStrings.MODID, "models/weapons/animations/cursed.json"));
@@ -993,6 +994,7 @@ public class ResourceManager {
 	public static final ResourceLocation minigun_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/minigun.png");
 	public static final ResourceLocation missile_launcher_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/missile_launcher.png");
 	public static final ResourceLocation tesla_cannon_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/tesla_cannon.png");
+	public static final ResourceLocation stg77_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/stg77.png");
 	
 	public static final ResourceLocation lance_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lance.png");
 
