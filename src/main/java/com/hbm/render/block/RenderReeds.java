@@ -1,6 +1,7 @@
 package com.hbm.render.block;
 
 import com.hbm.blocks.generic.BlockReeds;
+import com.hbm.config.ClientConfig;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.minecraft.block.Block;
@@ -27,10 +28,15 @@ public class RenderReeds implements ISimpleBlockRenderingHandler {
 		tessellator.setColorOpaque_F(r * m, g * m, b * m);
 		
 		int depth = 0;
-		for(int i = y - 1; i > 0 ; i--) {
-			Block water = world.getBlock(x, i, z);
-			depth = y - i;
-			if(water != Blocks.water && water != Blocks.flowing_water) break;
+		
+		if(!ClientConfig.RENDER_REEDS.get()) {
+			depth = 1;
+		} else {
+			for(int i = y - 1; i > 0 ; i--) {
+				Block water = world.getBlock(x, i, z);
+				depth = y - i;
+				if(water != Blocks.water && water != Blocks.flowing_water) break;
+			}
 		}
 		
 		BlockReeds reeds = (BlockReeds) block;
