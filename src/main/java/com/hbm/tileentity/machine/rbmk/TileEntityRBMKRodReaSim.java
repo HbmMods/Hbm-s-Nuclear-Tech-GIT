@@ -10,7 +10,7 @@ import net.minecraft.util.Vec3;
 import static com.hbm.handler.neutron.RBMKNeutronHandler.*;
 
 public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
-	
+
 	public TileEntityRBMKRodReaSim() {
 		super();
 	}
@@ -19,11 +19,14 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 	public String getName() {
 		return "container.rbmkReaSim";
 	}
-	
+
+	private BlockPos pos;
+
 	@Override
 	public void spreadFlux(double flux, double ratio) {
 
-		BlockPos pos = new BlockPos(this);
+		if(pos == null)
+			pos = new BlockPos(this);
 
 		if (flux == 0) {
 			// simple way to remove the node from the cache when no flux is going into it!

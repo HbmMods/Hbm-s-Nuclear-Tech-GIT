@@ -48,6 +48,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 	public double fluxRatio;
 	public double fluxQuantity;
 	public double lastFluxQuantity;
+	public double lastFluxRatio;
 
 	public boolean hasRod;
 
@@ -129,6 +130,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 					} else {
 						this.meltdown();
 					}
+					this.lastFluxRatio = 0;
 					this.lastFluxQuantity = 0;
 					this.fluxQuantity = 0;
 					return;
@@ -136,11 +138,13 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 				if(this.heat > 10_000) this.heat = 10_000;
 
-				this.lastFluxQuantity = this.fluxQuantity;
-
 				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
 
+				this.lastFluxQuantity = this.fluxQuantity;
+				this.lastFluxRatio = this.fluxRatio;
+
 				this.fluxQuantity = 0;
+				this.fluxRatio = 0;
 
 				spreadFlux(fluxQuantityOut, fluxRatioOut);
 
@@ -148,6 +152,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 			} else {
 
+				this.lastFluxRatio = 0;
 				this.lastFluxQuantity = 0;
 				this.fluxQuantity = 0;
 				this.fluxRatio = 0;
@@ -177,9 +182,12 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			ForgeDirection.WEST
 	};
 
+	private BlockPos pos;
+
 	public void spreadFlux(double flux, double ratio) {
 
-		BlockPos pos = new BlockPos(this);
+		if(pos == null)
+			pos = new BlockPos(this);
 
 		if (flux == 0) {
 			// simple way to remove the node from the cache when no flux is going into it!
@@ -202,7 +210,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 			new RBMKNeutronHandler.RBMKNeutronStream(node, neutronVector, flux, ratio);
 		}
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -221,28 +229,25 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		this.hasRod = nbt.getBoolean("hasRod");
 	}
 
+	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setDouble("fluxQuantity", this.fluxQuantity);
-		nbt.setDouble("fluxMod", this.fluxRatio);
-		nbt.setBoolean("hasRod", this.hasRod);
-	}
-
-	// aaaaaaaa
-	public void writeToNBTDiag(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
-
-		nbt.setDouble("fluxSlow", this.lastFluxQuantity * (1 - fluxRatio));
-		nbt.setDouble("fluxFast", this.lastFluxQuantity * fluxRatio);
+		if (!diag) {
+			nbt.setDouble("fluxQuantity", this.lastFluxQuantity);
+			nbt.setDouble("fluxMod", this.lastFluxRatio);
+		} else {
+			nbt.setDouble("fluxSlow", this.fluxQuantity * (1 - fluxRatio));
+			nbt.setDouble("fluxFast", this.fluxQuantity * fluxRatio);
+		}
 		nbt.setBoolean("hasRod", this.hasRod);
 	}
 
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
-		buf.writeDouble(this.fluxQuantity);
-		buf.writeDouble(this.fluxRatio);
+		buf.writeDouble(this.lastFluxQuantity);
+		buf.writeDouble(this.lastFluxRatio);
 		buf.writeBoolean(this.hasRod);
 	}
 
@@ -256,7 +261,7 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 
 	public void getDiagData(NBTTagCompound nbt) {
 		diag = true;
-		this.writeToNBTDiag(nbt);
+		this.writeToNBT(nbt);
 		diag = false;
 
 		if(slots[0] != null && slots[0].getItem() instanceof ItemRBMKRod) {

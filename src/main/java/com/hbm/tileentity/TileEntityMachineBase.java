@@ -3,6 +3,7 @@ package com.hbm.tileentity;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxGaugePacket;
 import com.hbm.packet.toclient.BufPacket;
+import com.hbm.handler.threading.BufPacketThreading;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
@@ -179,7 +180,7 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		}
 		this.lastPackedBuf = buf;
 
-		PacketDispatcher.wrapper.sendToAllAround(packet, new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+		BufPacketThreading.createBufPacket(packet, new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
 
 	@Override public void serialize(ByteBuf buf) {

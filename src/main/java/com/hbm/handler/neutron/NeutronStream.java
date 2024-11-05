@@ -5,13 +5,12 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import com.hbm.handler.neutron.NeutronNodeWorld.StreamWorld;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
 public abstract class NeutronStream {
 
 	public enum NeutronType {
-		DUMMY, // Dummy streams for testing
+		DUMMY, // Dummy streams for node decaying
 		RBMK,  // RBMK neutron streams
 		PILE   // Chicago pile streams
 	}
@@ -34,11 +33,13 @@ public abstract class NeutronStream {
 	public NeutronStream(NeutronNode origin, Vec3 vector) {
 		this.origin = origin;
 		this.vector = vector;
+		posInstance = origin.pos.clone();
 	}
 
 	public NeutronStream(NeutronNode origin, Vec3 vector, double flux, double ratio, NeutronType type) {
 		this.origin = origin;
 		this.vector = vector;
+		posInstance = origin.pos.clone();
 		this.fluxQuantity = flux;
 		this.fluxRatio = ratio;
 		this.type = type;
@@ -51,18 +52,30 @@ public abstract class NeutronStream {
 			NeutronNodeWorld.streamWorlds.get(worldObj).addStream(this);
 	}
 
+	protected BlockPos posInstance;
+
+	private int i;
+
 	// USES THE CACHE!!!
-	public List<BlockPos> getBlocks(int range) {
-		List<BlockPos> positions = new ArrayList<>();
+	public Iterator<BlockPos> getBlocks(int range) {
 
-		for (int i = 1; i <= range; i++) {
-			int x = (int) Math.floor(0.5 + vector.xCoord * i);
-			int z = (int) Math.floor(0.5 + vector.zCoord * i);
+		i = 1;
 
-			BlockPos pos = new BlockPos(origin.tile).add(x, 0, z);
-			positions.add(pos);
-		}
-		return positions;
+		return new Iterator<BlockPos>() {
+			@Override
+			public boolean hasNext() {
+				return i <= range;
+			}
+
+			@Override
+			public BlockPos next() {
+				int x = (int) Math.floor(0.5 + vector.xCoord * i);
+				int z = (int) Math.floor(0.5 + vector.zCoord * i);
+
+				i++;
+				return posInstance.mutate(origin.tile.xCoord + x, origin.tile.yCoord, origin.tile.zCoord + z);
+			}
+		};
 	}
 
 	public abstract void runStreamInteraction(World worldObj);

@@ -12,9 +12,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class PileNeutronHandler {
 
@@ -41,22 +39,12 @@ public class PileNeutronHandler {
 
 	public static class PileNeutronStream extends NeutronStream {
 
-		public PileNeutronStream(NeutronNode origin, Vec3 vector) {
-			super(origin, vector);
-		}
-
 		public PileNeutronStream(NeutronNode origin, Vec3 vector, double flux) {
 			super(origin, vector, flux, 0D, NeutronType.PILE);
 		}
 
 		@Override
 		public void runStreamInteraction(World worldObj) {
-
-			//Random rand = origin.tile.getWorldObj().rand;
-			//Vec3 vec = Vec3.createVectorHelper(1, 0, 0);
-			//vec.rotateAroundZ((float)(rand.nextDouble() * Math.PI * 2D));
-			//vec.rotateAroundY((float)(rand.nextDouble() * Math.PI * 2D));
-			//vec.rotateAroundX((float)(rand.nextDouble() * Math.PI * 2D));
 
 			TileEntityPileBase originTE = (TileEntityPileBase) origin.tile;
 			BlockPos pos = new BlockPos(originTE);
@@ -125,32 +113,5 @@ public class PileNeutronHandler {
 						ContaminationUtil.contaminate(e, ContaminationUtil.HazardType.RADIATION, ContaminationUtil.ContaminationType.CREATIVE, (float) (fluxQuantity / 4D));
 			}
 		}
-	}
-
-	// The big one!! Runs all interactions for neutrons.
-	public static void runAllInteractions() {
-
-		// Remove `StreamWorld` objects if they have no streams.
-		{ // aflghdkljghlkbhfjkghgilurbhlkfjghkffdjgn
-			List<World> toRemove = new ArrayList<>();
-			NeutronNodeWorld.streamWorlds.forEach((world, streamWorld) -> {
-				if (streamWorld.streams.isEmpty())
-					toRemove.add(world);
-			});
-
-			for (World world : toRemove) {
-				NeutronNodeWorld.streamWorlds.remove(world);
-			}
-		}
-
-		for (Map.Entry<World, NeutronNodeWorld.StreamWorld> world : NeutronNodeWorld.streamWorlds.entrySet()) {
-
-			for (NeutronStream stream : world.getValue().streams) {
-				if (stream.type == NeutronStream.NeutronType.PILE)
-					stream.runStreamInteraction(world.getKey());
-			}
-			world.getValue().removeAllStreamsOfType(NeutronStream.NeutronType.PILE);
-		}
-
 	}
 }

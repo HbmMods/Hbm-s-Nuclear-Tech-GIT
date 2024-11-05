@@ -7,7 +7,7 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Iterator;
 
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
@@ -50,6 +50,7 @@ public class RBMKNeutronHandler {
 			super(tile, NeutronStream.NeutronType.RBMK);
 			this.data.put("hasLid", hasLid);
 			this.data.put("type", type);
+			posInstance = new BlockPos(tile);
 		}
 
 		public void addLid() {
@@ -60,13 +61,41 @@ public class RBMKNeutronHandler {
 			this.data.replace("hasLid", false);
 		}
 
-		public List<BlockPos> getReaSimNodes() {
-			List<BlockPos> list = new ArrayList<>();
-			for (int x = -fluxRange; x <= fluxRange; x++)
-				for (int z = -fluxRange; z <= fluxRange; z++)
-					if (Math.pow(x, 2) + Math.pow(z, 2) <= fluxRange * fluxRange)
-						list.add(new BlockPos(tile).add(x, 0, z));
-			return list;
+		protected BlockPos posInstance;
+
+		private int x;
+		private int z;
+
+		public Iterator<BlockPos> getReaSimNodes() {
+
+			x = -fluxRange;
+			z = -fluxRange;
+
+			return new Iterator<BlockPos>() {
+				@Override
+				public boolean hasNext() {
+					return (fluxRange + x) * (fluxRange * 2 + 1) + z + fluxRange + 1 < (fluxRange * 2 + 1) * (fluxRange * 2 + 1);
+				}
+
+				@Override
+				public BlockPos next() {
+					if (Math.pow(x, 2) + Math.pow(z, 2) <= fluxRange * fluxRange) {
+						z++;
+						if (z > fluxRange) {
+							z = -fluxRange;
+							x++;
+						}
+						return posInstance.mutate(tile.xCoord + x, tile.yCoord, tile.zCoord + z);
+					} else {
+						z++;
+						if (z > fluxRange) {
+							z = -fluxRange;
+							x++;
+						}
+						return null;
+					}
+				}
+			};
 		}
 
 		public List<BlockPos> checkNode() {
@@ -74,11 +103,12 @@ public class RBMKNeutronHandler {
 
 			BlockPos pos = new BlockPos(this.tile);
 
-			List<RBMKNeutronStream> streams = new ArrayList<>();
+			RBMKNeutronStream[] streams = new RBMKNeutronStream[TileEntityRBMKRod.fluxDirs.length];
 
 			// Simulate streams coming out of the RBMK rod.
-			for (ForgeDirection dir : TileEntityRBMKRod.fluxDirs) {
-				streams.add(new RBMKNeutronStream(this, Vec3.createVectorHelper(dir.offsetX, 0, dir.offsetZ)));
+			ForgeDirection[] fluxDirs = TileEntityRBMKRod.fluxDirs;
+			for (int i = 0; i < fluxDirs.length; i++) {
+				streams[i] = (new RBMKNeutronStream(this, Vec3.createVectorHelper(fluxDirs[i].offsetX, 0, fluxDirs[i].offsetZ)));
 			}
 
 			// Check if the rod should uncache nodes.
@@ -87,38 +117,47 @@ public class RBMKNeutronHandler {
 				if (!rod.hasRod || rod.lastFluxQuantity == 0) {
 
 					for (RBMKNeutronStream stream : streams) {
-						stream.getNodes(false).forEach(node -> list.add(new BlockPos(node.tile)));
+						for(RBMKNeutronNode node : stream.getNodes(false))
+							if (node != null)
+								list.add(new BlockPos(node.tile));
 					}
 
 					return list;
 				}
 			}
 
-			List<BlockPos> points = getReaSimNodes();
+			{
+				Iterator<BlockPos> reaSimNodes = getReaSimNodes();
 
-			// Check if the ReaSim rod should be culled from the cache due to no rod or no flux.
-			if (tile instanceof TileEntityRBMKRodReaSim) { // fuckkkkkkk
-				TileEntityRBMKRodReaSim rod = (TileEntityRBMKRodReaSim) tile;
-				if (!rod.hasRod || rod.lastFluxQuantity == 0) {
-					list.addAll(points);
-					return list;
+				// Check if the ReaSim rod should be culled from the cache due to no rod or no flux.
+				if (tile instanceof TileEntityRBMKRodReaSim) { // fuckkkkkkk
+					TileEntityRBMKRodReaSim rod = (TileEntityRBMKRodReaSim) tile;
+					if (!rod.hasRod || rod.lastFluxQuantity == 0) {
+						reaSimNodes.forEachRemaining((a) -> {
+							if (a != null)
+								list.add(a.clone()); // ae The RAM usage will be really high here but hopefully the GC can take care of it :pray:
+						});
+						return list;
+					}
 				}
 			}
 
 			// Check if non-rod nodes should be uncached... but now with ReaSim!
 			{ //  Yeah, I don't want to contaminate the surrounding scope.
-				List<RBMKNeutronNode> nodes = new ArrayList<>();
-				points.forEach(nodePos -> {
-					RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(nodePos);
-					if (node != null)
-						nodes.add(node);
-				});
+				Iterator<BlockPos> reaSimNodes = getReaSimNodes();
 
 				boolean hasRod = false;
 
-				for (RBMKNeutronNode node : nodes) {
+				while(reaSimNodes.hasNext()) {
 
-					if (node.tile instanceof TileEntityRBMKRod) {
+					BlockPos nodePos = reaSimNodes.next();
+
+					if(nodePos == null)
+						continue;
+
+					NeutronNode node = NeutronNodeWorld.nodeCache.get(nodePos);
+
+					if (node != null && node.tile instanceof TileEntityRBMKRod) {
 
 						TileEntityRBMKRod rod = (TileEntityRBMKRod) node.tile;
 
@@ -129,7 +168,7 @@ public class RBMKNeutronHandler {
 					}
 				}
 
-				if (nodes.isEmpty() || !hasRod) {
+				if (!hasRod) {
 					list.add(pos);
 					return list;
 				}
@@ -138,10 +177,10 @@ public class RBMKNeutronHandler {
 			// Check if non-rod nodes should be uncached due to no rod in range.
 			for (RBMKNeutronStream stream : streams) {
 
-				List<RBMKNeutronNode> nodes = stream.getNodes(false);
+				RBMKNeutronNode[] nodes = stream.getNodes(false);
 
 				for (RBMKNeutronNode node : nodes) {
-					if (node.tile instanceof TileEntityRBMKRod)
+					if (!(node == null) && node.tile instanceof TileEntityRBMKRod)
 						return list;
 				}
 			}
@@ -170,24 +209,26 @@ public class RBMKNeutronHandler {
 
 		// Does NOT include the origin node
 		// USES THE CACHE!!!
-		public List<RBMKNeutronNode> getNodes(boolean addNode) {
-			List<RBMKNeutronNode> positions = new ArrayList<>();
+		public RBMKNeutronNode[] getNodes(boolean addNode) {
+			RBMKNeutronNode[] positions = new RBMKNeutronNode[fluxRange];
+
+			BlockPos pos = new BlockPos(origin.tile);
 
 			for (int i = 1; i <= fluxRange; i++) {
 				int x = (int) Math.floor(0.5 + vector.xCoord * i);
 				int z = (int) Math.floor(0.5 + vector.zCoord * i);
 
-				BlockPos pos = new BlockPos(origin.tile).add(x, 0, z);
+				pos.mutate(origin.tile.xCoord + x, origin.tile.yCoord, origin.tile.zCoord + z);
 
 				if (NeutronNodeWorld.nodeCache.containsKey(pos))
-					positions.add((RBMKNeutronNode) NeutronNodeWorld.getNode(pos));
+					positions[i - 1] = (RBMKNeutronNode) NeutronNodeWorld.getNode(pos);
 
 				else if (this.origin.tile.getBlockType() instanceof RBMKBase) {
 					TileEntity te = blockPosToTE(this.origin.tile.getWorldObj(), pos);
 					if (te instanceof TileEntityRBMKBase) {
 						TileEntityRBMKBase rbmkBase = (TileEntityRBMKBase) te;
 						RBMKNeutronNode node = makeNode(rbmkBase);
-						positions.add(node);
+						positions[i - 1] = node;
 						if (addNode)
 							NeutronNodeWorld.addNode(node);
 					}
@@ -218,7 +259,11 @@ public class RBMKNeutronHandler {
 
 			int moderatedCount = 0;
 
-			for (BlockPos nodePos : getBlocks(fluxRange)) {
+			Iterator<BlockPos> iterator = getBlocks(fluxRange);
+
+			while(iterator.hasNext()) {
+
+				BlockPos nodePos = iterator.next();
 
 				if (fluxQuantity == 0D) // Whoops, used it all up!
 					return;
@@ -315,22 +360,26 @@ public class RBMKNeutronHandler {
 				}
 			}
 
-			List<RBMKNeutronNode> nodes = getNodes(true);
-			if (nodes.isEmpty())
-				return;
+			RBMKNeutronNode[] nodes = getNodes(true);
 
-			RBMKNeutronNode lastNode = nodes.get(nodes.size() - 1);
+			RBMKNeutronNode lastNode = nodes[(nodes.length - 1)];
+
+			if(lastNode == null) { // This implies that there was *no* last node, meaning either way it was never caught.
+				// There is really no good way to figure out where exactly it should irradiate, so just irradiate at the origin tile.
+				irradiateFromFlux(new BlockPos(origin.tile.xCoord + this.vector.xCoord, origin.tile.yCoord, origin.tile.zCoord + this.vector.zCoord));
+				return;
+			}
 
 			RBMKType lastNodeType = (RBMKType) lastNode.data.get("type");
 
 			if (lastNodeType != RBMKType.REFLECTOR && lastNodeType != RBMKType.ABSORBER && lastNodeType != RBMKType.CONTROL_ROD)
-				irradiateFromFlux((new BlockPos(lastNode.tile)).add(this.vector.xCoord, 0.0D, this.vector.zCoord));
+				irradiateFromFlux(new BlockPos(lastNode.tile.xCoord + this.vector.xCoord, lastNode.tile.yCoord, lastNode.tile.zCoord + this.vector.zCoord));
 
 			if (lastNodeType == RBMKType.CONTROL_ROD) {
 				TileEntityRBMKControl rod = (TileEntityRBMKControl) lastNode.tile;
 				if (rod.getMult() > 0.0D) {
 					this.fluxQuantity *= rod.getMult();
-					irradiateFromFlux((new BlockPos(lastNode.tile)).add(this.vector.xCoord, 0.0D, this.vector.zCoord));
+					irradiateFromFlux(new BlockPos(lastNode.tile.xCoord + this.vector.xCoord, lastNode.tile.yCoord, lastNode.tile.zCoord + this.vector.zCoord));
 				}
 			}
 		}
@@ -363,62 +412,5 @@ public class RBMKNeutronHandler {
 			fluxRatio *= (1 - moderatorEfficiency);
 		}
 
-	}
-
-	private static int ticks = 0;
-
-	// The big one!! Runs all interactions for neutrons.
-	public static void runAllInteractions() {
-
-		// Remove `StreamWorld` objects if they have no streams.
-		{ // aflghdkljghlkbhfjkghgilurbhlkfjghkffdjgn
-			List<World> toRemove = new ArrayList<>();
-			NeutronNodeWorld.streamWorlds.forEach((world, streamWorld) -> {
-				if (streamWorld.streams.isEmpty())
-					toRemove.add(world);
-			});
-
-			for (World world : toRemove) {
-				NeutronNodeWorld.streamWorlds.remove(world);
-			}
-		}
-
-		for (Entry<World, NeutronNodeWorld.StreamWorld> world : NeutronNodeWorld.streamWorlds.entrySet()) {
-
-			// Gamerule caching because this apparently is kinda slow?
-			// meh, good enough
-			reflectorEfficiency = RBMKDials.getReflectorEfficiency(world.getKey());
-			absorberEfficiency = RBMKDials.getAbsorberEfficiency(world.getKey());
-			moderatorEfficiency = RBMKDials.getModeratorEfficiency(world.getKey());
-
-			// I hate this.
-			// this broke everything because it was ONE OFF
-			// IT'S NOT THE TOTAL HEIGHT IT'S THE AMOUNT OF BLOCKS ABOVE AAAAAAAAAAAAA
-			columnHeight = RBMKDials.getColumnHeight(world.getKey()) + 1;
-			fluxRange = RBMKDials.getFluxRange(world.getKey());
-
-			for (NeutronStream stream : world.getValue().streams) {
-				if (stream.type == NeutronStream.NeutronType.RBMK)
-					stream.runStreamInteraction(world.getKey());
-			}
-			world.getValue().removeAllStreamsOfType(NeutronStream.NeutronType.RBMK);
-		}
-
-		// Freshen the node cache every `cacheTime` ticks to prevent huge RAM usage.
-		int cacheTime = 40;
-		if (ticks >= cacheTime) {
-			ticks = 0;
-			List<BlockPos> toRemove = new ArrayList<>();
-			for(NeutronNode cachedNode : NeutronNodeWorld.nodeCache.values()) {
-				if (cachedNode.type == NeutronStream.NeutronType.RBMK) {
-					RBMKNeutronNode node = (RBMKNeutronNode) cachedNode;
-					toRemove.addAll(node.checkNode());
-				}
-			}
-
-			for(BlockPos pos : toRemove)
-				NeutronNodeWorld.removeNode(pos);
-		}
-		ticks++;
 	}
 }

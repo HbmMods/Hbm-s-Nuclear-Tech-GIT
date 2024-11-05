@@ -12,7 +12,7 @@ public class NeutronNodeWorld {
 	protected static HashMap<BlockPos, NeutronNode> nodeCache = new HashMap<>();
 
 	public static void addNode(NeutronNode node) {
-		nodeCache.put(new BlockPos(node.tile), node);
+		nodeCache.put(node.pos, node);
 	}
 
 	public static void removeNode(BlockPos position) {
@@ -54,9 +54,9 @@ public class NeutronNodeWorld {
 			}
 			toRemove.forEach((stream) -> streams.remove(stream));
 		}
+	}
 
-		public static void removeAllWorlds() {
-			streamWorlds.clear();
-		}
+	public static void removeAllWorlds() {
+		streamWorlds.clear();
 	}
 }
