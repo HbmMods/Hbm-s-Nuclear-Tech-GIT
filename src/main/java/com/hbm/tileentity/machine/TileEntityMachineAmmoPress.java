@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.inventory.container.ContainerMachineAmmoPress;
+import com.hbm.inventory.gui.GUIMachineAmmoPress;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -25,14 +27,6 @@ public class TileEntityMachineAmmoPress extends TileEntityMachineBase implements
 		
 	}
 
-	@Override
-	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return null;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return null;
-	}
+	@Override public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) { return new ContainerMachineAmmoPress(player.inventory, this); }
+	@Override @SideOnly(Side.CLIENT) public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) { return new GUIMachineAmmoPress(player.inventory, this); }
 }
