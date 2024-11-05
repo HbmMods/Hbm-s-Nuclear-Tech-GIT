@@ -103,7 +103,7 @@ public class BlockOutgas extends BlockOre {
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 		
-		if(onNeighbour) {
+		if(onNeighbour && world.rand.nextInt(3) == 0) {
 
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				

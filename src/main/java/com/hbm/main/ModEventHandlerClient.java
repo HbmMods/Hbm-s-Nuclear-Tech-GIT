@@ -41,6 +41,7 @@ import com.hbm.items.armor.ArmorFSBPowered;
 import com.hbm.items.armor.ArmorNo9;
 import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.items.armor.JetpackBase;
+import com.hbm.items.armor.JetpackFueledBase;
 import com.hbm.items.machine.ItemDepletedFuel;
 import com.hbm.items.machine.ItemFluidDuct;
 import com.hbm.items.machine.ItemRBMKPellet;
@@ -441,11 +442,11 @@ public class ModEventHandlerClient {
 
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-			} else if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof JetpackBase) {
+			} else if(player.inventory.armorInventory[2] != null && player.inventory.armorInventory[2].getItem() instanceof JetpackFueledBase) {
 
 				ItemStack stack = player.inventory.armorInventory[2];
 
-				float tot = (float) ((JetpackBase) stack.getItem()).getFuel(stack) / (float) ((JetpackBase) stack.getItem()).getMaxFill(stack);
+				float tot = (float) ((JetpackFueledBase) stack.getItem()).getFuel(stack) / (float) ((JetpackFueledBase) stack.getItem()).getMaxFill(stack);
 				
 				int top = height - GuiIngameForge.left_height + 3;
 

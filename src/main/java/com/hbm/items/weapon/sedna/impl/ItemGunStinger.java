@@ -107,7 +107,7 @@ public class ItemGunStinger extends ItemGunBaseNT {
 		Vec3NT toEntity = new Vec3NT(0, 0, 0);
 		
 		for(Entity entity : entities) {
-			if(entity.height < 0.5F) continue;
+			if(entity.height < 0.5F || !entity.canBeCollidedWith()) continue;
 			toEntity.setComponents(entity.posX - x, entity.posY + entity.height / 2D - y, entity.posZ - z);
 			
 			double vecProd = toEntity.xCoord * delta.xCoord + toEntity.yCoord * delta.yCoord + toEntity.zCoord * delta.zCoord;

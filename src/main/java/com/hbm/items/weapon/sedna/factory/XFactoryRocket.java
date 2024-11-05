@@ -31,6 +31,7 @@ import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -48,10 +49,12 @@ public class XFactoryRocket {
 	public static BulletConfig[] rocket_ml;
 
 	// FLYING
-	public static Consumer<EntityBulletBaseMK4> LAMBDA_STANDARD_ACCELERATE = (bullet) -> {
+	public static Consumer<Entity> LAMBDA_STANDARD_ACCELERATE = (entity) -> {
+		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
 		if(bullet.accel < 7) bullet.accel += 0.4D;
 	};
-	public static Consumer<EntityBulletBaseMK4> LAMBDA_STEERING_ACCELERATE = (bullet) -> {
+	public static Consumer<Entity> LAMBDA_STEERING_ACCELERATE = (entity) -> {
+		EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
 		if(bullet.accel < 4) bullet.accel += 0.4D;
 		if(bullet.getThrower() == null || !(bullet.getThrower() instanceof EntityPlayer)) return;
 		

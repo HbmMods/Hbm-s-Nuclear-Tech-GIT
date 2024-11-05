@@ -146,8 +146,8 @@ public class ModBlocks {
 	public static Block ore_bedrock_oil;
 	public static Block ore_lignite;
 	public static Block ore_asbestos;
-	public static Block ore_coal_oil;
-	public static Block ore_coal_oil_burning;
+	@Deprecated public static Block ore_coal_oil;
+	@Deprecated public static Block ore_coal_oil_burning;
 
 	public static Block ore_tikite;
 
@@ -1008,6 +1008,7 @@ public class ModBlocks {
 	public static Block machine_press;
 	public static Block machine_epress;
 	public static Block machine_conveyor_press;
+	public static Block machine_ammo_press;
 	
 	public static Block machine_siren;
 	
@@ -2179,6 +2180,7 @@ public class ModBlocks {
 		machine_press = new MachinePress(Material.iron).setBlockName("machine_press").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_press");
 		machine_epress = new MachineEPress(Material.iron).setBlockName("machine_epress").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_epress");
 		machine_conveyor_press = new MachineConveyorPress(Material.iron).setBlockName("machine_conveyor_press").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
+		machine_ammo_press = new MachineAmmoPress().setBlockName("machine_ammo_press").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		reactor_research = new ReactorResearch(Material.iron).setBlockName("machine_reactor_small").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":machine_reactor_small");
 		reactor_zirnox = new ReactorZirnox(Material.iron).setBlockName("machine_zirnox").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":block_steel");
 		zirnox_destroyed = new ZirnoxDestroyed(Material.iron).setBlockName("zirnox_destroyed").setHardness(100.0F).setResistance(800.0F).setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":block_steel");
@@ -2959,6 +2961,7 @@ public class ModBlocks {
 		GameRegistry.registerBlock(machine_press, machine_press.getUnlocalizedName());
 		GameRegistry.registerBlock(machine_epress, machine_epress.getUnlocalizedName());
 		register(machine_conveyor_press);
+		register(machine_ammo_press);
 		register(pump_steam);
 		register(pump_electric);
 		register(heater_firebox);

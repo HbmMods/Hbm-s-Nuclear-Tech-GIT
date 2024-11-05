@@ -1609,7 +1609,6 @@ public class ModItems {
 	public static Item gun_liberator;
 	public static Item gun_congolake;
 	public static Item gun_flamer;
-	public static Item gun_lag;
 	public static Item gun_uzi;
 	public static Item gun_spas12;
 	public static Item gun_panzerschreck;
@@ -1620,9 +1619,11 @@ public class ModItems {
 	public static Item gun_autoshotgun;
 	public static Item gun_autoshotgun_sexy;
 	public static Item gun_quadro;
+	public static Item gun_lag;
 	public static Item gun_minigun;
 	public static Item gun_missile_launcher;
 	public static Item gun_tesla_cannon;
+	public static Item gun_stg77;
 	
 	public static Item ammo_standard;
 	
@@ -5284,8 +5285,8 @@ public class ModItems {
 		jetpack_break = new JetpackBreak(Fluids.KEROSENE, 12000).setUnlocalizedName("jetpack_break").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_break");
 		jetpack_fly = new JetpackRegular(Fluids.KEROSENE, 12000).setUnlocalizedName("jetpack_fly").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_fly");
 		jetpack_vector = new JetpackVectorized(Fluids.KEROSENE, 16000).setUnlocalizedName("jetpack_vector").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":jetpack_vector");
-		wings_murk = new WingsMurk(MainRegistry.aMatCobalt).setUnlocalizedName("wings_murk").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wings_murk");
-		wings_limp = new WingsMurk(MainRegistry.aMatCobalt).setUnlocalizedName("wings_limp").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wings_limp");
+		wings_murk = new WingsMurk().setUnlocalizedName("wings_murk").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wings_murk");
+		wings_limp = new WingsMurk().setUnlocalizedName("wings_limp").setCreativeTab(CreativeTabs.tabCombat).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":wings_limp");
 
 		cape_radiation = new ArmorModel(ArmorMaterial.CHAIN, 1).setUnlocalizedName("cape_radiation").setCreativeTab(MainRegistry.consumableTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_radiation");
 		cape_gasmask = new ArmorModel(ArmorMaterial.CHAIN, 1).setUnlocalizedName("cape_gasmask").setCreativeTab(MainRegistry.consumableTab).setMaxStackSize(1).setTextureName(RefStrings.MODID + ":cape_gasmask");
@@ -6969,7 +6970,6 @@ public class ModItems {
 		GameRegistry.registerItem(gun_liberator, gun_liberator.getUnlocalizedName());
 		GameRegistry.registerItem(gun_congolake, gun_congolake.getUnlocalizedName());
 		GameRegistry.registerItem(gun_flamer, gun_flamer.getUnlocalizedName());
-		GameRegistry.registerItem(gun_lag, gun_lag.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uzi, gun_uzi.getUnlocalizedName());
 		GameRegistry.registerItem(gun_spas12, gun_spas12.getUnlocalizedName());
 		GameRegistry.registerItem(gun_panzerschreck, gun_panzerschreck.getUnlocalizedName());
@@ -6980,9 +6980,11 @@ public class ModItems {
 		GameRegistry.registerItem(gun_autoshotgun, gun_autoshotgun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_autoshotgun_sexy, gun_autoshotgun_sexy.getUnlocalizedName());
 		GameRegistry.registerItem(gun_quadro, gun_quadro.getUnlocalizedName());
+		GameRegistry.registerItem(gun_lag, gun_lag.getUnlocalizedName());
 		GameRegistry.registerItem(gun_minigun, gun_minigun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_missile_launcher, gun_missile_launcher.getUnlocalizedName());
 		GameRegistry.registerItem(gun_tesla_cannon, gun_tesla_cannon.getUnlocalizedName());
+		GameRegistry.registerItem(gun_stg77, gun_stg77.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		

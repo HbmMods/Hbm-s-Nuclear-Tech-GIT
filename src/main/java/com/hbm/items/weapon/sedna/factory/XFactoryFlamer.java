@@ -28,6 +28,7 @@ import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -44,10 +45,10 @@ public class XFactoryFlamer {
 	public static BulletConfig flame_balefire;
 	public static BulletConfig flame_digamma;
 
-	public static Consumer<EntityBulletBaseMK4> LAMBDA_FIRE = (bullet) -> {
+	public static Consumer<Entity> LAMBDA_FIRE = (bullet) -> {
 		if(bullet.worldObj.isRemote && MainRegistry.proxy.me().getDistanceToEntity(bullet) < 100) FlameCreator.composeEffectClient(bullet.worldObj, bullet.posX, bullet.posY - 0.125, bullet.posZ, FlameCreator.META_FIRE);
 	};
-	public static Consumer<EntityBulletBaseMK4> LAMBDA_BALEFIRE = (bullet) -> {
+	public static Consumer<Entity> LAMBDA_BALEFIRE = (bullet) -> {
 		if(bullet.worldObj.isRemote && MainRegistry.proxy.me().getDistanceToEntity(bullet) < 100) FlameCreator.composeEffectClient(bullet.worldObj, bullet.posX, bullet.posY - 0.125, bullet.posZ, FlameCreator.META_BALEFIRE);
 	};
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_IGNITE_FIRE = (bullet, mop) -> {
