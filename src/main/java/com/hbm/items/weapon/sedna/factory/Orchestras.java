@@ -875,5 +875,14 @@ public class Orchestras {
 		if(entity.worldObj.isRemote) return;
 		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+
+		if(type == AnimType.CYCLE) {
+			if(timer == 40) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 0.25F, 1.25F);
+		}
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 0.8F);
+			if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.pistolCock", 1F, 0.9F);
+			
+		}
 	};
 }

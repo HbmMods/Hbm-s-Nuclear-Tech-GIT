@@ -39,6 +39,7 @@ public class ItemRenderSTG77 extends ItemRenderWeaponBase {
 		double[] bolt = HbmAnimations.getRelevantTransformation("BOLT");
 		double[] handle = HbmAnimations.getRelevantTransformation("HANDLE");
 		double[] bullet = HbmAnimations.getRelevantTransformation("BULLET");
+		double[] safety = HbmAnimations.getRelevantTransformation("SAFETY");
 		
 		GL11.glTranslated(0, -1, -4);
 		GL11.glRotated(equip[0], 1, 0, 0);
@@ -54,7 +55,12 @@ public class ItemRenderSTG77 extends ItemRenderWeaponBase {
 		ResourceManager.stg77.renderPart("Magazine");
 		
 		GL11.glPushMatrix();
-		GL11.glTranslated(0.25, 0, 0);
+		GL11.glTranslated(0, 0, bolt[2]);
+		ResourceManager.stg77.renderPart("Handle");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(safety[0], 0, 0);
 		ResourceManager.stg77.renderPart("Safety");
 		GL11.glPopMatrix();
 
@@ -81,9 +87,9 @@ public class ItemRenderSTG77 extends ItemRenderWeaponBase {
 	@Override
 	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
-		double scale = 1D;
+		double scale = 1.5D;
 		GL11.glScaled(scale, scale, scale);
-		GL11.glTranslated(0, 2, 4);
+		GL11.glTranslated(0, 1, 2);
 
 	}
 
@@ -108,6 +114,7 @@ public class ItemRenderSTG77 extends ItemRenderWeaponBase {
 		ResourceManager.stg77.renderPart("Lever");
 		ResourceManager.stg77.renderPart("Magazine");
 		ResourceManager.stg77.renderPart("Safety");
+		ResourceManager.stg77.renderPart("Handle");
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 }
