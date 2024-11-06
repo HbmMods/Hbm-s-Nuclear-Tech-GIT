@@ -33,35 +33,69 @@ public class ItemRenderSTG77 extends ItemRenderWeaponBase {
 		GL11.glScaled(scale, scale, scale);
 
 		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
+		double[] lift = HbmAnimations.getRelevantTransformation("LIFT");
 		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
-		double[] mag = HbmAnimations.getRelevantTransformation("MAG");
-		double[] speen = HbmAnimations.getRelevantTransformation("SPEEN");
 		double[] bolt = HbmAnimations.getRelevantTransformation("BOLT");
 		double[] handle = HbmAnimations.getRelevantTransformation("HANDLE");
-		double[] bullet = HbmAnimations.getRelevantTransformation("BULLET");
 		double[] safety = HbmAnimations.getRelevantTransformation("SAFETY");
+
+		double[] inspectGun = HbmAnimations.getRelevantTransformation("INSPECT_GUN");
+		double[] inspectBarrel = HbmAnimations.getRelevantTransformation("INSPECT_BARREL");
+		double[] inspectMove = HbmAnimations.getRelevantTransformation("INSPECT_MOVE");
+		double[] inspectLever = HbmAnimations.getRelevantTransformation("INSPECT_LEVER");
 		
 		GL11.glTranslated(0, -1, -4);
 		GL11.glRotated(equip[0], 1, 0, 0);
 		GL11.glTranslated(0, 1, 4);
 		
+		GL11.glTranslated(0, 0, -4);
+		GL11.glRotated(lift[0], 1, 0, 0);
+		GL11.glTranslated(0, 0, 4);
+		
 		GL11.glTranslated(0, 0, recoil[2]);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		
+		GL11.glPushMatrix();
+
+		//GL11.glRotated(-70, 0, 0, 1);
+		//GL11.glRotated(15, 1, 0, 0);
+		GL11.glRotated(inspectGun[2], 0, 0, 1);
+		GL11.glRotated(inspectGun[0], 1, 0, 0);
+		
 		ResourceManager.stg77.renderPart("Gun");
-		ResourceManager.stg77.renderPart("Barrel");
-		ResourceManager.stg77.renderPart("Lever");
 		ResourceManager.stg77.renderPart("Magazine");
 		
 		GL11.glPushMatrix();
+		GL11.glRotated(inspectLever[2], 0, 0, 1);
+		ResourceManager.stg77.renderPart("Lever");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
 		GL11.glTranslated(0, 0, bolt[2]);
+		ResourceManager.stg77.renderPart("Breech");
+		GL11.glTranslated(0.125, 0, 0);
+		GL11.glRotated(handle[2], 0, 0, 1);
+		GL11.glTranslated(-0.125, 0, 0);
 		ResourceManager.stg77.renderPart("Handle");
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(safety[0], 0, 0);
 		ResourceManager.stg77.renderPart("Safety");
+		GL11.glPopMatrix();
+		
+		GL11.glPopMatrix();
+
+		GL11.glPushMatrix();
+		//GL11.glTranslated(2, 0.75, 0);
+		//GL11.glRotated(15, 1, 0, 0);
+		//GL11.glRotated(0, 0, 0, 1);
+		
+		GL11.glTranslated(inspectMove[0], inspectMove[1], inspectMove[2]);
+		GL11.glRotated(inspectBarrel[0], 1, 0, 0);
+		GL11.glRotated(inspectBarrel[2], 0, 0, 1);
+		ResourceManager.stg77.renderPart("Barrel");
 		GL11.glPopMatrix();
 
 		double smokeScale = 0.75;
@@ -115,6 +149,7 @@ public class ItemRenderSTG77 extends ItemRenderWeaponBase {
 		ResourceManager.stg77.renderPart("Magazine");
 		ResourceManager.stg77.renderPart("Safety");
 		ResourceManager.stg77.renderPart("Handle");
+		ResourceManager.stg77.renderPart("Breech");
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 }
