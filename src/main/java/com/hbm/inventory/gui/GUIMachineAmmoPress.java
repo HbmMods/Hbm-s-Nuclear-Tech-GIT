@@ -19,7 +19,6 @@ import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.TileEntityMachineAmmoPress;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -30,7 +29,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class GUIMachineAmmoPress extends GuiInfoContainer {
 
@@ -99,7 +97,7 @@ public class GUIMachineAmmoPress extends GuiInfoContainer {
 	private void resetPaging() {
 		
 		this.index = 0;
-		this.size = Math.max(0, (int)Math.ceil((this.recipes.size() - 12) / 2D));
+		this.size = Math.max(0, (int)Math.ceil((this.recipes.size() - 12) / 3D));
 	}
 	
 	@Override
@@ -123,6 +121,21 @@ public class GUIMachineAmmoPress extends GuiInfoContainer {
 				if(scroll < 0 && this.index < this.size) this.index++;
 			}
 		}
+
+		for(int i = index * 3; i < index * 3 + 12; i++) {
+			
+			if(i >= this.recipes.size())
+				break;
+			
+			int ind = i - index * 3;
+			
+			int ix = 16 + 18 * (ind / 3);
+			int iy = 17 + 18 * (ind % 3);
+			if(guiLeft + ix <= x && guiLeft + ix + 18 > x && guiTop + iy < y && guiTop + iy + 18 >= y) {
+				AmmoPressRecipe recipe = this.recipes.get(i);
+				this.renderToolTip(recipe.output, x, y);
+			}
+		}
 	}
 	
 	@Override
@@ -132,13 +145,13 @@ public class GUIMachineAmmoPress extends GuiInfoContainer {
 		this.search.mouseClicked(x, y, k);
 		
 		if(guiLeft + 7 <= x && guiLeft + 7 + 9 > x && guiTop + 17 < y && guiTop + 17 + 54 >= y) {
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			click();
 			if(this.index > 0) this.index--;
 			return;
 		}
 		
 		if(guiLeft + 88 <= x && guiLeft + 88 + 9 > x && guiTop + 17 < y && guiTop + 17 + 54 >= y) {
-			mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			click();
 			if(this.index < this.size) this.index++;
 			return;
 		}
@@ -164,7 +177,7 @@ public class GUIMachineAmmoPress extends GuiInfoContainer {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setInteger("selection", this.selection);
 				PacketDispatcher.wrapper.sendToServer(new NBTControlPacket(data, press.xCoord, press.yCoord, press.zCoord));
-				mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+				click();
 				return;
 			}
 		}
@@ -208,11 +221,12 @@ public class GUIMachineAmmoPress extends GuiInfoContainer {
 			AmmoPressRecipe recipe = recipes.get(i);
 			
 			FontRenderer font = null;
-			if (recipe.output != null) font = recipe.output.getItem().getFontRenderer(recipe.output);
-			if (font == null) font = fontRendererObj;
+			if(recipe.output != null) font = recipe.output.getItem().getFontRenderer(recipe.output);
+			if(font == null) font = fontRendererObj;
 			
 			itemRender.zLevel = 100.0F;
 			itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), recipe.output, guiLeft + 17 + 18 * (ind / 3), guiTop + 18 + 18 * (ind % 3));
+
 			itemRender.zLevel = 0.0F;
 
 			GL11.glEnable(GL11.GL_ALPHA_TEST);
@@ -224,6 +238,12 @@ public class GUIMachineAmmoPress extends GuiInfoContainer {
 				this.drawTexturedModalRect(guiLeft + 16 + 18 * (ind / 3), guiTop + 17 + 18 * (ind % 3), 194, 0, 18, 18);
 			else
 				this.drawTexturedModalRect(guiLeft + 16 + 18 * (ind / 3), guiTop + 17 + 18 * (ind % 3), 212, 0, 18, 18);
+			
+			GL11.glPushMatrix();
+			GL11.glTranslated(guiLeft + 17 + 18 * (ind / 3) + 8, guiTop + 18 + 18 * (ind % 3) + 8, 0);
+			GL11.glScaled(0.5, 0.5, 1);
+			itemRender.renderItemOverlayIntoGUI(font, this.mc.getTextureManager(), recipe.output, 0, 0, recipe.output.stackSize + "");
+			GL11.glPopMatrix();
 		}
 		
 		if(selection >= 0 && selection < AmmoPressRecipes.recipes.size()) {
@@ -232,6 +252,7 @@ public class GUIMachineAmmoPress extends GuiInfoContainer {
 			for(int i = 0; i < 9; i++) {
 				AStack stack = recipe.input[i];
 				if(stack == null) continue;
+				if(press.slots[i] != null) continue;
 				List<ItemStack> inputs = stack.extractForNEI();
 				ItemStack input = inputs.get((int) (Math.abs(System.currentTimeMillis() / 1000) % inputs.size()));
 
@@ -239,22 +260,26 @@ public class GUIMachineAmmoPress extends GuiInfoContainer {
 				GL11.glDisable(GL11.GL_LIGHTING);
 				GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 				
+				FontRenderer font = input.getItem().getFontRenderer(input);
+				if(font == null) font = fontRendererObj;
+				
 				itemRender.zLevel = 10.0F;
-				itemRender.renderItemAndEffectIntoGUI(input.getItem().getFontRenderer(input), this.mc.getTextureManager(), input, guiLeft + 116 + 18 * (i % 3), guiTop + 18 + 18 * (i / 3));
+				itemRender.renderItemAndEffectIntoGUI(font, this.mc.getTextureManager(), input, guiLeft + 116 + 18 * (i % 3), guiTop + 18 + 18 * (i / 3));
+				itemRender.renderItemOverlayIntoGUI(font, this.mc.getTextureManager(), input, guiLeft + 116 + 18 * (i % 3), guiTop + 18 + 18 * (i / 3), input.stackSize > 1 ? (input.stackSize + "") : null);
 				itemRender.zLevel = 0.0F;
 				
 				GL11.glEnable(GL11.GL_ALPHA_TEST);
 				GL11.glDisable(GL11.GL_LIGHTING);
-			}
 
-			Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-			this.zLevel = 300.0F;
-			OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-			GL11.glColor4f(1F, 1F, 1F, 0.5F);
-			GL11.glEnable(GL11.GL_BLEND);
-			drawTexturedModalRect(guiLeft + 116, guiTop + 18, 116, 18, 54, 54);
-			GL11.glColor4f(1F, 1F, 1F, 1F);
-			GL11.glDisable(GL11.GL_BLEND);
+				Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
+				this.zLevel = 300.0F;
+				OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+				GL11.glColor4f(1F, 1F, 1F, 0.5F);
+				GL11.glEnable(GL11.GL_BLEND);
+				drawTexturedModalRect(guiLeft + 116 + 18 * (i % 3), guiTop + 18+ 18 * (i / 3), 116 + 18 * (i % 3), 18+ 18 * (i / 3), 18, 18);
+				GL11.glColor4f(1F, 1F, 1F, 1F);
+				GL11.glDisable(GL11.GL_BLEND);
+			}
 		}
 		
 		this.search.drawTextBox();

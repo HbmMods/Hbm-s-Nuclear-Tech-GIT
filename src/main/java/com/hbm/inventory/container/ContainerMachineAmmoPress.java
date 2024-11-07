@@ -1,6 +1,8 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotCraftingOutput;
+import com.hbm.inventory.recipes.AmmoPressRecipes;
+import com.hbm.inventory.recipes.AmmoPressRecipes.AmmoPressRecipe;
 import com.hbm.tileentity.machine.TileEntityMachineAmmoPress;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,9 +51,20 @@ public class ContainerMachineAmmoPress extends Container {
 					return null;
 				}
 			} else {
-				if(!this.mergeItemStack(stack, 0, 9, false)) {
-					return null;
+				
+				if(press.selectedRecipe < 0 || press.selectedRecipe >= AmmoPressRecipes.recipes.size()) return null;
+				AmmoPressRecipe recipe = AmmoPressRecipes.recipes.get(press.selectedRecipe);
+				
+				for(int i = 0; i < 9; i++) {
+					if(recipe.input[i] == null) continue;
+					if(recipe.input[i].matchesRecipe(stack, true)) {
+						if(!this.mergeItemStack(stack, i, i + 1, false)) {
+							return null;
+						}
+					}
 				}
+				
+				return null;
 			}
 
 			if(stack.stackSize == 0) {

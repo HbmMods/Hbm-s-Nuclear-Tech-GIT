@@ -30,8 +30,10 @@ public class AmmoPressRecipes extends SerializableRecipe {
 
 		OreDictStack lead = new OreDictStack(PB.ingot());
 		OreDictStack steel = new OreDictStack(STEEL.ingot());
+		OreDictStack wSteel = new OreDictStack(WEAPONSTEEL.ingot());
 		OreDictStack copper = new OreDictStack(CU.ingot());
 		OreDictStack plastic = new OreDictStack(ANY_PLASTIC.ingot());
+		OreDictStack uranium = new OreDictStack(U238.ingot());
 		OreDictStack smokeless = new OreDictStack(ANY_SMOKELESS.dust());
 		ComparableStack cSmall = new ComparableStack(ModItems.casing, 1, EnumCasingType.SMALL);
 		ComparableStack cBig = new ComparableStack(ModItems.casing, 1, EnumCasingType.LARGE);
@@ -41,73 +43,140 @@ public class AmmoPressRecipes extends SerializableRecipe {
 		ComparableStack pShell = new ComparableStack(ModItems.casing, 1, EnumCasingType.BUCKSHOT);
 		ComparableStack sShell = new ComparableStack(ModItems.casing, 1, EnumCasingType.BUCKSHOT_ADVANCED);
 		
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_SP, 8),
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M357_SP, 8),
 				null,	lead,		null,
 				null,	smokeless,	null,
 				null,	cSmall,		null));
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_FMJ, 8),
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M357_FMJ, 8),
 				null,	steel,		null,
 				null,	smokeless,	null,
 				null,	cSmall,		null));
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_JHP, 8),
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M357_JHP, 8),
 				plastic,	copper,		null,
 				null,		smokeless,	null,
 				null,		cSmall,		null));
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_JHP, 8),
-				plastic,	copper,		null,
-				null,		smokeless,	null,
-				null,		cSmall,		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M357_AP, 8),
+				null,	wSteel,				null,
+				null,	smokeless.copy(2),	null,
+				null,	sSmall,				null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M357_EXPRESS, 8),
+				null,	steel,				null,
+				null,	smokeless.copy(3),	null,
+				null,	cSmall,				null));
 		
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_SP, 8),
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M44_SP, 6),
 				null,	lead,		null,
 				null,	smokeless,	null,
 				null,	cSmall,		null));
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_FMJ, 8),
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M44_FMJ, 6),
 				null,	steel,		null,
 				null,	smokeless,	null,
 				null,	cSmall,		null));
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_JHP, 8),
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M44_JHP, 6),
 				plastic,	copper,		null,
 				null,		smokeless,	null,
 				null,		cSmall,		null));
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_JHP, 8),
-				plastic,	copper,		null,
-				null,		smokeless,	null,
-				null,		cSmall,		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M44_AP, 6),
+				null,	wSteel,				null,
+				null,	smokeless.copy(2),	null,
+				null,	sSmall,				null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M44_EXPRESS, 6),
+				null,	steel,				null,
+				null,	smokeless.copy(3),	null,
+				null,	cSmall,				null));
 		
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_SP, 8),
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P22_SP, 24),
 				null,	lead,		null,
 				null,	smokeless,	null,
 				null,	cSmall,		null));
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_FMJ, 8),
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P22_FMJ, 24),
 				null,	steel,		null,
 				null,	smokeless,	null,
 				null,	cSmall,		null));
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_JHP, 8),
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P22_JHP, 24),
 				plastic,	copper,		null,
 				null,		smokeless,	null,
 				null,		cSmall,		null));
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_JHP, 8),
-				plastic,	copper,		null,
-				null,		smokeless,	null,
-				null,		cSmall,		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P22_AP, 24),
+				null,	wSteel,				null,
+				null,	smokeless.copy(2),	null,
+				null,	sSmall,				null));
 		
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_SP, 8),
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_SP, 12),
 				null,	lead,		null,
 				null,	smokeless,	null,
 				null,	cSmall,		null));
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_FMJ, 8),
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_FMJ, 12),
 				null,	steel,		null,
 				null,	smokeless,	null,
 				null,	cSmall,		null));
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_JHP, 8),
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_JHP, 12),
 				plastic,	copper,		null,
 				null,		smokeless,	null,
 				null,		cSmall,		null));
-		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_JHP, 8),
-				plastic,	copper,		null,
-				null,		smokeless,	null,
-				null,		cSmall,		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.P9_AP, 12),
+				null,	wSteel,				null,
+				null,	smokeless.copy(2),	null,
+				null,	sSmall,				null));
+		
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.R556_SP, 16),
+				null,	lead.copy(2),		null,
+				null,	smokeless.copy(2),	null,
+				null,	cSmall.copy(2),		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.R556_FMJ, 16),
+				null,	steel.copy(2),		null,
+				null,	smokeless.copy(2),	null,
+				null,	cSmall.copy(2),		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.R556_JHP, 16),
+				plastic,	copper.copy(2),		null,
+				null,		smokeless.copy(2),	null,
+				null,		cSmall.copy(2),		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.R556_AP, 16),
+				null,	wSteel.copy(2),		null,
+				null,	smokeless.copy(4),	null,
+				null,	sSmall.copy(2),		null));
+		
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.R762_SP, 12),
+				null,	lead.copy(2),		null,
+				null,	smokeless.copy(2),	null,
+				null,	cSmall.copy(2),		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.R762_FMJ, 12),
+				null,	steel.copy(2),		null,
+				null,	smokeless.copy(2),	null,
+				null,	cSmall.copy(2),		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.R762_JHP, 12),
+				plastic,	copper.copy(2),		null,
+				null,		smokeless.copy(2),	null,
+				null,		cSmall.copy(2),		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.R762_AP, 12),
+				null,	wSteel.copy(2),		null,
+				null,	smokeless.copy(4),	null,
+				null,	sSmall.copy(2),		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.R762_DU, 12),
+				null,	uranium.copy(2),	null,
+				null,	smokeless.copy(4),	null,
+				null,	sSmall.copy(2),		null));
+		
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.BMG50_SP, 12),
+				null,	lead.copy(2),		null,
+				null,	smokeless.copy(3),	null,
+				null,	cBig,				null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.BMG50_FMJ, 12),
+				null,	steel.copy(2),		null,
+				null,	smokeless.copy(3),	null,
+				null,	cBig,				null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.BMG50_JHP, 12),
+				plastic,	copper.copy(2),		null,
+				null,		smokeless.copy(3),	null,
+				null,		cBig,				null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.BMG50_AP, 12),
+				null,	wSteel.copy(2),		null,
+				null,	smokeless.copy(6),	null,
+				null,	sBig,				null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.BMG50_DU, 12),
+				null,	uranium.copy(2),	null,
+				null,	smokeless.copy(6),	null,
+				null,	sBig,				null));
 	}
 
 	@Override

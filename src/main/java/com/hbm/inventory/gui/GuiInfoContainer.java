@@ -22,6 +22,7 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
@@ -291,6 +292,11 @@ public abstract class GuiInfoContainer extends GuiContainer implements INEIGuiHa
 			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		}
 	}
+	
+	public void click() {
+		mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+	}
+	
 	///NEI drag and drop support
 	@Override
 	@Optional.Method(modid = "NotEnoughItems")

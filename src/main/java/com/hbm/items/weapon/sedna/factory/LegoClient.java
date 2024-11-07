@@ -115,8 +115,12 @@ public class LegoClient {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
 
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_FLARE = (bullet, interp) -> { renderFlare(bullet, interp, 1F, 0.5F, 0.5F); };
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_FLARE_SUPPLY = (bullet, interp) -> { renderFlare(bullet, interp, 0.5F, 0.5F, 1F); };
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_FLARE_WEAPON = (bullet, interp) -> { renderFlare(bullet, interp, 0.5F, 1F, 0.5F); };
+
 	private static final ResourceLocation flare = new ResourceLocation(RefStrings.MODID + ":textures/particle/flare.png");
-	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_FLARE = (bullet, interp) -> {
+	public static void renderFlare(EntityBulletBaseMK4 bullet, float interp, float r, float g, float b) {
 		
 		if(bullet.ticksExisted < 2) return;
 
@@ -144,7 +148,7 @@ public class LegoClient {
 		double posZ = 0;
 		double scale = Math.min(5, (bullet.ticksExisted + interp - 2) * 0.5) * (0.8 + bullet.worldObj.rand.nextDouble() * 0.4);
 
-		tess.setColorRGBA_F(1F, 0.5F, 0.5F, 0.5F);
+		tess.setColorRGBA_F(r, g, b, 0.5F);
 		tess.addVertexWithUV((double) (posX - f1 * scale - f3 * scale), (double) (posY - f5 * scale), (double) (posZ - f2 * scale - f4 * scale), 1, 1);
 		tess.addVertexWithUV((double) (posX - f1 * scale + f3 * scale), (double) (posY + f5 * scale), (double) (posZ - f2 * scale + f4 * scale), 1, 0);
 		tess.addVertexWithUV((double) (posX + f1 * scale + f3 * scale), (double) (posY + f5 * scale), (double) (posZ + f2 * scale + f4 * scale), 0, 0);
@@ -166,7 +170,7 @@ public class LegoClient {
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
-	};
+	}
 	
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_GRENADE = (bullet, interp) -> {
 		GL11.glScalef(0.25F, 0.25F, 0.25F);

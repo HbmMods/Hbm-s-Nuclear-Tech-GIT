@@ -122,8 +122,10 @@ public class GunFactoryClient {
 		g12_phosphorus.setRenderer(LegoClient.RENDER_AP_BULLET);
 		g12_anthrax.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		g12_equestrian.setRenderer(LegoClient.RENDER_LEGENDARY_BULLET);
-		
+
 		g26_flare.setRenderer(LegoClient.RENDER_FLARE);
+		g26_flare_supply.setRenderer(LegoClient.RENDER_FLARE_SUPPLY);
+		g26_flare_weapon.setRenderer(LegoClient.RENDER_FLARE_WEAPON);
 		
 		setRendererBulk(LegoClient.RENDER_GRENADE, g40_he, g40_heat, g40_demo, g40_inc);
 		
