@@ -11,5 +11,6 @@ public class ParticleCreators {
 		particleCreators.put("casingNT", new CasingCreator());
 		particleCreators.put("flamethrower", new FlameCreator());
 		particleCreators.put("explosionSmall", new ExplosionSmallCreator());
+		particleCreators.put("blackPowder", new BlackPowderHelper());
 	}
 }

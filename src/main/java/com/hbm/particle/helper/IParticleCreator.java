@@ -13,6 +13,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
+/**
+ * Does two cool things:
+ * <br>- requires no more additions to ClientProxy which is already bloated, full of other stuff and cumbersome to work with
+ * <br>- being a separate class, we can get as messy as we want without affecting other particles, so effects can overall have more logic behind them without turning into a big ugly clump
+ * @author hbm
+ *
+ */
 public interface IParticleCreator {
 
 	@SideOnly(Side.CLIENT)

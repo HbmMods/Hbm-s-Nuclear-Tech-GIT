@@ -29,6 +29,7 @@ public class AmmoPressRecipes extends SerializableRecipe {
 	public void registerDefaults() {
 
 		OreDictStack lead = new OreDictStack(PB.ingot());
+		OreDictStack nugget = new OreDictStack(PB.nugget());
 		OreDictStack steel = new OreDictStack(STEEL.ingot());
 		OreDictStack wSteel = new OreDictStack(WEAPONSTEEL.ingot());
 		OreDictStack copper = new OreDictStack(CU.ingot());
@@ -177,6 +178,19 @@ public class AmmoPressRecipes extends SerializableRecipe {
 				null,	uranium.copy(2),	null,
 				null,	smokeless.copy(6),	null,
 				null,	sBig,				null));
+
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G12_BP, 6),
+				null,	nugget.copy(6), null,
+				null,	smokeless,		null,
+				null,	bpShell,		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G12_MAGNUM, 6),
+				null,	nugget.copy(8), null,
+				null,	smokeless,		null,
+				null,	bpShell,		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G12_SLUG, 6),
+				null,	lead, 		null,
+				null,	smokeless,	null,
+				null,	bpShell,	null));
 	}
 
 	@Override
