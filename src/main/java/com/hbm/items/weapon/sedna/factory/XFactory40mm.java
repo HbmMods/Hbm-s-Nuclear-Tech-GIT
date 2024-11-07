@@ -41,6 +41,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class XFactory40mm {
 
 	public static BulletConfig g26_flare;
+	public static BulletConfig g26_flare_supply;
+	public static BulletConfig g26_flare_weapon;
+	
 	public static BulletConfig g40_he;
 	public static BulletConfig g40_heat;
 	public static BulletConfig g40_demo;
@@ -99,7 +102,9 @@ public class XFactory40mm {
 	
 	public static void init() {
 		
-		g26_flare = new BulletConfig().setItem(EnumAmmo.G26_FLARE).setLife(100).setVel(2F).setGrav(0.035D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x9E1616).setScale(2F).register("G40Flare"));
+		g26_flare = new BulletConfig().setItem(EnumAmmo.G26_FLARE).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x9E1616).setScale(2F).register("g26Flare"));
+		g26_flare_supply = new BulletConfig().setItem(EnumAmmo.G26_FLARE_SUPPLY).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x3C80F0).setScale(2F).register("g26FlareSupply"));
+		g26_flare_weapon = new BulletConfig().setItem(EnumAmmo.G26_FLARE_WEAPON).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x278400).setScale(2F).register("g26FlareWeapon"));
 		
 		BulletConfig g40_base = new BulletConfig().setLife(200).setVel(2F).setGrav(0.035D);
 		g40_he = g40_base.clone().setItem(EnumAmmo.G40_HE).setOnImpact(LAMBDA_STANDARD_EXPLODE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x777777).setScale(2, 2F, 1.5F).register("g40"));
@@ -111,7 +116,7 @@ public class XFactory40mm {
 				.dura(100).draw(7).inspect(39).crosshair(Crosshair.L_CIRCUMFLEX).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(15F).delay(20).reload(28).jam(33).sound("hbm:weapon.hkShoot", 1.0F, 1.0F)
-						.mag(new MagazineSingleReload(0, 1).addConfigs(g26_flare))
+						.mag(new MagazineSingleReload(0, 1).addConfigs(g26_flare, g26_flare_supply, g26_flare_weapon))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()

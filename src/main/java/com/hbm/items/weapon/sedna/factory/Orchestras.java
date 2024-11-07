@@ -882,7 +882,20 @@ public class Orchestras {
 		if(type == AnimType.CYCLE_DRY) {
 			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 0.8F);
 			if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.pistolCock", 1F, 0.9F);
+			if(timer == 40) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 0.25F, 1.25F);
+		}
+		if(type == AnimType.RELOAD) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.9F);
+			if(timer == 10) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magRemove", 1F, 1F);
+			if(timer == 24) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magInsert", 1F, 1F);
+			if(timer == 34) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 1F);
+		}
+		if(type == AnimType.INSPECT) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.9F);
+			if(timer == 10) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallRemove", 1F, 1F);
 			
+			if(timer == 114) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
+			if(timer == 124) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 1F);
 		}
 	};
 }
