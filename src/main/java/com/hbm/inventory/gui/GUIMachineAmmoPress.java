@@ -13,6 +13,7 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.container.ContainerMachineAmmoPress;
 import com.hbm.inventory.recipes.AmmoPressRecipes;
 import com.hbm.inventory.recipes.AmmoPressRecipes.AmmoPressRecipe;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toserver.NBTControlPacket;
@@ -254,7 +255,7 @@ public class GUIMachineAmmoPress extends GuiInfoContainer {
 				if(stack == null) continue;
 				if(press.slots[i] != null) continue;
 				List<ItemStack> inputs = stack.extractForNEI();
-				ItemStack input = inputs.get((int) (Math.abs(System.currentTimeMillis() / 1000) % inputs.size()));
+				ItemStack input = inputs.size() <= 0 ? new ItemStack(ModItems.nothing) : inputs.get((int) (Math.abs(System.currentTimeMillis() / 1000) % inputs.size()));
 
 				RenderHelper.enableGUIStandardItemLighting();
 				GL11.glDisable(GL11.GL_LIGHTING);

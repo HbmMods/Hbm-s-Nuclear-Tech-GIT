@@ -98,9 +98,6 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.hazmat_cloth_red, 1), new Object[] { "C", "R", "C", 'C', ModItems.hazmat_cloth, 'R', REDSTONE.dust() });
 		addRecipeAuto(new ItemStack(ModItems.hazmat_cloth_grey, 1), new Object[] { " P ", "ICI", " L ", 'C', ModItems.hazmat_cloth_red, 'P', IRON.plate(), 'L', PB.plate(), 'I', ANY_RUBBER.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.asbestos_cloth, 8), new Object[] { "SCS", "CPC", "SCS", 'S', Items.string, 'P', BR.dust(), 'C', Blocks.wool });
-		addRecipeAuto(Mats.MAT_TUNGSTEN.make(ModItems.bolt, 16), new Object[] { "D", "D", 'D', W.ingot()});
-		addRecipeAuto(Mats.MAT_STEEL.make(ModItems.bolt, 16), new Object[] { "D", "D", 'D', STEEL.ingot()});
-		addRecipeAuto(Mats.MAT_DURA.make(ModItems.bolt, 16), new Object[] { "D", "D", 'D', DURA.ingot()});
 		addRecipeAuto(new ItemStack(ModItems.bolt_spike, 2), new Object[] { "BB", "B ", "B ", 'B', STEEL.bolt()});
 		addRecipeAuto(new ItemStack(ModItems.pipes_steel, 1), new Object[] { "B", "B", "B", 'B', STEEL.block() });
 		addRecipeAuto(new ItemStack(ModItems.plate_polymer, 8), new Object[] { "DD", 'D', ANY_PLASTIC.ingot() });
@@ -1064,6 +1061,10 @@ public class CraftingManager {
 			}
 			
 			addRecipeAuto(new ItemStack(ModItems.book_of_), new Object[] { "BGB", "GAG", "BGB", 'B', ModItems.egg_balefire_shard, 'G', GOLD.ingot(), 'A', Items.book });
+		}
+		
+		for(NTMMaterial mat : Mats.orderedList) {
+			if(mat.autogen.contains(MaterialShapes.BOLT)) for(String name : mat.names) addRecipeAuto(new ItemStack(ModItems.bolt, 16, mat.id), new Object[] { "#", "#", '#', MaterialShapes.INGOT.prefixes[0] + name });
 		}
 
 		if(!GeneralConfig.enable528) {

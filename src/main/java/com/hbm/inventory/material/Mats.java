@@ -102,7 +102,7 @@ public class Mats {
 	public static final NTMMaterial MAT_COPPER			= makeSmeltable(2900,		CU,				0xFDCA88, 0x601E0D, 0xC18336).setAutogen(FRAGMENT, WIRE, DUST, PLATE, CASTPLATE, WELDEDPLATE, SHELL, PIPE, BLOCK, HEAVY_COMPONENT).m();
 	public static final NTMMaterial MAT_TUNGSTEN		= makeSmeltable(7400,		W,				0x868686, 0x000000, 0x977474).setAutogen(FRAGMENT, WIRE, BOLT, DUST, DENSEWIRE, CASTPLATE, WELDEDPLATE, BLOCK, HEAVY_COMPONENT).m();
 	public static final NTMMaterial MAT_ALUMINIUM		= makeSmeltable(1300,		AL,				0xFFFFFF, 0x344550, 0xD0B8EB).setAutogen(FRAGMENT, WIRE, DUST, PLATE, CASTPLATE, WELDEDPLATE, SHELL, PIPE, BLOCK, HEAVY_COMPONENT).m();
-	public static final NTMMaterial MAT_LEAD			= makeSmeltable(8200,		PB,				0xA6A6B2, 0x03030F, 0x646470).setAutogen(FRAGMENT, NUGGET, WIRE, DUST, PLATE, CASTPLATE, PIPE, BLOCK, HEAVY_COMPONENT).m();
+	public static final NTMMaterial MAT_LEAD			= makeSmeltable(8200,		PB,				0xA6A6B2, 0x03030F, 0x646470).setAutogen(FRAGMENT, NUGGET, WIRE, BOLT, DUST, PLATE, CASTPLATE, PIPE, BLOCK, HEAVY_COMPONENT).m();
 	public static final NTMMaterial MAT_BISMUTH			= makeSmeltable(8300,		BI, 			0xB200FF, 0xB200FF, 0xB200FF).setAutogen(FRAGMENT, NUGGET, BILLET, DUST, BLOCK).m();
 	public static final NTMMaterial MAT_ARSENIC			= makeSmeltable(3300,		AS,				0x6CBABA, 0x242525, 0x558080).setAutogen(NUGGET).m();
 	public static final NTMMaterial MAT_TANTALIUM		= makeSmeltable(7300,		TA,				0xFFFFFF, 0x1D1D36, 0xA89B74).setAutogen(NUGGET, DUST, BLOCK).m();
