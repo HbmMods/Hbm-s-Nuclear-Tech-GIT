@@ -101,6 +101,7 @@ public class TileMappings {
 		put(TileEntityCrateDesh.class, "tileentity_crate_desh");
 		put(TileEntityMassStorage.class, "tileentity_mass_storage");
 		put(TileEntityMachinePress.class, "tileentity_press");
+		put(TileEntityMachineAmmoPress.class, "tileentity_ammo_press");
 		put(TileEntityMachineSiren.class, "tileentity_siren");
 		put(TileEntityMachineSPP.class, "tileentity_spp");
 		put(TileEntityMachineRadGen.class, "tileentity_radgen");

@@ -201,7 +201,7 @@ public class BulletConfig implements Cloneable {
 			
 			float newHealth = living.getHealth();
 			
-			if(bullet.config.damageFalloffByPen) bullet.damage -= Math.max(prevHealth - newHealth, 0);
+			if(bullet.config.damageFalloffByPen) bullet.damage -= Math.max(prevHealth - newHealth, 0) * 0.5;
 			if(!bullet.doesPenetrate() || bullet.damage < 0) {
 				bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 				bullet.setDead();

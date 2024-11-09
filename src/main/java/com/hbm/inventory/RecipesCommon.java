@@ -278,6 +278,10 @@ public class RecipesCommon {
 		public AStack copy() {
 			return new ComparableStack(item, stacksize, meta);
 		}
+		
+		public ComparableStack copy(int stacksize) {
+			return new ComparableStack(item, stacksize, meta);
+		}
 
 		@Override
 		public boolean matchesRecipe(ItemStack stack, boolean ignoreSize) {
@@ -388,6 +392,10 @@ public class RecipesCommon {
 
 		@Override
 		public AStack copy() {
+			return new OreDictStack(name, stacksize);
+		}
+		
+		public OreDictStack copy(int stacksize) {
 			return new OreDictStack(name, stacksize);
 		}
 
