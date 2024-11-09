@@ -8,14 +8,19 @@ import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.impl.ItemGunStinger;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.helper.CasingCreator;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.sound.AudioWrapper;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 /** Orchestras are server-side components that run along client-side animations.
  * The orchestra only knows what animation is or was playing and how long it started, but not if it is still active.
@@ -896,6 +901,82 @@ public class Orchestras {
 			
 			if(timer == 114) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
 			if(timer == 124) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 1F);
+		}
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_TAU = (stack, ctx) -> {
+		EntityLivingBase entity = ctx.entity;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		
+		if(type == AnimType.SPINUP && entity.worldObj.isRemote) {
+			AudioWrapper runningAudio = ItemGunBaseNT.loopedSounds.get(entity);
+			
+			if(timer < 300) {
+				if(runningAudio == null || !runningAudio.isPlaying()) {
+					AudioWrapper audio = MainRegistry.proxy.getLoopedSound("hbm:weapon.fire.tauLoop", (float) entity.posX, (float) entity.posY, (float) entity.posZ, 1F, 15F, 0.75F, 10);
+					audio.updatePitch(0.75F);
+					ItemGunBaseNT.loopedSounds.put(entity, audio);
+					audio.startSound();
+				}
+				if(runningAudio != null && runningAudio.isPlaying()) {
+					runningAudio.keepAlive();
+					runningAudio.updatePosition((float) entity.posX, (float) entity.posY, (float) entity.posZ);
+					runningAudio.updatePitch(0.75F + timer * 0.01F);
+				}
+			} else {
+				if(runningAudio != null && runningAudio.isPlaying()) runningAudio.stopSound();
+			}
+		}
+		//stop sound due to state change
+		if(type != AnimType.SPINUP && entity.worldObj.isRemote) {
+			AudioWrapper runningAudio = ItemGunBaseNT.loopedSounds.get(entity);
+			if(runningAudio != null && runningAudio.isPlaying()) runningAudio.stopSound();
+		}
+		if(entity.worldObj.isRemote) return;
+		
+		if(type == AnimType.CYCLE) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.fire.tau", 0.5F, 0.9F + entity.getRNG().nextFloat() * 0.2F);
+		}
+		
+		if(type == AnimType.ALT_CYCLE) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.fire.tau", 0.5F, 0.7F + entity.getRNG().nextFloat() * 0.2F);
+		}
+		
+		if(type == AnimType.SPINUP) {
+			if(timer % 10 == 0 && timer < 130) {
+				IMagazine mag = ctx.config.getReceivers(stack)[0].getMagazine(stack);
+				if(mag.getAmount(stack, ctx.inventory) <= 0) {
+					ItemGunBaseNT.playAnimation(ctx.getPlayer(), stack, AnimType.CYCLE_DRY, ctx.configIndex);
+					return;
+				}
+				mag.useUpAmmo(stack, ctx.inventory, 1);
+			}
+			
+			if(timer > 200) {
+				ItemGunBaseNT.playAnimation(ctx.getPlayer(), stack, AnimType.CYCLE_DRY, ctx.configIndex);
+				
+				entity.attackEntityFrom(ModDamageSource.tauBlast, 1_000F);
+				
+				ItemGunBaseNT.setWear(stack, ctx.configIndex, Math.min(ItemGunBaseNT.getWear(stack, ctx.configIndex) + 10_000F, ctx.config.getDurability(stack)));
+				
+				entity.worldObj.playSoundEffect(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, "hbm:entity.ufoBlast", 5.0F, 0.9F);
+				entity.worldObj.playSoundEffect(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, "fireworks.blast", 5.0F, 0.5F);
+
+				float yaw = entity.worldObj.rand.nextFloat() * 180F;
+				for(int i = 0; i < 3; i++) {
+					NBTTagCompound data = new NBTTagCompound();
+					data.setString("type", "plasmablast");
+					data.setFloat("r", 1.0F);
+					data.setFloat("g", 0.8F);
+					data.setFloat("b", 0.5F);
+					data.setFloat("pitch", -60F + 60F * i);
+					data.setFloat("yaw", yaw);
+					data.setFloat("scale", 2F);
+					PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ),
+							new TargetPoint(entity.dimension, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, 100));
+				}
+			}
 		}
 	};
 }

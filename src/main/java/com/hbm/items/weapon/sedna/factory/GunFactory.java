@@ -59,6 +59,7 @@ public class GunFactory {
 		XFactory556mm.init();
 		XFactory50.init();
 		XFactoryEnergy.init();
+		XFactoryAccelerator.init();
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
@@ -79,6 +80,7 @@ public class GunFactory {
 		ROCKET_HE, ROCKET_HEAT, ROCKET_DEMO, ROCKET_INC, ROCKET_PHOSPHORUS,
 		FLAME_DIESEL, FLAME_GAS, FLAME_NAPALM, FLAME_BALEFIRE,
 		CAPACITOR, CAPACITOR_OVERCHARGE, CAPACITOR_BLACKLIGHTNING,
+		TAU_URANIUM,
 		M44_EQUESTRIAN, G12_EQUESTRIAN, BMG50_EQUESTRIAN
 	}
 }

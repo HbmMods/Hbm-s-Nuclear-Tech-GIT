@@ -246,4 +246,52 @@ public class LegoClient {
 		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorOuter, colorOuter, bullet.ticksExisted / 2, (int)(bullet.beamLength / 2 + 1), (float)scale * 7F, 2, 0.0625F);
 		GL11.glPopMatrix();
 	};
+	
+	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_TAU = (bullet, interp) -> {
+
+		double age = MathHelper.clamp_double(1D - ((double) bullet.ticksExisted - 2 + interp) / (double) bullet.getBulletConfig().expires, 0, 1);
+		
+		GL11.glPushMatrix();
+		GL11.glRotatef(180 - bullet.rotationYaw, 0, 1F, 0);
+		GL11.glRotatef(-bullet.rotationPitch - 90, 1F, 0, 0);
+		
+		GL11.glPushMatrix();
+		Vec3 delta = Vec3.createVectorHelper(0, bullet.beamLength, 0);
+		GL11.glScaled(age / 2 + 0.5, 1, age / 2 + 0.5);
+		double scale = 0.075D;
+		int colorInner = ((int)(0x30 * age) << 16) | ((int)(0x25 * age) << 8) | (int) (0x10 * age);
+		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorInner, colorInner, (bullet.ticksExisted + bullet.getEntityId()) / 2, (int)(bullet.beamLength / 2 + 1), (float)scale * 4F, 2, 0.0625F);
+		GL11.glPopMatrix();
+
+		GL11.glScaled(age * 2, 1, age * 2);
+		GL11.glTranslated(0, bullet.beamLength, 0);
+		GL11.glRotatef(-90, 0, 0, 1);
+		renderBulletStandard(Tessellator.instance, 0xFFBF00, 0xFFFFFF, bullet.beamLength, true);
+		
+		GL11.glPopMatrix();
+	};
+	
+	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_TAU_CHARGE = (bullet, interp) -> {
+
+		double age = MathHelper.clamp_double(1D - ((double) bullet.ticksExisted - 2 + interp) / (double) bullet.getBulletConfig().expires, 0, 1);
+		
+		GL11.glPushMatrix();
+		GL11.glRotatef(180 - bullet.rotationYaw, 0, 1F, 0);
+		GL11.glRotatef(-bullet.rotationPitch - 90, 1F, 0, 0);
+		
+		GL11.glPushMatrix();
+		Vec3 delta = Vec3.createVectorHelper(0, bullet.beamLength, 0);
+		GL11.glScaled(age / 2 + 0.5, 1, age / 2 + 0.5);
+		double scale = 0.075D;
+		int colorInner = ((int)(0x60 * age) << 16) | ((int)(0x50 * age) << 8) | (int) (0x30 * age);
+		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorInner, colorInner, (bullet.ticksExisted + bullet.getEntityId()) / 2, (int)(bullet.beamLength / 2 + 1), (float)scale * 4F, 2, 0.0625F);
+		GL11.glPopMatrix();
+
+		GL11.glScaled(age * 2, 1, age * 2);
+		GL11.glTranslated(0, bullet.beamLength, 0);
+		GL11.glRotatef(-90, 0, 0, 1);
+		renderBulletStandard(Tessellator.instance, 0xFFF0A0, 0xFFFFFF, bullet.beamLength, true);
+		
+		GL11.glPopMatrix();
+	};
 }

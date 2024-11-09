@@ -211,6 +211,31 @@ public class BulletConfig implements Cloneable {
 		}
 	};
 	
+	public static BiConsumer<EntityBulletBeamBase, MovingObjectPosition> LAMBDA_BEAM_HIT = (beam, mop) -> {
+		
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
+			Entity entity = mop.entityHit;
+			
+			if(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0) return;
+			
+			DamageSource damageCalc = beam.config.getDamage(beam, beam.thrower, false);
+			
+			if(!(entity instanceof EntityLivingBase)) {
+				EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, damageCalc, beam.damage);
+				return;
+			}
+			
+			EntityLivingBase living = (EntityLivingBase) entity;
+			
+			if(beam.config.armorPiercingPercent == 0) {
+				EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, damageCalc, beam.damage);
+			} else {
+				DamageSource damagePiercing = beam.config.getDamage(beam, beam.thrower, true);
+				EntityDamageUtil.attackArmorPiercing(living, damageCalc, damagePiercing, beam.damage, beam.config.armorPiercingPercent);
+			}
+		}
+	};
+	
 	@Override
 	public BulletConfig clone() {
 		try {

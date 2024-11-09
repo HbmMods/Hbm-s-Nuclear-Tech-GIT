@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 
 public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpawnData {
 	
-	protected EntityLivingBase thrower;
+	public EntityLivingBase thrower;
 	public BulletConfig config;
 	public float damage;
 	public double headingX;
