@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RBMKDials {
 
@@ -64,10 +63,23 @@ public class RBMKDials {
 		}
 	}
 
-	// Refresh all gamerules.
+
+	/**
+	 * Refresh all gamerules.
+	 * @param world World to refresh for.
+	 */
 	public static void refresh(World world) {
+		List<Tuple.Pair<World, Object>> toRemove = new ArrayList<>();
 		for(List<Tuple.Pair<World, Object>> values : gameRules.values()) {
-			values.removeAll(values.stream().filter(a -> a.key == world).collect(Collectors.toList()));
+
+			for(Tuple.Pair<World, Object> rulePair : values)
+				if(rulePair.key == world)
+					toRemove.add(rulePair);
+
+			for(Tuple.Pair<World, Object> pair : toRemove)
+				values.remove(pair);
+
+			toRemove.clear();
 		}
 
 		gameRules.get(RBMKKeys.KEY_PASSIVE_COOLING).add(new Tuple.Pair<>(world, GameRuleHelper.getDoubleMinimum(world, RBMKKeys.KEY_PASSIVE_COOLING, 0.0D)));
@@ -94,8 +106,20 @@ public class RBMKDials {
 		gameRules.get(RBMKKeys.KEY_REFLECTOR_EFFICIENCY).add(new Tuple.Pair<>(world, GameRuleHelper.getClampedDouble(world, RBMKKeys.KEY_REFLECTOR_EFFICIENCY, 0.0D, 1.0D)));
 	}
 
+	/**
+	 * Gets a gamerule from the internal cache.
+	 * @param world World to get the gamerule for.
+	 * @param rule Rule to get.
+	 * @return The rule in an Object.
+	 */
 	public static Object getGameRule(World world, RBMKKeys rule) {
-		List<Tuple.Pair<World, Object>> rulesList = gameRules.get(rule).stream().filter(a -> a.key == world).collect(Collectors.toList());
+		List<Tuple.Pair<World, Object>> rulesList = new ArrayList<>();
+
+		for(Tuple.Pair<World, Object> rulePair : gameRules.get(rule)) {
+			if(rulePair.key == world) {
+				rulesList.add(rulePair);
+			}
+		}
 
 		if(rulesList.isEmpty())
 			throw new NullPointerException("No gamerule found for " + rule.keyString);

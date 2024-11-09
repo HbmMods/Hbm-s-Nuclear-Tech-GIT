@@ -176,7 +176,7 @@ public class TileEntityMachineAutosaw extends TileEntityLoadedBase implements IB
 				}
 			}
 
-			sendStandard(100);
+			networkPackNT(100);
 		} else {
 
 			this.lastSpin = this.spin;

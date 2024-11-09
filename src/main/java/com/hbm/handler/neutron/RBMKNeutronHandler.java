@@ -372,9 +372,6 @@ public class RBMKNeutronHandler {
 
 			RBMKType lastNodeType = (RBMKType) lastNode.data.get("type");
 
-			if (lastNodeType != RBMKType.REFLECTOR && lastNodeType != RBMKType.ABSORBER && lastNodeType != RBMKType.CONTROL_ROD)
-				irradiateFromFlux(new BlockPos(lastNode.tile.xCoord + this.vector.xCoord, lastNode.tile.yCoord, lastNode.tile.zCoord + this.vector.zCoord));
-
 			if (lastNodeType == RBMKType.CONTROL_ROD) {
 				TileEntityRBMKControl rod = (TileEntityRBMKControl) lastNode.tile;
 				if (rod.getMult() > 0.0D) {

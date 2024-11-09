@@ -1,20 +1,15 @@
 package com.hbm.blocks.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import api.hbm.energymk2.PowerNetMK2;
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.handler.CompatHandler;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.RenderBlockMultipass;
-import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.network.TileEntityCableBaseNT;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
-
-import api.hbm.energymk2.PowerNetMK2;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -36,8 +31,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, ILookOverlay, ITooltipProvider {
-	
+
 	@SideOnly(Side.CLIENT) protected IIcon overlayGauge;
 
 	public BlockCableGauge() {
@@ -48,7 +46,7 @@ public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, 
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityCableGauge();
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
@@ -59,11 +57,11 @@ public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-		
+
 		if(RenderBlockMultipass.currentPass == 0) {
 			return blockIcon;
 		}
-		
+
 		return side == world.getBlockMetadata(x, y, z) ? this.overlayGauge : this.blockIcon;
 	}
 
@@ -85,42 +83,42 @@ public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, 
 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
-		
+
 		TileEntity te = world.getTileEntity(x, y, z);
-		
+
 		if(!(te instanceof TileEntityCableGauge))
 			return;
-		
+
 		TileEntityCableGauge duct = (TileEntityCableGauge) te;
-		
+
 		List<String> text = new ArrayList();
 		text.add(BobMathUtil.getShortNumber(duct.deltaTick) + "HE/t");
 		text.add(BobMathUtil.getShortNumber(duct.deltaLastSecond) + "HE/s");
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
-	
+
 	@Override
 	public int getRenderType(){
 		return IBlockMultiPass.getRenderType();
 	}
 
 	@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-	public static class TileEntityCableGauge extends TileEntityCableBaseNT implements IBufPacketReceiver, SimpleComponent, CompatHandler.OCComponent {
+	public static class TileEntityCableGauge extends TileEntityCableBaseNT implements SimpleComponent, CompatHandler.OCComponent {
 
 		private long deltaTick = 0;
 		private long deltaSecond = 0;
 		private long deltaLastSecond = 0;
-		
+
 		@Override
 		public void updateEntity() {
 			super.updateEntity();
 
 			if(!worldObj.isRemote) {
-				
+
 				if(this.node != null && this.node.net != null) {
-					
+
 					PowerNetMK2 net = this.node.net;
-					
+
 					this.deltaTick = net.energyTracker;
 					if(worldObj.getTotalWorldTime() % 20 == 0) {
 						this.deltaLastSecond = this.deltaSecond;
@@ -129,7 +127,7 @@ public class BlockCableGauge extends BlockContainer implements IBlockMultiPass, 
 					this.deltaSecond += deltaTick;
 				}
 
-				sendStandard(25);
+				networkPackNT(25);
 			}
 		}
 

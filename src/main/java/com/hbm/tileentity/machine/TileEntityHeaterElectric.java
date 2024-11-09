@@ -51,7 +51,7 @@ public class TileEntityHeaterElectric extends TileEntityLoadedBase implements IH
 				this.isOn = true;
 			}
 
-			sendStandard(25);
+			networkPackNT(25);
 		} else {
 
 			if(isOn) {

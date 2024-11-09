@@ -1,8 +1,9 @@
 package com.hbm.blocks.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import api.hbm.conveyor.IConveyorBelt;
+import api.hbm.conveyor.IConveyorItem;
+import api.hbm.conveyor.IConveyorPackage;
+import api.hbm.conveyor.IEnterableBlock;
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.entity.item.EntityMovingItem;
@@ -11,11 +12,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.render.block.RenderBlockMultipass;
 import com.hbm.tileentity.network.TileEntityCraneRouter;
-
-import api.hbm.conveyor.IConveyorBelt;
-import api.hbm.conveyor.IConveyorItem;
-import api.hbm.conveyor.IConveyorPackage;
-import api.hbm.conveyor.IEnterableBlock;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,6 +29,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CraneRouter extends BlockContainer implements IBlockMultiPass, IEnterableBlock, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT) protected IIcon iconOverlay;
@@ -46,7 +45,7 @@ public class CraneRouter extends BlockContainer implements IBlockMultiPass, IEnt
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityCraneRouter();
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -59,7 +58,7 @@ public class CraneRouter extends BlockContainer implements IBlockMultiPass, IEnt
 	public IIcon getIcon(int side, int metadata) {
 		return RenderBlockMultipass.currentPass == 0 ? this.blockIcon : this.iconOverlay;
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote) {
@@ -75,10 +74,10 @@ public class CraneRouter extends BlockContainer implements IBlockMultiPass, IEnt
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z) {
-		
+
 		if(RenderBlockMultipass.currentPass == 0)
 			return 0xffffff;
-		
+
 		switch(RenderBlockMultipass.currentPass - 1) {
 		case 0: return 0xff0000;
 		case 1: return 0xff8000;
@@ -89,7 +88,7 @@ public class CraneRouter extends BlockContainer implements IBlockMultiPass, IEnt
 		default: return 0xffffff;
 		}
 	}
-	
+
 	@Override
 	public int getRenderType(){
 		return IBlockMultiPass.getRenderType();
@@ -101,10 +100,10 @@ public class CraneRouter extends BlockContainer implements IBlockMultiPass, IEnt
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
-		
+
 		if(RenderBlockMultipass.currentPass == 0)
 			return true;
-		
+
 		return side == RenderBlockMultipass.currentPass - 1;
 	}
 
@@ -122,40 +121,40 @@ public class CraneRouter extends BlockContainer implements IBlockMultiPass, IEnt
 	public void onItemEnter(World world, int x, int y, int z, ForgeDirection dir, IConveyorItem entity) {
 		TileEntityCraneRouter router = (TileEntityCraneRouter) world.getTileEntity(x, y, z);
 		ItemStack stack = entity.getItemStack();
-		
+
 		List<ForgeDirection> validDirs = new ArrayList();
-		
+
 		//check filters for all sides
 		for(int side = 0; side < 6; side++) {
-			
+
 			ModulePatternMatcher matcher = router.patterns[side];
 			int mode = router.modes[side];
-			
+
 			//if the side is disabled or wildcard, skip
 			if(mode == router.MODE_NONE || mode == router.MODE_WILDCARD)
 				continue;
-			
+
 			boolean matchesFilter = false;
-			
+
 			for(int slot = 0; slot < 5; slot++) {
 				ItemStack filter = router.slots[side * 5 + slot];
-				
+
 				if(filter == null)
 					continue;
-				
+
 				//the filter kicks in so long as one entry matches
 				if(matcher.isValidForFilter(filter, slot, stack)) {
 					matchesFilter = true;
 					break;
 				}
 			}
-			
+
 			//add dir if matches with whitelist on or doesn't match with blacklist on
 			if((mode == router.MODE_WHITELIST && matchesFilter) || (mode == router.MODE_BLACKLIST && !matchesFilter)) {
 				validDirs.add(ForgeDirection.getOrientation(side));
 			}
 		}
-		
+
 		//if no valid dirs have yet been found, use wildcard
 		if(validDirs.isEmpty()) {
 			for(int side = 0; side < 6; side++) {
@@ -164,25 +163,25 @@ public class CraneRouter extends BlockContainer implements IBlockMultiPass, IEnt
 				}
 			}
 		}
-		
+
 		if(validDirs.isEmpty()) {
 			world.spawnEntityInWorld(new EntityItem(world, x + 0.5, y + 0.5, z + 0.5, stack.copy()));
 			return;
 		}
-		
+
 		int i = world.rand.nextInt(validDirs.size());
 		sendOnRoute(world, x, y, z, entity, validDirs.get(i));
 	}
-	
+
 	protected void sendOnRoute(World world, int x, int y, int z, IConveyorItem item, ForgeDirection dir) {
-		
+
 		IConveyorBelt belt = null;
 		Block block = world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
-		
+
 		if(block instanceof IConveyorBelt) {
 			belt = (IConveyorBelt) block;
 		}
-		
+
 		if(belt != null) {
 			EntityMovingItem moving = new EntityMovingItem(world);
 			Vec3 pos = Vec3.createVectorHelper(x + 0.5 + dir.offsetX * 0.55, y + 0.5 + dir.offsetY * 0.55, z + 0.5 + dir.offsetZ * 0.55);

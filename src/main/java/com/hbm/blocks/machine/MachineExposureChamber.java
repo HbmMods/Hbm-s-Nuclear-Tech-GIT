@@ -4,7 +4,6 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineExposureChamber;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -37,10 +36,10 @@ public class MachineExposureChamber extends BlockDummyable {
 	@Override
 	public void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
-		
+
 		x += dir.offsetX * o;
 		z += dir.offsetZ * o;
-		
+
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP).getOpposite();
 
 		MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {3, 0, 0, 0, -3, 8}, this, dir);
@@ -58,10 +57,10 @@ public class MachineExposureChamber extends BlockDummyable {
 
 	@Override
 	protected boolean checkRequirement(World world, int x, int y, int z, ForgeDirection dir, int o) {
-		
+
 		x += dir.offsetX * o;
 		z += dir.offsetZ * o;
-		
+
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP).getOpposite();
 
 		if(!MultiblockHandlerXR.checkSpace(world, x, y, z, getDimensions(), x, y, z, dir)) return false;
@@ -70,10 +69,10 @@ public class MachineExposureChamber extends BlockDummyable {
 		if(!MultiblockHandlerXR.checkSpace(world, x, y, z, new int[] {0, 0, -1, 1, -3, 6}, x, y, z, dir)) return false;
 		if(!MultiblockHandlerXR.checkSpace(world, x + rot.offsetX * 7, y, z + rot.offsetZ * 7, new int[] {3, 0, 1, -1, 0, 1}, x, y, z, dir)) return false;
 		if(!MultiblockHandlerXR.checkSpace(world, x + rot.offsetX * 7, y, z + rot.offsetZ * 7, new int[] {3, 0, -1, 1, 0, 1}, x, y, z, dir)) return false;
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		return super.standardOpenBehavior(world, x, y, z, player, 0);

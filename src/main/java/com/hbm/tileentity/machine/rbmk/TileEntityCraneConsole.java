@@ -6,7 +6,7 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.CompatHandler;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.items.machine.ItemRBMKRod;
-import com.hbm.tileentity.IBufPacketReceiver;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -19,7 +19,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -27,7 +26,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCraneConsole extends TileEntity implements IBufPacketReceiver, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityCraneConsole extends TileEntityLoadedBase implements SimpleComponent, CompatHandler.OCComponent {
 
 	public int centerX;
 	public int centerY;
@@ -165,7 +164,7 @@ public class TileEntityCraneConsole extends TileEntity implements IBufPacketRece
 				this.loadedEnrichment = 0;
 			}
 
-			sendStandard(250);
+			networkPackNT(250);
 		}
 	}
 

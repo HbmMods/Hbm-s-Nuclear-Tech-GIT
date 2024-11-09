@@ -9,7 +9,6 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.container.ContainerDroneRequester;
 import com.hbm.inventory.gui.GUIDroneRequester;
 import com.hbm.module.ModulePatternMatcher;
-import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.network.RequestNetwork.PathNode;
@@ -27,8 +26,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer implements IBufPacketReceiver, IGUIProvider, IControlReceiverFilter {
-	
+public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer implements IGUIProvider, IControlReceiverFilter {
+
 	public ModulePatternMatcher matcher;
 
 	public TileEntityDroneRequester() {
@@ -40,14 +39,14 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 	public String getName() {
 		return "container.droneRequester";
 	}
-	
+
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		
+
 		if(!worldObj.isRemote) {
 
-			sendStandard(15);
+			networkPackNT(15);
 		}
 	}
 
@@ -78,13 +77,13 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
 		return true;
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.matcher.readFromNBT(nbt);
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -111,7 +110,7 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 			if(filter == null) continue;
 			String mode = this.matcher.modes[i];
 			AStack aStack = null;
-			
+
 			if(ModulePatternMatcher.MODE_EXACT.equals(mode)) {
 				aStack = new ComparableStack(filter).makeSingular();
 			} else if(ModulePatternMatcher.MODE_WILDCARD.equals(mode)) {
@@ -119,9 +118,9 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 			} else if(mode != null) {
 				aStack = new OreDictStack(mode);
 			}
-			
+
 			if(aStack == null) continue;
-			
+
 			if(stock == null || !this.matcher.isValidForFilter(filter, i, stock)) request.add(aStack);
 		}
 		return new RequestNode(pos, this.reachableNodes, request);

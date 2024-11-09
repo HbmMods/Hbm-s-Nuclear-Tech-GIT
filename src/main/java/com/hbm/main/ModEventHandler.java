@@ -1,27 +1,6 @@
 package com.hbm.main;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
-
-import com.hbm.handler.neutron.NeutronHandler;
-import com.hbm.handler.neutron.NeutronNodeWorld;
-import com.hbm.tileentity.machine.rbmk.RBMKDials;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import com.hbm.handler.threading.BufPacketThreading;
-import net.minecraft.command.CommandGameRule;
-import net.minecraft.command.ICommand;
-import net.minecraft.command.ICommandSender;
-import net.minecraftforge.event.CommandEvent;
-import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.logging.log4j.Level;
-
+import api.hbm.energymk2.Nodespace;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.hbm.blocks.IStepTickReceiver;
@@ -30,37 +9,25 @@ import com.hbm.blocks.generic.BlockAshes;
 import com.hbm.config.GeneralConfig;
 import com.hbm.config.MobConfig;
 import com.hbm.config.RadiationConfig;
-import com.hbm.entity.mob.EntityCyberCrab;
-import com.hbm.entity.mob.EntityDuck;
-import com.hbm.entity.mob.EntityCreeperNuclear;
-import com.hbm.entity.mob.EntityQuackos;
+import com.hbm.entity.mob.*;
 import com.hbm.entity.mob.ai.EntityAIFireGun;
-import com.hbm.entity.mob.EntityCreeperTainted;
 import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
-import com.hbm.handler.ArmorModHandler;
-import com.hbm.handler.BobmazonOfferFactory;
-import com.hbm.handler.BossSpawnHandler;
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
-import com.hbm.handler.EntityEffectHandler;
-import com.hbm.hazard.HazardSystem;
-import com.hbm.interfaces.IBomb;
-import com.hbm.handler.HTTPHandler;
+import com.hbm.handler.*;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.handler.neutron.NeutronHandler;
+import com.hbm.handler.neutron.NeutronNodeWorld;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.handler.threading.PacketThreading;
+import com.hbm.hazard.HazardSystem;
+import com.hbm.interfaces.IBomb;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.ModItems;
-import com.hbm.items.armor.ArmorFSB;
-import com.hbm.items.armor.IAttackHandler;
-import com.hbm.items.armor.IDamageHandler;
-import com.hbm.items.armor.ItemArmorMod;
-import com.hbm.items.armor.ItemModRevive;
-import com.hbm.items.armor.ItemModShackles;
+import com.hbm.items.armor.*;
 import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.ItemGunBase;
@@ -74,13 +41,12 @@ import com.hbm.packet.toclient.PlayerInformPacket;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
+import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.tileentity.network.RequestNetwork;
 import com.hbm.util.*;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.world.generator.TimedGenerator;
-
-import api.hbm.energymk2.Nodespace;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -89,7 +55,12 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
+import net.minecraft.command.CommandGameRule;
+import net.minecraft.command.ICommand;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -99,12 +70,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityCaveSpider;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityMooshroom;
@@ -127,26 +93,27 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.AnvilUpdateEvent;
+import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityEvent.EnteringChunk;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.logging.log4j.Level;
+
+import java.lang.reflect.Field;
+import java.util.*;
 
 public class ModEventHandler {
 
@@ -1203,25 +1170,31 @@ public class ModEventHandler {
 
 		if(event.phase == Phase.START) {
 
-			NetworkHandler.flush(); // Flush ALL network packets.
-			// Yes this technically happens a tick late, I am aware.
-			// I was encountering some kind of race condition when I flushed packets at the end of the tick,
-			// leading to occasional ticks of incorrect packets.
-
-			NeutronHandler.onWorldTick(); // All neutron interactions
-
 			// do other shit I guess?
 			RTTYSystem.updateBroadcastQueue();
 			RequestNetwork.updateEntries();
 			TileEntityMachineRadarNT.updateSystem();
 			Nodespace.updateNodespace();
 			// bob i beg of you i need fluid nodespace :pray:
+
+			NeutronHandler.onWorldTick(); // All neutron interactions
 		}
 
+		// There is an issue here somewhere...
+		// I cannot, for the life of me, figure out why a single certain bug happens.
+		// Every 20-30 or so ticks, players will receive wrong/outdated/weird information in packets
+		// I have tried everything to see if I can get this to stop, but it just doesn't seem to work.
+
+		// ^ Update ^ - I figured it out, when the packets were being made for some machines they were being created inside the thread,
+		// meaning sometimes the machine would change data *after* the packet was supposed to be sent, meaning incorrect data was being sent.
+		// This has since been fixed.
+
 		if(event.phase == Phase.END) {
-			// As ByteBufs are added to the queue in `com.hbm.packet.toclient.BufPacketThreading`, they are processed by the packet thread.
+			// As ByteBufs are added to the queue in `com.hbm.packet.toclient.PacketThreading`, they are processed by the packet thread.
 			// This waits until the thread is finished, which most of the time will be instantly since it has plenty of time to process in parallel to everything else.
-			BufPacketThreading.waitUntilThreadFinished();
+			PacketThreading.waitUntilThreadFinished();
+
+			NetworkHandler.flush(); // Flush ALL network packets.
 		}
 	}
 

@@ -20,36 +20,36 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineFractionTower extends TileEntityLoadedBase implements IBufPacketReceiver, IFluidStandardTransceiver, IFluidCopiable {
-	
+
 	public FluidTank[] tanks;
-	
+
 	public TileEntityMachineFractionTower() {
 		tanks = new FluidTank[3];
 		tanks[0] = new FluidTank(Fluids.HEAVYOIL, 4000);
 		tanks[1] = new FluidTank(Fluids.BITUMEN, 4000);
 		tanks[2] = new FluidTank(Fluids.SMEAR, 4000);
 	}
-	
+
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			
+
 			TileEntity stack = worldObj.getTileEntity(xCoord, yCoord + 3, zCoord);
-			
+
 			if(stack instanceof TileEntityMachineFractionTower) {
 				TileEntityMachineFractionTower frac = (TileEntityMachineFractionTower) stack;
-				
+
 				//make types equal
 				for(int i = 0; i < 3; i++) {
 					frac.tanks[i].setTankType(tanks[i].getTankType());
 				}
-				
+
 				//calculate transfer
 				int oil = Math.min(tanks[0].getFill(), frac.tanks[0].getMaxFill() - frac.tanks[0].getFill());
 				int left = Math.min(frac.tanks[1].getFill(), tanks[1].getMaxFill() - tanks[1].getFill());
 				int right = Math.min(frac.tanks[2].getFill(), tanks[2].getMaxFill() - tanks[2].getFill());
-				
+
 				//move oil up, pull fractions down
 				tanks[0].setFill(tanks[0].getFill() - oil);
 				tanks[1].setFill(tanks[1].getFill() + left);
@@ -58,16 +58,16 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 				frac.tanks[1].setFill(frac.tanks[1].getFill() - left);
 				frac.tanks[2].setFill(frac.tanks[2].getFill() - right);
 			}
-			
+
 			setupTanks();
 			this.updateConnections();
-			
+
 			if(worldObj.getTotalWorldTime() % 10 == 0)
 				fractionate();
-			
+
 			this.sendFluid();
 
-			sendStandard(50);
+			networkPackNT(50);
 		}
 	}
 
@@ -82,22 +82,22 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 		for(int i = 0; i < 3; i++)
 			tanks[i].deserialize(buf);
 	}
-	
+
 	private void updateConnections() {
-		
+
 		for(DirPos pos : getConPos()) {
 			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
-	
+
 	private void sendFluid() {
-		
+
 		for(DirPos pos : getConPos()) {
 			this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			this.sendFluid(tanks[2], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
-	
+
 	private DirPos[] getConPos() {
 		return new DirPos[] {
 				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
@@ -106,11 +106,11 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z)
 		};
 	}
-	
+
 	private void setupTanks() {
-		
+
 		Pair<FluidStack, FluidStack> quart = FractionRecipes.getFractions(tanks[0].getTankType());
-		
+
 		if(quart != null) {
 			tanks[1].setTankType(quart.getKey().type);
 			tanks[2].setTankType(quart.getValue().type);
@@ -120,16 +120,16 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 			tanks[2].setTankType(Fluids.NONE);
 		}
 	}
-	
+
 	private void fractionate() {
-		
+
 		Pair<FluidStack, FluidStack> quart = FractionRecipes.getFractions(tanks[0].getTankType());
-		
+
 		if(quart != null) {
-			
+
 			int left = quart.getKey().fill;
 			int right = quart.getValue().fill;
-			
+
 			if(tanks[0].getFill() >= 100 && hasSpace(left, right)) {
 				tanks[0].setFill(tanks[0].getFill() - 100);
 				tanks[1].setFill(tanks[1].getFill() + left);
@@ -137,11 +137,11 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 			}
 		}
 	}
-	
+
 	private boolean hasSpace(int left, int right) {
 		return tanks[1].getFill() + left <= tanks[1].getMaxFill() && tanks[2].getFill() + right <= tanks[2].getMaxFill();
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -149,7 +149,7 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 		for(int i = 0; i < 3; i++)
 			tanks[i].readFromNBT(nbt, "tank" + i);
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -157,12 +157,12 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 		for(int i = 0; i < 3; i++)
 			tanks[i].writeToNBT(nbt, "tank" + i);
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 1,
@@ -173,10 +173,10 @@ public class TileEntityMachineFractionTower extends TileEntityLoadedBase impleme
 					zCoord + 2
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {

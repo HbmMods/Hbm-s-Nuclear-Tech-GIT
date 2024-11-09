@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import api.hbm.block.IToolable;
@@ -104,7 +103,7 @@ public class BlockEmitter extends BlockContainer implements IToolable, ITooltipP
 		return false;
 	}
 
-	public static class TileEntityEmitter extends TileEntityLoadedBase implements IBufPacketReceiver {
+	public static class TileEntityEmitter extends TileEntityLoadedBase {
 
 		public static final int range = 100;
 		public int color;
@@ -177,7 +176,7 @@ public class BlockEmitter extends BlockContainer implements IToolable, ITooltipP
 					}
 				}
 
-				sendStandard(150);
+				networkPackNT(150);
 
 			}
 		}

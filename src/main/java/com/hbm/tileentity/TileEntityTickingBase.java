@@ -1,14 +1,13 @@
 package com.hbm.tileentity;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fluids.FluidTank;
 
-public abstract class TileEntityTickingBase extends TileEntityLoadedBase implements IBufPacketReceiver {
-	
+public abstract class TileEntityTickingBase extends TileEntityLoadedBase {
+
 	public TileEntityTickingBase() { }
-	
+
 	public abstract String getInventoryName();
-	
+
 	public int getGaugeScaled(int i, FluidTank tank) {
 		return tank.getFluidAmount() * i / tank.getCapacity();
 	}
@@ -22,16 +21,5 @@ public abstract class TileEntityTickingBase extends TileEntityLoadedBase impleme
 
 	@Deprecated
 	public void handleButtonPacket(int value, int meta) { }
-	
-	public void networkPackNT(int range) {
-		if(!worldObj.isRemote) sendStandard(range);
-	}
 
-	@Override public void serialize(ByteBuf buf) {
-		buf.writeBoolean(muffled);
-	}
-	
-	@Override public void deserialize(ByteBuf buf) {
-		this.muffled = buf.readBoolean();
-	}
 }

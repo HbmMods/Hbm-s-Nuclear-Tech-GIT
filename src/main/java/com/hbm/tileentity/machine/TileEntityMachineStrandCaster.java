@@ -11,7 +11,6 @@ import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemMold;
 import com.hbm.items.machine.ItemScraps;
-import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.relauncher.Side;
@@ -29,7 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 //god thank you bob for this base class
-public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase implements IGUIProvider, ICrucibleAcceptor, ISidedInventory, IFluidStandardTransceiver, IBufPacketReceiver, IInventory {
+public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase implements IGUIProvider, ICrucibleAcceptor, ISidedInventory, IFluidStandardTransceiver, IInventory {
 
 	public FluidTank water;
 	public FluidTank steam;
@@ -117,7 +116,7 @@ public class TileEntityMachineStrandCaster extends TileEntityFoundryCastingBase 
 				}
 			}
 
-			sendStandard(150);
+			networkPackNT(150);
 
 	}
 

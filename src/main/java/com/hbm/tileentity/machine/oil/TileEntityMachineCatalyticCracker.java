@@ -57,7 +57,7 @@ public class TileEntityMachineCatalyticCracker extends TileEntityLoadedBase impl
 
 			}
 			this.worldObj.theProfiler.endSection();
-			sendStandard(25);
+			networkPackNT(25);
 		}
 	}
 

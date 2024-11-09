@@ -1,12 +1,9 @@
 package com.hbm.blocks.network;
 
-import java.util.List;
-
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.network.TileEntityPylonBase;
 import com.hbm.tileentity.network.TileEntityPylonLarge;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +14,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.List;
+
 public class PylonLarge extends BlockDummyable implements ITooltipProvider {
 
 	public PylonLarge(Material mat) {
@@ -25,7 +24,7 @@ public class PylonLarge extends BlockDummyable implements ITooltipProvider {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		
+
 		if(meta >= 12)
 			return new TileEntityPylonLarge();
 		return null;
@@ -50,19 +49,19 @@ public class PylonLarge extends BlockDummyable implements ITooltipProvider {
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block b, int m) {
-		
+
 		TileEntity te = world.getTileEntity(x, y, z);
-		
+
 		if(te instanceof TileEntityPylonBase) {
 			((TileEntityPylonBase)te).disconnectAll();
 		}
-		
+
 		super.breakBlock(world, x, y, z, b, m);
 	}
 
 	@Override
 	protected int getMetaForCore(World world, int x, int y, int z, EntityPlayer player, int original) {
-		
+
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 180.0F + 0.5D) & 3;
 
 		ForgeDirection dir = ForgeDirection.NORTH;
@@ -79,10 +78,10 @@ public class PylonLarge extends BlockDummyable implements ITooltipProvider {
 		if(i == 3) {
 			dir = ForgeDirection.getOrientation(4);
 		}
-		
+
 		return dir.ordinal() + offset;
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote) {

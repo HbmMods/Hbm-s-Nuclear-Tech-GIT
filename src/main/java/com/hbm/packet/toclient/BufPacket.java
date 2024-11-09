@@ -1,6 +1,7 @@
 package com.hbm.packet.toclient;
 
 import com.hbm.main.MainRegistry;
+import com.hbm.packet.PrecompiledPacket;
 import com.hbm.tileentity.IBufPacketReceiver;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -10,7 +11,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 
-public class BufPacket implements IMessage {
+public class BufPacket extends PrecompiledPacket {
 
 	int x;
 	int y;

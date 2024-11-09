@@ -1,9 +1,5 @@
 package com.hbm.blocks.network;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.items.ModItems;
@@ -11,7 +7,6 @@ import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.network.TileEntityDroneCrate;
 import com.hbm.util.I18nUtil;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,8 +23,12 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class DroneCrate extends BlockContainer implements ILookOverlay, ITooltipProvider {
-	
+
 	private static Random rand = new Random();
 
 	@SideOnly(Side.CLIENT) private IIcon iconTop;
@@ -60,9 +59,9 @@ public class DroneCrate extends BlockContainer implements ILookOverlay, ITooltip
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		
+
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.drone_linker) return false;
-		
+
 		if(world.isRemote) {
 			return true;
 		} else if(!player.isSneaking()) {
@@ -72,7 +71,7 @@ public class DroneCrate extends BlockContainer implements ILookOverlay, ITooltip
 			return false;
 		}
 	}
-	
+
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		TileEntityDroneCrate tileentityfurnace = (TileEntityDroneCrate) world.getTileEntity(x, y, z);
@@ -124,7 +123,7 @@ public class DroneCrate extends BlockContainer implements ILookOverlay, ITooltip
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		TileEntityDroneCrate tile = (TileEntityDroneCrate) world.getTileEntity(x, y, z);
 		List<String> text = new ArrayList();
-		
+
 		if(tile.nextY != -1) {
 			text.add("Next waypoint: " + tile.nextX + " / " + tile.nextY + " / " + tile.nextZ);
 			ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);

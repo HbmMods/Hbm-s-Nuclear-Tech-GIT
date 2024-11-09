@@ -1,21 +1,20 @@
 package com.hbm.util;
 
-import java.util.HashMap;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 
+import java.util.HashMap;
+
 public class AchievementHandler {
 
 	public static HashMap<ComparableStack, Achievement> craftingAchievements = new HashMap();
-	
+
 	public static void register() {
 		craftingAchievements.put(new ComparableStack(ModItems.gun_mp40), MainRegistry.achFreytag);
 		craftingAchievements.put(new ComparableStack(ModItems.piston_selenium), MainRegistry.achSelenium);
@@ -55,7 +54,7 @@ public class AchievementHandler {
 		craftingAchievements.put(new ComparableStack(ModItems.billet_pu_mix), MainRegistry.achChicagoPile);
 		craftingAchievements.put(new ComparableStack(ModItems.ammo_4gauge, 1, ItemAmmoEnums.Ammo4Gauge.VAMPIRE.ordinal()), MainRegistry.achWitchtaunter);
 	}
-	
+
 	public static void fire(EntityPlayer player, ItemStack stack) {
 		if(player.worldObj.isRemote) return;
 		ComparableStack comp = new ComparableStack(stack).makeSingular();

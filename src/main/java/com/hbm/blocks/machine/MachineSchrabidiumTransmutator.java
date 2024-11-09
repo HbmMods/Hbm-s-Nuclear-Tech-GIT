@@ -1,12 +1,9 @@
 package com.hbm.blocks.machine;
 
-import java.util.Random;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineSchrabidiumTransmutator;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -23,16 +20,18 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class MachineSchrabidiumTransmutator extends BlockContainer {
 
     private final Random field_149933_a = new Random();
 	private static boolean keepInventory;
-	
+
 	@SideOnly(Side.CLIENT)
 	//private IIcon iconFront;
 	private IIcon iconTop;
 	private IIcon iconBottom;
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -40,7 +39,7 @@ public class MachineSchrabidiumTransmutator extends BlockContainer {
 		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + (":transmutator_bottom"));
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":transmutator_side");
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
@@ -50,13 +49,13 @@ public class MachineSchrabidiumTransmutator extends BlockContainer {
 	public MachineSchrabidiumTransmutator(Material p_i45386_1_) {
 		super(p_i45386_1_);
 	}
-	
+
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
         return Item.getItemFromBlock(ModBlocks.machine_schrabidium_transmutator);
     }
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
@@ -79,7 +78,7 @@ public class MachineSchrabidiumTransmutator extends BlockContainer {
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityMachineSchrabidiumTransmutator();
 	}
-	
+
 	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {

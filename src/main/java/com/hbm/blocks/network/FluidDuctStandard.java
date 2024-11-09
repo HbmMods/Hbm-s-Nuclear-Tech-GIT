@@ -1,8 +1,5 @@
 package com.hbm.blocks.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.blocks.IBlockMulti;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.fluid.FluidType;
@@ -11,7 +8,6 @@ import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 import com.hbm.util.I18nUtil;
-
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,6 +27,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILookOverlay {
 
 	@SideOnly(Side.CLIENT)
@@ -41,7 +40,7 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 	public FluidDuctStandard(Material mat) {
 		super(mat);
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -56,20 +55,20 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 		this.overlay[1] = iconRegister.registerIcon(RefStrings.MODID + ":pipe_silver_overlay");
 		this.overlay[2] = iconRegister.registerIcon(RefStrings.MODID + ":pipe_colored_overlay");
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
 		return side == 0 ? this.icon[rectify(metadata)] : this.overlay[rectify(metadata)];
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
 		for(int i = 0; i < 3; ++i) {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
-	
+
 	public int damageDropped(int meta) {
 		return rectify(meta);
 	}
@@ -95,7 +94,7 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 	        return new ItemStack(ModItems.fluid_duct, 1, metadata).getItem();
 	}
 	*/
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
@@ -109,19 +108,19 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 		}
 		return super.getPickBlock(target, world, x, y, z, player);
 	}
-	
+
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();
-	
+
 	@Override
 	public int getRenderType() {
 		return renderID;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
@@ -134,7 +133,7 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 
 	@Override
 	public void addCollisionBoxesToList(World world, int x, int y, int z, AxisAlignedBB entityBounding, List list, Entity entity) {
-		
+
 		List<AxisAlignedBB> bbs = new ArrayList();
 
 		TileEntity te = world.getTileEntity(x, y, z);
@@ -149,7 +148,7 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 			boolean nZ = canConnectTo(world, x, y, z, Library.NEG_Z, type);
 			boolean pZ = canConnectTo(world, x, y, z, Library.POS_Z, type);
 			int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
-			
+
 			if(mask == 0) {
 				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.6875D, y + 0.3125D, z + 0.3125D, x + 1.0D, y + 0.6875D, z + 0.6875D));
 				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + 0.3125D, z + 0.3125D, x + 0.3125D, y + 0.6875D, z + 0.6875D));
@@ -164,9 +163,9 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 			} else if(mask == 0b000010 || mask == 0b000001 || mask == 0b000011) {
 				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.0D, x + 0.6875D, y + 0.6875D, z + 1.0D));
 			} else {
-				
+
 				bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.3125D, x + 0.6875D, y + 0.6875D, z + 0.6875D));
-		
+
 				if(pX) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.6875D, y + 0.3125D, z + 0.3125D, x + 1.0D, y + 0.6875D, z + 0.6875D));
 				if(nX) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.0D, y + 0.3125D, z + 0.3125D, x + 0.3125D, y + 0.6875D, z + 0.6875D));
 				if(pY) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.6875D, z + 0.3125D, x + 0.6875D, y + 1.0D, z + 0.6875D));
@@ -175,7 +174,7 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 				if(nZ) bbs.add(AxisAlignedBB.getBoundingBox(x + 0.3125D, y + 0.3125D, z + 0.0D, x + 0.6875D, y + 0.6875D, z + 0.3125D));
 			}
 		}
-		
+
 		for(AxisAlignedBB bb : bbs) {
 			if(entityBounding.intersectsWith(bb)) {
 				list.add(bb);
@@ -211,7 +210,7 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 			boolean nZ = canConnectTo(world, x, y, z, Library.NEG_Z, type);
 			boolean pZ = canConnectTo(world, x, y, z, Library.POS_Z, type);
 			int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
-			
+
 			if(mask == 0) {
 				this.setBlockBounds(0F, 0F, 0F, 1F, 1F, 1F);
 			} else if(mask == 0b100000 || mask == 0b010000 || mask == 0b110000) {
@@ -221,7 +220,7 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 			} else if(mask == 0b000010 || mask == 0b000001 || mask == 0b000011) {
 				this.setBlockBounds(0.3125F, 0.3125F, 0F, 0.6875F, 0.6875F, 1F);
 			} else {
-				
+
 				this.setBlockBounds(
 						nX ? 0F : 0.3125F,
 						nY ? 0F : 0.3125F,
@@ -232,21 +231,21 @@ public class FluidDuctStandard extends FluidDuctBase implements IBlockMulti, ILo
 			}
 		}
 	}
-	
+
 	public boolean canConnectTo(IBlockAccess world, int x, int y, int z, ForgeDirection dir, FluidType type) {
 		return Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, type);
 	}
 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
-		
+
 		TileEntity te = world.getTileEntity(x, y, z);
-		
+
 		if(!(te instanceof TileEntityPipeBaseNT))
 			return;
-		
+
 		TileEntityPipeBaseNT duct = (TileEntityPipeBaseNT) te;
-		
+
 		List<String> text = new ArrayList();
 		text.add("&[" + duct.getType().getColor() + "&]" + duct.getType().getLocalizedName());
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);

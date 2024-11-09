@@ -90,7 +90,7 @@ public class TileEntityCondenser extends TileEntityLoadedBase implements IFluidS
 			this.subscribeToAllAround(tanks[0].getTankType(), this);
 			this.sendFluidToAll(tanks[1], this);
 
-			sendStandard(150);
+			networkPackNT(150);
 		}
 	}
 

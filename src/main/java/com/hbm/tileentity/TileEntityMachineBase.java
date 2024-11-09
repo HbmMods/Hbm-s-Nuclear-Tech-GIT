@@ -2,13 +2,9 @@ package com.hbm.tileentity;
 
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxGaugePacket;
-import com.hbm.packet.toclient.BufPacket;
-import com.hbm.handler.threading.BufPacketThreading;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -18,13 +14,11 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTank;
 
-public abstract class TileEntityMachineBase extends TileEntityLoadedBase implements ISidedInventory, IBufPacketReceiver {
+public abstract class TileEntityMachineBase extends TileEntityLoadedBase implements ISidedInventory {
 
 	public ItemStack slots[];
 
 	private String customName;
-
-	private ByteBuf lastPackedBuf = null;
 
 	public TileEntityMachineBase(int slotCount) {
 		slots = new ItemStack[slotCount];
@@ -157,39 +151,6 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, val, id), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}
 	@Deprecated public void processGauge(int val, int id) { }
-
-	/** Sends a sync packet that uses ByteBuf for efficient information-cramming */
-	public void networkPackNT(int range) {
-		if(worldObj.isRemote) {
-			return;
-		}
-
-		BufPacket packet = new BufPacket(xCoord, yCoord, zCoord, this);
-		ByteBuf buf = Unpooled.buffer();
-		packet.toBytes(buf);
-
-		// Don't send unnecessary packets, except for maybe one every second or so.
-		// If we stop sending duplicate packets entirely, this causes issues when
-		// a client unloads and then loads back a chunk with an unchanged tile entity.
-		// For that client, the tile entity will appear default until anything changes about it.
-		// In my testing, this can be reliably reproduced with a full fluid barrel, for instance.
-		// I think it might be fixable by doing something with getDescriptionPacket() and onDataPacket(),
-		// but this sidesteps the problem for the mean time.
-		if (buf.equals(lastPackedBuf) && worldObj.getWorldTime() % 20 != 0) {
-			return;
-		}
-		this.lastPackedBuf = buf;
-
-		BufPacketThreading.createBufPacket(packet, new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
-	}
-
-	@Override public void serialize(ByteBuf buf) {
-		buf.writeBoolean(muffled);
-	}
-
-	@Override public void deserialize(ByteBuf buf) {
-		this.muffled = buf.readBoolean();
-	}
 
 	@Deprecated
 	public void handleButtonPacket(int value, int meta) { }

@@ -1,8 +1,8 @@
 package com.hbm.tileentity.network;
 
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.tileentity.IBufPacketReceiver;
 
+import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BufferUtil;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,9 +10,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityRadioTorchBase extends TileEntity implements IBufPacketReceiver, IControlReceiver {
+public class TileEntityRadioTorchBase extends TileEntityLoadedBase implements IControlReceiver {
 
 	/** channel we're broadcasting on/listening to */
 	public String channel = "";
@@ -31,8 +30,8 @@ public class TileEntityRadioTorchBase extends TileEntity implements IBufPacketRe
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			
-			sendStandard(50);
+
+			networkPackNT(50);
 		}
 	}
 
@@ -80,7 +79,7 @@ public class TileEntityRadioTorchBase extends TileEntity implements IBufPacketRe
 		nbt.setByte("l", (byte) this.lastState);
 		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 0, nbt);
 	}
-	
+
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 		int last = this.lastState;
@@ -101,7 +100,7 @@ public class TileEntityRadioTorchBase extends TileEntity implements IBufPacketRe
 		if(data.hasKey("m")) this.customMap = data.getBoolean("m");
 		if(data.hasKey("c")) this.channel = data.getString("c");
 		for(int i = 0; i < 16; i++) if(data.hasKey("m" + i)) this.mapping[i] = data.getString("m" + i);
-		
+
 		this.markDirty();
 	}
 }

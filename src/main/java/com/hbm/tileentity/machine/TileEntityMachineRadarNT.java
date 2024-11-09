@@ -72,14 +72,14 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	public boolean smartMode = true;
 	public boolean redMode = true;
 	public boolean showMap = false;
-	
+
 	public boolean jammed = false;
 
 	public float prevRotation;
 	public float rotation;
 
 	public long power = 0;
-	
+
 	protected int pingTimer = 0;
 	protected int lastPower;
 	protected final static int maxTimer = 80;
@@ -91,10 +91,10 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	public static int radarAltitude = 55;
 	public static int chunkLoadCap = 10;
 	public static boolean generateChunks = false;
-	
+
 	public byte[] map = new byte[40_000];
 	public boolean clearFlag = false;
-	
+
 	public List<RadarEntry> entries = new ArrayList();
 
 	@Override
@@ -131,18 +131,18 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	public String getName() {
 		return "container.radar";
 	}
-	
+
 	public int getRange() {
 		return radarRange;
 	}
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(this.map == null || this.map.length != 40_000) this.map = new byte[40_000];
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			this.power = Library.chargeTEFromItems(slots, 9, power, maxPower);
 
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
@@ -150,37 +150,37 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 					this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				}
 			}
-			
+
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			this.jammed = false;
 			allocateTargets();
-			
+
 			if(this.lastPower != getRedPower()) {
 				this.markChanged();
 				for(DirPos pos : getConPos()) this.updateRedstoneConnection(pos);
 			}
 			lastPower = getRedPower();
-			
+
 			if(!this.muffled) {
-				
+
 				pingTimer++;
-				
+
 				if(power > 0 && pingTimer >= maxTimer) {
 					this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.sonarPing", 5.0F, 1.0F);
 					pingTimer = 0;
 				}
 			}
-			
+
 			if(this.showMap) {
 				int chunkLoads = 0;
 				for(int i = 0; i < 100; i++) {
 					int index = (int) (worldObj.getTotalWorldTime() % 400) * 100 + i;
 					int iX = (index % 200) * getRange() * 2 / 200;
 					int iZ = index / 200 * getRange() * 2 / 200;
-					
+
 					int x = xCoord - getRange() + iX;
 					int z = zCoord - getRange() + iZ;
-					
+
 					if(worldObj.getChunkProvider().chunkExists(x >> 4, z >> 4)) {
 						this.map[index] = (byte) MathHelper.clamp_int(worldObj.getHeightValue(x, z), 50, 128);
 					} else {
@@ -198,7 +198,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 					}
 				}
 			}
-			
+
 			if(slots[8] != null && slots[8].getItem() == ModItems.radar_linker) {
 				BlockPos pos = ItemCoordinateBase.getPosition(slots[8]);
 				if(pos != null) {
@@ -212,11 +212,11 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 						screen.refZ = zCoord;
 						screen.range = this.getRange();
 						screen.linked = true;
-						sendStandard(25);
+						networkPackNT(25);
 					}
 				}
 			}
-			
+
 			this.networkPackNT(50);
 			if(this.clearFlag) {
 				this.map = new byte[40_000];
@@ -225,14 +225,14 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		} else {
 			prevRotation = rotation;
 			if(power > 0) rotation += 5F;
-			
+
 			if(rotation >= 360) {
 				rotation -= 360F;
 				prevRotation -= 360F;
 			}
 		}
 	}
-	
+
 	public DirPos[] getConPos() {
 		return new DirPos[] {
 				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
@@ -241,7 +241,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z),
 		};
 	}
-	
+
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
@@ -271,7 +271,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			}
 		}
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
@@ -327,30 +327,30 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		nbt.setBoolean("showMap", showMap);
 		nbt.setByteArray("map", map);
 	}
-	
+
 	protected void allocateTargets() {
 		this.entries.clear();
-		
+
 		if(this.yCoord < radarAltitude) return;
 		if(this.power < consumption) return;
 		this.power -= consumption;
-		
+
 		int scan = this.getRange();
-		
+
 		RadarScanParams params = new RadarScanParams(this.scanMissiles, this.scanShells, this.scanPlayers, this.smartMode);
-		
+
 		for(Entity e : matchingEntities) {
-			
+
 			if(e.dimension == worldObj.provider.dimensionId && Math.abs(e.posX - (xCoord + 0.5)) <= scan && Math.abs(e.posZ - (zCoord + 0.5)) <= scan && e.posY - yCoord > radarBuffer) {
-				
+
 				if(e instanceof EntityLivingBase && HbmLivingProps.getDigamma((EntityLivingBase) e) > 0.001) {
 					this.jammed = true;
 					entries.clear();
 					return;
 				}
-				
+
 				for(Function<Triplet<Entity, Object, RadarScanParams>, RadarEntry> converter : converters) {
-					
+
 					RadarEntry entry = converter.apply(new Triplet(e, this, params));
 					if(entry != null) {
 						this.entries.add(entry);
@@ -360,33 +360,33 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			}
 		}
 	}
-	
+
 	public int getRedPower() {
-		
+
 		if(!entries.isEmpty()) {
-			
+
 			/// PROXIMITY ///
 			if(redMode) {
-				
+
 				double maxRange = this.getRange() * Math.sqrt(2D);
 				int power = 0;
-				
+
 				for(int i = 0; i < entries.size(); i++) {
 					RadarEntry e = entries.get(i);
 					if(!e.redstone) continue;
 					double dist = Math.sqrt(Math.pow(e.posX - xCoord, 2) + Math.pow(e.posZ - zCoord, 2));
 					int p = 15 - (int)Math.floor(dist / maxRange * 15);
-					
+
 					if(p > power) power = p;
 				}
-				
+
 				return power;
-				
+
 			/// TIER ///
 			} else {
-				
+
 				int power = 0;
-				
+
 				for(int i = 0; i < entries.size(); i++) {
 					RadarEntry e = entries.get(i);
 					if(!e.redstone) continue;
@@ -394,11 +394,11 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 						power = e.blipLevel + 1;
 					}
 				}
-				
+
 				return power;
 			}
 		}
-		
+
 		return 0;
 	}
 
@@ -423,10 +423,10 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 	}
 
 	@Override public void receiveControl(NBTTagCompound data) { }
-	
+
 	@Override
 	public void receiveControl(EntityPlayer player, NBTTagCompound data) {
-		
+
 		if(data.hasKey("missiles")) this.scanMissiles = !this.scanMissiles;
 		if(data.hasKey("shells")) this.scanShells = !this.scanShells;
 		if(data.hasKey("players")) this.scanPlayers = !this.scanPlayers;
@@ -436,11 +436,11 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		if(data.hasKey("clear")) this.clearFlag = true;
 
 		if(data.hasKey("gui1")) FMLNetworkHandler.openGui(player, MainRegistry.instance, 1, worldObj, xCoord, yCoord, zCoord);
-		
+
 		if(data.hasKey("link")) {
 			int id = data.getInteger("link");
 			ItemStack link = slots[id];
-			
+
 			if(link != null && link.getItem() == ModItems.sat_relay) {
 				World world = player.getEntityWorld();
 				Satellite sat = SatelliteSavedData.getData(world).getSatFromFreq(ISatChip.getFreqS(link));
@@ -473,12 +473,12 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			}
 			if(link != null && link.getItem() == ModItems.radar_linker) {
 				BlockPos pos = ItemCoordinateBase.getPosition(link);
-				
+
 				if(pos != null) {
 					TileEntity tile = worldObj.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
 					if(tile instanceof IRadarCommandReceiver) {
 						IRadarCommandReceiver rec = (IRadarCommandReceiver) tile;
-						
+
 						if(data.hasKey("launchEntity")) {
 							Entity entity = worldObj.getEntityByID(data.getInteger("launchEntity"));
 							if(entity != null) {
@@ -498,12 +498,12 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 			}
 		}
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 1,
@@ -514,10 +514,10 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 					zCoord + 2
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -546,20 +546,20 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		if(ID == 1) return new GUIMachineRadarNTSlots(player.inventory, this);
 		return null;
 	}
-	
+
 	/** List of lambdas that are supplied a Pair with the entity and radar in question to generate a RadarEntry
 	The converters coming first have the highest priority */
 	public static List<Function<Triplet<Entity, Object, RadarScanParams>, RadarEntry>> converters = new ArrayList();
 	public static List<Class> classes = new ArrayList();
 	public static List<Entity> matchingEntities = new ArrayList();
-	
+
 	/**
 	 * Iterates over every entity in the world and add them to the matchingEntities list if the class is in the detectable list
 	 * From this compiled list, radars can easily grab the required entities since we can assume that the total amount of detectable entities is comparatively low
 	 */
 	public static void updateSystem() {
 		matchingEntities.clear();
-		
+
 		for(WorldServer world : MinecraftServer.getServer().worldServers) {
 			for(Object entity : world.loadedEntityList) {
 				for(Class clazz : classes) {
@@ -578,7 +578,7 @@ public class TileEntityMachineRadarNT extends TileEntityMachineBase implements I
 		classes.add(IRadarDetectable.class);
 		classes.add(EntityPlayer.class);
 	}
-	
+
 	/** Registers converters. Converters are used to go over the list of detected entities and turn them into a RadarEntry using the entity instance and the radar's instance. */
 	public static void registerConverters() {
 		//IRadarDetectableNT

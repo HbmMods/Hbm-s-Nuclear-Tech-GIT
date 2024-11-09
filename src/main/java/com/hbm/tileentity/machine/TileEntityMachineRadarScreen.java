@@ -13,7 +13,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityMachineRadarScreen extends TileEntityLoadedBase implements IBufPacketReceiver {
-	
+
 	public List<RadarEntry> entries = new ArrayList();
 	public int refX;
 	public int refY;
@@ -23,9 +23,9 @@ public class TileEntityMachineRadarScreen extends TileEntityLoadedBase implement
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			this.sendStandard(100);
+			this.networkPackNT(100);
 			entries.clear();
 			this.linked = false;
 		}
@@ -41,7 +41,7 @@ public class TileEntityMachineRadarScreen extends TileEntityLoadedBase implement
 		buf.writeInt(entries.size());
 		for(RadarEntry entry : entries) entry.toBytes(buf);
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		linked = buf.readBoolean();
@@ -57,12 +57,12 @@ public class TileEntityMachineRadarScreen extends TileEntityLoadedBase implement
 			this.entries.add(entry);
 		}
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 1,
@@ -73,10 +73,10 @@ public class TileEntityMachineRadarScreen extends TileEntityLoadedBase implement
 					zCoord + 2
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {

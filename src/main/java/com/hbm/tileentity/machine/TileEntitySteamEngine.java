@@ -20,9 +20,8 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import io.netty.buffer.PooledByteBufAllocator;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -71,12 +70,14 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 		writer.name("D:efficiency").value(efficiency);
 	}
 
-	ByteBuf buf = new PacketBuffer(Unpooled.buffer());
+	ByteBuf buf;
 
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+
+			this.buf = PooledByteBufAllocator.DEFAULT.buffer();
 
 			this.powerBuffer = 0;
 
@@ -120,7 +121,7 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
 
-			sendStandard(150);
+			networkPackNT(150);
 		} else {
 			this.lastRotor = this.rotor;
 
@@ -214,7 +215,7 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 	@Override
 	public void serialize(ByteBuf buf) {
 		buf.writeBytes(this.buf);
-		this.buf = new PacketBuffer(Unpooled.buffer());
+		this.buf.release();
 	}
 
 	@Override

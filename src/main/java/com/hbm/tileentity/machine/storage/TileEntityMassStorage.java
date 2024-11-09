@@ -88,7 +88,7 @@ public class TileEntityMassStorage extends TileEntityCrateBase implements IBufPa
 				}
 			}
 
-			sendStandard(15);
+			networkPackNT(15);
 		}
 	}
 

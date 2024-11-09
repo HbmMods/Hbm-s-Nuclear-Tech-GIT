@@ -29,9 +29,8 @@ import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
+import io.netty.buffer.PooledByteBufAllocator;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumSkyBlock;
@@ -59,12 +58,14 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 		this.tanks[1] = new FluidTank(Fluids.STEAM, 16_000 * 100);
 	}
 
-	ByteBuf buf = new PacketBuffer(Unpooled.buffer());
+	ByteBuf buf;
 
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+
+			this.buf = PooledByteBufAllocator.DEFAULT.buffer();
 
 			buf.writeBoolean(this.hasExploded);
 
@@ -93,7 +94,7 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 
 			buf.writeBoolean(this.muffled);
 			buf.writeBoolean(this.isOn);
-			sendStandard(25);
+			networkPackNT(25);
 		} else {
 
 			if(this.isOn) audioTime = 20;
@@ -150,7 +151,7 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 	@Override
 	public void serialize(ByteBuf buf) {
 		buf.writeBytes(this.buf);
-		this.buf = new PacketBuffer(Unpooled.buffer());
+		this.buf.release();
 	}
 
 	@Override
