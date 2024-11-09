@@ -9,6 +9,7 @@ import com.hbm.inventory.material.Mats;
 import static com.hbm.inventory.OreDictManager.*;
 
 import com.hbm.items.ItemAmmoEnums.*;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.ModItems;
@@ -32,6 +33,10 @@ public class WeaponRecipes {
 		//SEDNA Parts
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.part_stock, 1, Mats.MAT_WOOD.id), new Object[] { "WWW", "  W", 'W', KEY_PLANKS });
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.part_grip, 1, Mats.MAT_WOOD.id), new Object[] { "W ", " W", " W", 'W', KEY_PLANKS });
+
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.casing, EnumCasingType.SHOTSHELL, 2), new Object[] { "P", "C", 'P', GUNMETAL.plate(), 'C', DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE) });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.casing, EnumCasingType.BUCKSHOT, 2), new Object[] { "P", "C", 'P', ANY_PLASTIC.ingot(), 'C', DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE) });
+		CraftingManager.addRecipeAuto(DictFrame.fromOne(ModItems.casing, EnumCasingType.BUCKSHOT_ADVANCED, 2), new Object[] { "P", "C", 'P', ANY_PLASTIC.ingot(), 'C', DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE_STEEL) });
 		
 		//SEDNA Guns
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.gun_pepperbox, 1), new Object[] { "IIW", "  C", 'I', IRON.ingot(), 'W', KEY_PLANKS, 'C', CU.ingot() });

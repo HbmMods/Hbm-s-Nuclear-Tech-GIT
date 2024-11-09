@@ -228,6 +228,9 @@
     "weapon.fire.flameLoop": {"category": "player", "sounds": [{"name": "weapon/fire/flameLoop", "stream": false}]},
     "weapon.fire.lockon": {"category": "player", "sounds": [{"name": "weapon/fire/lockon", "stream": false}]},
     "weapon.fire.shredderCycle": {"category": "player", "sounds": [{"name": "weapon/fire/shredderCycle", "stream": false}]},
+    "weapon.fire.tau": {"category": "player", "sounds": [{"name": "weapon/fire/tau", "stream": false}]},
+    "weapon.fire.tauLoop": {"category": "player", "sounds": [{"name": "weapon/fire/tauLoop", "stream": false}]},
+    "weapon.fire.tauRelease": {"category": "player", "sounds": ["weapon/fire/tauRelease1", "weapon/fire/tauRelease2", "weapon/fire/tauRelease3"]},
     
     "weapon.reload.boltClose": {"category": "player", "sounds": ["weapon/reload/boltClose"]},
     "weapon.reload.boltOpen": {"category": "player", "sounds": ["weapon/reload/boltOpen"]},

@@ -25,8 +25,11 @@ import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -64,6 +67,13 @@ public class XFactoryEnergy {
 			data.setFloat("scale", 2F);
 			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord),
 					new TargetPoint(beam.worldObj.provider.dimensionId, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 100));
+		}
+		
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
+			if(mop.entityHit instanceof EntityLivingBase) {
+				((EntityLivingBase) mop.entityHit).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 60, 9));
+				((EntityLivingBase) mop.entityHit).addPotionEffect(new PotionEffect(Potion.digSlowdown.id, 60, 9));
+			}
 		}
 	};
 	

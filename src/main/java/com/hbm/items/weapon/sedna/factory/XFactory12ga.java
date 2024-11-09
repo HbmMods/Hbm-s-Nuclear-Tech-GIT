@@ -50,9 +50,9 @@ public class XFactory12ga {
 	
 	public static void init() {
 		
-		g12_bp = new BulletConfig().setItem(EnumAmmo.G12_BP).setProjectiles(8).setSpread(0.05F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP"));
-		g12_bp_magnum = new BulletConfig().setItem(EnumAmmo.G12_BP_MAGNUM).setProjectiles(4).setSpread(0.05F).setRicochetAngle(25).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP_MAGNUM"));
-		g12_bp_slug = new BulletConfig().setItem(EnumAmmo.G12_BP_SLUG).setSpread(0.01F).setRicochetAngle(5).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP_SLUG"));
+		g12_bp = new BulletConfig().setItem(EnumAmmo.G12_BP).setBlackPowder(true).setProjectiles(8).setSpread(0.05F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP"));
+		g12_bp_magnum = new BulletConfig().setItem(EnumAmmo.G12_BP_MAGNUM).setBlackPowder(true).setProjectiles(4).setSpread(0.05F).setRicochetAngle(25).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP_MAGNUM"));
+		g12_bp_slug = new BulletConfig().setItem(EnumAmmo.G12_BP_SLUG).setBlackPowder(true).setSpread(0.01F).setRicochetAngle(5).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP_SLUG"));
 		g12 = new BulletConfig().setItem(EnumAmmo.G12).setProjectiles(8).setSpread(0.05F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA"));
 		g12_slug = new BulletConfig().setItem(EnumAmmo.G12_SLUG).setSpread(0.0F).setRicochetAngle(25).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x393939, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_SLUG"));
 		g12_flechette = new BulletConfig().setItem(EnumAmmo.G12_FLECHETTE).setProjectiles(8).setSpread(0.025F).setRicochetAngle(5).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x3C80F0, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_FLECHETTE"));

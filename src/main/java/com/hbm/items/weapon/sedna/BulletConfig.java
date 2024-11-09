@@ -72,6 +72,7 @@ public class BulletConfig implements Cloneable {
 	public boolean isSpectral = false;
 	public int selfDamageDelay = 2;
 	
+	public boolean blackPowder = false;
 	public boolean renderRotations = true;
 	public SpentCasing casing;
 	public BiConsumer<EntityBulletBaseMK4, Float> renderer;
@@ -111,6 +112,7 @@ public class BulletConfig implements Cloneable {
 	public BulletConfig setDoesPenetrate(boolean pen) {									this.doesPenetrate = pen; return this; }
 	public BulletConfig setSpectral(boolean spectral) {									this.isSpectral = spectral; return this; }
 	public BulletConfig setSelfDamageDelay(int delay) {									this.selfDamageDelay = delay; return this; }
+	public BulletConfig setBlackPowder(boolean bp) {									this.blackPowder = bp; return this; }
 	public BulletConfig setRenderRotations(boolean rot) {								this.renderRotations = rot; return this; }
 	public BulletConfig setCasing(SpentCasing casing) {									this.casing = casing; return this; }
 	
@@ -205,6 +207,31 @@ public class BulletConfig implements Cloneable {
 			if(!bullet.doesPenetrate() || bullet.damage < 0) {
 				bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 				bullet.setDead();
+			}
+		}
+	};
+	
+	public static BiConsumer<EntityBulletBeamBase, MovingObjectPosition> LAMBDA_BEAM_HIT = (beam, mop) -> {
+		
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
+			Entity entity = mop.entityHit;
+			
+			if(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0) return;
+			
+			DamageSource damageCalc = beam.config.getDamage(beam, beam.thrower, false);
+			
+			if(!(entity instanceof EntityLivingBase)) {
+				EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, damageCalc, beam.damage);
+				return;
+			}
+			
+			EntityLivingBase living = (EntityLivingBase) entity;
+			
+			if(beam.config.armorPiercingPercent == 0) {
+				EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, damageCalc, beam.damage);
+			} else {
+				DamageSource damagePiercing = beam.config.getDamage(beam, beam.thrower, true);
+				EntityDamageUtil.attackArmorPiercing(living, damageCalc, damagePiercing, beam.damage, beam.config.armorPiercingPercent);
 			}
 		}
 	};

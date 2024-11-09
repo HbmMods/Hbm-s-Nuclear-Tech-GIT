@@ -51,6 +51,7 @@
   * Existing oily coal can be mined risk-free
 * Reeds rendering into water can now be toggled with the RENDER_REEDS client config
   * This option is usually enabled by default, unless Angelica is installed
+* Microwave explosions no longer destroy blocks, only the microwave and nearby players
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines
