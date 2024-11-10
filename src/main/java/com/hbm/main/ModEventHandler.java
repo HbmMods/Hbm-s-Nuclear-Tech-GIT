@@ -18,7 +18,6 @@ import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.*;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
-import com.hbm.handler.neutron.NeutronHandler;
 import com.hbm.handler.neutron.NeutronNodeWorld;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
@@ -1176,8 +1175,6 @@ public class ModEventHandler {
 			TileEntityMachineRadarNT.updateSystem();
 			Nodespace.updateNodespace();
 			// bob i beg of you i need fluid nodespace :pray:
-
-			NeutronHandler.onWorldTick(); // All neutron interactions
 		}
 
 		// There is an issue here somewhere...
@@ -1205,7 +1202,7 @@ public class ModEventHandler {
 		if(command instanceof CommandGameRule) {
 			if(command.canCommandSenderUseCommand(sender)) {
 				command.processCommand(sender,event.parameters);
-				RBMKDials.refresh(sender.getEntityWorld());
+				RBMKDials.refresh(sender.getEntityWorld()); // Refresh RBMK gamerules.
 				event.setCanceled(true);
 			}
 		}

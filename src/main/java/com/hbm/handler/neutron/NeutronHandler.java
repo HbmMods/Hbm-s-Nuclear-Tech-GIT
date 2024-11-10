@@ -2,6 +2,8 @@ package com.hbm.handler.neutron;
 
 import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import com.hbm.util.fauxpointtwelve.BlockPos;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -14,7 +16,11 @@ public class NeutronHandler {
 
 	private static int ticks = 0;
 
-	public static void onWorldTick() {
+	@SubscribeEvent
+	public static void onServerTick(TickEvent.ServerTickEvent event) {
+		if(event.phase != TickEvent.Phase.START)
+			return;
+
 		// Remove `StreamWorld` objects if they have no streams.
 		{ // aflghdkljghlkbhfjkghgilurbhlkfjghkffdjgn
 			List<World> toRemove = new ArrayList<>();
