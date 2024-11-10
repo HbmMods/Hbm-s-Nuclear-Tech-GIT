@@ -64,6 +64,7 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_tesla_cannon,			new ItemRenderTeslaCannon());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_stg77,					new ItemRenderSTG77());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_tau,						new ItemRenderTau());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_fatman,					new ItemRenderFatMan());
 		//PROJECTILES
 		ammo_debug.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		ammo_debug_buckshot.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
