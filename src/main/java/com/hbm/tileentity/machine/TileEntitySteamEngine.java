@@ -20,7 +20,7 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -77,7 +77,7 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 
 		if(!worldObj.isRemote) {
 
-			this.buf = PooledByteBufAllocator.DEFAULT.buffer();
+			this.buf = Unpooled.buffer();
 
 			this.powerBuffer = 0;
 
@@ -215,7 +215,6 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 	@Override
 	public void serialize(ByteBuf buf) {
 		buf.writeBytes(this.buf);
-		this.buf.release();
 	}
 
 	@Override

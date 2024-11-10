@@ -54,6 +54,8 @@ public class ExtPropPacket implements IMessage {
 
 			ByteBuf buf = Unpooled.buffer();
 
+			m.toBytes(buf);
+
 			HbmLivingProps props = HbmLivingProps.getData(Minecraft.getMinecraft().thePlayer);
 			HbmPlayerProps pprps = HbmPlayerProps.getData(Minecraft.getMinecraft().thePlayer);
 
