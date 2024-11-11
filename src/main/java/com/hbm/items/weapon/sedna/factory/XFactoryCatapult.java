@@ -26,9 +26,9 @@ public class XFactoryCatapult {
 	
 	public static void init() {
 
-		nuke_standard = new BulletConfig().setItem(EnumAmmo.NUKE_STANDARD);
-		nuke_demo = new BulletConfig().setItem(EnumAmmo.NUKE_DEMO);
-		nuke_high = new BulletConfig().setItem(EnumAmmo.NUKE_HIGH);
+		nuke_standard = new BulletConfig().setItem(EnumAmmo.NUKE_STANDARD).setVel(3F).setGrav(0.025F);
+		nuke_demo = new BulletConfig().setItem(EnumAmmo.NUKE_DEMO).setVel(3F).setGrav(0.025F);
+		nuke_high = new BulletConfig().setItem(EnumAmmo.NUKE_HIGH).setVel(3F).setGrav(0.025F);
 
 		ModItems.gun_fatman = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(7).inspect(40).crosshair(Crosshair.L_CIRCUMFLEX)

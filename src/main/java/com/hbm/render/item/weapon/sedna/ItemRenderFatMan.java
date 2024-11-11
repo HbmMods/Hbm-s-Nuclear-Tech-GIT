@@ -49,11 +49,16 @@ public class ItemRenderFatMan extends ItemRenderWeaponBase {
 		ResourceManager.fatman.renderPart("Handle");
 		ResourceManager.fatman.renderPart("Gauge");
 		ResourceManager.fatman.renderPart("Lid");
-		ResourceManager.fatman.renderPart("Piston");
 
 		if(gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, null) > 0) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fatman_mininuke_tex);
+			ResourceManager.fatman.renderPart("Piston");
 			ResourceManager.fatman.renderPart("MiniNuke");
+		} else {
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, 0, 3);
+			ResourceManager.fatman.renderPart("Piston");
+			GL11.glPopMatrix();
 		}
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
