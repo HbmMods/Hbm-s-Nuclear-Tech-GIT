@@ -224,13 +224,14 @@
     "weapon.switchmode1": {"category": "player", "sounds": [{"name": "weapon/switchmode1", "stream": false}]},
     "weapon.switchmode2": {"category": "player", "sounds": [{"name": "weapon/switchmode2", "stream": false}]},
     
-    "weapon.fire.blackPowder": {"category": "player", "sounds": [{"name": "weapon/fire/blackPowder", "stream": false}]},
-    "weapon.fire.flameLoop": {"category": "player", "sounds": [{"name": "weapon/fire/flameLoop", "stream": false}]},
-    "weapon.fire.lockon": {"category": "player", "sounds": [{"name": "weapon/fire/lockon", "stream": false}]},
-    "weapon.fire.shredderCycle": {"category": "player", "sounds": [{"name": "weapon/fire/shredderCycle", "stream": false}]},
-    "weapon.fire.tau": {"category": "player", "sounds": [{"name": "weapon/fire/tau", "stream": false}]},
-    "weapon.fire.tauLoop": {"category": "player", "sounds": [{"name": "weapon/fire/tauLoop", "stream": false}]},
+    "weapon.fire.blackPowder": {"category": "player", "sounds": ["weapon/fire/blackPowder"]},
+    "weapon.fire.flameLoop": {"category": "player", "sounds": ["weapon/fire/flameLoop"]},
+    "weapon.fire.lockon": {"category": "player", "sounds": ["weapon/fire/lockon"]},
+    "weapon.fire.shredderCycle": {"category": "player", "sounds": ["weapon/fire/shredderCycle"]},
+    "weapon.fire.tau": {"category": "player", "sounds": ["weapon/fire/tau"]},
+    "weapon.fire.tauLoop": {"category": "player", "sounds": ["weapon/fire/tauLoop"]},
     "weapon.fire.tauRelease": {"category": "player", "sounds": ["weapon/fire/tauRelease1", "weapon/fire/tauRelease2", "weapon/fire/tauRelease3"]},
+    "weapon.fire.fatman": {"category": "player", "sounds": ["weapon/fire/fatman"]},
     
     "weapon.reload.boltClose": {"category": "player", "sounds": ["weapon/reload/boltClose"]},
     "weapon.reload.boltOpen": {"category": "player", "sounds": ["weapon/reload/boltOpen"]},
@@ -256,6 +257,7 @@
     "weapon.reload.shotgunReload": {"category": "player", "sounds": ["weapon/reload/shotgunReload1", "weapon/reload/shotgunReload2", "weapon/reload/shotgunReload3"]},
     "weapon.reload.tubeFwoomp": {"category": "player", "sounds": ["weapon/reload/tubeFwoomp"]},
     "weapon.reload.impact": {"category": "player", "sounds": ["weapon/reload/impact1", "weapon/reload/impact2", "weapon/reload/impact3"]},
+    "weapon.reload.fatmanFull": {"category": "player", "sounds": ["weapon/reload/fatmanFull"]},
     
     "turret.chekhov_fire": {"category": "block", "sounds": [{"name": "turret/chekhov_fire", "stream": false}]},
     "turret.jeremy_fire": {"category": "block", "sounds": ["turret/jeremy_fire1", "turret/jeremy_fire2", "turret/jeremy_fire3", "turret/jeremy_fire4", "turret/jeremy_fire5"]},

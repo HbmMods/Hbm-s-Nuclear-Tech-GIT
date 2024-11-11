@@ -232,6 +232,9 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 	}
 	
 	public void setupInv(ItemStack stack) {
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0F);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		
 		GL11.glScaled(1, 1, -1);
 		GL11.glTranslated(8, 8, 0);
 		GL11.glRotated(225, 0, 0, 1);

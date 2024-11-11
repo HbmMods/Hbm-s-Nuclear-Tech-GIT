@@ -57,12 +57,13 @@ public class XFactoryAccelerator {
 	}
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_TAU_PRIMARY_RELEASE = (stack, ctx) -> {
-		if(ctx.getPlayer() == null) return;
+		if(ctx.getPlayer() == null || ItemGunBaseNT.getLastAnim(stack, ctx.configIndex) != AnimType.CYCLE) return;
 		ctx.getPlayer().worldObj.playSoundEffect(ctx.getPlayer().posX, ctx.getPlayer().posY, ctx.getPlayer().posZ, "hbm:weapon.fire.tauRelease", 1F, 1F);
 	};
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_TAU_SECONDARY_PRESS = (stack, ctx) -> {
 		if(ctx.getPlayer() == null) return;
+		if(ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack, ctx.inventory) <= 0) return;
 		ItemGunBaseNT.playAnimation(ctx.getPlayer(), stack, AnimType.SPINUP, ctx.configIndex);
 		tauChargeMag.getMagType(stack); //caches the last loaded ammo
 	};
@@ -71,7 +72,7 @@ public class XFactoryAccelerator {
 		if(ctx.getPlayer() == null) return;
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
 		
-		if(timer >= 10) {
+		if(timer >= 10 && ItemGunBaseNT.getLastAnim(stack, ctx.configIndex) == AnimType.SPINUP) {
 			ItemGunBaseNT.playAnimation(ctx.getPlayer(), stack, AnimType.ALT_CYCLE, ctx.configIndex);
 			int unitsUsed = 1 + Math.min(12, timer / 10);
 			

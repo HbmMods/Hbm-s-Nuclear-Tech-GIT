@@ -10,6 +10,7 @@ import com.hbm.items.weapon.sedna.hud.HUDComponentAmmoCounter;
 import com.hbm.items.weapon.sedna.hud.HUDComponentDurabilityBar;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.tileentity.RenderArcFurnace;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
@@ -124,6 +125,7 @@ public class LegoClient {
 		
 		if(bullet.ticksExisted < 2) return;
 
+		RenderArcFurnace.fullbright(true);
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
@@ -170,6 +172,7 @@ public class LegoClient {
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
+		RenderArcFurnace.fullbright(false);
 	}
 	
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_GRENADE = (bullet, interp) -> {
@@ -231,7 +234,8 @@ public class LegoClient {
 	};
 	
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LIGHTNING = (bullet, interp) -> {
-		
+
+		RenderArcFurnace.fullbright(true);
 		GL11.glPushMatrix();
 		GL11.glRotatef(180 - bullet.rotationYaw, 0, 1F, 0);
 		GL11.glRotatef(-bullet.rotationPitch - 90, 1F, 0, 0);
@@ -245,10 +249,12 @@ public class LegoClient {
 		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorOuter, colorOuter, bullet.ticksExisted, (int)(bullet.beamLength / 2 + 1), (float)scale * 7F, 2, 0.0625F);
 		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorOuter, colorOuter, bullet.ticksExisted / 2, (int)(bullet.beamLength / 2 + 1), (float)scale * 7F, 2, 0.0625F);
 		GL11.glPopMatrix();
+		RenderArcFurnace.fullbright(false);
 	};
 	
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_TAU = (bullet, interp) -> {
 
+		RenderArcFurnace.fullbright(true);
 		double age = MathHelper.clamp_double(1D - ((double) bullet.ticksExisted - 2 + interp) / (double) bullet.getBulletConfig().expires, 0, 1);
 		
 		GL11.glPushMatrix();
@@ -269,10 +275,12 @@ public class LegoClient {
 		renderBulletStandard(Tessellator.instance, 0xFFBF00, 0xFFFFFF, bullet.beamLength, true);
 		
 		GL11.glPopMatrix();
+		RenderArcFurnace.fullbright(false);
 	};
 	
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_TAU_CHARGE = (bullet, interp) -> {
 
+		RenderArcFurnace.fullbright(true);
 		double age = MathHelper.clamp_double(1D - ((double) bullet.ticksExisted - 2 + interp) / (double) bullet.getBulletConfig().expires, 0, 1);
 		
 		GL11.glPushMatrix();
@@ -293,6 +301,7 @@ public class LegoClient {
 		renderBulletStandard(Tessellator.instance, 0xFFF0A0, 0xFFFFFF, bullet.beamLength, true);
 		
 		GL11.glPopMatrix();
+		RenderArcFurnace.fullbright(false);
 	};
 	
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_NUKE = (bullet, interp) -> {

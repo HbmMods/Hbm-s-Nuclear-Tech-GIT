@@ -7,7 +7,6 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public class ItemRenderFatMan extends ItemRenderWeaponBase {
@@ -31,13 +30,18 @@ public class ItemRenderFatMan extends ItemRenderWeaponBase {
 	public void renderFirstPerson(ItemStack stack) {
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fatman_tex);
 		double scale = 0.5D;
 		GL11.glScaled(scale, scale, scale);
+		
+		boolean isLoaded = gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, null) > 0;
 
 		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
-		double[] open = HbmAnimations.getRelevantTransformation("OPEN");
+		double[] lid = HbmAnimations.getRelevantTransformation("LID");
+		double[] nuke = HbmAnimations.getRelevantTransformation("NUKE");
+		double[] piston = HbmAnimations.getRelevantTransformation("PISTON");
+		double[] handle = HbmAnimations.getRelevantTransformation("HANDLE");
+		double[] gauge = HbmAnimations.getRelevantTransformation("GAUGE");
 		
 		GL11.glTranslated(0, 1, -2);
 		GL11.glRotated(equip[0], 1, 0, 0);
@@ -46,18 +50,35 @@ public class ItemRenderFatMan extends ItemRenderWeaponBase {
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 
 		ResourceManager.fatman.renderPart("Launcher");
-		ResourceManager.fatman.renderPart("Handle");
-		ResourceManager.fatman.renderPart("Gauge");
-		ResourceManager.fatman.renderPart("Lid");
 
-		if(gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, null) > 0) {
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0, handle[2]);
+		ResourceManager.fatman.renderPart("Handle");
+		
+		GL11.glTranslated(0.4375, -0.875, 0);
+		GL11.glRotated(gauge[2], 0, 0, 1);
+		GL11.glTranslated(-0.4375, 0.875, 0);
+		ResourceManager.fatman.renderPart("Gauge");
+		GL11.glPopMatrix();
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(0.25, 0.125, 0);
+		GL11.glRotated(lid[2], 0, 0, 1);
+		GL11.glTranslated(-0.25, -0.125, 0);
+		ResourceManager.fatman.renderPart("Lid");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, 0, piston[2]);
+		if(!isLoaded && piston[2] == 0) GL11.glTranslated(0, 0, 3);
+		ResourceManager.fatman.renderPart("Piston");
+		GL11.glPopMatrix();
+
+		if(isLoaded || nuke[0] != 0 || nuke[1] != 0 || nuke[2] != 0) {
 			Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.fatman_mininuke_tex);
-			ResourceManager.fatman.renderPart("Piston");
-			ResourceManager.fatman.renderPart("MiniNuke");
-		} else {
 			GL11.glPushMatrix();
-			GL11.glTranslated(0, 0, 3);
-			ResourceManager.fatman.renderPart("Piston");
+			GL11.glTranslated(nuke[0], nuke[1], nuke[2]);
+			ResourceManager.fatman.renderPart("MiniNuke");
 			GL11.glPopMatrix();
 		}
 		
