@@ -638,6 +638,15 @@ public class Orchestras {
 		if(type == AnimType.RELOAD_CYCLE) {
 			if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.shotgunReload", 1F, 1F);
 		}
+		if(type == AnimType.INSPECT) {
+			if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.shotgunCockOpen", 1F, 1F);
+			if(timer == 18) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.shotgunCockClose", 1F, 1F);
+		}
+		if(type == AnimType.JAMMED) {
+			if(timer == 18) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.foley.gunWhack", 1F, 1F);
+			if(timer == 25) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.foley.gunWhack", 1F, 1F);
+			if(timer == 29) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.shotgunCockClose", 1F, 1F);
+		}
 	};
 	
 	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_PANERSCHRECK = (stack, ctx) -> {
