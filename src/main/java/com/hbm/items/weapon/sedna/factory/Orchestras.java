@@ -623,6 +623,10 @@ public class Orchestras {
 				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.375, aiming ? 0 : -0.125, aiming ? 0 : -0.25D, 0, 0.18, -0.12, 0.01, casing.getName());
 			}
 		}
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+			if(timer == 8) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.shotgunCock", 1F, 1F);
+		}
 		if(type == AnimType.RELOAD) {
 			IMagazine mag = ctx.config.getReceivers(stack)[0].getMagazine(stack);
 			if(mag.getAmount(stack, ctx.inventory) == 0) {
