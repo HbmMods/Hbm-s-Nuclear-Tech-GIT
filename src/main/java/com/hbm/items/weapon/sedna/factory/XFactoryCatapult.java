@@ -10,6 +10,7 @@ import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
@@ -40,6 +41,8 @@ public class XFactoryCatapult {
 	public static BulletConfig nuke_standard;
 	public static BulletConfig nuke_demo;
 	public static BulletConfig nuke_high;
+	public static BulletConfig nuke_tots;
+	public static BulletConfig nuke_hive;
 	
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_NUKE_STANDARD = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
@@ -51,7 +54,7 @@ public class XFactoryCatapult {
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		vnt.explode();
 		
-		incrementRad(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+		incrementRad(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 1F);
 		spawnMush(bullet, mop);
 	};
 	
@@ -67,7 +70,7 @@ public class XFactoryCatapult {
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		vnt.explode();
 		
-		incrementRad(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+		incrementRad(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 1.5F);
 		spawnMush(bullet, mop);
 	};
 	
@@ -79,10 +82,10 @@ public class XFactoryCatapult {
 		spawnMush(bullet, mop);
 	};
 	
-	public static void incrementRad(World world, double posX, double posY, double posZ) {
+	public static void incrementRad(World world, double posX, double posY, double posZ, float mult) {
 		for(int i = -2; i <= 2; i++) { for(int j = -2; j <= 2; j++) {
 				if(Math.abs(i) + Math.abs(j) < 4) {
-					ChunkRadiationManager.proxy.incrementRad(world, (int) Math.floor(posX + i * 16), (int) Math.floor(posY), (int) Math.floor(posZ + j * 16), 50 / (Math.abs(i) + Math.abs(j) + 1));
+					ChunkRadiationManager.proxy.incrementRad(world, (int) Math.floor(posX + i * 16), (int) Math.floor(posY), (int) Math.floor(posZ + j * 16), 50F / (Math.abs(i) + Math.abs(j) + 1) * mult);
 				}
 			}
 		}
@@ -96,17 +99,48 @@ public class XFactoryCatapult {
 		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord), new TargetPoint(bullet.dimension, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 250));
 	}
 	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_NUKE_TINYTOT = (bullet, mop) -> {
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
+		if(bullet.isDead) return;
+		bullet.setDead();
+		
+		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 5);
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(2, bullet.damage).withRangeMod(1.5F));
+		vnt.setPlayerProcessor(new PlayerProcessorStandard());
+		vnt.explode();
+		
+		incrementRad(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 0.25F);
+		bullet.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "tinytot");
+		data.setBoolean("balefire", MainRegistry.polaroidID == 11 || bullet.worldObj.rand.nextInt(100) == 0);
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, mop.hitVec.xCoord, mop.hitVec.yCoord + 0.5, mop.hitVec.zCoord), new TargetPoint(bullet.dimension, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 250));
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_NUKE_HIVE = (bullet, mop) -> {
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
+		if(bullet.isDead) return;
+		bullet.setDead();
+		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 5);
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(2, bullet.damage).withRangeMod(1.5F));
+		vnt.setPlayerProcessor(new PlayerProcessorStandard());
+		vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
+		vnt.explode();
+	};
+	
 	public static void init() {
 
 		nuke_standard = new BulletConfig().setItem(EnumAmmo.NUKE_STANDARD).setLife(300).setVel(3F).setGrav(0.025F).setOnImpact(LAMBDA_NUKE_STANDARD);
 		nuke_demo = new BulletConfig().setItem(EnumAmmo.NUKE_DEMO).setLife(300).setVel(3F).setGrav(0.025F).setOnImpact(LAMBDA_NUKE_DEMO);
 		nuke_high = new BulletConfig().setItem(EnumAmmo.NUKE_HIGH).setLife(300).setVel(3F).setGrav(0.025F).setOnImpact(LAMBDA_NUKE_HIGH);
+		nuke_tots = new BulletConfig().setItem(EnumAmmo.NUKE_TOTS).setProjectiles(8).setLife(300).setVel(3F).setGrav(0.025F).setSpread(0.1F).setOnImpact(LAMBDA_NUKE_TINYTOT);
+		nuke_hive = new BulletConfig().setItem(EnumAmmo.NUKE_HIVE).setProjectiles(12).setLife(300).setVel(1F).setGrav(0.025F).setSpread(0.15F).setOnImpact(LAMBDA_NUKE_HIVE);
 
 		ModItems.gun_fatman = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(20).inspect(30).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
 						.dmg(25F).delay(10).reload(57).jam(40).sound("hbm:weapon.fire.fatman", 1.0F, 1.0F)
-						.mag(new MagazineSingleReload(0, 1).addConfigs(nuke_standard, nuke_demo, nuke_high))
+						.mag(new MagazineSingleReload(0, 1).addConfigs(nuke_standard, nuke_demo, nuke_high, nuke_tots, nuke_hive))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()

@@ -138,6 +138,8 @@ public class GunFactoryClient {
 		setRendererBulk(LegoClient.RENDER_ML, rocket_ml);
 		
 		setRendererBulk(LegoClient.RENDER_NUKE, nuke_standard, nuke_demo, nuke_high);
+		nuke_tots.setRenderer(LegoClient.RENDER_GRENADE);
+		nuke_hive.setRenderer(LegoClient.RENDER_HIVE);
 
 		setRendererBulkBeam(LegoClient.RENDER_LIGHTNING, energy_tesla, energy_tesla_overcharge);
 		setRendererBulkBeam(LegoClient.RENDER_TAU, tau_uranium);
