@@ -16,6 +16,7 @@ import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineBelt;
+import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -38,6 +39,10 @@ public class XFactoryEnergy {
 	public static BulletConfig energy_tesla;
 	public static BulletConfig energy_tesla_overcharge;
 	public static BulletConfig energy_tesla_blacklightning;
+
+	public static BulletConfig energy_las;
+	public static BulletConfig energy_las_overcharge;
+	public static BulletConfig energy_las_blacklightning;
 	
 	public static BiConsumer<EntityBulletBeamBase, MovingObjectPosition> LAMBDA_LIGHTNING_HIT = (beam, mop) -> {
 		
@@ -86,8 +91,12 @@ public class XFactoryEnergy {
 		energy_tesla_blacklightning = new BulletConfig().setItem(EnumAmmo.CAPACITOR_BLACKLIGHTNING).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true)
 				.setDamage(5F).setOnBeamImpact(LAMBDA_LIGHTNING_HIT);
 
+		energy_las = new BulletConfig().setItem(EnumAmmo.CAPACITOR).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true);
+		energy_las_overcharge = new BulletConfig().setItem(EnumAmmo.CAPACITOR_OVERCHARGE).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true);
+		energy_las_blacklightning = new BulletConfig().setItem(EnumAmmo.CAPACITOR_BLACKLIGHTNING).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true);
+
 		ModItems.gun_tesla_cannon = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
-				.dura(2_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.dura(2_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
 						.dmg(15F).delay(20).reload(44).jam(19).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineBelt().addConfigs(energy_tesla, energy_tesla_overcharge, energy_tesla_blacklightning))
@@ -96,9 +105,39 @@ public class XFactoryEnergy {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_TESLA_ANIMS).orchestra(Orchestras.ORCHESTRA_TESLA)
 				).setUnlocalizedName("gun_tesla_cannon");
+
+		ModItems.gun_lasrifle = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
+				.dura(2_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.CIRCLE)
+				.rec(new Receiver(0)
+						.dmg(15F).delay(10).reload(20).jam(19).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(0, 24).addConfigs(energy_las, energy_las_overcharge, energy_las_blacklightning))
+						.offset(0.75, -0.0625 * 1.5, -0.1875)
+						.setupBeamFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+				.setupStandardConfiguration()
+				.anim(LAMBDA_LASRIFLE).orchestra(Orchestras.ORCHESTRA_LASRIFLE)
+				).setUnlocalizedName("gun_lasrifle");
 	}
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_TESLA_ANIMS = (stack, type) -> {
+		int amount = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, MainRegistry.proxy.me().inventory);
+		switch(type) {
+		case EQUIP: return new BusAnimation()
+				.addBus("EQUIP", new BusAnimationSequence().addPos(60, 0, 0, 0).addPos(0, 0, 0, 1000, IType.SIN_DOWN));
+		case CYCLE: return new BusAnimation()
+				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, ItemGunBaseNT.getIsAiming(stack) ? -0.5 : -1, 100, IType.SIN_DOWN).addPos(0, 0, 0, 250, IType.SIN_FULL))
+				.addBus("CYCLE", new BusAnimationSequence().addPos(0, 0, 0, 150).addPos(0, 0, 22.5, 350))
+				.addBus("COUNT", new BusAnimationSequence().addPos(amount, 0, 0, 0));
+		case CYCLE_DRY: return new BusAnimation()
+				.addBus("CYCLE", new BusAnimationSequence().addPos(0, 0, 0, 150).addPos(0, 0, 22.5, 350));
+		case INSPECT: return new BusAnimation()
+				.addBus("YOMI", new BusAnimationSequence().addPos(8, -4, 0, 0).addPos(4, -1, 0, 500, IType.SIN_DOWN).addPos(4, -1, 0, 1000).addPos(6, -6, 0, 500, IType.SIN_UP))
+				.addBus("SQUEEZE", new BusAnimationSequence().addPos(1, 1, 1, 0).addPos(1, 1, 1, 750).addPos(1, 1, 0.5, 125).addPos(1, 1, 1, 125));
+		}
+		
+		return null;
+	};
+
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_LASRIFLE = (stack, type) -> {
 		int amount = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, MainRegistry.proxy.me().inventory);
 		switch(type) {
 		case EQUIP: return new BusAnimation()

@@ -1622,6 +1622,7 @@ public class ModItems {
 	public static Item gun_stg77;
 	public static Item gun_tau;
 	public static Item gun_fatman;
+	public static Item gun_lasrifle;
 	
 	public static Item ammo_standard;
 	
@@ -6970,6 +6971,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_stg77, gun_stg77.getUnlocalizedName());
 		GameRegistry.registerItem(gun_tau, gun_tau.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fatman, gun_fatman.getUnlocalizedName());
+		GameRegistry.registerItem(gun_lasrifle, gun_lasrifle.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		

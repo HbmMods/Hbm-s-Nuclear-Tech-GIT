@@ -38,7 +38,7 @@ public class ItemRenderHeavyRevolver extends ItemRenderWeaponBase {
 	public void renderFirstPerson(ItemStack stack) {
 
 		boolean isScoped = this.isScoped(stack);
-		if(this.isScoped(stack) && ItemGunBaseNT.prevAimingProgress == 1 && ItemGunBaseNT.aimingProgress == 1) return;
+		if(isScoped && ItemGunBaseNT.prevAimingProgress == 1 && ItemGunBaseNT.aimingProgress == 1) return;
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		
 		double scale = 0.125D;
