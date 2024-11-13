@@ -623,6 +623,10 @@ public class Orchestras {
 				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.375, aiming ? 0 : -0.125, aiming ? 0 : -0.25D, 0, 0.18, -0.12, 0.01, casing.getName());
 			}
 		}
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+			if(timer == 8) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.shotgunCock", 1F, 1F);
+		}
 		if(type == AnimType.RELOAD) {
 			IMagazine mag = ctx.config.getReceivers(stack)[0].getMagazine(stack);
 			if(mag.getAmount(stack, ctx.inventory) == 0) {
@@ -633,6 +637,15 @@ public class Orchestras {
 		}
 		if(type == AnimType.RELOAD_CYCLE) {
 			if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.shotgunReload", 1F, 1F);
+		}
+		if(type == AnimType.INSPECT) {
+			if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.shotgunCockOpen", 1F, 1F);
+			if(timer == 18) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.shotgunCockClose", 1F, 1F);
+		}
+		if(type == AnimType.JAMMED) {
+			if(timer == 18) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.foley.gunWhack", 1F, 1F);
+			if(timer == 25) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.foley.gunWhack", 1F, 1F);
+			if(timer == 29) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.shotgunCockClose", 1F, 1F);
 		}
 	};
 	
@@ -881,26 +894,51 @@ public class Orchestras {
 		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
 
-		if(type == AnimType.CYCLE) {
-			if(timer == 40) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 0.25F, 1.25F);
-		}
-		if(type == AnimType.CYCLE_DRY) {
-			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 0.8F);
-			if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.pistolCock", 1F, 0.9F);
-			if(timer == 40) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 0.25F, 1.25F);
-		}
-		if(type == AnimType.RELOAD) {
-			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.9F);
-			if(timer == 10) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magRemove", 1F, 1F);
-			if(timer == 24) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magInsert", 1F, 1F);
-			if(timer == 34) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 1F);
-		}
-		if(type == AnimType.INSPECT) {
-			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.9F);
-			if(timer == 10) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallRemove", 1F, 1F);
-			
-			if(timer == 114) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
-			if(timer == 124) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 1F);
+		if(ClientConfig.GUN_ANIMS_LEGACY.get()) {
+			if(type == AnimType.CYCLE) {
+				if(timer == 40) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 0.25F, 1.25F);
+			}
+			if(type == AnimType.CYCLE_DRY) {
+				if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 0.8F);
+				if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.pistolCock", 1F, 0.9F);
+				if(timer == 40) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 0.25F, 1.25F);
+			}
+			if(type == AnimType.RELOAD) {
+				if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.9F);
+				if(timer == 10) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magRemove", 1F, 1F);
+				if(timer == 24) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magInsert", 1F, 1F);
+				if(timer == 34) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 1F);
+			}
+			if(type == AnimType.INSPECT) {
+				if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.9F);
+				if(timer == 10) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallRemove", 1F, 1F);
+				
+				if(timer == 114) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
+				if(timer == 124) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 1F);
+			}
+		} else {
+			if(type == AnimType.CYCLE) {
+				if(timer == 40) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 0.25F, 1.25F);
+			}
+			if(type == AnimType.CYCLE_DRY) {
+				if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 0.8F);
+				if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.pistolCock", 1F, 0.9F);
+				if(timer == 40) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 0.25F, 1.25F);
+			}
+			if(type == AnimType.RELOAD) {
+				if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.9F);
+				if(timer == 16) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magRemove", 1F, 1F);
+				if(timer == 28) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.impact", 0.25F, 1F);
+				if(timer == 38) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magInsert", 1F, 1F);
+				if(timer == 43) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 1F);
+			}
+			if(type == AnimType.INSPECT) {
+				if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.9F);
+				if(timer == 11) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallRemove", 1F, 1F);
+				
+				if(timer == 72) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallInsert", 1F, 1F);
+				if(timer == 84) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 1F);
+			}
 		}
 	};
 	
