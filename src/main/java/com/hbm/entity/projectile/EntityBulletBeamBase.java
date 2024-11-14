@@ -35,6 +35,8 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 		this.setSize(0.5F, 0.5F);
 	}
 	
+	public EntityLivingBase getThrower() { return this.thrower; }
+	
 	public EntityBulletBeamBase(EntityLivingBase entity, BulletConfig config, float baseDamage, float angularInaccuracy, double sideOffset, double heightOffset, double frontOffset) {
 		this(entity.worldObj);
 		

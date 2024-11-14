@@ -91,9 +91,9 @@ public class XFactoryEnergy {
 		energy_tesla_blacklightning = new BulletConfig().setItem(EnumAmmo.CAPACITOR_BLACKLIGHTNING).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true)
 				.setDamage(5F).setOnBeamImpact(LAMBDA_LIGHTNING_HIT);
 
-		energy_las = new BulletConfig().setItem(EnumAmmo.CAPACITOR).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true);
-		energy_las_overcharge = new BulletConfig().setItem(EnumAmmo.CAPACITOR_OVERCHARGE).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true);
-		energy_las_blacklightning = new BulletConfig().setItem(EnumAmmo.CAPACITOR_BLACKLIGHTNING).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true);
+		energy_las = new BulletConfig().setItem(EnumAmmo.CAPACITOR).setSpread(0.0F).setLife(5).setRenderRotations(false).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
+		energy_las_overcharge = new BulletConfig().setItem(EnumAmmo.CAPACITOR_OVERCHARGE).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
+		energy_las_blacklightning = new BulletConfig().setItem(EnumAmmo.CAPACITOR_BLACKLIGHTNING).setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
 
 		ModItems.gun_tesla_cannon = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(2_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.CIRCLE)
@@ -107,9 +107,9 @@ public class XFactoryEnergy {
 				).setUnlocalizedName("gun_tesla_cannon");
 
 		ModItems.gun_lasrifle = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
-				.dura(2_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.CIRCLE)
+				.dura(2_000).draw(10).inspect(26).reloadSequential(true).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(15F).delay(10).reload(20).jam(19).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(15F).delay(8).reload(44).jam(36).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 24).addConfigs(energy_las, energy_las_overcharge, energy_las_blacklightning))
 						.offset(0.75, -0.0625 * 1.5, -0.1875)
 						.setupBeamFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
@@ -143,7 +143,7 @@ public class XFactoryEnergy {
 		case EQUIP: return new BusAnimation()
 				.addBus("EQUIP", new BusAnimationSequence().addPos(60, 0, 0, 0).addPos(0, 0, 0, 500, IType.SIN_DOWN));
 		case CYCLE: return new BusAnimation()
-				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, ItemGunBaseNT.getIsAiming(stack) ? -0.5 : -1, 50, IType.SIN_DOWN).addPos(0, 0, 0, 150, IType.SIN_FULL))
+				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, -0.5, 50, IType.SIN_DOWN).addPos(0, 0, 0, 150, IType.SIN_FULL))
 				.addBus("CYCLE", new BusAnimationSequence().addPos(0, 0, 0, 150).addPos(0, 0, 22.5, 350))
 				.addBus("COUNT", new BusAnimationSequence().addPos(amount, 0, 0, 0));
 		case RELOAD: return new BusAnimation()
