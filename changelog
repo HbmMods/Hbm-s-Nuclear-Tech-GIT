@@ -52,6 +52,8 @@
 * Reeds rendering into water can now be toggled with the RENDER_REEDS client config
   * This option is usually enabled by default, unless Angelica is installed
 * Microwave explosions no longer destroy blocks, only the microwave and nearby players
+* Wings can now be used like armor mods
+* At higher pollution levels, skeletons can now spawn with guns
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines
@@ -68,3 +70,4 @@
 * Fixed issue regarding mass storage filters when using GTNH-NEI
 * Fixed DFC emitters calculating their original 98% inefficiency twice when hitting another emitter or tungsten crate
 * Fixed the wood burner destroying container items like buckets when using lava as fuel
+* Fixed pollution serialization for the fluid trait config being wrong

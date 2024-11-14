@@ -60,12 +60,12 @@ public class FT_Polluting extends FluidTrait {
 	public void serializeJSON(JsonWriter writer) throws IOException {
 		writer.name("release").beginObject();
 		for(Entry<PollutionType, Float> entry : releaseMap.entrySet()) {
-			writer.name(entry.toString()).value(entry.getValue());
+			writer.name(entry.getKey().name()).value(entry.getValue());
 		}
 		writer.endObject();
 		writer.name("burn").beginObject();
 		for(Entry<PollutionType, Float> entry : burnMap.entrySet()) {
-			writer.name(entry.toString()).value(entry.getValue());
+			writer.name(entry.getKey().name()).value(entry.getValue());
 		}
 		writer.endObject();
 	}

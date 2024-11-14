@@ -34,10 +34,12 @@ public class ItemRenderLasrifle extends ItemRenderWeaponBase {
 
 		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
 		double[] recoil = HbmAnimations.getRelevantTransformation("RECOIL");
+		double[] lever = HbmAnimations.getRelevantTransformation("LEVER");
+		double[] mag = HbmAnimations.getRelevantTransformation("MAG");
 		
-		GL11.glTranslated(0, -1, -4);
+		GL11.glTranslated(0, -1, -6);
 		GL11.glRotated(equip[0], 1, 0, 0);
-		GL11.glTranslated(0, 1, 4);
+		GL11.glTranslated(0, 1, 6);
 		
 		GL11.glTranslated(0, 0, recoil[2]);
 		
@@ -47,8 +49,18 @@ public class ItemRenderLasrifle extends ItemRenderWeaponBase {
 		ResourceManager.lasrifle.renderPart("Barrel");
 		ResourceManager.lasrifle.renderPart("Stock");
 		ResourceManager.lasrifle.renderPart("Scope");
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(0, -0.375, 2.375);
+		GL11.glRotated(lever[0], 1, 0, 0);
+		GL11.glTranslated(0, 0.375, -2.375);
 		ResourceManager.lasrifle.renderPart("Lever");
+		GL11.glPopMatrix();
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(mag[0], mag[1], mag[2]);
 		ResourceManager.lasrifle.renderPart("Battery");
+		GL11.glPopMatrix();
 		
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
