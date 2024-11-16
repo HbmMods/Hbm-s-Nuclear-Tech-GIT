@@ -50,7 +50,7 @@ public class RenderInfoSystem {
 		if(event.type != ElementType.CROSSHAIRS)
 			return;
 		
-		//this.messages.put(-666, new InfoEntry("Halloween Preview", 666_666));
+		this.messages.put(-666, new InfoEntry("Monarch celebratory special edition (balls tuah director's cut)", 666_666));
 		
 		if(this.messages.isEmpty()) 
 			return;
