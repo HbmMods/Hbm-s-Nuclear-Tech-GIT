@@ -2,6 +2,7 @@ package com.hbm.items.weapon.sedna.factory;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.items.ModItems;
@@ -14,13 +15,19 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineBelt;
+import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 
 public class XFactoryAccelerator {
@@ -29,6 +36,46 @@ public class XFactoryAccelerator {
 
 	public static BulletConfig tau_uranium;
 	public static BulletConfig tau_uranium_charge;
+
+	public static BulletConfig coil_tungsten;
+	public static BulletConfig coil_ferrouranium;
+
+	public static Consumer<Entity> LAMBDA_UPDATE_TUNGSTEN = (entity) -> {breakInPath(entity, 1.25F); };
+	public static Consumer<Entity> LAMBDA_UPDATE_FERRO = (entity) -> { breakInPath(entity, 2.5F); };
+	
+	public static void breakInPath(Entity entity, float threshold) {
+
+		Vec3 vec = Vec3.createVectorHelper(entity.posX - entity.prevPosX, entity.posY - entity.prevPosY, entity.posZ - entity.prevPosZ);
+		double motion = Math.max(vec.lengthVector(), 0.1);
+		vec = vec.normalize();
+		
+		for(double d = 0; d < motion; d += 0.5) {
+
+			double dX = entity.posX - vec.xCoord * d;
+			double dY = entity.posY - vec.yCoord * d;
+			double dZ = entity.posZ - vec.zCoord * d;
+
+			if(entity.worldObj.isRemote) {
+				NBTTagCompound nbt = new NBTTagCompound();
+				nbt.setString("type", "vanillaExt");
+				nbt.setString("mode", "fireworks");
+				nbt.setDouble("posX", dX);
+				nbt.setDouble("posY", dY);
+				nbt.setDouble("posZ", dZ);
+				MainRegistry.proxy.effectNT(nbt);
+				
+			} else {
+				int x = (int) Math.floor(dX);
+				int y = (int) Math.floor(dY);
+				int z = (int) Math.floor(dZ);
+				Block b = entity.worldObj.getBlock(x, y, z);
+				float hardness = b.getBlockHardness(entity.worldObj, x, y, z);
+				if(b.getMaterial() != Material.air && hardness >= 0 && hardness < threshold) {
+					entity.worldObj.func_147480_a(x, y, z, false);
+				}
+			}
+		}
+	}
 	
 	public static void init() {
 
@@ -36,6 +83,11 @@ public class XFactoryAccelerator {
 				.setOnBeamImpact(BulletConfig.LAMBDA_BEAM_HIT);
 		tau_uranium_charge = new BulletConfig().setItem(EnumAmmo.TAU_URANIUM).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setDamageFalloutByPen(false).setSpectral(true)
 				.setOnBeamImpact(BulletConfig.LAMBDA_BEAM_HIT);
+
+		coil_tungsten = new BulletConfig().setItem(EnumAmmo.COIL_TUNGSTEN).setVel(7.5F).setLife(50).setDoesPenetrate(true).setDamageFalloutByPen(false).setSpectral(true)
+				.setOnUpdate(LAMBDA_UPDATE_TUNGSTEN);
+		coil_ferrouranium = new BulletConfig().setItem(EnumAmmo.COIL_FERROURANIUM).setVel(7.5F).setLife(50).setDoesPenetrate(true).setDamageFalloutByPen(false).setSpectral(true)
+				.setOnUpdate(LAMBDA_UPDATE_FERRO);
 		
 		tauChargeMag.addConfigs(tau_uranium_charge);
 
@@ -54,6 +106,17 @@ public class XFactoryAccelerator {
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(LAMBDA_TAU_ANIMS).orchestra(Orchestras.ORCHESTRA_TAU)
 				).setUnlocalizedName("gun_tau");
+
+		ModItems.gun_coilgun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
+				.dura(400).draw(5).inspect(39).crosshair(Crosshair.L_CIRCUMFLEX)
+				.rec(new Receiver(0)
+						.dmg(15F).delay(5).reload(20).jam(33).sound("hbm:weapon.coilgunShoot", 1.0F, 1.0F)
+						.mag(new MagazineSingleReload(0, 1).addConfigs(coil_tungsten, coil_ferrouranium))
+						.offset(0.75, -0.0625, -0.1875D)
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+				.setupStandardConfiguration()
+				.anim(LAMBDA_COILGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_COILGUN)
+				).setUnlocalizedName("gun_coilgun");
 	}
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_TAU_PRIMARY_RELEASE = (stack, ctx) -> {
@@ -113,11 +176,18 @@ public class XFactoryAccelerator {
 		case CYCLE_DRY: return new BusAnimation();
 		case INSPECT: return new BusAnimation()
 				.addBus("EQUIP", new BusAnimationSequence().addPos(2, 0, 0, 150, IType.SIN_DOWN).addPos(0, 0, 0, 100, IType.SIN_FULL))
-				.addBus("ROTATE", new BusAnimationSequence().addPos(0, 0, -360, 500, IType.SIN_DOWN));
+				.addBus("ROTATE", new BusAnimationSequence().addPos(0, 0, -360 * 3, 500 * 3, IType.SIN_DOWN));
 		case SPINUP: return new BusAnimation()
 				.addBus("ROTATE", new BusAnimationSequence().addPos(0, 0, 360 * 6, 3000, IType.SIN_UP).addPos(0, 0, 0, 0).addPos(0, 0, 360 * 40, 500 * 20));
 		}
 		
+		return null;
+	};
+
+	public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_COILGUN_ANIMS = (stack, type) -> {
+		if(type == AnimType.EQUIP) return new BusAnimation().addBus("RELOAD", new BusAnimationSequence().addPos(1, 0, 0, 0).addPos(0, 0, 0, 250));
+		if(type == AnimType.CYCLE) return new BusAnimation().addBus("RECOIL", new BusAnimationSequence().addPos(ItemGunBaseNT.getIsAiming(stack) ? 0.5 : 1, 0, 0, 100).addPos(0, 0, 0, 200));
+		if(type == AnimType.RELOAD) return new BusAnimation().addBus("RELOAD", new BusAnimationSequence().addPos(1, 0, 0, 250).addPos(1, 0, 0, 500).addPos(0, 0, 0, 250));
 		return null;
 	};
 }

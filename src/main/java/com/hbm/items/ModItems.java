@@ -1548,7 +1548,6 @@ public class ModItems {
 	public static Item gun_b92;
 	public static Item gun_b92_ammo;
 	public static Item gun_b93;
-	public static Item gun_coilgun;
 	public static Item gun_xvl1456;
 	public static Item gun_xvl1456_ammo;
 	public static Item gun_osipr;
@@ -1623,6 +1622,7 @@ public class ModItems {
 	public static Item gun_tau;
 	public static Item gun_fatman;
 	public static Item gun_lasrifle;
+	public static Item gun_coilgun;
 	
 	public static Item ammo_standard;
 	
@@ -6906,7 +6906,6 @@ public class ModItems {
 		GameRegistry.registerItem(gun_bolt_action_green, gun_bolt_action_green.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bolt_action_saturnite, gun_bolt_action_saturnite.getUnlocalizedName());
 		GameRegistry.registerItem(gun_mymy, gun_mymy.getUnlocalizedName());
-		GameRegistry.registerItem(gun_coilgun, gun_coilgun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_xvl1456, gun_xvl1456.getUnlocalizedName());
 		GameRegistry.registerItem(gun_osipr, gun_osipr.getUnlocalizedName());
 		GameRegistry.registerItem(gun_immolator, gun_immolator.getUnlocalizedName());
@@ -6972,6 +6971,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_tau, gun_tau.getUnlocalizedName());
 		GameRegistry.registerItem(gun_fatman, gun_fatman.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lasrifle, gun_lasrifle.getUnlocalizedName());
+		GameRegistry.registerItem(gun_coilgun, gun_coilgun.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		
