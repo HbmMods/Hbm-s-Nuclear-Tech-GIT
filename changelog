@@ -71,3 +71,4 @@
 * Fixed DFC emitters calculating their original 98% inefficiency twice when hitting another emitter or tungsten crate
 * Fixed the wood burner destroying container items like buckets when using lava as fuel
 * Fixed pollution serialization for the fluid trait config being wrong
+* Fixed slag crashing the game when trying to flow into the void

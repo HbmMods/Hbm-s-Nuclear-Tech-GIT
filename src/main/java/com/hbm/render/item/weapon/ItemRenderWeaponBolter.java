@@ -75,8 +75,7 @@ public class ItemRenderWeaponBolter implements IItemRenderer {
 			GL11.glRotated(mag[0] * 60 * (mag[2] == 1 ? 2.5 : 1), -1, 0, 0);
 			GL11.glTranslated(0, 0, -5);
 			ResourceManager.bolter.renderPart("Mag");
-			if(mag[2] != 1)
-				ResourceManager.bolter.renderPart("Bullet");
+			if(mag[2] != 1) ResourceManager.bolter.renderPart("Bullet");
 			GL11.glPopMatrix();
 
 			GL11.glPushMatrix();

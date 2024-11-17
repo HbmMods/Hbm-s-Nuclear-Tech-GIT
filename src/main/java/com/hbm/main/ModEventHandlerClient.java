@@ -55,6 +55,7 @@ import com.hbm.packet.toserver.GunButtonPacket;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
+import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
 import com.hbm.render.util.RenderAccessoryUtility;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -129,7 +130,9 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraftforge.client.GuiIngameForge;
+import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.IRenderHandler;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.MouseEvent;
@@ -490,6 +493,20 @@ public class ModEventHandlerClient {
 		} else {
 			event.newfov += config.zoomFOV;
 		}
+	}
+	
+	@SubscribeEvent
+	public void setupNewFOV(FOVUpdateEvent event) {
+		
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		ItemStack held = player.getHeldItem();
+		
+		if(held == null) return;
+		
+		IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(held, IItemRenderer.ItemRenderType.EQUIPPED);
+		if(!(customRenderer instanceof ItemRenderWeaponBase)) return;
+		ItemRenderWeaponBase renderGun = (ItemRenderWeaponBase) customRenderer;
+		event.newfov = renderGun.getViewFOV(held, event.fov);
 	}
 	
 	public static boolean ducked = false;

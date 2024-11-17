@@ -98,7 +98,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityLivingBase entityplayer = (EntityLivingBase) mc.renderViewEntity;
-		float fov = 70.0F;
+		float fov = getBaseFOV(entityplayer.getHeldItem());
 
 		if(useFOVSetting) fov = mc.gameSettings.fovSetting;
 
@@ -113,6 +113,8 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		return fov;
 	}
 
+	protected float getBaseFOV(ItemStack stack) { return 70F; }
+	public float getViewFOV(ItemStack stack, float fov) { return  fov; }
 	protected float getSwayMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 0.1F : 0.5F; }
 	protected float getSwayPeriod(ItemStack stack) { return 0.75F; }
 	protected float getTurnMagnitude(ItemStack stack) { return 2.75F; }
@@ -159,7 +161,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		GL11.glPushMatrix();
 		
 		//swing
-		float swing = player.getSwingProgress(interp);
+		/*float swing = player.getSwingProgress(interp);
 		float swingZ = MathHelper.sin(swing * (float) Math.PI);
 		float swingX = MathHelper.sin(MathHelper.sqrt_float(swing) * (float) Math.PI);
 		GL11.glTranslatef(-swingX * 0.4F, MathHelper.sin(MathHelper.sqrt_float(swing) * (float) Math.PI * 2.0F) * 0.2F, -swingZ * 0.2F);
@@ -169,8 +171,10 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		float swingPitchRoll = MathHelper.sin(MathHelper.sqrt_float(swing) * (float) Math.PI);
 		GL11.glRotatef(-swingYaw * 20.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(-swingPitchRoll * 20.0F, 0.0F, 0.0F, 1.0F);
-		GL11.glRotatef(-swingPitchRoll * 80.0F, 1.0F, 0.0F, 0.0F);
+		GL11.glRotatef(-swingPitchRoll * 80.0F, 1.0F, 0.0F, 0.0F);*/
 
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL); //!
+		
 		GL11.glRotated(180, 0, 1, 0);
 
 		//viewbob

@@ -64,6 +64,10 @@ public class Lego {
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD, ctx.configIndex);
 			} else {
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.INSPECT, ctx.configIndex);
+				if(!ctx.config.getInspectCancel(stack)) {
+					ItemGunBaseNT.setState(stack, ctx.configIndex, GunState.DRAWING);
+					ItemGunBaseNT.setTimer(stack, ctx.configIndex, ctx.config.getInspectDuration(stack));
+				}
 			}
 		}
 	};

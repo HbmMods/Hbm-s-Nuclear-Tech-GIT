@@ -100,12 +100,11 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	}
 
 	public static enum GunState {
-		DRAWING,	//initial delay after selecting
-		IDLE,		//gun can be fired or reloaded
-		WINDUP,		//fire button is down, added delay before fire
-		COOLDOWN,	//gun has been fired, cooldown
-		RELOADING,	//gun is currently reloading
-		JAMMED,		//gun is jammed, either after reloading or while firing
+		DRAWING,	//forced delay where nothing can be done
+		IDLE,		//the gun is ready to fire or reload
+		COOLDOWN,	//forced delay, but with option for refire
+		RELOADING,	//forced delay after which a reload action happens, may be canceled (TBI)
+		JAMMED,		//forced delay due to jamming
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -117,7 +116,12 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 			for(Receiver rec : config.getReceivers(stack)) {
 				IMagazine mag = rec.getMagazine(stack);
 				list.add("Ammo: " + mag.getIconForHUD(stack, player).getDisplayName() + " " + mag.reportAmmoStateForHUD(stack, player));
-				list.add("Base Damage: " + rec.getBaseDamage(stack));
+				float dmg = rec.getBaseDamage(stack);
+				list.add("Base Damage: " + dmg);
+				if(mag.getType(stack, player.inventory) instanceof BulletConfig) {
+					BulletConfig bullet = (BulletConfig) mag.getType(stack, player.inventory);
+					list.add("Damage with current ammo: " + dmg * bullet.damageMult + (bullet.projectilesMin > 1 ? (" x" + (bullet.projectilesMin != bullet.projectilesMax ? (bullet.projectilesMin + "-" + bullet.projectilesMax) : bullet.projectilesMin)) : ""));
+				}
 			}
 		}
 		

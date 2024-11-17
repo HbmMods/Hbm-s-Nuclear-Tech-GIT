@@ -1,6 +1,7 @@
 package com.hbm.util;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -10,7 +11,11 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
 public class EntityDamageUtil {
@@ -269,5 +274,75 @@ public class EntityDamageUtil {
 
 	public static void setBeenAttacked(EntityLivingBase living) {
 		living.velocityChanged = living.getRNG().nextDouble() >= living.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).getAttributeValue();
+	}
+
+	public static MovingObjectPosition getMouseOver(EntityPlayer attacker, double reach) {
+
+		World world = attacker.worldObj;
+		MovingObjectPosition objectMouseOver = null;
+		Entity pointedEntity = null;
+
+		objectMouseOver = rayTrace(attacker, reach, 1F);
+
+		Vec3 pos = getPosition(attacker);
+		Vec3 look = attacker.getLook(1F);
+		Vec3 end = pos.addVector(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach);
+		Vec3 hitvec = null;
+		float grace = 1.0F;
+		List list = world.getEntitiesWithinAABBExcludingEntity(attacker, attacker.boundingBox.addCoord(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach).expand(grace, grace, grace));
+
+		double closest = reach;
+
+		for(int i = 0; i < list.size(); ++i) {
+			Entity entity = (Entity) list.get(i);
+
+			if(entity.canBeCollidedWith()) {
+				
+				float borderSize = entity.getCollisionBorderSize();
+				AxisAlignedBB axisalignedbb = entity.boundingBox.expand(borderSize, borderSize, borderSize);
+				MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(pos, end);
+
+				if(axisalignedbb.isVecInside(pos)) {
+					if(0.0D <= closest) {
+						pointedEntity = entity;
+						hitvec = movingobjectposition == null ? pos : movingobjectposition.hitVec;
+						closest = 0.0D;
+					}
+
+				} else if(movingobjectposition != null) {
+					double dist = pos.distanceTo(movingobjectposition.hitVec);
+
+					if(dist < closest || closest == 0.0D) {
+						if(entity == attacker.ridingEntity && !entity.canRiderInteract()) {
+							if(closest == 0.0D) {
+								pointedEntity = entity;
+								hitvec = movingobjectposition.hitVec;
+							}
+						} else {
+							pointedEntity = entity;
+							hitvec = movingobjectposition.hitVec;
+							closest = dist;
+						}
+					}
+				}
+			}
+		}
+
+		if(pointedEntity != null && (closest < reach || objectMouseOver == null)) {
+			objectMouseOver = new MovingObjectPosition(pointedEntity, hitvec);
+		}
+		
+		return objectMouseOver;
+	}
+	
+	public static MovingObjectPosition rayTrace(EntityPlayer player, double dist, float interp) {
+		Vec3 pos = getPosition(player);
+		Vec3 look = player.getLook(interp);
+		Vec3 end = pos.addVector(look.xCoord * dist, look.yCoord * dist, look.zCoord * dist);
+		return player.worldObj.func_147447_a(pos, end, false, false, true);
+	}
+	
+	public static Vec3 getPosition(EntityPlayer player) {
+		return Vec3.createVectorHelper(player.posX, player.posY + player.getEyeHeight(), player.posZ);
 	}
 }

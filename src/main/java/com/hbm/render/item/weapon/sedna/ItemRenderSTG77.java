@@ -25,6 +25,18 @@ public class ItemRenderSTG77 extends ItemRenderWeaponBase {
 	}
 
 	@Override
+	public float getViewFOV(ItemStack stack, float fov) {
+		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
+		return  fov * (1 - aimingProgress * 0.66F);
+	}
+
+	@Override
+	protected float getBaseFOV(ItemStack stack) {
+		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
+		return 70F - aimingProgress * 55;
+	}
+
+	@Override
 	public void renderFirstPerson(ItemStack stack) {
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
