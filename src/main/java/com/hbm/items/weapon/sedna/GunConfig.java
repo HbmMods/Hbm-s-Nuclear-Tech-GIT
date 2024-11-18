@@ -14,6 +14,7 @@ import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Despite how complicated the GunConfig looks, it actually only exists to hold together a bunch of fields. Everything else is infrastructure for getting and setting.
@@ -33,6 +34,7 @@ public class GunConfig {
 	public static final String O_CROSSHAIR =					"O_CROSSHAIR";
 	public static final String B_HIDECROSSHAIR =				"B_HIDECROSSHAIR";
 	public static final String B_RELOADANIMATIONSEQUENTIAL =	"B_RELOADANIMATIONSEQUENTIAL";
+	public static final String O_SCOPETEXTURE =					"O_SCOPETEXTURE";
 	public static final String CON_SMOKE =						"CON_SMOKE";
 	public static final String CON_ORCHESTRA =					"CON_ORCHESTRA";
 	public static final String CON_ONPRESSPRIMARY =				"CON_ONPRESSPRIMARY";
@@ -58,6 +60,7 @@ public class GunConfig {
 	protected Crosshair crosshair_DNA;
 	protected boolean hideCrosshair_DNA = true;
 	protected boolean reloadAnimationsSequential_DNA;
+	protected ResourceLocation scopeTexture_DNA;
 	/** Handles smoke clientside */
 	protected BiConsumer<ItemStack, LambdaContext> smokeHandler_DNA;
 	/** This piece only triggers during reloads, playing sounds depending on the reload's progress making reload sounds easier and synced to animations */
@@ -88,6 +91,7 @@ public class GunConfig {
 	public Crosshair getCrosshair(ItemStack stack) {								return WeaponUpgradeManager.eval(crosshair_DNA, stack, O_CROSSHAIR, this); }
 	public boolean getHideCrosshair(ItemStack stack) {								return WeaponUpgradeManager.eval(hideCrosshair_DNA, stack, B_HIDECROSSHAIR, this); }
 	public boolean getReloadAnimSequential(ItemStack stack) {						return WeaponUpgradeManager.eval(reloadAnimationsSequential_DNA, stack, B_RELOADANIMATIONSEQUENTIAL, this); }
+	public ResourceLocation getScopeTexture(ItemStack stack) {						return WeaponUpgradeManager.eval(scopeTexture_DNA, stack, O_SCOPETEXTURE, this); }
 	public BiConsumer<ItemStack, LambdaContext> getSmokeHandler(ItemStack stack) {	return WeaponUpgradeManager.eval(smokeHandler_DNA, stack, CON_SMOKE, this); }
 	public BiConsumer<ItemStack, LambdaContext> getOrchestra(ItemStack stack) {		return WeaponUpgradeManager.eval(this.orchestra_DNA, stack, CON_ORCHESTRA, this); }
 
@@ -108,14 +112,15 @@ public class GunConfig {
 	
 	/* SETTERS */
 	
-	public GunConfig rec(Receiver... receivers) {		this.receivers_DNA = receivers; return this; }
-	public GunConfig dura(float dura) {					this.durability_DNA = dura; return this; }
-	public GunConfig draw(int draw) {					this.drawDuration_DNA = draw; return this; }
-	public GunConfig inspect(int inspect) {				this.inspectDuration_DNA = inspect; return this; }
-	public GunConfig inspectCancel(boolean flag) {		this.inspectCancel_DNA = flag; return this; }
-	public GunConfig crosshair(Crosshair crosshair) {	this.crosshair_DNA = crosshair; return this; }
-	public GunConfig hideCrosshair(boolean flag) {		this.hideCrosshair_DNA = flag; return this; }
-	public GunConfig reloadSequential(boolean flag) {	this.reloadAnimationsSequential_DNA = flag; return this; }
+	public GunConfig rec(Receiver... receivers) {			this.receivers_DNA = receivers; return this; }
+	public GunConfig dura(float dura) {						this.durability_DNA = dura; return this; }
+	public GunConfig draw(int draw) {						this.drawDuration_DNA = draw; return this; }
+	public GunConfig inspect(int inspect) {					this.inspectDuration_DNA = inspect; return this; }
+	public GunConfig inspectCancel(boolean flag) {			this.inspectCancel_DNA = flag; return this; }
+	public GunConfig crosshair(Crosshair crosshair) {		this.crosshair_DNA = crosshair; return this; }
+	public GunConfig hideCrosshair(boolean flag) {			this.hideCrosshair_DNA = flag; return this; }
+	public GunConfig reloadSequential(boolean flag) {		this.reloadAnimationsSequential_DNA = flag; return this; }
+	public GunConfig scopeTexture(ResourceLocation tex) {	this.scopeTexture_DNA = tex; return this; }
 
 	public GunConfig smoke(BiConsumer<ItemStack, LambdaContext> smoke) {			this.smokeHandler_DNA = smoke; return this; }
 	public GunConfig orchestra(BiConsumer<ItemStack, LambdaContext> orchestra) {	this.orchestra_DNA = orchestra; return this; }

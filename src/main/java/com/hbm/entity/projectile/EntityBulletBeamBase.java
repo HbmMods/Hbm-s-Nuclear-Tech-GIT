@@ -188,8 +188,12 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 
 	@Override public void writeSpawnData(ByteBuf buf) {
 		buf.writeDouble(beamLength);
+		buf.writeFloat(rotationYaw);
+		buf.writeFloat(rotationPitch);
 	}
 	@Override public void readSpawnData(ByteBuf buf) {
 		this.beamLength = buf.readDouble();
+		this.rotationYaw = buf.readFloat();
+		this.rotationPitch = buf.readFloat();
 	}
 }

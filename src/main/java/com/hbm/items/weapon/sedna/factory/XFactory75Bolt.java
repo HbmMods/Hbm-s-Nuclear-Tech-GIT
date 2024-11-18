@@ -45,7 +45,7 @@ public class XFactory75Bolt {
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
-				.anim(LAMBDA_BOLTER_ANIMS).orchestra(Orchestras.ORCHESTRA_GREASEGUN)
+				.anim(LAMBDA_BOLTER_ANIMS).orchestra(Orchestras.ORCHESTRA_BOLTER)
 				).setUnlocalizedName("gun_bolter");
 	}
 	

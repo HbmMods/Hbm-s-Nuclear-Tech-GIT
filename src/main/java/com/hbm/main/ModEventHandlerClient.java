@@ -46,6 +46,7 @@ import com.hbm.items.machine.ItemDepletedFuel;
 import com.hbm.items.machine.ItemFluidDuct;
 import com.hbm.items.machine.ItemRBMKPellet;
 import com.hbm.items.weapon.ItemGunBase;
+import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
@@ -357,6 +358,15 @@ public class ModEventHandlerClient {
 			if(config.scopeTexture != null) {
 				ScaledResolution resolution = event.resolution;
 				RenderScreenOverlay.renderScope(resolution, config.scopeTexture);
+			}
+		}
+		
+		if(held != null && held.getItem() instanceof ItemGunBaseNT && ItemGunBaseNT.aimingProgress == ItemGunBaseNT.prevAimingProgress && ItemGunBaseNT.aimingProgress == 1F && event.type == event.type.HOTBAR)  {
+			ItemGunBaseNT gun = (ItemGunBaseNT) held.getItem();
+			GunConfig cfg = gun.getConfig(held, 0);
+			if(cfg.getScopeTexture(held) != null) {
+				ScaledResolution resolution = event.resolution;
+				RenderScreenOverlay.renderScope(resolution, cfg.getScopeTexture(held));
 			}
 		}
 		

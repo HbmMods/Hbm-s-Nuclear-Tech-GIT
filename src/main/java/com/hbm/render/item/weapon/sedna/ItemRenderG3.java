@@ -27,7 +27,7 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 		float offset = 0.8F;
 		standardAimingTransform(stack,
 				-1.25F * offset, -1F * offset, 2.75F * offset,
-			0, -3.625 / 8D, 1.75);
+			0, -3.5625 / 8D, 1.75);
 	}
 
 	@Override

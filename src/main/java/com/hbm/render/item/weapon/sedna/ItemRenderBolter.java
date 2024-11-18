@@ -102,7 +102,7 @@ public class ItemRenderBolter extends ItemRenderWeaponBase {
 		GL11.glScaled(scale, scale, scale);
 		GL11.glRotated(25, 1, 0, 0);
 		GL11.glRotated(45, 0, 1, 0);
-		GL11.glTranslated(-0.5, -0.5, 0);
+		GL11.glTranslated(-0.25, -0.5, 0);
 	}
 
 	@Override

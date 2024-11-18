@@ -23,6 +23,7 @@ import com.hbm.util.EnumUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -343,6 +344,8 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 				bottomOffset += component.getComponentHeight(player, stack);
 			}
 		}
+		
+		Minecraft.getMinecraft().renderEngine.bindTexture(Gui.icons);
 	}
 	
 	public static class SmokeNode {
