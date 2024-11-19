@@ -25,6 +25,7 @@ import com.hbm.items.machine.ItemDepletedFuel;
 import com.hbm.items.machine.ItemFluidDuct;
 import com.hbm.items.machine.ItemRBMKPellet;
 import com.hbm.items.weapon.ItemGunBase;
+import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
@@ -34,6 +35,7 @@ import com.hbm.packet.toserver.GunButtonPacket;
 import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.render.block.ct.CTStitchReceiver;
+import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
 import com.hbm.render.util.RenderAccessoryUtility;
 import com.hbm.render.util.RenderOverhead;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -96,6 +98,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderSurface;
 import net.minecraftforge.client.GuiIngameForge;
+import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -321,6 +324,15 @@ public class ModEventHandlerClient {
 			}
 		}
 
+		if(held != null && held.getItem() instanceof ItemGunBaseNT && ItemGunBaseNT.aimingProgress == ItemGunBaseNT.prevAimingProgress && ItemGunBaseNT.aimingProgress == 1F && event.type == event.type.HOTBAR)  {
+			ItemGunBaseNT gun = (ItemGunBaseNT) held.getItem();
+			GunConfig cfg = gun.getConfig(held, 0);
+			if(cfg.getScopeTexture(held) != null) {
+				ScaledResolution resolution = event.resolution;
+				RenderScreenOverlay.renderScope(resolution, cfg.getScopeTexture(held));
+			}
+		}
+
 		/// HANDLE FSB HUD ///
 		ItemStack helmet = player.inventory.armorInventory[3];
 
@@ -454,6 +466,20 @@ public class ModEventHandlerClient {
 		} else {
 			event.newfov += config.zoomFOV;
 		}
+	}
+
+	@SubscribeEvent
+	public void setupNewFOV(FOVUpdateEvent event) {
+
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		ItemStack held = player.getHeldItem();
+
+		if(held == null) return;
+
+		IItemRenderer customRenderer = MinecraftForgeClient.getItemRenderer(held, IItemRenderer.ItemRenderType.EQUIPPED);
+		if(!(customRenderer instanceof ItemRenderWeaponBase)) return;
+		ItemRenderWeaponBase renderGun = (ItemRenderWeaponBase) customRenderer;
+		event.newfov = renderGun.getViewFOV(held, event.fov);
 	}
 
 	public static boolean ducked = false;

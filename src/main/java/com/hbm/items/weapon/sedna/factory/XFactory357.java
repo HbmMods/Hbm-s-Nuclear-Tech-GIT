@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 
 public class XFactory357 {
 
+	public static BulletConfig m357_bp;
 	public static BulletConfig m357_sp;
 	public static BulletConfig m357_fmj;
 	public static BulletConfig m357_jhp;
@@ -27,6 +28,7 @@ public class XFactory357 {
 	public static BulletConfig m357_express;
 
 	public static void init() {
+		m357_bp = new BulletConfig().setItem(EnumAmmo.M357_BP).setDamage(0.5F).setBlackPowder(true);
 		m357_sp = new BulletConfig().setItem(EnumAmmo.M357_SP);
 		m357_fmj = new BulletConfig().setItem(EnumAmmo.M357_FMJ).setDamage(0.8F).setArmorPiercing(0.1F);
 		m357_jhp = new BulletConfig().setItem(EnumAmmo.M357_JHP).setDamage(1.5F).setArmorPiercing(-0.25F);
@@ -37,7 +39,7 @@ public class XFactory357 {
 				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(10F).delay(16).reload(55).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 6).addConfigs(m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
+						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
@@ -48,7 +50,7 @@ public class XFactory357 {
 				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(10F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 6).addConfigs(m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
+						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, 0.3125D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
@@ -57,7 +59,7 @@ public class XFactory357 {
 				new GunConfig().dura(30_000).draw(20).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(10F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(1, 6).addConfigs(m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
+						.mag(new MagazineFullReload(1, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)

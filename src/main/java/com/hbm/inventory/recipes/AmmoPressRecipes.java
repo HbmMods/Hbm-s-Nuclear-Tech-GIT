@@ -19,6 +19,7 @@ import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class AmmoPressRecipes extends SerializableRecipe {
@@ -36,6 +37,7 @@ public class AmmoPressRecipes extends SerializableRecipe {
 		OreDictStack copper = new OreDictStack(CU.ingot());
 		OreDictStack plastic = new OreDictStack(ANY_PLASTIC.ingot());
 		OreDictStack uranium = new OreDictStack(U238.ingot());
+		ComparableStack smokeful = new ComparableStack(Items.gunpowder);
 		OreDictStack smokeless = new OreDictStack(ANY_SMOKELESS.dust());
 		OreDictStack he = new OreDictStack(ANY_HIGHEXPLOSIVE.ingot());
 		OreDictStack wp = new OreDictStack(P_WHITE.ingot());
@@ -46,7 +48,11 @@ public class AmmoPressRecipes extends SerializableRecipe {
 		ComparableStack bpShell = new ComparableStack(ModItems.casing, 1, EnumCasingType.SHOTSHELL);
 		ComparableStack pShell = new ComparableStack(ModItems.casing, 1, EnumCasingType.BUCKSHOT);
 		ComparableStack sShell = new ComparableStack(ModItems.casing, 1, EnumCasingType.BUCKSHOT_ADVANCED);
-		
+
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M357_BP, 16),
+				null,	lead.copy(2),	null,
+				null,	smokeful,		null,
+				null,	cSmall,			null));
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M357_SP, 8),
 				null,	lead,		null,
 				null,	smokeless,	null,
@@ -67,7 +73,11 @@ public class AmmoPressRecipes extends SerializableRecipe {
 				null,	steel,				null,
 				null,	smokeless.copy(3),	null,
 				null,	cSmall,				null));
-		
+
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M44_BP, 12),
+				null,	lead.copy(2),		null,
+				null,	smokeful,	null,
+				null,	cSmall,		null));
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.M44_SP, 6),
 				null,	lead,		null,
 				null,	smokeless,	null,

@@ -119,7 +119,7 @@ public class XFactory12ga {
 		ModItems.gun_spas12 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(600).draw(20).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(12F).delay(20).reload(5, 10, 10, 10, 0).jam(24).sound("hbm:weapon.shotgunShoot", 1.0F, 1.0F)
+						.dmg(12F).delay(20).reload(5, 10, 10, 10, 0).jam(36).sound("hbm:weapon.shotgunShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 8).addConfigs(all))
 						.offset(0.75, -0.0625, -0.1875)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
@@ -348,14 +348,15 @@ public class XFactory12ga {
 		case EQUIP: return new BusAnimation()
 				.addBus("EQUIP", new BusAnimationSequence().addPos(-60, 0, 0, 0).addPos(0, 0, -3, 500, IType.SIN_DOWN));
 		case CYCLE: return ResourceManager.spas_12_anim.get("Fire");
-		case CYCLE_DRY: return new BusAnimation();
+		case CYCLE_DRY: return ResourceManager.spas_12_anim.get("FireDry");
+		case ALT_CYCLE: return ResourceManager.spas_12_anim.get("FireAlt");
 		case RELOAD:
 			boolean empty = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, MainRegistry.proxy.me().inventory) <= 0;
 			return ResourceManager.spas_12_anim.get(empty ? "ReloadEmptyStart" : "ReloadStart");
 		case RELOAD_CYCLE: return ResourceManager.spas_12_anim.get("Reload");
 		case RELOAD_END: return ResourceManager.spas_12_anim.get("ReloadEnd");
-		case JAMMED: return new BusAnimation();
-		case INSPECT: return new BusAnimation();
+		case JAMMED: return ResourceManager.spas_12_anim.get("Jammed");
+		case INSPECT: return ResourceManager.spas_12_anim.get("Inspect");
 		}
 		
 		return null;

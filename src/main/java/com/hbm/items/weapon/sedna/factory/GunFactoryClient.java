@@ -8,10 +8,12 @@ import static com.hbm.items.weapon.sedna.factory.XFactory40mm.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory44.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory50.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory556mm.*;
+import static com.hbm.items.weapon.sedna.factory.XFactory75Bolt.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory762mm.*;
 import static com.hbm.items.weapon.sedna.factory.XFactory9mm.*;
 import static com.hbm.items.weapon.sedna.factory.XFactoryAccelerator.*;
 import static com.hbm.items.weapon.sedna.factory.XFactoryBlackPowder.*;
+import static com.hbm.items.weapon.sedna.factory.XFactoryCatapult.*;
 import static com.hbm.items.weapon.sedna.factory.XFactoryEnergy.*;
 import static com.hbm.items.weapon.sedna.factory.XFactoryRocket.*;
 
@@ -64,6 +66,11 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_tesla_cannon,			new ItemRenderTeslaCannon());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_stg77,					new ItemRenderSTG77());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_tau,						new ItemRenderTau());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_fatman,					new ItemRenderFatMan());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_lasrifle,				new ItemRenderLasrifle());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_coilgun,					new ItemRenderCoilgun());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_hangman,					new ItemRenderHangman());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_bolter,					new ItemRenderBolter());
 		//PROJECTILES
 		ammo_debug.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		ammo_debug_buckshot.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
@@ -72,13 +79,15 @@ public class GunFactoryClient {
 		flint.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		iron.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		shot.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
-		
+
+		m357_bp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		m357_sp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		m357_fmj.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		m357_jhp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		m357_ap.setRenderer(LegoClient.RENDER_AP_BULLET);
 		m357_express.setRenderer(LegoClient.RENDER_EXPRESS_BULLET);
-		
+
+		m44_bp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		m44_sp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		m44_fmj.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		m44_jhp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
@@ -112,6 +121,10 @@ public class GunFactoryClient {
 		bmg50_jhp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		bmg50_ap.setRenderer(LegoClient.RENDER_AP_BULLET);
 		bmg50_du.setRenderer(LegoClient.RENDER_DU_BULLET);
+
+		b75.setRenderer(LegoClient.RENDER_AP_BULLET);
+		b75_inc.setRenderer(LegoClient.RENDER_AP_BULLET);
+		b75_exp.setRenderer(LegoClient.RENDER_EXPRESS_BULLET);
 		
 		g12_bp.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		g12_bp_magnum.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
@@ -134,10 +147,18 @@ public class GunFactoryClient {
 		setRendererBulk(LegoClient.RENDER_RPZB, rocket_rpzb);
 		setRendererBulk(LegoClient.RENDER_QD, rocket_qd);
 		setRendererBulk(LegoClient.RENDER_ML, rocket_ml);
+		
+		setRendererBulk(LegoClient.RENDER_NUKE, nuke_standard, nuke_demo, nuke_high);
+		nuke_tots.setRenderer(LegoClient.RENDER_GRENADE);
+		nuke_hive.setRenderer(LegoClient.RENDER_HIVE);
 
 		setRendererBulkBeam(LegoClient.RENDER_LIGHTNING, energy_tesla, energy_tesla_overcharge);
 		setRendererBulkBeam(LegoClient.RENDER_TAU, tau_uranium);
 		setRendererBulkBeam(LegoClient.RENDER_TAU_CHARGE, tau_uranium_charge);
+		setRendererBulkBeam(LegoClient.RENDER_LASER, energy_las, energy_las_overcharge);
+		
+		setRendererBulk(LegoClient.RENDER_AP_BULLET, coil_tungsten, coil_ferrouranium);
+		
 		//HUDS
 		((ItemGunBaseNT) ModItems.gun_debug)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_pepperbox)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
@@ -170,6 +191,11 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_tesla_cannon)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_stg77)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_tau)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_fatman)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_lasrifle)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_coilgun)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_hangman)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_bolter)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		
 		((ItemGunBaseNT) ModItems.gun_light_revolver_dani)	.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY_MIRROR, LegoClient.HUD_COMPONENT_AMMO_MIRROR);
 		((ItemGunBaseNT) ModItems.gun_light_revolver_dani)	.getConfig(null, 1).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);

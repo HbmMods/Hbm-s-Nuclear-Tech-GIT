@@ -15,13 +15,19 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.25F; }
 
 	@Override
+	public float getViewFOV(ItemStack stack, float fov) {
+		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
+		return  fov * (1 - aimingProgress * 0.33F);
+	}
+
+	@Override
 	public void setupFirstPerson(ItemStack stack) {
 		GL11.glTranslated(0, 0, 0.875);
 		
 		float offset = 0.8F;
 		standardAimingTransform(stack,
 				-1.25F * offset, -1F * offset, 2.75F * offset,
-			0, -3.625 / 8D, 1.75);
+			0, -3.5625 / 8D, 1.75);
 	}
 
 	@Override

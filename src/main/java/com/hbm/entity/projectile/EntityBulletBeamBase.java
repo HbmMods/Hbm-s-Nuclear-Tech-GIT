@@ -35,6 +35,8 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 		this.setSize(0.5F, 0.5F);
 	}
 	
+	public EntityLivingBase getThrower() { return this.thrower; }
+	
 	public EntityBulletBeamBase(EntityLivingBase entity, BulletConfig config, float baseDamage, float angularInaccuracy, double sideOffset, double heightOffset, double frontOffset) {
 		this(entity.worldObj);
 		
@@ -186,8 +188,12 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 
 	@Override public void writeSpawnData(ByteBuf buf) {
 		buf.writeDouble(beamLength);
+		buf.writeFloat(rotationYaw);
+		buf.writeFloat(rotationPitch);
 	}
 	@Override public void readSpawnData(ByteBuf buf) {
 		this.beamLength = buf.readDouble();
+		this.rotationYaw = buf.readFloat();
+		this.rotationPitch = buf.readFloat();
 	}
 }

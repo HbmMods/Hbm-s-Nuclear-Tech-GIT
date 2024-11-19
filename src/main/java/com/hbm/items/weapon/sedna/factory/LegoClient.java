@@ -10,6 +10,7 @@ import com.hbm.items.weapon.sedna.hud.HUDComponentAmmoCounter;
 import com.hbm.items.weapon.sedna.hud.HUDComponentDurabilityBar;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.tileentity.RenderArcFurnace;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.EnumBeamType;
 import com.hbm.render.util.BeamPronter.EnumWaveType;
@@ -124,6 +125,7 @@ public class LegoClient {
 		
 		if(bullet.ticksExisted < 2) return;
 
+		RenderArcFurnace.fullbright(true);
 		GL11.glPushMatrix();
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
@@ -170,6 +172,7 @@ public class LegoClient {
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
+		RenderArcFurnace.fullbright(false);
 	}
 	
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_GRENADE = (bullet, interp) -> {
@@ -231,7 +234,8 @@ public class LegoClient {
 	};
 	
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LIGHTNING = (bullet, interp) -> {
-		
+
+		RenderArcFurnace.fullbright(true);
 		GL11.glPushMatrix();
 		GL11.glRotatef(180 - bullet.rotationYaw, 0, 1F, 0);
 		GL11.glRotatef(-bullet.rotationPitch - 90, 1F, 0, 0);
@@ -245,10 +249,12 @@ public class LegoClient {
 		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorOuter, colorOuter, bullet.ticksExisted, (int)(bullet.beamLength / 2 + 1), (float)scale * 7F, 2, 0.0625F);
 		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorOuter, colorOuter, bullet.ticksExisted / 2, (int)(bullet.beamLength / 2 + 1), (float)scale * 7F, 2, 0.0625F);
 		GL11.glPopMatrix();
+		RenderArcFurnace.fullbright(false);
 	};
 	
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_TAU = (bullet, interp) -> {
 
+		RenderArcFurnace.fullbright(true);
 		double age = MathHelper.clamp_double(1D - ((double) bullet.ticksExisted - 2 + interp) / (double) bullet.getBulletConfig().expires, 0, 1);
 		
 		GL11.glPushMatrix();
@@ -269,10 +275,12 @@ public class LegoClient {
 		renderBulletStandard(Tessellator.instance, 0xFFBF00, 0xFFFFFF, bullet.beamLength, true);
 		
 		GL11.glPopMatrix();
+		RenderArcFurnace.fullbright(false);
 	};
 	
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_TAU_CHARGE = (bullet, interp) -> {
 
+		RenderArcFurnace.fullbright(true);
 		double age = MathHelper.clamp_double(1D - ((double) bullet.ticksExisted - 2 + interp) / (double) bullet.getBulletConfig().expires, 0, 1);
 		
 		GL11.glPushMatrix();
@@ -292,6 +300,48 @@ public class LegoClient {
 		GL11.glRotatef(-90, 0, 0, 1);
 		renderBulletStandard(Tessellator.instance, 0xFFF0A0, 0xFFFFFF, bullet.beamLength, true);
 		
+		GL11.glPopMatrix();
+		RenderArcFurnace.fullbright(false);
+	};
+	
+	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LASER = (bullet, interp) -> {
+
+		RenderArcFurnace.fullbright(true);
+		GL11.glPushMatrix();
+		GL11.glRotatef(180 - bullet.rotationYaw, 0, 1F, 0);
+		GL11.glRotatef(-bullet.rotationPitch - 90, 1F, 0, 0);
+		Vec3 delta = Vec3.createVectorHelper(0, bullet.beamLength, 0);
+		double age = MathHelper.clamp_double(1D - ((double) bullet.ticksExisted - 2 + interp) / (double) bullet.getBulletConfig().expires, 0, 1);
+		GL11.glScaled(age / 2 + 0.5, 1, age / 2 + 0.5);
+		int colorInner = ((int)(0x80 * age) << 16) | ((int)(0x15 * age) << 8) | (int) (0x15 * age);
+		BeamPronter.prontBeam(delta, EnumWaveType.RANDOM, EnumBeamType.SOLID, colorInner, colorInner, bullet.ticksExisted / 3, (int)(bullet.beamLength / 2 + 1), 0F, 8, 0.0625F);
+		GL11.glPopMatrix();
+		RenderArcFurnace.fullbright(false);
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_NUKE = (bullet, interp) -> {
+
+		GL11.glPushMatrix();
+		GL11.glScalef(0.125F, 0.125F, 0.125F);
+		GL11.glRotated(-90, 0, 1, 0);
+		GL11.glTranslatef(0, -1, 1F);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.fatman_mininuke_tex);
+		ResourceManager.fatman.renderPart("MiniNuke");
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glPopMatrix();
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_HIVE = (bullet, interp) -> {
+
+		GL11.glPushMatrix();
+		GL11.glScalef(0.125F, 0.125F, 0.125F);
+		GL11.glRotated(90, 0, -1, 0);
+		GL11.glTranslatef(0, 0, 3.5F);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.panzerschreck_tex);
+		ResourceManager.panzerschreck.renderPart("Rocket");
+		GL11.glShadeModel(GL11.GL_FLAT);
 		GL11.glPopMatrix();
 	};
 }

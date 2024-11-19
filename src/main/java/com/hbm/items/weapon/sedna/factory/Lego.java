@@ -64,6 +64,10 @@ public class Lego {
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD, ctx.configIndex);
 			} else {
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.INSPECT, ctx.configIndex);
+				if(!ctx.config.getInspectCancel(stack)) {
+					ItemGunBaseNT.setState(stack, ctx.configIndex, GunState.DRAWING);
+					ItemGunBaseNT.setTimer(stack, ctx.configIndex, ctx.config.getInspectDuration(stack));
+				}
 			}
 		}
 	};
@@ -248,8 +252,8 @@ public class Lego {
 		double sideOffset = ItemGunBaseNT.getIsAiming(stack) ? 0 : offset.zCoord;
 		
 		/*forwardOffset = 0.75;
-		heightOffset = 0;
-		sideOffset = -0.375D;*/
+		heightOffset = -0.0625 * 1.5;
+		sideOffset = -0.1875D;*/
 		
 		int projectiles = config.projectilesMin;
 		if(config.projectilesMax > config.projectilesMin) projectiles += entity.getRNG().nextInt(config.projectilesMax - config.projectilesMin + 1);

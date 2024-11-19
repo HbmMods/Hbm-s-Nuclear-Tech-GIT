@@ -95,6 +95,28 @@ public class TileEntityMachineAmmoPress extends TileEntityMachineBase implements
 		}
 	}
 
+	public int[] access = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	
+	@Override
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return access;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack stack, int j) {
+		return i == 9;
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+		if(slot > 8) return false;
+		if(selectedRecipe < 0 || selectedRecipe >= AmmoPressRecipes.recipes.size()) return false;
+		
+		AmmoPressRecipe recipe = AmmoPressRecipes.recipes.get(selectedRecipe);
+		if(recipe.input[slot] == null) return false;
+		return recipe.input[slot].matchesRecipe(stack, true);
+	}
+
 	@Override public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 		buf.writeInt(this.selectedRecipe);
