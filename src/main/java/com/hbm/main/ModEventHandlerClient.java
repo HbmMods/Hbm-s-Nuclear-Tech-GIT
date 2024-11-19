@@ -100,6 +100,7 @@ import net.minecraft.world.WorldProviderSurface;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.IRenderHandler;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.sound.PlaySoundEvent17;
