@@ -30,8 +30,8 @@ import net.minecraft.world.World;
 
 public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLoader {
 
-	protected float fuel;
-	protected float consumption;
+	public float fuel;
+	public float consumption;
 
 	public EntityMissileCustom(World world) {
 		super(world);
@@ -81,6 +81,12 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 	
 	@Override
 	public void onUpdate() {
+
+		ItemCustomMissilePart part = (ItemCustomMissilePart) Item.getItemById(this.dataWatcher.getWatchableObjectInt(9));
+		WarheadType type = (WarheadType) part.attributes[0];
+		if(type != null && type.updateCustom != null) {
+			type.updateCustom.accept(this);
+		}
 		
 		if(!worldObj.isRemote) {
 			if(this.hasPropulsion()) this.fuel -= this.consumption;
@@ -152,6 +158,11 @@ public class EntityMissileCustom extends EntityMissileBaseNT implements IChunkLo
 
 		WarheadType type = (WarheadType) part.attributes[0];
 		float strength = (Float) part.attributes[1];
+		
+		if(type.impactCustom != null) {
+			type.impactCustom.accept(this);
+			return;
+		}
 
 		switch(type) {
 		case HE:
