@@ -181,7 +181,7 @@ public class CompatExternal {
 	 * class on the side of whoever is adding compat, allowing the compat class to be used entirely with reflection.
 	 */
 	public static void registerTurretTargetingCondition(Class clazz, BiFunction<Entity, Object, Integer> bi) {
-		turretTargetBlacklist.add(clazz);
+		turretTargetCondition.put(clazz, bi);
 	}
 
 	public static void setWarheadLabel(WarheadType type, String label) { type.labelCustom = label; }
