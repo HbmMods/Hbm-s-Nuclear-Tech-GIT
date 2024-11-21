@@ -2,6 +2,8 @@ package com.hbm.util;
 
 import java.util.HashMap;
 
+import com.hbm.util.Tuple.Quartet;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
@@ -9,9 +11,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 
+/**
+ * Basic handling/registry class for our custom resistance stats.
+ * Handles resistances for individual armor pieces, full sets as well as entity classes for innate damage resistance
+ * 
+ * @author hbm
+ */
 public class DamageResistanceHandler {
 
 	public static HashMap<Item, ResistanceStats> itemStats = new HashMap();
+	public static HashMap<Quartet<Item, Item, Item, Item>, ResistanceStats> setStats = new HashMap();
 	public static HashMap<Class<? extends Entity>, ResistanceStats> entityStats = new HashMap();
 
 	public static void init() {
@@ -25,8 +34,24 @@ public class DamageResistanceHandler {
 		float dt = 0;
 		float dr = 0;
 		
-		//TODO add category resistance stats
+		/// SET HANDLING ///
+		Quartet wornSet = new Quartet(
+				entity.getEquipmentInSlot(1) != null ? entity.getEquipmentInSlot(1).getItem() : null,
+				entity.getEquipmentInSlot(2) != null ? entity.getEquipmentInSlot(2).getItem() : null,
+				entity.getEquipmentInSlot(3) != null ? entity.getEquipmentInSlot(3).getItem() : null,
+				entity.getEquipmentInSlot(4) != null ? entity.getEquipmentInSlot(4).getItem() : null
+				);
 		
+		ResistanceStats setResistance = setStats.get(wornSet);
+		if(setResistance != null) {
+			Resistance res = setResistance.resistances.get(key);
+			if(res != null) {
+				dt += res.threshold;
+				dr += res.resistance;
+			}
+		}
+
+		/// ARMOR ///
 		for(int i = 1; i <= 4; i++) {
 			ItemStack armor = entity.getEquipmentInSlot(i);
 			if(armor == null) continue;
@@ -37,19 +62,20 @@ public class DamageResistanceHandler {
 			dt += res.threshold;
 			dr += res.resistance;
 		}
-		
-		ResistanceStats inateResistance = entityStats.get(entity.getClass());
-		if(inateResistance != null) {
-			Resistance res = inateResistance.resistances.get(key);
+
+		/// ENTITY CLASS HANDLING ///
+		ResistanceStats innateResistance = entityStats.get(entity.getClass());
+		if(innateResistance != null) {
+			Resistance res = innateResistance.resistances.get(key);
 			if(res != null) {
 				dt += res.threshold;
 				dr += res.resistance;
 			}
 		}
-		
+
+		/// MATH ///
 		dt = Math.max(0F, dt - pierceDT);
 		if(dt <= amount) return 0F;
-		
 		amount -= dt;
 		dr *= MathHelper.clamp_float(1F - pierce, 0F, 1F);
 		
