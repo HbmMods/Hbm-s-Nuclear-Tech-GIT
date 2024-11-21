@@ -21,7 +21,7 @@ import net.minecraftforge.common.ForgeHooks;
 public class EntityDamageUtil {
 	
 	/**
-	 * Attacks the given entity twice, based on a piecring percentage. The second hit sets the damage source to bypass armor.
+	 * Attacks the given entity twice, based on a piercing percentage. The second hit sets the damage source to bypass armor.
 	 * The damage source is modified, so you can't reuse damage source instances.
 	 */
 	@Deprecated public static boolean attackEntityFromArmorPiercing(Entity victim, DamageSource src, float damage, float piercing) {
