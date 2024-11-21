@@ -97,7 +97,7 @@ public class TileEntityMachineWoodBurner extends TileEntityMachineBase implement
 							this.maxBurnTime = this.burnTime = burn;
 							ItemStack container = slots[0].getItem().getContainerItem(slots[0]);
 							this.decrStackSize(0, 1);
-							if(slots[0] == null) slots[0] = container.copy();
+							if(slots[0] == null && container != null) slots[0] = container.copy();
 							this.markChanged();
 						}
 					}

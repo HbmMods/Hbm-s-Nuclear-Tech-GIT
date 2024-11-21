@@ -864,6 +864,7 @@ public class MainRegistry {
 		TileEntityNukeCustom.registerBombItems();
 		ArmorUtil.register();
 		HazmatRegistry.registerHazmats();
+		DamageResistanceHandler.init();
 		FluidContainerRegistry.register();
 		BlockToolConversion.registerRecipes();
 		AchievementHandler.register();
