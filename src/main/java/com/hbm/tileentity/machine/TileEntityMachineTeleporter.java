@@ -3,12 +3,14 @@ package com.hbm.tileentity.machine;
 import java.util.Iterator;
 import java.util.List;
 
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import com.hbm.util.BufferUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityTracker;
@@ -29,7 +31,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements IEnergyReceiverMK2, INBTPacketReceiver {
+public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements IEnergyReceiverMK2, IBufPacketReceiver {
 
 	public long power = 0;
 	public int targetX = -1;
@@ -41,25 +43,22 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!this.worldObj.isRemote) {
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-			
+
 			if(this.targetY != -1) {
 				List<Entity> entities = this.worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(this.xCoord + 0.25, this.yCoord, this.zCoord + 0.25, this.xCoord + 0.75, this.yCoord + 2, this.zCoord + 0.75));
-				
+
 				if(!entities.isEmpty()) {
 					for(Entity e : entities) {
 						teleport(e);
 					}
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setIntArray("target", new int[] {targetX, targetY, targetZ, targetDim});
-			INBTPacketReceiver.networkPack(this, data, 15);
-			
+
+			networkPackNT(15);
+
 		} else {
 
 			if(this.targetY != -1 && power >= consumption) {
@@ -72,9 +71,15 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("power");
-		int[] target = nbt.getIntArray("target");
+	public void serialize(ByteBuf buf) {
+		buf.writeLong(power);
+		BufferUtil.writeIntArray(buf, new int[] {targetX, targetY, targetZ, targetDim});
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.power = buf.readLong();
+		int[] target = BufferUtil.readIntArray(buf);
 		this.targetX = target[0];
 		this.targetY = target[1];
 		this.targetZ = target[2];
@@ -95,7 +100,7 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		nbt.setLong("power", power);
 		nbt.setInteger("x1", targetX);
 		nbt.setInteger("y1", targetY);
@@ -104,25 +109,25 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 	}
 
 	public void teleport(Entity entity) {
-		
+
 		if(this.power < consumption) return;
-		
+
 		worldObj.playSoundEffect(xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, "mob.endermen.portal", 1.0F, 1.0F);
-		
+
 		if((entity instanceof EntityPlayerMP)) {
-			
+
 			EntityPlayerMP player = (EntityPlayerMP) entity;
 			if(entity.dimension == this.targetDim) {
 				player.setPositionAndUpdate(this.targetX + 0.5D, this.targetY + 1.5D + entity.getYOffset(), this.targetZ + 0.5D);
 			} else {
 				teleportPlayerInterdimensionally(player, this.targetX + 0.5D, this.targetY + 1.5D + entity.getYOffset(), this.targetZ + 0.5D, this.targetDim);
 			}
-			
+
 		} else {
-			
+
 			if(entity.dimension == this.targetDim) {
 				entity.setPositionAndRotation(this.targetX + 0.5D, this.targetY + 1.5D + entity.getYOffset(), this.targetZ + 0.5D, entity.rotationYaw, entity.rotationPitch);
-				
+
 				try {
 					EntityTracker entitytracker = ((WorldServer)worldObj).getEntityTracker();
 					IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
@@ -138,21 +143,21 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 				teleportEntityInterdimensionally(entity, this.targetX + 0.5D, this.targetY + 1.5D + entity.getYOffset(), this.targetZ + 0.5D, this.targetDim);
 			}
 		}
-		
+
 		worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "mob.endermen.portal", 1.0F, 1.0F);
-		
+
 		this.power -= consumption;
 		this.markDirty();
 	}
-	
+
 	/** Teleports a player to a different dimension, gracefully copied from ServerConfigurationManager */
 	public static boolean teleportPlayerInterdimensionally(EntityPlayerMP player, double x, double y, double z, int dim) {
-		
+
 		int prevDim = player.dimension;
 		WorldServer prevWorld = player.mcServer.worldServerForDimension(prevDim);
 		WorldServer newWorld = player.mcServer.worldServerForDimension(dim);
 		player.dimension = dim;
-		
+
 		if(newWorld == null) return false;
 
 		ServerConfigurationManager man = player.mcServer.getConfigurationManager();
@@ -160,15 +165,15 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 		net.sendPacket(new S07PacketRespawn(player.dimension, player.worldObj.difficultySetting, newWorld.getWorldInfo().getTerrainType(), player.theItemInWorldManager.getGameType()));
 		prevWorld.removePlayerEntityDangerously(player);
 		player.isDead = false;
-		
+
 		if(player.isEntityAlive()) {
 			player.setLocationAndAngles(x, y, z, player.rotationYaw, player.rotationPitch);
 			newWorld.spawnEntityInWorld(player);
 			newWorld.updateEntityWithOptionalForce(player, false);
 		}
-		
+
 		player.setWorld(newWorld);
-		
+
 		man.func_72375_a(player, prevWorld);
 		net.setPlayerLocation(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
 		player.theItemInWorldManager.setWorld(newWorld);
@@ -183,18 +188,18 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 		FMLCommonHandler.instance().firePlayerChangedDimensionEvent(player, prevDim, dim);
 		return true;
 	}
-	
+
 	/** Teleports non-player entities to different dimensions, gracefully copied from Entity */
 	public static boolean teleportEntityInterdimensionally(Entity oldEntity, double x, double y, double z, int dim) {
 
 		MinecraftServer minecraftserver = MinecraftServer.getServer();
 		WorldServer newWorld = minecraftserver.worldServerForDimension(dim);
-		
+
 		if(newWorld == null) return false;
 
 		oldEntity.worldObj.removeEntity(oldEntity);
 		oldEntity.isDead = false;
-		
+
 		Entity entity = EntityList.createEntityByName(EntityList.getEntityString(oldEntity), newWorld);
 
 		if(entity != null) {
@@ -202,7 +207,7 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 			entity.setLocationAndAngles(x, y, z, entity.rotationYaw, entity.rotationPitch);
 			newWorld.updateEntityWithOptionalForce(entity, false);
 			entity.setWorld(newWorld);
-			
+
 			IChunkProvider provider = newWorld.getChunkProvider();
 			provider.loadChunk(((int) Math.floor(x)) >> 4, ((int) Math.floor(z)) >> 4);
 			newWorld.spawnEntityInWorld(entity);
@@ -210,7 +215,7 @@ public class TileEntityMachineTeleporter extends TileEntityLoadedBase implements
 
 		oldEntity.isDead = true;
 		newWorld.resetUpdateEntityTick();
-		
+
 		return true;
 	}
 

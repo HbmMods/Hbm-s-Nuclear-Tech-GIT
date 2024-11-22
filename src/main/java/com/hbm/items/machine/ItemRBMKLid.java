@@ -2,9 +2,12 @@ package com.hbm.items.machine;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
+import com.hbm.handler.neutron.NeutronNodeWorld;
+import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKNeutronNode;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
 
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -37,7 +40,11 @@ public class ItemRBMKLid extends Item {
 			
 			if(tile.hasLid())
 				return false;
-			
+
+			RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(new BlockPos(te));
+			if (node != null)
+				node.addLid();
+
 			int meta = RBMKBase.DIR_NORMAL_LID.ordinal();
 			
 			if(this == ModItems.rbmk_lid_glass) {

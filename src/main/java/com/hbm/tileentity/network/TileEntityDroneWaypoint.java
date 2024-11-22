@@ -3,23 +3,19 @@ package com.hbm.tileentity.network;
 import java.util.List;
 
 import com.hbm.entity.item.EntityDeliveryDrone;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.ParticleUtil;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.BufPacket;
-import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityDroneWaypoint extends TileEntity implements IBufPacketReceiver, IDroneLinkable {
-	
+public class TileEntityDroneWaypoint extends TileEntityLoadedBase implements IDroneLinkable {
+
 	public int height = 5;
 	public int nextX = -1;
 	public int nextY = -1;
@@ -28,7 +24,7 @@ public class TileEntityDroneWaypoint extends TileEntity implements IBufPacketRec
 	@Override
 	public void updateEntity() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
-		
+
 		if(!worldObj.isRemote) {
 			if(nextY != -1) {
 				List<EntityDeliveryDrone> drones = worldObj.getEntitiesWithinAABB(EntityDeliveryDrone.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1).offset(dir.offsetX * height, dir.offsetY * height, dir.offsetZ * height));
@@ -39,14 +35,14 @@ public class TileEntityDroneWaypoint extends TileEntity implements IBufPacketRec
 				}
 			}
 
-			PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 15));
+			networkPackNT(15);
 		} else {
 			BlockPos pos = getCoord(dir);
 			if(nextY != -1 && worldObj.getTotalWorldTime() % 2 == 0) {
 				double x = xCoord + height * dir.offsetX + 0.5;
 				double y = yCoord + height * dir.offsetY + 0.5;
 				double z = zCoord + height * dir.offsetZ + 0.5;
-				
+
 				worldObj.spawnParticle("reddust", x, y, z, 0, 0, 0);
 
 				ParticleUtil.spawnDroneLine(worldObj,
@@ -63,7 +59,7 @@ public class TileEntityDroneWaypoint extends TileEntity implements IBufPacketRec
 		buf.writeInt(nextY);
 		buf.writeInt(nextZ);
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		height = buf.readInt();
@@ -85,12 +81,12 @@ public class TileEntityDroneWaypoint extends TileEntity implements IBufPacketRec
 		this.nextZ = z;
 		this.markDirty();
 	}
-	
+
 	public void addHeight(int h) {
 		height += h;
 		height = MathHelper.clamp_int(height, 1, 15);
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -101,7 +97,7 @@ public class TileEntityDroneWaypoint extends TileEntity implements IBufPacketRec
 		this.nextY = pos[1];
 		this.nextZ = pos[2];
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);

@@ -2,7 +2,6 @@ package com.hbm.blocks.network;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityCableSwitch;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
@@ -21,14 +20,14 @@ public class CableSwitch extends BlockContainer {
 	public CableSwitch(Material p_i45386_1_) {
 		super(p_i45386_1_);
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.iconOn = iconRegister.registerIcon(RefStrings.MODID + ":cable_switch_on");
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":cable_switch_off");
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
@@ -39,7 +38,7 @@ public class CableSwitch extends BlockContainer {
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityCableSwitch();
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
@@ -55,10 +54,10 @@ public class CableSwitch extends BlockContainer {
 				world.setBlockMetadataWithNotify(x, y, z, 0, 2);
 				world.playSoundEffect(x, y, z, "hbm:block.reactorStart", 1.0F, 0.85F);
 			}
-			
+
 			TileEntityCableSwitch te = (TileEntityCableSwitch) world.getTileEntity(x, y, z);
 			te.updateState();
-			
+
 			return true;
 		} else {
 			return false;

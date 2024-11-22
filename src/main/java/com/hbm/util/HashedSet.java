@@ -1,12 +1,12 @@
 package com.hbm.util;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * A crude implementation of the HashSet with a few key differences:
@@ -14,21 +14,21 @@ import org.apache.commons.lang3.NotImplementedException;
  *   - consequently, things with matching hash are considered the same, skipping the equals check
  * - no equals check means that collisions are possible, so be careful
  * - the underlying HashMap is accessible, which means that the instances can be grabbed out of the HashedSet if a hash is supplied
- * 
+ *
  * This sack of crap was only intended for the drone request network code
- * 
+ *
  * @author hbm
  *
  * @param <T>
  */
 public class HashedSet<T> implements Set<T> {
-	
+
 	HashMap<Integer, T> map = new HashMap();
-	
+
 	public static class HashedIterator<T> implements Iterator {
-		
+
 		private Iterator<Entry<Integer, T>> iterator;
-		
+
 		public HashedIterator(HashedSet<T> set) {
 			this.iterator = set.map.entrySet().iterator();
 		}
@@ -54,7 +54,7 @@ public class HashedSet<T> implements Set<T> {
 	public HashedSet(Set reachableNodes) {
 		this.addAll(reachableNodes);
 	}
-	
+
 	public HashMap<Integer, T> getMap() {
 		return this.map;
 	}
@@ -85,11 +85,11 @@ public class HashedSet<T> implements Set<T> {
 
 	@Override
 	public boolean containsAll(Collection c) {
-		
+
 		for(Object o : c) {
 			if(!this.contains(o)) return false;
 		}
-		
+
 		return true;
 	}
 
@@ -107,12 +107,12 @@ public class HashedSet<T> implements Set<T> {
 	public boolean remove(Object o) {
 		T obj = this.map.get(o.hashCode());
 		boolean rem = false;
-		
+
 		if(obj != null) {
 			rem = true;
 			this.map.remove(o.hashCode());
 		}
-		
+
 		return rem;
 	}
 

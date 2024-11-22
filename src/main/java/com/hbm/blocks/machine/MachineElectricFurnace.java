@@ -1,12 +1,9 @@
 package com.hbm.blocks.machine;
 
-import java.util.Random;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineElectricFurnace;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,12 +22,14 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class MachineElectricFurnace extends BlockContainer {
 
     private final Random field_149933_a = new Random();
 	private final boolean isActive;
 	private static boolean keepInventory;
-	
+
 	@SideOnly(Side.CLIENT)
 	private IIcon iconFront;
 	private IIcon iconTop;
@@ -40,7 +39,7 @@ public class MachineElectricFurnace extends BlockContainer {
 		super(Material.iron);
 		isActive = blockState;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -49,7 +48,7 @@ public class MachineElectricFurnace extends BlockContainer {
 		this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_electric_furnace_top");
 		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":machine_electric_furnace_bottom");
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
@@ -57,19 +56,19 @@ public class MachineElectricFurnace extends BlockContainer {
 		//return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : this.iconTop);
 		return metadata == 0 && side == 3 ? this.iconFront : (side == metadata ? this.iconFront : side == 0 ? this.iconBottom : side == 1 ? this.iconTop : this.blockIcon);
 	}
-	
+
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
         return Item.getItemFromBlock(ModBlocks.machine_electric_furnace_off);
     }
-	
+
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
 		this.setDefaultDirection(world, x, y, z);
 	}
-	
+
 	private void setDefaultDirection(World world, int x, int y, int z) {
 		if(!world.isRemote)
 		{
@@ -77,9 +76,9 @@ public class MachineElectricFurnace extends BlockContainer {
 			Block block2 = world.getBlock(x, y, z + 1);
 			Block block3 = world.getBlock(x - 1, y, z);
 			Block block4 = world.getBlock(x + 1, y, z);
-			
+
 			byte b0 = 3;
-			
+
 			if(block1.func_149730_j() && !block2.func_149730_j())
 			{
 				b0 = 3;
@@ -96,15 +95,15 @@ public class MachineElectricFurnace extends BlockContainer {
 			{
 				b0 = 4;
 			}
-			
+
 			world.setBlockMetadataWithNotify(x, y, z, b0, 2);
 		}
 	}
-	
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		
+
 		if(i == 0)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
@@ -121,13 +120,13 @@ public class MachineElectricFurnace extends BlockContainer {
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
-		
+
 		if(itemStack.hasDisplayName())
 		{
 			((TileEntityMachineElectricFurnace)world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
 		}
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
@@ -155,23 +154,23 @@ public class MachineElectricFurnace extends BlockContainer {
 		int i = world.getBlockMetadata(x, y, z);
 		TileEntity entity = world.getTileEntity(x, y, z);
 		keepInventory = true;
-		
+
 		if(isProcessing)
 		{
 			world.setBlock(x, y, z, ModBlocks.machine_electric_furnace_on);
 		}else{
 			world.setBlock(x, y, z, ModBlocks.machine_electric_furnace_off);
 		}
-		
+
 		keepInventory = false;
 		world.setBlockMetadataWithNotify(x, y, z, i, 2);
-		
+
 		if(entity != null) {
 			entity.validate();
 			world.setTileEntity(x, y, z, entity);
 		}
 	}
-	
+
 	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
@@ -223,7 +222,7 @@ public class MachineElectricFurnace extends BlockContainer {
 
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
     public void randomDisplayTick(World p_149734_1_, int x, int y, int z, Random rand)

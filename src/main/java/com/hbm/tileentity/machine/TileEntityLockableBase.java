@@ -3,14 +3,14 @@ package com.hbm.tileentity.machine;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemKey;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.ArmorUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 
-public abstract class TileEntityLockableBase extends TileEntity {
+public abstract class TileEntityLockableBase extends TileEntityLoadedBase {
 
 	protected int lock;
 	private boolean isLocked = false;

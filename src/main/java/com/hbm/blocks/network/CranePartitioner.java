@@ -1,21 +1,15 @@
 package com.hbm.blocks.network;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-
+import api.hbm.conveyor.IConveyorBelt;
+import api.hbm.conveyor.IConveyorItem;
+import api.hbm.conveyor.IConveyorPackage;
+import api.hbm.conveyor.IEnterableBlock;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.inventory.recipes.CrystallizerRecipes;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.InventoryUtil;
-
-import api.hbm.conveyor.IConveyorBelt;
-import api.hbm.conveyor.IConveyorItem;
-import api.hbm.conveyor.IConveyorPackage;
-import api.hbm.conveyor.IEnterableBlock;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -37,6 +31,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
+
 public class CranePartitioner extends BlockContainer implements IConveyorBelt, IEnterableBlock, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT) public IIcon iconTop;
@@ -48,7 +47,7 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 	public CranePartitioner() {
 		super(Material.iron);
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -116,7 +115,7 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 		if(dir.offsetZ != 0) posZ = itemPos.zCoord;
 		return Vec3.createVectorHelper(posX, y + 0.25, posZ);
 	}
-	
+
 	public ForgeDirection getTravelDirection(World world, int x, int y, int z, Vec3 itemPos) {
 		int meta = world.getBlockMetadata(x, y, z);
 		return ForgeDirection.getOrientation(meta);
@@ -137,7 +136,7 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 			world.spawnEntityInWorld(item);
 		}
 	}
-	
+
 	public static class TileEntityCranePartitioner extends TileEntityMachineBase {
 
 		public TileEntityCranePartitioner() {
@@ -148,14 +147,14 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 
 		@Override
 		public void updateEntity() {
-			
+
 			if(!worldObj.isRemote) {
-				
+
 				List<ItemStack> stacks = new ArrayList();
 				for(int i = 0; i < 9; i++) if(slots[i] != null) stacks.add(slots[i]);
 				stacks.sort(stackSizeComparator);
 				boolean markDirty = false;
-				
+
 				for(ItemStack stack : stacks) {
 					int amount = CrystallizerRecipes.getAmount(stack);
 					while(stack.stackSize >= amount) {
@@ -168,12 +167,12 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 						worldObj.spawnEntityInWorld(item);
 					}
 				}
-				
+
 				for(int i = 0; i < 9; i++) if(slots[i] != null && slots[i].stackSize <= 0) slots[i] = null;
 				if(markDirty) this.markDirty();
 			}
 		}
-		
+
 		public static Comparator<ItemStack> stackSizeComparator = new Comparator<ItemStack>() {
 
 			@Override
@@ -204,7 +203,7 @@ public class CranePartitioner extends BlockContainer implements IConveyorBelt, I
 	}
 
 	private final Random dropRandom = new Random();
-	
+
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		TileEntity tile = world.getTileEntity(x, y, z);

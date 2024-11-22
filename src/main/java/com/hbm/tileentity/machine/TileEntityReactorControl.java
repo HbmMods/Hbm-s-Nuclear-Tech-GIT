@@ -13,6 +13,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -135,33 +136,37 @@ public class TileEntityReactorControl extends TileEntityMachineBase implements I
 					reactor.setTarget(level);
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("heat", heat);
-			data.setDouble("level", level);
-			data.setInteger("flux", flux);
-			data.setBoolean("isLinked", isLinked);
-			data.setDouble("levelLower", levelLower);
-			data.setDouble("levelUpper", levelUpper);
-			data.setDouble("heatLower", heatLower);
-			data.setDouble("heatUpper", heatUpper);
-			data.setInteger("function", function.ordinal());
-			this.networkPack(data, 150);
+
+			this.networkPackNT(150);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		this.heat = data.getInteger("heat");
-		this.level = data.getDouble("level");
-		this.flux = data.getInteger("flux");
-		isLinked = data.getBoolean("isLinked");
-		levelLower = data.getDouble("levelLower");
-		levelUpper = data.getDouble("levelUpper");
-		heatLower = data.getDouble("heatLower");
-		heatUpper = data.getDouble("heatUpper");
-		function = RodFunction.values()[data.getInteger("function")];
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(heat);
+		buf.writeDouble(level);
+		buf.writeInt(flux);
+		buf.writeBoolean(isLinked);
+		buf.writeDouble(levelLower);
+		buf.writeDouble(levelUpper);
+		buf.writeDouble(heatLower);
+		buf.writeDouble(heatUpper);
+		buf.writeByte(function.ordinal());
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.heat = buf.readInt();
+		this.level = buf.readDouble();
+		this.flux = buf.readInt();
+		isLinked = buf.readBoolean();
+		levelLower = buf.readDouble();
+		levelUpper = buf.readDouble();
+		heatLower = buf.readDouble();
+		heatUpper = buf.readDouble();
+		function = RodFunction.values()[buf.readByte()];
 	}
 	
 	private boolean establishLink() {

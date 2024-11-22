@@ -44,7 +44,7 @@ import java.util.Set;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
 public class TileEntityBarrel extends TileEntityMachineBase implements SimpleComponent, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, CompatHandler.OCComponent, IFluidCopiable {
-	
+
 	public FluidTank tank;
 	public short mode = 0;
 	public static final short modes = 4;
@@ -75,12 +75,12 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 
 	@Override
 	public long getDemand(FluidType type, int pressure) {
-		
+
 		if(this.mode == 2 || this.mode == 3 || this.sendingBrake)
 			return 0;
-		
+
 		if(tank.getPressure() != pressure) return 0;
-		
+
 		return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
 	}
 
@@ -94,7 +94,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 
 			byte comp = this.getComparatorPower(); //do comparator shenanigans
@@ -107,15 +107,15 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			tank.setType(0, 1, slots);
 			tank.loadTank(2, 3, slots);
 			tank.unloadTank(4, 5, slots);
-			
+
 			this.sendingBrake = true;
 			tank.setFill(transmitFluidFairly(worldObj, tank, this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
 			this.sendingBrake = false;
-			
+
 			if(tank.getFill() > 0) {
 				checkFluidInteraction();
 			}
-			
+
 			this.networkPackNT(50);
 		}
 	}
@@ -126,14 +126,14 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 		buf.writeShort(mode);
 		tank.serialize(buf);
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
 		mode = buf.readShort();
 		tank.deserialize(buf);
 	}
-	
+
 	protected DirPos[] getConPos() {
 		return new DirPos[] {
 				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
@@ -144,18 +144,18 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
 		};
 	}
-	
+
 	protected static int transmitFluidFairly(World world, FluidTank tank, IFluidConnector that, int fill, boolean connect, boolean send, DirPos[] connections) {
-		
+
 		Set<IPipeNet> nets = new HashSet<>();
 		Set<IFluidConnector> consumers = new HashSet<>();
 		FluidType type = tank.getTankType();
 		int pressure = tank.getPressure();
-		
+
 		for(DirPos pos : connections) {
-			
+
 			TileEntity te = world.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
-			
+
 			if(te instanceof IFluidConductor) {
 				IFluidConductor con = (IFluidConductor) te;
 				if(con.getPipeNet(type) != null) {
@@ -163,13 +163,13 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 					con.getPipeNet(type).unsubscribe(that);
 					consumers.addAll(con.getPipeNet(type).getSubscribers());
 				}
-				
+
 			//if it's just a consumer, buffer it as a subscriber
 			} else if(te instanceof IFluidConnector) {
 				consumers.add((IFluidConnector) te);
 			}
 		}
-		
+
 		consumers.remove(that);
 
 		if(fill > 0 && send) {
@@ -177,24 +177,24 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			con.addAll(consumers);
 
 			con.removeIf(x -> x == null || !(x instanceof TileEntity) || ((TileEntity)x).isInvalid());
-			
+
 			if(PipeNet.trackingInstances == null) {
 				PipeNet.trackingInstances = new ArrayList<>();
 			}
-			
+
 			PipeNet.trackingInstances.clear();
 			nets.forEach(x -> {
 				if(x instanceof PipeNet) PipeNet.trackingInstances.add((PipeNet) x);
 			});
-			
+
 			fill = (int) PipeNet.fairTransfer(con, type, pressure, fill);
 		}
-		
+
 		//resubscribe to buffered nets, if necessary
 		if(connect) {
 			nets.forEach(x -> x.subscribe(that));
 		}
-		
+
 		return fill;
 	}
 
@@ -208,7 +208,7 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 		//if content is above 0 but still within capacity
 		if(i == 2 && content > 0 && content <= tank.getMaxFill())
 			return true;
-		
+
 		return false;
 	}
 
@@ -221,23 +221,23 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
 		return new int[] {2, 3, 4, 5};
 	}
-	
+
 	public void checkFluidInteraction() {
-		
+
 		Block b = this.getBlockType();
-		
+
 		//for when you fill antimatter into a matter tank
 		if(b != ModBlocks.barrel_antimatter && tank.getTankType().isAntimatter()) {
 			worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 			worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 		}
-		
+
 		//for when you fill hot or corrosive liquids into a plastic tank
 		if(b == ModBlocks.barrel_plastic && (tank.getTankType().isCorrosive() || tank.getTankType().isHot())) {
 			worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
 		}
-		
+
 		//for when you fill corrosive liquid into an iron tank
 		if((b == ModBlocks.barrel_iron && tank.getTankType().isCorrosive()) ||
 				(b == ModBlocks.barrel_steel && tank.getTankType().hasTrait(FT_Corrosive.class) && tank.getTankType().getTrait(FT_Corrosive.class).getRating() > 50)) {
@@ -245,16 +245,16 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			this.slots = new ItemStack[6];
 			worldObj.setBlock(xCoord, yCoord, zCoord, ModBlocks.barrel_corroded);
 			TileEntityBarrel barrel = (TileEntityBarrel)worldObj.getTileEntity(xCoord, yCoord, zCoord);
-			
+
 			if(barrel != null) {
 				barrel.tank.setTankType(tank.getTankType());
 				barrel.tank.setFill(Math.min(barrel.tank.getMaxFill(), tank.getFill()));
 				barrel.slots = copy;
 			}
-			
+
 			worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "random.fizz", 1.0F, 1.0F);
 		}
-		
+
 		if(b == ModBlocks.barrel_corroded ) {
 			if(worldObj.rand.nextInt(3) == 0) {
 				tank.setFill(tank.getFill() - 1);
@@ -262,29 +262,29 @@ public class TileEntityBarrel extends TileEntityMachineBase implements SimpleCom
 			}
 			if(worldObj.rand.nextInt(3 * 60 * 20) == 0) worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
 		}
-		
+
 		//For when Tom's firestorm hits a barrel full of water
 		if(tank.getTankType() == Fluids.WATER && TomSaveData.forWorld(worldObj).fire > 1e-5) {
 			int light = this.worldObj.getSavedLightValue(EnumSkyBlock.Sky, this.xCoord, this.yCoord, this.zCoord);
-			
+
 			if(light > 7) {
 				worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5, true, true);
 			}
 		}
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		mode = nbt.getShort("mode");
 		tank.readFromNBT(nbt, "tank");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		nbt.setShort("mode", mode);
 		tank.writeToNBT(nbt, "tank");
 	}

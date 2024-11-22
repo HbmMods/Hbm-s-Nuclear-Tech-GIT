@@ -1,9 +1,6 @@
 package com.hbm.blocks;
 
-import java.util.Random;
-
 import com.hbm.entity.item.EntityFallingBlockNT;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -13,6 +10,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class BlockFallingNT extends Block {
 
@@ -45,7 +44,7 @@ public class BlockFallingNT extends Block {
 	}
 
 	protected void fall(World world, int x, int y, int z) {
-		
+
 		if(canFallThrough(world, x, y - 1, z) && y >= 0) {
 			byte range = 32;
 
