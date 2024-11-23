@@ -574,7 +574,6 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_uzi_saturnite_silencer, new ItemRenderUZI());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_calamity, new ItemRenderWeaponFFMG42());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_lacunae, new ItemRenderOverkill());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_folly, new ItemRenderOverkill());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_hk69, new ItemRenderWeaponObj());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_bio_revolver, new ItemRenderBioRevolver());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_deagle, new ItemRenderWeaponObj());

@@ -1146,9 +1146,16 @@ public class Orchestras {
 		}
 		
 		if(type == AnimType.RELOAD) {
-
 			if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magRemove", 1F, 1F);
 			if(timer == 26) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magInsert", 1F, 1F);
 		}
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_FOLLY = (stack, ctx) -> {
+		EntityLivingBase entity = ctx.entity;
+		if(entity.worldObj.isRemote) return;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
 	};
 }

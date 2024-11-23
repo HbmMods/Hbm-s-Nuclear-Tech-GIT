@@ -1523,7 +1523,6 @@ public class ModItems {
 	public static Item gun_ar15;
 	public static Item gun_calamity;
 	public static Item gun_lacunae;
-	public static Item gun_folly;
 	public static Item gun_proto;
 	public static Item gun_mirv;
 	public static Item gun_bf;
@@ -1624,6 +1623,7 @@ public class ModItems {
 	public static Item gun_coilgun;
 	public static Item gun_hangman;
 	public static Item gun_bolter;
+	public static Item gun_folly;
 	
 	public static Item ammo_standard;
 	
@@ -4064,7 +4064,6 @@ public class ModItems {
 		gun_ar15 = new ItemGunBase(Gun50BMGFactory.getAR15Config(), Gun50BMGFactory.getAR15BurstConfig()).setUnlocalizedName("gun_ar15").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_ar15");
 		gun_calamity = new ItemGunBase(Gun762mmFactory.getCalamityConfig()).setUnlocalizedName("gun_calamity").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_calamity");
 		gun_lacunae = new ItemGunLacunae(Gun5mmFactory.getLacunaeConfig()).setUnlocalizedName("gun_lacunae").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_lacunae");
-		gun_folly = new GunFolly().setUnlocalizedName("gun_folly").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_folly");
 		gun_proto = new ItemGunBase(GunFatmanFactory.getProtoConfig()).setUnlocalizedName("gun_proto").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_fatman");
 		gun_mirv = new ItemGunBase(GunFatmanFactory.getMIRVConfig()).setUnlocalizedName("gun_mirv").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_mirv");
 		gun_bf = new ItemGunBase(GunFatmanFactory.getBELConfig()).setUnlocalizedName("gun_bf").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_bf");
@@ -6878,7 +6877,6 @@ public class ModItems {
 		GameRegistry.registerItem(gun_ar15, gun_ar15.getUnlocalizedName());
 		GameRegistry.registerItem(gun_calamity, gun_calamity.getUnlocalizedName());
 		GameRegistry.registerItem(gun_lacunae, gun_lacunae.getUnlocalizedName());
-		GameRegistry.registerItem(gun_folly, gun_folly.getUnlocalizedName());
 		GameRegistry.registerItem(gun_b92, gun_b92.getUnlocalizedName());
 		GameRegistry.registerItem(gun_b93, gun_b93.getUnlocalizedName());
 		GameRegistry.registerItem(gun_rpg, gun_rpg.getUnlocalizedName());
@@ -6972,6 +6970,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_coilgun, gun_coilgun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_hangman, gun_hangman.getUnlocalizedName());
 		GameRegistry.registerItem(gun_bolter, gun_bolter.getUnlocalizedName());
+		GameRegistry.registerItem(gun_folly, gun_folly.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
 		

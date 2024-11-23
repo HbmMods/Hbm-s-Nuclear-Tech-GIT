@@ -61,7 +61,7 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 		this.headingZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI));
 		this.headingY = (double) (-MathHelper.sin((this.rotationPitch) / 180.0F * (float) Math.PI));
 		
-		double range = 150D;
+		double range = 250D;
 		this.headingX *= range;
 		this.headingY *= range;
 		this.headingZ *= range;

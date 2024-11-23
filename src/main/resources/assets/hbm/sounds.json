@@ -233,6 +233,8 @@
     "weapon.fire.tauRelease": {"category": "player", "sounds": ["weapon/fire/tauRelease1", "weapon/fire/tauRelease2", "weapon/fire/tauRelease3"]},
     "weapon.fire.fatman": {"category": "player", "sounds": ["weapon/fire/fatman"]},
     "weapon.fire.smack": {"category": "player", "sounds": ["weapon/fire/smack"]},
+    "weapon.fire.vstar": {"category": "player", "sounds": ["weapon/fire/vstar"]},
+    "weapon.fire.loudestNoiseOnEarth": {"category": "player", "sounds": ["weapon/fire/loudestNoiseOnEarth"]},
     
     "weapon.reload.boltClose": {"category": "player", "sounds": ["weapon/reload/boltClose"]},
     "weapon.reload.boltOpen": {"category": "player", "sounds": ["weapon/reload/boltOpen"]},

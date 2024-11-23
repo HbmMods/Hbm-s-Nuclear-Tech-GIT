@@ -41,7 +41,7 @@ public class GunFactory {
 						.mag(new MagazineFullReload(0, 12).addConfigs(ammo_debug, ammo_debug_buckshot))
 						.offset(0.75, -0.0625, -0.3125D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE))
-				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY) .pr(Lego.LAMBDA_STANDARD_RELOAD) .pt(Lego.LAMBDA_TOGGLE_AIM)
+				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD).pt(Lego.LAMBDA_TOGGLE_AIM)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(Lego.LAMBDA_DEBUG_ANIMS)
 				).setUnlocalizedName("gun_debug");
@@ -62,6 +62,7 @@ public class GunFactory {
 		XFactoryAccelerator.init();
 		XFactoryCatapult.init();
 		XFactory75Bolt.init();
+		XFactoryFolly.init();
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();

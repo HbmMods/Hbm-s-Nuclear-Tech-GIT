@@ -20,6 +20,9 @@ public class RenderBeam extends Render {
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) x, (float) y, (float) z);
 		
+		boolean fog = GL11.glIsEnabled(GL11.GL_FOG);
+		GL11.glDisable(GL11.GL_FOG);
+		
 		if(bullet.config.renderRotations) {
 			GL11.glRotatef(bullet.prevRotationYaw + (bullet.rotationYaw - bullet.prevRotationYaw) * interp - 90.0F, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(bullet.prevRotationPitch + (bullet.rotationPitch - bullet.prevRotationPitch) * interp + 180, 0.0F, 0.0F, 1.0F);
@@ -28,6 +31,8 @@ public class RenderBeam extends Render {
 		if(bullet.config.rendererBeam != null) {
 			bullet.config.rendererBeam.accept(bullet, interp);
 		}
+		
+		if(fog) GL11.glDisable(GL11.GL_FOG);
 		
 		GL11.glPopMatrix();
 	}
