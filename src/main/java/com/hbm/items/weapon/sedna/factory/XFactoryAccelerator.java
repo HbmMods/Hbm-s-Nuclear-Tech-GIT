@@ -79,9 +79,9 @@ public class XFactoryAccelerator {
 	
 	public static void init() {
 
-		tau_uranium = new BulletConfig().setItem(EnumAmmo.TAU_URANIUM).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setDamageFalloutByPen(false)
+		tau_uranium = new BulletConfig().setItem(EnumAmmo.TAU_URANIUM).setBeam().setLife(5).setRenderRotations(false).setDoesPenetrate(true).setDamageFalloutByPen(false)
 				.setOnBeamImpact(BulletConfig.LAMBDA_BEAM_HIT);
-		tau_uranium_charge = new BulletConfig().setItem(EnumAmmo.TAU_URANIUM).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setDamageFalloutByPen(false).setSpectral(true)
+		tau_uranium_charge = new BulletConfig().setItem(EnumAmmo.TAU_URANIUM).setBeam().setLife(5).setRenderRotations(false).setDoesPenetrate(true).setDamageFalloutByPen(false).setSpectral(true)
 				.setOnBeamImpact(BulletConfig.LAMBDA_BEAM_HIT);
 
 		coil_tungsten = new BulletConfig().setItem(EnumAmmo.COIL_TUNGSTEN).setVel(7.5F).setLife(50).setDoesPenetrate(true).setDamageFalloutByPen(false).setSpectral(true)
@@ -97,7 +97,7 @@ public class XFactoryAccelerator {
 						.dmg(10F).delay(4).auto(true).spread(0F)
 						.mag(new MagazineBelt().addConfigs(tau_uranium))
 						.offset(1, -0.0625 * 2.5, -0.25D)
-						.setupBeamFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY)
 				.rp(LAMBDA_TAU_PRIMARY_RELEASE)
 				.ps(LAMBDA_TAU_SECONDARY_PRESS)

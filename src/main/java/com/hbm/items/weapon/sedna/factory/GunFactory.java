@@ -28,6 +28,7 @@ public class GunFactory {
 		/// AMMO ITEMS ///
 		ModItems.ammo_debug = new Item().setUnlocalizedName("ammo_debug").setTextureName(RefStrings.MODID + ":ammo_45");
 		ModItems.ammo_standard = new ItemEnumMulti(EnumAmmo.class, true, true).setUnlocalizedName("ammo_standard").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_standard");
+		ModItems.ammo_secret = new ItemEnumMulti(EnumAmmoSecret.class, true, true).setUnlocalizedName("ammo_secret").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_secret");
 
 		/// BULLLET CFGS ///
 		ammo_debug = new BulletConfig().setItem(ModItems.ammo_debug).setSpread(0.01F).setRicochetAngle(45).setCasing(CASING44.clone().register("DEBUG0"));
@@ -86,7 +87,11 @@ public class GunFactory {
 		CAPACITOR, CAPACITOR_OVERCHARGE, CAPACITOR_BLACKLIGHTNING,
 		TAU_URANIUM,
 		COIL_TUNGSTEN, COIL_FERROURANIUM,
-		NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE,
+		NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE
+	}
+	
+	public static enum EnumAmmoSecret {
+		FOLLY_SM,
 		M44_EQUESTRIAN, G12_EQUESTRIAN, BMG50_EQUESTRIAN
 	}
 }

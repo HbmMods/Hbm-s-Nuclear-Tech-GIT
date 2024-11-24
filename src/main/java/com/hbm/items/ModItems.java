@@ -1624,8 +1624,9 @@ public class ModItems {
 	public static Item gun_hangman;
 	public static Item gun_bolter;
 	public static Item gun_folly;
-	
+
 	public static Item ammo_standard;
+	public static Item ammo_secret;
 	
 	public static Item crucible;
 
@@ -6973,6 +6974,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_folly, gun_folly.getUnlocalizedName());
 		
 		GameRegistry.registerItem(ammo_standard, ammo_standard.getUnlocalizedName());
+		GameRegistry.registerItem(ammo_secret, ammo_secret.getUnlocalizedName());
 		
 		//Ammo
 		GameRegistry.registerItem(gun_b92_ammo, gun_b92_ammo.getUnlocalizedName());

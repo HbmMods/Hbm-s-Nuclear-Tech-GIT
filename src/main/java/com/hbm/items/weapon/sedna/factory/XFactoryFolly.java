@@ -12,7 +12,7 @@ import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
-import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -27,15 +27,15 @@ public class XFactoryFolly {
 	
 	public static void init() {
 		
-		folly_sm = new BulletConfig().setItem(EnumAmmo.G26_FLARE).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false);
+		folly_sm = new BulletConfig().setItem(EnumAmmoSecret.FOLLY_SM).setBeam().setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false);
 
 		ModItems.gun_folly = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(100).draw(40).crosshair(Crosshair.NONE)
 				.rec(new Receiver(0)
-						.dmg(15F).delay(26).dry(5).reload(160).jam(0).sound("hbm:weapon.fire.loudestNoiseOnEarth", 100.0F, 1.0F)
+						.dmg(15F).delay(26).dry(10).reload(160).jam(0).sound("hbm:weapon.fire.loudestNoiseOnEarth", 100.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(folly_sm))
 						.offset(0.75, -0.0625, -0.1875D)
-						.setupBeamFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.canFire(LAMBDA_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration().pt(LAMBDA_TOGGLE_AIM)
 				.anim(LAMBDA_FOLLY_ANIMS).orchestra(Orchestras.ORCHESTRA_FOLLY)
 				).setUnlocalizedName("gun_folly");
@@ -43,8 +43,16 @@ public class XFactoryFolly {
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_TOGGLE_AIM = (stack, ctx) -> {
 		if(ItemGunBaseNT.getState(stack, ctx.configIndex) == GunState.IDLE) {
-			ItemGunBaseNT.setIsAiming(stack, !ItemGunBaseNT.getIsAiming(stack));
+			boolean wasAiming = ItemGunBaseNT.getIsAiming(stack);
+			ItemGunBaseNT.setIsAiming(stack, !wasAiming);
+			if(!wasAiming) ItemGunBaseNT.playAnimation(ctx.getPlayer(), stack, AnimType.SPINUP, ctx.configIndex);
 		}
+	};
+	
+	public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_CAN_FIRE = (stack, ctx) -> {
+		if(ItemGunBaseNT.getLastAnim(stack, ctx.configIndex) != AnimType.SPINUP) return false;
+		if(ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex) < 100) return false;
+		return ItemGunBaseNT.getIsAiming(stack) && ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack, ctx.inventory) > 0;
 	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_FOLLY_ANIMS = (stack, type) -> {

@@ -1157,5 +1157,15 @@ public class Orchestras {
 		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
 		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
+
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 0.75F);
+		}
+		
+		if(type == AnimType.RELOAD) {
+			if(timer == 20) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.screw", 1F, 1F);
+			if(timer == 80) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.insertRocket", 1F, 1F);
+			if(timer == 120) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.screw", 1F, 1F);
+		}
 	};
 }

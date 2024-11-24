@@ -11,6 +11,7 @@ import com.hbm.interfaces.NotableComments;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.particle.SpentCasing;
 import com.hbm.util.BobMathUtil;
@@ -42,6 +43,7 @@ public class BulletConfig implements Cloneable {
 	public float wear = 1F;
 	public int projectilesMin = 1;
 	public int projectilesMax = 1;
+	public ProjectileType pType = ProjectileType.BULLET;
 
 	public float damageMult = 1.0F;
 	public float armorPiercingPercent = 0.0F;
@@ -90,8 +92,10 @@ public class BulletConfig implements Cloneable {
 		return this;
 	}
 
+	public BulletConfig setBeam() {														this.pType = ProjectileType.BEAM; return this; }
 	public BulletConfig setItem(Item ammo) {											this.ammo = new ComparableStack(ammo); return this; }
 	public BulletConfig setItem(EnumAmmo ammo) {										this.ammo = new ComparableStack(ModItems.ammo_standard, 1, ammo.ordinal()); return this; }
+	public BulletConfig setItem(EnumAmmoSecret ammo) {									this.ammo = new ComparableStack(ModItems.ammo_secret, 1, ammo.ordinal()); return this; }
 	public BulletConfig setReloadCount(int ammoReloadCount) {							this.ammoReloadCount = ammoReloadCount; return this; }
 	public BulletConfig setVel(float velocity) {										this.velocity = velocity; return this; }
 	public BulletConfig setSpread(float spread) {										this.spread = spread; return this; }
@@ -124,6 +128,11 @@ public class BulletConfig implements Cloneable {
 	public BulletConfig setOnImpact(BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> lambda) {			this.onImpact = lambda; return this; }
 	public BulletConfig setOnBeamImpact(BiConsumer<EntityBulletBeamBase, MovingObjectPosition> lambda) {	this.onImpactBeam = lambda; return this; }
 	public BulletConfig setOnEntityHit(BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> lambda) {		this.onEntityHit = lambda; return this; }
+	
+	public static enum ProjectileType {
+		BULLET,
+		BEAM
+	}
 	
 	public DamageSource getDamage(Entity projectile, EntityLivingBase shooter, boolean bypass) {
 		
