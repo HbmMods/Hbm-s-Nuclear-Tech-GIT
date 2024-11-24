@@ -613,6 +613,38 @@ public class Orchestras {
 		}
 	};
 	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_UZI_AKIMBO = (stack, ctx) -> {
+		EntityLivingBase entity = ctx.entity;
+		if(entity.worldObj.isRemote) return;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+
+		if(type == AnimType.EQUIP) {
+			if(timer == 8) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.openLatch", 1F, 1.25F);
+		}
+		if(type == AnimType.CYCLE) {
+			if(timer == 1) {
+				int mult = ctx.configIndex == 0 ? -1 : 1;
+				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);
+				if(casing != null) CasingCreator.composeEffect(entity.worldObj, entity, 0.375, -0.125, -0.375D * mult, 0, 0.18, -0.12 * mult, 0.01, casing.getName());
+			}
+		}
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+			if(timer == 8) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.pistolCock", 1F, 1F);
+			
+		}
+		if(type == AnimType.RELOAD) {
+			if(timer == 4) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magRemove", 1F, 1F);
+			if(timer == 26) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magInsert", 1F, 1F);
+			if(timer == 36) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.pistolCock", 1F, 1F);
+		}
+		if(type == AnimType.JAMMED) {
+			if(timer == 17) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.pistolCock", 1F, 1F);
+			if(timer == 31) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.pistolCock", 1F, 1F);
+		}
+	};
+	
 	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_SPAS = (stack, ctx) -> {
 		EntityLivingBase entity = ctx.entity;
 		if(entity.worldObj.isRemote) return;
@@ -1156,11 +1188,6 @@ public class Orchestras {
 		if(entity.worldObj.isRemote) return;
 		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
-		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
-
-		if(type == AnimType.CYCLE_DRY) {
-			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 0.75F);
-		}
 		
 		if(type == AnimType.RELOAD) {
 			if(timer == 20) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.screw", 1F, 1F);

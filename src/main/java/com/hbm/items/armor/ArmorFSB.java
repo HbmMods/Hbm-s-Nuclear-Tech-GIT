@@ -3,10 +3,8 @@ package com.hbm.items.armor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.lwjgl.opengl.GL11;
 
@@ -28,7 +26,6 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
@@ -51,14 +48,6 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 	private String texture = "";
 	private ResourceLocation overlay = null;
 	public List<PotionEffect> effects = new ArrayList<PotionEffect>();
-	public HashMap<String, Float> resistance = new HashMap<String, Float>();
-	public float blastProtection = -1;
-	public float projectileProtection = -1;
-	public float damageCap = -1;
-	public float damageMod = -1;
-	public float damageThreshold = 0;
-	public float protectionYield = 100F;
-	public boolean fireproof = false;
 	public boolean noHelmet = false;
 	public boolean vats = false;
 	public boolean thermal = false;
@@ -79,46 +68,6 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 
 	public ArmorFSB addEffect(PotionEffect effect) {
 		effects.add(effect);
-		return this;
-	}
-
-	public ArmorFSB addResistance(String damage, float mod) {
-		resistance.put(damage, mod);
-		return this;
-	}
-
-	public ArmorFSB setCap(float cap) {
-		this.damageCap = cap;
-		return this;
-	}
-
-	public ArmorFSB setMod(float mod) {
-		this.damageMod = mod;
-		return this;
-	}
-
-	public ArmorFSB setThreshold(float threshold) {
-		this.damageThreshold = threshold;
-		return this;
-	}
-
-	public ArmorFSB setProtectionLevel(float damageYield) {
-		this.protectionYield = damageYield;
-		return this;
-	}
-
-	public ArmorFSB setBlastProtection(float blastProtection) {
-		this.blastProtection = blastProtection;
-		return this;
-	}
-
-	public ArmorFSB setProjectileProtection(float projectileProtection) {
-		this.projectileProtection = projectileProtection;
-		return this;
-	}
-
-	public ArmorFSB setFireproof(boolean fire) {
-		this.fireproof = fire;
 		return this;
 	}
 
@@ -191,14 +140,6 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 
 		//lists aren't being modified after instantiation, so there's no need to dereference
 		this.effects = original.effects;
-		this.resistance = original.resistance;
-		this.damageCap = original.damageCap;
-		this.damageMod = original.damageMod;
-		this.damageThreshold = original.damageThreshold;
-		this.protectionYield = original.protectionYield;
-		this.blastProtection = original.blastProtection;
-		this.projectileProtection = original.projectileProtection;
-		this.fireproof = original.fireproof;
 		this.noHelmet = original.noHelmet;
 		this.vats = original.vats;
 		this.thermal = original.thermal;
@@ -226,82 +167,19 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 		list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("armor.fullSetBonus"));
 
 		if(!effects.isEmpty()) {
-
 			for(PotionEffect effect : effects) {
 				list.add(EnumChatFormatting.AQUA + "  " + I18n.format(Potion.potionTypes[effect.getPotionID()].getName()));
 			}
 		}
 
-		if(!resistance.isEmpty()) {
-
-			for(Entry<String, Float> struct : resistance.entrySet()) {
-
-				if(struct.getValue() != 0)
-					list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.damageModifier", struct.getValue(), I18n.format(struct.getKey())));
-				else
-					list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.nullDamage", I18n.format(struct.getKey())));
-			}
-		}
-
-		if(blastProtection != -1) {
-			list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.blastProtection", blastProtection));
-		}
-
-		if(projectileProtection != -1) {
-			list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.projectileProtection", projectileProtection));
-		}
-
-		if(damageCap != -1) {
-			list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.cap", damageCap));
-		}
-
-		if(damageMod != -1) {
-			list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.modifier", damageMod));
-		}
-
-		if(damageThreshold > 0) {
-			list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.threshold", damageThreshold));
-		}
-
-		if(fireproof) {
-			list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.fireproof"));
-		}
-
-		if(geigerSound) {
-			list.add(EnumChatFormatting.GOLD + "  " + I18nUtil.resolveKey("armor.geigerSound"));
-		}
-
-		if(customGeiger) {
-			list.add(EnumChatFormatting.GOLD + "  " + I18nUtil.resolveKey("armor.geigerHUD"));
-		}
-
-		if(vats) {
-			list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.vats"));
-		}
-
-		if(thermal) {
-			list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.thermal"));
-		}
-
-		if(hardLanding) {
-			list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.hardLanding"));
-		}
-
-		if(gravity != 0) {
-			list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.gravity", gravity));
-		}
-		
-		if(stepSize != 0) {
-			list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.stepSize", stepSize));
-		}
-		
-		if(dashCount > 0) {
-			list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.dash", dashCount));
-		}
-
-		if(protectionYield != 100F) {
-			list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.yield", protectionYield));
-		}
+		if(geigerSound) list.add(EnumChatFormatting.GOLD + "  " + I18nUtil.resolveKey("armor.geigerSound"));
+		if(customGeiger) list.add(EnumChatFormatting.GOLD + "  " + I18nUtil.resolveKey("armor.geigerHUD"));
+		if(vats) list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.vats"));
+		if(thermal) list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.thermal"));
+		if(hardLanding) list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.hardLanding"));
+		if(gravity != 0) list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.gravity", gravity));
+		if(stepSize != 0) list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.stepSize", stepSize));
+		if(dashCount > 0) list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.dash", dashCount));
 	}
 
 	public static boolean hasFSBArmor(EntityPlayer player) {
@@ -357,80 +235,6 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 		}
 
 		return false;
-	}
-
-	public void handleAttack(LivingAttackEvent event) {
-
-		EntityLivingBase e = event.entityLiving;
-
-		if(e instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) e;
-
-			if(ArmorFSB.hasFSBArmor(player)) {
-
-				ItemStack plate = player.inventory.armorInventory[2];
-
-				ArmorFSB chestplate = (ArmorFSB) plate.getItem();
-
-				if(chestplate.damageThreshold >= event.ammount && !event.source.isUnblockable()) {
-					event.setCanceled(true);
-				}
-
-				if(chestplate.fireproof && event.source.isFireDamage()) {
-					player.extinguish();
-					event.setCanceled(true);
-				}
-
-				if(chestplate.resistance.get(event.source.getDamageType()) != null && chestplate.resistance.get(event.source.getDamageType()) <= 0) {
-					event.setCanceled(true);
-				}
-			}
-		}
-	}
-
-	public void handleHurt(LivingHurtEvent event) {
-
-		EntityLivingBase e = event.entityLiving;
-
-		if(e instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) e;
-
-			if(ArmorFSB.hasFSBArmor(player)) {
-
-				ArmorFSB chestplate = (ArmorFSB) player.inventory.armorInventory[2].getItem();
-				
-				//store any damage above the yield
-				float overFlow = Math.max(0, event.ammount - chestplate.protectionYield);
-				//reduce the damage to the yield cap if it exceeds the yield
-				event.ammount = Math.min(event.ammount, chestplate.protectionYield);
-
-				if(!event.source.isUnblockable())
-					event.ammount -= chestplate.damageThreshold;
-
-				if(chestplate.damageMod != -1) {
-					event.ammount *= chestplate.damageMod;
-				}
-
-				if(chestplate.resistance.get(event.source.getDamageType()) != null) {
-					event.ammount *= chestplate.resistance.get(event.source.getDamageType());
-				}
-
-				if(chestplate.blastProtection != -1 && event.source.isExplosion()) {
-					event.ammount *= chestplate.blastProtection;
-				}
-
-				if(chestplate.projectileProtection != -1 && event.source.isProjectile()) {
-					event.ammount *= chestplate.projectileProtection;
-				}
-
-				if(chestplate.damageCap != -1) {
-					event.ammount = Math.min(event.ammount, chestplate.damageCap);
-				}
-				
-				//add back anything that was above the protection yield before
-				event.ammount += overFlow;
-			}
-		}
 	}
 
 	public void handleTick(TickEvent.PlayerTickEvent event) {
@@ -624,4 +428,7 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 	public boolean disablesPart(EntityPlayer player, ItemStack stack, EnumPlayerPart part) {
 		return hidden.contains(part) && (!needsFullSet || hasFSBArmorIgnoreCharge(player));
 	}
+
+	public void handleAttack(LivingAttackEvent event) { }
+	public void handleHurt(LivingHurtEvent event) { }
 }

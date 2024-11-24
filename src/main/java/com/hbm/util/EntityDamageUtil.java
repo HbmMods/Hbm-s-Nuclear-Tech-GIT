@@ -20,27 +20,6 @@ import net.minecraftforge.common.ForgeHooks;
 
 public class EntityDamageUtil {
 	
-	/**
-	 * Attacks the given entity twice, based on a piercing percentage. The second hit sets the damage source to bypass armor.
-	 * The damage source is modified, so you can't reuse damage source instances.
-	 */
-	@Deprecated public static boolean attackEntityFromArmorPiercing(Entity victim, DamageSource src, float damage, float piercing) {
-		
-		if(src.isUnblockable() || piercing == 0) return victim.attackEntityFrom(src, damage);
-		
-		if(piercing == 1) {
-			src.setDamageBypassesArmor();
-			return victim.attackEntityFrom(src, damage);
-		}
-		
-		boolean ret = false;
-		
-		ret |= victim.attackEntityFrom(src, damage * (1F - piercing));
-		src.setDamageBypassesArmor();
-		ret |= victim.attackEntityFrom(src, damage * piercing);
-		return ret;
-	}
-	
 	public static boolean attackEntityFromIgnoreIFrame(Entity victim, DamageSource src, float damage) {
 
 		if(!victim.attackEntityFrom(src, damage)) {
@@ -58,24 +37,14 @@ public class EntityDamageUtil {
 		}
 	}
 	
-	@Deprecated public static float getDamageAfterTax(EntityLivingBase living, DamageSource source, float amount) {
-		amount = ForgeHooks.onLivingHurt(living, source, amount);
-		if(amount <= 0) return 0;
-		amount = applyArmorCalculations(living, source, amount);
-		return amount;
+	public static boolean attackEntityFromNT(EntityLivingBase living, DamageSource source, float amount, boolean ignoreIFrame, boolean allowSpecialCancel, double knockbackMultiplier, float pierceDT, float pierce) {
+		DamageResistanceHandler.setup(pierceDT, pierce);
+		boolean ret = attackEntityFromNTInternal(living, source, amount, ignoreIFrame, allowSpecialCancel, knockbackMultiplier);
+		DamageResistanceHandler.reset();
+		return ret;
 	}
 	
-	@Deprecated public static boolean attackArmorPiercing(EntityLivingBase living, DamageSource sourceDamageCalc, DamageSource sourceArmorPiercing, float amount, float piercing) {
-		if(piercing <= 0) return living.attackEntityFrom(sourceDamageCalc, amount);
-		//damage intended to pass the armor
-		float afterTax = getDamageAfterTax(living, sourceDamageCalc, amount);
-		//damage removed by the calculation
-		float reduced = Math.max(amount - afterTax, 0F);
-		//damage that would pass + damage tthat wouldn't pass * AP percentage
-		return attackEntityFromIgnoreIFrame(living, sourceArmorPiercing, Math.max(afterTax + (reduced * piercing), 0F));
-	}
-	
-	public static boolean attackEntityFromNT(EntityLivingBase living, DamageSource source, float amount, boolean ignoreIFrame, boolean allowSpecialCancel, double knockbackMultiplier) {
+	private static boolean attackEntityFromNTInternal(EntityLivingBase living, DamageSource source, float amount, boolean ignoreIFrame, boolean allowSpecialCancel, double knockbackMultiplier) {
 		if(ForgeHooks.onLivingAttack(living, source, amount) && allowSpecialCancel) return false;
 		if(living.isEntityInvulnerable()) return false;
 		if(living.worldObj.isRemote) return false;
@@ -89,14 +58,14 @@ public class EntityDamageUtil {
 
 		if(living.hurtResistantTime > living.maxHurtResistantTime / 2.0F && !ignoreIFrame) {
 			if(amount <= living.lastDamage) { return false; }
-			damageEntityNT(living, source, amount - living.lastDamage); //TODO: override
+			damageEntityNT(living, source, amount - living.lastDamage);
 			living.lastDamage = amount;
 			didAttackRegister = false;
 		} else {
 			living.lastDamage = amount;
 			living.prevHealth = living.getHealth();
 			living.hurtResistantTime = living.maxHurtResistantTime;
-			damageEntityNT(living, source, amount); //TODO: override
+			damageEntityNT(living, source, amount);
 			living.hurtTime = living.maxHurtTime = 10;
 		}
 

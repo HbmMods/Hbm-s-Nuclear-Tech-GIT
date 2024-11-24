@@ -95,6 +95,8 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 			return;
 		}
 		
+		if(config.onUpdate != null) config.onUpdate.accept(this);
+		
 		super.onUpdate();
 		
 		if(!worldObj.isRemote && this.ticksExisted > config.expires) this.setDead();

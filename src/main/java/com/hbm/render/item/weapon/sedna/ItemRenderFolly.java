@@ -11,6 +11,7 @@ import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.anim.HbmAnimations;
+import com.hbm.util.EntityDamageUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -19,6 +20,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
 
 public class ItemRenderFolly extends ItemRenderWeaponBase {
 
@@ -225,13 +227,24 @@ public class ItemRenderFolly extends ItemRenderWeaponBase {
 		List<String> tty = new ArrayList();
 		long now = System.currentTimeMillis();
 		int time = (int)((now - timeAiming));
-		if(time > 3000) return tty;
-		if(time > 250) tty.add(EnumChatFormatting.GREEN + "POST successful - Code 0");
-		if(time > 500) tty.add(EnumChatFormatting.GREEN + "8,388,608 bytes of RAM installed");
-		if(time > 500) tty.add(EnumChatFormatting.GREEN + "5,187,427 bytes available");
-		if(time > 750) tty.add(EnumChatFormatting.GREEN + "Reticulating splines...");
-		if(time > 1500) tty.add(EnumChatFormatting.GREEN + "No keyboard found!");
-		if(time > 2000) tty.add(EnumChatFormatting.GREEN + "Booting from /dev/sda1...");
+		if(time < 3000) {
+			if(time > 250) tty.add(EnumChatFormatting.GREEN + "POST successful - Code 0");
+			if(time > 500) tty.add(EnumChatFormatting.GREEN + "8,388,608 bytes of RAM installed");
+			if(time > 500) tty.add(EnumChatFormatting.GREEN + "5,187,427 bytes available");
+			if(time > 750) tty.add(EnumChatFormatting.GREEN + "Reticulating splines...");
+			if(time > 1500) tty.add(EnumChatFormatting.GREEN + "No keyboard found!");
+			if(time > 2000) tty.add(EnumChatFormatting.GREEN + "Booting from /dev/sda1...");
+		}
+		if(time > 5000) {
+			EntityPlayer player = MainRegistry.proxy.me();
+			MovingObjectPosition mop = EntityDamageUtil.getMouseOver(player, 250);
+			String target = EnumChatFormatting.GREEN + "Target: ";
+			if(mop.typeOfHit == mop.typeOfHit.MISS) target += "N/A";
+			if(mop.typeOfHit == mop.typeOfHit.BLOCK) target += mop.blockX + "/" + mop.blockY + "/" + mop.blockZ;
+			if(mop.typeOfHit == mop.typeOfHit.ENTITY) target += mop.entityHit.getCommandSenderName();
+			tty.add(target);
+			tty.add(EnumChatFormatting.GREEN + "Angle: " + ((int)(-player.rotationPitch * 100) / 100D));
+		}
 		return tty;
 	}
 }

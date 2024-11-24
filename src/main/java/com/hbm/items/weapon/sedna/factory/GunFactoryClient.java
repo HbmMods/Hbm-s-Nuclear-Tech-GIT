@@ -53,6 +53,7 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_flamer,					new ItemRenderFlamer());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_lag,						new ItemRenderLAG());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_uzi,						new ItemRenderUzi());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_uzi_akimbo,				new ItemRenderUziAkimbo());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_spas12,					new ItemRenderSPAS12());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_panzerschreck,			new ItemRenderPanzerschreck());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_g3,						new ItemRenderG3());
@@ -206,6 +207,8 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_light_revolver_dani)	.getConfig(null, 1).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_maresleg_akimbo)		.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY_MIRROR, LegoClient.HUD_COMPONENT_AMMO_MIRROR);
 		((ItemGunBaseNT) ModItems.gun_maresleg_akimbo)		.getConfig(null, 1).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_uzi_akimbo)			.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY_MIRROR, LegoClient.HUD_COMPONENT_AMMO_MIRROR);
+		((ItemGunBaseNT) ModItems.gun_uzi_akimbo)			.getConfig(null, 1).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 	}
 	
 	public static void setRendererBulk(BiConsumer<EntityBulletBaseMK4, Float> renderer, BulletConfig... configs) { for(BulletConfig config : configs) config.setRenderer(renderer); }

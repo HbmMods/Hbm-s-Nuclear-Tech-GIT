@@ -921,6 +921,9 @@ public class MainRegistry {
 		PollutionHandler pollution = new PollutionHandler();
 		MinecraftForge.EVENT_BUS.register(pollution);
 		FMLCommonHandler.instance().bus().register(pollution);
+
+		DamageResistanceHandler dmgHandler = new DamageResistanceHandler();
+		MinecraftForge.EVENT_BUS.register(dmgHandler);
 		
 		if(event.getSide() == Side.CLIENT) {
 			HbmKeybinds.register();
