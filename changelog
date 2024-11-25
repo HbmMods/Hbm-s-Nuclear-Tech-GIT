@@ -54,6 +54,7 @@
 * Microwave explosions no longer destroy blocks, only the microwave and nearby players
 * Wings can now be used like armor mods
 * At higher pollution levels, skeletons can now spawn with guns
+* Logistic drones now move at 0.625 blocks/t instead of 0.6. There is no balancing reason for this, I just hate weird numbers like 0.6
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines
@@ -72,3 +73,5 @@
 * Fixed the wood burner destroying container items like buckets when using lava as fuel
 * Fixed pollution serialization for the fluid trait config being wrong
 * Fixed slag crashing the game when trying to flow into the void
+* Fixed issue where drones that are too fast may skip waypoints
+* Fixed the electrolyzer speed upgrades not increasing energy consumption as advertised

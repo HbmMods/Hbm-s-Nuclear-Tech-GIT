@@ -81,8 +81,6 @@ public class DamageResistanceHandler {
 		amount -= dt;
 		dr *= MathHelper.clamp_float(1F - pierce, 0F, 1F);
 		
-		System.out.println(dt + " " + dr);
-		
 		return amount *= (1F - dr);
 	}
 	

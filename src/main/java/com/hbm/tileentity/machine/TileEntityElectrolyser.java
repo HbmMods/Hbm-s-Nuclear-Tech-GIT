@@ -132,8 +132,8 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
 
-			usageOre = usageOreBase - usageOreBase * powerLevel / 4;
-			usageFluid = usageFluidBase - usageFluidBase * powerLevel / 4;
+			usageOre = usageOreBase - usageOreBase * powerLevel / 4 + usageOreBase * speedLevel;
+			usageFluid = usageFluidBase - usageFluidBase * powerLevel / 4 + usageFluidBase * speedLevel;
 
 			for(int i = 0; i < getCycleCount(); i++) {
 				if (this.canProcessFluid()) {
@@ -585,9 +585,7 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public int[] getMatsToCopy() {
 		ArrayList<Integer> types = new ArrayList<>();
 		if(leftStack != null)	types.add(leftStack.material.id);
-
 		if(rightStack != null)	types.add(rightStack.material.id);
-
 		return BobMathUtil.intCollectionToArray(types);
 	}
 }

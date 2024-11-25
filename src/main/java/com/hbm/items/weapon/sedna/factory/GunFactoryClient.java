@@ -158,7 +158,7 @@ public class GunFactoryClient {
 		setRendererBulkBeam(LegoClient.RENDER_LIGHTNING, energy_tesla, energy_tesla_overcharge);
 		setRendererBulkBeam(LegoClient.RENDER_TAU, tau_uranium);
 		setRendererBulkBeam(LegoClient.RENDER_TAU_CHARGE, tau_uranium_charge);
-		setRendererBulkBeam(LegoClient.RENDER_LASER, energy_las, energy_las_overcharge);
+		setRendererBulkBeam(LegoClient.RENDER_LASER_RED, energy_las, energy_las_overcharge);
 		
 		setRendererBulk(LegoClient.RENDER_AP_BULLET, coil_tungsten, coil_ferrouranium);
 		
