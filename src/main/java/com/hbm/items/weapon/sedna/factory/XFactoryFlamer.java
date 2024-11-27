@@ -102,10 +102,10 @@ public class XFactoryFlamer {
 	}
 
 	public static void init() {
-		flame_diesel = new BulletConfig().setItem(EnumAmmo.FLAME_DIESEL).setLife(100).setVel(1F).setGrav(0.02D).setReloadCount(300).setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_DIESEL);
-		flame_gas = new BulletConfig().setItem(EnumAmmo.FLAME_GAS).setLife(10).setSpread(0.05F).setVel(1F).setGrav(0.0D).setReloadCount(300).setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_GAS);
-		flame_napalm = new BulletConfig().setItem(EnumAmmo.FLAME_NAPALM).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(300).setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_NAPALM);
-		flame_balefire = new BulletConfig().setItem(EnumAmmo.FLAME_BALEFIRE).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(300).setOnUpdate(LAMBDA_BALEFIRE).setOnRicochet(LAMBDA_LINGER_BALEFIRE);
+		flame_diesel = new BulletConfig().setItem(EnumAmmo.FLAME_DIESEL).setLife(100).setVel(1F).setGrav(0.02D).setReloadCount(300).setSelfDamageDelay(20).setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_DIESEL);
+		flame_gas = new BulletConfig().setItem(EnumAmmo.FLAME_GAS).setLife(10).setSpread(0.05F).setVel(1F).setGrav(0.0D).setReloadCount(300).setSelfDamageDelay(20).setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_GAS);
+		flame_napalm = new BulletConfig().setItem(EnumAmmo.FLAME_NAPALM).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(300).setSelfDamageDelay(20).setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_NAPALM);
+		flame_balefire = new BulletConfig().setItem(EnumAmmo.FLAME_BALEFIRE).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(300).setSelfDamageDelay(20).setOnUpdate(LAMBDA_BALEFIRE).setOnRicochet(LAMBDA_LINGER_BALEFIRE);
 		
 		flame_topaz_diesel = flame_diesel.clone().setLife(60).setGrav(0.0D).setReloadCount(500).setProjectiles(2).setSpread(0.05F);
 		flame_topaz_gas = flame_gas.clone().setReloadCount(500).setProjectiles(2).setSpread(0.05F);
