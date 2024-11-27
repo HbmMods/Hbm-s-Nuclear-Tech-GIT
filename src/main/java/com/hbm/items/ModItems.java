@@ -1602,6 +1602,7 @@ public class ModItems {
 	public static Item gun_liberator;
 	public static Item gun_congolake;
 	public static Item gun_flamer;
+	public static Item gun_flamer_topaz;
 	public static Item gun_uzi;
 	public static Item gun_uzi_akimbo;
 	public static Item gun_spas12;
@@ -4841,7 +4842,7 @@ public class ModItems {
 				.addHitAbility(new WeaponAbility.ChainsawAbility(10))
 				.addHitAbility(new WeaponAbility.BeheaderAbility()).setShears().setUnlocalizedName("chainsaw").setTextureName(RefStrings.MODID + ":chainsaw");
 		
-		schrabidium_sword = new ItemSwordAbility(150, 0, MainRegistry.tMatSchrab)
+		schrabidium_sword = new ItemSwordAbility(75, 0, MainRegistry.tMatSchrab)
 				.addHitAbility(new WeaponAbility.RadiationAbility(50F))
 				.addHitAbility(new WeaponAbility.VampireAbility(2F))
 				.setRarity(EnumRarity.rare).setUnlocalizedName("schrabidium_sword").setTextureName(RefStrings.MODID + ":schrabidium_sword");
@@ -4892,22 +4893,22 @@ public class ModItems {
 		steel_shovel = new ItemToolAbility(3F, 0, MainRegistry.tMatSteel, EnumToolType.SHOVEL).setUnlocalizedName("steel_shovel").setTextureName(RefStrings.MODID + ":steel_shovel");
 		steel_hoe = new ModHoe(MainRegistry.tMatSteel).setUnlocalizedName("steel_hoe").setTextureName(RefStrings.MODID + ":steel_hoe");
 		
-		alloy_sword = new ItemSwordAbility(9F, 0, MainRegistry.tMatAlloy)
+		alloy_sword = new ItemSwordAbility(8F, 0, MainRegistry.tMatAlloy)
 				.addHitAbility(new WeaponAbility.StunAbility(2)).setUnlocalizedName("alloy_sword").setTextureName(RefStrings.MODID + ":alloy_sword");
 		
-		alloy_pickaxe = new ItemToolAbility(6F, 0, MainRegistry.tMatAlloy, EnumToolType.PICKAXE)
+		alloy_pickaxe = new ItemToolAbility(5F, 0, MainRegistry.tMatAlloy, EnumToolType.PICKAXE)
 				.addBreakAbility(new ToolAbility.RecursionAbility(3)).setUnlocalizedName("alloy_pickaxe").setTextureName(RefStrings.MODID + ":alloy_pickaxe");
 		
 		alloy_axe = new ItemToolAbility(7F, 0, MainRegistry.tMatAlloy, EnumToolType.AXE)
 				.addBreakAbility(new ToolAbility.RecursionAbility(3))
 				.addHitAbility(new WeaponAbility.BeheaderAbility()).setUnlocalizedName("alloy_axe").setTextureName(RefStrings.MODID + ":alloy_axe");
 		
-		alloy_shovel = new ItemToolAbility(5F, 0, MainRegistry.tMatAlloy, EnumToolType.SHOVEL)
+		alloy_shovel = new ItemToolAbility(4F, 0, MainRegistry.tMatAlloy, EnumToolType.SHOVEL)
 				.addBreakAbility(new ToolAbility.RecursionAbility(3)).setUnlocalizedName("alloy_shovel").setTextureName(RefStrings.MODID + ":alloy_shovel");
 		
 		alloy_hoe = new ModHoe(MainRegistry.tMatAlloy).setUnlocalizedName("alloy_hoe").setTextureName(RefStrings.MODID + ":alloy_hoe");
 		
-		cmb_sword = new ItemSwordAbility(50F, 0, MainRegistry.tMatCMB)
+		cmb_sword = new ItemSwordAbility(35F, 0, MainRegistry.tMatCMB)
 				.addHitAbility(new WeaponAbility.StunAbility(2))
 				.addHitAbility(new WeaponAbility.VampireAbility(2F)).setUnlocalizedName("cmb_sword").setTextureName(RefStrings.MODID + ":cmb_sword");
 		
@@ -4917,7 +4918,7 @@ public class ModItems {
 				.addBreakAbility(new ToolAbility.SilkAbility())
 				.addBreakAbility(new LuckAbility(3)).setUnlocalizedName("cmb_pickaxe").setTextureName(RefStrings.MODID + ":cmb_pickaxe");
 		
-		cmb_axe = new ItemToolAbility(12.5F, 0, MainRegistry.tMatCMB, EnumToolType.AXE)
+		cmb_axe = new ItemToolAbility(30F, 0, MainRegistry.tMatCMB, EnumToolType.AXE)
 				.addBreakAbility(new ToolAbility.RecursionAbility(5))
 				.addBreakAbility(new ToolAbility.SmelterAbility())
 				.addBreakAbility(new ToolAbility.SilkAbility())
@@ -4932,16 +4933,16 @@ public class ModItems {
 		
 		cmb_hoe = new ModHoe(MainRegistry.tMatCMB).setUnlocalizedName("cmb_hoe").setTextureName(RefStrings.MODID + ":cmb_hoe");
 		
-		elec_sword = new ItemSwordAbilityPower(15F, 0, MainRegistry.tMatElec, 500000, 1000, 100)
+		elec_sword = new ItemSwordAbilityPower(12.5F, 0, MainRegistry.tMatElec, 500000, 1000, 100)
 				.addHitAbility(new WeaponAbility.StunAbility(5)).setUnlocalizedName("elec_sword").setTextureName(RefStrings.MODID + ":elec_sword_anim");
 		
-		elec_pickaxe = new ItemToolAbilityPower(10F, 0, MainRegistry.tMatElec, EnumToolType.PICKAXE, 500000, 1000, 100)
+		elec_pickaxe = new ItemToolAbilityPower(6F, 0, MainRegistry.tMatElec, EnumToolType.PICKAXE, 500000, 1000, 100)
 				.addBreakAbility(new ToolAbility.HammerAbility(2))
 				.addBreakAbility(new ToolAbility.RecursionAbility(5))
 				.addBreakAbility(new ToolAbility.SilkAbility())
 				.addBreakAbility(new LuckAbility(2)).setUnlocalizedName("elec_pickaxe").setTextureName(RefStrings.MODID + ":elec_drill_anim");
 		
-		elec_axe = new ItemToolAbilityPower(12.5F, 0, MainRegistry.tMatElec, EnumToolType.AXE, 500000, 1000, 100)
+		elec_axe = new ItemToolAbilityPower(10F, 0, MainRegistry.tMatElec, EnumToolType.AXE, 500000, 1000, 100)
 				.addBreakAbility(new ToolAbility.HammerAbility(2))
 				.addBreakAbility(new ToolAbility.RecursionAbility(5))
 				.addBreakAbility(new ToolAbility.SilkAbility())
@@ -4949,13 +4950,13 @@ public class ModItems {
 				.addHitAbility(new WeaponAbility.ChainsawAbility(15))
 				.addHitAbility(new WeaponAbility.BeheaderAbility()).setShears().setUnlocalizedName("elec_axe").setTextureName(RefStrings.MODID + ":elec_chainsaw_anim");
 		
-		elec_shovel = new ItemToolAbilityPower(7.5F, 0, MainRegistry.tMatElec, EnumToolType.SHOVEL, 500000, 1000, 100)
+		elec_shovel = new ItemToolAbilityPower(5F, 0, MainRegistry.tMatElec, EnumToolType.SHOVEL, 500000, 1000, 100)
 				.addBreakAbility(new ToolAbility.HammerAbility(2))
 				.addBreakAbility(new ToolAbility.RecursionAbility(5))
 				.addBreakAbility(new ToolAbility.SilkAbility())
 				.addBreakAbility(new LuckAbility(2)).setUnlocalizedName("elec_shovel").setTextureName(RefStrings.MODID + ":elec_shovel_anim");
 		
-		desh_sword = new ItemSwordAbility(15F, 0, MainRegistry.tMatDesh)
+		desh_sword = new ItemSwordAbility(12.5F, 0, MainRegistry.tMatDesh)
 				.addHitAbility(new WeaponAbility.StunAbility(2)).setUnlocalizedName("desh_sword").setTextureName(RefStrings.MODID + ":desh_sword");
 		
 		desh_pickaxe = new ItemToolAbility(5F, -0.05, MainRegistry.tMatDesh, EnumToolType.PICKAXE)
@@ -4964,7 +4965,7 @@ public class ModItems {
 				.addBreakAbility(new ToolAbility.SilkAbility())
 				.addBreakAbility(new LuckAbility(2)).setUnlocalizedName("desh_pickaxe").setTextureName(RefStrings.MODID + ":desh_pickaxe");
 		
-		desh_axe = new ItemToolAbility(6.5F, -0.05, MainRegistry.tMatDesh, EnumToolType.AXE)
+		desh_axe = new ItemToolAbility(7.5F, -0.05, MainRegistry.tMatDesh, EnumToolType.AXE)
 				.addBreakAbility(new ToolAbility.HammerAbility(1))
 				.addBreakAbility(new ToolAbility.RecursionAbility(3))
 				.addBreakAbility(new ToolAbility.SilkAbility())
@@ -5046,14 +5047,14 @@ public class ModItems {
 				.addBreakAbility(new ToolAbility.CentrifugeAbility()).setMaxDamage(50).setUnlocalizedName("centri_stick").setTextureName(RefStrings.MODID + ":centri_stick");
 		smashing_hammer = new ItemToolAbility(12F, -0.1, MainRegistry.tMatSteel, EnumToolType.MINER)
 				.addBreakAbility(new ToolAbility.ShredderAbility()).setMaxDamage(2500).setUnlocalizedName("smashing_hammer").setTextureName(RefStrings.MODID + ":smashing_hammer");
-		drax = new ItemToolAbilityPower(15F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 500000000, 100000, 5000)
+		drax = new ItemToolAbilityPower(10F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 500000000, 100000, 5000)
 				.addBreakAbility(new ToolAbility.SmelterAbility())
 				.addBreakAbility(new ToolAbility.ShredderAbility())
 				.addBreakAbility(new ToolAbility.LuckAbility(2))
 				.addBreakAbility(new ToolAbility.HammerAbility(1))
 				.addBreakAbility(new ToolAbility.HammerAbility(2))
 				.addBreakAbility(new ToolAbility.RecursionAbility(5)).setUnlocalizedName("drax").setTextureName(RefStrings.MODID + ":drax");
-		drax_mk2 = new ItemToolAbilityPower(20F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 1000000000, 250000, 7500)
+		drax_mk2 = new ItemToolAbilityPower(15F, -0.05, MainRegistry.tMatElec, EnumToolType.MINER, 1000000000, 250000, 7500)
 				.addBreakAbility(new ToolAbility.SmelterAbility())
 				.addBreakAbility(new ToolAbility.ShredderAbility())
 				.addBreakAbility(new ToolAbility.CentrifugeAbility())
@@ -5086,7 +5087,7 @@ public class ModItems {
 				.addHitAbility(new WeaponAbility.VampireAbility(2F))
 				.addHitAbility(new WeaponAbility.BeheaderAbility())
 				.setDepthRockBreaker().setUnlocalizedName("bismuth_pickaxe").setTextureName(RefStrings.MODID + ":bismuth_pickaxe");
-		bismuth_axe = new ItemToolAbility(125F, 0, matBismuth, EnumToolType.AXE)
+		bismuth_axe = new ItemToolAbility(25F, 0, matBismuth, EnumToolType.AXE)
 				.addBreakAbility(new ToolAbility.HammerAbility(2))
 				.addBreakAbility(new ToolAbility.RecursionAbility(4))
 				.addBreakAbility(new ToolAbility.ShredderAbility())
@@ -5108,7 +5109,7 @@ public class ModItems {
 				.addHitAbility(new WeaponAbility.VampireAbility(2F))
 				.addHitAbility(new WeaponAbility.BeheaderAbility())
 				.setDepthRockBreaker().setUnlocalizedName("volcanic_pickaxe").setTextureName(RefStrings.MODID + ":volcanic_pickaxe");
-		volcanic_axe = new ItemToolAbility(125F, 0, matVolcano, EnumToolType.AXE)
+		volcanic_axe = new ItemToolAbility(25F, 0, matVolcano, EnumToolType.AXE)
 				.addBreakAbility(new ToolAbility.HammerAbility(2))
 				.addBreakAbility(new ToolAbility.RecursionAbility(4))
 				.addBreakAbility(new ToolAbility.SmelterAbility())
@@ -5129,7 +5130,7 @@ public class ModItems {
 				.addHitAbility(new WeaponAbility.VampireAbility(5F))
 				.addHitAbility(new WeaponAbility.BeheaderAbility())
 				.setDepthRockBreaker().setUnlocalizedName("chlorophyte_pickaxe").setTextureName(RefStrings.MODID + ":chlorophyte_pickaxe");
-		chlorophyte_axe = new ItemToolAbility(175F, 0, matChlorophyte, EnumToolType.AXE)
+		chlorophyte_axe = new ItemToolAbility(50F, 0, matChlorophyte, EnumToolType.AXE)
 				.addBreakAbility(new ToolAbility.HammerAbility(2))
 				.addBreakAbility(new ToolAbility.RecursionAbility(4))
 				.addBreakAbility(new ToolAbility.LuckAbility(4))
@@ -5152,7 +5153,7 @@ public class ModItems {
 				.addHitAbility(new WeaponAbility.PhosphorusAbility(60))
 				.addHitAbility(new WeaponAbility.BeheaderAbility())
 				.setDepthRockBreaker().setUnlocalizedName("mese_pickaxe").setTextureName(RefStrings.MODID + ":mese_pickaxe");
-		mese_axe = new ItemToolAbility(250F, 0, matMese, EnumToolType.AXE)
+		mese_axe = new ItemToolAbility(75F, 0, matMese, EnumToolType.AXE)
 				.addBreakAbility(new ToolAbility.HammerAbility(3))
 				.addBreakAbility(new ToolAbility.RecursionAbility(5))
 				.addBreakAbility(new ToolAbility.SilkAbility())
@@ -5172,18 +5173,18 @@ public class ModItems {
 				.addBreakAbility(new ToolAbility.HammerAbility(1)).setUnlocalizedName("dwarven_pickaxe").setMaxDamage(250).setTextureName(RefStrings.MODID + ":dwarven_pickaxe");
 
 		ToolMaterial matMeteorite = EnumHelper.addToolMaterial("HBM_METEORITE", 4, 0, 50F, 0.0F, 200).setRepairItem(new ItemStack(ModItems.plate_paa));
-		meteorite_sword = new ItemSwordMeteorite(10F, 0, matMeteorite).setUnlocalizedName("meteorite_sword").setTextureName(RefStrings.MODID + ":meteorite_sword");
-		meteorite_sword_seared = new ItemSwordMeteorite(15F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_seared").setTextureName(RefStrings.MODID + ":meteorite_sword");
-		meteorite_sword_reforged = new ItemSwordMeteorite(25F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_reforged").setTextureName(RefStrings.MODID + ":meteorite_sword");
-		meteorite_sword_hardened = new ItemSwordMeteorite(35F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_hardened").setTextureName(RefStrings.MODID + ":meteorite_sword");
-		meteorite_sword_alloyed = new ItemSwordMeteorite(50F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_alloyed").setTextureName(RefStrings.MODID + ":meteorite_sword");
-		meteorite_sword_machined = new ItemSwordMeteorite(65F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_machined").setTextureName(RefStrings.MODID + ":meteorite_sword");
-		meteorite_sword_treated = new ItemSwordMeteorite(80F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_treated").setTextureName(RefStrings.MODID + ":meteorite_sword");
-		meteorite_sword_etched = new ItemSwordMeteorite(100F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_etched").setTextureName(RefStrings.MODID + ":meteorite_sword");
-		meteorite_sword_bred = new ItemSwordMeteorite(125F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_bred").setTextureName(RefStrings.MODID + ":meteorite_sword");
-		meteorite_sword_irradiated = new ItemSwordMeteorite(175F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_irradiated").setTextureName(RefStrings.MODID + ":meteorite_sword");
-		meteorite_sword_fused = new ItemSwordMeteorite(250F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_fused").setTextureName(RefStrings.MODID + ":meteorite_sword");
-		meteorite_sword_baleful = new ItemSwordMeteorite(500F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_baleful").setTextureName(RefStrings.MODID + ":meteorite_sword");
+		meteorite_sword = new ItemSwordMeteorite(9F, 0, matMeteorite).setUnlocalizedName("meteorite_sword").setTextureName(RefStrings.MODID + ":meteorite_sword");
+		meteorite_sword_seared = new ItemSwordMeteorite(10F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_seared").setTextureName(RefStrings.MODID + ":meteorite_sword");
+		meteorite_sword_reforged = new ItemSwordMeteorite(12.5F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_reforged").setTextureName(RefStrings.MODID + ":meteorite_sword");
+		meteorite_sword_hardened = new ItemSwordMeteorite(15F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_hardened").setTextureName(RefStrings.MODID + ":meteorite_sword");
+		meteorite_sword_alloyed = new ItemSwordMeteorite(17.5F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_alloyed").setTextureName(RefStrings.MODID + ":meteorite_sword");
+		meteorite_sword_machined = new ItemSwordMeteorite(20F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_machined").setTextureName(RefStrings.MODID + ":meteorite_sword");
+		meteorite_sword_treated = new ItemSwordMeteorite(22.5F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_treated").setTextureName(RefStrings.MODID + ":meteorite_sword");
+		meteorite_sword_etched = new ItemSwordMeteorite(25F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_etched").setTextureName(RefStrings.MODID + ":meteorite_sword");
+		meteorite_sword_bred = new ItemSwordMeteorite(30F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_bred").setTextureName(RefStrings.MODID + ":meteorite_sword");
+		meteorite_sword_irradiated = new ItemSwordMeteorite(35F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_irradiated").setTextureName(RefStrings.MODID + ":meteorite_sword");
+		meteorite_sword_fused = new ItemSwordMeteorite(50F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_fused").setTextureName(RefStrings.MODID + ":meteorite_sword");
+		meteorite_sword_baleful = new ItemSwordMeteorite(75F, 0, matMeteorite).setUnlocalizedName("meteorite_sword_baleful").setTextureName(RefStrings.MODID + ":meteorite_sword");
 		
 		mask_of_infamy = new MaskOfInfamy(ArmorMaterial.IRON, 0).setUnlocalizedName("mask_of_infamy").setMaxStackSize(1).setTextureName(RefStrings.MODID + ":mask_of_infamy");
 
@@ -6900,6 +6901,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_liberator, gun_liberator.getUnlocalizedName());
 		GameRegistry.registerItem(gun_congolake, gun_congolake.getUnlocalizedName());
 		GameRegistry.registerItem(gun_flamer, gun_flamer.getUnlocalizedName());
+		GameRegistry.registerItem(gun_flamer_topaz, gun_flamer_topaz.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uzi, gun_uzi.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uzi_akimbo, gun_uzi_akimbo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_spas12, gun_spas12.getUnlocalizedName());

@@ -190,6 +190,15 @@ public class LegoClient {
 		GL11.glShadeModel(GL11.GL_FLAT);
 	};
 	
+	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_BIG_NUKE = (bullet, interp) -> {
+		GL11.glScalef(0.5F, 0.5F, 0.5F);
+		GL11.glRotated(90, 0, 0, 1);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Minecraft.getMinecraft().getTextureManager().bindTexture(ResourceManager.rocket_mirv_tex);
+		ResourceManager.projectiles.renderPart("MissileMIRV");
+		GL11.glShadeModel(GL11.GL_FLAT);
+	};
+	
 	public static BiConsumer<EntityBulletBaseMK4, Float> RENDER_RPZB = (bullet, interp) -> {
 
 		GL11.glPushMatrix();

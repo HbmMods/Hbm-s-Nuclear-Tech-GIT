@@ -148,6 +148,7 @@ public class EntityMappings {
 		addEntity(EntityFallingNuke.class, "entity_falling_bomb", 1000);
 		addEntity(EntityBulletBaseNT.class, "entity_bullet_mk3", 250, false);
 		addEntity(EntityBulletBaseMK4.class, "entity_bullet_mk4", 250, false);
+		addEntity(EntityBulletBaseMK4CL.class, "entity_bullet_mk4_cl", 250, false);
 		addEntity(EntityBulletBeamBase.class, "entity_beam_mk4", 250, false);
 		addEntity(EntityMinerRocket.class, "entity_miner_lander", 1000);
 		addEntity(EntityFogFX.class, "entity_nuclear_fog", 1000);

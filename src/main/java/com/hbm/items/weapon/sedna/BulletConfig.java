@@ -95,6 +95,7 @@ public class BulletConfig implements Cloneable {
 	}
 
 	public BulletConfig setBeam() {														this.pType = ProjectileType.BEAM; return this; }
+	public BulletConfig setChunkloading() {												this.pType = ProjectileType.BULLET_CHUNKLOADING; return this; }
 	public BulletConfig setItem(Item ammo) {											this.ammo = new ComparableStack(ammo); return this; }
 	public BulletConfig setItem(EnumAmmo ammo) {										this.ammo = new ComparableStack(ModItems.ammo_standard, 1, ammo.ordinal()); return this; }
 	public BulletConfig setItem(EnumAmmoSecret ammo) {									this.ammo = new ComparableStack(ModItems.ammo_secret, 1, ammo.ordinal()); return this; }
@@ -135,6 +136,7 @@ public class BulletConfig implements Cloneable {
 	
 	public static enum ProjectileType {
 		BULLET,
+		BULLET_CHUNKLOADING,
 		BEAM
 	}
 	

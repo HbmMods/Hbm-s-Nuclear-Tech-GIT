@@ -50,7 +50,8 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_am180,					new ItemRenderAm180());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_liberator,				new ItemRenderLiberator());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_congolake,				new ItemRenderCongoLake());
-		MinecraftForgeClient.registerItemRenderer(ModItems.gun_flamer,					new ItemRenderFlamer());
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_flamer,					new ItemRenderFlamer(ResourceManager.flamethrower_tex));
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_flamer_topaz,			new ItemRenderFlamer(ResourceManager.flamethrower_topaz_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_lag,						new ItemRenderLAG());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_uzi,						new ItemRenderUzi());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_uzi_akimbo,				new ItemRenderUziAkimbo());
@@ -163,6 +164,7 @@ public class GunFactoryClient {
 		setRendererBulk(LegoClient.RENDER_AP_BULLET, coil_tungsten, coil_ferrouranium);
 		
 		folly_sm.setRendererBeam(LegoClient.RENDER_FOLLY);
+		folly_nuke.setRenderer(LegoClient.RENDER_BIG_NUKE);
 		
 		//HUDS
 		((ItemGunBaseNT) ModItems.gun_debug)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
@@ -180,6 +182,7 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_liberator)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_congolake)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_flamer)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO_NOCOUNTER);
+		((ItemGunBaseNT) ModItems.gun_flamer_topaz)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO_NOCOUNTER);
 		((ItemGunBaseNT) ModItems.gun_uzi)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_spas12)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_panzerschreck)			.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);

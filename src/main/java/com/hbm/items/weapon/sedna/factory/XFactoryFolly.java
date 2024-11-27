@@ -5,6 +5,9 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
+import com.hbm.entity.effect.EntityNukeTorex;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
@@ -35,10 +38,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
 
 public class XFactoryFolly {
 
 	public static BulletConfig folly_sm;
+	public static BulletConfig folly_nuke;
 	
 	public static Consumer<Entity> LAMBDA_SM_UPDATE = (entity) -> {
 		if(entity.worldObj.isRemote) return;
@@ -78,16 +83,26 @@ public class XFactoryFolly {
 		}
 	};
 	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_NUKE_IMPACT = (bullet, mop) -> {
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 2) return;
+		if(bullet.isDead) return;
+		bullet.setDead();
+		bullet.worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(bullet.worldObj, 100, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord));
+		EntityNukeTorex.statFac(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 100);
+	};
+	
 	public static void init() {
-		
+
 		folly_sm = new BulletConfig().setItem(EnumAmmoSecret.FOLLY_SM).setBeam().setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setSpectral(true).setDoesPenetrate(true)
 				.setOnUpdate(LAMBDA_SM_UPDATE);
+		folly_nuke = new BulletConfig().setItem(EnumAmmoSecret.FOLLY_NUKE).setChunkloading().setLife(600).setVel(4F).setGrav(0.015D)
+				.setOnImpact(LAMBDA_NUKE_IMPACT);
 
 		ModItems.gun_folly = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(0).draw(40).crosshair(Crosshair.NONE)
 				.rec(new Receiver(0)
 						.dmg(15F).delay(26).dryfire(false).reload(160).jam(0).sound("hbm:weapon.fire.loudestNoiseOnEarth", 100.0F, 1.0F)
-						.mag(new MagazineSingleReload(0, 1).addConfigs(folly_sm))
+						.mag(new MagazineSingleReload(0, 1).addConfigs(folly_sm, folly_nuke))
 						.offset(0.75, -0.0625, -0.1875D)
 						.canFire(LAMBDA_CAN_FIRE).fire(LAMBDA_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration().pt(LAMBDA_TOGGLE_AIM)

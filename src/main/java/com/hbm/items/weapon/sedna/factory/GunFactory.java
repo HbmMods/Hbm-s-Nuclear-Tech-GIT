@@ -91,7 +91,7 @@ public class GunFactory {
 	}
 	
 	public static enum EnumAmmoSecret {
-		FOLLY_SM,
+		FOLLY_SM, FOLLY_NUKE,
 		M44_EQUESTRIAN, G12_EQUESTRIAN, BMG50_EQUESTRIAN
 	}
 }

@@ -43,7 +43,11 @@ public class XFactoryFlamer {
 	public static BulletConfig flame_gas;
 	public static BulletConfig flame_napalm;
 	public static BulletConfig flame_balefire;
-	public static BulletConfig flame_digamma;
+
+	public static BulletConfig flame_topaz_diesel;
+	public static BulletConfig flame_topaz_gas;
+	public static BulletConfig flame_topaz_napalm;
+	public static BulletConfig flame_topaz_balefire;
 
 	public static Consumer<Entity> LAMBDA_FIRE = (bullet) -> {
 		if(bullet.worldObj.isRemote && MainRegistry.proxy.me().getDistanceToEntity(bullet) < 100) FlameCreator.composeEffectClient(bullet.worldObj, bullet.posX, bullet.posY - 0.125, bullet.posZ, FlameCreator.META_FIRE);
@@ -103,8 +107,13 @@ public class XFactoryFlamer {
 		flame_napalm = new BulletConfig().setItem(EnumAmmo.FLAME_NAPALM).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(300).setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_NAPALM);
 		flame_balefire = new BulletConfig().setItem(EnumAmmo.FLAME_BALEFIRE).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(300).setOnUpdate(LAMBDA_BALEFIRE).setOnRicochet(LAMBDA_LINGER_BALEFIRE);
 		
+		flame_topaz_diesel = flame_diesel.clone().setLife(60).setGrav(0.0D).setReloadCount(500).setProjectiles(2).setSpread(0.05F);
+		flame_topaz_gas = flame_gas.clone().setReloadCount(500).setProjectiles(2).setSpread(0.05F);
+		flame_topaz_napalm = flame_napalm.clone().setLife(60).setGrav(0.0D).setReloadCount(500).setProjectiles(2).setSpread(0.05F);
+		flame_topaz_balefire = flame_balefire.clone().setLife(60).setGrav(0.0D).setReloadCount(500).setProjectiles(2).setSpread(0.05F);
+		
 		ModItems.gun_flamer = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
-				.dura(20_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.dura(20_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
 						.dmg(10F).delay(1).auto(true).reload(90).jam(17)
 						.mag(new MagazineFullReload(0, 300).addConfigs(flame_diesel, flame_gas, flame_napalm, flame_balefire))
@@ -113,6 +122,16 @@ public class XFactoryFlamer {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_FLAMER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER)
 				).setUnlocalizedName("gun_flamer");
+		ModItems.gun_flamer_topaz = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
+				.dura(20_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE)
+				.rec(new Receiver(0)
+						.dmg(10F).delay(1).auto(true).reload(90).jam(17)
+						.mag(new MagazineFullReload(0, 500).addConfigs(flame_topaz_diesel, flame_topaz_gas, flame_topaz_napalm, flame_topaz_balefire))
+						.offset(0.75, -0.0625, -0.25D)
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+				.setupStandardConfiguration()
+				.anim(LAMBDA_FLAMER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER)
+				).setUnlocalizedName("gun_flamer_topaz");
 		
 		ModItems.gun_chemthrower = new ItemGunChemthrower(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(90_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)

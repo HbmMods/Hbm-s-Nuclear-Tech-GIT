@@ -55,6 +55,8 @@
 * Wings can now be used like armor mods
 * At higher pollution levels, skeletons can now spawn with guns
 * Logistic drones now move at 0.625 blocks/t instead of 0.6. There is no balancing reason for this, I just hate weird numbers like 0.6
+* Fallout effects now remove snow layers in the same area where they would remove things like small plants and leaves
+* Adjusted damage values to many swords and some tools
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines

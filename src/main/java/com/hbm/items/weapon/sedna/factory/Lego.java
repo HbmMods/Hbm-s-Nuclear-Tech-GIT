@@ -6,6 +6,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.entity.projectile.EntityBulletBaseMK4CL;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
@@ -225,6 +226,11 @@ public class Lego {
 			
 			if(config.pType == ProjectileType.BULLET) {
 				EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
+				if(ItemGunBaseNT.getIsLockedOn(stack)) mk4.lockonTarget = entity.worldObj.getEntityByID(ItemGunBaseNT.getLockonTarget(stack));
+				if(i == 0 && config.blackPowder) BlackPowderHelper.composeEffect(entity.worldObj, mk4.posX, mk4.posY, mk4.posZ, mk4.motionX, mk4.motionY, mk4.motionZ, 10, 0.25F, 0.5F, 10, 0.25F);
+				entity.worldObj.spawnEntityInWorld(mk4);
+			} else if(config.pType == ProjectileType.BULLET_CHUNKLOADING) {
+				EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4CL(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
 				if(ItemGunBaseNT.getIsLockedOn(stack)) mk4.lockonTarget = entity.worldObj.getEntityByID(ItemGunBaseNT.getLockonTarget(stack));
 				if(i == 0 && config.blackPowder) BlackPowderHelper.composeEffect(entity.worldObj, mk4.posX, mk4.posY, mk4.posZ, mk4.motionX, mk4.motionY, mk4.motionZ, 10, 0.25F, 0.5F, 10, 0.25F);
 				entity.worldObj.spawnEntityInWorld(mk4);
