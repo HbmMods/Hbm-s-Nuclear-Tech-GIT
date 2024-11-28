@@ -25,6 +25,7 @@ import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.EntityLivingBase;
@@ -88,22 +89,19 @@ public class XFactoryEnergy {
 	
 	public static void init() {
 
-		energy_tesla = new BulletConfig().setItem(EnumAmmo.CAPACITOR).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true)
+		energy_tesla = new BulletConfig().setItem(EnumAmmo.CAPACITOR).setupDamageClass(DamageClass.ELECTRIC).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true)
 				.setOnBeamImpact(LAMBDA_LIGHTNING_HIT);
-		energy_tesla_overcharge = new BulletConfig().setItem(EnumAmmo.CAPACITOR_OVERCHARGE).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true)
+		energy_tesla_overcharge = new BulletConfig().setItem(EnumAmmo.CAPACITOR_OVERCHARGE).setupDamageClass(DamageClass.ELECTRIC).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true)
 				.setDamage(1.5F).setOnBeamImpact(LAMBDA_LIGHTNING_HIT);
-		energy_tesla_blacklightning = new BulletConfig().setItem(EnumAmmo.CAPACITOR_BLACKLIGHTNING).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true)
-				.setDamage(5F).setOnBeamImpact(LAMBDA_LIGHTNING_HIT);
 
-		energy_las = new BulletConfig().setItem(EnumAmmo.CAPACITOR).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
-		energy_las_overcharge = new BulletConfig().setItem(EnumAmmo.CAPACITOR_OVERCHARGE).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
-		energy_las_blacklightning = new BulletConfig().setItem(EnumAmmo.CAPACITOR_BLACKLIGHTNING).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
+		energy_las = new BulletConfig().setItem(EnumAmmo.CAPACITOR).setupDamageClass(DamageClass.LASER).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
+		energy_las_overcharge = new BulletConfig().setItem(EnumAmmo.CAPACITOR_OVERCHARGE).setupDamageClass(DamageClass.LASER).setBeam().setSpread(0.0F).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setOnBeamImpact(BulletConfig.LAMBDA_STANDARD_BEAM_HIT);
 
 		ModItems.gun_tesla_cannon = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(2_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
 						.dmg(15F).delay(20).reload(44).jam(19).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
-						.mag(new MagazineBelt().addConfigs(energy_tesla, energy_tesla_overcharge, energy_tesla_blacklightning))
+						.mag(new MagazineBelt().addConfigs(energy_tesla, energy_tesla_overcharge))
 						.offset(0.75, 0, -0.375)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()
@@ -114,7 +112,7 @@ public class XFactoryEnergy {
 				.dura(2_000).draw(10).inspect(26).reloadSequential(true).crosshair(Crosshair.CIRCLE).scopeTexture(scope_luna)
 				.rec(new Receiver(0)
 						.dmg(15F).delay(8).reload(44).jam(36).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 24).addConfigs(energy_las, energy_las_overcharge, energy_las_blacklightning))
+						.mag(new MagazineFullReload(0, 24).addConfigs(energy_las, energy_las_overcharge))
 						.offset(0.75, -0.0625 * 1.5, -0.1875)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()

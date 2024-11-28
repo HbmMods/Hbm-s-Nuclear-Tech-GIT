@@ -31,6 +31,7 @@ import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.Vec3NT;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.Entity;
@@ -78,7 +79,7 @@ public class XFactoryFolly {
 			for(int ix = x - 1; ix <= x + 1; ix++) for(int iy = y - 1; iy <= y + 1; iy++) for(int iz = z - 1; iz <= z + 1; iz++) {
 				if(iy > 0 && iy < 256) beam.worldObj.setBlock(ix, iy, iz, Blocks.air);
 				AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(ix - 1, iy - 1, iz - 1, ix + 2, iy + 2, iz + 2);
-				for(Entity e : entities) if(e != beam.thrower && e.boundingBox.intersectsWith(aabb)) EntityDamageUtil.attackEntityFromIgnoreIFrame(e, beam.config.getDamage(beam, beam.thrower, true), beam.damage);
+				for(Entity e : entities) if(e != beam.thrower && e.boundingBox.intersectsWith(aabb)) EntityDamageUtil.attackEntityFromIgnoreIFrame(e, beam.config.getDamage(beam, beam.thrower, beam.config.dmgClass), beam.damage);
 			}
 		}
 	};
@@ -93,7 +94,7 @@ public class XFactoryFolly {
 	
 	public static void init() {
 
-		folly_sm = new BulletConfig().setItem(EnumAmmoSecret.FOLLY_SM).setBeam().setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setSpectral(true).setDoesPenetrate(true)
+		folly_sm = new BulletConfig().setItem(EnumAmmoSecret.FOLLY_SM).setupDamageClass(DamageClass.SUBATOMIC).setBeam().setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setSpectral(true).setDoesPenetrate(true)
 				.setOnUpdate(LAMBDA_SM_UPDATE);
 		folly_nuke = new BulletConfig().setItem(EnumAmmoSecret.FOLLY_NUKE).setChunkloading().setLife(600).setVel(4F).setGrav(0.015D)
 				.setOnImpact(LAMBDA_NUKE_IMPACT);

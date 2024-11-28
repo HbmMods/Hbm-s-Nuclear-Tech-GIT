@@ -110,7 +110,7 @@ public class EntityProcessorCross implements IEntityProcessor {
 		for(Entry<Entity, Float> entry : damageMap.entrySet()) {
 			
 			Entity entity = entry.getKey();
-			entity.attackEntityFrom(setExplosionSource(explosion.compat), entry.getValue());
+			attackEntity(entity, explosion, entry.getValue());
 			
 			if(damage != null) {
 				double distanceScaled = entity.getDistance(x, y, z) / size;
@@ -119,6 +119,10 @@ public class EntityProcessorCross implements IEntityProcessor {
 		}
 		
 		return affectedPlayers;
+	}
+	
+	public void attackEntity(Entity entity, ExplosionVNT source, float amount) {
+		entity.attackEntityFrom(setExplosionSource(source.compat), amount);
 	}
 	
 	public float calculateDamage(double distanceScaled, double density, double knockback, float size) {

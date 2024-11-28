@@ -1603,6 +1603,7 @@ public class ModItems {
 	public static Item gun_congolake;
 	public static Item gun_flamer;
 	public static Item gun_flamer_topaz;
+	public static Item gun_flamer_daybreaker;
 	public static Item gun_uzi;
 	public static Item gun_uzi_akimbo;
 	public static Item gun_spas12;
@@ -6902,6 +6903,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_congolake, gun_congolake.getUnlocalizedName());
 		GameRegistry.registerItem(gun_flamer, gun_flamer.getUnlocalizedName());
 		GameRegistry.registerItem(gun_flamer_topaz, gun_flamer_topaz.getUnlocalizedName());
+		GameRegistry.registerItem(gun_flamer_daybreaker, gun_flamer_daybreaker.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uzi, gun_uzi.getUnlocalizedName());
 		GameRegistry.registerItem(gun_uzi_akimbo, gun_uzi_akimbo.getUnlocalizedName());
 		GameRegistry.registerItem(gun_spas12, gun_spas12.getUnlocalizedName());

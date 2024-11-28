@@ -48,6 +48,7 @@ public class EntityDamageUtil {
 		if(ForgeHooks.onLivingAttack(living, source, amount) && allowSpecialCancel) return false;
 		if(living.isEntityInvulnerable()) return false;
 		if(living.worldObj.isRemote) return false;
+		if(living instanceof EntityPlayer && ((EntityPlayer) living).capabilities.disableDamage && !source.canHarmInCreative()) return false;
 		
 		living.entityAge = 0;
 		if(living.getHealth() <= 0.0F) return false;
@@ -151,8 +152,6 @@ public class EntityDamageUtil {
 			float armor = amount * (float) i;
 			damageArmorNT(living, amount);
 			amount = armor / 25.0F;
-			
-			//TODO: special handling depending on armor stats
 		}
 
 		return amount;

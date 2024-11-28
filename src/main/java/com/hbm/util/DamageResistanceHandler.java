@@ -33,6 +33,15 @@ public class DamageResistanceHandler {
 	public static HashMap<Item, ResistanceStats> itemStats = new HashMap();
 	public static HashMap<Quartet<Item, Item, Item, Item>, ResistanceStats> setStats = new HashMap();
 	public static HashMap<Class<? extends Entity>, ResistanceStats> entityStats = new HashMap();
+	
+	public static enum DamageClass {
+		PHYSICAL,
+		FIRE,
+		EXPLOSIVE,
+		ELECTRIC,
+		LASER,
+		SUBATOMIC
+	}
 
 	public static void init() {
 		entityStats.put(EntityCreeper.class, new ResistanceStats().add(KEY_EXPLOSION, 2F, 0.5F));

@@ -230,7 +230,7 @@ public class Lego {
 				if(i == 0 && config.blackPowder) BlackPowderHelper.composeEffect(entity.worldObj, mk4.posX, mk4.posY, mk4.posZ, mk4.motionX, mk4.motionY, mk4.motionZ, 10, 0.25F, 0.5F, 10, 0.25F);
 				entity.worldObj.spawnEntityInWorld(mk4);
 			} else if(config.pType == ProjectileType.BULLET_CHUNKLOADING) {
-				EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4CL(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
+				EntityBulletBaseMK4CL mk4 = new EntityBulletBaseMK4CL(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
 				if(ItemGunBaseNT.getIsLockedOn(stack)) mk4.lockonTarget = entity.worldObj.getEntityByID(ItemGunBaseNT.getLockonTarget(stack));
 				if(i == 0 && config.blackPowder) BlackPowderHelper.composeEffect(entity.worldObj, mk4.posX, mk4.posY, mk4.posZ, mk4.motionX, mk4.motionY, mk4.motionZ, 10, 0.25F, 0.5F, 10, 0.25F);
 				entity.worldObj.spawnEntityInWorld(mk4);
@@ -275,7 +275,7 @@ public class Lego {
 	public static void standardExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range) { standardExplode(bullet, mop, range, 1F); }
 	public static void standardExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range, float damageMod) {
 		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, range);
-		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage * damageMod));
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage * damageMod).setupPiercing(bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent));
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
 		vnt.explode();

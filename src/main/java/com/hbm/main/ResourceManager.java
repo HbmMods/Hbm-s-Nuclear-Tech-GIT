@@ -988,6 +988,7 @@ public class ResourceManager {
 	public static final ResourceLocation liberator_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/liberator.png");
 	public static final ResourceLocation flamethrower_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/flamethrower.png");
 	public static final ResourceLocation flamethrower_topaz_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/flamethrower_topaz.png");
+	public static final ResourceLocation flamethrower_daybreaker_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/flamethrower_daybreaker.png");
 	public static final ResourceLocation mike_hawk_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lag.png");
 	public static final ResourceLocation uzi_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/uzi.png");
 	public static final ResourceLocation panzerschreck_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/panzerschreck.png");

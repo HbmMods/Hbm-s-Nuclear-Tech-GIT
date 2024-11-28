@@ -12,11 +12,11 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
-import com.hbm.lib.ModDamageSource;
 import com.hbm.particle.SpentCasing;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.TrackerUtil;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -48,14 +48,10 @@ public class BulletConfig implements Cloneable {
 	public float damageMult = 1.0F;
 	public float armorThresholdNegation = 0.0F;
 	public float armorPiercingPercent = 0.0F;
-	public float knockbackMult = 1.0F;
+	public float knockbackMult = 0.25F;
 	public float headshotMult = 1.0F;
 	
-	public String damageType = ModDamageSource.s_bullet;
-	public boolean dmgProj = true;
-	public boolean dmgFire = false;
-	public boolean dmgExplosion = false;
-	public boolean dmgBypass = false;
+	public DamageClass dmgClass = DamageClass.PHYSICAL;
 	
 	public float ricochetAngle = 5F;
 	public int maxRicochetCount = 2;
@@ -110,8 +106,7 @@ public class BulletConfig implements Cloneable {
 	public BulletConfig setArmorPiercing(float armorPiercingPercent) {					this.armorPiercingPercent = armorPiercingPercent; return this; }
 	public BulletConfig setKnockback(float knockbackMult) {								this.knockbackMult = knockbackMult; return this; }
 	public BulletConfig setHeadshot(float headshotMult) {								this.headshotMult = headshotMult; return this; }
-	public BulletConfig setDamageType(String type) {									this.damageType = type; return this; }
-	public BulletConfig setupDamageClass(boolean proj, boolean fire, boolean explosion, boolean bypass) {	this.dmgProj = proj; this.dmgFire = fire; this.dmgExplosion = explosion; this.dmgBypass = bypass; return this; }
+	public BulletConfig setupDamageClass(DamageClass clazz) {							this.dmgClass = clazz; return this; }
 	public BulletConfig setRicochetAngle(float angle) {									this.ricochetAngle = angle; return this; }
 	public BulletConfig setRicochetCount(int count) {									this.maxRicochetCount = count; return this; }
 	public BulletConfig setDamageFalloutByPen(boolean falloff) {						this.damageFalloffByPen = falloff; return this; }
@@ -140,17 +135,21 @@ public class BulletConfig implements Cloneable {
 		BEAM
 	}
 	
-	public DamageSource getDamage(Entity projectile, EntityLivingBase shooter, boolean bypass) {
+	public static DamageSource getDamage(Entity projectile, EntityLivingBase shooter, DamageClass dmgClass) {
 		
 		DamageSource dmg;
 		
-		if(shooter != null) dmg = new EntityDamageSourceIndirect(damageType, projectile, shooter);
-		else dmg = new DamageSource(damageType);
+		if(shooter != null) dmg = new EntityDamageSourceIndirect(dmgClass.name(), projectile, shooter);
+		else dmg = new DamageSource(dmgClass.name());
 		
-		if(this.dmgProj) dmg.setProjectile();
-		if(this.dmgFire) dmg.setFireDamage();
-		if(this.dmgExplosion) dmg.setExplosion();
-		if(this.dmgBypass || bypass) dmg.setDamageBypassesArmor();
+		switch(dmgClass) {
+		case PHYSICAL: dmg.setProjectile(); break;
+		case FIRE: dmg.setFireDamage(); break;
+		case EXPLOSIVE: dmg.setExplosion(); break;
+		case ELECTRIC: break;
+		case LASER: break;
+		case SUBATOMIC: break;
+		}
 		
 		return dmg;
 	}
@@ -199,7 +198,7 @@ public class BulletConfig implements Cloneable {
 			if(entity == bullet.getThrower() && bullet.ticksExisted < bullet.selfDamageDelay()) return;
 			if(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0) return;
 			
-			DamageSource source = bullet.config.getDamage(bullet, bullet.getThrower(), false);
+			DamageSource source = bullet.config.getDamage(bullet, bullet.getThrower(), bullet.config.dmgClass);
 			
 			if(!(entity instanceof EntityLivingBase)) {
 				EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, source, bullet.damage);
@@ -228,7 +227,7 @@ public class BulletConfig implements Cloneable {
 			
 			if(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0) return;
 
-			DamageSource source = bullet.config.getDamage(bullet, bullet.getThrower(), false);
+			DamageSource source = bullet.config.getDamage(bullet, bullet.getThrower(), bullet.config.dmgClass);
 			
 			if(!(entity instanceof EntityLivingBase)) {
 				EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, source, bullet.damage);
@@ -247,7 +246,7 @@ public class BulletConfig implements Cloneable {
 			
 			if(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0) return;
 			
-			DamageSource source = beam.config.getDamage(beam, beam.thrower, false);
+			DamageSource source = beam.config.getDamage(beam, beam.thrower, beam.config.dmgClass);
 			
 			if(!(entity instanceof EntityLivingBase)) {
 				EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, source, beam.damage);

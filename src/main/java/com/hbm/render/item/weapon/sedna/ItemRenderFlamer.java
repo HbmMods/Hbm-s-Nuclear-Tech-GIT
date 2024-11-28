@@ -2,6 +2,7 @@ package com.hbm.render.item.weapon.sedna;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.main.MainRegistry;
@@ -63,13 +64,13 @@ public class ItemRenderFlamer extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		HbmAnimations.applyRelevantTransformation("Gun");
 		ResourceManager.flamethrower.renderPart("Gun");
+		if(hasShield(stack)) ResourceManager.flamethrower.renderPart("HeatShield");
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
 		HbmAnimations.applyRelevantTransformation("Tank");
 		ResourceManager.flamethrower.renderPart("Tank");
 		GL11.glPopMatrix();
-		
 		
 		GL11.glPushMatrix();
 		HbmAnimations.applyRelevantTransformation("Gauge");
@@ -111,6 +112,11 @@ public class ItemRenderFlamer extends ItemRenderWeaponBase {
 		ResourceManager.flamethrower.renderPart("Gun");
 		ResourceManager.flamethrower.renderPart("Tank");
 		ResourceManager.flamethrower.renderPart("Gauge");
+		if(hasShield(stack)) ResourceManager.flamethrower.renderPart("HeatShield");
 		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+	
+	public boolean hasShield(ItemStack stack) {
+		return stack.getItem() == ModItems.gun_flamer_daybreaker;
 	}
 }
