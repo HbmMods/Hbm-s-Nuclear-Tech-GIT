@@ -154,12 +154,12 @@ public class XFactoryFlamer {
 		ModItems.gun_flamer_daybreaker = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(20_000).draw(10).inspect(17).crosshair(Crosshair.L_CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(10F).delay(10).auto(true).reload(90).jam(17)
+						.dmg(10F).delay(10).auto(true).reload(90).jam(17).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 50).addConfigs(flame_daybreaker_diesel, flame_daybreaker_gas, flame_daybreaker_napalm, flame_daybreaker_balefire))
 						.offset(0.75, -0.0625, -0.25D)
 						.setupStandardFire())
 				.setupStandardConfiguration()
-				.anim(LAMBDA_FLAMER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER)
+				.anim(LAMBDA_FLAMER_ANIMS).orchestra(Orchestras.ORCHESTRA_FLAMER_DAYBREAKER)
 				).setUnlocalizedName("gun_flamer_daybreaker");
 		
 		ModItems.gun_chemthrower = new ItemGunChemthrower(WeaponQuality.A_SIDE, new GunConfig()

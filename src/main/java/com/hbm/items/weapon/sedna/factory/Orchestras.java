@@ -573,6 +573,21 @@ public class Orchestras {
 		}
 	};
 	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_FLAMER_DAYBREAKER = (stack, ctx) -> {
+		EntityLivingBase entity = ctx.entity;
+		if(entity.worldObj.isRemote) return;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		
+		if(type == AnimType.RELOAD) {
+			if(timer == 15) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.openLatch", 1F, 1F);
+			if(timer == 35) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.impact", 0.5F, 1F);
+			if(timer == 60) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.75F);
+			if(timer == 70) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.insertCanister", 1F, 1F);
+			if(timer == 85) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.pressureValve", 1F, 1F);
+		}
+	};
+	
 	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_LAG = (stack, ctx) -> {
 		EntityLivingBase entity = ctx.entity;
 		if(entity.worldObj.isRemote) return;
