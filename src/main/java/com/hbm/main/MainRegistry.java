@@ -1458,6 +1458,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.powder_daffergon");
 		ignoreMappings.add("hbm:item.powder_verticium");
 		ignoreMappings.add("hbm:tile.ore_random");
+		ignoreMappings.add("hbm:item.crate_caller");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

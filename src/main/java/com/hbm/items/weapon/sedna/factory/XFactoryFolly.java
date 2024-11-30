@@ -99,7 +99,7 @@ public class XFactoryFolly {
 		folly_nuke = new BulletConfig().setItem(EnumAmmoSecret.FOLLY_NUKE).setChunkloading().setLife(600).setVel(4F).setGrav(0.015D)
 				.setOnImpact(LAMBDA_NUKE_IMPACT);
 
-		ModItems.gun_folly = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
+		ModItems.gun_folly = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(0).draw(40).crosshair(Crosshair.NONE)
 				.rec(new Receiver(0)
 						.dmg(15F).delay(26).dryfire(false).reload(160).jam(0).sound("hbm:weapon.fire.loudestNoiseOnEarth", 100.0F, 1.0F)

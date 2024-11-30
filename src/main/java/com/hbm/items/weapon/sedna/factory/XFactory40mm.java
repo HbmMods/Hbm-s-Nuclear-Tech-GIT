@@ -2,8 +2,11 @@ package com.hbm.items.weapon.sedna.factory;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 import com.hbm.entity.effect.EntityFireLingering;
+import com.hbm.entity.logic.EntityC130;
+import com.hbm.entity.logic.EntityC130.C130PayloadType;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
@@ -30,7 +33,9 @@ import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
+import com.hbm.util.TrackerUtil;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -99,12 +104,29 @@ public class XFactory40mm {
 			}
 		}
 	};
+
+	public static Consumer<Entity> LAMBDA_SPAWN_C130_SUPPLIESS = (entity) -> { spawnPlane(entity, C130PayloadType.SUPPLIES); };
+	public static Consumer<Entity> LAMBDA_SPAWN_C130_WEAPONS = (entity) -> { spawnPlane(entity, C130PayloadType.WEAPONS); };
+	
+	public static void spawnPlane(Entity entity, C130PayloadType payload) {
+		if(!entity.worldObj.isRemote && entity.ticksExisted == 40) {
+			EntityBulletBaseMK4 bullet = (EntityBulletBaseMK4) entity;
+			if(bullet.getThrower() != null) bullet.worldObj.playSoundAtEntity(bullet.getThrower(), "hbm:item.techBleep", 1.0F, 1.0F);
+			EntityC130 c130 = new EntityC130(bullet.worldObj);
+			int x = (int) Math.floor(bullet.posX);
+			int z = (int) Math.floor(bullet.posZ);
+			int y = bullet.worldObj.getHeightValue(x, z);
+			c130.fac(bullet.worldObj, x, y, z, payload);
+			bullet.worldObj.spawnEntityInWorld(c130);
+			TrackerUtil.setTrackingRange(bullet.worldObj, c130, 250);
+		}
+	}
 	
 	public static void init() {
 		
 		g26_flare = new BulletConfig().setItem(EnumAmmo.G26_FLARE).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x9E1616).setScale(2F).register("g26Flare"));
-		g26_flare_supply = new BulletConfig().setItem(EnumAmmo.G26_FLARE_SUPPLY).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x3C80F0).setScale(2F).register("g26FlareSupply"));
-		g26_flare_weapon = new BulletConfig().setItem(EnumAmmo.G26_FLARE_WEAPON).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x278400).setScale(2F).register("g26FlareWeapon"));
+		g26_flare_supply = new BulletConfig().setItem(EnumAmmo.G26_FLARE_SUPPLY).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setOnUpdate(LAMBDA_SPAWN_C130_SUPPLIESS).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x3C80F0).setScale(2F).register("g26FlareSupply"));
+		g26_flare_weapon = new BulletConfig().setItem(EnumAmmo.G26_FLARE_WEAPON).setLife(100).setVel(2F).setGrav(0.015D).setRenderRotations(false).setOnImpact(LAMBDA_STANDARD_IGNITE).setOnUpdate(LAMBDA_SPAWN_C130_WEAPONS).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x278400).setScale(2F).register("g26FlareWeapon"));
 		
 		BulletConfig g40_base = new BulletConfig().setLife(200).setVel(2F).setGrav(0.035D);
 		g40_he = g40_base.clone().setItem(EnumAmmo.G40_HE).setOnImpact(LAMBDA_STANDARD_EXPLODE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x777777).setScale(2, 2F, 1.5F).register("g40"));

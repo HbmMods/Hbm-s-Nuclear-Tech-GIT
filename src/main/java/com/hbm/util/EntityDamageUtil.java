@@ -40,6 +40,7 @@ public class EntityDamageUtil {
 	public static boolean attackEntityFromNT(EntityLivingBase living, DamageSource source, float amount, boolean ignoreIFrame, boolean allowSpecialCancel, double knockbackMultiplier, float pierceDT, float pierce) {
 		DamageResistanceHandler.setup(pierceDT, pierce);
 		boolean ret = attackEntityFromNTInternal(living, source, amount, ignoreIFrame, allowSpecialCancel, knockbackMultiplier);
+		//boolean ret = living.attackEntityFrom(source, amount);
 		DamageResistanceHandler.reset();
 		return ret;
 	}

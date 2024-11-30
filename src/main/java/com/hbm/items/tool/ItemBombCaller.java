@@ -37,10 +37,7 @@ public class ItemBombCaller extends Item {
 			case 5: list.add("Type: VT stinger rockets"); break;
 			case 6: list.add("Type: PIP OH GOD"); break;
 			case 7: list.add("Type: Cloud the cloud oh god the cloud"); break;
-			default: list.add("Type: INVALID, Report it to mod creator");
-
 		}
-
 	}
 
 	@Override

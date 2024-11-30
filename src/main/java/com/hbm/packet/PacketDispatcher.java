@@ -38,8 +38,6 @@ public class PacketDispatcher {
 		wrapper.registerMessage(ParticleBurstPacket.Handler.class, ParticleBurstPacket.class, i++, Side.CLIENT);
 		//Packet to send chunk radiation info to individual players
 		wrapper.registerMessage(ExtPropPacket.Handler.class, ExtPropPacket.class, i++, Side.CLIENT);
-		//Entity sound packet that keeps client and server separated
-		wrapper.registerMessage(LoopedEntitySoundPacket.Handler.class, LoopedEntitySoundPacket.class, i++, Side.CLIENT);
 		//Packet for force fields
 		wrapper.registerMessage(TEFFPacket.Handler.class, TEFFPacket.class, i++, Side.CLIENT);
 		//Sends button information for ItemGunBase

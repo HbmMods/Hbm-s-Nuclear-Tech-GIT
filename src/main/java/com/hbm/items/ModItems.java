@@ -2303,7 +2303,6 @@ public class ModItems {
 	public static Item detonator_laser;
 	public static Item detonator_deadman;
 	public static Item detonator_de;
-	public static Item crate_caller;
 	public static Item bomb_caller;
 	public static Item meteor_remote;
 	public static Item anchor_remote;
@@ -4468,7 +4467,6 @@ public class ModItems {
 		detonator_laser = new ItemLaserDetonator().setUnlocalizedName("detonator_laser").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":detonator_laser");
 		detonator_deadman = new ItemDrop().setUnlocalizedName("detonator_deadman").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":detonator_deadman");
 		detonator_de = new ItemDrop().setUnlocalizedName("detonator_de").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.nukeTab).setTextureName(RefStrings.MODID + ":detonator_de");
-		crate_caller = new ItemCrateCaller().setUnlocalizedName("crate_caller").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":crate_caller");
 		bomb_caller = new ItemBombCaller().setUnlocalizedName("bomb_caller").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":bomb_caller");
 		meteor_remote = new ItemMeteorRemote().setUnlocalizedName("meteor_remote").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":meteor_remote");
 		anchor_remote = new ItemAnchorRemote().setUnlocalizedName("anchor_remote").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":anchor_remote");
@@ -7539,7 +7537,6 @@ public class ModItems {
 		GameRegistry.registerItem(detonator_laser, detonator_laser.getUnlocalizedName());
 		GameRegistry.registerItem(detonator_deadman, detonator_deadman.getUnlocalizedName());
 		GameRegistry.registerItem(detonator_de, detonator_de.getUnlocalizedName());
-		GameRegistry.registerItem(crate_caller, crate_caller.getUnlocalizedName());
 		GameRegistry.registerItem(bomb_caller, bomb_caller.getUnlocalizedName());
 		GameRegistry.registerItem(meteor_remote, meteor_remote.getUnlocalizedName());
 		GameRegistry.registerItem(anchor_remote, anchor_remote.getUnlocalizedName());
