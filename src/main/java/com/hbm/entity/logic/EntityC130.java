@@ -52,6 +52,7 @@ public class EntityC130 extends EntityPlaneBase {
 			if(this.payload == C130PayloadType.WEAPONS) {
 				int amount = 1 + rand.nextInt(2);
 				for(int i = 0; i < amount; i++) crate.items.add(ItemPool.getStack(ItemPoolsC130.POOL_WEAPONS, this.rand));
+				for(int i = 0; i < 6; i++) crate.items.add(ItemPool.getStack(ItemPoolsC130.POOL_AMMO, this.rand));
 			}
 			
 			worldObj.spawnEntityInWorld(crate);

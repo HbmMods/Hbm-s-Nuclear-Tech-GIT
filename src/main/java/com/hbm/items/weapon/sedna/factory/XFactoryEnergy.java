@@ -43,11 +43,9 @@ public class XFactoryEnergy {
 
 	public static BulletConfig energy_tesla;
 	public static BulletConfig energy_tesla_overcharge;
-	public static BulletConfig energy_tesla_blacklightning;
 
 	public static BulletConfig energy_las;
 	public static BulletConfig energy_las_overcharge;
-	public static BulletConfig energy_las_blacklightning;
 	
 	public static BiConsumer<EntityBulletBeamBase, MovingObjectPosition> LAMBDA_LIGHTNING_HIT = (beam, mop) -> {
 		
