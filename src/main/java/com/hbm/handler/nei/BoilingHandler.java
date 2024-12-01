@@ -20,27 +20,28 @@ public class BoilingHandler extends NEIUniversalHandler {
 	public String getKey() {
 		return "ntmBoiling";
 	}
-	
+
 	public static HashMap<Object, Object> cache;
-	
+	public static boolean isReload=false;
+
 	public static HashMap<Object, Object> generateRecipes() {
-		
-		if(cache != null) return cache;
-		
+
+		if(cache != null && !isReload) return cache;
+
 		cache = new HashMap();
-		
+
 		for(FluidType type : Fluids.getInNiceOrder()) {
-			
+
 			if(type.hasTrait(FT_Heatable.class)) {
 				FT_Heatable trait = type.getTrait(FT_Heatable.class);
-				
+
 				if(trait.getEfficiency(HeatingType.BOILER) > 0) {
 					HeatingStep step = trait.getFirstStep();
 					cache.put(ItemFluidIcon.make(type, step.amountReq), ItemFluidIcon.make(step.typeProduced, step.amountProduced));
 				}
 			}
 		}
-		
+		isReload=false;
 		return cache;
 	}
 }

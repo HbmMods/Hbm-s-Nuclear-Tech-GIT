@@ -11,6 +11,7 @@ import java.util.List;
 public class FT_Pheromone extends  FluidTrait{
 
 	public int type;
+	public FT_Pheromone() {}
 
 	public FT_Pheromone(int type) {
 		this.type = type;
