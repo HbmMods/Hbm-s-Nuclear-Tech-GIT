@@ -36,6 +36,11 @@ public class DamageResistanceHandler {
 	public static HashMap<Class<? extends Entity>, ResistanceStats> entityStats = new HashMap();
 
 	public static void init() {
+		
+		itemStats.clear();
+		setStats.clear();
+		entityStats.clear();
+		
 		entityStats.put(EntityCreeper.class, new ResistanceStats().add(KEY_EXPLOSION, 2F, 0.5F));
 
 		setStats.put(new Quartet(ModItems.steel_helmet, ModItems.steel_plate, ModItems.steel_legs, ModItems.steel_boots), new ResistanceStats());
