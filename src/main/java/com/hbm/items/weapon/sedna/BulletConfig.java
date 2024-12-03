@@ -209,7 +209,7 @@ public class BulletConfig implements Cloneable {
 			EntityLivingBase living = (EntityLivingBase) entity;
 			float prevHealth = living.getHealth();
 			
-			EntityDamageUtil.attackEntityFromNT(living, source, bullet.damage, true, false, bullet.config.knockbackMult, bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent);
+			EntityDamageUtil.attackEntityFromNT(living, source, bullet.damage, true, true, bullet.config.knockbackMult, bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent);
 			
 			float newHealth = living.getHealth();
 			
@@ -236,7 +236,7 @@ public class BulletConfig implements Cloneable {
 			}
 			
 			EntityLivingBase living = (EntityLivingBase) entity;
-			EntityDamageUtil.attackEntityFromNT(living, source, bullet.damage, true, false, bullet.config.knockbackMult, bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent);
+			EntityDamageUtil.attackEntityFromNT(living, source, bullet.damage, true, true, bullet.config.knockbackMult, bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent);
 			if(!living.isEntityAlive()) ConfettiUtil.decideConfetti(living, source);
 		}
 	};

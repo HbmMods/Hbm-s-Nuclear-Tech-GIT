@@ -28,8 +28,10 @@ public class DamageResistanceHandler {
 	public static float currentPDT = 0F;
 	/** Currently cached armor piercing % */
 	public static float currentPDR = 0F;
-	
-	public static final String KEY_EXPLOSION = "EXPL";
+
+	public static final String CATEGORY_EXPLOSION = "EXPL";
+	public static final String CATEGORY_FIRE = "FIRE";
+	public static final String CATEGORY_PROJECTILE = "PROJ";
 
 	public static HashMap<Item, ResistanceStats> itemStats = new HashMap();
 	public static HashMap<Quartet<Item, Item, Item, Item>, ResistanceStats> setStats = new HashMap();
@@ -41,33 +43,73 @@ public class DamageResistanceHandler {
 		setStats.clear();
 		entityStats.clear();
 		
-		entityStats.put(EntityCreeper.class, new ResistanceStats().add(KEY_EXPLOSION, 2F, 0.5F));
+		entityStats.put(EntityCreeper.class, new ResistanceStats().addCategory(CATEGORY_EXPLOSION, 2F, 0.5F));
 
 		setStats.put(new Quartet(ModItems.steel_helmet, ModItems.steel_plate, ModItems.steel_legs, ModItems.steel_boots), new ResistanceStats());
 		setStats.put(new Quartet(ModItems.titanium_helmet, ModItems.titanium_plate, ModItems.titanium_legs, ModItems.titanium_boots), new ResistanceStats());
-		setStats.put(new Quartet(ModItems.alloy_helmet, ModItems.alloy_plate, ModItems.alloy_legs, ModItems.alloy_boots), new ResistanceStats());
-		setStats.put(new Quartet(ModItems.cobalt_helmet, ModItems.cobalt_plate, ModItems.cobalt_legs, ModItems.cobalt_boots), new ResistanceStats());
+		setStats.put(new Quartet(ModItems.alloy_helmet, ModItems.alloy_plate, ModItems.alloy_legs, ModItems.alloy_boots), new ResistanceStats()
+				.addCategory(CATEGORY_PROJECTILE, 2F, 0.1F));
+		setStats.put(new Quartet(ModItems.cobalt_helmet, ModItems.cobalt_plate, ModItems.cobalt_legs, ModItems.cobalt_boots), new ResistanceStats()
+				.addCategory(CATEGORY_PROJECTILE, 2F, 0.1F));
 		setStats.put(new Quartet(ModItems.starmetal_helmet, ModItems.starmetal_plate, ModItems.starmetal_legs, ModItems.starmetal_boots), new ResistanceStats());
-		setStats.put(new Quartet(ModItems.zirconium_legs, ModItems.zirconium_legs, ModItems.zirconium_legs, ModItems.zirconium_legs), new ResistanceStats());
+		setStats.put(new Quartet(ModItems.zirconium_legs, ModItems.zirconium_legs, ModItems.zirconium_legs, ModItems.zirconium_legs), new ResistanceStats()
+				.setOther(0F, 1F));
 		setStats.put(new Quartet(ModItems.dnt_helmet, ModItems.dnt_plate, ModItems.dnt_legs, ModItems.dnt_boots), new ResistanceStats());
 		setStats.put(new Quartet(ModItems.schrabidium_helmet, ModItems.schrabidium_plate, ModItems.schrabidium_legs, ModItems.schrabidium_boots), new ResistanceStats());
 		setStats.put(new Quartet(ModItems.robes_helmet, ModItems.robes_plate, ModItems.robes_legs, ModItems.robes_boots), new ResistanceStats());
 		
 		setStats.put(new Quartet(ModItems.steamsuit_helmet, ModItems.steamsuit_plate, ModItems.steamsuit_legs, ModItems.steamsuit_boots), new ResistanceStats());
 		setStats.put(new Quartet(ModItems.dieselsuit_helmet, ModItems.dieselsuit_plate, ModItems.dieselsuit_legs, ModItems.dieselsuit_boots), new ResistanceStats());
-		setStats.put(new Quartet(ModItems.t45_helmet, ModItems.t45_plate, ModItems.t45_legs, ModItems.t45_boots), new ResistanceStats());
-		setStats.put(new Quartet(ModItems.ajr_helmet, ModItems.ajr_plate, ModItems.ajr_legs, ModItems.ajr_boots), new ResistanceStats());
-		setStats.put(new Quartet(ModItems.ajro_helmet, ModItems.ajro_plate, ModItems.ajro_legs, ModItems.ajro_boots), new ResistanceStats());
-		setStats.put(new Quartet(ModItems.rpa_helmet, ModItems.rpa_plate, ModItems.rpa_legs, ModItems.rpa_boots), new ResistanceStats());
-		ResistanceStats bj = new ResistanceStats();
+		setStats.put(new Quartet(ModItems.t45_helmet, ModItems.t45_plate, ModItems.t45_legs, ModItems.t45_boots), new ResistanceStats()
+				.addCategory(CATEGORY_PROJECTILE, 2F, 0.15F)
+				.addCategory(CATEGORY_FIRE, 0.5F, 0.35F)
+				.addCategory(CATEGORY_EXPLOSION, 5F, 0.25F)
+				.setOther(0F, 0.1F));
+		setStats.put(new Quartet(ModItems.ajr_helmet, ModItems.ajr_plate, ModItems.ajr_legs, ModItems.ajr_boots), new ResistanceStats()
+				.addCategory(CATEGORY_PROJECTILE, 4F, 0.15F)
+				.addCategory(CATEGORY_FIRE, 0.5F, 0.35F)
+				.addCategory(CATEGORY_EXPLOSION, 7.5F, 0.25F)
+				.setOther(0F, 0.15F));
+		setStats.put(new Quartet(ModItems.ajro_helmet, ModItems.ajro_plate, ModItems.ajro_legs, ModItems.ajro_boots), new ResistanceStats()
+				.addCategory(CATEGORY_PROJECTILE, 4F, 0.15F)
+				.addCategory(CATEGORY_FIRE, 0.5F, 0.35F)
+				.addCategory(CATEGORY_EXPLOSION, 7.5F, 0.25F)
+				.setOther(0F, 0.15F));
+		setStats.put(new Quartet(ModItems.rpa_helmet, ModItems.rpa_plate, ModItems.rpa_legs, ModItems.rpa_boots), new ResistanceStats()
+				.addCategory(CATEGORY_PROJECTILE, 20F, 0.5F)
+				.addCategory(CATEGORY_FIRE, 10F, 0.75F)
+				.addCategory(CATEGORY_EXPLOSION, 15F, 0.25F)
+				.addExact(DamageClass.LASER.name(), 10F, 0.75F)
+				.setOther(2F, 0.15F));
+		ResistanceStats bj = new ResistanceStats()
+				.addCategory(CATEGORY_PROJECTILE, 5F, 0.25F)
+				.addCategory(CATEGORY_FIRE, 2.5F, 0.5F)
+				.addCategory(CATEGORY_EXPLOSION, 10F, 0.25F)
+				.setOther(2F, 0.15F);
 		setStats.put(new Quartet(ModItems.bj_helmet, ModItems.bj_plate, ModItems.bj_legs, ModItems.bj_boots), bj);
 		setStats.put(new Quartet(ModItems.bj_helmet, ModItems.bj_plate_jetpack, ModItems.bj_legs, ModItems.bj_boots), bj);
 		setStats.put(new Quartet(ModItems.envsuit_helmet, ModItems.envsuit_plate, ModItems.envsuit_legs, ModItems.envsuit_boots), new ResistanceStats());
-		setStats.put(new Quartet(ModItems.hev_helmet, ModItems.hev_plate, ModItems.hev_legs, ModItems.hev_boots), new ResistanceStats());
-		setStats.put(new Quartet(ModItems.bismuth_helmet, ModItems.bismuth_plate, ModItems.bismuth_legs, ModItems.bismuth_boots), new ResistanceStats());
+		setStats.put(new Quartet(ModItems.hev_helmet, ModItems.hev_plate, ModItems.hev_legs, ModItems.hev_boots), new ResistanceStats()
+				.addCategory(CATEGORY_PROJECTILE, 2F, 0.15F)
+				.addCategory(CATEGORY_FIRE, 0.5F, 0.5F)
+				.addCategory(CATEGORY_EXPLOSION, 5F, 0.25F)
+				.addExact(DamageSource.onFire.damageType, 0F, 1F)
+				.setOther(2F, 0.25F));
+		setStats.put(new Quartet(ModItems.bismuth_helmet, ModItems.bismuth_plate, ModItems.bismuth_legs, ModItems.bismuth_boots), new ResistanceStats()
+				.addCategory(CATEGORY_PROJECTILE, 2F, 0.15F)
+				.addCategory(CATEGORY_FIRE, 5F, 0.5F)
+				.addCategory(CATEGORY_EXPLOSION, 5F, 0.25F)
+				.setOther(2F, 0.25F));
 		setStats.put(new Quartet(ModItems.fau_helmet, ModItems.fau_plate, ModItems.fau_legs, ModItems.fau_boots), new ResistanceStats());
-		setStats.put(new Quartet(ModItems.dns_helmet, ModItems.dns_plate, ModItems.dns_legs, ModItems.dns_boots), new ResistanceStats());
-		setStats.put(new Quartet(ModItems.trenchmaster_helmet, ModItems.trenchmaster_plate, ModItems.trenchmaster_legs, ModItems.trenchmaster_boots), new ResistanceStats());
+		setStats.put(new Quartet(ModItems.dns_helmet, ModItems.dns_plate, ModItems.dns_legs, ModItems.dns_boots), new ResistanceStats()
+				.addCategory(CATEGORY_EXPLOSION, 100F, 0.9F)
+				.setOther(100F, 100F));
+		setStats.put(new Quartet(ModItems.trenchmaster_helmet, ModItems.trenchmaster_plate, ModItems.trenchmaster_legs, ModItems.trenchmaster_boots), new ResistanceStats()
+				.addCategory(CATEGORY_PROJECTILE, 5F, 0.5F)
+				.addCategory(CATEGORY_FIRE, 5F, 0.5F)
+				.addCategory(CATEGORY_EXPLOSION, 5F, 0.25F)
+				.addExact(DamageClass.LASER.name(), 15F, 0.9F)
+				.setOther(5F, 0.25F));
 		
 		setStats.put(new Quartet(ModItems.hazmat_helmet, ModItems.hazmat_plate, ModItems.hazmat_legs, ModItems.hazmat_boots), new ResistanceStats());
 		setStats.put(new Quartet(ModItems.hazmat_helmet_red, ModItems.hazmat_plate_red, ModItems.hazmat_legs_red, ModItems.hazmat_boots_red), new ResistanceStats());
@@ -103,7 +145,7 @@ public class DamageResistanceHandler {
 		float amount = event.ammount;
 		
 		float[] vals = getDTDR(e, event.source, amount, currentPDT, currentPDR);
-		float dt = vals[0];
+		float dt = vals[0] - currentPDT;
 		
 		if(dt > 0 && dt >= event.ammount) {
 			event.setCanceled(true);
@@ -116,13 +158,15 @@ public class DamageResistanceHandler {
 		event.ammount = calculateDamage(event.entityLiving, event.source, event.ammount, currentPDT, currentPDR);
 	}
 	
-	public static String typeToKey(DamageSource source) {
-		if(source.isExplosion()) return KEY_EXPLOSION;
+	public static String typeToCategory(DamageSource source) {
+		if(source.isExplosion()) return CATEGORY_EXPLOSION;
+		if(source.isFireDamage()) return CATEGORY_FIRE;
+		if(source.isProjectile()) return CATEGORY_PROJECTILE;
 		return source.damageType;
 	}
 	
 	public static float calculateDamage(EntityLivingBase entity, DamageSource damage, float amount, float pierceDT, float pierce) {
-		if(damage.isDamageAbsolute() || damage.isUnblockable()) return amount;
+		if(damage.isDamageAbsolute()) return amount;
 		
 		float[] vals = getDTDR(entity, damage, amount, pierceDT, pierce);
 		float dt = vals[0];
@@ -138,7 +182,6 @@ public class DamageResistanceHandler {
 	
 	public static float[] getDTDR(EntityLivingBase entity, DamageSource damage, float amount, float pierceDT, float pierce) {
 		
-		String key = typeToKey(damage);
 		float dt = 0;
 		float dr = 0;
 		
@@ -152,7 +195,7 @@ public class DamageResistanceHandler {
 		
 		ResistanceStats setResistance = setStats.get(wornSet);
 		if(setResistance != null) {
-			Resistance res = setResistance.resistances.get(key);
+			Resistance res = setResistance.getResistance(damage);
 			if(res != null) {
 				dt += res.threshold;
 				dr += res.resistance;
@@ -165,7 +208,7 @@ public class DamageResistanceHandler {
 			if(armor == null) continue;
 			ResistanceStats stats = itemStats.get(armor.getItem());
 			if(stats == null) continue;
-			Resistance res = stats.resistances.get(key);
+			Resistance res = stats.getResistance(damage);
 			if(res == null) continue;
 			dt += res.threshold;
 			dr += res.resistance;
@@ -174,7 +217,7 @@ public class DamageResistanceHandler {
 		/// ENTITY CLASS HANDLING ///
 		ResistanceStats innateResistance = entityStats.get(entity.getClass());
 		if(innateResistance != null) {
-			Resistance res = innateResistance.resistances.get(key);
+			Resistance res = innateResistance.getResistance(damage);
 			if(res != null) {
 				dt += res.threshold;
 				dr += res.resistance;
@@ -185,13 +228,22 @@ public class DamageResistanceHandler {
 	}
 	
 	public static class ResistanceStats {
+
+		public HashMap<String, Resistance> exactResistances = new HashMap();
+		public HashMap<String, Resistance> categoryResistances = new HashMap();
+		public Resistance otherResistance;
 		
-		public HashMap<String, Resistance> resistances = new HashMap();
-		
-		public ResistanceStats add(String type, float threshold, float resistance) {
-			resistances.put(type, new Resistance(threshold, resistance));
-			return this;
+		public Resistance getResistance(DamageSource source) {
+			Resistance exact = exactResistances.get(source.damageType);
+			if(exact != null) return exact;
+			Resistance category = categoryResistances.get(typeToCategory(source));
+			if(category != null) return category;
+			return source.isUnblockable() ? null : otherResistance;
 		}
+
+		public ResistanceStats addExact(String type, float threshold, float resistance) { exactResistances.put(type, new Resistance(threshold, resistance)); return this; }
+		public ResistanceStats addCategory(String type, float threshold, float resistance) { categoryResistances.put(type, new Resistance(threshold, resistance)); return this; }
+		public ResistanceStats setOther(float threshold, float resistance) { otherResistance = new Resistance(threshold, resistance); return this; }
 	}
 	
 	public static class Resistance {

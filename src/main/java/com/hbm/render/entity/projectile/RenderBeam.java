@@ -32,7 +32,7 @@ public class RenderBeam extends Render {
 			bullet.config.rendererBeam.accept(bullet, interp);
 		}
 		
-		if(fog) GL11.glDisable(GL11.GL_FOG);
+		if(fog) GL11.glEnable(GL11.GL_FOG);
 		
 		GL11.glPopMatrix();
 	}

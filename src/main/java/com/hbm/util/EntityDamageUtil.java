@@ -149,7 +149,7 @@ public class EntityDamageUtil {
 
 	public static float applyArmorCalculationsNT(EntityLivingBase living, DamageSource source, float amount) {
 		if(!source.isUnblockable()) {
-			int i = 25 - living.getTotalArmorValue();
+			float i = 25F - (living.getTotalArmorValue() * (1 - DamageResistanceHandler.currentPDR));
 			float armor = amount * (float) i;
 			damageArmorNT(living, amount);
 			amount = armor / 25.0F;
