@@ -10,6 +10,7 @@ import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
 import com.hbm.particle.SpentCasing;
@@ -236,6 +237,7 @@ public class BulletConfig implements Cloneable {
 			
 			EntityLivingBase living = (EntityLivingBase) entity;
 			EntityDamageUtil.attackEntityFromNT(living, source, bullet.damage, true, false, bullet.config.knockbackMult, bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent);
+			if(!living.isEntityAlive()) ConfettiUtil.decideConfetti(living, source);
 		}
 	};
 	

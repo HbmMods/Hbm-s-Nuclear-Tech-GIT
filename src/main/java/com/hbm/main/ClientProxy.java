@@ -2037,21 +2037,14 @@ public class ClientProxy extends ServerProxy {
 		}
 	}
 	
-	private HashMap<Integer, Long> vanished = new HashMap();
-	
-	public void vanish(int ent) {
-		vanished.put(ent, System.currentTimeMillis() + 2000);
-	}
+	private static HashMap<Integer, Long> vanished = new HashMap();
+	public static void vanish(int ent) { vanished.put(ent, System.currentTimeMillis() + 2000); }
+	public static void vanish(int ent, int duration) { vanished.put(ent, System.currentTimeMillis() + duration); }
 	
 	@Override
 	public boolean isVanished(Entity e) {
-		
-		if(e == null)
-			return false;
-		
-		if(!this.vanished.containsKey(e.getEntityId()))
-			return false;
-		
+		if(e == null) return false;
+		if(!this.vanished.containsKey(e.getEntityId())) return false;
 		return this.vanished.get(e.getEntityId()) > System.currentTimeMillis();
 	}
 	

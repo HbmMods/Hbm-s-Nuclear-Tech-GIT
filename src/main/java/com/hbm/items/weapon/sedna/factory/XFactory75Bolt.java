@@ -40,7 +40,7 @@ public class XFactory75Bolt {
 		ModItems.gun_bolter = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(20).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(5F).delay(2).auto(true).spread(0.005F).reload(40).jam(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(15F).delay(2).auto(true).spread(0.005F).reload(40).jam(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(b75, b75_inc, b75_exp))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))

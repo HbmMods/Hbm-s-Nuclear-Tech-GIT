@@ -139,7 +139,7 @@ public class XFactoryCatapult {
 		ModItems.gun_fatman = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(20).inspect(30).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)
 				.rec(new Receiver(0)
-						.dmg(25F).delay(10).reload(57).jam(40).sound("hbm:weapon.fire.fatman", 1.0F, 1.0F)
+						.dmg(100F).delay(10).reload(57).jam(40).sound("hbm:weapon.fire.fatman", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(nuke_standard, nuke_demo, nuke_high, nuke_tots, nuke_hive))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))

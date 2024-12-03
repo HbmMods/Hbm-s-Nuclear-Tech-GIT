@@ -14,7 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
-public class BlackPowderHelper implements IParticleCreator {
+public class BlackPowderCreator implements IParticleCreator {
 	
 	public static void composeEffect(World world, double x, double y, double z, double headingX, double headingY, double headingZ, int cloudCount, float cloudScale, float cloudSpeedMult, int sparkCount, float sparkSpeedMult) {
 		

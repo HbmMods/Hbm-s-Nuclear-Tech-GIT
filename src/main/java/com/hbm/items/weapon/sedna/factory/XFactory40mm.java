@@ -148,7 +148,7 @@ public class XFactory40mm {
 		ModItems.gun_congolake = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(400).draw(7).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCUMFLEX).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(30F).delay(24).reload(16, 16, 16, 0).jam(0).sound("hbm:weapon.glShoot", 1.0F, 1.0F)
+						.dmg(20F).delay(24).reload(16, 16, 16, 0).jam(0).sound("hbm:weapon.glShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 4).addConfigs(g40_he, g40_heat, g40_demo, g40_inc))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
