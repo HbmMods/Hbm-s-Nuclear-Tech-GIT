@@ -5,6 +5,8 @@ import java.util.Random;
 import com.hbm.main.ClientProxy;
 import com.hbm.particle.ParticleAshes;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -26,6 +28,7 @@ public class AshesCreator implements IParticleCreator {
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void makeParticle(World world, EntityPlayer player, TextureManager texman, Random rand, double x, double y, double z, NBTTagCompound data) {
 		
 		int entityID = data.getInteger("entityID");

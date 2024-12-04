@@ -79,15 +79,15 @@ public class Vec3NT extends Vec3 {
 	}
 
 	public Vec3NT rotateAroundXDeg(double alpha) {
-		return this.rotateAroundXRad(alpha * 180D / Math.PI);
+		return this.rotateAroundXRad(alpha / 180D * Math.PI);
 	}
 
 	public Vec3NT rotateAroundYDeg(double alpha) {
-		return this.rotateAroundYRad(alpha * 180D / Math.PI);
+		return this.rotateAroundYRad(alpha / 180D * Math.PI);
 	}
 
 	public Vec3NT rotateAroundZDeg(double alpha) {
-		return this.rotateAroundZRad(alpha * 180D / Math.PI);
+		return this.rotateAroundZRad(alpha / 180D * Math.PI);
 	}
 	
 	public static double getMinX(Vec3NT... vecs) {

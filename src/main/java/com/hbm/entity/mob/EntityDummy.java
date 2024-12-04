@@ -26,7 +26,9 @@ public class EntityDummy extends EntityLiving implements IAnimals {
 	}
 
 	@Override @SideOnly(Side.CLIENT) public boolean getAlwaysRenderNameTagForRender() { return true; }
-	@Override public String getCommandSenderName() { return (int) (this.getHealth() * 10) / 10F + " / " + (int) (this.getMaxHealth() * 10) / 10F; }
+	@Override public String getCommandSenderName() {
+		return (int) (this.getHealth() * 10) / 10F + " / " + (int) (this.getMaxHealth() * 10) / 10F; }
+		//return (int) this.rotationYaw + " " + (int) this.renderYawOffset + " " + (int) this.rotationYawHead + " " + (int) this.newRotationYaw; }
 	
 	@Override protected void dropEquipment(boolean b, int i) { }
 }

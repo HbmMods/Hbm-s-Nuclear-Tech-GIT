@@ -136,6 +136,7 @@ public class BulletConfig implements Cloneable {
 		BEAM
 	}
 	
+	@SuppressWarnings("incomplete-switch") //shut up
 	public static DamageSource getDamage(Entity projectile, EntityLivingBase shooter, DamageClass dmgClass) {
 		
 		DamageSource dmg;
