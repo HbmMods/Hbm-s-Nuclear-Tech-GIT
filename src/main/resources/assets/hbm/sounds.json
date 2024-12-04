@@ -235,6 +235,7 @@
     "weapon.fire.smack": {"category": "player", "sounds": ["weapon/fire/smack"]},
     "weapon.fire.vstar": {"category": "player", "sounds": ["weapon/fire/vstar"]},
     "weapon.fire.loudestNoiseOnEarth": {"category": "player", "sounds": ["weapon/fire/loudestNoiseOnEarth"]},
+    "weapon.fire.disintegration": {"category": "player", "sounds": ["weapon/fire/disintegration"]},
     
     "weapon.reload.boltClose": {"category": "player", "sounds": ["weapon/reload/boltClose"]},
     "weapon.reload.boltOpen": {"category": "player", "sounds": ["weapon/reload/boltOpen"]},

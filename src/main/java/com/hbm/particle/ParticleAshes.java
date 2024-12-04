@@ -73,13 +73,13 @@ public class ParticleAshes extends EntityFXRotating {
 			
 			Vec3NT vec = new Vec3NT(particleScale, 0, particleScale).rotateAroundYDeg(this.rotationPitch);
 
-			tess.addVertexWithUV(pX + vec.xCoord, pY + 0.05, pZ + vec.zCoord, particleIcon.getMaxU(), particleIcon.getMinV());
-			vec.rotateAroundYDeg(-90);
 			tess.addVertexWithUV(pX + vec.xCoord, pY + 0.05, pZ + vec.zCoord, particleIcon.getMaxU(), particleIcon.getMaxV());
 			vec.rotateAroundYDeg(-90);
-			tess.addVertexWithUV(pX + vec.xCoord, pY + 0.05, pZ + vec.zCoord, particleIcon.getMinU(), particleIcon.getMaxV());
+			tess.addVertexWithUV(pX + vec.xCoord, pY + 0.05, pZ + vec.zCoord, particleIcon.getMaxU(), particleIcon.getMinV());
 			vec.rotateAroundYDeg(-90);
 			tess.addVertexWithUV(pX + vec.xCoord, pY + 0.05, pZ + vec.zCoord, particleIcon.getMinU(), particleIcon.getMinV());
+			vec.rotateAroundYDeg(-90);
+			tess.addVertexWithUV(pX + vec.xCoord, pY + 0.05, pZ + vec.zCoord, particleIcon.getMinU(), particleIcon.getMaxV());
 		} else {
 			renderParticleRotated(tess, interp, sX, sY, sZ, dX, dZ, this.particleScale);
 		}

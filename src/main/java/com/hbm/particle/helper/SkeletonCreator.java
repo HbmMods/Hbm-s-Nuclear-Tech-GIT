@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 
 public class SkeletonCreator implements IParticleCreator {
 	
-	public static HashMap<Class, Function<EntityLivingBase, BoneDefinition[]>> skullanizer = new HashMap();
+	public static HashMap<String, Function<EntityLivingBase, BoneDefinition[]>> skullanizer = new HashMap();
 	
 	public static void composeEffect(World world, Entity toSkeletonize, float brightness) {
 		
@@ -53,7 +53,7 @@ public class SkeletonCreator implements IParticleCreator {
 		
 		float brightness = data.getFloat("brightness");
 		
-		Function<EntityLivingBase, BoneDefinition[]> bonealizer = skullanizer.get(entity.getClass());
+		Function<EntityLivingBase, BoneDefinition[]> bonealizer = skullanizer.get(entity.getClass().getSimpleName());
 		
 		if(bonealizer != null) {
 			BoneDefinition[] bones = bonealizer.apply(living);
@@ -129,14 +129,24 @@ public class SkeletonCreator implements IParticleCreator {
 	};
 	
 	public static void init() {
-		skullanizer.put(EntityOtherPlayerMP.class, BONES_BIPED);
-		skullanizer.put(EntityClientPlayerMP.class, BONES_BIPED);
-		skullanizer.put(EntityPlayerSP.class, BONES_BIPED);
+		skullanizer.put(EntityOtherPlayerMP.class.getSimpleName(), BONES_BIPED);
+		skullanizer.put(EntityClientPlayerMP.class.getSimpleName(), BONES_BIPED);
+		skullanizer.put(EntityPlayerSP.class.getSimpleName(), BONES_BIPED);
 
-		skullanizer.put(EntityZombie.class, BONES_ZOMBIE);
-		skullanizer.put(EntitySkeleton.class, BONES_ZOMBIE);
-		skullanizer.put(EntityPigZombie.class, BONES_ZOMBIE);
+		skullanizer.put(EntityZombie.class.getSimpleName(), BONES_ZOMBIE);
+		skullanizer.put(EntitySkeleton.class.getSimpleName(), BONES_ZOMBIE);
+		skullanizer.put(EntityPigZombie.class.getSimpleName(), BONES_ZOMBIE);
 		
-		skullanizer.put(EntityDummy.class, BONES_DUMMY);
+		skullanizer.put(EntityDummy.class.getSimpleName(), BONES_DUMMY);
+
+		//techguns compat, for some reason
+		//not alwayss accurate because of variable arm position, but better than nothing
+		skullanizer.put("ArmySoldier", BONES_ZOMBIE);
+		skullanizer.put("PsychoSteve", BONES_ZOMBIE);
+		skullanizer.put("SkeletonSoldier", BONES_ZOMBIE);
+		skullanizer.put("ZombieFarmer", BONES_ZOMBIE);
+		skullanizer.put("ZombieMiner", BONES_ZOMBIE);
+		skullanizer.put("ZombiePigmanSoldier", BONES_ZOMBIE);
+		skullanizer.put("ZombieSoldier", BONES_ZOMBIE);
 	}
 }

@@ -3,6 +3,7 @@ package com.hbm.particle;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.particle.helper.SkeletonCreator.EnumSkeletonType;
 import com.hbm.render.loader.HFRWavefrontObject;
 
@@ -69,7 +70,8 @@ public class ParticleSkeleton extends EntityFX {
 		if(this.particleAge++ >= this.particleMaxAge) {
 			this.setDead();
 		}
-
+		boolean wasOnGround = this.onGround;
+		
 		this.motionY -= this.particleGravity;
 		this.moveEntity(this.motionX, this.motionY, this.motionZ);
 		this.motionX *= 0.98D;
@@ -83,6 +85,10 @@ public class ParticleSkeleton extends EntityFX {
 			this.motionX = 0;
 			this.motionY = 0;
 			this.motionZ = 0;
+			
+			if(!wasOnGround) {
+				MainRegistry.proxy.playSoundClient(posX, posY, posZ, "mob.skeleton.hurt", 0.25F, 0.8F + rand.nextFloat() * 0.4F);
+			}
 		}
 	}
 	

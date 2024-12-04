@@ -25,12 +25,14 @@ public class ConfettiUtil {
 		int amount = MathHelper.clamp_int((int) (entity.width * entity.height * entity.width * 25), 5, 50);
 		AshesCreator.composeEffect(entity.worldObj, entity, amount, 0.125F);
 		SkeletonCreator.composeEffect(entity.worldObj, entity, 1F);
+		entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:weapon.fire.disintegration", 2.0F, 0.9F + entity.getRNG().nextFloat() * 0.2F);
 	}
 
 	public static void cremate(EntityLivingBase entity) {
 		int amount = MathHelper.clamp_int((int) (entity.width * entity.height * entity.width * 25), 5, 50);
 		AshesCreator.composeEffect(entity.worldObj, entity, amount, 0.125F);
 		SkeletonCreator.composeEffect(entity.worldObj, entity, 0.25F);
+		entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:weapon.fire.disintegration", 2.0F, 0.9F + entity.getRNG().nextFloat() * 0.2F);
 	}
 
 	public static void gib(EntityLivingBase entity) {
