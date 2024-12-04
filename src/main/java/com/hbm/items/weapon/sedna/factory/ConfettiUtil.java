@@ -15,20 +15,22 @@ import net.minecraft.util.MathHelper;
 public class ConfettiUtil {
 	
 	public static void decideConfetti(EntityLivingBase entity, DamageSource source) {
+		if(entity.isEntityAlive()) return;
 		if(source.damageType.equals(DamageClass.LASER.name())) pulverize(entity);
-		if(source.damageType.equals(DamageClass.EXPLOSIVE.name())) gib(entity);
-		skullanize(entity);
+		if(source.isExplosion()) gib(entity);
+		if(source.isFireDamage()) cremate(entity);
 	}
 
 	public static void pulverize(EntityLivingBase entity) {
-		if(entity.isEntityAlive()) return;
 		int amount = MathHelper.clamp_int((int) (entity.width * entity.height * entity.width * 25), 5, 50);
 		AshesCreator.composeEffect(entity.worldObj, entity, amount, 0.125F);
+		SkeletonCreator.composeEffect(entity.worldObj, entity, 1F);
 	}
 
-	public static void skullanize(EntityLivingBase entity) {
-		if(entity.isEntityAlive()) return;
-		SkeletonCreator.composeEffect(entity.worldObj, entity);
+	public static void cremate(EntityLivingBase entity) {
+		int amount = MathHelper.clamp_int((int) (entity.width * entity.height * entity.width * 25), 5, 50);
+		AshesCreator.composeEffect(entity.worldObj, entity, amount, 0.125F);
+		SkeletonCreator.composeEffect(entity.worldObj, entity, 0.25F);
 	}
 
 	public static void gib(EntityLivingBase entity) {

@@ -108,13 +108,13 @@ public class XFactoryFlamer {
 	}
 
 	public static void init() {
-		flame_diesel = new BulletConfig().setItem(EnumAmmo.FLAME_DIESEL).setupDamageClass(DamageClass.FIRE).setLife(100).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20)
+		flame_diesel = new BulletConfig().setItem(EnumAmmo.FLAME_DIESEL).setupDamageClass(DamageClass.FIRE).setLife(100).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
 				.setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_DIESEL);
-		flame_gas = new BulletConfig().setItem(EnumAmmo.FLAME_GAS).setupDamageClass(DamageClass.FIRE).setLife(10).setSpread(0.05F).setVel(1F).setGrav(0.0D).setReloadCount(500).setSelfDamageDelay(20)
+		flame_gas = new BulletConfig().setItem(EnumAmmo.FLAME_GAS).setupDamageClass(DamageClass.FIRE).setLife(10).setSpread(0.05F).setVel(1F).setGrav(0.0D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
 				.setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_GAS);
-		flame_napalm = new BulletConfig().setItem(EnumAmmo.FLAME_NAPALM).setupDamageClass(DamageClass.FIRE).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20)
+		flame_napalm = new BulletConfig().setItem(EnumAmmo.FLAME_NAPALM).setupDamageClass(DamageClass.FIRE).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
 				.setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_NAPALM);
-		flame_balefire = new BulletConfig().setItem(EnumAmmo.FLAME_BALEFIRE).setupDamageClass(DamageClass.FIRE).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20)
+		flame_balefire = new BulletConfig().setItem(EnumAmmo.FLAME_BALEFIRE).setupDamageClass(DamageClass.FIRE).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
 				.setOnUpdate(LAMBDA_BALEFIRE).setOnRicochet(LAMBDA_LINGER_BALEFIRE);
 		
 		flame_topaz_diesel = flame_diesel		.clone().setProjectiles(2).setSpread(0.05F).setLife(60).setGrav(0.0D);

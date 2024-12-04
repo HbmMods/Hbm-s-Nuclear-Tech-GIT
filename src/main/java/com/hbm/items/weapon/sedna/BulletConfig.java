@@ -49,7 +49,7 @@ public class BulletConfig implements Cloneable {
 	public float damageMult = 1.0F;
 	public float armorThresholdNegation = 0.0F;
 	public float armorPiercingPercent = 0.0F;
-	public float knockbackMult = 0.25F;
+	public float knockbackMult = 0.1F;
 	public float headshotMult = 1.0F;
 	
 	public DamageClass dmgClass = DamageClass.PHYSICAL;
@@ -219,6 +219,8 @@ public class BulletConfig implements Cloneable {
 				bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 				bullet.setDead();
 			}
+			
+			if(!living.isEntityAlive()) ConfettiUtil.decideConfetti(living, source);
 		}
 	};
 	

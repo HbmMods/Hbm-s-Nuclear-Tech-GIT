@@ -18,6 +18,7 @@ import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IArmorModDash;
 import com.hbm.items.armor.ArmorFSB;
+import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
@@ -572,6 +573,8 @@ public class EntityEffectHandler {
 		HbmLivingProps props = HbmLivingProps.getData(living);
 		Random rand = living.getRNG();
 		
+		if(!entity.isEntityAlive()) return;
+		
 		if(living.isImmuneToFire()) props.fire = 0;
 
 		double x = living.posX;
@@ -594,6 +597,8 @@ public class EntityEffectHandler {
 			if((living.ticksExisted + living.getEntityId()) % 20 == 0) living.attackEntityFrom(DamageSource.onFire, 5F);
 			FlameCreator.composeEffect(entity.worldObj, x - living.width / 2 + living.width * rand.nextDouble(), y + rand.nextDouble() * living.height, z - living.width / 2 + living.width * rand.nextDouble(), FlameCreator.META_BALEFIRE);
 		}
+		
+		if(props.fire > 0 || props.balefire > 0) if(!entity.isEntityAlive()) ConfettiUtil.decideConfetti(living, DamageSource.onFire);
 	}
 	
 	private static void handleDashing(Entity entity) {

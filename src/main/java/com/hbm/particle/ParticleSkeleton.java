@@ -1,7 +1,6 @@
 package com.hbm.particle;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import com.hbm.lib.RefStrings;
 import com.hbm.particle.helper.SkeletonCreator.EnumSkeletonType;
@@ -39,7 +38,7 @@ public class ParticleSkeleton extends EntityFX {
 		this.textureManager = textureManager;
 		this.type = type;
 
-		this.particleMaxAge = 200 + rand.nextInt(20);
+		this.particleMaxAge = 1200 + rand.nextInt(20);
 		
 		this.particleRed = r;
 		this.particleGreen = g;
