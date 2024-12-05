@@ -3,12 +3,23 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.handler.CasingEjector;
 import com.hbm.inventory.gui.GUITurretJeremy;
+import com.hbm.items.ModItems;
+import com.hbm.items.ItemAmmoEnums.Ammo240Shell;
+import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.factory.Lego;
+import com.hbm.items.weapon.sedna.factory.XFactoryCatapult;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.particle.SpentCasing;
+import com.hbm.particle.SpentCasing.CasingType;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -20,14 +31,31 @@ import net.minecraft.world.World;
 
 public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 
+	public static SpentCasing CASINNG240MM = new SpentCasing(CasingType.BOTTLENECK).setScale(7.5F).setBounceMotion(0.02F, 0.05F).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(1F, 0.5D, 60, 20);
+	public static BulletConfig shell_normal = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.STOCK)).setDamage(1F).setCasing(CASINNG240MM).setOnImpact((bullet, mop) -> {
+		Lego.standardExplode(bullet, mop, 10F); bullet.setDead();
+	});
+	public static BulletConfig shell_explosive = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.EXPLOSIVE)).setDamage(1.5F).setCasing(CASINNG240MM).setOnImpact((bullet, mop) -> {
+		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 10F);
+		vnt.setBlockAllocator(new BlockAllocatorStandard());
+		vnt.setBlockProcessor(new BlockProcessorStandard());
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage));
+		vnt.setPlayerProcessor(new PlayerProcessorStandard());
+		vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
+		vnt.explode();
+		bullet.setDead();
+	});
+	public static BulletConfig shell_ap = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_T)).setDamage(2F).setDoesPenetrate(true).setCasing(CASINNG240MM);
+	public static BulletConfig shell_du = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.APFSDS_DU)).setDamage(2.5F).setDoesPenetrate(true).setDamageFalloutByPen(false).setCasing(CASINNG240MM);
+	public static BulletConfig shell_w9 = new BulletConfig().setItem(ModItems.ammo_shell.stackFromEnum(Ammo240Shell.W9)).setDamage(2.5F).setCasing(CASINNG240MM).setOnImpact(XFactoryCatapult.LAMBDA_NUKE_STANDARD);
 	static List<Integer> configs = new ArrayList();
 	
 	static {
-		configs.add(BulletConfigSyncingUtil.SHELL_NORMAL);
-		configs.add(BulletConfigSyncingUtil.SHELL_EXPLOSIVE);
-		configs.add(BulletConfigSyncingUtil.SHELL_AP);
-		configs.add(BulletConfigSyncingUtil.SHELL_DU);
-		configs.add(BulletConfigSyncingUtil.SHELL_W9);
+		configs.add(shell_normal.id);
+		configs.add(shell_explosive.id);
+		configs.add(shell_ap.id);
+		configs.add(shell_du.id);
+		configs.add(shell_w9.id);
 	}
 	
 	@Override
@@ -87,11 +115,11 @@ public class TileEntityTurretJeremy extends TileEntityTurretBaseNT {
 		
 		if(timer % 40 == 0) {
 			
-			BulletConfiguration conf = this.getFirstConfigLoaded();
+			BulletConfig conf = this.getFirstConfigLoaded();
 			
 			if(conf != null) {
-				this.cachedCasingConfig = conf.spentCasing;
-				this.spawnBullet(conf);
+				this.cachedCasingConfig = conf.casing;
+				this.spawnBullet(conf, 50F);
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.jeremy_fire", 4.0F, 1.0F);
 				Vec3 pos = this.getTurretPos();

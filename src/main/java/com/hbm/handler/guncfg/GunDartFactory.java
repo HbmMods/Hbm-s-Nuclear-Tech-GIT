@@ -9,13 +9,11 @@ import com.hbm.handler.GunConfiguration;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.ItemAmmoEnums.AmmoDart;
 import com.hbm.items.ModItems;
-import com.hbm.items.weapon.ItemGunDart;
 import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.lib.HbmCollection.EnumGunManufacturer;
 import com.hbm.main.MainRegistry;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
@@ -99,28 +97,6 @@ public class GunDartFactory {
 		
 		bullet.effects = new ArrayList();
 		bullet.effects.add(new PotionEffect(Potion.wither.id, 60 * 20, 2));
-		
-		bullet.bntHurt = (bulletnt, hit) -> {
-
-			if(bulletnt.worldObj.isRemote)
-				return;
-
-			if(hit instanceof EntityPlayer) {
-
-				if(((EntityPlayer) hit).inventory.hasItem(ModItems.ingot_meteorite_forged))
-					return;
-
-				if(bulletnt.getThrower() instanceof EntityPlayer) {
-
-					EntityPlayer shooter = (EntityPlayer) bulletnt.getThrower();
-
-					if(shooter.getHeldItem() != null && shooter.getHeldItem().getItem() == ModItems.gun_darter) {
-						ItemGunDart.writePlayer(shooter.getHeldItem(), (EntityPlayer) hit);
-						shooter.playSound("random.orb", 1.0F, 1.0F);
-					}
-				}
-			}
-		};
 		
 		return bullet;
 	}

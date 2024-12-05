@@ -3,9 +3,7 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.entity.projectile.EntityBulletBaseNT;
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUITurretRichard;
 import com.hbm.items.ItemAmmoEnums.AmmoRocket;
@@ -14,6 +12,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.factory.XFactoryRocket;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,18 +25,7 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 	static List<Integer> configs = new ArrayList();
 	
 	static {
-		configs.add(BulletConfigSyncingUtil.ROCKET_NORMAL);
-		configs.add(BulletConfigSyncingUtil.ROCKET_HE);
-		configs.add(BulletConfigSyncingUtil.ROCKET_INCENDIARY);
-		configs.add(BulletConfigSyncingUtil.ROCKET_SHRAPNEL);
-		configs.add(BulletConfigSyncingUtil.ROCKET_EMP);
-		configs.add(BulletConfigSyncingUtil.ROCKET_GLARE);
-		configs.add(BulletConfigSyncingUtil.ROCKET_SLEEK);
-		configs.add(BulletConfigSyncingUtil.ROCKET_NUKE);
-		configs.add(BulletConfigSyncingUtil.ROCKET_CHAINSAW);
-		configs.add(BulletConfigSyncingUtil.ROCKET_TOXIC);
-		configs.add(BulletConfigSyncingUtil.ROCKET_PHOSPHORUS);
-		configs.add(BulletConfigSyncingUtil.ROCKET_CANISTER);
+		for(BulletConfig cfg : XFactoryRocket.rocket_ml) configs.add(cfg.id);
 	}
 	
 	@Override
@@ -129,10 +118,10 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 		
 		if(timer > 0 && timer % 10 == 0) {
 			
-			BulletConfiguration conf = this.getFirstConfigLoaded();
+			BulletConfig conf = this.getFirstConfigLoaded();
 			
 			if(conf != null) {
-				this.spawnBullet(conf);
+				this.spawnBullet(conf, 30F);
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.richard_fire", 2.0F, 1.0F);
 				this.loaded--;
@@ -147,17 +136,15 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 	}
 
 	@Override
-	public void spawnBullet(BulletConfiguration bullet) {
+	public void spawnBullet(BulletConfig bullet, float baseDamage) {
 		
 		Vec3 pos = this.getTurretPos();
 		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 		vec.rotateAroundZ((float) -this.rotationPitch);
 		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 		
-		EntityBulletBaseNT proj = new EntityBulletBaseNT(worldObj, BulletConfigSyncingUtil.getKey(bullet));
-		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
-		
-		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, bullet.velocity * 0.75F, bullet.spread);
+		EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, bullet, baseDamage, bullet.spread, (float) rotationYaw, (float) rotationPitch);
+		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, proj.rotationYaw, proj.rotationPitch);
 		worldObj.spawnEntityInWorld(proj);
 	}
 	

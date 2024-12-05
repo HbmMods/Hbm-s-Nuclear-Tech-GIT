@@ -61,6 +61,22 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread + gunSpread);
 	}
+	
+	/** For turrets - angles are in radians, andp itch is negative! */
+	public EntityBulletBaseMK4(World world, BulletConfig config, float baseDamage, float gunSpread, float yaw, float pitch) {
+		this(world);
+		
+		this.setBulletConfig(config);
+		this.damage = baseDamage * this.config.damageMult;
+		
+		this.prevRotationYaw = this.rotationYaw = yaw * 180F / (float) Math.PI;
+		this.prevRotationPitch = this.rotationPitch = -pitch * 180F / (float) Math.PI;
+		
+		this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
+		this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
+		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
+		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread + gunSpread);
+	}
 
 	@Override
 	protected void entityInit() {

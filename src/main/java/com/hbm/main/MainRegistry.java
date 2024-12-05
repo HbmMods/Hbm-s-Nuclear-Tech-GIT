@@ -1459,6 +1459,14 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.powder_verticium");
 		ignoreMappings.add("hbm:tile.ore_random");
 		ignoreMappings.add("hbm:item.crate_caller");
+		ignoreMappings.add("hbm:item.pellet_rtg_berkelium");
+		ignoreMappings.add("hbm:item.folly_shell");
+		ignoreMappings.add("hbm:item.folly_bullet");
+		ignoreMappings.add("hbm:item.folly_bullet_nuclear");
+		ignoreMappings.add("hbm:item.folly_bullet_du");
+		ignoreMappings.add("hbm:item.ammo_folly");
+		ignoreMappings.add("hbm:item.ammo_folly_nuclear");
+		ignoreMappings.add("hbm:item.ammo_folly_du");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

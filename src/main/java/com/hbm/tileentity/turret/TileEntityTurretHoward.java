@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.config.WeaponConfig;
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.guncfg.GunDGKFactory;
 import com.hbm.inventory.gui.GUITurretHoward;
+import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -25,10 +24,11 @@ import net.minecraft.world.World;
 
 public class TileEntityTurretHoward extends TileEntityTurretBaseNT {
 
+	static BulletConfig dgk_normal = new BulletConfig();
 	static List<Integer> configs = new ArrayList();
 	
 	static {
-		configs.add(BulletConfigSyncingUtil.DGK_NORMAL);
+		configs.add(dgk_normal.id);
 	}
 	
 	@Override
@@ -114,7 +114,7 @@ public class TileEntityTurretHoward extends TileEntityTurretBaseNT {
 		} else {
 			
 			if(loaded <= 0) {
-				BulletConfiguration conf = this.getFirstConfigLoaded();
+				BulletConfig conf = this.getFirstConfigLoaded();
 				
 				if(conf != null) {
 					this.conusmeAmmo(conf.ammo);
