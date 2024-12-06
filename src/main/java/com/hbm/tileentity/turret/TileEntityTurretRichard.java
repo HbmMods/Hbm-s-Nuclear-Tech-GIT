@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
-import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUITurretRichard;
-import com.hbm.items.ItemAmmoEnums.AmmoRocket;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.factory.XFactoryRocket;
 
@@ -126,8 +123,7 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.richard_fire", 2.0F, 1.0F);
 				this.loaded--;
 				
-				if(conf.ammo.equals(new ComparableStack(ModItems.ammo_rocket.stackFromEnum(AmmoRocket.NUCLEAR))))
-					timer = -50;
+				//if(conf.ammo.equals(new ComparableStack(ModItems.ammo_standard, EnumAmmo.ROCKET_DEMO))) timer = -50;
 				
 			} else {
 				this.loaded = 0;
@@ -145,6 +141,7 @@ public class TileEntityTurretRichard extends TileEntityTurretBaseNT {
 		
 		EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, bullet, baseDamage, bullet.spread, (float) rotationYaw, (float) rotationPitch);
 		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, proj.rotationYaw, proj.rotationPitch);
+		proj.lockonTarget = this.target;
 		worldObj.spawnEntityInWorld(proj);
 	}
 	

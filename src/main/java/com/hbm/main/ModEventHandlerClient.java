@@ -80,6 +80,7 @@ import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
+import com.hbm.util.DamageResistanceHandler;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
@@ -713,6 +714,9 @@ public class ModEventHandlerClient {
 		
 		ItemStack stack = event.itemStack;
 		List<String> list = event.toolTip;
+		
+		/// DAMAGE RESISTANCE ///
+		DamageResistanceHandler.addInfo(stack, list);
 		
 		/// HAZMAT INFO ///
 		List<HazardClass> hazInfo = ArmorRegistry.hazardClasses.get(stack.getItem());

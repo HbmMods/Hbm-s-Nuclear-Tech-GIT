@@ -54,7 +54,6 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 	public boolean geigerSound = false;
 	public boolean customGeiger = false;
 	public boolean hardLanding = false;
-	public double gravity = 0;
 	public int dashCount = 0;
 	public int stepSize = 0;
 	public String step;
@@ -100,11 +99,6 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 		this.hardLanding = hardLanding;
 		return this;
 	}
-
-	public ArmorFSB setGravity(double gravity) {
-		this.gravity = gravity;
-		return this;
-	}
 	
 	public ArmorFSB setDashCount(int dashCount) {
 		this.dashCount = dashCount;
@@ -146,7 +140,6 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 		this.geigerSound = original.geigerSound;
 		this.customGeiger = original.customGeiger;
 		this.hardLanding = original.hardLanding;
-		this.gravity = original.gravity;
 		this.dashCount = original.dashCount;
 		this.stepSize = original.stepSize;
 		this.step = original.step;
@@ -163,23 +156,30 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
-
-		list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("armor.fullSetBonus"));
+		
+		List toAdd = new ArrayList();
 
 		if(!effects.isEmpty()) {
+			List potionList = new ArrayList();
 			for(PotionEffect effect : effects) {
-				list.add(EnumChatFormatting.AQUA + "  " + I18n.format(Potion.potionTypes[effect.getPotionID()].getName()));
+				potionList.add(I18n.format(Potion.potionTypes[effect.getPotionID()].getName()));
 			}
+			
+			toAdd.add(EnumChatFormatting.AQUA + String.join(", ", potionList));
 		}
 
-		if(geigerSound) list.add(EnumChatFormatting.GOLD + "  " + I18nUtil.resolveKey("armor.geigerSound"));
-		if(customGeiger) list.add(EnumChatFormatting.GOLD + "  " + I18nUtil.resolveKey("armor.geigerHUD"));
-		if(vats) list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.vats"));
-		if(thermal) list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.thermal"));
-		if(hardLanding) list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.hardLanding"));
-		if(gravity != 0) list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.gravity", gravity));
-		if(stepSize != 0) list.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.stepSize", stepSize));
-		if(dashCount > 0) list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.dash", dashCount));
+		if(geigerSound) toAdd.add(EnumChatFormatting.GOLD + "  " + I18nUtil.resolveKey("armor.geigerSound"));
+		if(customGeiger) toAdd.add(EnumChatFormatting.GOLD + "  " + I18nUtil.resolveKey("armor.geigerHUD"));
+		if(vats) toAdd.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.vats"));
+		if(thermal) toAdd.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.thermal"));
+		if(hardLanding) toAdd.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.hardLanding"));
+		if(stepSize != 0) toAdd.add(EnumChatFormatting.BLUE + "  " + I18nUtil.resolveKey("armor.stepSize", stepSize));
+		if(dashCount > 0) toAdd.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.dash", dashCount));
+
+		if(!toAdd.isEmpty()) {
+			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("armor.fullSetBonus"));
+			list.addAll(toAdd);
+		}
 	}
 
 	public static boolean hasFSBArmor(EntityPlayer player) {
@@ -253,9 +253,6 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 					player.addPotionEffect(new PotionEffect(i.getPotionID(), i.getDuration(), i.getAmplifier(), true));
 				}
 			}
-
-			if(!player.capabilities.isFlying && !player.isInWater())
-				player.motionY -= chestplate.gravity;
 
 			if(chestplate.step != null && player.worldObj.isRemote && player.onGround) {
 
@@ -335,14 +332,9 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 	@Override
 	public void onArmorTick(World world, EntityPlayer entity, ItemStack stack) {
 
-		if(this.armorType != 1)
-			return;
-
-		if(!hasFSBArmor(entity) || !this.geigerSound)
-			return;
-
-		if(entity.inventory.hasItem(ModItems.geiger_counter) || entity.inventory.hasItem(ModItems.dosimeter))
-			return;
+		if(this.armorType != 1) return;
+		if(!hasFSBArmor(entity) || !this.geigerSound) return;
+		if(entity.inventory.hasItem(ModItems.geiger_counter) || entity.inventory.hasItem(ModItems.dosimeter)) return;
 
 		if(world.getTotalWorldTime() % 5 == 0) {
 
@@ -364,26 +356,20 @@ public class ArmorFSB extends ItemArmor implements IArmorDisableModel {
 
 				int r = list.get(world.rand.nextInt(list.size()));
 
-				if(r > 0)
-					world.playSoundAtEntity(entity, "hbm:item.geiger" + r, 1.0F, 1.0F);
+				if(r > 0) world.playSoundAtEntity(entity, "hbm:item.geiger" + r, 1.0F, 1.0F);
 			}
 		}
 	}
 
 	public static int check(World world, int x, int y, int z) {
-
 		int rads = (int) Math.ceil(ChunkRadiationManager.proxy.getRadiation(world, x, y, z));
 		return rads;
 	}
 
 	// For crazier stuff not possible without hooking the event
-	@SideOnly(Side.CLIENT)
-	public void handleOverlay(RenderGameOverlayEvent.Pre event, EntityPlayer player) {
-	}
+	@SideOnly(Side.CLIENT) public void handleOverlay(RenderGameOverlayEvent.Pre event, EntityPlayer player) { }
 
-	public boolean isArmorEnabled(ItemStack stack) {
-		return true;
-	}
+	public boolean isArmorEnabled(ItemStack stack) { return true; }
 
 	@SideOnly(Side.CLIENT)
 	public void renderHelmetOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks, boolean hasScreen, int mouseX, int mouseY) {

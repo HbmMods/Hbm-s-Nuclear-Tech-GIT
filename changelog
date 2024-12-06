@@ -59,6 +59,7 @@
 * Adjusted damage values to many swords and some tools
 * Unsats and aromatics can now be filled into gas canisters
 * Basalt asbestos ore no longer creates asbestos particles every block update, meaning volcanoes no longer cause massive delays with chunk rendering due to constant block changes
+* Rockets shot by the rocket turret are no longer subject to gravity and lock onto the intended target
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines
