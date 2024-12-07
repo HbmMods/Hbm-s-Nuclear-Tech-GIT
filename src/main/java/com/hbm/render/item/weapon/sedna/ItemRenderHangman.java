@@ -104,9 +104,9 @@ public class ItemRenderHangman extends ItemRenderWeaponBase {
 	@Override
 	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
-		double scale = 0.375D;
+		double scale = 0.5D;
 		GL11.glScaled(scale, scale, scale);
-		GL11.glTranslated(0, 4.25, 8);
+		GL11.glTranslated(0, 4.25, 11);
 
 	}
 

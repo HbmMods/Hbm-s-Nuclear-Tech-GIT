@@ -575,7 +575,10 @@ public class EntityEffectHandler {
 		
 		if(!entity.isEntityAlive()) return;
 		
-		if(living.isImmuneToFire()) props.fire = 0;
+		if(living.isImmuneToFire()) {
+			props.fire = 0;
+			props.phosphorus = 0;
+		}
 
 		double x = living.posX;
 		double y = living.posY;
@@ -590,6 +593,13 @@ public class EntityEffectHandler {
 			FlameCreator.composeEffect(entity.worldObj, x - living.width / 2 + living.width * rand.nextDouble(), y + rand.nextDouble() * living.height, z - living.width / 2 + living.width * rand.nextDouble(), FlameCreator.META_FIRE);
 		}
 		
+		if(props.phosphorus > 0) {
+			props.phosphorus--;
+			if((living.ticksExisted + living.getEntityId()) % 15 == 0) living.worldObj.playSoundEffect(living.posX, living.posY + living.height / 2, living.posZ, "random.fizz", 1F, 1.5F + rand.nextFloat() * 0.5F);
+			if((living.ticksExisted + living.getEntityId()) % 40 == 0) living.attackEntityFrom(DamageSource.onFire, 5F);
+			FlameCreator.composeEffect(entity.worldObj, x - living.width / 2 + living.width * rand.nextDouble(), y + rand.nextDouble() * living.height, z - living.width / 2 + living.width * rand.nextDouble(), FlameCreator.META_FIRE);
+		}
+		
 		if(props.balefire > 0) {
 			props.balefire--;
 			if((living.ticksExisted + living.getEntityId()) % 15 == 0) living.worldObj.playSoundEffect(living.posX, living.posY + living.height / 2, living.posZ, "random.fizz", 1F, 1.5F + rand.nextFloat() * 0.5F);
@@ -598,7 +608,7 @@ public class EntityEffectHandler {
 			FlameCreator.composeEffect(entity.worldObj, x - living.width / 2 + living.width * rand.nextDouble(), y + rand.nextDouble() * living.height, z - living.width / 2 + living.width * rand.nextDouble(), FlameCreator.META_BALEFIRE);
 		}
 		
-		if(props.fire > 0 || props.balefire > 0) if(!entity.isEntityAlive()) ConfettiUtil.decideConfetti(living, DamageSource.onFire);
+		if(props.fire > 0 || props.phosphorus > 0 || props.balefire > 0) if(!entity.isEntityAlive()) ConfettiUtil.decideConfetti(living, DamageSource.onFire);
 	}
 	
 	private static void handleDashing(Entity entity) {

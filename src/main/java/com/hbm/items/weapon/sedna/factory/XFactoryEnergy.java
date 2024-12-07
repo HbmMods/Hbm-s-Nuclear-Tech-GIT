@@ -63,7 +63,7 @@ public class XFactoryEnergy {
 		}
 		
 		ExplosionVNT vnt = new ExplosionVNT(beam.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, 2F);
-		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, beam.damage));
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, beam.damage).setDamageClass(beam.config.dmgClass));
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		vnt.explode();
 		beam.worldObj.playSoundEffect(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, "hbm:entity.ufoBlast", 5.0F, 0.9F + beam.worldObj.rand.nextFloat() * 0.2F);

@@ -28,8 +28,14 @@ public class EntityProcessorCrossSmooth extends EntityProcessorCross {
 		return this;
 	}
 	
+	public EntityProcessorCrossSmooth setDamageClass(DamageClass clazz) {
+		this.clazz = clazz;
+		return this;
+	}
+	
 	@Override
 	public void attackEntity(Entity entity, ExplosionVNT source, float amount) {
+		if(!entity.isEntityAlive()) return;
 		DamageSource dmg = BulletConfig.getDamage(null, source.exploder instanceof EntityLivingBase ? (EntityLivingBase) source.exploder : null, clazz);
 		if(!(entity instanceof EntityLivingBase)) {
 			entity.attackEntityFrom(dmg, amount);

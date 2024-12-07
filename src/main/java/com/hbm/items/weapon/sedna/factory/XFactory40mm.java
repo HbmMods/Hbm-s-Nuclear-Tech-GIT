@@ -33,7 +33,9 @@ import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
+import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.TrackerUtil;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -53,6 +55,7 @@ public class XFactory40mm {
 	public static BulletConfig g40_heat;
 	public static BulletConfig g40_demo;
 	public static BulletConfig g40_inc;
+	public static BulletConfig g40_phosphorus;
 
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_IGNITE = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
@@ -67,7 +70,11 @@ public class XFactory40mm {
 	};
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE_HEAT = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
-		Lego.standardExplode(bullet, mop, 2.5F); bullet.setDead();
+		Lego.standardExplode(bullet, mop, 3.5F); bullet.setDead();
+		if(mop.typeOfHit == mop.typeOfHit.ENTITY && mop.entityHit instanceof EntityLivingBase) {
+			EntityLivingBase living = (EntityLivingBase) mop.entityHit;
+			EntityDamageUtil.attackEntityFromNT(living, bullet.config.getDamage(bullet, bullet.getThrower(), DamageClass.EXPLOSIVE), bullet.damage * 3F, true, true, 0.5F, 3F, 0.15F);
+		}
 	};
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE_DEMO = (bullet, mop) -> {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
@@ -81,16 +88,23 @@ public class XFactory40mm {
 		bullet.setDead();
 	};
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE_INC = (bullet, mop) -> {
+		spawnFire(bullet, mop, false, 200);
+	};
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE_PHOSPHORUS = (bullet, mop) -> {
+		spawnFire(bullet, mop, true, 400);
+	};
+	
+	public static void spawnFire(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, boolean phosphorus, int duration) {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && bullet.ticksExisted < 3) return;
 		World world = bullet.worldObj;
 		Lego.standardExplode(bullet, mop, 3F);
-		EntityFireLingering fire = new EntityFireLingering(world).setArea(5, 2).setDuration(200).setType(EntityFireLingering.TYPE_DIESEL);
+		EntityFireLingering fire = new EntityFireLingering(world).setArea(5, 2).setDuration(duration).setType(phosphorus ? EntityFireLingering.TYPE_PHOSPHORUS : EntityFireLingering.TYPE_DIESEL);
 		fire.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 		world.spawnEntityInWorld(fire);
 		bullet.setDead();
 		for(int dx = -1; dx <= 1; dx++) {
 			for(int dy = -1; dy <= 1; dy++) {
-				for(int dz = -2; dz <= 2; dz++) {
+				for(int dz = -1; dz <= 1; dz++) {
 					int x = (int) Math.floor(mop.hitVec.xCoord) + dx;
 					int y = (int) Math.floor(mop.hitVec.yCoord) + dy;
 					int z = (int) Math.floor(mop.hitVec.zCoord) + dz;
@@ -103,7 +117,7 @@ public class XFactory40mm {
 				}
 			}
 		}
-	};
+	}
 
 	public static Consumer<Entity> LAMBDA_SPAWN_C130_SUPPLIESS = (entity) -> { spawnPlane(entity, C130PayloadType.SUPPLIES); };
 	public static Consumer<Entity> LAMBDA_SPAWN_C130_WEAPONS = (entity) -> { spawnPlane(entity, C130PayloadType.WEAPONS); };
@@ -130,9 +144,10 @@ public class XFactory40mm {
 		
 		BulletConfig g40_base = new BulletConfig().setLife(200).setVel(2F).setGrav(0.035D);
 		g40_he = g40_base.clone().setItem(EnumAmmo.G40_HE).setOnImpact(LAMBDA_STANDARD_EXPLODE).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x777777).setScale(2, 2F, 1.5F).register("g40"));
-		g40_heat = g40_base.clone().setItem(EnumAmmo.G40_HEAT).setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x5E6854).setScale(2, 2F, 1.5F).register("g40heat"));
-		g40_demo = g40_base.clone().setItem(EnumAmmo.G40_DEMO).setOnImpact(LAMBDA_STANDARD_EXPLODE_DEMO).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xE30000).setScale(2, 2F, 1.5F).register("g40demo"));
-		g40_inc = g40_base.clone().setItem(EnumAmmo.G40_INC).setOnImpact(LAMBDA_STANDARD_EXPLODE_INC).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xE86F20).setScale(2, 2F, 1.5F).register("g40inc"));
+		g40_heat = g40_base.clone().setItem(EnumAmmo.G40_HEAT).setOnImpact(LAMBDA_STANDARD_EXPLODE_HEAT).setDamage(0.5F).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0x5E6854).setScale(2, 2F, 1.5F).register("g40heat"));
+		g40_demo = g40_base.clone().setItem(EnumAmmo.G40_DEMO).setOnImpact(LAMBDA_STANDARD_EXPLODE_DEMO).setDamage(0.75F).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xE30000).setScale(2, 2F, 1.5F).register("g40demo"));
+		g40_inc = g40_base.clone().setItem(EnumAmmo.G40_INC).setOnImpact(LAMBDA_STANDARD_EXPLODE_INC).setDamage(0.75F).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xE86F20).setScale(2, 2F, 1.5F).register("g40inc"));
+		g40_phosphorus = g40_base.clone().setItem(EnumAmmo.G40_PHOSPHORUS).setOnImpact(LAMBDA_STANDARD_EXPLODE_PHOSPHORUS).setDamage(0.75F).setCasing(new SpentCasing(CasingType.STRAIGHT).setColor(0xC8C8C8).setScale(2, 2F, 1.5F).register("g40phos"));
 
 		ModItems.gun_flaregun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(100).draw(7).inspect(39).crosshair(Crosshair.L_CIRCUMFLEX).smoke(LAMBDA_SMOKE)
@@ -149,7 +164,7 @@ public class XFactory40mm {
 				.dura(400).draw(7).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCUMFLEX).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(20F).delay(24).reload(16, 16, 16, 0).jam(0).sound("hbm:weapon.glShoot", 1.0F, 1.0F)
-						.mag(new MagazineSingleReload(0, 4).addConfigs(g40_he, g40_heat, g40_demo, g40_inc))
+						.mag(new MagazineSingleReload(0, 4).addConfigs(g40_he, g40_heat, g40_demo, g40_inc, g40_phosphorus))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.setupStandardConfiguration()

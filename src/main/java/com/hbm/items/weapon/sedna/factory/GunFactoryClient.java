@@ -148,7 +148,7 @@ public class GunFactoryClient {
 		g26_flare_supply.setRenderer(LegoClient.RENDER_FLARE_SUPPLY);
 		g26_flare_weapon.setRenderer(LegoClient.RENDER_FLARE_WEAPON);
 		
-		setRendererBulk(LegoClient.RENDER_GRENADE, g40_he, g40_heat, g40_demo, g40_inc);
+		setRendererBulk(LegoClient.RENDER_GRENADE, g40_he, g40_heat, g40_demo, g40_inc, g40_phosphorus);
 		
 		setRendererBulk(LegoClient.RENDER_RPZB, rocket_rpzb);
 		setRendererBulk(LegoClient.RENDER_QD, rocket_qd);

@@ -8,6 +8,7 @@ import com.hbm.handler.CasingEjector;
 import com.hbm.handler.guncfg.GunDGKFactory;
 import com.hbm.inventory.gui.GUITurretHoward;
 import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.factory.XFactoryTurret;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -24,11 +25,10 @@ import net.minecraft.world.World;
 
 public class TileEntityTurretHoward extends TileEntityTurretBaseNT {
 
-	static BulletConfig dgk_normal = new BulletConfig();
 	static List<Integer> configs = new ArrayList();
 	
 	static {
-		configs.add(dgk_normal.id);
+		configs.add(XFactoryTurret.dgk_normal.id);
 	}
 	
 	@Override

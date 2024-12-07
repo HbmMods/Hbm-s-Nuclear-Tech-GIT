@@ -20,7 +20,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -85,7 +87,7 @@ public class SkeletonCreator implements IParticleCreator {
 	}
 	
 	public static enum EnumSkeletonType {
-		SKULL, TORSO, LIMB
+		SKULL, TORSO, LIMB, SKULL_VILLAGER
 	}
 	
 	public static Function<EntityLivingBase, BoneDefinition[]> BONES_BIPED = (entity) -> {
@@ -96,8 +98,8 @@ public class SkeletonCreator implements IParticleCreator {
 				new BoneDefinition(EnumSkeletonType.TORSO, -entity.renderYawOffset, 0, entity.posX, entity.posY + 1.125, entity.posZ),
 				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX + leftarm.xCoord, entity.posY + 1.125, entity.posZ + leftarm.zCoord),
 				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX - leftarm.xCoord, entity.posY + 1.125, entity.posZ - leftarm.zCoord),
-				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX + leftleg.xCoord, entity.posY + 0.625, entity.posZ + leftleg.zCoord),
-				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX - leftleg.xCoord, entity.posY + 0.625, entity.posZ - leftleg.zCoord),
+				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX + leftleg.xCoord, entity.posY + 0.375, entity.posZ + leftleg.zCoord),
+				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX - leftleg.xCoord, entity.posY + 0.375, entity.posZ - leftleg.zCoord),
 		};
 	};
 	
@@ -110,8 +112,22 @@ public class SkeletonCreator implements IParticleCreator {
 				new BoneDefinition(EnumSkeletonType.TORSO, -entity.renderYawOffset, 0, entity.posX, entity.posY + 1.125, entity.posZ),
 				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, -90, entity.posX + leftarm.xCoord + forward.xCoord, entity.posY + 1.375, entity.posZ + leftarm.zCoord + forward.zCoord),
 				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, -90, entity.posX - leftarm.xCoord + forward.xCoord, entity.posY + 1.375, entity.posZ - leftarm.zCoord + forward.zCoord),
-				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX + leftleg.xCoord, entity.posY + 0.625, entity.posZ + leftleg.zCoord),
-				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX - leftleg.xCoord, entity.posY + 0.625, entity.posZ - leftleg.zCoord),
+				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX + leftleg.xCoord, entity.posY + 0.375, entity.posZ + leftleg.zCoord),
+				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX - leftleg.xCoord, entity.posY + 0.375, entity.posZ - leftleg.zCoord),
+		};
+	};
+	
+	public static Function<EntityLivingBase, BoneDefinition[]> BONES_VILLAGER = (entity) -> {
+		Vec3NT leftarm = new Vec3NT(0.375, 0, 0).rotateAroundYDeg(-entity.renderYawOffset);
+		Vec3NT forward = new Vec3NT(0, 0, 0.25).rotateAroundYDeg(-entity.renderYawOffset);
+		Vec3NT leftleg = new Vec3NT(0.125, 0, 0).rotateAroundYDeg(-entity.renderYawOffset);
+		return new BoneDefinition[] {
+				new BoneDefinition(EnumSkeletonType.SKULL_VILLAGER, -entity.rotationYawHead, entity.rotationPitch, entity.posX, entity.posY + 1.6875, entity.posZ),
+				new BoneDefinition(EnumSkeletonType.TORSO, -entity.renderYawOffset, 0, entity.posX, entity.posY + 1, entity.posZ),
+				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, -45, entity.posX + leftarm.xCoord + forward.xCoord, entity.posY + 1.125, entity.posZ + leftarm.zCoord + forward.zCoord),
+				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, -45, entity.posX - leftarm.xCoord + forward.xCoord, entity.posY + 1.125, entity.posZ - leftarm.zCoord + forward.zCoord),
+				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX + leftleg.xCoord, entity.posY + 0.375, entity.posZ + leftleg.zCoord),
+				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX - leftleg.xCoord, entity.posY + 0.375, entity.posZ - leftleg.zCoord),
 		};
 	};
 	
@@ -123,8 +139,8 @@ public class SkeletonCreator implements IParticleCreator {
 				new BoneDefinition(EnumSkeletonType.TORSO, -entity.renderYawOffset, 0, entity.posX, entity.posY + 1.125, entity.posZ),
 				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX + leftarm.xCoord, entity.posY + 1.125, entity.posZ + leftarm.zCoord),
 				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX - leftarm.xCoord, entity.posY + 1.125, entity.posZ - leftarm.zCoord),
-				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX + leftleg.xCoord, entity.posY + 0.625, entity.posZ + leftleg.zCoord),
-				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX - leftleg.xCoord, entity.posY + 0.625, entity.posZ - leftleg.zCoord),
+				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX + leftleg.xCoord, entity.posY + 0.375, entity.posZ + leftleg.zCoord),
+				new BoneDefinition(EnumSkeletonType.LIMB, -entity.renderYawOffset, 0, entity.posX - leftleg.xCoord, entity.posY + 0.375, entity.posZ - leftleg.zCoord),
 		};
 	};
 	
@@ -136,6 +152,9 @@ public class SkeletonCreator implements IParticleCreator {
 		skullanizer.put(EntityZombie.class.getSimpleName(), BONES_ZOMBIE);
 		skullanizer.put(EntitySkeleton.class.getSimpleName(), BONES_ZOMBIE);
 		skullanizer.put(EntityPigZombie.class.getSimpleName(), BONES_ZOMBIE);
+		
+		skullanizer.put(EntityVillager.class.getSimpleName(), BONES_VILLAGER);
+		skullanizer.put(EntityWitch.class.getSimpleName(), BONES_VILLAGER);
 		
 		skullanizer.put(EntityDummy.class.getSimpleName(), BONES_DUMMY);
 

@@ -17,6 +17,7 @@ public class ConfettiUtil {
 	public static void decideConfetti(EntityLivingBase entity, DamageSource source) {
 		if(entity.isEntityAlive()) return;
 		if(source.damageType.equals(DamageClass.LASER.name())) pulverize(entity);
+		if(source.damageType.equals(DamageClass.ELECTRIC.name())) pulverize(entity);
 		if(source.isExplosion()) gib(entity);
 		if(source.isFireDamage()) cremate(entity);
 	}

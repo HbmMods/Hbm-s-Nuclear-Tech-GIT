@@ -2,6 +2,7 @@ package com.hbm.inventory.recipes;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.hbm.inventory.OreDictManager.*;
@@ -14,6 +15,7 @@ import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.ModItems;
@@ -41,6 +43,7 @@ public class AmmoPressRecipes extends SerializableRecipe {
 		OreDictStack smokeless = new OreDictStack(ANY_SMOKELESS.dust());
 		OreDictStack he = new OreDictStack(ANY_HIGHEXPLOSIVE.ingot());
 		OreDictStack wp = new OreDictStack(P_WHITE.ingot());
+		OreDictStack rp = new OreDictStack(P_RED.dust());
 		ComparableStack cSmall = new ComparableStack(ModItems.casing, 1, EnumCasingType.SMALL);
 		ComparableStack cBig = new ComparableStack(ModItems.casing, 1, EnumCasingType.LARGE);
 		ComparableStack sSmall = new ComparableStack(ModItems.casing, 1, EnumCasingType.SMALL_STEEL);
@@ -229,6 +232,47 @@ public class AmmoPressRecipes extends SerializableRecipe {
 				null,	wp,			null,
 				null,	smokeless,	null,
 				null,	sShell,		null));
+		
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G26_FLARE, 4),
+				null,	rp,			null,
+				null,	smokeless,	null,
+				null,	cBig,		null));
+
+		ComparableStack dyn = new ComparableStack(ModItems.ball_dynamite);
+		OreDictStack coplate = new OreDictStack(CU.plate());
+		OreDictStack diesel = new OreDictStack(Fluids.DIESEL.getDict(1_000));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G40_HE, 4),
+				null,	dyn,		null,
+				null,	smokeless,	null,
+				null,	cBig,		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G40_HEAT, 4),
+				coplate,	he,			null,
+				null,		smokeless,	null,
+				null,		cBig,		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G40_DEMO, 4),
+				null,	he.copy(2),	null,
+				null,	smokeless,	null,
+				null,	cBig,		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G40_INC, 4),
+				null,	diesel,	null,
+				null,	smokeless,	null,
+				null,	cBig,		null));
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G40_PHOSPHORUS, 4),
+				null,	wp,	null,
+				null,	smokeless,	null,
+				null,	cBig,		null));
+	}
+	
+	public static HashMap getRecipes() {
+		HashMap<Object, Object> recipes = new HashMap<Object, Object>();
+		
+		for(AmmoPressRecipe recipe : AmmoPressRecipes.recipes) {
+			List<AStack> inputs = new ArrayList();
+			for(AStack stack : recipe.input) if(stack != null) inputs.add(stack);
+			recipes.put(inputs.toArray(new AStack[0]), recipe.output.copy());
+		}
+		
+		return recipes;
 	}
 
 	@Override

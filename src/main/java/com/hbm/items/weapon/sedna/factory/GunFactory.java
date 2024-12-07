@@ -64,6 +64,7 @@ public class GunFactory {
 		XFactoryCatapult.init();
 		XFactory75Bolt.init();
 		XFactoryFolly.init();
+		XFactoryTurret.init();
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();

@@ -106,7 +106,7 @@ public class EntityDamageUtil {
 				}
 
 				living.attackedAtYaw = (float) (Math.atan2(deltaZ, deltaX) * 180.0D / Math.PI) - living.rotationYaw;
-				if(knockbackMultiplier > 0) living.knockBack(entity, amount, deltaX * knockbackMultiplier, deltaZ * knockbackMultiplier);
+				if(knockbackMultiplier > 0) knockBack(living, entity, amount, deltaX, deltaZ, knockbackMultiplier);
 			} else {
 				living.attackedAtYaw = (float) ((int) (Math.random() * 2.0D) * 180);
 			}
@@ -124,6 +124,24 @@ public class EntityDamageUtil {
 		}
 
 		return true;
+	}
+
+	public static void knockBack(EntityLivingBase living, Entity attacker, float damage, double motionX, double motionZ, double multiplier) {
+		if(living.getRNG().nextDouble() >= living.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).getAttributeValue()) {
+			living.isAirBorne = true;
+			double horizontal = Math.sqrt(motionX * motionX + motionZ * motionZ);
+			double magnitude = 0.4D * multiplier;
+			living.motionX /= 2.0D;
+			living.motionY /= 2.0D;
+			living.motionZ /= 2.0D;
+			living.motionX -= motionX / horizontal * magnitude;
+			living.motionY += (double) magnitude;
+			living.motionZ -= motionZ / horizontal * magnitude;
+
+			if(living.motionY > 0.2D) {
+				living.motionY = 0.2D * multiplier;
+			}
+		}
 	}
 
 	public static void damageEntityNT(EntityLivingBase living, DamageSource source, float amount) {

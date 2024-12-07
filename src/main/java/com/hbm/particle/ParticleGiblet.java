@@ -66,6 +66,7 @@ public class ParticleGiblet extends EntityFX {
 
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glDisable(GL11.GL_BLEND);
 		this.theRenderEngine.bindTexture(texture);
 		
 		/* use this instead of EntityFX.interpPosN since interpPosN isn't set up correctly for the current tick for layer 3 particles */

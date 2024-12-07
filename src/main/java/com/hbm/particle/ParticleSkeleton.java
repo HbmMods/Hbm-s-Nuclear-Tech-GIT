@@ -25,6 +25,7 @@ import net.minecraftforge.client.model.IModelCustom;
 public class ParticleSkeleton extends EntityFX {
 
 	public static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/particle/skeleton.png");
+	public static final ResourceLocation texture_ext = new ResourceLocation(RefStrings.MODID + ":textures/particle/skoilet.png");
 	public static final IModelCustom skeleton = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/effect/skeleton.obj"), false).asVBO();
 	protected EnumSkeletonType type;
 	
@@ -107,8 +108,6 @@ public class ParticleSkeleton extends EntityFX {
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		RenderHelper.enableStandardItemLighting();
-		
-		this.textureManager.bindTexture(texture);
 
 		double pX = prevPosX + (posX - prevPosX) * interp;
 		double pY = prevPosY + (posY - prevPosY) * interp;
@@ -139,9 +138,18 @@ public class ParticleSkeleton extends EntityFX {
 		GL11.glRotated(-90, 0, 1, 0); 
 		
 		switch(type) {
-		case SKULL: skeleton.renderPart("Skull"); break;
-		case TORSO: skeleton.renderPart("Torso"); break;
-		case LIMB: skeleton.renderPart("Limb"); break;
+		case SKULL: 
+			this.textureManager.bindTexture(texture);
+			skeleton.renderPart("Skull"); break;
+		case TORSO: 
+			this.textureManager.bindTexture(texture);
+			skeleton.renderPart("Torso"); break;
+		case LIMB: 
+			this.textureManager.bindTexture(texture);
+			skeleton.renderPart("Limb"); break;
+		case SKULL_VILLAGER: 
+			this.textureManager.bindTexture(texture_ext);
+			skeleton.renderPart("SkullVillager"); break;
 		}
 		
 		GL11.glColor4f(1F, 1F, 1F, 1F);

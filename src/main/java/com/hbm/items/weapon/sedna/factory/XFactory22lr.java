@@ -33,13 +33,13 @@ public class XFactory22lr {
 
 	public static void init() {
 		SpentCasing casing22 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setScale(0.5F);
-		p22_sp = new BulletConfig().setItem(EnumAmmo.P22_SP)
+		p22_sp = new BulletConfig().setItem(EnumAmmo.P22_SP).setKnockback(0F)
 				.setCasing(casing22.clone().register("p22"));
-		p22_fmj = new BulletConfig().setItem(EnumAmmo.P22_FMJ).setDamage(0.8F).setArmorPiercing(0.1F)
+		p22_fmj = new BulletConfig().setItem(EnumAmmo.P22_FMJ).setKnockback(0F).setDamage(0.8F).setArmorPiercing(0.1F)
 				.setCasing(casing22.clone().register("p22fmj"));
-		p22_jhp = new BulletConfig().setItem(EnumAmmo.P22_JHP).setDamage(1.5F).setArmorPiercing(-0.25F)
+		p22_jhp = new BulletConfig().setItem(EnumAmmo.P22_JHP).setKnockback(0F).setDamage(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing22.clone().register("p22jhp"));
-		p22_ap = new BulletConfig().setItem(EnumAmmo.P22_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setArmorPiercing(0.15F)
+		p22_ap = new BulletConfig().setItem(EnumAmmo.P22_AP).setKnockback(0F).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setArmorPiercing(0.15F)
 				.setCasing(casing22.clone().setColor(SpentCasing.COLOR_CASE_44).register("p22ap"));
 
 		ModItems.gun_am180 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
