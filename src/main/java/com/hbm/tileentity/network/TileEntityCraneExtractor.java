@@ -8,6 +8,8 @@ import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.network.TileEntityCraneGrabber.FilterMode;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -258,6 +260,21 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
 	@Override
 	public int[] getFilterSlots() {
 		return new int[]{0,9};
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		NBTTagCompound nbt = super.getSettings(world, x, y, z);
+		nbt.setBoolean("isWhitelist", this.isWhitelist);
+		return nbt;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+		super.pasteSettings(nbt, index, world, player, x, y, z);
+		if(index == 0) {
+			this.isWhitelist = nbt.getBoolean("isWhitelist");
+		}
 	}
 }
 
