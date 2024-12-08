@@ -70,7 +70,7 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 		GL11.glRotated(speen[1], 0, 1, 0);
 		GL11.glTranslated(0, 1.75, 0.5);
 		ResourceManager.g3.renderPart("Magazine");
-		if(bullet[0] != 1) ResourceManager.g3.renderPart("Bullet");
+		if(bullet[0] == 0) ResourceManager.g3.renderPart("Bullet");
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();

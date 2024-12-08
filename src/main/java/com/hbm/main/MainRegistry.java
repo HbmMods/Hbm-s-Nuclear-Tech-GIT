@@ -1467,6 +1467,38 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.ammo_folly");
 		ignoreMappings.add("hbm:item.ammo_folly_nuclear");
 		ignoreMappings.add("hbm:item.ammo_folly_du");
+		ignoreMappings.add("hbm:item.clip_revolver_iron");
+		ignoreMappings.add("hbm:item.clip_revolver");
+		ignoreMappings.add("hbm:item.clip_revolver_gold");
+		ignoreMappings.add("hbm:item.clip_revolver_lead");
+		ignoreMappings.add("hbm:item.clip_revolver_schrabidium");
+		ignoreMappings.add("hbm:item.clip_revolver_cursed");
+		ignoreMappings.add("hbm:item.clip_revolver_nightmare");
+		ignoreMappings.add("hbm:item.clip_revolver_nightmare2");
+		ignoreMappings.add("hbm:item.clip_revolver_pip");
+		ignoreMappings.add("hbm:item.clip_revolver_nopip");
+		ignoreMappings.add("hbm:item.clip_rpg");
+		ignoreMappings.add("hbm:item.clip_stinger");
+		ignoreMappings.add("hbm:item.clip_fatman");
+		ignoreMappings.add("hbm:item.clip_mirv");
+		ignoreMappings.add("hbm:item.clip_bf");
+		ignoreMappings.add("hbm:item.clip_mp40");
+		ignoreMappings.add("hbm:item.clip_uzi");
+		ignoreMappings.add("hbm:item.clip_uboinik");
+		ignoreMappings.add("hbm:item.clip_lever_action");
+		ignoreMappings.add("hbm:item.clip_bolt_action");
+		ignoreMappings.add("hbm:item.clip_xvl1456");
+		ignoreMappings.add("hbm:item.clip_osipr");
+		ignoreMappings.add("hbm:item.clip_immolator");
+		ignoreMappings.add("hbm:item.clip_cryolator");
+		ignoreMappings.add("hbm:item.clip_mp");
+		ignoreMappings.add("hbm:item.clip_emp");
+		ignoreMappings.add("hbm:item.clip_jack");
+		ignoreMappings.add("hbm:item.clip_spark");
+		ignoreMappings.add("hbm:item.clip_hp");
+		ignoreMappings.add("hbm:item.clip_euthanasia");
+		ignoreMappings.add("hbm:item.clip_defabricator");
+		ignoreMappings.add("hbm:item.ammo_folly_du");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

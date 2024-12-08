@@ -27,6 +27,7 @@ public class ItemPoolsC130 {
 					weighted(ModBlocks.machine_diesel, 0, 1, 1, 1),
 					weighted(ModItems.geiger_counter, 0, 1, 1, 2),
 					weighted(ModItems.med_bag, 0, 1, 1, 3),
+					weighted(ModItems.radaway, 0, 1, 5, 10),
 			};
 		}};
 

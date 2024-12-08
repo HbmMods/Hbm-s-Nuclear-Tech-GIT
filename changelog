@@ -80,3 +80,4 @@
 * Fixed slag crashing the game when trying to flow into the void
 * Fixed issue where drones that are too fast may skip waypoints
 * Fixed the electrolyzer speed upgrades not increasing energy consumption as advertised
+* Fixed giblets rendering in fullbright even in the dark

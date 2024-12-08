@@ -52,18 +52,6 @@ public class BlockCrate extends BlockFalling {
 		// Supply Crate
 		BlockCrate.addToListWithWeight(crateList, ModItems.syringe_metal_stimpak, 10);
 		BlockCrate.addToListWithWeight(crateList, ModItems.syringe_antidote, 5);
-		BlockCrate.addToListWithWeight(crateList, ModItems.clip_revolver_iron, 9);
-		BlockCrate.addToListWithWeight(crateList, ModItems.clip_revolver, 7);
-		BlockCrate.addToListWithWeight(crateList, ModItems.clip_revolver_gold, 4);
-		BlockCrate.addToListWithWeight(crateList, ModItems.clip_revolver_lead, 6);
-		BlockCrate.addToListWithWeight(crateList, ModItems.clip_revolver_cursed, 5);
-		BlockCrate.addToListWithWeight(crateList, ModItems.clip_rpg, 5);
-		BlockCrate.addToListWithWeight(crateList, ModItems.clip_fatman, 1);
-		BlockCrate.addToListWithWeight(crateList, ModItems.clip_mp40, 7);
-		BlockCrate.addToListWithWeight(crateList, ModItems.clip_uzi, 7);
-		BlockCrate.addToListWithWeight(crateList, ModItems.clip_uboinik, 7);
-		BlockCrate.addToListWithWeight(crateList, ModItems.clip_lever_action, 5);
-		BlockCrate.addToListWithWeight(crateList, ModItems.clip_bolt_action, 5);
 		BlockCrate.addToListWithWeight(crateList, ModItems.grenade_generic, 8);
 		BlockCrate.addToListWithWeight(crateList, ModItems.grenade_strong, 6);
 		BlockCrate.addToListWithWeight(crateList, ModItems.grenade_mk2, 4);

@@ -2,6 +2,7 @@ package com.hbm.blocks.generic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.hbm.items.ModItems;
 
@@ -10,6 +11,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -30,6 +32,8 @@ public class BlockSupplyCrate extends BlockContainer {
 	@Override public int getRenderType() { return BlockCanCrate.renderID; }
 	@Override public boolean isOpaqueCube() { return false; }
 	@Override public boolean renderAsNormalBlock() { return false; }
+
+	@Override public Item getItemDropped(int i, Random rand, int j) { return null; }
 	
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
