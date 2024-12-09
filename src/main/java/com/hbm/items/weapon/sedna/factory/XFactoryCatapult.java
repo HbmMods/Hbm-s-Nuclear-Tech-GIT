@@ -133,8 +133,8 @@ public class XFactoryCatapult {
 		nuke_standard = new BulletConfig().setItem(EnumAmmo.NUKE_STANDARD).setLife(300).setVel(3F).setGrav(0.025F).setOnImpact(LAMBDA_NUKE_STANDARD);
 		nuke_demo = new BulletConfig().setItem(EnumAmmo.NUKE_DEMO).setLife(300).setVel(3F).setGrav(0.025F).setOnImpact(LAMBDA_NUKE_DEMO);
 		nuke_high = new BulletConfig().setItem(EnumAmmo.NUKE_HIGH).setLife(300).setVel(3F).setGrav(0.025F).setOnImpact(LAMBDA_NUKE_HIGH);
-		nuke_tots = new BulletConfig().setItem(EnumAmmo.NUKE_TOTS).setProjectiles(8).setLife(300).setVel(3F).setGrav(0.025F).setSpread(0.1F).setOnImpact(LAMBDA_NUKE_TINYTOT);
-		nuke_hive = new BulletConfig().setItem(EnumAmmo.NUKE_HIVE).setProjectiles(12).setLife(300).setVel(1F).setGrav(0.025F).setSpread(0.15F).setDamage(0.5F).setOnImpact(LAMBDA_NUKE_HIVE);
+		nuke_tots = new BulletConfig().setItem(EnumAmmo.NUKE_TOTS).setProjectiles(8).setLife(300).setVel(3F).setGrav(0.025F).setSpread(0.1F).setDamage(0.35F).setOnImpact(LAMBDA_NUKE_TINYTOT);
+		nuke_hive = new BulletConfig().setItem(EnumAmmo.NUKE_HIVE).setProjectiles(12).setLife(300).setVel(1F).setGrav(0.025F).setSpread(0.15F).setDamage(0.25F).setOnImpact(LAMBDA_NUKE_HIVE);
 
 		ModItems.gun_fatman = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(20).inspect(30).crosshair(Crosshair.L_CIRCUMFLEX).hideCrosshair(false)

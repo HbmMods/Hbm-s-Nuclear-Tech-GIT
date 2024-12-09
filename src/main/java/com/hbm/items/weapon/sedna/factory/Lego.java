@@ -107,6 +107,10 @@ public class Lego {
 				}
 			}
 		}
+		
+		if(state == GunState.RELOADING) {
+			ItemGunBaseNT.setReloadCancel(stack, true);
+		}
 	}
 	
 	/** If IDLE, switch mode between 0 and 1. */

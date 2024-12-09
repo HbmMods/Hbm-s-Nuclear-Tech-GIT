@@ -89,6 +89,8 @@ public class XFactoryRocket {
 		if(mop.typeOfHit == mop.typeOfHit.ENTITY && mop.entityHit instanceof EntityLivingBase) {
 			EntityLivingBase living = (EntityLivingBase) mop.entityHit;
 			EntityDamageUtil.attackEntityFromNT(living, bullet.config.getDamage(bullet, bullet.getThrower(), DamageClass.EXPLOSIVE), bullet.damage * 3F, true, true, 0.5F, 5F, 0.2F);
+		} else if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
+			mop.entityHit.attackEntityFrom(bullet.config.getDamage(bullet, bullet.getThrower(), DamageClass.EXPLOSIVE), bullet.damage * 3F);
 		}
 	};
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE_DEMO = (bullet, mop) -> {

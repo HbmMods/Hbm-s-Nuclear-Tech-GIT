@@ -63,9 +63,10 @@ public class GunStateDecider {
 			IMagazine mag = rec.getMagazine(stack);
 			
 			mag.reloadAction(stack, ctx.inventory);
+			boolean cancel = ItemGunBaseNT.getReloadCancel(stack);
 			
 			//if after reloading the gun can still reload, assume a tube mag and resume reloading
-			if(mag.canReload(stack, ctx.inventory)) {
+			if(!cancel && mag.canReload(stack, ctx.inventory)) {
 				ItemGunBaseNT.setState(stack, gunIndex, GunState.RELOADING);
 				ItemGunBaseNT.setTimer(stack, gunIndex, rec.getReloadCycleDuration(stack));
 				ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD_CYCLE, gunIndex);
@@ -82,6 +83,8 @@ public class GunStateDecider {
 					ItemGunBaseNT.setTimer(stack, gunIndex, duration);
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD_END, gunIndex);
 				}
+				
+				ItemGunBaseNT.setReloadCancel(stack, false);
 			}
 			
 			mag.setAmountAfterReload(stack, mag.getAmount(stack, ctx.inventory));

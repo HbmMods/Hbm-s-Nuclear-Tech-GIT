@@ -33,6 +33,7 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 		this.ignoreFrustumCheck = true;
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
+		this.isImmuneToFire = true;
 	}
 	
 	public EntityLivingBase getThrower() { return this.thrower; }
@@ -198,4 +199,6 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 		this.rotationYaw = buf.readFloat();
 		this.rotationPitch = buf.readFloat();
 	}
+	
+	@Override @SideOnly(Side.CLIENT) public boolean canRenderOnFire() { return false; }
 }

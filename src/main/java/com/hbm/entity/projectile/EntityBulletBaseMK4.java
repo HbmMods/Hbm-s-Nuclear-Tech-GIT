@@ -5,6 +5,8 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.TrackerUtil;
 import com.hbm.util.Vec3NT;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityTrackerEntry;
@@ -29,6 +31,7 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		super(world);
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
+		this.isImmuneToFire = true;
 	}
 	
 	public EntityBulletBaseMK4(EntityLivingBase entity, BulletConfig config, float baseDamage, float gunSpread, double sideOffset, double heightOffset, double frontOffset) {
@@ -181,4 +184,6 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 	@Override public boolean doesPenetrate() { return this.config.doesPenetrate; }
 	@Override public boolean isSpectral() { return this.config.isSpectral; }
 	@Override public int selfDamageDelay() { return this.config.selfDamageDelay; }
+	
+	@Override @SideOnly(Side.CLIENT) public boolean canRenderOnFire() { return false; }
 }

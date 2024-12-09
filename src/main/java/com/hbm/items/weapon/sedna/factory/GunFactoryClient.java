@@ -16,6 +16,7 @@ import static com.hbm.items.weapon.sedna.factory.XFactoryBlackPowder.*;
 import static com.hbm.items.weapon.sedna.factory.XFactoryCatapult.*;
 import static com.hbm.items.weapon.sedna.factory.XFactoryEnergy.*;
 import static com.hbm.items.weapon.sedna.factory.XFactoryFolly.*;
+import static com.hbm.items.weapon.sedna.factory.XFactoryTurret.*;
 import static com.hbm.items.weapon.sedna.factory.XFactoryRocket.*;
 
 import java.util.function.BiConsumer;
@@ -169,6 +170,8 @@ public class GunFactoryClient {
 		
 		folly_sm.setRendererBeam(LegoClient.RENDER_FOLLY);
 		folly_nuke.setRenderer(LegoClient.RENDER_BIG_NUKE);
+		
+		setRendererBulk(LegoClient.RENDER_GRENADE, shell_normal, shell_explosive, shell_ap, shell_du, shell_w9); //TODO: change the sabots
 		
 		//HUDS
 		((ItemGunBaseNT) ModItems.gun_debug)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);

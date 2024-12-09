@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.interfaces.ICustomDamageHandler;
 import com.hbm.explosion.vanillant.interfaces.IEntityProcessor;
@@ -96,9 +97,11 @@ public class EntityProcessorCross implements IEntityProcessor {
 					if(!damageMap.containsKey(entity) || damageMap.get(entity) < dmg) damageMap.put(entity, dmg);
 					double enchKnockback = EnchantmentProtection.func_92092_a(entity, knockback);
 					
-					entity.motionX += deltaX * enchKnockback;
-					entity.motionY += deltaY * enchKnockback;
-					entity.motionZ += deltaZ * enchKnockback;
+					if(!(entity instanceof EntityBulletBaseMK4)) {
+						entity.motionX += deltaX * enchKnockback;
+						entity.motionY += deltaY * enchKnockback;
+						entity.motionZ += deltaZ * enchKnockback;
+					}
 
 					if(entity instanceof EntityPlayer) {
 						affectedPlayers.put((EntityPlayer) entity, Vec3.createVectorHelper(deltaX * knockback, deltaY * knockback, deltaZ * knockback));

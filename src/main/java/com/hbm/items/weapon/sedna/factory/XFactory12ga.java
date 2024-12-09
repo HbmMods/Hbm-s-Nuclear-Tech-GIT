@@ -180,6 +180,9 @@ public class XFactory12ga {
 				}
 			}
 		}
+		if(state == GunState.RELOADING) {
+			ItemGunBaseNT.setReloadCancel(stack, true);
+		}
 	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_MARESLEG_ANIMS = (stack, type) -> {
