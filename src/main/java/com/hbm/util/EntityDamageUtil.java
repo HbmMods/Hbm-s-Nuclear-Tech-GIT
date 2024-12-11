@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -38,6 +39,11 @@ public class EntityDamageUtil {
 	}
 	
 	public static boolean attackEntityFromNT(EntityLivingBase living, DamageSource source, float amount, boolean ignoreIFrame, boolean allowSpecialCancel, double knockbackMultiplier, float pierceDT, float pierce) {
+		if(living instanceof EntityPlayerMP && source.getEntity() instanceof EntityPlayer) {
+			EntityPlayerMP playerMP = (EntityPlayerMP) living;
+			EntityPlayer attacker = (EntityPlayer) source.getEntity();
+			if(!playerMP.canAttackPlayer(attacker)) return false; //handles wack-ass no PVP rule as well as scoreboard friendly fire
+		}
 		DamageResistanceHandler.setup(pierceDT, pierce);
 		boolean ret = attackEntityFromNTInternal(living, source, amount, ignoreIFrame, allowSpecialCancel, knockbackMultiplier);
 		//boolean ret = living.attackEntityFrom(source, amount);
