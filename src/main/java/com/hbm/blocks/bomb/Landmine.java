@@ -70,14 +70,10 @@ public class Landmine extends BlockContainer implements IBomb {
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 		float f = 0.0625F;
-		if(this == ModBlocks.mine_ap)
-			this.setBlockBounds(6 * f, 0.0F, 6 * f, 10 * f, 2 * f, 10 * f);
-		if(this == ModBlocks.mine_he)
-			this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
-		if(this == ModBlocks.mine_shrap)
-			this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
-		if(this == ModBlocks.mine_fat)
-			this.setBlockBounds(5 * f, 0.0F, 4 * f, 11 * f, 6 * f, 12 * f);
+		if(this == ModBlocks.mine_ap) this.setBlockBounds(5 * f, 0.0F, 5 * f, 11 * f, 1 * f, 11 * f);
+		if(this == ModBlocks.mine_he) this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
+		if(this == ModBlocks.mine_shrap) this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
+		if(this == ModBlocks.mine_fat) this.setBlockBounds(5 * f, 0.0F, 4 * f, 11 * f, 6 * f, 12 * f);
 	}
 
 	@Override
@@ -182,5 +178,4 @@ public class Landmine extends BlockContainer implements IBomb {
 
 		return BombReturnCode.DETONATED;
 	}
-
 }

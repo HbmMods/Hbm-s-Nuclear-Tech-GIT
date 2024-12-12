@@ -60,6 +60,7 @@
 * Unsats and aromatics can now be filled into gas canisters
 * Basalt asbestos ore no longer creates asbestos particles every block update, meaning volcanoes no longer cause massive delays with chunk rendering due to constant block changes
 * Rockets shot by the rocket turret are no longer subject to gravity and lock onto the intended target
+* Updated the anti-personell mine's model, it also now has 4 different textures which are automatically applied depending on whether the mine is placed underground or what biome it is in
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines

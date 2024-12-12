@@ -45,7 +45,7 @@ public class XFactory357 {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_ATLAS_ANIMS).orchestra(Orchestras.ORCHESTRA_ATLAS)
 				).setUnlocalizedName("gun_light_revolver");
-		ModItems.gun_light_revolver_atlas = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
+		ModItems.gun_light_revolver_atlas = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
 				.dura(300).draw(4).inspect(23).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(12.5F).delay(16).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 1.0F)
