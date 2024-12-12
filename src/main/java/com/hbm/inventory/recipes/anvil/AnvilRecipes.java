@@ -81,10 +81,11 @@ public class AnvilRecipes {
 		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.cobalt_decorated_shovel, 1), new ComparableStack(ModItems.cobalt_shovel), new ComparableStack(ModItems.ingot_meteorite)));
 		smithingRecipes.add(new AnvilSmithingHotRecipe(3, new ItemStack(ModItems.cobalt_decorated_hoe, 1), new ComparableStack(ModItems.cobalt_hoe), new ComparableStack(ModItems.ingot_meteorite)));
 
-		smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModItems.gun_ar15, 1), new ComparableStack(ModItems.gun_thompson), new ComparableStack(ModItems.pipe_lead)));
 		smithingRecipes.add(new AnvilSmithingRecipe(1916169, new ItemStack(ModItems.wings_murk, 1), new ComparableStack(ModItems.wings_limp), new ComparableStack(ModItems.particle_tachyon)));
 		smithingRecipes.add(new AnvilSmithingRecipe(4, new ItemStack(ModItems.flask_infusion, 1, EnumInfusion.SHIELD.ordinal()), new ComparableStack(ModItems.gem_alexandrite), new ComparableStack(ModItems.bottle_nuka)));
 
+		smithingRecipes.add(new AnvilSmithingRecipe(1, new ItemStack(ModItems.ingot_gunmetal, 1), new OreDictStack(CU.ingot()), new OreDictStack(AL.ingot())));
+		
 		smithingRecipes.add(new AnvilSmithingMold(0, new OreDictStack(GOLD.nugget()), new OreDictStack("nugget")));
 		smithingRecipes.add(new AnvilSmithingMold(1, new OreDictStack(U.billet()),  new OreDictStack("billet")));
 		smithingRecipes.add(new AnvilSmithingMold(2, new OreDictStack(IRON.ingot()),  new OreDictStack("ingot")));
@@ -572,6 +573,11 @@ public class AnvilRecipes {
 	
 	public static void registerConstructionAmmo() {
 
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.stamp_iron_flat), new OreDictStack(GUNMETAL.ingot(), 2)}, new AnvilOutput(new ItemStack(ModItems.stamp_9))).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.stamp_iron_flat), new OreDictStack(GUNMETAL.ingot(), 2)}, new AnvilOutput(new ItemStack(ModItems.stamp_50))).setTier(2));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.stamp_desh_flat), new OreDictStack(WEAPONSTEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.stamp_desh_9))).setTier(4));
+		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.stamp_desh_flat), new OreDictStack(WEAPONSTEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.stamp_desh_50))).setTier(4));
+		
 		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.mold_base), new OreDictStack(STEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.mold, 1, 22))).setTier(2));
 		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.mold_base), new OreDictStack(STEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.mold, 1, 23))).setTier(2));
 		constructionRecipes.add(new AnvilConstructionRecipe(new AStack[]{new ComparableStack(ModItems.mold_base), new OreDictStack(STEEL.ingot(), 4)}, new AnvilOutput(new ItemStack(ModItems.mold, 1, 24))).setTier(2));

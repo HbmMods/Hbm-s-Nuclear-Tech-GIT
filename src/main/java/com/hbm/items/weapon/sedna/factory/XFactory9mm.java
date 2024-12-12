@@ -57,7 +57,7 @@ public class XFactory9mm {
 		ModItems.gun_lag = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(1_700).draw(7).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(25F).delay(20).dry(4).spread(0.005F).reload(53).jam(44).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(25F).delay(4).dry(4).spread(0.005F).reload(53).jam(44).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 17).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))

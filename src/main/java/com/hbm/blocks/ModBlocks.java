@@ -2851,8 +2851,8 @@ public class ModBlocks {
 		
 		//Mines
 		GameRegistry.registerBlock(mine_ap, mine_ap.getUnlocalizedName());
-		GameRegistry.registerBlock(mine_he, mine_he.getUnlocalizedName());
 		GameRegistry.registerBlock(mine_shrap, mine_shrap.getUnlocalizedName());
+		GameRegistry.registerBlock(mine_he, mine_he.getUnlocalizedName());
 		GameRegistry.registerBlock(mine_fat, mine_fat.getUnlocalizedName());
 		
 		//Block Bombs

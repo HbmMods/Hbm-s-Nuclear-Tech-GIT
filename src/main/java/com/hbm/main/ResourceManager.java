@@ -60,7 +60,6 @@ public class ResourceManager {
 	
 	//Landmines
 	public static final IModelCustom mine_ap = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/ap_mine.obj")).asVBO();
-	public static final IModelCustom mine_he = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mine_he.obj"));
 	public static final IModelCustom mine_marelet = new HFRWavefrontObject(new ResourceLocation(RefStrings.MODID, "models/bombs/marelet.obj")).asVBO();
 	public static final IModelCustom mine_fat = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/mine_fat.obj"));
 	
@@ -435,7 +434,7 @@ public class ResourceManager {
 	public static final ResourceLocation mine_ap_stone_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/mine_ap_stone.png");
 	//public static final ResourceLocation mine_he_tex = new ResourceLocation(RefStrings.MODID, "textures/models/mine_he.png");
 	public static final ResourceLocation mine_marelet_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/mine_marelet.png");
-	public static final ResourceLocation mine_shrap_tex = new ResourceLocation(RefStrings.MODID, "textures/models/mine_shrap.png");
+	public static final ResourceLocation mine_shrap_tex = new ResourceLocation(RefStrings.MODID, "textures/models/bombs/mine_shrapnel.png");
 	public static final ResourceLocation mine_fat_tex = new ResourceLocation(RefStrings.MODID, "textures/models/mine_fat.png");
 	
 	//Heaters

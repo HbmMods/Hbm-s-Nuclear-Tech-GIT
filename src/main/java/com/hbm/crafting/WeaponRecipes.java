@@ -312,9 +312,9 @@ public class WeaponRecipes {
 		CraftingManager.addRecipeAuto(new ItemStack(ModItems.grenade_if_null, 1), new Object[] { "BAB", "AGA", "BAB", 'G', ModItems.grenade_if_generic, 'A', ModItems.undefined, 'B', BIGMT.ingot() });
 
 		//Mines
-		CraftingManager.addRecipeAuto(new ItemStack(ModBlocks.mine_ap, 4), new Object[] { "C", "P", "T", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'P', IRON.plate(), 'T', ANY_PLASTICEXPLOSIVE.ingot() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModBlocks.mine_ap, 4), new Object[] { "I", "C", "S", 'I', ModItems.plate_polymer, 'C', ANY_SMOKELESS.dust(), 'S', STEEL.ingot() });
+		CraftingManager.addRecipeAuto(new ItemStack(ModBlocks.mine_shrap, 1), new Object[] { "L", "M", 'M', ModBlocks.mine_ap, 'L', ModItems.pellet_buckshot });
 		CraftingManager.addRecipeAuto(new ItemStack(ModBlocks.mine_he, 1), new Object[] { " C ", "PTP", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'P', STEEL.plate(), 'T', ANY_HIGHEXPLOSIVE.ingot() });
-		CraftingManager.addRecipeAuto(new ItemStack(ModBlocks.mine_shrap, 2), new Object[] { "LLL", " C ", "PTP", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC), 'P', STEEL.plate(), 'T', ModBlocks.det_cord, 'L', ModItems.pellet_buckshot });
 		CraftingManager.addRecipeAuto(new ItemStack(ModBlocks.mine_fat, 1), new Object[] { "CDN", 'C', DictFrame.fromOne(ModItems.circuit, EnumCircuitType.ANALOG), 'D', ModItems.ducttape, 'N', ModItems.ammo_nuke });
 		
 		//Nuke parts
