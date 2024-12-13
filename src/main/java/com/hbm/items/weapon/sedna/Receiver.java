@@ -138,6 +138,5 @@ public class Receiver {
 	}
 	
 	public Receiver setupStandardFire() {	return this.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE)	.fire(Lego.LAMBDA_STANDARD_FIRE); }
-	public Receiver setupBeamFire() {		return this.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE)	.fire(Lego.LAMBDA_BEAM_FIRE); }
 	public Receiver setupLockonFire() {		return this.canFire(Lego.LAMBDA_LOCKON_CAN_FIRE)	.fire(Lego.LAMBDA_STANDARD_FIRE); }
 }

@@ -89,9 +89,9 @@ public class ItemRenderBolter extends ItemRenderWeaponBase {
 	@Override
 	public void setupThirdPerson(ItemStack stack) {
 		super.setupThirdPerson(stack);
-		double scale = 3D;
+		double scale = 2.5D;
 		GL11.glScaled(scale, scale, scale);
-		GL11.glTranslated(0, 0.25, 1.25);
+		GL11.glTranslated(0, -0.75, 1.25);
 
 	}
 

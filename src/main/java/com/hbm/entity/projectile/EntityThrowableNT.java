@@ -193,7 +193,7 @@ public abstract class EntityThrowableNT extends Entity implements IProjectile {
 				for(int j = 0; j < list.size(); ++j) {
 					Entity entity = (Entity) list.get(j);
 					
-					if(entity.canBeCollidedWith() && (entity != thrower || this.ticksInAir >= this.selfDamageDelay())) {
+					if(entity.canBeCollidedWith() && (entity != thrower || this.ticksInAir >= this.selfDamageDelay()) && entity.isEntityAlive()) {
 						double hitbox = 0.3F;
 						AxisAlignedBB aabb = entity.boundingBox.expand(hitbox, hitbox, hitbox);
 						MovingObjectPosition hitMop = aabb.calculateIntercept(pos, nextPos);

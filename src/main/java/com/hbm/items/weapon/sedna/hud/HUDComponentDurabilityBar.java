@@ -33,7 +33,8 @@ public class HUDComponentDurabilityBar implements IHUDComponent {
 
 	@Override
 	public void renderHUDComponent(Pre event, ElementType type, EntityPlayer player, ItemStack stack, int bottomOffset, int gunIndex) {
-		
+
+		if(type != type.HOTBAR) return;
 		ScaledResolution resolution = event.resolution;
 		Minecraft mc = Minecraft.getMinecraft();
 

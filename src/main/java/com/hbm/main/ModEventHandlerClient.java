@@ -56,6 +56,10 @@ import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.wiaj.GuiWorldInAJar;
 import com.hbm.wiaj.cannery.CanneryBase;
 import com.hbm.wiaj.cannery.Jars;
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorUtil;
+import com.hbm.util.DamageResistanceHandler;
+import com.hbm.util.ArmorRegistry.HazardClass;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -678,6 +682,9 @@ public class ModEventHandlerClient {
 		ItemStack stack = event.itemStack;
 		List<String> list = event.toolTip;
 
+		/// DAMAGE RESISTANCE ///
+		DamageResistanceHandler.addInfo(stack, list);
+
 		/// HAZMAT INFO ///
 		List<HazardClass> hazInfo = ArmorRegistry.hazardClasses.get(stack.getItem());
 
@@ -1277,6 +1284,7 @@ public class ModEventHandlerClient {
 	public static IIcon particleBase;
 	public static IIcon particleLeaf;
 	public static IIcon particleSplash;
+	public static IIcon particleAshes;
 
 	@SubscribeEvent
 	public void onTextureStitch(TextureStitchEvent.Pre event) {
@@ -1285,6 +1293,7 @@ public class ModEventHandlerClient {
 			particleBase = event.map.registerIcon(RefStrings.MODID + ":particle/particle_base");
 			particleLeaf = event.map.registerIcon(RefStrings.MODID + ":particle/dead_leaf");
 			particleSplash = event.map.registerIcon(RefStrings.MODID + ":particle/particle_splash");
+			particleAshes = event.map.registerIcon(RefStrings.MODID + ":particle/particle_ashes");
 		}
 	}
 

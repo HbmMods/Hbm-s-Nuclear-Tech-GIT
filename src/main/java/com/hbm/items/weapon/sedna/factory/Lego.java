@@ -6,6 +6,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.entity.projectile.EntityBulletBaseMK4CL;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
@@ -13,6 +14,7 @@ import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.BulletConfig.ProjectileType;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
@@ -20,7 +22,7 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.SmokeNode;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
-import com.hbm.particle.helper.BlackPowderHelper;
+import com.hbm.particle.helper.BlackPowderCreator;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.HbmAnimations.AnimType;
@@ -104,6 +106,10 @@ public class Lego {
 					ItemGunBaseNT.setTimer(stack, index, rec.getDelayAfterDryFire(stack));
 				}
 			}
+		}
+		
+		if(state == GunState.RELOADING) {
+			ItemGunBaseNT.setReloadCancel(stack, true);
 		}
 	}
 	
@@ -194,9 +200,6 @@ public class Lego {
 		doStandardFire(stack, ctx, AnimType.CYCLE, true);
 		ItemGunBaseNT.setIsLockedOn(stack, false);
 	};
-	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_BEAM_FIRE = (stack, ctx) -> {
-		doBeamFire(stack, ctx, AnimType.CYCLE, true);
-	};
 	
 	public static void doStandardFire(ItemStack stack, LambdaContext ctx, AnimType anim, boolean calcWear) {
 		EntityLivingBase entity = ctx.entity;
@@ -224,45 +227,21 @@ public class Lego {
 		for(int i = 0; i < projectiles; i++) {
 			float damage = calcDamage(ctx, stack, primary, calcWear, index);
 			float spread = calcSpread(ctx, stack, primary, calcWear, index, aim);
-			EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
-			if(ItemGunBaseNT.getIsLockedOn(stack)) mk4.lockonTarget = entity.worldObj.getEntityByID(ItemGunBaseNT.getLockonTarget(stack));
-			if(i == 0 && config.blackPowder) BlackPowderHelper.composeEffect(entity.worldObj, mk4.posX, mk4.posY, mk4.posZ, mk4.motionX, mk4.motionY, mk4.motionZ, 10, 0.25F, 0.5F, 10, 0.25F);
-			entity.worldObj.spawnEntityInWorld(mk4);
-		}
-		
-		mag.useUpAmmo(stack, ctx.inventory, 1);
-		if(calcWear) ItemGunBaseNT.setWear(stack, index, Math.min(ItemGunBaseNT.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
-	}
-	
-	//shittily copy pasted because god damn this sucks ass why do projectiles need this much fucking setup jesus christ have mercy
-	public static void doBeamFire(ItemStack stack, LambdaContext ctx, AnimType anim, boolean calcWear) {
-		EntityLivingBase entity = ctx.entity;
-		EntityPlayer player = ctx.getPlayer();
-		int index = ctx.configIndex;
-		if(anim != null) ItemGunBaseNT.playAnimation(player, stack, anim, ctx.configIndex);
-		
-		float aim = ItemGunBaseNT.getIsAiming(stack) ? 0.25F : 1F;
-		Receiver primary = ctx.config.getReceivers(stack)[0];
-		IMagazine mag = primary.getMagazine(stack);
-		BulletConfig config = (BulletConfig) mag.getType(stack, ctx.inventory);
-		
-		Vec3 offset = primary.getProjectileOffset(stack);
-		double forwardOffset = offset.xCoord;
-		double heightOffset = offset.yCoord;
-		double sideOffset = ItemGunBaseNT.getIsAiming(stack) ? 0 : offset.zCoord;
-		
-		/*forwardOffset = 0.75;
-		heightOffset = -0.0625 * 1.5;
-		sideOffset = -0.1875D;*/
-		
-		int projectiles = config.projectilesMin;
-		if(config.projectilesMax > config.projectilesMin) projectiles += entity.getRNG().nextInt(config.projectilesMax - config.projectilesMin + 1);
-		
-		for(int i = 0; i < projectiles; i++) {
-			float damage = calcDamage(ctx, stack, primary, calcWear, index);
-			float spread = calcSpread(ctx, stack, primary, calcWear, index, aim);
-			EntityBulletBeamBase mk4 = new EntityBulletBeamBase(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
-			entity.worldObj.spawnEntityInWorld(mk4);
+			
+			if(config.pType == ProjectileType.BULLET) {
+				EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
+				if(ItemGunBaseNT.getIsLockedOn(stack)) mk4.lockonTarget = entity.worldObj.getEntityByID(ItemGunBaseNT.getLockonTarget(stack));
+				if(i == 0 && config.blackPowder) BlackPowderCreator.composeEffect(entity.worldObj, mk4.posX, mk4.posY, mk4.posZ, mk4.motionX, mk4.motionY, mk4.motionZ, 10, 0.25F, 0.5F, 10, 0.25F);
+				entity.worldObj.spawnEntityInWorld(mk4);
+			} else if(config.pType == ProjectileType.BULLET_CHUNKLOADING) {
+				EntityBulletBaseMK4CL mk4 = new EntityBulletBaseMK4CL(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
+				if(ItemGunBaseNT.getIsLockedOn(stack)) mk4.lockonTarget = entity.worldObj.getEntityByID(ItemGunBaseNT.getLockonTarget(stack));
+				if(i == 0 && config.blackPowder) BlackPowderCreator.composeEffect(entity.worldObj, mk4.posX, mk4.posY, mk4.posZ, mk4.motionX, mk4.motionY, mk4.motionZ, 10, 0.25F, 0.5F, 10, 0.25F);
+				entity.worldObj.spawnEntityInWorld(mk4);
+			} else if(config.pType == ProjectileType.BEAM) {
+				EntityBulletBeamBase mk4 = new EntityBulletBeamBase(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
+				entity.worldObj.spawnEntityInWorld(mk4);
+			}
 		}
 		
 		mag.useUpAmmo(stack, ctx.inventory, 1);
@@ -300,7 +279,7 @@ public class Lego {
 	public static void standardExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range) { standardExplode(bullet, mop, range, 1F); }
 	public static void standardExplode(EntityBulletBaseMK4 bullet, MovingObjectPosition mop, float range, float damageMod) {
 		ExplosionVNT vnt = new ExplosionVNT(bullet.worldObj, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, range);
-		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage * damageMod));
+		vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage * damageMod).setupPiercing(bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent));
 		vnt.setPlayerProcessor(new PlayerProcessorStandard());
 		vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
 		vnt.explode();

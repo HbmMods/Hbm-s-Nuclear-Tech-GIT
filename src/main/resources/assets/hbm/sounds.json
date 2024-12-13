@@ -233,6 +233,19 @@
     "weapon.fire.tauRelease": {"category": "player", "sounds": ["weapon/fire/tauRelease1", "weapon/fire/tauRelease2", "weapon/fire/tauRelease3"]},
     "weapon.fire.fatman": {"category": "player", "sounds": ["weapon/fire/fatman"]},
     "weapon.fire.smack": {"category": "player", "sounds": ["weapon/fire/smack"]},
+    "weapon.fire.vstar": {"category": "player", "sounds": ["weapon/fire/vstar"]},
+    "weapon.fire.loudestNoiseOnEarth": {"category": "player", "sounds": ["weapon/fire/loudestNoiseOnEarth"]},
+    "weapon.fire.disintegration": {"category": "player", "sounds": ["weapon/fire/disintegration"]},
+    "weapon.fire.laser": {"category": "player", "sounds": ["weapon/fire/laser"]},
+    "weapon.fire.laserGatling": {"category": "player", "sounds": ["weapon/fire/laserGatling"]},
+    "weapon.fire.silenced": {"category": "player", "sounds": ["weapon/fire/silenced"]},
+    "weapon.fire.assault": {"category": "player", "sounds": ["weapon/fire/assault"]},
+    "weapon.fire.pistol": {"category": "player", "sounds": ["weapon/fire/pistol"]},
+    "weapon.fire.rifle": {"category": "player", "sounds": ["weapon/fire/rifle"]},
+    "weapon.fire.rifleHeavy": {"category": "player", "sounds": ["weapon/fire/rifleHeavy"]},
+    "weapon.fire.shotgun": {"category": "player", "sounds": ["weapon/fire/shotgun"]},
+    "weapon.fire.shotgunAlt": {"category": "player", "sounds": ["weapon/fire/shotgunAlt"]},
+    "weapon.fire.shotgunAuto": {"category": "player", "sounds": ["weapon/fire/shotgunAuto"]},
     
     "weapon.reload.boltClose": {"category": "player", "sounds": ["weapon/reload/boltClose"]},
     "weapon.reload.boltOpen": {"category": "player", "sounds": ["weapon/reload/boltOpen"]},
@@ -261,6 +274,7 @@
     "weapon.reload.tubeFwoomp": {"category": "player", "sounds": ["weapon/reload/tubeFwoomp"]},
     "weapon.reload.impact": {"category": "player", "sounds": ["weapon/reload/impact1", "weapon/reload/impact2", "weapon/reload/impact3"]},
     "weapon.reload.fatmanFull": {"category": "player", "sounds": ["weapon/reload/fatmanFull"]},
+    "weapon.reload.screw": {"category": "player", "sounds": ["weapon/reload/screw"]},
 
     "weapon.foley.gunWhack": {"category": "player", "sounds": ["weapon/foley/gunWhack", "weapon/foley/gunWhack2"]},
     

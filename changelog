@@ -54,6 +54,13 @@
 * Microwave explosions no longer destroy blocks, only the microwave and nearby players
 * Wings can now be used like armor mods
 * At higher pollution levels, skeletons can now spawn with guns
+* Logistic drones now move at 0.625 blocks/t instead of 0.6. There is no balancing reason for this, I just hate weird numbers like 0.6
+* Fallout effects now remove snow layers in the same area where they would remove things like small plants and leaves
+* Adjusted damage values to many swords and some tools
+* Unsats and aromatics can now be filled into gas canisters
+* Basalt asbestos ore no longer creates asbestos particles every block update, meaning volcanoes no longer cause massive delays with chunk rendering due to constant block changes
+* Rockets shot by the rocket turret are no longer subject to gravity and lock onto the intended target
+* Updated the anti-personell mine's model, it also now has 4 different textures which are automatically applied depending on whether the mine is placed underground or what biome it is in
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines
@@ -72,3 +79,6 @@
 * Fixed the wood burner destroying container items like buckets when using lava as fuel
 * Fixed pollution serialization for the fluid trait config being wrong
 * Fixed slag crashing the game when trying to flow into the void
+* Fixed issue where drones that are too fast may skip waypoints
+* Fixed the electrolyzer speed upgrades not increasing energy consumption as advertised
+* Fixed giblets rendering in fullbright even in the dark

@@ -21,6 +21,7 @@ import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -79,9 +80,9 @@ public class XFactoryAccelerator {
 	
 	public static void init() {
 
-		tau_uranium = new BulletConfig().setItem(EnumAmmo.TAU_URANIUM).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setDamageFalloutByPen(false)
+		tau_uranium = new BulletConfig().setItem(EnumAmmo.TAU_URANIUM).setupDamageClass(DamageClass.SUBATOMIC).setBeam().setLife(5).setRenderRotations(false).setDoesPenetrate(true).setDamageFalloutByPen(false)
 				.setOnBeamImpact(BulletConfig.LAMBDA_BEAM_HIT);
-		tau_uranium_charge = new BulletConfig().setItem(EnumAmmo.TAU_URANIUM).setLife(5).setRenderRotations(false).setDoesPenetrate(true).setDamageFalloutByPen(false).setSpectral(true)
+		tau_uranium_charge = new BulletConfig().setItem(EnumAmmo.TAU_URANIUM).setupDamageClass(DamageClass.SUBATOMIC).setBeam().setLife(5).setRenderRotations(false).setDoesPenetrate(true).setDamageFalloutByPen(false).setSpectral(true)
 				.setOnBeamImpact(BulletConfig.LAMBDA_BEAM_HIT);
 
 		coil_tungsten = new BulletConfig().setItem(EnumAmmo.COIL_TUNGSTEN).setVel(7.5F).setLife(50).setDoesPenetrate(true).setDamageFalloutByPen(false).setSpectral(true)
@@ -94,10 +95,10 @@ public class XFactoryAccelerator {
 		ModItems.gun_tau = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(6_400).draw(10).inspect(10).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(10F).delay(4).auto(true).spread(0F)
+						.dmg(25F).delay(4).auto(true).spread(0F)
 						.mag(new MagazineBelt().addConfigs(tau_uranium))
 						.offset(1, -0.0625 * 2.5, -0.25D)
-						.setupBeamFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY)
 				.rp(LAMBDA_TAU_PRIMARY_RELEASE)
 				.ps(LAMBDA_TAU_SECONDARY_PRESS)
@@ -110,7 +111,7 @@ public class XFactoryAccelerator {
 		ModItems.gun_coilgun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(400).draw(5).inspect(39).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
-						.dmg(15F).delay(5).reload(20).jam(33).sound("hbm:weapon.coilgunShoot", 1.0F, 1.0F)
+						.dmg(35F).delay(5).reload(20).jam(33).sound("hbm:weapon.coilgunShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(coil_tungsten, coil_ferrouranium))
 						.offset(0.75, -0.0625, -0.1875D)
 						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))

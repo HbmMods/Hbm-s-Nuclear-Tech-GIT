@@ -48,6 +48,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		GL11.glPushMatrix();
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		switch(type) {
 		case EQUIPPED_FIRST_PERSON:	setupFirstPerson(item);	renderFirstPerson(item); break;
 		case EQUIPPED:				setupThirdPerson(item);	renderEquipped(item); break;

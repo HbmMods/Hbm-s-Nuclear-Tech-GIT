@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -38,12 +39,56 @@ public class ItemRenderLAG extends ItemRenderWeaponBase {
 		GL11.glScaled(scale, scale, scale);
 		GL11.glRotated(90, 0, 1, 0);
 
+		double[] equip = HbmAnimations.getRelevantTransformation("EQUIP");
+		//double[] hammer = HbmAnimations.getRelevantTransformation("HAMMER");
+		double[] addTrans = HbmAnimations.getRelevantTransformation("ADD_TRANS");
+		double[] addRot = HbmAnimations.getRelevantTransformation("ADD_ROT");
+		//Animation anim = HbmAnimations.getRelevantAnim(0);
+		
+		GL11.glTranslated(4, -4, 0);
+		GL11.glRotated(-equip[0], 0, 0, 1);
+		GL11.glTranslated(-4, 4, 0);
+
+		GL11.glTranslated(addTrans[0], addTrans[1], addTrans[2]);
+		GL11.glRotated(addRot[2], 0, 0, 1);
+		GL11.glRotated(addRot[1], 0, 1, 0);
+
 		GL11.glShadeModel(GL11.GL_SMOOTH);
+
+		GL11.glPushMatrix();
+		HbmAnimations.applyRelevantTransformation("Grip");
 		ResourceManager.mike_hawk.renderPart("Grip");
+		
+		GL11.glPushMatrix();
+		HbmAnimations.applyRelevantTransformation("Slide");
+		
+		/*if(anim != null) {
+			BusAnimationSequence slideSeq = anim.animation.getBus("Hammer");
+			if(slideSeq != null) GL11.glTranslated(0, 0.75, 0);
+		}*/
+
 		ResourceManager.mike_hawk.renderPart("Slide");
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslated(3.125, 0.125, 0);
+		GL11.glRotated(-25, 0, 0, 1);
+		GL11.glTranslated(-3.125, -0.125, 0);
+		HbmAnimations.applyRelevantTransformation("Hammer");
 		ResourceManager.mike_hawk.renderPart("Hammer");
-		ResourceManager.mike_hawk.renderPart("Bullet");
+		GL11.glPopMatrix();
+		
+		if(gun.getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, null) > 0) {
+			GL11.glPushMatrix();
+			HbmAnimations.applyRelevantTransformation("Bullet");
+			ResourceManager.mike_hawk.renderPart("Bullet");
+			GL11.glPopMatrix();
+		}
+		
+		GL11.glPushMatrix();
+		HbmAnimations.applyRelevantTransformation("Magazine");
 		ResourceManager.mike_hawk.renderPart("Magazine");
+		GL11.glPopMatrix();
 
 		double smokeScale = 0.5;
 		
@@ -59,6 +104,8 @@ public class ItemRenderLAG extends ItemRenderWeaponBase {
 		GL11.glTranslated(-10.25, 1, 0);
 		GL11.glRotated(90 * gun.shotRand, 1, 0, 0);
 		this.renderMuzzleFlash(gun.lastShot[0], 75, 7.5);
+		GL11.glPopMatrix();
+		
 		GL11.glPopMatrix();
 	}
 

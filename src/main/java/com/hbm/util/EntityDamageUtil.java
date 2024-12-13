@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -19,27 +20,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
 public class EntityDamageUtil {
-
-	/**
-	 * Attacks the given entity twice, based on a piercing percentage. The second hit sets the damage source to bypass armor.
-	 * The damage source is modified, so you can't reuse damage source instances.
-	 */
-	@Deprecated public static boolean attackEntityFromArmorPiercing(Entity victim, DamageSource src, float damage, float piercing) {
-
-		if(src.isUnblockable() || piercing == 0) return victim.attackEntityFrom(src, damage);
-
-		if(piercing == 1) {
-			src.setDamageBypassesArmor();
-			return victim.attackEntityFrom(src, damage);
-		}
-
-		boolean ret = false;
-
-		ret |= victim.attackEntityFrom(src, damage * (1F - piercing));
-		src.setDamageBypassesArmor();
-		ret |= victim.attackEntityFrom(src, damage * piercing);
-		return ret;
-	}
 
 	public static boolean attackEntityFromIgnoreIFrame(Entity victim, DamageSource src, float damage) {
 
@@ -58,27 +38,24 @@ public class EntityDamageUtil {
 		}
 	}
 
-	@Deprecated public static float getDamageAfterTax(EntityLivingBase living, DamageSource source, float amount) {
-		amount = ForgeHooks.onLivingHurt(living, source, amount);
-		if(amount <= 0) return 0;
-		amount = applyArmorCalculations(living, source, amount);
-		return amount;
+	public static boolean attackEntityFromNT(EntityLivingBase living, DamageSource source, float amount, boolean ignoreIFrame, boolean allowSpecialCancel, double knockbackMultiplier, float pierceDT, float pierce) {
+		if(living instanceof EntityPlayerMP && source.getEntity() instanceof EntityPlayer) {
+			EntityPlayerMP playerMP = (EntityPlayerMP) living;
+			EntityPlayer attacker = (EntityPlayer) source.getEntity();
+			if(!playerMP.canAttackPlayer(attacker)) return false; //handles wack-ass no PVP rule as well as scoreboard friendly fire
+		}
+		DamageResistanceHandler.setup(pierceDT, pierce);
+		boolean ret = attackEntityFromNTInternal(living, source, amount, ignoreIFrame, allowSpecialCancel, knockbackMultiplier);
+		//boolean ret = living.attackEntityFrom(source, amount);
+		DamageResistanceHandler.reset();
+		return ret;
 	}
 
-	@Deprecated public static boolean attackArmorPiercing(EntityLivingBase living, DamageSource sourceDamageCalc, DamageSource sourceArmorPiercing, float amount, float piercing) {
-		if(piercing <= 0) return living.attackEntityFrom(sourceDamageCalc, amount);
-		//damage intended to pass the armor
-		float afterTax = getDamageAfterTax(living, sourceDamageCalc, amount);
-		//damage removed by the calculation
-		float reduced = Math.max(amount - afterTax, 0F);
-		//damage that would pass + damage tthat wouldn't pass * AP percentage
-		return attackEntityFromIgnoreIFrame(living, sourceArmorPiercing, Math.max(afterTax + (reduced * piercing), 0F));
-	}
-
-	public static boolean attackEntityFromNT(EntityLivingBase living, DamageSource source, float amount, boolean ignoreIFrame, boolean allowSpecialCancel, double knockbackMultiplier) {
+	private static boolean attackEntityFromNTInternal(EntityLivingBase living, DamageSource source, float amount, boolean ignoreIFrame, boolean allowSpecialCancel, double knockbackMultiplier) {
 		if(ForgeHooks.onLivingAttack(living, source, amount) && allowSpecialCancel) return false;
 		if(living.isEntityInvulnerable()) return false;
 		if(living.worldObj.isRemote) return false;
+		if(living instanceof EntityPlayer && ((EntityPlayer) living).capabilities.disableDamage && !source.canHarmInCreative()) return false;
 
 		living.entityAge = 0;
 		if(living.getHealth() <= 0.0F) return false;
@@ -89,14 +66,14 @@ public class EntityDamageUtil {
 
 		if(living.hurtResistantTime > living.maxHurtResistantTime / 2.0F && !ignoreIFrame) {
 			if(amount <= living.lastDamage) { return false; }
-			damageEntityNT(living, source, amount - living.lastDamage); //TODO: override
+			damageEntityNT(living, source, amount - living.lastDamage);
 			living.lastDamage = amount;
 			didAttackRegister = false;
 		} else {
 			living.lastDamage = amount;
 			living.prevHealth = living.getHealth();
 			living.hurtResistantTime = living.maxHurtResistantTime;
-			damageEntityNT(living, source, amount); //TODO: override
+			damageEntityNT(living, source, amount);
 			living.hurtTime = living.maxHurtTime = 10;
 		}
 
@@ -135,7 +112,7 @@ public class EntityDamageUtil {
 				}
 
 				living.attackedAtYaw = (float) (Math.atan2(deltaZ, deltaX) * 180.0D / Math.PI) - living.rotationYaw;
-				if(knockbackMultiplier > 0) living.knockBack(entity, amount, deltaX * knockbackMultiplier, deltaZ * knockbackMultiplier);
+				if(knockbackMultiplier > 0) knockBack(living, entity, amount, deltaX, deltaZ, knockbackMultiplier);
 			} else {
 				living.attackedAtYaw = (float) ((int) (Math.random() * 2.0D) * 180);
 			}
@@ -153,6 +130,24 @@ public class EntityDamageUtil {
 		}
 
 		return true;
+	}
+
+	public static void knockBack(EntityLivingBase living, Entity attacker, float damage, double motionX, double motionZ, double multiplier) {
+		if(living.getRNG().nextDouble() >= living.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).getAttributeValue()) {
+			living.isAirBorne = true;
+			double horizontal = Math.sqrt(motionX * motionX + motionZ * motionZ);
+			double magnitude = 0.4D * multiplier;
+			living.motionX /= 2.0D;
+			living.motionY /= 2.0D;
+			living.motionZ /= 2.0D;
+			living.motionX -= motionX / horizontal * magnitude;
+			living.motionY += (double) magnitude;
+			living.motionZ -= motionZ / horizontal * magnitude;
+
+			if(living.motionY > 0.2D) {
+				living.motionY = 0.2D * multiplier;
+			}
+		}
 	}
 
 	public static void damageEntityNT(EntityLivingBase living, DamageSource source, float amount) {
@@ -178,12 +173,10 @@ public class EntityDamageUtil {
 
 	public static float applyArmorCalculationsNT(EntityLivingBase living, DamageSource source, float amount) {
 		if(!source.isUnblockable()) {
-			int i = 25 - living.getTotalArmorValue();
+			float i = 25F - (living.getTotalArmorValue() * (1 - DamageResistanceHandler.currentPDR));
 			float armor = amount * (float) i;
 			damageArmorNT(living, amount);
 			amount = armor / 25.0F;
-
-			//TODO: special handling depending on armor stats
 		}
 
 		return amount;

@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 public class ItemRenderSTG77 extends ItemRenderWeaponBase {
 
 	@Override
-	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.25F; }
+	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 0.5F : -0.25F; }
 
 	@Override
 	public void setupFirstPerson(ItemStack stack) {
@@ -21,7 +21,7 @@ public class ItemRenderSTG77 extends ItemRenderWeaponBase {
 		float offset = 0.8F;
 		standardAimingTransform(stack,
 				-1.5F * offset, -1F * offset, 2.5F * offset,
-			0, -5.75 / 8D, 1);
+			0, -5.75 / 8D, 2);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class ItemRenderSTG77 extends ItemRenderWeaponBase {
 	@Override
 	protected float getBaseFOV(ItemStack stack) {
 		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
-		return 70F - aimingProgress * 55;
+		return 70F - aimingProgress * 65;
 	}
 
 	@Override

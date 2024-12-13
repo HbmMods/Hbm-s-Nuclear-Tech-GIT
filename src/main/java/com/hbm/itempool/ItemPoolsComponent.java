@@ -77,7 +77,6 @@ public class ItemPoolsComponent {
 					weighted(ModItems.gas_mask_m65, 0, 1, 1, 5),
 					weighted(ModItems.battery_advanced, 0, 1, 1, 5),
 					weighted(ModItems.designator, 0, 1, 1, 5),
-					weighted(ModItems.crate_caller, 0, 1, 1, 1),
 					weighted(ModItems.thruster_small, 0, 1, 1, 5),
 					weighted(ModItems.thruster_medium, 0, 1, 1, 4),
 					weighted(ModItems.fuel_tank_small, 0, 1, 1, 5),

@@ -3,6 +3,7 @@ package com.hbm.commands;
 import com.hbm.config.ItemPoolConfigJSON;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.util.ChatBuilder;
+import com.hbm.util.DamageResistanceHandler;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
@@ -26,6 +27,7 @@ public class CommandReloadRecipes extends CommandBase {
 		try {
 			SerializableRecipe.initialize();
 			ItemPoolConfigJSON.initialize();
+			DamageResistanceHandler.init();
 			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Reload complete :)"));
 		} catch(Exception ex) {
 			sender.addChatMessage(ChatBuilder.start("----------------------------------").color(EnumChatFormatting.GRAY).flush());

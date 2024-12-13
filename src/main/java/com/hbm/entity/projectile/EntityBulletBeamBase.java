@@ -33,6 +33,7 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 		this.ignoreFrustumCheck = true;
 		this.renderDistanceWeight = 10.0D;
 		this.setSize(0.5F, 0.5F);
+		this.isImmuneToFire = true;
 	}
 	
 	public EntityLivingBase getThrower() { return this.thrower; }
@@ -61,7 +62,7 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 		this.headingZ = (double) (MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI));
 		this.headingY = (double) (-MathHelper.sin((this.rotationPitch) / 180.0F * (float) Math.PI));
 		
-		double range = 150D;
+		double range = 250D;
 		this.headingX *= range;
 		this.headingY *= range;
 		this.headingZ *= range;
@@ -94,6 +95,8 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 			this.setDead();
 			return;
 		}
+		
+		if(config.onUpdate != null) config.onUpdate.accept(this);
 		
 		super.onUpdate();
 		
@@ -196,4 +199,6 @@ public class EntityBulletBeamBase extends Entity implements IEntityAdditionalSpa
 		this.rotationYaw = buf.readFloat();
 		this.rotationPitch = buf.readFloat();
 	}
+	
+	@Override @SideOnly(Side.CLIENT) public boolean canRenderOnFire() { return false; }
 }

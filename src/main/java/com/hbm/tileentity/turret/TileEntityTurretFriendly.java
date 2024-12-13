@@ -3,9 +3,9 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
 import com.hbm.handler.CasingEjector;
 import com.hbm.inventory.gui.GUITurretFriendly;
+import com.hbm.items.weapon.sedna.factory.XFactory556mm;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,11 +17,10 @@ public class TileEntityTurretFriendly extends TileEntityTurretChekhov {
 	static List<Integer> configs = new ArrayList();
 	
 	static {
-		configs.add(BulletConfigSyncingUtil.R5_NORMAL);
-		configs.add(BulletConfigSyncingUtil.R5_EXPLOSIVE);
-		configs.add(BulletConfigSyncingUtil.R5_DU);
-		configs.add(BulletConfigSyncingUtil.R5_STAR);
-		configs.add(BulletConfigSyncingUtil.CHL_R5);
+		configs.add(XFactory556mm.r556_sp.id);
+		configs.add(XFactory556mm.r556_fmj.id);
+		configs.add(XFactory556mm.r556_jhp.id);
+		configs.add(XFactory556mm.r556_ap.id);
 	}
 	
 	@Override
