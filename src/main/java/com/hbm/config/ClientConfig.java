@@ -30,6 +30,7 @@ public class ClientConfig {
 	public static ConfigWrapper<Integer> INFO_OFFSET_VERTICAL =				new ConfigWrapper(0);
 	public static ConfigWrapper<Integer> INFO_POSITION =					new ConfigWrapper(0);
 	public static ConfigWrapper<Boolean> GUN_ANIMS_LEGACY =					new ConfigWrapper(false);
+	public static ConfigWrapper<Boolean> GUN_MODEL_FOV =					new ConfigWrapper(false);
 	public static ConfigWrapper<Boolean> ITEM_TOOLTIP_SHOW_OREDICT =		new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> ITEM_TOOLTIP_SHOW_CUSTOM_NUKE =	new ConfigWrapper(true);
 	public static ConfigWrapper<Boolean> MAIN_MENU_WACKY_SPLASHES =			new ConfigWrapper(true);
@@ -46,6 +47,7 @@ public class ClientConfig {
 		configMap.put("INFO_OFFSET_VERTICAL", INFO_OFFSET_VERTICAL);
 		configMap.put("INFO_POSITION", INFO_POSITION);
 		configMap.put("GUN_ANIMS_LEGACY", GUN_ANIMS_LEGACY);
+		configMap.put("GUN_MODEL_FOV", GUN_MODEL_FOV);
 		configMap.put("ITEM_TOOLTIP_SHOW_OREDICT", ITEM_TOOLTIP_SHOW_OREDICT);
 		configMap.put("ITEM_TOOLTIP_SHOW_OREDICT", ITEM_TOOLTIP_SHOW_CUSTOM_NUKE);
 		configMap.put("MAIN_MENU_WACKY_SPLASHES", MAIN_MENU_WACKY_SPLASHES);

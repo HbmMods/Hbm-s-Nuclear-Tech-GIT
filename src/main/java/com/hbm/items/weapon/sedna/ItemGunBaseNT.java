@@ -83,6 +83,10 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		return WeaponUpgradeManager.eval(cfg, stack, O_GUNCONFIG + index, this);
 	}
 	
+	public int getConfigCount() {
+		return configs_DNA.length;
+	}
+	
 	public ItemGunBaseNT(WeaponQuality quality, GunConfig... cfg) {
 		this.setMaxStackSize(1);
 		this.configs_DNA = cfg;
@@ -167,7 +171,13 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 
 	@Override
 	public void onEquip(EntityPlayer player, ItemStack stack) {
-		for(int i = 0; i < this.configs_DNA.length; i++) playAnimation(player, stack, AnimType.EQUIP, i);
+		for(int i = 0; i < this.configs_DNA.length; i++) {
+			playAnimation(player, stack, AnimType.EQUIP, i);
+			this.setPrimary(stack, i, false);
+			this.setSecondary(stack, i, false);
+			this.setTertiary(stack, i, false);
+			this.setReloadKey(stack, i, false);
+		}
 	}
 	
 	public static void playAnimation(EntityPlayer player, ItemStack stack, AnimType type, int index) {

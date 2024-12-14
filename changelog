@@ -82,3 +82,4 @@
 * Fixed issue where drones that are too fast may skip waypoints
 * Fixed the electrolyzer speed upgrades not increasing energy consumption as advertised
 * Fixed giblets rendering in fullbright even in the dark
+* All NTM keybinds will reset when opening a GUI, meanig that jetpacks and guns should no longer get stuck operating when opening an inventory

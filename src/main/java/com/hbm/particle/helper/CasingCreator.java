@@ -42,6 +42,8 @@ public class CasingCreator implements IParticleCreator {
 		double mY = player.motionY + motion.yCoord + player.getRNG().nextGaussian() * motionVariance;
 		double mZ = player.motionZ + motion.zCoord + player.getRNG().nextGaussian() * motionVariance;
 		
+		if(player instanceof EntityPlayer && ((EntityPlayer) player).capabilities.isFlying) mY -= 0.04D;
+		
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString("type", "casingNT");
 		data.setDouble("mX", mX);
