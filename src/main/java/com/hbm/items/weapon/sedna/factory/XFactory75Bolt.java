@@ -43,7 +43,7 @@ public class XFactory75Bolt {
 						.dmg(15F).delay(2).auto(true).spread(0.005F).reload(40).jam(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(b75, b75_inc, b75_exp))
 						.offset(1, -0.0625 * 2.5, -0.25D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_BOLT))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_BOLTER_ANIMS).orchestra(Orchestras.ORCHESTRA_BOLTER)
 				).setUnlocalizedName("gun_bolter");
@@ -51,6 +51,10 @@ public class XFactory75Bolt {
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
 		Lego.handleStandardSmoke(ctx.entity, stack, 2000, 0.05D, 1.1D, 0);
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_BOLT = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil((float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5), (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));
 	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_BOLTER_ANIMS = (stack, type) -> {

@@ -130,12 +130,6 @@ public class Lego {
 		}
 	};
 	
-	/** Toggles isAiming. Used by keybinds. */
-	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_RECOIL = (stack, ctx) -> {
-		//ItemGunBaseNT.recoilVertical += 10;
-		//ItemGunBaseNT.recoilHorizontal += ctx.player.getRNG().nextGaussian() * 1.5;
-	};
-	
 	/** Default smoke. */
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_SMOKE = (stack, ctx) -> {
 		handleStandardSmoke(ctx.entity, stack, 2000, 0.025D, 1.15D, ctx.configIndex);
@@ -211,11 +205,11 @@ public class Lego {
 		Receiver primary = ctx.config.getReceivers(stack)[0];
 		IMagazine mag = primary.getMagazine(stack);
 		BulletConfig config = (BulletConfig) mag.getType(stack, ctx.inventory);
-		
-		Vec3 offset = primary.getProjectileOffset(stack);
+
+		Vec3 offset = ItemGunBaseNT.getIsAiming(stack) ? primary.getProjectileOffsetScoped(stack) : primary.getProjectileOffset(stack);
 		double forwardOffset = offset.xCoord;
 		double heightOffset = offset.yCoord;
-		double sideOffset = ItemGunBaseNT.getIsAiming(stack) ? 0 : offset.zCoord; //TODO: make this configurable
+		double sideOffset = offset.zCoord;
 		
 		/*forwardOffset = 0.75;
 		heightOffset = -0.125;

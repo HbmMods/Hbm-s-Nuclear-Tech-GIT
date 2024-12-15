@@ -1,5 +1,6 @@
 package com.hbm.items.weapon.sedna.factory;
 
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 import com.hbm.items.ModItems;
@@ -8,6 +9,7 @@ import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
@@ -41,7 +43,7 @@ public class XFactory357 {
 						.dmg(7.5F).delay(16).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_ATLAS))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_ATLAS_ANIMS).orchestra(Orchestras.ORCHESTRA_ATLAS)
 				).setUnlocalizedName("gun_light_revolver");
@@ -51,7 +53,7 @@ public class XFactory357 {
 						.dmg(12.5F).delay(16).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_ATLAS))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_ATLAS_ANIMS).orchestra(Orchestras.ORCHESTRA_ATLAS)
 				).setUnlocalizedName("gun_light_revolver_atlas");
@@ -61,7 +63,7 @@ public class XFactory357 {
 						.dmg(15F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 1.1F)
 						.mag(new MagazineFullReload(0, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, 0.3125D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_DANI))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(LAMBDA_DANI_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI),
@@ -70,12 +72,20 @@ public class XFactory357 {
 						.dmg(15F).delay(11).reload(55).jam(45).sound("hbm:weapon.fire.pistol", 1.0F, 0.9F)
 						.mag(new MagazineFullReload(1, 6).addConfigs(m357_bp, m357_sp, m357_fmj, m357_jhp, m357_ap, m357_express))
 						.offset(0.75, -0.0625, -0.3125D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_DANI))
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(LAMBDA_DANI_ANIMS).orchestra(Orchestras.ORCHESTRA_DANI)
 				).setUnlocalizedName("gun_light_revolver_dani");
 	}
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_ATLAS = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil(10, (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_DANI = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil(5, (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.75));
+	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_ATLAS_ANIMS = (stack, type) -> {
 		switch(type) {

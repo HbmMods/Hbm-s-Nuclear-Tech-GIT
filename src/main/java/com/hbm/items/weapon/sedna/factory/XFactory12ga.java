@@ -59,7 +59,7 @@ public class XFactory12ga {
 		g12_slug = new BulletConfig().setItem(EnumAmmo.G12_SLUG).setSpread(0.0F).setRicochetAngle(25).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x393939, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_SLUG"));
 		g12_flechette = new BulletConfig().setItem(EnumAmmo.G12_FLECHETTE).setProjectiles(8).setDamage(1F/8F).setThresholdNegation(5F).setArmorPiercing(0.2F).setSpread(0.025F).setRicochetAngle(5).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x3C80F0, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_FLECHETTE"));
 		g12_magnum = new BulletConfig().setItem(EnumAmmo.G12_MAGNUM).setProjectiles(4).setDamage(2F/4F).setSpread(0.015F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x278400, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_MAGNUM"));
-		g12_explosive = new BulletConfig().setItem(EnumAmmo.G12_EXPLOSIVE).setDamage(5F).setOnImpact(LAMBDA_STANDARD_EXPLODE).setSpread(0F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xDA4127, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_EXPLOSIVE"));
+		g12_explosive = new BulletConfig().setItem(EnumAmmo.G12_EXPLOSIVE).setDamage(2.5F).setOnImpact(LAMBDA_STANDARD_EXPLODE).setSpread(0F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xDA4127, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_EXPLOSIVE"));
 		g12_phosphorus = new BulletConfig().setItem(EnumAmmo.G12_PHOSPHORUS).setProjectiles(8).setDamage(1F/8F).setSpread(0.015F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x910001, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_PHOSPHORUS"))
 				.setOnImpact((bullet, mop) -> { if(mop.entityHit != null && mop.entityHit instanceof EntityLivingBase) { HbmLivingProps data = HbmLivingProps.getData((EntityLivingBase) mop.entityHit); if(data.phosphorus < 300) data.phosphorus = 300; } });
 		//g12_anthrax = new BulletConfig().setItem(EnumAmmo.G12_ANTHRAX).setProjectiles(8).setDamage(1F/8F).setSpread(0.015F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x749300, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12GA_ANTHRAX"));
@@ -73,7 +73,7 @@ public class XFactory12ga {
 						.dmg(16F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.shotgun", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 6).addConfigs(all))
 						.offset(0.75, -0.0625, -0.1875)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_MARESLEG))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_MARESLEG_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG)
 				).setUnlocalizedName("gun_maresleg");
@@ -83,7 +83,7 @@ public class XFactory12ga {
 						.dmg(16F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.shotgun", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 6).addConfigs(all))
 						.offset(0.75, -0.0625, 0.1875D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_MARESLEG))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(LAMBDA_MARESLEG_SHORT_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG_AKIMBO),
@@ -92,7 +92,7 @@ public class XFactory12ga {
 						.dmg(12F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.shotgun", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(1, 6).addConfigs(all))
 						.offset(0.75, -0.0625, -0.1875)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_MARESLEG))
 				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(LAMBDA_MARESLEG_SHORT_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG_AKIMBO)
@@ -103,7 +103,7 @@ public class XFactory12ga {
 						.dmg(32F).delay(20).reload(22, 10, 13, 0).jam(24).sound("hbm:weapon.fire.shotgun", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 6).addConfigs(all))
 						.offset(0.75, -0.0625, -0.1875)
-						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_NOWEAR_FIRE).recoil(LAMBDA_RECOIL_MARESLEG))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_MARESLEG_SHORT_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG_SHORT)
 				).setUnlocalizedName("gun_maresleg_broken");
@@ -114,7 +114,7 @@ public class XFactory12ga {
 						.dmg(8F).delay(20).rounds(4).reload(25, 15, 7, 0).jam(45).sound("hbm:weapon.fire.shotgunAlt", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 4).addConfigs(all))
 						.offset(0.75, -0.0625, -0.1875)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_LIBERATOR))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LIBERATOR_ANIMS).orchestra(Orchestras.ORCHESTRA_LIBERATOR)
 				).setUnlocalizedName("gun_liberator");
@@ -125,7 +125,7 @@ public class XFactory12ga {
 						.dmg(32F).delay(20).reload(5, 10, 10, 10, 0).jam(36).sound("hbm:weapon.shotgunShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 8).addConfigs(all))
 						.offset(0.75, -0.0625, -0.1875)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_MARESLEG))
 				.setupStandardConfiguration().ps(LAMBDA_SPAS_SECONDARY).pt(null)
 				.anim(LAMBDA_SPAS_ANIMS).orchestra(Orchestras.ORCHESTRA_SPAS)
 				).setUnlocalizedName("gun_spas12");
@@ -136,7 +136,7 @@ public class XFactory12ga {
 						.dmg(48F).delay(10).auto(true).autoAfterDry(true).dryfireAfterAuto(true).reload(44).jam(19).sound("hbm:weapon.fire.shotgunAuto", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 20).addConfigs(all))
 						.offset(0.75, -0.125, -0.25)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_AUTOSHOTGUN))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_SHREDDER_ANIMS).orchestra(Orchestras.ORCHESTRA_SHREDDER)
 				).setUnlocalizedName("gun_autoshotgun");
@@ -146,11 +146,27 @@ public class XFactory12ga {
 						.dmg(64F).delay(1).auto(true).dryfireAfterAuto(true).reload(44).jam(19).sound("hbm:weapon.fire.shotgunAuto", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 100).addConfigs(g12_equestrian, g12_bp, g12_bp_magnum, g12_bp_slug, g12, g12_slug, g12_flechette, g12_magnum, g12_explosive, g12_phosphorus))
 						.offset(0.75, -0.125, -0.25)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_SEXY))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_SEXY_ANIMS).orchestra(Orchestras.ORCHESTRA_SHREDDER_SEXY)
 				).setUnlocalizedName("gun_autoshotgun_sexy");
 	}
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_MARESLEG = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil(10, (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_LIBERATOR = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil(5, (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_AUTOSHOTGUN = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil((float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5) + 1.5F, (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.5));
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_SEXY = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil((float) (ctx.getPlayer().getRNG().nextGaussian() * 0.5), (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.5));
+	};
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SPAS_SECONDARY = (stack, ctx) -> {
 		EntityLivingBase entity = ctx.entity;

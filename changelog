@@ -1,5 +1,32 @@
 ## Gun rework
-* Place holder place holder place hooooooooooldeeeeeeeer
+* Killed off most existing guns because they suck lol
+* Added a bunch of new guns with all new models, animations ammo types and recipes
+* Guns are now tiered, using progression related cast components
+* Play with your guns! Most guns now have animations for dry firing, and an "inspect" animation that plays when hitting the reload key when reloading is not possible
+* Most guns can now be aimed properly. Aiming now uses a dedicated key (mouse 3) instead of sneaking
+  * All new gun keybinds can be configured of course
+  * "why is it MMB and not RMB? i know a really easy fix" no you don't, trust me i put a lot of thought into this and that's the only way without making the keybinds inconsistent as hell
+* Guns now have multiple types, "standard arsenal" (i.e. the regular selection of guns), "b-side" (alt versions of guns which are not visible in creative, although craftable), "special" (not really part of of the progression tiering) and "legendary" (neither in creative nor in NEI)
+* Guns now make the screen visibly recoil. This is a bit of a bold change about which I am unsure myself, so there is an option to turn it off: `/ntmclient set GUN_VISUAL_RECOIL false`
+* Special damage types now have unique death animations, explosive damage will cause gibbing and laser/electric/fire damage will incinerate the target with only the skeleton remaining
+  * The skeletonizer has compatibility with most bipedal vanilla mobs as well as most mobs from TechGuns
+* Repairing guns is now easier, repair kits are generally cheaper, and have multiple uses
+* Instead of working the same until they stop working entirely when durability runs out, new guns now decrease in accuracy (below 50%) and damage (below 33%) when durability goes down. Guns however will still remain functional with no durability left, however the gun will deal next to no damage and barely ever hot anything.
+* Since every time i add recycling for deprecated features, someone ends up complaining about the balancing of the recycling or gets confused on where to source items, old guns and ammo are simply not recycleable and instead become useless. Sucks to be you!
+* Stuff I did not get around finishing:
+  * Legendary weapons were supposed to spawn in new dungeons, however right now they just spawn in red rooms
+  * Bolter's ammo types don't work as advertised and aren't craftable because æügh
+  * Some of the remnant guns that aren't part of the new system yet are not craftable
+  * Armor balance may not entirely be correct (read: at all), there's a new system for resistances and current values are just a vague estimate
+    * You can easily test things yourself, there is a spawn egg for a new test dummy mob which can be equipped with any armor. Damage calculation applies just the same as it would with real players
+  * Some gun variants aren't even in yet (b-sides, legendaries) because those were super low priority
+  * Purple bullets don't have their special effects just yet
+  * Headshot mulitpliers don't apply yet
+  * Trechnmaster abilities do not work with the new guns yet
+  * Nitra doesn't craft any of the new ammo types yet, not sure what to even do with that
+  * Ammo backpacks. yeah! just remembered something about those
+* Most of these issues are quite minor so expect them to be resolved in the next update rather soon for the next stable release
+* Yes this is what i have been up to for the past months. everything hurts. now go away
 
 ## Added
 * `/ntmclient`
@@ -13,6 +40,13 @@
   * Has an immense heat transfer speed bonus, allowing ICFs to be cooled even when using higher tier pellets
   * Cools quite effectively in PWRs, but has a negative neutron modifier and a small penalty of how much heat ends up usable
   * Overall a cheap and very good coolant, just not as efficient as sodium
+* Rotary furnace
+  * Used to make new alloys like gunmetal or weapon steel
+  * Can also make desh and saturnite, as well as more efficient steel from iron fragments
+  * Requires both solid fuel and steam to work
+* Ammo press
+  * Makes the new ammo types
+  * A recipe can be selected like in the anvil, however the selection will linger since the press has a proper inventory. Therefore, hooking up a hopper allows for ammo to be automated
 
 ## Changed
 * Updated russian and chinese localization
@@ -61,6 +95,11 @@
 * Basalt asbestos ore no longer creates asbestos particles every block update, meaning volcanoes no longer cause massive delays with chunk rendering due to constant block changes
 * Rockets shot by the rocket turret are no longer subject to gravity and lock onto the intended target
 * Updated the anti-personell mine's model, it also now has 4 different textures which are automatically applied depending on whether the mine is placed underground or what biome it is in
+* Saturnite is now exclusively made in the rotary furnace, requiring reformate gas, making it effectively post-RBMK
+  * To offset the increased cost, some things like ESAPI inserts and desh shredder blades/stamps no longer require saturnite at all
+* Small explosions from land mines and bombers now use the new and improved explosions animations from 40mm grenades
+* All mini nuclear explosions now use the VNT system, meaning their damaging AoE can no longer be blocked by tiny bumps in the terrain and they will now correctly deal knockback
+* Problably a ton of other shit i forgot to document because it's been months and ther only way i even feel anything is by drinking gasoline
 
 ## Fixed
 * The conveyor grabber should no longer skip over items when used in long lines

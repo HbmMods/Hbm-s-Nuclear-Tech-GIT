@@ -169,7 +169,7 @@ public class XFactoryRocket {
 						.dmg(25F).delay(5).reload(50).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_rpzb))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_PANZERSCHRECK_ANIMS).orchestra(Orchestras.ORCHESTRA_PANERSCHRECK)
 				).setUnlocalizedName("gun_panzerschreck");
@@ -180,7 +180,7 @@ public class XFactoryRocket {
 						.dmg(35F).delay(5).reload(50).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_rpzb))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
-						.setupLockonFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupLockonFire().recoil(LAMBDA_RECOIL_ROCKET))
 				.setupStandardConfiguration().ps(LAMBDA_STINGER_SECONDARY_PRESS).rs(LAMBDA_STINGER_SECONDARY_RELEASE)
 				.anim(LAMBDA_PANZERSCHRECK_ANIMS).orchestra(Orchestras.ORCHESTRA_STINGER)
 				).setUnlocalizedName("gun_stinger");
@@ -191,7 +191,7 @@ public class XFactoryRocket {
 						.dmg(40F).delay(10).reload(55).jam(40).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 4).addConfigs(rocket_qd))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_QUADRO_ANIMS).orchestra(Orchestras.ORCHESTRA_QUADRO)
 				).setUnlocalizedName("gun_quadro");
@@ -202,7 +202,7 @@ public class XFactoryRocket {
 						.dmg(50F).delay(5).reload(48).jam(33).sound("hbm:weapon.rpgShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(rocket_ml))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_ROCKET))
 				.setupStandardConfiguration().pp(LAMBDA_MISSILE_LAUNCHER_PRIMARY_PRESS)
 				.anim(LAMBDA_MISSILE_LAUNCHER_ANIMS).orchestra(Orchestras.ORCHESTRA_MISSILE_LAUNCHER)
 				).setUnlocalizedName("gun_missile_launcher");
@@ -222,6 +222,8 @@ public class XFactoryRocket {
 		Lego.LAMBDA_STANDARD_CLICK_PRIMARY.accept(stack, ctx);
 		ItemGunBaseNT.setIsLockedOn(stack, false);
 	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_ROCKET = (stack, ctx) -> { };
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_PANZERSCHRECK_ANIMS = (stack, type) -> {
 		boolean empty = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, MainRegistry.proxy.me().inventory) <= 0;

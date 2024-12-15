@@ -98,7 +98,7 @@ public class XFactoryAccelerator {
 						.dmg(25F).delay(4).auto(true).spread(0F)
 						.mag(new MagazineBelt().addConfigs(tau_uranium))
 						.offset(1, -0.0625 * 2.5, -0.25D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_TAU))
 				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY)
 				.rp(LAMBDA_TAU_PRIMARY_RELEASE)
 				.ps(LAMBDA_TAU_SECONDARY_PRESS)
@@ -114,7 +114,7 @@ public class XFactoryAccelerator {
 						.dmg(35F).delay(5).reload(20).jam(33).sound("hbm:weapon.coilgunShoot", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(coil_tungsten, coil_ferrouranium))
 						.offset(0.75, -0.0625, -0.1875D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_COILGUN))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_COILGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_COILGUN)
 				).setUnlocalizedName("gun_coilgun");
@@ -162,6 +162,12 @@ public class XFactoryAccelerator {
 		} else {
 			ItemGunBaseNT.playAnimation(ctx.getPlayer(), stack, AnimType.CYCLE_DRY, ctx.configIndex);
 		}
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_TAU = (stack, ctx) -> { };
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_COILGUN = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil(10, (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));
 	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_TAU_ANIMS = (stack, type) -> {

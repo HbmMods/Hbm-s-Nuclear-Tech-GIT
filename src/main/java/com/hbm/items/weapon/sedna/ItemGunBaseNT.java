@@ -1,5 +1,6 @@
 package com.hbm.items.weapon.sedna;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
@@ -44,11 +45,26 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 	public long[] lastShot;
 	/** [0;1] randomized every shot for various rendering applications */
 	public double shotRand = 0D;
+	
+	public static List<Item> secrets = new ArrayList();
 
 	public static float recoilVertical = 0;
 	public static float recoilHorizontal = 0;
+	public static float recoilDecay = 0.75F;
+	public static float recoilRebound = 0.25F;
 	public static float offsetVertical = 0;
 	public static float offsetHorizontal = 0;
+	
+	public static void setupRecoil(float vertical, float horizontal, float decay, float rebound) {
+		recoilVertical += vertical;
+		recoilHorizontal += horizontal;
+		recoilDecay = decay;
+		recoilRebound = rebound;
+	}
+	
+	public static void setupRecoil(float vertical, float horizontal) {
+		setupRecoil(vertical, horizontal, 0.75F, 0.25F);
+	}
 
 	public static final String O_GUNCONFIG = "O_GUNCONFIG_";
 	
@@ -92,7 +108,8 @@ public class ItemGunBaseNT extends Item implements IKeybindReceiver, IEquipRecei
 		this.configs_DNA = cfg;
 		this.quality = quality;
 		this.lastShot = new long[cfg.length];
-		this.setCreativeTab(MainRegistry.weaponTab);
+		if(quality == WeaponQuality.A_SIDE || quality == WeaponQuality.SPECIAL) this.setCreativeTab(MainRegistry.weaponTab);
+		if(quality == WeaponQuality.LEGENDARY || quality == WeaponQuality.SECRET) this.secrets.add(this);
 		this.setTextureName(RefStrings.MODID + ":gun_darter");
 	}
 	

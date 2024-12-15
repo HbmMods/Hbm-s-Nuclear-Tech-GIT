@@ -892,6 +892,16 @@ crucible.steelPig=Steel Production from Pig Iron
 crucible.steelWrought=Steel Production from Wrought Iron
 crucible.tcalloy=Technetium Steel Production
 
+damage.inset=Resistances when worn in set:
+damage.item=Resistances when worn:
+damage.category.EXPL=Explosion
+damage.category.FIRE=Fire
+damage.category.PROJ=Projectile
+damage.exact.drown=Drowning
+damage.exact.LASER=Laser
+damage.exact.onFire=Afterburn
+damage.other=Other
+
 death.attack.acid=%1$s fell into acid.
 death.attack.acidPlayer=%1$s was dissolved by %2$s.
 death.attack.ams=%1$s was bathed in deadly particles that have yet to be named by human science.

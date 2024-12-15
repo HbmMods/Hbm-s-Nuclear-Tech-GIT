@@ -1035,22 +1035,27 @@ public class ModEventHandlerClient {
 		
 		if(event.phase == Phase.END) {
 			
-			ItemGunBaseNT.offsetVertical += ItemGunBaseNT.recoilVertical;
-			ItemGunBaseNT.offsetHorizontal += ItemGunBaseNT.recoilHorizontal;
-			player.rotationPitch -= ItemGunBaseNT.recoilVertical;
-			player.rotationYaw -= ItemGunBaseNT.recoilHorizontal;
-
-			float decay = 0.75F;
-			float rebound = 0.25F;
-			ItemGunBaseNT.recoilVertical *= decay;
-			ItemGunBaseNT.recoilHorizontal *= decay;
-			float dV = ItemGunBaseNT.offsetVertical * rebound;
-			float dH = ItemGunBaseNT.offsetHorizontal * rebound;
-			
-			ItemGunBaseNT.offsetVertical -= dV;
-			ItemGunBaseNT.offsetHorizontal -= dH;
-			player.rotationPitch += dV;
-			player.rotationYaw += dH;
+			if(ClientConfig.GUN_VISUAL_RECOIL.get()) {
+				ItemGunBaseNT.offsetVertical += ItemGunBaseNT.recoilVertical;
+				ItemGunBaseNT.offsetHorizontal += ItemGunBaseNT.recoilHorizontal;
+				player.rotationPitch -= ItemGunBaseNT.recoilVertical;
+				player.rotationYaw -= ItemGunBaseNT.recoilHorizontal;
+	
+				ItemGunBaseNT.recoilVertical *= ItemGunBaseNT.recoilDecay;
+				ItemGunBaseNT.recoilHorizontal *= ItemGunBaseNT.recoilDecay;
+				float dV = ItemGunBaseNT.offsetVertical * ItemGunBaseNT.recoilRebound;
+				float dH = ItemGunBaseNT.offsetHorizontal * ItemGunBaseNT.recoilRebound;
+				
+				ItemGunBaseNT.offsetVertical -= dV;
+				ItemGunBaseNT.offsetHorizontal -= dH;
+				player.rotationPitch += dV;
+				player.rotationYaw += dH;
+			} else {
+				ItemGunBaseNT.offsetVertical = 0;
+				ItemGunBaseNT.offsetHorizontal = 0;
+				ItemGunBaseNT.recoilVertical = 0;
+				ItemGunBaseNT.recoilHorizontal = 0;
+			}
 		}
 	}
 	

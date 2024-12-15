@@ -49,7 +49,7 @@ public class XFactory50 {
 						.dmg(7.5F).delay(2).dry(10).auto(true).spread(0.005F).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
 						.mag(new MagazineBelt().addConfigs(bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du))
 						.offset(1, -0.0625 * 2.5, -0.25D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_M2))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_M2_ANIMS).orchestra(Orchestras.ORCHESTRA_M2)
 				).setUnlocalizedName("gun_m2");
@@ -57,6 +57,10 @@ public class XFactory50 {
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
 		Lego.handleStandardSmoke(ctx.entity, stack, 2000, 0.05D, 1.1D, 0);
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_M2 = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil((float) (ctx.getPlayer().getRNG().nextGaussian() * 0.5), (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.5));
 	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_M2_ANIMS = (stack, type) -> {

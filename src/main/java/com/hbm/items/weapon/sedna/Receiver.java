@@ -39,6 +39,7 @@ public class Receiver {
 	public static final String F_FIREPITCH =				"F_FIREPITCH";
 	public static final String O_MAGAZINE =					"O_MAGAZINE";
 	public static final String O_PROJECTILEOFFSET =			"O_PROJECTILEOFFSET";
+	public static final String O_PROJECTILEOFFSETSCOPED =	"O_PROJECTILEOFFSETSCOPED";
 	public static final String FUN_CANFIRE =				"FUN_CANFIRE";
 	public static final String CON_ONFIRE =					"CON_ONFIRE";
 	public static final String CON_ONRECOIL =				"CON_ONRECOIL";
@@ -69,6 +70,7 @@ public class Receiver {
 	protected float firePitch_DNA = 1.0F;
 	protected IMagazine magazine_DNA;
 	protected Vec3 projectileOffset_DNA = Vec3.createVectorHelper(0, 0, 0);
+	protected Vec3 projectileOffsetScoped_DNA = Vec3.createVectorHelper(0, 0, 0);
 	protected BiFunction<ItemStack, LambdaContext, Boolean> canFire_DNA;
 	protected BiConsumer<ItemStack, LambdaContext> onFire_DNA;
 	protected BiConsumer<ItemStack, LambdaContext> onRecoil_DNA;
@@ -95,25 +97,27 @@ public class Receiver {
 	public float getFirePitch(ItemStack stack) {				return WeaponUpgradeManager.eval(this.firePitch_DNA, stack, F_FIREPITCH, this); }
 	public IMagazine getMagazine(ItemStack stack) {				return WeaponUpgradeManager.eval(this.magazine_DNA, stack, O_MAGAZINE, this); }
 	public Vec3 getProjectileOffset(ItemStack stack) {			return WeaponUpgradeManager.eval(this.projectileOffset_DNA, stack, O_PROJECTILEOFFSET, this); }
+	public Vec3 getProjectileOffsetScoped(ItemStack stack) {	return WeaponUpgradeManager.eval(this.projectileOffsetScoped_DNA, stack, O_PROJECTILEOFFSETSCOPED, this); }
 	
 	public BiFunction<ItemStack, LambdaContext, Boolean> getCanFire(ItemStack stack) {	return WeaponUpgradeManager.eval(this.canFire_DNA, stack, FUN_CANFIRE, this); }
 	public BiConsumer<ItemStack, LambdaContext> getOnFire(ItemStack stack) {			return WeaponUpgradeManager.eval(this.onFire_DNA, stack, CON_ONFIRE, this); }
 	public BiConsumer<ItemStack, LambdaContext> getRecoil(ItemStack stack) {			return WeaponUpgradeManager.eval(this.onRecoil_DNA, stack, CON_ONRECOIL, this); }
 
 	/* SETTERS */
-	public Receiver dmg(float dmg) {						this.baseDamage_DNA = dmg;										return this; }
-	public Receiver delay(int delay) {						this.delayAfterFire_DNA = this.delayAfterDryFire_DNA = delay;	return this; }
-	public Receiver dry(int delay) {						this.delayAfterDryFire_DNA = delay;								return this; }
-	public Receiver rounds(int rounds) {					this.roundsPerCycle_DNA = rounds;								return this; }
-	public Receiver spread(float spread) {					this.spreadModExtra_DNA = spread;								return this; }
-	public Receiver auto(boolean auto) {					this.refireOnHold_DNA = auto;									return this; }
-	public Receiver autoAfterDry(boolean auto) {			this.refireAfterDry_DNA = auto;									return this; }
-	public Receiver dryfire(boolean dryfire) {				this.doesDryFire_DNA = dryfire;									return this; }
-	public Receiver dryfireAfterAuto(boolean dryfire) {		this.doesDryFireAfterAuto_DNA = dryfire;						return this; }
-	public Receiver ejectOnFire(boolean eject) {			this.ejectOnFire_DNA = eject;									return this; }
-	public Receiver mag(IMagazine magazine) {				this.magazine_DNA = magazine;									return this; }
-	public Receiver offset(double f, double u, double s) {	this.projectileOffset_DNA = Vec3.createVectorHelper(f, u, s);	return this; }
-	public Receiver jam(int jam) {							this.jamDuration_DNA = jam; return this; }
+	public Receiver dmg(float dmg) {								this.baseDamage_DNA = dmg;											return this; }
+	public Receiver delay(int delay) {								this.delayAfterFire_DNA = this.delayAfterDryFire_DNA = delay;		return this; }
+	public Receiver dry(int delay) {									this.delayAfterDryFire_DNA = delay;								return this; }
+	public Receiver rounds(int rounds) {							this.roundsPerCycle_DNA = rounds;									return this; }
+	public Receiver spread(float spread) {							this.spreadModExtra_DNA = spread;									return this; }
+	public Receiver auto(boolean auto) {							this.refireOnHold_DNA = auto;										return this; }
+	public Receiver autoAfterDry(boolean auto) {					this.refireAfterDry_DNA = auto;										return this; }
+	public Receiver dryfire(boolean dryfire) {						this.doesDryFire_DNA = dryfire;										return this; }
+	public Receiver dryfireAfterAuto(boolean dryfire) {				this.doesDryFireAfterAuto_DNA = dryfire;							return this; }
+	public Receiver ejectOnFire(boolean eject) {					this.ejectOnFire_DNA = eject;										return this; }
+	public Receiver mag(IMagazine magazine) {						this.magazine_DNA = magazine;										return this; }
+	public Receiver offset(double f, double u, double s) {			this.projectileOffset_DNA = Vec3.createVectorHelper(f, u, s); this.projectileOffsetScoped_DNA = Vec3.createVectorHelper(f, u, 0);	return this; }
+	public Receiver offsetScoped(double f, double u, double s) {	this.projectileOffsetScoped_DNA = Vec3.createVectorHelper(f, u, s);	return this; }
+	public Receiver jam(int jam) {									this.jamDuration_DNA = jam;											return this; }
 	
 	public Receiver reload(int delay) { return reload(0, delay, delay, 0, 0); }
 	public Receiver reload(int begin, int cycle, int end, int cock) { return reload(0, begin, cycle, end, cock); }

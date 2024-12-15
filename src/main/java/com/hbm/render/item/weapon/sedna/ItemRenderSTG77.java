@@ -38,6 +38,7 @@ public class ItemRenderSTG77 extends ItemRenderWeaponBase {
 
 	@Override
 	public void renderFirstPerson(ItemStack stack) {
+		if(ItemGunBaseNT.prevAimingProgress == 1 && ItemGunBaseNT.aimingProgress == 1) return;
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.stg77_tex);

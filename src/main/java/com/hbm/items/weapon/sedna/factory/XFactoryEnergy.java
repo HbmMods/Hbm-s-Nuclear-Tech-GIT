@@ -15,6 +15,7 @@ import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineBelt;
@@ -133,10 +134,10 @@ public class XFactoryEnergy {
 		ModItems.gun_tesla_cannon = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(2_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.CIRCLE)
 				.rec(new Receiver(0)
-						.dmg(35F).delay(20).reload(44).jam(19).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(35F).delay(20).reload(44).jam(19).sound("hbm:weapon.fire.tesla", 1.0F, 1.0F)
 						.mag(new MagazineBelt().addConfigs(energy_tesla, energy_tesla_overcharge))
-						.offset(0.75, 0, -0.375)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.offset(0.75, 0, -0.375).offsetScoped(0.75, 0, -0.25)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_ENERGY))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_TESLA_ANIMS).orchestra(Orchestras.ORCHESTRA_TESLA)
 				).setUnlocalizedName("gun_tesla_cannon");
@@ -147,11 +148,13 @@ public class XFactoryEnergy {
 						.dmg(50F).delay(8).reload(44).jam(36).sound("hbm:weapon.fire.laser", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 24).addConfigs(energy_las, energy_las_overcharge, energy_las_ir))
 						.offset(0.75, -0.0625 * 1.5, -0.1875)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_ENERGY))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LASRIFLE).orchestra(Orchestras.ORCHESTRA_LASRIFLE)
 				).setUnlocalizedName("gun_lasrifle");
 	}
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_ENERGY = (stack, ctx) -> { };
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_TESLA_ANIMS = (stack, type) -> {
 		int amount = ((ItemGunBaseNT) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, MainRegistry.proxy.me().inventory);

@@ -476,6 +476,16 @@ crucible.steelPig=Herstellung - Stahl aus Roheisen
 crucible.steelWrought=Herstellung - Stahl aus Schmiedeeisen
 crucible.tcalloy=Herstellung - Technetiumstahl
 
+damage.inset=Resistenz wenn in Set getragen:
+damage.item=Resistenz wenn getragen:
+damage.category.EXPL=Explosion
+damage.category.FIRE=Feuer
+damage.category.PROJ=Projektil
+damage.exact.drown=Ertrinken
+damage.exact.LASER=Laser
+damage.exact.onFire=Nachbrennen
+damage.other=Andere
+
 death.attack.acid=%1$s fiel in Säure.
 death.attack.acidPlayer=%1$s wurde von %2$s aufgelöst.
 death.attack.ams=%1$s wurde in tödlichen Teilchen gebadet, die von der Menschheit erst benannt werden müssen.

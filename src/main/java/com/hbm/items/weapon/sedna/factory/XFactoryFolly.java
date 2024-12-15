@@ -104,8 +104,8 @@ public class XFactoryFolly {
 				.rec(new Receiver(0)
 						.dmg(1_000F).delay(26).dryfire(false).reload(160).jam(0).sound("hbm:weapon.fire.loudestNoiseOnEarth", 100.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(folly_sm, folly_nuke))
-						.offset(0.75, -0.0625, -0.1875D)
-						.canFire(LAMBDA_CAN_FIRE).fire(LAMBDA_FIRE).recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.offset(0.75, -0.0625, -0.1875D).offsetScoped(0.75, -0.0625, -0.125D)
+						.canFire(LAMBDA_CAN_FIRE).fire(LAMBDA_FIRE).recoil(LAMBDA_RECOIL_FOLLY))
 				.setupStandardConfiguration().pt(LAMBDA_TOGGLE_AIM)
 				.anim(LAMBDA_FOLLY_ANIMS).orchestra(Orchestras.ORCHESTRA_FOLLY)
 				).setUnlocalizedName("gun_folly");
@@ -128,6 +128,10 @@ public class XFactoryFolly {
 		if(ItemGunBaseNT.getLastAnim(stack, ctx.configIndex) != AnimType.SPINUP) return false;
 		if(ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex) < 100) return false;
 		return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack, ctx.inventory) > 0;
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_FOLLY = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil(25, (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));
 	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_FOLLY_ANIMS = (stack, type) -> {

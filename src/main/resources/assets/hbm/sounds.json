@@ -246,6 +246,9 @@
     "weapon.fire.shotgun": {"category": "player", "sounds": ["weapon/fire/shotgun"]},
     "weapon.fire.shotgunAlt": {"category": "player", "sounds": ["weapon/fire/shotgunAlt"]},
     "weapon.fire.shotgunAuto": {"category": "player", "sounds": ["weapon/fire/shotgunAuto"]},
+    "weapon.fire.greaseGun": {"category": "player", "sounds": ["weapon/fire/greaseGun"]},
+    "weapon.fire.uzi": {"category": "player", "sounds": ["weapon/fire/uzi"]},
+    "weapon.fire.tesla": {"category": "player", "sounds": ["weapon/fire/tesla"]},
     
     "weapon.reload.boltClose": {"category": "player", "sounds": ["weapon/reload/boltClose"]},
     "weapon.reload.boltOpen": {"category": "player", "sounds": ["weapon/reload/boltOpen"]},

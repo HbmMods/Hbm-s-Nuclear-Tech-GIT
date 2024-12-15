@@ -19,6 +19,7 @@ import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
@@ -141,12 +142,14 @@ public class XFactoryCatapult {
 				.rec(new Receiver(0)
 						.dmg(100F).delay(10).reload(57).jam(40).sound("hbm:weapon.fire.fatman", 1.0F, 1.0F)
 						.mag(new MagazineSingleReload(0, 1).addConfigs(nuke_standard, nuke_demo, nuke_high, nuke_tots, nuke_hive))
-						.offset(1, -0.0625 * 1.5, -0.1875D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.offset(1, -0.0625 * 1.5, -0.1875D).offsetScoped(1, -0.0625 * 1.5, -0.125D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_FATMAN))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_FATMAN_ANIMS).orchestra(Orchestras.ORCHESTRA_FATMAN)
 				).setUnlocalizedName("gun_fatman");
 	}
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_FATMAN = (stack, ctx) -> { };
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_FATMAN_ANIMS = (stack, type) -> {
 		switch(type) {
