@@ -108,7 +108,7 @@ public class XFactoryAccelerator {
 				.anim(LAMBDA_TAU_ANIMS).orchestra(Orchestras.ORCHESTRA_TAU)
 				).setUnlocalizedName("gun_tau");
 
-		ModItems.gun_coilgun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
+		ModItems.gun_coilgun = new ItemGunBaseNT(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(400).draw(5).inspect(39).crosshair(Crosshair.L_CIRCUMFLEX)
 				.rec(new Receiver(0)
 						.dmg(35F).delay(5).reload(20).jam(33).sound("hbm:weapon.coilgunShoot", 1.0F, 1.0F)

@@ -37,7 +37,7 @@ public class XFactory75Bolt {
 		b75_exp = new BulletConfig().setItem(EnumAmmo.B75_EXP).setDamage(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing75.clone().register("b75exp"));
 
-		ModItems.gun_bolter = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
+		ModItems.gun_bolter = new ItemGunBaseNT(WeaponQuality.SPECIAL, new GunConfig()
 				.dura(3_000).draw(20).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(15F).delay(2).auto(true).spread(0.005F).reload(40).jam(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)

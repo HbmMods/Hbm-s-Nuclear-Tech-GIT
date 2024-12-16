@@ -19,6 +19,8 @@ import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.TrackerUtil;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
@@ -161,6 +163,13 @@ public class BulletConfig implements Cloneable {
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_RICOCHET = (bullet, mop) -> {
 		
 		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+			
+			Block b = bullet.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+			if(b.getMaterial() == Material.glass) {
+				bullet.worldObj.func_147480_a(mop.blockX, mop.blockY, mop.blockZ, false);
+				bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+				return;
+			}
 
 			ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
 			Vec3 face = Vec3.createVectorHelper(dir.offsetX, dir.offsetY, dir.offsetZ);

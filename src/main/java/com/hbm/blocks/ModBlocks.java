@@ -1044,8 +1044,8 @@ public class ModBlocks {
 	public static Block anvil_lead;
 	public static Block anvil_steel;
 	public static Block anvil_desh;
-	public static Block anvil_saturnite;
 	public static Block anvil_ferrouranium;
+	public static Block anvil_saturnite;
 	public static Block anvil_bismuth_bronze;
 	public static Block anvil_arsenic_bronze;
 	public static Block anvil_schrabidate;
@@ -2215,8 +2215,8 @@ public class ModBlocks {
 		anvil_lead = new NTMAnvil(Material.iron, NTMAnvil.TIER_IRON).setBlockName("anvil_lead").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_lead");
 		anvil_steel = new NTMAnvil(Material.iron, NTMAnvil.TIER_STEEL).setBlockName("anvil_steel").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_steel");
 		anvil_desh = new NTMAnvil(Material.iron, NTMAnvil.TIER_OIL).setBlockName("anvil_desh").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_desh");
-		anvil_saturnite = new NTMAnvil(Material.iron, NTMAnvil.TIER_OIL).setBlockName("anvil_saturnite").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_saturnite");
 		anvil_ferrouranium = new NTMAnvil(Material.iron, NTMAnvil.TIER_NUCLEAR).setBlockName("anvil_ferrouranium").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_ferrouranium");
+		anvil_saturnite = new NTMAnvil(Material.iron, NTMAnvil.TIER_RBMK).setBlockName("anvil_saturnite").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_saturnite");
 		anvil_bismuth_bronze = new NTMAnvil(Material.iron, NTMAnvil.TIER_RBMK).setBlockName("anvil_bismuth_bronze").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_bismuth_bronze");
 		anvil_arsenic_bronze = new NTMAnvil(Material.iron, NTMAnvil.TIER_RBMK).setBlockName("anvil_arsenic_bronze").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_arsenic_bronze");
 		anvil_schrabidate = new NTMAnvil(Material.iron, NTMAnvil.TIER_FUSION).setBlockName("anvil_schrabidate").setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":anvil_schrabidate");
@@ -2950,8 +2950,8 @@ public class ModBlocks {
 		register(anvil_lead);
 		register(anvil_steel);
 		register(anvil_desh);
-		register(anvil_saturnite);
 		register(anvil_ferrouranium);
+		register(anvil_saturnite);
 		register(anvil_bismuth_bronze);
 		register(anvil_arsenic_bronze);
 		register(anvil_schrabidate);

@@ -9,6 +9,7 @@ import com.hbm.entity.projectile.EntityBoxcar;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
 
@@ -111,8 +112,8 @@ public class ItemGlitch extends Item implements IBatteryItem {
 				player.addChatMessage(new ChatComponentText("89% of magic tricks are not magic. Technically, they are sorcery."));
 				break;
 			case 18:
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_lever_action));
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_20gauge, 12));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_maresleg));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.ammo_standard, 12, EnumAmmo.G12.ordinal()));
 				player.addChatMessage(new ChatComponentText("Here ya go."));
 				break;
 			case 19:
