@@ -481,12 +481,12 @@ public class ItemRenderLibrary {
 				GL11.glScaled(8, 8, 8);
 			}
 			public void renderCommon() {
-				GL11.glScaled(6, 6, 6);
-		        GL11.glRotatef(22.5F, 0F, 1F, 0F);
-	            GL11.glDisable(GL11.GL_CULL_FACE);
-				bindTexture(ResourceManager.mine_ap_tex);
-	        	ResourceManager.mine_ap.renderAll();
-	            GL11.glEnable(GL11.GL_CULL_FACE);
+				GL11.glScaled(1.25, 1.25, 1.25);
+				GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.mine_ap_grass_tex); ResourceManager.mine_ap.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+				GL11.glEnable(GL11.GL_CULL_FACE);
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.mine_he), new ItemRenderBase() {
@@ -510,12 +510,15 @@ public class ItemRenderLibrary {
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.mine_shrap), new ItemRenderBase() {
 			public void renderInventory() {
-				GL11.glScaled(6, 6, 6);
+				GL11.glScaled(8, 8, 8);
 			}
 			public void renderCommon() {
-				GL11.glScaled(4, 4, 4);
-				bindTexture(ResourceManager.mine_shrap_tex);
-	        	ResourceManager.mine_he.renderAll();
+				GL11.glScaled(1.25, 1.25, 1.25);
+				GL11.glDisable(GL11.GL_CULL_FACE);
+				GL11.glShadeModel(GL11.GL_SMOOTH);
+				bindTexture(ResourceManager.mine_shrap_tex); ResourceManager.mine_ap.renderAll();
+				GL11.glShadeModel(GL11.GL_FLAT);
+				GL11.glEnable(GL11.GL_CULL_FACE);
 			}});
 		
 		renderers.put(Item.getItemFromBlock(ModBlocks.mine_fat), new ItemRenderBase() {

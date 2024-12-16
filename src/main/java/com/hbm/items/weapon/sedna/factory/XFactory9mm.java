@@ -9,11 +9,13 @@ import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT.GunState;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.main.MainRegistry;
+import com.hbm.main.ResourceManager;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.anim.BusAnimation;
@@ -44,21 +46,21 @@ public class XFactory9mm {
 		ModItems.gun_greasegun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(20).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(5F).delay(4).dry(40).auto(true).spread(0.015F).reload(60).jam(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(3F).delay(4).dry(40).auto(true).spread(0.015F).reload(60).jam(55).sound("hbm:weapon.fire.greaseGun", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap))
 						.offset(1, -0.0625 * 2.5, -0.25D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_GREASEGUN))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_GREASEGUN_ANIMS).orchestra(Orchestras.ORCHESTRA_GREASEGUN)
 				).setUnlocalizedName("gun_greasegun");
 
 		ModItems.gun_lag = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
-				.dura(1_700).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
+				.dura(1_700).draw(7).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(15F).delay(4).dry(40).spread(0.005F).reload(60).jam(55).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(25F).delay(4).dry(10).spread(0.005F).reload(53).jam(44).sound("hbm:weapon.fire.pistol", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 17).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap))
 						.offset(1, -0.0625 * 2.5, -0.25D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_LAG))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LAG_ANIMS).orchestra(Orchestras.ORCHESTRA_LAG)
 				).setUnlocalizedName("gun_lag");
@@ -66,17 +68,58 @@ public class XFactory9mm {
 		ModItems.gun_uzi = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(7.5F).delay(2).dry(25).auto(true).spread(0.005F).reload(55).jam(50).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(3F).delay(2).dry(25).auto(true).spread(0.005F).reload(55).jam(50).sound("hbm:weapon.fire.uzi", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap))
 						.offset(1, -0.0625 * 2.5, -0.25D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_UZI))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_UZI_ANIMS).orchestra(Orchestras.ORCHESTRA_UZI)
 				).setUnlocalizedName("gun_uzi");
+		ModItems.gun_uzi_akimbo = new ItemGunBaseNT(WeaponQuality.B_SIDE,
+				new GunConfig().dura(3_000).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(3F).delay(2).dry(25).auto(true).spread(0.005F).reload(55).jam(50).sound("hbm:weapon.fire.uzi", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(0, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap))
+						.offset(1, -0.0625 * 2.5, 0.375D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_UZI))
+				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
+				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
+				.anim(LAMBDA_UZI_ANIMS).orchestra(Orchestras.ORCHESTRA_UZI_AKIMBO),
+				new GunConfig().dura(3_000).draw(15).inspect(31).crosshair(Crosshair.CIRCLE).smoke(LAMBDA_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(7.5F).delay(2).dry(25).auto(true).spread(0.005F).reload(55).jam(50).sound("hbm:weapon.fire.uzi", 1.0F, 1.0F)
+						.mag(new MagazineFullReload(1, 30).addConfigs(p9_sp, p9_fmj, p9_jhp, p9_ap))
+						.offset(1, -0.0625 * 2.5, -0.375D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_UZI))
+				.ps(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD)
+				.decider(LAMBDA_SECOND_UZI)
+				.anim(LAMBDA_UZI_ANIMS).orchestra(Orchestras.ORCHESTRA_UZI_AKIMBO)
+				).setUnlocalizedName("gun_uzi_akimbo");
 	}
 	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_GREASEGUN = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil(2, (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.5));
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_LAG = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil(5, (float) (ctx.getPlayer().getRNG().nextGaussian() * 1.5));
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_UZI = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil(1, (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.25));
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SECOND_UZI = (stack, ctx) -> {
+		int index = ctx.configIndex;
+		GunState lastState = ItemGunBaseNT.getState(stack, index);
+		GunStateDecider.deciderStandardFinishDraw(stack, lastState, index);
+		GunStateDecider.deciderStandardClearJam(stack, lastState, index);
+		GunStateDecider.deciderStandardReload(stack, ctx, lastState, 0, index);
+		GunStateDecider.deciderAutoRefire(stack, ctx, lastState, 0, index, () -> { return ItemGunBaseNT.getSecondary(stack, index) && ItemGunBaseNT.getMode(stack, ctx.configIndex) == 0; });
+	};
+	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
-		Lego.handleStandardSmoke(ctx.entity, stack, 2000, 0.05D, 1.1D, 0);
+		Lego.handleStandardSmoke(ctx.entity, stack, 2000, 0.05D, 1.1D, ctx.configIndex);
 	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_GREASEGUN_ANIMS = (stack, type) -> {
@@ -111,7 +154,20 @@ public class XFactory9mm {
 		return null;
 	};
 
-	public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_LAG_ANIMS = (stack, type) -> {
+	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_LAG_ANIMS = (stack, type) -> {
+		switch(type) {
+		case EQUIP: return new BusAnimation()
+				.addBus("EQUIP", new BusAnimationSequence().addPos(-90, 0, 0, 0).addPos(0, 0, 0, 350, IType.SIN_DOWN));
+		case CYCLE: return ResourceManager.lag_anim.get("Firing");
+				//.addBus("HAMMER", new BusAnimationSequence().addPos(0, 0, 25, 50).addPos(0, 0, 25, 50).addPos(0, 0, 0, 100, IType.SIN_DOWN));
+		case CYCLE_DRY: return ResourceManager.lag_anim.get("Dryfire");
+		case RELOAD: return ResourceManager.lag_anim.get("Reload");
+		case JAMMED: return ResourceManager.lag_anim.get("Jam");
+		case INSPECT: return ResourceManager.lag_anim.get("Inspect")
+				.addBus("ADD_TRANS", new BusAnimationSequence().addPos(-4, 0, -3, 500).addPos(-4, 0, -3, 2000).addPos(0, 0, 0, 500))
+				.addBus("ADD_ROT", new BusAnimationSequence().addPos(0, -2, 5, 500).addPos(0, -2, 5, 2000).addPos(0, 0, 0, 500));
+		}
+		
 		return null;
 	};
 

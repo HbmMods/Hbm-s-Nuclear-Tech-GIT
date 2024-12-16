@@ -65,6 +65,7 @@ public class CrucibleUtil {
 		}
 		
 		for(MaterialStack stack : stacks) {
+			if(stack.material == null) continue;
 			
 			int amountToPour = Math.min(stack.amount, quanta);
 			MaterialStack toPour = new MaterialStack(stack.material, amountToPour);

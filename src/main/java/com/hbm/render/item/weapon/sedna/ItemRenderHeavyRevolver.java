@@ -23,6 +23,12 @@ public class ItemRenderHeavyRevolver extends ItemRenderWeaponBase {
 	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.25F; }
 
 	@Override
+	public float getViewFOV(ItemStack stack, float fov) {
+		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
+		return  fov * (1 - aimingProgress * (isScoped(stack) ? 0.66F : 0.33F));
+	}
+
+	@Override
 	public void setupFirstPerson(ItemStack stack) {
 		GL11.glTranslated(0, 0, 1);
 
@@ -38,7 +44,7 @@ public class ItemRenderHeavyRevolver extends ItemRenderWeaponBase {
 	public void renderFirstPerson(ItemStack stack) {
 
 		boolean isScoped = this.isScoped(stack);
-		if(this.isScoped(stack) && ItemGunBaseNT.prevAimingProgress == 1 && ItemGunBaseNT.aimingProgress == 1) return;
+		if(isScoped && ItemGunBaseNT.prevAimingProgress == 1 && ItemGunBaseNT.aimingProgress == 1) return;
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
 		
 		double scale = 0.125D;

@@ -19,7 +19,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockOreBasalt extends BlockEnumMulti {
 	
@@ -65,14 +64,7 @@ public class BlockOreBasalt extends BlockEnumMulti {
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-		int meta = world.getBlockMetadata(x, y, z);
-		if(meta == EnumBasaltOreType.ASBESTOS.ordinal()) for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
-			if(world.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == Blocks.air) {
-				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, ModBlocks.gas_asbestos);
-			}
-		}
-	}
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) { } //no more BUD outgassing for you, mister
 
 	@Override
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune) {

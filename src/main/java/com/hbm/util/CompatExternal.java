@@ -5,10 +5,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.entity.missile.EntityMissileCustom;
+import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.turret.TileEntityTurretSentry;
 
@@ -21,6 +25,7 @@ import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
 /**
@@ -176,8 +181,12 @@ public class CompatExternal {
 	 * class on the side of whoever is adding compat, allowing the compat class to be used entirely with reflection.
 	 */
 	public static void registerTurretTargetingCondition(Class clazz, BiFunction<Entity, Object, Integer> bi) {
-		turretTargetBlacklist.add(clazz);
+		turretTargetCondition.put(clazz, bi);
 	}
+
+	public static void setWarheadLabel(WarheadType type, String label) { type.labelCustom = label; }
+	public static void setWarheadImpact(WarheadType type, Consumer<EntityMissileCustom> impact) { type.impactCustom = impact; }
+	public static void setWarheadUpdate(WarheadType type, Consumer<EntityMissileCustom> update) { type.updateCustom = update; }
 	
 	public static void compatExamples() {
 		// Makes all cows be targeted by turrets if player mode is active in addition to the existing rules. Applies to all entities that inherit EntityCow.
@@ -189,6 +198,11 @@ public class CompatExternal {
 			if(entity.getCommandSenderName().equals("Target Practice")) return 1;
 			if(turret instanceof TileEntityTurretSentry) return -1;
 			return 0;
+		});
+		//configures CUSTOM0 to have a custom label and impact effect
+		CompatExternal.setWarheadLabel(WarheadType.CUSTOM0, EnumChatFormatting.YELLOW + "Micro Nuke");
+		CompatExternal.setWarheadImpact(WarheadType.CUSTOM0, (missile) -> {
+			ExplosionNukeSmall.explode(missile.worldObj, missile.posX, missile.posY + 0.5, missile.posZ, ExplosionNukeSmall.PARAMS_MEDIUM);
 		});
 	}
 }

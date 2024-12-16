@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import org.lwjgl.util.glu.Project;
 
+import com.hbm.config.ClientConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.SmokeNode;
 import com.hbm.lib.RefStrings;
@@ -48,6 +49,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		GL11.glPushMatrix();
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		switch(type) {
 		case EQUIPPED_FIRST_PERSON:	setupFirstPerson(item);	renderFirstPerson(item); break;
 		case EQUIPPED:				setupThirdPerson(item);	renderEquipped(item); break;
@@ -74,7 +76,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 		GL11.glLoadIdentity();
 
-		Project.gluPerspective(this.getFOVModifier(interp, false), (float) mc.displayWidth / (float) mc.displayHeight, 0.05F, farPlaneDistance * 2.0F);
+		Project.gluPerspective(this.getFOVModifier(interp, ClientConfig.GUN_MODEL_FOV.get()), (float) mc.displayWidth / (float) mc.displayHeight, 0.05F, farPlaneDistance * 2.0F);
 
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
@@ -98,7 +100,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		
 		Minecraft mc = Minecraft.getMinecraft();
 		EntityLivingBase entityplayer = (EntityLivingBase) mc.renderViewEntity;
-		float fov = 70.0F;
+		float fov = getBaseFOV(entityplayer.getHeldItem());
 
 		if(useFOVSetting) fov = mc.gameSettings.fovSetting;
 
@@ -113,6 +115,8 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		return fov;
 	}
 
+	protected float getBaseFOV(ItemStack stack) { return 70F; }
+	public float getViewFOV(ItemStack stack, float fov) { return  fov; }
 	protected float getSwayMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 0.1F : 0.5F; }
 	protected float getSwayPeriod(ItemStack stack) { return 0.75F; }
 	protected float getTurnMagnitude(ItemStack stack) { return 2.75F; }
@@ -159,7 +163,7 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		GL11.glPushMatrix();
 		
 		//swing
-		float swing = player.getSwingProgress(interp);
+		/*float swing = player.getSwingProgress(interp);
 		float swingZ = MathHelper.sin(swing * (float) Math.PI);
 		float swingX = MathHelper.sin(MathHelper.sqrt_float(swing) * (float) Math.PI);
 		GL11.glTranslatef(-swingX * 0.4F, MathHelper.sin(MathHelper.sqrt_float(swing) * (float) Math.PI * 2.0F) * 0.2F, -swingZ * 0.2F);
@@ -169,8 +173,10 @@ public abstract class ItemRenderWeaponBase implements IItemRenderer {
 		float swingPitchRoll = MathHelper.sin(MathHelper.sqrt_float(swing) * (float) Math.PI);
 		GL11.glRotatef(-swingYaw * 20.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(-swingPitchRoll * 20.0F, 0.0F, 0.0F, 1.0F);
-		GL11.glRotatef(-swingPitchRoll * 80.0F, 1.0F, 0.0F, 0.0F);
+		GL11.glRotatef(-swingPitchRoll * 80.0F, 1.0F, 0.0F, 0.0F);*/
 
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL); //!
+		
 		GL11.glRotated(180, 0, 1, 0);
 
 		//viewbob

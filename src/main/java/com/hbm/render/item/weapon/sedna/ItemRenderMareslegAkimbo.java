@@ -127,6 +127,8 @@ public class ItemRenderMareslegAkimbo extends ItemRenderWeaponBase {
 
 	@Override
 	public void setupInv(ItemStack stack) {
+		GL11.glAlphaFunc(GL11.GL_GREATER, 0F);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
 		GL11.glScaled(1, 1, -1);
 		GL11.glTranslated(8, 8, 0);
 		double scale = 2.5D;

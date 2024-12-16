@@ -8,8 +8,9 @@ import com.hbm.items.ModItems;
 import net.minecraft.util.WeightedRandomChestContent;
 
 public class ItemPoolsRedRoom {
-	
+
 	public static final String POOL_RED_PEDESTAL = "POOL_RED_PEDESTAL";
+	public static final String POOL_RED_WEAPON = "POOL_RED_WEAPON";
 	
 	public static void init() {
 		
@@ -37,6 +38,20 @@ public class ItemPoolsRedRoom {
 					weighted(ModBlocks.boxcar, 0, 1, 1, 5),
 					weighted(ModItems.book_of_, 0, 1, 1, 5),
 					weighted(ModItems.gun_revolver_pip, 0, 1, 1, 5)
+			};
+		}};
+		
+		//pedestal weapons
+		new ItemPool(POOL_RED_WEAPON) {{
+			this.pool = new WeightedRandomChestContent[] {
+					weighted(ModItems.gun_light_revolver_dani, 0, 1, 1, 10),
+					weighted(ModItems.gun_maresleg_broken, 0, 1, 1, 10),
+					weighted(ModItems.gun_heavy_revolver_lilmac, 0, 1, 1, 10),
+					weighted(ModItems.gun_flamer_daybreaker, 0, 1, 1, 5),
+					weighted(ModItems.gun_autoshotgun_sexy, 0, 1, 1, 5),
+					weighted(ModItems.gun_minigun_lacunae, 0, 1, 1, 5),
+					weighted(ModItems.gun_hangman, 0, 1, 1, 5),
+					weighted(ModItems.gun_folly, 0, 1, 1, 1),
 			};
 		}};
 	}

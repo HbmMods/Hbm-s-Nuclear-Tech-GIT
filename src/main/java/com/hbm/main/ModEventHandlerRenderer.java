@@ -509,7 +509,7 @@ public class ModEventHandlerRenderer {
 		}
 	}
 	
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onRenderHUD(RenderGameOverlayEvent.Pre event) {
 		
 		if(event.type == ElementType.HOTBAR && (ModEventHandlerClient.shakeTimestamp + ModEventHandlerClient.shakeDuration - System.currentTimeMillis()) > 0 && ClientConfig.NUKE_HUD_SHAKE.get()) {

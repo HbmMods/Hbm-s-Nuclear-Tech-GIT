@@ -3,9 +3,8 @@ package com.hbm.itempool;
 import static com.hbm.lib.HbmChestContents.weighted;
 
 import com.hbm.inventory.material.Mats;
-import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
-import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 
 import net.minecraft.init.Items;
 import net.minecraft.util.WeightedRandomChestContent;
@@ -41,14 +40,12 @@ public class ItemPoolsPile {
 					weighted(ModItems.steel_pickaxe, 0, 1, 1, 5),
 					weighted(ModItems.steel_shovel, 0, 1, 1, 5),
 					//Weapons
-					weighted(ModItems.gun_lever_action, 0, 1, 1, 5),
-					weighted(ModItems.gun_bio_revolver, 0, 1, 1, 1),
+					weighted(ModItems.gun_maresleg, 0, 1, 1, 5),
+					weighted(ModItems.gun_light_revolver, 0, 1, 1, 1),
 					weighted(ModItems.grenade_if_generic, 0, 1, 2, 5),
-					weighted(ModItems.ammo_20gauge, 0, 8, 8, 10),
-					weighted(ModItems.ammo_12gauge, 0, 4, 4, 10),
-					weighted(ModItems.ammo_357, Ammo357Magnum.LEAD.ordinal(), 6, 12, 10),
+					weighted(ModItems.ammo_standard, EnumAmmo.G12.ordinal(), 4, 4, 10),
+					weighted(ModItems.ammo_standard, EnumAmmo.M357_SP.ordinal(), 6, 12, 10),
 					weighted(ModItems.ammo_grenade, 0, 1, 1, 2),
-					weighted(ModItems.ammo_nuke, AmmoFatman.PUMPKIN.ordinal(), 1, 1, 1),
 					//Consumables
 					weighted(ModItems.bottle_nuka, 0, 1, 2, 20),
 					weighted(ModItems.bottle_quantum, 0, 1, 2, 1),
@@ -96,16 +93,17 @@ public class ItemPoolsPile {
 		}};
 		
 		//makeshift gun
-		new ItemPool(POOL_PILE_MAKESHIFT_GUN) {{ this.pool = new WeightedRandomChestContent[] { weighted(ModItems.gun_lever_action, 0, 1, 1, 10) }; }};
+		new ItemPool(POOL_PILE_MAKESHIFT_GUN) {{ this.pool = new WeightedRandomChestContent[] { weighted(ModItems.gun_maresleg, 0, 1, 1, 10) }; }};
 		new ItemPool(POOL_PILE_MAKESHIFT_WRENCH) {{ this.pool = new WeightedRandomChestContent[] { weighted(ModItems.wrench, 0, 1, 1, 10) }; }};
 		new ItemPool(POOL_PILE_MAKESHIFT_PLATES) {{ this.pool = new WeightedRandomChestContent[] { weighted(ModItems.plate_steel, 0, 1, 1, 10) }; }};
 		new ItemPool(POOL_PILE_MAKESHIFT_WIRE) {{ this.pool = new WeightedRandomChestContent[] { weighted(ModItems.wire_fine, Mats.MAT_ALUMINIUM.id, 1, 1, 10) }; }};
 		
 		new ItemPool(POOL_PILE_NUKE_STORAGE) {{
 			this.pool = new WeightedRandomChestContent[] {
-					weighted(ModItems.ammo_nuke, AmmoFatman.STOCK.ordinal(), 1, 1, 10),
-					weighted(ModItems.ammo_nuke, AmmoFatman.LOW.ordinal(), 1, 1, 50),
-					weighted(ModItems.ammo_nuke, AmmoFatman.SAFE.ordinal(), 1, 1, 50),
+					weighted(ModItems.ammo_standard, EnumAmmo.NUKE_STANDARD.ordinal(), 1, 1, 50),
+					weighted(ModItems.ammo_standard, EnumAmmo.NUKE_HIGH.ordinal(), 1, 1, 10),
+					weighted(ModItems.ammo_standard, EnumAmmo.NUKE_TOTS.ordinal(), 1, 1, 10),
+
 			};
 		}};
 	}

@@ -70,7 +70,6 @@ public class ItemPoolsSingle {
 					weighted(ModItems.powder_yellowcake, 0, 16, 24, 1),
 					weighted(ModItems.gun_uzi, 0, 1, 1, 1),
 					weighted(ModItems.gun_uzi_silencer, 0, 1, 1, 1),
-					weighted(ModItems.clip_uzi, 0, 1, 3, 1),
 					weighted(ModItems.circuit, EnumCircuitType.VACUUM_TUBE.ordinal(), 12, 16, 1),
 					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 2, 6, 1)
 			};
@@ -91,7 +90,6 @@ public class ItemPoolsSingle {
 					weighted(ModItems.powder_yellowcake, 0, 26, 42, 1),
 					weighted(ModItems.ingot_u235, 0, 3, 6, 1),
 					weighted(ModItems.gun_revolver_pip, 0, 1, 1, 1),
-					weighted(ModItems.clip_revolver_pip, 0, 2, 4, 1),
 					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 18, 32, 1),
 					weighted(ModItems.circuit, EnumCircuitType.BASIC.ordinal(), 6, 12, 1)
 			};
@@ -100,7 +98,6 @@ public class ItemPoolsSingle {
 		new ItemPool(POOL_VAULT_UNBREAKABLE) {{
 			this.pool = new WeightedRandomChestContent[] {
 					weighted(ModItems.ammo_container, 0, 3, 6, 1),
-					weighted(ModItems.clip_fatman, 0, 2, 3, 1),
 					weighted(ModItems.ammo_nuke, AmmoFatman.MIRV.ordinal(), 2, 3, 1),
 					weighted(ModItems.gun_mirv, 0, 1, 1, 1),
 					weighted(ModItems.gun_proto, 0, 1, 1, 1),

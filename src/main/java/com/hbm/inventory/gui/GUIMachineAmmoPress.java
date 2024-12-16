@@ -282,7 +282,9 @@ public class GUIMachineAmmoPress extends GuiInfoContainer {
 				GL11.glDisable(GL11.GL_BLEND);
 			}
 		}
-		
+
+		RenderHelper.disableStandardItemLighting();
+		GL11.glColor4f(1F, 1F, 1F, 1F);
 		this.search.drawTextBox();
 	}
 	

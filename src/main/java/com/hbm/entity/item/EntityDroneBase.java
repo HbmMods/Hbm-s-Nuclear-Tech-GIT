@@ -103,14 +103,12 @@ public abstract class EntityDroneBase extends Entity {
 			if(this.targetY != -1) {
 				
 				Vec3 dist = Vec3.createVectorHelper(targetX - posX, targetY - posY, targetZ - posZ);
-				double speed = getSpeed();
+				double speed = Math.min(getSpeed(), dist.lengthVector());
 				
-				if(dist.lengthVector() >= speed) {
-					dist = dist.normalize();
-					this.motionX = dist.xCoord * speed;
-					this.motionY = dist.yCoord * speed;
-					this.motionZ = dist.zCoord * speed;
-				}
+				dist = dist.normalize();
+				this.motionX = dist.xCoord * speed;
+				this.motionY = dist.yCoord * speed;
+				this.motionZ = dist.zCoord * speed;
 			}
 			if(isCollidedHorizontally){
 				motionY += 1;

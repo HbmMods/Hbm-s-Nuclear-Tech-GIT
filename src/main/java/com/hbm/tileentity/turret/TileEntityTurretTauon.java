@@ -3,9 +3,9 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
 import com.hbm.inventory.gui.GUITurretTauon;
+import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.factory.XFactoryAccelerator;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -23,7 +23,7 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 	static List<Integer> configs = new ArrayList();
 	
 	static {
-		configs.add(BulletConfigSyncingUtil.SPECIAL_GAUSS);
+		configs.add(XFactoryAccelerator.tau_uranium.id);
 	}
 	
 	@Override
@@ -123,7 +123,7 @@ public class TileEntityTurretTauon extends TileEntityTurretBaseNT {
 		
 		if(timer % 5 == 0) {
 			
-			BulletConfiguration conf = this.getFirstConfigLoaded();
+			BulletConfig conf = this.getFirstConfigLoaded();
 			
 			if(conf != null && this.target != null) {
 				this.target.attackEntityFrom(ModDamageSource.electricity, 30F + worldObj.rand.nextInt(11));

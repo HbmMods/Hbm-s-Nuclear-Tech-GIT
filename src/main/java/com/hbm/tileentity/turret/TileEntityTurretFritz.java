@@ -15,6 +15,7 @@ import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
 import com.hbm.inventory.gui.GUITurretFritz;
 import com.hbm.items.ModItems;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 
@@ -57,7 +58,7 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 		
 		ammoStacks = new ArrayList();
 
-		ammoStacks.add(new ItemStack(ModItems.ammo_fuel));
+		ammoStacks.add(new ItemStack(ModItems.ammo_standard, 1, EnumAmmo.FLAME_DIESEL.ordinal()));
 		
 		for(FluidType type : Fluids.getInNiceOrder()) {
 			if(type.hasTrait(FT_Combustible.class) && type.hasTrait(FT_Liquid.class)) {
@@ -144,7 +145,7 @@ public class TileEntityTurretFritz extends TileEntityTurretBaseNT implements IFl
 			
 			for(int i = 1; i < 10; i++) {
 				
-				if(slots[i] != null && slots[i].getItem() == ModItems.ammo_fuel) {
+				if(slots[i] != null && slots[i].getItem() == ModItems.ammo_standard && slots[i].getItemDamage() == EnumAmmo.FLAME_DIESEL.ordinal()) {
 					if(this.tank.getTankType() == Fluids.DIESEL && this.tank.getFill() + 1000 <= this.tank.getMaxFill()) {
 						this.tank.setFill(this.tank.getFill() + 1000);
 						this.decrStackSize(i, 1);

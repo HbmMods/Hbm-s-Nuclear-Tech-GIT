@@ -33,22 +33,22 @@ public class XFactory22lr {
 
 	public static void init() {
 		SpentCasing casing22 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setScale(0.5F);
-		p22_sp = new BulletConfig().setItem(EnumAmmo.P22_SP)
+		p22_sp = new BulletConfig().setItem(EnumAmmo.P22_SP).setKnockback(0F)
 				.setCasing(casing22.clone().register("p22"));
-		p22_fmj = new BulletConfig().setItem(EnumAmmo.P22_FMJ).setDamage(0.8F).setArmorPiercing(0.1F)
+		p22_fmj = new BulletConfig().setItem(EnumAmmo.P22_FMJ).setKnockback(0F).setDamage(0.8F).setArmorPiercing(0.1F)
 				.setCasing(casing22.clone().register("p22fmj"));
-		p22_jhp = new BulletConfig().setItem(EnumAmmo.P22_JHP).setDamage(1.5F).setArmorPiercing(-0.25F)
+		p22_jhp = new BulletConfig().setItem(EnumAmmo.P22_JHP).setKnockback(0F).setDamage(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing22.clone().register("p22jhp"));
-		p22_ap = new BulletConfig().setItem(EnumAmmo.P22_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setArmorPiercing(0.15F)
+		p22_ap = new BulletConfig().setItem(EnumAmmo.P22_AP).setKnockback(0F).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setArmorPiercing(0.15F)
 				.setCasing(casing22.clone().setColor(SpentCasing.COLOR_CASE_44).register("p22ap"));
 
 		ModItems.gun_am180 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(177 * 25).draw(15).inspect(38).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(5F).delay(1).dry(10).auto(true).spread(0.02F).reload(66).jam(30).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(2F).delay(1).dry(10).auto(true).spread(0.02F).reload(66).jam(30).sound("hbm:weapon.fire.silenced", 1.0F, 1.0F)
 						.mag(new MagazineFullReload(0, 177).addConfigs(p22_sp, p22_fmj, p22_jhp, p22_ap))
 						.offset(1, -0.0625 * 1.5, -0.1875D)
-						.setupStandardFire().recoil(Lego.LAMBDA_STANDARD_RECOIL))
+						.setupStandardFire().recoil(LAMBDA_RECOIL_AM180))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_AM180_ANIMS).orchestra(Orchestras.ORCHESTRA_AM180)
 				).setUnlocalizedName("gun_am180");
@@ -56,6 +56,10 @@ public class XFactory22lr {
 	
 	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SMOKE = (stack, ctx) -> {
 		Lego.handleStandardSmoke(ctx.entity, stack, 3000, 0.05D, 1.1D, 0);
+	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> LAMBDA_RECOIL_AM180 = (stack, ctx) -> {
+		ItemGunBaseNT.setupRecoil((float) (ctx.getPlayer().getRNG().nextGaussian() * 0.25), (float) (ctx.getPlayer().getRNG().nextGaussian() * 0.25));
 	};
 
 	@SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, AnimType, BusAnimation> LAMBDA_AM180_ANIMS = (stack, type) -> {

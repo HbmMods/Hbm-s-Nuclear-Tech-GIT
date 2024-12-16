@@ -9,10 +9,8 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.logic.EntityBomber;
 import com.hbm.entity.missile.EntityMissileBaseNT;
 import com.hbm.entity.missile.EntityMissileCustom;
-import com.hbm.entity.projectile.EntityBulletBaseNT;
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.train.EntityRailCarBase;
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
@@ -20,6 +18,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerTurretBase;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemTurretBiometry;
+import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.lib.Library;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
@@ -331,7 +330,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 	public boolean usesCasings() { return false; }
 	public int casingDelay() { return 0; }
 	
-	public BulletConfiguration getFirstConfigLoaded() {
+	public BulletConfig getFirstConfigLoaded() {
 		
 		List<Integer> list = getAmmoList();
 		
@@ -346,10 +345,8 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 				
 				for(Integer c : list) { //we can afford all this extra iteration trash on the count that a turret has at most like 4 bullet configs
 					
-					BulletConfiguration conf = BulletConfigSyncingUtil.pullConfig(c);
-					
-					if(conf.ammo != null && conf.ammo.matchesRecipe(slots[i], true))
-						return conf;
+					BulletConfig conf = BulletConfig.configs.get(c);
+					if(conf.ammo != null && conf.ammo.matchesRecipe(slots[i], true)) return conf;
 				}
 			}
 		}
@@ -357,17 +354,15 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		return null;
 	}
 	
-	public void spawnBullet(BulletConfiguration bullet) {
+	public void spawnBullet(BulletConfig bullet, float baseDamage) {
 		
 		Vec3 pos = this.getTurretPos();
 		Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
 		vec.rotateAroundZ((float) -this.rotationPitch);
 		vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 		
-		EntityBulletBaseNT proj = new EntityBulletBaseNT(worldObj, BulletConfigSyncingUtil.getKey(bullet));
-		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, 0.0F, 0.0F);
-		
-		proj.setThrowableHeading(vec.xCoord, vec.yCoord, vec.zCoord, bullet.velocity, bullet.spread);
+		EntityBulletBaseMK4 proj = new EntityBulletBaseMK4(worldObj, bullet, baseDamage, bullet.spread, (float) rotationYaw, (float) rotationPitch);
+		proj.setPositionAndRotation(pos.xCoord + vec.xCoord, pos.yCoord + vec.yCoord, pos.zCoord + vec.zCoord, proj.rotationYaw, proj.rotationPitch);
 		worldObj.spawnEntityInWorld(proj);
 		
 		if(usesCasings()) {
@@ -809,7 +804,7 @@ public abstract class TileEntityTurretBaseNT extends TileEntityMachineBase imple
 		ammoStacks = new ArrayList();
 		
 		for(Integer i : getAmmoList()) {
-			BulletConfiguration config = BulletConfigSyncingUtil.pullConfig(i);
+			BulletConfig config = BulletConfig.configs.get(i);
 			
 			if(config != null && config.ammo != null) {
 				ammoStacks.add(config.ammo.toStack());

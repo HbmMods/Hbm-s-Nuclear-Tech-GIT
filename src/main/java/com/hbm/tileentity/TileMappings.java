@@ -14,6 +14,7 @@ import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.blocks.generic.BlockPedestal.TileEntityPedestal;
 import com.hbm.blocks.generic.BlockPlushie.TileEntityPlushie;
 import com.hbm.blocks.generic.BlockSnowglobe.TileEntitySnowglobe;
+import com.hbm.blocks.generic.BlockSupplyCrate.TileEntitySupplyCrate;
 import com.hbm.blocks.generic.PartEmitter.TileEntityPartEmitter;
 import com.hbm.blocks.machine.BlockICF.TileEntityBlockICF;
 import com.hbm.blocks.machine.BlockPWR.TileEntityBlockPWR;
@@ -150,6 +151,7 @@ public class TileMappings {
 		put(TileEntityBarrel.class, "tileentity_fluid_barrel");
 		put(TileEntityCyberCrab.class, "tileentity_crabs");
 		put(TileEntitySoyuzCapsule.class, "tileentity_soyuz_capsule");
+		put(TileEntitySupplyCrate.class, "tileentity_supply_crate");
 		put(TileEntityMachineRotaryFurnace.class, "tileentity_rotary_furnace");
 		put(TileEntityMachineCrystallizer.class, "tileentity_acidomatic");
 		put(TileEntitySoyuzStruct.class, "tileentity_soyuz_struct");
