@@ -92,7 +92,7 @@ public class ItemGlitch extends Item implements IBatteryItem {
 				}
 				break;
 			case 13:
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_pip));
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_heavy_revolver_lilmac));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.bottle_sparkle));
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.geiger_counter));
 				player.addChatMessage(new ChatComponentText("Have some free stuff. You'll need it for that one cryptic achievement."));

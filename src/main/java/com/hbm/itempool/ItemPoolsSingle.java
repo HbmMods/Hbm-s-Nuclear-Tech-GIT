@@ -42,9 +42,9 @@ public class ItemPoolsSingle {
 		new ItemPool(POOL_VAULT_RUSTY) {{
 			this.pool = new WeightedRandomChestContent[] {
 					weighted(Items.gold_ingot, 0, 3, 14, 1),
-					weighted(ModItems.gun_uac_pistol, 0, 1, 1, 2),
+					weighted(ModItems.gun_heavy_revolver, 0, 1, 1, 2),
 					weighted(ModItems.pin, 0, 8, 8, 1),
-					weighted(ModItems.gun_calamity, 0, 1, 1, 1),
+					weighted(ModItems.gun_am180, 0, 1, 1, 1),
 					weighted(ModItems.bottle_quantum, 0, 1, 3, 1),
 					weighted(ModItems.ingot_advanced_alloy, 0, 4, 12, 1),
 					weighted(ModItems.ammo_standard, EnumAmmo.BMG50_FMJ.ordinal(), 24, 48, 1),
@@ -69,7 +69,6 @@ public class ItemPoolsSingle {
 					weighted(ModItems.grenade_smart, 0, 1, 6, 1),
 					weighted(ModItems.powder_yellowcake, 0, 16, 24, 1),
 					weighted(ModItems.gun_uzi, 0, 1, 1, 1),
-					weighted(ModItems.gun_uzi_silencer, 0, 1, 1, 1),
 					weighted(ModItems.circuit, EnumCircuitType.VACUUM_TUBE.ordinal(), 12, 16, 1),
 					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 2, 6, 1)
 			};
@@ -89,7 +88,7 @@ public class ItemPoolsSingle {
 					weighted(ModItems.grenade_mirv, 0, 1, 1, 1),
 					weighted(ModItems.powder_yellowcake, 0, 26, 42, 1),
 					weighted(ModItems.ingot_u235, 0, 3, 6, 1),
-					weighted(ModItems.gun_revolver_pip, 0, 1, 1, 1),
+					weighted(ModItems.gun_heavy_revolver, 0, 1, 1, 1),
 					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 18, 32, 1),
 					weighted(ModItems.circuit, EnumCircuitType.BASIC.ordinal(), 6, 12, 1)
 			};
@@ -99,8 +98,8 @@ public class ItemPoolsSingle {
 			this.pool = new WeightedRandomChestContent[] {
 					weighted(ModItems.ammo_container, 0, 3, 6, 1),
 					weighted(ModItems.ammo_standard, EnumAmmo.NUKE_DEMO.ordinal(), 2, 3, 1),
-					weighted(ModItems.gun_mirv, 0, 1, 1, 1),
-					weighted(ModItems.gun_proto, 0, 1, 1, 1),
+					weighted(ModItems.gun_carbine, 0, 1, 1, 1),
+					weighted(ModItems.gun_congolake, 0, 1, 1, 1),
 					weighted(ModItems.gun_b92, 0, 1, 1, 1),
 					weighted(ModItems.ingot_combine_steel, 0, 16, 28, 1),
 					weighted(ModItems.man_core, 0, 1, 1, 1),
