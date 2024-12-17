@@ -37,7 +37,6 @@ public class Landmine extends BlockContainer implements IBomb {
 
 	public Landmine(Material mat, double range, double height) {
 		super(mat);
-
 		this.range = range;
 		this.height = height;
 	}
@@ -47,20 +46,9 @@ public class Landmine extends BlockContainer implements IBomb {
 		return new TileEntityLandmine();
 	}
 
-	@Override
-	public int getRenderType() {
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
+	@Override public int getRenderType() { return -1; }
+	@Override public boolean isOpaqueCube() { return false; }
+	@Override public boolean renderAsNormalBlock() { return false; }
 
 	@Override
 	public Item getItemDropped(int i, Random rand, int j) {
@@ -70,14 +58,10 @@ public class Landmine extends BlockContainer implements IBomb {
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
 		float f = 0.0625F;
-		if(this == ModBlocks.mine_ap)
-			this.setBlockBounds(6 * f, 0.0F, 6 * f, 10 * f, 2 * f, 10 * f);
-		if(this == ModBlocks.mine_he)
-			this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
-		if(this == ModBlocks.mine_shrap)
-			this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
-		if(this == ModBlocks.mine_fat)
-			this.setBlockBounds(5 * f, 0.0F, 4 * f, 11 * f, 6 * f, 12 * f);
+		if(this == ModBlocks.mine_ap) this.setBlockBounds(5 * f, 0.0F, 5 * f, 11 * f, 1 * f, 11 * f);
+		if(this == ModBlocks.mine_he) this.setBlockBounds(4 * f, 0.0F, 4 * f, 12 * f, 2 * f, 12 * f);
+		if(this == ModBlocks.mine_shrap) this.setBlockBounds(5 * f, 0.0F, 5 * f, 11 * f, 1 * f, 11 * f);
+		if(this == ModBlocks.mine_fat) this.setBlockBounds(5 * f, 0.0F, 4 * f, 11 * f, 6 * f, 12 * f);
 	}
 
 	@Override
@@ -154,7 +138,7 @@ public class Landmine extends BlockContainer implements IBomb {
 
 			if(this == ModBlocks.mine_ap) {
 				ExplosionVNT vnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 3F);
-				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, 10F));
+				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, 10F).setupPiercing(5F, 0.2F));
 				vnt.setPlayerProcessor(new PlayerProcessorStandard());
 				vnt.setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
 				vnt.explode();
@@ -162,7 +146,7 @@ public class Landmine extends BlockContainer implements IBomb {
 				ExplosionVNT vnt = new ExplosionVNT(world, x + 0.5, y + 0.5, z + 0.5, 4F);
 				vnt.setBlockAllocator(new BlockAllocatorStandard());
 				vnt.setBlockProcessor(new BlockProcessorStandard());
-				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, 35));
+				vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, 35).setupPiercing(15F, 0.2F));
 				vnt.setPlayerProcessor(new PlayerProcessorStandard());
 				vnt.setSFX(new ExplosionEffectWeapon(15, 3.5F, 1.25F));
 				vnt.explode();
@@ -182,5 +166,4 @@ public class Landmine extends BlockContainer implements IBomb {
 
 		return BombReturnCode.DETONATED;
 	}
-
 }

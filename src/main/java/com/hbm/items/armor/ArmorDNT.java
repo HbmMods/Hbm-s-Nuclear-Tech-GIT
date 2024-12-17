@@ -184,13 +184,9 @@ public class ArmorDNT extends ArmorFSBPowered {
 			}
 		}
 		
-		list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.explosionImmune"));
-		list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.cap", 5));
-		list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.modifier", 0.001F));
 		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.vats"));
 		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.thermal"));
 		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.hardLanding"));
-		list.add(EnumChatFormatting.DARK_RED + "  " + I18nUtil.resolveKey("armor.ignoreLimit"));
 		list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.rocketBoots"));
 		list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.fastFall"));
 		list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.sprintBoost"));

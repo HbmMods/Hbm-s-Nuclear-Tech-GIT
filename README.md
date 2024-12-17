@@ -6,6 +6,8 @@
 
 [Official NTM Wiki](https://nucleartech.wiki/wiki/Main_Page)
 
+[Bobcat's Blog (the blag)](https://hbmmods.github.io/), you can find lengthy yapping, upcoming features and some secrets here.
+
 **This is for 1.7.10!** For 1.12, check out these projects:
 
 * NTM Reloaded: https://github.com/TheOriginalGolem/Hbm-s-Nuclear-Tech-GIT/releases

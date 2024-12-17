@@ -11,8 +11,10 @@ import com.hbm.config.CustomMachineConfigJSON;
 import com.hbm.handler.nei.CustomMachineHandler;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.lib.RefStrings;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
@@ -31,6 +33,11 @@ public class NEIConfig implements IConfigureNEI {
 		for(CustomMachineConfigJSON.MachineConfiguration conf : CustomMachineConfigJSON.niceList) {
 			registerHandlerBypass(new CustomMachineHandler(conf));
 		}
+
+		for(Item item : ItemGunBaseNT.secrets) {
+			API.hideItem(new ItemStack(item));
+		}
+		API.hideItem(ItemBattery.getEmptyBattery(ModItems.ammo_secret));
 
 		//Some things are even beyond my control...or are they?
 		API.hideItem(ItemBattery.getEmptyBattery(ModItems.memory));

@@ -28,7 +28,6 @@ import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.recipes.*;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
-import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
 import com.hbm.items.ItemEnums.EnumAchievementType;
 import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemFertilizer;
@@ -181,7 +180,6 @@ public class MainRegistry {
 	public static Achievement achSomeWounds;
 	public static Achievement achSlimeball;
 	public static Achievement achSulfuric;
-	public static Achievement achWitchtaunter;
 	public static Achievement achGoFish;
 	public static Achievement achNo9;
 	public static Achievement achInferno;
@@ -672,7 +670,6 @@ public class MainRegistry {
 		achStratum = new Achievement("achievement.stratum", "stratum", -4, -2, new ItemStack(ModBlocks.stone_gneiss), null).initIndependentStat().setSpecial().registerStat();
 		achOmega12 = new Achievement("achievement.omega12", "omega12", 17, -1, ModItems.particle_digamma, null).initIndependentStat().setSpecial().registerStat();
 
-		achWitchtaunter = new Achievement("achievement.witchtaunter", "witchtaunter", -8, 7, ModItems.ammo_4gauge.stackFromEnum(Ammo4Gauge.VAMPIRE), null).initIndependentStat().setSpecial().registerStat();
 		achNo9 = new Achievement("achievement.no9", "no9", -8, 12, ModItems.no9, null).initIndependentStat().registerStat();
 		achSlimeball = new Achievement("achievement.slimeball", "slimeball", -10, 6, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.ACID), null).initIndependentStat().registerStat();
 		achSulfuric = new Achievement("achievement.sulfuric", "sulfuric", -10, 8, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.BALLS), achSlimeball).initIndependentStat().setSpecial().registerStat();
@@ -754,7 +751,6 @@ public class MainRegistry {
 				horizonsBonus,
 				achRadPoison,
 				achRadDeath,
-				achWitchtaunter,
 				achNo9,
 				achInferno,
 				achRedRoom,
@@ -864,6 +860,7 @@ public class MainRegistry {
 		TileEntityNukeCustom.registerBombItems();
 		ArmorUtil.register();
 		HazmatRegistry.registerHazmats();
+		DamageResistanceHandler.init();
 		FluidContainerRegistry.register();
 		BlockToolConversion.registerRecipes();
 		AchievementHandler.register();
@@ -919,6 +916,9 @@ public class MainRegistry {
 		PollutionHandler pollution = new PollutionHandler();
 		MinecraftForge.EVENT_BUS.register(pollution);
 		FMLCommonHandler.instance().bus().register(pollution);
+
+		DamageResistanceHandler dmgHandler = new DamageResistanceHandler();
+		MinecraftForge.EVENT_BUS.register(dmgHandler);
 
 		if(event.getSide() == Side.CLIENT) {
 			HbmKeybinds.register();
@@ -1453,6 +1453,47 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.powder_daffergon");
 		ignoreMappings.add("hbm:item.powder_verticium");
 		ignoreMappings.add("hbm:tile.ore_random");
+		ignoreMappings.add("hbm:item.crate_caller");
+		ignoreMappings.add("hbm:item.pellet_rtg_berkelium");
+		ignoreMappings.add("hbm:item.folly_shell");
+		ignoreMappings.add("hbm:item.folly_bullet");
+		ignoreMappings.add("hbm:item.folly_bullet_nuclear");
+		ignoreMappings.add("hbm:item.folly_bullet_du");
+		ignoreMappings.add("hbm:item.ammo_folly");
+		ignoreMappings.add("hbm:item.ammo_folly_nuclear");
+		ignoreMappings.add("hbm:item.ammo_folly_du");
+		ignoreMappings.add("hbm:item.clip_revolver_iron");
+		ignoreMappings.add("hbm:item.clip_revolver");
+		ignoreMappings.add("hbm:item.clip_revolver_gold");
+		ignoreMappings.add("hbm:item.clip_revolver_lead");
+		ignoreMappings.add("hbm:item.clip_revolver_schrabidium");
+		ignoreMappings.add("hbm:item.clip_revolver_cursed");
+		ignoreMappings.add("hbm:item.clip_revolver_nightmare");
+		ignoreMappings.add("hbm:item.clip_revolver_nightmare2");
+		ignoreMappings.add("hbm:item.clip_revolver_pip");
+		ignoreMappings.add("hbm:item.clip_revolver_nopip");
+		ignoreMappings.add("hbm:item.clip_rpg");
+		ignoreMappings.add("hbm:item.clip_stinger");
+		ignoreMappings.add("hbm:item.clip_fatman");
+		ignoreMappings.add("hbm:item.clip_mirv");
+		ignoreMappings.add("hbm:item.clip_bf");
+		ignoreMappings.add("hbm:item.clip_mp40");
+		ignoreMappings.add("hbm:item.clip_uzi");
+		ignoreMappings.add("hbm:item.clip_uboinik");
+		ignoreMappings.add("hbm:item.clip_lever_action");
+		ignoreMappings.add("hbm:item.clip_bolt_action");
+		ignoreMappings.add("hbm:item.clip_xvl1456");
+		ignoreMappings.add("hbm:item.clip_osipr");
+		ignoreMappings.add("hbm:item.clip_immolator");
+		ignoreMappings.add("hbm:item.clip_cryolator");
+		ignoreMappings.add("hbm:item.clip_mp");
+		ignoreMappings.add("hbm:item.clip_emp");
+		ignoreMappings.add("hbm:item.clip_jack");
+		ignoreMappings.add("hbm:item.clip_spark");
+		ignoreMappings.add("hbm:item.clip_hp");
+		ignoreMappings.add("hbm:item.clip_euthanasia");
+		ignoreMappings.add("hbm:item.clip_defabricator");
+		ignoreMappings.add("hbm:item.ammo_folly_du");
 
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

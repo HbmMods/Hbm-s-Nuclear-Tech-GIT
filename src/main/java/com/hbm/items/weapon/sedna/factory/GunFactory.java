@@ -28,6 +28,7 @@ public class GunFactory {
 		/// AMMO ITEMS ///
 		ModItems.ammo_debug = new Item().setUnlocalizedName("ammo_debug").setTextureName(RefStrings.MODID + ":ammo_45");
 		ModItems.ammo_standard = new ItemEnumMulti(EnumAmmo.class, true, true).setUnlocalizedName("ammo_standard").setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":ammo_standard");
+		ModItems.ammo_secret = new ItemEnumMulti(EnumAmmoSecret.class, true, true).setUnlocalizedName("ammo_secret").setCreativeTab(null).setTextureName(RefStrings.MODID + ":ammo_secret");
 
 		/// BULLLET CFGS ///
 		ammo_debug = new BulletConfig().setItem(ModItems.ammo_debug).setSpread(0.01F).setRicochetAngle(45).setCasing(CASING44.clone().register("DEBUG0"));
@@ -41,7 +42,7 @@ public class GunFactory {
 						.mag(new MagazineFullReload(0, 12).addConfigs(ammo_debug, ammo_debug_buckshot))
 						.offset(0.75, -0.0625, -0.3125D)
 						.canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE))
-				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY) .pr(Lego.LAMBDA_STANDARD_RELOAD) .pt(Lego.LAMBDA_TOGGLE_AIM)
+				.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).pr(Lego.LAMBDA_STANDARD_RELOAD).pt(Lego.LAMBDA_TOGGLE_AIM)
 				.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER)
 				.anim(Lego.LAMBDA_DEBUG_ANIMS)
 				).setUnlocalizedName("gun_debug");
@@ -60,6 +61,10 @@ public class GunFactory {
 		XFactory50.init();
 		XFactoryEnergy.init();
 		XFactoryAccelerator.init();
+		XFactoryCatapult.init();
+		XFactory75Bolt.init();
+		XFactoryFolly.init();
+		XFactoryTurret.init();
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
@@ -67,20 +72,27 @@ public class GunFactory {
 	
 	public static enum EnumAmmo {
 		STONE, STONE_AP, STONE_IRON, STONE_SHOT,
-		M357_SP, M357_FMJ, M357_JHP, M357_AP, M357_EXPRESS,
-		M44_SP, M44_FMJ, M44_JHP, M44_AP, M44_EXPRESS,
+		M357_BP, M357_SP, M357_FMJ, M357_JHP, M357_AP, M357_EXPRESS,
+		M44_BP, M44_SP, M44_FMJ, M44_JHP, M44_AP, M44_EXPRESS,
 		P22_SP, P22_FMJ, P22_JHP, P22_AP,
 		P9_SP, P9_FMJ, P9_JHP, P9_AP,
 		R556_SP, R556_FMJ, R556_JHP, R556_AP,
 		R762_SP, R762_FMJ, R762_JHP, R762_AP, R762_DU,
 		BMG50_SP, BMG50_FMJ, BMG50_JHP, BMG50_AP, BMG50_DU,
-		G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12, G12_SLUG, G12_FLECHETTE, G12_MAGNUM, G12_EXPLOSIVE, G12_PHOSPHORUS, G12_ANTHRAX,
+		B75, B75_INC, B75_EXP,
+		G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12, G12_SLUG, G12_FLECHETTE, G12_MAGNUM, G12_EXPLOSIVE, G12_PHOSPHORUS, //G12_ANTHRAX,
 		G26_FLARE, G26_FLARE_SUPPLY, G26_FLARE_WEAPON,
 		G40_HE, G40_HEAT, G40_DEMO, G40_INC, G40_PHOSPHORUS,
 		ROCKET_HE, ROCKET_HEAT, ROCKET_DEMO, ROCKET_INC, ROCKET_PHOSPHORUS,
 		FLAME_DIESEL, FLAME_GAS, FLAME_NAPALM, FLAME_BALEFIRE,
-		CAPACITOR, CAPACITOR_OVERCHARGE, CAPACITOR_BLACKLIGHTNING,
+		CAPACITOR, CAPACITOR_OVERCHARGE, CAPACITOR_IR,
 		TAU_URANIUM,
+		COIL_TUNGSTEN, COIL_FERROURANIUM,
+		NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE
+	}
+	
+	public static enum EnumAmmoSecret {
+		FOLLY_SM, FOLLY_NUKE,
 		M44_EQUESTRIAN, G12_EQUESTRIAN, BMG50_EQUESTRIAN
 	}
 }

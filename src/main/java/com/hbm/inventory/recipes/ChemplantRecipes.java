@@ -224,13 +224,6 @@ public class ChemplantRecipes extends SerializableRecipe {
 		recipes.add(new ChemRecipe(60, "XENON_OXY", 20)
 				.inputFluids(new FluidStack(Fluids.OXYGEN, 250))
 				.outputFluids(new FluidStack(Fluids.XENON, 50)));
-		recipes.add(new ChemRecipe(61, "SATURN", 60)
-				.inputItems(
-						new OreDictStack(DURA.dust(), 2),
-						new OreDictStack(CU.dust(), 1),
-						new OreDictStack(COAL.dust(), 1))
-				.inputFluids(new FluidStack(Fluids.SULFURIC_ACID, 100))
-				.outputItems(new ItemStack(ModItems.ingot_saturnite, 4)));
 		recipes.add(new ChemRecipe(62, "BALEFIRE", 100)
 				.inputItems(new ComparableStack(ModItems.egg_balefire_shard))
 				.inputFluids(new FluidStack(Fluids.KEROSENE, 6000))

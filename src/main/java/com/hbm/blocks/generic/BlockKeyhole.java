@@ -213,7 +213,9 @@ public class BlockKeyhole extends BlockStone {
 	public static void spawnPedestalItem(World world, int x, int y, int z) {
 		world.setBlock(x, y, z, ModBlocks.pedestal);
 		TileEntityPedestal pedestal = (TileEntityPedestal) world.getTileEntity(x, y, z);
-		WeightedRandomChestContent content = (WeightedRandomChestContent) WeightedRandom.getRandomItem(world.rand, ItemPool.getPool(ItemPoolsRedRoom.POOL_RED_PEDESTAL));
+		WeightedRandomChestContent content = world.rand.nextInt(20) == 0 ? 
+				(WeightedRandomChestContent) WeightedRandom.getRandomItem(world.rand, ItemPool.getPool(ItemPoolsRedRoom.POOL_RED_WEAPON)) :
+					(WeightedRandomChestContent) WeightedRandom.getRandomItem(world.rand, ItemPool.getPool(ItemPoolsRedRoom.POOL_RED_PEDESTAL));
 		pedestal.item = content.theItemId.copy();
 	}
 }

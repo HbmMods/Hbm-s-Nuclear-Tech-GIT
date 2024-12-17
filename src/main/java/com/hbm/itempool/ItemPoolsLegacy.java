@@ -3,11 +3,10 @@ package com.hbm.itempool;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
-import com.hbm.items.ItemAmmoEnums.Ammo357Magnum;
-import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 
 import static com.hbm.lib.HbmChestContents.*;
 
@@ -43,11 +42,12 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.ingot_beryllium, 0, 1, 2, 4),
 					weighted(ModItems.ingot_titanium, 0, 1, 1, 3),
 					weighted(ModItems.circuit, EnumCircuitType.VACUUM_TUBE.ordinal(), 1, 1, 5),
-					weighted(ModItems.gun_revolver, 0, 1, 1, 3),
-					weighted(ModItems.ammo_357, Ammo357Magnum.LEAD.ordinal(), 2, 6, 4),
+					weighted(ModItems.gun_light_revolver, 0, 1, 1, 3),
+					weighted(ModItems.ammo_standard, EnumAmmo.M357_SP.ordinal(), 2, 6, 4),
+					weighted(ModItems.ammo_standard, EnumAmmo.G12_BP.ordinal(), 3, 6, 3),
+					weighted(ModItems.ammo_standard, EnumAmmo.G26_FLARE_SUPPLY.ordinal(), 1, 1, 1),
 					weighted(ModItems.gun_kit_1, 0, 1, 3, 4),
 					weighted(ModItems.gun_lever_action, 0, 1, 1, 1),
-					weighted(ModItems.ammo_20gauge, 0, 2, 6, 3),
 					weighted(ModItems.casing_9, 0, 4, 10, 3),
 					weighted(ModItems.casing_50, 0, 4, 10, 3),
 					weighted(ModItems.cordite, 0, 4, 6, 5),
@@ -106,12 +106,10 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.circuit, EnumCircuitType.CHIP.ordinal(), 1, 1, 2),
 					weighted(ModItems.gun_kit_1, 0, 1, 3, 6),
 					weighted(ModItems.gun_kit_2, 0, 1, 2, 3),
-					weighted(ModItems.gun_rpg, 0, 1, 1, 4),
-					weighted(ModItems.ammo_rocket, 0, 1, 4, 5),
-					weighted(ModItems.gun_fatman, 0, 1, 1, 1),
-					weighted(ModItems.ammo_nuke, AmmoFatman.SAFE.ordinal(), 1, 2, 1),
-					weighted(ModItems.ammo_nuke, AmmoFatman.LOW.ordinal(), 1, 2, 1),
-					weighted(ModItems.ammo_nuke, AmmoFatman.PUMPKIN.ordinal(), 1, 2, 1),
+					weighted(ModItems.gun_panzerschreck, 0, 1, 1, 4),
+					weighted(ModItems.ammo_standard, EnumAmmo.ROCKET_HE.ordinal(), 1, 4, 5),
+					weighted(ModItems.ammo_standard, EnumAmmo.G26_FLARE_SUPPLY.ordinal(), 1, 1, 5),
+					weighted(ModItems.ammo_standard, EnumAmmo.G26_FLARE_WEAPON.ordinal(), 1, 1, 3),
 					weighted(ModItems.grenade_nuclear, 0, 1, 1, 2),
 					weighted(ModItems.grenade_smart, 0, 1, 3, 3),
 					weighted(ModItems.grenade_mirv, 0, 1, 1, 2),
@@ -120,7 +118,6 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.battery_advanced_cell, 0, 1, 1, 2),
 					weighted(ModItems.battery_schrabidium, 0, 1, 1, 1),
 					weighted(ModItems.syringe_awesome, 0, 1, 1, 1),
-					weighted(ModItems.crate_caller, 0, 1, 1, 3),
 					weighted(ModItems.fusion_core, 0, 1, 1, 4),
 					weighted(ModItems.bottle_nuka, 0, 1, 3, 6),
 					weighted(ModItems.bottle_quantum, 0, 1, 1, 3),
@@ -194,20 +191,17 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.t45_boots, 0, 1, 1, 15),
 					weighted(ModItems.t45_kit, 0, 1, 1, 3),
 					weighted(ModItems.fusion_core, 0, 1, 1, 10),
-					weighted(ModItems.gun_revolver, 0, 1, 1, 4),
-					weighted(ModItems.ammo_357, Ammo357Magnum.LEAD.ordinal(), 1, 24, 4),
+					weighted(ModItems.gun_light_revolver, 0, 1, 1, 4),
 					weighted(ModItems.gun_kit_1, 0, 2, 3, 4),
-					weighted(ModItems.gun_rpg, 0, 1, 1, 3),
-					weighted(ModItems.ammo_rocket, 0, 1, 6, 3),
+					weighted(ModItems.ammo_standard, EnumAmmo.M357_FMJ.ordinal(), 1, 24, 4),
+					weighted(ModItems.ammo_standard, EnumAmmo.G40_HE.ordinal(), 1, 6, 3),
+					weighted(ModItems.ammo_standard, EnumAmmo.G26_FLARE_WEAPON.ordinal(), 1, 1, 5),
 					weighted(ModItems.rod, BreedingRodType.U235.ordinal(), 1, 1, 2),
 					weighted(ModItems.billet_uranium_fuel, 0, 1, 1, 2),
 					weighted(ModItems.ingot_uranium_fuel, 0, 1, 1, 2),
-					weighted(ModItems.ammo_nuke, AmmoFatman.SAFE.ordinal(), 1, 2, 1),
-					weighted(ModItems.gun_fatman, 0, 1, 1, 1),
 					weighted(ModItems.bottle_nuka, 0, 1, 3, 6),
 					weighted(ModItems.bottle_quantum, 0, 1, 1, 3),
 					weighted(ModItems.stealth_boy, 0, 1, 1, 7),
-					weighted(ModItems.crate_caller, 0, 1, 1, 3),
 					weighted(ModItems.gas_mask_m65, 0, 1, 1, 5),
 					weighted(ModItems.gas_mask_filter, 0, 1, 1, 5),
 					weighted(ModItems.grenade_nuclear, 0, 1, 2, 2),

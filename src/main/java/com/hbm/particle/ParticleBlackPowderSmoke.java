@@ -62,7 +62,7 @@ public class ParticleBlackPowderSmoke extends EntityFXRotating {
 		
 		double ageScaled = (double) (this.particleAge + interp) / (double) this.particleMaxAge;
 		
-		Color color = Color.getHSBColor(hue / 255F, Math.max(1F - (float) ageScaled * 2F, 0), MathHelper.clamp_float(1.25F - (float) ageScaled * 2F, 0.7F, 1F));
+		Color color = Color.getHSBColor(hue / 255F, Math.max(1F - (float) ageScaled * 4F, 0), MathHelper.clamp_float(1.25F - (float) ageScaled * 2F, 0.7F, 1F));
 		this.particleRed = color.getRed() / 255F;
 		this.particleGreen = color.getGreen() / 255F;
 		this.particleBlue = color.getBlue() / 255F;

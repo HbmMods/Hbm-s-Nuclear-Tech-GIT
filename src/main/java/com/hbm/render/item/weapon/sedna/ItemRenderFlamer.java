@@ -2,6 +2,7 @@ package com.hbm.render.item.weapon.sedna;
 
 import org.lwjgl.opengl.GL11;
 
+import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.main.MainRegistry;
@@ -10,11 +11,24 @@ import com.hbm.render.anim.HbmAnimations;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 public class ItemRenderFlamer extends ItemRenderWeaponBase {
+	
+	public ResourceLocation texture;
+	
+	public ItemRenderFlamer(ResourceLocation texture) {
+		this.texture = texture;
+	}
 
 	@Override
 	protected float getTurnMagnitude(ItemStack stack) { return ItemGunBaseNT.getIsAiming(stack) ? 2.5F : -0.5F; }
+
+	@Override
+	public float getViewFOV(ItemStack stack, float fov) {
+		float aimingProgress = ItemGunBaseNT.prevAimingProgress + (ItemGunBaseNT.aimingProgress - ItemGunBaseNT.prevAimingProgress) * interp;
+		return  fov * (1 - aimingProgress * 0.33F);
+	}
 
 	@Override
 	public void setupFirstPerson(ItemStack stack) {
@@ -30,7 +44,7 @@ public class ItemRenderFlamer extends ItemRenderWeaponBase {
 	public void renderFirstPerson(ItemStack stack) {
 		
 		ItemGunBaseNT gun = (ItemGunBaseNT) stack.getItem();
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.flamethrower_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		double scale = 0.375D;
 		GL11.glScaled(scale, scale, scale);
 
@@ -50,13 +64,13 @@ public class ItemRenderFlamer extends ItemRenderWeaponBase {
 		GL11.glPushMatrix();
 		HbmAnimations.applyRelevantTransformation("Gun");
 		ResourceManager.flamethrower.renderPart("Gun");
+		if(hasShield(stack)) ResourceManager.flamethrower.renderPart("HeatShield");
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
 		HbmAnimations.applyRelevantTransformation("Tank");
 		ResourceManager.flamethrower.renderPart("Tank");
 		GL11.glPopMatrix();
-		
 		
 		GL11.glPushMatrix();
 		HbmAnimations.applyRelevantTransformation("Gauge");
@@ -94,9 +108,15 @@ public class ItemRenderFlamer extends ItemRenderWeaponBase {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		
 		GL11.glShadeModel(GL11.GL_SMOOTH);
-		Minecraft.getMinecraft().renderEngine.bindTexture(ResourceManager.flamethrower_tex);
+		Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 		ResourceManager.flamethrower.renderPart("Gun");
 		ResourceManager.flamethrower.renderPart("Tank");
+		ResourceManager.flamethrower.renderPart("Gauge");
+		if(hasShield(stack)) ResourceManager.flamethrower.renderPart("HeatShield");
 		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+	
+	public boolean hasShield(ItemStack stack) {
+		return stack.getItem() == ModItems.gun_flamer_daybreaker;
 	}
 }

@@ -1,70 +1,13 @@
-## Gun rework
-* Place holder place holder place hooooooooooldeeeeeeeer
-
-## Added
-* `/ntmclient`
-  * Allows some client-only config options to be edited while ingame
-  * Config is stored in `hbmClient.json` in the `hbmConfig` folder
-  * Configs can be edited ingame via `/ntmclient set <name> <value>` or in the file and then `/ntmclient reload`
-  * Available configs include geiger counter HUD position, info system position and orientation, custom main menu splash texts, ore dict display and custom nuke item info
-  * Check the config file or `/ntmclient list` for a full list of values, the name should make them self-explanatory!
-* Liquid lead
-  * A valid coolant for both PWRs and ICFs
-  * Has an immense heat transfer speed bonus, allowing ICFs to be cooled even when using higher tier pellets
-  * Cools quite effectively in PWRs, but has a negative neutron modifier and a small penalty of how much heat ends up usable
-  * Overall a cheap and very good coolant, just not as efficient as sodium
-
 ## Changed
-* Updated russian and chinese localization
-* The fine soot recipe in the pyrolysis oven now only needs 4 tar
-* Overdrive upgrades now use hard plastic/fullerite instead of lithium crystals
-* Machines now only send their sync packets once a second instead of once per tick if the values haven't changed, reducing network traffic by a considerable amount
-* Tom's explosion no longer causes any block updates on the millions of blocks it deletes which hopefully fixes a majority of the lag caused by the crater
-* Overdrive upgrades now increase power usage in pyrolysis ovens (equivalent to 2 speed upgrades per level)
-* Due to the increased maximum demand with overdrives + speed upgrades, the energy buffer for the pyrolysis oven has been increased tenfold
-* Updated basalt textures
-* Scaffold blocks can now be placed horizontally
-* Updated the shredder's textures
-* The strand caster will now cast its remaining buffer after 10 seconds of inactivity, even if the buffer is not full enough for a batch of 9
-* The soldering station now has a toggle for the "refuse to do recipes with no fluid if fluid is present" behavior
-* Recipes using the ore dictionary "oreThorium232" are now also generated for "oreThorium"
-* Conveyor grabbers can now output onto belts directly
-  * I could have just made grabbers delete the input and spawn an identical item on the output but simply changing the position makes it look like the item is sucked in and it looks hilarious
-* Cable connections (connectors, pylons, substations) now render about 10x faster and no longer have weird inaccuracies where the segments meet
-* Cables can be made even faster by setting `RENDER_CABLE_HANG` in the config to `false`
-  * This causes cable connections to render taut, eliminating the need for multiple segments per pylon side
-* Heat exchanging heaters are now set to 24,000mB/t by default
-* The ICF GUI now lists the laser input as "per tick"
-* Glpyhid hives caught in a fallout zone now turn radioactive
-  * Glyphids spawned by radioactive hives are immune to fire, twice as fast and five times as strong
-  * Radioactive glpyhids however are NOT immune to radiation, and typically die quickly
-  * Radioactive hives are sterile, they will not spawn scouts
-* PWR core capacity is now limited to 500%, meaning the maximum amount of heatsinks usable is 80
-* Item autogen now generates ingot forms for items that are castable but don't have an ingot form, preventing cases where a material is completely uncastable
-  * This change makes sodium and strontium castable
-* Ore dict recipe autogen for crucible molds now prioritizes NTM's own items over any other ore dict compatible item
-* If a cracking tower's input is set to an incorrect type, the input and steam tanks are now preserved instead of being set to NONE
-* Removed legacy wire items
-* Removed random ore, along with its configs
-* DFC emitters are now only 95% efficient instead of 98%
-* Oily coal has been removed from worldgen, it no longer spawns in new chunks
-  * Existing oily coal can be mined risk-free
-* Reeds rendering into water can now be toggled with the RENDER_REEDS client config
-  * This option is usually enabled by default, unless Angelica is installed
-* Microwave explosions no longer destroy blocks, only the microwave and nearby players
+* Any bullet that can ricochet (or at least runs the code for it) can now also break glass
+* Removed the witch taunter achievement for being unobtainable now
+* AJR armor plating now uses niobium instead of saturnite, and yields twice as many items per recipe
+* Due to the gating change, the saturnite anvil now has a tier equivalent to a bronze anvil
 
 ## Fixed
-* The conveyor grabber should no longer skip over items when used in long lines
-* Fixed a potential crash regarding crucibles
-* Fixed compatibility with EndlessIDs, biome changes should no longer crash the game
-* Fixed GL state leak caused by fluid tanks, causing some tile entities to be rendered without face culling
-* Fixed a bug where using too many PWR heatsinks would cause an overflow, making the heat capacity negative
-* Fixed landmines generating into the floor on superflat worlds
-* All NTM type explosions are no longer affected by difficulty setting, preventing them from dealing damage in peaceful mode
-  * There are a few instances of vanilla explosions still being used, those will be phased out in the future
-* Fixed tutorial presentations triggering when hitting F1 not just in the inventory but also when looking at the block in question
-* Fixed a bug regarding shift clicking in the breeding reactor
-* Fixed empty particle capsules not being extractable from the ICF pellet maker
-* Fixed issue regarding mass storage filters when using GTNH-NEI
-* Fixed DFC emitters calculating their original 98% inefficiency twice when hitting another emitter or tungsten crate
-* Fixed the wood burner destroying container items like buckets when using lava as fuel
+* Fixed 9mm soft points being called ".9mm"
+* Fixed missing localization for the hard plastic autogen material
+* Fixed the fat mine's crafting recipe still using the deprecated ammo item
+* Removed legacy ammo items from all remaining item pools
+* Fixed the rubber grip not having a recipe
+* Fixed the coilgun and bolter not being classified correctly

@@ -6,9 +6,7 @@ import org.lwjgl.opengl.GL12;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorTrenchmaster;
-import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.model.ModelFatman;
 import com.hbm.render.model.ModelLeverAction;
 import com.hbm.util.Tuple.Quartet;
 
@@ -22,7 +20,6 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
 
 public class RenderLoot extends TileEntitySpecialRenderer {
 
@@ -44,9 +41,6 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 			
 			if(stack.getItem() == ModItems.ammo_nuke) {
 				renderNuke();
-				
-			} else if(stack.getItem() == ModItems.gun_fatman || stack.getItem() == ModItems.gun_proto || stack.getItem() == ModItems.gun_mirv) {
-				renderLauncher();
 				
 			} else if(stack.getItem() == ModItems.gun_lever_action) {
 				renderShotgun();
@@ -121,20 +115,6 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 		bindTexture(ResourceManager.mini_nuke_tex);
 		ResourceManager.projectiles.renderPart("MiniNuke");
 		GL11.glShadeModel(GL11.GL_FLAT);
-	}
-
-	protected ModelFatman launcher;
-	private void renderLauncher() {
-		
-		if(launcher == null)
-			launcher = new ModelFatman();
-		
-		GL11.glRotated(180, 1, 0, 0);
-		GL11.glRotated(3, 0, 0, 1);
-		GL11.glTranslated(0.5, -0.3751, -0.625);
-		
-		bindTexture(new ResourceLocation(RefStrings.MODID +":textures/models/FatmanLauncher.png"));
-		launcher.render(null, 0F, 0F, 0F, 0F, 0F, 0.0625F, new ItemStack(ModItems.gun_fatman));
 	}
 
 	protected ModelLeverAction shotgun;
