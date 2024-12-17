@@ -591,11 +591,11 @@ public class BusAnimationKeyframe {
 	}
 
 	double BLI_easing_sine_ease_in(double time, double begin, double change, double duration) {
-		return -change * Math.cos(time / duration * (double) Math.PI * 2) + change + begin;
+		return -change * Math.cos(time / duration * (double) Math.PI / 2) + change + begin;
 	}
 
 	double BLI_easing_sine_ease_out(double time, double begin, double change, double duration) {
-		return change * Math.sin(time / duration * (double) Math.PI * 2) + begin;
+		return change * Math.sin(time / duration * (double) Math.PI / 2) + begin;
 	}
 
 	double BLI_easing_sine_ease_in_out(double time, double begin, double change, double duration) {
