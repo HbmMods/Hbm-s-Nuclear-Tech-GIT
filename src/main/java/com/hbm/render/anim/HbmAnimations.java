@@ -110,18 +110,20 @@ public class HbmAnimations {
 			0, 0, 0, // position
 			0, 0, 0, // rotation
 			1, 1, 1, // scale
-			0, 0, 0  // offset
+			0, 0, 0, // offset
+			0, 1, 2, // XYZ order
 		};
 	}
 
 	public static void applyRelevantTransformation(String bus) { applyRelevantTransformation(bus, 0); }
 	public static void applyRelevantTransformation(String bus, int index) {
 		double[] transform = getRelevantTransformation(bus, index);
+		int[] rot = new int[] { (int)transform[12], (int)transform[13], (int)transform[14] };
 		
 		GL11.glTranslated(transform[0], transform[1], transform[2]);
-		GL11.glRotated(transform[3], 1, 0, 0);
-		GL11.glRotated(transform[4], 0, 1, 0);
-		GL11.glRotated(transform[5], 0, 0, 1);
+		GL11.glRotated(transform[3 + rot[0]], rot[0] == 0 ? 1 : 0, rot[0] == 1 ? 1 : 0, rot[0] == 2 ? 1 : 0);
+		GL11.glRotated(transform[3 + rot[1]], rot[1] == 0 ? 1 : 0, rot[1] == 1 ? 1 : 0, rot[1] == 2 ? 1 : 0);
+		GL11.glRotated(transform[3 + rot[2]], rot[2] == 0 ? 1 : 0, rot[2] == 1 ? 1 : 0, rot[2] == 2 ? 1 : 0);
 		GL11.glTranslated(-transform[9], -transform[10], -transform[11]);
 		GL11.glScaled(transform[6], transform[7], transform[8]);
 	}

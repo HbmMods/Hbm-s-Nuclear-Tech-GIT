@@ -51,14 +51,26 @@ public class AnimationLoader {
 		// The offsets are only required when sequences are played for an object, which is why we don't globally offset! The obj rendering handles the non-animated case fine
 		// Effectively, this removes double translation AND ensures that rotations occur around the individual object origin, rather than the weapon origin
 		HashMap<String, double[]> offsets = new HashMap<String, double[]>();
+		HashMap<String, double[]> rotModes = new HashMap<String, double[]>();
 		for(Map.Entry<String, JsonElement> root : json.getAsJsonObject("offset").entrySet()) {
-			double[] offset = new double[3];
+			JsonArray array = root.getValue().getAsJsonArray();
 
+			double[] offset = new double[3];
 			for(int i = 0; i < 3; i++) {
-				offset[i] = root.getValue().getAsJsonArray().get(i).getAsDouble();
+				offset[i] = array.get(i).getAsDouble();
 			}
 
 			offsets.put(root.getKey(), offset);
+
+			if(array.size() >= 6) {
+				double[] rotMode = new double[3];
+				for(int i = 0; i < 3; i++) {
+					rotMode[i] = array.get(i + 3).getAsDouble();
+				}
+
+				rotModes.put(root.getKey(), rotMode);
+			}
+
 		}
 
 
@@ -71,8 +83,10 @@ public class AnimationLoader {
 			for(Map.Entry<String, JsonElement> model : entryObject.entrySet()) {
 				String modelName = model.getKey();
 				double[] offset = new double[3];
-				if (offsets.containsKey(modelName)) offset = offsets.get(modelName);
-				animation.addBus(modelName, loadSequence(model.getValue().getAsJsonObject(), offset));
+				double[] rotMode = new double[] { 0, 1, 2 };
+				if(offsets.containsKey(modelName)) offset = offsets.get(modelName);
+				if(rotModes.containsKey(modelName)) rotMode = rotModes.get(modelName);
+				animation.addBus(modelName, loadSequence(model.getValue().getAsJsonObject(), offset, rotMode));
 			}
 
 			animations.put(root.getKey(), animation);
@@ -81,7 +95,7 @@ public class AnimationLoader {
 		return animations;
 	}
 
-	private static BusAnimationSequence loadSequence(JsonObject json, double[] offset) {
+	private static BusAnimationSequence loadSequence(JsonObject json, double[] offset, double[] rotMode) {
 		BusAnimationSequence sequence = new BusAnimationSequence();
 
 		// Location fcurves
@@ -130,6 +144,7 @@ public class AnimationLoader {
 		}
 
 		sequence.offset = offset;
+		sequence.rotMode = rotMode;
 
 		return sequence;
 	}
