@@ -1,8 +1,5 @@
 package com.hbm.util;
 
-import api.hbm.energymk2.IEnergyHandlerMK2;
-import api.hbm.energymk2.IEnergyReceiverMK2;
-import api.hbm.fluid.IFluidUser;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,6 +7,9 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
+import api.hbm.energymk2.IEnergyHandlerMK2;
+import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.fluid.IFluidUser;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.explosion.ExplosionNukeSmall;
@@ -26,6 +26,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.BiFunction;
 
 /**
  * EXTERNAL COMPATIBILITY CLASS - DO NOT CHANGE METHOD NAMES/PARAMS ONCE CREATED

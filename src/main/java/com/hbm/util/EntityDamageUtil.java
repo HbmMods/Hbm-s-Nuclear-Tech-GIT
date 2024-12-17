@@ -19,8 +19,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
-import java.lang.reflect.Method;
-
 public class EntityDamageUtil {
 
 	public static boolean attackEntityFromIgnoreIFrame(Entity victim, DamageSource src, float damage) {
