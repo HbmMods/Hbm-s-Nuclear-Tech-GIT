@@ -1535,8 +1535,6 @@ public class ModItems {
 	public static Item gun_bolt_action_green;
 	public static Item gun_bolt_action_saturnite;
 	public static Item gun_mymy;
-	public static Item gun_b92;
-	public static Item gun_b92_ammo;
 	public static Item gun_b93;
 	public static Item gun_xvl1456;
 	public static Item gun_xvl1456_ammo;
@@ -1546,9 +1544,6 @@ public class ModItems {
 	public static Item gun_immolator;
 	public static Item gun_immolator_ammo;
 	public static Item gun_cryolator;
-	public static Item gun_cryocannon;
-	public static Item gun_cryolator_ammo;
-	public static Item gun_fireext;
 	public static Item gun_mp;
 	public static Item gun_bolter_digamma;
 	public static Item gun_zomg;
@@ -1573,6 +1568,12 @@ public class ModItems {
 	public static Item gun_glass_cannon;
 	public static Item gun_lunatic_marksman;
 	public static Item gun_uac_pistol;
+	
+	public static Item gun_b92;
+	public static Item gun_b92_ammo;
+	public static Item gun_cryocannon;
+	public static Item gun_cryolator_ammo;
+	public static Item gun_fireext;
 
 	public static Item gun_debug;
 	public static Item ammo_debug;

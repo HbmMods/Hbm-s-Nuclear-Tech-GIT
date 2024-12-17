@@ -1112,9 +1112,6 @@ public class ModBlocks {
 	public static Block rail_large_switch;
 	public static Block rail_large_switch_flipped;
 	
-	public static Block statue_elb;
-	public static Block statue_elb_g;
-	public static Block statue_elb_w;
 	public static Block statue_elb_f;
 
 	public static Block cheater_virus;
@@ -2273,9 +2270,6 @@ public class ModBlocks {
 		volcano_core = new BlockVolcano().setBlockName("volcano_core").setBlockUnbreakable().setResistance(10000.0F).setCreativeTab(MainRegistry.nukeTab).setBlockTextureName(RefStrings.MODID + ":volcano_core");
 		volcano_rad_core = new BlockVolcano().setBlockName("volcano_rad_core").setBlockUnbreakable().setResistance(10000.0F).setCreativeTab(MainRegistry.nukeTab).setBlockTextureName(RefStrings.MODID + ":volcano_rad_core");
 
-		statue_elb = new DecoBlockAlt(Material.iron).setBlockName("#null").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY);
-		statue_elb_g = new DecoBlockAlt(Material.iron).setBlockName("#void").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY);
-		statue_elb_w = new DecoBlockAlt(Material.iron).setBlockName("#ngtv").setHardness(Float.POSITIVE_INFINITY).setResistance(Float.POSITIVE_INFINITY);
 		statue_elb_f = new DecoBlockAlt(Material.iron).setBlockName("#undef").setHardness(Float.POSITIVE_INFINITY).setLightLevel(1.0F).setResistance(Float.POSITIVE_INFINITY);
 
 		mud_fluid = new MudFluid().setDensity(2500).setViscosity(3000).setLuminosity(5).setTemperature(2773).setUnlocalizedName("mud_fluid");
@@ -3386,9 +3380,6 @@ public class ModBlocks {
 		GameRegistry.registerBlock(crate_jungle, crate_jungle.getUnlocalizedName());
 		
 		//ElB
-		GameRegistry.registerBlock(statue_elb, statue_elb.getUnlocalizedName());
-		GameRegistry.registerBlock(statue_elb_g, statue_elb_g.getUnlocalizedName());
-		GameRegistry.registerBlock(statue_elb_w, statue_elb_w.getUnlocalizedName());
 		GameRegistry.registerBlock(statue_elb_f, statue_elb_f.getUnlocalizedName());
 		
 		//Fluids

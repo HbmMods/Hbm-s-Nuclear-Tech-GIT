@@ -168,9 +168,7 @@ public class MainRegistry {
 	public static Achievement achSacrifice;
 	public static Achievement achImpossible;
 	public static Achievement achTOB;
-	public static Achievement achFreytag;
 	public static Achievement achPotato;
-	public static Achievement achC44;
 	public static Achievement achC20_5;
 	public static Achievement achFiend;
 	public static Achievement achFiend2;
@@ -662,9 +660,7 @@ public class MainRegistry {
 		achImpossible = new Achievement("achievement.impossible", "impossible", 18, 10, ModItems.nothing, null).initIndependentStat().setSpecial().registerStat();
 		achTOB = new Achievement("achievement.tasteofblood", "tasteofblood", 3, 10, new ItemStack(ModItems.fluid_icon, 1, Fluids.ASCHRAB.getID()), null).initIndependentStat().setSpecial().registerStat();
 		achGoFish = new Achievement("achievement.goFish", "goFish", 5, 10, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.GOFISH), null).initIndependentStat().setSpecial().registerStat();
-		achFreytag = new Achievement("achievement.freytag", "freytag", 0, -4, ModItems.gun_mp40, null).initIndependentStat().setSpecial().registerStat();
 		achPotato = new Achievement("achievement.potato", "potato", -2, -2, ModItems.battery_potatos, null).initIndependentStat().setSpecial().registerStat();
-		achC44 = new Achievement("achievement.c44", "c44", 2, -4, ModItems.gun_revolver_pip, null).initIndependentStat().setSpecial().registerStat();
 		achC20_5 = new Achievement("achievement.c20_5", "c20_5", 3, 6, DictFrame.fromOne(ModItems.achievement_icon, EnumAchievementType.QUESTIONMARK), null).initIndependentStat().setSpecial().registerStat();
 		achFiend = new Achievement("achievement.fiend", "fiend", -6, 8, ModItems.shimmer_sledge, null).initIndependentStat().setSpecial().registerStat();
 		achFiend2 = new Achievement("achievement.fiend2", "fiend2", -4, 9, ModItems.shimmer_axe, null).initIndependentStat().setSpecial().registerStat();
@@ -738,9 +734,7 @@ public class MainRegistry {
 				achImpossible,
 				achTOB,
 				achGoFish,
-				achFreytag,
 				achPotato,
-				achC44,
 				achC20_5,
 				achFiend,
 				achFiend2,
@@ -1495,6 +1489,9 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.clip_euthanasia");
 		ignoreMappings.add("hbm:item.clip_defabricator");
 		ignoreMappings.add("hbm:item.ammo_folly_du");
+		ignoreMappings.add("hbm:tile.statue_elb");
+		ignoreMappings.add("hbm:tile.statue_elb_g");
+		ignoreMappings.add("hbm:tile.statue_elb_w");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

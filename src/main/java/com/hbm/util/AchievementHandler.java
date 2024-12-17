@@ -16,11 +16,9 @@ public class AchievementHandler {
 	public static HashMap<ComparableStack, Achievement> craftingAchievements = new HashMap();
 	
 	public static void register() {
-		craftingAchievements.put(new ComparableStack(ModItems.gun_mp40), MainRegistry.achFreytag);
 		craftingAchievements.put(new ComparableStack(ModItems.piston_selenium), MainRegistry.achSelenium);
 		craftingAchievements.put(new ComparableStack(ModItems.gun_b92), MainRegistry.achSelenium);
 		craftingAchievements.put(new ComparableStack(ModItems.battery_potatos), MainRegistry.achPotato);
-		craftingAchievements.put(new ComparableStack(ModItems.gun_revolver_pip), MainRegistry.achC44);
 		craftingAchievements.put(new ComparableStack(ModBlocks.machine_press), MainRegistry.achBurnerPress);
 		craftingAchievements.put(new ComparableStack(ModItems.rbmk_fuel_empty), MainRegistry.achRBMK);
 		craftingAchievements.put(new ComparableStack(ModBlocks.machine_chemplant), MainRegistry.achChemplant);

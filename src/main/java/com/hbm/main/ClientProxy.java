@@ -583,7 +583,6 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBobmazon.class, new RenderMinerRocket());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityTom.class, new RenderTom());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityAAShell.class, new RenderMirv());
-	    RenderingRegistry.registerEntityRenderingHandler(EntityRocketHoming.class, new RenderSRocket());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityChopperMine.class, new RenderChopperMine());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityRubble.class, new RenderRubble());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityShrapnel.class, new RenderShrapnel());

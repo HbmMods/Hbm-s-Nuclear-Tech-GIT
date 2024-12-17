@@ -37,7 +37,6 @@ public class ItemPoolsRedRoom {
 					weighted(ModItems.flask_infusion, 0, 1, 1, 5),
 					weighted(ModBlocks.boxcar, 0, 1, 1, 5),
 					weighted(ModItems.book_of_, 0, 1, 1, 5),
-					weighted(ModItems.gun_revolver_pip, 0, 1, 1, 5)
 			};
 		}};
 		

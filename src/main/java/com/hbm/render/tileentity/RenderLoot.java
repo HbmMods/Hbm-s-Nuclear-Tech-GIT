@@ -7,7 +7,6 @@ import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorTrenchmaster;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.model.ModelLeverAction;
 import com.hbm.util.Tuple.Quartet;
 
 import net.minecraft.client.Minecraft;
@@ -42,7 +41,7 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 			if(stack.getItem() == ModItems.ammo_nuke) {
 				renderNuke();
 				
-			} else if(stack.getItem() == ModItems.gun_lever_action) {
+			} else if(stack.getItem() == ModItems.gun_maresleg) {
 				renderShotgun();
 				
 			} else if(stack.getItem() instanceof ArmorTrenchmaster) {
@@ -117,7 +116,6 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}
 
-	protected ModelLeverAction shotgun;
 	private void renderShotgun() {
 
 		GL11.glScaled(0.5, 0.5, 0.5);
@@ -127,11 +125,8 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 		GL11.glRotated(90, 0, 1, 0);
 		
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		bindTexture(ResourceManager.ff_wood);
-		ResourceManager.ff_maresleg.renderPart("Grip");
-		bindTexture(ResourceManager.ff_gun_bright);
-		ResourceManager.ff_maresleg.renderPart("Gun");
-		ResourceManager.ff_maresleg.renderPart("Lever");
+		bindTexture(ResourceManager.maresleg_tex);
+		ResourceManager.maresleg.renderAll();
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 	}
 	

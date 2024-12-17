@@ -1,14 +1,9 @@
 package com.hbm.blocks.generic;
 
-import java.util.ArrayList;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
-import com.hbm.tileentity.deco.TileEntityDecoBlockAlt;
 import com.hbm.tileentity.deco.TileEntityDecoBlockAltF;
-import com.hbm.tileentity.deco.TileEntityDecoBlockAltG;
-import com.hbm.tileentity.deco.TileEntityDecoBlockAltW;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,7 +12,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -34,36 +28,13 @@ public class DecoBlockAlt extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		//this.blockIcon = iconRegister.registerIcon("stone");
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":code");
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
-		if(this == ModBlocks.statue_elb)
-			return new TileEntityDecoBlockAlt();
-		if(this == ModBlocks.statue_elb_g)
-			return new TileEntityDecoBlockAltG();
-		if(this == ModBlocks.statue_elb_w)
-			return new TileEntityDecoBlockAltW();
-		if(this == ModBlocks.statue_elb_f)
-			return new TileEntityDecoBlockAltF();
+		if(this == ModBlocks.statue_elb_f) return new TileEntityDecoBlockAltF();
 		return null;
-	}
-
-	@Override
-	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
-	{
-		ArrayList<ItemStack> drops = new ArrayList<ItemStack>();
-		drops.add(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb)));
-		if (this == ModBlocks.statue_elb_g || this == ModBlocks.statue_elb_f)
-		{
-			drops.add(new ItemStack(ModItems.gun_revolver_cursed, 1, 0));
-		}
-		if (this == ModBlocks.statue_elb_w || this == ModBlocks.statue_elb_f) {
-			drops.add(new ItemStack(ModItems.watch, 1, 0));
-		}
-		return drops;
 	}
 	
 	@Override
@@ -84,89 +55,33 @@ public class DecoBlockAlt extends BlockContainer {
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		
-		if(i == 0)
-		{
+
+		if(i == 0) {
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 		}
-		if(i == 1)
-		{
+		if(i == 1) {
 			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
 		}
-		if(i == 2)
-		{
+		if(i == 2) {
 			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
 		}
-		if(i == 3)
-		{
+		if(i == 3) {
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		if(world.isRemote)
-		{
+		if(world.isRemote) {
 			return true;
-		} else if(!player.isSneaking())
-		{
-			if(player.getCurrentEquippedItem() != null)
-			{
-				if(this == ModBlocks.statue_elb)
-				{
-					if(player.getCurrentEquippedItem().getItem() == ModItems.gun_revolver_cursed)
-					{
-						world.setBlock(x, y, z, ModBlocks.statue_elb_g, world.getBlockMetadata(x, y, z), 2);
-
-                        if (!player.capabilities.isCreativeMode)
-                        {
-                            --player.getCurrentEquippedItem().stackSize;
-                        }
-						return true;
-					}
-				
-					if(player.getCurrentEquippedItem().getItem() == ModItems.watch)
-					{
-						world.setBlock(x, y, z, ModBlocks.statue_elb_w, world.getBlockMetadata(x, y, z), 2);
-
-                        if (!player.capabilities.isCreativeMode)
-                        {
-                            --player.getCurrentEquippedItem().stackSize;
-                        }
-						return true;
-					}
-				}
-				if(this == ModBlocks.statue_elb_g)
-				{
-					if(player.getCurrentEquippedItem().getItem() == ModItems.watch)
-					{
-						world.setBlock(x, y, z, ModBlocks.statue_elb_f, world.getBlockMetadata(x, y, z), 2);
-
-                        if (!player.capabilities.isCreativeMode)
-                        {
-                            --player.getCurrentEquippedItem().stackSize;
-                        }
-						return true;
-					}
-				}
-				if(this == ModBlocks.statue_elb_w)
-				{
-					if(player.getCurrentEquippedItem().getItem() == ModItems.gun_revolver_cursed)
-					{
-						world.setBlock(x, y, z, ModBlocks.statue_elb_f, world.getBlockMetadata(x, y, z), 2);
-
-                        if (!player.capabilities.isCreativeMode)
-                        {
-                            --player.getCurrentEquippedItem().stackSize;
-                        }
-						return true;
-					}
-				}
+		} else if(!player.isSneaking()) {
+			
+			if(player.getCurrentEquippedItem() != null) {
 				boolean cracked = player.getHeldItem().getItem() == ModItems.key_red_cracked;
+				
 				if((player.getHeldItem().getItem() == ModItems.key_red || cracked)) {
 					if(cracked) player.getHeldItem().stackSize--;
-					world.func_147480_a(x, y, z, false);
-					this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+					world.func_147480_a(x, y, z, true);
 					return true;
 				}
 			}
@@ -175,17 +90,15 @@ public class DecoBlockAlt extends BlockContainer {
 	}
 	
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
-    {
-        float f = 0.0625F;
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 8*f, 1.0F);
-    }
-	
-	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
-        float f = 0.0625F;
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 8*f, 1.0F);
-		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_) {
+		float f = 0.0625F;
+		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 8 * f, 1.0F);
 	}
 
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+		float f = 0.0625F;
+		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 8 * f, 1.0F);
+		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	}
 }
