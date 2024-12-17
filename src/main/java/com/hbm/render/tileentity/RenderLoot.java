@@ -118,8 +118,8 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 
 	private void renderShotgun() {
 
-		GL11.glScaled(0.5, 0.5, 0.5);
-		GL11.glTranslated(1, 0, 0);
+		GL11.glScaled(0.125, 0.125, 0.125);
+		GL11.glTranslated(3, 0, 0);
 		GL11.glRotated(25, 0, 1, 0);
 		GL11.glRotated(90, 1, 0, 0);
 		GL11.glRotated(90, 0, 1, 0);

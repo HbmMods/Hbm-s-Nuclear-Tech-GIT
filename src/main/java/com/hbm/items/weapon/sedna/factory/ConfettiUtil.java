@@ -1,5 +1,7 @@
 package com.hbm.items.weapon.sedna.factory;
 
+import java.util.Locale;
+
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.helper.AshesCreator;
@@ -16,8 +18,8 @@ public class ConfettiUtil {
 	
 	public static void decideConfetti(EntityLivingBase entity, DamageSource source) {
 		if(entity.isEntityAlive()) return;
-		if(source.damageType.equals(DamageClass.LASER.name())) pulverize(entity);
-		if(source.damageType.equals(DamageClass.ELECTRIC.name())) pulverize(entity);
+		if(source.damageType.equals(DamageClass.LASER.name().toLowerCase(Locale.US))) pulverize(entity);
+		if(source.damageType.equals(DamageClass.ELECTRIC.name().toLowerCase(Locale.US))) pulverize(entity);
 		if(source.isExplosion()) gib(entity);
 		if(source.isFireDamage()) cremate(entity);
 	}
