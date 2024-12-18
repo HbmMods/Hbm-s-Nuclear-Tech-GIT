@@ -52,15 +52,13 @@ public class ExtPropPacket implements IMessage {
 			if(Minecraft.getMinecraft().theWorld == null)
 				return null;
 
-			ByteBuf buf = Unpooled.buffer();
-
-			m.toBytes(buf);
-
 			HbmLivingProps props = HbmLivingProps.getData(Minecraft.getMinecraft().thePlayer);
 			HbmPlayerProps pprps = HbmPlayerProps.getData(Minecraft.getMinecraft().thePlayer);
 
-			props.deserialize(buf);
-			pprps.deserialize(buf);
+			props.deserialize(m.buffer);
+			pprps.deserialize(m.buffer);
+
+			m.buffer.release();
 
 			return null;
 		}

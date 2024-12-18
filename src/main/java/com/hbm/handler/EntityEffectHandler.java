@@ -37,6 +37,7 @@ import com.hbm.world.biome.BiomeGenCraterBase;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -80,7 +81,7 @@ public class EntityEffectHandler {
 		if(entity instanceof EntityPlayerMP) {
 			HbmLivingProps props = HbmLivingProps.getData(entity);
 			HbmPlayerProps pprps = HbmPlayerProps.getData((EntityPlayerMP) entity);
-			ByteBuf buf = Unpooled.buffer();
+			ByteBuf buf = PooledByteBufAllocator.DEFAULT.buffer();
 
 			if(pprps.shield < pprps.getEffectiveMaxShield() && entity.ticksExisted > pprps.lastDamage + 60) {
 				int tsd = entity.ticksExisted - (pprps.lastDamage + 60);
@@ -93,6 +94,7 @@ public class EntityEffectHandler {
 			props.serialize(buf);
 			pprps.serialize(buf);
 			PacketDispatcher.wrapper.sendTo(new ExtPropPacket(buf), (EntityPlayerMP) entity);
+			buf.release();
 		}
 
 		if(!entity.worldObj.isRemote) {

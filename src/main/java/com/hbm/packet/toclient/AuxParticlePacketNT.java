@@ -71,6 +71,8 @@ public class AuxParticlePacketNT implements IMessage {
 
 			} catch (IOException e) {
 				e.printStackTrace();
+			} finally {
+				m.buffer.release();
 			}
 
 			return null;

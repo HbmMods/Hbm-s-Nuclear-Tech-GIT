@@ -17,6 +17,7 @@ import com.hbm.handler.imc.IMCBlastFurnace;
 import com.hbm.handler.imc.IMCCentrifuge;
 import com.hbm.handler.imc.IMCCrystallizer;
 import com.hbm.handler.imc.IMCHandler;
+import com.hbm.handler.neutron.NeutronHandler;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
@@ -908,6 +909,10 @@ public class MainRegistry {
 		MinecraftForge.TERRAIN_GEN_BUS.register(impactHandler);
 
 		PacketDispatcher.registerPackets();
+
+		NeutronHandler neutronHandler = new NeutronHandler();
+		MinecraftForge.EVENT_BUS.register(neutronHandler);
+		FMLCommonHandler.instance().bus().register(neutronHandler);
 
 		ChunkRadiationManager radiationSystem = new ChunkRadiationManager();
 		MinecraftForge.EVENT_BUS.register(radiationSystem);

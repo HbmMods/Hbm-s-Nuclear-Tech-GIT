@@ -65,6 +65,8 @@ public class TileEntityHeatBoiler extends TileEntityLoadedBase implements IBufPa
 
 		if(!worldObj.isRemote) {
 
+			if(this.buf != null)
+				this.buf.release();
 			this.buf = Unpooled.buffer();
 
 			buf.writeBoolean(this.hasExploded);

@@ -61,6 +61,8 @@ public class BufPacket extends PrecompiledPacket {
 					MainRegistry.logger.warn("A ByteBuf packet failed to be read and has thrown an error. This normally means that there was a buffer underflow and more data was read than was actually in the packet.");
 					MainRegistry.logger.warn("Tile: {}", te.getBlockType().getUnlocalizedName());
 					MainRegistry.logger.warn(e.getMessage());
+				} finally {
+					m.buf.release();
 				}
 			}
 

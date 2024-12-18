@@ -52,6 +52,8 @@ public class TileEntityMachineHephaestus extends TileEntityLoadedBase implements
 
 		if(!worldObj.isRemote) {
 
+			if(this.buf != null)
+				this.buf.release();
 			this.buf = Unpooled.buffer();
 
 			setupTanks();

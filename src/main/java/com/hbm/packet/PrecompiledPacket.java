@@ -25,7 +25,11 @@ public abstract class PrecompiledPacket implements IMessage {
 	 * Forcefully creates the precompiled buffer, use `getPreBuf()` whenever possible.
 	 */
 	public void makePreBuf() {
+		if(preCompiledBuf != null)
+			preCompiledBuf.release();
+
 		preCompiledBuf = Unpooled.buffer();
+
 		this.toBytes(preCompiledBuf); // Create buffer and read data to it.
 	}
 }

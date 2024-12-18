@@ -55,6 +55,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
 import net.minecraft.command.CommandGameRule;
@@ -1223,9 +1224,10 @@ public class ModEventHandler {
 	@SubscribeEvent
 	public void onPlayerClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event) {
 
-		ByteBuf buf = Unpooled.buffer();
+		ByteBuf buf = PooledByteBufAllocator.DEFAULT.buffer();
 		HbmPlayerProps.getData(event.original).serialize(buf);
 		HbmPlayerProps.getData(event.entityPlayer).deserialize(buf);
+		buf.release();
 	}
 
 	@SubscribeEvent

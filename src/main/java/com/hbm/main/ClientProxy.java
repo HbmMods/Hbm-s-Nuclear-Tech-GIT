@@ -17,10 +17,7 @@
  import com.hbm.entity.effect.*;
  import com.hbm.entity.grenade.*;
  import com.hbm.entity.item.*;
- import com.hbm.entity.logic.EntityBomber;
- import com.hbm.entity.logic.EntityDeathBlast;
- import com.hbm.entity.logic.EntityEMP;
- import com.hbm.entity.logic.EntityWaypoint;
+ import com.hbm.entity.logic.*;
  import com.hbm.entity.missile.*;
  import com.hbm.entity.missile.EntityMissileTier0.*;
  import com.hbm.entity.missile.EntityMissileTier1.*;

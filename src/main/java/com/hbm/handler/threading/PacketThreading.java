@@ -48,18 +48,20 @@ public class PacketThreading {
 	 */
 	public static void waitUntilThreadFinished() {
 		try {
-			for(Future<?> future : futureList) {
-				future.get(50, TimeUnit.MILLISECONDS); // I HATE EVERYTHING
+			if (!(processedCnt >= totalCnt)) {
+				for (Future<?> future : futureList) {
+					future.get(50, TimeUnit.MILLISECONDS); // I HATE EVERYTHING
+				}
 			}
-			futureList.clear();
 		} catch (ExecutionException ignored) {
 			// impossible
 		} catch (TimeoutException e) {
-			MainRegistry.logger.warn("A packet has taken >50ms to process, discarding {}/{} packets to prevent pausing of main thread.", totalCnt-processedCnt, totalCnt);
+			MainRegistry.logger.warn("A packet has taken >50ms to process, discarding {}/{} packets to prevent pausing of main thread ({} total futures).", totalCnt-processedCnt, totalCnt, futureList.size());
 			threadPool.getQueue().clear();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt(); // maybe not the best thing but it's gotta be here
 		} finally {
+			futureList.clear();
 			processedCnt = 0;
 			totalCnt = 0;
 		}

@@ -17,7 +17,7 @@ public class NeutronHandler {
 	private static int ticks = 0;
 
 	@SubscribeEvent
-	public static void onServerTick(TickEvent.ServerTickEvent event) {
+	public void onServerTick(TickEvent.ServerTickEvent event) {
 		if(event.phase != TickEvent.Phase.START)
 			return;
 

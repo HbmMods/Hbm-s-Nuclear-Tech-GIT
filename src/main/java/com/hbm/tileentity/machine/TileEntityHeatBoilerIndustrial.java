@@ -57,6 +57,8 @@ public class TileEntityHeatBoilerIndustrial extends TileEntityLoadedBase impleme
 
 		if(!worldObj.isRemote) {
 
+			if(this.buf != null)
+				this.buf.release();
 			this.buf = Unpooled.buffer();
 
 			this.setupTanks();

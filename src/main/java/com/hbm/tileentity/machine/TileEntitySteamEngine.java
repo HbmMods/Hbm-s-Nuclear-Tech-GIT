@@ -77,6 +77,8 @@ public class TileEntitySteamEngine extends TileEntityLoadedBase implements IEner
 
 		if(!worldObj.isRemote) {
 
+			if(this.buf != null)
+				this.buf.release();
 			this.buf = Unpooled.buffer();
 
 			this.powerBuffer = 0;
