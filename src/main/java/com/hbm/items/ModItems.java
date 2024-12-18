@@ -3983,7 +3983,7 @@ public class ModItems {
 		ammo_22lr = new ItemAmmo(Ammo22LR.class).setUnlocalizedName("ammo_22lr");
 		ammo_rocket = new ItemAmmo(AmmoRocket.class).setUnlocalizedName("ammo_rocket");
 		ammo_grenade = new ItemAmmo(AmmoGrenade.class).setUnlocalizedName("ammo_grenade");
-		ammo_shell = new ItemAmmo(Ammo240Shell.class).setUnlocalizedName("ammo_shell");
+		ammo_shell = (ItemEnumMulti) new ItemAmmo(Ammo240Shell.class).setCreativeTab(MainRegistry.weaponTab).setUnlocalizedName("ammo_shell");
 		ammo_dgk = new ItemCustomLore().setUnlocalizedName("ammo_dgk").setCreativeTab(MainRegistry.weaponTab);
 		ammo_nuke = new ItemAmmo(AmmoFatman.class).setUnlocalizedName("ammo_nuke");
 		ammo_fuel = new ItemAmmo(AmmoFlamethrower.class).setUnlocalizedName("ammo_fuel");
@@ -4071,7 +4071,7 @@ public class ModItems {
 		gun_defabricator_ammo = new Item().setUnlocalizedName("gun_defabricator_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_defabricator_ammo");
 		gun_defabricator = new Item().setUnlocalizedName("gun_defabricator").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_defabricator");
 		gun_vortex = new Item().setUnlocalizedName("gun_vortex").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_vortex");
-		gun_super_shotgun = new Item().setUnlocalizedName("gun_super_shotgun").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_super_shotgun");
+		gun_super_shotgun = new Item().setUnlocalizedName("gun_super_shotgun").setMaxStackSize(1).setFull3D().setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_super_shotgun");
 		gun_moist_nugget = new Item().setUnlocalizedName("gun_moist_nugget").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_moist_nugget");
 		gun_darter = new Item().setFull3D().setUnlocalizedName("gun_darter").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_darter");
 		gun_glass_cannon = new Item().setFull3D().setUnlocalizedName("gun_glass_cannon").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_darter");

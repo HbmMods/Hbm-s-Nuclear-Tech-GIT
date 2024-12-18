@@ -6,10 +6,14 @@
 
 ## Fixed
 * Fixed 9mm soft points being called ".9mm"
-* Fixed missing localization for the hard plastic autogen material
+* Fixed missing localization for the hard plastic and PVC autogen materials
 * Fixed the fat mine's crafting recipe still using the deprecated ammo item
 * Removed legacy ammo items and guns from all remaining item pools
 * Fixed the rubber grip not having a recipe
 * Fixed the coilgun and bolter not being classified correctly
 * Fixed new death messages not working
 * Fixed none of the armors having fall resistance
+* Fixed survey scanners not picking up nether depth rock
+* Fixed FMJ, AP and DU rounds not having damage threshold negation, making them worse against most armored targets compared to JHP
+* Fixed autgen items made from unsmeltable materials being smeltable in the crucible
+* Fixed 240mm shells not being visible in creative

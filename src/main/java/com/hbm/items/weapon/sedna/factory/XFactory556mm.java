@@ -41,11 +41,11 @@ public class XFactory556mm {
 		SpentCasing casing556 = new SpentCasing(CasingType.BOTTLENECK).setColor(SpentCasing.COLOR_CASE_BRASS).setScale(0.8F);
 		r556_sp = new BulletConfig().setItem(EnumAmmo.R556_SP)
 				.setCasing(casing556.clone().register("r556"));
-		r556_fmj = new BulletConfig().setItem(EnumAmmo.R556_FMJ).setDamage(0.8F).setArmorPiercing(0.1F)
+		r556_fmj = new BulletConfig().setItem(EnumAmmo.R556_FMJ).setDamage(0.8F).setThresholdNegation(4F).setArmorPiercing(0.1F)
 				.setCasing(casing556.clone().register("r556fmj"));
 		r556_jhp = new BulletConfig().setItem(EnumAmmo.R556_JHP).setDamage(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing556.clone().register("r556jhp"));
-		r556_ap = new BulletConfig().setItem(EnumAmmo.R556_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setArmorPiercing(0.15F)
+		r556_ap = new BulletConfig().setItem(EnumAmmo.R556_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(10F).setArmorPiercing(0.15F)
 				.setCasing(casing556.clone().setColor(SpentCasing.COLOR_CASE_44).register("r556ap"));
 
 		ModItems.gun_g3 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
