@@ -20,6 +20,7 @@ import com.hbm.handler.imc.IMCHandler;
 import com.hbm.handler.neutron.NeutronHandler;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.OreDictManager;
@@ -904,6 +905,8 @@ public class MainRegistry {
 
 		PacketDispatcher.registerPackets();
 
+		PacketThreading.init();
+
 		NeutronHandler neutronHandler = new NeutronHandler();
 		MinecraftForge.EVENT_BUS.register(neutronHandler);
 		FMLCommonHandler.instance().bus().register(neutronHandler);
@@ -935,6 +938,7 @@ public class MainRegistry {
 		event.registerServerCommand(new CommandDebugChunkLoad());
 		event.registerServerCommand(new CommandSatellites());
 		event.registerServerCommand(new CommandRadiation());
+		event.registerServerCommand(new CommandPacketInfo());
 	}
 
 	@EventHandler
@@ -1496,7 +1500,7 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:tile.statue_elb");
 		ignoreMappings.add("hbm:tile.statue_elb_g");
 		ignoreMappings.add("hbm:tile.statue_elb_w");
-		
+
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
 		remapItems.put("hbm:item.man_explosive8", ModItems.explosive_lenses);
 		remapItems.put("hbm:item.briquette_lignite", ModItems.briquette);

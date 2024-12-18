@@ -877,6 +877,7 @@ public class TileEntityMachineExcavator extends TileEntityMachineBase implements
 		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
 		upgrades.put(UpgradeType.SPEED, 3);
 		upgrades.put(UpgradeType.POWER, 3);
+		upgrades.put(UpgradeType.EFFECT, 3);
 		return upgrades;
 	}
 

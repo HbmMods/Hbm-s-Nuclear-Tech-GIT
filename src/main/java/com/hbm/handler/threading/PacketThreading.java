@@ -1,6 +1,7 @@
 package com.hbm.handler.threading;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.hbm.config.GeneralConfig;
 import com.hbm.main.MainRegistry;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PrecompiledPacket;
@@ -15,13 +16,21 @@ public class PacketThreading {
 
 	private static final ThreadFactory packetThreadFactory = new ThreadFactoryBuilder().setNameFormat("NTM-Packet-Thread-%d").build();
 
-	private static final ThreadPoolExecutor threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1, packetThreadFactory);
+	public static final ThreadPoolExecutor threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1, packetThreadFactory);
 
-	private static int totalCnt = 0;
+	public static int totalCnt = 0;
 
-	private static int processedCnt = 0;
+	public static int processedCnt = 0;
 
-	private static final List<Future<?>> futureList = new ArrayList<>();
+	public static final List<Future<?>> futureList = new ArrayList<>();
+
+	/**
+	 * Sets up thread pool settings during mod initialization.
+ 	 */
+	public static void init() {
+		threadPool.setKeepAliveTime(50, TimeUnit.MILLISECONDS);
+		threadPool.allowCoreThreadTimeOut(true);
+	}
 
 	/**
 	 * Adds a packet to the thread pool to be processed in the future. This is only compatible with the `sendToAllAround` dispatch operation.
@@ -35,12 +44,18 @@ public class PacketThreading {
 			((PrecompiledPacket) message).getPreBuf(); // Gets the precompiled buffer, doing nothing if it already exists.
 
 		totalCnt++;
-		futureList.add(threadPool.submit(() -> {
+
+		Runnable task = () -> {
 			PacketDispatcher.wrapper.sendToAllAround(message, target);
-			if(message instanceof PrecompiledPacket)
-				((PrecompiledPacket) message).getPreBuf().release();
-			processedCnt++;
-		}));
+		if(message instanceof PrecompiledPacket)
+			((PrecompiledPacket) message).getPreBuf().release();
+		processedCnt++;
+		};
+
+		if(GeneralConfig.enablePacketThreading)
+			futureList.add(threadPool.submit(task)); // Thread it
+		else
+			task.run(); // no threading :(
 	}
 
 	/**
@@ -48,7 +63,7 @@ public class PacketThreading {
 	 */
 	public static void waitUntilThreadFinished() {
 		try {
-			if (!(processedCnt >= totalCnt)) {
+			if (!(processedCnt >= totalCnt) && !GeneralConfig.enablePacketThreading) {
 				for (Future<?> future : futureList) {
 					future.get(50, TimeUnit.MILLISECONDS); // I HATE EVERYTHING
 				}
