@@ -4785,6 +4785,7 @@ item.part_receiver_light.name=轻型%s机匣
 item.part_stock.name=%s枪托
 item.plate_gunmetal.name=青铜板
 item.plate_weaponsteel.name=武器级钢板
+tile.machine_pyrooven.name=热解炉
 
 itemGroup.tabBlocks=HBM 矿石和方块
 itemGroup.tabConsumable=HBM 食物和装备
