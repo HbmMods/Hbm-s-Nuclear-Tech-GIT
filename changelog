@@ -1,6 +1,6 @@
 ## Changed
 * Any bullet that can ricochet (or at least runs the code for it) can now also break glass
-* Removed the witch taunter achievement for being unobtainable now
+* Removed three old achievements which no longer work due to the gun changes
 * AJR armor plating now uses niobium instead of saturnite, and yields twice as many items per recipe
 * Due to the gating change, the saturnite anvil now has a tier equivalent to a bronze anvil
 
@@ -8,6 +8,8 @@
 * Fixed 9mm soft points being called ".9mm"
 * Fixed missing localization for the hard plastic autogen material
 * Fixed the fat mine's crafting recipe still using the deprecated ammo item
-* Removed legacy ammo items from all remaining item pools
+* Removed legacy ammo items and guns from all remaining item pools
 * Fixed the rubber grip not having a recipe
 * Fixed the coilgun and bolter not being classified correctly
+* Fixed new death messages not working
+* Fixed none of the armors having fall resistance

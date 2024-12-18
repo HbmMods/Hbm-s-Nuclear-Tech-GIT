@@ -47,7 +47,7 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.ammo_standard, EnumAmmo.G12_BP.ordinal(), 3, 6, 3),
 					weighted(ModItems.ammo_standard, EnumAmmo.G26_FLARE_SUPPLY.ordinal(), 1, 1, 1),
 					weighted(ModItems.gun_kit_1, 0, 1, 3, 4),
-					weighted(ModItems.gun_lever_action, 0, 1, 1, 1),
+					weighted(ModItems.gun_maresleg, 0, 1, 1, 1),
 					weighted(ModItems.casing_9, 0, 4, 10, 3),
 					weighted(ModItems.casing_50, 0, 4, 10, 3),
 					weighted(ModItems.cordite, 0, 4, 6, 5),
