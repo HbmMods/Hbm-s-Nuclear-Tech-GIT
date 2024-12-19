@@ -49,14 +49,14 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	public long power;
 	public int age = 0;
 	public FluidTank[] tanks;
-	
+
 	private static final int[] slots_top = new int[] {4};
 	private static final int[] slots_bottom = new int[] {6};
 	private static final int[] slots_side = new int[] {4};
-	
+
 	private String customName;
 	protected double[] info = new double[3];
-	
+
 	//Configurable values
 	public static long maxPower = 1_000_000;
 	public static int inputTankSize = 64_000;
@@ -133,7 +133,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	public boolean hasCustomInventoryName() {
 		return this.customName != null && this.customName.length() > 0;
 	}
-	
+
 	public void setCustomName(String name) {
 		this.customName = name;
 	}
@@ -152,7 +152,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
 		}
 	}
-	
+
 	//You scrubs aren't needed for anything (right now)
 	@Override
 	public void openInventory() {}
@@ -161,14 +161,14 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		
+
 		if(i == 4)
 			if(stack != null && stack.getItem() instanceof IBatteryItem)
 				return true;
-		
+
 		return false;
 	}
-	
+
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		if(slots[i] != null)
@@ -184,13 +184,13 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			{
 				slots[i] = null;
 			}
-			
+
 			return itemStack1;
 		} else {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -199,9 +199,9 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "steam");
 		power = nbt.getLong("power");
-		
+
 		slots = new ItemStack[getSizeInventory()];
-		
+
 		for(int i = 0; i < list.tagCount(); i++)
 		{
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
@@ -212,16 +212,16 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			}
 		}
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "steam");
 		nbt.setLong("power", power);
-		
+
 		NBTTagList list = new NBTTagList();
-		
+
 		for(int i = 0; i < slots.length; i++)
 		{
 			if(slots[i] != null)
@@ -234,7 +234,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 		}
 		nbt.setTag("items", list);
 	}
-	
+
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_)
     {
@@ -250,32 +250,32 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return false;
 	}
-	
+
 	public long getPowerScaled(int i) {
 		return (power * i) / maxPower;
 	}
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			this.info = new double[3];
-			
+
 			age++;
 			if(age >= 2) {
 				age = 0;
 			}
-			
+
 			this.subscribeToAllAround(tanks[0].getTankType(), this);
-			
+
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 
 			tanks[0].setType(0, 1, slots);
 			tanks[0].loadTank(2, 3, slots);
 			power = Library.chargeItemsFromTE(slots, 4, power, maxPower);
-			
+
 			FluidType in = tanks[0].getTankType();
 			boolean valid = false;
 			if(in.hasTrait(FT_Coolable.class)) {
@@ -298,12 +298,12 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 			}
 			if(!valid) tanks[1].setTankType(Fluids.NONE);
 			if(power > maxPower) power = maxPower;
-			
+
 			this.sendFluidToAll(tanks[1], this);
-			
+
 			tanks[1].unloadTank(5, 6, slots);
-			
-			this.sendStandard(25);
+
+			this.networkPackNT(25);
 		}
 	}
 
@@ -318,7 +318,7 @@ public class TileEntityMachineTurbine extends TileEntityLoadedBase implements IS
 		tanks[0].deserialize(buf);
 		tanks[1].deserialize(buf);
 	}
-	
+
 	@Override
 	public long getPower() {
 		return power;

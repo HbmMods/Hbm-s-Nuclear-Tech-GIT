@@ -11,13 +11,13 @@ import com.hbm.inventory.gui.GUIDroneRequester;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.network.RequestNetwork.PathNode;
 import com.hbm.tileentity.network.RequestNetwork.RequestNode;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -26,8 +26,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer implements INBTPacketReceiver, IGUIProvider, IControlReceiverFilter {
-	
+public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer implements IGUIProvider, IControlReceiverFilter {
+
 	public ModulePatternMatcher matcher;
 
 	public TileEntityDroneRequester() {
@@ -39,22 +39,23 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 	public String getName() {
 		return "container.droneRequester";
 	}
-	
+
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		
+
 		if(!worldObj.isRemote) {
-			
-			NBTTagCompound data = new NBTTagCompound();
-			this.matcher.writeToNBT(data);
-			INBTPacketReceiver.networkPack(this, data, 15);
+
+			networkPackNT(15);
 		}
 	}
 
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.matcher.readFromNBT(nbt);
+	@Override public void serialize(ByteBuf buf) {
+		this.matcher.serialize(buf);
+	}
+
+	@Override public void deserialize(ByteBuf buf) {
+		this.matcher.deserialize(buf);
 	}
 
 	@Override
@@ -76,13 +77,13 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
 		return true;
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.matcher.readFromNBT(nbt);
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -109,7 +110,7 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 			if(filter == null) continue;
 			String mode = this.matcher.modes[i];
 			AStack aStack = null;
-			
+
 			if(ModulePatternMatcher.MODE_EXACT.equals(mode)) {
 				aStack = new ComparableStack(filter).makeSingular();
 			} else if(ModulePatternMatcher.MODE_WILDCARD.equals(mode)) {
@@ -117,9 +118,9 @@ public class TileEntityDroneRequester extends TileEntityRequestNetworkContainer 
 			} else if(mode != null) {
 				aStack = new OreDictStack(mode);
 			}
-			
+
 			if(aStack == null) continue;
-			
+
 			if(stock == null || !this.matcher.isValidForFilter(filter, i, stock)) request.add(aStack);
 		}
 		return new RequestNode(pos, this.reachableNodes, request);

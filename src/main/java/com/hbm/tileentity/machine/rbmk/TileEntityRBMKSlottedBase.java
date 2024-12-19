@@ -1,15 +1,11 @@
 package com.hbm.tileentity.machine.rbmk;
 
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.NBTPacket;
 import com.hbm.tileentity.IGUIProvider;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.fluids.FluidTank;
 
 /**
  * Base class for RBMK components that have GUI slots and thus have to handle
@@ -122,23 +118,6 @@ public abstract class TileEntityRBMKSlottedBase extends TileEntityRBMKActiveBase
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
 		return new int[] {};
-	}
-
-	public int getGaugeScaled(int i, FluidTank tank) {
-		return tank.getFluidAmount() * i / tank.getCapacity();
-	}
-
-	public void networkPack(NBTTagCompound nbt, int range) {
-
-		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
-	}
-
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-	}
-
-	public void handleButtonPacket(int value, int meta) {
 	}
 
 	@Override

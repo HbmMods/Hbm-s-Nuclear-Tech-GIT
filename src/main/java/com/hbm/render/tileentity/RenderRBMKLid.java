@@ -35,7 +35,7 @@ public class RenderRBMKLid extends TileEntitySpecialRenderer {
 			if(rod.hasRod)
 				hasRod = true;
 			
-			if(rod.fluxFast + rod.fluxSlow > 5)
+			if(rod.lastFluxQuantity > 5)
 				cherenkov = true;
 		}
 

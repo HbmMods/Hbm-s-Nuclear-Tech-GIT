@@ -29,6 +29,7 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -151,22 +152,26 @@ public class TileEntityMachineDiesel extends TileEntityMachinePolluting implemen
 
 			generate();
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("power", (int) power);
-			data.setInteger("powerCap", (int) powerCap);
-			tank.writeToNBT(data, "t");
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
 
-		power = data.getInteger("power");
-		powerCap = data.getInteger("powerCap");
-		tank.readFromNBT(data, "t");
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt((int) power);
+		buf.writeInt((int) powerCap);
+		tank.serialize(buf);
 	}
-	
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readInt();
+		this.powerCap = buf.readInt();
+		tank.deserialize(buf);
+	}
+
 	public boolean hasAcceptableFuel() {
 		return getHEFromFuel() > 0;
 	}

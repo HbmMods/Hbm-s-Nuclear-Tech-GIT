@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blocks.BlockEnumMulti;
 import com.hbm.lib.RefStrings;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -10,7 +9,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 
 public class BlockICFLaserComponent extends BlockEnumMulti {
-	
+
 	protected IIcon[] iconsTop;
 
 	public BlockICFLaserComponent() {
@@ -20,7 +19,7 @@ public class BlockICFLaserComponent extends BlockEnumMulti {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
-		
+
 		Enum[] enums = theEnum.getEnumConstants();
 		this.icons = new IIcon[enums.length];
 		this.iconsTop = new IIcon[enums.length];
@@ -33,7 +32,7 @@ public class BlockICFLaserComponent extends BlockEnumMulti {
 		this.icons[5] = reg.registerIcon(RefStrings.MODID + ":icf_turbocharger");
 		this.iconsTop[4] = this.iconsTop[5] = reg.registerIcon(RefStrings.MODID + ":icf_capacitor_top");
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
@@ -44,7 +43,7 @@ public class BlockICFLaserComponent extends BlockEnumMulti {
 	public int getSubCount() {
 		return EnumICFPart.values().length;
 	}
-	
+
 	public static enum EnumICFPart {
 		CASING,
 		PORT,

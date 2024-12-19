@@ -13,7 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 public class PermaSyncPacket implements IMessage {
-	
+
 	EntityPlayerMP player;	//server only, for writing
 	ByteBuf out;			//client only, for reading
 
@@ -34,18 +34,20 @@ public class PermaSyncPacket implements IMessage {
 	}
 
 	public static class Handler implements IMessageHandler<PermaSyncPacket, IMessage> {
-		
+
 		@Override
 		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(PermaSyncPacket m, MessageContext ctx) {
-			
+
 			try {
 
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 				if(player != null) PermaSyncHandler.readPacket(m.out, player.worldObj, player);
-				
-			} catch(Exception x) { }
-			
+
+			} catch(Exception x) { } finally {
+				m.out.release();
+			}
+
 			return null;
 		}
 	}

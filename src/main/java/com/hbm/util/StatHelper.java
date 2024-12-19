@@ -1,10 +1,6 @@
 package com.hbm.util;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import com.hbm.interfaces.NotableComments;
-
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -16,14 +12,17 @@ import net.minecraft.stats.StatCrafting;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ChatComponentTranslation;
 
+import java.util.Iterator;
+import java.util.Map;
+
 @NotableComments
 public class StatHelper {
-	
+
 	/*
 	 * God is dead and we are pissing on his grave
 	 */
 	public static Map publicReferenceToOneshotStatListPleaseAllPointAndLaugh;
-	
+
 	/**
 	 * This is probably the worst fucking way of doing this, but it's the only one I could think of that works.
 	 * In short: stats are hilariously broken.
@@ -32,22 +31,22 @@ public class StatHelper {
 	 * the system would break because modded items have dynamic IDs and the stats register fixed IDs instead of item instances.
 	 * What did forge do to solve this issue? Well nothing, of course! The injected bits comment on that in vanilla's stat
 	 * registering code, but instead of fixing anything it just slaps a fat "TODO" onto it. Wow! Really helpful!
-	 * 
+	 *
 	 * So what do we do? Every time the world starts and we know the IDs are now correct, we smack that fucker up nice and good.
 	 * All ID-bound stats get deep-cleaned out of this mess and registered 1:1 again. Is this terrible and prone to breaking with
 	 * mods that do their own stat handling? Hard to say, but the possibility is there.
 	 */
 	public static void resetStatShitFuck() {
-		
+
 		publicReferenceToOneshotStatListPleaseAllPointAndLaugh = ReflectionHelper.getPrivateValue(StatList.class, null, "field_75942_a", "oneShotStats");
-		
+
 		for(int i = 0; i < StatList.objectCraftStats.length; i++) StatList.objectCraftStats[i] = null;
 		for(int i = 0; i < StatList.mineBlockStatArray.length; i++) StatList.mineBlockStatArray[i] = null;
 		for(int i = 0; i < StatList.objectUseStats.length; i++) StatList.objectUseStats[i] = null;
 		for(int i = 0; i < StatList.objectBreakStats.length; i++) StatList.objectBreakStats[i] = null;
 		StatList.objectMineStats.clear();
 		StatList.itemStats.clear();
-		
+
 		try {
 			initCraftItemStats();
 			initBlockMineStats();
@@ -55,7 +54,7 @@ public class StatHelper {
 			initItemBreakStats();
 		} catch(Throwable ex) { } // just to be sure
 	}
-	
+
 	/**
 	 * For reasons beyond human comprehension, this bit originally only registered items that are the result
 	 * of an IRecipe instead of just all items outright like the item usage stats. The logical consequence of this is:
@@ -168,12 +167,12 @@ public class StatHelper {
 			stats[i] = stats[j];
 		}
 	}
-	
+
 	private static StatBase registerStat(StatBase stat) {
 		if(publicReferenceToOneshotStatListPleaseAllPointAndLaugh.containsKey(stat.statId)) {
 			publicReferenceToOneshotStatListPleaseAllPointAndLaugh.remove(stat.statId);
 		}
-		
+
 		StatList.allStats.add(stat);
 		publicReferenceToOneshotStatListPleaseAllPointAndLaugh.put(stat.statId, stat);
 		return stat;

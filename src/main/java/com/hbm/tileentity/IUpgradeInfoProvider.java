@@ -1,5 +1,6 @@
 package com.hbm.tileentity;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
@@ -13,8 +14,8 @@ public interface IUpgradeInfoProvider {
 	/** If any of the automated display stuff should be applied for this upgrade. A level of 0 is used by the GUI's indicator, as opposed to the item tooltips */
 	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo);
 	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo);
-	public int getMaxLevel(UpgradeType type);
-	
+	public HashMap<UpgradeType, Integer> getValidUpgrades();
+
 	public static String getStandardLabel(Block block) {
 		return EnumChatFormatting.GREEN.YELLOW + ">>> " + I18nUtil.resolveKey(block.getUnlocalizedName() + ".name") + " <<<";
 	}

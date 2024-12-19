@@ -1,7 +1,6 @@
 package com.hbm.blocks.network;
 
 import com.hbm.inventory.fluid.FluidType;
-
 import net.minecraft.world.World;
 
 public interface IBlockFluidDuct {

@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import com.hbm.handler.neutron.NeutronStream;
+
 public interface IRBMKFluxReceiver {
 	
 	public enum NType {
@@ -14,5 +16,5 @@ public interface IRBMKFluxReceiver {
 		}
 	}
 	
-	public void receiveFlux(NType type, double flux);
+	public void receiveFlux(NeutronStream stream);
 }

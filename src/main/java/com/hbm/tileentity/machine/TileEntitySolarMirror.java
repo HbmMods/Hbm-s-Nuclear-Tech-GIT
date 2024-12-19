@@ -4,6 +4,7 @@ import com.hbm.tileentity.TileEntityTickingBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -28,7 +29,7 @@ public class TileEntitySolarMirror extends TileEntityTickingBase {
 		if(!worldObj.isRemote) {
 			
 			if(worldObj.getTotalWorldTime() % 20 == 0)
-				sendUpdate();
+				this.networkPackNT(200);
 			
 			if(tY < yCoord) {
 				isOn = false;
@@ -64,22 +65,18 @@ public class TileEntitySolarMirror extends TileEntityTickingBase {
 		}
 	}
 
-	public void sendUpdate() {
-
-		NBTTagCompound data = new NBTTagCompound();
-		data.setInteger("posX", tX);
-		data.setInteger("posY", tY);
-		data.setInteger("posZ", tZ);
-		data.setBoolean("isOn", isOn);
-		this.networkPack(data, 200);
+	@Override public void serialize(ByteBuf buf) {
+		buf.writeInt(this.tX);
+		buf.writeInt(this.tY);
+		buf.writeInt(this.tZ);
+		buf.writeBoolean(this.isOn);
 	}
 
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		tX = nbt.getInteger("posX");
-		tY = nbt.getInteger("posY");
-		tZ = nbt.getInteger("posZ");
-		isOn = nbt.getBoolean("isOn");
+	@Override public void deserialize(ByteBuf buf) {
+		this.tX = buf.readInt();
+		this.tY = buf.readInt();
+		this.tZ = buf.readInt();
+		this.isOn = buf.readBoolean();
 	}
 	
 	public void setTarget(int x, int y, int z) {
@@ -87,7 +84,7 @@ public class TileEntitySolarMirror extends TileEntityTickingBase {
 		tY = y;
 		tZ = z;
 		this.markDirty();
-		this.sendUpdate();
+		this.networkPackNT(200);
 	}
 
 	public void readFromNBT(NBTTagCompound nbt) {
