@@ -20,7 +20,7 @@ public class PacketThreading {
 
 	public static int totalCnt = 0;
 
-	public static int processedCnt = 0;
+	public static long nanoTimeWaited = 0;
 
 	public static final List<Future<?>> futureList = new ArrayList<>();
 
@@ -29,7 +29,26 @@ public class PacketThreading {
  	 */
 	public static void init() {
 		threadPool.setKeepAliveTime(50, TimeUnit.MILLISECONDS);
-		threadPool.allowCoreThreadTimeOut(true);
+		if(GeneralConfig.enablePacketThreading) {
+			if(GeneralConfig.packetThreadingCoreCount < 0 || GeneralConfig.packetThreadingMaxCount <= 0) {
+				MainRegistry.logger.error("0.02_packetThreadingCoreCount < 0 or 0.03_packetThreadingMaxCount is <= 0, defaulting to 1 each.");
+				threadPool.setCorePoolSize(1); // beugh
+				threadPool.setMaximumPoolSize(1);
+			} else if(GeneralConfig.packetThreadingMaxCount > GeneralConfig.packetThreadingCoreCount) {
+				MainRegistry.logger.error("0.03_packetThreadingMaxCount is > 0.02_packetThreadingCoreCount, defaulting to 1 each.");
+				threadPool.setCorePoolSize(1);
+				threadPool.setMaximumPoolSize(1);
+			} else {
+				threadPool.setCorePoolSize(GeneralConfig.packetThreadingCoreCount);
+				threadPool.setMaximumPoolSize(GeneralConfig.packetThreadingMaxCount);
+			}
+			threadPool.allowCoreThreadTimeOut(false);
+		} else {
+			threadPool.allowCoreThreadTimeOut(true);
+			for(Runnable task : threadPool.getQueue()) {
+				task.run(); // Run all tasks async just in-case there *are* tasks left to run.
+			}
+		}
 	}
 
 	/**
@@ -49,10 +68,11 @@ public class PacketThreading {
 			PacketDispatcher.wrapper.sendToAllAround(message, target);
 		if(message instanceof PrecompiledPacket)
 			((PrecompiledPacket) message).getPreBuf().release();
-		processedCnt++;
 		};
 
-		if(GeneralConfig.enablePacketThreading)
+		if(isTriggered())
+			task.run();
+		else if(GeneralConfig.enablePacketThreading)
 			futureList.add(threadPool.submit(task)); // Thread it
 		else
 			task.run(); // no threading :(
@@ -62,8 +82,9 @@ public class PacketThreading {
 	 * Wait until the packet thread is finished processing.
 	 */
 	public static void waitUntilThreadFinished() {
+		long startTime = System.nanoTime();
 		try {
-			if (!(processedCnt >= totalCnt) && !GeneralConfig.enablePacketThreading) {
+			if (GeneralConfig.enablePacketThreading && (!GeneralConfig.packetThreadingErrorBypass && !hasTriggered)) {
 				for (Future<?> future : futureList) {
 					future.get(50, TimeUnit.MILLISECONDS); // I HATE EVERYTHING
 				}
@@ -71,14 +92,61 @@ public class PacketThreading {
 		} catch (ExecutionException ignored) {
 			// impossible
 		} catch (TimeoutException e) {
-			MainRegistry.logger.warn("A packet has taken >50ms to process, discarding {}/{} packets to prevent pausing of main thread ({} total futures).", totalCnt-processedCnt, totalCnt, futureList.size());
-			threadPool.getQueue().clear();
+			if(!GeneralConfig.packetThreadingErrorBypass && !hasTriggered)
+				MainRegistry.logger.warn("A packet has taken >50ms to process, discarding {}/{} packets to prevent pausing of main thread ({} total futures).", threadPool.getQueue().size(), totalCnt, futureList.size());
+			clearThreadPoolTasks();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt(); // maybe not the best thing but it's gotta be here
 		} finally {
 			futureList.clear();
-			processedCnt = 0;
+			nanoTimeWaited = System.nanoTime() - startTime;
+			if(!threadPool.getQueue().isEmpty()) {
+				if(!GeneralConfig.packetThreadingErrorBypass && !hasTriggered)
+					MainRegistry.logger.warn("Residual packets in packet threading queue detected, discarding {}/{} packets.", threadPool.getQueue().size(), totalCnt);
+				clearThreadPoolTasks();  // Just in case the thread somehow doesn't process all the tasks, we don't want this backing up too far.
+			}
+
 			totalCnt = 0;
 		}
+	}
+
+	public static int clearCnt = 0;
+
+	public static boolean hasTriggered = false;
+
+	public static void clearThreadPoolTasks() {
+
+		if(threadPool.getQueue().isEmpty()) {
+			clearCnt = 0;
+			return;
+		}
+
+		threadPool.getQueue().clear();
+
+		if(!GeneralConfig.packetThreadingErrorBypass && !hasTriggered)
+			MainRegistry.logger.warn("Packet work queue cleared forcefully (clear count: {}).", clearCnt);
+
+		clearCnt++;
+
+
+		if(clearCnt > 5 && !isTriggered()) {
+			// If it's been cleared 5 times in a row, something may have gone really wrong.
+			// Best case scenario here, the server is lagging terribly, has a bad CPU, or has a poor network connection
+			// Worst case scenario, the entire packet thread is dead. (very not good)
+			// So just log it with a special message and only once.
+			MainRegistry.logger.error(
+				"Something has gone wrong and the packet pool has cleared 5 times (or more) in a row. "
+					+ "This can indicate that the thread has been killed, suspended, or is otherwise non-functioning. "
+					+ "This message will only be logged once, further packet operations will continue on the main thread. "
+					+ "If this message is a common occurrence and is *completely expected*, then it can be bypassed permanently by setting "
+					+ "the \"0.04_packetThreadingErrorBypass\" config option to true. This can lead to adverse effects, so do this at your own risk. "
+					+ "Running \"/ntmpacket resetState\" resets this trigger as a temporary fix."
+			);
+			hasTriggered = true;
+		}
+	}
+
+	public static boolean isTriggered() {
+		return hasTriggered && !GeneralConfig.packetThreadingErrorBypass;
 	}
 }

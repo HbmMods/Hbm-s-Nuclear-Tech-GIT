@@ -84,7 +84,7 @@ public class TileEntityLoadedBase extends TileEntity implements ILoadedTile, IBu
 			return;
 		}
 
-		this.lastPackedBuf = preBuf;
+		this.lastPackedBuf = preBuf.copy();
 
 		PacketThreading.createThreadedPacket(packet, new NetworkRegistry.TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
 	}

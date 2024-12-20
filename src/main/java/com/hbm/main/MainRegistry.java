@@ -905,8 +905,6 @@ public class MainRegistry {
 
 		PacketDispatcher.registerPackets();
 
-		PacketThreading.init();
-
 		NeutronHandler neutronHandler = new NeutronHandler();
 		MinecraftForge.EVENT_BUS.register(neutronHandler);
 		FMLCommonHandler.instance().bus().register(neutronHandler);
@@ -968,6 +966,8 @@ public class MainRegistry {
 		StructureConfig.loadFromConfig(config);
 
 		config.save();
+
+		PacketThreading.init();
 
 		try {
 			if(GeneralConfig.enableThermosPreventer && Class.forName("thermos.ThermosClassTransformer") != null) {
