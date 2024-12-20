@@ -1,12 +1,9 @@
 package com.hbm.blocks.network;
 
-import java.util.List;
-
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.network.TileEntityPylonBase;
 import com.hbm.tileentity.network.TileEntityPylonMedium;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class PylonMedium extends BlockDummyable implements ITooltipProvider {
 
@@ -23,7 +22,7 @@ public class PylonMedium extends BlockDummyable implements ITooltipProvider {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		
+
 		if(meta >= 12) return new TileEntityPylonMedium();
 		return null;
 	}
@@ -50,7 +49,7 @@ public class PylonMedium extends BlockDummyable implements ITooltipProvider {
 		if(te instanceof TileEntityPylonBase) ((TileEntityPylonBase)te).disconnectAll();
 		super.breakBlock(world, x, y, z, b, m);
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote) {

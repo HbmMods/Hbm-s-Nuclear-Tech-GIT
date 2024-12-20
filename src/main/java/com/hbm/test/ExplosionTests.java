@@ -1,32 +1,33 @@
 package com.hbm.test;
 
-import com.hbm.test.MK5Frame.*;
+import com.hbm.test.MK5Frame.BufferArray;
+import com.hbm.test.MK5Frame.BufferMap;
+import com.hbm.test.MK5Frame.BufferNone;
 import com.hbm.util.TimeAnalyzer;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ExplosionTests {
 
 	private static ExplosionWorld world = new ExplosionWorld();
 	public static double BUFFER_THRESHOLD = 0.25D;
-	
+
 	public static void runTest() {
-		
+
 		int standardSpeed = (int)Math.ceil(100000 / 300);
 
 		double[] thresholds = new double[] {0.25, 0.5};
 		int[] radii = new int[] {100, 250};
-		
+
 		int x = 200;
 		int y = 70;
 		int z = 200;
 		long mem = 0;
-		
+
 		for(int radius : radii) {
-			
+
 			int strength = radius * 2;
 			int length = radius;
-			
+
 			System.gc();
 			mem = getMem();
 			System.out.println("#### STARTING TEST WITH NO PROXIMITY BUFFER " + radius + " ####");
@@ -36,7 +37,7 @@ public class ExplosionTests {
 			TimeAnalyzer.endCount();
 			TimeAnalyzer.dump();
 			System.out.println("Mem diff: " + ((getMem() - mem) / 1_048_576) + "MB");
-			
+
 			for(double threshold : thresholds) {
 				BUFFER_THRESHOLD = threshold;
 
@@ -61,10 +62,10 @@ public class ExplosionTests {
 				System.out.println("Mem diff: " + ((getMem() - mem) / 1_048_576) + "MB");
 			}
 		}
-		
+
 		FMLCommonHandler.instance().exitJava(0, true);
 	}
-	
+
 	public static long getMem() {
 		return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 	}

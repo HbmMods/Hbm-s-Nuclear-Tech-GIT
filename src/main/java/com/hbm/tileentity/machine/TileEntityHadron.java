@@ -25,6 +25,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -169,7 +170,7 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyRe
 			data.setInteger("stat_x", stat_x);
 			data.setInteger("stat_y", stat_y);
 			data.setInteger("stat_z", stat_z);
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		}
 	}
 	
@@ -212,21 +213,37 @@ public class TileEntityHadron extends TileEntityMachineBase implements IEnergyRe
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		this.isOn = data.getBoolean("isOn");
-		this.power = data.getLong("power");
-		this.analysisOnly = data.getBoolean("analysis");
-		this.ioMode = data.getInteger("ioMode");
-		this.state = EnumHadronState.values()[data.getByte("state")];
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(this.isOn);
+		buf.writeLong(this.power);
+		buf.writeBoolean(this.analysisOnly);
+		buf.writeInt(this.ioMode);
+		buf.writeByte((byte) this.state.ordinal());
 
-		this.stat_success = data.getBoolean("stat_success");
-		this.stat_state = EnumHadronState.values()[data.getByte("stat_state")];
-		this.stat_charge = data.getInteger("stat_charge");
-		this.stat_x = data.getInteger("stat_x");
-		this.stat_y = data.getInteger("stat_y");
-		this.stat_z = data.getInteger("stat_z");
+		buf.writeBoolean(this.stat_success);
+		buf.writeByte((byte) this.stat_state.ordinal());
+		buf.writeInt(this.stat_charge);
+		buf.writeInt(this.stat_x);
+		buf.writeInt(this.stat_y);
+		buf.writeInt(this.stat_z);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.isOn = buf.readBoolean();
+		this.power = buf.readLong();
+		this.analysisOnly = buf.readBoolean();
+		this.ioMode = buf.readInt();
+		this.state = EnumHadronState.values()[buf.readByte()];
+
+		this.stat_success = buf.readBoolean();
+		this.stat_state = EnumHadronState.values()[buf.readByte()];
+		this.stat_charge = buf.readInt();
+		this.stat_x = buf.readInt();
+		this.stat_y = buf.readInt();
+		this.stat_z = buf.readInt();
 	}
 
 	@Override

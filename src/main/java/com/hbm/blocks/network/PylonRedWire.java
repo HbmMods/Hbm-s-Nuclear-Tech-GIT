@@ -1,15 +1,14 @@
 package com.hbm.blocks.network;
 
-import java.util.List;
-
 import com.hbm.tileentity.network.TileEntityPylon;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class PylonRedWire extends PylonBase {
 

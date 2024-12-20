@@ -1,22 +1,20 @@
 package com.hbm.wiaj.actors;
 
-import org.lwjgl.opengl.GL11;
-
 import com.hbm.wiaj.JarScene;
 import com.hbm.wiaj.WorldInAJar;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.nbt.NBTTagCompound;
+import org.lwjgl.opengl.GL11;
 
 public class ActorVillager implements ISpecialActor {
-	
+
 	EntityVillager villager = new EntityVillager(Minecraft.getMinecraft().theWorld);
 	NBTTagCompound data = new NBTTagCompound();
-	
+
 	public ActorVillager() { }
-	
+
 	public ActorVillager(NBTTagCompound data) {
 		this.data = data;
 	}
@@ -43,11 +41,11 @@ public class ActorVillager implements ISpecialActor {
 
 	@Override
 	public void setActorData(NBTTagCompound data) {
-		
+
 	}
 
 	@Override
 	public void setDataPoint(String tag, Object o) {
-		
+
 	}
 }

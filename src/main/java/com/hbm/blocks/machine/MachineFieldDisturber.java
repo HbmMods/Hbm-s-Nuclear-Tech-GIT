@@ -1,20 +1,19 @@
 package com.hbm.blocks.machine;
 
-import java.util.Random;
-
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK3.ATEntry;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class MachineFieldDisturber extends Block {
 
 	public MachineFieldDisturber() {
 		super(Material.iron);
 	}
-	
+
 	@Override
 	public int tickRate(World world) {
 		return 10;

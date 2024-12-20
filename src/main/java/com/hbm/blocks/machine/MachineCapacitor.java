@@ -10,9 +10,6 @@ import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.BufPacket;
-import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.BobMathUtil;
@@ -22,7 +19,6 @@ import com.hbm.util.fauxpointtwelve.BlockPos;
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -48,7 +44,7 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 	@SideOnly(Side.CLIENT) public IIcon iconBottom;
 	@SideOnly(Side.CLIENT) public IIcon iconInnerTop;
 	@SideOnly(Side.CLIENT) public IIcon iconInnerSide;
-	
+
 	protected long power;
 	String name;
 
@@ -57,7 +53,7 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 		this.power = power;
 		this.name = name;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -87,23 +83,23 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
-		
+
 		TileEntity te = world.getTileEntity(x, y, z);
-		
+
 		if(!(te instanceof TileEntityCapacitor))
 			return;
-		
+
 		TileEntityCapacitor battery = (TileEntityCapacitor) te;
 		List<String> text = new ArrayList();
 		text.add(BobMathUtil.getShortNumber(battery.getPower()) + " / " + BobMathUtil.getShortNumber(battery.getMaxPower()) + "HE");
-		
+
 		double percent = (double) battery.getPower() / (double) battery.getMaxPower();
 		int charge = (int) Math.floor(percent * 10_000D);
 		int color = ((int) (0xFF - 0xFF * percent)) << 16 | ((int)(0xFF * percent) << 8);
 		text.add("&[" + color + "&]" + (charge / 100D) + "%");
 		text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + "+" + BobMathUtil.getShortNumber(battery.powerReceived) + "HE/t");
 		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + "-" + BobMathUtil.getShortNumber(battery.powerSent) + "HE/t");
-		
+
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
 
@@ -117,7 +113,7 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-		
+
 		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
 			for(String s : I18nUtil.resolveKeyArray("tile.capacitor.desc")) list.add(EnumChatFormatting.YELLOW + s);
 		} else {
@@ -126,7 +122,7 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 					EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
 		}
 	}
-	
+
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		return IPersistentNBT.getDrops(world, x, y, z, this);
@@ -139,68 +135,68 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 
 	@Override
 	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player) {
-		
+
 		if(!player.capabilities.isCreativeMode) {
 			harvesters.set(player);
 			this.dropBlockAsItem(world, x, y, z, meta, 0);
 			harvesters.set(null);
 		}
 	}
-	
+
 	@Override
 	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta) {
 		player.addStat(StatList.mineBlockStatArray[getIdFromBlock(this)], 1);
 		player.addExhaustion(0.025F);
 	}
 
-	public static class TileEntityCapacitor extends TileEntityLoadedBase implements IEnergyProviderMK2, IEnergyReceiverMK2, IBufPacketReceiver, IPersistentNBT {
-		
+	public static class TileEntityCapacitor extends TileEntityLoadedBase implements IEnergyProviderMK2, IEnergyReceiverMK2, IPersistentNBT {
+
 		public long power;
 		protected long maxPower;
 		public long powerReceived;
 		public long powerSent;
-		
+
 		public TileEntityCapacitor() { }
-		
+
 		public TileEntityCapacitor(long maxPower) {
 			this.maxPower = maxPower;
 		}
-		
+
 		@Override
 		public void updateEntity() {
-			
+
 			if(!worldObj.isRemote) {
-				
+
 				ForgeDirection opp = ForgeDirection.getOrientation(this.getBlockMetadata());
 				ForgeDirection dir = opp.getOpposite();
-				
+
 				BlockPos pos = new BlockPos(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
-				
+
 				boolean didStep = false;
 				ForgeDirection last = null;
-				
+
 				while(worldObj.getBlock(pos.getX(), pos.getY(), pos.getZ()) == ModBlocks.capacitor_bus) {
 					ForgeDirection current = ForgeDirection.getOrientation(worldObj.getBlockMetadata(pos.getX(), pos.getY(), pos.getZ()));
 					if(!didStep) last = current;
 					didStep = true;
-					
+
 					if(last != current) {
 						pos = null;
 						break;
 					}
-					
+
 					pos = pos.offset(current);
 				}
-				
+
 				if(pos != null && last != null) {
 					this.tryUnsubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ());
 					this.tryProvide(worldObj, pos.getX(), pos.getY(), pos.getZ(), last);
 				}
-				
+
 				this.trySubscribe(worldObj, xCoord + opp.offsetX, yCoord + opp.offsetY, zCoord + opp.offsetZ, opp);
 
-				PacketDispatcher.wrapper.sendToAllAround(new BufPacket(xCoord, yCoord, zCoord, this), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 15));
-				
+				networkPackNT(15);
+
 				this.powerSent = 0;
 				this.powerReceived = 0;
 			}
@@ -213,7 +209,7 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 			buf.writeLong(powerReceived);
 			buf.writeLong(powerSent);
 		}
-		
+
 		@Override
 		public void deserialize(ByteBuf buf) {
 			power = buf.readLong();
@@ -235,7 +231,7 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 			this.setPower(this.getMaxPower());
 			return overshoot;
 		}
-		
+
 		@Override
 		public void usePower(long power) {
 			this.powerSent += Math.min(this.getPower(), power);
@@ -255,7 +251,7 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 		@Override public long getProviderSpeed() {
 			return this.getMaxPower() / 300;
 		}
-		
+
 		@Override public long getReceiverSpeed() {
 			return this.getMaxPower() / 100;
 		}
@@ -269,7 +265,7 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 		public void setPower(long power) {
 			this.power = power;
 		}
-		
+
 		@Override
 		public boolean canConnect(ForgeDirection dir) {
 			return dir == ForgeDirection.getOrientation(this.getBlockMetadata());
@@ -289,14 +285,14 @@ public class MachineCapacitor extends BlockContainer implements ILookOverlay, IP
 			this.power = data.getLong("power");
 			this.maxPower = data.getLong("maxPower");
 		}
-		
+
 		@Override
 		public void readFromNBT(NBTTagCompound nbt) {
 			super.readFromNBT(nbt);
 			this.power = nbt.getLong("power");
 			this.maxPower = nbt.getLong("maxPower");
 		}
-		
+
 		@Override
 		public void writeToNBT(NBTTagCompound nbt) {
 			super.writeToNBT(nbt);

@@ -1,11 +1,8 @@
 package com.hbm.blocks.machine;
 
-import java.util.List;
-
+import api.hbm.energymk2.IEnergyConnectorBlock;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.lib.RefStrings;
-
-import api.hbm.energymk2.IEnergyConnectorBlock;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -20,8 +17,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.List;
+
 public class MachineCapacitorBus extends Block implements IEnergyConnectorBlock, ITooltipProvider {
-	
+
 	@SideOnly(Side.CLIENT) private IIcon topIcon;
 
 	public MachineCapacitorBus(Material mat) {
@@ -38,7 +37,7 @@ public class MachineCapacitorBus extends Block implements IEnergyConnectorBlock,
 	public IIcon getIcon(int side, int meta) {
 		return side == meta ? topIcon : blockIcon;
 	}
-	
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack stack) {
 		int l = BlockPistonBase.determineOrientation(world, x, y, z, player);

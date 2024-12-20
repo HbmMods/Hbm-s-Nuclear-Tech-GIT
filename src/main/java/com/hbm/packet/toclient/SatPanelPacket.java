@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 
 public class SatPanelPacket implements IMessage {
-	
+
 	PacketBuffer buffer;
 	int type;
 
@@ -31,10 +31,10 @@ public class SatPanelPacket implements IMessage {
 		this.buffer = new PacketBuffer(Unpooled.buffer());
 		NBTTagCompound nbt = new NBTTagCompound();
 		sat.writeToNBT(nbt);
-		
+
 		try {
 			buffer.writeNBTTagCompoundToBuffer(nbt);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -42,9 +42,9 @@ public class SatPanelPacket implements IMessage {
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		
+
 		type = buf.readInt();
-		
+
 		if (buffer == null) {
 			buffer = new PacketBuffer(Unpooled.buffer());
 		}
@@ -53,9 +53,9 @@ public class SatPanelPacket implements IMessage {
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		
+
 		buf.writeInt(type);
-		
+
 		if (buffer == null) {
 			buffer = new PacketBuffer(Unpooled.buffer());
 		}
@@ -67,18 +67,20 @@ public class SatPanelPacket implements IMessage {
 		@Override
 		@SideOnly(Side.CLIENT)
 		public IMessage onMessage(SatPanelPacket m, MessageContext ctx) {
-			
+
 			Minecraft.getMinecraft();
 
 			try {
-				
+
 				NBTTagCompound nbt = m.buffer.readNBTTagCompoundFromBuffer();
 				ItemSatInterface.currentSat = Satellite.create(m.type);
-				
+
 				if(nbt != null)
 					ItemSatInterface.currentSat.readFromNBT(nbt);
-				
+
 			} catch (Exception x) {
+			} finally {
+				m.buffer.release();
 			}
 			return null;
 		}
