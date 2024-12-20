@@ -52,7 +52,7 @@ public class EntityBoxcar extends EntityThrowable {
 			}
 
 			if(!worldObj.isRemote)
-				worldObj.setBlock((int) (this.posX - 0.5), (int) (this.posY + 0.5), (int) (this.posZ - 0.5), ModBlocks.boxcar);
+				worldObj.setBlock((int) Math.floor(this.posX), (int) Math.floor(this.posY + 0.5), (int) Math.floor(this.posZ), ModBlocks.boxcar);
 		}
 	}
 

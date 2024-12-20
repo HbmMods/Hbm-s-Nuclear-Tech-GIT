@@ -49,8 +49,9 @@ public class RenderInfoSystem {
 		
 		if(event.type != ElementType.CROSSHAIRS)
 			return;
-		
-		//this.messages.put(-666, new InfoEntry("Your arteries are bad cable management, rip them out deluxe edition", 666_666));
+
+		//this.messages.put(-666, new InfoEntry(Minecraft.getMinecraft().theWorld.getCelestialAngle(0) + "", 666_666));
+		//this.messages.put(-665, new InfoEntry(Minecraft.getMinecraft().theWorld.getCurrentMoonPhaseFactor() + "", 666_666));
 		
 		if(this.messages.isEmpty()) 
 			return;

@@ -1489,9 +1489,9 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.clip_euthanasia");
 		ignoreMappings.add("hbm:item.clip_defabricator");
 		ignoreMappings.add("hbm:item.ammo_folly_du");
-		ignoreMappings.add("hbm:tile.statue_elb");
-		ignoreMappings.add("hbm:tile.statue_elb_g");
-		ignoreMappings.add("hbm:tile.statue_elb_w");
+		ignoreMappings.add("hbm:tile.#null");
+		ignoreMappings.add("hbm:tile.#void");
+		ignoreMappings.add("hbm:tile.#ngtv");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

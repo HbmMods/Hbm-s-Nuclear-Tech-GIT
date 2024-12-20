@@ -300,7 +300,7 @@ public class DamageResistanceHandler {
 		dt = Math.max(0F, dt - pierceDT);
 		if(dt >= amount) return 0F;
 		amount -= dt;
-		dr *= MathHelper.clamp_float(1F - pierce, 0F, 1F);
+		dr *= MathHelper.clamp_float(1F - pierce, 0F, 2F /* we allow up to -1 armor piercing, which can double effective armor values */);
 		
 		return amount *= (1F - dr);
 	}
