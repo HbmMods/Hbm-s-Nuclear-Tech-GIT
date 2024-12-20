@@ -58,7 +58,10 @@ public class CommandPacketInfo extends CommandBase {
 		sender.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Packet Info: "));
 		sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Amount total: " + totalCnt));
 		sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Amount remaining: " + PacketThreading.threadPool.getQueue().size()));
-		sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "% Remaining to process: " + BobMathUtil.roundDecimal(((double) PacketThreading.threadPool.getQueue().size() / totalCnt) * 100, 2) + "%"));
+
+		if(totalCnt != 0)
+			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "% Remaining to process: " + BobMathUtil.roundDecimal(((double) PacketThreading.threadPool.getQueue().size() / totalCnt) * 100, 2) + "%"));
+
 		sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Time spent waiting on thread(s) last tick: " + BobMathUtil.roundDecimal(PacketThreading.nanoTimeWaited / 1000000d, 4) + "ms"));
 
 	}
