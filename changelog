@@ -6,6 +6,7 @@
 * Doubled the liberator's base damage to be on-par with the lever action shotgun in order to offset its poor performance due to the reload speed
 * All non black powder shotgun shells now have some amount of damage threshold negation in order to not immediately become useless when used against early power armor
   * Obviously shot will always fare worse against higher tier armor, in those cases either use flechettes, slugs, any of the high tier rounds or a different caliber entirely
+* Bombers and cargo planes now use interpolation, making their movement smoother and fixing potential desyncs due to TPS
 
 ## Fixed
 * Fixed 9mm soft points being called ".9mm"

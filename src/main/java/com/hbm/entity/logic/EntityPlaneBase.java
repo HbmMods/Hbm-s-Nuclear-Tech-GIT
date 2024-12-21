@@ -22,6 +22,19 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 
 public abstract class EntityPlaneBase extends Entity implements IChunkLoader {
+	
+	protected int turnProgress;
+	protected double syncPosX;
+	protected double syncPosY;
+	protected double syncPosZ;
+	protected double syncYaw;
+	protected double syncPitch;
+	@SideOnly(Side.CLIENT)
+	protected double velocityX;
+	@SideOnly(Side.CLIENT)
+	protected double velocityY;
+	@SideOnly(Side.CLIENT)
+	protected double velocityZ;
 
 	private Ticket loaderTicket;
 	private List<ChunkCoordIntPair> loadedChunks = new ArrayList<ChunkCoordIntPair>();
@@ -72,37 +85,57 @@ public abstract class EntityPlaneBase extends Entity implements IChunkLoader {
 	
 	@Override
 	public void onUpdate() {
-
-		this.lastTickPosX = this.prevPosX = posX;
-		this.lastTickPosY = this.prevPosY = posY;
-		this.lastTickPosZ = this.prevPosZ = posZ;
-		this.setPosition(posX + motionX, posY + motionY, posZ + motionZ);
 		
 		if(!worldObj.isRemote) {
 			this.dataWatcher.updateObject(17, health);
 		} else {
 			health = this.dataWatcher.getWatchableObjectFloat(17);
 		}
-		
-		this.rotation();
-		
-		if(this.health <= 0) {
-			motionY -= 0.025;
+
+		if(worldObj.isRemote) {
 			
-			for(int i = 0; i < 10; i++) ParticleUtil.spawnGasFlame(this.worldObj, this.posX + rand.nextGaussian() * 0.5 - motionX * 2, this.posY + rand.nextGaussian() * 0.5 - motionY * 2, this.posZ + rand.nextGaussian() * 0.5 - motionZ * 2, 0.0, 0.1, 0.0);
-			
-			if((!worldObj.getBlock((int) posX, (int) posY, (int) posZ).isAir(worldObj, (int) posX, (int) posY, (int) posZ) || posY < 0) && !worldObj.isRemote) {
-				this.setDead();
-				new ExplosionVNT(worldObj, posX, posY, posZ, 15F).makeStandard().explode();
-				worldObj.playSoundEffect(posX, posY, posZ, "hbm:entity.planeCrash", 25.0F, 1.0F);
-				return;
+			this.lastTickPosX = this.posX;
+			this.lastTickPosY = this.posY;
+			this.lastTickPosZ = this.posZ;
+			if(this.turnProgress > 0) {
+				double interpX = this.posX + (this.syncPosX - this.posX) / (double) this.turnProgress;
+				double interpY = this.posY + (this.syncPosY - this.posY) / (double) this.turnProgress;
+				double interpZ = this.posZ + (this.syncPosZ - this.posZ) / (double) this.turnProgress;
+				double d = MathHelper.wrapAngleTo180_double(this.syncYaw - (double) this.rotationYaw);
+				this.rotationYaw = (float) ((double) this.rotationYaw + d / (double) this.turnProgress);
+				this.rotationPitch = (float)((double)this.rotationPitch + (this.syncPitch - (double)this.rotationPitch) / (double)this.turnProgress);
+				--this.turnProgress;
+				this.setPosition(interpX, interpY, interpZ);
+			} else {
+				this.setPosition(this.posX, this.posY, this.posZ);
 			}
+			
 		} else {
-			this.motionY = 0F;
+			this.lastTickPosX = this.prevPosX = posX;
+			this.lastTickPosY = this.prevPosY = posY;
+			this.lastTickPosZ = this.prevPosZ = posZ;
+			this.setPosition(posX + motionX, posY + motionY, posZ + motionZ);
+			
+			this.rotation();
+			
+			if(this.health <= 0) {
+				motionY -= 0.025;
+				
+				for(int i = 0; i < 10; i++) ParticleUtil.spawnGasFlame(this.worldObj, this.posX + rand.nextGaussian() * 0.5 - motionX * 2, this.posY + rand.nextGaussian() * 0.5 - motionY * 2, this.posZ + rand.nextGaussian() * 0.5 - motionZ * 2, 0.0, 0.1, 0.0);
+				
+				if((!worldObj.getBlock((int) posX, (int) posY, (int) posZ).isAir(worldObj, (int) posX, (int) posY, (int) posZ) || posY < 0)) {
+					this.setDead();
+					new ExplosionVNT(worldObj, posX, posY, posZ, 15F).makeStandard().explode();
+					worldObj.playSoundEffect(posX, posY, posZ, "hbm:entity.planeCrash", 25.0F, 1.0F);
+					return;
+				}
+			} else {
+				this.motionY = 0F;
+			}
+			
+			if(this.ticksExisted > timer) this.setDead();
+			loadNeighboringChunks((int)Math.floor(posX / 16D), (int)Math.floor(posZ / 16D));
 		}
-		
-		if(this.ticksExisted > timer) this.setDead();
-		if(!worldObj.isRemote) loadNeighboringChunks((int)Math.floor(posX / 16D), (int)Math.floor(posZ / 16D));
 	}
 	
 	protected void rotation() {
@@ -112,6 +145,26 @@ public abstract class EntityPlaneBase extends Entity implements IChunkLoader {
 		while(this.rotationPitch - this.prevRotationPitch >= 180.0F) this.prevRotationPitch += 360.0F;
 		while(this.rotationYaw - this.prevRotationYaw < -180.0F) this.prevRotationYaw -= 360.0F;
 		while(this.rotationYaw - this.prevRotationYaw >= 180.0F) this.prevRotationYaw += 360.0F;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void setVelocity(double velX, double velY, double velZ) {
+		this.velocityX = this.motionX = velX;
+		this.velocityY = this.motionY = velY;
+		this.velocityZ = this.motionZ = velZ;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int theNumberThree) {
+		this.syncPosX = x;
+		this.syncPosY = y;
+		this.syncPosZ = z;
+		this.syncYaw = yaw;
+		this.syncPitch = pitch;
+		this.turnProgress = theNumberThree;
+		this.motionX = this.velocityX;
+		this.motionY = this.velocityY;
+		this.motionZ = this.velocityZ;
 	}
 
 	@Override

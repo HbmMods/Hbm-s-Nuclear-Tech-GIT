@@ -46,6 +46,8 @@ public class RenderBoxcar extends Render {
 		}
 
 		if(entity instanceof EntityTorpedo) {
+			float f = entity.ticksExisted + f1;
+			GL11.glRotatef(Math.min(85, f * 3), 1, 0, 0);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			bindTexture(ResourceManager.torpedo_tex);
 			ResourceManager.torpedo.renderAll();
@@ -59,5 +61,4 @@ public class RenderBoxcar extends Render {
 	protected ResourceLocation getEntityTexture(Entity entity) {
 		return ResourceManager.boxcar_tex;
 	}
-
 }

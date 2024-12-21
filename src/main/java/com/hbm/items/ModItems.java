@@ -1590,6 +1590,7 @@ public class ModItems {
 	public static Item gun_flaregun;
 	public static Item gun_heavy_revolver;
 	public static Item gun_heavy_revolver_lilmac;
+	public static Item gun_heavy_revolver_protege;
 	public static Item gun_carbine;
 	public static Item gun_am180;
 	public static Item gun_liberator;
@@ -2313,6 +2314,7 @@ public class ModItems {
 	public static Item book_lore;
 	public static Item holotape_image;
 	public static Item holotape_damaged;
+	public static Item clay_tablet;
 
 	public static Item polaroid;
 	public static Item glitch;
@@ -5217,6 +5219,7 @@ public class ModItems {
 		book_lore = new ItemBookLore().setUnlocalizedName("book_lore").setCreativeTab(null).setTextureName(RefStrings.MODID + ":book_pages");
 		holotape_image = new ItemHolotapeImage().setUnlocalizedName("holotape_image").setCreativeTab(null).setTextureName(RefStrings.MODID + ":holotape");
 		holotape_damaged = new Item().setUnlocalizedName("holotape_damaged").setCreativeTab(null).setTextureName(RefStrings.MODID + ":holotape_damaged");
+		clay_tablet = new Item().setUnlocalizedName("clay_tablet").setCreativeTab(null).setTextureName(RefStrings.MODID + ":clay_tablet");
 
 		polaroid = new ItemPolaroid().setUnlocalizedName("polaroid").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":polaroid_" + MainRegistry.polaroidID);
 		glitch = new ItemGlitch().setUnlocalizedName("glitch").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":glitch_" + MainRegistry.polaroidID);
@@ -6809,6 +6812,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_flaregun, gun_flaregun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_heavy_revolver, gun_heavy_revolver.getUnlocalizedName());
 		GameRegistry.registerItem(gun_heavy_revolver_lilmac, gun_heavy_revolver_lilmac.getUnlocalizedName());
+		GameRegistry.registerItem(gun_heavy_revolver_protege, gun_heavy_revolver_protege.getUnlocalizedName());
 		GameRegistry.registerItem(gun_carbine, gun_carbine.getUnlocalizedName());
 		GameRegistry.registerItem(gun_am180, gun_am180.getUnlocalizedName());
 		GameRegistry.registerItem(gun_liberator, gun_liberator.getUnlocalizedName());
@@ -7582,6 +7586,7 @@ public class ModItems {
 		GameRegistry.registerItem(book_lore, book_lore.getUnlocalizedName());
 		GameRegistry.registerItem(holotape_image, holotape_image.getUnlocalizedName());
 		GameRegistry.registerItem(holotape_damaged, holotape_damaged.getUnlocalizedName());
+		GameRegistry.registerItem(clay_tablet, clay_tablet.getUnlocalizedName());
 		
 		//Technical Items
 		GameRegistry.registerItem(b_smoke1, b_smoke1.getUnlocalizedName());

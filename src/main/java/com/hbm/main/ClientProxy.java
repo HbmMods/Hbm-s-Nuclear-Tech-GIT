@@ -575,6 +575,7 @@ public class ClientProxy extends ServerProxy {
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBoxcar.class, new RenderBoxcar());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityDuchessGambit.class, new RenderBoxcar());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBuilding.class, new RenderBoxcar());
+	    RenderingRegistry.registerEntityRenderingHandler(EntityTorpedo.class, new RenderBoxcar());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBomber.class, new RenderBomber());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityC130.class, new RenderC130());
 	    RenderingRegistry.registerEntityRenderingHandler(EntityBurningFOEQ.class, new RenderFOEQ());
@@ -1564,6 +1565,11 @@ public class ClientProxy extends ServerProxy {
 		if("ufo".equals(type)) {
 			double motion = data.getDouble("motion");
 			ParticleMukeCloud cloud = new ParticleMukeCloud(man, world, x, y, z, rand.nextGaussian() * motion, 0, rand.nextGaussian() * motion);
+			Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
+		}
+		
+		if("bf".equals(type)) {
+			ParticleMukeCloud cloud = new ParticleMukeCloudBF(man, world, x, y, z, 0, 0, 0);
 			Minecraft.getMinecraft().effectRenderer.addEffect(cloud);
 		}
 		

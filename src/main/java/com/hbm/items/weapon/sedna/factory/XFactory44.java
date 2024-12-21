@@ -3,6 +3,9 @@ package com.hbm.items.weapon.sedna.factory;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.entity.projectile.EntityBoxcar;
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
+import com.hbm.entity.projectile.EntityTorpedo;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.Crosshair;
@@ -25,6 +28,7 @@ import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 
 public class XFactory44 {
@@ -37,7 +41,28 @@ public class XFactory44 {
 	public static BulletConfig m44_jhp;
 	public static BulletConfig m44_ap;
 	public static BulletConfig m44_express;
-	public static BulletConfig m44_equestrian;
+	public static BulletConfig m44_equestrian_pip;
+	public static BulletConfig m44_equestrian_mn7;
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_BOXCAR = (bullet, mop) -> {
+		EntityBoxcar pippo = new EntityBoxcar(bullet.worldObj);
+		pippo.posX = mop.hitVec.xCoord;
+		pippo.posY = mop.hitVec.yCoord + 50;
+		pippo.posZ = mop.hitVec.zCoord;;
+		bullet.worldObj.spawnEntityInWorld(pippo);
+		bullet.worldObj.playSoundEffect(pippo.posX, pippo.posY + 50, pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
+		bullet.setDead();
+	};
+	
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_TORPEDO = (bullet, mop) -> {
+		EntityTorpedo pippo = new EntityTorpedo(bullet.worldObj);
+		pippo.posX = mop.hitVec.xCoord;
+		pippo.posY = mop.hitVec.yCoord + 50;
+		pippo.posZ = mop.hitVec.zCoord;;
+		bullet.worldObj.spawnEntityInWorld(pippo);
+		//bullet.worldObj.playSoundEffect(pippo.posX, pippo.posY + 50, pippo.posZ, "hbm:alarm.trainHorn", 100F, 1F);
+		bullet.setDead();
+	};
 
 	public static void init() {
 		SpentCasing casing44 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(1F, 0.5D, 60, 20);
@@ -53,8 +78,10 @@ public class XFactory44 {
 				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_44).register("m44ap"));
 		m44_express = new BulletConfig().setItem(EnumAmmo.M44_EXPRESS).setDoesPenetrate(true).setDamage(1.5F).setThresholdNegation(3F).setArmorPiercing(0.1F).setWear(1.5F)
 				.setCasing(casing44.clone().register("m44express"));
-		m44_equestrian = new BulletConfig().setItem(EnumAmmoSecret.M44_EQUESTRIAN).setDamage(0F)
-				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_EQUESTRIAN).register("m44equestrian"));
+		m44_equestrian_pip = new BulletConfig().setItem(EnumAmmoSecret.M44_EQUESTRIAN).setDamage(0F).setOnImpact(LAMBDA_BOXCAR)
+				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_EQUESTRIAN).register("m44equestrianPip"));
+		m44_equestrian_mn7 = new BulletConfig().setItem(EnumAmmoSecret.M44_EQUESTRIAN).setDamage(0F).setOnImpact(LAMBDA_TORPEDO)
+				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_EQUESTRIAN).register("m44equestrianMn7"));
 
 		ModItems.gun_henry = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(300).draw(15).inspect(23).reloadSequential(true).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
@@ -81,12 +108,22 @@ public class XFactory44 {
 				.dura(31_000).draw(10).inspect(23).crosshair(Crosshair.L_CLASSIC).scopeTexture(scope_lilmac).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)
 						.dmg(30F).delay(14).reload(46).jam(23).sound("hbm:weapon.44Shoot", 1.0F, 1.0F)
-						.mag(new MagazineFullReload(0, 6).addConfigs(m44_equestrian, m44_bp, m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
+						.mag(new MagazineFullReload(0, 6).addConfigs(m44_equestrian_pip, m44_bp, m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
 						.offset(0.75, -0.0625, -0.3125D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_NOPIP))
 				.setupStandardConfiguration()
 				.anim(LAMBDA_LILMAC_ANIMS).orchestra(Orchestras.ORCHESTRA_NOPIP)
 				).setUnlocalizedName("gun_heavy_revolver_lilmac");
+		ModItems.gun_heavy_revolver_protege = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
+				.dura(31_000).draw(10).inspect(23).crosshair(Crosshair.L_CLASSIC).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(30F).delay(14).reload(46).jam(23).sound("hbm:weapon.44Shoot", 1.0F, 0.8F)
+						.mag(new MagazineFullReload(0, 6).addConfigs(m44_equestrian_mn7, m44_bp, m44_sp, m44_fmj, m44_jhp, m44_ap, m44_express))
+						.offset(0.75, -0.0625, -0.3125D)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_NOPIP))
+				.setupStandardConfiguration()
+				.anim(LAMBDA_LILMAC_ANIMS).orchestra(Orchestras.ORCHESTRA_NOPIP)
+				).setUnlocalizedName("gun_heavy_revolver_protege");
 
 		ModItems.gun_hangman = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(600).draw(10).inspect(31).inspectCancel(false).crosshair(Crosshair.CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
