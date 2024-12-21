@@ -51,13 +51,17 @@ public class RBMKDials {
 	public static HashMap<RBMKKeys, List<Tuple.Pair<World, Object>>> gameRules = new HashMap<>();
 
 	public static void createDials(World world) {
+		createDials(world, false);
+	}
+
+	public static void createDials(World world, boolean forceRecreate) {
 		GameRules rules = world.getGameRules();
 
 		for(RBMKKeys key : RBMKKeys.values())
 			gameRules.put(key, new ArrayList<>());
 		refresh(world);
 
-		if(!rules.getGameRuleBooleanValue(RBMKKeys.KEY_SAVE_DIALS.keyString)) {
+		if(!rules.getGameRuleBooleanValue(RBMKKeys.KEY_SAVE_DIALS.keyString) || forceRecreate) {
 			for(RBMKKeys key : RBMKKeys.values())
 				rules.setOrCreateGameRule(key.keyString, String.valueOf(key.defValue));
 		}
@@ -113,6 +117,10 @@ public class RBMKDials {
 	 * @return The rule in an Object.
 	 */
 	public static Object getGameRule(World world, RBMKKeys rule) {
+		return getGameRule(world, rule, false);
+	}
+
+	public static Object getGameRule(World world, RBMKKeys rule, boolean isIteration) {
 		List<Tuple.Pair<World, Object>> rulesList = new ArrayList<>();
 
 		for(Tuple.Pair<World, Object> rulePair : gameRules.get(rule)) {
@@ -121,9 +129,14 @@ public class RBMKDials {
 			}
 		}
 
-		if(rulesList.isEmpty())
-			throw new NullPointerException("No gamerule found for " + rule.keyString);
-		else if(rulesList.size() > 1)
+		if(rulesList.isEmpty()) {
+			if(isIteration)
+				throw new NullPointerException("Cannot find gamerule for dial " + rule.keyString + " after creation.");
+			else {
+				createDials(world, true); // fuck
+				return getGameRule(world, rule, true);
+			}
+		} else if(rulesList.size() > 1)
 			// what??? why???
 			MainRegistry.logger.warn("Duplicate values for gamerules detected! Found {} rules for gamerule {}", rulesList.size(), rule.keyString);
 
