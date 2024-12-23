@@ -41,7 +41,7 @@ class ExportJSONAnimation(Operator, ExportHelper):
         print("writing JSON data to file...")
         f = open(self.filepath, 'w', encoding='utf-8')
 
-        collection = {"anim": {}, "offset": {}, "hierarchy": {}}
+        collection = {"anim": {}, "offset": {}, "hierarchy": {}, "rotmode": {}}
         dimensions = ["x", "z", "y"] # Swizzled to X, Z, Y
         mult = [1, -1, 1] # +X, -Z, +Y
 
@@ -51,6 +51,7 @@ class ExportJSONAnimation(Operator, ExportHelper):
 
         animations = collection['anim']
         offsets = collection['offset']
+        modes = collection['rotmode']
         hierarchy = collection['hierarchy']
 
         actions = bpy.data.actions
@@ -112,10 +113,11 @@ class ExportJSONAnimation(Operator, ExportHelper):
             if object.parent:
                 hierarchy[object.name] = object.parent.name
             
-            if object.location == mathutils.Vector(): # don't export 0,0,0
-                continue
+            if object.location != mathutils.Vector(): # don't export 0,0,0
+                offsets[object.name] = [object.location.x, object.location.z, -object.location.y]
             
-            offsets[object.name] = [object.location.x, object.location.z, -object.location.y]
+            if object.rotation_mode != 'YZX':
+                modes[object.name] = object.rotation_mode
 
 
         
@@ -229,15 +231,20 @@ class ImportJSONAnimation(Operator, ImportHelper):
             object.select_set(True)
             bpy.ops.object.transform_apply(location=False, rotation=True, scale=False, properties=False)
             object.rotation_mode = 'YZX'
+
+        if 'rotmode' in collection:
+            modes = collection['rotmode']
+            for mode in modes:
+                bpy.data.objects[mode].rotation_mode = modes[mode]
         
         if 'hierarchy' in collection:
-            hierarchy = collection["hierarchy"]
+            hierarchy = collection['hierarchy']
             for name in hierarchy:
                 parent = hierarchy[name]
                 
                 bpy.data.objects[name].parent = bpy.data.objects[parent]
         
-        offsets = collection["offset"]
+        offsets = collection['offset']
         for name in offsets:
             offset = offsets[name]
             
