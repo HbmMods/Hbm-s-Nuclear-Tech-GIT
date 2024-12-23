@@ -150,6 +150,11 @@ public class EntityGlyphid extends EntityMob implements IResistanceProvider {
 	}
 
 	@Override
+	public void onDamageDealt(DamageSource damage, float amount) {
+		if(this.isArmorBroken(amount)) this.breakOffArmor();
+	}
+
+	@Override
 	public void onUpdate() {
 		super.onUpdate();
 

@@ -36,7 +36,7 @@ public class XFactory50 {
 				.setCasing(casing762.clone().register("bmg50"));
 		bmg50_fmj = new BulletConfig().setItem(EnumAmmo.BMG50_FMJ).setDamage(0.8F).setThresholdNegation(7F).setArmorPiercing(0.1F)
 				.setCasing(casing762.clone().register("bmg50fmj"));
-		bmg50_jhp = new BulletConfig().setItem(EnumAmmo.BMG50_JHP).setDamage(1.5F).setArmorPiercing(-0.25F)
+		bmg50_jhp = new BulletConfig().setItem(EnumAmmo.BMG50_JHP).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing762.clone().register("bmg50jhp"));
 		bmg50_ap = new BulletConfig().setItem(EnumAmmo.BMG50_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(17.5F).setArmorPiercing(0.15F)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("bmg50ap"));

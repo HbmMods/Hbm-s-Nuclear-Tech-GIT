@@ -4,11 +4,12 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.itempool.ItemPool;
 import com.hbm.itempool.ItemPoolsPile;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBookLore;
-import com.hbm.items.ItemAmmoEnums.AmmoFatman;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -40,9 +41,9 @@ public class LootGenerator {
 		if(loot != null && loot.items.isEmpty()) {
 			
 			if(world.rand.nextInt(5) == 0)
-				loot.addItem(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.LOW), -0.25, 0, -0.125);
+				loot.addItem(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.NUKE_STANDARD), -0.25, 0, -0.125);
 			else
-				loot.addItem(new ItemStack(ModItems.ammo_rocket), -0.25, 0, -0.25);
+				loot.addItem(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.ROCKET_HEAT), -0.25, 0, -0.25);
 
 			for(int i = 0; i < 4; i++) addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.cap_nuka, 2), 0.125, i * 0.03125, 0.25);
 			for(int i = 0; i < 2; i++) addItemWithDeviation(loot, world.rand, new ItemStack(ModItems.syringe_metal_stimpak, 1), -0.25, i * 0.03125, 0.25);

@@ -12,4 +12,5 @@ import net.minecraft.util.DamageSource;
 public interface IResistanceProvider {
 
 	public float[] getCurrentDTDR(DamageSource damage, float amount, float pierceDT, float pierce);
+	public void onDamageDealt(DamageSource damage, float amount);
 }

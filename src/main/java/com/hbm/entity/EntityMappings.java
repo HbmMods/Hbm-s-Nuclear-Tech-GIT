@@ -74,7 +74,6 @@ public class EntityMappings {
 		addEntity(EntityMissileMirv.class, "entity_missile_mirv", 1000);
 		addEntity(EntityMIRV.class, "entity_mirvlet", 1000);
 		addEntity(EntityGrenadeNuclear.class, "entity_grenade_nuclear", 1000);
-		addEntity(EntityBSmokeFX.class, "entity_b_smoke_fx", 1000);
 		addEntity(EntityGrenadePlasma.class, "entity_grenade_plasma", 500);
 		addEntity(EntityGrenadeTau.class, "entity_grenade_tau", 500);
 		addEntity(EntityChopperMine.class, "entity_chopper_mine", 1000);
@@ -86,7 +85,6 @@ public class EntityMappings {
 		addEntity(EntityGrenadeASchrab.class, "entity_grenade_aschrab", 500);
 		addEntity(EntityFalloutRain.class, "entity_fallout", 1000);
 		addEntity(EntityEMPBlast.class, "entity_emp_blast", 1000);
-		addEntity(EntityLN2.class, "entity_LN2", 1000);
 		addEntity(EntityGrenadePulse.class, "entity_grenade_pulse", 1000);
 		addEntity(EntityLaserBeam.class, "entity_laser_beam", 1000);
 		addEntity(EntityMinerBeam.class, "entity_miner_beam", 1000);

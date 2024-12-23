@@ -43,7 +43,7 @@ public class XFactory762mm {
 				.setCasing(casing762.clone().register("r762"));
 		r762_fmj = new BulletConfig().setItem(EnumAmmo.R762_FMJ).setDamage(0.8F).setThresholdNegation(5F).setArmorPiercing(0.1F)
 				.setCasing(casing762.clone().register("r762fmj"));
-		r762_jhp = new BulletConfig().setItem(EnumAmmo.R762_JHP).setDamage(1.5F).setArmorPiercing(-0.25F)
+		r762_jhp = new BulletConfig().setItem(EnumAmmo.R762_JHP).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing762.clone().register("r762jhp"));
 		r762_ap = new BulletConfig().setItem(EnumAmmo.R762_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(12.5F).setArmorPiercing(0.15F)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762ap"));

@@ -4,6 +4,7 @@
 * AJR armor plating now uses niobium instead of saturnite, and yields twice as many items per recipe
 * Due to the gating change, the saturnite anvil now has a tier equivalent to a bronze anvil
 * Doubled the liberator's base damage to be on-par with the lever action shotgun in order to offset its poor performance due to the reload speed
+* Decreased the explosive 12 gauge's damage from x5 to x2.5
 * All non black powder shotgun shells now have some amount of damage threshold negation in order to not immediately become useless when used against early power armor
   * Obviously shot will always fare worse against higher tier armor, in those cases either use flechettes, slugs, any of the high tier rounds or a different caliber entirely
 * Bombers and cargo planes now use interpolation, making their movement smoother and fixing potential desyncs due to TPS
@@ -11,12 +12,17 @@
 * Legendaries are no longer found in red rooms, rather they have a whole new system of being discovered and crafted
   * "Recipes" are still subject to change, but the base system is final
   * There will some day be a completely new dungeon for those, but for now I used what I had
+  * Mayhaps a new legendary has appeared?
 * Glyphids now make use of the same resistance system as armors, their armor is no longer completely ignored by the new guns
   * Different damage types have different resistances
   * Damage resistance remains the same, while damage threshold is determined by the glyphid's armor - breaking the armor off will decrease the damage threshold
   * Balancing might still be off, however glyhids shouldn't be too tanky
 * I still haven't bothered to fix the bolter. It's like the son I don't love
 * Changed some of the sounds of the guns that still used the default black powder noise
+* The flamethrower turret now uses the new flamethrower projectiles
+* The now unused old gun items have been completely obliterated
+* Headhot mulitpliers now apply for most conventional projectiles, by default the bonus for headshots is +25% damage
+  * JHP adds +50%
 
 ## Fixed
 * Fixed 9mm soft points being called ".9mm"

@@ -19,8 +19,6 @@ import com.hbm.util.BobMathUtil;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.TrackerUtil;
 
-import api.hbm.block.IFuckingExplode;
-
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import net.minecraft.block.Block;
@@ -56,7 +54,7 @@ public class BulletConfig implements Cloneable {
 	public float armorThresholdNegation = 0.0F;
 	public float armorPiercingPercent = 0.0F;
 	public float knockbackMult = 0.1F;
-	public float headshotMult = 1.0F;
+	public float headshotMult = 1.25F;
 	
 	public DamageClass dmgClass = DamageClass.PHYSICAL;
 	
@@ -218,16 +216,25 @@ public class BulletConfig implements Cloneable {
 			if(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0) return;
 			
 			DamageSource source = bullet.config.getDamage(bullet, bullet.getThrower(), bullet.config.dmgClass);
+			float intendedDamage = bullet.damage;
 			
 			if(!(entity instanceof EntityLivingBase)) {
 				EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, source, bullet.damage);
 				return;
+			} else if(bullet.config.headshotMult > 1F) {
+				
+				EntityLivingBase living = (EntityLivingBase) entity;
+				double head = living.height - living.getEyeHeight();
+				
+				if(!!living.isEntityAlive() && mop.hitVec != null && mop.hitVec.yCoord > (living.posY + living.height - head * 2)) {
+					intendedDamage *= bullet.config.headshotMult;
+				}
 			}
 			
 			EntityLivingBase living = (EntityLivingBase) entity;
 			float prevHealth = living.getHealth();
 			
-			EntityDamageUtil.attackEntityFromNT(living, source, bullet.damage, true, true, bullet.config.knockbackMult, bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent);
+			EntityDamageUtil.attackEntityFromNT(living, source, intendedDamage, true, true, bullet.config.knockbackMult, bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent);
 			
 			float newHealth = living.getHealth();
 			

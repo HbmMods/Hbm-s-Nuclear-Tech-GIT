@@ -72,7 +72,7 @@ public class XFactory44 {
 				.setCasing(casing44.clone().register("m44"));
 		m44_fmj = new BulletConfig().setItem(EnumAmmo.M44_FMJ).setDamage(0.8F).setThresholdNegation(3F).setArmorPiercing(0.1F)
 				.setCasing(casing44.clone().register("m44fmj"));
-		m44_jhp = new BulletConfig().setItem(EnumAmmo.M44_JHP).setDamage(1.5F).setArmorPiercing(-0.25F)
+		m44_jhp = new BulletConfig().setItem(EnumAmmo.M44_JHP).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing44.clone().register("m44jhp"));
 		m44_ap = new BulletConfig().setItem(EnumAmmo.M44_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(7.5F).setArmorPiercing(0.15F)
 				.setCasing(casing44.clone().setColor(SpentCasing.COLOR_CASE_44).register("m44ap"));

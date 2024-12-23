@@ -82,7 +82,6 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_folly,					new ItemRenderFolly());
 		//PROJECTILES
 		ammo_debug.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
-		ammo_debug_buckshot.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		
 		stone.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		flint.setRenderer(LegoClient.RENDER_STANDARD_BULLET);

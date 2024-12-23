@@ -27,7 +27,6 @@ import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
-import com.hbm.items.ItemAmmoEnums;
 import com.hbm.items.ModItems;
 import com.hbm.items.ItemGenericPart.EnumPartType;
 import com.hbm.items.machine.ItemAssemblyTemplate;
@@ -582,29 +581,6 @@ public class AssemblerRecipes extends SerializableRecipe {
 				new ComparableStack(ModBlocks.steel_scaffold, 4),
 				new ComparableStack(ModItems.circuit, 4, EnumCircuitType.BASIC)
 			}, 600);
-
-		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.STOCK.ordinal()), new AStack[] {
-				new OreDictStack(STEEL.plate(), 4),
-				new OreDictStack(ANY_PLASTICEXPLOSIVE.ingot(), 2),
-				new OreDictStack(ANY_HARDPLASTIC.ingot(), 2),
-				new ComparableStack(ModItems.cordite, 3),
-				new OreDictStack(U238.ingot(), 1)
-			}, 60);
-
-		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.INCENDIARY.ordinal()), new AStack[] {
-				new OreDictStack(STEEL.plate(), 4),
-				new OreDictStack(ANY_PLASTICEXPLOSIVE.ingot(), 2),
-				new OreDictStack(ANY_HARDPLASTIC.ingot(), 2),
-				new ComparableStack(ModItems.cordite, 3),
-				new OreDictStack(P_WHITE.ingot(), 3)
-			}, 60);
-
-		makeRecipe(new ComparableStack(ModItems.ammo_75bolt, 2, ItemAmmoEnums.Ammo75Bolt.HE.ordinal()), new AStack[] {
-				new OreDictStack(STEEL.plate(), 4),
-				new OreDictStack(ANY_PLASTICEXPLOSIVE.ingot(), 2),
-				new OreDictStack(ANY_HARDPLASTIC.ingot(), 5),
-				new ComparableStack(ModItems.cordite, 5)
-			}, 60);
 
 		makeRecipe(new ComparableStack(ModItems.spawn_worm, 1), new AStack[] {
 				new OreDictStack(TI.block(), 75),

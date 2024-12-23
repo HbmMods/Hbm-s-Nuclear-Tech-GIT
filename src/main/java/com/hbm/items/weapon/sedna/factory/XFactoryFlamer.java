@@ -40,6 +40,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class XFactoryFlamer {
 
+	public static BulletConfig flame_nograv;
+	
 	public static BulletConfig flame_diesel;
 	public static BulletConfig flame_gas;
 	public static BulletConfig flame_napalm;
@@ -116,6 +118,8 @@ public class XFactoryFlamer {
 				.setOnUpdate(LAMBDA_FIRE).setOnRicochet(LAMBDA_LINGER_NAPALM);
 		flame_balefire = new BulletConfig().setItem(EnumAmmo.FLAME_BALEFIRE).setupDamageClass(DamageClass.FIRE).setLife(200).setVel(1F).setGrav(0.02D).setReloadCount(500).setSelfDamageDelay(20).setKnockback(0F)
 				.setOnUpdate(LAMBDA_BALEFIRE).setOnRicochet(LAMBDA_LINGER_BALEFIRE);
+		
+		flame_nograv = flame_diesel.clone().setGrav(0);
 		
 		flame_topaz_diesel = flame_diesel		.clone().setProjectiles(2).setSpread(0.05F).setLife(60).setGrav(0.0D);
 		flame_topaz_gas = flame_gas				.clone().setProjectiles(2).setSpread(0.05F);

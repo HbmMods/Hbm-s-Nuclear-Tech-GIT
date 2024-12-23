@@ -279,6 +279,10 @@ public class DamageResistanceHandler {
 	@SubscribeEvent
 	public void onEntityDamaged(LivingHurtEvent event) {
 		event.ammount = calculateDamage(event.entityLiving, event.source, event.ammount, currentPDT, currentPDR);
+		if(event.entityLiving instanceof IResistanceProvider) {
+			IResistanceProvider irp = (IResistanceProvider) event.entityLiving;
+			irp.onDamageDealt(event.source, event.ammount);
+		}
 	}
 	
 	public static String typeToCategory(DamageSource source) {

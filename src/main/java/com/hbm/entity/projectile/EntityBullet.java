@@ -32,7 +32,6 @@ import net.minecraft.world.World;
 import com.hbm.blocks.bomb.BlockDetonatable;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.mob.EntityCreeperNuclear;
-import com.hbm.entity.particle.EntityBSmokeFX;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.util.ArmorUtil;
@@ -541,26 +540,6 @@ public class EntityBullet extends Entity implements IProjectile {
 										&& this.shootingEntity instanceof EntityPlayerMP) {
 									((EntityPlayerMP) this.shootingEntity).playerNetServerHandler
 											.sendPacket(new S2BPacketChangeGameState(6, 0.0F));
-								}
-								
-								if(this.pip) {
-									if(!worldObj.isRemote) {
-										EntityBoxcar pippo = new EntityBoxcar(worldObj);
-										pippo.posX = movingobjectposition.entityHit.posX;
-										pippo.posY = movingobjectposition.entityHit.posY + 50;
-										pippo.posZ = movingobjectposition.entityHit.posZ;
-									
-										for(int j = 0; j < 50; j++) {
-											EntityBSmokeFX fx = new EntityBSmokeFX(worldObj, pippo.posX + (rand.nextDouble() - 0.5) * 4, pippo.posY + (rand.nextDouble() - 0.5) * 12, pippo.posZ + (rand.nextDouble() - 0.5) * 4, 0, 0, 0);
-											worldObj.spawnEntityInWorld(fx);
-										}
-									
-										worldObj.spawnEntityInWorld(pippo);
-									}
-									
-									worldObj.playSoundEffect(movingobjectposition.entityHit.posX, 
-											movingobjectposition.entityHit.posY + 50, 
-											movingobjectposition.entityHit.posZ, "hbm:alarm.trainHorn", 100F, 1F);
 								}
 							}
 
