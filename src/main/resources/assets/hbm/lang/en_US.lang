@@ -6014,6 +6014,7 @@ tile.stone_depth.name=Depth Rock
 tile.stone_depth_nether.name=Nether Depth Rock
 tile.stone_gneiss.name=Graphitic Schist
 tile.stone_keyhole.name=Strange Stone
+tile.stone_keyhole_meta.name=Strange Red Room Brick
 tile.stone_porous.name=Porous Stone
 tile.stone_resource.asbestos.name=Chrysotile
 tile.stone_resource.bauxite.name=Bauxite

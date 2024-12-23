@@ -26,7 +26,7 @@ import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.entity.mob.ai.EntityAIFireGun;
 import com.hbm.entity.mob.EntityCreeperTainted;
-import com.hbm.entity.projectile.EntityBulletBaseNT;
+import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBurningFOEQ;
 import com.hbm.entity.train.EntityRailCarBase;
 import com.hbm.extprop.HbmLivingProps;
@@ -34,8 +34,6 @@ import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.handler.BobmazonOfferFactory;
 import com.hbm.handler.BossSpawnHandler;
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
@@ -54,13 +52,15 @@ import com.hbm.items.armor.ItemModShackles;
 import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.tool.ItemGuideBook.BookType;
 import com.hbm.items.weapon.ItemGunBase;
+import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT;
-import com.hbm.lib.HbmCollection;
+import com.hbm.items.weapon.sedna.factory.XFactory12ga;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.RefStrings;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.toclient.PermaSyncPacket;
 import com.hbm.packet.toclient.PlayerInformPacket;
+import com.hbm.particle.helper.BlackPowderCreator;
 import com.hbm.potion.HbmPotion;
 import com.hbm.saveddata.AuxSavedData;
 import com.hbm.tileentity.machine.TileEntityMachineRadarNT;
@@ -840,44 +840,48 @@ public class ModEventHandler {
 			((ArmorFSB)e.inventory.armorInventory[2].getItem()).handleFall(e);
 	}
 	
+	// only for the ballistic gauntlet! contains dangerous conditional returns!
 	@SubscribeEvent
 	public void onPlayerPunch(AttackEntityEvent event) {
 		
 		EntityPlayer player = event.entityPlayer;
 		ItemStack chestplate = player.inventory.armorInventory[2];
 		
-		if(!player.worldObj.isRemote && player.getHeldItem() == null && chestplate != null && ArmorModHandler.hasMods(chestplate)) {
+		if(!player.worldObj.isRemote && chestplate != null && ArmorModHandler.hasMods(chestplate)) {
+			
+			if(player.getHeldItem() != null && player.getHeldItem().getAttributeModifiers().containsKey(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName())) return;
+			
 			ItemStack[] mods = ArmorModHandler.pryMods(chestplate);
 			ItemStack servo = mods[ArmorModHandler.servos];
 			
 			if(servo != null && servo.getItem() == ModItems.ballistic_gauntlet) {
 				
-				//TODO: fix this shit
-				/*BulletConfig firedConfig = null;
+				BulletConfig firedConfig = null;
+				BulletConfig[] gauntletConfigs = new BulletConfig[] {XFactory12ga.g12_bp, XFactory12ga.g12_bp_magnum, XFactory12ga.g12_bp_slug, XFactory12ga.g12, XFactory12ga.g12_slug, XFactory12ga.g12_flechette, XFactory12ga.g12_magnum, XFactory12ga.g12_explosive, XFactory12ga.g12_phosphorus};
 
-				for(Integer config : HbmCollection.g12) {
-					BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
+				for(BulletConfig config : gauntletConfigs) {
 					
-					if(InventoryUtil.doesPlayerHaveAStack(player, cfg.ammo, true, true)) {
-						firedConfig = cfg;
+					if(InventoryUtil.doesPlayerHaveAStack(player, config.ammo, true, true)) {
+						firedConfig = config;
 						break;
 					}
 				}
 				
 				if(firedConfig != null) {
-					int bullets = firedConfig.bulletsMin;
+					int bullets = firedConfig.projectilesMin;
 					
-					if(firedConfig.bulletsMax > firedConfig.bulletsMin) {
-						bullets += player.getRNG().nextInt(firedConfig.bulletsMax - firedConfig.bulletsMin);
+					if(firedConfig.projectilesMax > firedConfig.projectilesMin) {
+						bullets += player.getRNG().nextInt(firedConfig.projectilesMax - firedConfig.projectilesMin);
 					}
 					
 					for(int i = 0; i < bullets; i++) {
-						EntityBulletBaseNT bullet = new EntityBulletBaseNT(player.worldObj, BulletConfigSyncingUtil.getKey(firedConfig), player);
-						player.worldObj.spawnEntityInWorld(bullet);
+						EntityBulletBaseMK4 mk4 = new EntityBulletBaseMK4(player, firedConfig, 15F, 0F, -0.1875, -0.0625, 0.5);
+						player.worldObj.spawnEntityInWorld(mk4);
+						if(i == 0 && firedConfig.blackPowder) BlackPowderCreator.composeEffect(player.worldObj, mk4.posX, mk4.posY, mk4.posZ, mk4.motionX, mk4.motionY, mk4.motionZ, 10, 0.25F, 0.5F, 10, 0.25F);
 					}
 					
 					player.worldObj.playSoundAtEntity(player, "hbm:weapon.shotgunShoot", 1.0F, 1.0F);
-				}*/
+				}
 			}
 		}
 	}

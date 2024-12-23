@@ -2,6 +2,7 @@ package com.hbm.entity.mob.glyphid;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.mob.glyphid.GlyphidStats.StatBundle;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
@@ -43,9 +44,10 @@ public class EntityGlyphidDigger extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getDigger().speed);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getDigger().damage);
 	}
-
-	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getDigger().divisor; }
-	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getDigger().damageThreshold; }
+	
+	public StatBundle getStats() {
+		return GlyphidStats.getStats().statsDigger;
+	}
 
 	public int timer = 0;
 	

@@ -1,6 +1,7 @@
 package com.hbm.entity.mob.glyphid;
 
 import com.hbm.entity.effect.EntityMist;
+import com.hbm.entity.mob.glyphid.GlyphidStats.StatBundle;
 import com.hbm.entity.projectile.EntityChemical;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -40,9 +41,10 @@ public class EntityGlyphidBehemoth extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getBehemoth().speed);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBehemoth().damage);
 	}
-
-	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBehemoth().divisor; }
-	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBehemoth().damageThreshold; }
+	
+	public StatBundle getStats() {
+		return GlyphidStats.getStats().statsBehemoth;
+	}
 	
 	public int timer = 120;
 	int breathTime = 0;

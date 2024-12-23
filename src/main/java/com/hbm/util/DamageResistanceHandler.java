@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import com.hbm.items.ModItems;
 import com.hbm.util.Tuple.Quartet;
 
+import api.hbm.entity.IResistanceProvider;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -309,6 +310,13 @@ public class DamageResistanceHandler {
 		
 		float dt = 0;
 		float dr = 0;
+		
+		if(entity instanceof IResistanceProvider) {
+			IResistanceProvider irp = (IResistanceProvider) entity;
+			float[] res = irp.getCurrentDTDR(damage, amount, pierceDT, pierce);
+			dt += res[0];
+			dr += res[1];
+		}
 		
 		/// SET HANDLING ///
 		Quartet wornSet = new Quartet(

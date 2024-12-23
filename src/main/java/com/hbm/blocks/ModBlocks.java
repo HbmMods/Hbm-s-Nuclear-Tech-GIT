@@ -112,6 +112,7 @@ public class ModBlocks {
 	public static Block cluster_depth_tungsten;
 
 	public static Block stone_keyhole;
+	public static Block stone_keyhole_meta;
 	
 	public static Block stone_depth_nether;
 	public static Block ore_depth_nether_neodymium;
@@ -1279,6 +1280,7 @@ public class ModBlocks {
 		ore_alexandrite = new BlockDepthOre().setBlockName("ore_alexandrite").setCreativeTab(MainRegistry.blockTab).setBlockTextureName(RefStrings.MODID + ":ore_alexandrite");
 		
 		stone_keyhole = new BlockKeyhole().setBlockName("stone_keyhole").setCreativeTab(null).setBlockTextureName(RefStrings.MODID + ":stone_keyhole");
+		stone_keyhole_meta = new BlockRedBrickKeyhole(Material.rock).setCreativeTab(null).setBlockName("stone_keyhole_meta").setResistance(10_000);
 		
 		ore_bedrock = new BlockBedrockOreTE().setBlockName("ore_bedrock").setCreativeTab(null);
 		ore_volcano = new BlockFissure().setBlockName("ore_volcano").setLightLevel(1F).setCreativeTab(MainRegistry.blockTab);
@@ -2423,6 +2425,7 @@ public class ModBlocks {
 		
 		//Secret
 		register(stone_keyhole);
+		register(stone_keyhole_meta);
 		
 		//Resource-bearing Stones
 		register(stone_resource);

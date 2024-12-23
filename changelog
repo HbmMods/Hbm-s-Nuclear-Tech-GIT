@@ -1,5 +1,5 @@
 ## Changed
-* Any bullet that can ricochet (or at least runs the code for it) can now also break glass
+* Any bullet that can ricochet (or at least runs the code for it) can now also break glass, as well as destroy red barrels
 * Removed three old achievements which no longer work due to the gun changes
 * AJR armor plating now uses niobium instead of saturnite, and yields twice as many items per recipe
 * Due to the gating change, the saturnite anvil now has a tier equivalent to a bronze anvil
@@ -8,6 +8,15 @@
   * Obviously shot will always fare worse against higher tier armor, in those cases either use flechettes, slugs, any of the high tier rounds or a different caliber entirely
 * Bombers and cargo planes now use interpolation, making their movement smoother and fixing potential desyncs due to TPS
 * Trenchmaster armor no longer displays benefits that no longer exist
+* Legendaries are no longer found in red rooms, rather they have a whole new system of being discovered and crafted
+  * "Recipes" are still subject to change, but the base system is final
+  * There will some day be a completely new dungeon for those, but for now I used what I had
+* Glyphids now make use of the same resistance system as armors, their armor is no longer completely ignored by the new guns
+  * Different damage types have different resistances
+  * Damage resistance remains the same, while damage threshold is determined by the glyphid's armor - breaking the armor off will decrease the damage threshold
+  * Balancing might still be off, however glyhids shouldn't be too tanky
+* I still haven't bothered to fix the bolter. It's like the son I don't love
+* Changed some of the sounds of the guns that still used the default black powder noise
 
 ## Fixed
 * Fixed 9mm soft points being called ".9mm"
@@ -27,3 +36,5 @@
 * Potentially fixed an issue where artillery rockets would sometimes get stuck mid-air
 * Fixed the artillery rocket turret's grace range not being 250 as advertised
 * Fixed black powder shotshells using smokeless powder instead of smokeful powder
+* Fixed the ballistic gauntlet not working with the new system
+  * Since base damage is now bound to weapons, the ballistic gauntlet now has a base damage of 15

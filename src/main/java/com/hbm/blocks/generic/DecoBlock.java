@@ -9,6 +9,8 @@ import com.hbm.tileentity.deco.TileEntityDecoBlock;
 
 import api.hbm.block.IToolable;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -51,6 +53,8 @@ public class DecoBlock extends BlockContainer implements IToolable {
 		
 		return true;
 	}
+
+	@Override @SideOnly(Side.CLIENT) public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) { return true; }
 
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {

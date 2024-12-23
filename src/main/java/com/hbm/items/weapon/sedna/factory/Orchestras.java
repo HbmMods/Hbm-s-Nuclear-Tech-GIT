@@ -837,6 +837,10 @@ public class Orchestras {
 		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
 		boolean aiming = ItemGunBaseNT.getIsAiming(stack);
 
+		if(type == AnimType.EQUIP) {
+			if(timer == 0) entity.worldObj.playSoundAtEntity(entity, "hbm:turret.howard_reload", 1F, 1F);
+		}
+		
 		if(type == AnimType.CYCLE) {
 			if(timer == 0) {
 				SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.inventory);

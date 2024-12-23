@@ -46,7 +46,7 @@ public class XFactory50 {
 		ModItems.gun_m2 = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(3_000).draw(10).inspect(31).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(7.5F).delay(2).dry(10).auto(true).spread(0.005F).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(7.5F).delay(2).dry(10).auto(true).spread(0.005F).sound("hbm:turret.chekhov_fire", 1.0F, 1.0F)
 						.mag(new MagazineBelt().addConfigs(bmg50_sp, bmg50_fmj, bmg50_jhp, bmg50_ap, bmg50_du))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_M2))

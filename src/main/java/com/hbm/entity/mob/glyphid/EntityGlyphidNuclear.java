@@ -3,6 +3,7 @@ package com.hbm.entity.mob.glyphid;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.logic.EntityWaypoint;
 import com.hbm.entity.mob.EntityParasiteMaggot;
+import com.hbm.entity.mob.glyphid.GlyphidStats.StatBundle;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
@@ -53,9 +54,10 @@ public class EntityGlyphidNuclear extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getNuclear().speed);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getNuclear().damage);
 	}
-
-	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getNuclear().divisor; }
-	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getNuclear().damageThreshold; }
+	
+	public StatBundle getStats() {
+		return GlyphidStats.getStats().statsNuclear;
+	}
 
 	@Override
 	public void onUpdate() {

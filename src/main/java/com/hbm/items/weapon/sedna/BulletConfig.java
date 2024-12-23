@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import com.hbm.blocks.bomb.BlockDetonatable;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.interfaces.NotableComments;
@@ -17,6 +18,9 @@ import com.hbm.particle.SpentCasing;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.TrackerUtil;
+
+import api.hbm.block.IFuckingExplode;
+
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import net.minecraft.block.Block;
@@ -168,6 +172,9 @@ public class BulletConfig implements Cloneable {
 				bullet.worldObj.func_147480_a(mop.blockX, mop.blockY, mop.blockZ, false);
 				bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 				return;
+			}
+			if(b instanceof BlockDetonatable) {
+				((BlockDetonatable) b).onShot(bullet.worldObj, mop.blockX, mop.blockY, mop.blockZ);
 			}
 
 			ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);

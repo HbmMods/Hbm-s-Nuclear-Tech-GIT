@@ -1,6 +1,7 @@
 package com.hbm.entity.mob.glyphid;
 
 import com.hbm.entity.effect.EntityMist;
+import com.hbm.entity.mob.glyphid.GlyphidStats.StatBundle;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
@@ -36,9 +37,10 @@ public class EntityGlyphidBrenda extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getBrenda().speed);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBrenda().damage);
 	}
-
-	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBrenda().divisor; }
-	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBrenda().damageThreshold; }
+	
+	public StatBundle getStats() {
+		return GlyphidStats.getStats().statsBrenda;
+	}
 
 	@Override
 	public boolean isArmorBroken(float amount) {
