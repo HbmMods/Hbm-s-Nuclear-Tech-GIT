@@ -1535,8 +1535,6 @@ public class ModItems {
 	public static Item gun_bolt_action_green;
 	public static Item gun_bolt_action_saturnite;
 	public static Item gun_mymy;
-	public static Item gun_b92;
-	public static Item gun_b92_ammo;
 	public static Item gun_b93;
 	public static Item gun_xvl1456;
 	public static Item gun_xvl1456_ammo;
@@ -1546,9 +1544,6 @@ public class ModItems {
 	public static Item gun_immolator;
 	public static Item gun_immolator_ammo;
 	public static Item gun_cryolator;
-	public static Item gun_cryocannon;
-	public static Item gun_cryolator_ammo;
-	public static Item gun_fireext;
 	public static Item gun_mp;
 	public static Item gun_bolter_digamma;
 	public static Item gun_zomg;
@@ -1573,6 +1568,12 @@ public class ModItems {
 	public static Item gun_glass_cannon;
 	public static Item gun_lunatic_marksman;
 	public static Item gun_uac_pistol;
+	
+	public static Item gun_b92;
+	public static Item gun_b92_ammo;
+	public static Item gun_cryocannon;
+	public static Item gun_cryolator_ammo;
+	public static Item gun_fireext;
 
 	public static Item gun_debug;
 	public static Item ammo_debug;
@@ -1589,6 +1590,7 @@ public class ModItems {
 	public static Item gun_flaregun;
 	public static Item gun_heavy_revolver;
 	public static Item gun_heavy_revolver_lilmac;
+	public static Item gun_heavy_revolver_protege;
 	public static Item gun_carbine;
 	public static Item gun_am180;
 	public static Item gun_liberator;
@@ -2312,6 +2314,7 @@ public class ModItems {
 	public static Item book_lore;
 	public static Item holotape_image;
 	public static Item holotape_damaged;
+	public static Item clay_tablet;
 
 	public static Item polaroid;
 	public static Item glitch;
@@ -3982,7 +3985,7 @@ public class ModItems {
 		ammo_22lr = new ItemAmmo(Ammo22LR.class).setUnlocalizedName("ammo_22lr");
 		ammo_rocket = new ItemAmmo(AmmoRocket.class).setUnlocalizedName("ammo_rocket");
 		ammo_grenade = new ItemAmmo(AmmoGrenade.class).setUnlocalizedName("ammo_grenade");
-		ammo_shell = new ItemAmmo(Ammo240Shell.class).setUnlocalizedName("ammo_shell");
+		ammo_shell = (ItemEnumMulti) new ItemAmmo(Ammo240Shell.class).setCreativeTab(MainRegistry.weaponTab).setUnlocalizedName("ammo_shell");
 		ammo_dgk = new ItemCustomLore().setUnlocalizedName("ammo_dgk").setCreativeTab(MainRegistry.weaponTab);
 		ammo_nuke = new ItemAmmo(AmmoFatman.class).setUnlocalizedName("ammo_nuke");
 		ammo_fuel = new ItemAmmo(AmmoFlamethrower.class).setUnlocalizedName("ammo_fuel");
@@ -4070,7 +4073,7 @@ public class ModItems {
 		gun_defabricator_ammo = new Item().setUnlocalizedName("gun_defabricator_ammo").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_defabricator_ammo");
 		gun_defabricator = new Item().setUnlocalizedName("gun_defabricator").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_defabricator");
 		gun_vortex = new Item().setUnlocalizedName("gun_vortex").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_vortex");
-		gun_super_shotgun = new Item().setUnlocalizedName("gun_super_shotgun").setMaxStackSize(1).setFull3D().setCreativeTab(MainRegistry.weaponTab).setTextureName(RefStrings.MODID + ":gun_super_shotgun");
+		gun_super_shotgun = new Item().setUnlocalizedName("gun_super_shotgun").setMaxStackSize(1).setFull3D().setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_super_shotgun");
 		gun_moist_nugget = new Item().setUnlocalizedName("gun_moist_nugget").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_moist_nugget");
 		gun_darter = new Item().setFull3D().setUnlocalizedName("gun_darter").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_darter");
 		gun_glass_cannon = new Item().setFull3D().setUnlocalizedName("gun_glass_cannon").setCreativeTab(null).setTextureName(RefStrings.MODID + ":gun_darter");
@@ -5216,6 +5219,7 @@ public class ModItems {
 		book_lore = new ItemBookLore().setUnlocalizedName("book_lore").setCreativeTab(null).setTextureName(RefStrings.MODID + ":book_pages");
 		holotape_image = new ItemHolotapeImage().setUnlocalizedName("holotape_image").setCreativeTab(null).setTextureName(RefStrings.MODID + ":holotape");
 		holotape_damaged = new Item().setUnlocalizedName("holotape_damaged").setCreativeTab(null).setTextureName(RefStrings.MODID + ":holotape_damaged");
+		clay_tablet = new ItemClayTablet().setUnlocalizedName("clay_tablet").setCreativeTab(null).setTextureName(RefStrings.MODID + ":clay_tablet");
 
 		polaroid = new ItemPolaroid().setUnlocalizedName("polaroid").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":polaroid_" + MainRegistry.polaroidID);
 		glitch = new ItemGlitch().setUnlocalizedName("glitch").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab).setTextureName(RefStrings.MODID + ":glitch_" + MainRegistry.polaroidID);
@@ -6808,6 +6812,7 @@ public class ModItems {
 		GameRegistry.registerItem(gun_flaregun, gun_flaregun.getUnlocalizedName());
 		GameRegistry.registerItem(gun_heavy_revolver, gun_heavy_revolver.getUnlocalizedName());
 		GameRegistry.registerItem(gun_heavy_revolver_lilmac, gun_heavy_revolver_lilmac.getUnlocalizedName());
+		GameRegistry.registerItem(gun_heavy_revolver_protege, gun_heavy_revolver_protege.getUnlocalizedName());
 		GameRegistry.registerItem(gun_carbine, gun_carbine.getUnlocalizedName());
 		GameRegistry.registerItem(gun_am180, gun_am180.getUnlocalizedName());
 		GameRegistry.registerItem(gun_liberator, gun_liberator.getUnlocalizedName());
@@ -7581,6 +7586,7 @@ public class ModItems {
 		GameRegistry.registerItem(book_lore, book_lore.getUnlocalizedName());
 		GameRegistry.registerItem(holotape_image, holotape_image.getUnlocalizedName());
 		GameRegistry.registerItem(holotape_damaged, holotape_damaged.getUnlocalizedName());
+		GameRegistry.registerItem(clay_tablet, clay_tablet.getUnlocalizedName());
 		
 		//Technical Items
 		GameRegistry.registerItem(b_smoke1, b_smoke1.getUnlocalizedName());

@@ -3,7 +3,6 @@ package com.hbm.entity.logic;
 import com.hbm.config.GeneralConfig;
 import com.hbm.entity.projectile.EntityBombletZeta;
 import com.hbm.entity.projectile.EntityBoxcar;
-import com.hbm.entity.projectile.EntityRocketHoming;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.main.MainRegistry;
@@ -65,17 +64,6 @@ public class EntityBomber extends EntityPlaneBase {
 				ExplosionChaos.spawnChlorine(worldObj, this.posX, this.posY - 1F, this.posZ, 10, 0.5, 3);
 
 			} else if(type == 5) {
-				worldObj.playSoundEffect((double) (posX + 0.5F), (double) (posY + 0.5F), (double) (posZ + 0.5F), "hbm:weapon.missileTakeOff", 10.0F, 0.9F + rand.nextFloat() * 0.2F);
-				EntityRocketHoming rocket = new EntityRocketHoming(worldObj);
-				rocket.setIsCritical(true);
-				rocket.motionY = -1;
-				rocket.shootingEntity = this;
-				rocket.homingRadius = 50;
-				rocket.homingMod = 5;
-				rocket.posX = posX + rand.nextDouble() - 0.5;
-				rocket.posY = posY - rand.nextDouble();
-				rocket.posZ = posZ + rand.nextDouble() - 0.5;
-				worldObj.spawnEntityInWorld(rocket);
 
 			} else if(type == 6) {
 				worldObj.playSoundEffect((double) (posX + 0.5F), (double) (posY + 0.5F), (double) (posZ + 0.5F), "hbm:weapon.missileTakeOff", 10.0F, 0.9F + rand.nextFloat() * 0.2F);

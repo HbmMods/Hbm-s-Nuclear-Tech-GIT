@@ -463,9 +463,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.euphemium_plate, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.euphemium_legs, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.euphemium_boots, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb), 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_cursed, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.watch, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb_f), 1));
 		}
 		
 		if(this == ModItems.hazmat_kit)

@@ -26,7 +26,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldServer;
@@ -145,8 +144,8 @@ public class BulletConfig implements Cloneable {
 		
 		DamageSource dmg;
 		
-		if(shooter != null) dmg = new EntityDamageSourceIndirect(dmgClass.name(), projectile, shooter);
-		else dmg = new DamageSource(dmgClass.name());
+		if(shooter != null) dmg = new DamageSourceSednaWithAttacker(dmgClass.name(), projectile, shooter);
+		else dmg = new DamageSourceSednaNoAttacker(dmgClass.name());
 		
 		switch(dmgClass) {
 		case PHYSICAL: dmg.setProjectile(); break;

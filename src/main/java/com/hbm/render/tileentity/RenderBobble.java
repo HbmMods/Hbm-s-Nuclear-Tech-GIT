@@ -8,7 +8,6 @@ import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.model.ModelUboinik;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -380,7 +379,6 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		bobble.renderPart("Drillgon");
 	}
 
-	private ModelUboinik shotgun = new ModelUboinik();
 	private ResourceLocation shot_tex = new ResourceLocation(RefStrings.MODID +":textures/models/ModelUboinik.png");
 	
 	/*
@@ -451,7 +449,7 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			GL11.glRotated(-60, 0, 1, 0);
 			GL11.glTranslated(-0.2, 0, 0);
 			GL11.glScaled(0.5, 0.5, 0.5);
-			shotgun.renderDud(0.0625F);
+			//shotgun.renderDud(0.0625F);
 			break;
 		case MELLOW:
 			GL11.glEnable(GL11.GL_BLEND);

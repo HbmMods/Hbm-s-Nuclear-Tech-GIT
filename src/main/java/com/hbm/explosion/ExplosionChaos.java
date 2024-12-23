@@ -751,10 +751,7 @@ public class ExplosionChaos {
 					int Z = zz + z;
 					int ZZ = YY + zz * zz;
 					if (ZZ < r22 + world.rand.nextInt(r22 / 2)) {
-						if (world.getBlock(X, Y, Z) != Blocks.bedrock && world.getBlock(X, Y, Z) != ModBlocks.statue_elb
-								&& world.getBlock(X, Y, Z) != ModBlocks.statue_elb_g
-								&& world.getBlock(X, Y, Z) != ModBlocks.statue_elb_w
-								&& world.getBlock(X, Y, Z) != ModBlocks.statue_elb_f)
+						if(world.getBlock(X, Y, Z) != ModBlocks.statue_elb_f)
 							world.setBlock(X, Y, Z, ModBlocks.plasma);
 					}
 				}

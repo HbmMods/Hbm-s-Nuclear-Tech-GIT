@@ -59,19 +59,13 @@ public class BlockCrate extends BlockFalling {
 		BlockCrate.addToListWithWeight(crateList, ModItems.ammo_container, 2);
 
 		// Weapon Crate
-		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_revolver, 9);
-		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_revolver_gold, 7);
-		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_revolver_cursed, 7);
-		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_calamity, 3);
-		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_rpg, 7);
-		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_karl, 4);
-		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_panzerschreck, 6);
-		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_hk69, 8);
-		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_mp40, 9);
-		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_uzi_silencer, 5);
-		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_uboinik, 8);
-		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_lever_action, 7);
-		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_bolt_action, 7);
+		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_light_revolver, 10);
+		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_maresleg, 7);
+		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_heavy_revolver, 5);
+		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_greasegun, 5);
+		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_liberator, 2);
+		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_flaregun, 8);
+		BlockCrate.addToListWithWeight(weaponList, ModItems.gun_panzerschreck, 1);
 
 		// Lead Crate
 		BlockCrate.addToListWithWeight(leadList, ModItems.ingot_uranium, 10);

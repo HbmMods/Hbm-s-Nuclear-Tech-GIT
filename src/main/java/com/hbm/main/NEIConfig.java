@@ -50,9 +50,6 @@ public class NEIConfig implements IConfigureNEI {
 		API.hideItem(new ItemStack(ModBlocks.machine_nuke_furnace_on));
 		API.hideItem(new ItemStack(ModBlocks.machine_rtg_furnace_on));
 		API.hideItem(new ItemStack(ModBlocks.reinforced_lamp_on));
-		API.hideItem(new ItemStack(ModBlocks.statue_elb));
-		API.hideItem(new ItemStack(ModBlocks.statue_elb_g));
-		API.hideItem(new ItemStack(ModBlocks.statue_elb_w));
 		API.hideItem(new ItemStack(ModBlocks.statue_elb_f));
 		API.hideItem(new ItemStack(ModBlocks.cheater_virus));
 		API.hideItem(new ItemStack(ModBlocks.cheater_virus_seed));
