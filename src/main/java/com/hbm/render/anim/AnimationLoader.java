@@ -51,7 +51,6 @@ public class AnimationLoader {
 		// The offsets are only required when sequences are played for an object, which is why we don't globally offset! The obj rendering handles the non-animated case fine
 		// Effectively, this removes double translation AND ensures that rotations occur around the individual object origin, rather than the weapon origin
 		HashMap<String, double[]> offsets = new HashMap<String, double[]>();
-		HashMap<String, double[]> rotModes = new HashMap<String, double[]>();
 		for(Map.Entry<String, JsonElement> root : json.getAsJsonObject("offset").entrySet()) {
 			JsonArray array = root.getValue().getAsJsonArray();
 
@@ -61,16 +60,21 @@ public class AnimationLoader {
 			}
 
 			offsets.put(root.getKey(), offset);
+		}
 
-			if(array.size() >= 6) {
+		// Rotation modes, swizzled into our local space. YZX in blender becomes XYZ due to:
+		//  * rotation order reversed in blender (XYZ -> ZYX)
+		//  * dimensions Y and Z are swapped in blender (ZYX -> YZX)
+		HashMap<String, double[]> rotModes = new HashMap<String, double[]>();
+		if(json.has("rotmode")) {
+			for(Map.Entry<String, JsonElement> root : json.getAsJsonObject("rotmode").entrySet()) {
+				String mode = root.getValue().getAsString();
+	
 				double[] rotMode = new double[3];
-				for(int i = 0; i < 3; i++) {
-					rotMode[i] = array.get(i + 3).getAsDouble();
-				}
-
-				rotModes.put(root.getKey(), rotMode);
+				rotMode[0] = getRot(mode.charAt(1));
+				rotMode[1] = getRot(mode.charAt(2));
+				rotMode[2] = getRot(mode.charAt(0));
 			}
-
 		}
 
 
@@ -93,6 +97,15 @@ public class AnimationLoader {
 		}
 
 		return animations;
+	}
+
+	private static double getRot(char value) {
+		switch(value) {
+			case 'X': return 0;
+			case 'Y': return 1;
+			case 'Z': return 2;
+			default: return 0;
+		}
 	}
 
 	private static BusAnimationSequence loadSequence(JsonObject json, double[] offset, double[] rotMode) {
