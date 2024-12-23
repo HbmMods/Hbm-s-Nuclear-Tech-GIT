@@ -71,9 +71,9 @@ public class AnimationLoader {
 				String mode = root.getValue().getAsString();
 	
 				double[] rotMode = new double[3];
-				rotMode[0] = getRot(mode.charAt(1));
-				rotMode[1] = getRot(mode.charAt(2));
-				rotMode[2] = getRot(mode.charAt(0));
+				rotMode[0] = getRot(mode.charAt(2));
+				rotMode[1] = getRot(mode.charAt(0));
+				rotMode[2] = getRot(mode.charAt(1));
 			}
 		}
 
