@@ -1,6 +1,10 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.inventory.recipes.PedestalRecipes;
+import com.hbm.inventory.recipes.PedestalRecipes.PedestalRecipe;
 import com.hbm.lib.RefStrings;
+import com.hbm.particle.helper.ExplosionSmallCreator;
+import com.hbm.util.Compat;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -20,6 +24,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockPedestal extends BlockContainer {
 
@@ -106,6 +111,73 @@ public class BlockPedestal extends BlockContainer {
 		}
 		
 		super.breakBlock(world, x, y, z, block, meta);
+	}
+
+	@Override
+	public void onNeighborBlockChange(World world, int x, int y, int z, Block b) {
+		if(!world.isRemote) {
+			if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
+				
+				TileEntityPedestal nw = castOrNull(Compat.getTileStandard(world, x + ForgeDirection.NORTH.offsetX * 2 + ForgeDirection.WEST.offsetX * 2, y, z + ForgeDirection.NORTH.offsetZ * 2 + ForgeDirection.WEST.offsetZ * 2));
+				TileEntityPedestal n = castOrNull(Compat.getTileStandard(world, x + ForgeDirection.NORTH.offsetX * 3, y, z + ForgeDirection.NORTH.offsetZ * 3));
+				TileEntityPedestal ne = castOrNull(Compat.getTileStandard(world, x + ForgeDirection.NORTH.offsetX * 2 + ForgeDirection.EAST.offsetX * 2, y, z + ForgeDirection.NORTH.offsetZ * 2 + ForgeDirection.EAST.offsetZ * 2));
+				TileEntityPedestal w = castOrNull(Compat.getTileStandard(world, x + ForgeDirection.WEST.offsetX * 3, y, z + ForgeDirection.WEST.offsetZ * 3));
+				TileEntityPedestal center = (TileEntityPedestal) world.getTileEntity(x, y, z);
+				TileEntityPedestal e = castOrNull(Compat.getTileStandard(world, x + ForgeDirection.EAST.offsetX * 3, y, z + ForgeDirection.EAST.offsetZ * 3));
+				TileEntityPedestal sw = castOrNull(Compat.getTileStandard(world, x + ForgeDirection.SOUTH.offsetX * 2 + ForgeDirection.WEST.offsetX * 2, y, z + ForgeDirection.SOUTH.offsetZ * 2 + ForgeDirection.WEST.offsetZ * 2));
+				TileEntityPedestal s = castOrNull(Compat.getTileStandard(world, x + ForgeDirection.SOUTH.offsetX * 3, y, z + ForgeDirection.SOUTH.offsetZ * 3));
+				TileEntityPedestal se = castOrNull(Compat.getTileStandard(world, x + ForgeDirection.SOUTH.offsetX * 2 + ForgeDirection.EAST.offsetX * 2, y, z + ForgeDirection.SOUTH.offsetZ * 2 + ForgeDirection.EAST.offsetZ * 2));
+				
+				TileEntityPedestal[] tileArray = new TileEntityPedestal[] {nw, n, ne, w, center, e, sw, s, se};
+				
+				outer: for(PedestalRecipe recipe : PedestalRecipes.recipes) {
+					
+					if(recipe.extra == recipe.extra.FULL_MOON) {
+						if(world.getCelestialAngle(0) < 0.35 || world.getCelestialAngle(0) > 0.65) continue;
+						if(world.getMoonPhase() != 0) continue;
+					}
+					
+					if(recipe.extra == recipe.extra.NEW_MOON) {
+						if(world.getCelestialAngle(0) < 0.35 || world.getCelestialAngle(0) > 0.65) continue;
+						if(world.getMoonPhase() != 4) continue;
+					}
+					
+					if(recipe.extra == recipe.extra.SUN) {
+						if(world.getCelestialAngle(0) > 0.15 || world.getCelestialAngle(0) < 0.85) continue;
+					}
+					
+					for(int i = 0; i < 9; i++) {
+						ItemStack pedestal = tileArray[i] != null ? tileArray[i].item : null;
+						if(pedestal == null && recipe.input[i] != null) continue outer;
+						if(pedestal != null && recipe.input[i] == null) continue outer;
+						if(pedestal == null && recipe.input[i] == null) continue;
+						
+						if(!recipe.input[i].matchesRecipe(pedestal, true) || recipe.input[i].stacksize != pedestal.stackSize) continue outer;
+					}
+					
+					for(int i = 0; i < 9; i++) {
+						if(i == 4) continue;
+						ItemStack pedestal = tileArray[i] != null ? tileArray[i].item : null;
+						if(pedestal == null && recipe.input[i] == null) continue;
+						tileArray[i].item = null;
+						tileArray[i].markDirty();
+						world.markBlockForUpdate(tileArray[i].xCoord, tileArray[i].yCoord, tileArray[i].zCoord);
+					}
+					
+					center.item = recipe.output.copy();
+					center.markDirty();
+					world.markBlockForUpdate(x, y, z);
+					ExplosionSmallCreator.composeEffect(world, x + 0.5, y + 1.5, z + 0.5, 10, 2.5F, 1F);
+					
+					return;
+				}
+			}
+		}
+	}
+	
+	public static TileEntityPedestal castOrNull(TileEntity tile) {
+		if(tile instanceof TileEntityPedestal) return (TileEntityPedestal) tile;
+		return null;
 	}
 
 	public static class TileEntityPedestal extends TileEntity {

@@ -51,7 +51,7 @@ public class RenderInfoSystem {
 			return;
 
 		//this.messages.put(-666, new InfoEntry(Minecraft.getMinecraft().theWorld.getCelestialAngle(0) + "", 666_666));
-		//this.messages.put(-665, new InfoEntry(Minecraft.getMinecraft().theWorld.getCurrentMoonPhaseFactor() + "", 666_666));
+		//this.messages.put(-665, new InfoEntry(Minecraft.getMinecraft().theWorld.getMoonPhase() + "", 666_666));
 		
 		if(this.messages.isEmpty()) 
 			return;

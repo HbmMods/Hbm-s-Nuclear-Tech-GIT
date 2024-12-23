@@ -197,15 +197,15 @@ public class AmmoPressRecipes extends SerializableRecipe {
 
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G12_BP, 6),
 				null,	nugget.copy(6), null,
-				null,	smokeless,		null,
+				null,	smokeful,		null,
 				null,	bpShell,		null));
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G12_BP_MAGNUM, 6),
 				null,	nugget.copy(8), null,
-				null,	smokeless,		null,
+				null,	smokeful,		null,
 				null,	bpShell,		null));
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G12_BP_SLUG, 6),
 				null,	lead, 		null,
-				null,	smokeless,	null,
+				null,	smokeful,	null,
 				null,	bpShell,	null));
 
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G12, 6),

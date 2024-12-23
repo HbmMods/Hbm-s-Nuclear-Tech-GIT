@@ -7,6 +7,7 @@
 * All non black powder shotgun shells now have some amount of damage threshold negation in order to not immediately become useless when used against early power armor
   * Obviously shot will always fare worse against higher tier armor, in those cases either use flechettes, slugs, any of the high tier rounds or a different caliber entirely
 * Bombers and cargo planes now use interpolation, making their movement smoother and fixing potential desyncs due to TPS
+* Trenchmaster armor no longer displays benefits that no longer exist
 
 ## Fixed
 * Fixed 9mm soft points being called ".9mm"
@@ -25,3 +26,4 @@
 * Fixed the second UZI dealing more damage than it should
 * Potentially fixed an issue where artillery rockets would sometimes get stuck mid-air
 * Fixed the artillery rocket turret's grace range not being 250 as advertised
+* Fixed black powder shotshells using smokeless powder instead of smokeful powder

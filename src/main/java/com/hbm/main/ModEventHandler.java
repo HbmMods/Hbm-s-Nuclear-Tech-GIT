@@ -852,7 +852,8 @@ public class ModEventHandler {
 			
 			if(servo != null && servo.getItem() == ModItems.ballistic_gauntlet) {
 				
-				BulletConfiguration firedConfig = null;
+				//TODO: fix this shit
+				/*BulletConfig firedConfig = null;
 
 				for(Integer config : HbmCollection.g12) {
 					BulletConfiguration cfg = BulletConfigSyncingUtil.pullConfig(config);
@@ -876,7 +877,7 @@ public class ModEventHandler {
 					}
 					
 					player.worldObj.playSoundAtEntity(player, "hbm:weapon.shotgunShoot", 1.0F, 1.0F);
-				}
+				}*/
 			}
 		}
 	}
