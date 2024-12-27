@@ -268,9 +268,9 @@ public class RBMKNeutronHandler {
 				if (fluxQuantity == 0D) // Whoops, used it all up!
 					return;
 
-				RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.nodeCache.get(nodePos);
+				RBMKNeutronNode node;
 
-				if (node == null) {
+				if (!NeutronNodeWorld.nodeCache.containsKey(nodePos)) {
 					TileEntity te = blockPosToTE(worldObj, nodePos); // ok, maybe it didn't get added to the list somehow??
 					if (te instanceof TileEntityRBMKBase) {
 						node = makeNode((TileEntityRBMKBase) te);
@@ -289,6 +289,8 @@ public class RBMKNeutronHandler {
 						}
 					}
 				}
+
+				node = (RBMKNeutronNode) NeutronNodeWorld.nodeCache.get(nodePos);
 
 				RBMKType type = (RBMKType) node.data.get("type");
 

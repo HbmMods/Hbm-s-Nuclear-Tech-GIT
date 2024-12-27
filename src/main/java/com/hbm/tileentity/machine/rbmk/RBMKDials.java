@@ -133,7 +133,8 @@ public class RBMKDials {
 			if(isIteration)
 				throw new NullPointerException("Cannot find gamerule for dial " + rule.keyString + " after creation.");
 			else {
-				createDials(world, true); // fuck
+				world.getGameRules().setOrCreateGameRule(rule.keyString, rule.defValue.toString()); // fuck
+				refresh(world);
 				return getGameRule(world, rule, true);
 			}
 		} else if(rulesList.size() > 1)

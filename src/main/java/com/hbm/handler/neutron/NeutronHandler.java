@@ -64,7 +64,7 @@ public class NeutronHandler {
 					RBMKNeutronHandler.RBMKNeutronNode node = (RBMKNeutronHandler.RBMKNeutronNode) cachedNode;
 					toRemove.addAll(node.checkNode());
 				}
-					/*
+					/* TODO: actually do this and uncache pile nodes
 					if (cachedNode.type == NeutronStream.NeutronType.PILE) {
 						PileNeutronNode node = (PileNeutronNode) cachedNode;
 						toRemove.addAll(node.checkNode());
