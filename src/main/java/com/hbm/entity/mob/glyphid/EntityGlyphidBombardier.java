@@ -1,5 +1,6 @@
 package com.hbm.entity.mob.glyphid;
 
+import com.hbm.entity.mob.glyphid.GlyphidStats.StatBundle;
 import com.hbm.entity.projectile.EntityAcidBomb;
 import com.hbm.main.ResourceManager;
 
@@ -32,9 +33,10 @@ public class EntityGlyphidBombardier extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getBombardier().speed);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBombardier().damage);
 	}
-
-	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBombardier().divisor; }
-	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBombardier().damageThreshold; }
+	
+	public StatBundle getStats() {
+		return GlyphidStats.getStats().statsBombardier;
+	}
 	
 	@Override
 	public void onUpdate() {

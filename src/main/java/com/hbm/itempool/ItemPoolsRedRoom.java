@@ -3,6 +3,7 @@ package com.hbm.itempool;
 import static com.hbm.lib.HbmChestContents.weighted;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ItemEnums.EnumSecretType;
 import com.hbm.items.ModItems;
 
 import net.minecraft.util.WeightedRandomChestContent;
@@ -10,7 +11,8 @@ import net.minecraft.util.WeightedRandomChestContent;
 public class ItemPoolsRedRoom {
 
 	public static final String POOL_RED_PEDESTAL = "POOL_RED_PEDESTAL";
-	public static final String POOL_RED_WEAPON = "POOL_RED_WEAPON";
+	public static final String POOL_BLACK_SLAB = "POOL_BLACK_SLAB";
+	public static final String POOL_BLACK_PART = "POOL_BLACK_PART";
 	
 	public static void init() {
 		
@@ -41,16 +43,18 @@ public class ItemPoolsRedRoom {
 		}};
 		
 		//pedestal weapons
-		new ItemPool(POOL_RED_WEAPON) {{
+		new ItemPool(POOL_BLACK_SLAB) {{
 			this.pool = new WeightedRandomChestContent[] {
-					weighted(ModItems.gun_light_revolver_dani, 0, 1, 1, 10),
-					weighted(ModItems.gun_maresleg_broken, 0, 1, 1, 10),
-					weighted(ModItems.gun_heavy_revolver_lilmac, 0, 1, 1, 10),
-					weighted(ModItems.gun_flamer_daybreaker, 0, 1, 1, 5),
-					weighted(ModItems.gun_autoshotgun_sexy, 0, 1, 1, 5),
-					weighted(ModItems.gun_minigun_lacunae, 0, 1, 1, 5),
-					weighted(ModItems.gun_hangman, 0, 1, 1, 5),
-					weighted(ModItems.gun_folly, 0, 1, 1, 1),
+					weighted(ModItems.clay_tablet, 0, 1, 1, 10)
+			};
+		}};
+		
+		//pedestal weapons
+		new ItemPool(POOL_BLACK_PART) {{
+			this.pool = new WeightedRandomChestContent[] {
+					weighted(ModItems.item_secret, EnumSecretType.SELENIUM_STEEL.ordinal(), 4, 4, 10),
+					weighted(ModItems.item_secret, EnumSecretType.CONTROLLER.ordinal(), 1, 1, 10),
+					weighted(ModItems.item_secret, EnumSecretType.CANISTER.ordinal(), 1, 1, 10),
 			};
 		}};
 	}

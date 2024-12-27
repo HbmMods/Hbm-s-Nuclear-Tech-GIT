@@ -93,7 +93,7 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 	
 	@Override
 	public double getDecetorGrace() {
-		return 32D;
+		return 250D;
 	}
 
 	@Override

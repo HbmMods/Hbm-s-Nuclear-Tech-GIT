@@ -45,7 +45,7 @@ public class ItemPoolsPile {
 					weighted(ModItems.grenade_if_generic, 0, 1, 2, 5),
 					weighted(ModItems.ammo_standard, EnumAmmo.G12.ordinal(), 4, 4, 10),
 					weighted(ModItems.ammo_standard, EnumAmmo.M357_SP.ordinal(), 6, 12, 10),
-					weighted(ModItems.ammo_grenade, 0, 1, 1, 2),
+					weighted(ModItems.ammo_standard, EnumAmmo.G40_HE.ordinal(), 1, 1, 2),
 					//Consumables
 					weighted(ModItems.bottle_nuka, 0, 1, 2, 20),
 					weighted(ModItems.bottle_quantum, 0, 1, 2, 1),

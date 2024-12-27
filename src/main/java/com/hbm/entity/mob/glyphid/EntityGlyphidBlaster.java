@@ -1,5 +1,6 @@
 package com.hbm.entity.mob.glyphid;
 
+import com.hbm.entity.mob.glyphid.GlyphidStats.StatBundle;
 import com.hbm.main.ResourceManager;
 
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -30,9 +31,10 @@ public class EntityGlyphidBlaster extends EntityGlyphidBombardier {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getBlaster().speed);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBlaster().damage);
 	}
-
-	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBlaster().divisor; }
-	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBlaster().damageThreshold; }
+	
+	public StatBundle getStats() {
+		return GlyphidStats.getStats().statsBlaster;
+	}
 
 	@Override
 	public boolean isArmorBroken(float amount) {

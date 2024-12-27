@@ -28,9 +28,15 @@ public class EntityProcessorCross implements IEntityProcessor {
 	protected double nodeDist = 2D;
 	protected IEntityRangeMutator range;
 	protected ICustomDamageHandler damage;
+	protected boolean allowSelfDamage = false;
 	
 	public EntityProcessorCross(double nodeDist) {
 		this.nodeDist = nodeDist;
+	}
+	
+	public EntityProcessorCross setAllowSelfDamage() {
+		this.allowSelfDamage = true;
+		return this;
 	}
 
 	@Override
@@ -51,7 +57,7 @@ public class EntityProcessorCross implements IEntityProcessor {
 		double minZ = z - (double) size - 1.0D;
 		double maxZ = z + (double) size + 1.0D;
 		
-		List list = world.getEntitiesWithinAABBExcludingEntity(explosion.exploder, AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ));
+		List list = world.getEntitiesWithinAABBExcludingEntity(allowSelfDamage ? null : explosion.exploder, AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ));
 		
 		ForgeEventFactory.onExplosionDetonate(world, explosion.compat, list, size);
 		

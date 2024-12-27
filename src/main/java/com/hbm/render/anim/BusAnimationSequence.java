@@ -26,6 +26,9 @@ public class BusAnimationSequence {
 
 	public double[] offset = new double[3];
 
+	// swizzle me timbers
+	public double[] rotMode = new double[] { 0, 1, 2 };
+
 
 	public BusAnimationSequence() {
 		// Initialise our keyframe storage, since it's multidimensional
@@ -68,7 +71,7 @@ public class BusAnimationSequence {
 	
 	//all transformation data is absolute, additive transformations have not yet been implemented
 	public double[] getTransformation(int millis) {
-		double[] transform = new double[12];
+		double[] transform = new double[15];
 
 		for(int i = 0; i < 9; i++) {
 			List<BusAnimationKeyframe> keyframes = transformKeyframes.get(i);
@@ -108,6 +111,10 @@ public class BusAnimationSequence {
 		transform[9] = offset[0];
 		transform[10] = offset[1];
 		transform[11] = offset[2];
+
+		transform[12] = rotMode[0];
+		transform[13] = rotMode[1];
+		transform[14] = rotMode[2];
 
 		return transform;
 	}

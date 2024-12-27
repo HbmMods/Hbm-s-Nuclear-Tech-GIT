@@ -6,6 +6,7 @@ import org.lwjgl.opengl.GL12;
 import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ArmorTrenchmaster;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.main.ResourceManager;
 import com.hbm.util.Tuple.Quartet;
 
@@ -38,7 +39,7 @@ public class RenderLoot extends TileEntitySpecialRenderer {
 			GL11.glPushMatrix();
 			GL11.glTranslated(item.getX(), item.getY(), item.getZ());
 			
-			if(stack.getItem() == ModItems.ammo_nuke) {
+			if(stack.getItem() == ModItems.ammo_standard && stack.getItemDamage() >= EnumAmmo.NUKE_STANDARD.ordinal() && stack.getItemDamage() <= EnumAmmo.NUKE_HIVE.ordinal()) {
 				renderNuke();
 				
 			} else if(stack.getItem() == ModItems.gun_maresleg) {

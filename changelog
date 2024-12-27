@@ -1,19 +1,15 @@
 ## Changed
-* Any bullet that can ricochet (or at least runs the code for it) can now also break glass
-* Removed three old achievements which no longer work due to the gun changes
-* AJR armor plating now uses niobium instead of saturnite, and yields twice as many items per recipe
-* Due to the gating change, the saturnite anvil now has a tier equivalent to a bronze anvil
+* Removed the old casing items
+* Reduced the flicker on the autoshotgun's holo sights
 
 ## Fixed
-* Fixed 9mm soft points being called ".9mm"
-* Fixed missing localization for the hard plastic and PVC autogen materials
-* Fixed the fat mine's crafting recipe still using the deprecated ammo item
-* Removed legacy ammo items and guns from all remaining item pools
-* Fixed the rubber grip not having a recipe
-* Fixed the coilgun and bolter not being classified correctly
-* Fixed new death messages not working
-* Fixed none of the armors having fall resistance
-* Fixed survey scanners not picking up nether depth rock
-* Fixed FMJ, AP and DU rounds not having damage threshold negation, making them worse against most armored targets compared to JHP
-* Fixed autgen items made from unsmeltable materials being smeltable in the crucible
-* Fixed 240mm shells not being visible in creative
+* Fixed the bullet casing molds being unobtainable
+* Fixed instant crash caused by smelting certain things in the crucible
+* Fixed the SPAS' alt fire having a delay of only 10 ticks instead of 20
+* Fixed 240mm nuclear shells not triggering properly if they hit their target within 3 ticks of being spawned
+* Fixed some items that are supposed to be hidden in NEI being visible
+* Fixed dual lever action shotguns having inconsistent damage
+* Fixed entities (especially players) not being affected at all by their own explosions (rockets, 40mm grenades, etc)
+  * To keep rocket jumping at least somewhat viable, self-damage from explosions is reduced by 50%, the knockback remains the same
+* Fixed missing localization for the casing molds
+* Fixed the broken CIWS turret crashing instantly

@@ -1,6 +1,7 @@
 package com.hbm.entity.mob.glyphid;
 
 
+import com.hbm.entity.mob.glyphid.GlyphidStats.StatBundle;
 import com.hbm.main.ResourceManager;
 
 
@@ -116,9 +117,11 @@ public class EntityGlyphidBrawler extends EntityGlyphid {
 		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(GlyphidStats.getStats().getBrawler().speed);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(GlyphidStats.getStats().getBrawler().damage);
 	}
-
-	@Override public float getDivisorPerArmorPoint() { return GlyphidStats.getStats().getBrawler().divisor; }
-	@Override public float getDamageThreshold() { return GlyphidStats.getStats().getBrawler().damageThreshold; }
+	
+	public StatBundle getStats() {
+		return GlyphidStats.getStats().statsBrawler;
+	}
+	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 

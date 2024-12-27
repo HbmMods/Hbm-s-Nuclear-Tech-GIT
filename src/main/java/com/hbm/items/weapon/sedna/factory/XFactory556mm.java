@@ -43,7 +43,7 @@ public class XFactory556mm {
 				.setCasing(casing556.clone().register("r556"));
 		r556_fmj = new BulletConfig().setItem(EnumAmmo.R556_FMJ).setDamage(0.8F).setThresholdNegation(4F).setArmorPiercing(0.1F)
 				.setCasing(casing556.clone().register("r556fmj"));
-		r556_jhp = new BulletConfig().setItem(EnumAmmo.R556_JHP).setDamage(1.5F).setArmorPiercing(-0.25F)
+		r556_jhp = new BulletConfig().setItem(EnumAmmo.R556_JHP).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing556.clone().register("r556jhp"));
 		r556_ap = new BulletConfig().setItem(EnumAmmo.R556_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(10F).setArmorPiercing(0.15F)
 				.setCasing(casing556.clone().setColor(SpentCasing.COLOR_CASE_44).register("r556ap"));

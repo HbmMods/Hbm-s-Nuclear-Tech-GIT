@@ -20,6 +20,7 @@ public class EntityProcessorCrossSmooth extends EntityProcessorCross {
 	public EntityProcessorCrossSmooth(double nodeDist, float fixedDamage) {
 		super(nodeDist);
 		this.fixedDamage = fixedDamage;
+		this.setAllowSelfDamage();
 	}
 	
 	public EntityProcessorCrossSmooth setupPiercing(float pierceDT, float pierceDR) {
@@ -36,6 +37,7 @@ public class EntityProcessorCrossSmooth extends EntityProcessorCross {
 	@Override
 	public void attackEntity(Entity entity, ExplosionVNT source, float amount) {
 		if(!entity.isEntityAlive()) return;
+		if(source.exploder == entity) amount *= 0.5F;
 		DamageSource dmg = BulletConfig.getDamage(null, source.exploder instanceof EntityLivingBase ? (EntityLivingBase) source.exploder : null, clazz);
 		if(!(entity instanceof EntityLivingBase)) {
 			entity.attackEntityFrom(dmg, amount);

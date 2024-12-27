@@ -52,13 +52,29 @@ public class AnimationLoader {
 		// Effectively, this removes double translation AND ensures that rotations occur around the individual object origin, rather than the weapon origin
 		HashMap<String, double[]> offsets = new HashMap<String, double[]>();
 		for(Map.Entry<String, JsonElement> root : json.getAsJsonObject("offset").entrySet()) {
-			double[] offset = new double[3];
+			JsonArray array = root.getValue().getAsJsonArray();
 
+			double[] offset = new double[3];
 			for(int i = 0; i < 3; i++) {
-				offset[i] = root.getValue().getAsJsonArray().get(i).getAsDouble();
+				offset[i] = array.get(i).getAsDouble();
 			}
 
 			offsets.put(root.getKey(), offset);
+		}
+
+		// Rotation modes, swizzled into our local space. YZX in blender becomes XYZ due to:
+		//  * rotation order reversed in blender (XYZ -> ZYX)
+		//  * dimensions Y and Z are swapped in blender (ZYX -> YZX)
+		HashMap<String, double[]> rotModes = new HashMap<String, double[]>();
+		if(json.has("rotmode")) {
+			for(Map.Entry<String, JsonElement> root : json.getAsJsonObject("rotmode").entrySet()) {
+				String mode = root.getValue().getAsString();
+	
+				double[] rotMode = new double[3];
+				rotMode[0] = getRot(mode.charAt(2));
+				rotMode[1] = getRot(mode.charAt(0));
+				rotMode[2] = getRot(mode.charAt(1));
+			}
 		}
 
 
@@ -71,8 +87,10 @@ public class AnimationLoader {
 			for(Map.Entry<String, JsonElement> model : entryObject.entrySet()) {
 				String modelName = model.getKey();
 				double[] offset = new double[3];
-				if (offsets.containsKey(modelName)) offset = offsets.get(modelName);
-				animation.addBus(modelName, loadSequence(model.getValue().getAsJsonObject(), offset));
+				double[] rotMode = new double[] { 0, 1, 2 };
+				if(offsets.containsKey(modelName)) offset = offsets.get(modelName);
+				if(rotModes.containsKey(modelName)) rotMode = rotModes.get(modelName);
+				animation.addBus(modelName, loadSequence(model.getValue().getAsJsonObject(), offset, rotMode));
 			}
 
 			animations.put(root.getKey(), animation);
@@ -81,7 +99,16 @@ public class AnimationLoader {
 		return animations;
 	}
 
-	private static BusAnimationSequence loadSequence(JsonObject json, double[] offset) {
+	private static double getRot(char value) {
+		switch(value) {
+			case 'X': return 0;
+			case 'Y': return 1;
+			case 'Z': return 2;
+			default: return 0;
+		}
+	}
+
+	private static BusAnimationSequence loadSequence(JsonObject json, double[] offset, double[] rotMode) {
 		BusAnimationSequence sequence = new BusAnimationSequence();
 
 		// Location fcurves
@@ -130,6 +157,7 @@ public class AnimationLoader {
 		}
 
 		sequence.offset = offset;
+		sequence.rotMode = rotMode;
 
 		return sequence;
 	}

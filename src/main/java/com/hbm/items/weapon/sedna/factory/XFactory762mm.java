@@ -43,7 +43,7 @@ public class XFactory762mm {
 				.setCasing(casing762.clone().register("r762"));
 		r762_fmj = new BulletConfig().setItem(EnumAmmo.R762_FMJ).setDamage(0.8F).setThresholdNegation(5F).setArmorPiercing(0.1F)
 				.setCasing(casing762.clone().register("r762fmj"));
-		r762_jhp = new BulletConfig().setItem(EnumAmmo.R762_JHP).setDamage(1.5F).setArmorPiercing(-0.25F)
+		r762_jhp = new BulletConfig().setItem(EnumAmmo.R762_JHP).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F)
 				.setCasing(casing762.clone().register("r762jhp"));
 		r762_ap = new BulletConfig().setItem(EnumAmmo.R762_AP).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F).setThresholdNegation(12.5F).setArmorPiercing(0.15F)
 				.setCasing(casing762.clone().setColor(SpentCasing.COLOR_CASE_44).register("r762ap"));
@@ -68,7 +68,7 @@ public class XFactory762mm {
 		ModItems.gun_minigun = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(50_000).draw(20).inspect(20).crosshair(Crosshair.L_CIRCLE).smoke(LAMBDA_SMOKE)
 				.rec(new Receiver(0)
-						.dmg(6F).delay(1).auto(true).dry(15).spread(0.01F).sound("hbm:weapon.fire.blackPowder", 1.0F, 1.0F)
+						.dmg(6F).delay(1).auto(true).dry(15).spread(0.01F).sound("hbm:weapon.calShoot", 1.0F, 1.0F)
 						.mag(new MagazineBelt().addConfigs(r762_sp, r762_fmj, r762_jhp, r762_ap, r762_du))
 						.offset(1, -0.0625 * 2.5, -0.25D)
 						.setupStandardFire().recoil(LAMBDA_RECOIL_MINIGUN))

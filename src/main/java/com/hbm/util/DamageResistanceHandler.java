@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import com.hbm.items.ModItems;
 import com.hbm.util.Tuple.Quartet;
 
+import api.hbm.entity.IResistanceProvider;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -278,6 +279,10 @@ public class DamageResistanceHandler {
 	@SubscribeEvent
 	public void onEntityDamaged(LivingHurtEvent event) {
 		event.ammount = calculateDamage(event.entityLiving, event.source, event.ammount, currentPDT, currentPDR);
+		if(event.entityLiving instanceof IResistanceProvider) {
+			IResistanceProvider irp = (IResistanceProvider) event.entityLiving;
+			irp.onDamageDealt(event.source, event.ammount);
+		}
 	}
 	
 	public static String typeToCategory(DamageSource source) {
@@ -300,7 +305,7 @@ public class DamageResistanceHandler {
 		dt = Math.max(0F, dt - pierceDT);
 		if(dt >= amount) return 0F;
 		amount -= dt;
-		dr *= MathHelper.clamp_float(1F - pierce, 0F, 1F);
+		dr *= MathHelper.clamp_float(1F - pierce, 0F, 2F /* we allow up to -1 armor piercing, which can double effective armor values */);
 		
 		return amount *= (1F - dr);
 	}
@@ -309,6 +314,13 @@ public class DamageResistanceHandler {
 		
 		float dt = 0;
 		float dr = 0;
+		
+		if(entity instanceof IResistanceProvider) {
+			IResistanceProvider irp = (IResistanceProvider) entity;
+			float[] res = irp.getCurrentDTDR(damage, amount, pierceDT, pierce);
+			dt += res[0];
+			dr += res[1];
+		}
 		
 		/// SET HANDLING ///
 		Quartet wornSet = new Quartet(

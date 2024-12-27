@@ -17,10 +17,8 @@ import com.hbm.handler.imc.IMCBlastFurnace;
 import com.hbm.handler.imc.IMCCentrifuge;
 import com.hbm.handler.imc.IMCCrystallizer;
 import com.hbm.handler.imc.IMCHandler;
-import com.hbm.handler.neutron.NeutronHandler;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.handler.threading.PacketThreading;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.OreDictManager;
@@ -87,6 +85,7 @@ import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.EnumHelper;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -731,70 +730,70 @@ public class MainRegistry {
 		achManhattan = new Achievement("achievement.manhattan", "manhattan", 11, -4, new ItemStack(ModBlocks.nuke_boy), achPolymer).initIndependentStat().setSpecial().registerStat();
 
 		AchievementPage.registerAchievementPage(new AchievementPage("Nuclear Tech", new Achievement[] {
-				achSacrifice,
-				achImpossible,
-				achTOB,
-				achGoFish,
-				achPotato,
-				achC20_5,
-				achFiend,
-				achFiend2,
-				achStratum,
-				achOmega12,
-				bobHidden,
-				horizonsStart,
-				horizonsEnd,
-				horizonsBonus,
-				achRadPoison,
-				achRadDeath,
-				achNo9,
-				achInferno,
-				achRedRoom,
-				achSlimeball,
-				achSulfuric,
-				bossCreeper,
-				bossMeltdown,
-				bossMaskman,
-				bossWorm,
-				bossUFO,
-				achSomeWounds,
-				digammaSee,
-				digammaFeel,
-				digammaKnow,
-				digammaKauaiMoho,
-				digammaUpOnTop,
+			achSacrifice,
+			achImpossible,
+			achTOB,
+			achGoFish,
+			achPotato,
+			achC20_5,
+			achFiend,
+			achFiend2,
+			achStratum,
+			achOmega12,
+			bobHidden,
+			horizonsStart,
+			horizonsEnd,
+			horizonsBonus,
+			achRadPoison,
+			achRadDeath,
+			achNo9,
+			achInferno,
+			achRedRoom,
+			achSlimeball,
+			achSulfuric,
+			bossCreeper,
+			bossMeltdown,
+			bossMaskman,
+			bossWorm,
+			bossUFO,
+			achSomeWounds,
+			digammaSee,
+			digammaFeel,
+			digammaKnow,
+			digammaKauaiMoho,
+			digammaUpOnTop,
 
-				achBurnerPress,
-				achBlastFurnace,
-				achAssembly,
-				achSelenium,
-				achChemplant,
-				achConcrete,
-				achPolymer,
-				achDesh,
-				achTantalum,
-				achGasCent,
-				achCentrifuge,
-				achFOEQ,
-				achSoyuz,
-				achSpace,
-				achSchrab,
-				achAcidizer,
-				achRadium,
-				achTechnetium,
-				achZIRNOXBoom,
-				achChicagoPile,
-				achSILEX,
-				achWatz,
-				achWatzBoom,
-				achRBMK,
-				achRBMKBoom,
-				achBismuth,
-				achBreeding,
-				achFusion,
-				achMeltdown,
-				achRedBalloons,
-				achManhattan
+			achBurnerPress,
+			achBlastFurnace,
+			achAssembly,
+			achSelenium,
+			achChemplant,
+			achConcrete,
+			achPolymer,
+			achDesh,
+			achTantalum,
+			achGasCent,
+			achCentrifuge,
+			achFOEQ,
+			achSoyuz,
+			achSpace,
+			achSchrab,
+			achAcidizer,
+			achRadium,
+			achTechnetium,
+			achZIRNOXBoom,
+			achChicagoPile,
+			achSILEX,
+			achWatz,
+			achWatzBoom,
+			achRBMK,
+			achRBMKBoom,
+			achBismuth,
+			achBreeding,
+			achFusion,
+			achMeltdown,
+			achRedBalloons,
+			achManhattan
 		}));
 
 		// MUST be initialized AFTER achievements!!
@@ -905,10 +904,6 @@ public class MainRegistry {
 
 		PacketDispatcher.registerPackets();
 
-		NeutronHandler neutronHandler = new NeutronHandler();
-		MinecraftForge.EVENT_BUS.register(neutronHandler);
-		FMLCommonHandler.instance().bus().register(neutronHandler);
-
 		ChunkRadiationManager radiationSystem = new ChunkRadiationManager();
 		MinecraftForge.EVENT_BUS.register(radiationSystem);
 		FMLCommonHandler.instance().bus().register(radiationSystem);
@@ -936,7 +931,6 @@ public class MainRegistry {
 		event.registerServerCommand(new CommandDebugChunkLoad());
 		event.registerServerCommand(new CommandSatellites());
 		event.registerServerCommand(new CommandRadiation());
-		event.registerServerCommand(new CommandPacketInfo());
 	}
 
 	@EventHandler
@@ -967,17 +961,15 @@ public class MainRegistry {
 
 		config.save();
 
-		PacketThreading.init();
-
 		try {
 			if(GeneralConfig.enableThermosPreventer && Class.forName("thermos.ThermosClassTransformer") != null) {
 				throw new IllegalStateException("The mod tried to start on a Thermos or its fork server and therefore stopped. To allow the server to start on Thermos, change the appropriate "
-						+ "config entry (0.00 in hbm.cfg). This was done because, by default, Thermos "
-						+ "uses a so-called \"optimization\" feature that reduces tile ticking a lot, which will inevitably break a lot of machines. Most people aren't even aware "
-						+ "of this, and start blaming random mods for all their stuff breaking. In order to adjust or even disable this feature, edit \"tileentities.yml\" in your "
-						+ "Thermos install folder. If you believe that crashing the server until a config option is changed is annoying, then I would agree, but it's still preferable "
-						+ "over wasting hours trying to fix an issue that is really just an \"intended feature\" added by Thermos itself, and not a bug in the mod. You'll have to "
-						+ "change Thermos' config anyway so that extra change in NTM's config can't be that big of a burden.");
+					+ "config entry (0.00 in hbm.cfg). This was done because, by default, Thermos "
+					+ "uses a so-called \"optimization\" feature that reduces tile ticking a lot, which will inevitably break a lot of machines. Most people aren't even aware "
+					+ "of this, and start blaming random mods for all their stuff breaking. In order to adjust or even disable this feature, edit \"tileentities.yml\" in your "
+					+ "Thermos install folder. If you believe that crashing the server until a config option is changed is annoying, then I would agree, but it's still preferable "
+					+ "over wasting hours trying to fix an issue that is really just an \"intended feature\" added by Thermos itself, and not a bug in the mod. You'll have to "
+					+ "change Thermos' config anyway so that extra change in NTM's config can't be that big of a burden.");
 			}
 		} catch(ClassNotFoundException e) { }
 	}
@@ -1497,10 +1489,136 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.clip_euthanasia");
 		ignoreMappings.add("hbm:item.clip_defabricator");
 		ignoreMappings.add("hbm:item.ammo_folly_du");
-		ignoreMappings.add("hbm:tile.statue_elb");
-		ignoreMappings.add("hbm:tile.statue_elb_g");
-		ignoreMappings.add("hbm:tile.statue_elb_w");
+		ignoreMappings.add("hbm:tile.#null");
+		ignoreMappings.add("hbm:tile.#void");
+		ignoreMappings.add("hbm:tile.#ngtv");
+		ignoreMappings.add("hbm:item.gun_rpg");
+		ignoreMappings.add("hbm:item.gun_karl");
+		ignoreMappings.add("hbm:item.gun_hk69");
+		ignoreMappings.add("hbm:item.gun_skystinger");
+		ignoreMappings.add("hbm:item.gun_revolver");
+		ignoreMappings.add("hbm:item.gun_revolver_saturnite");
+		ignoreMappings.add("hbm:item.gun_revolver_gold");
+		ignoreMappings.add("hbm:item.gun_revolver_schrabidium");
+		ignoreMappings.add("hbm:item.gun_revolver_cursed");
+		ignoreMappings.add("hbm:item.gun_revolver_nightmare");
+		ignoreMappings.add("hbm:item.gun_revolver_nightmare2");
+		ignoreMappings.add("hbm:item.gun_revolver_pip");
+		ignoreMappings.add("hbm:item.gun_revolver_nopip");
+		ignoreMappings.add("hbm:item.gun_revolver_blackjack");
+		ignoreMappings.add("hbm:item.gun_revolver_silver");
+		ignoreMappings.add("hbm:item.gun_revolver_red");
+		ignoreMappings.add("hbm:item.gun_bio_revolver");
+		ignoreMappings.add("hbm:item.gun_deagle");
+		ignoreMappings.add("hbm:item.gun_flechette");
+		ignoreMappings.add("hbm:item.gun_ar15");
+		ignoreMappings.add("hbm:item.gun_calamity");
+		ignoreMappings.add("hbm:item.gun_lacunae");
+		ignoreMappings.add("hbm:item.gun_proto");
+		ignoreMappings.add("hbm:item.gun_mirv");
+		ignoreMappings.add("hbm:item.gun_bf");
+		ignoreMappings.add("hbm:item.gun_mp40");
+		ignoreMappings.add("hbm:item.gun_thompson");
+		ignoreMappings.add("hbm:item.gun_uzi_silencer");
+		ignoreMappings.add("hbm:item.gun_uzi_saturnite");
+		ignoreMappings.add("hbm:item.gun_uzi_saturnite_silencer");
+		ignoreMappings.add("hbm:item.gun_uboinik");
+		ignoreMappings.add("hbm:item.gun_remington");
+		ignoreMappings.add("hbm:item.gun_supershotgun");
+		ignoreMappings.add("hbm:item.gun_benelli");
+		ignoreMappings.add("hbm:item.gun_ks23");
+		ignoreMappings.add("hbm:item.gun_sauer");
+		ignoreMappings.add("hbm:item.gun_lever_action");
+		ignoreMappings.add("hbm:item.gun_lever_action_dark");
+		ignoreMappings.add("hbm:item.gun_lever_action_sonata");
+		ignoreMappings.add("hbm:item.gun_bolt_action");
+		ignoreMappings.add("hbm:item.gun_bolt_action_green");
+		ignoreMappings.add("hbm:item.gun_bolt_action_saturnite");
+		ignoreMappings.add("hbm:item.gun_mymy");
+		ignoreMappings.add("hbm:item.gun_b93");
+		ignoreMappings.add("hbm:item.gun_xvl1456");
+		ignoreMappings.add("hbm:item.gun_xvl1456_ammo");
+		ignoreMappings.add("hbm:item.gun_osipr");
+		ignoreMappings.add("hbm:item.gun_osipr_ammo");
+		ignoreMappings.add("hbm:item.gun_osipr_ammo2");
+		ignoreMappings.add("hbm:item.gun_immolator");
+		ignoreMappings.add("hbm:item.gun_immolator_ammo");
+		ignoreMappings.add("hbm:item.gun_cryolator");
+		ignoreMappings.add("hbm:item.gun_mp");
+		ignoreMappings.add("hbm:item.gun_bolter_digamma");
+		ignoreMappings.add("hbm:item.gun_zomg");
+		ignoreMappings.add("hbm:item.gun_super_shotgun");
+		ignoreMappings.add("hbm:item.gun_moist_nugget");
+		ignoreMappings.add("hbm:item.gun_revolver_inverted");
+		ignoreMappings.add("hbm:item.gun_emp");
+		ignoreMappings.add("hbm:item.gun_emp_ammo");
+		ignoreMappings.add("hbm:item.gun_jack");
+		ignoreMappings.add("hbm:item.gun_jack_ammo");
+		ignoreMappings.add("hbm:item.gun_spark");
+		ignoreMappings.add("hbm:item.gun_spark_ammo");
+		ignoreMappings.add("hbm:item.gun_hp");
+		ignoreMappings.add("hbm:item.gun_hp_ammo");
+		ignoreMappings.add("hbm:item.gun_euthanasia");
+		ignoreMappings.add("hbm:item.gun_euthanasia_ammo");
+		ignoreMappings.add("hbm:item.gun_defabricator");
+		ignoreMappings.add("hbm:item.gun_defabricator_ammo");
+		ignoreMappings.add("hbm:item.gun_vortex");
+		ignoreMappings.add("hbm:item.gun_waluigi");
+		ignoreMappings.add("hbm:item.gun_darter");
+		ignoreMappings.add("hbm:item.gun_glass_cannon");
+		ignoreMappings.add("hbm:item.gun_lunatic_marksman");
+		ignoreMappings.add("hbm:item.gun_uac_pistol");
+		ignoreMappings.add("hbm:item.ammo_misc");
+		ignoreMappings.add("hbm:item.ammo_12gauge");
+		ignoreMappings.add("hbm:item.ammo_20gauge");
+		ignoreMappings.add("hbm:item.ammo_4gauge");
+		ignoreMappings.add("hbm:item.ammo_357");
+		ignoreMappings.add("hbm:item.ammo_44");
+		ignoreMappings.add("hbm:item.ammo_5mm");
+		ignoreMappings.add("hbm:item.ammo_9mm");
+		ignoreMappings.add("hbm:item.ammo_45");
+		ignoreMappings.add("hbm:item.ammo_556");
+		ignoreMappings.add("hbm:item.ammo_762");
+		ignoreMappings.add("hbm:item.ammo_22lr");
+		ignoreMappings.add("hbm:item.ammo_50ae");
+		ignoreMappings.add("hbm:item.ammo_50bmg");
+		ignoreMappings.add("hbm:item.ammo_75bolt");
+		ignoreMappings.add("hbm:item.ammo_rocket");
+		ignoreMappings.add("hbm:item.ammo_grenade");
+		ignoreMappings.add("hbm:item.ammo_shell");
+		ignoreMappings.add("hbm:item.ammo_nuke");
+		ignoreMappings.add("hbm:item.ammo_fuel");
+		ignoreMappings.add("hbm:item.ammo_fireext");
+		ignoreMappings.add("hbm:item.ammo_dart");
+		ignoreMappings.add("hbm:item.ammo_stinger_rocket");
+		ignoreMappings.add("hbm:item.ammo_luna_sniper");
+		ignoreMappings.add("hbm:item.ammo_coilgun");
+		ignoreMappings.add("hbm:item.ammo_cell");
+		ignoreMappings.add("hbm:item.b_smoke1");
+		ignoreMappings.add("hbm:item.b_smoke2");
+		ignoreMappings.add("hbm:item.b_smoke3");
+		ignoreMappings.add("hbm:item.b_smoke4");
+		ignoreMappings.add("hbm:item.b_smoke5");
+		ignoreMappings.add("hbm:item.b_smoke6");
+		ignoreMappings.add("hbm:item.b_smoke7");
+		ignoreMappings.add("hbm:item.b_smoke8");
+		ignoreMappings.add("hbm:item.ln2_1");
+		ignoreMappings.add("hbm:item.ln2_2");
+		ignoreMappings.add("hbm:item.ln2_3");
+		ignoreMappings.add("hbm:item.ln2_4");
+		ignoreMappings.add("hbm:item.ln2_5");
+		ignoreMappings.add("hbm:item.ln2_6");
+		ignoreMappings.add("hbm:item.ln2_7");
+		ignoreMappings.add("hbm:item.ln2_8");
+		ignoreMappings.add("hbm:item.ln2_9");
+		ignoreMappings.add("hbm:item.ln2_10");
+		ignoreMappings.add("hbm:item.casing_357");
+		ignoreMappings.add("hbm:item.casing_44");
+		ignoreMappings.add("hbm:item.casing_9");
+		ignoreMappings.add("hbm:item.casing_50");
+		ignoreMappings.add("hbm:item.casing_buckshot");
 
+		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);
 		remapItems.put("hbm:item.man_explosive8", ModItems.explosive_lenses);
 		remapItems.put("hbm:item.briquette_lignite", ModItems.briquette);

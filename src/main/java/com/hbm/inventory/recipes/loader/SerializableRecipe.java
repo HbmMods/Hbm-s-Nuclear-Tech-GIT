@@ -75,6 +75,7 @@ public abstract class SerializableRecipe {
 		recipeHandlers.add(new ExposureChamberRecipes());
 		recipeHandlers.add(new AmmoPressRecipes());
 		recipeHandlers.add(new AssemblerRecipes());
+		recipeHandlers.add(new PedestalRecipes());
 		
 		recipeHandlers.add(new MatDistribution());
 		recipeHandlers.add(new CustomMachineRecipes());

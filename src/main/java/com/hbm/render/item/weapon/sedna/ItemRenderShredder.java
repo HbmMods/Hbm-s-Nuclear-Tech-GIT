@@ -89,7 +89,7 @@ public class ItemRenderShredder extends ItemRenderWeaponBase {
 			GL11.glScalef(f3, -f3, f3);
 			GL11.glRotated(180D, 0, 1, 0);
 			GL11.glNormal3f(0.0F, 0.0F, -1.0F * f3);
-			float variance = 0.7F + player.getRNG().nextFloat() * 0.3F;
+			float variance = 0.9F + player.getRNG().nextFloat() * 0.1F;
 			font.drawString(label, 0, 0, new Color(sexy ? variance : 0F, sexy ? 0F : variance, 0F).getRGB());
 			GL11.glColor3f(1F, 1F, 1F);
 

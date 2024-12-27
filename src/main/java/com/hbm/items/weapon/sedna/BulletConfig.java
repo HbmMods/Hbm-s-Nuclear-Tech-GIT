@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import com.hbm.blocks.bomb.BlockDetonatable;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
 import com.hbm.interfaces.NotableComments;
@@ -17,6 +18,7 @@ import com.hbm.particle.SpentCasing;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.TrackerUtil;
+
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 
 import net.minecraft.block.Block;
@@ -52,7 +54,7 @@ public class BulletConfig implements Cloneable {
 	public float armorThresholdNegation = 0.0F;
 	public float armorPiercingPercent = 0.0F;
 	public float knockbackMult = 0.1F;
-	public float headshotMult = 1.0F;
+	public float headshotMult = 1.25F;
 	
 	public DamageClass dmgClass = DamageClass.PHYSICAL;
 	
@@ -169,6 +171,9 @@ public class BulletConfig implements Cloneable {
 				bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
 				return;
 			}
+			if(b instanceof BlockDetonatable) {
+				((BlockDetonatable) b).onShot(bullet.worldObj, mop.blockX, mop.blockY, mop.blockZ);
+			}
 
 			ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
 			Vec3 face = Vec3.createVectorHelper(dir.offsetX, dir.offsetY, dir.offsetZ);
@@ -211,16 +216,25 @@ public class BulletConfig implements Cloneable {
 			if(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0) return;
 			
 			DamageSource source = bullet.config.getDamage(bullet, bullet.getThrower(), bullet.config.dmgClass);
+			float intendedDamage = bullet.damage;
 			
 			if(!(entity instanceof EntityLivingBase)) {
 				EntityDamageUtil.attackEntityFromIgnoreIFrame(entity, source, bullet.damage);
 				return;
+			} else if(bullet.config.headshotMult > 1F) {
+				
+				EntityLivingBase living = (EntityLivingBase) entity;
+				double head = living.height - living.getEyeHeight();
+				
+				if(!!living.isEntityAlive() && mop.hitVec != null && mop.hitVec.yCoord > (living.posY + living.height - head * 2)) {
+					intendedDamage *= bullet.config.headshotMult;
+				}
 			}
 			
 			EntityLivingBase living = (EntityLivingBase) entity;
 			float prevHealth = living.getHealth();
 			
-			EntityDamageUtil.attackEntityFromNT(living, source, bullet.damage, true, true, bullet.config.knockbackMult, bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent);
+			EntityDamageUtil.attackEntityFromNT(living, source, intendedDamage, true, true, bullet.config.knockbackMult, bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent);
 			
 			float newHealth = living.getHealth();
 			
