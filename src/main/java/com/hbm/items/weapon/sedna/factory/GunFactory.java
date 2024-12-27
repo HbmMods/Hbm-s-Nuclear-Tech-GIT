@@ -63,6 +63,7 @@ public class GunFactory {
 		XFactory75Bolt.init();
 		XFactoryFolly.init();
 		XFactoryTurret.init();
+		XFactory10ga.init();
 
 		/// PROXY BULLSHIT ///
 		MainRegistry.proxy.registerGunCfg();
@@ -86,7 +87,8 @@ public class GunFactory {
 		CAPACITOR, CAPACITOR_OVERCHARGE, CAPACITOR_IR,
 		TAU_URANIUM,
 		COIL_TUNGSTEN, COIL_FERROURANIUM,
-		NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE
+		NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE,
+		G10, G10_SHRAPNEL, G10_DU
 	}
 	
 	public static enum EnumAmmoSecret {

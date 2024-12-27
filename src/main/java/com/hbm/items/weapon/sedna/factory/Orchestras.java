@@ -1248,4 +1248,33 @@ public class Orchestras {
 			if(timer == 120) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.screw", 1F, 1F);
 		}
 	};
+	
+	public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_DOUBLE_BARREL = (stack, ctx) -> {
+		EntityLivingBase entity = ctx.entity;
+		if(entity.worldObj.isRemote) return;
+		AnimType type = ItemGunBaseNT.getLastAnim(stack, ctx.configIndex);
+		int timer = ItemGunBaseNT.getAnimTimer(stack, ctx.configIndex);
+		
+		if(type == AnimType.RELOAD) {
+			if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverCock", 1F, 0.75F);
+			if(timer == 19) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.magSmallInsert", 1F, 0.9F);
+			if(timer == 29) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.8F);
+			
+			if(timer == 12) {
+				IMagazine mag = ctx.config.getReceivers(stack)[0].getMagazine(stack);
+				int toEject = mag.getAmountAfterReload(stack) - mag.getAmount(stack, ctx.inventory);
+				SpentCasing casing = mag.getCasing(stack, ctx.inventory);
+				if(casing != null) for(int i = 0; i < toEject; i++) CasingCreator.composeEffect(entity.worldObj, entity, 0, -0.1875, -0.375D, -0.12, 0.18, 0, 0.01, casing.getName(), true, 60, 0.5D, 20);
+			}
+		}
+		
+		if(type == AnimType.INSPECT) {
+			if(timer == 5) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverCock", 1F, 0.75F);
+			if(timer == 19) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.revolverClose", 1F, 0.8F);
+		}
+		
+		if(type == AnimType.CYCLE_DRY) {
+			if(timer == 2) entity.worldObj.playSoundAtEntity(entity, "hbm:weapon.reload.dryFireClick", 1F, 1F);
+		}
+	};
 }

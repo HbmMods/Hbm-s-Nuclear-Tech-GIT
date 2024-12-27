@@ -132,8 +132,27 @@ public class GunStateDecider {
 				}
 			//if not, go idle
 			} else {
-				ItemGunBaseNT.setState(stack, gunIndex, GunState.IDLE);
-				ItemGunBaseNT.setTimer(stack, gunIndex, 0);
+				
+				//reload on empty, only for non-refiring guns
+				if(rec.getReloadOnEmpty(stack) && rec.getMagazine(stack).getAmount(stack, ctx.inventory) <= 0) {
+					ItemGunBaseNT.setIsAiming(stack, false);
+					IMagazine mag = rec.getMagazine(stack);
+
+					if(mag.canReload(stack, ctx.inventory)) {
+						int loaded = mag.getAmount(stack, ctx.inventory);
+						mag.setAmountBeforeReload(stack, loaded);
+						ItemGunBaseNT.setState(stack, ctx.configIndex, GunState.RELOADING);
+						ItemGunBaseNT.setTimer(stack, ctx.configIndex, rec.getReloadBeginDuration(stack) + (loaded <= 0 ? rec.getReloadCockOnEmptyPre(stack) : 0));
+						ItemGunBaseNT.playAnimation(player, stack, AnimType.RELOAD, ctx.configIndex);
+					} else {
+						ItemGunBaseNT.setState(stack, gunIndex, GunState.IDLE);
+						ItemGunBaseNT.setTimer(stack, gunIndex, 0);
+					}
+					
+				} else {
+					ItemGunBaseNT.setState(stack, gunIndex, GunState.IDLE);
+					ItemGunBaseNT.setTimer(stack, gunIndex, 0);
+				}
 			}
 		}
 	}
