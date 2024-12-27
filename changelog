@@ -1,3 +1,9 @@
+## Added
+* Double barrel shotgun
+  * Special weapon, spawns as part of certain loot pools
+  * Uses the new 10 gauge caliber
+  * Will reload after each shot, however it is not belt-fed, if ammo is depleted, the next reload must be triggered manually
+
 ## Changed
 * Removed the old casing items
 * Reduced the flicker on the autoshotgun's holo sights
@@ -13,3 +19,7 @@
   * To keep rocket jumping at least somewhat viable, self-damage from explosions is reduced by 50%, the knockback remains the same
 * Fixed missing localization for the casing molds
 * Fixed the broken CIWS turret crashing instantly
+* Added safeguards to prevent any unnamed casing config from crashing
+* Fixed one of the break action revolver's faces having incorrect normals, making it invisible
+* Fixed the fluid trait config not loading correctly
+  * Fluids are now subject to the /ntmreload command

@@ -33,7 +33,7 @@ public class SpentCasing implements Cloneable {
 		}
 	}
 
-	private String registryName;
+	private String registryName = "CHANGEME";
 	private float scaleX = 1F;
 	private float scaleY = 1F;
 	private float scaleZ = 1F;
