@@ -1612,6 +1612,11 @@ public class MainRegistry {
 		ignoreMappings.add("hbm:item.ln2_8");
 		ignoreMappings.add("hbm:item.ln2_9");
 		ignoreMappings.add("hbm:item.ln2_10");
+		ignoreMappings.add("hbm:item.casing_357");
+		ignoreMappings.add("hbm:item.casing_44");
+		ignoreMappings.add("hbm:item.casing_9");
+		ignoreMappings.add("hbm:item.casing_50");
+		ignoreMappings.add("hbm:item.casing_buckshot");
 		
 		/// REMAP ///
 		remapItems.put("hbm:item.gadget_explosive8", ModItems.early_explosive_lenses);

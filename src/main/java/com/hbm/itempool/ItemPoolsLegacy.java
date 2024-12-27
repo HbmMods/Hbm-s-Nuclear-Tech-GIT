@@ -2,6 +2,7 @@ package com.hbm.itempool;
 
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.Mats;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
@@ -48,8 +49,8 @@ public class ItemPoolsLegacy {
 					weighted(ModItems.ammo_standard, EnumAmmo.G26_FLARE_SUPPLY.ordinal(), 1, 1, 1),
 					weighted(ModItems.gun_kit_1, 0, 1, 3, 4),
 					weighted(ModItems.gun_maresleg, 0, 1, 1, 1),
-					weighted(ModItems.casing_9, 0, 4, 10, 3),
-					weighted(ModItems.casing_50, 0, 4, 10, 3),
+					weighted(ModItems.casing, EnumCasingType.SMALL.ordinal(), 4, 10, 3),
+					weighted(ModItems.casing, EnumCasingType.SHOTSHELL.ordinal(), 4, 10, 3),
 					weighted(ModItems.cordite, 0, 4, 6, 5),
 					weighted(ModItems.battery_generic, 0, 1, 1, 4),
 					weighted(ModItems.battery_advanced, 0, 1, 1, 2),

@@ -200,7 +200,7 @@ public class XFactory12ga {
 				}
 				if(rec.getFireSound(stack) != null) entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack) * (timeFired > 1 ? 0.9F : 1F));
 				ItemGunBaseNT.setState(stack, index, GunState.COOLDOWN);
-				ItemGunBaseNT.setTimer(stack, index, 10);
+				ItemGunBaseNT.setTimer(stack, index, 20);
 			} else {
 				if(rec.getDoesDryFire(stack)) {
 					ItemGunBaseNT.playAnimation(player, stack, AnimType.CYCLE_DRY, index);

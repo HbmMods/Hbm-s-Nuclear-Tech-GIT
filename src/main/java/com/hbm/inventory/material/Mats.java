@@ -207,9 +207,8 @@ public class Mats {
 					if(name.startsWith(prefix)) {
 						String materialName = name.substring(prefix.length());
 						NTMMaterial material = matByName.get(materialName);
-						NTMMaterial convert = material.smeltsInto; //hack
 						
-						if(material != null && (convert.smeltable == SmeltingBehavior.SMELTABLE || convert.smeltable == SmeltingBehavior.ADDITIVE)) {
+						if(material != null && (material.smeltsInto.smeltable == SmeltingBehavior.SMELTABLE || material.smeltsInto.smeltable == SmeltingBehavior.ADDITIVE)) {
 							list.add(new MaterialStack(material, prefixEntry.getValue().q(1)));
 							break outer;
 						}
