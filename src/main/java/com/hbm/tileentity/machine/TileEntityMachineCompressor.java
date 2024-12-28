@@ -1,7 +1,10 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IControlReceiver;
@@ -15,10 +18,7 @@ import com.hbm.inventory.recipes.CompressorRecipes.CompressorRecipe;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.tileentity.IFluidCopiable;
-import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.IUpgradeInfoProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.*;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 import com.hbm.util.Tuple.Pair;
@@ -37,23 +37,44 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCompressor extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, IEnergyReceiverMK2, IFluidStandardTransceiver, IUpgradeInfoProvider, IFluidCopiable {
-	
+public class TileEntityMachineCompressor extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, IEnergyReceiverMK2, IFluidStandardTransceiver, IUpgradeInfoProvider, IFluidCopiable, IConfigurableMachine {
+
 	public FluidTank[] tanks;
 	public long power;
-	public static final long maxPower = 100_000;
 	public boolean isOn;
 	public int progress;
 	public int processTime = 100;
-	public static final int processTimeBase = 100;
 	public int powerRequirement;
-	public static final int powerRequirementBase = 2_500;
-	
+
 	public float fanSpin;
 	public float prevFanSpin;
 	public float piston;
 	public float prevPiston;
 	public boolean pistonDir;
+
+	// configurable values
+	public static long maxPower = 100_000;
+	public static int processTimeBase = 100;
+	public static int powerRequirementBase = 2_500;
+
+	@Override
+	public String getConfigName() {
+		return "compressor";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		maxPower = IConfigurableMachine.grab(obj, "L:maxPower", maxPower);
+		processTimeBase = IConfigurableMachine.grab(obj, "I:processTime", processTimeBase);
+		powerRequirementBase = IConfigurableMachine.grab(obj, "I:powerRequirement", powerRequirementBase);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("L:maxPower").value(maxPower);
+		writer.name("I:processTime").value(processTimeBase);
+		writer.name("I:powerRequirement").value(powerRequirementBase);
+	}
 
 	public TileEntityMachineCompressor() {
 		super(4);
@@ -69,23 +90,23 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			if(worldObj.getTotalWorldTime() % 20 == 0) {
 				this.updateConnections();
 			}
-			
+
 			this.power = Library.chargeTEFromItems(slots, 1, power, maxPower);
 			this.tanks[0].setType(0, slots);
 			this.setupTanks();
-			
+
 			UpgradeManager.eval(slots, 1, 3);
 
 			int speedLevel = Math.min(UpgradeManager.getLevel(UpgradeType.SPEED), 3);
 			int powerLevel = Math.min(UpgradeManager.getLevel(UpgradeType.POWER), 3);
 			int overLevel = UpgradeManager.getLevel(UpgradeType.OVERDRIVE);
-			
+
 			CompressorRecipe rec = CompressorRecipes.recipes.get(new Pair(tanks[0].getTankType(), tanks[0].getPressure()));
 			int timeBase = this.processTimeBase;
 			if(rec != null) timeBase = rec.duration;
@@ -97,29 +118,29 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 			this.powerRequirement = this.powerRequirementBase / (powerLevel + 1);
 			this.processTime = this.processTime / (overLevel + 1);
 			this.powerRequirement = this.powerRequirement * ((overLevel * 2) + 1);
-			
+
 			if(processTime <= 0) processTime = 1;
-			
+
 			if(canProcess()) {
 				this.progress++;
 				this.isOn = true;
 				this.power -= powerRequirement;
-				
+
 				if(progress >= this.processTime) {
 					progress = 0;
 					this.process();
 					this.markChanged();
 				}
-				
+
 			} else {
 				this.progress = 0;
 				this.isOn = false;
 			}
-			
+
 			for(DirPos pos : getConPos()) {
 				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
-			
+
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("progress", progress);
 			data.setInteger("processTime", processTime);
@@ -129,20 +150,20 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 			tanks[1].writeToNBT(data, "1");
 			data.setBoolean("isOn", isOn);
 			this.networkPack(data, 100);
-			
+
 		} else {
-			
+
 			this.prevFanSpin = this.fanSpin;
 			this.prevPiston = this.piston;
-			
+
 			if(this.isOn) {
 				this.fanSpin += 15;
-				
+
 				if(this.fanSpin >= 360) {
 					this.prevFanSpin -= 360;
 					this.fanSpin -= 360;
 				}
-				
+
 				if(this.pistonDir) {
 					this.piston -= randSpeed;
 					if(this.piston <= 0) {
@@ -156,17 +177,17 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 						this.pistonDir = !this.pistonDir;
 					}
 				}
-				
+
 				this.piston = MathHelper.clamp_float(this.piston, 0F, 1F);
 			}
 		}
 	}
-	
+
 	private float randSpeed = 0.1F;
-	
+
 	public void networkUnpack(NBTTagCompound nbt) {
 		super.networkUnpack(nbt);
-		
+
 		this.progress = nbt.getInteger("progress");
 		this.processTime = nbt.getInteger("processTime");
 		this.powerRequirement = nbt.getInteger("powerRequirement");
@@ -175,42 +196,42 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 		tanks[1].readFromNBT(nbt, "1");
 		this.isOn = nbt.getBoolean("isOn");
 	}
-	
+
 	private void updateConnections() {
 		for(DirPos pos : getConPos()) {
 			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
-	
+
 	public DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-		
+
 		return new DirPos[] {
 				new DirPos(xCoord + rot.offsetX * 2, yCoord, zCoord + rot.offsetZ * 2, rot),
 				new DirPos(xCoord - rot.offsetX * 2, yCoord, zCoord - rot.offsetZ * 2, rot.getOpposite()),
 				new DirPos(xCoord - dir.offsetX * 2, yCoord, zCoord - dir.offsetZ * 2, dir.getOpposite()),
 		};
 	}
-	
+
 	public boolean canProcess() {
-		
+
 		if(this.power <= powerRequirement) return false;
-		
+
 		CompressorRecipe recipe = CompressorRecipes.recipes.get(new Pair(tanks[0].getTankType(), tanks[0].getPressure()));
-		
+
 		if(recipe == null) {
 			return tanks[0].getFill() >= 1000 && tanks[1].getFill() + 1000 <= tanks[1].getMaxFill();
 		}
-		
+
 		return tanks[0].getFill() > recipe.inputAmount && tanks[1].getFill() + recipe.output.fill <= tanks[1].getMaxFill();
 	}
-	
+
 	public void process() {
-		
+
 		CompressorRecipe recipe = CompressorRecipes.recipes.get(new Pair(tanks[0].getTankType(), tanks[0].getPressure()));
-		
+
 		if(recipe == null) {
 			tanks[0].setFill(tanks[0].getFill() - 1_000);
 			tanks[1].setFill(tanks[1].getFill() + 1_000);
@@ -219,18 +240,18 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 			tanks[1].setFill(tanks[1].getFill() + recipe.output.fill);
 		}
 	}
-	
+
 	protected void setupTanks() {
-		
+
 		CompressorRecipe recipe = CompressorRecipes.recipes.get(new Pair(tanks[0].getTankType(), tanks[0].getPressure()));
-		
+
 		if(recipe == null) {
 			tanks[1].withPressure(tanks[0].getPressure() + 1).setTankType(tanks[0].getTankType());
 		} else {
 			tanks[1].withPressure(recipe.output.pressure).setTankType(recipe.output.type);
 		}
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -239,7 +260,7 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 		tanks[0].readFromNBT(nbt, "0");
 		tanks[1].readFromNBT(nbt, "1");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -268,18 +289,18 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 	@Override
 	public void receiveControl(NBTTagCompound data) {
 		int compression = data.getInteger("compression");
-		
+
 		if(compression != tanks[0].getPressure()) {
 			tanks[0].withPressure(compression);
-			
+
 			CompressorRecipe recipe = CompressorRecipes.recipes.get(new Pair(tanks[0].getTankType(), compression));
-			
+
 			if(recipe == null) {
 				tanks[1].withPressure(compression + 1);
 			} else {
 				tanks[1].withPressure(recipe.output.pressure).setTankType(recipe.output.type);
 			}
-			
+
 			this.markChanged();
 		}
 	}
@@ -313,12 +334,12 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] {tanks[0]};
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 2,
@@ -329,10 +350,10 @@ public class TileEntityMachineCompressor extends TileEntityMachineBase implement
 					zCoord + 3
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {

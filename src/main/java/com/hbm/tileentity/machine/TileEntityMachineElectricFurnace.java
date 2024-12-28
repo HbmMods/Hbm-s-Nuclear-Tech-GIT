@@ -1,7 +1,10 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineElectricFurnace;
 import com.hbm.handler.pollution.PollutionHandler;
@@ -11,6 +14,7 @@ import com.hbm.inventory.container.ContainerElectricFurnace;
 import com.hbm.inventory.gui.GUIMachineElectricFurnace;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
@@ -31,18 +35,37 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineElectricFurnace extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider {
+public class TileEntityMachineElectricFurnace extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider, IConfigurableMachine {
 
 	// HOLY FUCKING SHIT I SPENT 5 DAYS ON THIS SHITFUCK CLASS FILE
 	// thanks Martin, vaer and Bob for the help
 	public int progress;
 	public long power;
-	public static final long maxPower = 100000;
-	public int maxProgress = 100;
-	public int consumption = 50;
+	public int maxProgress = 100; // TODO: make configurable
 	private int cooldown = 0;
 
 	private static final int[] slots_io = new int[] { 0, 1, 2 };
+
+	// configurable values
+	public static long maxPower = 100000;
+	public static int baseConsumption = 50;
+
+	@Override
+	public String getConfigName() {
+		return "electricFurnace";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		maxPower = IConfigurableMachine.grab(obj, "I:maxPower", maxPower);
+		baseConsumption = IConfigurableMachine.grab(obj, "I:consumption", baseConsumption);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:maxPower").value(maxPower);
+		writer.name("I:consumption").value(baseConsumption);
+	}
 
 	public TileEntityMachineElectricFurnace() {
 		super(4);
@@ -69,7 +92,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");
 	}
@@ -106,7 +129,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	}
 
 	public boolean hasPower() {
-		return power >= consumption;
+		return power >= baseConsumption;
 	}
 
 	public boolean isProcessing() {
@@ -114,7 +137,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	}
 
 	public boolean canProcess() {
-		
+
 		if(slots[1] == null || cooldown > 0) {
 			return false;
 		}
@@ -167,7 +190,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 		boolean markDirty = false;
 
 		if(!worldObj.isRemote) {
-			
+
 			if(cooldown > 0) {
 				cooldown--;
 			}
@@ -176,7 +199,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 			if(worldObj.getTotalWorldTime() % 40 == 0) this.updateConnections();
 
-			this.consumption = 50;
+			int consumption = baseConsumption;
 			this.maxProgress = 100;
 
 			UpgradeManager.eval(slots, 3, 3);
@@ -188,7 +211,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			consumption += speedLevel * 50;
 			maxProgress += powerLevel * 10;
 			consumption -= powerLevel * 15;
-			
+
 			if(!hasPower()) {
 				cooldown = 20;
 			}
@@ -197,7 +220,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 				progress++;
 
 				power -= consumption;
-				
+
 				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND);
 
 				if(this.progress >= maxProgress) {
@@ -219,7 +242,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 				markDirty = true;
 				MachineElectricFurnace.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
-			
+
 			this.networkPackNT(50);
 
 
@@ -228,7 +251,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			}
 		}
 	}
-	
+
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
@@ -236,7 +259,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 		buf.writeInt(maxProgress);
 		buf.writeInt(progress);
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
@@ -244,7 +267,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 		maxProgress = buf.readInt();
 		progress = buf.readInt();
 	}
-	
+
 	private void updateConnections() {
 
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
