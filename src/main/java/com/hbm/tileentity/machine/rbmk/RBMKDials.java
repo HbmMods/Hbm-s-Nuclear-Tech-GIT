@@ -5,6 +5,7 @@ import com.hbm.main.MainRegistry;
 import com.hbm.util.GameRuleHelper;
 
 import com.hbm.util.Tuple;
+import com.sun.xml.internal.ws.developer.ServerSideException;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
@@ -112,11 +113,17 @@ public class RBMKDials {
 
 	/**
 	 * Gets a gamerule from the internal cache.
+	 * This will not work if called on the client.
 	 * @param world World to get the gamerule for.
 	 * @param rule Rule to get.
 	 * @return The rule in an Object.
 	 */
 	public static Object getGameRule(World world, RBMKKeys rule) {
+		if(world.isRemote) {
+			MainRegistry.logger.error("Attempted to grab cached gamerules on client side, returning default value.");
+			MainRegistry.logger.error("Gamerule: {}, Default Value: {}.", rule.keyString, rule.defValue.toString());
+			return rule.defValue;
+		}
 		return getGameRule(world, rule, false);
 	}
 
@@ -240,6 +247,9 @@ public class RBMKDials {
 	 * @return >0
 	 */
 	public static double getSurgeMod(World world) {
+		if(world.isRemote) { // The control rods use this gamerule for RBMK diag, which happens to be calculated on the client side. whoops!
+			return GameRuleHelper.getDoubleMinimum(world, RBMKKeys.KEY_PASSIVE_COOLING, 0.0D);
+		}
 		return (double) getGameRule(world, RBMKKeys.KEY_SURGE_MOD);
 	}
 
