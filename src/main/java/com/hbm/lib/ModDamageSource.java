@@ -1,7 +1,6 @@
 package com.hbm.lib;
 
 import com.hbm.entity.projectile.EntityBullet;
-import com.hbm.entity.projectile.EntityLN2;
 import com.hbm.entity.projectile.EntityLaserBeam;
 import com.hbm.entity.projectile.EntityMinerBeam;
 import net.minecraft.entity.Entity;

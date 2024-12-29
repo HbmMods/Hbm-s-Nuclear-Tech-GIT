@@ -5,7 +5,6 @@ import com.hbm.blocks.generic.BlockLoot.TileEntityLoot;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.itempool.ItemPool;
 import com.hbm.itempool.ItemPoolsPile;
-import com.hbm.items.ItemAmmoEnums.AmmoFatman;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemBookLore;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;

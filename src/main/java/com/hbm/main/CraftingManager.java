@@ -15,8 +15,6 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.NTMMaterial;
-import com.hbm.items.ItemAmmoEnums.Ammo50BMG;
-import com.hbm.items.ItemAmmoEnums.Ammo5mm;
 
 import static com.hbm.inventory.OreDictManager.*;
 

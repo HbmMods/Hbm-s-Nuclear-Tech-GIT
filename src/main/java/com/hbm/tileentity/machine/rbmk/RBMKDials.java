@@ -5,7 +5,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.util.GameRuleHelper;
 
 import com.hbm.util.Tuple;
-import com.sun.xml.internal.ws.developer.ServerSideException;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
