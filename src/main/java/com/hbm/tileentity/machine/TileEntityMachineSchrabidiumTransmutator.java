@@ -1,5 +1,7 @@
 package com.hbm.tileentity.machine;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.config.VersatileConfig;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.container.ContainerMachineSchrabidiumTransmutator;
@@ -9,6 +11,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -23,19 +26,40 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider {
+import java.io.IOException;
+
+public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, IConfigurableMachine {
 
 	public long power = 0;
 	public int process = 0;
-	public static final long maxPower = 5000000;
-	public static final int processSpeed = 600;
-	
+
 	private AudioWrapper audio;
 
 	private static final int[] slots_io = new int[] { 0, 1, 2, 3 };
 
 	public TileEntityMachineSchrabidiumTransmutator() {
 		super(4);
+	}
+
+	// configurable values
+	public static long maxPower = 5_000_000;
+	public static int processSpeed = 600;
+
+	@Override
+	public String getConfigName() {
+		return "schrabidium_transmutator";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		maxPower = IConfigurableMachine.grab(obj, "L:maxPower", maxPower);
+		processSpeed = IConfigurableMachine.grab(obj, "I:processSpeed", processSpeed);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("L:maxPower").value(maxPower);
+		writer.name("I:processSpeed").value(processSpeed);
 	}
 
 	@Override
@@ -84,9 +108,9 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack stack, int j) {
-		
+
 		if(stack.getItem() == ModItems.euphemium_capacitor) return false;
-		
+
 		if(i == 2 && stack.getItem() != null && (stack.getItem() == ModItems.redcoil_capacitor && stack.getItemDamage() == stack.getMaxDamage())) {
 			return true;
 		}
@@ -156,9 +180,9 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
-			
+
 			this.updateConnections();
-			
+
 			power = Library.chargeTEFromItems(slots, 3, power, maxPower);
 
 			if(canProcess()) {
@@ -166,16 +190,16 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 			} else {
 				process = 0;
 			}
-			
+
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
 			data.setInteger("progress", process);
 			this.networkPack(data, 50);
-			
+
 		} else {
 
 			if(process > 0) {
-				
+
 				if(audio == null) {
 					audio = createAudioLoop();
 					audio.startSound();
@@ -184,7 +208,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 				}
 				audio.updateVolume(getVolume(1F));
 			} else {
-				
+
 				if(audio != null) {
 					audio.stopSound();
 					audio = null;
@@ -192,14 +216,14 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 			}
 		}
 	}
-	
+
 	@Override
 	public AudioWrapper createAudioLoop() {
 		return MainRegistry.proxy.getLoopedSound("hbm:weapon.tauChargeLoop", xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
 	}
-	
+
 	private void updateConnections() {
-		
+
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
@@ -223,7 +247,7 @@ public class TileEntityMachineSchrabidiumTransmutator extends TileEntityMachineB
 			audio = null;
 		}
 	}
-	
+
 	@Override
 	public void networkUnpack(NBTTagCompound data) {
 		super.networkUnpack(data);

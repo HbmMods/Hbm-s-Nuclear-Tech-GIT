@@ -1,10 +1,13 @@
 package com.hbm.tileentity.machine;
 
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.container.ContainerMachinePress;
 import com.hbm.inventory.gui.GUIMachinePress;
 import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.machine.ItemStamp;
+import com.hbm.tileentity.IConfigurableMachine;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
@@ -19,11 +22,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachinePress extends TileEntityMachineBase implements IGUIProvider {
+import java.io.IOException;
+
+public class TileEntityMachinePress extends TileEntityMachineBase implements IGUIProvider, IConfigurableMachine {
 
 	public int speed = 0; // speed ticks up once (or four times if preheated) when operating
-	public static final int maxSpeed = 400; // max speed ticks for acceleration
-	public static final int progressAtMax = 25; // max progress speed when hot
 	public int burnTime = 0; // burn ticks of the loaded fuel, 200 ticks equal one operation
 
 	public int press; // extension of the press, operation is completed if maxPress is reached
@@ -31,12 +34,35 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 	public double lastPress; // for interp
 	private int syncPress; // for interp
 	private int turnProgress; // for interp 3: revenge of the sith
-	public final static int maxPress = 200; // max tick count per operation assuming speed is 1
 	boolean isRetracting = false; // direction the press is currently going
 	private int delay; // delay between direction changes to look a bit more appealing
-	
+
+	// configurable values
+	public static int maxSpeed = 400; // max speed ticks for acceleration
+	public static int progressAtMax = 25; // max progress speed when hot
+	public static int maxPress = 200; // max tick count per operation assuming speed is 1
+
+	@Override
+	public String getConfigName() {
+		return "press";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		maxSpeed = IConfigurableMachine.grab(obj, "I:maxSpeed", maxSpeed);
+		progressAtMax = IConfigurableMachine.grab(obj, "I:progressAtMax", progressAtMax);
+		maxPress = IConfigurableMachine.grab(obj, "I:maxPress", maxPress);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:maxSpeed").value(maxSpeed);
+		writer.name("I:progressAtMax").value(progressAtMax);
+		writer.name("I:maxPress").value(maxPress);
+	}
+
 	public ItemStack syncStack;
-	
+
 	public TileEntityMachinePress() {
 		super(4);
 	}
@@ -45,26 +71,26 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 	public String getName() {
 		return "container.press";
 	}
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			boolean preheated = false;
-			
+
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				if(worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ) == ModBlocks.press_preheater) {
 					preheated = true;
 					break;
 				}
 			}
-			
+
 			boolean canProcess = this.canProcess();
-			
+
 			if((canProcess || this.isRetracting) && this.burnTime >= 200) {
 				this.speed += preheated ? 4 : 1;
-				
+
 				if(this.speed > this.maxSpeed) {
 					this.speed = this.maxSpeed;
 				}
@@ -74,21 +100,21 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 					this.speed = 0;
 				}
 			}
-			
+
 			if(delay <= 0) {
-				
+
 				int stampSpeed = speed * progressAtMax / maxSpeed;
-				
+
 				if(this.isRetracting) {
 					this.press -= stampSpeed;
-					
+
 					if(this.press <= 0) {
 						this.isRetracting = false;
 						this.delay = 5;
 					}
 				} else if(canProcess) {
 					this.press += stampSpeed;
-					
+
 					if(this.press >= this.maxPress) {
 						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", getVolume(1.5F), 1.0F);
 						ItemStack output = PressRecipes.getOutput(slots[2], slots[1]);
@@ -98,20 +124,20 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 							slots[3].stackSize += output.stackSize;
 						}
 						this.decrStackSize(2, 1);
-						
+
 						if(slots[1].getMaxDamage() != 0) {
 							slots[1].setItemDamage(slots[1].getItemDamage() + 1);
 							if(slots[1].getItemDamage() >= slots[1].getMaxDamage()) {
 								slots[1] = null;
 							}
 						}
-						
+
 						this.isRetracting = true;
 						this.delay = 5;
 						if(this.burnTime >= 200) {
 							this.burnTime -= 200; // only subtract fuel if operation was actually successful
 						}
-						
+
 						this.markDirty();
 					}
 				} else if(this.press > 0){
@@ -120,10 +146,10 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 			} else {
 				delay--;
 			}
-			
+
 			if(slots[0] != null && burnTime < 200 && TileEntityFurnace.getItemBurnTime(slots[0]) > 0) { // less than one operation stored? burn more fuel!
 				burnTime += TileEntityFurnace.getItemBurnTime(slots[0]);
-				
+
 				if(slots[0].stackSize == 1 && slots[0].getItem().hasContainerItem(slots[0])) {
 					slots[0] = slots[0].getItem().getContainerItem(slots[0]).copy();
 				} else {
@@ -131,7 +157,7 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 				}
 				this.markChanged();
 			}
-			
+
 			NBTTagCompound data = new NBTTagCompound();
 			data.setInteger("speed", speed);
 			data.setInteger("burnTime", burnTime);
@@ -141,14 +167,14 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 				slots[2].writeToNBT(stack);
 				data.setTag("stack", stack);
 			}
-			
+
 			this.networkPack(data, 50);
-			
+
 		} else {
-			
+
 			// approach-based interpolation, GO!
 			this.lastPress = this.renderPress;
-			
+
 			if(this.turnProgress > 0) {
 				this.renderPress = this.renderPress + ((this.syncPress - this.renderPress) / (double) this.turnProgress);
 				--this.turnProgress;
@@ -157,33 +183,33 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 			}
 		}
 	}
-	
+
 	@Override
 	public void networkUnpack(NBTTagCompound nbt) {
 		super.networkUnpack(nbt);
-		
+
 		this.speed = nbt.getInteger("speed");
 		this.burnTime = nbt.getInteger("burnTime");
 		this.syncPress = nbt.getInteger("press");
-		
+
 		if(nbt.hasKey("stack")) {
 			NBTTagCompound stack = nbt.getCompoundTag("stack");
 			this.syncStack = ItemStack.loadItemStackFromNBT(stack);
 		} else {
 			this.syncStack = null;
 		}
-		
+
 		this.turnProgress = 2;
 	}
-	
+
 	public boolean canProcess() {
 		if(burnTime < 200) return false;
 		if(slots[1] == null || slots[2] == null) return false;
-		
+
 		ItemStack output = PressRecipes.getOutput(slots[2], slots[1]);
-		
+
 		if(output == null) return false;
-		
+
 		if(slots[3] == null) return true;
 		if(slots[3].stackSize + output.stackSize <= slots[3].getMaxStackSize() && slots[3].getItem() == output.getItem() && slots[3].getItemDamage() == output.getItemDamage()) return true;
 		return false;
@@ -191,16 +217,16 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack stack) {
-		
+
 		if(stack.getItem() instanceof ItemStamp)
 			return i == 1;
-		
+
 		if(TileEntityFurnace.getItemBurnTime(stack) > 0 && i == 0)
 			return true;
-		
+
 		return i == 2;
 	}
-	
+
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return new int[] { 0, 1, 2, 3 };
@@ -215,7 +241,7 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return i == 3;
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -233,19 +259,19 @@ public class TileEntityMachinePress extends TileEntityMachineBase implements IGU
 		nbt.setInteger("speed", speed);
 		nbt.setBoolean("ret", isRetracting);
 	}
-	
+
 	AxisAlignedBB aabb;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(aabb != null)
 			return aabb;
-		
+
 		aabb = AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 3, zCoord + 1);
 		return aabb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
