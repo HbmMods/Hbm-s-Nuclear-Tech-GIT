@@ -885,7 +885,7 @@ damage.item=装备时获得的伤害减免:
 damage.category.EXPL=爆炸
 damage.category.FIRE=火焰
 damage.category.PROJ=投射物
-damage.exact.drown=摔落
+damage.exact.fall=摔落
 damage.exact.LASER=激光
 damage.exact.onFire=Afterburn
 damage.other=其他
@@ -947,6 +947,22 @@ death.attack.taint=%1$s 死于恶性肿瘤
 death.attack.tau=%1$s 被 %2$s 用带负电荷的陶子射穿
 death.attack.tauBlast=%1$s 对XVL1456充能时间过长，被炸成碎片
 death.attack.teleporter=%1$s 被传送到虚空
+death.sedna.electric=%1$s 被电成焦炭了
+death.sedna.electric.attacker=%1$s 被 %2$s 电成焦炭了
+death.sedna.explosive=%1$s 被炸飞了
+death.sedna.explosive.attacker=%1$s 被 %2$s 炸飞了
+death.sedna.fire=%1$s 被送到人生终点站了
+death.sedna.fire.attacker=%1$s 被 %2$s 送到人生终点站了
+death.sedna.laser=%1$s 被激光烧成了灰烬
+death.sedna.laser.attacker=%1$s 被 %2$s 用激光烧成了灰烬
+death.sedna.microwave=%1$s 变成了鸡蛋在微波炉里面的样子 
+death.sedna.microwave.attacker=%1$s 被 %2$s 变成了鸡蛋在微波炉里面的样子
+death.sedna.subatomic=%1$s 被分解成基本微粒
+death.sedna.subatomic.attacker=%1$s 被 %2$s 分解成基本微粒
+death.sedna.other=%1$s 被杀死了
+death.sedna.other.attacker=%1$s 被 %2$s 杀死了
+death.sedna.physical=%1$s被射杀了
+death.sedna.physical.attacker=%1$s 被 %2$s 射杀了
 
 desc.gui.assembler.warning=§c错误：§r此机器需要装配机模板！
 desc.gui.chemplant.warning=§c错误：§r此机器需要化工厂模板！
@@ -1637,10 +1653,10 @@ hbmmat.workersalloy=Desh
 hbmmat.wroughtiron=锻铁
 hbmmat.zirconium=锆
 hbmmat.bone=象牙
-hbmmat.gunmetal=青铜
+hbmmat.gunmetal=炮铜
 hbmmat.weaponsteel=武器级钢
-hbmmat.wood=木头
-
+hbmmat.polycarbonate=硬塑料
+hbmmat.pvc=PVC
 
 matshape.block=%s 块
 matshape.blocks=%s 块
@@ -4772,7 +4788,7 @@ item.casing.shotshell.name=黑火药霰弹弹壳
 item.casing.buckshot.name=塑料霰弹弹壳
 item.casing.buckshot_advanced.name=高级霰弹弹壳
 item.dnt_sword.name=DNT剑
-item.ingot_gunmetal.name=青铜锭
+item.ingot_gunmetal.name=炮铜锭
 item.ingot_raw.name=%s锭
 item.ingot_weaponsteel.name=武器级钢锭
 item.item_secret.selenium_steel.name=硒钢
@@ -4783,9 +4799,15 @@ item.part_mechanism.name=%s机构
 item.part_receiver_heavy.name=重型%s机匣
 item.part_receiver_light.name=轻型%s机匣
 item.part_stock.name=%s枪托
-item.plate_gunmetal.name=青铜板
+item.plate_gunmetal.name炮铜板
 item.plate_weaponsteel.name=武器级钢板
 tile.machine_pyrooven.name=热解炉
+item.ammo_standard.g10.name=十号鹿弹
+item.ammo_standard.g10_du.name=十号贫铀鹿弹
+item.ammo_standard.g10_shrapnel.name=十号霰弹(易跳弹)
+item.clay_tablet.name=泥板
+item.gun_double_barrel.name=旧日经典
+item.gun_heavy_revolver_protege.name=门徒
 
 itemGroup.tabBlocks=HBM 矿石和方块
 itemGroup.tabConsumable=HBM 食物和装备
@@ -4889,6 +4911,9 @@ shape.gunMechanism=机构
 shape.receiverHeavy=重型机匣
 shape.receiverLight=轻型机匣
 shape.stock=枪托
+shape.c9=小口径弹壳
+shape.c50=大口径弹壳
+
 
 soundCategory.ntmMachines=NTM机器
 
