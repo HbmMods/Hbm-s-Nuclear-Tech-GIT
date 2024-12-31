@@ -74,29 +74,28 @@ public class PileNeutronHandler {
 						NeutronNodeWorld.addNode(new PileNeutronNode((TileEntityPileBase) tile));
 				}
 
-				TileEntityPileBase te = (TileEntityPileBase) tile;
-				Block block = te.getBlockType();
+				Block block = tile.getBlockType();
+				int meta = tile.getBlockMetadata();
+				if(!(tile instanceof TileEntityPileBase)) {
 
+					// Return when a boron block is hit
+					if (block == ModBlocks.block_boron)
+						return;
 
-				// Return when a boron block is hit
-				if(block == ModBlocks.block_boron)
-					return;
-
-				else if(block == ModBlocks.concrete ||
+					else if (block == ModBlocks.concrete ||
 						block == ModBlocks.concrete_smooth ||
 						block == ModBlocks.concrete_asbestos ||
 						block == ModBlocks.concrete_colored ||
 						block == ModBlocks.brick_concrete)
-					fluxQuantity *= 0.25;
+						fluxQuantity *= 0.25;
 
-				int meta = te.getBlockMetadata();
+					if (block == ModBlocks.block_graphite_rod && (meta & 8) == 0)
+						return;
+				}
 
-				if(block == ModBlocks.block_graphite_rod && (meta & 8) == 0)
-					return;
+				if(tile instanceof IPileNeutronReceiver) {
 
-				if(te instanceof IPileNeutronReceiver) {
-
-					IPileNeutronReceiver rec = (IPileNeutronReceiver) te;
+					IPileNeutronReceiver rec = (IPileNeutronReceiver) tile;
 					rec.receiveNeutrons((int) Math.floor(fluxQuantity));
 
 					if(block != ModBlocks.block_graphite_detector || (meta & 8) == 0)
