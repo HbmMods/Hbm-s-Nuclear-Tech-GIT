@@ -1,15 +1,17 @@
 package com.hbm.render.model;
 
 import com.hbm.interfaces.IHoldableWeapon;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 import com.hbm.render.loader.ModelRendererObj;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
@@ -82,8 +84,15 @@ public class ModelArmorBase extends ModelBiped {
 
 			this.isSneak = player.isSneaking();
 			this.isRiding = player.isRiding();
+		} else if (entity instanceof EntityLivingBase) {
+			EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
+			this.isSneak = entityLivingBase.isSneaking();
+			ItemStack held = entityLivingBase.getHeldItem();
+			if(held != null && held.getItem() instanceof ItemGunBaseNT) {
+				this.aimedBow = true;
+			}
 		}
-
+		
 		if(this.isRiding) {
 			rightArm.rotateAngleX += -((float) Math.PI / 5F);
 			leftArm.rotateAngleX += -((float) Math.PI / 5F);
