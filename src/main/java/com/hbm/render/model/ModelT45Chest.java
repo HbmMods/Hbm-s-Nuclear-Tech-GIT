@@ -6,6 +6,8 @@
 
 package com.hbm.render.model;
 
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
+import net.minecraft.entity.EntityLivingBase;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.interfaces.IHoldableWeapon;
@@ -207,13 +209,10 @@ public class ModelT45Chest extends ModelBiped {
 
 	@Override
 	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
+		
 		if (entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity;
-			if (player.isSneaking()) {
-				this.isSneak = true;
-			} else {
-				this.isSneak = false;
-			}
+			this.isSneak = player.isSneaking();
 			ItemStack itemstack = player.inventory.getCurrentItem();
 			this.heldItemRight = itemstack != null ? 1 : 0;
 
@@ -227,9 +226,18 @@ public class ModelT45Chest extends ModelBiped {
 				}
 			}
 
-			if(itemstack != null && player.getHeldItem().getItem() instanceof IHoldableWeapon)
+			if(itemstack != null && (player.getHeldItem().getItem() instanceof IHoldableWeapon || player.getHeldItem().getItem() instanceof ItemGunBaseNT))
 				this.aimedBow = true;
+		} else if(entity instanceof EntityLivingBase) {
+			EntityLivingBase entityLivingBase = (EntityLivingBase) entity;
+			this.isSneak = entityLivingBase.isSneaking();
+
+			ItemStack held = entityLivingBase.getHeldItem();
+			if(held != null && held.getItem() instanceof ItemGunBaseNT) {
+				this.aimedBow = true;
+			}
 		}
+		
 		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		this.chest.rotationPointX = this.bipedBody.rotationPointX;
 		this.chest.rotationPointY = this.bipedBody.rotationPointY;
