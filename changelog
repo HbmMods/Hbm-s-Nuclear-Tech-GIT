@@ -7,6 +7,7 @@
 ## Changed
 * Removed the old casing items
 * Reduced the flicker on the autoshotgun's holo sights
+* Leviathan Turbine now has an info overlay displaying steam and energy buffer values
 
 ## Fixed
 * Fixed the bullet casing molds being unobtainable
