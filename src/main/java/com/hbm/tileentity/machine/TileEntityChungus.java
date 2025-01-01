@@ -144,6 +144,8 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 			data.setLong("power", power);
 			data.setInteger("type", tanks[0].getTankType().getID());
 			data.setInteger("operational", turnTimer);
+			data.setInteger("input_fill", tanks[0].getFill());
+			data.setInteger("output_fill", tanks[1].getFill());
 			this.networkPack(data, 150);
 			
 		} else {
@@ -223,6 +225,8 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 		this.power = data.getLong("power");
 		this.turnTimer = data.getInteger("operational");
 		this.tanks[0].setTankType(Fluids.fromID(data.getInteger("type")));
+		this.tanks[0].setFill(data.getInteger("input_fill"));
+		this.tanks[1].setFill(data.getInteger("output_fill"));
 	}
 	
 	@Override
