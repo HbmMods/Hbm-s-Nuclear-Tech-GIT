@@ -1,11 +1,9 @@
 package com.hbm.items.armor;
 
-import java.util.UUID;
-
 import com.google.common.collect.Multimap;
+import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
 import com.hbm.render.model.ModelArmorEnvsuit;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;
@@ -18,6 +16,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
+import java.util.UUID;
 
 public class ArmorEnvsuit extends ArmorFSBPowered {
 
@@ -41,14 +41,14 @@ public class ArmorEnvsuit extends ArmorFSBPowered {
 
 		return models[armorSlot];
 	}
-	
+
 	private static final UUID speed = UUID.fromString("6ab858ba-d712-485c-bae9-e5e765fc555a");
 
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
 
 		super.onArmorTick(world, player, stack);
-		
+
 		if(this != ModItems.envsuit_plate)
 			return;
 
@@ -56,13 +56,13 @@ public class ArmorEnvsuit extends ArmorFSBPowered {
 		Multimap multimap = super.getAttributeModifiers(stack);
 		multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(speed, "SQUIRREL SPEED", 0.1, 0));
 		player.getAttributeMap().removeAttributeModifiers(multimap);
-		
+
 		if(this.hasFSBArmor(player)) {
-			
+
 			if(player.isSprinting()) player.getAttributeMap().applyAttributeModifiers(multimap);
-			
+
 			if(player.isInWater()) {
-				
+
 				if(!world.isRemote) {
 					player.setAir(300);
 					player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 15 * 20, 0));
@@ -78,7 +78,14 @@ public class ArmorEnvsuit extends ArmorFSBPowered {
 				player.motionY += vec.yCoord;
 				player.motionZ += vec.zCoord;
 			} else {
-				if(!world.isRemote) {
+				boolean canRemoveNightVision = true;
+				ItemStack helmet = player.inventory.armorInventory[3];
+				ItemStack helmetMod = ArmorModHandler.pryMod(helmet, ArmorModHandler.helmet_only); // Get the modification!
+				if (helmetMod != null && helmetMod.getItem() instanceof ItemModNightVision) {
+					canRemoveNightVision = false;
+				}
+
+				if(!world.isRemote && canRemoveNightVision) {
 					player.removePotionEffect(Potion.nightVision.id);
 				}
 			}
