@@ -1,11 +1,9 @@
 package com.hbm.items.armor;
 
-import java.util.UUID;
-
 import com.google.common.collect.Multimap;
+import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.ModItems;
 import com.hbm.render.model.ModelArmorEnvsuit;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;
@@ -18,6 +16,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
+import java.util.UUID;
 
 public class ArmorEnvsuit extends ArmorFSBPowered {
 
@@ -80,7 +80,8 @@ public class ArmorEnvsuit extends ArmorFSBPowered {
 			} else {
 				boolean canRemoveNightVision = true;
 				ItemStack helmet = player.inventory.armorInventory[3];
-				if (helmet.getItem() == ModItems.night_vision) {
+				ItemStack helmetMod = ArmorModHandler.pryMod(helmet, ArmorModHandler.helmet_only); // Get the modification!
+				if (helmetMod != null && helmetMod.getItem() instanceof ItemModNightVision) {
 					canRemoveNightVision = false;
 				}
 
