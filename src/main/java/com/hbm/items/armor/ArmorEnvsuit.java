@@ -41,14 +41,14 @@ public class ArmorEnvsuit extends ArmorFSBPowered {
 
 		return models[armorSlot];
 	}
-	
+
 	private static final UUID speed = UUID.fromString("6ab858ba-d712-485c-bae9-e5e765fc555a");
 
 	@Override
 	public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {
 
 		super.onArmorTick(world, player, stack);
-		
+
 		if(this != ModItems.envsuit_plate)
 			return;
 
@@ -56,13 +56,13 @@ public class ArmorEnvsuit extends ArmorFSBPowered {
 		Multimap multimap = super.getAttributeModifiers(stack);
 		multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new AttributeModifier(speed, "SQUIRREL SPEED", 0.1, 0));
 		player.getAttributeMap().removeAttributeModifiers(multimap);
-		
+
 		if(this.hasFSBArmor(player)) {
-			
+
 			if(player.isSprinting()) player.getAttributeMap().applyAttributeModifiers(multimap);
-			
+
 			if(player.isInWater()) {
-				
+
 				if(!world.isRemote) {
 					player.setAir(300);
 					player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 15 * 20, 0));
@@ -78,7 +78,13 @@ public class ArmorEnvsuit extends ArmorFSBPowered {
 				player.motionY += vec.yCoord;
 				player.motionZ += vec.zCoord;
 			} else {
-				if(!world.isRemote) {
+				boolean canRemoveNightVision = true;
+				ItemStack helmet = player.inventory.armorInventory[3];
+				if (helmet.getItem() == ModItems.night_vision) {
+					canRemoveNightVision = false;
+				}
+
+				if(!world.isRemote && canRemoveNightVision) {
 					player.removePotionEffect(Potion.nightVision.id);
 				}
 			}
