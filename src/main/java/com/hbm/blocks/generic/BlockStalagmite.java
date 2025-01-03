@@ -6,6 +6,7 @@ import java.util.Random;
 import com.hbm.blocks.BlockEnumMulti;
 import com.hbm.blocks.BlockEnums;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.RecipesCommon;
 import com.hbm.items.ModItems;
 
 import net.minecraft.block.Block;
@@ -39,17 +40,26 @@ public class BlockStalagmite extends BlockEnumMulti {
 
 	@Override
 	public Item getItemDropped(int meta, Random rang, int fortune) {
-		
 		switch(meta) {
 		case 0: return ModItems.sulfur;
 		case 1: return ModItems.powder_asbestos;
+		case 2: return ModItems.powder_limestone;
 		}
 		
 		return null;
 	}
-	
-	public static int getMetaFromResource(int meta) {
-		return meta;
+	/**Made to account for gaps in EnumStoneType between resources that may actually possess stalactites
+	 * When adding a new resource that uses stalactites, add it's EnumStoneType value to the switch**/
+	public static int getMetaFromResource(RecipesCommon.MetaBlock block) {
+		switch(block.meta){
+			//Limestone
+			case 4:
+				return 2;
+			//Asbestos and sulfur
+			default:
+				return block.meta;
+		}
+
 	}
 
 	@Override
