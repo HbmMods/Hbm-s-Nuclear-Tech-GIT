@@ -37,8 +37,6 @@ public class ServerProxy {
 	public void registerGunCfg() { }
 	public void handleNHNEICompat() { }
 
-	public void particleControl(double x, double y, double z, int type) { }
-
 	public void spawnParticle(double x, double y, double z, String type, float[] args) { }
 
 	public void effectNT(NBTTagCompound data) { }

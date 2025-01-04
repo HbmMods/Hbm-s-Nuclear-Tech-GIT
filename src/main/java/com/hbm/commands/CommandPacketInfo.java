@@ -80,7 +80,7 @@ public class CommandPacketInfo extends CommandBase {
 					if (totalCnt != 0)
 						sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "% Remaining to process: " + BobMathUtil.roundDecimal(((double) PacketThreading.threadPool.getQueue().size() / totalCnt) * 100, 2) + "%"));
 
-					sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Time spent waiting on thread(s) last tick: " + BobMathUtil.roundDecimal(TimeUnit.NANOSECONDS.convert(PacketThreading.nanoTimeWaited, TimeUnit.MILLISECONDS), 4) + "ms"));
+					sender.addChatMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Time spent waiting on thread(s) last tick: " + BobMathUtil.roundDecimal(TimeUnit.MILLISECONDS.convert(PacketThreading.nanoTimeWaited, TimeUnit.NANOSECONDS), 4) + "ms"));
 					return;
 			}
 		}

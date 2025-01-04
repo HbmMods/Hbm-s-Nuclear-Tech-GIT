@@ -1,10 +1,7 @@
 package com.hbm.tileentity;
 
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.AuxGaugePacket;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -146,11 +143,6 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	//shit i don't know man
 	@Override
 	public abstract void updateEntity();
-
-	@Deprecated public void updateGauge(int val, int id, int range) {
-		if(!worldObj.isRemote) PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, val, id), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
-	}
-	@Deprecated public void processGauge(int val, int id) { }
 
 	@Deprecated
 	public void handleButtonPacket(int value, int meta) { }

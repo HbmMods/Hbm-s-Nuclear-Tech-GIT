@@ -220,7 +220,15 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 						float moX = (float) (dir ? 0 : worldObj.rand.nextGaussian() * 0.5F);
 						float moZ = (float) (!dir ? 0 : worldObj.rand.nextGaussian() * 0.5F);
 
-						MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
+						NBTTagCompound data = new NBTTagCompound();
+						data.setDouble("posX", xCoord + 0.5);
+						data.setDouble("posY", yCoord + 0.25);
+						data.setDouble("posZ", zCoord + 0.5);
+						data.setString("type", "launchSmoke");
+						data.setDouble("moX", moX);
+						data.setDouble("moY", 0);
+						data.setDouble("moZ", moZ);
+						MainRegistry.proxy.effectNT(data);
 					}
 
 					break;

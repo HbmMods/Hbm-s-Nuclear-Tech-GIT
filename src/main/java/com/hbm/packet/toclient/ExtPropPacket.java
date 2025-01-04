@@ -3,44 +3,37 @@ package com.hbm.packet.toclient;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.extprop.HbmPlayerProps;
 
+import com.hbm.packet.PrecompiledPacket;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
 
-public class ExtPropPacket implements IMessage {
+public class ExtPropPacket extends PrecompiledPacket {
 
-	ByteBuf buffer;
+	HbmLivingProps props;
+	HbmPlayerProps pprps;
+	ByteBuf buf;
 
 	public ExtPropPacket() { }
 
-	public ExtPropPacket(ByteBuf buf) {
-
-		this.buffer = Unpooled.buffer();
-		buffer.writeBytes(buf);
+	public ExtPropPacket(HbmLivingProps props, HbmPlayerProps pprps) {
+		this.props = props;
+		this.pprps = pprps;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-
-		if (buffer == null) {
-			buffer = new PacketBuffer(Unpooled.buffer());
-		}
-		buffer.writeBytes(buf);
+		this.buf = buf;
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-
-		if (buffer == null) {
-			buffer = new PacketBuffer(Unpooled.buffer());
-		}
-		buf.writeBytes(buffer);
+		props.serialize(buf);
+		pprps.serialize(buf);
 	}
 
 	public static class Handler implements IMessageHandler<ExtPropPacket, IMessage> {
@@ -55,10 +48,10 @@ public class ExtPropPacket implements IMessage {
 			HbmLivingProps props = HbmLivingProps.getData(Minecraft.getMinecraft().thePlayer);
 			HbmPlayerProps pprps = HbmPlayerProps.getData(Minecraft.getMinecraft().thePlayer);
 
-			props.deserialize(m.buffer);
-			pprps.deserialize(m.buffer);
+			props.deserialize(m.buf);
+			pprps.deserialize(m.buf);
 
-			m.buffer.release();
+			m.buf.release();
 
 			return null;
 		}

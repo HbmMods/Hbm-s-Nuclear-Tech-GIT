@@ -4,8 +4,6 @@ import com.hbm.config.VersatileConfig;
 import com.hbm.inventory.container.ContainerMachineRTG;
 import com.hbm.inventory.gui.GUIMachineRTG;
 import com.hbm.items.machine.ItemRTGPellet;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.AuxElectricityPacket;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.CompatEnergyControl;
@@ -13,9 +11,9 @@ import com.hbm.util.RTGUtil;
 
 import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.tile.IInfoProviderEC;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
@@ -28,16 +26,16 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISidedInventory, IEnergyProviderMK2, IGUIProvider, IInfoProviderEC {
 
 	private ItemStack slots[];
-	
+
 	public int heat;
 	public final int heatMax = VersatileConfig.rtgDecay() ? 600 : 200;
 	public long power;
 	public final long powerMax = 100000;
-	
+
 	public static final int[] slot_io = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 };
-	
+
 	private String customName;
-	
+
 	public TileEntityMachineRTG() {
 		slots = new ItemStack[15];
 	}
@@ -82,7 +80,7 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 	public boolean hasCustomInventoryName() {
 		return this.customName != null && this.customName.length() > 0;
 	}
-	
+
 	public void setCustomName(String name) {
 		this.customName = name;
 	}
@@ -101,7 +99,7 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
 		}
 	}
-	
+
 	//You scrubs aren't needed for anything (right now)
 	@Override
 	public void openInventory() {}
@@ -112,7 +110,7 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		return itemStack.getItem() instanceof ItemRTGPellet;
 	}
-	
+
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		if(slots[i] != null)
@@ -128,13 +126,13 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 			{
 				slots[i] = null;
 			}
-			
+
 			return itemStack1;
 		} else {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -143,7 +141,7 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 		power = nbt.getLong("power");
 		heat = nbt.getInteger("heat");
 		slots = new ItemStack[getSizeInventory()];
-		
+
 		for(int i = 0; i < list.tagCount(); i++)
 		{
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
@@ -154,14 +152,14 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 			}
 		}
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setLong("power", power);
 		nbt.setInteger("heat", heat);
 		NBTTagList list = new NBTTagList();
-		
+
 		for(int i = 0; i < slots.length; i++) {
 			if(slots[i] != null) {
 				NBTTagCompound nbt1 = new NBTTagCompound();
@@ -172,7 +170,7 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 		}
 		nbt.setTag("items", list);
 	}
-	
+
 	@Override
 	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
 		return slot_io;
@@ -187,19 +185,19 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
 		return false;
 	}
-	
+
 	public long getPowerScaled(long i) {
 		return (power * i) / powerMax;
 	}
-	
+
 	public int getHeatScaled(int i) {
 		return (heat * i) / heatMax;
 	}
-	
+
 	public boolean hasPower() {
 		return power > 0;
 	}
-	
+
 	public boolean hasHeat() {
 		return RTGUtil.hasHeat(slots, slot_io);
 	}
@@ -208,21 +206,33 @@ public class TileEntityMachineRTG extends TileEntityLoadedBase implements ISided
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
-			
+
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-			
+
 			heat = RTGUtil.updateRTGs(slots, slot_io);
-			
+
 			if(heat > heatMax)
 				heat = heatMax;
-			
+
 			power += heat * 5;
 			if(power > powerMax)
 				power = powerMax;
-			
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+
+			networkPackNT(50);
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
 	}
 
 	@Override

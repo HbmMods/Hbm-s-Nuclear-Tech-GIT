@@ -7,6 +7,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.PrecompiledPacket;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,13 +72,37 @@ public class PacketThreading {
 		// `message` can be precompiled or not.
 		if(message instanceof PrecompiledPacket)
 			((PrecompiledPacket) message).getPreBuf(); // Gets the precompiled buffer, doing nothing if it already exists.
-
 		totalCnt++;
 
 		Runnable task = () -> {
 			try {
 				lock.lock();
 				PacketDispatcher.wrapper.sendToAllAround(message, target);
+				if (message instanceof PrecompiledPacket)
+					((PrecompiledPacket) message).getPreBuf().release();
+			} finally {
+				lock.unlock();
+			}
+		};
+
+		addTask(task);
+	}
+
+	/**
+	 * Adds a packet to the thread pool to be processed in the future. This is only compatible with the `sendTo` dispatch operation.
+	 *
+	 * @param message Message to process.
+	 * @param player PlayerMP to send to.
+	 */
+	public static void createSendToThreadedPacket(IMessage message, EntityPlayerMP player) {
+		if(message instanceof PrecompiledPacket)
+			((PrecompiledPacket) message).getPreBuf();
+		totalCnt++;
+
+		Runnable task = () -> {
+			try {
+				lock.lock();
+				PacketDispatcher.wrapper.sendTo(message, player);
 				if (message instanceof PrecompiledPacket)
 					((PrecompiledPacket) message).getPreBuf().release();
 			} finally {
@@ -107,7 +132,7 @@ public class PacketThreading {
 				for (Future<?> future : futureList) {
 					nanoTimeWaited = System.nanoTime() - startTime;
 					future.get(50, TimeUnit.MILLISECONDS); // I HATE EVERYTHING
-					if(TimeUnit.NANOSECONDS.convert(nanoTimeWaited, TimeUnit.MILLISECONDS) > 50) throw new TimeoutException(); // >50ms total time? timeout? yes sir, ooh rah!
+					if(TimeUnit.MILLISECONDS.convert(nanoTimeWaited, TimeUnit.NANOSECONDS) > 50) throw new TimeoutException(); // >50ms total time? timeout? yes sir, ooh rah!
 				}
 			}
 		} catch (ExecutionException ignored) {

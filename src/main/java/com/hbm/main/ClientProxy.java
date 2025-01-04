@@ -836,80 +836,6 @@ public class ClientProxy extends ServerProxy {
 		MinecraftForgeClient.registerItemRenderer(ModItems.missile_custom, new ItemRenderMissile());
 	}
 
-	@Deprecated
-	@Override
-	public void particleControl(double x, double y, double z, int type) {
-
-
-		World world = Minecraft.getMinecraft().theWorld;
-		TextureManager man = Minecraft.getMinecraft().renderEngine;
-
-		switch(type) {
-		case 0:
-
-			for(int i = 0; i < 10; i++) {
-				EntityCloudFX smoke = new EntityCloudFX(world, x + world.rand.nextGaussian(), y + world.rand.nextGaussian(), z + world.rand.nextGaussian(), 0.0, 0.0, 0.0);
-				Minecraft.getMinecraft().effectRenderer.addEffect(smoke);
-			}
-			break;
-
-		case 1:
-
-			EntityCloudFX smoke = new EntityCloudFX(world, x, y, z, 0.0, 0.1, 0.0);
-			Minecraft.getMinecraft().effectRenderer.addEffect(smoke);
-			break;
-
-		case 2:
-
-			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z);
-			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
-			break;
-
-		case 3:
-
-			ParticleRadiationFog fog = new ParticleRadiationFog(man, world, x, y, z);
-			Minecraft.getMinecraft().effectRenderer.addEffect(fog);
-			break;
-		}
-	}
-
-	//version 2, now with strings!
-	@Deprecated
-	@Override
-	public void spawnParticle(double x, double y, double z, String type, float args[]) {
-
-		World world = Minecraft.getMinecraft().theWorld;
-		TextureManager man = Minecraft.getMinecraft().renderEngine;
-
-		if("launchsmoke".equals(type) && args.length == 3) {
-			ParticleSmokePlume contrail = new ParticleSmokePlume(man, world, x, y, z);
-			contrail.motionX = args[0];
-			contrail.motionY = args[1];
-			contrail.motionZ = args[2];
-			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
-		}
-		if("exKerosene".equals(type)) {
-			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z, 0F, 0F, 0F, 1F);
-			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
-		}
-		if("exSolid".equals(type)) {
-			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z, 0.3F, 0.2F, 0.05F, 1F);
-			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
-		}
-		if("exHydrogen".equals(type)) {
-			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z, 0.7F, 0.7F, 0.7F, 1F);
-			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
-		}
-		if("exBalefire".equals(type)) {
-			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z, 0.2F, 0.7F, 0.2F, 1F);
-			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
-		}
-		if("radSmoke".equals(type)) {
-			ParticleRadiationFog contrail = new ParticleRadiationFog(man, world, x, y, z);
-			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
-		}
-	}
-
 	//mk3, only use this one
 	@Override
 	public void effectNT(NBTTagCompound data) {
@@ -932,6 +858,64 @@ public class ClientProxy extends ServerProxy {
 			ParticleCreators.particleCreators.get(type).makeParticle(world, player, man, rand, x, y, z, data);
 			return;
 		}
+
+		// Old MK1 system ported to MK3:
+
+		if("waterSplash".equals(type)) {
+			for (int i = 0; i < 10; i++) {
+				EntityCloudFX smoke = new EntityCloudFX(world, x + world.rand.nextGaussian(), y + world.rand.nextGaussian(), z + world.rand.nextGaussian(), 0.0, 0.0, 0.0);
+				Minecraft.getMinecraft().effectRenderer.addEffect(smoke);
+			}
+		}
+
+		if("cloudFX2".equals(type)) { // i have genuinely no idea what used this
+			EntityCloudFX smoke = new EntityCloudFX(world, x, y, z, 0.0, 0.1, 0.0);
+			Minecraft.getMinecraft().effectRenderer.addEffect(smoke);
+		}
+
+		if("ABMContrail".equals(type)) {
+			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z);
+			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
+		}
+
+		// End MK1 porting.
+
+		// Old MK2 system ported to MK3:
+
+		if("launchSmoke".equals(type)) {
+			ParticleSmokePlume contrail = new ParticleSmokePlume(man, world, x, y, z);
+			contrail.motionX = data.getDouble("moX");
+			contrail.motionY = data.getDouble("moY");
+			contrail.motionZ = data.getDouble("moZ");
+			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
+		}
+
+		if("exKerosene".equals(type)) {
+			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z, 0F, 0F, 0F, 1F);
+			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
+		}
+
+		if("exSolid".equals(type)) {
+			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z, 0.3F, 0.2F, 0.05F, 1F);
+			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
+		}
+
+		if("exHydrogen".equals(type)) {
+			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z, 0.7F, 0.7F, 0.7F, 1F);
+			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
+		}
+
+		if("exBalefire".equals(type)) {
+			ParticleContrail contrail = new ParticleContrail(man, world, x, y, z, 0.2F, 0.7F, 0.2F, 1F);
+			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
+		}
+
+		if("radFog".equals(type)) {
+			ParticleRadiationFog contrail = new ParticleRadiationFog(man, world, x, y, z);
+			Minecraft.getMinecraft().effectRenderer.addEffect(contrail);
+		}
+
+		// End MK2 porting.
 
 		if("missileContrail".equals(type)) {
 

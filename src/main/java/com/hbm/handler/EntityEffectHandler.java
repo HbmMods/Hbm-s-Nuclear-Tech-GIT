@@ -16,6 +16,7 @@ import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.interfaces.IArmorModDash;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
@@ -81,7 +82,6 @@ public class EntityEffectHandler {
 		if(entity instanceof EntityPlayerMP) {
 			HbmLivingProps props = HbmLivingProps.getData(entity);
 			HbmPlayerProps pprps = HbmPlayerProps.getData((EntityPlayerMP) entity);
-			ByteBuf buf = PooledByteBufAllocator.DEFAULT.buffer();
 
 			if(pprps.shield < pprps.getEffectiveMaxShield() && entity.ticksExisted > pprps.lastDamage + 60) {
 				int tsd = entity.ticksExisted - (pprps.lastDamage + 60);
@@ -91,10 +91,7 @@ public class EntityEffectHandler {
 			if(pprps.shield > pprps.getEffectiveMaxShield())
 				pprps.shield = pprps.getEffectiveMaxShield();
 
-			props.serialize(buf);
-			pprps.serialize(buf);
-			PacketDispatcher.wrapper.sendTo(new ExtPropPacket(buf), (EntityPlayerMP) entity);
-			buf.release();
+			PacketThreading.createSendToThreadedPacket(new ExtPropPacket(props, pprps), (EntityPlayerMP) entity);
 		}
 
 		if(!entity.worldObj.isRemote) {
