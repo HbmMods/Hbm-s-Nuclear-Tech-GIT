@@ -6,7 +6,6 @@ import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityDiFurnace;
 import com.hbm.util.Compat;
-
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -20,7 +19,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 public class MachineDiFurnaceExtension extends BlockContainer implements IProxyController {
-	
+
 	@SideOnly(Side.CLIENT) private IIcon iconTop;
 	@SideOnly(Side.CLIENT) private IIcon iconBottom;
 
@@ -32,7 +31,7 @@ public class MachineDiFurnaceExtension extends BlockContainer implements IProxyC
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityProxyCombo().inventory().fluid();
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -40,7 +39,7 @@ public class MachineDiFurnaceExtension extends BlockContainer implements IProxyC
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":difurnace_extension");
 		this.iconBottom = iconRegister.registerIcon(RefStrings.MODID + ":brick_fire");
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(!player.isSneaking()) {
@@ -52,7 +51,7 @@ public class MachineDiFurnaceExtension extends BlockContainer implements IProxyC
 		}
 		return false;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 		return side == 0 ? this.iconBottom : side == 1 ? this.iconTop : this.blockIcon;

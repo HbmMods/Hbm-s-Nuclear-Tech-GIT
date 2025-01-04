@@ -13,6 +13,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -98,11 +99,21 @@ public class TileEntityCondenserPowered extends TileEntityCondenser implements I
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("power");
-		this.tanks[0].readFromNBT(nbt, "0");
-		this.tanks[1].readFromNBT(nbt, "1");
-		this.waterTimer = nbt.getByte("timer");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		this.tanks[0].serialize(buf);
+		this.tanks[1].serialize(buf);
+		buf.writeByte(this.waterTimer);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.tanks[0].deserialize(buf);
+		this.tanks[1].deserialize(buf);
+		this.waterTimer = buf.readByte();
 	}
 	
 	@Override

@@ -1,13 +1,9 @@
 package com.hbm.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.mob.EntityCreeperNuclear;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
-
 import cpw.mods.fml.common.event.FMLInterModComms;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -15,23 +11,26 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CompatNER {
-	
+
 	/*
 	 * INIT
 	 */
-	
+
 	public static void init() {
 		sendRegisterOre(new ItemStack(ModBlocks.ore_alexandrite), false, 0xff00ff, new ItemStack(ModItems.gem_alexandrite));
 		sendRegisterMob(EntityCreeperNuclear.class, "-1", encodeDrops(
 				new DropItem(new ItemStack(Blocks.tnt), 0, 2),
 				new DropItem(new ItemStack(ModItems.coin_creeper), 1, 1, 0.33F)));
 	}
-	
+
 	/*
 	 * REGISTERS
 	 */
-	
+
 	public static void sendRegisterOre(ItemStack ore, boolean silk, int color, ItemStack... drops) {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setTag(stack, ore.writeToNBT(new NBTTagCompound()));
@@ -41,16 +40,16 @@ public class CompatNER {
 		int[] distribution = new int[256];
 		for(int i = 0; i < 256; i++) distribution[i] = 100;
 		data.setIntArray("distribution", distribution);
-		
+
 		NBTTagCompound res = new NBTTagCompound();
 		NBTTagCompound block = new NBTTagCompound();
 		block.setTag("stack", new ItemStack(Blocks.stone).writeToNBT(new NBTTagCompound()));
 		res.setTag("block", block);
 		data.setTag(restriction, res);
-		
+
 		FMLInterModComms.sendMessage(notEnoughResources, registerOre, data);
 	}
-	
+
 	public static void sendRegisterMob(Class clazz, String light, NBTTagList drops) {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setString(name, clazz.getName());
@@ -59,31 +58,31 @@ public class CompatNER {
 		MainRegistry.logger.info("Sending " + registerMob + " to " + notEnoughResources);
 		FMLInterModComms.sendMessage(notEnoughResources, registerMob, data);
 	}
-	
+
 	/*
 	 * ENCODERS
 	 */
-	
+
 	public static String encodeLightLevel(int level, boolean below) {
 		return level + ":" + (below ? "b" : "a");
 	}
-	
+
 	public static NBTTagList encodeDrops(DropItem... stacks) {
 		NBTTagList list = new NBTTagList();
 		for(DropItem stack : stacks) list.appendTag(stack.writeToNBT());
 		return list;
 	}
-	
+
 	public static NBTTagList encodeStacks(ItemStack... stacks) {
 		NBTTagList list = new NBTTagList();
 		for(ItemStack stack : stacks) list.appendTag(stack.writeToNBT(new NBTTagCompound()));
 		return list;
 	}
-	
+
 	/*
 	 * DROP SYSTEM
 	 */
-	
+
 	public static class DropItem {
 		public ItemStack drop;
 		public int min = 1;
@@ -112,11 +111,11 @@ public class CompatNER {
 			return compound;
 		}
 	}
-	
+
 	/*
 	 * CONSTANTS
 	 */
-	
+
 	public static final String notEnoughResources = "neresources";
 	public static final String registerDungeon = "registerDungeon";
 	public static final String registerMob = "registerMob";
@@ -154,7 +153,7 @@ public class CompatNER {
 	public static final String blockRestriction = "block";
 	public static final String dimensionRestriction = "dimension";
 	public static final String biomeRestriction = "biome";
-	
+
 	public static final String conditional_rareDrop = "ner.rareDrop.text";
 	public static final String conditional_silkTouch = "ner.ore.silkTouch";
 	public static final String conditional_equipmentDrop = "ner.equipmentDrop.text";

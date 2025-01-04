@@ -24,6 +24,7 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
@@ -94,15 +95,8 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			} else {
 				liftOff();
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setByte("mode", mode);
-			data.setBoolean("starting", starting);
-			data.setByte("type", this.getType());
-			tanks[0].writeToNBT(data, "t0");
-			tanks[1].writeToNBT(data, "t1");
-			networkPack(data, 250);
+
+			networkPackNT(250);
 		}
 		
 		if(worldObj.isRemote) {
@@ -189,18 +183,29 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			audio = null;
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		power = data.getLong("power");
-		mode = data.getByte("mode");
-		starting = data.getBoolean("starting");
-		rocketType = data.getByte("type");
-		tanks[0].readFromNBT(data, "t0");
-		tanks[1].readFromNBT(data, "t1");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeByte(mode);
+		buf.writeBoolean(starting);
+		buf.writeByte(this.getType());
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
 	}
-	
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		mode = buf.readByte();
+		starting = buf.readBoolean();
+		rocketType = buf.readByte();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
+	}
+
 	public void startCountdown() {
 		
 		if(canLaunch())

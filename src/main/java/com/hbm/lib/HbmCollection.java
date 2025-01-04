@@ -1,7 +1,7 @@
 package com.hbm.lib;
 
 public class HbmCollection {
-	
+
 	/// FREQUENTLY USED TRANSLATION KEYS
 	// GUN MANUFACTURERS
 	public static enum EnumGunManufacturer {
@@ -99,12 +99,12 @@ public class HbmCollection {
 		WINCHESTER,
 		/**Winchester Repeating Arms Company / Big MT**/
 		WINCHESTER_BIGMT;
-	
+
 		public String getKey() {
 			return "gun.make." + toString();
 		}
 	}
-	
+
 	// GUN DETAILS
 	public static final String ammo = "desc.item.gun.ammo";
 	public static final String ammoMag = "desc.item.gun.ammoMag";

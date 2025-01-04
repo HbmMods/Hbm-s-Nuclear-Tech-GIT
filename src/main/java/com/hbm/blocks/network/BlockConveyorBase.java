@@ -1,12 +1,9 @@
 package com.hbm.blocks.network;
 
-import java.util.List;
-
+import api.hbm.conveyor.IConveyorBelt;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.lib.RefStrings;
-
-import api.hbm.conveyor.IConveyorBelt;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,6 +23,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.List;
+
 public abstract class BlockConveyorBase extends Block implements IConveyorBelt, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT)
@@ -34,14 +33,14 @@ public abstract class BlockConveyorBase extends Block implements IConveyorBelt, 
 	public BlockConveyorBase() {
 		super(Material.iron);
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
 		super.registerBlockIcons(iconRegister);
 		this.sideIcon = iconRegister.registerIcon(RefStrings.MODID + ":conveyor_side");
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
@@ -50,7 +49,7 @@ public abstract class BlockConveyorBase extends Block implements IConveyorBelt, 
 			return this.sideIcon;
 		if((metadata == 4 || metadata == 5) && (side == 2 || side == 3))
 			return this.sideIcon;
-		
+
 		return super.getIcon(side, metadata);
 	}
 
@@ -61,7 +60,7 @@ public abstract class BlockConveyorBase extends Block implements IConveyorBelt, 
 
 	@Override
 	public Vec3 getTravelLocation(World world, int x, int y, int z, Vec3 itemPos, double speed) {
-		
+
 		ForgeDirection dir = this.getTravelDirection(world, x, y, z, itemPos);
 		//snapping point
 		Vec3 snap = this.getClosestSnappingPosition(world, x, y, z, itemPos);
@@ -74,7 +73,7 @@ public abstract class BlockConveyorBase extends Block implements IConveyorBelt, 
 		Vec3 ret = Vec3.createVectorHelper(itemPos.xCoord + motion.xCoord / len * speed, itemPos.yCoord + motion.yCoord / len * speed, itemPos.zCoord + motion.zCoord / len * speed);
 		return ret;
 	}
-	
+
 	public ForgeDirection getTravelDirection(World world, int x, int y, int z, Vec3 itemPos) {
 		return ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
 	}
@@ -83,10 +82,10 @@ public abstract class BlockConveyorBase extends Block implements IConveyorBelt, 
 	public Vec3 getClosestSnappingPosition(World world, int x, int y, int z, Vec3 itemPos) {
 
 		ForgeDirection dir = this.getTravelDirection(world, x, y, z, itemPos);
-		
+
 		itemPos.xCoord = MathHelper.clamp_double(itemPos.xCoord, x, x + 1);
 		itemPos.zCoord = MathHelper.clamp_double(itemPos.zCoord, z, z + 1);
-		
+
 		double posX = x + 0.5;
 		double posZ = z + 0.5;
 
@@ -96,7 +95,7 @@ public abstract class BlockConveyorBase extends Block implements IConveyorBelt, 
 		if(dir.offsetZ != 0) {
 			posZ = itemPos.zCoord;
 		}
-		
+
 		return Vec3.createVectorHelper(posX, y + 0.25, posZ);
 	}
 

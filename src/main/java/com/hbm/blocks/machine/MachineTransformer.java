@@ -3,7 +3,6 @@ package com.hbm.blocks.machine;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineTransformer;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
@@ -17,7 +16,7 @@ public class MachineTransformer extends BlockContainer {
 
 	long buffer;
 	int delay;
-	
+
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 
@@ -26,11 +25,11 @@ public class MachineTransformer extends BlockContainer {
 		buffer = b;
 		delay = d;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
-		
+
 		if(this == ModBlocks.machine_transformer || this == ModBlocks.machine_transformer_20) {
 			this.iconTop = iconRegister.registerIcon(RefStrings.MODID + ":machine_transformer_top_iron");
 			this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_transformer_iron");

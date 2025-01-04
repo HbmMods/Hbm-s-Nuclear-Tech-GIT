@@ -1,21 +1,23 @@
 package com.hbm.packet;
 
 import com.hbm.lib.RefStrings;
+import com.hbm.main.NetworkHandler;
 import com.hbm.packet.toclient.*;
 import com.hbm.packet.toserver.*;
 
+import cpw.mods.fml.common.network.FMLEventChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 
 public class PacketDispatcher {
 
-	//Mark 1 Packet Sending Device
-	public static final SimpleNetworkWrapper wrapper = NetworkRegistry.INSTANCE.newSimpleChannel(RefStrings.MODID);
+	//Mark 1.5 Packet Sending Device
+	public static final NetworkHandler wrapper = new NetworkHandler(RefStrings.MODID);
 
-	public static final void registerPackets() {
+	public static void registerPackets() {
 		int i = 0;
-		
+
 		//Sound packet that keeps client and server separated
 		wrapper.registerMessage(LoopedSoundPacket.Handler.class, LoopedSoundPacket.class, i++, Side.CLIENT);
 		//Signals server to consume items and create template
@@ -77,8 +79,9 @@ public class PacketDispatcher {
 
 		//Tile sync
 		wrapper.registerMessage(AuxGaugePacket.Handler.class, AuxGaugePacket.class, i++, Side.CLIENT);	//The horrid one
-		wrapper.registerMessage(NBTPacket.Handler.class, NBTPacket.class, i++, Side.CLIENT);			//The convenient but laggy one
+		// fucking DIE
+		//wrapper.registerMessage(NBTPacket.Handler.class, NBTPacket.class, i++, Side.CLIENT);			//The convenient but laggy one
 		wrapper.registerMessage(BufPacket.Handler.class, BufPacket.class, i++, Side.CLIENT);			//The not-so-convenient but not laggy one
 	}
-	
+
 }

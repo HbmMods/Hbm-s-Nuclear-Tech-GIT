@@ -3,8 +3,10 @@ package com.hbm.tileentity.network;
 import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.Compat;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -68,24 +70,27 @@ public class TileEntityRadioTorchCounter extends TileEntityMachineBase implement
 					this.lastCount[i] = count;
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("polling", polling);
-			data.setIntArray("last", lastCount);
-			this.matcher.writeToNBT(data);
-			for(int i = 0; i < 3; i++) if(channel[i] != null) data.setString("c" + i, channel[i]);
-			this.networkPack(data, 15);
+
+			this.networkPackNT(15);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.polling = nbt.getBoolean("polling");
-		this.lastCount = nbt.getIntArray("last");
-		this.matcher.modes = new String[this.matcher.modes.length];
-		this.matcher.readFromNBT(nbt);
-		for(int i = 0; i < 3; i++) this.channel[i] = nbt.getString("c" + i);
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(this.polling);
+		BufferUtil.writeIntArray(buf, this.lastCount);
+		this.matcher.serialize(buf);
+		for(int i = 0; i < 3; i++) BufferUtil.writeString(buf, this.channel[i]);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.polling = buf.readBoolean();
+		this.lastCount = BufferUtil.readIntArray(buf);
+		this.matcher.deserialize(buf);
+		for(int i = 0; i < 3; i++) this.channel[i] = BufferUtil.readString(buf);
 	}
 
 	@Override

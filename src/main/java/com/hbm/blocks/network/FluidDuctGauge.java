@@ -1,10 +1,6 @@
 package com.hbm.blocks.network;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
+import api.hbm.fluid.IPipeNet;
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
@@ -12,14 +8,12 @@ import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.block.RenderBlockMultipass;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.network.TileEntityPipeBaseNT;
 import com.hbm.util.I18nUtil;
-
-import api.hbm.fluid.IPipeNet;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -30,12 +24,16 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, ILookOverlay, ITooltipProvider {
 
@@ -50,7 +48,7 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityPipeGauge();
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
@@ -62,11 +60,11 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-		
+
 		if(RenderBlockMultipass.currentPass == 0) {
 			return blockIcon;
 		}
-		
+
 		return side == world.getBlockMetadata(x, y, z) ? this.overlayGauge : this.overlay;
 	}
 
@@ -88,34 +86,34 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
-		
+
 		TileEntity te = world.getTileEntity(x, y, z);
-		
+
 		if(!(te instanceof TileEntityPipeBaseNT))
 			return;
-		
+
 		TileEntityPipeGauge duct = (TileEntityPipeGauge) te;
-		
+
 		List<String> text = new ArrayList();
 		text.add("&[" + duct.getType().getColor() + "&]" + duct.getType().getLocalizedName());
 		text.add(String.format(Locale.US, "%,d", duct.deltaTick) + " mB/t");
 		text.add(String.format(Locale.US, "%,d", duct.deltaLastSecond) + " mB/s");
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
 	}
-	
+
 	@Override
 	public int getRenderType(){
 		return IBlockMultiPass.getRenderType();
 	}
 
 	@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-	public static class TileEntityPipeGauge extends TileEntityPipeBaseNT implements INBTPacketReceiver, SimpleComponent, CompatHandler.OCComponent {
+	public static class TileEntityPipeGauge extends TileEntityPipeBaseNT implements SimpleComponent, CompatHandler.OCComponent {
 
 		private BigInteger lastMeasurement = BigInteger.valueOf(10);
 		private long deltaTick = 0;
 		private long deltaSecond = 0;
 		private long deltaLastSecond = 0;
-		
+
 		@Override
 		public void updateEntity() {
 			super.updateEntity();
@@ -123,12 +121,12 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 			if(!worldObj.isRemote) {
 
 				IPipeNet net = this.getPipeNet(this.getType());
-				
+
 				if(net != null && this.getType() != Fluids.NONE) {
 					BigInteger total = net.getTotalTransfer();
 					BigInteger delta = total.subtract(this.lastMeasurement);
 					this.lastMeasurement = total;
-					
+
 					try {
 						this.deltaTick = delta.longValueExact();
 						if(worldObj.getTotalWorldTime() % 20 == 0) {
@@ -136,21 +134,24 @@ public class FluidDuctGauge extends FluidDuctBase implements IBlockMultiPass, IL
 							this.deltaSecond = 0;
 						}
 						this.deltaSecond += deltaTick;
-						
+
 					} catch(Exception ex) { }
 				}
-				
-				NBTTagCompound data = new NBTTagCompound();
-				data.setLong("deltaT", deltaTick);
-				data.setLong("deltaS", deltaLastSecond);
-				INBTPacketReceiver.networkPack(this, data, 25);
+
+				networkPackNT(25);
 			}
 		}
 
 		@Override
-		public void networkUnpack(NBTTagCompound nbt) {
-			this.deltaTick = Math.max(nbt.getLong("deltaT"), 0);
-			this.deltaLastSecond = Math.max(nbt.getLong("deltaS"), 0);
+		public void serialize(ByteBuf buf) {
+			buf.writeLong(deltaTick);
+			buf.writeLong(deltaLastSecond);
+		}
+
+		@Override
+		public void deserialize(ByteBuf buf) {
+			this.deltaTick = Math.max(buf.readLong(), 0);
+			this.deltaLastSecond = Math.max(buf.readLong(), 0);
 		}
 
 		@Optional.Method(modid = "OpenComputers")

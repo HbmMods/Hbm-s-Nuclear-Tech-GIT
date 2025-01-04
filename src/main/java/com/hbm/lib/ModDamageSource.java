@@ -1,13 +1,14 @@
 package com.hbm.lib;
 
-import com.hbm.entity.projectile.*;
-
+import com.hbm.entity.projectile.EntityBullet;
+import com.hbm.entity.projectile.EntityLaserBeam;
+import com.hbm.entity.projectile.EntityMinerBeam;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 
 public class ModDamageSource extends DamageSource {
-	
+
 	public static DamageSource nuclearBlast = (new DamageSource("nuclearBlast")).setExplosion();
 	public static DamageSource mudPoisoning = (new DamageSource("mudPoisoning")).setDamageBypassesArmor();
 	public static DamageSource acid = (new DamageSource("acid")); //.setDamageBypassesArmor();

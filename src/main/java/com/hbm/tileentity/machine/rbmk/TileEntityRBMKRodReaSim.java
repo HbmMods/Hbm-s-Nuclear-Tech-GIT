@@ -1,11 +1,16 @@
 package com.hbm.tileentity.machine.rbmk;
 
+import com.hbm.handler.neutron.NeutronNodeWorld;
+import com.hbm.handler.neutron.RBMKNeutronHandler;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 
+import com.hbm.util.fauxpointtwelve.BlockPos;
 import net.minecraft.util.Vec3;
 
+import static com.hbm.handler.neutron.RBMKNeutronHandler.*;
+
 public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
-	
+
 	public TileEntityRBMKRodReaSim() {
 		super();
 	}
@@ -14,42 +19,37 @@ public class TileEntityRBMKRodReaSim extends TileEntityRBMKRod {
 	public String getName() {
 		return "container.rbmkReaSim";
 	}
-	
+
+	private BlockPos pos;
+
 	@Override
-	protected void spreadFlux(NType type, double fluxOut) {
+	public void spreadFlux(double flux, double ratio) {
 
-		int range = RBMKDials.getReaSimRange(worldObj);
+		if(pos == null)
+			pos = new BlockPos(this);
+
+		if (flux == 0) {
+			// simple way to remove the node from the cache when no flux is going into it!
+			NeutronNodeWorld.removeNode(pos);
+			return;
+		}
+
+		RBMKNeutronNode node = (RBMKNeutronNode) NeutronNodeWorld.getNode(pos);
+
+		if(node == null) {
+			node = makeNode(this);
+			NeutronNodeWorld.addNode(node);
+		}
+
 		int count = RBMKDials.getReaSimCount(worldObj);
-		
-		Vec3 dir = Vec3.createVectorHelper(1, 0, 0);
-		
-		for(int i = 0; i < count; i++) {
-			
-			stream = type;
-			double flux = fluxOut * RBMKDials.getReaSimOutputMod(worldObj);
-			
-			dir.rotateAroundY((float)(Math.PI * 2D * worldObj.rand.nextDouble()));
-			
-			for(int j = 1; j <= range; j++) {
 
-				int x = (int)Math.floor(0.5 + dir.xCoord * j);
-				int z = (int)Math.floor(0.5 + dir.zCoord * j);
-				int lastX = (int)Math.floor(0.5 + dir.xCoord * (j - 1));
-				int lastZ = (int)Math.floor(0.5 + dir.zCoord * (j - 1));
-				
-				//skip if the position is on the rod itself
-				if(x == 0 && z == 0)
-					continue;
-				
-				//skip if the current position is equal to the last position
-				if(x == lastX && z == lastZ)
-					continue;
-				
-				flux = runInteraction(xCoord + x, yCoord, zCoord + z, flux);
-				
-				if(flux <= 0)
-					break;
-			}
+		for (int i = 0; i < count; i++) {
+			Vec3 neutronVector = Vec3.createVectorHelper(1, 0, 0);
+
+			neutronVector.rotateAroundY((float)(Math.PI * 2D * worldObj.rand.nextDouble()));
+
+			new RBMKNeutronHandler.RBMKNeutronStream(makeNode(this), neutronVector, flux, ratio);
+			// Create new neutron streams
 		}
 	}
 

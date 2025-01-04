@@ -1,15 +1,11 @@
 package com.hbm.blocks.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.lib.Library;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityPipeExhaust;
 import com.hbm.util.I18nUtil;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -24,6 +20,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FluidDuctBoxExhaust extends FluidDuctBox {
 
 	public FluidDuctBoxExhaust(Material mat) {
@@ -34,7 +33,7 @@ public class FluidDuctBoxExhaust extends FluidDuctBox {
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityPipeExhaust();
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -56,7 +55,7 @@ public class FluidDuctBoxExhaust extends FluidDuctBox {
 		iconCurveBR[0] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_exhaust_curve_br");
 		for(int i = 0; i < 5; i++) iconJunction[0][i] = iconRegister.registerIcon(RefStrings.MODID + ":boxduct_exhaust_junction_" + i);
 	}
-	
+
 	public boolean canConnectTo(IBlockAccess world, int x, int y, int z, ForgeDirection dir, TileEntity tile) {
 		return Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.SMOKE) ||
 				Library.canConnectFluid(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, dir, Fluids.SMOKE_LEADED) ||
@@ -67,7 +66,7 @@ public class FluidDuctBoxExhaust extends FluidDuctBox {
 	public int getSubCount() {
 		return 1;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
 		for(int i = 0; i < 15; i += 3) {

@@ -1,11 +1,8 @@
 package com.hbm.blocks.machine;
 
-import java.util.Random;
-
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityMachineAutocrafter;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,6 +18,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class MachineAutocrafter extends BlockContainer {
 
@@ -72,7 +71,7 @@ public class MachineAutocrafter extends BlockContainer {
 		ISidedInventory tile = (ISidedInventory) world.getTileEntity(x, y, z);
 
 		if(tile != null) {
-			
+
 			for(int i1 = 10; i1 < tile.getSizeInventory(); ++i1) {
 				ItemStack itemstack = tile.getStackInSlot(i1);
 
