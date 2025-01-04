@@ -11,10 +11,13 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class PacketThreading {
 
-	private static final ThreadFactory packetThreadFactory = new ThreadFactoryBuilder().setNameFormat("NTM-Packet-Thread-%d").build();
+	public static final String threadPrefix = "NTM-Packet-Thread-";
+
+	public static final ThreadFactory packetThreadFactory = new ThreadFactoryBuilder().setNameFormat(threadPrefix + "%d").build();
 
 	public static final ThreadPoolExecutor threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(1, packetThreadFactory);
 
@@ -24,17 +27,19 @@ public class PacketThreading {
 
 	public static final List<Future<?>> futureList = new ArrayList<>();
 
+	public static ReentrantLock lock = new ReentrantLock();
+
 	/**
 	 * Sets up thread pool settings during mod initialization.
  	 */
 	public static void init() {
 		threadPool.setKeepAliveTime(50, TimeUnit.MILLISECONDS);
-		if(GeneralConfig.enablePacketThreading) {
-			if(GeneralConfig.packetThreadingCoreCount < 0 || GeneralConfig.packetThreadingMaxCount <= 0) {
+		if (GeneralConfig.enablePacketThreading) {
+			if (GeneralConfig.packetThreadingCoreCount < 0 || GeneralConfig.packetThreadingMaxCount <= 0) {
 				MainRegistry.logger.error("0.02_packetThreadingCoreCount < 0 or 0.03_packetThreadingMaxCount is <= 0, defaulting to 1 each.");
 				threadPool.setCorePoolSize(1); // beugh
 				threadPool.setMaximumPoolSize(1);
-			} else if(GeneralConfig.packetThreadingMaxCount > GeneralConfig.packetThreadingCoreCount) {
+			} else if (GeneralConfig.packetThreadingMaxCount > GeneralConfig.packetThreadingCoreCount) {
 				MainRegistry.logger.error("0.03_packetThreadingMaxCount is > 0.02_packetThreadingCoreCount, defaulting to 1 each.");
 				threadPool.setCorePoolSize(1);
 				threadPool.setMaximumPoolSize(1);
@@ -45,8 +50,14 @@ public class PacketThreading {
 			threadPool.allowCoreThreadTimeOut(false);
 		} else {
 			threadPool.allowCoreThreadTimeOut(true);
-			for(Runnable task : threadPool.getQueue()) {
-				task.run(); // Run all tasks async just in-case there *are* tasks left to run.
+			try {
+				lock.lock();
+				for (Runnable task : threadPool.getQueue()) {
+					task.run(); // Run all tasks async just in-case there *are* tasks left to run.
+				}
+				clearThreadPoolTasks();
+			} finally {
+				lock.unlock();
 			}
 		}
 	}
@@ -56,8 +67,7 @@ public class PacketThreading {
 	 * @param message Message to process.
 	 * @param target TargetPoint to send to.
 	 */
-	public static void createThreadedPacket(IMessage message, TargetPoint target) {
-
+	public static void createAllAroundThreadedPacket(IMessage message, TargetPoint target) {
 		// `message` can be precompiled or not.
 		if(message instanceof PrecompiledPacket)
 			((PrecompiledPacket) message).getPreBuf(); // Gets the precompiled buffer, doing nothing if it already exists.
@@ -65,17 +75,26 @@ public class PacketThreading {
 		totalCnt++;
 
 		Runnable task = () -> {
-			PacketDispatcher.wrapper.sendToAllAround(message, target);
-		if(message instanceof PrecompiledPacket)
-			((PrecompiledPacket) message).getPreBuf().release();
+			try {
+				lock.lock();
+				PacketDispatcher.wrapper.sendToAllAround(message, target);
+				if (message instanceof PrecompiledPacket)
+					((PrecompiledPacket) message).getPreBuf().release();
+			} finally {
+				lock.unlock();
+			}
 		};
 
+		addTask(task);
+	}
+
+	private static void addTask(Runnable task) {
 		if(isTriggered())
 			task.run();
 		else if(GeneralConfig.enablePacketThreading)
-			futureList.add(threadPool.submit(task)); // Thread it
+			futureList.add(threadPool.submit(task));
 		else
-			task.run(); // no threading :(
+			task.run();
 	}
 
 	/**
@@ -86,7 +105,9 @@ public class PacketThreading {
 		try {
 			if (GeneralConfig.enablePacketThreading && (!GeneralConfig.packetThreadingErrorBypass && !hasTriggered)) {
 				for (Future<?> future : futureList) {
+					nanoTimeWaited = System.nanoTime() - startTime;
 					future.get(50, TimeUnit.MILLISECONDS); // I HATE EVERYTHING
+					if(TimeUnit.NANOSECONDS.convert(nanoTimeWaited, TimeUnit.MILLISECONDS) > 50) throw new TimeoutException(); // >50ms total time? timeout? yes sir, ooh rah!
 				}
 			}
 		} catch (ExecutionException ignored) {
@@ -99,7 +120,6 @@ public class PacketThreading {
 			Thread.currentThread().interrupt(); // maybe not the best thing but it's gotta be here
 		} finally {
 			futureList.clear();
-			nanoTimeWaited = System.nanoTime() - startTime;
 			if(!threadPool.getQueue().isEmpty()) {
 				if(!GeneralConfig.packetThreadingErrorBypass && !hasTriggered)
 					MainRegistry.logger.warn("Residual packets in packet threading queue detected, discarding {}/{} packets.", threadPool.getQueue().size(), totalCnt);
@@ -127,7 +147,6 @@ public class PacketThreading {
 			MainRegistry.logger.warn("Packet work queue cleared forcefully (clear count: {}).", clearCnt);
 
 		clearCnt++;
-
 
 		if(clearCnt > 5 && !isTriggered()) {
 			// If it's been cleared 5 times in a row, something may have gone really wrong.

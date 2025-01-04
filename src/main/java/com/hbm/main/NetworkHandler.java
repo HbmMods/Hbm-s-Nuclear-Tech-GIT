@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.PrecompiledPacket;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.FMLOutboundHandler;
@@ -20,6 +21,9 @@ import io.netty.handler.codec.CodecException;
 import io.netty.handler.codec.MessageToMessageCodec;
 import net.minecraft.entity.player.EntityPlayerMP;
 
+import javax.management.MXBean;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
 import java.lang.ref.WeakReference;
 import java.util.EnumMap;
 import java.util.List;
@@ -124,37 +128,91 @@ public class NetworkHandler {
 		serverChannel.flush();
 	}
 
-	public void sendToServer(IMessage message) {
+	public void sendToServer(IMessage message) { // No thread protection needed here, since the client never threads packets to the server.
 		clientChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
 		clientChannel.write(message);
 	}
 
 	public void sendToDimension(IMessage message, int dimensionId) {
-		serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DIMENSION);
-		serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimensionId);
-		serverChannel.write(message);
+		if(!Thread.currentThread().getName().contains(PacketThreading.threadPrefix)) {
+			try {
+				PacketThreading.lock.lock();
+				serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DIMENSION);
+				serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimensionId);
+				serverChannel.write(message);
+			} finally {
+				PacketThreading.lock.unlock();
+			}
+		} else {
+			serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.DIMENSION);
+			serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimensionId);
+			serverChannel.write(message);
+		}
 	}
 
 	public void sendToAllAround(IMessage message, NetworkRegistry.TargetPoint point) {
-		serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
-		serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
-		serverChannel.write(message);
+		if(!Thread.currentThread().getName().contains(PacketThreading.threadPrefix)) {
+			try {
+				PacketThreading.lock.lock();
+				serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
+				serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
+				serverChannel.write(message);
+			} finally {
+				PacketThreading.lock.unlock();
+			}
+		} else {
+			serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
+			serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
+			serverChannel.write(message);
+		}
 	}
 
 	public void sendToAllAround(ByteBuf message, NetworkRegistry.TargetPoint point) {
-		serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
-		serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
-		serverChannel.write(message);
+		if(!Thread.currentThread().getName().contains(PacketThreading.threadPrefix)) {
+			try {
+				PacketThreading.lock.lock();
+				serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
+				serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
+				serverChannel.write(message);
+			} finally {
+				PacketThreading.lock.unlock();
+			}
+		} else {
+			serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALLAROUNDPOINT);
+			serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(point);
+			serverChannel.write(message);
+		}
 	}
 
 	public void sendTo(IMessage message, EntityPlayerMP player) {
-		serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
-		serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
-		serverChannel.write(message);
+		if(!Thread.currentThread().getName().contains(PacketThreading.threadPrefix)) {
+			try {
+				PacketThreading.lock.lock();
+				serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
+				serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
+				serverChannel.write(message);
+			} finally {
+				PacketThreading.lock.unlock();
+			}
+		} else {
+			serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
+			serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
+			serverChannel.write(message);
+		}
 	}
 
 	public void sendToAll(IMessage message) {
-		serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
-		serverChannel.write(message);
+		if(!Thread.currentThread().getName().contains(PacketThreading.threadPrefix)) {
+			try {
+				PacketThreading.lock.lock();
+				serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
+				serverChannel.write(message);
+			} finally {
+				PacketThreading.lock.unlock();
+			}
+		} else {
+			serverChannel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
+			serverChannel.write(message);
+		}
 	}
 }
