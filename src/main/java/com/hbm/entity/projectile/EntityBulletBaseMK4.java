@@ -34,6 +34,26 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		this.isImmuneToFire = true;
 	}
 	
+	/** For submunitions! */
+	public EntityBulletBaseMK4(World world, EntityLivingBase entity, BulletConfig config, float damage, float gunSpread, double posX, double posY, double posZ, double motionX, double motionY, double motionZ) {
+		this(world);
+		
+		this.thrower = entity;
+		this.setBulletConfig(config);
+		
+		this.damage = damage;
+		
+		this.setLocationAndAngles(posX, posY, posZ, 0, 0);
+		this.setPosition(this.posX, this.posY, this.posZ);
+		
+		this.motionX = motionX;
+		this.motionY = motionY;
+		this.motionZ = motionZ;
+		
+		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread + gunSpread);
+	}
+	
+	/** For standard guns */
 	public EntityBulletBaseMK4(EntityLivingBase entity, BulletConfig config, float baseDamage, float gunSpread, double sideOffset, double heightOffset, double frontOffset) {
 		this(entity.worldObj);
 		
@@ -57,15 +77,11 @@ public class EntityBulletBaseMK4 extends EntityThrowableInterp {
 		this.motionX = -MathHelper.sin(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
 		this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float) Math.PI);
 		this.motionY = (-MathHelper.sin(this.rotationPitch / 180.0F * (float) Math.PI));
-
-		/*motionX += entity.motionX;
-		motionY += entity.motionY;
-		motionZ += entity.motionZ;*/
 		
 		this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, 1.0F, this.config.spread + gunSpread);
 	}
 	
-	/** For turrets - angles are in radians, andp itch is negative! */
+	/** For turrets - angles are in radians, and pitch is negative! */
 	public EntityBulletBaseMK4(World world, BulletConfig config, float baseDamage, float gunSpread, float yaw, float pitch) {
 		this(world);
 		
