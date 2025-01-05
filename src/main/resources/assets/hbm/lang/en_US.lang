@@ -5767,6 +5767,7 @@ tile.ore_gneiss_uranium.name=Schist Uranium Ore
 tile.ore_gneiss_uranium_scorched.name=Scorched Schist Uranium Ore
 tile.ore_lead.name=Lead Ore
 tile.ore_lignite.name=Lignite Ore
+tile.ore_limestone_tetrahedrite.name=Tetrahedrite Ore
 tile.ore_meteor.aluminium.name=Meteor Aluminium Ore
 tile.ore_meteor.cobalt.name=Meteor Cobalt Ore
 tile.ore_meteor.copper.name=Meteor Copper Ore
