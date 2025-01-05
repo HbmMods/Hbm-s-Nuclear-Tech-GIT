@@ -10,10 +10,9 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
@@ -55,7 +54,7 @@ public class TileEntityBroadcaster extends TileEntityLoadedBase {
 
 			int intendedVolume = 25;
 
-			EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+			EntityPlayer player = MainRegistry.proxy.me();
 			float volume;
 			if(player != null) {
 				float f = (float)Math.sqrt(Math.pow(xCoord - player.posX, 2) + Math.pow(yCoord - player.posY, 2) + Math.pow(zCoord - player.posZ, 2));
