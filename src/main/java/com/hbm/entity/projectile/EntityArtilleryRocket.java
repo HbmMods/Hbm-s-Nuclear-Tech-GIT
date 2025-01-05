@@ -96,14 +96,18 @@ public class EntityArtilleryRocket extends EntityThrowableInterp implements IChu
 		super.onUpdate();
 		
 		if(!worldObj.isRemote) {
+
+			//shitty hack, figure out what's happening here
+			if(this.targeting == null) this.targeting = new RocketTargetingPredictive();
+			if(this.steering == null) this.steering = new RocketSteeringBallisticArc();
 			
-			/*if(this.targetEntity == null) {
+			if(this.targetEntity == null) {
 				Vec3 delta = Vec3.createVectorHelper(this.lastTargetPos.xCoord - this.posX, this.lastTargetPos.yCoord - this.posY, this.lastTargetPos.zCoord - this.posZ);
 				if(delta.lengthVector() <= 15D) {
 					this.targeting = null;
 					this.steering = null;
 				}
-			}*/
+			}
 			
 			if(this.targeting != null && this.targetEntity != null) this.targeting.recalculateTargetPosition(this, this.targetEntity);
 			if(this.steering != null) this.steering.adjustCourse(this, 25D, 15D);

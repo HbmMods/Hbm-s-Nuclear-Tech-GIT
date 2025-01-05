@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BlockDetonatable;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityBulletBeamBase;
@@ -99,6 +100,7 @@ public class BulletConfig implements Cloneable {
 	public BulletConfig setChunkloading() {												this.pType = ProjectileType.BULLET_CHUNKLOADING; return this; }
 	public BulletConfig setItem(Item ammo) {											this.ammo = new ComparableStack(ammo); return this; }
 	public BulletConfig setItem(ItemStack ammo) {										this.ammo = new ComparableStack(ammo); return this; }
+	public BulletConfig setItem(ComparableStack ammo) {									this.ammo = ammo; return this; }
 	public BulletConfig setItem(EnumAmmo ammo) {										this.ammo = new ComparableStack(ModItems.ammo_standard, 1, ammo.ordinal()); return this; }
 	public BulletConfig setItem(EnumAmmoSecret ammo) {									this.ammo = new ComparableStack(ModItems.ammo_secret, 1, ammo.ordinal()); return this; }
 	public BulletConfig setReloadCount(int ammoReloadCount) {							this.ammoReloadCount = ammoReloadCount; return this; }
@@ -173,6 +175,10 @@ public class BulletConfig implements Cloneable {
 			}
 			if(b instanceof BlockDetonatable) {
 				((BlockDetonatable) b).onShot(bullet.worldObj, mop.blockX, mop.blockY, mop.blockZ);
+			}
+			if(b == ModBlocks.deco_crt) {
+				int meta = bullet.worldObj.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+				bullet.worldObj.setBlockMetadataWithNotify(mop.blockX, mop.blockY, mop.blockZ, meta % 4 + 4, 3);
 			}
 
 			ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
