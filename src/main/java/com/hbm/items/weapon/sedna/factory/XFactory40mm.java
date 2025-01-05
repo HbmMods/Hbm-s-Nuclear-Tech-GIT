@@ -36,6 +36,7 @@ import com.hbm.render.anim.HbmAnimations.AnimType;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.TrackerUtil;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
+import com.hbm.world.WorldUtil;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -133,7 +134,7 @@ public class XFactory40mm {
 			int z = (int) Math.floor(bullet.posZ);
 			int y = bullet.worldObj.getHeightValue(x, z);
 			c130.fac(bullet.worldObj, x, y, z, payload);
-			bullet.worldObj.spawnEntityInWorld(c130);
+			WorldUtil.loadAndSpawnEntityInWorld(c130);
 			TrackerUtil.setTrackingRange(bullet.worldObj, c130, 250);
 		}
 	}

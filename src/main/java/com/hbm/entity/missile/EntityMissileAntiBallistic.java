@@ -74,8 +74,8 @@ public class EntityMissileAntiBallistic extends EntityThrowableInterp implements
 				if(prevTracking == null && this.tracking != null) {
 					ExplosionLarge.spawnShock(worldObj, posX, posY, posZ, 24, 3F);
 				}
-
-				if(this.tracking != null) {
+        
+				if(this.tracking != null && !this.tracking.isDead) {
 					this.aimAtTarget();
 				} else {
 					if(this.ticksExisted > 600) this.setDead();

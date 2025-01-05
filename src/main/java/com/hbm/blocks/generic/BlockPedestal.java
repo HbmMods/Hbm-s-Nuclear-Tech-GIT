@@ -143,7 +143,7 @@ public class BlockPedestal extends BlockContainer {
 					}
 					
 					if(recipe.extra == recipe.extra.SUN) {
-						if(world.getCelestialAngle(0) > 0.15 || world.getCelestialAngle(0) < 0.85) continue;
+						if(world.getCelestialAngle(0) > 0.15 && world.getCelestialAngle(0) < 0.85) continue;
 					}
 					
 					for(int i = 0; i < 9; i++) {

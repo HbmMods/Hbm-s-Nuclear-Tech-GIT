@@ -77,10 +77,10 @@ public class ParticlePlasmaBlast extends EntityFX {
 		
 		tess.setColorRGBA_F(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha);
 		
-		tess.addVertexWithUV((double)(- 1 * scale), (double)(- 0.25), (double)(- 1 * scale), 1, 1);
-		tess.addVertexWithUV((double)(- 1 * scale), (double)(- 0.25), (double)(+ 1 * scale), 1, 0);
-		tess.addVertexWithUV((double)(+ 1 * scale), (double)(- 0.25), (double)(+ 1 * scale), 0, 0);
-		tess.addVertexWithUV((double)(+ 1 * scale), (double)(- 0.25), (double)(- 1 * scale), 0, 1);
+		tess.addVertexWithUV((double)(- 1 * scale), 0, (double)(- 1 * scale), 1, 1);
+		tess.addVertexWithUV((double)(- 1 * scale), 0, (double)(+ 1 * scale), 1, 0);
+		tess.addVertexWithUV((double)(+ 1 * scale), 0, (double)(+ 1 * scale), 0, 0);
+		tess.addVertexWithUV((double)(+ 1 * scale), 0, (double)(- 1 * scale), 0, 1);
 		tess.draw();
 
 		if(fog) GL11.glEnable(GL11.GL_FOG);

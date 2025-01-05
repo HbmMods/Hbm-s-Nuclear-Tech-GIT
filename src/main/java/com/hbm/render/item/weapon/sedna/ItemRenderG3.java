@@ -61,7 +61,8 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 		
 		ResourceManager.g3.renderPart("Rifle");
 		ResourceManager.g3.renderPart("Stock");
-		ResourceManager.g3.renderPart("FlashHider");
+		ResourceManager.g3.renderPart("Flash_Hider");
+		ResourceManager.g3.renderPart("Trigger_Rifle.002");
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(mag[0], mag[1], mag[2]);
@@ -86,7 +87,7 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 		GL11.glTranslated(0, -0.875, -3.5);
 		GL11.glRotated(-30 * (1 - ItemGunBaseNT.getMode(stack, 0)), 1, 0, 0);
 		GL11.glTranslated(0, 0.875, 3.5);
-		ResourceManager.g3.renderPart("Selector");
+		ResourceManager.g3.renderPart("Selector_Rifle.001");
 		GL11.glPopMatrix();
 
 		double smokeScale = 0.75;
@@ -137,15 +138,16 @@ public class ItemRenderG3 extends ItemRenderWeaponBase {
 		ResourceManager.g3.renderPart("Rifle");
 		ResourceManager.g3.renderPart("Stock");
 		ResourceManager.g3.renderPart("Magazine");
-		ResourceManager.g3.renderPart("FlashHider");
+		ResourceManager.g3.renderPart("Flash_Hider");
 		ResourceManager.g3.renderPart("Bolt");
 		ResourceManager.g3.renderPart("Handle");
+		ResourceManager.g3.renderPart("Trigger_Rifle.002");
 		
 		GL11.glPushMatrix();
 		GL11.glTranslated(0, -0.875, -3.5);
 		GL11.glRotated(-30, 1, 0, 0);
 		GL11.glTranslated(0, 0.875, 3.5);
-		ResourceManager.g3.renderPart("Selector");
+		ResourceManager.g3.renderPart("Selector_Rifle.001");
 		GL11.glPopMatrix();
 		GL11.glShadeModel(GL11.GL_FLAT);
 	}

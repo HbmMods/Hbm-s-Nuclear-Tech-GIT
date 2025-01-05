@@ -1,5 +1,6 @@
 package com.hbm.items.weapon.sedna.factory;
 
+import com.hbm.interfaces.IOrderedEnum;
 import com.hbm.items.ItemEnumMulti;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.sedna.BulletConfig;
@@ -69,7 +70,7 @@ public class GunFactory {
 		MainRegistry.proxy.registerGunCfg();
 	}
 	
-	public static enum EnumAmmo {
+	public static enum EnumAmmo implements IOrderedEnum {
 		STONE, STONE_AP, STONE_IRON, STONE_SHOT,
 		M357_BP, M357_SP, M357_FMJ, M357_JHP, M357_AP, M357_EXPRESS,
 		M44_BP, M44_SP, M44_FMJ, M44_JHP, M44_AP, M44_EXPRESS,
@@ -88,7 +89,37 @@ public class GunFactory {
 		TAU_URANIUM,
 		COIL_TUNGSTEN, COIL_FERROURANIUM,
 		NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE,
-		G10, G10_SHRAPNEL, G10_DU
+		G10, G10_SHRAPNEL, G10_DU, G10_SLUG,
+		
+		//ONLY ADD NEW ENTRIES AT THE BOTTOM TO AVOID SHIFTING!
+		;
+		
+		/** used for creative tab order */
+		public static EnumAmmo[] order = new EnumAmmo[] {
+			STONE, STONE_AP, STONE_IRON, STONE_SHOT,
+			M357_BP, M357_SP, M357_FMJ, M357_JHP, M357_AP, M357_EXPRESS,
+			M44_BP, M44_SP, M44_FMJ, M44_JHP, M44_AP, M44_EXPRESS,
+			P22_SP, P22_FMJ, P22_JHP, P22_AP,
+			P9_SP, P9_FMJ, P9_JHP, P9_AP,
+			R556_SP, R556_FMJ, R556_JHP, R556_AP,
+			R762_SP, R762_FMJ, R762_JHP, R762_AP, R762_DU,
+			BMG50_SP, BMG50_FMJ, BMG50_JHP, BMG50_AP, BMG50_DU,
+			B75, B75_INC, B75_EXP,
+			G12_BP, G12_BP_MAGNUM, G12_BP_SLUG, G12, G12_SLUG, G12_FLECHETTE, G12_MAGNUM, G12_EXPLOSIVE, G12_PHOSPHORUS,
+			G10, G10_SHRAPNEL, G10_DU, G10_SLUG,
+			G26_FLARE, G26_FLARE_SUPPLY, G26_FLARE_WEAPON,
+			G40_HE, G40_HEAT, G40_DEMO, G40_INC, G40_PHOSPHORUS,
+			ROCKET_HE, ROCKET_HEAT, ROCKET_DEMO, ROCKET_INC, ROCKET_PHOSPHORUS,
+			FLAME_DIESEL, FLAME_GAS, FLAME_NAPALM, FLAME_BALEFIRE,
+			CAPACITOR, CAPACITOR_OVERCHARGE, CAPACITOR_IR,
+			TAU_URANIUM,
+			COIL_TUNGSTEN, COIL_FERROURANIUM,
+			NUKE_STANDARD, NUKE_DEMO, NUKE_HIGH, NUKE_TOTS, NUKE_HIVE,
+		};
+		
+		public Enum[] getOrder() {
+			return order;
+		}
 	}
 	
 	public static enum EnumAmmoSecret {

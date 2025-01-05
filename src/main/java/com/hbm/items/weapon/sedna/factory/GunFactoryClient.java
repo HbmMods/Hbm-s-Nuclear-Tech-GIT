@@ -67,6 +67,7 @@ public class GunFactoryClient {
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_chemthrower,				new ItemRenderChemthrower());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_m2,						new ItemRenderM2());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_autoshotgun,				new ItemRenderShredder(ResourceManager.shredder_tex));
+		MinecraftForgeClient.registerItemRenderer(ModItems.gun_autoshotgun_shredder,	new ItemRenderShredder(ResourceManager.shredder_orig_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_autoshotgun_sexy,		new ItemRenderShredder(ResourceManager.sexy_tex));
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_quadro,					new ItemRenderQuadro());
 		MinecraftForgeClient.registerItemRenderer(ModItems.gun_minigun,					new ItemRenderMinigun(ResourceManager.minigun_tex));
@@ -146,13 +147,22 @@ public class GunFactoryClient {
 		g12_magnum.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		g12_explosive.setRenderer(LegoClient.RENDER_EXPRESS_BULLET);
 		g12_phosphorus.setRenderer(LegoClient.RENDER_AP_BULLET);
-		//g12_anthrax.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		g12_equestrian_bj.setRenderer(LegoClient.RENDER_LEGENDARY_BULLET);
 		g12_equestrian_tkr.setRenderer(LegoClient.RENDER_LEGENDARY_BULLET);
+
+		g12_sub.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
+		g12_sub_slug.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
+		g12_sub_flechette.setRenderer(LegoClient.RENDER_FLECHETTE_BULLET);
+		g12_sub_magnum.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
+		g12_sub_explosive.setRenderer(LegoClient.RENDER_EXPRESS_BULLET);
+		g12_sub_phosphorus.setRenderer(LegoClient.RENDER_AP_BULLET);
+		
+		setRendererBulkBeam(LegoClient.RENDER_LASER_CYAN, g12_shredder, g12_shredder_slug, g12_shredder_flechette, g12_shredder_magnum, g12_shredder_explosive, g12_shredder_phosphorus);
 
 		g10.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		g10_shrapnel.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 		g10_du.setRenderer(LegoClient.RENDER_DU_BULLET);
+		g10_slug.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 
 		g26_flare.setRenderer(LegoClient.RENDER_FLARE);
 		g26_flare_supply.setRenderer(LegoClient.RENDER_FLARE_SUPPLY);
@@ -209,6 +219,7 @@ public class GunFactoryClient {
 		((ItemGunBaseNT) ModItems.gun_chemthrower)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_m2)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_autoshotgun)				.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+		((ItemGunBaseNT) ModItems.gun_autoshotgun_shredder)		.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_autoshotgun_sexy)			.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_quadro)					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
 		((ItemGunBaseNT) ModItems.gun_lag)						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);

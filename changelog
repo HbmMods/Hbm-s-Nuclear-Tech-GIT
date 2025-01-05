@@ -1,25 +1,27 @@
 ## Added
-* Double barrel shotgun
-  * Special weapon, spawns as part of certain loot pools
-  * Uses the new 10 gauge caliber
-  * Will reload after each shot, however it is not belt-fed, if ammo is depleted, the next reload must be triggered manually
+* 10 gauge slug
+* Shredder
+  * A b-side for the autoshotgun
+  * Fires 12 gauge, accelerated by plasma, which bursts on impact
+  * Fragments move slowly and have damaging ricochet effects
+  * Fragments keep the effects of the original shell (e.g. explosive shell will spawn a single explosive fragment)
 
 ## Changed
-* Removed the old casing items
-* Reduced the flicker on the autoshotgun's holo sights
+* Black powder bullets now have 75% base damage instead of 50%
+* Ball and powder type rounds no longer have a bonus on headshot
+* Shot and powder now does way less damage
+* Some secret ammo types are now craftable
+* Updated the assault rifle's texture
+* Shooting at old CRT screens now breaks them
 
 ## Fixed
-* Fixed the bullet casing molds being unobtainable
-* Fixed instant crash caused by smelting certain things in the crucible
-* Fixed the SPAS' alt fire having a delay of only 10 ticks instead of 20
-* Fixed 240mm nuclear shells not triggering properly if they hit their target within 3 ticks of being spawned
-* Fixed some items that are supposed to be hidden in NEI being visible
-* Fixed dual lever action shotguns having inconsistent damage
-* Fixed entities (especially players) not being affected at all by their own explosions (rockets, 40mm grenades, etc)
-  * To keep rocket jumping at least somewhat viable, self-damage from explosions is reduced by 50%, the knockback remains the same
-* Fixed missing localization for the casing molds
-* Fixed the broken CIWS turret crashing instantly
-* Added safeguards to prevent any unnamed casing config from crashing
-* Fixed one of the break action revolver's faces having incorrect normals, making it invisible
-* Fixed the fluid trait config not loading correctly
-  * Fluids are now subject to the /ntmreload command
+* Fixed `ITEM_TOOLTIP_SHOW_CUSTOM_NUKE` client config overriding `ITEM_TOOLTIP_SHOW_OREDICT` due to name overlap
+* Fixed certain secret weapon creation condition not working properly
+* Fixed artillery rockets getting stuck in the air when their target is not set to a block
+* Fixed potential issue of ABMs getting stuck mid-flight when their target is destroyed prematurely
+* Fixed mistakes in the fragment names for de_DE
+* Fixed nitra rocket duplication only yielding one rocket
+* Fixed rotary furnace not always properly showing the metal pouring effect
+* Fixed T45 model not lifting its arms when a new gun is held
+  * Like previously, due to the archaic nature of the model, the rotations are not very precise, and will most likely break when holding an akimbo gun
+* Potentially fixed an issue where cargo planes do not successfully spawn on lower render distances
