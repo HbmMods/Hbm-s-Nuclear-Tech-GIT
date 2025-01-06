@@ -3020,6 +3020,7 @@ item.gun_defabricator.name=Defabricator
 item.gun_defabricator_ammo.name=Defabricator Energy Cell
 item.gun_detonator.name=Laser Detonator
 item.gun_double_barrel.name=An Old Classic
+item.gun_double_barrel_sacred_dragon.name=Sacred Dragon
 item.gun_emp.name=EMP Gun
 item.gun_emp_ammo.name=Energy Cell
 item.gun_euthanasia.name=Euthanasia

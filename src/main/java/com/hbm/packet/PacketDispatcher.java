@@ -5,9 +5,6 @@ import com.hbm.main.NetworkHandler;
 import com.hbm.packet.toclient.*;
 import com.hbm.packet.toserver.*;
 
-import cpw.mods.fml.common.network.FMLEventChannel;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 
 public class PacketDispatcher {

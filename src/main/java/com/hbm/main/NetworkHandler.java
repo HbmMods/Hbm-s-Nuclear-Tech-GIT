@@ -21,9 +21,6 @@ import io.netty.handler.codec.CodecException;
 import io.netty.handler.codec.MessageToMessageCodec;
 import net.minecraft.entity.player.EntityPlayerMP;
 
-import javax.management.MXBean;
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadInfo;
 import java.lang.ref.WeakReference;
 import java.util.EnumMap;
 import java.util.List;

@@ -37,9 +37,6 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.world.biome.BiomeGenCraterBase;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.PooledByteBufAllocator;
-import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

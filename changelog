@@ -1,3 +1,8 @@
+## The performance update
+* my boy gammawave basically did the entire thing
+* packet sending should be more performant now, which affects most machines
+* RBMKs are now *much* more performant with their simulation and packets
+
 ## Added
 * 10 gauge slug
 * Shredder
@@ -5,6 +10,7 @@
   * Fires 12 gauge, accelerated by plasma, which bursts on impact
   * Fragments move slowly and have damaging ricochet effects
   * Fragments keep the effects of the original shell (e.g. explosive shell will spawn a single explosive fragment)
+* Other gun stuff
 
 ## Changed
 * Black powder bullets now have 75% base damage instead of 50%
@@ -25,3 +31,5 @@
 * Fixed T45 model not lifting its arms when a new gun is held
   * Like previously, due to the archaic nature of the model, the rotations are not very precise, and will most likely break when holding an akimbo gun
 * Potentially fixed an issue where cargo planes do not successfully spawn on lower render distances
+* Fixed glyphids not calling their `onDeath` function properly, causing them to not drop anything and preventing the appropriate forge events from firing
+* Fixed GL state leak caused by plasma blast particles, causing other particles (especially bones) to render weird

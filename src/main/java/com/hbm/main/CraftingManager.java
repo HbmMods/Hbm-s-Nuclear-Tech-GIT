@@ -23,7 +23,6 @@ import com.hbm.items.ItemEnums.EnumLegendaryType;
 import com.hbm.items.ItemEnums.EnumPages;
 import com.hbm.items.ItemEnums.EnumPlantType;
 import com.hbm.items.ItemGenericPart.EnumPartType;
-import com.hbm.items.ModItems;
 import com.hbm.items.food.ItemConserve.EnumFoodType;
 import com.hbm.items.machine.ItemArcElectrode.EnumElectrodeType;
 import com.hbm.items.machine.ItemBattery;
@@ -33,7 +32,6 @@ import com.hbm.items.special.ItemHolotapeImage.EnumHoloImage;
 import com.hbm.items.special.ItemPlasticScrap.ScrapType;
 import com.hbm.items.tool.ItemDrone.EnumDroneType;
 import com.hbm.items.tool.ItemGuideBook.BookType;
-import com.hbm.util.EnchantmentUtil;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
@@ -49,8 +47,6 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.hbm.inventory.OreDictManager.*;
 
 public class CraftingManager {
 

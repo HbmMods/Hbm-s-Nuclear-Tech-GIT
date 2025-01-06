@@ -1016,7 +1016,8 @@ public class ResourceManager {
 	public static final ResourceLocation lasrifle_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lasrifle.png");
 	public static final ResourceLocation hangman_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/hangman.png");
 	public static final ResourceLocation folly_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/moonlight.png");
-	public static final ResourceLocation double_barrel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/sacred_dragon.png");
+	public static final ResourceLocation double_barrel_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/double_barrel.png");
+	public static final ResourceLocation double_barrel_sacred_dragon_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/double_barrel_sacred_dragon.png");
 
 	public static final ResourceLocation lance_tex = new ResourceLocation(RefStrings.MODID, "textures/models/weapons/lance.png");
 

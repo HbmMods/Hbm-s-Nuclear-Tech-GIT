@@ -2212,6 +2212,7 @@ item.gun_defabricator.name=Defabrikator
 item.gun_defabricator_ammo.name=Defabrikator-Energiezelle
 item.gun_detonator.name=Laserzünder
 item.gun_double_barrel.name=Ein alter Klassiker
+item.gun_double_barrel_sacred_dragon.name=Sacred Dragon
 item.gun_emp.name=EMP-Waffe
 item.gun_emp_ammo.name=Energiezelle
 item.gun_euthanasia.name=Euthanasia
