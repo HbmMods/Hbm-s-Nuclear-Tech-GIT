@@ -13,7 +13,6 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityChungus;
-import com.hbm.tileentity.machine.oil.TileEntityMachineFractionTower;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
 
@@ -148,34 +147,27 @@ public class MachineChungus extends BlockDummyable implements ITooltipProvider, 
 	@Override
 	public void printHook(Pre event, World world, int x, int y, int z) {
 		int[] pos = this.findCore(world, x, y, z);
-		
-		if(pos == null)
-			return;
+		if(pos == null) return;
 		
 		TileEntity te = world.getTileEntity(pos[0], pos[1], pos[2]);
-		
-		if(!(te instanceof TileEntityChungus))
-			return;
+		if(!(te instanceof TileEntityChungus)) return;
 		
 		TileEntityChungus chungus = (TileEntityChungus) te;
-		
 		List<String> text = new ArrayList();
 
-		FluidTank tankInput = chungus.getReceivingTanks()[0];
-		FluidTank tankOutput = chungus.getSendingTanks()[0];
+		FluidTank tankInput = chungus.tanks[0];
+		FluidTank tankOutput = chungus.tanks[1];
 		
 		FluidType inputType = tankInput.getTankType();
 		FluidType outputType = Fluids.NONE;
 		
-		if (inputType.hasTrait(FT_Coolable.class)) {
+		if(inputType.hasTrait(FT_Coolable.class)) {
 			outputType = inputType.getTrait(FT_Coolable.class).coolsTo;
 		}
 		
 		text.add(EnumChatFormatting.GREEN + "-> " + EnumChatFormatting.RESET + inputType.getLocalizedName() + ": " + tankInput.getFill() + "/" + tankInput.getMaxFill() + "mB");
 		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + outputType.getLocalizedName() + ": " + tankOutput.getFill() + "/" + tankOutput.getMaxFill() + "mB");
-		
-		
-		text.add(EnumChatFormatting.YELLOW + "** " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(chungus.power) + "/" + BobMathUtil.getShortNumber(chungus.getMaxPower()) + "HE");
+		text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + BobMathUtil.getShortNumber(chungus.power) + "/" + BobMathUtil.getShortNumber(chungus.getMaxPower()) + "HE");
 		
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);

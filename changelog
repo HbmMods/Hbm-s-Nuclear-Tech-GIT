@@ -19,6 +19,9 @@
 * Some secret ammo types are now craftable
 * Updated the assault rifle's texture
 * Shooting at old CRT screens now breaks them
+* Leviathan turbines now have a tooltip showing their buffers
+* Fullerene now only uses visible light instead of UV to make, meaning fullerite can be obtained without a fusion or watz reactor (still requiring vacuum oil though)
+* Crumb yields from bedrock ore processing has been heavily decreased, all recipes that yield crumbs produce no more than one pile
 
 ## Fixed
 * Fixed `ITEM_TOOLTIP_SHOW_CUSTOM_NUKE` client config overriding `ITEM_TOOLTIP_SHOW_OREDICT` due to name overlap
@@ -33,3 +36,5 @@
 * Potentially fixed an issue where cargo planes do not successfully spawn on lower render distances
 * Fixed glyphids not calling their `onDeath` function properly, causing them to not drop anything and preventing the appropriate forge events from firing
 * Fixed GL state leak caused by plasma blast particles, causing other particles (especially bones) to render weird
+* Fixed night vision goggles being constantly disabled due to m1tty's night vision removal out of water
+* Fixed armor on test dummies entering the sneaked state in third person view when the player sneaks
