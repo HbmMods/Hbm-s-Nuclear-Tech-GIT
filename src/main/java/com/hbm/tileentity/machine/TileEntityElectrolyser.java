@@ -393,13 +393,13 @@ public class TileEntityElectrolyser extends TileEntityMachineBase implements IEn
 	public int getDurationMetal() {
 		ElectrolysisMetalRecipe result = ElectrolyserMetalRecipes.getRecipe(slots[14]);
 		int base = result != null ? result.duration : 600;
-		int speed = upgradeManager.getLevel(UpgradeType.SPEED) - upgradeManager.getLevel(UpgradeType.POWER);
+		int speed = upgradeManager.getLevel(UpgradeType.SPEED) - Math.min(upgradeManager.getLevel(UpgradeType.POWER), 1);
 		return (int) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.2)));
 	}
 	public int getDurationFluid() {
 		ElectrolysisRecipe result = ElectrolyserFluidRecipes.getRecipe(tanks[0].getTankType());
 		int base = result != null ? result.duration : 100;
-		int speed = upgradeManager.getLevel(UpgradeType.SPEED) - upgradeManager.getLevel(UpgradeType.POWER);
+		int speed = upgradeManager.getLevel(UpgradeType.SPEED) - Math.min(upgradeManager.getLevel(UpgradeType.POWER), 1);
 		return (int) Math.ceil((base * Math.max(1F - 0.25F * speed, 0.2)));
 
 	}
