@@ -138,9 +138,8 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 			turnTimer--;
 
 			if(operational) turnTimer = 25;
-
 			networkPackNT(150);
-
+      
 		} else {
 
 			this.lastRotor = this.rotor;
@@ -214,6 +213,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 		buf.writeLong(this.power);
 		buf.writeInt(this.turnTimer);
 		this.tanks[0].serialize(buf);
+		this.tanks[1].serialize(buf);
 	}
 
 	@Override
@@ -221,6 +221,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 		this.power = buf.readLong();
 		this.turnTimer = buf.readInt();
 		this.tanks[0].deserialize(buf);
+		this.tanks[1].deserialize(buf);
 	}
 
 	@Override
