@@ -8,8 +8,7 @@ import com.hbm.blocks.machine.MachineITER;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidSource;
+import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.container.ContainerITER;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -22,18 +21,27 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.ItemFusionShield;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.tile.IInfoProviderEC;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -43,18 +51,18 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser, IFluidAcceptor, IFluidSource, IFluidStandardTransceiver, IGUIProvider /* TODO: finish fluid API impl */ {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityITER extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IGUIProvider, IInfoProviderEC, SimpleComponent, CompatHandler.OCComponent, IFluidCopiable {
 	
 	public long power;
 	public static final long maxPower = 10000000;
 	public static final int powerReq = 100000;
-	public int age = 0;
-	public List<IFluidAcceptor> list = new ArrayList();
 	public FluidTank[] tanks;
 	public FluidTank plasma;
 	
 	public int progress;
 	public static final int duration = 100;
+	public long totalRuntime;
 	
 	@SideOnly(Side.CLIENT)
 	public int blanket;
@@ -63,12 +71,16 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	public float lastRotor;
 	public boolean isOn;
 
+	private float rotorSpeed = 0F;
+
+	private AudioWrapper audio;
+
 	public TileEntityITER() {
 		super(5);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.WATER, 1280000, 0);
-		tanks[1] = new FluidTank(Fluids.ULTRAHOTSTEAM, 128000, 1);
-		plasma = new FluidTank(Fluids.PLASMA_DT, 16000, 2);
+		tanks[0] = new FluidTank(Fluids.WATER, 1280000);
+		tanks[1] = new FluidTank(Fluids.ULTRAHOTSTEAM, 128000);
+		plasma = new FluidTank(Fluids.PLASMA_DT, 16000);
 	}
 
 	@Override
@@ -80,14 +92,6 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
-			age++;
-			if (age >= 20) {
-				age = 0;
-			}
-
-			if (age == 9 || age == 19)
-				fillFluidInit(tanks[1].getTankType());
 			
 			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
@@ -107,11 +111,9 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 				power -= powerReq;
 				
 				if(plasma.getFill() > 0) {
-					
-					int chance = FusionRecipes.getByproductChance(plasma.getTankType());
-					
-					if(chance > 0 && worldObj.rand.nextInt(chance) == 0)
-						produceByproduct();
+					this.totalRuntime++;
+					int delay = FusionRecipes.getByproductDelay(plasma.getTankType());
+					if(delay > 0 && totalRuntime % delay == 0) produceByproduct();
 				}
 				
 				if(plasma.getFill() > 0 && this.getShield() != 0) {
@@ -150,9 +152,6 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 			/// END Processing part ///
 
 			/// START Notif packets ///
-			for(int i = 0; i < tanks.length; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			plasma.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			for(DirPos pos : getConPos()) {
 				if(tanks[1].getFill() > 0) {
@@ -160,37 +159,42 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 				}
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("isOn", isOn);
-			data.setLong("power", power);
-			data.setInteger("progress", progress);
-			
-			if(slots[3] == null) {
-				data.setInteger("blanket", 0);
-			} else if(slots[3].getItem() == ModItems.fusion_shield_tungsten) {
-				data.setInteger("blanket", 1);
-			} else if(slots[3].getItem() == ModItems.fusion_shield_desh) {
-				data.setInteger("blanket", 2);
-			} else if(slots[3].getItem() == ModItems.fusion_shield_chlorophyte) {
-				data.setInteger("blanket", 3);
-			} else if(slots[3].getItem() == ModItems.fusion_shield_vaporwave) {
-				data.setInteger("blanket", 4);
-			}
-			
-			this.networkPack(data, 250);
+			this.networkPackNT(250);
 			/// END Notif packets ///
 			
 		} else {
-			
+
 			this.lastRotor = this.rotor;
+			this.rotor += this.rotorSpeed;
+				
+			if(this.rotor >= 360) {
+				this.rotor -= 360;
+				this.lastRotor -= 360;
+			}
 			
-			if(this.isOn && this.power >= this.powerReq) {
+			if(this.isOn && this.power >= powerReq) {
+				this.rotorSpeed = Math.max(0F, Math.min(15F, this.rotorSpeed + 0.05F));
+
+				if(audio == null) {
+					audio = MainRegistry.proxy.getLoopedSound("hbm:block.fusionReactorRunning", xCoord, yCoord, zCoord, 1.0F, 30F, 1.0F);
+					audio.startSound();
+				}
+
+				float rotorSpeed = this.rotorSpeed / 15F;
+				audio.updateVolume(getVolume(0.5f * rotorSpeed));
+				audio.updatePitch(0.25F + 0.75F * rotorSpeed);
+			} else {
+				this.rotorSpeed = Math.max(0F, Math.min(15F, this.rotorSpeed - 0.1F));
 				
-				this.rotor += 15F;
-				
-				if(this.rotor >= 360) {
-					this.rotor -= 360;
-					this.lastRotor -= 360;
+				if(audio != null) {
+					if(this.rotorSpeed > 0) {
+						float rotorSpeed = this.rotorSpeed / 15F;
+						audio.updateVolume(getVolume(0.5f * rotorSpeed));
+						audio.updatePitch(0.25F + 0.75F * rotorSpeed);
+					} else {
+						audio.stopSound();
+						audio = null;
+					}
 				}
 			}
 		}
@@ -355,124 +359,68 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound data) {
-		this.isOn = data.getBoolean("isOn");
-		this.power = data.getLong("power");
-		this.blanket = data.getInteger("blanket");
-		this.progress = data.getInteger("progress"); //
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(this.isOn);
+		buf.writeLong(this.power);
+		buf.writeInt(this.progress);
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+		plasma.serialize(buf);
+		if(slots[3] == null) {
+			buf.writeInt(0);
+		} else if(slots[3].getItem() == ModItems.fusion_shield_tungsten) {
+			buf.writeInt(1);
+		} else if(slots[3].getItem() == ModItems.fusion_shield_desh) {
+			buf.writeInt(2);
+		} else if(slots[3].getItem() == ModItems.fusion_shield_chlorophyte) {
+			buf.writeInt(3);
+		} else if(slots[3].getItem() == ModItems.fusion_shield_vaporwave) {
+			buf.writeInt(4);
+		}
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.isOn = buf.readBoolean();
+		this.power = buf.readLong();
+		this.progress = buf.readInt();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
+		plasma.deserialize(buf);
+		this.blanket = buf.readInt();
 	}
 
 	@Override
 	public void handleButtonPacket(int value, int meta) {
-		
-		if(meta == 0) {
-			this.isOn = !this.isOn;
+		if(meta == 0) this.isOn = !this.isOn;
+	}
+
+	public long getPowerScaled(long i) { return (power * i) / maxPower; }
+	public long getProgressScaled(long i) { return (progress * i) / duration; }
+	@Override public void setPower(long i) { this.power = i; }
+	@Override public long getPower() { return power; }
+	@Override public long getMaxPower() { return maxPower; }
+
+	@Override
+	public void onChunkUnload() {
+		super.onChunkUnload();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
 		}
 	}
 
-	public long getPowerScaled(long i) {
-		return (power * i) / maxPower;
-	}
-
-	public long getProgressScaled(long i) {
-		return (progress * i) / duration;
-	}
-
 	@Override
-	public void setPower(long i) {
-		this.power = i;
-	}
+	public void invalidate() {
+		super.invalidate();
 
-	@Override
-	public long getPower() {
-		return power;
-	}
-
-	@Override
-	public long getMaxPower() {
-		return maxPower;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
-		
-		if(index == 2)
-			plasma.setFill(fill);
-	}
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			tanks[0].setFill(i);
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			tanks[1].setFill(i);
-		else if (type.name().equals(plasma.getTankType().name()))
-			plasma.setFill(i);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
-		
-		if(index == 2)
-			plasma.setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getFill();
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getFill();
-		else if (type.name().equals(plasma.getTankType().name()))
-			return plasma.getFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		fillFluid(xCoord, yCoord - 3, zCoord, getTact(), type);
-		fillFluid(xCoord, yCoord + 3, zCoord, getTact(), type);
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		if (age >= 0 && age < 10) {
-			return true;
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
 		}
-
-		return false;
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return list;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		list.clear();
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getMaxFill();
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getMaxFill();
-		else if (type.name().equals(plasma.getTankType().name()))
-			return plasma.getMaxFill();
-		else
-			return 0;
 	}
 	
 	@Override
@@ -481,6 +429,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		
 		this.power = nbt.getLong("power");
 		this.isOn = nbt.getBoolean("isOn");
+		this.totalRuntime = nbt.getLong("totalRuntime");
 
 		tanks[0].readFromNBT(nbt, "water");
 		tanks[1].readFromNBT(nbt, "steam");
@@ -493,6 +442,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 		
 		nbt.setLong("power", this.power);
 		nbt.setBoolean("isOn", isOn);
+		nbt.setLong("totalRuntime", this.totalRuntime);
 
 		tanks[0].writeToNBT(nbt, "water");
 		tanks[1].writeToNBT(nbt, "steam");
@@ -544,7 +494,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 					int b = layout[ly][x][z];
 					
 					switch(b) {
-					case 1: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.fusion_conductor); break;
+					case 1: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.fusion_conductor, 1, 3); break;
 					case 2: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.fusion_center); break;
 					case 3: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.fusion_motor); break;
 					case 4: worldObj.setBlock(xCoord - width + x, yCoord + y - 2, zCoord - width + z, ModBlocks.reinforced_glass); break;
@@ -597,7 +547,114 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyUser
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIITER(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.isOn && plasma.getFill() > 0);
+		int output = FusionRecipes.getSteamProduction(plasma.getTankType());
+		data.setDouble("consumption", output * 10);
+		data.setDouble("outputmb", output);
+	}
+
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "ntm_fusion";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] isActive(Context context, Arguments args) {
+		return new Object[] {isOn};
+	}
+
+	@Callback(direct = true, limit = 4)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setActive(Context context, Arguments args) {
+		isOn = args.checkBoolean(0);
+		return new Object[] {};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getFluid(Context context, Arguments args) {
+		return new Object[] {
+				tanks[0].getFill(), tanks[0].getMaxFill(),
+				tanks[1].getFill(), tanks[1].getMaxFill(),
+				plasma.getFill(), plasma.getMaxFill(), plasma.getTankType().getUnlocalizedName()
+		};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getPlasmaTemp(Context context, Arguments args) {
+		return new Object[] {plasma.getTankType().temperature};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getMaxTemp(Context context, Arguments args) {
+		if (slots[3] != null && (slots[3].getItem() instanceof ItemFusionShield))
+			return new Object[] {((ItemFusionShield) slots[3].getItem()).maxTemp};
+		return new Object[] {"N/A"};
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] getBlanketDamage(Context context, Arguments args) {
+		if (slots[3] != null && (slots[3].getItem() instanceof ItemFusionShield))
+			return new Object[]{ItemFusionShield.getShieldDamage(slots[3]), ((ItemFusionShield)slots[3].getItem()).maxDamage};
+		return new Object[] {"N/A", "N/A"};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+				"getEnergyInfo",
+				"isActive",
+				"setActive",
+				"getFluid",
+				"getPlasmaTemp",
+				"getMaxTemp",
+				"getBlanketDamage"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case ("getEnergyInfo"):
+				return getEnergyInfo(context, args);
+			case ("isActive"):
+				return isActive(context, args);
+			case ("setActive"):
+				return setActive(context, args);
+			case ("getFluid"):
+				return getFluid(context, args);
+			case ("getPlasmaTemp"):
+				return getPlasmaTemp(context, args);
+			case ("getMaxTemp"):
+				return getMaxTemp(context, args);
+			case ("getBlanketDamage"):
+				return getBlanketDamage(context, args);
+		}
+		throw new NoSuchMethodException();
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
 	}
 }

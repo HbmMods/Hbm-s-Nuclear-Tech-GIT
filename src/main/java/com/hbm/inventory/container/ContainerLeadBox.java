@@ -66,6 +66,7 @@ public class ContainerLeadBox extends Container {
 	@Override
 	public ItemStack slotClick(int index, int button, int mode, EntityPlayer player) {
 		// prevents the player from moving around the currently open box
+		if(mode == 2 && button == player.inventory.currentItem) return null;
 		if(index == player.inventory.currentItem + 47) return null;
 		return super.slotClick(index, button, mode, player);
 	}

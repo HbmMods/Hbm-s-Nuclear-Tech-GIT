@@ -7,6 +7,7 @@ import com.hbm.blocks.ModBlocks;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.TempCategory;
@@ -95,7 +96,7 @@ public class BiomeCave {
 	private static void handleBiome(World world, int x, int y, int z, EnumBiomeType type) {
 		Block target = world.getBlock(x, y, z);
 		
-		if(target.isNormalCube()) {
+		if(target.isNormalCube() && target.isReplaceableOreGen(world, x, y, z, Blocks.stone)) {
 			
 			boolean shouldGen = false;
 			

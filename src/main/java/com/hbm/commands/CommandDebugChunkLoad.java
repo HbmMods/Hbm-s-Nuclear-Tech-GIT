@@ -55,7 +55,7 @@ public class CommandDebugChunkLoad extends CommandBase {
 					}
 					
 					Object[] data = anvil.loadChunk__Async(sender.getEntityWorld(), cX, cZ);
-					Chunk chunk = (Chunk) data[0];
+					//Chunk chunk = (Chunk) data[0];
 					NBTTagCompound nbt = (NBTTagCompound) data[1];
 					NBTTagCompound level = nbt.getCompoundTag("Level");
 					NBTTagList tagList = level.getTagList("TileEntities", 10);

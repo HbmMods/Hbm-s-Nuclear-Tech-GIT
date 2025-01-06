@@ -1,7 +1,7 @@
 package com.hbm.entity.mob.siege;
 
 import com.hbm.entity.mob.EntityBurrowingSwingingBase;
-import com.hbm.handler.SiegeOrchestrator;
+import com.hbm.interfaces.NotableComments;
 
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 //well it ain't fucking funny
 //this stupid fucking random ass bullshit is the P R E C I S E reason i loathe working with entities
 //honest to fucking god was the entire mojang dev team on crack when they wrote this?
+@NotableComments
 public class EntitySiegeTunneler extends EntityBurrowingSwingingBase {
 
 	public EntitySiegeTunneler(World world) {
@@ -35,9 +36,6 @@ public class EntitySiegeTunneler extends EntityBurrowingSwingingBase {
 	public boolean attackEntityFrom(DamageSource source, float damage) {
 		
 		if(this.isEntityInvulnerable())
-			return false;
-		
-		if(SiegeOrchestrator.isSiegeMob(source.getEntity()))
 			return false;
 		
 		SiegeTier tier = this.getTier();

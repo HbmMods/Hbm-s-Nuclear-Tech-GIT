@@ -30,7 +30,7 @@ public class HazardModifierRBMKRadiation extends HazardModifier {
 			
 		} else if(stack.getItem() instanceof ItemRBMKPellet) {
 			
-			double depletion = linear ? (ItemRBMKPellet.rectify(stack.getItemDamage()) % 5) / 4F : 1 - Math.pow((4 - ItemRBMKPellet.rectify(stack.getItemDamage()) % 5) / 4F, 2);
+			//double depletion = linear ? (ItemRBMKPellet.rectify(stack.getItemDamage()) % 5) / 4F : 1 - Math.pow((4 - ItemRBMKPellet.rectify(stack.getItemDamage()) % 5) / 4F, 2);
 			
 			level = level + (target - level) * ((ItemRBMKPellet.rectify(stack.getItemDamage()) % 5) / 4F);
 			

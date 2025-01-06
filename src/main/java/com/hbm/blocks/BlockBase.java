@@ -1,17 +1,18 @@
 package com.hbm.blocks;
 
 import com.hbm.lib.RefStrings;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockBase extends Block {
-	
+
 	private boolean beaconable = false;
+	private boolean canSpawn = true;
 
 	public BlockBase() {
 		super(Material.rock);
@@ -20,14 +21,14 @@ public class BlockBase extends Block {
 	public BlockBase(Material material) {
 		super(material);
 	}
-	
+
 	@Override
 	public Block setBlockName(String name) {
 		super.setBlockName(name);
 		this.setBlockTextureName(RefStrings.MODID + ":" + name);
 		return this;
 	}
-	
+
 	/**
 	 * Daisychainable setter for making the block a beacon base block
 	 * @return
@@ -37,11 +38,21 @@ public class BlockBase extends Block {
 		return this;
 	}
 
+	public BlockBase noMobSpawn() {
+		this.canSpawn = false;
+		return this;
+	}
+
+	@Override
+	public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z) {
+		return this.canSpawn ? super.canCreatureSpawn(type, world, x, y, z) : false;
+	}
+
 	@Override
 	public boolean isBeaconBase(IBlockAccess worldObj, int x, int y, int z, int beaconX, int beaconY, int beaconZ) {
 		return this.beaconable;
 	}
-	
+
 	/**
 	 * Sets the block to air and drops it
 	 * @param world
@@ -50,7 +61,7 @@ public class BlockBase extends Block {
 	 * @param z
 	 */
 	public void dismantle(World world, int x, int y, int z) {
-		
+
 		world.setBlockToAir(x, y, z);
 
 		ItemStack itemstack = new ItemStack(this, 1);

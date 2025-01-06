@@ -3,8 +3,8 @@ package com.hbm.blocks.generic;
 import java.util.List;
 
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ParticleUtil;
 
 import api.hbm.block.IToolable;

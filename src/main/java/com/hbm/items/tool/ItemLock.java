@@ -1,7 +1,7 @@
 package com.hbm.items.tool;
 
-import com.hbm.tileentity.machine.TileEntityDummy;
 import com.hbm.tileentity.machine.TileEntityLockableBase;
+import com.hbm.util.CompatExternal;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -17,51 +17,29 @@ public class ItemLock extends ItemKeyPin {
 	}
 	
 	@Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f0, float f1, float f2)
-    {
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int i, float f0, float f1, float f2) {
+		
 		if(this.getPins(stack) != 0) {
-			TileEntity te = world.getTileEntity(x, y, z);
-			
+			TileEntity te = CompatExternal.getCoreFromPos(world, x, y, z);
+
 			if(te != null && te instanceof TileEntityLockableBase) {
-				TileEntityLockableBase tile = (TileEntityLockableBase)te;
-				
+				TileEntityLockableBase tile = (TileEntityLockableBase) te;
+
 				if(tile.isLocked())
 					return false;
-				
+
 				tile.setPins(this.getPins(stack));
 				tile.lock();
 				tile.setMod(lockMod);
 
-	        	world.playSoundAtEntity(player, "hbm:block.lockHang", 1.0F, 1.0F);
+				world.playSoundAtEntity(player, "hbm:block.lockHang", 1.0F, 1.0F);
 				stack.stackSize--;
-				
+
 				return true;
 			}
-			
-			if(te != null && te instanceof TileEntityDummy) {
-				
-				TileEntityDummy dummy = (TileEntityDummy)te;
-				TileEntity target = world.getTileEntity(dummy.targetX, dummy.targetY, dummy.targetZ);
-
-				if(target != null && target instanceof TileEntityLockableBase) {
-					TileEntityLockableBase tile = (TileEntityLockableBase)target;
-					
-					if(tile.isLocked())
-						return false;
-					
-					tile.setPins(this.getPins(stack));
-					tile.lock();
-					tile.setMod(lockMod);
-
-		        	world.playSoundAtEntity(player, "hbm:block.lockHang", 1.0F, 1.0F);
-					stack.stackSize--;
-					
-					return true;
-				}
-			}
 		}
-		
+
 		return false;
-    }
+	}
 
 }

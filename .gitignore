@@ -1,46 +1,31 @@
 # eclipse
-eclipse
-bin
-*.launch
-.settings
-.metadata
-.classpath
-.project
+/eclipse
+/bin
+/*.launch
+/.settings
+/.metadata
+/.classpath
+/.project
 
 # idea
-out
-*.ipr
-*.iws
-*.iml
-.idea
+/out
+/*.ipr
+/*.iws
+/*.iml
+/.idea
 
 # gradle
-build
-.gradle
+/build
+/.gradle
+
+# vscode
+/.vscode
 
 # other
-run
+/run
 
 # CurseForge configuration
 /curseforge.properties
 
 # Changelog backup
 /changelog.bak
-
-screenshots/
-
-saves/
-
-usernamecache.json
-
-options.txt
-
-logs/
-
-doc/
-
-crash-reports/
-
-config/
-
-asm/

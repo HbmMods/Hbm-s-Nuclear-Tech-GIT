@@ -1,22 +1,31 @@
 package com.hbm.tileentity.machine;
 
+import java.util.List;
+
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.ItemEnums.EnumAshType;
 import com.hbm.module.ModuleBurnTime;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.util.ItemStackUtil;
 
+import api.hbm.fluid.IFluidStandardSender;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public abstract class TileEntityFireboxBase extends TileEntityMachineBase implements IGUIProvider, IHeatSource {
+public abstract class TileEntityFireboxBase extends TileEntityMachinePolluting implements IFluidStandardSender, IGUIProvider, IHeatSource {
 
 	public int maxBurnTime;
 	public int burnTime;
@@ -31,7 +40,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachineBase implem
 
 
 	public TileEntityFireboxBase() {
-		super(2);
+		super(2, 50);
 	}
 	
 	@Override
@@ -49,6 +58,15 @@ public abstract class TileEntityFireboxBase extends TileEntityMachineBase implem
 		
 		if(!worldObj.isRemote) {
 			
+			for(int i = 2; i < 6; i++) {
+				ForgeDirection dir = ForgeDirection.getOrientation(i);
+				ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+				
+				for(int j = -1; j <= 1; j++) {
+					this.sendSmoke(xCoord + dir.offsetX * 2 + rot.offsetX * j, yCoord, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
+				}
+			}
+			
 			wasOn = false;
 			
 			if(burnTime <= 0) {
@@ -56,9 +74,21 @@ public abstract class TileEntityFireboxBase extends TileEntityMachineBase implem
 				for(int i = 0; i < 2; i++) {
 					if(slots[i] != null) {
 						
-						int fuel = (int) (getModule().getBurnTime(slots[i]) * getTimeMult());
+						int baseTime = getModule().getBurnTime(slots[i]);
 						
-						if(fuel > 0) {
+						if(baseTime > 0) {
+							int fuel = (int) (baseTime * getTimeMult());
+							
+							TileEntity below = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
+							
+							if(below instanceof TileEntityAshpit) {
+								TileEntityAshpit ashpit = (TileEntityAshpit) below;
+								EnumAshType type = this.getAshFromFuel(slots[i]);
+								if(type == EnumAshType.WOOD) ashpit.ashLevelWood += baseTime;
+								if(type == EnumAshType.COAL) ashpit.ashLevelCoal += baseTime;
+								if(type == EnumAshType.MISC) ashpit.ashLevelMisc += baseTime;
+							}
+							
 							this.maxBurnTime = this.burnTime = fuel;
 							this.burnHeat = getModule().getBurnHeat(getBaseHeat(), slots[i]);
 							slots[i].stackSize--;
@@ -76,11 +106,11 @@ public abstract class TileEntityFireboxBase extends TileEntityMachineBase implem
 				
 				if(this.heatEnergy < getMaxHeat()) {
 					burnTime--;
-					if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
+					if(worldObj.getTotalWorldTime() % 20 == 0) this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
 				}
 				this.wasOn = true;
 				
-				if(worldObj.rand.nextInt(15) == 0) {
+				if(worldObj.rand.nextInt(15) == 0 && !this.muffled) {
 					worldObj.playSoundEffect(xCoord, yCoord, zCoord, "fire.fire", 1.0F, 0.5F + worldObj.rand.nextFloat() * 0.5F);
 				}
 			}
@@ -92,14 +122,7 @@ public abstract class TileEntityFireboxBase extends TileEntityMachineBase implem
 				this.burnHeat = 0;
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("maxBurnTime", this.maxBurnTime);
-			data.setInteger("burnTime", this.burnTime);
-			data.setInteger("burnHeat", this.burnHeat);
-			data.setInteger("heatEnergy", this.heatEnergy);
-			data.setInteger("playersUsing", this.playersUsing);
-			data.setBoolean("wasOn", this.wasOn);
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		} else {
 			this.prevDoorAngle = this.doorAngle;
 			float swingSpeed = (doorAngle / 10F) + 3;
@@ -121,6 +144,44 @@ public abstract class TileEntityFireboxBase extends TileEntityMachineBase implem
 			}
 		}
 	}
+	
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(maxBurnTime);
+		buf.writeInt(burnTime);
+		buf.writeInt(burnHeat);
+		buf.writeInt(heatEnergy);
+		buf.writeInt(playersUsing);
+		buf.writeBoolean(wasOn);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		maxBurnTime = buf.readInt();
+		burnTime = buf.readInt();
+		burnHeat = buf.readInt();
+		heatEnergy = buf.readInt();
+		playersUsing = buf.readInt();
+		wasOn = buf.readBoolean();
+	}
+	
+	public static EnumAshType getAshFromFuel(ItemStack stack) {
+
+		List<String> names = ItemStackUtil.getOreDictNames(stack);
+		
+		for(String name : names) {
+			if(name.contains("Coke"))		return EnumAshType.COAL;
+			if(name.contains("Coal"))		return EnumAshType.COAL;
+			if(name.contains("Lignite"))	return EnumAshType.COAL;
+			if(name.startsWith("log"))		return EnumAshType.WOOD;
+			if(name.contains("Wood"))		return EnumAshType.WOOD;
+			if(name.contains("Sapling"))	return EnumAshType.WOOD;
+		}
+
+		return EnumAshType.MISC;
+	}
 
 	public abstract ModuleBurnTime getModule();
 	public abstract int getBaseHeat();
@@ -135,16 +196,6 @@ public abstract class TileEntityFireboxBase extends TileEntityMachineBase implem
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
 		return getModule().getBurnTime(itemStack) > 0;
-	}
-
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.maxBurnTime = nbt.getInteger("maxBurnTime");
-		this.burnTime = nbt.getInteger("burnTime");
-		this.burnHeat = nbt.getInteger("burnHeat");
-		this.heatEnergy = nbt.getInteger("heatEnergy");
-		this.playersUsing = nbt.getInteger("playersUsing");
-		this.wasOn = nbt.getBoolean("wasOn");
 	}
 	
 	@Override
@@ -200,5 +251,20 @@ public abstract class TileEntityFireboxBase extends TileEntityMachineBase implem
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[0];
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return this.getSmokeTanks();
+	}
+	
+	@Override
+	public boolean canConnect(FluidType type, ForgeDirection dir) {
+		return dir != ForgeDirection.UNKNOWN && dir != ForgeDirection.DOWN;
 	}
 }

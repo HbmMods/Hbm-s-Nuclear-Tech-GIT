@@ -6,8 +6,8 @@ import java.util.UUID;
 import com.google.common.collect.Multimap;
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.items.ModItems;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.render.model.ModelArmorDNT;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.BobMathUtil;
@@ -173,7 +173,7 @@ public class ArmorDNT extends ArmorFSBPowered {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 
-		list.add("Charge: " + BobMathUtil.getShortNumber(getCharge(stack)) + " / " + BobMathUtil.getShortNumber(maxPower));
+		list.add("Charge: " + BobMathUtil.getShortNumber(getCharge(stack)) + " / " + BobMathUtil.getShortNumber(this.getMaxCharge(stack)));
 
 		list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("armor.fullSetBonus"));
 
@@ -184,13 +184,9 @@ public class ArmorDNT extends ArmorFSBPowered {
 			}
 		}
 		
-		list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.explosionImmune"));
-		list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.cap", 5));
-		list.add(EnumChatFormatting.YELLOW + "  " + I18nUtil.resolveKey("armor.modifier", 0.001F));
 		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.vats"));
 		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.thermal"));
 		list.add(EnumChatFormatting.RED + "  " + I18nUtil.resolveKey("armor.hardLanding"));
-		list.add(EnumChatFormatting.DARK_RED + "  " + I18nUtil.resolveKey("armor.ignoreLimit"));
 		list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.rocketBoots"));
 		list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.fastFall"));
 		list.add(EnumChatFormatting.AQUA + "  " + I18nUtil.resolveKey("armor.sprintBoost"));

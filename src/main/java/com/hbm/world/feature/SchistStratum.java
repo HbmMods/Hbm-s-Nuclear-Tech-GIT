@@ -7,6 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
@@ -51,7 +52,7 @@ public class SchistStratum {
 						
 						Block target = world.getBlock(x, y, z);
 						
-						if(target.isNormalCube() && target.getMaterial() == Material.rock) {
+						if(target.isNormalCube() && target.getMaterial() == Material.rock && target.isReplaceableOreGen(world, x, y, z, Blocks.stone)) {
 							world.setBlock(x, y, z, ModBlocks.stone_gneiss, 0, 2);
 						}
 					}

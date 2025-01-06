@@ -2,9 +2,10 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
-import com.hbm.handler.pollution.PollutionHandler;
-import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.lib.Library;
+import com.hbm.particle.helper.ExplosionCreator;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -32,7 +33,32 @@ public class ItemWandD extends Item {
 			vnt.setSFX(new ExplosionEffectStandard());
 			vnt.explode();*/
 			
-			PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
+			//PollutionHandler.incrementPollution(world, pos.blockX, pos.blockY, pos.blockZ, PollutionType.SOOT, 15);
+			
+			/*int i = pos.blockX >> 4;
+			int j = pos.blockZ >> 4;
+			
+			i = (i << 4) + 8;
+			j = (j << 4) + 8;
+			Component comp = new RuralHouse1(world.rand, i, j);
+			comp.addComponentParts(world, world.rand, new StructureBoundingBox(i, j, i + 32, j + 32));*/
+			
+			ExplosionVNT vnt = new ExplosionVNT(world, pos.blockX + 0.5, pos.blockY + 1, pos.blockZ + 0.5, 15F);
+			vnt.makeStandard();
+			vnt.setSFX();
+			vnt.setBlockAllocator(new BlockAllocatorStandard(32));
+			vnt.explode();
+			
+			ExplosionCreator.composeEffectStandard(world, pos.blockX + 0.5, pos.blockY + 0.5, pos.blockZ + 0.5);
+			
+			/*for(int i = 0; i < 10; i++) {
+				NBTTagCompound data = new NBTTagCompound();
+				data.setString("type", "debris");
+				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.blockX + world.rand.nextGaussian() * 3, pos.blockY - 2, pos.blockZ + world.rand.nextGaussian() * 3), new TargetPoint(world.provider.dimensionId, pos.blockX, pos.blockY, pos.blockZ, 100));
+			}
+			NBTTagCompound data = new NBTTagCompound();
+			data.setString("type", "oomph");
+			PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, pos.blockX, pos.blockY, pos.blockZ), new TargetPoint(world.provider.dimensionId, pos.blockX, pos.blockY, pos.blockZ, 100));*/
 			
 			/*TimeAnalyzer.startCount("setBlock");
 			world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.dirt);
@@ -42,10 +68,18 @@ public class ItemWandD extends Item {
 			TimeAnalyzer.dump();*/
 			
 			/*TomSaveData data = TomSaveData.forWorld(world);
-			data.impact = false;
+			data.impact = true;
 			data.fire = 0F;
 			data.dust = 0F;
 			data.markDirty();*/
+			
+			/*for(int i = -5; i <= 5; i++) {
+				for(int j = -5; j <= 5; j++) {
+					WorldUtil.setBiome(world, pos.blockX + i, pos.blockZ + j, BiomeGenCraterBase.craterBiome);
+				}
+			}
+
+			WorldUtil.syncBiomeChange(world, pos.blockX, pos.blockZ);*/
 			
 			/*EntityTomBlast tom = new EntityTomBlast(world);
 			tom.posX = pos.blockX;
@@ -54,15 +88,19 @@ public class ItemWandD extends Item {
 			tom.destructionRange = 600;
 			world.spawnEntityInWorld(tom);*/
 			
-			/*EntityNukeTorex torex = new EntityNukeTorex(world);
-			torex.setPositionAndRotation(pos.blockX, pos.blockY + 1, pos.blockZ, 0, 0);
-			torex.getDataWatcher().updateObject(10, 1.5F);
-			world.spawnEntityInWorld(torex);
-			EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
+			/*List<EntityNukeTorex> del = world.getEntitiesWithinAABB(EntityNukeTorex.class, AxisAlignedBB.getBoundingBox(pos.blockX, pos.blockY + 1, pos.blockZ, pos.blockX, pos.blockY + 1, pos.blockZ).expand(50, 50, 50));
+			
+			if(!del.isEmpty()) {
+				for(EntityNukeTorex torex : del) torex.setDead();
+			} else {
+				EntityNukeTorex.statFac(world, pos.blockX, pos.blockY + 1, pos.blockZ, 150);
+			}*/
+			
+			/*EntityTracker entitytracker = ((WorldServer) world).getEntityTracker();
 			IntHashMap map = ReflectionHelper.getPrivateValue(EntityTracker.class, entitytracker, "trackedEntityIDs", "field_72794_c");
 			EntityTrackerEntry entry = (EntityTrackerEntry) map.lookup(torex.getEntityId());
-			entry.blocksDistanceThreshold = 1000;
-			world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));*/
+			entry.blocksDistanceThreshold = 1000;*/
+			//world.spawnEntityInWorld(EntityNukeExplosionMK5.statFacNoRad(world, 150, pos.blockX, pos.blockY + 1, pos.blockZ));
 			
 			//DungeonToolbox.generateBedrockOreWithChance(world, world.rand, pos.blockX, pos.blockZ, EnumBedrockOre.TITANIUM,	new FluidStack(Fluids.SULFURIC_ACID, 500), 2, 1);
 			

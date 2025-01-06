@@ -1,6 +1,7 @@
 package com.hbm.render.util;
 
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 
@@ -9,7 +10,9 @@ import net.minecraft.item.ItemStack;
  * @author hbm
  */
 public class RenderDecoItem extends RenderItem {
+	
 	public RenderDecoItem(TileEntitySpecialRenderer render) {
+		this.setRenderManager(RenderManager.instance);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package com.hbm.entity.mob.ai;
 
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.handler.BulletConfigSyncingUtil;
 
 import net.minecraft.entity.EntityCreature;
@@ -49,7 +49,7 @@ public class EntityAIMaskmanMinigun extends EntityAIBase {
 		if(timer <= 0) {
 			timer = delay;
 
-			EntityBulletBase bullet = new EntityBulletBase(owner.worldObj, BulletConfigSyncingUtil.MASKMAN_BULLET, owner, target, 1.0F, 0);
+			EntityBulletBaseNT bullet = new EntityBulletBaseNT(owner.worldObj, BulletConfigSyncingUtil.MASKMAN_BULLET, owner, target, 1.0F, 0);
 			owner.worldObj.spawnEntityInWorld(bullet);
 			owner.playSound("hbm:weapon.calShoot", 1.0F, 1.0F);
 		}

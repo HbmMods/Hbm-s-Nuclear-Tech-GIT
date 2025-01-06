@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.hbm.blocks.BlockEnumMulti;
@@ -10,6 +11,7 @@ import com.hbm.items.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -45,11 +47,6 @@ public class BlockStalagmite extends BlockEnumMulti {
 		
 		return null;
 	}
-
-	@Override
-	public int damageDropped(int meta) {
-		return 0;
-	}
 	
 	public static int getMetaFromResource(int meta) {
 		return meta;
@@ -75,4 +72,10 @@ public class BlockStalagmite extends BlockEnumMulti {
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
 		return null;
 	}
+
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		return ModBlocks.getDropsWithoutDamage(world, this, metadata, fortune);
+	}
+
 }

@@ -2,7 +2,6 @@ package com.hbm.blocks.bomb;
 
 import java.util.Random;
 
-import com.hbm.blocks.generic.BlockFlammable;
 import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.util.ChatBuilder;
 
@@ -19,16 +18,15 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-public abstract class BlockTNTBase extends BlockFlammable implements IToolable {
+public abstract class BlockTNTBase extends BlockDetonatable implements IToolable {
 
 	@SideOnly(Side.CLIENT) private IIcon topIcon;
 	@SideOnly(Side.CLIENT) private IIcon bottomIcon;
 
 	public BlockTNTBase() {
-		super(Material.tnt, 15, 100);
+		super(Material.tnt, 15, 100, 20, false, false);
 	}
 
 	@Override
@@ -44,6 +42,8 @@ public abstract class BlockTNTBase extends BlockFlammable implements IToolable {
 		if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
 			this.onBlockDestroyedByPlayer(world, x, y, z, 1);
 			world.setBlockToAir(x, y, z);
+		} else {
+			checkAndIgnite(world, x, y, z);
 		}
 	}
 
@@ -52,21 +52,21 @@ public abstract class BlockTNTBase extends BlockFlammable implements IToolable {
 		if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
 			this.onBlockDestroyedByPlayer(world, x, y, z, 1);
 			world.setBlockToAir(x, y, z);
+		} else {
+			checkAndIgnite(world, x, y, z);
+		}
+	}
+	
+	public void checkAndIgnite(World world, int x, int y, int z) {
+		if (shouldIgnite(world, x, y, z)) {
+			this.onBlockDestroyedByPlayer(world, x, y, z, 1);
+			world.setBlockToAir(x, y, z);
 		}
 	}
 
 	@Override
 	public int quantityDropped(Random p_149745_1_) {
 		return 1;
-	}
-
-	@Override
-	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion explosion) {
-		if(!world.isRemote) {
-			EntityTNTPrimedBase entitytntprimed = new EntityTNTPrimedBase(world, x + 0.5D, y + 0.5D, z + 0.5D, explosion.getExplosivePlacedBy(), this);
-			entitytntprimed.fuse = world.rand.nextInt(entitytntprimed.fuse / 4) + entitytntprimed.fuse / 8;
-			world.spawnEntityInWorld(entitytntprimed);
-		}
 	}
 
 	@Override
@@ -109,18 +109,11 @@ public abstract class BlockTNTBase extends BlockFlammable implements IToolable {
 	}
 
 	@Override
-	public boolean canDropFromExplosion(Explosion explosion) {
-		return false;
-	}
-	
-	public abstract void explodeEntity(World world, double x, double y, double z, EntityTNTPrimedBase entity);
-
-	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister p_149651_1_) {
-		this.blockIcon = p_149651_1_.registerIcon(this.getTextureName() + "_side");
-		this.topIcon = p_149651_1_.registerIcon(this.getTextureName() + "_top");
-		this.bottomIcon = p_149651_1_.registerIcon(this.getTextureName() + "_bottom");
+	public void registerBlockIcons(IIconRegister iconRegister) {
+		this.blockIcon = iconRegister.registerIcon(this.getTextureName() + "_side");
+		this.topIcon = iconRegister.registerIcon(this.getTextureName() + "_top");
+		this.bottomIcon = iconRegister.registerIcon(this.getTextureName() + "_bottom");
 	}
 	
 	@Override
@@ -128,8 +121,8 @@ public abstract class BlockTNTBase extends BlockFlammable implements IToolable {
 		
 		if(tool == ToolType.DEFUSER) {
 			if(!world.isRemote) {
-				world.func_147480_a(x, y, z, true);
-				this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+				world.func_147480_a(x, y, z, false);
+				this.dropBlockAsItem(world, x, y, z, 0, 0);
 			}
 			return true;
 		}

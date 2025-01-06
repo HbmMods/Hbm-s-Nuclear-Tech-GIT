@@ -6,8 +6,10 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.material.Mats;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.inventory.material.NTMMaterial;
+import com.hbm.items.ItemEnums.EnumCasingType;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.I18nUtil;
@@ -45,9 +47,10 @@ public class ItemMold extends Item {
 		registerMold(new MoldShape(		1, S, "billet", MaterialShapes.BILLET));
 		registerMold(new MoldShape(		2, S, "ingot", MaterialShapes.INGOT));
 		registerMold(new MoldShape(		3, S, "plate", MaterialShapes.PLATE));
-		registerMold(new MoldWire(		4, S, "wire"));
-		
+		registerMold(new MoldShape(		4, S, "wire", MaterialShapes.WIRE, 8));
+
 		registerMold(new MoldShape(		19, S, "plate_cast", MaterialShapes.CASTPLATE));
+		registerMold(new MoldShape(		20, S, "wire_dense", MaterialShapes.DENSEWIRE));
 		
 		registerMold(new MoldMulti(		5, S, "blade", MaterialShapes.INGOT.q(3),
 				Mats.MAT_TITANIUM, new ItemStack(ModItems.blade_titanium),
@@ -65,25 +68,29 @@ public class ItemMold extends Item {
 				Mats.MAT_TITANIUM,		new ItemStack(ModItems.stamp_titanium_flat),
 				Mats.MAT_OBSIDIAN,		new ItemStack(ModItems.stamp_obsidian_flat)));
 		
-		registerMold(new MoldMulti(		8, S, "hull_small", MaterialShapes.INGOT.q(2),
-				Mats.MAT_STEEL,		new ItemStack(ModItems.hull_small_steel),
-				Mats.MAT_ALUMINIUM,	new ItemStack(ModItems.hull_small_aluminium)));
-		
-		registerMold(new MoldMulti(		9, L, "hull_big", MaterialShapes.INGOT.q(6),
-				Mats.MAT_STEEL,		new ItemStack(ModItems.hull_big_steel),
-				Mats.MAT_ALUMINIUM,	new ItemStack(ModItems.hull_big_aluminium),
-				Mats.MAT_TITANIUM,	new ItemStack(ModItems.hull_big_titanium)));
+		registerMold(new MoldShape(		8, S, "shell", MaterialShapes.SHELL));
+		registerMold(new MoldShape(		9, S, "pipe", MaterialShapes.PIPE));
 		
 		registerMold(new MoldShape(		10, L, "ingots", MaterialShapes.INGOT, 9));
 		registerMold(new MoldShape(		11, L, "plates", MaterialShapes.PLATE, 9));
+		registerMold(new MoldShape(		21, L, "wires_dense", MaterialShapes.DENSEWIRE, 9));
 		registerMold(new MoldBlock(		12, L, "block", MaterialShapes.BLOCK));
 		registerMold(new MoldSingle(	13, L, "pipes", new ItemStack(ModItems.pipes_steel), Mats.MAT_STEEL, MaterialShapes.BLOCK.q(3)));
 
-		registerMold(new MoldSingle(	14, S, "c357", new ItemStack(ModItems.casing_357), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
-		registerMold(new MoldSingle(	15, S, "c44", new ItemStack(ModItems.casing_44), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
-		registerMold(new MoldSingle(	16, S, "c9", new ItemStack(ModItems.casing_9), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
-		registerMold(new MoldSingle(	17, S, "c50", new ItemStack(ModItems.casing_50), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
-		registerMold(new MoldSingle(	18, S, "cbuckshot", new ItemStack(ModItems.casing_buckshot), Mats.MAT_COPPER, MaterialShapes.PLATE.q(1)));
+		registerMold(new MoldMulti(		16, S, "c9", MaterialShapes.PLATE.q(1, 4),
+				Mats.MAT_GUNMETAL,		DictFrame.fromOne(ModItems.casing, EnumCasingType.SMALL),
+				Mats.MAT_WEAPONSTEEL,	DictFrame.fromOne(ModItems.casing, EnumCasingType.SMALL_STEEL)));
+		registerMold(new MoldMulti(		17, S, "c50", MaterialShapes.PLATE.q(1, 2),
+				Mats.MAT_GUNMETAL,		DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE),
+				Mats.MAT_WEAPONSTEEL,	DictFrame.fromOne(ModItems.casing, EnumCasingType.LARGE_STEEL)));
+
+		registerMold(new MoldShape(		22, S, "barrel_light", MaterialShapes.LIGHTBARREL));
+		registerMold(new MoldShape(		23, S, "barrel_heavy", MaterialShapes.HEAVYBARREL));
+		registerMold(new MoldShape(		24, S, "receiver_light", MaterialShapes.LIGHTRECEIVER));
+		registerMold(new MoldShape(		25, S, "receiver_heavy", MaterialShapes.HEAVYRECEIVER));
+		registerMold(new MoldShape(		26, S, "mechanism", MaterialShapes.MECHANISM));
+		registerMold(new MoldShape(		27, S, "stock", MaterialShapes.STOCK));
+		registerMold(new MoldShape(		28, S, "grip", MaterialShapes.GRIP));
 	}
 	
 	public void registerMold(Mold mold) {
@@ -178,6 +185,15 @@ public class ItemMold extends Item {
 				String od = shape.name() + name;
 				List<ItemStack> ores = OreDictionary.getOres(od);
 				if(!ores.isEmpty()) {
+					//prioritize NTM items
+					for(ItemStack ore : ores) {
+						if(Item.itemRegistry.getNameForObject(ore.getItem()).startsWith(RefStrings.MODID)) {
+							ItemStack copy = ore.copy();
+							copy.stackSize = this.amount;
+							return copy;
+						}
+					}
+					//...then try whatever comes first
 					ItemStack copy = ores.get(0).copy();
 					copy.stackSize = this.amount;
 					return copy;
@@ -216,36 +232,6 @@ public class ItemMold extends Item {
 		}
 	}
 
-	public class MoldWire extends Mold {
-
-		public MoldWire(int id, int size, String name) {
-			super(id, size, name);
-		}
-
-		@Override
-		public ItemStack getOutput(NTMMaterial mat) {
-
-			if(mat == Mats.MAT_ALUMINIUM) return new ItemStack(ModItems.wire_aluminium, 8);
-			if(mat == Mats.MAT_ALLOY) return new ItemStack(ModItems.wire_advanced_alloy, 8);
-			if(mat == Mats.MAT_COPPER) return new ItemStack(ModItems.wire_copper, 8);
-			if(mat == Mats.MAT_GOLD) return new ItemStack(ModItems.wire_gold, 8);
-			if(mat == Mats.MAT_MAGTUNG) return new ItemStack(ModItems.wire_magnetized_tungsten, 8);
-			if(mat == Mats.MAT_MINGRADE) return new ItemStack(ModItems.wire_red_copper, 8);
-			if(mat == Mats.MAT_SCHRABIDIUM) return new ItemStack(ModItems.wire_schrabidium, 8);
-			if(mat == Mats.MAT_TUNGSTEN) return new ItemStack(ModItems.wire_tungsten, 8);
-			return null;
-		}
-
-		@Override
-		public int getCost() {
-			return MaterialShapes.WIRE.q(8);
-		}
-
-		@Override
-		public String getTitle() {
-			return I18nUtil.resolveKey("shape.wire") + " x8";
-		}
-	}
 
 	/* because why not */
 	public class MoldSingle extends Mold {

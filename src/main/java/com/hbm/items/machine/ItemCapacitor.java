@@ -8,15 +8,13 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class ItemCapacitor extends Item {
 	
-	private int dura;
 
 	public ItemCapacitor(int dura) {
-		this.dura = dura;
+		this.setMaxDamage(dura);
 	}
 
 	@Override
@@ -24,11 +22,7 @@ public class ItemCapacitor extends Item {
 		if (this == ModItems.redcoil_capacitor) {
 			list.add("Right-click a block to negate positive charge.");
 			list.add("[Needed for Schrabidium Synthesis]");
-			list.add(getDura(itemstack) + "/" + dura);
-		}
-		if (this == ModItems.titanium_filter) {
-			list.add("[Needed for Watz Reaction]");
-			list.add((getDura(itemstack) / 20) + "/" + (dura / 20));
+			list.add((itemstack.getMaxDamage() - itemstack.getItemDamage()) + "/" + itemstack.getMaxDamage());
 		}
 	}
 
@@ -39,9 +33,9 @@ public class ItemCapacitor extends Item {
 			
 			if (!player.isSneaking()) {
 				
-				if (getDura(stack) < dura) {
+				if(stack.getItemDamage() > 0) {
 					
-					setDura(stack, getDura(stack) + 1);
+					stack.setItemDamage(stack.getItemDamage() - 1);
 					
 					if (!world.isRemote) {
 						world.createExplosion(null, x + 0.5, y + 0.5, z + 0.5, 2.5F, true);
@@ -55,29 +49,4 @@ public class ItemCapacitor extends Item {
 
 		return false;
 	}
-    
-    public boolean showDurabilityBar(ItemStack stack) {
-        return getDurabilityForDisplay(stack) > 0;
-    }
-    
-    public static int getDura(ItemStack stack) {
-    	
-    	if(stack.stackTagCompound == null)
-    		return ((ItemCapacitor)stack.getItem()).dura;
-    	
-    	return stack.stackTagCompound.getInteger("dura");
-    }
-    
-    public static void setDura(ItemStack stack, int dura) {
-    	
-    	if(!stack.hasTagCompound())
-    		stack.stackTagCompound = new NBTTagCompound();
-    	
-    	stack.stackTagCompound.setInteger("dura", dura);
-    }
-    
-    public double getDurabilityForDisplay(ItemStack stack)
-    {
-        return 1D - (double)getDura(stack) / (double)dura;
-    }
 }

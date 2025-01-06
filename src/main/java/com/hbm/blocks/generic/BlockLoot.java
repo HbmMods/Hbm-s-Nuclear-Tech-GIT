@@ -49,19 +49,6 @@ public class BlockLoot extends BlockContainer {
 	}
 
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		super.onBlockAdded(world, x, y, z);
-		
-		/*TileEntityLoot loot = (TileEntityLoot) world.getTileEntity(x, y, z);
-		
-		if(loot != null && loot.items.isEmpty()) {
-			loot.addItem(new ItemStack(ModItems.gun_lever_action), 0, 0, 0);
-		}*/
-		
-		//LootGenerator.lootCapStash(world, x, y, z);
-	}
-
-	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta) {
 		
 		if(!world.isRemote) {

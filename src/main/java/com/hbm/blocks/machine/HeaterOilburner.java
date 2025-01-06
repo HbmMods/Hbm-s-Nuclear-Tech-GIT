@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ILookOverlay;
@@ -97,7 +98,7 @@ public class HeaterOilburner extends BlockDummyable implements ILookOverlay, ITo
 		FluidType type = heater.tank.getTankType();
 		if(type.hasTrait(FT_Flammable.class)) {
 			int heat = (int)(type.getTrait(FT_Flammable.class).getHeatEnergy() * heater.setting / 1000);
-			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + String.format("%,d", heat) + " TU/t");
+			text.add(EnumChatFormatting.RED + "<- " + EnumChatFormatting.RESET + String.format(Locale.US, "%,d", heat) + " TU/t");
 		}
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);

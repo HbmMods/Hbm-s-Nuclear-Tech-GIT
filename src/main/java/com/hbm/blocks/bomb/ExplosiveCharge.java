@@ -2,13 +2,15 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.effect.EntityNukeTorex;
+import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
-import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.RefStrings;
+import com.hbm.particle.helper.ExplosionCreator;
 
+import net.minecraft.util.MathHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -16,16 +18,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-public class ExplosiveCharge extends Block implements IBomb, IDetConnectible {
+public class ExplosiveCharge extends BlockDetonatable implements IBomb, IDetConnectible {
 
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 
-	public ExplosiveCharge(Material p_i45394_1_) {
-		super(p_i45394_1_);
+	public ExplosiveCharge(Material material) {
+		super(material, 0, 0, 0, false, false);
 	}
 
 	@Override
@@ -48,16 +49,6 @@ public class ExplosiveCharge extends Block implements IBomb, IDetConnectible {
 	}
 
 	@Override
-	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion p_149723_5_) {
-		this.explode(world, x, y, z);
-	}
-	
-	@Override
-	public boolean canDropFromExplosion(Explosion explosion) {
-		return false;
-	}
-
-	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block p_149695_5_) {
 		if(world.isBlockIndirectlyGettingPowered(x, y, z)) {
 			this.explode(world, x, y, z);
@@ -74,20 +65,20 @@ public class ExplosiveCharge extends Block implements IBomb, IDetConnectible {
 			}
 			if(this == ModBlocks.det_charge) {
 				new ExplosionNT(world, null, x + 0.5, y + 0.5, z + 0.5, 15).overrideResolution(64).explode();
-				ExplosionLarge.spawnParticles(world, x, y, z, ExplosionLarge.cloudFunction(15));
+				ExplosionCreator.composeEffectStandard(world, x + 0.5, y + 1, z + 0.5);
 			}
 			if(this == ModBlocks.det_nuke) {
 				world.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(world, BombConfig.missileRadius, x + 0.5, y + 0.5, z + 0.5));
-
-				EntityNukeCloudSmall entity2 = new EntityNukeCloudSmall(world, 1000, BombConfig.missileRadius * 0.005F);
-				entity2.posX = x;
-				entity2.posY = y;
-				entity2.posZ = z;
-				world.spawnEntityInWorld(entity2);
+				EntityNukeTorex.statFac(world, x + 0.5, y + 0.5, z + 0.5, BombConfig.missileRadius);
 			}
 		}
 
 		return BombReturnCode.DETONATED;
+	}
+
+	@Override
+	public void explodeEntity(World world, double x, double y, double z, EntityTNTPrimedBase entity) {
+		explode(world, MathHelper.floor_double(x), MathHelper.floor_double(y), MathHelper.floor_double(z));
 	}
 
 }

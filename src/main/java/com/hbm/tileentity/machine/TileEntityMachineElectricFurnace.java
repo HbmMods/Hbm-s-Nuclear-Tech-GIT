@@ -1,29 +1,38 @@
 package com.hbm.tileentity.machine;
 
+import java.util.HashMap;
+import java.util.List;
+
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.machine.MachineElectricFurnace;
-import com.hbm.inventory.UpgradeManager;
+import com.hbm.handler.pollution.PollutionHandler;
+import com.hbm.handler.pollution.PollutionHandler.PollutionType;
+import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.container.ContainerElectricFurnace;
 import com.hbm.inventory.gui.GUIMachineElectricFurnace;
 import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IUpgradeInfoProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.I18nUtil;
 
-import api.hbm.energy.IBatteryItem;
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IBatteryItem;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineElectricFurnace extends TileEntityMachineBase implements ISidedInventory, IEnergyUser, IGUIProvider {
+public class TileEntityMachineElectricFurnace extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IGUIProvider, IUpgradeInfoProvider {
 
 	// HOLY FUCKING SHIT I SPENT 5 DAYS ON THIS SHITFUCK CLASS FILE
 	// thanks Martin, vaer and Bob for the help
@@ -35,6 +44,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	private int cooldown = 0;
 
 	private static final int[] slots_io = new int[] { 0, 1, 2 };
+
+	public UpgradeManagerNT upgradeManager = new UpgradeManagerNT();
 
 	public TileEntityMachineElectricFurnace() {
 		super(4);
@@ -61,7 +72,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		this.power = nbt.getLong("power");
 		this.progress = nbt.getInteger("progress");
 	}
@@ -106,7 +117,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 	}
 
 	public boolean canProcess() {
-		
+
 		if(slots[1] == null || cooldown > 0) {
 			return false;
 		}
@@ -159,7 +170,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 		boolean markDirty = false;
 
 		if(!worldObj.isRemote) {
-			
+
 			if(cooldown > 0) {
 				cooldown--;
 			}
@@ -171,16 +182,16 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 			this.consumption = 50;
 			this.maxProgress = 100;
 
-			UpgradeManager.eval(slots, 3, 3);
+			upgradeManager.checkSlots(this, slots, 3, 3);
 
-			int speedLevel = UpgradeManager.getLevel(UpgradeType.SPEED);
-			int powerLevel = UpgradeManager.getLevel(UpgradeType.POWER);
+			int speedLevel = upgradeManager.getLevel(UpgradeType.SPEED);
+			int powerLevel = upgradeManager.getLevel(UpgradeType.POWER);
 
 			maxProgress -= speedLevel * 25;
 			consumption += speedLevel * 50;
 			maxProgress += powerLevel * 10;
 			consumption -= powerLevel * 15;
-			
+
 			if(!hasPower()) {
 				cooldown = 20;
 			}
@@ -189,6 +200,8 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 				progress++;
 
 				power -= consumption;
+
+				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND);
 
 				if(this.progress >= maxProgress) {
 					this.progress = 0;
@@ -210,11 +223,7 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 				MachineElectricFurnace.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			data.setInteger("MaxProgress", this.maxProgress);
-			data.setInteger("progress", this.progress);
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 
 
 			if(markDirty) {
@@ -223,17 +232,26 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 		}
 	}
 
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeInt(maxProgress);
+		buf.writeInt(progress);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		maxProgress = buf.readInt();
+		progress = buf.readInt();
+	}
+
 	private void updateConnections() {
 
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-	}
-
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("power");
-		this.maxProgress = nbt.getInteger("MaxProgress");
-		this.progress = nbt.getInteger("progress");
-
 	}
 
 	@Override
@@ -260,7 +278,33 @@ public class TileEntityMachineElectricFurnace extends TileEntityMachineBase impl
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineElectricFurnace(player.inventory, this);
+	}
+
+	@Override
+	public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+		return type == UpgradeType.SPEED || type == UpgradeType.POWER;
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_electric_furnace_off));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 100) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 30) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (level * 10) + "%"));
+		}
+	}
+
+	@Override
+	public HashMap<UpgradeType, Integer> getValidUpgrades() {
+		HashMap<UpgradeType, Integer> upgrades = new HashMap<>();
+		upgrades.put(UpgradeType.SPEED, 3);
+		upgrades.put(UpgradeType.POWER, 3);
+		return upgrades;
 	}
 }

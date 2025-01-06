@@ -11,8 +11,8 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.TileEntityMachineTurbineGas;
 import com.hbm.util.I18nUtil;
 
@@ -137,7 +137,7 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 		fuels.add(I18nUtil.resolveKey("desc.gui.turbinegas.fuels"));
 		for(FluidType type : Fluids.getInNiceOrder()) {
 			if(type.hasTrait(FT_Combustible.class) && type.getTrait(FT_Combustible.class).getGrade() == FuelGrade.GAS) {
-				fuels.add("  " + I18nUtil.resolveKey(type.getUnlocalizedName()));
+				fuels.add("  " + type.getLocalizedName());
 			}
 		}
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 34 + 16, 16, 16, guiLeft - 8, guiTop + 44 + 16, fuels);
@@ -202,9 +202,7 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 	
 	public void displayStartup() {
 		
-		boolean displayOn = true;
-		
-		if(numberToDisplay < 888888 && turbinegas.counter < 60) { //48 frames needed to complete
+		if(numberToDisplay < 8888888 && turbinegas.counter < 60) { //48 frames needed to complete
 			
 			digitNumber++;
 			if(digitNumber == 9) {
@@ -222,27 +220,23 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 	
 	protected void drawPowerMeterDisplay(int number) { //display code
 		
-		int firstDigitX = 66;
+		int firstDigitX = 65;
 		int firstDigitY = 62;
 		
-		int width = 5;
-		int height = 11;
-		int spaceBetweenBumbers = 3;
+		int[] digit = new int[7];
 		
-		int[] digit = new int[6];
-		
-		for(int i = 5; i >= 0; i--) { //creates an array of digits that represent the numbers
+		for(int i = 6; i >= 0; i--) { //creates an array of digits that represent the numbers
 			
 			digit[i] = (int) (number % 10);
 			
 			number = number / 10;
 			
-			drawTexturedModalRect(guiLeft + firstDigitX + i * 8, guiTop + 9 + firstDigitY, 194 + digit[i] * 5, 0, 5, 11);
+			drawTexturedModalRect(guiLeft + firstDigitX + i * 7, guiTop + 9 + firstDigitY, 194 + digit[i] * 5, 0, 5, 11);
 		}
 		
 		int uselessZeros = 0;
 		
-		for(int i = 0; i < 5; i++) { //counts how much zeros there are before the number, to display 57 instead of 000057
+		for(int i = 0; i < 6; i++) { //counts how much zeros there are before the number, to display 57 instead of 000057
 			
 			if(digit[i] == 0)
 				uselessZeros++;
@@ -252,7 +246,7 @@ public class GUIMachineTurbineGas extends GuiInfoContainer {
 		
 		for(int i = 0; i < uselessZeros; i++) { //turns off the useless zeros
 			
-			drawTexturedModalRect(guiLeft + firstDigitX + i * 8, guiTop + 9 + firstDigitY, 244, 0, 5, 11);
+			drawTexturedModalRect(guiLeft + firstDigitX + i * 7, guiTop + 9 + firstDigitY, 244, 0, 5, 11);
 		}
 	}
 	

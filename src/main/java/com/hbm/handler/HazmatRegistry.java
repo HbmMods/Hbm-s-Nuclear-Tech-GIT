@@ -14,10 +14,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ItemModCladding;
-import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.potion.HbmPotion;
 import com.hbm.util.Compat;
+import com.hbm.util.ShadyUtil;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -53,8 +53,10 @@ public class HazmatRegistry {
 		double t45 = 1D; // 90%
 		double ajr = 1.3D; // 95%
 		double bj = 1D; // 90%
+		double env = 1.0D; // 99%
 		double hev = 2.3D; // 99.5%
 		double rpa = 2D; // 99%
+		double trench = 1D; // 90%
 		double fau = 4D; // 99.99%
 		double dns = 5D; // 99.999%
 		double security = 0.825D; // 85%
@@ -108,6 +110,11 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.steamsuit_legs, 1.3 * legs);
 		HazmatRegistry.registerHazmat(ModItems.steamsuit_boots, 1.3 * boots);
 
+		HazmatRegistry.registerHazmat(ModItems.envsuit_helmet, env * helmet);
+		HazmatRegistry.registerHazmat(ModItems.envsuit_plate, env * chest);
+		HazmatRegistry.registerHazmat(ModItems.envsuit_legs, env * legs);
+		HazmatRegistry.registerHazmat(ModItems.envsuit_boots, env * boots);
+
 		HazmatRegistry.registerHazmat(ModItems.hev_helmet, hev * helmet);
 		HazmatRegistry.registerHazmat(ModItems.hev_plate, hev * chest);
 		HazmatRegistry.registerHazmat(ModItems.hev_legs, hev * legs);
@@ -117,6 +124,11 @@ public class HazmatRegistry {
 		HazmatRegistry.registerHazmat(ModItems.rpa_plate, rpa * chest);
 		HazmatRegistry.registerHazmat(ModItems.rpa_legs, rpa * legs);
 		HazmatRegistry.registerHazmat(ModItems.rpa_boots, rpa * boots);
+
+		HazmatRegistry.registerHazmat(ModItems.trenchmaster_helmet, trench * helmet);
+		HazmatRegistry.registerHazmat(ModItems.trenchmaster_plate, trench * chest);
+		HazmatRegistry.registerHazmat(ModItems.trenchmaster_legs, trench * legs);
+		HazmatRegistry.registerHazmat(ModItems.trenchmaster_boots, trench * boots);
 
 		HazmatRegistry.registerHazmat(ModItems.fau_helmet, fau * helmet);
 		HazmatRegistry.registerHazmat(ModItems.fau_plate, fau * chest);
@@ -245,7 +257,7 @@ public class HazmatRegistry {
 		
 		float res = 0.0F;
 		
-		if(player.getUniqueID().toString().equals(Library.Pu_238)) {
+		if(player.getUniqueID().toString().equals(ShadyUtil.Pu_238)) {
 			res += 0.4F;
 		}
 		

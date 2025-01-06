@@ -4,14 +4,16 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.tileentity.machine.rbmk.TileEntityCraneConsole;
 
+import api.hbm.block.IToolable;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class RBMKCraneConsole extends BlockDummyable {
+public class RBMKCraneConsole extends BlockDummyable implements IToolable {
 
 	public RBMKCraneConsole() {
 		super(Material.iron);
@@ -71,5 +73,21 @@ public class RBMKCraneConsole extends BlockDummyable {
 		} else {
 			this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 		}
+	}
+
+	@Override
+	public boolean onScrew(World world, EntityPlayer player, int x, int y, int z, int side, float fX, float fY, float fZ, ToolType tool) {
+		
+		if(tool == ToolType.SCREWDRIVER) {
+			if(world.isRemote) return true;
+			
+			int[] pos = findCore(world, x, y, z);
+			TileEntityCraneConsole tile = (TileEntityCraneConsole) world.getTileEntity(pos[0], pos[1], pos[2]);
+			tile.cycleCraneRotation();
+			tile.markDirty();
+			return true;
+		}
+		
+		return false;
 	}
 }

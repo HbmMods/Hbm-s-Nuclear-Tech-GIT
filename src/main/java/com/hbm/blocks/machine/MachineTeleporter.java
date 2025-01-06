@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.lib.RefStrings;
@@ -61,7 +62,7 @@ public class MachineTeleporter extends BlockContainer implements ILookOverlay {
 		if(tele.targetY == -1) {
 			text.add(EnumChatFormatting.RED + "No destination set!");
 		} else {
-			text.add((tele.power >= tele.consumption ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + String.format("%,d", tele.power) + " / " + String.format("%,d", tele.maxPower));
+			text.add((tele.power >= tele.consumption ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + String.format(Locale.US, "%,d", tele.power) + " / " + String.format(Locale.US, "%,d", tele.maxPower));
 			text.add("Destination: " + tele.targetX + " / " + tele.targetY + " / " + tele.targetZ + " (D: " + tele.targetDim + ")");
 		}
 		

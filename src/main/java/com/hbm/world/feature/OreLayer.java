@@ -99,7 +99,7 @@ public class OreLayer {
 						if(event.rand.nextFloat() < density) {
 							Block genTarget = world.getBlock(x, y, z);
 							
-							if(genTarget.isReplaceableOreGen(world, x, y, z, target)) {
+							if(genTarget.isReplaceableOreGen(world, x, y, z, target) && genTarget.isReplaceableOreGen(world, x, y, z, Blocks.stone)) {
 								world.setBlock(x, y, z, ore.block, ore.meta, 2);
 							}
 						}

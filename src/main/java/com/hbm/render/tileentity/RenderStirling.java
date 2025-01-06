@@ -47,6 +47,8 @@ public class RenderStirling extends TileEntitySpecialRenderer implements IItemRe
 
 		if(type == 0)
 			bindTexture(ResourceManager.stirling_tex);
+		else if(type == 2)
+			bindTexture(ResourceManager.stirling_creative_tex);
 		else
 			bindTexture(ResourceManager.stirling_steel_tex);
 		
@@ -86,7 +88,8 @@ public class RenderStirling extends TileEntitySpecialRenderer implements IItemRe
 	public Item[] getItemsForRenderer() {
 		return new Item[] {
 				Item.getItemFromBlock(ModBlocks.machine_stirling),
-				Item.getItemFromBlock(ModBlocks.machine_stirling_steel)
+				Item.getItemFromBlock(ModBlocks.machine_stirling_steel),
+				Item.getItemFromBlock(ModBlocks.machine_stirling_creative)
 		};
 	}
 
@@ -100,7 +103,7 @@ public class RenderStirling extends TileEntitySpecialRenderer implements IItemRe
 			public void renderCommonWithStack(ItemStack item) {
 				GL11.glRotatef(90, 0F, 1F, 0F);
 				boolean cog = item.getItemDamage() != 1;
-				RenderStirling.this.renderCommon(cog ? System.currentTimeMillis() % 3600 * 0.1F : 0, cog, item.getItem() == Item.getItemFromBlock(ModBlocks.machine_stirling) ? 0 : 1);
+				RenderStirling.this.renderCommon(cog ? System.currentTimeMillis() % 3600 * 0.1F : 0, cog, item.getItem() == Item.getItemFromBlock(ModBlocks.machine_stirling) ? 0 : item.getItem() == Item.getItemFromBlock(ModBlocks.machine_stirling_creative) ? 2 : 1);
 			}};
 	}
 

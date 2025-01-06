@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.recipes.CrucibleRecipes;
 import com.hbm.lib.RefStrings;
@@ -19,8 +20,17 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
-public class CrucibleSmeltingHandler extends TemplateRecipeHandler {
-	
+public class CrucibleSmeltingHandler extends TemplateRecipeHandler implements ICompatNHNEI {
+
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return new ItemStack[]{
+				new ItemStack(ModBlocks.machine_crucible)};
+	}
+	@Override
+	public String getRecipeID() {
+		return "ntmCrucibleSmelting";
+	}
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
 	public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();
 	

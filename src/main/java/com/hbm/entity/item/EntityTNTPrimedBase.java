@@ -1,7 +1,6 @@
 package com.hbm.entity.item;
 
-import com.hbm.blocks.bomb.BlockTNTBase;
-
+import api.hbm.block.IFuckingExplode;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -12,6 +11,7 @@ import net.minecraft.world.World;
 
 public class EntityTNTPrimedBase extends Entity {
 
+	public boolean detonateOnCollision;
 	public int fuse;
 	private EntityLivingBase tntPlacedBy;
 
@@ -21,9 +21,10 @@ public class EntityTNTPrimedBase extends Entity {
 		this.setSize(0.98F, 0.98F);
 		this.yOffset = this.height / 2.0F;
 		this.fuse = 80;
+		this.detonateOnCollision = false;
 	}
 
-	public EntityTNTPrimedBase(World world, double x, double y, double z, EntityLivingBase entity, BlockTNTBase bomb) {
+	public EntityTNTPrimedBase(World world, double x, double y, double z, EntityLivingBase entity, Block bomb) {
 		this(world);
 		this.setPosition(x, y, z);
 		float f = (float) (Math.random() * Math.PI * 2.0D);
@@ -69,8 +70,8 @@ public class EntityTNTPrimedBase extends Entity {
 			this.motionZ *= 0.7D;
 			this.motionY *= -0.5D;
 		}
-
-		if(this.fuse-- <= 0) {
+		
+		if(this.fuse-- <= 0 || (this.detonateOnCollision && this.isCollided)) {
 			this.setDead();
 
 			if(!this.worldObj.isRemote) {
@@ -85,8 +86,12 @@ public class EntityTNTPrimedBase extends Entity {
 		this.getBomb().explodeEntity(worldObj, posX, posY, posZ, this);
 	}
 	
-	public BlockTNTBase getBomb() {
-		return (BlockTNTBase) Block.getBlockById(this.dataWatcher.getWatchableObjectInt(12));
+	public IFuckingExplode getBomb() {
+		return (IFuckingExplode) getBlock();
+	}
+
+	public Block getBlock() {
+		return Block.getBlockById(this.dataWatcher.getWatchableObjectInt(12));
 	}
 
 	@Override

@@ -3,6 +3,8 @@ package com.hbm.blocks.generic;
 import java.util.List;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.interfaces.IBomb;
+import com.hbm.items.special.ItemDoorSkin;
 import com.hbm.tileentity.DoorDecl;
 import com.hbm.tileentity.TileEntityDoorGeneric;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -19,7 +21,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class BlockDoorGeneric extends BlockDummyable {
+public class BlockDoorGeneric extends BlockDummyable implements IBomb {
 
 	public DoorDecl type;
 	
@@ -42,7 +44,23 @@ public class BlockDoorGeneric extends BlockDummyable {
 
 	@Override
 	public int getOffset(){
-		return 0;
+		return type.getBlockOffset();
+	}
+
+	@Override
+	public BombReturnCode explode(World world, int x, int y, int z) {
+		int[] pos1 = findCore(world, x, y, z);
+		if(pos1 == null) return BombReturnCode.ERROR_INCOMPATIBLE;
+		TileEntityDoorGeneric door = (TileEntityDoorGeneric) world.getTileEntity(pos1[0], pos1[1], pos1[2]);
+		if(door != null) {
+			DoorDecl decl = door.getDoorType();
+			if(!decl.remoteControllable()) return BombReturnCode.ERROR_INCOMPATIBLE;
+			if(door.tryToggle(null)) {
+				return BombReturnCode.TRIGGERED;
+			}
+		}
+		
+		return BombReturnCode.ERROR_INCOMPATIBLE;
 	}
 	
 	@Override
@@ -54,12 +72,14 @@ public class BlockDoorGeneric extends BlockDummyable {
 			TileEntityDoorGeneric door = (TileEntityDoorGeneric) world.getTileEntity(pos1[0], pos1[1], pos1[2]);
 
 			if(door != null) {
-				return door.tryToggle(playerIn);
+				if(playerIn.getHeldItem() != null && playerIn.getHeldItem().getItem() instanceof ItemDoorSkin) {
+					return door.setSkinIndex((byte) playerIn.getHeldItem().getItemDamage());
+				} else {
+					return door.tryToggle(playerIn);
+				}
 			}
 		}
-		if(!playerIn.isSneaking())
-			return true;
-		return false;
+		return !playerIn.isSneaking();
 	}
 	
 	@Override
@@ -77,8 +97,8 @@ public class BlockDoorGeneric extends BlockDummyable {
 				Math.min(box.minX, box.maxX), Math.min(box.minY, box.maxY), Math.min(box.minZ, box.maxZ),
 				Math.max(box.minX, box.maxX), Math.max(box.minY, box.maxY), Math.max(box.minZ, box.maxZ));
 		
-		if(box.minY == y && box.maxY == y)
-			return;
+		if(box.minY == y && box.maxY == y) return;
+		if(box.minX == box.maxX && box.minY == box.maxY && box.minZ == box.maxZ) return;
 		
 		if(box != null && box.intersectsWith(entityBox)) {
 			collidingBoxes.add(box);
@@ -87,6 +107,18 @@ public class BlockDoorGeneric extends BlockDummyable {
 		//if(hasExtra(worldIn.getBlockMetadata(x, y, z))) //transition hatch only worked with this, but fire door doesn't
 		//	return;
 		//super.addCollisionBoxesToList(worldIn, x, y, z, entityBox, collidingBoxes, entityIn);
+	}
+	
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+		AxisAlignedBB aabb = this.getBoundingBox(world, x, y, z);
+		if(aabb.minX == aabb.maxX && aabb.minY == aabb.maxY && aabb.minZ == aabb.maxZ) return null;
+		return aabb;
+	}
+
+	@Override //should fix AI pathfinding
+	public boolean getBlocksMovement(IBlockAccess world, int x, int y, int z) { //btw the method name is the exact opposite of that it's doing, check net.minecraft.pathfinding.PathNavigate#512
+		return hasExtra(world.getBlockMetadata(x, y, z)); //if it's open
 	}
 	
 	@Override
@@ -133,5 +165,4 @@ public class BlockDoorGeneric extends BlockDummyable {
 		}
 		return AxisAlignedBB.getBoundingBox(x, y, z, x + 1, y + 1, z + 1);
 	}
-
 }

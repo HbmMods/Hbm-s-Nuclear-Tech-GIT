@@ -6,7 +6,7 @@ import com.hbm.inventory.recipes.LiquefactionRecipes;
 public class LiquefactionHandler extends NEIUniversalHandler {
 
 	public LiquefactionHandler() {
-		super("Liquefaction", ModBlocks.machine_liquefactor, LiquefactionRecipes.getRecipes());
+		super(ModBlocks.machine_liquefactor.getLocalizedName(), ModBlocks.machine_liquefactor, LiquefactionRecipes.getRecipes());
 	}
 
 	@Override

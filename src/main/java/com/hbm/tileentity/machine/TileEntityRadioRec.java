@@ -1,40 +1,41 @@
 package com.hbm.tileentity.machine;
 
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.network.RTTYSystem;
 import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.NoteBuilder;
 import com.hbm.util.NoteBuilder.Instrument;
 import com.hbm.util.NoteBuilder.Note;
 import com.hbm.util.NoteBuilder.Octave;
 import com.hbm.util.Tuple.Triplet;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityRadioRec extends TileEntity implements INBTPacketReceiver, IControlReceiver {
-	
+public class TileEntityRadioRec extends TileEntityLoadedBase implements IControlReceiver {
+
 	public String channel = "";
 	public boolean isOn = false;
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			if(this.isOn && !this.channel.isEmpty()) {
 				RTTYChannel chan = RTTYSystem.listen(worldObj, this.channel);
-				
+
 				if(chan != null && chan.timeStamp == worldObj.getTotalWorldTime() - 1) {
 					Triplet<Instrument, Note, Octave>[] notes = NoteBuilder.translate(chan.signal + "");
-					
+
 					for(Triplet<Instrument, Note, Octave> note : notes) {
 						Instrument i = note.getX();
 						Note n = note.getY();
 						Octave o = note.getZ();
-						
+
 						int noteId = n.ordinal() + o.ordinal() * 12;
 						String s = "harp";
 
@@ -48,28 +49,31 @@ public class TileEntityRadioRec extends TileEntity implements INBTPacketReceiver
 					}
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setString("channel", channel);
-			data.setBoolean("isOn", isOn);
-			INBTPacketReceiver.networkPack(this, data, 15);
+
+			networkPackNT(15);
 		}
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		channel = nbt.getString("channel");
-		isOn = nbt.getBoolean("isOn");
+	public void serialize(ByteBuf buf) {
+		BufferUtil.writeString(buf, this.channel);
+		buf.writeBoolean(this.isOn);
 	}
-	
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.channel = BufferUtil.readString(buf);
+		this.isOn = buf.readBoolean();
+	}
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		channel = nbt.getString("channel");
 		isOn = nbt.getBoolean("isOn");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -87,7 +91,7 @@ public class TileEntityRadioRec extends TileEntity implements INBTPacketReceiver
 	public void receiveControl(NBTTagCompound data) {
 		if(data.hasKey("channel")) this.channel = data.getString("channel");
 		if(data.hasKey("isOn")) this.isOn = data.getBoolean("isOn");
-		
+
 		this.markDirty();
 	}
 }

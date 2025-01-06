@@ -58,9 +58,9 @@ public class BlockDecoContainer extends BlockDecoModel implements ITileEntityPro
 		} else {
 			TileEntity entity = world.getTileEntity(x, y, z);
 			if(entity instanceof TileEntityLockableBase) { //annoying accommodations for the filing cabinet, but whatever, could potentially be useful
-				if(player.getHeldItem() != null && (player.getHeldItem().getItem() instanceof ItemLock || player.getHeldItem().getItem() == ModItems.key_kit))
+				if(player.getHeldItem() != null && (player.getHeldItem().getItem() instanceof ItemLock || player.getHeldItem().getItem() == ModItems.key_kit)) {
 					return false;
-				else if(!player.isSneaking() && ((TileEntityLockableBase) entity).canAccess(player))  {
+				} else if(!player.isSneaking() && ((TileEntityLockableBase) entity).canAccess(player)) {
 					FMLNetworkHandler.openGui(player, MainRegistry.instance, 0, world, x, y, z);
 					return true;
 				}
@@ -99,13 +99,13 @@ public class BlockDecoContainer extends BlockDecoModel implements ITileEntityPro
 						
 						if(itemstack.hasTagCompound()) {
 							entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
-							
-							float f3 = 0.05F;
-							entityitem.motionX = (float) rand.nextGaussian() * f3;
-							entityitem.motionY = (float) rand.nextGaussian() * f3 + 0.2F;
-							entityitem.motionZ = (float) rand.nextGaussian() * f3;
-							world.spawnEntityInWorld(entityitem);
 						}
+						
+						float f3 = 0.05F;
+						entityitem.motionX = (float) rand.nextGaussian() * f3;
+						entityitem.motionY = (float) rand.nextGaussian() * f3 + 0.2F;
+						entityitem.motionZ = (float) rand.nextGaussian() * f3;
+						world.spawnEntityInWorld(entityitem);
 					}
 				}
 

@@ -6,10 +6,12 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerSILEX;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.SILEXRecipes;
+import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.AuxButtonPacket;
 import com.hbm.tileentity.machine.TileEntitySILEX;
 import com.hbm.util.I18nUtil;
 
@@ -18,6 +20,7 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class GUISILEX extends GuiInfoContainer {
@@ -85,7 +88,7 @@ public class GUISILEX extends GuiInfoContainer {
 		
 		if(silex.tank.getFill() > 0) {
 			
-			if(silex.tank.getTankType() == Fluids.ACID || silex.fluidConversion.containsKey(silex.tank.getTankType())) {
+			if(silex.tank.getTankType() == Fluids.PEROXIDE || silex.fluidConversion.containsKey(silex.tank.getTankType()) || SILEXRecipes.getOutput(new ItemStack(ModItems.fluid_icon, 1, silex.tank.getTankType().getID())) != null) {
 				drawTexturedModalRect(guiLeft + 7, guiTop + 41, 176, 118, 54, 9);
 			} else {
 				drawTexturedModalRect(guiLeft + 7, guiTop + 41, 176, 109, 54, 9);
@@ -99,7 +102,7 @@ public class GUISILEX extends GuiInfoContainer {
 		drawTexturedModalRect(guiLeft + 26, guiTop + 124 - f, 176, 109 - f, 16, f);
 
 		int i = silex.getFluidScaled(52);
-		drawTexturedModalRect(guiLeft + 8, guiTop + 42, 176, silex.tank.getTankType() == Fluids.ACID ? 43 : 50, i, 7);
+		drawTexturedModalRect(guiLeft + 8, guiTop + 42, 176, silex.tank.getTankType() == Fluids.PEROXIDE ? 43 : 50, i, 7);
 	}
 	
 	private void drawWave(int x, int y, int height, int width, float resolution, float freq, int color, float thickness, float mult) {

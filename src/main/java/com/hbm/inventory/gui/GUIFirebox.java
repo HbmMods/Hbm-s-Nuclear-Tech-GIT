@@ -1,6 +1,7 @@
 package com.hbm.inventory.gui;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.lwjgl.opengl.GL11;
 
@@ -48,7 +49,7 @@ public class GUIFirebox extends GuiInfoContainer {
 			}
 		}
 
-		this.drawCustomInfoStat(x, y, guiLeft + 80, guiTop + 27, 71, 7, x, y, new String[] { String.format("%,d", firebox.heatEnergy) + " / " + String.format("%,d", firebox.getMaxHeat()) + "TU" });
+		this.drawCustomInfoStat(x, y, guiLeft + 80, guiTop + 27, 71, 7, x, y, new String[] { String.format(Locale.US, "%,d", firebox.heatEnergy) + " / " + String.format(Locale.US, "%,d", firebox.getMaxHeat()) + "TU" });
 		this.drawCustomInfoStat(x, y, guiLeft + 80, guiTop + 36, 71, 7, x, y, new String[] { firebox.burnHeat + "TU/t", (firebox.burnTime / 20) + "s" });
 	}
 	

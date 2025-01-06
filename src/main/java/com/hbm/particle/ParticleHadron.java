@@ -6,10 +6,12 @@ import com.hbm.lib.RefStrings;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -50,11 +52,16 @@ public class ParticleHadron extends EntityFX {
 		float scale = (this.particleAge + interp) * 0.15F;
 		
 		tess.setColorRGBA_F(1.0F, 1.0F, 1.0F, this.particleAlpha);
+
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		double dX = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)interp;
+		double dY = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)interp;
+		double dZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)interp;
 		
-	    float pX = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double)interp - interpPosX);
-	    float pY = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double)interp - interpPosY);
-	    float pZ = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double)interp - interpPosZ);
-	       
+		double pX = this.prevPosX + (this.posX - this.prevPosX) * (double) interp - dX;
+		double pY = this.prevPosY + (this.posY - this.prevPosY) * (double) interp - dY;
+		double pZ = this.prevPosZ + (this.posZ - this.prevPosZ) * (double) interp - dZ;
+
 		tess.addVertexWithUV((double)(pX - x * scale - tx * scale), (double)(pY - y * scale), (double)(pZ - z * scale - tz * scale), 1, 1);
 		tess.addVertexWithUV((double)(pX - x * scale + tx * scale), (double)(pY + y * scale), (double)(pZ - z * scale + tz * scale), 1, 0);
 		tess.addVertexWithUV((double)(pX + x * scale + tx * scale), (double)(pY + y * scale), (double)(pZ + z * scale + tz * scale), 0, 0);
@@ -63,6 +70,7 @@ public class ParticleHadron extends EntityFX {
 		
 		GL11.glPolygonOffset(0.0F, 0.0F);
 		GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 }

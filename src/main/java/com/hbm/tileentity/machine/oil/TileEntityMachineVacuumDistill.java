@@ -1,5 +1,6 @@
 package com.hbm.tileentity.machine.oil;
 
+import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.container.ContainerMachineVacuumDistill;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -9,16 +10,18 @@ import com.hbm.inventory.recipes.RefineryRecipes;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.Tuple.Quartet;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,7 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implements IEnergyUser, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider {
+public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, IFluidCopiable {
 	
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -38,7 +41,7 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 	public boolean isOn;
 
 	public TileEntityMachineVacuumDistill() {
-		super(11);
+		super(12);
 		
 		this.tanks = new FluidTank[5];
 		this.tanks[0] = new FluidTank(Fluids.OIL, 64_000).withPressure(2);
@@ -62,6 +65,7 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 			
 			this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
+			tanks[0].setType(11, slots);
 			tanks[0].loadTank(1, 2, slots);
 			
 			refine();
@@ -78,12 +82,9 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 					}
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			data.setBoolean("isOn", this.isOn);
-			for(int i = 0; i < 5; i++) tanks[i].writeToNBT(data, "" + i);
-			this.networkPack(data, 150);
+
+			this.networkPackNT(150);
+
 		} else {
 			
 			if(this.isOn) audioTime = 20;
@@ -98,7 +99,8 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 				} else if(!audio.isPlaying()) {
 					audio = rebootAudio(audio);
 				}
-				
+
+				audio.updateVolume(getVolume(1F));
 				audio.keepAlive();
 				
 			} else {
@@ -135,30 +137,42 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 			audio = null;
 		}
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("power");
-		this.isOn = nbt.getBoolean("isOn");
-		for(int i = 0; i < 5; i++) tanks[i].readFromNBT(nbt, "" + i);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		buf.writeBoolean(this.isOn);
+		for(int i = 0; i < 5; i++) tanks[i].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		this.isOn = buf.readBoolean();
+		for(int i = 0; i < 5; i++) tanks[i].deserialize(buf);
 	}
 	
 	private void refine() {
+		Quartet<FluidStack, FluidStack, FluidStack, FluidStack> refinery = RefineryRecipes.getVacuum(tanks[0].getTankType());
+		if(refinery == null) {
+			for(int i = 1; i < 5; i++) tanks[i].setTankType(Fluids.NONE);
+			return;
+		}
+		
+		FluidStack[] stacks = new FluidStack[] {refinery.getW(), refinery.getX(), refinery.getY(), refinery.getZ()};
+		for(int i = 0; i < stacks.length; i++) tanks[i + 1].setTankType(stacks[i].type);
 		
 		if(power < 10_000) return;
 		if(tanks[0].getFill() < 100) return;
-		if(tanks[1].getFill() + RefineryRecipes.vac_frac_heavy > tanks[1].getMaxFill()) return;
-		if(tanks[2].getFill() + RefineryRecipes.vac_frac_reform > tanks[2].getMaxFill()) return;
-		if(tanks[3].getFill() + RefineryRecipes.vac_frac_light > tanks[3].getMaxFill()) return;
-		if(tanks[4].getFill() + RefineryRecipes.vac_frac_sour > tanks[4].getMaxFill()) return;
+		for(int i = 0; i < stacks.length; i++) if(tanks[i + 1].getFill() + stacks[i].fill > tanks[i + 1].getMaxFill()) return;
 
 		this.isOn = true;
 		power -= 10_000;
 		tanks[0].setFill(tanks[0].getFill() - 100);
-		tanks[1].setFill(tanks[1].getFill() + RefineryRecipes.vac_frac_heavy);
-		tanks[2].setFill(tanks[2].getFill() + RefineryRecipes.vac_frac_reform);
-		tanks[3].setFill(tanks[3].getFill() + RefineryRecipes.vac_frac_light);
-		tanks[4].setFill(tanks[4].getFill() + RefineryRecipes.vac_frac_sour);
+		
+		for(int i = 0; i < stacks.length; i++) tanks[i + 1].setFill(tanks[i + 1].getFill() + stacks[i].fill);
 	}
 	
 	private void updateConnections() {
@@ -291,7 +305,7 @@ public class TileEntityMachineVacuumDistill extends TileEntityMachineBase implem
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineVacuumDistill(player.inventory, this);
 	}
 }

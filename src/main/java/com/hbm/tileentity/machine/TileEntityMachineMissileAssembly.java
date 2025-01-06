@@ -4,17 +4,16 @@ import com.hbm.handler.MissileStruct;
 import com.hbm.inventory.container.ContainerMachineMissileAssembly;
 import com.hbm.inventory.gui.GUIMachineMissileAssembly;
 import com.hbm.items.weapon.ItemCustomMissile;
-import com.hbm.items.weapon.ItemMissile;
-import com.hbm.items.weapon.ItemMissile.FuelType;
-import com.hbm.items.weapon.ItemMissile.PartType;
+import com.hbm.items.weapon.ItemCustomMissilePart;
+import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
+import com.hbm.items.weapon.ItemCustomMissilePart.PartType;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEMissileMultipartPacket;
+import com.hbm.packet.toclient.TEMissileMultipartPacket;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
@@ -190,9 +189,9 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 	
 	public int fuselageState() {
 		
-		if(slots[2] != null && slots[2].getItem() instanceof ItemMissile) {
+		if(slots[2] != null && slots[2].getItem() instanceof ItemCustomMissilePart) {
 			
-			ItemMissile part = (ItemMissile)slots[2].getItem();
+			ItemCustomMissilePart part = (ItemCustomMissilePart)slots[2].getItem();
 			
 			if(part.type == PartType.FUSELAGE)
 				return 1;
@@ -203,9 +202,9 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 
 	public int chipState() {
 		
-		if(slots[0] != null && slots[0].getItem() instanceof ItemMissile) {
+		if(slots[0] != null && slots[0].getItem() instanceof ItemCustomMissilePart) {
 			
-			ItemMissile part = (ItemMissile)slots[0].getItem();
+			ItemCustomMissilePart part = (ItemCustomMissilePart)slots[0].getItem();
 			
 			if(part.type == PartType.CHIP)
 				return 1;
@@ -216,13 +215,13 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 
 	public int warheadState() {
 		
-		if(slots[1] != null && slots[1].getItem() instanceof ItemMissile &&
-				slots[2] != null && slots[2].getItem() instanceof ItemMissile &&
-				slots[4] != null && slots[4].getItem() instanceof ItemMissile) {
+		if(slots[1] != null && slots[1].getItem() instanceof ItemCustomMissilePart &&
+				slots[2] != null && slots[2].getItem() instanceof ItemCustomMissilePart &&
+				slots[4] != null && slots[4].getItem() instanceof ItemCustomMissilePart) {
 
-			ItemMissile part = (ItemMissile)slots[1].getItem();
-			ItemMissile fuselage = (ItemMissile)slots[2].getItem();
-			ItemMissile thruster = (ItemMissile)slots[4].getItem();
+			ItemCustomMissilePart part = (ItemCustomMissilePart)slots[1].getItem();
+			ItemCustomMissilePart fuselage = (ItemCustomMissilePart)slots[2].getItem();
+			ItemCustomMissilePart thruster = (ItemCustomMissilePart)slots[4].getItem();
 
 			if(part.type == PartType.WARHEAD && fuselage.type == PartType.FUSELAGE && thruster.type == PartType.THRUSTER) {
 				float weight = (Float)part.attributes[2];
@@ -241,11 +240,11 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 		if(slots[3] == null)
 			return -1;
 		
-		if(slots[3] != null && slots[3].getItem() instanceof ItemMissile &&
-				slots[2] != null && slots[2].getItem() instanceof ItemMissile) {
+		if(slots[3] != null && slots[3].getItem() instanceof ItemCustomMissilePart &&
+				slots[2] != null && slots[2].getItem() instanceof ItemCustomMissilePart) {
 
-			ItemMissile part = (ItemMissile)slots[3].getItem();
-			ItemMissile fuselage = (ItemMissile)slots[2].getItem();
+			ItemCustomMissilePart part = (ItemCustomMissilePart)slots[3].getItem();
+			ItemCustomMissilePart fuselage = (ItemCustomMissilePart)slots[2].getItem();
 			
 			if(part.top == fuselage.bottom && part.type == PartType.FINS)
 				return 1;
@@ -256,11 +255,11 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 
 	public int thrusterState() {
 		
-		if(slots[4] != null && slots[4].getItem() instanceof ItemMissile &&
-				slots[2] != null && slots[2].getItem() instanceof ItemMissile) {
+		if(slots[4] != null && slots[4].getItem() instanceof ItemCustomMissilePart &&
+				slots[2] != null && slots[2].getItem() instanceof ItemCustomMissilePart) {
 
-			ItemMissile part = (ItemMissile)slots[4].getItem();
-			ItemMissile fuselage = (ItemMissile)slots[2].getItem();
+			ItemCustomMissilePart part = (ItemCustomMissilePart)slots[4].getItem();
+			ItemCustomMissilePart fuselage = (ItemCustomMissilePart)slots[2].getItem();
 			
 			if(part.type == PartType.THRUSTER && fuselage.type == PartType.FUSELAGE &&
 					part.top == fuselage.bottom && (FuelType)part.attributes[0] == (FuelType)fuselage.attributes[0]) {
@@ -317,7 +316,7 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ISid
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineMissileAssembly(player.inventory, this);
 	}
 }

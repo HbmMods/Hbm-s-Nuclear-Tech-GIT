@@ -3,7 +3,6 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.blocks.BlockDummyable;
 import com.hbm.entity.projectile.EntityArtilleryShell;
 import com.hbm.handler.CasingEjector;
 import com.hbm.inventory.container.ContainerTurretBase;
@@ -12,14 +11,18 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemAmmoArty;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
@@ -27,7 +30,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implements IGUIProvider {
 	
@@ -221,20 +223,6 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 		return 7;
 	}
 	
-	protected void updateConnections() {
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset).getOpposite();
-		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
-
-		for(int i = 0; i < 2; i++) {
-			for(int j = 0; j < 4; j++) {
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * (-1 + j) + rot.offsetX * -3, yCoord + i, zCoord + dir.offsetZ * (-1 + j) + rot.offsetZ * -3, ForgeDirection.SOUTH);
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * (-1 + j) + rot.offsetX * 2, yCoord + i, zCoord + dir.offsetZ * (-1 + j) + rot.offsetZ * 2, ForgeDirection.NORTH);
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * -2 + rot.offsetX * (1 - j), yCoord + i, zCoord + dir.offsetZ * -2 + rot.offsetZ * (1 - j), ForgeDirection.EAST);
-				this.trySubscribe(worldObj, xCoord + dir.offsetX * 3 + rot.offsetX * (1 - j), yCoord + i, zCoord + dir.offsetZ * 3 + rot.offsetZ * (1 - j), ForgeDirection.WEST);
-			}
-		}
-	}
-	
 	@Override
 	public void updateEntity() {
 		
@@ -254,24 +242,22 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 					this.barrelPos = 0;
 				}
 			}
-		}
-		
-		if(this.mode == this.MODE_MANUAL) {
-			if(!this.targetQueue.isEmpty()) {
-				this.tPos = this.targetQueue.get(0);
-			}
-		} else {
-			this.targetQueue.clear();
-		}
-		
-		if(worldObj.isRemote) {
 			this.lastRotationPitch = this.rotationPitch;
 			this.lastRotationYaw = this.rotationYaw;
+			this.rotationPitch = this.syncRotationPitch;
+			this.rotationYaw = this.syncRotationYaw;
 		}
-
-		this.aligned = false;
 		
 		if(!worldObj.isRemote) {
+			if(this.mode == this.MODE_MANUAL) {
+				if(!this.targetQueue.isEmpty()) {
+					this.tPos = this.targetQueue.get(0);
+				}
+			} else {
+				this.targetQueue.clear();
+			}
+	
+			this.aligned = false;
 			
 			this.updateConnections();
 			
@@ -279,15 +265,12 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 				this.target = null;
 				this.stattrak++;
 			}
-		}
 		
-		if(target != null && this.mode != this.MODE_MANUAL) {
-			if(!this.entityInLOS(this.target)) {
-				this.target = null;
+			if(target != null && this.mode != this.MODE_MANUAL) {
+				if(!this.entityInLOS(this.target)) {
+					this.target = null;
+				}
 			}
-		}
-		
-		if(!worldObj.isRemote) {
 			
 			if(target != null) {
 				this.tPos = this.getEntityPos(target);
@@ -296,19 +279,17 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 					this.tPos = null;
 				}
 			}
-		}
 		
-		if(isOn() && hasPower()) {
+			if(isOn() && hasPower()) {
+				
+				if(tPos != null)
+					this.alignTurret();
+			} else {
+				this.target = null;
+				this.tPos = null;
+			}
 			
-			if(tPos != null)
-				this.alignTurret();
-		} else {
-
-			this.target = null;
-			this.tPos = null;
-		}
-		
-		if(!worldObj.isRemote) {
+			if(!isOn()) this.targetQueue.clear();
 			
 			if(this.target != null && !target.isEntityAlive()) {
 				this.target = null;
@@ -336,9 +317,8 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			}
 			
 			this.power = Library.chargeTEFromItems(slots, 10, this.power, this.getMaxPower());
-			
-			NBTTagCompound data = this.writePacket();
-			this.networkPack(data, 250);
+
+			this.networkPackNT(250);
 			
 			this.didJustShoot = false;
 			
@@ -349,10 +329,6 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			}
 			
 		} else {
-			
-			Vec3 vec = Vec3.createVectorHelper(this.getBarrelLength(), 0, 0);
-			vec.rotateAroundZ((float) -this.rotationPitch);
-			vec.rotateAroundY((float) -(this.rotationYaw + Math.PI * 0.5));
 			
 			//this will fix the interpolation error when the turret crosses the 360° point
 			if(Math.abs(this.lastRotationYaw - this.rotationYaw) > Math.PI) {
@@ -432,20 +408,17 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 	}
 
 	@Override
-	protected NBTTagCompound writePacket() {
-		NBTTagCompound data = super.writePacket();
-		data.setShort("mode", mode);
-		if(didJustShoot)
-			data.setBoolean("didJustShoot", didJustShoot);
-		return data;
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeShort(this.mode);
+		buf.writeBoolean(this.didJustShoot);
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		this.mode = nbt.getShort("mode");
-		if(nbt.getBoolean("didJustShoot"))
-			this.retracting = true;
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.mode = buf.readShort();
+		this.retracting = buf.readBoolean();
 	}
 	
 	@Override
@@ -488,7 +461,74 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUITurretArty(player.inventory, this);
 	}
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] addCoords(Context context, Arguments args) {
+		this.mode = MODE_MANUAL;
+		if(Math.sqrt(Math.pow(xCoord - args.checkDouble(0), 2)+Math.pow(yCoord - args.checkDouble(1), 2)+Math.pow(zCoord - args.checkDouble(2), 2)) >= this.getDecetorRange()) // check distance against range
+			return new Object[] {false};
+		targetQueue.add(Vec3.createVectorHelper(args.checkDouble(0), args.checkDouble(1), args.checkDouble(2)));
+		return new Object[] {true};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() { // :vomit:
+		return new String[] {
+				"setActive",
+				"isActive",
+				"getEnergyInfo",
+				"getWhitelisted",
+				"addWhitelist",
+				"removeWhitelist",
+				"setTargeting",
+				"getTargeting",
+				"hasTarget",
+				"getAngle",
+				"isAligned",
+				"getCurrentTarget",
+				"getTargetDistance",
+				"addCoords"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "setActive":
+				return setActive(context, args);
+			case "isActive":
+				return isActive(context, args);
+			case "getEnergyInfo":
+				return getEnergyInfo(context, args);
+			case "getWhitelisted":
+				return getWhitelisted(context, args);
+			case "addWhitelist":
+				return addWhitelist(context, args);
+			case "removeWhitelist":
+				return removeWhitelist(context, args);
+			case "setTargeting":
+				return setTargeting(context, args);
+			case "getTargeting":
+				return getTargeting(context, args);
+			case "hasTarget":
+				return hasTarget(context, args);
+			case "getAngle":
+				return getAngle(context, args);
+			case "isAligned":
+				return isAligned(context, args);
+			case "getCurrentTarget":
+				return getCurrentTarget(context, args);
+			case "getTargetDistance":
+				return getTargetDistance(context, args);
+			case "addCoords":
+				return addCoords(context, args);
+		}
+		throw new NoSuchMethodException();
+	}
+
 }

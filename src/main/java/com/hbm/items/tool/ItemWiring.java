@@ -60,17 +60,24 @@ public class ItemWiring extends Item {
 
 						TileEntityPylonBase first = (TileEntityPylonBase) world.getTileEntity(x1, y1, z1);
 						TileEntityPylonBase second = ((TileEntityPylonBase) te);
-
-						if(TileEntityPylonBase.canConnect(first, second)) {
-
-							first.addConnection(x, y, z);
-							second.addConnection(x1, y1, z1);
-							player.addChatMessage(new ChatComponentText("Wire end"));
-
-						} else {
-							player.addChatMessage(new ChatComponentText("Wire error"));
+						
+						switch (TileEntityPylonBase.canConnect(first, second)) {
+							case 0:
+								first.addConnection(x, y, z);
+								second.addConnection(x1, y1, z1);
+								player.addChatMessage(new ChatComponentText("Wire end"));
+								break;
+							case 1:
+								player.addChatMessage(new ChatComponentText("Wire error - Pylons are not the same type"));
+								break;
+							case 2:
+								player.addChatMessage(new ChatComponentText("Wire error - Cannot connect to the same pylon"));
+								break;
+							case 3:
+								player.addChatMessage(new ChatComponentText("Wire error - Pylon is too far away"));
+								break;
 						}
-
+						
 						stack.stackTagCompound = null;
 
 					} else {

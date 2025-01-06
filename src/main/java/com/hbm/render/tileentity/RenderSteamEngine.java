@@ -71,7 +71,7 @@ public class RenderSteamEngine extends TileEntitySpecialRenderer implements IIte
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
-		double cath = Math.sqrt(3.515625D - (cos * cos));
+		double cath = Math.sqrt(3.515625D - (cos * cos) / 2);
 		GL11.glTranslated(1.875 - cath + sin, 0, 0); //the difference that "1.875 - cath" makes is minuscule but very much noticeable
 		ResourceManager.steam_engine.renderPart("Piston");
 		GL11.glPopMatrix();

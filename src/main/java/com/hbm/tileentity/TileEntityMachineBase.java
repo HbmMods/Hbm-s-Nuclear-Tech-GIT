@@ -1,11 +1,8 @@
 package com.hbm.tileentity;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.packet.AuxGaugePacket;
-import com.hbm.packet.NBTPacket;
-import com.hbm.packet.PacketDispatcher;
+import com.hbm.util.fauxpointtwelve.DirPos;
 
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -14,16 +11,16 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTank;
 
-public abstract class TileEntityMachineBase extends TileEntityLoadedBase implements ISidedInventory, INBTPacketReceiver {
+public abstract class TileEntityMachineBase extends TileEntityLoadedBase implements ISidedInventory {
 
 	public ItemStack slots[];
-	
+
 	private String customName;
-	
-	public TileEntityMachineBase(int scount) {
-		slots = new ItemStack[scount];
+
+	public TileEntityMachineBase(int slotCount) {
+		slots = new ItemStack[slotCount];
 	}
-	
+
 	/** The "chunks is modified, pls don't forget to save me" effect of markDirty, minus the block updates */
 	public void markChanged() {
 		this.worldObj.markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
@@ -64,14 +61,14 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	public String getInventoryName() {
 		return this.hasCustomInventoryName() ? this.customName : getName();
 	}
-	
+
 	public abstract String getName();
 
 	@Override
 	public boolean hasCustomInventoryName() {
 		return this.customName != null && this.customName.length() > 0;
 	}
-	
+
 	public void setCustomName(String name) {
 		this.customName = name;
 	}
@@ -83,40 +80,38 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
-		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-		{
+		if(worldObj.getTileEntity(xCoord, yCoord, zCoord) != this) {
 			return false;
-		}else{
-			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=128;
+		} else {
+			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 128;
 		}
 	}
-	
+
 	@Override
 	public void openInventory() {}
 	@Override
 	public void closeInventory() {}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
 		return false;
 	}
-	
+
 	@Override
 	public ItemStack decrStackSize(int slot, int amount) {
-		if(slots[slot] != null)
-		{
-			if(slots[slot].stackSize <= amount)
-			{
+		if(slots[slot] != null) {
+
+			if(slots[slot].stackSize <= amount) {
 				ItemStack itemStack = slots[slot];
 				slots[slot] = null;
 				return itemStack;
 			}
+
 			ItemStack itemStack1 = slots[slot].splitStack(amount);
-			if (slots[slot].stackSize == 0)
-			{
+			if(slots[slot].stackSize == 0) {
 				slots[slot] = null;
 			}
-			
+
 			return itemStack1;
 		} else {
 			return null;
@@ -124,20 +119,20 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	}
 
 	@Override
-	public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-		return this.isItemValidForSlot(i, itemStack);
+	public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+		return this.isItemValidForSlot(slot, itemStack);
 	}
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
+	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
 		return false;
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
+	public int[] getAccessibleSlotsFromSide(int side) {
 		return new int[] { };
 	}
-	
+
 	public int getGaugeScaled(int i, FluidTank tank) {
 		return tank.getFluidAmount() * i / tank.getCapacity();
 	}
@@ -148,33 +143,15 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 	//shit i don't know man
 	@Override
 	public abstract void updateEntity();
-	
-	@Deprecated
-	public void updateGauge(int val, int id, int range) {
 
-		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, val, id), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
-	}
-
-	@Deprecated
-	public void processGauge(int val, int id) { }
-	
-	public void networkPack(NBTTagCompound nbt, int range) {
-
-		if(!worldObj.isRemote)
-			PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
-	}
-	
-	public void networkUnpack(NBTTagCompound nbt) { }
-	
 	@Deprecated
 	public void handleButtonPacket(int value, int meta) { }
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-		
+
 		for(int i = 0; i < list.tagCount(); i++)
 		{
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
@@ -185,12 +162,12 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 			}
 		}
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		NBTTagList list = new NBTTagList();
-		
+
 		for(int i = 0; i < slots.length; i++)
 		{
 			if(slots[i] != null)
@@ -203,22 +180,27 @@ public abstract class TileEntityMachineBase extends TileEntityLoadedBase impleme
 		}
 		nbt.setTag("items", list);
 	}
-	
-	public int countMufflers() {
-		
-		int count = 0;
-		
-		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-			if(worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ) == ModBlocks.muffler)
-				count++;
-		
-		return count;
-	}
-	
-	public float getVolume(int toSilence) {
-		
-		float volume = 1 - (countMufflers() / (float)toSilence);
-		
-		return Math.max(volume, 0);
+
+	public void updateRedstoneConnection(DirPos pos) {
+
+		int x = pos.getX();
+		int y = pos.getY();
+		int z = pos.getZ();
+		ForgeDirection dir = pos.getDir();
+		Block block1 = worldObj.getBlock(x, y, z);
+
+		block1.onNeighborChange(worldObj, x, y, z, xCoord, yCoord, zCoord);
+		block1.onNeighborBlockChange(worldObj, x, y, z, this.getBlockType());
+		if(block1.isNormalCube(worldObj, x, y, z)) {
+			x += dir.offsetX;
+			y += dir.offsetY;
+			z += dir.offsetZ;
+			Block block2 = worldObj.getBlock(x, y, z);
+
+			if(block2.getWeakChanges(worldObj, x, y, z)) {
+				block2.onNeighborChange(worldObj, x, y, z, xCoord, yCoord, zCoord);
+				block2.onNeighborBlockChange(worldObj, x, y, z, this.getBlockType());
+			}
+		}
 	}
 }

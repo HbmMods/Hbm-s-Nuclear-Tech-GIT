@@ -12,9 +12,8 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFluidIDMulti;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.NBTItemControlPacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.util.I18nUtil;
+import com.hbm.packet.toserver.NBTItemControlPacket;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -68,6 +67,7 @@ public class GUIScreenFluid extends GuiScreen {
 		this.search.setTextColor(-1);
 		this.search.setDisabledTextColour(-1);
 		this.search.setEnableBackgroundDrawing(false);
+		this.search.setFocused(true);
 		
 		if(player.getHeldItem() != null && player.getHeldItem().getItem() == ModItems.fluid_identifier_multi) {
 			this.primary = ItemFluidIDMulti.getType(player.getHeldItem(), true);
@@ -111,7 +111,7 @@ public class GUIScreenFluid extends GuiScreen {
 				return;
 			
 			if(guiLeft + 7 + k * 18 <= i && guiLeft + 7 + k * 18 + 18 > i && guiTop + 29 < j && guiTop + 29 + 18 >= j)
-				func_146283_a(Arrays.asList(new String[] { I18nUtil.resolveKey(this.searchArray[k].getUnlocalizedName()) }), i, j);
+				func_146283_a(Arrays.asList(new String[] { this.searchArray[k].getLocalizedName() }), i, j);
 		}
 	}
 
@@ -170,7 +170,7 @@ public class GUIScreenFluid extends GuiScreen {
 		String subs = this.search.getText().toLowerCase(Locale.US);
 		
 		for(FluidType type : Fluids.getInNiceOrder()) {
-			String name = I18nUtil.resolveKey(type.getUnlocalizedName()).toLowerCase(Locale.US);
+			String name = type.getLocalizedName().toLowerCase();
 			
 			if(name.contains(subs) && !type.hasNoID()) {
 				this.searchArray[next] = type;

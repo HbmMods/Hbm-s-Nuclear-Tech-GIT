@@ -6,20 +6,27 @@ import java.util.Random;
 
 import com.hbm.blocks.IBlockMultiPass;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.ItemDrillbit.EnumDrillType;
 import com.hbm.lib.RefStrings;
+import com.hbm.main.MainRegistry;
 import com.hbm.render.block.RenderBlockMultipass;
+import com.hbm.util.EnumUtil;
 import com.hbm.util.I18nUtil;
 
+import api.hbm.fluid.IFillableItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -43,6 +50,11 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 	}
 
 	@Override
+	public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z) {
+		return false;
+	}
+
+	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityBedrockOre();
 	}
@@ -56,6 +68,45 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack stack) {
 		super.onBlockPlacedBy(world, x, y, z, entity, stack);
 		world.markBlockForUpdate(x, y, z);
+	}
+
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int i, float fx, float fy, float fz) {
+		
+		ItemStack stack = player.getHeldItem();
+		if(stack == null) return false;
+		if(!player.capabilities.isCreativeMode) return false;
+		if(world.isRemote) return true;
+
+		TileEntity te = world.getTileEntity(x, y, z);
+		
+		if(te instanceof TileEntityBedrockOre) {
+			TileEntityBedrockOre ore = (TileEntityBedrockOre) te;
+			
+			if(stack.getItem() == ModItems.drillbit) {
+				EnumDrillType type = EnumUtil.grabEnumSafely(EnumDrillType.class, stack.getItemDamage());
+				ore.tier = type.tier;
+			} else if(FluidContainerRegistry.getFluidType(stack) != Fluids.NONE) {
+				FluidType type = FluidContainerRegistry.getFluidType(stack);
+				int amount = FluidContainerRegistry.getFluidContent(stack, type);
+				ore.acidRequirement = new FluidStack(type, amount);
+			} else if(stack.getItem() instanceof IFillableItem) {
+				IFillableItem item = (IFillableItem) stack.getItem();
+				FluidType type = item.getFirstFluidType(stack);
+				if(type != null) {
+					ore.acidRequirement = new FluidStack(type, item.getFill(stack));
+				}
+			} else {
+				ore.resource = stack.copy();
+				ore.shape = world.rand.nextInt(10);
+			}
+			
+			ore.markDirty();
+		}
+		
+		world.markBlockForUpdate(x, y, z);
+		
+		return true;
 	}
 	
 	@Override
@@ -145,7 +196,7 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 		text.add("Tier: " + ore.tier);
 		
 		if(ore.acidRequirement != null) {
-			text.add("Requires: " + ore.acidRequirement.fill + "mB " + I18nUtil.resolveKey(ore.acidRequirement.type.getUnlocalizedName()));
+			text.add("Requires: " + ore.acidRequirement.fill + "mB " + ore.acidRequirement.type.getLocalizedName());
 		}
 		
 		ILookOverlay.printGeneric(event, I18nUtil.resolveKey(getUnlocalizedName() + ".name"), 0xffff00, 0x404000, text);
@@ -219,6 +270,12 @@ public class BlockBedrockOreTE extends BlockContainer implements ILookOverlay, I
 		@Override
 		public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 			this.readFromNBT(pkt.func_148857_g());
+			
+			if(color == 0) {
+				this.color = MainRegistry.proxy.getStackColor(resource, true);
+			}
+
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 		}
 	}
 }

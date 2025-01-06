@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
@@ -17,7 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class JetpackBooster extends JetpackBase {
+public class JetpackBooster extends JetpackFueledBase {
 
 	public JetpackBooster(FluidType fuel, int maxFuel) {
 		super(fuel, maxFuel);

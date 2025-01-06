@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map.Entry;
 
 import org.lwjgl.input.Keyboard;
 
+import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.*;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.lib.RefStrings;
 import com.hbm.render.util.EnumSymbol;
+import com.hbm.util.I18nUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,21 +32,21 @@ public class FluidType {
 	private int color;
 	//Unlocalized string ID of the fluid
 	private String unlocalized;
+	//localization override for custom fluids
+	private String localizedOverride;
+	private int guiTint = 0xffffff;
 	
 	public int poison;
 	public int flammability;
 	public int reactivity;
 	public EnumSymbol symbol;
+	public boolean customFluid = false;
 	
 	public static final int ROOM_TEMPERATURE = 20;
-	public static final double DEFAULT_HEATCAP = 0.01D;
-	public static final double DEFAULT_COMPRESSION = 1D;
 	
 	// v v v this entire system is a pain in the ass to work with. i'd much rather define state transitions and heat values manually.
 	/** How hot this fluid is. Simple enough. */
 	public int temperature = ROOM_TEMPERATURE;
-	/** How much "stuff" there is in one mB. 1mB of water turns into 100mB of steam, therefore steam has a compression of 0.01. Compression is only used for translating fluids into other fluids, heat calculations should ignore this. */
-	public double compression = DEFAULT_COMPRESSION;
 	
 	public HashMap<Class, Object> containers = new HashMap();
 	public HashMap<Class<? extends FluidTrait>, FluidTrait> traits = new HashMap();
@@ -66,6 +67,23 @@ public class FluidType {
 		this.id = Fluids.registerSelf(this);
 	}
 	
+	public FluidType(String name, int color, int p, int f, int r, EnumSymbol symbol, String texName, int tint, int id, String displayName) {
+		this.stringId = name;
+		this.color = color;
+		this.unlocalized = "hbmfluid." + name.toLowerCase(Locale.US);
+		this.poison = p;
+		this.flammability = f;
+		this.reactivity = r;
+		this.symbol = symbol;
+		this.texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/fluids/" + texName + ".png");
+		this.guiTint = tint;
+		this.localizedOverride = displayName;
+		this.customFluid = true;
+
+		this.id = id;
+		Fluids.register(this, id);
+	}
+	
 	public FluidType(int forcedId, String name, int color, int p, int f, int r, EnumSymbol symbol) {
 		this(name, color, p, f, r, symbol);
 		
@@ -76,11 +94,6 @@ public class FluidType {
 	
 	public FluidType setTemp(int temperature) {
 		this.temperature = temperature;
-		return this;
-	}
-	
-	public FluidType setCompression(double compression) {
-		this.compression = compression;
 		return this;
 	}
 	
@@ -109,7 +122,7 @@ public class FluidType {
 	public int getID() {
 		return this.id;
 	}
-	
+	/** The unique mapping name for this fluid, usually matches the unlocalied name, minus the prefix */
 	public String getName() {
 		return this.stringId;
 	}
@@ -118,14 +131,27 @@ public class FluidType {
 		return this.color;
 	}
 
+	public int getTint() {
+		return this.guiTint;
+	}
+
 	public ResourceLocation getTexture() {
 		return this.texture;
 	}
 	public String getUnlocalizedName() {
 		return this.unlocalized;
 	}
+	/** Returns the localized override name if present, or otherwise the I18n converted name */
+	@SideOnly(Side.CLIENT) public String getLocalizedName() {
+		return this.localizedOverride != null ? this.localizedOverride : I18nUtil.resolveKey(this.unlocalized);
+	}
+	/** Returns the localized override name if present, or otherwise the raw unlocalized name. Used for server-side code that needs ChatComponentTranslation. */
+	public String getConditionalName() {
+		return this.localizedOverride != null ? this.localizedOverride : this.unlocalized;
+	}
 	public String getDict(int quantity) {
-		return "container" + quantity + this.stringId.replace("_", "").toLowerCase(Locale.US);
+		String prefix = GeneralConfig.enableFluidContainerCompat ? "container" : "ntmcontainer";
+		return prefix + quantity + this.stringId.replace("_", "").toLowerCase(Locale.US);
 	}
 	
 	public boolean isHot() {
@@ -145,6 +171,9 @@ public class FluidType {
 	}
 	public boolean needsLeadContainer() {
 		return this.traits.containsKey(FT_LeadContainer.class);
+	}
+	public boolean isDispersable() {
+		return !(this.traits.containsKey(FT_Amat.class) || this.traits.containsKey(FT_NoContainer.class) || this.traits.containsKey(FT_Viscous.class));
 	}
 
 	/**
@@ -180,23 +209,23 @@ public class FluidType {
 			if(temperature > 0) info.add(EnumChatFormatting.RED + "" + temperature + "°C");
 		}
 		
+		boolean shiftHeld = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
+		
 		List<String> hidden = new ArrayList();
 		
-		for(Entry<Class<? extends FluidTrait>, FluidTrait> entry : this.traits.entrySet()) {
-			entry.getValue().addInfo(info);
-			entry.getValue().addInfoHidden(hidden);
+		for(Class<? extends FluidTrait> clazz : FluidTrait.traitList) {
+			FluidTrait trait = this.getTrait(clazz);
+			if(trait != null) {
+				trait.addInfo(info);
+				if(shiftHeld) trait.addInfoHidden(info);
+				trait.addInfoHidden(hidden);
+			}
 		}
 		
-		if(!hidden.isEmpty()) {
-
-			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-				info.addAll(hidden);
-			} else {
-
-				info.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
-						EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
-						EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
-			}
+		if(!hidden.isEmpty() && !shiftHeld) {
+			info.add(EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC +"Hold <" +
+					EnumChatFormatting.YELLOW + "" + EnumChatFormatting.ITALIC + "LSHIFT" +
+					EnumChatFormatting.DARK_GRAY + "" + EnumChatFormatting.ITALIC + "> to display more info");
 		}
 	}
 	

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.gui.GUIMachineChemplant;
@@ -20,14 +22,26 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
-public class ChemplantRecipeHandler extends TemplateRecipeHandler {
+public class ChemplantRecipeHandler extends TemplateRecipeHandler implements ICompatNHNEI {
 
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
 	public LinkedList<RecipeTransferRect> transferRectsGui = new LinkedList<RecipeTransferRect>();
 	public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();
 	public LinkedList<Class<? extends GuiContainer>> guiGui = new LinkedList<Class<? extends GuiContainer>>();
 
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return new ItemStack[]{
+				new ItemStack(ModBlocks.machine_chemplant),
+				new ItemStack(ModBlocks.machine_chemfac)};
+	}
+
+	@Override
+	public String getRecipeID() {
+		return "chemistry";
+	}
 	public class RecipeSet extends TemplateRecipeHandler.CachedRecipe {
+
 		PositionedStack[] itemIn = new PositionedStack[4];
 		PositionedStack[] fluidIn = new PositionedStack[2];
 		PositionedStack[] itemOut = new PositionedStack[4];

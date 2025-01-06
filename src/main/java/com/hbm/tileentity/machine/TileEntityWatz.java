@@ -18,8 +18,9 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemWatzPellet;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.tileentity.IFluidCopiable;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Compat;
@@ -31,8 +32,8 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
@@ -44,7 +45,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IControlReceiver, IGUIProvider {
+public class TileEntityWatz extends TileEntityMachineBase implements IFluidStandardTransceiver, IControlReceiver, IGUIProvider, IFluidCopiable {
 	
 	public FluidTank[] tanks;
 	public int heat;
@@ -120,7 +121,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 			/* send sync packets (order doesn't matter) */
 			for(TileEntityWatz segment : segments) {
 				segment.isOn = turnedOn;
-				segment.sendPacket(sharedTanks);
+				this.networkPackNT(25);
 				segment.heat *= 0.99; //cool 1% per tick
 			}
 			
@@ -169,7 +170,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	
 	public void updateCoolant(FluidTank[] tanks) {
 		
-		double coolingFactor = 0.1D; //10% per tick, TEMP
+		double coolingFactor = 0.2D; //20% per tick
 		double heatToUse = this.heat * coolingFactor;
 		
 		FT_Heatable trait = tanks[0].getTankType().getTrait(FT_Heatable.class);
@@ -277,28 +278,28 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 			}
 		}
 	}
-	
-	public void sendPacket(FluidTank[] tanks) {
-		
-		NBTTagCompound data = new NBTTagCompound();
-		data.setInteger("heat", this.heat);
-		data.setBoolean("isOn", isOn);
-		data.setBoolean("lock", isLocked);
-		data.setDouble("flux", this.fluxLastReaction + this.fluxLastBase);
-		for(int i = 0; i < tanks.length; i++) {
-			tanks[i].writeToNBT(data, "t" + i);
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(this.heat);
+		buf.writeBoolean(isOn);
+		buf.writeBoolean(isLocked);
+		buf.writeDouble(this.fluxLastReaction + this.fluxLastBase);
+		for (FluidTank tank : tanks) {
+			tank.serialize(buf);
 		}
-		this.networkPack(data, 25);
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.heat = nbt.getInteger("heat");
-		this.isOn = nbt.getBoolean("isOn");
-		this.isLocked = nbt.getBoolean("lock");
-		this.fluxDisplay = nbt.getDouble("flux");
-		for(int i = 0; i < tanks.length; i++) {
-			tanks[i].readFromNBT(nbt, "t" + i);
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.heat = buf.readInt();
+		this.isOn = buf.readBoolean();
+		this.isLocked = buf.readBoolean();
+		this.fluxDisplay = buf.readDouble();
+		for (FluidTank tank : tanks) {
+			tank.deserialize(buf);
 		}
 	}
 	
@@ -443,6 +444,12 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		return bb;
 	}
 	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public double getMaxRenderDistanceSquared() {
+		return 65536.0D;
+	}
+	
 	private void disassemble() {
 
 		int count = 20;
@@ -494,6 +501,12 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 		setBrokenColumn(1, ModBlocks.watz_end, 1, 2, -2);
 		setBrokenColumn(1, ModBlocks.watz_end, 1, -2, 2);
 		setBrokenColumn(1, ModBlocks.watz_end, 1, -2, -2);
+		
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5).expand(50, 50, 50));
+		
+		for(EntityPlayer player : players) {
+			player.triggerAchievement(MainRegistry.achWatzBoom);
+		}
 	}
 	
 	private void setBrokenColumn(int minHeight, Block b, int meta, int x, int z) {
@@ -509,12 +522,6 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 			}
 		}
 	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared() {
-		return 65536.0D;
-	}
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -523,7 +530,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIWatz(player.inventory, this);
 	}
 
@@ -540,5 +547,10 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 	@Override
 	public FluidTank[] getReceivingTanks() {
 		return new FluidTank[] { tanks[0] };
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
 	}
 }

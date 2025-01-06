@@ -1,6 +1,6 @@
 package com.hbm.tileentity.bomb;
 
-import com.hbm.entity.effect.EntityNukeCloudSmall;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.inventory.container.ContainerNukeFstbmb;
 import com.hbm.inventory.gui.GUINukeFstbmb;
@@ -8,10 +8,10 @@ import com.hbm.items.ModItems;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
-import api.hbm.energy.IBatteryItem;
+import api.hbm.energymk2.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -54,22 +54,29 @@ public class TileEntityNukeBalefire extends TileEntityMachineBase implements IGU
 			if(timer <= 0) {
 				explode();
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("timer", timer);
-			data.setBoolean("loaded", this.isLoaded());
-			data.setBoolean("started", started);
-			networkPack(data, 250);
+
+			networkPackNT(250);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		
-		timer = data.getInteger("timer");
-		started = data.getBoolean("started");
-		loaded = data.getBoolean("loaded");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeInt(this.timer);
+		buf.writeBoolean(this.started);
+		buf.writeBoolean(this.loaded);
 	}
-	
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		this.timer = buf.readInt();
+		this.started = buf.readBoolean();
+		this.loaded = buf.readBoolean();
+	}
+
 	public void handleButtonPacket(int value, int meta) {
 		
 		if(meta == 0 && this.isLoaded()) {
@@ -103,12 +110,12 @@ public class TileEntityNukeBalefire extends TileEntityMachineBase implements IGU
 	public int getBattery() {
 		
 		if(slots[1] != null && slots[1].getItem() == ModItems.battery_spark &&
-				((IBatteryItem)ModItems.battery_spark).getCharge(slots[1]) == ((IBatteryItem)ModItems.battery_spark).getMaxCharge()) {
+				((IBatteryItem)ModItems.battery_spark).getCharge(slots[1]) == ((IBatteryItem)ModItems.battery_spark).getMaxCharge(slots[1])) {
 			return 1;
 		}
 		
 		if(slots[1] != null && slots[1].getItem() == ModItems.battery_trixite &&
-				((IBatteryItem)ModItems.battery_trixite).getCharge(slots[1]) == ((IBatteryItem)ModItems.battery_trixite).getMaxCharge()) {
+				((IBatteryItem)ModItems.battery_trixite).getCharge(slots[1]) == ((IBatteryItem)ModItems.battery_trixite).getMaxCharge(slots[1])) {
 			return 2;
 		}
 		
@@ -128,7 +135,7 @@ public class TileEntityNukeBalefire extends TileEntityMachineBase implements IGU
 		bf.posZ = zCoord + 0.5;
 		bf.destructionRange = (int) 250;
 		worldObj.spawnEntityInWorld(bf);
-		worldObj.spawnEntityInWorld(EntityNukeCloudSmall.statFacBale(worldObj, xCoord + 0.5, yCoord + 5, zCoord + 0.5, 250 * 1.5F, 1000));
+		EntityNukeTorex.statFacBale(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 250);
 	}
 	
 	public String getMinutes() {
@@ -186,7 +193,7 @@ public class TileEntityNukeBalefire extends TileEntityMachineBase implements IGU
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUINukeFstbmb(player.inventory, this);
 	}
 }

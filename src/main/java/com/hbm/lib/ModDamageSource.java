@@ -1,22 +1,17 @@
 package com.hbm.lib;
 
 import com.hbm.entity.projectile.EntityBullet;
-import com.hbm.entity.projectile.EntityDischarge;
-import com.hbm.entity.projectile.EntityFire;
-import com.hbm.entity.projectile.EntityLN2;
 import com.hbm.entity.projectile.EntityLaserBeam;
 import com.hbm.entity.projectile.EntityMinerBeam;
-import com.hbm.entity.projectile.EntityPlasmaBeam;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 
 public class ModDamageSource extends DamageSource {
-	
+
 	public static DamageSource nuclearBlast = (new DamageSource("nuclearBlast")).setExplosion();
 	public static DamageSource mudPoisoning = (new DamageSource("mudPoisoning")).setDamageBypassesArmor();
-	public static DamageSource acid = (new DamageSource("acid")).setDamageBypassesArmor();
+	public static DamageSource acid = (new DamageSource("acid")); //.setDamageBypassesArmor();
 	public static DamageSource euthanizedSelf = (new DamageSource("euthanizedSelf")).setDamageBypassesArmor();
 	public static DamageSource euthanizedSelf2 = (new DamageSource("euthanizedSelf2")).setDamageBypassesArmor();
 	public static DamageSource tauBlast = (new DamageSource("tauBlast")).setDamageBypassesArmor();
@@ -53,6 +48,7 @@ public class ModDamageSource extends DamageSource {
 	public static DamageSource vacuum = (new DamageSource("vacuum")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource overdose = (new DamageSource("overdose")).setDamageIsAbsolute().setDamageBypassesArmor();
 	public static DamageSource microwave = (new DamageSource("microwave")).setDamageIsAbsolute().setDamageBypassesArmor();
+	public static DamageSource nitan = (new DamageSource("nitan")).setDamageIsAbsolute().setDamageBypassesArmor().setDamageAllowedInCreativeMode();;
 
 	public static final String s_bullet = "revolverBullet";
 	public static final String s_emplacer = "chopperBullet";
@@ -98,22 +94,6 @@ public class ModDamageSource extends DamageSource {
 
 	public static DamageSource euthanized(Entity ent, Entity hit) {
 		return (new EntityDamageSourceIndirect(s_euthanized, ent, hit)).setDamageBypassesArmor();
-	}
-
-	public static DamageSource causeDischargeDamage(EntityDischarge ent, Entity hit) {
-		return (new EntityDamageSourceIndirect(s_emp, ent, hit)).setDamageBypassesArmor();
-	}
-
-	public static DamageSource causeFireDamage(EntityFire ent, Entity hit) {
-		return (new EntityDamageSourceIndirect(s_flamethrower, ent, hit)).setFireDamage().setDamageBypassesArmor();
-	}
-
-	public static DamageSource causePlasmaDamage(EntityPlasmaBeam ent, Entity hit) {
-		return (new EntityDamageSourceIndirect(s_immolator, ent, hit)).setDamageBypassesArmor();
-	}
-
-	public static DamageSource causeIceDamage(EntityLN2 ent, Entity hit) {
-		return (new EntityDamageSourceIndirect(s_cryolator, ent, hit)).setDamageBypassesArmor();
 	}
 
 	public static DamageSource causeLaserDamage(EntityLaserBeam ent, Entity hit) {

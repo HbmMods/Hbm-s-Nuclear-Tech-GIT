@@ -23,7 +23,7 @@ public class HeaterOven extends BlockDummyable implements ITooltipProvider {
 	public TileEntity createNewTileEntity(World world, int meta) {
 		
 		if(meta >= 12) return new TileEntityHeaterOven();
-		return new TileEntityProxyCombo(true, false, false);
+		return new TileEntityProxyCombo().inventory().fluid();
 	}
 	
 	@Override

@@ -17,7 +17,8 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ItemCustomLore extends Item {
 	
-	EnumRarity rarity;
+	protected EnumRarity rarity;
+	protected boolean hasEffect = false;
 	
 	@Override
 	public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean bool) {
@@ -50,23 +51,27 @@ public class ItemCustomLore extends Item {
 		
 		if(this == ModItems.undefined) {
 			
-			if(player.worldObj.rand.nextInt(10) == 0) {
-				list.add(EnumChatFormatting.DARK_RED + "UNDEFINED");
-			} else {
-				Random rand = new Random(System.currentTimeMillis() / 500);
-				
-				if(setSize == 0)
-					setSize = Item.itemRegistry.getKeys().size();
-				
-				int r = rand.nextInt(setSize);
-				
-				Item item = Item.getItemById(r);
-				
-				if(item != null) {
-					list.add(new ItemStack(item).getDisplayName());
+			try {
+				if(player.worldObj.rand.nextInt(10) == 0) {
+					list.add(EnumChatFormatting.DARK_RED + "UNDEFINED");
 				} else {
-					list.add(EnumChatFormatting.RED + "ERROR #" + r);
+					Random rand = new Random(System.currentTimeMillis() / 500);
+					
+					if(setSize == 0)
+						setSize = Item.itemRegistry.getKeys().size();
+					
+					int r = rand.nextInt(setSize);
+					
+					Item item = Item.getItemById(r);
+					
+					if(item != null) {
+						list.add(new ItemStack(item).getDisplayName());
+					} else {
+						list.add(EnumChatFormatting.RED + "ERROR #" + r);
+					}
 				}
+			} catch(Exception ex) {
+				list.add(EnumChatFormatting.DARK_RED + "UNDEFINED");
 			}
 		}
 	}
@@ -80,19 +85,17 @@ public class ItemCustomLore extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack p_77636_1_) {
-		if(this == ModItems.rune_isa || this == ModItems.rune_dagaz ||
-				this == ModItems.rune_hagalaz || this == ModItems.rune_jera ||
-				this == ModItems.rune_thurisaz || this == ModItems.egg_balefire_shard ||
-				this == ModItems.egg_balefire) {
-			return true;
-		}
-
-		return false;
+	public boolean hasEffect(ItemStack stack) {
+		return hasEffect;
 	}
 
 	public ItemCustomLore setRarity(EnumRarity rarity) {
 		this.rarity = rarity;
+		return this;
+	}
+
+	public ItemCustomLore setEffect() {
+		this.hasEffect = true;
 		return this;
 	}
 	

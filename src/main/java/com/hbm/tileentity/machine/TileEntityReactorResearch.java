@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
+import com.hbm.handler.CompatHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -14,30 +15,35 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPlateFuel;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
+import com.hbm.util.CompatEnergyControl;
 
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 //TODO: fix reactor control;
-public class TileEntityReactorResearch extends TileEntityMachineBase implements IControlReceiver, SimpleComponent, IGUIProvider {
+public class TileEntityReactorResearch extends TileEntityMachineBase implements IControlReceiver, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
 	
 	@SideOnly(Side.CLIENT)
 	public double lastLevel;
@@ -146,25 +152,31 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 				float rad = (float) heat / (float) maxHeat * 50F;
 				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("heat", heat);
-			data.setByte("water", water);
-			data.setDouble("level", level);
-			data.setDouble("targetLevel", targetLevel);
-			data.setIntArray("slotFlux", slotFlux);
-			data.setInteger("totalFlux", totalFlux);
-			this.networkPack(data, 150);
+
+			this.networkPackNT(150);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		this.heat = data.getInteger("heat");
-		this.water = data.getByte("water");
-		this.level = data.getDouble("level");
-		this.targetLevel = data.getDouble("targetLevel");
-		this.slotFlux = data.getIntArray("slotFlux");
-		this.totalFlux = data.getInteger("totalFlux");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(this.heat);
+		buf.writeByte(this.water);
+		buf.writeDouble(this.level);
+		buf.writeDouble(this.targetLevel);
+		BufferUtil.writeIntArray(buf, this.slotFlux);
+		buf.writeInt(this.totalFlux);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.heat = buf.readInt();
+		this.water = buf.readByte();
+		this.level = buf.readDouble();
+		this.targetLevel = buf.readDouble();
+		this.slotFlux = BufferUtil.readIntArray(buf);
+		this.totalFlux = buf.readInt();
 	}
 	
 	public byte getWater() {
@@ -210,6 +222,9 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	private boolean blocksRad(int x, int y, int z) {
 
 		Block b = worldObj.getBlock(x, y, z);
+
+		if((b == Blocks.water || b == Blocks.flowing_water) && worldObj.getBlockMetadata(x, y, z) == 0)
+			return true;
 
 		if(b == ModBlocks.block_lead || b == ModBlocks.block_desh || b == ModBlocks.reactor_research || b == ModBlocks.machine_reactor_breeding)
 			return true;
@@ -387,50 +402,76 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 	
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "research_reactor";
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTemp(Context context, Arguments args) { // or getHeat, whatever.
 		return new Object[] {heat};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getLevel(Context context, Arguments args) {
 		return new Object[] {level * 100};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTargetLevel(Context context, Arguments args) {
 		return new Object[] {targetLevel};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFlux(Context context, Arguments args) {
 		return new Object[] {totalFlux};
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {heat, level, targetLevel, totalFlux};
 	}
 
-	@Callback
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+				"getTemp",
+				"getLevel",
+				"getTargetLevel",
+				"getFlux",
+				"getInfo"
+		};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch(method) {
+			case ("getTemp"):
+				return getTemp(context, args);
+			case ("getLevel"):
+				return getLevel(context, args);
+			case ("getTargetLevel"):
+				return getTargetLevel(context, args);
+			case ("getFlux"):
+				return getFlux(context, args);
+			case ("getInfo"):
+				return getInfo(context, args);
+		}
+		throw new NoSuchMethodException();
+	}
+
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setLevel(Context context, Arguments args) {
 		double newLevel = args.checkDouble(0)/100.0;
-		if (newLevel > 1.0) {
-			newLevel = 1.0;
-		} else if (newLevel < 0.0) {
-			newLevel = 0.0;
-		}
-		targetLevel = newLevel;
+		targetLevel = MathHelper.clamp_double(newLevel, 0, 1.0);
 		return new Object[] {};
 	}
 
@@ -441,7 +482,14 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIReactorResearch(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setDouble(CompatEnergyControl.D_HEAT_C, Math.round(heat * 2.0E-5D * 980.0D + 20.0D));
+		data.setInteger(CompatEnergyControl.I_FLUX, totalFlux);
+		data.setInteger(CompatEnergyControl.I_WATER, water);
 	}
 }

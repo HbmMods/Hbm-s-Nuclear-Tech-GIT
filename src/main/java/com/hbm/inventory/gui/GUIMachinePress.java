@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachinePress;
 import com.hbm.lib.RefStrings;
+import com.hbm.render.util.GaugeUtil;
 import com.hbm.tileentity.machine.TileEntityMachinePress;
 
 import net.minecraft.client.Minecraft;
@@ -46,14 +47,14 @@ public class GUIMachinePress extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = press.speed * 12 / press.maxSpeed;
-		drawTexturedModalRect(guiLeft + 25, guiTop + 16, 176, 14 + 18 * i, 18, 18);
-		
 		if(press.burnTime >= 20) {
 			this.drawTexturedModalRect(guiLeft + 27, guiTop + 36, 176, 0, 14, 14);
 		}
 		
 		int k = (int) (press.renderPress * 16 / press.maxPress);
 		this.drawTexturedModalRect(guiLeft + 79, guiTop + 35, 194, 0, 18, k);
+		
+		double i = (double) press.speed / (double) press.maxSpeed;
+		GaugeUtil.drawSmoothGauge(guiLeft + 34, guiTop + 25, this.zLevel, i, 5, 2, 1, 0x7f0000);
 	}
 }

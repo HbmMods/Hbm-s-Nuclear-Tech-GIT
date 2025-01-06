@@ -20,11 +20,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.VersatileConfig;
-import com.hbm.entity.effect.EntityNukeCloudSmall;
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
 import com.hbm.entity.grenade.EntityGrenadeNuclear;
 import com.hbm.entity.missile.EntityMIRV;
-import com.hbm.entity.projectile.EntityBulletBase;
+import com.hbm.entity.projectile.EntityBulletBaseNT;
 import com.hbm.entity.projectile.EntityExplosiveBeam;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
@@ -32,9 +31,10 @@ import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.util.ArmorUtil;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyHandlerMK2;
 import cofh.api.energy.IEnergyProvider;
 
+@Spaghetti("this sucks ass")
 public class ExplosionNukeGeneric {
 
 	private final static Random random = new Random();
@@ -103,12 +103,11 @@ public class ExplosionNukeGeneric {
 	private static boolean isExplosionExempt(Entity e) {
 		
 		if (e instanceof EntityOcelot ||
-				e instanceof EntityNukeCloudSmall ||
 				e instanceof EntityMIRV ||
 				e instanceof EntityGrenadeASchrab ||
 				e instanceof EntityGrenadeNuclear ||
 				e instanceof EntityExplosiveBeam ||
-				e instanceof EntityBulletBase ||
+				e instanceof EntityBulletBaseNT ||
 				e instanceof EntityPlayer &&
 				ArmorUtil.checkArmor((EntityPlayer) e, ModItems.euphemium_helmet, ModItems.euphemium_plate, ModItems.euphemium_legs, ModItems.euphemium_boots)) {
 			return true;
@@ -427,12 +426,9 @@ public class ExplosionNukeGeneric {
 			Block b = world.getBlock(x,y,z);
 			TileEntity te = world.getTileEntity(x, y, z);
 			
-			if (te != null && te instanceof IEnergyUser) {
-				
-				((IEnergyUser)te).setPower(0);
-				
-				if(random.nextInt(5) < 1)
-					world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
+			if (te != null && te instanceof IEnergyHandlerMK2) {
+				((IEnergyHandlerMK2)te).setPower(0);
+				if(random.nextInt(5) < 1) world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
 			}
 			if (te != null && te instanceof IEnergyProvider) {
 
@@ -446,7 +442,7 @@ public class ExplosionNukeGeneric {
 				if(random.nextInt(5) <= 1)
 					world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
 			}
-			if((b == ModBlocks.fusion_conductor || b == ModBlocks.fwatz_conductor || b == ModBlocks.fusion_motor || b == ModBlocks.fusion_heater || b == ModBlocks.fwatz_computer) && random.nextInt(10) == 0)
+			if((b == ModBlocks.fusion_conductor || b == ModBlocks.fusion_motor || b == ModBlocks.fusion_heater) && random.nextInt(10) == 0)
 				world.setBlock(x, y, z, ModBlocks.block_electrical_scrap);
 		}
 	}

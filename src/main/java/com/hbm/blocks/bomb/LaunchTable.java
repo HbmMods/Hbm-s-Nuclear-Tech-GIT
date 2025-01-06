@@ -163,7 +163,7 @@ public class LaunchTable extends BlockContainer implements IMultiblock, IBomb {
 			TileEntityLaunchTable entity = (TileEntityLaunchTable) world.getTileEntity(x, y, z);
 	
 			if(entity.canLaunch()) {
-				entity.launch();
+				entity.launchFromDesignator();
 				return BombReturnCode.LAUNCHED;
 			}
 			

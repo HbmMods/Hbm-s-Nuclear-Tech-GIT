@@ -6,7 +6,6 @@ import java.util.Random;
 
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.items.armor.ArmorFSB;
 import com.hbm.util.ContaminationUtil;
 
 import net.minecraft.entity.Entity;
@@ -26,12 +25,6 @@ public class ItemGeigerCounter extends Item {
 		
 		if(!(entity instanceof EntityLivingBase) || world.isRemote)
 			return;
-		
-		if(entity instanceof EntityPlayer) {
-			
-			if(ArmorFSB.hasFSBArmor((EntityPlayer)entity) && ((ArmorFSB)((EntityPlayer)entity).inventory.armorInventory[2].getItem()).geigerSound)
-				return;
-		}
 		
 		float x = HbmLivingProps.getRadBuf((EntityLivingBase)entity);
 		

@@ -5,16 +5,19 @@ import com.hbm.blocks.machine.MachineDiFurnace;
 import com.hbm.handler.pollution.PollutionHandler;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.inventory.container.ContainerDiFurnace;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIDiFurnace;
 import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.INBTPacketReceiver;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.util.CompatEnergyControl;
 
+import api.hbm.fluid.IFluidStandardSender;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -23,8 +26,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIProvider {
+public class TileEntityDiFurnace extends TileEntityMachinePolluting implements IFluidStandardSender, IGUIProvider, IInfoProviderEC {
 
 	public int progress;
 	public int fuel;
@@ -37,7 +41,7 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 	public byte sideLower = 1;
 
 	public TileEntityDiFurnace() {
-		super(4);
+		super(4, 50);
 	}
 
 	@Override
@@ -129,32 +133,19 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 	}
 
 	public boolean canProcess() {
-		if(slots[0] == null || slots[1] == null) {
-			return false;
-		}
+		if(slots[0] == null || slots[1] == null) return false;
+		if(!this.hasPower()) return false;
 		
-		if(!this.hasPower()) {
-			return false;
-		}
-		
-		ItemStack itemStack = BlastFurnaceRecipes.getOutput(slots[0], slots[1]);
-		if(itemStack == null) {
-			return false;
-		}
+		ItemStack output = BlastFurnaceRecipes.getOutput(slots[0], slots[1]);
+		if(output == null) return false;
+		if(slots[3] == null) return true;
+		if(!slots[3].isItemEqual(output)) return false;
 
-		if(slots[3] == null) {
+		if(slots[3].stackSize + output.stackSize <= slots[3].getMaxStackSize()) {
 			return true;
 		}
-
-		if(!slots[3].isItemEqual(itemStack)) {
-			return false;
-		}
-
-		if(slots[3].stackSize < getInventoryStackLimit() && slots[3].stackSize < slots[3].getMaxStackSize()) {
-			return true;
-		} else {
-			return slots[3].stackSize < itemStack.getMaxStackSize();
-		}
+		
+		return false;
 	}
 
 	private void processItem() {
@@ -183,6 +174,14 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+			
+			boolean extension = worldObj.getBlock(xCoord, yCoord + 1, zCoord) == ModBlocks.machine_difurnace_extension;
+			
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				this.sendSmoke(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			}
+			
+			if(extension) this.sendSmoke(xCoord, yCoord + 2, zCoord, ForgeDirection.UP);
 
 			boolean markDirty = false;
 			
@@ -198,7 +197,6 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 			}
 
 			if(canProcess()) {
-				boolean extension = worldObj.getBlock(xCoord, yCoord + 1, zCoord) == ModBlocks.machine_difurnace_extension;
 
 				//fuel -= extension ? 2 : 1;
 				fuel -= 1; //switch it up on me, fuel efficiency, on fumes i'm running - running - running - running
@@ -214,7 +212,7 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 					fuel = 0;
 				}
 
-				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * (extension ? 3 : 1));
+				if(worldObj.getTotalWorldTime() % 20 == 0) this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * (extension ? 3 : 1));
 				
 			} else {
 				progress = 0;
@@ -231,11 +229,7 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 				MachineDiFurnace.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setShort("time", (short) this.progress);
-			data.setShort("fuel", (short) this.fuel);
-			data.setByteArray("modes", new byte[] { (byte) sideFuel, (byte) sideUpper, (byte) sideLower });
-			INBTPacketReceiver.networkPack(this, data, 15);
+			networkPackNT(15);
 
 			if(markDirty) {
 				this.markDirty();
@@ -244,10 +238,21 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.progress = nbt.getShort("time");
-		this.fuel = nbt.getShort("fuel");
-		byte[] modes = nbt.getByteArray("modes");
+	public void serialize(ByteBuf buf) {
+		buf.writeShort(this.progress);
+		buf.writeShort(this.fuel);
+		buf.writeBytes(new byte[] {
+				this.sideFuel,
+				this.sideUpper,
+				this.sideLower});
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.progress = buf.readShort();
+		this.fuel = buf.readShort();
+		byte[] modes = new byte[3];
+		buf.readBytes(modes);
 		this.sideFuel = modes[0];
 		this.sideUpper = modes[1];
 		this.sideLower = modes[2];
@@ -260,7 +265,24 @@ public class TileEntityDiFurnace extends TileEntityMachineBase implements IGUIPr
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIDiFurnace(player.inventory, this);
+	}
+
+	@Override
+	public FluidTank[] getAllTanks() {
+		return new FluidTank[0];
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return this.getSmokeTanks();
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setLong(CompatEnergyControl.L_ENERGY_, this.fuel);
+		data.setLong(CompatEnergyControl.L_CAPACITY_, this.maxFuel);
+		data.setInteger(CompatEnergyControl.I_PROGRESS, this.progress);
 	}
 }

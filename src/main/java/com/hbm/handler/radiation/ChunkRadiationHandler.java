@@ -17,6 +17,7 @@ public abstract class ChunkRadiationHandler {
 	public abstract void setRadiation(World world, int x, int y, int z, float rad);
 	public abstract void incrementRad(World world, int x, int y, int z, float rad);
 	public abstract void decrementRad(World world, int x, int y, int z, float rad);
+	public abstract void clearSystem(World world);
 
 	/*
 	 * Proxy'd event handlers

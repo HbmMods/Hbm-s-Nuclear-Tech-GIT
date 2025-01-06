@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.gui.GUIMachineCyclotron;
 import com.hbm.inventory.recipes.CyclotronRecipes;
 import com.hbm.lib.RefStrings;
@@ -16,8 +18,17 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
-public class CyclotronRecipeHandler extends TemplateRecipeHandler {
-	
+public class CyclotronRecipeHandler extends TemplateRecipeHandler implements ICompatNHNEI {
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return new ItemStack[]{
+				new ItemStack(ModBlocks.machine_cyclotron)};
+	}
+
+	@Override
+	public String getRecipeID() {
+		return "cyclotronProcessing";
+	}
     public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
     public LinkedList<RecipeTransferRect> transferRectsGui = new LinkedList<RecipeTransferRect>();
     public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();
@@ -109,7 +120,7 @@ public class CyclotronRecipeHandler extends TemplateRecipeHandler {
         guiGui = new LinkedList<Class<? extends GuiContainer>>();
         
         transferRects.add(new RecipeTransferRect(new Rectangle(83 - 3 + 16 - 52, 5 + 18 + 1, 24, 18), "cyclotronProcessing"));
-        transferRectsGui.add(new RecipeTransferRect(new Rectangle(47, 15, 36, 36), "cyclotronProcessing"));
+        transferRectsGui.add(new RecipeTransferRect(new Rectangle(48 - 5, 27 - 11, 34, 34), "cyclotronProcessing"));
         guiGui.add(GUIMachineCyclotron.class);
         RecipeTransferRectHandler.registerRectsToGuis(getRecipeTransferRectGuis(), transferRects);
         RecipeTransferRectHandler.registerRectsToGuis(guiGui, transferRectsGui);

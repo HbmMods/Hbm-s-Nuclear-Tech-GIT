@@ -1,8 +1,7 @@
 package com.hbm.tileentity.machine;
 
-import com.hbm.interfaces.IFluidAcceptor;
+import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.container.ContainerCoreInjector;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUICoreInjector;
@@ -13,13 +12,12 @@ import api.hbm.fluid.IFluidStandardReceiver;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -28,7 +26,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidAcceptor, IFluidStandardReceiver, SimpleComponent, IGUIProvider {
+public class TileEntityCoreInjector extends TileEntityMachineBase implements IFluidStandardReceiver, SimpleComponent, IGUIProvider, CompatHandler.OCComponent {
 	
 	public FluidTank[] tanks;
 	public static final int range = 15;
@@ -37,8 +35,8 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 	public TileEntityCoreInjector() {
 		super(4);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 128000, 0);
-		tanks[1] = new FluidTank(Fluids.TRITIUM, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.DEUTERIUM, 128000);
+		tanks[1] = new FluidTank(Fluids.TRITIUM, 128000);
 	}
 
 	@Override
@@ -97,74 +95,42 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 					break;
 				}
 				
-				if(worldObj.getBlock(x, y, z) != Blocks.air)
+				if(!worldObj.getBlock(x, y, z).isAir(worldObj, x, y, z))
 					break;
 			}
 			
 			this.markDirty();
 
-			tanks[0].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			tanks[1].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("beam", beam);
-			this.networkPack(data, 250);
+			this.networkPackNT(250);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		beam = data.getInteger("beam");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeInt(beam);
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getMaxFill();
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getMaxFill();
-		else
-			return 0;
-	}
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
 
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			tanks[0].setFill(i);
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			tanks[1].setFill(i);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getFill();
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
+		this.beam = buf.readInt();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
 	}
 	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
 	
@@ -196,26 +162,27 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 	
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "dfc_injector";
 	}
 
-	@Callback(direct = true, limit = 2)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getFirstFuel(Context context, Arguments args) {
-		return new Object[] {tanks[0].getFill()};
+	public Object[] getFuel(Context context, Arguments args) {
+		return new Object[] {tanks[0].getFill(), tanks[1].getFill()};
 	}
 
-	@Callback(direct = true, limit = 2)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getSecondFuel(Context context, Arguments args) {
-		return new Object[] {tanks[1].getFill()};
+	public Object[] getTypes(Context context, Arguments args) {
+		return new Object[] {tanks[0].getTankType().getName(), tanks[1].getTankType().getName()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
-		return new Object[] {tanks[0].getFill(), tanks[1].getFill()};
+		return new Object[] {tanks[0].getFill(), tanks[0].getTankType().getName(), tanks[1].getFill(), tanks[1].getTankType().getName()};
 	}
 
 	@Override
@@ -225,7 +192,7 @@ public class TileEntityCoreInjector extends TileEntityMachineBase implements IFl
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICoreInjector(player.inventory, this);
 	}
 }

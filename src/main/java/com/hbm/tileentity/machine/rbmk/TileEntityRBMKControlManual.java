@@ -9,13 +9,14 @@ import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -90,7 +91,7 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 
 		if(nbt.hasKey("startingLevel"))
 			this.startingLevel = nbt.getDouble("startingLevel");
-		
+
 		if(nbt.hasKey("color"))
 			this.color = RBMKColor.values()[nbt.getInteger("color")];
 		else
@@ -106,6 +107,24 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 		
 		if(color != null)
 			nbt.setInteger("color", color.ordinal());
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeDouble(this.startingLevel);
+		if(this.color != null)
+			buf.writeInt(this.color.ordinal());
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.startingLevel = buf.readDouble();
+		if(buf.isReadable(1)) {
+			int color = buf.readInt();
+			this.color = RBMKColor.values()[MathHelper.clamp_int(color, 0, RBMKColor.values().length)];
+		}
 	}
 	
 	public static enum RBMKColor {
@@ -133,11 +152,21 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 		return data;
 	}
 	
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getColor(Context context, Arguments args) {
-		return new Object[] {this.color};
+		return new Object[] {this.color.ordinal()};
 	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] setColor(Context context, Arguments args) {
+		int colorI = args.checkInteger(0);
+		colorI = MathHelper.clamp_int(colorI, 0, 4);
+		this.color = RBMKColor.values()[colorI];
+		return new Object[] {true};
+	}
+
 
 	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -146,7 +175,7 @@ public class TileEntityRBMKControlManual extends TileEntityRBMKControl implement
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIRBMKControl(player.inventory, this);
 	}	
 }

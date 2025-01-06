@@ -120,87 +120,11 @@ public class Guide extends Block implements ILookOverlay {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		
 		if(world.isRemote && !player.isSneaking()) {
-			for(int i = 0; i < 10; i++) {
-				MainRegistry.proxy.openLink(/*"https://ntm.fandom.com/wiki/HBM%27s_Nuclear_Tech_Wiki"*/ "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-				MainRegistry.proxy.openLink("https://gist.githubusercontent.com/HbmMods/ce11ffd908e98d4159f89011aca5c0b1/raw/5cbb1afdca06648319ee4293516f3c5f7cc448ca/go%2520fuck%2520yourself");
-			}
+			MainRegistry.proxy.openLink("https://nucleartech.wiki/wiki/Main_Page");
 			return true;
 		}
 		
 		return super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
-		
-		/*if(!player.isSneaking())
-		{
-			
-			ItemStack book1 = new ItemStack(Items.written_book);
-			book1.stackTagCompound = new NBTTagCompound();
-			book1.stackTagCompound.setString("author", "HbMinecraft");
-			book1.stackTagCompound.setString("title", "Hbm's Nuclear Tech Mod Part 1: Resources");
-			NBTTagList pages1 = new NBTTagList();
-
-			for(String s : Library.book1) {
-				pages1.appendTag(new NBTTagString(s));
-			}
-			
-			book1.stackTagCompound.setTag("pages", pages1);
-			player.inventory.addItemStackToInventory(book1);
-			
-			ItemStack book2 = new ItemStack(Items.written_book);
-			book2.stackTagCompound = new NBTTagCompound();
-			book2.stackTagCompound.setString("author", "HbMinecraft");
-			book2.stackTagCompound.setString("title", "Hbm's Nuclear Tech Mod Part 2: Machines");
-			NBTTagList pages2 = new NBTTagList();
-
-			for(String s : Library.book2) {
-				pages2.appendTag(new NBTTagString(s));
-			}
-			
-			book2.stackTagCompound.setTag("pages", pages2);
-			player.inventory.addItemStackToInventory(book2);
-			
-			ItemStack book3 = new ItemStack(Items.written_book);
-			book3.stackTagCompound = new NBTTagCompound();
-			book3.stackTagCompound.setString("author", "HbMinecraft");
-			book3.stackTagCompound.setString("title", "Hbm's Nuclear Tech Mod Part 3: Bombs");
-			NBTTagList pages3 = new NBTTagList();
-
-			for(String s : Library.book3) {
-				pages3.appendTag(new NBTTagString(s));
-			}
-			
-			book3.stackTagCompound.setTag("pages", pages3);
-			player.inventory.addItemStackToInventory(book3);
-			
-			ItemStack book4 = new ItemStack(Items.written_book);
-			book4.stackTagCompound = new NBTTagCompound();
-			book4.stackTagCompound.setString("author", "HbMinecraft");
-			book4.stackTagCompound.setString("title", "Hbm's Nuclear Tech Mod Part 4: Missiles");
-			NBTTagList pages4 = new NBTTagList();
-
-			for(String s : Library.book4) {
-				pages4.appendTag(new NBTTagString(s));
-			}
-			
-			book4.stackTagCompound.setTag("pages", pages4);
-			player.inventory.addItemStackToInventory(book4);
-			
-			ItemStack book5 = new ItemStack(Items.written_book);
-			book5.stackTagCompound = new NBTTagCompound();
-			book5.stackTagCompound.setString("author", "HbMinecraft");
-			book5.stackTagCompound.setString("title", "Hbm's Nuclear Tech Mod Part 5: Misc");
-			NBTTagList pages5 = new NBTTagList();
-
-			for(String s : Library.book5) {
-				pages5.appendTag(new NBTTagString(s));
-			}
-			
-			book5.stackTagCompound.setTag("pages", pages5);
-			player.inventory.addItemStackToInventory(book5);
-			
-			return true;
-		} else {
-			return false;
-		}*/
 	}
 
 	@Override

@@ -2,20 +2,23 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.inventory.material.NTMMaterial;
 import com.hbm.util.CrucibleUtil;
 
 import api.hbm.block.ICrucibleAcceptor;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFoundryOutlet extends TileEntityFoundryBase {
+import java.util.ArrayList;
+
+public class TileEntityFoundryOutlet extends TileEntityFoundryBase{
 
 	public NTMMaterial filter = null;
 	public NTMMaterial lastFilter = null;
@@ -120,5 +123,40 @@ public class TileEntityFoundryOutlet extends TileEntityFoundryBase {
 		nbt.setBoolean("invert", this.invertRedstone);
 		nbt.setBoolean("invertFilter", this.invertFilter);
 		nbt.setShort("filter", this.filter == null ? -1 : (short) this.filter.id);
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		NBTTagCompound nbt = new NBTTagCompound();
+
+		nbt.setBoolean("invert", this.invertRedstone);
+		nbt.setBoolean("invertFilter", this.invertFilter);
+		if(filter != null){
+			nbt.setIntArray("matFilter", new int[]{ filter.id });
+		}
+
+		return nbt;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+
+		if(nbt.hasKey("invert"))   this.invertRedstone = nbt.getBoolean("invert");
+		if(nbt.hasKey("invertFilter")) this.invertFilter = nbt.getBoolean("invertFilter");
+		if(nbt.hasKey("matFilter")) {
+			int[] ids = nbt.getIntArray("matFilter");
+			if(ids.length > 0 && index < ids.length)
+				this.filter = Mats.matById.get(ids[index]);
+		}
+
+	}
+
+	@Override
+	public String[] infoForDisplay(World world, int x, int y, int z) {
+		ArrayList<String> info = new ArrayList<>();
+		info.add("copytool.invertRedstone");
+		info.add("copytool.invertFilter");
+		if (filter != null) info.add(filter.getUnlocalizedName());
+		return info.toArray(new String[0]);
 	}
 }

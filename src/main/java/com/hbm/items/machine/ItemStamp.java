@@ -10,19 +10,27 @@ import net.minecraft.item.ItemStack;
 
 public class ItemStamp extends Item {
 	
-	public StampType type;
+	protected StampType type;
 	public static final HashMap<StampType, List<ItemStack>> stamps = new HashMap();
 	
 	public ItemStamp(int dura, StampType type) {
 		this.setMaxDamage(dura);
 		this.type = type;
 		
+		if(type != null) {
+			this.addStampToList(this, 0, type);
+		}
+	}
+	
+	protected void addStampToList(Item item, int meta, StampType type) {
 		List<ItemStack> list = stamps.get(type);
 		
 		if(list == null)
 			list = new ArrayList();
 		
-		list.add(new ItemStack(this));
+		ItemStack stack = new ItemStack(item, 1, meta);
+		
+		list.add(stack);
 		stamps.put(type, list);
 	}
 	
@@ -32,16 +40,27 @@ public class ItemStamp extends Item {
 			list.add("[CREATED USING TEMPLATE FOLDER]");
 	}
 	
-	//TODO: give UFFR one (1) good boy token
+	/** Params can't take an ItemStack, for some reason it crashes during init */
+	public StampType getStampType(Item item, int meta) {
+		return type;
+	}
+	
 	public static enum StampType {
 		FLAT,
 		PLATE,
 		WIRE,
 		CIRCUIT,
-		//DISC,
 		C357,
 		C44,
 		C50,
-		C9;
+		C9,
+		PRINTING1,
+		PRINTING2,
+		PRINTING3,
+		PRINTING4,
+		PRINTING5,
+		PRINTING6,
+		PRINTING7,
+		PRINTING8;
 	}
 }

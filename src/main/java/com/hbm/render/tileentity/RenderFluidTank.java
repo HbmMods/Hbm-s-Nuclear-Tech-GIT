@@ -56,6 +56,7 @@ public class RenderFluidTank extends TileEntitySpecialRenderer implements IItemR
 			ResourceManager.fluidtank_exploded.renderPart("Tank");
 		}
 
+		GL11.glColor3d(1D, 1D, 1D);
 		GL11.glShadeModel(GL11.GL_FLAT);
 		
 		if(type != null && type != Fluids.NONE) {
@@ -74,12 +75,23 @@ public class RenderFluidTank extends TileEntitySpecialRenderer implements IItemR
 			DiamondPronter.pront(type.poison, type.flammability, type.reactivity, type.symbol);
 			GL11.glPopMatrix();
 		}
-		
+
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glPopMatrix();
 		RenderHelper.enableStandardItemLighting();
 	}
 	
 	public String getTextureFromType(FluidType type) {
+		
+		if(type.customFluid) {
+			int color = type.getTint();
+			double r = ((color & 0xff0000) >> 16) / 255D;
+			double g = ((color & 0x00ff00) >> 8) / 255D;
+			double b = ((color & 0x0000ff) >> 0) / 255D;
+			GL11.glColor3d(r, g, b);
+			return "textures/models/tank/tank_NONE.png";
+		}
+		
 		String s = type.getName();
 		
 		if(type.isAntimatter() || (type.hasTrait(FT_Corrosive.class) && type.getTrait(FT_Corrosive.class).isHighlyCorrosive()))
@@ -108,7 +120,7 @@ public class RenderFluidTank extends TileEntitySpecialRenderer implements IItemR
 				GL11.glShadeModel(GL11.GL_SMOOTH);
 				GL11.glDisable(GL11.GL_CULL_FACE);
 				
-				FluidTank tank = new FluidTank(Fluids.NONE, 0, 0);
+				FluidTank tank = new FluidTank(Fluids.NONE, 0);
 				boolean exploded = false;
 				if(item.hasTagCompound() && item.getTagCompound().hasKey(IPersistentNBT.NBT_PERSISTENT_KEY)) {
 					tank.readFromNBT(item.getTagCompound().getCompoundTag(IPersistentNBT.NBT_PERSISTENT_KEY), "tank");

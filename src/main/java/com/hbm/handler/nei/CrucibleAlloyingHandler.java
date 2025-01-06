@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.material.Mats;
 import com.hbm.inventory.material.Mats.MaterialStack;
 import com.hbm.inventory.material.NTMMaterial;
@@ -20,7 +21,16 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
-public class CrucibleAlloyingHandler extends TemplateRecipeHandler {
+public class CrucibleAlloyingHandler extends TemplateRecipeHandler implements ICompatNHNEI {
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return new ItemStack[]{
+				new ItemStack(ModBlocks.machine_crucible)};
+	}
+	@Override
+	public String getRecipeID() {
+		return "ntmCrucibleAlloying";
+	}
 	
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();
 	public LinkedList<Class<? extends GuiContainer>> guiRec = new LinkedList<Class<? extends GuiContainer>>();

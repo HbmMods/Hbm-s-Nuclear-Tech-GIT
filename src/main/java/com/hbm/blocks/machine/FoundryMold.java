@@ -67,6 +67,11 @@ public class FoundryMold extends FoundryCastingBase {
 	}
 
 	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+		return AxisAlignedBB.getBoundingBox(x, y, z, x + 1D, y + 0.5D, z + 1D);
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
 		return AxisAlignedBB.getBoundingBox(x, y, z, x + 1D, y + 0.5D, z + 1D);

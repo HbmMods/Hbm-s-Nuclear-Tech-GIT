@@ -8,7 +8,6 @@ import com.hbm.blocks.generic.BlockBobble.TileEntityBobble;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.model.ModelUboinik;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -30,6 +29,8 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	
 	public static final IModelCustom bobble = AdvancedModelLoader.loadModel(new ResourceLocation(RefStrings.MODID, "models/trinkets/bobble.obj"));
 	public static final ResourceLocation socket = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/socket.png");
+	public static final ResourceLocation glow = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/glow.png");
+	public static final ResourceLocation lamp = new ResourceLocation(RefStrings.MODID, "textures/blocks/fluorescent_lamp.png");
 
 	public static final ResourceLocation bobble_vaultboy = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/vaultboy.png");
 	public static final ResourceLocation bobble_hbm = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/hbm.png");
@@ -46,6 +47,8 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 	public static final ResourceLocation bobble_drillgon = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/drillgon200.png");
 	public static final ResourceLocation bobble_cirno = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/cirno.png");
 	public static final ResourceLocation bobble_microwave = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/microwave.png");
+	public static final ResourceLocation bobble_peep = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/peep.png");
+	public static final ResourceLocation bobble_mellow = new ResourceLocation(RefStrings.MODID, "textures/models/trinkets/mellowrpg8.png");
 
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float intero) {
@@ -95,7 +98,9 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		case VAER:		bindTexture(bobble_vaer); break;
 		case NOS:		bindTexture(bobble_nos); break;
 		case DRILLGON:	bindTexture(bobble_drillgon); break;
-		case MICROWAVE: bindTexture(bobble_microwave); break;
+		case MICROWAVE:	bindTexture(bobble_microwave); break;
+		case PEEP:		bindTexture(bobble_peep); break;
+		case MELLOW:	bindTexture(bobble_mellow); break;
 		default:		bindTexture(ResourceManager.universal);
 		}
 		
@@ -200,6 +205,16 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			rotLeftArm = new double[]{0, -5, 45};
 			rotRightArm = new double[]{0, 15, 45};
 			break;
+		case PEEP:
+			rotLeftArm = new double[]{0, 0, 1};
+			rotRightArm = new double[]{0, 0, 1};
+			break;
+		case MELLOW:
+			rotLeftArm = new double[]{0, 10, 0};
+			rotRightArm = new double[]{0, -10, 0};
+			rotLeftLeg = new double[]{3, 5, 2};
+			rotRightLeg = new double[]{-3, -5, 0};
+			break;
 		}
 	}
 	
@@ -210,6 +225,8 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 
 		GL11.glPushMatrix();
 		GL11.glRotated(rotBody, 0, 1, 0);
+		
+		if(type == BobbleType.PEEP) bobble.renderPart("PeepTail");
 		
 		GL11.glDisable(GL11.GL_CULL_FACE);
 		
@@ -280,9 +297,9 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		
 		GL11.glTranslated(0, -1.75, 0);
 		bobble.renderPart("Head" + suffix);
-		
-		if(type == BobbleType.VT)
-			bobble.renderPart("Horn");
+
+		if(type == BobbleType.VT) bobble.renderPart("Horn");
+		if(type == BobbleType.PEEP) bobble.renderPart("PeepHat");
 		
 		if(type == BobbleType.VAER) {
 			GL11.glTranslated(0.25, 1.9, 0.075);
@@ -362,7 +379,6 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 		bobble.renderPart("Drillgon");
 	}
 
-	private ModelUboinik shotgun = new ModelUboinik();
 	private ResourceLocation shot_tex = new ResourceLocation(RefStrings.MODID +":textures/models/ModelUboinik.png");
 	
 	/*
@@ -397,9 +413,9 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			renderItem(new ItemStack(ModItems.coin_maskman, 1, 5));
 			break;
 		case ADAM29:
-			GL11.glTranslated(0.45, 1.15, 0.4);
+			GL11.glTranslated(0.4, 1.15, 0.4);
 			GL11.glScaled(0.5, 0.5, 0.5);
-			renderItem(new ItemStack(ModItems.coffee));
+			renderItem(new ItemStack(ModItems.can_redbomb));
 			break;
 		case PHEO:
 			GL11.glTranslated(0.5, 1.15, 0.45);
@@ -433,7 +449,21 @@ public class RenderBobble extends TileEntitySpecialRenderer {
 			GL11.glRotated(-60, 0, 1, 0);
 			GL11.glTranslated(-0.2, 0, 0);
 			GL11.glScaled(0.5, 0.5, 0.5);
-			shotgun.renderDud(0.0625F);
+			//shotgun.renderDud(0.0625F);
+			break;
+		case MELLOW:
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glAlphaFunc(GL11.GL_GREATER, 0);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+			GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
+			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240F, 240F);
+			this.bindTexture(lamp);
+			bobble.renderPart("Fluoro");
+			this.bindTexture(glow);
+			bobble.renderPart("Glow");
+			GL11.glAlphaFunc(GL11.GL_GREATER, 0.1F);
+			GL11.glDisable(GL11.GL_BLEND);
+			GL11.glPopAttrib();
 			break;
 		}
 	}

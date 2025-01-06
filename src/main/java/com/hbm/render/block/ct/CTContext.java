@@ -80,7 +80,7 @@ public class CTContext {
 				int[] coord = dirs[j];
 				Block neighbor = world.getBlock(x + coord[0], y + coord[1], z + coord[2]);
 				
-				if(neighbor instanceof IBlockCT && ((IBlockCT) neighbor).canConnect(world, x + coord[0], y + coord[1], z + coord[2], (IBlockCT)block)) {
+				if(((IBlockCT) block).canConnect(world, x + coord[0], y + coord[1], z + coord[2], neighbor)) {
 					cons[j] = true;
 				}
 			}

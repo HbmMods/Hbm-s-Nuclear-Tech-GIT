@@ -39,6 +39,18 @@ public class ChunkRadiationHandlerNT extends ChunkRadiationHandler {
 	private static HashMap<World, WorldRadiationData> worldMap = new HashMap();
 
 	@Override
+	public void clearSystem(World world) {
+		WorldRadiationData radWorld = worldMap.get(world);
+		
+		if(radWorld != null) {
+			radWorld.data.clear();
+			radWorld.activePockets.clear();
+			radWorld.dirtyChunks.clear();
+			radWorld.dirtyChunks2.clear();
+		}
+	}
+
+	@Override
 	public void incrementRad(World world, int x, int y, int z, float rad) {
 		if(!world.blockExists(x, y, z)) {
 			return;

@@ -1,6 +1,7 @@
 package com.hbm.items.machine;
 
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.items.ModItems;
 
 import net.minecraft.item.Item;
 
@@ -23,4 +24,5 @@ public class ItemInfiniteFluid extends Item {
 	public FluidType getType() { return this.type; }
 	public int getAmount() { return this.amount; }
 	public int getChance() { return this.chance; }
+	public boolean allowPressure(int pressure) { return this == ModItems.fluid_barrel_infinite || pressure == 0; }
 }

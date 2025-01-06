@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.lib.HbmChestContents;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsComponent;
+import com.hbm.itempool.ItemPoolsLegacy;
 import com.hbm.world.gen.ProceduralStructureStart;
 import com.hbm.world.gen.ProceduralStructureStart.ProceduralComponent;
 import com.hbm.world.gen.component.Component.ConcreteBricks;
@@ -147,7 +149,7 @@ public class BunkerComponents {
 			placeBlockAtCurrentPosition(world, ModBlocks.fan, 0, 5, 4, 5, box);
 			//machine
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_tungsten, 0, 3, 1, 6, box);
-			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(3), 4, 1, 6, HbmChestContents.antenna/*TODO change */, 5);
+			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(3), 4, 1, 6, ItemPool.getPool(ItemPoolsLegacy.POOL_ANTENNA)/*TODO change */, 5);
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_tungsten, 0, 5, 1, 6, box);
 			fillWithMetadataBlocks(world, box, 3, 2, 6, 5, 2, 6, ModBlocks.concrete_smooth_stairs, getStairMeta(2) | 4);
 			fillWithMetadataBlocks(world, box, 3, 3, 6, 5, 3, 6, ModBlocks.tape_recorder, getDecoMeta(2));
@@ -375,13 +377,13 @@ public class BunkerComponents {
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaE | 4, 4, 1, 9, box);
 			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaS, 5, 1, 8, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(0), 5, 2, 9, box);
-			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 3, 1, 9, HbmChestContents.filingCabinet, 5);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 3, 1, 9, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 5);
 			//lockers
-			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(4), 8, 1, 7, HbmChestContents.lockersVault, 3);
-			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(4), 8, 2, 7, HbmChestContents.lockersVault, 5);
+			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(4), 8, 1, 7, ItemPool.getPool(ItemPoolsComponent.POOL_VAULT_LOCKERS), 3);
+			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(4), 8, 2, 7, ItemPool.getPool(ItemPoolsComponent.POOL_VAULT_LOCKERS), 5);
 			fillWithBlocks(world, box, 8, 1, 8, 8, 2, 8, ModBlocks.deco_tungsten);
-			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(4), 8, 1, 9, HbmChestContents.lockersVault, 4);
-			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(4), 8, 2, 9, HbmChestContents.lockersVault, 5);
+			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(4), 8, 1, 9, ItemPool.getPool(ItemPoolsComponent.POOL_VAULT_LOCKERS), 4);
+			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(4), 8, 2, 9, ItemPool.getPool(ItemPoolsComponent.POOL_VAULT_LOCKERS), 5);
 			fillWithMetadataBlocks(world, box, 8, 3, 7, 8, 3, 9, Blocks.trapdoor, getDecoModelMeta(2) >> 2);
 			//doors
 			placeDoor(world, box, ModBlocks.door_bunker, 1, true, rand.nextBoolean(), 7, 1, 0);
@@ -474,7 +476,7 @@ public class BunkerComponents {
 			//table & chest
 			placeBlockAtCurrentPosition(world, Blocks.fence, 0, 6, 1, 2, box);
 			placeBlockAtCurrentPosition(world, Blocks.wooden_pressure_plate, 0, 6, 2, 2, box);
-			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(4), 6, 1, 3, HbmChestContents.lockersVault, 8);
+			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(4), 6, 1, 3, ItemPool.getPool(ItemPoolsComponent.POOL_VAULT_LOCKERS), 8);
 			//desk w/ computer + bobblehead
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS | 4, 1, 1, 8, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaE | 4, 1, 1, 9, box);
@@ -679,7 +681,7 @@ public class BunkerComponents {
 			fillWithMetadataBlocks(world, box, 1, 3, 9, 1, 3, 10, ModBlocks.tape_recorder, decoMetaW);
 			fillWithBlocks(world, box, 1, 1, 11, 1, 3, 11, ModBlocks.deco_tungsten);
 			//desks w/ computers
-			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(2), 3, 1, 4, HbmChestContents.machineParts, 6);
+			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(2), 3, 1, 4, ItemPool.getPool(ItemPoolsComponent.POOL_MACHINE_PARTS), 6);
 			placeBlockAtCurrentPosition(world, ModBlocks.concrete_smooth_stairs, stairMetaS | 4, 3, 1, 5, box);
 			fillWithMetadataBlocks(world, box, 4, 1, 5, 4, 1, 7, ModBlocks.concrete_smooth_stairs, stairMetaW | 4);
 			placeBlockAtCurrentPosition(world, Blocks.oak_stairs, stairMetaN, 3, 1, 7, box);
@@ -704,7 +706,7 @@ public class BunkerComponents {
 			//table w/ chest
 			placeBlockAtCurrentPosition(world, Blocks.fence, 0, 7, 1, 9, box);
 			placeBlockAtCurrentPosition(world, Blocks.wooden_pressure_plate, 0, 7, 2, 9, box);
-			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(4), 7, 1, 10, HbmChestContents.labVault, 8);
+			generateInvContents(world, box, rand, Blocks.chest, getDecoMeta(4), 7, 1, 10, ItemPool.getPool(ItemPoolsComponent.POOL_VAULT_LAB), 8);
 			//doors
 			placeDoor(world, box, ModBlocks.door_bunker, 1, true, rand.nextBoolean(), 5, 1, 0);
 			placeDoor(world, box, ModBlocks.door_bunker, 1, false, rand.nextBoolean(), 6, 1, 0);
@@ -802,9 +804,9 @@ public class BunkerComponents {
 			default:
 				fillWithBlocks(world, box, 6, 1, 1, 6, 3, 1, ModBlocks.deco_pipe_framed_rusted);
 				for(int i = 7; i <= 9; i += 2) {
-					placeBlockAtCurrentPosition(world, ModBlocks.machine_coal_off, decoMetaN, i, 1, 1, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.machine_electric_furnace_off, decoMetaN, i, 1, 1, box);
 					placeBlockAtCurrentPosition(world, ModBlocks.steel_beam, 2, i, 2, 1, box);
-					placeBlockAtCurrentPosition(world, ModBlocks.machine_coal_off, decoMetaN, i, 3, 1, box);
+					placeBlockAtCurrentPosition(world, ModBlocks.machine_electric_furnace_off, decoMetaN, i, 3, 1, box);
 				}
 				placeBlockAtCurrentPosition(world, ModBlocks.deco_red_copper, 0, 8, 1, 1, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 5, 8, 2, 1, box);
@@ -819,8 +821,8 @@ public class BunkerComponents {
 				placeBlockAtCurrentPosition(world, ModBlocks.fluid_duct_gauge, decoMetaW, 10, 2, 5, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.barrel_plastic, 0, 6, 1, 5, box);
 				//chests
-				generateInvContents(world, box, rand, Blocks.chest, decoMetaS, 7, 1, 5, HbmChestContents.solidFuel, 5);
-				generateInvContents(world, box, rand, Blocks.chest, decoMetaS, 9, 1, 5, HbmChestContents.solidFuel, 6);
+				generateInvContents(world, box, rand, Blocks.chest, decoMetaS, 7, 1, 5, ItemPool.getPool(ItemPoolsComponent.POOL_SOLID_FUEL), 5);
+				generateInvContents(world, box, rand, Blocks.chest, decoMetaS, 9, 1, 5, ItemPool.getPool(ItemPoolsComponent.POOL_SOLID_FUEL), 6);
 				break;
 			case 1:
 				placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 5, 6, 1, 1, box);
@@ -853,18 +855,18 @@ public class BunkerComponents {
 					fillWithBlocks(world, box, i, 3, 2, i, 3, 4, ModBlocks.deco_lead);
 				}
 				placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 5, 8, 1, 4, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.reactor_computer, 0, 8, 2, 4, box);
+				placeBlockAtCurrentPosition(world, Blocks.redstone_lamp, 0, 8, 2, 4, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.concrete_colored_ext, 5, 8, 3, 4, box);
 				placeLever(world, box, 3, rand.nextBoolean(), 8, 2, 5);
-				placeBlockAtCurrentPosition(world, ModBlocks.reactor_element, 0, 8, 1, 3, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.reactor_control, 0, 8, 2, 3, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.reactor_element, 0, 8, 3, 3, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.pwr_fuel, 0, 8, 1, 3, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.pwr_control, 0, 8, 2, 3, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.pwr_fuel, 0, 8, 3, 3, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.block_copper, 0, 8, 1, 2, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.block_lead, 0, 8, 2, 2, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.block_copper, 0, 8, 3, 2, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.reactor_conductor, 0, 8, 1, 1, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.pwr_channel, 0, 8, 1, 1, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.machine_turbine, 0, 8, 2, 1, box);
-				placeBlockAtCurrentPosition(world, ModBlocks.reactor_conductor, 0, 8, 3, 1, box);
+				placeBlockAtCurrentPosition(world, ModBlocks.pwr_channel, 0, 8, 3, 1, box);
 				fillWithBlocks(world, box, 9, 1, 1, 9, 3, 1, ModBlocks.deco_steel);
 				placeBlockAtCurrentPosition(world, ModBlocks.steel_grate, 7, 10, 1, 1, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(1), 10, 2, 1, box);
@@ -873,7 +875,7 @@ public class BunkerComponents {
 				placeBlockAtCurrentPosition(world, ModBlocks.deco_pipe_quad_rusted, getPillarMeta(4), 7, 3, 1, box);
 				placeBlockAtCurrentPosition(world, ModBlocks.fluid_duct_gauge, decoMetaN, 6, 3, 1, box);
 				//chest
-				generateInvContents(world, box, rand, Blocks.chest, decoMetaN, 6, 1, 2, HbmChestContents.nuclearFuel, 8);
+				generateInvContents(world, box, rand, Blocks.chest, decoMetaN, 6, 1, 2, ItemPool.getPool(ItemPoolsComponent.POOL_NUKE_FUEL), 8);
 				break;
 			}
 			//transformer
@@ -905,8 +907,8 @@ public class BunkerComponents {
 			placeBlockAtCurrentPosition(world, Blocks.flower_pot, 0, 8, 2, 10, box);
 			placeBlockAtCurrentPosition(world, ModBlocks.deco_computer, getDecoModelMeta(0), 9, 2, 10, box);
 			//loot
-			generateInvContents(world, box, rand, Blocks.chest, decoMetaE, 1, 1, 7, HbmChestContents.machineParts, 6);
-			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 7, 1, 10, HbmChestContents.filingCabinet, 4);
+			generateInvContents(world, box, rand, Blocks.chest, decoMetaE, 1, 1, 7, ItemPool.getPool(ItemPoolsComponent.POOL_MACHINE_PARTS), 6);
+			generateInvContents(world, box, rand, ModBlocks.filing_cabinet, getDecoModelMeta(0), 7, 1, 10, ItemPool.getPool(ItemPoolsComponent.POOL_FILING_CABINET), 4);
 			//doors
 			placeDoor(world, box, ModBlocks.door_bunker, 1, true, rand.nextBoolean(), 3, 1, 0);
 			placeDoor(world, box, ModBlocks.door_bunker, 1, false, rand.nextBoolean(), 4, 1, 0);

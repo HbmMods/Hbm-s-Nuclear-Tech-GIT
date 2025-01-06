@@ -6,7 +6,7 @@ import com.hbm.tileentity.machine.TileEntitySawmill;
 public class SawmillHandler extends NEIUniversalHandler {
 
 	public SawmillHandler() {
-		super("Sawmill", ModBlocks.machine_sawmill, TileEntitySawmill.getRecipes());
+		super(ModBlocks.machine_sawmill.getLocalizedName(), ModBlocks.machine_sawmill, TileEntitySawmill.getRecipes());
 	}
 
 	@Override

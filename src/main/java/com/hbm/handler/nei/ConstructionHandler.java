@@ -17,6 +17,14 @@ public class ConstructionHandler extends NEIUniversalHandler {
 	}
 
 	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return new ItemStack[]{
+				new ItemStack(ModItems.acetylene_torch),
+				new ItemStack(ModItems.blowtorch),
+				new ItemStack(ModItems.boltgun)};
+	}
+
+	@Override
 	public String getKey() {
 		return "ntmConstruction";
 	}
@@ -33,9 +41,9 @@ public class ConstructionHandler extends NEIUniversalHandler {
 		/* WATZ */
 		ItemStack[] watz = new ItemStack[] {
 				new ItemStack(ModBlocks.watz_end, 48),
-				new ItemStack(ModItems.bolt_dura_steel, 64),
-				new ItemStack(ModItems.bolt_dura_steel, 64),
-				new ItemStack(ModItems.bolt_dura_steel, 64),
+				Mats.MAT_DURA.make(ModItems.bolt, 64),
+				Mats.MAT_DURA.make(ModItems.bolt, 64),
+				Mats.MAT_DURA.make(ModItems.bolt, 64),
 				new ItemStack(ModBlocks.watz_element, 36),
 				new ItemStack(ModBlocks.watz_cooler, 26),
 				new ItemStack(ModItems.boltgun)};
@@ -46,9 +54,9 @@ public class ConstructionHandler extends NEIUniversalHandler {
 		/* ITER */
 		ItemStack[] iter = new ItemStack[] {
 				new ItemStack(ModBlocks.fusion_conductor, 36),
-				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.fusion_conductor, 320), EnumChatFormatting.RED + "5x64"),
+				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.fusion_conductor, 256), EnumChatFormatting.RED + "4x64"),
 				new ItemStack(ModItems.plate_cast, 36, Mats.MAT_STEEL.id),
-				ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.plate_cast, 320, Mats.MAT_STEEL.id), EnumChatFormatting.RED + "5x64"),
+				ItemStackUtil.addTooltipToStack(new ItemStack(ModItems.plate_cast, 256, Mats.MAT_STEEL.id), EnumChatFormatting.RED + "4x64"),
 				new ItemStack(ModBlocks.fusion_center, 64),
 				new ItemStack(ModBlocks.fusion_motor, 4),
 				new ItemStack(ModBlocks.reinforced_glass, 8),
@@ -83,15 +91,29 @@ public class ConstructionHandler extends NEIUniversalHandler {
 		
 		/* SOYUZ LAUNCHER */
 		ItemStack[] soysauce = new ItemStack[] {
-				new ItemStack(ModBlocks.struct_launcher, 60),
-				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.struct_launcher, 320), EnumChatFormatting.RED + "5x64"),
-				new ItemStack(ModBlocks.struct_scaffold, 53),
+				new ItemStack(ModBlocks.struct_launcher, 30),
+				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.struct_launcher, 384), EnumChatFormatting.RED + "6x64"),
+				new ItemStack(ModBlocks.struct_scaffold, 63),
 				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.struct_scaffold, 384), EnumChatFormatting.RED + "6x64"),
-				new ItemStack(ModBlocks.concrete_smooth, 8),
+				new ItemStack(ModBlocks.concrete_smooth, 38),
 				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.concrete_smooth, 320), EnumChatFormatting.RED + "5x64"),};
 
 		bufferedRecipes.put(soysauce, new ItemStack(ModBlocks.soyuz_launcher));
 		bufferedTools.put(soysauce, new ItemStack(ModBlocks.struct_soyuz_core));
+		
+		/* ICF */
+		ItemStack[] icf = new ItemStack[] {
+				new ItemStack(ModBlocks.icf_component, 50, 0),
+				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.icf_component, 240, 3), EnumChatFormatting.RED + "3x64 + 48"),
+				ItemStackUtil.addTooltipToStack(Mats.MAT_DURA.make(ModItems.bolt, 960), EnumChatFormatting.RED + "15x64"),
+				ItemStackUtil.addTooltipToStack(Mats.MAT_STEEL.make(ModItems.plate_cast, 240), EnumChatFormatting.RED + "3x64 + 48"),
+				ItemStackUtil.addTooltipToStack(new ItemStack(ModBlocks.icf_component, 117, 1), EnumChatFormatting.RED + "64 + 53"),
+				ItemStackUtil.addTooltipToStack(Mats.MAT_BBRONZE.make(ModItems.plate_cast, 117), EnumChatFormatting.RED + "64 + 53"),
+				new ItemStack(ModItems.blowtorch),
+				new ItemStack(ModItems.boltgun) };
+
+		bufferedRecipes.put(icf, new ItemStack(ModBlocks.icf));
+		bufferedTools.put(icf, new ItemStack(ModBlocks.struct_icf_core));
 		
 		return recipes ? bufferedRecipes : bufferedTools;
 	}

@@ -3,17 +3,16 @@ package com.hbm.tileentity.turret;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbm.handler.BulletConfigSyncingUtil;
-import com.hbm.handler.BulletConfiguration;
 import com.hbm.handler.CasingEjector;
 import com.hbm.inventory.gui.GUITurretChekhov;
-import com.hbm.packet.AuxParticlePacketNT;
+import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.factory.XFactory50;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
@@ -27,15 +26,11 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 	//also having a floaty `static` like this looks fun
 	//idk if it's just me though
 	static {
-		configs.add(BulletConfigSyncingUtil.BMG50_NORMAL);
-		configs.add(BulletConfigSyncingUtil.BMG50_INCENDIARY);
-		configs.add(BulletConfigSyncingUtil.BMG50_EXPLOSIVE);
-		configs.add(BulletConfigSyncingUtil.BMG50_AP);
-		configs.add(BulletConfigSyncingUtil.BMG50_DU);
-		configs.add(BulletConfigSyncingUtil.BMG50_STAR);
-		configs.add(BulletConfigSyncingUtil.BMG50_PHOSPHORUS);
-		configs.add(BulletConfigSyncingUtil.BMG50_SLEEK);
-		configs.add(BulletConfigSyncingUtil.CHL_BMG50);
+		configs.add(XFactory50.bmg50_sp.id);
+		configs.add(XFactory50.bmg50_fmj.id);
+		configs.add(XFactory50.bmg50_jhp.id);
+		configs.add(XFactory50.bmg50_ap.id);
+		configs.add(XFactory50.bmg50_du.id);
 	}
 	
 	@Override
@@ -77,11 +72,11 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 		
 		if(timer > 20 && timer % getDelay() == 0) {
 			
-			BulletConfiguration conf = this.getFirstConfigLoaded();
+			BulletConfig conf = this.getFirstConfigLoaded();
 			
 			if(conf != null) {
-				this.cachedCasingConfig = conf.spentCasing;
-				this.spawnBullet(conf);
+				this.cachedCasingConfig = conf.casing;
+				this.spawnBullet(conf, 10F);
 				this.conusmeAmmo(conf.ammo);
 				this.worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:turret.chekhov_fire", 2.0F, 1.0F);
 				
@@ -175,7 +170,7 @@ public class TileEntityTurretChekhov extends TileEntityTurretBaseNT {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUITurretChekhov(player.inventory, this);
 	}
 }

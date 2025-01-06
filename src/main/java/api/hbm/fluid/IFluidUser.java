@@ -2,8 +2,9 @@ package api.hbm.fluid;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
+import com.hbm.util.Compat;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.nbt.NBTTagCompound;
@@ -37,8 +38,11 @@ public interface IFluidUser extends IFluidConnector {
 			
 			if(con.canConnect(type, dir.getOpposite())) {
 				long toSend = this.getTotalFluidForSend(type, pressure);
-				long transfer = toSend - con.transferFluid(type, pressure, toSend);
-				this.removeFluidForTransfer(type, pressure, transfer);
+				
+				if(toSend > 0) {
+					long transfer = toSend - con.transferFluid(type, pressure, toSend);
+					this.removeFluidForTransfer(type, pressure, transfer);
+				}
 				red = true;
 			}
 		}
@@ -68,7 +72,7 @@ public interface IFluidUser extends IFluidConnector {
 	
 	public static IPipeNet getPipeNet(World world, int x, int y, int z, FluidType type) {
 
-		TileEntity te = world.getTileEntity(x, y, z);
+		TileEntity te = Compat.getTileStandard(world, x, y, z);
 		
 		if(te instanceof IFluidConductor) {
 			IFluidConductor con = (IFluidConductor) te;

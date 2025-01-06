@@ -11,7 +11,6 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class ModelT45Boots extends ModelBiped {
 	// fields
@@ -74,14 +73,8 @@ public class ModelT45Boots extends ModelBiped {
 	@Override
 	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
 
-		if (entity instanceof EntityPlayer) {
-			EntityPlayer player = (EntityPlayer) entity;
-			if (player.isSneaking()) {
-				this.isSneak = true;
-			} else {
-				this.isSneak = false;
-			}
-		}
+		this.isSneak = entity.isSneaking();
+		this.isRiding = entity.isRiding();
 
 		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		this.leftleg.rotationPointX = this.bipedLeftLeg.rotationPointX;

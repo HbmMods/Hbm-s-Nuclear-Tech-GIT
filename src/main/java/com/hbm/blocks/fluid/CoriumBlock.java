@@ -62,7 +62,7 @@ public class CoriumBlock extends BlockFluidClassic {
 			return true;
 		Random rand = new Random();
 		
-		return b.getMaterial().isLiquid() || rand.nextInt((int) res) == 0;
+		return b.getMaterial().isLiquid() || rand.nextInt((int) (res * res)) == 0;
 	}
 
 	@Override

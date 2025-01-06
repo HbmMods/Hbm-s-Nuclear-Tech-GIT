@@ -6,7 +6,8 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
-import com.hbm.lib.HbmChestContents;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsLegacy;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -158,7 +159,7 @@ public class CrashedVertibird extends WorldGenerator
 		world.setBlock(x + 6, y + 4 - yOffset, z + 7, Blocks.chest, 2, 3);
 		if(world.getBlock(x + 6, y + 4 - yOffset, z + 7) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.vertibird, (TileEntityChest)world.getTileEntity(x + 6, y + 4 - yOffset, z + 7), 8);
+			WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_VERTIBIRD), (TileEntityChest)world.getTileEntity(x + 6, y + 4 - yOffset, z + 7), 8);
 		}
 		world.setBlock(x + 7, y + 4 - yOffset, z + 7, Block1, 0, 3);
 		world.setBlock(x + 4, y + 4 - yOffset, z + 8, Block1, 0, 3);
@@ -266,9 +267,9 @@ public class CrashedVertibird extends WorldGenerator
 		world.setBlock(x + 6, y + 7 - yOffset, z + 8, Block1, 0, 3);
 		world.setBlock(x + 7, y + 7 - yOffset, z + 8, Block1, 0, 3);
 		world.setBlock(x + 3, y + 7 - yOffset, z + 9, Block1, 0, 3);
-		world.setBlock(x + 4, y + 7 - yOffset, z + 9, ModBlocks.machine_generator, 0, 3);
+		world.setBlock(x + 4, y + 7 - yOffset, z + 9, ModBlocks.block_electrical_scrap, 0, 3);
 		world.setBlock(x + 5, y + 7 - yOffset, z + 9, ModBlocks.red_wire_coated, 0, 3);
-		world.setBlock(x + 6, y + 7 - yOffset, z + 9, ModBlocks.machine_generator, 0, 3);
+		world.setBlock(x + 6, y + 7 - yOffset, z + 9, ModBlocks.block_electrical_scrap, 0, 3);
 		world.setBlock(x + 7, y + 7 - yOffset, z + 9, Block1, 0, 3);
 		world.setBlock(x + 5, y + 7 - yOffset, z + 10, Block4, 0, 3);
 		world.setBlock(x + 6, y + 7 - yOffset, z + 10, Block1, 0, 3);
@@ -287,7 +288,7 @@ public class CrashedVertibird extends WorldGenerator
 		world.setBlock(x + 5, y + 8 - yOffset, z + 6, Blocks.chest, 2, 3);
 		if(world.getBlock(x + 5, y + 8 - yOffset, z + 6) == Blocks.chest)
 		{
-			WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.expensive, (TileEntityChest)world.getTileEntity(x + 5, y + 8 - yOffset, z + 6), 8);
+			WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_EXPENSIVE), (TileEntityChest)world.getTileEntity(x + 5, y + 8 - yOffset, z + 6), 8);
 		}
 		world.setBlock(x + 6, y + 8 - yOffset, z + 6, Block1, 0, 3);
 		world.setBlock(x + 7, y + 8 - yOffset, z + 6, Block1, 0, 3);
@@ -303,13 +304,13 @@ public class CrashedVertibird extends WorldGenerator
 		world.setBlock(x + 6, y + 8 - yOffset, z + 8, Block1, 0, 3);
 		world.setBlock(x + 7, y + 8 - yOffset, z + 8, Block1, 0, 3);
 		world.setBlock(x + 3, y + 8 - yOffset, z + 9, Block1, 0, 3);
-		world.setBlock(x + 4, y + 8 - yOffset, z + 9, ModBlocks.machine_generator, 0, 3);
+		world.setBlock(x + 4, y + 8 - yOffset, z + 9, ModBlocks.block_electrical_scrap, 0, 3);
 		world.setBlock(x + 5, y + 8 - yOffset, z + 9, ModBlocks.red_wire_coated, 0, 3);
-		world.setBlock(x + 6, y + 8 - yOffset, z + 9, ModBlocks.machine_generator, 0, 3);
+		world.setBlock(x + 6, y + 8 - yOffset, z + 9, ModBlocks.block_electrical_scrap, 0, 3);
 		world.setBlock(x + 7, y + 8 - yOffset, z + 9, Block1, 0, 3);
-		world.setBlock(x + 4, y + 8 - yOffset, z + 10, ModBlocks.machine_generator, 0, 3);
+		world.setBlock(x + 4, y + 8 - yOffset, z + 10, ModBlocks.block_electrical_scrap, 0, 3);
 		world.setBlock(x + 5, y + 8 - yOffset, z + 10, ModBlocks.red_wire_coated, 0, 3);
-		world.setBlock(x + 6, y + 8 - yOffset, z + 10, ModBlocks.machine_generator, 0, 3);
+		world.setBlock(x + 6, y + 8 - yOffset, z + 10, ModBlocks.block_electrical_scrap, 0, 3);
 		world.setBlock(x + 7, y + 8 - yOffset, z + 10, Block1, 0, 3);
 		world.setBlock(x + 5, y + 8 - yOffset, z + 11, Block4, 0, 3);
 		world.setBlock(x + 6, y + 8 - yOffset, z + 11, Block1, 0, 3);
@@ -334,9 +335,9 @@ public class CrashedVertibird extends WorldGenerator
 		world.setBlock(x + 4, y + 9 - yOffset, z + 9, Block1, 0, 3);
 		world.setBlock(x + 5, y + 9 - yOffset, z + 9, Block4, 0, 3);
 		world.setBlock(x + 6, y + 9 - yOffset, z + 9, Block1, 0, 3);
-		world.setBlock(x + 4, y + 9 - yOffset, z + 10, ModBlocks.machine_generator, 0, 3);
+		world.setBlock(x + 4, y + 9 - yOffset, z + 10, ModBlocks.block_electrical_scrap, 0, 3);
 		world.setBlock(x + 5, y + 9 - yOffset, z + 10, ModBlocks.red_wire_coated, 0, 3);
-		world.setBlock(x + 6, y + 9 - yOffset, z + 10, ModBlocks.machine_generator, 0, 3);
+		world.setBlock(x + 6, y + 9 - yOffset, z + 10, ModBlocks.block_electrical_scrap, 0, 3);
 		world.setBlock(x + 7, y + 9 - yOffset, z + 10, Block1, 0, 3);
 		world.setBlock(x + 5, y + 9 - yOffset, z + 11, ModBlocks.red_wire_coated, 0, 3);
 		world.setBlock(x + 6, y + 9 - yOffset, z + 11, Block1, 0, 3);

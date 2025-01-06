@@ -7,7 +7,6 @@ import java.util.Set;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MobConfig;
 import com.hbm.entity.mob.ai.EntityAIBreaking;
-import com.hbm.entity.mob.ai.EntityAI_MLPF;
 import com.hbm.entity.pathfinder.PathFinderUtils;
 import com.hbm.entity.projectile.EntityBullet;
 import com.hbm.items.ModItems;
@@ -98,8 +97,8 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
         int equip = rand.nextInt(2);
         
         switch(equip) {
-        case 0: this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_revolver_nopip)); break;
-        case 1: this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_ks23)); break;
+        case 0: this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_heavy_revolver)); break;
+        case 1: this.setCurrentItemOrArmor(0, new ItemStack(ModItems.gun_spas12)); break;
         }
         
         if(rand.nextInt(5) == 0) {
@@ -144,14 +143,14 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
 	public void attackEntityWithRangedAttack(EntityLivingBase entity, float f) {
 
 		if(this.getEquipmentInSlot(0) != null) {
-			if(this.getEquipmentInSlot(0).getItem() == ModItems.gun_revolver_nopip) {
+			if(this.getEquipmentInSlot(0).getItem() == ModItems.gun_heavy_revolver) {
 				EntityBullet bullet = new EntityBullet(worldObj, this, entity, 3F, 2);
 				bullet.damage = 10;
 		        this.worldObj.spawnEntityInWorld(bullet);
 		        this.playSound("hbm:weapon.revolverShootAlt", 1.0F, 1.0F);
 			}
 
-			if(this.getEquipmentInSlot(0).getItem() == ModItems.gun_ks23) {
+			if(this.getEquipmentInSlot(0).getItem() == ModItems.gun_spas12) {
 				for(int i = 0; i < 7; i++) {
 					EntityBullet bullet = new EntityBullet(worldObj, this, entity, 3F, 5);
 					bullet.damage = 3;
@@ -170,7 +169,6 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
 		canDestroy.add(Blocks.trapdoor);
 		canDestroy.add(ModBlocks.machine_press);
 		canDestroy.add(ModBlocks.machine_epress);
-		canDestroy.add(ModBlocks.dummy_block_assembler);
 		canDestroy.add(ModBlocks.machine_chemplant);
 		canDestroy.add(ModBlocks.machine_crystallizer);
 		canDestroy.add(ModBlocks.machine_turbine);
@@ -178,7 +176,6 @@ public class EntityFBI extends EntityMob implements IRangedAttackMob {
 		canDestroy.add(ModBlocks.crate_iron);
 		canDestroy.add(ModBlocks.crate_steel);
 		canDestroy.add(ModBlocks.machine_diesel);
-		canDestroy.add(ModBlocks.machine_selenium);
 		canDestroy.add(ModBlocks.machine_rtg_grey);
 		canDestroy.add(ModBlocks.machine_minirtg);
 		canDestroy.add(ModBlocks.machine_powerrtg);

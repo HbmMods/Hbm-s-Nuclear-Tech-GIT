@@ -62,7 +62,7 @@ public class ItemKitNBT extends Item {
 			list.add("Contains:");
 			
 			for(ItemStack item : stacks) {
-				list.add("-" + item.getDisplayName());
+				list.add("-" + item.getDisplayName() + (item.stackSize > 1 ? (" x" + item.stackSize) : ""));
 			}
 		}
 	}

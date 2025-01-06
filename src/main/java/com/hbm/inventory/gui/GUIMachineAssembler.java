@@ -30,7 +30,7 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
 
-		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 70 - 52, 16, 52, assembler.power, assembler.maxPower);
+		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 116, guiTop + 70 - 52, 16, 52, assembler.power, assembler.getMaxPower());
 		
 		if(assembler.getStackInSlot(4) == null || assembler.getStackInSlot(4).getItem()!= ModItems.assembly_template) {
 
@@ -41,12 +41,7 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 		String[] templateText = I18nUtil.resolveKeyArray("desc.gui.template");
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 16, guiTop + 16, 16, 16, guiLeft - 8, guiTop + 16 + 16, templateText);
 		
-		String[] upgradeText = new String[3];
-		upgradeText[0] = I18nUtil.resolveKey("desc.gui.upgrade");
-		upgradeText[1] = I18nUtil.resolveKey("desc.gui.upgrade.speed");
-		upgradeText[2] = I18nUtil.resolveKey("desc.gui.upgrade.power");
-		
-		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 141, guiTop + 40, 8, 8, guiLeft + 225, guiTop + 40 + 16 + 8, upgradeText);
+		this.drawCustomInfoStat(mouseX, mouseY, guiLeft + 141, guiTop + 40, 8, 8, guiLeft + 225, guiTop + 40 + 16 + 8, this.getUpgradeInfo(assembler));
 	}
 
 	@Override
@@ -63,14 +58,15 @@ public class GUIMachineAssembler extends GuiInfoContainer {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 		
-		int i = (int)assembler.getPowerScaled(52);
+		int i = (int) (assembler.power * 52 / assembler.getMaxPower());
 		drawTexturedModalRect(guiLeft + 116, guiTop + 70 - i, 176, 52 - i, 16, i);
 
-		int j = assembler.getProgressScaled(83);
-		drawTexturedModalRect(guiLeft + 45, guiTop + 82, 2, 222, j, 32);
+		if(assembler.isProgressing) {
+			int j = assembler.progress[0] * 83 / assembler.maxProgress[0];
+			drawTexturedModalRect(guiLeft + 45, guiTop + 82, 2, 222, j, 32);
+		}
 		
 		if(assembler.getStackInSlot(4) == null || assembler.getStackInSlot(4).getItem()!= ModItems.assembly_template) {
-
 			this.drawInfoPanel(guiLeft - 16, guiTop + 36, 16, 16, 6);
 		}
 		

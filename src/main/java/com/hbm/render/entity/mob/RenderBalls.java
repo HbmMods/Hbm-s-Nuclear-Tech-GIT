@@ -37,5 +37,4 @@ public class RenderBalls extends Render {
 	protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
 		return ResourceManager.universal_bright;
 	}
-
 }

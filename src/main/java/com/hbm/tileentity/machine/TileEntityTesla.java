@@ -12,15 +12,15 @@ import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.ArmorUtil;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
@@ -28,7 +28,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityTesla extends TileEntityMachineBase implements IEnergyUser {
+public class TileEntityTesla extends TileEntityMachineBase implements IEnergyReceiverMK2 {
 	
 	public long power;
 	public static final long maxPower = 100000;
@@ -69,17 +69,7 @@ public class TileEntityTesla extends TileEntityMachineBase implements IEnergyUse
 				this.targets = zap(worldObj, dx, dy, dz, range, null);
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setShort("length", (short)targets.size());
-			int i = 0;
-			for(double[] d : this.targets) {
-				data.setDouble("x" + i, d[0]);
-				data.setDouble("y" + i, d[1]);
-				data.setDouble("z" + i, d[2]);
-				i++;
-			}
-			
-			this.networkPack(data, 100);
+			this.networkPackNT(100);
 		}
 	}
 	
@@ -145,18 +135,30 @@ public class TileEntityTesla extends TileEntityMachineBase implements IEnergyUse
 		
 		return ret;
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		
-		int s = data.getShort("length");
-		
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeShort((short)targets.size());
+		for(double[] d : this.targets) {
+			buf.writeDouble(d[0]);
+			buf.writeDouble(d[1]);
+			buf.writeDouble(d[2]);
+		}
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		int s = buf.readShort();
+
 		this.targets.clear();
-		
+
 		for(int i = 0; i < s; i++)
 			this.targets.add(new double[] {
-					data.getDouble("x" + i),
-					data.getDouble("y" + i),
-					data.getDouble("z" + i)
+					buf.readDouble(), // X
+					buf.readDouble(), // Y
+					buf.readDouble()  // Z
 			});
 	}
 

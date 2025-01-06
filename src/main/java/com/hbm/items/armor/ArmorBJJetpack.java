@@ -3,8 +3,8 @@ package com.hbm.items.armor;
 import java.util.List;
 
 import com.hbm.extprop.HbmPlayerProps;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.render.model.ModelArmorBJ;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.I18nUtil;
@@ -89,13 +89,13 @@ public class ArmorBJJetpack extends ArmorBJ {
 				}
 			}
 		}
-    }
-    
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
-    	super.addInformation(stack, player, list, ext);
+	}
 
-    	list.add(EnumChatFormatting.RED + "  + " + I18nUtil.resolveKey("armor.electricJetpack"));
-    	list.add(EnumChatFormatting.GRAY + "  + " + I18nUtil.resolveKey("armor.glider"));
-    }
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		super.addInformation(stack, player, list, ext);
+
+		list.add(EnumChatFormatting.RED + "  + " + I18nUtil.resolveKey("armor.electricJetpack"));
+		list.add(EnumChatFormatting.GRAY + "  + " + I18nUtil.resolveKey("armor.glider"));
+	}
 }

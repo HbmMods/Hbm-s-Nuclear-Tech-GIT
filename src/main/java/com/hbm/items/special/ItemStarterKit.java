@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBattery;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
-import com.hbm.lib.Library;
+import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
+import com.hbm.util.ShadyUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -199,9 +201,9 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coil_gold, 8));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.coil_tungsten, 8));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.motor, 4));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.circuit_aluminium, 16));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.circuit_copper, 8));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.circuit_red_copper, 4));
+			player.inventory.addItemStackToInventory(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.VACUUM_TUBE, 16));
+			player.inventory.addItemStackToInventory(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.CAPACITOR, 16));
+			player.inventory.addItemStackToInventory(DictFrame.fromOne(ModItems.circuit, EnumCircuitType.BASIC, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.wiring_red_copper, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.magnetron, 5));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.piston_selenium, 1));
@@ -215,9 +217,8 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_lithium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.battery_potato, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.screwdriver, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_coal_off, 3));
+			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_excavator, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_diesel, 2));
-			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.machine_selenium, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_cable, 64));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_wire_coated, 16));
 			player.inventory.addItemStackToInventory(new ItemStack(ModBlocks.red_pylon, 8));
@@ -428,8 +429,6 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_nuclear, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_nuclear_cluster, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_volcano, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_endo, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_exo, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_doomsday, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_taint, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.missile_micro, 1));
@@ -464,9 +463,7 @@ public class ItemStarterKit extends Item {
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.euphemium_plate, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.euphemium_legs, 1));
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.euphemium_boots, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb), 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.gun_revolver_cursed, 1));
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.watch, 1));
+			player.inventory.addItemStackToInventory(new ItemStack(Item.getItemFromBlock(ModBlocks.statue_elb_f), 1));
 		}
 		
 		if(this == ModItems.hazmat_kit)
@@ -486,7 +483,7 @@ public class ItemStarterKit extends Item {
 		
 		if(this == ModItems.letter && world.isRemote)
 		{
-			if(player.getUniqueID().toString().equals(Library.a20)) {
+			if(player.getUniqueID().toString().equals(ShadyUtil.a20)) {
 				player.addChatMessage(new ChatComponentText("Error: null reference @ com.hbm.items.ItemStarterKit.class, please report this to the modder!"));
 			} else {
 				player.addChatMessage(new ChatComponentText("You rip the letter in half; nothing happens."));

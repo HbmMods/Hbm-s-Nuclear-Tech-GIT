@@ -5,12 +5,13 @@ import java.util.List;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
+import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.items.ModItems;
-import com.hbm.items.ItemAmmoEnums.AmmoFatman;
+import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -64,7 +65,6 @@ public class EntityCreeperNuclear extends EntityCreeper {
 
 	@Override
 	protected void dropFewItems(boolean p_70628_1_, int p_70628_2_) {
-
 		super.dropFewItems(p_70628_1_, p_70628_2_);
 
 		if(rand.nextInt(3) == 0)
@@ -82,7 +82,7 @@ public class EntityCreeperNuclear extends EntityCreeper {
 		}
 
 		if(p_70645_1_.getEntity() instanceof EntitySkeleton || (p_70645_1_.isProjectile() && p_70645_1_.getEntity() instanceof EntityArrow && ((EntityArrow) (p_70645_1_.getEntity())).shootingEntity == null)) {
-			this.entityDropItem(ModItems.ammo_nuke.stackFromEnum(AmmoFatman.STOCK), 1);
+			this.entityDropItem(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.NUKE_STANDARD), 1);
 		}
 	}
 
@@ -120,7 +120,7 @@ public class EntityCreeperNuclear extends EntityCreeper {
 				worldObj.playSoundEffect(posX, posY + 0.5, posZ, "hbm:weapon.mukeExplosion", 15.0F, 1.0F);
 
 				if(flag) {
-					worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, 50, posX, posY, posZ).mute());
+					worldObj.spawnEntityInWorld(EntityNukeExplosionMK5.statFac(worldObj, 50, posX, posY, posZ));
 				} else {
 					ExplosionNukeGeneric.dealDamage(worldObj, posX, posY + 0.5, posZ, 100);
 				}

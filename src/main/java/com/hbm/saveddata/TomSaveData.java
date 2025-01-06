@@ -32,6 +32,10 @@ public class TomSaveData extends WorldSavedData {
 	public static TomSaveData getLastCachedOrNull() {
 		return lastCachedUnsafe;
 	}
+	
+	public static void resetLastCached() {
+		lastCachedUnsafe = null;
+	}
 
 	public TomSaveData(String tagName) {
 		super(tagName);

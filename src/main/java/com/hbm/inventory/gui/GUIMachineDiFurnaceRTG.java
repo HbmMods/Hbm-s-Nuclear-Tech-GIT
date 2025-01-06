@@ -1,5 +1,6 @@
 package com.hbm.inventory.gui;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
@@ -14,8 +15,11 @@ import com.hbm.util.I18nUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Slot;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class GUIMachineDiFurnaceRTG extends GuiInfoContainer {
 	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID, "textures/gui/processing/gui_rtg_difurnace.png");
@@ -47,6 +51,23 @@ public class GUIMachineDiFurnaceRTG extends GuiInfoContainer {
 		}
 		
 		this.drawCustomInfoStat(mouseX, mouseY, guiLeft - 15, guiTop + 36, 16, 16, guiLeft - 8, guiTop + 36 + 16, pelletText);
+
+		if(this.mc.thePlayer.inventory.getItemStack() == null) {
+			for(int i = 0; i < 2; i++) {
+				Slot slot = (Slot) this.inventorySlots.inventorySlots.get(i);
+				
+				if(this.isMouseOverSlot(slot, mouseX, mouseY)) {
+					
+					String label = EnumChatFormatting.YELLOW + "Accepts items from: ";
+					byte dir = i == 0 ? bFurnace.sideUpper : bFurnace.sideLower;
+					label += ForgeDirection.getOrientation(dir);
+					
+					this.func_146283_a(Arrays.asList(new String[] { label }), mouseX, mouseY - (slot.getHasStack() ? 15 : 0));
+					
+					return;
+				}
+			}
+		}
 	}
 
 	@Override

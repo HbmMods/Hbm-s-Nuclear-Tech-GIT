@@ -30,6 +30,8 @@ public class BlockConcreteColoredExt extends BlockEnumMulti {
 		INDIGO,
 		PURPLE,
 		PINK,
-		HAZARD
+		HAZARD,
+		SAND,
+		BRONZE
 	}
 }

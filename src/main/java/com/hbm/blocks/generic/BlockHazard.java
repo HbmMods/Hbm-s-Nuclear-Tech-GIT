@@ -138,6 +138,7 @@ public class BlockHazard extends Block implements ITooltipProvider {
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
 		
+		// who wrote this???
 		rad = HazardSystem.getHazardLevelFromStack(new ItemStack(this), HazardRegistry.RADIATION) * 0.1F;
 
 		if(this.rad > 0)

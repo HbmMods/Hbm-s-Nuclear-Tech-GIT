@@ -26,7 +26,7 @@ public class HazardTypeRadiation extends HazardTypeBase {
 		
 		boolean reacher = false;
 		
-		if(target instanceof EntityPlayer && !GeneralConfig.enable528)
+		if(target instanceof EntityPlayer)
 			reacher = ((EntityPlayer) target).inventory.hasItem(ModItems.reacher);
 		
 		level *= stack.stackSize;

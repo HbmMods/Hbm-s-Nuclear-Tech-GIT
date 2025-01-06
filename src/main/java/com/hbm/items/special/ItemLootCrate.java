@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.items.ModItems;
-import com.hbm.items.weapon.ItemMissile;
+import com.hbm.items.weapon.ItemCustomMissilePart;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -14,9 +14,9 @@ import net.minecraft.world.World;
 
 public class ItemLootCrate extends Item {
 
-	public static List<ItemMissile> list10 = new ArrayList();
-	public static List<ItemMissile> list15 = new ArrayList();
-	public static List<ItemMissile> listMisc = new ArrayList();
+	public static List<ItemCustomMissilePart> list10 = new ArrayList();
+	public static List<ItemCustomMissilePart> list15 = new ArrayList();
+	public static List<ItemCustomMissilePart> listMisc = new ArrayList();
 	private static Random rand = new Random();
 
 	@Override
@@ -35,10 +35,10 @@ public class ItemLootCrate extends Item {
 		return stack;
 	}
 	
-	private ItemMissile choose(List<ItemMissile> parts) {
+	private ItemCustomMissilePart choose(List<ItemCustomMissilePart> parts) {
 		
 		boolean flag = true;
-		ItemMissile item = null;
+		ItemCustomMissilePart item = null;
 		
 		while(flag) {
 			item = parts.get(rand.nextInt(parts.size()));

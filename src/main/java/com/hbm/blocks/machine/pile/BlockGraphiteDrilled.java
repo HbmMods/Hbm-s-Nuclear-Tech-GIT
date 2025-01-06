@@ -1,6 +1,7 @@
 package com.hbm.blocks.machine.pile;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.material.Mats;
 import com.hbm.items.ModItems;
 
 import api.hbm.block.IToolable;
@@ -31,7 +32,7 @@ public class BlockGraphiteDrilled extends BlockGraphiteDrilledBase implements IT
 				if(checkInteraction(world, x, y, z, meta, player, ModItems.cell_tritium, ModBlocks.block_graphite_tritium)) return true; //if you want to i guess?
 				if(checkInteraction(world, x, y, z, meta, player, ModItems.pile_rod_detector, ModBlocks.block_graphite_detector)) return true;
 				if(meta >> 2 != 1) {
-					if(checkInteraction(world, x, y, z, meta | 4, player, ModItems.hull_small_aluminium, ModBlocks.block_graphite_drilled)) return true;
+					if(checkInteraction(world, x, y, z, meta | 4, player, ModItems.shell, ModBlocks.block_graphite_drilled)) return true;
 					if(checkInteraction(world, x, y, z, 0, player, ModItems.ingot_graphite, ModBlocks.block_graphite)) return true;
 				}
 			}
@@ -43,6 +44,9 @@ public class BlockGraphiteDrilled extends BlockGraphiteDrilledBase implements IT
 	private boolean checkInteraction(World world, int x, int y, int z, int meta, EntityPlayer player, Item item, Block block) {
 		
 		if(player.getHeldItem().getItem() == item) {
+			
+			if(item == ModItems.shell && player.getHeldItem().getItemDamage() != Mats.MAT_ALUMINIUM.id) return false; //shitty workaround
+			
 			player.getHeldItem().stackSize--;
 			world.setBlock(x, y, z, block, meta, 3);
 
@@ -67,7 +71,7 @@ public class BlockGraphiteDrilled extends BlockGraphiteDrilledBase implements IT
 			world.setBlock(x, y, z, ModBlocks.block_graphite_drilled, cfg, 3);
 			world.playSoundEffect(x + 0.5, y + 1.5, z + 0.5, "hbm:item.upgradePlug", 1.0F, 0.85F);
 
-			BlockGraphiteRod.ejectItem(world, x, y, z, ForgeDirection.getOrientation(side), new ItemStack(ModItems.hull_small_aluminium));
+			BlockGraphiteRod.ejectItem(world, x, y, z, ForgeDirection.getOrientation(side), new ItemStack(ModItems.shell, 1, Mats.MAT_ALUMINIUM.id));
 		}
 		
 		return true;

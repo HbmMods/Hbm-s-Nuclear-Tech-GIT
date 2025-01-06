@@ -5,13 +5,11 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.items.special.ItemBookLore.*;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.I18nUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

@@ -42,13 +42,13 @@ public class FT_Coolable extends FluidTrait {
 	
 	@Override
 	public void addInfoHidden(List<String> info) {
+		info.add(EnumChatFormatting.RED + "Thermal capacity: " + heatEnergy + " TU per " + amountReq + "mB");
 		for(CoolingType type : CoolingType.values()) {
 			
 			double eff = getEfficiency(type);
 			
 			if(eff > 0) {
-				info.add(EnumChatFormatting.AQUA + "[" + type.name + "]");
-				info.add(EnumChatFormatting.AQUA + "Efficiency: " + ((int) (eff * 100D)) + "%");
+				info.add(EnumChatFormatting.YELLOW + "[" + type.name + "] " + EnumChatFormatting.AQUA + "Efficiency: " + ((int) (eff * 100D)) + "%");
 			}
 		}
 	}
@@ -66,7 +66,7 @@ public class FT_Coolable extends FluidTrait {
 
 	@Override
 	public void serializeJSON(JsonWriter writer) throws IOException {
-		writer.name("coolsTo").value(this.coolsTo.getUnlocalizedName());
+		writer.name("coolsTo").value(this.coolsTo.getName());
 		writer.name("amountReq").value(this.amountReq);
 		writer.name("amountProd").value(this.amountProduced);
 		writer.name("heatEnergy").value(this.heatEnergy);

@@ -1,10 +1,14 @@
 package com.hbm.render.util;
 
+import org.lwjgl.opengl.GL11;
+
 import com.hbm.lib.RefStrings;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 
 public class GaugeUtil {
 	
@@ -55,5 +59,35 @@ public class GaugeUtil {
 		tess.addVertexWithUV(x, 				y, 					z, 	0, 	frameOffset);
 		tess.draw();
 	}
+	
+	public static void drawSmoothGauge(int x, int y, double z, double progress, double tipLength, double backLength, double backSide, int color) {
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		
+		progress = MathHelper.clamp_double(progress, 0, 1);
+		
+		float angle = (float) Math.toRadians(-progress * 270 - 45);
+		Vec3 tip = Vec3.createVectorHelper(0, tipLength, 0);
+		Vec3 left = Vec3.createVectorHelper(backSide, -backLength, 0);
+		Vec3 right = Vec3.createVectorHelper(-backSide, -backLength, 0);
 
+		tip.rotateAroundZ(angle);
+		left.rotateAroundZ(angle);
+		right.rotateAroundZ(angle);
+		
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawing(GL11.GL_TRIANGLES);
+		tess.setColorOpaque_F(0F, 0F, 0F);
+		double mult = 1.5;
+		tess.addVertex(x + tip.xCoord * mult, y + tip.yCoord * mult, z);
+		tess.addVertex(x + left.xCoord * mult, y + left.yCoord * mult, z);
+		tess.addVertex(x + right.xCoord * mult, y + right.yCoord * mult, z);
+		tess.setColorOpaque_I(color);
+		tess.addVertex(x + tip.xCoord, y + tip.yCoord, z);
+		tess.addVertex(x + left.xCoord, y + left.yCoord, z);
+		tess.addVertex(x + right.xCoord, y + right.yCoord, z);
+		tess.draw();
+		
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+	}
 }

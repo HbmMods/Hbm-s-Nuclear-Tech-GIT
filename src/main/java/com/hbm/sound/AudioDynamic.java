@@ -62,7 +62,7 @@ public class AudioDynamic extends MovingSound {
 	}
 	
 	public void setVolume(float volume) {
-		this.volume = volume;
+		this.maxVolume = volume;
 	}
 	
 	public void setRange(float range) {

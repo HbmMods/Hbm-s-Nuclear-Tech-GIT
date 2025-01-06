@@ -11,7 +11,6 @@ public class RTGRecipeHandler extends NEIUniversalHandler {
 		super("RTG", new ItemStack[] {
 				new ItemStack(ModBlocks.machine_rtg_grey),
 				new ItemStack(ModBlocks.machine_difurnace_rtg_off),
-				new ItemStack(ModBlocks.machine_industrial_generator),
 				new ItemStack(ModBlocks.machine_rtg_furnace_off)
 			}, ItemRTGPellet.getRecipeMap());
 	}

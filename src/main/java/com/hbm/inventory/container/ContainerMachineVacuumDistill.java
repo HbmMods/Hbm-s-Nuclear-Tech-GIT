@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.inventory.SlotDeprecated;
 import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.tileentity.machine.oil.TileEntityMachineVacuumDistill;
 
@@ -20,10 +21,10 @@ public class ContainerMachineVacuumDistill extends Container {
 		
 		//Battery
 		this.addSlotToContainer(new Slot(tedf, 0, 26, 90));
-		//Canister Input
-		this.addSlotToContainer(new Slot(tedf, 1, 44, 90));
-		//Canister Output
-		this.addSlotToContainer(new SlotTakeOnly(tedf, 2, 44, 108));
+		//Canister Input (removed, requires pressurization)
+		this.addSlotToContainer(new SlotDeprecated(tedf, 1, 44, 90));
+		//Canister Output (same as above)
+		this.addSlotToContainer(new SlotDeprecated(tedf, 2, 44, 108));
 		//Heavy Oil Input
 		this.addSlotToContainer(new Slot(tedf, 3, 80, 90));
 		//Heavy Oil Output
@@ -40,6 +41,8 @@ public class ContainerMachineVacuumDistill extends Container {
 		this.addSlotToContainer(new Slot(tedf, 9, 134, 90));
 		//Petroleum Output
 		this.addSlotToContainer(new SlotTakeOnly(tedf, 10, 134, 108));
+		//Fluid ID
+		this.addSlotToContainer(new Slot(tedf, 11, 26, 108));
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {

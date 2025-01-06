@@ -1,15 +1,15 @@
 package com.hbm.items.tool;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.util.I18nUtil;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import api.hbm.block.IToolable;
 import api.hbm.block.IToolable.ToolType;
@@ -69,7 +69,17 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 			initNBT(stack);
 		}
 		
-		return stack.stackTagCompound.getInteger(type.getUnlocalizedName());
+		//just in case
+		String name = Fluids.toNameCompat(type);
+		if(stack.stackTagCompound.hasKey(name)) {
+			int fill = stack.stackTagCompound.getInteger(name);
+			stack.stackTagCompound.removeTag(name);
+			stack.stackTagCompound.setInteger(Integer.toString(type.getID()), fill);
+			
+			return fill;
+		}
+			
+		return stack.stackTagCompound.getInteger(Integer.toString(type.getID()));
 	}
 	
 	public int getMaxFill(FluidType type) {
@@ -85,7 +95,7 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 			initNBT(stack);
 		}
 		
-		stack.stackTagCompound.setInteger(type.getUnlocalizedName(), fill);
+		stack.stackTagCompound.setInteger(Integer.toString(type.getID()), fill);
 	}
 	
 	public void initNBT(ItemStack stack) {
@@ -199,9 +209,19 @@ public class ItemBlowtorch extends Item implements IFillableItem {
 
 	@SideOnly(Side.CLIENT)
 	private String getFillGauge(ItemStack stack, FluidType type) {
-		return I18nUtil.resolveKey(type.getUnlocalizedName()) + ": " + String.format("%,d", this.getFill(stack, type)) + " / " + String.format("%,d", this.getMaxFill(type));
+		return type.getLocalizedName() + ": " + String.format(Locale.US, "%,d", this.getFill(stack, type)) + " / " + String.format(Locale.US, "%,d", this.getMaxFill(type));
 	}
 
 	@Override public boolean providesFluid(FluidType type, ItemStack stack) { return false; }
 	@Override public int tryEmpty(FluidType type, int amount, ItemStack stack) { return amount; }
+
+	@Override
+	public FluidType getFirstFluidType(ItemStack stack) {
+		return null;
+	}
+
+	@Override
+	public int getFill(ItemStack stack) {
+		return 0;
+	}
 }

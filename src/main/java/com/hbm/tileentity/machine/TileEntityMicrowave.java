@@ -1,25 +1,40 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.handler.CompatHandler;
+import com.hbm.interfaces.ICopiable;
 import com.hbm.inventory.container.ContainerMicrowave;
 import com.hbm.inventory.gui.GUIMicrowave;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
+import li.cil.oc.api.machine.Arguments;
+import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMicrowave extends TileEntityMachineBase implements IEnergyUser, IGUIProvider {
+@Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
+public class TileEntityMicrowave extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider, SimpleComponent, CompatHandler.OCComponent, ICopiable {
 	
 	public long power;
 	public static final long maxPower = 50000;
@@ -42,8 +57,8 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 	public void updateEntity() {
 		
 		if(!worldObj.isRemote) {
-			
-			this.updateStandardConnections(worldObj, xCoord, yCoord, zCoord);
+
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 			
 			this.power = Library.chargeTEFromItems(slots, 2, power, maxPower);
 			
@@ -51,7 +66,11 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 				
 				if(speed >= maxSpeed) {
 					worldObj.func_147480_a(xCoord, yCoord, zCoord, false);
-					worldObj.newExplosion(null, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 7.5F, true, true);
+					ExplosionVNT vnt = new ExplosionVNT(worldObj, xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, 5);
+					vnt.setEntityProcessor(new EntityProcessorCrossSmooth(1, 50));
+					vnt.setPlayerProcessor(new PlayerProcessorStandard());
+					vnt.setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
+					vnt.explode();
 					return;
 				}
 				
@@ -65,19 +84,25 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 					time += speed * 2;
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("time", time);
-			data.setInteger("speed", speed);
-			networkPack(data, 50);
+
+			networkPackNT(50);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		power = data.getLong("power");
-		time = data.getInteger("time");
-		speed = data.getInteger("speed");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeInt(time);
+		buf.writeInt(speed);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		time = buf.readInt();
+		speed = buf.readInt();
 	}
 	
 	public void handleButtonPacket(int value, int meta) {
@@ -122,11 +147,9 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 			
 			ItemStack stack = FurnaceRecipes.smelting().getSmeltingResult(slots[0]);
 			
-			if(slots[1] == null)
-				return true;
-			
-			if(!stack.isItemEqual(slots[1]))
-				return false;
+			if(!(slots[0].getItem() instanceof ItemFood) && !(stack.getItem() instanceof ItemFood)) return false;
+			if(slots[1] == null) return true;
+			if(!stack.isItemEqual(slots[1])) return false;
 			
 			return stack.stackSize + slots[1].stackSize <= stack.getMaxStackSize();
 		}
@@ -210,13 +233,55 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String getComponentName() {
+		return "microwave";
+	}
+
+	@Callback(direct = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] test(Context context, Arguments args) {
+		return new Object[] {"This is a testing device for everything OC."};
+	}
+
+	@Callback(direct = true, getter = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] variableget(Context context, Arguments args) {
+		return new Object[] {speed, "test of the `getter` callback function"};
+	}
+
+	@Callback(direct = true, setter = true)
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] variableset(Context context, Arguments args) {
+		speed = MathHelper.clamp_int(args.checkInteger(0), 0, 5);
+		return new Object[] {"test of the `setter` callback function"};
+	}
+
+	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerMicrowave(player.inventory, this);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMicrowave(player.inventory, this);
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setInteger("microSpeed", speed);
+		return null;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+		if(nbt.hasKey("microSpeed")) speed = nbt.getInteger("microSpeed");
+	}
+
+	@Override
+	public String[] infoForDisplay(World world, int x, int y, int z) {
+		return new String[]{ "copyTool.speed"};
 	}
 }

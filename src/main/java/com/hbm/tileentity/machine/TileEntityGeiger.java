@@ -3,16 +3,22 @@ package com.hbm.tileentity.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.util.CompatEnergyControl;
+import com.hbm.util.ContaminationUtil;
+
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityGeiger extends TileEntity implements SimpleComponent {
+public class TileEntityGeiger extends TileEntity implements SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent {
 	
 	int timer = 0;
 	int ticker = 0;
@@ -64,14 +70,21 @@ public class TileEntityGeiger extends TileEntity implements SimpleComponent {
 		return rads;
 	}
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "ntm_geiger";
 	}
 
-	@Callback
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getRads(Context context, Arguments args) {
 		return new Object[] {check()};
 	}
 
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		int rads = check();
+		String chunkPrefix = ContaminationUtil.getPreffixFromRad(rads);
+		data.setString(CompatEnergyControl.S_CHUNKRAD, chunkPrefix + rads + " RAD/s");
+	}
 }

@@ -1,24 +1,22 @@
 package com.hbm.inventory.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import com.hbm.inventory.container.ContainerSatDock;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.TileEntityMachineSatDock;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class GUISatDock extends GuiInfoContainer {
 
-	public static ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_dock.png");
-	private TileEntityMachineSatDock diFurnace;
+	public static final ResourceLocation texture = new ResourceLocation(RefStrings.MODID + ":textures/gui/gui_dock.png");
+	private final TileEntityMachineSatDock tileSatelliteDock;
 	
-	public GUISatDock(InventoryPlayer invPlayer, TileEntityMachineSatDock tedf) {
-		super(new ContainerSatDock(invPlayer, tedf));
-		diFurnace = tedf;
+	public GUISatDock(InventoryPlayer invPlayer, TileEntityMachineSatDock tesd) {
+		super(new ContainerSatDock(invPlayer, tesd));
+		tileSatelliteDock = tesd;
 
 		this.xSize = 176;
 		this.ySize = 168;
@@ -36,10 +34,10 @@ public class GUISatDock extends GuiInfoContainer {
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String name = this.diFurnace.hasCustomInventoryName() ? this.diFurnace.getInventoryName() : I18n.format(this.diFurnace.getInventoryName());
+		String name = this.tileSatelliteDock.hasCustomInventoryName() ? this.tileSatelliteDock.getInventoryName() : I18n.format(this.tileSatelliteDock.getInventoryName());
 		
-		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 4210752);
-		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+		this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 0x404040);
+		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 0x404040);
 	}
 	
 	@Override

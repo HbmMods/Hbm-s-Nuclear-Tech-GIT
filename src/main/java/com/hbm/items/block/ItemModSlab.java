@@ -1,11 +1,13 @@
 package com.hbm.items.block;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.interfaces.NotableComments;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.item.ItemSlab;
 
+@NotableComments
 public class ItemModSlab extends ItemSlab {
 
 	public ItemModSlab(Block block) {

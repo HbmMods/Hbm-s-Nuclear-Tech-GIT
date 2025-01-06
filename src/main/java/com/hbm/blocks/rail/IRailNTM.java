@@ -17,7 +17,7 @@ public interface IRailNTM {
 	 * Inherently safer than simply adding the motion to the position and then snapping, since that may lead to derailing.
 	 * The motion has to be calculated from the train's rotation (rotated 180° when going backwards), the scalar doesn't matter since it's only used for determining orientation in a clear way.
 	 * Motion ends up being *-1 if the train is going in reverse, still pointing forwards despite the speed being negative.
-	 * Also features a double[] wrapper with size 1 which holds the speed value that overshoots the rail.
+	 * Also features RailContext which determines overshoot and the final yaw rotation
 	 * */
 	public Vec3 getTravelLocation(World world, int x, int y, int z, double trainX, double trainY, double trainZ, double motionX, double motionY, double motionZ, double speed, RailContext info, MoveContext context);
 	
@@ -46,8 +46,10 @@ public interface IRailNTM {
 	public static class MoveContext {
 		public RailCheckType type;
 		public double collisionBogieDistance;
-		public boolean collision = false; //if a buffer stop or similar applies
-		public double overshoot; //how much of the travel distance was cut short
+		/** if a buffer stop or similar applies */
+		public boolean collision = false;
+		/** how much of the travel distance was cut short */
+		public double overshoot;
 		
 		public MoveContext(RailCheckType type, double collisionBogieDistance) {
 			this.type = type;

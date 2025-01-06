@@ -2,6 +2,7 @@ package com.hbm.blocks.machine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import com.hbm.blocks.IBlockMulti;
@@ -265,7 +266,7 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 		if(full) {
 			
 			title = storage.type.getDisplayName();
-			text.add(String.format("%,d", storage.getStockpile()) + " / " + String.format("%,d", storage.getCapacity()));
+			text.add(String.format(Locale.US, "%,d", storage.getStockpile()) + " / " + String.format(Locale.US, "%,d", storage.getCapacity()));
 			
 			double percent = (double) storage.getStockpile() / (double) storage.getCapacity();
 			int charge = (int) Math.floor(percent * 10_000D);
@@ -286,7 +287,7 @@ public class BlockMassStorage extends BlockContainer implements IBlockMulti, ILo
 		
 		if(type != null) {
 			list.add(EnumChatFormatting.GOLD + type.getDisplayName());
-			list.add(String.format("%,d", stack.stackTagCompound.getInteger("stack")) + " / " + String.format("%,d", getCapacity(stack.getItemDamage())));
+			list.add(String.format(Locale.US, "%,d", stack.stackTagCompound.getInteger("stack")) + " / " + String.format(Locale.US, "%,d", getCapacity(stack.getItemDamage())));
 		}
 	}
 	

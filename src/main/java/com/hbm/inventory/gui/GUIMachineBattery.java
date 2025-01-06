@@ -14,8 +14,8 @@ import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineBattery;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.AuxButtonPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.AuxButtonPacket;
 import com.hbm.tileentity.machine.storage.TileEntityMachineBattery;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.I18nUtil;
@@ -33,6 +33,7 @@ public class GUIMachineBattery extends GuiInfoContainer {
 		this.ySize = 166;
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float f) {
 		super.drawScreen(mouseX, mouseY, f);
@@ -110,6 +111,6 @@ public class GUIMachineBattery extends GuiInfoContainer {
 		int j = battery.redHigh;
 		drawTexturedModalRect(guiLeft + 133, guiTop + 52, 176, 52 + j * 18, 18, 18);
 		
-		drawTexturedModalRect(guiLeft + 152, guiTop + 35, 194, 52 + battery.priority.ordinal() * 16, 16, 16);
+		drawTexturedModalRect(guiLeft + 152, guiTop + 35, 194, 52 + battery.priority.ordinal() * 16 - 16, 16, 16);
 	}
 }

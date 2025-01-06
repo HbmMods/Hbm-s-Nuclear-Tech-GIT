@@ -30,7 +30,7 @@ public class EntityTom extends EntityThrowable {
 
 		motionY = -0.5;
 
-		if(this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.air) {
+		if(this.worldObj.getBlock((int) this.posX, (int) this.posY, (int) this.posZ) != Blocks.air || this.posY < 10) {
 			if(!this.worldObj.isRemote) {
 				EntityTomBlast tom = new EntityTomBlast(worldObj);
 				tom.posX = posX;

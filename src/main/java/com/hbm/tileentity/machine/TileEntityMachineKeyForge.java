@@ -2,14 +2,11 @@ package com.hbm.tileentity.machine;
 
 import com.hbm.inventory.container.ContainerMachineKeyForge;
 import com.hbm.inventory.gui.GUIMachineKeyForge;
-import com.hbm.items.ItemAmmoEnums.Ammo4Gauge;
-import com.hbm.items.ModItems;
 import com.hbm.items.tool.ItemKeyPin;
 import com.hbm.tileentity.IGUIProvider;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
@@ -191,11 +188,6 @@ public class TileEntityMachineKeyForge extends TileEntity implements ISidedInven
 			if(slots[2] != null && slots[2].getItem() instanceof ItemKeyPin && ((ItemKeyPin)slots[2].getItem()).canTransfer()) {
 				ItemKeyPin.setPins(slots[2], worldObj.rand.nextInt(900) + 100);
 			}
-
-			//DEBUG, remove later
-			if(slots[2] != null && slots[2].getItem() == ModItems.ammo_4gauge) {
-				slots[2] = ModItems.ammo_4gauge.stackFromEnum(slots[2].stackSize, Ammo4Gauge.QUACK);
-			}
 		}
 	}
 
@@ -206,7 +198,7 @@ public class TileEntityMachineKeyForge extends TileEntity implements ISidedInven
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineKeyForge(player.inventory, this);
 	}
 }

@@ -37,6 +37,7 @@ public class MachineCrucible extends BlockDummyable implements ICrucibleAcceptor
 		this.bounding.add(AxisAlignedBB.getBoundingBox(-1.25D, 0.5D, -1.25D, -1D, 1.5D, 1.25D));
 		this.bounding.add(AxisAlignedBB.getBoundingBox(-1.25D, 0.5D, 1D, 1.25D, 1.5D, 1.25D));
 		this.bounding.add(AxisAlignedBB.getBoundingBox(1D, 0.5D, -1.25D, 1.25D, 1.5D, 1.25D));
+		this.maxY = 0.999D; //item bounce prevention
 	}
 
 	@Override

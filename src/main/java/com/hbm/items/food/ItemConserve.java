@@ -105,33 +105,33 @@ public class ItemConserve extends ItemEnumMulti {
 	}
 	
 	public static enum EnumFoodType {
-		BEEF(8, 5F),
-		TUNA(4, 5F),
-		MYSTERY(6, 5F),
-		PASHTET(4, 5F),
-		CHEESE(3, 5F),
+		BEEF(8, 0.75F),
+		TUNA(4, 0.75F),
+		MYSTERY(6, 0.5F),
+		PASHTET(4, 0.5F),
+		CHEESE(3, 1F),
 		JIZZ(15, 5F), // :3
-		MILK(5, 5F),
-		ASS(6, 5F), // :3
-		PIZZA(8, 5F),
-		TUBE(2, 5F),
-		TOMATO(4, 5F),
-		ASBESTOS(7, 5F),
-		BHOLE(10, 5F),
-		HOTDOGS(5, 5F),
-		LEFTOVERS(1, 5F),
-		YOGURT(3, 5F),
-		STEW(5, 5F),
-		CHINESE(6, 5F),
-		OIL(3, 5F),
-		FIST(6, 5F),
-		SPAM(8, 5F),
-		FRIED(10, 5F),
-		NAPALM(6, 5F),
-		DIESEL(6, 5F),
-		KEROSENE(6, 4F),
-		RECURSION(1, 5F),
-		BARK(2, 5F);
+		MILK(5, 0.25F),
+		ASS(6, 0.75F), // :3
+		PIZZA(8, 075F),
+		TUBE(2, 0.25F),
+		TOMATO(4, 0.5F),
+		ASBESTOS(7, 1F),
+		BHOLE(10, 1F),
+		HOTDOGS(5, 0.75F),
+		LEFTOVERS(1, 0.1F),
+		YOGURT(3, 0.5F),
+		STEW(5, 0.5F),
+		CHINESE(6, 0.1F),
+		OIL(3, 1F),
+		FIST(6, 0.75F),
+		SPAM(8, 1F),
+		FRIED(10, 0.75F),
+		NAPALM(6, 1F),
+		DIESEL(6, 1F),
+		KEROSENE(6, 1F),
+		RECURSION(1, 1F),
+		BARK(2, 1F);
 		
 		protected int foodLevel;
 		protected float saturation;

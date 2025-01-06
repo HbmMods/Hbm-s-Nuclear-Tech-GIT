@@ -41,13 +41,19 @@ public class BlockFallout extends Block {
 
 	public boolean canPlaceBlockAt(World world, int x, int y, int z) {
 		Block block = world.getBlock(x, y - 1, z);
-		return block != Blocks.ice && block != Blocks.packed_ice ? (block.isLeaves(world, x, y - 1, z) ? true : (block == this && (world.getBlockMetadata(x, y - 1, z) & 7) == 7 ? true : block.isOpaqueCube() && block.getMaterial().blocksMovement())) : false;
+
+		if (block == Blocks.ice || block == Blocks.packed_ice) return false;
+		if (block.isLeaves(world, x, y - 1, z) && !block.isAir(world, x, y - 1, z)) return true;
+		if (block == this && (world.getBlockMetadata(x, y - 1, z) & 7) == 7) return true;
+
+		return block.isOpaqueCube() && block.getMaterial().blocksMovement();
 	}
 
 	@Override
 	public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
 
 		if(!world.isRemote && entity instanceof EntityLivingBase) {
+			if(entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode) return;
 			PotionEffect effect = new PotionEffect(HbmPotion.radiation.id, 10 * 60 * 20, 0);
 			effect.setCurativeItems(new ArrayList());
 			((EntityLivingBase) entity).addPotionEffect(effect);

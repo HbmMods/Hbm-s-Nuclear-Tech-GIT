@@ -3,7 +3,7 @@ package com.hbm.blocks.generic;
 import com.hbm.items.armor.ArmorFSB;
 import com.hbm.items.armor.ArmorFSBPowered;
 
-import api.hbm.energy.IBatteryItem;
+import api.hbm.energymk2.IBatteryItem;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -67,7 +67,7 @@ public class HEVBattery extends Block {
 
 					if(st.getItem() instanceof IBatteryItem) {
 
-						long maxcharge = ((IBatteryItem) st.getItem()).getMaxCharge();
+						long maxcharge = ((IBatteryItem) st.getItem()).getMaxCharge(st);
 						long charge = ((IBatteryItem) st.getItem()).getCharge(st);
 						long newcharge = Math.min(charge + 150000, maxcharge);
 

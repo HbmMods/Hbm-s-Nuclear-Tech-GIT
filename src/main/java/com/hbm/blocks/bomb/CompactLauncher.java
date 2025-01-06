@@ -123,7 +123,7 @@ public class CompactLauncher extends BlockContainer implements IMultiblock, IBom
 		TileEntityCompactLauncher entity = (TileEntityCompactLauncher) world.getTileEntity(x, y, z);
 
 		if(entity.canLaunch()) {
-			entity.launch();
+			entity.launchFromDesignator();
 			return BombReturnCode.LAUNCHED;
 		}
 

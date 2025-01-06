@@ -110,7 +110,7 @@ public class TileEntityFoundryChannel extends TileEntityFoundryBase {
 
 	@Override
 	public int getCapacity() {
-		return MaterialShapes.INGOT.q(1);
+		return MaterialShapes.INGOT.q(2);
 	}
 
 	@Override

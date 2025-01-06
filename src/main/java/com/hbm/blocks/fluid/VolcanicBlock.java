@@ -51,26 +51,18 @@ public class VolcanicBlock extends BlockFluidClassic {
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 			Block b = getReaction(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ);
 			
-			if(b != null)
-				world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, b);
+			if(b != null) world.setBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ, b, b == ModBlocks.ore_basalt ? 3 : 0, 3);
 		}
 	}
 
 	public Block getReaction(World world, int x, int y, int z) {
 		
 		Block b = world.getBlock(x, y, z);
-		if(b.getMaterial() == Material.water) {
-			return Blocks.stone;
-		}
-		if(b == Blocks.log || b == Blocks.log2) {
-			return ModBlocks.waste_log;
-		}
-		if(b == Blocks.planks) {
-			return ModBlocks.waste_planks;
-		}
-		if(b == Blocks.leaves || b == Blocks.leaves2) {
-			return Blocks.fire;
-		}
+		if(b.getMaterial() == Material.water) return Blocks.stone;
+		if(b == Blocks.log || b == Blocks.log2) return ModBlocks.waste_log;
+		if(b == Blocks.planks) return ModBlocks.waste_planks;
+		if(b == Blocks.leaves || b == Blocks.leaves2) return Blocks.fire;
+		if(b == Blocks.diamond_ore) return ModBlocks.ore_basalt;
 		return null;
 	}
 	
@@ -87,29 +79,32 @@ public class VolcanicBlock extends BlockFluidClassic {
 			
 			if(b == this)
 				lavaCount++;
-			if(b == ModBlocks.basalt) {
+			if(b == getBasaltForCheck()) {
 				basaltCount++;
 			}
 		}
 		
 		if(!world.isRemote && ((!this.isSourceBlock(world, x, y, z) && lavaCount < 2) || (rand.nextInt(5) == 0) && lavaCount < 5) && world.getBlock(x, y - 1, z) != this) {
-			
-			int r = rand.nextInt(200);
-			
-			Block above = world.getBlock(x, y + 10, z);
-			boolean canMakeGem = lavaCount + basaltCount == 6 && lavaCount < 3 && (above == ModBlocks.basalt || above == ModBlocks.volcanic_lava_block);
-			
-			if(r < 2)
-				world.setBlock(x, y, z, ModBlocks.basalt_sulfur);
-			else if(r == 2)
-				world.setBlock(x, y, z, ModBlocks.basalt_asbestos);
-			else if(r == 3)
-				world.setBlock(x, y, z, ModBlocks.basalt_fluorite);
-			else if(r < 14 && canMakeGem)
-				world.setBlock(x, y, z, ModBlocks.basalt_gem);
-			else
-				world.setBlock(x, y, z, ModBlocks.basalt);
+			this.onSolidify(world, x, y, z, lavaCount, basaltCount, rand);
 		}
+	}
+	
+	public Block getBasaltForCheck() {
+		return ModBlocks.basalt;
+	}
+	
+	public void onSolidify(World world, int x, int y, int z, int lavaCount, int basaltCount, Random rand) {
+		int r = rand.nextInt(200);
+		
+		Block above = world.getBlock(x, y + 10, z);
+		boolean canMakeGem = lavaCount + basaltCount == 6 && lavaCount < 3 && (above == ModBlocks.basalt || above == ModBlocks.volcanic_lava_block);
+		
+		if(r < 2) world.setBlock(x, y, z, ModBlocks.ore_basalt, 0, 3);
+		else if(r == 2) world.setBlock(x, y, z, ModBlocks.ore_basalt, 1, 3);
+		else if(r == 3) world.setBlock(x, y, z, ModBlocks.ore_basalt, 2, 3);
+		else if(r == 4) world.setBlock(x, y, z, ModBlocks.ore_basalt, 4, 3);
+		else if(r < 15 && canMakeGem) world.setBlock(x, y, z, ModBlocks.ore_basalt, 3, 3);
+		else world.setBlock(x, y, z, ModBlocks.basalt);
 	}
 
 	@Override

@@ -137,6 +137,9 @@ public abstract class ItemStructureTool extends Item implements ILookOverlay {
 			}
 		}
 		
+		if(Minecraft.getMinecraft().thePlayer.isSneaking())
+			text.add("B: " + world.getBlock(x, y, z).getUnlocalizedName() + ", M: " + world.getBlockMetadata(x, y, z));
+		
 		ILookOverlay.printGeneric(event, this.getItemStackDisplayName(stack), 0xffff00, 0x404000, text);
 	}
 }

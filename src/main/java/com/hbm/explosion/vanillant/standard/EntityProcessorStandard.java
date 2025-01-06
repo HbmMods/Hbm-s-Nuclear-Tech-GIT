@@ -13,7 +13,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
@@ -21,6 +23,7 @@ public class EntityProcessorStandard implements IEntityProcessor {
 
 	protected IEntityRangeMutator range;
 	protected ICustomDamageHandler damage;
+	protected boolean allowSelfDamage = false;
 
 	@Override
 	public HashMap<EntityPlayer, Vec3> process(ExplosionVNT explosion, World world, double x, double y, double z, float size) {
@@ -40,7 +43,7 @@ public class EntityProcessorStandard implements IEntityProcessor {
 		double minZ = z - (double) size - 1.0D;
 		double maxZ = z + (double) size + 1.0D;
 		
-		List list = world.getEntitiesWithinAABBExcludingEntity(explosion.exploder, AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ));
+		List list = world.getEntitiesWithinAABBExcludingEntity(allowSelfDamage ? null : explosion.exploder, AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ));
 		
 		ForgeEventFactory.onExplosionDetonate(world, explosion.compat, list, size);
 		Vec3 vec3 = Vec3.createVectorHelper(x, y, z);
@@ -66,7 +69,7 @@ public class EntityProcessorStandard implements IEntityProcessor {
 					double density = world.getBlockDensity(vec3, entity.boundingBox);
 					double knockback = (1.0D - distanceScaled) * density;
 					
-					entity.attackEntityFrom(DamageSource.setExplosionSource(explosion.compat), (float) ((int) ((knockback * knockback + knockback) / 2.0D * 8.0D * size + 1.0D)));
+					entity.attackEntityFrom(setExplosionSource(explosion.compat), calculateDamage(distanceScaled, density, knockback, size));
 					double enchKnockback = EnchantmentProtection.func_92092_a(entity, knockback);
 					
 					entity.motionX += deltaX * enchKnockback;
@@ -87,6 +90,16 @@ public class EntityProcessorStandard implements IEntityProcessor {
 		return affectedPlayers;
 	}
 	
+	public float calculateDamage(double distanceScaled, double density, double knockback, float size) {
+		return (float) ((int) ((knockback * knockback + knockback) / 2.0D * 8.0D * size + 1.0D));
+	}
+
+	public static DamageSource setExplosionSource(Explosion explosion) {
+		return explosion != null && explosion.getExplosivePlacedBy() != null ?
+				(new EntityDamageSource("explosion.player", explosion.getExplosivePlacedBy())).setExplosion() :
+					(new DamageSource("explosion")).setExplosion();
+	}
+	
 	public EntityProcessorStandard withRangeMod(float mod) {
 		range = new IEntityRangeMutator() {
 			@Override
@@ -99,6 +112,11 @@ public class EntityProcessorStandard implements IEntityProcessor {
 	
 	public EntityProcessorStandard withDamageMod(ICustomDamageHandler damage) {
 		this.damage = damage;
+		return this;
+	}
+	
+	public EntityProcessorStandard allowSelfDamage() {
+		this.allowSelfDamage = true;
 		return this;
 	}
 }

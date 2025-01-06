@@ -23,16 +23,16 @@ import net.minecraft.world.World;
  */
 public class CasingEjector implements Cloneable {
 	
-	public static HashMap<Integer, CasingEjector> mappings = new HashMap();
+	public static HashMap<Integer, CasingEjector> mappings = new HashMap<Integer, CasingEjector>();
 	public static final Random rand = new Random();
 
 	private int id;
 	private static int nextId = 0;
 	private Vec3 posOffset = Vec3.createVectorHelper(0, 0, 0);
 	private Vec3 initialMotion = Vec3.createVectorHelper(0, 0, 0);
-	private int casingAmount = 1;
-	private boolean afterReload = false;
-	private int delay = 0;
+	@Deprecated private int casingAmount = 1;
+	@Deprecated private boolean afterReload = false;
+	@Deprecated private int delay = 0;
 	private float randomYaw = 0F;
 	private float randomPitch = 0F;
 	
@@ -61,17 +61,17 @@ public class CasingEjector implements Cloneable {
 		return this;
 	}
 	
-	public CasingEjector setAmount(int am) {
+	@Deprecated public CasingEjector setAmount(int am) {
 		this.casingAmount = am;
 		return this;
 	}
 	
-	public CasingEjector setAfterReload() {
+	@Deprecated public CasingEjector setAfterReload() {
 		this.afterReload = true;
 		return this;
 	}
 	
-	public CasingEjector setDelay(int delay) {
+	@Deprecated public CasingEjector setDelay(int delay) {
 		this.delay = delay;
 		return this;
 	}
@@ -94,7 +94,7 @@ public class CasingEjector implements Cloneable {
 	@SideOnly(Side.CLIENT)
 	public void spawnCasing(TextureManager textureManager, SpentCasing config, World world, double x, double y, double z, float pitch, float yaw, boolean crouched) {
 		Vec3 rotatedMotionVec = rotateVector(getMotion(), pitch + (float) rand.nextGaussian() * getPitchFactor(), yaw + (float) rand.nextGaussian() * getPitchFactor(), getPitchFactor(), getPitchFactor());
-		ParticleSpentCasing casing = new ParticleSpentCasing(textureManager, world, x, y, z, rotatedMotionVec.xCoord, rotatedMotionVec.yCoord, rotatedMotionVec.zCoord, (float) (getPitchFactor() * rand.nextGaussian()), (float) (getYawFactor() * rand.nextGaussian()), config);
+		ParticleSpentCasing casing = new ParticleSpentCasing(textureManager, world, x, y, z, rotatedMotionVec.xCoord, rotatedMotionVec.yCoord, rotatedMotionVec.zCoord, (float) (getPitchFactor() * rand.nextGaussian()), (float) (getYawFactor() * rand.nextGaussian()), config, false, 0, 0, 0);
 
 		offsetCasing(casing, getOffset(), pitch, yaw, crouched);
 
@@ -127,20 +127,17 @@ public class CasingEjector implements Cloneable {
 	}
 
 	private static Vec3 rotateVector(Vec3 vector, float pitch, float yaw, float pitchFactor, float yawFactor) {
-		// Apply randomness to vector
-		vector.xCoord += rand.nextGaussian() * yawFactor;
-		vector.yCoord += rand.nextGaussian() * pitchFactor;
-		vector.zCoord += rand.nextGaussian() * yawFactor;
 
 		final Matrix4f pitchMatrix = new Matrix4f(), yawMatrix = new Matrix4f();
 
 		pitchMatrix.setIdentity();
-		pitchMatrix.rotate(-pitch, new Vector3f(1, 0, 0));
+		pitchMatrix.rotate(pitch, new Vector3f(1, 0, 0));
 
 		yawMatrix.setIdentity();
 		yawMatrix.rotate(-yaw, new Vector3f(0, 1, 0));
-
-		final Vector4f vector4f = new Vector4f((float) vector.xCoord, (float) vector.yCoord, (float) vector.zCoord, 1);
+		
+		// Apply randomness to vector
+		final Vector4f vector4f = new Vector4f((float) (vector.xCoord + rand.nextGaussian() * yawFactor), (float) (vector.yCoord + rand.nextGaussian() * pitchFactor), (float) (vector.zCoord + rand.nextGaussian() * yawFactor), 1);
 
 		Matrix4f.transform(pitchMatrix, vector4f, vector4f);
 		Matrix4f.transform(yawMatrix, vector4f, vector4f);

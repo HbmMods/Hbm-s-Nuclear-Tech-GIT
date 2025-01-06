@@ -26,18 +26,15 @@ public class RenderBlocksCT extends RenderBlocks {
 	VertInfo bc;
 	VertInfo br;
 	
-	Tessellator tess;
-	
 	public RenderBlocksCT() {
 		super();
-		this.tess = Tessellator.instance;
 	}
 	
 	public void prepWorld(IBlockAccess acc) {
 		this.blockAccess = acc;
 	}
 	
-	private void initSideInfo() {
+	private void initSideInfo(int side) {
 		
 		if(!this.enableAO)
 			return;
@@ -49,15 +46,42 @@ public class RenderBlocksCT extends RenderBlocks {
 		 * it's only the color in ONE PARTICULAR SIDE. well thanks for that i think that's rather poggers, lex.
 		 */
 
-		float red = (colorRedTopLeft + colorRedTopRight + colorRedBottomLeft + colorRedBottomRight) / 4F;
+		/*float red = (colorRedTopLeft + colorRedTopRight + colorRedBottomLeft + colorRedBottomRight) / 4F;
 		float green = (colorGreenTopLeft + colorGreenTopRight + colorGreenBottomLeft + colorGreenBottomRight) / 4F;
 		float blue = (colorBlueTopLeft + colorBlueTopRight + colorBlueBottomLeft + colorBlueBottomRight) / 4F;
-		int light = (brightnessTopLeft + brightnessTopRight + brightnessBottomLeft + brightnessBottomRight) / 4;
+		int light = (brightnessTopLeft + brightnessTopRight + brightnessBottomLeft + brightnessBottomRight) / 4;*/
 		
-		this.tl = new VertInfo(red, green, blue, light);
-		this.tr = new VertInfo(red, green, blue, light);
-		this.bl = new VertInfo(red, green, blue, light);
-		this.br = new VertInfo(red, green, blue, light);
+		if(side == ForgeDirection.SOUTH.ordinal()) {
+			this.tl = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.tr = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.bl = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.br = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+		} else if(side == ForgeDirection.NORTH.ordinal()) {
+			this.tr = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.br = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.tl = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.bl = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+		} else if(side == ForgeDirection.EAST.ordinal()) {
+			this.bl = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.tl = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.br = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.tr = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+		} else if(side == ForgeDirection.WEST.ordinal()) {
+			this.tr = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.br = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.tl = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.bl = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+		} else if(side == ForgeDirection.UP.ordinal()) {
+			this.br = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.bl = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.tr = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.tl = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+		} else {
+			this.tl = new VertInfo(colorRedTopLeft, colorGreenTopLeft, colorBlueTopLeft, brightnessTopLeft);
+			this.tr = new VertInfo(colorRedTopRight, colorGreenTopRight, colorBlueTopRight, brightnessTopRight);
+			this.bl = new VertInfo(colorRedBottomLeft, colorGreenBottomLeft, colorBlueBottomLeft, brightnessBottomLeft);
+			this.br = new VertInfo(colorRedBottomRight, colorGreenBottomRight, colorBlueBottomRight, brightnessBottomRight);
+		}
 
 		this.tc = VertInfo.avg(tl, tr);
 		this.bc = VertInfo.avg(bl, br);
@@ -82,7 +106,7 @@ public class RenderBlocksCT extends RenderBlocks {
 
 	@Override
 	public void renderFaceXPos(Block block, double x, double y, double z, IIcon icon) {
-		initSideInfo();
+		initSideInfo(ForgeDirection.EAST.ordinal());
 		CTFace face = CTContext.faces[ForgeDirection.EAST.ordinal()];
 
 		/// ORDER: LEXICAL ///
@@ -99,7 +123,7 @@ public class RenderBlocksCT extends RenderBlocks {
 
 	@Override
 	public void renderFaceXNeg(Block block, double x, double y, double z, IIcon icon) {
-		initSideInfo();
+		initSideInfo(ForgeDirection.WEST.ordinal());
 		CTFace face = CTContext.faces[ForgeDirection.WEST.ordinal()];
 
 		/// ORDER: LEXICAL ///
@@ -116,7 +140,7 @@ public class RenderBlocksCT extends RenderBlocks {
 
 	@Override
 	public void renderFaceYPos(Block block, double x, double y, double z, IIcon icon) {
-		initSideInfo();
+		initSideInfo(ForgeDirection.UP.ordinal());
 		CTFace face = CTContext.faces[ForgeDirection.UP.ordinal()];
 
 		/// ORDER: LEXICAL ///
@@ -133,7 +157,7 @@ public class RenderBlocksCT extends RenderBlocks {
 
 	@Override
 	public void renderFaceYNeg(Block block, double x, double y, double z, IIcon icon) {
-		initSideInfo();
+		initSideInfo(ForgeDirection.DOWN.ordinal());
 		CTFace face = CTContext.faces[ForgeDirection.DOWN.ordinal()];
 
 		/// ORDER: LEXICAL ///
@@ -150,7 +174,7 @@ public class RenderBlocksCT extends RenderBlocks {
 
 	@Override
 	public void renderFaceZPos(Block block, double x, double y, double z, IIcon icon) {
-		initSideInfo();
+		initSideInfo(ForgeDirection.SOUTH.ordinal());
 		CTFace face = CTContext.faces[ForgeDirection.SOUTH.ordinal()];
 
 		/// ORDER: LEXICAL ///
@@ -167,7 +191,7 @@ public class RenderBlocksCT extends RenderBlocks {
 
 	@Override
 	public void renderFaceZNeg(Block block, double x, double y, double z, IIcon icon) {
-		initSideInfo();
+		initSideInfo(ForgeDirection.NORTH.ordinal());
 		CTFace face = CTContext.faces[ForgeDirection.NORTH.ordinal()];
 
 		/// ORDER: LEXICAL ///
@@ -213,13 +237,13 @@ public class RenderBlocksCT extends RenderBlocks {
 		boolean debugColor = false;
 		
 		/// ORDER: ROTATIONAL ///
-		if(debugColor) tess.setColorOpaque_F(1F, 1F, 0F);
+		if(debugColor) Tessellator.instance.setColorOpaque_F(1F, 1F, 0F);
 		drawVert(ftr, icon.getMaxU(), icon.getMinV(), ntr);
-		if(debugColor) tess.setColorOpaque_F(1F, 0F, 0F);
+		if(debugColor) Tessellator.instance.setColorOpaque_F(1F, 0F, 0F);
 		drawVert(ftl, icon.getMinU(), icon.getMinV(), ntl);
-		if(debugColor) tess.setColorOpaque_F(0F, 0F, 1F);
+		if(debugColor) Tessellator.instance.setColorOpaque_F(0F, 0F, 1F);
 		drawVert(fbl, icon.getMinU(), icon.getMaxV(), nbl);
-		if(debugColor) tess.setColorOpaque_F(0F, 1F, 0F);
+		if(debugColor) Tessellator.instance.setColorOpaque_F(0F, 1F, 0F);
 		drawVert(fbr, icon.getMaxU(), icon.getMaxV(), nbr);
 	}
 	
@@ -230,11 +254,11 @@ public class RenderBlocksCT extends RenderBlocks {
 	private void drawVert(double x, double y, double z, double u, double v, VertInfo info) {
 		
 		if(this.enableAO) {
-			tess.setColorOpaque_F(info.red, info.green, info.blue);
-			tess.setBrightness(info.brightness);
+			Tessellator.instance.setColorOpaque_F(info.red, info.green, info.blue);
+			Tessellator.instance.setBrightness(info.brightness);
 		}
 		
-		tess.addVertexWithUV(x, y, z, u, v);
+		Tessellator.instance.addVertexWithUV(x, y, z, u, v);
 	}
 	
 	private double[] avgCoords(double[] first, double[] second) {
@@ -288,32 +312,32 @@ public class RenderBlocksCT extends RenderBlocks {
 		GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 		
-		tess.startDrawingQuads();
-		tess.setNormal(0.0F, -1.0F, 0.0F);
+		Tessellator.instance.startDrawingQuads();
+		Tessellator.instance.setNormal(0.0F, -1.0F, 0.0F);
 		super.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 0, meta));
-		tess.draw();
-		tess.startDrawingQuads();
-		tess.setNormal(0.0F, 1.0F, 0.0F);
+		Tessellator.instance.draw();
+		Tessellator.instance.startDrawingQuads();
+		Tessellator.instance.setNormal(0.0F, 1.0F, 0.0F);
 		super.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 1, meta));
-		tess.draw();
+		Tessellator.instance.draw();
 
-		tess.startDrawingQuads();
-		tess.setNormal(0.0F, 0.0F, -1.0F);
+		Tessellator.instance.startDrawingQuads();
+		Tessellator.instance.setNormal(0.0F, 0.0F, -1.0F);
 		super.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 2, meta));
-		tess.draw();
-		tess.startDrawingQuads();
-		tess.setNormal(0.0F, 0.0F, 1.0F);
+		Tessellator.instance.draw();
+		Tessellator.instance.startDrawingQuads();
+		Tessellator.instance.setNormal(0.0F, 0.0F, 1.0F);
 		super.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 3, meta));
-		tess.draw();
+		Tessellator.instance.draw();
 		
-		tess.startDrawingQuads();
-		tess.setNormal(-1.0F, 0.0F, 0.0F);
+		Tessellator.instance.startDrawingQuads();
+		Tessellator.instance.setNormal(-1.0F, 0.0F, 0.0F);
 		super.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 4, meta));
-		tess.draw();
-		tess.startDrawingQuads();
-		tess.setNormal(1.0F, 0.0F, 0.0F);
+		Tessellator.instance.draw();
+		Tessellator.instance.startDrawingQuads();
+		Tessellator.instance.setNormal(1.0F, 0.0F, 0.0F);
 		super.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 5, meta));
-		tess.draw();
+		Tessellator.instance.draw();
 		
 		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 	}

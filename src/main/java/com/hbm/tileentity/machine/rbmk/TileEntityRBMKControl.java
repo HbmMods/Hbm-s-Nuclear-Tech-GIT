@@ -1,17 +1,21 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
+import com.hbm.handler.CompatHandler;
+import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKType;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase implements SimpleComponent {
+public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase implements SimpleComponent, CompatHandler.OCComponent {
 
 	@SideOnly(Side.CLIENT)
 	public double lastLevel;
@@ -67,7 +71,7 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	
 	@Override
 	public int trackingRange() {
-		return 150;
+		return 100;
 	}
 	
 	@Override
@@ -84,6 +88,20 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 
 		nbt.setDouble("level", this.level);
 		nbt.setDouble("targetLevel", this.targetLevel);
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeDouble(this.level);
+		buf.writeDouble(this.targetLevel);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.level = buf.readDouble();
+		this.targetLevel = buf.readDouble();
 	}
 	
 	@Override
@@ -114,6 +132,11 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	}
 
 	@Override
+	public RBMKType getRBMKType() {
+		return RBMKType.CONTROL_ROD;
+	}
+
+	@Override
 	public NBTTagCompound getNBTForConsole() {
 		NBTTagCompound data = new NBTTagCompound();
 		data.setDouble("level", this.level);
@@ -122,50 +145,46 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 	
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "rbmk_control_rod";
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getLevel(Context context, Arguments args) {
 		return new Object[] {getMult() * 100};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTargetLevel(Context context, Arguments args) {
 		return new Object[] {targetLevel * 100};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoordinates(Context context, Arguments args) {
 		return new Object[] {xCoord, yCoord, zCoord};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
 		return new Object[] {heat};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[] {heat, getMult() * 100, targetLevel * 100, xCoord, yCoord, zCoord};
 	}
 
-	@Callback(direct = true, limit = 16)
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setLevel(Context context, Arguments args) {
 		double newLevel = args.checkDouble(0)/100.0;
-		if (newLevel > 1.0) {
-			newLevel = 1.0;
-		} else if (newLevel < 0.0) {
-			newLevel = 0.0;
-		}	
-		targetLevel = newLevel;
+		targetLevel = MathHelper.clamp_double(newLevel, 0, 1);
 		return new Object[] {};
 	}
 }

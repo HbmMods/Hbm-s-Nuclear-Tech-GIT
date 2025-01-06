@@ -9,6 +9,7 @@ import com.hbm.inventory.RecipesCommon.MetaBlock;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.MinecraftForge;
@@ -103,7 +104,7 @@ public class OreCave {
 					for(int y = yLevel - range; y <= yLevel + range; y++) {
 						Block genTarget = world.getBlock(x, y, z);
 						
-						if(genTarget.isNormalCube() && (genTarget.getMaterial() == Material.rock || genTarget.getMaterial() == Material.ground)) {
+						if(genTarget.isNormalCube() && (genTarget.getMaterial() == Material.rock || genTarget.getMaterial() == Material.ground) && genTarget.isReplaceableOreGen(world, x, y, z, Blocks.stone)) {
 							
 							boolean shouldGen = false;
 							boolean canGenFluid = event.rand.nextBoolean();

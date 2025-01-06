@@ -7,6 +7,7 @@ import com.hbm.tileentity.machine.TileEntityMachineChemplant;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -14,6 +15,15 @@ public class MachineChemplant extends BlockDummyable {
 
 	public MachineChemplant(Material p_i45386_1_) {
 		super(p_i45386_1_);
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-1.0, 0.0, -2.0, 2.0, 3.0, 1.0));
+		
+		// some guy once told me not to use magic numbers
+		// so I turned him into a newt
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-0.14375, 0.34375, -2.5, 0.15625, 0.65625, 1.5));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(0.85625, 0.34375, -2.5, 1.15625, 0.65625, 1.5));
+
+		this.bounding.add(AxisAlignedBB.getBoundingBox(-1.5, 0.0, -0.5, 0.0, 1.0, 0.5));
+		this.bounding.add(AxisAlignedBB.getBoundingBox(1.0, 0.0, -1.5, 2.5, 1.0, -0.5));
 	}
 
 	@Override

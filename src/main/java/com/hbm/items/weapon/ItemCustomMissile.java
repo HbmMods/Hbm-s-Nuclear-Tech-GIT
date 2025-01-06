@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.hbm.handler.MissileStruct;
 import com.hbm.items.ModItems;
-import com.hbm.items.weapon.ItemMissile.FuelType;
-import com.hbm.items.weapon.ItemMissile.WarheadType;
+import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
+import com.hbm.items.weapon.ItemCustomMissilePart.WarheadType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -57,11 +57,11 @@ public class ItemCustomMissile extends Item {
 			return;
 		
 		try {
-			ItemMissile chip = (ItemMissile) Item.getItemById(readFromNBT(stack, "chip"));
-			ItemMissile warhead = (ItemMissile) Item.getItemById(readFromNBT(stack, "warhead"));
-			ItemMissile fuselage = (ItemMissile) Item.getItemById(readFromNBT(stack, "fuselage"));
-			ItemMissile stability = (ItemMissile) Item.getItemById(readFromNBT(stack, "stability"));
-			ItemMissile thruster = (ItemMissile) Item.getItemById(readFromNBT(stack, "thruster"));
+			ItemCustomMissilePart chip = (ItemCustomMissilePart) Item.getItemById(readFromNBT(stack, "chip"));
+			ItemCustomMissilePart warhead = (ItemCustomMissilePart) Item.getItemById(readFromNBT(stack, "warhead"));
+			ItemCustomMissilePart fuselage = (ItemCustomMissilePart) Item.getItemById(readFromNBT(stack, "fuselage"));
+			ItemCustomMissilePart stability = (ItemCustomMissilePart) Item.getItemById(readFromNBT(stack, "stability"));
+			ItemCustomMissilePart thruster = (ItemCustomMissilePart) Item.getItemById(readFromNBT(stack, "thruster"));
 	
 			list.add(EnumChatFormatting.BOLD + "Warhead: " + EnumChatFormatting.GRAY + warhead.getWarhead((WarheadType)warhead.attributes[0]));
 			list.add(EnumChatFormatting.BOLD + "Strength: " + EnumChatFormatting.GRAY + (Float)warhead.attributes[1]);
@@ -92,10 +92,10 @@ public class ItemCustomMissile extends Item {
 		if(stack == null || !(stack.getItem() instanceof ItemCustomMissile))
 			return null;
 		
-		ItemMissile warhead = (ItemMissile) Item.getItemById(readFromNBT(stack, "warhead"));
-		ItemMissile fuselage = (ItemMissile) Item.getItemById(readFromNBT(stack, "fuselage"));
-		ItemMissile stability = (ItemMissile) Item.getItemById(readFromNBT(stack, "stability"));
-		ItemMissile thruster = (ItemMissile) Item.getItemById(readFromNBT(stack, "thruster"));
+		ItemCustomMissilePart warhead = (ItemCustomMissilePart) Item.getItemById(readFromNBT(stack, "warhead"));
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart) Item.getItemById(readFromNBT(stack, "fuselage"));
+		ItemCustomMissilePart stability = (ItemCustomMissilePart) Item.getItemById(readFromNBT(stack, "stability"));
+		ItemCustomMissilePart thruster = (ItemCustomMissilePart) Item.getItemById(readFromNBT(stack, "thruster"));
 		
 		MissileStruct missile = new MissileStruct(warhead, fuselage, stability, thruster);
 		

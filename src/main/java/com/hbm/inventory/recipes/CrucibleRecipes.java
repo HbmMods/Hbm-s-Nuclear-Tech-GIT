@@ -89,16 +89,32 @@ public class CrucibleRecipes extends SerializableRecipe {
 				.outputs(new MaterialStack(Mats.MAT_FERRO, n * 3)));
 		
 		recipes.add(new CrucibleRecipe(5, "crucible.tcalloy", 9, new ItemStack(ModItems.ingot_tcalloy))
-				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_TECHNIETIUM, n))
+				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_TECHNETIUM, n))
 				.outputs(new MaterialStack(Mats.MAT_TCALLOY, i)));
 		
 		recipes.add(new CrucibleRecipe(12, "crucible.cdalloy", 9, new ItemStack(ModItems.ingot_cdalloy))
 				.inputs(new MaterialStack(Mats.MAT_STEEL, n * 8), new MaterialStack(Mats.MAT_CADMIUM, n))
 				.outputs(new MaterialStack(Mats.MAT_CDALLOY, i)));
 		
+		recipes.add(new CrucibleRecipe(14, "crucible.bbronze", 9, new ItemStack(ModItems.ingot_bismuth_bronze))
+				.inputs(new MaterialStack(Mats.MAT_COPPER, n * 8), new MaterialStack(Mats.MAT_BISMUTH, n), new MaterialStack(Mats.MAT_FLUX, n * 3))
+				.outputs(new MaterialStack(Mats.MAT_BBRONZE, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
+		
+		recipes.add(new CrucibleRecipe(15, "crucible.abronze", 9, new ItemStack(ModItems.ingot_arsenic_bronze))
+				.inputs(new MaterialStack(Mats.MAT_COPPER, n * 8), new MaterialStack(Mats.MAT_ARSENIC, n), new MaterialStack(Mats.MAT_FLUX, n * 3))
+				.outputs(new MaterialStack(Mats.MAT_ABRONZE, i), new MaterialStack(Mats.MAT_SLAG, n * 3)));
+		
 		recipes.add(new CrucibleRecipe(13, "crucible.cmb", 3, new ItemStack(ModItems.ingot_combine_steel))
 				.inputs(new MaterialStack(Mats.MAT_MAGTUNG, n * 6), new MaterialStack(Mats.MAT_MUD, n * 3))
 				.outputs(new MaterialStack(Mats.MAT_CMB, i)));
+		
+		recipes.add(new CrucibleRecipe(16, "crucible.magtung", 3, new ItemStack(ModItems.ingot_magnetized_tungsten))
+				.inputs(new MaterialStack(Mats.MAT_TUNGSTEN, i), new MaterialStack(Mats.MAT_SCHRABIDIUM, n * 1))
+				.outputs(new MaterialStack(Mats.MAT_MAGTUNG, i)));
+		
+		recipes.add(new CrucibleRecipe(17, "crucible.bscco", 3, new ItemStack(ModItems.ingot_bscco))
+				.inputs(new MaterialStack(Mats.MAT_BISMUTH, n * 2), new MaterialStack(Mats.MAT_STRONTIUM, n * 2), new MaterialStack(Mats.MAT_CALCIUM, n * 2), new MaterialStack(Mats.MAT_COPPER, n * 3))
+				.outputs(new MaterialStack(Mats.MAT_BSCCO, i)));
 		
 		registerMoldsForNEI();
 	}
@@ -240,16 +256,17 @@ public class CrucibleRecipes extends SerializableRecipe {
 			int in = material.convIn;
 			int out = material.convOut;
 			NTMMaterial convert = material.smeltsInto;
-			for(MaterialShapes shape : MaterialShapes.allShapes) {
+			if(convert.smeltable == SmeltingBehavior.SMELTABLE || convert.smeltable == SmeltingBehavior.ADDITIVE) for(MaterialShapes shape : MaterialShapes.allShapes) {
 				//TODO: buffer these
-				
-				String name = shape.name() + material.names[0];
-				List<ItemStack> ores = OreDictionary.getOres(name);
-				
-				if(!ores.isEmpty()) {
-					List<ItemStack> stacks = new ArrayList();
-					stacks.add(ItemScraps.create(new MaterialStack(convert, (int) (shape.q(1) * out / in)), true));
-					map.put(new OreDictStack(name), stacks);
+				if(!shape.noAutogen) {
+					String name = shape.make(material);
+					List<ItemStack> ores = OreDictionary.getOres(name);
+					
+					if(!ores.isEmpty()) {
+						List<ItemStack> stacks = new ArrayList();
+						stacks.add(ItemScraps.create(new MaterialStack(convert, (int) (shape.q(1) * out / in)), true));
+						map.put(new OreDictStack(name), stacks);
+					}
 				}
 			}
 		}

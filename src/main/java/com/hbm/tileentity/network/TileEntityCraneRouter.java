@@ -1,23 +1,26 @@
 package com.hbm.tileentity.network;
 
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneRouter;
 import com.hbm.inventory.gui.GUICraneRouter;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 
+import com.hbm.util.BufferUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
+public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUIProvider, IControlReceiverFilter {
 	
 	public ModulePatternMatcher[] patterns = new ModulePatternMatcher[6]; //why did i make six matchers???
 	public int[] modes = new int[6];
@@ -44,24 +47,28 @@ public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUI
 		
 		if(!worldObj.isRemote) {
 
-			NBTTagCompound data = new NBTTagCompound();
-			for(int i = 0; i < patterns.length; i++) {
-				NBTTagCompound compound = new NBTTagCompound();
-				patterns[i].writeToNBT(compound);
-				data.setTag("pattern" + i, compound);
-			}
-			data.setIntArray("modes", this.modes);
-			this.networkPack(data, 15);
+			this.networkPackNT(15);
 		}
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound data) {
-		for(int i = 0; i < patterns.length; i++) {
-			NBTTagCompound compound = data.getCompoundTag("pattern" + i);
-			patterns[i].readFromNBT(compound);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		for (ModulePatternMatcher pattern : patterns) {
+			pattern.serialize(buf);
 		}
-		this.modes = data.getIntArray("modes");
+
+		BufferUtil.writeIntArray(buf, this.modes);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		for (ModulePatternMatcher pattern : patterns) {
+			pattern.deserialize(buf);
+		}
+
+		this.modes = BufferUtil.readIntArray(buf);
 	}
 
 	@Override
@@ -71,10 +78,10 @@ public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUI
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICraneRouter(player.inventory, this);
 	}
-
+	@Override
 	public void nextMode(int index) {
 		
 		int matcher = index / 5;
@@ -118,12 +125,76 @@ public class TileEntityCraneRouter extends TileEntityMachineBase implements IGUI
 	public boolean hasPermission(EntityPlayer player) {
 		return Vec3.createVectorHelper(xCoord - player.posX, yCoord - player.posY, zCoord - player.posZ).lengthVector() < 20;
 	}
-
+	@Override
+	public int[] getFilterSlots() {
+		return new int[]{0, slots.length};
+	}
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		int i = data.getInteger("toggle");
-		modes[i]++;
-		if(modes[i] > 3)
-			modes [i] = 0;
+		if(data.hasKey("toggle")) {
+			int i = data.getInteger("toggle");
+			modes[i]++;
+			if (modes[i] > 3)
+				modes[i] = 0;
+		}
+		if(data.hasKey("slot")){
+			setFilterContents(data);
+		}
+	}
+
+	@Override
+	public NBTTagCompound getSettings(World world, int x, int y, int z) {
+		IInventory inv = (IInventory) this;
+		NBTTagCompound nbt = new NBTTagCompound();
+		NBTTagList tags = new NBTTagList();
+
+		int count = 0;
+		for (int i = getFilterSlots()[0]; i < getFilterSlots()[1]; i++) {
+			NBTTagCompound slotNBT = new NBTTagCompound();
+			if (inv.getStackInSlot(i) != null) {
+				slotNBT.setByte("slot", (byte) count);
+				inv.getStackInSlot(i).writeToNBT(slotNBT);
+				tags.appendTag(slotNBT);
+			}
+			count++;
+		}
+
+		nbt.setTag("items", tags);
+		nbt.setIntArray("modes", modes);
+
+		return nbt;
+	}
+
+	@Override
+	public void pasteSettings(NBTTagCompound nbt, int index, World world, EntityPlayer player, int x, int y, int z) {
+
+		NBTTagList items = nbt.getTagList("items", 10);
+		int listSize = items.tagCount();
+
+		if(listSize > 0 && nbt.hasKey("modes")) {
+			for (int i = 0; i < listSize; i++) {
+				NBTTagCompound slotNBT = items.getCompoundTagAt(i);
+				byte slot = slotNBT.getByte("slot");
+				ItemStack loadedStack = ItemStack.loadItemStackFromNBT(slotNBT);
+
+				if (loadedStack != null && slot > index * 5 && slot < Math.min(index * 5 + 5, 30)) {
+					this.setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(slotNBT));
+					nextMode(slot);
+					this.getWorldObj().markTileEntityChunkModified(this.xCoord, this.yCoord, this.zCoord, this);
+				}
+			}
+			modes = nbt.getIntArray("modes");
+		} else {
+			IControlReceiverFilter.super.pasteSettings(nbt, index, world, player, x, y, z);
+		}
+	}
+
+	@Override
+	public String[] infoForDisplay(World world, int x, int y, int z) {
+		String[] options = new String[patterns.length];
+		for (int i = 0; i < options.length; i++) {
+			options[i] = "copytool.pattern" + i;
+		}
+		return options;
 	}
 }

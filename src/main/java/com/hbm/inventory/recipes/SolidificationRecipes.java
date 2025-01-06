@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.fluid.FluidType;
@@ -68,6 +69,9 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerRecipe(ENDERJUICE,	100,			Items.ender_pearl);
 		registerRecipe(WATZ,		1000,			ModItems.ingot_mud);
 		registerRecipe(REDMUD,		1000,			Items.iron_ingot);
+		registerRecipe(SODIUM,		100,			ModItems.powder_sodium);
+		registerRecipe(LEAD,		100,			ModItems.ingot_lead);
+		registerRecipe(SLOP,		250,			ModBlocks.ore_oil_sand);
 
 		registerRecipe(OIL,				SF_OIL,			DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRUDE));
 		registerRecipe(CRACKOIL,		SF_CRACK,		DictFrame.fromOne(ModItems.oil_tar, EnumTarType.CRACK));
@@ -96,6 +100,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerSFAuto(LIGHTOIL_CRACK);
 		registerSFAuto(LIGHTOIL_VACUUM);
 		registerSFAuto(KEROSENE);
+		registerSFAuto(KEROSENE_REFORM);
 		//registerSFAuto(GAS);
 		registerSFAuto(SOURGAS);
 		registerSFAuto(REFORMGAS);
@@ -108,7 +113,7 @@ public class SolidificationRecipes extends SerializableRecipe {
 		registerSFAuto(UNSATURATEDS);
 		registerSFAuto(REFORMATE);
 		registerSFAuto(XYLENE);
-		registerSFAuto(BALEFIRE, 24000000L, ModItems.solid_fuel_bf); //holy shit this is energy dense*/
+		registerSFAuto(BALEFIRE, 24_000_000L, ModItems.solid_fuel_bf); //holy shit this is energy dense*/
 		
 	}
 
@@ -124,6 +129,8 @@ public class SolidificationRecipes extends SerializableRecipe {
 		if(mB > 10_000) mB -= (mB % 1000);
 		else if(mB > 1_000) mB -= (mB % 100);
 		else if(mB > 100) mB -= (mB % 10);
+		
+		mB = Math.max(mB, 1);
 
 		registerRecipe(fluid, mB, fuel);
 	}

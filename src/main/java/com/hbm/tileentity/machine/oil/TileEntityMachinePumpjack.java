@@ -1,26 +1,30 @@
 package com.hbm.tileentity.machine.oil;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.container.ContainerMachineOilWell;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.gui.GUIMachineOilWell;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.tileentity.IConfigurableMachine;
+import com.hbm.tileentity.IUpgradeInfoProvider;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.oredict.OreDictionary;
@@ -105,21 +109,18 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 			}
 		}
 	}
-	
+
+
 	@Override
-	public void sendUpdate() {
-		NBTTagCompound data = new NBTTagCompound();
-		data.setLong("power", power);
-		data.setInteger("indicator", this.indicator);
-		data.setFloat("speed", this.indicator == 0 ? (5F + (2F * this.speedLevel)) + (this.overLevel - 1F) * 10: 0F);
-		this.networkPack(data, 25);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeFloat(this.indicator == 0 ? (5F + (2F * this.speedLevel)) + (this.overLevel - 1F) * 10: 0F);
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("power");
-		this.indicator = nbt.getInteger("indicator");
-		this.speed = nbt.getFloat("speed");
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.speed = buf.readFloat();
 	}
 
 	@Override
@@ -135,25 +136,6 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 		}
 	}
 
-	@Override
-	public void fillFluidInit(FluidType type) {
-		
-		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-		ForgeDirection rot = dir.getRotation(ForgeDirection.DOWN);
-
-		int pX2 = xCoord + rot.offsetX * 2;
-		int pZ2 = zCoord + rot.offsetZ * 2;
-		int pX4 = xCoord + rot.offsetX * 4;
-		int pZ4 = zCoord + rot.offsetZ * 4;
-		int oX = Math.abs(dir.offsetX) * 2;
-		int oZ = Math.abs(dir.offsetZ) * 2;
-		
-		fillFluid(pX2 + oX, this.yCoord, pZ2 + oZ, getTact(), type);
-		fillFluid(pX2 - oX, this.yCoord, pZ2 - oZ, getTact(), type);
-		fillFluid(pX4 + oX, this.yCoord, pZ4 + oZ, getTact(), type);
-		fillFluid(pX4 - oX, this.yCoord, pZ4 - oZ, getTact(), type);
-	}
-	
 	AxisAlignedBB bb = null;
 	
 	@Override
@@ -221,7 +203,26 @@ public class TileEntityMachinePumpjack extends TileEntityOilDrillBase {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineOilWell(player.inventory, this);
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_pumpjack));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 25) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (level * 10) + "%"));
+		}
+		if(type == UpgradeType.AFTERBURN) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_BURN, level * 10, level * 50));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
 	}
 }

@@ -21,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
@@ -156,7 +157,7 @@ public class ExplosionNT extends Explosion {
 						currentZ /= d9;
 						double d10 = (double) this.worldObj.getBlockDensity(vec3, entity.boundingBox);
 						double d11 = (1.0D - d4) * d10;
-						entity.attackEntityFrom(DamageSource.setExplosionSource(this), (float) ((int) ((d11 * d11 + d11) / 2.0D * 8.0D * (double) this.explosionSize + 1.0D)));
+						entity.attackEntityFrom(setExplosionSource(this), (float) ((int) ((d11 * d11 + d11) / 2.0D * 8.0D * (double) this.explosionSize + 1.0D)));
 						double d8 = EnchantmentProtection.func_92092_a(entity, d11);
 						entity.motionX += currentX * d8;
 						entity.motionY += currentY * d8;
@@ -171,6 +172,12 @@ public class ExplosionNT extends Explosion {
 
 			this.explosionSize = f;
 		}
+	}
+
+	public static DamageSource setExplosionSource(Explosion explosion) {
+		return explosion != null && explosion.getExplosivePlacedBy() != null ?
+				(new EntityDamageSource("explosion.player", explosion.getExplosivePlacedBy())).setExplosion() :
+					(new DamageSource("explosion")).setExplosion();
 	}
 
 	public void doExplosionB(boolean p_77279_1_) {
@@ -273,6 +280,8 @@ public class ExplosionNT extends Explosion {
 							}
 						} else if(has(ExAttrib.LAVA_V)) {
 							this.worldObj.setBlock(i, j, k, ModBlocks.volcanic_lava_block);
+						} else if(has(ExAttrib.LAVA_R)) {
+							this.worldObj.setBlock(i, j, k, ModBlocks.rad_lava_block);
 						}
 					}
 				}
@@ -327,7 +336,8 @@ public class ExplosionNT extends Explosion {
 		DIGAMMA,
 		DIGAMMA_CIRCUIT,
 		LAVA,		//again the same thing but lava
-		LAVA_V,		//again the same thing but volcaniclava
+		LAVA_V,		//again the same thing but volcanic lava
+		LAVA_R,		//again the same thing but radioactive lava
 		ERRODE,		//will turn select blocks into gravel or sand
 		ALLMOD,		//block placer attributes like fire are applied for all destroyed blocks
 		ALLDROP,	//miner TNT!

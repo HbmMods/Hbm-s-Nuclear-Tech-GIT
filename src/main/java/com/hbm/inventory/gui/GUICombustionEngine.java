@@ -1,5 +1,7 @@
 package com.hbm.inventory.gui;
 
+import java.util.Locale;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerCombustionEngine;
@@ -7,8 +9,8 @@ import com.hbm.inventory.fluid.trait.FT_Combustible;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPistons.EnumPistonType;
 import com.hbm.lib.RefStrings;
-import com.hbm.packet.NBTControlPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toserver.NBTControlPacket;
 import com.hbm.tileentity.machine.TileEntityMachineCombustionEngine;
 import com.hbm.util.EnumUtil;
 
@@ -59,7 +61,7 @@ public class GUICombustionEngine extends GuiInfoContainer {
 				power = setting * 0.2 * trait.getCombustionEnergy() / 1_000D * piston.eff[trait.getGrade().ordinal()];
 			}
 			String c = EnumChatFormatting.YELLOW + "";
-			drawCustomInfoStat(x, y, guiLeft + 79, guiTop + 50, 35, 14, x, y, c + String.format("%,d", (int)(power)) + " HE/t", c + String.format("%,d", (int)(power * 20)) + " HE/s");
+			drawCustomInfoStat(x, y, guiLeft + 79, guiTop + 50, 35, 14, x, y, c + String.format(Locale.US, "%,d", (int)(power)) + " HE/t", c + String.format(Locale.US, "%,d", (int)(power * 20)) + " HE/s");
 		}
 		
 		drawCustomInfoStat(x, y, guiLeft + 79, guiTop + 13, 35, 15, x, y, "Ignition");

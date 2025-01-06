@@ -2,7 +2,6 @@ package com.hbm.tileentity.machine;
 
 import java.util.HashMap;
 
-import com.hbm.interfaces.IFluidAcceptor;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.container.ContainerSILEX;
 import com.hbm.inventory.fluid.FluidType;
@@ -15,24 +14,26 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
+import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.WeightedRandomObject;
 
 import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcceptor, IFluidStandardReceiver, IGUIProvider {
+public class TileEntitySILEX extends TileEntityMachineBase implements IFluidStandardReceiver, IGUIProvider, IInfoProviderEC {
 
 	public EnumWavelengths mode = EnumWavelengths.NULL;
 	public boolean hasLaser;
@@ -51,7 +52,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 
 	public TileEntitySILEX() {
 		super(11);
-		tank = new FluidTank(Fluids.ACID, 16000, 0);
+		tank = new FluidTank(Fluids.PEROXIDE, 16000);
 	}
 
 	@Override
@@ -82,36 +83,41 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 			if(currentFill <= 0) {
 				current = null;
 			}
-
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("fill", currentFill);
-			data.setInteger("progress", progress);
-			data.setString("mode", mode.toString());
-
-			if(this.current != null) {
-				data.setInteger("item", Item.getIdFromItem(this.current.item));
-				data.setInteger("meta", this.current.meta);
-			}
-
-			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			this.networkPack(data, 50);
+			
+			this.networkPackNT(50);
 
 			this.mode = EnumWavelengths.NULL;
 		}
 	}
-
-	public void networkUnpack(NBTTagCompound nbt) {
-
-		this.currentFill = nbt.getInteger("fill");
-		this.progress = nbt.getInteger("progress");
-		this.mode = EnumWavelengths.valueOf(nbt.getString("mode"));
-
-		if(this.currentFill > 0) {
-			this.current = new ComparableStack(Item.getItemById(nbt.getInteger("item")), 1, nbt.getInteger("meta"));
-
-		} else {
-			this.current = null;
+	
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(currentFill);
+		buf.writeInt(progress);
+		BufferUtil.writeString(buf, mode.toString());
+		
+		tank.serialize(buf);
+		
+		if(this.current != null) {
+			buf.writeInt(Item.getIdFromItem(this.current.item));
+			buf.writeInt(this.current.meta);
 		}
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		currentFill = buf.readInt();
+		progress = buf.readInt();
+		mode = EnumWavelengths.valueOf(BufferUtil.readString(buf));
+		
+		tank.deserialize(buf);
+		
+		if(currentFill > 0) {
+			current = new ComparableStack(Item.getItemById(buf.readInt()), 1, buf.readInt());
+		} else
+			current = null;
 	}
 
 	public void handleButtonPacket(int value, int meta) {
@@ -158,9 +164,25 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 
 			if(current != null && current.equals(conv)) {
 
-				int toFill = Math.min(10, Math.min(maxFill - currentFill, tank.getFill()));
+				int toFill = Math.min(50, Math.min(maxFill - currentFill, tank.getFill()));
 				currentFill += toFill;
 				tank.setFill(tank.getFill() - toFill);
+			}
+		} else {
+			ComparableStack direct = new ComparableStack(ModItems.fluid_icon, 1, tank.getTankType().getID());
+			
+			if(SILEXRecipes.getOutput(direct.toStack()) != null) {
+
+				if(currentFill == 0) {
+					current = (ComparableStack) direct.copy();
+				}
+
+				if(current != null && current.equals(direct)) {
+
+					int toFill = Math.min(50, Math.min(maxFill - currentFill, tank.getFill()));
+					currentFill += toFill;
+					tank.setFill(tank.getFill() - toFill);
+				}
 			}
 		}
 
@@ -169,7 +191,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		if(loadDelay > 20)
 			loadDelay = 0;
 
-		if(loadDelay == 0 && slots[0] != null && tank.getTankType() == Fluids.ACID && (this.current == null || this.current.equals(new ComparableStack(slots[0]).makeSingular()))) {
+		if(loadDelay == 0 && slots[0] != null && tank.getTankType() == Fluids.PEROXIDE && (this.current == null || this.current.equals(new ComparableStack(slots[0]).makeSingular()))) {
 			SILEXRecipe recipe = SILEXRecipes.getOutput(slots[0]);
 
 			if(recipe == null)
@@ -212,15 +234,33 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		if(progress >= processTime) {
 
 			currentFill -= recipe.fluidConsumed;
+			
+			int totalWeight = 0;
+			for(WeightedRandomObject weighted : recipe.outputs) totalWeight += weighted.itemWeight;
+			this.recipeIndex %= Math.max(totalWeight, 1);
+			
+			int weight = 0;
+			
+			for(WeightedRandomObject weighted : recipe.outputs) {
+				weight += weighted.itemWeight;
+				
+				if(this.recipeIndex < weight) {
+					slots[4] = weighted.asStack().copy();
+					break;
+				}
+			}
 
-			ItemStack out = ((WeightedRandomObject) WeightedRandom.getRandomItem(worldObj.rand, recipe.outputs)).asStack();
-			slots[4] = out.copy();
 			progress = 0;
 			this.markDirty();
+			
+			this.recipeIndex += PRIME;
 		}
 
 		return true;
 	}
+	
+	public static final int PRIME = 137;
+	public int recipeIndex = 0;
 
 	private void dequeue() {
 
@@ -270,6 +310,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		super.readFromNBT(nbt);
 		this.tank.readFromNBT(nbt, "tank");
 		this.currentFill = nbt.getInteger("fill");
+		this.recipeIndex = nbt.getInteger("recipeIndex");
 		this.mode = EnumWavelengths.valueOf(nbt.getString("mode"));
 
 		if(this.currentFill > 0) {
@@ -282,6 +323,7 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 		super.writeToNBT(nbt);
 		this.tank.writeToNBT(nbt, "tank");
 		nbt.setInteger("fill", this.currentFill);
+		nbt.setInteger("recipeIndex", this.recipeIndex);
 		nbt.setString("mode", mode.toString());
 
 		if(this.current != null) {
@@ -302,41 +344,6 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 	}
 
 	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-
-		if(type == tank.getTankType())
-			tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-
-		if(type == tank.getTankType())
-			return tank.getFill();
-
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-
-		if(type == tank.getTankType())
-			return tank.getMaxFill();
-
-		return 0;
-	}
-
-	@Override
 	public FluidTank[] getAllTanks() {
 		return new FluidTank[] {tank};
 	}
@@ -353,7 +360,16 @@ public class TileEntitySILEX extends TileEntityMachineBase implements IFluidAcce
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUISILEX(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, this.progress > 0);
+		if(current == null)
+			data.setString("tank2", "N/A");
+		else
+			data.setString("tank2", String.format("%s: %s mB", current.toStack().getDisplayName(), currentFill));
 	}
 }

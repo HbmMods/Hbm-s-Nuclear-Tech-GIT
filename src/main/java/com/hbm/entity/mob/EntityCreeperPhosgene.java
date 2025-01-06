@@ -37,6 +37,7 @@ public class EntityCreeperPhosgene extends EntityCreeper {
 			mist.setType(Fluids.PHOSGENE);
 			mist.setPosition(posX, posY, posZ);
 			mist.setArea(10, 5);
+			mist.setDuration(150);
 			worldObj.spawnEntityInWorld(mist);
 		}
 	}

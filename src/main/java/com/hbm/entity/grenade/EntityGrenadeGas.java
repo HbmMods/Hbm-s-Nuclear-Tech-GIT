@@ -6,7 +6,6 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 import com.hbm.entity.effect.EntityMist;
-import com.hbm.explosion.ExplosionChaos;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemGrenade;

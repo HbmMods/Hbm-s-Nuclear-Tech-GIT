@@ -2,15 +2,16 @@ package com.hbm.tileentity.machine;
 
 import java.util.List;
 
+import com.hbm.entity.mob.EntityFBI;
+import com.hbm.entity.mob.EntityFBIDrone;
 import com.hbm.inventory.container.ContainerRadiobox;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,7 +21,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRadiobox extends TileEntityLoadedBase implements IEnergyUser, IGUIProvider {
+public class TileEntityRadiobox extends TileEntityLoadedBase implements IEnergyReceiverMK2, IGUIProvider {
 	
 	long power;
 	public static long maxPower = 500000;
@@ -42,8 +43,13 @@ public class TileEntityRadiobox extends TileEntityLoadedBase implements IEnergyU
 			int range = 15;
 			
 			List<IMob> entities = worldObj.getEntitiesWithinAABB(IMob.class, AxisAlignedBB.getBoundingBox(xCoord - range, yCoord - range, zCoord - range, xCoord + range, yCoord + range, zCoord + range));
-			for(IMob entity : entities)
+			
+			for(IMob entity : entities) {
+				
+				if(entity instanceof EntityFBI || entity instanceof EntityFBIDrone) continue;
+				
 				((Entity)entity).attackEntityFrom(ModDamageSource.enervation, 20.0F);
+			}
 		}
 	}
 	
@@ -97,7 +103,7 @@ public class TileEntityRadiobox extends TileEntityLoadedBase implements IEnergyU
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return null;
 	}
 }

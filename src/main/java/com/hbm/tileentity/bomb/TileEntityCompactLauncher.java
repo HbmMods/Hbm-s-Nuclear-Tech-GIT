@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.hbm.entity.missile.EntityMissileCustom;
 import com.hbm.handler.MissileStruct;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerCompactLauncher;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -13,26 +11,26 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIMachineCompactLauncher;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.ItemCustomMissile;
-import com.hbm.items.weapon.ItemMissile;
-import com.hbm.items.weapon.ItemMissile.FuelType;
-import com.hbm.items.weapon.ItemMissile.PartSize;
+import com.hbm.items.weapon.ItemCustomMissilePart;
+import com.hbm.items.weapon.ItemCustomMissilePart.FuelType;
+import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.AuxElectricityPacket;
-import com.hbm.packet.AuxGaugePacket;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.TEMissileMultipartPacket;
+import com.hbm.packet.toclient.TEMissileMultipartPacket;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IGUIProvider;
+import com.hbm.tileentity.IRadarCommandReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -47,7 +45,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IFluidContainer, IFluidAcceptor, IEnergyUser, IFluidStandardReceiver, IGUIProvider {
+public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IBufPacketReceiver, IRadarCommandReceiver {
 
 	private ItemStack slots[];
 
@@ -56,7 +54,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	public int solid;
 	public static final int maxSolid = 25000;
 	public FluidTank[] tanks;
-	
+
 	public MissileStruct load;
 
 	private static final int[] access = new int[] { 0 };
@@ -66,8 +64,8 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	public TileEntityCompactLauncher() {
 		slots = new ItemStack[8];
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.NONE, 25000, 0);
-		tanks[1] = new FluidTank(Fluids.NONE, 25000, 1);
+		tanks[0] = new FluidTank(Fluids.NONE, 25000);
+		tanks[1] = new FluidTank(Fluids.NONE, 25000);
 	}
 
 	@Override
@@ -159,11 +157,11 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 			return null;
 		}
 	}
-	
+
 	public long getPowerScaled(long i) {
 		return (power * i) / maxPower;
 	}
-	
+
 	public int getSolidScaled(int i) {
 		return (solid * i) / maxSolid;
 	}
@@ -172,31 +170,27 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	public void updateEntity() {
 
 		if (!worldObj.isRemote) {
-			
+
 			updateTypes();
 
 			tanks[0].loadTank(2, 6, slots);
 			tanks[1].loadTank(3, 7, slots);
 
-			for (int i = 0; i < 2; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
-			
 			power = Library.chargeTEFromItems(slots, 5, power, maxPower);
-			
+
 			if(slots[4] != null && slots[4].getItem() == ModItems.rocket_fuel && solid + 250 <= maxSolid) {
-				
+
 				this.decrStackSize(4, 1);
 				solid += 250;
 			}
 
 			if(worldObj.getTotalWorldTime() % 20 == 0)
 				this.updateConnections();
-			
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, solid, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			
+
+			networkPackNT(50);
+
 			MissileStruct multipart = getStruct(slots[0]);
-			
+
 			if(multipart != null)
 				PacketDispatcher.wrapper.sendToAllAround(new TEMissileMultipartPacket(xCoord, yCoord, zCoord, multipart), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 250));
 			else
@@ -205,45 +199,67 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 			outer:
 			for(int x = -1; x <= 1; x++) {
 				for(int z = -1; z <= 1; z++) {
-						
+
 					if(worldObj.isBlockIndirectlyGettingPowered(xCoord + x, yCoord, zCoord + z) && canLaunch()) {
-						launch();
+						launchFromDesignator();
 						break outer;
 					}
 				}
 			}
 		} else {
-			
+
 			List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(null, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord, zCoord - 0.5, xCoord + 1.5, yCoord + 10, zCoord + 1.5));
-			
+
 			for(Entity e : entities) {
-				
+
 				if(e instanceof EntityMissileCustom) {
-					
+
 					for(int i = 0; i < 15; i++) {
-						
+
 						boolean dir = worldObj.rand.nextBoolean();
 						float moX = (float) (dir ? 0 : worldObj.rand.nextGaussian() * 0.5F);
 						float moZ = (float) (!dir ? 0 : worldObj.rand.nextGaussian() * 0.5F);
-						
-						MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
+
+						NBTTagCompound data = new NBTTagCompound();
+						data.setDouble("posX", xCoord + 0.5);
+						data.setDouble("posY", yCoord + 0.25);
+						data.setDouble("posZ", zCoord + 0.5);
+						data.setString("type", "launchSmoke");
+						data.setDouble("moX", moX);
+						data.setDouble("moY", 0);
+						data.setDouble("moZ", moZ);
+						MainRegistry.proxy.effectNT(data);
 					}
-					
+
 					break;
 				}
 			}
 		}
 	}
-	
+
+	@Override public void serialize(ByteBuf buf) {
+		buf.writeLong(power);
+		buf.writeInt(solid);
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+	}
+
+	@Override public void deserialize(ByteBuf buf) {
+		this.power = buf.readLong();
+		this.solid = buf.readInt();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
+	}
+
 	private void updateConnections() {
-		
+
 		for(DirPos pos : getConPos()) {
 			this.trySubscribe(worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			this.trySubscribe(tanks[1].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 		}
 	}
-	
+
 	public DirPos[] getConPos() {
 		return new DirPos[] {
 				new DirPos(xCoord + 2, yCoord, zCoord + 1, Library.POS_X),
@@ -260,62 +276,86 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 				new DirPos(xCoord - 1, yCoord - 1, zCoord - 1, Library.NEG_Y)
 		};
 	}
-	
+
 	public boolean canLaunch() {
-		
+
 		if(power >= maxPower * 0.75 && isMissileValid() && hasDesignator() && hasFuel())
 			return true;
-		
+
 		return false;
 	}
-	
-	public void launch() {
+
+	@Override
+	public boolean sendCommandEntity(Entity target) {
+		return sendCommandPosition((int) Math.floor(target.posX), yCoord, (int) Math.floor(target.posX));
+	}
+
+	@Override
+	public boolean sendCommandPosition(int x, int y, int z) {
+		if(!canLaunch()) return false;
+		this.launchTo(x, z);
+		return true;
+	}
+
+	public void launchFromDesignator() {
+
+		if(slots[1] != null && slots[1].getItem() instanceof IDesignatorItem) {
+			IDesignatorItem designator = (IDesignatorItem) slots[1].getItem();
+
+			if(designator.isReady(worldObj, slots[1], xCoord, yCoord, zCoord)) {
+				Vec3 coords = designator.getCoords(worldObj, slots[1], xCoord, yCoord, zCoord);
+				int tX = (int) Math.floor(coords.xCoord);
+				int tZ = (int) Math.floor(coords.zCoord);
+
+				this.launchTo(tX, tZ);
+			}
+		}
+	}
+
+	public void launchTo(int tX, int tZ) {
 
 		worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:weapon.missileTakeOff", 10.0F, 1.0F);
 
-		int tX = slots[1].stackTagCompound.getInteger("xCoord");
-		int tZ = slots[1].stackTagCompound.getInteger("zCoord");
-		
-		ItemMissile chip = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "chip"));
+		ItemCustomMissilePart chip = (ItemCustomMissilePart) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "chip"));
 		float c = (Float)chip.attributes[0];
 		float f = 1.0F;
-		
+
 		if(getStruct(slots[0]).fins != null) {
-			ItemMissile fins = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "stability"));
+			ItemCustomMissilePart fins = (ItemCustomMissilePart) Item.getItemById(ItemCustomMissile.readFromNBT(slots[0], "stability"));
 			f = (Float) fins.attributes[0];
 		}
-		
+
 		Vec3 target = Vec3.createVectorHelper(xCoord - tX, 0, zCoord - tZ);
 		target.xCoord *= c * f;
 		target.zCoord *= c * f;
-		
+
 		target.rotateAroundY(worldObj.rand.nextFloat() * 360);
-		
+
 		EntityMissileCustom missile = new EntityMissileCustom(worldObj, xCoord + 0.5F, yCoord + 2.5F, zCoord + 0.5F, tX + (int)target.xCoord, tZ + (int)target.zCoord, getStruct(slots[0]));
 		worldObj.spawnEntityInWorld(missile);
-		
+
 		subtractFuel();
-		
+
 		slots[0] = null;
 	}
-	
+
 	private boolean hasFuel() {
 
 		return solidState() != 0 && liquidState() != 0 && oxidizerState() != 0;
 	}
-	
+
 	private void subtractFuel() {
-		
+
 		MissileStruct multipart = getStruct(slots[0]);
-		
+
 		if(multipart == null || multipart.fuselage == null)
 			return;
-		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
-		
+
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
+
 		float f = (Float)fuselage.attributes[1];
 		int fuel = (int)f;
-		
+
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:
 				tanks[0].setFill(tanks[0].getFill() - fuel);
@@ -336,118 +376,118 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 				this.solid -= fuel; break;
 			default: break;
 		}
-		
+
 		this.power -= maxPower * 0.75;
 	}
-	
+
 	public static MissileStruct getStruct(ItemStack stack) {
-		
+
 		return ItemCustomMissile.getStruct(stack);
 	}
-	
+
 	public boolean isMissileValid() {
-		
+
 		MissileStruct multipart = getStruct(slots[0]);
-		
+
 		if(multipart == null || multipart.fuselage == null)
 			return false;
-		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
-		
+
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
+
 		return fuselage.top == PartSize.SIZE_10;
 	}
-	
+
 	public boolean hasDesignator() {
-		
+
 		if(slots[1] != null && slots[1].getItem() instanceof IDesignatorItem && ((IDesignatorItem)slots[1].getItem()).isReady(worldObj, slots[1], xCoord, yCoord, zCoord)) {
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public int solidState() {
-		
+
 		MissileStruct multipart = getStruct(slots[0]);
-		
+
 		if(multipart == null || multipart.fuselage == null)
 			return -1;
-		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
-		
+
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
+
 		if((FuelType)fuselage.attributes[0] == FuelType.SOLID) {
-			
+
 			if(solid >= (Float)fuselage.attributes[1])
 				return 1;
 			else
 				return 0;
 		}
-		
+
 		return -1;
 	}
-	
+
 	public int liquidState() {
-		
+
 		MissileStruct multipart = getStruct(slots[0]);
-		
+
 		if(multipart == null || multipart.fuselage == null)
 			return -1;
-		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
-		
+
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
+
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:
 			case HYDROGEN:
 			case XENON:
 			case BALEFIRE:
-				
+
 				if(tanks[0].getFill() >= (Float)fuselage.attributes[1])
 					return 1;
 				else
 					return 0;
 			default: break;
 		}
-		
+
 		return -1;
 	}
-	
+
 	public int oxidizerState() {
-		
+
 		MissileStruct multipart = getStruct(slots[0]);
-		
+
 		if(multipart == null || multipart.fuselage == null)
 			return -1;
-		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
-		
+
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
+
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:
 			case HYDROGEN:
 			case BALEFIRE:
-				
+
 				if(tanks[1].getFill() >= (Float)fuselage.attributes[1])
 					return 1;
 				else
 					return 0;
 			default: break;
 		}
-		
+
 		return -1;
 	}
-	
+
 	public void updateTypes() {
-		
+
 		MissileStruct multipart = getStruct(slots[0]);
-		
+
 		if(multipart == null || multipart.fuselage == null)
 			return;
-		
-		ItemMissile fuselage = (ItemMissile)multipart.fuselage;
-		
+
+		ItemCustomMissilePart fuselage = (ItemCustomMissilePart)multipart.fuselage;
+
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:
 				tanks[0].setTankType(Fluids.KEROSENE);
-				tanks[1].setTankType(Fluids.ACID);
+				tanks[1].setTankType(Fluids.PEROXIDE);
 				break;
 			case HYDROGEN:
 				tanks[0].setTankType(Fluids.HYDROGEN);
@@ -458,7 +498,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 				break;
 			case BALEFIRE:
 				tanks[0].setTankType(Fluids.BALEFIRE);
-				tanks[1].setTankType(Fluids.ACID);
+				tanks[1].setTankType(Fluids.PEROXIDE);
 				break;
 			default: break;
 		}
@@ -488,7 +528,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		NBTTagList list = new NBTTagList();
 
 		tanks[0].writeToNBT(nbt, "fuel");
@@ -523,50 +563,10 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getMaxFill();
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getMaxFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			tanks[0].setFill(fill);
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			tanks[1].setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getFill();
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getFill();
-		else
-			return 0;
-	}
-	
-	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared()
@@ -591,16 +591,16 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 
 	@Override
 	public long transferPower(long power) {
-		
+
 		this.power += power;
-		
+
 		if(this.power > this.getMaxPower()) {
-			
+
 			long overshoot = this.power - this.getMaxPower();
 			this.power = this.getMaxPower();
 			return overshoot;
 		}
-		
+
 		return 0;
 	}
 
@@ -631,7 +631,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineCompactLauncher(player.inventory, this);
 	}
 }

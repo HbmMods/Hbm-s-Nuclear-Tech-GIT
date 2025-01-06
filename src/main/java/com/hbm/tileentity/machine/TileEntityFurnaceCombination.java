@@ -10,15 +10,16 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIFurnaceCombo;
 import com.hbm.inventory.recipes.CombinationRecipes;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.Tuple.Pair;
 
 import api.hbm.fluid.IFluidStandardSender;
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -29,7 +30,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFurnaceCombination extends TileEntityMachineBase implements IFluidStandardSender, IGUIProvider {
+public class TileEntityFurnaceCombination extends TileEntityMachinePolluting implements IFluidStandardSender, IGUIProvider, IFluidCopiable {
 
 	public boolean wasOn;
 	public int progress;
@@ -42,7 +43,7 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 	public FluidTank tank;
 
 	public TileEntityFurnaceCombination() {
-		super(4);
+		super(4, 50);
 		this.tank = new FluidTank(Fluids.NONE, 24_000);
 	}
 
@@ -65,6 +66,7 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 					for(int y = yCoord; y <= yCoord + 1; y++) {
 						for(int j = -1; j <= 1; j++) {
 							if(tank.getFill() > 0) this.sendFluid(tank, worldObj, xCoord + dir.offsetX * 2 + rot.offsetX * j, y, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
+							this.sendSmoke(xCoord + dir.offsetX * 2 + rot.offsetX * j, y, zCoord + dir.offsetZ * 2 + rot.offsetZ * j, dir);
 						}
 					}
 				}
@@ -72,6 +74,7 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 				for(int x = xCoord - 1; x <= xCoord + 1; x++) {
 					for(int z = zCoord - 1; z <= zCoord + 1; z++) {
 						if(tank.getFill() > 0) this.sendFluid(tank, worldObj, x, yCoord + 2, z, ForgeDirection.UP);
+						this.sendSmoke(x, yCoord + 2, z, ForgeDirection.UP);
 					}
 				}
 			}
@@ -120,25 +123,37 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 					for(Entity e : entities) e.setFire(5);
 					
 					if(worldObj.getTotalWorldTime() % 10 == 0) this.worldObj.playSoundEffect(this.xCoord, this.yCoord + 1, this.zCoord, "hbm:weapon.flamethrowerShoot", 0.25F, 0.5F);
+					if(worldObj.getTotalWorldTime() % 20 == 0) this.pollute(PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
 				}
-
-				if(worldObj.getTotalWorldTime() % 20 == 0) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 3);
 			} else {
 				this.progress = 0;
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("wasOn", this.wasOn);
-			data.setInteger("heat", this.heat);
-			data.setInteger("progress", this.progress);
-			tank.writeToNBT(data, "t");
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		} else {
 			
 			if(this.wasOn && worldObj.rand.nextInt(15) == 0) {
 				worldObj.spawnParticle("lava", xCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5, yCoord + 2, zCoord + 0.5 + worldObj.rand.nextGaussian() * 0.5, 0, 0, 0);
 			}
 		}
+	}
+	
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(wasOn);
+		buf.writeInt(heat);
+		buf.writeInt(progress);
+		tank.serialize(buf);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		wasOn = buf.readBoolean();
+		heat = buf.readInt();
+		progress = buf.readInt();
+		tank.deserialize(buf);
 	}
 	
 	public boolean canSmelt() {
@@ -163,14 +178,6 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 		}
 		
 		return true;
-	}
-
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.wasOn = nbt.getBoolean("wasOn");
-		this.heat = nbt.getInteger("heat");
-		this.progress = nbt.getInteger("progress");
-		this.tank.readFromNBT(nbt, "t");
 	}
 	
 	protected void tryPullHeat() {
@@ -238,7 +245,7 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIFurnaceCombo(player.inventory, this);
 	}
 	
@@ -274,6 +281,6 @@ public class TileEntityFurnaceCombination extends TileEntityMachineBase implemen
 
 	@Override
 	public FluidTank[] getSendingTanks() {
-		return new FluidTank[] {tank};
+		return new FluidTank[] {tank, smoke, smoke_leaded, smoke_poison};
 	}
 }

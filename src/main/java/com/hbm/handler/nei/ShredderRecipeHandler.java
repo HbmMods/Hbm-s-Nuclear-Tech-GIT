@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.imc.ICompatNHNEI;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.gui.GUIMachineShredder;
 import com.hbm.inventory.recipes.MachineRecipes;
@@ -19,8 +21,17 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 
-public class ShredderRecipeHandler extends TemplateRecipeHandler {
+public class ShredderRecipeHandler extends TemplateRecipeHandler implements ICompatNHNEI {
 
+	@Override
+	public ItemStack[] getMachinesForRecipe() {
+		return new ItemStack[]{
+				new ItemStack(ModBlocks.machine_shredder)};
+	}
+	@Override
+	public String getRecipeID() {
+		return "ntmRadiolysis";
+	}
 	public static ArrayList<Fuel> fuels;
 
 	public LinkedList<RecipeTransferRect> transferRectsRec = new LinkedList<RecipeTransferRect>();

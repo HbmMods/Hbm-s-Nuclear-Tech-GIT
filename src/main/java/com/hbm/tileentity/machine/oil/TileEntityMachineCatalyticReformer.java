@@ -10,17 +10,18 @@ import com.hbm.inventory.gui.GUIMachineCatalyticReformer;
 import com.hbm.inventory.recipes.ReformingRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.Tuple.Triplet;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,7 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase implements IEnergyUser, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider {
+public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase implements IEnergyReceiverMK2, IFluidStandardTransceiver, IPersistentNBT, IGUIProvider, IFluidCopiable {
 	
 	public long power;
 	public static final long maxPower = 1_000_000;
@@ -55,7 +56,7 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 		
 		if(!worldObj.isRemote) {
 			
-			this.updateConnections();
+			if(this.worldObj.getTotalWorldTime() % 20 == 0) this.updateConnections();
 			power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			tanks[0].setType(9, slots);
 			tanks[0].loadTank(1, 2, slots);
@@ -73,18 +74,23 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 					}
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", this.power);
-			for(int i = 0; i < 4; i++) tanks[i].writeToNBT(data, "" + i);
-			this.networkPack(data, 150);
+
+			this.networkPackNT(150);
 		}
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("power");
-		for(int i = 0; i < 4; i++) tanks[i].readFromNBT(nbt, "" + i);
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(this.power);
+		for(int i = 0; i < 4; i++) tanks[i].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readLong();
+		for(int i = 0; i < 4; i++) tanks[i].deserialize(buf);
 	}
 	
 	private void reform() {
@@ -246,7 +252,7 @@ public class TileEntityMachineCatalyticReformer extends TileEntityMachineBase im
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineCatalyticReformer(player.inventory, this);
 	}
 }

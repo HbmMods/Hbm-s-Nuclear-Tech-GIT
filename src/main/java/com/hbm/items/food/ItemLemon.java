@@ -3,8 +3,8 @@ package com.hbm.items.food;
 import java.util.List;
 
 import com.hbm.items.ModItems;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,15 +31,6 @@ public class ItemLemon extends ItemFood {
 	{
 		if(this == ModItems.lemon) {
 			list.add("Eh, good enough.");
-		}
-		
-		if(this == ModItems.definitelyfood) {
-			list.add("A'right, I got sick and tired of");
-			list.add("having to go out, kill things just");
-			list.add("to get food and not die, so here is ");
-			list.add("my absolutely genius solution:");
-			list.add("");
-			list.add("Have some edible dirt.");
 		}
 		
 		if(this == ModItems.med_ipecac) {

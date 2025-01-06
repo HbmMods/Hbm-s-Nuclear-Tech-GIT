@@ -10,6 +10,8 @@ public class FluidLoaderStandard extends FluidLoadingHandler {
 	@Override
 	public boolean fillItem(ItemStack[] slots, int in, int out, FluidTank tank) {
 		
+		if(tank.pressure != 0) return false;
+		
 		if(slots[in] == null)
 			return true;
 		
@@ -17,8 +19,6 @@ public class FluidLoaderStandard extends FluidLoadingHandler {
 		ItemStack full = FluidContainerRegistry.getFullContainer(slots[in], type);
 		
 		if(full != null && slots[in] != null && tank.getFill() - FluidContainerRegistry.getFluidContent(full, type) >= 0) {
-			
-			ItemStack fullContainer = FluidContainerRegistry.getFullContainer(slots[in], type);
 			
 			if(slots[out] == null) {
 				
@@ -29,7 +29,7 @@ public class FluidLoaderStandard extends FluidLoadingHandler {
 					slots[in] = null;
 				}
 				
-			} else if(slots[out] != null && slots[out].getItem() == fullContainer.getItem() && slots[out].getItemDamage() == fullContainer.getItemDamage() && slots[out].stackSize < slots[out].getMaxStackSize()) {
+			} else if(slots[out] != null && slots[out].getItem() == full.getItem() && slots[out].getItemDamage() == full.getItemDamage() && slots[out].stackSize < slots[out].getMaxStackSize()) {
 				
 				tank.setFill(tank.getFill() - FluidContainerRegistry.getFluidContent(full, type));
 				slots[in].stackSize--;

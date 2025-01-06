@@ -50,12 +50,19 @@ public class TestDungeonRoom8 extends CellularDungeonRoom {
 				
 				int r = world.rand.nextInt(10);
 				
-				if(r == 0)
+				if(r == 0) {
 					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, new ItemStack(ModItems.book_of_));
-				else if(r < 4)
-					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, generateBook(world));
-				else
-					((TileEntitySafe)world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2)).setInventorySlotContents(7, new ItemStack(Items.book));
+				} else if(r < 4) {
+					TileEntitySafe safe =  (TileEntitySafe) world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2);
+					safe.setInventorySlotContents(5, generateBook(world));
+					safe.setInventorySlotContents(7, new ItemStack(ModItems.stamp_book, 1, world.rand.nextInt(8)));
+					safe.setInventorySlotContents(9, new ItemStack(ModItems.stamp_book, 1, world.rand.nextInt(8)));
+				} else {
+					TileEntitySafe safe =  (TileEntitySafe) world.getTileEntity(x + parent.width / 2, y + 2, z + parent.width / 2);
+					safe.setInventorySlotContents(5, new ItemStack(Items.book));
+					safe.setInventorySlotContents(7, new ItemStack(ModItems.stamp_book, 1, world.rand.nextInt(8)));
+					safe.setInventorySlotContents(9, new ItemStack(ModItems.stamp_book, 1, world.rand.nextInt(8)));
+				}
 			}
 			break;
 		}

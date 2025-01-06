@@ -4,51 +4,41 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.extprop.HbmPlayerProps;
+import com.hbm.handler.CompatHandler.OCComponent;
 import com.hbm.handler.MultiblockHandlerXR;
-import com.hbm.handler.pollution.PollutionHandler;
-import com.hbm.handler.pollution.PollutionHandler.PollutionType;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidContainer;
-import com.hbm.interfaces.IFluidSource;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.container.ContainerMachineFluidTank;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.trait.FT_Corrosive;
-import com.hbm.inventory.fluid.trait.FT_Flammable;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Amat;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Leaded;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
+import com.hbm.inventory.fluid.trait.*;
+import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.inventory.gui.GUIMachineFluidTank;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
-import com.hbm.packet.AuxParticlePacketNT;
 import com.hbm.packet.PacketDispatcher;
-import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.IOverpressurable;
-import com.hbm.tileentity.IPersistentNBT;
-import com.hbm.tileentity.IRepairable;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.*;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -58,7 +48,7 @@ import java.util.List;
 import java.util.Random;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")})
-public class TileEntityMachineFluidTank extends TileEntityMachineBase implements IFluidContainer, SimpleComponent, IFluidSource, IFluidAcceptor, IFluidStandardTransceiver, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable {
+public class TileEntityMachineFluidTank extends TileEntityMachineBase implements SimpleComponent, OCComponent, IFluidStandardTransceiver, IPersistentNBT, IOverpressurable, IGUIProvider, IRepairable, IFluidCopiable{
 	
 	public FluidTank tank;
 	public short mode = 0;
@@ -66,11 +56,10 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	public boolean hasExploded = false;
 	protected boolean sendingBrake = false;
 	public boolean onFire = false;
-	
+	public byte lastRedstone = 0;
 	public Explosion lastExplosion = null;
 	
 	public int age = 0;
-	public List<IFluidAcceptor> list = new ArrayList();
 	
 	public TileEntityMachineFluidTank() {
 		super(6);
@@ -81,7 +70,13 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	public String getName() {
 		return "container.fluidtank";
 	}
-	
+
+	public byte getComparatorPower() {
+		if(tank.getFill() == 0) return 0;
+		double frac = (double) tank.getFill() / (double) tank.getMaxFill() * 15D;
+		return (byte) (MathHelper.clamp_int((int) frac + 1, 0, 15));
+	}
+
 	@Override
 	public void updateEntity() {
 
@@ -106,20 +101,28 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			if(!hasExploded) {
 				age++;
 				
-				if(age >= 20)
+				if(age >= 20) {
 					age = 0;
+					this.markChanged();
+				}
 				
 				this.sendingBrake = true;
 				tank.setFill(TileEntityBarrel.transmitFluidFairly(worldObj, tank, this, tank.getFill(), this.mode == 0 || this.mode == 1, this.mode == 1 || this.mode == 2, getConPos()));
 				this.sendingBrake = false;
 				
-				if((mode == 1 || mode == 2) && (age == 9 || age == 19))
-					fillFluidInit(tank.getTankType());
-				
 				tank.loadTank(2, 3, slots);
 				tank.setType(0, 1, slots);
+			} else {
+				for(DirPos pos : getConPos()) this.tryUnsubscribe(tank.getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ());
 			}
-			
+
+			byte comp = this.getComparatorPower(); //comparator shit
+			if(comp != this.lastRedstone) {
+				this.markDirty();
+				for(DirPos pos : getConPos()) this.updateRedstoneConnection(pos);
+			}
+			this.lastRedstone = comp;
+
 			if(tank.getFill() > 0) {
 				if(tank.getTankType().isAntimatter()) {
 					new ExplosionVNT(worldObj, xCoord + 0.5, yCoord + 1.5, zCoord + 0.5, 5F).makeAmat().setBlockAllocator(null).setBlockProcessor(null).explode();
@@ -148,12 +151,33 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			
 			tank.unloadTank(4, 5, slots);
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setShort("mode", mode);
-			data.setBoolean("hasExploded", hasExploded);
-			this.tank.writeToNBT(data, "t");
-			this.networkPack(data, 150);
+			this.networkPackNT(150);
 		}
+		
+		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - 10);
+		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
+		List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 2.875, zCoord + 1).offset(dir.offsetX * 0.5 - rot.offsetX * 2.25, 0, dir.offsetZ * 0.5 - rot.offsetZ * 2.25));
+		
+		for(EntityPlayer player : players) {
+			HbmPlayerProps props = HbmPlayerProps.getData(player);
+			props.isOnLadder = true;
+		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeShort(mode);
+		buf.writeBoolean(hasExploded);
+		tank.serialize(buf);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		mode = buf.readShort();
+		hasExploded = buf.readBoolean();
+		tank.deserialize(buf);
 	}
 	
 	/** called when the tank breaks due to hazardous materials or external force, can be used to quickly void part of the tank or spawn a mushroom cloud */
@@ -182,9 +206,8 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 			Random rand = worldObj.rand;
 			ParticleUtil.spawnGasFlame(worldObj, xCoord + rand.nextDouble(), yCoord + 0.5 + rand.nextDouble(), zCoord + rand.nextDouble(), rand.nextGaussian() * 0.2, 0.1, rand.nextGaussian() * 0.2);
 			
-			if(worldObj.getTotalWorldTime() % 20 == 0) {
-				PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 50);
-				if(type.hasTrait(FT_Leaded.class)) PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * 50);
+			if(worldObj.getTotalWorldTime() % 5 == 0) {
+				FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.BURN, amount * 5);
 			}
 			
 		} else if(type.hasTrait(FT_Gaseous.class) || type.hasTrait(FT_Gaseous_ART.class)) {
@@ -198,6 +221,10 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 				data.setInteger("life", 100 + worldObj.rand.nextInt(20));
 				data.setInteger("color", tank.getTankType().getColor());
 				PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, xCoord + 0.5, yCoord + 1, zCoord + 0.5), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 150));
+			}
+
+			if(worldObj.getTotalWorldTime() % 5 == 0 ) {
+				FT_Polluting.pollute(worldObj, xCoord, yCoord, zCoord, tank.getTankType(), FluidReleaseType.SPILL, amount * 5);
 			}
 		}
 	}
@@ -244,12 +271,6 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		};
 	}
 	
-	public void networkUnpack(NBTTagCompound data) {
-		this.mode = data.getShort("mode");
-		this.hasExploded = data.getBoolean("hasExploded");
-		this.tank.readFromNBT(data, "t");
-	}
-	
 	public void handleButtonPacket(int value, int meta) {
 		mode = (short) ((mode + 1) % modes);
 		this.markChanged();
@@ -278,72 +299,6 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		
-		if(mode == 2 || mode == 3 || this.sendingBrake)
-			return 0;
-		
-		return type.name().equals(this.tank.getTankType().name()) ? tank.getMaxFill() : 0;
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		fillFluid(this.xCoord + 2, this.yCoord, this.zCoord - 1, getTact(), type);
-		fillFluid(this.xCoord + 2, this.yCoord, this.zCoord + 1, getTact(), type);
-		fillFluid(this.xCoord - 2, this.yCoord, this.zCoord - 1, getTact(), type);
-		fillFluid(this.xCoord - 2, this.yCoord, this.zCoord + 1, getTact(), type);
-		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord + 2, getTact(), type);
-		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord + 2, getTact(), type);
-		fillFluid(this.xCoord - 1, this.yCoord, this.zCoord - 2, getTact(), type);
-		fillFluid(this.xCoord + 1, this.yCoord, this.zCoord - 2, getTact(), type);
-	}
-
-	@Override
-	public void fillFluid(int x, int y, int z, boolean newTact, FluidType type) {
-		Library.transmitFluid(x, y, z, newTact, this, worldObj, type);
-	}
-
-	@Override
-	public boolean getTact() {
-		if (age >= 0 && age < 10) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		return type.name().equals(this.tank.getTankType().name()) ? tank.getFill() : 0;
-	}
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type.name().equals(tank.getTankType().name()))
-			tank.setFill(i);
-	}
-
-	@Override
-	public List<IFluidAcceptor> getFluidList(FluidType type) {
-		return this.list;
-	}
-
-	@Override
-	public void clearFluidList(FluidType type) {
-		this.list.clear();
 	}
 	
 	@Override
@@ -422,13 +377,23 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	}
 
 	@Override
+	public int[] getFluidIDToCopy() {
+		return new int[] {tank.getTankType().getID()};
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return tank;
+	}
+
+	@Override
 	public Container provideContainer(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new ContainerMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) world.getTileEntity(x, y, z));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineFluidTank(player.inventory, (TileEntityMachineFluidTank) world.getTileEntity(x, y, z));
 	}
 
@@ -437,7 +402,7 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 		return this.hasExploded;
 	}
 	
-	List<AStack> repair = new ArrayList();
+	List<AStack> repair = new ArrayList<>();
 	@Override
 	public List<AStack> getRepairMaterials() {
 		
@@ -455,31 +420,58 @@ public class TileEntityMachineFluidTank extends TileEntityMachineBase implements
 	}
 
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
-		return "ntm_tank";
+		return "ntm_fluid_tank";
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getFluidStored(Context context, Arguments args) {
 		return new Object[] {tank.getFill()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getMaxStored(Context context, Arguments args) {
 		return new Object[] {tank.getMaxFill()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getTypeStored(Context context, Arguments args) {
 		return new Object[] {tank.getTankType().getName()};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[]{tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public String[] methods() {
+		return new String[] {
+				"getFluidStored",
+				"getMaxStored",
+				"getTypeStored",
+				"getInfo"};
+	}
+
+	@Override
+	@Optional.Method(modid = "OpenComputers")
+	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+		switch (method) {
+			case "getFluidStored":
+				return getFluidStored(context, args);
+			case "getMaxStored":
+				return getMaxStored(context, args);
+			case "getTypeStored":
+				return getTypeStored(context, args);
+			case "getInfo":
+				return getInfo(context, args);
+		}
+		throw new NoSuchMethodException();
 	}
 }

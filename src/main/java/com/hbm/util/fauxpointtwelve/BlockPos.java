@@ -7,11 +7,11 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Adjusted code from MC 1.12 (com.minecraft.util.math.BlockPos)
  */
-public class BlockPos {
+public class BlockPos implements Cloneable {
 
-	private final int x;
-	private final int y;
-	private final int z;
+	private int x;
+	private int y;
+	private int z;
 
 	public BlockPos(int x, int y, int z) {
 		this.x = x;
@@ -25,6 +25,15 @@ public class BlockPos {
 	
 	public BlockPos(double x, double y, double z) {
 		this((int)MathHelper.floor_double(x), (int)MathHelper.floor_double(y), (int)MathHelper.floor_double(z));
+	}
+	
+	/** Basically a setter for the coords. Violates the "muh unmutability" horseshit I don't care about and
+	 * lets me re-use the same instance for a ton of checks. RAM has priority over stupid religious bullshit. */
+	public BlockPos mutate(int x, int y, int z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		return this;
 	}
 	
 	public BlockPos add(int x, int y, int z) {
@@ -69,10 +78,10 @@ public class BlockPos {
 		return this.z;
 	}
 	
-	/** 1.12 vanilla implementation */
+	/** modified 1.12 vanilla implementation */
 	@Override
 	public int hashCode() {
-		return (this.getY() + this.getZ() * 31) * 31 + this.getX();
+		return (this.getY() + this.getZ() * 27644437) * 27644437 + this.getX();
 	}
 
 	@Override
@@ -91,5 +100,13 @@ public class BlockPos {
 				return this.getZ() == pos.getZ();
 			}
 		}
+	}
+	
+	@Override
+	public BlockPos clone() {
+		try {
+			return (BlockPos) super.clone();
+		} catch(Exception x) { }
+		return null;
 	}
 }

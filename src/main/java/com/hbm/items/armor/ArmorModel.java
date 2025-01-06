@@ -11,7 +11,6 @@ import com.hbm.render.model.ModelCloak;
 import com.hbm.render.model.ModelGoggles;
 import com.hbm.render.model.ModelHat;
 import com.hbm.render.model.ModelM65;
-import com.hbm.render.model.ModelOxygenMask;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -36,8 +35,6 @@ public class ArmorModel extends ItemArmor {
 	private ModelGoggles modelGoggles;
 	@SideOnly(Side.CLIENT)
 	private ModelCloak modelCloak;
-	@SideOnly(Side.CLIENT)
-	private ModelOxygenMask modelOxy;
 	@SideOnly(Side.CLIENT)
 	private ModelM65 modelM65;
 	@SideOnly(Side.CLIENT)
@@ -65,14 +62,6 @@ public class ArmorModel extends ItemArmor {
 				return this.modelGoggles;
 			}
 		}
-		if(this == ModItems.oxy_mask) {
-			if(armorSlot == 0) {
-				if(this.modelOxy == null) {
-					this.modelOxy = new ModelOxygenMask();
-				}
-				return this.modelOxy;
-			}
-		}
 		if(this == ModItems.hat) {
 			if(armorSlot == 0) {
 				if(this.modelHat == null) {
@@ -81,7 +70,7 @@ public class ArmorModel extends ItemArmor {
 				return this.modelHat;
 			}
 		}
-		if(this == ModItems.cape_test || this == ModItems.cape_radiation || this == ModItems.cape_gasmask || this == ModItems.cape_schrabidium || this == ModItems.cape_hidden) {
+		if(this == ModItems.cape_radiation || this == ModItems.cape_gasmask || this == ModItems.cape_schrabidium || this == ModItems.cape_hidden) {
 			if(armorSlot == 1) {
 				if(this.modelCloak == null) {
 					this.modelCloak = new ModelCloak();
@@ -96,12 +85,6 @@ public class ArmorModel extends ItemArmor {
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
 		if(stack.getItem() == ModItems.goggles) {
 			return "hbm:textures/models/Goggles.png";
-		}
-		if(stack.getItem() == ModItems.oxy_mask) {
-			return null;
-		}
-		if(stack.getItem() == ModItems.cape_test) {
-			return "hbm:textures/models/TestCape.png";
 		}
 		if(stack.getItem() == ModItems.cape_radiation) {
 			return "hbm:textures/models/capes/CapeRadiation.png";

@@ -1,19 +1,17 @@
 package com.hbm.tileentity.network;
 
+import api.hbm.conveyor.IConveyorBelt;
 import com.hbm.entity.item.EntityMovingItem;
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.container.ContainerCraneExtractor;
 import com.hbm.inventory.gui.GUICraneExtractor;
 import com.hbm.items.ModItems;
 import com.hbm.module.ModulePatternMatcher;
+import com.hbm.tileentity.IControlReceiverFilter;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
-
-import api.hbm.conveyor.IConveyorBelt;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -26,7 +24,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityCraneExtractor extends TileEntityMachineBase implements IGUIProvider, IControlReceiver {
+public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGUIProvider, IControlReceiverFilter {
 	
 	public boolean isWhitelist = false;
 	public ModulePatternMatcher matcher;
@@ -55,7 +53,7 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 
 	@Override
 	public void updateEntity() {
-		
+		super.updateEntity();
 		if(!worldObj.isRemote) {
 			
 			int delay = 20;
@@ -78,10 +76,11 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 					case 2: amount = 64; break;
 					}
 				}
-	
-				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata());
-				TileEntity te = worldObj.getTileEntity(xCoord - dir.offsetX, yCoord - dir.offsetY, zCoord - dir.offsetZ);
-				Block b = worldObj.getBlock(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ);
+
+				ForgeDirection inputSide = getOutputSide(); // note the switcheroo!
+				ForgeDirection outputSide = getInputSide();
+				TileEntity te = worldObj.getTileEntity(xCoord + inputSide.offsetX, yCoord + inputSide.offsetY, zCoord + inputSide.offsetZ);
+				Block b = worldObj.getBlock(xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ);
 				
 				int[] access = null;
 				ISidedInventory sided = null;
@@ -89,7 +88,7 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 				if(te instanceof ISidedInventory) {
 					sided = (ISidedInventory) te;
 					//access = sided.getAccessibleSlotsFromSide(dir.ordinal());
-					access = masquerade(sided, dir.ordinal());
+					access = masquerade(sided, inputSide.getOpposite().ordinal());
 				}
 				
 				boolean hasSent = false;
@@ -108,7 +107,7 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 							int index = access == null ? i : access[i];
 							ItemStack stack = inv.getStackInSlot(index);
 							
-							if(stack != null && (sided == null || sided.canExtractItem(index, stack, dir.ordinal()))){
+							if(stack != null && (sided == null || sided.canExtractItem(index, stack, inputSide.getOpposite().ordinal()))){
 								
 								boolean match = this.matchesFilter(stack);
 								
@@ -119,8 +118,8 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 									stack.stackSize = toSend;
 									
 									EntityMovingItem moving = new EntityMovingItem(worldObj);
-									Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + dir.offsetX * 0.55, yCoord + 0.5 + dir.offsetY * 0.55, zCoord + 0.5 + dir.offsetZ * 0.55);
-									Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, pos);
+									Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + outputSide.offsetX * 0.55, yCoord + 0.5 + outputSide.offsetY * 0.55, zCoord + 0.5 + outputSide.offsetZ * 0.55);
+									Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, pos);
 									moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
 									moving.setItemStack(stack);
 									worldObj.spawnEntityInWorld(moving);
@@ -144,8 +143,8 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 								stack.stackSize = toSend;
 								
 								EntityMovingItem moving = new EntityMovingItem(worldObj);
-								Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + dir.offsetX * 0.55, yCoord + 0.5 + dir.offsetY * 0.55, zCoord + 0.5 + dir.offsetZ * 0.55);
-								Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, pos);
+								Vec3 pos = Vec3.createVectorHelper(xCoord + 0.5 + outputSide.offsetX * 0.55, yCoord + 0.5 + outputSide.offsetY * 0.55, zCoord + 0.5 + outputSide.offsetZ * 0.55);
+								Vec3 snap = belt.getClosestSnappingPosition(worldObj, xCoord + outputSide.offsetX, yCoord + outputSide.offsetY, zCoord + outputSide.offsetZ, pos);
 								moving.setPosition(snap.xCoord, snap.yCoord, snap.zCoord);
 								moving.setItemStack(stack);
 								worldObj.spawnEntityInWorld(moving);
@@ -155,12 +154,23 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 					}
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("isWhitelist", isWhitelist);
-			this.matcher.writeToNBT(data);
-			this.networkPack(data, 15);
+
+			this.networkPackNT(15);
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(isWhitelist);
+		this.matcher.serialize(buf);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		isWhitelist = buf.readBoolean();
+		this.matcher.deserialize(buf);
 	}
 	
 	public static int[] masquerade(ISidedInventory sided, int side) {
@@ -170,12 +180,6 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 		}
 		
 		return sided.getAccessibleSlotsFromSide(side);
-	}
-	
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.isWhitelist = nbt.getBoolean("isWhitelist");
-		this.matcher.modes = new String[this.matcher.modes.length];
-		this.matcher.readFromNBT(nbt);
 	}
 	
 	public boolean matchesFilter(ItemStack stack) {
@@ -190,7 +194,8 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 		
 		return false;
 	}
-	
+
+	@Override
 	public void nextMode(int i) {
 		this.matcher.nextMode(worldObj, slots[i], i);
 	}
@@ -217,7 +222,7 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICraneExtractor(player.inventory, this);
 	}
 	
@@ -245,5 +250,14 @@ public class TileEntityCraneExtractor extends TileEntityMachineBase implements I
 		if(data.hasKey("whitelist")) {
 			this.isWhitelist = !this.isWhitelist;
 		}
+		if(data.hasKey("slot")){
+			setFilterContents(data);
+		}
+	}
+
+	@Override
+	public int[] getFilterSlots() {
+		return new int[]{0,9};
 	}
 }
+

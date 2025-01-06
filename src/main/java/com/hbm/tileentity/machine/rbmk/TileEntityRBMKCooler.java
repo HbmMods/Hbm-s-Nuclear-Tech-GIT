@@ -1,13 +1,13 @@
 package com.hbm.tileentity.machine.rbmk;
 
 import api.hbm.fluid.IFluidStandardReceiver;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.fluid.FluidType;
+import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKConsole.ColumnType;
 import cpw.mods.fml.common.Optional;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -20,7 +20,7 @@ import net.minecraft.util.DamageSource;
 import java.util.List;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAcceptor, IFluidStandardReceiver, SimpleComponent {
+public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidStandardReceiver, SimpleComponent, CompatHandler.OCComponent {
 
 	private FluidTank tank;
 	private int lastCooled;
@@ -28,7 +28,7 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 	public TileEntityRBMKCooler() {
 		super();
 
-		this.tank = new FluidTank(Fluids.CRYOGEL, 8000, 0);
+		this.tank = new FluidTank(Fluids.CRYOGEL, 8_000);
 	}
 
 	@Override
@@ -103,34 +103,22 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 	}
 
 	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		this.tank.serialize(buf);
+		buf.writeInt(this.lastCooled);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.tank.deserialize(buf);
+		this.lastCooled = buf.readInt();
+	}
+
+	@Override
 	public ColumnType getConsoleType() {
 		return ColumnType.COOLER;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		if (type == tank.getTankType())
-			tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		return type == tank.getTankType() ? tank.getFill() : 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		return type == tank.getTankType() ? tank.getMaxFill() : 0;
 	}
 
 	@Override
@@ -145,35 +133,36 @@ public class TileEntityRBMKCooler extends TileEntityRBMKBase implements IFluidAc
 
 	//do some opencomputers stuff
 
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "rbmk_cooler";
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getHeat(Context context, Arguments args) {
 		return new Object[]{heat};
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCryo(Context context, Arguments args) {
 		return new Object[]{tank.getFill()};
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCryoMax(Context context, Arguments args) {
 		return new Object[]{tank.getMaxFill()};
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getCoordinates(Context context, Arguments args) {
 		return new Object[] {xCoord, yCoord, zCoord};
 	}
 
-	@Callback(direct = true, limit = 8)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		return new Object[]{heat, tank.getFill(), tank.getMaxFill(), xCoord, yCoord, zCoord};

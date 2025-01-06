@@ -13,17 +13,19 @@ import com.hbm.items.machine.ItemFELCrystal;
 import com.hbm.items.machine.ItemFELCrystal.EnumWavelengths;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.sound.AudioWrapper;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,10 +38,11 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser, IGUIProvider {
+public class TileEntityFEL extends TileEntityMachineBase implements IEnergyReceiverMK2, IGUIProvider {
 	
 	public long power;
 	public static final long maxPower = 20000000;
@@ -49,6 +52,8 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 	public boolean missingValidSilex = true	;
 	public int distance;
 	public List<EntityLivingBase> entities = new ArrayList();
+	private int audioDuration = 0;
+	private AudioWrapper audio;
 	
 	
 	public TileEntityFEL() {
@@ -68,7 +73,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 		if(!worldObj.isRemote) {
 			
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
-			this.trySubscribe(worldObj, xCoord + dir.offsetX * -5, yCoord + 1, zCoord + dir.offsetZ  * -5, dir);
+			this.trySubscribe(worldObj, xCoord + dir.offsetX * -5, yCoord + 1, zCoord + dir.offsetZ  * -5, dir.getOpposite());
 			this.power = Library.chargeTEFromItems(slots, 0, power, maxPower);
 			
 			if(this.isOn && !(this.slots[1] == null)) {
@@ -160,7 +165,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 						} 
 						
 						float hardness = b.getExplosionResistance(null);
-						if(hardness < 2400 && worldObj.rand.nextInt(5) == 0) {
+						if(hardness < 75 && worldObj.rand.nextInt(5) == 0) {
 							worldObj.playSoundEffect(x + 0.5, y + 0.5, z + 0.5, "random.fizz", 1.0F, 1.0F);
 							Block block = (this.mode != EnumWavelengths.DRX) ? Blocks.fire : (MainRegistry.polaroidID == 11) ? ModBlocks.digamma_matter : ModBlocks.fire_digamma;
 							worldObj.setBlock(x, y, z, block);
@@ -172,13 +177,36 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 				}
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setString("mode", mode.toString());
-			data.setBoolean("isOn", isOn);
-			data.setBoolean("valid", missingValidSilex);
-			data.setInteger("distance", distance);
-			this.networkPack(data, 250);
+			this.networkPackNT(250);
+		} else {
+
+			if(power > powerReq * Math.pow(2, mode.ordinal()) && isOn && !(mode == EnumWavelengths.NULL) && distance - 3 > 0) {
+				audioDuration += 2;
+			} else {
+				audioDuration -= 3;
+			}
+
+			audioDuration = MathHelper.clamp_int(audioDuration, 0, 60);
+
+			if(audioDuration > 10) {
+
+				if(audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if(!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+
+				audio.updateVolume(getVolume(2F));
+				audio.updatePitch((audioDuration - 10) / 100F + 0.5F);
+
+			} else {
+
+				if(audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
 		}
 	}
 	
@@ -191,14 +219,25 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 		 
 		return false;
 	}
-
+	
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.power = nbt.getLong("power");
-		this.mode = EnumWavelengths.valueOf(nbt.getString("mode"));
-		this.isOn = nbt.getBoolean("isOn");
-		this.distance = nbt.getInteger("distance");
-		this.missingValidSilex = nbt.getBoolean("valid");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		BufferUtil.writeString(buf, mode.toString());
+		buf.writeBoolean(isOn);
+		buf.writeBoolean(missingValidSilex);
+		buf.writeInt(distance);
+	}
+	
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		mode = EnumWavelengths.valueOf(BufferUtil.readString(buf));
+		isOn = buf.readBoolean();
+		missingValidSilex = buf.readBoolean();
+		distance = buf.readInt();
 	}
 
 	@Override
@@ -234,7 +273,12 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 		nbt.setBoolean("valid", missingValidSilex);
 		nbt.setInteger("distance", distance);
 	}
-	
+
+	@Override
+	public AudioWrapper createAudioLoop() {
+		return MainRegistry.proxy.getLoopedSound("hbm:block.fel", xCoord, yCoord, zCoord, 2.0F, 10F, 2.0F);
+	}
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return INFINITE_EXTENT_AABB;
@@ -268,7 +312,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements IEnergyUser,
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIFEL(player.inventory, this);
 	}
 }

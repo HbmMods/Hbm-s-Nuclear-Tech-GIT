@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.hbm.entity.missile.EntitySoyuz;
 import com.hbm.handler.MissileStruct;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.container.ContainerSoyuzLauncher;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -16,16 +14,17 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardReceiver;
 import api.hbm.item.IDesignatorItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
@@ -38,7 +37,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyUser, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IGUIProvider {
+public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements ISidedInventory, IEnergyReceiverMK2, IFluidStandardReceiver, IGUIProvider, IFluidCopiable {
 
 	public long power;
 	public static final long maxPower = 1000000;
@@ -57,8 +56,8 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	public TileEntitySoyuzLauncher() {
 		super(27);
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.KEROSENE, 128000, 0);
-		tanks[1] = new FluidTank(Fluids.OXYGEN, 128000, 1);
+		tanks[0] = new FluidTank(Fluids.KEROSENE, 128_000);
+		tanks[1] = new FluidTank(Fluids.OXYGEN, 128_000);
 	}
 
 	@Override
@@ -81,9 +80,6 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			
 			tanks[0].loadTank(4, 5, slots);
 			tanks[1].loadTank(6, 7, slots);
-
-			for (int i = 0; i < 2; i++)
-				tanks[i].updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			power = Library.chargeTEFromItems(slots, 8, power, maxPower);
 			
@@ -99,13 +95,8 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 			} else {
 				liftOff();
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setByte("mode", mode);
-			data.setBoolean("starting", starting);
-			data.setByte("type", this.getType());
-			networkPack(data, 250);
+
+			networkPackNT(250);
 		}
 		
 		if(worldObj.isRemote) {
@@ -173,32 +164,48 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	public AudioWrapper createAudioLoop() {
 		return MainRegistry.proxy.getLoopedSound("hbm:block.soyuzReady", xCoord, yCoord, zCoord, 2.0F, 100F, 1.0F);
 	}
-	
-    public void onChunkUnload() {
-    	
-    	if(audio != null) {
+
+	@Override
+	public void onChunkUnload() {
+
+		if(audio != null) {
 			audio.stopSound();
 			audio = null;
-    	}
-    }
-	
-    public void invalidate() {
-    	
-    	super.invalidate();
-    	
-    	if(audio != null) {
-			audio.stopSound();
-			audio = null;
-    	}
-    }
-	
-	public void networkUnpack(NBTTagCompound data) {
-		power = data.getLong("power");
-		mode = data.getByte("mode");
-		starting = data.getBoolean("starting");
-		rocketType = data.getByte("type");
+		}
 	}
-	
+
+	@Override
+	public void invalidate() {
+		super.invalidate();
+
+		if(audio != null) {
+			audio.stopSound();
+			audio = null;
+		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeByte(mode);
+		buf.writeBoolean(starting);
+		buf.writeByte(this.getType());
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		mode = buf.readByte();
+		starting = buf.readBoolean();
+		rocketType = buf.readByte();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
+	}
+
 	public void startCountdown() {
 		
 		if(canLaunch())
@@ -267,9 +274,9 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	public int getFuelRequired() {
 		
 		if(mode == 1)
-			return 20000 + getDist();
+			return Math.min(5000 + getDist(), 128_000);
 		
-		return 128000;
+		return 128_000;
 	}
 	
 	public int getDist() {
@@ -399,46 +406,6 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 	}
 
 	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getMaxFill();
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getMaxFill();
-		else
-			return 0;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setFill(fill);
-	}
-
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			tanks[0].setFill(fill);
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			tanks[1].setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if (index < 2 && tanks[index] != null)
-			tanks[index].setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		if (type.name().equals(tanks[0].getTankType().name()))
-			return tanks[0].getFill();
-		else if (type.name().equals(tanks[1].getTankType().name()))
-			return tanks[1].getFill();
-		else
-			return 0;
-	}
-	
-	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
 	}
@@ -487,7 +454,12 @@ public class TileEntitySoyuzLauncher extends TileEntityMachineBase implements IS
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUISoyuzLauncher(player.inventory, this);
+	}
+
+	@Override
+	public FluidTank getTankToPaste() {
+		return null;
 	}
 }

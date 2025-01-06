@@ -6,10 +6,6 @@ import java.util.HashMap;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.handler.pollution.PollutionHandler;
-import com.hbm.handler.pollution.PollutionHandler.PollutionType;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.interfaces.IFluidContainer;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.container.ContainerMachineDiesel;
 import com.hbm.inventory.fluid.FluidType;
@@ -17,20 +13,23 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Combustible;
 import com.hbm.inventory.fluid.trait.FT_Combustible.FuelGrade;
-import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Leaded;
+import com.hbm.inventory.fluid.trait.FluidTrait.FluidReleaseType;
 import com.hbm.inventory.gui.GUIMachineDiesel;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
+import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.tileentity.TileEntityMachinePolluting;
+import com.hbm.util.CompatEnergyControl;
 
-import api.hbm.energy.IBatteryItem;
-import api.hbm.energy.IEnergyGenerator;
-import api.hbm.fluid.IFluidStandardReceiver;
+import api.hbm.energymk2.IBatteryItem;
+import api.hbm.energymk2.IEnergyProviderMK2;
+import api.hbm.fluid.IFluidStandardTransceiver;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.gui.GuiScreen;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -38,7 +37,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityMachineDiesel extends TileEntityMachineBase implements IEnergyGenerator, IFluidContainer, IFluidAcceptor, IFluidStandardReceiver, IConfigurableMachine, IGUIProvider {
+public class TileEntityMachineDiesel extends TileEntityMachinePolluting implements IEnergyProviderMK2, IFluidStandardTransceiver, IConfigurableMachine, IGUIProvider, IInfoProviderEC, IFluidCopiable {
 
 	public long power;
 	public int soundCycle = 0;
@@ -61,8 +60,8 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	private static final int[] slots_side = new int[] { 2 };
 
 	public TileEntityMachineDiesel() {
-		super(5);
-		tank = new FluidTank(Fluids.DIESEL, 4_000, 0);
+		super(5, 100);
+		tank = new FluidTank(Fluids.DIESEL, 4_000);
 	}
 
 	@Override
@@ -113,7 +112,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 			}
 		}
 		if(i == 2) {
-			if(stack.getItem() instanceof IBatteryItem && ((IBatteryItem) stack.getItem()).getCharge(stack) == ((IBatteryItem) stack.getItem()).getMaxCharge()) {
+			if(stack.getItem() instanceof IBatteryItem && ((IBatteryItem) stack.getItem()).getCharge(stack) == ((IBatteryItem) stack.getItem()).getMaxCharge(stack)) {
 				return true;
 			}
 		}
@@ -130,14 +129,15 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 		
 		if(!worldObj.isRemote) {
 			
-			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
-				this.sendPower(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+				this.tryProvide(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+				this.sendSmoke(xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
+			}
 
 			//Tank Management
 			FluidType last = tank.getTankType();
 			if(tank.setType(3, 4, slots)) this.unsubscribeToAllAround(last, this);
 			tank.loadTank(0, 1, slots);
-			tank.updateTank(xCoord, yCoord, zCoord, worldObj.provider.dimensionId);
 			
 			this.subscribeToAllAround(tank.getTankType(), this);
 
@@ -152,19 +152,26 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 
 			generate();
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("power", (int) power);
-			data.setInteger("powerCap", (int) powerCap);
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
 
-		power = data.getInteger("power");
-		powerCap = data.getInteger("powerCap");
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt((int) power);
+		buf.writeInt((int) powerCap);
+		tank.serialize(buf);
 	}
-	
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.power = buf.readInt();
+		this.powerCap = buf.readInt();
+		tank.deserialize(buf);
+	}
+
 	public boolean hasAcceptableFuel() {
 		return getHEFromFuel() > 0;
 	}
@@ -195,7 +202,7 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 				
 				if(!shutUp) {
 					if (soundCycle == 0) {
-						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", 0.75F * this.getVolume(3), 0.5F);
+						this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "fireworks.blast", this.getVolume(0.75F), 0.5F);
 					}
 					soundCycle++;
 				}
@@ -207,8 +214,9 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 				if(tank.getFill() < 0)
 					tank.setFill(0);
 				
-				PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.SOOT, PollutionHandler.SOOT_PER_SECOND * 0.5F);
-				if(tank.getTankType().hasTrait(FT_Leaded.class))  PollutionHandler.incrementPollution(worldObj, xCoord, yCoord, zCoord, PollutionType.HEAVYMETAL, PollutionHandler.HEAVY_METAL_PER_SECOND * 0.5F);
+				if(worldObj.getTotalWorldTime() % 5 == 0) {
+					super.pollute(tank.getTankType(), FluidReleaseType.BURN, 5F);
+				}
 
 				if(power + getHEFromFuel() <= powerCap) {
 					power += getHEFromFuel();
@@ -232,32 +240,6 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 	@Override
 	public long getMaxPower() {
 		return this.maxPower;
-	}
-
-	@Override
-	public void setFillForSync(int fill, int index) {
-		tank.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		tank.setTankType(type);
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		return type == this.tank.getTankType() ? tank.getMaxFill() : 0;
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		return type == this.tank.getTankType() ? tank.getFill() : 0;
-	}
-
-	@Override
-	public void setFluidFill(int i, FluidType type) {
-		if(type == tank.getTankType())
-			tank.setFill(i);
 	}
 
 	@Override
@@ -315,7 +297,21 @@ public class TileEntityMachineDiesel extends TileEntityMachineBase implements IE
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineDiesel(player.inventory, this);
+	}
+
+	@Override
+	public FluidTank[] getSendingTanks() {
+		return this.getSmokeTanks();
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		long he = getHEFromFuel(tank.getTankType());
+		boolean active = tank.getFill() > 0 && he > 0;
+		data.setBoolean(CompatEnergyControl.B_ACTIVE, active);
+		data.setDouble(CompatEnergyControl.D_CONSUMPTION_MB, active ? 1D : 0D);
+		data.setDouble(CompatEnergyControl.D_OUTPUT_HE, he);
 	}
 }

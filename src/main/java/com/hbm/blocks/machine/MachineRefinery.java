@@ -14,7 +14,6 @@ import com.hbm.tileentity.IPersistentNBT;
 import com.hbm.tileentity.IRepairable;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.oil.TileEntityMachineRefinery;
-import com.hbm.util.I18nUtil;
 
 import api.hbm.block.IToolable;
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
@@ -43,7 +42,7 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		if(meta >= 12) return new TileEntityMachineRefinery();
-		if(meta >= 6) return new TileEntityProxyCombo().fluid().power();
+		if(meta >= 6) return new TileEntityProxyCombo().fluid().power().inventory();
 		return null;
 	}
 	
@@ -116,7 +115,7 @@ public class MachineRefinery extends BlockDummyable implements IPersistentInfoPr
 		for(int i = 0; i < 5; i++) {
 			FluidTank tank = new FluidTank(Fluids.NONE, 0);
 			tank.readFromNBT(persistentTag, "" + i);
-			list.add(EnumChatFormatting.YELLOW + "" + tank.getFill() + "/" + tank.getMaxFill() + "mB " + I18nUtil.resolveKey(tank.getTankType().getUnlocalizedName()));
+			list.add(EnumChatFormatting.YELLOW + "" + tank.getFill() + "/" + tank.getMaxFill() + "mB " + tank.getTankType().getLocalizedName());
 		}
 	}
 

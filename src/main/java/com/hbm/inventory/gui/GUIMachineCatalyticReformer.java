@@ -1,14 +1,19 @@
 package com.hbm.inventory.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerMachineCatalyticReformer;
+import com.hbm.items.ModItems;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.machine.oil.TileEntityMachineCatalyticReformer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class GUIMachineCatalyticReformer extends GuiInfoContainer {
@@ -33,6 +38,14 @@ public class GUIMachineCatalyticReformer extends GuiInfoContainer {
 		refinery.tanks[2].renderTankInfo(this, mouseX, mouseY, guiLeft + 125, guiTop + 70 - 52, 16, 52);
 		refinery.tanks[3].renderTankInfo(this, mouseX, mouseY, guiLeft + 143, guiTop + 70 - 52, 16, 52);
 		this.drawElectricityInfo(this, mouseX, mouseY, guiLeft + 17, guiTop + 70 - 52, 16, 52, refinery.power, refinery.maxPower);
+
+		if(this.mc.thePlayer.inventory.getItemStack() == null && this.isMouseOverSlot(this.inventorySlots.getSlot(10), mouseX, mouseY) && !this.inventorySlots.getSlot(10).getHasStack()) {
+			List<Object[]> lines = new ArrayList();
+			ItemStack converter = new ItemStack(ModItems.catalytic_converter);
+			lines.add(new Object[] {converter});
+			lines.add(new Object[] {converter.getDisplayName()});
+			this.drawStackText(lines, mouseX, mouseY, this.fontRendererObj);
+		}
 	}
 	
 	@Override

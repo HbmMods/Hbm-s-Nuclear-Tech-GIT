@@ -1,6 +1,9 @@
 package com.hbm.items.machine;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
@@ -13,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class ItemRBMKRod extends Item {
@@ -240,7 +244,7 @@ public class ItemRBMKRod extends Item {
 	}
 	
 	/**
-	 * @param reactivity [0;100] ...or at least those are sane levels
+	 * @param enrichment [0;100] ...or at least those are sane levels
 	 * @return the amount of reactivity yielded, unmodified by xenon
 	 */
 	public double reactivityFunc(double in, double enrichment) {
@@ -275,7 +279,7 @@ public class ItemRBMKRod extends Item {
 			break;
 		case ARCH: function = "(%1$s - %1$s² / 10000) / 100 * %2$s [0;∞]";
 			break;
-		case SIGMOID: function = "%2$s / (1 + e^(-(%1$s - 50) / 10)";
+		case SIGMOID: function = "%2$s / (1 + e^(-(%1$s - 50) / 10))";
 			break;
 		case SQUARE_ROOT: function = "sqrt(%1$s) * %2$s / 10";
 			break;
@@ -295,10 +299,10 @@ public class ItemRBMKRod extends Item {
 			String reactivity = EnumChatFormatting.YELLOW + "" + ((int)(this.reactivity * enrichment * 1000D) / 1000D) + EnumChatFormatting.WHITE;
 			String enrichmentPer = EnumChatFormatting.GOLD + " (" + ((int)(enrichment * 1000D) / 10D) + "%)";
 			
-			return String.format(function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")" : "x", reactivity).concat(enrichmentPer);
+			return String.format(Locale.US, function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")" : "x", reactivity).concat(enrichmentPer);
 		}
 		
-		return String.format(function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")" : "x", reactivity);
+		return String.format(Locale.US, function, selfRate > 0 ? "(x" + EnumChatFormatting.RED + " + " + selfRate + "" + EnumChatFormatting.WHITE + ")" : "x", reactivity);
 	}
 	
 	public static enum EnumDepleteFunc {
@@ -354,7 +358,55 @@ public class ItemRBMKRod extends Item {
 	public static double getPoisonLevel(ItemStack stack) {
 		return getPoison(stack) / 100D;
 	}
-	
+
+	// START Special flux curve handling!
+	// Nothing really uses this yet, though it's a really fun feature to play around with.
+
+	// For the RBMK handler to see if the rod is special.
+	public boolean specialFluxCurve = false;
+
+	public ItemRBMKRod setFluxCurve(boolean bool) {
+		specialFluxCurve = bool;
+		return this;
+	}
+
+	/** Double 1: Flux ratio in.
+	 * Double 2: Depletion value.
+	 * Return double: Output flux ratio.
+	 **/
+	BiFunction<Double, Double, Double> ratioCurve;
+
+	/** Double 1: Flux quantity in. <br>
+	 * Double 2: Flux ratio in. <br>
+	 * Return double: Output flux quantity.
+	 **/
+	BiFunction<Double, Double, Double> fluxCurve;
+
+	public ItemRBMKRod setOutputRatioCurve(Function<Double, Double> func) {
+		this.ratioCurve = (fluxRatioIn, depletion) -> func.apply(fluxRatioIn) * 1.0D;
+		return this;
+	}
+
+	public ItemRBMKRod setDepletionOutputRatioCurve(BiFunction<Double, Double, Double> func) {
+		this.ratioCurve = func;
+		return this;
+	}
+
+	public ItemRBMKRod setOutputFluxCurve(BiFunction<Double, Double, Double> func) {
+		this.fluxCurve = func;
+		return this;
+	}
+
+	public double fluxRatioOut(double fluxRatioIn, double depletion) {
+		return MathHelper.clamp_double(ratioCurve.apply(fluxRatioIn, depletion), 0, 1);
+	}
+
+	public double fluxFromRatio(double quantity, double ratio) {
+		return fluxCurve.apply(quantity, ratio);
+	}
+
+	// END Special flux curve handling.
+
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool) {
 		
@@ -373,7 +425,7 @@ public class ItemRBMKRod extends Item {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.fluxFunc", EnumChatFormatting.WHITE + getFuncDescription(stack)));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.funcType", this.function.title));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmx.xenonBurn", EnumChatFormatting.WHITE + "x² / " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.heat", heat + "°C"));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmx.diffusion", diffusion + "¹/²"));
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmx.skinTemp", ((int)(getHullHeat(stack) * 10D) / 10D) + "m"));
@@ -393,7 +445,7 @@ public class ItemRBMKRod extends Item {
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.fluxFunc", EnumChatFormatting.WHITE + getFuncDescription(stack)));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.funcType", this.function.title));
 			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonGen", EnumChatFormatting.WHITE + "x * " + xGen));
-			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonBurn", EnumChatFormatting.WHITE + "x² * " + xBurn));
+			list.add(EnumChatFormatting.YELLOW + I18nUtil.resolveKey("trait.rbmk.xenonBurn", EnumChatFormatting.WHITE + "x² / " + xBurn));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.heat", heat + "°C"));
 			list.add(EnumChatFormatting.GOLD + I18nUtil.resolveKey("trait.rbmk.diffusion", diffusion + "¹/²"));
 			list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("trait.rbmk.skinTemp", ((int)(getHullHeat(stack) * 10D) / 10D) + "°C"));

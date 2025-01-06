@@ -23,6 +23,8 @@ public class RenderPylon extends RenderPylonBase {
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float f) {
 		TileEntityPylon pyl = (TileEntityPylon)te;
 		
+		GL11.glEnable(GL11.GL_LIGHTING);
+		
 		GL11.glPushMatrix();
 			GL11.glTranslatef((float) x + 0.5F, (float) y + 1.5F - ((1F / 16F) * 14F), (float) z + 0.5F);
 			GL11.glRotatef(180, 0F, 0F, 1F);
@@ -31,7 +33,7 @@ public class RenderPylon extends RenderPylonBase {
 		GL11.glPopMatrix();
 		
 		GL11.glPushMatrix();
-		this.renderSingleLine(pyl, x, y, z);
+		this.renderLinesGeneric(pyl, x, y, z);
 		GL11.glPopMatrix();
 	}
 }

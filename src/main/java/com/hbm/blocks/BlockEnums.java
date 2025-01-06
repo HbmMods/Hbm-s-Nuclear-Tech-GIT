@@ -11,6 +11,14 @@ public class BlockEnums {
 		BAUXITE
 	}
 
+	public static enum EnumMeteorType {
+		IRON,
+		COPPER,
+		ALUMINIUM,
+		RAREEARTH,
+		COBALT
+	}
+
 	public static enum EnumBiomeType {
 		DESERT,
 		WOODLAND
@@ -19,6 +27,27 @@ public class BlockEnums {
 	public static enum EnumStalagmiteType {
 		SULFUR,
 		ASBESTOS
+	}
+
+	public static enum EnumCMMaterials {
+		STEEL,
+		ALLOY,
+		DESH,
+		TCALLOY
+	}
+
+	public static enum EnumCMEngines {
+		STANDARD,
+		DESH,
+		BISMUTH
+	}
+
+	public static enum EnumCMCircuit {
+		ALUMINIUM,
+		COPPER,
+		RED_COPPER,
+		GOLD,
+		SCHRABIDIUM
 	}
 	
 	/** DECO / STRUCTURE ENUMS */
@@ -36,5 +65,11 @@ public class BlockEnums {
 	public static enum DecoCabinetEnum {
 		GREEN,
 		STEEL
+	}
+
+	public static enum LightType {
+		INCANDESCENT,
+		FLUORESCENT,
+		HALOGEN
 	}
 }

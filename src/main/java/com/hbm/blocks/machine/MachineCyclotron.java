@@ -25,7 +25,7 @@ public class MachineCyclotron extends BlockDummyable {
 			return new TileEntityMachineCyclotron();
 		
 		if(meta >= 6)
-			return new TileEntityProxyCombo(false, true, true);
+			return new TileEntityProxyCombo().inventory().power().fluid();
 		
 		return null;
 	}
@@ -93,12 +93,16 @@ public class MachineCyclotron extends BlockDummyable {
 		super.fillSpace(world, x, y, z, dir, o);
 
 		this.makeExtra(world, x + dir.offsetX * o + 2, y, z + dir.offsetZ * o + 1);
+		this.makeExtra(world, x + dir.offsetX * o + 2, y, z + dir.offsetZ * o);
 		this.makeExtra(world, x + dir.offsetX * o + 2, y, z + dir.offsetZ * o - 1);
 		this.makeExtra(world, x + dir.offsetX * o - 2, y, z + dir.offsetZ * o + 1);
+		this.makeExtra(world, x + dir.offsetX * o - 2, y, z + dir.offsetZ * o);
 		this.makeExtra(world, x + dir.offsetX * o - 2, y, z + dir.offsetZ * o - 1);
 		this.makeExtra(world, x + dir.offsetX * o + 1, y, z + dir.offsetZ * o + 2);
+		this.makeExtra(world, x + dir.offsetX * o, y, z + dir.offsetZ * o + 2);
 		this.makeExtra(world, x + dir.offsetX * o - 1, y, z + dir.offsetZ * o + 2);
 		this.makeExtra(world, x + dir.offsetX * o + 1, y, z + dir.offsetZ * o - 2);
+		this.makeExtra(world, x + dir.offsetX * o, y, z + dir.offsetZ * o - 2);
 		this.makeExtra(world, x + dir.offsetX * o - 1, y, z + dir.offsetZ * o - 2);
 	}
 }

@@ -1,23 +1,25 @@
 package com.hbm.tileentity.machine;
 
+import com.hbm.handler.CompatHandler;
 import com.hbm.inventory.container.ContainerCoreStabilizer;
 import com.hbm.inventory.gui.GUICoreStabilizer;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemLens;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.CompatEnergyControl;
 
-import api.hbm.energy.IEnergyUser;
+import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -27,7 +29,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyUser, SimpleComponent, IGUIProvider {
+public class TileEntityCoreStabilizer extends TileEntityMachineBase implements IEnergyReceiverMK2, SimpleComponent, IGUIProvider, IInfoProviderEC, CompatHandler.OCComponent {
 
 	public long power;
 	public static final long maxPower = 2500000000L;
@@ -86,16 +88,12 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 						break;
 					}
 					
-					if(worldObj.getBlock(x, y, z) != Blocks.air)
+					if(!worldObj.getBlock(x, y, z).isAir(worldObj, x, y, z))
 						break;
 				}
 			}
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("watts", watts);
-			data.setInteger("beam", beam);
-			this.networkPack(data, 250);
+			this.networkPackNT(250);
 		}
 	}
 	
@@ -104,12 +102,23 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 			this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
 
-		power = data.getLong("power");
-		watts = data.getInteger("watts");
-		beam = data.getInteger("beam");
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeLong(power);
+		buf.writeInt(watts);
+		buf.writeInt(beam);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		this.power = buf.readLong();
+		this.watts = buf.readInt();
+		this.beam = buf.readInt();
 	}
 	
 	public long getPowerScaled(long i) {
@@ -169,29 +178,24 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 
 	// do some opencomputer stuff
 	@Override
+	@Optional.Method(modid = "OpenComputers")
 	public String getComponentName() {
 		return "dfc_stabilizer";
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
-	public Object[] getEnergyStored(Context context, Arguments args) {
-		return new Object[] {power};
+	public Object[] getEnergyInfo(Context context, Arguments args) {
+		return new Object[] {getPower(), getMaxPower()};
 	}
 
-	@Callback(direct = true, limit = 4)
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] getMaxEnergy(Context context, Arguments args) {
-		return new Object[] {maxPower};
-	}
-
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInput(Context context, Arguments args) {
 		return new Object[] {watts};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getDurability(Context context, Arguments args) {
 		if(slots[0] != null && slots[0].getItem() == ModItems.ams_lens && ItemLens.getLensDamage(slots[0]) < ((ItemLens)ModItems.ams_lens).maxDamage) {
@@ -200,7 +204,7 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		return new Object[] {"N/A"};
 	}
 
-	@Callback(direct = true, limit = 4)
+	@Callback(direct = true)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] getInfo(Context context, Arguments args) {
 		Object lens_damage_buf;
@@ -212,16 +216,11 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 		return new Object[] {power, maxPower, watts, lens_damage_buf};
 	}
 
-	@Callback(direct = true, limit = 2)
+	@Callback(direct = true, limit = 4)
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setInput(Context context, Arguments args) {
 		int newOutput = args.checkInteger(0);
-		if (newOutput > 100) {
-			newOutput = 100;
-		} else if (newOutput < 0) {
-			newOutput = 0;
-		}
-		watts = newOutput;
+		watts = MathHelper.clamp_int(newOutput, 0, 100);
 		return new Object[] {};
 	}
 
@@ -232,7 +231,18 @@ public class TileEntityCoreStabilizer extends TileEntityMachineBase implements I
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUICoreStabilizer(player.inventory, this);
+	}
+
+	@Override
+	public void provideExtraInfo(NBTTagCompound data) {
+		int demand = (int) Math.pow(watts, 4);
+		long damage = ItemLens.getLensDamage(slots[0]);
+		ItemLens lens = (ItemLens) com.hbm.items.ModItems.ams_lens;
+		if(getPower() >= demand && slots[0] != null && slots[0].getItem() == lens && damage < 432000000L)
+			data.setDouble(CompatEnergyControl.D_CONSUMPTION_HE, demand);
+		else
+			data.setDouble(CompatEnergyControl.D_CONSUMPTION_HE, 0);
 	}
 }

@@ -35,6 +35,7 @@ public class CellularDungeon {
 	public List<CellularDungeonRoom> rooms = new ArrayList();
 	int tries;
 	int branches;
+	boolean isGenerating;
 	
 	public CellularDungeon(int width, int height, int dimX, int dimZ, int tries, int branches) {
 
@@ -60,7 +61,11 @@ public class CellularDungeon {
 	}
 	
 	public void generate(World world, int x, int y, int z, Random rand) {
+		
+		if(isGenerating) return;
 
+		isGenerating = true;
+		
 		x -= dimX * width / 2;
 		z -= dimZ * width / 2;
 		
@@ -82,6 +87,8 @@ public class CellularDungeon {
 				cells[dx][dz].generate(world, x + dx * (width - 1), y, z + dz * (width - 1), doors[dx][dz]);
 			}
 		}
+		
+		isGenerating = false;
 	}
 	
 	int rec = 0;

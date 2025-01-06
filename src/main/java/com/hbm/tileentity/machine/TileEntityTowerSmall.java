@@ -1,33 +1,59 @@
 package com.hbm.tileentity.machine;
 
+import java.io.IOException;
+
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonWriter;
+import com.hbm.config.GeneralConfig;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.Library;
 import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.IConfigurableMachine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileEntityTowerSmall extends TileEntityCondenser {
 	
+	//Configurable values
+	public static int inputTankSizeTS = 1_000;
+	public static int outputTankSizeTS = 1_000;
+
 	public TileEntityTowerSmall() {
 		tanks = new FluidTank[2];
-		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, 1000, 0);
-		tanks[1] = new FluidTank(Fluids.WATER, 1000, 1);
+		tanks[0] = new FluidTank(Fluids.SPENTSTEAM, inputTankSizeTS);
+		tanks[1] = new FluidTank(Fluids.WATER, outputTankSizeTS);
 	}
 	
+	@Override
+	public String getConfigName() {
+		return "condenserTowerSmall";
+	}
+
+	@Override
+	public void readIfPresent(JsonObject obj) {
+		inputTankSizeTS = IConfigurableMachine.grab(obj, "I:inputTankSize", inputTankSizeTS);
+		outputTankSizeTS = IConfigurableMachine.grab(obj, "I:outputTankSize", outputTankSizeTS);
+	}
+
+	@Override
+	public void writeConfig(JsonWriter writer) throws IOException {
+		writer.name("I:inputTankSize").value(inputTankSizeTS);
+		writer.name("I:outputTankSize").value(outputTankSizeTS);
+	}
+
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
 		
 		if(worldObj.isRemote) {
 			
-			if(this.waterTimer > 0 && this.worldObj.getTotalWorldTime() % 2 == 0) {
+			if(GeneralConfig.enableSteamParticles && (this.waterTimer > 0 && this.worldObj.getTotalWorldTime() % 2 == 0)) {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "tower");
 				data.setFloat("lift", 1F);
@@ -58,15 +84,6 @@ public class TileEntityTowerSmall extends TileEntityCondenser {
 		this.sendFluid(this.tanks[1], worldObj, xCoord - 3, yCoord, zCoord, Library.NEG_X);
 		this.sendFluid(this.tanks[1], worldObj, xCoord, yCoord, zCoord + 3, Library.POS_Z);
 		this.sendFluid(this.tanks[1], worldObj, xCoord, yCoord, zCoord - 3, Library.NEG_Z);
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		
-		for(int i = 2; i <= 6; i++) {
-			ForgeDirection dir = ForgeDirection.getOrientation(i);
-			fillFluid(xCoord + dir.offsetX * 3, yCoord, zCoord + dir.offsetZ * 3, getTact(), type);
-		}
 	}
 	
 	AxisAlignedBB bb = null;

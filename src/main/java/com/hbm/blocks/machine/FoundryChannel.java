@@ -83,6 +83,12 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 	}
 
 	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+		setBlockBoundsBasedOnState(world, x, y, z);
+		return AxisAlignedBB.getBoundingBox(x + this.minX, y + this.minY, z + this.minZ, x + this.maxX, y + this.maxY, z + this.maxZ);
+	}
+
+	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
 		setBlockBoundsBasedOnState(world, x, y, z);
@@ -128,10 +134,10 @@ public class FoundryChannel extends BlockContainer implements ICrucibleAcceptor 
 		Block b = world.getBlock(x + dir.offsetX, y, z + dir.offsetZ);
 		int meta = world.getBlockMetadata(x + dir.offsetX, y, z + dir.offsetZ);
 		
-		if(b == ModBlocks.foundry_outlet && meta == dir.ordinal())
+		if((b == ModBlocks.foundry_outlet || b == ModBlocks.foundry_slagtap) && meta == dir.ordinal())
 			return true;
 		
-		return b == ModBlocks.foundry_channel || b == ModBlocks.foundry_mold || b == ModBlocks.foundry_slagtap;
+		return b == ModBlocks.foundry_channel || b == ModBlocks.foundry_mold;
 	}
 
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();

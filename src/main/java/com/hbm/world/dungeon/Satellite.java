@@ -6,7 +6,8 @@ import java.util.Random;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.GeneralConfig;
-import com.hbm.lib.HbmChestContents;
+import com.hbm.itempool.ItemPool;
+import com.hbm.itempool.ItemPoolsLegacy;
 import com.hbm.lib.Library;
 import com.hbm.util.LootGenerator;
 
@@ -976,7 +977,7 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 7, y + 14, z + 19, dSteel, 0, 3);
 		world.setBlock(x + 10, y + 14, z + 19, Blocks.chest, 3, 3);
 		world.setBlockMetadataWithNotify(x + 10, y + 14, z + 19, 3, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.modGeneric, (TileEntityChest)world.getTileEntity(x + 10, y + 14, z + 19), 8);
+        WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_GENERIC), (TileEntityChest)world.getTileEntity(x + 10, y + 14, z + 19), 8);
 		world.setBlock(x + 19, y + 14, z + 19, dSteel, 0, 3);
 		world.setBlock(x + 20, y + 14, z + 19, dSteel, 0, 3);
 		world.setBlock(x + 21, y + 14, z + 19, dSteel, 0, 3);
@@ -1005,7 +1006,7 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 7, y + 14, z + 27, dSteel, 0, 3);
 		world.setBlock(x + 16, y + 14, z + 27, Blocks.chest, 2, 3);
 		world.setBlockMetadataWithNotify(x + 16, y + 14, z + 27, 3, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.antenna, (TileEntityChest)world.getTileEntity(x + 16, y + 14, z + 27), 8);
+        WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_ANTENNA), (TileEntityChest)world.getTileEntity(x + 16, y + 14, z + 27), 8);
 		world.setBlock(x + 19, y + 14, z + 27, dSteel, 0, 3);
 		world.setBlock(x + 5, y + 14, z + 28, ModBlocks.fence_metal, 0, 3);
 		world.setBlock(x + 6, y + 14, z + 28, ModBlocks.fence_metal, 0, 3);
@@ -1423,7 +1424,7 @@ public class Satellite extends WorldGenerator
 		world.setBlock(x + 18, y + 19, z + 12, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 19, y + 19, z + 12, Blocks.chest, 4, 3);
 		world.setBlockMetadataWithNotify(x + 19, y + 19, z + 12, 4, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.expensive, (TileEntityChest)world.getTileEntity(x + 19, y + 19, z + 12), 12);
+        WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_EXPENSIVE), (TileEntityChest)world.getTileEntity(x + 19, y + 19, z + 12), 12);
 		world.setBlock(x + 20, y + 19, z + 12, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 21, y + 19, z + 12, Library.getRandomConcrete(), 0, 3);
 		world.setBlock(x + 17, y + 19, z + 13, Library.getRandomConcrete(), 0, 3);
@@ -2440,7 +2441,7 @@ public class Satellite extends WorldGenerator
 		//world.setBlock(x + 5, y + 39, z + 12, Block7, 0, 3);
 		world.setBlock(x + 5, y + 39, z + 12, Blocks.chest, 4, 3);
 		world.setBlockMetadataWithNotify(x + 5, y + 39, z + 12, 4, 3);
-        WeightedRandomChestContent.generateChestContents(rand, HbmChestContents.expensive, (TileEntityChest)world.getTileEntity(x + 5, y + 39, z + 12), 12);
+        WeightedRandomChestContent.generateChestContents(rand, ItemPool.getPool(ItemPoolsLegacy.POOL_EXPENSIVE), (TileEntityChest)world.getTileEntity(x + 5, y + 39, z + 12), 12);
 		world.setBlock(x + 6, y + 39, z + 12, Block7, 0, 3);
 		world.setBlock(x + 7, y + 39, z + 12, Block4, 0, 3);
 		world.setBlock(x + 8, y + 39, z + 12, Block4, 0, 3);

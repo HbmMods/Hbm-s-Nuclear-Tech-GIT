@@ -1,26 +1,29 @@
 package com.hbm.tileentity.machine.oil;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.explosion.ExplosionLarge;
 import com.hbm.inventory.container.ContainerMachineOilWell;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.gui.GUIMachineOilWell;
+import com.hbm.items.machine.ItemMachineUpgrade.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.tileentity.IConfigurableMachine;
+import com.hbm.tileentity.IUpgradeInfoProvider;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.I18nUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -65,8 +68,8 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 			if("oreUranium".equals(name)) {
 				for(int j = -1; j <= 1; j++) {
 					for(int k = -1; k <= 1; k++) {
-						if(worldObj.getBlock(xCoord + j, yCoord + 7, zCoord + j).isReplaceable(worldObj, xCoord + j, yCoord + 7, zCoord + k)) {
-							worldObj.setBlock(xCoord + k, yCoord + 7, zCoord + k, ModBlocks.gas_radon_dense);
+						if(worldObj.getBlock(xCoord + j, yCoord + 10, zCoord + j).isReplaceable(worldObj, xCoord + j, yCoord + 7, zCoord + k)) {
+							worldObj.setBlock(xCoord + k, yCoord + 10, zCoord + k, ModBlocks.gas_radon_dense);
 						}
 					}
 				}
@@ -75,8 +78,8 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 			if("oreAsbestos".equals(name)) {
 				for(int j = -1; j <= 1; j++) {
 					for(int k = -1; k <= 1; k++) {
-						if(worldObj.getBlock(xCoord + j, yCoord + 7, zCoord + j).isReplaceable(worldObj, xCoord + j, yCoord + 7, zCoord + k)) {
-							worldObj.setBlock(xCoord + k, yCoord + 7, zCoord + k, ModBlocks.gas_asbestos);
+						if(worldObj.getBlock(xCoord + j, yCoord + 10, zCoord + j).isReplaceable(worldObj, xCoord + j, yCoord + 7, zCoord + k)) {
+							worldObj.setBlock(xCoord + k, yCoord + 10, zCoord + k, ModBlocks.gas_asbestos);
 						}
 					}
 				}
@@ -87,7 +90,6 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 	@Override
 	public void onSuck(int x, int y, int z) {
 
-		ExplosionLarge.spawnOilSpills(worldObj, xCoord + 0.5F, yCoord + 5.5F, zCoord + 0.5F, 3);
 		worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "game.neutral.swim.splash", 2.0F, 0.5F);
 		
 		this.tanks[0].setFill(this.tanks[0].getFill() + oilPerDepsoit);
@@ -98,14 +100,6 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 		if(worldObj.rand.nextDouble() < drainChance) {
 			worldObj.setBlock(x, y, z, ModBlocks.ore_oil_empty);
 		}
-	}
-
-	@Override
-	public void fillFluidInit(FluidType type) {
-		fillFluid(this.xCoord - 2, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord + 2, this.yCoord, this.zCoord, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord - 2, getTact(), type);
-		fillFluid(this.xCoord, this.yCoord, this.zCoord + 2, getTact(), type);
 	}
 	
 	AxisAlignedBB bb = null;
@@ -119,7 +113,7 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 					yCoord,
 					zCoord - 1,
 					xCoord + 2,
-					yCoord + 7,
+					yCoord + 10,
 					zCoord + 2
 					);
 		}
@@ -130,10 +124,10 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 	@Override
 	public DirPos[] getConPos() {
 		return new DirPos[] {
-				new DirPos(xCoord + 2, yCoord, zCoord, Library.POS_X),
-				new DirPos(xCoord - 2, yCoord, zCoord, Library.NEG_X),
-				new DirPos(xCoord, yCoord, zCoord + 2, Library.POS_Z),
-				new DirPos(xCoord, yCoord, zCoord - 2, Library.NEG_Z)
+				new DirPos(xCoord + 1, yCoord, zCoord, Library.POS_X),
+				new DirPos(xCoord - 1, yCoord, zCoord, Library.NEG_X),
+				new DirPos(xCoord, yCoord, zCoord + 1, Library.POS_Z),
+				new DirPos(xCoord, yCoord, zCoord - 1, Library.NEG_Z)
 		};
 	}
 
@@ -171,7 +165,26 @@ public class TileEntityMachineOilWell extends TileEntityOilDrillBase {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiScreen provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GUIMachineOilWell(player.inventory, this);
+	}
+
+	@Override
+	public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+		info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_well));
+		if(type == UpgradeType.SPEED) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_DELAY, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "+" + (level * 25) + "%"));
+		}
+		if(type == UpgradeType.POWER) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_CONSUMPTION, "-" + (level * 25) + "%"));
+			info.add(EnumChatFormatting.RED + I18nUtil.resolveKey(this.KEY_DELAY, "+" + (level * 10) + "%"));
+		}
+		if(type == UpgradeType.AFTERBURN) {
+			info.add(EnumChatFormatting.GREEN + I18nUtil.resolveKey(this.KEY_BURN, level * 10, level * 50));
+		}
+		if(type == UpgradeType.OVERDRIVE) {
+			info.add((BobMathUtil.getBlink() ? EnumChatFormatting.RED : EnumChatFormatting.DARK_GRAY) + "YES");
+		}
 	}
 }

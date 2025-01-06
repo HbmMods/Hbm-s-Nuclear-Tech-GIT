@@ -13,6 +13,7 @@ import com.hbm.inventory.OreDictManager.DictFrame;
 import com.hbm.inventory.material.MaterialShapes;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBreedingRod.BreedingRodType;
+import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
 import com.hbm.items.machine.ItemRTGPelletDepleted.DepletedRTGMaterial;
 import com.hbm.items.machine.ItemWatzPellet.EnumWatzType;
 import com.hbm.items.machine.ItemZirnoxRod.EnumZirnoxType;
@@ -25,6 +26,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+@SuppressWarnings("unused") //shut the fuck up
 public class HazardRegistry {
 
 	//CO60		             5a		β−	030.00Rad/s	Spicy
@@ -214,7 +216,6 @@ public class HazardRegistry {
 		HazardSystem.register(ancient_scrap, makeData(RADIATION, 150F));
 		HazardSystem.register(block_corium, makeData(RADIATION, 150F));
 		HazardSystem.register(block_corium_cobble, makeData(RADIATION, 150F));
-		HazardSystem.register(sand_gold198, makeData(RADIATION, au198 * block * powder_mult));
 		
 		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 0), makeData(RADIATION, 0.5F));
 		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 1), makeData(RADIATION, 1F));
@@ -222,6 +223,9 @@ public class HazardRegistry {
 		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 3), makeData(RADIATION, 4F));
 		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 4), makeData(RADIATION, 5F));	
 		HazardSystem.register(new ItemStack(ModBlocks.sellafield, 1, 5), makeData(RADIATION, 10F));
+
+		HazardSystem.register(new ItemStack(ModBlocks.ore_sellafield_radgem), makeData(RADIATION, 25F));
+		HazardSystem.register(new ItemStack(ModItems.gem_rad), makeData(RADIATION, 25F));
 		
 		registerOtherFuel(rod_zirnox, EnumZirnoxType.NATURAL_URANIUM_FUEL.ordinal(), u * rod_dual, wst * rod_dual * 11.5F, false);
 		registerOtherFuel(rod_zirnox, EnumZirnoxType.URANIUM_FUEL.ordinal(), uf * rod_dual, wst * rod_dual * 10F, false);
@@ -255,15 +259,6 @@ public class HazardRegistry {
 		registerOtherWaste(waste_u235, wst * billet * 11F);
 		registerOtherWaste(waste_schrabidium, wst * billet * 15F);
 		registerOtherWaste(waste_zfb_mox, wst * billet * 5F);
-		
-		registerOtherFuel(pellet_schrabidium, sa326 * ingot * 5, wst * ingot * 100, true);
-		registerOtherFuel(pellet_hes, saf * ingot * 5, wst * ingot * 75, true);
-		registerOtherFuel(pellet_mes, saf * ingot * 5, wst * ingot * 50, true);
-		registerOtherFuel(pellet_les, saf * ingot * 5, wst * ingot * 20, false);
-		registerOtherFuel(pellet_beryllium, 0F, 10F, false);
-		registerOtherFuel(pellet_neptunium, np237 * ingot * 5, wst * ingot * 10, false);
-		registerOtherFuel(pellet_lead, 0F, 15F, false);
-		registerOtherFuel(pellet_advanced, 0F, 20F, false);
 		
 		registerOtherFuel(plate_fuel_u233, u233 * ingot, wst * ingot * 13F, false);
 		registerOtherFuel(plate_fuel_u235, u235 * ingot, wst * ingot * 10F, false);
@@ -399,6 +394,7 @@ public class HazardRegistry {
 		registerRBMKRod(rbmk_fuel_zfb_pu241, pu239 * rod_rbmk * 0.1F, wst * rod_rbmk * 7.5F);
 		registerRBMKRod(rbmk_fuel_zfb_am_mix, pu241 * rod_rbmk * 0.1F, wst * rod_rbmk * 10F);
 		registerRBMK(rbmk_fuel_drx, bf * rod_rbmk, bf * rod_rbmk * 100F, true, true, 0, 1F/3F);
+		//registerRBMKRod(rbmk_fuel_curve, saf * rod_rbmk * np237 * rod_rbmk, wst * rod_rbmk * 35F);
 		
 		registerRBMKPellet(rbmk_pellet_ueu, u * billet, wst * billet * 20F);
 		registerRBMKPellet(rbmk_pellet_meu, uf * billet, wst * billet * 21.5F);
@@ -442,6 +438,22 @@ public class HazardRegistry {
 		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.DU), makeData(RADIATION, u238 * ingot * 4));
 		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.NQD), makeData(RADIATION, u235 * ingot * 4));
 		HazardSystem.register(DictFrame.fromOne(ModItems.watz_pellet, EnumWatzType.NQR), makeData(RADIATION, pu239 * ingot * 4));
+
+		registerPWRFuel(EnumPWRFuel.MEU, uf * billet * 2);
+		registerPWRFuel(EnumPWRFuel.HEU233, u233 * billet * 2);
+		registerPWRFuel(EnumPWRFuel.HEU235, u235 * billet * 2);
+		registerPWRFuel(EnumPWRFuel.MEN, npf * billet * 2);
+		registerPWRFuel(EnumPWRFuel.HEN237, np237 * billet * 2);
+		registerPWRFuel(EnumPWRFuel.MOX, mox * billet * 2);
+		registerPWRFuel(EnumPWRFuel.MEP, purg * billet * 2);
+		registerPWRFuel(EnumPWRFuel.HEP239, pu239 * billet * 2);
+		registerPWRFuel(EnumPWRFuel.HEP241, pu241 * billet * 2);
+		registerPWRFuel(EnumPWRFuel.MEA, amrg * billet * 2);
+		registerPWRFuel(EnumPWRFuel.HEA242, am242 * billet * 2);
+		registerPWRFuel(EnumPWRFuel.HES326, sa326 * billet * 2);
+		registerPWRFuel(EnumPWRFuel.HES327, sa327 * billet * 2);
+		registerPWRFuel(EnumPWRFuel.BFB_AM_MIX, amrg * billet);
+		registerPWRFuel(EnumPWRFuel.BFB_PU241, pu241 * billet);
 		
 		HazardSystem.register(powder_yellowcake, makeData(RADIATION, yc * powder));
 		HazardSystem.register(block_yellowcake, makeData(RADIATION, yc * block * powder_mult));
@@ -449,8 +461,6 @@ public class HazardRegistry {
 		HazardSystem.register(ModBlocks.fallout, makeData(RADIATION, fo * powder * 2));
 		HazardSystem.register(ModBlocks.block_fallout, makeData(RADIATION, yc * block * powder_mult));
 		HazardSystem.register(powder_caesium, makeData().addEntry(HYDROACTIVE, 1F).addEntry(HOT, 3F));
-		
-		HazardSystem.register(wire_schrabidium, makeData(RADIATION, sa326 * nugget));
 		
 		HazardSystem.register(brick_asbestos, makeData(ASBESTOS, 1F));
 		HazardSystem.register(tile_lab_broken, makeData(ASBESTOS, 1F));
@@ -489,8 +499,8 @@ public class HazardRegistry {
 		/*
 		 * Blacklist
 		 */
-		for(String ore : TH232.ores()) HazardSystem.blacklist(ore);
-		for(String ore : U.ores()) HazardSystem.blacklist(ore);
+		for(String ore : TH232.all(MaterialShapes.ORE)) HazardSystem.blacklist(ore);
+		for(String ore : U.all(MaterialShapes.ORE)) HazardSystem.blacklist(ore);
 
 		
 		/*
@@ -514,7 +524,7 @@ public class HazardRegistry {
 			};
 			
 			for(MaterialShapes shape : MaterialShapes.allShapes) {
-				for(String prefix : shape.prefixes) {
+				if(!shape.noAutogen) for(String prefix : shape.prefixes) {
 					for(Object[] o : data) {
 						HazardSystem.register(prefix + o[0], new HazardData().setMutex(0b1).addEntry(new HazardEntry(RADIATION, (float) o[1] * shape.q(1) / MaterialShapes.INGOT.q(1))));
 					}
@@ -534,6 +544,12 @@ public class HazardRegistry {
 	private static HazardData makeData(HazardTypeBase hazard) { return new HazardData().addEntry(hazard); }
 	private static HazardData makeData(HazardTypeBase hazard, float level) { return new HazardData().addEntry(hazard, level); }
 	private static HazardData makeData(HazardTypeBase hazard, float level, boolean override) { return new HazardData().addEntry(hazard, level, override); }
+	
+	private static void registerPWRFuel(EnumPWRFuel fuel, float baseRad) {
+		HazardSystem.register(DictFrame.fromOne(ModItems.pwr_fuel, fuel), makeData(RADIATION, baseRad));
+		HazardSystem.register(DictFrame.fromOne(ModItems.pwr_fuel_hot, fuel), makeData(RADIATION, baseRad * 10).addEntry(HOT, 5));
+		HazardSystem.register(DictFrame.fromOne(ModItems.pwr_fuel_depleted, fuel), makeData(RADIATION, baseRad * 10));
+	}
 	
 	private static void registerRBMKPellet(Item pellet, float base, float dep) { registerRBMKPellet(pellet, base, dep, false, 0F, 0F); }
 	private static void registerRBMKPellet(Item pellet, float base, float dep, boolean linear) { registerRBMKPellet(pellet, base, dep, linear, 0F, 0F); }

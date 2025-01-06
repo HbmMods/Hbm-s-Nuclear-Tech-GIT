@@ -1,5 +1,7 @@
 package com.hbm.inventory.gui;
 
+import java.util.Locale;
+
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.inventory.container.ContainerFurnaceSteel;
@@ -29,11 +31,11 @@ public class GUIFurnaceSteel extends GuiInfoContainer {
 		super.drawScreen(x, y, interp);
 		
 		for(int i = 0; i < 3; i++) {
-			this.drawCustomInfoStat(x, y, guiLeft + 53, guiTop + 17 + 18 * i, 70, 7, x, y, new String[] { String.format("%,d", furnace.progress[i]) + " / " + String.format("%,d", furnace.processTime) + "TU" });
+			this.drawCustomInfoStat(x, y, guiLeft + 53, guiTop + 17 + 18 * i, 70, 7, x, y, new String[] { String.format(Locale.US, "%,d", furnace.progress[i]) + " / " + String.format(Locale.US, "%,d", furnace.processTime) + "TU" });
 			this.drawCustomInfoStat(x, y, guiLeft + 53, guiTop + 26 + 18 * i, 70, 7, x, y, new String[] { "Bonus: " + furnace.bonus[i] + "%" });
 		}
 		
-		this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 18, 9, 50, x, y, new String[] { String.format("%,d", furnace.heat) + " / " + String.format("%,d", furnace.maxHeat) + "TU" });
+		this.drawCustomInfoStat(x, y, guiLeft + 151, guiTop + 18, 9, 50, x, y, new String[] { String.format(Locale.US, "%,d", furnace.heat) + " / " + String.format(Locale.US, "%,d", furnace.maxHeat) + "TU" });
 	}
 	
 	@Override

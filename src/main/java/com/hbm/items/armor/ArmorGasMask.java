@@ -148,9 +148,9 @@ public class ArmorGasMask extends ItemArmor implements IGasMask {
 	public ArrayList<HazardClass> getBlacklist(ItemStack stack, EntityLivingBase entity) {
 		
 		if(this == ModItems.gas_mask_mono) {
-			return new ArrayList<HazardClass>(Arrays.asList(new HazardClass[] {HazardClass.GAS_CHLORINE, HazardClass.GAS_CORROSIVE, HazardClass.NERVE_AGENT, HazardClass.BACTERIA}));
+			return new ArrayList<HazardClass>(Arrays.asList(new HazardClass[] {HazardClass.GAS_LUNG, HazardClass.GAS_BLISTERING, HazardClass.BACTERIA}));
 		} else {
-			return new ArrayList<HazardClass>(Arrays.asList(new HazardClass[] {HazardClass.GAS_CORROSIVE, HazardClass.NERVE_AGENT}));
+			return new ArrayList<HazardClass>(Arrays.asList(new HazardClass[] {HazardClass.GAS_BLISTERING}));
 		}
 	}
 

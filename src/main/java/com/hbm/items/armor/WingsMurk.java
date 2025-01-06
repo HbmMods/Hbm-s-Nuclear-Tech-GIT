@@ -2,37 +2,43 @@ package com.hbm.items.armor;
 
 import com.hbm.extprop.HbmPlayerProps;
 import com.hbm.items.ModItems;
+import com.hbm.main.ResourceManager;
 import com.hbm.render.model.ModelArmorWings;
 import com.hbm.util.ArmorUtil;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class WingsMurk extends ItemArmor {
+public class WingsMurk extends JetpackBase {
 
-	public WingsMurk(ArmorMaterial material) {
-		super(material, 0, 1);
+	public WingsMurk() {
+		super();
 	}
 
-	@SideOnly(Side.CLIENT)
-	ModelArmorWings model;
+	@Override
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
+		return ResourceManager.wings_murk.toString();
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
-		
-		if(model == null) {
-			model = new ModelArmorWings(this == ModItems.wings_murk ? 0 : 1);
+		if (armorSlot == 1) {
+			if(cachedModel == null) {
+				cachedModel = new ModelArmorWings(this == ModItems.wings_murk ? 0 : 1);
+			}
+			
+			return cachedModel;
 		}
-		
-		return model;
+
+		return null;
 	}
 
 	public void onArmorTick(World world, EntityPlayer player, ItemStack stack) {

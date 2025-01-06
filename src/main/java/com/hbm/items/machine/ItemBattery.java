@@ -5,7 +5,7 @@ import java.util.List;
 import com.hbm.items.ModItems;
 import com.hbm.util.BobMathUtil;
 
-import api.hbm.energy.IBatteryItem;
+import api.hbm.energymk2.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
@@ -105,14 +105,17 @@ public class ItemBattery extends Item implements IBatteryItem {
 		return 0;
 	}
 
-	public long getMaxCharge() {
+	@Override
+	public long getMaxCharge(ItemStack stack) {
 		return maxCharge;
 	}
 
+	@Override
 	public long getChargeRate() {
 		return chargeRate;
 	}
 
+	@Override
 	public long getDischargeRate() {
 		return dischargeRate;
 	}
@@ -134,7 +137,7 @@ public class ItemBattery extends Item implements IBatteryItem {
 		if(item instanceof ItemBattery) {
 			ItemStack stack = new ItemStack(item);
 			stack.stackTagCompound = new NBTTagCompound();
-			stack.stackTagCompound.setLong("charge", ((ItemBattery) item).getMaxCharge());
+			stack.stackTagCompound.setLong("charge", ((ItemBattery) item).getMaxCharge(stack));
 			return stack.copy();
 		}
 
@@ -146,7 +149,7 @@ public class ItemBattery extends Item implements IBatteryItem {
 	}
 
 	public double getDurabilityForDisplay(ItemStack stack) {
-		return 1D - (double) getCharge(stack) / (double) getMaxCharge();
+		return 1D - (double) getCharge(stack) / (double) getMaxCharge(stack);
 	}
 
 	@Override

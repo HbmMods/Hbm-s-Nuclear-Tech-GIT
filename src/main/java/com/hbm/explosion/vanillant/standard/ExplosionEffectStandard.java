@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.interfaces.IExplosionSFX;
-import com.hbm.packet.ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket;
 import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraft.util.MathHelper;
@@ -30,7 +30,7 @@ public class ExplosionEffectStandard implements IExplosionSFX {
 		if(size >= 2.0F) {
 			world.spawnParticle("hugeexplosion", x, y, z, 1.0D, 0.0D, 0.0D);
 		} else {
-			world.spawnParticle("largeexplode", x, z, z, 1.0D, 0.0D, 0.0D);
+			world.spawnParticle("largeexplode", x, y, z, 1.0D, 0.0D, 0.0D);
 		}
 
 		int count = affectedBlocks.size();

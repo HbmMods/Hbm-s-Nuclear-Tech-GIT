@@ -1,7 +1,7 @@
 package com.hbm.inventory.container;
 
 import com.hbm.inventory.SlotCraftingOutput;
-import com.hbm.tileentity.IRadioisotopeFuel;
+import com.hbm.items.machine.ItemRTGPellet;
 import com.hbm.tileentity.machine.TileEntityDiFurnaceRTG;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,6 +46,25 @@ public class ContainerMachineDiFurnaceRTG extends Container {
 	}
 
 	@Override
+	public ItemStack slotClick(int index, int button, int mode, EntityPlayer player) {
+		
+		if(index >= 0 && index < 2 && button == 1 && mode == 0) {
+			Slot slot = this.getSlot(index);
+			if(!slot.getHasStack() && player.inventory.getItemStack() == null) {
+				if(!player.worldObj.isRemote) {
+					if(index == 0) bFurnace.sideUpper = (byte) ((bFurnace.sideUpper + 1) % 6);
+					if(index == 1) bFurnace.sideLower = (byte) ((bFurnace.sideLower + 1) % 6);
+					
+					bFurnace.markDirty();
+				}
+				return null;
+			}
+		}
+		
+		return super.slotClick(index, button, mode, player);
+	}
+
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer p_82846_1_, int par2) {
 		ItemStack var3 = null;
 		Slot var4 = (Slot) this.inventorySlots.get(par2);
@@ -58,7 +77,7 @@ public class ContainerMachineDiFurnaceRTG extends Container {
 				if(!this.mergeItemStack(var5, 9, this.inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if(var5.getItem() instanceof IRadioisotopeFuel) {
+			} else if(var5.getItem() instanceof ItemRTGPellet) {
 				if(!this.mergeItemStack(var5, 3, 9, false))
 					return null;
 				

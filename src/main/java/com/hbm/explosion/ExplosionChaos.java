@@ -6,6 +6,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.grenade.EntityGrenadeTau;
 import com.hbm.entity.grenade.EntityGrenadeZOMG;
+import com.hbm.entity.item.EntityFallingBlockNT;
 import com.hbm.entity.missile.EntityMissileAntiBallistic;
 import com.hbm.entity.missile.EntityMissileBase;
 import com.hbm.entity.particle.EntityChlorineFX;
@@ -29,7 +30,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,29 +64,6 @@ public class ExplosionChaos {
 					int ZZ = YY + zz * zz;
 					if (ZZ < r22) {
 						destruction(world, X, Y, Z);
-					}
-				}
-			}
-		}
-	}
-
-	public static void antiCheat(World world, int x, int y, int z, int bombStartStrength) {
-
-		int r = bombStartStrength;
-		int r2 = r * r;
-		int r22 = r2 / 2;
-		for (int xx = -r; xx < r; xx++) {
-			int X = xx + x;
-			int XX = xx * xx;
-			for (int yy = -r; yy < r; yy++) {
-				int Y = yy + y;
-				int YY = XX + yy * yy;
-				for (int zz = -r; zz < r; zz++) {
-					int Z = zz + z;
-					int ZZ = YY + zz * zz;
-					if (ZZ < r22) {
-						if (rand.nextInt(15) == 0 && world.getBlock(X, Y, Z) != Blocks.air)
-							world.setBlock(X, Y, Z, ModBlocks.cheater_virus);
 					}
 				}
 			}
@@ -405,8 +382,7 @@ public class ExplosionChaos {
 	}
 
 	public static void pDestruction(World world, int x, int y, int z) {
-
-		EntityFallingBlock entityfallingblock = new EntityFallingBlock(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
+		EntityFallingBlockNT entityfallingblock = new EntityFallingBlockNT(world, (double) ((float) x + 0.5F), (double) ((float) y + 0.5F), (double) ((float) z + 0.5F), world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
 		world.spawnEntityInWorld(entityfallingblock);
 	}
 
@@ -538,7 +514,7 @@ public class ExplosionChaos {
 			if(entity.getDistance(x, y, z) > range)
 				continue;
 			
-			if(ArmorRegistry.hasAnyProtection(entity, 3, HazardClass.GAS_CHLORINE, HazardClass.GAS_CORROSIVE)) {
+			if(ArmorRegistry.hasAnyProtection(entity, 3, HazardClass.GAS_LUNG, HazardClass.GAS_BLISTERING)) {
 				ArmorUtil.damageGasMaskFilter(entity, 1);
 			} else {
 				entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(), 5 * 20, 0));
@@ -775,10 +751,7 @@ public class ExplosionChaos {
 					int Z = zz + z;
 					int ZZ = YY + zz * zz;
 					if (ZZ < r22 + world.rand.nextInt(r22 / 2)) {
-						if (world.getBlock(X, Y, Z) != Blocks.bedrock && world.getBlock(X, Y, Z) != ModBlocks.statue_elb
-								&& world.getBlock(X, Y, Z) != ModBlocks.statue_elb_g
-								&& world.getBlock(X, Y, Z) != ModBlocks.statue_elb_w
-								&& world.getBlock(X, Y, Z) != ModBlocks.statue_elb_f)
+						if(world.getBlock(X, Y, Z) != ModBlocks.statue_elb_f)
 							world.setBlock(X, Y, Z, ModBlocks.plasma);
 					}
 				}

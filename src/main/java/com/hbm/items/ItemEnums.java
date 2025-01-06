@@ -23,6 +23,15 @@ public class ItemEnums {
 		PARAFFIN
 	}
 
+	public static enum EnumAshType {
+		WOOD,
+		COAL,
+		MISC,
+		FLY,
+		SOOT,
+		FULLERENE
+	}
+
 	public static enum EnumBriquetteType {
 		COAL,
 		LIGNITE,
@@ -41,6 +50,10 @@ public class ItemEnums {
 		MUSTARDWILLOW
 	}
 
+	public static enum EnumChunkType {
+		RARE
+	}
+
 	public static enum EnumAchievementType {
 		GOFISH,
 		ACID,
@@ -50,6 +63,24 @@ public class ItemEnums {
 		DIGAMMAKNOW,
 		DIGAMMAKAUAIMOHO,
 		DIGAMMAUPONTOP,
-		DIGAMMAFOROURRIGHT
+		DIGAMMAFOROURRIGHT,
+		QUESTIONMARK
+	}
+
+	public static enum EnumFuelAdditive {
+		ANTIKNOCK,
+		DEICER
+	}
+
+	public static enum EnumPages {
+		PAGE1, PAGE2, PAGE3, PAGE4, PAGE5, PAGE6, PAGE7, PAGE8
+	}
+
+	public static enum EnumSecretType {
+		CANISTER, CONTROLLER, SELENIUM_STEEL
+	}
+
+	public static enum EnumCasingType {
+		SMALL, LARGE, SMALL_STEEL, LARGE_STEEL, SHOTSHELL, BUCKSHOT, BUCKSHOT_ADVANCED
 	}
 }

@@ -57,8 +57,7 @@ public class BlockOutgas extends BlockOre {
 		if(this == ModBlocks.ore_asbestos || this == ModBlocks.ore_gneiss_asbestos ||
 				this == ModBlocks.block_asbestos || this == ModBlocks.deco_asbestos ||
 				this == ModBlocks.brick_asbestos || this == ModBlocks.tile_lab ||
-				this == ModBlocks.tile_lab_cracked || this == ModBlocks.tile_lab_broken ||
-				this == ModBlocks.basalt_asbestos) {
+				this == ModBlocks.tile_lab_cracked || this == ModBlocks.tile_lab_broken) {
 			return ModBlocks.gas_asbestos;
 		}
 		
@@ -104,7 +103,7 @@ public class BlockOutgas extends BlockOre {
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 		
-		if(onNeighbour) {
+		if(onNeighbour && world.rand.nextInt(3) == 0) {
 
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 				

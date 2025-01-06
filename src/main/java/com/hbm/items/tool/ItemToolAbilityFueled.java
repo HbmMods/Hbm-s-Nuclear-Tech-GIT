@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.util.I18nUtil;
 
 import api.hbm.fluid.IFillableItem;
 import cpw.mods.fml.relauncher.Side;
@@ -38,7 +37,7 @@ public class ItemToolAbilityFueled extends ItemToolAbility implements IFillableI
 		list.add(EnumChatFormatting.GOLD + "Fuel: " + this.getFill(stack) + "/" + this.maxFuel + "mB");
 		
 		for(FluidType type : acceptedFuels) {
-			list.add(EnumChatFormatting.YELLOW + "- " + I18nUtil.resolveKey(type.getUnlocalizedName()));
+			list.add(EnumChatFormatting.YELLOW + "- " + type.getLocalizedName());
 		}
 
 		super.addInformation(stack, player, list, ext);
@@ -69,6 +68,7 @@ public class ItemToolAbilityFueled extends ItemToolAbility implements IFillableI
 		return true;
 	}
 
+	@Override
 	public int getFill(ItemStack stack) {
 		if(stack.stackTagCompound == null) {
 			stack.stackTagCompound = new NBTTagCompound();
@@ -120,5 +120,10 @@ public class ItemToolAbilityFueled extends ItemToolAbility implements IFillableI
 		ItemStack stack = new ItemStack(item);
 		tool.setFill(stack, 0);
 		return stack;
+	}
+
+	@Override
+	public FluidType getFirstFluidType(ItemStack stack) {
+		return null;
 	}
 }

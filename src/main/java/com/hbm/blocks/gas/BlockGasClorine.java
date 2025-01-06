@@ -40,7 +40,7 @@ public class BlockGasClorine extends BlockGasBase {
 		
 		EntityLivingBase entityLiving = (EntityLivingBase) entity;
 		
-		if(ArmorRegistry.hasAllProtection(entityLiving, 3, HazardClass.GAS_CHLORINE)) {
+		if(ArmorRegistry.hasAllProtection(entityLiving, 3, HazardClass.GAS_LUNG)) {
 			ArmorUtil.damageGasMaskFilter(entityLiving, 1);
 
 		} else {

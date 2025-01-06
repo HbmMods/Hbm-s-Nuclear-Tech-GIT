@@ -2,8 +2,8 @@ package com.hbm.render.tileentity;
 
 import org.lwjgl.opengl.GL11;
 
-import com.hbm.items.weapon.ItemMissile;
-import com.hbm.items.weapon.ItemMissile.PartSize;
+import com.hbm.items.weapon.ItemCustomMissilePart;
+import com.hbm.items.weapon.ItemCustomMissilePart.PartSize;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.MissileMultipart;
 import com.hbm.render.util.MissilePronter;
@@ -87,7 +87,7 @@ public class RenderLaunchTable extends TileEntitySpecialRenderer {
 				emptyM.renderAll();
 			} else {
 				
-				if(launcher.load != null && launcher.load.fuselage != null && ((ItemMissile)launcher.load.fuselage).top == launcher.padSize) {
+				if(launcher.load != null && launcher.load.fuselage != null && ((ItemCustomMissilePart)launcher.load.fuselage).top == launcher.padSize) {
 					bindTexture(connector);
 					connectorM.renderAll();
 				} else {

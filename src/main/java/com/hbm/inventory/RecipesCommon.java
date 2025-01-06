@@ -111,9 +111,22 @@ public class RecipesCommon {
 		public int meta;
 		
 		public ComparableStack(ItemStack stack) {
-			this.item = stack.getItem();
-			this.stacksize = stack.stackSize;
-			this.meta = stack.getItemDamage();
+			if(stack == null) {
+				this.item = ModItems.nothing;
+				this.stacksize = 1;
+				return;
+			}
+			try {
+				this.item = stack.getItem();
+				if(this.item == null) this.item = ModItems.nothing; //i'm going to bash some fuckard's head in
+				this.stacksize = stack.stackSize;
+				this.meta = stack.getItemDamage();
+			} catch(Exception ex) {
+				this.item = ModItems.nothing;
+				if(!GeneralConfig.enableSilentCompStackErrors) {
+					ex.printStackTrace();
+				}
+			}
 		}
 		
 		public ComparableStack makeSingular() {
@@ -123,6 +136,7 @@ public class RecipesCommon {
 		
 		public ComparableStack(Item item) {
 			this.item = item;
+			if(this.item == null) this.item = ModItems.nothing;
 			this.stacksize = 1;
 			this.meta = 0;
 		}
@@ -155,8 +169,13 @@ public class RecipesCommon {
 			this.meta = meta;
 		}
 		
+		public ComparableStack(Item item, int stacksize, Enum meta) {
+			this(item, stacksize);
+			this.meta = meta.ordinal();
+		}
+		
 		public ItemStack toStack() {
-			return new ItemStack(item, stacksize, meta);
+			return new ItemStack(item == null ? ModItems.nothing : item, stacksize, meta);
 		}
 		
 		public String[] getDictKeys() {
@@ -257,6 +276,10 @@ public class RecipesCommon {
 
 		@Override
 		public AStack copy() {
+			return new ComparableStack(item, stacksize, meta);
+		}
+		
+		public ComparableStack copy(int stacksize) {
 			return new ComparableStack(item, stacksize, meta);
 		}
 
@@ -369,6 +392,10 @@ public class RecipesCommon {
 
 		@Override
 		public AStack copy() {
+			return new OreDictStack(name, stacksize);
+		}
+		
+		public OreDictStack copy(int stacksize) {
 			return new OreDictStack(name, stacksize);
 		}
 

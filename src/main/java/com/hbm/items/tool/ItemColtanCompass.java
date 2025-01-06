@@ -1,5 +1,6 @@
 package com.hbm.items.tool;
 
+import java.util.List;
 import java.util.Random;
 
 import com.hbm.main.MainRegistry;
@@ -12,6 +13,7 @@ import net.minecraft.client.renderer.texture.TextureCompass;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,6 +25,14 @@ public class ItemColtanCompass extends Item {
 	public int lastX = 0;
 	public int lastZ = 0;
 	public long lease = 0;
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean ext) {
+		list.add("Points towards the coltan deposit.");
+		list.add("The deposit is a large area where coltan ore spawns like standard ore,");
+		list.add("it's not one large blob of ore on that exact location, dipshit.");
+	}
 
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean inhand) {

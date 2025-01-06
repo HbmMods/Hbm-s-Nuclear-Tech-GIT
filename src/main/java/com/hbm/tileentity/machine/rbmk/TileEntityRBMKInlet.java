@@ -2,23 +2,23 @@ package com.hbm.tileentity.machine.rbmk;
 
 import api.hbm.fluid.IFluidStandardReceiver;
 import com.hbm.blocks.machine.rbmk.RBMKBase;
-import com.hbm.interfaces.IFluidAcceptor;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidAcceptor, IFluidStandardReceiver {
+public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidStandardReceiver, IBufPacketReceiver {
 	
 	public FluidTank water;
 	
 	public TileEntityRBMKInlet() {
-		water = new FluidTank(Fluids.WATER, 32000, 0);
+		water = new FluidTank(Fluids.WATER, 32000);
 	}
 	
 	@Override
@@ -63,31 +63,12 @@ public class TileEntityRBMKInlet extends TileEntityLoadedBase implements IFluidA
 		this.water.writeToNBT(nbt, "tank");
 	}
 
-	@Override
-	public void setFillForSync(int fill, int index) {
-		if(index == 0) water.setFill(fill);
+	public void serialize(ByteBuf buf) {
+		this.water.serialize(buf);
 	}
 
-	@Override
-	public void setFluidFill(int fill, FluidType type) {
-		if(type == Fluids.WATER) water.setFill(fill);
-	}
-
-	@Override
-	public void setTypeForSync(FluidType type, int index) {
-		if(index == 0) water.setTankType(type);
-	}
-
-	@Override
-	public int getFluidFill(FluidType type) {
-		if(type == Fluids.WATER) return water.getFill();
-		return 0;
-	}
-
-	@Override
-	public int getMaxFluidFill(FluidType type) {
-		if(type == Fluids.WATER) return water.getMaxFill();
-		return 0;
+	public void deserialize(ByteBuf buf) {
+		this.water.deserialize(buf);
 	}
 
 	@Override
