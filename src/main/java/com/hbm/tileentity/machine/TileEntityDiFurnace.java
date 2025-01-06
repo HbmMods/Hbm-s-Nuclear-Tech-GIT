@@ -10,7 +10,6 @@ import com.hbm.inventory.gui.GUIDiFurnace;
 import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.items.ModItems;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.util.CompatEnergyControl;
 
@@ -18,6 +17,7 @@ import api.hbm.fluid.IFluidStandardSender;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -229,11 +229,7 @@ public class TileEntityDiFurnace extends TileEntityMachinePolluting implements I
 				MachineDiFurnace.updateBlockState(this.progress > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setShort("time", (short) this.progress);
-			data.setShort("fuel", (short) this.fuel);
-			data.setByteArray("modes", new byte[] { (byte) sideFuel, (byte) sideUpper, (byte) sideLower });
-			INBTPacketReceiver.networkPack(this, data, 15);
+			networkPackNT(15);
 
 			if(markDirty) {
 				this.markDirty();
@@ -242,10 +238,21 @@ public class TileEntityDiFurnace extends TileEntityMachinePolluting implements I
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.progress = nbt.getShort("time");
-		this.fuel = nbt.getShort("fuel");
-		byte[] modes = nbt.getByteArray("modes");
+	public void serialize(ByteBuf buf) {
+		buf.writeShort(this.progress);
+		buf.writeShort(this.fuel);
+		buf.writeBytes(new byte[] {
+				this.sideFuel,
+				this.sideUpper,
+				this.sideLower});
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.progress = buf.readShort();
+		this.fuel = buf.readShort();
+		byte[] modes = new byte[3];
+		buf.readBytes(modes);
 		this.sideFuel = modes[0];
 		this.sideUpper = modes[1];
 		this.sideLower = modes[2];

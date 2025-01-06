@@ -1,21 +1,16 @@
 package com.hbm.lib;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
+import api.hbm.energymk2.IBatteryItem;
+import api.hbm.energymk2.IEnergyConnectorBlock;
+import api.hbm.energymk2.IEnergyConnectorMK2;
+import api.hbm.fluid.IFluidConnector;
+import api.hbm.fluid.IFluidConnectorBlock;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.mob.EntityHunterChopper;
 import com.hbm.entity.projectile.EntityChopperMine;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.items.ModItems;
-
-import api.hbm.energymk2.IBatteryItem;
-import api.hbm.energymk2.IEnergyConnectorBlock;
-import api.hbm.energymk2.IEnergyConnectorMK2;
-import api.hbm.fluid.IFluidConnector;
-import api.hbm.fluid.IFluidConnectorBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,11 +25,15 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 @Spaghetti("this whole class")
 public class Library {
-	
+
 	static Random rand = new Random();
-	
+
 	public static boolean checkForHeld(EntityPlayer player, Item item) {
 		if(player.getHeldItem() == null) return false;
 		return player.getHeldItem().getItem() == item;
@@ -46,60 +45,60 @@ public class Library {
 	public static final ForgeDirection NEG_Y = ForgeDirection.DOWN;
 	public static final ForgeDirection POS_Z = ForgeDirection.SOUTH;
 	public static final ForgeDirection NEG_Z = ForgeDirection.NORTH;
-	
+
 	/*
 	 * Is putting this into this trash can a good idea? No. Do I have a better idea? Not currently.
 	 */
 	public static boolean canConnect(IBlockAccess world, int x, int y, int z, ForgeDirection dir /* cable's connecting side */) {
-		
+
 		if(y > 255 || y < 0)
 			return false;
-		
+
 		Block b = world.getBlock(x, y, z);
-		
+
 		if(b instanceof IEnergyConnectorBlock) {
 			IEnergyConnectorBlock con = (IEnergyConnectorBlock) b;
-			
+
 			if(con.canConnect(world, x, y, z, dir.getOpposite() /* machine's connecting side */))
 				return true;
 		}
-		
+
 		TileEntity te = world.getTileEntity(x, y, z);
-		
+
 		if(te instanceof IEnergyConnectorMK2) {
 			IEnergyConnectorMK2 con = (IEnergyConnectorMK2) te;
-			
+
 			if(con.canConnect(dir.getOpposite() /* machine's connecting side */))
 				return true;
 		}
-		
+
 		return false;
 	}
 
 	/** dir is the direction along the fluid duct entering the block */
 	public static boolean canConnectFluid(IBlockAccess world, int x, int y, int z, ForgeDirection dir /* duct's connecting side */, FluidType type) {
-		
+
 		if(y > 255 || y < 0)
 			return false;
-		
+
 		Block b = world.getBlock(x, y, z);
-		
+
 		if(b instanceof IFluidConnectorBlock) {
 			IFluidConnectorBlock con = (IFluidConnectorBlock) b;
-			
+
 			if(con.canConnect(type, world, x, y, z, dir.getOpposite() /* machine's connecting side */))
 				return true;
 		}
-		
+
 		TileEntity te = world.getTileEntity(x, y, z);
-		
+
 		if(te instanceof IFluidConnector) {
 			IFluidConnector con = (IFluidConnector) te;
-			
+
 			if(con.canConnect(type, dir.getOpposite() /* machine's connecting side */))
 				return true;
 		}
-		
+
 		return false;
 	}
 
@@ -192,7 +191,7 @@ public class Library {
 
 		return entity;
 	}
-	
+
 	public static MovingObjectPosition rayTrace(EntityPlayer player, double length, float interpolation) {
 		Vec3 vec3 = getPosition(interpolation, player);
 		vec3.yCoord += player.eyeHeight;
@@ -208,7 +207,7 @@ public class Library {
 		Vec3 vec32 = vec3.addVector(vec31.xCoord * length, vec31.yCoord * length, vec31.zCoord * length);
 		return player.worldObj.func_147447_a(vec3, vec32, allowLiquids, disallowNonCollidingBlocks, mopOnMiss);
 	}
-	
+
 	public static Vec3 getPosition(float interpolation, EntityPlayer player) {
 		if(interpolation == 1.0F) {
 			return Vec3.createVectorHelper(player.posX, player.posY + (player.getEyeHeight() - player.getDefaultEyeHeight()), player.posZ);
@@ -219,43 +218,43 @@ public class Library {
 			return Vec3.createVectorHelper(d0, d1, d2);
 		}
 	}
-	
+
 	public static List<int[]> getBlockPosInPath(int x, int y, int z, int length, Vec3 vec0) {
 		List<int[]> list = new ArrayList<int[]>();
-		
+
 		for(int i = 0; i <= length; i++) {
 			list.add(new int[] { (int)(x + (vec0.xCoord * i)), y, (int)(z + (vec0.zCoord * i)), i });
 		}
-		
+
 		return list;
 	}
-	
+
 	//not great either but certainly better
 	public static long chargeItemsFromTE(ItemStack[] slots, int index, long power, long maxPower) {
-		
+
 		if(power < 0)
 			return 0;
-		
+
 		if(power > maxPower)
 			return maxPower;
 
 		if(slots[index] != null && slots[index].getItem() instanceof IBatteryItem) {
-			
+
 			IBatteryItem battery = (IBatteryItem) slots[index].getItem();
 
 			long batMax = battery.getMaxCharge(slots[index]);
 			long batCharge = battery.getCharge(slots[index]);
 			long batRate = battery.getChargeRate();
 			long toCharge = Math.min(Math.min(power, batRate), batMax - batCharge);
-			
+
 			power -= toCharge;
-			
+
 			battery.chargeBattery(slots[index], toCharge);
 		}
-		
+
 		return power;
 	}
-	
+
 	public static long chargeTEFromItems(ItemStack[] slots, int index, long power, long maxPower) {
 
 		if(slots[index] != null && slots[index].getItem() == ModItems.battery_creative) {
@@ -280,11 +279,11 @@ public class Library {
 
 		return power;
 	}
-	
+
 	//Flut-Füll gesteuerter Energieübertragungsalgorithmus
 	//Flood fill controlled energy transmission algorithm
 	public static void ffgeua(int x, int y, int z, boolean newTact, Object that, World worldObj) {
-		
+
 		/*
 		 * This here smoldering crater is all that remains from the old energy system.
 		 * In loving memory, 2016-2021.
@@ -307,12 +306,12 @@ public class Library {
 		MovingObjectPosition pos = world.rayTraceBlocks(Vec3.createVectorHelper(x, y, z), Vec3.createVectorHelper(a, b, c));
 		return pos != null;
 	}
-	
+
 	public static boolean isObstructedOpaque(World world, double x, double y, double z, double a, double b, double c) {
 		MovingObjectPosition pos = world.func_147447_a(Vec3.createVectorHelper(x, y, z), Vec3.createVectorHelper(a, b, c), false, true, false);
 		return pos != null;
 	}
-	
+
 	public static Block getRandomConcrete() {
 		int i = rand.nextInt(20);
 		if(i <= 1) return ModBlocks.brick_concrete_broken;

@@ -19,6 +19,7 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -316,9 +317,8 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 			}
 			
 			this.power = Library.chargeTEFromItems(slots, 10, this.power, this.getMaxPower());
-			
-			NBTTagCompound data = this.writePacket();
-			this.networkPack(data, 250);
+
+			this.networkPackNT(250);
 			
 			this.didJustShoot = false;
 			
@@ -408,20 +408,17 @@ public class TileEntityTurretArty extends TileEntityTurretBaseArtillery implemen
 	}
 
 	@Override
-	protected NBTTagCompound writePacket() {
-		NBTTagCompound data = super.writePacket();
-		data.setShort("mode", mode);
-		if(didJustShoot)
-			data.setBoolean("didJustShoot", didJustShoot);
-		return data;
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeShort(this.mode);
+		buf.writeBoolean(this.didJustShoot);
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		this.mode = nbt.getShort("mode");
-		if(nbt.getBoolean("didJustShoot"))
-			this.retracting = true;
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.mode = buf.readShort();
+		this.retracting = buf.readBoolean();
 	}
 	
 	@Override

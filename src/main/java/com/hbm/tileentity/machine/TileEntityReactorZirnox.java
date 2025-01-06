@@ -33,6 +33,7 @@ import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -127,17 +128,6 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 
 	}
 
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		this.heat = data.getInteger("heat");
-		this.pressure = data.getInteger("pressure");
-		this.isOn = data.getBoolean("isOn");
-		steam.readFromNBT(data, "t0");
-		carbonDioxide.readFromNBT(data, "t1");
-		water.readFromNBT(data, "t2");
-	}
-
 	public int getGaugeScaled(int i, int type) {
 		switch (type) {
 			case 0: return (steam.getFill() * i) / steam.getMaxFill();
@@ -226,16 +216,31 @@ public class TileEntityReactorZirnox extends TileEntityMachineBase implements IC
 			}
 
 			checkIfMeltdown();
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("heat", heat);
-			data.setInteger("pressure", pressure);
-			data.setBoolean("isOn", isOn);
-			steam.writeToNBT(data, "t0");
-			carbonDioxide.writeToNBT(data, "t1");
-			water.writeToNBT(data, "t2");
-			this.networkPack(data, 150);
+
+			this.networkPackNT(150);
 		}
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(this.heat);
+		buf.writeInt(this.pressure);
+		buf.writeBoolean(this.isOn);
+		steam.serialize(buf);
+		carbonDioxide.serialize(buf);
+		water.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.heat = buf.readInt();
+		this.pressure = buf.readInt();
+		this.isOn = buf.readBoolean();
+		steam.deserialize(buf);
+		carbonDioxide.deserialize(buf);
+		water.deserialize(buf);
 	}
 
 	private void generateSteam() {

@@ -318,11 +318,13 @@ public class LegoClient {
 		GL11.glPopMatrix();
 		RenderArcFurnace.fullbright(false);
 	};
-	
+
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LASER_RED = (bullet, interp) -> {
 		renderStandardLaser(bullet, interp, 0x80, 0x15, 0x15);
 	};
-	
+	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LASER_CYAN = (bullet, interp) -> {
+		renderStandardLaser(bullet, interp, 0x15, 0x15, 0x80);
+	};
 	public static BiConsumer<EntityBulletBeamBase, Float> RENDER_LASER_PURPLE = (bullet, interp) -> {
 		renderStandardLaser(bullet, interp, 0x60, 0x15, 0x80);
 	};

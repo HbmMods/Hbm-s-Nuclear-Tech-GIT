@@ -2,9 +2,11 @@ package com.hbm.tileentity.machine.rbmk;
 
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.handler.CompatHandler;
+import com.hbm.handler.neutron.RBMKNeutronHandler.RBMKType;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -87,6 +89,20 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 		nbt.setDouble("level", this.level);
 		nbt.setDouble("targetLevel", this.targetLevel);
 	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeDouble(this.level);
+		buf.writeDouble(this.targetLevel);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.level = buf.readDouble();
+		this.targetLevel = buf.readDouble();
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -113,6 +129,11 @@ public abstract class TileEntityRBMKControl extends TileEntityRBMKSlottedBase im
 		}
 		
 		this.standardMelt(reduce);
+	}
+
+	@Override
+	public RBMKType getRBMKType() {
+		return RBMKType.CONTROL_ROD;
 	}
 
 	@Override

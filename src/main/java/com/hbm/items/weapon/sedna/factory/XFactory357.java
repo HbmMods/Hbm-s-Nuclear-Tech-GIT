@@ -30,7 +30,7 @@ public class XFactory357 {
 	public static BulletConfig m357_express;
 
 	public static void init() {
-		m357_bp = new BulletConfig().setItem(EnumAmmo.M357_BP).setDamage(0.5F).setBlackPowder(true);
+		m357_bp = new BulletConfig().setItem(EnumAmmo.M357_BP).setDamage(0.75F).setBlackPowder(true);
 		m357_sp = new BulletConfig().setItem(EnumAmmo.M357_SP);
 		m357_fmj = new BulletConfig().setItem(EnumAmmo.M357_FMJ).setDamage(0.8F).setThresholdNegation(2F).setArmorPiercing(0.1F);
 		m357_jhp = new BulletConfig().setItem(EnumAmmo.M357_JHP).setDamage(1.5F).setHeadshot(1.5F).setArmorPiercing(-0.25F);

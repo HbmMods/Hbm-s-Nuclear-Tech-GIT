@@ -39,14 +39,14 @@ public class CompatHandler {
      */
     public static Object[] steamTypeToInt(FluidType type) {
         switch(type.getID()) {
-            default:
-                return new Object[] {0};
             case(4): // Fluids.HOTSTEAM
                 return new Object[] {1};
             case(5): // Fluids.SUPERHOTSTEAM
                 return new Object[] {2};
             case(6): // Fluids.ULTRAHOTSTEAM
                 return new Object[] {3};
+			default:
+				return new Object[] {0};
         }
     }
 
@@ -57,14 +57,14 @@ public class CompatHandler {
      */
     public static FluidType intToSteamType(int arg) {
         switch(arg) {
-            default:
-                return Fluids.STEAM;
             case(1):
                 return Fluids.HOTSTEAM;
             case(2):
                 return Fluids.SUPERHOTSTEAM;
             case(3):
                 return Fluids.ULTRAHOTSTEAM;
+			default:
+				return Fluids.STEAM;
         }
     }
 
@@ -72,7 +72,7 @@ public class CompatHandler {
      * Allows for easy creation of read-only filesystems. Primarily for floppy disks.
      * (Though maybe reading directly from VOTV drives as filesystems could be implemented. :3)
      **/
-    private static class ReadOnlyFileSystem implements Callable<FileSystem> {
+    protected static class ReadOnlyFileSystem implements Callable<FileSystem> {
 
         private final String name;
 
@@ -90,7 +90,7 @@ public class CompatHandler {
     // Floppy disk class.
     public static class FloppyDisk {
         // Specifies the callable ReadOnlyFileSystem to allow OC to access the floppy.
-        public final ReadOnlyFileSystem fs;
+		protected final ReadOnlyFileSystem fs;
         // Specifies the color of the floppy disk (0-16 colors defined by OC).
         public final Byte color;
         // Set after loading the disk; allows for adding a recipe to the item.
@@ -103,7 +103,7 @@ public class CompatHandler {
 
         // Disk names will be sanitized before the FileSystem is created.
         // This only affects the location/directory, not the display name.
-        // (Prevents filesystems from breaking/crashing due to having file separators, wildcards, etc.
+        // (Prevents filesystems from breaking/crashing due to having file separators, wildcards, etc.)
         public static String sanitizeName(String input) {
             return input.toLowerCase().replaceAll("\\W", "");
         }
@@ -152,7 +152,7 @@ public class CompatHandler {
             // begin registering disks
             Logger logger = LogManager.getLogger("HBM");
             logger.info("Loading OpenComputers disks...");
-            if(disks.size() == 0) {
+            if(disks.isEmpty()) {
                 logger.info("No disks registered; see com.hbm.handler.CompatHandler.disks");
                 return;
             }
@@ -163,13 +163,13 @@ public class CompatHandler {
 
                 if (fs == null) { // Disk path does NOT exist, and it should not be loaded.
 
-                    logger.error("Error loading disk: " + s + " at /assets/" + RefStrings.MODID + "/disks/" + disk.fs.name);
+					logger.error("Error loading disk: {} at /assets/" + RefStrings.MODID + "/disks/{}", s, disk.fs.name);
                     logger.error("This is likely due to the path to the disk being non-existent.");
 
                 } else { // Disk path DOES exist, and it should be loaded.
 
                     disk.item = Items.registerFloppy(s, disk.color, disk.fs); // The big part, actually registering the floppies!
-                    logger.info("Registered disk: " + s + " at /assets/" + RefStrings.MODID + "/disks/" + disk.fs.name);
+					logger.info("Registered disk: {} at /assets/" + RefStrings.MODID + "/disks/{}", s, disk.fs.name);
 
                 }
             });
@@ -178,10 +178,10 @@ public class CompatHandler {
             // OC disk recipes!
             List<ItemStack> floppyDisks = new RecipesCommon.OreDictStack("oc:floppy").toStacks();
 
-            if(floppyDisks.size() > 0) { //check that floppy disks even exist in oredict.
+            if(!floppyDisks.isEmpty()) { //check that floppy disks even exist in oredict.
 
                 // Recipes must be initialized here, since if they were initialized in `CraftingManager` then the disk item would not be created yet.
-                addShapelessAuto(disks.get("PWRangler").item, new Object[] {"oc:floppy", new ItemStack(ModBlocks.pwr_casing)});
+                addShapelessAuto(disks.get("PWRangler").item, "oc:floppy", new ItemStack(ModBlocks.pwr_casing));
 
                 logger.info("OpenComputers disk recipe added for PWRangler.");
             } else {

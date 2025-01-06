@@ -16,6 +16,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -83,21 +84,25 @@ public class TileEntityMicrowave extends TileEntityMachineBase implements IEnerg
 					time += speed * 2;
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("time", time);
-			data.setInteger("speed", speed);
-			networkPack(data, 50);
+
+			networkPackNT(50);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		power = data.getLong("power");
-		time = data.getInteger("time");
-		speed = data.getInteger("speed");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeInt(time);
+		buf.writeInt(speed);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		time = buf.readInt();
+		speed = buf.readInt();
 	}
 	
 	public void handleButtonPacket(int value, int meta) {

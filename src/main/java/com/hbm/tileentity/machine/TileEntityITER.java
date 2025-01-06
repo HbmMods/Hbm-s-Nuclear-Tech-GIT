@@ -37,6 +37,7 @@ import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -158,27 +159,7 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 				}
 			}
 			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("isOn", isOn);
-			data.setLong("power", power);
-			data.setInteger("progress", progress);
-			tanks[0].writeToNBT(data, "t0");
-			tanks[1].writeToNBT(data, "t1");
-			plasma.writeToNBT(data, "t2");
-			
-			if(slots[3] == null) {
-				data.setInteger("blanket", 0);
-			} else if(slots[3].getItem() == ModItems.fusion_shield_tungsten) {
-				data.setInteger("blanket", 1);
-			} else if(slots[3].getItem() == ModItems.fusion_shield_desh) {
-				data.setInteger("blanket", 2);
-			} else if(slots[3].getItem() == ModItems.fusion_shield_chlorophyte) {
-				data.setInteger("blanket", 3);
-			} else if(slots[3].getItem() == ModItems.fusion_shield_vaporwave) {
-				data.setInteger("blanket", 4);
-			}
-			
-			this.networkPack(data, 250);
+			this.networkPackNT(250);
 			/// END Notif packets ///
 			
 		} else {
@@ -378,16 +359,37 @@ public class TileEntityITER extends TileEntityMachineBase implements IEnergyRece
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		this.isOn = data.getBoolean("isOn");
-		this.power = data.getLong("power");
-		this.blanket = data.getInteger("blanket");
-		this.progress = data.getInteger("progress"); //
-		tanks[0].readFromNBT(data, "t0");
-		tanks[1].readFromNBT(data, "t1");
-		plasma.readFromNBT(data, "t2");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeBoolean(this.isOn);
+		buf.writeLong(this.power);
+		buf.writeInt(this.progress);
+		tanks[0].serialize(buf);
+		tanks[1].serialize(buf);
+		plasma.serialize(buf);
+		if(slots[3] == null) {
+			buf.writeInt(0);
+		} else if(slots[3].getItem() == ModItems.fusion_shield_tungsten) {
+			buf.writeInt(1);
+		} else if(slots[3].getItem() == ModItems.fusion_shield_desh) {
+			buf.writeInt(2);
+		} else if(slots[3].getItem() == ModItems.fusion_shield_chlorophyte) {
+			buf.writeInt(3);
+		} else if(slots[3].getItem() == ModItems.fusion_shield_vaporwave) {
+			buf.writeInt(4);
+		}
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.isOn = buf.readBoolean();
+		this.power = buf.readLong();
+		this.progress = buf.readInt();
+		tanks[0].deserialize(buf);
+		tanks[1].deserialize(buf);
+		plasma.deserialize(buf);
+		this.blanket = buf.readInt();
 	}
 
 	@Override

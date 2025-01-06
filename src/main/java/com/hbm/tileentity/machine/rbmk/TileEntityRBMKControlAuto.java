@@ -8,6 +8,7 @@ import com.hbm.tileentity.machine.rbmk.TileEntityRBMKControlManual.RBMKColor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -102,6 +103,24 @@ public class TileEntityRBMKControlAuto extends TileEntityRBMKControl implements 
 		
 		if(function != null)
 			nbt.setInteger("function", function.ordinal());
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeDouble(this.levelLower);
+		buf.writeDouble(this.levelUpper);
+		buf.writeDouble(this.heatLower);
+		buf.writeDouble(this.heatUpper);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.levelLower = buf.readDouble();
+		this.levelUpper = buf.readDouble();
+		this.heatLower = buf.readDouble();
+		this.heatUpper = buf.readDouble();
 	}
 
 	@Override

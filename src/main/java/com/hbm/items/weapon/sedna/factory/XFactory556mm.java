@@ -99,7 +99,8 @@ public class XFactory556mm {
 		case CYCLE: return new BusAnimation()
 				.addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, ItemGunBaseNT.getIsAiming(stack) ? -0.5 : -0.75, 25, IType.SIN_DOWN).addPos(0, 0, 0, 75, IType.SIN_FULL));
 		case CYCLE_DRY: return new BusAnimation()
-				.addBus("BOLT", new BusAnimationSequence().addPos(0, 0, 0, 250).addPos(0, 0, -3.25, 150).addPos(0, 0, 0, 100));
+				.addBus("BOLT", new BusAnimationSequence().addPos(0, 0, 0, 250).addPos(0, 0, -3.25, 150).addPos(0, 0, 0, 100))
+				.addBus("LIFT", new BusAnimationSequence().addPos(0, 0, 0, 400).addPos(-1, 0, 0, 100, IType.SIN_DOWN).addPos(0, 0, 0, 100, IType.SIN_FULL));
 		case RELOAD:
 			return new BusAnimation()
 				.addBus("MAG", new BusAnimationSequence()

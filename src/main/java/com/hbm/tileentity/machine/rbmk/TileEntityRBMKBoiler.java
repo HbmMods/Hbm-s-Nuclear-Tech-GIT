@@ -21,6 +21,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -160,6 +161,20 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 		
 		feed.writeToNBT(nbt, "feed");
 		steam.writeToNBT(nbt, "steam");
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		steam.serialize(buf);
+		feed.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.steam.deserialize(buf);
+		this.feed.deserialize(buf);
 	}
 
 	@Override

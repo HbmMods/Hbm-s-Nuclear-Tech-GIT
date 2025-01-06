@@ -1,14 +1,11 @@
 package com.hbm.blocks.network;
 
-import java.util.List;
-
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.network.TileEntityDroneDock;
 import com.hbm.tileentity.network.TileEntityDroneProvider;
 import com.hbm.tileentity.network.TileEntityDroneRequester;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,6 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class DroneDock extends BlockContainer implements ITooltipProvider {
 
@@ -36,7 +35,7 @@ public class DroneDock extends BlockContainer implements ITooltipProvider {
 		if(this == ModBlocks.drone_dock) return new TileEntityDroneDock();
 		if(this == ModBlocks.drone_crate_provider) return new TileEntityDroneProvider();
 		if(this == ModBlocks.drone_crate_requester) return new TileEntityDroneRequester();
-		
+
 		return null;
 	}
 
@@ -53,7 +52,7 @@ public class DroneDock extends BlockContainer implements ITooltipProvider {
 	public IIcon getIcon(int side, int metadata) {
 		return side == 1 ? this.iconTop : (side == 0 ? this.iconBottom : this.blockIcon);
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote) {

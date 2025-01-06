@@ -104,6 +104,9 @@ NTM has certain behaviors intended to fix vanilla code or to increase compatibil
 ### Thermos
 Thermos servers (along with its forks such as Crucible) have a "performance" feature that causes all tile entity ticking to slow down if there's no player present in the same chunk. For obvious reasons, this will heavily impact machines and cause phantom issues that, not having knowledge of this "performance" feature, are near impossible to diagnose. By default, NTM will crash on servers running the Thermos base code and print a lengthy message informing server owners about this "performance" feature as well as how to fix the issues it causes. The error message is printed in plain English on the top of the crash log, failure to read (as well as understand) it will leave the server inoperable.
 
+### Shaders
+Shaders (loaded by either Optifine, Iris or otherwise) will in all likelihood break when a gun is held. This is because guns need to skip vanilla's first person item setup for the rendering, however shaders apparently use the setup step for setting certain GL states, and skipping that will break rendering. [Shader Fixer](https://modrinth.com/mod/shader-fixer) is a mod with various fixes, among which is explicit compatibility for NTM's guns.
+
 ### Optifine
 One of the most common "performance" mods on 1.7.10, Optifine, achieves an increase in performance by breaking small things in spots that are usually hard to notice, although this can cause severe issues with NTM. A short list of problems, along with some solutions, follows:
 * Get rid of Optifine and use one of the many [other, less intrusive performance mods](https://gist.github.com/makamys/7cb74cd71d93a4332d2891db2624e17c).
@@ -113,7 +116,7 @@ One of the most common "performance" mods on 1.7.10, Optifine, achieves an incre
 ### Angelica
 In older versions, Angelica caused issues regarding model rendering, often times making 3D models transparent. Ever since the switch to VBOs, models work fine. Another issue was blocks with connected textures not rendering at all, but this too was fixed, meaning as of time of writing there are no major incompatibilities known with Angelica. However there a few minor issues that persist, but those can be fixed:
 * Often times when making a new world, all items appear as white squares. Somehow, scrolling though the NEI pages fixes this permanently
-* Reeds will render weirdly, this is an incompatibility with the "Compact Vertex Format" feature. Disabling it will make reeds look normal
+* Reeds will render weirdly, this is an incompatibility with the "Compact Vertex Format" feature. Disabling it will make reeds look normal. Alternatively, reed rendering can be disabled by using `/ntmclient set RENDER_REEDS false`, which works around the issue by not rendering the underwater portion of reeds at all.
 
 ### Skybox chainloader
 NTM adds a few small things to the skybox using a custom skybox renderer. Minecraft can only have a single skybox renderer loaded, so setting the skybox to the NTM custom one would break compatibility with other mods' skyboxes. To mend this, NTM employs a **chainloader**. This chainloader will detect if a different skybox is loaded, save a reference to that skybox and then use NTM's skybox, which when used will also make sure to run the previous modded skybox renderer. In the event that NTM's skybox were to cause trouble, it can be disabled with the config option `1.31_enableSkyboxes`.

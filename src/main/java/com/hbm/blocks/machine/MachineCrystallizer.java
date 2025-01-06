@@ -4,7 +4,6 @@ import com.hbm.blocks.BlockDummyable;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.tileentity.machine.TileEntityMachineCrystallizer;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class MachineCrystallizer extends BlockDummyable {
-	
+
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 
@@ -30,7 +29,7 @@ public class MachineCrystallizer extends BlockDummyable {
 		if(meta >= 6) return new TileEntityProxyCombo().inventory().power().fluid();
 		return null;
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote) {
@@ -60,7 +59,7 @@ public class MachineCrystallizer extends BlockDummyable {
 	public int getOffset() {
 		return 1;
 	}
-	
+
 	protected void fillSpace(World world, int x, int y, int z, ForgeDirection dir, int o) {
 		super.fillSpace(world, x, y, z, dir, o);
 

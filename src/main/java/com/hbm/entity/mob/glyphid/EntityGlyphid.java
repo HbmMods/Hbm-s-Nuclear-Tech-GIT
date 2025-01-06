@@ -321,6 +321,7 @@ public class EntityGlyphid extends EntityMob implements IResistanceProvider {
 	
 	@Override
 	public void onDeath(DamageSource source) {
+		super.onDeath(source);
 		
 		if(doesInfectedSpawnMaggots() && this.dataWatcher.getWatchableObjectByte(DW_SUBTYPE) == TYPE_INFECTED) {
 

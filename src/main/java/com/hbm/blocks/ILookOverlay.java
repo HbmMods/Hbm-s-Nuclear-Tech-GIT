@@ -1,9 +1,5 @@
 package com.hbm.blocks;
 
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
@@ -11,6 +7,9 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import org.lwjgl.opengl.GL11;
+
+import java.util.List;
 
 public interface ILookOverlay {
 
@@ -33,14 +32,14 @@ public interface ILookOverlay {
 
 		try {
 			for(String line : text) {
-	
+
 				int color = 0xFFFFFF;
 				if(line.startsWith("&[")) {
 					int end = line.lastIndexOf("&]");
 					color = Integer.parseInt(line.substring(2, end));
 					line = line.substring(end + 2);
 				}
-				
+
 				mc.fontRenderer.drawStringWithShadow(line, pX, pZ, color);
 				pZ += 10;
 			}

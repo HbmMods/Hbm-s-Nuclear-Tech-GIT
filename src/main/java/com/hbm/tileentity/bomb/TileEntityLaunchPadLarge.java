@@ -37,10 +37,10 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 	private int sync;
 	/** Delay between erector movements */
 	public int delay = 20;
-	
+
 	private AudioWrapper audioLift;
 	private AudioWrapper audioErector;
-	
+
 	protected boolean liftMoving = false;
 	protected boolean erectorMoving = false;
 
@@ -49,26 +49,26 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 
 			this.prevLift = this.lift;
 			this.prevErector = this.erector;
-			
+
 			float erectorSpeed = 1.5F;
 			float liftSpeed = 0.025F;
-			
+
 			if(this.isMissileValid()) {
 				if(slots[0].getItem() instanceof ItemMissile) {
 					ItemMissile missile = (ItemMissile) slots[0].getItem();
 					this.formFactor = missile.formFactor.ordinal();
-					
+
 					if(missile.formFactor == MissileFormFactor.ATLAS || missile.formFactor == MissileFormFactor.HUGE) {
 						erectorSpeed /= 2F;
 						liftSpeed /= 2F;
 					}
 				}
-				
+
 				if(this.erector == 90F && this.lift == 1F) {
 					this.readyToLoad = true;
 				}
@@ -77,16 +77,16 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 				erected = false;
 				delay = 20;
 			}
-			
+
 			if(this.power >= 75_000) {
 				if(delay > 0) {
 					delay--;
-					
+
 					if(delay < 10 && scheduleErect) {
 						this.erected = true;
 						this.scheduleErect = false;
 					}
-					
+
 					// if there is no missile or the missile isn't ready (i.e. the erector hasn't returned to zero position yet), retract
 					if(slots[0] == null || !readyToLoad) {
 						//fold back erector
@@ -103,13 +103,13 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 							}
 						}
 					}
-					
+
 				} else {
-					
+
 					//only extend if the erector isn't up yet and the missile can be loaded
 					if(!erected && readyToLoad) {
 						this.state = this.STATE_LOADING;
-						
+
 						//first, rotate the erector
 						if(erector != 0F) {
 							erector = Math.max(erector - erectorSpeed, 0F);
@@ -140,7 +140,7 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 					}
 				}
 			}
-			
+
 			if(!this.hasFuel() || !this.isMissileValid()) this.state = this.STATE_MISSING;
 			if(this.erected && this.canLaunch()) this.state = this.STATE_READY;
 
@@ -153,11 +153,11 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 
 			if(prevLiftMoving && !this.liftMoving) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:door.wgh_stop", 2F, 1F);
 			if(prevErectorMoving && !this.erectorMoving) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:door.garage_stop", 2F, 1F);
-			
+
 		} else {
 			this.prevLift = this.lift;
 			this.prevErector = this.erector;
-			
+
 			if(this.sync > 0) {
 				this.lift = this.lift + ((this.syncLift - this.lift) / (float) this.sync);
 				this.erector = this.erector + ((this.syncErector - this.erector) / (float) this.sync);
@@ -166,7 +166,7 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 				this.lift = this.syncLift;
 				this.erector = this.syncErector;
 			}
-			
+
 			if(this.liftMoving) {
 				if(this.audioLift == null || !this.audioLift.isPlaying()) {
 					this.audioLift = MainRegistry.proxy.getLoopedSound("hbm:door.wgh_start", xCoord, yCoord, zCoord, 0.75F, 25F, 1.0F, 5);
@@ -179,7 +179,7 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 					this.audioLift = null;
 				}
 			}
-			
+
 			if(this.erectorMoving) {
 				if(this.audioErector == null || !this.audioErector.isPlaying()) {
 					this.audioErector = MainRegistry.proxy.getLoopedSound("hbm:door.garage_move", xCoord, yCoord, zCoord, 1.5F, 25F, 1.0F, 5);
@@ -192,7 +192,7 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 					this.audioErector = null;
 				}
 			}
-			
+
 			if(this.erected && (this.formFactor == MissileFormFactor.HUGE.ordinal() || this.formFactor == MissileFormFactor.ATLAS.ordinal()) && this.tanks[1].getFill() > 0) {
 				NBTTagCompound data = new NBTTagCompound();
 				data.setString("type", "tower");
@@ -208,9 +208,9 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 				data.setFloat("strafe", 0.05F);
 				for(int i = 0; i < 3; i++) MainRegistry.proxy.effectNT(data);
 			}
-			
+
 			List<EntityMissileBaseNT> entities = worldObj.getEntitiesWithinAABB(EntityMissileBaseNT.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord, zCoord - 0.5, xCoord + 1.5, yCoord + 10, zCoord + 1.5));
-			
+
 			if(!entities.isEmpty()) {
 				for(int i = 0; i < 15; i++) {
 
@@ -218,19 +218,27 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 					if(worldObj.rand.nextBoolean()) dir = dir.getOpposite();
 					float moX = (float) (worldObj.rand.nextGaussian() * 0.15F + 0.75) * dir.offsetX;
 					float moZ = (float) (worldObj.rand.nextGaussian() * 0.15F + 0.75) * dir.offsetZ;
-					
-					MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
+
+					NBTTagCompound data = new NBTTagCompound();
+					data.setDouble("posX", xCoord + 0.5);
+					data.setDouble("posY", yCoord + 0.25);
+					data.setDouble("posZ", zCoord + 0.5);
+					data.setString("type", "launchSmoke");
+					data.setDouble("moX", moX);
+					data.setDouble("moY", 0);
+					data.setDouble("moZ", moZ);
+					MainRegistry.proxy.effectNT(data);
 				}
 			}
 		}
-		
+
 		super.updateEntity();
 	}
 
 	@Override
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
-		
+
 		buf.writeBoolean(this.liftMoving);
 		buf.writeBoolean(this.erectorMoving);
 		buf.writeBoolean(this.erected);
@@ -239,7 +247,7 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 		buf.writeFloat(this.lift);
 		buf.writeFloat(this.erector);
 	}
-	
+
 	@Override
 	public void deserialize(ByteBuf buf) {
 		super.deserialize(buf);
@@ -251,12 +259,12 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 		this.formFactor = buf.readByte();
 		this.syncLift = buf.readFloat();
 		this.syncErector = buf.readFloat();
-		
+
 		if(this.lift != this.syncLift || this.erector != this.syncErector) {
 			this.sync = 3;
 		}
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -267,7 +275,7 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 		this.erector = nbt.getFloat("erector");
 		this.formFactor = nbt.getInteger("formFactor");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -284,7 +292,7 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 		super.finalizeLaunch(missile);
 		this.erected = false;
 	}
-	
+
 	@Override
 	public DirPos[] getConPos() {
 		return new DirPos[] {
@@ -298,12 +306,12 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 				new DirPos(xCoord + 2, yCoord, zCoord - 5, Library.NEG_Z)
 		};
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 10,
@@ -314,10 +322,10 @@ public class TileEntityLaunchPadLarge extends TileEntityLaunchPadBase {
 					zCoord + 11
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {

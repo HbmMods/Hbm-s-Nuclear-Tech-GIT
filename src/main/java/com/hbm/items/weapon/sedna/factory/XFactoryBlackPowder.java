@@ -22,10 +22,10 @@ import net.minecraft.item.ItemStack;
 
 public class XFactoryBlackPowder {
 
-	public static BulletConfig stone = new BulletConfig().setItem(EnumAmmo.STONE).setBlackPowder(true).setSpread(0.025F).setRicochetAngle(15);
-	public static BulletConfig flint = new BulletConfig().setItem(EnumAmmo.STONE_AP).setBlackPowder(true).setSpread(0.01F).setRicochetAngle(5).setDoesPenetrate(true).setDamage(1.75F);
-	public static BulletConfig iron = new BulletConfig().setItem(EnumAmmo.STONE_IRON).setBlackPowder(true).setSpread(0F).setRicochetAngle(90).setRicochetCount(5).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(2F);
-	public static BulletConfig shot = new BulletConfig().setItem(EnumAmmo.STONE_SHOT).setBlackPowder(true).setSpread(0.1F).setRicochetAngle(45).setProjectiles(6, 6).setDamage(0.5F);
+	public static BulletConfig stone = new BulletConfig().setItem(EnumAmmo.STONE).setBlackPowder(true).setHeadshot(1F).setSpread(0.025F).setRicochetAngle(15);
+	public static BulletConfig flint = new BulletConfig().setItem(EnumAmmo.STONE_AP).setBlackPowder(true).setHeadshot(1F).setSpread(0.01F).setRicochetAngle(5).setDoesPenetrate(true).setDamage(1.5F);
+	public static BulletConfig iron = new BulletConfig().setItem(EnumAmmo.STONE_IRON).setBlackPowder(true).setHeadshot(1F).setSpread(0F).setRicochetAngle(90).setRicochetCount(5).setDoesPenetrate(true).setDamageFalloutByPen(false).setDamage(1.5F);
+	public static BulletConfig shot = new BulletConfig().setItem(EnumAmmo.STONE_SHOT).setBlackPowder(true).setHeadshot(1F).setSpread(0.1F).setRicochetAngle(45).setProjectiles(6, 6).setDamage(1F/6F);
 
 	public static void init() {
 		

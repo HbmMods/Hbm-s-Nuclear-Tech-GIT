@@ -3,6 +3,7 @@ package com.hbm.items;
 import java.util.List;
 import java.util.Locale;
 
+import com.hbm.interfaces.IOrderedEnum;
 import com.hbm.lib.RefStrings;
 import com.hbm.util.EnumUtil;
 
@@ -31,8 +32,12 @@ public class ItemEnumMulti extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list) {
-		for(int i = 0; i < theEnum.getEnumConstants().length; i++) {
-			list.add(new ItemStack(item, 1, i));
+		
+		Enum[] order = theEnum.getEnumConstants();
+		if(order[0] instanceof IOrderedEnum) order = ((IOrderedEnum) order[0]).getOrder();
+		
+		for(int i = 0; i < order.length; i++) {
+			list.add(new ItemStack(item, 1, order[i].ordinal()));
 		}
 	}
 	

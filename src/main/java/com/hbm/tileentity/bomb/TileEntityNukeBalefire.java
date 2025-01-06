@@ -11,6 +11,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 import api.hbm.energymk2.IBatteryItem;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -53,22 +54,29 @@ public class TileEntityNukeBalefire extends TileEntityMachineBase implements IGU
 			if(timer <= 0) {
 				explode();
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("timer", timer);
-			data.setBoolean("loaded", this.isLoaded());
-			data.setBoolean("started", started);
-			networkPack(data, 250);
+
+			networkPackNT(250);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		timer = data.getInteger("timer");
-		started = data.getBoolean("started");
-		loaded = data.getBoolean("loaded");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeInt(this.timer);
+		buf.writeBoolean(this.started);
+		buf.writeBoolean(this.loaded);
 	}
-	
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		this.timer = buf.readInt();
+		this.started = buf.readBoolean();
+		this.loaded = buf.readBoolean();
+	}
+
 	public void handleButtonPacket(int value, int meta) {
 		
 		if(meta == 0 && this.isLoaded()) {

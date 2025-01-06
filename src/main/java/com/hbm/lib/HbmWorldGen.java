@@ -1,7 +1,5 @@
 package com.hbm.lib;
 
-import java.util.Random;
-
 import com.hbm.blocks.BlockEnums.EnumStoneType;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockNTMFlower.EnumFlowerType;
@@ -21,21 +19,11 @@ import com.hbm.tileentity.machine.storage.TileEntitySoyuzCapsule;
 import com.hbm.util.LootGenerator;
 import com.hbm.util.WeightedRandomGeneric;
 import com.hbm.world.dungeon.*;
-import com.hbm.world.feature.BedrockOre;
+import com.hbm.world.feature.*;
 import com.hbm.world.feature.BedrockOre.BedrockOreDefinition;
-import com.hbm.world.feature.DepthDeposit;
-import com.hbm.world.feature.Dud;
-import com.hbm.world.feature.Geyser;
-import com.hbm.world.feature.GeyserLarge;
-import com.hbm.world.feature.GlyphidHive;
-import com.hbm.world.feature.Meteorite;
-import com.hbm.world.feature.OilBubble;
-import com.hbm.world.feature.OilSandBubble;
-import com.hbm.world.feature.OilSpot;
-import com.hbm.world.feature.Sellafield;
 import com.hbm.world.generator.CellularDungeonFactory;
 import com.hbm.world.generator.DungeonToolbox;
-
+import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -44,15 +32,12 @@ import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.BiomeGenBeach;
-import net.minecraft.world.biome.BiomeGenForest;
-import net.minecraft.world.biome.BiomeGenJungle;
-import net.minecraft.world.biome.BiomeGenRiver;
+import net.minecraft.world.biome.*;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.common.util.ForgeDirection;
-import cpw.mods.fml.common.IWorldGenerator;
+
+import java.util.Random;
 
 public class HbmWorldGen implements IWorldGenerator {
 
@@ -70,13 +55,13 @@ public class HbmWorldGen implements IWorldGenerator {
 				generateSurface(world, rand, chunkX * 16, chunkZ * 16); break;
 		}
 	}
-	
+
 	private void generateSurface(World world, Random rand, int i, int j) {
 
 		BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(i, j);
 
 		if(!TomSaveData.forWorld(world).impact) {
-			
+
 			if(biome instanceof BiomeGenForest && rand.nextInt(16) == 0) {
 				DungeonToolbox.generateFlowers(world, rand, i, j, ModBlocks.plant_flower, EnumFlowerType.FOXGLOVE.ordinal());
 			}
@@ -114,7 +99,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			DepthDeposit.generateConditionOverworld(world, i, 0, 3, j, 5, 0.8D, ModBlocks.ore_depth_cinnebar, rand, 16);
 			DepthDeposit.generateConditionOverworld(world, i, 0, 3, j, 5, 0.8D, ModBlocks.ore_depth_zirconium, rand, 16);
 			DepthDeposit.generateConditionOverworld(world, i, 0, 3, j, 5, 0.8D, ModBlocks.ore_depth_borax, rand, 16);
-			
+
 			DungeonToolbox.generateOre(world, rand, i, j, 25, 6, 30, 10, ModBlocks.ore_gneiss_iron, ModBlocks.stone_gneiss);
 			DungeonToolbox.generateOre(world, rand, i, j, 10, 6, 30, 10, ModBlocks.ore_gneiss_gold, ModBlocks.stone_gneiss);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.uraniumSpawn * 3, 6, 30, 10, ModBlocks.ore_gneiss_uranium, ModBlocks.stone_gneiss);
@@ -123,7 +108,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.lithiumSpawn, 6, 30, 10, ModBlocks.ore_gneiss_lithium, ModBlocks.stone_gneiss);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.rareSpawn, 6, 30, 10, ModBlocks.ore_gneiss_rare, ModBlocks.stone_gneiss);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.gassshaleSpawn * 3, 10, 30, 10, ModBlocks.ore_gneiss_gas, ModBlocks.stone_gneiss);
-	
+
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.uraniumSpawn, 5, 5, 20, ModBlocks.ore_uranium);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.thoriumSpawn, 5, 5, 25, ModBlocks.ore_thorium);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumSpawn, 6, 5, 30, ModBlocks.ore_titanium);
@@ -140,7 +125,7 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.asbestosSpawn, 4, 16, 16, ModBlocks.ore_asbestos);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.cinnebarSpawn, 4, 8, 16, ModBlocks.ore_cinnebar);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.cobaltSpawn, 4, 4, 8, ModBlocks.ore_cobalt);
-	
+
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.ironClusterSpawn, 6, 15, 45, ModBlocks.cluster_iron);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.titaniumClusterSpawn, 6, 15, 30, ModBlocks.cluster_titanium);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.aluminiumClusterSpawn, 6, 15, 35, ModBlocks.cluster_aluminium);
@@ -154,7 +139,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if(rand.nextInt(10) == 0) {
 					int randPosX = i + rand.nextInt(2) + 8;
 					int randPosZ = j + rand.nextInt(2) + 8;
-	
+
 					BedrockOre.generate(world, randPosX, randPosZ, new ItemStack(ModItems.bedrock_ore_base), null, 0xD78A16, 1);
 				}
 
@@ -175,7 +160,7 @@ public class HbmWorldGen implements IWorldGenerator {
 					BedrockOre.generate(world, randPosX, randPosZ, def.stack, def.acid, def.color, def.tier);
 				}
 			}
-			
+
 			if(GeneralConfig.enable528ColtanSpawn) {
 				DungeonToolbox.generateOre(world, rand, i, j, GeneralConfig.coltanRate, 4, 15, 40, ModBlocks.ore_coltan);
 			}
@@ -184,16 +169,16 @@ public class HbmWorldGen implements IWorldGenerator {
 			int colX = (int) (colRand.nextGaussian() * 1500);
 			int colZ = (int) (colRand.nextGaussian() * 1500);
 			int colRange = 750;
-			
+
 			if((GeneralConfig.enable528BedrockSpawn || GeneralConfig.enable528BedrockDeposit) && rand.nextInt(GeneralConfig.bedrockRate) != 0) {
 				int x = i + rand.nextInt(16) + 8;
 				int z = j + rand.nextInt(16) + 8;
-				
+
 				if(GeneralConfig.enable528BedrockSpawn || (GeneralConfig.enable528BedrockDeposit && x <= colX + colRange && x >= colX - colRange && z <= colZ + colRange && z >= colZ - colRange)) {
 					BedrockOre.generate(world, x, z, new ItemStack(ModItems.fragment_coltan), null, 0xA78D7A, 1);
 				}
 			}
-			
+
 			if(GeneralConfig.enable528ColtanDeposit) {
 				for(int k = 0; k < 2; k++) {
 
@@ -220,18 +205,18 @@ public class HbmWorldGen implements IWorldGenerator {
 					(new WorldGenMinable(ModBlocks.ore_australium, 50)).generate(world, rand, randPosX, randPosY, randPosZ);
 			}
 		}
-		
+
 		boolean enableDungeons = world.getWorldInfo().isMapFeaturesEnabled();
 		if(GeneralConfig.enableDungeons == 1) enableDungeons = true;
 		if(GeneralConfig.enableDungeons == 0) enableDungeons = false;
-		
+
 		if(enableDungeons && world.provider.dimensionId == 0) {
-			
+
 			if(MobConfig.enableHives && rand.nextInt(MobConfig.hiveSpawn) == 0) {
 				int x = i + rand.nextInt(16) + 8;
 				int z = j + rand.nextInt(16) + 8;
 				int y = world.getHeightValue(x, z);
-				
+
 				for(int k = 3; k >= -1; k--) {
 					if(world.getBlock(x, y - 1 + k, z).isNormalCube()) {
 						GlyphidHive.generateSmall(world, x, y + k, z, rand, rand.nextInt(10) == 0, true);
@@ -383,7 +368,7 @@ public class HbmWorldGen implements IWorldGenerator {
 
 				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
 					world.setBlock(x, y, z, ModBlocks.broadcaster_pc, rand.nextInt(4) + 2, 2);
-					
+
 					if(GeneralConfig.enableDebugMode)
 						MainRegistry.logger.info("[Debug] Successfully spawned corrupted broadcaster at " + x + " " + (y) +" " + z);
 				}
@@ -393,9 +378,9 @@ public class HbmWorldGen implements IWorldGenerator {
 				int x = i + rand.nextInt(16) + 8;
 				int z = j + rand.nextInt(16) + 8;
 				int y = world.getHeightValue(x, z);
-				
+
 				for(int g = y + 2; g >= y; g--) {
-	
+
 					if(world.getBlock(x, g - 1, z).canPlaceTorchOnTop(world, x, g - 1, z)) {
 						world.setBlock(x, g, z, ModBlocks.mine_ap);
 						TileEntityLandmine landmine = (TileEntityLandmine) world.getTileEntity(x, g, z);
@@ -412,13 +397,13 @@ public class HbmWorldGen implements IWorldGenerator {
 				int y = world.getHeightValue(x, z);
 
 				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z) && world.getBlock(x, y, z).isReplaceable(world, x, y, z)) {
-					
+
 					world.setBlock(x, y, z, ModBlocks.lantern_behemoth, 12, 3);
 					MultiblockHandlerXR.fillSpace(world, x, y, z, new int[] {4, 0, 0, 0, 0, 0}, ModBlocks.lantern_behemoth, ForgeDirection.NORTH);
-					
+
 					TileEntityLanternBehemoth lantern = (TileEntityLanternBehemoth) world.getTileEntity(x, y, z);
 					lantern.isBroken = true;
-					
+
 					if(rand.nextInt(2) == 0) {
 						LootGenerator.setBlock(world, x, y, z - 2);
 						LootGenerator.lootBooklet(world, x, y, z - 2);
@@ -441,13 +426,13 @@ public class HbmWorldGen implements IWorldGenerator {
 			}
 
 			if(WorldConfig.radfreq > 0 && GeneralConfig.enableRad && rand.nextInt(WorldConfig.radfreq) == 0 && biome == BiomeGenBase.desert) {
-				
+
 				for (int a = 0; a < 1; a++) {
 					int x = i + rand.nextInt(16);
 					int z = j + rand.nextInt(16);
-					
+
 					double r = rand.nextInt(15) + 10;
-					
+
 					if(rand.nextInt(50) == 0)
 						r = 50;
 
@@ -462,7 +447,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
-				
+
 				if(world.getBlock(x, y - 1, z) == Blocks.grass)
 					new Geyser().generate(world, rand, x, y, z);
 			}
@@ -480,17 +465,17 @@ public class HbmWorldGen implements IWorldGenerator {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z) - 4;
-				
+
 				if(world.getBlock(x, y + 1, z).canPlaceTorchOnTop(world, x, y + 1, z)) {
-					
+
 					world.setBlock(x, y, z, ModBlocks.soyuz_capsule, 3, 2);
-					
+
 					TileEntitySoyuzCapsule cap = (TileEntitySoyuzCapsule)world.getTileEntity(x, y, z);
-					
+
 					if(cap != null) {
 						cap.setInventorySlotContents(rand.nextInt(cap.getSizeInventory()), new ItemStack(ModItems.record_glass));
 					}
-	
+
 					if(GeneralConfig.enableDebugMode)
 						MainRegistry.logger.info("[Debug] Successfully spawned capsule at " + x + " " + z);
 				}
@@ -510,9 +495,9 @@ public class HbmWorldGen implements IWorldGenerator {
 			if (rand.nextInt(1000) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
-				
+
 				boolean done = false;
-				
+
 				for(int k = 0; k < 256; k++) {
 					if(world.getBlock(x, k, z) == Blocks.log && world.getBlockMetadata(x, k, z) == 0) {
 						world.setBlock(x, k, z, ModBlocks.pink_log);
@@ -532,7 +517,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
 					world.setBlock(x, y, z, ModBlocks.safe, rand.nextInt(4) + 2, 2);
 					TileEntitySafe safe = (TileEntitySafe) world.getTileEntity(x, y, z);
-					
+
 					switch(rand.nextInt(10)) {
 					case 0: case 1: case 2: case 3:
 						safe.setMod(1);
@@ -554,38 +539,38 @@ public class HbmWorldGen implements IWorldGenerator {
 
 					safe.setPins(rand.nextInt(999) + 1);
 					safe.lock();
-					
+
 					if(GeneralConfig.enableDebugMode)
 						MainRegistry.logger.info("[Debug] Successfully spawned safe at " + x + " " + (y + 1) +" " + z);
 				}
-				
+
 			}
 
 			if (WorldConfig.meteorStructure > 0 && rand.nextInt(WorldConfig.meteorStructure) == 0 && biome != BiomeGenBase.ocean && biome != BiomeGenBase.deepOcean) {
 				int x = i + rand.nextInt(16) + 8;
 				int z = j + rand.nextInt(16) + 8;
-				
+
 				CellularDungeonFactory.meteor.generate(world, x, 10, z, rand);
-				
+
 				if(GeneralConfig.enableDebugMode)
 					MainRegistry.logger.info("[Debug] Successfully spawned meteor dungeon at " + x + " 10 " + z);
-				
+
 				int y = world.getHeightValue(x, z);
-				
+
 				for(int f = 0; f < 3; f++)
 					world.setBlock(x, y + f, z, ModBlocks.meteor_pillar);
 				world.setBlock(x, y + 3, z, ModBlocks.meteor_brick_chiseled);
-				
+
 				for(int f = 0; f < 10; f++) {
 
 					x = i + rand.nextInt(65) - 32;
 					z = j + rand.nextInt(65) - 32;
 					y = world.getHeightValue(x, z);
-					
+
 					if(world.getBlock(x, y - 1, z).canPlaceTorchOnTop(world, x, y - 1, z)) {
 						world.setBlock(x, y, z, Blocks.skull, 1, 2);
 						TileEntitySkull skull = (TileEntitySkull)world.getTileEntity(x, y, z);
-						
+
 						if(skull != null)
 							skull.func_145903_a(rand.nextInt(16));
 					}
@@ -596,16 +581,16 @@ public class HbmWorldGen implements IWorldGenerator {
 					WorldConfig.jungleStructure > 0 && rand.nextInt(WorldConfig.jungleStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
-				
+
 				CellularDungeonFactory.jungle.generate(world, x, 20, z, world.rand);
 				CellularDungeonFactory.jungle.generate(world, x, 24, z, world.rand);
 				CellularDungeonFactory.jungle.generate(world, x, 28, z, world.rand);
-				
+
 				if(GeneralConfig.enableDebugMode)
 					MainRegistry.logger.info("[Debug] Successfully spawned jungle dungeon at " + x + " 10 " + z);
-				
+
 				int y = world.getHeightValue(x, z);
-				
+
 				for(int f = 0; f < 3; f++)
 					world.setBlock(x, y + f, z, ModBlocks.deco_titanium);
 				world.setBlock(x, y + 3, z, Blocks.redstone_block);
@@ -617,12 +602,12 @@ public class HbmWorldGen implements IWorldGenerator {
 				int y = 16 + rand.nextInt(32);
 				new ArcticVault().trySpawn(world, x, y, z);
 			}
-			
+
 			if (WorldConfig.pyramidStructure > 0 && biome.temperature >= 2.0F && !biome.canSpawnLightningBolt() && rand.nextInt(WorldConfig.pyramidStructure) == 0) {
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int y = world.getHeightValue(x, z);
-				
+
 				new AncientTomb().build(world, rand, x, y, z);
 			}
 		}
@@ -638,11 +623,11 @@ public class HbmWorldGen implements IWorldGenerator {
 		if(WorldConfig.bedrockOilSpawn > 0 && rand.nextInt(WorldConfig.bedrockOilSpawn) == 0) {
 			int randPosX = i + rand.nextInt(16);
 			int randPosZ = j + rand.nextInt(16);
-			
+
 			for(int x = -4; x <= 4; x++) {
 				for(int y = 0; y <= 4; y++) {
 					for(int z = -4; z <= 4; z++) {
-						
+
 						if(Math.abs(x) + Math.abs(y) + Math.abs(z) <= 6) {
 							Block b = world.getBlock(randPosX + x, y, randPosZ + z);
 							if(b.isReplaceableOreGen(world, randPosX + x, y, randPosZ + z, Blocks.stone) || b.isReplaceableOreGen(world, randPosX + x, y, randPosZ + z, Blocks.bedrock)) {
@@ -652,7 +637,7 @@ public class HbmWorldGen implements IWorldGenerator {
 					}
 				}
 			}
-			
+
 			DungeonToolbox.generateOre(world, rand, i, j, 16, 8, 10, 50, ModBlocks.stone_porous);
 			OilSpot.generateOilSpot(world, randPosX, randPosZ, 5, 50, true);
 		}
@@ -731,12 +716,12 @@ public class HbmWorldGen implements IWorldGenerator {
 				}
 			}
 		}
-		
+
 		if(rand.nextInt(4) == 0) {
 			int x = i + rand.nextInt(16) + 8;
 			int y = 6 + rand.nextInt(13);
 			int z = j + rand.nextInt(16) + 8;
-			
+
 			if(world.getBlock(x, y, z).isReplaceableOreGen(world, x, y, z, Blocks.stone)) {
 				world.setBlock(x, y, z, ModBlocks.stone_keyhole);
 			}
@@ -753,10 +738,10 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPhosphorusSpawn, 6, 0, 127, ModBlocks.ore_nether_fire, Blocks.netherrack);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherCoalSpawn, 32, 16, 96, ModBlocks.ore_nether_coal, Blocks.netherrack);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherCobaltSpawn, 6, 100, 26, ModBlocks.ore_nether_cobalt, Blocks.netherrack);
-			
+
 			if(GeneralConfig.enablePlutoniumOre)
 				DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPlutoniumSpawn, 4, 0, 127, ModBlocks.ore_nether_plutonium, Blocks.netherrack);
-			
+
 			if(rand.nextInt(10) == 0) {
 				@SuppressWarnings("unchecked")
 				WeightedRandomGeneric<BedrockOreDefinition> item = (WeightedRandomGeneric<BedrockOreDefinition>) WeightedRandom.getRandomItem(rand, BedrockOre.weightedOresNether);
@@ -792,15 +777,15 @@ public class HbmWorldGen implements IWorldGenerator {
 	}
 
 	private void generateEnd(World world, Random rand, int i, int j) {
-		
+
 		if(WorldConfig.endOre) {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.endTikiteSpawn, 6, 0, 127, ModBlocks.ore_tikite, Blocks.end_stone);
-	
+
 			/*for(int k = 0; k < 50; k++){
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int d = 5 + rand.nextInt(60);
-	
+
 				for(int y = d - 5; y <= d; y++)
 					if(world.getBlock(x, y, z) == Blocks.air && world.getBlock(x, y + 1, z).isSideSolid(world, x, y, z, ForgeDirection.DOWN))
 						world.setBlock(x, y, z, ModBlocks.crystal_trixite);

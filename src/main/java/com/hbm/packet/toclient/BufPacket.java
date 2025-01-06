@@ -1,5 +1,7 @@
 package com.hbm.packet.toclient;
 
+import com.hbm.main.MainRegistry;
+import com.hbm.packet.PrecompiledPacket;
 import com.hbm.tileentity.IBufPacketReceiver;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -9,14 +11,14 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 
-public class BufPacket implements IMessage {
+public class BufPacket extends PrecompiledPacket {
 
 	int x;
 	int y;
 	int z;
 	IBufPacketReceiver rec;
 	ByteBuf buf;
-	
+
 	public BufPacket() { }
 
 	public BufPacket(int x, int y, int z, IBufPacketReceiver rec) {
@@ -43,19 +45,27 @@ public class BufPacket implements IMessage {
 	}
 
 	public static class Handler implements IMessageHandler<BufPacket, IMessage> {
-		
+
 		@Override
 		public IMessage onMessage(BufPacket m, MessageContext ctx) {
-			
+
 			if(Minecraft.getMinecraft().theWorld == null)
 				return null;
-			
+
 			TileEntity te = Minecraft.getMinecraft().theWorld.getTileEntity(m.x, m.y, m.z);
-			
-			if(te instanceof IBufPacketReceiver) {
-				((IBufPacketReceiver) te).deserialize(m.buf);
+
+			if (te instanceof IBufPacketReceiver) {
+				try {
+					((IBufPacketReceiver) te).deserialize(m.buf);
+				} catch(Exception e) { // just in case I fucked up
+					MainRegistry.logger.warn("A ByteBuf packet failed to be read and has thrown an error. This normally means that there was a buffer underflow and more data was read than was actually in the packet.");
+					MainRegistry.logger.warn("Tile: {}", te.getBlockType().getUnlocalizedName());
+					MainRegistry.logger.warn(e.getMessage());
+				} finally {
+					m.buf.release();
+				}
 			}
-			
+
 			return null;
 		}
 	}
