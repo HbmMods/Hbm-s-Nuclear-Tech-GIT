@@ -1,11 +1,8 @@
 package com.hbm.blocks.machine;
 
-import java.util.Random;
-
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityReactorControl;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,8 +22,10 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class MachineReactorControl extends BlockContainer {
-	
+
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 	@SideOnly(Side.CLIENT)
@@ -40,7 +39,7 @@ public class MachineReactorControl extends BlockContainer {
 	public MachineReactorControl(Material p_i45386_1_) {
 		super(p_i45386_1_);
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -49,33 +48,33 @@ public class MachineReactorControl extends BlockContainer {
 		this.iconBack = iconRegister.registerIcon(RefStrings.MODID + ":machine_controller_back");
 		this.blockIcon = iconRegister.registerIcon(RefStrings.MODID + ":machine_controller_side");
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		
+
 		if(metadata == 0)
 			metadata = 3;
-		
+
 		if(metadata == side)
 			return iconFront;
-		
+
 		if(side == 0 || side == 1)
 			return iconTop;
-		
+
 		if(metadata == 2 && side == 3 ||
 				metadata == 3 && side == 2 ||
 				metadata == 4 && side == 5 ||
 				metadata == 5 && side == 4)
 			return iconBack;
-		
+
 		return blockIcon;
 	}
-	
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack itemStack) {
 		int i = MathHelper.floor_double(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-		
+
 		if(i == 0)
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
@@ -92,7 +91,7 @@ public class MachineReactorControl extends BlockContainer {
 		{
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
-		
+
 		if(itemStack.hasDisplayName())
 		{
 			((TileEntityReactorControl)world.getTileEntity(x, y, z)).setCustomName(itemStack.getDisplayName());
@@ -103,13 +102,13 @@ public class MachineReactorControl extends BlockContainer {
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityReactorControl();
 	}
-	
+
 	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
     {
         return Item.getItemFromBlock(this);
     }
-	
+
 	@Override
 	public void breakBlock(World p_149749_1_, int p_149749_2_, int p_149749_3_, int p_149749_4_, Block p_149749_5_, int p_149749_6_)
     {
@@ -161,7 +160,7 @@ public class MachineReactorControl extends BlockContainer {
 
         super.breakBlock(p_149749_1_, p_149749_2_, p_149749_3_, p_149749_4_, p_149749_5_, p_149749_6_);
     }
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote)
@@ -190,12 +189,12 @@ public class MachineReactorControl extends BlockContainer {
     public int getComparatorInputOverride(World world, int x, int y, int z, int p_149736_5_)
     {
 		TileEntityReactorControl entity = (TileEntityReactorControl) world.getTileEntity(x, y, z);
-		
+
 		if(entity != null)
 		{
 			return (int)Math.ceil((double)entity.heat * 15D / 50000D);
 		}
-		
+
 		return 0;
     }
 

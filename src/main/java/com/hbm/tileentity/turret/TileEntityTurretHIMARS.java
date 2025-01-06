@@ -17,6 +17,7 @@ import com.hbm.tileentity.IGUIProvider;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -248,9 +249,8 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 			}
 			
 			this.power = Library.chargeTEFromItems(slots, 10, this.power, this.getMaxPower());
-			
-			NBTTagCompound data = this.writePacket();
-			this.networkPack(data, 250);
+
+			this.networkPackNT(250);
 			
 		} else {
 			
@@ -266,22 +266,21 @@ public class TileEntityTurretHIMARS extends TileEntityTurretBaseArtillery implem
 	}
 
 	@Override
-	protected NBTTagCompound writePacket() {
-		NBTTagCompound data = super.writePacket();
-		data.setShort("mode", this.mode);
-		data.setInteger("type", this.typeLoaded);
-		data.setInteger("ammo", this.ammo);
-		data.setFloat("crane", crane);
-		return data;
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeShort(this.mode);
+		buf.writeShort(this.typeLoaded);
+		buf.writeInt(this.ammo);
+		buf.writeFloat(this.crane);
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		this.mode = nbt.getShort("mode");
-		this.typeLoaded = nbt.getShort("type");
-		this.ammo = nbt.getInteger("ammo");
-		this.crane = nbt.getFloat("crane");
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.mode = buf.readShort();
+		this.typeLoaded = buf.readShort();
+		this.ammo = buf.readInt();
+		this.crane = buf.readFloat();
 	}
 	
 	public boolean hasAmmo() {

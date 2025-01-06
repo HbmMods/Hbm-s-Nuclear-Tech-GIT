@@ -15,6 +15,7 @@ import com.hbm.tileentity.TileEntityMachineBase;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -102,11 +103,8 @@ public class TileEntityAshpit extends TileEntityMachineBase implements IGUIProvi
 			for(int i = 0; i < 5; i++) {
 				if(slots[i] != null) isFull = true;
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("playersUsing", this.playersUsing);
-			data.setBoolean("isFull", this.isFull);
-			this.networkPack(data, 50);
+
+			this.networkPackNT(50);
 			
 		} else {
 			this.prevDoorAngle = this.doorAngle;
@@ -141,10 +139,19 @@ public class TileEntityAshpit extends TileEntityMachineBase implements IGUIProvi
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		this.playersUsing = nbt.getInteger("playersUsing");
-		this.isFull = nbt.getBoolean("isFull");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeInt(this.playersUsing);
+		buf.writeBoolean(this.isFull);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		this.playersUsing = buf.readInt();
+		this.isFull = buf.readBoolean();
 	}
 
 	@Override

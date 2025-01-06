@@ -22,6 +22,7 @@ import com.hbm.module.ModulePatternMatcher;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachinePolluting;
 import com.hbm.tileentity.TileEntityProxyBase;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.Compat;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -31,6 +32,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -220,21 +222,42 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 			} else {
 				this.progress = 0;
 			}
-
-			NBTTagCompound data = new NBTTagCompound();
-			data.setString("type", this.machineType);
-			data.setLong("power", power);
-			data.setBoolean("structureOK", structureOK);
-			data.setInteger("flux", flux);
-			data.setInteger("heat", heat);
-			data.setInteger("progress", progress);
-			data.setInteger("maxProgress", maxProgress);
-			for (int i = 0; i < inputTanks.length; i++) inputTanks[i].writeToNBT(data, "i" + i);
-			for (int i = 0; i < outputTanks.length; i++) outputTanks[i].writeToNBT(data, "o" + i);
-			this.matcher.writeToNBT(data);
-			this.networkPack(data, 50);
+			this.networkPackNT(50);
 		}
 
+	}
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeLong(power);
+		buf.writeInt(progress);
+		buf.writeInt(flux);
+		buf.writeInt(heat);
+		buf.writeBoolean(structureOK);
+		buf.writeInt(maxProgress);
+		for (FluidTank inputTank : inputTanks) inputTank.serialize(buf);
+		for (FluidTank outputTank : outputTanks) outputTank.serialize(buf);
+		this.matcher.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		this.machineType = BufferUtil.readString(buf);
+		if(this.config == null) this.init();
+
+		this.power = buf.readLong();
+		this.progress = buf.readInt();
+		this.flux = buf.readInt();
+		this.heat = buf.readInt();
+		this.structureOK = buf.readBoolean();
+		this.maxProgress = buf.readInt();
+		for (FluidTank inputTank : inputTanks) inputTank.deserialize(buf);
+		for (FluidTank outputTank : outputTanks) outputTank.deserialize(buf);
+		this.matcher.deserialize(buf);
 	}
 
 	/** Only accepts inputs in a fixed order, saves a ton of performance because there's no permutations to check for */
@@ -456,25 +479,6 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 		if(slots[filterSlot] == null) return true;
 
 		return matcher.isValidForFilter(slots[filterSlot], index, stack);
-	}
-
-	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.machineType = nbt.getString("type");
-		if(this.config == null) this.init();
-
-		this.power = nbt.getLong("power");
-		this.progress = nbt.getInteger("progress");
-		this.flux = nbt.getInteger("flux");
-		this.heat = nbt.getInteger("heat");
-		this.structureOK = nbt.getBoolean("structureOK");
-		this.maxProgress = nbt.getInteger("maxProgress");
-		for(int i = 0; i < inputTanks.length; i++) inputTanks[i].readFromNBT(nbt, "i" + i);
-		for(int i = 0; i < outputTanks.length; i++) outputTanks[i].readFromNBT(nbt, "o" + i);
-
-		this.matcher.readFromNBT(nbt);
 	}
 
 	@Override

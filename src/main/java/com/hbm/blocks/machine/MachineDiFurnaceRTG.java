@@ -1,12 +1,9 @@
 package com.hbm.blocks.machine;
 
-import java.util.Random;
-
 import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.RefStrings;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.machine.TileEntityDiFurnaceRTG;
-
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,8 +22,10 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class MachineDiFurnaceRTG extends BlockContainer {
-	
+
 	private final Random rand = new Random();
 	private final boolean isActive;
 	private static boolean keepInventory;
@@ -116,7 +115,7 @@ public class MachineDiFurnaceRTG extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-		
+
 		if(world.isRemote) {
 			return true;
 		} else if(!player.isSneaking()) {
@@ -145,7 +144,7 @@ public class MachineDiFurnaceRTG extends BlockContainer {
 		} else {
 			world.setBlock(x, y, z, ModBlocks.machine_difurnace_rtg_off);
 		}
-		
+
 		keepInventory = false;
 		world.setBlockMetadataWithNotify(x, y, z, i, 2);
 

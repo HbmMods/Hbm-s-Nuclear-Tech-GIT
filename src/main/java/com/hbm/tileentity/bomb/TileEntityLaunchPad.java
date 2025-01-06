@@ -18,16 +18,16 @@ public class TileEntityLaunchPad extends TileEntityLaunchPadBase {
 
 	@Override public boolean isReadyForLaunch() { return delay <= 0; }
 	@Override public double getLaunchOffset() { return 1D; }
-	
+
 	public int delay = 0;
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			if(this.delay > 0) delay--;
-			
+
 			if(!this.isMissileValid() || !this.hasFuel()) {
 				this.delay = 100;
 			}
@@ -41,11 +41,11 @@ public class TileEntityLaunchPad extends TileEntityLaunchPadBase {
 					this.state = this.STATE_READY;
 				}
 			}
-			
+
 		} else {
-			
+
 			List<EntityMissileBaseNT> entities = worldObj.getEntitiesWithinAABB(EntityMissileBaseNT.class, AxisAlignedBB.getBoundingBox(xCoord - 0.5, yCoord, zCoord - 0.5, xCoord + 1.5, yCoord + 10, zCoord + 1.5));
-			
+
 			if(!entities.isEmpty()) {
 				for(int i = 0; i < 15; i++) {
 
@@ -54,12 +54,20 @@ public class TileEntityLaunchPad extends TileEntityLaunchPadBase {
 					if(worldObj.rand.nextBoolean()) dir = dir.getRotation(ForgeDirection.UP);
 					float moX = (float) (worldObj.rand.nextGaussian() * 0.15F + 0.75) * dir.offsetX;
 					float moZ = (float) (worldObj.rand.nextGaussian() * 0.15F + 0.75) * dir.offsetZ;
-					
-					MainRegistry.proxy.spawnParticle(xCoord + 0.5, yCoord + 0.25, zCoord + 0.5, "launchsmoke", new float[] {moX, 0, moZ});
+
+					NBTTagCompound data = new NBTTagCompound();
+					data.setDouble("posX", xCoord + 0.5);
+					data.setDouble("posY", yCoord + 0.25);
+					data.setDouble("posZ", zCoord + 0.5);
+					data.setString("type", "launchSmoke");
+					data.setDouble("moX", moX);
+					data.setDouble("moY", 0);
+					data.setDouble("moZ", moZ);
+					MainRegistry.proxy.effectNT(data);
 				}
 			}
 		}
-		
+
 		super.updateEntity();
 	}
 
@@ -68,7 +76,7 @@ public class TileEntityLaunchPad extends TileEntityLaunchPadBase {
 		super.finalizeLaunch(missile);
 		this.delay = 100;
 	}
-	
+
 	@Override
 	public DirPos[] getConPos() {
 		return new DirPos[] {
@@ -82,24 +90,24 @@ public class TileEntityLaunchPad extends TileEntityLaunchPadBase {
 				new DirPos(xCoord + 1, yCoord, zCoord - 2, Library.NEG_Z)
 		};
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		this.delay = nbt.getInteger("delay");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setInteger("delay", delay);
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 2,
@@ -110,10 +118,10 @@ public class TileEntityLaunchPad extends TileEntityLaunchPadBase {
 					zCoord + 3
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {

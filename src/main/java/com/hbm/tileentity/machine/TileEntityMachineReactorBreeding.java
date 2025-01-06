@@ -15,6 +15,7 @@ import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -65,19 +66,23 @@ public class TileEntityMachineReactorBreeding extends TileEntityMachineBase impl
 			} else {
 				progress = 0.0F;
 			}
-						
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("flux", flux);
-			data.setFloat("progress", progress);
-			this.networkPack(data, 20);
+
+			this.networkPackNT(20);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		flux = data.getInteger("flux");
-		progress = data.getFloat("progress");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(flux);
+		buf.writeFloat(progress);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.flux = buf.readInt();
+		this.progress = buf.readFloat();
 	}
 	
 	public void getInteractions() {

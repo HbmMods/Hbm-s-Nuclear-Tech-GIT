@@ -8,11 +8,13 @@ import com.hbm.inventory.container.ContainerFurnaceSteel;
 import com.hbm.inventory.gui.GUIFurnaceSteel;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.ItemStackUtil;
 
 import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -95,13 +97,9 @@ public class TileEntityFurnaceSteel extends TileEntityMachineBase implements IGU
 					
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setIntArray("progress", progress);
-			data.setIntArray("bonus", bonus);
-			data.setInteger("heat", heat);
-			data.setBoolean("wasOn", wasOn);
-			this.networkPack(data, 50);
+
+			this.networkPackNT(50);
+
 		} else {
 			
 			if(this.wasOn) {
@@ -121,13 +119,21 @@ public class TileEntityFurnaceSteel extends TileEntityMachineBase implements IGU
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.progress = nbt.getIntArray("progress");
-		this.bonus = nbt.getIntArray("bonus");
-		this.heat = nbt.getInteger("heat");
-		this.wasOn = nbt.getBoolean("wasOn");
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		BufferUtil.writeIntArray(buf, this.progress);
+		BufferUtil.writeIntArray(buf, this.bonus);
+		buf.writeInt(this.heat);
+		buf.writeBoolean(this.wasOn);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.progress = BufferUtil.readIntArray(buf);
+		this.bonus = BufferUtil.readIntArray(buf);
+		this.heat = buf.readInt();
+		this.wasOn = buf.readBoolean();
 	}
 	
 	@Override

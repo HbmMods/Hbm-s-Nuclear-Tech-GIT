@@ -1,8 +1,8 @@
 package com.hbm.blocks;
 
-import java.util.List;
-
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public interface IAnalyzable {
 

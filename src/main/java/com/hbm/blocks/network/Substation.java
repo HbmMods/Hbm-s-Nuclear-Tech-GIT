@@ -1,13 +1,10 @@
 package com.hbm.blocks.network;
 
-import java.util.List;
-
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.tileentity.TileEntityProxyConductor;
 import com.hbm.tileentity.network.TileEntityPylonBase;
 import com.hbm.tileentity.network.TileEntitySubstation;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +14,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.List;
+
 public class Substation extends BlockDummyable implements ITooltipProvider {
 
 	public Substation(Material mat) {
@@ -25,13 +24,13 @@ public class Substation extends BlockDummyable implements ITooltipProvider {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		
+
 		if(meta >= 12)
 			return new TileEntitySubstation();
-		
+
 		if(meta >= 6)
 			return new TileEntityProxyConductor();
-		
+
 		return null;
 	}
 
@@ -43,13 +42,13 @@ public class Substation extends BlockDummyable implements ITooltipProvider {
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block b, int m) {
-		
+
 		TileEntity te = world.getTileEntity(x, y, z);
-		
+
 		if(te instanceof TileEntityPylonBase) {
 			((TileEntityPylonBase)te).disconnectAll();
 		}
-		
+
 		super.breakBlock(world, x, y, z, b, m);
 	}
 
@@ -72,7 +71,7 @@ public class Substation extends BlockDummyable implements ITooltipProvider {
 		this.makeExtra(world, x + dir.offsetX * o - 1, y, z + dir.offsetZ * o + 1);
 		this.makeExtra(world, x + dir.offsetX * o - 1, y, z + dir.offsetZ * o - 1);
 	}
-	
+
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if(world.isRemote) {

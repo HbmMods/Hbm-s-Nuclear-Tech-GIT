@@ -13,35 +13,35 @@ import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemCircuit.EnumCircuitType;
 import com.hbm.items.special.ItemKitCustom;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.IRepairable;
 
+import com.hbm.tileentity.TileEntityLoadedBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
-public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketReceiver, IRepairable {
-	
+public class TileEntityLanternBehemoth extends TileEntityLoadedBase implements IRepairable {
+
 	public boolean isBroken = false;
 	public int comTimer = -1;
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
 
 			if(comTimer == 360) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.hornNearSingle", 10F, 1F);
 			if(comTimer == 280) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.hornFarSingle", 10000F, 1F);
 			if(comTimer == 220) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.hornNearDual", 10F, 1F);
 			if(comTimer == 100) worldObj.playSoundEffect(xCoord, yCoord, zCoord, "hbm:block.hornFarDual", 10000F, 1F);
-			
+
 			if(comTimer == 0) {
 				List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(xCoord - 10, yCoord - 10, zCoord - 10, xCoord + 11, yCoord + 11, zCoord + 11));
 				EntityPlayer first = players.isEmpty() ? null : players.get(0);
@@ -56,20 +56,18 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 						bonus ? new ItemStack(ModItems.gem_alexandrite) : new ItemStack(Items.diamond, 6 + worldObj.rand.nextInt(6)),
 						new ItemStack(Blocks.red_flower));
 				shuttle.payload = payload;
-				
+
 				worldObj.spawnEntityInWorld(shuttle);
 			}
-			
+
 			if(comTimer >= 0) {
 				comTimer--;
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setBoolean("isBroken", isBroken);
-			INBTPacketReceiver.networkPack(this, data, 250);
+
+			networkPackNT(250);
 		}
 	}
-	
+
 	@Override
 	public void invalidate() {
 		super.invalidate();
@@ -81,17 +79,22 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		this.isBroken = nbt.getBoolean("isBroken");
+	public void serialize(ByteBuf buf) {
+		buf.writeBoolean(this.isBroken);
 	}
-	
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		this.isBroken = buf.readBoolean();
+	}
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		isBroken = nbt.getBoolean("isBroken");
 		comTimer = nbt.getInteger("comTimer");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -103,11 +106,11 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 	public boolean isDamaged() {
 		return isBroken;
 	}
-	
+
 	List<AStack> repair = new ArrayList();
 	@Override
 	public List<AStack> getRepairMaterials() {
-		
+
 		if(!repair.isEmpty())
 			return repair;
 
@@ -124,12 +127,12 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 	}
 
 	@Override public void tryExtinguish(World world, int x, int y, int z, EnumExtinguishType type) { }
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord,
@@ -140,10 +143,10 @@ public class TileEntityLanternBehemoth extends TileEntity implements INBTPacketR
 					zCoord + 1
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {

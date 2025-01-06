@@ -18,6 +18,7 @@ import com.hbm.util.CompatEnergyControl;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -157,26 +158,32 @@ public class TileEntityCoreEmitter extends TileEntityMachineBase implements IEne
 			
 			this.markDirty();
 
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("watts", watts);
-			data.setLong("prev", prev);
-			data.setInteger("beam", beam);
-			data.setBoolean("isOn", isOn);
-			tank.writeToNBT(data, "tank");
-			this.networkPack(data, 250);
+			this.networkPackNT(250);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
 
-		power = data.getLong("power");
-		watts = data.getInteger("watts");
-		prev = data.getLong("prev");
-		beam = data.getInteger("beam");
-		isOn = data.getBoolean("isOn");
-		tank.readFromNBT(data, "tank");
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+
+		buf.writeLong(power);
+		buf.writeInt(watts);
+		buf.writeLong(prev);
+		buf.writeInt(beam);
+		buf.writeBoolean(isOn);
+		tank.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+
+		this.power = buf.readLong();
+		this.watts = buf.readInt();
+		this.prev = buf.readLong();
+		this.beam = buf.readInt();
+		this.isOn = buf.readBoolean();
+		tank.deserialize(buf);
 	}
 	
 	public long getPowerScaled(long i) {

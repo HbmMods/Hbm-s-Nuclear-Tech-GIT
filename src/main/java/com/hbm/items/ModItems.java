@@ -64,6 +64,8 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.function.BiFunction;
+
 public class ModItems {
 	
 	public static void mainRegistry()
@@ -1108,6 +1110,7 @@ public class ModItems {
 	public static ItemRBMKRod rbmk_fuel_zfb_am_mix;
 	public static ItemRBMKRod rbmk_fuel_drx;
 	public static ItemRBMKRod rbmk_fuel_test;
+	//public static ItemRBMKRod rbmk_fuel_curve;
 	public static ItemRBMKPellet rbmk_pellet_ueu;
 	public static ItemRBMKPellet rbmk_pellet_meu;
 	public static ItemRBMKPellet rbmk_pellet_heu233;
@@ -3579,6 +3582,18 @@ public class ModItems {
 				.setHeat(1.0D)
 				.setMeltingPoint(100000)
 				.setUnlocalizedName("rbmk_fuel_test").setTextureName(RefStrings.MODID + ":rbmk_fuel_test");
+		/* Experimental flux curve shit
+		rbmk_fuel_curve = (ItemRBMKRod) new ItemRBMKRod("3D Flux Curve Test")
+				.setFluxCurve(true)
+				.setOutputFluxCurve((fluxQuantity, fluxRatio) -> fluxQuantity * (1 - Math.pow(fluxRatio, 2)))
+				.setDepletionOutputRatioCurve((ratioIn, depletion) -> Math.pow(ratioIn, 2) * depletion)
+				.setYield(1000000D)
+				.setStats(75)
+				.setFunction(EnumBurnFunc.SQUARE_ROOT)
+				.setHeat(1.5D)
+				.setMeltingPoint(100000)
+				.setUnlocalizedName("rbmk_fuel_curve").setTextureName(RefStrings.MODID + ":rbmk_fuel_curve");
+		 */
 		
 		watz_pellet = new ItemWatzPellet().setUnlocalizedName("watz_pellet").setTextureName(RefStrings.MODID + ":watz_pellet");
 		watz_pellet_depleted = new ItemWatzPellet().setUnlocalizedName("watz_pellet_depleted").setTextureName(RefStrings.MODID + ":watz_pellet");
@@ -6165,6 +6180,7 @@ public class ModItems {
 		GameRegistry.registerItem(rbmk_fuel_zfb_am_mix, rbmk_fuel_zfb_am_mix.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_drx, rbmk_fuel_drx.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_fuel_test, rbmk_fuel_test.getUnlocalizedName());
+		//GameRegistry.registerItem(rbmk_fuel_curve, rbmk_fuel_curve.getUnlocalizedName());
 
 		GameRegistry.registerItem(rbmk_pellet_ueu, rbmk_pellet_ueu.getUnlocalizedName());
 		GameRegistry.registerItem(rbmk_pellet_meu, rbmk_pellet_meu.getUnlocalizedName());
