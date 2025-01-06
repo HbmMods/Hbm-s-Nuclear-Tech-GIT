@@ -19,6 +19,7 @@ import api.hbm.tile.IHeatSource;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -46,15 +47,28 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 		return "container.heaterHeatex";
 	}
 
+	ByteBuf buf;
+
 	@Override
 	public void updateEntity() {
 
 		if(!worldObj.isRemote) {
+
+			if(this.buf != null)
+				this.buf.release();
+			this.buf = Unpooled.buffer();
+
 			this.tanks[0].setType(0, slots);
 			this.setupTanks();
 			this.updateConnections();
 
 			this.heatEnergy *= 0.999;
+
+			tanks[0].serialize(buf);
+
+			this.tryConvert();
+
+			tanks[1].serialize(buf);
 
 			networkPackNT(25);
 
@@ -66,9 +80,7 @@ public class TileEntityHeaterHeatex extends TileEntityMachineBase implements IHe
 
 	@Override
 	public void serialize(ByteBuf buf) {
-		tanks[0].serialize(buf);
-		this.tryConvert();
-		tanks[1].serialize(buf);
+		buf.writeBytes(this.buf);
 		buf.writeInt(this.heatEnergy);
 		buf.writeInt(this.amountToCool);
 		buf.writeInt(this.tickDelay);
