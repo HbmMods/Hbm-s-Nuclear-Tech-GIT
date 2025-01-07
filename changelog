@@ -1,40 +1,10 @@
-## The performance update
-* my boy gammawave basically did the entire thing
-* packet sending should be more performant now, which affects most machines
-* RBMKs are now *much* more performant with their simulation and packets
-
 ## Added
-* 10 gauge slug
-* Shredder
-  * A b-side for the autoshotgun
-  * Fires 12 gauge, accelerated by plasma, which bursts on impact
-  * Fragments move slowly and have damaging ricochet effects
-  * Fragments keep the effects of the original shell (e.g. explosive shell will spawn a single explosive fragment)
-* Other gun stuff
+* Phosphor vines
 
 ## Changed
-* Black powder bullets now have 75% base damage instead of 50%
-* Ball and powder type rounds no longer have a bonus on headshot
-* Shot and powder now does way less damage
-* Some secret ammo types are now craftable
-* Updated the assault rifle's texture
-* Shooting at old CRT screens now breaks them
-* Leviathan turbines now have a tooltip showing their buffers
-* Fullerene now only uses visible light instead of UV to make, meaning fullerite can be obtained without a fusion or watz reactor (still requiring vacuum oil though)
-* Crumb yields from bedrock ore processing has been heavily decreased, all recipes that yield crumbs produce no more than one pile
+* Raw bedrock ore taken out of the creative tab now has the stats of the position the player is in, instead of being worthless
+* U233's color coded isotope indicator is now yellow instead of orange, making yellow standard code for "secondary fissile isotope" and orange for "radioisotope"
 
 ## Fixed
-* Fixed `ITEM_TOOLTIP_SHOW_CUSTOM_NUKE` client config overriding `ITEM_TOOLTIP_SHOW_OREDICT` due to name overlap
-* Fixed certain secret weapon creation condition not working properly
-* Fixed artillery rockets getting stuck in the air when their target is not set to a block
-* Fixed potential issue of ABMs getting stuck mid-flight when their target is destroyed prematurely
-* Fixed mistakes in the fragment names for de_DE
-* Fixed nitra rocket duplication only yielding one rocket
-* Fixed rotary furnace not always properly showing the metal pouring effect
-* Fixed T45 model not lifting its arms when a new gun is held
-  * Like previously, due to the archaic nature of the model, the rotations are not very precise, and will most likely break when holding an akimbo gun
-* Potentially fixed an issue where cargo planes do not successfully spawn on lower render distances
-* Fixed glyphids not calling their `onDeath` function properly, causing them to not drop anything and preventing the appropriate forge events from firing
-* Fixed GL state leak caused by plasma blast particles, causing other particles (especially bones) to render weird
-* Fixed night vision goggles being constantly disabled due to m1tty's night vision removal out of water
-* Fixed armor on test dummies entering the sneaked state in third person view when the player sneaks
+* Fixed raw bedrock ore tooltip not showing the density's color correctly
+* Fixed T45 helmet not protecting against carbon monoxide

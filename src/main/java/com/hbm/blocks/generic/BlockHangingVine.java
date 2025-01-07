@@ -1,7 +1,6 @@
 package com.hbm.blocks.generic;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import com.hbm.lib.RefStrings;
 
@@ -13,8 +12,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
@@ -31,8 +28,10 @@ public class BlockHangingVine extends Block implements IShearable {
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
-		if(world.getBlock(x, y - 1, z).isSideSolid(world, x, y - 1, z, ForgeDirection.UP))
-			entity.setInWeb();
+		entity.motionX *= 0.5;
+		entity.motionY *= 0.5;
+		entity.motionZ *= 0.5;
+		entity.fallDistance = 0F;
 	}
 	
 	@Override
@@ -86,7 +85,8 @@ public class BlockHangingVine extends Block implements IShearable {
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-	
+
+	@SideOnly(Side.CLIENT) public IIcon iconItem;
 	@SideOnly(Side.CLIENT) public IIcon iconGround; //when touching a solid face below
 	@SideOnly(Side.CLIENT) public IIcon iconHang; //when hanging mid-air
 	@SideOnly(Side.CLIENT) public IIcon iconGlow; //regular phosphor
@@ -94,6 +94,7 @@ public class BlockHangingVine extends Block implements IShearable {
 	
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister reg) {
+		this.iconItem = reg.registerIcon(RefStrings.MODID + ":vine_phosphor_item");
 		this.blockIcon = reg.registerIcon(RefStrings.MODID + ":vine_phosphor");
 		this.iconGround = reg.registerIcon(RefStrings.MODID + ":vine_phosphor_ground");
 		this.iconHang = reg.registerIcon(RefStrings.MODID + ":vine_phosphor_hang");
@@ -109,6 +110,12 @@ public class BlockHangingVine extends Block implements IShearable {
 			return b.isSideSolid(world, x, y, z, ForgeDirection.UP) ? iconGround : b == this ? blockIcon : iconHang;
 		else
 			return b.isAir(world, x, y, z) ? iconHangGlow : iconGlow;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta) {
+		return this.iconItem;
 	}
 	
 	public static int renderID = RenderingRegistry.getNextAvailableRenderId();

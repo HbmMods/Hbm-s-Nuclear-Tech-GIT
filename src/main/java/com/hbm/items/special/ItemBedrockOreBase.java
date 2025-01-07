@@ -5,7 +5,11 @@ import java.util.Random;
 
 import com.hbm.items.special.ItemBedrockOreNew.BedrockOreType;
 import com.hbm.items.tool.ItemOreDensityScanner;
+import com.hbm.main.MainRegistry;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,6 +20,15 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 
 public class ItemBedrockOreBase extends Item {
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(Item item, CreativeTabs tab, List list) {
+		ItemStack ore = new ItemStack(item);
+		EntityPlayer player = MainRegistry.proxy.me();
+		if(player != null) setOreAmount(ore, (int) Math.floor(player.posX), (int) Math.floor(player.posZ));
+		list.add(ore);
+	}
 
 	public static double getOreAmount(ItemStack stack, BedrockOreType type) {
 		if(!stack.hasTagCompound()) return 0;
@@ -38,7 +51,7 @@ public class ItemBedrockOreBase extends Item {
 		for(BedrockOreType type : BedrockOreType.values()) {
 			double amount = this.getOreAmount(stack, type);
 			String typeName = StatCollector.translateToLocalFormatted("item.bedrock_ore.type." + type.suffix + ".name");
-			list.add(typeName + ": " + ((int) (amount * 100)) / 100D + " (" + StatCollector.translateToLocalFormatted(ItemOreDensityScanner.translateDensity(amount)) + EnumChatFormatting.RESET + ")");
+			list.add(typeName + ": " + ((int) (amount * 100)) / 100D + " (" + ItemOreDensityScanner.getColor(amount) + StatCollector.translateToLocalFormatted(ItemOreDensityScanner.translateDensity(amount)) + EnumChatFormatting.GRAY + ")");
 		}
 	}
 
