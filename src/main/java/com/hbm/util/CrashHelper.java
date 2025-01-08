@@ -14,7 +14,7 @@ public class CrashHelper {
 
 		@Override
 		public String getLabel() {
-			return "NTM Modified recipes:";
+			return "NTM Modified recipes";
 		}
 
 		@Override
