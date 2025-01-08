@@ -13,12 +13,10 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Coolable;
 import com.hbm.inventory.fluid.trait.FT_Coolable.CoolingType;
 import com.hbm.main.MainRegistry;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.NBTPacket;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.tileentity.IBufPacketReceiver;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IConfigurableMachine;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.CompatEnergyControl;
 import com.hbm.util.fauxpointtwelve.BlockPos;
@@ -28,9 +26,9 @@ import api.hbm.energymk2.IEnergyProviderMK2;
 import api.hbm.fluid.IFluidStandardTransceiver;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -41,16 +39,17 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyProviderMK2, INBTPacketReceiver, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IConfigurableMachine, IFluidCopiable {
+public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyProviderMK2, IFluidStandardTransceiver, SimpleComponent, IInfoProviderEC, CompatHandler.OCComponent, IConfigurableMachine, IBufPacketReceiver, IFluidCopiable{
+
 	public long power;
 	private int turnTimer;
 	public float rotor;
 	public float lastRotor;
 	public float fanAcceleration = 0F;
-	
+
 	public FluidTank[] tanks;
 	protected double[] info = new double[3];
-	
+
 	private AudioWrapper audio;
 	private float audioDesync;
 
@@ -59,7 +58,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 	public static int inputTankSize = 1_000_000_000;
 	public static int outputTankSize = 1_000_000_000;
 	public static double efficiency = 0.85D;
-	
+
 	public TileEntityChungus() {
 		tanks = new FluidTank[2];
 		tanks[0] = new FluidTank(Fluids.STEAM, inputTankSize);
@@ -95,11 +94,11 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			this.info = new double[3];
-			
+
 			boolean operational = false;
 			FluidType in = tanks[0].getTankType();
 			boolean valid = false;
@@ -121,49 +120,44 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 					operational = ops > 0;
 				}
 			}
-			
+
 			if(!valid) tanks[1].setTankType(Fluids.NONE);
 			if(power > maxPower) power = maxPower;
-			
+
 			ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 			this.tryProvide(worldObj, xCoord - dir.offsetX * 11, yCoord, zCoord - dir.offsetZ * 11, dir.getOpposite());
-			
+
 			for(DirPos pos : this.getConPos()) {
 				this.sendFluid(tanks[1], worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 				this.trySubscribe(tanks[0].getTankType(), worldObj, pos.getX(), pos.getY(), pos.getZ(), pos.getDir());
 			}
-			
+
 			if(power > maxPower)
 				power = maxPower;
-			
+
 			turnTimer--;
-			
+
 			if(operational) turnTimer = 25;
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setLong("power", power);
-			data.setInteger("type", tanks[0].getTankType().getID());
-			data.setInteger("operational", turnTimer);
-			this.networkPack(data, 150);
-			
+			networkPackNT(150);
+      
 		} else {
-			
+
 			this.lastRotor = this.rotor;
 			this.rotor += this.fanAcceleration;
-				
+
 			if(this.rotor >= 360) {
 				this.rotor -= 360;
 				this.lastRotor -= 360;
 			}
-			
+
 			if(turnTimer > 0) {
 				// Fan accelerates with a random offset to ensure the audio doesn't perfectly align, makes for a more pleasant hum
 				this.fanAcceleration = Math.max(0F, Math.min(25F, this.fanAcceleration += 0.075F + audioDesync));
-				
+
 				Random rand = worldObj.rand;
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 				ForgeDirection side = dir.getRotation(ForgeDirection.UP);
-				
+
 				for(int i = 0; i < 10; i++) {
 					worldObj.spawnParticle("cloud",
 							xCoord + 0.5 + dir.offsetX * (rand.nextDouble() + 1.25) + rand.nextGaussian() * side.offsetX * 0.65,
@@ -172,7 +166,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 							-dir.offsetX * 0.2, 0, -dir.offsetZ * 0.2);
 				}
 
-				
+
 				if(audio == null) {
 					audio = MainRegistry.proxy.getLoopedSound("hbm:block.chungusTurbineRunning", xCoord, yCoord, zCoord, 1.0F, 20F, 1.0F);
 					audio.startSound();
@@ -183,7 +177,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 				audio.updatePitch(0.25F + 0.75F * turbineSpeed);
 			} else {
 				this.fanAcceleration = Math.max(0F, Math.min(25F, this.fanAcceleration -= 0.1F));
-				
+
 				if(audio != null) {
 					if(this.fanAcceleration > 0) {
 						float turbineSpeed = this.fanAcceleration / 25F;
@@ -194,16 +188,16 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 						audio = null;
 					}
 				}
-			}	
+			}
 		}
 	}
-	
+
 	public void onLeverPull(FluidType previous) {
 		for(BlockPos pos : getConPos()) {
 			this.tryUnsubscribe(previous, worldObj, pos.getX(), pos.getY(), pos.getZ());
 		}
 	}
-	
+
 	public DirPos[] getConPos() {
 		ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockDummyable.offset);
 		ForgeDirection rot = dir.getRotation(ForgeDirection.UP);
@@ -213,18 +207,23 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 				new DirPos(xCoord - rot.offsetX * 3, yCoord, zCoord - rot.offsetZ * 3, rot.getOpposite())
 		};
 	}
-	
-	public void networkPack(NBTTagCompound nbt, int range) {
-		PacketDispatcher.wrapper.sendToAllAround(new NBTPacket(nbt, xCoord, yCoord, zCoord), new TargetPoint(this.worldObj.provider.dimensionId, xCoord, yCoord, zCoord, range));
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		buf.writeLong(this.power);
+		buf.writeInt(this.turnTimer);
+		this.tanks[0].serialize(buf);
+		this.tanks[1].serialize(buf);
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound data) {
-		this.power = data.getLong("power");
-		this.turnTimer = data.getInteger("operational");
-		this.tanks[0].setTankType(Fluids.fromID(data.getInteger("type")));
+	public void deserialize(ByteBuf buf) {
+		this.power = buf.readLong();
+		this.turnTimer = buf.readInt();
+		this.tanks[0].deserialize(buf);
+		this.tanks[1].deserialize(buf);
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
@@ -232,7 +231,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 		tanks[1].readFromNBT(nbt, "steam");
 		power = nbt.getLong("power");
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
@@ -240,12 +239,12 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 		tanks[1].writeToNBT(nbt, "steam");
 		nbt.setLong("power", power);
 	}
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {
@@ -277,7 +276,7 @@ public class TileEntityChungus extends TileEntityLoadedBase implements IEnergyPr
 	public String getComponentName() {
 		return "ntm_turbine";
 	}
-	
+
 	@Override
 	public void onChunkUnload() {
 		super.onChunkUnload();

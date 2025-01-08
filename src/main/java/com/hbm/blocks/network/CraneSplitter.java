@@ -1,17 +1,14 @@
 package com.hbm.blocks.network;
 
-import java.util.List;
-
+import api.hbm.conveyor.IConveyorBelt;
+import api.hbm.conveyor.IConveyorItem;
+import api.hbm.conveyor.IConveyorPackage;
+import api.hbm.conveyor.IEnterableBlock;
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.entity.item.EntityMovingItem;
 import com.hbm.lib.RefStrings;
 import com.hbm.tileentity.network.TileEntityCraneSplitter;
-
-import api.hbm.conveyor.IConveyorBelt;
-import api.hbm.conveyor.IConveyorItem;
-import api.hbm.conveyor.IConveyorPackage;
-import api.hbm.conveyor.IEnterableBlock;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,6 +23,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import java.util.List;
+
 public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnterableBlock, ITooltipProvider {
 
 	@SideOnly(Side.CLIENT) public IIcon iconTopLeft;
@@ -39,7 +38,7 @@ public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnt
 	@SideOnly(Side.CLIENT) public IIcon iconBelt;
 	@SideOnly(Side.CLIENT) public IIcon iconInner;
 	@SideOnly(Side.CLIENT) public IIcon iconInnerSide;
-	
+
 	public CraneSplitter() {
 		super(Material.iron);
 	}
@@ -58,7 +57,7 @@ public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnt
 	public int getOffset() {
 		return 0;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister) {
@@ -100,7 +99,7 @@ public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnt
 		boolean pos = splitter.getPosition();
 		ItemStack stack = entity.getItemStack();
 		ForgeDirection rot = ForgeDirection.getOrientation(splitter.getBlockMetadata() - offset).getRotation(ForgeDirection.DOWN);
-		
+
 		if(stack.stackSize % 2 == 0) {
 			stack.stackSize /= 2;
 			spawnMovingItem(world, x, y, z, stack.copy());
@@ -114,7 +113,7 @@ public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnt
 			splitter.setPosition(!pos);
 		}
 	}
-	
+
 	private void spawnMovingItem(World world, int x, int y, int z, ItemStack stack) {
 		if(stack.stackSize <= 0) return;
 		EntityMovingItem moving = new EntityMovingItem(world);
@@ -152,7 +151,7 @@ public class CraneSplitter extends BlockDummyable implements IConveyorBelt, IEnt
 		if(dir.offsetZ != 0) posZ = itemPos.zCoord;
 		return Vec3.createVectorHelper(posX, y + 0.25, posZ);
 	}
-	
+
 	public ForgeDirection getTravelDirection(World world, int x, int y, int z, Vec3 itemPos) {
 		int meta = world.getBlockMetadata(x, y, z);
 		if(meta >= 12) return ForgeDirection.getOrientation(meta - offset);

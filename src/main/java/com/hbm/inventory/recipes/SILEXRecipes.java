@@ -641,7 +641,7 @@ public class SILEXRecipes {
 				);
 		
 		recipes.put(new ComparableStack(ModItems.fluid_icon, 1, Fluids.FULLERENE.getID()),
-				new SILEXRecipe(1_000, 1_000, EnumWavelengths.UV).addOut(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.FULLERENE), 1));
+				new SILEXRecipe(1_000, 1_000, EnumWavelengths.VISIBLE).addOut(DictFrame.fromOne(ModItems.powder_ash, EnumAshType.FULLERENE), 1));
 	}
 
 	private static final HashMap<Item, Item> tinyWasteTranslation = new HashMap();

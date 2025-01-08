@@ -15,12 +15,14 @@ import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPlateFuel;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -150,27 +152,31 @@ public class TileEntityReactorResearch extends TileEntityMachineBase implements 
 				float rad = (float) heat / (float) maxHeat * 50F;
 				ChunkRadiationManager.proxy.incrementRad(worldObj, xCoord, yCoord, zCoord, rad);
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setInteger("heat", heat);
-			data.setByte("water", water);
-			data.setDouble("level", level);
-			data.setDouble("targetLevel", targetLevel);
-			data.setIntArray("slotFlux", slotFlux);
-			data.setInteger("totalFlux", totalFlux);
-			this.networkPack(data, 150);
+
+			this.networkPackNT(150);
 		}
 	}
-	
-	public void networkUnpack(NBTTagCompound data) {
-		super.networkUnpack(data);
-		
-		this.heat = data.getInteger("heat");
-		this.water = data.getByte("water");
-		this.level = data.getDouble("level");
-		this.targetLevel = data.getDouble("targetLevel");
-		this.slotFlux = data.getIntArray("slotFlux");
-		this.totalFlux = data.getInteger("totalFlux");
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(this.heat);
+		buf.writeByte(this.water);
+		buf.writeDouble(this.level);
+		buf.writeDouble(this.targetLevel);
+		BufferUtil.writeIntArray(buf, this.slotFlux);
+		buf.writeInt(this.totalFlux);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.heat = buf.readInt();
+		this.water = buf.readByte();
+		this.level = buf.readDouble();
+		this.targetLevel = buf.readDouble();
+		this.slotFlux = BufferUtil.readIntArray(buf);
+		this.totalFlux = buf.readInt();
 	}
 	
 	public byte getWater() {

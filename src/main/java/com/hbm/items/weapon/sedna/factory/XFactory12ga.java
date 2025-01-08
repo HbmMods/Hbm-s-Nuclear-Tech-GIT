@@ -1,8 +1,11 @@
 package com.hbm.items.weapon.sedna.factory;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.BlockDetonatable;
 import com.hbm.entity.projectile.EntityBulletBaseMK4;
 import com.hbm.entity.projectile.EntityDuchessGambit;
 import com.hbm.extprop.HbmLivingProps;
@@ -17,21 +20,40 @@ import com.hbm.items.weapon.sedna.ItemGunBaseNT.LambdaContext;
 import com.hbm.items.weapon.sedna.ItemGunBaseNT.WeaponQuality;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmo;
 import com.hbm.items.weapon.sedna.factory.GunFactory.EnumAmmoSecret;
+import com.hbm.items.weapon.sedna.mags.MagazineBelt;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.items.weapon.sedna.mags.MagazineSingleReload;
 import com.hbm.main.MainRegistry;
 import com.hbm.main.ResourceManager;
+import com.hbm.packet.PacketDispatcher;
+import com.hbm.packet.toclient.AuxParticlePacketNT;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import com.hbm.render.anim.BusAnimationKeyframe.IType;
 import com.hbm.render.anim.HbmAnimations.AnimType;
+import com.hbm.util.BobMathUtil;
+import com.hbm.util.TrackerUtil;
+import com.hbm.util.Vec3NT;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
+import com.hbm.util.EntityDamageUtil;
 
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class XFactory12ga {
 
@@ -47,6 +69,20 @@ public class XFactory12ga {
 	public static BulletConfig g12_anthrax;
 	public static BulletConfig g12_equestrian_bj;
 	public static BulletConfig g12_equestrian_tkr;
+
+	public static BulletConfig g12_shredder;
+	public static BulletConfig g12_shredder_slug;
+	public static BulletConfig g12_shredder_flechette;
+	public static BulletConfig g12_shredder_magnum;
+	public static BulletConfig g12_shredder_explosive;
+	public static BulletConfig g12_shredder_phosphorus;
+
+	public static BulletConfig g12_sub;
+	public static BulletConfig g12_sub_slug;
+	public static BulletConfig g12_sub_flechette;
+	public static BulletConfig g12_sub_magnum;
+	public static BulletConfig g12_sub_explosive;
+	public static BulletConfig g12_sub_phosphorus;
 	
 	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_STANDARD_EXPLODE = (bullet, mop) -> {
 		Lego.standardExplode(bullet, mop, 2F); bullet.setDead();
@@ -62,11 +98,166 @@ public class XFactory12ga {
 		bullet.setDead();
 	};
 	
+	public static BulletConfig makeShredderConfig(BulletConfig original, BulletConfig submunition) {
+		BulletConfig cfg = new BulletConfig().setBeam().setRenderRotations(false).setLife(5).setDamage(original.damageMult * original.projectilesMax).setupDamageClass(DamageClass.LASER);
+		cfg.setItem(original.ammo);
+		cfg.setCasing(original.casing);
+		cfg.setOnBeamImpact((beam, mop) -> {
+			
+			int projectiles = submunition.projectilesMin;
+			if(submunition.projectilesMax > submunition.projectilesMin) projectiles += beam.worldObj.rand.nextInt(submunition.projectilesMax - submunition.projectilesMin + 1);
+
+			if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+
+				ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
+
+				mop.hitVec.xCoord += dir.offsetX * 0.1;
+				mop.hitVec.yCoord += dir.offsetY * 0.1;
+				mop.hitVec.zCoord += dir.offsetZ * 0.1;
+				
+				spawnPulse(beam.worldObj, mop, beam.rotationYaw, beam.rotationPitch);
+				
+				List<Entity> blast = beam.worldObj.getEntitiesWithinAABBExcludingEntity(beam, AxisAlignedBB.getBoundingBox(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord).expand(0.75, 0.75, 0.75));
+				DamageSource source = BulletConfig.getDamage(beam, beam.getThrower(), DamageClass.LASER);
+
+				for(Entity e : blast) {
+					if(!e.isEntityAlive()) continue;
+					if(e instanceof EntityLivingBase) {
+						EntityDamageUtil.attackEntityFromNT((EntityLivingBase) e, source, beam.damage, true, false, 0D, 0F, 0F);
+						if(!e.isEntityAlive()) ConfettiUtil.decideConfetti((EntityLivingBase) e, source);
+					} else {
+						e.attackEntityFrom(source, beam.damage);
+					}
+				}
+				
+				for(int i = 0; i < projectiles; i++) {
+					EntityBulletBaseMK4 bullet = new EntityBulletBaseMK4(beam.worldObj, beam.thrower, submunition, beam.damage * submunition.damageMult, 0.2F, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, dir.offsetX, dir.offsetY, dir.offsetZ);
+					bullet.worldObj.spawnEntityInWorld(bullet);
+				}
+			}
+			
+			if(mop.typeOfHit == mop.typeOfHit.ENTITY) {
+				
+				spawnPulse(beam.worldObj, mop, beam.rotationYaw, beam.rotationPitch);
+				
+				for(int i = 0; i < projectiles; i++) {
+					Vec3NT vec = new Vec3NT(beam.worldObj.rand.nextGaussian(), beam.worldObj.rand.nextGaussian(), beam.worldObj.rand.nextGaussian()).normalizeSelf();
+					EntityBulletBaseMK4 bullet = new EntityBulletBaseMK4(beam.worldObj, beam.thrower, submunition, beam.damage * submunition.damageMult, 0.2F, mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord, vec.xCoord, vec.yCoord, vec.zCoord);
+					bullet.worldObj.spawnEntityInWorld(bullet);
+				}
+			}
+		});
+		return cfg;
+	}
+	
+	public static BulletConfig makeShredderSubmunition(BulletConfig original) {
+		BulletConfig cfg = original.clone();
+		cfg.setRicochetAngle(90).setRicochetCount(3).setVel(0.5F).setLife(50).setupDamageClass(DamageClass.LASER).setOnRicochet(LAMBDA_SHREDDER_RICOCHET);
+		return cfg;
+	}
+	
+	//this sucks
+	public static BiConsumer<EntityBulletBaseMK4, MovingObjectPosition> LAMBDA_SHREDDER_RICOCHET = (bullet, mop) -> {
+		
+		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+			
+			Block b = bullet.worldObj.getBlock(mop.blockX, mop.blockY, mop.blockZ);
+			if(b.getMaterial() == Material.glass) {
+				bullet.worldObj.func_147480_a(mop.blockX, mop.blockY, mop.blockZ, false);
+				bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+				return;
+			}
+			if(b instanceof BlockDetonatable) {
+				((BlockDetonatable) b).onShot(bullet.worldObj, mop.blockX, mop.blockY, mop.blockZ);
+			}
+			if(b == ModBlocks.deco_crt) {
+				int meta = bullet.worldObj.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ);
+				bullet.worldObj.setBlockMetadataWithNotify(mop.blockX, mop.blockY, mop.blockZ, meta % 4 + 4, 3);
+			}
+
+			ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
+			Vec3 face = Vec3.createVectorHelper(dir.offsetX, dir.offsetY, dir.offsetZ);
+			Vec3 vel = Vec3.createVectorHelper(bullet.motionX, bullet.motionY, bullet.motionZ).normalize();
+
+			double angle = Math.abs(BobMathUtil.getCrossAngle(vel, face) - 90);
+
+			if(angle <= bullet.config.ricochetAngle) {
+				
+				spawnPulse(bullet.worldObj, mop, bullet.rotationYaw, bullet.rotationPitch);
+				
+				List<Entity> blast = bullet.worldObj.getEntitiesWithinAABBExcludingEntity(bullet, AxisAlignedBB.getBoundingBox(bullet.posX, bullet.posY, bullet.posZ, bullet.posX, bullet.posY, bullet.posZ).expand(0.5, 0.5, 0.5));
+				DamageSource source = BulletConfig.getDamage(bullet, bullet.getThrower(), DamageClass.LASER);
+				
+				for(Entity e : blast) {
+					if(!e.isEntityAlive()) continue;
+					if(e instanceof EntityLivingBase) {
+						EntityDamageUtil.attackEntityFromNT((EntityLivingBase) e, source, bullet.damage, true, false, 0D, 0F, 0F);
+						if(!e.isEntityAlive()) ConfettiUtil.decideConfetti((EntityLivingBase) e, source);
+					} else {
+						e.attackEntityFrom(source, bullet.damage);
+					}
+				}
+				
+				bullet.ricochets++;
+				if(bullet.ricochets > bullet.config.maxRicochetCount) {
+					bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+					bullet.setDead();
+				}
+				
+				switch(mop.sideHit) {
+				case 0: case 1: bullet.motionY *= -1; break;
+				case 2: case 3: bullet.motionZ *= -1; break;
+				case 4: case 5: bullet.motionX *= -1; break;
+				}
+				bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+				//send a teleport so the ricochet is more accurate instead of the interp smoothing fucking everything up
+				if(bullet.worldObj instanceof WorldServer) TrackerUtil.sendTeleport((WorldServer) bullet.worldObj, bullet);
+				return;
+
+			} else {
+				bullet.setPosition(mop.hitVec.xCoord, mop.hitVec.yCoord, mop.hitVec.zCoord);
+				bullet.setDead();
+			}
+		}
+	};
+	
+	public static void spawnPulse(World world, MovingObjectPosition mop, float yaw, float pitch) {
+
+		double x = mop.hitVec.xCoord;
+		double y = mop.hitVec.yCoord;
+		double z = mop.hitVec.zCoord;
+		
+		if(mop.typeOfHit == mop.typeOfHit.BLOCK) {
+			if(mop.sideHit == ForgeDirection.UP.ordinal()) { yaw = 0F; pitch = 0F; }
+			if(mop.sideHit == ForgeDirection.DOWN.ordinal()) { yaw = 0F; pitch = 0F; }
+			if(mop.sideHit == ForgeDirection.NORTH.ordinal()) { yaw = 0F; pitch = 90F; }
+			if(mop.sideHit == ForgeDirection.SOUTH.ordinal()) { yaw = 180F; pitch = 90F; }
+			if(mop.sideHit == ForgeDirection.EAST.ordinal()) { yaw = 90F; pitch = 90F; }
+			if(mop.sideHit == ForgeDirection.WEST.ordinal()) { yaw = 270F; pitch = 90F; }
+
+			ForgeDirection dir = ForgeDirection.getOrientation(mop.sideHit);
+
+			x += dir.offsetX * 0.05;
+			y += dir.offsetY * 0.05;
+			z += dir.offsetZ * 0.05;
+		}
+
+		NBTTagCompound data = new NBTTagCompound();
+		data.setString("type", "plasmablast");
+		data.setFloat("r", 0.5F);
+		data.setFloat("g", 0.5F);
+		data.setFloat("b", 1.0F);
+		data.setFloat("pitch", pitch);
+		data.setFloat("yaw", yaw);
+		data.setFloat("scale", 0.75F);
+		PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacketNT(data, x, y, z), new TargetPoint(world.provider.dimensionId, x, y, z, 100));
+	}
+	
 	public static void init() {
 		
-		g12_bp = new BulletConfig().setItem(EnumAmmo.G12_BP).setBlackPowder(true).setProjectiles(8).setDamage(0.5F/8F).setSpread(0.05F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP"));
-		g12_bp_magnum = new BulletConfig().setItem(EnumAmmo.G12_BP_MAGNUM).setBlackPowder(true).setProjectiles(4).setDamage(0.5F/4F).setSpread(0.05F).setRicochetAngle(25).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP_MAGNUM"));
-		g12_bp_slug = new BulletConfig().setItem(EnumAmmo.G12_BP_SLUG).setBlackPowder(true).setDamage(0.5F).setSpread(0.01F).setRicochetAngle(5).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP_SLUG"));
+		g12_bp = new BulletConfig().setItem(EnumAmmo.G12_BP).setBlackPowder(true).setProjectiles(8).setDamage(0.75F/8F).setSpread(0.05F).setRicochetAngle(15).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP"));
+		g12_bp_magnum = new BulletConfig().setItem(EnumAmmo.G12_BP_MAGNUM).setBlackPowder(true).setProjectiles(4).setDamage(0.75F/4F).setSpread(0.05F).setRicochetAngle(25).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP_MAGNUM"));
+		g12_bp_slug = new BulletConfig().setItem(EnumAmmo.G12_BP_SLUG).setBlackPowder(true).setDamage(0.75F).setSpread(0.01F).setRicochetAngle(5).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_BRASS, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_BP_SLUG"));
 		g12 = new BulletConfig().setItem(EnumAmmo.G12).setProjectiles(8).setDamage(1F/8F).setSpread(0.05F).setRicochetAngle(15).setThresholdNegation(2F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0xB52B2B, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA"));
 		g12_slug = new BulletConfig().setItem(EnumAmmo.G12_SLUG).setHeadshot(1.5F).setSpread(0.0F).setRicochetAngle(25).setThresholdNegation(4F).setArmorPiercing(0.15F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x393939, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_SLUG"));
 		g12_flechette = new BulletConfig().setItem(EnumAmmo.G12_FLECHETTE).setProjectiles(8).setDamage(1F/8F).setThresholdNegation(5F).setThresholdNegation(3F).setArmorPiercing(0.2F).setSpread(0.025F).setRicochetAngle(5).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(0x3C80F0, SpentCasing.COLOR_CASE_BRASS).setScale(0.75F).register("12GA_FLECHETTE"));
@@ -79,6 +270,19 @@ public class XFactory12ga {
 		g12_equestrian_tkr = new BulletConfig().setItem(EnumAmmoSecret.G12_EQUESTRIAN).setDamage(0F).setCasing(new SpentCasing(CasingType.SHOTGUN).setColor(SpentCasing.COLOR_CASE_EQUESTRIAN, SpentCasing.COLOR_CASE_12GA).setScale(0.75F).register("12gaEquestrianTKR"));
 
 		BulletConfig[] all = new BulletConfig[] {g12_bp, g12_bp_magnum, g12_bp_slug, g12, g12_slug, g12_flechette, g12_magnum, g12_explosive, g12_phosphorus};
+
+		g12_sub =					makeShredderSubmunition(g12);
+		g12_sub_slug =				makeShredderSubmunition(g12_slug);
+		g12_sub_flechette =			makeShredderSubmunition(g12_flechette);
+		g12_sub_magnum =			makeShredderSubmunition(g12_magnum);
+		g12_sub_explosive =			makeShredderSubmunition(g12_explosive);
+		g12_sub_phosphorus =		makeShredderSubmunition(g12_phosphorus);
+		g12_shredder =				makeShredderConfig(g12, g12_sub);
+		g12_shredder_slug =			makeShredderConfig(g12_slug, g12_sub_slug);
+		g12_shredder_flechette =	makeShredderConfig(g12_flechette, g12_sub_flechette);
+		g12_shredder_magnum =		makeShredderConfig(g12_magnum, g12_sub_magnum);
+		g12_shredder_explosive =	makeShredderConfig(g12_explosive, g12_sub_explosive);
+		g12_shredder_phosphorus =	makeShredderConfig(g12_phosphorus, g12_sub_phosphorus);
 		
 		ModItems.gun_maresleg = new ItemGunBaseNT(WeaponQuality.A_SIDE, new GunConfig()
 				.dura(600).draw(10).inspect(39).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
@@ -153,6 +357,16 @@ public class XFactory12ga {
 				.setupStandardConfiguration()
 				.anim(LAMBDA_SHREDDER_ANIMS).orchestra(Orchestras.ORCHESTRA_SHREDDER)
 				).setUnlocalizedName("gun_autoshotgun");
+		ModItems.gun_autoshotgun_shredder = new ItemGunBaseNT(WeaponQuality.B_SIDE, new GunConfig()
+				.dura(2_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
+				.rec(new Receiver(0)
+						.dmg(50F).delay(10).auto(true).autoAfterDry(true).dryfireAfterAuto(true).reload(44).jam(19).sound("hbm:weapon.fire.shotgunAuto", 1.0F, 1.0F)
+						.mag(new MagazineBelt().addConfigs(g12_shredder, g12_shredder_slug, g12_shredder_flechette, g12_shredder_magnum, g12_shredder_explosive, g12_shredder_phosphorus))
+						.offset(0.75, -0.125, -0.25)
+						.setupStandardFire().recoil(LAMBDA_RECOIL_AUTOSHOTGUN))
+				.setupStandardConfiguration()
+				.anim(LAMBDA_SHREDDER_ANIMS).orchestra(Orchestras.ORCHESTRA_SHREDDER)
+				).setUnlocalizedName("gun_autoshotgun_shredder");
 		ModItems.gun_autoshotgun_sexy = new ItemGunBaseNT(WeaponQuality.LEGENDARY, new GunConfig()
 				.dura(5_000).draw(10).inspect(33).reloadSequential(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
 				.rec(new Receiver(0)

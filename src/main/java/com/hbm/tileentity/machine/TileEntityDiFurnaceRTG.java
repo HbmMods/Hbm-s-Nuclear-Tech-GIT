@@ -13,6 +13,7 @@ import com.hbm.util.RTGUtil;
 import api.hbm.tile.IInfoProviderEC;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -71,24 +72,28 @@ public class TileEntityDiFurnaceRTG extends TileEntityMachineBase implements IGU
 		
 		MachineDiFurnaceRTG.updateBlockState(isProcessing() || (canProcess() && hasPower()), getWorldObj(), xCoord, yCoord, zCoord);
 
-		NBTTagCompound data = new NBTTagCompound();
-		data.setShort("progress", progress);
-		data.setShort("speed", processSpeed);
-		data.setByteArray("modes", new byte[] {(byte) sideUpper, (byte) sideLower});
-		networkPack(data, 10);
+		networkPackNT(10);
 	}
-	
+
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		progress = nbt.getShort("progress");
-		processSpeed = nbt.getShort("speed");
-		byte[] modes = nbt.getByteArray("modes");
-		this.sideUpper = modes[0];
-		this.sideLower = modes[1];
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeShort(progress);
+		buf.writeShort(processSpeed);
+		buf.writeBytes(new byte[] {sideUpper, sideLower});
 	}
-	
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		progress = buf.readShort();
+		processSpeed = buf.readShort();
+		byte[] bytes = new byte[2];
+		buf.readBytes(bytes);
+		this.sideUpper = bytes[0];
+		this.sideLower = bytes[1];
+	}
+
 	private void processItem() {
 		
 		if(canProcess()) {

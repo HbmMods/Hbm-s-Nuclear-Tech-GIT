@@ -1,8 +1,5 @@
 package com.hbm.blocks;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -12,8 +9,11 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class BlockRemap extends Block implements ILookOverlay {
-	
+
 	public Block remapBlock;
 	public int remapMeta;
 
@@ -29,7 +29,7 @@ public class BlockRemap extends Block implements ILookOverlay {
 	public IIcon getIcon(int meta, int side) {
 		return this.remapBlock.getIcon(meta, side);
 	}
-	
+
 	@Override
 	public Item getItemDropped(int meta, Random rand, int fortune) {
 		return this.remapBlock.getItemDropped(meta, rand, fortune);

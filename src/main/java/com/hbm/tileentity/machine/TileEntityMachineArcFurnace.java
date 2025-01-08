@@ -6,18 +6,15 @@ import com.hbm.inventory.container.ContainerMachineArcFurnace;
 import com.hbm.inventory.gui.GUIMachineArcFurnace;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
-import com.hbm.packet.PacketDispatcher;
-import com.hbm.packet.toclient.AuxElectricityPacket;
-import com.hbm.packet.toclient.AuxGaugePacket;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.util.CompatEnergyControl;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.tile.IInfoProviderEC;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
@@ -31,12 +28,12 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements ISidedInventory, IEnergyReceiverMK2, IGUIProvider, IInfoProviderEC {
 
 	private ItemStack slots[];
-	
+
 	public int dualCookTime;
 	public long power;
 	public static final long maxPower = 50000;
 	public static final int processingSpeed = 20;
-	
+
 	//0: i
 	//1: o
 	//2: 1
@@ -44,9 +41,9 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 	//4: 3
 	//5: b
 	private static final int[] slots_io = new int[] {0, 1, 2, 3, 4, 5};
-	
+
 	private String customName;
-	
+
 	public TileEntityMachineArcFurnace() {
 		slots = new ItemStack[6];
 	}
@@ -91,7 +88,7 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 	public boolean hasCustomInventoryName() {
 		return this.customName != null && this.customName.length() > 0;
 	}
-	
+
 	public void setCustomName(String name) {
 		this.customName = name;
 	}
@@ -110,7 +107,7 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 			return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <=64;
 		}
 	}
-	
+
 	//You scrubs aren't needed for anything (right now)
 	@Override
 	public void openInventory() {}
@@ -119,16 +116,16 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-		
+
 		if(i == 2 || i == 3 || i == 4)
 			return itemStack.getItem() == ModItems.arc_electrode;
-		
+
 		if(i == 0)
 			return FurnaceRecipes.smelting().getSmeltingResult(itemStack) != null;
-		
+
 		return false;
 	}
-	
+
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		if(slots[i] != null)
@@ -144,22 +141,22 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 			{
 				slots[i] = null;
 			}
-			
+
 			return itemStack1;
 		} else {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		NBTTagList list = nbt.getTagList("items", 10);
-		
+
 		this.power = nbt.getLong("powerTime");
 		this.dualCookTime = nbt.getInteger("cookTime");
 		slots = new ItemStack[getSizeInventory()];
-		
+
 		for(int i = 0; i < list.tagCount(); i++)
 		{
 			NBTTagCompound nbt1 = list.getCompoundTagAt(i);
@@ -170,14 +167,14 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 			}
 		}
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		nbt.setLong("powerTime", power);
 		nbt.setInteger("cookTime", dualCookTime);
 		NBTTagList list = new NBTTagList();
-		
+
 		for(int i = 0; i < slots.length; i++)
 		{
 			if(slots[i] != null)
@@ -190,7 +187,7 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 		}
 		nbt.setTag("items", list);
 	}
-	
+
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
 		return slots_io;
@@ -203,87 +200,87 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 
 	@Override
 	public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-		
+
 		if(i == 1)
 			return true;
-		
+
 		if(i == 2 || i == 3 || i == 4)
 			return itemStack.getItem() == ModItems.arc_electrode_burnt;
-		
+
 		return false;
 	}
-	
+
 	public int getDiFurnaceProgressScaled(int i) {
 		return (dualCookTime * i) / processingSpeed;
 	}
-	
+
 	public long getPowerRemainingScaled(long i) {
 		return (power * i) / maxPower;
 	}
-	
+
 	public boolean hasPower() {
 		return power >= 250;
 	}
-	
+
 	public boolean isProcessing() {
 		return this.dualCookTime > 0;
 	}
-	
+
 	private boolean hasElectrodes() {
-		
+
 		if(slots[2] != null && slots[3] != null && slots[4] != null) {
 			if((slots[2].getItem() == ModItems.arc_electrode) &&
 					(slots[3].getItem() == ModItems.arc_electrode) &&
 					(slots[4].getItem() == ModItems.arc_electrode))
 				return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public boolean canProcess() {
-		
+
 		if(!hasElectrodes())
 			return false;
-		
+
 		if(slots[0] == null)
 		{
 			return false;
 		}
         ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[0]);
-        
+
 		if(itemStack == null)
 		{
 			return false;
 		}
-		
+
 		if(slots[1] == null)
 		{
 			return true;
 		}
-		
+
 		if(!slots[1].isItemEqual(itemStack)) {
 			return false;
 		}
-		
+
 		if(slots[1].stackSize < getInventoryStackLimit() && slots[1].stackSize < slots[1].getMaxStackSize()) {
 			return true;
 		}else{
 			return slots[1].stackSize < itemStack.getMaxStackSize();
 		}
 	}
-	
+
 	private void processItem() {
 		if(canProcess()) {
 	        ItemStack itemStack = FurnaceRecipes.smelting().getSmeltingResult(this.slots[0]);
-			
+
 			if(slots[1] == null)
 			{
 				slots[1] = itemStack.copy();
 			}else if(slots[1].isItemEqual(itemStack)) {
 				slots[1].stackSize += itemStack.stackSize;
 			}
-			
+
 			for(int i = 0; i < 1; i++)
 			{
 				if(slots[i].stackSize <= 0)
@@ -299,26 +296,26 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 			}
 		}
 	}
-	
+
 	//TODO: fix this punjabi trash
 	@Override
 	public void updateEntity() {
 		boolean flag1 = false;
-		
+
 		if(!worldObj.isRemote) {
 
 			for(ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS)
 				this.trySubscribe(worldObj, xCoord + dir.offsetX, yCoord + dir.offsetY, zCoord + dir.offsetZ, dir);
-			
+
 			if(hasPower() && canProcess())
 			{
 				dualCookTime++;
-				
+
 				power -= 250;
-				
+
 				if(power < 0)
 					power = 0;
-				
+
 				if(this.dualCookTime == processingSpeed)
 				{
 					this.dualCookTime = 0;
@@ -328,22 +325,22 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 			}else{
 				dualCookTime = 0;
 			}
-			
+
 			boolean trigger = true;
-			
+
 			if(hasPower() && canProcess() && this.dualCookTime == 0)
 			{
 				trigger = false;
 			}
-			
+
 			if(trigger)
             {
                 flag1 = true;
                 MachineArcFurnace.updateBlockState(this.dualCookTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
             }
-			
+
 			if(worldObj.getBlock(xCoord, yCoord, zCoord) == ModBlocks.machine_arc_furnace_off) {
-				
+
 				int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
 				if(hasElectrodes() && meta <= 5) {
@@ -353,14 +350,12 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 					worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, meta - 4, 2);
 				}
 			}
-			
+
 			power = Library.chargeTEFromItems(slots, 5, power, maxPower);
 
-			PacketDispatcher.wrapper.sendToAllAround(new AuxElectricityPacket(xCoord, yCoord, zCoord, power), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
-			PacketDispatcher.wrapper.sendToAllAround(new AuxGaugePacket(xCoord, yCoord, zCoord, dualCookTime, 0), new TargetPoint(worldObj.provider.dimensionId, xCoord, yCoord, zCoord, 50));
+			networkPackNT(50); // it makes no sense to refactor this to some, but I want to delete the AuxElectricityPacket already
 		}
-		
-		
+
 		if(flag1)
 		{
 			this.markDirty();
@@ -368,15 +363,29 @@ public class TileEntityMachineArcFurnace extends TileEntityLoadedBase implements
 	}
 
 	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeLong(power);
+		buf.writeInt(dualCookTime);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		power = buf.readLong();
+		dualCookTime = buf.readInt();
+	}
+
+	@Override
 	public void setPower(long i) {
 		power = i;
-		
+
 	}
 
 	@Override
 	public long getPower() {
 		return power;
-		
+
 	}
 
 	@Override

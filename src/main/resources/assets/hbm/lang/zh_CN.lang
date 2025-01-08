@@ -885,6 +885,7 @@ damage.item=装备时获得的伤害减免:
 damage.category.EXPL=爆炸
 damage.category.FIRE=火焰
 damage.category.PROJ=投射物
+damage.exact.drown=溺水
 damage.exact.fall=摔落
 damage.exact.LASER=激光
 damage.exact.onFire=Afterburn
@@ -4799,7 +4800,7 @@ item.part_mechanism.name=%s机构
 item.part_receiver_heavy.name=重型%s机匣
 item.part_receiver_light.name=轻型%s机匣
 item.part_stock.name=%s枪托
-item.plate_gunmetal.name炮铜板
+item.plate_gunmetal.name=炮铜板
 item.plate_weaponsteel.name=武器级钢板
 tile.machine_pyrooven.name=热解炉
 item.ammo_standard.g10.name=十号鹿弹
@@ -4808,6 +4809,8 @@ item.ammo_standard.g10_shrapnel.name=十号霰弹(易跳弹)
 item.clay_tablet.name=泥板
 item.gun_double_barrel.name=旧日经典
 item.gun_heavy_revolver_protege.name=门徒
+item.gun_autoshotgun_shredder.name=粉碎者
+item.gun_double_barrel_sacred_dragon.name=圣龙
 
 itemGroup.tabBlocks=HBM 矿石和方块
 itemGroup.tabConsumable=HBM 食物和装备

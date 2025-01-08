@@ -90,10 +90,11 @@ public class TileEntityMachineRotaryFurnace extends TileEntityMachinePolluting i
 			
 			if(this.output != null) {
 				
+				int prev = this.output.amount;
 				Vec3 impact = Vec3.createVectorHelper(0, 0, 0);
 				MaterialStack leftover = CrucibleUtil.pourSingleStack(worldObj, xCoord + 0.5D + rot.offsetX * 2.875D, yCoord + 1.25D, zCoord + 0.5D + rot.offsetZ * 2.875D, 6, true, this.output, MaterialShapes.INGOT.q(1), impact);
 
-				if(leftover.amount != this.output.amount) {
+				if(prev != this.output.amount) {
 					this.output = leftover;
 					NBTTagCompound data = new NBTTagCompound();
 					data.setString("type", "foundry");

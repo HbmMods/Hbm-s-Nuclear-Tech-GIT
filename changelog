@@ -1,25 +1,10 @@
 ## Added
-* Double barrel shotgun
-  * Special weapon, spawns as part of certain loot pools
-  * Uses the new 10 gauge caliber
-  * Will reload after each shot, however it is not belt-fed, if ammo is depleted, the next reload must be triggered manually
+* Phosphor vines
 
 ## Changed
-* Removed the old casing items
-* Reduced the flicker on the autoshotgun's holo sights
+* Raw bedrock ore taken out of the creative tab now has the stats of the position the player is in, instead of being worthless
+* U233's color coded isotope indicator is now yellow instead of orange, making yellow standard code for "secondary fissile isotope" and orange for "radioisotope"
 
 ## Fixed
-* Fixed the bullet casing molds being unobtainable
-* Fixed instant crash caused by smelting certain things in the crucible
-* Fixed the SPAS' alt fire having a delay of only 10 ticks instead of 20
-* Fixed 240mm nuclear shells not triggering properly if they hit their target within 3 ticks of being spawned
-* Fixed some items that are supposed to be hidden in NEI being visible
-* Fixed dual lever action shotguns having inconsistent damage
-* Fixed entities (especially players) not being affected at all by their own explosions (rockets, 40mm grenades, etc)
-  * To keep rocket jumping at least somewhat viable, self-damage from explosions is reduced by 50%, the knockback remains the same
-* Fixed missing localization for the casing molds
-* Fixed the broken CIWS turret crashing instantly
-* Added safeguards to prevent any unnamed casing config from crashing
-* Fixed one of the break action revolver's faces having incorrect normals, making it invisible
-* Fixed the fluid trait config not loading correctly
-  * Fluids are now subject to the /ntmreload command
+* Fixed raw bedrock ore tooltip not showing the density's color correctly
+* Fixed T45 helmet not protecting against carbon monoxide

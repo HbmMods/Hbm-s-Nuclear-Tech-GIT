@@ -11,14 +11,15 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.gui.GUIDroneCrate;
 import com.hbm.tileentity.IFluidCopiable;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.INBTPacketReceiver;
 import com.hbm.tileentity.TileEntityMachineBase;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.fauxpointtwelve.BlockPos;
 
 import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
@@ -27,7 +28,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIProvider, INBTPacketReceiver, IControlReceiver, IDroneLinkable, IFluidStandardTransceiver, IFluidCopiable {
+public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIProvider, IControlReceiver, IDroneLinkable, IFluidStandardTransceiver, IFluidCopiable {
 	
 	public FluidTank tank;
 	
@@ -82,26 +83,31 @@ public class TileEntityDroneCrate extends TileEntityMachineBase implements IGUIP
 						(nextX  - pos.getX()), (nextY - pos.getY()), (nextZ - pos.getZ()), 0x00ffff);
 			}
 
-
-			
-			NBTTagCompound data = new NBTTagCompound();
-			data.setIntArray("pos", new int[] {nextX, nextY, nextZ});
-			data.setBoolean("mode", sendingMode);
-			data.setBoolean("type", itemType);
-			tank.writeToNBT(data, "t");
-			INBTPacketReceiver.networkPack(this, data, 25);
+			networkPackNT(25);
 		}
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		int[] pos = nbt.getIntArray("pos");
+	public void serialize(ByteBuf buf) {
+		BufferUtil.writeIntArray(buf, new int[] {
+				this.nextX,
+				this.nextY,
+				this.nextZ
+		});
+		buf.writeBoolean(this.sendingMode);
+		buf.writeBoolean(this.itemType);
+		tank.serialize(buf);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		int[] pos = BufferUtil.readIntArray(buf);
 		this.nextX = pos[0];
 		this.nextY = pos[1];
 		this.nextZ = pos[2];
-		this.sendingMode = nbt.getBoolean("mode");
-		this.itemType = nbt.getBoolean("type");
-		tank.readFromNBT(nbt, "t");
+		this.sendingMode = buf.readBoolean();
+		this.itemType = buf.readBoolean();
+		tank.deserialize(buf);
 	}
 	
 	protected void loadItems(EntityDeliveryDrone drone) {

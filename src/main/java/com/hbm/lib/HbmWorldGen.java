@@ -70,7 +70,7 @@ public class HbmWorldGen implements IWorldGenerator {
 				generateSurface(world, rand, chunkX * 16, chunkZ * 16); break;
 		}
 	}
-	
+
 		private void generateSurface(World world, Random rand, int i, int j) {
 
 			BiomeGenBase biome = world.getWorldChunkManager().getBiomeGenAt(i, j);
@@ -755,10 +755,10 @@ public class HbmWorldGen implements IWorldGenerator {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPhosphorusSpawn, 6, 0, 127, ModBlocks.ore_nether_fire, Blocks.netherrack);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherCoalSpawn, 32, 16, 96, ModBlocks.ore_nether_coal, Blocks.netherrack);
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherCobaltSpawn, 6, 100, 26, ModBlocks.ore_nether_cobalt, Blocks.netherrack);
-			
+
 			if(GeneralConfig.enablePlutoniumOre)
 				DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.netherPlutoniumSpawn, 4, 0, 127, ModBlocks.ore_nether_plutonium, Blocks.netherrack);
-			
+
 			if(rand.nextInt(10) == 0) {
 				@SuppressWarnings("unchecked")
 				WeightedRandomGeneric<BedrockOreDefinition> item = (WeightedRandomGeneric<BedrockOreDefinition>) WeightedRandom.getRandomItem(rand, BedrockOre.weightedOresNether);
@@ -794,15 +794,15 @@ public class HbmWorldGen implements IWorldGenerator {
 	}
 
 	private void generateEnd(World world, Random rand, int i, int j) {
-		
+
 		if(WorldConfig.endOre) {
 			DungeonToolbox.generateOre(world, rand, i, j, WorldConfig.endTikiteSpawn, 6, 0, 127, ModBlocks.ore_tikite, Blocks.end_stone);
-	
+
 			/*for(int k = 0; k < 50; k++){
 				int x = i + rand.nextInt(16);
 				int z = j + rand.nextInt(16);
 				int d = 5 + rand.nextInt(60);
-	
+
 				for(int y = d - 5; y <= d; y++)
 					if(world.getBlock(x, y, z) == Blocks.air && world.getBlock(x, y + 1, z).isSideSolid(world, x, y, z, ForgeDirection.DOWN))
 						world.setBlock(x, y, z, ModBlocks.crystal_trixite);

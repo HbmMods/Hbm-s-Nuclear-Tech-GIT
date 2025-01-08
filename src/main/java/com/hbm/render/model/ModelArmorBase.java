@@ -79,10 +79,10 @@ public class ModelArmorBase extends ModelBiped {
 
 				rightArm.rotateAngleX = rightArm.rotateAngleX * 0.5F - ((float) Math.PI / 10F) * hold;
 			}
-
-			this.isSneak = player.isSneaking();
-			this.isRiding = player.isRiding();
 		}
+
+		this.isSneak = entity.isSneaking();
+		this.isRiding = entity.isRiding();
 
 		if(this.isRiding) {
 			rightArm.rotateAngleX += -((float) Math.PI / 5F);

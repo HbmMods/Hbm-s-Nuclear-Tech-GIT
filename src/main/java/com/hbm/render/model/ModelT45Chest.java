@@ -9,6 +9,7 @@ package com.hbm.render.model;
 import org.lwjgl.opengl.GL11;
 
 import com.hbm.interfaces.IHoldableWeapon;
+import com.hbm.items.weapon.sedna.ItemGunBaseNT;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
@@ -207,13 +208,9 @@ public class ModelT45Chest extends ModelBiped {
 
 	@Override
 	public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
+		
 		if (entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity;
-			if (player.isSneaking()) {
-				this.isSneak = true;
-			} else {
-				this.isSneak = false;
-			}
 			ItemStack itemstack = player.inventory.getCurrentItem();
 			this.heldItemRight = itemstack != null ? 1 : 0;
 
@@ -227,9 +224,13 @@ public class ModelT45Chest extends ModelBiped {
 				}
 			}
 
-			if(itemstack != null && player.getHeldItem().getItem() instanceof IHoldableWeapon)
-				this.aimedBow = true;
+			if(itemstack != null && player.getHeldItem().getItem() instanceof IHoldableWeapon) this.aimedBow = true;
+			if(itemstack != null && player.getHeldItem().getItem() instanceof ItemGunBaseNT) this.aimedBow = true;
 		}
+
+		this.isSneak = entity.isSneaking();
+		this.isRiding = entity.isRiding();
+		
 		super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		this.chest.rotationPointX = this.bipedBody.rotationPointX;
 		this.chest.rotationPointY = this.bipedBody.rotationPointY;

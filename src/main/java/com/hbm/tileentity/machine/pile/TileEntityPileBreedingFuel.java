@@ -35,7 +35,7 @@ public class TileEntityPileBreedingFuel extends TileEntityPileBase implements IP
 			return;
 		
 		for(int i = 0; i < 2; i++)
-			this.castRay(1, 5);
+			this.castRay(1);
 	}
 	
 	@Override

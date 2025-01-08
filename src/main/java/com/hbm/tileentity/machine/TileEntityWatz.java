@@ -32,6 +32,7 @@ import api.hbm.fluid.IFluidStandardTransceiver;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -120,7 +121,7 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 			/* send sync packets (order doesn't matter) */
 			for(TileEntityWatz segment : segments) {
 				segment.isOn = turnedOn;
-				segment.sendPacket(sharedTanks);
+				this.networkPackNT(25);
 				segment.heat *= 0.99; //cool 1% per tick
 			}
 			
@@ -277,30 +278,28 @@ public class TileEntityWatz extends TileEntityMachineBase implements IFluidStand
 			}
 		}
 	}
-	
-	public void sendPacket(FluidTank[] tanks) {
-		
-		NBTTagCompound data = new NBTTagCompound();
-		data.setInteger("heat", this.heat);
-		data.setBoolean("isOn", isOn);
-		data.setBoolean("lock", isLocked);
-		data.setDouble("flux", this.fluxLastReaction + this.fluxLastBase);
-		for(int i = 0; i < tanks.length; i++) {
-			tanks[i].writeToNBT(data, "t" + i);
+
+	@Override
+	public void serialize(ByteBuf buf) {
+		super.serialize(buf);
+		buf.writeInt(this.heat);
+		buf.writeBoolean(isOn);
+		buf.writeBoolean(isLocked);
+		buf.writeDouble(this.fluxLastReaction + this.fluxLastBase);
+		for (FluidTank tank : tanks) {
+			tank.serialize(buf);
 		}
-		this.networkPack(data, 25);
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-		super.networkUnpack(nbt);
-		
-		this.heat = nbt.getInteger("heat");
-		this.isOn = nbt.getBoolean("isOn");
-		this.isLocked = nbt.getBoolean("lock");
-		this.fluxDisplay = nbt.getDouble("flux");
-		for(int i = 0; i < tanks.length; i++) {
-			tanks[i].readFromNBT(nbt, "t" + i);
+	public void deserialize(ByteBuf buf) {
+		super.deserialize(buf);
+		this.heat = buf.readInt();
+		this.isOn = buf.readBoolean();
+		this.isLocked = buf.readBoolean();
+		this.fluxDisplay = buf.readDouble();
+		for (FluidTank tank : tanks) {
+			tank.deserialize(buf);
 		}
 	}
 	

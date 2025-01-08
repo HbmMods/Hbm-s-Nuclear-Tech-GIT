@@ -247,6 +247,11 @@ public class AmmoPressRecipes extends SerializableRecipe {
 				null,	uranium,			null,
 				null,	smokeless.copy(2),	null,
 				null,	sShell,				null));
+
+		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G10_SLUG, 4),
+				null,	lead,				null,
+				null,	smokeless.copy(2),	null,
+				null,	sShell,				null));
 		
 		recipes.add(new AmmoPressRecipe(DictFrame.fromOne(ModItems.ammo_standard, EnumAmmo.G26_FLARE, 4),
 				null,	rp,			null,

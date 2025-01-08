@@ -7,13 +7,15 @@ import com.hbm.handler.CompatHandler;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.gui.GuiScreenRadioTelex;
 import com.hbm.tileentity.IGUIProvider;
-import com.hbm.tileentity.INBTPacketReceiver;
+import com.hbm.tileentity.TileEntityLoadedBase;
 import com.hbm.tileentity.network.RTTYSystem.RTTYChannel;
+import com.hbm.util.BufferUtil;
 import com.hbm.util.ItemStackUtil;
 
 import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -24,12 +26,11 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
-public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiver, IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
+public class TileEntityRadioTelex extends TileEntityLoadedBase implements IControlReceiver, IGUIProvider, SimpleComponent, CompatHandler.OCComponent {
 
 	public static final int lineWidth = 33;
 	public String txChannel = "";
@@ -51,24 +52,24 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 	public static final char print = '\u000c';
 	public static final char pause = '\u0016';
 	public static final char clear = '\u007f';
-	
+
 	@Override
 	public void updateEntity() {
-		
+
 		if(!worldObj.isRemote) {
-			
+
 			this.sendingChar = ' ';
-			
+
 			if(this.isSending && this.txChannel.isEmpty()) this.isSending = false;
-			
+
 			if(this.isSending) {
-				
+
 				if(sendingWait > 0) {
 					sendingWait--;
 				} else {
-					
+
 					String line = txBuffer[sendingLine];
-					
+
 					if(line.length() > sendingIndex) {
 						char c = line.charAt(sendingIndex);
 						sendingIndex++;
@@ -79,7 +80,7 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 							this.sendingChar = c;
 						}
 					} else {
-						
+
 						if(sendingLine >= 4) {
 							this.isSending = false;
 							RTTYSystem.broadcast(worldObj, this.txChannel, eot);
@@ -93,19 +94,19 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 					}
 				}
 			}
-			
+
 			if(!this.rxChannel.isEmpty()) {
 				RTTYChannel chan = RTTYSystem.listen(worldObj, this.rxChannel);
-				
+
 				if(chan != null && chan.signal instanceof Character && (chan.timeStamp > worldObj.getTotalWorldTime() - 2 && chan.timeStamp != -1)) {
 					char c = (char) chan.signal;
-					
+
 					if(this.deleteOnReceive) {
 						this.deleteOnReceive = false;
 						for(int i = 0; i < 5; i++) this.rxBuffer[i] = "";
 						this.writingLine = 0;
 					}
-					
+
 					if(c == eot) {
 						if(this.printAfterRx) {
 							this.printAfterRx = false;
@@ -128,62 +129,66 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 					}
 				}
 			}
-			
-			NBTTagCompound data = new NBTTagCompound();
-			for(int i = 0; i < 5; i++) {
-				data.setString("tx" + i, txBuffer[i]);
-				data.setString("rx" + i, rxBuffer[i]);
-			}
-			data.setString("txChan", txChannel);
-			data.setString("rxChan", rxChannel);
-			data.setInteger("sending", sendingChar);
-			INBTPacketReceiver.networkPack(this, data, 16);
+
+			networkPackNT(16);
 		}
 	}
 
 	@Override
-	public void networkUnpack(NBTTagCompound nbt) {
-
+	public void serialize(ByteBuf buf) {
 		for(int i = 0; i < 5; i++) {
-			txBuffer[i] = nbt.getString("tx" + i);
-			rxBuffer[i] = nbt.getString("rx" + i);
+			BufferUtil.writeString(buf, txBuffer[i]);
+			BufferUtil.writeString(buf, rxBuffer[i]);
 		}
-		this.txChannel = nbt.getString("txChan");
-		this.rxChannel = nbt.getString("rxChan");
-		this.sendingChar = (char) nbt.getInteger("sending");
+
+		BufferUtil.writeString(buf, this.txChannel);
+		BufferUtil.writeString(buf, this.rxChannel);
+		buf.writeChar(this.sendingChar);
+	}
+
+	@Override
+	public void deserialize(ByteBuf buf) {
+		for(int i = 0; i < 5; i++) {
+			txBuffer[i] = BufferUtil.readString(buf);
+			rxBuffer[i] = BufferUtil.readString(buf);
+		}
+
+		this.txChannel = BufferUtil.readString(buf);
+		this.rxChannel = BufferUtil.readString(buf);
+		this.sendingChar = buf.readChar();
 	}
 
 	@Override
 	public void receiveControl(NBTTagCompound data) {
-		
+
 		for(int i = 0; i < 5; i++) {
 			if(data.hasKey("tx" + i)) this.txBuffer[i] = data.getString("tx" + i);
 		}
-		
+
 		String cmd = data.getString("cmd");
-		
+
 		if("snd".equals(cmd) && !this.isSending) {
 			this.isSending = true;
 			this.sendingLine = 0;
 			this.sendingIndex = 0;
 		}
-		
+
 		if("rxprt".equals(cmd)) {
 			print();
 		}
-		
+
 		if("rxcls".equals(cmd)) {
 			for(int i = 0; i < 5; i++) this.rxBuffer[i] = "";
 			this.writingLine = 0;
 		}
-		
+
 		if("sve".equals(cmd)) {
 			this.txChannel = data.getString("txChan");
 			this.rxChannel = data.getString("rxChan");
 			this.markDirty();
 		}
 	}
-	
+
 	public void print() {
 		ItemStack stack = new ItemStack(Items.paper);
 		List<String> text = new ArrayList();
@@ -215,7 +220,7 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
+
 		for(int i = 0; i < 5; i++) {
 			nbt.setString("tx" + i, txBuffer[i]);
 			nbt.setString("rx" + i, rxBuffer[i]);
@@ -231,12 +236,12 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 	public Object provideGUI(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return new GuiScreenRadioTelex(this);
 	}
-	
+
 	AxisAlignedBB bb = null;
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		
+
 		if(bb == null) {
 			bb = AxisAlignedBB.getBoundingBox(
 					xCoord - 1,
@@ -247,10 +252,10 @@ public class TileEntityRadioTelex extends TileEntity implements INBTPacketReceiv
 					zCoord + 2
 					);
 		}
-		
+
 		return bb;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public double getMaxRenderDistanceSquared() {

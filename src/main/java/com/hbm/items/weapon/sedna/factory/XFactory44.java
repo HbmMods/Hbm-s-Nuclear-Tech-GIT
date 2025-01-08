@@ -66,7 +66,7 @@ public class XFactory44 {
 
 	public static void init() {
 		SpentCasing casing44 = new SpentCasing(CasingType.STRAIGHT).setColor(SpentCasing.COLOR_CASE_BRASS).setupSmoke(1F, 0.5D, 60, 20);
-		m44_bp = new BulletConfig().setItem(EnumAmmo.M44_BP).setDamage(0.5F).setBlackPowder(true)
+		m44_bp = new BulletConfig().setItem(EnumAmmo.M44_BP).setDamage(0.75F).setBlackPowder(true)
 				.setCasing(casing44.clone().register("m44bp"));
 		m44_sp = new BulletConfig().setItem(EnumAmmo.M44_SP)
 				.setCasing(casing44.clone().register("m44"));
