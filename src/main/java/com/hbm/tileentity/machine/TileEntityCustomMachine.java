@@ -231,6 +231,8 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 	public void serialize(ByteBuf buf) {
 		super.serialize(buf);
 
+		BufferUtil.writeString(buf, this.machineType);
+
 		buf.writeLong(power);
 		buf.writeInt(progress);
 		buf.writeInt(flux);
@@ -596,13 +598,13 @@ public class TileEntityCustomMachine extends TileEntityMachinePolluting implemen
 
 		return 0;
 	}
-	
+
 	@Override
 	public long getReceiverSpeed() {
 		if(this.config != null && !this.config.generatorMode) return this.getMaxPower();
 		return 0;
 	}
-	
+
 	@Override
 	public long getProviderSpeed() {
 		if(this.config != null && this.config.generatorMode) return this.getMaxPower();
