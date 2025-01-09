@@ -132,7 +132,8 @@ public class PacketThreading {
 				for (Future<?> future : futureList) {
 					nanoTimeWaited = System.nanoTime() - startTime;
 					future.get(50, TimeUnit.MILLISECONDS); // I HATE EVERYTHING
-					if(TimeUnit.MILLISECONDS.convert(nanoTimeWaited, TimeUnit.NANOSECONDS) > 50) throw new TimeoutException(); // >50ms total time? timeout? yes sir, ooh rah!
+					// if(TimeUnit.MILLISECONDS.convert(nanoTimeWaited, TimeUnit.NANOSECONDS) > 50) throw new TimeoutException(); // >50ms total time? timeout? yes sir, ooh rah!
+					// this seems to cause big problems with large worlds, never mind...
 				}
 			}
 		} catch (ExecutionException ignored) {
