@@ -4,8 +4,11 @@
 ## Changed
 * Raw bedrock ore taken out of the creative tab now has the stats of the position the player is in, instead of being worthless
 * U233's color coded isotope indicator is now yellow instead of orange, making yellow standard code for "secondary fissile isotope" and orange for "radioisotope"
+* NITAN powders can now be found in the creative tab
 
 ## Fixed
 * Fixed raw bedrock ore tooltip not showing the density's color correctly
 * Fixed T45 helmet not protecting against carbon monoxide
 * Fixed general issues regarding the rotary furnace
+* Fixed corrupted broadcaster noise having infinite range
+* Fixed packet issues for explosive charges and custom machines

@@ -14,7 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 
 public class TileEntityBroadcaster extends TileEntityLoadedBase {
@@ -76,19 +75,31 @@ public class TileEntityBroadcaster extends TileEntityLoadedBase {
 	@Override
 	public AudioWrapper createAudioLoop() {
 		Random rand = new Random(xCoord + yCoord + zCoord);
-		return MainRegistry.proxy.getLoopedSound("hbm:block.broadcast" + (rand.nextInt(3) + 1), xCoord, yCoord, zCoord, 25F, 25F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.broadcast" + (rand.nextInt(3) + 1), xCoord, yCoord, zCoord, 25F, 25F, 1.0F, 20);
 	}
-
+	
+	AxisAlignedBB bb = null;
+	
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
-		return TileEntity.INFINITE_EXTENT_AABB;
+		
+		if(bb == null) {
+			bb = AxisAlignedBB.getBoundingBox(
+					xCoord,
+					yCoord,
+					zCoord,
+					xCoord + 1,
+					yCoord + 2,
+					zCoord + 1
+					);
+		}
+		
+		return bb;
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public double getMaxRenderDistanceSquared()
-	{
+	public double getMaxRenderDistanceSquared() {
 		return 65536.0D;
 	}
-
 }
