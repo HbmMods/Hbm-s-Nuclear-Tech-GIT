@@ -32,7 +32,7 @@ public class TileEntityCharge extends TileEntityLoadedBase {
 
 	@Override
 	public void serialize(ByteBuf buf) {
-		buf.writeLong(this.timer);
+		buf.writeInt(this.timer);
 		buf.writeBoolean(this.started);
 	}
 
