@@ -12,7 +12,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
@@ -52,18 +51,6 @@ public class TileEntityBroadcaster extends TileEntityLoadedBase {
 				audio = rebootAudio(audio);
 			}
 
-			int intendedVolume = 25;
-
-			EntityPlayer player = MainRegistry.proxy.me();
-			float volume;
-			if(player != null) {
-				float f = (float)Math.sqrt(Math.pow(xCoord - player.posX, 2) + Math.pow(yCoord - player.posY, 2) + Math.pow(zCoord - player.posZ, 2));
-				volume = (f / intendedVolume) * -2 + 2;
-			} else {
-				volume = intendedVolume;
-			}
-
-			audio.updateVolume(getVolume(volume));
 			audio.keepAlive();
 		}
 	}
@@ -89,7 +76,7 @@ public class TileEntityBroadcaster extends TileEntityLoadedBase {
 	@Override
 	public AudioWrapper createAudioLoop() {
 		Random rand = new Random(xCoord + yCoord + zCoord);
-		return MainRegistry.proxy.getLoopedSound("hbm:block.broadcast" + (rand.nextInt(3) + 1), xCoord, yCoord, zCoord, 1.0F, 10F, 1.0F);
+		return MainRegistry.proxy.getLoopedSound("hbm:block.broadcast" + (rand.nextInt(3) + 1), xCoord, yCoord, zCoord, 25F, 25F, 1.0F);
 	}
 
 	@Override
