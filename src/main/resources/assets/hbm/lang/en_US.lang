@@ -1398,6 +1398,9 @@ hbm.key.toggleHUD=Toggle HUD
 hbm.key.reload=Reload
 hbm.key.copyToolAlt=Copy Tool: Switch Paste
 hbm.key.copyToolCtrl=Copy Tool: Paste to Pipes
+hbm.key.gunPrimary=Gun Primary
+hbm.key.gunSecondary=Gun Secondary
+hbm.key.gunTertitary=Gun Tertitary
 
 hbmfluid.amat=Antimatter
 hbmfluid.aromatics=Aromatic Hydrocarbons
