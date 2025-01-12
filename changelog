@@ -12,3 +12,4 @@
 * Fixed general issues regarding the rotary furnace
 * Fixed corrupted broadcaster noise having infinite range
 * Fixed packet issues for explosive charges and custom machines
+* Fixed one of the rotary furnace's visual connections now properly showing up

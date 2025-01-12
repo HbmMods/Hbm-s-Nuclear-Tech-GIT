@@ -7,6 +7,12 @@ import com.hbm.blocks.gas.*;
 import com.hbm.blocks.generic.*;
 import com.hbm.blocks.generic.BlockHazard.ExtDisplayEffect;
 import com.hbm.blocks.machine.*;
+import com.hbm.blocks.machine.albion.BlockPABeamline;
+import com.hbm.blocks.machine.albion.BlockPADetector;
+import com.hbm.blocks.machine.albion.BlockPADipole;
+import com.hbm.blocks.machine.albion.BlockPAQuadrupole;
+import com.hbm.blocks.machine.albion.BlockPARFC;
+import com.hbm.blocks.machine.albion.BlockPASource;
 import com.hbm.blocks.machine.pile.*;
 import com.hbm.blocks.machine.rbmk.*;
 import com.hbm.blocks.network.*;
@@ -723,6 +729,13 @@ public class ModBlocks {
 	public static Block hadron_access;
 	public static Block hadron_core;
 	public static Block hadron_cooler;
+
+	public static Block pa_source;
+	public static Block pa_beamline;
+	public static Block pa_rfc;
+	public static Block pa_quadrupole;
+	public static Block pa_dipole;
+	public static Block pa_detector;
 
 	public static Block machine_electric_furnace_off;
 	public static Block machine_electric_furnace_on;
@@ -1816,6 +1829,13 @@ public class ModBlocks {
 		hadron_core = new BlockHadronCore(Material.iron).setStepSound(Block.soundTypeMetal).setBlockName("hadron_core").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab).setBlockTextureName(RefStrings.MODID + ":hadron_core");
 		hadron_cooler = new BlockHadronCooler(Material.iron).setBlockName("hadron_cooler").setCreativeTab(MainRegistry.blockTab).setHardness(5.0F).setResistance(10.0F);
 
+		pa_source = new BlockPASource().setStepSound(Block.soundTypeMetal).setBlockName("pa_source").setHardness(5.0F).setResistance(10.0F);
+		pa_beamline = new BlockPABeamline().setStepSound(Block.soundTypeMetal).setBlockName("pa_beamline").setHardness(5.0F).setResistance(10.0F);
+		pa_rfc = new BlockPARFC().setStepSound(Block.soundTypeMetal).setBlockName("pa_rfc").setHardness(5.0F).setResistance(10.0F);
+		pa_quadrupole = new BlockPAQuadrupole().setStepSound(Block.soundTypeMetal).setBlockName("pa_quadrupole").setHardness(5.0F).setResistance(10.0F);
+		pa_dipole = new BlockPADipole().setStepSound(Block.soundTypeMetal).setBlockName("pa_dipole").setHardness(5.0F).setResistance(10.0F);
+		pa_detector = new BlockPADetector().setStepSound(Block.soundTypeMetal).setBlockName("pa_detector").setHardness(5.0F).setResistance(10.0F);
+		
 		machine_electric_furnace_off = new MachineElectricFurnace(false).setBlockName("machine_electric_furnace_off").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 		machine_electric_furnace_on = new MachineElectricFurnace(true).setBlockName("machine_electric_furnace_on").setHardness(5.0F).setLightLevel(1.0F).setResistance(10.0F);
 		machine_arc_furnace_off = new MachineArcFurnace(false).setBlockName("machine_arc_furnace_off").setHardness(5.0F).setResistance(10.0F);
@@ -3064,6 +3084,13 @@ public class ModBlocks {
 		GameRegistry.registerBlock(hadron_access, hadron_access.getUnlocalizedName());
 		GameRegistry.registerBlock(hadron_core, hadron_core.getUnlocalizedName());
 		register(hadron_cooler);
+
+		register(pa_source);
+		register(pa_beamline);
+		register(pa_rfc);
+		register(pa_quadrupole);
+		register(pa_dipole);
+		register(pa_detector);
 
 		GameRegistry.registerBlock(rbmk_rod, rbmk_rod.getUnlocalizedName());
 		GameRegistry.registerBlock(rbmk_rod_mod, rbmk_rod_mod.getUnlocalizedName());
